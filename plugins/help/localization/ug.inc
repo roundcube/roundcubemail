@@ -14,8 +14,8 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-help/
 */
 
-$labels['help'] = 'Hjálp';
-$labels['about'] = 'Um hugbúnaðinn';
-$labels['license'] = 'Notkunarleyfi';
-$labels['csrfinfo'] = 'Lestumeira um CSRF og hvernig við verjum þig';
-$labels['arialabelhelpcontent'] = 'Efni hjálpar';
+$labels['help'] = 'ياردەم';
+$labels['about'] = 'ھەققىدە';
+$labels['license'] = 'كىنىشكا';
+$labels['csrfinfo'] = 'CSRF ھەققىدە كۆپرەك ئۇقۇڭ ھەمدە بىزنىڭ سىزنى قانداق قوغدايدىغانلىقىمىزنى بىلىڭ.';
+$labels['arialabelhelpcontent'] = 'ياردەم مەزمۇنى';

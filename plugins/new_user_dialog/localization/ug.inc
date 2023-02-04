@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | Localization file of the Roundcube Webmail Help plugin                |
+ | Localization file of the Roundcube Webmail New User Dialog plugin     |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
@@ -11,11 +11,8 @@
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-help/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 
-$labels['help'] = 'Hjálp';
-$labels['about'] = 'Um hugbúnaðinn';
-$labels['license'] = 'Notkunarleyfi';
-$labels['csrfinfo'] = 'Lestumeira um CSRF og hvernig við verjum þig';
-$labels['arialabelhelpcontent'] = 'Efni hjálpar';
+$labels['identitydialogtitle'] = 'سىزنىڭ ئەۋەتكۈچىلىك كىملىكىڭىزنى تۇلۇقلاڭ';
+$labels['identitydialoghint'] = 'بۇ بەلگە پەقەتلا تۇنجى قېتىم كىرگەندە كۆرۈنىدۇ.';

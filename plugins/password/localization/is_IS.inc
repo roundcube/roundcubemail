@@ -38,3 +38,6 @@ $messages['samepasswd'] = 'Nýja lykilorðið verður að vera frábrugðið hin
 $messages['passwdexpirewarning'] = 'Aðvörun! Lykilorðið þitt rennur út innan skamms, breyttu því fyrir $expirationdatetime.';
 $messages['passwdexpired'] = 'Lykilorðið þitt er runnið út, þú verður að breyta því núna!';
 $messages['passwdconstraintviolation'] = 'Lykilorðið rakst á skilyrði. Líklega er það of veikt.';
+$messages['pwned_mustnotbedisclosed'] = 'Lykilorð má ekki vera <a href="$href" target="_blank">almennt þekkt</a>.';
+$messages['pwned_isdisclosed'] = 'Þetta lykilorð er almennt þekkt.';
+$messages['pwned_fetcherror'] = 'Mistókst að sannreyna styrk lykilorðsins.';
