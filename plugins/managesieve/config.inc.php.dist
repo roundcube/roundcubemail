@@ -65,6 +65,9 @@ $config['managesieve_debug'] = false;
 // Enables features described in http://wiki.kolab.org/KEP:14
 $config['managesieve_kolab_master'] = false;
 
+// Name of kolab USER file, applies only on active managesieve_kolab_master
+$config['managesieve_kolab_userscript'] = 'USER'
+
 // Script name extension used for scripts including. Dovecot uses '.sieve',
 // Cyrus uses '.siv'. Doesn't matter if you have managesieve_kolab_master disabled.
 $config['managesieve_filename_extension'] = '.sieve';
