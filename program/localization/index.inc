@@ -104,6 +104,7 @@ $rcube_languages = [
     'th_TH' => 'Thai (ไทย)',
     'tr_TR' => 'Turkish (Türkçe)',
     'tzl'   => 'Talossan',
+    'ug'    => 'Uyghur (ئۇيغۇر)',
     'uk_UA' => 'Ukrainian (Українська)',
     'ur_PK' => 'Urdu (اُردو)',
     'uz'    => 'Uzbek (Oʻzbekcha)',

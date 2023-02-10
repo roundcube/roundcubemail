@@ -123,6 +123,7 @@ $messages['keyremovesuccess'] = 'Clave(s) eliminada(s) correctamente.';
 $messages['keyremoveerror'] = 'No se han podido borrar las clave(s) seleccionadas.';
 $messages['keyimporttext'] = 'Puede importar la(s) clave(s) privada(s) y pública(s) o firmas de revocación en formato ASCII-Armor.';
 $messages['keyimportsearchtext'] = 'Puede buscar claves por identificador de clave, nombre de usuario o dirección de email y después importarlas directamente.';
+$messages['keystoragenotice'] = 'Todas las claves públicas y privadas son guardadas en el servidor.';
 $messages['formerror'] = 'Por favor rellene el formulario. ¡Todos los campos son obligatorios!';
 $messages['passwordsdiffer'] = '¡Las contraseñas no coinciden!';
 $messages['keygenerateerror'] = 'No se ha podido generar un par de claves';
