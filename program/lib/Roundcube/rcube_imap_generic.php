@@ -1012,6 +1012,11 @@ class rcube_imap_generic
                 $this->data['ID'] = $this->id($this->prefs['ident']);
             }
 
+            // Enable unicode addresses if the server supports it
+            if ($this->hasCapability('ENABLE')) {
+                $this->enable( "UTF8=ACCEPT" ); 
+            }
+
             return true;
         }
 
