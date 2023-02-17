@@ -1382,6 +1382,14 @@ class rcube_db
         if (!empty($dsn['timeout'])) {
             $result[PDO::ATTR_TIMEOUT] = (int) $dsn['timeout'];
         }
+     
+        if (!empty($dsn['ca'])) {
+            $result[PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
+        }    
+
+        if (!empty($dsn['verify_server_cert'])) {
+            $result[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $dsn['verify_server_cert'];
+        }   
 
         return $result;
     }
