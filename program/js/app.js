@@ -2647,11 +2647,13 @@ function rcube_webmail()
     if (!rc.env.frame_lock)
       rc.env.frame_lock = rc.set_busy(true, 'loading');
 
-    if (target.frameElement)
-      $(target.frameElement).on('load.lock', function(e) {
-        rc.unlock_frame();
-        $(this).off('load.lock');
-      });
+    try {
+      if (target.frameElement)
+        $(target.frameElement).on('load.lock', function(e) {
+          rc.unlock_frame();
+          $(this).off('load.lock');
+        });
+    } catch(e) { /* Ignore permission denied error */ };
   };
 
   this.unlock_frame = function()

@@ -55,7 +55,7 @@ if (window.rcmail) {
                     show_help_content(rcmail.env.action);
                 }
             }
-            catch (e) { /* ignore */}
+            catch (e) { /* ignore */ }
         }
     });
 }
