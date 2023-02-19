@@ -12,6 +12,7 @@
 - Fix support for Windows-31J charset (#8869)
 - Fix so LDAP VLV option is disabled by default as documented (#8833)
 - Fix so an email address with name is supported as input to the managesieve notify :from parameter (#8918)
+- Fix Help plugin menu (#8898)
 
 ## Release 1.6.1
 
