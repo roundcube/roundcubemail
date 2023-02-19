@@ -258,7 +258,7 @@ function rcube_webmail()
           this.env.widescreen_list_template = [
             {className: 'threads', cells: ['threads']},
             {className: 'subject', cells: ['fromto', 'date', 'size', 'status', 'subject']},
-            {className: 'flags', cells: ['flag', 'attachment']}
+            {className: 'flags', cells: ['flag', 'attachment', 'delete']}
           ];
 
           this.message_list = new rcube_list_widget(this.gui_objects.messagelist, {
@@ -282,7 +282,7 @@ function rcube_webmail()
             return ref.command('sort', $(this).attr('rel'), this);
           });
 
-          this.enable_command('toggle_status', 'toggle_flag', 'sort', true);
+          this.enable_command('toggle_status', 'toggle_flag', 'toggle_delete', 'sort', true);
           this.enable_command('set-listmode', this.env.threads && !this.is_multifolder_listing());
 
           // load messages
@@ -1047,21 +1047,27 @@ function rcube_webmail()
 
       case 'toggle_status':
       case 'toggle_flag':
-        flag = command == 'toggle_flag' ? 'flagged' : 'read';
-
+      case 'toggle_delete':
         if (uid = props) {
-          // toggle flagged/unflagged
-          if (flag == 'flagged') {
-            if (this.message_list.rows[uid].flagged)
-              flag = 'unflagged';
+          if (command == 'toggle_delete' && props && !this.message_list.rows[uid].deleted) {
+            this.delete_messages(event, uid);
           }
-          // toggle read/unread
-          else if (this.message_list.rows[uid].deleted)
-            flag = 'undelete';
-          else if (!this.message_list.rows[uid].unread)
-            flag = 'unread';
+          else {
+            flag = command == 'toggle_flag' ? 'flagged' : 'read';
 
-          this.mark_message(flag, uid);
+            // toggle flagged/unflagged
+            if (flag == 'flagged') {
+              if (this.message_list.rows[uid].flagged)
+                flag = 'unflagged';
+            }
+            // toggle read/unread
+            else if (this.message_list.rows[uid].deleted)
+              flag = 'undelete';
+            else if (!this.message_list.rows[uid].unread)
+              flag = 'unread';
+
+            this.mark_message(flag, uid);
+          }
         }
 
         break;
@@ -2036,6 +2042,9 @@ function rcube_webmail()
     if ((found = $.inArray('flag', this.env.listcols)) >= 0)
       this.env.flagged_col = found;
 
+    if ((found = $.inArray('delete', this.env.listcols)) >= 0)
+      this.env.delete_col = found;
+
     if ((found = $.inArray('subject', this.env.listcols)) >= 0)
       this.env.subject_col = found;
 
@@ -2152,7 +2161,7 @@ function rcube_webmail()
     if (uid && this.env.messages[uid])
       $.extend(row, this.env.messages[uid]);
 
-    // set eventhandler to status icon
+    // set event handler to status icon
     if (row.icon = document.getElementById(status_icon)) {
       fn.icon = function(e) { ref.command('toggle_status', uid); };
     }
@@ -2163,9 +2172,14 @@ function rcube_webmail()
     else
       row.msgicon = row.icon;
 
-    // set eventhandler to flag icon
+    // set event handler to flag icon
     if (this.env.flagged_col != null && (row.flagicon = document.getElementById('flagicn'+row.id))) {
       fn.flagicon = function(e) { ref.command('toggle_flag', uid); };
+    }
+
+    // set event handler to delete icon
+    if (this.env.delete_col != null && (row.deleteicon = document.getElementById('deleteicn'+row.id))) {
+      fn.deleteicon = function(e) { ref.command('toggle_delete', uid); };
     }
 
     // set event handler to thread expand/collapse icon
@@ -2337,6 +2351,11 @@ function rcube_webmail()
         css_class = (flags.flagged ? 'flagged' : 'unflagged');
         label = this.get_label(css_class);
         html = '<span id="flagicn'+row.id+'" class="'+css_class+'" title="'+label+'"></span>';
+      }
+      else if (c == 'delete') {
+        css_class = (flags.deleted ? 'undelete' : 'delete');
+        label = this.get_label(css_class);
+        html = '<span id="deleteicn'+row.id+'" class="'+css_class+'" title="'+label+'"></span>';
       }
       else if (c == 'attachment') {
         label = this.get_label('withattachment');
@@ -3299,40 +3318,45 @@ function rcube_webmail()
   };
 
   // delete selected messages from the current mailbox
-  this.delete_messages = function(event)
+  this.delete_messages = function(event, uid)
   {
     var list = this.message_list, trash = this.env.trash_mailbox;
 
     // if config is set to flag for deletion
     if (this.env.flag_for_deletion) {
-      this.mark_message('delete');
+      this.mark_message('delete', uid);
       return false;
     }
     // if there isn't a defined trash mailbox or we are in it
     else if (!trash || this.env.mailbox == trash)
-      this.permanently_remove_messages();
+      this.permanently_remove_messages(uid);
     // we're in Junk folder and delete_junk is enabled
     else if (this.env.delete_junk && this.env.junk_mailbox && this.env.mailbox == this.env.junk_mailbox)
-      this.permanently_remove_messages();
+      this.permanently_remove_messages(uid);
     // if there is a trash mailbox defined and we're not currently in it
     else {
       // if shift was pressed delete it immediately
       if ((list && list.modkey == SHIFT_KEY) || (event && rcube_event.get_modifier(event) == SHIFT_KEY)) {
         this.confirm_dialog(this.get_label('deletemessagesconfirm'), 'delete', function() {
-            ref.permanently_remove_messages();
+            ref.permanently_remove_messages(uid);
           });
       }
       else
-        this.move_messages(trash);
+        this.move_messages(trash, event, [uid]);
     }
 
     return true;
   };
 
   // delete the selected messages permanently
-  this.permanently_remove_messages = function()
+  this.permanently_remove_messages = function(uid)
   {
-    var post_data = this.selection_post_data();
+    var post_data = {};
+
+    if (uid)
+      post_data = this.selection_post_data({ '_uid': [uid] });
+    else
+      post_data = this.selection_post_data();
 
     // exit if selection is empty
     if (!post_data._uid)
@@ -8450,6 +8474,8 @@ function rcube_webmail()
     }
     if ((n = $.inArray('flag', listcols)) >= 0)
       this.env.flagged_col = n;
+    if ((n = $.inArray('delete', listcols)) >= 0)
+      this.env.delete_col = n;
     if ((n = $.inArray('status', listcols)) >= 0)
       this.env.status_col = n;
 

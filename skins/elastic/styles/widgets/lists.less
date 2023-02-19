@@ -624,7 +624,8 @@ table.fixedcopy {
             line-height: 1.7em;
             display: block;
 
-            &.flag {
+            &.flag,
+            &.delete {
                 cursor: pointer;
             }
         }
@@ -744,6 +745,15 @@ table.fixedcopy {
         content: @fa-var-flag;
     }
 
+    span.delete {
+        display: none !important;
+
+        > span.delete:before {
+            &:extend(.font-icon-class);
+            .font-icon-regular(@fa-var-trash-alt);
+        }
+    }
+
     tr.flaggedroot:not(:hover) span.unflagged:before {
         &:extend(.font-icon-class);
         content: @fa-var-flag;
@@ -753,6 +763,16 @@ table.fixedcopy {
     tr:hover span.unflagged:before {
         &:extend(.font-icon-class);
         .font-icon-regular(@fa-var-flag);
+    }
+
+    tr:not(.deleted):hover {
+        span.attachment {
+            display: none !important;
+        }
+
+        span.delete {
+            display: block !important;
+        }
     }
 
     span.size {

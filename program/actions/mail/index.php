@@ -389,7 +389,7 @@ class rcmail_action_mail_index extends rcmail_action
         $rcmail->output->set_env('sort_order', $_SESSION['sort_order']);
         $rcmail->output->set_env('messages', []);
         $rcmail->output->set_env('listcols', $listcols);
-        $rcmail->output->set_env('listcols_widescreen', ['threads', 'subject', 'fromto', 'date', 'size', 'flag', 'attachment']);
+        $rcmail->output->set_env('listcols_widescreen', ['threads', 'subject', 'fromto', 'date', 'size', 'flag', 'attachment', 'delete']);
 
         $rcmail->output->include_script('list.js');
 
@@ -471,7 +471,7 @@ class rcmail_action_mail_index extends rcmail_action
         $a_headers   = $plugin['messages'];
 
         // make sure minimum required columns are present (needed for widescreen layout)
-        $allcols = array_merge($a_show_cols, ['threads', 'subject', 'fromto', 'date', 'size', 'flag', 'attachment']);
+        $allcols = array_merge($a_show_cols, ['threads', 'subject', 'fromto', 'date', 'size', 'flag', 'attachment', 'delete']);
         $allcols = array_unique($allcols);
 
         $thead = !empty($head_replace) ? self::message_list_head($_SESSION['list_attrib'], $allcols) : null;
