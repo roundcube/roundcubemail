@@ -1581,10 +1581,10 @@ EOF;
                     foreach ($this->$source as $name => $vars) {
                         // $vars can be in many forms:
                         // - string
-                        // - array('key' => 'val')
-                        // - array(string, string)
-                        // - array(array(), string)
-                        // - array(array('key' => 'val'), array('key' => 'val'))
+                        // - ['key' => 'val']
+                        // - [string, string]
+                        // - [[], string]
+                        // - [['key' => 'val'], ['key' => 'val']]
                         // normalise this for processing by checking for string array keys
                         $vars = is_array($vars) ? (count(array_filter(array_keys($vars), 'is_string')) > 0 ? [$vars] : $vars) : [$vars];
 
@@ -2772,7 +2772,7 @@ EOF;
                     }
                 }
             }
-            else {
+            else if ($type != 'link') {
                 $template_logo = $logo;
             }
         }

@@ -13,6 +13,7 @@
 - Fix so LDAP VLV option is disabled by default as documented (#8833)
 - Fix so an email address with name is supported as input to the managesieve notify :from parameter (#8918)
 - Fix Help plugin menu (#8898)
+- Fix invalid onclick handler on the logo image when using non-array skin_logo setting (#8933)
 
 ## Release 1.6.1
 
