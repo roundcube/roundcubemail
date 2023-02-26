@@ -231,7 +231,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     self::$COMPOSE['reply_uid'] = self::$MESSAGE->context === null ? $msg_uid : null;
 
                     if (!empty(self::$COMPOSE['param']['all'])) {
-                        self::$MESSAGE->reply_all = self::$COMPOSE['param']['all'];
+                        self::$COMPOSE['reply_all'] = self::$COMPOSE['param']['all'];
                     }
                 }
                 else {
