@@ -3221,6 +3221,15 @@ function rcube_webmail()
     if (flag)
       this.set_message_status(uid, flag, status);
 
+    if (flag == 'deleted' && $(row.obj).find('span.delete').length > 0) {
+      if (row[flag]) {
+        $(row.obj).find('span.delete span.delete').removeClass('delete').addClass('undelete');
+      }
+      else {
+        $(row.obj).find('span.delete span.undelete').removeClass('undelete').addClass('delete');
+      }
+    }
+
     if ($.inArray(flag, ['unread', 'deleted', 'flagged']) > -1)
       $(row.obj)[row[flag] ? 'addClass' : 'removeClass'](flag);
 
