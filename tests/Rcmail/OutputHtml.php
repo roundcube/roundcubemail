@@ -60,6 +60,8 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $set_template->setValue($output, 'mail');
         $result = $get_template_logo->invokeArgs($output, ['small']);
         $this->assertSame('img00', $result);
+        $result = $get_template_logo->invokeArgs($output, ['link']);
+        $this->assertSame(null, $result);
 
         $rcmail->config->set('skin_logo', [
                 "elastic:login[small]" => "img01",
