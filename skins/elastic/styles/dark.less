@@ -292,6 +292,10 @@ html.dark-mode {
     .messagelist {
         color: @color-dark-font;
 
+        tr:not(.deleted) td.flags > span {
+            color: @color-dark-font;
+        }
+
         tr:not(.flagged):not(.deleted) {
             td.subject {
                 span.size,
@@ -309,10 +313,6 @@ html.dark-mode {
                 }
             }
 
-            span.flag {
-                color: @color-dark-font;
-            }
-
             &.selected {
                 td.subject {
                     a,
@@ -323,11 +323,8 @@ html.dark-mode {
             }
         }
 
-        tr.flagged:not(.deleted) {
-            td,
-            span.attachment span {
-                color: @color-list-flagged;
-            }
+        tr.flagged:not(.deleted) td {
+            color: @color-list-flagged;
         }
 
         tr.deleted {
@@ -337,7 +334,8 @@ html.dark-mode {
             td.subject span.msgicon.status.unread:before,
             td.subject span.subject a,
             td.subject span.date,
-            td.subject span.fromto {
+            td.subject span.fromto,
+            td.flags span span {
                 color: @color-dark-list-deleted;
             }
         }

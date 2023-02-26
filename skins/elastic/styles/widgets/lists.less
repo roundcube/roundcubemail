@@ -623,11 +623,19 @@ table.fixedcopy {
             height: 1.7em;
             line-height: 1.7em;
             display: block;
+            color: @color-list;
 
             &.flag,
             &.delete {
                 cursor: pointer;
             }
+        }
+    }
+
+    tr.deleted:not(.flagged) td.flags > span {
+        &.flag,
+        &.delete {
+            cursor: auto;
         }
     }
 
@@ -641,7 +649,8 @@ table.fixedcopy {
     tr.deleted td,
     tr.deleted td.subject span.subject a,
     tr.deleted td.subject span.date,
-    tr.deleted td.subject span.fromto {
+    tr.deleted td.subject span.fromto,
+    tr.deleted td.flags span span {
         color: @color-list-deleted;
     }
 
@@ -745,6 +754,10 @@ table.fixedcopy {
         content: @fa-var-flag;
     }
 
+    tr:not(.deleted) span.flagged:before {
+        color: @color-list-flagged;
+    }
+
     span.delete {
         display: none !important;
 
@@ -760,9 +773,14 @@ table.fixedcopy {
         color: @color-list-icon;
     }
 
-    tr:hover span.unflagged:before {
+    tr:not(.deleted):hover span.unflagged:before {
         &:extend(.font-icon-class);
         .font-icon-regular(@fa-var-flag);
+    }
+
+    tr:not(.deleted) span.unflagged:hover:before {
+        .font-icon-solid(@fa-var-flag);
+        color: @color-list-flagged;
     }
 
     tr:not(.deleted):hover {
@@ -772,6 +790,11 @@ table.fixedcopy {
 
         span.delete {
             display: block !important;
+
+            > span.delete:hover:before {
+                color: @color-error;
+                .font-icon-solid(@fa-var-trash-alt);
+            }
         }
     }
 
