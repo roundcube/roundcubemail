@@ -3,7 +3,7 @@
 # The script is intended for use on Travis with Trusty distribution
 # It installs in-browser tests dependencies and prepares Roundcube instance
 
-GMV=1.5.11
+GMV=1.6.13
 CHROMEVERSION=$(google-chrome-stable --version | tr -cd [:digit:]. | cut -d . -f 1)
 GMARGS="-Dgreenmail.setup.all -Dgreenmail.users=test:test -Dgreenmail.startup.timeout=3000"
 
