@@ -230,8 +230,12 @@ class Browser extends \Laravel\Dusk\Browser
         $filename = TESTS_DIR . "downloads/$filename";
 
         // Give the browser a chance to finish download
-        if (!file_exists($filename)) {
-            sleep(2);
+        $n = 0;
+        while (!file_exists($filename)) {
+            if ($n++ > 5) {
+                break;
+            }
+            sleep(1);
         }
 
         Assert::assertFileExists($filename);
