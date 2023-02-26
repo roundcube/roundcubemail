@@ -1058,6 +1058,10 @@ class rcmail_sendmail
         $charset       = !empty($message->headers) ? $message->headers->charset : RCUBE_CHARSET;
         $separator     = ', ';
 
+        if (!isset($this->data['recipients'])) {
+            $this->data['recipients'] = [];
+        }
+
         // we have a set of recipients stored is session
         if (
             $header == 'to'
@@ -1085,7 +1089,7 @@ class rcmail_sendmail
             if ($header == 'to') {
                 $mailfollowup = $message->headers->others['mail-followup-to'] ?? [];
                 $mailreplyto  = $message->headers->others['mail-reply-to'] ?? [];
-                $reply_all    = $message->reply_all ?? null;
+                $reply_all    = $this->data['reply_all'] ?? null;
 
                 // Reply to mailing list...
                 if ($reply_all == 'list' && $mailfollowup) {
@@ -1125,7 +1129,7 @@ class rcmail_sendmail
                 }
             }
             // add recipient of original message if reply to all
-            else if ($header == 'cc' && !empty($message->reply_all) && $message->reply_all != 'list') {
+            else if ($header == 'cc' && !empty($this->data['reply_all']) && $this->data['reply_all'] != 'list') {
                 if ($v = $message->headers->to) {
                     $fvalue .= $v;
                 }
@@ -1176,7 +1180,6 @@ class rcmail_sendmail
             $from_email   = !empty($this->data['ident']['email']) ? mb_strtolower($this->data['ident']['email']) : '';
             $to_addresses = rcube_mime::decode_address_list($fvalue, null, $decode_header, $charset);
             $fvalue       = [];
-            $recipients   = [];
 
             foreach ($to_addresses as $addr_part) {
                 if (empty($addr_part['mailto'])) {
@@ -1190,14 +1193,14 @@ class rcmail_sendmail
 
                 if (
                     ($header == 'to' || $mode != self::MODE_REPLY || $mailto_lc != $from_email)
-                    && !in_array($mailto_lc, $recipients)
+                    && !in_array($mailto_lc, $this->data['recipients'])
                 ) {
                     if ($addr_part['name'] && $mailto != $addr_part['name']) {
                         $mailto = format_email_recipient($mailto, $addr_part['name']);
                     }
 
-                    $fvalue[]     = $mailto;
-                    $recipients[] = $mailto_lc;
+                    $fvalue[] = $mailto;
+                    $this->data['recipients'][] = $mailto_lc;
                 }
             }
 
