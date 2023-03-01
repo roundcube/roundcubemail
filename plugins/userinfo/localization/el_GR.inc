@@ -15,6 +15,7 @@
 */
 
 $labels['userinfo'] = 'Πληροφορίες χρήστη ';
+$labels['infoforuser'] = 'Πληροφορίες χρήστη $user';
 $labels['created'] = 'Δημιουργηθηκε';
 $labels['lastlogin'] = 'Τελευταια συνδεση';
 $labels['defaultidentity'] = 'Προκαθορισμένη ταυτότητα';
