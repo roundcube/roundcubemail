@@ -392,6 +392,21 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $attrib['onerror'] = "this.onerror = null; this.src = '$placeholder';";
         }
 
+        // Check BIMI if its present, and submit in place of placeholder.
+        $domain = explode("@",self::$MESSAGE->sender['mailto']);
+        if(sizeof($domain) >= 2){
+            $domain = $domain[sizeof($domain)-1];
+            $result = dns_get_record("default._bimi.".$domain, DNS_TXT);
+            if(sizeof($result) >= 1 && array_key_exists('txt', $result[0])){
+                $pattern = '/(?i)\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:.,<>?«»“”‘’]))/i';
+                $svg = null;
+                preg_match($pattern, $result[0]['txt'], $svg);
+                if($svg != null && sizeof($svg) >= 1 && filter_var($svg[0], FILTER_VALIDATE_URL) && preg_match("/.{0,}(\.svg)$/i", $svg[0])){
+                    $attrib['onerror'] = "this.onerror = null; this.src = '$svg[0]';";
+                }
+            }
+        }
+     
         if (self::$MESSAGE->sender) {
             $photo_img = $rcmail->url([
                     '_task'   => 'addressbook',
