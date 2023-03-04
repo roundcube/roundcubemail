@@ -320,8 +320,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $dbox   = $rcmail->config->get('drafts_mbox');
 
         // the message is not a draft
-        if (self::$MESSAGE->context
-            || (self::$MESSAGE->folder != $dbox && strpos(self::$MESSAGE->folder, $dbox.$delim) !== 0)
+        if (!empty(self::$MESSAGE->context)
+            || (
+                !empty(self::$MESSAGE->folder)
+                && (self::$MESSAGE->folder != $dbox && strpos(self::$MESSAGE->folder, $dbox.$delim) !== 0)
+            )
         ) {
             return '';
         }
@@ -392,7 +395,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $attrib['onerror'] = "this.onerror = null; this.src = '$placeholder';";
         }
 
-        if (self::$MESSAGE->sender) {
+        if (!empty(self::$MESSAGE->sender)) {
             $photo_img = $rcmail->url([
                     '_task'   => 'addressbook',
                     '_action' => 'photo',
@@ -642,7 +645,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
      */
     public static function message_body($attrib)
     {
-        if (!is_array(self::$MESSAGE->parts) && empty(self::$MESSAGE->body)) {
+        if (
+            empty(self::$MESSAGE)
+            || (!is_array(self::$MESSAGE->parts) && empty(self::$MESSAGE->body))
+        ) {
             return '';
         }
 
