@@ -18,6 +18,7 @@ $labels['changepasswd']  = 'Αλλαγή κωδικού';
 $labels['curpasswd']  = 'Τρέχων κωδικός πρόσβασης:';
 $labels['newpasswd']  = 'Νέος κωδικός πρόσβασης:';
 $labels['confpasswd']  = 'Επιβέβαιωση κωδικού πρόσβασης:';
+
 $messages['nopassword'] = 'Εισάγετε ένα νέο κωδικό.';
 $messages['nocurpassword'] = 'Εισάγετε τον τρέχοντα κωδικό σας.';
 $messages['passwordincorrect'] = 'Ο τρέχων κωδικός είναι λάθος.';
@@ -38,3 +39,6 @@ $messages['samepasswd'] = 'Το νέο συνθηματικό πρέπει να 
 $messages['passwdexpirewarning'] = 'Προσοχή! Το συνθηματικό σας θα λήξει σύντομα, αλλάξτε το πριν από $expirationdatetime.';
 $messages['passwdexpired'] = 'Το συνθηματικό σας έληξε, πρέπει να το αλλάξετε τώρα!';
 $messages['passwdconstraintviolation'] = 'Παραβίαση περιορισμών συνθηματικού. Το συνθηματικό είναι πιθανώς πολύ ασθενές.';
+$messages['pwned_mustnotbedisclosed'] = 'Ο κωδικός πρόσβασης δεν πρέπει να είναι <a href="$href" target="_blank">ευρέως γνωστός</a>.';
+$messages['pwned_isdisclosed'] = 'Αυτός ο κωδικός είναι ευρέως γνωστός.';
+$messages['pwned_fetcherror'] = 'Αποτυχία επαλήθευσης της δύναμης του κωδικού πρόσβασης.';
