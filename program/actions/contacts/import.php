@@ -184,7 +184,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     if (empty($a_record['name'])) {
                         $a_record['name'] = rcube_addressbook::compose_display_name($a_record, true);
                         // Reset it if equals to email address (from compose_display_name())
-                        if ($a_record['name'] == $a_record['email'][0]) {
+                        if ($a_record['name'] == ($a_record['email'][0] ?? null)) {
                             $a_record['name'] = '';
                         }
                     }
