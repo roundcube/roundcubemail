@@ -51,12 +51,15 @@ abstract class TestCase extends PHPUnitTestCase
             '--lang=en_US',
             '--disable-gpu',
             '--headless',
+            '--no-sandbox',
         ]);
 
         // For file download handling
         $prefs = [
             'profile.default_content_settings.popups' => 0,
+            'download.prompt_for_download' => false,
             'download.default_directory' => TESTS_DIR . 'downloads',
+            'downloadPath' => TESTS_DIR . 'downloads',
         ];
 
         $options->setExperimentalOption('prefs', $prefs);
