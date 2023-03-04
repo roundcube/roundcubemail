@@ -69,6 +69,13 @@ class rcube_message_header
     public $cc;
 
     /**
+     * Message hidden recipients (Bcc)
+     *
+     * @var string
+     */
+    public $bcc;
+
+    /**
      * Message Reply-To header
      *
      * @var string
