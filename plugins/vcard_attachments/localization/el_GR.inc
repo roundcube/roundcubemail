@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Επισύναψη vCard';
 $labels['vcardattached'] = 'Το αρχείο vCard επισυναφθηκε.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Προώθηση vCard';
+$labels['contactsattached'] = '$num επαφές επισυνάπτονται σε αυτό το μήνυμα.';
+$labels['importedsuccessfully'] = 'Η εισαγωγή επαφών ολοκληρώθηκε με επιτυχία.';
