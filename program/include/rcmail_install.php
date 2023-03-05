@@ -903,11 +903,117 @@ class rcmail_install
      *
      * @param string $version Version to update from
      *
-     * @return boolean True on success, False on error
+     * @return bool True on success, False on error
      */
     public function update_db($version)
     {
         return rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $version, ['quiet' => true]);
+    }
+
+    /**
+     * Extract zip archive contents.
+     *
+     * @param string $zipfile ZIP file location
+     * @param string $destdir Destination directory
+     * @param array  $pick    List of filename patterns
+     * @param bool   $flat    Extract all files into the same directory
+     */
+    public static function unzip($zipfile, $destdir, array $pick = [], bool $flat = false)
+    {
+        static $unzip, $un7zip;
+
+        if (class_exists('ZipArchive', false)) {
+            echo "Extracting {$zipfile} into {$destdir}\n";
+
+            $zip = new ZipArchive;
+
+            if ($zip->open($zipfile) === true) {
+                if ($flat) {
+                    for ($i = 0; $i < $zip->numFiles; $i++) {
+                        $filename = $zip->getNameIndex($i);
+                        if (substr($filename, -1, 1) != '/') {
+                            copy("zip://" . $zipfile . "#" . $filename, $destdir . '/' . pathinfo($filename, PATHINFO_BASENAME));
+                        }
+                    }
+                }
+                else {
+                    $zip->extractTo($destdir, !empty($pick) ? $pick : null);
+                }
+
+                $zip->close();
+            }
+            else {
+                rcube::raise_error("Failed to unpack {$zipfile}");
+            }
+
+            return;
+        }
+
+        if (empty($pick)) {
+            $pick = ['**'];
+        }
+
+        if ($un7zip === null) {
+            $un7zip = trim(`which 7z`);
+        }
+
+        if ($un7zip) {
+            foreach ($pick as $pattern) {
+                echo "Extracting {$pattern} from {$zipfile} into {$destdir}\n";
+
+                $command = sprintf(
+                    '%s ' . ($flat ? 'e' : 'x') . ' %s -y -o%s %s',
+                    $un7zip,
+                    escapeshellarg($zipfile),
+                    escapeshellarg($destdir),
+                    escapeshellarg($pattern)
+                );
+
+                exec($command, $out, $retval);
+
+                if ($retval !== 0) {
+                    rcube::raise_error("Failed to unpack {$pattern} from {$zipfile}; " . implode('; ', $out));
+                }
+            }
+
+            if ($flat) {
+                // In flat mode remove all directories
+                $extract_tree = glob("$destdir/*", GLOB_ONLYDIR);
+                foreach ($extract_tree as $dir) {
+                    rmdir($dir);
+                }
+            }
+
+            return;
+        }
+
+        if ($unzip === null) {
+            $unzip = trim(`which unzip`);
+        }
+
+        if ($unzip) {
+            foreach ($pick as $pattern) {
+                echo "Extracting {$pattern} from {$zipfile} into {$destdir}\n";
+
+                $command = sprintf(
+                    '%s ' . ($flat ? '-j' : '-o') . ' %s %s -d %s',
+                    $unzip,
+                    escapeshellarg($zipfile),
+                    escapeshellarg($pattern),
+                    escapeshellarg($destdir)
+                );
+
+                exec($command, $out, $retval);
+
+                if ($retval !== 0) {
+                    rcube::raise_error("Failed to unpack {$pattern} from {$zipfile}; " . implode('; ', $out));
+                }
+            }
+
+            return;
+        }
+
+        rcube::raise_error("PHP Zip extension, '7z' or 'unzip' programs not found.", false, true);
     }
 
     /**
@@ -922,7 +1028,8 @@ class rcmail_install
      * Check if vendor/autoload.php was created by Roundcube and left untouched
      *
      * @param string $target_dir The target installation dir
-     * @return string
+     *
+     * @return bool
      */
     public static function vendor_dir_untouched($target_dir)
     {
