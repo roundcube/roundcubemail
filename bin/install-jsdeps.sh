@@ -33,9 +33,10 @@ if (empty($SOURCES['dependencies'])) {
     rcube::raise_error("Failed to read dependencies list from $cfgfile", false, true);
 }
 
-$CURL  = trim(`which curl`);
-$WGET  = trim(`which wget`);
-$UNZIP = trim(`which unzip`);
+$CURL   = trim(`which curl`);
+$WGET   = trim(`which wget`);
+$UNZIP  = trim(`which unzip`);
+$UN7ZIP = trim(`which 7z`);
 
 if (($CACHEDIR = getenv("CACHEDIR")) && is_writeable($CACHEDIR)) {
     // use $CACHEDIR
@@ -217,10 +218,11 @@ function compose_destfile($package, $srcfile)
  */
 function extract_zipfile($package, $srcfile)
 {
-    global $UNZIP, $CACHEDIR;
+    global $UNZIP, $UN7ZIP, $CACHEDIR;
+    $phpzip = class_exists('ZipArchive', false);
 
-    if (empty($UNZIP)) {
-        rcube::raise_error("Required 'unzip' program not found.", false, true);
+    if (!$phpzip && empty($UNZIP) && empty($UN7ZIP)) {
+        rcube::raise_error("PHP Zip extension, '7z' or 'unzip' programs required to install JavaScript dependencies.", false, true);
     }
 
     $destdir = INSTALL_PATH . $package['dest'];
@@ -234,11 +236,33 @@ function extract_zipfile($package, $srcfile)
 
     // pick files from zip archive
     if (!empty($package['pick'])) {
-        foreach ($package['pick'] as $pattern) {
-            echo "Extracting files $pattern into $destdir\n";
-            exec(sprintf('%s -o %s %s -d %s', $UNZIP, escapeshellarg($srcfile), escapeshellarg($pattern), $destdir), $out, $retval);
-            if ($retval !== 0) {
-                rcube::raise_error("Failed to unpack $pattern; " . implode('; ' . $out));
+        if ($phpzip) {
+            echo "Extracting files " . implode('; ', $package['pick']) . " into $destdir\n";
+            $zip = new ZipArchive;
+            if ($zip->open($srcfile) === TRUE) {
+                $zip->extractTo($destdir, $package['pick']);
+                $zip->close();
+            }
+            else {
+                rcube::raise_error("Failed to unpack " . implode('; ', $package['pick']));
+            }
+        }
+        else if (!empty($UN7ZIP)) {
+            foreach ($package['pick'] as $pattern) {
+                echo "Extracting files $pattern into $destdir\n";
+                exec(sprintf('%s x %s -y -o%s %s', $UN7ZIP, escapeshellarg($srcfile), $destdir, escapeshellarg($pattern)), $out, $retval);
+                if ($retval !== 0) {
+                    rcube::raise_error("Failed to unpack $pattern; " . implode('; ', $out));
+                }
+            }
+        }
+        else {
+            foreach ($package['pick'] as $pattern) {
+                echo "Extracting files $pattern into $destdir\n";
+                exec(sprintf('%s -o %s %s -d %s', $UNZIP, escapeshellarg($srcfile), escapeshellarg($pattern), $destdir), $out, $retval);
+                if ($retval !== 0) {
+                    rcube::raise_error("Failed to unpack $pattern; " . implode('; ', $out));
+                }
             }
         }
     }
@@ -249,8 +273,37 @@ function extract_zipfile($package, $srcfile)
             mkdir($extract, 0774, true);
         }
 
-        $zip_command = '%s -' . (!empty($package['flat']) ? 'j' : 'o') . ' %s -d %s';
-        exec(sprintf($zip_command, $UNZIP, escapeshellarg($srcfile), $extract), $out, $retval);
+        if ($phpzip) {
+            $zip = new ZipArchive;
+            if ($zip->open($srcfile) === TRUE) {
+                if (!empty($package['flat'])) {
+                    for ($i = 0; $i < $zip->numFiles; $i++) {
+                        $filename = $zip->getNameIndex($i);
+                        copy("zip://" . $srcfile . "#".$filename, $extract . '/' . pathinfo($filename, PATHINFO_BASENAME));
+                    }
+                }
+                else {
+                    $zip->extractTo($extract);
+                }
+                $zip->close();
+            }
+            else {
+                rcube::raise_error("Failed to unpack $srcfile");
+            }
+        }
+        else if (!empty($UN7ZIP)) {
+            $zip_command = '%s ' . (!empty($package['flat']) ? 'e' : 'x') . ' %s -y -o%s';
+            exec(sprintf($zip_command, $UN7ZIP, escapeshellarg($srcfile), $extract), $out, $retval);
+
+            $extract_tree = glob("$extract/*", GLOB_ONLYDIR);
+            foreach ($extract_tree as $dir) {
+                rmdir($dir);
+            }
+        }
+        else {
+            $zip_command = '%s -' . (!empty($package['flat']) ? 'j' : 'o') . ' %s -d %s';
+            exec(sprintf($zip_command, $UNZIP, escapeshellarg($srcfile), $extract), $out, $retval);
+        }
 
         // get the root folder of the extracted package
         $extract_tree = glob("$extract/*", GLOB_ONLYDIR);
@@ -277,7 +330,7 @@ function extract_zipfile($package, $srcfile)
 
             exec(sprintf('mv -f %s %s', $src_file, $dest_file), $out, $retval);
             if ($retval !== 0) {
-                rcube::raise_error("Failed to move $src into $dest_file; " . implode('; ' . $out));
+                rcube::raise_error("Failed to move $src into $dest_file; " . implode('; ', $out));
             }
             // Remove sourceMappingURL
             else if (isset($package['sourcemap']) && $package['sourcemap'] === false) {
@@ -297,9 +350,27 @@ function extract_zipfile($package, $srcfile)
     // extract the archive into the destination directory
     else {
         echo "Extracting zip archive into $destdir\n";
-        exec(sprintf('%s -o %s -d %s', $UNZIP, escapeshellarg($srcfile), $destdir), $out, $retval);
-        if ($retval !== 0) {
-            rcube::raise_error("Failed to unzip $srcfile; " . implode('; ' . $out));
+        if ($phpzip) {
+            $zip = new ZipArchive;
+            if ($zip->open($srcfile) === TRUE) {
+                $zip->extractTo($destdir);
+                $zip->close();
+            }
+            else {
+                rcube::raise_error("Failed to unpack $srcfile");
+            }
+        }
+        else if (!empty($UN7ZIP)) {
+            exec(sprintf('%s x %s -o%s', $UN7ZIP, escapeshellarg($srcfile), $destdir), $out, $retval);
+            if ($retval !== 0) {
+                rcube::raise_error("Failed to unzip $srcfile; " . implode('; ', $out));
+            }
+        }
+        else {
+            exec(sprintf('%s -o %s -d %s', $UNZIP, escapeshellarg($srcfile), $destdir), $out, $retval);
+            if ($retval !== 0) {
+                rcube::raise_error("Failed to unzip $srcfile; " . implode('; ', $out));
+            }
         }
     }
 
