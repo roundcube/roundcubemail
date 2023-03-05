@@ -62,28 +62,11 @@ if (!empty($args['age']) && ($age = intval($args['age']))) {
     exit(0);
 }
 
+$hostname = rcmail_utils::get_host($args);
 $username = isset($args[0]) ? trim($args[0]) : null;
+
 if (empty($username)) {
     _die("Missing required parameters", true);
-}
-
-if (empty($args['host'])) {
-    $hosts = $rcmail->config->get('imap_host', '');
-    if (is_string($hosts)) {
-        $args['host'] = $hosts;
-    }
-    else if (is_array($hosts) && count($hosts) == 1) {
-        $args['host'] = reset($hosts);
-    }
-    else {
-        _die("Specify a host name", true);
-    }
-
-    // host can be a URL like tls://192.168.12.44
-    $host_url = parse_url($args['host']);
-    if ($host_url['host']) {
-        $args['host'] = $host_url['host'];
-    }
 }
 
 // connect to DB
@@ -96,14 +79,14 @@ if (!$db->is_connected() || $db->is_error()) {
 }
 
 // find user in local database
-$user = rcube_user::query($username, $args['host']);
+$user = rcube_user::query($username, $hostname);
 
 if (!$user) {
     die("User not found.\n");
 }
 
 // inform plugins about approaching user deletion
-$plugin = $rcmail->plugins->exec_hook('user_delete_prepare', ['user' => $user, 'username' => $username, 'host' => $args['host']]);
+$plugin = $rcmail->plugins->exec_hook('user_delete_prepare', ['user' => $user, 'username' => $username, 'host' => $hostname]);
 
 // let plugins cleanup their own user-related data
 if (!$plugin['abort']) {

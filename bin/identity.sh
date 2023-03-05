@@ -72,12 +72,10 @@ function get_identity_attr($options)
         exit;
     }
 
-    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
     $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
     $attribute = get_option_value($options, 'attribute', '', false, true, "Enter the attribute name e.g. -a name");
 
-    $host = rcube_utils::get_host($options);
-    $user = get_user($username, $host);
+    $user = get_user($options);
 
     $identity = $user->get_identity($identity_id);
 
@@ -105,10 +103,7 @@ function list_identities($options)
         exit;
     }
 
-    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
-
-    $host = rcube_utils::get_host($options);
-    $user = get_user($username, $host);
+    $user = get_user($options);
 
     $identities = $user->list_identities(null, true);
 
@@ -132,11 +127,9 @@ function delete_identity($options)
         exit;
     }  
 
-    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
     $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
 
-    $host = rcube_utils::get_host($options);
-    $user = get_user($username, $host);
+    $user = get_user($options);
 
     $identity = $user->delete_identity($identity_id);
 
@@ -166,8 +159,6 @@ function add_identity($options)
         echo_shared_options();
         exit;
     }
-
-    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
 
     $new_identity = [];
     $setAsDefault = false;
@@ -201,8 +192,7 @@ function add_identity($options)
     $new_identity['bcc'] = get_option_value($options, 'bcc_email', '', false, false);
     $new_identity['reply-to'] = get_option_value($options, 'reply_to_email', '', false, false);
 
-    $host = rcube_utils::get_host($options);
-    $user = get_user($username, $host);
+    $user = get_user($options);
 
     $id = $user->insert_identity($new_identity);
 
@@ -233,7 +223,6 @@ function update_identity($options)
         exit;
     }
 
-    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
     $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
 
     $updated_identity = [];
@@ -294,8 +283,7 @@ function update_identity($options)
         rcube::raise_error("No attributes changed. Set some new values.", false, true);
     }
 
-    $host = rcube_utils::get_host($options);
-    $user = get_user($username, $host);
+    $user = get_user($options);
 
     $identity = $user->update_identity($identity_id, $updated_identity);
 
@@ -374,11 +362,14 @@ function echo_shared_options()
     echo "               (only 1 available so it disables all other. Empty value or 1 for yes, 0 for no) e.g. -S 1\n\n";
 };
 
-function get_user($username, $host)
+function get_user($options)
 {
     $rcmail = rcube::get_instance();
 
     $db = $rcmail->get_dbh();
+
+    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
+    $host = rcmail_utils::get_host($options);
 
     // find user in local database
     $user = rcube_user::query($username, $host);

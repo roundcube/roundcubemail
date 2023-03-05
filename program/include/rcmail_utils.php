@@ -297,6 +297,35 @@ class rcmail_utils
     }
 
     /**
+     * Get the user hostname from a command line
+     */
+    public static function get_host($args)
+    {
+        $rcmail = rcmail::get_instance();
+
+        if (empty($args['host'])) {
+            $hosts = $rcmail->config->get('imap_host');
+            if (is_string($hosts)) {
+                $args['host'] = $hosts;
+            }
+            else if (is_array($hosts) && count($hosts) == 1) {
+                $args['host'] = reset($hosts);
+            }
+            else {
+                rcube::raise_error("Specify a host name", false, true);
+            }
+        }
+
+        // host can be a URL like tls://192.168.12.44
+        $host_url = parse_url($args['host'], PHP_URL_HOST);
+        if ($host_url) {
+            $args['host'] = $host_url;
+        }
+
+        return $args['host'];
+    }
+
+    /**
      * Reindex contacts
      */
     public static function indexcontacts()

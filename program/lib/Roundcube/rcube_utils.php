@@ -1741,30 +1741,4 @@ class rcube_utils
 
         return '';
     }
-    
-    public static function get_host($args)
-    {
-        $rcmail = rcmail::get_instance();
-
-        if (empty($args['host'])) {
-            $hosts = $rcmail->config->get('default_host', '');
-            if (is_string($hosts)) {
-                $args['host'] = $hosts;
-            }
-            else if (is_array($hosts) && count($hosts) == 1) {
-                $args['host'] = reset($hosts);
-            }
-            else {
-                rcube::raise_error("Specify a host name", true);
-            }
-
-            // host can be a URL like tls://192.168.12.44
-            $host_url = parse_url($args['host']);
-            if (!empty($host_url['host'])) {
-                $args['host'] = $host_url['host'];
-            }
-        }
-
-        return $args['host'];
-    }
 }
