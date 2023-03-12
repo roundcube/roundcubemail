@@ -239,11 +239,6 @@ function extract_zipfile($package, $srcfile)
 
     // map source to dest files/directories
     if (!empty($package['map'])) {
-        $extract_tree = glob("$extract/*", GLOB_ONLYDIR);
-        foreach ($extract_tree as $dir) {
-            rmdir($dir);
-        }
-
         // get the root folder of the extracted package
         $extract_tree = glob("$extract/*", GLOB_ONLYDIR);
         $sourcedir    = count($extract_tree) ? $extract_tree[0] : $extract;
