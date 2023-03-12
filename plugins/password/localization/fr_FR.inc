@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Changer le mot de passe';
 $labels['curpasswd']  = 'Mot de passe actuel :';
 $labels['newpasswd']  = 'Nouveau mot de passe :';
@@ -22,7 +21,7 @@ $labels['confpasswd']  = 'Confirmer le nouveau mot de passe :';
 $messages['nopassword'] = 'Veuillez saisir le nouveau mot de passe.';
 $messages['nocurpassword'] = 'Veuillez saisir le mot de passe actuel.';
 $messages['passwordincorrect'] = 'Le mot de passe actuel est erroné.';
-$messages['passwordinconsistency'] = 'Les mots de passe ne correspondent pas, veuillez ressayer.';
+$messages['passwordinconsistency'] = 'Les mots de passe ne correspondent pas, veuillez réessayer.';
 $messages['crypterror'] = 'Impossible d’enregistrer le nouveau mot de passe. La fonction de chiffrement est manquante.';
 $messages['connecterror'] = 'Impossible d’enregistrer le nouveau mot de passe. Erreur de connexion.';
 $messages['internalerror'] = 'Impossible d’enregistrer le nouveau mot de passe.';
@@ -37,5 +36,8 @@ $messages['disablednotice'] = 'Le système est en cours de maintenance et les ch
 $messages['passwinhistory'] = 'Ce mot de passe a déjà été utilisé précédemment.';
 $messages['samepasswd'] = 'Le nouveau mot de passe doit être différent de l’ancien.';
 $messages['passwdexpirewarning'] = 'Avertissement ! Votre mot de passe arrivera prochainement à expiration. Changez-le avant le $expirationdatetime.';
-$messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le changer maintenant !';
+$messages['passwdexpired'] = 'Votre mot de passe est expiré, vous devez le changer maintenant';
 $messages['passwdconstraintviolation'] = 'Contrainte non respectée. Le mot de passe est probablement trop faible.';
+$messages['pwned_mustnotbedisclosed'] = 'Le mot de passe ne doit pas être <a href="$href" target="_blank">notoire</a>.';
+$messages['pwned_isdisclosed'] = 'Ce mot de passe est connu par ailleurs.';
+$messages['pwned_fetcherror'] = 'Échec de vérification de la robustesse du mot de passe.';

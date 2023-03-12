@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Modifica la Password';
 $labels['curpasswd']  = 'Password corrente:';
 $labels['newpasswd']  = 'Nuova password:';
@@ -28,6 +27,9 @@ $messages['connecterror'] = 'Impossibile salvare la nuova password. Errore di co
 $messages['internalerror'] = 'Impossibile salvare la nuova password.';
 $messages['passwordshort'] = 'La password deve essere lunga almeno $length caratteri.';
 $messages['passwordweak'] = 'La password deve includere almeno una cifra decimale e un carattere di punteggiatura.';
+$messages['passwordtooweak'] = 'La password è troppo debole.';
+$messages['passwordnoseq'] = 'La password non deve essere una sequenza come 123456 o QWERTY.';
+$messages['passwordnocommon'] = 'La password non deve contenere parole comuni o nomi.';
 $messages['passwordforbidden'] = 'La password contiene caratteri proibiti.';
 $messages['firstloginchange'] = 'Questo è il tuo primo accesso. Si prega di cambiare la propria password.';
 $messages['disablednotice'] = 'Il sistema è attualmente in manutenzione e pertanto al momento non è possibile effettuare il cambio della password. Presto tutto tornerà alla normalità. Ci scusiamo per il disagio.';
@@ -36,3 +38,6 @@ $messages['samepasswd'] = 'La nuova password deve essere differente da una usata
 $messages['passwdexpirewarning'] = 'Attenzione! La tua password scadrà a breve, cambiala prima del $expiretiondatetime.';
 $messages['passwdexpired'] = 'La tua password è scaduta, devi cambiarla adesso.';
 $messages['passwdconstraintviolation'] = 'La password non soddisfa i requisiti di sicurezza.';
+$messages['pwned_mustnotbedisclosed'] = 'La password non deve essere <a href="$href" target="_blank">nota</a>.';
+$messages['pwned_isdisclosed'] = 'Questa password è nota.';
+$messages['pwned_fetcherror'] = 'Verifica robustezza password fallita.';

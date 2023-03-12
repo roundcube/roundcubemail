@@ -2,7 +2,7 @@
     "name": "roundcube/markasjunk",
     "type": "roundcube-plugin",
     "description": "Adds buttons to mark messages as Junk/Non-Junk with moving to the Junk folder and Spam/Ham learning.",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "2.0",
     "authors": [
         {
@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=7.3.0",
         "roundcube/plugin-installer": ">=0.1.3"
     }
 }

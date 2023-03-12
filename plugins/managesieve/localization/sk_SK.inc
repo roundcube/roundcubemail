@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Správa filtrov prichádzajúcej pošty';
 $labels['filtername'] = 'Názov filtra';
@@ -91,6 +91,7 @@ $labels['none'] = 'žiadne';
 $labels['fromset'] = 'zo súpravy';
 $labels['fromfile'] = 'zo súboru';
 $labels['filterdisabled'] = 'Filter vypnutý';
+$labels['filterenabled'] = 'Filter zapnutý';
 $labels['countisgreaterthan'] = 'počet je väčší ako';
 $labels['countisgreaterthanequal'] = 'počet je väčší alebo rovný ako';
 $labels['countislessthan'] = 'počet je menší ako';
@@ -187,6 +188,14 @@ $labels['asciicasemap'] = 'nerozlišuje veľké a malé písmená (ascii tabuľk
 $labels['asciinumeric'] = 'numerické (ascii čísla)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'dozadu';
+$labels['spamtest'] = 'Úroveň pre nevyžiadanú poštu';
+$labels['spamtestisgreaterthan'] = 'je viac ako';
+$labels['spamtestisgreaterthanequal'] = 'je viac alebo sa rovná ako';
+$labels['spamtestislessthan'] = 'je menej ako';
+$labels['spamtestislessthanequal'] = 'je menej alebo sa rovná ako';
+$labels['spamtestequals'] = 'sa rovná';
+$labels['spamtestnotequals'] = 'sa nerovná';
+$labels['spamtestisunknown'] = 'nie je známa';
 $labels['vacation'] = 'Mimo kancelárie';
 $labels['vacation.reply'] = 'Odpoveď na správu';
 $labels['vacation.advanced'] = 'Pokročilé nastavenia';
@@ -273,4 +282,4 @@ $messages['emptyvacationbody'] = 'Musíte zadať telo správy, zobrazovanej v č
 $messages['duplicate.conflict.err'] = 'Hlavička a aj unikátny identifikátor nie sú povolené.';
 $messages['disabledaction'] = 'Akcia nie je povolená.';
 $messages['lastindexempty'] = 'Index sa vyžaduje pri počítaní od konca';
-?>
+$messages['noflagset'] = 'Musí byť vybraný aspoň jeden príznak.';

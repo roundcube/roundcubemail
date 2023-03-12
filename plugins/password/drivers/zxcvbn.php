@@ -8,7 +8,7 @@
  * @version 0.1
  * @author Philip Weir
  *
- * Copyright (C) 2018 Philip Weir
+ * Copyright (C) Philip Weir
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,12 +28,11 @@ class rcube_zxcvbn_password
 {
     function strength_rules()
     {
-        $rcmail  = rcmail::get_instance();
-
-        $rules   = array();
-        $rules[] = $rcmail->gettext('password.passwordweak');
-        $rules[] = $rcmail->gettext('password.passwordnoseq');
-        $rules[] = $rcmail->gettext('password.passwordnocommon');
+        $rcmail = rcmail::get_instance();
+        $rules  = [
+            $rcmail->gettext('password.passwordnoseq'),
+            $rcmail->gettext('password.passwordnocommon'),
+        ];
 
         return $rules;
     }
@@ -48,18 +47,20 @@ class rcube_zxcvbn_password
     function check_strength($passwd)
     {
         if (!class_exists('ZxcvbnPhp\Zxcvbn')) {
-            rcube::raise_error(array(
-                'code' => 600,
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Zxcvbn library not found."
-                ), true, false);
+            rcube::raise_error([
+                    'code' => 600,
+                    'file' => __FILE__,
+                    'line' => __LINE__,
+                    'message' => "Password plugin: Zxcvbn library not found."
+                ], true, false
+            );
+
             return;
         }
 
-        $rcmail   = rcmail::get_instance();
         $zxcvbn   = new ZxcvbnPhp\Zxcvbn();
         $strength = $zxcvbn->passwordStrength($passwd);
 
-        return array($strength['score'] + 1, $strength['feedback']['warning']);
+        return [$strength['score'] + 1, $strength['feedback']['warning']];
     }
 }

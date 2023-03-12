@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = '공유';
 $labels['myrights'] = '접근 권한';
 $labels['username'] = '사용자:';
@@ -96,4 +95,3 @@ $messages['createerror'] = '접근 권한을 추가할 수 없음';
 $messages['deleteconfirm'] = '정말로 선택한 사용자의 접근 권한을 삭제하시겠습니까?';
 $messages['norights'] = '지정된 권한이 없음!';
 $messages['nouser'] = '지정된 사용자명이 없음!';
-?>

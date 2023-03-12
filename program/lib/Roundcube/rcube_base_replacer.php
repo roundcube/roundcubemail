@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +23,6 @@
  *
  * @package    Framework
  * @subpackage Utils
- * @author     Thomas Bruederli <roundcube@gmail.com>
  */
 class rcube_base_replacer
 {
@@ -60,12 +60,12 @@ class rcube_base_replacer
      */
     public function replace($body)
     {
-        $regexp = array(
+        $regexp = [
             '/(src|background|href)=(["\']?)([^"\'\s>]+)(\2|\s|>)/i',
             '/(url\s*\()(["\']?)([^"\'\)\s]+)(\2)\)/i',
-        );
+        ];
 
-        return preg_replace_callback($regexp, array($this, 'callback'), $body);
+        return preg_replace_callback($regexp, [$this, 'callback'], $body);
     }
 
     /**
@@ -98,8 +98,8 @@ class rcube_base_replacer
         }
 
         // $path is absolute
-        if ($path[0] == '/') {
-            $abs_path = $host_url.$path;
+        if ($path && $path[0] == '/') {
+            $abs_path = $host_url . $path;
         }
         else {
             // strip './' because its the same as ''

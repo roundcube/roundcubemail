@@ -2,21 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
-$labels = array();
+$labels = [];
 
 // login page
 $labels['welcome'] = 'Welcome to $product';
@@ -24,6 +22,7 @@ $labels['username'] = 'Username';
 $labels['password'] = 'Password';
 $labels['server'] = 'Server';
 $labels['login'] = 'Login';
+$labels['oauthlogin'] = 'Login with $provider';
 
 // taskbar
 $labels['menu'] = 'Menu';
@@ -31,6 +30,8 @@ $labels['logout'] = 'Logout';
 $labels['mail'] = 'Mail';
 $labels['settings'] = 'Settings';
 $labels['addressbook'] = 'Address Book';
+$labels['darkmode'] = 'Dark mode';
+$labels['lightmode'] = 'Light mode';
 
 // mailbox names
 $labels['inbox'] = 'Inbox';
@@ -156,6 +157,7 @@ $labels['markread'] = 'As read';
 $labels['markunread'] = 'As unread';
 $labels['markflagged'] = 'As flagged';
 $labels['markunflagged'] = 'As unflagged';
+$labels['markundeleted'] = 'As not deleted';
 $labels['moreactions'] = 'More actions...';
 $labels['markallread'] = 'Mark all as read';
 $labels['folders-cur'] = 'Selected folder only';
@@ -195,6 +197,7 @@ $labels['expand-all'] = 'Expand All';
 $labels['expand-unread'] = 'Expand Unread';
 $labels['collapse-all'] = 'Collapse All';
 $labels['threaded'] = 'Threaded';
+$labels['showunread'] = 'Show unread messages';
 
 $labels['autoexpand_threads'] = 'Expand message threads';
 $labels['do_expand'] = 'all threads';
@@ -273,6 +276,7 @@ $labels['charset'] = 'Charset';
 $labels['editortype'] = 'Editor type';
 $labels['returnreceipt'] = 'Return receipt';
 $labels['dsn'] = 'Delivery status notification';
+$labels['keepformatting'] = 'Keep formatting';
 $labels['mailreplyintro'] = 'On $date, $sender wrote:';
 $labels['originalmessage'] = 'Original Message';
 $labels['selectimage'] = 'Select image';
@@ -339,6 +343,7 @@ $labels['alwaysallow'] = 'Always allow from $sender';
 $labels['isdraft'] = 'This is a draft message.';
 $labels['andnmore'] = '$nr more...';
 $labels['details'] = 'Details';
+$labels['summary'] = 'Summary';
 $labels['headers'] = 'Headers';
 $labels['allheaders'] = 'All headers...';
 $labels['togglemoreheaders'] = 'Show more message headers';
@@ -356,10 +361,12 @@ $labels['addreplyto'] = 'Add Reply-To';
 $labels['addfollowupto'] = 'Add Followup-To';
 
 // mdn
+$labels['sendreceipt'] = 'Send read receipt?';
 $labels['mdnrequest'] = 'The sender of this message has asked to be notified when you read this message. Do you wish to notify the sender?';
 $labels['receiptread'] = 'Return Receipt (read)';
 $labels['yourmessage'] = 'This is a Return Receipt for your message';
 $labels['receiptnote'] = 'Note: This receipt only acknowledges that the message was displayed on the recipient\'s computer. There is no guarantee that the recipient has read or understood the message contents.';
+$labels['sendalwaysto'] = 'Always send to $email';
 
 $labels['zoomin'] = 'Zoom In';
 $labels['zoomout'] = 'Zoom Out';
@@ -370,7 +377,7 @@ $labels['rotateimage'] = 'Rotate image';
 $labels['showtools'] = 'Show image tools';
 $labels['hidetools'] = 'Hide image tools';
 
-// address boook
+// address book
 $labels['name'] = 'Display Name';
 $labels['firstname'] = 'First Name';
 $labels['surname'] = 'Last Name';
@@ -489,6 +496,9 @@ $labels['importgroups'] = 'Import group assignments';
 $labels['importgroupsall'] = 'All (create groups if necessary)';
 $labels['importgroupsexisting'] = 'Only for existing groups';
 $labels['importdesc'] = 'You can upload contacts from an existing address book.<br/>We currently support importing addresses from the <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> or CSV (comma-separated) data format.';
+$labels['importmapdesc'] = 'Confirm the field mapping information below is correct before proceeding with CSV (comma-separated) data import.';
+$labels['fieldnotmapped'] = 'Field not mapped (do not import)';
+$labels['skipheader'] = 'Do not import first line (headers)';
 $labels['done'] = 'Done';
 
 // settings
@@ -539,6 +549,8 @@ $labels['askuser'] = 'ask me';
 $labels['autosend'] = 'send receipt';
 $labels['autosendknown'] = 'send receipt to my contacts, otherwise ask me';
 $labels['autosendknownignore'] = 'send receipt to my contacts, otherwise ignore';
+$labels['autosendtrusted'] = 'send receipt to trusted senders, otherwise ask me';
+$labels['autosendtrustedignore'] = 'send receipt to trusted senders, otherwise ignore';
 $labels['ignorerequest'] = 'ignore request';
 $labels['readwhendeleted'] = 'Mark the message as read on delete';
 $labels['flagfordeletion'] = 'Flag the message for deletion instead of delete';
@@ -548,6 +560,8 @@ $labels['deletejunk'] = 'Directly delete messages in Junk';
 $labels['showremoteimages'] = 'Display remote inline images';
 $labels['allowremoteresources'] = 'Allow remote resources (images, styles)';
 $labels['fromknownsenders'] = 'from known senders';
+$labels['fromtrustedsenders'] = 'from trusted senders';
+$labels['frommycontacts'] = 'from my contacts';
 $labels['always'] = 'always';
 $labels['alwaysbutplain'] = 'always, except when replying to plain text';
 $labels['showinlineimages'] = 'Display attached images below the message';
@@ -568,7 +582,7 @@ $labels['advancedoptions'] = 'Advanced options';
 $labels['toggleadvancedoptions'] = 'Toggle advanced options';
 $labels['focusonnewmessage'] = 'Focus browser window on new message';
 $labels['checkallfolders'] = 'Check all folders for new messages';
-$labels['displaynext'] = 'After message delete/move display the next message';
+$labels['displaynext'] = 'Display next list entry after delete/move';
 $labels['defaultfont'] = 'Default font of HTML message';
 $labels['mainoptions'] = 'Main Options';
 $labels['browseroptions'] = 'Browser Options';
@@ -596,6 +610,14 @@ $labels['replysamefolder'] = 'Place replies in the folder of the message being r
 $labels['defaultabook'] = 'Default address book';
 $labels['autocompletesingle'] = 'Skip alternative email addresses in autocompletion';
 $labels['listnamedisplay'] = 'List contacts as';
+$labels['contactformmode'] = 'Contact form mode';
+$labels['privatemode'] = 'Private (Home)';
+$labels['businessmode'] = 'Business (Work)';
+$labels['collectedaddresses'] = 'Collected addresses';
+$labels['collectedrecipients'] = 'Collected Recipients';
+$labels['collectedrecipientsopt'] = 'Store outgoing email recipients in';
+$labels['collectedsendersopt'] = 'Store trusted senders in';
+$labels['trustedsenders'] = 'Trusted Senders';
 $labels['spellcheckbeforesend'] = 'Check spelling before sending a message';
 $labels['spellcheckoptions'] = 'Spellcheck Options';
 $labels['spellcheckignoresyms'] = 'Ignore words with symbols';
@@ -610,6 +632,8 @@ $labels['asattachment'] = 'as attachment';
 $labels['replyallmode'] = 'Default action of [Reply all] button';
 $labels['replyalldefault'] = 'reply to all';
 $labels['replyalllist'] = 'reply to mailing list only (if found)';
+$labels['allmessages'] = 'all messages';
+$labels['olderxdays'] = 'older than $x days';
 
 $labels['folder'] = 'Folder';
 $labels['folders'] = 'Folders';
@@ -646,6 +670,10 @@ $labels['encryptioncreatekey'] = 'Create a new key pair';
 $labels['openmailvelopesettings'] = 'Open Mailvelope Settings';
 $labels['encryptionprivkeysinmailvelope'] = 'You have $nr matching private keys stored in your Mailvelope keyring:';
 $labels['encryptionnoprivkeysinmailvelope'] = 'This sender identity doesn\'t yet have a PGP private key stored in your Mailvelope extension. Would you like to create one in order to enable encrypted messaging?';
+$labels['encryption'] = 'Encryption';
+$labels['mailvelopeoptions'] = 'Mailvelope options';
+$labels['mailvelopemainkeyring'] = 'Use Mailvelope main keyring';
+$labels['mailvelopenotfound'] = 'Mailvelope extension is not enabled/installed in your browser.';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc'] = 'Sort ascending';
@@ -656,6 +684,7 @@ $labels['installedplugins'] = 'Installed plugins';
 $labels['plugin'] = 'Plugin';
 $labels['version'] = 'Version';
 $labels['source'] = 'Source';
+$labels['destination'] = 'Destination';
 $labels['license'] = 'License';
 $labels['support'] = 'Get support';
 $labels['savedsearches'] = 'Saved searches';
@@ -697,6 +726,7 @@ $labels['chinese'] = 'Chinese';
 $labels['arialabeltopnav'] = 'Window control';
 $labels['arialabeltasknav'] = 'Application tasks';
 $labels['arialabeltoolbar'] = 'Application toolbar';
+$labels['arialabellistnav'] = 'List navigation';
 $labels['arialabelactivetask'] = 'Active task';
 $labels['arialabelmessagessearchfilter'] = 'Email listing filter';
 $labels['arialabelmailsearchform'] = 'Email message search form';
@@ -735,7 +765,7 @@ $labels['arialabelcontactexportoptions'] = 'Contact export options';
 $labels['arialabelabookgroupoptions'] = 'Addressbook/group options';
 $labels['arialabelpreferencesform'] = 'Preferences form';
 $labels['arialabelidentityeditfrom'] = 'Identity edit form';
-$labels['arialabelresonseeditfrom'] = 'Response edit form';
+$labels['arialabelresponseeditfrom'] = 'Response edit form';
 $labels['arialabelsearchterms'] = 'Search terms';
 $labels['arialabeldropactionmenu'] = 'Drag-n-Drop action menu';
 $labels['arialabelheadersmenu'] = 'Recipient (header) adding menu';

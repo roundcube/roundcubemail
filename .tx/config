@@ -33,6 +33,11 @@ file_filter = plugins/attachment_reminder/localization/<lang>.inc
 source_file = plugins/attachment_reminder/localization/en_US.inc
 source_lang = en_US
 
+[roundcube-webmail.plugin-emoticons]
+file_filter = plugins/emoticons/localization/<lang>.inc
+source_file = plugins/emoticons/localization/en_US.inc
+source_lang = en_US
+
 [roundcube-webmail.plugin-enigma]
 file_filter = plugins/enigma/localization/<lang>.inc
 source_file = plugins/enigma/localization/en_US.inc

@@ -51,14 +51,14 @@ $config['markasjunk_permanently_remove'] = false;
 $config['markasjunk_spam_only'] = false;
 
 // Activate markasjunk for selected mail hosts only. If this is not set all mail hosts are allowed.
-// Example: $config['markasjunk_allowed_hosts'] = array('mail1.domain.tld', 'mail2.domain.tld');
+// Example: $config['markasjunk_allowed_hosts'] = ['mail1.domain.tld', 'mail2.domain.tld'];
 $config['markasjunk_allowed_hosts'] = null;
 
 // Load specific config for different mail hosts
-// Example: $config['markasjunk_host_config'] = array(
+// Example: $config['markasjunk_host_config'] = [
 //    'mail1.domain.tld' => 'mail1_config.inc.php',
 //    'mail2.domain.tld' => 'mail2_config.inc.php',
-// );
+// ];
 $config['markasjunk_host_config'] = null;
 
 // cmd_learn Driver options
@@ -151,17 +151,17 @@ $config['markasjunk_amacube_config'] = '../amacube/config.inc.php';
 // WARNING: Be sure to match the entire header line, including the name of the header, also use ^ and $ and the 'm' flag
 // see the README for an example
 // TEST CAREFULLY BEFORE USE ON REAL MESSAGES
-$config['markasjunk_spam_patterns'] = array(
-    'patterns'     => array(),
-    'replacements' => array()
-);
+$config['markasjunk_spam_patterns'] = [
+    'patterns'     => [],
+    'replacements' => []
+];
 
 // Patterns to match and replace headers for spam messages
 // Replacement method uses preg_replace - http://www.php.net/manual/function.preg-replace.php
 // WARNING: Be sure to match the entire header line, including the name of the header, also use ^ and $ and the 'm' flag
 // see the README for an example
 // TEST CAREFULLY BEFORE USE ON REAL MESSAGES
-$config['markasjunk_ham_patterns'] = array(
-    'patterns'     => array(),
-    'replacements' => array()
-);
+$config['markasjunk_ham_patterns'] = [
+    'patterns'     => [],
+    'replacements' => []
+];

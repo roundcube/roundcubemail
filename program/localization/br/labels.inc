@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Degemer mat war $product';
 $labels['username'] = 'Anv an arveriad';
 $labels['password'] = 'Ger-Tremen';
@@ -318,6 +318,7 @@ $labels['advsearch'] = 'Klask kempleshoc\'h';
 $labels['advanced'] = 'Araokaet';
 $labels['other'] = 'All';
 $labels['printcontact'] = 'Moullañ an darempred';
+$labels['qrcode'] = 'KR Kod';
 $labels['typehome'] = 'Degemer';
 $labels['typework'] = 'Labour';
 $labels['typeother'] = 'All';
@@ -456,7 +457,6 @@ $labels['advancedoptions'] = 'Dibarzhioù araokaet';
 $labels['toggleadvancedoptions'] = 'Trec\'haoliñ an dibarzhioù araoket';
 $labels['focusonnewmessage'] = 'Stiañ prenestr ar merdeer pa \'z eus ur gemennadenn nevez';
 $labels['checkallfolders'] = 'Gwiriañ an holl deuliadoù evit kemennadennoù nevez';
-$labels['displaynext'] = 'Diskouez ar gemennadenn war-lerc\'h goude ma vefe bet lamet kuit bet dilec\'hiet ur gemennadenn.';
 $labels['defaultfont'] = 'Nodrezh dre ziouer ar c\'hemennadennoù HTML';
 $labels['mainoptions'] = 'Dibarzhioù dre ziouer';
 $labels['browseroptions'] = 'Dibarzhioù ar merdeer';
@@ -496,6 +496,7 @@ $labels['asattachment'] = 'kenstaget';
 $labels['replyallmode'] = 'Gwered dre ziouer an afell [Respont d\'an holl]';
 $labels['replyalldefault'] = 'respont d\'an holl';
 $labels['replyalllist'] = 'respont d\'ar roll posteloù hepken (m\'eo kavet)';
+$labels['allmessages'] = 'An holl posteloù';
 $labels['folder'] = 'Teuliad';
 $labels['folders'] = 'Teuliadoù';
 $labels['foldername'] = 'Anv an teuliad';
@@ -521,6 +522,7 @@ $labels['namespace.personal'] = 'Personel';
 $labels['namespace.other'] = 'Arveriaded all';
 $labels['namespace.shared'] = 'Rannet';
 $labels['encryptioncreatekey'] = 'Krouiñ un daouad alc\'hwezioù nevez';
+$labels['encryption'] = 'Enrinegañ';
 $labels['sortby'] = 'Rummañ dre';
 $labels['sortasc'] = 'Rumm diagentad';
 $labels['sortdesc'] = 'Rumm diskennad';
@@ -591,7 +593,7 @@ $labels['arialabelcontactexportoptions'] = 'Dibarzhioù ezporzhiañ darempredoù
 $labels['arialabelabookgroupoptions'] = 'Dibarzhioù karned chomlec\'h/strolladoù';
 $labels['arialabelpreferencesform'] = 'Gwellvezioù a-berzh';
 $labels['arialabelidentityeditfrom'] = 'Furmskrid embann ar pivelezh';
-$labels['arialabelresonseeditfrom'] = 'Furmskrid embann ar respont';
+$labels['arialabelresponseeditfrom'] = 'Furmskrid embann ar respont';
 $labels['arialabelsearchterms'] = 'Termennoù enklask';
 $labels['helplistnavigation'] = 'Rollañ merdeiñ ar c\'hlavier';
 $labels['helplistkeyboardnavigation'] = "Biroù a-us/en-traoñ: Dilec'hiañ linenn stiet/diuzet
@@ -602,4 +604,3 @@ $labels['helplistkeyboardnavmessages'] = "Biroù kleiz/dehou: astenn/diskar neud
 Enankañ: Digeriñ ar gemennadenn stiet/diuzet.
 Dilemel: Dilec'hiañ ar c'hemennadennoù diuzet d'ar c'hest.";
 $labels['helplistkeyboardnavcontacts'] = "Enankañ: Digeriñ an darempred stiet/diuzet.";
-?>

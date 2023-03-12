@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '欢迎使用 $product';
 $labels['username'] = '用户名';
 $labels['password'] = '密码';
@@ -500,7 +500,6 @@ $labels['advancedoptions'] = '高级选项';
 $labels['toggleadvancedoptions'] = '切换高级选项';
 $labels['focusonnewmessage'] = '新邮件到达时将窗口提升为焦点窗口';
 $labels['checkallfolders'] = '检查所有邮件夹里的新邮件';
-$labels['displaynext'] = '当邮件删除/移动后显示下一封邮件';
 $labels['defaultfont'] = '默认的 HTML 格式字体';
 $labels['mainoptions'] = '主要选项';
 $labels['browseroptions'] = '浏览器选项';
@@ -542,6 +541,7 @@ $labels['asattachment'] = '作为附件';
 $labels['replyallmode'] = '[回复所有]按钮的默认动作';
 $labels['replyalldefault'] = '回复全部';
 $labels['replyalllist'] = '只回复邮件列表中的联系人(找到的)';
+$labels['allmessages'] = '所有邮件';
 $labels['folder'] = '文件夹管理';
 $labels['folders'] = '文件夹管理';
 $labels['foldername'] = '邮件夹名称';
@@ -576,6 +576,7 @@ $labels['encryptioncreatekey'] = '创建新密钥对';
 $labels['openmailvelopesettings'] = '打开 Mailvelope 设置';
 $labels['encryptionprivkeysinmailvelope'] = '你的 Mailvelope 钥匙环中有 $nr 项符合条件的 PGP 私钥：';
 $labels['encryptionnoprivkeysinmailvelope'] = '你的 Mailvelope 插件钥匙环中没有符合此发件人身份的 PGP 私钥。你想要生成一个以启用加密消息吗？';
+$labels['encryption'] = '加密';
 $labels['sortby'] = '排序';
 $labels['sortasc'] = '递增排序';
 $labels['sortdesc'] = '递减排序';
@@ -656,7 +657,7 @@ $labels['arialabelcontactexportoptions'] = '联系人导出选项';
 $labels['arialabelabookgroupoptions'] = '地址簿/组选项';
 $labels['arialabelpreferencesform'] = '偏好设置表单';
 $labels['arialabelidentityeditfrom'] = '标识编辑表单';
-$labels['arialabelresonseeditfrom'] = '回复编辑表单';
+$labels['arialabelresponseeditfrom'] = '回复编辑表单';
 $labels['arialabelsearchterms'] = '搜索关键词';
 $labels['arialabeldropactionmenu'] = '拖拽选项菜单';
 $labels['arialabelheadersmenu'] = '收件人 (信头) 添加菜单';
@@ -670,4 +671,3 @@ $labels['helplistkeyboardnavmessages'] = "方向键左/右：展开/折叠消息
 回车键：打开选中/焦点所在消息。
 删除键：移动选中消息到垃圾箱。";
 $labels['helplistkeyboardnavcontacts'] = "回车：打开选中的联系人";
-?>

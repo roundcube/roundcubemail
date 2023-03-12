@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Фильтры';
 $labels['managefilters'] = 'Управление фильтрами для входящей почты';
 $labels['filtername'] = 'Название фильтра';
@@ -57,7 +57,7 @@ $labels['messagecopyto'] = 'Скопировать сообщение в';
 $labels['messagesendcopy'] = 'Отправить копию сообщения на';
 $labels['messagereply'] = 'Ответить с сообщением';
 $labels['messagedelete'] = 'Удалить сообщение';
-$labels['messagediscard'] = 'Отбросить с сообщением';
+$labels['messagediscard'] = 'Не принимать и ответить:';
 $labels['messagekeep'] = 'Оставить сообщение во Входящих';
 $labels['messagesrules'] = 'Для входящей почты:';
 $labels['messagesactions'] = '...выполнить следующие действия:';
@@ -91,6 +91,7 @@ $labels['none'] = 'нет';
 $labels['fromset'] = 'из набора';
 $labels['fromfile'] = 'из файла';
 $labels['filterdisabled'] = 'Отключить фильтр';
+$labels['filterenabled'] = 'Фильтр включен';
 $labels['countisgreaterthan'] = 'количество больше, чем';
 $labels['countisgreaterthanequal'] = 'количество больше или равно';
 $labels['countislessthan'] = 'количество меньше, чем';
@@ -187,6 +188,14 @@ $labels['asciicasemap'] = 'Регистронезависимый (ascii-casemap
 $labels['asciinumeric'] = 'Числовой (ascii-numeric)';
 $labels['index'] = 'индекс:';
 $labels['indexlast'] = 'наоборот';
+$labels['spamtest'] = 'Уровень спама';
+$labels['spamtestisgreaterthan'] = 'больше, чем';
+$labels['spamtestisgreaterthanequal'] = 'больше или равно';
+$labels['spamtestislessthan'] = 'меньше чем';
+$labels['spamtestislessthanequal'] = 'меньше или равно';
+$labels['spamtestequals'] = 'соответствует';
+$labels['spamtestnotequals'] = 'не соответствует';
+$labels['spamtestisunknown'] = 'неизвестно';
 $labels['vacation'] = 'Вне офиса';
 $labels['vacation.reply'] = 'Ответное сообщение';
 $labels['vacation.advanced'] = 'Дополнительные настройки';
@@ -273,4 +282,4 @@ $messages['emptyvacationbody'] = 'Сообщение о причине отсу�
 $messages['duplicate.conflict.err'] = 'Не разрешено использовать заголовок и уникальный идентификатор вместе.';
 $messages['disabledaction'] = 'Действие не разрешено.';
 $messages['lastindexempty'] = 'Индекс необходим при подсчете с конца';
-?>
+$messages['noflagset'] = 'Нужно выбрать хотя бы один флаг.';

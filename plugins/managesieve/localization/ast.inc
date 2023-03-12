@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtros';
 $labels['managefilters'] = 'Alministrar filtros de corréu entrante';
 $labels['filtername'] = 'Nome del filtru';
@@ -54,7 +54,8 @@ $labels['notifymethodtel'] = 'Teléfonu';
 $labels['datetest'] = 'Data';
 $labels['advancedopts'] = 'Opciones avanzaes';
 $labels['body'] = 'Cuerpu';
+$labels['spamtestequals'] = 'ye igual a';
+$labels['spamtestnotequals'] = 'nun ye igual a';
 $labels['vacation.subject'] = 'Asuntu';
 $labels['vacation.body'] = 'Cuerpu';
 $labels['vacation.keep'] = 'Caltener';
-?>

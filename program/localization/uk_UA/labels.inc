@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Ласкаво просимо до $product';
 $labels['username'] = 'Ім\'я користувача';
 $labels['password'] = 'Пароль';
@@ -462,7 +462,6 @@ $labels['advancedoptions'] = 'Додаткові параметри';
 $labels['toggleadvancedoptions'] = 'Перемкнути додаткові параметри';
 $labels['focusonnewmessage'] = 'Фокусувати вікно браузера при новому листі';
 $labels['checkallfolders'] = 'Перевіряти нові листи у всіх теках';
-$labels['displaynext'] = 'Після видалення/переміщення листа відображати наступний';
 $labels['defaultfont'] = 'Типовий шрифт HTML повідомлення';
 $labels['mainoptions'] = 'Основні налаштування';
 $labels['browseroptions'] = 'Налаштування браузера';
@@ -502,6 +501,7 @@ $labels['asattachment'] = 'як вкладення';
 $labels['replyallmode'] = 'Типова дія для кнопки [Відповісти всім]';
 $labels['replyalldefault'] = 'відповісти усім';
 $labels['replyalllist'] = 'відповісти лише списку розсилки (якщо є)';
+$labels['allmessages'] = 'всі повідомлення';
 $labels['folder'] = 'Тека';
 $labels['folders'] = 'Теки';
 $labels['foldername'] = 'Назва теки';
@@ -527,6 +527,7 @@ $labels['namespace.personal'] = 'Особисті';
 $labels['namespace.other'] = 'Інші користувачі';
 $labels['namespace.shared'] = 'Поширені';
 $labels['encryptioncreatekey'] = 'Створити нову пару ключів';
+$labels['encryption'] = 'Шифрування';
 $labels['sortby'] = 'Відсортувати за';
 $labels['sortasc'] = 'Сортувати за зростанням';
 $labels['sortdesc'] = 'Сортувати за спаданням';
@@ -597,7 +598,7 @@ $labels['arialabelcontactexportoptions'] = 'Опції експорту конт
 $labels['arialabelabookgroupoptions'] = 'Опції адресної книги/групи';
 $labels['arialabelpreferencesform'] = 'Форма налаштувань';
 $labels['arialabelidentityeditfrom'] = 'Форма редагування профілю';
-$labels['arialabelresonseeditfrom'] = 'Форма редагування відповіді';
+$labels['arialabelresponseeditfrom'] = 'Форма редагування відповіді';
 $labels['arialabelsearchterms'] = 'Умови пошуку';
 $labels['helplistnavigation'] = 'Навігація клавіатурою по списку';
 $labels['helplistkeyboardnavigation'] = "Стрілки вгору/вниз: Перемістити підсвічення/обирання рядка.
@@ -608,4 +609,3 @@ $labels['helplistkeyboardnavmessages'] = "Стрілки вправо/вліво
 Enter: Відкрити обране/підсвічене повідомлення.
 Delete: Перемістити обрані повідомлення у Кошик.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Відкрити обраний/підсвічений контакт.";
-?>

@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Добредојдовте во $product';
 $labels['username'] = 'Корисничко име';
 $labels['password'] = 'Лозинка';
@@ -464,7 +464,6 @@ $labels['advancedoptions'] = 'Напредни можности';
 $labels['toggleadvancedoptions'] = 'Вклучи напредни опции ';
 $labels['focusonnewmessage'] = 'Фокусирај го прозорецот на прелистувачот на новото писмо';
 $labels['checkallfolders'] = 'Провери ги сите папки за нови писма';
-$labels['displaynext'] = 'По бришење/преместување на писмото прикажи го следното писмо';
 $labels['defaultfont'] = 'Стандарден фонд на  HTML пораки ';
 $labels['mainoptions'] = 'Главни можности';
 $labels['browseroptions'] = 'Опции на прелистувач';
@@ -505,6 +504,7 @@ $labels['asattachment'] = 'како додаток';
 $labels['replyallmode'] = 'Стандардна акција од [Одговори на сите] копче ';
 $labels['replyalldefault'] = 'одговори на сите ';
 $labels['replyalllist'] = 'Одговори само на мејлинг листа (ако е пронајдена)';
+$labels['allmessages'] = 'Сите пораки ';
 $labels['folder'] = 'Папка';
 $labels['folders'] = 'Папки';
 $labels['foldername'] = 'Име на папката';
@@ -599,7 +599,7 @@ $labels['arialabelcontactexportoptions'] = 'опции за изнес на ко
 $labels['arialabelabookgroupoptions'] = 'Опции за Адресар/група';
 $labels['arialabelpreferencesform'] = 'Форма на преференции';
 $labels['arialabelidentityeditfrom'] = 'Форма за едитирање идентитети ';
-$labels['arialabelresonseeditfrom'] = 'Форма за едитирање на одговори ';
+$labels['arialabelresponseeditfrom'] = 'Форма за едитирање на одговори ';
 $labels['arialabelsearchterms'] = 'Термини за пребарување';
 $labels['helplistnavigation'] = 'Листа со навигација на тастатура ';
 $labels['helplistkeyboardnavigation'] = "Стрелки горе/доле: Помести фокус на ред/селекција.
@@ -610,4 +610,3 @@ $labels['helplistkeyboardnavmessages'] = "Стрелки десно/лево: п
 Ентер: Отвори ја селектираната/фокусираната порака.
 Избриши: Премести ја селектираната порака во ѓубрето.";
 $labels['helplistkeyboardnavcontacts'] = "Ентер: Отвори го селектираниот/фокусираниот контакт.";
-?>

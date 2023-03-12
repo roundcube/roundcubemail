@@ -2,15 +2,13 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
@@ -93,6 +91,7 @@ $labels['none'] = 'none';
 $labels['fromset'] = 'from set';
 $labels['fromfile'] = 'from file';
 $labels['filterdisabled'] = 'Filter disabled';
+$labels['filterenabled'] = 'Filter enabled';
 $labels['countisgreaterthan'] = 'count is greater than';
 $labels['countisgreaterthanequal'] = 'count is greater than or equal to';
 $labels['countislessthan'] = 'count is less than';
@@ -189,6 +188,14 @@ $labels['asciicasemap'] = 'case insensitive (ascii-casemap)';
 $labels['asciinumeric'] = 'numeric (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'backwards';
+$labels['spamtest'] = 'Spam level';
+$labels['spamtestisgreaterthan'] = 'is greater than';
+$labels['spamtestisgreaterthanequal'] = 'is greater than or equal to';
+$labels['spamtestislessthan'] = 'is less than';
+$labels['spamtestislessthanequal'] = 'is less than or equal to';
+$labels['spamtestequals'] = 'is equal to';
+$labels['spamtestnotequals'] = 'is not equal to';
+$labels['spamtestisunknown'] = 'is unknown';
 $labels['vacation'] = 'Out of Office';
 $labels['vacation.reply'] = 'Reply message';
 $labels['vacation.advanced'] = 'Advanced settings';
@@ -235,7 +242,7 @@ $labels['duplicate.uniqueid'] = 'identifier:';
 $labels['duplicate.seconds'] = 'timeout (seconds):';
 $labels['duplicate.last'] = 'relative to the last execution';
 
-$messages = array();
+$messages = [];
 $messages['filterunknownerror'] = 'Unknown server error.';
 $messages['filterconnerror'] = 'Unable to connect to server.';
 $messages['filterdeleteerror'] = 'Unable to delete filter. Server error occurred.';
@@ -277,5 +284,4 @@ $messages['emptyvacationbody'] = 'Body of vacation message is required!';
 $messages['duplicate.conflict.err'] = 'Both header and unique identifier are not allowed.';
 $messages['disabledaction'] = 'Action not permitted.';
 $messages['lastindexempty'] = 'Index is required when counting from end';
-
-?>
+$messages['noflagset'] = 'At least one flag must be selected.';

@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -24,14 +25,17 @@
  */
 class rcube_config
 {
-    const DEFAULT_SKIN = 'larry';
+    const DEFAULT_SKIN = 'elastic';
+
+    /** @var string A skin configured in the config file (before being replaced by a user preference) */
+    public $system_skin = 'elastic';
 
     private $env       = '';
-    private $paths     = array();
-    private $prop      = array();
-    private $errors    = array();
-    private $userprefs = array();
-    private $immutable = array();
+    private $paths     = [];
+    private $prop      = [];
+    private $errors    = [];
+    private $userprefs = [];
+    private $immutable = [];
     private $client_tz;
 
 
@@ -40,7 +44,7 @@ class rcube_config
      *
      * @var array
      */
-    private $legacy_props = array(
+    private $legacy_props = [
         // new name => old name
         'mail_pagesize'        => 'pagesize',
         'addressbook_pagesize' => 'pagesize',
@@ -49,8 +53,11 @@ class rcube_config
         'min_refresh_interval' => 'min_keep_alive',
         'messages_cache_ttl'   => 'message_cache_lifetime',
         'mail_read_time'       => 'preview_pane_mark_read',
+        'session_debug'        => 'log_session',
         'redundant_attachments_cache_ttl' => 'redundant_attachments_memcache_ttl',
-    );
+        'imap_host'            => 'default_host',
+        'smtp_host'            => 'smtp_server',
+    ];
 
     /**
      * Object constructor
@@ -92,81 +99,71 @@ class rcube_config
         // Defaults, that we do not require you to configure,
         // but contain information that is used in various locations in the code:
         if (empty($this->prop['contactlist_fields'])) {
-            $this->set('contactlist_fields', array('name', 'firstname', 'surname', 'email'));
+            $this->set('contactlist_fields', ['name', 'firstname', 'surname', 'email']);
         }
     }
 
     /**
-     * @brief Guess the type the string may fit into.
+     * Looks inside the string to determine what type might be best as a container.
      *
-     * Look inside the string to determine what type might be best as a container.
+     * @param string $value The value to inspect
      *
-     * @param mixed $value The value to inspect
-     *
-     * @return The guess at the type.
+     * @return string The guessed type.
      */
     private function guess_type($value)
     {
-        $type = 'string';
-
-        // array requires hint to be passed.
+        if (preg_match('/^\d+$/', $value)) {
+            return 'int';
+        }
 
         if (preg_match('/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/', $value)) {
-            $type = 'double';
-        }
-        else if (preg_match('/^\d+$/', $value)) {
-            $type = 'integer';
-        }
-        else if (preg_match('/^(t(rue)?)|(f(alse)?)$/i', $value)) {
-            $type = 'boolean';
+            return 'float';
         }
 
-        return $type;
+        if (preg_match('/^(t(rue)?)|(f(alse)?)$/i', $value)) {
+            return 'bool';
+        }
+
+        // TODO: array/object
+
+        return 'string';
     }
 
     /**
-     * @brief Parse environment variable into PHP type.
-     *
-     * Perform an appropriate parsing of the string to create the desired PHP type.
+     * Parse environment variable into PHP type.
      *
      * @param string $string String to parse into PHP type
      * @param string $type   Type of value to return
      *
-     * @return Appropriately typed interpretation of $string.
+     * @return mixed Appropriately typed interpretation of $string.
      */
-    private function parse_env($string, $type)
+    private function parse_env($string, $type = null)
     {
-        $_ = $string;
-
         switch ($type) {
-        case 'boolean':
-            $_ = (boolean) $_;
-            break;
-        case 'integer':
-            $_ = (integer) $_;
-            break;
-        case 'double':
-            $_ = (double) $_;
-            break;
+        case 'bool':
+            return (bool) $string;
+
+        case 'int':
+            return (int) $string;
+
+        case 'float':
+            return (float) $string;
+
         case 'string':
-            break;
+            return $string;
+
         case 'array':
-            $_ = json_decode($_, true);
-            break;
+            return json_decode($string, true);
+
         case 'object':
-            $_ = json_decode($_, false);
-            break;
-        case 'resource':
-        case 'NULL':
-        default:
-            $_ = $this->parse_env($_, $this->guess_type($_));
+            return json_decode($string, false);
         }
 
-        return $_;
+        return $this->parse_env($string, $this->guess_type($string));
     }
 
     /**
-     * @brief Get environment variable value.
+     * Get environment variable value.
      *
      * Retrieve an environment variable's value or if it's not found, return the
      * provided default value.
@@ -175,7 +172,7 @@ class rcube_config
      * @param mixed  $default_value Default value to return if necessary
      * @param string $type          Type of value to return
      *
-     * @return Value of the environment variable or default if not found.
+     * @return mixed Value of the environment variable or default if not found.
      */
     private function getenv_default($varname, $default_value, $type = null)
     {
@@ -225,14 +222,15 @@ class rcube_config
             }
         }
 
-        // larry is the new default skin :-)
         if ($this->prop['skin'] == 'default') {
             $this->prop['skin'] = self::DEFAULT_SKIN;
         }
 
+        $this->system_skin = $this->prop['skin'];
+
         // fix paths
-        foreach (array('log_dir' => 'logs', 'temp_dir' => 'temp') as $key => $dir) {
-            foreach (array($this->prop[$key], '../' . $this->prop[$key], RCUBE_INSTALL_PATH . $dir) as $path) {
+        foreach (['log_dir' => 'logs', 'temp_dir' => 'temp'] as $key => $dir) {
+            foreach ([$this->prop[$key], '../' . $this->prop[$key], RCUBE_INSTALL_PATH . $dir] as $path) {
                 if ($path && ($realpath = realpath(unslashify($path)))) {
                     $this->prop[$key] = $realpath;
                     break;
@@ -241,7 +239,7 @@ class rcube_config
         }
 
         // fix default imap folders encoding
-        foreach (array('drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox') as $folder) {
+        foreach (['drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox'] as $folder) {
             $this->prop[$folder] = rcube_charset::convert($this->prop[$folder], RCUBE_CHARSET, 'UTF7-IMAP');
         }
 
@@ -249,12 +247,15 @@ class rcube_config
         $error_log = $this->prop['log_driver'] ?: 'file';
         if ($error_log == 'file') {
             $error_log  = $this->prop['log_dir'] . '/errors';
-            $error_log .= isset($this->prop['log_file_ext']) ? $this->prop['log_file_ext'] : '.log';
+            $error_log .= $this->prop['log_file_ext'] ?? '.log';
         }
 
         if ($error_log && $error_log != 'stdout') {
             ini_set('error_log', $error_log);
         }
+
+        // set default screen layouts
+        $this->prop['supported_layouts'] = ['widescreen', 'desktop', 'list'];
 
         // remove deprecated properties
         unset($this->prop['dst_active']);
@@ -270,16 +271,18 @@ class rcube_config
             return;
         }
 
-        foreach (array('HTTP_HOST', 'SERVER_NAME', 'SERVER_ADDR') as $key) {
-            $fname = null;
-            $name  = $_SERVER[$key];
-
-            if (!$name) {
+        foreach (['HTTP_HOST', 'SERVER_NAME', 'SERVER_ADDR'] as $key) {
+            if (empty($_SERVER[$key])) {
                 continue;
             }
 
-            if (is_array($this->prop['include_host_config'])) {
-                $fname = $this->prop['include_host_config'][$name];
+            $fname = null;
+            $name  = $_SERVER[$key];
+
+            if (!empty($this->prop['include_host_config']) && is_array($this->prop['include_host_config'])) {
+                if (isset($this->prop['include_host_config'][$name])) {
+                    $fname = $this->prop['include_host_config'][$name];
+                }
             }
             else {
                 $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $name) . '.inc.php';
@@ -297,7 +300,7 @@ class rcube_config
      *
      * @param string $file Name of the config file to be loaded
      *
-     * @return booelan True on success, false on failure
+     * @return bool True on success, false on failure
      */
     public function load_from_file($file)
     {
@@ -310,12 +313,12 @@ class rcube_config
                 include($fpath);
                 ob_end_clean();
 
-                if (is_array($config)) {
+                if (isset($config) && is_array($config)) {
                     $this->merge($config);
                     $success = true;
                 }
                 // deprecated name of config variable
-                if (is_array($rcmail_config)) {
+                if (isset($rcmail_config) && is_array($rcmail_config)) {
                     $this->merge($rcmail_config);
                     $success = true;
                 }
@@ -329,22 +332,24 @@ class rcube_config
      * Helper method to resolve absolute paths to the given config file.
      * This also takes the 'env' property into account.
      *
-     * @param string  $file    Filename or absolute file path
-     * @param boolean $use_env Return -$env file path if exists
+     * @param string $file    Filename or absolute file path
+     * @param bool   $use_env Return -$env file path if exists
      *
      * @return array List of candidates in config dir path(s)
      */
     public function resolve_paths($file, $use_env = true)
     {
-        $files    = array();
+        $files    = [];
         $abs_path = rcube_utils::is_absolute_path($file);
 
         foreach ($this->paths as $basepath) {
             $realpath = $abs_path ? $file : realpath($basepath . '/' . $file);
 
-            // check if <file>-env.ini exists
-            if ($realpath && $use_env && !empty($this->env)) {
-                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $realpath);
+            // check if <file>-<env>.inc.php exists
+            if ($use_env && !empty($this->env)) {
+                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $file);
+                $envfile = $abs_path ? $envfile : realpath($basepath . '/' . $envfile);
+
                 if (is_file($envfile)) {
                     $realpath = $envfile;
                 }
@@ -366,10 +371,10 @@ class rcube_config
     /**
      * Getter for a specific config parameter
      *
-     * @param  string $name Parameter name
-     * @param  mixed  $def  Default value if not set
+     * @param string $name Parameter name
+     * @param mixed  $def  Default value if not set
      *
-     * @return mixed  The requested config value
+     * @return mixed The requested config value
      */
     public function get($name, $def = null)
     {
@@ -390,7 +395,7 @@ class rcube_config
         }
         else if ($name == 'client_mimetypes') {
             if (!$result && !$def) {
-                $result = 'text/plain,text/html,text/xml'
+                $result = 'text/plain,text/html'
                     . ',image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp'
                     . ',application/x-javascript,application/pdf,application/x-shockwave-flash';
             }
@@ -398,9 +403,29 @@ class rcube_config
                 $result = explode(',', $result);
             }
         }
+        else if ($name == 'layout') {
+            if (!in_array($result, $this->prop['supported_layouts'])) {
+                $result = $this->prop['supported_layouts'][0];
+            }
+        }
+        else if ($name == 'collected_senders') {
+            if (is_bool($result)) {
+                $result = $result ? rcube_addressbook::TYPE_TRUSTED_SENDER : '';
+            }
+            $result = (string) $result;
+        }
+        else if ($name == 'collected_recipients') {
+            if (is_bool($result)) {
+                $result = $result ? rcube_addressbook::TYPE_RECIPIENT : '';
+            }
+            $result = (string) $result;
+        }
 
-        $plugin = $rcube->plugins->exec_hook('config_get', array(
-            'name' => $name, 'default' => $def, 'result' => $result));
+        $plugin = $rcube->plugins->exec_hook('config_get', [
+                'name'    => $name,
+                'default' => $def,
+                'result'  => $result
+        ]);
 
         return $plugin['result'];
     }
@@ -422,7 +447,7 @@ class rcube_config
     }
 
     /**
-     * Override config options with the given values (eg. user prefs)
+     * Override config options with the given values (e.g. user prefs)
      *
      * @param array $prefs Hash array with config props to merge over
      */
@@ -450,9 +475,14 @@ class rcube_config
             }
         }
 
-        // larry is the new default skin :-)
-        if ($prefs['skin'] == 'default') {
-            $prefs['skin'] = self::DEFAULT_SKIN;
+        if (isset($prefs['skin']) && $prefs['skin'] == 'default') {
+            $prefs['skin'] = $this->system_skin;
+        }
+
+        $skins_allowed = $this->get('skins_allowed');
+
+        if (!empty($prefs['skin']) && !empty($skins_allowed) && !in_array($prefs['skin'], (array) $skins_allowed)) {
+            unset($prefs['skin']);
         }
 
         $this->userprefs = $prefs;
@@ -460,7 +490,12 @@ class rcube_config
     }
 
     /**
-     * Getter for all config options
+     * Getter for all config options.
+     *
+     * Unlike get() this method does not resolve any special
+     * values like e.g. 'timezone'.
+     *
+     * It is discouraged to use this method outside of Roundcube core.
      *
      * @return array Hash array containing all config properties
      */
@@ -473,8 +508,7 @@ class rcube_config
         }
 
         $rcube  = rcube::get_instance();
-        $plugin = $rcube->plugins->exec_hook('config_get', array(
-            'name' => '*', 'result' => $props));
+        $plugin = $rcube->plugins->exec_hook('config_get', ['name' => '*', 'result' => $props]);
 
         return $plugin['result'];
     }
@@ -522,11 +556,10 @@ class rcube_config
     {
         // Bomb out if the requested key does not exist
         if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
-            rcube::raise_error(array(
-                'code' => 500, 'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Request for unconfigured crypto key \"$key\""
-            ), true, true);
+            rcube::raise_error([
+                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Request for unconfigured crypto key \"$key\""
+                ], true, true);
         }
 
         return $this->prop[$key];
@@ -557,44 +590,67 @@ class rcube_config
                 return $delim;
             }
             else {
-                rcube::raise_error(array(
-                    'code' => 500, 'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Invalid mail_header_delimiter setting"
-                ), true, false);
+                rcube::raise_error([
+                        'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Invalid mail_header_delimiter setting"
+                    ], true, false);
             }
         }
 
         $php_os = strtolower(substr(PHP_OS, 0, 3));
 
-        if ($php_os == 'win')
+        if ($php_os == 'win') {
             return "\r\n";
+        }
 
-        if ($php_os == 'mac')
+        if ($php_os == 'mac') {
             return "\r\n";
+        }
 
         return "\n";
     }
 
     /**
+     * Returns list of configured PGP key servers
+     *
+     * @return array|null List of keyservers' URLs
+     */
+    public function keyservers()
+    {
+        $list = (array) $this->prop['keyservers'];
+
+        foreach ($list as $idx => $host) {
+            if (!preg_match('|^[a-z]+://|', $host)) {
+                $host = "https://$host";
+            }
+
+            $list[$idx] = slashify($host);
+        }
+
+        return !empty($list) ? $list : null;
+    }
+
+    /**
      * Return the mail domain configured for the given host
      *
-     * @param string  $host   IMAP host
-     * @param boolean $encode If true, domain name will be converted to IDN ASCII
+     * @param string $host   IMAP host
+     * @param bool   $encode If true, domain name will be converted to IDN ASCII
      *
      * @return string Resolved SMTP host
      */
-    public function mail_domain($host, $encode=true)
+    public function mail_domain($host, $encode = true)
     {
         $domain = $host;
 
-        if (is_array($this->prop['mail_domain'])) {
-            if (isset($this->prop['mail_domain'][$host])) {
-                $domain = $this->prop['mail_domain'][$host];
+        if (!empty($this->prop['mail_domain'])) {
+            if (is_array($this->prop['mail_domain'])) {
+                if (isset($this->prop['mail_domain'][$host])) {
+                    $domain = $this->prop['mail_domain'][$host];
+                }
             }
-        }
-        else if (!empty($this->prop['mail_domain'])) {
-            $domain = rcube_utils::parse_host($this->prop['mail_domain']);
+            else {
+                $domain = rcube_utils::parse_host($this->prop['mail_domain']);
+            }
         }
 
         if ($encode) {
@@ -611,7 +667,7 @@ class rcube_config
      */
     public function get_error()
     {
-        return empty($this->errors) ? false : join("\n", $this->errors);
+        return empty($this->errors) ? false : implode("\n", $this->errors);
     }
 
     /**
@@ -624,7 +680,9 @@ class rcube_config
         }
 
         // @TODO: remove this legacy timezone handling in the future
-        $props = $this->fix_legacy_props(array('timezone' => $_SESSION['timezone']));
+        if (isset($_SESSION['timezone'])) {
+            $props = $this->fix_legacy_props(['timezone' => $_SESSION['timezone']]);
+        }
 
         if (!empty($props['timezone'])) {
             // Prevent from using deprecated timezone names
@@ -690,7 +748,7 @@ class rcube_config
      *
      * @param float $offset Timezone offset (in hours)
      *
-     * @return string Timezone abbreviation
+     * @return string|null Timezone abbreviation
      */
     static public function timezone_name_from_abbr($offset)
     {
@@ -700,7 +758,7 @@ class rcube_config
         }
 
         // try with more complete list (#1489261)
-        $timezones = array(
+        $timezones = [
             '-660' => "Pacific/Apia",
             '-600' => "Pacific/Honolulu",
             '-570' => "Pacific/Marquesas",
@@ -739,9 +797,11 @@ class rcube_config
              '765' => "Pacific/Chatham",
              '780' => "Pacific/Enderbury",
              '840' => "Pacific/Kiritimati",
-        );
+        ];
 
-        return $timezones[(string) intval($offset * 60)];
+        $key = (string) intval($offset * 60);
+
+        return !empty($timezones[$key]) ? $timezones[$key] : null;
     }
 
     /**
@@ -755,7 +815,7 @@ class rcube_config
     {
         // http://www.php.net/manual/en/timezones.others.php
         // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-        $deprecated_timezones = array(
+        $deprecated_timezones = [
             'Australia/ACT'         => 'Australia/Sydney',
             'Australia/LHI'         => 'Australia/Lord_Howe',
             'Australia/North'       => 'Australia/Darwin',
@@ -877,8 +937,8 @@ class rcube_config
             'Etc/Universal'     => 'UTC',
             'Etc/UTC'           => 'UTC',
             'Etc/Zulu'          => 'UTC',
-        );
+        ];
 
-        return $deprecated_timezones[$tzname] ?: $tzname;
+        return $deprecated_timezones[$tzname] ?? $tzname;
     }
 }

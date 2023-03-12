@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'დაფიქსირდა შეცდომა!';
 $messages['loginfailed']  = 'შესვლა შეუძლებელია';
 $messages['cookiesdisabled'] = 'თქვენი ბროუზერი კუკიებს არ პასუხობს';
@@ -91,8 +90,6 @@ $messages['nospellerrors'] = 'ორთოგრაფიული შეცდ�
 $messages['folderdeleted'] = 'საქაღალდე წარმატებით წაიშალა';
 $messages['foldersubscribed'] = 'საქაღალდე წარმატებით გამოწერილია.';
 $messages['folderunsubscribed'] = 'საქაღალდის გამოწერა წარმატებით გაუქმებულია.';
-$messages['folderpurged'] = 'საქაღალდის წარმატებით გაცარიელებულია.';
-$messages['folderexpunged'] = 'საქაღალდის წარმატებით შეკუმშულია.';
 $messages['deletedsuccessfully'] = 'წარმატებით წაიშალა';
 $messages['converting'] = 'შეტყობინების ფორმატირების გაუქმება...';
 $messages['messageopenerror'] = 'შეტყობინება ვერ ჩაიტვირთა სერვერიდან';

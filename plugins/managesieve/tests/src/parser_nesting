@@ -3,7 +3,7 @@
 
 # Nested rules aren't supported and will be ignored (#5540)
 
-require ["vacation", "regex"];
+require ["fileinto", "vacation", "regex"];
 
 # Abwesenheit
 if allof ( not exists ["list-help", "list-unsubscribe", "list-subscribe", "list-owner", "list-post", "list-archive", "list-id", "Mailing-List"],
@@ -16,6 +16,20 @@ if allof ( not exists ["list-help", "list-unsubscribe", "list-subscribe", "list-
 }
 }
 }
+}
+
+if address :contains ["From"] "domain.net" {
+    if address :contains ["From"] "foo" {
+        fileinto "Domain.Foo";
+    } elsif header :contains "Subject" "bar" {
+        fileinto "Domain.Bar";
+    } else {
+        fileinto "Domain";
+    }
+}
+
+if header :contains "Subject" ["TAG"] {
+    fileinto "Tagged";
 }
 
 # Ausgeschlossene Adressen

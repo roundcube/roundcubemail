@@ -1,0 +1,23 @@
+{
+    "name": "reconnect",
+    "type": "roundcube-plugin",
+    "description": "Reconnects to server for several attempts.",
+    "license": "GPL-3.0-or-later",
+    "version": "0.1",
+    "authors": [
+        {
+            "name": "Sandro Knauß",
+            "email": "hefee@debian.org"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://plugins.roundcube.net"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0",
+        "roundcube/plugin-installer": ">=0.1.3"
+    }
+}

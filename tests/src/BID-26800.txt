@@ -20,7 +20,7 @@
 <div style=" background:u/* */rl( alert(&#039;xssurl3&#039;) ) ">
 
 <h1>4 test</h1>
-<p>Using reverse solid to directe the codepoint</p>
+<p>Using reverse solid to direct the codepoint</p>
 <div style="{ left:\0065\0078pression( alert(&#039;xss4&#039;) ) }">
 <div style="{ background:\0075rl( alert(&#039;xssurl4&#039;) ) }">
 

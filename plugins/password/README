@@ -30,8 +30,6 @@
  2.1.4.  LDAP (ldap)
  2.1.5.  DirectAdmin Control Panel (directadmin)
  2.1.6.  cPanel
- 2.1.6.1.  cPanel WHM (cpanel)
- 2.1.6.2.  cPanel Webmail (cpanel_webmail)
  2.1.7.  XIMSS/Communigate (ximms)
  2.1.8.  Virtualmin (virtualmin)
  2.1.9.  hMailServer (hmail)
@@ -49,8 +47,15 @@
  2.1.21. Kpasswd
  2.1.22. Modoboa
  2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
+ 2.1.24. TinyCP
+ 2.1.25. Mail-in-a-Box (miab)
+ 2.1.26. HTTP-API (httpapi)
+ 2.1.27. dovecot_passwdfile
+ 2.1.28. Mailcow
+ 2.1.29. LDAP Samba Active Directory (ldap_samba_ad)
  2.2.    Password Strength Drivers
  2.2.1.  Zxcvbn
+ 2.2.2.  Have I been pwned? (pwned)
  3.      Driver API
  4.      Sudo setup
 
@@ -96,7 +101,7 @@
     END;
     $$ LANGUAGE plpgsql SECURITY DEFINER;
 
- - This is for use with a SELECT update_passwd(%o,%c,%u) query
+ - This is for use with a SELECT update_passwd(%o,%P,%u) query
    Updates the password only when the old password matches the MD5 password
    in the database
 
@@ -118,7 +123,7 @@
     UPDATE users SET password=%p WHERE username=%u AND password=%o AND domain=%h LIMIT 1
 
  - Crypt text passwords:
-    UPDATE users SET password=%c WHERE username=%u LIMIT 1
+    UPDATE users SET password=%P WHERE username=%u LIMIT 1
 
  - Use a MYSQL crypt function (*nix only) with random 8 character salt
     UPDATE users SET password=ENCRYPT(%p,concat(_utf8'$1$',right(md5(rand()),8),_utf8'$')) WHERE username=%u LIMIT 1
@@ -160,7 +165,7 @@
  that your browser runs as, then chmod them to 4550.
 
  For example, if your cyrus user is 'cyrus' and the apache server group is
- 'nobody' (I've been told Redhat runs Apache as user 'apache'):
+ 'nobody' (I've been told Red Hat runs Apache as user 'apache'):
 
     chown cyrus:nobody chgsaslpasswd
     chmod 4550 chgsaslpasswd
@@ -195,7 +200,7 @@
  ----------------------------------------------
 
  You can specify which host to connect to via 'password_directadmin_host' (don't
- forget to use tcp:// or ssl://) and what port via 'password_direactadmin_port'.
+ forget to use tcp:// or ssl://) and what port via 'password_directadmin_port'.
  The password enforcement with plenty customization can be done directly by
  DirectAdmin, please see http://www.directadmin.com/features.php?id=910
  See config.inc.php.dist file for more info.
@@ -204,29 +209,7 @@
  2.1.6. cPanel
  -------------
 
- cPanel offers various APIs. The `cpanel` driver is configured with and admin
- account. It can change user's passwords without access to the current password.
- See the next section.
-
- The `cpanel_webmail` driver authenticates as the current user and does not need
- an admin account. See 2.6.2.
-
-
- 2.1.6.1. cPanel WHM (cpanel)
- ----------------------------
-
- Install cPanel XMLAPI Client Class into Roundcube program/lib directory
- or any other place in PHP include path. You can get the class from
- https://raw.github.com/CpanelInc/xmlapi-php/master/xmlapi.php
-
- You can configure parameters for connection to cPanel's API interface.
- See config.inc.php.dist file for more info.
-
-
- 2.1.6.2. cPanel Webmail (cpanel_webmail)
- ----------------------------------------
-
- Specify the host to connect to via 'password_webmail_cpanel_host'. This driver
+ Specify the host to connect to via 'password_cpanel_host'. This driver
  comes with a minimal UAPI implementation and does not use the external xmlapi
  class. It requires php-curl extension.
 
@@ -380,12 +363,69 @@
 
  2.1.23. LDAP - Password Modify Extended Operation (ldap_exop)
  -------------------------------------------------------------
- 
+
  Modified version of ldap_simple.
  Password is changed using ldap_exop_passwd operation.
  PHP >= 7.2 required.
- 
- 
+
+
+ 2.1.24 TinyCP
+ -------------
+
+ Download the TinyCPConnector.php file from your TinyCP Settings page and
+ save it into the password/drivers folder. Update/resolve file permissions for
+ www-data/apache.
+ Set the password_tinycp_host, password_tinycp_port, password_tinycp_user, and
+ password_tinycp_pass in plugin's config.inc.php file.
+
+
+ 2.1.25 Mail-in-a-Box (miab)
+ ---------------------------
+ Driver to change the password on Mail-in-a-Box servers.
+ See config.inc.php.dist file for configuration description.
+
+
+ 2.1.26. HTTP-API (httpapi)
+ --------------------------
+
+ Driver to change the user's password via any HTTP/HTTPS POST/GET API in a
+ generic manner. It passes any of the username, curpass and newpass variables
+ to the configured POST or GET parameters at the configured URL.
+
+ Any 4xx error code (except 404) is assumed to mean the password change failed.
+ 404 or any other non-2xx error code, or failure to connect, is assumed to be a
+ connection error and is reported as such.
+
+ A 2xx response is generally assumed to mean the password changed succeeded.
+ Optionally, you can configure a regular expression to check the response as
+ well to verify this.
+
+
+ 2.1.27. dovecot_passwdfile
+ --------------------------
+
+ Driver that adds functionality to change the passwords in dovecot 2 passwd-file files
+ regarding https://doc.dovecot.org/configuration_manual/authentication/passwd_file.
+
+ Set 'password_dovecot_passwdfile_path' to your dovecot passwd-file location and
+ 'password_algorithm' (and related options) to the algorithm you want the passwords
+ stored in the file to be using.
+
+
+ 2.1.28 Mailcow
+ ---------------------------
+
+ Driver to change the password on Mailcow servers.
+ See config.inc.php.dist file for configuration description.
+
+
+ 2.1.29. LDAP Samba Active Directory (ldap_samba_ad)
+ ---------------------------------------------------
+
+ Password change via LDAP unicodePwd attribute supported by Active Directory.
+ Uses configuration for other LDAP drivers.
+
+
  2.2. Password Strength Drivers
  ------------------------------
 
@@ -402,6 +442,21 @@
 
  Set $config['password_zxcvbn_min_score'] to define minimum acceptable password strength score.
 
+ 2.2.2. Have I been pwned? (pwned)
+ ---------------------------------
+
+ Driver using "Have I been pwned?" (https://haveibeenpwned.com/Passwords) API to
+ check that entered passwords aren't already compromised (i.e., commonly known).
+ The check is performed locally, the actual password is *not* transmitted anywhere else.
+
+ Requires curl (preferred) or allow_url_fopen to work.
+
+ Example configuration:
+
+ $config['password_strength_driver'] = 'pwned';
+ $config['password_minimum_score'] = 3;
+
+ See the driver implementation file for more documentation.
 
  3. Driver API
  -------------

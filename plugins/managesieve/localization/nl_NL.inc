@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filters';
 $labels['managefilters'] = 'Beheer filters voor inkomende e-mail';
 $labels['filtername'] = 'Filternaam';
@@ -77,12 +77,12 @@ $labels['rulestop'] = 'Stop met regels uitvoeren';
 $labels['enable'] = 'In-/uitschakelen';
 $labels['filterset'] = 'Filterset';
 $labels['filtersets'] = 'Filtersets';
-$labels['filtersetadd'] = 'Nieuwe filterset';
-$labels['filtersetdel'] = 'Filter-set verwijderen';
+$labels['filtersetadd'] = 'Filterset toevoegen';
+$labels['filtersetdel'] = 'Filterset verwijderen';
 $labels['filtersetact'] = 'Huidige filterset activeren';
 $labels['filtersetdeact'] = 'Huidige filterset uitschakelen';
-$labels['filterseteditraw'] = 'Filter-set bewerken';
-$labels['filtersetswitch'] = 'Filter-set in/uitschakelen';
+$labels['filterseteditraw'] = 'Filterset bewerken';
+$labels['filtersetswitch'] = 'Filterset in/uitschakelen';
 $labels['filterdef'] = 'Filterdefinitie';
 $labels['filtersetname'] = 'Filtersetnaam';
 $labels['newfilterset'] = 'Nieuwe filterset';
@@ -91,6 +91,7 @@ $labels['none'] = 'geen';
 $labels['fromset'] = 'van set';
 $labels['fromfile'] = 'van bestand';
 $labels['filterdisabled'] = 'Filter uitgeschakeld';
+$labels['filterenabled'] = 'Filter ingeschakeld';
 $labels['countisgreaterthan'] = 'aantal is groter dan';
 $labels['countisgreaterthanequal'] = 'aantal is groter dan of gelijk aan';
 $labels['countislessthan'] = 'aantal is kleiner dan';
@@ -187,6 +188,8 @@ $labels['asciicasemap'] = 'hoofdletterongevoelig (ascii-casemap)';
 $labels['asciinumeric'] = 'numeriek (ascii-numeriek)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'terugwaarts';
+$labels['spamtestequals'] = 'is gelijk aan';
+$labels['spamtestnotequals'] = 'is niet gelijk aan';
 $labels['vacation'] = 'Afwezigheidsbericht';
 $labels['vacation.reply'] = 'Antwoordbericht';
 $labels['vacation.advanced'] = 'Geavanceerde instellingen';
@@ -251,7 +254,7 @@ $messages['setdeleteerror'] = 'Filterset kon niet verwijderd worden. Er trad een
 $messages['setactivated'] = 'Filterset succesvol geactiveerd.';
 $messages['setdeactivated'] = 'Filterset succesvol gedeactiveerd.';
 $messages['setdeleted'] = 'Filterset succesvol verwijderd.';
-$messages['setupdated'] = 'Filter-set succesvol bijgewerkt.';
+$messages['setupdated'] = 'Filterset succesvol bijgewerkt.';
 $messages['setdeleteconfirm'] = 'Weet u zeker dat u de geselecteerde filterset wilt verwijderen?';
 $messages['setcreateerror'] = 'Filterset kon niet aangemaakt worden. Er trad een serverfout op.';
 $messages['setcreated'] = 'Filterset succesvol aangemaakt.';
@@ -273,4 +276,4 @@ $messages['emptyvacationbody'] = 'Inhoud van vakantiebericht is verplicht!';
 $messages['duplicate.conflict.err'] = 'Zowel header en unieke identificatie opgeven is niet toegestaan.';
 $messages['disabledaction'] = 'Actie is niet toegestaan.';
 $messages['lastindexempty'] = 'Gelieve een index op te geven.';
-?>
+$messages['noflagset'] = 'Er moet ten minste één optie worden geselecteerd.';

@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = 'Paylaşma';
 $labels['myrights'] = 'Giriş hüququ';
 $labels['username'] = 'İstifadəçi:';
@@ -96,4 +95,3 @@ $messages['createerror'] = 'Giriş hüququnu əlavə etmək mümkün deyil';
 $messages['deleteconfirm'] = 'Seçilmiş istifadəçilərin giriş hüququnu silməkdə əminsiniz?';
 $messages['norights'] = 'Giriş hüquqları göstərilməyib!';
 $messages['nouser'] = 'İstifadəçi adı təyin olunmayıb!';
-?>

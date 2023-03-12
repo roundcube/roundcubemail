@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_Csv2vcard extends PHPUnit_Framework_TestCase
+class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
 {
 
     function test_import_generic()
@@ -14,7 +14,16 @@ class Framework_Csv2vcard extends PHPUnit_Framework_TestCase
 
         // empty input
         $csv->import('');
-        $this->assertSame(array(), $csv->export());
+        $this->assertSame([], $csv->export());
+    }
+
+    function test_localization_files()
+    {
+        foreach (glob(RCUBE_LOCALIZATION_DIR ."*/csv2vcard.inc") as $filename) {
+            $map = null;
+            include $filename;
+            $this->assertTrue(count($map) > 0);
+        }
     }
 
     function test_import_tb_plain()
@@ -25,10 +34,10 @@ class Framework_Csv2vcard extends PHPUnit_Framework_TestCase
         $csv = new rcube_csv2vcard;
         $csv->import($csv_text);
         $result = $csv->export();
-        $vcard = $result[0]->export(false);
 
         $this->assertCount(1, $result);
 
+        $vcard    = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
 
@@ -64,10 +73,10 @@ class Framework_Csv2vcard extends PHPUnit_Framework_TestCase
         $csv = new rcube_csv2vcard;
         $csv->import($csv_text);
         $result = $csv->export();
-        $vcard  = $result[0]->export(false);
 
         $this->assertCount(1, $result);
 
+        $vcard    = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
 
@@ -82,10 +91,10 @@ class Framework_Csv2vcard extends PHPUnit_Framework_TestCase
         $csv = new rcube_csv2vcard;
         $csv->import($csv_text);
         $result = $csv->export();
-        $vcard  = $result[0]->export(false);
 
         $this->assertCount(1, $result);
 
+        $vcard    = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
 

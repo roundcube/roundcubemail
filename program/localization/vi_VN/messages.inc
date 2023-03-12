@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Có lỗi xảy ra.';
 $messages['loginfailed']  = 'Không đăng nhập được';
 $messages['cookiesdisabled'] = 'Trình duyệt không hỗ trợ cookies';
@@ -54,7 +53,6 @@ $messages['blockedimages'] = 'Để bảo vệ tính riêng tư, chức năng hi
 $messages['encryptedmessage'] = 'Thư này được mã hóa, không thể xem. Rất tiếc!';
 $messages['nocontactsfound'] = 'Không tìm thấy liên hệ.';
 $messages['contactnotfound'] = 'Không tìm thấy liên lạc được yêu cầu';
-$messages['contactsearchonly'] = 'Gõ một vài từ tìm kiếm để tìm liên hệ';
 $messages['sendingfailed'] = 'Không gửi được thư';
 $messages['senttooquickly'] = 'Xin đợi vài giây trước khi gửi thư này';
 $messages['errorsavingsent'] = 'Có lỗi xảy ra khi lưu lại thư đã gửi.';
@@ -94,8 +92,6 @@ $messages['nospellerrors'] = 'Không tìm thấy lỗi chính tả.';
 $messages['folderdeleted'] = 'Giữ liệu đã được xóa thành công.';
 $messages['foldersubscribed'] = 'Giữ liệu được nhập vào thành công.';
 $messages['folderunsubscribed'] = 'Giữ liệu không nhập vào thành công.';
-$messages['folderpurged'] = 'Giữ liệu được làm trống rỗng thành công.';
-$messages['folderexpunged'] = 'Giữ liệu đã được nén lại thành công.';
 $messages['deletedsuccessfully'] = 'Đã xóa thành công';
 $messages['converting'] = 'Loại bỏ định dạng...';
 $messages['messageopenerror'] = 'Không thể tải thư từ máy chủ';

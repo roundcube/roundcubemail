@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Změna hesla';
 $labels['curpasswd']  = 'Aktuální heslo:';
 $labels['newpasswd']  = 'Nové heslo:';
@@ -39,3 +38,6 @@ $messages['samepasswd'] = 'Nové heslo musí být odlišné od předchozího.';
 $messages['passwdexpirewarning'] = 'Varování! Vaše heslo bude brzy zneplatněno, změňte ho před $expirationdatetime.';
 $messages['passwdexpired'] = 'Vaše heslo bylo zneplatněno, musíte ho nyní změnit!';
 $messages['passwdconstraintviolation'] = ' Nesplnění nutných pravidel pro heslo. Heslo je zrejmě příliš slabé.';
+$messages['pwned_mustnotbedisclosed'] = 'Heslo nesmí být <a href="$href" target="_blank">běžně užívané</a>.';
+$messages['pwned_isdisclosed'] = 'Heslo je běžně užívané.';
+$messages['pwned_fetcherror'] = 'Síla hesla se nedá ověřit.';

@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_VCard extends PHPUnit_Framework_TestCase
+class Framework_VCard extends PHPUnit\Framework\TestCase
 {
 
     function _srcpath($fn)
@@ -41,13 +41,13 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $vcard = new rcube_vcard(file_get_contents($this->_srcpath('johndoe.vcf')), null);
 
         $vcf = $vcard->export();
-        $this->assertRegExp('/TEL;CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (import)");
+        $this->assertMatchesRegularExpression('/TEL;CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (import)");
 
         $vcard = new rcube_vcard();
         $vcard->set('phone', '+987654321', 'MOBILE');
 
         $vcf = $vcard->export();
-        $this->assertRegExp('/TEL;TYPE=CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (set)");
+        $this->assertMatchesRegularExpression('/TEL;TYPE=CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (set)");
     }
 
     /**
@@ -111,7 +111,10 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
 
         // https://github.com/roundcube/roundcubemail/issues/1934
         $vcards2 = rcube_vcard::import(file_get_contents($this->_srcpath('thebat.vcf')));
-        $this->assertEquals("Iksiñski", $vcards2[0]->surname, "Detect charset in encoded values");
+        $this->assertEquals("Iksi=F1ski", quoted_printable_encode($vcards2[0]->surname));
+
+        $vcards[0]->reset();
+        // TODO: Test reset() method
     }
 
     function test_import_photo_encoding()
@@ -119,9 +122,10 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $input = file_get_contents($this->_srcpath('photo.vcf'));
 
         $vcards = rcube_vcard::import($input);
-        $vcard = $vcards[0]->get_assoc();
 
         $this->assertCount(1, $vcards, "Detected 1 vcard");
+
+        $vcard = $vcards[0]->get_assoc();
 
         // ENCODING=b case (#1488683)
         $this->assertEquals("/9j/4AAQSkZJRgABAQA", substr(base64_encode($vcard['photo']), 0, 19), "Photo decoding");
@@ -174,5 +178,28 @@ class Framework_VCard extends PHPUnit_Framework_TestCase
         $this->assertCount(5, $result['address:home'][0], "ADR with some fields missing");
         $this->assertEquals($result['address:home'][0]['zipcode'], 'zip', "ADR with some fields missing (1)");
         $this->assertEquals($result['address:home'][0]['street'], 'street', "ADR with some fields missing (2)");
+    }
+
+    /**
+     * Support BDAT in YYYYMMRR format
+     */
+    function test_bday_v4()
+    {
+        $vcard = "BEGIN:VCARD\nVERSION:4.0\nN:last\\;;first\\\\;middle\\\\\\;\\\\;prefix;\nFN:test\nBDAY:19800202\nEND:VCARD";
+        $vcard = new rcube_vcard($vcard, null);
+        $vcard = $vcard->get_assoc();
+
+        $this->assertEquals("1980-02-02", $vcard['birthday'][0]);
+    }
+
+    /**
+     * Test required fields in output (#8771)
+     */
+    function test_required_fields()
+    {
+        $vcard = new rcube_vcard();
+        $result = $vcard->export();
+
+        $this->assertSame($result, "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:\r\nN:;;;;\r\nEND:VCARD");
     }
 }

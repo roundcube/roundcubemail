@@ -2,29 +2,32 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '歡迎使用 $product';
 $labels['username'] = '使用者名稱';
 $labels['password'] = '使用者密碼';
 $labels['server'] = '伺服器';
 $labels['login'] = '登入';
+$labels['oauthlogin'] = '使用 $provider 登入';
 $labels['menu'] = '選單';
 $labels['logout'] = '登出';
 $labels['mail'] = '電子郵件';
 $labels['settings'] = '設定';
 $labels['addressbook'] = '通訊錄';
+$labels['darkmode'] = '深色模式';
+$labels['lightmode'] = '淺色模式';
 $labels['inbox'] = '收件匣';
 $labels['drafts'] = '草稿匣';
 $labels['sent'] = '寄件備份';
@@ -147,6 +150,7 @@ $labels['last'] = '最後一個';
 $labels['previous'] = '前一個';
 $labels['next'] = '後一個';
 $labels['select'] = '選取';
+$labels['selection'] = '選取範圍';
 $labels['all'] = '全部郵件';
 $labels['none'] = '無';
 $labels['currpage'] = '目前頁面';
@@ -168,6 +172,7 @@ $labels['expand-all'] = '全部展開';
 $labels['expand-unread'] = '展開未讀取';
 $labels['collapse-all'] = '全部收起';
 $labels['threaded'] = '郵件串';
+$labels['showunread'] = '顯示未讀郵件';
 $labels['autoexpand_threads'] = '展開郵件串';
 $labels['do_expand'] = '所有郵件串';
 $labels['expand_only_unread'] = '只展開未讀郵件';
@@ -195,6 +200,8 @@ $labels['folderactions'] = '資料夾動作...';
 $labels['compact'] = '壓緊';
 $labels['empty'] = '清空';
 $labels['importmessages'] = '匯入郵件';
+$labels['mailimportdesc'] = '可以用 <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> 或 <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a> 格式檔案上傳郵件。';
+$labels['mailimportzip'] = '多個檔案可以壓縮為 ZIP 檔案。';
 $labels['quota'] = '磁碟使用量';
 $labels['unknown'] = '未知';
 $labels['unlimited'] = '無限制';
@@ -256,6 +263,7 @@ $labels['keyrevoked'] = '已撤銷';
 $labels['bccinstead'] = '使用「密件副本」';
 $labels['addheader'] = '加入收件者 (標頭)';
 $labels['insert'] = '插入';
+$labels['insertcontact'] = '插入聯絡人';
 $labels['recipient'] = '收件者';
 $labels['recipientedit'] = '收件者編輯';
 $labels['editidents'] = '編輯身份資訊';
@@ -296,7 +304,9 @@ $labels['alwaysallow'] = '必定允許寄自 $sender 的郵件';
 $labels['isdraft'] = '這是草稿';
 $labels['andnmore'] = '第$nr封或是更多...';
 $labels['details'] = '詳情';
+$labels['summary'] = '概覽';
 $labels['headers'] = '標頭';
+$labels['allheaders'] = '所有標頭...';
 $labels['togglemoreheaders'] = '顯示更多的郵件標頭';
 $labels['togglefullheaders'] = '切換原始郵件標頭';
 $labels['htmltoggle'] = 'HTML';
@@ -308,10 +318,12 @@ $labels['addcc'] = '新增副本';
 $labels['addbcc'] = '新增密件副本';
 $labels['addreplyto'] = '新增回覆地址';
 $labels['addfollowupto'] = '新增郵件列表回覆地址';
+$labels['sendreceipt'] = '傳送讀取回條？';
 $labels['mdnrequest'] = '此郵件的寄件者希望在你閱讀此郵件時受到通知。你想要通知寄件者嗎？';
 $labels['receiptread'] = '郵件回條（已閱讀）';
 $labels['yourmessage'] = '這是你郵件的郵件回條';
 $labels['receiptnote'] = '注意：此回條只能確認收件者的電腦顯示了郵件，並不能保證收件者已閱讀或了解郵件的內容。';
+$labels['sendalwaysto'] = '總是傳送給 $email';
 $labels['zoomin'] = '放大';
 $labels['zoomout'] = '縮小';
 $labels['rotate'] = '旋轉';
@@ -391,12 +403,15 @@ $labels['rename'] = '重新命名';
 $labels['addphoto'] = '加入';
 $labels['replacephoto'] = '取代';
 $labels['uploadphoto'] = '上傳相片';
+$labels['choosefile'] = '選擇檔案...';
+$labels['choosefiles'] = '選擇檔案...';
+$labels['browse'] = '瀏覽';
 $labels['newcontact'] = ' 新建聯絡人';
 $labels['deletecontact'] = '刪除所選擇的聯絡人';
 $labels['composeto'] = '寄信至所選擇的聯絡人';
 $labels['contactsfromto'] = '聯絡人 $from 至 $to，共 $count 人';
 $labels['print'] = '列印';
-$labels['export'] = '匯出通訊錄';
+$labels['export'] = '匯出';
 $labels['exportall'] = '全部匯出';
 $labels['exportsel'] = '匯出所選項目';
 $labels['exportvcards'] = '匯出通訊錄為 vCard 格式';
@@ -418,7 +433,7 @@ $labels['listgroup'] = '列出群組成員';
 $labels['personaladrbook'] = '個人通訊錄';
 $labels['searchsave'] = '儲存搜尋結果';
 $labels['searchdelete'] = '刪除搜尋結果';
-$labels['import'] = '匯入通訊錄';
+$labels['import'] = '匯入';
 $labels['importcontacts'] = '匯入聯絡人';
 $labels['importfromfile'] = '從檔案匯入';
 $labels['importtarget'] = '新增聯絡人到';
@@ -426,6 +441,10 @@ $labels['importreplace'] = '取代整個通訊錄';
 $labels['importgroups'] = '匯入群組';
 $labels['importgroupsall'] = '全部 (必要時新增群組)';
 $labels['importgroupsexisting'] = '僅限於既有群組';
+$labels['importdesc'] = '可以上傳通訊錄的所有聯絡人。<br/>現時支援 <a href="https://en.wikipedia.org/wiki/VCard">vCard</a> 或 CSV 格式。';
+$labels['importmapdesc'] = '在繼續進行 CSV（逗號分隔）資料匯入前，請先確認下方的欄位對映資訊正確無誤。';
+$labels['fieldnotmapped'] = '欄位未對映（不匯入）';
+$labels['skipheader'] = '不匯入第一行（標頭）';
 $labels['done'] = '完成';
 $labels['settingsfor'] = '設定';
 $labels['about'] = '關於';
@@ -472,6 +491,8 @@ $labels['askuser'] = '詢問我';
 $labels['autosend'] = '自動送出';
 $labels['autosendknown'] = '傳送回條給我的聯絡人，其他則詢問我';
 $labels['autosendknownignore'] = '傳送回條給我的聯絡人，其他則忽略';
+$labels['autosendtrusted'] = '傳送回條給受信任的寄件者，否則請問我';
+$labels['autosendtrustedignore'] = '傳送回條給受信任的寄件者，否則請忽略';
 $labels['ignorerequest'] = '忽略要求';
 $labels['readwhendeleted'] = '將刪除的郵件標示為已讀取';
 $labels['flagfordeletion'] = '只將郵件標示為刪除，而非真的刪除';
@@ -481,6 +502,8 @@ $labels['deletejunk'] = '直接刪除「垃圾郵件」中的郵件';
 $labels['showremoteimages'] = '顯示遠端郵件內文的圖片';
 $labels['allowremoteresources'] = '允許遠端資源 (圖像、樣式)';
 $labels['fromknownsenders'] = '從已知的寄件者';
+$labels['fromtrustedsenders'] = '來自受信任的寄件者';
+$labels['frommycontacts'] = '來自我的聯絡人';
 $labels['always'] = '總是';
 $labels['alwaysbutplain'] = '總是，除非回覆純文字郵件';
 $labels['showinlineimages'] = '將附加檔案的圖片顯示於郵件最後';
@@ -501,7 +524,7 @@ $labels['advancedoptions'] = '進階選項';
 $labels['toggleadvancedoptions'] = '切換高級選項';
 $labels['focusonnewmessage'] = '收到新郵件時使瀏覽器獲得焦點';
 $labels['checkallfolders'] = '對於所有資料夾，都要檢查有否新郵件';
-$labels['displaynext'] = '郵件刪除/移動時顯示下一封郵件';
+$labels['displaynext'] = '刪除/移動之後，顯示下一個清單項目';
 $labels['defaultfont'] = 'HTML 郵件的預設字型';
 $labels['mainoptions'] = '主要選項';
 $labels['browseroptions'] = '瀏覽器選項';
@@ -529,6 +552,14 @@ $labels['replysamefolder'] = '將回信放在與原信件相同的資料夾';
 $labels['defaultabook'] = '預設通訊錄';
 $labels['autocompletesingle'] = '在自動完成時略過其他電郵地址';
 $labels['listnamedisplay'] = '聯絡人顯示方式';
+$labels['contactformmode'] = '聯絡人表單模式';
+$labels['privatemode'] = '私人（家）';
+$labels['businessmode'] = '商務（工作）';
+$labels['collectedaddresses'] = '已蒐集的地址';
+$labels['collectedrecipients'] = '已蒐集的收件者';
+$labels['collectedrecipientsopt'] = '將寄送電子郵件收件者儲存於';
+$labels['collectedsendersopt'] = '將受信任的寄件者儲存於';
+$labels['trustedsenders'] = '受信任的寄件者';
 $labels['spellcheckbeforesend'] = '寄送前執行拼字檢查';
 $labels['spellcheckoptions'] = '拼字檢查選項';
 $labels['spellcheckignoresyms'] = '忽略有符號的字';
@@ -543,6 +574,7 @@ $labels['asattachment'] = '當成附件';
 $labels['replyallmode'] = '「全部回覆」按鈕的預設動作';
 $labels['replyalldefault'] = '全部回覆';
 $labels['replyalllist'] = '只回覆郵件列表 (如有)';
+$labels['allmessages'] = '所有郵件';
 $labels['folder'] = '資料夾';
 $labels['folders'] = '資料夾';
 $labels['foldername'] = '資料夾名稱';
@@ -577,6 +609,10 @@ $labels['encryptioncreatekey'] = '建立新的金鑰對';
 $labels['openmailvelopesettings'] = '開啟 Mailvelope 設定';
 $labels['encryptionprivkeysinmailvelope'] = '有 $nr 個符合的私鑰儲存於 Mailvelope 鑰匙圈：';
 $labels['encryptionnoprivkeysinmailvelope'] = '未有在 Mailvelope 附加程式找到寄件者的身分的 PGP 私鑰。是否建立一個新的，以啟用郵件加密？';
+$labels['encryption'] = '加密';
+$labels['mailvelopeoptions'] = 'Mailvelope 選項';
+$labels['mailvelopemainkeyring'] = '使用 Mailvelope 主鑰匙圈';
+$labels['mailvelopenotfound'] = '您的瀏覽器未啟用／安裝 Mailvelope 擴充套件';
 $labels['sortby'] = '排序';
 $labels['sortasc'] = '遞增排序';
 $labels['sortdesc'] = '遞減排序';
@@ -585,6 +621,7 @@ $labels['installedplugins'] = '已安裝的擴充套件';
 $labels['plugin'] = '擴充套件';
 $labels['version'] = '版本';
 $labels['source'] = '來源';
+$labels['destination'] = '目的地';
 $labels['license'] = '授權許可';
 $labels['support'] = '取得支援';
 $labels['savedsearches'] = '儲存的搜尋樣式';
@@ -619,6 +656,7 @@ $labels['chinese'] = '中文';
 $labels['arialabeltopnav'] = '視窗控制';
 $labels['arialabeltasknav'] = '應用程式任務';
 $labels['arialabeltoolbar'] = '應用程式工具列';
+$labels['arialabellistnav'] = '清單導覽';
 $labels['arialabelactivetask'] = '現行的任務';
 $labels['arialabelmessagessearchfilter'] = '電子郵件列表篩選';
 $labels['arialabelmailsearchform'] = '電子郵件搜索表單';
@@ -657,7 +695,7 @@ $labels['arialabelcontactexportoptions'] = '聯絡人匯出選項';
 $labels['arialabelabookgroupoptions'] = '通訊錄/群組選項';
 $labels['arialabelpreferencesform'] = '設定表單';
 $labels['arialabelidentityeditfrom'] = '身份編輯表單';
-$labels['arialabelresonseeditfrom'] = '預設回應編輯表單';
+$labels['arialabelresponseeditfrom'] = '預設回應編輯表單';
 $labels['arialabelsearchterms'] = '搜尋項目';
 $labels['arialabeldropactionmenu'] = '拖曳動作選單';
 $labels['arialabelheadersmenu'] = '收件者 (標頭) 加入選單';
@@ -671,4 +709,3 @@ $labels['helplistkeyboardnavmessages'] = "左／右箭嘴：展開／收起郵�
 Enter：開啟所選／焦點郵件
 Del：將所選郵件移至垃圾桶";
 $labels['helplistkeyboardnavcontacts'] = "Enter：開啟所選／焦點聯絡人";
-?>

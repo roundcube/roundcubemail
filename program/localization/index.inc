@@ -24,7 +24,7 @@
 // country codes according to ISO 3166-1 (Alpha-2)
 // original names from http://www.mediaglyphs.org/mg/?p=langnames
 
-$rcube_languages = array(
+$rcube_languages = [
     'sq_AL' => 'Albanian (Shqip)',
     'ar'    => 'Arabic (العربية)',
     'ar_SA' => 'Arabic (Saudi Arabia)',
@@ -80,6 +80,7 @@ $rcube_languages = array(
     'ms_MY' => 'Malay (Bahasa Melayu)',
     'ml_IN' => 'Malayalam (മലയാളം)',
     'mr_IN' => 'Marathi (मराठी)',
+    'mn_MN' => 'Mongolic (Монгол)',
     'ne_NP' => 'Nepali (नेपाली)',
     'nb_NO' => 'Norwegian (Bokmål)',
     'nn_NO' => 'Norwegian (Nynorsk)',
@@ -103,15 +104,16 @@ $rcube_languages = array(
     'th_TH' => 'Thai (ไทย)',
     'tr_TR' => 'Turkish (Türkçe)',
     'tzl'   => 'Talossan',
+    'ug'    => 'Uyghur (ئۇيغۇر)',
     'uk_UA' => 'Ukrainian (Українська)',
     'ur_PK' => 'Urdu (اُردو)',
     'uz'    => 'Uzbek (Oʻzbekcha)',
     'vi_VN' => 'Vietnamese (Tiếng Việt)',
     'cy_GB' => 'Welsh (Cymraeg)',
     'fy_NL' => 'West Frisian (Frysk)',
-);
+];
 
-$rcube_language_aliases = array(
+$rcube_language_aliases = [
     'am' => 'hy_AM',
     'az' => 'az_AZ',
     'bg' => 'bg_BG',
@@ -124,6 +126,7 @@ $rcube_language_aliases = array(
     'da' => 'da_DK',
     'de' => 'de_DE',
     'ee' => 'et_EE',
+    'es' => 'es_ES',
     'et' => 'et_EE',
     'el' => 'el_GR',
     'en' => 'en_US',
@@ -147,6 +150,7 @@ $rcube_language_aliases = array(
     'lb' => 'lb_LU',
     'ne' => 'ne_NP',
     'no' => 'nn_NO',
+    'mn' => 'mn_MN',
     'ms' => 'ms_MY',
     'mr' => 'mr_IN',
     'ml' => 'ml_IN',
@@ -168,4 +172,4 @@ $rcube_language_aliases = array(
     'zh' => 'zh_CN',
     'zh_HK' => 'zh_TW',
     'zh_MO' => 'zh_TW',
-);
+];

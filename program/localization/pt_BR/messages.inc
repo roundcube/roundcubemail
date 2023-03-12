@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Ocorreu um erro!';
 $messages['loginfailed']  = 'Falha no login';
 $messages['cookiesdisabled'] = 'Seu navegador não aceita cookies.';
 $messages['sessionerror'] = 'A sessão do seu navegador é inválida ou expirou';
+$messages['cookiesmismatch'] = 'Cookie imcompatível detectado. Por favor, limpar os cookies de seu navegador.';
 $messages['storageerror'] = 'Falha na conexão com o servidor. Verifique se informou os dados corretamente.';
 $messages['servererror'] = 'Erro no Servidor!';
 $messages['servererrormsg'] = 'Erro no Servidor: $msg';
 $messages['accountlocked'] = 'Muitas tentativas de login inválidas. Tente novamente depois.';
 $messages['connerror'] = 'Erro de conexão (Falha na comunicação com o servidor)!';
 $messages['dberror'] = 'Erro no banco de dados!';
+$messages['dbconnerror'] = 'Não foi possível conectar à base de dados!';
 $messages['windowopenerror'] = 'A janela popup foi bloqueada!';
 $messages['requesttimedout'] = 'Tempo da requisição esgotado';
 $messages['errorreadonly'] = 'Não foi possível realizar a operação. Pasta somente leitura';
@@ -57,6 +58,9 @@ $messages['contactexists'] = 'Já existe um contato com esse mesmo e-mail.';
 $messages['contactnameexists'] = 'Já existe um contato com o mesmo nome.';
 $messages['blockedimages'] = 'Para proteger sua privacidade, as imagens remotas desta mensagem foram bloqueadas.';
 $messages['blockedresources'] = 'Para proteger sua privacidade recursos remotos foram bloqueados.';
+$messages['suspiciousemail'] = 'Esta mensagem contém endereços de email suspeitos que podem ser fraudulentos.';
+$messages['bccemail'] = 'A(s) mensagem(ns) encaminhada(s) contêm destinatários confidenciais (Bcc).';
+$messages['bouncehint'] = 'A mensagem será enviada sem nenhuma alteração, ou seja, usando o corpo, cabeçalhos e destinatários originais.';
 $messages['encryptedmessage'] = 'Esta é uma mensagem criptografada e não pode ser exibida. Desculpe.';
 $messages['externalmessagedecryption'] = 'Esta é uma mensagem criptografada e pode ser descriptografado com  extensão do seu navegador.';
 $messages['nopubkeyfor'] = 'Nenhuma chave publica encontrada para $email';
@@ -64,11 +68,11 @@ $messages['nopubkeyforsender'] = 'Nenhuma chave pública válida encontrada para
 $messages['encryptnoattachments'] = 'Anexos já carregados não podem ser criptografados. Adicione-os novamente no editor com criptografia.';
 $messages['searchpubkeyservers'] = 'Você deseja procurar as chaves faltantes nos servidores de chaves públicas?';
 $messages['encryptpubkeysfound'] = 'As seguintes chaves públicas foram localizadas:';
-$messages['keyservererror'] = 'Falha em obter a chave do servidor';
-$messages['keyimportsuccess'] = 'Chave pública $key importada com êxito em seu chaveiro';
+$messages['keyservererror'] = 'Falha ao obter a chave de seu servidor de chaves.';
+$messages['keyimportsuccess'] = 'Chave Pública $key importada com sucesso ao seu chaveiro.';
 $messages['nocontactsfound'] = 'Nenhum contato encontrado.';
 $messages['contactnotfound'] = 'O contato solicitado não foi encontrado.';
-$messages['contactsearchonly'] = 'Informe os termos de pesquisa para localizar os contatos';
+$messages['contactsearchonly'] = 'Você tem que usar o formulário de busca para ver os contatos do catálogo de endereço selecionado.';
 $messages['sendingfailed'] = 'Falha no envio da mensagem.';
 $messages['senttooquickly'] = 'Aguarde $sec s para enviar a mensagem.';
 $messages['errorsavingsent'] = 'Ocorreu um erro ao salvar a mensagem enviada.';
@@ -96,6 +100,7 @@ $messages['noemailwarning'] = 'Por favor, informe um endereço de e-mail válido
 $messages['nonamewarning']  = 'Por favor, informe o nome';
 $messages['nopagesizewarning'] = 'Por favor, informe o tamanho da página';
 $messages['nosenderwarning'] = 'Por favor, informe o e-mail do remetente';
+$messages['recipientsadded'] = 'Destinatário(s) adicionado(s) com sucesso.';
 $messages['norecipientwarning'] = 'Por favor, informe pelo menos um destinatário';
 $messages['disclosedrecipwarning'] = 'Todos os destinatários verão os endereços de e-mail uns dos outros. Para prevenir isto e proteger a privacidade deles, você deve usar o campo Cópia Oculta (Cco).';
 $messages['disclosedreciptitle'] = 'Há muitos destinatários públicos';
@@ -116,16 +121,18 @@ $messages['nospellerrors'] = 'Nenhum erro ortográfico encontrado';
 $messages['folderdeleted'] = 'Pasta excluída com sucesso';
 $messages['foldersubscribed'] = 'Pasta ativada com sucesso';
 $messages['folderunsubscribed'] = 'Pasta desativada com sucesso';
-$messages['folderpurged'] = 'Pasta esvaziada com sucesso';
-$messages['folderexpunged'] = 'Pasta compactada com sucesso';
+$messages['folderpurged'] = 'Pasta esvaziada com sucesso.';
+$messages['folderexpunged'] = 'Pasta compactada com sucesso.';
 $messages['deletedsuccessfully'] = 'Excluído com sucesso';
 $messages['converting'] = 'Removendo formatação...';
 $messages['messageopenerror'] = 'Não foi possível carregar a mensagem do servidor';
 $messages['filelinkerror'] = 'Falha ao anexar o arquivo.';
 $messages['fileuploaderror'] = 'Falha ao enviar o arquivo';
+$messages['csvfilemismatch'] = 'A importação de vários arquivos CSV com campos diferentes não é suportada.';
 $messages['filesizeerror'] = 'O arquivo enviado excede o tamanho máximo de $size';
 $messages['filecounterror'] = 'Você pode enviar no máximo $count arquivos por vez.';
 $messages['msgsizeerror'] = 'Falha ao anexar o arquivo. Tamanho máximo da mensagem ($size) excedido.';
+$messages['msgsizeerrorfwd'] = 'Tamanho máximo de uma mensagem ($size) excedido. $num mensagens não foram anexadas.';
 $messages['copysuccess'] = '$nr contato(s) copiado(s) com sucesso.';
 $messages['movesuccess'] = '$nr contato(s) movido(s) com sucesso.';
 $messages['copyerror'] = 'Não foi possível copiar os contatos.';
@@ -165,6 +172,7 @@ $messages['smtpautherror'] = 'Erro SMTP ($code): Falha na autenticação.';
 $messages['smtpfromerror'] = 'Erro SMTP ($code): Falha ao definir o remetente "$from" ($msg).';
 $messages['smtptoerror'] = 'Erro SMTP ($code): Falha ao adicionar o destinatário "$to" ($msg).';
 $messages['smtprecipientserror'] = 'Erro SMTP: Não é possível processar a lista destinatários.';
+$messages['smtputf8error'] = 'Erro de SMTP: Servidor não suporta Unicode em endereço de email.';
 $messages['smtpsizeerror'] = 'Erro de SMTP: Tamanho da mensagem excede o limite do servidor ($limit)';
 $messages['smtperror'] = 'Erro SMTP: $msg';
 $messages['emailformaterror'] = 'Endereço de e-mail inválido: $email';
@@ -207,9 +215,18 @@ $messages['errfailedrequest'] = 'Requisição falhou';
 $messages['errauthorizationfailed'] = 'Autorização Falhou';
 $messages['errunauthorizedexplain'] = 'Não é possível verificar se você está autorizado a acessar este serviço!';
 $messages['errrequestcheckfailed'] = 'Falha na verificação da requisição';
-$messages['errcsrfprotectionexplain'] = "Para sua proteção, o acesso a este serviço está seguro contra CSFR.\nSe você está vendo isto, provavelmente não utilizou a opção de sair antes de encerrar a utilização.\n\nSerá necessária interação humana para continuar.";
+$messages['errcsrfprotectionexplain'] = "Para sua proteção, o acesso a este serviço está seguro contra CSRF.\nSe você está vendo isto, provavelmente não utilizou a opção de sair antes de encerrar a utilização.\n\nSerá necessária interação humana para continuar.";
 $messages['errcontactserveradmin'] = 'Por favor contate o administrador do servidor.';
 $messages['clicktoresumesession'] = 'Clique aqui para continuar sua sessão anterior';
 $messages['errcomposesession'] = 'Erro na sessão de composição';
 $messages['errcomposesessionexplain'] = 'A sessão de composição solicitada não foi encontrada.';
 $messages['clicktocompose'] = 'Clique aqui para compor uma nova mensagem';
+$messages['nosupporterror'] = 'Esta característica não é suportada pelo seu navegador.';
+$messages['siginserted'] = 'Assinatura inserida com sucesso.';
+$messages['responseinserted'] = 'Resposta inserida com sucesso.';
+$messages['noresponsesavailable'] = 'Sem respostas disponíveis';
+$messages['listempty'] = 'A lista está vazia.';
+$messages['listusebutton'] = 'Use o botão Criar para adicionar um novo registro.';
+$messages['keypaircreatesuccess'] = 'Um novo par de chaves foi criado com sucesso para $identity.';
+$messages['emptyattachment'] = 'Este anexo parece estar vazio.<br>Por favor, verifique com a pessoa que o enviou.';
+$messages['oauthloginfailed'] = 'Login do OAuth falhou. Por favor, tente novamente.';

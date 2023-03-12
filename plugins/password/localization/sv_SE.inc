@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Ändra lösenord';
 $labels['curpasswd']  = 'Nuvarande lösenord';
 $labels['newpasswd']  = 'Nytt lösenord';
@@ -39,3 +38,6 @@ $messages['samepasswd'] = 'Lösenordet får inte vara samma som det gamla.';
 $messages['passwdexpirewarning'] = 'Varning! Lösenordet blir snart ogiltigt, ändra det innan $expirationdatetime.';
 $messages['passwdexpired'] = 'Lösenordet är ogiltigt, du måste ändra det nu!';
 $messages['passwdconstraintviolation'] = 'Lösenordet uppfyller inte gällande kriterier. Lösenordet är troligtvis inte tillräckligt bra.';
+$messages['pwned_mustnotbedisclosed'] = 'Lösenordet får inte vara <a href="$href" target="_blank">allmänt känt</a>.';
+$messages['pwned_isdisclosed'] = 'Detta lösenord är allmänt känt.';
+$messages['pwned_fetcherror'] = 'Det gick inte att verifiera lösenordsstyrkan.';

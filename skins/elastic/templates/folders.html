@@ -5,13 +5,13 @@
 <h1 class="voice"><roundcube:label name="folders" /></h1>
 
 <!-- folders list -->
-<div class="list listbox selected" aria-labelledby="aria-label-folderslist">
+<div id="layout-list" class="listbox selected" aria-labelledby="aria-label-folderslist">
 	<div class="header">
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
 		<span id="aria-label-folderslist" class="header-title"><roundcube:label name="folders" /></span>
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
-	<roundcube:object name="searchform" id="foldersearch" wrapper="searchbar toolbar" ariatag="h2"
+	<roundcube:object name="searchform" id="foldersearch" wrapper="searchbar menu" ariatag="h2"
 		label="foldersearchform" buttontitle="findfolders" options="foldersearchmenu" />
 	<div id="foldersearchmenu" class="hidden searchoptions scroller propform formcontainer" aria-labelledby="aria-label-search-menu" aria-controls="subscription-table">
 		<h3 id="aria-label-search-menu" class="voice"><roundcube:label name="searchmod" /></h3>
@@ -38,21 +38,18 @@
 </div>
 
 <!-- folder info frame -->
-<div class="content" role="main">
+<div id="layout-content" role="main">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title"></span>
 		<!-- toolbar -->
-		<div id="folderstoolbar" class="toolbar">
-			<roundcube:button command="create-folder" type="link"
-				class="button create disabled" classAct="button create"
+		<div id="folderstoolbar" class="toolbar menu">
+			<roundcube:button command="create-folder" type="link" class="create disabled" classAct="create"
 				label="create" title="createfolder" innerClass="inner" data-fab="true" />
-			<roundcube:button command="delete-folder" type="link"
-				class="button delete disabled" classAct="button delete"
+			<roundcube:button command="delete-folder" type="link" class="delete disabled" classAct="delete"
 				label="delete" title="delete" innerclass="inner" />
-			<roundcube:button command="purge" type="link"
-				class="button purge disabled" classAct="button purge"
+			<roundcube:button command="purge" type="link" class="purge disabled" classAct="purge"
 				label="empty" title="empty" innerclass="inner" />
 		</div>
 	</div>

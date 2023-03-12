@@ -7,7 +7,7 @@
  * @group database
  * @group mysql
  */
-class Framework_DBMysql extends PHPUnit_Framework_TestCase
+class Framework_DBMysql extends PHPUnit\Framework\TestCase
 {
 
     /**

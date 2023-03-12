@@ -2,21 +2,19 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 
-$labels = array();
+$labels = [];
 $labels['encryption'] = 'Encryption';
 $labels['enigmacerts'] = 'S/MIME Certificates';
 $labels['enigmakeys'] = 'PGP Keys';
@@ -68,13 +66,15 @@ $labels['keydisable'] = 'Disable';
 $labels['keyrevoke'] = 'Revoke';
 $labels['keysend'] = 'Send public key in a message';
 $labels['keychpass'] = 'Change password';
+$labels['keyadd'] = 'Add key';
 
 $labels['newkeyident'] = 'Identity';
 $labels['newkeypass'] = 'Password';
 $labels['newkeypassconfirm'] = 'Confirm password';
-$labels['newkeysize'] = 'Key size';
-$labels['key2048'] = '2048 bits - default';
-$labels['key4096'] = '4096 bits - more secure';
+$labels['newkeytype'] = 'Key type';
+$labels['rsa2048'] = 'RSA - 2048 bits';
+$labels['rsa4096'] = 'RSA - 4096 bits';
+$labels['ecckeypair'] = 'ECC (Elliptic Curve)';
 $labels['keygenerating'] = 'Generating keys...';
 
 $labels['encryptionoptions'] = 'Encryption options...';
@@ -84,7 +84,6 @@ $labels['sendunencrypted'] = 'Send unencrypted';
 
 $labels['enterkeypasstitle'] = 'Enter key passphrase';
 $labels['enterkeypass'] = 'A passphrase is needed to unlock the secret key ($keyid) for user: $user.';
-$labels['arialabelkeyexportoptions'] = 'Keys export options';
 $labels['attachpubkeymsg'] = 'Attach my public key';
 
 $labels['keyexportprompt'] = 'Do you want to include secret keys in the saved OpenPGP keys file?';
@@ -98,7 +97,11 @@ $labels['managekeys'] = 'Manage PGP keys';
 $labels['identitymatchingprivkeys'] = 'You have $nr matching PGP private keys stored in your keyring:';
 $labels['identitynoprivkeys'] = 'This sender identity doesn\'t yet have a PGP private key stored in your keyring.';
 
-$messages = array();
+$labels['arialabelkeyexportoptions'] = 'Keys export options';
+$labels['arialabelkeysearchform'] = 'Keys search form';
+$labels['arialabelkeyoptions'] = 'Key options';
+
+$messages = [];
 $messages['sigvalid'] = 'Verified signature from $sender.';
 $messages['sigvalidpartial'] = 'Verified signature from $sender, but part of the body was not signed.';
 $messages['siginvalid'] = 'Invalid signature from $sender.';
@@ -118,6 +121,7 @@ $messages['signbadpass'] = 'Signing failed. Invalid password.';
 $messages['signnopass'] = 'Signing failed. Key password required.';
 $messages['encrypterror'] = 'Encryption failed.';
 $messages['encryptnokey'] = 'Encryption failed. Public key not found for $email.';
+$messages['encryptnoprivkey'] = 'Encryption failed. Private key not found.';
 $messages['nokeysfound'] = 'No keys found';
 $messages['keynotfound'] = 'Key not found!';
 $messages['keyopenerror'] = 'Unable to get key information! Internal error.';
@@ -130,6 +134,7 @@ $messages['keyremovesuccess'] = 'Key(s) deleted successfully';
 $messages['keyremoveerror'] = 'Unable to delete selected key(s).';
 $messages['keyimporttext'] = 'You can import private and public key(s) or revocation signatures in ASCII-Armor format.';
 $messages['keyimportsearchtext'] = 'You can search for public keys by key identifier, user name or email address and then import them directly.';
+$messages['keystoragenotice'] = 'All public and private keys are stored on the server.';
 
 $messages['formerror'] = 'Please, fill the form. All fields are required!';
 $messages['passwordsdiffer'] = 'Passwords do not match!';
@@ -141,4 +146,7 @@ $messages['noidentselected'] = 'You have to select at least one identity for the
 // removed in 1.3
 $messages['nonameident'] = 'Identity must have a user name defined!';
 
-?>
+// removed in 1.5
+$labels['newkeysize'] = 'Key size';
+$labels['key2048'] = '2048 bits - default';
+$labels['key4096'] = '4096 bits - more secure';

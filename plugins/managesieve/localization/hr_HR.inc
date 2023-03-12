@@ -2,25 +2,28 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filteri';
 $labels['managefilters'] = 'Uredi filtere za pristiglu poštu';
 $labels['filtername'] = 'Naziv filtera';
 $labels['newfilter'] = 'Novi filter';
 $labels['filteradd'] = 'Dodaj filter';
 $labels['filterdel'] = 'Obriši filter';
+$labels['rules'] = 'Pravila';
+$labels['actions'] = 'Radnje';
+$labels['scope'] = 'Djelokrug';
 $labels['moveup'] = 'Pomakni gore';
 $labels['movedown'] = 'Pomakni dolje';
 $labels['filterallof'] = 'koje odgovaraju svim sljedećim pravilima';
@@ -38,6 +41,11 @@ $labels['filterregex'] = 'odgovara regularnom izrazu';
 $labels['filternotregex'] = 'ne odgovara regularnom izrazu';
 $labels['filterunder'] = 'ispod';
 $labels['filterover'] = 'iznad';
+$labels['mime-message'] = 'poruka';
+$labels['mime-anychild'] = 'bilo koji';
+$labels['mime-type'] = 'vrsta';
+$labels['mime-subtype'] = 'podvrsta';
+$labels['mime-param'] = 'parametar';
 $labels['addrule'] = 'Dodaj pravilo';
 $labels['delrule'] = 'Obriši pravilo';
 $labels['messagemoveto'] = 'Premjesti poruku u';
@@ -54,6 +62,7 @@ $labels['add'] = 'Dodaj';
 $labels['del'] = 'Obriši';
 $labels['sender'] = 'Pošiljatelj';
 $labels['recipient'] = 'Primatelj';
+$labels['vacationaddr'] = 'Moje email adrese:';
 $labels['vacationdays'] = 'Koliko često slati poruku (u danima):';
 $labels['vacationinterval'] = 'Koliko često slati poruku:';
 $labels['vacationreason'] = 'Tijelo poruke (razlog odmora):';
@@ -62,14 +71,10 @@ $labels['days'] = 'dana';
 $labels['seconds'] = 'sekundi';
 $labels['rulestop'] = 'Prekini izvođenje filtera';
 $labels['enable'] = 'Omogući/Onemogući';
-$labels['filterset'] = 'Grupa filtera';
 $labels['filtersets'] = 'Filteri';
-$labels['filtersetadd'] = 'Dodaj grupu filtera';
-$labels['filtersetact'] = 'Aktiviraj odabranu grupu filtera';
-$labels['filtersetdeact'] = 'Deaktiviraj odabranu grupu filtera';
+$labels['filtersetadd'] = 'Dodaj skup filtera';
+$labels['filtersetdel'] = 'Obriši skup filtera';
 $labels['filterdef'] = 'Definicije filtera';
-$labels['filtersetname'] = 'Naziv grupe filtera';
-$labels['newfilterset'] = 'Nova grupa filtera';
 $labels['active'] = 'aktivan';
 $labels['none'] = 'nijedan';
 $labels['fromset'] = 'iz grupe';
@@ -153,12 +158,22 @@ $labels['asciicasemap'] = 'neosjetljivo na veličinu slova (ascii-casemap)';
 $labels['asciinumeric'] = 'numerički (ascii-numeric)';
 $labels['index'] = 'indeks:';
 $labels['indexlast'] = 'unatrag';
+$labels['spamtestequals'] = 'jednako je';
+$labels['spamtestnotequals'] = 'nije jednako';
+$labels['vacation.reply'] = 'Automatski odgovor';
 $labels['vacation.advanced'] = 'Napredne postavke';
 $labels['vacation.subject'] = 'Naslov';
 $labels['vacation.body'] = 'Tijelo poruke';
 $labels['vacation.status'] = 'Status';
+$labels['vacation.on'] = 'Uključeno';
+$labels['vacation.off'] = 'Isključeno';
+$labels['vacation.addresses'] = 'Moje email adrese';
+$labels['vacation.interval'] = 'Interval za odgovor';
+$labels['vacation.after'] = 'Postavi out-off-office pravilo nakon';
 $labels['vacation.saving'] = 'Spremanje podataka...';
 $labels['vacation.keep'] = 'Zadrži';
+$labels['forward.on'] = 'Aktivno';
+$labels['forward.off'] = 'Isključeno';
 $labels['forward.saving'] = 'Spremanje podataka...';
 $labels['duplicate.header'] = 'zaglavlje:';
 $messages['filterunknownerror'] = 'Nepoznata greška na poslužitelju';
@@ -173,15 +188,6 @@ $messages['actiondeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabran
 $messages['forbiddenchars'] = 'Nedozvoljeni znakovi u polju';
 $messages['cannotbeempty'] = 'Polje nesmije biti prazno';
 $messages['ruleexist'] = 'Filter sa zadanim imenom već postoji.';
-$messages['setactivateerror'] = 'Nemoguće aktivirati odabranu grupu filtera. Greška na poslužitelju.';
-$messages['setdeactivateerror'] = 'Nemoguće deaktivirati odabranu grupu filtera. Greška na poslužitelju.';
-$messages['setdeleteerror'] = 'Nemoguće obrisati odabranu grupu filtera. Greška na poslužitelju.';
-$messages['setactivated'] = 'Grupa filtera je uspješno aktivirana';
-$messages['setdeactivated'] = 'Grupa filtera je uspješno deaktivirana';
-$messages['setdeleted'] = 'Grupa filtera je uspješno obrisana';
-$messages['setdeleteconfirm'] = 'Jeste li sigurni da želite obrisati odabranu grupu filtera?';
-$messages['setcreateerror'] = 'Nemoguće stvoriti grupu filtera. Greška na poslužitelju.';
-$messages['setcreated'] = 'Grupa filtera je uspješno stvorena';
 $messages['activateerror'] = 'Nije moguće omogućiti odabrani filter(e). Greška poslužitelja.';
 $messages['deactivateerror'] = 'Nije moguće onemogućiti odabrane filter(e). Greška poslužitelja.';
 $messages['deactivated'] = 'Filter(i) omogućen(i) uspješno.';
@@ -194,4 +200,4 @@ $messages['setexist'] = 'Skup već postoji.';
 $messages['nodata'] = 'Barem jedan pozicija mora biti odabrana!';
 $messages['invaliddateformat'] = 'Neispravan datum ili dio datuma';
 $messages['saveerror'] = 'Nemoguće spremiti podatke. Greška na poslužitelju.';
-?>
+$messages['vacationsaved'] = 'Out-off-office podaci uspješno pohranjeni.';

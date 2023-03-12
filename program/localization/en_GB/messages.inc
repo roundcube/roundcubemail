@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'An error occurred.';
 $messages['loginfailed']  = 'Login failed.';
 $messages['cookiesdisabled'] = 'Your browser does not accept cookies.';
 $messages['sessionerror'] = 'Your session is invalid or has expired.';
+$messages['cookiesmismatch'] = 'Cookie mismatch detected. Please clear your browser\'s cookies.';
 $messages['storageerror'] = 'Connection to IMAP server failed.';
 $messages['servererror'] = 'Server Error!';
 $messages['servererrormsg'] = 'Server Error: $msg';
 $messages['accountlocked'] = 'Too many failed login attempts. Try again later.';
 $messages['connerror'] = 'Connection Error (Failed to reach the server)!';
 $messages['dberror'] = 'Database Error!';
+$messages['dbconnerror'] = 'Unable to connect to the database!';
 $messages['windowopenerror'] = 'The popup window was blocked!';
 $messages['requesttimedout'] = 'Request timed out';
 $messages['errorreadonly'] = 'Unable to perform operation. Folder is read-only.';
@@ -57,6 +58,9 @@ $messages['contactexists'] = 'A contact with the same email address already exis
 $messages['contactnameexists'] = 'A contact with the same name already exists.';
 $messages['blockedimages'] = 'To protect your privacy, remote images are blocked in this message.';
 $messages['blockedresources'] = 'To protect your privacy remote resources have been blocked.';
+$messages['suspiciousemail'] = 'This message contains suspicious email addresses that may be fraudulent.';
+$messages['bccemail'] = 'The forwarded message(s) contain confidential recipients (Bcc).';
+$messages['bouncehint'] = 'The message will be sent without any modifications, i.e. using the original body, headers and recipients.';
 $messages['encryptedmessage'] = 'This is an encrypted message and can not be displayed. Sorry!';
 $messages['externalmessagedecryption'] = 'This is an encrypted message and can be decrypted with your browser extension.';
 $messages['nopubkeyfor'] = 'No valid public key found for $email';
@@ -64,11 +68,11 @@ $messages['nopubkeyforsender'] = 'No valid public key found for your sender iden
 $messages['encryptnoattachments'] = 'Already uploaded attachments cannot be encrypted. Please re-add them in the encryption editor.';
 $messages['searchpubkeyservers'] = 'Do you want to search public key servers for the missing keys?';
 $messages['encryptpubkeysfound'] = 'The following public keys have been found:';
-$messages['keyservererror'] = 'Failed to get key from keyserver';
-$messages['keyimportsuccess'] = 'Public key $key successfully imported into your key ring';
+$messages['keyservererror'] = 'Failed to get key from keyserver.';
+$messages['keyimportsuccess'] = 'Public key $key successfully imported into your keyring.';
 $messages['nocontactsfound'] = 'No contacts found.';
 $messages['contactnotfound'] = 'The requested contact was not found.';
-$messages['contactsearchonly'] = 'Enter some search terms to find contacts';
+$messages['contactsearchonly'] = 'You must use a search form to see contacts from this addressbook.';
 $messages['sendingfailed'] = 'Failed to send message.';
 $messages['senttooquickly'] = 'Please wait $sec sec(s). before sending this message.';
 $messages['errorsavingsent'] = 'An error occurred while saving sent message.';
@@ -117,16 +121,18 @@ $messages['nospellerrors'] = 'No spelling errors found.';
 $messages['folderdeleted'] = 'Successfully deleted folder.';
 $messages['foldersubscribed'] = 'Successfully subscribed to folder.';
 $messages['folderunsubscribed'] = 'Successfully unsubscribed from folder.';
-$messages['folderpurged'] = 'Successfully emptied folder.';
-$messages['folderexpunged'] = 'Successfully compacted folder.';
+$messages['folderpurged'] = 'Folder successfully emptied.';
+$messages['folderexpunged'] = 'Folder successfully compacted.';
 $messages['deletedsuccessfully'] = 'Successfully deleted.';
 $messages['converting'] = 'Removing formatting...';
 $messages['messageopenerror'] = 'Could not load message from server.';
 $messages['filelinkerror'] = 'Attaching the file failed.';
 $messages['fileuploaderror'] = 'File upload failed.';
+$messages['csvfilemismatch'] = 'Import of multiple CSV files with different fields is not supported.';
 $messages['filesizeerror'] = 'The uploaded file exceeds the maximum size of $size.';
 $messages['filecounterror'] = 'You can upload maximum $count files at once.';
 $messages['msgsizeerror'] = 'Failed to attach a file. Maximum size of a message ($size) exceeded.';
+$messages['msgsizeerrorfwd'] = 'Maximum size of a message ($size) exceeded. $num message(s) have not been attached.';
 $messages['copysuccess'] = 'Successfully copied $nr contacts.';
 $messages['movesuccess'] = 'Successfully moved $nr contacts.';
 $messages['copyerror'] = 'Could not copy any contacts.';
@@ -186,7 +192,7 @@ $messages['savedsearchcreated'] = 'Saved search successfully created.';
 $messages['savedsearchcreateerror'] = 'Could not create saved search.';
 $messages['messagedeleted'] = 'Message(s) deleted successfully.';
 $messages['messagemoved'] = 'Message(s) moved successfully.';
-$messages['messagemovedtotrash'] = 'Message(s) moved to the Rubbish Bin successfully.';
+$messages['messagemovedtotrash'] = 'Message(s) moved to Deleted Items successfully.';
 $messages['messagecopied'] = 'Message(s) copied successfully.';
 $messages['messagemarked'] = 'Message(s) marked successfully.';
 $messages['autocompletechars'] = 'Enter at least $min characters for autocompletion.';
@@ -218,6 +224,9 @@ $messages['clicktocompose'] = 'Click here to compose a new message';
 $messages['nosupporterror'] = 'This feature is not supported by your web browser.';
 $messages['siginserted'] = 'Signature inserted successfully.';
 $messages['responseinserted'] = 'Response inserted successfully.';
+$messages['noresponsesavailable'] = 'No responses available';
 $messages['listempty'] = 'The list is empty.';
 $messages['listusebutton'] = 'Use the Create button to add a new record.';
 $messages['keypaircreatesuccess'] = 'A new key pair has been successfully created for $identity.';
+$messages['emptyattachment'] = 'This attachment appears to be empty.<br>Content may have been removed by anti-virus/anti-spam services. Please check with the sender.';
+$messages['oauthloginfailed'] = 'OAuth login failed. Please try again.';

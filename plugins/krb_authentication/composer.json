@@ -2,7 +2,7 @@
     "name": "roundcube/krb_authentication",
     "type": "roundcube-plugin",
     "description": "Kerberos Authentication",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "1.2",
     "authors": [
         {
@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=7.3.0",
         "roundcube/plugin-installer": ">=0.1.3"
     }
 }

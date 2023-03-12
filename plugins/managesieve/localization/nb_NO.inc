@@ -2,25 +2,27 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtre';
 $labels['managefilters'] = 'Rediger filter for innkommende e-post';
 $labels['filtername'] = 'Filternavn';
 $labels['newfilter'] = 'Nytt filter';
 $labels['filteradd'] = 'Legg til filter';
 $labels['filterdel'] = 'Slett filter';
+$labels['rules'] = 'Regler';
+$labels['actions'] = 'Handlinger';
 $labels['scope'] = 'Omfanget';
 $labels['moveup'] = 'Flytt opp';
 $labels['movedown'] = 'Flytt ned';
@@ -39,6 +41,14 @@ $labels['filterregex'] = 'treffer regulært uttrykk';
 $labels['filternotregex'] = 'ikke treffer regulært uttrykk';
 $labels['filterunder'] = 'under';
 $labels['filterover'] = 'over';
+$labels['mime'] = 'MIME:';
+$labels['mimepart'] = 'MIME del:';
+$labels['mime-message'] = 'melding';
+$labels['mime-anychild'] = 'alle';
+$labels['mime-type'] = 'type';
+$labels['mime-subtype'] = 'undertype';
+$labels['mime-contenttype'] = 'innholdstype';
+$labels['mime-param'] = 'parameter';
 $labels['addrule'] = 'Legg til regel';
 $labels['delrule'] = 'Slett regel';
 $labels['messagemoveto'] = 'Flytt meldingen til';
@@ -55,9 +65,11 @@ $labels['add'] = 'Legg til';
 $labels['del'] = 'Slett';
 $labels['sender'] = 'Avsender';
 $labels['recipient'] = 'Mottaker';
+$labels['vacationaddr'] = 'Mine e-postadresser:';
 $labels['vacationdays'] = 'Periode mellom meldinger (i dager):';
 $labels['vacationinterval'] = 'Periode mellom meldinger:';
 $labels['vacationreason'] = 'Innhold (begrunnelse for fravær)';
+$labels['vacationfrom'] = 'Avsender:';
 $labels['vacationsubject'] = 'Meldingsemne:';
 $labels['days'] = 'dager';
 $labels['seconds'] = 'sekunder';
@@ -65,9 +77,12 @@ $labels['rulestop'] = 'Stopp evaluering av regler';
 $labels['enable'] = 'Aktiver/Deaktiver';
 $labels['filterset'] = 'Filtersett';
 $labels['filtersets'] = 'Filtersett';
-$labels['filtersetadd'] = 'Nytt filtersett';
+$labels['filtersetadd'] = 'Legg til filtersett';
+$labels['filtersetdel'] = 'Slett filtersett';
 $labels['filtersetact'] = 'Aktiver gjeldende filtersett';
 $labels['filtersetdeact'] = 'Deaktiver gjeldende filtersett';
+$labels['filterseteditraw'] = 'Rediger filtersett';
+$labels['filtersetswitch'] = 'Aktiver/deaktiver filtersett';
 $labels['filterdef'] = 'Filterdefinisjon';
 $labels['filtersetname'] = 'Navn på filtersett';
 $labels['newfilterset'] = 'Nytt filtersett';
@@ -76,6 +91,7 @@ $labels['none'] = 'ingen';
 $labels['fromset'] = 'fra sett';
 $labels['fromfile'] = 'fra fil';
 $labels['filterdisabled'] = 'Filter deaktivert';
+$labels['filterenabled'] = 'Filter aktivert';
 $labels['countisgreaterthan'] = 'antall er flere enn';
 $labels['countisgreaterthanequal'] = 'antall er flere enn eller lik';
 $labels['countislessthan'] = 'antall er færre enn';
@@ -96,6 +112,18 @@ $labels['flagdeleted'] = 'Slettet';
 $labels['flaganswered'] = 'Besvart';
 $labels['flagflagged'] = 'Flagget';
 $labels['flagdraft'] = 'Utkast';
+$labels['addheader'] = 'Legg til meldingshode til melding';
+$labels['deleteheader'] = 'Fjern meldingshode fra melding';
+$labels['headername'] = 'Navn til meldingshode';
+$labels['headervalue'] = 'Verdi til meldingshode';
+$labels['headerpos'] = 'Posisjon for meldingshode';
+$labels['headeratstart'] = 'på begynnelsen';
+$labels['headeratend'] = 'på slutten';
+$labels['headeroccurrence'] = 'Hodeplassering';
+$labels['headerfromstart'] = 'fra start';
+$labels['headerfromend'] = 'fra slutt';
+$labels['headerpatterns'] = 'Mønster for hodeinnhold';
+$labels['headermatchtype'] = 'type lik:';
 $labels['setvariable'] = 'Set variabel';
 $labels['setvarname'] = 'Variabelnavn:';
 $labels['setvarvalue'] = 'Variabel verdi:';
@@ -106,17 +134,23 @@ $labels['varlowerfirst'] = 'første tegn liten bokstav';
 $labels['varupperfirst'] = 'første tegn stor bokstav';
 $labels['varquotewildcard'] = 'sitér spesialtegn';
 $labels['varlength'] = 'lengde';
-$labels['notify'] = 'Send melding';
+$labels['notify'] = 'Send varsel';
+$labels['notifytarget'] = 'Varlselsmottaker:';
+$labels['notifymessage'] = 'Varselsmelding (valgfritt):';
+$labels['notifyoptions'] = 'Varselsalternativer (valgfritt):';
+$labels['notifyfrom'] = 'Varlselsavsender (valgfritt):';
 $labels['notifyimportance'] = 'Viktighet:';
 $labels['notifyimportancelow'] = 'lav';
 $labels['notifyimportancenormal'] = 'normal';
 $labels['notifyimportancehigh'] = 'høy';
 $labels['notifymethodmailto'] = 'E-post';
 $labels['notifymethodtel'] = 'Telefon';
+$labels['notifymethodsms'] = 'SMS';
 $labels['filtercreate'] = 'Opprett filter';
 $labels['usedata'] = 'Bruk følgende data i filteret:';
 $labels['nextstep'] = 'Neste steg';
-$labels['...'] = '…';
+$labels['...'] = '...';
+$labels['string'] = 'Tekststreng';
 $labels['currdate'] = 'Nåværende dato';
 $labels['datetest'] = 'Dato';
 $labels['dateheader'] = 'header:';
@@ -154,16 +188,66 @@ $labels['asciicasemap'] = 'ikke skill store og små bokstaver (ascii-casemap)';
 $labels['asciinumeric'] = 'numerisk (ascii-numeric)';
 $labels['index'] = 'index:';
 $labels['indexlast'] = 'baklengs';
+$labels['spamtest'] = 'Spamnivå';
+$labels['spamtestisgreaterthan'] = 'er større enn';
+$labels['spamtestisgreaterthanequal'] = 'er større enn eller lik';
+$labels['spamtestislessthan'] = 'er mindre enn';
+$labels['spamtestislessthanequal'] = 'er mindre enn eller lik';
+$labels['spamtestequals'] = 'er lik';
+$labels['spamtestnotequals'] = 'er ulik';
+$labels['spamtestisunknown'] = 'er ukjent';
+$labels['vacation'] = 'Fravær';
+$labels['vacation.reply'] = 'Svar melding';
+$labels['vacation.advanced'] = 'Avanserte innstillinger';
+$labels['vacation.from'] = 'Fra adresse';
 $labels['vacation.subject'] = 'Emne';
 $labels['vacation.body'] = 'Meldingstekst';
+$labels['vacation.start'] = 'Start tid';
+$labels['vacation.end'] = 'Slutt tid';
+$labels['vacation.status'] = 'Status';
+$labels['vacation.on'] = 'På';
+$labels['vacation.off'] = 'Av';
+$labels['vacation.addresses'] = 'Min e-postadresse';
+$labels['vacation.interval'] = 'Svarintervall';
+$labels['vacation.after'] = 'Plasser fraværsregel etter';
+$labels['vacation.saving'] = 'Lagrer data...';
+$labels['vacation.action'] = 'Handling for innkommende meldinger';
 $labels['vacation.keep'] = 'Behold';
+$labels['vacation.discard'] = 'Forkast';
+$labels['vacation.redirect'] = 'Videresend til';
+$labels['vacation.copy'] = 'Send kopi til';
+$labels['forward'] = 'Videresending';
+$labels['forward.redirect'] = 'Videresend til';
+$labels['forward.copy'] = 'Send kopi til';
+$labels['forward.on'] = 'På';
+$labels['forward.off'] = 'Av';
+$labels['forward.status'] = 'Status:';
+$labels['forward.action'] = 'Handling for innkommende meldinger:';
+$labels['forward.saving'] = 'Lagrer data...';
+$labels['filladdresses'] = 'Fyll ut med alle mine adresser';
+$labels['arialabelfiltersetactions'] = 'Filtersetthandlinger';
+$labels['arialabelfilteractions'] = 'Filterhandling';
+$labels['arialabelfilterform'] = 'Filteregenskaper';
+$labels['ariasummaryfilterslist'] = 'Liste over filtre';
+$labels['ariasummaryfiltersetslist'] = 'Liste over filtersett';
+$labels['filterstitle'] = 'Rediger innkommende mailfiltre';
+$labels['vacationtitle'] = 'Rediger fraværsregel';
+$labels['forwardtitle'] = 'Rediger videresendingsregel';
+$labels['message'] = 'Melding';
+$labels['duplicate'] = 'er duplikat';
+$labels['notduplicate'] = 'er ikke duplikat';
+$labels['duplicate.handle'] = 'handle:';
 $labels['duplicate.header'] = 'header:';
+$labels['duplicate.uniqueid'] = 'identifikator:';
+$labels['duplicate.seconds'] = 'tidsavbrudd (sekunder):';
+$labels['duplicate.last'] = 'relativ til siste utførelse';
 $messages['filterunknownerror'] = 'Ukjent problem med tjener.';
 $messages['filterconnerror'] = 'Kunne ikke koble til tjeneren.';
 $messages['filterdeleteerror'] = 'Kunne ikke slette filter. Fikk feilmelding fra server.';
 $messages['filterdeleted'] = 'Filteret er blitt slettet.';
 $messages['filtersaved'] = 'Filteret er blitt lagret.';
 $messages['filtersaveerror'] = 'Kunne ikke lagre filter. Fikk feilmelding fra server.';
+$messages['filterformerror'] = 'Filterskjemaet inneholder feil.';
 $messages['filterdeleteconfirm'] = 'Vil du virkelig slette det valgte filteret?';
 $messages['ruledeleteconfirm'] = 'Er du sikker på at du vil slette valgte regel?';
 $messages['actiondeleteconfirm'] = 'Er du sikker på at du vil slette valgte hendelse?';
@@ -176,18 +260,26 @@ $messages['setdeleteerror'] = 'Kunne ikke slette valgte filtersett. Fikk feilmel
 $messages['setactivated'] = 'Filtersett aktivert.';
 $messages['setdeactivated'] = 'Filtersett deaktivert.';
 $messages['setdeleted'] = 'Filtersett slettet.';
-$messages['setdeleteconfirm'] = 'Er du sikker på at du vil slette det valgte filtersettet?';
+$messages['setupdated'] = 'Filtersett oppdatert.';
+$messages['setdeleteconfirm'] = 'Er du sikker på at du vil slette de valgte filtersettene?';
 $messages['setcreateerror'] = 'Kunne ikke opprette filtersett. Fikk feilmelding fra server.';
 $messages['setcreated'] = 'Filtersett opprettet.';
 $messages['activateerror'] = 'Kunne ikke aktivere valgte filter(e). Fikk feilmelding fra server.';
 $messages['deactivateerror'] = 'Kunne ikke deaktivere valgte filter(e). Fikk feilmelding fra server.';
-$messages['deactivated'] = 'Filter skrudd på.';
-$messages['activated'] = 'Filter skrudd av.';
-$messages['moved'] = 'Filter ble flyttet.';
+$messages['deactivated'] = 'Filter deaktivert.';
+$messages['activated'] = 'Filter aktivert.';
+$messages['moved'] = 'Filter flyttet.';
 $messages['moveerror'] = 'Kunne ikke flytte valgte filter. Fikk feilmelding fra server.';
 $messages['nametoolong'] = 'Navnet er for langt.';
 $messages['namereserved'] = 'Navnet er reservert.';
 $messages['setexist'] = 'Settet eksisterer allerede.';
 $messages['nodata'] = 'Du må velge minst én posisjon!';
 $messages['invaliddateformat'] = 'Ugyldig dato eller datoformat';
-?>
+$messages['saveerror'] = 'Kunne ikke lagre data. Fikk feilmelding fra server.';
+$messages['vacationsaved'] = 'Lagring av fraværsregel vellykket.';
+$messages['forwardsaved'] = 'Lagring av videresendingsregel vellykket.';
+$messages['emptyvacationbody'] = 'Innhold for fraværsmelding påkrevd!';
+$messages['duplicate.conflict.err'] = 'Både hode og unik ID er ikke tillatt.';
+$messages['disabledaction'] = 'Handling ikke tillatt.';
+$messages['lastindexempty'] = 'Ved telling fra bunnen, er indeks påkrevd';
+$messages['noflagset'] = 'Minst ett flagg må være valgt.';

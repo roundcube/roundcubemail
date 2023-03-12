@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Villa kom upp!';
 $messages['loginfailed']  = 'Innskráning mistókst.';
 $messages['cookiesdisabled'] = 'Vafrinn þinn samþykkir ekki vefkökur.';
 $messages['sessionerror'] = 'Innskráningin þín er ógild eða útrunnin.';
+$messages['cookiesmismatch'] = 'Fann misræmi í vefkökum. Endilega hreinsaðu skyndiminni vafrans af vefkökum.';
 $messages['storageerror'] = 'Tenging við geymsluþjón mistókst.';
 $messages['servererror'] = 'Villa í þjóni!';
 $messages['servererrormsg'] = 'Villa í þjóni: $msg';
 $messages['accountlocked'] = 'Of margar tilraunir til innskráningar. Reyndu aftur síðar.';
 $messages['connerror'] = 'Villa í tengingu (mistókst að ná í þjóninn)!';
 $messages['dberror'] = 'Villa í gagnagrunni!';
+$messages['dbconnerror'] = 'Tókst ekki að tengjast gagnagrunninum!';
 $messages['windowopenerror'] = 'Lokað var á sprettgluggann!';
 $messages['requesttimedout'] = 'Fyrirspurn féll á tíma';
 $messages['errorreadonly'] = 'Tókst ekki að framkvæma aðgerð. Mappa er skrifvarin.';
@@ -57,6 +58,9 @@ $messages['contactexists'] = 'Tengiliður með sama nafn er þegar skráður í 
 $messages['contactnameexists'] = 'Tengiliður með sama nafn er þegar skráður í netfangaskrána.';
 $messages['blockedimages'] = 'Til verndar hefur verið lokað á allar fjartengdar myndir í þessum skilaboðum.';
 $messages['blockedresources'] = 'Til verndar hefur verið lokað á öll fjartengd tilföng.';
+$messages['suspiciousemail'] = 'Þessi skilaboð innihalda grunsamleg tölvupóstföng sem gætu verið tilraun til svika.';
+$messages['bccemail'] = 'Áframsendu skilaboðin innihalda leynilega viðtakendur (Bcc).';
+$messages['bouncehint'] = 'Þessi skilaboð verða send án nokkurra breytinga, þ.e.a.s. með upprunalegu meginmáli, haus og viðtakendum.';
 $messages['encryptedmessage'] = 'Þetta eru dulrituð skilaboð og því er ekki hægt að birta þau!';
 $messages['externalmessagedecryption'] = 'Þetta eru dulrituð skilaboð og er hægt að afkóða þau með vafraviðbótinni.';
 $messages['nopubkeyfor'] = 'Enginn gildur dreifilykill fannst fyrir $email';
@@ -64,11 +68,11 @@ $messages['nopubkeyforsender'] = 'Enginn gildur dreifilykill fannst fyrir sendan
 $messages['encryptnoattachments'] = 'Viðhengi sem þegar er búið að senda inn er ekki hægt að dulrita. Bættu þeim við aftur í dulritunarritlinum.';
 $messages['searchpubkeyservers'] = 'Viltu leita að þeim lyklum sem vantar á opinberum lyklaþjónum?';
 $messages['encryptpubkeysfound'] = 'Eftirfarandi dreifilyklar fundust:';
-$messages['keyservererror'] = 'Mistókst að nálgast lykil á lyklaþjóni';
-$messages['keyimportsuccess'] = 'Það tókst að flytja $key dreifilykilinn inn í lyklakippuna þína';
+$messages['keyservererror'] = 'Mistókst að nálgast lykil á lyklaþjóni.';
+$messages['keyimportsuccess'] = 'Það tókst að flytja $key dreifilykilinn inn í lyklakippuna þína.';
 $messages['nocontactsfound'] = 'Engir tengiliðir fundust.';
 $messages['contactnotfound'] = 'Umbeðinn tengiliður fannst ekki.';
-$messages['contactsearchonly'] = 'Settu inn leitartexta til að finna tengiliði';
+$messages['contactsearchonly'] = 'Þú verður að nota leitarform til að sjá tengiliði úr völdu nafnaskránni.';
 $messages['sendingfailed'] = 'Sending skilaboðanna misheppnaðist.';
 $messages['senttooquickly'] = 'Bíða í $sec sekúndu(r) áður en þessi skilaboð eru send.';
 $messages['errorsavingsent'] = 'Villa kom upp við vistun sendra skilaboða.';
@@ -124,9 +128,11 @@ $messages['converting'] = 'Fjarlægi snið...';
 $messages['messageopenerror'] = 'Gat ekki hlaðið skilaboðum inn af póstþjóni.';
 $messages['filelinkerror'] = 'Mistókst að hengja við skrá.';
 $messages['fileuploaderror'] = 'Innsending skráar mistókst.';
+$messages['csvfilemismatch'] = 'Innflutningur á mörgum CSV-skrám með mismunandi gagnasviðum er ekki studdur.';
 $messages['filesizeerror'] = 'Innsenda skráin er yfir $size leyfilegri stærð.';
 $messages['filecounterror'] = 'Þú getur í mesta lagi sent inn $count skrár í einu.';
 $messages['msgsizeerror'] = 'Mistókst að hengja við skrá. Fór yfir leyfilega hámarksstærð ($size) skilaboða.';
+$messages['msgsizeerrorfwd'] = 'Hámarksstærð skilaboða ($size) náð. $num skilaboð hafa ekki verið hengd við.';
 $messages['copysuccess'] = 'Tókst að afrita $nr tengiliði';
 $messages['movesuccess'] = 'Tókst að færa $nr tengiliði';
 $messages['copyerror'] = 'Gat ekki afritað neina tengiliði.';
@@ -218,6 +224,9 @@ $messages['clicktocompose'] = 'Smelltu hér til að búa til ný skilaboð';
 $messages['nosupporterror'] = 'Þessi eiginleiki er ekki studdur af vafranum þínum.';
 $messages['siginserted'] = 'Tókst að setja inn undirskrift.';
 $messages['responseinserted'] = 'Tókst að setja inn svar.';
+$messages['noresponsesavailable'] = 'Engin svör tiltæk';
 $messages['listempty'] = 'Listinn er tómur.';
 $messages['listusebutton'] = 'Notaðu \'Búa til\' hnappinn til að bæta við færslu.';
 $messages['keypaircreatesuccess'] = 'Tókst að útbúa nýtt lyklapar fyrir $identity.';
+$messages['emptyattachment'] = 'Þetta viðhengi lítur út fyrir að vera tómt. <br>Hafðu samband við þann sem sendi þetta.';
+$messages['oauthloginfailed'] = 'OAuth-innskráning mistókst. Reyndu aftur.';

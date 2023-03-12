@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filter';
 $labels['managefilters'] = 'Verwalte eingehende Nachrichtenfilter';
 $labels['filtername'] = 'Filtername';
@@ -75,7 +75,7 @@ $labels['days'] = 'Tage';
 $labels['seconds'] = 'Sekunden';
 $labels['rulestop'] = 'Regelauswertung anhalten';
 $labels['enable'] = 'Aktivieren/Deaktivieren';
-$labels['filterset'] = 'Filtersätze';
+$labels['filterset'] = 'Filtersatz';
 $labels['filtersets'] = 'Filtersätze';
 $labels['filtersetadd'] = 'Filtersatz anlegen';
 $labels['filtersetdel'] = 'Filtersatz löschen';
@@ -91,6 +91,7 @@ $labels['none'] = 'keine';
 $labels['fromset'] = 'aus Filtersatz';
 $labels['fromfile'] = 'aus Datei';
 $labels['filterdisabled'] = 'Filter deaktiviert';
+$labels['filterenabled'] = 'Filter aktiviert';
 $labels['countisgreaterthan'] = 'Anzahl ist grösser als';
 $labels['countisgreaterthanequal'] = 'Anzahl ist gleich oder grösser als';
 $labels['countislessthan'] = 'Anzahl ist kleiner als';
@@ -111,6 +112,18 @@ $labels['flagdeleted'] = 'Gelöscht';
 $labels['flaganswered'] = 'Beantwortet';
 $labels['flagflagged'] = 'Markiert';
 $labels['flagdraft'] = 'Entwurf';
+$labels['addheader'] = 'Kopfzeile zur Nachricht hinzufügen';
+$labels['deleteheader'] = 'Kopfzeile von Nachricht entfernen';
+$labels['headername'] = 'Name der Kopfzeile';
+$labels['headervalue'] = 'Wert der Kopfzeile';
+$labels['headerpos'] = 'Position der Kopfzeile';
+$labels['headeratstart'] = 'am Anfang';
+$labels['headeratend'] = 'am Ende';
+$labels['headeroccurrence'] = 'Auftreten / Position der Kopfzeile';
+$labels['headerfromstart'] = 'vom Start';
+$labels['headerfromend'] = 'vom Ende';
+$labels['headerpatterns'] = 'Vorlage des Kopfzeilen-Werts';
+$labels['headermatchtype'] = 'passender Typ:';
 $labels['setvariable'] = 'Setze Variable';
 $labels['setvarname'] = 'Variablenname:';
 $labels['setvarvalue'] = 'Variablenwert:';
@@ -175,6 +188,14 @@ $labels['asciicasemap'] = 'Gross-/Kleinschreibung ignorieren';
 $labels['asciinumeric'] = 'numerisch (ascii-numeric)';
 $labels['index'] = 'Index:';
 $labels['indexlast'] = 'rückwärts';
+$labels['spamtest'] = 'Spam-Niveau';
+$labels['spamtestisgreaterthan'] = 'ist grösser als';
+$labels['spamtestisgreaterthanequal'] = 'ist grösser oder gleich als';
+$labels['spamtestislessthan'] = 'ist kleiner als';
+$labels['spamtestislessthanequal'] = 'ist kleiner oder gleich als';
+$labels['spamtestequals'] = 'ist gleich';
+$labels['spamtestnotequals'] = 'ist ungleich';
+$labels['spamtestisunknown'] = 'ist unbekannt';
 $labels['vacation'] = 'Abwesenheit';
 $labels['vacation.reply'] = 'Antworte mit Nachricht';
 $labels['vacation.advanced'] = 'Erweiterte Einstellungen';
@@ -233,16 +254,16 @@ $messages['actiondeleteconfirm'] = 'Sicher, dass Sie die ausgewaehlte Aktion lö
 $messages['forbiddenchars'] = 'Unerlaubte Zeichen im Feld';
 $messages['cannotbeempty'] = 'Feld darf nicht leer sein';
 $messages['ruleexist'] = 'Ein Filter mit dem angegebenen Namen existiert bereits.';
-$messages['setactivateerror'] = 'Serverfehler beim Aktivieren des gewählten Filtersatzes.';
-$messages['setdeactivateerror'] = 'Serverfehler beim Deaktivieren des gewählten Filtersatzes.';
-$messages['setdeleteerror'] = 'Serverfehler beim Löschen des gewählten Filtersatzes.';
+$messages['setactivateerror'] = 'Kann ausgewählten Filtersatz nicht aktivieren. Serverfehler';
+$messages['setdeactivateerror'] = 'Kann ausgewählten Filtersatz nicht deaktivieren. Serverfehler';
+$messages['setdeleteerror'] = 'Kann ausgewählten Filtersatz nicht löschen. Serverfehler';
 $messages['setactivated'] = 'Filtersatz erfolgreich aktiviert.';
 $messages['setdeactivated'] = 'Filtersatz erfolgreich deaktiviert.';
 $messages['setdeleted'] = 'Filtersatz erfolgreich gelöscht.';
-$messages['setupdated'] = 'Filtersatz erfolgreich gespeichert.';
+$messages['setupdated'] = 'Filtersatz erfolgreich aktualisiert.';
 $messages['setdeleteconfirm'] = 'Sind Sie sicher, dass Sie den ausgewählten Filtersatz löschen möchten?';
-$messages['setcreateerror'] = 'Serverfehler beim Erstellen des Filtersatzes.';
-$messages['setcreated'] = 'Filter erfolgreich erstellt.';
+$messages['setcreateerror'] = 'Der Filtersatz kann nicht erstellt werden. Serverfehler aufgetreten.';
+$messages['setcreated'] = 'Filtersatz erfolgreich erstellt.';
 $messages['activateerror'] = 'Serverfehler beim Aktivieren des/der gewählten Filter(s).';
 $messages['deactivateerror'] = 'Serverfehler beim Deaktivieren des/der gewählten Filter(s).';
 $messages['deactivated'] = 'Filter erfolgreich aktiviert.';
@@ -260,4 +281,5 @@ $messages['forwardsaved'] = 'Weiterleitungsdaten erfolgreich gespeichert.';
 $messages['emptyvacationbody'] = 'Mitteilungstext ist erforderlich!';
 $messages['duplicate.conflict.err'] = 'Kopfzeile und eindeutiger Bezeichner sind nicht zusammen erlaubt.';
 $messages['disabledaction'] = 'Aktion nicht erlaubt.';
-?>
+$messages['lastindexempty'] = 'Ein Index ist nötig, wenn vom Ende gezählt wird';
+$messages['noflagset'] = 'Es muss mindestens ein Merker ausgewählt werden.';

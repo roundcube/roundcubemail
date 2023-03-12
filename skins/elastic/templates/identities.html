@@ -5,7 +5,7 @@
 <h1 class="voice"><roundcube:label name="settings" /> : <roundcube:label name="identities" /></h1>
 
 <!-- responses list -->
-<div class="list listbox selected" aria-labelledby="aria-label-identitieslist">
+<div id="layout-list" class="listbox selected" aria-labelledby="aria-label-identitieslist">
 	<div class="header">
 		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
 		<span id="aria-label-identitieslist" class="header-title"><roundcube:label name="identities" /></span>
@@ -20,20 +20,18 @@
 </div>
 
 <!-- response details frame -->
-<div class="content" role="main">
+<div id="layout-content" role="main">
 	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
 	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title"></span>
 		<!-- toolbar -->
-		<div id="identitiestoolbar" class="toolbar">
-			<roundcube:button command="add" type="link"
+		<div id="identitiestoolbar" class="toolbar menu">
+			<roundcube:button command="add" type="link" class="create disabled" classAct="create"
 				label="create" title="newidentity" innerClass="inner" 
-				class="button create disabled" classAct="button create"
 				condition="config:identities_level:0<2" data-fab="true" />
-			<roundcube:button command="delete" type="link"
+			<roundcube:button command="delete" type="link" class="delete disabled" classAct="delete"
 				label="delete" title="delete" innerClass="inner"
-				class="button delete disabled" classAct="button delete"
 				condition="config:identities_level:0<2" />
 		</div>
 	</div>

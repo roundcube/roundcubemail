@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Došlo k chybě!';
 $messages['loginfailed']  = 'Přihlášení selhalo.';
 $messages['cookiesdisabled'] = 'Váš prohlížeč nepodporuje cookies, které jsou pro přihlášení nezbytné.';
 $messages['sessionerror'] = 'Vaše přihlášení je neplatné nebo vypršelo.';
+$messages['cookiesmismatch'] = 'Nalezena nekonzistentnost v cookies. Vymažte, prosím, cookies ve vašem prohlížeči.';
 $messages['storageerror'] = 'Připojení na IMAP server selhalo.';
 $messages['servererror'] = 'Chyba serveru!';
 $messages['servererrormsg'] = 'Chyba serveru: $msg';
 $messages['accountlocked'] = 'Příliš mnoho chybných pokusů o přihlášení. Zkuste to později.';
 $messages['connerror'] = 'Chyba připojení (Selhalo připojeni k serveru)!';
 $messages['dberror'] = 'Chyba databáze!';
+$messages['dbconnerror'] = 'Nelze se připojit k databázi!';
 $messages['windowopenerror'] = 'Vyskakovací okno bylo zablokováno!';
 $messages['requesttimedout'] = 'Došlo k vypršení požadavku';
 $messages['errorreadonly'] = 'Příkaz nelze provést, složka je určena jen ke čtení.';
@@ -57,6 +58,9 @@ $messages['contactexists'] = 'Kontakt se zadanou e-mailovou adresou již existuj
 $messages['contactnameexists'] = 'Kontakt se stejným jménem již existuje.';
 $messages['blockedimages'] = 'Z bezpečnostních důvodů byly zablokovány obrázky ve zprávě.';
 $messages['blockedresources'] = 'Z důvodu ochrany soukromí bylo zablokováno načtení vzdálených zdrojů.';
+$messages['suspiciousemail'] = 'Zpráva obsahuje podezřelé adresáty, kteří mohou být podvodní.';
+$messages['bccemail'] = 'Přeposílaná zpráva obsahuje důvěrné příjemce (Bcc).';
+$messages['bouncehint'] = 'Zpráva bude odeslána bez dalších změn, t.j. bude použito původní tělo zprávy, hlavičky i příjemci.';
 $messages['encryptedmessage'] = 'Tato zpráva je zašifrovaná a nelze ji zobrazit.';
 $messages['externalmessagedecryption'] = 'Toto je šifrovaná zpráva a může být dešifrována pomocí rozšíření ve vašem prohlížeči.';
 $messages['nopubkeyfor'] = 'Nenalezen validní veřejný klíč pro $email';
@@ -64,11 +68,11 @@ $messages['nopubkeyforsender'] = 'Pro Vaši identitu odesílatele se nenašel ž
 $messages['encryptnoattachments'] = 'Přílohy, které jste už uložili na server, není možné zašifrovat. Prosím, přidejte je znovu v editoru pro šifrování.';
 $messages['searchpubkeyservers'] = 'Přejete si prohledat servery s klíči k nalezení chybějících klíčů?';
 $messages['encryptpubkeysfound'] = 'Byly nalezeny následující veřejné klíče:';
-$messages['keyservererror'] = 'Selhalo získávání klíče ze serveru s klíči';
-$messages['keyimportsuccess'] = 'Veřejný klíč $key byl přidán do vašeho úložiště klíčů';
+$messages['keyservererror'] = 'Nebylo možné získat klíč ze serveru s klíči.';
+$messages['keyimportsuccess'] = 'Veřejný klíč $key byl vložen do vaší klíčenky.';
 $messages['nocontactsfound'] = 'Kontakty nebyly nalezeny.';
 $messages['contactnotfound'] = 'Požadovaný kontakt nebyl nalezen.';
-$messages['contactsearchonly'] = 'Vyplňte některou z položek';
+$messages['contactsearchonly'] = 'Pro zobrazení kontaktů ze zvoleného adresáře použijte vyhledávací formulář.';
 $messages['sendingfailed'] = 'Odesílání zprávy selhalo.';
 $messages['senttooquickly'] = 'Prosím počkejte $sec sekund před odesláním zprávy.';
 $messages['errorsavingsent'] = 'Nastala chyba při ukládání odeslané zprávy.';
@@ -124,9 +128,11 @@ $messages['converting'] = 'Odstraňuji formátování ze zprávy...';
 $messages['messageopenerror'] = 'Nemohu načíst zprávu ze serveru.';
 $messages['filelinkerror'] = 'Přikládání souboru selhalo.';
 $messages['fileuploaderror'] = 'Nahrávání souboru selhalo.';
+$messages['csvfilemismatch'] = 'Iimport více CSV souborů s různými poli není podporován.';
 $messages['filesizeerror'] = 'Soubor přesáhl maximální velikost $size.';
 $messages['filecounterror'] = 'Můžete nahrát maximálně $count souborů najednou.';
 $messages['msgsizeerror'] = 'Selhalo připojení souboru. Byla překročena maximální velikost zprávy ($size).';
+$messages['msgsizeerrorfwd'] = 'Překročena maximální délka zprávy ($size). Počet položek, které nebyly připojeny je $num.';
 $messages['copysuccess'] = 'Zkopírováno $nr kontaktů.';
 $messages['movesuccess'] = 'Přesunuto $nr kontaktů.';
 $messages['copyerror'] = 'Kontakty nelze kopírovat.';
@@ -218,6 +224,9 @@ $messages['clicktocompose'] = 'Klikněte sem pro vytvoření nové zprávy';
 $messages['nosupporterror'] = 'Tato funkcionalita není vaším prohlížečem podporována.';
 $messages['siginserted'] = 'Podpis byl vložen.';
 $messages['responseinserted'] = 'Odpověď byla vložena.';
+$messages['noresponsesavailable'] = 'Žádné odpovědi nejsou k dispozici';
 $messages['listempty'] = 'Seznam je prázdný.';
 $messages['listusebutton'] = 'Použijte tlačítko "Vytvořit" pro přidání nového záznamu.';
 $messages['keypaircreatesuccess'] = 'Pro $identity byl vytvořen nový pár klíčů.';
+$messages['emptyattachment'] = 'Příloha je prázdná.<br>Zkontrolujte její stav s odesílatelem.';
+$messages['oauthloginfailed'] = 'Přihlášení přes OAuth selhalo. Prosím, zkuste to znovu';

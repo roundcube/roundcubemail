@@ -1,9 +1,8 @@
 <?php
 
-class Zipdownload_Plugin extends PHPUnit_Framework_TestCase
+class Zipdownload_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../zipdownload.php';
     }
@@ -14,10 +13,9 @@ class Zipdownload_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new zipdownload($rcube->api);
+        $plugin = new zipdownload($rcube->plugins);
 
         $this->assertInstanceOf('zipdownload', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
     }
 }
-

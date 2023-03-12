@@ -3,7 +3,7 @@
 <IfModule mod_rewrite.c>
 Options +SymLinksIfOwnerMatch
 RewriteEngine On
-RewriteRule ^favicon\.ico$ skins/larry/images/favicon.ico
+RewriteRule ^favicon\.ico$ skins/elastic/images/favicon.ico
 
 # security rules:
 # - deny access to files not containing a dot or starting with a dot
@@ -12,11 +12,18 @@ RewriteRule ^(?!installer|\.well-known\/|[a-zA-Z0-9]{16})(\.?[^\.]+)$ - [F]
 # - deny access to some locations
 RewriteRule ^/?(\.git|\.tx|SQL|bin|config|logs|temp|tests|vendor|program\/(include|lib|localization|steps)) - [F]
 # - deny access to some documentation files
-RewriteRule /?(README.*|meta\.json|composer\..*|jsdeps.json)$ - [F]
+RewriteRule /?(README.*|CHANGELOG.*|SECURITY.*|meta\.json|composer\..*|jsdeps.json)$ - [F]
 </IfModule>
 
 <IfModule mod_deflate.c>
 SetOutputFilter DEFLATE
+</IfModule>
+
+# prefer to brotli over gzip if brotli is available
+<IfModule mod_brotli.c>
+SetOutputFilter BROTLI_COMPRESS
+# some assets have been compressed, so no need to do it again
+SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|web[pm]|woff2?)$ no-brotli
 </IfModule>
 
 <IfModule mod_expires.c>
@@ -34,8 +41,8 @@ Options -Indexes
 # Disable page indexing
 Header set X-Robots-Tag "noindex, nofollow"
 
-# replace 'append' with 'merge' for Apache version 2.2.9 and later
-#Header append Cache-Control public env=!NO_CACHE
+# replace 'merge' with 'append' for Apache < 2.2.9
+#Header merge Cache-Control public env=!NO_CACHE
 
 # Optional security headers
 # Only provides increased security if the browser supports those features
@@ -59,11 +66,6 @@ Header set X-Robots-Tag "noindex, nofollow"
 
 # X-Content-Type-Options
 # It prevents Google Chrome and Internet Explorer from trying to mime-sniff the content-type of a response away from the one being declared by the server.
-#Header set X-Content-Type-Options: "nosniff"
+#Header set X-Content-Type-Options "nosniff"
 
-# CSP - Content Security Policy
-# for better privacy/security ask browsers to not set the Referer
-# more flags for script, stylesheets and images available, read RFC for more information
-# Note: "Referrer-Policy: same-origin" is already set by php code.
-#Header set Content-Security-Policy "referrer no-referrer"
 </IfModule>

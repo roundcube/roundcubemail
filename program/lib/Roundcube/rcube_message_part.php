@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2012, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -23,8 +24,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_message_part
 {
@@ -50,11 +49,18 @@ class rcube_message_part
     public $ctype_secondary = 'plain';
 
     /**
-     * Complete content type
+     * Full content type
      *
      * @var string
      */
     public $mimetype = 'text/plain';
+
+    /**
+     * Real content type of a message/rfc822 part
+     *
+     * @var string
+     */
+    public $real_mimetype = '';
 
     /**
      * Part size in bytes
@@ -64,18 +70,48 @@ class rcube_message_part
     public $size = 0;
 
     /**
+     * Part body
+     *
+     * @var string|null
+     */
+    public $body;
+
+    /**
      * Part headers
      *
      * @var array
      */
-    public $headers = array();
+    public $headers = [];
 
+    /**
+     * Sub-Parts
+     *
+     * @var array
+     */
+    public $parts = [];
+
+    /**
+     * Part Content-Id
+     *
+     * @var string|null
+     */
+    public $content_id;
+
+    /**
+     * Part Content-Location
+     *
+     * @var string|null
+     */
+    public $content_location;
+
+    public $type;
+    public $replaces     = [];
     public $disposition  = '';
     public $filename     = '';
     public $encoding     = '8bit';
     public $charset      = '';
-    public $d_parameters = array();
-    public $ctype_parameters = array();
+    public $d_parameters = [];
+    public $ctype_parameters = [];
 
 
     /**

@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2012, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -22,7 +23,6 @@
  *
  * @package    Framework
  * @subpackage Storage
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_message_header
 {
@@ -67,6 +67,13 @@ class rcube_message_header
      * @var string
      */
     public $cc;
+
+    /**
+     * Message hidden recipients (Bcc)
+     *
+     * @var string
+     */
+    public $bcc;
 
     /**
      * Message Reply-To header
@@ -139,6 +146,20 @@ class rcube_message_header
     public $bodystructure;
 
     /**
+     * IMAP body (RFC822.TEXT)
+     *
+     * @var string
+     */
+    public $body;
+
+    /**
+     * IMAP part bodies
+     *
+     * @var array
+     */
+    public $bodypart = [];
+
+    /**
      * IMAP internal date
      *
      * @var string
@@ -178,17 +199,77 @@ class rcube_message_header
      *
      * @var array
      */
-    public $others = array();
+    public $others = [];
 
     /**
      * Message flags
      *
      * @var array
      */
-    public $flags = array();
+    public $flags = [];
 
-    // map header to rcube_message_header object property
-    private $obj_headers = array(
+    /**
+     * Message structure
+     *
+     * @var rcube_message_part
+     */
+    public $structure;
+
+    /**
+     * Message thread depth
+     *
+     * @var int
+     */
+    public $depth;
+
+    /**
+     * Whether the message has references in the thread
+     *
+     * @var bool
+     */
+    public $has_children;
+
+    /**
+     * Number of flagged children (in a thread)
+     *
+     * @var int
+     */
+    public $flagged_children;
+
+    /**
+     * Number of unread children (in a thread)
+     *
+     * @var int
+     */
+    public $unread_children;
+
+    /**
+     * UID of the message parent (in a thread)
+     *
+     * @var int
+     */
+    public $parent_uid;
+
+    /**
+     * IMAP MODSEQ value
+     *
+     * @var int
+     */
+    public $modseq;
+
+    /**
+     * IMAP ENVELOPE
+     *
+     * @var string
+     */
+    public $envelope;
+
+    /**
+     * Header name to rcube_message_header object property map
+     *
+     * @var array
+     */
+    private $obj_headers = [
         'date'      => 'date',
         'from'      => 'from',
         'to'        => 'to',
@@ -203,28 +284,33 @@ class rcube_message_header
         'content-type'              => 'ctype',
         'charset'                   => 'charset',
         'references'                => 'references',
-        'return-receipt-to'         => 'mdn_to',
         'disposition-notification-to' => 'mdn_to',
         'x-confirm-reading-to'      => 'mdn_to',
         'message-id'                => 'messageID',
         'x-priority'                => 'priority',
-    );
+    ];
 
     /**
      * Returns header value
+     *
+     * @param string $name   Header name
+     * @param bool   $decode Decode the header content
+     *
+     * @param string|null Header content
      */
     public function get($name, $decode = true)
     {
-        $name = strtolower($name);
+        $name  = strtolower($name);
+        $value = null;
 
-        if (isset($this->obj_headers[$name])) {
+        if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
             $value = $this->{$this->obj_headers[$name]};
         }
-        else {
+        else if (isset($this->others[$name])) {
             $value = $this->others[$name];
         }
 
-        if ($decode) {
+        if ($decode && $value !== null) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
                     $val         = rcube_mime::decode_header($val, $this->charset);
@@ -242,6 +328,9 @@ class rcube_message_header
 
     /**
      * Sets header value
+     *
+     * @param string $name  Header name
+     * @param string $value Header content
      */
     public function set($name, $value)
     {
@@ -255,18 +344,19 @@ class rcube_message_header
         }
     }
 
-
     /**
      * Factory method to instantiate headers from a data array
      *
-     * @param array Hash array with header values
-     * @return object rcube_message_header instance filled with headers values
+     * @param array $arr Hash array with header values
+     *
+     * @return rcube_message_header instance filled with headers values
      */
     public static function from_array($arr)
     {
         $obj = new rcube_message_header;
-        foreach ($arr as $k => $v)
+        foreach ($arr as $k => $v) {
             $obj->set($k, $v);
+        }
 
         return $obj;
     }
@@ -278,11 +368,11 @@ class rcube_message_header
  *
  * @package    Framework
  * @subpackage Storage
- * @author  Aleksander Machniak <alec@alec.pl>
  */
 class rcube_message_header_sorter
 {
-    private $uids = array();
+    /** @var array Message UIDs */
+    private $uids = [];
 
 
     /**
@@ -304,7 +394,7 @@ class rcube_message_header_sorter
      */
     function sort_headers(&$headers)
     {
-        uksort($headers, array($this, "compare_uids"));
+        uksort($headers, [$this, "compare_uids"]);
     }
 
     /**

@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Wystąpił błąd!';
 $messages['loginfailed']  = 'Błąd logowania!';
 $messages['cookiesdisabled'] = 'Twoja przeglądarka nie obsługuje ciasteczek!';
 $messages['sessionerror'] = 'Błąd sesji bądź sesja wygasła!';
+$messages['cookiesmismatch'] = 'Niezgodność ciasteczek. Proszę usunąć ciasteczka zapisane w przeglądarce.';
 $messages['storageerror'] = 'Błąd połączenia z serwerem!';
 $messages['servererror'] = 'Błąd serwera!';
 $messages['servererrormsg'] = 'Błąd serwera: $msg';
 $messages['accountlocked'] = 'Przekroczono maksymalną dozwoloną liczbę prób logowania. Proszę spróbować później.';
 $messages['connerror'] = 'Błąd połączenia (brak odpowiedzi serwera)!';
 $messages['dberror'] = 'Błąd bazy danych!';
+$messages['dbconnerror'] = 'Nie można nawiązać połączenia z bazą danych!';
 $messages['windowopenerror'] = 'Wyskakujące okno zostało zablokowane!';
 $messages['requesttimedout'] = 'Upłynął limit czasu żądania';
 $messages['errorreadonly'] = 'Nie można wykonać operacji. Folder tylko do odczytu.';
@@ -57,6 +58,9 @@ $messages['contactexists'] = 'Kontakt o podanym adresie e-mail już istnieje!';
 $messages['contactnameexists'] = 'Kontakt z podaną nazwą już istnieje!';
 $messages['blockedimages'] = 'Ze względów bezpieczeństwa zewnętrzne obrazki zostały zablokowane.';
 $messages['blockedresources'] = 'W celu ochrony prywatności zablokowano zdalne zasoby.';
+$messages['suspiciousemail'] = 'Ta wiadomość może być próbą oszustwa, gdyż zawiera podejrzane adresy email.';
+$messages['bccemail'] = 'Przekazywane wiadomości zawierają poufnych odbiorców (Bcc).';
+$messages['bouncehint'] = 'Wiadomość zostanie wysłana bez żadnych modyfikacji, tzn. przy użyciu oryginalnej treści, nagłówków i odbiorców.';
 $messages['encryptedmessage'] = 'Przepraszamy, nie można wyświetlić zaszyfrowanej wiadomości!';
 $messages['externalmessagedecryption'] = 'Ta wiadomość jest zaszyfrowana i może zostać odszyfrowana za pomocą rozszerzenia przeglądarki.';
 $messages['nopubkeyfor'] = 'Nie znaleziono klucza publicznego dla $email';
@@ -64,11 +68,11 @@ $messages['nopubkeyforsender'] = 'Nie znaleziono klucza publicznego dla używane
 $messages['encryptnoattachments'] = 'Załączniki, które zostały poprzednio przesłane na serwer nie mogą zostać zaszyfrowane. Należy przesłać je ponownie poprzez dodanie do edytora szyfrowania.';
 $messages['searchpubkeyservers'] = 'Czy wyszukać brakujące klucze na serwerach kluczy?';
 $messages['encryptpubkeysfound'] = 'Znaleziono następujące klucze:';
-$messages['keyservererror'] = 'Pobieranie klucza z serwera nie powiodło się';
-$messages['keyimportsuccess'] = 'Klucz $key został pomyślnie zaimportowany do bazy kluczy';
+$messages['keyservererror'] = 'Pobieranie klucza z serwera nie powiodło się.';
+$messages['keyimportsuccess'] = 'Klucz $key został pomyślnie zaimportowany do bazy kluczy.';
 $messages['nocontactsfound'] = 'Nie znaleziono kontaktu!';
 $messages['contactnotfound'] = 'Szukany kontakt nie został odnaleziony.';
-$messages['contactsearchonly'] = 'Użyj wyszukiwarki aby wyświetlić kontakty.';
+$messages['contactsearchonly'] = 'Dostęp do kontaktów z wybranej książki adresowej możliwy jedynie poprzez formularz wyszukiwania.';
 $messages['sendingfailed'] = 'Nie udało się wysłać wiadomości!';
 $messages['senttooquickly'] = 'Musisz poczekać $sec sek. aby móc wysłać tą wiadomość!';
 $messages['errorsavingsent'] = 'Wystąpił błąd podczas zapisu wysłanej wiadomości!';
@@ -121,12 +125,14 @@ $messages['folderpurged'] = 'Folder został pomyślnie opróżniony.';
 $messages['folderexpunged'] = 'Folder został pomyślnie uporządkowany.';
 $messages['deletedsuccessfully'] = 'Usunięto.';
 $messages['converting'] = 'Konwertowanie tekstu...';
-$messages['messageopenerror'] = 'Nie można załadować wiadomości z serwera.';
+$messages['messageopenerror'] = 'Nie udało się pobrać treści wiadomości.';
 $messages['filelinkerror'] = 'Dołączanie pliku nie powiodło się.';
 $messages['fileuploaderror'] = 'Załączanie pliku nie powiodło się.';
+$messages['csvfilemismatch'] = 'Import wielu plików CSV z różnymi definicjami pól nie jest możliwy.';
 $messages['filesizeerror'] = 'Plik przekracza maksymalną wielkość $size.';
 $messages['filecounterror'] = 'Możesz wysłać tylko $count plików jednocześnie.';
 $messages['msgsizeerror'] = 'Załączanie pliku nie powiodło się. Przekroczony maksymalny rozmiar wiadomości ($size).';
+$messages['msgsizeerrorfwd'] = 'Maksymalny rozmiar wiadomości ($size) został przekroczony. $num wiadomości nie zostało załączonych.';
 $messages['copysuccess'] = 'Pomyślnie skopiowano $nr kontaktów.';
 $messages['movesuccess'] = 'Pomyślnie przeniesiono $nr kontaktów.';
 $messages['copyerror'] = 'Nie udało się skopiować żadnego kontaktu.';
@@ -153,7 +159,7 @@ $messages['contactremovedfromgroup'] = 'Kontakty zostały pomyślnie usunięte z
 $messages['nogroupassignmentschanged'] = 'Nie zmieniono żadnych powiązań z grupą.';
 $messages['importwait'] = 'Importowanie, proszę czekać...';
 $messages['importformaterror'] = 'Import nieudany! Użyty plik nie jest poprawnym plikiem importu danych.';
-$messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów, pominięto $skipped istniejących wpisów</b>:<p><em>$names</em></p>.';
+$messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów.</b>';
 $messages['importconfirmskipped'] = '<b>Pominięto $skipped istniejących wpisów.</b>';
 $messages['importmessagesuccess'] = 'Pomyślnie zaimportowano następującą liczbę wiadomości: $nr';
 $messages['importmessageerror'] = 'Import nieudany! Wgrywany plik nie jest poprawną wiadomością lub plikiem skrzynki pocztowej';
@@ -218,6 +224,9 @@ $messages['clicktocompose'] = 'Kliknij tutaj aby stworzyć nową wiadomość';
 $messages['nosupporterror'] = 'Ta funkcja nie jest obsługiwana w twojej przeglądarce.';
 $messages['siginserted'] = 'Podpis został dodany pomyślnie.';
 $messages['responseinserted'] = 'Odpowiedź została dodana pomyślnie.';
+$messages['noresponsesavailable'] = 'Brak odpowiedzi';
 $messages['listempty'] = 'Lista jest pusta.';
 $messages['listusebutton'] = 'Aby dodać nowy wpis użyj przycisk Utwórz.';
 $messages['keypaircreatesuccess'] = 'Pomyślnie utworzono parę kluczy dla $identity.';
+$messages['emptyattachment'] = 'Wybrany załącznik wygląda na pusty.<br>Zweryfikuj to z nadawcą wiadomości.';
+$messages['oauthloginfailed'] = 'Nieudane logowanie OAuth, Spróbuj ponownie.';

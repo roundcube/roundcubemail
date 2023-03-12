@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = '$product වෙත පිළිගනිමු';
 $labels['username'] = 'පරිශීලක නාමය';
 $labels['password'] = 'මුරපදය';
@@ -268,6 +268,7 @@ $labels['afternseconds'] = 'තත්පර $nකට පසු';
 $labels['spellcheckignoresyms'] = 'සලකුණු සහිත වචන නොසලකා හරින්න';
 $labels['spellcheckignorenums'] = 'අංක සහිත වචන නොසලකා හරින්න';
 $labels['addtodict'] = 'ශබ්ද කෝෂයට එක් කරන්න';
+$labels['allmessages'] = 'සියලු පණිවිඩ';
 $labels['folder'] = 'බහාලුම';
 $labels['folders'] = 'බහාලුම්';
 $labels['foldername'] = 'බහාලුමේ නම';
@@ -311,4 +312,3 @@ $labels['vietnamese'] = 'වියට්නාම';
 $labels['japanese'] = 'ජපන්';
 $labels['korean'] = 'කොරියානු';
 $labels['chinese'] = 'චීන';
-?>

@@ -4,8 +4,8 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2013-2018 The Roundcube Dev Team
- * Copyright (C) 2009-2018 Philip Weir
+ * Copyright (c) The Roundcube Dev Team
+ * Copyright (C) Philip Weir
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -25,11 +25,11 @@ rcube_webmail.prototype.markasjunk_mark = function(is_spam) {
     this.http_post('plugin.markasjunk.' + (is_spam ? 'junk' : 'not_junk'), this.selection_post_data({_uid: uids}), lock);
 }
 
-rcube_webmail.prototype.rcmail_markasjunk_move = function(mbox, uids) {
-    var prev_uid = this.env.uid, a_uids = $.isArray(uids) ? uids : uids.split(",");
+rcube_webmail.prototype.markasjunk_move = function(mbox, uids) {
+    var prev_uid = this.env.uid;
 
-    if (this.message_list && a_uids.length == 1 && !this.message_list.in_selection([a_uids[0]]))
-        this.env.uid = a_uids[0];
+    if (this.message_list && uids.length == 1 && !this.message_list.in_selection(uids[0]))
+        this.env.uid = uids[0];
 
     if (mbox)
         this.move_messages(mbox);
@@ -111,17 +111,22 @@ if (window.rcmail) {
 
     rcmail.addEventListener('listupdate', function() { rcmail.markasjunk_toggle_button(); });
 
-    rcmail.addEventListener('beforemoveto', function(mbox) {
-        if (mbox && typeof mbox === 'object')
+    rcmail.addEventListener('beforemove', function(mbox) {
+        if (mbox && typeof mbox === 'object') {
             mbox = mbox.id;
+        }
+
+        if (!mbox) {
+            return;
+        }
 
         var is_spam = null;
 
         // check if destination mbox equals junk box (and we're not already in the junk box)
-        if (rcmail.env.markasjunk_move_spam && mbox && mbox == rcmail.env.markasjunk_spam_mailbox && mbox != rcmail.env.mailbox)
+        if (rcmail.env.markasjunk_move_spam && mbox == rcmail.env.markasjunk_spam_mailbox && mbox != rcmail.env.mailbox)
             is_spam = true;
         // or if destination mbox equals ham box and we are in the junk box
-        else if (rcmail.env.markasjunk_move_ham && mbox && mbox == rcmail.env.markasjunk_ham_mailbox && rcmail.env.mailbox == rcmail.env.markasjunk_spam_mailbox)
+        else if (rcmail.env.markasjunk_move_ham && mbox == rcmail.env.markasjunk_ham_mailbox && rcmail.env.mailbox == rcmail.env.markasjunk_spam_mailbox)
             is_spam = false;
 
         if (is_spam !== null) {

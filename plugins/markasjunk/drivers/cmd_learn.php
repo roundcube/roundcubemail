@@ -55,8 +55,8 @@ class markasjunk_cmd_learn
         $command = str_replace('%l', $rcube->user->get_username('local'), $command);
         $command = str_replace('%d', $rcube->user->get_username('domain'), $command);
         if (strpos($command, '%i') !== false) {
-            $identity_arr = $rcube->user->get_identity();
-            $command      = str_replace('%i', $identity_arr['email'], $command);
+            $identity = $rcube->user->get_identity();
+            $command  = str_replace('%i', $identity['email'], $command);
         }
 
         foreach ($uids as $uid) {
@@ -73,11 +73,11 @@ class markasjunk_cmd_learn
                 $storage->check_connection();
                 $storage->conn->select($src_mbox);
 
-                preg_match_all('/%h:([\w-_]+)/', $tmp_command, $header_names, PREG_SET_ORDER);
+                preg_match_all('/%h:([\w_-]+)/', $tmp_command, $header_names, PREG_SET_ORDER);
                 foreach ($header_names as $header) {
                     $val = null;
-                    if ($msg = $storage->conn->fetchHeader($src_mbox, $uid, true, false, array($header[1]))) {
-                        $val = $msg->{$header[1]} ?: $msg->others[$header[1]];
+                    if ($msg = $storage->conn->fetchHeader($src_mbox, $uid, true, false, [$header[1]])) {
+                        $val = !empty($msg->{$header[1]}) ? $msg->{$header[1]} : $msg->others[$header[1]];
                     }
 
                     if (!empty($val)) {
@@ -102,11 +102,14 @@ class markasjunk_cmd_learn
             $output = shell_exec($tmp_command);
 
             if ($debug) {
+                if ($output) {
+                    $tmp_command .= "\n$output";
+                }
+
                 rcube::write_log('markasjunk', $tmp_command);
-                rcube::write_log('markasjunk', $output);
             }
 
-            if (strpos($command, '%f') !== false) {
+            if (isset($tmpfname)) {
                 unlink($tmpfname);
             }
         }

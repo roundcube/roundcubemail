@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_SpellcheckerGoogie extends PHPUnit_Framework_TestCase
+class Framework_SpellcheckerGoogie extends PHPUnit\Framework\TestCase
 {
 
     /**

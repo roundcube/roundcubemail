@@ -12,26 +12,26 @@ class userinfo extends rcube_plugin
 
     function init()
     {
-        $this->add_texts('localization/', array('userinfo'));
-        $this->add_hook('settings_actions', array($this, 'settings_actions'));
-        $this->register_action('plugin.userinfo', array($this, 'infostep'));
+        $this->add_texts('localization/', ['userinfo']);
+        $this->add_hook('settings_actions', [$this, 'settings_actions']);
+        $this->register_action('plugin.userinfo', [$this, 'infostep']);
     }
 
     function settings_actions($args)
     {
-        $args['actions'][] = array(
+        $args['actions'][] = [
             'action' => 'plugin.userinfo',
             'class'  => 'userinfo',
             'label'  => 'userinfo',
             'domain' => 'userinfo',
-        );
+        ];
 
         return $args;
     }
 
     function infostep()
     {
-        $this->register_handler('plugin.body', array($this, 'infohtml'));
+        $this->register_handler('plugin.body', [$this, 'infohtml']);
 
         $rcmail = rcmail::get_instance();
         $rcmail->output->set_pagetitle($this->gettext('userinfo'));
@@ -44,9 +44,9 @@ class userinfo extends rcube_plugin
         $user     = $rcmail->user;
         $identity = $user->get_identity();
 
-        $table = new html_table(array('cols' => 2, 'class' => 'propform'));
+        $table = new html_table(['cols' => 2, 'class' => 'propform']);
 
-        $table->add('title', html::label('', 'ID'));
+        $table->add('title', html::label('', rcube::Q($this->gettext('userid'))));
         $table->add('', rcube::Q($user->ID));
 
         $table->add('title', html::label('', rcube::Q($this->gettext('username'))));
@@ -64,11 +64,12 @@ class userinfo extends rcube_plugin
         $table->add('title', html::label('', rcube::Q($this->gettext('defaultidentity'))));
         $table->add('', rcube::Q($identity['name'] . ' <' . $identity['email'] . '>'));
 
-        $legend = rcube::Q('Infos for ' . $user->get_username());
+        $legend = rcube::Q($this->gettext(['name' => 'infoforuser', 'vars' => ['user' => $user->get_username()]]));
         $out    = html::tag('fieldset', '', html::tag('legend', '', $legend) . $table->show());
 
-        return html::div(array('class' => 'box formcontent'),
-            html::div(array('class' => 'boxtitle'), $this->gettext('userinfo'))
-            . html::div(array('class' => 'boxcontent'), $out));
+        return html::div(['class' => 'box formcontent'],
+            html::div(['class' => 'boxtitle'], $this->gettext('userinfo'))
+            . html::div(['class' => 'boxcontent'], $out)
+        );
     }
 }

@@ -12,7 +12,7 @@
  * @author Alex Cartwright <acartwright@mutinydesign.co.uk>
  * @author Adamson Huang <adomputer@gmail.com>
  *
- * Copyright (C) 2005-2013, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ class rcube_pw_usermod_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $cmd = rcmail::get_instance()->config->get('password_pw_usermod_cmd');
+        $cmd = rcmail::get_instance()->config->get('password_pw_usermod_cmd', 'sudo /usr/sbin/pw usermod -h 0 -n');
         $cmd .= ' ' . escapeshellarg($username) . ' > /dev/null';
 
         $handle = popen($cmd, 'w');
@@ -42,12 +42,13 @@ class rcube_pw_usermod_password
             return PASSWORD_SUCCESS;
         }
 
-        rcube::raise_error(array(
+        rcube::raise_error([
                 'code' => 600,
-                'type' => 'php',
-                'file' => __FILE__, 'line' => __LINE__,
+                'file' => __FILE__,
+                'line' => __LINE__,
                 'message' => "Password plugin: Unable to execute $cmd"
-            ), true, false);
+            ], true, false
+        );
 
         return PASSWORD_ERROR;
     }

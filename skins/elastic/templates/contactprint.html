@@ -1,6 +1,6 @@
 <roundcube:include file="includes/layout.html" />
 
-<roundcube:object name="logo" id="logo" alt="Logo" type="print" class="float-sm-right" />
+<roundcube:object name="logo" id="logo" alt="Logo" logo-type="print" logo-match="template" class="float-sm-right" />
 
 <div class="print-content formcontent" role="main">
 	<div class="contact-header">
@@ -11,7 +11,7 @@
 		<roundcube:object name="contacthead" id="contacthead" class="contact-head readonly" with-source="true" />
 	</div>
 	<div id="contacttabs">
-		<roundcube:object name="contactdetails" fieldset-class="propform groupped readonly"
+		<roundcube:object name="contactdetails" fieldset-class="propform grouped readonly"
 			short-legend-labels="true" />
 	</div>
 </div>

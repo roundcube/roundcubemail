@@ -1,9 +1,8 @@
 <?php
 
-class Userinfo_Plugin extends PHPUnit_Framework_TestCase
+class Userinfo_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../userinfo.php';
     }
@@ -14,7 +13,7 @@ class Userinfo_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new userinfo($rcube->api);
+        $plugin = new userinfo($rcube->plugins);
 
         $this->assertInstanceOf('userinfo', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

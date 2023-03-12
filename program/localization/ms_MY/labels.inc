@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Selamat datang ke $product';
 $labels['username'] = 'Nama Pengguna';
 $labels['password'] = 'Katalaluan';
@@ -271,4 +271,3 @@ $labels['managefolders'] = 'Urus kabinet fail';
 $labels['sortby'] = 'Susun dengan';
 $labels['sortasc'] = 'Susun menaik';
 $labels['sortdesc'] = 'Susun menurun';
-?>

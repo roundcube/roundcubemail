@@ -4,7 +4,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2013, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can redistribute it
  * and/or modify it under the terms of the GNU General Public License
@@ -17,14 +17,16 @@
 
 function rcmail_get_compose_message()
 {
-  var msg;
+  var msg = rcmail.editor.get_content({ nosig: true });
 
-  if (window.tinyMCE && (ed = tinyMCE.get(rcmail.env.composebody))) {
-    msg = ed.getContent();
-    msg = msg.replace(/<blockquote[^>]*>(.|[\r\n])*<\/blockquote>/gmi, '');
+  if (rcmail.editor.is_html()) {
+    // Remove quoted content, all HTML tags, and some entities
+    msg = msg.replace(/<blockquote[^>]*>(.|[\r\n])*<\/blockquote>/gmi, '')
+             .replace(/<[^>]+>/gm, ' ')
+             .replace(/&nbsp;/g, ' ');
   }
   else {
-    msg = $('#' + rcmail.env.composebody).val();
+    // Remove quoted content
     msg = msg.replace(/^>.*$/gmi, '');
   }
 
@@ -52,10 +54,7 @@ function rcmail_attachment_reminder_dialog()
 
   buttons[rcmail.get_label('addattachment')] = function() {
     $(this).remove();
-    if (window.UI && UI.show_uploadform) // Larry skin
-      UI.show_uploadform();
-    else if (window.rcmail_ui && rcmail_ui.show_popup) // classic skin
-      rcmail_ui.show_popup('uploadmenu', true);
+    $('#messagetoolbar a.attach, .toolbar a.attach').first().click();
   };
   buttons[rcmail.get_label('send')] = function(e) {
     $(this).remove();

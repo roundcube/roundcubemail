@@ -22,17 +22,17 @@ class http_authentication extends rcube_plugin
 
     function init()
     {
-        $this->add_hook('startup', array($this, 'startup'));
-        $this->add_hook('authenticate', array($this, 'authenticate'));
-        $this->add_hook('logout_after', array($this, 'logout'));
-        $this->add_hook('login_after', array($this, 'login'));
+        $this->add_hook('startup', [$this, 'startup']);
+        $this->add_hook('authenticate', [$this, 'authenticate']);
+        $this->add_hook('logout_after', [$this, 'logout']);
+        $this->add_hook('login_after', [$this, 'login']);
     }
 
     function startup($args)
     {
         if (!empty($_SERVER['PHP_AUTH_USER'])) {
             $rcmail = rcmail::get_instance();
-            $rcmail->add_shutdown_function(array('http_authentication', 'shutdown'));
+            $rcmail->add_shutdown_function(['http_authentication', 'shutdown']);
 
             // handle login action
             if (empty($_SESSION['user_id'])) {
@@ -85,11 +85,12 @@ class http_authentication extends rcube_plugin
         if (!empty($_SERVER['PHP_AUTH_USER']) && $args['user'] == $_SERVER['PHP_AUTH_USER']) {
             if ($url = rcmail::get_instance()->config->get('logout_url')) {
                 header("Location: $url", true, 307);
+                exit;
             }
         }
     }
 
-    function shutdown()
+    static function shutdown()
     {
         // There's no need to store password (even if encrypted) in session
         // We'll set it back on startup (#1486553)
@@ -107,4 +108,3 @@ class http_authentication extends rcube_plugin
         return $args;
     }
 }
-

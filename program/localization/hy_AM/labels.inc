@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'Բարի գալուստ $product';
 $labels['username'] = 'Օգտվող';
 $labels['password'] = 'Գաղտնաբառ';
@@ -51,7 +51,7 @@ $labels['fromtoshort'] = '$from-ից $to ընդհանուր $count-ից';
 $labels['copy'] = 'Cc';
 $labels['move'] = 'Տեղափոխել';
 $labels['moveto'] = 'Տեղափոխել...';
-$labels['download'] = 'Քաշել';
+$labels['download'] = 'Ներբեռնել';
 $labels['open'] = 'Բաց';
 $labels['showattachment'] = 'Ցուցադրել';
 $labels['showanyway'] = 'Ամեն դեպքում ցուցադրել';
@@ -378,7 +378,6 @@ $labels['force7bit'] = 'օգտագործել MIME գրանշում 8 բիթան�
 $labels['advancedoptions'] = 'Հավելյալ կարգավորումներ';
 $labels['focusonnewmessage'] = 'Առաջ բերել պատուհանը նոր նամակ ստանալիս';
 $labels['checkallfolders'] = 'Ստուգել բոլոր դարակները նոր նամակների համար';
-$labels['displaynext'] = 'Հաղորդագրությունը ջնջելուց կամ տեղափոխելուց հետո ցուցադրել հաջորդը';
 $labels['defaultfont'] = 'HTML հաղորդագրության լռելյալ տառատեսակ';
 $labels['mainoptions'] = 'Գլխավոր ընտրանքներ';
 $labels['browseroptions'] = 'Զննարկչի ընտրանքներ';
@@ -412,6 +411,7 @@ $labels['mailtoprotohandler'] = 'mailto: հղումների սպասարկող';
 $labels['forwardmode'] = 'Հաղորդագրությունների վերահասցեավորում';
 $labels['inline'] = 'մեջը';
 $labels['asattachment'] = 'որպես կցորդ';
+$labels['allmessages'] = 'բոլոր հաղորդագրությունները';
 $labels['folder'] = 'Դարակ';
 $labels['folders'] = 'Դարակներ';
 $labels['foldername'] = 'Դարակի անուն';
@@ -465,4 +465,3 @@ $labels['japanese'] = 'Ճապոնական';
 $labels['korean'] = 'Կորեական';
 $labels['chinese'] = 'Չինական';
 $labels['arialabelforwardingoptions'] = 'Փոխանցելու ընտրանքներ';
-?>

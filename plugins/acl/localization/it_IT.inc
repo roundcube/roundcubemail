@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = 'Condivisione';
 $labels['myrights'] = 'Diritti d\'accesso';
 $labels['username'] = 'Utente:';
@@ -93,7 +92,6 @@ $messages['createsuccess'] = 'I diritti d\'accesso sono stati aggiunti';
 $messages['updateerror'] = 'Impossibile aggiornare i diritti d\'accesso';
 $messages['deleteerror'] = 'Impossibile eliminare i diritti d\'accesso';
 $messages['createerror'] = 'Impossibile aggiungere i diritti d\'accesso';
-$messages['deleteconfirm'] = 'Sei sicuro, vuoi rimuovere i diritti d\'accesso degli utenti selezionati?';
+$messages['deleteconfirm'] = 'Sei sicuro di voler rimuovere i diritti d\'accesso degli utenti selezionati?';
 $messages['norights'] = 'Nessun diritto specificato!';
 $messages['nouser'] = 'Lo username non è stato specificato!';
-?>

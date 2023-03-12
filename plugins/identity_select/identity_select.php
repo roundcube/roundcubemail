@@ -10,7 +10,7 @@
  * identity selection more accurate.
  *
  * Enable the plugin in config.inc.php and add your desired headers:
- *   $config['identity_select_headers'] = array('Delivered-To');
+ *   $config['identity_select_headers'] = ['Delivered-To'];
  *
  * Note: 'Received' header is also supported, but has bigger impact
  *       on performance, as it's body is potentially much bigger
@@ -26,8 +26,8 @@ class identity_select extends rcube_plugin
 
     function init()
     {
-        $this->add_hook('identity_select', array($this, 'select'));
-        $this->add_hook('storage_init', array($this, 'storage_init'));
+        $this->add_hook('identity_select', [$this, 'select']);
+        $this->add_hook('storage_init', [$this, 'storage_init']);
     }
 
     /**
@@ -37,8 +37,15 @@ class identity_select extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
 
-        if ($add_headers = (array)$rcmail->config->get('identity_select_headers', array())) {
-            $p['fetch_headers'] = trim($p['fetch_headers'] . ' ' . strtoupper(join(' ', $add_headers)));
+        if ($add_headers = (array) $rcmail->config->get('identity_select_headers', [])) {
+            $add_headers = strtoupper(join(' ', $add_headers));
+
+            if (isset($p['fetch_headers'])) {
+                $p['fetch_headers'] .= ' ' . $add_headers;
+            }
+            else {
+                $p['fetch_headers'] = $add_headers;
+            }
         }
 
         return $p;
@@ -49,13 +56,13 @@ class identity_select extends rcube_plugin
      */
     function select($p)
     {
-        if ($p['selected'] !== null || !is_object($p['message']->headers)) {
+        if ($p['selected'] !== null || empty($p['message']->headers)) {
             return $p;
         }
 
         $rcmail = rcmail::get_instance();
 
-        foreach ((array)$rcmail->config->get('identity_select_headers', array()) as $header) {
+        foreach ((array) $rcmail->config->get('identity_select_headers', []) as $header) {
             if ($emails = $this->get_email_from_header($p['message'], $header)) {
                 foreach ($p['identities'] as $idx => $ident) {
                     if (in_array($ident['email_ascii'], $emails)) {

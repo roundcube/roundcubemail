@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '發生錯誤！';
 $messages['loginfailed']  = '登入失敗';
 $messages['cookiesdisabled'] = '你的瀏覽器不接受 cookies';
 $messages['sessionerror'] = '你的工作階段已失效或過期';
+$messages['cookiesmismatch'] = '偵測到有不相符的 Cookie，請清理瀏覽器的 cookie。';
 $messages['storageerror'] = '連線到 IMAP 伺服器失敗';
 $messages['servererror'] = '伺服器出錯！';
 $messages['servererrormsg'] = '伺服器出錯：$msg';
 $messages['accountlocked'] = '登入失敗太多次。請稍後再嘗試';
 $messages['connerror'] = '連線出錯 (無法連線到伺服器)！';
 $messages['dberror'] = '資料庫出錯！';
+$messages['dbconnerror'] = '無法連線至資料庫！';
 $messages['windowopenerror'] = '瀏覽器阻擋了彈出式視窗！';
 $messages['requesttimedout'] = '要求逾時';
 $messages['errorreadonly'] = '動作無法完成。資料夾唯讀';
@@ -57,6 +58,7 @@ $messages['contactexists'] = '已有相同電郵位址的聯絡人';
 $messages['contactnameexists'] = '已有相同名稱的聯絡人';
 $messages['blockedimages'] = '為了保護你的隱私，已經阻擋此郵件的遠端圖片。';
 $messages['blockedresources'] = '已阻擋遠端資源，以保障您的隱私。';
+$messages['suspiciousemail'] = '此訊息包含了可能是詐欺的可疑電子郵件地址。';
 $messages['encryptedmessage'] = '此郵件經過加密，因此無法顯示。抱歉！';
 $messages['externalmessagedecryption'] = '此郵件經過加密，可以用你瀏覽器的擴充程式解密';
 $messages['nopubkeyfor'] = '找不到用於 $email 的有效公鑰';
@@ -64,11 +66,11 @@ $messages['nopubkeyforsender'] = '找不到用於你寄件者身份的有效公�
 $messages['encryptnoattachments'] = '已上傳的附件無法加密。請在加密編輯器重新加入';
 $messages['searchpubkeyservers'] = '是否在公鑰伺服器搜尋缺少的金鑰？';
 $messages['encryptpubkeysfound'] = '找到以下公鑰：';
-$messages['keyservererror'] = '在金鑰伺服器找不到金鑰';
-$messages['keyimportsuccess'] = '公鑰 $key 已成功匯入你的鑰匙圈(key ring)';
+$messages['keyservererror'] = '未能從金鑰伺服器取得金鑰。';
+$messages['keyimportsuccess'] = '成功將公鑰 $key 匯入到您的鎖匙圈。';
 $messages['nocontactsfound'] = '找不到聯絡人';
 $messages['contactnotfound'] = '找不到要求的聯絡人';
-$messages['contactsearchonly'] = '輸入關鍵字找尋連絡人';
+$messages['contactsearchonly'] = '要使用搜尋表格，才能在所選的通訊錄看到聯絡人。';
 $messages['sendingfailed'] = '郵件寄出失敗';
 $messages['senttooquickly'] = '你寄出的郵件太過於頻繁，請稍候 $sec 秒後再試一次。';
 $messages['errorsavingsent'] = '儲存郵件到寄件備份時發生錯誤。';
@@ -117,16 +119,16 @@ $messages['nospellerrors'] = '沒有找到拼字錯誤';
 $messages['folderdeleted'] = '資料夾已經成功刪除';
 $messages['foldersubscribed'] = '資料夾成功訂閱';
 $messages['folderunsubscribed'] = '資料夾成功取消訂閱';
-$messages['folderpurged'] = '資料夾成功清空';
-$messages['folderexpunged'] = '資料夾成功壓緊';
 $messages['deletedsuccessfully'] = '刪除成功';
 $messages['converting'] = '移除郵件格式中...';
 $messages['messageopenerror'] = '無法從伺服器載入郵件';
 $messages['filelinkerror'] = '未能附加檔案。';
 $messages['fileuploaderror'] = '未能上傳檔案。';
+$messages['csvfilemismatch'] = '不支援匯入多個有不同欄位的 CSV 檔案。';
 $messages['filesizeerror'] = '上傳的檔案超過了 $size 的大小限制。';
 $messages['filecounterror'] = '一次只能上傳最多 $count 個檔案';
 $messages['msgsizeerror'] = '未能附加檔案。因為超過了郵件的大小限制 ($size)';
+$messages['msgsizeerrorfwd'] = '已超過郵件大小的 ($size) 上限。未能附上 $num 個郵件。';
 $messages['copysuccess'] = '複製了 $nr 個聯絡人。';
 $messages['movesuccess'] = '移動了 $nr 個聯絡人。';
 $messages['copyerror'] = '無法複製聯絡人。';
@@ -218,6 +220,9 @@ $messages['clicktocompose'] = '按此撰寫新郵件';
 $messages['nosupporterror'] = '您的瀏覽器不支援此功能。';
 $messages['siginserted'] = '已加入簽章。';
 $messages['responseinserted'] = '已加入回應。';
+$messages['noresponsesavailable'] = '無回應';
 $messages['listempty'] = '列表沒有內容';
 $messages['listusebutton'] = '按「建立」鈕加入新紀錄';
 $messages['keypaircreatesuccess'] = '已為 $identity 建立新的金鑰對。';
+$messages['emptyattachment'] = '此附件似乎是空的。<br>請與傳送此電子郵件的人聯絡。';
+$messages['oauthloginfailed'] = 'OAuth 登入失敗。請重試。';

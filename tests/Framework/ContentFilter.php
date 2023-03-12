@@ -5,7 +5,7 @@
  *
  * @package Tests
  */
-class Framework_ContentFilter extends PHPUnit_Framework_TestCase
+class Framework_ContentFilter extends PHPUnit\Framework\TestCase
 {
 
     /**

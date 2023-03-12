@@ -11,7 +11,7 @@
  * @version 1.0
  * @author Peter Kubica <peter@kubica.ch>
  *
- * Copyright (C) 2005-2019, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,17 +31,16 @@ require_once __DIR__ . '/ldap_simple.php';
 
 class rcube_ldap_exop_password extends rcube_ldap_simple_password
 {
-    private $debug = false;
-
     function save($curpass, $passwd)
     {
         if (!function_exists('ldap_exop_passwd')) {
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "ldap_exop_passwd not supported"
-                ),
-                true);
+                ],
+                true
+            );
 
             return PASSWORD_ERROR;
         }

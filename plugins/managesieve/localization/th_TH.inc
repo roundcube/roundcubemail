@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'ตัวกรองข้อมูล';
 $labels['managefilters'] = 'จัดการตัวกรองอีเมลขาเข้า';
 $labels['filtername'] = 'ชื่อตัวกรองข้อมูล';
@@ -58,7 +58,8 @@ $labels['notifymethodtel'] = 'โทรศัพท์';
 $labels['datetest'] = 'วันที่';
 $labels['advancedopts'] = 'ตัวเลือกขั้นสูง';
 $labels['body'] = 'เนื้อหา';
+$labels['spamtestequals'] = 'ที่มีค่าเท่ากับ';
+$labels['spamtestnotequals'] = 'ที่มีค่าไม่เท่ากับ';
 $labels['vacation.subject'] = 'หัวจดหมาย';
 $labels['vacation.body'] = 'เนื้อหา';
 $labels['vacation.keep'] = 'เก็บ';
-?>

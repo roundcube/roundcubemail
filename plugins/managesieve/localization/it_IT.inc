@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtri';
 $labels['managefilters'] = 'Gestione dei filtri per la posta in arrivo';
 $labels['filtername'] = 'Nome del filtro';
@@ -77,12 +77,12 @@ $labels['rulestop'] = 'Non valutare le regole successive';
 $labels['enable'] = 'Abilita/disabilita';
 $labels['filterset'] = 'Gruppo di filtri';
 $labels['filtersets'] = 'Gruppi di filtri';
-$labels['filtersetadd'] = 'Aggiungi gruppo';
-$labels['filtersetdel'] = 'Elimina gruppo';
-$labels['filtersetact'] = 'Attiva gruppo selezionato';
-$labels['filtersetdeact'] = 'Disattiva gruppo selezionato';
+$labels['filtersetadd'] = 'Aggiungi gruppo di filtri';
+$labels['filtersetdel'] = 'Elimina gruppo di filtri';
+$labels['filtersetact'] = 'Attiva il gruppo di filtri corrente';
+$labels['filtersetdeact'] = 'Disattiva il gruppo di filtri corrente';
 $labels['filterseteditraw'] = 'Modifica gruppo di filtri';
-$labels['filtersetswitch'] = 'Abilita/disabilita gruppo';
+$labels['filtersetswitch'] = 'Abilita/disabilita gruppo di filtri';
 $labels['filterdef'] = 'Definizione del filtro';
 $labels['filtersetname'] = 'Nome del gruppo di filtri';
 $labels['newfilterset'] = 'Nuovo gruppo di filtri';
@@ -91,6 +91,7 @@ $labels['none'] = 'nessuno';
 $labels['fromset'] = 'dal gruppo';
 $labels['fromfile'] = 'dal file';
 $labels['filterdisabled'] = 'Filtro disabilitato';
+$labels['filterenabled'] = 'Filtro abilitato';
 $labels['countisgreaterthan'] = 'somma maggiore di';
 $labels['countisgreaterthanequal'] = 'somma maggiore uguale  a';
 $labels['countislessthan'] = 'somma minore di';
@@ -111,6 +112,18 @@ $labels['flagdeleted'] = 'Eliminato';
 $labels['flaganswered'] = 'Risposto';
 $labels['flagflagged'] = 'Contrassegnato';
 $labels['flagdraft'] = 'Bozza';
+$labels['addheader'] = 'Aggiungi intestazioni al messaggio';
+$labels['deleteheader'] = 'Rimuovi intestazioni al messaggio';
+$labels['headername'] = 'Nome dell\'intestazione';
+$labels['headervalue'] = 'Valore dell\'intestazione';
+$labels['headerpos'] = 'Posizione dell\'intestazione';
+$labels['headeratstart'] = 'all\'inizio';
+$labels['headeratend'] = 'alla fine';
+$labels['headeroccurrence'] = 'Intestazione occorrenza/posizione';
+$labels['headerfromstart'] = 'dall\'inizio';
+$labels['headerfromend'] = 'dalla fine';
+$labels['headerpatterns'] = 'Modelli di valore dell\'intestazione';
+$labels['headermatchtype'] = 'tipo di corrispondenza:';
 $labels['setvariable'] = 'Imposta variabile';
 $labels['setvarname'] = 'Nome variabile:';
 $labels['setvarvalue'] = 'Valore variabile:';
@@ -175,16 +188,28 @@ $labels['asciicasemap'] = 'non differenziare maiuscole/minuscole (ascii-casemap)
 $labels['asciinumeric'] = 'numerico (ascii-numeric)';
 $labels['index'] = 'indice:';
 $labels['indexlast'] = 'indietro';
+$labels['spamtest'] = 'Livello spam';
+$labels['spamtestisgreaterthan'] = 'è più grande di';
+$labels['spamtestisgreaterthanequal'] = 'è maggiore o uguale a';
+$labels['spamtestislessthan'] = 'è meno di';
+$labels['spamtestislessthanequal'] = 'è minore o uguale a';
+$labels['spamtestequals'] = 'è uguale a';
+$labels['spamtestnotequals'] = 'è diverso da';
+$labels['spamtestisunknown'] = 'è sconosciuto';
+$labels['vacation'] = 'Fuori ufficio';
 $labels['vacation.reply'] = 'Messaggio di risposta';
 $labels['vacation.advanced'] = 'Impostazioni avanzate';
 $labels['vacation.from'] = 'Indirizzo di risposta del mittente:';
 $labels['vacation.subject'] = 'Oggetto';
 $labels['vacation.body'] = 'Testo';
+$labels['vacation.start'] = 'Data di inizio';
+$labels['vacation.end'] = 'Data di fine';
 $labels['vacation.status'] = 'Stato';
 $labels['vacation.on'] = 'Attivato';
 $labels['vacation.off'] = 'Disattivato';
 $labels['vacation.addresses'] = 'I miei indirizzi di posta';
 $labels['vacation.interval'] = 'Intervallo di risposta';
+$labels['vacation.after'] = 'Inserisci la regola di vacanza dopo';
 $labels['vacation.saving'] = 'Salvataggio...';
 $labels['vacation.action'] = 'Azione messaggio in arrivo';
 $labels['vacation.keep'] = 'Mantieni';
@@ -251,8 +276,10 @@ $messages['setexist'] = 'Il gruppo esiste già.';
 $messages['nodata'] = 'Selezionare almeno una posizione.';
 $messages['invaliddateformat'] = 'Formato della data non valido';
 $messages['saveerror'] = 'Impossibile salvare i dati. Errore del server.';
+$messages['vacationsaved'] = 'Dati di vacanza salvati correttamente.';
 $messages['forwardsaved'] = 'Dati di inoltro salvati correttamente.';
-$messages['emptyvacationbody'] = 'Il testo del messaggio non puo\' essere vuoto!';
-$messages['duplicate.conflict.err'] = 'Non sono consentiti intestazione e identificatore univoci.';
+$messages['emptyvacationbody'] = 'Il testo del messaggio non può essere vuoto!';
+$messages['duplicate.conflict.err'] = 'Sia l\'intestazione che l\'identificatore univoco non sono consentiti.';
 $messages['disabledaction'] = 'Azione non permessa.';
-?>
+$messages['lastindexempty'] = 'L\'indice è richiesto quando si conta dalla fine';
+$messages['noflagset'] = 'Deve essere selezionato almeno un flag.';

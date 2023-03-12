@@ -2,8 +2,9 @@
 
 /**
  +-----------------------------------------------------------------------+
- | This file is part of the Roundcube PHP suite                          |
- | Copyright (C) 2005-2014 The Roundcube Dev Team                        |
+ | This file is part of the Roundcube webmail client                     |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -30,8 +31,8 @@ abstract class rcube_output
     protected $app;
     protected $config;
     protected $charset = RCUBE_CHARSET;
-    protected $env = array();
-    protected $skins = array();
+    protected $env     = [];
+    protected $skins   = [];
 
 
     /**
@@ -81,8 +82,8 @@ abstract class rcube_output
     /**
      * Set environment variable
      *
-     * @param string $name   Property name
-     * @param mixed  $value  Property value
+     * @param string $name  Property name
+     * @param mixed  $value Property value
      */
     public function set_env($name, $value)
     {
@@ -92,13 +93,13 @@ abstract class rcube_output
     /**
      * Environment variable getter.
      *
-     * @param string $name  Property name
+     * @param string $name Property name
      *
      * @return mixed Property value
      */
     public function get_env($name)
     {
-        return $this->env[$name];
+        return $this->env[$name] ?? null;
     }
 
     /**
@@ -106,7 +107,7 @@ abstract class rcube_output
      */
     public function reset()
     {
-        $this->env = array();
+        $this->env = [];
     }
 
     /**
@@ -115,7 +116,7 @@ abstract class rcube_output
      * @param string  $message  Message to display
      * @param string  $type     Message type [notice|confirm|error]
      * @param array   $vars     Key-value pairs to be replaced in localized text
-     * @param boolean $override Override last set message
+     * @param bool    $override Override last set message
      * @param int     $timeout  Message displaying time in seconds
      */
     abstract function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
@@ -123,10 +124,10 @@ abstract class rcube_output
     /**
      * Redirect to a certain url.
      *
-     * @param mixed $p     Either a string with the action or url parameters as key-value pairs
-     * @param int   $delay Delay in seconds
+     * @param array|string $p     Either a string with the action or url parameters as key-value pairs
+     * @param int          $delay Delay in seconds
      */
-    abstract function redirect($p = array(), $delay = 1);
+    abstract function redirect($p = [], $delay = 1);
 
     /**
      * Send output to the client.
@@ -183,7 +184,7 @@ abstract class rcube_output
             return;
         }
 
-        $headers = array();
+        $headers = [];
 
         // Unlock IE compatibility mode
         if ($this->browser->ie) {
@@ -203,7 +204,7 @@ abstract class rcube_output
             $headers['X-Frame-Options'] = $xframe;
         }
 
-        $plugin = $this->app->plugins->exec_hook('common_headers', array('headers' => $headers, 'privacy' => $privacy));
+        $plugin = $this->app->plugins->exec_hook('common_headers', ['headers' => $headers, 'privacy' => $privacy]);
 
         foreach ($plugin['headers'] as $header => $value) {
             header("$header: $value");
@@ -222,7 +223,7 @@ abstract class rcube_output
      *                         type_charset - Content character set
      *                         time_limit   - Script execution limit (default: 3600)
      */
-    public function download_headers($filename, $params = array())
+    public function download_headers($filename, $params = [])
     {
         if (empty($params['disposition'])) {
             $params['disposition'] = 'attachment';
@@ -232,7 +233,7 @@ abstract class rcube_output
             $params['type'] .= '; charset=' . ($params['type_charset'] ?: $this->charset);
         }
 
-        header("Content-Type: " . ($params['type'] ?: "application/octet-stream"));
+        header("Content-Type: " . (!empty($params['type']) ? $params['type'] : "application/octet-stream"));
 
         if ($params['disposition'] == 'attachment' && $this->browser->ie) {
             header("Content-Type: application/force-download");
@@ -245,7 +246,10 @@ abstract class rcube_output
             $disposition .= sprintf("; filename=\"%s\"", $filename);
         }
         else {
-            $disposition .= sprintf("; filename*=%s''%s", $params['charset'] ?: $this->charset, rawurlencode($filename));
+            $disposition .= sprintf("; filename*=%s''%s",
+                !empty($params['charset']) ? $params['charset'] : $this->charset,
+                rawurlencode($filename)
+            );
         }
 
         header($disposition);
@@ -280,39 +284,45 @@ abstract class rcube_output
     /**
      * Create an edit field for inclusion on a form
      *
-     * @param string $col    Field name
+     * @param string $name   Field name
      * @param string $value  Field value
      * @param array  $attrib HTML element attributes for the field
      * @param string $type   HTML element type (default 'text')
      *
      * @return string HTML field definition
      */
-    public static function get_edit_field($col, $value, $attrib, $type = 'text')
+    public static function get_edit_field($name, $value, $attrib = [], $type = 'text')
     {
-        static $colcounts = array();
+        static $colcounts = [];
 
-        $fname = '_'.$col;
-        $attrib['name']  = $fname . ($attrib['array'] ? '[]' : '');
-        $attrib['class'] = trim($attrib['class'] . ' ff_' . $col);
+        $fname           = '_' . $name;
+        $attrib['name']  = $fname . (!empty($attrib['array']) ? '[]' : '');
+        $attrib['class'] = trim((!empty($attrib['class']) ? $attrib['class'] : '') . ' ff_' . $name);
 
         if ($type == 'checkbox') {
             $attrib['value'] = '1';
             $input = new html_checkbox($attrib);
         }
         else if ($type == 'textarea') {
-            $attrib['cols'] = $attrib['size'];
+            if (!empty($attrib['size'])) {
+                $attrib['cols'] = $attrib['size'];
+            }
             $input = new html_textarea($attrib);
         }
         else if ($type == 'select') {
             $input = new html_select($attrib);
-            $input->add('---', '');
-            $input->add(array_values($attrib['options']), array_keys($attrib['options']));
+            if (empty($attrib['skip-empty'])) {
+                $input->add('---', '');
+            }
+            if (!empty($attrib['options'])) {
+                $input->add(array_values($attrib['options']), array_keys($attrib['options']));
+            }
         }
-        else if ($type == 'password' || $attrib['type'] == 'password') {
+        else if ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
             $input = new html_passwordfield($attrib);
         }
         else {
-            if ($attrib['type'] != 'text' && $attrib['type'] != 'hidden') {
+            if (!isset($attrib['type']) || ($attrib['type'] != 'text' && $attrib['type'] != 'hidden')) {
                 $attrib['type'] = 'text';
             }
             $input = new html_inputfield($attrib);
@@ -321,28 +331,33 @@ abstract class rcube_output
         // use value from post
         if (isset($_POST[$fname])) {
             $postvalue = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
-            $value = $attrib['array'] ? $postvalue[intval($colcounts[$col]++)] : $postvalue;
+            if (!empty($attrib['array'])) {
+                if (!isset($colcounts[$name])) {
+                    $colcounts[$name] = 0;
+                }
+                $idx   = intval($colcounts[$name]++);
+                $value = $postvalue[$idx] ?? null;
+            }
+            else {
+                $value = $postvalue;
+            }
         }
 
-        $out = $input->show($value);
-
-        return $out;
+        return $input->show($value);
     }
 
     /**
      * Convert a variable into a javascript object notation
      *
-     * @param mixed   $input  Input value
-     * @param boolean $pretty Enable JSON formatting
-     * @param boolean $inline Enable inline mode (generates output safe for use inside HTML)
+     * @param mixed $input  Input value
+     * @param bool  $pretty Enable JSON formatting
+     * @param bool  $inline Enable inline mode (generates output safe for use inside HTML)
      *
      * @return string Serialized JSON string
      */
     public static function json_serialize($input, $pretty = false, $inline = true)
     {
-        // The input need to be valid UTF-8 to use with json_encode()
-        $input   = rcube_charset::clean($input);
-        $options = JSON_UNESCAPED_SLASHES;
+        $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_IGNORE;
 
         // JSON_HEX_TAG is needed for inlining JSON inside of the <script> tag
         // if input contains a html tag it will cause issues (#6207)
@@ -350,18 +365,10 @@ abstract class rcube_output
             $options |= JSON_HEX_TAG;
         }
 
-        // JSON_UNESCAPED_UNICODE in PHP < 7.1.0 does not escape U+2028 and U+2029
-        // which causes issues (#6187)
-        if (PHP_VERSION_ID >= 70100) {
-            $options |= JSON_UNESCAPED_UNICODE;
-        }
-
         if ($pretty) {
             $options |= JSON_PRETTY_PRINT;
         }
 
-        // sometimes even using rcube_charset::clean() the input contains invalid UTF-8 sequences
-        // that's why we have @ here
-        return @json_encode($input, $options);
+        return json_encode($input, $options);
     }
 }

@@ -4,12 +4,11 @@
  +-------------------------------------------------------------------------+
  | Abstract driver for the Enigma Plugin                                   |
  |                                                                         |
- | Copyright (C) 2010-2015 The Roundcube Dev Team                          |
+ | Copyright (C) The Roundcube Dev Team                                    |
  |                                                                         |
  | Licensed under the GNU General Public License version 3 or              |
  | any later version with exceptions for skins & plugins.                  |
  | See the README file for a full license statement.                       |
- |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Aleksander Machniak <alec@alec.pl>                              |
  +-------------------------------------------------------------------------+
@@ -17,6 +16,9 @@
 
 abstract class enigma_driver
 {
+    const SUPPORT_RSA = 'RSA';
+    const SUPPORT_ECC = 'ECC';
+
     /**
      * Class constructor.
      *
@@ -51,7 +53,7 @@ abstract class enigma_driver
      *
      * @return mixed Decrypted message or enigma_error on failure
      */
-    abstract function decrypt($text, $keys = array(), &$signature = null);
+    abstract function decrypt($text, $keys = [], &$signature = null);
 
     /**
      * Signing.
@@ -78,12 +80,12 @@ abstract class enigma_driver
      * Key/Cert file import.
      *
      * @param string File name or file content
-     * @param bolean True if first argument is a filename
+     * @param bool   True if first argument is a filename
      * @param array  Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
-    abstract function import($content, $isfile = false, $passwords = array());
+    abstract function import($content, $isfile = false, $passwords = []);
 
     /**
      * Key/Cert export.
@@ -94,7 +96,7 @@ abstract class enigma_driver
      *
      * @return mixed Key content or enigma_error
      */
-    abstract function export($key, $with_private = false, $passwords = array());
+    abstract function export($key, $with_private = false, $passwords = []);
 
     /**
      * Keys listing.
@@ -139,4 +141,14 @@ abstract class enigma_driver
      * @return string Hash algorithm name e.g. sha1
      */
     abstract function signature_algorithm();
+
+    /**
+     * Returns a list of supported features.
+     *
+     * @return array Capabilities list
+     */
+    public function capabilities()
+    {
+        return [];
+    }
 }

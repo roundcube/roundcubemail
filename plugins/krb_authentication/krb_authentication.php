@@ -20,12 +20,12 @@ class krb_authentication extends rcube_plugin
      */
     function init()
     {
-        $this->add_hook('startup', array($this, 'startup'));
-        $this->add_hook('authenticate', array($this, 'authenticate'));
-        $this->add_hook('login_after', array($this, 'login'));
-        $this->add_hook('storage_connect', array($this, 'storage_connect'));
-        $this->add_hook('managesieve_connect', array($this, 'managesieve_connect'));
-        $this->add_hook('smtp_connect', array($this, 'smtp_connect'));
+        $this->add_hook('startup', [$this, 'startup']);
+        $this->add_hook('authenticate', [$this, 'authenticate']);
+        $this->add_hook('login_after', [$this, 'login']);
+        $this->add_hook('storage_connect', [$this, 'storage_connect']);
+        $this->add_hook('managesieve_connect', [$this, 'managesieve_connect']);
+        $this->add_hook('smtp_connect', [$this, 'smtp_connect']);
     }
 
     /**
@@ -108,7 +108,10 @@ class krb_authentication extends rcube_plugin
      */
     function managesieve_connect($args)
     {
-        if ((!isset($args['auth_type']) || $args['auth_type'] == 'GSSAPI') && !empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])) {
+        if (
+            (!isset($args['auth_type']) || $args['auth_type'] == 'GSSAPI')
+            && !empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])
+        ) {
             $args['gssapi_context'] = $this->gssapi_context('sieve');
             $args['gssapi_cn']      = $_SERVER['KRB5CCNAME'];
             $args['auth_type']      = 'GSSAPI';
@@ -122,7 +125,10 @@ class krb_authentication extends rcube_plugin
      */
     function smtp_connect($args)
     {
-        if ((!isset($args['smtp_auth_type']) || $args['smtp_auth_type'] == 'GSSAPI') && !empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])) {
+        if (
+            (!isset($args['smtp_auth_type']) || $args['smtp_auth_type'] == 'GSSAPI')
+            && !empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])
+        ) {
             $args['gssapi_context'] = $this->gssapi_context('smtp');
             $args['gssapi_cn']      = $_SERVER['KRB5CCNAME'];
             $args['smtp_auth_type'] = 'GSSAPI';
@@ -142,7 +148,7 @@ class krb_authentication extends rcube_plugin
         $rcmail  = rcmail::get_instance();
         $context = $rcmail->config->get('krb_authentication_context');
 
-        if (is_array($context)) {
+        if (is_array($context) && isset($context[$protocol])) {
              $context = $context[$protocol];
         }
 

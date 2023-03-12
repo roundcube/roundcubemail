@@ -2,23 +2,23 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Er is een fout opgetreden!';
 $messages['loginfailed']  = 'Aanmelden mislukt.';
 $messages['cookiesdisabled'] = 'Uw browser accepteert geen cookies.';
 $messages['sessionerror'] = 'Uw sessie is verlopen of ongeldig.';
+$messages['cookiesmismatch'] = 'Cookie komt niet overeen, verwijder de cookies van uw browser.';
 $messages['storageerror'] = 'Verbinding met IMAP-server mislukt.';
 $messages['servererror'] = 'Serverfout!';
 $messages['servererrormsg'] = 'Serverfout: $msg';
@@ -64,11 +64,11 @@ $messages['nopubkeyforsender'] = 'Geen geldige publieke sleutel gevonden voor uw
 $messages['encryptnoattachments'] = 'Al geüploade bijlagen kunnen niet worden versleuteld. Voeg ze alstublieft opnieuw toe aan de versleutelingsbewerker.';
 $messages['searchpubkeyservers'] = 'Wilt u publieke sleutelservers doorzoeken voor de missende sleutels?';
 $messages['encryptpubkeysfound'] = 'The volgende publieke sleutels zijn gevonden:';
-$messages['keyservererror'] = 'Sleutel van keyserver ophalen is mislukt';
-$messages['keyimportsuccess'] = 'Publieke sleutel $key succesvol geïmporteerd in uw sleutelring';
+$messages['keyservererror'] = 'Sleutel van keyserver ophalen is mislukt.';
+$messages['keyimportsuccess'] = 'Publieke sleutel $key succesvol geïmporteerd in uw sleutelhanger.';
 $messages['nocontactsfound'] = 'Geen contactpersonen gevonden.';
 $messages['contactnotfound'] = 'Opgevraagde contactpersoon niet gevonden.';
-$messages['contactsearchonly'] = 'Voer enkele zoektermen in om contactpersonen te zoeken';
+$messages['contactsearchonly'] = 'Voer enkele zoektermen in om contactpersonen te zoeken van het geselecteerde adresboek.';
 $messages['sendingfailed'] = 'Verzenden van bericht is mislukt.';
 $messages['senttooquickly'] = 'Wacht alstublieft $sec seconde(n) voordat u dit bericht verstuurt.';
 $messages['errorsavingsent'] = 'Er is een fout opgetreden tijdens het opslaan van het verzonden bericht.';
@@ -117,16 +117,16 @@ $messages['nospellerrors'] = 'Geen spelfouten gevonden.';
 $messages['folderdeleted'] = 'Map succesvol verwijderd.';
 $messages['foldersubscribed'] = 'Succesvol geabonneerd op map.';
 $messages['folderunsubscribed'] = 'Abonnement op map succesvol opgezegd.';
-$messages['folderpurged'] = 'Map succesvol leeggemaakt.';
-$messages['folderexpunged'] = 'Map succesvol opgeschoond.';
 $messages['deletedsuccessfully'] = 'Met succes verwijderd.';
 $messages['converting'] = 'Opmaak van bericht verwijderen...';
 $messages['messageopenerror'] = 'Kan het bericht niet van de server laden.';
 $messages['filelinkerror'] = 'Bestand toevoegen mislukt.';
 $messages['fileuploaderror'] = 'Bestand uploaden mislukt.';
+$messages['csvfilemismatch'] = 'Importeren van meerdere CSV-bestanden met verschillende velden wordt niet ondersteund.';
 $messages['filesizeerror'] = 'Het bestand overschrijdt de maximale grootte van $size.';
 $messages['filecounterror'] = 'Je kan maximaal $count bestanden uploaden per keer.';
 $messages['msgsizeerror'] = 'Bestand toevoegen als bijlage mislukt. Maximale grootte van een bericht ($size) overschreden.';
+$messages['msgsizeerrorfwd'] = 'De maximale grootte van een bericht ($size) is overschreden. $num bericht(en) zijn niet bijgevoegd. ';
 $messages['copysuccess'] = '$nr contactpersonen succesvol gekopieerd.';
 $messages['movesuccess'] = '$nr contactpersonen succesvol verplaatst.';
 $messages['copyerror'] = 'Kon geen contactpersoon kopieren.';
@@ -222,3 +222,5 @@ $messages['responseinserted'] = 'Antwoord succesvol ingevoegd.';
 $messages['listempty'] = 'De lijst is leeg.';
 $messages['listusebutton'] = 'Gebruik de Nieuw knop om een nieuwe record toe te voegen.';
 $messages['keypaircreatesuccess'] = 'Aan nieuw sleutelpaar werd met succes aangemaakt voor de identiteit $identity.';
+$messages['emptyattachment'] = 'Deze bijlage lijkt leeg te zijn.<br>Check het met de persoon die dit verzonden heeft.';
+$messages['oauthloginfailed'] = 'OAuth login is mislukt. Probeer het opnieuw.';

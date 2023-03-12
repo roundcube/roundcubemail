@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = '¡Ha ocurrido un error!';
 $messages['loginfailed']  = 'Contraseña o nombre de usuario incorrecto.';
 $messages['cookiesdisabled'] = 'Su navegador no acepta cookies.';
 $messages['sessionerror'] = 'Su sesión no es válida o ha expirado.';
+$messages['cookiesmismatch'] = 'Se ha detectado una incoherencia en las cookies. Por favor, limpie las cookies de su navegador.';
 $messages['storageerror'] = 'Error de conexión con el servidor IMAP.';
 $messages['servererror'] = '¡Error del servidor!';
 $messages['servererrormsg'] = 'Error de servidor: $msg';
 $messages['accountlocked'] = 'Demasiados intentos de conexión fallidos. Inténtalo de nuevo más tarde.';
 $messages['connerror'] = '¡Error de conexión (fallo al intentar alcanzar el servidor)!';
 $messages['dberror'] = '¡Error de base de datos!';
+$messages['dbconnerror'] = '¡No fue posible conectar con la base de datos!';
 $messages['windowopenerror'] = 'iLa ventana emergente fue bloqueada!';
 $messages['requesttimedout'] = 'Ha expirado el tiempo de respuesta';
 $messages['errorreadonly'] = 'No se pudo realizar la operación. La carpeta es de sólo lectura.';
@@ -57,6 +58,9 @@ $messages['contactexists'] = 'Ya existe un contacto con esta dirección de corre
 $messages['contactnameexists'] = 'Ya existe un contacto con el mismo nombre.';
 $messages['blockedimages'] = 'Para proteger su privacidad, las imágenes externas de este mensaje han sido bloqueadas.';
 $messages['blockedresources'] = 'Para proteger su privacidad, los recursos remotos han sido bloqueados.';
+$messages['suspiciousemail'] = 'Este mensaje contiene direcciones de correo electrónico sospechosas que pueden ser fraudulentas.';
+$messages['bccemail'] = 'El o los mensaje(s) reenviados contienen destinatarios confidenciales (Bcc)';
+$messages['bouncehint'] = 'El mensaje será enviado sin ninguna modificación, ej. usando el cuerpo original, encabezados y destinatarios.';
 $messages['encryptedmessage'] = 'Este es un mensaje cifrado y no puede ser mostrado. ¡Lo sentimos!';
 $messages['externalmessagedecryption'] = 'Este es un mensaje cifrado y se puede descifrar con una extensión de tu navegador.';
 $messages['nopubkeyfor'] = 'No se ha encontrado una clave pública de $email';
@@ -64,11 +68,11 @@ $messages['nopubkeyforsender'] = 'No se ha encontrado una clave pública de tu i
 $messages['encryptnoattachments'] = 'Todavía no se pueden cifrar los adjuntos subidos. Por favor, añádelos luego en el editor de cifrado.';
 $messages['searchpubkeyservers'] = '¿Quieres buscar servidores de clave pública para las claves que faltan?';
 $messages['encryptpubkeysfound'] = 'Se han encontrado las siguientes claves públicas:';
-$messages['keyservererror'] = 'No se ha podido obtener la clave del servidor de claves';
-$messages['keyimportsuccess'] = 'La clave pública ¢key se ha importado correctamente a tu anillo de claves';
+$messages['keyservererror'] = 'No se ha podido obtener la clave del servidor de claves.';
+$messages['keyimportsuccess'] = 'La clave pública $key se ha importado correctamente en tu llavero de claves.';
 $messages['nocontactsfound'] = 'No se encontraron contactos.';
 $messages['contactnotfound'] = 'El contacto solicitado no existe.';
-$messages['contactsearchonly'] = 'Ingrese algún criterio para buscar contactos';
+$messages['contactsearchonly'] = 'Debes utilizar un formulario de búsqueda para ver los contactos de la libreta de direcciones seleccionada.';
 $messages['sendingfailed'] = 'Error al enviar mensaje.';
 $messages['senttooquickly'] = 'Por favor, espere $sec segundo(s) antes de enviar este mensaje.';
 $messages['errorsavingsent'] = 'Ha ocurrido un error al guardar el mensaje enviado.';
@@ -117,16 +121,18 @@ $messages['nospellerrors'] = 'No se encontraron errores ortográficos.';
 $messages['folderdeleted'] = 'Carpeta eliminada correctamente.';
 $messages['foldersubscribed'] = 'Suscrito a carpeta correctamente.';
 $messages['folderunsubscribed'] = 'Suscripción a carpeta anulada correctamente.';
-$messages['folderpurged'] = 'Carpeta purgada correctamente.';
-$messages['folderexpunged'] = 'Carpeta compactada correctamente.';
+$messages['folderpurged'] = 'Carpeta vaciada exitosamente';
+$messages['folderexpunged'] = 'Carpeta compactada exitosamente';
 $messages['deletedsuccessfully'] = 'Eliminado correctamente.';
 $messages['converting'] = 'Eliminando formato de mensaje...';
 $messages['messageopenerror'] = 'No se pudo cargar el mensaje del servidor.';
 $messages['filelinkerror'] = 'No se pudo adjuntar el archivo.';
 $messages['fileuploaderror'] = 'Error al cargar archivos.';
+$messages['csvfilemismatch'] = 'La importación de múltiples archivos CSV con diferentes campos no está soportada.';
 $messages['filesizeerror'] = 'El archivo excede el tamaño máximo ($size).';
 $messages['filecounterror'] = 'Puedes subir un máximo de $count archivos de cada vez.';
 $messages['msgsizeerror'] = 'No se ha podido adjuntar un archivo. El tamaño máximo del mensaje ($size) se ha excedido.';
+$messages['msgsizeerrorfwd'] = 'El tamaño máximo del mensaje ($size) se ha excedido. $num mensaje(s) no han sido adjuntados.';
 $messages['copysuccess'] = '$nr contactos copiados correctamente.';
 $messages['movesuccess'] = '$nr contactos movidos correctamente.';
 $messages['copyerror'] = 'No se pudo copiar ningún contacto.';
@@ -218,6 +224,9 @@ $messages['clicktocompose'] = 'Hacer clic aquí para escribir un nuevo mensaje';
 $messages['nosupporterror'] = 'Esta función no está soportada por el navegador.';
 $messages['siginserted'] = 'Firma insertada correctamente.';
 $messages['responseinserted'] = 'Respuesta insertada correctamente.';
+$messages['noresponsesavailable'] = 'No hay respuestas disponibles';
 $messages['listempty'] = 'La lista está vacía.';
 $messages['listusebutton'] = 'Use el botón Crear para añadir un nuevo registro.';
 $messages['keypaircreatesuccess'] = 'Un nuevo par de claves ha sido creada con éxito para $identity.';
+$messages['emptyattachment'] = 'Parece que este archivo adjunto está vacío. <br>Por favor, consulta a la persona que lo envió.';
+$messages['oauthloginfailed'] = 'Ha fallado el inicio de sesión OAuth. Por favor, vuelva a intentarlo.';

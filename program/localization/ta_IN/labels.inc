@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'நல்வரவு';
 $labels['username'] = 'பயனர்';
 $labels['password'] = 'கடவுச்சொல்';
@@ -232,7 +232,6 @@ $labels['2047folding'] = 'முழு RFC 2047 (மற்ற)';
 $labels['advancedoptions'] = 'மேம்பட்ட விருப்பங்கள்';
 $labels['focusonnewmessage'] = 'உலாவி சாளரத்தை புது செய்திக்காக கவனி';
 $labels['checkallfolders'] = 'புது செய்திகளுக்காக எல்லா அடைவுகளையும் சரிபார்';
-$labels['displaynext'] = 'செய்தியை நீக்கு/நகர் பிறகு அடுத்த செய்தியை காட்டு';
 $labels['mainoptions'] = 'முக்கிய விருப்பங்கள்';
 $labels['section'] = 'பிரிவு';
 $labels['maintenance'] = 'பராமரிப்பு';
@@ -262,4 +261,3 @@ $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-?>

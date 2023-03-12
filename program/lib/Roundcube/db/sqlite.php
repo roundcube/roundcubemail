@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2012, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -63,12 +64,22 @@ class rcube_db_sqlite extends rcube_db
                     $this->db_error = true;
                     $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
 
-                    rcube::raise_error(array('code' => 500, 'type' => 'db',
-                        'line' => __LINE__, 'file' => __FILE__,
-                        'message' => $this->db_error_msg), true, false);
+                    rcube::raise_error([
+                            'code' => 500, 'type' => 'db',
+                            'line' => __LINE__, 'file' => __FILE__,
+                            'message' => $this->db_error_msg
+                        ],
+                        true, false
+                    );
                 }
             }
         }
+
+        // Enable WAL mode to fix locking issues like #8035.
+        $dbh->query("PRAGMA journal_mode = WAL");
+
+        // Enable foreign keys (requires sqlite 3.6.19 compiled with FK support)
+        $dbh->query("PRAGMA foreign_keys = ON");
     }
 
     /**
@@ -93,11 +104,13 @@ class rcube_db_sqlite extends rcube_db
      */
     public function now($interval = 0)
     {
+        $add = '';
+
         if ($interval) {
             $add = ($interval > 0 ? '+' : '') . intval($interval) . ' seconds';
         }
 
-        return "datetime('now'" . ($add ? ",'$add'" : "") . ")";
+        return "datetime('now'" . ($add ? ", '$add'" : "") . ")";
     }
 
     /**
@@ -111,7 +124,7 @@ class rcube_db_sqlite extends rcube_db
             $q = $this->query('SELECT name FROM sqlite_master'
                 .' WHERE type = \'table\' ORDER BY name');
 
-            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : array();
+            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
         }
 
         return $this->tables;
@@ -126,29 +139,9 @@ class rcube_db_sqlite extends rcube_db
      */
     public function list_cols($table)
     {
-        $q = $this->query('SELECT sql FROM sqlite_master WHERE type = ? AND name = ?',
-            array('table', $table));
+        $q = $this->query('PRAGMA table_info(?)', $table);
 
-        $columns = array();
-
-        if ($sql = $this->fetch_array($q)) {
-            $sql       = $sql[0];
-            $start_pos = strpos($sql, '(');
-            $end_pos   = strrpos($sql, ')');
-            $sql       = substr($sql, $start_pos+1, $end_pos-$start_pos-1);
-            $lines     = explode(',', $sql);
-
-            foreach ($lines as $line) {
-                $line = explode(' ', trim($line));
-
-                if ($line[0] && strpos($line[0], '--') !== 0) {
-                    $column = $line[0];
-                    $columns[] = trim($column, '"');
-                }
-            }
-        }
-
-        return $columns;
+        return $q ? $q->fetchAll(PDO::FETCH_COLUMN, 1) : [];
     }
 
     /**
@@ -157,5 +150,22 @@ class rcube_db_sqlite extends rcube_db
     protected function dsn_string($dsn)
     {
         return $dsn['phptype'] . ':' . $dsn['database'];
+    }
+
+    /**
+     * Returns driver-specific connection options
+     *
+     * @param array $dsn DSN parameters
+     *
+     * @return array Connection options
+     */
+    protected function dsn_options($dsn)
+    {
+        $result = parent::dsn_options($dsn);
+
+        // Change the default timeout (60) to a smaller value
+        $result[PDO::ATTR_TIMEOUT] = isset($dsn['timeout']) ? intval($dsn['timeout']) : 10;
+
+        return $result;
     }
 }

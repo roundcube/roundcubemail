@@ -2,29 +2,32 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'ברוך בואך אל $product';
 $labels['username'] = 'שם משתמש';
 $labels['password'] = 'סיסמה';
 $labels['server'] = 'שרת';
 $labels['login'] = 'כניסה';
+$labels['oauthlogin'] = 'כניסה עם provider$';
 $labels['menu'] = 'תפריט';
 $labels['logout'] = 'יציאה';
 $labels['mail'] = 'רשימת הודעות';
 $labels['settings'] = 'הגדרות אישיות';
 $labels['addressbook'] = 'פנקס כתובות';
+$labels['darkmode'] = 'רקע כהה';
+$labels['lightmode'] = 'רקע בהיר';
 $labels['inbox'] = 'נכנס';
 $labels['drafts'] = 'טיוטות';
 $labels['sent'] = 'נשלח';
@@ -131,6 +134,7 @@ $labels['markread'] = 'כנקראו';
 $labels['markunread'] = 'כלא נקראו';
 $labels['markflagged'] = 'כמסומן';
 $labels['markunflagged'] = 'כלא מסומן';
+$labels['markundeleted'] = 'כמי שלא נמחקו';
 $labels['moreactions'] = 'פעולות נוספות...';
 $labels['markallread'] = 'סימון כל ההודעות כאילו נקראו';
 $labels['folders-cur'] = 'רק התיקיה שנבחרה';
@@ -169,6 +173,7 @@ $labels['expand-all'] = 'הרחבה כלית';
 $labels['expand-unread'] = 'הרחבה טרם נקרא';
 $labels['collapse-all'] = 'כינוס כללי';
 $labels['threaded'] = 'משורשר';
+$labels['showunread'] = 'הצגת הודעות שלא נקראו';
 $labels['autoexpand_threads'] = 'הרחבת הודעות משורשרות';
 $labels['do_expand'] = 'כל השרשורים';
 $labels['expand_only_unread'] = 'רק עם הודעות שטרם נקראו';
@@ -206,9 +211,9 @@ $labels['quotatotal'] = 'הגבלה';
 $labels['quotaused'] = 'בשימוש';
 $labels['quotastorage'] = 'נפח כונן';
 $labels['quotamessage'] = 'ספירת הודעות';
-$labels['shortheaderdate'] = 'ביום date$';
-$labels['shortheaderto'] = 'עד to$ ביום date$';
-$labels['shortheaderfrom'] = 'מ- from$ בתאריך date$';
+$labels['shortheaderdate'] = 'ביום $date';
+$labels['shortheaderto'] = 'עד $to ביום $date';
+$labels['shortheaderfrom'] = 'מ- $from בתאריך $date';
 $labels['quicksearch'] = 'חיפוש מהיר';
 $labels['searchplaceholder'] = 'חיפוש...';
 $labels['resetsearch'] = 'ניקוי תיבת החיפוש';
@@ -240,6 +245,7 @@ $labels['charset'] = 'קידוד';
 $labels['editortype'] = 'סוג עורך';
 $labels['returnreceipt'] = 'אישור קבלה';
 $labels['dsn'] = 'הודעה על מצב המסירה';
+$labels['keepformatting'] = 'המשך עריכה';
 $labels['mailreplyintro'] = ':כתב $sender, $date בתאריך';
 $labels['originalmessage'] = 'הודעה מקורית';
 $labels['selectimage'] = 'בחר תמונה';
@@ -259,6 +265,7 @@ $labels['keyrevoked'] = 'נשלל';
 $labels['bccinstead'] = 'שימוש במכותבים נסתרים';
 $labels['addheader'] = 'הוספת נמען (כותרת)';
 $labels['insert'] = 'הוספה בין ערכים';
+$labels['insertcontact'] = 'פה יש להוסיף איש קשר';
 $labels['recipient'] = 'הנמען';
 $labels['recipientedit'] = 'עריכת נמענים';
 $labels['editidents'] = 'עריכת זהויות';
@@ -295,10 +302,11 @@ $labels['nosubject'] = '(ללא נושא)';
 $labels['showimages'] = 'הצגת תמונות';
 $labels['allow'] = 'הרשאה';
 $labels['alwaysshow'] = '$sender תמיד להציג תמונות מאת';
-$labels['alwaysallow'] = 'תמיד לקבל מ- sender$';
+$labels['alwaysallow'] = 'תמיד לקבל מ- $sender';
 $labels['isdraft'] = 'זו טיוטה של הודעה';
 $labels['andnmore'] = 'עוד  $nr';
 $labels['details'] = 'פרטים';
+$labels['summary'] = 'סיכום';
 $labels['headers'] = 'כותרות';
 $labels['allheaders'] = 'כל הכותרות';
 $labels['togglemoreheaders'] = 'הראה נתוני מערכת נוספים של ההודעה';
@@ -312,10 +320,12 @@ $labels['addcc'] = 'הוספת מכותב לידיעה';
 $labels['addbcc'] = 'הוספת מכותב נסתר';
 $labels['addreplyto'] = 'הוספת כתובת למענה';
 $labels['addfollowupto'] = 'הוספת כתובת להעברת הודעה';
+$labels['sendreceipt'] = 'לשלוח אישור קבלה?';
 $labels['mdnrequest'] = 'השולח ביקש לדעת אם ההודעה נקראה. האם להודיע לשולח?';
 $labels['receiptread'] = 'אישור קבלה (נקרא)';
 $labels['yourmessage'] = 'אישור קבלה להודעתך';
 $labels['receiptnote'] = 'הערה: האישור אינו מבטיח שהנמען קרא או הבין את תוכן ההודעה.';
+$labels['sendalwaysto'] = 'לשלוח תמיד אל email$';
 $labels['zoomin'] = 'מבט עמוק יותר לפרטים';
 $labels['zoomout'] = 'מבט רחוק יותר מהפרטים';
 $labels['rotate'] = 'לסובב';
@@ -395,6 +405,9 @@ $labels['rename'] = 'שינוי שם';
 $labels['addphoto'] = 'הוספה';
 $labels['replacephoto'] = 'החלפה';
 $labels['uploadphoto'] = 'העלאת תמונה';
+$labels['choosefile'] = 'יש לבחור קובץ...';
+$labels['choosefiles'] = 'יש לבחור קבצים...';
+$labels['browse'] = 'דפדוף';
 $labels['newcontact'] = 'צור איש קשר חדש';
 $labels['deletecontact'] = 'מחיקת אנשי קשר מסומנים';
 $labels['composeto'] = 'יצירת הודעה אל';
@@ -403,7 +416,7 @@ $labels['print'] = 'הדפסה';
 $labels['export'] = 'ייצוא';
 $labels['exportall'] = 'יצוא של כל הרשומות';
 $labels['exportsel'] = 'צוא של רשומות נבחרות';
-$labels['exportvcards'] = 'ייצוא אנשי קשר בפורמט  vCard';
+$labels['exportvcards'] = 'ייצוא אנשי קשר בפורמט vCard';
 $labels['newgroup'] = 'הוסף קבוצה חדשה';
 $labels['addgroup'] = 'הוספת קבוצה';
 $labels['grouprename'] = 'שינוי שם קבוצה';
@@ -431,6 +444,9 @@ $labels['importgroups'] = 'ייבוא הגדרות קבוצה';
 $labels['importgroupsall'] = 'הכל (יש להקים קבוצות אם צריך)';
 $labels['importgroupsexisting'] = 'רק עבור קבוצות קיימות';
 $labels['importdesc'] = 'ניתן להעלות אנשי קשר מפנקס כתובות קיים.  כרגע יש תמיכה ביבוא רשומות הערוכות בצורת vCard או CSV (מופרד פסיקים)';
+$labels['importmapdesc'] = 'נא לאשר את מיפוי השדות שלהלן לפני שנמשיך עם יבוא קובץ נתונים מסוג CSV (מופרדים ע"י פסיקים)';
+$labels['fieldnotmapped'] = 'השדה ללא מיפוי (לא לייבא)';
+$labels['skipheader'] = 'לא לייבא שורה ראשונה (כותרות)';
 $labels['done'] = 'בוצע';
 $labels['settingsfor'] = 'הגדרות עבור';
 $labels['about'] = 'אודות';
@@ -477,6 +493,8 @@ $labels['askuser'] = 'שאל את המשתמש';
 $labels['autosend'] = 'שליחה אוטומטית';
 $labels['autosendknown'] = 'משלוח אישור קבלה רק לאנשי הקשר שלי';
 $labels['autosendknownignore'] = 'משלוח אישור קבלה לאנשי הקשר שלי בלבד ולהתעלם מאחרים';
+$labels['autosendtrusted'] = 'לשלוח אישור קבלה לשולחים מוכרים, בכל מקרה אחר לבקש אישור';
+$labels['autosendtrustedignore'] = 'לשלוח אישור קבלה לשולחים מוכרים, אחרת להתעלם';
 $labels['ignorerequest'] = 'להתעלם מהבקשה';
 $labels['readwhendeleted'] = 'סימון הודעה כנקראה לאחר מחיקה';
 $labels['flagfordeletion'] = 'סימון הודעה כמחוקה במקום מחיקה';
@@ -486,6 +504,8 @@ $labels['deletejunk'] = 'מחיקה ישירה של הודעות זבל';
 $labels['showremoteimages'] = 'הצגת תמונות משרת מרוחק בגוף ההודעה';
 $labels['allowremoteresources'] = 'אישור שימוש במשאבים מרוחקים (תמונות, סגנונות)';
 $labels['fromknownsenders'] = 'משולחים מוכרים';
+$labels['fromtrustedsenders'] = 'התקבל משולחים מוכרים';
+$labels['frommycontacts'] = 'מאנשי הקשר שלי';
 $labels['always'] = 'תמיד';
 $labels['alwaysbutplain'] = 'תמיד, למעט בעת מענה לטקסט פשוט';
 $labels['showinlineimages'] = 'הצגת תמונות מצורפות בתחתית ההודעה';
@@ -506,7 +526,7 @@ $labels['advancedoptions'] = 'הגדרות נוספות';
 $labels['toggleadvancedoptions'] = 'בחירה בין הגדרות בסיסיות או מתקדמות';
 $labels['focusonnewmessage'] = 'מיקוד הסמן על החלון עם ההודעה החדשה';
 $labels['checkallfolders'] = 'בדיקת הודעות חדשות בכל התיקיות';
-$labels['displaynext'] = 'מעבר להודעה הבאה לאחר מחיקה או תיוק';
+$labels['displaynext'] = 'הצגת הרשומה הבאה לאחר מחיקה/העברה';
 $labels['defaultfont'] = 'גופן ברירת מחדל להודעה בפורמט HTML';
 $labels['mainoptions'] = 'אפשרויות עיקריות';
 $labels['browseroptions'] = 'אפשרויות דפדפן';
@@ -534,6 +554,14 @@ $labels['replysamefolder'] = 'המענה ישמר בתיקיה של ההודעה
 $labels['defaultabook'] = 'ברירת המחדל של רשימת כתובות';
 $labels['autocompletesingle'] = 'לדלג על כתובת דואר חילופית בעת שימוש בהשלמה אוטומטית של הקלדה';
 $labels['listnamedisplay'] = 'הצגת איש הקשר בתור';
+$labels['contactformmode'] = 'הצגה של טופס איש קשר';
+$labels['privatemode'] = 'פרטי (בית)';
+$labels['businessmode'] = 'עיסקי (עבודה)';
+$labels['collectedaddresses'] = 'כתובות שלוקטו';
+$labels['collectedrecipients'] = 'נמענים שלוקטו';
+$labels['collectedrecipientsopt'] = 'לשמור כתובות נמענים של דואר יוצא ב-';
+$labels['collectedsendersopt'] = 'לשמור שולחים מוכרים ב-';
+$labels['trustedsenders'] = 'שולחים מוכרים';
 $labels['spellcheckbeforesend'] = 'בדיקת איות לפני המשלוח';
 $labels['spellcheckoptions'] = 'אפשריות בדיקת איות';
 $labels['spellcheckignoresyms'] = 'התעלמות ממילים המכילות סמלים';
@@ -548,6 +576,8 @@ $labels['asattachment'] = 'כצרופה';
 $labels['replyallmode'] = 'ברירת המחדל של כפתור [מענה לכולם]';
 $labels['replyalldefault'] = 'מענה לכולם';
 $labels['replyalllist'] = 'מענה לרשימת תפוצה בלבד (אם קיימת)';
+$labels['allmessages'] = 'כל ההודעות';
+$labels['olderxdays'] = 'לפני יותר מ- x$ ימים';
 $labels['folder'] = 'תיקיה';
 $labels['folders'] = 'תיקיות';
 $labels['foldername'] = 'שם תיקיה';
@@ -580,9 +610,13 @@ $labels['dualusefolder'] = 'תיקיות';
 $labels['generate'] = 'לחולל';
 $labels['encryptioncreatekey'] = 'יצירה של צמד מפתחות';
 $labels['openmailvelopesettings'] = 'הצגת אפשרויות לתוכנת ההצפנה';
-$labels['encryptionprivkeysinmailvelope'] = 'קיימים nr$ מפתחות פרטיים תואמים ברשימת המפתחות שלך בתוכנת ההצפנה';
+$labels['encryptionprivkeysinmailvelope'] = 'קיימים $nr מפתחות פרטיים תואמים ברשימת המפתחות שלך בתוכנת ההצפנה';
 $labels['encryptionnoprivkeysinmailvelope'] = 'לזהות השולחת אין עדיין מפתח הצפנה פרטי השמור בתוכנת ההצפנה שלך. האם ליצור כזה
 כדי לאפשר הצפנת הודעות?';
+$labels['encryption'] = 'הצפנה';
+$labels['mailvelopeoptions'] = 'אפשרויות למעטפת ההודעה';
+$labels['mailvelopemainkeyring'] = 'השתמש/י בטבעצ מפתחות עיקרית של מעטפת ההודעה';
+$labels['mailvelopenotfound'] = 'ההרחבה העוסקת במעטפת ההודעה אינה מותקנת או מופעלת בדפדפן';
 $labels['sortby'] = 'מיון לפי';
 $labels['sortasc'] = 'מיון בסדר עולה';
 $labels['sortdesc'] = 'מיון בסדר יורד';
@@ -591,6 +625,7 @@ $labels['installedplugins'] = 'תוספים מותקנים';
 $labels['plugin'] = 'תוסף תוכנה';
 $labels['version'] = 'גירסה';
 $labels['source'] = 'מקור';
+$labels['destination'] = 'יעד';
 $labels['license'] = 'רשיון';
 $labels['support'] = 'קבלת תמיכה';
 $labels['savedsearches'] = 'חיפושים שנשמרו';
@@ -625,6 +660,7 @@ $labels['chinese'] = 'סיני';
 $labels['arialabeltopnav'] = 'בקרת חלון';
 $labels['arialabeltasknav'] = 'משימות יישום';
 $labels['arialabeltoolbar'] = 'סרגל כלים יישום';
+$labels['arialabellistnav'] = 'רשימת ניווט';
 $labels['arialabelactivetask'] = 'משימה פעילה';
 $labels['arialabelmessagessearchfilter'] = 'מסנן של רשימת ההודעות';
 $labels['arialabelmailsearchform'] = 'טופס חיפוש בתוך הודעות';
@@ -663,7 +699,7 @@ $labels['arialabelcontactexportoptions'] = 'אפשרויות ייצוא איש �
 $labels['arialabelabookgroupoptions'] = 'אפשרויות קבוצה/פנקס כתובות';
 $labels['arialabelpreferencesform'] = 'תבנית העדפות';
 $labels['arialabelidentityeditfrom'] = 'טופס עריכת זהות';
-$labels['arialabelresonseeditfrom'] = 'טופס עריכת מענה';
+$labels['arialabelresponseeditfrom'] = 'טופס עריכת מענה';
 $labels['arialabelsearchterms'] = 'מילות חיםוש';
 $labels['arialabeldropactionmenu'] = 'תפריט גרירה';
 $labels['arialabelheadersmenu'] = 'תפריט הוספת (כותרת) נמען';
@@ -677,4 +713,3 @@ $labels['helplistkeyboardnavmessages'] = "חץ ימין/שמאל: הרחבה/צ�
 ENTER: פתיחה של ההודעה שנבחרה
 DELETE: העברה של ההודעה שנבחרה לפח האשפה";
 $labels['helplistkeyboardnavcontacts'] = "ENTER: פתיחה של איש הקשר שסומן ";
-?>

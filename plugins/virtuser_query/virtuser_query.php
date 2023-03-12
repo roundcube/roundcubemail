@@ -12,7 +12,7 @@
  * The email query could optionally select identity data columns in specified order:
  *    name, organization, reply-to, bcc, signature, html_signature
  *
- * $config['virtuser_query'] = array('email' => '', 'user' => '', 'host' => '', 'alias' => '');
+ * $config['virtuser_query'] = ['email' => '', 'user' => '', 'host' => '', 'alias' => ''];
  *
  * The email query can return more than one record to create more identities.
  * This requires identities_level option to be set to value less than 2.
@@ -38,20 +38,20 @@ class virtuser_query extends rcube_plugin
 
         if (!empty($this->config)) {
             if (is_string($this->config)) {
-                $this->config = array('email' => $this->config);
+                $this->config = ['email' => $this->config];
             }
 
-            if ($this->config['email']) {
-                $this->add_hook('user2email', array($this, 'user2email'));
+            if (!empty($this->config['email'])) {
+                $this->add_hook('user2email', [$this, 'user2email']);
             }
-            if ($this->config['user']) {
-                $this->add_hook('email2user', array($this, 'email2user'));
+            if (!empty($this->config['user'])) {
+                $this->add_hook('email2user', [$this, 'email2user']);
             }
-            if ($this->config['host']) {
-                $this->add_hook('authenticate', array($this, 'user2host'));
+            if (!empty($this->config['host'])) {
+                $this->add_hook('authenticate', [$this, 'user2host']);
             }
-            if ($this->config['alias']) {
-                $this->add_hook('authenticate', array($this, 'alias2user'));
+            if (!empty($this->config['alias'])) {
+                $this->add_hook('authenticate', [$this, 'alias2user']);
             }
         }
     }
@@ -64,25 +64,26 @@ class virtuser_query extends rcube_plugin
         $dbh = $this->get_dbh();
 
         $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escape($p['user']), $this->config['email']));
+        $result     = [];
 
         while ($sql_arr = $dbh->fetch_array($sql_result)) {
             if (strpos($sql_arr[0], '@')) {
-                if ($p['extended'] && count($sql_arr) > 1) {
-                    $result[] = array(
+                if (!empty($p['extended']) && count($sql_arr) > 1) {
+                    $result[] = [
                         'email'          => rcube_utils::idn_to_ascii($sql_arr[0]),
-                        'name'           => (string) $sql_arr[1],
-                        'organization'   => (string) $sql_arr[2],
-                        'reply-to'       => (string) rcube_utils::idn_to_ascii($sql_arr[3]),
-                        'bcc'            => (string) rcube_utils::idn_to_ascii($sql_arr[4]),
-                        'signature'      => (string) $sql_arr[5],
-                        'html_signature' => (int) $sql_arr[6],
-                    );
+                        'name'           => $sql_arr[1] ?? '',
+                        'organization'   => $sql_arr[2] ?? '',
+                        'reply-to'       => isset($sql_arr[3]) ? rcube_utils::idn_to_ascii($sql_arr[3]) : '',
+                        'bcc'            => isset($sql_arr[4]) ? rcube_utils::idn_to_ascii($sql_arr[4]) : '',
+                        'signature'      => $sql_arr[5] ?? '',
+                        'html_signature' => isset($sql_arr[6]) ? intval($sql_arr[6]) : 0,
+                    ];
                 }
                 else {
                     $result[] = $sql_arr[0];
                 }
 
-                if ($p['first']) {
+                if (!empty($p['first'])) {
                     break;
                 }
             }
@@ -160,5 +161,4 @@ class virtuser_query extends rcube_plugin
 
         return $this->db;
     }
-
 }

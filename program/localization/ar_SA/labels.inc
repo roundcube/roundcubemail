@@ -2,28 +2,32 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/labels.inc                                        |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
+
 $labels['welcome'] = 'مرحباً بكم في $product';
 $labels['username'] = 'اسم المستخدم';
 $labels['password'] = 'كلمة المرور';
 $labels['server'] = 'الخادم';
 $labels['login'] = 'تسجيل الدخول';
+$labels['oauthlogin'] = 'تسجيل الدخول مع $provider';
+$labels['menu'] = 'القائمة';
 $labels['logout'] = 'تسجيل الخروج';
 $labels['mail'] = 'البريد';
 $labels['settings'] = 'الإعدادات الشخصية';
 $labels['addressbook'] = 'دفتر العناوين';
+$labels['darkmode'] = 'الوضع المظلم';
+$labels['lightmode'] = 'وضع الضوء';
 $labels['inbox'] = 'الوارد';
 $labels['drafts'] = 'المسودات';
 $labels['sent'] = 'المرسل';
@@ -37,13 +41,14 @@ $labels['to'] = 'المستقبل';
 $labels['cc'] = 'نسخة';
 $labels['bcc'] = 'نسخة مخفية';
 $labels['replyto'] = 'الرد إلى';
-$labels['followupto'] = 'Mail-Followup-To';
+$labels['followupto'] = 'المتابعة إلى';
 $labels['date'] = 'التاريخ';
 $labels['size'] = 'الحجم';
 $labels['priority'] = 'الأولوية';
 $labels['organization'] = 'المنظمة';
 $labels['readstatus'] = 'حالة القراءة';
 $labels['listoptions'] = 'قائمة الخيارات...';
+$labels['listoptionstitle'] = 'قائمة الخيارات';
 $labels['mailboxlist'] = 'مجلدات';
 $labels['messagesfromto'] = 'الرسالة $from إلى $to من مجموع $count';
 $labels['threadsfromto'] = 'جهات الإتصال $from إلى $to من مجموع $count';
@@ -60,13 +65,13 @@ $labels['showanyway'] = 'عرض على أي حال';
 $labels['filename'] = 'اسم الملف';
 $labels['filesize'] = 'حجم الملف';
 $labels['addtoaddressbook'] = 'إضافة إلى دفتر العناوين';
-$labels['sun'] = 'أحد';
-$labels['mon'] = 'إثنين';
-$labels['tue'] = 'ثلاثاء';
-$labels['wed'] = 'أربعاء';
-$labels['thu'] = 'خميس';
-$labels['fri'] = 'جمعة';
-$labels['sat'] = 'سبت';
+$labels['sun'] = 'الأحد';
+$labels['mon'] = 'الإثنين';
+$labels['tue'] = 'الثلاثاء';
+$labels['wed'] = 'الأربعاء';
+$labels['thu'] = 'الخميس';
+$labels['fri'] = 'الجمعة';
+$labels['sat'] = 'السبت';
 $labels['sunday'] = 'الأحد';
 $labels['monday'] = 'الإثنين';
 $labels['tuesday'] = 'الثلاثاء';
@@ -112,6 +117,8 @@ $labels['forward'] = 'إعادة توجيه';
 $labels['forwardinline'] = 'تمرير الرسالة ضمنياً';
 $labels['forwardattachment'] = 'تمرير الرسالة كمرفق';
 $labels['forwardmessage'] = 'تمرير الرسالة';
+$labels['bouncemsg'] = 'إعادة الإرسال (ارتداد)';
+$labels['bounce'] = 'إعادة الإرسال';
 $labels['deletemessage'] = 'حذف الرسالة إلى المهملات';
 $labels['movemessagetotrash'] = 'انقل الرسالة إلى سلة المهملات';
 $labels['printmessage'] = 'طباعة هذه الرسالة';
@@ -128,21 +135,35 @@ $labels['markunread'] = 'كغير مقروءة';
 $labels['markflagged'] = 'كموْسومة';
 $labels['markunflagged'] = 'كغير موْسومة';
 $labels['moreactions'] = 'إجراءات إضافية...';
+$labels['markallread'] = 'وضع علامة كمقروءة للجميع';
+$labels['folders-cur'] = 'المجلد المحدد فقط';
+$labels['folders-sub'] = 'المجلد المحدد ومجلداته الفرعية';
 $labels['folders-all'] = 'جميع الملفات';
 $labels['more'] = 'المزيد';
 $labels['back'] = 'العودة';
 $labels['options'] = 'خيارات';
+$labels['composeoptions'] = 'خيارات الإنشاء';
+$labels['optionsandattachments'] = 'الخيارات والمرفقات';
+$labels['actions'] = 'الإجراءات';
+$labels['first'] = 'الأول';
+$labels['last'] = 'الأخير';
+$labels['previous'] = 'الساب';
+$labels['next'] = 'التالي';
 $labels['select'] = 'تحديد';
+$labels['selection'] = 'اختيار';
 $labels['all'] = 'الكل';
 $labels['none'] = 'لاشيء';
 $labels['currpage'] = 'الصفحة الحالية';
 $labels['isread'] = 'قراءة ';
 $labels['unread'] = 'غير المقروءة';
 $labels['flagged'] = 'موسوم';
+$labels['unflagged'] = 'غير موسوم';
 $labels['unanswered'] = 'بلا رد';
 $labels['withattachment'] = 'مع المرفقات';
 $labels['deleted'] = 'محذوف';
 $labels['undeleted'] = 'غير محذوفة';
+$labels['replied'] = 'رد';
+$labels['forwarded'] = 'تم إرسالها';
 $labels['invert'] = 'عكس';
 $labels['filter'] = 'تصفية';
 $labels['list'] = 'قائمة';
@@ -151,6 +172,7 @@ $labels['expand-all'] = 'إظهار الكل';
 $labels['expand-unread'] = 'إظهار الغير مقروءة';
 $labels['collapse-all'] = 'ضمّ الكل';
 $labels['threaded'] = 'متتابع';
+$labels['showunread'] = 'إظهار الرسائل الغير مقروءة';
 $labels['autoexpand_threads'] = 'إظهار تتابعات الرسائل';
 $labels['do_expand'] = 'جميع التتابعات';
 $labels['expand_only_unread'] = 'فقط مع الرسائل الغير مقروءة';
@@ -166,15 +188,27 @@ $labels['listcolumns'] = 'أعمدة السرد';
 $labels['listsorting'] = 'أعمدة الترتيب';
 $labels['listorder'] = 'طريقة الترتيب';
 $labels['listmode'] = 'وضع طريقة السرد';
+$labels['lmode'] = 'وضع القائمة';
+$labels['layout'] = 'التخطيط';
+$labels['layoutwidescreen'] = 'شاشة عريضة';
+$labels['layoutdesktop'] = 'سطح المكتب';
 $labels['layoutlist'] = 'قائمة';
+$labels['layoutwidescreendesc'] = 'شاشة عريضة (عرض عمود من 3 أعمدة)';
+$labels['layoutdesktopdesc'] = 'سطح المكتب (قائمة واسعة ومعاينة البريد أدناه)';
+$labels['layoutlistdesc'] = 'قائمة (لا يوجد بريد معاينة)';
 $labels['folderactions'] = 'إجراءات المجلد...';
 $labels['compact'] = 'ضغط';
 $labels['empty'] = 'تفريغ';
 $labels['importmessages'] = 'استيراد الرسائل';
+$labels['mailimportdesc'] = 'يمكنك تحميل البريد باستخدام ملفات بتنسيق <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME </a>أو <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
+$labels['mailimportzip'] = 'يمكن ضغط ملفات متعددة في أرشيفات مضغوطة ZIP.';
 $labels['quota'] = 'المساحة المستخدمة';
 $labels['unknown'] = 'مجهول';
 $labels['unlimited'] = 'غير محدود';
+$labels['quotastorage'] = 'مساحة التخزين';
+$labels['quotamessage'] = 'تعداد الرسائل';
 $labels['quicksearch'] = 'البحث السريع';
+$labels['searchplaceholder'] = 'بحث...';
 $labels['resetsearch'] = 'استعادة البحث للافتراضي';
 $labels['searchmod'] = 'أماكن البحث';
 $labels['msgtext'] = 'كامل الرسالة';
@@ -200,6 +234,12 @@ $labels['returnreceipt'] = 'ايصال استلام';
 $labels['dsn'] = 'تنويه حالة التوصيل';
 $labels['mailreplyintro'] = 'كتب $sender في $date:';
 $labels['originalmessage'] = 'الرسالة الأساسية';
+$labels['addimage'] = 'إضافة صورة';
+$labels['selectmedia'] = 'إختر فيديو';
+$labels['addmedia'] = 'إضافة فيديو';
+$labels['encrypt'] = 'تشفير';
+$labels['keyid'] = 'مفتاح المعرّف';
+$labels['keyexpired'] = 'تنتهي';
 $labels['insert'] = 'ادراج';
 $labels['recipient'] = 'مستلم';
 $labels['editidents'] = 'تعديل الهويات';
@@ -209,6 +249,7 @@ $labels['resumeediting'] = 'متابعة التحرير';
 $labels['revertto'] = 'استعادة إلى';
 $labels['restore'] = 'استعادة';
 $labels['restoremessage'] = 'استعادة الرسائل؟';
+$labels['ignore'] = 'تجاهل';
 $labels['responses'] = 'ردود';
 $labels['insertresponse'] = 'اضافة رد ';
 $labels['manageresponses'] = 'ادارة الردود';
@@ -231,7 +272,9 @@ $labels['showimages'] = 'إظهار الصور';
 $labels['alwaysshow'] = 'دائماً أظهر الصّور القادمة من $sender';
 $labels['isdraft'] = 'هذه مسودّة رسالة';
 $labels['andnmore'] = '$nr المزيد ...';
+$labels['details'] = 'التفاصيل';
 $labels['togglemoreheaders'] = 'عرض المزيد من رؤوس الرسائل';
+$labels['togglefullheaders'] = 'تبديل رؤوس الرسائل الأولية';
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'نص مجرد';
 $labels['savesentmessagein'] = 'احفظ الرسالة المُرسلة في';
@@ -245,6 +288,7 @@ $labels['mdnrequest'] = 'طلب المرسل إعلامه عند قراءتك ل
 $labels['receiptread'] = 'إيصال الاستلام )بالقراءة)';
 $labels['yourmessage'] = 'هذا إيصال بقراءة رسالتك';
 $labels['receiptnote'] = 'ملاحظة: يُعلمك هذا الإيصال بأن رسالتك قد ظهرت على جهاز المستقبِل. ليست هناك أية ضمانات أن المستقبل قد قرأ أو فهم محتويات الرسالة.';
+$labels['zoomin'] = 'تقريب';
 $labels['name'] = 'اسم العرض';
 $labels['firstname'] = 'الإسم الأول';
 $labels['surname'] = 'الإسم الأخير';
@@ -341,6 +385,7 @@ $labels['preferences'] = 'التفضيلات';
 $labels['userpreferences'] = 'تفضيلات المستخدم';
 $labels['editpreferences'] = 'تحرير تفضيلات المستخدم';
 $labels['identities'] = 'الهويات';
+$labels['identityencryption'] = 'التشفير';
 $labels['preferhtml'] = 'تفضيل صيغة HTML';
 $labels['defaultcharset'] = 'ترميز المحارف الافتراضي';
 $labels['htmlmessage'] = 'رسالة بنسق HTML';
@@ -399,7 +444,6 @@ $labels['force7bit'] = 'استخدام ترميز MIME للحروف ذات ال�
 $labels['advancedoptions'] = 'خيارات متقدّمة';
 $labels['focusonnewmessage'] = 'التركيز على نافذة المتصفح عند وجود رسالةجديدة';
 $labels['checkallfolders'] = 'التحقق من وجود رسائل جديدة في جميعالمجلدات';
-$labels['displaynext'] = 'إظهار الرسالة التالية بعد حذف/نقلالرسالة الحالية';
 $labels['defaultfont'] = 'الخط الافتراضي لـ رسائل HTML';
 $labels['mainoptions'] = 'الخيارات الأساسية';
 $labels['browseroptions'] = 'خيارات المتصفح';
@@ -437,6 +481,7 @@ $labels['asattachment'] = 'كـ مرفق ';
 $labels['replyallmode'] = 'الاجراء الافتراضي لـ زر [الرد على الجميع]';
 $labels['replyalldefault'] = 'الرد على الجميع';
 $labels['replyalllist'] = 'الرد فقط على القائمة البريدية (اذا كانت موجودة)';
+$labels['allmessages'] = 'كل الرسائل';
 $labels['folder'] = 'مجلد';
 $labels['folders'] = 'مجلدات';
 $labels['foldername'] = 'اسم المجلد';
@@ -457,6 +502,7 @@ $labels['foldertype'] = 'نوع المجلد';
 $labels['personalfolder'] = 'مجلد خاص';
 $labels['otherfolder'] = 'مجلد مستخدم آخر';
 $labels['sharedfolder'] = 'مجلد عام';
+$labels['encryption'] = 'التشفير';
 $labels['sortby'] = 'ترتيب بحسب';
 $labels['sortasc'] = 'ترتيب تصاعدي';
 $labels['sortdesc'] = 'ترتيب تنازلي';
@@ -489,4 +535,5 @@ $labels['vietnamese'] = 'الفيتنامية';
 $labels['japanese'] = 'اليابانية';
 $labels['korean'] = 'الكورية';
 $labels['chinese'] = 'الصينية';
-?>
+$labels['arialabelmessagessearchfilter'] = 'مرشح قائمة البريد الإلكتروني';
+$labels['arialabelresponsesmenu'] = 'قائمة الردود الجاهزة';

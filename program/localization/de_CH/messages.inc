@@ -2,29 +2,30 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['errortitle']  = 'Fehlermeldung';
 $messages['loginfailed']  = 'Login fehlgeschlagen';
 $messages['cookiesdisabled'] = 'Ihr Browser akzeptiert keine Cookies';
 $messages['sessionerror'] = 'Ihre Session ist ungültig oder abgelaufen';
+$messages['cookiesmismatch'] = 'Cookiefehler erkannt. Bitte im Browser Cookies löschen.';
 $messages['storageerror'] = 'Keine Verbindung zum IMAP Server';
 $messages['servererror'] = 'Serverfehler!';
 $messages['servererrormsg'] = 'Serverfehler: $msg';
 $messages['accountlocked'] = 'Zuviele fehlgeschlagene Login-Versuche. Bitte versuchen Sie es später wieder.';
 $messages['connerror'] = 'Verbindungsfehler (Server nicht erreichbar)!';
 $messages['dberror'] = 'Datenbankfehler!';
+$messages['dbconnerror'] = 'Kann keine Verbindung zum Server herstellen';
 $messages['windowopenerror'] = 'Das Popup-Fenster wurde blockiert!';
 $messages['requesttimedout'] = 'Zeitlimit überschritten';
 $messages['errorreadonly'] = 'Die Aktion kann nicht ausgeführt werden. Der Ordner ist schreibgeschützt.';
@@ -55,8 +56,11 @@ $messages['nocontactselected'] = 'Sie haben noch keinen Kontakt ausgewählt.';
 $messages['addedsuccessfully'] = 'Kontakt zum Adressbuch hinzugefügt';
 $messages['contactexists'] = 'Es existiert bereits ein Kontakt mit dieser E-Mail-Adresse.';
 $messages['contactnameexists'] = 'Es existiert bereits ein Kontakt mit diesem Namen';
-$messages['blockedimages'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Bilder blockiert.';
-$messages['blockedresources'] = 'Um Ihre Privatsphäre zur schützen, wurden externe Ressourcen blockiert.';
+$messages['blockedimages'] = 'Um Ihre Privatsphäre zu schützen, wurden externe Bilder blockiert.';
+$messages['blockedresources'] = 'Um Ihre Privatsphäre zu schützen, wurden externe Ressourcen blockiert.';
+$messages['suspiciousemail'] = 'Diese Nachricht enthält verdächtige E-Mail-Adressen, die möglicherweise betrügerisch sind.';
+$messages['bccemail'] = 'Die weitergeleitete(n) Nachricht(en) enthalten vertrauliche Empfänger (BCC).';
+$messages['bouncehint'] = 'Die Nachricht wird ohne Änderungen gesendet, das heisst. mit dem ursprünglichen Text, den Kopfzeilen und den Empfängern.';
 $messages['encryptedmessage'] = 'Dies ist eine verschlüsselte Nachricht und kann leider nicht angezeigt werden.';
 $messages['externalmessagedecryption'] = 'Dies ist eine verschlüsselte Nachricht und kann mit Ihrer Browser-Erweiterung entschlüsselt werden.';
 $messages['nopubkeyfor'] = 'Kein gültiger öffentlicher Schlüssel für $email gefunden';
@@ -64,11 +68,11 @@ $messages['nopubkeyforsender'] = 'Kein gültiger öffentlicher Schlüssel für I
 $messages['encryptnoattachments'] = 'Bereits hochgeladene Anhänge können nicht nachträglich verschlüsselt werden. Bitte fügen Sie sie erneut im Verschlüsselungs-Editor hinzu.';
 $messages['searchpubkeyservers'] = 'Möchten Sie öffentliche Schlüsselserver nach den fehlenden Schlüsseln durchsuchen?';
 $messages['encryptpubkeysfound'] = 'Die folgenden öffentlichen Schlüssel wurden gefunden:';
-$messages['keyservererror'] = 'Schlüssel konnte nicht vom Schlüsselserver geladen werden';
-$messages['keyimportsuccess'] = 'Öffentlicher Schlüssel $key erfolgreich in Schlüselbund importiert';
+$messages['keyservererror'] = 'Fehler bei der Abfrage des Schlüssels vom Schlüsselserver.';
+$messages['keyimportsuccess'] = 'Öffentlicher Schlüssel $key erfolgreich in den Schlüsselbund importiert.';
 $messages['nocontactsfound'] = 'Keine Kontakte gefunden';
 $messages['contactnotfound'] = 'Die gewählte Adresse wurde nicht gefunden';
-$messages['contactsearchonly'] = 'Geben Sie einen Suchbegriff ein, um Kontakte zu finden';
+$messages['contactsearchonly'] = 'Sie müssen das Suchformular nutzen, um die Kontakte vom ausgewählten Adressbuch zu sehen.';
 $messages['sendingfailed'] = 'Versand der Nachricht fehlgeschlagen';
 $messages['senttooquickly'] = 'Bitte warten Sie $sec Sekunde(n) vor dem Senden dieser Nachricht';
 $messages['errorsavingsent'] = 'Beim Speichern der gesendeten Nachricht ist ein Fehler aufgetreten.';
@@ -117,16 +121,18 @@ $messages['nospellerrors'] = 'Keine Rechtschreibfehler gefunden.';
 $messages['folderdeleted'] = 'Der Ordner wurde erfolgreich gelöscht.';
 $messages['foldersubscribed'] = 'Der Ordner wurde erfolgreich abonniert.';
 $messages['folderunsubscribed'] = 'Der Ordner wurde erfolgreich abbestellt.';
-$messages['folderpurged'] = 'Der Ordner wurde erfolgreich gelöscht.';
-$messages['folderexpunged'] = 'Der Ordner wurde erfolgreich gepackt.';
+$messages['folderpurged'] = 'Ordner erfolgreich geleert.';
+$messages['folderexpunged'] = 'Ordner erfolgreich komprimiert.';
 $messages['deletedsuccessfully'] = 'Erfolgreich gelöscht.';
 $messages['converting'] = 'Formatierung wird entfernt...';
 $messages['messageopenerror'] = 'Die Nachricht konnte nicht vom Server geladen werden.';
 $messages['filelinkerror'] = 'Datei konnte nicht angehängt werden';
 $messages['fileuploaderror'] = 'Der Dateiupload ist fehlgeschlagen.';
+$messages['csvfilemismatch'] = 'Der Import von mehreren CSV-Dateien mit unterschiedlichen Spalten wird nicht unterstützt.';
 $messages['filesizeerror'] = 'Die Datei überschreitet die maximale Grösse von $size.';
 $messages['filecounterror'] = 'Sie können maximal $count Dateien auf einmal hochladen.';
 $messages['msgsizeerror'] = 'Datei konnte nicht angehängt werden. Die maximale Grösse einer Nachricht ($size) wird damit überschritten.';
+$messages['msgsizeerrorfwd'] = ' Maximalgrösse einer Nachricht ($size) überschritten. $num Nachricht(en) wurde nicht angehängt.';
 $messages['copysuccess'] = '$nr Kontakt(e) erfolgreich kopiert.';
 $messages['movesuccess'] = '$nr Kontakt(e) erfolgreich verschoben.';
 $messages['copyerror'] = 'Kontakte konnten nicht kopiert werden.';
@@ -218,6 +224,10 @@ $messages['clicktocompose'] = 'Klicken Sie hier, um eine neue Nachricht zu verfa
 $messages['nosupporterror'] = 'Diese Funktion wird von Ihrem Webbrowser nicht unterstützt.';
 $messages['siginserted'] = 'Signatur erfolgreich eingefügt.';
 $messages['responseinserted'] = 'Antwort erfolgreich eingefügt.';
+$messages['noresponsesavailable'] = 'Keine Antwort vorhanden';
 $messages['listempty'] = 'Die Liste ist leer.';
 $messages['listusebutton'] = 'Benutzen Sie den Erstellen-Button, um einen neuen Eintrag zu erfassen.';
 $messages['keypaircreatesuccess'] = 'Neues Schlüsselpaar für $identity erfolgreich erstellt.';
+$messages['emptyattachment'] = 'Dieser Anhang scheint leer zu sein.
+Bitte erkundigen Sie sich bei der Person, die diesen gesendet hat.';
+$messages['oauthloginfailed'] = ' OAuth-Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.';

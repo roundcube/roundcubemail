@@ -2,19 +2,19 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/managesieve/localization/<lang>.inc                           |
- |                                                                       |
  | Localization file of the Roundcube Webmail Managesieve plugin         |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
+
+
 $labels['filters'] = 'Filtra';
 $labels['managefilters'] = 'Administroni filtra për postë ardhëse';
 $labels['filtername'] = 'Emër filtri';
@@ -24,11 +24,9 @@ $labels['filterdel'] = 'Fshije filtrin';
 $labels['rules'] = 'Rregulla';
 $labels['actions'] = 'Veprime';
 $labels['scope'] = 'Shtrirje';
-$labels['moveup'] = 'Ngjitu sipër';
-$labels['movedown'] = 'Ulu poshtë';
 $labels['filterallof'] = 'që ka përputhje me krejt rregullat vijues';
 $labels['filteranyof'] = 'që ka përputhje me cilindo nga rregullat vijues';
-$labels['filterany'] = 'të gjitha mesazhet';
+$labels['filterany'] = 'krejt mesazhet';
 $labels['filtercontains'] = 'përmban';
 $labels['filternotcontains'] = 'nuk përmban';
 $labels['filteris'] = 'është baras me';
@@ -47,7 +45,6 @@ $labels['mime-message'] = 'mesazh';
 $labels['mime-anychild'] = 'çfarëdo';
 $labels['mime-type'] = 'lloj';
 $labels['mime-subtype'] = 'nënlloj';
-$labels['mime-contenttype'] = 'lloj lënde';
 $labels['mime-param'] = 'parametër';
 $labels['addrule'] = 'Shtoni rregull';
 $labels['delrule'] = 'Fshije rregullin';
@@ -77,12 +74,12 @@ $labels['rulestop'] = 'Ndale mbikëqyrjen e rregullave';
 $labels['enable'] = 'Aktivizoje/Çaktivizoje';
 $labels['filterset'] = 'Grup filtrash';
 $labels['filtersets'] = 'Grupe filtrash';
-$labels['filtersetadd'] = 'Shto grup filtrash';
-$labels['filtersetdel'] = 'Fshi grup filtrash';
+$labels['filtersetadd'] = 'Shtoni grup filtrash';
+$labels['filtersetdel'] = 'Fshije grupin e filtrave';
 $labels['filtersetact'] = 'Aktivizo grupin e tanishëm të filtrave';
 $labels['filtersetdeact'] = 'Çaktivizo grupin e tanishëm të filtrave';
 $labels['filterseteditraw'] = 'Përpunoni grup filtrash';
-$labels['filtersetswitch'] = 'Aktivizo/çaktivizo grup filtrash';
+$labels['filtersetswitch'] = 'Aktivizoni/çaktivizoni grup filtrash';
 $labels['filterdef'] = 'Përkufizim filtri';
 $labels['filtersetname'] = 'Emër grupi filtrash';
 $labels['newfilterset'] = 'Grup i ri filtrash';
@@ -91,6 +88,7 @@ $labels['none'] = 'asnjë';
 $labels['fromset'] = 'prej grupi';
 $labels['fromfile'] = 'prej kartele';
 $labels['filterdisabled'] = 'Filtër i çaktivizuar';
+$labels['filterenabled'] = 'Filtri u aktivizua';
 $labels['countisgreaterthan'] = 'numri është më i madh se';
 $labels['countisgreaterthanequal'] = 'numri është më i madh ose baras me';
 $labels['countislessthan'] = 'numri është më i vogël se';
@@ -187,7 +185,15 @@ $labels['asciicasemap'] = 'i pavarur nga shkrimi me të mëdha apo të vogla (as
 $labels['asciinumeric'] = 'numerike (ascii-numeric)';
 $labels['index'] = 'tregues:';
 $labels['indexlast'] = 'mbrapsht';
-$labels['vacation'] = 'Jo Në Zyrë';
+$labels['spamtest'] = 'Shkallë spam-i';
+$labels['spamtestisgreaterthan'] = 'është më i madh se';
+$labels['spamtestisgreaterthanequal'] = 'është më i madh ose baras me';
+$labels['spamtestislessthan'] = 'është më i vogël';
+$labels['spamtestislessthanequal'] = 'është më i vogël ose baras me';
+$labels['spamtestequals'] = 'është baras me';
+$labels['spamtestnotequals'] = 's’është baras me';
+$labels['spamtestisunknown'] = 'është i panjohur';
+$labels['vacation'] = 'Jashtë zyre';
 $labels['vacation.reply'] = 'Mesazh përgjigjeje';
 $labels['vacation.advanced'] = 'Rregullime të mëtejshme';
 $labels['vacation.from'] = 'Adresë dërguesi për përgjigje';
@@ -272,4 +278,4 @@ $messages['emptyvacationbody'] = 'Lënda e mesazhit të pushimeve është e domo
 $messages['duplicate.conflict.err'] = 'S’lejohet përdorimi i njëkohshëm i kryes dhe identifikuesit unik.';
 $messages['disabledaction'] = 'Veprim jo i lejuar.';
 $messages['lastindexempty'] = 'Treguesi është i domosdoshëm kur numërohet nga fundi';
-?>
+$messages['noflagset'] = 'Duhet përzgjedhur të paktën një shenjë';

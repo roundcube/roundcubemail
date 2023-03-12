@@ -5,16 +5,35 @@
  *
  * @package Tests
  */
-class Framework_Spellchecker extends PHPUnit_Framework_TestCase
+class Framework_Spellchecker extends PHPUnit\Framework\TestCase
 {
+    /**
+     * Test is_exception() method
+     */
+    function test_is_exception()
+    {
+        $object = new rcube_spellchecker();
+
+        $this->assertFalse($object->is_exception('test'));
+
+        $this->assertTrue($object->is_exception('9'));
+
+        // TODO: Test other cases and dictionary
+    }
 
     /**
-     * Class constructor
+     * Test add_word() method
      */
-    function test_class()
+    function test_add_word()
     {
-        $object = new rcube_spellchecker;
+        $this->markTestIncomplete();
+    }
 
-        $this->assertInstanceOf('rcube_spellchecker', $object, "Class constructor");
+    /**
+     * Test remove_word() method
+     */
+    function test_remove_word()
+    {
+        $this->markTestIncomplete();
     }
 }

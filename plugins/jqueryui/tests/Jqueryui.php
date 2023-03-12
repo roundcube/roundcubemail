@@ -1,9 +1,8 @@
 <?php
 
-class Jqueryui_Plugin extends PHPUnit_Framework_TestCase
+class Jqueryui_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp()
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../jqueryui.php';
     }
@@ -14,10 +13,9 @@ class Jqueryui_Plugin extends PHPUnit_Framework_TestCase
     function test_constructor()
     {
         $rcube  = rcube::get_instance();
-        $plugin = new jqueryui($rcube->api);
+        $plugin = new jqueryui($rcube->plugins);
 
         $this->assertInstanceOf('jqueryui', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
     }
 }
-

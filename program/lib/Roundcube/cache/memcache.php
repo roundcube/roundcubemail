@@ -3,8 +3,9 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2011-2018, The Roundcube Dev Team                       |
- | Copyright (C) 2011-2018, Kolab Systems AG                             |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ | Copyright (C) Kolab Systems AG                                        |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -19,12 +20,10 @@
 */
 
 /**
- * Interface class for accessing Memcache cache
+ * Interface implementation class for accessing Memcache cache
  *
  * @package    Framework
  * @subpackage Cache
- * @author     Thomas Bruederli <roundcube@gmail.com>
- * @author     Aleksander Machniak <alec@alec.pl>
  */
 class rcube_cache_memcache extends rcube_cache
 {
@@ -37,18 +36,11 @@ class rcube_cache_memcache extends rcube_cache
 
 
     /**
-     * Object constructor.
-     *
-     * @param int    $userid User identifier
-     * @param string $prefix Key name prefix
-     * @param string $ttl    Expiration time of memcache/apc items
-     * @param bool   $packed Enables/disabled data serialization.
-     *                       It's possible to disable data serialization if you're sure
-     *                       stored data will be always a safe string
+     * {@inheritdoc}
      */
-    public function __construct($userid, $prefix = '', $ttl = 0, $packed = true)
+    public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
-        parent::__construct($userid, $prefix, $ttl, $packed);
+        parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
         $this->type  = 'memcache';
         $this->debug = rcube::get_instance()->config->get('memcache_debug');
@@ -71,13 +63,13 @@ class rcube_cache_memcache extends rcube_cache
         if (!class_exists('Memcache')) {
             self::$memcache = false;
 
-            rcube::raise_error(array(
+            rcube::raise_error([
                     'code' => 604,
                     'type' => 'memcache',
                     'line' => __LINE__,
                     'file' => __FILE__,
                     'message' => "Failed to find Memcache. Make sure php-memcache is included"
-                ),
+                ],
                 true, true);
         }
 
@@ -86,7 +78,7 @@ class rcube_cache_memcache extends rcube_cache
         $pconnect       = $rcube->config->get('memcache_pconnect', true);
         $timeout        = $rcube->config->get('memcache_timeout', 1);
         $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
-        $seen           = array();
+        $seen           = [];
         $available      = 0;
 
         // Callback for memcache failure
@@ -94,10 +86,11 @@ class rcube_cache_memcache extends rcube_cache
             // only report once
             if (!$seen["$host:$port"]++) {
                 $available--;
-                rcube::raise_error(array(
-                        'code' => 604, 'type' => 'db',
+                rcube::raise_error([
+                        'code' => 604, 'type' => 'memcache',
                         'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Memcache failure on host $host:$port"),
+                        'message' => "Memcache failure on host $host:$port"
+                    ],
                     true, false);
             }
         };
@@ -171,7 +164,7 @@ class rcube_cache_memcache extends rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -197,7 +190,7 @@ class rcube_cache_memcache extends rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param boolean True on success, False on failure
+     * @param bool True on success, False on failure
      */
     protected function delete_item($key)
     {

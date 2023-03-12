@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Breyta lykilorði';
 $labels['curpasswd']  = 'Núverandi lykilorð:';
 $labels['newpasswd']  = 'Nýtt lykilorð:';
@@ -39,3 +38,6 @@ $messages['samepasswd'] = 'Nýja lykilorðið verður að vera frábrugðið hin
 $messages['passwdexpirewarning'] = 'Aðvörun! Lykilorðið þitt rennur út innan skamms, breyttu því fyrir $expirationdatetime.';
 $messages['passwdexpired'] = 'Lykilorðið þitt er runnið út, þú verður að breyta því núna!';
 $messages['passwdconstraintviolation'] = 'Lykilorðið rakst á skilyrði. Líklega er það of veikt.';
+$messages['pwned_mustnotbedisclosed'] = 'Lykilorð má ekki vera <a href="$href" target="_blank">almennt þekkt</a>.';
+$messages['pwned_isdisclosed'] = 'Þetta lykilorð er almennt þekkt.';
+$messages['pwned_fetcherror'] = 'Mistókst að sannreyna styrk lykilorðsins.';

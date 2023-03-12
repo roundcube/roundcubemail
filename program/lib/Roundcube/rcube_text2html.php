@@ -3,7 +3,8 @@
 /**
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2008-2014, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -24,26 +25,14 @@
  */
 class rcube_text2html
 {
-    /**
-     * Contains the HTML content after conversion.
-     *
-     * @var string $html
-     */
+    /** @var string Contains the HTML content after conversion */
     protected $html;
 
-    /**
-     * Contains the plain text.
-     *
-     * @var string $text
-     */
+    /** @var string Contains the plain text */
     protected $text;
 
-    /**
-     * Configuration
-     *
-     * @var array $config
-     */
-    protected $config = array(
+    /** @var array Configuration */
+    protected $config = [
         // non-breaking space
         'space' => "\xC2\xA0",
         // enables format=flowed parser
@@ -64,7 +53,13 @@ class rcube_text2html
         // prefix and suffix of unwrappable line
         'nobr_start' => '<span style="white-space:nowrap">',
         'nobr_end'   => '</span>',
-    );
+    ];
+
+    /** @var bool Internal state */
+    protected $converted = false;
+
+    /** @var bool Internal no-wrap mode state */
+    protected $nowrap = false;
 
 
     /**
@@ -74,11 +69,11 @@ class rcube_text2html
      * will instantiate with that source propagated, all that has
      * to be done it to call get_html().
      *
-     * @param string  $source    Plain text
-     * @param boolean $from_file Indicates $source is a file to pull content from
-     * @param array   $config    Class configuration
+     * @param string $source    Plain text
+     * @param bool   $from_file Indicates $source is a file to pull content from
+     * @param array  $config    Class configuration
      */
-    function __construct($source = '', $from_file = false, $config = array())
+    function __construct($source = '', $from_file = false, $config = [])
     {
         if (!empty($source)) {
             $this->set_text($source, $from_file);
@@ -92,8 +87,8 @@ class rcube_text2html
     /**
      * Loads source text into memory, either from $source string or a file.
      *
-     * @param string  $source    Plain text
-     * @param boolean $from_file Indicates $source is a file to pull content from
+     * @param string $source    Plain text
+     * @param bool   $from_file Indicates $source is a file to pull content from
      */
     function set_text($source, $from_file = false)
     {
@@ -104,7 +99,7 @@ class rcube_text2html
             $this->text = $source;
         }
 
-        $this->_converted = false;
+        $this->converted = false;
     }
 
     /**
@@ -114,8 +109,8 @@ class rcube_text2html
      */
     function get_html()
     {
-        if (!$this->_converted) {
-            $this->_convert();
+        if (!$this->converted) {
+            $this->convert();
         }
 
         return $this->html;
@@ -130,30 +125,31 @@ class rcube_text2html
     }
 
     /**
-     * Workhorse function that does actual conversion (calls _converter() method).
+     * Workhorse function that does actual conversion (calls converter() method).
      */
-    protected function _convert()
+    protected function convert()
     {
         // Convert TXT to HTML
-        $this->html       = $this->_converter($this->text);
-        $this->_converted = true;
+        $this->html      = $this->converter($this->text);
+        $this->converted = true;
     }
 
     /**
      * Workhorse function that does actual conversion.
      *
-     * @param string Plain text
+     * @param string $text Plain text
+     *
+     * @return string HTML content
      */
-    protected function _converter($text)
+    protected function converter($text)
     {
         // make links and email-addresses clickable
-        $attribs  = array('link_attribs' => array('rel' => 'noreferrer', 'target' => '_blank'));
+        $attribs  = ['link_attribs' => ['rel' => 'noreferrer', 'target' => '_blank']];
         $replacer = new $this->config['replacer']($attribs);
 
         if ($this->config['flowed']) {
-            $flowed_char = 0x01;
-            $delsp       = $this->config['delsp'];
-            $text        = rcube_mime::unfold_flowed($text, chr($flowed_char), $delsp);
+            $delsp = $this->config['delsp'];
+            $text  = rcube_mime::unfold_flowed($text, null, $delsp);
         }
 
         // search for patterns like links and e-mail addresses and replace with tokens
@@ -165,19 +161,16 @@ class rcube_text2html
         $text        = preg_split('/\r?\n/', $text);
         $quote_level = 0;
         $last        = null;
+        $length      = 0;
 
         // wrap quoted lines with <blockquote>
         for ($n = 0, $cnt = count($text); $n < $cnt; $n++) {
-            $flowed = false;
-            if ($this->config['flowed'] && ord($text[$n][0]) == $flowed_char) {
-                $flowed   = true;
-                $text[$n] = substr($text[$n], 1);
-            }
+            $first  = $text[$n][0] ?? '';
 
-            if ($text[$n][0] == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
+            if ($first == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
                 $q        = substr_count($regs[0], '>');
                 $text[$n] = substr($text[$n], strlen($regs[0]));
-                $text[$n] = $this->_convert_line($text[$n], $flowed || $this->config['wrap']);
+                $text[$n] = $this->convert_line($text[$n]);
                 $_length  = strlen(str_replace(' ', '', $text[$n]));
 
                 if ($q > $quote_level) {
@@ -209,7 +202,7 @@ class rcube_text2html
                 }
             }
             else {
-                $text[$n] = $this->_convert_line($text[$n], $flowed || $this->config['wrap']);
+                $text[$n] = $this->convert_line($text[$n]);
                 $q        = 0;
                 $_length  = strlen(str_replace(' ', '', $text[$n]));
 
@@ -235,14 +228,14 @@ class rcube_text2html
                 str_repeat('</blockquote>', $quote_level)));
         }
 
-        $text = join("\n", $text);
+        $text = implode("\n", $text);
 
         // colorize signature (up to <sig_max_lines> lines)
         $len           = strlen($text);
         $sig_sep       = "--" . $this->config['space'] . "\n";
         $sig_max_lines = rcube::get_instance()->config->get('sig_max_lines', 15);
 
-        while (($sp = strrpos($text, $sig_sep, $sp ? -$len+$sp-1 : 0)) !== false) {
+        while (($sp = strrpos($text, $sig_sep, !empty($sp) ? -$len+$sp-1 : 0)) !== false) {
             if ($sp == 0 || $text[$sp-1] == "\n") {
                 // do not touch blocks with more that X lines
                 if (substr_count($text, "\n", $sp) < $sig_max_lines) {
@@ -265,8 +258,12 @@ class rcube_text2html
 
     /**
      * Converts spaces in line of text
+     *
+     * @param string $text Plain text
+     *
+     * @return string Converted text
      */
-    protected function _convert_line($text, $is_flowed)
+    protected function convert_line($text)
     {
         static $table;
 
@@ -279,25 +276,51 @@ class rcube_text2html
             $table["\t"] = '    ';
         }
 
+        // empty line?
+        if ($text === '') {
+            return $text;
+        }
+
         // skip signature separator
         if ($text == '-- ') {
             return '--' . $this->config['space'];
         }
 
+        if ($this->nowrap) {
+            if (!in_array($text[0], [' ', '-', '+', '@'])) {
+                $this->nowrap = false;
+            }
+        }
+        else {
+            // Detect start of a unified diff
+            // TODO: Support normal diffs
+            // TODO: Support diff header and comment
+            if (
+                ($text[0] === '-' && preg_match('/^--- \S+/', $text))
+                || ($text[0] === '+' && preg_match('/^\+\+\+ \S+/', $text))
+                || ($text[0] === '@' && preg_match('/^@@ [0-9 ,+-]+ @@/', $text))
+            ) {
+                $this->nowrap = true;
+            }
+        }
+
         // replace HTML special and whitespace characters
         $text = strtr($text, $table);
 
-        $nbsp = $this->config['space'];
+        $nbsp      = $this->config['space'];
+        $wrappable = !$this->nowrap && ($this->config['flowed'] || $this->config['wrap']);
 
-        // replace spaces with non-breaking spaces
-        if ($is_flowed) {
+        // make the line wrappable
+        if ($wrappable) {
             $pos  = 0;
             $diff = 0;
+            $last = -2;
             $len  = strlen($nbsp);
             $copy = $text;
 
             while (($pos = strpos($text, ' ', $pos)) !== false) {
-                if ($pos == 0 || $text[$pos-1] == ' ') {
+                if (($pos == 0 || $text[$pos-1] == ' ') && $pos - 1 != $last) {
+                    $last = $pos;
                     $copy = substr_replace($copy, $nbsp, $pos + $diff, 1);
                     $diff += $len - 1;
                 }

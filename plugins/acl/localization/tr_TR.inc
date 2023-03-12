@@ -2,21 +2,20 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/acl/localization/<lang>.inc                                   |
- |                                                                       |
  | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
+
 $labels['sharing'] = 'Paylaşım';
-$labels['myrights'] = 'Erişim İzinleri';
+$labels['myrights'] = 'Erişim izinleri';
 $labels['username'] = 'Kullanıcı:';
 $labels['advanced'] = 'Gelişmiş kip';
 $labels['add'] = 'Ekle';
@@ -28,7 +27,7 @@ $labels['anonymous'] = 'Ziyaretçiler (isimsiz)';
 $labels['identifier'] = 'Tanımlayıcı';
 $labels['acll'] = 'Arama';
 $labels['aclr'] = 'İletileri oku';
-$labels['acls'] = 'Okundu durumu korunsun';
+$labels['acls'] = 'Okunmuş durumu korunsun';
 $labels['aclw'] = 'Yazma işaretleri';
 $labels['acli'] = 'Ekle (kopyala)';
 $labels['aclp'] = 'Gönder';
@@ -65,7 +64,7 @@ $labels['shortaclwrite'] = 'Yaz';
 $labels['shortacldelete'] = 'Sil';
 $labels['longacll'] = 'Klasör listesinde görülebilir ve abone olunabilir';
 $labels['longaclr'] = 'Klasör okunmak üzere açılabilir';
-$labels['longacls'] = 'İletilerin Okundu işareti değiştirilebilir';
+$labels['longacls'] = 'İletilerin okunmuş işareti değiştirilebilir';
 $labels['longaclw'] = 'Okundu ve Silindi işaretleri dışındaki işaret ve anahtar sözcükler değiştirilebilir';
 $labels['longacli'] = 'Klasöre iletiler yazılabilir ya da kopyalanabilir';
 $labels['longaclp'] = 'İletiler bu klasöre gönderilebilir';
@@ -96,4 +95,3 @@ $messages['createerror'] = 'Erişim izinleri eklenemedi';
 $messages['deleteconfirm'] = 'Seçilmiş kullanıcılar için erişim izinlerini silmek istediğinize emin misiniz?';
 $messages['norights'] = 'Herhangi bir izin belirtilmemiş!';
 $messages['nouser'] = 'Herhangi bir kullanıcı belirtilmemiş!';
-?>

@@ -2,19 +2,18 @@
 
 /**
  +-----------------------------------------------------------------------+
- | plugins/enigma/localization/<lang>.inc                                |
+ | Localization file of the Roundcube Webmail Enigma plugin              |
  |                                                                       |
- | Localization file of the Roundcube Webmail ACL plugin                 |
- | Copyright (C) 2012-2016, The Roundcube Dev Team                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
+
 $labels['encryption'] = 'Versleuteling';
 $labels['enigmacerts'] = 'S/MIME-certificaten';
 $labels['enigmakeys'] = 'PGP-sleutels';
@@ -67,9 +66,7 @@ $labels['keychpass'] = 'Wijzig wachtwoord';
 $labels['newkeyident'] = 'identiteit';
 $labels['newkeypass'] = 'Wachtwoord';
 $labels['newkeypassconfirm'] = 'Wachtwoord bevestigen';
-$labels['newkeysize'] = 'Sleutel grootte';
-$labels['key2048'] = '2048 bits - standaard';
-$labels['key4096'] = '4096 bits - veiliger';
+$labels['newkeytype'] = 'Sleuteltype';
 $labels['keygenerating'] = 'Sleutels genereren...';
 $labels['encryptionoptions'] = 'Versleutelingsopties...';
 $labels['encryptmsg'] = 'Versleutel dit bericht';
@@ -77,7 +74,6 @@ $labels['signmsg'] = 'Onderteken dit bericht digitaal';
 $labels['sendunencrypted'] = 'Niet versleuteld versturen';
 $labels['enterkeypasstitle'] = 'Voer sleutelwachtwoord in';
 $labels['enterkeypass'] = 'Een wachtwoord is vereist om de geheime sleutel ($keyid) te openen voor gebruiker: $user.';
-$labels['arialabelkeyexportoptions'] = 'Opties voor sleutels exporteren';
 $labels['attachpubkeymsg'] = 'Voeg mijn publieke sleutel bij';
 $labels['keyexportprompt'] = 'Wilt u geheime sleutels bewaren in het opgeslagen OpenPGP-sleutelbestand?';
 $labels['onlypubkeys'] = 'Alleen publieke sleutels exporteren';
@@ -86,8 +82,9 @@ $labels['findkey'] = 'Zoek op keyserver(s)';
 $labels['keyimportlabel'] = 'Importeer van bestand';
 $labels['keyimportsearchlabel'] = 'Zoek op sleutel server(s)';
 $labels['managekeys'] = 'PGP sleutels beheren';
-$labels['identitymatchingprivkeys'] = 'U heeft $nr overeenkomende PGP privé sleutels opgeslagen.';
-$labels['identitynoprivkeys'] = 'De afzender heeft (nog) geen PGP privé sleutel opgeslagen.';
+$labels['identitymatchingprivkeys'] = 'U heeft $nr overeenkomende PGP-privésleutels opgeslagen.';
+$labels['identitynoprivkeys'] = 'De afzender heeft (nog) geen PGP-privésleutel opgeslagen.';
+$labels['arialabelkeyexportoptions'] = 'Opties voor sleutels exporteren';
 $messages['sigvalid'] = 'Ondertekening van $sender geverifieerd.';
 $messages['sigvalidpartial'] = 'Ondertekening van $sender geverifieerd, maar een deel van de inhoud was niet ondertekend.';
 $messages['siginvalid'] = 'Ongeldige ondertekening van $sender.';
@@ -98,15 +95,16 @@ $messages['decryptok'] = 'Bericht ontsleuteld.';
 $messages['decrypterror'] = 'Ontsleutelen mislukt.';
 $messages['decryptnokey'] = 'Ontsleutelen mislukt. Geheime sleutel niet gevonden. Sleutel-ID: $keyid.';
 $messages['decryptnomdc'] = 'Ontsleutelen overgeslaan. Het bericht is niet correct versleuteld.';
-$messages['decryptbadpass'] = 'Ontsleutelen mislukt. Verkeerde wachtwoord.';
+$messages['decryptbadpass'] = 'Ontsleutelen mislukt. Wachtwoord onjuist.';
 $messages['decryptnopass'] = 'Ontsleutelen mislukt. Sleutelwachtwoord vereist.';
 $messages['decryptpartial'] = 'Bericht ontsleuteld, maar een deel van de inhoud was niet versleuteld.';
 $messages['signerror'] = 'Ondertekenen mislukt.';
 $messages['signnokey'] = 'Ondertekenen mislukt. Geheime sleutel niet gevonden.';
-$messages['signbadpass'] = 'Ondertekenen mislukt. Verkeerde sleutel.';
+$messages['signbadpass'] = 'Ondertekenen mislukt. Wachtwoord onjuist.';
 $messages['signnopass'] = 'Ondertekenen mislukt. Sleutelwachtwoord vereist.';
 $messages['encrypterror'] = 'Versleutelen mislukt.';
 $messages['encryptnokey'] = 'Onsleutelen mislukt. Publieke sleutel niet gevonden voor $email.';
+$messages['encryptnoprivkey'] = 'Versleutelen mislukt. Geheime sleutel niet gevonden';
 $messages['nokeysfound'] = 'Geen sleutels gevonden';
 $messages['keynotfound'] = 'Sleutel niet gevonden';
 $messages['keyopenerror'] = 'Sleutelinformatie kan niet worden opgehaald! Interne fout.';
@@ -126,4 +124,6 @@ $messages['keygeneratesuccess'] = 'Een sleutelpaar is succesvol gegenereerd en g
 $messages['keygennosupport'] = 'Uw webbrowser ondersteunt geen cryptografie. Sleutelpaar genereren is mislukt!';
 $messages['noidentselected'] = 'Je dient minimaal een identiteit te selecteren voor de sleutel!';
 $messages['nonameident'] = 'Identiteit moet een gebruikersnaam hebben!';
-?>
+$labels['newkeysize'] = 'Sleutel grootte';
+$labels['key2048'] = '2048 bits - standaard';
+$labels['key4096'] = '4096 bits - veiliger';

@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | plugins/password/localization/<lang>.inc                              |
- |                                                                       |
  | Localization file of the Roundcube Webmail Password plugin            |
- | Copyright (C) 2012-2013, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
+
 $labels['changepasswd']  = 'Wijzig wachtwoord';
 $labels['curpasswd']  = 'Huidig wachtwoord:';
 $labels['newpasswd']  = 'Nieuw wachtwoord:';
@@ -36,6 +35,8 @@ $messages['firstloginchange'] = 'Dit is uw eerste aanmelding. Verander uw wachtw
 $messages['disablednotice'] = 'Het systeem is momenteel in onderhoud en wachtwoord wijzigen is op dit moment dus niet mogelijk. Alles werkt binnenkort weer naar behoren. Onze excuses voor het ongemak.';
 $messages['passwinhistory'] = 'Dit wachtwoord is al eerder gebruikt.';
 $messages['samepasswd'] = 'Het nieuwe paswoord dient verschillend ten opzichte van de oude te zijn.';
-$messages['passwdexpirewarning'] = 'Waarschuwing! je wachtwoord verloopt binnenkort, Wijzig het voor $vervaldatum.';
+$messages['passwdexpirewarning'] = 'Waarschuwing! je wachtwoord verloopt binnenkort, Wijzig het voor $expirationdatetime.';
 $messages['passwdexpired'] = 'Je wachtwoord is verlopen, je dient het nu te wijzigen!';
 $messages['passwdconstraintviolation'] = 'Wachtwoord voldoet niet aan beleid. Waarschijnlijk te zwak.';
+$messages['pwned_isdisclosed'] = 'Dit wachtwoord is algemeen bekend.';
+$messages['pwned_fetcherror'] = 'De wachtwoordsterkte kon niet geverifieerd worden.';

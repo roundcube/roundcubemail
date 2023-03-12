@@ -6,7 +6,7 @@
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
  *
- * Copyright (c) 2013-2014, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
@@ -81,6 +81,8 @@ function rcube_treelist_widget(node, p)
   this.container = container;
   this.expand = expand;
   this.collapse = collapse;
+  this.expand_all = expand_all;
+  this.collapse_all = collapse_all;
   this.select = select;
   this.render = render;
   this.reset = reset;
@@ -96,6 +98,7 @@ function rcube_treelist_widget(node, p)
   this.get_item = get_item;
   this.get_node = get_node;
   this.get_selection = get_selection;
+  this.in_selection = in_selection;
   this.get_next = get_next;
   this.get_prev = get_prev;
   this.get_single_selection = get_selection;
@@ -138,8 +141,9 @@ function rcube_treelist_widget(node, p)
         return true;
 
       var node = p.selectable ? indexbyid[dom2id($(this))] : null;
-      if (node && !node.virtual) {
-        select(node.id);
+      if (node) {
+        if (!node.virtual)
+          select(node.id);
         e.stopPropagation();
       }
     })
@@ -203,15 +207,13 @@ function rcube_treelist_widget(node, p)
         $(get_item(selection)).find(':focusable').first().focus();
       }
       else if (!has_focus) {
-        container.children('li:has(:focusable)').first().find(':focusable').first().focus();
+        container.children('li').find(':focusable').first().focus();
       }
     });
   }
 
-  /////// private methods
-
   /**
-   * Collaps a the node with the given ID
+   * Collapse a the node with the given ID
    */
   function collapse(id, recursive, set)
   {
@@ -249,6 +251,30 @@ function rcube_treelist_widget(node, p)
     if (node = indexbyid[id]) {
       collapse(id, recursive, !node.collapsed);
     }
+  }
+
+  /**
+   * Collapse all expanded nodes
+   */
+  function collapse_all()
+  {
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && !data.collapsed) {
+        collapse(id);
+      }
+    });
+  }
+
+  /**
+   * Expand all collapsed nodes
+   */
+  function expand_all()
+  {
+    $.each(indexbyid, function(id, data) {
+      if (data.children.length > 0 && data.collapsed) {
+        collapse(id, false, false);
+      }
+    });
   }
 
   /**
@@ -295,6 +321,15 @@ function rcube_treelist_widget(node, p)
   }
 
   /**
+   * Check if given id is selected
+   * This is for consistency with rcube_list_widget
+   */
+  function in_selection(id)
+  {
+    return selection == id;
+  }
+
+  /**
    * Return the DOM element of the list item with the given ID
    */
   function get_node(id)
@@ -333,8 +368,14 @@ function rcube_treelist_widget(node, p)
     // insert as child of an existing node
     if (parent_node) {
       node.level = parent_node.level + 1;
+
       if (!parent_node.children)
         parent_node.children = [];
+      else {
+        // Remove deleted nodes from the parent to make sure re-rendering below
+        // happens when adding a new child to a parent with all nodes removed
+        parent_node.children = parent_node.children.filter(function(node) { return !node.deleted; });
+      }
 
       search_active = false;
       parent_node.children.push(node);
@@ -484,8 +525,12 @@ function rcube_treelist_widget(node, p)
 
       // remove tree-toggle button and children list
       if (!parent.children().length) {
-        parent.parent().find('div.treetoggle').remove();
-        parent.remove();
+        parent.parent('li').find('div.treetoggle').remove();
+
+        // remove parent, but not if it's the list itself
+        if (parent[0] != container[0]) {
+            parent.remove();
+        }
       }
 
       return true;
@@ -578,7 +623,14 @@ function rcube_treelist_widget(node, p)
             // append all elements like links and inputs, but not sub-trees
             .append(li.children(':not(div.treetoggle,ul)').clone(true, true))
             .appendTo(container);
-            hits.push(node.id);
+          
+          // let skins to do their magic, e.g. Elastic will fix pretty checkbox
+          rcmail.triggerEvent('clonerow', {
+            id: node.id,
+            row: sli.get(0)
+          });
+
+          hits.push(node.id);
         }
 
         if (node.children && node.children.length) {
@@ -1038,7 +1090,7 @@ function rcube_treelist_widget(node, p)
 
           if (drag_active && scroll != 0) {
             if (!scroll_timer)
-              scroll_timer = window.setTimeout(function(){ drag_scroll(scroll); }, p.scroll_delay);
+              scroll_timer = setTimeout(function() { drag_scroll(scroll); }, p.scroll_delay);
           }
           else if (scroll_timer) {
             window.clearTimeout(scroll_timer);
@@ -1089,7 +1141,7 @@ function rcube_treelist_widget(node, p)
     scroll_timer = null;
 
     if (list_scroll_top != old_top)
-      scroll_timer = window.setTimeout(function(){ drag_scroll(dir); }, p.scroll_speed);
+      scroll_timer = setTimeout(function() { drag_scroll(dir); }, p.scroll_speed);
   }
 
   /**
@@ -1239,7 +1291,7 @@ function rcube_treelist_widget(node, p)
         create: function(e, ui) { ui_draggable = ui; },
         helper: function(e) {
           return $('<div>').attr('id', 'rcmdraglayer')
-            .text($.trim($(e.target).first().text()));
+            .text($(e.target).first().text().trim());
         }
       }, opts);
 

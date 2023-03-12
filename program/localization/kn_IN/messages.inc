@@ -2,19 +2,18 @@
 
 /*
  +-----------------------------------------------------------------------+
- | localization/<lang>/messages.inc                                      |
- |                                                                       |
  | Localization file of the Roundcube Webmail client                     |
- | Copyright (C) 2005-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
- |                                                                       |
  +-----------------------------------------------------------------------+
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
+
 $messages['requesttimedout'] = 'ವಿನಂತಿ ಸಮಯ ಮೀರಿತು';
 $messages['checkingmail'] = 'ಹೊಸ ಸಂದೇಶಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ...';
 $messages['sendingmessage'] = 'ಸಂದೇಶ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...';
@@ -24,7 +23,6 @@ $messages['successfullysaved'] = 'ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲ
 $messages['contactnameexists'] = 'ಅದೇ ಹೆಸರಿನ ಸಂಪರ್ಕ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ.';
 $messages['nocontactsfound'] = 'ಯಾವುದೇ ಸಂಪರ್ಕಗಳು ಕಂಡುಬಂದಿಲ್ಲ.';
 $messages['contactnotfound'] = 'ವಿನಂತಿಸಿದ ಸಂಪರ್ಕ ಕಂಡುಬಂದಿಲ್ಲ.';
-$messages['contactsearchonly'] = 'ಸಂಪರ್ಕಗಳನ್ನು ಹುಡುಕಲು ಕೆಲವು ಹುಡುಕಾಟ ಪದಗಳನ್ನು ನಮೂದಿಸಿ';
 $messages['sendingfailed'] = 'ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ವಿಫಲವಾಗಿದೆ.';
 $messages['senttooquickly'] = 'ಈ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸುವ ಮೊದಲು, $sec ಸೆಕೆಂಡು (ಗಳು) ನಿರೀಕ್ಷಿಸಿ';
 $messages['deletecontactconfirm']  = 'ನೀವು ನಿಜವಾಗಿಯೂ ಆಯ್ಕೆ ಸಂಪರ್ಕ (ಗಳನ್ನು) ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?';

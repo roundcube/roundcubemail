@@ -1,0 +1,67 @@
+name: browser_tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  browser_tests:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    strategy:
+      fail-fast: true
+
+    name: Browser Tests
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell
+          tools: composer:v2
+          coverage: none
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+
+      - name: Setup problem matchers
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install Aspell
+        run: sudo apt-get -y install aspell aspell-en aspell-de
+
+      - name: Setup composer
+        run: |
+            cp composer.json-dist composer.json
+            composer require "laravel/dusk:^7.7" --no-update
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Roundcube configuration
+        run: cp .github/config-test.inc.php config/config-test.inc.php
+
+      - name: Setup NPM
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Setup NPM deps
+        run: |
+            npm install --force -g less
+            npm install --force -g less-plugin-clean-css
+            npm install --force -g uglify-js
+
+      - name: Execute tests
+        run: .github/run.sh

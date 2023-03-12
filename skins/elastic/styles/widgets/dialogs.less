@@ -1,7 +1,7 @@
 /**
- * Roundcube webmail styles for the Elastic skin
+ * Roundcube Webmail styles for the Elastic skin
  *
- * Copyright (c) 2017-2018, The Roundcube Dev Team
+ * Copyright (c) The Roundcube Dev Team
  *
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
@@ -49,39 +49,28 @@
     box-shadow: 3px 3px 5px @color-popover-shadow;
     border-color: @color-layout-border;
     padding: 0;
+    z-index: 1300;
 
     .popover-header {
         // On mobile don't display popup arrows and titles
         display: none;
     }
 
-    .listing {
-        li:first-child {
-            border-radius: .25rem .25rem 0 0;
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        .listing {
+            li:first-child {
+                border-radius: .25rem .25rem 0 0;
+            }
+
+            li:last-child {
+                border-bottom-right-radius: .25rem;
+                border-bottom-left-radius: .25rem;
+            }
+
+            ul.rounded-0 > li {
+                border-radius: 0;
+            }
         }
-
-        li:last-child {
-            border-radius: 0 0 .25rem .25rem;
-        }
-    }
-}
-
-#rcmKSearchpane {
-    width: auto;
-    height: auto;
-
-    li {
-        padding-right: .5rem;
-    }
-
-    html.layout-small &,
-    html.layout-phone & {
-        bottom: auto;
-        border: 1px solid @color-input-border;
-    }
-
-    html.layout-phone & {
-        max-width: 100% !important;
     }
 }
 
@@ -111,12 +100,8 @@ html.layout-phone {
         }
     }
 
-    .popover.menu {
-        left: 0 !important;
-    }
-
     .popover-overlay {
-        z-index: 1000;
+        z-index: 1299;
         background-color: @color-dialog-overlay-background;
         position: absolute;
         top: 0;
@@ -143,6 +128,7 @@ html.layout-phone {
         a {
             display: inline-block;
             width: 100%;
+            color: @color-popover-mobile-header;
         }
     }
 
@@ -168,14 +154,36 @@ html.touch .popover {
 .select-menu {
     max-width: initial;
     margin: 0;
-
-    .listing li a {
-        padding-left: .25rem;
-        outline: 0; // for Android browser
-    }
+    height: auto;
+    z-index: 1301; // above TinyMCE dialogs
 
     .popover-header {
         border-radius: .25rem .25rem 0 0 !important;
+    }
+
+    .listing li {
+        a {
+            padding-left: .25rem;
+            outline: 0; // for Android browser
+        }
+
+        &:last-child {
+            border-bottom-right-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+        }
+    }
+
+    // Use 'inline' class for menus that have a list elements with no <a> inside
+    // and no header
+    &.inline {
+        .listing li {
+            padding-right: .5rem;
+
+            &:first-child {
+                border-top-left-radius: .25rem;
+                border-top-right-radius: .25rem;
+            }
+        }
     }
 }
 

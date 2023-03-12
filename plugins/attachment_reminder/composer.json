@@ -2,7 +2,7 @@
     "name": "roundcube/attachment_reminder",
     "type": "roundcube-plugin",
     "description": "This Roundcube plugin reminds the user to attach a file if the composed message text indicates that there should be any.",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "1.1",
     "authors": [
         {
@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=7.3.0",
         "roundcube/plugin-installer": ">=0.1.3"
     }
 }

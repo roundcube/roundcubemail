@@ -4,11 +4,13 @@
 	"license": "Creative Commons Attribution-ShareAlike",
 	"license-url": "http://creativecommons.org/licenses/by-sa/3.0/",
 	"config": {
-		"layout": "widescreen",
+		"supported_layouts": ["widescreen"],
 		"jquery_ui_colors_theme": "bootstrap",
 		"embed_css_location": "/styles/embed.css",
 		"editor_css_location": "/styles/embed.css",
-		"media_browser_css_location": "none"
+		"dark_mode_support": true,
+		"media_browser_css_location": "none",
+		"additional_logo_types": ["dark", "small", "small-dark"]
 	},
 	"meta": {
 		"viewport": "width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0",

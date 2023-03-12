@@ -16,4 +16,3 @@ if header :matches "From" "*"
 	set "from" "${1}";
 	notify :importance "3" :message "${from}: ${subject}" "mailto:alm@example.com";
 }
-

@@ -11,5 +11,3 @@ $config['newmail_notifier_desktop'] = false;
 
 // Desktop notification close timeout in seconds
 $config['newmail_notifier_desktop_timeout'] = 10;
-
-?>

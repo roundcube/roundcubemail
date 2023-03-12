@@ -2,10 +2,9 @@
 <?php
 /*
  +-----------------------------------------------------------------------+
- | bin/moduserprefs.sh                                                   |
- |                                                                       |
  | This file is part of the Roundcube Webmail client                     |
- | Copyright (C) 2012-2015, The Roundcube Dev Team                       |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |
@@ -34,14 +33,14 @@ function print_usage()
 
 
 // get arguments
-$args = rcube_utils::get_opt(array(
+$args = rcube_utils::get_opt([
         'u' => 'user',
         'd' => 'delete:bool',
         't' => 'type',
         'c' => 'config',
-));
+]);
 
-if ($_SERVER['argv'][1] == 'help') {
+if (empty($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
 }
@@ -52,17 +51,18 @@ else if (empty($args[0]) || (empty($args[1]) && empty($args['delete']))) {
 }
 
 $pref_name  = trim($args[0]);
-$pref_value = $args['delete'] ? null : trim($args[1]);
+$pref_value = !empty($args['delete']) ? null : trim($args[1]);
 
 if ($pref_value === null) {
     $args['type'] = null;
 }
 
-if ($args['config']) {
+if (!empty($args['config'])) {
     $rcube = rcube::get_instance();
     $rcube->config->load_from_file($args['config']);
 }
 
-rcmail_utils::mod_pref($pref_name, $pref_value, $args['user'], $args['type']);
+$type = isset($args['type']) ? $args['type'] : null;
+$user = isset($args['user']) ? $args['user'] : null;
 
-?>
+rcmail_utils::mod_pref($pref_name, $pref_value, $user, $type);

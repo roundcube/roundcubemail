@@ -5,7 +5,7 @@
  *
  * @author Aleksander Machniak <alec@alec.pl>
  *
- * Copyright (C) 2005-2018, The Roundcube Dev Team
+ * Copyright (C) The Roundcube Dev Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ class password extends rcube_plugin
     public $noajax  = true;
 
     private $newuser = false;
-    private $drivers = array();
+    private $drivers = [];
     private $rc;
 
 
@@ -70,10 +70,10 @@ class password extends rcube_plugin
 
             $this->add_texts('localization/');
 
-            $this->add_hook('settings_actions', array($this, 'settings_actions'));
+            $this->add_hook('settings_actions', [$this, 'settings_actions']);
 
-            $this->register_action('plugin.password', array($this, 'password_init'));
-            $this->register_action('plugin.password-save', array($this, 'password_save'));
+            $this->register_action('plugin.password', [$this, 'password_init']);
+            $this->register_action('plugin.password-save', [$this, 'password_save']);
         }
 
         if ($this->rc->config->get('password_force_new_user')) {
@@ -83,28 +83,28 @@ class password extends rcube_plugin
                 }
             }
 
-            $this->add_hook('user_create', array($this, 'user_create'));
-            $this->add_hook('login_after', array($this, 'login_after'));
+            $this->add_hook('user_create', [$this, 'user_create']);
+            $this->add_hook('login_after', [$this, 'login_after']);
         }
     }
 
     function settings_actions($args)
     {
         // register as settings action
-        $args['actions'][] = array(
+        $args['actions'][] = [
             'action' => 'plugin.password',
             'class'  => 'password',
             'label'  => 'password',
             'title'  => 'changepasswd',
             'domain' => 'password',
-        );
+        ];
 
         return $args;
     }
 
     function password_init()
     {
-        $this->register_handler('plugin.body', array($this, 'password_form'));
+        $this->register_handler('plugin.body', [$this, 'password_form']);
 
         $this->rc->output->set_pagetitle($this->gettext('changepasswd'));
 
@@ -116,10 +116,10 @@ class password extends rcube_plugin
                 $this->rc->output->command('display_message', $this->gettext('passwdexpired'), 'error');
             }
             else {
-                $this->rc->output->command('display_message', $this->gettext(array(
+                $this->rc->output->command('display_message', $this->gettext([
                         'name' => 'passwdexpirewarning',
-                        'vars' => array('expirationdatetime' => $_SESSION['password_expires'])
-                    )), 'warning');
+                        'vars' => ['expirationdatetime' => $_SESSION['password_expires']]
+                    ]), 'warning');
             }
         }
 
@@ -128,13 +128,12 @@ class password extends rcube_plugin
 
     function password_save()
     {
-        $this->register_handler('plugin.body', array($this, 'password_form'));
+        $this->register_handler('plugin.body', [$this, 'password_form']);
 
         $this->rc->output->set_pagetitle($this->gettext('changepasswd'));
 
-        $form_disabled   = $this->rc->config->get('password_disabled');
         $confirm         = $this->rc->config->get('password_confirm_current');
-        $required_length = intval($this->rc->config->get('password_minimum_length'));
+        $required_length = (int) $this->rc->config->get('password_minimum_length', 8);
         $force_save      = $this->rc->config->get('password_force_save');
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
@@ -144,10 +143,10 @@ class password extends rcube_plugin
             $charset    = strtoupper($this->rc->config->get('password_charset', 'UTF-8'));
             $rc_charset = strtoupper($this->rc->output->get_charset());
 
-            $sespwd = $this->rc->decrypt($_SESSION['password']);
-            $curpwd = $confirm ? rcube_utils::get_input_value('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sespwd;
-            $newpwd = rcube_utils::get_input_value('_newpasswd', rcube_utils::INPUT_POST, true);
-            $conpwd = rcube_utils::get_input_value('_confpasswd', rcube_utils::INPUT_POST, true);
+            $sesspwd = $this->rc->decrypt($_SESSION['password']);
+            $curpwd = $confirm ? rcube_utils::get_input_string('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sesspwd;
+            $newpwd = rcube_utils::get_input_string('_newpasswd', rcube_utils::INPUT_POST, true);
+            $conpwd = rcube_utils::get_input_string('_confpasswd', rcube_utils::INPUT_POST, true);
 
             // check allowed characters according to the configured 'password_charset' option
             // by converting the password entered by the user to this charset and back to UTF-8
@@ -166,18 +165,18 @@ class password extends rcube_plugin
             else if ($conpwd != $newpwd) {
                 $this->rc->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
             }
-            else if ($confirm && ($res = $this->_compare($sespwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
+            else if ($confirm && ($res = $this->_compare($sesspwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
                 $this->rc->output->command('display_message', $res, 'error');
             }
             else if ($required_length && strlen($newpwd) < $required_length) {
                 $this->rc->output->command('display_message', $this->gettext(
-                    array('name' => 'passwordshort', 'vars' => array('length' => $required_length))), 'error');
+                    ['name' => 'passwordshort', 'vars' => ['length' => $required_length]]), 'error');
             }
             else if ($res = $this->_check_strength($newpwd)) {
                 $this->rc->output->command('display_message', $res, 'error');
             }
             // password is the same as the old one, warn user, return error
-            else if (!$force_save && ($res = $this->_compare($sespwd, $newpwd, PASSWORD_COMPARE_NEW))) {
+            else if (!$force_save && ($res = $this->_compare($sesspwd, $newpwd, PASSWORD_COMPARE_NEW))) {
                 $this->rc->output->command('display_message', $res, 'error');
             }
             // try to save the password
@@ -185,14 +184,16 @@ class password extends rcube_plugin
                 $this->rc->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 
                 // allow additional actions after password change (e.g. reset some backends)
-                $plugin = $this->rc->plugins->exec_hook('password_change', array(
-                    'old_pass' => $curpwd, 'new_pass' => $newpwd));
+                $plugin = $this->rc->plugins->exec_hook('password_change', [
+                        'old_pass' => $curpwd,
+                        'new_pass' => $newpwd
+                ]);
 
                 // Reset session password
                 $_SESSION['password'] = $this->rc->encrypt($plugin['new_pass']);
 
                 if ($this->rc->config->get('newuserpassword')) {
-                    $this->rc->user->save_prefs(array('newuserpassword' => false));
+                    $this->rc->user->save_prefs(['newuserpassword' => false]);
                 }
 
                 // Log password change
@@ -227,17 +228,17 @@ class password extends rcube_plugin
         $this->rc->output->set_env('product_name', $this->rc->config->get('product_name'));
         $this->rc->output->set_env('password_disabled', !empty($form_disabled));
 
-        $table = new html_table(array('cols' => 2, 'class' => 'propform'));
+        $table = new html_table(['cols' => 2, 'class' => 'propform']);
 
         if ($this->rc->config->get('password_confirm_current')) {
             // show current password selection
             $field_id = 'curpasswd';
-            $input_curpasswd = new html_passwordfield(array(
+            $input_curpasswd = new html_passwordfield([
                     'name'         => '_curpasswd',
                     'id'           => $field_id,
                     'size'         => 20,
                     'autocomplete' => 'off',
-            ));
+            ]);
 
             $table->add('title', html::label($field_id, rcube::Q($this->gettext('curpasswd'))));
             $table->add(null, $input_curpasswd->show());
@@ -245,76 +246,78 @@ class password extends rcube_plugin
 
         // show new password selection
         $field_id = 'newpasswd';
-        $input_newpasswd = new html_passwordfield(array(
+        $input_newpasswd = new html_passwordfield([
                 'name'         => '_newpasswd',
                 'id'           => $field_id,
                 'size'         => 20,
                 'autocomplete' => 'off',
-        ));
+        ]);
 
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('newpasswd'))));
         $table->add(null, $input_newpasswd->show());
 
         // show confirm password selection
         $field_id = 'confpasswd';
-        $input_confpasswd = new html_passwordfield(array(
+        $input_confpasswd = new html_passwordfield([
                 'name'         => '_confpasswd',
                 'id'           => $field_id,
                 'size'         => 20,
                 'autocomplete' => 'off',
-        ));
+        ]);
 
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('confpasswd'))));
         $table->add(null, $input_confpasswd->show());
 
         $rules = '';
 
-        $required_length = intval($this->rc->config->get('password_minimum_length'));
+        $required_length = (int) $this->rc->config->get('password_minimum_length', 8);
         if ($required_length > 0) {
-            $rules .= html::tag('li', array('class' => 'required-length'), $this->gettext(array(
+            $rules .= html::tag('li', ['class' => 'required-length d-block'], $this->gettext([
                 'name' => 'passwordshort',
-                'vars' => array('length' => $required_length)
-            )));
+                'vars' => ['length' => $required_length]
+            ]));
         }
 
         if ($msgs = $this->_strength_rules()) {
             foreach ($msgs as $msg) {
-                $rules .= html::tag('li', array('class' => 'strength-rule'), $msg);
+                $rules .= html::tag('li', ['class' => 'strength-rule d-block'], $msg);
             }
         }
 
         if (!empty($rules)) {
-            $rules = html::tag('ul', array('id' => 'ruleslist', 'class' => 'hint proplist'), $rules);
+            $rules = html::tag('ul', ['id' => 'ruleslist', 'class' => 'hint proplist'], $rules);
         }
 
         $disabled_msg = '';
         if ($form_disabled) {
             $disabled_msg = is_string($form_disabled) ? $form_disabled : $this->gettext('disablednotice');
-            $disabled_msg = html::div(array('class' => 'boxwarning', 'id' => 'password-notice'), $disabled_msg);
+            $disabled_msg = html::div(['class' => 'boxwarning', 'id' => 'password-notice'], $disabled_msg);
         }
 
-        $submit_button = $this->rc->output->button(array(
+        $submit_button = $this->rc->output->button([
                 'command' => 'plugin.password-save',
                 'class'   => 'button mainaction submit',
                 'label'   => 'save',
-        ));
-        $form_buttons = html::p(array('class' => 'formbuttons footerleft'), $submit_button);
+        ]);
+        $form_buttons = html::p(['class' => 'formbuttons footerleft'], $submit_button);
 
         $this->rc->output->add_gui_object('passform', 'password-form');
 
         $this->include_script('password.js');
 
-        $form = $this->rc->output->form_tag(array(
-            'id'     => 'password-form',
-            'name'   => 'password-form',
-            'method' => 'post',
-            'action' => './?_task=settings&_action=plugin.password-save',
-        ), $disabled_msg . $table->show() . $rules);
+        $form = $this->rc->output->form_tag([
+                'id'     => 'password-form',
+                'name'   => 'password-form',
+                'method' => 'post',
+                'action' => './?_task=settings&_action=plugin.password-save',
+            ],
+            $disabled_msg . $table->show() . $rules
+        );
 
-        return html::div(array('id' => 'prefs-title', 'class' => 'boxtitle'), $this->gettext('changepasswd'))
-            . html::div(array('class' => 'box formcontainer scroller'),
-                html::div(array('class' => 'boxcontent formcontent'), $form)
-                . $form_buttons);
+        return html::div(['id' => 'prefs-title', 'class' => 'boxtitle'], $this->gettext('changepasswd'))
+            . html::div(['class' => 'box formcontainer scroller'],
+                html::div(['class' => 'boxcontent formcontent'], $form) . $form_buttons
+            );
     }
 
     private function _compare($curpwd, $newpwd, $type)
@@ -345,6 +348,8 @@ class password extends rcube_plugin
 
     private function _strength_rules()
     {
+        $result = null;
+
         if (($driver = $this->_load_driver('strength')) && method_exists($driver, 'strength_rules')) {
             $result = $driver->strength_rules();
         }
@@ -353,7 +358,7 @@ class password extends rcube_plugin
         }
 
         if (!is_array($result)) {
-            $result = array($result);
+            $result = [$result];
         }
 
         return $result;
@@ -382,6 +387,12 @@ class password extends rcube_plugin
     private function _save($curpass, $passwd)
     {
         if (!($driver = $this->_load_driver())) {
+            return $this->gettext('internalerror');
+        }
+
+        // Make sure the current user password is still valid
+        // by logging in to the IMAP server (#8142)
+        if (!$this->rc->get_storage()->check_connection()) {
             return $this->gettext('internalerror');
         }
 
@@ -426,29 +437,27 @@ class password extends rcube_plugin
             $driver = $this->rc->config->get('password_driver', 'sql');
         }
 
-        if (!$this->drivers[$type]) {
+        if (empty($this->drivers[$type])) {
             $class  = "rcube_{$driver}_password";
             $file = $this->home . "/drivers/$driver.php";
 
             if (!file_exists($file)) {
-                rcube::raise_error(array(
-                    'code' => 600,
-                    'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Driver file does not exist ($file)"
-                ), true, false);
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Driver file does not exist ($file)"
+                    ], true, false
+                );
                 return false;
             }
 
             include_once $file;
 
             if (!class_exists($class, false) || (!method_exists($class, 'save') && !method_exists($class, 'check_strength'))) {
-                rcube::raise_error(array(
-                    'code' => 600,
-                    'type' => 'php',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Broken driver $driver"
-                ), true, false);
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Broken driver $driver"
+                    ], true, false
+                );
                 return false;
             }
 
@@ -467,7 +476,7 @@ class password extends rcube_plugin
     function login_after($args)
     {
         if ($this->newuser && $this->check_host_login_exceptions()) {
-            $this->rc->user->save_prefs(array('newuserpassword' => true));
+            $this->rc->user->save_prefs(['newuserpassword' => true]);
 
             $args['_task']   = 'settings';
             $args['_action'] = 'plugin.password';
@@ -514,25 +523,17 @@ class password extends rcube_plugin
      *
      * @return string Hashed password
      */
-    static function hash_password($password, $method = '', $prefixed = true)
+    public static function hash_password($password, $method = '', $prefixed = true)
     {
         $method  = strtolower($method);
         $rcmail  = rcmail::get_instance();
         $prefix  = '';
-        $crypted = '';
+        $crypted = null;
+        $options = (array) $rcmail->config->get('password_algorithm_options', []);
 
         if (empty($method) || $method == 'default') {
             $method   = $rcmail->config->get('password_algorithm');
             $prefixed = $rcmail->config->get('password_algorithm_prefix');
-        }
-        else if ($method == 'crypt') { // deprecated
-            if (!($method = $rcmail->config->get('password_crypt_hash'))) {
-                $method = 'md5';
-            }
-
-            if (!strpos($method, '-crypt')) {
-                $method .= '-crypt';
-            }
         }
 
         switch ($method) {
@@ -551,7 +552,7 @@ class password extends rcube_plugin
         case 'md5crypt': // for BC
         case 'md5-crypt':
             $crypted = crypt($password, '$1$' . rcube_utils::random_bytes(9));
-            $prefix  = '{CRYPT}';
+            $prefix  = '{MD5-CRYPT}';
             break;
 
         case 'sha256-crypt':
@@ -563,7 +564,7 @@ class password extends rcube_plugin
             }
 
             $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
-            $prefix  = '{CRYPT}';
+            $prefix  = '{SHA256-CRYPT}';
             break;
 
         case 'sha512-crypt':
@@ -575,17 +576,17 @@ class password extends rcube_plugin
             }
 
             $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
-            $prefix  = '{CRYPT}';
+            $prefix  = '{SHA512-CRYPT}';
             break;
 
         case 'blowfish': // for BC
         case 'blowfish-crypt':
-            $cost   = (int) $rcmail->config->get('password_blowfish_cost');
+            $cost   = (int) ($options['cost'] ?? $rcmail->config->get('password_blowfish_cost'));
             $cost   = $cost < 4 || $cost > 31 ? 12 : $cost;
-            $prefix = sprintf('$2a$%02d$', $cost);
+            $prefix = sprintf('$2y$%02d$', $cost);
 
             $crypted = crypt($password, $prefix . rcube_utils::random_bytes(22));
-            $prefix  = '{CRYPT}';
+            $prefix  = '{BLF-CRYPT}';
             break;
 
         case 'md5':
@@ -600,14 +601,12 @@ class password extends rcube_plugin
             else if (function_exists('hash')) {
                 $crypted = hash('sha1', $password, true);
             }
-            else if (function_exists('mhash')) {
-                $crypted = mhash(MHASH_SHA1, $password);
-            }
             else {
-                rcube::raise_error(array(
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Your PHP install does not have the mhash()/hash() nor sha1() function"
-                ), true, true);
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Your PHP installation does not have the hash() nor sha1() function"
+                    ], true, true
+                );
             }
 
             $crypted = base64_encode($crypted);
@@ -617,11 +616,7 @@ class password extends rcube_plugin
         case 'ssha':
             $salt = rcube_utils::random_bytes(8);
 
-            if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
-                $salt    = mhash_keygen_s2k(MHASH_SHA1, $password, $salt, 4);
-                $crypted = mhash(MHASH_SHA1, $password . $salt);
-            }
-            else if (function_exists('sha1')) {
+            if (function_exists('sha1')) {
                 $salt    = substr(pack("H*", sha1($salt . $password)), 0, 4);
                 $crypted = sha1($password . $salt, true);
             }
@@ -630,24 +625,60 @@ class password extends rcube_plugin
                 $crypted = hash('sha1', $password . $salt, true);
             }
             else {
-                rcube::raise_error(array(
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Your PHP install does not have the mhash()/hash() nor sha1() function"
-                ), true, true);
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Your PHP installation does not have the hash() nor sha1() function"
+                   ], true, true
+               );
             }
 
             $crypted = base64_encode($crypted . $salt);
             $prefix  = '{SSHA}';
             break;
 
+        // base64 encoded ssha256 for mailcow
+        case 'ssha256':
+            $salt = rcube_utils::random_bytes(8);
+
+            if (function_exists('hash')) {
+                $salt    = substr(pack("H*", hash('sha256', $salt . $password)), 0, 4);
+                $crypted = hash('sha256', $password . $salt, true);
+            }
+            else {
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Your PHP installation does not have the hash() function"
+                   ], true, true
+               );
+            }
+
+            $crypted = base64_encode($crypted . $salt);
+            $prefix  = '{SSHA256}';
+            break;
+
+        case 'ssha512':
+            $salt = rcube_utils::random_bytes(8);
+
+            if (function_exists('hash')) {
+                $salt    = substr(pack("H*", hash('sha512', $salt . $password)), 0, 4);
+                $crypted = hash('sha512', $password . $salt, true);
+            }
+            else {
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Your PHP installation does not have the hash() function"
+                    ], true, true
+                );
+            }
+
+            $crypted = base64_encode($crypted . $salt);
+            $prefix  = '{SSHA512}';
+            break;
+
         case 'smd5':
             $salt = rcube_utils::random_bytes(8);
 
-            if (function_exists('mhash') && function_exists('mhash_keygen_s2k')) {
-                $salt    = mhash_keygen_s2k(MHASH_MD5, $password, $salt, 4);
-                $crypted = mhash(MHASH_MD5, $password . $salt);
-            }
-            else if (function_exists('hash')) {
+            if (function_exists('hash')) {
                 $salt    = substr(pack("H*", hash('md5', $salt . $password)), 0, 4);
                 $crypted = hash('md5', $password . $salt, true);
             }
@@ -666,21 +697,16 @@ class password extends rcube_plugin
                 $crypted = strtoupper($crypted);
             }
             else {
-                rcube::raise_error(array(
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Your PHP install does not have hash() function"
-                ), true, true);
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Your PHP installation does not have hash() function"
+                    ], true, true
+                );
             }
             break;
 
         case 'ad':
             $crypted = rcube_charset::convert('"' . $password . '"', RCUBE_CHARSET, 'UTF-16LE');
-            break;
-
-        case 'cram-md5': // deprecated
-            require_once __DIR__ . '/../helpers/dovecot_hmacmd5.php';
-            $crypted = dovecot_hmacmd5($password);
-            $prefix  = '{CRAM-MD5}';
             break;
 
         case 'dovecot':
@@ -691,10 +717,16 @@ class password extends rcube_plugin
                 $method = 'CRAM-MD5';
             }
 
-            $spec = array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('file', '/dev/null', 'a'));
-            $pipe = proc_open("$dovecotpw -s '$method'", $spec, $pipes);
+            $command = "$dovecotpw -s '$method'";
 
-            if (!is_resource($pipe)) {
+            $spec = [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']];
+            $pipe = proc_open($command, $spec, $pipes);
+
+            if (!$pipe) {
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Failed to execute command: $command"
+                    ], true, false);
                 return false;
             }
 
@@ -703,12 +735,19 @@ class password extends rcube_plugin
             fwrite($pipes[0], $password . "\n", 1+strlen($password));
 
             $crypted = trim(stream_get_contents($pipes[1]), "\n");
+            $stderr = trim(stream_get_contents($pipes[2]));
 
             fclose($pipes[0]);
             fclose($pipes[1]);
+            fclose($pipes[2]);
             proc_close($pipe);
 
             if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
+                rcube::raise_error([
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Failed to execute command: $command. Error: $stderr"
+                    ], true, false);
+
                 return false;
             }
 
@@ -724,32 +763,40 @@ class password extends rcube_plugin
 
             break;
 
-        case 'hash': // deprecated
-            if (!extension_loaded('hash')) {
-                rcube::raise_error(array(
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: 'hash' extension not loaded!"
-                ), true, true);
-            }
+        case 'hash-bcrypt':
+            $crypted = password_hash($password, PASSWORD_BCRYPT, $options);
+            $prefix  = '{BLF-CRYPT}';
+            break;
 
-            if (!($hash_algo = strtolower($rcmail->config->get('password_hash_algorithm')))) {
-                $hash_algo = 'sha1';
-            }
+        case 'hash-argon2i':
+            $crypted = password_hash($password, PASSWORD_ARGON2I, $options);
+            $prefix  = '{ARGON2I}';
+            break;
 
-            $crypted = hash($hash_algo, $password);
-
-            if ($rcmail->config->get('password_hash_base64')) {
-                $crypted = base64_encode(pack('H*', $crypted));
-            }
-
+        case 'hash-argon2id':
+            $crypted = password_hash($password, PASSWORD_ARGON2ID, $options);
+            $prefix  = '{ARGON2ID}';
             break;
 
         case 'clear':
             $crypted = $password;
+            break;
+
+        default:
+            rcube::raise_error([
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Hash method not supported."
+                ], true, true
+            );
         }
 
         if ($crypted === null || $crypted === false) {
-            return false;
+            rcube::raise_error([
+                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Password plugin: Failed to hash password ($method). Check for configuration issues."
+                ],
+                true, true
+            );
         }
 
         if ($prefixed && $prefixed !== true) {
@@ -771,7 +818,7 @@ class password extends rcube_plugin
      *
      * @return string Username
      */
-    static function username($format = null)
+    public static function username($format = null)
     {
         $rcmail = rcmail::get_instance();
 
@@ -783,10 +830,23 @@ class password extends rcube_plugin
             return $_SESSION['username'];
         }
 
-        return strtr($format, array(
+        return strtr($format, [
                 '%l' => $rcmail->user->get_username('local'),
                 '%d' => $rcmail->user->get_username('domain'),
                 '%u' => $_SESSION['username'],
-        ));
+        ]);
+    }
+
+    /**
+     * Returns Guzzle HTTP client instance configured for use in a password driver.
+     *
+     * @return \GuzzleHttp\Client HTTP client
+     */
+    public static function get_http_client()
+    {
+        $rcube  = rcube::get_instance();
+        $config = (array) $rcube->config->get('password_http_client');
+
+        return $rcube->get_http_client($config);
     }
 }
