@@ -763,7 +763,7 @@ table.fixedcopy {
 
         > span.delete:before {
             &:extend(.font-icon-class);
-            .font-icon-regular(@fa-var-trash-alt);
+            content: @fa-var-trash-alt;
         }
     }
 
@@ -778,11 +778,6 @@ table.fixedcopy {
         .font-icon-regular(@fa-var-flag);
     }
 
-    tr:not(.deleted) span.unflagged:hover:before {
-        .font-icon-solid(@fa-var-flag);
-        color: @color-list-flagged;
-    }
-
     tr:not(.deleted):hover {
         span.attachment {
             display: none !important;
@@ -790,11 +785,6 @@ table.fixedcopy {
 
         span.delete {
             display: block !important;
-
-            > span.delete:hover:before {
-                color: @color-error;
-                .font-icon-solid(@fa-var-trash-alt);
-            }
         }
     }
 
