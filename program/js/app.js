@@ -2354,7 +2354,7 @@ function rcube_webmail()
       }
       else if (c == 'delete') {
         css_class = (flags.deleted ? 'undelete' : 'delete');
-        label = this.get_label(css_class);
+        label = this.get_label(flags.deleted ? 'restore' : 'delete');
         html = '<span id="deleteicn'+row.id+'" class="'+css_class+'" title="'+label+'"></span>';
       }
       else if (c == 'attachment') {

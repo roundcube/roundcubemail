@@ -633,8 +633,7 @@ table.fixedcopy {
     }
 
     tr.deleted:not(.flagged) td.flags > span {
-        &.flag,
-        &.delete {
+        &.flag {
             cursor: auto;
         }
     }
@@ -765,6 +764,11 @@ table.fixedcopy {
             &:extend(.font-icon-class);
             content: @fa-var-trash-alt;
         }
+
+        > span.undelete:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-redo;
+        }
     }
 
     tr.flaggedroot:not(:hover) span.unflagged:before {
@@ -778,7 +782,7 @@ table.fixedcopy {
         .font-icon-regular(@fa-var-flag);
     }
 
-    tr:not(.deleted):hover {
+    tr:hover {
         span.attachment {
             display: none !important;
         }
