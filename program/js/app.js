@@ -3184,6 +3184,13 @@ function rcube_webmail()
       $(row.flagicon).attr('class', css_class)
         .attr({'aria-label': label, title: label});
     }
+
+    if (row.deleteicon) {
+      css_class = (row.deleted ? 'undelete' : 'delete');
+      label = this.get_label(row.deleted ? 'restore' : 'delete');
+      $(row.deleteicon).attr('class', css_class)
+        .attr({'aria-label': label, title: label});
+    }
   };
 
   // set message status
@@ -3216,15 +3223,6 @@ function rcube_webmail()
 
     if (flag)
       this.set_message_status(uid, flag, status);
-
-    if (flag == 'deleted' && $(row.obj).find('span.delete').length > 0) {
-      if (row[flag]) {
-        $(row.obj).find('span.delete span.delete').removeClass('delete').addClass('undelete');
-      }
-      else {
-        $(row.obj).find('span.delete span.undelete').removeClass('undelete').addClass('delete');
-      }
-    }
 
     if ($.inArray(flag, ['unread', 'deleted', 'flagged']) > -1)
       $(row.obj)[row[flag] ? 'addClass' : 'removeClass'](flag);
