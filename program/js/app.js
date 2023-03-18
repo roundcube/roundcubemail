@@ -1049,25 +1049,21 @@ function rcube_webmail()
       case 'toggle_flag':
       case 'toggle_delete':
         if (uid = props) {
-          if (command == 'toggle_delete' && props && !this.message_list.rows[uid].deleted) {
-            this.delete_messages(event, uid);
-          }
-          else {
-            flag = command == 'toggle_flag' ? 'flagged' : 'read';
+          var flag;
 
-            // toggle flagged/unflagged
-            if (flag == 'flagged') {
-              if (this.message_list.rows[uid].flagged)
-                flag = 'unflagged';
-            }
-            // toggle read/unread
-            else if (this.message_list.rows[uid].deleted)
+          if (command == 'toggle_flag')
+            flag = this.message_list.rows[uid].flagged ? 'unflagged' : 'flagged';
+          else if (command == 'toggle_status' && !this.message_list.rows[uid].deleted)
+            flag = !this.message_list.rows[uid].unread ? 'unread' : 'read';
+          else if (command == 'toggle_delete') {
+            if (!this.message_list.rows[uid].deleted)
+              this.delete_messages(event, uid);
+            else
               flag = 'undelete';
-            else if (!this.message_list.rows[uid].unread)
-              flag = 'unread';
-
-            this.mark_message(flag, uid);
           }
+
+          if (flag)
+            this.mark_message(flag, uid);
         }
 
         break;
