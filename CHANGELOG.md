@@ -16,6 +16,7 @@
 - Fix invalid onclick handler on the logo image when using non-array skin_logo setting (#8933)
 - Fix duplicate recipients in "To" and "Cc" on reply (#8912)
 - Fix bug where it wasn't possible to scroll lists by clicking middle mouse button (#8942)
+- Fix bug where label text in a single-input dialog could be partially invisible in some locales (#8905)
 
 ## Release 1.6.1
 

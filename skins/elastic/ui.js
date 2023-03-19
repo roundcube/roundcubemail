@@ -870,8 +870,8 @@ function rcube_elastic_ui()
 
                 $('.popup', context).addClass('formcontent').append(
                     $('<div class="form-group row">')
-                        .append(label.attr('for', id).addClass('col-sm-2 col-form-label'))
-                        .append($('<div class="col-sm-10">').append(input))
+                        .append(label.attr('for', id).addClass('col-sm-4 col-form-label text-break'))
+                        .append($('<div class="col-sm-8">').append(input))
                 );
 
                 input.focus();
