@@ -61,7 +61,7 @@ class rcube_sieve_engine
         1 => 'notifyimportancehigh'
     ];
 
-    const VERSION  = '9.4';
+    const VERSION  = '9.5';
     const PROGNAME = 'Roundcube (Managesieve)';
     const PORT     = 4190;
 
@@ -2511,6 +2511,10 @@ class rcube_sieve_engine
             'quotewildcard',
             'length'
         ];
+
+        if (in_array('enotify', $this->exts)) {
+            $set_modifiers[] = 'encodeurl';
+        }
 
         $out .= '<div id="action_set' .$id.'" class="composite" style="display:' .($action['type'] == 'set' ? 'inline' : 'none') .'">';
         foreach (['name', 'value'] as $unit) {

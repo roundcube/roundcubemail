@@ -1010,7 +1010,7 @@ class rcube_sieve_script
 
             case 'set':
                 $action  = ['type' => 'set', 'value' => array_pop($tokens), 'name' => array_pop($tokens)];
-                $args    = ['lower', 'upper', 'lowerfirst', 'upperfirst', 'quotewildcard', 'length'];
+                $args    = ['lower', 'upper', 'lowerfirst', 'upperfirst', 'quotewildcard', 'length', 'encodeurl'];
                 $action += $this->action_arguments($tokens, $args);
 
                 $result[] = $action;

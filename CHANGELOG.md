@@ -10,6 +10,7 @@
 - Change 'smtp_log' option default value to False
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
+- Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Password: Add ldap_samba_ad driver (#8525)
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
 - Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
