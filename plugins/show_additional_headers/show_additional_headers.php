@@ -37,7 +37,7 @@ class show_additional_headers extends rcube_plugin
      * Handler for 'storage_init' hook, where we tell the core to
      * fetch specified additional headers from IMAP.
      *
-     * @params array @p Hook parameters
+     * @params array $p Hook parameters
      *
      * @return array Modified hook parameters
      */
@@ -63,7 +63,7 @@ class show_additional_headers extends rcube_plugin
      * Handler for 'message_headers_output' hook, where we add the additional
      * headers to the output.
      *
-     * @params array @p Hook parameters
+     * @params array $p Hook parameters
      *
      * @return array Modified hook parameters
      */

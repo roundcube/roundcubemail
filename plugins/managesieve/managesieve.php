@@ -64,7 +64,8 @@ class managesieve extends rcube_plugin
             $this->init_ui();
         }
         else if ($this->rc->task == 'mail') {
-            // register message hook
+            $this->add_hook('storage_init', [$this, 'storage_init']);
+
             if ($this->rc->action == 'show') {
                 $this->add_hook('message_headers_output', [$this, 'mail_headers']);
             }
@@ -299,25 +300,46 @@ class managesieve extends rcube_plugin
      */
     private function parse_headers($headers)
     {
-        $result = [];
+        $result   = [];
+        $got_list = false;
 
-        if ($headers->subject) {
-            $result[] = ['Subject', rcube_mime::decode_header($headers->subject)];
+        if ($list_id = ($headers->others['list-id'] ?? null)) {
+            if (preg_match('/<([^>]+)>/', $list_id, $m)) {
+                $result[] = ['List-Id', $m[1], true];
+                $got_list = true;
+            }
         }
 
-        // @TODO: List-Id, others?
+        if ($headers->subject) {
+            $result[] = ['Subject', rcube_mime::decode_header($headers->subject), !$got_list];
+        }
+
         foreach (['From', 'To'] as $h) {
             $hl = strtolower($h);
             if (!empty($headers->$hl)) {
                 $list = rcube_mime::decode_address_list($headers->$hl);
                 foreach ($list as $item) {
                     if (!empty($item['mailto'])) {
-                        $result[] = [$h, $item['mailto']];
+                        $result[] = [$h, $item['mailto'], !$got_list];
                     }
                 }
             }
         }
 
         return $result;
+    }
+
+    /**
+     * Handler for 'storage_init' hook
+     *
+     * @params array $p Hook parameters
+     *
+     * @return array Modified hook parameters
+     */
+    function storage_init($p)
+    {
+        // Fetch extra mail headers used by the plugin
+        $p['fetch_headers'] = trim(($p['fetch_headers'] ?? '') . ' List-Id');
+        return $p;
     }
 }
