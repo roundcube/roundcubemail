@@ -1,3 +1,6 @@
+* version 9.5 [2023-03-26]
+-----------------------------------------------------------
+- Support :encodeurl from RFC 5435 (#8917)
 - Removed managesieve_usetls option (in favor of the scheme prefix in managesieve_host)
 - Plugin API: Removed `port` parameter in `managesieve_connect` hook
 - Plugin API: Removed `usetls` parameter in `managesieve_connect` hook
