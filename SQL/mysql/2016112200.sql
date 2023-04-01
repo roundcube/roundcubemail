@@ -1,4 +1,5 @@
-ALTER TABLE `dictionary` ADD COLUMN `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST; -- redundant, for compat. with Galera Cluster
+-- redundant column, for compat. with Galera Cluster
+ALTER TABLE `dictionary` ADD COLUMN `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
 
 DROP TABLE `cache`;
 DROP TABLE `cache_shared`;
