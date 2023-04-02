@@ -222,10 +222,28 @@ class rcube_ldap_simple_password
 
         $this->_debug("C: Bind " . ($search_user ? $search_user : '[anonymous]'));
 
-        // Bind
-        if (!ldap_bind($ds, $search_user, $search_pass)) {
-            $this->_debug("S: ".ldap_error($ds));
-            return false;
+        switch ($rcmail->config->get('password_ldap_bind_method')) {
+        case 'sasl':
+            $search_mech     = $rcmail->config->get('password_ldap_mech');
+            $search_realm    = $rcmail->config->get('password_ldap_realm');
+
+            // Bind
+            if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {
+                $this->_debug("S: ".ldap_error($ds));
+                return false;
+            }
+
+            break;
+        case 'bind':
+        default:
+
+            // Bind
+            if (!ldap_bind($ds, $search_user, $search_pass)) {
+                $this->_debug("S: ".ldap_error($ds));
+                return false;
+            }
+
+            break;
         }
 
         $this->_debug("S: OK");
