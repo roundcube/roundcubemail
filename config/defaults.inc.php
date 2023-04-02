@@ -1097,10 +1097,12 @@ $config['ldap_public']['Verisign'] = [
   // to be one of the search_fields, the base of base_dn is appended
   // to the RDN to insert into the LDAP directory.
   'LDAP_rdn'       => 'cn',
-  // The required fields needed to build a new contact as required by
+  // The required attributes needed to build a new contact as required by
   // the object classes (can include additional fields not required by the object classes).
   'required_fields' => ['cn', 'sn', 'mail'],
-  'search_fields'   => ['mail', 'cn'],  // fields to search in
+  // The attributes used when searching with "All fields" option
+  // If empty, attributes for name, surname, firstname and email fields will be used
+  'search_fields'   => ['mail', 'cn'],
   // mapping of contact fields to directory attributes
   //   1. for every attribute one can specify the number of values (limit) allowed.
   //      default is 1, a wildcard * means unlimited

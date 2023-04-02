@@ -192,7 +192,7 @@ class rcube_ldap extends rcube_addressbook
                     (array) ($this->coltypes['address']['subtypes'] ?? null),
                     (array) ($this->coltypes['locality']['subtypes'] ?? null)
                 ),
-            ] + (array) $this->coltypes['address'];
+            ] + (array) ($this->coltypes['address'] ?? []);
 
             foreach (['street','locality','zipcode','region','country'] as $childcol) {
                 if (!empty($this->coltypes[$childcol])) {
@@ -333,9 +333,9 @@ class rcube_ldap extends rcube_addressbook
             $conf  = $rcube->plugins->exec_hook('ldap_connected', $this->prop + ['host' => $host]);
 
             $bind_pass   = $conf['bind_pass'] ?? null;
-            $bind_user   = $conf['bind_user'] ?? null;
-            $bind_dn     = $conf['bind_dn'] ?? null;
-            $auth_method = $conf['auth_method'] ?? null;
+            $bind_user   = $conf['bind_user'] ?? '';
+            $bind_dn     = $conf['bind_dn'] ?? '';
+            $auth_method = $conf['auth_method'] ?? '';
 
             $this->base_dn = $this->groups_base_dn = $conf['base_dn'] ?? null;
             if (!empty($conf['groups']['base_dn'])) {
@@ -913,18 +913,19 @@ class rcube_ldap extends rcube_addressbook
             $filter .= ')';
         }
         else {
+            $attributes = [];
+
             if ($fields == '*') {
-                // search_fields are required for fulltext search
-                if (empty($this->prop['search_fields'])) {
-                    $this->set_error(self::ERROR_SEARCH, 'nofulltextsearch');
-                    $this->result = new rcube_result_set();
-                    return $this->result;
+                $attributes = (array) ($this->prop['search_fields'] ?? []);
+
+                // If search fields aren't configured use some common fields
+                if (empty($search_fields)) {
+                    $fields = ['name', 'surname', 'firstname', 'email'];
                 }
-                $attributes = (array) $this->prop['search_fields'];
             }
-            else {
-                // map address book fields into ldap attributes
-                $attributes = [];
+
+            // map address book fields into ldap attributes
+            if (empty($attributes)) {
                 foreach ((array) $fields as $field) {
                     if (!empty($this->coltypes[$field]) && !empty($this->coltypes[$field]['attributes'])) {
                         $attributes = array_merge($attributes, (array) $this->coltypes[$field]['attributes']);
@@ -1019,6 +1020,7 @@ class rcube_ldap extends rcube_addressbook
         $prop    = $this->group_id ? $this->group_data : $this->prop;
         $base_dn = $this->group_id ? $prop['base_dn'] : $this->base_dn;
         $attrs   = $count ? ['dn'] : $this->prop['attributes'];
+        $filter  = $prop['filter'] ?? '(objectclass=*)';
 
         // Use global search filter
         if ($filter = $this->filter) {
@@ -1027,15 +1029,13 @@ class rcube_ldap extends rcube_addressbook
                 $is_extended_search = !$this->group_id;
             }
 
-            $prop['filter'] = $filter;
-
             // add general filter to query
             if (!empty($this->prop['filter'])) {
-                $prop['filter'] = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['filter']) . ')' . $prop['filter'] . ')';
+                $filter = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['filter']) . ')' . $filter . ')';
             }
         }
 
-        $result = $this->ldap->search($base_dn, $prop['filter'], $prop['scope'], $attrs, $prop, $count);
+        $result = $this->ldap->search($base_dn, $filter, $prop['scope'] ?? 'sub', $attrs, $prop, $count);
         $result_count = 0;
 
         // we have a search result resource, get all entries
@@ -1051,18 +1051,17 @@ class rcube_ldap extends rcube_addressbook
             && is_array($this->prop['group_filters'])
             && !empty($this->prop['groups']['filter'])
         ) {
-            $filter = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['groups']['filter']) . ')' . $filter . ')';
-
-            // for groups we may use cn instead of displayname...
-            if ($this->prop['fieldmap']['name'] != $this->prop['groups']['name_attr']) {
-                $filter = str_replace(strtolower($this->prop['fieldmap']['name']) . '=', $this->prop['groups']['name_attr'] . '=', $filter);
-            }
-
             $name_attr  = $this->prop['groups']['name_attr'];
             $email_attr = $this->prop['groups']['email_attr'] ?: 'mail';
             $attrs      = array_unique(['dn', 'objectClass', $name_attr, $email_attr]);
+            $filter     = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['groups']['filter']) . ')' . $filter . ')';
 
-            $res = $this->ldap->search($this->groups_base_dn, $filter, $this->prop['groups']['scope'], $attrs, $prop, $count);
+            // for groups we may use cn instead of displayname...
+            if ($this->prop['fieldmap']['name'] != $name_attr) {
+                $filter = str_replace(strtolower($this->prop['fieldmap']['name']) . '=', $name_attr . '=', $filter);
+            }
+
+            $res = $this->ldap->search($this->groups_base_dn, $filter, $this->prop['groups']['scope'] ?? 'sub', $attrs, $prop, $count);
 
             if ($count && $res) {
                 $result += $res;
