@@ -78,6 +78,11 @@ file_filter = plugins/password/localization/<lang>.inc
 source_file = plugins/password/localization/en_US.inc
 source_lang = en_US
 
+[roundcube-webmail.plugin-stay_loggedin]
+file_filter = plugins/stay_loggedin/localization/<lang>.inc
+source_file = plugins/stay_loggedin/localization/en_US.inc
+source_lang = en_US
+
 [roundcube-webmail.plugin-subscriptions_option]
 file_filter = plugins/subscriptions_option/localization/<lang>.inc
 source_file = plugins/subscriptions_option/localization/en_US.inc
