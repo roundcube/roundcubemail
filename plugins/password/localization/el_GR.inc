@@ -18,7 +18,6 @@ $labels['changepasswd']  = 'Αλλαγή κωδικού';
 $labels['curpasswd']  = 'Τρέχων κωδικός πρόσβασης:';
 $labels['newpasswd']  = 'Νέος κωδικός πρόσβασης:';
 $labels['confpasswd']  = 'Επιβέβαιωση κωδικού πρόσβασης:';
-
 $messages['nopassword'] = 'Εισάγετε ένα νέο κωδικό.';
 $messages['nocurpassword'] = 'Εισάγετε τον τρέχοντα κωδικό σας.';
 $messages['passwordincorrect'] = 'Ο τρέχων κωδικός είναι λάθος.';
