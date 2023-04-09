@@ -143,9 +143,10 @@ class rcube_html2text
      */
     protected $search = [
         '/\r/',                                  // Non-legal carriage return
-        '/<head[^>]*>.*?<\/head>/is',            // <head>
-        '/<script[^>]*>.*?<\/script>/is',        // <script>
-        '/<style[^>]*>.*?<\/style>/is',          // <style>
+        '/\n*<\/?html>\n*/is',                   // <html>
+        '/\n*<head[^>]*>.*?<\/head>\n*/is',      // <head>
+        '/\n*<script[^>]*>.*?<\/script>\n*/is',  // <script>
+        '/\n*<style[^>]*>.*?<\/style>\n*/is',    // <style>
         '/[\n\t]+/',                             // Newlines and tabs
         '/<p[^>]*>/i',                           // <p>
         '/<\/p>[\s\n\t]*<div[^>]*>/i',           // </p> before <div>
@@ -172,6 +173,7 @@ class rcube_html2text
      */
     protected $replace = [
         '',                                     // Non-legal carriage return
+        '',                                     // <html>|</html>
         '',                                     // <head>
         '',                                     // <script>
         '',                                     // <style>
@@ -502,6 +504,7 @@ class rcube_html2text
         if (($pos = stripos($text, '<body')) !== false) {
             $pos = strpos($text, '>', $pos);
             $text = substr($text, $pos + 1);
+            $text = ltrim($text);
         }
 
         // Run our defined tags search-and-replace
