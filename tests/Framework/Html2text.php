@@ -71,6 +71,25 @@ class rc_html2text extends PHPUnit\Framework\TestCase
                 'in'    => '<b><strong>&#347;</strong></b>',
                 'out'   => 'ś',
             ],
+            12 => [
+                'title' => 'Full HTML handling (html tag only)',
+                'in'    => "<html>\n<p>test</p></html>",
+                'out'   => 'test',
+            ],
+            13 => [
+                'title' => 'Full HTML handling (html+head tags)',
+                'in'    => '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>'
+                    . "\n<p>test</p></html>\n",
+                'out'   => 'test',
+            ],
+            14 => [
+                'title' => 'Full HTML handling (html+head+body tags)',
+                'in'    => '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head>' . "\n"
+                    . '<body style="font-size: 10pt; font-family: Verdana,Geneva,sans-serif">' . "\n"
+                    . '<p>test</p>'
+                    . '</body></html>',
+                'out'   => 'test',
+            ],
         ];
     }
 
