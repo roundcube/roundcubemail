@@ -2468,9 +2468,6 @@ EOF;
             $out = $this->form_tag(['name' => $form_name, 'method' => 'post'], $out);
         }
 
-        // include script for timezone detection
-        $this->include_script('jstz.min.js');
-
         return $out;
     }
 

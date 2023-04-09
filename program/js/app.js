@@ -589,8 +589,7 @@ function rcube_webmail()
         break;
 
       case 'login':
-        var tz, tz_name,
-            input_user = $('#rcmloginuser'),
+        var tz, input_user = $('#rcmloginuser');
             input_tz = $('#rcmlogintz');
 
         if (input_user.val() == '')
@@ -599,10 +598,11 @@ function rcube_webmail()
           $('#rcmloginpwd').focus();
 
         // detect client timezone
-        if (window.jstz && (tz = jstz.determine()))
-          tz_name = tz.name();
+        try {
+            tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+        } catch (e) { };
 
-        input_tz.val(tz_name ? tz_name : (new Date().getStdTimezoneOffset() / -60));
+        input_tz.val(tz ? tz : (new Date().getStdTimezoneOffset() / -60));
 
         // display 'loading' message on form submit, lock submit button
         $('form').submit(function () {
