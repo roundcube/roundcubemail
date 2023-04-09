@@ -12,17 +12,6 @@
       "source": "https://github.com/jquery/jquery/tree/$v"
     },
     {
-      "lib": "jstz",
-      "name": "jsTimezoneDetect",
-      "version": "1.0.7",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.7/jstz.min.js",
-      "dest": "program/js/jstz.min.js",
-      "sha1": "a858ff12014b232fcc7c4c2e9f014ff852ddb917",
-      "license": "MIT",
-      "copyright": "Copyright (c) Jon Nylander",
-      "source": "https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.7/jstz.min.js"
-    },
-    {
       "lib": "publickey",
       "name": "PublicKey.js",
       "version": "0e011cb1",
