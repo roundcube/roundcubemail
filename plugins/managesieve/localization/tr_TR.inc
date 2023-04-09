@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'İlk karakter küçük harf';
 $labels['varupperfirst'] = 'İlk karakter büyük harf';
 $labels['varquotewildcard'] = 'özel karakterleri tırnak içine al';
 $labels['varlength'] = 'uzunluk';
+$labels['varencodeurl'] = 'yüzde kodlama (adresler için)';
 $labels['notify'] = 'Bildirim gönder';
 $labels['notifytarget'] = 'Bildirim hedefi:';
 $labels['notifymessage'] = 'Bildirim iletisi (isteğe bağlı):';

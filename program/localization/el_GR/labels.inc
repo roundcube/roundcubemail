@@ -14,15 +14,13 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
-// login page
+
 $labels['welcome'] = 'Καλώς ήρθατε στο $product';
 $labels['username'] = 'Όνομα Χρήστη';
 $labels['password'] = 'Κωδικός Πρόσβασης';
 $labels['server'] = 'Εξυπηρετητής';
 $labels['login'] = 'Σύνδεση';
 $labels['oauthlogin'] = 'Σύνδεση μέσω $provider';
-
-// taskbar
 $labels['menu'] = 'Μενού';
 $labels['logout'] = 'Αποσύνδεση';
 $labels['mail'] = 'E-Mail';
@@ -30,16 +28,12 @@ $labels['settings'] = 'Ρυθμίσεις';
 $labels['addressbook'] = 'Επαφές';
 $labels['darkmode'] = 'Σκοτεινή λειτουργία';
 $labels['lightmode'] = 'Φωτεινή λειτουργία';
-
-// mailbox names
 $labels['inbox'] = 'Εισερχόμενα';
 $labels['drafts'] = 'Πρόχειρα';
 $labels['sent'] = 'Απεσταλμένα';
 $labels['trash'] = 'Κάδος Απορριμάτων';
 $labels['junk'] = 'Ανεπιθύμητα';
 $labels['show_real_foldernames'] = 'Εμφάνιση πραγματικών ονομάτων για ειδικούς φακέλους';
-
-// message listing
 $labels['subject'] = 'Θέμα';
 $labels['from'] = 'Αποστολέας';
 $labels['sender'] = 'Αποστολέας';
@@ -55,13 +49,11 @@ $labels['organization'] = 'Οργανισμός';
 $labels['readstatus'] = 'Κατάσταση ανάγνωσης';
 $labels['listoptions'] = 'Κατάλογος επιλογών';
 $labels['listoptionstitle'] = 'Λίστα επιλογών';
-
 $labels['mailboxlist'] = 'Φάκελοι';
 $labels['messagesfromto'] = 'Μηνύματα $from από $to έως $count';
 $labels['threadsfromto'] = 'Θέματα $from έως $to από $count';
 $labels['messagenrof'] = 'Μήνυμα $nr από $count';
 $labels['fromtoshort'] = '$from – $to από $count';
-
 $labels['copy'] = 'Αντιγραφή';
 $labels['move'] = 'Μετακίνηση';
 $labels['moveto'] = 'Μετακίνηση σε...';
@@ -70,13 +62,9 @@ $labels['download'] = 'Λήψη';
 $labels['open'] = 'Ανοιγμα';
 $labels['showattachment'] = 'Εμφάνιση';
 $labels['showanyway'] = 'Εμφάνιση';
-
 $labels['filename'] = 'Όνομα αρχείου';
 $labels['filesize'] = 'Μέγεθος αρχείου';
-
 $labels['addtoaddressbook'] = 'Προσθήκη στο βιβλίο διευθύνσεων';
-
-// weekdays short
 $labels['sun'] = 'Κυρ';
 $labels['mon'] = 'Δευτ';
 $labels['tue'] = 'Τρι';
@@ -84,8 +72,6 @@ $labels['wed'] = 'Τετ';
 $labels['thu'] = 'Πεμπ';
 $labels['fri'] = 'Παρ';
 $labels['sat'] = 'Σαβ';
-
-// weekdays long
 $labels['sunday'] = 'Κυριακή';
 $labels['monday'] = 'Δευτέρα';
 $labels['tuesday'] = 'Τρίτη';
@@ -93,8 +79,6 @@ $labels['wednesday'] = 'Τετάρτη';
 $labels['thursday'] = 'Πέμπτη';
 $labels['friday'] = 'Παρασκευή';
 $labels['saturday'] = 'Σάββατο';
-
-// months short
 $labels['jan'] = 'Ιαν';
 $labels['feb'] = 'Φεβ';
 $labels['mar'] = 'Μαρ';
@@ -107,8 +91,6 @@ $labels['sep'] = 'Σεπ';
 $labels['oct'] = 'Οκτ';
 $labels['nov'] = 'Νοε';
 $labels['dec'] = 'Δεκ';
-
-// months long
 $labels['longjan'] = 'Ιανουάριος';
 $labels['longfeb'] = 'Φεβρουάριος';
 $labels['longmar'] = 'Μάρτιος';
@@ -121,10 +103,7 @@ $labels['longsep'] = 'Σεπτέμβριος';
 $labels['longoct'] = 'Οκτώβριος';
 $labels['longnov'] = 'Νοέμβριος';
 $labels['longdec'] = 'Δεκέμβριος';
-
 $labels['today'] = 'Σήμερα';
-
-// toolbar buttons
 $labels['refresh'] = 'Ανανέωση';
 $labels['checkmail'] = 'Έλεγχος για νέα μηνύματα';
 $labels['compose'] = 'Δημιουργία μηνύματος';
@@ -167,7 +146,6 @@ $labels['options'] = 'Επιλογές';
 $labels['composeoptions'] = 'Επιλογές σύνταξης';
 $labels['optionsandattachments'] = 'Επιλογές και συνημμένα';
 $labels['actions'] = 'Ενέργειες';
-
 $labels['first'] = 'Πρώτο';
 $labels['last'] = 'Τελευταίο';
 $labels['previous'] = 'Προηγούμενο';
@@ -196,7 +174,6 @@ $labels['expand-unread'] = 'Ανάπτυξη των μη αναγνωσμένω�
 $labels['collapse-all'] = 'Σύμπτυξη όλων';
 $labels['threaded'] = 'Θεματοποιημένα';
 $labels['showunread'] = 'Εμφάνιση αδιάβαστων μηνυμάτων';
-
 $labels['autoexpand_threads'] = 'Ανάπτυξη θεματοποιημένων μηνυμάτων';
 $labels['do_expand'] = 'όλα τα θέματα';
 $labels['expand_only_unread'] = 'μόνο με τα μη αναγνωσμένα μηνύματα';
@@ -220,14 +197,12 @@ $labels['layoutlist'] = 'Λίστα';
 $labels['layoutwidescreendesc'] = 'Ευρεία οθόνη (3 στήλες)';
 $labels['layoutdesktopdesc'] = 'Επιφάνεια εργασίας (ευρεία λίστα και προεπισκόπηση mail παρακάτω)';
 $labels['layoutlistdesc'] = 'Λίστα (χωρίς προεπισκόπηση)';
-
 $labels['folderactions'] = 'Ενέργειες στους φακέλους';
 $labels['compact'] = 'Συμπίεση';
 $labels['empty'] = 'Άδειασμα';
 $labels['importmessages'] = 'Εισαγωγή μηνυμάτων';
 $labels['mailimportdesc'] = 'Μπορείτε να μεταφορτώσετε αλληλογραφία χρησιμοποιώντας αρχεία <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> ή <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a>.';
 $labels['mailimportzip'] = 'Τα πολλαπλά αρχεία δύνανται να συμπιεστούν σε αρχεία zip';
-
 $labels['quota'] = 'Χρήση δίσκου';
 $labels['unknown'] = 'άγνωστο';
 $labels['unlimited'] = 'απεριόριστο';
@@ -239,7 +214,6 @@ $labels['quotamessage'] = 'Πλήθος μηνυμάτων';
 $labels['shortheaderdate'] = 'Στις $date';
 $labels['shortheaderto'] = 'Προς τον/ην $to στις $date';
 $labels['shortheaderfrom'] = 'Από τον/ην $from στις $date';
-
 $labels['quicksearch'] = 'Γρήγορη Αναζήτηση';
 $labels['searchplaceholder'] = 'Αναζήτηση...';
 $labels['resetsearch'] = 'Επαναφορά Αναζήτησης';
@@ -258,13 +232,10 @@ $labels['searchinterval-1Y'] = 'παλιότερο από ένα έτος';
 $labels['searchinterval1W'] = 'νεότερο από μια εβδομάδα';
 $labels['searchinterval1M'] = 'νεότερο από ένα μήνα';
 $labels['searchinterval1Y'] = 'νεότερο από ένα έτος';
-
 $labels['openinextwin'] = 'Άνοιγμα σε νέο παράθυρο';
 $labels['emlsave'] = 'Λήψη αρχείου (.eml)';
 $labels['changeformattext'] = 'Εμφάνιση σε μορφή απλού κειμένου';
 $labels['changeformathtml'] = 'Εμφάνιση σε μορφή HTML';
-
-// message compose
 $labels['editasnew'] = 'Επεξεργασία σαν νέο';
 $labels['send'] = 'Αποστολή';
 $labels['sendmessage'] = 'Αποστολή μηνύματος';
@@ -297,17 +268,14 @@ $labels['insert'] = 'Εισαγωγή';
 $labels['insertcontact'] = 'Προσθήκη επαφής(-ων)';
 $labels['recipient'] = 'Παραλήπτης';
 $labels['recipientedit'] = 'Επεξεργασία παραληπτών';
-
 $labels['editidents'] = 'Επεξεργασία ταυτοτήτων';
 $labels['spellcheck'] = 'Συλλαβισμός';
 $labels['checkspelling'] = 'Έλεγχος ορθογραφίας';
 $labels['resumeediting'] = 'Συνέχεια επεξεργασίας';
 $labels['revertto'] = 'Επαναφορά στο';
-
 $labels['restore'] = 'Επαναφορά';
 $labels['restoremessage'] = 'Επαναφορά μηνύματος;';
 $labels['ignore'] = 'Παράβλεψη';
-
 $labels['responses'] = 'Απαντήσεις';
 $labels['insertresponse'] = 'Εισάγετε μια απάντηση';
 $labels['manageresponses'] = 'Διαχείριση απαντήσεων';
@@ -317,7 +285,6 @@ $labels['editresponse'] = 'Μεταβολή απάντησης';
 $labels['editresponses'] = 'Μεταβολή απαντήσεων';
 $labels['responsename'] = 'Όνομα';
 $labels['responsetext'] = 'Κείμενο απάντησης';
-
 $labels['attach'] = 'Επισύναψη';
 $labels['attachments'] = 'Συνημμένα';
 $labels['upload'] = 'Φόρτωση';
@@ -326,13 +293,11 @@ $labels['close'] = 'Κλείσιμο';
 $labels['messageoptions'] = 'Επιλογές μηνύματος';
 $labels['togglecomposeoptions'] = 'Εναλλαγή επιλογών σύνθεσης';
 $labels['attachmentrename'] = 'Μετονομασία συνημμένου';
-
 $labels['low'] = 'Χαμηλή';
 $labels['lowest'] = 'Χαμηλότερη';
 $labels['normal'] = 'Κανονική';
 $labels['high'] = 'Υψηλή';
 $labels['highest'] = 'Μέγιστη δυνατή';
-
 $labels['nosubject'] = '(χωρίς θέμα)';
 $labels['showimages'] = 'Προβολή εικόνων';
 $labels['allow'] = 'Να επιτρέπεται';
@@ -346,26 +311,21 @@ $labels['headers'] = 'Κεφαλίδες';
 $labels['allheaders'] = 'Όλες οι κεφαλίδες...';
 $labels['togglemoreheaders'] = 'Εμφάνιση περισσότερων κεφαλίδων';
 $labels['togglefullheaders'] = 'Εμφάνιση ακατέργαστων κεφαλίδων μηνύματος';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Απλό κείμενο';
 $labels['savesentmessagein'] = 'Αποθήκευση απεσταλμένου στο φάκελο';
 $labels['dontsave'] = 'να μην αποθηκευθεί';
 $labels['maxuploadsize'] = 'Το μέγιστο επιτρεπόμενο μέγεθος αρχείου είναι $size';
-
 $labels['addcc'] = 'Προσθήκη Παραλήπτη Κοινοποίησης';
 $labels['addbcc'] = 'Προσθήκη Παραλήπτη Κρυφής Κοινοποίησης';
 $labels['addreplyto'] = 'Προσθήκη Απάντησης-Στο';
 $labels['addfollowupto'] = 'Προσθήκη Σε συνέχεια του';
-
-// mdn
 $labels['sendreceipt'] = 'Αποστολή αποδεικτικού ανάγνωσης;';
 $labels['mdnrequest'] = 'Ο αποστολέας αυτού του μηνύματος, έχει ζητήσει να ειδοποιηθεί όταν θα το διαβάσετε. Θέλετε να επιτρέψετε την ενημέρωσή του;';
 $labels['receiptread'] = 'Αναφορά παράδοσης (διαβάστε την)';
 $labels['yourmessage'] = 'Αυτό είναι μια αναφορά παράδοσης για το μήνυμά σας';
 $labels['receiptnote'] = 'Σημείωση: Αυτή η αναφορά επιβεβαιώνει μόνο ότι το μήνυμά σας εμφανίστηκε στον υπολογιστή του παραλήπτη. Δεν επιβεβαιώνει ότι ο παραλήπτης έχει διαβάσει ή έχει κατανοήσει το περιεχόμενό του.';
 $labels['sendalwaysto'] = 'Να αποστέλλεται πάντα στον/στην $email';
-
 $labels['zoomin'] = 'Μεγέθυνση';
 $labels['zoomout'] = 'Σμίκρυνση';
 $labels['rotate'] = 'Περιστροφή';
@@ -374,8 +334,6 @@ $labels['decreaseimage'] = 'Σμίκρυνση μεγέθους εικόνας';
 $labels['rotateimage'] = 'Περιστροφή εικόνας';
 $labels['showtools'] = 'Εμφάνιση εργαλείων εικόνας';
 $labels['hidetools'] = 'Απόκρυψη εργαλείων εικόνας';
-
-// address book
 $labels['name'] = 'Εμφανιζόμενο όνομα';
 $labels['firstname'] = 'Όνομα';
 $labels['surname'] = 'Επώνυμο';
@@ -413,7 +371,6 @@ $labels['advanced'] = 'Προχωρημένες ρυθμίσεις';
 $labels['other'] = 'Άλλα';
 $labels['printcontact'] = 'Εκτύπωση επαφής';
 $labels['qrcode'] = 'QR Code';
-
 $labels['typehome'] = 'Οικία';
 $labels['typework'] = 'Εργασία';
 $labels['typeother'] = 'Άλλα';
@@ -428,7 +385,6 @@ $labels['typeassistant'] = 'Υπάλληλος';
 $labels['typehomepage'] = 'Αρχική Σελίδα';
 $labels['typeblog'] = 'Ιστολόγιο';
 $labels['typeprofile'] = 'Προφίλ';
-
 $labels['addfield'] = 'Προσθήκη πεδίου...';
 $labels['addcontact'] = 'Προσθήκη επαφής';
 $labels['editcontact'] = 'Επεξεργασία επαφής';
@@ -438,7 +394,6 @@ $labels['contactnameandorg'] = 'Όνομα και οργανισμός';
 $labels['personalinfo'] = 'Προσωπικές πληροφορίες';
 $labels['personal'] = 'Προσωπικά';
 $labels['contactphoto'] = 'Φωτογραφία επαφής';
-
 $labels['edit'] = 'Επεξεργασία';
 $labels['cancel'] = 'Ακύρωση';
 $labels['save'] = 'Αποθήκευση';
@@ -453,7 +408,6 @@ $labels['uploadphoto'] = 'Φόρτωση εικόνας';
 $labels['choosefile'] = 'Επιλέξτε αρχείο...';
 $labels['choosefiles'] = 'Επιλέξτε αρχεία...';
 $labels['browse'] = 'Περιήγηση';
-
 $labels['newcontact'] = 'Δημιουργία νέας επαφής';
 $labels['deletecontact'] = 'Διαγραφή επιλεγμένων επαφών';
 $labels['composeto'] = 'Σύνθεση μηνύματος προς';
@@ -471,20 +425,16 @@ $labels['groupassign'] = 'Εκχώρηση στην ομάδα...';
 $labels['groupremove'] = 'Κατάργηση από την ομάδα...';
 $labels['groupremoveselected'] = 'Αφαίρεση επιλεγμένων επαφών από την ομάδα';
 $labels['uponelevel'] = 'Πάνω ένα επίπεδο';
-
 $labels['previouspage'] = 'Εμφάνιση προηγούμενης σελίδας';
 $labels['firstpage'] = 'Εμφάνιση της πρώτης σελίδας';
 $labels['nextpage'] = 'Εμφάνιση επόμενης σελίδας';
 $labels['lastpage'] = 'Εμφάνιση της τελευταίας σελίδας';
-
 $labels['group'] = 'Ομάδα';
 $labels['groups'] = 'Ομάδες';
 $labels['listgroup'] = 'Μέλη της ομάδας λίστας';
 $labels['personaladrbook'] = 'Προσωπικές Διευθύνσεις';
-
 $labels['searchsave'] = 'Αποθήκευση αναζήτησης';
 $labels['searchdelete'] = 'Διαγραφή αποθηκευμένης αναζήτησης';
-
 $labels['import'] = 'Εισαγωγή';
 $labels['importcontacts'] = 'Εισαγωγή επαφών';
 $labels['importfromfile'] = 'Εισαγωγή από αρχείο';
@@ -498,21 +448,17 @@ $labels['importmapdesc'] = 'Επιβεβαιώστε ότι οι παρακάτ�
 $labels['fieldnotmapped'] = 'Πεδίο χωρίς αντιστοίχιση (να μην εισαχθεί)';
 $labels['skipheader'] = 'Να μην εισαχθεί η πρώτη γραμμή (κεφαλίδα)';
 $labels['done'] = 'Ολοκληρώθηκε';
-
-// settings
 $labels['settingsfor'] = 'Ρυθμίσεις για';
 $labels['about'] = 'Σχετικά';
 $labels['preferences'] = 'Προτιμήσεις';
 $labels['userpreferences'] = 'Προτιμήσεις χρήστη';
 $labels['editpreferences'] = 'Επεξεργασία προτιμήσεων χρήστη';
-
 $labels['identities'] = 'Ταυτότητες';
 $labels['manageidentities'] = 'Διαχείριση ταυτοτήτων';
 $labels['newidentity'] = 'Δημιουργία νέας ταυτότητας';
 $labels['addidentity'] = 'Προσθήκη ταυτότητας';
 $labels['editidentity'] = 'Επεξεργασία ταυτότητας';
 $labels['identityencryption'] = 'Κρυπτογράφηση';
-
 $labels['preferhtml'] = 'Προβολή σε HTML';
 $labels['defaultcharset'] = 'Προεπιλεγμένη κωδικοποίηση χαρακτήρων';
 $labels['htmlmessage'] = 'Μήνυμα σε μορφή HTML';
@@ -632,7 +578,6 @@ $labels['replyalldefault'] = 'απάντηση σε όλους';
 $labels['replyalllist'] = 'Απάντηση μόνο σε λίστα e-mail (αν υπάρχει)';
 $labels['allmessages'] = 'όλα τα μηνύματα';
 $labels['olderxdays'] = 'άνω των $x ημερών';
-
 $labels['folder'] = 'Φάκελος';
 $labels['folders'] = 'Φάκελοι';
 $labels['foldername'] = 'Όνομα φακέλου';
@@ -662,7 +607,6 @@ $labels['namespace.shared'] = 'Διαμοιρασμένος';
 $labels['dualuselabel'] = 'Δύναται να περιέχει μόνο';
 $labels['dualusemail'] = 'μηνύματα';
 $labels['dualusefolder'] = 'φάκελοι';
-
 $labels['generate'] = 'Δημιουργία';
 $labels['encryptioncreatekey'] = 'Δημιουργία νέου ζεύγους κλειδιού';
 $labels['openmailvelopesettings'] = 'Άνοιγμα Ρυθμίσεων Mailvelope';
@@ -672,12 +616,10 @@ $labels['encryption'] = 'Κρυπτογράφηση';
 $labels['mailvelopeoptions'] = 'Ρυθμίσεις Mailvelope';
 $labels['mailvelopemainkeyring'] = 'Χρήση κύριας κλειδοθήκης Mailvelope';
 $labels['mailvelopenotfound'] = 'Η επέκταση Mailvelope δεν είναι ενεργοποιημένη/εγκατεστημένη στον browser σας.';
-
 $labels['sortby'] = 'Ταξινόμηση κατά';
 $labels['sortasc'] = 'Αύξουσα ταξινόμηση';
 $labels['sortdesc'] = 'Φθίνουσα ταξινόμηση';
 $labels['undo'] = 'Αναίρεση';
-
 $labels['installedplugins'] = 'Εγκατεστημένα πρόσθετα';
 $labels['plugin'] = 'Πρόσθετο';
 $labels['version'] = 'Έκδοση';
@@ -686,21 +628,16 @@ $labels['destination'] = 'Προορισμός';
 $labels['license'] = 'Άδεια χρήσης';
 $labels['support'] = 'Υποστήριξη';
 $labels['savedsearches'] = 'Αποθηκευμένες αναζητήσεις';
-
 $labels['dateformatY'] = 'YYYY';
 $labels['dateformaty'] = 'YY';
 $labels['dateformatm'] = 'MM';
 $labels['dateformatd'] = 'DD';
 $labels['dateformatj'] = 'D';
 $labels['dateformatn'] = 'M';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'KB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unicode';
 $labels['english'] = 'Αγγλικά';
 $labels['westerneuropean'] = 'Δυτικής Ευρώπης';
@@ -719,8 +656,6 @@ $labels['vietnamese'] = 'Βιετναμέζικα';
 $labels['japanese'] = 'Ιαπωνικά';
 $labels['korean'] = 'Κορεατικά';
 $labels['chinese'] = 'Κινεζικά';
-
-// accessibility (voice-only) headings and descriptions
 $labels['arialabeltopnav'] = 'Έλεγχος παραθύρου';
 $labels['arialabeltasknav'] = 'Εργασίες εφαρμογής';
 $labels['arialabeltoolbar'] = 'Μπάρα εργαλείων εφαρμογής';
@@ -768,7 +703,6 @@ $labels['arialabelsearchterms'] = 'Όροι αναζήτησης';
 $labels['arialabeldropactionmenu'] = 'Drag-n-Drop μενού ενεργειών';
 $labels['arialabelheadersmenu'] = 'Μενού προσθήκης παραληπτών (κεφαλίδα)';
 $labels['arialabelimagetools'] = 'Εργαλεία εικόνας';
-
 $labels['helplistnavigation'] = 'Εμφάνιση πλοήγησης πληκτρολογίου';
 $labels['helplistkeyboardnavigation'] = "Βέλη πάνω/κάτω: Μετακίνηση εστίασης/επιλογής γραμμής.
 Διάστημα: Επιλογή εστιασμένης γραμμής.

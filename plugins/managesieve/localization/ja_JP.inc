@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = '最初の文字を小文字';
 $labels['varupperfirst'] = '最初の文字を大文字';
 $labels['varquotewildcard'] = '特殊文字を引用処理';
 $labels['varlength'] = '長さ';
+$labels['varencodeurl'] = '(URLを)パーセント・エンコード';
 $labels['notify'] = '通知を送信';
 $labels['notifytarget'] = '通知の対象:';
 $labels['notifymessage'] = '通知のメッセージ(任意):';

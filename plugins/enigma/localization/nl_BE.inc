@@ -20,3 +20,4 @@ $labels['expiresnever'] = 'nooit';
 $labels['unknown'] = 'onbekend';
 $labels['keychpass'] = 'Wijzig wachtwoord';
 $labels['newkeypass'] = 'Wachtwoord';
+$labels['keyimportlabel'] = 'Importeren uit bestand';
