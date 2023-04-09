@@ -1,99 +1,99 @@
 [main]
-host = https://www.transifex.com
-lang_map = be: be_BE, sr: sr_CS, fa: fa_AF, lb: lb_LU, fr: fr_FR
-type = PHP_ALT_ARRAY
+host     = https://www.transifex.com
+lang_map = sr: sr_CS, fa: fa_AF, lb: lb_LU, fr: fr_FR, be: be_BE
 
-[roundcube-webmail.labels]
+[o:roundcube:p:roundcube-webmail:r:labels]
 file_filter = program/localization/<lang>/labels.inc
 source_file = program/localization/en_US/labels.inc
 source_lang = en_US
 
-[roundcube-webmail.messages]
+[o:roundcube:p:roundcube-webmail:r:messages]
 file_filter = program/localization/<lang>/messages.inc
 source_file = program/localization/en_US/messages.inc
 source_lang = en_US
 
-[roundcube-webmail.timezones]
-file_filter = program/localization/<lang>/timezones.inc
-source_file = program/localization/en_US/timezones.inc
-source_lang = en_US
-
-[roundcube-webmail.plugin-acl]
+[o:roundcube:p:roundcube-webmail:r:plugin-acl]
 file_filter = plugins/acl/localization/<lang>.inc
 source_file = plugins/acl/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-archive]
+[o:roundcube:p:roundcube-webmail:r:plugin-archive]
 file_filter = plugins/archive/localization/<lang>.inc
 source_file = plugins/archive/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-attachment_reminder]
+[o:roundcube:p:roundcube-webmail:r:plugin-attachment_reminder]
 file_filter = plugins/attachment_reminder/localization/<lang>.inc
 source_file = plugins/attachment_reminder/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-emoticons]
+[o:roundcube:p:roundcube-webmail:r:plugin-emoticons]
 file_filter = plugins/emoticons/localization/<lang>.inc
 source_file = plugins/emoticons/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-enigma]
+[o:roundcube:p:roundcube-webmail:r:plugin-enigma]
 file_filter = plugins/enigma/localization/<lang>.inc
 source_file = plugins/enigma/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-help]
+[o:roundcube:p:roundcube-webmail:r:plugin-help]
 file_filter = plugins/help/localization/<lang>.inc
 source_file = plugins/help/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-hide_blockquote]
+[o:roundcube:p:roundcube-webmail:r:plugin-hide_blockquote]
 file_filter = plugins/hide_blockquote/localization/<lang>.inc
 source_file = plugins/hide_blockquote/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-managesieve]
+[o:roundcube:p:roundcube-webmail:r:plugin-managesieve]
 file_filter = plugins/managesieve/localization/<lang>.inc
 source_file = plugins/managesieve/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-markasjunk]
+[o:roundcube:p:roundcube-webmail:r:plugin-markasjunk]
 file_filter = plugins/markasjunk/localization/<lang>.inc
 source_file = plugins/markasjunk/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-new_user_dialog]
+[o:roundcube:p:roundcube-webmail:r:plugin-new_user_dialog]
 file_filter = plugins/new_user_dialog/localization/<lang>.inc
 source_file = plugins/new_user_dialog/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-newmail_notifier]
+[o:roundcube:p:roundcube-webmail:r:plugin-newmail_notifier]
 file_filter = plugins/newmail_notifier/localization/<lang>.inc
 source_file = plugins/newmail_notifier/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-password]
+[o:roundcube:p:roundcube-webmail:r:plugin-password]
 file_filter = plugins/password/localization/<lang>.inc
 source_file = plugins/password/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-subscriptions_option]
+[o:roundcube:p:roundcube-webmail:r:plugin-subscriptions_option]
 file_filter = plugins/subscriptions_option/localization/<lang>.inc
 source_file = plugins/subscriptions_option/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-userinfo]
+[o:roundcube:p:roundcube-webmail:r:plugin-userinfo]
 file_filter = plugins/userinfo/localization/<lang>.inc
 source_file = plugins/userinfo/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-vcard_attachments]
+[o:roundcube:p:roundcube-webmail:r:plugin-vcard_attachments]
 file_filter = plugins/vcard_attachments/localization/<lang>.inc
 source_file = plugins/vcard_attachments/localization/en_US.inc
 source_lang = en_US
 
-[roundcube-webmail.plugin-zipdownload]
+[o:roundcube:p:roundcube-webmail:r:plugin-zipdownload]
 file_filter = plugins/zipdownload/localization/<lang>.inc
 source_file = plugins/zipdownload/localization/en_US.inc
 source_lang = en_US
+
+[o:roundcube:p:roundcube-webmail:r:timezones]
+file_filter = program/localization/<lang>/timezones.inc
+source_file = program/localization/en_US/timezones.inc
+source_lang = en_US
+
