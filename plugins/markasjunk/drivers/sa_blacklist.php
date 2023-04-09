@@ -52,6 +52,10 @@ class markasjunk_sa_blacklist
         $this->sa_preference_field = $rcube->config->get('sauserprefs_sql_preference_field');
         $this->sa_value_field      = $rcube->config->get('sauserprefs_sql_value_field');
 
+        // SAv4 compatibility
+        $blocklist_pref_name       = $rcube->config->get('sauserprefs_sav4', false) ? "blocklist_from" : "blacklist_from";
+        $welcomelist_pref_name     = $rcube->config->get('sauserprefs_sav4', false) ? "welcomelist_from" : "whitelist_from";
+
         $identity = $rcube->user->get_identity();
         $identity = $identity['email'];
 
@@ -97,21 +101,21 @@ class markasjunk_sa_blacklist
             }
 
             if ($spam) {
-                // delete any whitelisting for this address
+                // delete any welcomelisting for this address
                 $db->query(
                     "DELETE FROM `{$this->sa_table}` WHERE `{$this->sa_username_field}` = ? "
                         . "AND `{$this->sa_preference_field}` = ? AND `{$this->sa_value_field}` = ?",
                     $this->sa_user,
-                    'whitelist_from',
+                    $welcomelist_pref_name,
                     $email
                 );
 
-                // check address is not already blacklisted
+                // check address is not already blocklisted
                 $sql_result = $db->query(
                     "SELECT `value` FROM `{$this->sa_table}` WHERE `{$this->sa_username_field}` = ? "
                         . "AND `{$this->sa_preference_field}` = ? AND `{$this->sa_value_field}` = ?",
                     $this->sa_user,
-                    'blacklist_from',
+                    $blocklist_pref_name,
                     $email
                 );
 
@@ -120,31 +124,31 @@ class markasjunk_sa_blacklist
                         "INSERT INTO `{$this->sa_table}` (`{$this->sa_username_field}`, `{$this->sa_preference_field}`, `{$this->sa_value_field}`)"
                             . " VALUES (?, ?, ?)",
                         $this->sa_user,
-                        'blacklist_from',
+                        $blocklist_pref_name,
                         $email
                     );
 
                     if ($debug) {
-                        rcube::write_log('markasjunk', $this->sa_user . ' blacklist ' . $email);
+                        rcube::write_log('markasjunk', $this->sa_user . ' blocklist ' . $email);
                     }
                 }
             }
             else {
-                // delete any blacklisting for this address
+                // delete any blocklisting for this address
                 $db->query(
                     "DELETE FROM `{$this->sa_table}` WHERE `{$this->sa_username_field}` = ? AND "
                         . "`{$this->sa_preference_field}` = ? AND `{$this->sa_value_field}` = ?",
                     $this->sa_user,
-                    'blacklist_from',
+                    $blocklist_pref_name,
                     $email
                 );
 
-                // check address is not already whitelisted
+                // check address is not already welcomelisted
                 $sql_result = $db->query(
                     "SELECT `value` FROM `{$this->sa_table}` WHERE `{$this->sa_username_field}` = ? "
                         . "AND `{$this->sa_preference_field}` = ? AND `{$this->sa_value_field}` = ?",
                     $this->sa_user,
-                    'whitelist_from',
+                    $welcomelist_pref_name,
                     $email
                 );
 
@@ -153,11 +157,11 @@ class markasjunk_sa_blacklist
                         "INSERT INTO `{$this->sa_table}` (`{$this->sa_username_field}`, `{$this->sa_preference_field}`, `{$this->sa_value_field}`)"
                             . " VALUES (?, ?, ?)",
                         $this->sa_user,
-                        'whitelist_from',
+                        $welcomelist_pref_name,
                         $email);
 
                     if ($debug) {
-                        rcube::write_log('markasjunk', $this->sa_user . ' whitelist ' . $email);
+                        rcube::write_log('markasjunk', $this->sa_user . ' welcomelist ' . $email);
                     }
                 }
             }
