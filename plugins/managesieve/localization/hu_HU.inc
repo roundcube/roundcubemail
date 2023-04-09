@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'első karakter kisbetű';
 $labels['varupperfirst'] = 'első karakter nagybetű';
 $labels['varquotewildcard'] = 'speciális karakterek idézése';
 $labels['varlength'] = 'hossz';
+$labels['varencodeurl'] = 'százalék-kódolású (az URL-ekhez)';
 $labels['notify'] = 'Értesítés küldése';
 $labels['notifytarget'] = 'Értesítés célja:';
 $labels['notifymessage'] = 'Értesítési üzenet (opcionális):';

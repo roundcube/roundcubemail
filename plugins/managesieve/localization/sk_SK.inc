@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'prvé písmeno malé';
 $labels['varupperfirst'] = 'prvé písmeno veľké';
 $labels['varquotewildcard'] = 'k špeciálnym znakom pridať úvodzovky';
 $labels['varlength'] = 'dĺžka';
+$labels['varencodeurl'] = 'percentá - kódovane (pre adresy URL)';
 $labels['notify'] = 'Odoslať oznámenie';
 $labels['notifytarget'] = 'Cieľ notifikácie:';
 $labels['notifymessage'] = 'Notifikačná správa (voliteľne):';

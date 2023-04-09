@@ -16,3 +16,4 @@
 
 $labels['hide'] = 'Verberg';
 $labels['show'] = 'Weergeven';
+$labels['quotelimit'] = 'Verberg citaat wanneer het aantal regels groter is dan';

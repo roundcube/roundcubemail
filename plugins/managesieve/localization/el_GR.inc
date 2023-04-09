@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'πρώτος χαρακτήρας πεζός ';
 $labels['varupperfirst'] = 'πρώτος χαρακτήρας κεφαλαία γράμματα';
 $labels['varquotewildcard'] = 'παραθέση ειδικων χαρακτήρων';
 $labels['varlength'] = 'Μήκος';
+$labels['varencodeurl'] = 'τοις-εκατό κωδικοποίηση (για URL)';
 $labels['notify'] = 'Αποστολή ειδοποίησης ';
 $labels['notifytarget'] = 'Παραλήπτης ειδοποίησης:';
 $labels['notifymessage'] = 'Μήνυμα ειδοποίησης (προαιρετικά):';
@@ -241,7 +242,6 @@ $labels['duplicate.header'] = 'κεφαλίδα:';
 $labels['duplicate.uniqueid'] = 'αναγνωριστικό:';
 $labels['duplicate.seconds'] = 'λήξη χρόνου (δευτερόλεπτα):';
 $labels['duplicate.last'] = 'σχετικό με την τελευταία εκτέλεση';
-
 $messages['filterunknownerror'] = 'Άγνωστο σφάλμα διακομιστή';
 $messages['filterconnerror'] = 'Αδυναμία σύνδεσης στον διακομιστή.';
 $messages['filterdeleteerror'] = 'Αδυναμία διαγραφής φίλτρου. Προέκυψε σφάλμα στον διακομιστή.';

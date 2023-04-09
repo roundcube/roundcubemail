@@ -20,3 +20,4 @@ $labels['attachvcard'] = 'vCard toevoegen';
 $labels['vcardattached'] = 'vCard bijgevoegd';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'vCard doorsturen';
+$labels['importedsuccessfully'] = 'Contact(en) succesvol geïmporteerd naar het adresboek.';
