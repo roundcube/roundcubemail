@@ -20,6 +20,7 @@
 - Fix bug where LDAP (fulltext) search didn't work without 'search_fields' in config (#8874)
 - Fix extra leading newlines in plain text converted from HTML (#8973)
 - Fix so recipients with a domain ending with .s are allowed (#8854)
+- Fix so vCard output does not contain non-standard/redundant TYPE=OTHER and TYPE=INTERNET (#8838)
 
 ## Release 1.6.1
 
