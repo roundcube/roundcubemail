@@ -877,7 +877,17 @@ class rcube_vcard
                         }
                         else {
                             foreach ((array)$attrvalues as $attrvalue) {
-                                $attr .= strtoupper(";$attrname=") . self::vcard_quote($attrvalue, ',');
+                                $attrname = strtoupper($attrname);
+                                // TYPE=OTHER is non-standard, TYPE=INTERNET is redundant, remove these
+                                if ($attrname == 'TYPE') {
+                                    $attrvalue = array_map('strtolower', (array) $attrvalue);
+                                    $attrvalue = array_diff($attrvalue, ['other', 'internet']);
+                                    if (empty($attrvalue)) {
+                                        continue;
+                                    }
+                                }
+
+                                $attr .= ';' . $attrname . '=' . self::vcard_quote($attrvalue, ',');
                             }
                         }
                     }
