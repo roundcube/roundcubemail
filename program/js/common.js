@@ -429,11 +429,10 @@ function rcube_check_email(input, inline, count, strict)
       ipv6 = '\\[IPv6:[0-9a-f:.]+\\]',
       ip_addr = '(' + ipv4 + ')|(' + ipv6 + ')',
       // Use simplified domain matching, because we need to allow Unicode characters here
-      // So, e-mail address should be validated also on server side after idn_to_ascii() use
-      //domain_literal = '\\x5b('+dtext+'|'+quoted_pair+')*\\x5d',
-      //sub_domain = '('+atom+'|'+domain_literal+')',
-      // allow punycode/unicode top-level domain, allow extended domains (#5588)
-      domain = '(('+ip_addr+')|(([^@\\x2e]+\\x2e)+([^\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-z0-9]{2,})))',
+      // So, e-mail address should be validated also on server side after idn_to_ascii()
+      // Allow punycode/unicode top-level domains, allow extended domains (#5588)
+      // Allow a domain ending with .s (#8854)
+      domain = '(('+ip_addr+')|(([^@.]+\\.)+([^\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|s|xn--[a-z0-9]{2,})))',
       // ICANN e-mail test (http://idn.icann.org/E-mail_test)
       icann_domains = [
         '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631',
