@@ -47,7 +47,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
         $vcard->set('phone', '+987654321', 'MOBILE');
 
         $vcf = $vcard->export();
-        $this->assertMatchesRegularExpression('/TEL;TYPE=CELL:\+987654321/', $vcf, "Return CELL instead of MOBILE (set)");
+        $this->assertMatchesRegularExpression('/TEL;TYPE=cell:\+987654321/', $vcf, "Return CELL instead of MOBILE (set)");
     }
 
     /**
