@@ -844,7 +844,9 @@ $config['assets_dir'] = '';
 // Options passed when creating Guzzle HTTP client, used to fetch remote content
 // For example:
 // [
-//   'timeout' => 10,
+//   'timeout' => 30,
+//   'connect_timeout' => 5,
+//   'read_timeout' => 120,
 //   'proxy' => 'tcp://localhost:8125',
 // ]
 $config['http_client'] = [];
