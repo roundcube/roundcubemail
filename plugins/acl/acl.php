@@ -29,7 +29,7 @@ class acl extends rcube_plugin
     private $supported = null;
     private $mbox;
     private $ldap;
-    private $specials = ['anyone', 'anonymous'];
+    private $specials = ['anyone'];
 
     /**
      * Plugin initialization
