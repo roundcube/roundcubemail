@@ -150,11 +150,11 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
         $fieldmap = $source ? $source->vcard_map : null;
 
         if (empty($record['vcard'])) {
-            $vcard = new rcube_vcard($record['vcard'], RCUBE_CHARSET, false, $fieldmap);
+            $vcard = new rcube_vcard(null, RCUBE_CHARSET, false, $fieldmap);
             $vcard->reset();
 
             foreach ($record as $key => $values) {
-                list($field, $section) = explode(':', $key);
+                list($field, $section) = rcube_utils::explode(':', $key);
                 // avoid unwanted casting of DateTime objects to an array
                 // (same as in rcube_contacts::convert_save_data())
                 if (is_object($values) && is_a($values, 'DateTime')) {
@@ -163,7 +163,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
 
                 foreach ((array) $values as $value) {
                     if (is_array($value) || is_a($value, 'DateTime') || @strlen($value)) {
-                        $vcard->set($field, $value, strtoupper($section));
+                        $vcard->set($field, $value, $section ? strtoupper($section) : '');
                     }
                 }
             }
