@@ -30,14 +30,12 @@ class rcube_image
     const TYPE_GIF = 1;
     const TYPE_JPG = 2;
     const TYPE_PNG = 3;
-    const TYPE_TIF = 4;
 
     /** @var array Image file type to extension map */
     public static $extensions = [
         self::TYPE_GIF => 'gif',
         self::TYPE_JPG => 'jpg',
         self::TYPE_PNG => 'png',
-        self::TYPE_TIF => 'tif',
     ];
 
     /** @var string Image file location */
@@ -380,6 +378,9 @@ class rcube_image
             else if ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
             }
+            else if ($props['gd_type'] == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
+                $image = imagecreatefromwebp($this->image_file);
+            }
             else {
                 // @TODO: print error to the log?
                 return false;
@@ -412,12 +413,25 @@ class rcube_image
      *
      * @return bool True if specified format can be converted to another format
      */
-    public static function is_convertable($mimetype = null)
+    public static function is_convertable($mimetype)
     {
         $rcube = rcube::get_instance();
+        $mimetype = preg_replace('|^image/|', '', $mimetype);
+        $mimetype = strtoupper($mimetype);
 
         // @TODO: check if specified mimetype is really supported
-        return class_exists('Imagick', false) || self::getCommand('im_convert_path');
+        if (self::getCommand('im_convert_path') !== false) {
+            return true;
+        }
+
+        if (class_exists('Imagick', false)) {
+            return in_array($mimetype, Imagick::queryformats());
+        }
+
+        return (function_exists('imagecreatefromjpeg') && ($mimetype == 'JPG' || $mimetype == 'JPEG'))
+            || (function_exists('imagecreatefrompng') && $mimetype == 'PNG')
+            || (function_exists('imagecreatefromgif') && $mimetype == 'GIF')
+            || (function_exists('imagecreatefromwebp') && $mimetype == 'WEBP');
     }
 
     /**
