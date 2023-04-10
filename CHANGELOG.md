@@ -19,6 +19,7 @@
 - Fix bug where label text in a single-input dialog could be partially invisible in some locales (#8905)
 - Fix bug where LDAP (fulltext) search didn't work without 'search_fields' in config (#8874)
 - Fix extra leading newlines in plain text converted from HTML (#8973)
+- Fix so recipients with a domain ending with .s are allowed (#8854)
 
 ## Release 1.6.1
 
