@@ -230,7 +230,12 @@ class rcube_config
 
         // fix paths
         foreach (['log_dir' => 'logs', 'temp_dir' => 'temp'] as $key => $dir) {
-            foreach ([$this->prop[$key], '../' . $this->prop[$key], RCUBE_INSTALL_PATH . $dir] as $path) {
+            $paths = [RCUBE_INSTALL_PATH . $dir];
+            if (isset($this->prop[$key])) {
+                $paths = array_merge([$this->prop[$key], '../' . $this->prop[$key]], $paths);
+            }
+
+            foreach ($paths as $path) {
                 if ($path && ($realpath = realpath(unslashify($path)))) {
                     $this->prop[$key] = $realpath;
                     break;
@@ -240,11 +245,13 @@ class rcube_config
 
         // fix default imap folders encoding
         foreach (['drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox'] as $folder) {
-            $this->prop[$folder] = rcube_charset::convert($this->prop[$folder], RCUBE_CHARSET, 'UTF7-IMAP');
+            if (isset($this->prop[$folder])) {
+                $this->prop[$folder] = rcube_charset::convert($this->prop[$folder], RCUBE_CHARSET, 'UTF7-IMAP');
+            }
         }
 
         // set PHP error logging according to config
-        $error_log = $this->prop['log_driver'] ?: 'file';
+        $error_log = !empty($this->prop['log_driver']) ? $this->prop['log_driver'] : 'file';
         if ($error_log == 'file') {
             $error_log  = $this->prop['log_dir'] . '/errors';
             $error_log .= $this->prop['log_file_ext'] ?? '.log';
