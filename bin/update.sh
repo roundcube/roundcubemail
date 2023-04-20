@@ -318,7 +318,7 @@ function find_composer()
     }
 
     foreach (['composer', 'composer.phar'] as $check_file) {
-        $which = trim(system("which $check_file"));
+        $which = trim(rcube::exec("which $check_file"));
         if (!empty($which)) {
             return $which;
         }
