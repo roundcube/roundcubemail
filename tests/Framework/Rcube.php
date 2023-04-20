@@ -63,4 +63,14 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
         // Back to the default
         $rcube->config->set('cipher_method', 'DES-EDE3-CBC');
     }
+
+    /**
+     * rcube::exec()
+     */
+    function test_exec()
+    {
+        $this->assertSame('', rcube::exec('which unknown-command-123'));
+        $this->assertSame("2038\n", rcube::exec('date --date={date} +%Y', ['date' => '@2147483647']));
+        // TODO: More cases
+    }
 }
