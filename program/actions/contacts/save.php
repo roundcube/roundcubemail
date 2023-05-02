@@ -63,7 +63,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             if ($a_record['photo'] == '-del-') {
                 $a_record['photo'] = '';
             }
-            else if (is_numeric($a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
+            else if (preg_match('/^[a-z0-9]+$/i', $a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
                 $tempfile = $rcmail->plugins->exec_hook('attachment_get', $tempfile);
                 if (empty($tempfile['abort'])) {
                     $a_record['photo'] = $tempfile['data'] ?? @file_get_contents($tempfile['path']);
