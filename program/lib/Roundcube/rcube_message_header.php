@@ -209,6 +209,20 @@ class rcube_message_header
     public $flags = [];
 
     /**
+     * Message list flags used by plugins
+     *
+     * @var array
+     */
+    public $list_flags = [];
+
+    /**
+     * Message list cols used by plugins
+     *
+     * @var array
+     */
+    public $list_cols = [];
+
+    /**
      * Message structure
      *
      * @var rcube_message_part
