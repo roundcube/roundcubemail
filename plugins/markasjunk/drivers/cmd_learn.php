@@ -45,6 +45,16 @@ class markasjunk_cmd_learn
         $command  = $rcube->config->get($spam ? 'markasjunk_spam_cmd' : 'markasjunk_ham_cmd');
         $debug    = $rcube->config->get('markasjunk_debug');
 
+	// alternative header names (from fetch() in rcube_imap_generic.php):
+	$alt_names = array(
+		'reply-to'			=> 'replyto',
+		'content-transfer-encoding'	=> 'encoding',
+		'in-reply-to'			=> 'in_reply_to',
+		'x-confirm-reading-to'		=> 'mdn_to',
+		'message-id'			=> 'messageID',
+		'x-priority'			=> 'priority',
+	);
+
         if (!$command) {
             return;
         }
@@ -75,9 +85,15 @@ class markasjunk_cmd_learn
 
                 preg_match_all('/%h:([\w_-]+)/', $tmp_command, $header_names, PREG_SET_ORDER);
                 foreach ($header_names as $header) {
+                    $needle = strtolower($header[1]);
+                    if (isset($alt_names[$needle])) {
+                        $alt_name = $alt_names[$needle];
+                    } else {
+                        $alt_name = $header[1];
+                    }
                     $val = null;
                     if ($msg = $storage->conn->fetchHeader($src_mbox, $uid, true, false, [$header[1]])) {
-                        $val = !empty($msg->{$header[1]}) ? $msg->{$header[1]} : $msg->others[$header[1]];
+                        $val = !empty($msg->{$alt_name}) ? $msg->{$alt_name} : $msg->others[$header[1]];
                     }
 
                     if (!empty($val)) {
