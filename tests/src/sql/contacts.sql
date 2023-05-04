@@ -43,6 +43,6 @@ INSERT INTO contacts (user_id, changed, del, name, email, firstname, surname, vc
     VALUES (1, '2019-12-31 12:24:10.213475-05', 0, 'Jon Snow', 'j.snow@game.com', 'Jon', 'Snow', 'BEGIN:VCARD
 VERSION:3.0
 N:Snow;Jon;;;
-FN:Jon Snow
+FN:Jon ż Snow
 EMAIL;TYPE=INTERNET;TYPE=HOME:j.snow@game.com
 END:VCARD', ' jon snow j.snow@game.com');

@@ -21,6 +21,7 @@
 - Fix extra leading newlines in plain text converted from HTML (#8973)
 - Fix so recipients with a domain ending with .s are allowed (#8854)
 - Fix so vCard output does not contain non-standard/redundant TYPE=OTHER and TYPE=INTERNET (#8838)
+- Fix QR code images for contacts with non-ASCII characters (#9001)
 
 ## Release 1.6.1
 
