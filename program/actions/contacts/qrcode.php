@@ -105,7 +105,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         $renderer = new BaconQrCode\Renderer\ImageRenderer($renderer_style, $renderer_image);
         $writer   = new BaconQrCode\Writer($renderer);
 
-        return $writer->writeString($data);
+        return $writer->writeString($data, RCUBE_CHARSET);
     }
 
     /**
