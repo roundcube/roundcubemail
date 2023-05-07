@@ -209,6 +209,21 @@ class rcube_message_header
     public $flags = [];
 
     /**
+     * Extra flags (for the messages list)
+     *
+     * @var array
+     * @deprecated Use $flags
+     */
+    public $list_flags = [];
+
+    /**
+     * Extra columns content (for the messages list)
+     *
+     * @var array
+     */
+    public $list_cols = [];
+
+    /**
      * Message structure
      *
      * @var rcube_message_part
