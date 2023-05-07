@@ -1459,7 +1459,7 @@ class rcube
             self::$instance->output->raise_error($arg['code'], $arg['message']);
         }
         else if ($terminate) {
-            header("HTTP/1.0 500 Internal Error");
+            http_response_code(500);
         }
 
         // terminate script

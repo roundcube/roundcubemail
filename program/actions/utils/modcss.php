@@ -30,13 +30,13 @@ class rcmail_action_utils_modcss extends rcmail_action
         $url = preg_replace('![^a-z0-9.-]!i', '', $_GET['_u']);
 
         if ($url === null || !($realurl = $_SESSION['modcssurls'][$url])) {
-            header('HTTP/1.1 403 Forbidden');
+            http_response_code(403);
             exit("Unauthorized request");
         }
 
         // don't allow any other connections than http(s)
         if (!preg_match('~^https?://~i', $realurl, $matches)) {
-            header('HTTP/1.1 403 Forbidden');
+            http_response_code(403);
             exit("Invalid URL");
         }
 
@@ -67,7 +67,7 @@ class rcmail_action_utils_modcss extends rcmail_action
             exit;
         }
 
-        header('HTTP/1.0 404 Not Found');
+        http_response_code(404);
         exit("Invalid response returned by server");
     }
 }
