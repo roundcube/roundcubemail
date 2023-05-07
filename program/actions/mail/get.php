@@ -298,7 +298,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         }
 
         // if we arrive here, the requested part was not found
-        header('HTTP/1.1 404 Not Found');
+        http_response_code(404);
         exit;
     }
 

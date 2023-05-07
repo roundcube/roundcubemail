@@ -259,7 +259,7 @@ if (empty($RCMAIL->user->ID)) {
     $RCMAIL->set_task($plugin['task']);
 
     if ($plugin['http_code'] == 401) {
-        header('HTTP/1.0 401 Unauthorized');
+        http_response_code(401);
     }
 
     $RCMAIL->output->send($plugin['task']);

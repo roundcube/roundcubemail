@@ -20,6 +20,7 @@
 - Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
 - Add identities management script - bin/identity.sh (#8887)
 - Add Uyghur localization
+- Fix potential HTTP protocol version mismatch (#8982)
 - Fix regression in OAuth request URI caused by use of REQUEST_URI instead of SCRIPT_NAME as a default (#8878)
 - Fix bug where false attachment reminder was displayed on HTML mail with inline images (#8885)
 - Fix bug where a non-ASCII character in app.js could cause error in javascript engine (#8894)

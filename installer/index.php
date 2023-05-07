@@ -65,7 +65,7 @@ if (isset($_GET['_getconfig'])) {
         exit;
     }
 
-    header('HTTP/1.0 404 Not found');
+    http_response_code(404);
     die("The requested configuration was not found. Please run the installer from the beginning.");
 }
 
@@ -118,7 +118,6 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 
 // exit if installation is complete
 if ($RCI->configured && !$RCI->getprop('enable_installer') && empty($_SESSION['allowinstaller'])) {
-    // header("HTTP/1.0 404 Not Found");
     if ($RCI->configured && $RCI->legacy_config) {
         echo '<h2 class="error">Your configuration needs to be migrated!</h2>';
         echo '<p>We changed the configuration files structure and your installation needs to be updated accordingly.</p>';

@@ -30,7 +30,7 @@ class rcmail_action_utils_killcache extends rcmail_action
 
         // don't allow public access if not in devel_mode
         if (!$rcmail->config->get('devel_mode')) {
-            header("HTTP/1.0 401 Access denied");
+            http_response_code(401);
             die("Access denied!");
         }
 

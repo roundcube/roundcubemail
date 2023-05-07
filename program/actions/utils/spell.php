@@ -66,7 +66,7 @@ class rcmail_action_utils_spell extends rcmail_action
                 false
             );
 
-            header("HTTP/1.0 500 Internal Server Error");
+            http_response_code(500);
             exit;
         }
 
