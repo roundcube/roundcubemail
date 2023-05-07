@@ -22,6 +22,7 @@
 - Fix so recipients with a domain ending with .s are allowed (#8854)
 - Fix so vCard output does not contain non-standard/redundant TYPE=OTHER and TYPE=INTERNET (#8838)
 - Fix QR code images for contacts with non-ASCII characters (#9001)
+- Fix PHP8 warnings when using list_flags and list_cols properties by plugins (#8998)
 
 ## Release 1.6.1
 
