@@ -2961,6 +2961,10 @@ class rcube_imap_generic
                 if (!$bytes) {
                     $result = '';
                 }
+                // An optimal path for a case when we need the body as-is in a string
+                else if (!$mode && !$file && !$print && !$formatted) {
+                    $result = $this->readBytes($bytes);
+                }
                 else while ($bytes > 0) {
                     $line = $this->readBytes($bytes > $chunkSize ? $chunkSize : $bytes);
 
