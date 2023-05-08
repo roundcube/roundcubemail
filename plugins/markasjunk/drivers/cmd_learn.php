@@ -45,18 +45,28 @@ class markasjunk_cmd_learn
         $command  = $rcube->config->get($spam ? 'markasjunk_spam_cmd' : 'markasjunk_ham_cmd');
         $debug    = $rcube->config->get('markasjunk_debug');
 
+	// lookup table to turn rcube_imap_generic::fetch() return values back to RFC header names
+	$fetch_names = array(
+		'reply-to'                  => 'replyto',
+		'content-transfer-encoding' => 'encoding',
+		'in-reply-to'               => 'in_reply_to',
+		'x-confirm-reading-to'      => 'mdn_to',
+		'message-id'                => 'messageID',
+		'x-priority'                => 'priority',
+	);
+
         if (!$command) {
             return;
         }
 
         // backwards compatibility %xds removed in markasjunk v1.12
         $command = str_replace('%xds', '%h:x-dspam-signature', $command);
-        $command = str_replace('%u', $_SESSION['username'], $command);
-        $command = str_replace('%l', $rcube->user->get_username('local'), $command);
-        $command = str_replace('%d', $rcube->user->get_username('domain'), $command);
+        $command = str_replace('%u', escapeshellarg($_SESSION['username']), $command);
+        $command = str_replace('%l', escapeshellarg($rcube->user->get_username('local')), $command);
+        $command = str_replace('%d', escapeshellarg($rcube->user->get_username('domain')), $command);
         if (strpos($command, '%i') !== false) {
             $identity = $rcube->user->get_identity();
-            $command  = str_replace('%i', $identity['email'], $command);
+            $command  = str_replace('%i', escapeshellarg($identity['email']), $command);
         }
 
         foreach ($uids as $uid) {
@@ -75,9 +85,14 @@ class markasjunk_cmd_learn
 
                 preg_match_all('/%h:([\w_-]+)/', $tmp_command, $header_names, PREG_SET_ORDER);
                 foreach ($header_names as $header) {
+                    if (isset($fetch_names[strtolower($header[1])])) {
+                        $fetch_name = $fetch_names[strtolower($header[1])];
+                    } else {
+                        $fetch_name = $header[1];
+                    }
                     $val = null;
                     if ($msg = $storage->conn->fetchHeader($src_mbox, $uid, true, false, [$header[1]])) {
-                        $val = !empty($msg->{$header[1]}) ? $msg->{$header[1]} : $msg->others[$header[1]];
+                        $val = !empty($msg->{$fetch_name}) ? $msg->{$fetch_name} : $msg->others[$header[1]];
                     }
 
                     if (!empty($val)) {
