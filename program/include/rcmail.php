@@ -1045,7 +1045,7 @@ class rcmail extends rcube
 
             // Trash subfolders
             $delimiter  = $storage->get_hierarchy_delimiter();
-            $subfolders = array_reverse($storage->list_folders('', $trash_mbox . $delimiter . '*'));
+            $subfolders = array_reverse($storage->list_folders($trash_mbox . $delimiter, '*'));
             $last       = '';
 
             foreach ($subfolders as $folder) {
