@@ -23,6 +23,7 @@
 - Fix so vCard output does not contain non-standard/redundant TYPE=OTHER and TYPE=INTERNET (#8838)
 - Fix QR code images for contacts with non-ASCII characters (#9001)
 - Fix PHP8 warnings when using list_flags and list_cols properties by plugins (#8998)
+- Fix bug where subfolders could loose subscription on parent folder rename (#8892)
 
 ## Release 1.6.1
 
