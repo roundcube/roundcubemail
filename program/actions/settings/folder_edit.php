@@ -84,7 +84,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         if (strlen($path)) {
             $path_id = $path;
             $path    = $storage->mod_folder($path . $delimiter);
-            if ($path[strlen($path)-1] == $delimiter) {
+            if (($path[strlen($path)-1] ?? '') == $delimiter) {
                 $path = substr($path, 0, -1);
             }
         }
