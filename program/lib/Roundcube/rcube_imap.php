@@ -3374,7 +3374,7 @@ class rcube_imap extends rcube_storage
 
         // get list of subscribed folders
         if ((strpos($folder, '%') === false) && (strpos($folder, '*') === false)) {
-            $a_subscribed = $this->list_folders_subscribed('', $folder . $delm . '*');
+            $a_subscribed = $this->list_folders_subscribed($folder . $delm, '*');
             $subscribed   = $this->folder_exists($folder, true);
         }
         else {
@@ -3429,7 +3429,7 @@ class rcube_imap extends rcube_storage
         // get list of sub-folders or all folders
         // if folder name contains special characters
         $path       = strpos($folder, '*') === false && strpos($folder, '%') === false ? ($folder . $delm) : '';
-        $sub_mboxes = $this->list_folders('', $path . '*');
+        $sub_mboxes = $this->list_folders($path, '*');
 
         // According to RFC3501 deleting a \Noselect folder
         // with subfolders may fail. To workaround this we delete
