@@ -24,6 +24,7 @@
 - Fix QR code images for contacts with non-ASCII characters (#9001)
 - Fix PHP8 warnings when using list_flags and list_cols properties by plugins (#8998)
 - Fix bug where subfolders could loose subscription on parent folder rename (#8892)
+- Fix connecting to LDAP using an URI with ldapi:// scheme (#8990)
 
 ## Release 1.6.1
 
