@@ -3,7 +3,7 @@
 /**
  * Command line learn driver
  *
- * @version 3.0
+ * @version 3.1
  *
  * @author Philip Weir
  * Patched by Julien Vehent to support DSPAM
@@ -51,12 +51,12 @@ class markasjunk_cmd_learn
 
         // backwards compatibility %xds removed in markasjunk v1.12
         $command = str_replace('%xds', '%h:x-dspam-signature', $command);
-        $command = str_replace('%u', $_SESSION['username'], $command);
-        $command = str_replace('%l', $rcube->user->get_username('local'), $command);
-        $command = str_replace('%d', $rcube->user->get_username('domain'), $command);
+        $command = str_replace('%u', escapeshellarg($_SESSION['username']), $command);
+        $command = str_replace('%l', escapeshellarg($rcube->user->get_username('local')), $command);
+        $command = str_replace('%d', escapeshellarg($rcube->user->get_username('domain')), $command);
         if (strpos($command, '%i') !== false) {
             $identity = $rcube->user->get_identity();
-            $command  = str_replace('%i', $identity['email'], $command);
+            $command  = str_replace('%i', escapeshellarg($identity['email']), $command);
         }
 
         foreach ($uids as $uid) {
