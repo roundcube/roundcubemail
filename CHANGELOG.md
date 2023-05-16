@@ -25,7 +25,8 @@
 - Fix PHP8 warnings when using list_flags and list_cols properties by plugins (#8998)
 - Fix bug where subfolders could loose subscription on parent folder rename (#8892)
 - Fix connecting to LDAP using an URI with ldapi:// scheme (#8990)
-- Fix insecure shell command params handling in cmd_learn driver of Markasjunk plugin
+- Fix insecure shell command params handling in cmd_learn driver of markasjunk plugin (#9005)
+- Fix bug where some mail headers didn't work in cmd_learn driver of markasjunk plugin (#9005)
 
 ## Release 1.6.1
 

@@ -49,6 +49,11 @@ class markasjunk_cmd_learn
             return;
         }
 
+        if (strpos($command, '%h') !== false) {
+            preg_match_all('/%h:([\w_-]+)/', $command, $header_names, PREG_SET_ORDER);
+            $header_names = array_column($header_names, 1);
+        }
+
         // backwards compatibility %xds removed in markasjunk v1.12
         $command = str_replace('%xds', '%h:x-dspam-signature', $command);
         $command = str_replace('%u', escapeshellarg($_SESSION['username']), $command);
@@ -68,24 +73,24 @@ class markasjunk_cmd_learn
                 $tmp_command = str_replace('%s', escapeshellarg($message->sender['mailto']), $tmp_command);
             }
 
-            if (strpos($command, '%h') !== false) {
+            if (!empty($header_names)) {
                 $storage = $rcube->get_storage();
                 $storage->check_connection();
-                $storage->conn->select($src_mbox);
+                $headers = $storage->conn->fetchHeader($src_mbox, $uid, true, false, $header_names);
 
-                preg_match_all('/%h:([\w_-]+)/', $tmp_command, $header_names, PREG_SET_ORDER);
                 foreach ($header_names as $header) {
                     $val = null;
-                    if ($msg = $storage->conn->fetchHeader($src_mbox, $uid, true, false, [$header[1]])) {
-                        $val = !empty($msg->{$header[1]}) ? $msg->{$header[1]} : $msg->others[$header[1]];
+                    if ($headers) {
+                        $val = $headers->get($header);
+                        $val = is_array($val) ? array_first($val) : $val;
                     }
 
                     if (!empty($val)) {
-                        $tmp_command = str_replace($header[0], escapeshellarg($val), $tmp_command);
+                        $tmp_command = str_replace('%h:' . $header, escapeshellarg($val), $tmp_command);
                     }
                     else {
                         if ($debug) {
-                            rcube::write_log('markasjunk', 'header ' . $header[1] . ' not found in message ' . $src_mbox . '/' . $uid);
+                            rcube::write_log('markasjunk', "header {$header} not found in message {$src_mbox}/{$uid}");
                         }
 
                         continue 2;
