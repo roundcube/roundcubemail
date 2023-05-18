@@ -67,6 +67,7 @@ class rcube_message
     public $is_safe      = false;
     public $pgp_mime     = false;
     public $encrypted_part;
+    public $reply_all;
 
     const BODY_MAX_SIZE = 1048576; // 1MB
 
