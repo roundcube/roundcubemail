@@ -43,6 +43,10 @@ class rcube_dovecot_passwdfile_password
         $username = escapeshellcmd($username); // FIXME: Do we need this?
         $content  = '';
 
+        if ($password === false) {
+            return PASSWORD_CRYPT_ERROR;
+        }
+
         // read the entire mail user file
         $fp = fopen($mailuserfile, 'r');
 
