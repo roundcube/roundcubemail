@@ -11,14 +11,15 @@
 - Change 'smtp_log' option default value to False
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
 - Set timeout=30, connect_timeout=5, read_timeout=120 as defaults for HTTP client (#8865)
+- Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
+- Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
+- Add identities management script - bin/identity.sh (#8887)
 - ACL: Set default of 'acl_specials' option to ['anyone'] (#8911)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Password: Add ldap_samba_ad driver (#8525)
-- Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
-- Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
-- Add identities management script - bin/identity.sh (#8887)
+- Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Add Uyghur localization
 - Fix potential HTTP protocol version mismatch (#8982)
 - Fix regression in OAuth request URI caused by use of REQUEST_URI instead of SCRIPT_NAME as a default (#8878)
