@@ -65,8 +65,9 @@ class rcube_dovecot_passwdfile_password
             // Read the file and replace the user password
             while (($line = fgets($fp, 40960)) !== false) {
                 if (strpos($line, "$username:") === 0) {
-                    $pos  = strpos($line, ':', strlen("$username:") + 1);
-                    $line = "$username:$password" . substr($line, $pos);
+                    $tokens    = explode(':', $line);
+                    $tokens[1] = $password;
+                    $line      = implode(':', $tokens);
                 }
 
                 $content .= $line;
