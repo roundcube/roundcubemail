@@ -311,11 +311,11 @@ $config['smtp_timeout'] = 0;
 // The example below enables server certificate validation, and
 // requires 'smtp_timeout' to be non zero.
 // $config['smtp_conn_options'] = [
-//   'ssl'         => [
-//     'verify_peer'  => true,
-//     'verify_depth' => 3,
-//     'cafile'       => '/etc/openssl/certs/ca.crt',
-//   ],
+//     'ssl' => [
+//         'verify_peer'  => true,
+//         'verify_depth' => 3,
+//         'cafile'       => '/etc/openssl/certs/ca.crt',
+//     ],
 // ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['smtp_conn_options'] = null;
