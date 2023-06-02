@@ -149,8 +149,8 @@ class acl extends rcube_plugin
      */
     function folder_form($args)
     {
-        $mbox_imap = $args['options']['name'];
-        $myrights  = $args['options']['rights'];
+        $mbox_imap = isset($args['options']['name']) ? $args['options']['name'] : '';
+        $myrights  = isset($args['options']['rights']) ? $args['options']['rights'] : null;
 
         // Edited folder name (empty in create-folder mode)
         if (!strlen($mbox_imap)) {
