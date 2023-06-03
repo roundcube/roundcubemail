@@ -341,18 +341,20 @@ class rcube_plugin_api
             if (is_readable($composer) && ($json = json_decode(file_get_contents($composer), true))) {
                 // Build list of plugins required
                 $require = [];
-                foreach (array_keys((array) $json['require']) as $dname) {
-                    if (!preg_match('|^([^/]+)/([a-zA-Z0-9_-]+)$|', $dname, $m)) {
-                        continue;
-                    }
+                if (!empty($json['require'])) {
+                    foreach (array_keys((array) $json['require']) as $dname) {
+                        if (!preg_match('|^([^/]+)/([a-zA-Z0-9_-]+)$|', $dname, $m)) {
+                            continue;
+                        }
 
-                    $vendor = $m[1];
-                    $name   = $m[2];
+                        $vendor = $m[1];
+                        $name   = $m[2];
 
-                    if ($name != 'plugin-installer' && $vendor != 'pear' && $vendor != 'pear-pear') {
-                        $dpath = unslashify($dir->path) . "/$name/$name.php";
-                        if (is_readable($dpath)) {
-                            $require[] = $name;
+                        if ($name != 'plugin-installer' && $vendor != 'pear' && $vendor != 'pear-pear') {
+                            $dpath = unslashify($dir->path) . "/$name/$name.php";
+                            if (is_readable($dpath)) {
+                                $require[] = $name;
+                            }
                         }
                     }
                 }
