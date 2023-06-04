@@ -5422,12 +5422,12 @@ function rcube_webmail()
       att.html = '<span class="uploading">' + att.html + '</span>';
 
     if (!att.complete && this.env.loadingicon)
-      att.html = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />' + att.html;
+      att.html = '<img src="'+this.env.loadingicon+'" class="uploading" />' + att.html;
 
     if (!att.complete) {
       label = this.get_label('cancel');
       att.html = '<a title="'+label+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\');" href="#cancelupload" class="cancelupload">'
-        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="'+label+'" />' : '<span class="inner">' + label + '</span>') + '</a>' + att.html;
+        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" />' : '<span class="inner">' + label + '</span>') + '</a>' + att.html;
     }
 
     li.attr('id', name).addClass(att.classname).html(att.html)
