@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Update to jQuery 3.6.4
+- Update to jQuery 3.7.0
 - Drop dependency on JsTimeZoneDetect (#8965)
 - Removed support for MS SQL Server and Oracle (#7854)
 - Store uploads metadata in a separate sql database table instead of a session (#8415)
