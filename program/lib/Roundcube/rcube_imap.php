@@ -2441,9 +2441,9 @@ class rcube_imap extends rcube_storage
             $o_part = new rcube_message_part;
             $o_part->ctype_primary   = $part_data['type'];
             $o_part->ctype_secondary = $part_data['subtype'];
-            $o_part->encoding        = $part_data['encoding'] ?? null;
-            $o_part->charset         = $part_data['charset'] ?? null;
-            $o_part->size            = $part_data['size'] ?? null;
+            $o_part->encoding        = isset($part_data['encoding']) ? $part_data['encoding'] : null;
+            $o_part->charset         = isset($part_data['charset']) ? $part_data['charset'] : null;
+            $o_part->size            = isset($part_data['size']) ? $part_data['size'] : null;
         }
 
         $body = '';
