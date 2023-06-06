@@ -176,7 +176,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             $record['vcard'] = $vcard->export();
         }
         // patch categories to already existing vcard block
-        else if (!empty($record['vcard'])) {
+        else {
             $vcard = new rcube_vcard($record['vcard'], RCUBE_CHARSET, false, $fieldmap);
 
             // unset CATEGORIES entry, it might be not up-to-date (#1490277)
