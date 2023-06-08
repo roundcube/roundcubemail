@@ -188,7 +188,7 @@ class rcmail_utils
 
         foreach ($result as $v) {
             if (empty($opts['quiet'])) {
-                echo "Updating database schema ($v)... ";
+                echo "Updating database schema for {$package} ($v)... ";
             }
 
             // Ignore errors here to print the error only once
