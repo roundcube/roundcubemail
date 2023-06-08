@@ -1615,7 +1615,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     'onclick'      => sprintf(
                         "return %s.command('insert-response', '%s', this, event)",
                         rcmail_output::JS_OBJECT_NAME,
-                        rcube::JQ($response['id']),
+                        rcube::JQ($response['id'])
                     ),
                 ],
                 rcube::Q($response['name'])
