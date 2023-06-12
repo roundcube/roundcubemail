@@ -701,21 +701,23 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         if ($date_extension) {
             $date_value = [];
-            foreach ((array) $this->vacation['tests'] as $test) {
-                if ($test['test'] == 'currentdate') {
-                    $idx = $test['type'] == 'value-ge' ? 'start' : 'end';
+            if (!empty($this->vacation['tests'])) {
+                foreach ((array) $this->vacation['tests'] as $test) {
+                    if ($test['test'] == 'currentdate') {
+                        $idx = $test['type'] == 'value-ge' ? 'start' : 'end';
 
-                    if ($test['part'] == 'date') {
-                        $date_value[$idx]['date'] = $test['arg'];
-                    }
-                    else if ($test['part'] == 'iso8601') {
-                        $date_value[$idx]['datetime'] = $test['arg'];
+                        if ($test['part'] == 'date') {
+                            $date_value[$idx]['date'] = $test['arg'];
+                        }
+                        else if ($test['part'] == 'iso8601') {
+                            $date_value[$idx]['datetime'] = $test['arg'];
+                        }
                     }
                 }
             }
 
             foreach ($date_value as $idx => $value) {
-                $$idx = new DateTime($value['datetime'] ?: $value['date'], $timezone);
+                ${$idx} = new DateTime(!empty($value['datetime']) ? $value['datetime'] : $value['date'], $timezone);
             }
         }
         else if ($regex_extension) {
@@ -738,13 +740,13 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             'interval'  => $interval,
             'start'     => $start,
             'end'       => $end,
-            'enabled'   => $this->vacation['reason'] && empty($this->vacation['disabled']),
-            'message'   => $this->vacation['reason'],
-            'subject'   => $this->vacation['subject'],
-            'action'    => $this->vacation['action'],
-            'target'    => $this->vacation['target'],
-            'addresses' => $this->vacation['addresses'],
-            'from'      => $this->vacation['from'],
+            'enabled'   => !empty($this->vacation['reason']) && empty($this->vacation['disabled']),
+            'message'   => isset($this->vacation['reason']) ? $this->vacation['reason'] : null,
+            'subject'   => isset($this->vacation['subject']) ? $this->vacation['subject'] : null,
+            'action'    => isset($this->vacation['action']) ? $this->vacation['action'] : null,
+            'target'    => isset($this->vacation['target']) ? $this->vacation['target'] : null,
+            'addresses' => isset($this->vacation['addresses']) ? $this->vacation['addresses'] : null,
+            'from'      => isset($this->vacation['from']) ? $this->vacation['from'] : null,
         ];
 
         return $vacation;
