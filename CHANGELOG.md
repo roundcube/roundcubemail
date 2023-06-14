@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix so output of log_date_format with microseconds contains time in server time zone, not UTC
 - Fix so N property always exists in a vCard export (#8771)
 - Fix so rcmail::format_date() works with DateTimeImmutable input (#8867)
 - Fix bug where a non-ASCII character in app.js could cause error in javascript engine (#8894)
