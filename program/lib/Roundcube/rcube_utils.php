@@ -1487,7 +1487,7 @@ class rcube_utils
 
                 return $date->format($format);
             }
-            catch (Exception) {
+            catch (Exception $e) {
                 // ignore, fallback to date()
             }
         }
