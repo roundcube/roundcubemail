@@ -1509,11 +1509,16 @@ class rcube_utils
         }
 
         if (strpos($format, 'u') !== false) {
-            $dt  = number_format(microtime(true), 6, '.', '');
-            $dt .=  '.' . date_default_timezone_get();
+            $dt = number_format(microtime(true), 6, '.', '');
 
-            if ($date = date_create_from_format('U.u.e', $dt)) {
+            try {
+                $date = date_create_from_format('U.u', $dt);
+                $date->setTimeZone(new DateTimeZone(date_default_timezone_get()));
+
                 return $date->format($format);
+            }
+            catch (Exception) {
+                // ignore, fallback to date()
             }
         }
 
