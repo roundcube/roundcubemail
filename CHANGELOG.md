@@ -28,6 +28,7 @@
 - Fix insecure shell command params handling in cmd_learn driver of markasjunk plugin (#9005)
 - Fix bug where some mail headers didn't work in cmd_learn driver of markasjunk plugin (#9005)
 - Fix PHP fatal error when importing vcf file using PHP 8.2 (#9025)
+- Fix so output of log_date_format with microseconds contains time in server time zone, not UTC
 
 ## Release 1.6.1
 

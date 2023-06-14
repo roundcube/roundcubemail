@@ -8,6 +8,22 @@
 class Framework_Utils extends PHPUnit\Framework\TestCase
 {
     /**
+     * Test for rcube_utils::date_format()
+     */
+    function test_date_format()
+    {
+        date_default_timezone_set('Europe/Berlin');
+
+        $this->assertSame(date('d-M-Y H:i:s O'), rcube_utils::date_format());
+        $this->assertSame(date('Y-m-d H:i:s O'), rcube_utils::date_format('Y-m-d H:i:s O'));
+
+        $result = rcube_utils::date_format('H:i:s,u O');
+        $regexp = '/^' . preg_quote(date('H:i:s,')) . '(?<!000000)\d{6}' . preg_quote(date(' O')) . '$/';
+
+        $this->assertMatchesRegularExpression($regexp, $result);
+    }
+
+    /**
      * Test for rcube_utils::explode()
      */
     function test_explode()
