@@ -20,7 +20,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $result = rcube_utils::date_format('H:i:s,u O');
         $regexp = '/^' . preg_quote(date('H:i:s,')) . '(?<!000000)\d{6}' . preg_quote(date(' O')) . '$/';
 
-        $this->assertMatchesRegularExpression($regexp, $result);
+        $this->assertRegExp($regexp, $result);
     }
 
     /**
