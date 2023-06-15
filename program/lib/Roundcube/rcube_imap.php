@@ -202,7 +202,9 @@ class rcube_imap extends rcube_storage
         }
         // write error log
         else if ($this->conn->error) {
-            if ($pass && $user) {
+            // When log_logins=true the entry in userlogins.log will be created
+            // in this case another error message is redundant, skip it
+            if ($pass && $user && !rcube::get_instance()->config->get('log_logins')) {
                 $message = sprintf("Login failed for %s against %s from %s. %s",
                     $user, $host, rcube_utils::remote_ip(), $this->conn->error);
 
