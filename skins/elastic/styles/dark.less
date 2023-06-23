@@ -302,10 +302,6 @@ html.dark-mode {
 
                 span.msgicon.status {
                     color: @color-dark-font;
-
-                    &.unread::before {
-                        color: darken(@color-warning, 30%);
-                    }
                 }
             }
 
@@ -1026,6 +1022,24 @@ html.dark-mode {
     .bs-popover-auto[x-placement^="bottom"] > .arrow::after,
     .bs-popover-bottom > .arrow::after {
         border-bottom-color: @color-dark-popover-border;
+    }
+
+    .listing-hover-menu {
+        background-color: @color-dark-popover-background;
+        border-color: @color-dark-border;
+        box-shadow: 0 0 5px black;
+
+        a.button {
+            color: @color-dark-font;
+
+            &:hover {
+                background: transparent;
+            }
+        }
+
+        span.txt {
+            color: @color-dark-hint;
+        }
     }
 
     .nav-tabs {

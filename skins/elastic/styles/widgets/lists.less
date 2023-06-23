@@ -208,6 +208,39 @@ ul.listing {
     color: @color-list-secondary;
 }
 
+.listing-hover-menu {
+    position: absolute;
+    right: 5px;
+    top: -1000px;
+    height: 2.4em;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 0.25em;
+    box-shadow: 0 0 5px lightgrey;
+    border-radius: 0.25em;
+
+    a.button {
+        cursor: pointer;
+        display: inline-block;
+        width: 1.5em;
+        line-height: 1;
+        margin: 0.25em 0.25em;
+        color: @color-font;
+
+        &:hover {
+            background: transparent;
+        }
+    }
+
+    span.txt {
+        font-size: 90%;
+        color: @color-black-shade-text;
+        display: inline-block;
+        vertical-align: middle;
+        margin: -1.25em 0.25em 0;
+    }
+}
+
 html.touch {
     .listing:not(.toolbar) li,
     .listing tbody td {
@@ -631,6 +664,7 @@ table.fixedcopy {
     }
 
     tr.flagged td,
+    tr.flagged span.size,
     tr.flagged td.subject span.subject a,
     tr.flagged td.subject span.date,
     tr.flagged td.subject span.fromto {
@@ -676,7 +710,6 @@ table.fixedcopy {
 
         &.unread:before {
             content: @fa-var-circle;
-            color: @color-list-unread-status;
             font-size: .5rem;
         }
 
@@ -706,17 +739,6 @@ table.fixedcopy {
             font-size: 1rem;
             opacity: .5;
             margin: 0 -0.1em 0 -1.25em;
-        }
-    }
-
-    tr.deleted td.subject span.msgicon.status {
-        &:before {
-            .font-icon-solid(@fa-var-ban) !important;
-            font-size: 1rem;
-        }
-
-        &:after {
-            display: none !important;
         }
     }
 
@@ -750,22 +772,8 @@ table.fixedcopy {
         color: @color-list-icon;
     }
 
-    tr:hover span.unflagged:before {
-        &:extend(.font-icon-class);
-        .font-icon-regular(@fa-var-flag);
-    }
-
     span.size {
         display: none;
-    }
-
-    tr:hover {
-        span.date {
-            display: none;
-        }
-        span.size {
-            display: inline;
-        }
     }
 
     &.sort-size {
@@ -774,15 +782,6 @@ table.fixedcopy {
         }
         span.size {
             display: inline;
-        }
-
-        tr:hover {
-            span.date {
-                display: inline;
-            }
-            span.size {
-                display: none;
-            }
         }
     }
 }
