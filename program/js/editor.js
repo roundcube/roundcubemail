@@ -153,9 +153,14 @@ function rcube_text_editor(config, id)
     });
     ed.on('PastePostProcess', function(e) {
       $(e.node).find('img').each(function() {
-        // Need an attribute to find the image element after paste
         var id = 'i' + Date.now();
+
+        // No referrer for privacy
+        this.referrerPolicy = 'no-referrer';
+
+        // Need an attribute to find the image element after paste
         this.setAttribute('data-img-id', id);
+
         // Replace the 'src' with data: URI after the image has been loaded
         // This way if we fetch the image again the browser will fetch it from cache
         this.onload = function() { this.onload = null; ref.replace_img_src(this.src, id) };
@@ -883,7 +888,11 @@ function rcube_text_editor(config, id)
       return;
     }
 
-    fetch(src).then(function(response) {
+    var fetch_params = {
+      referrerPolicy: 'no-referrer'
+    };
+
+    fetch(src, fetch_params).then(function(response) {
       response.arrayBuffer().then(function(body) {
         var url, ctype = response.headers.get('content-type'),
           u8Buf = new Uint8Array(body),
