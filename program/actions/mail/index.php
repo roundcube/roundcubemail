@@ -155,6 +155,7 @@ class rcmail_action_mail_index extends rcmail_action
             'searchfilter' => [$this, 'search_filter'],
             'searchinterval' => [$this, 'search_interval'],
             'searchform' => [$rcmail->output, 'search_form'],
+            'messagelistactions' => [$this, 'message_list_actions'],
         ]);
     }
 
@@ -710,6 +711,81 @@ class rcmail_action_mail_index extends rcmail_action
         $rcmail->output->set_env('coltypes', $coltypes);
 
         return $cells;
+    }
+
+    public static function message_list_actions($attrib)
+    {
+        $rcmail = rcmail::get_instance();
+        $config = $rcmail->config->get('message_actions', ['size', 'date', 'flag', 'delete']);
+
+        $actions = [
+            'size'      => null,
+            'date'      => null,
+            'read'      => ['label' => 'markasread', 'action' => 'mark/read'],
+            'unread'    => ['label' => 'markasunread', 'action' => 'mark/unread'],
+            'flag'      => ['label' => 'markasflagged', 'action' => 'mark/flagged'],
+            'unflag'    => ['label' => 'markasunflagged', 'action' => 'mark/unflagged'],
+            'delete'    => ['label' => 'deletemessage', 'action' => 'delete'],
+            'undelete'  => ['label' => 'undeletemessage', 'action' => 'mark/undelete'],
+        ];
+
+        $actions = array_filter($actions, static function ($action) use ($config) {
+            // map paired values to config
+            switch ($action) {
+                case 'unread':
+                    $action = 'read';
+                    break;
+                case 'unflag':
+                    $action = 'flag';
+                    break;
+                case 'undelete':
+                    $action = 'delete';
+                    break;
+            }
+
+            return in_array($action, $config);
+        }, \ARRAY_FILTER_USE_KEY);
+
+        if (isset($attrib['actions'])) {
+            $enabled_actions = $attrib['actions'];
+            $enabled_actions = is_array($enabled_actions) ? $enabled_actions : preg_split('/[\s,;]+/', $attrib['actions']);
+            $actions         = array_intersect_key($actions, array_flip($enabled_actions));
+        }
+
+        $buttons = [];
+        foreach ($actions as $action => $props) {
+            switch ($action) {
+                case 'size':
+                case 'date':
+                    $buttons[$action] = html::span($action, '');
+                    break;
+                case 'read':
+                case 'unread':
+                case 'flag':
+                case 'unflag':
+                case 'delete':
+                case 'undelete':
+                    $onclick = sprintf(
+                        "return %s.command('list_action_callback', '%s', this, event)",
+                        rcmail_output::JS_OBJECT_NAME,
+                        $props['action']
+                    );
+
+                    // data-action-link is used in list.js to disable row select action
+                    $buttons[$action] = html::a(['class' => $action, 'title' => $rcmail->gettext($props['label']), 'href' => '#', 'onclick' => $onclick, 'data-action-link' => 1], '');
+                    break;
+            }
+        }
+
+        $data = $rcmail->plugins->exec_hook('message_list_actions', ['actions' => $buttons]);
+
+        if (empty($attrib['id'])) {
+            $attrib['id'] = 'messagelistactions';
+        }
+
+        $rcmail->output->add_gui_object('messagelistactions', $attrib['id']);
+
+        return html::div($attrib, implode('', $data['actions']));
     }
 
     public static function options_menu_link($attrib = [])

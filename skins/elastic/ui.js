@@ -87,6 +87,7 @@ function rcube_elastic_ui() {
     this.get_screen_mode = get_screen_mode;
     this.is_mobile = is_mobile;
     this.is_touch = is_touch;
+    this.list_actions_position = list_actions_position;
 
     // Detect screen size/mode
     screen_mode();
@@ -604,10 +605,6 @@ function rcube_elastic_ui() {
                 });
             }
 
-            if (!touch && list == 'message_list') {
-                message_list_hover_menu_init(table.parent());
-            }
-
             // https://github.com/roundcube/elastic/issues/45
             // Draggable blocks scrolling on touch devices, we'll disable it there
             if (touch && rcmail[list]) {
@@ -696,6 +693,9 @@ function rcube_elastic_ui() {
             })
             .addEventListener('add-recipient', function () {
                 phone_confirmation('recipientsadded');
+            })
+            .addEventListener('list-actions-position', function (p) {
+                return UI.list_actions_position(p);
             });
 
         rcmail.init_pagejumper('.pagenav > input');
@@ -3161,83 +3161,6 @@ function rcube_elastic_ui() {
     }
 
     /**
-     * Initialize hover menu for the mail messages list
-     */
-    function message_list_hover_menu_init(list_element) {
-        var record,
-            menu = $('<div class="menu listing-hover-menu">'
-                + '<span class="txt"></span>'
-                // + '<a class="button read" data-flag="read" title="' + rcmail.gettext('markasread') + '"></a>'
-                // + '<a class="button unread d-none" data-flag="unread" title="' + rcmail.gettext('markasunread') + '"></a>'
-                + '<a class="button flag" data-flag="flagged" title="' + rcmail.gettext('markasflagged') + '"></a>'
-                + '<a class="button unflag d-none" data-flag="unflagged" title="' + rcmail.gettext('markasunflagged') + '"></a>'
-                + '<a class="button delete" data-flag="delete" title="' + rcmail.gettext('deletemessage') + '"></a>'
-                + '<a class="button undo d-none" data-flag="undelete" title="' + rcmail.gettext('undeletemessage') + '"></a>'
-                + '</div>'
-            ),
-            hide_menu = function () {
-                menu.css({ top: '-1000px' });
-                record = null;
-            };
-
-        // Append the menu to the list wrapper, handle events to show/hide menu on hover
-        list_element.append(menu)
-            .on('mouseenter', 'tr', function (e) {
-                if (record != e.currentTarget) {
-                    message_list_hover_menu(menu, record = e.currentTarget);
-                }
-            })
-            .on('mouseleave', 'tr', function (e) {
-                if (e.relatedTarget == list_element[0]) {
-                    hide_menu();
-                }
-            })
-            .on('mouseleave', hide_menu);
-
-        // Buttons onclick handler
-        menu.find('a').click(function (e) {
-            var flag = $(this).data('flag');
-
-            if (flag == 'delete') {
-                rcmail.delete_messages(e, record.uid);
-            } else {
-                rcmail.mark_message(flag, record.uid);
-            }
-
-            // Hide the menu, event handlers will bring it back when needed, with refreshed state
-            hide_menu();
-        });
-    }
-
-    /**
-     * Position the hover menu and set buttons state for the specific message
-     */
-    function message_list_hover_menu(menu, record) {
-        var message = rcmail.message_list.rows[record.uid],
-            element = $(record),
-            top = element.offset().top - element.parent().offset().top + (element.height() - menu.outerHeight()) / 2,
-            buttons = {
-                read: message.unread,
-                unread: !message.unread,
-                flag: !message.flagged,
-                unflag: message.flagged,
-                delete: !message.deleted,
-                undo: message.deleted,
-            };
-
-        // Position the menu
-        menu.css({ top: top + 'px' });
-
-        // Show/hide buttons according to the hovered message state
-        Object.keys(buttons).forEach(function (btn) {
-            menu.find('a.' + btn)[buttons[btn] ? 'removeClass' : 'addClass']('d-none');
-        });
-
-        // Update the txt element in the menu
-        menu.find('span.txt').text(element.closest('table').is('.sort-size') ? message.date : message.size);
-    }
-
-    /**
      * Recipient (contact) selector
      */
     function recipient_selector(field, opts) {
@@ -4415,6 +4338,16 @@ function rcube_elastic_ui() {
         if (!rcmail.local_storage_set_item('prefs.elastic', prefs)) {
             // store value in cookie
             rcmail.set_cookie(key, val, false);
+        }
+    }
+
+    function list_actions_position(p) {
+        if (!touch) {
+            var top = p.element.offset().top - p.element.parent().offset().top + (p.element.height() - p.menu.outerHeight()) / 2;
+            return {top: top + 'px'};
+        }
+        else {
+            return false;
         }
     }
 }

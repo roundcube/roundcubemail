@@ -219,7 +219,7 @@ ul.listing {
     box-shadow: 0 0 5px lightgrey;
     border-radius: 0.25em;
 
-    a.button {
+    a {
         cursor: pointer;
         display: inline-block;
         width: 1.5em;
@@ -228,11 +228,13 @@ ul.listing {
         color: @color-font;
 
         &:hover {
+            float: none;
             background: transparent;
         }
     }
 
-    span.txt {
+    span.date,
+    span.size {
         font-size: 90%;
         color: @color-black-shade-text;
         display: inline-block;

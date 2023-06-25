@@ -317,7 +317,11 @@ function rcube_webmail() {
                         return ref.command('sort', $(this).attr('rel'), this);
                     });
 
-                    this.enable_command('toggle_status', 'toggle_flag', 'sort', true);
+                    if (this.gui_objects.messagelistactions) {
+                        this.list_actions_init(this.gui_objects.messagelist, this.gui_objects.messagelistactions);
+                    }
+
+                    this.enable_command('toggle_status', 'toggle_flag', 'sort', 'list_action_callback', true);
                     this.enable_command('set-listmode', this.env.threads && !this.is_multifolder_listing());
 
                     // load messages
@@ -1597,6 +1601,38 @@ function rcube_webmail() {
                 break;
             case 'undo':
                 this.http_request('undo', '', this.display_message('', 'loading'));
+
+                break;
+            case 'list_action_callback':
+                var uid = null;
+
+                if ($(obj).parent().parent('td.listactions').length == 1) {
+                    uid = this.message_list.get_row_uid($(obj).parents('tr'));
+                }
+                else if ($(obj).parent().data('message-uid')) {
+                    uid = $(obj).parent().data('message-uid');
+                }
+                else {
+                    return;
+                }
+
+                var prev_uid = this.env.uid;
+                this.env.uid = uid;
+
+                var type = null;
+                if (matches = props.match(/([a-z0-9_-]+)\/([a-z0-9-_]+)/)) {
+                    type = matches[1];
+                    props = matches[2];
+                }
+
+                if (props == 'delete') {
+                    this.delete_messages(event, uid);
+                }
+                else if (type == 'mark') {
+                    this.mark_message(props, uid);
+                }
+
+                this.env.uid = prev_uid;
 
                 break;
             // unified command call (command name == function name)
@@ -10635,6 +10671,81 @@ function rcube_webmail() {
     this.print_dialog = function () {
     // setTimeout for Safari
         setTimeout('window.print()', 10);
+    };
+
+    this.list_actions_init = function (list_element, menu_element) {
+        var record,
+            list = $(list_element).parent(),
+            menu = $(menu_element),
+            hide_menu = function () {
+                if (record) {
+                    menu.css({top: '-1000px'});
+                    rcmail.triggerEvent('list-actions-hide', { element: $(record), menu: menu });
+                    menu.data('message-uid', null);
+                    record = null;
+                }
+            },
+            show_menu = function(menu, record) {
+                if (!record.uid)
+                    return;
+
+                var message = rcmail.message_list.rows[record.uid],
+                    element = $(record),
+                    pos = { top: element.offset().top - element.parent().offset().top + 'px' },
+                    buttons = {
+                        read: message.unread && !message.deleted,
+                        unread: !message.unread && !message.deleted,
+                        flag: !message.flagged && !message.deleted,
+                        unflag: message.flagged && !message.deleted,
+                        'delete': !message.deleted,
+                        undelete: message.deleted
+                    };
+
+                if ((ret = rcmail.triggerEvent('list-actions-position', { element: element, menu: menu, message: message })) !== undefined) {
+                    // abort if one of the handlers returned false
+                    if (ret === false)
+                        return false;
+
+                    pos = ret;
+                }
+
+                // Position the menu
+                menu.css(pos);
+                menu.data('message-uid', record.uid);
+
+                // Show/hide buttons according to the hovered message state
+                Object.keys(buttons).forEach(function(btn) {
+                    menu.find('a.' + btn)[buttons[btn] ? 'show' : 'hide']();
+                });
+
+                // Update the text elements in the menu
+                if (rcmail.env.task == 'mail') {
+                    menu.find('span.date').text(message.date)[element.closest('table').is('.sort-size') ? 'show' : 'hide']();
+                    menu.find('span.size').text(message.size)[element.closest('table').is('.sort-size') ? 'hide' : 'show']();
+                }
+
+                rcmail.triggerEvent('list-actions-show', { element: element, menu: menu, message: message });
+            };
+
+        // Append the menu to the list wrapper, handle events to show/hide menu on hover
+        list
+            .on('mouseenter', 'tr', function (e) {
+                if (record != e.currentTarget) {
+                    show_menu(menu, record = e.currentTarget);
+                }
+            })
+            .on('mouseleave', 'tr', function (e) {
+                if (e.relatedTarget == list[0]) {
+                    hide_menu();
+                }
+            })
+            .on('mouseleave', hide_menu);
+
+        // Buttons onclick handler
+        menu.find('a').click(function(e) {
+            // Hide the menu, event handlers will bring it back when needed, with refreshed state
+            hide_menu();
+        });
     };
 } // end object rcube_webmail
 
