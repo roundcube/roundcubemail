@@ -3327,7 +3327,7 @@ function rcube_webmail()
           });
       }
       else
-        this.move_messages(trash, event, [uid]);
+        this.move_messages(trash, event, uid ? [uid] : null);
     }
 
     return true;
