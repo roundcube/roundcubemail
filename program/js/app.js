@@ -3349,7 +3349,7 @@ function rcube_webmail()
   // Send a specific move/delete request with UIDs of all selected messages
   this.with_selected_messages = function(action, post_data, lock, http_action)
   {
-    var count = 0, msg,
+    var msg, count = 0,
       remove = (action == 'delete' || !this.is_multifolder_listing());
 
     // update the list (remove rows, clear selection)
@@ -3360,8 +3360,8 @@ function rcube_webmail()
 
       if (selection === '*')
         selection = this.message_list.get_selection();
-      else if (typeof selection == 'string')
-        selection = selection.split(',');
+      else if (!Array.isArray(selection))
+        selection = String(selection).split(',');
 
       for (n=0, len=selection.length; n<len; n++) {
         id = selection[n];
@@ -3634,7 +3634,7 @@ function rcube_webmail()
       return '*';
 
     // multi-folder list of uids cannot be passed as a string (#6845)
-    if ($.isArray(uids) && (uids.length == 1 || String(uids[0]).indexOf('-') == -1))
+    if (Array.isArray(uids) && (uids.length == 1 || String(uids[0]).indexOf('-') == -1))
       uids = uids.join(',');
 
     return uids;
