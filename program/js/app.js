@@ -3409,7 +3409,7 @@ function rcube_webmail()
   // build post data for message delete/move/copy/flag requests
   this.selection_post_data = function(data)
   {
-    if (typeof(data) != 'object')
+    if (!data || typeof(data) != 'object')
       data = {};
 
     if (!data._uid)
