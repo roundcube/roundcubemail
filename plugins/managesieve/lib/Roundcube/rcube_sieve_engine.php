@@ -2952,13 +2952,15 @@ class rcube_sieve_engine
 
                 $this->sieve->load($user_script);
 
-                foreach ($this->sieve->script->as_array() as $rules) {
-                    foreach ($rules['actions'] as $action) {
-                        if ($action['type'] == 'include' && empty($action['global'])) {
-                            $name = preg_replace($filename_regex, '', $action['target']);
-                            // make sure the script exist
-                            if (in_array($name, $this->list)) {
-                                $this->active[] = $name;
+                if (!empty($this->sieve->script)) {
+                    foreach ($this->sieve->script->as_array() as $rules) {
+                        foreach ($rules['actions'] as $action) {
+                            if ($action['type'] == 'include' && empty($action['global'])) {
+                                $name = preg_replace($filename_regex, '', $action['target']);
+                                // make sure the script exist
+                                if (in_array($name, $this->list)) {
+                                    $this->active[] = $name;
+                                }
                             }
                         }
                     }
