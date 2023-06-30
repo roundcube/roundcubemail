@@ -1587,7 +1587,7 @@ class rcube_sieve_engine
             $this->add_tip('_name', $this->errors['name'], true);
         }
 
-        $input_name = $input_name->show(isset($scr) ? $scr['name'] : '');
+        $input_name = $input_name->show(isset($scr['name']) ? $scr['name'] : '');
 
         $out .= sprintf("\n" . '<div class="form-group row">'
             . '<label for="_name" class="col-sm-4 col-form-label">%s</label>'
@@ -3232,7 +3232,7 @@ class rcube_sieve_engine
         // find common headers used in script, will be added to the list
         // of available (predefined) headers (#1489271)
         foreach ($this->script as $rule) {
-            foreach ((array) $rule['tests'] as $test) {
+            foreach ((array) ($rule['tests'] ?? []) as $test) {
                 if ($test['test'] == 'header') {
                     foreach ((array) $test['arg1'] as $header) {
                         $lc_header = strtolower($header);
