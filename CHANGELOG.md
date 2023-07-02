@@ -23,8 +23,11 @@
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Password: Add ldap_samba_ad driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
-- Add Uyghur localization
 - Fix potential HTTP protocol version mismatch (#8982)
+
+## Release 1.6.2
+
+- Add Uyghur localization
 - Fix regression in OAuth request URI caused by use of REQUEST_URI instead of SCRIPT_NAME as a default (#8878)
 - Fix bug where false attachment reminder was displayed on HTML mail with inline images (#8885)
 - Fix bug where a non-ASCII character in app.js could cause error in javascript engine (#8894)
