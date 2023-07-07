@@ -30,6 +30,7 @@ jobs:
           extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell, enchant
           tools: composer:v2
           coverage: none
+          ini-values: error_reporting=E_ALL
 
       - name: Setup problem matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
