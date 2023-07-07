@@ -18,6 +18,8 @@
  +-----------------------------------------------------------------------+
 */
 
+error_reporting(E_ALL);
+
 if (php_sapi_name() != 'cli') {
     die("Not in shell mode (php-cli)");
 }
