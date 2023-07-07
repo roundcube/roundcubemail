@@ -20,7 +20,6 @@ REQUIREMENTS
 * PEAR and PEAR packages distributed with Roundcube or external.
   See composer.json-dist for the list of required packages.
 * php.ini options:
-   - error_reporting E_ALL & ~E_NOTICE & ~E_STRICT
    - memory_limit > 16MB
    - file_uploads enabled (for uploading attachments and import files)
    - session.auto_start disabled
