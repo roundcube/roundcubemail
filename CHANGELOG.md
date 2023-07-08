@@ -25,6 +25,7 @@
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Fix potential HTTP protocol version mismatch (#8982)
 - Fix bug where installto.sh/update.sh scripts were removing some essential options from the config file (#9051)
+- Update jQuery-UI to version 1.13.2 (#9041)
 
 ## Release 1.6.2
 
