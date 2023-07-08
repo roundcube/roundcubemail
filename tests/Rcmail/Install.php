@@ -116,4 +116,26 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $this->assertSame($acl, $result[0]);
     }
+
+    /**
+     * Test merge_config() method
+     */
+    function test_merge_config()
+    {
+        $config = [
+            'imap_host' => 'ssl://test:993',
+            'smtp_host' => 'ssl://test:465',
+        ];
+
+        $install = rcmail_install::get_instance();
+        $install->configured = true;
+        $install->config = $config;
+
+        $install->merge_config();
+
+        $this->assertSame($config['imap_host'], $install->config['imap_host']);
+        $this->assertSame($config['smtp_host'], $install->config['smtp_host']);
+
+        $this->markTestIncomplete(); // TODO: More tests
+    }
 }

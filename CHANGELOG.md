@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix bug where installto.sh/update.sh scripts were removing some essential options from the config file (#9051)
+
+## Release 1.6.2
+
 - Add Uyghur localization
 - Fix regression in OAuth request URI caused by use of REQUEST_URI instead of SCRIPT_NAME as a default (#8878)
 - Fix bug where false attachment reminder was displayed on HTML mail with inline images (#8885)

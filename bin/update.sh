@@ -88,7 +88,7 @@ if ($RCI->configured) {
             if (!empty($opts['accept']) || strtolower($input) == 'y') {
                 $error = $written = false;
 
-                echo ". backing up the current config file(s)...\n";
+                echo "- backing up the current config file(s)...\n";
 
                 foreach (['config', 'main', 'db'] as $file) {
                     if (file_exists(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php')) {
@@ -100,7 +100,7 @@ if ($RCI->configured) {
 
                 if (!$error) {
                     $RCI->merge_config();
-                    echo ". writing " . RCMAIL_CONFIG_DIR . "/config.inc.php...\n";
+                    echo "- writing " . RCMAIL_CONFIG_DIR . "/config.inc.php...\n";
                     $written = $RCI->save_configfile($RCI->create_config(false));
                 }
 
