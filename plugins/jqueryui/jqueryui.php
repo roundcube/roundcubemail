@@ -5,7 +5,7 @@
  *
  * Provide the jQuery UI library with according themes.
  *
- * @version 1.13.1
+ * @version 1.13.2
  * @author Cor Bosman <roundcube@wa.ter.net>
  * @author Thomas Bruederli <roundcube@gmail.com>
  * @author Aleksander Machniak <alec@alec.pl>
@@ -14,7 +14,7 @@
 class jqueryui extends rcube_plugin
 {
     public $noajax  = true;
-    public $version = '1.13.1';
+    public $version = '1.13.2';
 
     private static $features = [];
     private static $ui_theme;
