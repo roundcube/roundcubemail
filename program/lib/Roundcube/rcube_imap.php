@@ -4521,7 +4521,10 @@ class rcube_imap extends rcube_storage
         $path1 = explode($this->delimiter, $str1);
         $path2 = explode($this->delimiter, $str2);
 
-        foreach ($path1 as $idx => $folder1) {
+        $len = max(count($path1), count($path2));
+
+        for ($idx = 0; $idx < $len; $idx++) {
+            $folder1 = $path1[$idx] ?? '';
             $folder2 = $path2[$idx] ?? '';
 
             if ($folder1 === $folder2) {
