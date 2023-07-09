@@ -5,6 +5,7 @@
 - Fix bug where installto.sh/update.sh scripts were removing some essential options from the config file (#9051)
 - Update jQuery-UI to version 1.13.2 (#9041)
 - Fix regression that broke use_secure_urls feature (#9052)
+- Fix potential PHP fatal error when opening a message with message/rfc822 part (#8953)
 
 ## Release 1.6.2
 

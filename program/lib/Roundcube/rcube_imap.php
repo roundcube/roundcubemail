@@ -2060,15 +2060,17 @@ class rcube_imap extends rcube_storage
 
             // find first non-array entry
             for ($i=1; $i<count($part); $i++) {
-                if (!is_array($part[$i])) {
+                if (is_string($part[$i])) {
                     $struct->ctype_secondary = strtolower($part[$i]);
 
                     // read content type parameters
                     if (isset($part[$i+1]) && is_array($part[$i+1])) {
                         $struct->ctype_parameters = [];
                         for ($j=0; $j<count($part[$i+1]); $j+=2) {
-                            $param = strtolower($part[$i+1][$j]);
-                            $struct->ctype_parameters[$param] = $part[$i+1][$j+1];
+                            if (is_string($part[$i+1][$j])) {
+                                $param = strtolower($part[$i+1][$j]);
+                                $struct->ctype_parameters[$param] = $part[$i+1][$j+1];
+                            }
                         }
                     }
 
@@ -2146,7 +2148,9 @@ class rcube_imap extends rcube_storage
         if (is_array($part[$params_idx])) {
             $struct->ctype_parameters = [];
             for ($i=0; $i<count($part[$params_idx]); $i+=2) {
-                $struct->ctype_parameters[strtolower($part[$params_idx][$i])] = $part[$params_idx][$i+1];
+                if (is_string($part[$params_idx][$i])) {
+                    $struct->ctype_parameters[strtolower($part[$params_idx][$i])] = $part[$params_idx][$i+1];
+                }
             }
 
             if (isset($struct->ctype_parameters['charset'])) {
@@ -2187,7 +2191,9 @@ class rcube_imap extends rcube_storage
             }
             if (is_array($part[$di][1])) {
                 for ($n=0; $n<count($part[$di][1]); $n+=2) {
-                    $struct->d_parameters[strtolower($part[$di][1][$n])] = $part[$di][1][$n+1];
+                    if (is_string($part[$di][1][$n])) {
+                        $struct->d_parameters[strtolower($part[$di][1][$n])] = $part[$di][1][$n+1];
+                    }
                 }
             }
         }
