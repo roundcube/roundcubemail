@@ -799,6 +799,7 @@ $config['no_save_sent_messages'] = false;
 // Warning: This requires http server configuration. Sample:
 //    RewriteRule ^/roundcubemail/[a-zA-Z0-9]{16}/(.*) /roundcubemail/$1 [PT]
 //    Alias /roundcubemail /var/www/roundcubemail/
+// Warning: This feature does NOT work with request_path = 'SCRIPT_NAME'
 // Note: Use assets_path to not prevent the browser from caching assets
 $config['use_secure_urls'] = false;
 
