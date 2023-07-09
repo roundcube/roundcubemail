@@ -7,6 +7,7 @@
 - Fix regression that broke use_secure_urls feature (#9052)
 - Fix potential PHP fatal error when opening a message with message/rfc822 part (#8953)
 - Fix bug where a duplicate `<title>` tag in HTML email could cause some parts being cut off (#9029)
+- Fix bug where a list of folders could have been sorted incorrectly (#9057)
 
 ## Release 1.6.2
 
