@@ -123,9 +123,7 @@ class rcmail_oauth
         $url = $this->rcmail->url([], true, true);
 
         // rewrite redirect URL to not contain query parameters because some providers do not support this
-        // also make sure to not duplicate the index.php/... path
         $url = preg_replace('/\?.*/', '', $url);
-        $url = preg_replace('/index\.php.*$/', '', $url);
 
         return slashify($url) . 'index.php/login/oauth';
     }
