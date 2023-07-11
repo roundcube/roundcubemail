@@ -226,19 +226,15 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        // make sure 'required_fields' is an array
-        if (!isset($this->prop['required_fields'])) {
-            $this->prop['required_fields'] = [];
-        }
-        else if (!is_array($this->prop['required_fields'])) {
-            $this->prop['required_fields'] = (array) $this->prop['required_fields'];
-        }
+        // make sure 'required_fields' and 'autovalues' are an array
+        $this->prop['required_fields'] = (array) ($this->prop['required_fields'] ?? []);
+        $this->prop['autovalues'] = (array) ($this->prop['autovalues'] ?? []);
 
         // make sure LDAP_rdn field is required
         if (
             !empty($this->prop['LDAP_rdn'])
             && !in_array($this->prop['LDAP_rdn'], $this->prop['required_fields'])
-            && !in_array($this->prop['LDAP_rdn'], array_keys((array)$this->prop['autovalues']))
+            && !array_key_exists($this->prop['LDAP_rdn'], $this->prop['autovalues'])
         ) {
             $this->prop['required_fields'][] = $this->prop['LDAP_rdn'];
         }
@@ -808,7 +804,7 @@ class rcube_ldap extends rcube_addressbook
      */
     function _entry_sort_cmp($a, $b)
     {
-        return strcmp($a[$this->sort_col][0], $b[$this->sort_col][0]);
+        return strcmp($a[$this->sort_col][0] ?? '', $b[$this->sort_col][0] ?? '');
     }
 
     /**
@@ -1022,7 +1018,6 @@ class rcube_ldap extends rcube_addressbook
         $prop    = $this->group_id ? $this->group_data : $this->prop;
         $base_dn = $this->group_id ? $prop['base_dn'] : $this->base_dn;
         $attrs   = $count ? ['dn'] : $this->prop['attributes'];
-        $filter  = $prop['filter'] ?? '(objectclass=*)';
 
         // Use global search filter
         if ($filter = $this->filter) {
@@ -1031,13 +1026,18 @@ class rcube_ldap extends rcube_addressbook
                 $is_extended_search = !$this->group_id;
             }
 
+            $prop['filter'] = $filter;
+
             // add general filter to query
             if (!empty($this->prop['filter'])) {
-                $filter = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['filter']) . ')' . $filter . ')';
+                $prop['filter'] = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['filter']) . ')' . $filter . ')';
             }
         }
 
-        $result = $this->ldap->search($base_dn, $filter, $prop['scope'] ?? 'sub', $attrs, $prop, $count);
+        $search_scope  = $prop['scope'] ?? 'sub';
+        $search_filter = $prop['filter'] ?? '(objectclass=*)';
+
+        $result = $this->ldap->search($base_dn, $search_filter, $search_scope, $attrs, $prop, $count);
         $result_count = 0;
 
         // we have a search result resource, get all entries
@@ -1056,14 +1056,16 @@ class rcube_ldap extends rcube_addressbook
             $name_attr  = $this->prop['groups']['name_attr'];
             $email_attr = $this->prop['groups']['email_attr'] ?: 'mail';
             $attrs      = array_unique(['dn', 'objectClass', $name_attr, $email_attr]);
-            $filter     = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['groups']['filter']) . ')' . $filter . ')';
+
+            $search_scope  = $this->prop['groups']['scope'] ?? 'sub';
+            $search_filter = '(&(' . preg_replace('/^\(|\)$/', '', $this->prop['groups']['filter']) . ')' . $filter . ')';
 
             // for groups we may use cn instead of displayname...
             if ($this->prop['fieldmap']['name'] != $name_attr) {
-                $filter = str_replace(strtolower($this->prop['fieldmap']['name']) . '=', $name_attr . '=', $filter);
+                $search_filter = str_replace(strtolower($this->prop['fieldmap']['name']) . '=', $name_attr . '=', $search_filter);
             }
 
-            $res = $this->ldap->search($this->groups_base_dn, $filter, $this->prop['groups']['scope'] ?? 'sub', $attrs, $prop, $count);
+            $res = $this->ldap->search($this->groups_base_dn, $search_filter, $search_scope, $attrs, $prop, $count);
 
             if ($count && $res) {
                 $result += $res;
@@ -1577,7 +1579,7 @@ class rcube_ldap extends rcube_addressbook
             $attrvals['{'.$k.'}'] = is_array($v) ? $v[0] : $v;
         }
 
-        foreach ((array) $this->prop['autovalues'] as $lf => $templ) {
+        foreach ($this->prop['autovalues'] as $lf => $templ) {
             if (empty($attrs[$lf])) {
                 if (strpos($templ, '(') !== false) {
                     // replace {attr} placeholders with (escaped!) attribute values to be safely eval'd
@@ -1910,10 +1912,10 @@ class rcube_ldap extends rcube_addressbook
 
         $base_dn    = $this->groups_base_dn;
         $filter     = $this->prop['groups']['filter'];
-        $scope      = $this->prop['groups']['scope'];
-        $name_attr  = $this->prop['groups']['name_attr'];
-        $email_attr = $this->prop['groups']['email_attr'] ?: 'mail';
-        $sort_attrs = (array) ($this->prop['groups']['sort'] ? $this->prop['groups']['sort'] : $name_attr);
+        $scope      = $this->prop['groups']['scope'] ?? 'sub';
+        $name_attr  = !empty($this->prop['groups']['name_attr']) ? $this->prop['groups']['name_attr'] : 'cn';
+        $email_attr = !empty($this->prop['groups']['email_attr']) ? $this->prop['groups']['email_attr'] : 'mail';
+        $sort_attrs = (array) (!empty($this->prop['groups']['sort']) ? $this->prop['groups']['sort'] : $name_attr);
         $sort_attr  = $sort_attrs[0];
         $page_size  = 200;
 
@@ -1930,7 +1932,7 @@ class rcube_ldap extends rcube_addressbook
             $ldap->set_vlv_page($vlv_page+1, $page_size);
         }
 
-        $props = ['sort' => $this->prop['groups']['sort']];
+        $props = ['sort' => $this->prop['groups']['sort'] ?? null];
         $attrs = array_unique(['dn', 'objectClass', $name_attr, $email_attr, $sort_attr]);
 
         // add search filter
