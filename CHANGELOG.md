@@ -8,6 +8,7 @@
 - Fix potential PHP fatal error when opening a message with message/rfc822 part (#8953)
 - Fix bug where a duplicate `<title>` tag in HTML email could cause some parts being cut off (#9029)
 - Fix bug where a list of folders could have been sorted incorrectly (#9057)
+- Fix regression where LDAP addressbook 'filter' option was ignored (#9061)
 
 ## Release 1.6.2
 
