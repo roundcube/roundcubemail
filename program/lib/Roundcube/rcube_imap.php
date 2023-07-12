@@ -2448,11 +2448,11 @@ class rcube_imap extends rcube_storage
             $part_data = rcube_imap_generic::getStructurePartData($structure, $part);
 
             $o_part = new rcube_message_part;
-            $o_part->ctype_primary   = $part_data['type'];
-            $o_part->ctype_secondary = $part_data['subtype'];
-            $o_part->encoding        = $part_data['encoding'];
-            $o_part->charset         = $part_data['charset'];
-            $o_part->size            = $part_data['size'];
+            $o_part->ctype_primary   = $part_data['type'] ?? null;
+            $o_part->ctype_secondary = $part_data['subtype'] ?? null;
+            $o_part->encoding        = $part_data['encoding'] ?? null;
+            $o_part->charset         = $part_data['charset'] ?? null;
+            $o_part->size            = $part_data['size'] ?? 0;
         }
 
         $body = '';
