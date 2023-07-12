@@ -1625,9 +1625,15 @@ class rcube_ldap extends rcube_addressbook
 
         // determine record type
         if ($this->is_group_entry($rec)) {
-            $out['_type']     = 'group';
-            $out['readonly']  = true;
-            $fieldmap['name'] = $this->group_data['name_attr'] ?: $this->prop['groups']['name_attr'];
+            $out['_type']    = 'group';
+            $out['readonly'] = true;
+
+            if (!empty($this->group_data['name_attr'])) {
+                $fieldmap['name'] = $this->group_data['name_attr'];
+            }
+            else {
+                $fieldmap['name'] = $this->prop['groups']['name_attr'];
+            }
         }
 
         // assign object type from object class mapping
