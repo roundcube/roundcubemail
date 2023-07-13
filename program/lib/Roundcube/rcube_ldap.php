@@ -1631,7 +1631,7 @@ class rcube_ldap extends rcube_addressbook
             if (!empty($this->group_data['name_attr'])) {
                 $fieldmap['name'] = $this->group_data['name_attr'];
             }
-            else {
+            else if (!empty($this->prop['groups']['name_attr'])) {
                 $fieldmap['name'] = $this->prop['groups']['name_attr'];
             }
         }
