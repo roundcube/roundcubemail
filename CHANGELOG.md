@@ -10,6 +10,7 @@
 - Fix bug where a list of folders could have been sorted incorrectly (#9057)
 - Fix regression where LDAP addressbook 'filter' option was ignored (#9061)
 - Fix wrong order of a multi-folder search result when sorting by size (#9065)
+- Fix so install/update scripts do not require PEAR (#9037)
 
 ## Release 1.6.2
 
