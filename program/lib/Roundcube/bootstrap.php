@@ -100,8 +100,9 @@ if (!preg_match($regexp, $path)) {
 spl_autoload_register('rcube_autoload');
 
 // set PEAR error handling (will also load the PEAR main class)
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, function($err) { rcube::raise_error($err, true); });
-
+if (class_exists('PEAR')) {
+    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, function($err) { rcube::raise_error($err, true); });
+}
 
 /**
  * Similar function as in_array() but case-insensitive with multibyte support.
