@@ -2769,7 +2769,7 @@ class rcube_imap_generic
         $sort_order = $order == 'ASC' ? SORT_ASC : SORT_DESC;
         $sort_flags = SORT_STRING | SORT_FLAG_CASE;
 
-        if (in_array($field, ['arrival', 'date', 'internaldate', 'timestamp'])) {
+        if (in_array($field, ['arrival', 'date', 'internaldate', 'timestamp', 'size', 'uid', 'id'])) {
             $sort_flags = SORT_NUMERIC;
         }
 
