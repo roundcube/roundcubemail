@@ -3,9 +3,10 @@
 /**
  * Managesieve Spam Engine
  *
- * Engine part of Managesieve plugin implementing UI and backend access.
+ * Engine part of Managesieve plugin implementing UI and backend access
+ * for spam filter settings. Based on the 'rcube_sieve_forward' engine
  *
- * Copyright (C) Greenhost / Kolab Systems AG
+ * Copyright (C) Greenhost / Mart van Santen
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +28,9 @@ class rcube_sieve_spam extends rcube_sieve_engine
     protected $script_name;
     protected $spam = [];
 
+    public const DEFAULT_THRESHOLD = 5;
+    public const DEFAULT_HEADER = 'x-spam-score';
+    public const DEFAULT_FOLDER = 'INBOX.Junk';
     /**
      * Generates a numeric identifier for a filter
      */
@@ -71,9 +75,11 @@ class rcube_sieve_spam extends rcube_sieve_engine
     /**
      * Find and load sieve script with/for spam rule
      *
+     * @params string Optional script name, however ignored
+     * 
      * @return int Connection status: 0 on success, >0 on failure
      */
-    protected function load_script()
+    protected function load_script($script_name = NULL)
     {
         if ($this->script_name !== null) {
             return 0;
@@ -141,16 +147,16 @@ class rcube_sieve_spam extends rcube_sieve_engine
 
     private function isSpamRule($rule) {
 
-        $spam_header  = (string) $this->rc->config->get('managesieve_spam_header') ?? 'x-spam-score';
+        $spam_header  = (string) ( $this->rc->config->get('managesieve_spam_header') ?? rcube_sieve_spam::DEFAULT_HEADER );
 
         if (
-            !empty($role['actions']) &&
+            !empty($rule['actions']) &&
             !empty($rule['actions'][0]['type']) &&
             !empty($rule['tests'][0]['test']) &&
             !empty($rule['tests'][0]['arg1']) &&
             $rule['actions'][0]['type'] == 'fileinto' &&
             $rule['tests'][0]['test'] == 'header' &&
-            strtolower($rule['tests'][0]['arg1']) == $spam_header) {
+            strtolower($rule['tests'][0]['arg1']) == strtolower($spam_header)) {
 
             return true;
         }
@@ -160,8 +166,8 @@ class rcube_sieve_spam extends rcube_sieve_engine
 
     private function spam_rule()
     {
-        $spam_header  = (string) $this->rc->config->get('managesieve_spam_header') ?? 'x-spam-score';
-        $spam_threshold = (string) $this->rc->config->get('managesieve_spam_header') ?? '5';
+        $spam_threshold = (string) ( $this->rc->config->get('managesieve_spam_threshold') ?? rcube_sieve_spam::DEFAULT_THRESHOLD);
+	
 
         if ($this->script_name === false || $this->script_name === null || !$this->sieve->load($this->script_name)) {
             return;
@@ -207,14 +213,14 @@ class rcube_sieve_spam extends rcube_sieve_engine
             return;
         }
 
-        $spam_header  = (string) $this->rc->config->get('managesieve_spam_header') ?? 'x-spam-score';
-        $spam_folder = (string) $this->rc->config->get('managesieve_spam_folder') ?? 'INBOX.Junk';
-        $spam_threshold = (string) $this->rc->config->get('managesieve_spam_folder') ?? '5';
+        $spam_header  = (string) ($this->rc->config->get('managesieve_spam_heaser') ?? rcube_sieve_spam::DEFAULT_HEADER );
+        $spam_folder = (string) ($this->rc->config->get('managesieve_spam_folder') ?? rcube_sieve_spam::DEFAULT_FOLDER );
+        $spam_threshold = (string) ($this->rc->config->get('managesieve_spam_threshold') ?? rcube_sieve_spam::DEFAULT_THRESHOLD );
 
         $threshold = rcube_utils::get_input_string('spam_threshold', rcube_utils::INPUT_POST) ?? $spam_threshold;
 
         $status = rcube_utils::get_input_string('spam_status', rcube_utils::INPUT_POST);
-        $acl_allow = rcube_utils::get_input_string('_acl_allow', rcube_utils::INPUT_POST);
+        $acl_allow = rcube_utils::get_input_value('_acl_allow', rcube_utils::INPUT_POST);
 
         if (empty($error)) {
             $rule               = $this->spam;
@@ -274,7 +280,7 @@ class rcube_sieve_spam extends rcube_sieve_engine
     public function spam_form($attrib)
     {
 
-        $spam_threshold = (string) $this->rc->config->get('managesieve_spam_folder') ?? '5';
+        $spam_threshold = (string) $this->rc->config->get('managesieve_spam_folder') ?? rcube_sieve_spam::DEFAULT_THRESHOLD;
 
 
         // build FORM tag
@@ -304,8 +310,11 @@ class rcube_sieve_spam extends rcube_sieve_engine
 
         $threshold = new html_inputfield(['name' => 'spam_threshold', 'id' => 'spam_threshold', 'class' => 'form-control' ]);
 
-        if (!is_numeric($this->spam['threshold'])) {
+        if (!isset($this->spam['threshold']) || !is_numeric($this->spam['threshold'])) {
             $this->spam['threshold'] = $spam_threshold;
+	rcube::write_log('errors', "T: $spam_threshold");
+
+
         }
 
         // Message tab
@@ -414,8 +423,8 @@ class rcube_sieve_spam extends rcube_sieve_engine
     public function set_spam($data)
     {
 
-        $spam_folder = (string) $this->rc->config->get('managesieve_spam_folder') ?? 'INBOX.Junk';
-        $spam_threshold = (string) $this->rc->config->get('managesieve_spam_threshold') ?? '5';
+        $spam_folder = (string) $this->rc->config->get('managesieve_spam_folder') ?? rcube_sieve_spam::DEFAULT_FOLDER;
+        $spam_threshold = (string) $this->rc->config->get('managesieve_spam_threshold') ?? rcube_sieve_spam::DEFAULT_THRESHOLD;
 
         $this->exts  = $this->sieve->get_extensions();
         $this->error = false;
