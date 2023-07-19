@@ -152,11 +152,11 @@ class managesieve extends rcube_plugin
             ];
         }
 
-        // register Forward action
+        // register Spam action
         if ($spam_mode > 0) {
             $args['actions'][] = [
                 'action' => 'plugin.managesieve-spam',
-                'class'  => 'spam',
+                'class'  => 'filter',
                 'label'  => 'spam',
                 'domain' => 'managesieve',
                 'title'  => 'spamtitle',
