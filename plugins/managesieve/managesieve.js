@@ -486,6 +486,24 @@ rcube_webmail.prototype.managesieve_unfocus_filter = function(row)
 /*********          Filter Form methods          *********/
 /*********************************************************/
 
+rcube_webmail.prototype.managesieve_spam_acladd = function(id)
+{
+  this.http_post('plugin.managesieve-spam', '_act=spamacladd&_aid='+id);
+};
+
+rcube_webmail.prototype.managesieve_spam_acldel = function(id)
+{
+
+  this.confirm_dialog(this.get_label('managesieve.acldeleteconfirm'), 'delete', function(e, ref) {
+      var row = document.getElementById('aclrow'+id);
+      row.parentNode.removeChild(row);
+      ref.managesieve_formbuttons(document.getElementById('actions'));
+    });
+
+};
+
+
+
 // Form submission
 rcube_webmail.prototype.managesieve_save = function()
 {
@@ -498,6 +516,12 @@ rcube_webmail.prototype.managesieve_save = function()
   if (this.env.action == 'plugin.managesieve-forward') {
     var data = $(this.gui_objects.sieveform).serialize();
     this.http_post('plugin.managesieve-forward', data, this.display_message(this.get_label('managesieve.forward.saving'), 'loading'));
+    return;
+  }
+
+  if (this.env.action == 'plugin.managesieve-spam') {
+    var data = $(this.gui_objects.sieveform).serialize();
+    this.http_post('plugin.managesieve-spam', data, this.display_message(this.get_label('managesieve.spam.saving'), 'loading'));
     return;
   }
 
@@ -783,6 +807,7 @@ function action_type_select(id)
       flags: document.getElementById('action_flags' + id),
       vacation: document.getElementById('action_vacation' + id),
       forward: document.getElementById('action_forward' + id),
+      spam: document.getElementById('action_spam' + id),
       set: document.getElementById('action_set' + id),
       notify: document.getElementById('action_notify' + id),
       addheader: document.getElementById('action_addheader' + id),
@@ -801,7 +826,7 @@ function action_type_select(id)
   else if (v.match(/^(add|set|remove)flag$/)) {
     enabled.flags = 1;
   }
-  else if (v.match(/^(vacation|forward|set|notify|addheader|deleteheader)$/)) {
+  else if (v.match(/^(vacation|forward|spam|set|notify|addheader|deleteheader)$/)) {
     enabled[v] = 1;
   }
 

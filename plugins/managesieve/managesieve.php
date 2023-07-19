@@ -56,6 +56,7 @@ class managesieve extends rcube_plugin
         $this->register_action('plugin.managesieve-action', [$this, 'managesieve_actions']);
         $this->register_action('plugin.managesieve-vacation', [$this, 'managesieve_actions']);
         $this->register_action('plugin.managesieve-forward', [$this, 'managesieve_actions']);
+        $this->register_action('plugin.managesieve-spam', [$this, 'managesieve_actions']);
         $this->register_action('plugin.managesieve-save', [$this, 'managesieve_save']);
         $this->register_action('plugin.managesieve-saveraw', [$this, 'managesieve_saveraw']);
 
@@ -116,9 +117,10 @@ class managesieve extends rcube_plugin
     {
         $vacation_mode = (int) $this->rc->config->get('managesieve_vacation');
         $forward_mode  = (int) $this->rc->config->get('managesieve_forward');
+        $spam_mode  = (int) $this->rc->config->get('managesieve_spam');
 
         // register Filters action
-        if ($vacation_mode != 2 && $forward_mode != 2) {
+        if ($vacation_mode != 2 && $forward_mode != 2 && $spam_mode != 2) {
             $args['actions'][] = [
                 'action' => 'plugin.managesieve',
                 'class'  => 'filter',
@@ -149,6 +151,18 @@ class managesieve extends rcube_plugin
                 'title'  => 'forwardtitle',
             ];
         }
+
+        // register Forward action
+        if ($spam_mode > 0) {
+            $args['actions'][] = [
+                'action' => 'plugin.managesieve-spam',
+                'class'  => 'spam',
+                'label'  => 'spam',
+                'domain' => 'managesieve',
+                'title'  => 'spamtitle',
+            ];
+        }
+
 
         return $args;
     }
@@ -235,6 +249,7 @@ class managesieve extends rcube_plugin
 
         // handle other actions
         $engine_type = $this->rc->action == 'plugin.managesieve-vacation' ? 'vacation' : '';
+        $engine_type = $this->rc->action == 'plugin.managesieve-spam' ? 'spam' : $engine_type;
         $engine_type = $this->rc->action == 'plugin.managesieve-forward' ? 'forward' : $engine_type;
         $engine      = $this->get_engine($engine_type);
 

@@ -286,3 +286,14 @@ $messages['duplicate.conflict.err'] = 'Both header and unique identifier are not
 $messages['disabledaction'] = 'Action not permitted.';
 $messages['lastindexempty'] = 'Index is required when counting from end';
 $messages['noflagset'] = 'At least one flag must be selected.';
+
+
+$messages['spam.status'] = 'Spam filter';
+$messages['spam.on'] = 'Enabled';
+$messages['spam.off'] = 'Disabled';
+$messages['spam.threshold'] = 'Threshold';
+$messages['spam'] = 'Spam filter';
+$messages['spamsaved'] = 'Filter settings saved';
+$messages['spam.saving'] = 'Saving settings'; 
+$messages['spam.allowlist'] = 'Allow list';
+$messages['acldeleteconfirm'] = 'Are you sure, you want to delete selected allow list entry?';
