@@ -31,6 +31,7 @@ class rcube_sieve_spam extends rcube_sieve_engine
     public const DEFAULT_THRESHOLD = 5;
     public const DEFAULT_HEADER = 'x-spam-score';
     public const DEFAULT_FOLDER = 'INBOX.Junk';
+
     /**
      * Generates a numeric identifier for a filter
      */
@@ -145,6 +146,11 @@ class rcube_sieve_spam extends rcube_sieve_engine
         return $this->sieve->error();
     }
 
+    /* Given an rule, determines if the rule is a spam filter rule and 
+     * can be rendered by this engine
+     * @param Array $rule Associated array with rule definitiion
+     * @return Bool True if is a spam filter rule
+     */
     private function isSpamRule($rule) {
 
         $spam_header  = (string) ( $this->rc->config->get('managesieve_spam_header') ?? rcube_sieve_spam::DEFAULT_HEADER );
@@ -249,7 +255,7 @@ class rcube_sieve_spam extends rcube_sieve_engine
             }
 
             $rule['type']       = 'if';
-            $rule['name']       = "Spam settings";
+            $rule['name']       = "Spam filter settings";
 
             $rule['disabled']   = $status == 'off';
             $rule['tests']      = $spam_tests;
@@ -275,7 +281,8 @@ class rcube_sieve_spam extends rcube_sieve_engine
     }
 
     /**
-     * Independent spam form
+     * Build the form elements for a spam-settings form. It consists of three parts,
+     * the threshold setting, enabled/disabled setting and "ACL Allowlist" settings
      */
     public function spam_form($attrib)
     {
@@ -307,17 +314,12 @@ class rcube_sieve_spam extends rcube_sieve_engine
         $status->add($this->plugin->gettext('spam.on'), 'on');
         $status->add($this->plugin->gettext('spam.off'), 'off');
 
-
         $threshold = new html_inputfield(['name' => 'spam_threshold', 'id' => 'spam_threshold', 'class' => 'form-control' ]);
 
         if (!isset($this->spam['threshold']) || !is_numeric($this->spam['threshold'])) {
             $this->spam['threshold'] = $spam_threshold;
-	rcube::write_log('errors', "T: $spam_threshold");
-
-
         }
 
-        // Message tab
         $table = new html_table(['cols' => 2]);
 
         $action_target = '<span id="action_target_span" class="input-group">'
@@ -326,17 +328,15 @@ class rcube_sieve_spam extends rcube_sieve_engine
 
 
         $table->add('title', html::label('spam_threshold', $this->plugin->gettext('spam.threshold')));
-        #       $table->add(null, $threshold->show($this->spam['threshold']));
         $table->add(null, $action_target);
-        #$threshold->show($this->spam['threshold']));
 
         $table->add('title', html::label('spam_status', $this->plugin->gettext('spam.status')));
         $table->add(null, $status->show(!isset($this->spam['disabled']) || $this->spam['disabled'] ? 'off' : 'on'));
 
         $out .= html::tag('fieldset', '', html::tag('legend', null, $this->plugin->gettext('spam')) . $table->show($attrib));
-        //       $out .= $table->show($attrib);
 
 
+        $table = new html_table(['cols' => 2]);
 
         $rows_num = 1;
         $divs = '<div id="actions">';
@@ -351,9 +351,10 @@ class rcube_sieve_spam extends rcube_sieve_engine
         }
         $divs .= "</div>\n";
 
-        $out .= html::tag('fieldset', '', html::tag('legend', null, $this->plugin->gettext('spam.allowlist')) . $divs);
-        //       $out .= $table->show($attrib);
+	$table->add(null, html::label('acl_allow', $this->plugin->gettext('spam.allowlist')) );
+	$table->add(null, $divs);
 
+        $out .= html::tag('fieldset', '', html::tag('legend', null, $this->plugin->gettext('spam.accesslist')) . $table->show($attrib));
 
         $this->rc->output->add_gui_object('sieveform', $form_id);
         $out .= '</form>';
@@ -374,6 +375,7 @@ class rcube_sieve_spam extends rcube_sieve_engine
             'value' => $value,
             'size'  => 35,
             'class' => 'form-control',
+            'style' => 'width: 100%',
         ]);
 
         $add_label = rcube::Q($this->plugin->gettext('add'));
@@ -463,7 +465,7 @@ class rcube_sieve_spam extends rcube_sieve_engine
         $rule             = $this->spam;
 
         $rule['type']       = 'if';
-        $rule['name']       = "Spam settings";
+        $rule['name']       = "Spam filter settings";
 
         $rule['disabled']   = isset($data['enabled']) && !$data['enabled'];
         $rule['tests']      = $spam_tests;

@@ -295,5 +295,6 @@ $messages['spam.threshold'] = 'Threshold';
 $messages['spam'] = 'Spam filter';
 $messages['spamsaved'] = 'Filter settings saved';
 $messages['spam.saving'] = 'Saving settings'; 
+$messages['spam.accesslist'] = 'Spam filter exception list';
 $messages['spam.allowlist'] = 'Allow list';
 $messages['acldeleteconfirm'] = 'Are you sure, you want to delete selected allow list entry?';

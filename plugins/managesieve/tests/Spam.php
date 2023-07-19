@@ -10,9 +10,9 @@ class Managesieve_Spam extends ActionTestCase
     }
 
     /**
-     * Test vacation_form()
+     * Test spam_form()
      */
-    function test_vacation_form()
+    function test_spam_form()
     {
         $rcube  = rcube::get_instance();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'managesieve');
@@ -21,7 +21,6 @@ class Managesieve_Spam extends ActionTestCase
         $spam = new rcube_sieve_spam($plugin);
 
         setProperty($spam, 'spam', ['list' => []]);
-        setProperty($spam, 'exts', ['date', 'regex', 'vacation-seconds']);
 
         $result = $spam->forward_form([]);
 
