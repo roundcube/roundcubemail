@@ -341,6 +341,16 @@ class rcube_db
     }
 
     /**
+     * Getter for an information about the last error.
+     *
+     * @return ?array [SQLSTATE error code, driver specific error code, driver specific error message]
+     */
+    public function error_info()
+    {
+        return $this->dbh ? $this->dbh->errorInfo() : null;
+    }
+
+    /**
      * Getter for error state
      *
      * @param mixed $result Optional query result
