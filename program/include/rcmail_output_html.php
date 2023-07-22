@@ -382,7 +382,11 @@ EOF;
         if (!empty($meta['localization'])) {
             $locdir = $meta['localization'] === true ? 'localization' : $meta['localization'];
             if ($texts = $this->app->read_localization(RCUBE_INSTALL_PATH . $skin_path . '/' . $locdir)) {
-                $this->app->load_language($_SESSION['language'], $texts);
+                if(isset($meta['localization_merge']) && $meta['localization_merge'] === true) {
+                    $this->app->load_language($_SESSION['language'], null, $texts);
+                } else {
+                    $this->app->load_language($_SESSION['language'], $texts);
+                }
             }
         }
 
