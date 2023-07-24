@@ -558,6 +558,11 @@ $config['temp_dir'] = RCUBE_INSTALL_PATH . 'temp/';
 // possible units: s, m, h, d, w
 $config['temp_dir_ttl'] = '48h';
 
+// Use an external garbage collector to clean up the temp_dir
+// Useful to avoid readdir over large directories on network shares
+// Example: find /mnt/rc_temp -type f -mtime 2 -not -name 'RCMTEMP*' -exec rm -l {} \;'
+$config['external_gc_temp'] = false;
+
 // Enforce connections over https
 // With this option enabled, all non-secure connections will be redirected.
 // It can be also a port number, hostname or hostname:port if they are

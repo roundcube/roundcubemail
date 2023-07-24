@@ -504,7 +504,9 @@ class rcube
     {
         rcube_cache::gc();
         $this->get_storage()->cache_gc();
-        $this->gc_temp();
+
+        if ($this->config->get('external_gc_temp', false) == false)
+            $this->gc_temp();
     }
 
     /**
