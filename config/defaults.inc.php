@@ -1436,6 +1436,9 @@ $config['force_7bit'] = false;
 // Please note that folder names should to be in sync with $config['*_mbox'] options
 $config['search_mods'] = null;  // Example: ['*' => ['subject'=>1, 'from'=>1], 'Sent' => ['subject'=>1, 'to'=>1]];
 
+// Default search scope
+$config['search_scope'] = null; // Example: 'all' - for all folders, 'base' - for current folder, 'sub' - for this and subfolders
+
 // Defaults of the addressbook search field configuration.
 $config['addressbook_search_mods'] = null;  // Example: ['name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1];
 
