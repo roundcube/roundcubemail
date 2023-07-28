@@ -55,8 +55,9 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
 
         $flag      = self::imap_flag($flag);
         $old_count = 0;
+        $post_from = isset($_POST['_from']) ? $_POST['_from'] : null;
 
-        if ($flag == 'DELETED' && $skip_deleted && $_POST['_from'] != 'show') {
+        if ($flag == 'DELETED' && $skip_deleted && $post_from != 'show') {
             // count messages before changing anything
             $old_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
             $old_pages = ceil($old_count / $rcmail->storage->get_pagesize());
@@ -90,7 +91,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
 
         if (!$marked) {
             // send error message
-            if (empty($_POST['_from']) || $_POST['_from'] != 'show') {
+            if ($post_from != 'show') {
                 $rcmail->output->command('list_mailbox');
             }
 
@@ -121,7 +122,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
             $rcmail->output->set_env('last_flag', $flag);
         }
         else if ($flag == 'DELETED' && $skip_deleted) {
-            if ($_POST['_from'] == 'show') {
+            if ($post_from == 'show') {
                 if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
                     $rcmail->output->command('show_message', $next);
                 }
