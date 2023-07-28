@@ -1936,11 +1936,12 @@ class rcube_ldap extends rcube_addressbook
 
             $group_name = is_array($entry[$name_attr]) ? $entry[$name_attr][0] : $entry[$name_attr];
             $group_id   = self::dn_encode($entry['dn']);
+            $classes    = !empty($entry['objectclass']) ? $entry['objectclass'] : [];
 
             $groups[$group_id]['ID'] = $group_id;
             $groups[$group_id]['dn'] = $entry['dn'];
             $groups[$group_id]['name'] = $group_name;
-            $groups[$group_id]['member_attr'] = $this->get_group_member_attr($entry['objectclass']);
+            $groups[$group_id]['member_attr'] = $this->get_group_member_attr($classes);
 
             // list email attributes of a group
             for ($j=0; $entry[$email_attr] && $j < $entry[$email_attr]['count']; $j++) {
