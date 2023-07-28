@@ -1114,7 +1114,7 @@ class rcube_message
             $tpart->ctype_secondary = trim(strtolower($winatt['subtype']));
             $tpart->mimetype        = $tpart->ctype_primary . '/' . $tpart->ctype_secondary;
             $tpart->mime_id         = 'winmail.' . $part->mime_id . '.' . $pid;
-            $tpart->size            = $winatt['size'];
+            $tpart->size            = !empty($winatt['size']) ? $winatt['size'] : 0;
             $tpart->body            = $winatt['stream'];
 
             if (!empty($winatt['content-id'])) {
