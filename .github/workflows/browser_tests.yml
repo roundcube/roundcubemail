@@ -44,7 +44,7 @@ jobs:
       - name: Setup composer
         run: |
             cp composer.json-dist composer.json
-            composer require "laravel/dusk:^7.7" --no-update
+            composer require "laravel/dusk:^7.9" --no-update
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
