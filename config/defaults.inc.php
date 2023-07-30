@@ -1344,6 +1344,9 @@ $config['prettydate'] = true;
 // save compose message every 300 seconds (5min)
 $config['draft_autosave'] = 300;
 
+// save compose message silently
+$config['draft_autosave_silent'] = false;
+
 // Interface layout. Default: 'widescreen'.
 //  'widescreen' - three columns
 //  'desktop'    - two columns, preview on bottom
