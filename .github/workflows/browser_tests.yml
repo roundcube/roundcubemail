@@ -41,10 +41,7 @@ jobs:
       - name: Setup composer
         run: |
             cp composer.json-dist composer.json
-            composer require "laravel/dusk:~6.9.0" --no-update
-
-      - name: Fix PHPUnit for PHP8
-        run: composer config platform.php 7.4
+            composer require "laravel/dusk:^7.9" --no-update
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
