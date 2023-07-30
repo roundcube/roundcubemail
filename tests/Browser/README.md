@@ -16,7 +16,7 @@ Installation:
 
 1. Install Laravel Dusk with all dependencies.
 ```
-composer require "laravel/dusk:^7.7"
+composer require "laravel/dusk:^7.9"
 ```
 2. Install Chrome WebDriver for the version of Chrome/Chromium in your system. Yes,
    you have to have Chrome/Chromium installed.
