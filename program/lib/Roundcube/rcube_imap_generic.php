@@ -2992,10 +2992,12 @@ class rcube_imap_generic
                     }
                     // UUENCODE
                     else if ($mode == 3) {
-                        $line = rtrim($line, "\t\r\n\0\x0B");
-                        if ($line == 'end' || preg_match('/^begin\s+[0-7]+\s+.+$/', $line)) {
-                            continue;
-                        }
+                        $line = preg_replace(
+                            ['/\r?\n/', '/\nend$/', '/^begin\s+[0-7]{3}\s+[^\n]+\n/'],
+                            ["\n", '', ''],
+                            $line
+                        );
+
                         $line = convert_uudecode($line);
                     }
                     // default
