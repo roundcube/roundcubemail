@@ -3056,7 +3056,7 @@ class rcube_imap_generic
             }
 
             $chunk = preg_replace(
-                ['/\r?\n/', '/(^|\n)end$/', '/^begin\s+[0-7]{3}\s+[^\n]+\n/'],
+                ['/\r?\n/', '/(^|\n)end$/', '/^begin\s+[0-7]{3,4}\s+[^\n]+\n/'],
                 ["\n", '', ''],
                 $chunk
             );
