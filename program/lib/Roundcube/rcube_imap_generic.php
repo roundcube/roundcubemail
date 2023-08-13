@@ -2921,7 +2921,8 @@ class rcube_imap_generic
             if ($line[0] == '(' && substr($line, -1) == ')') {
                 // tokenize content inside brackets
                 // the content can be e.g.: (UID 9844 BODY[2.4] NIL)
-                $tokens = $this->tokenizeResponse(preg_replace('/(^\(|\)$)/', '', $line));
+                $line = preg_replace('/(^\(|\)$)/', '', $line);
+                $tokens = $this->tokenizeResponse($line);
 
                 for ($i=0; $i<count($tokens); $i+=2) {
                     if (preg_match('/^(BODY|BINARY)/i', $tokens[$i])) {
@@ -2929,6 +2930,14 @@ class rcube_imap_generic
                         $found  = true;
                         break;
                     }
+                }
+
+                // Cyrus IMAP does not return a NO-response on error, but we can detect it
+                // and fallback to a non-binary fetch (#9097)
+                if ($binary && !$found) {
+                    $binary = $initiated = false;
+                    $line = trim($this->readLine(1024)); // the OK response line
+                    continue;
                 }
 
                 if ($result !== false) {

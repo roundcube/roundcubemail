@@ -12,6 +12,7 @@
 - Fix wrong order of a multi-folder search result when sorting by size (#9065)
 - Fix so install/update scripts do not require PEAR (#9037)
 - Fix regression where some mail parts could have been decoded incorrectly, or not at all (#9096)
+- Fix handling of an error case in Cyrus IMAP BINARY FETCH, fallback to non-binary FETCH (#9097)
 
 ## Release 1.6.2
 
