@@ -1,16 +1,27 @@
 <?php
 /**
- * RoundCube Reconnect Plugin
+ * Roundcube Reconnect Plugin
  *
- * @version 0.1
+ * @version 0.2
  * @author Sandro Knauß <hefee@debian.org>
  * @license GPLv3+
  */
 class reconnect extends rcube_plugin
 {
-    private $max_attempts;
+    private $imap_max_attempts;
 
+    /**
+     * Plugin initialization
+     */
     function init()
+    {
+        $this->add_hook('storage_connect', [$this, 'storage_connect']);
+    }
+
+    /**
+     * Storage_connect hook handler
+     */
+    function storage_connect($args)
     {
         $rcmail = rcmail::get_instance();
 
@@ -18,11 +29,6 @@ class reconnect extends rcube_plugin
 
         $this->imap_max_attempts = $rcmail->config->get('reconnect_imap_max_attempts', 5);
 
-        $this->add_hook('storage_connect', array($this, 'storage_connect'));
-    }
-
-    function storage_connect($args)
-    {
         $args['retry'] = ($args['attempt'] <= $this->imap_max_attempts);
 
         if ($args['attempt'] == 1) {
@@ -30,6 +36,7 @@ class reconnect extends rcube_plugin
         }
 
         $storage = rcmail::get_instance()->get_storage();
+
         switch ($storage->get_error_code()) {
         case rcube_imap_generic::ERROR_NO:
         case rcube_imap_generic::ERROR_BAD:
