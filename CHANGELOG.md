@@ -11,7 +11,7 @@
 - Fix regression where LDAP addressbook 'filter' option was ignored (#9061)
 - Fix wrong order of a multi-folder search result when sorting by size (#9065)
 - Fix so install/update scripts do not require PEAR (#9037)
-- Fix handling of mail parts that are encoded with x-uuencode (#9096)
+- Fix regression where some mail parts could have been decoded incorrectly, or not at all (#9096)
 
 ## Release 1.6.2
 
