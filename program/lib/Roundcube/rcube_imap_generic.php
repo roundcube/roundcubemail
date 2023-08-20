@@ -2874,7 +2874,7 @@ class rcube_imap_generic
                 }
 
                 // Use BINARY extension when possible (and safe)
-                $binary     = $binary && $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
+                $binary     = $binary && $mode && preg_match('/^[0-9.]+$/', (string) $part) && $this->hasCapability('BINARY');
                 $fetch_mode = $binary ? 'BINARY' : 'BODY';
                 $partial    = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
 
