@@ -14,6 +14,7 @@
 - Fix regression where some mail parts could have been decoded incorrectly, or not at all (#9096)
 - Fix handling of an error case in Cyrus IMAP BINARY FETCH, fallback to non-binary FETCH (#9097)
 - Fix PHP8 deprecation warning in the reconnect plugin (#9083)
+- Fix "Show source" on mobile with x_frame_options = deny (#9084)
 
 ## Release 1.6.2
 

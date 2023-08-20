@@ -59,6 +59,9 @@ class rcmail_action_mail_viewsource extends rcmail_action
                 ]);
             }
             else {
+                // Make sure it works in an iframe (#9084)
+                $rcmail->output->page_headers();
+
                 header("Content-Type: text/plain; charset={$charset}");
             }
 
