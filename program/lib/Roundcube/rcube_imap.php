@@ -1665,7 +1665,7 @@ class rcube_imap extends rcube_storage
             $results = $searcher->exec(
                 $folder,
                 $search,
-                $charset ? $charset : $this->default_charset,
+                $charset ?: $this->default_charset,
                 $sort_field && $this->get_capability('SORT') ? $sort_field : null,
                 $this->threading
             );
