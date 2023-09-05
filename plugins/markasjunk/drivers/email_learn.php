@@ -159,6 +159,10 @@ class markasjunk_email_learn
 
     private function _parse_vars($data, $spam, $from)
     {
+        if (empty($data)) {
+            return $data;
+        }
+
         $data = str_replace('%u', $_SESSION['username'], $data);
         $data = str_replace('%t', $spam ? 'spam' : 'ham', $data);
         $data = str_replace('%l', $this->rcube->user->get_username('local'), $data);
