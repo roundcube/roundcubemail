@@ -17,6 +17,7 @@
 - Fix "Show source" on mobile with x_frame_options = deny (#9084)
 - Fix various PHP warnings (#9098)
 - Fix deprecated use of ldap_connect() in password's ldap_simple driver (#9060)
+- Fix cross-site scripting (XSS) vulnerability in handling of linkrefs in plain text messages
 
 ## Release 1.6.2
 
