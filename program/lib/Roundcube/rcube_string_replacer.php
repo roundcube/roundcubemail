@@ -59,8 +59,8 @@ class rcube_string_replacer
         $link_prefix = "([\w]+:\/\/|{$this->noword}[Ww][Ww][Ww]\.|^[Ww][Ww][Ww]\.)";
 
         $this->options         = $options;
-        $this->linkref_index   = '/\[([^\]#]+)\](:?\s*' . substr($this->pattern, 1, -1) . ')/';
-        $this->linkref_pattern = '/\[([^\]#]+)\]/';
+        $this->linkref_index   = '/\[([^<>\]#]+)\](:?\s*' . substr($this->pattern, 1, -1) . ')/';
+        $this->linkref_pattern = '/\[([^<>\]#]+)\]/';
         $this->link_pattern    = "/$link_prefix($utf_domain([$url1]*[$url2]+)*)/";
         $this->mailto_pattern  = "/("
             . "[-\w!\#\$%&*+~\/^`|{}=]+(?:\.[-\w!\#\$%&*+~\/^`|{}=]+)*"  // local-part

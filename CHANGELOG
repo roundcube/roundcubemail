@@ -1,6 +1,6 @@
-CHANGELOG Roundcube Webmail
-===========================
+# Changelog Roundcube Webmail
 
+- Fix cross-site scripting (XSS) vulnerability in handling of linkrefs in plain text messages
 - Enigma: Fix initial synchronization of private keys
 
 RELEASE 1.4.13

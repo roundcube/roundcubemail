@@ -64,12 +64,14 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
         $this->assertEquals($output, $result);
     }
 
+    /**
+     * Test link references
+     */
     function test_linkrefs()
     {
-        $input = "This is a sample message [1] to test the new linkref [ref0] replacement feature of [Roundcube].\n";
-        $input.= "\n";
-        $input.= "[1] http://en.wikipedia.org/wiki/Email\n";
-        $input.= "[ref0] www.link-ref.com\n";
+        $input = "This is a sample message [1] to test the linkref [ref0] replacement feature of [Roundcube].[ref<0]\n"
+            . "[1] http://en.wikipedia.org/wiki/Email\n"
+            . "[ref0] www.link-ref.com\n";
 
         $replacer = new rcube_string_replacer;
         $result = $replacer->replace($input);
@@ -77,6 +79,6 @@ class Framework_StringReplacer extends PHPUnit_Framework_TestCase
 
         $this->assertContains('[<a href="http://en.wikipedia.org/wiki/Email">1</a>] to', $result, "Numeric linkref replacements");
         $this->assertContains('[<a href="http://www.link-ref.com">ref0</a>] repl', $result, "Alphanum linkref replacements");
-        $this->assertContains('of [Roundcube].', $result, "Don't touch strings wihtout an index entry");
+        $this->assertContains('of [Roundcube].[ref<0]', $result, "Don't touch strings wihtout an index entry");
     }
 }
