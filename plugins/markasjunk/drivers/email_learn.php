@@ -49,16 +49,15 @@ class markasjunk_email_learn
         $product      = $this->rcube->config->get('product_name');
         $temp_dir     = unslashify($this->rcube->config->get('temp_dir'));
 
-        $mailto = $this->rcube->config->get($spam ? 'markasjunk_email_spam' : 'markasjunk_email_ham');
-        $mailto = $this->_parse_vars($mailto, $spam, $from);
+        $subject = (string) $this->rcube->config->get('markasjunk_email_subject');
+        $mailto  = (string) $this->rcube->config->get($spam ? 'markasjunk_email_spam' : 'markasjunk_email_ham');
+        $subject = $this->_parse_vars($subject, $spam, $from);
+        $mailto  = $this->_parse_vars($mailto, $spam, $from);
 
         // no address to send to, exit
         if (!$mailto) {
             return;
         }
-
-        $subject = $this->rcube->config->get('markasjunk_email_subject');
-        $subject = $this->_parse_vars($subject, $spam, $from);
 
         foreach ($uids as $i => $uid) {
             $MESSAGE = new rcube_message($uid);
