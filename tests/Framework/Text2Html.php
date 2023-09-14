@@ -138,6 +138,23 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test XSS issue
+     */
+    function test_text2html_xss2()
+    {
+        $input = "\n[<script>evil</script>] https://google.com\n";
+        $t2h = new rcube_text2html($input);
+
+        $html = $t2h->get_html();
+
+        $expected = "<div class=\"pre\"><br>\n[&lt;script&gt;evil&lt;/script&gt;] "
+            . "<a rel=\"noreferrer\" target=\"_blank\" href=\"https://google.com\">https://google.com</a><br>\n"
+            . "</div>";
+
+        $this->assertEquals($expected, $html);
+    }
+
+    /**
      * Test bug #8021
      */
     function test_text2html_8021()
