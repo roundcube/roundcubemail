@@ -279,7 +279,7 @@ class rcube_gandi_password
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_POSTFIELDS => "",
             CURLOPT_HTTPHEADER => array(
-                "authorization: Apikey ".$pat,
+                "authorization: Bearer ".$pat,
             ),
         ));
 
