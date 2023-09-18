@@ -11,14 +11,14 @@
  * Copyright (C) The Roundcube Dev Team
  *
  * The configuration can take various forms depending on your needs.
- *     (1) The raw API-key or an array containing the key-value mapping.
- *         $config['password_gandi_apikeys'] = 'your-api-key';
- *         $config['password_gandi_apikeys'] = array(
- *             'example.com' => 'first-api-key',
- *             'foo.com' => 'second-api-key',
+ *     (1) The raw Personal Access Token (PAT) or an array containing the key-value mapping.
+ *         $config['password_gandi_pats'] = 'your-pat';
+ *         $config['password_gandi_pats'] = array(
+ *             'example.com' => 'first-pat',
+ *             'foo.com' => 'second-pat',
  *         );
- *     (2) The absolute path to a file containing either the raw API-key or a key-value mapping in JSON format.
- *         $config['password_gandi_apikeys'] = '/absolute/path/to/somewhere';
+ *     (2) The absolute path to a file containing either the raw Personal Access Token (PAT) or a key-value mapping in JSON format.
+ *         $config['password_gandi_pats'] = '/absolute/path/to/somewhere';
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,7 +64,7 @@ class rcube_gandi_password
         $rcmail = rcmail::get_instance();
         $passformat = $rcmail->config->get('password_username_format');
         $passalgo = $rcmail->config->get('password_algorithm');
-        $apikey = $rcmail->config->get('password_gandi_apikeys');
+        $pat = $rcmail->config->get('password_gandi_pats');
         $userdom = explode('@', $username);
 
         // log error and return if config is invalid
@@ -78,20 +78,20 @@ class rcube_gandi_password
             return PASSWORD_ERROR;
         }
 
-        // try to get the api-key and log error & return on failure
-        $result = $this->getApiKey($apikey, $userdom[1]);
+        // try to get the pat and log error & return on failure
+        $result = $this->get_pat($pat, $userdom[1]);
         if ($result['result'] === false) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Invalid configuration option for 'password_gandi_apikeys': ".$result['msg'],
+                    'message' => "Password plugin: Invalid configuration option for 'password_gandi_pats': ".$result['msg'],
                 ],
                 true, false
             );
             return PASSWORD_ERROR;
         }
 
-        // assign api-key and initialize curl
-        $apikey = $result['msg'];
+        // assign pat and initialize curl
+        $pat = $result['msg'];
         $curl = curl_init();
 
         // set curl options
@@ -104,7 +104,7 @@ class rcube_gandi_password
         ));
 
         // try to get the mailbox id
-        $result = $this->reqMailboxId($curl, $userdom[0], $userdom[1], $apikey);
+        $result = $this->req_mailbox_id($curl, $userdom[0], $userdom[1], $pat);
 
         // log error and cleanup if required
         if ($result['code'] !== PASSWORD_SUCCESS) {
@@ -119,7 +119,7 @@ class rcube_gandi_password
 
         // hash password and try to apply it
         $hashedpass = password::hash_password($newpass);
-        $result = $this->tellPassword($curl, $userdom[1], $hashedpass, $result['msg'], $apikey);
+        $result = $this->tell_password($curl, $userdom[1], $hashedpass, $result['msg'], $pat);
 
         // log error if required
         if ($result['code'] !== PASSWORD_SUCCESS) {
@@ -203,30 +203,30 @@ class rcube_gandi_password
 
 
     /**
-     * Get the users api-key
+     * Get the users personal access token (pat)
      *
-     * @param string $apikey The api-key field from the config
+     * @param string $pat    The pat field from the config
      * @param string $domain The domain name
      *
      * @return array [
      *                'result' => (boolean) Result of the operation.
-     *                'msg'    => (string) api-key or error message if 'result' is equal to false.
+     *                'msg'    => (string) pat or error message if 'result' is equal to false.
      *               ]
      */
-    private function getApiKey($apikey, $domain)
+    private function get_pat($pat, $domain)
     {
-        // assign api-keys directly if they are stored in an array
-        if (is_array($apikey)) {
-            $apikey = $apikey[$domain];
+        // assign pats directly if they are stored in an array
+        if (is_array($pat)) {
+            $pat = $pat[$domain];
         }
-        // check if api-keys are stored in file
-        else if (strpos($apikey, '/') !== false) {
+        // check if pats are stored in file
+        else if (strpos($pat, '/') !== false) {
             // try to read file
-            $file = @file_get_contents($apikey);
+            $file = @file_get_contents($pat);
 
             // return if the file could not be opened or is empty
             if ($file === false) {
-                return array('result' => false, 'msg' => 'The API-key file could not be opened.');
+                return array('result' => false, 'msg' => 'The pat file could not be opened.');
             }
             else if (empty($file)) {
                 return array('result' => false, 'msg' => "No mapping was found for '".$domain."'.");
@@ -236,25 +236,25 @@ class rcube_gandi_password
             $file = str_replace("\n", '', $file);
             $json = json_decode($file, true);
 
-            // try to assign the api-key appropriately and return on failure
+            // try to assign the pat appropriately and return on failure
             if (json_last_error() === JSON_ERROR_NONE && is_array($json)) {
-                $apikey = $json[$domain];
+                $pat = $json[$domain];
             }
             else if (preg_match('@"|\\\\|[[:cntrl:]]@', $file) === 0) {
-                $apikey = $file;
+                $pat = $file;
             }
             else {
-                return array('result' => false, 'msg' => 'The API-key file could not be interpreted.');
+                return array('result' => false, 'msg' => 'The pat file could not be interpreted.');
             }
         }
 
-        // return if api-key invalid
-        if (empty($apikey)) {
+        // return if pat invalid
+        if (empty($pat)) {
             return array('result' => false, 'msg' => "No mapping was found for '".$domain."'.");
         }
 
         // return result
-        return array('result' => true, 'msg' => $apikey);
+        return array('result' => true, 'msg' => $pat);
     }
 
     /**
@@ -263,14 +263,14 @@ class rcube_gandi_password
      * @param int    $curl     The curl handle
      * @param string $username The username
      * @param string $domain   The domain name
-     * @param string $apikey   The api-key
+     * @param string $pat      The personal access token (pat)
      *
      * @return array [
      *                'code' => (int) PASSWORD_SUCCESS|PASSWORD_ERROR|PASSWORD_CONNECT_ERROR
      *                'msg'  => (int|string) Mailbox id or error message if 'code' is not equal to 'PASSWORD_SUCCESS'.
      *               ]
      */
-    private function reqMailboxId($curl, $username, $domain, $apikey)
+    private function req_mailbox_id($curl, $username, $domain, $pat)
     {
         // add curl options
         curl_setopt_array($curl, array(
@@ -279,7 +279,7 @@ class rcube_gandi_password
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_POSTFIELDS => "",
             CURLOPT_HTTPHEADER => array(
-                "authorization: Apikey ".$apikey,
+                "authorization: Apikey ".$pat,
             ),
         ));
 
@@ -314,14 +314,14 @@ class rcube_gandi_password
      * @param string $domain    The domain name
      * @param string $newpass   The new password
      * @param string $mailboxid The mailbox id of the users mailbox
-     * @param string $apikey    The api-key
+     * @param string $pat       The personal access token (pat)
      *
      * @return array [
      *                'code' => (int) PASSWORD_SUCCESS|PASSWORD_ERROR|PASSWORD_CONNECT_ERROR
      *                'msg'  => (string) Optional error message.
      *               ]
      */
-    private function tellPassword($curl, $domain, $newpass, $mailboxid, $apikey)
+    private function tell_password($curl, $domain, $newpass, $mailboxid, $pat)
     {
         // overrride curl options
         curl_setopt_array($curl, array(
@@ -329,7 +329,7 @@ class rcube_gandi_password
             CURLOPT_CUSTOMREQUEST => 'PATCH',
             CURLOPT_POSTFIELDS => "{\"password\":\"".$newpass."\"}",
             CURLOPT_HTTPHEADER => array(
-                "authorization: Apikey ".$apikey,
+                "authorization: Bearer ".$pat,
                 'content-type: application/json'
             ),
         ));
