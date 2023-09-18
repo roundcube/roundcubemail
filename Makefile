@@ -7,13 +7,11 @@ GITBRANCH=release-1.6
 GPGKEY=devs@roundcube.net
 VERSION=1.6-git
 SEDI=sed -i
-WHICH=which
 PHP_VERSION=7.3
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
     SEDI=sed -i ''
-    WHICH=which -s
 endif
 
 all: clean complete dependent framework
