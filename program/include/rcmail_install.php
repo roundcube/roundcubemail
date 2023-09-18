@@ -332,7 +332,8 @@ class rcmail_install
             return;
         }
 
-        $out = $seen = [];
+        $seen = [];
+        $out = ['defaults' => [], 'obsolete' => [], 'replaced' => [], 'dependencies' => [], 'missing' => []];
 
         // iterate over the current configuration
         foreach (array_keys($this->config) as $prop) {
@@ -405,8 +406,6 @@ class rcmail_install
         }
 
         if ($version) {
-            $out['defaults'] = [];
-
             foreach ($this->defaults_changes as $v => $opts) {
                 if (version_compare($v, $version, '>')) {
                     $out['defaults'] = array_merge($out['defaults'], $opts);

@@ -1,5 +1,9 @@
 # Changelog Roundcube Webmail
 
+## Unreleased
+
+- Fix PHP8 warnings (#9142)
+
 ## Release 1.6.3
 
 - Fix bug where installto.sh/update.sh scripts were removing some essential options from the config file (#9051)
