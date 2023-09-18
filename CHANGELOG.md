@@ -24,6 +24,7 @@
 - Password: Add ldap_samba_ad driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Fix potential HTTP protocol version mismatch (#8982)
+- Fix PHP8 warnings (#9142)
 
 ## Release 1.6.3
 

@@ -53,7 +53,7 @@ else {
 echo '<br />';
 
 if ($RCI->configured && ($messages = $RCI->check_config())) {
-    if (is_array($messages['replaced'])) {
+    if (!empty($messages['replaced'])) {
         echo '<h3 class="warning">Replaced config options</h3>';
         echo '<p class="hint">The following config options have been replaced or renamed. ';
         echo 'Please update them accordingly in your config files.</p>';
@@ -66,7 +66,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
         echo '</ul>';
     }
 
-    if (is_array($messages['obsolete'])) {
+    if (!empty($messages['obsolete'])) {
         echo '<h3>Obsolete config options</h3>';
         echo '<p class="hint">You still have some obsolete or inexistent properties set. This isn\'t a problem but should be noticed.</p>';
 
@@ -82,7 +82,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
     echo html::a(['href' => './?_mergeconfig=1'], 'config.inc.php') . ' &nbsp;';
     echo "</p>";
 
-    if (is_array($messages['dependencies'])) {
+    if (!empty($messages['dependencies'])) {
         echo '<h3 class="warning">Dependency check failed</h3>';
         echo '<p class="hint">Some of your configuration settings require other options to be configured or additional PHP modules to be installed</p>';
 
