@@ -939,6 +939,13 @@ class rcube_message
                         && (!empty($mail_part->content_id) || !empty($mail_part->content_location))
                     ) {
                         $this->add_part($mail_part, 'inline');
+
+                        // Always show inline attachements in the list of attachments,
+                        // as sometimes the attachment has a content-id but is not referred to in
+                        // the HTML. Also if you switch to plaintext you won't be able to
+                        // see the attachments. #5051
+                        // https://github.com/roundcube/roundcubemail/issues/5051
+                        $this->add_part($mail_part, 'attachment');
                     }
 
                     // Any non-inline attachment
