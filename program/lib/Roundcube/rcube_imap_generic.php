@@ -2878,11 +2878,11 @@ class rcube_imap_generic
                     $mode = 3;
                     break;
                 default:
-                    $mode = 0;
+                    $mode = $formatted ? 4 : 0;
                 }
 
                 // Use BINARY extension when possible (and safe)
-                $binary     = $binary && $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
+                $binary     = $binary && $mode && preg_match('/^[0-9.]+$/', (string) $part) && $this->hasCapability('BINARY');
                 $fetch_mode = $binary ? 'BINARY' : 'BODY';
                 $partial    = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
 
@@ -2929,7 +2929,8 @@ class rcube_imap_generic
             if ($line[0] == '(' && substr($line, -1) == ')') {
                 // tokenize content inside brackets
                 // the content can be e.g.: (UID 9844 BODY[2.4] NIL)
-                $tokens = $this->tokenizeResponse(preg_replace('/(^\(|\)$)/', '', $line));
+                $line = preg_replace('/(^\(|\)$)/', '', $line);
+                $tokens = $this->tokenizeResponse($line);
 
                 for ($i=0; $i<count($tokens); $i+=2) {
                     if (preg_match('/^(BODY|BINARY)/i', $tokens[$i])) {
@@ -2939,16 +2940,16 @@ class rcube_imap_generic
                     }
                 }
 
+                // Cyrus IMAP does not return a NO-response on error, but we can detect it
+                // and fallback to a non-binary fetch (#9097)
+                if ($binary && !$found) {
+                    $binary = $initiated = false;
+                    $line = trim($this->readLine(1024)); // the OK response line
+                    continue;
+                }
+
                 if ($result !== false) {
-                    if ($mode == 1) {
-                        $result = base64_decode($result);
-                    }
-                    else if ($mode == 2) {
-                        $result = quoted_printable_decode($result);
-                    }
-                    else if ($mode == 3) {
-                        $result = convert_uudecode($result);
-                    }
+                    $result = $this->decodeContent($result, $mode, true);
                 }
             }
             // response with string literal
@@ -2963,68 +2964,36 @@ class rcube_imap_generic
                     $result = '';
                 }
                 // An optimal path for a case when we need the body as-is in a string
-                else if (!$mode && !$file && !$print && !$formatted) {
+                else if (!$mode && !$file && !$print) {
                     $result = $this->readBytes($bytes);
                 }
                 else while ($bytes > 0) {
-                    $line = $this->readBytes($bytes > $chunkSize ? $chunkSize : $bytes);
+                    $chunk = $this->readBytes($bytes > $chunkSize ? $chunkSize : $bytes);
 
-                    if ($line === '') {
+                    if ($chunk === '') {
                         break;
                     }
 
-                    $len = strlen($line);
+                    $len = strlen($chunk);
 
                     if ($len > $bytes) {
-                        $line = substr($line, 0, $bytes);
-                        $len  = strlen($line);
+                        $chunk = substr($chunk, 0, $bytes);
+                        $len = strlen($chunk);
                     }
                     $bytes -= $len;
 
-                    // BASE64
-                    if ($mode == 1) {
-                        $line = preg_replace('|[^a-zA-Z0-9+=/]|', '', $line);
-                        // create chunks with proper length for base64 decoding
-                        $line = $prev.$line;
-                        $length = strlen($line);
-                        if ($length % 4) {
-                            $length = floor($length / 4) * 4;
-                            $prev = substr($line, $length);
-                            $line = substr($line, 0, $length);
-                        }
-                        else {
-                            $prev = '';
-                        }
-                        $line = base64_decode($line);
-                    }
-                    // QUOTED-PRINTABLE
-                    else if ($mode == 2) {
-                        $line = rtrim($line, "\t\r\0\x0B");
-                        $line = quoted_printable_decode($line);
-                    }
-                    // UUENCODE
-                    else if ($mode == 3) {
-                        $line = rtrim($line, "\t\r\n\0\x0B");
-                        if ($line == 'end' || preg_match('/^begin\s+[0-7]+\s+.+$/', $line)) {
-                            continue;
-                        }
-                        $line = convert_uudecode($line);
-                    }
-                    // default
-                    else if ($formatted) {
-                        $line = rtrim($line, "\t\r\n\0\x0B") . "\n";
-                    }
+                    $chunk = $this->decodeContent($chunk, $mode, $bytes <= 0, $prev);
 
                     if ($file) {
-                        if (fwrite($file, $line) === false) {
+                        if (fwrite($file, $chunk) === false) {
                             break;
                         }
                     }
                     else if ($print) {
-                        echo $line;
+                        echo $chunk;
                     }
                     else {
-                        $result .= $line;
+                        $result .= $chunk;
                     }
                 }
             }
@@ -3044,6 +3013,105 @@ class rcube_imap_generic
         }
 
         return false;
+    }
+
+    /**
+     * Decodes a chunk of a message part content from a FETCH response.
+     *
+     * @param string $chunk   Content
+     * @param int    $mode    Encoding mode
+     * @param bool   $is_last Whether it is a last chunk of data
+     * @param string $prev    Extra content from the previous chunk
+     *
+     * @return string Encoded string
+     */
+    protected static function decodeContent($chunk, $mode, $is_last = false, &$prev = '')
+    {
+        // BASE64
+        if ($mode == 1) {
+            $chunk = $prev . preg_replace('|[^a-zA-Z0-9+=/]|', '', $chunk);
+
+            // create chunks with proper length for base64 decoding
+            $length = strlen($chunk);
+
+            if ($length % 4) {
+                $length = floor($length / 4) * 4;
+                $prev = substr($chunk, $length);
+                $chunk = substr($chunk, 0, $length);
+            }
+            else {
+                $prev = '';
+            }
+
+            return base64_decode($chunk);
+        }
+
+        // QUOTED-PRINTABLE
+        if ($mode == 2) {
+            if (!self::decodeContentChunk($chunk, $prev, $is_last)) {
+                return '';
+            }
+
+            $chunk = preg_replace('/[\t\r\0\x0B]+\n/', "\n", $chunk);
+
+            return quoted_printable_decode($chunk);
+        }
+
+        // X-UUENCODE
+        if ($mode == 3) {
+            if (!self::decodeContentChunk($chunk, $prev, $is_last)) {
+                return '';
+            }
+
+            $chunk = preg_replace(
+                ['/\r?\n/', '/(^|\n)end$/', '/^begin\s+[0-7]{3,4}\s+[^\n]+\n/'],
+                ["\n", '', ''],
+                $chunk
+            );
+
+            if (!strlen($chunk)) {
+                return '';
+            }
+
+            return convert_uudecode($chunk);
+        }
+
+        // Plain text formatted
+        // TODO: Formatting should be handled outside of this class
+        if ($mode == 4) {
+            if (!self::decodeContentChunk($chunk, $prev, $is_last)) {
+                return '';
+            }
+
+            if ($is_last) {
+                $chunk = rtrim($chunk, "\t\r\n\0\x0B");
+            }
+
+            return preg_replace('/[\t\r\0\x0B]+\n/', "\n", $chunk);
+        }
+
+        return $chunk;
+    }
+
+    /**
+     * A helper for a new-line aware parsing. See self::decodeContent().
+     */
+    private static function decodeContentChunk(&$chunk, &$prev, $is_last)
+    {
+        $chunk = $prev . $chunk;
+        $prev = '';
+
+        if (!$is_last) {
+            if (($pos = strrpos($chunk, "\n")) !== false) {
+                $prev = substr($chunk, $pos + 1);
+                $chunk = substr($chunk, 0, $pos + 1);
+            } else {
+                $prev = $chunk;
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

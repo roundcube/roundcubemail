@@ -170,7 +170,7 @@ class rcmail_utils
 
         $dir .= '/' . $db->db_provider;
         if (!file_exists($dir)) {
-            if ($opts['errors']) {
+            if (!empty($opts['errors'])) {
                 rcube::raise_error("DDL Upgrade files for " . $db->db_provider . " driver not found.", false, true);
             }
             return false;
@@ -253,7 +253,7 @@ class rcmail_utils
      *
      * @param string $package Package name
      *
-     * @return string Version string
+     * @return null|string Version string
      */
     public static function db_version($package = 'roundcube')
     {
@@ -265,6 +265,9 @@ class rcmail_utils
             $package . '-version');
 
         $row     = $db->fetch_array();
+        if ($row === false) {
+            return null;
+        }
         $version = preg_replace('/[^0-9]/', '', $row[0]);
 
         return $version;

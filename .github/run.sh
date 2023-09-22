@@ -4,7 +4,7 @@
 # It installs in-browser tests dependencies and prepares Roundcube instance
 
 GMV=1.6.13
-CHROMEVERSION=$(google-chrome-stable --version | tr -cd [:digit:]. | cut -d . -f 1)
+CHROMEVERSION=$(google-chrome-stable --version | tr -cd [:digit:].)
 GMARGS="-Dgreenmail.setup.all -Dgreenmail.users=test:test -Dgreenmail.startup.timeout=3000"
 
 # Make temp and logs writeable

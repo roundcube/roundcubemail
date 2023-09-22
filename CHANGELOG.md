@@ -24,6 +24,10 @@
 - Password: Add ldap_samba_ad driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Fix potential HTTP protocol version mismatch (#8982)
+- Fix PHP8 warnings (#9142)
+
+## Release 1.6.3
+
 - Fix bug where installto.sh/update.sh scripts were removing some essential options from the config file (#9051)
 - Update jQuery-UI to version 1.13.2 (#9041)
 - Fix regression that broke use_secure_urls feature (#9052)
@@ -33,6 +37,13 @@
 - Fix regression where LDAP addressbook 'filter' option was ignored (#9061)
 - Fix wrong order of a multi-folder search result when sorting by size (#9065)
 - Fix so install/update scripts do not require PEAR (#9037)
+- Fix regression where some mail parts could have been decoded incorrectly, or not at all (#9096)
+- Fix handling of an error case in Cyrus IMAP BINARY FETCH, fallback to non-binary FETCH (#9097)
+- Fix PHP8 deprecation warning in the reconnect plugin (#9083)
+- Fix "Show source" on mobile with x_frame_options = deny (#9084)
+- Fix various PHP warnings (#9098)
+- Fix deprecated use of ldap_connect() in password's ldap_simple driver (#9060)
+- Fix cross-site scripting (XSS) vulnerability in handling of linkrefs in plain text messages
 
 ## Release 1.6.2
 

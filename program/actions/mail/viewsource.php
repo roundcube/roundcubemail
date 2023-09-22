@@ -45,7 +45,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
                 $headers = $rcmail->storage->get_message_headers($uid);
             }
 
-            $charset = $headers->charset ?: $rcmail->config->get('default_charset');
+            $charset = $headers->charset ?: $rcmail->config->get('default_charset', RCUBE_CHARSET);
 
             if (!empty($_GET['_save'])) {
                 $subject  = rcube_mime::decode_header($headers->subject, $headers->charset);
@@ -59,6 +59,9 @@ class rcmail_action_mail_viewsource extends rcmail_action
                 ]);
             }
             else {
+                // Make sure it works in an iframe (#9084)
+                $rcmail->output->page_headers();
+
                 header("Content-Type: text/plain; charset={$charset}");
             }
 
