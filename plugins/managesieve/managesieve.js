@@ -502,8 +502,6 @@ rcube_webmail.prototype.managesieve_spam_acldel = function(id)
 
 };
 
-
-
 // Form submission
 rcube_webmail.prototype.managesieve_save = function()
 {
@@ -646,6 +644,21 @@ rcube_webmail.prototype.managesieve_vacation_addresses_update = function(id, add
   var field = $('#vacation_addresses,#action_addresses' + (id || ''));
   smart_field_reset(field.get(0), addresses);
 };
+
+// Update the entry of the filter settings with a description
+rcube_webmail.prototype.managesieve_spam_threshold_update = function(v) {
+	if (v <= 4) {                                                
+		$indicator = 'Strict';
+	}                                                                            
+	if (v > 4 && v < 6) {                        
+		$indicator = 'Default';
+	}                                                                            
+	if (v >= 6) {                                                
+		$indicator = 'Loose';
+	}
+	$('#spam_threshold_info').html(v + ' (' + $indicator + ')');
+};
+
 
 function rule_header_select(id)
 {

@@ -192,7 +192,7 @@ class rcube_sieve_spam extends rcube_sieve_engine
                     'disabled' => $rule['disabled'] || !$active,
                     'name'     => $rule['name'],
                     'tests'    => $rule['tests'],
-                    'threshold'   => $rule['tests'][0]['arg2'] ?? $spam_threshold,
+                    'threshold'   => $rule['tests'][1]['arg2'] ?? $spam_threshold,
                 ]);
 
                 foreach($rule['tests'] as $current) {
@@ -233,7 +233,17 @@ class rcube_sieve_spam extends rcube_sieve_engine
 
             $spam_tests[] = [
                 'test' => 'header',
-                'type' => 'value-gt',
+                'type' => 'matches',
+                'not'  => true,
+                'arg1' => $spam_header,
+                'arg2' => ["-*"],
+    
+            ];
+
+
+            $spam_tests[] = [
+                'test' => 'header',
+                'type' => 'value-ge',
                 'arg1' => $spam_header,
                 'arg2' => [$threshold],
                 'comparator' => 'i;ascii-numeric',
@@ -261,10 +271,14 @@ class rcube_sieve_spam extends rcube_sieve_engine
             $rule['tests']      = $spam_tests;
             $rule['join']       = (count($spam_tests) > 1);
 
-            $rule['actions']    = [[
-                'type'   => 'fileinto',
-                'target' => $spam_folder,
-            ]];
+            $rule['actions']    = [
+		[
+                	'type'   => 'fileinto',
+	                'target' => $spam_folder,
+        	],
+		[
+			'type' => 'stop'
+		]];
 
             if ($this->merge_rule($rule, $this->spam, $this->script_name)) {
                 $this->rc->output->show_message('managesieve.spamsaved', 'confirmation');
@@ -321,14 +335,14 @@ class rcube_sieve_spam extends rcube_sieve_engine
         }
 
         $table = new html_table(['cols' => 2]);
-
-        $action_target = '<span id="action_target_span" class="input-group">'
-            . '<input type="range" min="2" max="10" step="1" value="'.$this->spam['threshold'].'" name="spam_threshold" id="spam_threshold"/>'
-            . '</span>';
-
+	
+        $threshold_slider = '<span id="action_target_span" class="input-group">'
+            . '<input onchange="rcube_webmail.prototype.managesieve_spam_threshold_update(this.value)" type="range" min="2" max="10" step="1" value="'.$this->spam['threshold'].'" name="spam_threshold" id="spam_threshold"/><br/>'
+            . '</span> <span id="spam_threshold_info" class="input-group"/></span><script>rcube_webmail.prototype.managesieve_spam_threshold_update('.$this->spam['threshold'].');</script>';
+	
 
         $table->add('title', html::label('spam_threshold', $this->plugin->gettext('spam.threshold')));
-        $table->add(null, $action_target);
+        $table->add(null, $threshold_slider);
 
         $table->add('title', html::label('spam_status', $this->plugin->gettext('spam.status')));
         $table->add(null, $status->show(!isset($this->spam['disabled']) || $this->spam['disabled'] ? 'off' : 'on'));
@@ -439,9 +453,18 @@ class rcube_sieve_spam extends rcube_sieve_engine
 
         $date_extension = in_array('date', $this->exts);
 
+	$spam_tests[] = [
+		'test' => 'header',
+		'type' => 'matches',
+		'not'  => true,
+		'arg1' => $spam_header,
+		'arg2' => ["-*"],
+
+	];
+
         $spam_tests[] = [
             'test' => 'header',
-            'type' => 'value-gt',
+            'type' => 'value-ge',
             'arg1' => $spam_header,
             'arg2' => [$threshold],
             'comparator' => 'i;ascii-numeric',
