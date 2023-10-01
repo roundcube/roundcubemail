@@ -1,3 +1,4 @@
+- Fix javascript error when relational or spamtest extension is not enabled (#9139)
 - Removed managesieve_usetls option (in favor of the scheme prefix in managesieve_host)
 - Plugin API: Removed `port` parameter in `managesieve_connect` hook
 - Plugin API: Removed `usetls` parameter in `managesieve_connect` hook

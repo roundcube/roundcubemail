@@ -647,13 +647,15 @@ function rule_header_select(id)
   if (h == 'size') {
     if (msg) set.push(msg);
     $.each(set, function() { if (this != window) this.style.display = 'none'; });
-    spamtest.style.display = 'none';
+    if (spamtest)
+      spamtest.style.display = 'none';
     size.style.display = '';
   }
   else if (h == 'spamtest') {
     if (msg) set.push(msg);
     $.each(set, function() { if (this != window) this.style.display = 'none'; });
-    spamtest.style.display = '';
+    if (spamtest)
+      spamtest.style.display = '';
     size.style.display = 'none';
   }
   else if (h == 'message' && msg) {
@@ -665,11 +667,12 @@ function rule_header_select(id)
     header.style.display = h != '...' ? 'none' : '';
     custstr.style.display = h != 'string' ? 'none' : '';
     size.style.display = 'none';
-    spamtest.style.display = 'none';
     op.style.display = '';
     comp.style.display = '';
     mod.style.display = is_header ? '' : 'none';
     trans.style.display = h == 'body' ? '' : 'none';
+    if (spamtest)
+      spamtest.style.display = 'none';
     if (mime)
       mime.style.display =  is_header ? '' : 'none';
     if (mime_part)
@@ -690,7 +693,8 @@ function rule_header_select(id)
   rule_op_select(op, id, h);
   rule_mod_select(id, h, !is_header);
   rule_mime_select(id);
-  rule_spamtest_select(id);
+  if (spamtest)
+    rule_spamtest_select(id);
 
   obj.style.width = h == '...' ? '40px' : '';
 };
