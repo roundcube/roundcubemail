@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix PHP8 warnings (#9142)
+- Fix default 'mime.types' path on Windows (#9113)
 
 ## Release 1.6.3
 
