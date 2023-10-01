@@ -832,7 +832,7 @@ class rcube_mime
 
         // try common locations
         if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
-            $file_paths[] = 'C:/xampp/apache/conf/mime.types.';
+            $file_paths[] = 'C:/xampp/apache/conf/mime.types';
         }
         else {
             $file_paths[] = '/etc/mime.types';
