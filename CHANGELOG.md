@@ -2,25 +2,54 @@
 
 ## Unreleased
 
-- Update to jQuery 3.6.4
+- Update to jQuery 3.7.0
 - Drop dependency on JsTimeZoneDetect (#8965)
 - Removed support for MS SQL Server and Oracle (#7854)
 - Store uploads metadata in a separate sql database table instead of a session (#8415)
+- Mouse-over menu on messages list (#7141)
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
 - Support for HAproxy protocol header in IMAP connections (#8625)
 - Change 'smtp_log' option default value to False
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
 - Set timeout=30, connect_timeout=5, read_timeout=120 as defaults for HTTP client (#8865)
+- Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
+- Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
+- Add identities management script - bin/identity.sh (#8887)
+- Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)
+- Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - ACL: Set default of 'acl_specials' option to ['anyone'] (#8911)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Password: Add ldap_samba_ad driver (#8525)
-- Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
-- Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
-- Add identities management script - bin/identity.sh (#8887)
-- Add Uyghur localization
+- Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Fix potential HTTP protocol version mismatch (#8982)
+- Fix PHP8 warnings (#9142)
+- Fix default 'mime.types' path on Windows (#9113)
+- Managesieve: Fix javascript error when relational or spamtest extension is not enabled (#9139)
+
+## Release 1.6.3
+
+- Fix bug where installto.sh/update.sh scripts were removing some essential options from the config file (#9051)
+- Update jQuery-UI to version 1.13.2 (#9041)
+- Fix regression that broke use_secure_urls feature (#9052)
+- Fix potential PHP fatal error when opening a message with message/rfc822 part (#8953)
+- Fix bug where a duplicate `<title>` tag in HTML email could cause some parts being cut off (#9029)
+- Fix bug where a list of folders could have been sorted incorrectly (#9057)
+- Fix regression where LDAP addressbook 'filter' option was ignored (#9061)
+- Fix wrong order of a multi-folder search result when sorting by size (#9065)
+- Fix so install/update scripts do not require PEAR (#9037)
+- Fix regression where some mail parts could have been decoded incorrectly, or not at all (#9096)
+- Fix handling of an error case in Cyrus IMAP BINARY FETCH, fallback to non-binary FETCH (#9097)
+- Fix PHP8 deprecation warning in the reconnect plugin (#9083)
+- Fix "Show source" on mobile with x_frame_options = deny (#9084)
+- Fix various PHP warnings (#9098)
+- Fix deprecated use of ldap_connect() in password's ldap_simple driver (#9060)
+- Fix cross-site scripting (XSS) vulnerability in handling of linkrefs in plain text messages
+
+## Release 1.6.2
+
+- Add Uyghur localization
 - Fix regression in OAuth request URI caused by use of REQUEST_URI instead of SCRIPT_NAME as a default (#8878)
 - Fix bug where false attachment reminder was displayed on HTML mail with inline images (#8885)
 - Fix bug where a non-ASCII character in app.js could cause error in javascript engine (#8894)
@@ -45,6 +74,8 @@
 - Fix connecting to LDAP using an URI with ldapi:// scheme (#8990)
 - Fix insecure shell command params handling in cmd_learn driver of markasjunk plugin (#9005)
 - Fix bug where some mail headers didn't work in cmd_learn driver of markasjunk plugin (#9005)
+- Fix PHP fatal error when importing vcf file using PHP 8.2 (#9025)
+- Fix so output of log_date_format with microseconds contains time in server time zone, not UTC
 
 ## Release 1.6.1
 

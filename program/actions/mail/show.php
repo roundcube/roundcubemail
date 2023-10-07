@@ -408,7 +408,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $photo_img = $placeholder;
         }
 
-        return html::img(['src' => $photo_img, 'alt' => $rcmail->gettext('contactphoto')] + $attrib);
+        return html::img(['src' => $photo_img] + $attrib);
     }
 
     /**

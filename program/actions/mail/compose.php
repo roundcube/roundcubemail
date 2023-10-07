@@ -342,7 +342,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $rcmail->output->send('compose');
     }
 
-    // process compose request parameters
+    /**
+     * process compose request parameters
+     */
     public static function process_compose_params(&$COMPOSE)
     {
         if (!empty($COMPOSE['param']['to'])) {
@@ -441,6 +443,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
     }
 
+    /**
+     * Decide whether to use HTML or plain text
+     */
     public static function compose_editor_mode()
     {
         static $useHtml;
@@ -476,6 +481,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $useHtml;
     }
 
+    /**
+     * Check whether user prefers HTML and the message has HTML content
+     */
     public static function message_is_html()
     {
         return rcmail::get_instance()->config->get('prefer_html')
@@ -483,24 +491,26 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             && self::$MESSAGE->has_html_part(true);
     }
 
+    /**
+     * Initialize spellchecker
+     */
     public static function spellchecker_init()
     {
         $rcmail = rcmail::get_instance();
 
-        // Set language list
-        if ($rcmail->config->get('enable_spellcheck')) {
-            $spellchecker = new rcube_spellchecker();
-        }
-        else {
+        if (!$rcmail->config->get('enable_spellcheck')) {
             return;
         }
 
+        $spellchecker = new rcube_spellchecker();
+
+        // Set language list
         $spellcheck_langs = $spellchecker->languages();
 
         if (empty($spellcheck_langs)) {
             if ($err = $spellchecker->error()) {
-                rcube::raise_error(['code' => 500,
-                    'file' => __FILE__, 'line' => __LINE__,
+                rcube::raise_error([
+                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Spell check engine error: " . trim($err)],
                     true, false
                 );
@@ -552,6 +562,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
     }
 
+    /**
+     * Prepare composed message body
+     */
     public static function prepare_message_body()
     {
         $rcmail = rcmail::get_instance();
@@ -783,6 +796,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $body;
     }
 
+    /**
+     * Template object for the message body composition element
+     */
     public static function compose_body($attrib)
     {
         list($form_start, $form_end) = self::$SENDMAIL->form_tags($attrib);
@@ -830,6 +846,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return "$form_start\n$content\n$form_end\n";
     }
 
+    /**
+     * Prepare the message body in reply mode
+     */
     public static function create_reply_body($body, $bodyIsHtml)
     {
         $rcmail       = rcmail::get_instance();
@@ -887,6 +906,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $prefix . $body . $suffix;
     }
 
+    /**
+     * Get reply header for the composed message body
+     */
     public static function get_reply_header($message)
     {
         if (empty($message->headers)) {
@@ -906,11 +928,17 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         ]);
     }
 
+    /**
+     * Prepare the message body in forward mode
+     */
     public static function create_forward_body($body, $bodyIsHtml)
     {
         return self::get_forward_header(self::$MESSAGE, $bodyIsHtml) . trim($body, "\r\n");
     }
 
+    /**
+     * Get forward header for the composed message body
+     */
     public static function get_forward_header($message, $bodyIsHtml = false, $extended = true)
     {
         if (empty($message->headers)) {
@@ -967,13 +995,18 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $prefix;
     }
 
+    /**
+     * Prepare the message body in draft mode
+     */
     public static function create_draft_body($body, $bodyIsHtml)
     {
         // Return the draft body as-is
         return $body;
     }
 
-    // Clean up HTML content of Draft/Reply/Forward (part of the message)
+    /**
+     * Clean up HTML content of Draft/Reply/Forward (part of the message)
+     */
     public static function prepare_html_body($body, $wash_params = [])
     {
         static $part_no;
@@ -1014,7 +1047,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $body;
     }
 
-    // Removes signature from the message body
+    /**
+     * Removes signature from the message body
+     */
     public static function remove_signature($body)
     {
         $rcmail = rcmail::get_instance();
@@ -1035,9 +1070,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $body;
     }
 
+    /**
+     * Handle inline attachments in the message body
+     */
     public static function write_compose_attachments(&$message, $bodyIsHtml, &$message_body)
     {
-        if (!empty($message->pgp_mime) || !empty(self::$COMPOSE['forward_attachments'])) {
+        if (!empty($message->pgp_mime)) {
             return;
         }
 
@@ -1126,8 +1164,6 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
             }
         }
-
-        self::$COMPOSE['forward_attachments'] = true;
     }
 
     /**
@@ -1165,7 +1201,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $map;
     }
 
-    // Creates attachment(s) from the forwarded message(s)
+    /**
+     * Creates attachment(s) from the forwarded message(s)
+     */
     public static function write_forward_attachments()
     {
         if (!empty(self::$MESSAGE->pgp_mime)) {
@@ -1606,7 +1644,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     'onclick'      => sprintf(
                         "return %s.command('insert-response', '%s', this, event)",
                         rcmail_output::JS_OBJECT_NAME,
-                        rcube::JQ($response['id']),
+                        rcube::JQ($response['id'])
                     ),
                 ],
                 rcube::Q($response['name'])
@@ -1633,6 +1671,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         return $list->show();
     }
 
+    /**
+     * Save the specified message (or message part) as an attachment
+     */
     public static function save_attachment($message, $pid, $compose_id, $params = [])
     {
         $rcmail  = rcmail::get_instance();

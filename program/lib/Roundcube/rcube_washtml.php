@@ -744,7 +744,7 @@ class rcube_washtml
             // space(s) between <NOBR>
             '/(<\/nobr>)(\s+)(<nobr>)/i',
             // PHP bug #32547 workaround: remove title tag
-            '/<title[^>]*>.*<\/title>/i',
+            '/<title[^>]*>.*<\/title>/iU',
             // remove <!doctype> before BOM (#1490291)
             '/<\!doctype[^>]+>[^<]*/im',
             // byte-order mark (only outlook?)

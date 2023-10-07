@@ -1278,7 +1278,7 @@ class rcube
         if (class_exists('rcube', false)) {
             $rcube  = self::get_instance();
             $plugin = $rcube->plugins->exec_hook('console', ['args' => $args]);
-            if ($plugin['abort']) {
+            if (!empty($plugin['abort'])) {
                 return;
             }
 
@@ -1410,7 +1410,7 @@ class rcube
                 'message' => $arg->getMessage(),
             ];
         }
-        else if ($arg instanceof PEAR_Error) {
+        else if (is_object($arg) && is_a($arg, 'PEAR_Error')) {
             $info = $arg->getUserInfo();
             $arg  = [
                 'code'    => $arg->getCode(),

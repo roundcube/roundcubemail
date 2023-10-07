@@ -323,11 +323,11 @@ $config['smtp_timeout'] = 0;
 // The example below enables server certificate validation, and
 // requires 'smtp_timeout' to be non zero.
 // $config['smtp_conn_options'] = [
-//   'ssl'         => [
-//     'verify_peer'  => true,
-//     'verify_depth' => 3,
-//     'cafile'       => '/etc/openssl/certs/ca.crt',
-//   ],
+//     'ssl' => [
+//         'verify_peer'  => true,
+//         'verify_depth' => 3,
+//         'cafile'       => '/etc/openssl/certs/ca.crt',
+//     ],
 // ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['smtp_conn_options'] = null;
@@ -815,6 +815,7 @@ $config['no_save_sent_messages'] = false;
 // Warning: This requires http server configuration. Sample:
 //    RewriteRule ^/roundcubemail/[a-zA-Z0-9]{16}/(.*) /roundcubemail/$1 [PT]
 //    Alias /roundcubemail /var/www/roundcubemail/
+// Warning: This feature does NOT work with request_path = 'SCRIPT_NAME'
 // Note: Use assets_path to not prevent the browser from caching assets
 $config['use_secure_urls'] = false;
 

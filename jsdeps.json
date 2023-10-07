@@ -3,10 +3,10 @@
     {
       "lib": "jquery",
       "name": "jQuery",
-      "version": "3.6.4",
+      "version": "3.7.0",
       "url": "https://code.jquery.com/jquery-$v.min.js",
       "dest": "program/js/jquery.min.js",
-      "sha1": "eda46747c71d38a880bee44f9a439c3858bb8f99",
+      "sha1": "5a9eeac34d86e92e5660e0f4f87204f1ed0c8ff6",
       "license": "MIT",
       "copyright": "Copyright JS Foundation and other contributors",
       "source": "https://github.com/jquery/jquery/tree/$v"
@@ -90,11 +90,11 @@
     {
       "lib": "less",
       "name": "LessJS",
-      "version": "3.13.0",
+      "version": "4.1.3",
       "url": "https://raw.githubusercontent.com/less/less.js/v$v/dist/less.min.js",
       "api_url": "https://api.github.com/repos/less/less.js/contents/dist/less.min.js?ref=v$v",
       "dest": "skins/elastic/deps/less.min.js",
-      "sha1": "43a33274a059825253a61b1ad158c9c380bf736b",
+      "sha1": "e2418d0acfc3234b39c426be9f7a018b3903f070",
       "license": "Apache-2.0",
       "source": "https://raw.githubusercontent.com/less/less.js/v$v/dist/less.js"
     }

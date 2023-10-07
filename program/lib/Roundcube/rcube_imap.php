@@ -202,7 +202,9 @@ class rcube_imap extends rcube_storage
         }
         // write error log
         else if ($this->conn->error) {
-            if ($pass && $user) {
+            // When log_logins=true the entry in userlogins.log will be created
+            // in this case another error message is redundant, skip it
+            if ($pass && $user && !rcube::get_instance()->config->get('log_logins')) {
                 $message = sprintf("Login failed for %s against %s from %s. %s",
                     $user, $host, rcube_utils::remote_ip(), $this->conn->error);
 
@@ -1663,7 +1665,7 @@ class rcube_imap extends rcube_storage
             $results = $searcher->exec(
                 $folder,
                 $search,
-                $charset ? $charset : $this->default_charset,
+                $charset ?: $this->default_charset,
                 $sort_field && $this->get_capability('SORT') ? $sort_field : null,
                 $this->threading
             );
@@ -2060,15 +2062,17 @@ class rcube_imap extends rcube_storage
 
             // find first non-array entry
             for ($i=1; $i<count($part); $i++) {
-                if (!is_array($part[$i])) {
+                if (is_string($part[$i])) {
                     $struct->ctype_secondary = strtolower($part[$i]);
 
                     // read content type parameters
                     if (isset($part[$i+1]) && is_array($part[$i+1])) {
                         $struct->ctype_parameters = [];
                         for ($j=0; $j<count($part[$i+1]); $j+=2) {
-                            $param = strtolower($part[$i+1][$j]);
-                            $struct->ctype_parameters[$param] = $part[$i+1][$j+1];
+                            if (is_string($part[$i+1][$j])) {
+                                $param = strtolower($part[$i+1][$j]);
+                                $struct->ctype_parameters[$param] = $part[$i+1][$j+1];
+                            }
                         }
                     }
 
@@ -2146,7 +2150,9 @@ class rcube_imap extends rcube_storage
         if (is_array($part[$params_idx])) {
             $struct->ctype_parameters = [];
             for ($i=0; $i<count($part[$params_idx]); $i+=2) {
-                $struct->ctype_parameters[strtolower($part[$params_idx][$i])] = $part[$params_idx][$i+1];
+                if (is_string($part[$params_idx][$i])) {
+                    $struct->ctype_parameters[strtolower($part[$params_idx][$i])] = $part[$params_idx][$i+1];
+                }
             }
 
             if (isset($struct->ctype_parameters['charset'])) {
@@ -2187,7 +2193,9 @@ class rcube_imap extends rcube_storage
             }
             if (is_array($part[$di][1])) {
                 for ($n=0; $n<count($part[$di][1]); $n+=2) {
-                    $struct->d_parameters[strtolower($part[$di][1][$n])] = $part[$di][1][$n+1];
+                    if (is_string($part[$di][1][$n])) {
+                        $struct->d_parameters[strtolower($part[$di][1][$n])] = $part[$di][1][$n+1];
+                    }
                 }
             }
         }
@@ -2442,11 +2450,11 @@ class rcube_imap extends rcube_storage
             $part_data = rcube_imap_generic::getStructurePartData($structure, $part);
 
             $o_part = new rcube_message_part;
-            $o_part->ctype_primary   = $part_data['type'];
-            $o_part->ctype_secondary = $part_data['subtype'];
-            $o_part->encoding        = $part_data['encoding'];
-            $o_part->charset         = $part_data['charset'];
-            $o_part->size            = $part_data['size'];
+            $o_part->ctype_primary   = $part_data['type'] ?? null;
+            $o_part->ctype_secondary = $part_data['subtype'] ?? null;
+            $o_part->encoding        = $part_data['encoding'] ?? null;
+            $o_part->charset         = $part_data['charset'] ?? null;
+            $o_part->size            = $part_data['size'] ?? 0;
         }
 
         $body = '';
@@ -4515,7 +4523,10 @@ class rcube_imap extends rcube_storage
         $path1 = explode($this->delimiter, $str1);
         $path2 = explode($this->delimiter, $str2);
 
-        foreach ($path1 as $idx => $folder1) {
+        $len = max(count($path1), count($path2));
+
+        for ($idx = 0; $idx < $len; $idx++) {
+            $folder1 = $path1[$idx] ?? '';
             $folder2 = $path2[$idx] ?? '';
 
             if ($folder1 === $folder2) {

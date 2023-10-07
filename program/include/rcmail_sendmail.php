@@ -284,7 +284,7 @@ class rcmail_sendmail
         if (preg_match('/ISO-2022/i', $text_charset)) {
             $head_encoding = 'base64'; // RFC1468
         }
-        else if (preg_match('/[^\x00-\x7F]/', $message->getTXTBody())) {
+        else if (preg_match('/[^\x00-\x7F]/', $message->getTXTBody() . $message->getHTMLBody())) {
             $transfer_encoding = $this->rcmail->config->get('force_7bit') ? 'quoted-printable' : '8bit';
         }
         else if ($this->options['charset'] == 'UTF-8') {
@@ -297,7 +297,7 @@ class rcmail_sendmail
 
         // encoding settings for mail composing
         $message->setParam('text_encoding', $transfer_encoding);
-        $message->setParam('html_encoding', 'quoted-printable');
+        $message->setParam('html_encoding', $transfer_encoding);
         $message->setParam('head_encoding', $head_encoding);
         $message->setParam('head_charset', $this->options['charset']);
         $message->setParam('html_charset', $this->options['charset']);

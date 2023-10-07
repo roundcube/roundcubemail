@@ -328,7 +328,8 @@ class rcmail_install
             return;
         }
 
-        $out = $seen = [];
+        $seen = [];
+        $out = ['defaults' => [], 'obsolete' => [], 'replaced' => [], 'dependencies' => [], 'missing' => []];
 
         // iterate over the current configuration
         foreach (array_keys($this->config) as $prop) {
@@ -401,8 +402,6 @@ class rcmail_install
         }
 
         if ($version) {
-            $out['defaults'] = [];
-
             foreach ($this->defaults_changes as $v => $opts) {
                 if (version_compare($v, $version, '>')) {
                     $out['defaults'] = array_merge($out['defaults'], $opts);
@@ -435,10 +434,10 @@ class rcmail_install
                 else {
                     $this->config[$replacement] = $current[$prop];
                 }
-            }
 
-            unset($current[$prop]);
-            unset($current[$replacement]);
+                unset($current[$prop]);
+                unset($current[$replacement]);
+            }
         }
 
         // Merge old *_port options into the new *_host options, where possible
@@ -460,9 +459,9 @@ class rcmail_install
         }
 
         // add all ldap_public sources having global_search enabled to autocomplete_addressbooks
-        if (is_array($current['ldap_public'])) {
+        if (!empty($current['ldap_public']) && is_array($current['ldap_public'])) {
             foreach ($current['ldap_public'] as $key => $ldap_public) {
-                if ($ldap_public['global_search']) {
+                if (!empty($ldap_public['global_search'])) {
                     $this->config['autocomplete_addressbooks'][] = $key;
                     unset($current['ldap_public'][$key]['global_search']);
                 }
@@ -470,10 +469,6 @@ class rcmail_install
         }
 
         $this->config = array_merge($this->config, $current);
-
-        foreach (array_keys((array) $current['ldap_public']) as $key) {
-            $this->config['ldap_public'][$key] = $current['ldap_public'][$key];
-        }
     }
 
     /**

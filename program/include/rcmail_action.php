@@ -229,15 +229,15 @@ abstract class rcmail_action
                         $table->add(['colspan' => 3, 'class' => 'root'], rcube::Q($root));
                     }
 
-                    if ($storage = $data['storage']) {
-                        $percent = min(100, round(($storage['used']/max(1,$storage['total']))*100));
+                    if ($storage = ($data['storage'] ?? null)) {
+                        $percent = min(100, round(($storage['used'] / max(1, $storage['total'])) * 100));
 
                         $table->add('name', rcube::Q($rcmail->gettext('quotastorage')));
                         $table->add(null, self::show_bytes($storage['total'] * 1024));
                         $table->add(null, sprintf('%s (%.0f%%)', self::show_bytes($storage['used'] * 1024), $percent));
                     }
-                    if ($message = $data['message']) {
-                        $percent = min(100, round(($message['used']/max(1,$message['total']))*100));
+                    if ($message = ($data['message'] ?? null)) {
+                        $percent = min(100, round(($message['used'] / max(1, $message['total'])) * 100));
 
                         $table->add('name', rcube::Q($rcmail->gettext('quotamessage')));
                         $table->add(null, intval($message['total']));

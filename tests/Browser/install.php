@@ -36,20 +36,23 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
      *
      * @return void
      */
-    public function install($version = null)
+    public function install($version = '')
     {
-        $version = $version ? preg_replace('/\..*/', '', $version) : $this->latestVersion();
-        $version = trim($this->getUrl(sprintf($this->versionUrl, $version)));
-        $currentOS = Laravel\Dusk\OperatingSystem::id();
+        $os = Laravel\Dusk\OperatingSystem::id();
+        $version = trim($version);
+        $archive = $this->directory . 'chromedriver.zip';
 
-        foreach ($this->slugs as $os => $slug) {
-            if ($os === $currentOS) {
-                $archive = $this->download($version, $slug);
-                $binary = $this->extract($archive);
+        $url = $this->resolveChromeDriverDownloadUrl($version, $os);
 
-                $this->rename($binary, $os);
-            }
-        }
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->get($url);
+
+        $data = file_put_contents($archive, $response->getBody());
+
+        $binary = $this->extract($version, $archive);
+
+        $this->rename($binary, $os);
 
         echo "ChromeDriver binary successfully installed for version $version.\n";
     }

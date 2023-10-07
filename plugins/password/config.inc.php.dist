@@ -163,6 +163,8 @@ $config['password_saslpasswd_args'] = '';
 // -----------------------------------
 // LDAP server name to connect to.
 // You can provide one or several hosts in an array in which case the hosts are tried from left to right.
+// When 'ldap_simple' driver is used, URI syntax (i.e. 'ldapi:///') is supported,
+// 'password_ldap_port' is ignored when URI is used.
 // Example: ['ldap1.example.com', 'ldap2.example.com'];
 // Default: 'localhost'
 $config['password_ldap_host'] = 'localhost';
@@ -180,6 +182,29 @@ $config['password_ldap_starttls'] = false;
 // Default: '3'
 $config['password_ldap_version'] = '3';
 
+// LDAP search bind type
+// This option works only with 'ldap_simple' driver.
+// 'sasl' bind type is particularly useful when local UNIX socket is used to connect
+// the server, or client TLS certificate validation is enabled. In this cases we
+// can avoid using explicit DN.
+// Example: 'sasl'
+// Default: 'bind'
+$config['password_ldap_bind_method'] = 'bind';
+
+// LDAP SASL mech
+// SASL mech when 'password_ldap_bind_method' is 'sasl'.
+// This option works only with 'ldap_simple' driver.
+// Example: 'EXTERNAL'
+// Default: null
+$config['password_ldap_mech'] = null;
+
+// LDAP SASL realm
+// SASL realm when 'password_ldap_bind_method' is 'sasl'.
+// This option works only with 'ldap_simple' driver.
+// Example: 'myrealm'
+// Default: null
+$config['password_ldap_realm'] = null;
+
 // LDAP base name (root directory)
 // Example: 'dc=example,dc=com'
 $config['password_ldap_basedn'] = 'dc=example,dc=com';
@@ -188,6 +213,8 @@ $config['password_ldap_basedn'] = 'dc=example,dc=com';
 // There are two connection methods for changing a user's LDAP password.
 // 'user': use user credential (recommended, require password_confirm_current=true)
 // 'admin': use admin credential (this mode require password_ldap_adminDN and password_ldap_adminPW)
+// 'sasl': use SASL bind (see password_ldap_adminDN, password_ldap_adminPW,
+//         password_ldap_realm, and password_ldap_mech)
 // Default: 'user'
 $config['password_ldap_method'] = 'user';
 

@@ -1363,7 +1363,6 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $content = html::div($attrib, html::img([
                 'src'     => $photo_img,
-                'alt'     => $rcmail->gettext('contactphoto'),
                 'onerror' => 'this.onerror = null; this.src = rcmail.env.photo_placeholder;',
         ]));
 

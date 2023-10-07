@@ -2223,6 +2223,8 @@ function rcube_webmail()
       ml: flags.ml?1:0,
       ctype: flags.ctype,
       mbox: flags.mbox,
+      size: cols.size,
+      date: cols.date,
       // flags from plugins
       flags: flags.extra_flags
     });
@@ -3301,40 +3303,40 @@ function rcube_webmail()
   };
 
   // delete selected messages from the current mailbox
-  this.delete_messages = function(event)
+  this.delete_messages = function(event, uid)
   {
     var list = this.message_list, trash = this.env.trash_mailbox;
 
     // if config is set to flag for deletion
     if (this.env.flag_for_deletion) {
-      this.mark_message('delete');
+      this.mark_message('delete', uid);
       return false;
     }
     // if there isn't a defined trash mailbox or we are in it
     else if (!trash || this.env.mailbox == trash)
-      this.permanently_remove_messages();
+      this.permanently_remove_messages(uid);
     // we're in Junk folder and delete_junk is enabled
     else if (this.env.delete_junk && this.env.junk_mailbox && this.env.mailbox == this.env.junk_mailbox)
-      this.permanently_remove_messages();
+      this.permanently_remove_messages(uid);
     // if there is a trash mailbox defined and we're not currently in it
     else {
       // if shift was pressed delete it immediately
       if ((list && list.modkey == SHIFT_KEY) || (event && rcube_event.get_modifier(event) == SHIFT_KEY)) {
         this.confirm_dialog(this.get_label('deletemessagesconfirm'), 'delete', function() {
-            ref.permanently_remove_messages();
+            ref.permanently_remove_messages(uid);
           });
       }
       else
-        this.move_messages(trash);
+        this.move_messages(trash, event, uid ? [uid] : null);
     }
 
     return true;
   };
 
   // delete the selected messages permanently
-  this.permanently_remove_messages = function()
+  this.permanently_remove_messages = function(uid)
   {
-    var post_data = this.selection_post_data();
+    var post_data = this.selection_post_data(uid ? {_uid: uid} : null);
 
     // exit if selection is empty
     if (!post_data._uid)
@@ -3347,7 +3349,7 @@ function rcube_webmail()
   // Send a specific move/delete request with UIDs of all selected messages
   this.with_selected_messages = function(action, post_data, lock, http_action)
   {
-    var count = 0, msg,
+    var msg, count = 0,
       remove = (action == 'delete' || !this.is_multifolder_listing());
 
     // update the list (remove rows, clear selection)
@@ -3358,8 +3360,8 @@ function rcube_webmail()
 
       if (selection === '*')
         selection = this.message_list.get_selection();
-      else if (typeof selection == 'string')
-        selection = selection.split(',');
+      else if (!Array.isArray(selection))
+        selection = String(selection).split(',');
 
       for (n=0, len=selection.length; n<len; n++) {
         id = selection[n];
@@ -3407,7 +3409,7 @@ function rcube_webmail()
   // build post data for message delete/move/copy/flag requests
   this.selection_post_data = function(data)
   {
-    if (typeof(data) != 'object')
+    if (!data || typeof(data) != 'object')
       data = {};
 
     if (!data._uid)
@@ -3632,7 +3634,7 @@ function rcube_webmail()
       return '*';
 
     // multi-folder list of uids cannot be passed as a string (#6845)
-    if ($.isArray(uids) && (uids.length == 1 || String(uids[0]).indexOf('-') == -1))
+    if (Array.isArray(uids) && (uids.length == 1 || String(uids[0]).indexOf('-') == -1))
       uids = uids.join(',');
 
     return uids;
@@ -5422,12 +5424,12 @@ function rcube_webmail()
       att.html = '<span class="uploading">' + att.html + '</span>';
 
     if (!att.complete && this.env.loadingicon)
-      att.html = '<img src="'+this.env.loadingicon+'" alt="" class="uploading" />' + att.html;
+      att.html = '<img src="'+this.env.loadingicon+'" class="uploading" />' + att.html;
 
     if (!att.complete) {
       label = this.get_label('cancel');
       att.html = '<a title="'+label+'" onclick="return rcmail.cancel_attachment_upload(\''+name+'\');" href="#cancelupload" class="cancelupload">'
-        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" alt="'+label+'" />' : '<span class="inner">' + label + '</span>') + '</a>' + att.html;
+        + (this.env.cancelicon ? '<img src="'+this.env.cancelicon+'" />' : '<span class="inner">' + label + '</span>') + '</a>' + att.html;
     }
 
     li.attr('id', name).addClass(att.classname).html(att.html)

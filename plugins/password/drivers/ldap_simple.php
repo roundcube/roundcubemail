@@ -119,11 +119,12 @@ class rcube_ldap_simple_password
         $this->debug = $rcmail->config->get('ldap_debug');
         $ldap_host   = $rcmail->config->get('password_ldap_host', 'localhost');
         $ldap_port   = $rcmail->config->get('password_ldap_port', '389');
+        $ldap_uri    = $this->_host2uri($ldap_host, $ldap_port);
 
-        $this->_debug("C: Connect to $ldap_host:$ldap_port");
+        $this->_debug("C: Connect [{$ldap_uri}]");
 
         // Connect
-        if (!$ds = ldap_connect($ldap_host, $ldap_port)) {
+        if (!($ds = ldap_connect($ldap_uri))) {
             $this->_debug("S: NOT OK");
 
             rcube::raise_error([
@@ -174,6 +175,12 @@ class rcube_ldap_simple_password
 
         // Connection method
         switch ($rcmail->config->get('password_ldap_method')) {
+        case 'sasl':
+            $binddn    = $rcmail->config->get('password_ldap_adminDN');
+            $bindpw    = $rcmail->config->get('password_ldap_adminPW');
+            $bindmech  = $rcmail->config->get('password_ldap_mech');
+            $bindrealm = $rcmail->config->get('password_ldap_realm');
+            break;
         case 'admin':
             $binddn = $rcmail->config->get('password_ldap_adminDN');
             $bindpw = $rcmail->config->get('password_ldap_adminPW');
@@ -188,12 +195,22 @@ class rcube_ldap_simple_password
         $this->_debug("C: Bind $binddn, pass: **** [" . strlen($bindpw) . "]");
 
         // Bind
-        if (!ldap_bind($ds, $binddn, $bindpw)) {
-            $this->_debug("S: ".ldap_error($ds));
+        if ($rcmail->config->get('password_ldap_method') == 'sasl') {
+            if (!ldap_sasl_bind($ds, $binddb, $bindpw, $bindmech, $bindrealm)) {
+                $this->_debug("S: ".ldap_error($ds));
 
-            ldap_unbind($ds);
+                ldap_unbind($ds);
 
-            return PASSWORD_CONNECT_ERROR;
+                return PASSWORD_CONNECT_ERROR;
+            }
+        } else {
+            if (!ldap_bind($ds, $binddn, $bindpw)) {
+                $this->_debug("S: ".ldap_error($ds));
+
+                ldap_unbind($ds);
+
+                return PASSWORD_CONNECT_ERROR;
+            }
         }
 
         $this->_debug("S: OK");
@@ -222,10 +239,28 @@ class rcube_ldap_simple_password
 
         $this->_debug("C: Bind " . ($search_user ? $search_user : '[anonymous]'));
 
-        // Bind
-        if (!ldap_bind($ds, $search_user, $search_pass)) {
-            $this->_debug("S: ".ldap_error($ds));
-            return false;
+        switch ($rcmail->config->get('password_ldap_bind_method')) {
+        case 'sasl':
+            $search_mech     = $rcmail->config->get('password_ldap_mech');
+            $search_realm    = $rcmail->config->get('password_ldap_realm');
+
+            // Bind
+            if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {
+                $this->_debug("S: ".ldap_error($ds));
+                return false;
+            }
+
+            break;
+        case 'bind':
+        default:
+
+            // Bind
+            if (!ldap_bind($ds, $search_user, $search_pass)) {
+                $this->_debug("S: ".ldap_error($ds));
+                return false;
+            }
+
+            break;
         }
 
         $this->_debug("S: OK");
@@ -289,5 +324,25 @@ class rcube_ldap_simple_password
         if ($this->debug) {
             rcube::write_log('ldap', $str);
         }
+    }
+
+    /**
+     * Convert LDAP host/port into URI
+     */
+    private static function _host2uri($host, $port = null)
+    {
+        if (stripos($host, 'ldapi://') === 0) {
+            return $host;
+        }
+
+        if (strpos($host, '://') === false) {
+            $host = ($port == 636 ? 'ldaps' : 'ldap') . '://' . $host;
+        }
+
+        if ($port && !preg_match('/:[0-9]+$/', $host)) {
+            $host .= ':' . $port;
+        }
+
+        return $host;
     }
 }

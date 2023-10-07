@@ -52,9 +52,13 @@ class rcube_ldap_samba_ad_password extends rcube_ldap_simple_password
             return $ret;
         }
 
-        $entry = [
-            'unicodePwd' => password::hash_password($passwd, 'ad')
-        ];
+        $hash = password::hash_password($passwd, 'ad');
+
+        if ($hash === false) {
+            return PASSWORD_CRYPT_ERROR;
+        }
+
+        $entry = ['unicodePwd' => $hash];
 
         $this->_debug("C: Replace password for {$this->user}: " . print_r($entry, true));
 

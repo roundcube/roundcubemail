@@ -120,8 +120,12 @@ class rcmail_oauth
      */
     public function get_redirect_uri()
     {
+        $url = $this->rcmail->url([], true, true);
+
         // rewrite redirect URL to not contain query parameters because some providers do not support this
-        return preg_replace('/\/?\?_task=[a-z]+/', '/index.php/login/oauth', $this->rcmail->url([], true, true));
+        $url = preg_replace('/\?.*/', '', $url);
+
+        return slashify($url) . 'index.php/login/oauth';
     }
 
     /**

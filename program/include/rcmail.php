@@ -1171,7 +1171,7 @@ class rcmail extends rcube
             $path = $_SERVER[$path];
         }
         else if (empty($path)) {
-            foreach (['REDIRECT_SCRIPT_URL', 'SCRIPT_NAME', 'REQUEST_URI'] as $name) {
+            foreach (['REQUEST_URI', 'REDIRECT_SCRIPT_URL', 'SCRIPT_NAME'] as $name) {
                 if (!empty($_SERVER[$name])) {
                     $path = $_SERVER[$name];
                     break;
@@ -1182,7 +1182,8 @@ class rcmail extends rcube
             return rtrim($path, '/') . '/';
         }
 
-        $path = preg_replace('/[?&].*$/', '', (string) $path);
+        $path = preg_replace('/index\.php.*$/', '', (string) $path);
+        $path = preg_replace('/[?&].*$/', '', $path);
         $path = preg_replace('![^/]+$!', '', $path);
 
         return rtrim($path, '/') . '/';
