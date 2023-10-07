@@ -20,6 +20,7 @@
 		"msapplication-navbutton-color": "#f4f4f4"
 	},
 	"links": {
-		"apple-touch-icon": "/images/apple-touch-icon.png"
+		"apple-touch-icon": "/images/apple-touch-icon.png",
+		"manifest": "/manifest.json"
 	}
 }

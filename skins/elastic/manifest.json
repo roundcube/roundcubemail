@@ -1,0 +1,15 @@
+{
+    "short_name": "Roundcube",
+    "name": "Roundcube",
+    "icons": [
+        {
+            "src": "./images/logo.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ],
+    "start_url": "../../",
+    "display": "standalone",
+    "theme_color": "#f4f4f4",
+    "background_color": "#ffffff"
+}
