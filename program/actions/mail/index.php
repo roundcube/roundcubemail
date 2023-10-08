@@ -103,9 +103,10 @@ class rcmail_action_mail_index extends rcmail_action
                     $scope = $_SESSION['search_scope'];
                 }
 
-                if ($scope && preg_match('/^(all|sub)$/i', $scope)) {
-                    $rcmail->output->set_env('search_scope', strtolower($scope));
+                if (!$scope) {
+                    $scope = self::search_scope();
                 }
+                $rcmail->output->set_env('search_scope', strtolower($scope));
 
                 self::list_pagetitle();
             }
@@ -274,6 +275,21 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         return $mods;
+    }
+
+    /**
+    * Returns default search scopes
+    */
+    public static function search_scope()
+    {
+        $rcmail = rcmail::get_instance();
+        $scope = $rcmail->config->get('search_scope');
+
+        if (empty($scope)) {
+            $scope = 'base';
+        }
+
+        return $scope;
     }
 
     /**
