@@ -97,16 +97,7 @@ class rcmail_action_mail_index extends rcmail_action
 
             if (empty($rcmail->action)) {
                 $rcmail->output->set_env('search_mods', self::search_mods());
-
-                $scope = rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET);
-                if (!$scope && isset($_SESSION['search_scope']) && $rcmail->output->get_env('search_request')) {
-                    $scope = $_SESSION['search_scope'];
-                }
-
-                if (!$scope) {
-                    $scope = self::search_scope();
-                }
-                $rcmail->output->set_env('search_scope', strtolower($scope));
+                $rcmail->output->set_env('search_scope', self::search_scope());
 
                 self::list_pagetitle();
             }
@@ -278,18 +269,26 @@ class rcmail_action_mail_index extends rcmail_action
     }
 
     /**
-    * Returns default search scopes
-    */
+     * Returns a requested or default search scope
+     */
     public static function search_scope()
     {
         $rcmail = rcmail::get_instance();
-        $scope = $rcmail->config->get('search_scope');
+        $scope = rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET);
 
-        if (empty($scope)) {
+        if (!$scope && isset($_SESSION['search_scope']) && $rcmail->output->get_env('search_request')) {
+            $scope = $_SESSION['search_scope'];
+        }
+
+        if (!$scope) {
+            $scope = $rcmail->config->get('search_scope');
+        }
+
+        if (!$scope || !preg_match('/^(all|sub|base)$/i', $scope)) {
             $scope = 'base';
         }
 
-        return $scope;
+        return strtolower($scope);
     }
 
     /**
