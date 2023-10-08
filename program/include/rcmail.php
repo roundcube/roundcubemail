@@ -968,7 +968,7 @@ class rcmail extends rcube
             list(, $domain) = rcube_utils::explode('@', $post_user);
 
             // direct match in default_host array
-            if ($default_host[$post_host] || in_array($post_host, array_values($default_host))) {
+            if (!empty($default_host[$post_host]) || in_array($post_host, array_values($default_host))) {
                 $host = $post_host;
             }
             // try to select host by mail domain
