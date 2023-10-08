@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Fix PHP8 warnings (#9142)
+- Fix PHP8 warnings (#9142, #9160)
 - Fix default 'mime.types' path on Windows (#9113)
 - Managesieve: Fix javascript error when relational or spamtest extension is not enabled (#9139)
 
