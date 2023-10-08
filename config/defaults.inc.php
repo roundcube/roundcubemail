@@ -1434,13 +1434,18 @@ $config['force_7bit'] = false;
 // The entry with key '*' stands for all folders which do not have a specific list set.
 // Supported fields: subject, from, to, cc, bcc, replyto, followupto, body, text.
 // Please note that folder names should to be in sync with $config['*_mbox'] options
-$config['search_mods'] = null;  // Example: ['*' => ['subject'=>1, 'from'=>1], 'Sent' => ['subject'=>1, 'to'=>1]];
+// Example: ['*' => ['subject'=>1, 'from'=>1], 'Sent' => ['subject'=>1, 'to'=>1]];
+$config['search_mods'] = null;
 
-// Default search scope
-$config['search_scope'] = null; // Example: 'all' - for all folders, 'base' - for current folder, 'sub' - for this and subfolders
+// Default search scope. Supported values:
+// 'base' - for current folder (default),
+// 'sub' - for current folder and subfolders,
+// 'all' - for all folders
+$config['search_scope'] = null;
 
 // Defaults of the addressbook search field configuration.
-$config['addressbook_search_mods'] = null;  // Example: ['name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1];
+// Example: ['name'=>1, 'firstname'=>1, 'surname'=>1, 'email'=>1, '*'=>1];
+$config['addressbook_search_mods'] = null;
 
 // Directly delete messages in Junk instead of moving to Trash
 $config['delete_junk'] = false;
