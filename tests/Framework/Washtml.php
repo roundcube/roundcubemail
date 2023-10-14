@@ -455,6 +455,24 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                 '<svg><script href="data:text/javascript,alert(1)" /><text x="20" y="20">XSS</text></svg>',
                 '<svg><text x="20" y="20">XSS</text></svg>'
             ],
+            [
+                '<html><svg><use href="data:image/s vg+xml;base64,' // space
+                    . 'PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGltYWdlIGhy'
+                    . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
+                '<svg><use x-washed="href"></use></svg>'
+            ],
+            [
+                '<html><svg><use href="data:image/s' . "\n" . 'vg+xml;base64,' // new-line
+                    . 'PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGltYWdlIGhy'
+                    . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
+                '<svg><use x-washed="href"></use></svg>'
+            ],
+            [
+                '<html><svg><use href="data:image/s	vg+xml;base64,' // tab
+                    . 'PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGltYWdlIGhy'
+                    . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
+                '<svg><use x-washed="href"></use></svg>'
+            ],
         ];
     }
 
