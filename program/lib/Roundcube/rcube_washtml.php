@@ -424,17 +424,22 @@ class rcube_washtml
                 return $this->config['blocked_src'];
             }
         }
+<<<<<<< HEAD
         else if ($is_image && preg_match('/^data:image\/([^,]+),(.+)$/i', $uri, $matches)) { // RFC2397
+=======
+        else if ($is_image && preg_match('/^data:image\/([^,]+),(.+)$/is', $uri, $matches)) { // RFC2397
+            $type = preg_replace('/\s/', '', $matches[1]);
+
+>>>>>>> 6ee6e7ae3... Fix cross-site scripting (XSS) vulnerability in handling of SVG in HTML messages (#9168)
             // svg images can be insecure, we'll sanitize them
-            if (stripos($matches[1], 'svg') !== false) {
+            if (stripos($type, 'svg') !== false) {
                 $svg = $matches[2];
 
-                if (stripos($matches[1], ';base64') !== false) {
-                    $svg  = base64_decode($svg);
-                    $type = $matches[1];
+                if (stripos($type, ';base64') !== false) {
+                    $svg = base64_decode($svg);
                 }
                 else {
-                    $type = $matches[1] . ';base64';
+                    $type .= ';base64';
                 }
 
                 $washer = new self($this->config);
