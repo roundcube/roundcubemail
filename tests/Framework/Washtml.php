@@ -439,19 +439,19 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                 '<html><svg><use href="data:image/s vg+xml;base64,' // space
                     . 'PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGltYWdlIGhy'
                     . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
-                '<svg><use x-washed="href"></use></svg>'
+                '<svg xmlns="http://www.w3.org/1999/xhtml"><use x-washed="href"></use></svg>'
             ],
             [
                 '<html><svg><use href="data:image/s' . "\n" . 'vg+xml;base64,' // new-line
                     . 'PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGltYWdlIGhy'
                     . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
-                '<svg><use x-washed="href"></use></svg>'
+                '<svg xmlns="http://www.w3.org/1999/xhtml"><use x-washed="href"></use></svg>'
             ],
             [
                 '<html><svg><use href="data:image/s	vg+xml;base64,' // tab
                     . 'PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGltYWdlIGhy'
                     . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
-                '<svg><use x-washed="href"></use></svg>'
+                '<svg xmlns="http://www.w3.org/1999/xhtml"><use x-washed="href"></use></svg>'
             ],
         ];
     }
