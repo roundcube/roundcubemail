@@ -5,6 +5,7 @@
 - Fix PHP8 warnings (#9142, #9160)
 - Fix default 'mime.types' path on Windows (#9113)
 - Managesieve: Fix javascript error when relational or spamtest extension is not enabled (#9139)
+- Fix cross-site scripting (XSS) vulnerability in handling of SVG in HTML messages (#9168)
 
 ## Release 1.6.3
 
