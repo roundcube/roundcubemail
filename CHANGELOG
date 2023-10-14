@@ -1,5 +1,7 @@
 # Changelog Roundcube Webmail
 
+- Fix cross-site scripting (XSS) vulnerability in handling of SVG in HTML messages (#9168)
+
 RELEASE 1.4.14
 --------------
 - Fix cross-site scripting (XSS) vulnerability in handling of linkrefs in plain text messages
