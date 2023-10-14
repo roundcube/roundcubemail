@@ -1,6 +1,7 @@
 # Changelog Roundcube Webmail
 
 - Fix cross-site scripting (XSS) vulnerability in handling of SVG in HTML messages (#9168)
+- Fix PHP 5.4 compatibility by using pear-core-minimal 1.10.11 (#9148)
 
 RELEASE 1.4.14
 --------------
