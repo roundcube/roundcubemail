@@ -135,7 +135,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             $sub_key       = array_search($folder['id'], $a_subscribed);
             $is_subscribed = $sub_key !== false;
             $is_special    = isset($special_folders[$folder['id']]);
-            $is_protected  = $folder['id'] == 'INBOX' || ($protect_default && $is_special);
+            $is_protected  = strtoupper($folder['id']) == 'INBOX' || ($protect_default && $is_special);
             $noselect      = false;
             $classes       = [];
 

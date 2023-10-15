@@ -57,7 +57,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         }
         else {
             $a_mailboxes = (array) $current;
-            if ($current != 'INBOX') {
+            if (strtoupper($current) != 'INBOX') {
                 $a_mailboxes[] = 'INBOX';
             }
         }

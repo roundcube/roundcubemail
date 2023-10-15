@@ -2933,7 +2933,7 @@ class rcube_imap extends rcube_storage
 
         // INBOX should always be available
         if (in_array_nocase($root . $name, ['*', '%', 'INBOX', 'INBOX*'])
-            && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)
+            && (!$filter || $filter == 'mail') && !in_array_nocase('INBOX', $a_mboxes)
         ) {
             array_unshift($a_mboxes, 'INBOX');
         }
@@ -3065,7 +3065,7 @@ class rcube_imap extends rcube_storage
 
         // INBOX should always be available
         if (in_array_nocase($root . $name, ['*', '%', 'INBOX', 'INBOX*'])
-            && (!$filter || $filter == 'mail') && !in_array('INBOX', $a_mboxes)
+            && (!$filter || $filter == 'mail') && !in_array_nocase('INBOX', $a_mboxes)
         ) {
             array_unshift($a_mboxes, 'INBOX');
         }
@@ -3567,7 +3567,7 @@ class rcube_imap extends rcube_storage
      */
     public function folder_exists($folder, $subscription = false)
     {
-        if ($folder == 'INBOX') {
+        if (strtoupper($folder) == 'INBOX') {
             return true;
         }
 
@@ -3619,7 +3619,7 @@ class rcube_imap extends rcube_storage
      */
     public function folder_namespace($folder)
     {
-        if ($folder == 'INBOX') {
+        if (strtoupper($folder) == 'INBOX') {
             return 'personal';
         }
 

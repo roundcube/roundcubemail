@@ -2597,7 +2597,7 @@ function rcube_webmail()
 
     if (self.env.unread_counts[folder] > 0) {
       self.env.unread_counts[folder] -= 1;
-      self.set_unread_count(folder, self.env.unread_counts[folder], folder == 'INBOX' && !self.is_multifolder_listing());
+      self.set_unread_count(folder, self.env.unread_counts[folder], folder.toUpperCase() == 'INBOX' && !self.is_multifolder_listing());
     }
   };
 

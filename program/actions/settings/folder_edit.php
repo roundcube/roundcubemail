@@ -74,7 +74,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             $hidden_fields = [];
 
             // allow creating subfolders of INBOX folder
-            if ($path == 'INBOX') {
+            if (strtoupper($path) == 'INBOX') {
                 $path = $storage->mod_folder($path, 'in');
             }
         }
@@ -188,7 +188,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         }
 
         // Settings: threading
-        if ($threading_supported && ($mbox == 'INBOX' || (empty($options['noselect']) && empty($options['is_root'])))) {
+        if ($threading_supported && (strtoupper($mbox) == 'INBOX' || (empty($options['noselect']) && empty($options['is_root'])))) {
             $value  = 0;
             $select = new html_select(['name' => '_viewmode', 'id' => '_viewmode']);
 
@@ -221,7 +221,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 'content' => []
             ];
 
-            if ((!$options['noselect'] && !$options['is_root']) || $mbox == 'INBOX') {
+            if ((!$options['noselect'] && !$options['is_root']) || strtoupper($mbox) == 'INBOX') {
                 $msgcount = (int) $storage->count($mbox, 'ALL', true, false);
 
                 if ($msgcount) {

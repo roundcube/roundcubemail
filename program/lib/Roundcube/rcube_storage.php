@@ -860,7 +860,7 @@ abstract class rcube_storage
      */
     public function is_special_folder($name)
     {
-        return $name == 'INBOX' || in_array($name, $this->get_special_folders());
+        return strtoupper($name) == 'INBOX' || in_array($name, $this->get_special_folders());
     }
 
     /**

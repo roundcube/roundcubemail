@@ -1323,7 +1323,7 @@ abstract class rcmail_action
 
             // for these mailboxes we have css classes
             foreach (['sent', 'drafts', 'trash', 'junk'] as $type) {
-                if (($mbox = $rcmail->config->get($type . '_mbox')) && !isset($classes[$mbox])) {
+                if (($mbox = $rcmail->config->get($type . '_mbox')) && !isset($classes[strtoupper($mbox)])) {
                     $classes[$mbox] = $type;
                 }
             }
@@ -1333,7 +1333,7 @@ abstract class rcmail_action
                 if ($ns = $storage->get_namespace($ns_name)) {
                     foreach ($ns as $root) {
                         $root = substr($root[0], 0, -1);
-                        if (strlen($root) && !isset($classes[$root])) {
+                        if (strlen($root) && !isset($classes[strtoupper($root)])) {
                             $classes[$root] = "ns-$ns_name";
                         }
                     }
@@ -1341,7 +1341,7 @@ abstract class rcmail_action
             }
         }
 
-        return !empty($classes[$folder_id]) ? $classes[$folder_id] : $fallback;
+        return !empty($classes[strtoupper($folder_id)]) ? $classes[strtoupper($folder_id)] : $fallback;
     }
 
     /**

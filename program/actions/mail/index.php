@@ -840,9 +840,9 @@ class rcmail_action_mail_index extends rcmail_action
             $unseen = $rcmail->storage->count($mbox_name, 'UNSEEN', $force);
         }
 
-        if ($unseen !== $old_unseen || ($mbox_name == 'INBOX')) {
-            $rcmail->output->command('set_unread_count', $mbox_name, $unseen,
-                ($mbox_name == 'INBOX'), $unseen && $mark ? $mark : '');
+        $is_inbox = strtoupper($mbox_name) == 'INBOX';
+        if ($unseen !== $old_unseen || $is_inbox) {
+            $rcmail->output->command('set_unread_count', $mbox_name, $unseen, $is_inbox, $unseen && $mark ? $mark : '');
         }
 
         self::set_unseen_count($mbox_name, $unseen);

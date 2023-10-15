@@ -1292,7 +1292,6 @@ class rcmail extends rcube
         $opts = ['drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox', 'archive_mbox'];
         foreach ($opts as $opt) {
             if ($value = $this->config->get($opt)) {
-                if ($value != 'INBOX' && !preg_match($regexp, $value)) {
                     $prefs[$opt] = $prefix . $value;
                 }
             }
@@ -1301,7 +1300,7 @@ class rcmail extends rcube
         if (($search_mods = $this->config->get('search_mods')) && !empty($search_mods)) {
             $folders = [];
             foreach ($search_mods as $idx => $value) {
-                if ($idx != 'INBOX' && $idx != '*' && !preg_match($regexp, $idx)) {
+                if (strtoupper($idx) != 'INBOX' && $idx != '*' && !preg_match($regexp, $idx)) {
                     $idx = $prefix . $idx;
                 }
                 $folders[$idx] = $value;
@@ -1313,7 +1312,7 @@ class rcmail extends rcube
         if (($threading = $this->config->get('message_threading')) && !empty($threading)) {
             $folders = [];
             foreach ($threading as $idx => $value) {
-                if ($idx != 'INBOX' && !preg_match($regexp, $idx)) {
+                if (strtoupper($idx) != 'INBOX' && !preg_match($regexp, $idx)) {
                     $idx = $prefix . $idx;
                 }
                 $folders[$idx] = $value;
@@ -1333,7 +1332,7 @@ class rcmail extends rcube
             }
 
             foreach ($folders as $value) {
-                if ($value != 'INBOX' && !preg_match($regexp, $value)) {
+                if (strtoupper($value) != 'INBOX' && !preg_match($regexp, $value)) {
                     $value = $prefix . $value;
                 }
                 $folders_str .= '&' . $value . '&';

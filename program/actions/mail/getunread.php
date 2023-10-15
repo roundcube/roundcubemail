@@ -34,7 +34,7 @@ class rcmail_action_mail_getunread extends rcmail_action_mail_index
 
         if (!empty($a_folders)) {
             $current   = $rcmail->storage->get_folder();
-            $inbox     = $current == 'INBOX';
+            $inbox     = strtoupper($current) == 'INBOX';
             $trash     = $rcmail->config->get('trash_mbox');
             $check_all = (bool) $rcmail->config->get('check_all_folders');
 
@@ -52,7 +52,7 @@ class rcmail_action_mail_getunread extends rcmail_action_mail_index
                 // after possible message status change when opening a message
                 // not in preview frame
                 if ($unseen || $unseen_old === null || $mbox == $current) {
-                    $rcmail->output->command('set_unread_count', $mbox, $unseen, $inbox && $mbox == 'INBOX');
+                    $rcmail->output->command('set_unread_count', $mbox, $unseen, $inbox && strtoupper($mbox) == 'INBOX');
                 }
 
                 self::set_unseen_count($mbox, $unseen);

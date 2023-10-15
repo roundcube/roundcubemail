@@ -411,7 +411,7 @@ class archive extends rcube_plugin
                         'maxlength'     => 30,
                         'folder_filter' => 'mail',
                         'folder_rights' => 'w',
-                        'onchange'      => "if ($(this).val() == 'INBOX') $(this).val('')",
+                        'onchange'      => "if ($(this).val().toUpperCase() == 'INBOX') $(this).val('')",
                         'class'         => 'custom-select',
                 ]);
             }

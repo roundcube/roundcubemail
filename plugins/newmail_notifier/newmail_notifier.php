@@ -69,7 +69,7 @@ class newmail_notifier extends rcube_plugin
                     $exceptions = ['drafts_mbox', 'sent_mbox', 'trash_mbox', 'junk_mbox'];
                     foreach ($exceptions as $folder) {
                         $folder = $this->rc->config->get($folder);
-                        if (strlen($folder) && $folder != 'INBOX') {
+                        if (strlen($folder) && strtoupper($folder) != 'INBOX') {
                             $this->exceptions[] = $folder;
                         }
                     }

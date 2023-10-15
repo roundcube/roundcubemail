@@ -1287,7 +1287,7 @@ class rcmail_action_settings_index extends rcmail_action
                     ]);
 
                     // #1486114, #1488279, #1489219
-                    $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
+                    $onchange = "if ($(this).val().toUpperCase() == 'INBOX') $(this).val('')";
                 }
                 else {
                     $onchange = null;
