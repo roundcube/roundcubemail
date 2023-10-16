@@ -25,6 +25,9 @@
 - Password: Add ldap_samba_ad driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Fix potential HTTP protocol version mismatch (#8982)
+
+## Release 1.6.4
+
 - Fix PHP8 warnings (#9142, #9160)
 - Fix default 'mime.types' path on Windows (#9113)
 - Managesieve: Fix javascript error when relational or spamtest extension is not enabled (#9139)
