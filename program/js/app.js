@@ -6037,6 +6037,11 @@ function rcube_webmail()
         text = typeof results[i] === 'object' ? (results[i].display || results[i].name) : results[i];
         type = typeof results[i] === 'object' ? results[i].type : '';
         id = i + this.env.contacts.length;
+        if (this.env.contacts.length && this.env.autocomplete_clean_duplicates) {
+          if (this.env.contacts.find(contact => contact.name == text)) {
+            continue;
+          }
+        }
         $('<li>').attr({id: 'rcmkSearchItem' + id, role: 'option'})
           .html('<i class="icon"></i>' + this.quote_html(text.replace(new RegExp('('+RegExp.escape(value)+')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>'))
           .addClass(type || '')
