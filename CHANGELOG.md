@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix PHP8 fatal error when parsing a malformed BODYSTRUCTURE (#9171)
+
+## Release 1.6.4
+
 - Fix PHP8 warnings (#9142, #9160)
 - Fix default 'mime.types' path on Windows (#9113)
 - Managesieve: Fix javascript error when relational or spamtest extension is not enabled (#9139)

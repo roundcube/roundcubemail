@@ -2164,7 +2164,7 @@ class rcube_imap extends rcube_storage
         }
 
         // read content encoding
-        if (!empty($part[5])) {
+        if (!empty($part[5]) && !is_array($part[5])) {
             $struct->encoding = strtolower($part[5]);
             $struct->headers['content-transfer-encoding'] = $struct->encoding;
         }
