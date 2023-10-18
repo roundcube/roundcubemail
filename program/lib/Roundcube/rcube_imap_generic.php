@@ -1650,6 +1650,18 @@ class rcube_imap_generic
                         $mailbox = rtrim($mailbox, $delim);
                     }
 
+                    // Make it easier for the client to deal with INBOX folder
+                    // by always returning the word with all capital letters
+                    if (strlen($mailbox) == 5
+                        && ($mailbox[0] == 'i' || $mailbox[0] == 'I')
+                        && ($mailbox[1] == 'n' || $mailbox[1] == 'N')
+                        && ($mailbox[2] == 'b' || $mailbox[2] == 'B')
+                        && ($mailbox[3] == 'o' || $mailbox[3] == 'O')
+                        && ($mailbox[4] == 'x' || $mailbox[4] == 'X')
+                    ) {
+                        $mailbox = 'INBOX';
+                    }
+
                     // Add to result array
                     if (!$lstatus) {
                         $folders[] = $mailbox;
