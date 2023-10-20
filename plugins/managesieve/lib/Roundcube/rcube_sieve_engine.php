@@ -727,7 +727,7 @@ class rcube_sieve_engine
                         $this->form['tests'][$i]['type'] = $sizeop;
                         $this->form['tests'][$i]['arg']  = $sizetarget;
 
-                        if ($sizetarget == '') {
+                        if ($sizetarget === '') {
                             $this->errors['tests'][$i]['sizetarget'] = $this->plugin->gettext('cannotbeempty');
                         }
                         else if (!preg_match('/^[0-9]+(K|M|G)?$/i', $sizetarget.$sizeitem, $m)) {
@@ -1067,8 +1067,8 @@ class rcube_sieve_engine
 
                 case 'redirect':
                 case 'redirect_copy':
-                    $target = $this->strip_value(isset($act_targets[$idx]) ? $act_targets[$idx] : null);
-                    $domain = $this->strip_value(isset($domain_targets[$idx]) ? $domain_targets[$idx] : null);
+                    $target = $this->strip_value($act_targets[$idx] ?? null);
+                    $domain = $this->strip_value($domain_targets[$idx] ?? null);
 
                     // force one of the configured domains
                     $domains = (array) $this->rc->config->get('managesieve_domains');
@@ -1082,7 +1082,7 @@ class rcube_sieve_engine
 
                     $this->form['actions'][$i]['target'] = $target;
 
-                    if ($target == '') {
+                    if ($target === '') {
                         $this->errors['actions'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
                     }
                     else if (!rcube_utils::check_email($target)) {
@@ -2775,6 +2775,8 @@ class rcube_sieve_engine
 
             return $str;
         }
+
+        $str = (string) $str;
 
         if (!$allow_html) {
             $str = strip_tags($str);
