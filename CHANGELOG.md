@@ -11,7 +11,7 @@
 - Fix PHP8 warnings (#9142, #9160)
 - Fix default 'mime.types' path on Windows (#9113)
 - Managesieve: Fix javascript error when relational or spamtest extension is not enabled (#9139)
-- Fix cross-site scripting (XSS) vulnerability in handling of SVG in HTML messages (#9168)
+- Fix cross-site scripting (XSS) vulnerability in handling of SVG in HTML messages [CVE-2023-5631] (#9168)
 
 ## Release 1.6.3
 
@@ -30,7 +30,7 @@
 - Fix "Show source" on mobile with x_frame_options = deny (#9084)
 - Fix various PHP warnings (#9098)
 - Fix deprecated use of ldap_connect() in password's ldap_simple driver (#9060)
-- Fix cross-site scripting (XSS) vulnerability in handling of linkrefs in plain text messages
+- Fix cross-site scripting (XSS) vulnerability in handling of linkrefs in plain text messages [CVE-2023-43770]
 
 ## Release 1.6.2
 
