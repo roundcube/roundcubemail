@@ -3277,6 +3277,11 @@ class rcube_sieve_engine
     {
         $default = ['Subject', 'From', 'To'];
         $headers = (array) $this->rc->config->get('managesieve_default_headers', $default);
+
+        if (empty($headers) || $headers === ['']) {
+            $headers = $default;
+        }
+
         $keys    = array_map('strtolower', $headers);
         $headers = array_combine($keys, $headers);
 

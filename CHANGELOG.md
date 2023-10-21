@@ -5,6 +5,7 @@
 - Fix PHP8 fatal error when parsing a malformed BODYSTRUCTURE (#9171)
 - Fix duplicated Inbox folder on IMAP servers that do not use Inbox folder with all capital letters (#9166)
 - Fix PHP warnings (#9174)
+- Fix UI issue when dealing with an invalid managesieve_default_headers value (#9175)
 
 ## Release 1.6.4
 
