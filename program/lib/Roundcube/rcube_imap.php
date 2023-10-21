@@ -2234,6 +2234,7 @@ class rcube_imap extends rcube_storage
         if (!empty($part[3])) {
             $struct->content_id = $struct->headers['content-id'] = trim($part[3]);
 
+            // FIXME: This is not the best idea. We should get rid of this at some point
             if (empty($struct->disposition)) {
                 $struct->disposition = 'inline';
             }

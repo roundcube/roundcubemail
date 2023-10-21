@@ -6,6 +6,7 @@
 - Fix duplicated Inbox folder on IMAP servers that do not use Inbox folder with all capital letters (#9166)
 - Fix PHP warnings (#9174)
 - Fix UI issue when dealing with an invalid managesieve_default_headers value (#9175)
+- Fix bug where images attached to application/smil messages weren't displayed (#8870)
 
 ## Release 1.6.4
 
