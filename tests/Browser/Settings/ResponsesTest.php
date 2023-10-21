@@ -114,7 +114,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
             });
 
             if ($browser->isPhone()) {
-                $browser->click('#responses-table tbody tr:first-child')
+                $browser->click('#responses-table tbody tr:last-child')
                     ->waitFor('#preferences-frame');
             }
 
