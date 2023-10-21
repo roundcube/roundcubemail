@@ -46,8 +46,7 @@ class Popupmenu extends Component
      */
     public function elements()
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -87,7 +86,7 @@ class Popupmenu extends Component
         // hide the menu back
         $browser->withinBody(function ($browser) {
             $browser->script("window.UI.menu_hide('{$this->id}')");
-            $browser->waitUntilMissing($this->selector());
+            $browser->waitUntilMissingOrStale($this->selector());
             if ($browser->isPhone()) {
                 // FIXME: For some reason sometimes .popover-overlay does not close,
                 //        we have to remove it manually

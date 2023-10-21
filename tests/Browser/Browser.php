@@ -266,6 +266,32 @@ class Browser extends \Laravel\Dusk\Browser
     }
 
     /**
+     * Wait for the given selector to be removed.
+     *
+     * @param  string  $selector
+     * @param  int|null  $seconds
+     * @return $this
+     *
+     * @throws \Facebook\WebDriver\Exception\TimeoutException
+     */
+    public function waitUntilMissingOrStale($selector, $seconds = null)
+    {
+        $message = $this->formatTimeOutMessage('Waited %s seconds for removal of selector', $selector);
+
+        return $this->waitUsing($seconds, 100, function () use ($selector) {
+            try {
+                $missing = ! $this->resolver->findOrFail($selector)->isDisplayed();
+            } catch (\Facebook\WebDriver\Exception\NoSuchElementException $e) {
+                $missing = true;
+            } catch (\Facebook\WebDriver\Exception\StaleElementReferenceException $e) {
+                $missing = true;
+            }
+
+            return $missing;
+        }, $message);
+    }
+
+    /**
      * Wait until the UI is unlocked
      */
     public function waitUntilNotBusy()
