@@ -975,7 +975,9 @@ class rcmail_action_settings_index extends rcmail_action
                             'class' => 'custom-select'
                     ]);
 
-                    $fontsizes = ['', '8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
+                    $select_size->add('', '');
+
+                    $fontsizes = self::fontsize_defs();
                     foreach ($fontsizes as $size) {
                         $select_size->add($size, $size);
                     }

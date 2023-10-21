@@ -53,7 +53,6 @@ function rcube_text_editor(config, id)
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
         + ' | fontselect fontsizeselect | forecolor backcolor',
       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
-      fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt',
       // Allow style tag, have to be allowed inside body/div/blockquote (#7088)
       valid_children: '+body[style],+blockquote[style],+div[style]',
       relative_urls: false,
@@ -136,6 +135,16 @@ function rcube_text_editor(config, id)
   });
 
   conf.toolbar = conf.toolbar.replace('$extra', '').replace(/\|\s+\|/g, '|');
+
+  // font list, convert to TinyMCE format
+  var fonts = [];
+  $.each(config.font_formats || [], function(key) {
+    fonts.push(key + '=' + this.replace(/"/g, '').toLowerCase());
+  });
+  conf.font_formats = fonts.join('; ');
+
+  // font size list
+  conf.fontsize_formats = config.fontsize_formats.join(' ');
 
   // support external configuration settings e.g. from skin
   if (window.rcmail_editor_settings)
