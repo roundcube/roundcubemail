@@ -68,7 +68,7 @@ class Taskmenu extends Component
         if ($browser->isPhone()) {
             $browser->withinBody(function ($browser) {
                 $browser->click('.popover a.button.cancel');
-                $browser->waitUntilMissing($this->selector());
+                $browser->waitUntilMissingOrStale($this->selector());
             });
         }
     }
@@ -88,7 +88,7 @@ class Taskmenu extends Component
 
         if ($browser->isPhone()) {
             $browser->withinBody(function ($browser) {
-                $browser->waitUntilMissing($this->selector());
+                $browser->waitUntilMissingOrStale($this->selector());
             });
         }
     }
