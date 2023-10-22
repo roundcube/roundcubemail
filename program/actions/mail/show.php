@@ -676,7 +676,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 else if ($part->type == 'content') {
                     // unsupported (e.g. encrypted)
                     if (!empty($part->realtype)) {
-                        if ($part->realtype == 'multipart/encrypted' || $part->realtype == 'application/pkcs7-mime') {
+                        if ($part->realtype == 'multipart/encrypted') {
                             if (
                                 !empty($_SESSION['browser_caps']['pgpmime'])
                                 && ($pgp_mime_part = self::$MESSAGE->get_multipart_encrypted_part())
@@ -691,7 +691,9 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                                 $out .= html::span('part-notice', $rcmail->gettext('encryptedmessage'));
                             }
                         }
-                        continue;
+                        if ($part->realtype !== 'application/pkcs7-mime') {
+                            continue;
+                        }
                     }
                     else if (!$part->size) {
                         continue;

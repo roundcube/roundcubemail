@@ -807,7 +807,9 @@ class rcube_message
 
             $this->add_part($p);
 
-            if (!empty($structure->filename)) {
+            // don't display smime.p7m attachment, but display other attachments,
+            // since we can not display them (yet).
+            if (!empty($structure->filename) && $structure->filename != 'smime.p7m') {
                 $this->add_part($structure, 'attachment');
             }
         }

@@ -411,7 +411,11 @@ class enigma_engine
             $got_content = true;
         }
         else if ($p['mimetype'] == 'application/pkcs7-mime') {
-            $this->parse_encrypted($p);
+            if ($p['structure']->ctype_parameters['smime-type'] == 'signed-data') {
+                $this->parse_signed($p, $body);
+            } else {
+                $this->parse_encrypted($p);
+            }
             $got_content = true;
         }
         else {
@@ -433,7 +437,6 @@ class enigma_engine
         // encrypted attachment, see parse_plain_encrypted()
         if (!empty($p['part']->need_decryption) && $p['part']->body === null) {
             $this->load_pgp_driver();
-
             $storage = $this->rc->get_storage();
             $body    = $storage->get_message_part($p['object']->uid, $p['part']->mime_id, $p['part'], null, null, true, 0, false);
             $result  = $this->pgp_decrypt($body);
@@ -549,6 +552,14 @@ class enigma_engine
         if (!empty($struct->parts[1]) && $struct->parts[1]->mimetype == 'application/pkcs7-signature') {
             $this->parse_smime_signed($p, $body);
         }
+
+        // S/MIME smime.p7m signed
+        if ($p['mimetype'] == 'application/pkcs7-mime') {
+            if ($p['structure']->ctype_parameters['smime-type'] == 'signed-data') {
+                $this->parse_smime_signed($p, $body);
+            }
+        }
+
         // PGP/MIME: RFC3156
         // The multipart/signed body MUST consist of exactly two parts.
         // The first part contains the signed data in MIME canonical format,
@@ -721,7 +732,44 @@ class enigma_engine
             return;
         }
 
-        // @TODO
+        if ($this->rc->action != 'show' && $this->rc->action != 'preview' && $this->rc->action != 'print') {
+            return;
+        }
+
+        $this->load_smime_driver();
+        $struct = $p['structure'];
+
+        // Get body
+        if ($body === null) {
+            if (empty($struct->body_modified)) {
+                $body = $this->get_part_body($p['object'], $struct);
+            }
+        }
+
+        // XXX The parts array may be zero-length.
+        $msg_part = $struct->parts[0];
+
+        $sig = $this->smime_driver->verify($struct, $p['object']);
+
+        if (($sig instanceof enigma_error) && $sig->getCode() != enigma_error::KEYNOTFOUND) {
+            self::raise_error($sig, __LINE__);
+        } else {
+            // Store signature data for display
+            $this->signatures[$struct->mime_id] = $sig;
+            if ($struct->ctype_parameters['smime-type'] == 'signed-data') {
+                // for now, we get the "decrypted" message in $sig->comment,
+                // because verify() only returns $sig
+                $body = $sig->comment;
+
+                $struct = $this->parse_body($body);
+                // Modify original message structure
+                $this->modify_structure($p, $struct, strlen($body));
+            }
+            // XXX $msg_part can be null!
+            if (!is_null($msg_part)) {
+                $this->signatures[$msg_part->mime_id] = $sig;
+            }
+        }
     }
 
     /**
@@ -880,7 +928,6 @@ class enigma_engine
         if (!$this->rc->config->get('enigma_decryption', true)) {
             return;
         }
-
         // @TODO
     }
 
