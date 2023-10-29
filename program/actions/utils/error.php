@@ -134,7 +134,6 @@ class rcmail_action_utils_error extends rcmail_action
 
         $output = '<!doctype html><html><head>'
             . '<title>' . $product . ':: ERROR</title>'
-            . '<link rel="stylesheet" type="text/css" href="skins/$skin/common.css" />'
             . '</head><body>'
             . '<table border="0" cellspacing="0" cellpadding="0" width="100%" height="80%">'
             . '<tr><td align="center">' . $page_content . '</td></tr>'
