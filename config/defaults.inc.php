@@ -270,12 +270,12 @@ $config['messages_cache_threshold'] = 50;
 // of IMAP host (no prefix or port) and SMTP server e.g. ['imap.example.com' => 'smtp.example.net']
 $config['smtp_host'] = 'localhost:587';
 
-// SMTP username (if required) if you use %u as the username Roundcube
-// will use the current username for login
+// SMTP username (if required)
+// Note: %u variable will be replaced with current user's username
 $config['smtp_user'] = '%u';
 
-// SMTP password (if required) if you use %p as the password Roundcube
-// will use the current user's password for login
+// SMTP password (if required)
+// Note: When set to '%p' current user's password will be used
 $config['smtp_pass'] = '%p';
 
 // SMTP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or empty to use
