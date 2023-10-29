@@ -56,6 +56,13 @@ class rcube_message_part
     public $mimetype = 'text/plain';
 
     /**
+     * Real content type (for fake parts)
+     *
+     * @var string|null
+     */
+    public $realtype;
+
+    /**
      * Real content type of a message/rfc822 part
      *
      * @var string
