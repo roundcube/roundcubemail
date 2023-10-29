@@ -2863,11 +2863,6 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        if (!$this->conn->data['READ-WRITE']) {
-            $this->conn->setError(rcube_imap_generic::ERROR_READONLY, "Folder is read-only");
-            return false;
-        }
-
         // CLOSE(+SELECT) should be faster than EXPUNGE
         if (empty($uids) || !empty($all_mode)) {
             $result = $this->conn->close();
