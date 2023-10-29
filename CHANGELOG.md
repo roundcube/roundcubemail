@@ -7,6 +7,7 @@
 - Fix PHP warnings (#9174)
 - Fix UI issue when dealing with an invalid managesieve_default_headers value (#9175)
 - Fix bug where images attached to application/smil messages weren't displayed (#8870)
+- Fix PHP string replacement error in utils/error.php (#9185)
 
 ## Release 1.6.4
 
