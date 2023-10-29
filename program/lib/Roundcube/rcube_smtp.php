@@ -170,18 +170,13 @@ class rcube_smtp
             }
         }
 
-        if ($CONFIG['smtp_user'] == '%u') {
-            $smtp_user = (string) $rcube->get_user_name();
-        } else {
-            $smtp_user = $CONFIG['smtp_user'];
-        }
-
         if ($CONFIG['smtp_pass'] == '%p') {
             $smtp_pass = (string) $rcube->get_user_password();
         } else {
             $smtp_pass = $CONFIG['smtp_pass'];
         }
 
+        $smtp_user      = str_replace('%u', (string) $rcube->get_user_name(), $CONFIG['smtp_user']);
         $smtp_auth_type = $CONFIG['smtp_auth_type'] ?: null;
         $smtp_authz     = null;
 
