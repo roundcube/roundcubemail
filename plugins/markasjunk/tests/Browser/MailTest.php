@@ -124,7 +124,7 @@ class MailTest extends \Tests\Browser\TestCase
             });
 
             $browser->waitFor('#messagecontframe')
-                ->waitUntilMissing('#messagestack');
+                ->waitUntilMissing('#messagestack', 10);
 
             // Toolbar menu (Junk button active), click it
             $browser->clickToolbarMenuItem('notjunk')
