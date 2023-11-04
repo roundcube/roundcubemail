@@ -9,6 +9,7 @@
 - Fix bug where images attached to application/smil messages weren't displayed (#8870)
 - Fix PHP string replacement error in utils/error.php (#9185)
 - Fix regression where `smtp_user` did not allow pre/post strings before/after `%u` placeholder (#9162)
+- Fix cross-site scripting (XSS) vulnerability in setting Content-Type/Content-Disposition for attachment preview/download
 
 ## Release 1.6.4
 
