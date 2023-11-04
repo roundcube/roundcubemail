@@ -9,7 +9,6 @@
  */
 class Framework_Charset extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Data for test_clean()
      */
@@ -38,6 +37,35 @@ class Framework_Charset extends PHPUnit_Framework_TestCase
         $bogus = "сим\xD0вол";
         $this->assertRegExp('/\xD0\xD0/', $bogus);
         $this->assertNotRegExp('/\xD0\xD0/', rcube_charset::clean($bogus));
+    }
+
+    /**
+     * Data for test_is_valid()
+     */
+    function data_is_valid()
+    {
+        $list = [];
+        foreach (mb_list_encodings() as $charset) {
+            $list[] = [$charset, true];
+        }
+
+        return array_merge($list, [
+            ['', false],
+            ['a', false],
+            ['aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', false],
+            [null, false],
+
+            ['TCVN5712-1:1993', true],
+            ['JUS_I.B1.002', true],
+        ]);
+    }
+
+    /**
+     * @dataProvider data_is_valid
+     */
+    function test_is_valid($input, $result)
+    {
+        $this->assertSame($result, rcube_charset::is_valid($input));
     }
 
     /**

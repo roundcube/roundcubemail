@@ -1,5 +1,7 @@
 # Changelog Roundcube Webmail
 
+- Fix cross-site scripting (XSS) vulnerability in setting Content-Type/Content-Disposition for attachment preview/download
+
 RELEASE 1.4.15
 --------------
 - Fix cross-site scripting (XSS) vulnerability in handling of SVG in HTML messages (#9168)

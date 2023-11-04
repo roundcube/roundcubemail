@@ -2129,6 +2129,11 @@ class rcube_imap extends rcube_storage
             $struct->charset = $mime_headers->charset;
         }
 
+        // Sanitize charset for security
+        if ($struct->charset && !rcube_charset::is_valid($struct->charset)) {
+            $struct->charset = '';
+        }
+
         // read content encoding
         if (!empty($part[5])) {
             $struct->encoding = strtolower($part[5]);
