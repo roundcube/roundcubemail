@@ -212,7 +212,7 @@ abstract class rcube_output
     }
 
     /**
-     * Send headers related to file downloads
+     * Send headers related to file downloads.
      *
      * @param string $filename File name
      * @param array  $params   Optional parameters:
@@ -225,34 +225,54 @@ abstract class rcube_output
      */
     public function download_headers($filename, $params = [])
     {
+        // For security reasons we validate type, filename and charset params.
+        // Some HTTP servers might drop a header that is malformed or very long, this then
+        // can lead to web browsers unintentionally executing javascript code in the body.
+
         if (empty($params['disposition'])) {
             $params['disposition'] = 'attachment';
         }
 
-        if ($params['disposition'] == 'inline' && stripos($params['type'], 'text') === 0) {
-            $params['type'] .= '; charset=' . ($params['type_charset'] ?: $this->charset);
+        $ctype       = 'application/octet-stream';
+        $disposition = $params['disposition'];
+
+        if (!empty($params['type']) && is_string($params['type']) && strlen($params['type']) < 256
+            && preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $params['type'])
+        ) {
+            $ctype = $params['type'];
         }
 
-        header("Content-Type: " . (!empty($params['type']) ? $params['type'] : "application/octet-stream"));
+        if ($disposition == 'inline' && stripos($ctype, 'text') === 0) {
+            $charset = $this->charset;
+            if (!empty($params['type_charset']) && rcube_charset::is_valid($params['type_charset'])) {
+                $charset = $params['type_charset'];
+            }
+
+            $ctype .= "; charset={$charset}";
+        }
+
+        if (is_string($filename) && strlen($filename) > 0 && strlen($filename) <= 1024) {
+            // For non-ascii characters we'll use RFC2231 syntax
+            if (!preg_match('/[^a-zA-Z0-9_.:,?;@+ -]/', $filename)) {
+                $disposition .= "; filename=\"{$filename}\"";
+            }
+            else {
+                $filename = rawurlencode($filename);
+                $charset  = $this->charset;
+                if (!empty($params['charset']) && rcube_charset::is_valid($params['charset'])) {
+                    $charset = $params['charset'];
+                }
+
+                $disposition .= "; filename*={$charset}''{$filename}";
+            }
+        }
+
+        header("Content-Disposition: {$disposition}");
+        header("Content-Type: {$ctype}");
 
         if ($params['disposition'] == 'attachment' && $this->browser->ie) {
             header("Content-Type: application/force-download");
         }
-
-        $disposition = "Content-Disposition: " . $params['disposition'];
-
-        // For non-ascii characters we'll use RFC2231 syntax
-        if (!preg_match('/[^a-zA-Z0-9_.:,?;@+ -]/', $filename)) {
-            $disposition .= sprintf("; filename=\"%s\"", $filename);
-        }
-        else {
-            $disposition .= sprintf("; filename*=%s''%s",
-                !empty($params['charset']) ? $params['charset'] : $this->charset,
-                rawurlencode($filename)
-            );
-        }
-
-        header($disposition);
 
         if (isset($params['length'])) {
             header("Content-Length: " . $params['length']);

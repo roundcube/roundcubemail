@@ -8,7 +8,6 @@
  */
 class Framework_Charset extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Data for test_clean()
      */
@@ -31,6 +30,35 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     function test_clean($input, $output)
     {
         $this->assertSame($output, rcube_charset::clean($input));
+    }
+
+    /**
+     * Data for test_is_valid()
+     */
+    function data_is_valid()
+    {
+        $list = [];
+        foreach (mb_list_encodings() as $charset) {
+            $list[] = [$charset, true];
+        }
+
+        return array_merge($list, [
+            ['', false],
+            ['a', false],
+            ['aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', false],
+            [null, false],
+
+            ['TCVN5712-1:1993', true],
+            ['JUS_I.B1.002', true],
+        ]);
+    }
+
+    /**
+     * @dataProvider data_is_valid
+     */
+    function test_is_valid($input, $result)
+    {
+        $this->assertSame($result, rcube_charset::is_valid($input));
     }
 
     /**

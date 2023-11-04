@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix cross-site scripting (XSS) vulnerability in setting Content-Type/Content-Disposition for attachment preview/download
+
+## Release 1.5.5
+
 - Fix cross-site scripting (XSS) vulnerability in handling of SVG in HTML messages (#9168)
 
 ## Release 1.5.4

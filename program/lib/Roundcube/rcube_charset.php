@@ -178,6 +178,18 @@ class rcube_charset
     ];
 
     /**
+     * Validate character set identifier.
+     *
+     * @param string $input Character set identifier
+     *
+     * @return bool True if valid, False if not valid
+     */
+    public static function is_valid($input)
+    {
+        return is_string($input) && preg_match('|^[a-zA-Z0-9_./:#-]{2,32}$|', $input) > 0;
+    }
+
+    /**
      * Parse and validate charset name string.
      * Sometimes charset string is malformed, there are also charset aliases,
      * but we need strict names for charset conversion (specially utf8 class)
