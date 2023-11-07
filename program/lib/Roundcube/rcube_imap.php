@@ -2166,7 +2166,7 @@ class rcube_imap extends rcube_storage
         }
 
         // Sanitize charset for security
-        if ($struct->charset && !rcube_charset::is_valid($struct->charset)) {
+        if (!rcube_charset::is_valid($struct->charset)) {
             $struct->charset = '';
         }
 
