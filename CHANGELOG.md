@@ -25,6 +25,9 @@
 - Password: Add ldap_samba_ad driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Fix potential HTTP protocol version mismatch (#8982)
+
+## Release 1.6.5
+
 - Fix PHP8 fatal error when parsing a malformed BODYSTRUCTURE (#9171)
 - Fix duplicated Inbox folder on IMAP servers that do not use Inbox folder with all capital letters (#9166)
 - Fix PHP warnings (#9174)
