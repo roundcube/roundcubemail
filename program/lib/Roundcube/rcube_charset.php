@@ -187,7 +187,7 @@ class rcube_charset
      */
     public static function is_valid($input)
     {
-        return is_string($input) && preg_match('|^[a-zA-Z0-9_./:#-]{2,32}$|', $input) > 0;
+        return is_string($input) && preg_match('|^[a-zA-Z0-9_./:#-]{2,32}$|', $input);
     }
 
     /**
