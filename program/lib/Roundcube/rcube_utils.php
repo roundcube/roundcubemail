@@ -1713,9 +1713,9 @@ class rcube_utils
         }
 
         $remote_addr = array_key_exists('remote_addr', $options) ? $options['remote_addr'] : self::remote_addr();
-        $remote_port = array_key_exists('remote_port', $options) ? $options['remote_port'] : $_SERVER['REMOTE_PORT'];
-        $local_addr  = array_key_exists('local_addr', $options) ? $options['local_addr'] : $_SERVER['SERVER_ADDR'];
-        $local_port  = array_key_exists('local_port', $options) ? $options['local_port'] : $_SERVER['SERVER_PORT'];
+        $remote_port = array_key_exists('remote_port', $options) ? $options['remote_port'] : ($_SERVER['REMOTE_PORT'] ?? null);
+        $local_addr  = array_key_exists('local_addr', $options) ? $options['local_addr'] : ($_SERVER['SERVER_ADDR'] ?? null);
+        $local_port  = array_key_exists('local_port', $options) ? $options['local_port'] : ($_SERVER['SERVER_PORT'] ?? null);
         $ip_version  = strpos($remote_addr, ':') === false ? 4 : 6;
 
         // Text based PROXY protocol
