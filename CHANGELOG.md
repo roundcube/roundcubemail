@@ -24,6 +24,7 @@
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Password: Add ldap_samba_ad driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
+- Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
 - Fix regression in handling LDAP search_fields configuration parameter (#9210)
 

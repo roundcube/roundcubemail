@@ -26,7 +26,7 @@
  * @package    Framework
  * @subpackage Core
  */
-abstract class rcube_session
+abstract class rcube_session implements SessionHandlerInterface
 {
     protected $config;
     protected $key;
@@ -116,14 +116,7 @@ abstract class rcube_session
         ini_set('session.serialize_handler', 'php');
 
         // set custom functions for PHP session management
-        session_set_save_handler(
-            [$this, 'open'],
-            [$this, 'close'],
-            [$this, 'read'],
-            [$this, 'sess_write'],
-            [$this, 'destroy'],
-            [$this, 'gc']
-        );
+        session_set_save_handler($this);
     }
 
     /**
@@ -144,12 +137,17 @@ abstract class rcube_session
     /**
      * Abstract methods should be implemented by driver classes
      */
-    abstract function open($save_path, $session_name);
-    abstract function close();
-    abstract function destroy($key);
-    abstract function read($key);
-    abstract function write($key, $vars);
-    abstract function update($key, $newvars, $oldvars);
+    #[\ReturnTypeWillChange]
+    abstract public function open($save_path, $session_name);
+    #[\ReturnTypeWillChange]
+    abstract public function close();
+    #[\ReturnTypeWillChange]
+    abstract public function destroy($key);
+    #[\ReturnTypeWillChange]
+    abstract public function read($key);
+
+    abstract protected function save($key, $vars);
+    abstract protected function update($key, $newvars, $oldvars);
 
     /**
      * Session write handler. This calls the implementation methods for write/update after some initial checks.
@@ -159,7 +157,8 @@ abstract class rcube_session
      *
      * @return bool True on success, False on failure
      */
-    public function sess_write($key, $vars)
+    #[\ReturnTypeWillChange]
+    public function write($key, $vars)
     {
         if ($this->nowrite) {
             return true;
@@ -170,12 +169,29 @@ abstract class rcube_session
 
         // if there are cached vars, update store, else insert new data
         if ($oldvars) {
-            $newvars = $this->_fixvars($vars, $oldvars);
+            $newvars = $this->fixvars($vars, $oldvars);
             return $this->update($key, $newvars, $oldvars);
         }
         else {
-            return $this->write($key, $vars);
+            return $this->save($key, $vars);
         }
+    }
+
+    /**
+     * Execute registered garbage collector routines
+     *
+     * @param int $maxlifetime Maximum session lifetime
+     *
+     * @return bool True on success, False on failure
+     */
+    #[\ReturnTypeWillChange]
+    public function gc($maxlifetime)
+    {
+        // move gc execution to the script shutdown function
+        // see rcube::shutdown() and rcube_session::write_close()
+        $this->gc_enabled = $maxlifetime;
+
+        return true;
     }
 
     /**
@@ -204,7 +220,7 @@ abstract class rcube_session
         $key    = rcube_utils::random_bytes($length);
 
         // create new session
-        if ($this->write($key, $this->serialize($data))) {
+        if ($this->save($key, $this->serialize($data))) {
             return $key;
         }
     }
@@ -212,7 +228,7 @@ abstract class rcube_session
     /**
      * Merge vars with old vars and apply unsets
      */
-    protected function _fixvars($vars, $oldvars)
+    protected function fixvars($vars, $oldvars)
     {
         $newvars = '';
 
@@ -244,22 +260,6 @@ abstract class rcube_session
         $this->unsets = [];
 
         return $newvars;
-    }
-
-    /**
-     * Execute registered garbage collector routines
-     *
-     * @param int $maxlifetime Maximum session lifetime
-     *
-     * @return bool True on success, False on failure
-     */
-    public function gc($maxlifetime)
-    {
-        // move gc execution to the script shutdown function
-        // see rcube::shutdown() and rcube_session::write_close()
-        $this->gc_enabled = $maxlifetime;
-
-        return true;
     }
 
     /**
@@ -685,14 +685,14 @@ abstract class rcube_session
             $this->log("IP check failed for " . $this->key . "; expected " . $this->ip . "; got " . rcube_utils::remote_addr());
         }
 
-        if ($result && $this->_mkcookie($this->now) != $this->cookie) {
+        if ($result && $this->mkcookie($this->now) != $this->cookie) {
             $this->log("Session auth check failed for " . $this->key . "; timeslot = " . date('Y-m-d H:i:s', $this->now));
             $result = false;
 
             // Check if using id from a previous time slot
             for ($i = 1; $i <= 2; $i++) {
                 $prev = $this->now - ($this->lifetime / 2) * $i;
-                if ($this->_mkcookie($prev) == $this->cookie) {
+                if ($this->mkcookie($prev) == $this->cookie) {
                     $this->log("Send new auth cookie for " . $this->key . ": " . $this->cookie);
                     $this->set_auth_cookie();
                     $result = true;
@@ -713,7 +713,7 @@ abstract class rcube_session
      */
     public function set_auth_cookie()
     {
-        $this->cookie = $this->_mkcookie($this->now);
+        $this->cookie = $this->mkcookie($this->now);
         rcube_utils::setcookie($this->cookiename, $this->cookie, 0);
         $_COOKIE[$this->cookiename] = $this->cookie;
     }
@@ -725,7 +725,7 @@ abstract class rcube_session
      *
      * @return string Cookie value
      */
-    protected function _mkcookie($timeslot)
+    protected function mkcookie($timeslot)
     {
         // make sure the secret key exists
         $this->set_secret();
@@ -739,7 +739,7 @@ abstract class rcube_session
      *
      * @param string Log line
      */
-    function log($line)
+    public function log($line)
     {
         if ($this->logging) {
             rcube::write_log('session', $line);
