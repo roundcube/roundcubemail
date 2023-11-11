@@ -914,20 +914,18 @@ class rcube_ldap extends rcube_addressbook
             $attributes = [];
 
             if ($fields == '*') {
-                $attributes = (array) ($this->prop['search_fields'] ?? []);
+                $fields = (array) ($this->prop['search_fields'] ?? []);
 
                 // If search fields aren't configured use some common fields
-                if (empty($search_fields)) {
+                if (empty($fields)) {
                     $fields = ['name', 'surname', 'firstname', 'email'];
                 }
             }
 
             // map address book fields into ldap attributes
-            if (empty($attributes)) {
-                foreach ((array) $fields as $field) {
-                    if (!empty($this->coltypes[$field]) && !empty($this->coltypes[$field]['attributes'])) {
-                        $attributes = array_merge($attributes, (array) $this->coltypes[$field]['attributes']);
-                    }
+            foreach ((array) $fields as $field) {
+                if (!empty($this->coltypes[$field]) && !empty($this->coltypes[$field]['attributes'])) {
+                    $attributes = array_merge($attributes, (array) $this->coltypes[$field]['attributes']);
                 }
             }
 
