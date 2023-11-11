@@ -146,7 +146,7 @@ class rcube_session_db extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    public function write($key, $vars)
+    protected function save($key, $vars)
     {
         if ($this->ignore_write) {
             return true;
@@ -172,7 +172,7 @@ class rcube_session_db extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    public function update($key, $newvars, $oldvars)
+    protected function update($key, $newvars, $oldvars)
     {
         $now = $this->db->now();
         $ts  = microtime(true);

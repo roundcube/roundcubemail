@@ -149,7 +149,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    public function update($key, $newvars, $oldvars)
+    protected function update($key, $newvars, $oldvars)
     {
         $ts = microtime(true);
 
@@ -182,7 +182,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    public function write($key, $vars)
+    protected function save($key, $vars)
     {
         if ($this->ignore_write) {
             return true;

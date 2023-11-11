@@ -32,13 +32,12 @@ class rcube_session_php extends rcube_session
      * Native php sessions don't need a save handler.
      * We do need to define abstract function implementations but they are not used.
      */
-
     public function open($save_path, $session_name) {}
     public function close() {}
     public function destroy($key) {}
     public function read($key) {}
-    public function write($key, $vars) {}
-    public function update($key, $newvars, $oldvars) {}
+    protected function save($key, $vars) {}
+    protected function update($key, $newvars, $oldvars) {}
 
     /**
      * Object constructor
