@@ -135,7 +135,9 @@ class rcube_db_mysql extends rcube_db
         $result[PDO::ATTR_AUTOCOMMIT] = true;
 
         // Disable emulating of prepared statements
-        $result[PDO::ATTR_EMULATE_PREPARES] = false;
+        // configured value has higher prio
+        $conf_value = rcmail::get_instance()->config->get('attr_emulate_prepares');
+        $result[PDO::ATTR_EMULATE_PREPARES] = (($conf_value) ? $conf_value : false);
 
         return $result;
     }
