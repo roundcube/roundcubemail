@@ -680,21 +680,7 @@ abstract class rcmail_action
      */
     public static function font_defs($font = null)
     {
-        $fonts = rcmail::get_instance()->config->get('font_defs', [
-            'Andale Mono'     => '"Andale Mono",Times,monospace',
-            'Arial'           => 'Arial,Helvetica,sans-serif',
-            'Arial Black'     => '"Arial Black","Avant Garde",sans-serif',
-            'Book Antiqua'    => '"Book Antiqua",Palatino,serif',
-            'Courier New'     => '"Courier New",Courier,monospace',
-            'Georgia'         => 'Georgia,Palatino,serif',
-            'Helvetica'       => 'Helvetica,Arial,sans-serif',
-            'Impact'          => 'Impact,Chicago,sans-serif',
-            'Tahoma'          => 'Tahoma,Arial,Helvetica,sans-serif',
-            'Terminal'        => 'Terminal,Monaco,monospace',
-            'Times New Roman' => '"Times New Roman",Times,serif',
-            'Trebuchet MS'    => '"Trebuchet MS",Geneva,sans-serif',
-            'Verdana'         => 'Verdana,Geneva,sans-serif',
-        ]);
+        $fonts = rcmail::get_instance()->config->get('available_fonts', []);
 
         if ($font) {
             return !empty($fonts[$font]) ? $fonts[$font] : null;
@@ -712,7 +698,7 @@ abstract class rcmail_action
      */
     public static function fontsize_defs($size = null)
     {
-        $sizes = rcmail::get_instance()->config->get('fontsize_defs', ['8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '18pt', '24pt', '36pt']);
+        $sizes = rcmail::get_instance()->config->get('available_font_sizes', []);
 
         if ($size) {
             return in_array($size, $sizes) ? $size : null;

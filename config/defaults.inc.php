@@ -1483,14 +1483,38 @@ $config['spellcheck_before_send'] = false;
 // Skip alternative email addresses in autocompletion (show one address per contact)
 $config['autocomplete_single'] = false;
 
-// Default font for composed HTML message.
-// Supported values: Andale Mono, Arial, Arial Black, Book Antiqua, Courier New,
-// Georgia, Helvetica, Impact, Tahoma, Terminal, Times New Roman, Trebuchet MS, Verdana
+// Default font for composed HTML message
+// See available_fonts for supported values
 $config['default_font'] = 'Verdana';
 
-// Default font size for composed HTML message.
-// Supported sizes: 8pt, 10pt, 12pt, 14pt, 18pt, 24pt, 36pt
+// List of available fonts for the user to choose from when composing HTML messages
+// Specify an array with 'font name' => 'comma separated list of font name/family'
+// Note: If a font name contains white-space, it must be quoted
+// Note: At minimum the font name set in default_font must be present in this array
+$config['available_fonts'] = [
+    'Andale Mono'     => '"Andale Mono",Times,monospace',
+    'Arial'           => 'Arial,Helvetica,sans-serif',
+    'Arial Black'     => '"Arial Black","Avant Garde",sans-serif',
+    'Book Antiqua'    => '"Book Antiqua",Palatino,serif',
+    'Courier New'     => '"Courier New",Courier,monospace',
+    'Georgia'         => 'Georgia,Palatino,serif',
+    'Helvetica'       => 'Helvetica,Arial,sans-serif',
+    'Impact'          => 'Impact,Chicago,sans-serif',
+    'Tahoma'          => 'Tahoma,Arial,Helvetica,sans-serif',
+    'Terminal'        => 'Terminal,Monaco,monospace',
+    'Times New Roman' => '"Times New Roman",Times,serif',
+    'Trebuchet MS'    => '"Trebuchet MS",Geneva,sans-serif',
+    'Verdana'         => 'Verdana,Geneva,sans-serif',
+];
+
+// Default font size for composed HTML message
+// See available_font_sizes for supported values
 $config['default_font_size'] = '10pt';
+
+// List of available font sizes for the user to choose from when composing HTML messages
+// Specify an array of font sizes
+// Note: At minimum the font size set in default_font_size must be present in this array
+$config['available_font_sizes'] = ['8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
 
 // Enables display of email address with name instead of a name (and address in title)
 $config['message_show_email'] = false;
