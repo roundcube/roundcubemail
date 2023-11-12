@@ -1491,6 +1491,7 @@ $config['default_font'] = 'Verdana';
 // Specify an array with 'font name' => 'comma separated list of font name/family'
 // Note: If a font name contains white-space, it must be quoted
 // Note: At minimum the font name set in default_font must be present in this array
+// Setting a single value will hide the font select box in the interface
 $config['available_fonts'] = [
     'Andale Mono'     => '"Andale Mono",Times,monospace',
     'Arial'           => 'Arial,Helvetica,sans-serif',
@@ -1514,6 +1515,7 @@ $config['default_font_size'] = '10pt';
 // List of available font sizes for the user to choose from when composing HTML messages
 // Specify an array of font sizes
 // Note: At minimum the font size set in default_font_size must be present in this array
+// Setting a single value will hide the font size select box in the interface
 $config['available_font_sizes'] = ['8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
 
 // Enables display of email address with name instead of a name (and address in title)

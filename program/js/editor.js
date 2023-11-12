@@ -51,7 +51,7 @@ function rcube_text_editor(config, id)
       // toolbar_sticky: true, // does not work in scrollable element: https://github.com/tinymce/tinymce/issues/5227
       toolbar_drawer: 'sliding',
       toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
-        + ' | fontselect fontsizeselect | forecolor backcolor',
+        + ' | $font | forecolor backcolor',
       extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
       // Allow style tag, have to be allowed inside body/div/blockquote (#7088)
       valid_children: '+body[style],+blockquote[style],+div[style]',
@@ -134,17 +134,23 @@ function rcube_text_editor(config, id)
     conf.toolbar = conf.toolbar.replace(this, '');
   });
 
-  conf.toolbar = conf.toolbar.replace('$extra', '').replace(/\|\s+\|/g, '|');
-
   // font list, convert to TinyMCE format
   var fonts = [];
   $.each(config.font_formats || [], function(key) {
     fonts.push(key + '=' + this.replace(/"/g, '').toLowerCase());
   });
   conf.font_formats = fonts.join('; ');
+  if (fonts.length > 1) {
+    conf.toolbar = conf.toolbar.replace('$font', 'fontselect $font');
+  }
 
   // font size list
   conf.fontsize_formats = config.fontsize_formats.join(' ');
+  if (config.fontsize_formats.length > 1) {
+    conf.toolbar = conf.toolbar.replace('$font', 'fontsizeselect $font');
+  }
+
+  conf.toolbar = conf.toolbar.replace(/($extra|$font)/, '').replace(/\|\s+\|/g, '|');
 
   // support external configuration settings e.g. from skin
   if (window.rcmail_editor_settings)

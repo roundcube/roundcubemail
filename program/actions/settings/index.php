@@ -1000,8 +1000,8 @@ class rcmail_action_settings_index extends rcmail_action
                     $blocks['main']['options']['default_font'] = [
                         'title' => html::label($field_id, rcube::Q($rcmail->gettext('defaultfont'))),
                         'content' => html::div('input-group',
-                            $select_font->show($rcmail->config->get('default_font', 1)) .
-                            $select_size->show($rcmail->config->get('default_font_size', 1))
+                            (!isset($no_override['default_font']) && count($fonts) > 1 ? $select_font->show($rcmail->config->get('default_font', 1)) : '') .
+                            (!isset($no_override['default_font_size']) && count($fontsizes) > 1 ? $select_size->show($rcmail->config->get('default_font_size', 1)) : '')
                         )
                     ];
                 }
