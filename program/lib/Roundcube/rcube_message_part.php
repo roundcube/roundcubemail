@@ -119,6 +119,7 @@ class rcube_message_part
     public $charset      = '';
     public $d_parameters = [];
     public $ctype_parameters = [];
+    public $body_modified = false;
 
 
     /**

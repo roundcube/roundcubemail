@@ -90,11 +90,11 @@ class enigma_mime_message extends Mail_mime
     {
         // get sender address
         $headers = $this->message->headers();
-        $to      = rcube_mime::decode_address_list($headers['To'], null, false, null, true);
-        $cc      = rcube_mime::decode_address_list($headers['Cc'], null, false, null, true);
-        $bcc     = rcube_mime::decode_address_list($headers['Bcc'], null, false, null, true);
+        $to      = rcube_mime::decode_address_list($headers['To'] ?? '', null, false, null, true);
+        $cc      = rcube_mime::decode_address_list($headers['Cc'] ?? '', null, false, null, true);
+        $bcc     = rcube_mime::decode_address_list($headers['Bcc'] ?? '', null, false, null, true);
 
-        $recipients = array_unique(array_merge($to, $cc, $bcc));
+        $recipients = array_unique(array_filter(array_merge($to, $cc, $bcc)));
         $recipients = array_diff($recipients, ['undisclosed-recipients:']);
 
         return array_values($recipients);
