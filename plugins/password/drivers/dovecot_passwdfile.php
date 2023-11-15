@@ -78,6 +78,8 @@ class rcube_dovecot_passwdfile_password
                 flock($fp, LOCK_UN);
                 fclose($fp);
 
+                rcube::write_log('session','User ' . $username . ' changed their password.'); 
+                
                 return PASSWORD_SUCCESS;
             }
         }
