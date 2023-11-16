@@ -794,6 +794,21 @@ class rcube_imap_generic
 
             $result = $this->parseResult($line);
         }
+        else if ($type == 'OAUTHBEARER') {
+            //Implement RFC 7628
+            $auth = base64_encode("n,a=$user,\1auth=$pass\1\1");
+            $this->putLine($this->nextTag() . " AUTHENTICATE OAUTHBEARER $auth", true, true);
+
+            $line = trim($this->readReply());
+
+            if ($line[0] == '+') {
+                // send empty line
+                $this->putLine('', true, true);
+                $line = $this->readReply();
+            }
+
+            $result = $this->parseResult($line);
+        }
         else {
             $line  = 'not supported';
             $result = self::ERROR_UNKNOWN;
@@ -988,6 +1003,7 @@ class rcube_imap_generic
             case 'PLAIN':
             case 'LOGIN':
             case 'XOAUTH2':
+            case 'OAUTHBEARER':
                 $result = $this->authenticate($user, $password, $auth_method);
                 break;
 

@@ -1,5 +1,9 @@
 <?php
 
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Handler\MockHandler;
+
 /**
  * Test class to test rcmail_oauth class
  *
@@ -7,6 +11,54 @@
  */
 class Rcmail_RcmailOauth extends ActionTestCase
 {
+    // created a valid and enabled oauth instance
+    private $config = [
+        'provider'      => 'test',
+        'token_uri'     => 'https://test/token',
+        'auth_uri'      => 'https://test/auth',
+        'identity_uri'  => 'https://test/ident',
+        'issuer'        => 'https://test/',
+        // Do not set JWKS
+        'client_id'     => 'some-client',
+        'client_secret' => 'very-secure',
+        'scope'         => 'plop',
+    ];
+
+    private $identity = [
+        "sub"                   => "82c8f487-df95-4960-972c-4e680c3c72f5",
+        "name"                  => "John Doe",
+        "preferred_username"    => "John D",
+        "given_name"            => "John",
+        "family_name"           => "Doe",
+        "email"                 => "j.doe@test.fake",
+        "email_verified"        => true,
+        "locale"                => "en"
+    ];
+
+    private function generate_fake_id_token()
+    {
+        $id_token_payload = (array) [
+            "typ"                   => "ID", // this is a token id
+            "exp"                   => (time() + 600),
+            "iat"                   => time(),
+            "auth_time"             => time(),
+            "jti"                   => "uniq-id",
+            "iss"                   => $this->config['issuer'],
+            "aud"                   => $this->config['client_id'],
+            "azp"                   => $this->config['client_id'],
+            "session_state"         => "fake-session",
+            "acr"                   => "1",
+            "sid"                   => "65f8d42c-dbbd-4f76-b5f3-44b540e4253a",
+        ] + $this->identity;
+
+        //Right now our code does not check signature
+        $jwt_header    = strtr(base64_encode(json_encode(["alg" => "NONE", "typ" => "JWT" ])), '+/', '-_');
+        $jwt_body      = strtr(base64_encode(json_encode($id_token_payload)), '+/', '-_');
+        $jwt_signature = ''; // NONE alg
+
+        return implode(".", [$jwt_header, $jwt_body, $jwt_signature]);
+    }
+
     /**
      * Test jwt_decode() method with an invalid token
      */
@@ -67,6 +119,50 @@ class Rcmail_RcmailOauth extends ActionTestCase
     }
 
     /**
+     * Test is_enabled() method
+     */
+    function test_is_enabled_with_token_url()
+    {
+        $oauth = new rcmail_oauth($this->config);
+        $oauth->init();
+
+        $this->assertTrue($oauth->is_enabled());
+    }
+
+    /**
+     * Test discovery method
+     */
+    function test_discovery()
+    {
+        //fake discovery response
+        $config_answer = [
+            'issuer'                 => 'https://test/issuer',
+            'authorization_endpoint' => 'https://test/auth',
+            'token_endpoint'         => 'https://test/token',
+            'userinfo_endpoint'      => 'https://test/userinfo',
+            'end_session_endpoint'   => 'https://test/logout',
+            'jwks_uri'               => 'https://test/jwks'
+        ];
+
+        $mock = new MockHandler([
+            new Response(200, ['Content-Type' => 'application/json'], json_encode($config_answer))
+        ]);
+        $handler = HandlerStack::create($mock);
+
+        //provide only the config
+        $oauth = new rcmail_oauth([
+            'provider'      => 'example',
+            'config_uri'    => 'https://test/config',
+            'client_id'     => 'some-client',
+            'http_options'  => [ 'handler' => $handler ]
+        ]);
+        $oauth->init();
+
+        //if discovery succeed, should be enabled
+        $this->assertTrue($oauth->is_enabled());
+    }
+
+    /**
      * Test get_redirect_uri() method
      */
     function test_get_redirect_uri()
@@ -81,7 +177,47 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     function test_login_redirect()
     {
-        $this->markTestIncomplete();
+        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'login', '');
+
+        $oauth = new rcmail_oauth($this->config);
+        $oauth->init();
+
+        try {
+            $oauth->login_redirect();
+        }
+        catch (ExitException $e) {
+            $result = $e->getMessage();
+            $ecode  = $e->getCode();
+        }
+        # return type: Location: https://localhost/auth/auth?response_type=code&client_id=some-client&scope=&redirect_uri=http%3A%2F%2F%2Fvendor%2Fbin%2Fphpunit%2Findex.php%2Flogin%2Foauth&state=HphWFK5EBHAr
+        //$result = $output->getOutput();
+
+        $this->assertSame(OutputHtmlMock::E_REDIRECT, $ecode);
+        $this->assertMatchesRegularExpression('|^Location: https://test/auth\?.*|', $result);
+
+        list($base, $query) = explode('?', substr($result, 10));
+        parse_str($query, $map);
+
+        $this->assertEquals($this->config['scope'], $map['scope']);
+        $this->assertEquals($this->config['client_id'], $map['client_id']);
+        $this->assertEquals('code', $map['response_type']);
+        $this->assertEquals($_SESSION['oauth_state'], $map['state']);
+        $this->assertMatchesRegularExpression('!http.*/login/oauth!', $map['redirect_uri']);
+    }
+
+    /**
+     * Test request_access_token() method with a wrong state
+     */
+    function test_request_access_token_with_wrong_state()
+    {
+        $oauth = new rcmail_oauth($this->config);
+        $oauth->init();
+
+        $_SESSION['oauth_state'] = "random-state";
+        $response = $oauth->request_access_token('fake-code', 'mismatch-state');
+
+        // should be false as state do not match
+        $this->assertFalse($response);
     }
 
     /**
@@ -89,7 +225,73 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     function test_request_access_token()
     {
-        $this->markTestIncomplete();
+        $payload = [
+          'token_type'          => 'Bearer',
+          'access_token'        => 'FAKE-ACCESS-TOKEN',
+          'expires_in'          => 300,
+          'refresh_token'       => 'FAKE-REFRESH-TOKEN',
+          'refresh_expires_in'  => 1800,
+          'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
+          'not-before-policy'   => 0,
+          'session_state'       => 'fake-session',
+          'scope'               => 'openid profile email'
+        ];
+
+        $mock = new MockHandler([
+            new Response(200, ['Content-Type' => 'application/json'], json_encode($payload))
+        ]);
+        $handler = HandlerStack::create($mock);
+        $oauth = new rcmail_oauth((array) $this->config + [
+            'http_options'  => ['handler' => $handler ]
+        ]);
+        $oauth->init();
+
+        $_SESSION['oauth_state'] = "random-state"; // ensure state identiquals
+        $response = $oauth->request_access_token('fake-code', 'random-state');
+
+        $this->assertTrue(is_array($response));
+        $this->assertEquals('Bearer FAKE-ACCESS-TOKEN', $response['authorization']);
+        $this->assertEquals($this->identity['email'], $response['username']);
+        $this->assertTrue(isset($response['token']));
+        $this->assertFalse(isset($response['token']['access_token']));
+    }
+
+    /**
+     * Test request_access_token() method without identity, code will have to fetch the identity using the access token
+     */
+    function test_request_access_token_without_id_token()
+    {
+        $payload = [
+          'token_type'          => 'Bearer',
+          'access_token'        => 'FAKE-ACCESS-TOKEN',
+          'expires_in'          => 300,
+          'refresh_token'       => 'FAKE-REFRESH-TOKEN',
+          'refresh_expires_in'  => 1800,
+          'not-before-policy'   => 0,
+          'session_state'       => 'fake-session',
+          'scope'               => 'openid profile email'
+        ];
+
+        //TODO should create a specific Mock to check request and validate it
+        $mock = new MockHandler([
+            new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),        // the request access
+            new Response(200, ['Content-Type' => 'application/json'], json_encode($this->identity))  // call to userinfo
+        ]);
+        $handler = HandlerStack::create($mock);
+
+        $oauth = new rcmail_oauth((array) $this->config + [
+            'http_options'  => ['handler' => $handler ]
+        ]);
+        $oauth->init();
+
+        $_SESSION['oauth_state'] = "random-state"; // ensure state identiquals
+        $response = $oauth->request_access_token('fake-code', 'random-state');
+
+        $this->assertTrue(is_array($response));
+        $this->assertEquals('Bearer FAKE-ACCESS-TOKEN', $response['authorization']);
+        $this->assertEquals($this->identity['email'], $response['username']);
+        $this->assertTrue(isset($response['token']));
+        $this->assertFalse(isset($response['token']['access_token']));
     }
 
     /**
@@ -97,6 +299,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     function test_refresh_access_token()
     {
+        //FIXME
         $this->markTestIncomplete();
     }
 }

@@ -34,12 +34,13 @@ class rcmail_action_login_oauth extends rcmail_action
 
         // auth code return from oauth login
         if (!empty($auth_code)) {
+
             $auth = $rcmail->oauth->request_access_token($auth_code, $auth_state);
 
             // oauth success
             if ($auth && isset($auth['username'], $auth['authorization'], $auth['token'])) {
-                // enforce XOAUTH2 auth type
-                $rcmail->config->set('imap_auth_type', 'XOAUTH2');
+                // enforce OAUTHBEARER/XOAUTH2 auth type
+                $rcmail->config->set('imap_auth_type', $rcmail->oauth->get_auth_type());
                 $rcmail->config->set('login_password_maxlen', strlen($auth['authorization']));
 
                 // use access_token and user info for IMAP login
@@ -54,6 +55,8 @@ class rcmail_action_login_oauth extends rcmail_action
 
                     // save OAuth token in session
                     $_SESSION['oauth_token'] = $auth['token'];
+
+                    $rcmail->oauth->log_debug('login successful for OIDC sub=%s with username=%s which is rcube-id=%s', $auth['token']['identity']['sub'], $auth['username'], $rcmail->user->ID);
 
                     // log successful login
                     $rcmail->log_login();

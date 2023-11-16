@@ -338,6 +338,9 @@ $config['smtp_conn_options'] = null;
 // ----------------------------------
 
 // Enable OAuth2 by defining a provider. Use 'generic' here
+// if enabled you can activate the Backchannel Logout specifying:
+// https://<your roundcube instance>/index.php/login/backchannel to your Identity provider
+// if you are using the backchannel, you mmust activate `oauth_cache`
 $config['oauth_provider'] = null;
 
 // Provider name to be displayed on the login button
@@ -349,14 +352,28 @@ $config['oauth_client_id'] = null;
 // Mandatory: OAuth client secret
 $config['oauth_client_secret'] = null;
 
+// Optional: the OIDC discovery URI (the 'https://.../.well-known/openid-configuration')
+// if specified, the discovery will supersede `oauth_issuer`, `auth_auth_uri`, `oauth_token_uri`, `oauth_identity_uri`, `oauth_logout_uri`, `oauth_jwks_uri`)
+// it is recommanded to activate a cache via `oauth_cache` and `oauth_cache_ttl`
+$config['oauth_config_uri'] = null;
+
+// Optional: if defined will be used to check answer from issuer
+$config['oauth_issuer'] = null;
+
+// Optional: if defined will download JWKS Certificate and check JWT signatures
+$config['oauth_jwks_uri'] = null;
+
 // Mandatory: URI for OAuth user authentication (redirect)
 $config['oauth_auth_uri'] = null;
 
-// Mandatory: Endpoint for OAuth authentication requests (server-to-server)
+// Mandatory or Optional if $oauth_config_uri is specified: Endpoint for OAuth authentication requests (server-to-server)
 $config['oauth_token_uri'] = null;
 
 // Optional: Endpoint to query user identity if not provided in auth response
 $config['oauth_identity_uri'] = null;
+
+// Optional: Endpoint for OIDC Logout propagation
+$config['oauth_logout_uri'] = null;
 
 // Optional: timeout for HTTP requests to OAuth server
 $config['oauth_timeout'] = 10;
@@ -376,6 +393,15 @@ $config['oauth_identity_fields'] = null;
 
 // Boolean: automatically redirect to OAuth login when opening Roundcube without a valid session
 $config['oauth_login_redirect'] = false;
+
+// Optional: boolean, if true will generate debug information to <default log path>/oauth.log
+$config['oauth_debug'] = false;
+
+// Mandatory for backchannel, highly recommended when using `oauth_config_uri` or `oauth_jwks_uri`  (Type of memcache cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached')
+$config['oauth_cache'] = 'db';
+
+// Optional: cache ttl
+$config['oauth_cache_ttl'] = '8h';
 
 ///// Example config for Gmail
 
