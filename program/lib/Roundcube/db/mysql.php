@@ -135,7 +135,12 @@ class rcube_db_mysql extends rcube_db
         $result[PDO::ATTR_AUTOCOMMIT] = true;
 
         // Disable emulating of prepared statements
-        $result[PDO::ATTR_EMULATE_PREPARES] = (isset($dsn['attr_emulate_prepares']) ? rcube_utils::get_boolean($dsn['attr_emulate_prepares']) : false);
+        if (isset($dsn['emulate_prepares'])) {
+            $result[PDO::ATTR_EMULATE_PREPARES] = rcube_utils::get_boolean($dsn['emulate_prepares']);
+        }
+        else {
+            $result[PDO::ATTR_EMULATE_PREPARES] = false;
+        }
 
         return $result;
     }
