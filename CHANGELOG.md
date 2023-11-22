@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
+
+## Release 1.5.6
+
 - Fix cross-site scripting (XSS) vulnerability in setting Content-Type/Content-Disposition for attachment preview/download
 
 ## Release 1.5.5

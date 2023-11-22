@@ -154,26 +154,24 @@ class enigma_ui
      */
     function password_prompt($status, $params = [])
     {
-        $data = $status->getData('missing');
+        $data = array_merge($status->getData('missing') ?: [], $status->getData('bad') ?: []);
 
-        if (empty($data)) {
-            $data = $status->getData('bad');
-        }
+        // A message can be encrypted with multiple private keys,
+        // find the one that exists in the keyring
+        foreach ($data as $keyid => $username) {
+            if ($key = $this->enigma->engine->get_key($keyid)) {
+                if ($key->name && strpos($username, $keyid) !== false) {
+                    $data[$keyid] = $key->name;
+                }
 
-        $keyid = key($data);
-        $data  = [
-            'keyid' => !empty($params['keyid']) ? $params['keyid'] : $keyid,
-            'user'  => $data[$keyid]
-        ];
-
-        // With GnuPG 2.1 user name may not be specified (e.g. on private
-        // key export), we'll get the key information and set the name appropriately
-        if ($keyid && !empty($params['keyid']) && strpos($data['user'], $keyid) !== false) {
-            $key = $this->enigma->engine->get_key($params['keyid']);
-            if ($key && $key->name) {
-                $data['user'] = $key->name;
+                break;
             }
         }
+
+        $data  = [
+            'keyid' => $keyid,
+            'user'  => $data[$keyid]
+        ];
 
         if (!empty($params)) {
             $data = array_merge($params, $data);
@@ -505,7 +503,6 @@ class enigma_ui
                                 'action'       => '?',
                                 'iframe'       => true,
                                 'nolock'       => true,
-                                'keyid'        => $keyid,
                         ]);
                         fclose($fp);
                         $this->rc->output->send('iframe');
