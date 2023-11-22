@@ -333,7 +333,7 @@ class enigma_driver_gnupg extends enigma_driver
         $list = $this->list_keys($keyid);
 
         if (is_array($list)) {
-            return $list[key($list)];
+            return array_first($list);
         }
 
         // error
