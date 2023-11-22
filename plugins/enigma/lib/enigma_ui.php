@@ -159,7 +159,8 @@ class enigma_ui
         // A message can be encrypted with multiple private keys,
         // find the one that exists in the keyring
         foreach ($data as $keyid => $username) {
-            if ($key = $this->enigma->engine->get_key($keyid)) {
+            $key = $this->enigma->engine->get_key($keyid);
+            if ($key && $key->is_private()) {
                 if ($key->name && strpos($username, $keyid) !== false) {
                     $data[$keyid] = $key->name;
                 }
