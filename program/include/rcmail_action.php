@@ -403,6 +403,8 @@ abstract class rcmail_action
             'skin_path'  => $skin_path,
             'spellcheck' => $spellcheck, // deprecated
             'spelldict'  => $spelldict,
+            'font_formats'     => self::font_defs(),
+            'fontsize_formats' => self::fontsize_defs(),
             'content_css'      => 'program/resources/tinymce/content.css',
             'disabled_plugins' => $hook['disabled_plugins'],
             'disabled_buttons' => $hook['disabled_buttons'],
@@ -678,27 +680,31 @@ abstract class rcmail_action
      */
     public static function font_defs($font = null)
     {
-        $fonts = [
-            'Andale Mono'   => '"Andale Mono",Times,monospace',
-            'Arial'         => 'Arial,Helvetica,sans-serif',
-            'Arial Black'   => '"Arial Black","Avant Garde",sans-serif',
-            'Book Antiqua'  => '"Book Antiqua",Palatino,serif',
-            'Courier New'   => '"Courier New",Courier,monospace',
-            'Georgia'       => 'Georgia,Palatino,serif',
-            'Helvetica'     => 'Helvetica,Arial,sans-serif',
-            'Impact'        => 'Impact,Chicago,sans-serif',
-            'Tahoma'        => 'Tahoma,Arial,Helvetica,sans-serif',
-            'Terminal'      => 'Terminal,Monaco,monospace',
-            'Times New Roman' => '"Times New Roman",Times,serif',
-            'Trebuchet MS'  => '"Trebuchet MS",Geneva,sans-serif',
-            'Verdana'       => 'Verdana,Geneva,sans-serif',
-        ];
+        $fonts = rcmail::get_instance()->config->get('available_fonts', []);
 
         if ($font) {
             return !empty($fonts[$font]) ? $fonts[$font] : null;
         }
 
         return $fonts;
+    }
+
+    /**
+     * Returns supported font sizes
+     *
+     * @param string $size Font size
+     *
+     * @return string|array Font size array or string (if $size is used)
+     */
+    public static function fontsize_defs($size = null)
+    {
+        $sizes = rcmail::get_instance()->config->get('available_font_sizes', []);
+
+        if ($size) {
+            return in_array($size, $sizes) ? $size : null;
+        }
+
+        return $sizes;
     }
 
     /**

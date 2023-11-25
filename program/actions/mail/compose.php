@@ -135,7 +135,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
 
         // default font size for HTML editor
-        if ($font_size = $rcmail->config->get('default_font_size')) {
+        $font_size = self::fontsize_defs($rcmail->config->get('default_font_size'));
+        if ($font_size && !is_array($font_size)) {
             $rcmail->output->set_env('default_font_size', $font_size);
         }
 
