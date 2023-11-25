@@ -121,6 +121,15 @@ class Rcmail_RcmailAction extends ActionTestCase
     }
 
     /**
+     * Test rcmail_action::fontsize_defs()
+     */
+    function test_fontsize_defs()
+    {
+        $result = rcmail_action::fontsize_defs();
+        $this->assertCount(9, $result);
+    }
+
+    /**
      * Test rcmail_action::show_bytes)
      */
     function test_show_bytes()

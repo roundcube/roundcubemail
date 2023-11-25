@@ -962,45 +962,65 @@ class rcmail_action_settings_index extends rcmail_action
                     ];
                 }
 
-                if (!isset($no_override['default_font']) || !isset($no_override['default_font_size'])) {
+                // Font settings are made up of 2 parts, font name and font size
+                // Compute the settings first to discover is anything to display to the user
+                $font_settings = '';
+
+                // Default font
+                if (!isset($no_override['default_font'])) {
                     if (!$current) {
                         continue 2;
                     }
 
-                    // Default font size
-                    $field_id = 'rcmfd_default_font_size';
-                    $select_size = new html_select([
-                            'name'  => '_default_font_size',
-                            'id'    => $field_id,
-                            'class' => 'custom-select'
-                    ]);
-
-                    $fontsizes = ['', '8pt', '9pt', '10pt', '11pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
-                    foreach ($fontsizes as $size) {
-                        $select_size->add($size, $size);
-                    }
-
-                    // Default font
-                    $field_id = 'rcmfd_default_font';
-                    $select_font = new html_select([
-                            'name' => '_default_font',
-                            'id' => $field_id,
-                            'class' => 'custom-select'
-                    ]);
-
-                    $select_font->add('', '');
-
                     $fonts = self::font_defs();
-                    foreach (array_keys($fonts) as $fname) {
-                        $select_font->add($fname, $fname);
+                    if (count($fonts) > 1) {
+                        $field_id = 'rcmfd_default_font';
+                        $select_font = new html_select([
+                                'name' => '_default_font',
+                                'id' => $field_id,
+                                'class' => 'custom-select'
+                        ]);
+
+                        $select_font->add('', '');
+
+                        foreach (array_keys($fonts) as $fname) {
+                            $select_font->add($fname, $fname);
+                        }
+
+                        $font_settings .= $select_font->show($rcmail->config->get('default_font', 1));
+                    }
+                }
+
+                // Default font size
+                if (!isset($no_override['default_font_size'])) {
+                    if (!$current) {
+                        continue 2;
                     }
 
+                    $fontsizes = self::fontsize_defs();
+                    if (count($fontsizes) > 1) {
+                        $field_id = 'rcmfd_default_font_size';
+                        $select_size = new html_select([
+                                'name'  => '_default_font_size',
+                                'id'    => $field_id,
+                                'class' => 'custom-select'
+                        ]);
+
+                        $select_size->add('', '');
+
+                        foreach ($fontsizes as $size) {
+                            $select_size->add($size, $size);
+                        }
+
+                        $font_settings .= $select_size->show($rcmail->config->get('default_font_size', 1));
+                    }
+                }
+
+                // Include font settings in the display only if at least one setting exists
+                if (!empty($font_settings)) {
                     $blocks['main']['options']['default_font'] = [
                         'title' => html::label($field_id, rcube::Q($rcmail->gettext('defaultfont'))),
-                        'content' => html::div('input-group',
-                            $select_font->show($rcmail->config->get('default_font', 1)) .
-                            $select_size->show($rcmail->config->get('default_font_size', 1))
-                        )
+                        'content' => html::div('input-group', $font_settings)
                     ];
                 }
 

@@ -86,11 +86,14 @@ class rcmail_action_mail_send extends rcmail_action
         if ($isHtml) {
             $bstyle = [];
 
-            if ($font_size = $rcmail->config->get('default_font_size')) {
+            $font_size = self::fontsize_defs($rcmail->config->get('default_font_size'));
+            if ($font_size && !is_array($font_size)) {
                 $bstyle[] = 'font-size: ' . $font_size;
             }
-            if ($font_family = $rcmail->config->get('default_font')) {
-                $bstyle[] = 'font-family: ' . self::font_defs($font_family);
+
+            $font_family = self::font_defs($rcmail->config->get('default_font'));
+            if ($font_family && !is_array($font_family)) {
+                $bstyle[] = 'font-family: ' . $font_family;
             }
 
             // append doctype and html/body wrappers
