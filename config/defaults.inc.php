@@ -1484,7 +1484,7 @@ $config['spellcheck_before_send'] = false;
 $config['autocomplete_single'] = false;
 
 // Default font for composed HTML message
-// See available_fonts for supported values
+// See 'available_fonts' option for supported values
 $config['default_font'] = 'Verdana';
 
 // List of available fonts for the user to choose from when composing HTML messages
@@ -1509,7 +1509,7 @@ $config['available_fonts'] = [
 ];
 
 // Default font size for composed HTML message
-// See available_font_sizes for supported values
+// See 'available_font_sizes' option for supported values
 $config['default_font_size'] = '10pt';
 
 // List of available font sizes for the user to choose from when composing HTML messages

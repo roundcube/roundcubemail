@@ -9,6 +9,7 @@
 - Mouse-over menu on messages list (#7141)
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
 - Added an option for a default mail search scope (#9077, #7556)
+- Added option to define font list and font-size list for HTML editor - available_fonts/available_font_sizes (#5700)
 - Support for HAproxy protocol header in IMAP connections (#8625)
 - Change 'smtp_log' option default value to False
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
