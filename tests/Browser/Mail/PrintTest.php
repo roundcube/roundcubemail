@@ -29,7 +29,7 @@ class PrintTest extends \Tests\Browser\TestCase
             $browser->waitFor('#messagelist tbody tr:first-child')
                 ->ctrlClick('#messagelist tbody tr:first-child');
 
-            $browser->clickToolbarMenuItem('more');
+            $browser->clickToolbarMenuItem('more', null, false);
 
             $browser->with(new Popupmenu('message-menu'), function ($browser) use (&$current_window, &$new_window) {
                 if ($browser->isPhone()) {

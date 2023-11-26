@@ -101,7 +101,7 @@ class ListTest extends \Tests\Browser\TestCase
         $this->browse(function ($browser) {
             if ($browser->isPhone()) {
                 $browser->with(new Toolbarmenu(), function ($browser) {
-                    $browser->clickMenuItem('select');
+                    $browser->clickMenuItem('select', null, false);
                 });
             }
             else if ($browser->isTablet()) {

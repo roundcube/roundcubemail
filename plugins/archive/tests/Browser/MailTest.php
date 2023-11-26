@@ -68,7 +68,7 @@ class MailTest extends \Tests\Browser\TestCase
 
             // Test archive class on folder in folder selector
             $browser->ctrlClick('#messagelist tbody tr')
-                ->clickToolbarMenuItem('more')
+                ->clickToolbarMenuItem('more', null, false)
                     ->with(new Popupmenu('message-menu'), function ($browser) {
                         $browser->clickMenuItem('move');
                     })
