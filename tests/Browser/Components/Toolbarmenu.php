@@ -99,13 +99,8 @@ class Toolbarmenu extends Component
         // hide the menu back
         if ($browser->isPhone()) {
             $browser->withinBody(function ($browser) {
-                $browser->script("window.UI.menu_hide('toolbar-menu')");
+                $browser->script("var elem; while(elem = \$('.popover.show .popover-header a.button:visible')[0]) \$(elem).click();");
                 $browser->waitUntilMissingOrStale($this->selector());
-                // FIXME: For some reason sometimes .popover-overlay does not close,
-                //        we have to remove it manually
-                $browser->script(
-                    "Array.from(document.getElementsByClassName('popover-overlay')).forEach(function(elem) { elem.parentNode.removeChild(elem); })"
-                );
             });
         }
     }
@@ -137,7 +132,5 @@ class Toolbarmenu extends Component
                 $browser->click("#{$popup_id} li a.{$dropdown_action}");
             });
         }
-
-        $this->closeMenu($browser);
     }
 }
