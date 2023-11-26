@@ -3683,7 +3683,6 @@ function rcube_webmail()
 
         // display page selector
         ref.show_menu('pagejump-selector', true, e);
-        $(this).keydown();
       })
       // keyboard navigation
       .on('keydown keyup click', function(e) {
