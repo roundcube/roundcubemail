@@ -137,5 +137,9 @@ class Toolbarmenu extends Component
                 $browser->click("#{$popup_id} li a.{$dropdown_action}");
             });
         }
+
+        if ($browser->isPhone()) {
+            $browser->pause(100);
+        }
     }
 }
