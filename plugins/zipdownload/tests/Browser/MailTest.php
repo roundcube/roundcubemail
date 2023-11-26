@@ -27,9 +27,9 @@ class MailTest extends \Tests\Browser\TestCase
             });
 
             // Test More > Download > Source (single message selected)
-            $browser->clickToolbarMenuItem('more')
+            $browser->clickToolbarMenuItem('more', null, false)
                 ->with(new Popupmenu('message-menu'), function ($browser) {
-                    $browser->clickMenuItem('download');
+                    $browser->clickMenuItem('download', null, false);
                 })
                 ->with(new Popupmenu('zipdownload-menu'), function ($browser) {
                     $browser->assertVisible('a.download.eml:not(.disabled)')
@@ -48,9 +48,9 @@ class MailTest extends \Tests\Browser\TestCase
 
             // Test More > Download > Mailbox format (two messages selected)
             $browser->ctrlClick('#messagelist tbody tr:nth-of-type(2)')
-                ->clickToolbarMenuItem('more')
+                ->clickToolbarMenuItem('more', null, false)
                 ->with(new Popupmenu('message-menu'), function ($browser) {
-                    $browser->clickMenuItem('download');
+                    $browser->clickMenuItem('download', null, false);
                 })
                 ->with(new Popupmenu('zipdownload-menu'), function ($browser) {
                     $browser->assertVisible('a.download.eml.disabled')
@@ -66,9 +66,9 @@ class MailTest extends \Tests\Browser\TestCase
                 });
 
             // Test More > Download > Maildir format (two messages selected)
-            $browser->clickToolbarMenuItem('more')
+            $browser->clickToolbarMenuItem('more', null, false)
                 ->with(new Popupmenu('message-menu'), function ($browser) {
-                    $browser->clickMenuItem('download');
+                    $browser->clickMenuItem('download', null, false);
                 })
                 ->with(new Popupmenu('zipdownload-menu'), function ($browser) {
                     $browser->click('a.download.maildir');

@@ -122,10 +122,10 @@ class Browser extends \Laravel\Dusk\Browser
     /**
      * Select toolbar menu item
      */
-    public function clickToolbarMenuItem($name, $dropdown_action = null)
+    public function clickToolbarMenuItem($name, $dropdown_action = null, $close = true)
     {
-        $this->with(new Components\Toolbarmenu(), function ($browser) use ($name, $dropdown_action) {
-            $browser->clickMenuItem($name, $dropdown_action);
+        $this->with(new Components\Toolbarmenu(), function ($browser) use ($name, $dropdown_action, $close) {
+            $browser->clickMenuItem($name, $dropdown_action, $close);
         });
 
         return $this;

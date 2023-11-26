@@ -176,7 +176,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
             // Goto Compose and test the responses menu
             $browser->clickTaskMenuItem('compose')
                 ->waitFor('#compose-content')
-                ->clickToolbarMenuItem('responses')
+                ->clickToolbarMenuItem('responses', null, false)
                 ->with(new Popupmenu('responses-menu'), function ($browser) {
                     $browser->assertMenuState(['edit.responses'])
                         ->with('#responseslist', function ($browser) {
@@ -190,7 +190,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
 
             // Insert a response to the message body
             $browser->type('#composebody', 'Body and ')
-                ->clickToolbarMenuItem('responses')
+                ->clickToolbarMenuItem('responses', null, false)
                 ->waitFor('#responseslist')
                 ->click('#responseslist li:nth-child(1) a.insertresponse')
                 ->waitUntilMissing('#responses-menu');
@@ -215,7 +215,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
     {
         $this->browse(function ($browser) {
             // We're in mail compose, use responses menu to goto Settings > Responses
-            $browser->clickToolbarMenuItem('responses')
+            $browser->clickToolbarMenuItem('responses', null, false)
                 ->waitFor('#responses-menu')
                 ->click('#responses-menu a.edit.responses')
                 ->with(new Dialog(), function ($browser) {

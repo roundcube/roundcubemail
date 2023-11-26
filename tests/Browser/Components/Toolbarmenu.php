@@ -50,20 +50,7 @@ class Toolbarmenu extends Component
      */
     public function assertMenuState($browser, $active, $disabled = [], $missing = [])
     {
-        // On phone the menu is invisible, open it
-        if ($browser->isPhone()) {
-            $browser->withinBody(function ($browser) {
-                // As we might be in a list or content "view" we have to find
-                // currently visible menu button, and click it
-                foreach ($browser->elements('.toolbar-menu-button') as $button) {
-                    if ($button->isDisplayed()) {
-                        $button->click();
-                    }
-                }
-
-                $browser->waitFor($this->selector());
-            });
-        }
+        $this->openMenu($browser);
 
         foreach ($active as $option) {
             // Print action is disabled on phones
@@ -113,19 +100,9 @@ class Toolbarmenu extends Component
     /**
      * Select toolbar menu item
      */
-    public function clickMenuItem($browser, $name, $dropdown_action = null)
+    public function clickMenuItem($browser, $name, $dropdown_action = null, $close = true)
     {
-        if ($browser->isPhone()) {
-            $browser->withinBody(function ($browser) {
-                // Click (visible) menu button
-                foreach ($browser->elements('.toolbar-menu-button') as $button) {
-                    if ($button->isDisplayed()) {
-                        $button->click();
-                    }
-                }
-                $browser->waitFor($this->selector());
-            });
-        }
+        $this->openMenu($browser);
 
         $selector = "a.{$name}" . ($dropdown_action ? " + a.dropdown" : '');
 
@@ -138,8 +115,27 @@ class Toolbarmenu extends Component
             });
         }
 
+        // Make sure the menu is closed on mobile
+        if ($close) {
+            $this->closeMenu($browser);
+        }
+    }
+
+    /**
+     * Open toolbar menu (on phones)
+     */
+    public function openMenu($browser)
+    {
         if ($browser->isPhone()) {
-            $browser->pause(100);
+            $browser->withinBody(function ($browser) {
+                // Click (visible) menu button
+                foreach ($browser->elements('.toolbar-menu-button') as $button) {
+                    if ($button->isDisplayed()) {
+                        $button->click();
+                    }
+                }
+                $browser->waitFor($this->selector());
+            });
         }
     }
 }

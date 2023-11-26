@@ -63,7 +63,7 @@ class MailTest extends \Tests\Browser\TestCase
         $this->browse(function ($browser) {
             $browser->go('mail');
 
-            $browser->clickToolbarMenuItem('more');
+            $browser->clickToolbarMenuItem('more', null,  false);
 
             $browser->with(new Popupmenu('message-menu'), function ($browser) {
                 // Note: These are button class names, not action names
@@ -76,8 +76,8 @@ class MailTest extends \Tests\Browser\TestCase
                     $disabled = array_diff($disabled, $hidden);
                 }
 
-                $browser->assertMenuState($active, $disabled, $hidden);
-                $browser->closeMenu();
+                $browser->assertMenuState($active, $disabled, $hidden)
+                    ->closeMenu();
             });
         });
     }
