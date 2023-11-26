@@ -185,7 +185,8 @@ class ResponsesTest extends \Tests\Browser\TestCase
                                 ->assertSeeIn('li:nth-child(2) a.insertresponse', 'response 2');
                         })
                         ->closeMenu();
-                });
+                })
+                ->closeToolbarMenu();
 
             // Insert a response to the message body
             $browser->type('#composebody', 'Body and ')
