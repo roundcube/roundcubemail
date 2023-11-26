@@ -101,6 +101,11 @@ class Toolbarmenu extends Component
             $browser->withinBody(function ($browser) {
                 $browser->script("var elem; while(elem = \$('.popover.show .popover-header a.button:visible')[0]) \$(elem).click();");
                 $browser->waitUntilMissingOrStale($this->selector());
+                // FIXME: For some reason sometimes .popover-overlay does not close,
+                //        we have to remove it manually
+                $browser->script(
+                    "Array.from(document.getElementsByClassName('popover-overlay')).forEach(function(elem) { elem.parentNode.removeChild(elem); })"
+                );
             });
         }
     }
