@@ -87,6 +87,11 @@ class Popupmenu extends Component
         $browser->withinBody(function ($browser) {
             $browser->script("window.UI.menu_hide('{$this->id}')");
             $browser->waitUntilMissingOrStale($this->selector());
+            // FIXME: For some reason sometimes .popover-overlay does not close,
+            //        we have to remove it manually
+            $browser->script(
+                "Array.from(document.getElementsByClassName('popover-overlay')).forEach(function(elem) { elem.parentNode.removeChild(elem); })"
+            );
         });
     }
 
