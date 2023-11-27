@@ -1355,7 +1355,6 @@ class rcube
 
         // per-user logging is activated
         if (self::$instance && self::$instance->config->get('per_user_logging')
-            && self::$instance->get_user_id()
             && !in_array($name, ['userlogins', 'sendmail'])
         ) {
             $log_dir = self::$instance->get_user_log_dir();
