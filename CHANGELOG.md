@@ -5,6 +5,7 @@
 - Fix regression in handling LDAP search_fields configuration parameter (#9210)
 - Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
 - Fix page jump menu flickering on click (#9196)
+- Update to TinyMCE 5.10.9 security release (#9228)
 
 ## Release 1.6.5
 

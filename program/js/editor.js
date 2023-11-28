@@ -73,7 +73,8 @@ function rcube_text_editor(config, id)
       anchor_top: false,
       file_picker_types: 'image media',
       file_picker_callback: function(callback, value, meta) { ref.file_picker_callback(callback, value, meta); },
-      min_height: config.mode == 'identity' ? 100 : 400
+      min_height: config.mode == 'identity' ? 100 : 400,
+      deprecation_warnings: false
     };
 
   // register spellchecker for plain text editor
