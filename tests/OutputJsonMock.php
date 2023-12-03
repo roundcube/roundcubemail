@@ -29,6 +29,8 @@ class OutputJsonMock extends rcmail_output_json
 
     public $output;
     public $headers = [];
+    public $errorCode;
+    public $errorMessage;
 
     /**
      * Redirect to a certain url
@@ -81,6 +83,20 @@ class OutputJsonMock extends rcmail_output_json
     }
 
     /**
+     * A helper to send HTTP error code and message to the browser, and exit.
+     *
+     * @param int    $code    The HTTP error code
+     * @param string $message The HTTP error message
+     */
+    public function sendExitError($code, $message = '')
+    {
+        $this->errorCode = $code;
+        $this->errorMessage = $message;
+
+        throw new ExitException("Output sent (error)", self::E_EXIT);
+    }
+
+    /**
      * Show error page and terminate script execution
      *
      * @param int    $code    Error code
@@ -112,6 +128,9 @@ class OutputJsonMock extends rcmail_output_json
         $this->headers     = [];
         $this->output      = null;
         $this->header_sent = false;
+
+        $this->errorCode    = null;
+        $this->errorMessage = null;
     }
 
     /**
