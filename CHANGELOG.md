@@ -6,6 +6,7 @@
 - Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
 - Fix page jump menu flickering on click (#9196)
 - Update to TinyMCE 5.10.9 security release (#9228)
+- Fix PHP8 warning (#9235)
 
 ## Release 1.6.5
 

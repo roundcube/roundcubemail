@@ -27,17 +27,20 @@ class rcmail_action_utils_modcss extends rcmail_action
      */
     public function run($args = [])
     {
-        $url = preg_replace('![^a-z0-9.-]!i', '', $_GET['_u']);
+        $rcmail = rcmail::get_instance();
 
-        if ($url === null || !($realurl = $_SESSION['modcssurls'][$url])) {
-            header('HTTP/1.1 403 Forbidden');
-            exit("Unauthorized request");
+        $url = rcube_utils::get_input_string('_u', rcube_utils::INPUT_GET);
+        $url = preg_replace('![^a-z0-9.-]!i', '', $url);
+
+        if ($url === null || empty($_SESSION['modcssurls'][$url])) {
+            $rcmail->output->sendExitError(403, "Unauthorized request");
         }
+
+        $realurl = $_SESSION['modcssurls'][$url];
 
         // don't allow any other connections than http(s)
         if (!preg_match('~^https?://~i', $realurl, $matches)) {
-            header('HTTP/1.1 403 Forbidden');
-            exit("Invalid URL");
+            $rcmail->output->sendExitError(403, "Invalid URL");
         }
 
         $source = false;
@@ -57,17 +60,20 @@ class rcmail_action_utils_modcss extends rcmail_action
             rcube::raise_error($e, true, false);
         }
 
+        $cid    = rcube_utils::get_input_string('_c', rcube_utils::INPUT_GET);
+        $prefix = rcube_utils::get_input_string('_p', rcube_utils::INPUT_GET);
+
+        $container_id = preg_replace('/[^a-z0-9]/i', '', $cid);
+        $css_prefix   = preg_replace('/[^a-z0-9]/i', '', $prefix);
         $ctype_regexp = '~^text/(css|plain)~i';
-        $container_id = isset($_GET['_c']) ? preg_replace('/[^a-z0-9]/i', '', $_GET['_c']) : '';
-        $css_prefix   = isset($_GET['_p']) ? preg_replace('/[^a-z0-9]/i', '', $_GET['_p']) : '';
 
         if ($source !== false && $ctype && preg_match($ctype_regexp, $ctype)) {
-            header('Content-Type: text/css');
-            echo rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix);
-            exit;
+            $rcmail->output->sendExit(
+                rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix),
+                ['Content-Type: text/css']
+            );
         }
 
-        header('HTTP/1.0 404 Not Found');
-        exit("Invalid response returned by server");
+        $rcmail->output->sendExitError(404, "Invalid response returned by server");
     }
 }

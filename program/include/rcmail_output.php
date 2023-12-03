@@ -147,4 +147,18 @@ abstract class rcmail_output extends rcube_output
         print $body;
         exit;
     }
+
+    /**
+     * A helper to send HTTP error code and message to the browser, and exit.
+     *
+     * @param int    $code    The HTTP error code
+     * @param string $message The HTTP error message
+     *
+     * @return void
+     */
+    public function sendExitError($code, $message = '')
+    {
+        http_response_code($code);
+        exit($message);
+    }
 }

@@ -8,16 +8,6 @@
 class Actions_Utils_Html2text extends ActionTestCase
 {
     /**
-     * Class constructor
-     */
-    function test_class()
-    {
-        $object = new rcmail_action_utils_html2text;
-
-        $this->assertInstanceOf('rcmail_action', $object);
-    }
-
-    /**
      * Test for run()
      */
     function test_run()
@@ -28,6 +18,7 @@ class Actions_Utils_Html2text extends ActionTestCase
 
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'utils', 'html2text');
 
+        $this->assertInstanceOf('rcmail_action', $object);
         $this->assertTrue($object->checks());
 
         $this->runAndAssert($object, OutputHtmlMock::E_EXIT);

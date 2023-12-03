@@ -29,6 +29,8 @@ class OutputHtmlMock extends rcmail_output_html
 
     public $output;
     public $headers  = [];
+    public $errorCode;
+    public $errorMessage;
     public $template = '';
 
     /**
@@ -86,6 +88,20 @@ class OutputHtmlMock extends rcmail_output_html
     }
 
     /**
+     * A helper to send HTTP error code and message to the browser, and exit.
+     *
+     * @param int    $code    The HTTP error code
+     * @param string $message The HTTP error message
+     */
+    public function sendExitError($code, $message = '')
+    {
+        $this->errorCode = $code;
+        $this->errorMessage = $message;
+
+        throw new ExitException("Output sent (error)", self::E_EXIT);
+    }
+
+    /**
      * Process template and write to stdOut
      *
      * @param string $template HTML template content
@@ -129,6 +145,9 @@ class OutputHtmlMock extends rcmail_output_html
         $this->headers  = [];
         $this->output   = null;
         $this->template = null;
+
+        $this->errorCode    = null;
+        $this->errorMessage = null;
     }
 
     /**
