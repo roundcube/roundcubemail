@@ -28,11 +28,16 @@
 $config = [
     'display_errors'  => false,
     'log_errors'      => true,
-    // Some users are not using Installer, so we'll check some
-    // critical PHP settings here. Only these, which doesn't provide
-    // an error/warning in the logs later. See (#1486307).
-    'mbstring.func_overload' => 0,
 ];
+
+// Some users are not using Installer, so we'll check some
+// critical PHP settings here. Only these, which doesn't provide
+// an error/warning in the logs later. See (#1486307).
+if (PHP_MAJOR_VERSION < 8) {
+    $config += [
+        'mbstring.func_overload' => 0,
+    ];
+}
 
 // check these additional ini settings if not called via CLI
 if (php_sapi_name() != 'cli') {
