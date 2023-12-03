@@ -780,24 +780,11 @@ class rcube_imap_generic
             $line   = $this->readReply();
             $result = $this->parseResult($line);
         }
-        else if ($type == 'XOAUTH2') {
-            $auth = base64_encode("user=$user\1auth=$pass\1\1");
-            $this->putLine($this->nextTag() . " AUTHENTICATE XOAUTH2 $auth", true, true);
-
-            $line = trim($this->readReply());
-
-            if ($line[0] == '+') {
-                // send empty line
-                $this->putLine('', true, true);
-                $line = $this->readReply();
-            }
-
-            $result = $this->parseResult($line);
-        }
-        else if ($type == 'OAUTHBEARER') {
-            //Implement RFC 7628
-            $auth = base64_encode("n,a=$user,\1auth=$pass\1\1");
-            $this->putLine($this->nextTag() . " AUTHENTICATE OAUTHBEARER $auth", true, true);
+        else if (($type == 'XOAUTH2') || ($type == 'OAUTHBEARER')) {
+            $auth = ($type == 'XOAUTH2')
+                ? base64_encode("user=$user\1auth=$pass\1\1")  // XOAUTH: original extension, still widely used
+                : base64_encode("n,a=$user,\1auth=$pass\1\1"); // OAUTHBEARER: official RFC 7628
+            $this->putLine($this->nextTag() . " AUTHENTICATE $type $auth", true, true);
 
             $line = trim($this->readReply());
 

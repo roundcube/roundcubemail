@@ -34,7 +34,6 @@ class rcmail_action_login_oauth extends rcmail_action
 
         // auth code return from oauth login
         if (!empty($auth_code)) {
-
             $auth = $rcmail->oauth->request_access_token($auth_code, $auth_state);
 
             // oauth success

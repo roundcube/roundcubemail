@@ -397,7 +397,7 @@ $config['oauth_login_redirect'] = false;
 // Optional: boolean, if true will generate debug information to <default log path>/oauth.log
 $config['oauth_debug'] = false;
 
-// Mandatory for backchannel, highly recommended when using `oauth_config_uri` or `oauth_jwks_uri`  (Type of memcache cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached')
+// Mandatory for backchannel, highly recommended when using `oauth_config_uri` or `oauth_jwks_uri` (Type of cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached')
 $config['oauth_cache'] = 'db';
 
 // Optional: cache ttl

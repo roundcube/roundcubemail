@@ -192,19 +192,6 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     }
 }
 
-// handle oauth login requests
-else if ($RCMAIL->task == 'login' && $RCMAIL->action == 'oauth' && $RCMAIL->oauth->is_enabled()) {
-    $oauth_handler = new rcmail_action_login_oauth();
-    $oauth_handler->run();
-}
-
-// handle oauth login requests
-else if ($RCMAIL->task == 'login' && $RCMAIL->action == 'backchannel' && $RCMAIL->oauth->is_enabled()) {
-    $oauth_handler = new rcmail_action_login_oauth_backchannel();
-
-    $oauth_handler->run();
-}
-
 // end session
 else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
     $RCMAIL->request_security_check(rcube_utils::INPUT_GET | rcube_utils::INPUT_POST);

@@ -106,8 +106,8 @@ class rcmail_oauth
      */
     private function logger($level, $message)
     {
-        $sub = isset($_SESSION['oauth_token']['identity']['sub']) ? $_SESSION['oauth_token']['identity']['sub'] : '-';
-        $ses = isset($_SESSION['oauth_token']['session_state'])   ? $_SESSION['oauth_token']['session_state']   : '-';
+        $sub = $_SESSION['oauth_token']['identity']['sub'] ?? '-';
+        $ses = $_SESSION['oauth_token']['session_state']   ?? '-';
         rcube::write_log('oauth', sprintf('%s: [ip=%s sub=%s ses=%s] %s', $level, rcube_utils::remote_ip(), $sub, $ses, $message));
     }
 
@@ -183,17 +183,13 @@ class rcmail_oauth
     protected function discover()
     {
         $config_uri = $this->options['config_uri'];
-
         if (empty($config_uri)) {
             return;
         }
-
-        if ($this->cache === null) {
-            rcube::raise_error(['message' => 'Warning you activated `oauth_config_uri` it is highly recommanded to setup `oauth_cache`'], true, false);
-        }
+        $key_cache = "discovery.".md5($config_uri);
 
         try {
-            $data = $this->cache ? $this->cache->get("discovery") : null;
+            $data = $this->cache ? $this->cache->get($key_cache) : null;
             if ($data === null) {
                 // Caveat: if .well-known URL is not answering it will break login display (will not display the button)
                 $response = $this->http_client->get($config_uri);
@@ -206,13 +202,13 @@ class rcmail_oauth
 
                 //cache answer
                 if ($this->cache) {
-                    $this->cache->set("discovery", $data);
+                    $this->cache->set($key_cache, $data);
                 }
             }
 
             // map discovery to our options
             foreach (self::$config_mapper as $config_key => $options_key) {
-                if(empty($data[$config_key])) {
+                if (empty($data[$config_key])) {
                     rcube::raise_error([
                             'message' => "key {$config_key} not found in answer of {$config_uri}",
                             'file'    => __FILE__,
@@ -221,7 +217,7 @@ class rcmail_oauth
                     );
                 }
                 else {
-                    $this->options[ $options_key] = $data[$config_key];
+                    $this->options[$options_key] = $data[$config_key];
                 }
             }
         }
@@ -252,29 +248,27 @@ class rcmail_oauth
             return;
         }
 
-        if ($this->cache === null) {
-            rcube::raise_error([ 'message' => 'Warning you activated `oauth_config_uri` it is highly recommanded to setup `oauth_cache`' ], true, false);
-        }
-
-        $this->jwks = $this->cache ? $this->cache->get("jwks") : null;
+        $jwks_uri = $this->options['jwks_uri'];
+        $key_cache = "jwks.".md5($jwks_uri);
+        $this->jwks = $this->cache ? $this->cache->get($key_cache) : null;
 
         if ($this->jwks !== null && $this->jwks['expires'] > time()) {
             return;
         }
 
         // not in cache, fetch json web key set
-        $response = $this->http_client->get($this->options['jwks_uri']);
+        $response = $this->http_client->get($jwks_uri);
         $this->jwks = json_decode($response->getBody(), true);
 
         //sanity check
         if (!isset($this->jwks['keys'])) {
-            $this->log("incorrect jwks response from %s", $this->options['jwks_uri']);
+            $this->log_debug("incorrect jwks response from %s", $jwks_uri);
         }
         else if ($this->cache) {
             // this is a hack because we cannot specify the TTL in the shared_cache
             // and cache must not be too high as the Identity Provider can rotate it's keys
             $this->jwks['expires'] = time() + self::JWKS_CACHE_TTL;
-            $this->cache->set('jwks', $this->jwks);
+            $this->cache->set($key_cache, $this->jwks);
         }
     }
 
@@ -380,9 +374,9 @@ class rcmail_oauth
 
         list($headb64, $bodyb64, $cryptob64) = explode('.', $jwt);
 
-        $header = json_decode(static::base64url_decode($headb64, true), true);
-        $body   = json_decode(static::base64url_decode($bodyb64, true), true);
-        //TODO: finalize $crypto = static::base64url_decode($cryptob64, true);
+        $header = json_decode(static::base64url_decode($headb64), true);
+        $body   = json_decode(static::base64url_decode($bodyb64), true);
+        //$crypto = static::base64url_decode($cryptob64);
 
         if ($this->options['jwks_uri']) {
             // jwks_uri defined, will check JWT signature
@@ -546,12 +540,12 @@ class rcmail_oauth
             }
 
             // validate state parameter against $_SESSION['oauth_state']
-            if (@$_SESSION['oauth_state'] !== $state) {
+            if (!isset($_SESSION['oauth_state']) || ($_SESSION['oauth_state'] !== $state)) {
                 throw new RuntimeException('state parameter mismatch');
             }
             $this->rcmail->session->remove('oauth_state');
 
-            $this->log_debug('requesting a grant_type=authorization_code');
+            $this->log_debug('requesting a grant_type=authorization_code to %s', $oauth_token_uri);
             $response = $this->http_client->post($oauth_token_uri, [
                 'form_params'       => [
                     'grant_type'    => 'authorization_code',
@@ -561,7 +555,6 @@ class rcmail_oauth
                     'redirect_uri'  => $this->get_redirect_uri(),
                 ],
             ]);
-
             $data = json_decode($response->getBody(), true);
 
             $authorization = $this->parse_tokens('authorization_code', $data);
@@ -571,25 +564,19 @@ class rcmail_oauth
 
             // decode JWT id_token if provided
             if (!empty($data['id_token'])) {
-                try {
-                    $identity = $this->jwt_decode($data['id_token']);
-                    // note that id_token values depend on scopes
-                    foreach ($this->options['identity_fields'] as $field) {
-                        if (isset($identity[$field])) {
-                            $username = $identity[$field];
-                            break;
-                        }
+                $identity = $this->jwt_decode($data['id_token']);
+
+                // note that id_token values depend on scopes
+                foreach ($this->options['identity_fields'] as $field) {
+                    if (isset($identity[$field])) {
+                        $username = $identity[$field];
+                        break;
                     }
-                }
-                catch (\Exception $e) {
-                    // log error
-                    rcube::raise_error(['message' => sprintf('error reading identity: %s', $e->getMessage())], true, true); //Stop here
                 }
             }
 
             // request user identity (email)
             if (empty($username)) {
-
                 $fetched_identity = $this->fetch_userinfo($authorization);
 
                 $this->log_debug("fetched identity: %s", json_encode($fetched_identity, true));
@@ -625,7 +612,7 @@ class rcmail_oauth
             // return auth data
             return [
                 'username'      => $username,
-                'authorization' => $authorization, // the payload to authnentificate through IMAP, SMTP, SIEVE .. servers
+                'authorization' => $authorization, // the payload to authentificate through IMAP, SMTP, SIEVE .. servers
                 'token'         => $data,
             ];
         }
@@ -677,7 +664,7 @@ class rcmail_oauth
 
         // send token request to get a real access token for the given auth code
         try {
-            $this->log_debug('requesting a grant_type=refresh_token');
+            $this->log_debug('requesting a grant_type=refresh_token to %s', $oauth_token_uri);
             $response = $this->http_client->post($oauth_token_uri, [
                 'form_params' => [
                     'grant_type'    => 'refresh_token',
@@ -707,8 +694,6 @@ class rcmail_oauth
             ];
         }
         catch (RequestException $e) {
-            $response = $e->getResponse();
-
             $this->last_error = "OAuth refresh token request failed: " . $e->getMessage();
             $formatter = new MessageFormatter();
             rcube::raise_error([
@@ -801,7 +786,7 @@ class rcmail_oauth
             $data['token_type'], $data['expires_in'],
             $data['refresh_expires_in'],
             isset($data['id_token']),
-            @$data['not-before-policy']
+            ($data['not-before-policy'] ?? null)
         );
 
         if (is_array($previous_data)) {
@@ -826,7 +811,7 @@ class rcmail_oauth
 
         // (> 0, it means that all token generated before this timestamp date are compromisd and that we need to download a new version of JWKS)
         if (!empty($data['not-before-policy']) && $data['not-before-policy'] > 0) {
-            $this->log_debug('all tokens generated before %s timestmp are comromised', $data['not-before-policy']);
+            $this->log_debug('all tokens generated before %s timestmp are compromised', $data['not-before-policy']);
             // TODO
         }
 
@@ -871,12 +856,6 @@ class rcmail_oauth
         // encrypt refresh token if provided
         if (isset($data['refresh_token'])) {
             $data['refresh_token'] = $this->rcmail->encrypt($data['refresh_token']);
-        }
-
-        // please note that id_token is not sensitive, it only contains identity information on user
-        // the concern I have: $_SESSION may be space limited...
-        if (isset($data['id_token'])) {
-            $data['id_token'] = $this->rcmail->encrypt($data['id_token']);
         }
     }
 
@@ -1032,22 +1011,47 @@ class rcmail_oauth
     /**
      * Callback for 'startup' hook
      *
+     * @params array $args array containing task and action
+     *
+     * @return array the arguments provided in entry and altered if so
+     */
+    public function startup(array $args)
+    {
+        if (!$this->is_enabled()) {
+            return $args;
+        }
+
+        if ($args['task'] == 'login' && $args['action'] == 'oauth') {
+            // handle oauth login requests
+            $oauth_handler = new rcmail_action_login_oauth();
+            $oauth_handler->run();
+        }
+        else if ($args['task'] == 'login' && $args['action'] == 'backchannel') {
+            // handle oauth login requests
+            $oauth_handler = new rcmail_action_login_oauth_backchannel();
+            $oauth_handler->run();
+        }
+        else if ($args['task'] == 'logout') {
+            //handle only logout task
+            $this->handle_logout();
+        }
+
+        return $args;
+    }
+
+    /**
+     *
      * Implement OpenID Connect RP-Initiated Logout 1.0
      *
      * will generate during the logout task the RP-initiated Logout URL and
      * store it in `logout_redirect_url`
      *
-     * @see https://openid.net/specs/openid-connect-rpinitiated-1_0.html
+     * @return void
      *
-     * TODO: check if we'd better to use hook/handler on logout task ?
+     * @see https://openid.net/specs/openid-connect-rpinitiated-1_0.html
      */
-    public function startup(array $args)
+    public function handle_logout()
     {
-        //handle only logout task
-        if ($args['task'] != 'logout') {
-            return;
-        }
-
         // if no logout URI, or no refresh token, safe to give up
         if (!$this->options['logout_uri'] || !isset($_SESSION['oauth_token'])) {
             return;
@@ -1068,12 +1072,14 @@ class rcmail_oauth
         // generate redirect URL for post-logout
         $params = [
             'post_logout_redirect_uri' => $this->rcmail->url([], true, true),
-            'id_token_hint'            => $this->rcmail->decrypt($_SESSION['oauth_token']['id_token']),
             'client_id'                => $this->options['client_id'],
         ];
 
-        $this->logout_redirect_url = $this->options['logout_uri'] . '?' . http_build_query($params);
+        if (isset($_SESSION['oauth_token']['id_token'])) {
+            $params['id_token_hint'] = $_SESSION['oauth_token']['id_token'];
+        }
 
+        $this->logout_redirect_url = $this->options['logout_uri'] . '?' . http_build_query($params);
         $this->log_debug('creating logout call: %s', $this->logout_redirect_url);
     }
 
