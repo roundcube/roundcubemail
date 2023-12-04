@@ -65,7 +65,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
                 if (
                     $host == $url['host']
-                    && $port == $url['port']
+                    && $port == ($url['port'] ?? null)
                     && $rcmail->get_user_name() == rawurldecode($url['user'])
                 ) {
                     $message = new rcube_message($params['_uid'], $params['_mbox']);
