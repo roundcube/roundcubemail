@@ -140,7 +140,7 @@ if (strtolower($input) == 'y') {
     }
 
     echo "Running update script at target...\n";
-    system("cd $target_dir && php bin/update.sh --version=$oldversion" . ($accept ? ' -y' : ''));
+    system("cd $target_dir && bin/update.sh --version=$oldversion" . ($accept ? ' -y' : ''));
     echo "All done.\n";
 }
 else {
