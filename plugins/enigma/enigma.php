@@ -397,15 +397,13 @@ class enigma extends rcube_plugin
     function preferences_save($p)
     {
         if ($p['section'] == 'encryption') {
-            $p['prefs'] = [
-                'enigma_signatures'    => (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST),
-                'enigma_decryption'    => (bool) rcube_utils::get_input_value('_enigma_decryption', rcube_utils::INPUT_POST),
-                'enigma_encryption'    => (bool) rcube_utils::get_input_value('_enigma_encryption', rcube_utils::INPUT_POST),
-                'enigma_sign_all'      => (bool) rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST),
-                'enigma_encrypt_all'   => (bool) rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST),
-                'enigma_attach_pubkey' => (bool) rcube_utils::get_input_value('_enigma_attach_pubkey', rcube_utils::INPUT_POST),
-                'enigma_password_time' => intval(rcube_utils::get_input_value('_enigma_password_time', rcube_utils::INPUT_POST)),
-            ];
+            $p['prefs']['enigma_signatures'] = (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_decryption'] = (bool) rcube_utils::get_input_value('_enigma_decryption', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_encryption'] = (bool) rcube_utils::get_input_value('_enigma_encryption', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_sign_all'] = (bool) rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_encrypt_all'] = (bool) rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_attach_pubkey'] = (bool) rcube_utils::get_input_value('_enigma_attach_pubkey', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_password_time'] = intval(rcube_utils::get_input_value('_enigma_password_time', rcube_utils::INPUT_POST));
         }
 
         return $p;
