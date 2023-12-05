@@ -7,6 +7,8 @@
 - Fix page jump menu flickering on click (#9196)
 - Update to TinyMCE 5.10.9 security release (#9228)
 - Fix PHP8 warnings (#9235, #9238)
+- Fix saving other encryption settings besides enigma's (#9240)
+- Fix unneeded php command use in installto.sh and deluser.sh scripts (#9237)
 
 ## Release 1.6.5
 
