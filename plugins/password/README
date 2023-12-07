@@ -437,7 +437,7 @@
  -------------
 
  Driver to use the Zxcvbn library to check password strength. Requires zxcvbn-php library.
- The library is not distributed with Roundcube (see composer.json-dist).
+ The library is not distributed with Roundcube (see composer.json).
  Note: Required PHP's memory_limit >= 24M.
 
  Set $config['password_zxcvbn_min_score'] to define minimum acceptable password strength score.
