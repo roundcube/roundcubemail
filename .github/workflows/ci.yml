@@ -26,10 +26,6 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Setup composer
-        run: |
-            cp composer.json-dist composer.json
-
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
@@ -64,7 +60,6 @@ jobs:
 
       - name: Setup composer
         run: |
-            cp composer.json-dist composer.json
             composer require "kolab/net_ldap3:~1.1.1" --no-update
             composer require "laravel/dusk:^7.9" --no-update
 

@@ -38,9 +38,7 @@ jobs:
         run: sudo apt-get -y install aspell aspell-en aspell-de hunspell-en-us
 
       - name: Setup composer
-        run: |
-            cp composer.json-dist composer.json
-            composer require "kolab/net_ldap3:~1.1.4" --no-update
+        run: composer require "kolab/net_ldap3:~1.1.4" --no-update
 
       - name: Install dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
@@ -88,9 +86,7 @@ jobs:
           coverage: none
 
       - name: Setup composer
-        run: |
-            cp composer.json-dist composer.json
-            composer require "kolab/net_ldap3:~1.1.4" --no-update
+        run: composer require "kolab/net_ldap3:~1.1.4" --no-update
 
       - name: Install dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
