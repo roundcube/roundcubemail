@@ -43,7 +43,7 @@ class rcmail_string_replacer extends rcube_string_replacer
         $email  = $href;
 
         if (strpos($email, '?')) {
-            list($email,) = explode('?', $email);
+            list($email) = explode('?', $email);
         }
 
         // skip invalid emails

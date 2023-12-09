@@ -72,7 +72,7 @@ class Actions_Mail_Search extends ActionTestCase
         self::initStorage()
             ->registerFunction('set_page')
             ->registerFunction('set_search_set')
-            ->registerFunction('search',)
+            ->registerFunction('search')
             ->registerFunction('get_search_set', ['SEARCH HEADER SUBJECT test', $index, 'UTF-8', '', false])
             ->registerFunction('get_search_set', ['SEARCH HEADER SUBJECT test', $index, 'UTF-8', '', false])
             ->registerFunction('get_pagesize', 10)

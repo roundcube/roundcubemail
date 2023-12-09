@@ -902,7 +902,7 @@ class rcmail_sendmail
      */
     public function headers_output($attrib)
     {
-        list($form_start,) = $this->form_tags($attrib);
+        list($form_start) = $this->form_tags($attrib);
 
         $out          = '';
         $part         = strtolower($attrib['part']);
@@ -1323,7 +1323,7 @@ class rcmail_sendmail
      */
     public function form_head($attrib)
     {
-        list($form_start,) = $this->form_tags($attrib);
+        list($form_start) = $this->form_tags($attrib);
 
         return $form_start;
     }

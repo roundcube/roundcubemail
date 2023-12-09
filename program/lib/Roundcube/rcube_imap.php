@@ -2759,7 +2759,7 @@ class rcube_imap extends rcube_storage
             $from_mbox = $this->folder;
         }
 
-        list($uids, ) = $this->parse_uids($uids);
+        list($uids) = $this->parse_uids($uids);
 
         // exit if no message uids are specified
         if (empty($uids)) {
