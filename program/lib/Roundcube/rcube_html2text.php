@@ -417,7 +417,7 @@ class rcube_html2text
      */
     function print_text()
     {
-        print $this->get_text();
+        echo $this->get_text();
     }
 
     /**

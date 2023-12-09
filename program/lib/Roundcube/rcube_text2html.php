@@ -121,7 +121,7 @@ class rcube_text2html
      */
     function print_html()
     {
-        print $this->get_html();
+        echo $this->get_html();
     }
 
     /**

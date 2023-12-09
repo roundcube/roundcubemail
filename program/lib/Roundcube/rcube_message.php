@@ -276,7 +276,7 @@ class rcube_message
 
             if ($mode === -1) {
                 if ($body !== false) {
-                    print($body);
+                    echo($body);
                 }
 
                 return $body !== false;

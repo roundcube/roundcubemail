@@ -43,7 +43,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             $message = $rcmail->gettext('loadingdata');
 
             header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
-            print "<html>\n<head>\n"
+            echo "<html>\n<head>\n"
                 . '<meta http-equiv="refresh" content="0; url='.rcube::Q($url).'">' . "\n"
                 . '<meta http-equiv="content-type" content="text/html; charset=' . RCUBE_CHARSET . '">' . "\n"
                 . "</head>\n<body>\n$message\n</body>\n</html>";

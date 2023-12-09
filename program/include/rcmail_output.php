@@ -144,7 +144,7 @@ abstract class rcmail_output extends rcube_output
             header($header);
         }
 
-        print $body;
+        echo $body;
         exit;
     }
 
