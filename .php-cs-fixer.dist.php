@@ -161,7 +161,6 @@ return (new PhpCsFixer\Config())
         'space_after_semicolon' => false,
         'spaces_inside_parentheses' => false,
         'standardize_increment' => false,
-        'statement_indentation' => false,
         'switch_case_semicolon_to_colon' => false,
         'ternary_operator_spaces' => false,
         'ternary_to_null_coalescing' => false,

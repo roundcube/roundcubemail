@@ -100,8 +100,8 @@ class rcube_result_index
                         }
                     }
 
-// @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
-// @TODO: work with compressed result?!
+                    // @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
+                    // @TODO: work with compressed result?!
                     if (isset($this->params['ALL'])) {
                         $data_item = implode(self::SEPARATOR_ELEMENT,
                             rcube_imap_generic::uncompressMessageSet($this->params['ALL']));

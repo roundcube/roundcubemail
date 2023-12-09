@@ -421,7 +421,7 @@ class rcube_smtp
      */
     public function get_response()
     {
-         return $this->response;
+        return $this->response;
     }
 
     /**

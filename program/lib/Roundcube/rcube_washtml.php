@@ -365,7 +365,7 @@ class rcube_washtml
                     $out = preg_replace('/(\S+)/', $this->_css_prefix . '\1', $value);
                 }
                 else if ($key) {
-                   $out = $value;
+                    $out = $value;
                 }
 
                 if ($out !== null && $out !== '') {
@@ -587,76 +587,76 @@ class rcube_washtml
 
         do {
             switch ($node->nodeType) {
-            case XML_ELEMENT_NODE: //Check element
-                $tagName = strtolower($node->nodeName);
+                case XML_ELEMENT_NODE: //Check element
+                    $tagName = strtolower($node->nodeName);
 
-                if ($tagName == 'link') {
-                    $uri = $this->wash_uri($node->getAttribute('href'), false, false);
-                    if (!$uri) {
-                        $dump .= '<!-- link ignored -->';
+                    if ($tagName == 'link') {
+                        $uri = $this->wash_uri($node->getAttribute('href'), false, false);
+                        if (!$uri) {
+                            $dump .= '<!-- link ignored -->';
+                            break;
+                        }
+
+                        $node->setAttribute('href', (string) $uri);
+                    }
+                    else if (in_array($tagName, ['animate', 'animatecolor', 'set', 'animatetransform'])
+                        && self::attribute_value($node, 'attributename', 'href')
+                    ) {
+                        // Insecure svg tags
+                        $dump .= "<!-- $tagName blocked -->";
                         break;
                     }
 
-                    $node->setAttribute('href', (string) $uri);
-                }
-                else if (in_array($tagName, ['animate', 'animatecolor', 'set', 'animatetransform'])
-                    && self::attribute_value($node, 'attributename', 'href')
-                ) {
-                    // Insecure svg tags
-                    $dump .= "<!-- $tagName blocked -->";
-                    break;
-                }
+                    if (!empty($this->handlers[$tagName])) {
+                        $callback = $this->handlers[$tagName];
+                        $dump .= call_user_func($callback, $tagName,
+                            $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
+                    }
+                    else if (isset($this->_html_elements[$tagName])) {
+                        $content = $this->dumpHtml($node, $level);
+                        $dump .= '<' . $node->nodeName;
 
-                if (!empty($this->handlers[$tagName])) {
-                    $callback = $this->handlers[$tagName];
-                    $dump .= call_user_func($callback, $tagName,
-                        $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
-                }
-                else if (isset($this->_html_elements[$tagName])) {
-                    $content = $this->dumpHtml($node, $level);
-                    $dump .= '<' . $node->nodeName;
-
-                    if ($tagName == 'svg') {
-                        $xpath = new DOMXPath($node->ownerDocument);
-                        foreach ($xpath->query('namespace::*') as $ns) {
-                            if ($ns->nodeName != 'xmlns:xml') {
-                                $dump .= sprintf(' %s="%s"',
-                                    $ns->nodeName,
-                                    htmlspecialchars($ns->nodeValue, ENT_QUOTES, $this->config['charset'])
-                                );
+                        if ($tagName == 'svg') {
+                            $xpath = new DOMXPath($node->ownerDocument);
+                            foreach ($xpath->query('namespace::*') as $ns) {
+                                if ($ns->nodeName != 'xmlns:xml') {
+                                    $dump .= sprintf(' %s="%s"',
+                                        $ns->nodeName,
+                                        htmlspecialchars($ns->nodeValue, ENT_QUOTES, $this->config['charset'])
+                                    );
+                                }
                             }
                         }
-                    }
-                    else if ($tagName == 'textarea' && strpos($content, '<') !== false) {
-                        $content = htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']);
-                    }
+                        else if ($tagName == 'textarea' && strpos($content, '<') !== false) {
+                            $content = htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']);
+                        }
 
-                    $dump .= $this->wash_attribs($node);
+                        $dump .= $this->wash_attribs($node);
 
-                    if ($content === '' && ($this->is_xml || isset($this->_void_elements[$tagName]))) {
-                        $dump .= ' />';
+                        if ($content === '' && ($this->is_xml || isset($this->_void_elements[$tagName]))) {
+                            $dump .= ' />';
+                        }
+                        else {
+                            $dump .= '>' . $content . '</' . $node->nodeName . '>';
+                        }
+                    }
+                    else if (isset($this->_ignore_elements[$tagName])) {
+                        $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES, $this->config['charset']) . ' not allowed -->';
                     }
                     else {
-                        $dump .= '>' . $content . '</' . $node->nodeName . '>';
+                        $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES, $this->config['charset']) . ' ignored -->';
+                        $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                     }
-                }
-                else if (isset($this->_ignore_elements[$tagName])) {
-                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES, $this->config['charset']) . ' not allowed -->';
-                }
-                else {
-                    $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES, $this->config['charset']) . ' ignored -->';
-                    $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
-                }
-                break;
+                    break;
 
-            case XML_CDATA_SECTION_NODE:
-            case XML_TEXT_NODE:
-                $dump .= htmlspecialchars($node->nodeValue, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, $this->config['charset']);
-                break;
+                case XML_CDATA_SECTION_NODE:
+                case XML_TEXT_NODE:
+                    $dump .= htmlspecialchars($node->nodeValue, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, $this->config['charset']);
+                    break;
 
-            case XML_HTML_DOCUMENT_NODE:
-                $dump .= $this->dumpHtml($node, $level);
-                break;
+                case XML_HTML_DOCUMENT_NODE:
+                    $dump .= $this->dumpHtml($node, $level);
+                    break;
             }
         }
         while($node = $node->nextSibling);

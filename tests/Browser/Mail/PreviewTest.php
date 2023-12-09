@@ -101,7 +101,7 @@ class PreviewTest extends \Tests\Browser\TestCase
                             $browser->assertVisible('a.extwin:not(.disabled)')
                                 ->assertVisible('a.download:not(.disabled)')
                                 ->click('a.download');
-                    });
+                        });
                 }
             });
 
