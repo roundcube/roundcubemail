@@ -187,7 +187,12 @@ class rcube_smtp
         }
 
         // attempt to authenticate to the SMTP server
-        if (($smtp_user && $smtp_pass) || ($smtp_auth_type == 'GSSAPI')) {
+        if ((($smtp_user && $smtp_pass) || 
+             ($smtp_auth_type == 'GSSAPI') 
+            ) && 
+            // but skip if instructed to
+            ( strtolower ( $CONFIG['smtp_auth_type'] ) != "none" )
+           ) {
             // IDNA Support
             if (strpos($smtp_user, '@')) {
                 $smtp_user = rcube_utils::idn_to_ascii($smtp_user);

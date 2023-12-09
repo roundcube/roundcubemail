@@ -75,10 +75,11 @@ class rcmail_oauth
             'identity_uri'    => $this->rcmail->config->get('oauth_identity_uri'),
             'identity_fields' => $this->rcmail->config->get('oauth_identity_fields', ['email']),
             'scope'           => $this->rcmail->config->get('oauth_scope'),
-            'timeout'     => $this->rcmail->config->get('oauth_timeout', 10),
+            'timeout'         => $this->rcmail->config->get('oauth_timeout', 10),
             'verify_peer'     => $this->rcmail->config->get('oauth_verify_peer', true),
             'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', []),
             'login_redirect'  => $this->rcmail->config->get('oauth_login_redirect', false),
+            'smtp_auth_type'  => $this->rcmail->config->get('smtp_auth_type'),
         ];
     }
 
@@ -124,6 +125,10 @@ class rcmail_oauth
 
         // rewrite redirect URL to not contain query parameters because some providers do not support this
         $url = preg_replace('/\?.*/', '', $url);
+
+        // Only localhost is allowed to use http instead of https
+        if ( strpos($url,"localhost") !== false )
+          $url = str_replace ("http:","https:",$url);
 
         return slashify($url) . 'index.php/login/oauth';
     }
@@ -214,6 +219,7 @@ class rcmail_oauth
         $oauth_client_id     = $this->options['client_id'];
         $oauth_client_secret = $this->options['client_secret'];
         $oauth_identity_uri  = $this->options['identity_uri'];
+	$oauth_provider      = $this->options['provider'];
 
         if (!empty($oauth_token_uri) && !empty($oauth_client_secret)) {
             try {
@@ -238,13 +244,23 @@ class rcmail_oauth
                         ],
                 ]);
 
-                $data = json_decode($response->getBody(), true);
+                // Test if body is already Json
+                json_decode( $response->getBody() );
+                if ( json_last_error() === 0 )
+                  $data = json_decode($response->getBody(), true);
+                else
+                  $data = \GuzzleHttp\json_decode($response->getBody(), true);
 
                 // auth success
                 if (!empty($data['access_token'])) {
                     $username = null;
                     $identity = null;
-                    $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
+
+                    // for Kinde we need to transform "bearer" into "Bearer"
+                    if ( strpos( strtolower ( $oauth_provider ),"kinde") !== false )
+                        $authorization = sprintf('%s %s', ucfirst( $data['token_type']), $data['access_token']);
+                    else
+                        $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
 
                     // decode JWT id_token if provided
                     if (!empty($data['id_token'])) {
@@ -499,10 +515,12 @@ class rcmail_oauth
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
 
-            // enforce XOAUTH2 authorization type
-            $options['smtp_user'] = '%u';
-            $options['smtp_pass'] = '%p';
-            $options['smtp_auth_type'] = 'XOAUTH2';
+            // enforce XOAUTH2 authorization type if not explicitly set to none
+            if ( strtolower ( $options['smtp_auth_type'] ) != "none" ) {
+                $options['smtp_user'] = '%u';
+                $options['smtp_pass'] = '%p';
+                $options['smtp_auth_type'] = 'XOAUTH2';
+            }
         }
 
         return $options;
