@@ -136,7 +136,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_types_order' => false,
         'phpdoc_var_without_name' => false,
         'single_line_comment_spacing' => false,
-        'single_line_empty_body' => false,
         'single_quote' => false,
         'single_trait_insert_per_statement' => false,
         'standardize_increment' => false,

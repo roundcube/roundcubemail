@@ -17,6 +17,4 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_folder_create extends rcmail_action_settings_folder_edit
-{
-}
+class rcmail_action_settings_folder_create extends rcmail_action_settings_folder_edit {}

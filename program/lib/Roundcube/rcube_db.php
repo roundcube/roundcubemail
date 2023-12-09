@@ -211,9 +211,7 @@ class rcube_db
      *
      * @param array $dsn DSN for DB connections
      */
-    protected function conn_prepare($dsn)
-    {
-    }
+    protected function conn_prepare($dsn) {}
 
     /**
      * Driver-specific configuration of database connection
@@ -221,9 +219,7 @@ class rcube_db
      * @param array $dsn DSN for DB connections
      * @param PDO   $dbh Connection handler
      */
-    protected function conn_configure($dsn, $dbh)
-    {
-    }
+    protected function conn_configure($dsn, $dbh) {}
 
     /**
      * Connect to appropriate database depending on the operation

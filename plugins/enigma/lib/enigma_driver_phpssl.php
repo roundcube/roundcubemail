@@ -72,17 +72,11 @@ class enigma_driver_phpssl extends enigma_driver
 
     }
 
-    function encrypt($text, $keys, $sign_key = null)
-    {
-    }
+    function encrypt($text, $keys, $sign_key = null) {}
 
-    function decrypt($text, $keys = [], &$signature = null)
-    {
-    }
+    function decrypt($text, $keys = [], &$signature = null) {}
 
-    function sign($text, $key, $mode = null)
-    {
-    }
+    function sign($text, $key, $mode = null) {}
 
     function verify($struct, $message)
     {
@@ -126,29 +120,17 @@ class enigma_driver_phpssl extends enigma_driver
         return $sig;
     }
 
-    public function import($content, $isfile = false, $passwords = [])
-    {
-    }
+    public function import($content, $isfile = false, $passwords = []) {}
 
-    public function export($key, $with_private = false, $passwords = [])
-    {
-    }
+    public function export($key, $with_private = false, $passwords = []) {}
 
-    public function list_keys($pattern='')
-    {
-    }
+    public function list_keys($pattern='') {}
 
-    public function get_key($keyid)
-    {
-    }
+    public function get_key($keyid) {}
 
-    public function gen_key($data)
-    {
-    }
+    public function gen_key($data) {}
 
-    public function delete_key($keyid)
-    {
-    }
+    public function delete_key($keyid) {}
 
     /**
      * Returns a name of the hash algorithm used for the last
@@ -156,9 +138,7 @@ class enigma_driver_phpssl extends enigma_driver
      *
      * @return string Hash algorithm name e.g. sha1
      */
-    public function signature_algorithm()
-    {
-    }
+    public function signature_algorithm() {}
 
     /**
      * Converts Crypt_GPG_Key object into Enigma's key object
@@ -167,9 +147,7 @@ class enigma_driver_phpssl extends enigma_driver
      *
      * @return enigma_key Key object
      */
-    private function parse_key($key)
-    {
-    }
+    private function parse_key($key) {}
 
     private function get_openssl_error()
     {

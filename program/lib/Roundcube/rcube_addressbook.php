@@ -293,9 +293,7 @@ abstract class rcube_addressbook
      * Close connection to source
      * Called on script shutdown
      */
-    function close()
-    {
-    }
+    function close() {}
 
     /**
      * Set internal list page

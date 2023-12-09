@@ -17,6 +17,4 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_identity_create extends rcmail_action_settings_identity_edit
-{
-}
+class rcmail_action_settings_identity_create extends rcmail_action_settings_identity_edit {}

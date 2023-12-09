@@ -22,6 +22,4 @@
  *
  * @package Tests
  */
-class ExitException extends Exception
-{
-}
+class ExitException extends Exception {}
