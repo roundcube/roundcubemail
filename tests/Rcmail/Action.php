@@ -7,7 +7,6 @@
  */
 class Rcmail_RcmailAction extends ActionTestCase
 {
-
     /**
      * Test rcmail_action::set_env_config()
      */

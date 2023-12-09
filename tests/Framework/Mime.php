@@ -7,7 +7,6 @@
  */
 class Framework_Mime extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Test decoding of single e-mail address strings
      * Uses rcube_mime::decode_address_list()

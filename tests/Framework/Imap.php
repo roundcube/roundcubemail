@@ -7,7 +7,6 @@
  */
 class Framework_Imap extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

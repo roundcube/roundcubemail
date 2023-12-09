@@ -7,7 +7,6 @@
  */
 class Framework_ResultIndex extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

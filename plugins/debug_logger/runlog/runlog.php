@@ -7,7 +7,6 @@
  */
 class runlog
 {
-
     private $start_time     = false;
     private $parent_stack   = [];
     private $file_handles   = [];

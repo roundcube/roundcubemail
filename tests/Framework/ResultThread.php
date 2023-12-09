@@ -7,7 +7,6 @@
  */
 class Framework_ResultThread extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

@@ -7,7 +7,6 @@
  */
 class Framework_SpellcheckerGoogie extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

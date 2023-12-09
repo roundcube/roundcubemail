@@ -7,7 +7,6 @@
  */
 class Rcmail_RcmailAttachmentHandler extends ActionTestCase
 {
-
     /**
      * Test rcmail_action::svg_filter()
      */
