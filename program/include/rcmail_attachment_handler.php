@@ -60,8 +60,9 @@ class rcmail_attachment_handler
         if (!empty($uid)) {
             $rcube->config->set('prefer_html', true);
             $this->message = new rcube_message($uid, null, !empty($_GET['_safe']));
+            $this->part = $this->message->mime_parts[$part_id] ?? null;
 
-            if ($this->part = $this->message->mime_parts[$part_id]) {
+            if ($this->part) {
                 $this->filename = rcmail_action_mail_index::attachment_name($this->part);
                 $this->mimetype = $this->part->mimetype;
                 $this->size     = $this->part->size;
