@@ -2616,7 +2616,7 @@ class rcube_imap_generic
                         $string = preg_replace('/\n[\t\s]*/', ' ', trim($string));
 
                         switch ($field) {
-                        case 'date';
+                        case 'date':
                             $string                 = substr($string, 0, 128);
                             $result[$id]->date      = $string;
                             $result[$id]->timestamp = rcube_utils::strtotime($string);

@@ -134,7 +134,7 @@ class rcube_mime_decode
 
                 break;
 
-            case 'content-disposition';
+            case 'content-disposition':
                 $content_disposition = $this->parseHeaderValue($value['value']);
                 $return->disposition = $content_disposition['value'];
 
