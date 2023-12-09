@@ -851,8 +851,8 @@ class rcube_vcard
             $data['N'][0][] = '';
         }
 
-        foreach ((array)$data as $type => $entries) {
-            foreach ((array)$entries as $entry) {
+        foreach ((array) $data as $type => $entries) {
+            foreach ((array) $entries as $entry) {
                 $attr = '';
                 if (is_array($entry)) {
                     $value = [];
@@ -876,7 +876,7 @@ class rcube_vcard
                             }
                         }
                         else {
-                            foreach ((array)$attrvalues as $attrvalue) {
+                            foreach ((array) $attrvalues as $attrvalue) {
                                 $attrname = strtoupper($attrname);
                                 // TYPE=OTHER is non-standard, TYPE=INTERNET is redundant, remove these
                                 if ($attrname == 'TYPE') {

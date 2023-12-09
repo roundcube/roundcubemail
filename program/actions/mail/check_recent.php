@@ -76,7 +76,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                     !empty($search_request)
                     && isset($_SESSION['search'][1])
                     && is_object($_SESSION['search'][1])
-                    && in_array($mbox_name, (array)$_SESSION['search'][1]->get_parameters('MAILBOX'))
+                    && in_array($mbox_name, (array) $_SESSION['search'][1]->get_parameters('MAILBOX'))
                 );
 
             if ($is_current) {

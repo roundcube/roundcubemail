@@ -545,7 +545,7 @@ class rcube_message
 
             // check if the part is a subpart of another attachment part (message/rfc822)
             if ($att_part->mimetype == 'message/rfc822') {
-                if (in_array($part, (array)$att_part->parts)) {
+                if (in_array($part, (array) $att_part->parts)) {
                     return true;
                 }
             }
@@ -671,7 +671,7 @@ class rcube_message
 
             // Parse simple (plain text) message body
             if ($message_ctype_secondary == 'plain') {
-                foreach ((array)$this->uu_decode($structure) as $uupart) {
+                foreach ((array) $this->uu_decode($structure) as $uupart) {
                     $this->mime_parts[$uupart->mime_id] = $uupart;
                     $this->add_part($uupart, 'attachment');
                 }

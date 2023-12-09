@@ -246,7 +246,7 @@ class enigma extends rcube_plugin
             return $p;
         }
 
-        $no_override = array_flip((array)$this->rc->config->get('dont_override'));
+        $no_override = array_flip((array) $this->rc->config->get('dont_override'));
 
         if (!isset($no_override['enigma_encryption'])) {
             if (!$p['current']) {

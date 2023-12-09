@@ -159,7 +159,7 @@ class rcube
                 $this->config->get('db_persistent')
             );
 
-            $this->db->set_debug((bool)$this->config->get('sql_debug'));
+            $this->db->set_debug((bool) $this->config->get('sql_debug'));
         }
 
         return $this->db;
@@ -1247,7 +1247,7 @@ class rcube
                         $parts[] = $value ? $key : "";
                     }
                     else {
-                        foreach ((array)$value as $val) {
+                        foreach ((array) $value as $val) {
                             $parts[] = "$key " . escapeshellarg($val);
                         }
                     }
@@ -1590,7 +1590,7 @@ class rcube
             $this->user = $user;
 
             // overwrite config with user preferences
-            $this->config->set_user_prefs((array)$this->user->get_prefs());
+            $this->config->set_user_prefs((array) $this->user->get_prefs());
         }
     }
 

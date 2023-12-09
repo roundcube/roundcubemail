@@ -275,7 +275,7 @@ class bootstrap
         // Create a separate connection to the DB, otherwise
         // we hit some strange and hard to investigate locking issues
         $db = rcube_db::factory($rcmail->config->get('db_dsnw'), $rcmail->config->get('db_dsnr'), false);
-        $db->set_debug((bool)$rcmail->config->get('sql_debug'));
+        $db->set_debug((bool) $rcmail->config->get('sql_debug'));
 
         $query  = $db->query("SELECT preferences FROM users WHERE username = ?", TESTS_USER);
         $record = $db->fetch_assoc($query);

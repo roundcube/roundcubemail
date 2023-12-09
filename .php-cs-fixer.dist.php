@@ -83,7 +83,6 @@ return (new PhpCsFixer\Config())
         'blank_line_before_statement' => false,
         'blank_lines_before_namespace' => false,
         'braces_position' => false,
-        'cast_spaces' => false,
         'class_attributes_separation' => false,
         'class_definition' => false,
         'class_reference_name_casing' => false,

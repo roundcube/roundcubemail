@@ -135,7 +135,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 $file_extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
                 // 1. compare filename suffix with expected suffix derived from mimetype
-                $valid = $file_extension && in_array($file_extension, (array)$extensions)
+                $valid = $file_extension && in_array($file_extension, (array) $extensions)
                     || empty($extensions)
                     || !empty($_REQUEST['_mimeclass']);
 
@@ -163,7 +163,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     else {
                         // get valid file extensions
                         $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
-                        $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array)$extensions);
+                        $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array) $extensions);
                     }
 
                     if (

@@ -423,7 +423,7 @@ class rcube_imap_cache
                 ." WHERE `user_id` = ?"
                     ." AND `mailbox` = ?"
                     ." AND `uid` = ?",
-                $this->userid, $mailbox, (int)$uid);
+                $this->userid, $mailbox, (int) $uid);
 
             if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
                 $message = $this->build_message($sql_arr);
@@ -590,7 +590,7 @@ class rcube_imap_cache
                 "DELETE FROM {$this->messages_table}"
                 ." WHERE `user_id` = ?"
                     ." AND `mailbox` = ?"
-                    .($uids !== null ? " AND `uid` IN (".$this->db->array2list((array)$uids, 'integer').")" : ""),
+                    .($uids !== null ? " AND `uid` IN (".$this->db->array2list((array) $uids, 'integer').")" : ""),
                 $this->userid, $mailbox
             );
         }

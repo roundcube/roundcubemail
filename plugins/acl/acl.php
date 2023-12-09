@@ -585,7 +585,7 @@ class acl extends rcube_plugin
      */
     private function action_list()
     {
-        if (in_array('acl_advanced_mode', (array)$this->rc->config->get('dont_override'))) {
+        if (in_array('acl_advanced_mode', (array) $this->rc->config->get('dont_override'))) {
             return;
         }
 

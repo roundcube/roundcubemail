@@ -187,7 +187,7 @@ class rcube_user
         $plugin = $this->rc->plugins->exec_hook('preferences_update', [
                 'userid' => $this->ID,
                 'prefs'  => $a_user_prefs,
-                'old'    => (array)$this->get_prefs()
+                'old'    => (array) $this->get_prefs()
         ]);
 
         if (!empty($plugin['abort'])) {

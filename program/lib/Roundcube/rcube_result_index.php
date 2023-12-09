@@ -57,7 +57,7 @@ class rcube_result_index
     {
         $this->meta = [];
 
-        $data = explode('*', (string)$data);
+        $data = explode('*', (string) $data);
 
         // ...skip unilateral untagged server responses
         for ($i=0, $len=count($data); $i<$len; $i++) {
@@ -304,7 +304,7 @@ class rcube_result_index
                     $idx = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1]);
                 }
                 // cache position of this element, so we can use it in get_element()
-                $this->meta['pos'][$idx] = (int)$m[0][1];
+                $this->meta['pos'][$idx] = (int) $m[0][1];
 
                 return $idx;
             }

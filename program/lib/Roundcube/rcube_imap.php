@@ -2042,7 +2042,7 @@ class rcube_imap extends rcube_storage
     protected function structure_part($part, $count = 0, $parent = '', $mime_headers = null)
     {
         $struct = new rcube_message_part;
-        $struct->mime_id = empty($parent) ? (string)$count : "$parent.$count";
+        $struct->mime_id = empty($parent) ? (string) $count : "$parent.$count";
 
         // multipart
         if (is_array($part[0])) {
@@ -3165,7 +3165,7 @@ class rcube_imap extends rcube_storage
         $search    = [];
 
         // build list of namespace prefixes
-        foreach ((array)$namespace as $ns) {
+        foreach ((array) $namespace as $ns) {
             if (is_array($ns)) {
                 foreach ($ns as $ns_data) {
                     if (strlen($ns_data[0])) {
@@ -3222,7 +3222,7 @@ class rcube_imap extends rcube_storage
                 continue;
             }
 
-            $myrights = implode('', (array)$this->my_rights($folder));
+            $myrights = implode('', (array) $this->my_rights($folder));
 
             if ($myrights !== null && !preg_match($regex, $myrights)) {
                 unset($a_folders[$idx]);
@@ -4068,7 +4068,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
-            foreach ((array)$entries as $entry => $value) {
+            foreach ((array) $entries as $entry => $value) {
                 list($ent, $attr) = $this->md2annotate($entry);
                 $entries[$entry] = [$ent, $attr, $value];
             }
@@ -4103,7 +4103,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
-            foreach ((array)$entries as $idx => $entry) {
+            foreach ((array) $entries as $idx => $entry) {
                 list($ent, $attr) = $this->md2annotate($entry);
                 $entries[$idx] = [$ent, $attr, null];
             }

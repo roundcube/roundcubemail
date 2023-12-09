@@ -157,7 +157,7 @@ class rcube_session_db extends rcube_session
         $this->db->query("INSERT INTO {$this->table_name}"
             . " (`sess_id`, `vars`, `ip`, `changed`)"
             . " VALUES (?, ?, ?, $now)",
-            $key, base64_encode($vars), (string)$this->ip
+            $key, base64_encode($vars), (string) $this->ip
         );
 
         return true;

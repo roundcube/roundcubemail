@@ -429,7 +429,7 @@ class rcube_spellchecker
                 }
             }
 
-            $plugin['dictionary'] = array_merge((array)$plugin['dictionary'], $dict);
+            $plugin['dictionary'] = array_merge((array) $plugin['dictionary'], $dict);
         }
 
         if (!empty($plugin['dictionary']) && is_array($plugin['dictionary'])) {

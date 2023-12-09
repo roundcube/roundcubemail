@@ -151,7 +151,7 @@ class rcube_mime
      */
     public static function decode_header($input, $fallback = null)
     {
-        $str = self::decode_mime_string((string)$input, $fallback);
+        $str = self::decode_mime_string((string) $input, $fallback);
 
         return $str;
     }

@@ -552,7 +552,7 @@ class rcube_tnef_decoder
                 $length = ord($data[$in++]);
                 $offset = ($offset << 4) | ($length >> 4);
                 $length = ($length & 0xF) + 2;
-                $offset = ((int)($out / 4096)) * 4096 + $offset;
+                $offset = ((int) ($out / 4096)) * 4096 + $offset;
 
                 if ($offset >= $out) {
                     $offset -= 4096;

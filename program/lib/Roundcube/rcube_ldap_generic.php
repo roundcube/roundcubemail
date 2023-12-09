@@ -260,7 +260,7 @@ class rcube_ldap_generic extends Net_LDAP3
         $this->_debug("C: Read $dn [{$filter}]");
 
         if ($this->conn && $dn) {
-            $result = @ldap_read($this->conn, $dn, $filter, $attributes, 0, (int)$this->config['sizelimit'], (int)$this->config['timelimit']);
+            $result = @ldap_read($this->conn, $dn, $filter, $attributes, 0, (int) $this->config['sizelimit'], (int) $this->config['timelimit']);
             if ($result === false) {
                 $this->_error("ldap_read() failed with " . ldap_error($this->conn));
                 return false;

@@ -1162,7 +1162,7 @@ class rcube_imap_generic
 
         // disabled capabilities
         if (!empty($this->prefs['disabled_caps'])) {
-            $this->prefs['disabled_caps'] = array_map('strtoupper', (array)$this->prefs['disabled_caps']);
+            $this->prefs['disabled_caps'] = array_map('strtoupper', (array) $this->prefs['disabled_caps']);
         }
 
         // additional message flags
@@ -1886,7 +1886,7 @@ class rcube_imap_generic
             $response = substr($response, 10); // remove prefix "* ENABLED "
             $result   = (array) $this->tokenizeResponse($response);
 
-            $this->extensions_enabled = array_unique(array_merge((array)$this->extensions_enabled, $result));
+            $this->extensions_enabled = array_unique(array_merge((array) $this->extensions_enabled, $result));
 
             return $this->extensions_enabled;
         }
@@ -2550,7 +2550,7 @@ class rcube_imap_generic
                     }
                     else if ($name == 'FLAGS') {
                         if (!empty($value)) {
-                            foreach ((array)$value as $flag) {
+                            foreach ((array) $value as $flag) {
                                 $flag = str_replace(['$', "\\"], '', $flag);
                                 $flag = strtoupper($flag);
 

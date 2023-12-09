@@ -843,7 +843,7 @@ class rcube_ldap extends rcube_addressbook
 
         // use VLV pseudo-search for autocompletion
         if (!empty($this->prop['vlv_search']) && $this->ready
-            && implode(',', (array)$fields) == implode(',', $list_fields)
+            && implode(',', (array) $fields) == implode(',', $list_fields)
         ) {
             $this->result = new rcube_result_set(0);
 
@@ -862,7 +862,7 @@ class rcube_ldap extends rcube_addressbook
                 $rec = $this->_ldap2result($entry);
                 foreach ($fields as $f) {
                     if (!empty($rec[$f])) {
-                        foreach ((array)$rec[$f] as $val) {
+                        foreach ((array) $rec[$f] as $val) {
                             if ($this->compare_search_value($f, $val, $search, $mode)) {
                                 $this->result->add($rec);
                                 $this->result->count++;
@@ -1636,7 +1636,7 @@ class rcube_ldap extends rcube_addressbook
 
         // assign object type from object class mapping
         if (!empty($this->prop['class_type_map'])) {
-            foreach (array_map('strtolower', (array)$rec['objectclass']) as $objcls) {
+            foreach (array_map('strtolower', (array) $rec['objectclass']) as $objcls) {
                 if (!empty($this->prop['class_type_map'][$objcls])) {
                     $out['_type'] = $this->prop['class_type_map'][$objcls];
                     break;
@@ -1715,7 +1715,7 @@ class rcube_ldap extends rcube_addressbook
                 foreach ($this->get_col_values($col, $save_cols, false) as $subtype => $childs) {
                     $subtype = $subtype ? ':'.$subtype : '';
                     foreach ($childs as $i => $child_values) {
-                        foreach ((array)$child_values as $childcol => $value) {
+                        foreach ((array) $child_values as $childcol => $value) {
                             $save_cols[$childcol.$subtype][$i] = $value;
                         }
                     }
@@ -1726,7 +1726,7 @@ class rcube_ldap extends rcube_addressbook
             if (!empty($colprop['serialized']) && is_array($colprop['serialized'])) {
                 foreach ($colprop['serialized'] as $subtype => $delim) {
                     $key = $col.':'.$subtype;
-                    foreach ((array)$save_cols[$key] as $i => $val) {
+                    foreach ((array) $save_cols[$key] as $i => $val) {
                         $values = [$val['street'], $val['locality'], $val['zipcode'], $val['country']];
                         $save_cols[$key][$i] = count(array_filter($values)) ? implode($delim, $values) : null;
                     }
@@ -1811,7 +1811,7 @@ class rcube_ldap extends rcube_addressbook
             return false;
         }
 
-        $classes = array_map('strtolower', (array)$entry['objectclass']);
+        $classes = array_map('strtolower', (array) $entry['objectclass']);
 
         return count(array_intersect(array_keys($this->group_types), $classes)) > 0;
     }

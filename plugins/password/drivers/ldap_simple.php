@@ -72,7 +72,7 @@ class rcube_ldap_simple_password
 
         // Update PasswordLastChange Attribute if desired
         if ($lchattr) {
-            $entry[$lchattr] = (int)(time() / 86400);
+            $entry[$lchattr] = (int) (time() / 86400);
         }
 
         // Update Samba password

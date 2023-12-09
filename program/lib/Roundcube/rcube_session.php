@@ -237,7 +237,7 @@ abstract class rcube_session implements SessionHandlerInterface
 
             if (is_array($a_oldvars)) {
                 // remove unset keys on oldvars
-                foreach ((array)$this->unsets as $var) {
+                foreach ((array) $this->unsets as $var) {
                     if (isset($a_oldvars[$var])) {
                         unset($a_oldvars[$var]);
                     }
@@ -250,7 +250,7 @@ abstract class rcube_session implements SessionHandlerInterface
                 }
 
                 $newvars = $this->serialize(array_merge(
-                    (array)$a_oldvars, (array)$this->unserialize($vars)));
+                    (array) $a_oldvars, (array) $this->unserialize($vars)));
             }
             else {
                 $newvars = $vars;
@@ -569,7 +569,7 @@ abstract class rcube_session implements SessionHandlerInterface
                                 $length .= $str[$q];
                             }
                             $q+=2;
-                            $q+= (int)$length + 2;
+                            $q+= (int) $length + 2;
                             $serialized .= substr($str, $p, $q - $p);
                             if ($level == 0) {
                                 break 2;

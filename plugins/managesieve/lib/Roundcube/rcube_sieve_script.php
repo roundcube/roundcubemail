@@ -210,7 +210,7 @@ class rcube_sieve_script
         $idx    = 0;
 
         if (!empty($this->vars)) {
-            if (in_array('variables', (array)$this->supported)) {
+            if (in_array('variables', (array) $this->supported)) {
                 $has_vars = true;
                 array_push($exts, 'variables');
             }

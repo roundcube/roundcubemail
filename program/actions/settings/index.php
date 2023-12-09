@@ -191,7 +191,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['timezone'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('timezone'))),
-                            'content' => $select->show((string)$config['timezone']),
+                            'content' => $select->show((string) $config['timezone']),
                         ];
                     }
 

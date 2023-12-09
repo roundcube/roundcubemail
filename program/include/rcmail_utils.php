@@ -39,7 +39,7 @@ class rcmail_utils
             $rc = rcube::get_instance();
             $db = rcube_db::factory($rc->config->get('db_dsnw'));
 
-            $db->set_debug((bool)$rc->config->get('sql_debug'));
+            $db->set_debug((bool) $rc->config->get('sql_debug'));
 
             // Connect to database
             $db->db_connect('w');
@@ -112,7 +112,7 @@ class rcmail_utils
         $db = self::db();
 
         // Read DB schema version from database (if 'system' table exists)
-        if (in_array($db->table_name('system'), (array)$db->list_tables())) {
+        if (in_array($db->table_name('system'), (array) $db->list_tables())) {
             $version = self::db_version($package);
         }
 

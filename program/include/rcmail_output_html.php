@@ -1534,7 +1534,7 @@ EOF;
                     $ver = (string) RCMAIL_VERSION;
                     if (is_file(RCUBE_INSTALL_PATH . '.svn/entries')) {
                         if (function_exists('shell_exec')) {
-                            if (preg_match('/Revision:\s(\d+)/', (string)@shell_exec('svn info'), $regs)) {
+                            if (preg_match('/Revision:\s(\d+)/', (string) @shell_exec('svn info'), $regs)) {
                                 $ver .= ' [SVN r' . $regs[1] . ']';
                             }
                         } else {
@@ -1543,7 +1543,7 @@ EOF;
                     }
                     else if (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
                         if (function_exists('shell_exec')) {
-                            if (preg_match('/Date:\s+([^\n]+)/', (string)@shell_exec('git log -1'), $regs)) {
+                            if (preg_match('/Date:\s+([^\n]+)/', (string) @shell_exec('git log -1'), $regs)) {
                                 if ($date = date('Ymd.Hi', strtotime($regs[1]))) {
                                     $ver .= ' [GIT ' . $date . ']';
                                 }

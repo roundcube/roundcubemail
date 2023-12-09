@@ -574,7 +574,7 @@ class rcube_sieve_engine
             else if (mb_strlen($name) > 128) {
                 $this->errors['name'] = $this->plugin->gettext('nametoolong');
             }
-            else if (!empty($exceptions) && in_array($name, (array)$exceptions)) {
+            else if (!empty($exceptions) && in_array($name, (array) $exceptions)) {
                 $this->errors['name'] = $this->plugin->gettext('namereserved');
             }
             else if (!empty($kolab) && in_array($name_uc, ['MASTER', 'USER', 'MANAGEMENT'])) {
@@ -982,7 +982,7 @@ class rcube_sieve_engine
                             if ($mod == 'address' || $mod == 'envelope') {
                                 $found = false;
                                 if (empty($this->errors['tests'][$i]['header'])) {
-                                    foreach ((array)$header as $hdr) {
+                                    foreach ((array) $header as $hdr) {
                                         if (!in_array(strtolower(trim($hdr)), $this->addr_headers)) {
                                             $found = true;
                                         }
@@ -1162,7 +1162,7 @@ class rcube_sieve_engine
 
                         // @TODO: vacation :mime, :handle
 
-                        foreach ((array)$this->form['actions'][$i]['addresses'] as $aidx => $address) {
+                        foreach ((array) $this->form['actions'][$i]['addresses'] as $aidx => $address) {
                             $this->form['actions'][$i]['addresses'][$aidx] = $address = trim($address);
 
                             if (empty($address)) {
@@ -1190,7 +1190,7 @@ class rcube_sieve_engine
                     case 'set':
                         $this->form['actions'][$i]['name'] = $varnames[$idx];
                         $this->form['actions'][$i]['value'] = $varvalues[$idx];
-                        foreach ((array)$varmods[$idx] as $v_m) {
+                        foreach ((array) $varmods[$idx] as $v_m) {
                             $this->form['actions'][$i][$v_m] = true;
                         }
 
@@ -1215,7 +1215,7 @@ class rcube_sieve_engine
                         }
 
                         // skip empty options
-                        foreach ((array)$notifyoptions[$idx] as $opt_idx => $opt) {
+                        foreach ((array) $notifyoptions[$idx] as $opt_idx => $opt) {
                             if (!strlen(trim($opt))) {
                                 unset($notifyoptions[$idx][$opt_idx]);
                             }
@@ -3001,7 +3001,7 @@ class rcube_sieve_engine
             // Hide scripts from config
             $exceptions = $this->rc->config->get('managesieve_filename_exceptions');
             if (!empty($exceptions)) {
-                $this->list = array_diff($this->list, (array)$exceptions);
+                $this->list = array_diff($this->list, (array) $exceptions);
             }
         }
 

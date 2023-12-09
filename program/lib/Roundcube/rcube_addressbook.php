@@ -831,7 +831,7 @@ abstract class rcube_addressbook
 
         // add email to a key to not skip contacts with the same name (#1488375)
         if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
-            $key .= ':' . implode(':', (array)$email);
+            $key .= ':' . implode(':', (array) $email);
         }
 
         // Make the key really unique (as we e.g. support contacts with no email)
