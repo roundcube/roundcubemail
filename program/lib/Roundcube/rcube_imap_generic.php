@@ -2980,33 +2980,35 @@ class rcube_imap_generic
                 else if (!$mode && !$file && !$print) {
                     $result = $this->readBytes($bytes);
                 }
-                else while ($bytes > 0) {
-                    $chunk = $this->readBytes($bytes > $chunkSize ? $chunkSize : $bytes);
+                else {
+                    while ($bytes > 0) {
+                        $chunk = $this->readBytes($bytes > $chunkSize ? $chunkSize : $bytes);
 
-                    if ($chunk === '') {
-                        break;
-                    }
-
-                    $len = strlen($chunk);
-
-                    if ($len > $bytes) {
-                        $chunk = substr($chunk, 0, $bytes);
-                        $len = strlen($chunk);
-                    }
-                    $bytes -= $len;
-
-                    $chunk = $this->decodeContent($chunk, $mode, $bytes <= 0, $prev);
-
-                    if ($file) {
-                        if (fwrite($file, $chunk) === false) {
+                        if ($chunk === '') {
                             break;
                         }
-                    }
-                    else if ($print) {
-                        echo $chunk;
-                    }
-                    else {
-                        $result .= $chunk;
+
+                        $len = strlen($chunk);
+
+                        if ($len > $bytes) {
+                            $chunk = substr($chunk, 0, $bytes);
+                            $len = strlen($chunk);
+                        }
+                        $bytes -= $len;
+
+                        $chunk = $this->decodeContent($chunk, $mode, $bytes <= 0, $prev);
+
+                        if ($file) {
+                            if (fwrite($file, $chunk) === false) {
+                                break;
+                            }
+                        }
+                        else if ($print) {
+                            echo $chunk;
+                        }
+                        else {
+                            $result .= $chunk;
+                        }
                     }
                 }
             }

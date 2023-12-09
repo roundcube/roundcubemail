@@ -932,10 +932,10 @@ class rcube_mime
     public static function image_content_type($data)
     {
         $type = 'jpeg';
-        if      (preg_match('/^\x89\x50\x4E\x47/', $data)) $type = 'png';
-        else if (preg_match('/^\x47\x49\x46\x38/', $data)) $type = 'gif';
-        else if (preg_match('/^\x00\x00\x01\x00/', $data)) $type = 'ico';
-    //  else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) $type = 'jpeg';
+        if      (preg_match('/^\x89\x50\x4E\x47/', $data)) { $type = 'png'; }
+        else if (preg_match('/^\x47\x49\x46\x38/', $data)) { $type = 'gif'; }
+        else if (preg_match('/^\x00\x00\x01\x00/', $data)) { $type = 'ico'; }
+    //  else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) { $type = 'jpeg'; }
 
         return 'image/' . $type;
     }

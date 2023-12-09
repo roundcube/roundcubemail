@@ -1534,8 +1534,9 @@ EOF;
                     $ver = (string) RCMAIL_VERSION;
                     if (is_file(RCUBE_INSTALL_PATH . '.svn/entries')) {
                         if (function_exists('shell_exec')) {
-                            if (preg_match('/Revision:\s(\d+)/', (string)@shell_exec('svn info'), $regs))
+                            if (preg_match('/Revision:\s(\d+)/', (string)@shell_exec('svn info'), $regs)) {
                                 $ver .= ' [SVN r' . $regs[1] . ']';
+                            }
                         } else {
                             $ver .= ' [SVN]';
                         }

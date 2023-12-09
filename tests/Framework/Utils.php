@@ -611,7 +611,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime, $tz);
-            if ($result) $result->setTimezone($tz);  // move to target timezone for comparison
+            if ($result) { $result->setTimezone($tz); }  // move to target timezone for comparison
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
         }
     }

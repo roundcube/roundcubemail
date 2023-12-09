@@ -704,7 +704,7 @@ class rcube_html2text
 
                     // adjust text wrapping width
                     $p_width = $this->width;
-                    if ($this->width > 0) $this->width -= 2;
+                    if ($this->width > 0) { $this->width -= 2; }
 
                     // replace content with inner blockquotes
                     $this->_converter($body);

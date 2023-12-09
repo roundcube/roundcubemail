@@ -373,10 +373,11 @@ class rcube_sieve_script
                         $tests[$i] .= (!empty($test['not']) ? 'not ' : '') . $test['test'];
 
                         $tokens = ['handle', 'uniqueid', 'header'];
-                        foreach ($tokens as $token)
+                        foreach ($tokens as $token) {
                             if (isset($test[$token]) && $test[$token] !== '') {
                                 $tests[$i] .= " :$token " . self::escape_string($test[$token]);
                             }
+                        }
 
                         if (!empty($test['seconds'])) {
                             $tests[$i] .= ' :seconds ' . intval($test['seconds']);

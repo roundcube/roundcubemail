@@ -485,8 +485,9 @@ abstract class rcube_session implements SessionHandlerInterface
         $data = '';
 
         if (is_array($vars)) {
-            foreach ($vars as $var => $value)
+            foreach ($vars as $var => $value) {
                 $data .= $var.'|'.serialize($value);
+            }
         }
         else {
             $data = 'b:0;';
@@ -515,9 +516,11 @@ abstract class rcube_session implements SessionHandlerInterface
 
         while ($p < $endptr) {
             $q = $p;
-            while ($str[$q] != '|')
-                if (++$q >= $endptr)
+            while ($str[$q] != '|') {
+                if (++$q >= $endptr) {
                     break 2;
+                }
+            }
 
             if ($str[$p] == '!') {
                 $p++;
@@ -540,7 +543,7 @@ abstract class rcube_session implements SessionHandlerInterface
                     case 'b': // boolean
                     case 'i': // integer
                     case 'd': // decimal
-                        do $q++;
+                        do { $q++; }
                         while (($q < $endptr) && ($str[$q] != ';'));
                         $q++;
                         $serialized .= substr($str, $p, $q - $p);
@@ -574,7 +577,7 @@ abstract class rcube_session implements SessionHandlerInterface
                         break;
                     case 'a': // array
                     case 'o': // object
-                        do $q++;
+                        do { $q++; }
                         while ($q < $endptr && $str[$q] != '{');
                         $q++;
                         $level++;

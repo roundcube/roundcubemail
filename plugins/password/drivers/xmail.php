@@ -94,8 +94,9 @@ class XMail {
     function connect()
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, 0);
-        if ($this->socket < 0)
+        if ($this->socket < 0) {
             return false;
+        }
 
         $result = socket_connect($this->socket, $this->hostname, $this->port);
         if ($result < 0) {

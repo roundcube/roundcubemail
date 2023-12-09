@@ -90,7 +90,6 @@ return (new PhpCsFixer\Config())
         'class_reference_name_casing' => false,
         'concat_space' => false,
         'constant_case' => false,
-        'control_structure_braces' => false,
         'control_structure_continuation_position' => false,
         'dir_constant' => false,
         'elseif' => false,

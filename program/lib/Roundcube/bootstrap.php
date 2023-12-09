@@ -56,7 +56,7 @@ foreach ($config as $optname => $optval) {
         $error  = "ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
             . "Check your PHP configuration (including php_admin_flag).";
 
-        if (defined('STDERR')) fwrite(STDERR, $error); else echo $error;
+        if (defined('STDERR')) { fwrite(STDERR, $error); } else { echo $error; }
         exit(1);
     }
 }

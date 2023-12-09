@@ -178,11 +178,12 @@ class acl extends rcube_plugin
         $this->include_stylesheet($this->local_skin_path() . '/acl.css');
 
         // add Info fieldset if it doesn't exist
-        if (!isset($args['form']['props']['fieldsets']['info']))
+        if (!isset($args['form']['props']['fieldsets']['info'])) {
             $args['form']['props']['fieldsets']['info'] = [
                 'name'    => $this->rc->gettext('info'),
                 'content' => []
             ];
+        }
 
         // Display folder rights to 'Info' fieldset
         $args['form']['props']['fieldsets']['info']['content']['myrights'] = [
@@ -645,8 +646,8 @@ class acl extends rcube_plugin
      */
     function acl_compare($acl1, $acl2)
     {
-        if (!is_array($acl1)) $acl1 = str_split($acl1);
-        if (!is_array($acl2)) $acl2 = str_split($acl2);
+        if (!is_array($acl1)) { $acl1 = str_split($acl1); }
+        if (!is_array($acl2)) { $acl2 = str_split($acl2); }
 
         $rights = $this->rights_supported();
 

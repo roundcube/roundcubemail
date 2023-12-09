@@ -698,11 +698,12 @@ class rcube_sieve_engine
                 $this->errors['name'] = $this->plugin->gettext('cannotbeempty');
             }
             else {
-                foreach ($this->script as $idx => $rule)
+                foreach ($this->script as $idx => $rule) {
                     if ($rule['name'] == $name && $idx != $fid) {
                         $this->errors['name'] = $this->plugin->gettext('ruleexist');
                         break;
                     }
+                }
             }
 
             $i = 0;
@@ -3170,8 +3171,9 @@ class rcube_sieve_engine
         }
         else {
             $result = $this->sieve->deactivate();
-            if ($result)
+            if ($result) {
                 $this->active = [];
+            }
         }
 
         return $result;

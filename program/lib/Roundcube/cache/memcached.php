@@ -93,7 +93,7 @@ class rcube_cache_memcached extends rcube_cache
             foreach ((array) $hosts as $host) {
                 if (substr($host, 0, 7) != 'unix://') {
                     list($host, $port) = explode(':', $host);
-                    if (!$port) $port = 11211;
+                    if (!$port) { $port = 11211; }
                 }
                 else {
                     $host = substr($host, 7);
