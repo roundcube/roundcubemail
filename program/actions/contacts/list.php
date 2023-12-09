@@ -75,7 +75,7 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
 
             if (!empty($contacts->group_id)) {
                 $group_data = ['ID' => $contacts->group_id]
-                    + array_intersect_key((array) $contacts->get_group($contacts->group_id), ['name' => 1,'email' => 1]);
+                    + array_intersect_key((array) $contacts->get_group($contacts->group_id), ['name' => 1, 'email' => 1]);
             }
         }
 

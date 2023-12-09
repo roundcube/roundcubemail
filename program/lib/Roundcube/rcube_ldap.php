@@ -194,7 +194,7 @@ class rcube_ldap extends rcube_addressbook
                 ),
             ] + (array) ($this->coltypes['address'] ?? []);
 
-            foreach (['street','locality','zipcode','region','country'] as $childcol) {
+            foreach (['street', 'locality', 'zipcode', 'region', 'country'] as $childcol) {
                 if (!empty($this->coltypes[$childcol])) {
                     $this->coltypes['address']['childs'][$childcol] = ['type' => 'text'];
                     $this->coltypes['address']['attributes'] = array_merge(
@@ -2027,7 +2027,7 @@ class rcube_ldap extends rcube_addressbook
         if (!isset($group_cache[$group_id])) {
             $name_attr = $this->prop['groups']['name_attr'];
             $dn    = self::dn_decode($group_id);
-            $attrs = ['dn','objectClass','member','uniqueMember','memberURL',$name_attr,$this->fieldmap['email']];
+            $attrs = ['dn', 'objectClass', 'member', 'uniqueMember', 'memberURL', $name_attr, $this->fieldmap['email']];
 
             if ($list = $this->ldap->read_entries($dn, '(objectClass=*)', $attrs)) {
                 $entry      = $list[0];

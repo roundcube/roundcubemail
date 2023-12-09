@@ -35,7 +35,7 @@ class rcmail extends rcube
      *
      * @var array
      */
-    public static $main_tasks = ['mail','settings','addressbook','login','logout','utils','oauth','dummy'];
+    public static $main_tasks = ['mail', 'settings', 'addressbook', 'login', 'logout', 'utils', 'oauth', 'dummy'];
 
     /**
      * Current task.

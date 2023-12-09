@@ -1401,9 +1401,9 @@ class rcube_sieve_engine
         $framed      = !empty($_POST['_framed']) || !empty($_GET['_framed']);
 
         $hiddenfields = new html_hiddenfield();
-        $hiddenfields->add(['name' => '_task',   'value' => $this->rc->task]);
+        $hiddenfields->add(['name' => '_task', 'value' => $this->rc->task]);
         $hiddenfields->add(['name' => '_action', 'value' => 'plugin.managesieve-saveraw']);
-        $hiddenfields->add(['name' => '_set',    'value' => $script_name]);
+        $hiddenfields->add(['name' => '_set', 'value' => $script_name]);
         $hiddenfields->add(['name' => '_seteditraw', 'value' => 1]);
         $hiddenfields->add(['name' => '_framed', 'value' => $framed ? 1 : 0]);
 

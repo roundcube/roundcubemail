@@ -533,7 +533,7 @@ class rcmail_install
     {
         $lines      = file($schemafile);
         $schema     = [];
-        $keywords   = ['PRIMARY','KEY','INDEX','UNIQUE','CONSTRAINT','REFERENCES','FOREIGN'];
+        $keywords   = ['PRIMARY', 'KEY', 'INDEX', 'UNIQUE', 'CONSTRAINT', 'REFERENCES', 'FOREIGN'];
         $table_name = null;
 
         foreach ($lines as $line) {

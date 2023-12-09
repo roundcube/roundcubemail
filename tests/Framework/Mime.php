@@ -122,7 +122,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             5  => [
                 1 => ['name' => 'TEST1', 'mailto' => 'test1@email.com', 'string' => 'TEST1 <test1@email.com>'],
                 2 => ['name' => 'TEST2', 'mailto' => 'test2@email.com', 'string' => 'TEST2 <test2@email.com>'],
-                3 => ['name' => '',      'mailto' => 'test3@email.com', 'string' => 'test3@email.com'],
+                3 => ['name' => '', 'mailto' => 'test3@email.com', 'string' => 'test3@email.com'],
             ],
         ];
 

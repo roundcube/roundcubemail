@@ -421,7 +421,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     {
         $data = [
             '"a,b"' => ['"a,b"'],
-            '"a,b","c,d"' => ['"a,b"','"c,d"'],
+            '"a,b","c,d"' => ['"a,b"', '"c,d"'],
             '"a,\\"b",d' => ['"a,\\"b"', 'd'],
             'a,' => ['a', ''],
             '"a,' => ['"a,'],
@@ -642,8 +642,8 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $test = [
             ''        => [],
             'abc d'   => ['abc'],
-            'abc de'  => ['abc','de'],
-            'äàé;êöü-xyz' => ['äàé','êöü','xyz'],
+            'abc de'  => ['abc', 'de'],
+            'äàé;êöü-xyz' => ['äàé', 'êöü', 'xyz'],
             '日期格式' => ['日期格式'],
         ];
 
@@ -863,11 +863,11 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function data_remove_subject_prefix() {
         return [
-            ['both',    'Fwd: Re: Test subject both', 'Test subject both'],
-            ['both',    'Re: Fwd: Test subject both', 'Test subject both'],
-            ['reply',   'Fwd: Re: Test subject reply', 'Fwd: Re: Test subject reply'],
-            ['reply',   'Re: Fwd: Test subject reply', 'Fwd: Test subject reply'],
-            ['reply',   'Re: Fwd: Test subject reply (was: other test)', 'Fwd: Test subject reply'],
+            ['both', 'Fwd: Re: Test subject both', 'Test subject both'],
+            ['both', 'Re: Fwd: Test subject both', 'Test subject both'],
+            ['reply', 'Fwd: Re: Test subject reply', 'Fwd: Re: Test subject reply'],
+            ['reply', 'Re: Fwd: Test subject reply', 'Fwd: Test subject reply'],
+            ['reply', 'Re: Fwd: Test subject reply (was: other test)', 'Fwd: Test subject reply'],
             ['forward', 'Re: Fwd: Test subject forward', 'Re: Fwd: Test subject forward'],
             ['forward', 'Fwd: Re: Test subject forward', 'Re: Test subject forward'],
             ['forward', 'Fw: Re: Test subject forward', 'Re: Test subject forward'],

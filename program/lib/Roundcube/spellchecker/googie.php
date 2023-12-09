@@ -39,12 +39,12 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
     function languages()
     {
         return [
-            'am','ar','ar','bg','br','ca','cs','cy','da',
-            'de_CH','de_DE','el','en_GB','en_US',
-            'eo','es','et','eu','fa','fi','fr_FR','ga','gl','gl',
-            'he','hr','hu','hy','is','it','ku','lt','lv','nl',
-            'pl','pt_BR','pt_PT','ro','ru',
-            'sk','sl','sv','uk'
+            'am', 'ar', 'ar', 'bg', 'br', 'ca', 'cs', 'cy', 'da',
+            'de_CH', 'de_DE', 'el', 'en_GB', 'en_US',
+            'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fr_FR', 'ga', 'gl', 'gl',
+            'he', 'hr', 'hu', 'hy', 'is', 'it', 'ku', 'lt', 'lv', 'nl',
+            'pl', 'pt_BR', 'pt_PT', 'ro', 'ru',
+            'sk', 'sl', 'sv', 'uk'
         ];
     }
 

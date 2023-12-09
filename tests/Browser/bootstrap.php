@@ -160,7 +160,7 @@ class bootstrap
 
         if (!empty($a_host['host'])) {
             $imap_host = $a_host['host'];
-            $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl','imaps','tls']) ? $a_host['scheme'] : false;
+            $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls']) ? $a_host['scheme'] : false;
             $imap_port = $a_host['port'] ?? ($imap_ssl && $imap_ssl != 'tls' ? 993 : 143);
         }
 

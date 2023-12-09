@@ -155,7 +155,6 @@ return (new PhpCsFixer\Config())
         'trailing_comma_in_multiline' => false,
         'unary_operator_spaces' => false,
         'visibility_required' => false,
-        'whitespace_after_comma_in_array' => false,
         'yoda_style' => false,
     ])
     ->setFinder($finder)

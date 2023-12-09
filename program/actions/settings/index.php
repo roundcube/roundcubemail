@@ -99,11 +99,11 @@ class rcmail_action_settings_index extends rcmail_action
 
         $sections['general']     = ['id' => 'general', 'section' => $rcmail->gettext('uisettings')];
         $sections['mailbox']     = ['id' => 'mailbox', 'section' => $rcmail->gettext('mailboxview')];
-        $sections['mailview']    = ['id' => 'mailview','section' => $rcmail->gettext('messagesdisplaying')];
+        $sections['mailview']    = ['id' => 'mailview', 'section' => $rcmail->gettext('messagesdisplaying')];
         $sections['compose']     = ['id' => 'compose', 'section' => $rcmail->gettext('messagescomposition')];
-        $sections['addressbook'] = ['id' => 'addressbook','section' => $rcmail->gettext('contacts')];
+        $sections['addressbook'] = ['id' => 'addressbook', 'section' => $rcmail->gettext('contacts')];
         $sections['folders']     = ['id' => 'folders', 'section' => $rcmail->gettext('specialfolders')];
-        $sections['server']      = ['id' => 'server',  'section' => $rcmail->gettext('serversettings')];
+        $sections['server']      = ['id' => 'server', 'section' => $rcmail->gettext('serversettings')];
         $sections['encryption']  = ['id' => 'encryption', 'section' => $rcmail->gettext('encryption')];
 
         // hook + define list cols
@@ -227,7 +227,7 @@ class rcmail_action_settings_index extends rcmail_action
                         }
 
                         $refdate  = mktime(12,30,0,7,24);
-                        $defaults = ['Y-m-d','d-m-Y','Y/m/d','m/d/Y','d/m/Y','d.m.Y','j.n.Y'];
+                        $defaults = ['Y-m-d', 'd-m-Y', 'Y/m/d', 'm/d/Y', 'd/m/Y', 'd.m.Y', 'j.n.Y'];
                         $formats  = (array) $rcmail->config->get('date_formats', $defaults);
                         $field_id = 'rcmfd_date_format';
                         $select   = new html_select([
@@ -1612,9 +1612,9 @@ class rcmail_action_settings_index extends rcmail_action
 
         $default_actions = [
             ['action' => 'preferences', 'type' => 'link', 'label' => 'preferences', 'title' => 'editpreferences'],
-            ['action' => 'folders',     'type' => 'link', 'label' => 'folders',     'title' => 'managefolders'],
-            ['action' => 'identities',  'type' => 'link', 'label' => 'identities',  'title' => 'manageidentities'],
-            ['action' => 'responses',   'type' => 'link', 'label' => 'responses',   'title' => 'manageresponses'],
+            ['action' => 'folders', 'type' => 'link', 'label' => 'folders', 'title' => 'managefolders'],
+            ['action' => 'identities', 'type' => 'link', 'label' => 'identities', 'title' => 'manageidentities'],
+            ['action' => 'responses', 'type' => 'link', 'label' => 'responses', 'title' => 'manageresponses'],
         ];
 
         $disabled_actions = (array) $rcmail->config->get('disabled_actions');

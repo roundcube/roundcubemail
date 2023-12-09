@@ -30,7 +30,7 @@ class rcube_vcard
     private static $values_decoded = false;
     private $raw = [
         'FN' => [],
-        'N'  => [['','','','','']],
+        'N'  => [['', '', '', '', '']],
     ];
     private static $fieldmap = [
         'phone'    => 'TEL',
@@ -332,7 +332,7 @@ class rcube_vcard
         }
 
         if (empty($this->raw['N'])) {
-            $this->raw['N'] = [['','','','','']];
+            $this->raw['N'] = [['', '', '', '', '']];
         }
 
         if (empty($this->raw['FN'])) {

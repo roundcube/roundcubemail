@@ -272,7 +272,7 @@ class managesieve extends rcube_plugin
         }
 
         // load localization
-        $this->add_texts('localization/', ['filters','managefilters']);
+        $this->add_texts('localization/', ['filters', 'managefilters']);
 
         $engine->saveraw();
     }

@@ -25,7 +25,7 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
      *
      * @var array
      */
-    public static $IMAGE_TYPES = ['jpeg','jpg','jp2','tiff','tif','bmp','eps','gif','png','png8','png24','png32','svg','ico'];
+    public static $IMAGE_TYPES = ['jpeg', 'jpg', 'jp2', 'tiff', 'tif', 'bmp', 'eps', 'gif', 'png', 'png8', 'png24', 'png32', 'svg', 'ico'];
 
     /**
      * Request handler.

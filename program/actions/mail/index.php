@@ -957,10 +957,10 @@ class rcmail_action_mail_index extends rcmail_action
         ];
 
         if (empty($p['inline_html'])) {
-            $wash_opts['html_elements'] = ['html','head','title','body','link'];
+            $wash_opts['html_elements'] = ['html', 'head', 'title', 'body', 'link'];
         }
         if (!empty($p['safe'])) {
-            $wash_opts['html_attribs'] = ['rel','type'];
+            $wash_opts['html_attribs'] = ['rel', 'type'];
         }
 
         // overwrite washer options with options from plugins
@@ -1371,8 +1371,8 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         // allowed attributes for a|link|area tags
-        $allow = ['href','name','target','onclick','id','class','style','title',
-            'rel','type','media','alt','coords','nohref','hreflang','shape'];
+        $allow = ['href', 'name', 'target', 'onclick', 'id', 'class', 'style', 'title',
+            'rel', 'type', 'media', 'alt', 'coords', 'nohref', 'hreflang', 'shape'];
 
         return html::tag($tag, $attrib, $content, $allow);
     }

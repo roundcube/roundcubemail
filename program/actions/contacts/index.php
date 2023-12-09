@@ -701,7 +701,7 @@ class rcmail_action_contacts_index extends rcmail_action
             }
 
             $rcmail->output->command($prefix . 'add_contact_row', $row['ID'], $a_row_cols, join(' ', $classes),
-                array_intersect_key($row, ['ID' => 1,'readonly' => 1, '_type' => 1, 'email' => 1,'name' => 1])
+                array_intersect_key($row, ['ID' => 1, 'readonly' => 1, '_type' => 1, 'email' => 1, 'name' => 1])
             );
         }
     }
@@ -787,7 +787,7 @@ class rcmail_action_contacts_index extends rcmail_action
         // group fields
         $head_fields = [
             'source'       => ['source'],
-            'names'        => ['prefix','firstname','middlename','surname','suffix'],
+            'names'        => ['prefix', 'firstname', 'middlename', 'surname', 'suffix'],
             'displayname'  => ['name'],
             'nickname'     => ['nickname'],
             'organization' => ['organization'],
