@@ -119,7 +119,6 @@ return (new PhpCsFixer\Config())
         'no_superfluous_phpdoc_tags' => false,
         'no_unneeded_control_parentheses' => false,
         'no_useless_concat_operator' => false,
-        'non_printable_character' => false,
         'operator_linebreak' => false,
         'php_unit_method_casing' => false,
         'phpdoc_align' => false,
