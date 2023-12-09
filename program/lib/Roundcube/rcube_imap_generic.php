@@ -1077,7 +1077,7 @@ class rcube_imap_generic
                 fwrite($this->fp, $proxy_protocol_header);
             }
         }
-        
+
         if ($this->prefs['timeout'] > 0) {
             stream_set_timeout($this->fp, $this->prefs['timeout']);
         }

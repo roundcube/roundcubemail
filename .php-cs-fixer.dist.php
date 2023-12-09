@@ -132,7 +132,6 @@ return (new PhpCsFixer\Config())
         'no_unused_imports' => false,
         'no_useless_concat_operator' => false,
         'no_whitespace_before_comma_in_array' => false,
-        'no_whitespace_in_blank_line' => false,
         'non_printable_character' => false,
         'operator_linebreak' => false,
         'ordered_imports' => false,

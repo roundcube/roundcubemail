@@ -190,7 +190,7 @@ class HTTPSocket
             $this->set_login($location['user'], $location['pass']);
 
             $request = $location['path'];
-            
+
             if ($content == '') {
                 $content = $location['query'];
             }
