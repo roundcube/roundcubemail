@@ -261,7 +261,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['prettydate'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('prettydate'))),
-                            'content' => $input->show($config['prettydate']?1:0),
+                            'content' => $input->show($config['prettydate'] ? 1 : 0),
                         ];
                     }
 
@@ -280,7 +280,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['display_next'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('displaynext'))),
-                            'content' => $input->show($config['display_next']?1:0),
+                            'content' => $input->show($config['display_next'] ? 1 : 0),
                         ];
                     }
 
@@ -372,7 +372,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['browser']['options']['standard_windows'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('standardwindows'))),
-                            'content' => $checkbox->show($config['standard_windows']?1:0),
+                            'content' => $checkbox->show($config['standard_windows'] ? 1 : 0),
                         ];
                     }
 
@@ -519,7 +519,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['new_message']['options']['check_all_folders'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('checkallfolders'))),
-                            'content' => $input->show($config['check_all_folders']?1:0),
+                            'content' => $input->show($config['check_all_folders'] ? 1 : 0),
                         ];
                     }
 
@@ -543,7 +543,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['message_extwin'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('showinextwin'))),
-                            'content' => $input->show($config['message_extwin']?1:0),
+                            'content' => $input->show($config['message_extwin'] ? 1 : 0),
                         ];
                     }
 
@@ -558,7 +558,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['message_show_email'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('showemail'))),
-                            'content' => $input->show($config['message_show_email']?1:0),
+                            'content' => $input->show($config['message_show_email'] ? 1 : 0),
                         ];
                     }
 
@@ -578,7 +578,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['prefer_html'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('preferhtml'))),
-                            'content' => $input->show($config['prefer_html']?1:0),
+                            'content' => $input->show($config['prefer_html'] ? 1 : 0),
                         ];
                     }
 
@@ -660,7 +660,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['inline_images'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('showinlineimages'))),
-                            'content' => $input->show($config['inline_images']?1:0),
+                            'content' => $input->show($config['inline_images'] ? 1 : 0),
                         ];
                     }
 
@@ -686,7 +686,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['compose_extwin'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('composeextwin'))),
-                            'content' => $input->show($config['compose_extwin']?1:0),
+                            'content' => $input->show($config['compose_extwin'] ? 1 : 0),
                         ];
                     }
 
@@ -771,7 +771,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['advanced']['options']['force_7bit'] = [
                             'title'    => html::label($field_id, rcube::Q($rcmail->gettext('force7bit'))),
-                            'content'  => $input->show($config['force_7bit']?1:0),
+                            'content'  => $input->show($config['force_7bit'] ? 1 : 0),
                         ];
                     }
 
@@ -785,7 +785,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['mdn_default'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('reqmdn'))),
-                            'content' => $input->show($config['mdn_default']?1:0),
+                            'content' => $input->show($config['mdn_default'] ? 1 : 0),
                         ];
                     }
 
@@ -799,7 +799,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['dsn_default'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('reqdsn'))),
-                            'content' => $input->show($config['dsn_default']?1:0),
+                            'content' => $input->show($config['dsn_default'] ? 1 : 0),
                         ];
                     }
 
@@ -813,7 +813,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['reply_same_folder'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('replysamefolder'))),
-                            'content' => $input->show($config['reply_same_folder']?1:0),
+                            'content' => $input->show($config['reply_same_folder'] ? 1 : 0),
                         ];
                     }
 
@@ -850,7 +850,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['spellcheck']['options']['spellcheck_before_send'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('spellcheckbeforesend'))),
-                            'content' => $input->show($config['spellcheck_before_send']?1:0),
+                            'content' => $input->show($config['spellcheck_before_send'] ? 1 : 0),
                         ];
                     }
 
@@ -866,7 +866,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                                 $blocks['spellcheck']['options'][$key] = [
                                     'title'   => html::label('rcmfd_' . $key, rcube::Q($rcmail->gettext(str_replace('_', '', $key)))),
-                                    'content' => $input->show($config[$key]?1:0),
+                                    'content' => $input->show($config[$key] ? 1 : 0),
                                 ];
                             }
                         }
@@ -923,7 +923,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['sig']['options']['strip_existing_sig'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('replyremovesignature'))),
-                            'content' => $input->show($config['strip_existing_sig']?1:0),
+                            'content' => $input->show($config['strip_existing_sig'] ? 1 : 0),
                         ];
                     }
 
@@ -1059,7 +1059,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['advanced']['options']['compose_save_localstorage'] = [
                             'title'    => html::label($field_id, rcube::Q($rcmail->gettext('savelocalstorage'))),
-                            'content'  => $input->show($config['compose_save_localstorage']?1:0),
+                            'content'  => $input->show($config['compose_save_localstorage'] ? 1 : 0),
                         ];
                     }
 
@@ -1199,7 +1199,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['autocomplete_single'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('autocompletesingle'))),
-                            'content' => $checkbox->show($config['autocomplete_single']?1:0),
+                            'content' => $checkbox->show($config['autocomplete_single'] ? 1 : 0),
                         ];
                     }
 
@@ -1289,7 +1289,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['show_real_foldernames'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('show_real_foldernames'))),
-                            'content' => $input->show($config['show_real_foldernames']?1:0),
+                            'content' => $input->show($config['show_real_foldernames'] ? 1 : 0),
                         ];
                     }
 
@@ -1382,7 +1382,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['read_when_deleted'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('readwhendeleted'))),
-                            'content' => $input->show($config['read_when_deleted']?1:0),
+                            'content' => $input->show($config['read_when_deleted'] ? 1 : 0),
                         ];
                     }
 
@@ -1396,7 +1396,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['flag_for_deletion'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('flagfordeletion'))),
-                            'content' => $input->show($config['flag_for_deletion']?1:0),
+                            'content' => $input->show($config['flag_for_deletion'] ? 1 : 0),
                         ];
                     }
 
@@ -1411,7 +1411,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['skip_deleted'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('skipdeleted'))),
-                            'content' => $input->show($config['skip_deleted']?1:0),
+                            'content' => $input->show($config['skip_deleted'] ? 1 : 0),
                         ];
                     }
 
@@ -1425,7 +1425,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['delete_junk'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('deletejunk'))),
-                            'content' => $input->show($config['delete_junk']?1:0),
+                            'content' => $input->show($config['delete_junk'] ? 1 : 0),
                         ];
                     }
 
@@ -1471,7 +1471,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['maintenance']['options']['logout_expunge'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('logoutcompact'))),
-                            'content' => $input->show($config['logout_expunge']?1:0),
+                            'content' => $input->show($config['logout_expunge'] ? 1 : 0),
                         ];
                     }
 

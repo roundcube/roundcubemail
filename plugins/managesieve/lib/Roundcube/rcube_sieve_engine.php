@@ -1689,7 +1689,7 @@ class rcube_sieve_engine
         $label = $this->plugin->gettext($compact ? 'actions' : 'messagesactions');
         $out .= '<fieldset><legend>' . rcube::Q($label) . "</legend>\n";
 
-        $rows_num = isset($scr)  ? count($scr['actions']) : 1;
+        $rows_num = isset($scr) ? count($scr['actions']) : 1;
 
         $out .= '<div id="actions">';
         for ($x=0; $x<$rows_num; $x++) {

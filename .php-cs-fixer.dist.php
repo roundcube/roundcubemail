@@ -151,7 +151,6 @@ return (new PhpCsFixer\Config())
         'single_quote' => false,
         'single_trait_insert_per_statement' => false,
         'standardize_increment' => false,
-        'ternary_operator_spaces' => false,
         'ternary_to_null_coalescing' => false,
         'trailing_comma_in_multiline' => false,
         'trim_array_spaces' => false,
