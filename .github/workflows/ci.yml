@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
 
-    name: CI / Coding Style
+    name: Coding Style
 
     steps:
       - name: Checkout code
