@@ -163,7 +163,7 @@ class runlog {
             if (!empty($this->timestamp)) {
                 $buffer = sprintf("[%s] %s", date($this->timestamp, time()), $buffer);
             }
-            if(strlen($buffer) > $this->max_line_size){
+            if (strlen($buffer) > $this->max_line_size){
                 $buffer = substr($buffer,0,$this->max_line_size - 3) . "...";
             }
             fwrite($this->file_handles['master'], $buffer."\n");
@@ -201,7 +201,7 @@ class runlog {
         return $buf;
     }
 
-    function  __destruct()
+    function __destruct()
     {
         foreach ($this->file_handles as $handle) {
             fclose($handle);

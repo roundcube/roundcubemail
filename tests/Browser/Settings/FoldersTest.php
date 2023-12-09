@@ -87,7 +87,7 @@ class FoldersTest extends \Tests\Browser\TestCase
                 $browser->clickToolbarMenuItem('create');
             }
 
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->waitFor('form')
                     ->with('form fieldset', function ($browser) {
                         $browser->assertVisible('input[name=_name]')
@@ -136,7 +136,7 @@ class FoldersTest extends \Tests\Browser\TestCase
                 $browser->waitFor('#preferences-frame');
             }
 
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->waitFor('form');
                 // TODO
             });

@@ -36,10 +36,10 @@ class rcmail_action_settings_about extends rcmail_action
         $rcmail->output->add_handlers([
                 'supportlink' => [$this, 'supportlink'],
                 'pluginlist'  => [$this, 'plugins_list'],
-                'copyright'   => function() {
+                'copyright'   => function () {
                     return 'Copyright &copy; 2005-2023, The Roundcube Dev Team';
                 },
-                'license' => function() {
+                'license' => function () {
                     return 'This program is free software; you can redistribute it and/or modify it under the terms '
                         . 'of the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
                         . 'as published by the Free Software Foundation, either version 3 of the License, '

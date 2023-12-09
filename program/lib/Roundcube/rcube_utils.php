@@ -482,7 +482,7 @@ class rcube_utils
             // for cases like @media { body { position: fixed; } } (#5811)
             $excl     = '(?!' . substr($replacements->pattern, 1, -1) . ')';
             $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)(' . $excl . ':?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
-            $callback = function($matches) use ($container_id, $prefix) {
+            $callback = function ($matches) use ($container_id, $prefix) {
                 $replace = $matches[2];
 
                 if (stripos($replace, ':root') === 0) {
@@ -630,7 +630,7 @@ class rcube_utils
      */
     public static function xss_entity_decode($content)
     {
-        $callback = function($matches) { return chr(hexdec($matches[1])); };
+        $callback = function ($matches) { return chr(hexdec($matches[1])); };
 
         $out = html_entity_decode(html_entity_decode($content));
         $out = trim(preg_replace('/(^<!--|-->$)/', '', trim($out)));
@@ -1681,7 +1681,7 @@ class rcube_utils
         }
 
         // replace Re:, Re[x]:, Re-x (#1490497)
-        $pieces = array_map(function($prefix) {
+        $pieces = array_map(function ($prefix) {
             $prefix = strtolower(str_replace(':', '', $prefix));
             return "$prefix:|$prefix\[\d\]:|$prefix-\d:";
         }, $prefixes);

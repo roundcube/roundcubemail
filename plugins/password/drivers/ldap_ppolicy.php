@@ -81,7 +81,7 @@ class rcube_ldap_ppolicy_password
                 case "OK":
                     return PASSWORD_SUCCESS;
                 case "Password is in history of old passwords":
-                    return  PASSWORD_IN_HISTORY;
+                    return PASSWORD_IN_HISTORY;
                 case "Cannot connect to any server":
                     return PASSWORD_CONNECT_ERROR;
                 default:

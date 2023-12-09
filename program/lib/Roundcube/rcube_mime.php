@@ -793,7 +793,7 @@ class rcube_mime
 
         if (empty($mime_ext)) {
             foreach (rcube::get_instance()->config->resolve_paths('mimetypes.php') as $fpath) {
-                $mime_ext = array_merge($mime_ext, (array) @include($fpath));
+                $mime_ext = array_merge($mime_ext, (array) @include ($fpath));
             }
         }
 
@@ -876,7 +876,7 @@ class rcube_mime
         // fallback to some well-known types most important for daily emails
         if (empty($mime_types)) {
             foreach (rcube::get_instance()->config->resolve_paths('mimetypes.php') as $fpath) {
-                $mime_extensions = array_merge($mime_extensions, (array) @include($fpath));
+                $mime_extensions = array_merge($mime_extensions, (array) @include ($fpath));
             }
 
             foreach ($mime_extensions as $ext => $mime) {
@@ -932,7 +932,7 @@ class rcube_mime
     public static function image_content_type($data)
     {
         $type = 'jpeg';
-        if      (preg_match('/^\x89\x50\x4E\x47/', $data)) { $type = 'png'; }
+        if (preg_match('/^\x89\x50\x4E\x47/', $data)) { $type = 'png'; }
         else if (preg_match('/^\x47\x49\x46\x38/', $data)) { $type = 'gif'; }
         else if (preg_match('/^\x00\x00\x01\x00/', $data)) { $type = 'ico'; }
         // else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) { $type = 'jpeg'; }

@@ -2476,7 +2476,7 @@ class rcube_sieve_engine
         $is_flag_action = preg_match('/^(set|add|remove)flag$/', (string) $action['type']);
 
         if ($is_flag_action) {
-            $custom_flags = array_filter($flags_target, function($v) use($flags) {
+            $custom_flags = array_filter($flags_target, function ($v) use ($flags) {
                 return !in_array_nocase($v, $flags);
             });
         }

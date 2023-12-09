@@ -294,7 +294,7 @@ class rcube_charset
         }
 
         $out = false;
-        $error_handler = function() { throw new \Exception(); };
+        $error_handler = function () { throw new \Exception(); };
 
         // Ignore invalid characters
         $mbstring_sc = mb_substitute_character();

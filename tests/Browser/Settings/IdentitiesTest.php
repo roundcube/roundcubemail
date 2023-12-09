@@ -60,7 +60,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                 $browser->clickToolbarMenuItem('create');
             }
 
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->waitFor('form')
                     ->with('form fieldset:nth-of-type(1)', function ($browser) {
                         $browser->assertSeeIn('legend', 'Settings')
@@ -111,7 +111,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                 ->closeMessage('confirmation')
                 ->waitFor('#preferences-frame');
 
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->whenAvailable('form', function ($browser) {
                     $browser->assertValue('input[name=_name]', 'My Test')
                         ->assertValue('input[name=_email]', 'mynew@identity.com')
@@ -165,7 +165,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                 ->closeMessage('confirmation');
 
             // Preview frame should reset to the watermark page
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->waitUntilMissing('> div');
             });
 
@@ -191,7 +191,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                 ->waitFor('#preferences-frame')
                 ->waitUntilMissing('#messagestack div.loading');
 
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->whenAvailable('form', function ($browser) {
                     $browser->type('[name=_name]', 'Default')
                         ->type('[name=_organization]', 'Default Org');

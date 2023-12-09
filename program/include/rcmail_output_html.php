@@ -2022,11 +2022,11 @@ EOF;
             $is_empty = true;
         }
 
-        $merge_script_files = function($output, $script) {
+        $merge_script_files = function ($output, $script) {
             return $output . html::script($script);
         };
 
-        $merge_scripts = function($output, $script) {
+        $merge_scripts = function ($output, $script) {
             return $output . html::script([], $script);
         };
 

@@ -659,7 +659,7 @@ class rcube_washtml
                     break;
             }
         }
-        while($node = $node->nextSibling);
+        while ($node = $node->nextSibling);
 
         return $dump;
     }
