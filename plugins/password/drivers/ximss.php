@@ -1,6 +1,6 @@
 <?php
 /**
- * Communigate driver for the Password Plugin for Roundcube 
+ * Communigate driver for the Password Plugin for Roundcube
  *
  * Tested with Communigate Pro 5.1.2
  *

@@ -1655,10 +1655,10 @@ class rcube_utils
 
     /**
      * Clean the subject from reply and forward prefix
-     * 
+     *
      * @param string $subject Subject to clean
      * @param string $mode Mode of cleaning : reply, forward or both
-     * 
+     *
      * @return string Cleaned subject
      */
     public static function remove_subject_prefix($subject, $mode = 'both')
@@ -1699,7 +1699,7 @@ class rcube_utils
      * into the TCP stream, if configured.
      *
      * http://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
-     * 
+     *
      * PROXY protocol headers must be sent before any other data is sent on the TCP socket.
      *
      * @param array $options Preferences array which may contain proxy_protocol (generally {driver}_conn_options)

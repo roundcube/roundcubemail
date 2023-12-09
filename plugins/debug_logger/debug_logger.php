@@ -48,9 +48,9 @@
  *   [17-Feb-2009 16:51:37 -0500]       sql: select * from example
  *   [17-Feb-2009 16:51:37 -0500]       sql: select * from example
  *   [17-Feb-2009 16:51:37 -0500]       sql: select * from example
- *   [17-Feb-2009 16:51:37 -0500]     end: my sql calls - 0.0018 seconds shell exec: 1, sql: 3, 
- *   [17-Feb-2009 16:51:37 -0500]   end: my test - 0.0055 seconds shell exec: 1, sql: 3, 
- *   [17-Feb-2009 16:51:38 -0500] end: Task: mail.  - 0.8854 seconds shell exec: 1, sql: 3, 
+ *   [17-Feb-2009 16:51:37 -0500]     end: my sql calls - 0.0018 seconds shell exec: 1, sql: 3,
+ *   [17-Feb-2009 16:51:37 -0500]   end: my test - 0.0055 seconds shell exec: 1, sql: 3,
+ *   [17-Feb-2009 16:51:38 -0500] end: Task: mail.  - 0.8854 seconds shell exec: 1, sql: 3,
  *
  * logs/sql (after reloading the main page):
  *

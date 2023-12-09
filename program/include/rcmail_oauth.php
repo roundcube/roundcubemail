@@ -140,7 +140,7 @@ class rcmail_oauth
 
     /**
      * Helper method to decode a JWT
-     * 
+     *
      * @param string $jwt
      * @return array Hash array with decoded body
      */

@@ -876,7 +876,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
     /**
      * Test remove_subject_prefix
-     * 
+     *
      * @dataProvider data_remove_subject_prefix
      */
     function test_remove_subject_prefix($mode, $subject, $result) {
