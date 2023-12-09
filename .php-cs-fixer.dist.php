@@ -128,7 +128,6 @@ return (new PhpCsFixer\Config())
         'php_unit_method_casing' => false,
         'phpdoc_align' => false,
         'phpdoc_annotation_without_dot' => false,
-        'phpdoc_indent' => false,
         'phpdoc_no_alias_tag' => false,
         'phpdoc_no_package' => false,
         'phpdoc_scalar' => false,

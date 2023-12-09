@@ -72,12 +72,12 @@ class rcube_ldap extends rcube_addressbook
 
 
     /**
-    * Object constructor
-    *
-    * @param array  $p           LDAP connection properties
-    * @param bool   $debug       Enables debug mode
-    * @param string $mail_domain Current user mail domain name
-    */
+     * Object constructor
+     *
+     * @param array  $p           LDAP connection properties
+     * @param bool   $debug       Enables debug mode
+     * @param string $mail_domain Current user mail domain name
+     */
     function __construct($p, $debug = false, $mail_domain = null)
     {
         $this->prop = $p;

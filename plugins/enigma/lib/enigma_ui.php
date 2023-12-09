@@ -1244,10 +1244,10 @@ class enigma_ui
     }
 
     /**
-      * Handler for message_compose_body hook
-      * Display error when the message cannot be encrypted
-      * and provide a way to try again with a password.
-      */
+     * Handler for message_compose_body hook
+     * Display error when the message cannot be encrypted
+     * and provide a way to try again with a password.
+     */
     function message_compose($p)
     {
         $engine = $this->enigma->load_engine();
