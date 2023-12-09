@@ -47,7 +47,7 @@ class rcube_mailcow_password
                     'password'  => $passwd,
                     'password2' => $passwd
                 ],
-                'items' => [ $username ]
+                'items' => [$username]
             ];
 
             if (!strpos($host, '://')) {

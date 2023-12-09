@@ -153,7 +153,6 @@ return (new PhpCsFixer\Config())
         'standardize_increment' => false,
         'ternary_to_null_coalescing' => false,
         'trailing_comma_in_multiline' => false,
-        'trim_array_spaces' => false,
         'unary_operator_spaces' => false,
         'visibility_required' => false,
         'whitespace_after_comma_in_array' => false,
