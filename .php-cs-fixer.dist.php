@@ -110,7 +110,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_to_comment' => false,
         'phpdoc_trim' => false,
         'phpdoc_types_order' => false,
-        'phpdoc_var_without_name' => false,
         'single_line_comment_spacing' => false,
         'single_quote' => false,
         'single_trait_insert_per_statement' => false,

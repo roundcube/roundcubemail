@@ -89,7 +89,7 @@ abstract class rcube_addressbook
     /** @var string Contact field by which to order listed records. */
     public $sort_col = 'name';
 
-    /** @var string Whether sorting of records by $sort_col is done in ascending (ASC) or descending (DESC) order. */
+    /** @var string Whether sorting of records by self::$sort_col is done in ascending (ASC) or descending (DESC) order. */
     public $sort_order = 'ASC';
 
     /** @var string[] A list of record fields that contain dates. */

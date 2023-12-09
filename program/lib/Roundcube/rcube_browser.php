@@ -25,40 +25,40 @@
  */
 class rcube_browser
 {
-    /** @var float $ver Browser version */
+    /** @var float Browser version */
     public $ver = 0;
 
-    /** @var bool $win Browser OS is Windows */
+    /** @var bool Browser OS is Windows */
     public $win = false;
 
-    /** @var bool $mac Browser OS is Mac */
+    /** @var bool Browser OS is Mac */
     public $mac = false;
 
-    /** @var bool $linux Browser OS is Linux */
+    /** @var bool Browser OS is Linux */
     public $linux = false;
 
-    /** @var bool $unix Browser OS is Unix */
+    /** @var bool Browser OS is Unix */
     public $unix = false;
 
-    /** @var bool $webkit Browser uses WebKit engine */
+    /** @var bool Browser uses WebKit engine */
     public $webkit = false;
 
-    /** @var bool $opera Browser is Opera */
+    /** @var bool Browser is Opera */
     public $opera = false;
 
-    /** @var bool $chrome Browser is Chrome */
+    /** @var bool Browser is Chrome */
     public $chrome = false;
 
-    /** @var bool $ie Browser is Internet Explorer */
+    /** @var bool Browser is Internet Explorer */
     public $ie = false;
 
-    /** @var bool $edge Browser is Edge */
+    /** @var bool Browser is Edge */
     public $edge = false;
 
-    /** @var bool $safari Browser is Safari */
+    /** @var bool Browser is Safari */
     public $safari = false;
 
-    /** @var bool $mz Browser is Mozilla Firefox */
+    /** @var bool Browser is Mozilla Firefox */
     public $mz = false;
 
 

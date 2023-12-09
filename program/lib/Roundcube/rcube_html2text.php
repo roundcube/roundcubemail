@@ -106,14 +106,14 @@ class rcube_html2text
     /**
      * Contains the HTML content to convert.
      *
-     * @var string $html
+     * @var string
      */
     protected $html;
 
     /**
      * Contains the converted, formatted text.
      *
-     * @var string $text
+     * @var string
      */
     protected $text;
 
@@ -123,14 +123,14 @@ class rcube_html2text
      * Set this value to 0 (or less) to ignore word wrapping
      * and not constrain text to a fixed-width column.
      *
-     * @var int $width
+     * @var int
      */
     protected $width = 70;
 
     /**
      * Target character encoding for output text
      *
-     * @var string $charset
+     * @var string
      */
     protected $charset = 'UTF-8';
 
@@ -138,7 +138,7 @@ class rcube_html2text
      * List of preg* regular expression patterns to search for,
      * used in conjunction with $replace.
      *
-     * @var array $search
+     * @var array
      *
      * @see self::$replace
      */
@@ -169,7 +169,7 @@ class rcube_html2text
     /**
      * List of pattern replacements corresponding to patterns searched.
      *
-     * @var array $replace
+     * @var array
      *
      * @see self::$search
      */
@@ -201,7 +201,7 @@ class rcube_html2text
      * List of preg* regular expression patterns to search for,
      * used in conjunction with $ent_replace.
      *
-     * @var array $ent_search
+     * @var array
      *
      * @see self::$ent_replace
      */
@@ -226,7 +226,7 @@ class rcube_html2text
     /**
      * List of pattern replacements corresponding to patterns searched.
      *
-     * @var array $ent_replace
+     * @var array
      *
      * @see self::$ent_search
      */
@@ -252,7 +252,7 @@ class rcube_html2text
      * List of preg* regular expression patterns to search for
      * and replace using callback function.
      *
-     * @var array $callback_search
+     * @var array
      */
     protected $callback_search = [
         '/<(a) [^>]*href=("|\')([^"\']+)\2[^>]*>(.*?)<\/a>/i', // <a href="">
@@ -264,7 +264,7 @@ class rcube_html2text
      * List of preg* regular expression patterns to search for in PRE body,
      * used in conjunction with $pre_replace.
      *
-     * @var array $pre_search
+     * @var array
      *
      * @see self::$pre_replace
      */
@@ -279,7 +279,7 @@ class rcube_html2text
     /**
      * List of pattern replacements corresponding to patterns searched for PRE body.
      *
-     * @var array $pre_replace
+     * @var array
      *
      * @see self::$pre_search
      */
@@ -294,14 +294,14 @@ class rcube_html2text
     /**
      * Temp. PRE content
      *
-     * @var string $pre_content
+     * @var string
      */
     protected $pre_content = '';
 
     /**
      * Contains a list of HTML tags to allow in the resulting text.
      *
-     * @var string $allowed_tags
+     * @var string
      *
      * @see self::set_allowed_tags()
      */
@@ -310,14 +310,14 @@ class rcube_html2text
     /**
      * Contains the base URL that relative links should resolve to.
      *
-     * @var string $url
+     * @var string
      */
     protected $url;
 
     /**
      * Indicates whether content in the $html variable has been converted yet.
      *
-     * @var bool $_converted
+     * @var bool
      *
      * @see self::$html
      * @see self::$text
@@ -327,7 +327,7 @@ class rcube_html2text
     /**
      * Contains URL addresses from links to be rendered in plain text.
      *
-     * @var array $_link_list
+     * @var array
      *
      * @see self::_build_link_list()
      */
@@ -339,7 +339,7 @@ class rcube_html2text
      * - 1 if a table of link URLs should be listed after the text
      * - 2 if the link should be displayed to the original point in the text they appeared
      *
-     * @var int $_links_mode
+     * @var int
      */
     protected $_links_mode = 1;
 
