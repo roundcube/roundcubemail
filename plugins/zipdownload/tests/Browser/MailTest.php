@@ -89,11 +89,11 @@ class MailTest extends \Tests\Browser\TestCase
                         ->click('.header-links a.zipdownload');
                 });
 
-                $filename = 'Lines.zip';
-                $files = $this->getFilesFromZip($filename);
-                $browser->removeDownloadedFile($filename);
-                $expected = ['lines.txt', 'lines_lf.txt'];
-                $this->assertSame($expected, $files);
+            $filename = 'Lines.zip';
+            $files = $this->getFilesFromZip($filename);
+            $browser->removeDownloadedFile($filename);
+            $expected = ['lines.txt', 'lines_lf.txt'];
+            $this->assertSame($expected, $files);
         });
     }
 

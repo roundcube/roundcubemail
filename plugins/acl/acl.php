@@ -156,12 +156,12 @@ class acl extends rcube_plugin
         if (!strlen($mbox_imap)) {
             return $args;
         }
-/*
+        /*
         // Do nothing on protected folders (?)
         if (!empty($args['options']['protected'])) {
             return $args;
         }
-*/
+        */
         // Get MYRIGHTS
         if (empty($myrights)) {
             return $args;

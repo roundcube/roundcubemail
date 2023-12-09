@@ -1724,13 +1724,13 @@ class rcube_ldap extends rcube_addressbook
 
             // if addresses are to be saved as serialized string, do so
             if (!empty($colprop['serialized']) && is_array($colprop['serialized'])) {
-               foreach ($colprop['serialized'] as $subtype => $delim) {
-                  $key = $col.':'.$subtype;
-                  foreach ((array)$save_cols[$key] as $i => $val) {
-                     $values = [$val['street'], $val['locality'], $val['zipcode'], $val['country']];
-                     $save_cols[$key][$i] = count(array_filter($values)) ? implode($delim, $values) : null;
-                 }
-               }
+                foreach ($colprop['serialized'] as $subtype => $delim) {
+                    $key = $col.':'.$subtype;
+                    foreach ((array)$save_cols[$key] as $i => $val) {
+                        $values = [$val['street'], $val['locality'], $val['zipcode'], $val['country']];
+                        $save_cols[$key][$i] = count(array_filter($values)) ? implode($delim, $values) : null;
+                    }
+                }
             }
         }
 
@@ -1765,11 +1765,11 @@ class rcube_ldap extends rcube_addressbook
             }
 
             switch ($format['type']) {
-            case 'date':
-                if ($dt = rcube_utils::anytodatetime($ldap_data[$fld])) {
-                    $ldap_data[$fld] = $dt->format($format['format']);
-                }
-                break;
+                case 'date':
+                    if ($dt = rcube_utils::anytodatetime($ldap_data[$fld])) {
+                        $ldap_data[$fld] = $dt->format($format['format']);
+                    }
+                    break;
             }
         }
 

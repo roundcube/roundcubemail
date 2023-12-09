@@ -140,23 +140,23 @@ class rcube_config
     private function parse_env($string, $type = null)
     {
         switch ($type) {
-        case 'bool':
-            return (bool) $string;
+            case 'bool':
+                return (bool) $string;
 
-        case 'int':
-            return (int) $string;
+            case 'int':
+                return (int) $string;
 
-        case 'float':
-            return (float) $string;
+            case 'float':
+                return (float) $string;
 
-        case 'string':
-            return $string;
+            case 'string':
+                return $string;
 
-        case 'array':
-            return json_decode($string, true);
+            case 'array':
+                return json_decode($string, true);
 
-        case 'object':
-            return json_decode($string, false);
+            case 'object':
+                return json_decode($string, false);
         }
 
         return $this->parse_env($string, $this->guess_type($string));

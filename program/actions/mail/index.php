@@ -674,26 +674,26 @@ class rcmail_action_mail_index extends rcmail_action
 
             // get column name
             switch ($col) {
-            case 'flag':
-                $col_name = html::span('flagged', $rcmail->gettext('flagged'));
-                break;
-            case 'attachment':
-            case 'priority':
-                $col_name = html::span($col, $rcmail->gettext($col));
-                break;
-            case 'status':
-                $col_name = html::span($col, $rcmail->gettext('readstatus'));
-                break;
-            case 'threads':
-                $col_name = !empty($list_menu) ? $list_menu : '';
-                break;
-            case 'fromto':
-                $label    = $rcmail->gettext($smart_col);
-                $col_name = rcube::Q($label);
-                break;
-            default:
-                $label    = $rcmail->gettext($col);
-                $col_name = rcube::Q($label);
+                case 'flag':
+                    $col_name = html::span('flagged', $rcmail->gettext('flagged'));
+                    break;
+                case 'attachment':
+                case 'priority':
+                    $col_name = html::span($col, $rcmail->gettext($col));
+                    break;
+                case 'status':
+                    $col_name = html::span($col, $rcmail->gettext('readstatus'));
+                    break;
+                case 'threads':
+                    $col_name = !empty($list_menu) ? $list_menu : '';
+                    break;
+                case 'fromto':
+                    $label    = $rcmail->gettext($smart_col);
+                    $col_name = rcube::Q($label);
+                    break;
+                default:
+                    $label    = $rcmail->gettext($col);
+                    $col_name = rcube::Q($label);
             }
 
             // make sort links
@@ -883,26 +883,26 @@ class rcmail_action_mail_index extends rcmail_action
             && $message->has_html_part()
         ) {
             switch ($show_images) {
-            case 3: // trusted senders only
-            case 1: // all my contacts
-                if (!empty($message->sender['mailto'])) {
-                    $type = rcube_addressbook::TYPE_TRUSTED_SENDER;
+                case 3: // trusted senders only
+                case 1: // all my contacts
+                    if (!empty($message->sender['mailto'])) {
+                        $type = rcube_addressbook::TYPE_TRUSTED_SENDER;
 
-                    if ($show_images == 1) {
-                        $type |= rcube_addressbook::TYPE_RECIPIENT | rcube_addressbook::TYPE_WRITEABLE;
+                        if ($show_images == 1) {
+                            $type |= rcube_addressbook::TYPE_RECIPIENT | rcube_addressbook::TYPE_WRITEABLE;
+                        }
+
+                        if ($rcmail->contact_exists($message->sender['mailto'], $type)) {
+                            $message->set_safe(true);
+                        }
                     }
 
-                    if ($rcmail->contact_exists($message->sender['mailto'], $type)) {
-                        $message->set_safe(true);
-                    }
-                }
+                    $rcmail->plugins->exec_hook('message_check_safe', ['message' => $message]);
+                    break;
 
-                $rcmail->plugins->exec_hook('message_check_safe', ['message' => $message]);
-                break;
-
-            case 2: // always
-                $message->set_safe(true);
-                break;
+                case 2: // always
+                    $message->set_safe(true);
+                    break;
             }
         }
 
@@ -1103,30 +1103,30 @@ class rcmail_action_mail_index extends rcmail_action
         $out = '';
 
         switch ($tagname) {
-        case 'form':
-            $out = html::div('form', $content);
-            break;
-
-        case 'style':
-            // Crazy big styles may freeze the browser (#1490539)
-            // remove content with more than 5k lines
-            if (substr_count($content, "\n") > 5000) {
+            case 'form':
+                $out = html::div('form', $content);
                 break;
-            }
 
-            // decode all escaped entities and reduce to ascii strings
-            $decoded  = rcube_utils::xss_entity_decode($content);
-            $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', $decoded);
+            case 'style':
+                // Crazy big styles may freeze the browser (#1490539)
+                // remove content with more than 5k lines
+                if (substr_count($content, "\n") > 5000) {
+                    break;
+                }
 
-            // now check for evil strings like expression, behavior or url()
-            if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
-                if (!$washtml->get_config('allow_remote') && preg_match('/url\((?!data:image)/', $stripped)) {
-                    $washtml->extlinks = true;
+                // decode all escaped entities and reduce to ascii strings
+                $decoded  = rcube_utils::xss_entity_decode($content);
+                $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', $decoded);
+
+                // now check for evil strings like expression, behavior or url()
+                if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
+                    if (!$washtml->get_config('allow_remote') && preg_match('/url\((?!data:image)/', $stripped)) {
+                        $washtml->extlinks = true;
+                    }
+                    else {
+                        $out = html::tag('style', ['type' => 'text/css'], $decoded);
+                    }
                 }
-                else {
-                    $out = html::tag('style', ['type' => 'text/css'], $decoded);
-                }
-            }
         }
 
         return $out;

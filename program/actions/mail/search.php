@@ -323,93 +323,93 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $escaped   = rcube_imap_generic::escape($value);
 
         switch ($option) {
-        case 'body':
-            return "BODY {$escaped}";
+            case 'body':
+                return "BODY {$escaped}";
 
-        case 'text':
-            return "TEXT {$escaped}";
+            case 'text':
+                return "TEXT {$escaped}";
 
-        case 'replyto':
-        case 'reply-to':
-            return "OR HEADER REPLY-TO {$escaped} HEADER MAIL-REPLY-TO {$escaped}";
+            case 'replyto':
+            case 'reply-to':
+                return "OR HEADER REPLY-TO {$escaped} HEADER MAIL-REPLY-TO {$escaped}";
 
-        case 'followupto':
-        case 'followup-to':
-            return "OR HEADER FOLLOWUP-TO {$escaped} HEADER MAIL-FOLLOWUP-TO {$escaped}";
+            case 'followupto':
+            case 'followup-to':
+                return "OR HEADER FOLLOWUP-TO {$escaped} HEADER MAIL-FOLLOWUP-TO {$escaped}";
 
-        case 'larger':
-        case 'smaller':
-            if (preg_match('/([0-9\.]+)(k|m|g|b|kb|mb|gb)/i', $value)) {
-                return strtoupper($option) . ' ' . parse_bytes($value);
-            }
-
-            break;
-
-        case 'is':
-            $map = [
-                'unread' => 'UNSEEN',
-                'read' => 'SEEN',
-                'unseen' => 'UNSEEN',
-                'seen' => 'SEEN',
-                'flagged' => 'FLAGGED',
-                'unflagged' => 'UNFLAGGED',
-                'deleted' => 'DELETED',
-                'undeleted' => 'UNDELETED',
-                'answered' => 'ANSWERED',
-                'unanswered' => 'UNANSWERED',
-            ];
-
-            $value = strtolower($value);
-            if (isset($map[$value])) {
-                return $map[$value];
-            }
-
-            break;
-
-        case 'has':
-            if ($value == 'attachment') {
-                // Content-Type values of messages with attachments
-                // the same as in app.js:add_message_row()
-                $ctypes = ['application/', 'multipart/m', 'multipart/signed', 'multipart/report'];
-
-                // Build search string of "with attachment" filter
-                $result = str_repeat(' OR', count($ctypes) - 1);
-                foreach ($ctypes as $type) {
-                    $result .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
+            case 'larger':
+            case 'smaller':
+                if (preg_match('/([0-9\.]+)(k|m|g|b|kb|mb|gb)/i', $value)) {
+                    return strtoupper($option) . ' ' . parse_bytes($value);
                 }
 
-                return trim($result);
-            }
+                break;
 
-            break;
+            case 'is':
+                $map = [
+                    'unread' => 'UNSEEN',
+                    'read' => 'SEEN',
+                    'unseen' => 'UNSEEN',
+                    'seen' => 'SEEN',
+                    'flagged' => 'FLAGGED',
+                    'unflagged' => 'UNFLAGGED',
+                    'deleted' => 'DELETED',
+                    'undeleted' => 'UNDELETED',
+                    'answered' => 'ANSWERED',
+                    'unanswered' => 'UNANSWERED',
+                ];
 
-        case 'older_than': // GMail alias
-            $option = 'before';
-        case 'newer_than': // GMail alias
-            $option = 'since';
-        case 'since':
-        case 'before':
-            if (preg_match('/^[0-9]+[WMY]$/i', $value)) {
-                if ($option == 'before') {
-                    $value = "-{$value}";
+                $value = strtolower($value);
+                if (isset($map[$value])) {
+                    return $map[$value];
                 }
 
-                if ($search_interval = self::search_interval_criteria(strtoupper($value))) {
-                    return $search_interval;
+                break;
+
+            case 'has':
+                if ($value == 'attachment') {
+                    // Content-Type values of messages with attachments
+                    // the same as in app.js:add_message_row()
+                    $ctypes = ['application/', 'multipart/m', 'multipart/signed', 'multipart/report'];
+
+                    // Build search string of "with attachment" filter
+                    $result = str_repeat(' OR', count($ctypes) - 1);
+                    foreach ($ctypes as $type) {
+                        $result .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
+                    }
+
+                    return trim($result);
                 }
-            }
-            else if (preg_match('|^([0-9]{4})[-/]([0-9]{1,2})[-/]([0-9]{1,2})$|i', $value, $m)) {
-                $dt = new DateTime(sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]) . 'T00:00:00Z');
-                return strtoupper($option) . ' ' . $dt->format('j-M-Y');
-            }
 
-            break;
+                break;
 
-        default:
-            if (in_array($option, $supported)) {
-                $header = strtoupper($option);
-                return "HEADER {$header} {$escaped}";
-            }
+            case 'older_than': // GMail alias
+                $option = 'before';
+            case 'newer_than': // GMail alias
+                $option = 'since';
+            case 'since':
+            case 'before':
+                if (preg_match('/^[0-9]+[WMY]$/i', $value)) {
+                    if ($option == 'before') {
+                        $value = "-{$value}";
+                    }
+
+                    if ($search_interval = self::search_interval_criteria(strtoupper($value))) {
+                        return $search_interval;
+                    }
+                }
+                else if (preg_match('|^([0-9]{4})[-/]([0-9]{1,2})[-/]([0-9]{1,2})$|i', $value, $m)) {
+                    $dt = new DateTime(sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]) . 'T00:00:00Z');
+                    return strtoupper($option) . ' ' . $dt->format('j-M-Y');
+                }
+
+                break;
+
+            default:
+                if (in_array($option, $supported)) {
+                    $header = strtoupper($option);
+                    return "HEADER {$header} {$escaped}";
+                }
         }
 
         return null;

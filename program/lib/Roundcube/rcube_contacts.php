@@ -83,10 +83,10 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return string
      */
-     function get_name()
-     {
+    function get_name()
+    {
         return $this->name;
-     }
+    }
 
     /**
      * Save a search string for future listings

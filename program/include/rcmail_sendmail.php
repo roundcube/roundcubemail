@@ -912,33 +912,33 @@ class rcmail_sendmail
         $param        = $part;
 
         switch ($part) {
-        case 'from':
-            return $form_start . $this->compose_header_from($attrib);
+            case 'from':
+                return $form_start . $this->compose_header_from($attrib);
 
-        case 'to':
-        case 'cc':
-        case 'bcc':
-            $fname  = '_' . $part;
+            case 'to':
+            case 'cc':
+            case 'bcc':
+                $fname  = '_' . $part;
 
-            $allow_attrib = ['id', 'class', 'style', 'cols', 'rows', 'tabindex'];
-            $field_type   = 'html_textarea';
-            break;
+                $allow_attrib = ['id', 'class', 'style', 'cols', 'rows', 'tabindex'];
+                $field_type   = 'html_textarea';
+                break;
 
-        case 'replyto':
-        case 'reply-to':
-            $fname  = '_replyto';
-            $param  = 'replyto';
+            case 'replyto':
+            case 'reply-to':
+                $fname  = '_replyto';
+                $param  = 'replyto';
 
-        case 'followupto':
-        case 'followup-to':
-            if (!$fname) {
-                $fname  = '_followupto';
-                $param  = 'followupto';
-            }
+            case 'followupto':
+            case 'followup-to':
+                if (!$fname) {
+                    $fname  = '_followupto';
+                    $param  = 'followupto';
+                }
 
-            $allow_attrib = ['id', 'class', 'style', 'size', 'tabindex'];
-            $field_type   = 'html_inputfield';
-            break;
+                $allow_attrib = ['id', 'class', 'style', 'size', 'tabindex'];
+                $field_type   = 'html_inputfield';
+                break;
         }
 
         if ($fname && $field_type) {

@@ -751,14 +751,14 @@ class rcube_html2text
     public function tags_preg_callback($matches)
     {
         switch (strtolower($matches[1])) {
-        case 'th':
-            return $this->_toupper("\t\t". $matches[3] ."\n");
-        case 'h':
-            return $this->_toupper("\n\n". $matches[3] ."\n\n");
-        case 'a':
-            // Remove spaces in URL (#1487805)
-            $url = str_replace(' ', '', $matches[3]);
-            return $this->_handle_link($url, $matches[4]);
+            case 'th':
+                return $this->_toupper("\t\t". $matches[3] ."\n");
+            case 'h':
+                return $this->_toupper("\n\n". $matches[3] ."\n\n");
+            case 'a':
+                // Remove spaces in URL (#1487805)
+                $url = str_replace(' ', '', $matches[3]);
+                return $this->_handle_link($url, $matches[4]);
         }
     }
 

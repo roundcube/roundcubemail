@@ -78,17 +78,17 @@ class rcube_ldap_ppolicy_password
             $this->_debug('Policy result: ' . $result);
 
             switch ($result) {
-            case "OK":
-                return PASSWORD_SUCCESS;
-            case "Password is in history of old passwords":
-                return  PASSWORD_IN_HISTORY;
-            case "Cannot connect to any server":
-                return PASSWORD_CONNECT_ERROR;
-            default:
-                rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Password plugin: Failed to execute command: $cmd. Output: $result. Error: $stderr"
-                    ], true, false);
+                case "OK":
+                    return PASSWORD_SUCCESS;
+                case "Password is in history of old passwords":
+                    return  PASSWORD_IN_HISTORY;
+                case "Cannot connect to any server":
+                    return PASSWORD_CONNECT_ERROR;
+                default:
+                    rcube::raise_error([
+                            'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                            'message' => "Password plugin: Failed to execute command: $cmd. Output: $result. Error: $stderr"
+                        ], true, false);
             }
         }
 

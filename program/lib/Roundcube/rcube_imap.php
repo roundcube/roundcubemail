@@ -1438,7 +1438,7 @@ class rcube_imap extends rcube_storage
             if ($this->search_set instanceof rcube_result_multifolder) {
                 $index = $this->search_set;
                 $index->folder = $folder;
-                // TODO: handle changed sorting
+            // TODO: handle changed sorting (>> reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7497 is fixed)
             }
             // search result is an index with the same sorting?
             else if (($this->search_set instanceof rcube_result_index)
@@ -2048,7 +2048,7 @@ class rcube_imap extends rcube_storage
         if (is_array($part[0])) {
             $struct->ctype_primary = 'multipart';
 
-        /* RFC3501: BODYSTRUCTURE fields of multipart part
+            /* RFC3501: BODYSTRUCTURE fields of multipart part
             part1 array
             part2 array
             part3 array
@@ -2058,7 +2058,7 @@ class rcube_imap extends rcube_storage
             3. description (optional)
             4. language (optional)
             5. location (optional)
-        */
+            */
 
             // find first non-array entry
             for ($i=1; $i<count($part); $i++) {

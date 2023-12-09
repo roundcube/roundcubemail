@@ -86,7 +86,7 @@ class help extends rcube_plugin
     function help_content($attrib)
     {
         $rcmail = rcmail::get_instance();
-//        $rcmail->output->set_env('content', $content);
+        // $rcmail->output->set_env('content', $content);
 
         if (!empty($_GET['_content'])) {
             if ($rcmail->action == 'about') {

@@ -379,7 +379,7 @@ class rcube_db
      */
     public function is_replicated()
     {
-      return !empty($this->db_dsnr) && $this->db_dsnw != $this->db_dsnr;
+        return !empty($this->db_dsnr) && $this->db_dsnw != $this->db_dsnr;
     }
 
     /**

@@ -336,12 +336,12 @@ abstract class rcmail_action
         $err_code = $rcmail->storage->get_error_code();
 
         switch ($err_code) {
-        // Not all are really fatal, but these should catch
-        // connection/authentication errors the best we can
-        case rcube_imap_generic::ERROR_NO:
-        case rcube_imap_generic::ERROR_BAD:
-        case rcube_imap_generic::ERROR_BYE:
-            self::display_server_error();
+            // Not all are really fatal, but these should catch
+            // connection/authentication errors the best we can
+            case rcube_imap_generic::ERROR_NO:
+            case rcube_imap_generic::ERROR_BAD:
+            case rcube_imap_generic::ERROR_BYE:
+                self::display_server_error();
         }
     }
 

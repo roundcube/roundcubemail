@@ -699,33 +699,33 @@ abstract class rcube_addressbook
         };
 
         switch ($compose_mode) {
-        case 3:
-            $names = $get_names($contact, ['firstname', 'middlename']);
-            if (!empty($contact['surname'])) {
-                array_unshift($names, $contact['surname'] . ',');
-            }
-            $fn = implode(' ', $names);
-            break;
-        case 2:
-            $keys = ['surname', 'firstname', 'middlename'];
-            $fn   = implode(' ', $get_names($contact, $keys));
-            break;
-        case 1:
-            $keys = ['firstname', 'middlename', 'surname'];
-            $fn   = implode(' ', $get_names($contact, $keys));
-            break;
-        case 0:
-            if (!empty($contact['name'])) {
-                $fn = $contact['name'];
-            }
-            else {
-                $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
+            case 3:
+                $names = $get_names($contact, ['firstname', 'middlename']);
+                if (!empty($contact['surname'])) {
+                    array_unshift($names, $contact['surname'] . ',');
+                }
+                $fn = implode(' ', $names);
+                break;
+            case 2:
+                $keys = ['surname', 'firstname', 'middlename'];
                 $fn   = implode(' ', $get_names($contact, $keys));
-            }
-            break;
-        default:
-            $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);
-            $fn     = $plugin['fn'];
+                break;
+            case 1:
+                $keys = ['firstname', 'middlename', 'surname'];
+                $fn   = implode(' ', $get_names($contact, $keys));
+                break;
+            case 0:
+                if (!empty($contact['name'])) {
+                    $fn = $contact['name'];
+                }
+                else {
+                    $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
+                    $fn   = implode(' ', $get_names($contact, $keys));
+                }
+                break;
+            default:
+                $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);
+                $fn     = $plugin['fn'];
         }
 
         $fn = trim($fn, ', ');
@@ -779,20 +779,20 @@ abstract class rcube_addressbook
                 $value = '';
 
                 switch ($key) {
-                case 'name':
-                    $value = $name ?: self::compose_list_name($contact);
+                    case 'name':
+                        $value = $name ?: self::compose_list_name($contact);
 
-                    // If name(s) are undefined compose_list_name() may return an email address
-                    // here we prevent from returning the same name and email
-                    if ($name === $email && strpos($result, '{email}') !== false) {
-                        $value = '';
-                    }
+                        // If name(s) are undefined compose_list_name() may return an email address
+                        // here we prevent from returning the same name and email
+                        if ($name === $email && strpos($result, '{email}') !== false) {
+                            $value = '';
+                        }
 
-                    break;
+                        break;
 
-                case 'email':
-                    $value = $email;
-                    break;
+                    case 'email':
+                        $value = $email;
+                        break;
                 }
 
                 if (empty($value)) {

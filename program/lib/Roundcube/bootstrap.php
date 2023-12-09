@@ -160,18 +160,18 @@ function parse_bytes($str)
     if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
         $bytes = floatval($regs[1]);
         switch (strtolower($regs[2])) {
-        case 'g':
-        case 'gb':
-            $bytes *= 1073741824;
-            break;
-        case 'm':
-        case 'mb':
-            $bytes *= 1048576;
-            break;
-        case 'k':
-        case 'kb':
-            $bytes *= 1024;
-            break;
+            case 'g':
+            case 'gb':
+                $bytes *= 1073741824;
+                break;
+            case 'm':
+            case 'mb':
+                $bytes *= 1048576;
+                break;
+            case 'k':
+            case 'kb':
+                $bytes *= 1024;
+                break;
         }
     }
 
@@ -221,14 +221,14 @@ function get_offset_sec($str)
     }
 
     switch ($unit) {
-    case 'w':
-        $amount *= 7;
-    case 'd':
-        $amount *= 24;
-    case 'h':
-        $amount *= 60;
-    case 'm':
-        $amount *= 60;
+        case 'w':
+            $amount *= 7;
+        case 'd':
+            $amount *= 24;
+        case 'h':
+            $amount *= 60;
+        case 'm':
+            $amount *= 60;
     }
 
     return $amount;

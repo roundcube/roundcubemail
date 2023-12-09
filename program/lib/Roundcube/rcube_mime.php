@@ -276,18 +276,18 @@ class rcube_mime
     public static function decode($input, $encoding = '7bit')
     {
         switch (strtolower($encoding)) {
-        case 'quoted-printable':
-            return quoted_printable_decode($input);
-        case 'base64':
-            return base64_decode($input);
-        case 'x-uuencode':
-        case 'x-uue':
-        case 'uue':
-        case 'uuencode':
-            return convert_uudecode($input);
-        case '7bit':
-        default:
-            return $input;
+            case 'quoted-printable':
+                return quoted_printable_decode($input);
+            case 'base64':
+                return base64_decode($input);
+            case 'x-uuencode':
+            case 'x-uue':
+            case 'uue':
+            case 'uuencode':
+                return convert_uudecode($input);
+            case '7bit':
+            default:
+                return $input;
         }
     }
 
@@ -859,7 +859,7 @@ class rcube_mime
         }
 
         foreach ($lines as $line) {
-             // skip comments or mime types w/o any extensions
+            // skip comments or mime types w/o any extensions
             if ($line[0] == '#' || !preg_match($regex, $line, $matches)) {
                 continue;
             }
@@ -935,7 +935,7 @@ class rcube_mime
         if      (preg_match('/^\x89\x50\x4E\x47/', $data)) { $type = 'png'; }
         else if (preg_match('/^\x47\x49\x46\x38/', $data)) { $type = 'gif'; }
         else if (preg_match('/^\x00\x00\x01\x00/', $data)) { $type = 'ico'; }
-    //  else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) { $type = 'jpeg'; }
+        // else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) { $type = 'jpeg'; }
 
         return 'image/' . $type;
     }

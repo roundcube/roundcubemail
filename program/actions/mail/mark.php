@@ -166,7 +166,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
                         self::sort_column(), self::sort_order(), $count);
 
                     self::js_message_list($a_headers, false);
-               }
+                }
             }
         }
 

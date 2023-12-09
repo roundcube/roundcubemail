@@ -180,7 +180,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                                     rcmail_output::JS_OBJECT_NAME, $source_id, $group['ID']),
                             ],
                             rcube::Q($group['name']) . '&nbsp;' . html::span('action', '&raquo;')
-                    )],
+                        )],
                     'group',
                     ['ID' => $group['ID'], 'name' => $group['name'], 'virtual' => true]
                 );

@@ -1241,54 +1241,54 @@ class rcube_imap_generic
                     $pos   += 7;
 
                     switch ($token) {
-                    case 'UIDNEXT':
-                    case 'UIDVALIDITY':
-                    case 'UNSEEN':
-                        if ($len = strspn($line, '0123456789', $pos)) {
-                            $this->data[$token] = (int) substr($line, $pos, $len);
-                        }
-                        break;
+                        case 'UIDNEXT':
+                        case 'UIDVALIDITY':
+                        case 'UNSEEN':
+                            if ($len = strspn($line, '0123456789', $pos)) {
+                                $this->data[$token] = (int) substr($line, $pos, $len);
+                            }
+                            break;
 
-                    case 'HIGHESTMODSEQ':
-                        if ($len = strspn($line, '0123456789', $pos)) {
-                            $this->data[$token] = (string) substr($line, $pos, $len);
-                        }
-                        break;
+                        case 'HIGHESTMODSEQ':
+                            if ($len = strspn($line, '0123456789', $pos)) {
+                                $this->data[$token] = (string) substr($line, $pos, $len);
+                            }
+                            break;
 
-                    case 'NOMODSEQ':
-                        $this->data[$token] = true;
-                        break;
+                        case 'NOMODSEQ':
+                            $this->data[$token] = true;
+                            break;
 
-                    case 'PERMANENTFLAGS':
-                        $start = strpos($line, '(', $pos);
-                        $end   = strrpos($line, ')');
-                        if ($start && $end) {
-                            $flags = substr($line, $start + 1, $end - $start - 1);
-                            $this->data[$token] = explode(' ', $flags);
-                        }
-                        break;
+                        case 'PERMANENTFLAGS':
+                            $start = strpos($line, '(', $pos);
+                            $end   = strrpos($line, ')');
+                            if ($start && $end) {
+                                $flags = substr($line, $start + 1, $end - $start - 1);
+                                $this->data[$token] = explode(' ', $flags);
+                            }
+                            break;
                     }
                 }
                 else if (preg_match('/^\* ([0-9]+) (EXISTS|RECENT|FETCH)/i', $line, $match)) {
                     $token = strtoupper($match[2]);
                     switch ($token) {
-                    case 'EXISTS':
-                    case 'RECENT':
-                        $this->data[$token] = (int) $match[1];
-                        break;
+                        case 'EXISTS':
+                        case 'RECENT':
+                            $this->data[$token] = (int) $match[1];
+                            break;
 
-                    case 'FETCH':
-                        // QRESYNC FETCH response (RFC5162)
-                        $line       = substr($line, strlen($match[0]));
-                        $fetch_data = $this->tokenizeResponse($line, 1);
-                        $data       = ['id' => $match[1]];
+                        case 'FETCH':
+                            // QRESYNC FETCH response (RFC5162)
+                            $line       = substr($line, strlen($match[0]));
+                            $fetch_data = $this->tokenizeResponse($line, 1);
+                            $data       = ['id' => $match[1]];
 
-                        for ($i=0, $size=count($fetch_data); $i<$size; $i+=2) {
-                            $data[strtolower($fetch_data[$i])] = $fetch_data[$i+1];
-                        }
+                            for ($i=0, $size=count($fetch_data); $i<$size; $i+=2) {
+                                $data[strtolower($fetch_data[$i])] = $fetch_data[$i+1];
+                            }
 
-                        $this->data['QRESYNC'][$data['uid']] = $data;
-                        break;
+                            $this->data['QRESYNC'][$data['uid']] = $data;
+                            break;
                     }
                 }
                 // QRESYNC VANISHED response (RFC5162)
@@ -2616,58 +2616,58 @@ class rcube_imap_generic
                         $string = preg_replace('/\n[\t\s]*/', ' ', trim($string));
 
                         switch ($field) {
-                        case 'date':
-                            $string                 = substr($string, 0, 128);
-                            $result[$id]->date      = $string;
-                            $result[$id]->timestamp = rcube_utils::strtotime($string);
-                            break;
-                        case 'to':
-                            $result[$id]->to = preg_replace('/undisclosed-recipients:[;,]*/', '', $string);
-                            break;
-                        case 'from':
-                        case 'subject':
-                            $string = substr($string, 0, 2048);
-                        case 'cc':
-                        case 'bcc':
-                        case 'references':
-                            $result[$id]->{$field} = $string;
-                            break;
-                        case 'reply-to':
-                            $result[$id]->replyto = $string;
-                            break;
-                        case 'content-transfer-encoding':
-                            $result[$id]->encoding = substr($string, 0, 32);
-                        break;
-                        case 'content-type':
-                            $ctype_parts = preg_split('/[; ]+/', $string);
-                            $result[$id]->ctype = strtolower(array_first($ctype_parts));
-                            if (preg_match('/charset\s*=\s*"?([a-z0-9\-\.\_]+)"?/i', $string, $regs)) {
-                                $result[$id]->charset = $regs[1];
-                            }
-                            break;
-                        case 'in-reply-to':
-                            $result[$id]->in_reply_to = str_replace(["\n", '<', '>'], '', $string);
-                            break;
-                        case 'disposition-notification-to':
-                        case 'x-confirm-reading-to':
-                            $result[$id]->mdn_to = substr($string, 0, 2048);
-                            break;
-                        case 'message-id':
-                            $result[$id]->messageID = substr($string, 0, 2048);
-                            break;
-                        case 'x-priority':
-                            if (preg_match('/^(\d+)/', $string, $matches)) {
-                                $result[$id]->priority = intval($matches[1]);
-                            }
-                            break;
-                        default:
-                            if (strlen($field) < 3) {
+                            case 'date':
+                                $string                 = substr($string, 0, 128);
+                                $result[$id]->date      = $string;
+                                $result[$id]->timestamp = rcube_utils::strtotime($string);
                                 break;
-                            }
-                            if (!empty($result[$id]->others[$field])) {
-                                $string = array_merge((array) $result[$id]->others[$field], (array) $string);
-                            }
-                            $result[$id]->others[$field] = $string;
+                            case 'to':
+                                $result[$id]->to = preg_replace('/undisclosed-recipients:[;,]*/', '', $string);
+                                break;
+                            case 'from':
+                            case 'subject':
+                                $string = substr($string, 0, 2048);
+                            case 'cc':
+                            case 'bcc':
+                            case 'references':
+                                $result[$id]->{$field} = $string;
+                                break;
+                            case 'reply-to':
+                                $result[$id]->replyto = $string;
+                                break;
+                            case 'content-transfer-encoding':
+                                $result[$id]->encoding = substr($string, 0, 32);
+                                break;
+                            case 'content-type':
+                                $ctype_parts = preg_split('/[; ]+/', $string);
+                                $result[$id]->ctype = strtolower(array_first($ctype_parts));
+                                if (preg_match('/charset\s*=\s*"?([a-z0-9\-\.\_]+)"?/i', $string, $regs)) {
+                                    $result[$id]->charset = $regs[1];
+                                }
+                                break;
+                            case 'in-reply-to':
+                                $result[$id]->in_reply_to = str_replace(["\n", '<', '>'], '', $string);
+                                break;
+                            case 'disposition-notification-to':
+                            case 'x-confirm-reading-to':
+                                $result[$id]->mdn_to = substr($string, 0, 2048);
+                                break;
+                            case 'message-id':
+                                $result[$id]->messageID = substr($string, 0, 2048);
+                                break;
+                            case 'x-priority':
+                                if (preg_match('/^(\d+)/', $string, $matches)) {
+                                    $result[$id]->priority = intval($matches[1]);
+                                }
+                                break;
+                            default:
+                                if (strlen($field) < 3) {
+                                    break;
+                                }
+                                if (!empty($result[$id]->others[$field])) {
+                                    $string = array_merge((array) $result[$id]->others[$field], (array) $string);
+                                }
+                                $result[$id]->others[$field] = $string;
                         }
                     }
                 }
@@ -2759,29 +2759,29 @@ class rcube_imap_generic
         // Create an index
         foreach ($messages as $key => $headers) {
             switch ($field) {
-            case 'arrival':
-                $field = 'internaldate';
-                // no-break
-            case 'date':
-            case 'internaldate':
-            case 'timestamp':
-                $value = rcube_utils::strtotime($headers->$field);
-                if (!$value && $field != 'timestamp') {
-                    $value = $headers->timestamp;
-                }
-
-                break;
-
-            default:
-                // @TODO: decode header value, convert to UTF-8
-                $value = $headers->$field;
-                if (is_string($value)) {
-                    $value = str_replace('"', '', $value);
-
-                    if ($field == 'subject') {
-                        $value = rcube_utils::remove_subject_prefix($value);
+                case 'arrival':
+                    $field = 'internaldate';
+                    // no-break
+                case 'date':
+                case 'internaldate':
+                case 'timestamp':
+                    $value = rcube_utils::strtotime($headers->$field);
+                    if (!$value && $field != 'timestamp') {
+                        $value = $headers->timestamp;
                     }
-                }
+
+                    break;
+
+                default:
+                    // @TODO: decode header value, convert to UTF-8
+                    $value = $headers->$field;
+                    if (is_string($value)) {
+                        $value = str_replace('"', '', $value);
+
+                        if ($field == 'subject') {
+                            $value = rcube_utils::remove_subject_prefix($value);
+                        }
+                    }
             }
 
             $index[$key] = $value;
@@ -2878,20 +2878,20 @@ class rcube_imap_generic
         do {
             if (!$initiated) {
                 switch ($encoding) {
-                case 'base64':
-                    $mode = 1;
-                    break;
-                case 'quoted-printable':
-                    $mode = 2;
-                    break;
-                case 'x-uuencode':
-                case 'x-uue':
-                case 'uue':
-                case 'uuencode':
-                    $mode = 3;
-                    break;
-                default:
-                    $mode = $formatted ? 4 : 0;
+                    case 'base64':
+                        $mode = 1;
+                        break;
+                    case 'quoted-printable':
+                        $mode = 2;
+                        break;
+                    case 'x-uuencode':
+                    case 'x-uue':
+                    case 'uue':
+                    case 'uuencode':
+                        $mode = 3;
+                        break;
+                    default:
+                        $mode = $formatted ? 4 : 0;
                 }
 
                 // Use BINARY extension when possible (and safe)
@@ -3829,7 +3829,7 @@ class rcube_imap_generic
 
             // charset
             if (is_array($part_a[2])) {
-               foreach ($part_a[2] as $key => $val) {
+                foreach ($part_a[2] as $key => $val) {
                     if (strcasecmp($val, 'charset') == 0) {
                         $data['charset'] = $part_a[2][$key+1];
                         break;
@@ -3990,59 +3990,59 @@ class rcube_imap_generic
 
             switch ($str[0]) {
 
-            // String literal
-            case '{':
-                if (($epos = strpos($str, "}\r\n", 1)) == false) {
-                    // error
-                }
-                if (!is_numeric(($bytes = substr($str, 1, $epos - 1)))) {
-                    // error
-                }
-
-                $result[] = $bytes ? substr($str, $epos + 3, $bytes) : '';
-                $str      = substr($str, $epos + 3 + $bytes);
-                break;
-
-            // Quoted string
-            case '"':
-                $len = strlen($str);
-
-                for ($pos=1; $pos<$len; $pos++) {
-                    if ($str[$pos] == '"') {
-                        break;
+                // String literal
+                case '{':
+                    if (($epos = strpos($str, "}\r\n", 1)) == false) {
+                        // error
                     }
-                    if ($str[$pos] == "\\") {
-                        if ($str[$pos + 1] == '"' || $str[$pos + 1] == "\\") {
-                            $pos++;
+                    if (!is_numeric(($bytes = substr($str, 1, $epos - 1)))) {
+                        // error
+                    }
+
+                    $result[] = $bytes ? substr($str, $epos + 3, $bytes) : '';
+                    $str      = substr($str, $epos + 3 + $bytes);
+                    break;
+
+                    // Quoted string (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
+                case '"':
+                    $len = strlen($str);
+
+                    for ($pos=1; $pos<$len; $pos++) {
+                        if ($str[$pos] == '"') {
+                            break;
+                        }
+                        if ($str[$pos] == "\\") {
+                            if ($str[$pos + 1] == '"' || $str[$pos + 1] == "\\") {
+                                $pos++;
+                            }
                         }
                     }
-                }
 
-                // we need to strip slashes for a quoted string
-                $result[] = stripslashes(substr($str, 1, $pos - 1));
-                $str      = substr($str, $pos + 1);
-                break;
+                    // we need to strip slashes for a quoted string
+                    $result[] = stripslashes(substr($str, 1, $pos - 1));
+                    $str      = substr($str, $pos + 1);
+                    break;
 
-            // Parenthesized list
-            case '(':
-                $str      = substr($str, 1);
-                $result[] = self::tokenizeResponse($str);
-                break;
+                    // Parenthesized list (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
+                case '(':
+                    $str      = substr($str, 1);
+                    $result[] = self::tokenizeResponse($str);
+                    break;
 
-            case ')':
-                $str = substr($str, 1);
-                return $result;
+                case ')':
+                    $str = substr($str, 1);
+                    return $result;
 
-            // String atom, number, astring, NIL, *, %
-            default:
-                // excluded chars: SP, CTL, ), DEL
-                // we do not exclude [ and ] (#1489223)
-                if (preg_match('/^([^\x00-\x20\x29\x7F]+)/', $str, $m)) {
-                    $result[] = $m[1] == 'NIL' ? null : $m[1];
-                    $str      = substr($str, strlen($m[1]));
-                }
+                    // String atom, number, astring, NIL, *, % (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
+                default:
+                    // excluded chars: SP, CTL, ), DEL
+                    // we do not exclude [ and ] (#1489223)
+                    if (preg_match('/^([^\x00-\x20\x29\x7F]+)/', $str, $m)) {
+                        $result[] = $m[1] == 'NIL' ? null : $m[1];
+                        $str      = substr($str, strlen($m[1]));
+                    }
 
-                break;
+                    break;
             }
         }
 

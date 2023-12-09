@@ -58,23 +58,23 @@ class enigma_subkey
     {
         // http://tools.ietf.org/html/rfc4880#section-9.1
         switch ($this->algorithm) {
-        case 1:
-        case 2:
-        case 3:
-            return 'RSA';
-        case 16:
-        case 20:
-            return 'Elgamal';
-        case 17:
-            return 'DSA';
-        case 18:
-            return 'Elliptic Curve';
-        case 19:
-            return 'ECDSA';
-        case 21:
-            return 'Diffie-Hellman';
-        case 22:
-            return 'EdDSA';
+            case 1:
+            case 2:
+            case 3:
+                return 'RSA';
+            case 16:
+            case 20:
+                return 'Elgamal';
+            case 17:
+                return 'DSA';
+            case 18:
+                return 'Elliptic Curve';
+            case 19:
+                return 'ECDSA';
+            case 21:
+                return 'Diffie-Hellman';
+            case 22:
+                return 'EdDSA';
         }
     }
 

@@ -753,8 +753,8 @@ class html_table extends html
         $this->attrib   = array_merge($attrib, $default_attrib);
 
         if (!empty($attrib['tagname']) && $attrib['tagname'] != 'table') {
-          $this->tagname = $attrib['tagname'];
-          $this->allowed = self::$common_attrib;
+            $this->tagname = $attrib['tagname'];
+            $this->allowed = self::$common_attrib;
         }
     }
 

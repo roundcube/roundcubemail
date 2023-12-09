@@ -198,7 +198,7 @@ class enigma_driver_phpssl extends enigma_driver
         $data->created     = $cert['validFrom_time_t'];
         $data->expires     = $cert['validTo_time_t'];
         $data->name        = $cert['subject']['CN'];
-//        $data->comment     = '';
+        // $data->comment     = '';
         $data->email       = $cert['subject']['emailAddress'];
 
         return $data;
