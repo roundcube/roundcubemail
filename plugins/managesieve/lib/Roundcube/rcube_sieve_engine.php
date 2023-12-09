@@ -2212,12 +2212,24 @@ class rcube_sieve_engine
             $rule['not'] = false;
 
             switch ($m[2]) {
-                case 'gt': $rule['type'] = $m[1] . '-le'; break;
-                case 'ge': $rule['type'] = $m[1] . '-lt'; break;
-                case 'lt': $rule['type'] = $m[1] . '-ge'; break;
-                case 'le': $rule['type'] = $m[1] . '-gt'; break;
-                case 'eq': $rule['type'] = $m[1] . '-ne'; break;
-                case 'ne': $rule['type'] = $m[1] . '-eq'; break;
+                case 'gt':
+                    $rule['type'] = $m[1] . '-le';
+                    break;
+                case 'ge':
+                    $rule['type'] = $m[1] . '-lt';
+                    break;
+                case 'lt':
+                    $rule['type'] = $m[1] . '-ge';
+                    break;
+                case 'le':
+                    $rule['type'] = $m[1] . '-gt';
+                    break;
+                case 'eq':
+                    $rule['type'] = $m[1] . '-ne';
+                    break;
+                case 'ne':
+                    $rule['type'] = $m[1] . '-eq';
+                    break;
             }
         }
         else if (!empty($rule['not']) && !empty($rule['test']) && $rule['test'] == 'size') {

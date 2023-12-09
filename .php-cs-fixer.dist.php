@@ -116,7 +116,6 @@ return (new PhpCsFixer\Config())
         'no_empty_statement' => false,
         'no_extra_blank_lines' => false,
         'no_mixed_echo_print' => false,
-        'no_multiple_statements_per_line' => false,
         'no_null_property_initialization' => false,
         'no_superfluous_phpdoc_tags' => false,
         'no_unneeded_control_parentheses' => false,

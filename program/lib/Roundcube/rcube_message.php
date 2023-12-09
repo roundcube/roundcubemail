@@ -1060,9 +1060,15 @@ class rcube_message
             // It may happen that we add the same part to the array many times
             // use part ID index to prevent from duplicates
             switch ($type) {
-                case 'inline': $this->inline_parts[(string) $part->mime_id] = $part; break;
-                case 'attachment': $this->attachments[(string) $part->mime_id] = $part; break;
-                default: $this->parts[] = $part; break;
+                case 'inline':
+                    $this->inline_parts[(string) $part->mime_id] = $part;
+                    break;
+                case 'attachment':
+                    $this->attachments[(string) $part->mime_id] = $part;
+                    break;
+                default:
+                    $this->parts[] = $part;
+                    break;
             }
         }
     }

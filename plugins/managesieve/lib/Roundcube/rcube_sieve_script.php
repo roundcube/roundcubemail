@@ -524,9 +524,15 @@ class rcube_sieve_script
                             if ($notify == 'notify') {
                                 if (!empty($action['importance'])) {
                                     switch ($action['importance']) {
-                                        case 1: $action_script .= " :high"; break;
-                                            // case 2: $action_script .= " :normal"; break; (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
-                                        case 3: $action_script .= " :low"; break;
+                                        case 1:
+                                            $action_script .= " :high";
+                                            break;
+                                        case 2:
+                                            // $action_script .= " :normal";
+                                            break;
+                                        case 3:
+                                            $action_script .= " :low";
+                                            break;
                                     }
                                 }
 
