@@ -153,7 +153,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_types' => false,
         'phpdoc_types_order' => false,
         'phpdoc_var_without_name' => false,
-        'single_blank_line_at_eof' => false,
         'single_line_comment_spacing' => false,
         'single_line_empty_body' => false,
         'single_quote' => false,

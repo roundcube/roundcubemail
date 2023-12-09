@@ -24,4 +24,3 @@ class Identicon_IdenticonEngine extends PHPUnit\Framework\TestCase
         $this->assertSame('image/png', $engine->getMimetype());
     }
 }
-

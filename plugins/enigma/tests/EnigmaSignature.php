@@ -17,4 +17,3 @@ class Enigma_EnigmaSignature extends PHPUnit\Framework\TestCase
         $this->assertInstanceOf('enigma_signature', $error);
     }
 }
-

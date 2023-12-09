@@ -25,4 +25,3 @@ class Enigma_EnigmaKey extends PHPUnit\Framework\TestCase
         // TODO: format_fingerprint();
     }
 }
-
