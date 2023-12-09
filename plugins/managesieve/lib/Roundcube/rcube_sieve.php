@@ -183,7 +183,7 @@ class rcube_sieve
                 foreach ($errMessages as $singleError) {
                     $res = preg_match('/line (\d+):(.*)/i', $singleError, $matches);
 
-                    if ($res === 1 ) {
+                    if ($res === 1) {
                         if (count($matches) > 2) {
                             $this->errorLines[] = ['line' => $matches[1], 'msg' => $matches[2]];
                         }

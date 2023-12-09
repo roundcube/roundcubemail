@@ -150,8 +150,6 @@ return (new PhpCsFixer\Config())
         'single_line_empty_body' => false,
         'single_quote' => false,
         'single_trait_insert_per_statement' => false,
-        'space_after_semicolon' => false,
-        'spaces_inside_parentheses' => false,
         'standardize_increment' => false,
         'ternary_operator_spaces' => false,
         'ternary_to_null_coalescing' => false,

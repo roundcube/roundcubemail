@@ -64,7 +64,7 @@ class rcube_ximss_password
 
         fclose($sock);
 
-        foreach (explode( "\0", $responseblob) as $response) {
+        foreach (explode("\0", $responseblob) as $response) {
             $resp = simplexml_load_string("<xml>".$response."</xml>");
             $id = $resp && !empty($resp->response[0]['id']) ? $resp->response[0]['id'] : null;
 

@@ -22,7 +22,7 @@ if (php_sapi_name() != 'cli') {
 }
 
 if (!defined('INSTALL_PATH')) {
-    define('INSTALL_PATH', realpath(__DIR__ . '/../../') . '/' );
+    define('INSTALL_PATH', realpath(__DIR__ . '/../../') . '/');
 }
 
 require_once(INSTALL_PATH . 'program/include/iniset.php');

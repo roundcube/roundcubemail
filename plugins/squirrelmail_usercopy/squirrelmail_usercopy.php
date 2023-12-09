@@ -246,7 +246,7 @@ class squirrelmail_usercopy extends rcube_plugin
             $sql_result = $db->query('SELECT * FROM ' . $db->quote_identifier($userprefs_table)
                 .' WHERE `user` = ?', $uname); // ? is replaced with emailaddress
 
-            while ($sql_array = $db->fetch_assoc($sql_result) ) { // fetch one row from result
+            while ($sql_array = $db->fetch_assoc($sql_result)) { // fetch one row from result
                 $this->prefs[$sql_array['prefkey']] = rcube_charset::convert(rtrim($sql_array['prefval']), $db_charset);
             }
 
@@ -255,7 +255,7 @@ class squirrelmail_usercopy extends rcube_plugin
                 .' WHERE `owner` = ?', $uname); // ? is replaced with emailaddress
 
             // parse address book
-            while ($sql_array = $db->fetch_assoc($sql_result) ) { // fetch one row from result
+            while ($sql_array = $db->fetch_assoc($sql_result)) { // fetch one row from result
                 $rec['name']      = rcube_charset::convert(rtrim($sql_array['nickname']), $db_charset);
                 $rec['firstname'] = rcube_charset::convert(rtrim($sql_array['firstname']), $db_charset);
                 $rec['surname']   = rcube_charset::convert(rtrim($sql_array['lastname']), $db_charset);

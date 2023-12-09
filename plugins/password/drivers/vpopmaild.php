@@ -49,7 +49,7 @@ class rcube_vpopmaild_password
         $vpopmaild->writeLine("slogin ". $username . " " . $curpass);
         $result = $vpopmaild->readLine();
 
-        if (!preg_match('/^\+OK/', $result) ) {
+        if (!preg_match('/^\+OK/', $result)) {
             $vpopmaild->writeLine("quit");
             $vpopmaild->disconnect();
             return PASSWORD_ERROR;
