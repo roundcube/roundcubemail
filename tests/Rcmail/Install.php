@@ -74,6 +74,10 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
     /**
      * Test check_mime_extensions() method
+     *
+     * Windows feature request: https://github.com/php/php-src/issues/12918
+     *
+     * @requires OSFAMILY Linux
      */
     function test_check_mime_extensions()
     {
