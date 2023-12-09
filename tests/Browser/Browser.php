@@ -4,7 +4,6 @@ namespace Tests\Browser;
 
 use Facebook\WebDriver\WebDriverKeys;
 use PHPUnit\Framework\Assert;
-use Tests\Browser\Components;
 
 /**
  * Laravel Dusk Browser extensions

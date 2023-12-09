@@ -4,7 +4,6 @@ namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\Dialog;
-use Tests\Browser\Components\Popupmenu;
 
 class IdentitiesTest extends \Tests\Browser\TestCase
 {

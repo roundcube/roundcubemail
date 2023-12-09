@@ -2,8 +2,6 @@
 
 namespace Tests\Browser\Plugins\Markasjunk;
 
-use Tests\Browser\Components\Popupmenu;
-
 class MailTest extends \Tests\Browser\TestCase
 {
     public static function setUpBeforeClass(): void

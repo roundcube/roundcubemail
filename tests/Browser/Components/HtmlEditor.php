@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Components;
 
-use App;
 use Laravel\Dusk\Component;
 use Tests\Browser\Browser;
 

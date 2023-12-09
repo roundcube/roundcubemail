@@ -2,9 +2,7 @@
 
 namespace Tests\Browser\Mail;
 
-use Tests\Browser\Components\App;
 use Tests\Browser\Components\Dialog;
-use Tests\Browser\Components\Popupmenu;
 
 class PreviewTest extends \Tests\Browser\TestCase
 {
