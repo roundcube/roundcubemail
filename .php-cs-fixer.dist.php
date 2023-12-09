@@ -126,7 +126,6 @@ return (new PhpCsFixer\Config())
         'no_useless_concat_operator' => false,
         'non_printable_character' => false,
         'operator_linebreak' => false,
-        'ordered_imports' => false,
         'php_unit_method_casing' => false,
         'phpdoc_align' => false,
         'phpdoc_annotation_without_dot' => false,

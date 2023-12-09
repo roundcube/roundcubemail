@@ -17,8 +17,8 @@
  +-----------------------------------------------------------------------+
 */
 
-use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\MessageFormatter;
 
 /**
  * Roundcube OAuth2 utilities
