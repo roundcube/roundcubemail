@@ -17,6 +17,9 @@
       <directory suffix=".php">../plugins</directory>
     </include>
   </coverage>
+  <extensions>
+    <extension class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
+  </extensions>
   <testsuites>
     <testsuite name="Framework">
       <directory suffix=".php">Framework</directory>
