@@ -40,7 +40,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         self::$COMPOSE    = null;
 
         if (self::$COMPOSE_ID && !empty($_SESSION['compose_data_' . self::$COMPOSE_ID])) {
-            self::$COMPOSE =& $_SESSION['compose_data_' . self::$COMPOSE_ID];
+            self::$COMPOSE =&$_SESSION['compose_data_' . self::$COMPOSE_ID];
         }
 
         // give replicated session storage some time to synchronize
@@ -49,7 +49,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             usleep(500000);
             $rcmail->session->reload();
             if ($_SESSION['compose_data_' . self::$COMPOSE_ID]) {
-                self::$COMPOSE =& $_SESSION['compose_data_' . self::$COMPOSE_ID];
+                self::$COMPOSE =&$_SESSION['compose_data_' . self::$COMPOSE_ID];
             }
         }
 
@@ -78,7 +78,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     ? $params['mbox'] : $rcmail->storage->get_folder(),
             ];
 
-            self::$COMPOSE =& $_SESSION['compose_data_' . self::$COMPOSE_ID];
+            self::$COMPOSE =&$_SESSION['compose_data_' . self::$COMPOSE_ID];
             self::process_compose_params(self::$COMPOSE);
 
             // check if folder for saving sent messages exists and is subscribed (#1486802)
