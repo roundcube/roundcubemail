@@ -98,7 +98,6 @@ return (new PhpCsFixer\Config())
         'general_phpdoc_annotation_remove' => false,
         'global_namespace_import' => false,
         'heredoc_indentation' => false,
-        'include' => false,
         'increment_style' => false,
         'integer_literal_case' => false,
         'is_null' => false,

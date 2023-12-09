@@ -832,7 +832,7 @@ class rcube
         }
 
         if (empty($rcube_languages)) {
-            @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
+            @include RCUBE_LOCALIZATION_DIR . 'index.inc';
         }
 
         // check if we have an alias for that language
@@ -870,7 +870,7 @@ class rcube
         static $sa_languages = [];
 
         if (!count($sa_languages)) {
-            @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
+            @include RCUBE_LOCALIZATION_DIR . 'index.inc';
 
             if ($dh = @opendir(RCUBE_LOCALIZATION_DIR)) {
                 while (($name = readdir($dh)) !== false) {

@@ -26,7 +26,7 @@ if (!defined('INSTALL_PATH')) {
     define('INSTALL_PATH', realpath(__DIR__ . '/../../') . '/');
 }
 
-require_once(INSTALL_PATH . 'program/include/iniset.php');
+require_once INSTALL_PATH . 'program/include/iniset.php';
 
 $rcmail = rcmail::get_instance(0, 'test');
 
@@ -34,15 +34,15 @@ define('TESTS_DIR', realpath(__DIR__) . '/');
 define('TESTS_USER', $rcmail->config->get('tests_username'));
 define('TESTS_PASS', $rcmail->config->get('tests_password'));
 
-require_once(__DIR__ . '/Browser.php');
-require_once(__DIR__ . '/TestCase.php');
-require_once(__DIR__ . '/Components/App.php');
-require_once(__DIR__ . '/Components/Dialog.php');
-require_once(__DIR__ . '/Components/HtmlEditor.php');
-require_once(__DIR__ . '/Components/Popupmenu.php');
-require_once(__DIR__ . '/Components/RecipientInput.php');
-require_once(__DIR__ . '/Components/Taskmenu.php');
-require_once(__DIR__ . '/Components/Toolbarmenu.php');
+require_once __DIR__ . '/Browser.php';
+require_once __DIR__ . '/TestCase.php';
+require_once __DIR__ . '/Components/App.php';
+require_once __DIR__ . '/Components/Dialog.php';
+require_once __DIR__ . '/Components/HtmlEditor.php';
+require_once __DIR__ . '/Components/Popupmenu.php';
+require_once __DIR__ . '/Components/RecipientInput.php';
+require_once __DIR__ . '/Components/Taskmenu.php';
+require_once __DIR__ . '/Components/Toolbarmenu.php';
 
 
 /**

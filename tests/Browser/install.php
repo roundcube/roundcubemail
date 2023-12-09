@@ -25,7 +25,7 @@ if (!defined('INSTALL_PATH')) {
     define('INSTALL_PATH', realpath(__DIR__ . '/../../') . '/');
 }
 
-require_once(INSTALL_PATH . 'program/include/iniset.php');
+require_once INSTALL_PATH . 'program/include/iniset.php';
 
 class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
 {

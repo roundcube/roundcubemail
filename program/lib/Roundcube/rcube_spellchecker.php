@@ -90,7 +90,7 @@ class rcube_spellchecker
         $rcube_languages        = [];
         $rcube_language_aliases = [];
 
-        @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
+        @include RCUBE_LOCALIZATION_DIR . 'index.inc';
 
         // add correct labels
         $languages = [];

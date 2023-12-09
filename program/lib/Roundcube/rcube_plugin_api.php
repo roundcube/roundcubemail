@@ -322,7 +322,7 @@ class rcube_plugin_api
 
         if (!class_exists($plugin_name, false)) {
             if (is_readable($fn)) {
-                include($fn);
+                include $fn;
             }
             else {
                 return false;
