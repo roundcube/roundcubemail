@@ -126,7 +126,6 @@ return (new PhpCsFixer\Config())
         'no_spaces_around_offset' => false,
         'no_superfluous_phpdoc_tags' => false,
         'no_trailing_comma_in_singleline' => false,
-        'no_trailing_whitespace' => false,
         'no_unneeded_control_parentheses' => false,
         'no_unused_imports' => false,
         'no_useless_concat_operator' => false,

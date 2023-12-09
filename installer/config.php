@@ -604,7 +604,7 @@ echo $select_mdnreq->show(intval($RCI->getprop('mdn_requests')));
 <?php
 
 $select_param_folding = new html_select(['name' => '_mime_param_folding', 'id' => 'cfgmimeparamfolding']);
-$select_param_folding->add('Full RFC 2231 (Roundcube, Thunderbird)', '0'); 
+$select_param_folding->add('Full RFC 2231 (Roundcube, Thunderbird)', '0');
 $select_param_folding->add('RFC 2047/2231 (MS Outlook, OE)', '1');
 $select_param_folding->add('Full RFC 2047 (deprecated)', '2');
 

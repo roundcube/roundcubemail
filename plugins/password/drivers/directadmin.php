@@ -44,7 +44,7 @@ class rcube_directadmin_password
         $da_host = str_replace('%h', $_SESSION['imap_host'], $da_host);
         $da_host = str_replace('%d', $rcmail->user->get_username('domain'), $da_host);
 
-        $Socket->connect($da_host,$da_port); 
+        $Socket->connect($da_host,$da_port);
         $Socket->set_method('POST');
         $Socket->query('/CMD_CHANGE_EMAIL_PASSWORD', [
                 'email'         => $da_user,
