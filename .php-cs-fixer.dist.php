@@ -106,7 +106,6 @@ return (new PhpCsFixer\Config())
         'method_argument_space' => false,
         'method_chaining_indentation' => false,
         'modernize_types_casting' => false,
-        'multiline_comment_opening_closing' => false,
         'native_constant_invocation' => false,
         'native_type_declaration_casing' => false,
         'new_with_parentheses' => false,

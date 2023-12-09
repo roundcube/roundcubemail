@@ -975,7 +975,7 @@ EOF;
     }
 
 
-    /*****  Template parsing methods  *****/
+    /* Template parsing methods */
 
     /**
      * Replace all strings ($varname)
