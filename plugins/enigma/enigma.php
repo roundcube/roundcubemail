@@ -156,7 +156,7 @@ class enigma extends rcube_plugin
      * Handler for message_part_structure hook.
      * Called for every part of the message.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -171,7 +171,7 @@ class enigma extends rcube_plugin
      * Handler for message_part_body hook.
      * Called to get body of a message part.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -186,7 +186,7 @@ class enigma extends rcube_plugin
      * Handler for settings_actions hook.
      * Adds Enigma settings section into preferences.
      *
-     * @param array Original parameters
+     * @param array $args Original parameters
      *
      * @return array Modified parameters
      */
@@ -219,7 +219,7 @@ class enigma extends rcube_plugin
      * Handler for preferences_sections_list hook.
      * Adds Encryption settings section into preferences sections list.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -236,7 +236,7 @@ class enigma extends rcube_plugin
      * Handler for preferences_list hook.
      * Adds options blocks into Enigma settings sections in Preferences.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -390,7 +390,7 @@ class enigma extends rcube_plugin
      * Handler for preferences_save hook.
      * Executed on Enigma settings form submit.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -425,7 +425,7 @@ class enigma extends rcube_plugin
      * This will list private keys matching this identity
      * and add a link to enigma key management action.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -486,7 +486,7 @@ class enigma extends rcube_plugin
      * Adds infobox about signature verification and/or decryption
      * status above the body.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */

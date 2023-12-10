@@ -1187,7 +1187,7 @@ class rcube_imap_cache
     /**
      * Prepares message object to be stored in database.
      *
-     * @param rcube_message_header|rcube_message_part
+     * @param rcube_message_header|rcube_message_part $msg
      */
     private function message_object_prepare(&$msg, &$size = 0)
     {

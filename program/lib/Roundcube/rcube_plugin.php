@@ -121,7 +121,7 @@ abstract class rcube_plugin
     /**
      * Attempt to load the given plugin which is required for the current plugin
      *
-     * @param string Plugin name
+     * @param string $plugin_name Plugin name
      *
      * @return bool True on success, false on failure
      */
@@ -133,7 +133,7 @@ abstract class rcube_plugin
     /**
      * Attempt to load the given plugin which is optional for the current plugin
      *
-     * @param string Plugin name
+     * @param string $plugin_name Plugin name
      *
      * @return bool True on success, false on failure
      */

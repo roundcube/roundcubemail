@@ -202,9 +202,9 @@ class rcube_contacts extends rcube_addressbook
     /**
      * List the current set of contact records
      *
-     * @param array List of cols to show, Null means all
-     * @param int   Only return this number of records, use negative values for tail
-     * @param bool  True to skip the count query (select only)
+     * @param array $cols    List of cols to show, Null means all
+     * @param int   $subset  Only return this number of records, use negative values for tail
+     * @param bool  $nocount True to skip the count query (select only)
      *
      * @return array Indexed list of contact records, each a hash array
      */
@@ -986,8 +986,8 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Add the given contact records the a certain group
      *
-     * @param string       Group identifier
-     * @param array|string List of contact identifiers to be added
+     * @param string       $group_id Group identifier
+     * @param array|string $ids      List of contact identifiers to be added
      *
      * @return int Number of contacts added
      */

@@ -392,7 +392,7 @@ class rcube_utils
      * @param string $str    String input
      * @param bool   $encode Use base64 encoding
      *
-     * @param string Valid HTML identifier
+     * @return string Valid HTML identifier
      */
     public static function html_identifier($str, $encode = false)
     {
@@ -744,7 +744,7 @@ class rcube_utils
      * @param int    $plain_port Plain port number
      * @param int    $ssl_port   SSL port number
      *
-     * @return An array with three elements (hostname, scheme, port)
+     * @return array An array with three elements (hostname, scheme, port)
      */
     public static function parse_host_uri($host, $plain_port = null, $ssl_port = null)
     {

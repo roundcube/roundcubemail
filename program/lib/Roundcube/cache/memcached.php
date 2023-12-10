@@ -164,7 +164,7 @@ class rcube_cache_memcached extends rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -186,7 +186,7 @@ class rcube_cache_memcached extends rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function delete_item($key)
     {

@@ -517,9 +517,9 @@ class password extends rcube_plugin
      * Parts of the code originally from the phpLDAPadmin development team
      * http://phpldapadmin.sourceforge.net/
      *
-     * @param string      Clear password
-     * @param string      Hashing method
-     * @param bool|string Prefix string or TRUE to add a default prefix
+     * @param string      $password Clear password
+     * @param string      $method   Hashing method
+     * @param bool|string $prefixed Prefix string or TRUE to add a default prefix
      *
      * @return string Hashed password
      */

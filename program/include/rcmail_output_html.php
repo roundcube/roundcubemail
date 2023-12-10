@@ -2609,7 +2609,7 @@ EOF;
     /**
      * Builder for GUI object 'message'
      *
-     * @param array Named tag parameters
+     * @param array $attrib Named tag parameters
      * @return string HTML code for the gui object
      */
     protected function message_container($attrib)

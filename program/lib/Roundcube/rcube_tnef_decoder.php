@@ -268,8 +268,8 @@ class rcube_tnef_decoder
     /**
      * TODO
      *
-     * @param string $data   The data string.
-     * @param array  &result TODO
+     * @param string $data    The data string.
+     * @param array  &$result TODO
      */
     protected function _extractMapiAttributes($data, &$result)
     {

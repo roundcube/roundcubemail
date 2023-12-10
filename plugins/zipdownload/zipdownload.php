@@ -225,7 +225,7 @@ class zipdownload extends rcube_plugin
     /**
      * Helper method to packs all the given messages into a zip archive
      *
-     * @param array List of message UIDs to download
+     * @param array $messageset List of message UIDs to download
      */
     private function _download_messages($messageset)
     {

@@ -265,7 +265,7 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Register additional garbage collector functions
      *
-     * @param mixed Callback function
+     * @param mixed $func Callback function
      */
     public function register_gc_handler($func)
     {
@@ -737,7 +737,7 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Writes debug information to the log
      *
-     * @param string Log line
+     * @param string $line Log line
      */
     public function log($line)
     {

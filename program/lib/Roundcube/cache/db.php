@@ -120,7 +120,7 @@ class rcube_cache_db extends rcube_cache
      * @param mixed    $data Serialized cache data
      * @param DateTime $ts   Timestamp
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function store_record($key, $data, $ts = null)
     {

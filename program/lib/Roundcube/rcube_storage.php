@@ -158,7 +158,7 @@ abstract class rcube_storage
      *
      * @param string $name Option name
      *
-     * @param mixed Option value
+     * @return mixed Option value
      */
     public function get_option($name)
     {

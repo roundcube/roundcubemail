@@ -1582,7 +1582,7 @@ class rcube
     /**
      * Setter for system user object
      *
-     * @param rcube_user Current user instance
+     * @param rcube_user $user Current user instance
      */
     public function set_user($user)
     {

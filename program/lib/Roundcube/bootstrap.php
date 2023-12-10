@@ -399,7 +399,7 @@ function format_email($email)
  *
  * @param string $version Version number string
  *
- * @param return Version number string
+ * @return string Version number string
  */
 function version_parse($version)
 {

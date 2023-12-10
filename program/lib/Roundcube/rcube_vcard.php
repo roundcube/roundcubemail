@@ -318,7 +318,7 @@ class rcube_vcard
     /**
      * Clear the given fields in the loaded vcard data
      *
-     * @param array List of field names to be reset
+     * @param array $fields List of field names to be reset
      */
     public function reset($fields = [])
     {

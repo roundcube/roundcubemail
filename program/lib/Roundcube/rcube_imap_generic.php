@@ -86,7 +86,7 @@ class rcube_imap_generic
      * @param bool   $endln      True if CRLF need to be added at the end of command
      * @param bool   $anonymized Don't write the given data to log but a placeholder
      *
-     * @param int Number of bytes sent, False on error
+     * @return int Number of bytes sent, False on error
      */
     protected function putLine($string, $endln = true, $anonymized = false)
     {
