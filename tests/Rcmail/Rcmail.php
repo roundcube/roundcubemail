@@ -272,6 +272,7 @@ class Rcmail_Rcmail extends ActionTestCase
 
         // Test various formats
         setlocale(LC_ALL, 'en_US');
+        ini_set('intl.default_locale', 'en_US');
         $date = new DateTime('2020-06-01 12:20:30', new DateTimeZone('UTC'));
 
         $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date));
