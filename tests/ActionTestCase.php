@@ -113,8 +113,9 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         }
         else if ($dsn['phptype'] == 'sqlite') {
             $db->closeConnection();
+
             // delete database file
-            system(sprintf('rm -f %s', escapeshellarg($dsn['database'])));
+            unlink($dsn['database']);
 
             // load sample test data
             self::loadSQLScript($db, 'init');
