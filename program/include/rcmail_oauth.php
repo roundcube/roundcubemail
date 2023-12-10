@@ -37,7 +37,7 @@ class rcmail_oauth
     /** @var string */
     protected $last_error = null;
 
-    /** @var boolean */
+    /** @var bool */
     protected $no_redirect = false;
 
     /** @var rcmail_oauth */
@@ -104,7 +104,7 @@ class rcmail_oauth
     /**
      * Check if OAuth is generally enabled in config
      *
-     * @return boolean
+     * @return bool
      */
     public function is_enabled()
     {
@@ -456,7 +456,7 @@ class rcmail_oauth
      * ... and attempt to refresh if possible.
      *
      * @param array $token
-     * @return boolean
+     * @return bool
      */
     protected function check_token_validity($token)
     {

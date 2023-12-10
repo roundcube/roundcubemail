@@ -50,14 +50,14 @@ abstract class rcube_plugin
     /**
      * Disables plugin in AJAX requests
      *
-     * @var boolean
+     * @var bool
      */
     public $noajax = false;
 
     /**
      * Disables plugin in framed mode
      *
-     * @var boolean
+     * @var bool
      */
     public $noframe = false;
 

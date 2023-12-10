@@ -1141,8 +1141,8 @@ class rcube_utils
     /**
      * Convert a string to ascii or utf8 (using IDNA standard)
      *
-     * @param string  $input  Decoded e-mail address
-     * @param boolean $is_utf Convert by idn_to_ascii if true and idn_to_utf8 if false
+     * @param string $input  Decoded e-mail address
+     * @param bool   $is_utf Convert by idn_to_ascii if true and idn_to_utf8 if false
      *
      * @return string Encoded e-mail address
      */

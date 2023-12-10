@@ -327,9 +327,9 @@ class rcube_cache
     /**
      * Deletes the cache record(s).
      *
-     * @param string  $key         Cache key name or pattern
-     * @param boolean $prefix_mode Enable it to clear all keys starting
-     *                             with prefix specified in $key
+     * @param string $key         Cache key name or pattern
+     * @param bool   $prefix_mode Enable it to clear all keys starting
+     *                            with prefix specified in $key
      */
     protected function remove_record($key = null, $prefix_mode = false)
     {

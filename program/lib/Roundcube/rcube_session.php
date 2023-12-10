@@ -51,7 +51,7 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Blocks session data from being written to database.
      * Can be used if write-race conditions are to be expected
-     * @var boolean
+     * @var bool
      */
     public $nowrite = false;
 
