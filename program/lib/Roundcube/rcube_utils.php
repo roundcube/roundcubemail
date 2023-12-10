@@ -922,22 +922,31 @@ class rcube_utils
      */
     public static function explode_quoted_string($delimiter, $string)
     {
-        $result = [];
-        $strlen = strlen($string);
+        $res = [];
+        $parts = preg_split('/("(?:[^"\\\\]+|\\\\.)*+(?:"|\\\\?$))/s', $string, 0, PREG_SPLIT_DELIM_CAPTURE);
+        $isQuoted = false;
+        $tmp = '';
+        foreach ($parts as $part) {
+            if ($isQuoted) {
+                $tmp .= $part;
+            } else {
+                $isFirst = true;
+                foreach (preg_split('/' . $delimiter . '/', $part) as $v) {
+                    if ($isFirst) {
+                        $tmp .= $v;
+                        $isFirst = false;
+                    } else {
+                        $res[] = $tmp;
+                        $tmp = $v;
+                    }
+                }
+            }
 
-        for ($q=$p=$i=0; $i < $strlen; $i++) {
-            if ($string[$i] == "\"" && (!isset($string[$i-1]) || $string[$i-1] != "\\")) {
-                $q = $q ? false : true;
-            }
-            else if (!$q && preg_match("/$delimiter/", $string[$i])) {
-                $result[] = substr($string, $p, $i - $p);
-                $p = $i + 1;
-            }
+            $isQuoted = !$isQuoted;
         }
+        $res[] = $tmp;
 
-        $result[] = (string) substr($string, $p);
-
-        return $result;
+        return $res;
     }
 
     /**
