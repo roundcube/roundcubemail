@@ -302,6 +302,12 @@ function rcube_webmail()
           'print', 'load-attachment', 'download-attachment', 'show-headers', 'hide-headers', 'download',
           'forward', 'forward-inline', 'forward-attachment', 'change-format'];
 
+        // Initialize Mailvelope early so e.g. fresh users have a keyring for
+        // this session directly after login.
+        // This does not hurt the following code execution because the
+        // Mailvelope-related code runs non-blocking (using Promises).
+        this.check_mailvelope(this.env.action);
+
         if (this.env.action == 'show' || this.env.action == 'preview') {
           this.enable_command(this.env.message_commands, this.env.uid);
           this.enable_command('reply-list', this.env.list_post);
@@ -347,8 +353,6 @@ function rcube_webmail()
                 dt.setData('roundcube-name', n.text().trim());
               }
             });
-
-            this.check_mailvelope(this.env.action);
         }
         else if (this.env.action == 'compose') {
           this.env.address_group_stack = [];
@@ -378,8 +382,6 @@ function rcube_webmail()
 
           // init message compose form
           this.init_messageform();
-
-          this.check_mailvelope(this.env.action);
         }
         else if (this.env.action == 'bounce') {
           this.init_messageform_inputs();
@@ -418,7 +420,6 @@ function rcube_webmail()
         }
         // show printing dialog unless decryption must be done first
         else if (this.env.action == 'print' && this.env.uid) {
-          this.check_mailvelope(this.env.action);
           if (!this.env.is_pgp_content && !this.env.pgp_mime_part) {
             this.print_dialog();
           }
