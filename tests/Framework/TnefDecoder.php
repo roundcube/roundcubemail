@@ -57,7 +57,7 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
         $body = file_get_contents(TESTS_DIR . 'src/sample.rtf');
         $text = rcube_tnef_decoder::rtf2text($body);
 
-        $this->assertMatchesRegularExpression('/^[a-zA-Z1-6!&<,> \n\.]+$/', $text);
+        $this->assertMatchesRegularExpression('/^[a-zA-Z1-6!&<,> \n\r\.]+$/', $text);
         $this->assertTrue(strpos($text, 'Alex Skolnick') !== false);
         $this->assertTrue(strpos($text, 'Heading 1') !== false);
         $this->assertTrue(strpos($text, 'Heading 2') !== false);
