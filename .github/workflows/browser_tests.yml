@@ -1,4 +1,4 @@
-name: browser_tests
+name: E2E
 
 on:
   push:
@@ -14,8 +14,10 @@ jobs:
 
     strategy:
       fail-fast: true
+      matrix:
+        php: ["8.1"]
 
-    name: Browser Tests
+    name: Linux / PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
@@ -24,7 +26,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.php }}
           extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell
           tools: composer:v2
           coverage: none
