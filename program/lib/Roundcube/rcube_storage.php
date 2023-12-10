@@ -429,9 +429,9 @@ abstract class rcube_storage
     /**
      * Return message headers object of a specific message
      *
-     * @param int     $id       Message sequence ID or UID
-     * @param string  $folder   Folder to read from
-     * @param bool    $force    True to skip cache
+     * @param int    $uid    Message sequence ID or UID
+     * @param string $folder Folder to read from
+     * @param bool   $force  True to skip cache
      *
      * @return rcube_message_header Message headers
      */

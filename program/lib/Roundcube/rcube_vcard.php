@@ -305,7 +305,7 @@ class rcube_vcard
     /**
      * Convert the data structure into a vcard 3.0 string
      *
-     * @param bool $folder Use RFC2425 folding
+     * @param bool $folded Use RFC2425 folding
      *
      * @return string vCard output
      */

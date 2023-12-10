@@ -1212,7 +1212,7 @@ class rcube_db
     /**
      * MDB2 DSN string parser
      *
-     * @param string $sequence Sequence name
+     * @param string $dsn DSN string
      *
      * @return array DSN parameters
      */

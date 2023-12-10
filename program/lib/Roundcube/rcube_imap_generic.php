@@ -814,8 +814,8 @@ class rcube_imap_generic
     /**
      * LOGIN Authentication
      *
-     * @param string $user Username
-     * @param string $pass Password
+     * @param string $user     Username
+     * @param string $password Password
      *
      * @return resource|int Connection resource on success, error code on error
      */
@@ -1474,7 +1474,8 @@ class rcube_imap_generic
     /**
      * Folder renaming (RENAME)
      *
-     * @param string $mailbox Mailbox name
+     * @param string $from Mailbox name
+     * @param string $to   Mailbox name
      *
      * @return bool True on success, False on error
      */
@@ -2272,7 +2273,7 @@ class rcube_imap_generic
      * Returns message unique identifier (UID)
      *
      * @param string $mailbox Mailbox name
-     * @param int    $uid     Message sequence identifier
+     * @param int    $id      Message sequence identifier
      *
      * @return int Message unique identifier
      */

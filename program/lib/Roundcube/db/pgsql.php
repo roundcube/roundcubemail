@@ -41,9 +41,6 @@ class rcube_db_pgsql extends rcube_db
         'service'
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
     {
         parent::__construct($db_dsnw, $db_dsnr, $pconn);

@@ -34,10 +34,6 @@ class rcube_cache_memcache extends rcube_cache
      */
     protected static $memcache;
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);

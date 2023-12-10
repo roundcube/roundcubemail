@@ -358,7 +358,6 @@ class rcmail_oauth
      * If successful, this will update the `oauth_token` entry in
      * session data.
      *
-     * @param array $token
      *
      * @return array Updated authorization data
      */
@@ -436,7 +435,7 @@ class rcmail_oauth
     /**
      * Modify some properties of the received auth response
      *
-     * @param array $token
+     * @param array $data
      * @return void
      */
     protected function mask_auth_data(&$data)

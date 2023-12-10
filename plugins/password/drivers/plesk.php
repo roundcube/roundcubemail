@@ -45,9 +45,9 @@ class rcube_plesk_password
      * roundcube already validated the old password so we just need to change it at this point
      *
      * @author Cyrill von Wattenwyl <cyrill.vonwattenwyl@adfinis-sygroup.ch>
-     * @param string $curpass Current password
-     * @param string $newpass New password
-     * @returns int PASSWORD_SUCCESS|PASSWORD_ERROR
+     * @param string $currpass Current password
+     * @param string $newpass  New password
+     * @return int PASSWORD_SUCCESS|PASSWORD_ERROR
      */
     function save($currpass, $newpass, $username)
     {

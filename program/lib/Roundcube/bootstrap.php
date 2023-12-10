@@ -112,7 +112,7 @@ if (class_exists('PEAR')) {
  * Similar function as in_array() but case-insensitive with multibyte support.
  *
  * @param string $needle   Needle value
- * @param array  $heystack Array to search in
+ * @param array  $haystack Array to search in
  *
  * @return bool True if found, False if not
  */
