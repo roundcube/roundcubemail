@@ -1698,7 +1698,7 @@ class rcmail extends rcube
                 $out .= $this->gettext('long'.strtolower(date('M', $timestamp)));
             }
             else if ($format[$i] == 'x') {
-                $formatter = new IntlDateFormatter(setlocale(LC_ALL, '0'), IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+                $formatter = new IntlDateFormatter('en_US', IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
                 $out .= $formatter->format($timestamp);
             }
             else {
