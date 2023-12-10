@@ -5,7 +5,8 @@
  *
  * @author Ziba Scott <ziba@umich.edu>
  */
-class runlog {
+class runlog
+{
 
     private $start_time     = false;
     private $parent_stack   = [];
@@ -71,7 +72,7 @@ class runlog {
         $this->indent--;
         if ($this->run_log[$lastk]['duration'] >= $this->threshold) {
             $tag_report = "";
-            foreach ($this->tag_count as $tag => $count){
+            foreach ($this->tag_count as $tag => $count) {
                 $tag_report .= "$tag: $count, ";
             }
             $end_txt = sprintf("end: $name - %0.4f seconds $tag_report", $this->run_log[$lastk]['duration']);
@@ -92,7 +93,7 @@ class runlog {
     public function get_text()
     {
         $text = "";
-        foreach ($this->run_log as $entry){
+        foreach ($this->run_log as $entry) {
             $text .= str_repeat("   ", count($entry['parents']));
             if ($entry['tag'] != 'text') {
                 $text .= $entry['tag'] . ': ';
@@ -163,7 +164,7 @@ class runlog {
             if (!empty($this->timestamp)) {
                 $buffer = sprintf("[%s] %s", date($this->timestamp, time()), $buffer);
             }
-            if (strlen($buffer) > $this->max_line_size){
+            if (strlen($buffer) > $this->max_line_size) {
                 $buffer = substr($buffer,0,$this->max_line_size - 3) . "...";
             }
             fwrite($this->file_handles['master'], $buffer."\n");

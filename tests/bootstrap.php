@@ -24,7 +24,9 @@ if (php_sapi_name() != 'cli') {
     die("Not in shell mode (php-cli)");
 }
 
-if (!defined('INSTALL_PATH')) { define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/'); }
+if (!defined('INSTALL_PATH')) {
+    define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
+}
 
 define('ROUNDCUBE_TEST_MODE', true);
 define('ROUNDCUBE_TEST_SESSION', microtime(true));

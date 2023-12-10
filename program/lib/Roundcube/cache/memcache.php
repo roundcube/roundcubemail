@@ -96,7 +96,9 @@ class rcube_cache_memcache extends rcube_cache
         foreach ((array) $rcube->config->get('memcache_hosts') as $host) {
             if (substr($host, 0, 7) != 'unix://') {
                 list($host, $port) = explode(':', $host);
-                if (!$port) { $port = 11211; }
+                if (!$port) {
+                    $port = 11211;
+                }
             }
             else {
                 $port = 0;

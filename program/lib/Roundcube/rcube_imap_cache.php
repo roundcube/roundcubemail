@@ -117,7 +117,9 @@ class rcube_imap_cache
     {
         // convert ttl string to seconds
         $ttl = get_offset_sec($ttl);
-        if ($ttl > 2592000) { $ttl = 2592000; }
+        if ($ttl > 2592000) {
+            $ttl = 2592000;
+        }
 
         $this->db           = $db;
         $this->imap         = $imap;

@@ -699,7 +699,9 @@ class rcube_config
                 $tz = new DateTimeZone($props['timezone']);
                 return $this->client_tz = $tz->getName();
             }
-            catch (Exception $e) { /* gracefully ignore */ }
+            catch (Exception $e) {
+                // gracefully ignore
+            }
         }
 
         // fallback to server's timezone

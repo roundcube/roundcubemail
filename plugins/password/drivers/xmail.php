@@ -75,7 +75,8 @@ class rcube_xmail_password
     }
 }
 
-class XMail {
+class XMail
+{
     var $socket;
     var $hostname = 'localhost';
     var $username = 'xmail';

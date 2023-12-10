@@ -413,7 +413,9 @@ class HTTPSocket
         unset($array_headers[0]);
 
         foreach ($array_headers as $pair) {
-            if ($pair == '' || $pair == "\r\n") { continue; }
+            if ($pair == '' || $pair == "\r\n") {
+                continue;
+            }
             list($key,$value) = preg_split("/: /", $pair, 2);
             $array_return[strtolower($key)] = $value;
         }

@@ -692,7 +692,8 @@ class rcube_utils
     /**
      * Check if the reported REMOTE_ADDR is in the 'proxy_whitelist' config option
      */
-    public static function check_proxy_whitelist_ip() {
+    public static function check_proxy_whitelist_ip()
+    {
         return in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
     }
 
@@ -1236,7 +1237,7 @@ class rcube_utils
         $arr = self::tokenize_string($str, $minlen);
 
         // detect character set
-        if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-1'), 'ISO-8859-1', 'UTF-8') == $str)  {
+        if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-1'), 'ISO-8859-1', 'UTF-8') == $str) {
             // ISO-8859-1 (or ASCII)
             preg_match_all('/./u', 'äâàåáãæçéêëèïîìíñöôòøõóüûùúýÿ', $keys);
             preg_match_all('/./',  'aaaaaaaceeeeiiiinoooooouuuuyy', $values);

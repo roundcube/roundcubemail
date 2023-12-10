@@ -543,7 +543,9 @@ abstract class rcube_session implements SessionHandlerInterface
                         case 'b': // boolean
                         case 'i': // integer
                         case 'd': // decimal
-                            do { $q++; }
+                            do {
+                                $q++;
+                            }
                             while (($q < $endptr) && ($str[$q] != ';'));
                             $q++;
                             $serialized .= substr($str, $p, $q - $p);
@@ -577,7 +579,9 @@ abstract class rcube_session implements SessionHandlerInterface
                             break;
                         case 'a': // array
                         case 'o': // object
-                            do { $q++; }
+                            do {
+                                $q++;
+                            }
                             while ($q < $endptr && $str[$q] != '{');
                             $q++;
                             $level++;

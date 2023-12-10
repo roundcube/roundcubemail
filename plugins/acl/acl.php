@@ -646,8 +646,12 @@ class acl extends rcube_plugin
      */
     function acl_compare($acl1, $acl2)
     {
-        if (!is_array($acl1)) { $acl1 = str_split($acl1); }
-        if (!is_array($acl2)) { $acl2 = str_split($acl2); }
+        if (!is_array($acl1)) {
+            $acl1 = str_split($acl1);
+        }
+        if (!is_array($acl2)) {
+            $acl2 = str_split($acl2);
+        }
 
         $rights = $this->rights_supported();
 

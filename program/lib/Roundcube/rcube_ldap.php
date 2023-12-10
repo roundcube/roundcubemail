@@ -160,8 +160,12 @@ class rcube_ldap extends rcube_addressbook
                 }
                 // first argument is a limit
                 else if ($idx === 0) {
-                    if ($param == '*') { $limit = null; }
-                    else {               $limit = max(1, intval($param)); }
+                    if ($param == '*') {
+                        $limit = null;
+                    }
+                    else {
+                        $limit = max(1, intval($param));
+                    }
                 }
                 // second is a composite field separator
                 else if ($idx === 1 && $param) {

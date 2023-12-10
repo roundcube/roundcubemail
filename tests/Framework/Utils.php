@@ -611,7 +611,10 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime, $tz);
-            if ($result) { $result->setTimezone($tz); }  // move to target timezone for comparison
+            if ($result) {
+                // move to target timezone for comparison
+                $result->setTimezone($tz);
+            }
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
         }
     }
@@ -861,7 +864,8 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_remove_subject_prefix()
      */
-    function data_remove_subject_prefix() {
+    function data_remove_subject_prefix()
+    {
         return [
             ['both', 'Fwd: Re: Test subject both', 'Test subject both'],
             ['both', 'Re: Fwd: Test subject both', 'Test subject both'],
@@ -879,7 +883,8 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_remove_subject_prefix
      */
-    function test_remove_subject_prefix($mode, $subject, $result) {
+    function test_remove_subject_prefix($mode, $subject, $result)
+    {
         $this->assertEquals(rcube_utils::remove_subject_prefix($subject, $mode), $result);
     }
 
