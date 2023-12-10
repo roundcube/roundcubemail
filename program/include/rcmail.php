@@ -212,6 +212,7 @@ class rcmail extends rcube
 
         // set localization
         setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
+        ini_set('intl.default_locale', $lang);
 
         // Workaround for http://bugs.php.net/bug.php?id=18556
         // Also strtoupper/strtolower and other methods are locale-aware
@@ -1698,7 +1699,7 @@ class rcmail extends rcube
                 $out .= $this->gettext('long'.strtolower(date('M', $timestamp)));
             }
             else if ($format[$i] == 'x') {
-                $formatter = new IntlDateFormatter('en_US', IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
+                $formatter = new IntlDateFormatter(null, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
                 $out .= $formatter->format($timestamp);
             }
             else {
