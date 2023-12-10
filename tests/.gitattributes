@@ -1,0 +1,5 @@
+# prevent git EOL conversion
+/src/sql/*.sql -text
+/src/format-flowed.txt -text
+/src/format-flowed-unfolded.txt -text
+*.php eol=lf

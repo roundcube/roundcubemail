@@ -69,6 +69,13 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
      */
     function test_exec()
     {
+        if (PHP_OS_FAMILY === 'Windows') {
+            $this->assertSame('', rcube::exec('where.exe unknown-command-123 2> nul'));
+            $this->assertSame('12', rcube::exec('set /a 10 + {v}', ['v' => '2']));
+
+            return;
+        }
+
         $this->assertSame('', rcube::exec('which unknown-command-123'));
         $this->assertSame("2038\n", rcube::exec('date --date={date} +%Y', ['date' => '@2147483647']));
         // TODO: More cases

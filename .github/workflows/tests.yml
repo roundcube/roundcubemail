@@ -1,4 +1,4 @@
-name: tests
+name: Unit
 
 on:
   push:
@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  linux_tests:
+  tests_linux:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
 
@@ -17,7 +17,7 @@ jobs:
       matrix:
         php: ["7.3", "7.4", "8.0", "8.1", "8.2", "8.3"]
 
-    name: PHP ${{ matrix.php }}/Linux
+    name: Linux / PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
@@ -43,10 +43,6 @@ jobs:
             cp composer.json-dist composer.json
             composer require "kolab/net_ldap3:~1.1.1" --no-update
 
-      - name: Fix PHPUnit for PHP 8.2
-        run: composer config platform.php 8.1
-        if: matrix.php >= 8.2
-
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
@@ -62,3 +58,41 @@ jobs:
         with:
           name: Logs
           path: logs/errors.log
+
+  tests_windows:
+    runs-on: windows-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ["7.3", "7.4", "8.0", "8.1", "8.2", "8.3"]
+
+    name: Windows / PHP ${{ matrix.php }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, gd, ldap, intl
+          tools: composer:v2
+          coverage: none
+          ini-values: error_reporting=E_ALL
+
+      - name: Setup composer
+        run: |
+            cp composer.json-dist composer.json
+            composer require "kolab/net_ldap3:~1.1.1" --no-update
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Roundcube configuration
+        run: cp .github/config-test.inc.php config/config-test.inc.php
+
+      - name: Execute tests
+        run: vendor/bin/phpunit -c tests/phpunit.xml
