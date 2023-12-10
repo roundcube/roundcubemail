@@ -131,7 +131,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_summary' => false,
         'phpdoc_to_comment' => false,
         'phpdoc_trim' => false,
-        'phpdoc_trim_consecutive_blank_line_separation' => false,
         'phpdoc_types_order' => false,
         'phpdoc_var_without_name' => false,
         'single_line_comment_spacing' => false,

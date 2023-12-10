@@ -358,7 +358,6 @@ class rcmail_oauth
      * If successful, this will update the `oauth_token` entry in
      * session data.
      *
-     *
      * @return array Updated authorization data
      */
     public function refresh_access_token(array $token)
