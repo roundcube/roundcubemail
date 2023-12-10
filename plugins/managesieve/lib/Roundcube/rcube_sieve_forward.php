@@ -354,7 +354,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
     /**
      * API: set forward rule
      *
-     * @param array $forward forward rule information (see self::get_forward())
+     * @param array $data forward rule information (see self::get_forward())
      *
      * @return bool True on success, False on failure
      */

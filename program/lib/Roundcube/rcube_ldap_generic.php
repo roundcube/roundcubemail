@@ -315,12 +315,12 @@ class rcube_ldap_generic extends Net_LDAP3
      * Compose an LDAP filter string matching all words from the search string
      * in the given list of attributes.
      *
-     * @param string $value Search value
-     * @param mixed  $attrs List of LDAP attributes to search
-     * @param int    $mode  Matching mode:
-     *                      0 - partial (*abc*),
-     *                      1 - strict (=),
-     *                      2 - prefix (abc*)
+     * @param string $value      Search value
+     * @param mixed  $attributes List of LDAP attributes to search
+     * @param int    $mode       Matching mode:
+     *                           0 - partial (*abc*),
+     *                           1 - strict (=),
+     *                           2 - prefix (abc*)
      * @return string LDAP filter
      */
     public static function fulltext_search_filter($value, $attributes, $mode = 1)

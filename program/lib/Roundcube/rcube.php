@@ -276,7 +276,7 @@ class rcube
     /**
      * Create SMTP object and connect to server
      *
-     * @param boolean $connect True if connection should be established
+     * @param bool $connect True if connection should be established
      */
     public function smtp_init($connect = false)
     {
@@ -1130,7 +1130,7 @@ class rcube
      * The functions will be executed before destroying any
      * objects like smtp, imap, session, etc.
      *
-     * @param callback $function Function callback
+     * @param callable $function Function callback
      */
     public function add_shutdown_function($function)
     {
@@ -1582,7 +1582,7 @@ class rcube
     /**
      * Setter for system user object
      *
-     * @param rcube_user Current user instance
+     * @param rcube_user $user Current user instance
      */
     public function set_user($user)
     {

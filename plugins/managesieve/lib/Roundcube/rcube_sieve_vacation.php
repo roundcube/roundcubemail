@@ -755,7 +755,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     /**
      * API: set vacation rule
      *
-     * @param array $vacation Vacation rule information (see self::get_vacation())
+     * @param array $data Vacation rule information (see self::get_vacation())
      *
      * @return bool True on success, False on failure
      */

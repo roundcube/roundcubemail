@@ -97,7 +97,7 @@ class rcmail_utils
      * @param string $ver     Optional current version number
      * @param array  $opts    Parameters (errors, quiet)
      *
-     * @return True on success, False on failure
+     * @return bool True on success, False on failure
      */
     public static function db_update($dir, $package, $ver = null, $opts = [])
     {

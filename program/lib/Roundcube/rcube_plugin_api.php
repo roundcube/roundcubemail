@@ -448,7 +448,7 @@ class rcube_plugin_api
      * Allows a plugin object to register a callback for a certain hook
      *
      * @param string   $hook     Hook name
-     * @param callback $callback A callback function
+     * @param callable $callback A callback function
      */
     public function register_hook($hook, $callback)
     {
@@ -478,7 +478,7 @@ class rcube_plugin_api
      * Allow a plugin object to unregister a callback.
      *
      * @param string   $hook     Hook name
-     * @param callback $callback A callback function
+     * @param callable $callback A callback function
      */
     public function unregister_hook($hook, $callback)
     {
@@ -537,7 +537,7 @@ class rcube_plugin_api
      *
      * @param string   $action   Action name (_task=mail&_action=plugin.foo)
      * @param string   $owner    Plugin name that registers this action
-     * @param callback $callback A callback function
+     * @param callable $callback A callback function
      * @param string   $task     Task name registered by this plugin
      */
     public function register_action($action, $owner, $callback, $task = null)
@@ -591,7 +591,7 @@ class rcube_plugin_api
      *
      * @param string   $name     Object name
      * @param string   $owner    Plugin name that registers this action
-     * @param callback $callback A callback function
+     * @param callable $callback A callback function
      */
     public function register_handler($name, $owner, $callback)
     {
