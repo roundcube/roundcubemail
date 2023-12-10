@@ -25,7 +25,7 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
         $script = new rcube_sieve_script($input, $caps);
         $result = $script->as_text();
 
-        $this->assertEquals(trim($result), trim($output), $message);
+        $this->assertEquals(trim($output), trim($result), $message);
     }
 
     /**
@@ -81,6 +81,6 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
     {
         $res = json_encode(rcube_sieve_script::tokenize($input, $num));
 
-        $this->assertEquals(trim($res), trim($output));
+        $this->assertEquals(trim($output), trim($res));
     }
 }

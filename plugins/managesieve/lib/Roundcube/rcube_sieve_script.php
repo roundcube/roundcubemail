@@ -652,7 +652,12 @@ class rcube_sieve_script
 
             // Comments
             while (isset($script[$position]) && $script[$position] === '#') {
-                $endl = strpos($script, "\n", $position) ?: $length;
+                $endl = strpos($script, "\n", $position);
+                if ($endl === false) {
+                    $endl = $length;
+                } elseif ($script[$endl - 1] === "\r") {
+                    --$endl;
+                }
                 $line = substr($script, $position, $endl - $position);
 
                 // Roundcube format
