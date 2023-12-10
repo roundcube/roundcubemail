@@ -423,6 +423,9 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             '"a,b"' => ['"a,b"'],
             '"a,b","c,d"' => ['"a,b"','"c,d"'],
             '"a,\\"b",d' => ['"a,\\"b"', 'd'],
+            'a,' => ['a', ''],
+            '"a,' => ['"a,'],
+            '"a,\\' => ['"a,\\'],
         ];
 
         foreach ($data as $text => $res) {
@@ -441,6 +444,24 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         foreach ($data as $text) {
             $result = rcube_utils::explode_quoted_string(',', $text);
             $this->assertSame(explode(',', $text), $result);
+        }
+    }
+
+    /**
+     * Check rcube_utils::explode_quoted_string() with multibyte delimiter
+     */
+    function test_explode_quoted_string_multibyte_delimiter()
+    {
+        $data = [
+            "a\nb" => ['a', 'b'],
+            "a\r\nb" => ['a', 'b'],
+            "a\r\n\nb" => ['a', 'b'],
+            "\"a\n\\\"\n\"\nb" => ["\"a\n\\\"\n\"", 'b'],
+        ];
+
+        foreach ($data as $text => $res) {
+            $result = rcube_utils::explode_quoted_string('[\n\r]+', $text);
+            $this->assertSame($res, $result);
         }
     }
 
