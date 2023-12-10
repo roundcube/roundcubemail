@@ -4516,7 +4516,7 @@ class rcube_imap extends rcube_storage
             // strcoll() does not work with UTF8 locale on Windows,
             // use Collator from the intl extension
             if (stripos(PHP_OS, 'win') === 0 && function_exists('collator_compare')) {
-                $locale = $this->options['language'] ?: 'en_US';
+                $locale = ($this->options['language'] ?? null) ?: 'en_US';
                 $this->sort_folder_collator = collator_create($locale) ?: false;
             }
         }
