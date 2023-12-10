@@ -34,10 +34,6 @@ class rcube_cache_memcached extends rcube_cache
      */
     protected static $memcache;
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
@@ -168,7 +164,7 @@ class rcube_cache_memcached extends rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -190,7 +186,7 @@ class rcube_cache_memcached extends rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function delete_item($key)
     {

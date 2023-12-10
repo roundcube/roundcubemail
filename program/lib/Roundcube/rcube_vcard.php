@@ -305,7 +305,7 @@ class rcube_vcard
     /**
      * Convert the data structure into a vcard 3.0 string
      *
-     * @param bool $folder Use RFC2425 folding
+     * @param bool $folded Use RFC2425 folding
      *
      * @return string vCard output
      */
@@ -318,7 +318,7 @@ class rcube_vcard
     /**
      * Clear the given fields in the loaded vcard data
      *
-     * @param array List of field names to be reset
+     * @param array $fields List of field names to be reset
      */
     public function reset($fields = [])
     {

@@ -236,9 +236,9 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Key file import.
      *
-     * @param string $content  File name or file content
-     * @param bool   $isfile   True if first argument is a filename
-     * @param array  $password Optional key => password map
+     * @param string $content   File name or file content
+     * @param bool   $isfile    True if first argument is a filename
+     * @param array  $passwords Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
@@ -300,7 +300,7 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Keys listing.
      *
-     * @param string $patter Optional pattern for key ID, user ID or fingerprint
+     * @param string $pattern Optional pattern for key ID, user ID or fingerprint
      *
      * @return enigma_key[]|enigma_error Array of keys or enigma_error
      */

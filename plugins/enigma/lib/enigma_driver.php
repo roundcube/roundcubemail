@@ -22,7 +22,7 @@ abstract class enigma_driver
     /**
      * Class constructor.
      *
-     * @param string User name (email address)
+     * @param string $user User name (email address)
      */
     abstract function __construct($user);
 
@@ -36,9 +36,9 @@ abstract class enigma_driver
     /**
      * Encryption (and optional signing).
      *
-     * @param string     Message body
-     * @param array      List of keys (enigma_key objects)
-     * @param enigma_key Optional signing Key ID
+     * @param string     $text     Message body
+     * @param array      $keys     List of keys (enigma_key objects)
+     * @param enigma_key $sign_key Optional signing Key ID
      *
      * @return mixed Encrypted message or enigma_error on failure
      */
@@ -47,9 +47,9 @@ abstract class enigma_driver
     /**
      * Decryption (and sig verification if sig exists).
      *
-     * @param string           Encrypted message
-     * @param array            List of key-password
-     * @param enigma_signature Signature information (if available)
+     * @param string           $text      Encrypted message
+     * @param array            $keys      List of key-password
+     * @param enigma_signature $signature Signature information (if available)
      *
      * @return mixed Decrypted message or enigma_error on failure
      */
@@ -58,9 +58,9 @@ abstract class enigma_driver
     /**
      * Signing.
      *
-     * @param string     Message body
-     * @param enigma_key The signing key
-     * @param int        Signing mode (enigma_engine::SIGN_*)
+     * @param string     $text Message body
+     * @param enigma_key $key  The signing key
+     * @param int        $mode Signing mode (enigma_engine::SIGN_*)
      *
      * @return mixed True on success or enigma_error on failure
      */
@@ -69,8 +69,8 @@ abstract class enigma_driver
     /**
      * Signature verification.
      *
-     * @param string Message body
-     * @param string Signature, if message is of type PGP/MIME and body doesn't contain it
+     * @param string $text      Message body
+     * @param string $signature Signature, if message is of type PGP/MIME and body doesn't contain it
      *
      * @return mixed Signature information (enigma_signature) or enigma_error
      */
@@ -79,9 +79,9 @@ abstract class enigma_driver
     /**
      * Key/Cert file import.
      *
-     * @param string File name or file content
-     * @param bool   True if first argument is a filename
-     * @param array  Optional key => password map
+     * @param string $content   File name or file content
+     * @param bool   $isfile    True if first argument is a filename
+     * @param array  $passwords Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
@@ -90,9 +90,9 @@ abstract class enigma_driver
     /**
      * Key/Cert export.
      *
-     * @param string Key ID
-     * @param bool   Include private key
-     * @param array  Optional key => password map
+     * @param string $key          Key ID
+     * @param bool   $with_private Include private key
+     * @param array  $passwords    Optional key => password map
      *
      * @return mixed Key content or enigma_error
      */
@@ -101,7 +101,7 @@ abstract class enigma_driver
     /**
      * Keys listing.
      *
-     * @param string Optional pattern for key ID, user ID or fingerprint
+     * @param string $pattern Optional pattern for key ID, user ID or fingerprint
      *
      * @return mixed Array of enigma_key objects or enigma_error
      */
@@ -110,7 +110,7 @@ abstract class enigma_driver
     /**
      * Single key information.
      *
-     * @param string Key ID, user ID or fingerprint
+     * @param string $keyid Key ID, user ID or fingerprint
      *
      * @return mixed Key (enigma_key) object or enigma_error
      */
@@ -119,7 +119,7 @@ abstract class enigma_driver
     /**
      * Key pair generation.
      *
-     * @param array Key/User data (name, email, password, size)
+     * @param array $data Key/User data (name, email, password, size)
      *
      * @return mixed Key (enigma_key) object or enigma_error
      */
@@ -128,7 +128,7 @@ abstract class enigma_driver
     /**
      * Key deletion.
      *
-     * @param string Key ID
+     * @param string $keyid Key ID
      *
      * @return mixed True on success or enigma_error
      */

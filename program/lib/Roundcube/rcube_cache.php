@@ -62,7 +62,7 @@ class rcube_cache
      *                        Non-indexed cache does not remove data, but flags it for expiration,
      *                        also stores it in memory until close() method is called.
      *
-     * @param rcube_cache Cache object
+     * @return rcube_cache Cache object
      */
     public static function factory($type, $userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
@@ -327,9 +327,9 @@ class rcube_cache
     /**
      * Deletes the cache record(s).
      *
-     * @param string  $key         Cache key name or pattern
-     * @param boolean $prefix_mode Enable it to clear all keys starting
-     *                             with prefix specified in $key
+     * @param string $key         Cache key name or pattern
+     * @param bool   $prefix_mode Enable it to clear all keys starting
+     *                            with prefix specified in $key
      */
     protected function remove_record($key = null, $prefix_mode = false)
     {
@@ -507,7 +507,7 @@ class rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -519,7 +519,7 @@ class rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function delete_item($key)
     {

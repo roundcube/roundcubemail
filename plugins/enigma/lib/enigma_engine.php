@@ -1133,8 +1133,8 @@ class enigma_engine
     /**
      * PGP keys/certs import.
      *
-     * @param mixed   $content Import file name or content
-     * @param boolean $isfile  True if first argument is a filename
+     * @param mixed $content Import file name or content
+     * @param bool  $isfile  True if first argument is a filename
      *
      * @return mixed Import status data array or enigma_error
      */
@@ -1388,7 +1388,7 @@ class enigma_engine
      *
      * @param rcube_message_part $part Part object
      *
-     * @return boolean True if part is a key/cert
+     * @return bool True if part is a key/cert
      */
     public function is_keys_part($part)
     {

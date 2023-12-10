@@ -809,7 +809,7 @@ class rcube_mime
     /**
      * Get mimetype => file extension mapping
      *
-     * @param string Mime-Type to get extensions for
+     * @param string $mimetype Mime-Type to get extensions for
      *
      * @return array List of extensions matching the given mimetype or a hash array
      *               with ext -> mimetype mappings if $mimetype is not given

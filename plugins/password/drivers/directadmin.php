@@ -140,7 +140,7 @@ class HTTPSocket
     /**
      * Change the method being used to communicate.
      *
-     * @param string|null request method. supports GET, POST, and HEAD. default is GET
+     * @param string|null $method request method. supports GET, POST, and HEAD. default is GET
      */
     function set_method($method = 'GET')
     {
@@ -150,8 +150,8 @@ class HTTPSocket
     /**
      * Specify a username and password.
      *
-     * @param string|null username. default is null
-     * @param string|null password. default is null
+     * @param string|null $uname  username. default is null
+     * @param string|null $passwd password. default is null
      */
     function set_login($uname = '', $passwd = '')
     {
@@ -167,8 +167,8 @@ class HTTPSocket
     /**
      * Query the server
      *
-     * @param string containing properly formatted server API. See DA API docs and examples. Http:// URLs O.K. too.
-     * @param string|array query to pass to url
+     * @param string       $request containing properly formatted server API. See DA API docs and examples. Http:// URLs O.K. too.
+     * @param string|array $content query to pass to url
      */
     function query($request, $content = '')
     {
@@ -372,8 +372,8 @@ class HTTPSocket
     /**
      * Adds a header, sent with the next query.
      *
-     * @param string header name
-     * @param string header value
+     * @param string $key   header name
+     * @param string $value header value
      */
     function add_header($key, $value)
     {
@@ -402,7 +402,7 @@ class HTTPSocket
     /**
      * Return the header of result (stuff before body).
      *
-     * @param string (optional) header to return
+     * @param string $header (optional) header to return
      * @return array result header
      */
     function fetch_header($header = '')
