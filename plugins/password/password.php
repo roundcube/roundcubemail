@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Password Plugin for Roundcube
  *
  * @author Aleksander Machniak <alec@alec.pl>

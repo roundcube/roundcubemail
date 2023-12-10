@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Redundant attachments
  *
  * This plugin provides a redundant storage for temporary uploaded

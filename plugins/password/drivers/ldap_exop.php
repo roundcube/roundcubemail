@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * LDAP - Password Modify Extended Operation Driver
  *
  * Driver for passwords stored in LDAP

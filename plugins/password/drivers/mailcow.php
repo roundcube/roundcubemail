@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Mailcow Password Driver
  *
  * @version 1.0
@@ -23,7 +23,7 @@
  * $config['password_driver'] = 'mailcow';
  * $config['password_mailcow_api_host'] = '';
  * $config['password_mailcow_api_token'] = '';
-  */
+ */
 
 class rcube_mailcow_password
 {

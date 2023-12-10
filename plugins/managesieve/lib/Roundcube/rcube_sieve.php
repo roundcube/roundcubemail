@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Classes for managesieve operations (using PEAR::Net_Sieve)
  *
  * Copyright (C) The Roundcube Dev Team
