@@ -182,7 +182,7 @@ EOF;
      * Parse and set assets path
      *
      * @param string $path   Assets path URL (relative or absolute)
-     * @param string $fs_dif Assets path in filesystem
+     * @param string $fs_dir Assets path in filesystem
      */
     public function set_assets_path($path, $fs_dir = null)
     {
@@ -2604,7 +2604,7 @@ EOF;
     /**
      * Builder for GUI object 'message'
      *
-     * @param array Named tag parameters
+     * @param array $attrib Named tag parameters
      * @return string HTML code for the gui object
      */
     protected function message_container($attrib)

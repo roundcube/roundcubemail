@@ -30,9 +30,6 @@ class rcube_db_mysql extends rcube_db
 {
     public $db_provider = 'mysql';
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
     {
         parent::__construct($db_dsnw, $db_dsnr, $pconn);

@@ -75,8 +75,8 @@ class rcmail extends rcube
     /**
      * This implements the 'singleton' design pattern
      *
-     * @param integer $mode Ignored rcube::get_instance() argument
-     * @param string  $env  Environment name to run (e.g. live, dev, test)
+     * @param int    $mode Ignored rcube::get_instance() argument
+     * @param string $env  Environment name to run (e.g. live, dev, test)
      *
      * @return rcmail The one and only instance
      */

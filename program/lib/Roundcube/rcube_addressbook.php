@@ -471,7 +471,7 @@ abstract class rcube_addressbook
      * This filter mechanism is applied in addition to other filter mechanisms, see the description of the count()
      * operation.
      *
-     * @param null|int|string $gid Database identifier of the group. Use 0/"0"/null to reset the group filter.
+     * @param null|int|string $group_id Database identifier of the group. Use 0/"0"/null to reset the group filter.
      */
     function set_group($group_id)
     {

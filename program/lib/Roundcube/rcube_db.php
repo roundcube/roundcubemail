@@ -1225,7 +1225,7 @@ class rcube_db
     /**
      * MDB2 DSN string parser
      *
-     * @param string $sequence Sequence name
+     * @param string $dsn DSN string
      *
      * @return array DSN parameters
      */
@@ -1426,7 +1426,7 @@ class rcube_db
      *
      * @param string $sql SQL queries to execute
      *
-     * @return boolean True on success, False on error
+     * @return bool True on success, False on error
      */
     public function exec_script($sql)
     {

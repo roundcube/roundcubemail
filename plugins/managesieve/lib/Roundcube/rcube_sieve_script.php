@@ -636,7 +636,7 @@ class rcube_sieve_script
     /**
      * Converts text script to rules array
      *
-     * @param string Text script
+     * @param string $script Text script
      */
     private function _parse_text($script)
     {

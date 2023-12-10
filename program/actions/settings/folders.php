@@ -340,10 +340,10 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
     /**
      * Updates (or creates) folder row in the subscriptions table
      *
-     * @param string $name      Folder name
-     * @param string $oldname   Old folder name (for update)
-     * @param bool   $subscribe Checks subscription checkbox
-     * @param string $class     CSS class name for folder row
+     * @param string $name       Folder name
+     * @param string $oldname    Old folder name (for update)
+     * @param bool   $subscribe  Checks subscription checkbox
+     * @param string $class_name CSS class name for folder row
      */
     public static function update_folder_row($name, $oldname = null, $subscribe = false, $class_name = null)
     {

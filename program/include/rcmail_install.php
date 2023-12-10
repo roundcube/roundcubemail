@@ -305,7 +305,7 @@ class rcmail_install
     /**
      * save generated config file in RCUBE_CONFIG_DIR
      *
-     * @return boolean True if the file was saved successfully, false if not
+     * @return bool True if the file was saved successfully, false if not
      */
     public function save_configfile($config)
     {

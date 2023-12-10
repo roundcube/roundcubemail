@@ -157,7 +157,7 @@ class enigma_driver_phpssl extends enigma_driver
     /**
      * Converts Crypt_GPG_Key object into Enigma's key object
      *
-     * @param Crypt_GPG_Key Key object
+     * @param Crypt_GPG_Key $key Key object
      *
      * @return enigma_key Key object
      */

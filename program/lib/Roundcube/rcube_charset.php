@@ -365,8 +365,8 @@ class rcube_charset
      * Check if the specified input string matches one of the provided charsets.
      * This includes UTF-32, UTF-16, RCUBE_CHARSET and default_charset.
      *
-     * @param string $str  Input string
-     * @param array  $from Suspected charsets of the input string
+     * @param string $str      Input string
+     * @param array  $charsets Suspected charsets of the input string
      *
      * @return string|null First matching charset
      */

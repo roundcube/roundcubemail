@@ -107,11 +107,11 @@ class rcube_imap extends rcube_storage
     /**
      * Connect to an IMAP server
      *
-     * @param string  $host    Host to connect
-     * @param string  $user    Username for IMAP account
-     * @param string  $pass    Password for IMAP account
-     * @param integer $port    Port to connect to
-     * @param string  $use_ssl SSL schema (either ssl or tls) or null if plain connection
+     * @param string $host    Host to connect
+     * @param string $user    Username for IMAP account
+     * @param string $pass    Password for IMAP account
+     * @param int    $port    Port to connect to
+     * @param string $use_ssl SSL schema (either ssl or tls) or null if plain connection
      *
      * @return bool True on success, False on failure
      */
@@ -1684,8 +1684,8 @@ class rcube_imap extends rcube_storage
     /**
      * Direct (real and simple) SEARCH request (without result sorting and caching).
      *
-     * @param  string  $mailbox Mailbox name to search in
-     * @param  string  $str     Search string
+     * @param string $folder Mailbox name to search in
+     * @param string $str    Search string
      *
      * @return rcube_result_index  Search result (UIDs)
      */
@@ -1866,9 +1866,9 @@ class rcube_imap extends rcube_storage
     /**
      * Return message headers object of a specific message
      *
-     * @param int     $id       Message UID
-     * @param string  $folder   Folder to read from
-     * @param bool    $force    True to skip cache
+     * @param int    $uid    Message UID
+     * @param string $folder Folder to read from
+     * @param bool   $force  True to skip cache
      *
      * @return rcube_message_header Message headers
      */
@@ -3306,7 +3306,7 @@ class rcube_imap extends rcube_storage
     /**
      * Unsubscribe folder(s)
      *
-     * @param array $a_mboxes Folder name(s)
+     * @param array $folders Folder name(s)
      *
      * @return bool True on success, False on failure
      */

@@ -50,14 +50,14 @@ abstract class rcube_plugin
     /**
      * Disables plugin in AJAX requests
      *
-     * @var boolean
+     * @var bool
      */
     public $noajax = false;
 
     /**
      * Disables plugin in framed mode
      *
-     * @var boolean
+     * @var bool
      */
     public $noframe = false;
 
@@ -121,7 +121,7 @@ abstract class rcube_plugin
     /**
      * Attempt to load the given plugin which is required for the current plugin
      *
-     * @param string Plugin name
+     * @param string $plugin_name Plugin name
      *
      * @return bool True on success, false on failure
      */
@@ -133,7 +133,7 @@ abstract class rcube_plugin
     /**
      * Attempt to load the given plugin which is optional for the current plugin
      *
-     * @param string Plugin name
+     * @param string $plugin_name Plugin name
      *
      * @return bool True on success, false on failure
      */

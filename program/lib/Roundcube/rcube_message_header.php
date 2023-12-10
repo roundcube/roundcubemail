@@ -311,7 +311,7 @@ class rcube_message_header
      * @param string $name   Header name
      * @param bool   $decode Decode the header content
      *
-     * @param string|null Header content
+     * @return string|null Header content
      */
     public function get($name, $decode = true)
     {

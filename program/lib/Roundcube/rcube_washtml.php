@@ -236,7 +236,7 @@ class rcube_washtml
      * Register a callback function for a certain tag
      *
      * @param string   $tag      HTML tag name
-     * @param callback $callback Callback function
+     * @param callable $callback Callback function
      */
     public function add_callback($tag, $callback)
     {

@@ -54,7 +54,7 @@ class rcube_result_multifolder
     /**
      * Initializes object with SORT command response
      *
-     * @param rcube_result_index|rcube_result_thread Search result
+     * @param rcube_result_index|rcube_result_thread $result Search result
      */
     public function add($result)
     {
@@ -71,7 +71,7 @@ class rcube_result_multifolder
     /**
      * Append message UIDs from the given result to our index
      *
-     * @param rcube_result_index|rcube_result_thread Search result
+     * @param rcube_result_index|rcube_result_thread $result Search result
      */
     protected function append_result($result)
     {

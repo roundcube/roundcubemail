@@ -285,7 +285,7 @@ class vcard_attachments extends rcube_plugin
     /**
      * Checks if specified message part is a vcard data
      *
-     * @param rcube_message_part Part object
+     * @param rcube_message_part $part Part object
      *
      * @return bool True if part is of type vcard
      */

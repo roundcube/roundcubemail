@@ -160,7 +160,7 @@ abstract class rcube_output
     /**
      * Send header with expire date 30 days in future
      *
-     * @param int Expiration time in seconds
+     * @param int $offset Expiration time in seconds
      */
     public function future_expire_header($offset = 2600000)
     {

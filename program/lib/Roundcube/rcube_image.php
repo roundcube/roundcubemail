@@ -457,7 +457,7 @@ class rcube_image
     /**
      * Check if we have enough memory to load specified image
      *
-     * @param array Hash array with image props like channels, width, height
+     * @param array $props Hash array with image props like channels, width, height
      *
      * @return bool True if there's enough memory to process the image, False otherwise
      */

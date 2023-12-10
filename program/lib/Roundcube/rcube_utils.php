@@ -392,7 +392,7 @@ class rcube_utils
      * @param string $str    String input
      * @param bool   $encode Use base64 encoding
      *
-     * @param string Valid HTML identifier
+     * @return string Valid HTML identifier
      */
     public static function html_identifier($str, $encode = false)
     {
@@ -744,7 +744,7 @@ class rcube_utils
      * @param int    $plain_port Plain port number
      * @param int    $ssl_port   SSL port number
      *
-     * @return An array with three elements (hostname, scheme, port)
+     * @return array An array with three elements (hostname, scheme, port)
      */
     public static function parse_host_uri($host, $plain_port = null, $ssl_port = null)
     {
@@ -1132,8 +1132,8 @@ class rcube_utils
     /**
      * Convert a string to ascii or utf8 (using IDNA standard)
      *
-     * @param string  $input  Decoded e-mail address
-     * @param boolean $is_utf Convert by idn_to_ascii if true and idn_to_utf8 if false
+     * @param string $input  Decoded e-mail address
+     * @param bool   $is_utf Convert by idn_to_ascii if true and idn_to_utf8 if false
      *
      * @return string Encoded e-mail address
      */

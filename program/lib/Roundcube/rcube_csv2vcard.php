@@ -458,7 +458,7 @@ class rcube_csv2vcard
     /**
      * Set field mapping info
      *
-     * @param array Field mapping
+     * @param array $elements Field mapping
      */
     public function set_map($elements)
     {

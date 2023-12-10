@@ -182,7 +182,7 @@ class Browser extends \Laravel\Dusk\Browser
     /**
      * Handler for actions that expect to open a new window
      *
-     * @param callback $callback Function to execute with Browser object as argument
+     * @param callable $callback Function to execute with Browser object as argument
      *
      * @return array Main window handle and new window handle
      */

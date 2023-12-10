@@ -38,7 +38,7 @@ class rcmail_oauth
     /** @var string */
     protected $last_error = null;
 
-    /** @var boolean */
+    /** @var bool */
     protected $no_redirect = false;
 
     /** @var rcmail_oauth */
@@ -104,7 +104,7 @@ class rcmail_oauth
     /**
      * Check if OAuth is generally enabled in config
      *
-     * @return boolean
+     * @return bool
      */
     public function is_enabled()
     {
@@ -358,7 +358,6 @@ class rcmail_oauth
      * If successful, this will update the `oauth_token` entry in
      * session data.
      *
-     * @param array $token
      *
      * @return array Updated authorization data
      */
@@ -436,7 +435,7 @@ class rcmail_oauth
     /**
      * Modify some properties of the received auth response
      *
-     * @param array $token
+     * @param array $data
      * @return void
      */
     protected function mask_auth_data(&$data)
@@ -456,7 +455,7 @@ class rcmail_oauth
      * ... and attempt to refresh if possible.
      *
      * @param array $token
-     * @return boolean
+     * @return bool
      */
     protected function check_token_validity($token)
     {

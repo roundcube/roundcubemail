@@ -93,11 +93,11 @@ abstract class rcube_storage
     /**
      * Connect to the server
      *
-     * @param  string   $host    Host to connect
-     * @param  string   $user    Username for IMAP account
-     * @param  string   $pass    Password for IMAP account
-     * @param  integer  $port    Port to connect to
-     * @param  string   $use_ssl SSL schema (either ssl or tls) or null if plain connection
+     * @param string $host    Host to connect
+     * @param string $user    Username for IMAP account
+     * @param string $pass    Password for IMAP account
+     * @param int    $port    Port to connect to
+     * @param string $use_ssl SSL schema (either ssl or tls) or null if plain connection
      *
      * @return bool True on success, False on failure
      */
@@ -158,7 +158,7 @@ abstract class rcube_storage
      *
      * @param string $name Option name
      *
-     * @param mixed Option value
+     * @return mixed Option value
      */
     public function get_option($name)
     {
@@ -429,9 +429,9 @@ abstract class rcube_storage
     /**
      * Return message headers object of a specific message
      *
-     * @param int     $id       Message sequence ID or UID
-     * @param string  $folder   Folder to read from
-     * @param bool    $force    True to skip cache
+     * @param int    $uid    Message sequence ID or UID
+     * @param string $folder Folder to read from
+     * @param bool   $force  True to skip cache
      *
      * @return rcube_message_header Message headers
      */

@@ -86,7 +86,7 @@ class rcube_imap_generic
      * @param bool   $endln      True if CRLF need to be added at the end of command
      * @param bool   $anonymized Don't write the given data to log but a placeholder
      *
-     * @param int Number of bytes sent, False on error
+     * @return int Number of bytes sent, False on error
      */
     protected function putLine($string, $endln = true, $anonymized = false)
     {
@@ -814,8 +814,8 @@ class rcube_imap_generic
     /**
      * LOGIN Authentication
      *
-     * @param string $user Username
-     * @param string $pass Password
+     * @param string $user     Username
+     * @param string $password Password
      *
      * @return resource|int Connection resource on success, error code on error
      */
@@ -1466,7 +1466,8 @@ class rcube_imap_generic
     /**
      * Folder renaming (RENAME)
      *
-     * @param string $mailbox Mailbox name
+     * @param string $from Mailbox name
+     * @param string $to   Mailbox name
      *
      * @return bool True on success, False on error
      */
@@ -2264,7 +2265,7 @@ class rcube_imap_generic
      * Returns message unique identifier (UID)
      *
      * @param string $mailbox Mailbox name
-     * @param int    $uid     Message sequence identifier
+     * @param int    $id      Message sequence identifier
      *
      * @return int Message unique identifier
      */
@@ -4241,7 +4242,7 @@ class rcube_imap_generic
      * Set the value of the debugging flag.
      *
      * @param bool     $debug   New value for the debugging flag.
-     * @param callback $handler Logging handler function
+     * @param callable $handler Logging handler function
      *
      * @since 0.5-stable
      */
