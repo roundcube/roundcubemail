@@ -141,7 +141,7 @@ class rcube_imap extends rcube_storage
                 'version' => RCUBE_VERSION,
                 'php'     => PHP_VERSION,
                 'os'      => PHP_OS,
-                'command' => $_SERVER['REQUEST_URI'],
+                'command' => $_SERVER['REQUEST_URI'] ?? '',
             ];
         }
 
