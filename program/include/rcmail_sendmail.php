@@ -687,7 +687,7 @@ class rcmail_sendmail
         $regexp = '#img[^>]+src=[\'"](data:([^;]*);base64,([a-z0-9+/=\r\n]+))([\'"])#i';
 
         if (preg_match_all($regexp, $body, $matches, PREG_OFFSET_CAPTURE)) {
-            // get domain for the Content-ID, must be the same as in Mail_Mime::get()
+            // get domain for the Content-ID, must be the same as in Mail_mime::get()
             if (preg_match('#@([0-9a-zA-Z\-\.]+)#', $from, $m)) {
                 $domain = $m[1];
             }
@@ -1715,7 +1715,7 @@ class rcmail_sendmail
     /**
      * Collect message recipients' addresses
      *
-     * @param Mail_Mime $message The email message
+     * @param Mail_mime $message The email message
      */
     public static function collect_recipients($message)
     {
