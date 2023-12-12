@@ -41,7 +41,7 @@ jobs:
       - name: Setup composer
         run: |
             cp composer.json-dist composer.json
-            composer require "kolab/net_ldap3:~1.1.1" --no-update
+            composer require "kolab/net_ldap3:~1.1.4" --no-update
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
@@ -86,7 +86,7 @@ jobs:
       - name: Setup composer
         run: |
             cp composer.json-dist composer.json
-            composer require "kolab/net_ldap3:~1.1.1" --no-update
+            composer require "kolab/net_ldap3:~1.1.4" --no-update
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
