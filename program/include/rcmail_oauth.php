@@ -79,7 +79,6 @@ class rcmail_oauth
             'verify_peer'     => $this->rcmail->config->get('oauth_verify_peer', true),
             'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', []),
             'login_redirect'  => $this->rcmail->config->get('oauth_login_redirect', false),
-            'smtp_auth_type'  => $this->rcmail->config->get('smtp_auth_type'),
         ];
     }
 
@@ -215,7 +214,7 @@ class rcmail_oauth
         $oauth_client_id     = $this->options['client_id'];
         $oauth_client_secret = $this->options['client_secret'];
         $oauth_identity_uri  = $this->options['identity_uri'];
-	$oauth_provider      = $this->options['provider'];
+        $oauth_provider      = $this->options['provider'];
 
         if (!empty($oauth_token_uri) && !empty($oauth_client_secret)) {
             try {
@@ -240,12 +239,7 @@ class rcmail_oauth
                         ],
                 ]);
 
-                // Test if body is already Json
-                json_decode( $response->getBody() );
-                if ( json_last_error() === 0 )
-                  $data = json_decode($response->getBody(), true);
-                else
-                  $data = \GuzzleHttp\json_decode($response->getBody(), true);
+                $data = json_decode($response->getBody(), true);
 
                 // auth success
                 if (!empty($data['access_token'])) {
@@ -253,7 +247,7 @@ class rcmail_oauth
                     $identity = null;
 
                     // for Kinde we need to transform "bearer" into "Bearer"
-                    if ( strpos( strtolower ( $oauth_provider ),"kinde") !== false )
+                    if ( stripos( strtolower ( $oauth_provider ),"kinde") !== false )
                         $authorization = sprintf('%s %s', ucfirst( $data['token_type']), $data['access_token']);
                     else
                         $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
@@ -507,17 +501,15 @@ class rcmail_oauth
      */
     public function smtp_connect($options)
     {
-        $smtp_user	= $this->options['smtp_user'];
-        $smtp_pass	= $this->options['smtp_pass'];
+        $smtp_user = $this->options['smtp_user'];
+        $smtp_pass = $this->options['smtp_pass'];
 
         if (isset($_SESSION['oauth_token'])) {
-
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
 
-            // enforce XOAUTH2 authorization type if not explicitly set to none KVV
-            if ( ( $smtp_user != '' ) || ( $smtp_pass != '' ) ) {
-
+            // skip XOAUTH2 authorization, if indicated
+            if (($smtp_user != '')||($smtp_pass != '')) {
                 $options['smtp_user'] = '%u';
                 $options['smtp_pass'] = '%p';
                 $options['smtp_auth_type'] = 'XOAUTH2';
