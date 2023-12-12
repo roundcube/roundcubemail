@@ -886,7 +886,7 @@ class rcube_db
             return intval($input);
         }
 
-        if (is_null($input)) {
+        if ($input === null) {
             return 'NULL';
         }
 
@@ -929,7 +929,7 @@ class rcube_db
      */
     public function escape($str)
     {
-        if (is_null($str)) {
+        if ($str === null) {
             return 'NULL';
         }
 

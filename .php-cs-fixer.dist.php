@@ -99,7 +99,6 @@ return (new PhpCsFixer\Config())
         'heredoc_indentation' => false,
         'increment_style' => false,
         'integer_literal_case' => false,
-        'is_null' => false,
         'list_syntax' => false,
         'method_argument_space' => false,
         'method_chaining_indentation' => false,
