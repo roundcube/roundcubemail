@@ -13,7 +13,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         php: ["7.3", "7.4", "8.0", "8.1", "8.2", "8.3"]
 
@@ -64,7 +64,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         php: ["7.3", "7.4", "8.0", "8.1", "8.2", "8.3"]
 
