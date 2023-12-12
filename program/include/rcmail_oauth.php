@@ -126,10 +126,6 @@ class rcmail_oauth
         // rewrite redirect URL to not contain query parameters because some providers do not support this
         $url = preg_replace('/\?.*/', '', $url);
 
-        // Only localhost is allowed to use http instead of https
-        if ( strpos($url,"localhost") !== false )
-          $url = str_replace ("http:","https:",$url);
-
         return slashify($url) . 'index.php/login/oauth';
     }
 
@@ -511,12 +507,17 @@ class rcmail_oauth
      */
     public function smtp_connect($options)
     {
+        $smtp_user	= $this->options['smtp_user'];
+        $smtp_pass	= $this->options['smtp_pass'];
+
         if (isset($_SESSION['oauth_token'])) {
+
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
 
-            // enforce XOAUTH2 authorization type if not explicitly set to none
-            if ( strtolower ( $options['smtp_auth_type'] ) != "none" ) {
+            // enforce XOAUTH2 authorization type if not explicitly set to none KVV
+            if ( ( $smtp_user != '' ) || ( $smtp_pass != '' ) ) {
+
                 $options['smtp_user'] = '%u';
                 $options['smtp_pass'] = '%p';
                 $options['smtp_auth_type'] = 'XOAUTH2';

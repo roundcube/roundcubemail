@@ -191,7 +191,7 @@ class rcube_smtp
              ($smtp_auth_type == 'GSSAPI') 
             ) && 
             // but skip if instructed to
-            ( strtolower ( $CONFIG['smtp_auth_type'] ) != "none" )
+            ( ( $CONFIG['smtp_user'] != '' ) || ( $CONFIG['smtp_pass'] != '' ) )
            ) {
             // IDNA Support
             if (strpos($smtp_user, '@')) {
