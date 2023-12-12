@@ -23,7 +23,7 @@ complete: roundcubemail-git
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "kolab/net_ldap3:~1.1.4" --no-update --no-install)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset suggest.kolab/net_ldap3)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset require-dev)
-	(cd roundcubemail-$(VERSION); php /tmp/composer.phar install --prefer-dist --no-dev --no-interaction)
+	(cd roundcubemail-$(VERSION); php /tmp/composer.phar update --prefer-dist --no-dev --no-interaction)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset platform)
 	(cd roundcubemail-$(VERSION); bin/install-jsdeps.sh --force)
 	(cd roundcubemail-$(VERSION); bin/jsshrink.sh program/js/publickey.js; bin/jsshrink.sh plugins/managesieve/codemirror/lib/codemirror.js)

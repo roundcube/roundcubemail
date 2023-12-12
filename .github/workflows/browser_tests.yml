@@ -49,7 +49,7 @@ jobs:
             composer require "laravel/dusk:^7.9" --no-update
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Roundcube configuration
         run: cp .github/config-test.inc.php config/config-test.inc.php
