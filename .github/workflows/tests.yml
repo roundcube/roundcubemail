@@ -49,7 +49,7 @@ jobs:
       - name: Roundcube configuration
         run: cp .github/config-test.inc.php config/config-test.inc.php
 
-      - name: Execute tests
+      - name: Execute tests (highest)
         run: vendor/bin/phpunit -c tests/phpunit.xml
 
       - name: Upload artifacts
@@ -58,6 +58,12 @@ jobs:
         with:
           name: Logs
           path: logs/errors.log
+
+      - name: Downgrade dependencies
+        run: composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress --optimize-autoloader
+
+      - name: Execute tests (lowest)
+        run: vendor/bin/phpunit -c tests/phpunit.xml
 
   tests_windows:
     runs-on: windows-latest
@@ -94,5 +100,11 @@ jobs:
       - name: Roundcube configuration
         run: cp .github/config-test.inc.php config/config-test.inc.php
 
-      - name: Execute tests
+      - name: Execute tests (highest)
+        run: vendor/bin/phpunit -c tests/phpunit.xml
+
+      - name: Downgrade dependencies
+        run: composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress --optimize-autoloader
+
+      - name: Execute tests (lowest)
         run: vendor/bin/phpunit -c tests/phpunit.xml
