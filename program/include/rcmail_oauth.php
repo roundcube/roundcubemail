@@ -164,7 +164,7 @@ class rcmail_oauth
         }
 
         // prepare a http client with the correct options
-        $this->http_client = $this->rcmail->get_http_client( (array) $options['http_options'] + [
+        $this->http_client = $this->rcmail->get_http_client((array) $options['http_options'] + [
             'timeout' => $this->options['timeout'],
             'verify'  => $this->options['verify_peer'],
         ]);
@@ -820,11 +820,11 @@ class rcmail_oauth
         //creation time. Information also present in JWT, but it is faster here
         $data['created_at'] = time();
 
-        $min_refresh_interval = $this->rcmail->config->get('min_refresh_interval');
+        $refresh_interval = $this->rcmail->config->get('refresh_interval');
 
-        if ($data['expires_in'] <= $min_refresh_interval) {
+        if ($data['expires_in'] <= $refresh_interval) {
             rcube::raise_error([
-                'message' => sprintf('Warning token expiration (%s) will expire before the min_refresh_interval (%s)', $data['expires_in'], $min_refresh_interval),
+                'message' => sprintf('Warning token expiration (%s) will expire before the refresh_interval (%s)', $data['expires_in'], $refresh_interval),
             ], true, false);
             // note: remove 10 sec by security (avoid tangent issues)
             $data['expires'] = time() + $data['expires_in'] - 10;
@@ -832,7 +832,7 @@ class rcmail_oauth
         else {
             // try to request a refresh before it's too late according refesh interval
             // note: remove 10 sec by security (avoid tangent issues)
-            $data['expires'] = time() + $data['expires_in'] - $min_refresh_interval - 10;
+            $data['expires'] = time() + $data['expires_in'] - $refresh_interval - 10;
         }
 
         $data['refresh_expires'] = time() + $data['refresh_expires_in'];
