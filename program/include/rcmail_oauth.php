@@ -247,7 +247,7 @@ class rcmail_oauth
                     $identity = null;
 
                     // for Kinde we need to transform "bearer" into "Bearer"
-                    if ( stripos( strtolower ( $oauth_provider ),"kinde") !== false )
+                    if ( stripos($oauth_provider,"kinde") !== false )
                         $authorization = sprintf('%s %s', ucfirst( $data['token_type']), $data['access_token']);
                     else
                         $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
@@ -501,19 +501,21 @@ class rcmail_oauth
      */
     public function smtp_connect($options)
     {
-        $smtp_user = $this->options['smtp_user'];
-        $smtp_pass = $this->options['smtp_pass'];
+        $smtp_user = $options['smtp_user'];
+        $smtp_pass = $options['smtp_pass'];
+
+        // skip XOAUTH2 authorization, if indicated
+        if (($smtp_user == '') || ($smtp_pass == ''))
+            return $options;
 
         if (isset($_SESSION['oauth_token'])) {
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
 
-            // skip XOAUTH2 authorization, if indicated
-            if (($smtp_user != '')||($smtp_pass != '')) {
-                $options['smtp_user'] = '%u';
-                $options['smtp_pass'] = '%p';
-                $options['smtp_auth_type'] = 'XOAUTH2';
-            }
+            // enforce XOAUTH2 authorization type
+            $options['smtp_user'] = '%u';
+            $options['smtp_pass'] = '%p';
+            $options['smtp_auth_type'] = 'XOAUTH2';
         }
 
         return $options;
