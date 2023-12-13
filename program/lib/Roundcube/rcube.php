@@ -958,7 +958,7 @@ class rcube
         $iv_size = openssl_cipher_iv_length($method);
         $tag     = null;
 
-        if (preg_match('/^##(.{16})##/', $cipher, $matches)) {
+        if (preg_match('/^##(.{16})##/s', $cipher, $matches)) {
             $tag    = $matches[1];
             $cipher = substr($cipher, strlen($matches[0]));
         }
