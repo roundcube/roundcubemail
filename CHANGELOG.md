@@ -9,6 +9,7 @@
 - Fix PHP8 warnings (#9235, #9238, #9242)
 - Fix saving other encryption settings besides enigma's (#9240)
 - Fix unneeded php command use in installto.sh and deluser.sh scripts (#9237)
+- Fix TinyMCE localization installation (#9266)
 
 ## Release 1.6.5
 

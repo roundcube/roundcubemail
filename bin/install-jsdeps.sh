@@ -159,7 +159,7 @@ function extract_filetype($package, &$filetype = null)
 {
     global $CACHEDIR;
 
-    $filetype   = pathinfo($package['url'], PATHINFO_EXTENSION) ?: 'tmp';
+    $filetype   = pathinfo(preg_replace('/[?&].*$/', '', $package['url']), PATHINFO_EXTENSION) ?: 'tmp';
     $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
 
     // Make sure it is a zip file
