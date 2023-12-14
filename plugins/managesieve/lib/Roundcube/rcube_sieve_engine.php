@@ -577,7 +577,7 @@ class rcube_sieve_engine
             else if (!empty($exceptions) && in_array($name, (array)$exceptions)) {
                 $this->errors['name'] = $this->plugin->gettext('namereserved');
             }
-            else if (!empty($kolab) && in_array($name_uc, ['MASTER', 'USER', 'MANAGEMENT'])) {
+            else if (!empty($kolab) && in_array($name_uc, ['MASTER', 'MANAGEMENT', $this->rc->config->get('managesieve_kolab_userscript', 'USER')])) {
                 $this->errors['name'] = $this->plugin->gettext('namereserved');
             }
             else if (in_array($name, $list)) {
@@ -2931,6 +2931,8 @@ class rcube_sieve_engine
 
         // Handle active script(s) and list of scripts according to Kolab's KEP:14
         if ($this->rc->config->get('managesieve_kolab_master')) {
+            // Allow custom USER scriptname
+            $kolab_userscript_name = $this->rc->config->get('managesieve_kolab_userscript', 'USER');
             // Skip protected names
             foreach ((array) $this->list as $idx => $name) {
                 $_name = strtoupper($name);
@@ -2940,7 +2942,7 @@ class rcube_sieve_engine
                 else if ($_name == 'MANAGEMENT') {
                     $management_script = $name;
                 }
-                else if ($_name == 'USER') {
+                else if ($_name == $kolab_userscript_name) {
                     $user_script = $name;
                 }
                 else {
@@ -2982,10 +2984,10 @@ class rcube_sieve_engine
                     ."# For more information, see http://wiki.kolab.org/KEP:14#USER\n"
                     ."#\n";
 
-                if ($this->sieve->save_script('USER', $content)) {
-                    $_SESSION['managesieve_user_script'] = 'USER';
+                if ($this->sieve->save_script($kolab_userscript_name, $content)) {
+                    $_SESSION['managesieve_user_script'] = $kolab_userscript_name;
                     if (empty($this->master_file)) {
-                        $this->sieve->activate('USER');
+                        $this->sieve->activate($kolab_userscript_name);
                     }
                 }
             }
