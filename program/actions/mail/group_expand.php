@@ -40,11 +40,21 @@ class rcmail_action_mail_group_expand extends rcmail_action
 
             $result  = $abook->list_records($rcmail->config->get('contactlist_fields'));
             $members = [];
+            $group_expand_all_emails = (bool) $rcmail->config->get('group_expand_all_emails');
 
             while ($result && ($record = $result->iterate())) {
-                $email = array_first((array) $abook->get_col_values('email', $record, true));
-                if (!empty($email)) {
-                    $members[] = format_email_recipient($email, rcube_addressbook::compose_list_name($record));
+                foreach ( (array) $abook->get_col_values('email', $record, true) as $email) {
+                    if (!empty($email)) {
+                        $members[] = format_email_recipient($email, 
+                                        rcube_addressbook::compose_list_name($record));
+
+                        // If we have expanded one email address for this recipient 
+                        // and do not want to expand all addresses for contacts in groups, 
+                        // we are done for this recipient
+                        if(!$group_expand_all_emails){
+                            break;
+                        }
+                    }
                 }
             }
 

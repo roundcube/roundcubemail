@@ -116,14 +116,15 @@ class rcmail_action_settings_prefs_save extends rcmail_action
 
         case 'addressbook':
             $a_user_prefs = [
-                'default_addressbook'  => rcube_utils::get_input_string('_default_addressbook', rcube_utils::INPUT_POST, true),
-                'collected_recipients' => rcube_utils::get_input_string('_collected_recipients', rcube_utils::INPUT_POST, true),
-                'collected_senders'    => rcube_utils::get_input_string('_collected_senders', rcube_utils::INPUT_POST, true),
-                'autocomplete_single'  => isset($_POST['_autocomplete_single']),
-                'addressbook_sort_col' => self::prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
+                'default_addressbook'      => rcube_utils::get_input_string('_default_addressbook', rcube_utils::INPUT_POST, true),
+                'collected_recipients'     => rcube_utils::get_input_string('_collected_recipients', rcube_utils::INPUT_POST, true),
+                'collected_senders'        => rcube_utils::get_input_string('_collected_senders', rcube_utils::INPUT_POST, true),
+                'autocomplete_single'      => isset($_POST['_autocomplete_single']),
+                'group_expand_all_emails'  => isset($_POST['_group_expand_all_emails']),
+                'addressbook_sort_col'     => self::prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
                 'addressbook_name_listing' => self::prefs_input_int('addressbook_name_listing'),
-                'addressbook_pagesize' => max(2, self::prefs_input_int('addressbook_pagesize')),
-                'contact_form_mode'    => self::prefs_input('contact_form_mode', '/^(private|business)$/'),
+                'addressbook_pagesize'     => max(2, self::prefs_input_int('addressbook_pagesize')),
+                'contact_form_mode'        => self::prefs_input('contact_form_mode', '/^(private|business)$/'),
             ];
 
             break;

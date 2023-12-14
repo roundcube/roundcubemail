@@ -614,6 +614,7 @@ $labels['reqdsn'] = 'Always request a delivery status notification';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 $labels['defaultabook'] = 'Default address book';
 $labels['autocompletesingle'] = 'Skip alternative email addresses in autocompletion';
+$labels['groupexpandallemails'] = 'Expand all email addresses for recipients added as part of a group';
 $labels['listnamedisplay'] = 'List contacts as';
 $labels['contactformmode'] = 'Contact form mode';
 $labels['privatemode'] = 'Private (Home)';
