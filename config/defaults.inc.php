@@ -703,6 +703,10 @@ $config['sendmail_delay'] = 0;
 // Size in bytes (possible unit suffix: K, M, G)
 $config['max_message_size'] = '100M';
 
+// Show message size by the attachable size in errors. i.e. the above limit
+// divided by 1.33 to account for base64 encoding.
+$config['show_message_size_by_attachment'] = false;
+
 // Maximum number of recipients per message (including To, Cc, Bcc).
 // Default: 0 (no limit)
 $config['max_recipients'] = 0;
