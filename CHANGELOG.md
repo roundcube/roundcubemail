@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
+- Fix TinyMCE localization installation (#9266)
 
 ## Release 1.5.6
 
