@@ -3413,7 +3413,7 @@ function rcube_elastic_ui()
                     recipients.push({
                         name: '',
                         email: email.replace(/(^<|>$)/g, '') // trim < and > characters
-                            .replace(/[^a-z]$/gi, '') // remove trailing comma or any non-letter character at the end (#7899)
+                            .replace(/[^\p{L}]$/giu, '') // remove trailing comma or any non-letter character at the end (#7899, #9257)
                     });
 
                     str = str.replace(email, '').trim();
