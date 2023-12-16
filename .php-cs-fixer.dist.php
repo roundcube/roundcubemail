@@ -8,7 +8,9 @@ return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PhpCsFixer' => true,
+        '@PhpCsFixer:risky' => true,
         '@PHP74Migration' => true,
+        '@PHP74Migration:risky' => true,
 
         // required by PSR-12
         'concat_space' => [
@@ -53,16 +55,12 @@ return (new PhpCsFixer\Config())
         'use_arrow_functions' => false,
 
         // disable too destructive formating for now
+        'declare_strict_types' => false,
         'escape_implicit_backslashes' => false,
         'heredoc_to_nowdoc' => false,
         'no_useless_else' => false,
         'phpdoc_no_empty_return' => false,
         'single_line_comment_style' => false,
-
-        // enable some safe rules from @PHP71Migration:risky
-        'is_null' => true,
-        'modernize_types_casting' => true,
-        'dir_constant' => true,
 
         // TODO
         'align_multiline_comment' => false,
@@ -118,9 +116,33 @@ return (new PhpCsFixer\Config())
         'single_quote' => false,
         'single_trait_insert_per_statement' => false,
         'standardize_increment' => false,
+        'strict_comparison' => false,
         'ternary_to_null_coalescing' => false,
         'trailing_comma_in_multiline' => false,
         'visibility_required' => false,
+
+        // TODO - risky
+        'array_push' => false,
+        'fopen_flags' => false,
+        'function_to_constant' => false,
+        'implode_call' => false,
+        'logical_operators' => false,
+        'long_to_shorthand_operator' => false,
+        'no_alias_functions' => false,
+        'no_unset_on_property' => false,
+        'php_unit_construct' => false,
+        'php_unit_data_provider_name' => false,
+        'php_unit_data_provider_return_type' => false,
+        'php_unit_set_up_tear_down_visibility' => false,
+        'php_unit_strict' => false,
+        'php_unit_test_case_static_method_calls' => false,
+        'psr_autoloading' => false,
+        'random_api_migration' => false,
+        'self_accessor' => false,
+        'static_lambda' => false,
+        'strict_param' => false,
+        'string_length_to_empty' => false,
+        'ternary_to_elvis_operator' => false,
     ])
     ->setFinder($finder)
     ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer.' . md5(__DIR__) . '.cache');
