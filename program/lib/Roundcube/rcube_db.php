@@ -1261,7 +1261,7 @@ class rcube_db
         // $dsn => proto(proto_opts)/database
         if (preg_match('|^([^(]+)\((.*?)\)/?(.*?)$|', $dsn, $match)) {
             $proto       = $match[1];
-            $proto_opts  = $match[2] ? $match[2] : false;
+            $proto_opts  = $match[2] ?: false;
             $dsn         = $match[3];
         }
         // $dsn => protocol+hostspec/database (old format)

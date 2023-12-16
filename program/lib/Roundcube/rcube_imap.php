@@ -1535,7 +1535,7 @@ class rcube_imap extends rcube_storage
             }
 
             if (empty($index) || $index->is_error()) {
-                $index = $this->conn->index($folder, $search ? $search : "1:*",
+                $index = $this->conn->index($folder, $search ?: "1:*",
                     $sort_field, $this->options['skip_deleted'],
                     $search ? true : false, true);
             }
@@ -2469,7 +2469,7 @@ class rcube_imap extends rcube_storage
         if ($o_part && ($o_part->size || $o_part->ctype_primary == 'multipart')) {
             $formatted = $formatted && $o_part->ctype_primary == 'text';
             $body = $this->conn->handlePartBody($this->folder, $uid, true,
-                $part ? $part : 'TEXT', $o_part->encoding, $print, $fp, $formatted, $max_bytes);
+                $part ?: 'TEXT', $o_part->encoding, $print, $fp, $formatted, $max_bytes);
         }
 
         if ($fp || $print) {

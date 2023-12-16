@@ -138,7 +138,6 @@ return (new PhpCsFixer\Config())
         'static_lambda' => false,
         'strict_param' => false,
         'string_length_to_empty' => false,
-        'ternary_to_elvis_operator' => false,
     ])
     ->setFinder($finder)
     ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer.' . md5(__DIR__) . '.cache');

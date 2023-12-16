@@ -237,7 +237,7 @@ class rcube_ldap_simple_password
             return false;
         }
 
-        $this->_debug("C: Bind " . ($search_user ? $search_user : '[anonymous]'));
+        $this->_debug("C: Bind " . ($search_user ?: '[anonymous]'));
 
         switch ($rcmail->config->get('password_ldap_bind_method')) {
             case 'sasl':

@@ -225,7 +225,7 @@ class rcmail_attachment_handler
                 }
                 else if ($attachment['path']) {
                     if ($fh = fopen($attachment['path'], 'rb')) {
-                        $result = stream_copy_to_stream($fh, $fp, $size ? $size : -1);
+                        $result = stream_copy_to_stream($fh, $fp, $size ?: -1);
                     }
                 }
             }

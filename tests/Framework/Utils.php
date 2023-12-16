@@ -186,7 +186,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     function test_rep_specialchars_output($type, $mode, $str, $res)
     {
         $result = rcube_utils::rep_specialchars_output(
-            $str, $type ? $type : 'html', $mode ? $mode : 'strict');
+            $str, $type ?: 'html', $mode ?: 'strict');
 
         $this->assertEquals($result, $res);
     }
