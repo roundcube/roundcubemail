@@ -9,7 +9,7 @@
         "masterminds/html5": "~2.8.0",
         "pear/auth_sasl": "~1.1.0",
         "pear/crypt_gpg": "~1.6.3",
-        "pear/mail_mime": "~1.10.0",
+        "pear/mail_mime": "~1.10.8",
         "pear/net_sieve": "~1.4.5",
         "pear/net_smtp": "~1.10.0",
         "pear/pear-core-minimal": "~1.10.1",
@@ -19,7 +19,7 @@
     "require-dev": {
         "ergebnis/composer-normalize": "^2.13",
         "friendsofphp/php-cs-fixer": "^3.0",
-        "phpunit/phpunit": "^9"
+        "phpunit/phpunit": "^9.6"
     },
     "suggest": {
         "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver",

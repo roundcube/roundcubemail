@@ -13,7 +13,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         php: ["7.3", "7.4", "8.0", "8.1", "8.2", "8.3"]
 
@@ -44,13 +44,13 @@ jobs:
             composer require "kolab/net_ldap3:~1.1.4" --no-update
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Roundcube configuration
         run: cp .github/config-test.inc.php config/config-test.inc.php
 
-      - name: Execute tests
-        run: vendor/bin/phpunit -c tests/phpunit.xml
+      - name: Execute tests (highest)
+        run: vendor/bin/phpunit -c tests/phpunit.xml --fail-on-warning --fail-on-risky
 
       - name: Upload artifacts
         uses: actions/upload-artifact@master
@@ -59,12 +59,18 @@ jobs:
           name: Logs
           path: logs/errors.log
 
+      - name: Downgrade dependencies
+        run: composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress --optimize-autoloader
+
+      - name: Execute tests (lowest)
+        run: vendor/bin/phpunit -c tests/phpunit.xml --fail-on-warning --fail-on-risky
+
   tests_windows:
     runs-on: windows-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         php: ["7.3", "7.4", "8.0", "8.1", "8.2", "8.3"]
 
@@ -89,10 +95,16 @@ jobs:
             composer require "kolab/net_ldap3:~1.1.4" --no-update
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Roundcube configuration
         run: cp .github/config-test.inc.php config/config-test.inc.php
 
-      - name: Execute tests
-        run: vendor/bin/phpunit -c tests/phpunit.xml
+      - name: Execute tests (highest)
+        run: vendor/bin/phpunit -c tests/phpunit.xml --fail-on-warning --fail-on-risky
+
+      - name: Downgrade dependencies
+        run: composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress --optimize-autoloader
+
+      - name: Execute tests (lowest)
+        run: vendor/bin/phpunit -c tests/phpunit.xml --fail-on-warning --fail-on-risky

@@ -56,7 +56,7 @@ it on a unix system, you need to do the following operations by hand:
    - if you want to use LDAP address books, enable the LDAP libraries in your
      composer.json file by moving the items from "suggest" to the "require"
      section (remove the explanation texts after the version!).
-   - run `php composer.phar install --no-dev`.
+   - run `php composer.phar update --no-dev`.
 4c. If you use git sources or the release package without dependencies
    update javascript dependencies by executing `bin/install-jsdeps.sh` script.
 4d. If you use git sources, compile css files for the Elastic skin as described
