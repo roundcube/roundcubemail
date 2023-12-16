@@ -374,7 +374,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test cases for SVG tests
      */
-    function data_wash_svg_tests()
+    function data_wash_svg_tests(): iterable
     {
         $svg1 = "<svg id='x' width='100' height='100'><a xlink:href='javascript:alert(1)'><rect x='0' y='0' width='100' height='100' /></a></svg>";
 
@@ -492,7 +492,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test cases for various XSS issues
      */
-    function data_wash_xss_tests()
+    function data_wash_xss_tests(): iterable
     {
         return [
             [

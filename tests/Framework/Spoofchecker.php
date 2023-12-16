@@ -10,7 +10,7 @@ class Framework_Spoofchecker extends PHPUnit\Framework\TestCase
     /**
      * Test data for test_check()
      */
-    function data_check()
+    function data_check(): iterable
     {
         return [
             // Valid:

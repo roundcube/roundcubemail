@@ -20,7 +20,7 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
     /**
      * Data for test_replace()
      */
-    function data_replace()
+    function data_replace(): iterable
     {
         return [
             ['http://domain.tld/path*path2', '<a href="http://domain.tld/path*path2">http://domain.tld/path*path2</a>'],

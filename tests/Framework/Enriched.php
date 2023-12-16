@@ -32,7 +32,7 @@ class Framework_Enriched extends PHPUnit\Framework\TestCase
     /**
      * Data for test_formatting()
      */
-    function data_formatting()
+    function data_formatting(): iterable
     {
         return [
             ['<bold>', '<b>'],

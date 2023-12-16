@@ -116,7 +116,7 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test data for test_search_input()
      */
-    function data_search_input()
+    function data_search_input(): iterable
     {
         $week  = new DateInterval('P1W');
         $weekDate = (new DateTime('now'))->sub($week)->format('j-M-Y');
@@ -303,7 +303,7 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test data for test_search_interval_criteria()
      */
-    function data_search_interval_criteria()
+    function data_search_interval_criteria(): iterable
     {
         $week  = new DateInterval('P1W');
         $month = new DateInterval('P1M');

@@ -11,7 +11,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_clean()
      */
-    function data_clean()
+    function data_clean(): iterable
     {
         return [
             ['', ''],
@@ -35,7 +35,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_is_valid()
      */
-    function data_is_valid()
+    function data_is_valid(): iterable
     {
         $list = [];
         foreach (mb_list_encodings() as $charset) {
@@ -64,7 +64,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_parse_charset()
      */
-    function data_parse_charset()
+    function data_parse_charset(): iterable
     {
         return [
             ['UTF8', 'UTF-8'],
@@ -83,7 +83,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_convert()
      */
-    function data_convert()
+    function data_convert(): iterable
     {
         $data = [
             ['ö', 'ö', 'UTF-8', 'UTF-8'],
@@ -119,7 +119,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf7_to_utf8()
      */
-    function data_utf7_to_utf8()
+    function data_utf7_to_utf8(): iterable
     {
         return [
             ['+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
@@ -137,7 +137,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf7imap_to_utf8()
      */
-    function data_utf7imap_to_utf8()
+    function data_utf7imap_to_utf8(): iterable
     {
         return [
             ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
@@ -155,7 +155,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf8_to_utf7imap()
      */
-    function data_utf8_to_utf7imap()
+    function data_utf8_to_utf7imap(): iterable
     {
         return [
             ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'],
@@ -173,7 +173,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf16_to_utf8()
      */
-    function data_utf16_to_utf8()
+    function data_utf16_to_utf8(): iterable
     {
         return [
             [base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'],
@@ -191,7 +191,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_detect()
      */
-    function data_detect()
+    function data_detect(): iterable
     {
         return [
             ['', '', 'UTF-8'],
@@ -210,7 +210,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_detect()
      */
-    function data_detect_with_lang()
+    function data_detect_with_lang(): iterable
     {
         return [
             [base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'],
