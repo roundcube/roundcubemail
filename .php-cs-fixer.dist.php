@@ -62,6 +62,7 @@ return (new PhpCsFixer\Config())
         'phpdoc_no_empty_return' => false,
         'psr_autoloading' => false,
         'single_line_comment_style' => false,
+        'strict_comparison' => false,
         'string_length_to_empty' => false,
 
         // TODO
@@ -105,7 +106,6 @@ return (new PhpCsFixer\Config())
         'operator_linebreak' => false,
         'php_unit_method_casing' => false,
         'phpdoc_annotation_without_dot' => false,
-        'phpdoc_no_alias_tag' => false,
         'phpdoc_no_package' => false,
         'phpdoc_separation' => false,
         'phpdoc_summary' => false,
@@ -117,7 +117,6 @@ return (new PhpCsFixer\Config())
         'single_quote' => false,
         'single_trait_insert_per_statement' => false,
         'standardize_increment' => false,
-        'strict_comparison' => false,
         'ternary_to_null_coalescing' => false,
         'trailing_comma_in_multiline' => false,
         'visibility_required' => false,

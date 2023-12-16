@@ -8,7 +8,7 @@
  *
  * @version 2.1
  * @author Till Krüss <me@tillkruess.com>
- * @link http://tillkruess.com/projects/roundcube/
+ * @see http://tillkruess.com/projects/roundcube/
  *
  * Copyright (C) The Roundcube Dev Team
  *
