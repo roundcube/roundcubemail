@@ -124,7 +124,6 @@ return (new PhpCsFixer\Config())
         // TODO - risky
         'fopen_flags' => false,
         'function_to_constant' => false,
-        'logical_operators' => false,
         'no_unset_on_property' => false,
         'php_unit_construct' => false,
         'php_unit_data_provider_name' => false,
