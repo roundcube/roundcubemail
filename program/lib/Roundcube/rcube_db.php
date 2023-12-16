@@ -91,7 +91,7 @@ class rcube_db
             rcube::raise_error([
                     'code' => 600, 'type' => 'db',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Configuration error. Unsupported database driver: $driver"
+                    'message' => "Configuration error. Unsupported database driver: $driver",
                 ],
                 true, true
             );
@@ -195,7 +195,7 @@ class rcube_db
             rcube::raise_error([
                     'code' => 500, 'type' => 'db',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => $this->db_error_msg
+                    'message' => $this->db_error_msg,
                 ],
                 true, false
             );
@@ -567,7 +567,7 @@ class rcube_db
             if (empty($this->options['ignore_errors'])) {
                 rcube::raise_error([
                         'code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => $this->db_error_msg . " (SQL Query: $query)"
+                        'message' => $this->db_error_msg . " (SQL Query: $query)",
                     ], true, false);
             }
         }

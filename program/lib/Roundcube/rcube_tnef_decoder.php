@@ -183,7 +183,7 @@ class rcube_tnef_decoder
                     rcube::raise_error([
                             'file' => __FILE__,
                             'line' => __LINE__,
-                            'message' => "Failed to extract RTF/HTML content from TNEF attachment"
+                            'message' => "Failed to extract RTF/HTML content from TNEF attachment",
                         ], true, false
                     );
                 }
@@ -467,7 +467,7 @@ class rcube_tnef_decoder
                         'type'    => 'application',
                         'subtype' => 'octet-stream',
                         'name'    => 'unknown',
-                        'stream'  => ''
+                        'stream'  => '',
                 ]);
 
                 break;

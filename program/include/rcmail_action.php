@@ -538,7 +538,7 @@ abstract class rcmail_action
             'id'      => $form_id,
             'name'    => $name,
             'method'  => 'post',
-            'enctype' => 'multipart/form-data'
+            'enctype' => 'multipart/form-data',
         ];
 
         if (!empty($attrib['mode']) && $attrib['mode'] == 'smart') {
@@ -620,7 +620,7 @@ abstract class rcmail_action
         if ($maxsize = ini_get('post_max_size')) {
             $msg = $rcmail->gettext([
                     'name' => 'filesizeerror',
-                    'vars' => ['size' => self::show_bytes(parse_bytes($maxsize))]
+                    'vars' => ['size' => self::show_bytes(parse_bytes($maxsize))],
             ]);
         }
         else {
@@ -900,7 +900,7 @@ abstract class rcmail_action
                     'task'    => $rcmail->task,
                     'action'  => $action,
                     'request' => $request_key,
-                    'noclose' => true
+                    'noclose' => true,
                 ] + $attrib
             );
 
@@ -1144,7 +1144,7 @@ abstract class rcmail_action
                 'id'      => $path,
                 'name'    => rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
                 'virtual' => $virtual,
-                'folders' => []
+                'folders' => [],
             ];
         }
         else {
@@ -1230,7 +1230,7 @@ abstract class rcmail_action
             $out .= html::tag('li', [
                     'id'      => "rcmli" . $folder_id,
                     'class'   => implode(' ', $classes),
-                    'noclose' => true
+                    'noclose' => true,
                 ],
                 html::a($link_attrib, $html_name)
             );

@@ -97,7 +97,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                     $plugin = $rcmail->plugins->exec_hook('contact_create', [
                             'record' => $record,
                             'source' => $target,
-                            'group'  => $target_group
+                            'group'  => $target_group,
                     ]);
 
                     if (empty($plugin['abort'])) {
@@ -123,7 +123,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 $all   += count($source_cids);
                 $plugin = $rcmail->plugins->exec_hook('contact_delete', [
                         'id'     => $source_cids,
-                        'source' => $source
+                        'source' => $source,
                 ]);
 
                 $del_status = !$plugin['abort'] ? $CONTACTS->delete($source_cids) : $plugin['result'];
@@ -138,7 +138,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
                         'group_id' => $target_group,
                         'ids'      => $ids,
-                        'source'   => $target
+                        'source'   => $target,
                 ]);
 
                 if (empty($plugin['abort'])) {

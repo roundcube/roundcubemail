@@ -267,7 +267,7 @@ class rcube_imap_cache
             'validated'  => true,
             'object'     => $data,
             'sort_field' => $sort_field,
-            'modseq'     => $modseq
+            'modseq'     => $modseq,
         ];
 
         return $data;

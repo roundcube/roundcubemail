@@ -925,7 +925,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 'vars' => [
                     'date'   => $rcmail->format_date($message->get_header('date'), $rcmail->config->get('date_long')),
                     'sender' => !empty($from['name']) ? $from['name'] : rcube_utils::idn_to_utf8($from['mailto']),
-                ]
+                ],
         ]);
     }
 
@@ -1295,7 +1295,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $limit = self::show_bytes($size_limit);
             $error = $rcmail->gettext([
                     'name' => 'msgsizeerrorfwd',
-                    'vars' => ['num' => $size_errors, 'size' => $limit]
+                    'vars' => ['num' => $size_errors, 'size' => $limit],
             ]);
             $script = sprintf("%s.display_message('%s', 'error');", rcmail_output::JS_OBJECT_NAME, rcube::JQ($error));
             $rcmail->output->add_script($script, 'docready');
@@ -1414,7 +1414,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             if (!empty($attrib['deleteicon'])) {
                 $button = html::img([
                         'src' => $rcmail->output->asset_url($attrib['deleteicon'], true),
-                        'alt' => $rcmail->gettext('delete')
+                        'alt' => $rcmail->gettext('delete'),
                 ]);
             }
             else if (self::get_bool_attr($attrib, 'textbuttons')) {
@@ -1571,7 +1571,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             html::a([
                     'href'    => '#list',
                     'rel'     => '%s',
-                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('list-addresses','%s',this)"
+                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('list-addresses','%s',this)",
                 ],
                 '%s'
             )

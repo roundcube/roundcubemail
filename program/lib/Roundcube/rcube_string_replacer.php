@@ -149,7 +149,7 @@ class rcube_string_replacer
         // Store the reference and its occurrence position
         $this->linkrefs[$key][] = [
             $this->urls[$matches[3][0]] ?? null,
-            $matches[0][1]
+            $matches[0][1],
         ];
 
         return $this->get_replacement($this->add('[' . $key . ']')) . $matches[2][0];

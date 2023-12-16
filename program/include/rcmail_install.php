@@ -348,7 +348,7 @@ class rcmail_install
         if ($this->config['mime_magic'] == '/usr/share/misc/magic') {
             $out['obsolete'][] = [
                 'prop'    => 'mime_magic',
-                'explain' => "Set value to null in order to use system default"
+                'explain' => "Set value to null in order to use system default",
             ];
         }
 
@@ -357,7 +357,7 @@ class rcmail_install
             if (!extension_loaded('pspell')) {
                 $out['dependencies'][] = [
                     'prop'    => 'spellcheck_engine',
-                    'explain' => "This requires the <tt>pspell</tt> extension which could not be loaded."
+                    'explain' => "This requires the <tt>pspell</tt> extension which could not be loaded.",
                 ];
             }
             else if (!empty($this->config['spellcheck_languages'])) {
@@ -365,7 +365,7 @@ class rcmail_install
                     if (!@pspell_new($lang)) {
                         $out['dependencies'][] = [
                             'prop'    => 'spellcheck_languages',
-                            'explain' => "You are missing pspell support for language $lang ($descr)"
+                            'explain' => "You are missing pspell support for language $lang ($descr)",
                         ];
                     }
                 }
@@ -376,14 +376,14 @@ class rcmail_install
             if (!function_exists('openlog')) {
                 $out['dependencies'][] = [
                     'prop'    => 'log_driver',
-                    'explain' => "This requires the <tt>syslog</tt> extension which could not be loaded."
+                    'explain' => "This requires the <tt>syslog</tt> extension which could not be loaded.",
                 ];
             }
 
             if (empty($this->config['syslog_id'])) {
                 $out['dependencies'][] = [
                     'prop'    => 'syslog_id',
-                    'explain' => "Using <tt>syslog</tt> for logging requires a syslog ID to be configured"
+                    'explain' => "Using <tt>syslog</tt> for logging requires a syslog ID to be configured",
                 ];
             }
         }
@@ -394,7 +394,7 @@ class rcmail_install
                 if ($ldap_public['global_search']) {
                     $out['replaced'][] = [
                         'prop'        => 'ldap_public::global_search',
-                        'replacement' => 'autocomplete_addressbooks'
+                        'replacement' => 'autocomplete_addressbooks',
                     ];
                     break;
                 }
@@ -727,7 +727,7 @@ class rcmail_install
             $plugins[] = [
                 'name'    => $name,
                 'desc'    => $plugin_desc,
-                'enabled' => in_array($name, $enabled)
+                'enabled' => in_array($name, $enabled),
             ];
         }
 
@@ -832,7 +832,7 @@ class rcmail_install
                     136 => 'LOG_LOCAL1', 144 => 'LOG_LOCAL2', 152 => 'LOG_LOCAL3',
                     160 => 'LOG_LOCAL4', 168 => 'LOG_LOCAL5', 176 => 'LOG_LOCAL6',
                     184 => 'LOG_LOCAL7', 48 => 'LOG_LPR', 16 => 'LOG_MAIL',
-                    56 => 'LOG_NEWS', 40 => 'LOG_SYSLOG', 8 => 'LOG_USER', 64 => 'LOG_UUCP'
+                    56 => 'LOG_NEWS', 40 => 'LOG_SYSLOG', 8 => 'LOG_USER', 64 => 'LOG_UUCP',
                 ];
 
                 if (!empty($list[$var])) {

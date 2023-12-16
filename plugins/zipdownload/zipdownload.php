@@ -34,7 +34,7 @@ class zipdownload extends rcube_plugin
                     'code'    => 520,
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "php-zip extension is required for the zipdownload plugin"
+                    'message' => "php-zip extension is required for the zipdownload plugin",
                 ], true, false
             );
             return;
@@ -294,7 +294,7 @@ class zipdownload extends rcube_plugin
 
                     $msg = $this->gettext([
                             'name' => 'sizelimiterror',
-                            'vars' => ['$size' => rcmail_action::show_bytes($limit)]
+                            'vars' => ['$size' => rcmail_action::show_bytes($limit)],
                     ]);
 
                     $rcmail->output->show_message($msg, 'error');

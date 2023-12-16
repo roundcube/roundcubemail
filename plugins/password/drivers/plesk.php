@@ -110,7 +110,7 @@ class plesk_rpc
         $headers = [
             sprintf("HTTP_AUTH_LOGIN: %s", $user),
             sprintf("HTTP_AUTH_PASSWD: %s", $pass),
-            "Content-Type: text/xml"
+            "Content-Type: text/xml",
         ];
 
         $url        = sprintf("https://%s:%s/%s", $host, $port, $path);
@@ -251,7 +251,7 @@ class plesk_rpc
             if ($res != "ok") {
                 $res = [
                     'code' => PASSWORD_ERROR,
-                    'message' => strval($xml->mail->update->set->result->errtext)
+                    'message' => strval($xml->mail->update->set->result->errtext),
                 ];
             }
 

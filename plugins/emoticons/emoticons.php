@@ -86,7 +86,7 @@ class emoticons extends rcube_plugin
 
             $args['blocks']['main']['options']['emoticons_display'] = [
                     'title'   => html::label($field_id, $this->gettext('emoticonsdisplay')),
-                    'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false)))
+                    'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false))),
             ];
         }
         else if ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
@@ -98,7 +98,7 @@ class emoticons extends rcube_plugin
 
             $args['blocks']['main']['options']['emoticons_compose'] = [
                     'title'   => html::label($field_id, $this->gettext('emoticonscompose')),
-                    'content' => $checkbox->show(intval($rcube->config->get('emoticons_compose', true)))
+                    'content' => $checkbox->show(intval($rcube->config->get('emoticons_compose', true))),
             ];
         }
 

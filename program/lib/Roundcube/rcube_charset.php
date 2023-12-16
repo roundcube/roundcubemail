@@ -214,7 +214,7 @@ class rcube_charset
             '/\$.*$/',          // e.g. _ISO-8859-JP$SIO
             '/UNICODE-1-1-*/',  // RFC1641/1642
             '/^X-/',            // X- prefix (e.g. X-ROMAN8 => ROMAN8)
-            '/\*.*$/'           // lang code according to RFC 2231.5
+            '/\*.*$/',           // lang code according to RFC 2231.5
         ], '', $charset);
 
         if ($charset == 'BINARY') {
@@ -248,7 +248,7 @@ class rcube_charset
         else if (preg_match('/LATIN(.*)/', $str, $m)) {
             $aliases = ['2' => 2, '3' => 3, '4' => 4, '5' => 9, '6' => 10,
                 '7' => 13, '8' => 14, '9' => 15, '10' => 16,
-                'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8
+                'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8,
             ];
 
             // some clients sends windows-1252 text as latin1,

@@ -399,7 +399,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             ],
             [
                 'font-family:"新細明體","serif";color:red',
-                [['font-family', '"新細明體","serif"'], ['color', 'red']]
+                [['font-family', '"新細明體","serif"'], ['color', 'red']],
             ],
         ];
     }

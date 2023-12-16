@@ -59,7 +59,7 @@ class rcmail_action_settings_identities extends rcmail_action
         // get all identities from DB and define list of cols to be displayed
         $plugin = $rcmail->plugins->exec_hook('identities_list', [
                 'list' => $list,
-                'cols' => ['mail']
+                'cols' => ['mail'],
         ]);
 
         // @TODO: use <UL> instead of <TABLE> for identities list

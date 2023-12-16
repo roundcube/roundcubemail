@@ -118,7 +118,6 @@ return (new PhpCsFixer\Config())
         'single_trait_insert_per_statement' => false,
         'standardize_increment' => false,
         'ternary_to_null_coalescing' => false,
-        'trailing_comma_in_multiline' => false,
         'visibility_required' => false,
 
         // TODO - risky

@@ -225,7 +225,7 @@ class rcube_ldap extends rcube_addressbook
                     'street'   => $childprop,
                     'locality' => $childprop,
                     'zipcode'  => $childprop,
-                    'country'  => $childprop
+                    'country'  => $childprop,
                 ];
             }
         }
@@ -442,7 +442,7 @@ class rcube_ldap extends rcube_addressbook
                             rcube::raise_error([
                                     'code' => 100, 'type' => 'ldap',
                                     'file' => __FILE__, 'line' => __LINE__,
-                                    'message' => "DN not found using LDAP search."
+                                    'message' => "DN not found using LDAP search.",
                                 ], true
                             );
                             continue;
@@ -512,7 +512,7 @@ class rcube_ldap extends rcube_addressbook
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not connect to any LDAP server"
+                    'message' => "Could not connect to any LDAP server",
                 ], true
             );
 
@@ -1598,7 +1598,7 @@ class rcube_ldap extends rcube_addressbook
                     if ($res === false) {
                         rcube::raise_error([
                                 'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
-                                'message' => "Expression parse error on: ($code)"
+                                'message' => "Expression parse error on: ($code)",
                             ], true, false);
                         continue;
                     }

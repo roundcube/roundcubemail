@@ -38,7 +38,7 @@ class rcube_db_pgsql extends rcube_db
         'sslrootcert',
         'sslcrl',
         'sslcompression',
-        'service'
+        'service',
     ];
 
     public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)

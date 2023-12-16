@@ -366,7 +366,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 'method'  => 'post',
                 'task'    => 'settings',
                 'action'  => 'plugin.managesieve-vacation',
-                'noclose' => true
+                'noclose' => true,
             ] + $attrib
         );
 
@@ -404,7 +404,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 'type'    => 'button',
                 'href'    => '#',
                 'class' => 'button',
-                'onclick' => rcmail_output::JS_OBJECT_NAME . '.managesieve_vacation_addresses()'
+                'onclick' => rcmail_output::JS_OBJECT_NAME . '.managesieve_vacation_addresses()',
             ]);
 
         $redirect = !empty($this->vacation['action'])
@@ -602,7 +602,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                     'test' => 'header',
                     'type' => 'regex',
                     'arg1' => 'received',
-                    'arg2' => "($matchexp) " . $dt_i->format('M Y')
+                    'arg2' => "($matchexp) " . $dt_i->format('M Y'),
                 ];
 
                 $tests[]  = $test;

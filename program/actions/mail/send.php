@@ -42,7 +42,7 @@ class rcmail_action_mail_send extends rcmail_action
                     'code' => 500,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Invalid compose ID"
+                    'message' => "Invalid compose ID",
                 ], true, false
             );
 
@@ -134,7 +134,7 @@ class rcmail_action_mail_send extends rcmail_action
                 rcube_utils::preg_error([
                         'line'    => __LINE__,
                         'file'    => __FILE__,
-                        'message' => "Could not format HTML!"
+                        'message' => "Could not format HTML!",
                     ], true);
             }
 
@@ -153,7 +153,7 @@ class rcmail_action_mail_send extends rcmail_action
                 if ($error = $spellchecker->error()) {
                     rcube::raise_error([
                             'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Spellcheck error: " . $error
+                            'message' => "Spellcheck error: " . $error,
                         ],
                         true, false
                     );
@@ -254,7 +254,7 @@ class rcmail_action_mail_send extends rcmail_action
                         'type'    => 'imap',
                         'file'    => __FILE__,
                         'line'    => __LINE__,
-                        'message' => "Could not delete message from $drafts_mbox"
+                        'message' => "Could not delete message from $drafts_mbox",
                     ],
                     true, false
                 );
@@ -272,7 +272,7 @@ class rcmail_action_mail_send extends rcmail_action
                 $plugin = $rcmail->plugins->exec_hook('message_draftsaved', [
                         'msgid'  => $message_id,
                         'uid'    => $saved,
-                        'folder' => $store_target
+                        'folder' => $store_target,
                 ]);
 
                 // display success
@@ -372,7 +372,7 @@ class rcmail_action_mail_send extends rcmail_action
                     rcube_utils::preg_error([
                             'line'    => __LINE__,
                             'file'    => __FILE__,
-                            'message' => "Could not replace an image reference!"
+                            'message' => "Could not replace an image reference!",
                         ], true
                     );
 

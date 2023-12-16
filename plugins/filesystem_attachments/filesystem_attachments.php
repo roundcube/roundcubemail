@@ -217,7 +217,7 @@ class filesystem_attachments extends rcube_plugin
                     'file'    => __FILE__,
                     'line'    => __LINE__,
                     'message' => sprintf("%s can't read %s (not in temp_dir)",
-                        $rcmail->get_user_name(), substr($path, 0, 512))
+                        $rcmail->get_user_name(), substr($path, 0, 512)),
                 ], true, false
             );
 

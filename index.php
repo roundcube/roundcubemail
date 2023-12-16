@@ -254,7 +254,7 @@ if (empty($RCMAIL->user->ID)) {
             'task'      => 'login',
             'error'     => $session_error,
             // Return 401 only on failed logins (#7010)
-            'http_code' => empty($session_error) && !empty($error_message) ? 401 : 200
+            'http_code' => empty($session_error) && !empty($error_message) ? 401 : 200,
     ]);
 
     $RCMAIL->set_task($plugin['task']);

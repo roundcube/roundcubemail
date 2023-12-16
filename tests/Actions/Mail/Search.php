@@ -88,7 +88,7 @@ class Actions_Mail_Search extends ActionTestCase
                     'date' => 'Sun, 13 Mar 2022 17:08:18 +0100',
                     'size' => 889,
                     'content-type' => 'text/plain',
-                ])
+                ]),
             ])
             ->registerFunction('get_threading', false)
             ->registerFunction('get_threading', false)
@@ -124,161 +124,161 @@ class Actions_Mail_Search extends ActionTestCase
         return [
             [
                 '',
-                ''
+                '',
             ],
             [
                 'from:test',
-                'HEADER FROM test'
+                'HEADER FROM test',
             ],
             [
                 'body:test',
-                'BODY test'
+                'BODY test',
             ],
             [
                 'text:"test1 test2"',
-                'TEXT "test1 test2"'
+                'TEXT "test1 test2"',
             ],
             [
                 'test1 subject:test2',
-                'HEADER SUBJECT test1 HEADER SUBJECT test2'
+                'HEADER SUBJECT test1 HEADER SUBJECT test2',
             ],
             [
                 'cc:test1 bcc:test2',
-                'HEADER CC test1 HEADER BCC test2'
+                'HEADER CC test1 HEADER BCC test2',
             ],
             [
                 'replyto:test1',
-                'OR HEADER REPLY-TO test1 HEADER MAIL-REPLY-TO test1'
+                'OR HEADER REPLY-TO test1 HEADER MAIL-REPLY-TO test1',
             ],
             [
                 'followupto:test1',
-                'OR HEADER FOLLOWUP-TO test1 HEADER MAIL-FOLLOWUP-TO test1'
+                'OR HEADER FOLLOWUP-TO test1 HEADER MAIL-FOLLOWUP-TO test1',
             ],
             [
                 'is:read IS:unread is:flaGGed is:Unflagged',
-                'SEEN UNSEEN FLAGGED UNFLAGGED'
+                'SEEN UNSEEN FLAGGED UNFLAGGED',
             ],
             [
                 'is:unseen IS:seen is:Deleted is:Undeleted is:answered is:unanswered',
-                'UNSEEN SEEN DELETED UNDELETED ANSWERED UNANSWERED'
+                'UNSEEN SEEN DELETED UNDELETED ANSWERED UNANSWERED',
             ],
             [
                 'since:1w before:1w',
-                "SINCE {$weekDate} BEFORE {$weekDate}"
+                "SINCE {$weekDate} BEFORE {$weekDate}",
             ],
             [
                 'since:2022-12-31 before:2022-11-30',
-                'SINCE 31-Dec-2022 BEFORE 30-Nov-2022'
+                'SINCE 31-Dec-2022 BEFORE 30-Nov-2022',
             ],
             [
                 'since:2022/1/1 before:2022/11/30',
-                'SINCE 1-Jan-2022 BEFORE 30-Nov-2022'
+                'SINCE 1-Jan-2022 BEFORE 30-Nov-2022',
             ],
             [
                 'smaller:1KB larger:1M',
-                'SMALLER 1024 LARGER 1048576'
+                'SMALLER 1024 LARGER 1048576',
             ],
             [
                 '"from:test1"',
-                'HEADER SUBJECT from:test1'
+                'HEADER SUBJECT from:test1',
             ],
             [
                 'text body from',
-                'HEADER SUBJECT text HEADER SUBJECT body HEADER SUBJECT from'
+                'HEADER SUBJECT text HEADER SUBJECT body HEADER SUBJECT from',
             ],
             [
                 '"text body from"',
-                'HEADER SUBJECT "text body from"'
+                'HEADER SUBJECT "text body from"',
             ],
             [
                 '"text body" from',
-                'HEADER SUBJECT "text body" HEADER SUBJECT from'
+                'HEADER SUBJECT "text body" HEADER SUBJECT from',
             ],
             [
                 ' to:"test1\" test2"    body:"test3  test4" "test5"',
-                'HEADER TO "test1\" test2" BODY "test3  test4" HEADER SUBJECT test5'
+                'HEADER TO "test1\" test2" BODY "test3  test4" HEADER SUBJECT test5',
             ],
             [
                 ['test', 'from,to', 'UNSEEN', '-1W'],
-                "UNSEEN BEFORE {$weekDate} OR HEADER FROM test HEADER TO test"
+                "UNSEEN BEFORE {$weekDate} OR HEADER FROM test HEADER TO test",
             ],
             // test OR-operator and AND-operator
             [
                 '"OR"',
-                'HEADER SUBJECT OR'
+                'HEADER SUBJECT OR',
             ],
             [
                 '"or" "OR"',
-                'HEADER SUBJECT or HEADER SUBJECT OR'
+                'HEADER SUBJECT or HEADER SUBJECT OR',
             ],
             [
                 'test1 "OR" test2',
-                'HEADER SUBJECT test1 HEADER SUBJECT OR HEADER SUBJECT test2'
+                'HEADER SUBJECT test1 HEADER SUBJECT OR HEADER SUBJECT test2',
             ],
             [
                 'test1 OR test2',
-                'OR HEADER SUBJECT test1 HEADER SUBJECT test2'
+                'OR HEADER SUBJECT test1 HEADER SUBJECT test2',
             ],
             [
                 'test1 OR test2 OR test3',
-                'OR HEADER SUBJECT test1 OR HEADER SUBJECT test2 HEADER SUBJECT test3'
+                'OR HEADER SUBJECT test1 OR HEADER SUBJECT test2 HEADER SUBJECT test3',
             ],
             [
                 'from:test1 OR to:test2',
-                'OR HEADER FROM test1 HEADER TO test2'
+                'OR HEADER FROM test1 HEADER TO test2',
             ],
             [
                 'replyto:test1 or from:test2',
-                'OR OR HEADER REPLY-TO test1 HEADER MAIL-REPLY-TO test1 HEADER FROM test2'
+                'OR OR HEADER REPLY-TO test1 HEADER MAIL-REPLY-TO test1 HEADER FROM test2',
             ],
             [
                 'from:test1 body:test2 OR to:test3',
-                'HEADER FROM test1 OR BODY test2 HEADER TO test3'
+                'HEADER FROM test1 OR BODY test2 HEADER TO test3',
             ],
             [
                 'or or or',
-                ''
+                '',
             ],
             [
                 'or from:test1 body:test2 OR to:test3 or',
-                'HEADER FROM test1 OR BODY test2 HEADER TO test3'
+                'HEADER FROM test1 OR BODY test2 HEADER TO test3',
             ],
             [
                 'from:test1 or or body:test2 OR to:test3',
-                'OR HEADER FROM test1 OR BODY test2 HEADER TO test3'
+                'OR HEADER FROM test1 OR BODY test2 HEADER TO test3',
             ],
             [
                 'from:test1 and body:test2',
-                'HEADER FROM test1 BODY test2'
+                'HEADER FROM test1 BODY test2',
             ],
             [
                 'from:test1 and body:test2 or to:test3',
-                'HEADER FROM test1 OR BODY test2 HEADER TO test3'
+                'HEADER FROM test1 OR BODY test2 HEADER TO test3',
             ],
             // test negation
             [
                 '-from:test1 and -body:test2',
-                'NOT HEADER FROM test1 NOT BODY test2'
+                'NOT HEADER FROM test1 NOT BODY test2',
             ],
             [
                 'from:-test1 and body:test2 or -to:test3',
-                'HEADER FROM -test1 OR BODY test2 NOT HEADER TO test3'
+                'HEADER FROM -test1 OR BODY test2 NOT HEADER TO test3',
             ],
             [
                 '-since:1w -before:1w',
-                "NOT SINCE {$weekDate} NOT BEFORE {$weekDate}"
+                "NOT SINCE {$weekDate} NOT BEFORE {$weekDate}",
             ],
             [
                 '-smaller:1KB -larger:1M',
-                'NOT SMALLER 1024 NOT LARGER 1048576'
+                'NOT SMALLER 1024 NOT LARGER 1048576',
             ],
             [
                 '-"from:test1"',
-                'NOT HEADER SUBJECT from:test1'
+                'NOT HEADER SUBJECT from:test1',
             ],
             [
                 '"-from:test1"',
-                'HEADER SUBJECT -from:test1'
+                'HEADER SUBJECT -from:test1',
             ],
         ];
     }

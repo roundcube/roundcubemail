@@ -34,7 +34,7 @@ class ComposeTest extends \Tests\Browser\TestCase
                     'messageform',
                     'attachmentlist',
                     'filedrop',
-                    'uploadform'
+                    'uploadform',
                 ]);
             });
 

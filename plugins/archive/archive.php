@@ -421,7 +421,7 @@ class archive extends rcube_plugin
 
             $args['blocks']['main']['options']['archive_mbox'] = [
                 'title'   => html::label('_archive_mbox', rcube::Q($this->gettext('archivefolder'))),
-                'content' => $select->show($mbox, ['id' => '_archive_mbox', 'name' => '_archive_mbox'])
+                'content' => $select->show($mbox, ['id' => '_archive_mbox', 'name' => '_archive_mbox']),
             ];
 
             // If the server supports only either messages or folders in a folder
@@ -443,9 +443,9 @@ class archive extends rcube_plugin
                     'options' => [
                         'archive_type' => [
                             'title'   => html::label('ff_archive_type', rcube::Q($this->gettext('archivetype'))),
-                            'content' => $archive_type->show($type)
-                        ]
-                    ]
+                            'content' => $archive_type->show($type),
+                        ],
+                    ],
                 ];
             }
         }
@@ -453,7 +453,7 @@ class archive extends rcube_plugin
             $chbox = new html_checkbox(['name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1]);
             $args['blocks']['main']['options']['read_on_archive'] = [
                 'title'   => html::label('ff_read_on_archive', rcube::Q($this->gettext('readonarchive'))),
-                'content' => $chbox->show($rcmail->config->get('read_on_archive') ? 1 : 0)
+                'content' => $chbox->show($rcmail->config->get('read_on_archive') ? 1 : 0),
             ];
         }
 

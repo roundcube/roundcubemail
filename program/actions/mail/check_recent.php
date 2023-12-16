@@ -96,7 +96,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 $rcmail->plugins->exec_hook('new_messages', [
                         'mailbox'    => $mbox_name,
                         'is_current' => $is_current,
-                        'diff'       => $diff
+                        'diff'       => $diff,
                 ]);
             }
 

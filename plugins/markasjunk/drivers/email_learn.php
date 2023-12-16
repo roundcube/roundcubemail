@@ -78,7 +78,7 @@ class markasjunk_email_learn
                     'error_handler' => function (...$args) use ($OUTPUT) {
                         call_user_func_array([$OUTPUT, 'show_message'], $args);
                         $OUTPUT->send();
-                    }
+                    },
             ]);
 
             if ($attach) {
@@ -89,7 +89,7 @@ class markasjunk_email_learn
                     'Subject'    => $subject,
                     'User-Agent' => $this->rcube->config->get('useragent'),
                     'Message-ID' => $this->rcube->gen_message_id($from),
-                    'X-Sender'   => $from
+                    'X-Sender'   => $from,
                 ];
 
                 $message_text = ($spam ? 'Spam' : 'Ham') . " report from $product";
@@ -109,7 +109,7 @@ class markasjunk_email_learn
                         'mimetype' => 'message/rfc822',
                         'path'     => $message_file,
                         'size'     => filesize($message_file),
-                        'charset'  => $MESSAGE->headers->charset
+                        'charset'  => $MESSAGE->headers->charset,
                     ];
                 }
 
@@ -133,7 +133,7 @@ class markasjunk_email_learn
                     'Resent-From'       => $from_string,
                     'Resent-To'         => $mailto,
                     'Resent-Date'       => $this->rcube->user_date(),
-                    'Resent-Message-ID' => $this->rcube->gen_message_id($from)
+                    'Resent-Message-ID' => $this->rcube->gen_message_id($from),
                 ];
 
                 // create the bounce message

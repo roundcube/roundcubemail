@@ -22,7 +22,7 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
         $rcmail->user->save_prefs([
             'compose_responses_static' => [
                 ['name' => 'static 1', 'text' => 'Static Response One'],
-            ]
+            ],
         ]);
 
         self::initDB('responses');

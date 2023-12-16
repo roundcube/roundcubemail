@@ -120,8 +120,8 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
                     'organization'  => ['size' => $i_size * 2, 'visible' => $business_mode],
                     'department'    => ['size' => $i_size * 2, 'visible' => $business_mode],
                     'jobtitle'      => ['size' => $i_size * 2, 'visible' => $business_mode],
-                ]
-            ]
+                ],
+            ],
         ];
 
         list($form_start, $form_end) = self::get_form_tags($attrib);
@@ -262,7 +262,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
                     'action'    => 'upload-photo',
                     'fieldname' => '_photo',
                     'single'    => 1,
-                    'filter'    => '^image/.+'
+                    'filter'    => '^image/.+',
             ]);
         }
     }

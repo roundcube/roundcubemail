@@ -40,77 +40,77 @@ class rcmail_action_contacts_index extends rcmail_action
             'maxlength' => 50,
             'limit'     => 1,
             'label'     => 'name',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'firstname' => [
             'size'      => 19,
             'maxlength' => 50,
             'limit'     => 1,
             'label'     => 'firstname',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'surname' => [
             'size'      => 19,
             'maxlength' => 50,
             'limit'     => 1,
             'label'     => 'surname',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'email' => [
             'size'      => 40,
             'maxlength' => 254,
             'label'     => 'email',
             'subtypes'  => ['home', 'work', 'other'],
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'middlename' => [
             'size'      => 19,
             'maxlength' => 50,
             'limit'     => 1,
             'label'     => 'middlename',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'prefix' => [
             'size'      => 8,
             'maxlength' => 20,
             'limit'     => 1,
             'label'     => 'nameprefix',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'suffix' => [
             'size'      => 8,
             'maxlength' => 20,
             'limit'     => 1,
             'label'     => 'namesuffix',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'nickname' => [
             'size'      => 40,
             'maxlength' => 50,
             'limit'     => 1,
             'label'     => 'nickname',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'jobtitle' => [
             'size'      => 40,
             'maxlength' => 128,
             'limit'     => 1,
             'label'     => 'jobtitle',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'organization' => [
             'size'      => 40,
             'maxlength' => 128,
             'limit'     => 1,
             'label'     => 'organization',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'department' => [
             'size'      => 40,
             'maxlength' => 128,
             'limit'     => 1,
             'label'     => 'department',
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'gender' => [
             'type'     => 'select',
@@ -119,7 +119,7 @@ class rcmail_action_contacts_index extends rcmail_action
             'category' => 'personal',
             'options'  => [
                 'male'   => 'male',
-                'female' => 'female'
+                'female' => 'female',
             ],
         ],
         'maidenname' => [
@@ -127,7 +127,7 @@ class rcmail_action_contacts_index extends rcmail_action
             'maxlength' => 50,
             'limit'     => 1,
             'label'     => 'maidenname',
-            'category'  => 'personal'
+            'category'  => 'personal',
         ],
         'phone' => [
             'size'      => 40,
@@ -177,7 +177,7 @@ class rcmail_action_contacts_index extends rcmail_action
             'label'     => 'birthday',
             'limit'     => 1,
             'render_func' => 'rcmail_action_contacts_index::format_date_col',
-            'category'    => 'personal'
+            'category'    => 'personal',
         ],
         'anniversary' => [
             'type'      => 'date',
@@ -186,21 +186,21 @@ class rcmail_action_contacts_index extends rcmail_action
             'label'     => 'anniversary',
             'limit'     => 1,
             'render_func' => 'rcmail_action_contacts_index::format_date_col',
-            'category'    => 'personal'
+            'category'    => 'personal',
         ],
         'website' => [
             'size'      => 40,
             'maxlength' => 128,
             'label'     => 'website',
             'subtypes'  => ['homepage', 'work', 'blog', 'profile', 'other'],
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'im' => [
             'size'      => 40,
             'maxlength' => 128,
             'label'     => 'instantmessenger',
             'subtypes'  => ['aim', 'icq', 'msn', 'yahoo', 'jabber', 'skype', 'other'],
-            'category'  => 'main'
+            'category'  => 'main',
         ],
         'notes' => [
             'type'      => 'textarea',
@@ -208,33 +208,33 @@ class rcmail_action_contacts_index extends rcmail_action
             'rows'      => 15,
             'maxlength' => 500,
             'label'     => 'notes',
-            'limit'     => 1
+            'limit'     => 1,
         ],
         'photo' => [
             'type'     => 'image',
             'limit'    => 1,
-            'category' => 'main'
+            'category' => 'main',
         ],
         'assistant' => [
             'size'      => 40,
             'maxlength' => 128,
             'limit'     => 1,
             'label'     => 'assistant',
-            'category'  => 'personal'
+            'category'  => 'personal',
         ],
         'manager' => [
             'size'      => 40,
             'maxlength' => 128,
             'limit'     => 1,
             'label'     => 'manager',
-            'category'  => 'personal'
+            'category'  => 'personal',
         ],
         'spouse' => [
             'size'      => 40,
             'maxlength' => 128,
             'limit'     => 1,
             'label'     => 'spouse',
-            'category'  => 'personal'
+            'category'  => 'personal',
         ],
     ];
 
@@ -337,7 +337,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 'addresslist'         => [$this, 'contacts_list'],
                 'addresslisttitle'    => [$this, 'contacts_list_title'],
                 'recordscountdisplay' => [$this, 'rowcount_display'],
-                'searchform'          => [$rcmail->output, 'search_form']
+                'searchform'          => [$rcmail->output, 'search_form'],
         ]);
 
         // Disable qr-code if imagick, iconv or BaconQrCode is not installed
@@ -448,7 +448,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 [
                     'href'    => '%s',
                     'rel'     => '%s',
-                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('list','%s',this)"
+                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('list','%s',this)",
                 ],
                 '%s'
             )
@@ -522,7 +522,7 @@ class rcmail_action_contacts_index extends rcmail_action
             html::a([
                     'href'    => '#',
                     'rel'     => 'S%s',
-                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('listsearch', '%s', this)"
+                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('listsearch', '%s', this)",
                 ],
                 '%s'
             )
@@ -566,7 +566,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 html::a([
                         'href' => '#',
                         'rel' => '%s:%s',
-                        'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('listgroup',{'source':'%s','id':'%s'},this)"
+                        'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('listgroup',{'source':'%s','id':'%s'},this)",
                     ],
                     '%s'
                 )
@@ -590,7 +590,7 @@ class rcmail_action_contacts_index extends rcmail_action
                     'source' => $args['source'],
                     'id'     => $group['ID'],
                     'name'   => $group['name'],
-                    'type'   => 'group'
+                    'type'   => 'group',
                 ];
             }
         }
@@ -755,8 +755,8 @@ class rcmail_action_contacts_index extends rcmail_action
                 'vars'  => [
                     'from'  => $result->first + 1,
                     'to'    => min($result->count, $result->first + $page_size),
-                    'count' => $result->count
-                ]
+                    'count' => $result->count,
+                ],
         ]);
     }
 
@@ -799,7 +799,7 @@ class rcmail_action_contacts_index extends rcmail_action
         $plugin = $rcmail->plugins->exec_hook('contact_form', [
                 'form'        => $form,
                 'record'      => $record,
-                'head_fields' => $head_fields
+                'head_fields' => $head_fields,
         ]);
 
         $form        = $plugin['form'];
@@ -814,7 +814,7 @@ class rcmail_action_contacts_index extends rcmail_action
         if (!empty($attrib['deleteicon'])) {
             $del_button = html::img([
                     'src' => $rcmail->output->get_skin_file($attrib['deleteicon']),
-                    'alt' => $rcmail->gettext('delete')
+                    'alt' => $rcmail->gettext('delete'),
             ]);
         }
         else {
@@ -845,7 +845,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 $select_subtype = new html_select([
                         'name'  => "_subtype_{$col}[]",
                         'class' => 'contactselectsubtype custom-select',
-                        'title' => $prop['label'] . ' ' . $rcmail->gettext('type')
+                        'title' => $prop['label'] . ' ' . $rcmail->gettext('type'),
                 ]);
                 $select_subtype->add($subtype_names, $prop['subtypes']);
 
@@ -868,7 +868,7 @@ class rcmail_action_contacts_index extends rcmail_action
             $select_add = new html_select([
                     'class'        => 'addfieldmenu custom-select',
                     'rel'          => $section,
-                    'data-compact' => $compact ? "true" : null
+                    'data-compact' => $compact ? "true" : null,
             ]);
 
             $select_add->add($rcmail->gettext('addfield'), '');
@@ -1020,7 +1020,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         $select_subtype = new html_select([
                                 'name'  => "_subtype_{$col}[]",
                                 'class' => 'contactselectsubtype custom-select',
-                                'title' => $colprop['label'] . ' ' . $rcmail->gettext('type')
+                                'title' => $colprop['label'] . ' ' . $rcmail->gettext('type'),
                         ]);
                         $select_subtype->add($subtype_names, $colprop['subtypes']);
                     }
@@ -1146,7 +1146,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                 'href'  => '#del',
                                 'class' => 'contactfieldbutton deletebutton',
                                 'title' => $rcmail->gettext('delete'),
-                                'rel'   => $col
+                                'rel'   => $col,
                             ],
                             $del_button
                         );
@@ -1327,7 +1327,7 @@ class rcmail_action_contacts_index extends rcmail_action
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
                 'record' => $record,
                 'data'   => $record['photo'] ?? null,
-                'attrib' => $attrib
+                'attrib' => $attrib,
         ]);
 
         // check if we have photo data from contact form

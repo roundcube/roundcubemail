@@ -66,7 +66,7 @@ class Managesieve_Vacation extends ActionTestCase
                 'type' => 'regex',
                 'arg1' => 'received',
                 'arg2' => '([ 0]1|[ 0]2|[ 0]3|[ 0]4|[ 0]5) Mar 2014',
-            ]
+            ],
         ];
 
         $vacation = new rcube_sieve_vacation(true);

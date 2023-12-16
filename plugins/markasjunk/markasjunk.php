@@ -41,7 +41,7 @@ class markasjunk extends rcube_plugin
     private $driver;
     private $flags   = [
         'JUNK'    => 'Junk',
-        'NONJUNK' => 'NonJunk'
+        'NONJUNK' => 'NonJunk',
     ];
 
 
@@ -83,7 +83,7 @@ class markasjunk extends rcube_plugin
                         'classsel'   => 'button junk pressed',
                         'title'      => 'markasjunk.buttonjunk',
                         'innerclass' => 'inner',
-                        'label'      => 'junk'
+                        'label'      => 'junk',
                     ], 'toolbar');
 
                 $this->add_button([
@@ -94,7 +94,7 @@ class markasjunk extends rcube_plugin
                         'classsel'   => 'button notjunk pressed',
                         'title'      => 'markasjunk.buttonnotjunk',
                         'innerclass' => 'inner',
-                        'label'      => 'markasjunk.notjunk'
+                        'label'      => 'markasjunk.notjunk',
                     ], 'toolbar');
             }
             else {
@@ -106,7 +106,7 @@ class markasjunk extends rcube_plugin
                         'id'         => 'markasjunk',
                         'class'      => 'icon junk disabled',
                         'classact'   => 'icon junk active',
-                        'innerclass' => 'icon junk'
+                        'innerclass' => 'icon junk',
                     ], 'markmenu');
 
                 $this->add_button([
@@ -116,7 +116,7 @@ class markasjunk extends rcube_plugin
                         'id'         => 'markasnotjunk',
                         'class'      => 'icon notjunk disabled',
                         'classact'   => 'icon notjunk active',
-                        'innerclass' => 'icon notjunk'
+                        'innerclass' => 'icon notjunk',
                     ], 'markmenu');
             }
 
@@ -324,7 +324,7 @@ class markasjunk extends rcube_plugin
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "markasjunk plugin: Unable to open driver file $driver"
+                    'message' => "markasjunk plugin: Unable to open driver file $driver",
                 ], true, false
             );
         }
@@ -336,7 +336,7 @@ class markasjunk extends rcube_plugin
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "markasjunk plugin: Broken driver: $driver"
+                    'message' => "markasjunk plugin: Broken driver: $driver",
                 ], true, false
             );
         }

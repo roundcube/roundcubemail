@@ -26,7 +26,7 @@ class Actions_Contacts_Show extends ActionTestCase
 
         $_GET = [
             '_cid'    => $contact['contact_id'],
-            '_source' => '0'
+            '_source' => '0',
         ];
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);

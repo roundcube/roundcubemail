@@ -130,7 +130,7 @@ class rcube_ldap_simple_password
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not connect to LDAP server"
+                    'message' => "Could not connect to LDAP server",
                 ],
                 true
             );

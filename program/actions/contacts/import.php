@@ -316,7 +316,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     'name'       => '_target',
                     'id'         => 'rcmimporttarget',
                     'is_escaped' => true,
-                    'class'      => 'custom-select'
+                    'class'      => 'custom-select',
             ]);
 
             foreach ($writable_books as $book) {
@@ -339,7 +339,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     'name'       => '_groups',
                     'id'         => 'rcmimportgroups',
                     'is_escaped' => true,
-                    'class'      => 'custom-select'
+                    'class'      => 'custom-select',
             ]);
             $select->add($rcmail->gettext('none'), '0');
             $select->add($rcmail->gettext('importgroupsall'), '1');
@@ -366,7 +366,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $attrib = [
             'action'  => $rcmail->url('import'),
             'method'  => 'post',
-            'enctype' => 'multipart/form-data'
+            'enctype' => 'multipart/form-data',
         ] + $attrib;
 
         return html::p(null, rcube::Q($rcmail->gettext('importdesc'), 'show'))

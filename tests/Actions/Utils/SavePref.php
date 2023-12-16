@@ -23,7 +23,7 @@ class Actions_Utils_SavePref extends ActionTestCase
 
         $_POST = [
             '_name' => 'list_cols',
-            '_value' => ['date']
+            '_value' => ['date'],
         ];
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);

@@ -67,7 +67,7 @@ class rcube_db_sqlite extends rcube_db
                     rcube::raise_error([
                             'code' => 500, 'type' => 'db',
                             'line' => __LINE__, 'file' => __FILE__,
-                            'message' => $this->db_error_msg
+                            'message' => $this->db_error_msg,
                         ],
                         true, false
                     );

@@ -51,7 +51,7 @@ class rcube_zxcvbn_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: Zxcvbn library not found."
+                    'message' => "Password plugin: Zxcvbn library not found.",
                 ], true, false
             );
 

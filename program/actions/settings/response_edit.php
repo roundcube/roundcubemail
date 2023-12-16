@@ -86,13 +86,13 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
             'rows'     => $attrib['textarearows'] ?? null,
             'readonly' => $readonly,
             'spellcheck'       => true,
-            'data-html-editor' => true
+            'data-html-editor' => true,
         ];
 
         $chk_attr = [
             'id'       => 'ffis_html',
             'disabled' => $readonly,
-            'onclick'  => "return rcmail.command('toggle-editor', {id: 'fftext', html: this.checked}, '', event)"
+            'onclick'  => "return rcmail.command('toggle-editor', {id: 'fftext', html: this.checked}, '', event)",
         ];
 
         // Add HTML editor script(s)

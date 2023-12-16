@@ -42,7 +42,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         if ($data = self::contact_qrcode($contact)) {
             $headers = [
                 'Content-Type: ' . self::check_support(),
-                'Content-Length: ' . strlen($data)
+                'Content-Length: ' . strlen($data),
             ];
 
             $rcmail->output->sendExit($data, $headers);

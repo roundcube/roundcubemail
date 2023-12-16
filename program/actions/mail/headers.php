@@ -52,12 +52,12 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
                 [
                     '/\n[\t\s]+/',
                     '/^([a-z0-9_:-]+)/im',
-                    '/\r?\n/'
+                    '/\r?\n/',
                 ],
                 [
                     "\n&nbsp;&nbsp;&nbsp;&nbsp;",
                     '<font class="bold">\1</font>',
-                    '<br />'
+                    '<br />',
                 ],
                 $source
             );

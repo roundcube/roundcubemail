@@ -618,7 +618,7 @@ class enigma_driver_gnupg extends enigma_driver
                 if ($data === null || $data === false) {
                     rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                            'message' => "Enigma: Failed to sync $file ({$record['file_id']}). Decode error."
+                            'message' => "Enigma: Failed to sync $file ({$record['file_id']}). Decode error.",
                         ], true, false);
 
                     continue;
@@ -647,7 +647,7 @@ class enigma_driver_gnupg extends enigma_driver
 
                     rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                            'message' => "Enigma: Failed to sync $file."
+                            'message' => "Enigma: Failed to sync $file.",
                         ], true, false);
                 }
             }
@@ -715,7 +715,7 @@ class enigma_driver_gnupg extends enigma_driver
                 if ($datasize > $maxsize) {
                     rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                            'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet."
+                            'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet.",
                         ], true, false);
 
                     continue;
@@ -727,7 +727,7 @@ class enigma_driver_gnupg extends enigma_driver
                 if ($db->is_error($result)) {
                     rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                            'message' => "Enigma: Failed to save $file into database."
+                            'message' => "Enigma: Failed to save $file into database.",
                         ], true, false);
 
                     break;
@@ -749,7 +749,7 @@ class enigma_driver_gnupg extends enigma_driver
             if ($db->is_error($result)) {
                 rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to delete $file from database."
+                        'message' => "Enigma: Failed to delete $file from database.",
                     ], true, false);
 
                 break;

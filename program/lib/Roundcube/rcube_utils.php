@@ -820,7 +820,7 @@ class rcube_utils
 
             $rcube->raise_error([
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Specified host is not trusted. Using 'localhost'."
+                    'message' => "Specified host is not trusted. Using 'localhost'.",
                 ]
                 , true, false
             );
@@ -1748,7 +1748,7 @@ class rcube_utils
                     '0D0A0D0A000D0A515549540A',     // protocol header
                     '21',                           // protocol version and command
                     $ip_version === 6 ? '2' : '1',  // IP version type
-                    '1'                             // TCP
+                    '1',                             // TCP
             ]);
 
             return pack('H*', $head) . pack('n', strlen($addr)) . $addr;

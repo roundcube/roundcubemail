@@ -125,7 +125,7 @@ class rcube_imap extends rcube_storage
             rcube::raise_error([
                     'code' => 403, 'type' => 'imap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "OpenSSL not available"
+                    'message' => "OpenSSL not available",
                 ], true, false);
 
             $port = 143;
@@ -151,7 +151,7 @@ class rcube_imap extends rcube_storage
                 'host'    => $host,
                 'user'    => $user,
                 'attempt' => ++$attempt,
-                'retry'   => false
+                'retry'   => false,
             ];
 
             $data = $this->plugins->exec_hook('storage_connect', array_merge($this->options, $data));
@@ -195,7 +195,7 @@ class rcube_imap extends rcube_storage
 
             // trigger post-connect hook
             $this->plugins->exec_hook('storage_connected', [
-                    'host' => $host, 'user' => $user, 'session' => $session
+                    'host' => $host, 'user' => $user, 'session' => $session,
             ]);
 
             return true;
@@ -211,7 +211,7 @@ class rcube_imap extends rcube_storage
                 rcube::raise_error([
                         'code' => 403, 'type' => 'imap',
                         'file' => __FILE__, 'line' => __LINE__,
-                        'message' => $message
+                        'message' => $message,
                     ], true, false);
             }
         }

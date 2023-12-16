@@ -137,7 +137,7 @@ class rcmail_action_contacts_print extends rcmail_action_contacts_index
             if (!empty($groups)) {
                 $form['contact']['content']['groups'] = [
                     'value' => rcube::Q(implode(', ', $groups)),
-                    'label' => $rcmail->gettext('groups')
+                    'label' => $rcmail->gettext('groups'),
                 ];
             }
         }

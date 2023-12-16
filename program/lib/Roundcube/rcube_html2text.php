@@ -268,7 +268,7 @@ class rcube_html2text
         "/\t/",
         '/ /',
         '/<pre[^>]*>/',
-        '/<\/pre>/'
+        '/<\/pre>/',
     ];
 
     /**
@@ -282,7 +282,7 @@ class rcube_html2text
         '&nbsp;&nbsp;&nbsp;&nbsp;',
         '&nbsp;',
         '',
-        ''
+        '',
     ];
 
     /**
@@ -369,7 +369,7 @@ class rcube_html2text
         $allowed = [
             self::LINKS_NONE,
             self::LINKS_END,
-            self::LINKS_INLINE
+            self::LINKS_INLINE,
         ];
 
         if (!in_array((int) $mode, $allowed)) {

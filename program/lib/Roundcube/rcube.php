@@ -318,7 +318,7 @@ class rcube
         if (!class_exists($driver_class)) {
             self::raise_error([
                     'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Storage driver class ($driver) not found!"
+                    'message' => "Storage driver class ($driver) not found!",
                 ],
                 true, true
             );
@@ -923,7 +923,7 @@ class rcube
             self::raise_error([
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "Failed to encrypt data with configured cipher method: $method!"
+                    'message' => "Failed to encrypt data with configured cipher method: $method!",
                 ], true, false);
 
             return false;
@@ -1781,7 +1781,7 @@ class rcube
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
                         'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: ".$mime_result->getMessage()
+                        'message' => "Could not create message: ".$mime_result->getMessage(),
                     ],
                     true, false
                 );
@@ -1808,7 +1808,7 @@ class rcube
             self::raise_error([
                     'code' => 800, 'type' => 'smtp',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => implode("\n", $response)
+                    'message' => implode("\n", $response),
                 ], true, false);
 
             // allow plugins to catch sending errors with the same parameters as in 'message_before_send'

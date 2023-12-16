@@ -39,7 +39,7 @@ class rcube_pam_password
                         'code' => 600,
                         'file' => __FILE__,
                         'line' => __LINE__,
-                        'message' => "Password plugin: PAM authentication failed for user $username: $error"
+                        'message' => "Password plugin: PAM authentication failed for user $username: $error",
                     ], true, false
                 );
             }
@@ -49,7 +49,7 @@ class rcube_pam_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: PECL-PAM module not loaded"
+                    'message' => "Password plugin: PECL-PAM module not loaded",
                 ], true, false
             );
         }

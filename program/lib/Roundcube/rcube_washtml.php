@@ -572,7 +572,7 @@ class rcube_washtml
                 $this->max_nesting_level_error = true;
                 rcube::raise_error([
                         'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})"
+                        'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})",
                     ],
                     true, false
                 );
@@ -779,7 +779,7 @@ class rcube_washtml
             "\xe2\x80\x9c", // left double quote
             "\xe2\x80\x9d", // right double quote
             "\xe2\x80\x94", // em dash
-            "\xe2\x80\xa6"  // ellipses
+            "\xe2\x80\xa6",  // ellipses
         ];
 
         $fixedwordchars = [
@@ -788,7 +788,7 @@ class rcube_washtml
             '"',
             '"',
             '&mdash;',
-            '...'
+            '...',
         ];
 
         $html = str_replace($badwordchars, $fixedwordchars, $html);

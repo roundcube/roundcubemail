@@ -249,7 +249,7 @@ EOF;
             if ($this->env['task'] == 'login') {
                 $title = $this->app->gettext([
                         'name' => 'welcome',
-                        'vars' => ['product' => $this->config->get('product_name')]
+                        'vars' => ['product' => $this->config->get('product_name')],
                 ]);
             }
             else {
@@ -321,7 +321,7 @@ EOF;
             rcube::raise_error([
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => 'Invalid skin name'
+                    'message' => 'Invalid skin name',
                 ], true, false);
 
             return false;
@@ -644,7 +644,7 @@ EOF;
                         'code'    => 505,
                         'file'    => __FILE__,
                         'line'    => __LINE__,
-                        'message' => 'Recursion alert: ignoring output->send()'
+                        'message' => 'Recursion alert: ignoring output->send()',
                     ], true, false
                 );
 
@@ -779,7 +779,7 @@ EOF;
                 if (is_readable($path)) {
                     rcube::raise_error([
                             'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'"
+                            'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'",
                         ], true, false
                     );
                 }
@@ -803,7 +803,7 @@ EOF;
                     'code' => 404,
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => 'Error loading template for '.$realname
+                    'message' => 'Error loading template for '.$realname,
                 ], true, $write);
 
             $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
@@ -828,7 +828,7 @@ EOF;
         $hook = $this->app->plugins->exec_hook("render_page", [
                 'template' => $realname,
                 'content'  => $output,
-                'write'    => $write
+                'write'    => $write,
         ]);
 
         // save some memory
@@ -1882,7 +1882,7 @@ EOF;
                 $attrib,
                 [
                     'style', 'class', 'id', 'width', 'height', 'border', 'hspace',
-                    'vspace', 'align', 'alt', 'tabindex', 'title'
+                    'vspace', 'align', 'alt', 'tabindex', 'title',
                 ]
             );
             $btn_content = sprintf('<img src="%s"%s />', $this->abs_url($attrib['image']), $attrib_str);
@@ -2058,7 +2058,7 @@ EOF;
             $meta .= html::tag('meta', [
                     'http-equiv' => 'content-type',
                     'content'    => "text/html; charset={$this->charset}",
-                    'nl'         => true
+                    'nl'         => true,
             ]);
         }
 
@@ -2365,14 +2365,14 @@ EOF;
             'inputs' => [
                 'user' => [
                     'title'   => html::label('rcmloginuser', html::quote($this->app->gettext('username'))),
-                    'content' => $input_user->show(rcube_utils::get_input_string('_user', rcube_utils::INPUT_GPC))
+                    'content' => $input_user->show(rcube_utils::get_input_string('_user', rcube_utils::INPUT_GPC)),
                 ],
                 'password' => [
                     'title'   => html::label('rcmloginpwd', html::quote($this->app->gettext('password'))),
-                    'content' => $input_pass->show()
+                    'content' => $input_pass->show(),
                 ],
             ],
-            'buttons' => []
+            'buttons' => [],
         ];
 
         if (is_array($default_host) && count($default_host) > 1) {
@@ -2404,7 +2404,7 @@ EOF;
         if (is_object($input_host)) {
             $form_content['inputs']['host'] = [
                 'title'   => html::label('rcmloginhost', html::quote($this->app->gettext('server'))),
-                'content' => $input_host->show(rcube_utils::get_input_string('_host', rcube_utils::INPUT_GPC))
+                'content' => $input_host->show(rcube_utils::get_input_string('_host', rcube_utils::INPUT_GPC)),
             ];
         }
 
@@ -2427,7 +2427,7 @@ EOF;
             $link_attr = [
                 'href'  => $this->app->url(['action' => 'oauth']),
                 'id'    => 'rcmloginoauth',
-                'class' => 'button oauth ' . $this->config->get('oauth_provider')
+                'class' => 'button oauth ' . $this->config->get('oauth_provider'),
             ];
 
             $provider = $this->config->get('oauth_provider_name', 'OAuth');
@@ -2558,7 +2558,7 @@ EOF;
             $header_label = $this->app->gettext('arialabel' . $attrib['label'], $domain);
             $header_attrs = [
                 'id'    => 'aria-label-' . $attrib['label'],
-                'class' => 'voice'
+                'class' => 'voice',
             ];
 
             $header = html::tag($ariatag, $header_attrs, rcube::Q($header_label));
@@ -2572,7 +2572,7 @@ EOF;
                         'title'      => 'options',
                         'tabindex'   => '0',
                         'innerclass' => 'inner',
-                        'data-target' => $options
+                        'data-target' => $options,
                 ]);
             }
 

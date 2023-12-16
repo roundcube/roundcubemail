@@ -703,7 +703,7 @@ class rcmail_action_mail_index extends rcmail_action
                         'href'  => "./#sort",
                         'class' => 'sortcol',
                         'rel'   => $rel_col,
-                        'title' => $rcmail->gettext('sortby')
+                        'title' => $rcmail->gettext('sortby'),
                     ], $col_name);
             }
             else if (empty($col_name) || $col_name[0] != '<') {
@@ -797,8 +797,8 @@ class rcmail_action_mail_index extends rcmail_action
                     'vars' => [
                         'from'  => $start_msg,
                         'to'    => min($max, $start_msg + $page_size - 1),
-                        'count' => $max
-                    ]
+                        'count' => $max,
+                    ],
             ]);
         }
 
@@ -1018,11 +1018,11 @@ class rcmail_action_mail_index extends rcmail_action
             [
                 'type' => $part->ctype_secondary,
                 'body' => $body,
-                'id'   => $part->mime_id
+                'id'   => $part->mime_id,
             ] + $p + [
                 'safe'  => false,
                 'plain' => false,
-                'inline_html' => true
+                'inline_html' => true,
             ]
         );
 
@@ -1066,7 +1066,7 @@ class rcmail_action_mail_index extends rcmail_action
         $data = $rcmail->plugins->exec_hook('message_part_after', [
                 'type' => $part->ctype_secondary,
                 'body' => $body,
-                'id'   => $part->mime_id
+                'id'   => $part->mime_id,
             ] + $data);
 
         return $data['body'];
@@ -1086,7 +1086,7 @@ class rcmail_action_mail_index extends rcmail_action
         $options = [
             'flowed'   => $flowed,
             'replacer' => 'rcmail_string_replacer',
-            'delsp'    => $delsp
+            'delsp'    => $delsp,
         ];
 
         $text2html = new rcube_text2html($body, false, $options);
@@ -1520,7 +1520,7 @@ class rcmail_action_mail_index extends rcmail_action
                         'onclick' => sprintf("return %s.simple_dialog('%s','%s',null,{cancel_button:'close'})",
                             rcmail_output::JS_OBJECT_NAME,
                             rcube::JQ(implode(', ', $allvalues)),
-                            rcube::JQ($title))
+                            rcube::JQ($title)),
                     ], $label);
             }
         }

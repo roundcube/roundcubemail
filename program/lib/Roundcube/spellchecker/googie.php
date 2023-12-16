@@ -44,7 +44,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fr_FR', 'ga', 'gl', 'gl',
             'he', 'hr', 'hu', 'hy', 'is', 'it', 'ku', 'lt', 'lv', 'nl',
             'pl', 'pt_BR', 'pt_PT', 'ro', 'ru',
-            'sk', 'sl', 'sv', 'uk'
+            'sk', 'sl', 'sv', 'uk',
         ];
     }
 
@@ -85,9 +85,9 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
                     'connect_timeout' => 5, // seconds
                     'headers' => [
                         'User-Agent' => "Roundcube Webmail/" . RCUBE_VERSION . " (Googiespell Wrapper)",
-                            'Content-type' => 'text/xml'
+                            'Content-type' => 'text/xml',
                     ],
-                    'body' => $gtext
+                    'body' => $gtext,
                 ]
             );
         }

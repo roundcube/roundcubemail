@@ -100,7 +100,7 @@ abstract class rcube_addressbook
         'name'      => ['limit' => 1],
         'firstname' => ['limit' => 1],
         'surname'   => ['limit' => 1],
-        'email'     => ['limit' => 1]
+        'email'     => ['limit' => 1],
     ];
 
     /**

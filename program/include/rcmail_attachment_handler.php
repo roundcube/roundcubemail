@@ -372,7 +372,7 @@ class rcmail_attachment_handler
             else {
                 rcube::raise_error([
                         'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => 'Unable to get/display message part. IMAP connection error'
+                        'message' => 'Unable to get/display message part. IMAP connection error',
                     ],
                     true, true
                 );

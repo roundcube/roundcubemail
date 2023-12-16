@@ -181,14 +181,14 @@ class acl extends rcube_plugin
         if (!isset($args['form']['props']['fieldsets']['info'])) {
             $args['form']['props']['fieldsets']['info'] = [
                 'name'    => $this->rc->gettext('info'),
-                'content' => []
+                'content' => [],
             ];
         }
 
         // Display folder rights to 'Info' fieldset
         $args['form']['props']['fieldsets']['info']['content']['myrights'] = [
             'label' => rcube::Q($this->gettext('myrights')),
-            'value' => $this->acl2text($myrights)
+            'value' => $this->acl2text($myrights),
         ];
 
         // Return if not folder admin
@@ -543,7 +543,7 @@ class acl extends rcube_plugin
                             'title'    => $title,
                             'display'  => $display,
                             'acl'      => implode('', $acl),
-                            'old'      => $oldid
+                            'old'      => $oldid,
                     ]);
                     $result++;
                 }
