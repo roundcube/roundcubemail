@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -204,7 +204,7 @@ class rcube_cache
         $cache_key = $prefix;
 
         if (!empty($params)) {
-            $func = function($v) {
+            $func = function ($v) {
                 if (is_array($v)) {
                     sort($v);
                 }

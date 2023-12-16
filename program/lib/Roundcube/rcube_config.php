@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -140,23 +140,23 @@ class rcube_config
     private function parse_env($string, $type = null)
     {
         switch ($type) {
-        case 'bool':
-            return (bool) $string;
+            case 'bool':
+                return (bool) $string;
 
-        case 'int':
-            return (int) $string;
+            case 'int':
+                return (int) $string;
 
-        case 'float':
-            return (float) $string;
+            case 'float':
+                return (float) $string;
 
-        case 'string':
-            return $string;
+            case 'string':
+                return $string;
 
-        case 'array':
-            return json_decode($string, true);
+            case 'array':
+                return json_decode($string, true);
 
-        case 'object':
-            return json_decode($string, false);
+            case 'object':
+                return json_decode($string, false);
         }
 
         return $this->parse_env($string, $this->guess_type($string));
@@ -317,7 +317,7 @@ class rcube_config
             if ($fpath && is_file($fpath) && is_readable($fpath)) {
                 // use output buffering, we don't need any output here
                 ob_start();
-                include($fpath);
+                include $fpath;
                 ob_end_clean();
 
                 if (isset($config) && is_array($config)) {
@@ -699,7 +699,9 @@ class rcube_config
                 $tz = new DateTimeZone($props['timezone']);
                 return $this->client_tz = $tz->getName();
             }
-            catch (Exception $e) { /* gracefully ignore */ }
+            catch (Exception $e) {
+                // gracefully ignore
+            }
         }
 
         // fallback to server's timezone

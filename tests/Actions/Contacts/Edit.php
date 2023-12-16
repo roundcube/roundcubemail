@@ -100,6 +100,6 @@ class Actions_Contacts_Edit extends ActionTestCase
         $this->assertSame('upload-photo', $filedrop['action']);
         $this->assertSame('_photo', $filedrop['fieldname']);
         $this->assertSame(1, $filedrop['single']);
-        $this->assertSame( '^image/.+', $filedrop['filter']);
+        $this->assertSame('^image/.+', $filedrop['filter']);
     }
 }

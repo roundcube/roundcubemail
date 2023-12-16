@@ -99,7 +99,7 @@ class Framework_SpellcheckerPspell extends PHPUnit\Framework\TestCase
 
         $object = new rcube_spellchecker();
 
-        $expected = ['ON','on','Ont','only','onya','NY','onyx','Ono','any','one'];
+        $expected = ['ON', 'on', 'Ont', 'only', 'onya', 'NY', 'onyx', 'Ono', 'any', 'one'];
         $result   = $object->get_suggestions('ony');
 
         sort($expected);

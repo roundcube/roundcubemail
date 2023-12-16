@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -131,7 +131,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 }
 
                 // performance: unset some big data items we don't need here
-                $record = array_intersect_key($record, ['ID' => 1,'email' => 1,'name' => 1]);
+                $record = array_intersect_key($record, ['ID' => 1, 'email' => 1, 'name' => 1]);
                 $record['_type'] = 'person';
 
                 // update the changed col in list

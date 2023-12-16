@@ -2,7 +2,6 @@
 
 class Managesieve_Plugin extends PHPUnit\Framework\TestCase
 {
-
     static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../managesieve.php';

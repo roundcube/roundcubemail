@@ -187,35 +187,35 @@ class archive extends rcube_plugin
                 foreach ($messages as $message) {
                     $subfolder = null;
                     switch ($archive_type) {
-                    case 'year':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y');
-                        break;
+                        case 'year':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y');
+                            break;
 
-                    case 'month':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
-                            . $delimiter . $rcmail->format_date($message->timestamp, 'm');
-                        break;
+                        case 'month':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                                . $delimiter . $rcmail->format_date($message->timestamp, 'm');
+                            break;
 
-                    case 'tbmonth':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
-                            . $delimiter . $rcmail->format_date($message->timestamp, 'Y')
-                            . '-' . $rcmail->format_date($message->timestamp, 'm');
-                        break;
+                        case 'tbmonth':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                                . $delimiter . $rcmail->format_date($message->timestamp, 'Y')
+                                . '-' . $rcmail->format_date($message->timestamp, 'm');
+                            break;
 
-                    case 'sender':
-                        $subfolder = $this->sender_subfolder($message->get('from'));
-                        break;
+                        case 'sender':
+                            $subfolder = $this->sender_subfolder($message->get('from'));
+                            break;
 
-                    case 'folderyear':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
-                            . $delimiter . $mbox;
-                        break;
+                        case 'folderyear':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                                . $delimiter . $mbox;
+                            break;
 
-                    case 'foldermonth':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
-                            . $delimiter . $rcmail->format_date($message->timestamp, 'm')
-                            . $delimiter . $mbox;
-                        break;
+                        case 'foldermonth':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                                . $delimiter . $rcmail->format_date($message->timestamp, 'm')
+                                . $delimiter . $mbox;
+                            break;
                     }
 
                     // compose full folder path

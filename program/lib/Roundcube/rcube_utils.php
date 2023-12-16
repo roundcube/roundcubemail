@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -482,7 +482,7 @@ class rcube_utils
             // for cases like @media { body { position: fixed; } } (#5811)
             $excl     = '(?!' . substr($replacements->pattern, 1, -1) . ')';
             $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)(' . $excl . ':?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
-            $callback = function($matches) use ($container_id, $prefix) {
+            $callback = function ($matches) use ($container_id, $prefix) {
                 $replace = $matches[2];
 
                 if (stripos($replace, ':root') === 0) {
@@ -630,7 +630,7 @@ class rcube_utils
      */
     public static function xss_entity_decode($content)
     {
-        $callback = function($matches) { return chr(hexdec($matches[1])); };
+        $callback = function ($matches) { return chr(hexdec($matches[1])); };
 
         $out = html_entity_decode(html_entity_decode($content));
         $out = trim(preg_replace('/(^<!--|-->$)/', '', trim($out)));
@@ -692,7 +692,8 @@ class rcube_utils
     /**
      * Check if the reported REMOTE_ADDR is in the 'proxy_whitelist' config option
      */
-    public static function check_proxy_whitelist_ip() {
+    public static function check_proxy_whitelist_ip()
+    {
         return in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
     }
 
@@ -1236,7 +1237,7 @@ class rcube_utils
         $arr = self::tokenize_string($str, $minlen);
 
         // detect character set
-        if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-1'), 'ISO-8859-1', 'UTF-8') == $str)  {
+        if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-1'), 'ISO-8859-1', 'UTF-8') == $str) {
             // ISO-8859-1 (or ASCII)
             preg_match_all('/./u', 'äâàåáãæçéêëèïîìíñöôòøõóüûùúýÿ', $keys);
             preg_match_all('/./',  'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
@@ -1522,7 +1523,7 @@ class rcube_utils
 
             try {
                 $date = date_create_from_format('U.u', $dt);
-                $date->setTimeZone(new DateTimeZone(date_default_timezone_get()));
+                $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
                 return $date->format($format);
             }
@@ -1655,10 +1656,10 @@ class rcube_utils
 
     /**
      * Clean the subject from reply and forward prefix
-     * 
+     *
      * @param string $subject Subject to clean
      * @param string $mode Mode of cleaning : reply, forward or both
-     * 
+     *
      * @return string Cleaned subject
      */
     public static function remove_subject_prefix($subject, $mode = 'both')
@@ -1681,7 +1682,7 @@ class rcube_utils
         }
 
         // replace Re:, Re[x]:, Re-x (#1490497)
-        $pieces = array_map(function($prefix) {
+        $pieces = array_map(function ($prefix) {
             $prefix = strtolower(str_replace(':', '', $prefix));
             return "$prefix:|$prefix\[\d\]:|$prefix-\d:";
         }, $prefixes);
@@ -1699,7 +1700,7 @@ class rcube_utils
      * into the TCP stream, if configured.
      *
      * http://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
-     * 
+     *
      * PROXY protocol headers must be sent before any other data is sent on the TCP socket.
      *
      * @param array $options Preferences array which may contain proxy_protocol (generally {driver}_conn_options)

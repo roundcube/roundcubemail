@@ -86,7 +86,7 @@ class help extends rcube_plugin
     function help_content($attrib)
     {
         $rcmail = rcmail::get_instance();
-//        $rcmail->output->set_env('content', $content);
+        // $rcmail->output->set_env('content', $content);
 
         if (!empty($_GET['_content'])) {
             if ($rcmail->action == 'about') {
@@ -145,7 +145,7 @@ class help extends rcube_plugin
 
         // resolve task/action for deep linking
         $rel = !empty($_REQUEST['_rel']) ? $_REQUEST['_rel'] : '';
-        list($task, ) = explode('/', $rel);
+        list($task) = explode('/', $rel);
         if (!empty($index_map[$rel])) {
             $src .= $index_map[$rel];
         }

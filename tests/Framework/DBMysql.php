@@ -9,7 +9,6 @@
  */
 class Framework_DBMysql extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

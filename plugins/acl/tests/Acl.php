@@ -21,4 +21,3 @@ class Acl_Plugin extends ActionTestCase
         $plugin->init();
     }
 }
-

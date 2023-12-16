@@ -187,7 +187,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         // Attachments handling plugins use move_uploaded_file() which does not work
         // here. We'll add a fake hook handler for our purposes.
         $rcmail = rcmail::get_instance();
-        $rcmail->plugins->register_hook('attachment_upload', function($att) use ($file) {
+        $rcmail->plugins->register_hook('attachment_upload', function ($att) use ($file) {
             $att['status'] = true;
             $att['id']     = $file['id'];
             return $att;
@@ -229,7 +229,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         // Attachments handling plugins use move_uploaded_file() which does not work
         // here. We'll add a fake hook handler for our purposes.
         $rcmail = rcmail::get_instance();
-        $rcmail->plugins->register_hook('attachment_upload', function($att) use ($file) {
+        $rcmail->plugins->register_hook('attachment_upload', function ($att) use ($file) {
             $att['status'] = true;
             $att['id']     = $file['id'];
             return $att;

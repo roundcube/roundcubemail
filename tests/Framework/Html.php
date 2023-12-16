@@ -7,7 +7,6 @@
  */
 class Framework_Html extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

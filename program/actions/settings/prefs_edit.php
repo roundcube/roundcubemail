@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -35,7 +35,7 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
         $rcmail->output->set_pagetitle($rcmail->gettext('preferences'));
 
         self::$section = rcube_utils::get_input_string('_section', rcube_utils::INPUT_GPC);
-        list(self::$sections,) = self::user_prefs(self::$section);
+        list(self::$sections) = self::user_prefs(self::$section);
 
         // register UI objects
         $rcmail->output->add_handlers([

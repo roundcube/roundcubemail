@@ -4,7 +4,6 @@ namespace Tests\Browser;
 
 use Facebook\WebDriver\WebDriverKeys;
 use PHPUnit\Framework\Assert;
-use Tests\Browser\Components;
 
 /**
  * Laravel Dusk Browser extensions
@@ -280,7 +279,7 @@ class Browser extends \Laravel\Dusk\Browser
 
         return $this->waitUsing($seconds, 100, function () use ($selector) {
             try {
-                $missing = ! $this->resolver->findOrFail($selector)->isDisplayed();
+                $missing = !$this->resolver->findOrFail($selector)->isDisplayed();
             } catch (\Facebook\WebDriver\Exception\NoSuchElementException $e) {
                 $missing = true;
             } catch (\Facebook\WebDriver\Exception\StaleElementReferenceException $e) {

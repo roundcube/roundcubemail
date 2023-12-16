@@ -296,10 +296,10 @@ class vcard_attachments extends rcube_plugin
             $part->mimetype == 'text/x-vcard' ||
             // Content-Type: text/directory; profile=vCard;
             ($part->mimetype == 'text/directory' && (
-                    (!empty($part->ctype_parameters['profile']) && strtolower($part->ctype_parameters['profile']) == 'vcard')
+                (!empty($part->ctype_parameters['profile']) && strtolower($part->ctype_parameters['profile']) == 'vcard')
             // Content-Type: text/directory; (with filename=*.vcf)
-                    || (!empty($part->filename) && preg_match('/\.vcf$/i', $part->filename))
-                )
+                || (!empty($part->filename) && preg_match('/\.vcf$/i', $part->filename))
+            )
             )
         );
     }

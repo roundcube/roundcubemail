@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -90,7 +90,7 @@ class rcube_spellchecker
         $rcube_languages        = [];
         $rcube_language_aliases = [];
 
-        @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
+        @include RCUBE_LOCALIZATION_DIR . 'index.inc';
 
         // add correct labels
         $languages = [];
@@ -429,7 +429,7 @@ class rcube_spellchecker
                 }
             }
 
-            $plugin['dictionary'] = array_merge((array)$plugin['dictionary'], $dict);
+            $plugin['dictionary'] = array_merge((array) $plugin['dictionary'], $dict);
         }
 
         if (!empty($plugin['dictionary']) && is_array($plugin['dictionary'])) {

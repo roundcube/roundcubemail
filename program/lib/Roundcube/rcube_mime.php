@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -151,7 +151,7 @@ class rcube_mime
      */
     public static function decode_header($input, $fallback = null)
     {
-        $str = self::decode_mime_string((string)$input, $fallback);
+        $str = self::decode_mime_string((string) $input, $fallback);
 
         return $str;
     }
@@ -276,18 +276,18 @@ class rcube_mime
     public static function decode($input, $encoding = '7bit')
     {
         switch (strtolower($encoding)) {
-        case 'quoted-printable':
-            return quoted_printable_decode($input);
-        case 'base64':
-            return base64_decode($input);
-        case 'x-uuencode':
-        case 'x-uue':
-        case 'uue':
-        case 'uuencode':
-            return convert_uudecode($input);
-        case '7bit':
-        default:
-            return $input;
+            case 'quoted-printable':
+                return quoted_printable_decode($input);
+            case 'base64':
+                return base64_decode($input);
+            case 'x-uuencode':
+            case 'x-uue':
+            case 'uue':
+            case 'uuencode':
+                return convert_uudecode($input);
+            case '7bit':
+            default:
+                return $input;
         }
     }
 
@@ -793,7 +793,7 @@ class rcube_mime
 
         if (empty($mime_ext)) {
             foreach (rcube::get_instance()->config->resolve_paths('mimetypes.php') as $fpath) {
-                $mime_ext = array_merge($mime_ext, (array) @include($fpath));
+                $mime_ext = array_merge($mime_ext, (array) @include ($fpath));
             }
         }
 
@@ -859,7 +859,7 @@ class rcube_mime
         }
 
         foreach ($lines as $line) {
-             // skip comments or mime types w/o any extensions
+            // skip comments or mime types w/o any extensions
             if ($line[0] == '#' || !preg_match($regex, $line, $matches)) {
                 continue;
             }
@@ -876,7 +876,7 @@ class rcube_mime
         // fallback to some well-known types most important for daily emails
         if (empty($mime_types)) {
             foreach (rcube::get_instance()->config->resolve_paths('mimetypes.php') as $fpath) {
-                $mime_extensions = array_merge($mime_extensions, (array) @include($fpath));
+                $mime_extensions = array_merge($mime_extensions, (array) @include ($fpath));
             }
 
             foreach ($mime_extensions as $ext => $mime) {
@@ -932,10 +932,18 @@ class rcube_mime
     public static function image_content_type($data)
     {
         $type = 'jpeg';
-        if      (preg_match('/^\x89\x50\x4E\x47/', $data)) $type = 'png';
-        else if (preg_match('/^\x47\x49\x46\x38/', $data)) $type = 'gif';
-        else if (preg_match('/^\x00\x00\x01\x00/', $data)) $type = 'ico';
-    //  else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) $type = 'jpeg';
+        if (preg_match('/^\x89\x50\x4E\x47/', $data)) {
+            $type = 'png';
+        }
+        else if (preg_match('/^\x47\x49\x46\x38/', $data)) {
+            $type = 'gif';
+        }
+        else if (preg_match('/^\x00\x00\x01\x00/', $data)) {
+            $type = 'ico';
+        }
+        // else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) {
+        //     $type = 'jpeg';
+        // }
 
         return 'image/' . $type;
     }

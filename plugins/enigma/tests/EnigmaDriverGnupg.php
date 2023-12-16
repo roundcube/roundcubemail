@@ -19,4 +19,3 @@ class Enigma_EnigmaDriverGnupg extends PHPUnit\Framework\TestCase
         $this->assertInstanceOf('enigma_driver', $plugin);
     }
 }
-

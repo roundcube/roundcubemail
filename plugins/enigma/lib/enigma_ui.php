@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-------------------------------------------------------------------------+
  | User Interface for the Enigma Plugin                                    |
  |                                                                         |
@@ -52,11 +52,11 @@ class enigma_ui
                 case 'delete':
                     $this->key_delete();
                     break;
-/*
+                    /*
                 case 'edit':
                     $this->key_edit();
                     break;
-*/
+                    */
                 case 'import':
                     $this->key_import();
                     break;
@@ -96,7 +96,7 @@ class enigma_ui
             $this->rc->output->set_pagetitle($this->enigma->gettext('enigmakeys'));
             $this->rc->output->send('enigma.keys');
         }
-/*
+        /*
         // Preferences UI
         else if ($this->rc->action == 'plugin.enigmacerts') {
             $this->rc->output->add_handlers([
@@ -109,7 +109,7 @@ class enigma_ui
             $this->rc->output->set_pagetitle($this->enigma->gettext('enigmacerts'));
             $this->rc->output->send('enigma.certs');
         }
-*/
+        */
         // Message composing UI
         else if ($this->rc->action == 'compose') {
             $this->compose_ui();
@@ -1243,7 +1243,7 @@ class enigma_ui
         return $p;
     }
 
-   /**
+    /**
      * Handler for message_compose_body hook
      * Display error when the message cannot be encrypted
      * and provide a way to try again with a password.

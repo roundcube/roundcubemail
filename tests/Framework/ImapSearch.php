@@ -7,7 +7,6 @@
  */
 class Framework_ImapSearch extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

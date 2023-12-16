@@ -72,7 +72,7 @@ class rcube_ldap_simple_password
 
         // Update PasswordLastChange Attribute if desired
         if ($lchattr) {
-            $entry[$lchattr] = (int)(time() / 86400);
+            $entry[$lchattr] = (int) (time() / 86400);
         }
 
         // Update Samba password
@@ -175,21 +175,21 @@ class rcube_ldap_simple_password
 
         // Connection method
         switch ($rcmail->config->get('password_ldap_method')) {
-        case 'sasl':
-            $binddn    = $rcmail->config->get('password_ldap_adminDN');
-            $bindpw    = $rcmail->config->get('password_ldap_adminPW');
-            $bindmech  = $rcmail->config->get('password_ldap_mech');
-            $bindrealm = $rcmail->config->get('password_ldap_realm');
-            break;
-        case 'admin':
-            $binddn = $rcmail->config->get('password_ldap_adminDN');
-            $bindpw = $rcmail->config->get('password_ldap_adminPW');
-            break;
-        case 'user':
-        default:
-            $binddn = $user_dn;
-            $bindpw = $curpass;
-            break;
+            case 'sasl':
+                $binddn    = $rcmail->config->get('password_ldap_adminDN');
+                $bindpw    = $rcmail->config->get('password_ldap_adminPW');
+                $bindmech  = $rcmail->config->get('password_ldap_mech');
+                $bindrealm = $rcmail->config->get('password_ldap_realm');
+                break;
+            case 'admin':
+                $binddn = $rcmail->config->get('password_ldap_adminDN');
+                $bindpw = $rcmail->config->get('password_ldap_adminPW');
+                break;
+            case 'user':
+            default:
+                $binddn = $user_dn;
+                $bindpw = $curpass;
+                break;
         }
 
         $this->_debug("C: Bind $binddn, pass: **** [" . strlen($bindpw) . "]");
@@ -240,27 +240,27 @@ class rcube_ldap_simple_password
         $this->_debug("C: Bind " . ($search_user ? $search_user : '[anonymous]'));
 
         switch ($rcmail->config->get('password_ldap_bind_method')) {
-        case 'sasl':
-            $search_mech     = $rcmail->config->get('password_ldap_mech');
-            $search_realm    = $rcmail->config->get('password_ldap_realm');
+            case 'sasl':
+                $search_mech     = $rcmail->config->get('password_ldap_mech');
+                $search_realm    = $rcmail->config->get('password_ldap_realm');
 
-            // Bind
-            if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {
-                $this->_debug("S: ".ldap_error($ds));
-                return false;
-            }
+                // Bind
+                if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {
+                    $this->_debug("S: ".ldap_error($ds));
+                    return false;
+                }
 
-            break;
-        case 'bind':
-        default:
+                break;
+            case 'bind':
+            default:
 
-            // Bind
-            if (!ldap_bind($ds, $search_user, $search_pass)) {
-                $this->_debug("S: ".ldap_error($ds));
-                return false;
-            }
+                // Bind
+                if (!ldap_bind($ds, $search_user, $search_pass)) {
+                    $this->_debug("S: ".ldap_error($ds));
+                    return false;
+                }
 
-            break;
+                break;
         }
 
         $this->_debug("S: OK");

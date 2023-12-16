@@ -7,7 +7,6 @@
  */
 class Framework_ImapCache extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

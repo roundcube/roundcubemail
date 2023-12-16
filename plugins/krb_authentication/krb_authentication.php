@@ -149,7 +149,7 @@ class krb_authentication extends rcube_plugin
         $context = $rcmail->config->get('krb_authentication_context');
 
         if (is_array($context) && isset($context[$protocol])) {
-             $context = $context[$protocol];
+            $context = $context[$protocol];
         }
 
         if (empty($context)) {

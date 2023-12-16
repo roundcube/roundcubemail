@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -79,7 +79,7 @@ class rcube_result_multifolder
 
         // append UIDs to global index
         $folder = $result->get_parameters('MAILBOX');
-        $index  = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
+        $index  = array_map(function ($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
 
         $this->index = array_merge($this->index, $index);
     }

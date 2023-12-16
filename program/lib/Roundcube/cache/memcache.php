@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -78,7 +78,7 @@ class rcube_cache_memcache extends rcube_cache
         $available      = 0;
 
         // Callback for memcache failure
-        $error_callback = function($host, $port) use ($seen, $available) {
+        $error_callback = function ($host, $port) use ($seen, $available) {
             // only report once
             if (!$seen["$host:$port"]++) {
                 $available--;
@@ -96,7 +96,9 @@ class rcube_cache_memcache extends rcube_cache
         foreach ((array) $rcube->config->get('memcache_hosts') as $host) {
             if (substr($host, 0, 7) != 'unix://') {
                 list($host, $port) = explode(':', $host);
-                if (!$port) $port = 11211;
+                if (!$port) {
+                    $port = 11211;
+                }
             }
             else {
                 $port = 0;

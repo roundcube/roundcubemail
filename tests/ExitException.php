@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -22,6 +22,4 @@
  *
  * @package Tests
  */
-class ExitException extends Exception
-{
-}
+class ExitException extends Exception {}

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -32,9 +32,9 @@ class html
 
     public static $doctype = 'xhtml';
     public static $lc_tags = true;
-    public static $common_attrib = ['id','class','style','title','align','unselectable','tabindex','role'];
-    public static $containers    = ['iframe','div','span','p','h1','h2','h3','ul','form','textarea','table','thead','tbody','tr','th','td','style','script','a'];
-    public static $bool_attrib   = ['checked','multiple','disabled','selected','autofocus','readonly','required'];
+    public static $common_attrib = ['id', 'class', 'style', 'title', 'align', 'unselectable', 'tabindex', 'role'];
+    public static $containers    = ['iframe', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'ul', 'form', 'textarea', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'style', 'script', 'a'];
+    public static $bool_attrib   = ['checked', 'multiple', 'disabled', 'selected', 'autofocus', 'readonly', 'required'];
 
 
     /**
@@ -59,7 +59,7 @@ class html
         return self::tag($this->tagname, $this->attrib, $this->content, array_merge(self::$common_attrib, $this->allowed));
     }
 
-    /****** STATIC METHODS *******/
+    /* STATIC METHODS */
 
     /**
      * Generic method to create a HTML tag
@@ -163,7 +163,7 @@ class html
             $attr = ['src' => $attr];
         }
 
-        $allowed = ['src','alt','width','height','border','usemap','onclick','onerror','onload'];
+        $allowed = ['src', 'alt', 'width', 'height', 'border', 'usemap', 'onclick', 'onerror', 'onload'];
 
         return self::tag('img', $attr + ['alt' => ''], null, array_merge(self::$common_attrib, $allowed));
     }
@@ -183,7 +183,7 @@ class html
             $attr = ['href' => $attr];
         }
 
-        $allowed = ['href','target','name','rel','onclick','onmouseover','onmouseout','onmousedown','onmouseup'];
+        $allowed = ['href', 'target', 'name', 'rel', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup'];
 
         return self::tag('a', $attr, $cont, array_merge(self::$common_attrib, $allowed));
     }
@@ -221,7 +221,7 @@ class html
             $attr = ['for' => $attr];
         }
 
-        return self::tag('label', $attr, $cont, array_merge(self::$common_attrib, ['for','onkeypress']));
+        return self::tag('label', $attr, $cont, array_merge(self::$common_attrib, ['for', 'onkeypress']));
     }
 
     /**
@@ -239,7 +239,7 @@ class html
             $attr = ['src' => $attr];
         }
 
-        $allowed = ['src','name','width','height','border','frameborder','onload','allowfullscreen'];
+        $allowed = ['src', 'name', 'width', 'height', 'border', 'frameborder', 'onload', 'allowfullscreen'];
 
         return self::tag('iframe', $attr, $cont, array_merge(self::$common_attrib, $allowed));
     }
@@ -406,10 +406,10 @@ class html_inputfield extends html
     protected $tagname = 'input';
     protected $type    = 'text';
     protected $allowed = [
-        'type','name','value','size','tabindex','autocapitalize','required',
-        'autocomplete','checked','onchange','onclick','disabled','readonly',
-        'spellcheck','results','maxlength','src','multiple','accept',
-        'placeholder','autofocus','pattern','oninput'
+        'type', 'name', 'value', 'size', 'tabindex', 'autocapitalize', 'required',
+        'autocomplete', 'checked', 'onchange', 'onclick', 'disabled', 'readonly',
+        'spellcheck', 'results', 'maxlength', 'src', 'multiple', 'accept',
+        'placeholder', 'autofocus', 'pattern', 'oninput'
     ];
 
     /**
@@ -475,7 +475,7 @@ class html_hiddenfield extends html
 {
     protected $tagname = 'input';
     protected $type    = 'hidden';
-    protected $allowed = ['type','name','value','onchange','disabled','readonly'];
+    protected $allowed = ['type', 'name', 'value', 'onchange', 'disabled', 'readonly'];
     protected $fields  = [];
 
     /**
@@ -601,8 +601,8 @@ class html_button extends html_inputfield
 class html_textarea extends html
 {
     protected $tagname = 'textarea';
-    protected $allowed = ['name','rows','cols','wrap','tabindex',
-        'onchange','disabled','readonly','spellcheck'];
+    protected $allowed = ['name', 'rows', 'cols', 'wrap', 'tabindex',
+        'onchange', 'disabled', 'readonly', 'spellcheck'];
 
     /**
      * Get HTML code for this object
@@ -662,8 +662,8 @@ class html_select extends html
 {
     protected $tagname = 'select';
     protected $options = [];
-    protected $allowed = ['name','size','tabindex','autocomplete',
-        'multiple','onchange','disabled','rel'];
+    protected $allowed = ['name', 'size', 'tabindex', 'autocomplete',
+        'multiple', 'onchange', 'disabled', 'rel'];
 
     /**
      * Add a new option to this drop-down
@@ -716,7 +716,7 @@ class html_select extends html
                 $option_content = self::quote($option_content);
             }
 
-            $allowed = ['value','label','class','style','title','disabled','selected'];
+            $allowed = ['value', 'label', 'class', 'style', 'title', 'disabled', 'selected'];
 
             $this->content .= self::tag('option', $attr + $option, $option_content, $allowed);
         }
@@ -734,8 +734,8 @@ class html_select extends html
 class html_table extends html
 {
     protected $tagname = 'table';
-    protected $allowed = ['id','class','style','width','summary',
-        'cellpadding','cellspacing','border'];
+    protected $allowed = ['id', 'class', 'style', 'width', 'summary',
+        'cellpadding', 'cellspacing', 'border'];
 
     private $header   = null;
     private $rows     = [];
@@ -753,8 +753,8 @@ class html_table extends html
         $this->attrib   = array_merge($attrib, $default_attrib);
 
         if (!empty($attrib['tagname']) && $attrib['tagname'] != 'table') {
-          $this->tagname = $attrib['tagname'];
-          $this->allowed = self::$common_attrib;
+            $this->tagname = $attrib['tagname'];
+            $this->allowed = self::$common_attrib;
         }
     }
 

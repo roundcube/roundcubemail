@@ -30,7 +30,7 @@ class Framework_PluginApi extends PHPUnit\Framework\TestCase
         $api = rcube_plugin_api::get_instance();
 
         $var = 0;
-        $hook_handler = function($args) use (&$var) { $var++; };
+        $hook_handler = function ($args) use (&$var) { $var++; };
 
         $api->register_hook('test', $hook_handler);
 

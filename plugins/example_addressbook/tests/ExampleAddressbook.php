@@ -35,4 +35,3 @@ class ExampleAddressbook_Plugin extends PHPUnit\Framework\TestCase
         $this->assertSame('static', $result['sources']['static']['id']);
     }
 }
-
