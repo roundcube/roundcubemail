@@ -7,7 +7,6 @@
  */
 class Framework_ResultMultifolder extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

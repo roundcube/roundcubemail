@@ -7,7 +7,6 @@
  */
 class rc_html2text extends PHPUnit\Framework\TestCase
 {
-
     function data_html2text()
     {
         return [

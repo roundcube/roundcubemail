@@ -7,7 +7,6 @@
  */
 class Framework_ResultSet extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

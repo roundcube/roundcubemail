@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -186,7 +186,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 }
                 // check if the folder is shared, then disable subscription option on it (if not subscribed already)
                 if (!$is_disabled) {
-                    $tmp_ns = array_merge((array)$namespace['other'], (array)$namespace['shared']);
+                    $tmp_ns = array_merge((array) $namespace['other'], (array) $namespace['shared']);
                     foreach ($tmp_ns as $item) {
                         if (strlen($item[0]) && strpos($folder['id'], $item[0]) === 0) {
                             $is_disabled = true;
@@ -304,7 +304,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $select->add($rcmail->gettext('all'), '---');
 
         foreach (array_keys($namespace) as $type) {
-            foreach ((array)$namespace[$type] as $ns) {
+            foreach ((array) $namespace[$type] as $ns) {
                 $root  = rtrim($ns[0], $ns[1]);
                 $label = $rcmail->gettext('namespace.' . $type);
 

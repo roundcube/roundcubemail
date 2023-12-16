@@ -21,4 +21,3 @@ class Enigma_EnigmaError extends PHPUnit\Framework\TestCase
         $this->assertSame(['test1' => 'test2'], $error->getData());
     }
 }
-

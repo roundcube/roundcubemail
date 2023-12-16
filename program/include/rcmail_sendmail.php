@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -64,7 +64,7 @@ class rcmail_sendmail
         $this->options['sendmail_delay'] = (int) $this->rcmail->config->get('sendmail_delay');
 
         if (empty($options['error_handler'])) {
-            $this->options['error_handler'] = function() { return false; };
+            $this->options['error_handler'] = function () { return false; };
         }
 
         if (empty($this->data['mode'])) {
@@ -902,7 +902,7 @@ class rcmail_sendmail
      */
     public function headers_output($attrib)
     {
-        list($form_start,) = $this->form_tags($attrib);
+        list($form_start) = $this->form_tags($attrib);
 
         $out          = '';
         $part         = strtolower($attrib['part']);
@@ -912,33 +912,33 @@ class rcmail_sendmail
         $param        = $part;
 
         switch ($part) {
-        case 'from':
-            return $form_start . $this->compose_header_from($attrib);
+            case 'from':
+                return $form_start . $this->compose_header_from($attrib);
 
-        case 'to':
-        case 'cc':
-        case 'bcc':
-            $fname  = '_' . $part;
+            case 'to':
+            case 'cc':
+            case 'bcc':
+                $fname  = '_' . $part;
 
-            $allow_attrib = ['id', 'class', 'style', 'cols', 'rows', 'tabindex'];
-            $field_type   = 'html_textarea';
-            break;
+                $allow_attrib = ['id', 'class', 'style', 'cols', 'rows', 'tabindex'];
+                $field_type   = 'html_textarea';
+                break;
 
-        case 'replyto':
-        case 'reply-to':
-            $fname  = '_replyto';
-            $param  = 'replyto';
+            case 'replyto':
+            case 'reply-to':
+                $fname  = '_replyto';
+                $param  = 'replyto';
 
-        case 'followupto':
-        case 'followup-to':
-            if (!$fname) {
-                $fname  = '_followupto';
-                $param  = 'followupto';
-            }
+            case 'followupto':
+            case 'followup-to':
+                if (!$fname) {
+                    $fname  = '_followupto';
+                    $param  = 'followupto';
+                }
 
-            $allow_attrib = ['id', 'class', 'style', 'size', 'tabindex'];
-            $field_type   = 'html_inputfield';
-            break;
+                $allow_attrib = ['id', 'class', 'style', 'size', 'tabindex'];
+                $field_type   = 'html_inputfield';
+                break;
         }
 
         if ($fname && $field_type) {
@@ -1222,7 +1222,7 @@ class rcmail_sendmail
     {
         $subject = trim($subject);
 
-        //  Add config options for subject prefixes (#7929) 
+        //  Add config options for subject prefixes (#7929)
         $subject = rcube_utils::remove_subject_prefix($subject, 'reply');
         $subject = rcmail::get_instance()->config->get('response_prefix', 'Re:') . ' ' . $subject;
 
@@ -1260,7 +1260,7 @@ class rcmail_sendmail
         }
         // create a forward-subject
         else if ($this->data['mode'] == self::MODE_FORWARD) {
-            //  Add config options for subject prefixes (#7929) 
+            //  Add config options for subject prefixes (#7929)
             $subject = rcube_utils::remove_subject_prefix($this->options['message']->subject, 'forward');
             $subject = trim($this->rcmail->config->get('forward_prefix', 'Fwd:') . ' ' . $subject);
         }
@@ -1323,7 +1323,7 @@ class rcmail_sendmail
      */
     public function form_head($attrib)
     {
-        list($form_start,) = $this->form_tags($attrib);
+        list($form_start) = $this->form_tags($attrib);
 
         return $form_start;
     }

@@ -22,4 +22,3 @@ class Autologout_Plugin extends PHPUnit\Framework\TestCase
         $plugin->startup([]);
     }
 }
-

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube webmail client                     |
  |                                                                       |
@@ -56,7 +56,11 @@ foreach ($config as $optname => $optval) {
         $error  = "ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
             . "Check your PHP configuration (including php_admin_flag).";
 
-        if (defined('STDERR')) fwrite(STDERR, $error); else echo $error;
+        if (defined('STDERR')) {
+            fwrite(STDERR, $error);
+        } else {
+            echo $error;
+        }
         exit(1);
     }
 }
@@ -105,7 +109,7 @@ spl_autoload_register('rcube_autoload');
 
 // set PEAR error handling (will also load the PEAR main class)
 if (class_exists('PEAR')) {
-    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, function($err) { rcube::raise_error($err, true); });
+    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, function ($err) { rcube::raise_error($err, true); });
 }
 
 /**
@@ -160,18 +164,18 @@ function parse_bytes($str)
     if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
         $bytes = floatval($regs[1]);
         switch (strtolower($regs[2])) {
-        case 'g':
-        case 'gb':
-            $bytes *= 1073741824;
-            break;
-        case 'm':
-        case 'mb':
-            $bytes *= 1048576;
-            break;
-        case 'k':
-        case 'kb':
-            $bytes *= 1024;
-            break;
+            case 'g':
+            case 'gb':
+                $bytes *= 1073741824;
+                break;
+            case 'm':
+            case 'mb':
+                $bytes *= 1048576;
+                break;
+            case 'k':
+            case 'kb':
+                $bytes *= 1024;
+                break;
         }
     }
 
@@ -221,14 +225,14 @@ function get_offset_sec($str)
     }
 
     switch ($unit) {
-    case 'w':
-        $amount *= 7;
-    case 'd':
-        $amount *= 24;
-    case 'h':
-        $amount *= 60;
-    case 'm':
-        $amount *= 60;
+        case 'w':
+            $amount *= 7;
+        case 'd':
+            $amount *= 24;
+        case 'h':
+            $amount *= 60;
+        case 'm':
+            $amount *= 60;
     }
 
     return $amount;

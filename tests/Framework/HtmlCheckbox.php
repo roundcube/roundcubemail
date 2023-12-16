@@ -7,7 +7,6 @@
  */
 class Framework_HtmlCheckbox extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

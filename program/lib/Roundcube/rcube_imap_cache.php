@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -117,7 +117,9 @@ class rcube_imap_cache
     {
         // convert ttl string to seconds
         $ttl = get_offset_sec($ttl);
-        if ($ttl > 2592000) $ttl = 2592000;
+        if ($ttl > 2592000) {
+            $ttl = 2592000;
+        }
 
         $this->db           = $db;
         $this->imap         = $imap;
@@ -423,7 +425,7 @@ class rcube_imap_cache
                 ." WHERE `user_id` = ?"
                     ." AND `mailbox` = ?"
                     ." AND `uid` = ?",
-                    $this->userid, $mailbox, (int)$uid);
+                $this->userid, $mailbox, (int) $uid);
 
             if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
                 $message = $this->build_message($sql_arr);
@@ -590,7 +592,7 @@ class rcube_imap_cache
                 "DELETE FROM {$this->messages_table}"
                 ." WHERE `user_id` = ?"
                     ." AND `mailbox` = ?"
-                    .($uids !== null ? " AND `uid` IN (".$this->db->array2list((array)$uids, 'integer').")" : ""),
+                    .($uids !== null ? " AND `uid` IN (".$this->db->array2list((array) $uids, 'integer').")" : ""),
                 $this->userid, $mailbox
             );
         }
@@ -1018,7 +1020,7 @@ class rcube_imap_cache
         $mbox_data = $this->imap->folder_data($mailbox);
 
         if (empty($mbox_data)) {
-             return;
+            return;
         }
 
         // Check UIDVALIDITY
@@ -1155,7 +1157,7 @@ class rcube_imap_cache
                 if (($sql_arr['flags'] & $idx) == $idx) {
                     $message->flags[$flag] = true;
                 }
-           }
+            }
         }
 
         return $message;

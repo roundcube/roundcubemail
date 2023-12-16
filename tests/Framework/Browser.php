@@ -164,7 +164,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
         $extracted = [];
 
         foreach ($browser as $label => $data) {
-            foreach($keys as $key) {
+            foreach ($keys as $key) {
                 $extracted[$data['useragent']][] = $data[$key];
             }
         }

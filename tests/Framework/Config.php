@@ -7,7 +7,6 @@
  */
 class Framework_Config extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

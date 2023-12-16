@@ -17,4 +17,3 @@ class Enigma_EnigmaSubkey extends PHPUnit\Framework\TestCase
         $this->assertInstanceOf('enigma_subkey', $error);
     }
 }
-

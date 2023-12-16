@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -391,7 +391,7 @@ abstract class rcube_plugin
     public function local_skin_path($extra_dir = null, $skin_name = null)
     {
         $rcube     = rcube::get_instance();
-        $skins     = array_keys((array)$rcube->output->skins);
+        $skins     = array_keys((array) $rcube->output->skins);
         $skin_path = '';
 
         if (empty($skins)) {

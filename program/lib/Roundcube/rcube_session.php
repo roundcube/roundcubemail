@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -237,7 +237,7 @@ abstract class rcube_session implements SessionHandlerInterface
 
             if (is_array($a_oldvars)) {
                 // remove unset keys on oldvars
-                foreach ((array)$this->unsets as $var) {
+                foreach ((array) $this->unsets as $var) {
                     if (isset($a_oldvars[$var])) {
                         unset($a_oldvars[$var]);
                     }
@@ -250,7 +250,7 @@ abstract class rcube_session implements SessionHandlerInterface
                 }
 
                 $newvars = $this->serialize(array_merge(
-                    (array)$a_oldvars, (array)$this->unserialize($vars)));
+                    (array) $a_oldvars, (array) $this->unserialize($vars)));
             }
             else {
                 $newvars = $vars;
@@ -485,8 +485,9 @@ abstract class rcube_session implements SessionHandlerInterface
         $data = '';
 
         if (is_array($vars)) {
-            foreach ($vars as $var => $value)
+            foreach ($vars as $var => $value) {
                 $data .= $var.'|'.serialize($value);
+            }
         }
         else {
             $data = 'b:0;';
@@ -515,9 +516,11 @@ abstract class rcube_session implements SessionHandlerInterface
 
         while ($p < $endptr) {
             $q = $p;
-            while ($str[$q] != '|')
-                if (++$q >= $endptr)
+            while ($str[$q] != '|') {
+                if (++$q >= $endptr) {
                     break 2;
+                }
+            }
 
             if ($str[$p] == '!') {
                 $p++;
@@ -536,59 +539,63 @@ abstract class rcube_session implements SessionHandlerInterface
                 for (;;) {
                     $p = $q;
                     switch (strtolower($str[$q])) {
-                    case 'n': // null
-                    case 'b': // boolean
-                    case 'i': // integer
-                    case 'd': // decimal
-                        do $q++;
-                        while (($q < $endptr) && ($str[$q] != ';'));
-                        $q++;
-                        $serialized .= substr($str, $p, $q - $p);
-                        if ($level == 0) {
-                            break 2;
-                        }
-                        break;
-                    case 'r': // reference
-                        $q+= 2;
-                        for ($id = ''; ($q < $endptr) && ($str[$q] != ';'); $q++) {
-                            $id .= $str[$q];
-                        }
-                        $q++;
-                        // increment pointer because of outer array
-                        $serialized .= 'R:' . ($id + 1) . ';';
-                        if ($level == 0) {
-                            break 2;
-                        }
-                        break;
-                    case 's': // string
-                        $q+=2;
-                        for ($length=''; ($q < $endptr) && ($str[$q] != ':'); $q++) {
-                            $length .= $str[$q];
-                        }
-                        $q+=2;
-                        $q+= (int)$length + 2;
-                        $serialized .= substr($str, $p, $q - $p);
-                        if ($level == 0) {
-                            break 2;
-                        }
-                        break;
-                    case 'a': // array
-                    case 'o': // object
-                        do $q++;
-                        while ($q < $endptr && $str[$q] != '{');
-                        $q++;
-                        $level++;
-                        $serialized .= substr($str, $p, $q - $p);
-                        break;
-                    case '}': // end of array|object
-                        $q++;
-                        $serialized .= substr($str, $p, $q - $p);
-                        if (--$level == 0) {
-                            break 2;
-                        }
-                        break;
-                    default:
-                        return false;
+                        case 'n': // null
+                        case 'b': // boolean
+                        case 'i': // integer
+                        case 'd': // decimal
+                            do {
+                                $q++;
+                            }
+                            while (($q < $endptr) && ($str[$q] != ';'));
+                            $q++;
+                            $serialized .= substr($str, $p, $q - $p);
+                            if ($level == 0) {
+                                break 2;
+                            }
+                            break;
+                        case 'r': // reference
+                            $q+= 2;
+                            for ($id = ''; ($q < $endptr) && ($str[$q] != ';'); $q++) {
+                                $id .= $str[$q];
+                            }
+                            $q++;
+                            // increment pointer because of outer array
+                            $serialized .= 'R:' . ($id + 1) . ';';
+                            if ($level == 0) {
+                                break 2;
+                            }
+                            break;
+                        case 's': // string
+                            $q+=2;
+                            for ($length=''; ($q < $endptr) && ($str[$q] != ':'); $q++) {
+                                $length .= $str[$q];
+                            }
+                            $q+=2;
+                            $q+= (int) $length + 2;
+                            $serialized .= substr($str, $p, $q - $p);
+                            if ($level == 0) {
+                                break 2;
+                            }
+                            break;
+                        case 'a': // array
+                        case 'o': // object
+                            do {
+                                $q++;
+                            }
+                            while ($q < $endptr && $str[$q] != '{');
+                            $q++;
+                            $level++;
+                            $serialized .= substr($str, $p, $q - $p);
+                            break;
+                        case '}': // end of array|object
+                            $q++;
+                            $serialized .= substr($str, $p, $q - $p);
+                            if (--$level == 0) {
+                                break 2;
+                            }
+                            break;
+                        default:
+                            return false;
                     }
                 }
             }

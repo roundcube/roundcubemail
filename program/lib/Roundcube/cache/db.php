@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -91,10 +91,10 @@ class rcube_cache_db extends rcube_cache
     protected function read_record($key)
     {
         $sql_result = $this->db->query(
-                "SELECT `data`, `cache_key` FROM {$this->table} WHERE "
-                . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-                ."`cache_key` = ?",
-                $this->prefix . '.' . $key);
+            "SELECT `data`, `cache_key` FROM {$this->table} WHERE "
+            . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
+            ."`cache_key` = ?",
+            $this->prefix . '.' . $key);
 
         $data = null;
 

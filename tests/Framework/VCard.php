@@ -7,7 +7,6 @@
  */
 class Framework_VCard extends PHPUnit\Framework\TestCase
 {
-
     function _srcpath($fn)
     {
         return realpath(__DIR__ . '/../src/' . $fn);

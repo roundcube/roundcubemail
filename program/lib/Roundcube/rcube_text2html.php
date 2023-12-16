@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -121,7 +121,7 @@ class rcube_text2html
      */
     function print_html()
     {
-        print $this->get_html();
+        echo $this->get_html();
     }
 
     /**

@@ -38,7 +38,6 @@
 
 class rcube_smb_password
 {
-
     public function save($currpass, $newpass, $username)
     {
         $host     = rcmail::get_instance()->config->get('password_smb_host', 'localhost');

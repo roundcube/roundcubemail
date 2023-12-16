@@ -248,7 +248,7 @@ class rcube_sieve_engine
         if ($script_name === null || $script_name === '') {
             // get (first) active script
             if (!empty($this->active)) {
-               $script_name = $this->active[0];
+                $script_name = $this->active[0];
             }
             else if ($list) {
                 $script_name = $list[0];
@@ -574,7 +574,7 @@ class rcube_sieve_engine
             else if (mb_strlen($name) > 128) {
                 $this->errors['name'] = $this->plugin->gettext('nametoolong');
             }
-            else if (!empty($exceptions) && in_array($name, (array)$exceptions)) {
+            else if (!empty($exceptions) && in_array($name, (array) $exceptions)) {
                 $this->errors['name'] = $this->plugin->gettext('namereserved');
             }
             else if (!empty($kolab) && in_array($name_uc, ['MASTER', 'USER', 'MANAGEMENT'])) {
@@ -698,11 +698,12 @@ class rcube_sieve_engine
                 $this->errors['name'] = $this->plugin->gettext('cannotbeempty');
             }
             else {
-                foreach ($this->script as $idx => $rule)
+                foreach ($this->script as $idx => $rule) {
                     if ($rule['name'] == $name && $idx != $fid) {
                         $this->errors['name'] = $this->plugin->gettext('ruleexist');
                         break;
                     }
+                }
             }
 
             $i = 0;
@@ -981,7 +982,7 @@ class rcube_sieve_engine
                             if ($mod == 'address' || $mod == 'envelope') {
                                 $found = false;
                                 if (empty($this->errors['tests'][$i]['header'])) {
-                                    foreach ((array)$header as $hdr) {
+                                    foreach ((array) $header as $hdr) {
                                         if (!in_array(strtolower(trim($hdr)), $this->addr_headers)) {
                                             $found = true;
                                         }
@@ -1045,192 +1046,193 @@ class rcube_sieve_engine
                 $type = $this->strip_value($type);
 
                 switch ($type) {
-                case 'fileinto':
-                case 'fileinto_copy':
-                    $mailbox = $this->strip_value($mailboxes[$idx], false, false);
-                    $this->form['actions'][$i]['target'] = $this->mod_mailbox($mailbox, 'in');
+                    case 'fileinto':
+                    case 'fileinto_copy':
+                        $mailbox = $this->strip_value($mailboxes[$idx], false, false);
+                        $this->form['actions'][$i]['target'] = $this->mod_mailbox($mailbox, 'in');
 
-                    if ($type == 'fileinto_copy') {
-                        $type = 'fileinto';
-                        $this->form['actions'][$i]['copy'] = true;
-                    }
-                    break;
+                        if ($type == 'fileinto_copy') {
+                            $type = 'fileinto';
+                            $this->form['actions'][$i]['copy'] = true;
+                        }
+                        break;
 
-                case 'reject':
-                case 'ereject':
-                    $target = $this->strip_value($area_targets[$idx]);
-                    $this->form['actions'][$i]['target'] = str_replace("\r\n", "\n", $target);
+                    case 'reject':
+                    case 'ereject':
+                        $target = $this->strip_value($area_targets[$idx]);
+                        $this->form['actions'][$i]['target'] = str_replace("\r\n", "\n", $target);
 
- //                 if ($target == '')
-//                      $this->errors['actions'][$i]['targetarea'] = $this->plugin->gettext('cannotbeempty');
-                    break;
+                        // if ($target == '') {
+                        //     $this->errors['actions'][$i]['targetarea'] = $this->plugin->gettext('cannotbeempty');
+                        // }
+                        break;
 
-                case 'redirect':
-                case 'redirect_copy':
-                    $target = $this->strip_value($act_targets[$idx] ?? null);
-                    $domain = $this->strip_value($domain_targets[$idx] ?? null);
+                    case 'redirect':
+                    case 'redirect_copy':
+                        $target = $this->strip_value($act_targets[$idx] ?? null);
+                        $domain = $this->strip_value($domain_targets[$idx] ?? null);
 
-                    // force one of the configured domains
-                    $domains = (array) $this->rc->config->get('managesieve_domains');
-                    if (!empty($domains) && !empty($target)) {
-                        if (!$domain || !in_array($domain, $domains)) {
-                            $domain = $domains[0];
+                        // force one of the configured domains
+                        $domains = (array) $this->rc->config->get('managesieve_domains');
+                        if (!empty($domains) && !empty($target)) {
+                            if (!$domain || !in_array($domain, $domains)) {
+                                $domain = $domains[0];
+                            }
+
+                            $target .= '@' . $domain;
                         }
 
-                        $target .= '@' . $domain;
-                    }
+                        $this->form['actions'][$i]['target'] = $target;
 
-                    $this->form['actions'][$i]['target'] = $target;
+                        if ($target === '') {
+                            $this->errors['actions'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
+                        }
+                        else if (!rcube_utils::check_email($target)) {
+                            $this->errors['actions'][$i]['target'] = $this->plugin->gettext(!empty($domains) ? 'forbiddenchars' : 'noemailwarning');
+                        }
 
-                    if ($target === '') {
-                        $this->errors['actions'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                    }
-                    else if (!rcube_utils::check_email($target)) {
-                        $this->errors['actions'][$i]['target'] = $this->plugin->gettext(!empty($domains) ? 'forbiddenchars' : 'noemailwarning');
-                    }
+                        if ($type == 'redirect_copy') {
+                            $type = 'redirect';
+                            $this->form['actions'][$i]['copy'] = true;
+                        }
 
-                    if ($type == 'redirect_copy') {
-                        $type = 'redirect';
-                        $this->form['actions'][$i]['copy'] = true;
-                    }
+                        break;
 
-                    break;
+                    case 'addflag':
+                    case 'setflag':
+                    case 'removeflag':
+                        $this->form['actions'][$i]['target'] = $this->strip_value($flags[$idx]);
 
-                case 'addflag':
-                case 'setflag':
-                case 'removeflag':
-                    $this->form['actions'][$i]['target'] = $this->strip_value($flags[$idx]);
+                        if (empty($this->form['actions'][$i]['target'])) {
+                            $this->errors['actions'][$i]['flag'] = $this->plugin->gettext('noflagset');
+                        }
 
-                    if (empty($this->form['actions'][$i]['target'])) {
-                        $this->errors['actions'][$i]['flag'] = $this->plugin->gettext('noflagset');
-                    }
+                        break;
 
-                    break;
+                    case 'addheader':
+                    case 'deleteheader':
+                        $this->form['actions'][$i]['name']  = trim($type == 'addheader' ? $addheader_name[$idx] : $delheader_name[$idx]);
+                        $this->form['actions'][$i]['value'] = $type == 'addheader' ? $addheader_value[$idx] : $delheader_value[$idx];
+                        $this->form['actions'][$i]['last']  = ($type == 'addheader' ? $addheader_pos[$idx] : $delheader_pos[$idx]) == 'last';
 
-                case 'addheader':
-                case 'deleteheader':
-                    $this->form['actions'][$i]['name']  = trim($type == 'addheader' ? $addheader_name[$idx] : $delheader_name[$idx]);
-                    $this->form['actions'][$i]['value'] = $type == 'addheader' ? $addheader_value[$idx] : $delheader_value[$idx];
-                    $this->form['actions'][$i]['last']  = ($type == 'addheader' ? $addheader_pos[$idx] : $delheader_pos[$idx]) == 'last';
+                        if (empty($this->form['actions'][$i]['name'])) {
+                            $this->errors['actions'][$i]['name'] = $this->plugin->gettext('cannotbeempty');
+                        }
+                        else if (!preg_match('/^[0-9a-z_-]+$/i', $this->form['actions'][$i]['name'])) {
+                            $this->errors['actions'][$i]['name'] = $this->plugin->gettext('forbiddenchars');
+                        }
 
-                    if (empty($this->form['actions'][$i]['name'])) {
-                        $this->errors['actions'][$i]['name'] = $this->plugin->gettext('cannotbeempty');
-                    }
-                    else if (!preg_match('/^[0-9a-z_-]+$/i', $this->form['actions'][$i]['name'])) {
-                        $this->errors['actions'][$i]['name'] = $this->plugin->gettext('forbiddenchars');
-                    }
+                        if ($type == 'deleteheader') {
+                            foreach ((array) $this->form['actions'][$i]['value'] as $pidx => $pattern) {
+                                if (empty($pattern)) {
+                                    unset($this->form['actions'][$i]['value'][$pidx]);
+                                }
+                            }
 
-                    if ($type == 'deleteheader') {
-                        foreach ((array) $this->form['actions'][$i]['value'] as $pidx => $pattern) {
-                            if (empty($pattern)) {
-                                unset($this->form['actions'][$i]['value'][$pidx]);
+                            $this->form['actions'][$i]['match-type'] = $delheader_op[$idx];
+                            $this->form['actions'][$i]['comparator'] = $delheader_comp[$idx];
+                            $this->form['actions'][$i]['index']      = $delheader_index[$idx];
+
+                            if (empty($this->form['actions'][$i]['index'])) {
+                                if (!empty($this->form['actions'][$i]['last'])) {
+                                    $this->errors['actions'][$i]['index'] = $this->plugin->gettext('lastindexempty');
+                                }
+                            }
+                            else if (!preg_match('/^[0-9]+$/i', $this->form['actions'][$i]['index'])) {
+                                $this->errors['actions'][$i]['index'] = $this->plugin->gettext('forbiddenchars');
+                            }
+                        }
+                        else {
+                            if (empty($this->form['actions'][$i]['value'])) {
+                                $this->errors['actions'][$i]['value'] = $this->plugin->gettext('cannotbeempty');
                             }
                         }
 
-                        $this->form['actions'][$i]['match-type'] = $delheader_op[$idx];
-                        $this->form['actions'][$i]['comparator'] = $delheader_comp[$idx];
-                        $this->form['actions'][$i]['index']      = $delheader_index[$idx];
+                        break;
 
-                        if (empty($this->form['actions'][$i]['index'])) {
-                            if (!empty($this->form['actions'][$i]['last'])) {
-                                $this->errors['actions'][$i]['index'] = $this->plugin->gettext('lastindexempty');
+                    case 'vacation':
+                        $reason        = $this->strip_value($reasons[$idx], true);
+                        $interval_type = $interval_types && $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
+
+                        $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
+                        $this->form['actions'][$i]['from']      = $from[$idx];
+                        $this->form['actions'][$i]['subject']   = $subject[$idx];
+                        $this->form['actions'][$i]['addresses'] = $addresses[$idx];
+                        $this->form['actions'][$i][$interval_type] = $intervals[$idx];
+
+                        // @TODO: vacation :mime, :handle
+
+                        foreach ((array) $this->form['actions'][$i]['addresses'] as $aidx => $address) {
+                            $this->form['actions'][$i]['addresses'][$aidx] = $address = trim($address);
+
+                            if (empty($address)) {
+                                unset($this->form['actions'][$i]['addresses'][$aidx]);
+                            }
+                            else if (!rcube_utils::check_email($address)) {
+                                $this->errors['actions'][$i]['addresses'] = $this->plugin->gettext('noemailwarning');
+                                break;
                             }
                         }
-                        else if (!preg_match('/^[0-9]+$/i', $this->form['actions'][$i]['index'])) {
-                            $this->errors['actions'][$i]['index'] = $this->plugin->gettext('forbiddenchars');
+
+                        if (!empty($this->form['actions'][$i]['from'])) {
+                            // According to RFC5230 the :from string must specify a valid [RFC2822] mailbox-list
+                            $this->action_email_input($i, 'from');
                         }
-                    }
-                    else {
-                        if (empty($this->form['actions'][$i]['value'])) {
+
+                        if ($this->form['actions'][$i]['reason'] == '') {
+                            $this->errors['actions'][$i]['reason'] = $this->plugin->gettext('cannotbeempty');
+                        }
+                        if ($this->form['actions'][$i][$interval_type] && !preg_match('/^[0-9]+$/', $this->form['actions'][$i][$interval_type])) {
+                            $this->errors['actions'][$i]['interval'] = $this->plugin->gettext('forbiddenchars');
+                        }
+                        break;
+
+                    case 'set':
+                        $this->form['actions'][$i]['name'] = $varnames[$idx];
+                        $this->form['actions'][$i]['value'] = $varvalues[$idx];
+                        foreach ((array) $varmods[$idx] as $v_m) {
+                            $this->form['actions'][$i][$v_m] = true;
+                        }
+
+                        if (empty($varnames[$idx])) {
+                            $this->errors['actions'][$i]['name'] = $this->plugin->gettext('cannotbeempty');
+                        }
+                        else if (!preg_match('/^[0-9a-z_]+$/i', $varnames[$idx])) {
+                            $this->errors['actions'][$i]['name'] = $this->plugin->gettext('forbiddenchars');
+                        }
+
+                        if (!isset($varvalues[$idx]) || $varvalues[$idx] === '') {
                             $this->errors['actions'][$i]['value'] = $this->plugin->gettext('cannotbeempty');
                         }
-                    }
+                        break;
 
-                    break;
-
-                case 'vacation':
-                    $reason        = $this->strip_value($reasons[$idx], true);
-                    $interval_type = $interval_types && $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
-
-                    $this->form['actions'][$i]['reason']    = str_replace("\r\n", "\n", $reason);
-                    $this->form['actions'][$i]['from']      = $from[$idx];
-                    $this->form['actions'][$i]['subject']   = $subject[$idx];
-                    $this->form['actions'][$i]['addresses'] = $addresses[$idx];
-                    $this->form['actions'][$i][$interval_type] = $intervals[$idx];
-
-                    // @TODO: vacation :mime, :handle
-
-                    foreach ((array)$this->form['actions'][$i]['addresses'] as $aidx => $address) {
-                        $this->form['actions'][$i]['addresses'][$aidx] = $address = trim($address);
-
-                        if (empty($address)) {
-                            unset($this->form['actions'][$i]['addresses'][$aidx]);
+                    case 'notify':
+                        if (empty($notifymethods[$idx])) {
+                            $this->errors['actions'][$i]['method'] = $this->plugin->gettext('cannotbeempty');
                         }
-                        else if (!rcube_utils::check_email($address)) {
-                            $this->errors['actions'][$i]['addresses'] = $this->plugin->gettext('noemailwarning');
-                            break;
+                        if (empty($notifytargets[$idx])) {
+                            $this->errors['actions'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
                         }
-                    }
 
-                    if (!empty($this->form['actions'][$i]['from'])) {
-                        // According to RFC5230 the :from string must specify a valid [RFC2822] mailbox-list
-                        $this->action_email_input($i, 'from');
-                    }
-
-                    if ($this->form['actions'][$i]['reason'] == '') {
-                        $this->errors['actions'][$i]['reason'] = $this->plugin->gettext('cannotbeempty');
-                    }
-                    if ($this->form['actions'][$i][$interval_type] && !preg_match('/^[0-9]+$/', $this->form['actions'][$i][$interval_type])) {
-                        $this->errors['actions'][$i]['interval'] = $this->plugin->gettext('forbiddenchars');
-                    }
-                    break;
-
-                case 'set':
-                    $this->form['actions'][$i]['name'] = $varnames[$idx];
-                    $this->form['actions'][$i]['value'] = $varvalues[$idx];
-                    foreach ((array)$varmods[$idx] as $v_m) {
-                        $this->form['actions'][$i][$v_m] = true;
-                    }
-
-                    if (empty($varnames[$idx])) {
-                        $this->errors['actions'][$i]['name'] = $this->plugin->gettext('cannotbeempty');
-                    }
-                    else if (!preg_match('/^[0-9a-z_]+$/i', $varnames[$idx])) {
-                        $this->errors['actions'][$i]['name'] = $this->plugin->gettext('forbiddenchars');
-                    }
-
-                    if (!isset($varvalues[$idx]) || $varvalues[$idx] === '') {
-                        $this->errors['actions'][$i]['value'] = $this->plugin->gettext('cannotbeempty');
-                    }
-                    break;
-
-                case 'notify':
-                    if (empty($notifymethods[$idx])) {
-                        $this->errors['actions'][$i]['method'] = $this->plugin->gettext('cannotbeempty');
-                    }
-                    if (empty($notifytargets[$idx])) {
-                        $this->errors['actions'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                    }
-
-                    // skip empty options
-                    foreach ((array)$notifyoptions[$idx] as $opt_idx => $opt) {
-                        if (!strlen(trim($opt))) {
-                            unset($notifyoptions[$idx][$opt_idx]);
+                        // skip empty options
+                        foreach ((array) $notifyoptions[$idx] as $opt_idx => $opt) {
+                            if (!strlen(trim($opt))) {
+                                unset($notifyoptions[$idx][$opt_idx]);
+                            }
                         }
-                    }
 
-                    $this->form['actions'][$i]['method']     = $notifymethods[$idx] . ':' . $notifytargets[$idx];
-                    $this->form['actions'][$i]['options']    = $notifyoptions[$idx];
-                    $this->form['actions'][$i]['message']    = $notifymessages[$idx];
-                    $this->form['actions'][$i]['from']       = $notifyfrom[$idx];
-                    $this->form['actions'][$i]['importance'] = $notifyimp[$idx];
+                        $this->form['actions'][$i]['method']     = $notifymethods[$idx] . ':' . $notifytargets[$idx];
+                        $this->form['actions'][$i]['options']    = $notifyoptions[$idx];
+                        $this->form['actions'][$i]['message']    = $notifymessages[$idx];
+                        $this->form['actions'][$i]['from']       = $notifyfrom[$idx];
+                        $this->form['actions'][$i]['importance'] = $notifyimp[$idx];
 
-                    if (!empty($notifyfrom[$idx]) && stripos($this->form['actions'][$i]['method'], 'mailto:') === 0) {
-                        // For mailto method :from string must specify a valid [RFC2822] mailbox-list
-                        $this->action_email_input($i, 'from');
-                    }
+                        if (!empty($notifyfrom[$idx]) && stripos($this->form['actions'][$i]['method'], 'mailto:') === 0) {
+                            // For mailto method :from string must specify a valid [RFC2822] mailbox-list
+                            $this->action_email_input($i, 'from');
+                        }
 
-                    break;
+                        break;
                 }
 
                 $this->form['actions'][$i]['type'] = $type;
@@ -1399,9 +1401,9 @@ class rcube_sieve_engine
         $framed      = !empty($_POST['_framed']) || !empty($_GET['_framed']);
 
         $hiddenfields = new html_hiddenfield();
-        $hiddenfields->add(['name' => '_task',   'value' => $this->rc->task]);
+        $hiddenfields->add(['name' => '_task', 'value' => $this->rc->task]);
         $hiddenfields->add(['name' => '_action', 'value' => 'plugin.managesieve-saveraw']);
-        $hiddenfields->add(['name' => '_set',    'value' => $script_name]);
+        $hiddenfields->add(['name' => '_set', 'value' => $script_name]);
         $hiddenfields->add(['name' => '_seteditraw', 'value' => 1]);
         $hiddenfields->add(['name' => '_framed', 'value' => $framed ? 1 : 0]);
 
@@ -1624,7 +1626,7 @@ class rcube_sieve_engine
 
             $join = $any ? 'any' : 'allof';
             if (isset($scr) && !$any) {
-                 $join = !empty($scr['join']) ? 'allof' : 'anyof';
+                $join = !empty($scr['join']) ? 'allof' : 'anyof';
             }
 
             $out .= sprintf("\n" . '<div class="form-group row">'
@@ -1687,7 +1689,7 @@ class rcube_sieve_engine
         $label = $this->plugin->gettext($compact ? 'actions' : 'messagesactions');
         $out .= '<fieldset><legend>' . rcube::Q($label) . "</legend>\n";
 
-        $rows_num = isset($scr)  ? count($scr['actions']) : 1;
+        $rows_num = isset($scr) ? count($scr['actions']) : 1;
 
         $out .= '<div id="actions">';
         for ($x=0; $x<$rows_num; $x++) {
@@ -2113,13 +2115,13 @@ class rcube_sieve_engine
                     'class' => $this->error_class($id, 'test', 'index', 'rule_index'),
             ]);
             $mout .= html::label('input-group-append',
-                    html::tag('input', [
-                        'type'    => 'checkbox',
-                        'name'    => "_rule_index_last[$id]",
-                        'id'      => 'rule_index_last' . $id,
-                        'value'   => 1,
-                        'checked' => !empty($rule['last']),
-                    ]) . rcube::Q($this->plugin->gettext('indexlast')));
+                html::tag('input', [
+                    'type'    => 'checkbox',
+                    'name'    => "_rule_index_last[$id]",
+                    'id'      => 'rule_index_last' . $id,
+                    'value'   => 1,
+                    'checked' => !empty($rule['last']),
+                ]) . rcube::Q($this->plugin->gettext('indexlast')));
             $mout .= '</div>';
         }
 
@@ -2210,12 +2212,24 @@ class rcube_sieve_engine
             $rule['not'] = false;
 
             switch ($m[2]) {
-            case 'gt': $rule['type'] = $m[1] . '-le'; break;
-            case 'ge': $rule['type'] = $m[1] . '-lt'; break;
-            case 'lt': $rule['type'] = $m[1] . '-ge'; break;
-            case 'le': $rule['type'] = $m[1] . '-gt'; break;
-            case 'eq': $rule['type'] = $m[1] . '-ne'; break;
-            case 'ne': $rule['type'] = $m[1] . '-eq'; break;
+                case 'gt':
+                    $rule['type'] = $m[1] . '-le';
+                    break;
+                case 'ge':
+                    $rule['type'] = $m[1] . '-lt';
+                    break;
+                case 'lt':
+                    $rule['type'] = $m[1] . '-ge';
+                    break;
+                case 'le':
+                    $rule['type'] = $m[1] . '-gt';
+                    break;
+                case 'eq':
+                    $rule['type'] = $m[1] . '-ne';
+                    break;
+                case 'ne':
+                    $rule['type'] = $m[1] . '-eq';
+                    break;
             }
         }
         else if (!empty($rule['not']) && !empty($rule['test']) && $rule['test'] == 'size') {
@@ -2433,8 +2447,8 @@ class rcube_sieve_engine
         ]);
         $out .= '<br><span class="label">' .rcube::Q($this->plugin->gettext('vacationaddr')) . '</span><br>';
         $out .= $this->list_input($id, 'action_addresses', $action['addresses'] ?? null,
-                30, false, ['class' => $this->error_class($id, 'action', 'addresses', 'action_addresses')]
-            )
+            30, false, ['class' => $this->error_class($id, 'action', 'addresses', 'action_addresses')]
+        )
             . html::a(['href' => '#', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".managesieve_vacation_addresses($id)"],
                 rcube::Q($this->plugin->gettext('filladdresses')));
         $out .= '<br><span class="label">' . rcube::Q($this->plugin->gettext('vacationinterval')) . '</span><br>';
@@ -2474,7 +2488,7 @@ class rcube_sieve_engine
         $is_flag_action = preg_match('/^(set|add|remove)flag$/', (string) $action['type']);
 
         if ($is_flag_action) {
-            $custom_flags = array_filter($flags_target, function($v) use($flags) {
+            $custom_flags = array_filter($flags_target, function ($v) use ($flags) {
                 return !in_array_nocase($v, $flags);
             });
         }
@@ -2999,7 +3013,7 @@ class rcube_sieve_engine
             // Hide scripts from config
             $exceptions = $this->rc->config->get('managesieve_filename_exceptions');
             if (!empty($exceptions)) {
-                $this->list = array_diff($this->list, (array)$exceptions);
+                $this->list = array_diff($this->list, (array) $exceptions);
             }
         }
 
@@ -3170,8 +3184,9 @@ class rcube_sieve_engine
         }
         else {
             $result = $this->sieve->deactivate();
-            if ($result)
+            if ($result) {
                 $this->active = [];
+            }
         }
 
         return $result;

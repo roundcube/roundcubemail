@@ -24,7 +24,9 @@ if (php_sapi_name() != 'cli') {
     die("Not in shell mode (php-cli)");
 }
 
-if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+if (!defined('INSTALL_PATH')) {
+    define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
+}
 
 define('ROUNDCUBE_TEST_MODE', true);
 define('ROUNDCUBE_TEST_SESSION', microtime(true));
@@ -37,7 +39,7 @@ if (@is_dir(TESTS_DIR . 'config')) {
 // Some tests depend on the way phpunit is executed
 $_SERVER['SCRIPT_NAME'] = 'vendor/bin/phpunit';
 
-require_once(INSTALL_PATH . 'program/include/iniset.php');
+require_once INSTALL_PATH . 'program/include/iniset.php';
 
 rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
 
@@ -47,12 +49,12 @@ if (set_include_path($include_path) === false) {
     die("Fatal error: ini_set/set_include_path does not work.");
 }
 
-require_once(TESTS_DIR . 'ActionTestCase.php');
-require_once(TESTS_DIR . 'ExitException.php');
-require_once(TESTS_DIR . 'OutputHtmlMock.php');
-require_once(TESTS_DIR . 'OutputJsonMock.php');
-require_once(TESTS_DIR . 'StderrMock.php');
-require_once(TESTS_DIR . 'StorageMock.php');
+require_once TESTS_DIR . 'ActionTestCase.php';
+require_once TESTS_DIR . 'ExitException.php';
+require_once TESTS_DIR . 'OutputHtmlMock.php';
+require_once TESTS_DIR . 'OutputJsonMock.php';
+require_once TESTS_DIR . 'StderrMock.php';
+require_once TESTS_DIR . 'StorageMock.php';
 
 // Initialize database and environment
 ActionTestCase::init();

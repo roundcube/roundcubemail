@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -34,7 +34,7 @@ class rcmail_action_mail_send extends rcmail_action
         $rcmail->output->framed = true;
 
         $COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GPC);
-        $COMPOSE    =& $_SESSION['compose_data_'.$COMPOSE_ID];
+        $COMPOSE    =&$_SESSION['compose_data_'.$COMPOSE_ID];
 
         // Sanity checks
         if (!isset($COMPOSE['id'])) {
@@ -56,7 +56,7 @@ class rcmail_action_mail_send extends rcmail_action
                 'sendmail'      => true,
                 'saveonly'      => $saveonly,
                 'savedraft'     => $savedraft,
-                'error_handler' => function(...$args) use ($rcmail) {
+                'error_handler' => function (...$args) use ($rcmail) {
                     call_user_func_array([$rcmail->output, 'show_message'], $args);
                     $rcmail->output->send('iframe');
                 },

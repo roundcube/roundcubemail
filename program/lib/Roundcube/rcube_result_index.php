@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -57,7 +57,7 @@ class rcube_result_index
     {
         $this->meta = [];
 
-        $data = explode('*', (string)$data);
+        $data = explode('*', (string) $data);
 
         // ...skip unilateral untagged server responses
         for ($i=0, $len=count($data); $i<$len; $i++) {
@@ -100,8 +100,8 @@ class rcube_result_index
                         }
                     }
 
-// @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
-// @TODO: work with compressed result?!
+                    // @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
+                    // @TODO: work with compressed result?!
                     if (isset($this->params['ALL'])) {
                         $data_item = implode(self::SEPARATOR_ELEMENT,
                             rcube_imap_generic::uncompressMessageSet($this->params['ALL']));
@@ -304,7 +304,7 @@ class rcube_result_index
                     $idx = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1]);
                 }
                 // cache position of this element, so we can use it in get_element()
-                $this->meta['pos'][$idx] = (int)$m[0][1];
+                $this->meta['pos'][$idx] = (int) $m[0][1];
 
                 return $idx;
             }

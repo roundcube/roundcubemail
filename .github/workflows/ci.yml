@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  cs:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    name: Coding Style
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring
+          tools: composer:v2
+          coverage: none
+          ini-values: error_reporting=E_ALL
+
+      - name: Setup composer
+        run: |
+            cp composer.json-dist composer.json
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Check Coding Style
+        run: vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --diff --verbose
+
+      - name: Check composer.json format
+        run: composer validate --strict --no-check-lock && composer normalize --dry-run --no-check-lock

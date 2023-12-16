@@ -19,7 +19,7 @@ class SettingsTest extends \Tests\Browser\TestCase
             $browser->assertSeeIn('#layout-sidebar .header', 'Settings');
 
             // Sidebar menu
-            $browser->with('#settings-menu', function($browser) {
+            $browser->with('#settings-menu', function ($browser) {
                 $browser->assertSeeIn('li.preferences', 'Preferences');
                 $browser->assertSeeIn('li.folders', 'Folders');
                 $browser->assertSeeIn('li.identities', 'Identities');

@@ -7,7 +7,6 @@
  */
 class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
 {
-
     function test_import_generic()
     {
         $csv = new rcube_csv2vcard;

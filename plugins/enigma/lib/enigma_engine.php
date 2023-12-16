@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-------------------------------------------------------------------------+
  | Engine of the Enigma Plugin                                             |
  |                                                                         |
@@ -158,21 +158,21 @@ class enigma_engine
 
         // select mode
         switch ($mode) {
-        case self::SIGN_MODE_BODY:
-            $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
-            break;
-
-        case self::SIGN_MODE_MIME:
-            $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
-            break;
-
-        default:
-            if ($mime->isMultipart()) {
-                $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
-            }
-            else {
+            case self::SIGN_MODE_BODY:
                 $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
-            }
+                break;
+
+            case self::SIGN_MODE_MIME:
+                $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
+                break;
+
+            default:
+                if ($mime->isMultipart()) {
+                    $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
+                }
+                else {
+                    $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
+                }
         }
 
         // get message body
@@ -488,27 +488,27 @@ class enigma_engine
         while (($line = fgets($fd)) !== false) {
             if (strlen($line) > 5 && $line[0] === '-' && $line[4] === '-' && preg_match($regexp, $line, $m)) {
                 switch ($tokens[$m[1]]) {
-                case 'signed-start':
-                    $body = $line;
-                    $mode = 'signed';
-                    break;
+                    case 'signed-start':
+                        $body = $line;
+                        $mode = 'signed';
+                        break;
 
-                case 'signed-end':
-                    if ($mode === 'signed') {
-                        $body .= $line;
-                    }
-                    break 2; // ignore anything after this line
+                    case 'signed-end':
+                        if ($mode === 'signed') {
+                            $body .= $line;
+                        }
+                        break 2; // ignore anything after this line
 
-                case 'encrypted-start':
-                    $body = $line;
-                    $mode = 'encrypted';
-                    break;
+                    case 'encrypted-start':
+                        $body = $line;
+                        $mode = 'encrypted';
+                        break;
 
-                case 'encrypted-end':
-                    if ($mode === 'encrypted') {
-                        $body .= $line;
-                    }
-                    break 2; // ignore anything after this line
+                    case 'encrypted-end':
+                        if ($mode === 'encrypted') {
+                            $body .= $line;
+                        }
+                        break 2; // ignore anything after this line
                 }
 
                 continue;

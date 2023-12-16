@@ -143,18 +143,18 @@ class emoticons extends rcube_plugin
 
         // map of emoticon replacements
         $map = [
-            '/(?<!mailto):-?D/'   => self::ico_tag('1f603', ':D'   ), // laugh
-            '/:-?\(/'             => self::ico_tag('1f626', ':('   ), // frown
-            '/'.$entity.';-?\)/'  => self::ico_tag('1f609', ';)'   ), // wink
-            '/8-?\)/'             => self::ico_tag('1f60e', '8)'   ), // cool
-            '/(?<!mailto):-?O/i'  => self::ico_tag('1f62e', ':O'   ), // surprised
-            '/(?<!mailto):-?P/i'  => self::ico_tag('1f61b', ':P'   ), // tongue out
-            '/(?<!mailto):-?@/i'  => self::ico_tag('1f631', ':-@'  ), // yell
-            '/O:-?\)/i'           => self::ico_tag('1f607', 'O:-)' ), // innocent
-            '/(?<!O):-?\)/'       => self::ico_tag('1f60a', ':-)'  ), // smile
-            '/(?<!mailto):-?\$/'  => self::ico_tag('1f633', ':-$'  ), // embarrassed
-            '/(?<!mailto):-?\*/i' => self::ico_tag('1f48b', ':-*'  ), // kiss
-            '/(?<!mailto):-?S/i'  => self::ico_tag('1f615', ':-S'  ), // undecided
+            '/(?<!mailto):-?D/'   => self::ico_tag('1f603', ':D'), // laugh
+            '/:-?\(/'             => self::ico_tag('1f626', ':('), // frown
+            '/'.$entity.';-?\)/'  => self::ico_tag('1f609', ';)'), // wink
+            '/8-?\)/'             => self::ico_tag('1f60e', '8)'), // cool
+            '/(?<!mailto):-?O/i'  => self::ico_tag('1f62e', ':O'), // surprised
+            '/(?<!mailto):-?P/i'  => self::ico_tag('1f61b', ':P'), // tongue out
+            '/(?<!mailto):-?@/i'  => self::ico_tag('1f631', ':-@'), // yell
+            '/O:-?\)/i'           => self::ico_tag('1f607', 'O:-)'), // innocent
+            '/(?<!O):-?\)/'       => self::ico_tag('1f60a', ':-)'), // smile
+            '/(?<!mailto):-?\$/'  => self::ico_tag('1f633', ':-$'), // embarrassed
+            '/(?<!mailto):-?\*/i' => self::ico_tag('1f48b', ':-*'), // kiss
+            '/(?<!mailto):-?S/i'  => self::ico_tag('1f615', ':-S'), // undecided
         ];
 
         return preg_replace(array_keys($map), array_values($map), $text);

@@ -79,8 +79,8 @@ class ImportTest extends \Tests\Browser\TestCase
 
             $browser->with(new Dialog(), function ($browser) {
                 $browser->withinDialogFrame(function ($browser) {
-                        $browser->attach('.custom-file input', TESTS_DIR . 'data/contacts.vcf');
-                    })
+                    $browser->attach('.custom-file input', TESTS_DIR . 'data/contacts.vcf');
+                })
                     ->clickButton('import')
                     ->withinDialogFrame(function ($browser) {
                         $browser->waitForText('Successfully imported 2 contacts:');

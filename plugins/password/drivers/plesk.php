@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Roundcube Password Driver for Plesk-RPC.
  *
  * This driver changes a E-Mail-Password via Plesk-RPC

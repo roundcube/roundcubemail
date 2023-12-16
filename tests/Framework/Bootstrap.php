@@ -7,7 +7,6 @@
  */
 class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 {
-
     /**
      * bootstrap.php: asciiwords()
      */

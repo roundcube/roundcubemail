@@ -17,4 +17,3 @@ class Enigma_EnigmaUserid extends PHPUnit\Framework\TestCase
         $this->assertInstanceOf('enigma_userid', $error);
     }
 }
-

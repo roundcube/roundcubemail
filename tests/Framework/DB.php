@@ -291,9 +291,7 @@ class rcube_db_test_wrapper extends rcube_db
         return true;
     }
 
-    protected function debug($data)
-    {
-    }
+    protected function debug($data) {}
 }
 
 class rcube_db_test_dbh

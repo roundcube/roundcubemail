@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -297,7 +297,7 @@ class rcube_result_thread
                         + substr_count($this->raw_data, self::SEPARATOR_ITEM, 0, $m[0][1]+1);
                 }
                 // cache position of this element, so we can use it in get_element()
-                $this->meta['pos'][$idx] = (int)$m[0][1];
+                $this->meta['pos'][$idx] = (int) $m[0][1];
 
                 return $idx;
             }
@@ -549,7 +549,7 @@ class rcube_result_thread
      */
     protected function build_thread_data($data, &$depth, &$children, $level = 0)
     {
-        foreach ((array)$data as $key => $val) {
+        foreach ((array) $data as $key => $val) {
             $empty          = empty($val) || !is_array($val);
             $children[$key] = !$empty;
             $depth[$key]    = $level;

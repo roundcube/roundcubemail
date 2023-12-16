@@ -38,11 +38,11 @@ class reconnect extends rcube_plugin
         $storage = rcmail::get_instance()->get_storage();
 
         switch ($storage->get_error_code()) {
-        case rcube_imap_generic::ERROR_NO:
-        case rcube_imap_generic::ERROR_BAD:
-        case rcube_imap_generic::ERROR_BYE:
-            $args['retry'] = false;
-            break;
+            case rcube_imap_generic::ERROR_NO:
+            case rcube_imap_generic::ERROR_BAD:
+            case rcube_imap_generic::ERROR_BYE:
+                $args['retry'] = false;
+                break;
         }
 
         if ($args['retry']) {
