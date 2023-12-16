@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,8 +19,8 @@
  +-----------------------------------------------------------------------+
 */
 
-use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\MessageFormatter;
 
 /**
  * Roundcube OAuth2 utilities
@@ -403,7 +403,7 @@ class rcmail_oauth
             // TODO should check signature, note will use https://github.com/firebase/php-jwt later as it requires ^php7.4
         }
 
-        # FIXME depends on body type: ID, Logout, Bearer, Refresh,
+        // FIXME depends on body type: ID, Logout, Bearer, Refresh,
 
         if (isset($body['azp']) && $body['azp'] !== $this->options['client_id']) {
             throw new RuntimeException('Failed to validate JWT: invalid azp value');
@@ -650,7 +650,6 @@ class rcmail_oauth
      *
      * If successful, this will update the `oauth_token` entry in
      * session data.
-     *
      *
      * @return array Updated authorization data
      *

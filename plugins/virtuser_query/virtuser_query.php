@@ -151,7 +151,7 @@ class virtuser_query extends rcube_plugin
             if ($dsn = $this->app->config->get('virtuser_query_dsn')) {
                 // connect to the virtuser database
                 $this->db = rcube_db::factory($dsn);
-                $this->db->set_debug((bool)$this->app->config->get('sql_debug'));
+                $this->db->set_debug((bool) $this->app->config->get('sql_debug'));
                 $this->db->db_connect('r'); // connect in read mode
             }
             else {

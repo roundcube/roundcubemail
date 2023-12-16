@@ -285,7 +285,7 @@ class Rcmail_Rcmail extends ActionTestCase
               && version_compare(INTL_ICU_VERSION, '72.1', '>=')) {
             // Starting with ICU 72.1, a NARROW NO-BREAK SPACE (NNBSP)
             // is used instead of an ASCII space before the meridian.
-            $date_x = '6/1/20, 12:20 PM';
+            $date_x = "6/1/20, 12:20\u{202f}PM";
         }
         $this->assertSame($date_x, $rcmail->format_date($date, 'x'));
         $this->assertSame('1591014030', $rcmail->format_date($date, 'U'));

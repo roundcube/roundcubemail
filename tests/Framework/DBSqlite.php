@@ -9,7 +9,6 @@
  */
 class Framework_DBSqlite extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

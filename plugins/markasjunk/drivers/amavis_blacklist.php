@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * AmavisD Blacklist driver
  *
  * @version 1.0

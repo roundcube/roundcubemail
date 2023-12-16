@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -83,10 +83,10 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return string
      */
-     function get_name()
-     {
+    function get_name()
+    {
         return $this->name;
-     }
+    }
 
     /**
      * Save a search string for future listings
@@ -650,9 +650,10 @@ class rcube_contacts extends rcube_addressbook
         if ($check) {
             foreach ($save_data as $col => $values) {
                 if (strpos($col, 'email') === 0) {
-                    foreach ((array)$values as $email) {
-                        if ($existing = $this->search('email', $email, false, false))
+                    foreach ((array) $values as $email) {
+                        if ($existing = $this->search('email', $email, false, false)) {
                             break 2;
+                        }
                     }
                 }
             }

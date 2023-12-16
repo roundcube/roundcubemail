@@ -66,7 +66,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 $browser->clickToolbarMenuItem('create');
             }
 
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->waitFor('form')
                     ->with('form', function ($browser) {
                         $browser->assertVisible('input[name=_name]')
@@ -93,7 +93,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 ->closeMessage('confirmation')
                 ->waitFor('#preferences-frame');
 
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->waitFor('form')
                     ->with('form', function ($browser) {
                         $browser->assertVisible('input[name=_name]')
@@ -147,7 +147,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 ->closeMessage('confirmation');
 
             // Preview frame should reset to the watermark page
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->waitUntilMissing('> div');
             });
 
@@ -231,7 +231,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 ->click('#responses-table tbody tr:first-child')
                 ->waitFor('#preferences-frame');
 
-            $browser->withinFrame('#preferences-frame', function($browser) {
+            $browser->withinFrame('#preferences-frame', function ($browser) {
                 $browser->waitFor('form')
                     ->with('form', function ($browser) {
                         $browser->assertValue('[name=_name]', 'response 1')

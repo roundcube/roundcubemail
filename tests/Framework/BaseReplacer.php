@@ -7,7 +7,6 @@
  */
 class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

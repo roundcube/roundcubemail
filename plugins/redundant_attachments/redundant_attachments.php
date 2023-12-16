@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Redundant attachments
  *
  * This plugin provides a redundant storage for temporary uploaded
@@ -32,7 +32,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-require_once(RCUBE_PLUGINS_DIR . 'filesystem_attachments/filesystem_attachments.php');
+require_once RCUBE_PLUGINS_DIR . 'filesystem_attachments/filesystem_attachments.php';
 
 class redundant_attachments extends filesystem_attachments
 {

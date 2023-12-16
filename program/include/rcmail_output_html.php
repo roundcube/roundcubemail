@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -538,7 +538,7 @@ EOF;
         if ($override || !$this->message) {
             if ($this->app->text_exists($message)) {
                 if (!empty($vars)) {
-                    $vars = array_map(['rcube','Q'], $vars);
+                    $vars = array_map(['rcube', 'Q'], $vars);
                 }
 
                 $msgtext = $this->app->gettext(['name' => $message, 'vars' => $vars]);
@@ -975,7 +975,7 @@ EOF;
     }
 
 
-    /*****  Template parsing methods  *****/
+    /* Template parsing methods */
 
     /**
      * Replace all strings ($varname)
@@ -1128,51 +1128,51 @@ EOF;
                 $tag_name  = strtolower($matches[1][0]);
 
                 switch ($tag_name) {
-                case 'if':
-                    $level++;
-                    break;
+                    case 'if':
+                        $level++;
+                        break;
 
-                case 'endif':
-                    if (!$level--) {
-                        $endif = $tag_end;
-                        if ($content_end === null) {
-                            $content_end = $tag_start;
-                        }
-                        break 2;
-                    }
-                    break;
-
-                case 'elseif':
-                    if (!$level) {
-                        if ($condmet) {
+                    case 'endif':
+                        if (!$level--) {
+                            $endif = $tag_end;
                             if ($content_end === null) {
                                 $content_end = $tag_start;
                             }
+                            break 2;
                         }
-                        else {
-                            // Process the 'condition' attribute
-                            $attrib  = html::parse_attrib_string($matches[2][0]);
-                            $condmet = isset($attrib['condition']) && $this->check_condition($attrib['condition']);
+                        break;
 
+                    case 'elseif':
+                        if (!$level) {
                             if ($condmet) {
+                                if ($content_end === null) {
+                                    $content_end = $tag_start;
+                                }
+                            }
+                            else {
+                                // Process the 'condition' attribute
+                                $attrib  = html::parse_attrib_string($matches[2][0]);
+                                $condmet = isset($attrib['condition']) && $this->check_condition($attrib['condition']);
+
+                                if ($condmet) {
+                                    $content_start = $tag_end;
+                                }
+                            }
+                        }
+                        break;
+
+                    case 'else':
+                        if (!$level) {
+                            if ($condmet) {
+                                if ($content_end === null) {
+                                    $content_end = $tag_start;
+                                }
+                            }
+                            else {
                                 $content_start = $tag_end;
                             }
                         }
-                    }
-                    break;
-
-                case 'else':
-                    if (!$level) {
-                        if ($condmet) {
-                            if ($content_end === null) {
-                                $content_end = $tag_start;
-                            }
-                        }
-                        else {
-                            $content_start = $tag_end;
-                        }
-                    }
-                    break;
+                        break;
                 }
 
                 $n = $tag_end;
@@ -1357,12 +1357,12 @@ EOF;
                 }
                 break;
 
-            // frame
+                // frame (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'frame':
                 return $this->frame($attrib);
                 break;
 
-            // show a label
+                // show a label (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'label':
                 if (!empty($attrib['expression'])) {
                     $attrib['name'] = $this->eval_expression($attrib['expression']);
@@ -1408,7 +1408,7 @@ EOF;
                 $this->add_label($attrib['name']);
                 break;
 
-            // include a file
+                // include a file (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'include':
                 if (!empty($attrib['condition']) && !$this->check_condition($attrib['condition'])) {
                     break;
@@ -1448,7 +1448,7 @@ EOF;
                 $hook = $this->app->plugins->exec_hook("template_plugin_include", $attrib + ['content' => '']);
                 return $hook['content'];
 
-            // define a container block
+                // define a container block (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'container':
                 if (!empty($attrib['name']) && !empty($attrib['id'])) {
                     $this->command('gui_container', $attrib['name'], $attrib['id']);
@@ -1458,7 +1458,7 @@ EOF;
                 }
                 break;
 
-            // return code for a specific application object
+                // return code for a specific application object (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'object':
                 $object  = strtolower($attrib['name']);
                 $content = '';
@@ -1534,15 +1534,16 @@ EOF;
                     $ver = (string) RCMAIL_VERSION;
                     if (is_file(RCUBE_INSTALL_PATH . '.svn/entries')) {
                         if (function_exists('shell_exec')) {
-                            if (preg_match('/Revision:\s(\d+)/', (string)@shell_exec('svn info'), $regs))
+                            if (preg_match('/Revision:\s(\d+)/', (string) @shell_exec('svn info'), $regs)) {
                                 $ver .= ' [SVN r' . $regs[1] . ']';
+                            }
                         } else {
                             $ver .= ' [SVN]';
                         }
                     }
                     else if (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
                         if (function_exists('shell_exec')) {
-                            if (preg_match('/Date:\s+([^\n]+)/', (string)@shell_exec('git log -1'), $regs)) {
+                            if (preg_match('/Date:\s+([^\n]+)/', (string) @shell_exec('git log -1'), $regs)) {
                                 if ($date = date('Ymd.Hi', strtotime($regs[1]))) {
                                     $ver .= ' [GIT ' . $date . ']';
                                 }
@@ -1630,7 +1631,7 @@ EOF;
 
                 return $hook['content'];
 
-            // return <link> element
+                // return <link> element (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'link':
                 if ($attrib['condition'] && !$this->check_condition($attrib['condition'])) {
                     break;
@@ -1641,11 +1642,11 @@ EOF;
                 return html::tag('link', $attrib);
 
 
-            // return code for a specified eval expression
+                // return code for a specified eval expression (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'exp':
                 return html::quote($this->eval_expression($attrib['expression']));
 
-            // return variable
+                // return variable (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'var':
                 $var = explode(':', $attrib['name']);
                 $value = $this->parse_variable($var[0], $var[1]);
@@ -1848,7 +1849,7 @@ EOF;
                 $attrib['href'] = $this->app->url(['action' => $attrib['command']]);
             }
             else if (($attrib['command'] == 'permaurl' || $attrib['command'] == 'extwin') && !empty($this->env['permaurl'])) {
-              $attrib['href'] = $this->env['permaurl'];
+                $attrib['href'] = $this->env['permaurl'];
             }
         }
 
@@ -2021,11 +2022,11 @@ EOF;
             $is_empty = true;
         }
 
-        $merge_script_files = function($output, $script) {
+        $merge_script_files = function ($output, $script) {
             return $output . html::script($script);
         };
 
-        $merge_scripts = function($output, $script) {
+        $merge_scripts = function ($output, $script) {
             return $output . html::script([], $script);
         };
 

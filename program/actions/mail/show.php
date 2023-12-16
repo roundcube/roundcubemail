@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -236,7 +236,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 if ($mimetype != 'message/rfc822' && empty($attach_prop->size)) {
                     $li_class .= ' no-menu';
                     $link_attrs['onclick'] = sprintf('%s.alert_dialog(%s.get_label(\'emptyattachment\')); return false',
-                            rcmail_output::JS_OBJECT_NAME, rcmail_output::JS_OBJECT_NAME);
+                        rcmail_output::JS_OBJECT_NAME, rcmail_output::JS_OBJECT_NAME);
                     $rcmail->output->add_label('emptyattachment');
                 }
 

@@ -48,8 +48,7 @@ or after installing it on the destination system.
 FOR DEVELOPERS
 --------------
 
-- Supported browsers: IE11+, Edge, Last 2 versions for Chrome/Firefox/Safari,
-  Android Browser 5+, iOS Safari 9+.
+- Supported browsers: Last 2 versions of Edge/Chrome/Firefox/Safari.
 
 - Skin color palette changes and other css modifications can be done
   via _styles.less and _variables.less files. Where you can overwrite all

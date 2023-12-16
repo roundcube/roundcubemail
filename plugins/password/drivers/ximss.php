@@ -1,6 +1,6 @@
 <?php
 /**
- * Communigate driver for the Password Plugin for Roundcube 
+ * Communigate driver for the Password Plugin for Roundcube
  *
  * Tested with Communigate Pro 5.1.2
  *
@@ -49,13 +49,13 @@ class rcube_ximss_password
         fwrite($sock, '<passwordModify id="A002" oldPassword="'.$pass.'" newPassword="'.$newpass.'"  />'."\0");
         fwrite($sock, '<bye id="A003" />'."\0");
 
-  //example responses
-  //  <session id="A001" urlID="4815-vN2Txjkggy7gjHRD10jw" userName="user@example.com"/>\0
-  //  <response id="A001"/>\0
-  //  <response id="A002"/>\0
-  //  <response id="A003"/>\0
-  // or an error:
-  //  <response id="A001" errorText="incorrect password or account name" errorNum="515"/>\0
+        //example responses
+        //  <session id="A001" urlID="4815-vN2Txjkggy7gjHRD10jw" userName="user@example.com"/>\0
+        //  <response id="A001"/>\0
+        //  <response id="A002"/>\0
+        //  <response id="A003"/>\0
+        // or an error:
+        //  <response id="A001" errorText="incorrect password or account name" errorNum="515"/>\0
 
         $responseblob = '';
         while (!feof($sock)) {
@@ -64,7 +64,7 @@ class rcube_ximss_password
 
         fclose($sock);
 
-        foreach (explode( "\0", $responseblob) as $response) {
+        foreach (explode("\0", $responseblob) as $response) {
             $resp = simplexml_load_string("<xml>".$response."</xml>");
             $id = $resp && !empty($resp->response[0]['id']) ? $resp->response[0]['id'] : null;
 

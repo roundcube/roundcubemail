@@ -7,7 +7,6 @@
  */
 class Framework_MessageHeader extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

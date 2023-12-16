@@ -2,12 +2,12 @@
 
 namespace Tests\Browser;
 
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Facebook\WebDriver\Chrome\ChromeOptions;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\Chrome\SupportsChrome;
 use Laravel\Dusk\Concerns\ProvidesBrowser;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 

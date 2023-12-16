@@ -33,4 +33,3 @@ class AdditionalMessageHeaders_Plugin extends ActionTestCase
         $this->assertSame("MIME-Version: 1.0\r\nX-Test: Test\r\n", $result['message']->txtHeaders());
     }
 }
-

@@ -19,4 +19,3 @@ class VirtuserFile_Plugin extends PHPUnit\Framework\TestCase
         $this->assertInstanceOf('rcube_plugin', $plugin);
     }
 }
-

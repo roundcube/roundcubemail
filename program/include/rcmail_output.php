@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -144,7 +144,7 @@ abstract class rcmail_output extends rcube_output
             header($header);
         }
 
-        print $body;
+        echo $body;
         exit;
     }
 

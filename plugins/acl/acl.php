@@ -156,12 +156,12 @@ class acl extends rcube_plugin
         if (!strlen($mbox_imap)) {
             return $args;
         }
-/*
+        /*
         // Do nothing on protected folders (?)
         if (!empty($args['options']['protected'])) {
             return $args;
         }
-*/
+        */
         // Get MYRIGHTS
         if (empty($myrights)) {
             return $args;
@@ -178,11 +178,12 @@ class acl extends rcube_plugin
         $this->include_stylesheet($this->local_skin_path() . '/acl.css');
 
         // add Info fieldset if it doesn't exist
-        if (!isset($args['form']['props']['fieldsets']['info']))
+        if (!isset($args['form']['props']['fieldsets']['info'])) {
             $args['form']['props']['fieldsets']['info'] = [
                 'name'    => $this->rc->gettext('info'),
                 'content' => []
             ];
+        }
 
         // Display folder rights to 'Info' fieldset
         $args['form']['props']['fieldsets']['info']['content']['myrights'] = [
@@ -462,9 +463,15 @@ class acl extends rcube_plugin
             foreach ($items as $key => $right) {
                 $in = $this->acl_compare($userrights, $right);
                 switch ($in) {
-                    case 2: $class = 'enabled'; break;
-                    case 1: $class = 'partial'; break;
-                    default: $class = 'disabled'; break;
+                    case 2:
+                        $class = 'enabled';
+                        break;
+                    case 1:
+                        $class = 'partial';
+                        break;
+                    default:
+                        $class = 'disabled';
+                        break;
                 }
                 $table->add('acl' . $key . ' ' . $class, '<span></span>');
             }
@@ -584,7 +591,7 @@ class acl extends rcube_plugin
      */
     private function action_list()
     {
-        if (in_array('acl_advanced_mode', (array)$this->rc->config->get('dont_override'))) {
+        if (in_array('acl_advanced_mode', (array) $this->rc->config->get('dont_override'))) {
             return;
         }
 
@@ -645,8 +652,12 @@ class acl extends rcube_plugin
      */
     function acl_compare($acl1, $acl2)
     {
-        if (!is_array($acl1)) $acl1 = str_split($acl1);
-        if (!is_array($acl2)) $acl2 = str_split($acl2);
+        if (!is_array($acl1)) {
+            $acl1 = str_split($acl1);
+        }
+        if (!is_array($acl2)) {
+            $acl2 = str_split($acl2);
+        }
 
         $rights = $this->rights_supported();
 

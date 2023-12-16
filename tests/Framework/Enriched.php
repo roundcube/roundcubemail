@@ -7,7 +7,6 @@
  */
 class Framework_Enriched extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

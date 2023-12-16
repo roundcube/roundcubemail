@@ -7,7 +7,6 @@
  */
 class Framework_ContentFilter extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

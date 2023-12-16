@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -212,7 +212,7 @@ class rcube_cache_redis extends rcube_cache
         }
 
         try {
-            $result = self::$redis->setEx($key, $this->ttl, $data);
+            $result = self::$redis->setex($key, $this->ttl, $data);
         }
         catch (Exception $e) {
             rcube::raise_error($e, true, false);

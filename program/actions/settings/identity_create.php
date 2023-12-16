@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -17,6 +17,4 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_identity_create extends rcmail_action_settings_identity_edit
-{
-}
+class rcmail_action_settings_identity_create extends rcmail_action_settings_identity_edit {}
