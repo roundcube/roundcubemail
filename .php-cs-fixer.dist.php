@@ -60,6 +60,7 @@ return (new PhpCsFixer\Config())
         'heredoc_to_nowdoc' => false,
         'no_useless_else' => false,
         'phpdoc_no_empty_return' => false,
+        'psr_autoloading' => false,
         'single_line_comment_style' => false,
 
         // TODO
@@ -122,7 +123,6 @@ return (new PhpCsFixer\Config())
         'visibility_required' => false,
 
         // TODO - risky
-        'fopen_flags' => false,
         'function_to_constant' => false,
         'no_unset_on_property' => false,
         'php_unit_construct' => false,
@@ -131,7 +131,6 @@ return (new PhpCsFixer\Config())
         'php_unit_set_up_tear_down_visibility' => false,
         'php_unit_strict' => false,
         'php_unit_test_case_static_method_calls' => false,
-        'psr_autoloading' => false,
         'random_api_migration' => false,
         'self_accessor' => false,
         'static_lambda' => false,

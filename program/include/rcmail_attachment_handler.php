@@ -224,7 +224,7 @@ class rcmail_attachment_handler
                     $result = fwrite($fp, $size ? substr($attachment['data'], 0, $size) : $attachment['data']) !== false;
                 }
                 else if ($attachment['path']) {
-                    if ($fh = fopen($attachment['path'], 'rb')) {
+                    if ($fh = fopen($attachment['path'], 'r')) {
                         $result = stream_copy_to_stream($fh, $fp, $size ?: -1);
                     }
                 }
