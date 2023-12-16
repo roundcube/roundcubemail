@@ -7,7 +7,7 @@
  */
 class Rcmail_Rcmail extends ActionTestCase
 {
-    function setUp(): void
+    protected function setUp(): void
     {
         // set some HTTP env vars
         $_SERVER['HTTP_HOST'] = 'mail.example.org';
