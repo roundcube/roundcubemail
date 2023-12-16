@@ -86,7 +86,7 @@ class rcube_sieve_script
     public function add_rule($content)
     {
         // TODO: check this->supported
-        array_push($this->content, $content);
+        $this->content[] = $content;
         return count($this->content) - 1;
     }
 
@@ -212,7 +212,7 @@ class rcube_sieve_script
         if (!empty($this->vars)) {
             if (in_array('variables', (array) $this->supported)) {
                 $has_vars = true;
-                array_push($exts, 'variables');
+                $exts[] = 'variables';
             }
             foreach ($this->vars as $var) {
                 if (empty($has_vars)) {
@@ -278,7 +278,7 @@ class rcube_sieve_script
                         case 'header':
                         case 'string':
                             if ($test['test'] == 'string') {
-                                array_push($exts, 'variables');
+                                $exts[] = 'variables';
                             }
 
                             $tests[$i] .= (!empty($test['not']) ? 'not ' : '');
@@ -298,7 +298,7 @@ class rcube_sieve_script
                         case 'address':
                         case 'envelope':
                             if ($test['test'] == 'envelope') {
-                                array_push($exts, 'envelope');
+                                $exts[] = 'envelope';
                             }
 
                             $tests[$i] .= (!empty($test['not']) ? 'not ' : '');
@@ -313,7 +313,7 @@ class rcube_sieve_script
                             if (!empty($test['part']) && $test['part'] != 'all') {
                                 $tests[$i] .= ' :' . $test['part'];
                                 if ($test['part'] == 'user' || $test['part'] == 'detail') {
-                                    array_push($exts, 'subaddress');
+                                    $exts[] = 'subaddress';
                                 }
                             }
 
@@ -426,7 +426,7 @@ class rcube_sieve_script
                             $action_script .= 'fileinto ';
                             if (!empty($action['copy'])) {
                                 $action_script .= ':copy ';
-                                array_push($exts, 'copy');
+                                $exts[] = 'copy';
                             }
                             $action_script .= self::escape_string($action['target']);
                             break;
@@ -435,7 +435,7 @@ class rcube_sieve_script
                             $action_script .= 'redirect ';
                             if (!empty($action['copy'])) {
                                 $action_script .= ':copy ';
-                                array_push($exts, 'copy');
+                                $exts[] = 'copy';
                             }
                             $action_script .= self::escape_string($action['target']);
                             break;
@@ -564,7 +564,7 @@ class rcube_sieve_script
                             array_push($exts, 'vacation');
                             $action_script .= 'vacation';
                             if (isset($action['seconds'])) {
-                                array_push($exts, 'vacation-seconds');
+                                $exts[] = 'vacation-seconds';
                                 $action_script .= " :seconds " . intval($action['seconds']);
                             }
                             else if (!empty($action['days'])) {
@@ -1092,11 +1092,11 @@ class rcube_sieve_script
         }
 
         if ($test['comparator'] == 'i;ascii-numeric') {
-            array_push($exts, 'relational');
-            array_push($exts, 'comparator-i;ascii-numeric');
+            $exts[] = 'relational';
+            $exts[] = 'comparator-i;ascii-numeric';
         }
         else if (!in_array($test['comparator'], ['i;octet', 'i;ascii-casemap'])) {
-            array_push($exts, 'comparator-' . $test['comparator']);
+            $exts[] = 'comparator-' . $test['comparator'];
         }
 
         // skip default comparator
@@ -1111,7 +1111,7 @@ class rcube_sieve_script
     private function add_index($test, &$out, &$exts)
     {
         if (!empty($test['index'])) {
-            array_push($exts, 'index');
+            $exts[] = 'index';
             $out .= ' :index ' . intval($test['index']) . (!empty($test['last']) ? ' :last' : '');
         }
     }
@@ -1127,7 +1127,7 @@ class rcube_sieve_script
                 if (empty($got_mime)) {
                     $out .= ' :mime';
                     $got_mime = true;
-                    array_push($exts, 'mime');
+                    $exts[] = 'mime';
                 }
 
                 if ($opt_name != 'mime') {
@@ -1152,13 +1152,13 @@ class rcube_sieve_script
 
         // relational operator
         if (preg_match('/^(value|count)-([gteqnl]{2})/', $test['type'], $m)) {
-            array_push($exts, 'relational');
+            $exts[] = 'relational';
 
             $out .= ' :' . $m[1] . ' "' . $m[2] . '"';
         }
         else {
             if ($test['type'] == 'regex') {
-                array_push($exts, 'regex');
+                $exts[] = 'regex';
             }
 
             $out .= ' :' . $test['type'];

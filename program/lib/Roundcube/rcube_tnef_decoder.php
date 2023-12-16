@@ -748,7 +748,7 @@ class rcube_tnef_decoder
                     // New subgroup starts, add new stack element and write the data
                     // from previous stack element to it.
                     if (!empty($stack[$j])) {
-                        array_push($stack, $stack[$j++]);
+                        $stack[] = $stack[$j++];
                     }
                     else {
                         $j++;

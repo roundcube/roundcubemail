@@ -266,7 +266,7 @@ class rcmail_install
                 $value = [];
                 foreach (array_keys($_POST) as $key) {
                     if (preg_match('/^_plugins_*/', $key)) {
-                        array_push($value, $_POST[$key]);
+                        $value[] = $_POST[$key];
                     }
                 }
             }

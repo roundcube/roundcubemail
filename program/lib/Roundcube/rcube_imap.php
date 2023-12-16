@@ -1057,7 +1057,7 @@ class rcube_imap extends rcube_storage
                 }
             }
 
-            array_push($parents, $uid);
+            $parents[] = $uid;
 
             $headers[$uid]->depth            = $depth;
             $headers[$uid]->has_children     = !empty($msg_children[$uid]);

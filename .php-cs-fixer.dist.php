@@ -122,7 +122,6 @@ return (new PhpCsFixer\Config())
         'visibility_required' => false,
 
         // TODO - risky
-        'array_push' => false,
         'fopen_flags' => false,
         'function_to_constant' => false,
         'logical_operators' => false,

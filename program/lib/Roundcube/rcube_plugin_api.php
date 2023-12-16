@@ -512,7 +512,7 @@ class rcube_plugin_api
         // TODO: avoid recursion by checking in_array($hook, $this->exec_stack) ?
 
         $args += ['abort' => false];
-        array_push($this->exec_stack, $hook);
+        $this->exec_stack[] = $hook;
 
         // Use for loop here, so handlers added in the hook will be executed too
         if (!empty($this->handlers[$hook])) {

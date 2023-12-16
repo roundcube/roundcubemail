@@ -52,7 +52,7 @@ class markasjunk_sa_detach
 
                     if ($saved = $storage->save_message($dst_mbox, $orig_message_raw)) {
                         $rcube->output->command('markasjunk_move', null, [$uid]);
-                        array_push($new_uids, $saved);
+                        $new_uids[] = $saved;
                     }
                 }
             }
