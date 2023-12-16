@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -421,7 +421,7 @@ class rcube_smtp
      */
     public function get_response()
     {
-         return $this->response;
+        return $this->response;
     }
 
     /**

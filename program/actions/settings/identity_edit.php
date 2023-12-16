@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -151,7 +151,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         }
 
         if ($IDENTITIES_LEVEL == 4) {
-            foreach ($form['addressing']['content'] as $formfield => $value){
+            foreach ($form['addressing']['content'] as $formfield => $value) {
                 $form['addressing']['content'][$formfield]['disabled'] = true;
                 $form['addressing']['content'][$formfield]['class']    = 'disabled';
             }

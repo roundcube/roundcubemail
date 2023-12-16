@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -285,10 +285,10 @@ class rcube_image
                 if ($props['gd_type'] == IMAGETYPE_JPEG) {
                     $result = imagejpeg($image, $filename, 75);
                 }
-                elseif($props['gd_type'] == IMAGETYPE_GIF) {
+                elseif ($props['gd_type'] == IMAGETYPE_GIF) {
                     $result = imagegif($image, $filename);
                 }
-                elseif($props['gd_type'] == IMAGETYPE_PNG) {
+                elseif ($props['gd_type'] == IMAGETYPE_PNG) {
                     $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
                 }
             }

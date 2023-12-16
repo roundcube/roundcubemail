@@ -76,7 +76,7 @@ class newmail_notifier extends rcube_plugin
 
                     $this->add_hook('new_messages', [$this, 'notify']);
                 }
-             }
+            }
         }
     }
 

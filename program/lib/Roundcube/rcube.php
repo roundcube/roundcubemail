@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -159,7 +159,7 @@ class rcube
                 $this->config->get('db_persistent')
             );
 
-            $this->db->set_debug((bool)$this->config->get('sql_debug'));
+            $this->db->set_debug((bool) $this->config->get('sql_debug'));
         }
 
         return $this->db;
@@ -832,7 +832,7 @@ class rcube
         }
 
         if (empty($rcube_languages)) {
-            @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
+            @include RCUBE_LOCALIZATION_DIR . 'index.inc';
         }
 
         // check if we have an alias for that language
@@ -870,7 +870,7 @@ class rcube
         static $sa_languages = [];
 
         if (!count($sa_languages)) {
-            @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
+            @include RCUBE_LOCALIZATION_DIR . 'index.inc';
 
             if ($dh = @opendir(RCUBE_LOCALIZATION_DIR)) {
                 while (($name = readdir($dh)) !== false) {
@@ -1247,7 +1247,7 @@ class rcube
                         $parts[] = $value ? $key : "";
                     }
                     else {
-                        foreach ((array)$value as $val) {
+                        foreach ((array) $value as $val) {
                             $parts[] = "$key " . escapeshellarg($val);
                         }
                     }
@@ -1590,7 +1590,7 @@ class rcube
             $this->user = $user;
 
             // overwrite config with user preferences
-            $this->config->set_user_prefs((array)$this->user->get_prefs());
+            $this->config->set_user_prefs((array) $this->user->get_prefs());
         }
     }
 

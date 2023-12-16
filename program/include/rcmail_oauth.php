@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -17,8 +17,8 @@
  +-----------------------------------------------------------------------+
 */
 
-use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\MessageFormatter;
 
 /**
  * Roundcube OAuth2 utilities
@@ -140,7 +140,7 @@ class rcmail_oauth
 
     /**
      * Helper method to decode a JWT
-     * 
+     *
      * @param string $jwt
      * @return array Hash array with decoded body
      */
@@ -357,7 +357,6 @@ class rcmail_oauth
      *
      * If successful, this will update the `oauth_token` entry in
      * session data.
-     *
      *
      * @return array Updated authorization data
      */

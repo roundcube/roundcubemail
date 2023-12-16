@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -170,7 +170,7 @@ class rcube_imap extends rcube_storage
             }
 
             $this->conn->connect($data['host'], $data['user'], $pass, $data);
-        } while(!$this->conn->connected() && $data['retry']);
+        } while (!$this->conn->connected() && $data['retry']);
 
         $config = [
             'host'     => $data['host'],
@@ -1139,7 +1139,7 @@ class rcube_imap extends rcube_storage
                 }
 
                 // Re-sort the result according to the original search set order
-                usort($a_msg_headers, function($a, $b) use ($index) {
+                usort($a_msg_headers, function ($a, $b) use ($index) {
                     return array_search($a->uid . '-' . $a->folder, $index) - array_search($b->uid . '-' . $b->folder, $index);
                 });
             }
@@ -1438,7 +1438,7 @@ class rcube_imap extends rcube_storage
             if ($this->search_set instanceof rcube_result_multifolder) {
                 $index = $this->search_set;
                 $index->folder = $folder;
-                // TODO: handle changed sorting
+            // TODO: handle changed sorting (>> reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7497 is fixed)
             }
             // search result is an index with the same sorting?
             else if (($this->search_set instanceof rcube_result_index)
@@ -2042,13 +2042,13 @@ class rcube_imap extends rcube_storage
     protected function structure_part($part, $count = 0, $parent = '', $mime_headers = null)
     {
         $struct = new rcube_message_part;
-        $struct->mime_id = empty($parent) ? (string)$count : "$parent.$count";
+        $struct->mime_id = empty($parent) ? (string) $count : "$parent.$count";
 
         // multipart
         if (is_array($part[0])) {
             $struct->ctype_primary = 'multipart';
 
-        /* RFC3501: BODYSTRUCTURE fields of multipart part
+            /* RFC3501: BODYSTRUCTURE fields of multipart part
             part1 array
             part2 array
             part3 array
@@ -2058,7 +2058,7 @@ class rcube_imap extends rcube_storage
             3. description (optional)
             4. language (optional)
             5. location (optional)
-        */
+            */
 
             // find first non-array entry
             for ($i=1; $i<count($part); $i++) {
@@ -2759,7 +2759,7 @@ class rcube_imap extends rcube_storage
             $from_mbox = $this->folder;
         }
 
-        list($uids, ) = $this->parse_uids($uids);
+        list($uids) = $this->parse_uids($uids);
 
         // exit if no message uids are specified
         if (empty($uids)) {
@@ -3135,12 +3135,12 @@ class rcube_imap extends rcube_storage
 
         // Remove hidden folders
         if ($config->get('imap_skip_hidden_folders')) {
-            $result = array_filter($result, function($v) { return $v[0] != '.'; });
+            $result = array_filter($result, function ($v) { return $v[0] != '.'; });
         }
 
         // Remove folders in shared namespaces (if configured, see self::set_env())
         if ($root === '*' && !empty($this->list_excludes)) {
-            $result = array_filter($result, function($v) {
+            $result = array_filter($result, function ($v) {
                 foreach ($this->list_excludes as $prefix) {
                     if (strpos($v, $prefix) === 0) {
                         return false;
@@ -3165,7 +3165,7 @@ class rcube_imap extends rcube_storage
         $search    = [];
 
         // build list of namespace prefixes
-        foreach ((array)$namespace as $ns) {
+        foreach ((array) $namespace as $ns) {
             if (is_array($ns)) {
                 foreach ($ns as $ns_data) {
                     if (strlen($ns_data[0])) {
@@ -3222,7 +3222,7 @@ class rcube_imap extends rcube_storage
                 continue;
             }
 
-            $myrights = implode('', (array)$this->my_rights($folder));
+            $myrights = implode('', (array) $this->my_rights($folder));
 
             if ($myrights !== null && !preg_match($regex, $myrights)) {
                 unset($a_folders[$idx]);
@@ -3491,7 +3491,7 @@ class rcube_imap extends rcube_storage
             return $result;
         }
 
-        $types   = array_map(function($value) { return "\\" . ucfirst($value); }, rcube_storage::$folder_types);
+        $types   = array_map(function ($value) { return "\\" . ucfirst($value); }, rcube_storage::$folder_types);
         $special = [];
 
         // request \Subscribed flag in LIST response as performance improvement for folder_exists()
@@ -4068,7 +4068,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
-            foreach ((array)$entries as $entry => $value) {
+            foreach ((array) $entries as $entry => $value) {
                 list($ent, $attr) = $this->md2annotate($entry);
                 $entries[$entry] = [$ent, $attr, $value];
             }
@@ -4103,7 +4103,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
-            foreach ((array)$entries as $idx => $entry) {
+            foreach ((array) $entries as $idx => $entry) {
                 list($ent, $attr) = $this->md2annotate($entry);
                 $entries[$idx] = [$ent, $attr, null];
             }

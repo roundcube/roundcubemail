@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -211,9 +211,7 @@ class rcube_db
      *
      * @param array $dsn DSN for DB connections
      */
-    protected function conn_prepare($dsn)
-    {
-    }
+    protected function conn_prepare($dsn) {}
 
     /**
      * Driver-specific configuration of database connection
@@ -221,9 +219,7 @@ class rcube_db
      * @param array $dsn DSN for DB connections
      * @param PDO   $dbh Connection handler
      */
-    protected function conn_configure($dsn, $dbh)
-    {
-    }
+    protected function conn_configure($dsn, $dbh) {}
 
     /**
      * Connect to appropriate database depending on the operation
@@ -379,7 +375,7 @@ class rcube_db
      */
     public function is_replicated()
     {
-      return !empty($this->db_dsnr) && $this->db_dsnw != $this->db_dsnr;
+        return !empty($this->db_dsnr) && $this->db_dsnw != $this->db_dsnr;
     }
 
     /**
@@ -594,11 +590,11 @@ class rcube_db
      */
     public function insert_or_update($table, $keys, $columns, $values)
     {
-        $columns = array_map(function($i) { return "`$i`"; }, $columns);
-        $sets    = array_map(function($i) { return "$i = ?"; }, $columns);
+        $columns = array_map(function ($i) { return "`$i`"; }, $columns);
+        $sets    = array_map(function ($i) { return "$i = ?"; }, $columns);
         $where   = $keys;
 
-        array_walk($where, function(&$val, $key) {
+        array_walk($where, function (&$val, $key) {
             $val = $this->quote_identifier($key) . " = " . $this->quote($val);
         });
 
@@ -608,9 +604,9 @@ class rcube_db
 
         // if UPDATE fails use INSERT
         if ($result && !$this->affected_rows($result)) {
-            $cols  = implode(', ', array_map(function($i) { return "`$i`"; }, array_keys($keys)));
+            $cols  = implode(', ', array_map(function ($i) { return "`$i`"; }, array_keys($keys)));
             $cols .= ', ' . implode(', ', $columns);
-            $vals  = implode(', ', array_map(function($i) { return $this->quote($i); }, $keys));
+            $vals  = implode(', ', array_map(function ($i) { return $this->quote($i); }, $keys));
             $vals .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
 
             $result = $this->query("INSERT INTO $table ($cols) VALUES ($vals)", $values);

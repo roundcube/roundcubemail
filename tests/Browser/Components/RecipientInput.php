@@ -2,9 +2,9 @@
 
 namespace Tests\Browser\Components;
 
-use Tests\Browser\Browser;
-use PHPUnit\Framework\Assert;
 use Laravel\Dusk\Component;
+use PHPUnit\Framework\Assert;
+use Tests\Browser\Browser;
 
 class RecipientInput extends Component
 {

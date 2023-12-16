@@ -2,9 +2,8 @@
 
 namespace Tests\Browser\Components;
 
-use App;
-use Tests\Browser\Browser;
 use Laravel\Dusk\Component;
+use Tests\Browser\Browser;
 
 class HtmlEditor extends Component
 {

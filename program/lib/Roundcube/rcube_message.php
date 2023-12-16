@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -276,7 +276,7 @@ class rcube_message
 
             if ($mode === -1) {
                 if ($body !== false) {
-                    print($body);
+                    echo($body);
                 }
 
                 return $body !== false;
@@ -545,7 +545,7 @@ class rcube_message
 
             // check if the part is a subpart of another attachment part (message/rfc822)
             if ($att_part->mimetype == 'message/rfc822') {
-                if (in_array($part, (array)$att_part->parts)) {
+                if (in_array($part, (array) $att_part->parts)) {
                     return true;
                 }
             }
@@ -593,7 +593,7 @@ class rcube_message
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
                 $part_body = $this->get_part_body($structure->mime_id, false, 32768);
-                list($headers, ) = rcube_utils::explode("\r\n\r\n", $part_body, 2);
+                list($headers) = rcube_utils::explode("\r\n\r\n", $part_body, 2);
                 $structure->headers = rcube_mime::parse_headers($headers);
 
                 if ($this->context === $structure->mime_id) {
@@ -671,7 +671,7 @@ class rcube_message
 
             // Parse simple (plain text) message body
             if ($message_ctype_secondary == 'plain') {
-                foreach ((array)$this->uu_decode($structure) as $uupart) {
+                foreach ((array) $this->uu_decode($structure) as $uupart) {
                     $this->mime_parts[$uupart->mime_id] = $uupart;
                     $this->add_part($uupart, 'attachment');
                 }
@@ -1060,9 +1060,15 @@ class rcube_message
             // It may happen that we add the same part to the array many times
             // use part ID index to prevent from duplicates
             switch ($type) {
-                case 'inline': $this->inline_parts[(string) $part->mime_id] = $part; break;
-                case 'attachment': $this->attachments[(string) $part->mime_id] = $part; break;
-                default: $this->parts[] = $part; break;
+                case 'inline':
+                    $this->inline_parts[(string) $part->mime_id] = $part;
+                    break;
+                case 'attachment':
+                    $this->attachments[(string) $part->mime_id] = $part;
+                    break;
+                default:
+                    $this->parts[] = $part;
+                    break;
             }
         }
     }

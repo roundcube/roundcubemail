@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -30,7 +30,7 @@ class rcube_vcard
     private static $values_decoded = false;
     private $raw = [
         'FN' => [],
-        'N'  => [['','','','','']],
+        'N'  => [['', '', '', '', '']],
     ];
     private static $fieldmap = [
         'phone'    => 'TEL',
@@ -332,7 +332,7 @@ class rcube_vcard
         }
 
         if (empty($this->raw['N'])) {
-            $this->raw['N'] = [['','','','','']];
+            $this->raw['N'] = [['', '', '', '', '']];
         }
 
         if (empty($this->raw['FN'])) {
@@ -355,116 +355,116 @@ class rcube_vcard
         $type_uc = strtoupper((string) $type);
 
         switch ($field) {
-        case 'name':
-        case 'displayname':
-            $this->raw['FN'][0][0] = $this->displayname = $value;
-            break;
-
-        case 'surname':
-            $this->raw['N'][0][0] = $this->surname = $value;
-            break;
-
-        case 'firstname':
-            $this->raw['N'][0][1] = $this->firstname = $value;
-            break;
-
-        case 'middlename':
-            $this->raw['N'][0][2] = $this->middlename = $value;
-            break;
-
-        case 'prefix':
-            $this->raw['N'][0][3] = $value;
-            break;
-
-        case 'suffix':
-            $this->raw['N'][0][4] = $value;
-            break;
-
-        case 'nickname':
-            $this->raw['NICKNAME'][0][0] = $this->nickname = $value;
-            break;
-
-        case 'organization':
-            $this->raw['ORG'][0][0] = $this->organization = $value;
-            break;
-
-        case 'photo':
-            if (strpos($value, 'http:') === 0) {
-                // TODO: fetch file from URL and save it locally?
-                $this->raw['PHOTO'][0] = [0 => $value, 'url' => true];
-            }
-            else {
-                $this->raw['PHOTO'][0] = [0 => $value, 'base64' => (bool) preg_match('![^a-z0-9/=+-]!i', $value)];
-            }
-            break;
-
-        case 'email':
-            $this->raw['EMAIL'][] = [0 => $value, 'type' => array_filter(['INTERNET', $type_uc])];
-            $this->email[] = $value;
-            break;
-
-        case 'im':
-            // save IM subtypes into extension fields
-            $typemap = array_flip($this->immap);
-            if (!empty($typemap[strtolower($type)])) {
-                $field = $typemap[strtolower($type)];
-                $this->raw[$field][] = [$value];
-            }
-            break;
-
-        case 'birthday':
-        case 'anniversary':
-            if (($val = rcube_utils::anytodatetime($value)) && !empty(self::$fieldmap[$field])) {
-                $fn = self::$fieldmap[$field];
-                $this->raw[$fn][] = [0 => $val->format('Y-m-d'), 'value' => ['date']];
-            }
-            break;
-
-        case 'address':
-            if (!empty($this->addresstypemap[$type_uc])) {
-                $type = $this->addresstypemap[$type_uc];
-            }
-
-            if (empty($value[0])) {
-                $value = [
-                    '',
-                    '',
-                    $value['street'] ?? '',
-                    $value['locality'] ?? '',
-                    $value['region'] ?? '',
-                    $value['zipcode'] ?? '',
-                    $value['country'] ?? '',
-                ];
-            }
-
-            // fall through if not empty
-            if (!strlen(@implode('', $value))) {
+            case 'name':
+            case 'displayname':
+                $this->raw['FN'][0][0] = $this->displayname = $value;
                 break;
-            }
 
-        default:
-            if ($field == 'phone' && !empty($this->phonetypemap[$type_uc])) {
-                $type = $this->phonetypemap[$type_uc];
-            }
+            case 'surname':
+                $this->raw['N'][0][0] = $this->surname = $value;
+                break;
 
-            if (!empty(self::$fieldmap[$field])) {
-                $tag = self::$fieldmap[$field];
+            case 'firstname':
+                $this->raw['N'][0][1] = $this->firstname = $value;
+                break;
 
-                if (is_array($value) || (is_string($value) && strlen($value))) {
-                    $this->raw[$tag][] = (array) $value;
-                    if ($type) {
-                        $index    = count($this->raw[$tag]) - 1;
-                        $typemap  = array_flip($this->typemap);
-                        $type_val = !empty($typemap[$type_uc]) ? $typemap[$type_uc] : $type;
-                        $this->raw[$tag][$index]['type'] = explode(',', $type_val);
-                    }
+            case 'middlename':
+                $this->raw['N'][0][2] = $this->middlename = $value;
+                break;
+
+            case 'prefix':
+                $this->raw['N'][0][3] = $value;
+                break;
+
+            case 'suffix':
+                $this->raw['N'][0][4] = $value;
+                break;
+
+            case 'nickname':
+                $this->raw['NICKNAME'][0][0] = $this->nickname = $value;
+                break;
+
+            case 'organization':
+                $this->raw['ORG'][0][0] = $this->organization = $value;
+                break;
+
+            case 'photo':
+                if (strpos($value, 'http:') === 0) {
+                    // TODO: fetch file from URL and save it locally?
+                    $this->raw['PHOTO'][0] = [0 => $value, 'url' => true];
                 }
                 else {
-                    unset($this->raw[$tag]);
+                    $this->raw['PHOTO'][0] = [0 => $value, 'base64' => (bool) preg_match('![^a-z0-9/=+-]!i', $value)];
                 }
-            }
+                break;
 
-            break;
+            case 'email':
+                $this->raw['EMAIL'][] = [0 => $value, 'type' => array_filter(['INTERNET', $type_uc])];
+                $this->email[] = $value;
+                break;
+
+            case 'im':
+                // save IM subtypes into extension fields
+                $typemap = array_flip($this->immap);
+                if (!empty($typemap[strtolower($type)])) {
+                    $field = $typemap[strtolower($type)];
+                    $this->raw[$field][] = [$value];
+                }
+                break;
+
+            case 'birthday':
+            case 'anniversary':
+                if (($val = rcube_utils::anytodatetime($value)) && !empty(self::$fieldmap[$field])) {
+                    $fn = self::$fieldmap[$field];
+                    $this->raw[$fn][] = [0 => $val->format('Y-m-d'), 'value' => ['date']];
+                }
+                break;
+
+            case 'address':
+                if (!empty($this->addresstypemap[$type_uc])) {
+                    $type = $this->addresstypemap[$type_uc];
+                }
+
+                if (empty($value[0])) {
+                    $value = [
+                        '',
+                        '',
+                        $value['street'] ?? '',
+                        $value['locality'] ?? '',
+                        $value['region'] ?? '',
+                        $value['zipcode'] ?? '',
+                        $value['country'] ?? '',
+                    ];
+                }
+
+                // fall through if not empty
+                if (!strlen(@implode('', $value))) {
+                    break;
+                }
+
+            default:
+                if ($field == 'phone' && !empty($this->phonetypemap[$type_uc])) {
+                    $type = $this->phonetypemap[$type_uc];
+                }
+
+                if (!empty(self::$fieldmap[$field])) {
+                    $tag = self::$fieldmap[$field];
+
+                    if (is_array($value) || (is_string($value) && strlen($value))) {
+                        $this->raw[$tag][] = (array) $value;
+                        if ($type) {
+                            $index    = count($this->raw[$tag]) - 1;
+                            $typemap  = array_flip($this->typemap);
+                            $type_val = !empty($typemap[$type_uc]) ? $typemap[$type_uc] : $type;
+                            $this->raw[$tag][$index]['type'] = explode(',', $type_val);
+                        }
+                    }
+                    else {
+                        unset($this->raw[$tag]);
+                    }
+                }
+
+                break;
         }
     }
 
@@ -811,17 +811,17 @@ class rcube_vcard
     private static function decode_value($value, $encoding)
     {
         switch (strtolower($encoding)) {
-        case 'quoted-printable':
-            self::$values_decoded = true;
-            return quoted_printable_decode($value);
+            case 'quoted-printable':
+                self::$values_decoded = true;
+                return quoted_printable_decode($value);
 
-        case 'base64':
-        case 'b':
-            self::$values_decoded = true;
-            return base64_decode($value);
+            case 'base64':
+            case 'b':
+                self::$values_decoded = true;
+                return base64_decode($value);
 
-        default:
-            return $value;
+            default:
+                return $value;
         }
     }
 
@@ -851,8 +851,8 @@ class rcube_vcard
             $data['N'][0][] = '';
         }
 
-        foreach ((array)$data as $type => $entries) {
-            foreach ((array)$entries as $entry) {
+        foreach ((array) $data as $type => $entries) {
+            foreach ((array) $entries as $entry) {
                 $attr = '';
                 if (is_array($entry)) {
                     $value = [];
@@ -876,7 +876,7 @@ class rcube_vcard
                             }
                         }
                         else {
-                            foreach ((array)$attrvalues as $attrvalue) {
+                            foreach ((array) $attrvalues as $attrvalue) {
                                 $attrname = strtoupper($attrname);
                                 // TYPE=OTHER is non-standard, TYPE=INTERNET is redundant, remove these
                                 if ($attrname == 'TYPE') {
@@ -925,7 +925,7 @@ class rcube_vcard
                 $r[] = self::vcard_quote($part, $sep);
             }
 
-            return(implode($sep, $r));
+            return (implode($sep, $r));
         }
 
         return strtr($str, ["\\" => "\\\\", "\r" => '', "\n" => '\n', $sep => "\\$sep"]);

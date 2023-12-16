@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -463,9 +463,9 @@ class rcube_csv2vcard
     public function set_map($elements)
     {
         // sanitize input
-        $elements = array_filter($elements, function($val) {
-                return in_array($val, $this->csv2vcard_map);
-            });
+        $elements = array_filter($elements, function ($val) {
+            return in_array($val, $this->csv2vcard_map);
+        });
 
         $this->map = $elements;
     }
@@ -626,7 +626,7 @@ class rcube_csv2vcard
                     $contact[$name][] = $value;
                 }
                 else {
-                   $contact[$name] = $value;
+                    $contact[$name] = $value;
                 }
             }
         }

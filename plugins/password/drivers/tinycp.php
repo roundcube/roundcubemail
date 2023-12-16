@@ -8,7 +8,7 @@
  *
  * @version 1.2
  * @author Ricky Mendoza (HelloWorld@rickymendoza.dev)
- * 
+ *
  * Copyright (C) 2020 Ricky Mendoza
  *
  * This program is free software: you can redistribute it and/or modify

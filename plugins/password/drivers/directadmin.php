@@ -44,7 +44,7 @@ class rcube_directadmin_password
         $da_host = str_replace('%h', $_SESSION['imap_host'], $da_host);
         $da_host = str_replace('%d', $rcmail->user->get_username('domain'), $da_host);
 
-        $Socket->connect($da_host,$da_port); 
+        $Socket->connect($da_host,$da_port);
         $Socket->set_method('POST');
         $Socket->query('/CMD_CHANGE_EMAIL_PASSWORD', [
                 'email'         => $da_user,
@@ -190,7 +190,7 @@ class HTTPSocket
             $this->set_login($location['user'], $location['pass']);
 
             $request = $location['path'];
-            
+
             if ($content == '') {
                 $content = $location['query'];
             }
@@ -413,7 +413,9 @@ class HTTPSocket
         unset($array_headers[0]);
 
         foreach ($array_headers as $pair) {
-            if ($pair == '' || $pair == "\r\n") continue;
+            if ($pair == '' || $pair == "\r\n") {
+                continue;
+            }
             list($key,$value) = preg_split("/: /", $pair, 2);
             $array_return[strtolower($key)] = $value;
         }

@@ -2,8 +2,8 @@
 
 namespace Tests\Browser\Components;
 
-use Tests\Browser\Browser;
 use Laravel\Dusk\Component;
+use Tests\Browser\Browser;
 
 class Taskmenu extends Component
 {

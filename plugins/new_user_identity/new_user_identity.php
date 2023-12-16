@@ -129,7 +129,7 @@ class new_user_identity extends rcube_plugin
         $this->load_config();
 
         $addressbook = $this->rc->config->get('new_user_identity_addressbook');
-        $ldap_config = (array)$this->rc->config->get('ldap_public');
+        $ldap_config = (array) $this->rc->config->get('ldap_public');
         $match       = $this->rc->config->get('new_user_identity_match');
 
         if (empty($addressbook) || empty($match) || empty($ldap_config[$addressbook])) {

@@ -7,7 +7,6 @@
  */
 class Framework_Rcube extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

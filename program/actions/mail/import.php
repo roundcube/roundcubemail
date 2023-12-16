@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -136,7 +136,7 @@ class rcmail_action_mail_import extends rcmail_action
 
                 if (copy("zip://$path#$entry", $tmpfname)) {
                     $ctype = rcube_mime::file_content_type($tmpfname, $entry);
-                    list($mtype_primary, ) = explode('/', $ctype);
+                    list($mtype_primary) = explode('/', $ctype);
 
                     if (in_array($mtype_primary, ['text', 'message'])) {
                         $files[] = $tmpfname;

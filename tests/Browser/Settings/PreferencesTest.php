@@ -24,7 +24,7 @@ class PreferencesTest extends \Tests\Browser\TestCase
                     ->waitFor('#sections-table');
             }
             // Preferences actions
-            $browser->with('#sections-table', function($browser) {
+            $browser->with('#sections-table', function ($browser) {
                 $browser->assertSeeIn('tr.general', 'User Interface')
                     ->assertSeeIn('tr.mailbox', 'Mailbox View')
                     ->assertSeeIn('tr.mailview', 'Displaying Messages')

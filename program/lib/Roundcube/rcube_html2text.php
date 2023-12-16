@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -417,7 +417,7 @@ class rcube_html2text
      */
     function print_text()
     {
-        print $this->get_text();
+        echo $this->get_text();
     }
 
     /**
@@ -704,7 +704,9 @@ class rcube_html2text
 
                     // adjust text wrapping width
                     $p_width = $this->width;
-                    if ($this->width > 0) $this->width -= 2;
+                    if ($this->width > 0) {
+                        $this->width -= 2;
+                    }
 
                     // replace content with inner blockquotes
                     $this->_converter($body);
@@ -751,14 +753,14 @@ class rcube_html2text
     public function tags_preg_callback($matches)
     {
         switch (strtolower($matches[1])) {
-        case 'th':
-            return $this->_toupper("\t\t". $matches[3] ."\n");
-        case 'h':
-            return $this->_toupper("\n\n". $matches[3] ."\n\n");
-        case 'a':
-            // Remove spaces in URL (#1487805)
-            $url = str_replace(' ', '', $matches[3]);
-            return $this->_handle_link($url, $matches[4]);
+            case 'th':
+                return $this->_toupper("\t\t". $matches[3] ."\n");
+            case 'h':
+                return $this->_toupper("\n\n". $matches[3] ."\n\n");
+            case 'a':
+                // Remove spaces in URL (#1487805)
+                $url = str_replace(' ', '', $matches[3]);
+                return $this->_handle_link($url, $matches[4]);
         }
     }
 
