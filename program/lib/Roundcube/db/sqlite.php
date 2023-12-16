@@ -87,7 +87,7 @@ class rcube_db_sqlite extends rcube_db
      *
      * @param string $field Field name
      *
-     * @return string  SQL statement to use in query
+     * @return string SQL statement to use in query
      * @deprecated
      */
     public function unixtimestamp($field)

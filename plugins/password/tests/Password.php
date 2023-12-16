@@ -78,6 +78,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
      * driver's class name.
      *
      * @param string $driver driver name, example: "chpasswd"
+     *
      * @return string driver's class name, example: "rcube_chpasswd_password"
      */
     function load_driver($driver)

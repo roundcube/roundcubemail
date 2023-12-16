@@ -174,6 +174,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
 
     /**
      * @param string $useragent
+     *
      * @return rcube_browser
      */
     private function getBrowser($useragent)

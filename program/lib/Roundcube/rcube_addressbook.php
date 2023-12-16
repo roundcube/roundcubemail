@@ -56,7 +56,7 @@ abstract class rcube_addressbook
 
     /**
      * @var bool True if the addressbook supports exporting contact groups. Requires the implementation of
-     *              get_record_groups().
+     *           get_record_groups().
      */
     public $export_groups = true;
 
@@ -129,6 +129,7 @@ abstract class rcube_addressbook
      * operation.
      *
      * @param mixed $filter Search params to use in listing method, obtained by get_search_set()
+     *
      * @return void
      */
     abstract function set_search_set($filter);

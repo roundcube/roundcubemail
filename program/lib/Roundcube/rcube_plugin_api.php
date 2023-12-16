@@ -157,8 +157,8 @@ class rcube_plugin_api
      * Load the specified plugin
      *
      * @param string $plugin_name Plugin name
-     * @param bool   $force        Force loading of the plugin even if it doesn't match the filter
-     * @param bool   $require      Require loading of the plugin, error if it doesn't exist
+     * @param bool   $force       Force loading of the plugin even if it doesn't match the filter
+     * @param bool   $require     Require loading of the plugin, error if it doesn't exist
      *
      * @return bool True on success, false if not loaded or failure
      */

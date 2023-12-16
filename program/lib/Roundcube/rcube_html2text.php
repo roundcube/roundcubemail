@@ -626,7 +626,7 @@ class rcube_html2text
      * text, with numeric indices to the original point in the text they
      * appeared.
      *
-     * @param string $url    URL of the link
+     * @param string $url     URL of the link
      * @param string $display Part of the text to associate number with
      */
     protected function _build_link_list($url, $display)

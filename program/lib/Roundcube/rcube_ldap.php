@@ -567,7 +567,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Set internal sort settings
      *
-     * @param string $sort_col Sort column
+     * @param string $sort_col   Sort column
      * @param string $sort_order Sort order
      */
     function set_sort_order($sort_col, $sort_order = null)
@@ -610,9 +610,9 @@ class rcube_ldap extends rcube_addressbook
     /**
      * List the current set of contact records
      *
-     * @param array $cols   List of cols to show
-     * @param int   $subset Only return this number of records
-     * @param bool   $nocount True to skip the count query (Not used)
+     * @param array $cols    List of cols to show
+     * @param int   $subset  Only return this number of records
+     * @param bool  $nocount True to skip the count query (Not used)
      *
      * @return array Indexed list of contact records, each a hash array
      */
@@ -677,7 +677,7 @@ class rcube_ldap extends rcube_addressbook
      * @param bool   $count   Count only
      * @param array  $entries Group entries (if called recursively)
      *
-     * @return array  Accumulated group members
+     * @return array Accumulated group members
      */
     function list_group_members($dn, $count = false, $entries = null)
     {
@@ -814,12 +814,12 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Search contacts
      *
-     * @param mixed   $fields   The field name of array of field names to search in
-     * @param mixed   $value    Search value (or array of values when $fields is array)
-     * @param int     $mode     Matching mode. Sum of rcube_addressbook::SEARCH_*
-     * @param bool    $select   True if results are requested, False if count only
-     * @param bool    $nocount  (Not used)
-     * @param array   $required List of fields that cannot be empty
+     * @param mixed $fields   The field name of array of field names to search in
+     * @param mixed $value    Search value (or array of values when $fields is array)
+     * @param int   $mode     Matching mode. Sum of rcube_addressbook::SEARCH_*
+     * @param bool  $select   True if results are requested, False if count only
+     * @param bool  $nocount  (Not used)
+     * @param array $required List of fields that cannot be empty
      *
      * @return rcube_result_set List of contact records
      */
@@ -1239,7 +1239,7 @@ class rcube_ldap extends rcube_addressbook
      * @param array $save_cols Associative array with save data
      *                         Keys:   Field name with optional section in the form FIELD:SECTION
      *                         Values: Field value. Can be either a string or an array of strings for multiple values
-     * @param bool  $check True to check for duplicates first
+     * @param bool  $check     True to check for duplicates first
      *
      * @return mixed The created record ID on success, False on error
      */

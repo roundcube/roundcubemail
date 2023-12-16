@@ -95,7 +95,7 @@ abstract class rcmail_output extends rcube_output
     /**
      * Register a template object handler
      *
-     * @param string $name Object name
+     * @param string   $name Object name
      * @param callable $func Function name to call
      *
      * @return void

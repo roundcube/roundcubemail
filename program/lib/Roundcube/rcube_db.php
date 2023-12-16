@@ -398,7 +398,7 @@ class rcube_db
      * @param string $query     SQL query to execute
      * @param mixed  ...$params Query parameter values
      *
-     * @return PDOStatement|false  Query handle or False on error
+     * @return PDOStatement|false Query handle or False on error
      */
     public function query($query, ...$params)
     {

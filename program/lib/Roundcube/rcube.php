@@ -1389,14 +1389,14 @@ class rcube
     /**
      * Throw system error, with optional logging and script termination.
      *
-     * @param array|Throwable|string|PEAR_Error $arg Error object, string or named parameters array:
-     *                                               - code:    Error code (required)
-     *                                               - type:    Error type: php, db, imap, etc.
-     *                                               - message: Error message
-     *                                               - file:    File where error occurred
-     *                                               - line:    Line where error occurred
-     * @param bool $log       True to log the error
-     * @param bool $terminate Terminate script execution
+     * @param array|Throwable|string|PEAR_Error $arg       Error object, string or named parameters array:
+     *                                                     - code:    Error code (required)
+     *                                                     - type:    Error type: php, db, imap, etc.
+     *                                                     - message: Error message
+     *                                                     - file:    File where error occurred
+     *                                                     - line:    Line where error occurred
+     * @param bool                              $log       True to log the error
+     * @param bool                              $terminate Terminate script execution
      */
     public static function raise_error($arg, $log = false, $terminate = false)
     {
@@ -1721,15 +1721,15 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param Mail_mime    &$message    Reference to Mail_mime object
-     * @param string       $from        Sender address string
-     * @param array|string $mailto      Either a comma-separated list of recipients (RFC822 compliant),
-     *                                  or an array of recipients, each RFC822 valid
-     * @param array|string &$error      SMTP error array or (deprecated) string
-     * @param string       &$body_file  Location of file with saved message body,
-     *                                  used when delay_file_io is enabled
-     * @param array        $options     SMTP options (e.g. DSN request)
-     * @param bool         $disconnect  Close SMTP connection ASAP
+     * @param Mail_mime    &$message   Reference to Mail_mime object
+     * @param string       $from       Sender address string
+     * @param array|string $mailto     Either a comma-separated list of recipients (RFC822 compliant),
+     *                                 or an array of recipients, each RFC822 valid
+     * @param array|string &$error     SMTP error array or (deprecated) string
+     * @param string       &$body_file Location of file with saved message body,
+     *                                 used when delay_file_io is enabled
+     * @param array        $options    SMTP options (e.g. DSN request)
+     * @param bool         $disconnect Close SMTP connection ASAP
      *
      * @return bool Send status.
      */

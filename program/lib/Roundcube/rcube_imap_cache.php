@@ -333,8 +333,8 @@ class rcube_imap_cache
     /**
      * Returns list of messages (headers). See rcube_imap::fetch_headers().
      *
-     * @param string $mailbox  Folder name
-     * @param array  $msgs     Message UIDs
+     * @param string $mailbox Folder name
+     * @param array  $msgs    Message UIDs
      *
      * @return array The list of messages (rcube_message_header) indexed by UID
      */
@@ -467,9 +467,9 @@ class rcube_imap_cache
     /**
      * Saves the message in cache.
      *
-     * @param string               $mailbox  Folder name
-     * @param rcube_message_header $message  Message data
-     * @param bool                 $force    Skips message in-cache existence check
+     * @param string               $mailbox Folder name
+     * @param rcube_message_header $message Message data
+     * @param bool                 $force   Skips message in-cache existence check
      */
     function add_message($mailbox, $message, $force = false)
     {
@@ -508,11 +508,11 @@ class rcube_imap_cache
     /**
      * Sets the flag for specified message.
      *
-     * @param string  $mailbox  Folder name
-     * @param array   $uids     Message UIDs or null to change flag
-     *                          of all messages in a folder
-     * @param string  $flag     The name of the flag
-     * @param bool    $enabled  Flag state
+     * @param string $mailbox Folder name
+     * @param array  $uids    Message UIDs or null to change flag
+     *                        of all messages in a folder
+     * @param string $flag    The name of the flag
+     * @param bool   $enabled Flag state
      */
     function change_flag($mailbox, $uids, $flag, $enabled = false)
     {
@@ -561,8 +561,8 @@ class rcube_imap_cache
     /**
      * Removes message(s) from cache.
      *
-     * @param string $mailbox  Folder name
-     * @param array  $uids     Message UIDs, NULL removes all messages
+     * @param string $mailbox Folder name
+     * @param array  $uids    Message UIDs, NULL removes all messages
      */
     function remove_message($mailbox = null, $uids = null)
     {
@@ -601,8 +601,8 @@ class rcube_imap_cache
     /**
      * Clears index cache.
      *
-     * @param string  $mailbox     Folder name
-     * @param bool    $remove      Enable to remove the DB row
+     * @param string $mailbox Folder name
+     * @param bool   $remove  Enable to remove the DB row
      */
     function remove_index($mailbox = null, $remove = false)
     {
@@ -672,8 +672,8 @@ class rcube_imap_cache
     /**
      * Clears the cache.
      *
-     * @param string $mailbox  Folder name
-     * @param array  $uids     Message UIDs, NULL removes all messages in a folder
+     * @param string $mailbox Folder name
+     * @param array  $uids    Message UIDs, NULL removes all messages in a folder
      */
     function clear($mailbox = null, $uids = null)
     {

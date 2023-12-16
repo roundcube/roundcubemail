@@ -403,6 +403,7 @@ class HTTPSocket
      * Return the header of result (stuff before body).
      *
      * @param string $header (optional) header to return
+     *
      * @return array result header
      */
     function fetch_header($header = '')

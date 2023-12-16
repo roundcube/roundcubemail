@@ -172,7 +172,7 @@ class rcube_message
      * Compose a valid URL for getting a message part
      *
      * @param string $mime_id Part MIME-ID
-     * @param mixed  $embed Mimetype class for parts to be embedded
+     * @param mixed  $embed   Mimetype class for parts to be embedded
      *
      * @return string|false URL or false if part does not exist
      */

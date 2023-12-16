@@ -48,12 +48,12 @@ class rcmail_sendmail
      *
      * @param array $data    Compose data
      * @param array $options Operation options:
-     *    savedraft (bool) - Enable save-draft mode
-     *    sendmail (bool) - Enable send-mail mode
-     *    saveonly (bool) - Enable save-only mode
-     *    message (object) - Message object to get some data from
-     *    error_handler (callback) - Error handler
-     *    dsn_enabled (bool) - Enable DSN
+     *                       savedraft (bool) - Enable save-draft mode
+     *                       sendmail (bool) - Enable send-mail mode
+     *                       saveonly (bool) - Enable save-only mode
+     *                       message (object) - Message object to get some data from
+     *                       error_handler (callback) - Error handler
+     *                       dsn_enabled (bool) - Enable DSN
      */
     public function __construct($data = [], $options = [])
     {

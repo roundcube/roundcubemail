@@ -47,6 +47,7 @@ class rcube_plesk_password
      * @author Cyrill von Wattenwyl <cyrill.vonwattenwyl@adfinis-sygroup.ch>
      * @param string $currpass Current password
      * @param string $newpass  New password
+     *
      * @return int PASSWORD_SUCCESS|PASSWORD_ERROR
      */
     function save($currpass, $newpass, $username)
@@ -101,6 +102,7 @@ class plesk_rpc
      * @param string $path plesk rpc path
      * @param string $user plesk user
      * @param string $user plesk password
+     *
      * @return void
      */
     function init($host, $port, $path, $user, $pass)
@@ -149,6 +151,7 @@ class plesk_rpc
      * Get all hosting-information of a domain
      *
      * @param string $domain domain-name
+     *
      * @return object SimpleXML object
      */
     function domain_info($domain)

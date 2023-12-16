@@ -1956,7 +1956,7 @@ class rcmail extends rcube
      * @param bool   $is_multifolder Will be set to True if multi-folder request
      * @param int    $mode           Request mode. Default: rcube_utils::INPUT_GPC.
      *
-     * @return array  List of message UIDs per folder
+     * @return array List of message UIDs per folder
      * @deprecated since 1.5-beta, use rcmail_action::get_uids()
      */
     public static function get_uids($uids = null, $mbox = null, &$is_multifolder = false, $mode = null)

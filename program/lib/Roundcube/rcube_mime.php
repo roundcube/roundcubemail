@@ -144,8 +144,8 @@ class rcube_mime
     /**
      * Decode a message header value
      *
-     * @param string  $input    Header value
-     * @param string  $fallback Fallback charset if none specified
+     * @param string $input    Header value
+     * @param string $fallback Fallback charset if none specified
      *
      * @return string Decoded string
      */
@@ -727,11 +727,11 @@ class rcube_mime
     /**
      * A method to guess the mime_type of an attachment.
      *
-     * @param string  $path        Path to the file or file contents
-     * @param string  $name        File name (with suffix)
-     * @param string  $failover    Mime type supplied for failover
-     * @param bool    $is_stream   Set to True if $path contains file contents
-     * @param bool    $skip_suffix Set to True if the config/mimetypes.php map should be ignored
+     * @param string $path        Path to the file or file contents
+     * @param string $name        File name (with suffix)
+     * @param string $failover    Mime type supplied for failover
+     * @param bool   $is_stream   Set to True if $path contains file contents
+     * @param bool   $skip_suffix Set to True if the config/mimetypes.php map should be ignored
      *
      * @return string
      * @author Till Klampaeckel <till@php.net>
@@ -925,7 +925,7 @@ class rcube_mime
     /**
      * Detect image type of the given binary data by checking magic numbers.
      *
-     * @param string $data  Binary file content
+     * @param string $data Binary file content
      *
      * @return string Detected mime-type or jpeg as fallback
      */

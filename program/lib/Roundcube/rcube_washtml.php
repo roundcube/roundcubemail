@@ -198,17 +198,16 @@ class rcube_washtml
      * Class constructor
      *
      * @param array $p Configuration options:
-     *         allow_remote: is a boolean to allow link to remote resources (images/css)
-     *         blocked_src: string with image-src to be used for blocked remote images
-     *         show_washed: is a boolean to include washed out attributes as x-washed
-     *         cid_map: is an array where cid urls index urls to replace them
-     *         charset: is a string containing the charset of the HTML document,
-     *                  to be used if the charset is not defined in the document
-     *         css_prefix: A prefix to be added to id/class/for attribute values
-     *         html_elements: Additional allowed HTML elements
-     *         ignore_elements: Additional HTML elements to ignore
-     *         html_attribs: Additional allowed HTML attributes
-     *         void_elements: Elements which could be empty and be returned in short form (<tag />)
+     *                 allow_remote: is a boolean to allow link to remote resources (images/css)
+     *                 blocked_src: string with image-src to be used for blocked remote images
+     *                 show_washed: is a boolean to include washed out attributes as x-washed
+     *                 cid_map: is an array where cid urls index urls to replace them
+     *                 charset: is a string containing the charset of the HTML document, to be used if the charset is not defined in the document
+     *                 css_prefix: A prefix to be added to id/class/for attribute values
+     *                 html_elements: Additional allowed HTML elements
+     *                 ignore_elements: Additional HTML elements to ignore
+     *                 html_attribs: Additional allowed HTML attributes
+     *                 void_elements: Elements which could be empty and be returned in short form (<tag />)
      */
     public function __construct($p = [])
     {

@@ -1187,8 +1187,8 @@ class rcube_utils
     /**
      * Split the given string into word tokens
      *
-     * @param string $str     Input to tokenize
-     * @param int    $minlen  Minimum length of a single token
+     * @param string $str    Input to tokenize
+     * @param int    $minlen Minimum length of a single token
      *
      * @return array List of tokens
      */
@@ -1658,7 +1658,7 @@ class rcube_utils
      * Clean the subject from reply and forward prefix
      *
      * @param string $subject Subject to clean
-     * @param string $mode Mode of cleaning : reply, forward or both
+     * @param string $mode    Mode of cleaning : reply, forward or both
      *
      * @return string Cleaned subject
      */

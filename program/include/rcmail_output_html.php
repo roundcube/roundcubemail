@@ -491,8 +491,8 @@ EOF;
     /**
      * Call a client method
      *
-     * @param string $cmd    Method to call
-     * @param mixed ...$args Method arguments
+     * @param string $cmd     Method to call
+     * @param mixed  ...$args Method arguments
      */
     public function command($cmd, ...$args)
     {
@@ -525,11 +525,11 @@ EOF;
     /**
      * Invoke display_message command
      *
-     * @param string  $message  Message to display
-     * @param string  $type     Message type [notice|confirm|error]
-     * @param array   $vars     Key-value pairs to be replaced in localized text
-     * @param bool    $override Override last set message
-     * @param int     $timeout  Message display time in seconds
+     * @param string $message  Message to display
+     * @param string $type     Message type [notice|confirm|error]
+     * @param array  $vars     Key-value pairs to be replaced in localized text
+     * @param bool   $override Override last set message
+     * @param int    $timeout  Message display time in seconds
      *
      * @uses self::command()
      */
@@ -2477,6 +2477,7 @@ EOF;
      * Loads javascript code for images preloading
      *
      * @param array $attrib Named parameters
+     *
      * @return void
      */
     protected function preloader($attrib)
@@ -2611,6 +2612,7 @@ EOF;
      * Builder for GUI object 'message'
      *
      * @param array $attrib Named tag parameters
+     *
      * @return string HTML code for the gui object
      */
     protected function message_container($attrib)
@@ -2727,10 +2729,10 @@ EOF;
     /**
      * Get logo URL for current template based on skin_logo config option
      *
-     * @param string $type   Type of the logo to check for (e.g. 'print' or 'small')
-     *                       default is null (no special type)
-     * @param string $match  (optional) 'all' = type, template or wildcard, 'template' = type or template
-     *                       Note: when type is specified matches are limited to type only unless $match is defined
+     * @param string $type  Type of the logo to check for (e.g. 'print' or 'small')
+     *                      default is null (no special type)
+     * @param string $match (optional) 'all' = type, template or wildcard, 'template' = type or template
+     *                      Note: when type is specified matches are limited to type only unless $match is defined
      *
      * @return string image URL
      */
