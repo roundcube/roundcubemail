@@ -125,7 +125,6 @@ return (new PhpCsFixer\Config())
         'array_push' => false,
         'fopen_flags' => false,
         'function_to_constant' => false,
-        'implode_call' => false,
         'logical_operators' => false,
         'long_to_shorthand_operator' => false,
         'no_alias_functions' => false,

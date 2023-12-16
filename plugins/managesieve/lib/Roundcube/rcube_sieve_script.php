@@ -1289,7 +1289,7 @@ class rcube_sieve_script
             }
         }
 
-        return implode($str);
+        return implode('', $str);
     }
 
     /**

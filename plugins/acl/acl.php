@@ -257,7 +257,7 @@ class acl extends rcube_plugin
         $supported = $data['rights'];
 
         // depending on server capability either use 'te' or 'd' for deleting msgs
-        $deleteright = implode(array_intersect(str_split('ted'), $supported));
+        $deleteright = implode('', array_intersect(str_split('ted'), $supported));
 
         $out = '';
         $ul  = '';
@@ -282,7 +282,7 @@ class acl extends rcube_plugin
             'read'   => 'lrs',
             'write'  => 'wi',
             'delete' => $deleteright,
-            'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode($supported)),
+            'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode('', $supported)),
         ];
 
         // give plugins the opportunity to adjust this list
@@ -399,7 +399,7 @@ class acl extends rcube_plugin
         $supported = $data['rights'];
 
         // depending on server capability either use 'te' or 'd' for deleting msgs
-        $deleteright = implode(array_intersect(str_split('ted'), $supported));
+        $deleteright = implode('', array_intersect(str_split('ted'), $supported));
 
         // Use advanced or simple (grouped) rights
         $advanced = $this->rc->config->get('acl_advanced_mode');
@@ -415,7 +415,7 @@ class acl extends rcube_plugin
                 'read'   => 'lrs',
                 'write'  => 'wi',
                 'delete' => $deleteright,
-                'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode($supported)),
+                'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode('', $supported)),
             ];
 
             // give plugins the opportunity to adjust this list
@@ -476,7 +476,7 @@ class acl extends rcube_plugin
                 $table->add('acl' . $key . ' ' . $class, '<span></span>');
             }
 
-            $js_table[$userid] = implode($userrights);
+            $js_table[$userid] = implode('', $userrights);
         }
 
         $this->rc->output->set_env('acl', $js_table);
@@ -542,7 +542,7 @@ class acl extends rcube_plugin
                             'username' => $username,
                             'title'    => $title,
                             'display'  => $display,
-                            'acl'      => implode($acl),
+                            'acl'      => implode('', $acl),
                             'old'      => $oldid
                     ]);
                     $result++;
