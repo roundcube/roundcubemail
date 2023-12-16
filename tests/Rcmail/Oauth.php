@@ -1,8 +1,8 @@
 <?php
 
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Handler\MockHandler;
 
 /**
  * Test class to test rcmail_oauth class
@@ -52,7 +52,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ] + $this->identity;
 
         //Right now our code does not check signature
-        $jwt_header    = strtr(base64_encode(json_encode(["alg" => "NONE", "typ" => "JWT" ])), '+/', '-_');
+        $jwt_header    = strtr(base64_encode(json_encode(["alg" => "NONE", "typ" => "JWT"])), '+/', '-_');
         $jwt_body      = strtr(base64_encode(json_encode($id_token_payload)), '+/', '-_');
         $jwt_signature = ''; // NONE alg
 
@@ -154,7 +154,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             'provider'      => 'example',
             'config_uri'    => 'https://test/config',
             'client_id'     => 'some-client',
-            'http_options'  => [ 'handler' => $handler ]
+            'http_options'  => ['handler' => $handler]
         ]);
         $oauth->init();
 
@@ -242,7 +242,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ]);
         $handler = HandlerStack::create($mock);
         $oauth = new rcmail_oauth((array) $this->config + [
-            'http_options'  => ['handler' => $handler ]
+            'http_options'  => ['handler' => $handler]
         ]);
         $oauth->init();
 
@@ -280,7 +280,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $handler = HandlerStack::create($mock);
 
         $oauth = new rcmail_oauth((array) $this->config + [
-            'http_options'  => ['handler' => $handler ]
+            'http_options'  => ['handler' => $handler]
         ]);
         $oauth->init();
 

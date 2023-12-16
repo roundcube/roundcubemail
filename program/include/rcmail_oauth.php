@@ -222,11 +222,11 @@ class rcmail_oauth
             }
         }
         catch (\Exception $e) {
-             rcube::raise_error([
-                    'message' => "Error fetching {$config_uri} : {$e->getMessage()}",
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
+            rcube::raise_error([
+                   'message' => "Error fetching {$config_uri} : {$e->getMessage()}",
+                   'file'    => __FILE__,
+                   'line'    => __LINE__,
+               ], true, false
             );
         }
     }
@@ -298,7 +298,7 @@ class rcmail_oauth
         $this->rcmail->plugins->register_hook('login_failed', [$this, 'login_failed']);
         $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
         $this->rcmail->plugins->register_hook('refresh', [$this, 'refresh']);
-        $this->rcmail->plugins->register_hook('startup', [$this, 'startup' ]);
+        $this->rcmail->plugins->register_hook('startup', [$this, 'startup']);
         $this->rcmail->plugins->register_hook('loginform_content', [$this, 'loginform_content']);
     }
 
@@ -734,7 +734,7 @@ class rcmail_oauth
     public function schedule_token_revocation($sub)
     {
         if ($this->cache === null) {
-            rcube::raise_error(['message' => "received a token revocation request, you must activate `oauth_cache` to enable this feature" ], true, false);
+            rcube::raise_error(['message' => "received a token revocation request, you must activate `oauth_cache` to enable this feature"], true, false);
             return;
         }
         $this->cache->set("revoke_{$sub}", time());
@@ -792,9 +792,9 @@ class rcmail_oauth
             $this->log_debug(
                 'changes: session_state: %s, access_token: %s, refresh_token: %s, id_token: %s',
                 isset($previous_data['session_state']) ? $previous_data['session_state'] !== $data['session_state'] : null,
-                isset($previous_data['access_token'])  ? $previous_data['access_token']  !== $data['access_token']  : null,
+                isset($previous_data['access_token']) ? $previous_data['access_token']  !== $data['access_token'] : null,
                 isset($previous_data['refresh_token']) ? $previous_data['refresh_token'] !== $data['refresh_token'] : null,
-                isset($previous_data['id_token'])      ? $previous_data['id_token']      !== $data['id_token']      : null,
+                isset($previous_data['id_token']) ? $previous_data['id_token']      !== $data['id_token'] : null,
             );
         }
 

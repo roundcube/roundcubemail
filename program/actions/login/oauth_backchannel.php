@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  +-----------------------------------------------------------------------+
-*/
+ */
 
 class rcmail_action_login_oauth_backchannel extends rcmail_action
 {
@@ -35,7 +35,7 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
         // default message
         $answer = ['error' => 'invalid_request', 'error_description' => "Error, no action"];
 
-         //Beware we are in back-channel from OP (IDP)
+        //Beware we are in back-channel from OP (IDP)
         $logout_token = rcube_utils::get_input_string('logout_token', rcube_utils::INPUT_POST);
 
         if (!empty($logout_token)) {
@@ -71,7 +71,7 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 echo '{}';
                 exit;
             }
-            catch(\Exception $e) {
+            catch (\Exception $e) {
                 rcube::raise_error([
                         'message' => $e->getMessage(),
                         'file'    => __FILE__,
@@ -82,11 +82,11 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
             }
         }
         else {
-             rcube::raise_error([
-                    'message' => sprintf('oidc backchannel called from %s without any parameter', rcube_utils::remote_addr()),
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
+            rcube::raise_error([
+                   'message' => sprintf('oidc backchannel called from %s without any parameter', rcube_utils::remote_addr()),
+                   'file'    => __FILE__,
+                   'line'    => __LINE__,
+               ], true, false
             );
         }
 
