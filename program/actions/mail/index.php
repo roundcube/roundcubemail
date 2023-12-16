@@ -1511,7 +1511,7 @@ class rcmail_action_mail_index extends rcmail_action
                         'class'   => 'morelink',
                         'onclick' => '$(this).hide().next().show()',
                     ], $label)
-                    . html::span(['style' => 'display:none'], join(', ', array_diff($allvalues, $shown_addresses)));
+                    . html::span(['style' => 'display:none'], implode(', ', array_diff($allvalues, $shown_addresses)));
             }
             else {
                 $out .= ', ' . html::a([
@@ -1519,7 +1519,7 @@ class rcmail_action_mail_index extends rcmail_action
                         'class'   => 'morelink',
                         'onclick' => sprintf("return %s.simple_dialog('%s','%s',null,{cancel_button:'close'})",
                             rcmail_output::JS_OBJECT_NAME,
-                            rcube::JQ(join(', ', $allvalues)),
+                            rcube::JQ(implode(', ', $allvalues)),
                             rcube::JQ($title))
                     ], $label);
             }

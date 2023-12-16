@@ -47,7 +47,7 @@ class show_additional_headers extends rcube_plugin
         $add_headers = $rcmail->config->get('show_additional_headers', []);
 
         if (!empty($add_headers)) {
-            $add_headers = strtoupper(join(' ', (array) $add_headers));
+            $add_headers = strtoupper(implode(' ', (array) $add_headers));
             if (isset($p['fetch_headers'])) {
                 $p['fetch_headers'] .= ' ' . $add_headers;
             }

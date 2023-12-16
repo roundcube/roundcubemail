@@ -441,7 +441,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         );
 
         if (self::$stats->names) {
-            $content .= html::p('em', join(', ', array_map(['rcube', 'Q'], self::$stats->names)));
+            $content .= html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->names)));
         }
 
         if (self::$stats->skipped) {
@@ -450,7 +450,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     'nr'   => self::$stats->skipped,
                     'vars' => $vars,
                 ]) . ':')
-                . html::p('em', join(', ', array_map(['rcube', 'Q'], self::$stats->skipped_names)));
+                . html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->skipped_names)));
         }
 
         return html::div($attrib, $content);

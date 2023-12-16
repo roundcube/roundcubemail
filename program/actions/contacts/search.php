@@ -301,7 +301,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
         foreach ($form as $f) {
             if (!empty($f['content'])) {
-                $content = html::div('contactfieldgroup', join("\n", $f['content']));
+                $content = html::div('contactfieldgroup', implode("\n", $f['content']));
                 $legend  = html::tag('legend', null, rcube::Q($f['name']));
 
                 $out .= html::tag('fieldset', $attrib, $legend . $content) . "\n";

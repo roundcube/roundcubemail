@@ -1673,11 +1673,11 @@ class rcmail_action_settings_index extends rcmail_action
                 $classnames[] = $attrib['selclass'];
             }
 
-            $attr['class'] = join(' ', $classnames);
+            $attr['class'] = implode(' ', $classnames);
             $tabs[] = html::tag($tagname, $attr, $button, html::$common_attrib);
         }
 
-        return join('', $tabs);
+        return implode('', $tabs);
     }
 
     /**

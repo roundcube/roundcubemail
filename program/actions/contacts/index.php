@@ -542,7 +542,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
             $out .= sprintf($line_templ,
                 rcube_utils::html_identifier('S' . $id, true),
-                join(' ', $classes),
+                implode(' ', $classes),
                 $id,
                 $js_id,
                 rcube::Q($source['name'] ?: $id)
@@ -700,7 +700,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 $classes[] = 'readonly';
             }
 
-            $rcmail->output->command($prefix . 'add_contact_row', $row['ID'], $a_row_cols, join(' ', $classes),
+            $rcmail->output->command($prefix . 'add_contact_row', $row['ID'], $a_row_cols, implode(' ', $classes),
                 array_intersect_key($row, ['ID' => 1, 'readonly' => 1, '_type' => 1, 'email' => 1, 'name' => 1])
             );
         }
@@ -916,7 +916,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                         // only string values are expected here
                         if (isset($record[$col]) && is_array($record[$col])) {
-                            $record[$col] = join(' ', $record[$col]);
+                            $record[$col] = implode(' ', $record[$col]);
                         }
 
                         if (!$edit_mode) {
@@ -1045,7 +1045,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         if ($colprop['type'] == 'composite') {
                             $row_class .= ' composite';
                             $composite  = [];
-                            $template   = $rcmail->config->get($col . '_template', '{'.join('} {', array_keys($colprop['childs'])).'}');
+                            $template   = $rcmail->config->get($col . '_template', '{'.implode('} {', array_keys($colprop['childs'])).'}');
                             $j = 0;
 
                             foreach ($colprop['childs'] as $childcol => $cp) {

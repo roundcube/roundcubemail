@@ -156,7 +156,7 @@ class enigma_driver_phpssl extends enigma_driver
             $tmp[] = $errorstr;
         }
 
-        return join("\n", array_values($tmp));
+        return implode("\n", array_values($tmp));
     }
 
     private function parse_sig_cert($file, $validity)

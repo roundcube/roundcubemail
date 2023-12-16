@@ -232,7 +232,7 @@ class HTTPSocket
                 $pairs[] = "$key=".urlencode($value);
             }
 
-            $content = join('&',$pairs);
+            $content = implode('&',$pairs);
             unset($pairs);
         }
 
