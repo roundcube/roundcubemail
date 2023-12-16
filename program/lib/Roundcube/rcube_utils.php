@@ -1523,7 +1523,7 @@ class rcube_utils
 
             try {
                 $date = date_create_from_format('U.u', $dt);
-                $date->setTimeZone(new DateTimeZone(date_default_timezone_get()));
+                $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
                 return $date->format($format);
             }
