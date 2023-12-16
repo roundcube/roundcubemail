@@ -1311,7 +1311,7 @@ class rcube_db
                 }
                 foreach ($opts as $opt) {
                     list($key, $value) = explode('=', $opt);
-                    if (!array_key_exists($key, $parsed) || false === $parsed[$key]) {
+                    if (!array_key_exists($key, $parsed) || $parsed[$key] === false) {
                         // don't allow params overwrite
                         $parsed[$key] = rawurldecode($value);
                     }

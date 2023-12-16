@@ -137,7 +137,6 @@ return (new PhpCsFixer\Config())
         'ternary_to_null_coalescing' => false,
         'trailing_comma_in_multiline' => false,
         'visibility_required' => false,
-        'yoda_style' => false,
     ])
     ->setFinder($finder)
     ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer.' . md5(__DIR__) . '.cache');

@@ -585,7 +585,7 @@ class rcube_html2text
             $url .= "$link";
         }
 
-        if (self::LINKS_NONE === $this->_links_mode) {
+        if ($this->_links_mode === self::LINKS_NONE) {
             // When not using link list use URL if there's no content (#5795)
             // The content here is HTML, convert it to text first
             $h2t     = new rcube_html2text($display, false, false, 1024, $this->charset);
@@ -598,7 +598,7 @@ class rcube_html2text
             return $display;
         }
 
-        if (self::LINKS_INLINE === $this->_links_mode) {
+        if ($this->_links_mode === self::LINKS_INLINE) {
             return $this->_build_link_inline($url, $display);
         }
 
