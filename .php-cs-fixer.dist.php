@@ -62,6 +62,7 @@ return (new PhpCsFixer\Config())
         'phpdoc_no_empty_return' => false,
         'psr_autoloading' => false,
         'single_line_comment_style' => false,
+        'string_length_to_empty' => false,
 
         // TODO
         'align_multiline_comment' => false,
@@ -131,7 +132,6 @@ return (new PhpCsFixer\Config())
         'self_accessor' => false,
         'static_lambda' => false,
         'strict_param' => false,
-        'string_length_to_empty' => false,
     ])
     ->setFinder($finder)
     ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer.' . md5(__DIR__) . '.cache');

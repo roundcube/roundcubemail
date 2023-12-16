@@ -358,7 +358,7 @@ class rcmail_sendmail
             // There's no sense to use multipart/alternative if the text/plain
             // part would be blank. Completely blank text/plain part may confuse
             // some mail clients (#5283)
-            if (strlen(trim($plain_body)) > 0) {
+            if (trim($plain_body) !== '') {
                 $plugin = $this->rcmail->plugins->exec_hook('message_outgoing_body', [
                         'body'    => $plain_body,
                         'type'    => 'alternative',

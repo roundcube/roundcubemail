@@ -957,7 +957,7 @@ class rcube_washtml
 
         // HTML5 requires <head> or <body> (#6713)
         // https://github.com/Masterminds/html5-php/issues/166
-        if (strlen($prefix) > 0 || !preg_match('/<(head|body)/i', $html)) {
+        if ($prefix !== '' || !preg_match('/<(head|body)/i', $html)) {
             $body_pos = stripos($html, '<body');
             $pos      = $body_pos !== false ? $body_pos : stripos($html, '<html');
 
