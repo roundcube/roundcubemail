@@ -425,7 +425,7 @@ class rcube_image
         }
 
         if (class_exists('Imagick', false)) {
-            return in_array($mimetype, Imagick::queryformats());
+            return in_array($mimetype, Imagick::queryFormats());
         }
 
         return (function_exists('imagecreatefromjpeg') && ($mimetype == 'JPG' || $mimetype == 'JPEG'))

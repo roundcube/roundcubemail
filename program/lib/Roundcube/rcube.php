@@ -1721,7 +1721,7 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param Mail_Mime    &$message    Reference to Mail_MIME object
+     * @param Mail_mime    &$message    Reference to Mail_mime object
      * @param string       $from        Sender address string
      * @param array|string $mailto      Either a comma-separated list of recipients (RFC822 compliant),
      *                                  or an array of recipients, each RFC822 valid
