@@ -123,7 +123,6 @@ return (new PhpCsFixer\Config())
         'visibility_required' => false,
 
         // TODO - risky
-        'function_to_constant' => false,
         'no_unset_on_property' => false,
         'php_unit_data_provider_name' => false,
         'php_unit_data_provider_return_type' => false,

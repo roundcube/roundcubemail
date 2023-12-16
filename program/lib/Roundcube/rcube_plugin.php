@@ -89,7 +89,7 @@ abstract class rcube_plugin
      */
     public function __construct($api)
     {
-        $this->ID      = get_class($this);
+        $this->ID      = static::class;
         $this->api     = $api;
         $this->home    = $api->dir . $this->ID;
         $this->urlbase = $api->url . $this->ID . '/';

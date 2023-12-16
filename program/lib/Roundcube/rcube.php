@@ -1424,7 +1424,7 @@ class rcube
             $arg['code'] = 500;
         }
 
-        $cli = php_sapi_name() == 'cli';
+        $cli = PHP_SAPI == 'cli';
 
         $arg['cli'] = $cli;
         $arg['log'] = $log;

@@ -86,7 +86,7 @@ class rcmail extends rcube
     {
         if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
             // In cli-server mode env=test
-            if ($env === null && php_sapi_name() == 'cli-server') {
+            if ($env === null && PHP_SAPI == 'cli-server') {
                 $env = 'test';
             }
 
@@ -145,7 +145,7 @@ class rcmail extends rcube
         }
 
         // init output class
-        if (php_sapi_name() == 'cli') {
+        if (PHP_SAPI == 'cli') {
             $this->output = new rcmail_output_cli();
         }
         else if (!empty($_REQUEST['_remote'])) {
@@ -169,7 +169,7 @@ class rcmail extends rcube
      */
     public function set_task($task)
     {
-        if (php_sapi_name() == 'cli') {
+        if (PHP_SAPI == 'cli') {
             $task = 'cli';
         }
         else if (!$this->user || !$this->user->ID) {
@@ -1209,7 +1209,7 @@ class rcmail extends rcube
 
         // In CLI stop here, prevent from errors when the console.log might exist,
         // but be not accessible
-        if (php_sapi_name() == 'cli') {
+        if (PHP_SAPI == 'cli') {
             return;
         }
 
