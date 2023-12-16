@@ -61,7 +61,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $result = $get_template_logo->invokeArgs($output, ['small']);
         $this->assertSame('img00', $result);
         $result = $get_template_logo->invokeArgs($output, ['link']);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $rcmail->config->set('skin_logo', [
                 "elastic:login[small]" => "img01",
@@ -76,7 +76,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
 
         $set_template->setValue($output, 'login');
         $result = $get_template_logo->invokeArgs($output, ['favicon']);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $set_template->setValue($output, 'login');
         $result = $get_template_logo->invokeArgs($output, ['favicon', 'template']);
@@ -118,7 +118,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
 
         $set_template->setValue($output, 'login');
         $result = $get_template_logo->invokeArgs($output, ['favicon']);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $set_template->setValue($output, 'login');
         $result = $get_template_logo->invokeArgs($output, ['favicon', 'template']);
@@ -152,7 +152,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
 
         $set_template->setValue($output, 'login');
         $result = $get_template_logo->invokeArgs($output, ['favicon']);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $set_template->setValue($output, 'login');
         $result = $get_template_logo->invokeArgs($output, ['print', 'template']);
@@ -172,7 +172,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
 
         $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, ['_test_']);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, []);
@@ -205,7 +205,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
 
         $set_template->setValue($output, 'mail');
         $result = $get_template_logo->invokeArgs($output, ['small']);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $set_skin->setValue($output, '_test_');
 
@@ -227,11 +227,11 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
 
         $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, ['_test_', 'template']);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, ['_test_']);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $set_template->setValue($output, '_test_');
         $result = $get_template_logo->invokeArgs($output, []);
@@ -259,7 +259,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
 
         $set_template->setValue($output, 'contactprint');
         $result = $get_template_logo->invokeArgs($output, ['_test_', 'template']);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $set_template->setValue($output, 'contactprint');
         $result = $get_template_logo->invokeArgs($output, ['_test_', 'all']);

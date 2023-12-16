@@ -125,7 +125,6 @@ return (new PhpCsFixer\Config())
         // TODO - risky
         'function_to_constant' => false,
         'no_unset_on_property' => false,
-        'php_unit_construct' => false,
         'php_unit_data_provider_name' => false,
         'php_unit_data_provider_return_type' => false,
         'php_unit_set_up_tear_down_visibility' => false,

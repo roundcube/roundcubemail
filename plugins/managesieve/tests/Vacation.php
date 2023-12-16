@@ -48,7 +48,7 @@ class Managesieve_Vacation extends ActionTestCase
 
         $tests = invokeMethod($vacation, 'build_regexp_tests', ['2014-02-20', '2014-01-05', &$error]);
 
-        $this->assertSame(null, $tests);
+        $this->assertNull($tests);
         $this->assertSame('managesieve.invaliddateformat', $error);
     }
 

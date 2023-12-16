@@ -25,17 +25,17 @@ class Framework_Contacts extends PHPUnit\Framework\TestCase
         $contacts = new rcube_contacts(null, null);
 
         $data = [];
-        $this->assertSame(false, $contacts->validate($data));
+        $this->assertFalse($contacts->validate($data));
         $this->assertSame(['type' => 3, 'message' => 'nonamewarning'], $contacts->get_error());
 
         $data = ['name' => 'test'];
-        $this->assertSame(true, $contacts->validate($data));
+        $this->assertTrue($contacts->validate($data));
 
         $data = ['email' => '@example.org'];
-        $this->assertSame(false, $contacts->validate($data));
+        $this->assertFalse($contacts->validate($data));
         $this->assertSame(['type' => 3, 'message' => 'Invalid email address: @example.org'], $contacts->get_error());
 
         $data = ['email' => 'test@test.com'];
-        $this->assertSame(true, $contacts->validate($data));
+        $this->assertTrue($contacts->validate($data));
     }
 }
