@@ -3158,7 +3158,7 @@ class rcube_sieve_engine
                 // ...rewrite USER file removing appropriate include command
                 if ($this->sieve->load($user_script)) {
                     $script = $this->sieve->script->as_array();
-                    $name   = $name.$extension;
+                    $name .= $extension;
                     $rid    = 0;
 
                     foreach ($script as $rid => $rules) {

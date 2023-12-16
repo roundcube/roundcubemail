@@ -285,7 +285,7 @@ class rcube_tnef_decoder
 
             if (($attr_type & self::MAPI_MV_FLAG) != 0) {
                 $have_mval = true;
-                $attr_type = $attr_type & ~self::MAPI_MV_FLAG;
+                $attr_type &= ~self::MAPI_MV_FLAG;
             }
 
             if (($attr_name >= 0x8000) && ($attr_name < 0xFFFE)) {

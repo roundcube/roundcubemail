@@ -770,7 +770,7 @@ abstract class rcmail_action
             }
 
             if (isset($part->encoding) && $part->encoding == 'base64') {
-                $size = $size / 1.33;
+                $size /= 1.33;
             }
 
             $size = self::show_bytes($size);
