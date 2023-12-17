@@ -123,7 +123,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $checkbox_subscribe = new html_checkbox([
                 'name'    => '_subscribed[]',
                 'title'   => $rcmail->gettext('changesubscription'),
-                'onclick' => rcmail_output::JS_OBJECT_NAME.".command(this.checked?'subscribe':'unsubscribe',this.value)",
+                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command(this.checked?'subscribe':'unsubscribe',this.value)",
         ]);
 
         $js_folders = [];
@@ -196,7 +196,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 }
             }
 
-            $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
+            $is_collapsed = strpos($collapsed, '&' . rawurlencode($folder['id']) . '&') !== false;
             $folder_id    = rcube_utils::html_identifier($folder['id'], true);
 
             if ($folder_class = self::folder_classname($folder['id'])) {

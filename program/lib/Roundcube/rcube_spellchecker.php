@@ -99,7 +99,7 @@ class rcube_spellchecker
             $alias = !empty($rcube_language_aliases[$langc]) ? $rcube_language_aliases[$langc] : null;
 
             if (!$alias) {
-                $alias = $langc.'_'.strtoupper($langc);
+                $alias = $langc . '_' . strtoupper($langc);
             }
             if (!empty($rcube_languages[$lang])) {
                 $languages[$lang] = $rcube_languages[$lang];
@@ -212,10 +212,10 @@ class rcube_spellchecker
     function get_xml()
     {
         // send output
-        $out = '<?xml version="1.0" encoding="'.RCUBE_CHARSET.'"?><spellresult charschecked="'.mb_strlen($this->content).'">';
+        $out = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><spellresult charschecked="' . mb_strlen($this->content) . '">';
 
         foreach ((array) $this->matches as $item) {
-            $out .= '<c o="'.$item[1].'" l="'.$item[2].'">';
+            $out .= '<c o="' . $item[1] . '" l="' . $item[2] . '">';
             $out .= is_array($item[4]) ? implode("\t", $item[4]) : $item[4];
             $out .= '</c>';
         }
@@ -375,24 +375,24 @@ class rcube_spellchecker
             if (!empty($this->dict)) {
                 $this->rc->db->query(
                     "UPDATE " . $this->rc->db->table_name('dictionary', true)
-                    ." SET `data` = ?"
-                    ." WHERE `user_id` " . ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
-                        ." AND `language` = ?",
+                    . " SET `data` = ?"
+                    . " WHERE `user_id` " . ($plugin['userid'] ? "= " . $this->rc->db->quote($plugin['userid']) : "IS NULL")
+                        . " AND `language` = ?",
                     implode(' ', $plugin['dictionary']), $plugin['language']);
             }
             // don't store empty dict
             else {
                 $this->rc->db->query(
                     "DELETE FROM " . $this->rc->db->table_name('dictionary', true)
-                    ." WHERE `user_id` " . ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
-                        ." AND `language` = ?",
+                    . " WHERE `user_id` " . ($plugin['userid'] ? "= " . $this->rc->db->quote($plugin['userid']) : "IS NULL")
+                        . " AND `language` = ?",
                     $plugin['language']);
             }
         }
         else if (!empty($this->dict)) {
             $this->rc->db->query(
                 "INSERT INTO " . $this->rc->db->table_name('dictionary', true)
-                ." (`user_id`, `language`, `data`) VALUES (?, ?, ?)",
+                . " (`user_id`, `language`, `data`) VALUES (?, ?, ?)",
                 $plugin['userid'], $plugin['language'], implode(' ', $plugin['dictionary']));
         }
     }
@@ -418,8 +418,8 @@ class rcube_spellchecker
             $dict = [];
             $sql_result = $this->rc->db->query(
                 "SELECT `data` FROM " . $this->rc->db->table_name('dictionary', true)
-                ." WHERE `user_id` ". ($plugin['userid'] ? "= ".$this->rc->db->quote($plugin['userid']) : "IS NULL")
-                    ." AND `language` = ?",
+                . " WHERE `user_id` " . ($plugin['userid'] ? "= " . $this->rc->db->quote($plugin['userid']) : "IS NULL")
+                    . " AND `language` = ?",
                 $plugin['language']);
 
             if ($sql_arr = $this->rc->db->fetch_assoc($sql_result)) {

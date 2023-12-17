@@ -367,7 +367,7 @@ function format_email_recipient($email, $name = '')
     if ($name && $name != $email) {
         // Special chars as defined by RFC 822 need to in quoted string (or escaped).
         if (preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name)) {
-            $name = '"'.addcslashes($name, '"').'"';
+            $name = '"' . addcslashes($name, '"') . '"';
         }
 
         return "$name <$email>";

@@ -763,9 +763,9 @@ class rcube_html2text
     {
         switch (strtolower($matches[1])) {
             case 'th':
-                return $this->_toupper("\t\t". $matches[3] ."\n");
+                return $this->_toupper("\t\t" . $matches[3] . "\n");
             case 'h':
-                return $this->_toupper("\n\n". $matches[3] ."\n\n");
+                return $this->_toupper("\n\n" . $matches[3] . "\n\n");
             case 'a':
                 // Remove spaces in URL (#1487805)
                 $url = str_replace(' ', '', $matches[3]);

@@ -560,7 +560,7 @@ class rcmail_sendmail
                 if (is_a($msg, 'PEAR_Error')) {
                     rcube::raise_error([
                         'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: ".$msg->getMessage()],
+                        'message' => "Could not create message: " . $msg->getMessage()],
                         true, false);
                 }
                 else {
@@ -758,7 +758,7 @@ class rcmail_sendmail
         $email_regexp = '(\S+|("[^"]+"))@\S+';
 
         $delim   = ',;';
-        $regexp  = ["/[$delim]\s*[\r\n]+/", '/[\r\n]+/', "/[$delim]\s*\$/m", '/;/', '/(\S{1})(<'.$email_regexp.'>)/U'];
+        $regexp  = ["/[$delim]\s*[\r\n]+/", '/[\r\n]+/', "/[$delim]\s*\$/m", '/;/', '/(\S{1})(<' . $email_regexp . '>)/U'];
         $replace = [', ', ', ', '', ',', '\\1 \\2'];
 
         // replace new lines and strip ending ', ', make address input more valid
@@ -769,19 +769,19 @@ class rcmail_sendmail
         foreach ($items as $item) {
             $item = trim($item);
             // address in brackets without name (do nothing)
-            if (preg_match('/^<'.$email_regexp.'>$/', $item)) {
+            if (preg_match('/^<' . $email_regexp . '>$/', $item)) {
                 $item     = rcube_utils::idn_to_ascii(trim($item, '<>'));
                 $result[] = $item;
             }
             // address without brackets and without name (add brackets)
-            else if (preg_match('/^'.$email_regexp.'$/', $item)) {
+            else if (preg_match('/^' . $email_regexp . '$/', $item)) {
                 // Remove trailing non-letter characters (#7899)
                 $item     = preg_replace('/[^[:alnum:]]+$/u', '', $item);
                 $item     = rcube_utils::idn_to_ascii($item);
                 $result[] = $item;
             }
             // address with name (handle name)
-            else if (preg_match('/<*'.$email_regexp.'>*$/', $item, $matches)) {
+            else if (preg_match('/<*' . $email_regexp . '>*$/', $item, $matches)) {
                 $address = $matches[0];
                 $name    = trim(str_replace($address, '', $item));
                 if ($name[0] == '"' && $name[strlen($name)-1] == '"') {

@@ -89,7 +89,7 @@ class rcube_ldap_simple_password
         $this->_debug("C: Modify {$this->user}: " . print_r($entry, true));
 
         if (!ldap_modify($this->conn, $this->user, $entry)) {
-            $this->_debug("S: ".ldap_error($this->conn));
+            $this->_debug("S: " . ldap_error($this->conn));
 
             $errno = ldap_errno($this->conn);
 
@@ -198,7 +198,7 @@ class rcube_ldap_simple_password
         // Bind
         if ($rcmail->config->get('password_ldap_method') == 'sasl') {
             if (!ldap_sasl_bind($ds, $binddb, $bindpw, $bindmech, $bindrealm)) {
-                $this->_debug("S: ".ldap_error($ds));
+                $this->_debug("S: " . ldap_error($ds));
 
                 ldap_unbind($ds);
 
@@ -206,7 +206,7 @@ class rcube_ldap_simple_password
             }
         } else {
             if (!ldap_bind($ds, $binddn, $bindpw)) {
-                $this->_debug("S: ".ldap_error($ds));
+                $this->_debug("S: " . ldap_error($ds));
 
                 ldap_unbind($ds);
 
@@ -247,7 +247,7 @@ class rcube_ldap_simple_password
 
                 // Bind
                 if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {
-                    $this->_debug("S: ".ldap_error($ds));
+                    $this->_debug("S: " . ldap_error($ds));
                     return false;
                 }
 
@@ -257,7 +257,7 @@ class rcube_ldap_simple_password
 
                 // Bind
                 if (!ldap_bind($ds, $search_user, $search_pass)) {
-                    $this->_debug("S: ".ldap_error($ds));
+                    $this->_debug("S: " . ldap_error($ds));
                     return false;
                 }
 
@@ -273,7 +273,7 @@ class rcube_ldap_simple_password
 
         // Search for the DN
         if (!($sr = ldap_search($ds, $search_base, $search_filter))) {
-            $this->_debug("S: ".ldap_error($ds));
+            $this->_debug("S: " . ldap_error($ds));
             return false;
         }
 
@@ -301,7 +301,7 @@ class rcube_ldap_simple_password
         $parts = explode('@', $_SESSION['username']);
 
         if (count($parts) == 2) {
-            $dc = 'dc='.strtr($parts[1], ['.' => ',dc=']); // hierarchal domain string
+            $dc = 'dc=' . strtr($parts[1], ['.' => ',dc=']); // hierarchal domain string
 
             $str = str_replace('%name', $parts[0], $str);
             $str = str_replace('%n', $parts[0], $str);

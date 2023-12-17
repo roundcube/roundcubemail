@@ -269,7 +269,7 @@ class acl extends rcube_plugin
             $id = "acl$val";
             $ul .= html::tag('li', null,
                 $input->show('', ['name' => "acl[$val]", 'value' => $val, 'id' => $id])
-                . html::label(['for' => $id, 'title' => $this->gettext('longacl'.$val)], $this->gettext('acl'.$val))
+                . html::label(['for' => $id, 'title' => $this->gettext('longacl' . $val)], $this->gettext('acl' . $val))
             );
         }
 
@@ -282,7 +282,7 @@ class acl extends rcube_plugin
             'read'   => 'lrs',
             'write'  => 'wi',
             'delete' => $deleteright,
-            'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode('', $supported)),
+            'other'  => preg_replace('/[lrswi' . $deleteright . ']/', '', implode('', $supported)),
         ];
 
         // give plugins the opportunity to adjust this list
@@ -292,8 +292,8 @@ class acl extends rcube_plugin
 
         foreach ($data['rights'] as $key => $val) {
             $id    = "acl$key";
-            $title = !empty($data['titles'][$key]) ? $data['titles'][$key] : $this->gettext('longacl'.$key);
-            $label = !empty($data['labels'][$key]) ? $data['labels'][$key] : $this->gettext('acl'.$key);
+            $title = !empty($data['titles'][$key]) ? $data['titles'][$key] : $this->gettext('longacl' . $key);
+            $label = !empty($data['labels'][$key]) ? $data['labels'][$key] : $this->gettext('acl' . $key);
             $ul   .= html::tag('li', null,
                 $input->show('', ['name' => "acl[$val]", 'value' => $val, 'id' => $id])
                 . html::label(['for' => $id, 'title' => $title], $label)
@@ -415,7 +415,7 @@ class acl extends rcube_plugin
                 'read'   => 'lrs',
                 'write'  => 'wi',
                 'delete' => $deleteright,
-                'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode('', $supported)),
+                'other'  => preg_replace('/[lrswi' . $deleteright . ']/', '', implode('', $supported)),
             ];
 
             // give plugins the opportunity to adjust this list

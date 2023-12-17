@@ -143,8 +143,8 @@ abstract class rcube_output
             return;
         }
 
-        header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
-        header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+        header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
         // We need to set the following headers to make downloads work using IE in HTTPS mode.
         if ($this->browser->ie && rcube_utils::https_check()) {

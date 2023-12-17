@@ -448,7 +448,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 [
                     'href'    => '%s',
                     'rel'     => '%s',
-                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('list','%s',this)",
+                    'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('list','%s',this)",
                 ],
                 '%s'
             )
@@ -522,7 +522,7 @@ class rcmail_action_contacts_index extends rcmail_action
             html::a([
                     'href'    => '#',
                     'rel'     => 'S%s',
-                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('listsearch', '%s', this)",
+                    'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('listsearch', '%s', this)",
                 ],
                 '%s'
             )
@@ -566,14 +566,14 @@ class rcmail_action_contacts_index extends rcmail_action
                 html::a([
                         'href' => '#',
                         'rel' => '%s:%s',
-                        'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('listgroup',{'source':'%s','id':'%s'},this)",
+                        'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('listgroup',{'source':'%s','id':'%s'},this)",
                     ],
                     '%s'
                 )
             );
 
             // append collapse/expand toggle and open a new <ul>
-            $is_collapsed = strpos($rcmail->config->get('collapsed_abooks',''), '&'.rawurlencode($args['source']).'&') !== false;
+            $is_collapsed = strpos($rcmail->config->get('collapsed_abooks',''), '&' . rawurlencode($args['source']) . '&') !== false;
             $args['out'] .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
 
             foreach ($groups as $group) {
@@ -651,7 +651,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
             // build contact ID with source ID
             if (isset($row['sourceid'])) {
-                $row['ID'] = $row['ID'].'-'.$row['sourceid'];
+                $row['ID'] = $row['ID'] . '-' . $row['sourceid'];
                 $source_id = $row['sourceid'];
             }
 
@@ -886,7 +886,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                 foreach ($head_fields as $blockname => $colnames) {
                     $fields     = '';
-                    $block_attr = ['class' => $blockname  . (count($colnames) == 1 ? ' row' : '')];
+                    $block_attr = ['class' => $blockname . (count($colnames) == 1 ? ' row' : '')];
 
                     foreach ($colnames as $col) {
                         if ($col == 'source') {
@@ -980,7 +980,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 }
 
                 $legend = !empty($fieldset['name']) ? html::tag('legend', null, rcube::Q($fieldset['name'])) : '';
-                $out   .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) ."\n";
+                $out   .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) . "\n";
                 continue;
             }
 
@@ -1045,7 +1045,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         if ($colprop['type'] == 'composite') {
                             $row_class .= ' composite';
                             $composite  = [];
-                            $template   = $rcmail->config->get($col . '_template', '{'.implode('} {', array_keys($colprop['childs'])).'}');
+                            $template   = $rcmail->config->get($col . '_template', '{' . implode('} {', array_keys($colprop['childs'])) . '}');
                             $j = 0;
 
                             foreach ($colprop['childs'] as $childcol => $cp) {
@@ -1067,7 +1067,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                     }
 
                                     $cp_type = $cp['type'] ?? null;
-                                    $composite['{'.$childcol.'}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp_type) . ' ';
+                                    $composite['{' . $childcol . '}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp_type) . ' ';
                                 }
                                 else {
                                     if (!empty($cp['render_func'])) {

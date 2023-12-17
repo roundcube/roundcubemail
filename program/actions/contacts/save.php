@@ -268,8 +268,8 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                         }
                     }
 
-                    $subtype = $subtypes[$i] ? ':'.$subtypes[$i] : '';
-                    $record[$col.$subtype][] = $val;
+                    $subtype = $subtypes[$i] ? ':' . $subtypes[$i] : '';
+                    $record[$col . $subtype][] = $val;
                 }
             }
             else if (isset($_POST[$fname])) {

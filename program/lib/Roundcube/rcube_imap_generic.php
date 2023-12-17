@@ -157,7 +157,7 @@ class rcube_imap_generic
                         $literal_plus = true;
                     }
 
-                    $bytes = $this->putLine($parts[$i].$parts[$i+1], false, $anonymized);
+                    $bytes = $this->putLine($parts[$i] . $parts[$i+1], false, $anonymized);
                     if ($bytes === false) {
                         return false;
                     }
@@ -217,7 +217,7 @@ class rcube_imap_generic
             }
 
             if ($this->debug) {
-                $this->debug('S: '. rtrim($buffer));
+                $this->debug('S: ' . rtrim($buffer));
             }
 
             $line .= $buffer;
@@ -306,7 +306,7 @@ class rcube_imap_generic
         while ($len < $bytes && !$this->eof()) {
             $d = fread($this->fp, $bytes-$len);
             if ($this->debug) {
-                $this->debug('S: '. $d);
+                $this->debug('S: ' . $d);
             }
             $data .= $d;
             $data_len = strlen($data);
@@ -396,7 +396,7 @@ class rcube_imap_generic
                 $this->result = $str;
 
                 if ($this->errornum != self::ERROR_OK) {
-                    $this->error = $err_prefix ? $err_prefix.$str : $str;
+                    $this->error = $err_prefix ? $err_prefix . $str : $str;
                 }
             }
 
@@ -1088,7 +1088,7 @@ class rcube_imap_generic
         $line = trim(fgets($this->fp, 8192));
 
         if ($this->debug && $line) {
-            $this->debug('S: '. $line);
+            $this->debug('S: ' . $line);
         }
 
         // Connected to wrong port or connection error?
@@ -1361,7 +1361,7 @@ class rcube_imap_generic
                 $result[$items[$i]] = $items[$i+1];
             }
 
-            $this->data['STATUS:'.$mailbox] = $result;
+            $this->data['STATUS:' . $mailbox] = $result;
 
             return $result;
         }
@@ -1734,8 +1734,8 @@ class rcube_imap_generic
         }
 
         // Check internal cache
-        if (!empty($this->data['STATUS:'.$mailbox])) {
-            $cache = $this->data['STATUS:'.$mailbox];
+        if (!empty($this->data['STATUS:' . $mailbox])) {
+            $cache = $this->data['STATUS:' . $mailbox];
             if (isset($cache['MESSAGES'])) {
                 return (int) $cache['MESSAGES'];
             }
@@ -1764,7 +1764,7 @@ class rcube_imap_generic
         }
 
         // Check internal cache
-        $cache = $this->data['STATUS:'.$mailbox];
+        $cache = $this->data['STATUS:' . $mailbox];
         if (!empty($cache) && isset($cache['RECENT'])) {
             return (int) $cache['RECENT'];
         }
@@ -1788,8 +1788,8 @@ class rcube_imap_generic
     public function countUnseen($mailbox)
     {
         // Check internal cache
-        if (!empty($this->data['STATUS:'.$mailbox])) {
-            $cache = $this->data['STATUS:'.$mailbox];
+        if (!empty($this->data['STATUS:' . $mailbox])) {
+            $cache = $this->data['STATUS:' . $mailbox];
             if (isset($cache['UNSEEN'])) {
                 return (int) $cache['UNSEEN'];
             }
@@ -1979,7 +1979,7 @@ class rcube_imap_generic
 
         $encoding  = $encoding ? trim($encoding) : 'US-ASCII';
         $algorithm = $algorithm ? trim($algorithm) : 'REFERENCES';
-        $criteria  = $criteria ? 'ALL '.trim($criteria) : 'ALL';
+        $criteria  = $criteria ? 'ALL ' . trim($criteria) : 'ALL';
 
         [$code, $response] = $this->execute($return_uid ? 'UID THREAD' : 'THREAD',
             [$algorithm, $encoding, $criteria]);
@@ -2239,7 +2239,7 @@ class rcube_imap_generic
                     if (!$flags && preg_match('/FLAGS \(([^)]+)\)/', $line, $matches)) {
                         $flags = explode(' ', $matches[1]);
                     }
-                    $result[$id] = in_array("\\".$index_field, (array) $flags) ? 1 : 0;
+                    $result[$id] = in_array("\\" . $index_field, (array) $flags) ? 1 : 0;
                 }
                 else if ($mode == 4) {
                     if (preg_match('/INTERNALDATE "([^"]+)"/', $line, $matches)) {
@@ -2377,7 +2377,7 @@ class rcube_imap_generic
 
         // Clear internal status cache
         if ($flag == 'SEEN') {
-            unset($this->data['STATUS:'.$mailbox]['UNSEEN']);
+            unset($this->data['STATUS:' . $mailbox]['UNSEEN']);
         }
 
         if ($mod != '+' && $mod != '-') {
@@ -2411,7 +2411,7 @@ class rcube_imap_generic
         }
 
         // Clear internal status cache
-        unset($this->data['STATUS:'.$to]);
+        unset($this->data['STATUS:' . $to]);
 
         $result = $this->execute('UID COPY',
             [$this->compressMessageSet($messages), $this->escape($to)],
@@ -2447,7 +2447,7 @@ class rcube_imap_generic
             unset($this->data['COPYUID']);
 
             // Clear internal status cache
-            unset($this->data['STATUS:'.$to]);
+            unset($this->data['STATUS:' . $to]);
             $this->clear_status_cache($from);
 
             $result = $this->execute('UID MOVE',
@@ -2463,7 +2463,7 @@ class rcube_imap_generic
 
         if ($result) {
             // Clear internal status cache
-            unset($this->data['STATUS:'.$from]);
+            unset($this->data['STATUS:' . $from]);
 
             $result = $this->flag($from, $messages, 'DELETED');
 
@@ -2508,7 +2508,7 @@ class rcube_imap_generic
         $request  = "$key $cmd $message_set (" . implode(' ', $query_items) . ")";
 
         if ($mod_seq !== null && $this->hasCapability('CONDSTORE')) {
-            $request .= " (CHANGEDSINCE $mod_seq" . ($vanished ? " VANISHED" : '') .")";
+            $request .= " (CHANGEDSINCE $mod_seq" . ($vanished ? " VANISHED" : '') . ")";
         }
 
         if (!$this->putLine($request)) {
@@ -2848,7 +2848,7 @@ class rcube_imap_generic
             $line = $this->readLine(1024);
             if (preg_match('/^\* [0-9]+ FETCH [0-9UID( ]+/', $line, $m)) {
                 $line = ltrim(substr($line, strlen($m[0])));
-                while (preg_match('/^\s*BODY\[([0-9\.]+)\.'.$type.'\]/', $line, $matches)) {
+                while (preg_match('/^\s*BODY\[([0-9\.]+)\.' . $type . '\]/', $line, $matches)) {
                     $line = substr($line, strlen($matches[0]));
                     $result[$matches[1]] = trim($this->multLine($line));
                     $line = $this->readLine(1024);
@@ -2865,7 +2865,7 @@ class rcube_imap_generic
      */
     public function fetchPartHeader($mailbox, $id, $is_uid = false, $part = null)
     {
-        $part = empty($part) ? 'HEADER' : $part.'.MIME';
+        $part = empty($part) ? 'HEADER' : $part . '.MIME';
 
         return $this->handlePartBody($mailbox, $id, $is_uid, $part);
     }
@@ -3242,7 +3242,7 @@ class rcube_imap_generic
         } while (!$this->startsWith($line, $key, true, true));
 
         // Clear internal status cache
-        unset($this->data['STATUS:'.$mailbox]);
+        unset($this->data['STATUS:' . $mailbox]);
 
         if ($this->parseResult($line, 'APPEND: ') != self::ERROR_OK) {
             return false;
@@ -3609,10 +3609,10 @@ class rcube_imap_generic
             $opts    = [];
 
             if (!empty($options['MAXSIZE'])) {
-                $opts[] = 'MAXSIZE '.intval($options['MAXSIZE']);
+                $opts[] = 'MAXSIZE ' . intval($options['MAXSIZE']);
             }
             if (!empty($options['DEPTH'])) {
-                $opts[] = 'DEPTH '.intval($options['DEPTH']);
+                $opts[] = 'DEPTH ' . intval($options['DEPTH']);
             }
 
             if ($opts) {
@@ -4137,7 +4137,7 @@ class rcube_imap_generic
             $result[] = $prev;
         }
         else {
-            $result[] = $start.':'.$prev;
+            $result[] = $start . ':' . $prev;
         }
 
         // return as comma separated string

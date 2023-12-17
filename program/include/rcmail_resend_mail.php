@@ -84,7 +84,7 @@ class rcmail_resend_mail extends Mail_mime
             // txtHeaders() can be used to unset Bcc header
             if (array_key_exists($key, $headers)) {
                 $value = $headers[$key];
-                $this->build_params['bounce_headers']['Resent-'.$key] = $value;
+                $this->build_params['bounce_headers']['Resent-' . $key] = $value;
             }
 
             if ($value) {

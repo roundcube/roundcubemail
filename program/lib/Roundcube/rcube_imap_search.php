@@ -207,7 +207,7 @@ class rcube_imap_search_job /* extends Stackable */
         }
 
         if ($this->worker->options['skip_deleted'] && !preg_match('/UNDELETED/', $criteria)) {
-            $criteria = 'UNDELETED '.$criteria;
+            $criteria = 'UNDELETED ' . $criteria;
         }
 
         // unset CHARSET if criteria string is ASCII, this way

@@ -54,10 +54,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             if (!empty($_GET['_format'])) {
                 $prefer_html = $_GET['_format'] == 'html';
                 $rcmail->config->set('prefer_html', $prefer_html);
-                $_SESSION['msg_formats'][$mbox_name.':'.$uid] = $prefer_html;
+                $_SESSION['msg_formats'][$mbox_name . ':' . $uid] = $prefer_html;
             }
-            else if (isset($_SESSION['msg_formats'][$mbox_name.':'.$uid])) {
-                $rcmail->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name.':'.$uid]);
+            else if (isset($_SESSION['msg_formats'][$mbox_name . ':' . $uid])) {
+                $rcmail->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name . ':' . $uid]);
             }
 
             $MESSAGE = new rcube_message($msg_id, $mbox_name, !empty($_GET['_safe']));
@@ -323,7 +323,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         if (!empty(self::$MESSAGE->context)
             || (
                 !empty(self::$MESSAGE->folder)
-                && (self::$MESSAGE->folder != $dbox && strpos(self::$MESSAGE->folder, $dbox.$delim) !== 0)
+                && (self::$MESSAGE->folder != $dbox && strpos(self::$MESSAGE->folder, $dbox . $delim) !== 0)
             )
         ) {
             return '';
@@ -336,7 +336,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             . '&nbsp;'
             . html::a([
                     'href'    => "#edit",
-                    'onclick' => rcmail_output::JS_OBJECT_NAME.".command('edit')",
+                    'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('edit')",
                 ],
                 rcube::Q($rcmail->gettext('edit'))
             );
@@ -626,7 +626,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         $html .= html::div([
                 'class'   => "more-headers show-headers",
-                'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('show-headers','',this)",
+                'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('show-headers','',this)",
                 'title'   => $rcmail->gettext('togglefullheaders'),
             ], '');
 

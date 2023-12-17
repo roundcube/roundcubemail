@@ -24,9 +24,9 @@ class rcube_kpasswd_password
         $cmd = $bin . ' ' . escapeshellarg($username) . ' 2>&1';
 
         $handle = popen($cmd, "w");
-        fwrite($handle, $currpass."\n");
-        fwrite($handle, $newpass."\n");
-        fwrite($handle, $newpass."\n");
+        fwrite($handle, $currpass . "\n");
+        fwrite($handle, $newpass . "\n");
+        fwrite($handle, $newpass . "\n");
 
         if (pclose($handle) == 0) {
             return PASSWORD_SUCCESS;

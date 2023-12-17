@@ -41,7 +41,7 @@ class rcube_sasl_password
         $args     = rcmail::get_instance()->config->get('password_saslpasswd_args', '');
 
         if ($fh = popen("$curdir/chgsaslpasswd -p $args $username", 'w')) {
-            fwrite($fh, $newpass."\n");
+            fwrite($fh, $newpass . "\n");
             $code = pclose($fh);
 
             if ($code == 0) {

@@ -84,10 +84,10 @@ class html
         if (isset($content) || in_array($tagname, self::$containers)) {
             $suffix = !empty($attrib['noclose']) ? $suffix : '</' . $tagname . '>' . $suffix;
             unset($attrib['noclose'], $attrib['nl']);
-            return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
+            return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
         }
         else {
-            return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $suffix;
+            return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $suffix;
         }
     }
 
@@ -355,7 +355,7 @@ class html
             }
         }
 
-        return count($attrib_arr) ? ' '.implode(' ', $attrib_arr) : '';
+        return count($attrib_arr) ? ' ' . implode(' ', $attrib_arr) : '';
     }
 
     /**

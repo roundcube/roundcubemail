@@ -533,16 +533,16 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             // include GoogieSpell
             $rcmail->output->include_script('googiespell.js');
             $rcmail->output->add_script(sprintf(
-                "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n".
-                "googie.lang_chck_spell = \"%s\";\n".
-                "googie.lang_rsm_edt = \"%s\";\n".
-                "googie.lang_close = \"%s\";\n".
-                "googie.lang_revert = \"%s\";\n".
-                "googie.lang_no_error_found = \"%s\";\n".
-                "googie.lang_learn_word = \"%s\";\n".
-                "googie.setLanguages(%s);\n".
-                "googie.setCurrentLanguage('%s');\n".
-                "googie.setDecoration(false);\n".
+                "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n" .
+                "googie.lang_chck_spell = \"%s\";\n" .
+                "googie.lang_rsm_edt = \"%s\";\n" .
+                "googie.lang_close = \"%s\";\n" .
+                "googie.lang_revert = \"%s\";\n" .
+                "googie.lang_no_error_found = \"%s\";\n" .
+                "googie.lang_learn_word = \"%s\";\n" .
+                "googie.setLanguages(%s);\n" .
+                "googie.setCurrentLanguage('%s');\n" .
+                "googie.setDecoration(false);\n" .
                 "googie.decorateTextarea(rcmail.env.composebody);\n",
                 $rcmail->output->asset_url($rcmail->output->get_skin_path()),
                 $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]),
@@ -952,9 +952,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (!$bodyIsHtml) {
             $prefix = "\n\n\n-------- " . $rcmail->gettext('originalmessage') . " --------\n";
             $prefix .= $rcmail->gettext('subject') . ': ' . $message->subject . "\n";
-            $prefix .= $rcmail->gettext('date')    . ': ' . $date . "\n";
-            $prefix .= $rcmail->gettext('from')    . ': ' . $message->get_header('from') . "\n";
-            $prefix .= $rcmail->gettext('to')      . ': ' . $message->get_header('to') . "\n";
+            $prefix .= $rcmail->gettext('date') . ': ' . $date . "\n";
+            $prefix .= $rcmail->gettext('from') . ': ' . $message->get_header('from') . "\n";
+            $prefix .= $rcmail->gettext('to') . ': ' . $message->get_header('to') . "\n";
 
             if ($extended && ($cc = $message->get_header('cc'))) {
                 $prefix .= $rcmail->gettext('cc') . ': ' . $cc . "\n";
@@ -1467,7 +1467,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         'id'    => 'rcmfile' . $id,
                         'class' => rcube_utils::file2class($a_prop['mimetype'], $a_prop['name']),
                     ],
-                    $icon_pos == 'left' ? $delete_link.$content_link : $content_link.$delete_link
+                    $icon_pos == 'left' ? $delete_link . $content_link : $content_link . $delete_link
                 );
 
                 $jslist['rcmfile' . $id] = [
@@ -1547,7 +1547,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $attrib['name'] = 'editorSelect';
         }
 
-        $attrib['onchange'] = "return rcmail.command('toggle-editor', {id: '".$attrib['editorid']."', html: this.value == 'html'}, '', event)";
+        $attrib['onchange'] = "return rcmail.command('toggle-editor', {id: '" . $attrib['editorid'] . "', html: this.value == 'html'}, '', event)";
 
         $select = new html_select($attrib);
 
@@ -1571,7 +1571,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             html::a([
                     'href'    => '#list',
                     'rel'     => '%s',
-                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('list-addresses','%s',this)",
+                    'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('list-addresses','%s',this)",
                 ],
                 '%s'
             )

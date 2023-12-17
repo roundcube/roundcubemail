@@ -121,7 +121,7 @@ class rcube_mime
                 $string = '';
 
                 if ($name && $address && $name != $address) {
-                    $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"'.addcslashes($name, '"').'"' : $name, $address);
+                    $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"' . addcslashes($name, '"') . '"' : $name, $address);
                 }
                 else if ($address) {
                     $string = $address;
@@ -341,14 +341,14 @@ class rcube_mime
                 $val = substr($val, strlen($tokens[0]));
             }
 
-            if (preg_match('/(.*)<('.$email_rx.')$/', $val, $m)) {
+            if (preg_match('/(.*)<(' . $email_rx . ')$/', $val, $m)) {
                 // Note: There are cases like "Test<test@domain.tld" with no closing bracket,
                 // therefor we do not include it in the regexp above, but we have to
                 // remove it later, because $email_rx will catch it (#8164)
                 $address = rtrim($m[2], '>');
                 $name    = trim($m[1]);
             }
-            else if (preg_match('/^('.$email_rx.')$/', $val, $m)) {
+            else if (preg_match('/^(' . $email_rx . ')$/', $val, $m)) {
                 $address = $m[1];
                 $name    = '';
             }
@@ -357,7 +357,7 @@ class rcube_mime
                 $address = 'MAILER-DAEMON';
                 $name    = substr($val, 0, -strlen($m[1]));
             }
-            else if (preg_match('/('.$email_rx.')/', $val, $m)) {
+            else if (preg_match('/(' . $email_rx . ')/', $val, $m)) {
                 $name = $m[1];
             }
             else {

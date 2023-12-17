@@ -258,7 +258,7 @@ class rcube_charset
             }
             // we need ISO labels
             else if (!empty($aliases[$m[1]])) {
-                $result = 'ISO-8859-'.$aliases[$m[1]];
+                $result = 'ISO-8859-' . $aliases[$m[1]];
             }
         }
 

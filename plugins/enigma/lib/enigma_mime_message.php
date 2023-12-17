@@ -300,8 +300,8 @@ class enigma_mime_message extends Mail_mime
 
         if ($this->type == self::PGP_SIGNED) {
             $headers['Content-Type'] = "multipart/signed;$eol"
-                ." protocol=\"application/pgp-signature\";$eol"
-                ." boundary=\"$boundary\"";
+                . " protocol=\"application/pgp-signature\";$eol"
+                . " boundary=\"$boundary\"";
 
             if ($this->micalg) {
                 $headers['Content-Type'] .= ";{$eol} micalg=pgp-" . $this->micalg;
@@ -309,8 +309,8 @@ class enigma_mime_message extends Mail_mime
         }
         else if ($this->type == self::PGP_ENCRYPTED) {
             $headers['Content-Type'] = "multipart/encrypted;$eol"
-                ." protocol=\"application/pgp-encrypted\";$eol"
-                ." boundary=\"$boundary\"";
+                . " protocol=\"application/pgp-encrypted\";$eol"
+                . " boundary=\"$boundary\"";
         }
 
         return $headers;

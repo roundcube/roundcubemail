@@ -113,9 +113,9 @@ class rcmail_action_utils_error extends rcmail_action
 
         // compose page content
         $page_content = '<div class="boxerror">'
-            .'<h3 class="error-title">' . mb_strtoupper($error_title) . '</h3>'
-            .'<div class="error-text">' . $error_text . '</div>'
-            .'</div>';
+            . '<h3 class="error-title">' . mb_strtoupper($error_title) . '</h3>'
+            . '<div class="error-text">' . $error_text . '</div>'
+            . '</div>';
 
         if ($rcmail->output && $rcmail->output->template_exists('error')) {
             $GLOBALS['__page_content'] = $page_content;

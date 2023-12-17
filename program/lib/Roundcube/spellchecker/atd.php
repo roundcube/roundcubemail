@@ -70,7 +70,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
             $ssl   = ($a_uri['scheme'] == 'https' || $a_uri['scheme'] == 'ssl');
             $port  = !empty($a_uri['port']) ? $a_uri['port'] : ($ssl ? 443 : 80);
             $host  = ($ssl ? 'ssl://' : '') . $a_uri['host'];
-            $path  = $a_uri['path'] . (!empty($a_uri['query']) ? '?'.$a_uri['query'] : '') . $this->lang;
+            $path  = $a_uri['path'] . (!empty($a_uri['query']) ? '?' . $a_uri['query'] : '') . $this->lang;
         }
         else {
             $host = self::SERVICE_HOST;

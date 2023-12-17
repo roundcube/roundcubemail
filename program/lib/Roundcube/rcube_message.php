@@ -111,7 +111,7 @@ class rcube_message
 
         $this->tnef_decode = (bool) $this->app->config->get('tnef_decode', true);
 
-        $this->set_safe($is_safe || !empty($_SESSION['safe_messages'][$this->folder.':'.$uid]));
+        $this->set_safe($is_safe || !empty($_SESSION['safe_messages'][$this->folder . ':' . $uid]));
         $this->opt = [
             'safe'        => $this->is_safe,
             'prefer_html' => $this->app->config->get('prefer_html'),
@@ -165,7 +165,7 @@ class rcube_message
      */
     public function set_safe($safe = true)
     {
-        $_SESSION['safe_messages'][$this->folder.':'.$this->uid] = $this->is_safe = $safe;
+        $_SESSION['safe_messages'][$this->folder . ':' . $this->uid] = $this->is_safe = $safe;
     }
 
     /**
@@ -991,7 +991,7 @@ class rcube_message
                 foreach ($this->inline_parts as $inline_object) {
                     $part_url = $this->get_part_url($inline_object->mime_id, $inline_object->ctype_primary);
                     if (isset($inline_object->content_id)) {
-                        $a_replaces['cid:'.$inline_object->content_id] = $part_url;
+                        $a_replaces['cid:' . $inline_object->content_id] = $part_url;
                     }
                     if (!empty($inline_object->content_location)) {
                         $a_replaces[$inline_object->content_location] = $part_url;

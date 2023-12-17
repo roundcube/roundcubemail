@@ -358,7 +358,7 @@ class rcube_ldap extends rcube_addressbook
                     $d = $this->mail_domain;
                 }
 
-                $dc = 'dc='.strtr($d, ['.' => ',dc=']); // hierarchal domain string
+                $dc = 'dc=' . strtr($d, ['.' => ',dc=']); // hierarchal domain string
 
                 // resolve $dc through LDAP
                 if (
@@ -1268,7 +1268,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         // Build the new entries DN.
-        $dn = $this->prop['LDAP_rdn'].'='.rcube_ldap_generic::quote_string($newentry[$this->prop['LDAP_rdn']], true).','.$this->base_dn;
+        $dn = $this->prop['LDAP_rdn'] . '=' . rcube_ldap_generic::quote_string($newentry[$this->prop['LDAP_rdn']], true) . ',' . $this->base_dn;
 
         // Remove attributes that need to be added separately (child objects)
         $xfields = [];
@@ -1287,7 +1287,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         foreach ($xfields as $xidx => $xf) {
-            $xdn = $xidx.'='.rcube_ldap_generic::quote_string($xf).','.$dn;
+            $xdn = $xidx . '=' . rcube_ldap_generic::quote_string($xf) . ',' . $dn;
             $xf = [
                 $xidx => $xf,
                 'objectClass' => (array) $this->prop['sub_fields'][$xidx],
@@ -1435,7 +1435,7 @@ class rcube_ldap extends rcube_addressbook
         // remove sub-entries
         if (!empty($subdeldata)) {
             foreach ($subdeldata as $fld => $val) {
-                $subdn = $fld.'='.rcube_ldap_generic::quote_string($val).','.$dn;
+                $subdn = $fld . '=' . rcube_ldap_generic::quote_string($val) . ',' . $dn;
                 if (!$this->ldap->delete_entry($subdn)) {
                     return false;
                 }
@@ -1475,7 +1475,7 @@ class rcube_ldap extends rcube_addressbook
         // add sub-entries
         if (!empty($subnewdata)) {
             foreach ($subnewdata as $fld => $val) {
-                $subdn = $fld.'='.rcube_ldap_generic::quote_string($val).','.$dn;
+                $subdn = $fld . '=' . rcube_ldap_generic::quote_string($val) . ',' . $dn;
                 $xf = [
                     $fld => $val,
                     'objectClass' => (array) $this->prop['sub_fields'][$fld],
@@ -1578,7 +1578,7 @@ class rcube_ldap extends rcube_addressbook
 
         $attrvals = [];
         foreach ($attrs as $k => $v) {
-            $attrvals['{'.$k.'}'] = is_array($v) ? $v[0] : $v;
+            $attrvals['{' . $k . '}'] = is_array($v) ? $v[0] : $v;
         }
 
         foreach ($this->prop['autovalues'] as $lf => $templ) {
@@ -1717,10 +1717,10 @@ class rcube_ldap extends rcube_addressbook
         foreach ($this->coltypes as $col => $colprop) {
             if (!empty($colprop['childs']) && is_array($colprop['childs'])) {
                 foreach ($this->get_col_values($col, $save_cols, false) as $subtype => $childs) {
-                    $subtype = $subtype ? ':'.$subtype : '';
+                    $subtype = $subtype ? ':' . $subtype : '';
                     foreach ($childs as $i => $child_values) {
                         foreach ((array) $child_values as $childcol => $value) {
-                            $save_cols[$childcol.$subtype][$i] = $value;
+                            $save_cols[$childcol . $subtype][$i] = $value;
                         }
                     }
                 }
@@ -1729,7 +1729,7 @@ class rcube_ldap extends rcube_addressbook
             // if addresses are to be saved as serialized string, do so
             if (!empty($colprop['serialized']) && is_array($colprop['serialized'])) {
                 foreach ($colprop['serialized'] as $subtype => $delim) {
-                    $key = $col.':'.$subtype;
+                    $key = $col . ':' . $subtype;
                     foreach ((array) $save_cols[$key] as $i => $val) {
                         $values = [$val['street'], $val['locality'], $val['zipcode'], $val['country']];
                         $save_cols[$key][$i] = count(array_filter($values)) ? implode($delim, $values) : null;

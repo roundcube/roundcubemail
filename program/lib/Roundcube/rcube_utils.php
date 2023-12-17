@@ -240,8 +240,8 @@ class rcube_utils
             $js_rep_table["'"]  = "\\'";
             $js_rep_table["\\"] = "\\\\";
             // Unicode line and paragraph separators (#1486310)
-            $js_rep_table[chr(hexdec('E2')).chr(hexdec('80')).chr(hexdec('A8'))] = '&#8232;';
-            $js_rep_table[chr(hexdec('E2')).chr(hexdec('80')).chr(hexdec('A9'))] = '&#8233;';
+            $js_rep_table[chr(hexdec('E2')) . chr(hexdec('80')) . chr(hexdec('A8'))] = '&#8232;';
+            $js_rep_table[chr(hexdec('E2')) . chr(hexdec('80')) . chr(hexdec('A9'))] = '&#8233;';
         }
 
         // encode for javascript use
@@ -730,7 +730,7 @@ class rcube_utils
         if (strpos($name, '%s') !== false) {
             $user_email = self::idn_to_ascii(self::get_input_value('_user', self::INPUT_POST));
             $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
-            if ($matches < 1 || filter_var($s[1]."@".$s[2], FILTER_VALIDATE_EMAIL) === false) {
+            if ($matches < 1 || filter_var($s[1] . "@" . $s[2], FILTER_VALIDATE_EMAIL) === false) {
                 return false;
             }
             $s = $s[2];
@@ -1018,7 +1018,7 @@ class rcube_utils
         // try our advanced strtotime() method
         if (!$dt && ($timestamp = self::strtotime($date, $timezone))) {
             try {
-                $dt = new DateTime("@".$timestamp);
+                $dt = new DateTime("@" . $timestamp);
                 if ($timezone) {
                     $dt->setTimezone($timezone);
                 }
@@ -1384,7 +1384,7 @@ class rcube_utils
         if (rtrim(shell_exec($command)) !== 'OK') {
             echo $prompt;
             $pass = trim(fgets(STDIN));
-            echo chr(8)."\r" . $prompt . str_repeat("*", strlen($pass))."\n";
+            echo chr(8) . "\r" . $prompt . str_repeat("*", strlen($pass)) . "\n";
 
             return $pass;
         }
@@ -1688,7 +1688,7 @@ class rcube_utils
             $prefix = strtolower(str_replace(':', '', $prefix));
             return "$prefix:|$prefix\[\d\]:|$prefix-\d:";
         }, $prefixes);
-        $pattern = '/^('.implode('|', $pieces).')\s*/i';
+        $pattern = '/^(' . implode('|', $pieces) . ')\s*/i';
         do {
             $subject = preg_replace($pattern, '', $subject, -1, $count);
         }

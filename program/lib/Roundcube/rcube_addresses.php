@@ -99,7 +99,7 @@ class rcube_addresses extends rcube_contacts
         $sql_result = $this->db->limitquery(
             "SELECT * FROM " . $this->db->table_name($this->db_name, true)
             . " WHERE `user_id` = ? AND `type` = ?"
-            . ($this->filter ? " AND ".$this->filter : "")
+            . ($this->filter ? " AND " . $this->filter : "")
             . " ORDER BY `name` " . $this->sort_order . ", `email` " . $this->sort_order,
             $start_row,
             $length,

@@ -26,7 +26,7 @@ if (!empty($_POST['submit'])) {
 
     if ($RCI->save_configfile($_SESSION['config'])) {
         echo '<p class="notice">The config file was saved successfully into'
-           . ' <tt>'.RCMAIL_CONFIG_DIR.'</tt> directory of your Roundcube installation.';
+           . ' <tt>' . RCMAIL_CONFIG_DIR . '</tt> directory of your Roundcube installation.';
 
         if ($RCI->legacy_config) {
             echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files'
@@ -47,7 +47,7 @@ if (!empty($_POST['submit'])) {
         }
 
         echo '<p class="notice">Copy or download the following configuration and save it';
-        echo ' as <tt><b>config.inc.php</b></tt> within the <tt>'.RCUBE_CONFIG_DIR.'</tt> directory of your Roundcube installation.<br/>';
+        echo ' as <tt><b>config.inc.php</b></tt> within the <tt>' . RCUBE_CONFIG_DIR . '</tt> directory of your Roundcube installation.<br/>';
         echo ' Make sure that there are no characters before the <tt>&lt;?php</tt> bracket when saving the file.';
         echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
         echo $save_button;
@@ -326,7 +326,7 @@ if (empty($default_hosts)) {
 
 $i = 0;
 foreach ($default_hosts as $host) {
-    echo '<div id="defaulthostentry'.$i.'">' . $text_imaphost->show($host);
+    echo '<div id="defaulthostentry' . $i . '">' . $text_imaphost->show($host);
     if ($i++ > 0) {
         echo '<a href="#" onclick="removehostfield(this.parentNode);return false" class="removelink" title="Remove this entry">remove</a>';
     }
@@ -626,11 +626,11 @@ echo $select_param_folding->show(strval($RCI->getprop('mime_param_folding')));
 <?php
 $plugins = $RCI->list_plugins();
 foreach ($plugins as $p) {
-    $p_check = new html_checkbox(['name' => '_plugins_'.$p['name'], 'id' => 'cfgplugin_'.$p['name'], 'value' => $p['name']]);
+    $p_check = new html_checkbox(['name' => '_plugins_' . $p['name'], 'id' => 'cfgplugin_' . $p['name'], 'value' => $p['name']]);
     echo '<dt class="propname"><label>';
     echo $p_check->show($p['enabled'] ? $p['name'] : 0);
     echo '&nbsp;' . $p['name'] . '</label></dt><dd>';
-    echo '<label for="cfgplugin_'.$p['name'].'" class="hint">' . $p['desc'] . '</label><br/></dd>';
+    echo '<label for="cfgplugin_' . $p['name'] . '" class="hint">' . $p['desc'] . '</label><br/></dd>';
 }
 
 ?>

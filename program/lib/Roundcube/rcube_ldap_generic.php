@@ -153,7 +153,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function mod_replace($dn, $entry)
     {
-        $this->_debug("C: Replace $dn: ".print_r($entry, true));
+        $this->_debug("C: Replace $dn: " . print_r($entry, true));
 
         if (!ldap_mod_replace($this->conn, $dn, $entry)) {
             $this->_error("ldap_mod_replace() failed with " . ldap_error($this->conn));
@@ -171,7 +171,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function mod_add($dn, $entry)
     {
-        $this->_debug("C: Add $dn: ".print_r($entry, true));
+        $this->_debug("C: Add $dn: " . print_r($entry, true));
 
         if (!ldap_mod_add($this->conn, $dn, $entry)) {
             $this->_error("ldap_mod_add() failed with " . ldap_error($this->conn));
@@ -189,7 +189,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function mod_del($dn, $entry)
     {
-        $this->_debug("C: Delete $dn: ".print_r($entry, true));
+        $this->_debug("C: Delete $dn: " . print_r($entry, true));
 
         if (!ldap_mod_del($this->conn, $dn, $entry)) {
             $this->_error("ldap_mod_del() failed with " . ldap_error($this->conn));

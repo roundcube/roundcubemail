@@ -731,7 +731,7 @@ class rcube_sieve_engine
                         if ($sizetarget === '') {
                             $this->errors['tests'][$i]['sizetarget'] = $this->plugin->gettext('cannotbeempty');
                         }
-                        else if (!preg_match('/^[0-9]+(K|M|G)?$/i', $sizetarget.$sizeitem, $m)) {
+                        else if (!preg_match('/^[0-9]+(K|M|G)?$/i', $sizetarget . $sizeitem, $m)) {
                             $this->errors['tests'][$i]['sizetarget'] = $this->plugin->gettext('forbiddenchars');
                             $this->form['tests'][$i]['item'] = $sizeitem;
                         }
@@ -1498,7 +1498,7 @@ class rcube_sieve_engine
                     'name'    => '_from',
                     'value'   => 'set',
                     'checked' => $selected == 'set',
-                ]) .  rcube::Q($this->plugin->gettext('fromset')) . ' ' . $select->show($copy)) . '</li>';
+                ]) . rcube::Q($this->plugin->gettext('fromset')) . ' ' . $select->show($copy)) . '</li>';
         }
 
         // script upload box
@@ -1635,7 +1635,7 @@ class rcube_sieve_engine
                 rcube::Q($this->plugin->gettext('scope')), $select->show($join)
             );
 
-            $out .= '<div id="rules"'.($any ? ' style="display: none"' : '').'>';
+            $out .= '<div id="rules"' . ($any ? ' style="display: none"' : '') . '>';
             $out .= "\n<fieldset><legend>" . rcube::Q($this->plugin->gettext('rules')) . "</legend>\n";
         }
         else {
@@ -1675,7 +1675,7 @@ class rcube_sieve_engine
             $input_join = $input_join->show($any ? 'any' : '');
 
             $out .= $input_join . html::label($field_id, rcube::Q($this->plugin->gettext('filterany')));
-            $out .= '<div id="rules"'.($any ? ' style="display: none"' : '').'>';
+            $out .= '<div id="rules"' . ($any ? ' style="display: none"' : '') . '>';
         }
 
         $rows_num = !empty($scr['tests']) ? count($scr['tests']) : 1;
@@ -1744,8 +1744,8 @@ class rcube_sieve_engine
         }
 
         // headers select
-        $select_header = new html_select(['name' => "_header[$id]", 'id' => 'header'.$id,
-            'onchange' => 'rule_header_select(' .$id .')', 'class' => 'custom-select']);
+        $select_header = new html_select(['name' => "_header[$id]", 'id' => 'header' . $id,
+            'onchange' => 'rule_header_select(' . $id . ')', 'class' => 'custom-select']);
 
         foreach ($this->headers as $index => $header) {
             $header = $this->rc->text_exists($index) ? $this->plugin->gettext($index) : $header;
@@ -1870,7 +1870,7 @@ class rcube_sieve_engine
                 'year', 'month', 'day', 'hour', 'minute', 'second', 'weekday', 'zone'];
             $select_dp = new html_select([
                     'name'  => "_rule_date_part[$id]",
-                    'id'    => 'rule_date_part'.$id,
+                    'id'    => 'rule_date_part' . $id,
                     'style' => in_array($rule['test'], ['currentdate', 'date']) && !preg_match('/^(notcount|count)-/', $test) ? '' : 'display:none',
                     'class' => 'datepart_selector custom-select',
             ]);
@@ -1886,7 +1886,7 @@ class rcube_sieve_engine
         if (in_array('duplicate', $this->exts)) {
             $select_msg = new html_select([
                     'name'  => "_rule_message[$id]",
-                    'id'    => 'rule_message'.$id,
+                    'id'    => 'rule_message' . $id,
                     'style' => in_array($rule['test'], ['duplicate']) ? '' : 'display:none',
                     'class' => 'message_selector custom-select',
             ]);
@@ -1905,7 +1905,7 @@ class rcube_sieve_engine
 
         $select_size_op = new html_select([
                 'name'  => "_rule_size_op[$id]",
-                'id'    => 'rule_size_op'.$id,
+                'id'    => 'rule_size_op' . $id,
                 'class' => 'input-group-prepend custom-select',
         ]);
         $select_size_op->add(rcube::Q($this->plugin->gettext('filterover')), 'over');
@@ -1913,19 +1913,19 @@ class rcube_sieve_engine
 
         $select_size_item = new html_select([
                 'name'  => "_rule_size_item[$id]",
-                'id'    => 'rule_size_item'.$id,
+                'id'    => 'rule_size_item' . $id,
                 'class' => 'input-group-append custom-select',
         ]);
         foreach (['', 'K', 'M', 'G'] as $unit) {
             $select_size_item->add($this->plugin->gettext($unit . 'B'), $unit);
         }
 
-        $tout .= '<div id="rule_size' .$id. '" class="input-group" style="display:' . ($rule['test']=='size' ? 'inline' : 'none') .'">';
+        $tout .= '<div id="rule_size' . $id . '" class="input-group" style="display:' . ($rule['test']=='size' ? 'inline' : 'none') . '">';
         $tout .= $select_size_op->show($rule['test']=='size' ? $rule['type'] : '');
         $tout .= html::tag('input', [
                 'type'  => 'text',
                 'name'  => "_rule_size_target[$id]",
-                'id'    => 'rule_size_i'.$id,
+                'id'    => 'rule_size_i' . $id,
                 'value' => $sizetarget,
                 'size'  => 10,
                 'class' => $this->error_class($id, 'test', 'sizetarget', 'rule_size_i'),
@@ -1939,7 +1939,7 @@ class rcube_sieve_engine
                     'name'     => "_rule_spamtest_op[$id]",
                     'id'       => 'rule_spamtest_op' . $id,
                     'class'    => 'input-group-prepend custom-select',
-                    'onchange' => 'rule_spamtest_select(' . $id .')',
+                    'onchange' => 'rule_spamtest_select(' . $id . ')',
             ]);
             $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestisunknown')), '');
             $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestisgreaterthan')), 'value-gt');
@@ -1965,7 +1965,7 @@ class rcube_sieve_engine
             $select_spamtest_target->add(rcube::Q("90%"), '9');
             $select_spamtest_target->add(rcube::Q("100%"), '10');
 
-            $tout .= '<div id="rule_spamtest' . $id . '" class="input-group" style="display:' . ($rule['test'] == 'spamtest' ? 'inline' : 'none') .'">';
+            $tout .= '<div id="rule_spamtest' . $id . '" class="input-group" style="display:' . ($rule['test'] == 'spamtest' ? 'inline' : 'none') . '">';
             $tout .= $select_spamtest_op->show($rule['test'] == 'spamtest' && $target > 0 ? $rule['type'] : '');
             $tout .= $select_spamtest_target->show($rule['test'] == 'spamtest' ? $target : '');
 
@@ -1976,7 +1976,7 @@ class rcube_sieve_engine
                 'name'     => "_rule_mod[$id]",
                 'id'       => 'rule_mod_op' . $id,
                 'class'    => 'custom-select',
-                'onchange' => 'rule_mod_select(' .$id .')',
+                'onchange' => 'rule_mod_select(' . $id . ')',
         ]);
         $select_mod->add(rcube::Q($this->plugin->gettext('none')), '');
         $select_mod->add(rcube::Q($this->plugin->gettext('address')), 'address');
@@ -1998,7 +1998,7 @@ class rcube_sieve_engine
         }
 
         $need_mod = !in_array($rule['test'], ['size', 'spamtest', 'body', 'date', 'currentdate', 'duplicate', 'string']);
-        $mout = '<div id="rule_mod' .$id. '" class="adv input-group"' . (!$need_mod ? ' style="display:none"' : '') . '>';
+        $mout = '<div id="rule_mod' . $id . '" class="adv input-group"' . (!$need_mod ? ' style="display:none"' : '') . '>';
         $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('modifier'))));
         $mout .= $select_mod->show($rule['test']);
         $mout .= '</div>';
@@ -2010,7 +2010,7 @@ class rcube_sieve_engine
 
         // Advanced modifiers (comparators)
         $need_comp = $rule['test'] != 'size' && $rule['test'] != 'spamtest' && $rule['test'] != 'duplicate';
-        $mout .= '<div id="rule_comp' .$id. '" class="adv input-group"' . (!$need_comp ? ' style="display:none"' : '') . '>';
+        $mout .= '<div id="rule_comp' . $id . '" class="adv input-group"' . (!$need_comp ? ' style="display:none"' : '') . '>';
         $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('comparator'))));
         $mout .= $this->comparator_selector($rule['comparator'] ?? null, 'rule_comp', $id);
         $mout .= '</div>';
@@ -2043,11 +2043,11 @@ class rcube_sieve_engine
             $select_mime_part->add(rcube::Q($this->plugin->gettext('mime-message')), '');
             $select_mime_part->add(rcube::Q($this->plugin->gettext('mime-anychild')), 'anychild');
 
-            $mout .= '<div id="rule_mime_part' .$id. '" class="adv input-group"' . (!$need_mime ? ' style="display:none"' : '') . '>';
+            $mout .= '<div id="rule_mime_part' . $id . '" class="adv input-group"' . (!$need_mime ? ' style="display:none"' : '') . '>';
             $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('mimepart'))));
             $mout .= $select_mime_part->show(!empty($rule['mime-anychild']) ? 'anychild' : '');
             $mout .= '</div>';
-            $mout .= '<div id="rule_mime' .$id. '" class="adv input-group"' . (!$need_mime ? ' style="display:none"' : '') . '>';
+            $mout .= '<div id="rule_mime' . $id . '" class="adv input-group"' . (!$need_mime ? ' style="display:none"' : '') . '>';
             $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('mime'))));
             $mout .= $select_mime->show($mime_type);
             $mout .= $this->list_input($id, 'rule_mime_param', $rule['mime-param'] ?? null,
@@ -2061,7 +2061,7 @@ class rcube_sieve_engine
                 'name'     => "_rule_trans[$id]",
                 'id'       => 'rule_trans_op' . $id,
                 'class'    => 'custom-select',
-                'onchange' => 'rule_trans_select(' .$id .')',
+                'onchange' => 'rule_trans_select(' . $id . ')',
         ]);
         $select_mod->add(rcube::Q($this->plugin->gettext('text')), 'text');
         $select_mod->add(rcube::Q($this->plugin->gettext('undecoded')), 'raw');
@@ -2072,13 +2072,13 @@ class rcube_sieve_engine
             $rule_content = is_array($rule['content']) ? implode(',', $rule['content']) : $rule['content'];
         }
 
-        $mout .= '<div id="rule_trans' .$id. '" class="adv input-group"' . ($rule['test'] != 'body' ? ' style="display:none"' : '') . '>';
+        $mout .= '<div id="rule_trans' . $id . '" class="adv input-group"' . ($rule['test'] != 'body' ? ' style="display:none"' : '') . '>';
         $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('modifier'))));
         $mout .= $select_mod->show($rule['part'] ?? null);
         $mout .= html::tag('input', [
                 'type'  => 'text',
                 'name'  => "_rule_trans_type[$id]",
-                'id'    => 'rule_trans_type'.$id,
+                'id'    => 'rule_trans_type' . $id,
                 'value' => $rule_content,
                 'size'  => 20,
                 'style' => !isset($rule['part']) || $rule['part'] != 'content' ? 'display:none' : '',
@@ -2088,7 +2088,7 @@ class rcube_sieve_engine
 
         // Date header
         if (in_array('date', $this->exts)) {
-            $mout .= '<div id="rule_date_header_div' .$id. '" class="adv input-group"'. ($rule['test'] != 'date' ? ' style="display:none"' : '') .'>';
+            $mout .= '<div id="rule_date_header_div' . $id . '" class="adv input-group"' . ($rule['test'] != 'date' ? ' style="display:none"' : '') . '>';
             $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('dateheader'))));
             $mout .= html::tag('input', [
                     'type'  => 'text',
@@ -2104,7 +2104,7 @@ class rcube_sieve_engine
         // Index
         if (in_array('index', $this->exts)) {
             $need_index = in_array($rule['test'], ['header', ', address', 'date']);
-            $mout .= '<div id="rule_index_div' .$id. '" class="adv input-group"'. (!$need_index ? ' style="display:none"' : '') .'>';
+            $mout .= '<div id="rule_index_div' . $id . '" class="adv input-group"' . (!$need_index ? ' style="display:none"' : '') . '>';
             $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('index'))));
             $mout .= html::tag('input', [
                     'type'  => 'text',
@@ -2128,7 +2128,7 @@ class rcube_sieve_engine
         // Duplicate
         if (in_array('duplicate', $this->exts)) {
             $need_duplicate = $rule['test'] == 'duplicate';
-            $mout .= '<div id="rule_duplicate_div' .$id. '" class="adv"'. (!$need_duplicate ? ' style="display:none"' : '') .'>';
+            $mout .= '<div id="rule_duplicate_div' . $id . '" class="adv"' . (!$need_duplicate ? ' style="display:none"' : '') . '>';
 
             foreach (['handle', 'header', 'uniqueid'] as $unit) {
                 $mout .= '<div class="input-group">';
@@ -2171,7 +2171,7 @@ class rcube_sieve_engine
         $adv_title = rcube::Q($this->plugin->gettext('advancedopts'));
 
         // Build output table
-        $out = $div ? '<div class="rulerow" id="rulerow' .$id .'">'."\n" : '';
+        $out = $div ? '<div class="rulerow" id="rulerow' . $id . '">' . "\n" : '';
         $out .= '<table class="compact-table"><tr>';
 
         if (!$compact) {
@@ -2183,7 +2183,7 @@ class rcube_sieve_engine
 
         $out .= '<td class="rowactions"><div class="flexbox">' . $aout . '</div></td>';
         $out .= '<td class="rowtargets">' . $tout . "\n";
-        $out .= '<div id="rule_advanced' .$id. '" style="display:none" class="advanced">' . $mout . '</div>';
+        $out .= '<div id="rule_advanced' . $id . '" style="display:none" class="advanced">' . $mout . '</div>';
         $out .= '</td>';
         $out .= '<td class="rowbuttons">';
         if ($compact) {
@@ -2276,7 +2276,7 @@ class rcube_sieve_engine
             $rows_num = 0;
         }
 
-        $out = $div ? '<div class="actionrow" id="actionrow' .$id .'">'."\n" : '';
+        $out = $div ? '<div class="actionrow" id="actionrow' . $id . '">' . "\n" : '';
 
         $out .= '<table class="compact-table"><tr><td class="rowactions">';
 
@@ -2418,8 +2418,8 @@ class rcube_sieve_engine
             $action_subject = is_array($action['subject']) ? implode(', ', $action['subject']) : $action['subject'];
         }
 
-        $out .= '<div id="action_vacation' .$id.'" style="display:' .($action['type'] == 'vacation' ? 'inline' : 'none') .'" class="composite">';
-        $out .= '<span class="label">'. rcube::Q($this->plugin->gettext('vacationreason')) .'</span><br>';
+        $out .= '<div id="action_vacation' . $id . '" style="display:' . ($action['type'] == 'vacation' ? 'inline' : 'none') . '" class="composite">';
+        $out .= '<span class="label">' . rcube::Q($this->plugin->gettext('vacationreason')) . '</span><br>';
         $out .= html::tag('textarea', [
                 'name'  => "_action_reason[$id]",
                 'id'   => 'action_reason' . $id,
@@ -2427,7 +2427,7 @@ class rcube_sieve_engine
                 'cols'  => 35,
                 'class' => $this->error_class($id, 'action', 'reason', 'action_reason'),
             ], rcube::Q($action['reason'] ?? '', 'strict', false));
-        $out .= '<br><span class="label">' .rcube::Q($this->plugin->gettext('vacationsubject')) . '</span><br>';
+        $out .= '<br><span class="label">' . rcube::Q($this->plugin->gettext('vacationsubject')) . '</span><br>';
         $out .= html::tag('input', [
                 'type'  => 'text',
                 'name'  => "_action_subject[$id]",
@@ -2436,7 +2436,7 @@ class rcube_sieve_engine
                 'size'  => 35,
                 'class' => $this->error_class($id, 'action', 'subject', 'action_subject'),
         ]);
-        $out .= '<br><span class="label">' .rcube::Q($this->plugin->gettext('vacationfrom')) . '</span><br>';
+        $out .= '<br><span class="label">' . rcube::Q($this->plugin->gettext('vacationfrom')) . '</span><br>';
         $out .= html::tag('input', [
                 'type'  => 'text',
                 'name'  => "_action_from[$id]",
@@ -2445,7 +2445,7 @@ class rcube_sieve_engine
                 'size'  => 35,
                 'class' => $this->error_class($id, 'action', 'from', 'action_from'),
         ]);
-        $out .= '<br><span class="label">' .rcube::Q($this->plugin->gettext('vacationaddr')) . '</span><br>';
+        $out .= '<br><span class="label">' . rcube::Q($this->plugin->gettext('vacationaddr')) . '</span><br>';
         $out .= $this->list_input($id, 'action_addresses', $action['addresses'] ?? null,
             30, false, ['class' => $this->error_class($id, 'action', 'addresses', 'action_addresses')]
         )
@@ -2502,7 +2502,7 @@ class rcube_sieve_engine
                     'value'   => $flag,
                     'checked' => $is_flag_action && in_array_nocase($flag, $flags_target),
                 ])
-                . rcube::Q($this->plugin->gettext('flag'.$fidx))) . '<br>';
+                . rcube::Q($this->plugin->gettext('flag' . $fidx))) . '<br>';
         }
 
         $flout .= $this->list_input($id, 'action_flags', $custom_flags, null, false, [
@@ -2530,9 +2530,9 @@ class rcube_sieve_engine
             $set_modifiers[] = 'encodeurl';
         }
 
-        $out .= '<div id="action_set' .$id.'" class="composite" style="display:' .($action['type'] == 'set' ? 'inline' : 'none') .'">';
+        $out .= '<div id="action_set' . $id . '" class="composite" style="display:' . ($action['type'] == 'set' ? 'inline' : 'none') . '">';
         foreach (['name', 'value'] as $unit) {
-            $out .= '<span class="label">' .rcube::Q($this->plugin->gettext('setvar' . $unit)) . '</span><br>';
+            $out .= '<span class="label">' . rcube::Q($this->plugin->gettext('setvar' . $unit)) . '</span><br>';
             $out .= html::tag('input', [
                     'type'  => 'text',
                     'name'  => '_action_var' . $unit . '[' . $id . ']',
@@ -2557,7 +2557,7 @@ class rcube_sieve_engine
             );
         }
 
-        $out .= '<span class="label">' .rcube::Q($this->plugin->gettext('setvarmodifiers')) . '</span>';
+        $out .= '<span class="label">' . rcube::Q($this->plugin->gettext('setvarmodifiers')) . '</span>';
         $out .= html::div('checklist', $smout);
         $out .= '</div>';
 
@@ -2587,7 +2587,7 @@ class rcube_sieve_engine
         ]);
 
         foreach ($notify_methods as $m_n) {
-            $select_method->add(rcube::Q($this->rc->text_exists('managesieve.notifymethod'.$m_n) ? $this->plugin->gettext('managesieve.notifymethod'.$m_n) : $m_n), $m_n);
+            $select_method->add(rcube::Q($this->rc->text_exists('managesieve.notifymethod' . $m_n) ? $this->plugin->gettext('managesieve.notifymethod' . $m_n) : $m_n), $m_n);
         }
 
         $select_importance = new html_select([
@@ -2601,8 +2601,8 @@ class rcube_sieve_engine
         }
 
         // @TODO: nice UI for mailto: (other methods too) URI parameters
-        $out .= '<div id="action_notify' .$id.'" style="display:' .($action['type'] == 'notify' ? 'inline' : 'none') .'" class="composite">';
-        $out .= '<span class="label">' .rcube::Q($this->plugin->gettext('notifytarget')) . '</span><br>';
+        $out .= '<div id="action_notify' . $id . '" style="display:' . ($action['type'] == 'notify' ? 'inline' : 'none') . '" class="composite">';
+        $out .= '<span class="label">' . rcube::Q($this->plugin->gettext('notifytarget')) . '</span><br>';
         $out .= '<div class="input-group">';
         $out .= $select_method->show($method);
         $out .= html::tag('input', [
@@ -2614,7 +2614,7 @@ class rcube_sieve_engine
                 'class' => $this->error_class($id, 'action', 'target', 'action_notifytarget'),
         ]);
         $out .= '</div>';
-        $out .= '<br><span class="label">'. rcube::Q($this->plugin->gettext('notifymessage')) .'</span><br>';
+        $out .= '<br><span class="label">' . rcube::Q($this->plugin->gettext('notifymessage')) . '</span><br>';
         $out .= html::tag('textarea', [
                 'name'  => "_action_notifymessage[$id]",
                 'id'    => 'action_notifymessage' . $id,
@@ -2624,7 +2624,7 @@ class rcube_sieve_engine
             ], isset($action['message']) ? rcube::Q($action['message'], 'strict', false) : ''
         );
         if (in_array('enotify', $this->exts)) {
-            $out .= '<br><span class="label">' .rcube::Q($this->plugin->gettext('notifyfrom')) . '</span><br>';
+            $out .= '<br><span class="label">' . rcube::Q($this->plugin->gettext('notifyfrom')) . '</span><br>';
             $out .= html::tag('input', [
                     'type'  => 'text',
                     'name'  => "_action_notifyfrom[$id]",
@@ -2636,7 +2636,7 @@ class rcube_sieve_engine
         }
         $out .= '<br><span class="label">' . rcube::Q($this->plugin->gettext('notifyimportance')) . '</span><br>';
         $out .= $select_importance->show(!empty($action['importance']) ? (int) $action['importance'] : 2);
-        $out .= '<div id="action_notifyoption_div' . $id  . '">'
+        $out .= '<div id="action_notifyoption_div' . $id . '">'
             . '<span class="label">' . rcube::Q($this->plugin->gettext('notifyoptions')) . '</span><br>'
             . $this->list_input($id, 'action_notifyoption', !empty($action['options']) ? (array) $action['options'] : [],
                 30, false, ['class' => $this->error_class($id, 'action', 'options', 'action_notifyoption')]
@@ -2661,8 +2661,8 @@ class rcube_sieve_engine
             $pos2_selector->add($this->plugin->gettext('headerfromend'), 'last');
 
             // addheader
-            $out .= '<div id="action_addheader' .$id.'" style="display:' .($action['type'] == 'addheader' ? 'inline' : 'none') .'" class="composite">';
-            $out .= '<label class="label" for="action_addheader_name' . $id .'">' .rcube::Q($this->plugin->gettext('headername')) . '</label><br>';
+            $out .= '<div id="action_addheader' . $id . '" style="display:' . ($action['type'] == 'addheader' ? 'inline' : 'none') . '" class="composite">';
+            $out .= '<label class="label" for="action_addheader_name' . $id . '">' . rcube::Q($this->plugin->gettext('headername')) . '</label><br>';
             $out .= html::tag('input', [
                     'type'  => 'text',
                     'name'  => "_action_addheader_name[$id]",
@@ -2671,7 +2671,7 @@ class rcube_sieve_engine
                     'size'  => 35,
                     'class' => $this->error_class($id, 'action', 'name', 'action_addheader_name'),
             ]);
-            $out .= '<br><label class="label" for="action_addheader_value' . $id .'">'. rcube::Q($this->plugin->gettext('headervalue')) .'</label><br>';
+            $out .= '<br><label class="label" for="action_addheader_value' . $id . '">' . rcube::Q($this->plugin->gettext('headervalue')) . '</label><br>';
             $out .= html::tag('input', [
                     'type'  => 'text',
                     'name'  => "_action_addheader_value[$id]",
@@ -2680,13 +2680,13 @@ class rcube_sieve_engine
                     'size'  => 35,
                     'class' => $this->error_class($id, 'action', 'value', 'action_addheader_value'),
             ]);
-            $out .= '<br><label class="label" for="action_addheader_pos' . $id .'">'. rcube::Q($this->plugin->gettext('headerpos')) .'</label><br>';
+            $out .= '<br><label class="label" for="action_addheader_pos' . $id . '">' . rcube::Q($this->plugin->gettext('headerpos')) . '</label><br>';
             $out .= $pos1_selector->show($action['pos']);
             $out .= '</div>';
 
             // deleteheader
-            $out .= '<div id="action_deleteheader' .$id.'" style="display:' .($action['type'] == 'deleteheader' ? 'inline' : 'none') .'" class="composite">';
-            $out .= '<label class="label" for="action_delheader_name' . $id .'">' .rcube::Q($this->plugin->gettext('headername')) . '</label><br>';
+            $out .= '<div id="action_deleteheader' . $id . '" style="display:' . ($action['type'] == 'deleteheader' ? 'inline' : 'none') . '" class="composite">';
+            $out .= '<label class="label" for="action_delheader_name' . $id . '">' . rcube::Q($this->plugin->gettext('headername')) . '</label><br>';
             $out .= html::tag('input', [
                     'type'  => 'text',
                     'name'  => "_action_delheader_name[$id]",
@@ -2695,22 +2695,22 @@ class rcube_sieve_engine
                     'size'  => 35,
                     'class' => $this->error_class($id, 'action', 'name', 'action_delheader_name'),
             ]);
-            $out .= '<br><label class="label" for="action_delheader_value' . $id .'">'. rcube::Q($this->plugin->gettext('headerpatterns')) .'</label><br>';
+            $out .= '<br><label class="label" for="action_delheader_value' . $id . '">' . rcube::Q($this->plugin->gettext('headerpatterns')) . '</label><br>';
             $out .= $this->list_input($id, 'action_delheader_value', $action['value'] ?? null,
                 null, false, ['class' => $this->error_class($id, 'action', 'value', 'action_delheader_value')]) . "\n";
             $out .= '<br><div class="adv input-group">';
             $out .= html::span('label input-group-prepend', html::label([
-                    'class' => 'input-group-text', 'for' => 'action_delheader_op'.$id,
+                    'class' => 'input-group-text', 'for' => 'action_delheader_op' . $id,
                 ], rcube::Q($this->plugin->gettext('headermatchtype'))));
             $out .= $this->match_type_selector('action_delheader_op', $id, $action['match-type'] ?? null, null, 'basic');
             $out .= '</div>';
             $out .= '<div class="adv input-group">';
             $out .= html::span('label input-group-prepend', html::label([
-                    'class' => 'input-group-text', 'for' => 'action_delheader_comp_op'.$id,
+                    'class' => 'input-group-text', 'for' => 'action_delheader_comp_op' . $id,
                 ], rcube::Q($this->plugin->gettext('comparator'))));
             $out .= $this->comparator_selector($action['comparator'] ?? null, 'action_delheader_comp', $id);
             $out .= '</div>';
-            $out .= '<br><label class="label" for="action_delheader_index' . $id .'">'. rcube::Q($this->plugin->gettext('headeroccurrence')) .'</label><br>';
+            $out .= '<br><label class="label" for="action_delheader_index' . $id . '">' . rcube::Q($this->plugin->gettext('headeroccurrence')) . '</label><br>';
             $out .= '<div class="input-group">';
             $out .= html::tag('input', [
                     'type'  => 'text',
@@ -2740,7 +2740,7 @@ class rcube_sieve_engine
                 'maxlength'  => 100,
                 'name'       => "_action_mailbox[$id]",
                 'id'         => "action_mailbox{$id}",
-                'style'      => 'display:'.(empty($action['type']) || $action['type'] == 'fileinto' ? 'inline' : 'none'),
+                'style'      => 'display:' . (empty($action['type']) || $action['type'] == 'fileinto' ? 'inline' : 'none'),
                 'additional' => $additional,
         ]);
         $out .= $select->show($mailbox);
@@ -2835,7 +2835,7 @@ class rcube_sieve_engine
             return;
         }
 
-        $script = rcmail_output::JS_OBJECT_NAME.'.managesieve_tip_register('.json_encode($this->tips).');';
+        $script = rcmail_output::JS_OBJECT_NAME . '.managesieve_tip_register(' . json_encode($this->tips) . ');';
         $this->rc->output->add_script($script, 'docready');
     }
 
@@ -2967,7 +2967,7 @@ class rcube_sieve_engine
             // get active script(s), read USER script
             if (!empty($user_script)) {
                 $extension = $this->rc->config->get('managesieve_filename_extension', '.sieve');
-                $filename_regex = '/'.preg_quote($extension, '/').'$/';
+                $filename_regex = '/' . preg_quote($extension, '/') . '$/';
                 $_SESSION['managesieve_user_script'] = $user_script;
 
                 $this->sieve->load($user_script);
@@ -2989,12 +2989,12 @@ class rcube_sieve_engine
             // create USER script if it doesn't exist
             else {
                 $content = "# USER Management Script\n"
-                    ."#\n"
-                    ."# This script includes the various active sieve scripts\n"
-                    ."# it is AUTOMATICALLY GENERATED. DO NOT EDIT MANUALLY!\n"
-                    ."#\n"
-                    ."# For more information, see http://wiki.kolab.org/KEP:14#USER\n"
-                    ."#\n";
+                    . "#\n"
+                    . "# This script includes the various active sieve scripts\n"
+                    . "# it is AUTOMATICALLY GENERATED. DO NOT EDIT MANUALLY!\n"
+                    . "#\n"
+                    . "# For more information, see http://wiki.kolab.org/KEP:14#USER\n"
+                    . "#\n";
 
                 if ($this->sieve->save_script('USER', $content)) {
                     $_SESSION['managesieve_user_script'] = 'USER';

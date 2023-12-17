@@ -227,11 +227,11 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     function test_unfold_flowed2()
     {
         $flowed   = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
-                    ."> \r\n"
-                    ."Sed ut perspiciatis unde omnis iste natus error \r\nsit voluptatem";
+                    . "> \r\n"
+                    . "Sed ut perspiciatis unde omnis iste natus error \r\nsit voluptatem";
         $unfolded = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
-                    ."> \r\n"
-                    ."Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
+                    . "> \r\n"
+                    . "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
 
         $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines [2]");
     }
@@ -242,9 +242,9 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     function test_unfold_flowed_delsp()
     {
         $flowed   = "そしてジョバンニはすぐうしろの天気輪の柱が \r\n"
-                    ."いつかぼんやりした三角標の形になって、しば \r\n"
-                    ."らく蛍のように、ぺかぺか消えたりともったり \r\n"
-                    ."しているのを見ました。";
+                    . "いつかぼんやりした三角標の形になって、しば \r\n"
+                    . "らく蛍のように、ぺかぺか消えたりともったり \r\n"
+                    . "しているのを見ました。";
         $unfolded = "そしてジョバンニはすぐうしろの天気輪の柱がいつかぼんやりした三角標の形になって、しばらく蛍のように、ぺかぺか消えたりともったりしているのを見ました。";
 
         $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed, null, true), "Test correct unfolding of flowed DelSp=Yes lines");

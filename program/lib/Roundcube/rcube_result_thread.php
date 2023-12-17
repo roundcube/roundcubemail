@@ -320,7 +320,7 @@ class rcube_result_thread
 
         $regexp = '/(' . preg_quote(self::SEPARATOR_ELEMENT, '/')
             . '|' . preg_quote(self::SEPARATOR_ITEM, '/') . '[0-9]+' . preg_quote(self::SEPARATOR_LEVEL, '/')
-            .')/';
+            . ')/';
 
         return preg_split($regexp, $this->raw_data);
     }
@@ -371,7 +371,7 @@ class rcube_result_thread
         // do we know the position of the element or the neighbour of it?
         if (!empty($this->meta['pos'])) {
             $element = preg_quote(self::SEPARATOR_ELEMENT, '/');
-            $item    = preg_quote(self::SEPARATOR_ITEM, '/') . '[0-9]+' . preg_quote(self::SEPARATOR_LEVEL, '/') .'?';
+            $item    = preg_quote(self::SEPARATOR_ITEM, '/') . '[0-9]+' . preg_quote(self::SEPARATOR_LEVEL, '/') . '?';
             $regexp  = '(' . $element . '|' . $item . ')';
 
             if (isset($this->meta['pos'][$index])) {
@@ -623,7 +623,7 @@ class rcube_result_thread
 
             foreach ($messages as $msg) {
                 if ($msg) {
-                    $node .= ($depth ? self::SEPARATOR_ITEM.$depth.self::SEPARATOR_LEVEL : '').$msg;
+                    $node .= ($depth ? self::SEPARATOR_ITEM . $depth . self::SEPARATOR_LEVEL : '') . $msg;
                     if (isset($this->meta['messages'])) {
                         $this->meta['messages']++;
                     }

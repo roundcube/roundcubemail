@@ -115,7 +115,7 @@ class rcube_base_replacer
                 }
             }
 
-            $abs_path = $base_url.'/'.$path;
+            $abs_path = $base_url . '/' . $path;
         }
 
         return $abs_path;

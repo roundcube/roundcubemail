@@ -513,7 +513,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         // redirect target
         $action_target = ' <span id="action_target_span" class="input-group"' . (!$redirect ? ' style="display:none"' : '') . '>'
             . '<input type="text" name="action_target" id="action_target"'
-            . ' value="' .($redirect ? rcube::Q($this->vacation['target'], 'strict', false) : '') . '"'
+            . ' value="' . ($redirect ? rcube::Q($this->vacation['target'], 'strict', false) : '') . '"'
             . (!empty($domain_select) ? ' size="20"' : ' size="35"') . '/>'
             . (!empty($domain_select) ? ' <span class="input-group-append input-group-prepend"><span class="input-group-text">@</span></span>'
                 . $domain_select->show(!empty($this->vacation['domain']) ? $this->vacation['domain'] : null) : '')
@@ -629,11 +629,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 $textexp = preg_replace('/\[ ([^\]]*)\]/', '0', $test['arg2']);
 
                 if (empty($result['from']) && preg_match($rx_from, $textexp, $matches)) {
-                    $result['from'] = $matches[1]." ".$matches[2]." ".$matches[3];
+                    $result['from'] = $matches[1] . " " . $matches[2] . " " . $matches[3];
                 }
 
                 if (preg_match($rx_to, $textexp, $matches)) {
-                    $result['to'] = $matches[1]." ".$matches[2]." ".$matches[3];
+                    $result['to'] = $matches[1] . " " . $matches[2] . " " . $matches[3];
                 }
             }
         }

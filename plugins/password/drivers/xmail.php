@@ -58,7 +58,7 @@ class rcube_xmail_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        if (!$xmail->send("userpasswd\t".$domain."\t".$user."\t".$newpass."\n")) {
+        if (!$xmail->send("userpasswd\t" . $domain . "\t" . $user . "\t" . $newpass . "\n")) {
             $xmail->close();
             rcube::raise_error([
                     'code' => 600,

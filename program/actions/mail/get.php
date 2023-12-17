@@ -44,7 +44,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
             header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
             echo "<html>\n<head>\n"
-                . '<meta http-equiv="refresh" content="0; url='.rcube::Q($url).'">' . "\n"
+                . '<meta http-equiv="refresh" content="0; url=' . rcube::Q($url) . '">' . "\n"
                 . '<meta http-equiv="content-type" content="text/html; charset=' . RCUBE_CHARSET . '">' . "\n"
                 . "</head>\n<body>\n$message\n</body>\n</html>";
             exit;
@@ -327,13 +327,13 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
         $table  = new html_table(['cols' => 2]);
 
-        $table->add('title', rcube::Q($rcmail->gettext('namex')).':');
+        $table->add('title', rcube::Q($rcmail->gettext('namex')) . ':');
         $table->add('header', rcube::Q(self::$attachment->filename));
 
-        $table->add('title', rcube::Q($rcmail->gettext('type')).':');
+        $table->add('title', rcube::Q($rcmail->gettext('type')) . ':');
         $table->add('header', rcube::Q(self::$attachment->mimetype));
 
-        $table->add('title', rcube::Q($rcmail->gettext('size')).':');
+        $table->add('title', rcube::Q($rcmail->gettext('size')) . ':');
         $table->add('header', rcube::Q(self::$attachment->size()));
 
         return $table->show($attrib);

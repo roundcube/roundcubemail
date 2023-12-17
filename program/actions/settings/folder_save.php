@@ -194,7 +194,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
                             }
                             else if (preg_match($oldprefix, $key)) {
                                 unset($a_threaded[$key]);
-                                $a_threaded[preg_replace($oldprefix, $folder['name'].$delimiter, $key)] = $val;
+                                $a_threaded[preg_replace($oldprefix, $folder['name'] . $delimiter, $key)] = $val;
                             }
                         }
                     }

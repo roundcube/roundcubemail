@@ -215,7 +215,7 @@ class Browser extends \Laravel\Dusk\Browser
 
         $this->script(
             "var element = jQuery('$selector')[0] || jQuery('input[name=$selector]')[0];"
-            ."element = jQuery(element).next('.custom-control-label'); $run;"
+            . "element = jQuery(element).next('.custom-control-label'); $run;"
         );
 
         return $this;

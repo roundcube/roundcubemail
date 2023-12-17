@@ -146,7 +146,7 @@ class emoticons extends rcube_plugin
         $map = [
             '/(?<!mailto):-?D/'   => self::ico_tag('1f603', ':D'), // laugh
             '/:-?\(/'             => self::ico_tag('1f626', ':('), // frown
-            '/'.$entity.';-?\)/'  => self::ico_tag('1f609', ';)'), // wink
+            '/' . $entity . ';-?\)/'  => self::ico_tag('1f609', ';)'), // wink
             '/8-?\)/'             => self::ico_tag('1f60e', '8)'), // cool
             '/(?<!mailto):-?O/i'  => self::ico_tag('1f62e', ':O'), // surprised
             '/(?<!mailto):-?P/i'  => self::ico_tag('1f61b', ':P'), // tongue out

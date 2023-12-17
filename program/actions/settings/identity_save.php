@@ -45,7 +45,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
         $save_data = [];
         foreach ($a_save_cols as $col) {
-            $fname = '_'.$col;
+            $fname = '_' . $col;
             if (isset($_POST[$fname])) {
                 $save_data[$col] = rcube_utils::get_input_string($fname, rcube_utils::INPUT_POST, true);
             }
@@ -143,7 +143,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 }
 
                 // update the changed col in list
-                $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) .'>';
+                $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) . '>';
                 $rcmail->output->command('parent.update_identity_row', $iid, rcube::Q(trim($name)));
             }
             else {
@@ -186,7 +186,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 }
 
                 // add a new row to the list
-                $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) .'>';
+                $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) . '>';
                 $rcmail->output->command('parent.update_identity_row', $insert_id, rcube::Q(trim($name)), true);
             }
             else {

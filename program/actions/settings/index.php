@@ -342,15 +342,15 @@ class rcmail_action_settings_index extends rcmail_action
                                         'alt'     => $skin,
                                         'width'   => 64,
                                         'height'  => 64,
-                                        'onerror' => "this.onerror = null; this.src = 'data:image/gif;base64," . rcmail_output::BLANK_GIF ."';",
+                                        'onerror' => "this.onerror = null; this.src = 'data:image/gif;base64," . rcmail_output::BLANK_GIF . "';",
                                 ]);
 
                                 $blocks['skin']['options'][$skin]['content'] = html::label(['class' => 'skinselection'],
-                                    html::span('skinitem', $input->show($config['skin'], ['value' => $skin, 'id' => $field_id.$skin])) .
+                                    html::span('skinitem', $input->show($config['skin'], ['value' => $skin, 'id' => $field_id . $skin])) .
                                     html::span('skinitem', $img) .
                                     html::span('skinitem', html::span('skinname', rcube::Q($skinname)) . html::br() .
                                         html::span('skinauthor', $author_link ? 'by ' . $author_link : '') . html::br() .
-                                        html::span('skinlicense', $license_link ? $rcmail->gettext('license').':&nbsp;' . $license_link : ''))
+                                        html::span('skinlicense', $license_link ? $rcmail->gettext('license') . ':&nbsp;' . $license_link : ''))
                                 );
                             }
                         }
@@ -1113,9 +1113,9 @@ class rcmail_action_settings_index extends rcmail_action
                         ]);
 
                         $select->add($rcmail->gettext('name'), 0);
-                        $select->add($rcmail->gettext('firstname') . ' '  . $rcmail->gettext('surname'), 1);
-                        $select->add($rcmail->gettext('surname')   . ' '  . $rcmail->gettext('firstname'), 2);
-                        $select->add($rcmail->gettext('surname')   . ', ' . $rcmail->gettext('firstname'), 3);
+                        $select->add($rcmail->gettext('firstname') . ' ' . $rcmail->gettext('surname'), 1);
+                        $select->add($rcmail->gettext('surname') . ' ' . $rcmail->gettext('firstname'), 2);
+                        $select->add($rcmail->gettext('surname') . ', ' . $rcmail->gettext('firstname'), 3);
 
                         $blocks['main']['options']['list_name_listing'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('listnamedisplay'))),
@@ -1783,7 +1783,7 @@ class rcmail_action_settings_index extends rcmail_action
     {
         // Add header with charset spec., washtml cannot work without that
         $html = '<html><head>'
-            . '<meta http-equiv="Content-Type" content="text/html; charset='.RCUBE_CHARSET.'" />'
+            . '<meta http-equiv="Content-Type" content="text/html; charset=' . RCUBE_CHARSET . '" />'
             . '</head><body>' . $html . '</body></html>';
 
         // clean HTML with washtml by Frederic Motte

@@ -617,7 +617,7 @@ class rcube_tnef_decoder
                         $hex = substr($text, $i + 2, 2);
 
                         if (self::_rtfIsPlain($stack[$j])) {
-                            $document .= html_entity_decode('&#' . hexdec($hex) .';');
+                            $document .= html_entity_decode('&#' . hexdec($hex) . ';');
                         }
 
                         //Shift the pointer.
@@ -676,7 +676,7 @@ class rcube_tnef_decoder
                             // If it does, we should remove the N characters from
                             // the output stream.
                             case 'u':
-                                $toText .= html_entity_decode('&#x' . dechex($param) .';');
+                                $toText .= html_entity_decode('&#x' . dechex($param) . ';');
                                 $ucDelta = @$stack[$j]['uc'];
                                 if ($ucDelta > 0) {
                                     $i += $ucDelta;

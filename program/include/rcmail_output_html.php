@@ -136,10 +136,10 @@ class rcmail_output_html extends rcmail_output
 EOF;
         // add common javascripts
         $this->add_script($lic, 'head_top');
-        $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
+        $this->add_script('var ' . self::JS_OBJECT_NAME . ' = new rcube_webmail();', 'head_top');
 
         // don't wait for page onload. Call init at the bottom of the page (delayed)
-        $this->add_script(self::JS_OBJECT_NAME.'.init();', 'docready');
+        $this->add_script(self::JS_OBJECT_NAME . '.init();', 'docready');
 
         $this->scripts_path = 'program/js/';
         $this->include_script('jquery.min.js');
@@ -485,7 +485,7 @@ EOF;
      */
     public function add_gui_object($obj, $id)
     {
-        $this->add_script(self::JS_OBJECT_NAME.".gui_object('$obj', '$id');");
+        $this->add_script(self::JS_OBJECT_NAME . ".gui_object('$obj', '$id');");
     }
 
     /**
@@ -803,7 +803,7 @@ EOF;
                     'code' => 404,
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => 'Error loading template for '.$realname,
+                    'message' => 'Error loading template for ' . $realname,
                 ], true, $write);
 
             $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
@@ -1892,7 +1892,7 @@ EOF;
             );
             $btn_content = sprintf('<img src="%s"%s />', $this->abs_url($attrib['image']), $attrib_str);
             if (!empty($attrib['label'])) {
-                $btn_content .= ' '.$attrib['label'];
+                $btn_content .= ' ' . $attrib['label'];
             }
             $link_attrib = ['href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target'];
         }
@@ -2136,10 +2136,10 @@ EOF;
                 $fpos = $npos;
             }
 
-            $output = substr_replace($output, $page_footer."\n", $fpos, 0);
+            $output = substr_replace($output, $page_footer . "\n", $fpos, 0);
         }
         else {
-            $output .= "\n".$page_footer;
+            $output .= "\n" . $page_footer;
         }
 
         // add css files in head, before scripts, for speed up with parallel downloads
@@ -2474,7 +2474,7 @@ EOF;
             return;
         }
 
-        $this->add_script('var images = ' . self::json_serialize($images, $this->devel_mode) .';
+        $this->add_script('var images = ' . self::json_serialize($images, $this->devel_mode) . ';
             for (var i=0; i<images.length; i++) {
                 img = new Image();
                 img.src = images[i];
@@ -2628,40 +2628,40 @@ EOF;
         }
 
         $charsets = [
-            'UTF-8'        => 'UTF-8 ('.$this->app->gettext('unicode').')',
-            'US-ASCII'     => 'ASCII ('.$this->app->gettext('english').')',
-            'ISO-8859-1'   => 'ISO-8859-1 ('.$this->app->gettext('westerneuropean').')',
-            'ISO-8859-2'   => 'ISO-8859-2 ('.$this->app->gettext('easterneuropean').')',
-            'ISO-8859-4'   => 'ISO-8859-4 ('.$this->app->gettext('baltic').')',
-            'ISO-8859-5'   => 'ISO-8859-5 ('.$this->app->gettext('cyrillic').')',
-            'ISO-8859-6'   => 'ISO-8859-6 ('.$this->app->gettext('arabic').')',
-            'ISO-8859-7'   => 'ISO-8859-7 ('.$this->app->gettext('greek').')',
-            'ISO-8859-8'   => 'ISO-8859-8 ('.$this->app->gettext('hebrew').')',
-            'ISO-8859-9'   => 'ISO-8859-9 ('.$this->app->gettext('turkish').')',
-            'ISO-8859-10'  => 'ISO-8859-10 ('.$this->app->gettext('nordic').')',
-            'ISO-8859-11'  => 'ISO-8859-11 ('.$this->app->gettext('thai').')',
-            'ISO-8859-13'  => 'ISO-8859-13 ('.$this->app->gettext('baltic').')',
-            'ISO-8859-14'  => 'ISO-8859-14 ('.$this->app->gettext('celtic').')',
-            'ISO-8859-15'  => 'ISO-8859-15 ('.$this->app->gettext('westerneuropean').')',
-            'ISO-8859-16'  => 'ISO-8859-16 ('.$this->app->gettext('southeasterneuropean').')',
-            'WINDOWS-1250' => 'Windows-1250 ('.$this->app->gettext('easterneuropean').')',
-            'WINDOWS-1251' => 'Windows-1251 ('.$this->app->gettext('cyrillic').')',
-            'WINDOWS-1252' => 'Windows-1252 ('.$this->app->gettext('westerneuropean').')',
-            'WINDOWS-1253' => 'Windows-1253 ('.$this->app->gettext('greek').')',
-            'WINDOWS-1254' => 'Windows-1254 ('.$this->app->gettext('turkish').')',
-            'WINDOWS-1255' => 'Windows-1255 ('.$this->app->gettext('hebrew').')',
-            'WINDOWS-1256' => 'Windows-1256 ('.$this->app->gettext('arabic').')',
-            'WINDOWS-1257' => 'Windows-1257 ('.$this->app->gettext('baltic').')',
-            'WINDOWS-1258' => 'Windows-1258 ('.$this->app->gettext('vietnamese').')',
-            'ISO-2022-JP'  => 'ISO-2022-JP ('.$this->app->gettext('japanese').')',
-            'ISO-2022-KR'  => 'ISO-2022-KR ('.$this->app->gettext('korean').')',
-            'ISO-2022-CN'  => 'ISO-2022-CN ('.$this->app->gettext('chinese').')',
-            'EUC-JP'       => 'EUC-JP ('.$this->app->gettext('japanese').')',
-            'EUC-KR'       => 'EUC-KR ('.$this->app->gettext('korean').')',
-            'EUC-CN'       => 'EUC-CN ('.$this->app->gettext('chinese').')',
-            'BIG5'         => 'BIG5 ('.$this->app->gettext('chinese').')',
-            'GB2312'       => 'GB2312 ('.$this->app->gettext('chinese').')',
-            'KOI8-R'       => 'KOI8-R ('.$this->app->gettext('cyrillic').')',
+            'UTF-8'        => 'UTF-8 (' . $this->app->gettext('unicode') . ')',
+            'US-ASCII'     => 'ASCII (' . $this->app->gettext('english') . ')',
+            'ISO-8859-1'   => 'ISO-8859-1 (' . $this->app->gettext('westerneuropean') . ')',
+            'ISO-8859-2'   => 'ISO-8859-2 (' . $this->app->gettext('easterneuropean') . ')',
+            'ISO-8859-4'   => 'ISO-8859-4 (' . $this->app->gettext('baltic') . ')',
+            'ISO-8859-5'   => 'ISO-8859-5 (' . $this->app->gettext('cyrillic') . ')',
+            'ISO-8859-6'   => 'ISO-8859-6 (' . $this->app->gettext('arabic') . ')',
+            'ISO-8859-7'   => 'ISO-8859-7 (' . $this->app->gettext('greek') . ')',
+            'ISO-8859-8'   => 'ISO-8859-8 (' . $this->app->gettext('hebrew') . ')',
+            'ISO-8859-9'   => 'ISO-8859-9 (' . $this->app->gettext('turkish') . ')',
+            'ISO-8859-10'  => 'ISO-8859-10 (' . $this->app->gettext('nordic') . ')',
+            'ISO-8859-11'  => 'ISO-8859-11 (' . $this->app->gettext('thai') . ')',
+            'ISO-8859-13'  => 'ISO-8859-13 (' . $this->app->gettext('baltic') . ')',
+            'ISO-8859-14'  => 'ISO-8859-14 (' . $this->app->gettext('celtic') . ')',
+            'ISO-8859-15'  => 'ISO-8859-15 (' . $this->app->gettext('westerneuropean') . ')',
+            'ISO-8859-16'  => 'ISO-8859-16 (' . $this->app->gettext('southeasterneuropean') . ')',
+            'WINDOWS-1250' => 'Windows-1250 (' . $this->app->gettext('easterneuropean') . ')',
+            'WINDOWS-1251' => 'Windows-1251 (' . $this->app->gettext('cyrillic') . ')',
+            'WINDOWS-1252' => 'Windows-1252 (' . $this->app->gettext('westerneuropean') . ')',
+            'WINDOWS-1253' => 'Windows-1253 (' . $this->app->gettext('greek') . ')',
+            'WINDOWS-1254' => 'Windows-1254 (' . $this->app->gettext('turkish') . ')',
+            'WINDOWS-1255' => 'Windows-1255 (' . $this->app->gettext('hebrew') . ')',
+            'WINDOWS-1256' => 'Windows-1256 (' . $this->app->gettext('arabic') . ')',
+            'WINDOWS-1257' => 'Windows-1257 (' . $this->app->gettext('baltic') . ')',
+            'WINDOWS-1258' => 'Windows-1258 (' . $this->app->gettext('vietnamese') . ')',
+            'ISO-2022-JP'  => 'ISO-2022-JP (' . $this->app->gettext('japanese') . ')',
+            'ISO-2022-KR'  => 'ISO-2022-KR (' . $this->app->gettext('korean') . ')',
+            'ISO-2022-CN'  => 'ISO-2022-CN (' . $this->app->gettext('chinese') . ')',
+            'EUC-JP'       => 'EUC-JP (' . $this->app->gettext('japanese') . ')',
+            'EUC-KR'       => 'EUC-KR (' . $this->app->gettext('korean') . ')',
+            'EUC-CN'       => 'EUC-CN (' . $this->app->gettext('chinese') . ')',
+            'BIG5'         => 'BIG5 (' . $this->app->gettext('chinese') . ')',
+            'GB2312'       => 'GB2312 (' . $this->app->gettext('chinese') . ')',
+            'KOI8-R'       => 'KOI8-R (' . $this->app->gettext('cyrillic') . ')',
         ];
 
         if ($post = rcube_utils::get_input_string('_charset', rcube_utils::INPUT_POST)) {

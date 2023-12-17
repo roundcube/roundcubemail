@@ -609,7 +609,7 @@ abstract class rcube_addressbook
     {
         $out = [];
         foreach ((array) $data as $c => $values) {
-            if ($c === $col || strpos($c, $col.':') === 0) {
+            if ($c === $col || strpos($c, $col . ':') === 0) {
                 if ($flat) {
                     $out = array_merge($out, (array) $values);
                 }
@@ -666,7 +666,7 @@ abstract class rcube_addressbook
             [$emailname] = explode('@', $email);
 
             if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match)) {
-                $fn = trim(ucfirst($match[1]).' '.ucfirst($match[2]));
+                $fn = trim(ucfirst($match[1]) . ' ' . ucfirst($match[2]));
             }
             else {
                 $fn = ucfirst($emailname);

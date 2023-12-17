@@ -45,7 +45,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
             $seen = [];
             foreach ($dicts as $lang) {
                 $lang  = preg_replace('/-.*$/', '', $lang);
-                $langc = strlen($lang) == 2 ? $lang.'_'.strtoupper($lang) : $lang;
+                $langc = strlen($lang) == 2 ? $lang . '_' . strtoupper($lang) : $lang;
 
                 if (empty($seen[$langc])) {
                     $langs[] = $lang;

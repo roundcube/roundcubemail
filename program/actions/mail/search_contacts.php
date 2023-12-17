@@ -96,7 +96,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
                 $emails = rcube_addressbook::get_col_values('email', $row, true);
 
                 foreach ($emails as $i => $email) {
-                    $row_id = $row['sourceid'].'-'.$row['ID'].'-'.$i;
+                    $row_id = $row['sourceid'] . '-' . $row['ID'] . '-' . $i;
 
                     $jsresult[$row_id] = format_email_recipient($email, $name);
 

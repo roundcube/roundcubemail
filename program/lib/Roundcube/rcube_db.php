@@ -272,8 +272,8 @@ class rcube_db
         $mode = preg_match('/^(select|show|set)/i', $query) ? 'r' : 'w';
 
         $start = '[' . $this->options['identifier_start'] . self::DEFAULT_QUOTE . ']';
-        $end   = '[' . $this->options['identifier_end']   . self::DEFAULT_QUOTE . ']';
-        $regex = '/(?:^|\s)(from|update|into|join)\s+'.$start.'?([a-z0-9._]+)'.$end.'?\s+/i';
+        $end   = '[' . $this->options['identifier_end'] . self::DEFAULT_QUOTE . ']';
+        $regex = '/(?:^|\s)(from|update|into|join)\s+' . $start . '?([a-z0-9._]+)' . $end . '?\s+/i';
 
         // find tables involved in this query
         if (preg_match_all($regex, $query, $matches, PREG_SET_ORDER)) {
@@ -476,7 +476,7 @@ class rcube_db
 
         // replace escaped '?' and quotes back to normal, see self::quote()
         $query = str_replace(
-            ['??', self::DEFAULT_QUOTE.self::DEFAULT_QUOTE],
+            ['??', self::DEFAULT_QUOTE . self::DEFAULT_QUOTE],
             ['?', self::DEFAULT_QUOTE],
             $query
         );
@@ -915,7 +915,7 @@ class rcube_db
 
             return strtr($this->dbh->quote($input, $type),
                 // escape ? and `
-                ['?' => '??', self::DEFAULT_QUOTE => self::DEFAULT_QUOTE.self::DEFAULT_QUOTE]
+                ['?' => '??', self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE]
             );
         }
 

@@ -241,7 +241,7 @@ class rcmail_utils
 
         if (!$db->is_error() && !$db->affected_rows()) {
             $db->query("INSERT INTO " . $system_table
-                ." (`name`, `value`) VALUES (?, ?)",
+                . " (`name`, `value`) VALUES (?, ?)",
                 $package . '-version', $version);
         }
 

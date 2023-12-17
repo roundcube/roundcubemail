@@ -289,7 +289,7 @@ class rcube_vcard
         foreach ($this->immap as $tag => $type) {
             if (!empty($this->raw[$tag])) {
                 foreach ((array) $this->raw[$tag] as $i => $raw) {
-                    $out['im:'.$type][] = $raw[0];
+                    $out['im:' . $type][] = $raw[0];
                 }
             }
         }
@@ -647,7 +647,7 @@ class rcube_vcard
      */
     private static function x_abrelatednames_callback($matches)
     {
-        return 'X-' . strtoupper($matches[5]) . $matches[3] . ':'. $matches[4];
+        return 'X-' . strtoupper($matches[5]) . $matches[3] . ':' . $matches[4];
     }
 
     /**
@@ -724,7 +724,7 @@ class rcube_vcard
             ) {
                 $prefix = $regs2[1];
                 foreach (explode(';', $regs2[2]) as $prop) {
-                    $prefix .= ';' . (strpos($prop, '=') ? $prop : 'TYPE='.$prop);
+                    $prefix .= ';' . (strpos($prop, '=') ? $prop : 'TYPE=' . $prop);
                 }
             }
 

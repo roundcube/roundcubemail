@@ -511,7 +511,7 @@ class rcmail_install
             $table = $this->config['db_prefix'] . $table;
 
             if (!in_array($table, $existing_tables)) {
-                $errors[] = "Missing table '".$table."'";
+                $errors[] = "Missing table '" . $table . "'";
             }
             else {  // compare cols
                 $db_cols = $db->list_cols($table);

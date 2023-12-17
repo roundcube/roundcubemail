@@ -348,7 +348,7 @@ class rcube
             $options['port']     = $_SESSION['storage_port'];
             $options['ssl']      = $_SESSION['storage_ssl'];
             $options['password'] = $this->decrypt($_SESSION['password']);
-            $_SESSION[$driver.'_host'] = $_SESSION['storage_host'];
+            $_SESSION[$driver . '_host'] = $_SESSION['storage_host'];
         }
 
         $options = $this->plugins->exec_hook("storage_init", $options);
@@ -662,14 +662,14 @@ class rcube
         // any of loaded domains (plugins)
         if ($domain == '*') {
             foreach ($this->plugins->loaded_plugins() as $domain) {
-                if (isset($this->texts[$domain.'.'.$name])) {
+                if (isset($this->texts[$domain . '.' . $name])) {
                     $ref_domain = $domain;
                     return true;
                 }
             }
         }
         // specified domain
-        else if ($domain && isset($this->texts[$domain.'.'.$name])) {
+        else if ($domain && isset($this->texts[$domain . '.' . $name])) {
             $ref_domain = $domain;
             return true;
         }
@@ -849,7 +849,7 @@ class rcube
             }
             // expand 'nn' to 'nn_NN'
             else if (!isset($rcube_languages[$short])) {
-                $lang = $short.'_'.strtoupper($short);
+                $lang = $short . '_' . strtoupper($short);
             }
         }
 
@@ -1564,7 +1564,7 @@ class rcube
         $diff = $now - $timer;
 
         if (empty($label)) {
-            $label = 'Timer '.$print_count;
+            $label = 'Timer ' . $print_count;
         }
 
         self::write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
@@ -1695,7 +1695,7 @@ class rcube
      */
     public function gen_message_id($sender = null)
     {
-        $local_part  = md5(uniqid('rcube'.mt_rand(), true));
+        $local_part  = md5(uniqid('rcube' . mt_rand(), true));
         $domain_part = '';
 
         if ($sender && preg_match('/@([^\s]+\.[a-z0-9-]+)/', $sender, $m)) {
@@ -1782,7 +1782,7 @@ class rcube
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
                         'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: ".$mime_result->getMessage(),
+                        'message' => "Could not create message: " . $mime_result->getMessage(),
                     ],
                     true, false
                 );

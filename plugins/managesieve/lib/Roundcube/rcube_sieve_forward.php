@@ -304,7 +304,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         // redirect target
         $action_target = '<span id="action_target_span" class="input-group">'
             . '<input type="text" name="action_target" id="action_target"'
-            . ' value="' .($redirect ? rcube::Q($this->forward['target'], 'strict', false) : '') . '"'
+            . ' value="' . ($redirect ? rcube::Q($this->forward['target'], 'strict', false) : '') . '"'
             . (!empty($domain_select) ? ' size="20"' : ' size="35"') . '/>'
             . (!empty($domain_select) ? ' <span class="input-group-prepend input-group-append"><span class="input-group-text">@</span></span> '
                 . $domain_select->show(!empty($this->forward['domain']) ? $this->forward['domain'] : null) : '')

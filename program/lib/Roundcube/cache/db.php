@@ -93,7 +93,7 @@ class rcube_cache_db extends rcube_cache
         $sql_result = $this->db->query(
             "SELECT `data`, `cache_key` FROM {$this->table} WHERE "
             . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-            ."`cache_key` = ?",
+            . "`cache_key` = ?",
             $this->prefix . '.' . $key);
 
         $data = null;
@@ -140,7 +140,7 @@ class rcube_cache_db extends rcube_cache
             $result = $this->db->query(
                 "DELETE FROM {$this->table} WHERE "
                 . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-                ."`cache_key` = ?",
+                . "`cache_key` = ?",
                 $db_key);
 
             return !$this->db->is_error($result);

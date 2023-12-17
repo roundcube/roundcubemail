@@ -174,7 +174,7 @@ abstract class rcmail_action
         $quota = self::quota_content($attrib);
 
         $rcmail->output->add_gui_object('quotadisplay', $attrib['id']);
-        $rcmail->output->add_script('rcmail.set_quota('.rcube_output::json_serialize($quota).');', 'docready');
+        $rcmail->output->add_script('rcmail.set_quota(' . rcube_output::json_serialize($quota) . ');', 'docready');
 
         return html::span($attrib, '&nbsp;');
     }
@@ -894,7 +894,7 @@ abstract class rcmail_action
         $form_start = $form_end = '';
 
         if (empty(self::$edit_form)) {
-            $request_key = $action . (isset($id) ? '.'.$id : '');
+            $request_key = $action . (isset($id) ? '.' . $id : '');
             $form_start = $rcmail->output->request_form([
                     'name'    => 'form',
                     'method'  => 'post',
@@ -1153,7 +1153,7 @@ abstract class rcmail_action
         }
 
         if (strlen($subFolders)) {
-            self::build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path.$delm);
+            self::build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path . $delm);
         }
     }
 
@@ -1175,7 +1175,7 @@ abstract class rcmail_action
         foreach ($arrFolders as $folder) {
             $title        = null;
             $folder_class = self::folder_classname($folder['id'], $folder['class'] ?? null);
-            $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
+            $is_collapsed = strpos($collapsed, '&' . rawurlencode($folder['id']) . '&') !== false;
             $unread       = 0;
             $realname     = $folder['realname'] ?? $realnames;
 

@@ -192,7 +192,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                 $table = new html_table(['cols' => 2]);
 
                 foreach ($fieldset['content'] as $col => $colprop) {
-                    $colprop['id'] = 'rcmfd_'.$col;
+                    $colprop['id'] = 'rcmfd_' . $col;
 
                     if (!empty($colprop['label'])) {
                         $label = $colprop['label'];

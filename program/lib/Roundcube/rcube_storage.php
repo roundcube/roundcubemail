@@ -521,7 +521,7 @@ abstract class rcube_storage
      */
     public function unset_flag($uids, $flag, $folder = null)
     {
-        return $this->set_flag($uids, 'UN'.$flag, $folder);
+        return $this->set_flag($uids, 'UN' . $flag, $folder);
     }
 
     /**

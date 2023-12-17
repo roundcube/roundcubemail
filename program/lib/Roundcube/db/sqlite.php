@@ -123,7 +123,7 @@ class rcube_db_sqlite extends rcube_db
     {
         if ($this->tables === null) {
             $q = $this->query('SELECT name FROM sqlite_master'
-                .' WHERE type = \'table\' ORDER BY name');
+                . ' WHERE type = \'table\' ORDER BY name');
 
             $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
         }

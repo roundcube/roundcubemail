@@ -240,7 +240,7 @@ class rcube_text2html
                 // do not touch blocks with more that X lines
                 if (substr_count($text, "\n", $sp) < $sig_max_lines) {
                     $text = substr($text, 0, max(0, $sp))
-                        .'<span class="sig">'.substr($text, $sp).'</span>';
+                        . '<span class="sig">' . substr($text, $sp) . '</span>';
                 }
 
                 break;
@@ -335,7 +335,7 @@ class rcube_text2html
             // trailing/leading spaces and multi-space inside
             $text = str_replace(' ', $nbsp, $text);
             // wrap in nobr element, so it's not wrapped on e.g. - or /
-            $text = $this->config['nobr_start'] . $text .  $this->config['nobr_end'];
+            $text = $this->config['nobr_start'] . $text . $this->config['nobr_end'];
         }
 
         return $text;

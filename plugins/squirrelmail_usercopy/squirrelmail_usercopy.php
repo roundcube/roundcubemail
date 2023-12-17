@@ -75,23 +75,23 @@ class squirrelmail_usercopy extends rcube_plugin
                     unset($ident_data);
                     $ident_data = ['name' => '', 'email' => '']; // required data
 
-                    if (!empty($this->prefs['full_name'.$i])) {
-                        $ident_data['name'] = $this->prefs['full_name'.$i];
+                    if (!empty($this->prefs['full_name' . $i])) {
+                        $ident_data['name'] = $this->prefs['full_name' . $i];
                     }
 
-                    if ($this->identities_level == 0 && !empty($this->prefs['email_address'.$i])) {
-                        $ident_data['email'] = $this->prefs['email_address'.$i];
+                    if ($this->identities_level == 0 && !empty($this->prefs['email_address' . $i])) {
+                        $ident_data['email'] = $this->prefs['email_address' . $i];
                     }
                     else {
                         $ident_data['email'] = $p['record']['email'];
                     }
 
-                    if (!empty($this->prefs['reply_to'.$i])) {
-                        $ident_data['reply-to'] = $this->prefs['reply_to'.$i];
+                    if (!empty($this->prefs['reply_to' . $i])) {
+                        $ident_data['reply-to'] = $this->prefs['reply_to' . $i];
                     }
 
-                    if (!empty($this->prefs['___sig'.$i.'___'])) {
-                        $ident_data['signature'] = $this->prefs['___sig'.$i.'___'];
+                    if (!empty($this->prefs['___sig' . $i . '___'])) {
+                        $ident_data['signature'] = $this->prefs['___sig' . $i . '___'];
                     }
 
                     // insert identity
@@ -173,7 +173,7 @@ class squirrelmail_usercopy extends rcube_plugin
         /* File based backend */
         if ($rcmail->config->get('squirrelmail_driver') == 'file' && ($srcdir = $rcmail->config->get('squirrelmail_data_dir'))) {
             if (($hash_level = $rcmail->config->get('squirrelmail_data_dir_hash_level')) > 0) {
-                $srcdir = slashify($srcdir).chunk_split(substr(base_convert(crc32($uname), 10, 16), 0, $hash_level), 1, '/');
+                $srcdir = slashify($srcdir) . chunk_split(substr(base_convert(crc32($uname), 10, 16), 0, $hash_level), 1, '/');
             }
             $file_charset = $rcmail->config->get('squirrelmail_file_charset');
             $prefsfile = slashify($srcdir) . $uname . '.pref';
@@ -197,9 +197,9 @@ class squirrelmail_usercopy extends rcube_plugin
                 if (isset($this->prefs['identities']) && $this->prefs['identities'] > 1) {
                     for ($i=1; $i < $this->prefs['identities']; $i++) {
                         // read signature file if exists
-                        if (is_readable($sigbase.$i)) {
-                            $sig = file_get_contents($sigbase.$i);
-                            $this->prefs['___sig'.$i.'___'] = $this->convert_charset($sig, $file_charset);
+                        if (is_readable($sigbase . $i)) {
+                            $sig = file_get_contents($sigbase . $i);
+                            $this->prefs['___sig' . $i . '___'] = $this->convert_charset($sig, $file_charset);
                         }
                     }
                 }
@@ -245,7 +245,7 @@ class squirrelmail_usercopy extends rcube_plugin
             }
 
             $sql_result = $db->query('SELECT * FROM ' . $db->quote_identifier($userprefs_table)
-                .' WHERE `user` = ?', $uname); // ? is replaced with emailaddress
+                . ' WHERE `user` = ?', $uname); // ? is replaced with emailaddress
 
             while ($sql_array = $db->fetch_assoc($sql_result)) { // fetch one row from result
                 $this->prefs[$sql_array['prefkey']] = rcube_charset::convert(rtrim($sql_array['prefval']), $db_charset);
@@ -253,7 +253,7 @@ class squirrelmail_usercopy extends rcube_plugin
 
             // retrieve address table data
             $sql_result = $db->query('SELECT * FROM ' . $db->quote_identifier($address_table)
-                .' WHERE `owner` = ?', $uname); // ? is replaced with emailaddress
+                . ' WHERE `owner` = ?', $uname); // ? is replaced with emailaddress
 
             // parse address book
             while ($sql_array = $db->fetch_assoc($sql_result)) { // fetch one row from result

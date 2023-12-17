@@ -186,7 +186,7 @@ class rcmail_oauth
         if (empty($config_uri)) {
             return;
         }
-        $key_cache = "discovery.".md5($config_uri);
+        $key_cache = "discovery." . md5($config_uri);
 
         try {
             $data = $this->cache ? $this->cache->get($key_cache) : null;
@@ -249,7 +249,7 @@ class rcmail_oauth
         }
 
         $jwks_uri = $this->options['jwks_uri'];
-        $key_cache = "jwks.".md5($jwks_uri);
+        $key_cache = "jwks." . md5($jwks_uri);
         $this->jwks = $this->cache ? $this->cache->get($key_cache) : null;
 
         if ($this->jwks !== null && $this->jwks['expires'] > time()) {

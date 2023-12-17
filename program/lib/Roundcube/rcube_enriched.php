@@ -81,7 +81,7 @@ class rcube_enriched
                 continue;
             }
 
-            $body = $a[1].'<span style="font-family: '.$a[2].'">'.$a[3].'</span>'.$a[4];
+            $body = $a[1] . '<span style="font-family: ' . $a[2] . '">' . $a[3] . '</span>' . $a[4];
         }
 
         return $body;
@@ -109,7 +109,7 @@ class rcube_enriched
             }
 
             // put it all together
-            $body = $a[1].'<span style="color: '.$color.'">'.$a[3].'</span>'.$a[4];
+            $body = $a[1] . '<span style="color: ' . $color . '">' . $a[3] . '</span>' . $a[4];
         }
 
         return $body;
@@ -128,10 +128,10 @@ class rcube_enriched
             $lines  = explode('<br>', $a[2]);
 
             foreach ($lines as $line) {
-                $quoted .= '&gt;'.$line.'<br>';
+                $quoted .= '&gt;' . $line . '<br>';
             }
 
-            $body = $a[1].'<span class="quotes">'.$quoted.'</span>'.$a[3];
+            $body = $a[1] . '<span class="quotes">' . $quoted . '</span>' . $a[3];
         }
 
         return $body;

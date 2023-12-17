@@ -1367,7 +1367,7 @@ class rcube_imap extends rcube_storage
             $result += 1;
             // get new message UIDs range, that can be used for example
             // to get the data of these messages
-            $diff['new'] = ($old['maxuid'] + 1 < $new['maxuid'] ? ($old['maxuid']+1).':' : '') . $new['maxuid'];
+            $diff['new'] = ($old['maxuid'] + 1 < $new['maxuid'] ? ($old['maxuid']+1) . ':' : '') . $new['maxuid'];
         }
 
         // some messages has been deleted
@@ -1748,7 +1748,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($this->options['skip_deleted'] && !preg_match('/UNDELETED/', $criteria)) {
-            $criteria = 'UNDELETED '.$criteria;
+            $criteria = 'UNDELETED ' . $criteria;
         }
 
         // unset CHARSET if criteria string is ASCII, this way
@@ -1986,7 +1986,7 @@ class rcube_imap extends rcube_storage
         // Example of structure for malformed MIME message:
         // ("text" "plain" NIL NIL NIL "7bit" 2154 70 NIL NIL NIL)
         if ($headers->ctype && !is_array($structure[0]) && $headers->ctype != 'text/plain'
-            && strtolower($structure[0].'/'.$structure[1]) == 'text/plain'
+            && strtolower($structure[0] . '/' . $structure[1]) == 'text/plain'
         ) {
             // A special known case "Content-type: text" (#1488968)
             if ($headers->ctype == 'text') {
@@ -2088,13 +2088,13 @@ class rcube_imap extends rcube_storage
                 }
             }
 
-            $struct->mimetype = 'multipart/'.$struct->ctype_secondary;
+            $struct->mimetype = 'multipart/' . $struct->ctype_secondary;
 
             // build parts list for headers pre-fetching
             for ($i=0; $i<count($part); $i++) {
                 // fetch message headers if message/rfc822 or named part
                 if (is_array($part[$i]) && !is_array($part[$i][0])) {
-                    $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
+                    $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i+1) : $i+1;
                     if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
                         $mime_part_headers[] = $tmp_part_id;
                     }
@@ -2117,7 +2117,7 @@ class rcube_imap extends rcube_storage
                 if (!is_array($part[$i])) {
                     break;
                 }
-                $tmp_part_id = $struct->mime_id ? $struct->mime_id.'.'.($i+1) : $i+1;
+                $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i+1) : $i+1;
                 $struct->parts[] = $this->structure_part($part[$i], ++$count, $struct->mime_id,
                     !empty($mime_part_headers[$tmp_part_id]) ? $mime_part_headers[$tmp_part_id] : null);
             }
@@ -2152,7 +2152,7 @@ class rcube_imap extends rcube_storage
         // regular part
         $struct->ctype_primary   = is_array($part[1]) ? 'multipart' : strtolower($part[0]);
         $struct->ctype_secondary = is_array($part[1]) ? strtolower($part[0]) : strtolower($part[1]);
-        $struct->mimetype        = $struct->ctype_primary.'/'.$struct->ctype_secondary;
+        $struct->mimetype        = $struct->ctype_primary . '/' . $struct->ctype_secondary;
 
         // read content type parameters
         if (is_array($part[$params_idx])) {
@@ -2341,7 +2341,7 @@ class rcube_imap extends rcube_storage
 
             $ctype       = $headers['content-type'] ?? '';
             $disposition = $headers['content-disposition'] ?? '';
-            $tokens      = preg_split('/;[\s\r\n\t]*/',  $ctype. ';' . $disposition);
+            $tokens      = preg_split('/;[\s\r\n\t]*/',  $ctype . ';' . $disposition);
 
             foreach ($tokens as $token) {
                 // TODO: Use order defined by the parameter name not order of occurrence in the header
@@ -3225,7 +3225,7 @@ class rcube_imap extends rcube_storage
      */
     protected function filter_rights($a_folders, $rights)
     {
-        $regex = '/('.$rights.')/';
+        $regex = '/(' . $rights . ')/';
 
         foreach ($a_folders as $idx => $folder) {
             if ($this->folder_namespace($folder) == 'personal') {
@@ -3412,9 +3412,9 @@ class rcube_imap extends rcube_storage
 
             // check if folder children are subscribed
             foreach ($a_subscribed as $c_subscribed) {
-                if (strpos($c_subscribed, $folder.$delm) === 0) {
+                if (strpos($c_subscribed, $folder . $delm) === 0) {
                     $this->conn->unsubscribe($c_subscribed);
-                    $this->conn->subscribe(preg_replace('/^'.preg_quote($folder, '/').'/',
+                    $this->conn->subscribe(preg_replace('/^' . preg_quote($folder, '/') . '/',
                         $new_name, $c_subscribed));
 
                     // clear cache
@@ -4510,7 +4510,7 @@ class rcube_imap extends rcube_storage
                 continue;
             }
 
-            if ($folder === null || strpos($name, $folder.$this->delimiter) === 0) {
+            if ($folder === null || strpos($name, $folder . $this->delimiter) === 0) {
                 $out[] = $name;
                 $list[$i] = null;
 
@@ -4674,7 +4674,7 @@ class rcube_imap extends rcube_storage
         if (!is_object($date) || !is_a($date, 'DateTime')) {
             try {
                 $timestamp = rcube_utils::strtotime($date);
-                $date      = new DateTime("@".$timestamp);
+                $date      = new DateTime("@" . $timestamp);
             }
             catch (Exception $e) {
                 return null;

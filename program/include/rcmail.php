@@ -945,7 +945,7 @@ class rcmail extends rcube
             $cookie_sessid   = $this->config->get('session_name') ?: 'roundcube_sessid';
             $cookie_sessauth = $this->config->get('session_auth_name') ?: 'roundcube_sessauth';
 
-            if (substr_count($cookie, $cookie_sessid.'=') > 1 || substr_count($cookie, $cookie_sessauth.'=') > 1) {
+            if (substr_count($cookie, $cookie_sessid . '=') > 1 || substr_count($cookie, $cookie_sessauth . '=') > 1) {
                 $log .= ". Cookies mismatch";
                 $error = 'cookiesmismatch';
             }
@@ -1225,11 +1225,11 @@ class rcmail extends rcube
                 $mem = round(memory_get_usage() / 1024 /1024, 1);
 
                 if (function_exists('memory_get_peak_usage')) {
-                    $mem .= '/'. round(memory_get_peak_usage() / 1024 / 1024, 1);
+                    $mem .= '/' . round(memory_get_peak_usage() / 1024 / 1024, 1);
                 }
             }
 
-            $log = $this->task . ($this->action ? '/'.$this->action : '') . (isset($mem) ? " [$mem]" : '');
+            $log = $this->task . ($this->action ? '/' . $this->action : '') . (isset($mem) ? " [$mem]" : '');
 
             if (defined('RCMAIL_START')) {
                 self::print_timer(RCMAIL_START, $log);
@@ -1633,7 +1633,7 @@ class rcmail extends rcube
             }
 
             try {
-                $date = new DateTime("@".$timestamp);
+                $date = new DateTime("@" . $timestamp);
             }
             catch (Exception $e) {
                 return '';
@@ -1699,7 +1699,7 @@ class rcmail extends rcube
             }
             // month name (long)
             else if ($format[$i] == 'F') {
-                $out .= $this->gettext('long'.strtolower(date('M', $timestamp)));
+                $out .= $this->gettext('long' . strtolower(date('M', $timestamp)));
             }
             else if ($format[$i] == 'x') {
                 $formatter = new IntlDateFormatter(null, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);

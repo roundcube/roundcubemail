@@ -76,9 +76,9 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
         $url .= sprintf('&key=%06d', !empty($_SESSION['user_id']) ? $_SESSION['user_id'] : 0);
 
         $gtext = '<?xml version="1.0" encoding="utf-8" ?>'
-            .'<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
-            .'<text>' . htmlspecialchars($text, ENT_QUOTES, RCUBE_CHARSET) . '</text>'
-            .'</spellrequest>';
+            . '<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
+            . '<text>' . htmlspecialchars($text, ENT_QUOTES, RCUBE_CHARSET) . '</text>'
+            . '</spellrequest>';
 
         try {
             $response = $client->post($url, [
