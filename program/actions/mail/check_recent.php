@@ -132,7 +132,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 if ($all_count && $page > 1) {
                     $remaining = $all_count - $page_size * ($page - 1);
                     if ($remaining <= 0) {
-                        $page -= 1;
+                        --$page;
                         $rcmail->storage->set_page($page);
                         $_SESSION['page'] = $page;
                     }

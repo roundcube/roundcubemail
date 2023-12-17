@@ -972,7 +972,7 @@ class rcube_vcard
                 $str = substr_replace($str, '', $pos, 1);
             }
 
-            $pos += 1;
+            ++$pos;
         }
 
         return $str;

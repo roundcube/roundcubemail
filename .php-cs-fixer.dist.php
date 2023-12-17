@@ -59,7 +59,6 @@ return (new PhpCsFixer\Config())
 
         // disable too destructive formating for now
         'declare_strict_types' => false,
-        'escape_implicit_backslashes' => false,
         'no_useless_else' => false,
         'phpdoc_no_empty_return' => false,
         'psr_autoloading' => false,
@@ -72,6 +71,7 @@ return (new PhpCsFixer\Config())
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
         'control_structure_continuation_position' => false,
+        'escape_implicit_backslashes' => false, // TODO fix after "single_quote" rule is fixed
         'explicit_indirect_variable' => false,
         'explicit_string_variable' => false,
         'general_phpdoc_annotation_remove' => false,
@@ -89,7 +89,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_summary' => false,
         'single_line_comment_spacing' => false,
         'single_quote' => false,
-        'standardize_increment' => false,
         'ternary_to_null_coalescing' => false,
         'visibility_required' => false,
 
