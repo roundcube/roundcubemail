@@ -90,7 +90,6 @@ return (new PhpCsFixer\Config())
         'new_with_parentheses' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
-        'no_empty_statement' => false,
         'no_extra_blank_lines' => false,
         'no_null_property_initialization' => false,
         'no_unneeded_control_parentheses' => false,

@@ -149,7 +149,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
 
                 foreach (rcube_storage::$folder_types as $type) {
                     $a_user_prefs[$type . '_mbox'] = rcube_utils::get_input_string('_' . $type . '_mbox', rcube_utils::INPUT_POST, true);
-                };
+                }
 
                 break;
 
