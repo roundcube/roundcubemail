@@ -2,8 +2,10 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in([__DIR__])
+    ->exclude(['vendor'])
+    ->ignoreDotFiles(false)
     ->name('*.php.dist')
-    ->exclude(['vendor']);
+    ->name('*.dist.php');
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
