@@ -150,7 +150,7 @@ class Actions_Mail_Index extends ActionTestCase
 
         $action->js_message_list([]);
 
-        $this->assertSame(false, $output->get_env('multifolder_listing'));
+        $this->assertFalse($output->get_env('multifolder_listing'));
         $commands = $output->getProperty('commands');
         $this->assertCount(1, $commands);
         $this->assertSame('set_message_coltypes', $commands[0][0]);
@@ -219,7 +219,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $action = new rcmail_action_mail_index;
 
-        $this->assertSame(null, $action->address_string(''));
+        $this->assertNull($action->address_string(''));
 
         $result = $action->address_string('test@domain.com');
         $expected = '<span class="adr"><span title="test@domain.com" class="rcmContactAddress">test@domain.com</span></span>';

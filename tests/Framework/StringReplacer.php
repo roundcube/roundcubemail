@@ -20,7 +20,7 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
     /**
      * Data for test_replace()
      */
-    function data_replace()
+    function data_replace(): iterable
     {
         return [
             ['http://domain.tld/path*path2', '<a href="http://domain.tld/path*path2">http://domain.tld/path*path2</a>'],
@@ -46,7 +46,7 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
             [' www.domain.tld/#!download|856p1|2 ', ' <a href="http://www.domain.tld/#!download|856p1|2">www.domain.tld/#!download|856p1|2</a> '],
             // #1489898: allow some unicode characters
             ['https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62',
-                '<a href="https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62">https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62</a>'
+                '<a href="https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62">https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62</a>',
             ],
         ];
     }

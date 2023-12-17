@@ -8,7 +8,9 @@ return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PhpCsFixer' => true,
+        '@PhpCsFixer:risky' => true,
         '@PHP74Migration' => true,
+        '@PHP74Migration:risky' => true,
 
         // required by PSR-12
         'concat_space' => [
@@ -53,26 +55,15 @@ return (new PhpCsFixer\Config())
         'use_arrow_functions' => false,
 
         // disable too destructive formating for now
+        'declare_strict_types' => false,
         'escape_implicit_backslashes' => false,
         'heredoc_to_nowdoc' => false,
         'no_useless_else' => false,
-        'no_useless_return' => false,
         'phpdoc_no_empty_return' => false,
-        'phpdoc_order' => false,
-        'phpdoc_var_annotation_correct_order' => false,
-        'protected_to_private' => false,
-        'simple_to_complex_string_variable' => false,
+        'psr_autoloading' => false,
         'single_line_comment_style' => false,
-
-        // enable some safe rules from @PHP71Migration:risky
-        'pow_to_exponentiation' => true,
-        'is_null' => true,
-        'modernize_types_casting' => true,
-        'dir_constant' => true,
-        'combine_nested_dirname' => true,
-        'non_printable_character' => [
-            'use_escape_sequences_in_strings' => true,
-        ],
+        'strict_comparison' => false,
+        'string_length_to_empty' => false,
 
         // TODO
         'align_multiline_comment' => false,
@@ -88,18 +79,15 @@ return (new PhpCsFixer\Config())
         'concat_space' => false,
         'constant_case' => false,
         'control_structure_continuation_position' => false,
-        'dir_constant' => false,
         'elseif' => false,
         'empty_loop_condition' => false,
         'explicit_indirect_variable' => false,
         'explicit_string_variable' => false,
         'function_declaration' => false,
         'general_phpdoc_annotation_remove' => false,
-        'global_namespace_import' => false,
         'heredoc_indentation' => false,
         'increment_style' => false,
         'integer_literal_case' => false,
-        'is_null' => false,
         'list_syntax' => false,
         'method_argument_space' => false,
         'method_chaining_indentation' => false,
@@ -113,18 +101,13 @@ return (new PhpCsFixer\Config())
         'no_empty_statement' => false,
         'no_extra_blank_lines' => false,
         'no_null_property_initialization' => false,
-        'no_superfluous_phpdoc_tags' => false,
         'no_unneeded_control_parentheses' => false,
         'no_useless_concat_operator' => false,
         'operator_linebreak' => false,
         'php_unit_method_casing' => false,
-        'phpdoc_align' => false,
         'phpdoc_annotation_without_dot' => false,
-        'phpdoc_no_alias_tag' => false,
         'phpdoc_no_package' => false,
-        'phpdoc_scalar' => false,
         'phpdoc_separation' => false,
-        'phpdoc_single_line_var_spacing' => false,
         'phpdoc_summary' => false,
         'phpdoc_to_comment' => false,
         'phpdoc_trim' => false,
@@ -135,9 +118,17 @@ return (new PhpCsFixer\Config())
         'single_trait_insert_per_statement' => false,
         'standardize_increment' => false,
         'ternary_to_null_coalescing' => false,
-        'trailing_comma_in_multiline' => false,
         'visibility_required' => false,
-        'yoda_style' => false,
+
+        // TODO - risky
+        'no_unset_on_property' => false,
+        'php_unit_data_provider_name' => false,
+        'php_unit_strict' => false,
+        'php_unit_test_case_static_method_calls' => false,
+        'random_api_migration' => false,
+        'self_accessor' => false,
+        'static_lambda' => false,
+        'strict_param' => false,
     ])
     ->setFinder($finder)
     ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer.' . md5(__DIR__) . '.cache');

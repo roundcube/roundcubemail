@@ -51,7 +51,7 @@ class rcube_gearman_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: Gearman authentication failed for user $username"
+                    'message' => "Password plugin: Gearman authentication failed for user $username",
                 ], true, false
             );
         }
@@ -60,7 +60,7 @@ class rcube_gearman_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: PECL Gearman module not loaded"
+                    'message' => "Password plugin: PECL Gearman module not loaded",
                 ], true, false
             );
         }

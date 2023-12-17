@@ -393,7 +393,7 @@ class rcube_message_header_sorter
     /**
      * Set the predetermined sort order.
      *
-     * @param array $index  Numerically indexed array of IMAP UIDs
+     * @param array $index Numerically indexed array of IMAP UIDs
      */
     function set_index($index)
     {

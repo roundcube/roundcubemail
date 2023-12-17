@@ -318,7 +318,7 @@ class rcube
         if (!class_exists($driver_class)) {
             self::raise_error([
                     'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Storage driver class ($driver) not found!"
+                    'message' => "Storage driver class ($driver) not found!",
                 ],
                 true, true
             );
@@ -923,7 +923,7 @@ class rcube
             self::raise_error([
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "Failed to encrypt data with configured cipher method: $method!"
+                    'message' => "Failed to encrypt data with configured cipher method: $method!",
                 ], true, false);
 
             return false;
@@ -1389,14 +1389,14 @@ class rcube
     /**
      * Throw system error, with optional logging and script termination.
      *
-     * @param array|Throwable|string|PEAR_Error $arg Error object, string or named parameters array:
-     *                                               - code:    Error code (required)
-     *                                               - type:    Error type: php, db, imap, etc.
-     *                                               - message: Error message
-     *                                               - file:    File where error occurred
-     *                                               - line:    Line where error occurred
-     * @param bool $log       True to log the error
-     * @param bool $terminate Terminate script execution
+     * @param array|Throwable|string|PEAR_Error $arg       Error object, string or named parameters array:
+     *                                                     - code:    Error code (required)
+     *                                                     - type:    Error type: php, db, imap, etc.
+     *                                                     - message: Error message
+     *                                                     - file:    File where error occurred
+     *                                                     - line:    Line where error occurred
+     * @param bool                              $log       True to log the error
+     * @param bool                              $terminate Terminate script execution
      */
     public static function raise_error($arg, $log = false, $terminate = false)
     {
@@ -1424,7 +1424,7 @@ class rcube
             $arg['code'] = 500;
         }
 
-        $cli = php_sapi_name() == 'cli';
+        $cli = PHP_SAPI == 'cli';
 
         $arg['cli'] = $cli;
         $arg['log'] = $log;
@@ -1721,15 +1721,15 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param Mail_mime    &$message    Reference to Mail_mime object
-     * @param string       $from        Sender address string
-     * @param array|string $mailto      Either a comma-separated list of recipients (RFC822 compliant),
-     *                                  or an array of recipients, each RFC822 valid
-     * @param array|string &$error      SMTP error array or (deprecated) string
-     * @param string       &$body_file  Location of file with saved message body,
-     *                                  used when delay_file_io is enabled
-     * @param array        $options     SMTP options (e.g. DSN request)
-     * @param bool         $disconnect  Close SMTP connection ASAP
+     * @param Mail_mime    &$message   Reference to Mail_mime object
+     * @param string       $from       Sender address string
+     * @param array|string $mailto     Either a comma-separated list of recipients (RFC822 compliant),
+     *                                 or an array of recipients, each RFC822 valid
+     * @param array|string &$error     SMTP error array or (deprecated) string
+     * @param string       &$body_file Location of file with saved message body,
+     *                                 used when delay_file_io is enabled
+     * @param array        $options    SMTP options (e.g. DSN request)
+     * @param bool         $disconnect Close SMTP connection ASAP
      *
      * @return bool Send status.
      */
@@ -1781,7 +1781,7 @@ class rcube
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
                         'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: ".$mime_result->getMessage()
+                        'message' => "Could not create message: ".$mime_result->getMessage(),
                     ],
                     true, false
                 );
@@ -1808,7 +1808,7 @@ class rcube
             self::raise_error([
                     'code' => 800, 'type' => 'smtp',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => implode("\n", $response)
+                    'message' => implode("\n", $response),
                 ], true, false);
 
             // allow plugins to catch sending errors with the same parameters as in 'message_before_send'

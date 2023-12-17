@@ -431,7 +431,7 @@ class rcube_config
         $plugin = $rcube->plugins->exec_hook('config_get', [
                 'name'    => $name,
                 'default' => $def,
-                'result'  => $result
+                'result'  => $result,
         ]);
 
         return $plugin['result'];
@@ -565,7 +565,7 @@ class rcube_config
         if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
             rcube::raise_error([
                     'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Request for unconfigured crypto key \"$key\""
+                    'message' => "Request for unconfigured crypto key \"$key\"",
                 ], true, true);
         }
 
@@ -599,7 +599,7 @@ class rcube_config
             else {
                 rcube::raise_error([
                         'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Invalid mail_header_delimiter setting"
+                        'message' => "Invalid mail_header_delimiter setting",
                     ], true, false);
             }
         }

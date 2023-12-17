@@ -218,7 +218,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             // Number of messages
             $form['props']['fieldsets']['info'] = [
                 'name'    => $rcmail->gettext('info'),
-                'content' => []
+                'content' => [],
             ];
 
             if ((!$options['noselect'] && !$options['is_root']) || $mbox == 'INBOX') {
@@ -249,7 +249,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
                 $form['props']['fieldsets']['info']['content']['count'] = [
                     'label' => $rcmail->gettext('messagecount'),
-                    'value' => $msgcount
+                    'value' => $msgcount,
                 ];
                 $form['props']['fieldsets']['info']['content']['size'] = [
                     'label' => $rcmail->gettext('size'),
@@ -261,7 +261,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             if (!empty($namespace['shared']) || !empty($namespace['others'])) {
                 $form['props']['fieldsets']['info']['content']['foldertype'] = [
                     'label' => $rcmail->gettext('foldertype'),
-                    'value' => $rcmail->gettext($options['namespace'] . 'folder')
+                    'value' => $rcmail->gettext($options['namespace'] . 'folder'),
                 ];
             }
         }
@@ -271,7 +271,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 'form'        => $form,
                 'options'     => $options,
                 'name'        => $mbox,
-                'parent_name' => $parent
+                'parent_name' => $parent,
         ]);
 
         $form = $plugin['form'];

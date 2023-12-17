@@ -31,7 +31,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail->shutdown();
     }
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $_GET     = [];
         $_POST    = [];

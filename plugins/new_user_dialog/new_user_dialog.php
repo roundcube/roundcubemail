@@ -59,7 +59,7 @@ class new_user_dialog extends rcube_plugin
                     'type'     => 'text',
                     'name'     => '_name',
                     'value'    => $identity['name'],
-                    'disabled' => $identities_level == 4
+                    'disabled' => $identities_level == 4,
                 ])
             );
 
@@ -69,7 +69,7 @@ class new_user_dialog extends rcube_plugin
                     'type'     => 'text',
                     'name'     => '_email',
                     'value'    => rcube_utils::idn_to_utf8($identity['email']),
-                    'disabled' => in_array($identities_level, [1, 3, 4])
+                    'disabled' => in_array($identities_level, [1, 3, 4]),
                 ])
             );
 
@@ -79,7 +79,7 @@ class new_user_dialog extends rcube_plugin
                     'type'     => 'text',
                     'name'     => '_organization',
                     'value'    => $identity['organization'],
-                    'disabled' => $identities_level == 4
+                    'disabled' => $identities_level == 4,
                 ])
             );
 
@@ -174,7 +174,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
             // execute hook
             $plugin = $rcmail->plugins->exec_hook('identity_update', [
                 'id' => $identity['identity_id'],
-                'record' => $save_data
+                'record' => $save_data,
             ]);
 
             if (!$plugin['abort']) {

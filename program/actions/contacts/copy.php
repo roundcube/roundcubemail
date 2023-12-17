@@ -87,7 +87,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                     $plugin = $rcmail->plugins->exec_hook('contact_create', [
                             'record' => $a_record,
                             'source' => $target,
-                            'group'  => $target_group
+                            'group'  => $target_group,
                     ]);
 
                     if (!$plugin['abort']) {
@@ -113,7 +113,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                 $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
                         'group_id' => $target_group,
                         'ids'      => $ids,
-                        'source'  => $target
+                        'source'  => $target,
                 ]);
 
                 if (!$plugin['abort']) {

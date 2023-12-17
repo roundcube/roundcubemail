@@ -45,12 +45,12 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
         $this->assertEquals($version, $object->ver);
     }
 
-    function versions()
+    function versions(): iterable
     {
         return $this->extractDataSet(['version']);
     }
 
-    function browsers()
+    function browsers(): iterable
     {
         return $this->extractDataSet(['isOpera', 'isChrome', 'isIE', 'isEdge', 'isSafari', 'isMZ']);
     }
@@ -150,7 +150,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
         ];
     }
 
-    function os()
+    function os(): iterable
     {
         return $this->extractDataSet(['isWin', 'isLinux', 'isUnix', 'isMac']);
     }
@@ -174,6 +174,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
 
     /**
      * @param string $useragent
+     *
      * @return rcube_browser
      */
     private function getBrowser($useragent)

@@ -40,7 +40,7 @@ if (PHP_MAJOR_VERSION < 8) {
 }
 
 // check these additional ini settings if not called via CLI
-if (php_sapi_name() != 'cli') {
+if (PHP_SAPI != 'cli') {
     $config += [
         'suhosin.session.encrypt' => false,
         'file_uploads'            => true,

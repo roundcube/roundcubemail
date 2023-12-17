@@ -264,7 +264,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
                 'method'  => 'post',
                 'task'    => 'settings',
                 'action'  => 'plugin.managesieve-forward',
-                'noclose' => true
+                'noclose' => true,
             ] + $attrib
         );
 

@@ -76,9 +76,9 @@ class rcube_addresses extends rcube_contacts
     /**
      * List the current set of contact records
      *
-     * @param  array $cols    List of cols to show, Null means all
-     * @param  int   $subset  Only return this number of records, use negative values for tail
-     * @param  bool  $nocount True to skip the count query (select only)
+     * @param array $cols    List of cols to show, Null means all
+     * @param int   $subset  Only return this number of records, use negative values for tail
+     * @param bool  $nocount True to skip the count query (select only)
      *
      * @return array Indexed list of contact records, each a hash array
      */

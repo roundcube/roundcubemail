@@ -33,7 +33,7 @@ class Framework_Config extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_config();
 
-        $this->assertSame(null, $object->get('test'));
+        $this->assertNull($object->get('test'));
         $this->assertSame('def', $object->get('test', 'def'));
 
         $object->set('test', 'val');
@@ -82,10 +82,10 @@ class Framework_Config extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_config();
 
-        $this->assertSame(true, invokeMethod($object, 'parse_env', ['true']));
+        $this->assertTrue(invokeMethod($object, 'parse_env', ['true']));
         $this->assertSame(1, invokeMethod($object, 'parse_env', ['1']));
         $this->assertSame(1.5, invokeMethod($object, 'parse_env', ['1.5']));
-        $this->assertSame(true, invokeMethod($object, 'parse_env', ['1', 'bool']));
+        $this->assertTrue(invokeMethod($object, 'parse_env', ['1', 'bool']));
         $this->assertSame(1.0, invokeMethod($object, 'parse_env', ['1', 'float']));
         $this->assertSame(1, invokeMethod($object, 'parse_env', ['1', 'int']));
         $this->assertSame('1', invokeMethod($object, 'parse_env', ['1', 'string']));

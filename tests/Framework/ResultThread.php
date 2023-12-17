@@ -25,14 +25,14 @@ class Framework_ResultThread extends PHPUnit\Framework\TestCase
         $text   = file_get_contents(__DIR__ . '/../src/imap_thread.txt');
         $object = new rcube_result_thread('INBOX', $text);
 
-        $this->assertSame(false, $object->is_empty(), "Object is empty");
-        $this->assertSame(false, $object->is_error(), "Object is error");
+        $this->assertFalse($object->is_empty(), "Object is empty");
+        $this->assertFalse($object->is_error(), "Object is error");
         $this->assertSame(1721, $object->max(), "Max message UID");
         $this->assertSame(1, $object->min(), "Min message UID");
         $this->assertSame(731, $object->count(), "Threads count");
         $this->assertSame(1721, $object->count_messages(), "Messages count");
         $this->assertSame(1691, $object->exists(1720, true), "Message exists");
-        $this->assertSame(true, $object->exists(1720), "Message exists (bool)");
+        $this->assertTrue($object->exists(1720), "Message exists (bool)");
         $this->assertSame(1, $object->get_element('FIRST'), "Get first element");
         $this->assertSame(1719, $object->get_element('LAST'), "Get last element");
         $this->assertSame(14, (int) $object->get_element(2), "Get specified element");
@@ -42,24 +42,24 @@ class Framework_ResultThread extends PHPUnit\Framework\TestCase
             4 => [
                 18 => [
                     39 => [
-                        100 => []
-                    ]
-                ]
+                        100 => [],
+                    ],
+                ],
             ],
             5 => [
                 6 => [],
                 8 => [
                     11 => [],
                     13 => [
-                        15 => []
+                        15 => [],
                     ],
-                    465 => []
+                    465 => [],
                 ],
-                209 => []
+                209 => [],
             ],
             19 => [
-                314 => []
-            ]
+                314 => [],
+            ],
         ];
 
         $this->assertSame([], $tree[1]);
@@ -97,16 +97,16 @@ class Framework_ResultThread extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_result_thread('INBOX', "* THREAD");
 
-        $this->assertSame(true, $object->is_empty(), "Object is empty");
-        $this->assertSame(false, $object->is_error(), "Object is error");
-        $this->assertSame(null, $object->max(), "Max message UID");
-        $this->assertSame(null, $object->min(), "Min message UID");
+        $this->assertTrue($object->is_empty(), "Object is empty");
+        $this->assertFalse($object->is_error(), "Object is error");
+        $this->assertNull($object->max(), "Max message UID");
+        $this->assertNull($object->min(), "Min message UID");
         $this->assertSame(0, $object->count(), "Threads count");
         $this->assertSame(0, $object->count_messages(), "Messages count");
-        $this->assertSame(false, $object->exists(1720, true), "Message exists");
-        $this->assertSame(false, $object->exists(1720), "Message exists (bool)");
-        $this->assertSame(null, $object->get_element('FIRST'), "Get first element");
-        $this->assertSame(null, $object->get_element('LAST'), "Get last element");
-        $this->assertSame(null, $object->get_element(2), "Get specified element");
+        $this->assertFalse($object->exists(1720, true), "Message exists");
+        $this->assertFalse($object->exists(1720), "Message exists (bool)");
+        $this->assertNull($object->get_element('FIRST'), "Get first element");
+        $this->assertNull($object->get_element('LAST'), "Get last element");
+        $this->assertNull($object->get_element(2), "Get specified element");
     }
 }

@@ -37,7 +37,7 @@ class rcube_ldap_exop_password extends rcube_ldap_simple_password
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "ldap_exop_passwd not supported"
+                    'message' => "ldap_exop_passwd not supported",
                 ],
                 true
             );

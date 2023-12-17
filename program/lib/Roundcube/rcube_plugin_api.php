@@ -145,7 +145,7 @@ class rcube_plugin_api
             if (!$loaded) {
                 rcube::raise_error([
                         'code' => 520, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Required plugin $plugin_name was not loaded"
+                        'message' => "Required plugin $plugin_name was not loaded",
                     ],
                     true, true
                 );
@@ -157,8 +157,8 @@ class rcube_plugin_api
      * Load the specified plugin
      *
      * @param string $plugin_name Plugin name
-     * @param bool   $force        Force loading of the plugin even if it doesn't match the filter
-     * @param bool   $require      Require loading of the plugin, error if it doesn't exist
+     * @param bool   $force       Force loading of the plugin even if it doesn't match the filter
+     * @param bool   $require     Require loading of the plugin, error if it doesn't exist
      *
      * @return bool True on success, false if not loaded or failure
      */
@@ -175,7 +175,7 @@ class rcube_plugin_api
         if (preg_match('/[^a-zA-Z0-9_-]/', $plugin_name)) {
             rcube::raise_error([
                     'code' => 520, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Invalid plugin name: $plugin_name"
+                    'message' => "Invalid plugin name: $plugin_name",
                 ],
                 true, false
             );
@@ -191,7 +191,7 @@ class rcube_plugin_api
                 if ($require) {
                     rcube::raise_error([
                             'code' => 520, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Failed to load plugin file $fn"
+                            'message' => "Failed to load plugin file $fn",
                         ],
                         true, false
                     );
@@ -208,7 +208,7 @@ class rcube_plugin_api
             if (!class_exists($plugin_name, false)) {
                 rcube::raise_error([
                         'code' => 520, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "No plugin class $plugin_name found in $fn"
+                        'message' => "No plugin class $plugin_name found in $fn",
                     ],
                     true, false
                 );
@@ -312,7 +312,7 @@ class rcube_plugin_api
         if (preg_match('/[^a-zA-Z0-9_-]/', $plugin_name)) {
             rcube::raise_error([
                     'code' => 520, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Invalid plugin name: $plugin_name"
+                    'message' => "Invalid plugin name: $plugin_name",
                 ],
                 true, false
             );
@@ -457,7 +457,7 @@ class rcube_plugin_api
                 rcube::raise_error([
                         'code' => 522, 'file' => __FILE__, 'line' => __LINE__,
                         'message' => "Deprecated hook name. "
-                            . $hook . ' -> ' . $this->deprecated_hooks[$hook]
+                            . $hook . ' -> ' . $this->deprecated_hooks[$hook],
                     ], true, false
                 );
                 $hook = $this->deprecated_hooks[$hook];
@@ -467,7 +467,7 @@ class rcube_plugin_api
         else {
             rcube::raise_error([
                     'code' => 521, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Invalid callback function for $hook"
+                    'message' => "Invalid callback function for $hook",
                 ],
                 true, false
             );
@@ -512,7 +512,7 @@ class rcube_plugin_api
         // TODO: avoid recursion by checking in_array($hook, $this->exec_stack) ?
 
         $args += ['abort' => false];
-        array_push($this->exec_stack, $hook);
+        $this->exec_stack[] = $hook;
 
         // Use for loop here, so handlers added in the hook will be executed too
         if (!empty($this->handlers[$hook])) {
@@ -558,7 +558,7 @@ class rcube_plugin_api
         else {
             rcube::raise_error([
                     'code' => 523, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Cannot register action $action; already taken by another plugin"
+                    'message' => "Cannot register action $action; already taken by another plugin",
                 ],
                 true, false
             );
@@ -579,7 +579,7 @@ class rcube_plugin_api
         else if (rcube::get_instance()->action != 'refresh') {
             rcube::raise_error([
                     'code' => 524, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "No handler found for action $action"
+                    'message' => "No handler found for action $action",
                 ],
                 true, true
             );
@@ -611,7 +611,7 @@ class rcube_plugin_api
             rcube::raise_error([
                     'code' => 525, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register template handler $name;"
-                        ." already taken by another plugin or no output object available"
+                        ." already taken by another plugin or no output object available",
                 ],
                 true, false
             );
@@ -635,7 +635,7 @@ class rcube_plugin_api
             rcube::raise_error([
                     'code' => 526, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Invalid task name: $task."
-                        ." Only characters [a-z0-9_.-] are allowed"
+                        ." Only characters [a-z0-9_.-] are allowed",
                 ],
                 true, false
             );
@@ -644,7 +644,7 @@ class rcube_plugin_api
             rcube::raise_error([
                     'code' => 526, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register task $task;"
-                        ." already taken by another plugin or the application itself"
+                        ." already taken by another plugin or the application itself",
                 ],
                 true, false
             );

@@ -79,7 +79,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             $plugin = $rcmail->plugins->exec_hook('attachment_from_uri', [
                     'attachment' => $attachment,
                     'uri'        => $uri,
-                    'compose_id' => self::$COMPOSE_ID
+                    'compose_id' => self::$COMPOSE_ID,
             ]);
 
             if ($plugin['attachment']) {
@@ -189,7 +189,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         if (!empty(self::$COMPOSE['deleteicon']) && is_file(self::$COMPOSE['deleteicon'])) {
             $button = html::img([
                     'src' => self::$COMPOSE['deleteicon'],
-                    'alt' => $rcmail->gettext('delete')
+                    'alt' => $rcmail->gettext('delete'),
             ]);
         }
         else if (!empty(self::$COMPOSE['textbuttons'])) {
@@ -238,7 +238,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                 'name'      => $attachment['name'],
                 'mimetype'  => $attachment['mimetype'],
                 'classname' => rcube_utils::file2class($attachment['mimetype'], $attachment['name']),
-                'complete'  => true
+                'complete'  => true,
             ],
             $uploadid
         );

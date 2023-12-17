@@ -44,7 +44,7 @@ class rcube_cpanel_password
         $userpwd = "$user:$curpas";
         $data    = [
             'email'    => password::username('%l'),
-            'password' => $newpass
+            'password' => $newpass,
         ];
 
         $response = $this->curl_auth_post($userpwd, $url, $data);

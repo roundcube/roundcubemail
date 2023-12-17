@@ -346,7 +346,7 @@ class rcube_result_index
     /**
      * Return result element at specified index
      *
-     * @param int|string  $index  Element's index or "FIRST" or "LAST"
+     * @param int|string $index Element's index or "FIRST" or "LAST"
      *
      * @return int|null Element value
      */

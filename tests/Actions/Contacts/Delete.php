@@ -27,7 +27,7 @@ class Actions_Contacts_Delete extends ActionTestCase
 
         $_POST = [
             '_cid'    => $cid,
-            '_source' => '0'
+            '_source' => '0',
         ];
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);

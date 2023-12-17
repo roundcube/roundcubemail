@@ -125,7 +125,7 @@ class rcube_imap extends rcube_storage
             rcube::raise_error([
                     'code' => 403, 'type' => 'imap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "OpenSSL not available"
+                    'message' => "OpenSSL not available",
                 ], true, false);
 
             $port = 143;
@@ -151,7 +151,7 @@ class rcube_imap extends rcube_storage
                 'host'    => $host,
                 'user'    => $user,
                 'attempt' => ++$attempt,
-                'retry'   => false
+                'retry'   => false,
             ];
 
             $data = $this->plugins->exec_hook('storage_connect', array_merge($this->options, $data));
@@ -195,7 +195,7 @@ class rcube_imap extends rcube_storage
 
             // trigger post-connect hook
             $this->plugins->exec_hook('storage_connected', [
-                    'host' => $host, 'user' => $user, 'session' => $session
+                    'host' => $host, 'user' => $user, 'session' => $session,
             ]);
 
             return true;
@@ -211,7 +211,7 @@ class rcube_imap extends rcube_storage
                 rcube::raise_error([
                         'code' => 403, 'type' => 'imap',
                         'file' => __FILE__, 'line' => __LINE__,
-                        'message' => $message
+                        'message' => $message,
                     ], true, false);
             }
         }
@@ -677,11 +677,11 @@ class rcube_imap extends rcube_storage
     /**
      * Get message count for a specific folder
      *
-     * @param string $folder  Folder name
-     * @param string $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
-     * @param bool   $force   Force reading from server and update cache
-     * @param bool   $status  Enables storing folder status info (max UID/count),
-     *                        required for folder_status()
+     * @param string $folder Folder name
+     * @param string $mode   Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
+     * @param bool   $force  Force reading from server and update cache
+     * @param bool   $status Enables storing folder status info (max UID/count),
+     *                       required for folder_status()
      *
      * @return int Number of messages
      */
@@ -872,11 +872,11 @@ class rcube_imap extends rcube_storage
     /**
      * protected method for listing message headers
      *
-     * @param   string   $folder     Folder name
-     * @param   int      $page       Current page to list
-     * @param   string   $sort_field Header field to sort by
-     * @param   string   $sort_order Sort order [ASC|DESC]
-     * @param   int      $slice      Number of slice items to extract from result array
+     * @param string $folder     Folder name
+     * @param int    $page       Current page to list
+     * @param string $sort_field Header field to sort by
+     * @param string $sort_order Sort order [ASC|DESC]
+     * @param int    $slice      Number of slice items to extract from result array
      *
      * @return array Indexed array with message header objects
      * @see rcube_imap::list_messages
@@ -993,10 +993,10 @@ class rcube_imap extends rcube_storage
     /**
      * protected method for fetching threaded messages headers
      *
-     * @param string              $folder     Folder name
-     * @param rcube_result_thread $threads    Threads data object
-     * @param int                 $page       List page number
-     * @param int                 $slice      Number of threads to slice
+     * @param string              $folder  Folder name
+     * @param rcube_result_thread $threads Threads data object
+     * @param int                 $page    List page number
+     * @param int                 $slice   Number of threads to slice
      *
      * @return array Messages headers
      */
@@ -1032,8 +1032,8 @@ class rcube_imap extends rcube_storage
      * protected method for setting threaded messages flags:
      * depth, has_children, unread_children, flagged_children
      *
-     * @param array               $headers  Reference to headers array indexed by message UID
-     * @param rcube_result_thread $threads  Threads data object
+     * @param array               $headers Reference to headers array indexed by message UID
+     * @param rcube_result_thread $threads Threads data object
      *
      * @return array Message headers array indexed by message UID
      */
@@ -1057,7 +1057,7 @@ class rcube_imap extends rcube_storage
                 }
             }
 
-            array_push($parents, $uid);
+            $parents[] = $uid;
 
             $headers[$uid]->depth            = $depth;
             $headers[$uid]->has_children     = !empty($msg_children[$uid]);
@@ -1259,9 +1259,9 @@ class rcube_imap extends rcube_storage
     /**
      * protected method for listing a set of threaded message headers (search results)
      *
-     * @param   string   $folder     Folder name
-     * @param   int      $page       Current page to list
-     * @param   int      $slice      Number of slice items to extract from result array
+     * @param string $folder Folder name
+     * @param int    $page   Current page to list
+     * @param int    $slice  Number of slice items to extract from result array
      *
      * @return array Indexed array with message header objects
      * @see rcube_imap::list_search_messages()
@@ -1282,10 +1282,10 @@ class rcube_imap extends rcube_storage
     /**
      * Fetches messages headers (by UID)
      *
-     * @param  string  $folder   Folder name
-     * @param  array   $msgs     Message UIDs
-     * @param  bool    $sort     Enables result sorting by $msgs
-     * @param  bool    $force    Disables cache use
+     * @param string $folder Folder name
+     * @param array  $msgs   Message UIDs
+     * @param bool   $sort   Enables result sorting by $msgs
+     * @param bool   $force  Disables cache use
      *
      * @return array Messages headers indexed by UID
      */
@@ -1380,9 +1380,9 @@ class rcube_imap extends rcube_storage
      * Stores folder statistic data in session
      * @TODO: move to separate DB table (cache?)
      *
-     * @param string $folder  Folder name
-     * @param string $name    Data name
-     * @param mixed  $data    Data value
+     * @param string $folder Folder name
+     * @param string $name   Data name
+     * @param mixed  $data   Data value
      */
     protected function set_folder_stats($folder, $name, $data)
     {
@@ -1535,7 +1535,7 @@ class rcube_imap extends rcube_storage
             }
 
             if (empty($index) || $index->is_error()) {
-                $index = $this->conn->index($folder, $search ? $search : "1:*",
+                $index = $this->conn->index($folder, $search ?: "1:*",
                     $sort_field, $this->options['skip_deleted'],
                     $search ? true : false, true);
             }
@@ -1610,12 +1610,12 @@ class rcube_imap extends rcube_storage
     /**
      * Invoke search request to IMAP server
      *
-     * @param  string  $folder     Folder name to search in
-     * @param  string  $search     Search criteria
-     * @param  string  $charset    Search charset
-     * @param  string  $sort_field Header field to sort by
+     * @param string $folder     Folder name to search in
+     * @param string $search     Search criteria
+     * @param string $charset    Search charset
+     * @param string $sort_field Header field to sort by
      *
-     * @return rcube_result_index  Search result object
+     * @return rcube_result_index Search result object
      * @todo: Search criteria should be provided in non-IMAP format, e.g. array
      */
     public function search($folder = '', $search = 'ALL', $charset = null, $sort_field = null)
@@ -1689,7 +1689,7 @@ class rcube_imap extends rcube_storage
      * @param string $folder Mailbox name to search in
      * @param string $str    Search string
      *
-     * @return rcube_result_index  Search result (UIDs)
+     * @return rcube_result_index Search result (UIDs)
      */
     public function search_once($folder = null, $str = 'ALL')
     {
@@ -1725,7 +1725,7 @@ class rcube_imap extends rcube_storage
      * @param string $charset    Charset
      * @param string $sort_field Sorting field
      *
-     * @return rcube_result_index|rcube_result_thread  Search results (UIDs)
+     * @return rcube_result_index|rcube_result_thread Search results (UIDs)
      * @see rcube_imap::search()
      */
     protected function search_index($folder, $criteria = 'ALL', $charset = null, $sort_field = null)
@@ -1795,11 +1795,11 @@ class rcube_imap extends rcube_storage
     /**
      * Converts charset of search criteria string
      *
-     * @param  string  $str          Search string
-     * @param  string  $charset      Original charset
-     * @param  string  $dest_charset Destination charset (default US-ASCII)
+     * @param string $str          Search string
+     * @param string $charset      Original charset
+     * @param string $dest_charset Destination charset (default US-ASCII)
      *
-     * @return string  Search string
+     * @return string Search string
      */
     public static function convert_criteria($str, $charset, $dest_charset = 'US-ASCII')
     {
@@ -2432,14 +2432,14 @@ class rcube_imap extends rcube_storage
     /**
      * Fetch message body of a specific message from the server
      *
-     * @param int                $uid       Message UID
-     * @param string             $part      Part number
-     * @param rcube_message_part $o_part    Part object created by get_structure()
-     * @param mixed              $print     True to print part, resource to write part contents in
-     * @param resource           $fp        File pointer to save the message part
+     * @param int                $uid               Message UID
+     * @param string             $part              Part number
+     * @param rcube_message_part $o_part            Part object created by get_structure()
+     * @param mixed              $print             True to print part, resource to write part contents in
+     * @param resource           $fp                File pointer to save the message part
      * @param bool               $skip_charset_conv Disables charset conversion
-     * @param int                $max_bytes Only read this number of bytes
-     * @param bool               $formatted Enables formatting of text/* parts bodies
+     * @param int                $max_bytes         Only read this number of bytes
+     * @param bool               $formatted         Enables formatting of text/* parts bodies
      *
      * @return string Message/part body if not printed
      */
@@ -2469,7 +2469,7 @@ class rcube_imap extends rcube_storage
         if ($o_part && ($o_part->size || $o_part->ctype_primary == 'multipart')) {
             $formatted = $formatted && $o_part->ctype_primary == 'text';
             $body = $this->conn->handlePartBody($this->folder, $uid, true,
-                $part ? $part : 'TEXT', $o_part->encoding, $print, $fp, $formatted, $max_bytes);
+                $part ?: 'TEXT', $o_part->encoding, $print, $fp, $formatted, $max_bytes);
         }
 
         if ($fp || $print) {
@@ -2894,13 +2894,13 @@ class rcube_imap extends rcube_storage
     /**
      * Public method for listing subscribed folders.
      *
-     * @param   string  $root      Optional root folder
-     * @param   string  $name      Optional name pattern
-     * @param   string  $filter    Optional filter
-     * @param   string  $rights    Optional ACL requirements
-     * @param   bool    $skip_sort Enable to return unsorted list (for better performance)
+     * @param string $root      Optional root folder
+     * @param string $name      Optional name pattern
+     * @param string $filter    Optional filter
+     * @param string $rights    Optional ACL requirements
+     * @param bool   $skip_sort Enable to return unsorted list (for better performance)
      *
-     * @return  array   List of folders
+     * @return array List of folders
      */
     public function list_folders_subscribed($root = '', $name = '*', $filter = null, $rights = null, $skip_sort = false)
     {
@@ -3030,11 +3030,11 @@ class rcube_imap extends rcube_storage
     /**
      * Get a list of all folders available on the server
      *
-     * @param string  $root      IMAP root dir
-     * @param string  $name      Optional name pattern
-     * @param mixed   $filter    Optional filter
-     * @param string  $rights    Optional ACL requirements
-     * @param bool    $skip_sort Enable to return unsorted list (for better performance)
+     * @param string $root      IMAP root dir
+     * @param string $name      Optional name pattern
+     * @param mixed  $filter    Optional filter
+     * @param string $rights    Optional ACL requirements
+     * @param bool   $skip_sort Enable to return unsorted list (for better performance)
      *
      * @return array Indexed array with folder names
      */
@@ -3561,8 +3561,8 @@ class rcube_imap extends rcube_storage
     /**
      * Checks if folder exists and is subscribed
      *
-     * @param string  $folder       Folder name
-     * @param bool    $subscription Enable subscription checking
+     * @param string $folder       Folder name
+     * @param bool   $subscription Enable subscription checking
      *
      * @return bool True or False
      */
@@ -3932,9 +3932,9 @@ class rcube_imap extends rcube_storage
     /**
      * Changes the ACL on the specified folder (SETACL)
      *
-     * @param string $folder  Folder name
-     * @param string $user    User name
-     * @param string $acl     ACL string
+     * @param string $folder Folder name
+     * @param string $user   User name
+     * @param string $acl    ACL string
      *
      * @return bool True on success, False on failure
      * @since 0.5-beta
@@ -3959,8 +3959,8 @@ class rcube_imap extends rcube_storage
      * specified user from the ACL for the specified
      * folder (DELETEACL)
      *
-     * @param string $folder  Folder name
-     * @param string $user    User name
+     * @param string $folder Folder name
+     * @param string $user   User name
      *
      * @return bool True on success, False on failure
      * @since 0.5-beta
@@ -4003,8 +4003,8 @@ class rcube_imap extends rcube_storage
      * Returns information about what rights can be granted to the
      * user (identifier) in the ACL for the folder (LISTRIGHTS)
      *
-     * @param string $folder  Folder name
-     * @param string $user    User name
+     * @param string $folder Folder name
+     * @param string $user   User name
      *
      * @return array List of user rights
      * @since 0.5-beta
@@ -4117,10 +4117,10 @@ class rcube_imap extends rcube_storage
     /**
      * Returns IMAP metadata/annotations (GETMETADATA/GETANNOTATION)
      *
-     * @param string  $folder   Folder name (empty for server metadata)
-     * @param array   $entries  Entries
-     * @param array   $options  Command options (with MAXSIZE and DEPTH keys)
-     * @param bool    $force    Disables cache use
+     * @param string $folder  Folder name (empty for server metadata)
+     * @param array  $entries Entries
+     * @param array  $options Command options (with MAXSIZE and DEPTH keys)
+     * @param bool   $force   Disables cache use
      *
      * @return array Metadata entry-value hash array on success, NULL on error
      * @since 0.5-beta
@@ -4271,9 +4271,9 @@ class rcube_imap extends rcube_storage
     /**
      * Clears the cache.
      *
-     * @param string  $key         Cache key name or pattern
-     * @param bool    $prefix_mode Enable it to clear all keys starting
-     *                             with prefix specified in $key
+     * @param string $key         Cache key name or pattern
+     * @param bool   $prefix_mode Enable it to clear all keys starting
+     *                            with prefix specified in $key
      */
     public function clear_cache($key = null, $prefix_mode = false)
     {

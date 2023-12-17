@@ -67,7 +67,7 @@ class rcube_cache_memcached extends rcube_cache
 
             rcube::raise_error([
                     'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to find Memcached. Make sure php-memcached is installed"
+                    'message' => "Failed to find Memcached. Make sure php-memcached is installed",
                 ],
                 true, true);
         }
@@ -114,7 +114,7 @@ class rcube_cache_memcached extends rcube_cache
 
             rcube::raise_error([
                     'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Memcache connection failure (code: $res_code)."
+                    'message' => "Memcache connection failure (code: $res_code).",
                 ],
                 true, false);
         }

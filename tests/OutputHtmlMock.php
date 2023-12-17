@@ -121,7 +121,7 @@ class OutputHtmlMock extends rcmail_output_html
      * @param bool   $exit  Exit script
      * @param bool   $write Don't write to stdout, return parsed content instead
      *
-     * @link http://php.net/manual/en/function.exit.php
+     * @see http://php.net/manual/en/function.exit.php
      */
     function parse($name = 'main', $exit = true, $write = true)
     {

@@ -22,7 +22,7 @@ class Actions_Settings_ResponseGet extends ActionTestCase
         $rcmail->user->save_prefs([
             'compose_responses_static' => [
                 ['name' => 'static 1', 'text' => 'Static Response One'],
-            ]
+            ],
         ]);
 
         self::initDB('responses');
@@ -43,7 +43,7 @@ class Actions_Settings_ResponseGet extends ActionTestCase
         $data = json_decode($m[1], true);
         $this->assertSame($responses[0]['id'], $data['id']);
         $this->assertSame('static 1', $data['name']);
-        $this->assertSame(true, $data['is_html']);
+        $this->assertTrue($data['is_html']);
         $this->assertSame('<div class="pre">Static Response One</div>', $data['data']);
 
         // Test unknown identifier
@@ -72,7 +72,7 @@ class Actions_Settings_ResponseGet extends ActionTestCase
         $data = json_decode($m[1], true);
         $this->assertSame($responses[2]['id'], $data['id']);
         $this->assertSame('response 2', $data['name']);
-        $this->assertSame(false, $data['is_html']);
+        $this->assertFalse($data['is_html']);
         $this->assertSame('test response 2', $data['data']);
     }
 }

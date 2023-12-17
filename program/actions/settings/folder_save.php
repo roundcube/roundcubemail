@@ -83,7 +83,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         if (empty($error) && $acl_supported && strlen($path) && (!strlen($old_imap) || $old_imap != $name_imap)) {
             $parent_opts = $storage->folder_info($path);
             if ($parent_opts['namespace'] != 'personal'
-                && (empty($parent_opts['rights']) || !preg_match('/[ck]/', implode($parent_opts['rights'])))
+                && (empty($parent_opts['rights']) || !preg_match('/[ck]/', implode('', $parent_opts['rights'])))
             ) {
                 $error = $rcmail->gettext('parentnotwritable');
             }

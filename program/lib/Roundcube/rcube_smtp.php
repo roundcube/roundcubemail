@@ -208,19 +208,19 @@ class rcube_smtp
     /**
      * Function for sending mail
      *
-     * @param string $from       Sender e-Mail address
+     * @param string $from Sender e-Mail address
      *
-     * @param mixed  $recipients Either a comma-separated list of recipients
-     *                           (RFC822 compliant), or an array of recipients,
-     *                           each RFC822 valid. This may contain recipients not
-     *                           specified in the headers, for Bcc:, resending
-     *                           messages, etc.
-     * @param mixed  $headers    The message headers to send with the mail
-     *                           Either as an associative array or a finally
-     *                           formatted string
-     * @param mixed  $body       The full text of the message body, including any Mime parts
-     *                           or file handle
-     * @param array  $opts       Delivery options (e.g. DSN request)
+     * @param mixed $recipients Either a comma-separated list of recipients
+     *                          (RFC822 compliant), or an array of recipients,
+     *                          each RFC822 valid. This may contain recipients not
+     *                          specified in the headers, for Bcc:, resending
+     *                          messages, etc.
+     * @param mixed $headers    The message headers to send with the mail
+     *                          Either as an associative array or a finally
+     *                          formatted string
+     * @param mixed $body       The full text of the message body, including any Mime parts
+     *                          or file handle
+     * @param array $opts       Delivery options (e.g. DSN request)
      *
      * @return bool True on success, or False on error
      */
@@ -429,10 +429,10 @@ class rcube_smtp
      * text usable in sending a message.
      *
      * @param array $headers The array of headers to prepare, in an associative
-     *              array, where the array key is the header name (ie,
-     *              'Subject'), and the array value is the header
-     *              value (ie, 'test'). The header produced from those
-     *              values would be 'Subject: test'.
+     *                       array, where the array key is the header name (ie,
+     *                       'Subject'), and the array value is the header
+     *                       value (ie, 'test'). The header produced from those
+     *                       values would be 'Subject: test'.
      *
      * @return mixed Returns false if it encounters a bad address,
      *               otherwise returns an array containing two
@@ -521,7 +521,7 @@ class rcube_smtp
                 if ($len && strpos($word, "@") > 0 && $word[$len-1] != '"') {
                     $word = preg_replace('/^<|>$/', '', $word);
                     if (!in_array($word, $addresses)) {
-                        array_push($addresses, $word);
+                        $addresses[] = $word;
                     }
                 }
             }

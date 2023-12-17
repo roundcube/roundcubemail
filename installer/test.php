@@ -102,7 +102,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 
 $dirs[] = !empty($RCI->config['temp_dir']) ? $RCI->config['temp_dir'] : 'temp';
 if ($RCI->config['log_driver'] != 'syslog') {
-    $dirs[] = $RCI->config['log_dir'] ? $RCI->config['log_dir'] : 'logs';
+    $dirs[] = $RCI->config['log_dir'] ?: 'logs';
 }
 
 foreach ($dirs as $dir) {
@@ -179,7 +179,7 @@ if ($db_working) {
     }
     else if ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
         $RCI->fail('DB Schema', "Database schema differs");
-        echo '<ul style="margin:0"><li>' . join("</li>\n<li>", $err) . "</li></ul>";
+        echo '<ul style="margin:0"><li>' . implode("</li>\n<li>", $err) . "</li></ul>";
 
         $select = $RCI->versions_select(['name' => 'version']);
         $select->add('0.9 or newer', '');
@@ -376,7 +376,7 @@ if (isset($_POST['sendmail'])) {
             $RCI->pass('SMTP send');
         }
         else {
-            $RCI->fail('SMTP send', join('; ', $smtp_response));
+            $RCI->fail('SMTP send', implode('; ', $smtp_response));
         }
     }
     else {

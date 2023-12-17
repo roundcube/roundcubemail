@@ -38,8 +38,8 @@ class Actions_Settings_PrefsSave extends ActionTestCase
 
         rcmail::get_instance()->config->set('test', null);
 
-        $this->assertSame(null, $action->prefs_input('unset', '/test/'));
+        $this->assertNull($action->prefs_input('unset', '/test/'));
         $this->assertSame('test', $action->prefs_input('test', '/^test/'));
-        $this->assertSame(null, $action->prefs_input('test', '/^a/'));
+        $this->assertNull($action->prefs_input('test', '/^a/'));
     }
 }

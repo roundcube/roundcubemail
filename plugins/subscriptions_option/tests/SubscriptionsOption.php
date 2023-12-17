@@ -59,7 +59,7 @@ class SubscriptionsOption_Plugin extends ActionTestCase
 
         $result = $plugin->prefs_save($args);
 
-        $this->assertSame(true, $result['prefs']['use_subscriptions']);
+        $this->assertTrue($result['prefs']['use_subscriptions']);
 
         $storage = $rcube->storage;
         $storage->registerFunction('clear_cache', true);
@@ -69,7 +69,7 @@ class SubscriptionsOption_Plugin extends ActionTestCase
 
         $result = $plugin->prefs_save($args);
 
-        $this->assertSame(false, $result['prefs']['use_subscriptions']);
+        $this->assertFalse($result['prefs']['use_subscriptions']);
         $this->assertCount(1, $storage->methodCalls);
         $this->assertSame('clear_cache', $storage->methodCalls[0]['name']);
         $this->assertSame(['mailboxes'], $storage->methodCalls[0]['args']);

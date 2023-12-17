@@ -113,11 +113,11 @@ abstract class rcube_output
     /**
      * Invoke display_message command
      *
-     * @param string  $message  Message to display
-     * @param string  $type     Message type [notice|confirm|error]
-     * @param array   $vars     Key-value pairs to be replaced in localized text
-     * @param bool    $override Override last set message
-     * @param int     $timeout  Message displaying time in seconds
+     * @param string $message  Message to display
+     * @param string $type     Message type [notice|confirm|error]
+     * @param array  $vars     Key-value pairs to be replaced in localized text
+     * @param bool   $override Override last set message
+     * @param int    $timeout  Message displaying time in seconds
      */
     abstract function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
 
@@ -291,8 +291,8 @@ abstract class rcube_output
     /**
      * Show error page and terminate script execution
      *
-     * @param int    $code     Error code
-     * @param string $message  Error message
+     * @param int    $code    Error code
+     * @param string $message Error message
      */
     public function raise_error($code, $message)
     {

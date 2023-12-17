@@ -23,7 +23,7 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->assertSame(403, $output->getProperty('errorCode'));
         $this->assertSame("Unauthorized request", $output->getProperty('errorMessage'));
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
 
         // Invalid url
         $_GET['_u'] = '****';
@@ -31,7 +31,7 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->assertSame(403, $output->getProperty('errorCode'));
         $this->assertSame("Unauthorized request", $output->getProperty('errorMessage'));
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
 
         // Valid url but not "registered"
         $url = 'https://raw.githubusercontent.com/roundcube/roundcubemail/master/aaaaaaaaaa';
@@ -42,7 +42,7 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->assertSame(403, $output->getProperty('errorCode'));
         $this->assertSame("Unauthorized request", $output->getProperty('errorMessage'));
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
 
         // Valid url pointing to non-existing resource
         $_SESSION['modcssurls'][$key] = $url;
@@ -51,7 +51,7 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->assertSame(404, $output->getProperty('errorCode'));
         $this->assertSame("Invalid response returned by server", $output->getProperty('errorMessage'));
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
 
         // Valid url pointing to an existing resource
         $url = 'https://raw.githubusercontent.com/roundcube/roundcubemail/master/program/resources/tinymce/content.css';
@@ -61,7 +61,7 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
-        $this->assertSame(null, $output->getProperty('errorCode'));
+        $this->assertNull($output->getProperty('errorCode'));
         $this->assertSame(['Content-Type: text/css'], $output->getProperty('headers'));
         $this->assertStringContainsString('#cid div.prefixpre', $output->getOutput());
     }

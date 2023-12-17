@@ -36,7 +36,7 @@ class rcube_ldap_ppolicy_password
         $descriptorspec = [
             0 => ["pipe", "r"], // stdin is a pipe that the child will read from
             1 => ["pipe", "w"], // stdout is a pipe that the child will write to
-            2 => ["pipe", "w"]  // stderr is a pipe that the child will write to
+            2 => ["pipe", "w"],  // stderr is a pipe that the child will write to
         ];
 
         $cmd = 'plugins/password/helpers/'. $cmd;
@@ -87,7 +87,7 @@ class rcube_ldap_ppolicy_password
                 default:
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Password plugin: Failed to execute command: $cmd. Output: $result. Error: $stderr"
+                            'message' => "Password plugin: Failed to execute command: $cmd. Output: $result. Error: $stderr",
                         ], true, false);
             }
         }

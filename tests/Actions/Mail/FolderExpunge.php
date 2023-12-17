@@ -73,7 +73,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
                 'display_message',
                 'Folder successfully compacted.',
                 'confirmation',
-                0
+                0,
             ],
             $commands[0]
         );

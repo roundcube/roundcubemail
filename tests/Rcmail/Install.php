@@ -56,7 +56,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $result = $install->db_schema_check($rcmail->get_dbh());
 
-        $this->assertSame(false, $result);
+        $this->assertFalse($result);
     }
 
     /**

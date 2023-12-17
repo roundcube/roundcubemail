@@ -79,7 +79,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             $plugin = $rcmail->plugins->exec_hook('contact_update', [
                     'id'     => $cid,
                     'record' => $a_record,
-                    'source' => $source
+                    'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
@@ -166,7 +166,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
             $plugin = $rcmail->plugins->exec_hook('contact_create', [
                     'record' => $a_record,
-                    'source' => $source
+                    'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
@@ -187,7 +187,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                     $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
                             'group_id' => $contacts->group_id,
                             'ids'      => $insert_id,
-                            'source'   => $source
+                            'source'   => $source,
                     ]);
 
                     if (!$plugin['abort']) {

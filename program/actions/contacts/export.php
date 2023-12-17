@@ -170,7 +170,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
 
             // append group names
             if ($groups) {
-                $vcard->set('groups', join(',', $groups), null);
+                $vcard->set('groups', implode(',', $groups), null);
             }
 
             $record['vcard'] = $vcard->export();

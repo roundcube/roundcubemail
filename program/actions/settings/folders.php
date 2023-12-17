@@ -82,13 +82,13 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             $foldersplit   = explode($delimiter, $folder);
             $name          = rcube_charset::convert(array_pop($foldersplit), 'UTF7-IMAP');
             $is_special    = isset($special_folders[$folder_id]);
-            $parent_folder = $is_special ? '' : join($delimiter, $foldersplit);
+            $parent_folder = $is_special ? '' : implode($delimiter, $foldersplit);
             $level         = $is_special ? 0 : count($foldersplit);
 
             // add any necessary "virtual" parent folders
             if ($parent_folder && empty($seen[$parent_folder])) {
                 for ($i = 1; $i <= $level; $i++) {
-                    $ancestor_folder = join($delimiter, array_slice($foldersplit, 0, $i));
+                    $ancestor_folder = implode($delimiter, array_slice($foldersplit, 0, $i));
                     if ($ancestor_folder) {
                         if (empty($seen[$ancestor_folder])) {
                             $seen[$ancestor_folder] = true;
@@ -209,13 +209,13 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 'folder'      => $folder_utf8,
                 'display'     => $display_folder,
                 'protected'   => $is_protected || !empty($folder['virtual']),
-                'class'       => join(' ', $classes),
+                'class'       => implode(' ', $classes),
                 'subscribed'  => $is_subscribed,
                 'level'       => $folder['level'],
                 'collapsed'   => $is_collapsed,
                 'content'     => html::a(['href' => '#'], $display_folder)
                     . $checkbox_subscribe->show(($is_subscribed ? $folder['id'] : ''),
-                        ['value' => $folder['id'], 'disabled' => $is_disabled ? 'disabled' : ''])
+                        ['value' => $folder['id'], 'disabled' => $is_disabled ? 'disabled' : '']),
             ];
         }
 
@@ -259,7 +259,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $content          = $data['content'];
         $attribs          = [
             'id'    => $idx,
-            'class' => trim($data['class'] . ' mailbox')
+            'class' => trim($data['class'] . ' mailbox'),
         ];
 
         if (!isset($data['level'])) {

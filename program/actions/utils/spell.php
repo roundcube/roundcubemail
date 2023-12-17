@@ -60,7 +60,7 @@ class rcmail_action_utils_spell extends rcmail_action
                     'code' => 500,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Spellcheck error: " . $error
+                    'message' => "Spellcheck error: " . $error,
                 ],
                 true,
                 false

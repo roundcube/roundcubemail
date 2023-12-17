@@ -73,7 +73,7 @@ class rcube_cache
             rcube::raise_error([
                     'code' => 600, 'type' => 'db',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Configuration error. Unsupported cache driver: $driver"
+                    'message' => "Configuration error. Unsupported cache driver: $driver",
                 ],
                 true, true
             );

@@ -52,7 +52,7 @@ class rcube_sasl_password
                 'code' => 600,
                 'file' => __FILE__,
                 'line' => __LINE__,
-                'message' => "Password plugin: Unable to execute $curdir/chgsaslpasswd"
+                'message' => "Password plugin: Unable to execute $curdir/chgsaslpasswd",
             ], true, false
         );
 

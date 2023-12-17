@@ -267,7 +267,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         $buttons = html::a([
                 'href'    => "#loadremote",
-                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote')"
+                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote')",
             ],
             rcube::Q($rcmail->gettext('allow'))
         );
@@ -279,7 +279,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $buttons .= ' ' . html::a([
                     'href'    => "#loadremotealways",
                     'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', $arg)",
-                    'style'   => "white-space:nowrap"
+                    'style'   => "white-space:nowrap",
                 ],
                 rcube::Q($rcmail->gettext(['name' => 'alwaysallow', 'vars' => ['sender' => self::$MESSAGE->sender['mailto']]]))
             );
@@ -336,7 +336,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             . '&nbsp;'
             . html::a([
                     'href'    => "#edit",
-                    'onclick' => rcmail_output::JS_OBJECT_NAME.".command('edit')"
+                    'onclick' => rcmail_output::JS_OBJECT_NAME.".command('edit')",
                 ],
                 rcube::Q($rcmail->gettext('edit'))
             );
@@ -401,7 +401,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     '_action' => 'photo',
                     '_email'  => self::$MESSAGE->sender['mailto'],
                     '_error'  => $error_handler ? 1 : null,
-                    '_bgcolor' => $attrib['bg-color'] ?? null
+                    '_bgcolor' => $attrib['bg-color'] ?? null,
             ]);
         }
         else {
@@ -627,7 +627,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $html .= html::div([
                 'class'   => "more-headers show-headers",
                 'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('show-headers','',this)",
-                'title'   => $rcmail->gettext('togglefullheaders')
+                'title'   => $rcmail->gettext('togglefullheaders'),
             ], '');
 
         $rcmail->output->add_gui_object('all_headers_row', 'all-headers');
@@ -788,7 +788,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                                 '%s.command(\'load-attachment\',\'%s\',this); return false',
                                 rcmail_output::JS_OBJECT_NAME,
                                 $attach_prop->mime_id
-                            )
+                            ),
                         ];
                         $download_link_attr = [
                             'href'  => $show_link_attr['href'] . '&_download=1',
