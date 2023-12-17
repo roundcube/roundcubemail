@@ -69,7 +69,6 @@ return (new PhpCsFixer\Config())
         'align_multiline_comment' => false,
         'array_indentation' => false,
         'backtick_to_shell_exec' => false,
-        'binary_operator_spaces' => false,
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
         'class_definition' => false,
