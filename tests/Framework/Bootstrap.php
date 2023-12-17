@@ -56,6 +56,8 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
             $result = parse_bytes($value);
             $this->assertEquals($expected, $result, "Invalid parse_bytes() result for $value");
         }
+
+        $this->assertSame(0.0, parse_bytes(null));
     }
 
     /**
