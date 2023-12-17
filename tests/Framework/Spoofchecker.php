@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_spoofchecker class
- *
- * @package Tests
  */
 class Framework_Spoofchecker extends PHPUnit\Framework\TestCase
 {

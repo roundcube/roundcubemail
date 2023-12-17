@@ -7,6 +7,7 @@
  * This driver use the PEAR Net_LDAP2 class (http://pear.php.net/package/Net_LDAP2).
  *
  * @version 2.0
+ *
  * @author Edouard MOREAU <edouard.moreau@ensma.fr>
  *
  * method hashPassword based on code from the phpLDAPadmin development team (http://phpldapadmin.sourceforge.net/).

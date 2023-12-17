@@ -9,6 +9,7 @@
  * For installation instructions please read the README file.
  *
  * @version 2.0
+ *
  * @author Andy Theuninck <gohanman@gmail.com)
  *
  * Based on chpasswd roundcubemail password driver by
@@ -47,9 +48,9 @@ class rcube_smb_password
         $cmd      = $bin . ' -r ' . escapeshellarg($host) . ' -s -U ' . escapeshellarg($username) . ' > ' . $tmpfile . ' 2>&1';
         $handle   = @popen($cmd, 'w');
 
-        fwrite($handle, $currpass."\n");
-        fwrite($handle, $newpass."\n");
-        fwrite($handle, $newpass."\n");
+        fwrite($handle, $currpass . "\n");
+        fwrite($handle, $newpass . "\n");
+        fwrite($handle, $newpass . "\n");
         @pclose($handle);
         $res = file($tmpfile);
         unlink($tmpfile);

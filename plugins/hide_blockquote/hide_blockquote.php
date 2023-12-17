@@ -38,7 +38,7 @@ class hide_blockquote extends rcube_plugin
             // set env variable for client
             $rcmail->output->set_env('blockquote_limit', $limit);
         }
-        else if ($rcmail->task == 'settings') {
+        elseif ($rcmail->task == 'settings') {
             $dont_override = $rcmail->config->get('dont_override', []);
             if (!in_array('hide_blockquote_limit', $dont_override)) {
                 $this->add_hook('preferences_list', [$this, 'prefs_table']);

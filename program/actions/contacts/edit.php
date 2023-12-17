@@ -124,7 +124,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             ],
         ];
 
-        list($form_start, $form_end) = self::get_form_tags($attrib);
+        [$form_start, $form_end] = self::get_form_tags($attrib);
         unset($attrib['form'], $attrib['name'], $attrib['size']);
 
         // return the address edit form
@@ -183,7 +183,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             ];
         }
 
-        list($form_start, $form_end) = self::get_form_tags($attrib);
+        [$form_start, $form_end] = self::get_form_tags($attrib);
         unset($attrib['form']);
 
         // return the complete address edit form as table
@@ -207,6 +207,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
     /**
      * similar function as in /steps/settings/edit_identity.inc
+     *
      * @todo: Use rcmail_action::get_form_tags()
      */
     public static function get_form_tags($attrib, $action = null, $id = null, $hidden = null)

@@ -9,6 +9,7 @@
  * For installation instructions please read the README file.
  *
  * @version 2.0
+ *
  * @author Andy Theuninck <gohanman@gmail.com)
  *
  * Based on chpasswd roundcubemail password driver by

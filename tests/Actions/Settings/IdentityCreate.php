@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_settings_identity_create
- *
- * @package Tests
  */
 class Actions_Settings_IdentityCreate extends ActionTestCase
 {

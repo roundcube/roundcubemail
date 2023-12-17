@@ -38,7 +38,7 @@ class rcmail_action_utils_error extends rcmail_action
                 . "\n" . $rcmail->gettext('errcontactserveradmin'));
         }
         // forbidden due to request check
-        else if ($ERROR_CODE == 403) {
+        elseif ($ERROR_CODE == 403) {
             if ($_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->request_status == rcube::REQUEST_ERROR_URL) {
                 $url = $rcmail->url($_GET, true, false, true);
                 $add = html::a($url, $rcmail->gettext('clicktoresumesession'));
@@ -51,7 +51,7 @@ class rcmail_action_utils_error extends rcmail_action
             $error_text  = nl2br($rcmail->gettext('errcsrfprotectionexplain')) . '<p>' . $add . '</p>';
         }
         // failed request (wrong step in URL)
-        else if ($ERROR_CODE == 404) {
+        elseif ($ERROR_CODE == 404) {
             $request_url = htmlentities($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
             $error_title = $rcmail->gettext('errnotfound');
             $error_text  = nl2br($rcmail->gettext('errnotfoundexplain')
@@ -60,12 +60,12 @@ class rcmail_action_utils_error extends rcmail_action
             $error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ": $request_url</i></p>";
         }
         // Gone, e.g. message cached but not in the storage
-        else if ($ERROR_CODE == 410) {
+        elseif ($ERROR_CODE == 410) {
             $error_title = $rcmail->gettext('servererror');
             $error_text  = $rcmail->gettext('messageopenerror');
         }
         // invalid compose ID
-        else if ($ERROR_CODE == 450 && $_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->action == 'compose') {
+        elseif ($ERROR_CODE == 450 && $_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->action == 'compose') {
             $url = $rcmail->url('compose');
 
             $error_title = $rcmail->gettext('errcomposesession');
@@ -73,12 +73,12 @@ class rcmail_action_utils_error extends rcmail_action
                 . '<p>' . html::a($url, $rcmail->gettext('clicktocompose')) . '</p>';
         }
         // database connection error
-        else if ($ERROR_CODE == 601) {
+        elseif ($ERROR_CODE == 601) {
             $error_title = "Configuration error";
             $error_text  =  nl2br($ERROR_MESSAGE) . "<br />Please read the INSTALL instructions!";
         }
         // database connection error
-        else if ($ERROR_CODE == 603) {
+        elseif ($ERROR_CODE == 603) {
             $error_title = $rcmail->gettext('dberror');
             $error_text  = nl2br($rcmail->gettext('dbconnerror') . "\n" . $rcmail->gettext('errcontactserveradmin'));
         }
@@ -113,9 +113,9 @@ class rcmail_action_utils_error extends rcmail_action
 
         // compose page content
         $page_content = '<div class="boxerror">'
-            .'<h3 class="error-title">' . mb_strtoupper($error_title) . '</h3>'
-            .'<div class="error-text">' . $error_text . '</div>'
-            .'</div>';
+            . '<h3 class="error-title">' . mb_strtoupper($error_title) . '</h3>'
+            . '<div class="error-text">' . $error_text . '</div>'
+            . '</div>';
 
         if ($rcmail->output && $rcmail->output->template_exists('error')) {
             $GLOBALS['__page_content'] = $page_content;

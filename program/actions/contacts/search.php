@@ -51,7 +51,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             $search = $search['data']['search'];
         }
         // get fields/values from advanced search form
-        else if ($adv) {
+        elseif ($adv) {
             foreach (array_keys($_POST) as $key) {
                 $s = trim(rcube_utils::get_input_string($key, rcube_utils::INPUT_POST, true));
                 if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
@@ -267,7 +267,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
                 if ($colprop['type'] == 'date') {
                     $colprop['class'] = (!empty($colprop['class']) ? $colprop['class'] . ' ' : '') . 'datepicker';
                 }
-                else if ($ftype == 'text') {
+                elseif ($ftype == 'text') {
                     $colprop['size'] = $i_size;
                 }
 

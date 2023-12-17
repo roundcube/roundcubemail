@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_addressbook class
- *
- * @package Tests
  */
 class Framework_Addressbook extends PHPUnit\Framework\TestCase
 {

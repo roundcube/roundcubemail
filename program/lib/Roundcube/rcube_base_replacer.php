@@ -20,9 +20,6 @@
 /**
  * Helper class to turn relative urls into absolute ones
  * using a predefined base
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_base_replacer
 {
@@ -115,7 +112,7 @@ class rcube_base_replacer
                 }
             }
 
-            $abs_path = $base_url.'/'.$path;
+            $abs_path = $base_url . '/' . $path;
         }
 
         return $abs_path;

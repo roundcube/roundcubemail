@@ -22,9 +22,6 @@
 
 /**
  * Abstract class to provide database supported session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 abstract class rcube_session implements SessionHandlerInterface
 {
@@ -51,6 +48,7 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Blocks session data from being written to database.
      * Can be used if write-race conditions are to be expected
+     *
      * @var bool
      */
     public $nowrite = false;
@@ -329,7 +327,7 @@ abstract class rcube_session implements SessionHandlerInterface
             $cache = null;
         }
         // use internal data for fast requests (up to 0.5 sec.)
-        else if ($key == $this->key && (!$this->vars || microtime(true) - $this->start < 0.5)) {
+        elseif ($key == $this->key && (!$this->vars || microtime(true) - $this->start < 0.5)) {
             $cache = $this->vars;
         }
         else { // else read data again
@@ -486,7 +484,7 @@ abstract class rcube_session implements SessionHandlerInterface
 
         if (is_array($vars)) {
             foreach ($vars as $var => $value) {
-                $data .= $var.'|'.serialize($value);
+                $data .= $var . '|' . serialize($value);
             }
         }
         else {
@@ -554,7 +552,7 @@ abstract class rcube_session implements SessionHandlerInterface
                             }
                             break;
                         case 'r': // reference
-                            $q+= 2;
+                            $q += 2;
                             for ($id = ''; ($q < $endptr) && ($str[$q] != ';'); $q++) {
                                 $id .= $str[$q];
                             }
@@ -566,12 +564,12 @@ abstract class rcube_session implements SessionHandlerInterface
                             }
                             break;
                         case 's': // string
-                            $q+=2;
-                            for ($length=''; ($q < $endptr) && ($str[$q] != ':'); $q++) {
+                            $q += 2;
+                            for ($length = ''; ($q < $endptr) && ($str[$q] != ':'); $q++) {
                                 $length .= $str[$q];
                             }
-                            $q+=2;
-                            $q+= (int) $length + 2;
+                            $q += 2;
+                            $q += (int) $length + 2;
                             $serialized .= substr($str, $p, $q - $p);
                             if ($level == 0) {
                                 break 2;

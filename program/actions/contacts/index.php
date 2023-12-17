@@ -448,7 +448,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 [
                     'href'    => '%s',
                     'rel'     => '%s',
-                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('list','%s',this)",
+                    'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('list','%s',this)",
                 ],
                 '%s'
             )
@@ -522,7 +522,7 @@ class rcmail_action_contacts_index extends rcmail_action
             html::a([
                     'href'    => '#',
                     'rel'     => 'S%s',
-                    'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('listsearch', '%s', this)",
+                    'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('listsearch', '%s', this)",
                 ],
                 '%s'
             )
@@ -566,14 +566,14 @@ class rcmail_action_contacts_index extends rcmail_action
                 html::a([
                         'href' => '#',
                         'rel' => '%s:%s',
-                        'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".command('listgroup',{'source':'%s','id':'%s'},this)",
+                        'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('listgroup',{'source':'%s','id':'%s'},this)",
                     ],
                     '%s'
                 )
             );
 
             // append collapse/expand toggle and open a new <ul>
-            $is_collapsed = strpos($rcmail->config->get('collapsed_abooks',''), '&'.rawurlencode($args['source']).'&') !== false;
+            $is_collapsed = strpos($rcmail->config->get('collapsed_abooks',''), '&' . rawurlencode($args['source']) . '&') !== false;
             $args['out'] .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
 
             foreach ($groups as $group) {
@@ -651,7 +651,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
             // build contact ID with source ID
             if (isset($row['sourceid'])) {
-                $row['ID'] = $row['ID'].'-'.$row['sourceid'];
+                $row['ID'] = $row['ID'] . '-' . $row['sourceid'];
                 $source_id = $row['sourceid'];
             }
 
@@ -886,7 +886,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                 foreach ($head_fields as $blockname => $colnames) {
                     $fields     = '';
-                    $block_attr = ['class' => $blockname  . (count($colnames) == 1 ? ' row' : '')];
+                    $block_attr = ['class' => $blockname . (count($colnames) == 1 ? ' row' : '')];
 
                     foreach ($colnames as $col) {
                         if ($col == 'source') {
@@ -897,7 +897,7 @@ class rcmail_action_contacts_index extends rcmail_action
                             if (!$edit_mode) {
                                 $record['source'] = $rcmail->gettext('addressbook') . ': ' . $source;
                             }
-                            else if ($rcmail->action == 'add') {
+                            elseif ($rcmail->action == 'add') {
                                 $record['source'] = $source;
                             }
                             else {
@@ -905,7 +905,7 @@ class rcmail_action_contacts_index extends rcmail_action
                             }
                         }
                         // skip cols unknown to the backend
-                        else if (empty($coltypes[$col])) {
+                        elseif (empty($coltypes[$col])) {
                             continue;
                         }
 
@@ -980,7 +980,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 }
 
                 $legend = !empty($fieldset['name']) ? html::tag('legend', null, rcube::Q($fieldset['name'])) : '';
-                $out   .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) ."\n";
+                $out   .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) . "\n";
                 continue;
             }
 
@@ -1030,7 +1030,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                     $rows = '';
 
-                    list($values, $subtypes) = self::contact_field_values($record, "$field:$subtype", $colprop);
+                    [$values, $subtypes] = self::contact_field_values($record, "$field:$subtype", $colprop);
 
                     foreach ($values as $i => $val) {
                         if (!empty($subtypes[$i])) {
@@ -1045,7 +1045,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         if ($colprop['type'] == 'composite') {
                             $row_class .= ' composite';
                             $composite  = [];
-                            $template   = $rcmail->config->get($col . '_template', '{'.implode('} {', array_keys($colprop['childs'])).'}');
+                            $template   = $rcmail->config->get($col . '_template', '{' . implode('} {', array_keys($colprop['childs'])) . '}');
                             $j = 0;
 
                             foreach ($colprop['childs'] as $childcol => $cp) {
@@ -1067,7 +1067,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                     }
 
                                     $cp_type = $cp['type'] ?? null;
-                                    $composite['{'.$childcol.'}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp_type) . ' ';
+                                    $composite['{' . $childcol . '}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp_type) . ' ';
                                 }
                                 else {
                                     if (!empty($cp['render_func'])) {
@@ -1098,7 +1098,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                 $val = html::div('content', str_replace('<br/>', '', $val));
                             }
                         }
-                        else if ($edit_mode) {
+                        elseif ($edit_mode) {
                             // call callback to render/format value
                             if (!empty($colprop['render_func'])) {
                                 $val = call_user_func($colprop['render_func'], $val, $col);
@@ -1127,10 +1127,10 @@ class rcmail_action_contacts_index extends rcmail_action
                                 $coltypes[$field]['count']++;
                             }
                         }
-                        else if (!empty($colprop['render_func'])) {
+                        elseif (!empty($colprop['render_func'])) {
                             $val = call_user_func($colprop['render_func'], $val, $col);
                         }
-                        else if (isset($colprop['options']) && isset($colprop['options'][$val])) {
+                        elseif (isset($colprop['options']) && isset($colprop['options'][$val])) {
                             $val = $colprop['options'][$val];
                         }
                         else {
@@ -1166,7 +1166,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                     $_label = html::div('contactfieldlabel label', $_label);
                                 }
                             }
-                            else if ($select_subtype) {
+                            elseif ($select_subtype) {
                                 $_label = $select_subtype->show($subtype);
                                 if (!$compact) {
                                     $_label = html::div('contactfieldlabel label', $_label);
@@ -1244,7 +1244,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
     public static function contact_field_values($record, $field_name, $colprop)
     {
-        list($field, $subtype) = explode(':', $field_name);
+        [$field, $subtype] = explode(':', $field_name);
 
         $subtypes = [];
         $values   = [];
@@ -1252,7 +1252,7 @@ class rcmail_action_contacts_index extends rcmail_action
         if (!empty($colprop['value'])) {
             $values = (array) $colprop['value'];
         }
-        else if (!empty($colprop['subtypes'])) {
+        elseif (!empty($colprop['subtypes'])) {
             // iterate over possible subtypes and collect values with their subtype
             $c_values = rcube_addressbook::get_col_values($field, $record);
 
@@ -1277,10 +1277,10 @@ class rcmail_action_contacts_index extends rcmail_action
                 }
             }
         }
-        else if (isset($record[$field_name])) {
+        elseif (isset($record[$field_name])) {
             $values = $record[$field_name];
         }
-        else if (isset($record[$field])) {
+        elseif (isset($record[$field])) {
             $values = $record[$field];
         }
 
@@ -1336,7 +1336,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 if (self::$contact['photo'] == '-del-') {
                     $record['photo'] = '';
                 }
-                else if (preg_match('/^[a-z0-9]+$/i', self::$contact['photo']) && $rcmail->get_uploaded_file(self::$contact['photo'])) {
+                elseif (preg_match('/^[a-z0-9]+$/i', self::$contact['photo']) && $rcmail->get_uploaded_file(self::$contact['photo'])) {
                     $record['photo'] = $file_id = self::$contact['photo'];
                 }
             }
@@ -1347,10 +1347,10 @@ class rcmail_action_contacts_index extends rcmail_action
         if (!empty($plugin['url'])) {
             $photo_img = $plugin['url'];
         }
-        else if (!empty($record['photo']) && preg_match('!^https?://!i', $record['photo'])) {
+        elseif (!empty($record['photo']) && preg_match('!^https?://!i', $record['photo'])) {
             $photo_img = $record['photo'];
         }
-        else if (!empty($record['photo'])) {
+        elseif (!empty($record['photo'])) {
             $url = ['_action' => 'photo', '_cid' => $record['ID'], '_source' => self::$SOURCE_ID];
             if (!empty($file_id)) {
                 $url['_photo'] = $ff_value = $file_id;
@@ -1472,15 +1472,15 @@ class rcmail_action_contacts_index extends rcmail_action
             if (!$got_source) {
                 if ($sep = strrpos($id, '-')) {
                     $contact_id = substr($id, 0, $sep);
-                    $source_id  = (string) substr($id, $sep+1);
+                    $source_id  = (string) substr($id, $sep + 1);
                     if (strlen($source_id)) {
                         $result[$source_id][] = $contact_id;
                     }
                 }
             }
             else {
-                if (substr($id, -($got_source+1)) === "-$source") {
-                    $id = substr($id, 0, -($got_source+1));
+                if (substr($id, -($got_source + 1)) === "-$source") {
+                    $id = substr($id, 0, -($got_source + 1));
                 }
                 $result[$source][] = $id;
             }

@@ -24,9 +24,6 @@ use GuzzleHttp\MessageFormatter;
 
 /**
  * Roundcube OAuth2 utilities
- *
- * @package    Webmail
- * @subpackage Utils
  */
 class rcmail_oauth
 {
@@ -186,7 +183,7 @@ class rcmail_oauth
         if (empty($config_uri)) {
             return;
         }
-        $key_cache = "discovery.".md5($config_uri);
+        $key_cache = "discovery." . md5($config_uri);
 
         try {
             $data = $this->cache ? $this->cache->get($key_cache) : null;
@@ -249,7 +246,7 @@ class rcmail_oauth
         }
 
         $jwks_uri = $this->options['jwks_uri'];
-        $key_cache = "jwks.".md5($jwks_uri);
+        $key_cache = "jwks." . md5($jwks_uri);
         $this->jwks = $this->cache ? $this->cache->get($key_cache) : null;
 
         if ($this->jwks !== null && $this->jwks['expires'] > time()) {
@@ -264,7 +261,7 @@ class rcmail_oauth
         if (!isset($this->jwks['keys'])) {
             $this->log_debug("incorrect jwks response from %s", $jwks_uri);
         }
-        else if ($this->cache) {
+        elseif ($this->cache) {
             // this is a hack because we cannot specify the TTL in the shared_cache
             // and cache must not be too high as the Identity Provider can rotate it's keys
             $this->jwks['expires'] = time() + self::JWKS_CACHE_TTL;
@@ -309,9 +306,9 @@ class rcmail_oauth
      */
     public function is_enabled()
     {
-        return !empty($this->options['provider']) &&
-            !empty($this->options['token_uri']) &&
-            !empty($this->options['client_id']);
+        return !empty($this->options['provider'])
+            && !empty($this->options['token_uri'])
+            && !empty($this->options['client_id']);
     }
 
     /**
@@ -373,7 +370,7 @@ class rcmail_oauth
     {
         $body = [];
 
-        list($headb64, $bodyb64, $cryptob64) = explode('.', $jwt);
+        [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
 
         $header = json_decode(static::base64url_decode($headb64), true);
         $body   = json_decode(static::base64url_decode($bodyb64), true);
@@ -409,10 +406,10 @@ class rcmail_oauth
         if (isset($body['azp']) && $body['azp'] !== $this->options['client_id']) {
             throw new RuntimeException('Failed to validate JWT: invalid azp value');
         }
-        else if (isset($body['aud']) && !in_array($this->options['client_id'], (array) $body['aud'])) {
+        elseif (isset($body['aud']) && !in_array($this->options['client_id'], (array) $body['aud'])) {
             throw new RuntimeException('Failed to validate JWT: invalid aud value');
         }
-        else if (!isset($body['azp']) && !isset($body['aud'])) {
+        elseif (!isset($body['azp']) && !isset($body['aud'])) {
             throw new RuntimeException('Failed to validate JWT: missing aud/azp value');
         }
 
@@ -450,6 +447,7 @@ class rcmail_oauth
      * Login action: redirect to `oauth_auth_uri`
      *
      * Authorization Request
+     *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.1
      *
      * @return void
@@ -779,7 +777,7 @@ class rcmail_oauth
      *
      * @return string the bearer authorization to use on different transports
      */
-    protected function parse_tokens($grant_type, &$data, $previous_data=null)
+    protected function parse_tokens($grant_type, &$data, $previous_data = null)
     {
         // TODO move it into to log_info ?
         $this->log_debug("received tokens from a grant request %s: session: %s with scope %s, "
@@ -1035,12 +1033,12 @@ class rcmail_oauth
             $oauth_handler = new rcmail_action_login_oauth();
             $oauth_handler->run();
         }
-        else if ($args['task'] == 'login' && $args['action'] == 'backchannel') {
+        elseif ($args['task'] == 'login' && $args['action'] == 'backchannel') {
             // handle oauth login requests
             $oauth_handler = new rcmail_action_login_oauth_backchannel();
             $oauth_handler->run();
         }
-        else if ($args['task'] == 'logout') {
+        elseif ($args['task'] == 'logout') {
             //handle only logout task
             $this->handle_logout();
         }
@@ -1049,7 +1047,6 @@ class rcmail_oauth
     }
 
     /**
-     *
      * Implement OpenID Connect RP-Initiated Logout 1.0
      *
      * will generate during the logout task the RP-initiated Logout URL and

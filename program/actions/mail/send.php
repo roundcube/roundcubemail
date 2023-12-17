@@ -34,7 +34,7 @@ class rcmail_action_mail_send extends rcmail_action
         $rcmail->output->framed = true;
 
         $COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GPC);
-        $COMPOSE    =&$_SESSION['compose_data_'.$COMPOSE_ID];
+        $COMPOSE    = &$_SESSION['compose_data_' . $COMPOSE_ID];
 
         // Sanity checks
         if (!isset($COMPOSE['id'])) {
@@ -124,8 +124,8 @@ class rcmail_action_mail_send extends rcmail_action
                     [
                         '',
                         ' id="signature"',
-                        '<blockquote type="cite" style="'.$b_style.'">',
-                        '<div class="pre" style="'.$pre_style.'">',
+                        '<blockquote type="cite" style="' . $b_style . '">',
+                        '<div class="pre" style="' . $pre_style . '">',
                         '<p><br /></p>',
                     ],
                     $message_body

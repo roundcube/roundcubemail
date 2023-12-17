@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing Memcached cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_memcached extends rcube_cache
 {
@@ -43,8 +40,8 @@ class rcube_cache_memcached extends rcube_cache
 
         // Maximum TTL is 30 days, bigger values are treated by Memcached
         // as unix timestamp which is not what we want
-        if ($this->ttl > 60*60*24*30) {
-            $this->ttl = 60*60*24*30;
+        if ($this->ttl > 60 * 60 * 24 * 30) {
+            $this->ttl = 60 * 60 * 24 * 30;
         }
 
         self::engine();
@@ -92,7 +89,7 @@ class rcube_cache_memcached extends rcube_cache
         if (!$pconnect || !count(self::$memcache->getServerList())) {
             foreach ((array) $hosts as $host) {
                 if (substr($host, 0, 7) != 'unix://') {
-                    list($host, $port) = explode(':', $host);
+                    [$host, $port] = explode(':', $host);
                     if (!$port) {
                         $port = 11211;
                     }

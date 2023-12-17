@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_contacts_save
- *
- * @package Tests
  */
 class Actions_Contacts_Save extends ActionTestCase
 {

@@ -23,9 +23,6 @@
 
 /**
  * Character sets conversion functionality
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_charset
 {
@@ -230,22 +227,22 @@ class rcube_charset
             $result = self::$aliases[$str];
         }
         // UTF
-        else if (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m)) {
+        elseif (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m)) {
             $result = 'UTF-' . $m[1] . (!empty($m[2]) ? $m[2] : '');
         }
         // ISO-8859
-        else if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
+        elseif (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
             $iso = 'ISO-8859-' . ($m[1] ?: 1);
             // some clients sends windows-1252 text as latin1,
             // it is safe to use windows-1252 for all latin1
             $result = $iso == 'ISO-8859-1' ? 'WINDOWS-1252' : $iso;
         }
         // handle broken charset names e.g. WINDOWS-1250HTTP-EQUIVCONTENT-TYPE
-        else if (preg_match('/(WIN|WINDOWS)([0-9]+)/', $str, $m)) {
+        elseif (preg_match('/(WIN|WINDOWS)([0-9]+)/', $str, $m)) {
             $result = 'WINDOWS-' . $m[2];
         }
         // LATIN
-        else if (preg_match('/LATIN(.*)/', $str, $m)) {
+        elseif (preg_match('/LATIN(.*)/', $str, $m)) {
             $aliases = ['2' => 2, '3' => 3, '4' => 4, '5' => 9, '6' => 10,
                 '7' => 13, '8' => 14, '9' => 15, '10' => 16,
                 'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8,
@@ -257,8 +254,8 @@ class rcube_charset
                 $result = 'WINDOWS-1252';
             }
             // we need ISO labels
-            else if (!empty($aliases[$m[1]])) {
-                $result = 'ISO-8859-'.$aliases[$m[1]];
+            elseif (!empty($aliases[$m[1]])) {
+                $result = 'ISO-8859-' . $aliases[$m[1]];
             }
         }
 
@@ -423,6 +420,7 @@ class rcube_charset
      * @param string $str Input string (UTF-7)
      *
      * @return string Converted string (UTF-8)
+     *
      * @deprecated use self::convert()
      */
     public static function utf7_to_utf8($str)
@@ -436,6 +434,7 @@ class rcube_charset
      * @param string $str Input string
      *
      * @return string The converted string
+     *
      * @deprecated use self::convert()
      */
     public static function utf16_to_utf8($str)
@@ -454,6 +453,7 @@ class rcube_charset
      * @param string $str Input string (UTF7-IMAP)
      *
      * @return string Output string (UTF-8)
+     *
      * @deprecated use self::convert()
      */
     public static function utf7imap_to_utf8($str)
@@ -469,6 +469,7 @@ class rcube_charset
      * @param string $str Input string (UTF-8)
      *
      * @return string Output string (UTF7-IMAP)
+     *
      * @deprecated use self::convert()
      */
     public static function utf8_to_utf7imap($str)
@@ -484,6 +485,7 @@ class rcube_charset
      * @param string $language User language
      *
      * @return string Charset name
+     *
      * @deprecated
      */
     public static function detect($string, $failover = null, $language = null)

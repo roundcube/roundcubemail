@@ -20,9 +20,6 @@
 
 /**
  * Helper class for spoofing detection.
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_spoofchecker
 {

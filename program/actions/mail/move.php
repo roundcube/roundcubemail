@@ -55,7 +55,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
             if ($mbox === $target) {
                 $count += is_array($uids) ? count($uids) : 1;
             }
-            else if ($rcmail->storage->move_message($uids, $target, $mbox)) {
+            elseif ($rcmail->storage->move_message($uids, $target, $mbox)) {
                 $count += is_array($uids) ? count($uids) : 1;
                 $sources[] = $mbox;
             }
@@ -154,7 +154,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         if ($mbox === $trash) {
             $rcmail->output->command('set_trash_count', $exists);
         }
-        else if ($target === $trash) {
+        elseif ($target === $trash) {
             $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash, 'EXISTS', true));
         }
 

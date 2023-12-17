@@ -22,7 +22,7 @@ class PrintTest extends \Tests\Browser\TestCase
             $browser->waitFor('#contacts-table tbody tr:first-child')
                 ->ctrlClick('#contacts-table tbody tr:first-child');
 
-            list($current_window, $new_window) = $browser->openWindow(function ($browser) {
+            [$current_window, $new_window] = $browser->openWindow(function ($browser) {
                 if ($browser->isPhone()) {
                     $this->markTestSkipped();
                 }

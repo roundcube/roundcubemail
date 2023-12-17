@@ -6,6 +6,7 @@
  * Driver to change passwords via vpopmaild
  *
  * @version 2.0
+ *
  * @author Johannes Hessellund
  *
  * Copyright (C) The Roundcube Dev Team
@@ -46,7 +47,7 @@ class rcube_vpopmaild_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $vpopmaild->writeLine("slogin ". $username . " " . $curpass);
+        $vpopmaild->writeLine("slogin " . $username . " " . $curpass);
         $result = $vpopmaild->readLine();
 
         if (!preg_match('/^\+OK/', $result)) {
@@ -55,8 +56,8 @@ class rcube_vpopmaild_password
             return PASSWORD_ERROR;
         }
 
-        $vpopmaild->writeLine("mod_user ". $username);
-        $vpopmaild->writeLine("clear_text_password ". $passwd);
+        $vpopmaild->writeLine("mod_user " . $username);
+        $vpopmaild->writeLine("clear_text_password " . $passwd);
         $vpopmaild->writeLine(".");
         $result = $vpopmaild->readLine();
         $vpopmaild->writeLine("quit");

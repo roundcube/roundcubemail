@@ -69,14 +69,14 @@ class MailTest extends \Tests\Browser\TestCase
             // Test archive class on folder in folder selector
             $browser->ctrlClick('#messagelist tbody tr')
                 ->clickToolbarMenuItem('more', null, false)
-                    ->with(new Popupmenu('message-menu'), function ($browser) {
-                        $browser->clickMenuItem('move');
-                    })
-                    ->with(new Popupmenu('folder-selector'), function ($browser) {
-                        $browser->assertVisible('li.archive')
-                            ->assertSeeIn('li.archive', 'Archive');
-                    })
-                    ->click(); // close menus
+                ->with(new Popupmenu('message-menu'), function ($browser) {
+                    $browser->clickMenuItem('move');
+                })
+                ->with(new Popupmenu('folder-selector'), function ($browser) {
+                    $browser->assertVisible('li.archive')
+                        ->assertSeeIn('li.archive', 'Archive');
+                })
+                ->click(); // close menus
         });
     }
 }

@@ -21,9 +21,6 @@
 /**
  * Logical representation of a vcard-based address record
  * Provides functions to parse and export vCard data format
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_vcard
 {
@@ -125,7 +122,7 @@ class rcube_vcard
             $this->raw = self::charset_convert($this->raw);
         }
         // vcard has encoded values and charset should be detected
-        else if (self::$values_decoded) {
+        elseif (self::$values_decoded) {
             if ($detect) {
                 $charset = self::detect_encoding(self::vcard_encode($this->raw));
             }
@@ -210,7 +207,7 @@ class rcube_vcard
                         if (!empty($typemap[$combined])) {
                             $subtype = $typemap[$combined];
                         }
-                        else if (!empty($typemap[$raw['type'][++$k]])) {
+                        elseif (!empty($typemap[$raw['type'][++$k]])) {
                             $subtype = $typemap[$raw['type'][$k]];
                         }
                         else {
@@ -272,7 +269,7 @@ class rcube_vcard
                         $out[$key][] = $value;
                     }
                     // support vCard v4 date format (YYYYMMDD)
-                    else if ($tag == 'BDAY' && preg_match('/^([12][90]\d\d)([01]\d)([0123]\d)$/', $raw[0], $m)) {
+                    elseif ($tag == 'BDAY' && preg_match('/^([12][90]\d\d)([01]\d)([0123]\d)$/', $raw[0], $m)) {
                         $out[$key][] = sprintf('%04d-%02d-%02d', intval($m[1]), intval($m[2]), intval($m[3]));
                     }
                     else {
@@ -289,7 +286,7 @@ class rcube_vcard
         foreach ($this->immap as $tag => $type) {
             if (!empty($this->raw[$tag])) {
                 foreach ((array) $this->raw[$tag] as $i => $raw) {
-                    $out['im:'.$type][] = $raw[0];
+                    $out['im:' . $type][] = $raw[0];
                 }
             }
         }
@@ -585,7 +582,7 @@ class rcube_vcard
 
                 $in_vcard_block = false;
             }
-            else if (preg_match('/^BEGIN:VCARD$/i', $line)) {
+            elseif (preg_match('/^BEGIN:VCARD$/i', $line)) {
                 $vcard_block    = $line . "\n";
                 $in_vcard_block = true;
             }
@@ -647,7 +644,7 @@ class rcube_vcard
      */
     private static function x_abrelatednames_callback($matches)
     {
-        return 'X-' . strtoupper($matches[5]) . $matches[3] . ':'. $matches[4];
+        return 'X-' . strtoupper($matches[5]) . $matches[3] . ':' . $matches[4];
     }
 
     /**
@@ -703,13 +700,13 @@ class rcube_vcard
         $lines  = explode("\n", $vcard);
         $result = [];
 
-        for ($i=0; $i < count($lines); $i++) {
+        for ($i = 0; $i < count($lines); $i++) {
             if (!($pos = strpos($lines[$i], ':'))) {
                 continue;
             }
 
             $prefix = substr($lines[$i], 0, $pos);
-            $data   = substr($lines[$i], $pos+1);
+            $data   = substr($lines[$i], $pos + 1);
 
             if (preg_match('/^(BEGIN|END)$/i', $prefix)) {
                 continue;
@@ -724,7 +721,7 @@ class rcube_vcard
             ) {
                 $prefix = $regs2[1];
                 foreach (explode(';', $regs2[2]) as $prop) {
-                    $prefix .= ';' . (strpos($prop, '=') ? $prop : 'TYPE='.$prop);
+                    $prefix .= ';' . (strpos($prop, '=') ? $prop : 'TYPE=' . $prop);
                 }
             }
 
@@ -736,7 +733,7 @@ class rcube_vcard
                 foreach ($regs2[1] as $attrid => $attr) {
                     $attr = preg_replace('/[\s\t\n\r\0\x0B]/', '', $attr);
 
-                    if ((@list($key, $value) = explode('=', $attr)) && $value) {
+                    if ((@[$key, $value] = explode('=', $attr)) && $value) {
                         if ($key == 'ENCODING') {
                             $value = strtoupper($value);
                             // add next line(s) to value string if QP line end detected
@@ -759,7 +756,7 @@ class rcube_vcard
                             }
                         }
                     }
-                    else if ($attrid > 0) {
+                    elseif ($attrid > 0) {
                         $entry[strtolower($key)] = true;  // true means attr without =value
                     }
                 }
@@ -775,7 +772,7 @@ class rcube_vcard
 
                     $data = self::decode_value($data, $enc ?: 'base64');
                 }
-                else if ($field == 'PHOTO') {
+                elseif ($field == 'PHOTO') {
                     // vCard 4.0 data URI, "PHOTO:data:image/jpeg;base64,..."
                     if (preg_match('/^data:[a-z\/_-]+;base64,/i', $data, $m)) {
                         $entry['encoding'] = $enc = 'B';
@@ -863,7 +860,7 @@ class rcube_vcard
                             }
                             $value[] = $attrvalues;
                         }
-                        else if (is_bool($attrvalues)) {
+                        elseif (is_bool($attrvalues)) {
                             // true means just a tag, not tag=value, as in PHOTO;BASE64:...
                             if ($attrvalues) {
                                 // vCard v3 uses ENCODING=b (#1489183)

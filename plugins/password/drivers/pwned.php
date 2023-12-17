@@ -35,6 +35,7 @@
  * https://www.troyhunt.com/ive-just-launched-pwned-passwords-version-2/#cloudflareprivacyandkanonymity
  *
  * @version 1.0
+ *
  * @author Christoph Langguth
  *
  * Copyright (C) The Roundcube Dev Team
@@ -125,7 +126,7 @@ class rcube_pwned_password
             rcube::raise_error("Need curl or allow_url_fopen to check password strength with 'pwned'", true, true);
         }
         else {
-            list($prefix, $suffix) = $this->hash_split($passwd);
+            [$prefix, $suffix] = $this->hash_split($passwd);
 
             $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
 

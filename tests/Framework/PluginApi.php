@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_plugin_api class
- *
- * @package Tests
  */
 class Framework_PluginApi extends PHPUnit\Framework\TestCase
 {

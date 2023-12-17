@@ -20,9 +20,6 @@
 /**
  * Database independent query interface.
  * This is a wrapper for the PHP PDO.
- *
- * @package   Framework
- * @subpackage Database
  */
 class rcube_db
 {
@@ -272,8 +269,8 @@ class rcube_db
         $mode = preg_match('/^(select|show|set)/i', $query) ? 'r' : 'w';
 
         $start = '[' . $this->options['identifier_start'] . self::DEFAULT_QUOTE . ']';
-        $end   = '[' . $this->options['identifier_end']   . self::DEFAULT_QUOTE . ']';
-        $regex = '/(?:^|\s)(from|update|into|join)\s+'.$start.'?([a-z0-9._]+)'.$end.'?\s+/i';
+        $end   = '[' . $this->options['identifier_end'] . self::DEFAULT_QUOTE . ']';
+        $regex = '/(?:^|\s)(from|update|into|join)\s+' . $start . '?([a-z0-9._]+)' . $end . '?\s+/i';
 
         // find tables involved in this query
         if (preg_match_all($regex, $query, $matches, PREG_SET_ORDER)) {
@@ -285,7 +282,7 @@ class rcube_db
                     $mode = $this->options['table_dsn_map'][$table];
                     break;  // primary table rules
                 }
-                else if ($mode == 'r') {
+                elseif ($mode == 'r') {
                     // connected to db with the same or "higher" mode for this table
                     if (isset($this->table_connections[$table])) {
                         $db_mode = $this->table_connections[$table];
@@ -460,12 +457,12 @@ class rcube_db
 
         if (count($params)) {
             while ($pos = strpos($query, '?', $pos)) {
-                if (isset($query[$pos+1]) && $query[$pos+1] == '?') {  // skip escaped '?'
+                if (isset($query[$pos + 1]) && $query[$pos + 1] == '?') {  // skip escaped '?'
                     $pos += 2;
                 }
                 else {
                     $val = $this->quote($params[$idx++]);
-                    unset($params[$idx-1]);
+                    unset($params[$idx - 1]);
                     $query = substr_replace($query, $val, $pos, 1);
                     $pos += strlen($val);
                 }
@@ -476,7 +473,7 @@ class rcube_db
 
         // replace escaped '?' and quotes back to normal, see self::quote()
         $query = str_replace(
-            ['??', self::DEFAULT_QUOTE.self::DEFAULT_QUOTE],
+            ['??', self::DEFAULT_QUOTE . self::DEFAULT_QUOTE],
             ['?', self::DEFAULT_QUOTE],
             $query
         );
@@ -527,7 +524,7 @@ class rcube_db
         $in  = false;
 
         while ($pos = strpos($query, $quote, $pos)) {
-            if (isset($query[$pos+1]) && $query[$pos+1] == $quote) {  // skip escaped quote
+            if (isset($query[$pos + 1]) && $query[$pos + 1] == $quote) {  // skip escaped quote
                 $pos += 2;
             }
             else {
@@ -586,6 +583,7 @@ class rcube_db
      *                        should be the same as in $columns)
      *
      * @return PDOStatement|bool Query handle or False on error
+     *
      * @todo Multi-insert support
      */
     public function insert_or_update($table, $keys, $columns, $values)
@@ -640,6 +638,7 @@ class rcube_db
      * @param mixed $result Optional query handle
      *
      * @return mixed Number of rows or false on failure
+     *
      * @deprecated This method shows very poor performance and should be avoided.
      */
     public function num_rows($result = null)
@@ -913,7 +912,7 @@ class rcube_db
 
             return strtr($this->dbh->quote($input, $type),
                 // escape ? and `
-                ['?' => '??', self::DEFAULT_QUOTE => self::DEFAULT_QUOTE.self::DEFAULT_QUOTE]
+                ['?' => '??', self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE]
             );
         }
 
@@ -942,6 +941,7 @@ class rcube_db
      * @param string $str Value to quote
      *
      * @return string Quoted string for use in query
+     *
      * @deprecated    Replaced by rcube_db::quote_identifier
      * @see           rcube_db::quote_identifier
      */
@@ -956,6 +956,7 @@ class rcube_db
      * @param string $str A string to escape
      *
      * @return string Escaped string for use in a query
+     *
      * @deprecated    Replaced by rcube_db::escape
      * @see           rcube_db::escape
      */
@@ -1046,6 +1047,7 @@ class rcube_db
      * @param string $field Field name
      *
      * @return string SQL statement to use in query
+     *
      * @deprecated
      */
     public function unixtimestamp($field)
@@ -1059,6 +1061,7 @@ class rcube_db
      * @param int $timestamp Unix timestamp
      *
      * @return string Date string in db-specific format
+     *
      * @deprecated
      */
     public function fromunixtime($timestamp)
@@ -1267,10 +1270,10 @@ class rcube_db
         // $dsn => protocol+hostspec/database (old format)
         else {
             if (strpos($dsn, '+') !== false) {
-                list($proto, $dsn) = explode('+', $dsn, 2);
+                [$proto, $dsn] = explode('+', $dsn, 2);
             }
             if (strpos($dsn, '/') !== false) {
-                list($proto_opts, $dsn) = explode('/', $dsn, 2);
+                [$proto_opts, $dsn] = explode('/', $dsn, 2);
             }
             else {
                 $proto_opts = $dsn;
@@ -1282,12 +1285,12 @@ class rcube_db
         $parsed['protocol'] = !empty($proto) ? $proto : 'tcp';
         $proto_opts = rawurldecode($proto_opts);
         if (strpos($proto_opts, ':') !== false) {
-            list($proto_opts, $parsed['port']) = explode(':', $proto_opts);
+            [$proto_opts, $parsed['port']] = explode(':', $proto_opts);
         }
         if ($parsed['protocol'] == 'tcp' && strlen($proto_opts)) {
             $parsed['hostspec'] = $proto_opts;
         }
-        else if ($parsed['protocol'] == 'unix') {
+        elseif ($parsed['protocol'] == 'unix') {
             $parsed['socket'] = $proto_opts;
         }
 
@@ -1310,7 +1313,7 @@ class rcube_db
                     $opts = [$dsn];
                 }
                 foreach ($opts as $opt) {
-                    list($key, $value) = explode('=', $opt);
+                    [$key, $value] = explode('=', $opt);
                     if (!array_key_exists($key, $parsed) || $parsed[$key] === false) {
                         // don't allow params overwrite
                         $parsed[$key] = rawurldecode($value);
@@ -1411,7 +1414,7 @@ class rcube_db
                 continue;
             }
 
-            if ($trimmed[strlen($trimmed)-1] == ';') {
+            if ($trimmed[strlen($trimmed) - 1] == ';') {
                 $exec = $buff . substr(rtrim($line), 0, -1);
             }
 
@@ -1459,14 +1462,14 @@ class rcube_db
         $prefix = $this->options['table_prefix'];
 
         // Schema prefix (ends with a dot)
-        if ($prefix[strlen($prefix)-1] === '.') {
+        if ($prefix[strlen($prefix) - 1] === '.') {
             // These can't have a schema prefix
             if (preg_match('/(CONSTRAINT|UNIQUE|INDEX)[\s\t`"]*$/', $matches[1])) {
                 $prefix = '';
             }
             else {
                 // check if the identifier is quoted, then quote the prefix
-                $last = $matches[1][strlen($matches[1])-1];
+                $last = $matches[1][strlen($matches[1]) - 1];
 
                 if ($last === '`' || $last === '"') {
                     $prefix = substr($prefix, 0, -1) . $last . '.' . $last;
@@ -1474,6 +1477,6 @@ class rcube_db
             }
         }
 
-        return $matches[1] . $prefix . $matches[count($matches)-1];
+        return $matches[1] . $prefix . $matches[count($matches) - 1];
     }
 }

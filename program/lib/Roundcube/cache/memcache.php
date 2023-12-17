@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing Memcache cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_memcache extends rcube_cache
 {
@@ -95,7 +92,7 @@ class rcube_cache_memcache extends rcube_cache
 
         foreach ((array) $rcube->config->get('memcache_hosts') as $host) {
             if (substr($host, 0, 7) != 'unix://') {
-                list($host, $port) = explode(':', $host);
+                [$host, $port] = explode(':', $host);
                 if (!$port) {
                     $port = 11211;
                 }

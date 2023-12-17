@@ -19,7 +19,5 @@
 
 /**
  * An exception thrown by output classes instead of the `exit` call
- *
- * @package Tests
  */
 class ExitException extends Exception {}

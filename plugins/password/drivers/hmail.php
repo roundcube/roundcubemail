@@ -4,6 +4,7 @@
  * hMailserver password driver
  *
  * @version 2.0
+ *
  * @author Roland 'rosali' Liebl <myroundcube@mail4us.net>
  *
  * Copyright (C) The Roundcube Dev Team
@@ -45,7 +46,7 @@ class rcube_hmail_password
         }
 
         if (strstr($username,'@')) {
-            list(, $domain) = explode('@', $username);
+            [, $domain] = explode('@', $username);
         }
         else {
             $domain = $rcmail->config->get('username_domain',false);

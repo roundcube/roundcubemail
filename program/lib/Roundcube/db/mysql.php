@@ -22,9 +22,6 @@
  * Database independent query interface
  *
  * This is a wrapper for the PHP PDO
- *
- * @package    Framework
- * @subpackage Database
  */
 class rcube_db_mysql extends rcube_db
 {
@@ -230,6 +227,7 @@ class rcube_db_mysql extends rcube_db
      *                        should be the same as in $columns)
      *
      * @return PDOStatement|bool Query handle or False on error
+     *
      * @todo Multi-insert support
      */
     public function insert_or_update($table, $keys, $columns, $values)

@@ -46,7 +46,7 @@ class rcmail_action_mail_import extends rcmail_action
                 if (!$err) {
                     // check file content type first
                     $ctype = rcube_mime::file_content_type($filepath, $_FILES['_file']['name'][$i], $_FILES['_file']['type'][$i]);
-                    list($mtype_primary, $mtype_secondary) = explode('/', $ctype);
+                    [$mtype_primary, $mtype_secondary] = explode('/', $ctype);
 
                     if (in_array($ctype, ['application/zip', 'application/x-zip'])) {
                         $filepath = self::zip_extract($filepath);
@@ -54,7 +54,7 @@ class rcmail_action_mail_import extends rcmail_action
                             continue;
                         }
                     }
-                    else if (!in_array($mtype_primary, ['text', 'message'])) {
+                    elseif (!in_array($mtype_primary, ['text', 'message'])) {
                         continue;
                     }
 
@@ -136,7 +136,7 @@ class rcmail_action_mail_import extends rcmail_action
 
                 if (copy("zip://$path#$entry", $tmpfname)) {
                     $ctype = rcube_mime::file_content_type($tmpfname, $entry);
-                    list($mtype_primary) = explode('/', $ctype);
+                    [$mtype_primary] = explode('/', $ctype);
 
                     if (in_array($mtype_primary, ['text', 'message'])) {
                         $files[] = $tmpfname;

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_spellchecker class
- *
- * @package Tests
  */
 class Framework_Spellchecker extends PHPUnit\Framework\TestCase
 {

@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing APC cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_apc extends rcube_cache
 {

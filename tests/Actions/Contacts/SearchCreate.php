@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_contacts_search_create
- *
- * @package Tests
  */
 class Actions_Contacts_Search_Create extends ActionTestCase
 {

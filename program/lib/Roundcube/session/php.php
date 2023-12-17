@@ -22,9 +22,6 @@
 
 /**
  * Class to provide native php session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_session_php extends rcube_session
 {

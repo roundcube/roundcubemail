@@ -2,12 +2,10 @@
 
 /**
  * Test class to test rcmail_action_mail_index
- *
- * @package Tests
  */
 class ActionTestCase extends PHPUnit\Framework\TestCase
 {
-    static $files = [];
+    private static $files = [];
 
 
     static function setUpBeforeClass(): void
@@ -111,7 +109,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
                 escapeshellarg($dsn['database'])
             ));
         }
-        else if ($dsn['phptype'] == 'sqlite') {
+        elseif ($dsn['phptype'] == 'sqlite') {
             $db->closeConnection();
 
             // delete database file

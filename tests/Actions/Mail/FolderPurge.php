@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_folder_purge
- *
- * @package Tests
  */
 class Actions_Mail_FolderPurge extends ActionTestCase
 {

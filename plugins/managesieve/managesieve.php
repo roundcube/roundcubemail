@@ -63,7 +63,7 @@ class managesieve extends rcube_plugin
             $this->add_hook('settings_actions', [$this, 'settings_actions']);
             $this->init_ui();
         }
-        else if ($this->rc->task == 'mail') {
+        elseif ($this->rc->task == 'mail') {
             $this->add_hook('storage_init', [$this, 'storage_init']);
 
             if ($this->rc->action == 'show') {
@@ -102,7 +102,7 @@ class managesieve extends rcube_plugin
         if ($sieve_action || ($this->rc->task == 'settings' && empty($_REQUEST['_framed']))) {
             $this->include_stylesheet("$skin_path/managesieve.css");
         }
-        else if ($this->rc->task == 'mail') {
+        elseif ($this->rc->task == 'mail') {
             $this->include_stylesheet("$skin_path/managesieve_mail.css");
         }
 

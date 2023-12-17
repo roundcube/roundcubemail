@@ -75,7 +75,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                 if (!empty($email)) {
                     $result = $TARGET->search('email', $email[0], 1, true, true);
                 }
-                else if (!empty($a_record['name'])) {
+                elseif (!empty($a_record['name'])) {
                     $result = $TARGET->search('name', $a_record['name'], 1, true, true);
                 }
                 else {
@@ -96,7 +96,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                             $success++;
                         }
                     }
-                    else if ($plugin['result']) {
+                    elseif ($plugin['result']) {
                         $ids = array_merge($ids, $plugin['result']);
                         $success++;
                     }
@@ -129,7 +129,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                         $success = $cnt;
                     }
                 }
-                else if (!empty($plugin['result'])) {
+                elseif (!empty($plugin['result'])) {
                     $success = $plugin['result'];
                 }
 

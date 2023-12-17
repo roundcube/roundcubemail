@@ -44,7 +44,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
             header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
             echo "<html>\n<head>\n"
-                . '<meta http-equiv="refresh" content="0; url='.rcube::Q($url).'">' . "\n"
+                . '<meta http-equiv="refresh" content="0; url=' . rcube::Q($url) . '">' . "\n"
                 . '<meta http-equiv="content-type" content="text/html; charset=' . RCUBE_CHARSET . '">' . "\n"
                 . "</head>\n<body>\n$message\n</body>\n</html>";
             exit;
@@ -145,19 +145,19 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
                     // detect message part mimetype
                     $real_mimetype = rcube_mime::file_content_type($tmp_body, $filename, $mimetype, true, true);
-                    list($real_ctype_primary, $real_ctype_secondary) = explode('/', $real_mimetype);
+                    [$real_ctype_primary, $real_ctype_secondary] = explode('/', $real_mimetype);
 
                     // accept text/plain with any extension
                     if ($real_mimetype == 'text/plain' && self::mimetype_compare($real_mimetype, $mimetype)) {
                         $valid_extension = true;
                     }
                     // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
-                    else if ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
+                    elseif ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
                         $real_mimetype   = $mimetype;
                         $valid_extension = true;
                     }
                     // ignore filename extension if mimeclass matches (#1489029)
-                    else if (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
+                    elseif (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
                         $valid_extension = true;
                     }
                     else {
@@ -327,13 +327,13 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
         $table  = new html_table(['cols' => 2]);
 
-        $table->add('title', rcube::Q($rcmail->gettext('namex')).':');
+        $table->add('title', rcube::Q($rcmail->gettext('namex')) . ':');
         $table->add('header', rcube::Q(self::$attachment->filename));
 
-        $table->add('title', rcube::Q($rcmail->gettext('type')).':');
+        $table->add('title', rcube::Q($rcmail->gettext('type')) . ':');
         $table->add('header', rcube::Q(self::$attachment->mimetype));
 
-        $table->add('title', rcube::Q($rcmail->gettext('size')).':');
+        $table->add('title', rcube::Q($rcmail->gettext('size')) . ':');
         $table->add('header', rcube::Q(self::$attachment->size()));
 
         return $table->show($attrib);

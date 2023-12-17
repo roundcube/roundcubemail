@@ -140,7 +140,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                             }
                         }
                         // show group with count
-                        else if (($result = $abook->count()) && $result->count) {
+                        elseif (($result = $abook->count()) && $result->count) {
                             if (empty($contacts[$group['name']])) {
                                 $sort_keys[$group['name']] = $group['name'];
                                 $contacts[$group['name']]  = [

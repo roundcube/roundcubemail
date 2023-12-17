@@ -22,9 +22,6 @@
 
 /**
  * Class to provide memcached session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_session_memcached extends rcube_session
 {

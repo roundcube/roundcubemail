@@ -4,6 +4,7 @@
  * PAM Password Driver
  *
  * @version 2.0
+ *
  * @author Aleksander Machniak
  *
  * Copyright (C) The Roundcube Dev Team

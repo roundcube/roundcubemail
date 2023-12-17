@@ -9,6 +9,7 @@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  * @author Aleksander Machniak
+ *
  * @website https://roundcube.net
  */
 class emoticons extends rcube_plugin
@@ -89,7 +90,7 @@ class emoticons extends rcube_plugin
                     'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false))),
             ];
         }
-        else if ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
+        elseif ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
             $this->load_config();
             $this->add_texts('localization');
 
@@ -113,7 +114,7 @@ class emoticons extends rcube_plugin
         if ($args['section'] == 'mailview') {
             $args['prefs']['emoticons_display'] = (bool) rcube_utils::get_input_value('_emoticons_display', rcube_utils::INPUT_POST);
         }
-        else if ($args['section'] == 'compose') {
+        elseif ($args['section'] == 'compose') {
             $args['prefs']['emoticons_compose'] = (bool) rcube_utils::get_input_value('_emoticons_compose', rcube_utils::INPUT_POST);
         }
 
@@ -133,11 +134,11 @@ class emoticons extends rcube_plugin
         // E.g. situation when ";)" in "&quot;)" shouldn't be replaced by the icon
         // It's so long because of assertion format restrictions
         $entity = '(?<!&'
-            . '[a-zA-Z0-9]{2}' . '|' . '#[0-9]{2}' . '|'
-            . '[a-zA-Z0-9]{3}' . '|' . '#[0-9]{3}' . '|'
-            . '[a-zA-Z0-9]{4}' . '|' . '#[0-9]{4}' . '|'
-            . '[a-zA-Z0-9]{5}' . '|'
-            . '[a-zA-Z0-9]{6}' . '|'
+            . '[a-zA-Z0-9]{2}|#[0-9]{2}|'
+            . '[a-zA-Z0-9]{3}|#[0-9]{3}|'
+            . '[a-zA-Z0-9]{4}|#[0-9]{4}|'
+            . '[a-zA-Z0-9]{5}|'
+            . '[a-zA-Z0-9]{6}|'
             . '[a-zA-Z0-9]{7}'
             . ')';
 
@@ -145,7 +146,7 @@ class emoticons extends rcube_plugin
         $map = [
             '/(?<!mailto):-?D/'   => self::ico_tag('1f603', ':D'), // laugh
             '/:-?\(/'             => self::ico_tag('1f626', ':('), // frown
-            '/'.$entity.';-?\)/'  => self::ico_tag('1f609', ';)'), // wink
+            '/' . $entity . ';-?\)/'  => self::ico_tag('1f609', ';)'), // wink
             '/8-?\)/'             => self::ico_tag('1f60e', '8)'), // cool
             '/(?<!mailto):-?O/i'  => self::ico_tag('1f62e', ':O'), // surprised
             '/(?<!mailto):-?P/i'  => self::ico_tag('1f61b', ':P'), // tongue out

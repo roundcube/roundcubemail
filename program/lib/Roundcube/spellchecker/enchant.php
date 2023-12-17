@@ -20,9 +20,6 @@
 
 /**
  * Spellchecking backend implementation to work with Pspell
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_spellchecker_enchant extends rcube_spellchecker_engine
 {
@@ -102,7 +99,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
             if ($this->dictionary->is_exception($word)) {
                 // skip exceptions
             }
-            else if (!enchant_dict_check($this->enchant_dictionary, $word)) {
+            elseif (!enchant_dict_check($this->enchant_dictionary, $word)) {
                 $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
 
                 if (is_array($suggestions) && count($suggestions) > self::MAX_SUGGESTIONS) {

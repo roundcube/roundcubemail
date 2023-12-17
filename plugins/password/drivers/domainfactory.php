@@ -7,7 +7,9 @@
  * http://www.df.eu/
  *
  * @version 2.1
+ *
  * @author Till Krüss <me@tillkruess.com>
+ *
  * @see http://tillkruess.com/projects/roundcube/
  *
  * Copyright (C) The Roundcube Dev Team
@@ -71,7 +73,7 @@ class rcube_domainfactory_password
                         if (isset($errors[1])) {
                             $error_message = '';
                             foreach ($errors[1] as $error) {
-                                $error_message .= trim(rcube_charset::convert($error, 'ISO-8859-15')).' ';
+                                $error_message .= trim(rcube_charset::convert($error, 'ISO-8859-15')) . ' ';
                             }
                             return ['code' => PASSWORD_ERROR, 'message' => $error_message];
                         }

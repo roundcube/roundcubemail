@@ -21,8 +21,6 @@
 
 /**
  * An abstract for HTTP request handlers with some helpers.
- *
- * @package Webmail
  */
 abstract class rcmail_action
 {
@@ -48,6 +46,7 @@ abstract class rcmail_action
      * Deprecated action aliases.
      *
      * @todo Get rid of these (but it will be a big BC break)
+     *
      * @var array
      */
     public static $aliases = [];
@@ -173,7 +172,7 @@ abstract class rcmail_action
         $quota = self::quota_content($attrib);
 
         $rcmail->output->add_gui_object('quotadisplay', $attrib['id']);
-        $rcmail->output->add_script('rcmail.set_quota('.rcube_output::json_serialize($quota).');', 'docready');
+        $rcmail->output->add_script('rcmail.set_quota(' . rcube_output::json_serialize($quota) . ');', 'docready');
 
         return html::span($attrib, '&nbsp;');
     }
@@ -198,7 +197,7 @@ abstract class rcmail_action
 
         if (!empty($quota['total']) && $quota['total'] > 0) {
             if (!isset($quota['percent'])) {
-                $quota_result['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
+                $quota_result['percent'] = min(100, round(($quota['used'] / max(1,$quota['total'])) * 100));
             }
 
             $title = $rcmail->gettext('quota') . ': ' . sprintf('%s / %s (%.0f%%)',
@@ -282,20 +281,20 @@ abstract class rcmail_action
         if ($res_code == rcube_storage::NOPERM) {
             $error = 'errornoperm';
         }
-        else if ($res_code == rcube_storage::READONLY) {
+        elseif ($res_code == rcube_storage::READONLY) {
             $error = 'errorreadonly';
         }
-        else if ($res_code == rcube_storage::OVERQUOTA) {
+        elseif ($res_code == rcube_storage::OVERQUOTA) {
             $error = 'erroroverquota';
         }
-        else if ($err_code && ($err_str = $storage->get_error_str())) {
+        elseif ($err_code && ($err_str = $storage->get_error_str())) {
             // try to detect access rights problem and display appropriate message
             if (stripos($err_str, 'Permission denied') !== false) {
                 $error = 'errornoperm';
             }
             // try to detect full mailbox problem and display appropriate message
             // there can be e.g. "Quota exceeded" / "quotum would exceed" / "Over quota"
-            else if (stripos($err_str, 'quot') !== false && preg_match('/exceed|over/i', $err_str)) {
+            elseif (stripos($err_str, 'quot') !== false && preg_match('/exceed|over/i', $err_str)) {
                 $error = 'erroroverquota';
             }
             else {
@@ -303,10 +302,10 @@ abstract class rcmail_action
                 $args  = ['msg' => rcube::Q($err_str)];
             }
         }
-        else if ($err_code < 0) {
+        elseif ($err_code < 0) {
             $error = 'storageerror';
         }
-        else if ($fallback) {
+        elseif ($fallback) {
             $error = $fallback;
             $args  = $fallback_args;
             $params['prefix'] = false;
@@ -588,10 +587,10 @@ abstract class rcmail_action
         if ($add_error) {
             $msg = $rcmail->gettext($add_error);
         }
-        else if ($attachment && !empty($attachment['error'])) {
+        elseif ($attachment && !empty($attachment['error'])) {
             $msg = $attachment['error'];
         }
-        else if ($php_error == UPLOAD_ERR_INI_SIZE || $php_error == UPLOAD_ERR_FORM_SIZE) {
+        elseif ($php_error == UPLOAD_ERR_INI_SIZE || $php_error == UPLOAD_ERR_FORM_SIZE) {
             $post_size = self::show_bytes(rcube_utils::max_upload_size());
             $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $post_size]]);
         }
@@ -730,17 +729,17 @@ abstract class rcmail_action
 
         if ($bytes >= 1073741824) {
             $unit = 'GB';
-            $gb   = $bytes/1073741824;
+            $gb   = $bytes / 1073741824;
             $str  = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $rcmail->gettext($unit);
         }
-        else if ($bytes >= 1048576) {
+        elseif ($bytes >= 1048576) {
             $unit = 'MB';
-            $mb   = $bytes/1048576;
+            $mb   = $bytes / 1048576;
             $str  = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $rcmail->gettext($unit);
         }
-        else if ($bytes >= 1024) {
+        elseif ($bytes >= 1024) {
             $unit = 'KB';
-            $str  = sprintf("%d ",  round($bytes/1024)) . $rcmail->gettext($unit);
+            $str  = sprintf("%d ",  round($bytes / 1024)) . $rcmail->gettext($unit);
         }
         else {
             $unit = 'B';
@@ -839,7 +838,7 @@ abstract class rcmail_action
                 if ($uid == '*') {
                     $result[$mbox] = $uid;
                 }
-                else if (preg_match('/^[0-9:.]+$/', $uid)) {
+                elseif (preg_match('/^[0-9:.]+$/', $uid)) {
                     $result[$mbox][] = $uid;
                 }
             }
@@ -893,7 +892,7 @@ abstract class rcmail_action
         $form_start = $form_end = '';
 
         if (empty(self::$edit_form)) {
-            $request_key = $action . (isset($id) ? '.'.$id : '');
+            $request_key = $action . (isset($id) ? '.' . $id : '');
             $form_start = $rcmail->output->request_form([
                     'name'    => 'form',
                     'method'  => 'post',
@@ -1117,14 +1116,14 @@ abstract class rcmail_action
         $pos = strpos($folder, $delm);
 
         if ($pos !== false) {
-            $subFolders    = substr($folder, $pos+1);
+            $subFolders    = substr($folder, $pos + 1);
             $currentFolder = substr($folder, 0, $pos);
 
             // sometimes folder has a delimiter as the last character
             if (!strlen($subFolders)) {
                 $virtual = false;
             }
-            else if (!isset($arrFolders[$currentFolder])) {
+            elseif (!isset($arrFolders[$currentFolder])) {
                 $virtual = true;
             }
             else {
@@ -1152,7 +1151,7 @@ abstract class rcmail_action
         }
 
         if (strlen($subFolders)) {
-            self::build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path.$delm);
+            self::build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path . $delm);
         }
     }
 
@@ -1174,7 +1173,7 @@ abstract class rcmail_action
         foreach ($arrFolders as $folder) {
             $title        = null;
             $folder_class = self::folder_classname($folder['id'], $folder['class'] ?? null);
-            $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
+            $is_collapsed = strpos($collapsed, '&' . rawurlencode($folder['id']) . '&') !== false;
             $unread       = 0;
             $realname     = $folder['realname'] ?? $realnames;
 
@@ -1214,7 +1213,7 @@ abstract class rcmail_action
             if ($folder['virtual']) {
                 $classes[] = 'virtual';
             }
-            else if ($unread) {
+            elseif ($unread) {
                 $classes[] = 'unread';
             }
 
@@ -1251,7 +1250,7 @@ abstract class rcmail_action
 
             if (!empty($folder['folders'])) {
                 $out .= html::tag('ul', ['style' => $is_collapsed ? "display:none;" : null],
-                    self::render_folder_tree_html($folder['folders'], $mbox_name, $jslist, $attrib, $nestLevel+1));
+                    self::render_folder_tree_html($folder['folders'], $mbox_name, $jslist, $attrib, $nestLevel + 1));
             }
 
             $out .= "</li>\n";
@@ -1298,11 +1297,11 @@ abstract class rcmail_action
                 }
             }
 
-            $select->add(str_repeat('&nbsp;', $nestLevel*4) . html::quote($foldername), $folder['id']);
+            $select->add(str_repeat('&nbsp;', $nestLevel * 4) . html::quote($foldername), $folder['id']);
 
             if (!empty($folder['folders'])) {
                 $out .= self::render_folder_tree_select($folder['folders'], $mbox_name, $maxlength,
-                    $select, $realnames, $nestLevel+1, $opts);
+                    $select, $realnames, $nestLevel + 1, $opts);
             }
         }
 
@@ -1380,7 +1379,7 @@ abstract class rcmail_action
             }
         }
         // try to localize path of the folder
-        else if ($with_path && !$realnames) {
+        elseif ($with_path && !$realnames) {
             $path  = explode($delimiter, $name);
             $count = count($path);
 
@@ -1414,7 +1413,7 @@ abstract class rcmail_action
         $result          = [];
 
         foreach ($path as $idx => $dir) {
-            $directory = implode($delimiter, array_slice($path, 0, $idx+1));
+            $directory = implode($delimiter, array_slice($path, 0, $idx + 1));
             if ($protect_folders && $rcmail->storage->is_special_folder($directory)) {
                 unset($result);
                 $result[] = self::localize_foldername($directory);

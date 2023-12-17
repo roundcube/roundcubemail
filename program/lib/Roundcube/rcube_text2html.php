@@ -19,9 +19,6 @@
 
 /**
  * Converts plain text to HTML
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_text2html
 {
@@ -189,7 +186,7 @@ class rcube_text2html
                         $last = $n;
                     }
                 }
-                else if ($q < $quote_level) {
+                elseif ($q < $quote_level) {
                     $text[$last] .= (!$length ? "\n" : '')
                         . $replacer->get_replacement($replacer->add(
                             str_repeat('</blockquote>', $quote_level - $q)))
@@ -235,12 +232,12 @@ class rcube_text2html
         $sig_sep       = "--" . $this->config['space'] . "\n";
         $sig_max_lines = rcube::get_instance()->config->get('sig_max_lines', 15);
 
-        while (($sp = strrpos($text, $sig_sep, !empty($sp) ? -$len+$sp-1 : 0)) !== false) {
-            if ($sp == 0 || $text[$sp-1] == "\n") {
+        while (($sp = strrpos($text, $sig_sep, !empty($sp) ? -$len + $sp - 1 : 0)) !== false) {
+            if ($sp == 0 || $text[$sp - 1] == "\n") {
                 // do not touch blocks with more that X lines
                 if (substr_count($text, "\n", $sp) < $sig_max_lines) {
                     $text = substr($text, 0, max(0, $sp))
-                        .'<span class="sig">'.substr($text, $sp).'</span>';
+                        . '<span class="sig">' . substr($text, $sp) . '</span>';
                 }
 
                 break;
@@ -319,7 +316,7 @@ class rcube_text2html
             $copy = $text;
 
             while (($pos = strpos($text, ' ', $pos)) !== false) {
-                if (($pos == 0 || $text[$pos-1] == ' ') && $pos - 1 != $last) {
+                if (($pos == 0 || $text[$pos - 1] == ' ') && $pos - 1 != $last) {
                     $last = $pos;
                     $copy = substr_replace($copy, $nbsp, $pos + $diff, 1);
                     $diff += $len - 1;
@@ -330,12 +327,12 @@ class rcube_text2html
             $text = $copy;
         }
         // make the whole line non-breakable if needed
-        else if ($text !== '' && preg_match('/[^a-zA-Z0-9_]/', $text)) {
+        elseif ($text !== '' && preg_match('/[^a-zA-Z0-9_]/', $text)) {
             // use non-breakable spaces to correctly display
             // trailing/leading spaces and multi-space inside
             $text = str_replace(' ', $nbsp, $text);
             // wrap in nobr element, so it's not wrapped on e.g. - or /
-            $text = $this->config['nobr_start'] . $text .  $this->config['nobr_end'];
+            $text = $this->config['nobr_start'] . $text . $this->config['nobr_end'];
         }
 
         return $text;

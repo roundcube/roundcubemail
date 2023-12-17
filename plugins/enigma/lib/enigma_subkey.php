@@ -95,7 +95,7 @@ class enigma_subkey
      *
      * @param bool $asInt Return the date as an integer
      *
-     * @return string|null|int
+     * @return string|int|null
      */
     function get_creation_date($asInt = false)
     {

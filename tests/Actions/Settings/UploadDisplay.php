@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_settings_upload_display
- *
- * @package Tests
  */
 class Actions_Settings_UploadDisplay extends ActionTestCase
 {

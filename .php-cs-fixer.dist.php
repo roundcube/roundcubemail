@@ -2,8 +2,10 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in([__DIR__])
+    ->exclude(['vendor'])
+    ->ignoreDotFiles(false)
     ->name('*.php.dist')
-    ->exclude(['vendor']);
+    ->name('*.dist.php');
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
@@ -69,51 +71,35 @@ return (new PhpCsFixer\Config())
         // TODO
         'align_multiline_comment' => false,
         'array_indentation' => false,
-        'array_syntax' => false,
         'backtick_to_shell_exec' => false,
-        'binary_operator_spaces' => false,
+        'binary_operator_spaces' => ['default' => 'at_least_single_space'],
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
         'class_definition' => false,
         'class_reference_name_casing' => false,
         'class_reference_name_casing' => false,
-        'concat_space' => false,
         'constant_case' => false,
         'control_structure_continuation_position' => false,
-        'elseif' => false,
         'empty_loop_condition' => false,
         'explicit_indirect_variable' => false,
         'explicit_string_variable' => false,
-        'function_declaration' => false,
         'general_phpdoc_annotation_remove' => false,
         'heredoc_indentation' => false,
         'increment_style' => false,
-        'integer_literal_case' => false,
-        'list_syntax' => false,
         'method_argument_space' => false,
-        'method_chaining_indentation' => false,
         'modernize_types_casting' => false,
         'native_constant_invocation' => false,
-        'native_type_declaration_casing' => false,
         'new_with_parentheses' => false,
-        'no_alias_language_construct_call' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
         'no_empty_statement' => false,
         'no_extra_blank_lines' => false,
         'no_null_property_initialization' => false,
         'no_unneeded_control_parentheses' => false,
-        'no_useless_concat_operator' => false,
-        'operator_linebreak' => false,
         'php_unit_method_casing' => false,
         'phpdoc_annotation_without_dot' => false,
-        'phpdoc_no_package' => false,
-        'phpdoc_separation' => false,
         'phpdoc_summary' => false,
         'phpdoc_to_comment' => false,
-        'phpdoc_trim' => false,
-        'phpdoc_types_order' => false,
-        'phpdoc_var_without_name' => false,
         'single_line_comment_spacing' => false,
         'single_quote' => false,
         'single_trait_insert_per_statement' => false,

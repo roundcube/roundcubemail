@@ -20,9 +20,6 @@
 
 /**
  * Class to provide redis session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_session_redis extends rcube_session
 {

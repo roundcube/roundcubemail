@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_string_replacer class
- *
- * @package Tests
  */
 class Framework_StringReplacer extends PHPUnit\Framework\TestCase
 {

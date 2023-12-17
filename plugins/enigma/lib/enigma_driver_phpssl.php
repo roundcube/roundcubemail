@@ -124,7 +124,7 @@ class enigma_driver_phpssl extends enigma_driver
 
     public function export($key, $with_private = false, $passwords = []) {}
 
-    public function list_keys($pattern='') {}
+    public function list_keys($pattern = '') {}
 
     public function get_key($keyid) {}
 

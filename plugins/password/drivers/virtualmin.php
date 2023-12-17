@@ -11,6 +11,7 @@
  * and requires shell access and gcc in order to compile the binary.
  *
  * @version 3.0
+ *
  * @author Martijn de Munnik
  *
  * Copyright (C) The Roundcube Dev Team

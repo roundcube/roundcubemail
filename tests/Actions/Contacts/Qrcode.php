@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_contacts_qrcode
- *
- * @package Tests
  */
 class Actions_Contacts_Qrcode extends ActionTestCase
 {

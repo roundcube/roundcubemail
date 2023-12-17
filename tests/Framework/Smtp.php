@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_smtp class
- *
- * @package Tests
  */
 class Framework_Smtp extends PHPUnit\Framework\TestCase
 {

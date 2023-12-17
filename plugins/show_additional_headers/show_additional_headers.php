@@ -27,7 +27,7 @@ class show_additional_headers extends rcube_plugin
             $this->add_hook('storage_init', [$this, 'storage_init']);
             $this->add_hook('message_headers_output', [$this, 'message_headers']);
         }
-        else if ($rcmail->action == '') {
+        elseif ($rcmail->action == '') {
             // with enabled_caching we're fetching additional headers before show/preview
             $this->add_hook('storage_init', [$this, 'storage_init']);
         }

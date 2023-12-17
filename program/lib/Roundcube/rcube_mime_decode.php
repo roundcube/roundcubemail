@@ -22,9 +22,6 @@
 
 /**
  * Class for parsing MIME messages
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_mime_decode
 {
@@ -71,7 +68,7 @@ class rcube_mime_decode
      */
     public function decode($input, $convert = true)
     {
-        list($header, $body) = $this->splitBodyHeader($input);
+        [$header, $body] = $this->splitBodyHeader($input);
 
         $struct = $this->do_decode($header, $body);
 
@@ -109,7 +106,7 @@ class rcube_mime_decode
                 $return->headers[$header_name]   = [$return->headers[$header_name]];
                 $return->headers[$header_name][] = $value['value'];
             }
-            else if (isset($return->headers[$header_name])) {
+            elseif (isset($return->headers[$header_name])) {
                 $return->headers[$header_name][] = $value['value'];
             }
             else {
@@ -183,7 +180,7 @@ class rcube_mime_decode
                     $parts         = $this->boundarySplit($body, $content_type['other']['boundary']);
 
                     for ($i = 0; $i < count($parts); $i++) {
-                        list($part_header, $part_body) = $this->splitBodyHeader($parts[$i]);
+                        [$part_header, $part_body] = $this->splitBodyHeader($parts[$i]);
                         $return->parts[] = $this->do_decode($part_header, $part_body, $default_ctype);
                     }
 
@@ -305,7 +302,7 @@ class rcube_mime_decode
                     $return['other'][strtolower($matches[1])] = $matches[2];
                 }
                 // Support RFC2231 encoding
-                else if (preg_match('/^([[:alnum:]]+)\*([0-9]*)\*?="*([^"]+)"*/', $parts[$n], $matches)) {
+                elseif (preg_match('/^([[:alnum:]]+)\*([0-9]*)\*?="*([^"]+)"*/', $parts[$n], $matches)) {
                     $key = strtolower($matches[1]);
                     $val = $matches[3];
 
@@ -342,7 +339,7 @@ class rcube_mime_decode
         $tmp   = explode('--' . $boundary, $input);
         $parts = [];
 
-        for ($i = 1; $i < count($tmp)-1; $i++) {
+        for ($i = 1; $i < count($tmp) - 1; $i++) {
             $parts[] = $tmp[$i];
         }
 
@@ -372,6 +369,7 @@ class rcube_mime_decode
      * @param string $parent Parent MIME ID
      *
      * @return object rcube_message_part
+     *
      * @see self::decode()
      */
     protected function structure_part($part, $count = 0, $parent = '')
@@ -396,7 +394,7 @@ class rcube_mime_decode
         if (!empty($part->d_parameters['filename'])) {
             $filename = $part->d_parameters['filename'];
         }
-        else if (!empty($part->ctype_parameters['name'])) {
+        elseif (!empty($part->ctype_parameters['name'])) {
             $filename = $part->ctype_parameters['name'];
         }
 

@@ -77,7 +77,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 // we want natural alphabetic sorting of folders in the result set
                 natcasesort($mboxes);
             }
-            else if ($scope == 'sub') {
+            elseif ($scope == 'sub') {
                 $delim  = $rcmail->storage->get_hierarchy_delimiter();
                 $mboxes = $rcmail->storage->list_folders_subscribed($mbox . $delim, '*', 'mail');
                 array_unshift($mboxes, $mbox);
@@ -133,12 +133,12 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             }
         }
         // handle IMAP errors (e.g. #1486905)
-        else if ($err_code = $rcmail->storage->get_error_code()) {
+        elseif ($err_code = $rcmail->storage->get_error_code()) {
             $count = 0;
             self::display_server_error();
         }
         // advice the client to re-send the (cross-folder) search request
-        else if (!empty($result) && !empty($result->incomplete)) {
+        elseif (!empty($result) && !empty($result->incomplete)) {
             $count = 0;  // keep UI locked
             $rcmail->output->command('continue_search', $search_request);
         }
@@ -294,7 +294,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
 
                 unset($parts[$idx]);
             }
-            else if ($part == 'AND') {
+            elseif ($part == 'AND') {
                 unset($parts[$idx]);
             }
         }
@@ -398,7 +398,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                         return $search_interval;
                     }
                 }
-                else if (preg_match('|^([0-9]{4})[-/]([0-9]{1,2})[-/]([0-9]{1,2})$|i', $value, $m)) {
+                elseif (preg_match('|^([0-9]{4})[-/]([0-9]{1,2})[-/]([0-9]{1,2})$|i', $value, $m)) {
                     $dt = new DateTime(sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]) . 'T00:00:00Z');
                     return strtoupper($option) . ' ' . $dt->format('j-M-Y');
                 }

@@ -127,6 +127,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test response deletion
      *
      * @depends testResponseCreate
+     *
      * @group failsontravis-phone
      * @group failsonga-phone
      */
@@ -163,6 +164,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test responses in mail composer
      *
      * @depends testResponseDelete
+     *
      * @group failsontravis-phone
      * @group failsonga-phone
      */
@@ -208,6 +210,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
      * Test response update
      *
      * @depends testResponsesInComposer
+     *
      * @group failsontravis-phone
      * @group failsonga-phone
      */

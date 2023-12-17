@@ -52,7 +52,7 @@ class rcube_ldap_exop_password extends rcube_ldap_simple_password
         }
 
         if (!ldap_exop_passwd($this->conn, $this->user, $curpass, $passwd)) {
-            $this->_debug("S: ".ldap_error($this->conn));
+            $this->_debug("S: " . ldap_error($this->conn));
 
             $errno = ldap_errno($this->conn);
 

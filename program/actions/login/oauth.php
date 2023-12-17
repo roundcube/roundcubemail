@@ -90,12 +90,12 @@ class rcmail_action_login_oauth extends rcmail_action
             }
         }
         // error return from oauth login
-        else if (!empty($auth_error)) {
+        elseif (!empty($auth_error)) {
             $error_message = rcube_utils::get_input_string('error_description', rcube_utils::INPUT_GET) ?: $auth_error;
             $rcmail->output->show_message($error_message, 'warning');
         }
         // login action: redirect to `oauth_auth_uri`
-        else if ($rcmail->task === 'login') {
+        elseif ($rcmail->task === 'login') {
             // this will always exit() the process
             $rcmail->oauth->login_redirect();
         }

@@ -78,7 +78,7 @@ class rcube_httpapi_password
         if ($method == 'POST') {
             $params['form_params'] = $vars;
         }
-        else if ($method == 'GET') {
+        elseif ($method == 'GET') {
             $params['query'] = $vars;
         }
         else {

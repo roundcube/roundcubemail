@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_spellcheck_atd class
- *
- * @package Tests
  */
 class Framework_SpellcheckerAtd extends PHPUnit\Framework\TestCase
 {

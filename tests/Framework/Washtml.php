@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_washtml class
- *
- * @package Tests
  */
 class Framework_Washtml extends PHPUnit\Framework\TestCase
 {
@@ -22,10 +20,10 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     {
         // #1488850
         $html = '<a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
-            .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>'
-            .'<A href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
-            .'<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a>'
-            .'<a href="data:application/xhtml+xml;base64,PGh0bW">CLICK ME</a>'; // #6896
+            . '<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>'
+            . '<A href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
+            . '<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a>'
+            . '<a href="data:application/xhtml+xml;base64,PGh0bW">CLICK ME</a>'; // #6896
 
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
@@ -88,9 +86,9 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     function test_object()
     {
         $html = "<div>\n<object data=\"move.swf\" type=\"application/x-shockwave-flash\">\n"
-               ."<param name=\"foo\" value=\"bar\">\n"
-               ."<p>This alternative text should survive</p>"
-               ."</object>\n</div>";
+               . "<param name=\"foo\" value=\"bar\">\n"
+               . "<p>This alternative text should survive</p>"
+               . "</object>\n</div>";
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 

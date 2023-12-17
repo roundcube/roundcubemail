@@ -22,8 +22,6 @@
 /**
  * Unified access to attachment properties and body
  * Unified for message parts as well as uploaded attachments
- *
- * @package Webmail
  */
 class rcmail_attachment_handler
 {
@@ -93,7 +91,7 @@ class rcmail_attachment_handler
                 }
             }
         }
-        else if ($file_id && $compose_id) {
+        elseif ($file_id && $compose_id) {
             $file_id = preg_replace('/^rcmfile/', '', $file_id);
 
             $this->upload = $rcube->get_uploaded_file($file_id);
@@ -185,14 +183,14 @@ class rcmail_attachment_handler
             if ($fp == -1) {
                 echo $size ? substr($this->body, 0, $size) : $this->body;
             }
-            else if ($fp) {
+            elseif ($fp) {
                 $result = fwrite($fp, $size ? substr($this->body, $size) : $this->body) !== false;
             }
             else {
                 $result = $size ? substr($this->body, 0, $size) : $this->body;
             }
         }
-        else if ($this->body_file) {
+        elseif ($this->body_file) {
             if ($size) {
                 $result = file_get_contents($this->body_file, false, null, 0, $size);
             }
@@ -203,11 +201,11 @@ class rcmail_attachment_handler
             if ($fp == -1) {
                 echo $result;
             }
-            else if ($fp) {
+            elseif ($fp) {
                 $result = fwrite($fp, $result) !== false;
             }
         }
-        else if ($this->message) {
+        elseif ($this->message) {
             $result = $this->message->get_part_body($this->part->mime_id, false, 0, $fp);
 
             // check connection status
@@ -215,7 +213,7 @@ class rcmail_attachment_handler
                 self::check_storage_status();
             }
         }
-        else if ($this->upload) {
+        elseif ($this->upload) {
             // This hook retrieves the attachment contents from the file storage backend
             $attachment = rcube::get_instance()->plugins->exec_hook('attachment_get', $this->upload);
 
@@ -223,7 +221,7 @@ class rcmail_attachment_handler
                 if ($attachment['data']) {
                     $result = fwrite($fp, $size ? substr($attachment['data'], 0, $size) : $attachment['data']) !== false;
                 }
-                else if ($attachment['path']) {
+                elseif ($attachment['path']) {
                     if ($fh = fopen($attachment['path'], 'r')) {
                         $result = stream_copy_to_stream($fh, $fp, $size ?: -1);
                     }
@@ -309,7 +307,7 @@ class rcmail_attachment_handler
      */
     public function html()
     {
-        list($type, $subtype) = explode('/', $this->mimetype);
+        [$type, $subtype] = explode('/', $this->mimetype);
         $part = (object) [
             'charset'         => $this->charset,
             'ctype_secondary' => $subtype,

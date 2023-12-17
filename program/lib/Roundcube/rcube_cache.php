@@ -21,9 +21,6 @@
 
 /**
  * Interface class for accessing Roundcube cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache
 {
@@ -344,7 +341,7 @@ class rcube_cache
             $this->cache = [];
         }
         // "Remove" keys by name prefix
-        else if ($prefix_mode) {
+        elseif ($prefix_mode) {
             $ts     = new DateTime('now', new DateTimeZone('UTC'));
             $prefix = implode('.', array_slice(explode('.', trim($key, '. ')), 0, self::MAX_EXP_LEVEL));
 
@@ -382,7 +379,7 @@ class rcube_cache
             $this->index = [];
         }
         // Remove keys by name prefix
-        else if ($prefix_mode) {
+        elseif ($prefix_mode) {
             foreach ($this->index as $idx => $k) {
                 if (strpos($k, $key) === 0) {
                     $this->delete_item($this->ckey($k));

@@ -24,7 +24,7 @@ $config['plugins'] = [
     'archive',
     'attachment_reminder',
     'markasjunk',
-    'zipdownload'
+    'zipdownload',
 ];
 
 $config['archive_mbox'] = 'Archive';

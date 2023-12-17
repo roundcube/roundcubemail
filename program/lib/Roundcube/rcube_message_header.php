@@ -20,9 +20,6 @@
 
 /**
  * Struct representing an e-mail message header
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_message_header
 {
@@ -212,6 +209,7 @@ class rcube_message_header
      * Extra flags (for the messages list)
      *
      * @var array
+     *
      * @deprecated Use $flags
      */
     public $list_flags = [];
@@ -321,7 +319,7 @@ class rcube_message_header
         if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
             $value = $this->{$this->obj_headers[$name]};
         }
-        else if (isset($this->others[$name])) {
+        elseif (isset($this->others[$name])) {
             $value = $this->others[$name];
         }
 
@@ -380,9 +378,6 @@ class rcube_message_header
 
 /**
  * Class for sorting an array of rcube_message_header objects in a predetermined order.
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_message_header_sorter
 {

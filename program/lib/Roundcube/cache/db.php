@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing SQL Database cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_db extends rcube_cache
 {
@@ -93,7 +90,7 @@ class rcube_cache_db extends rcube_cache
         $sql_result = $this->db->query(
             "SELECT `data`, `cache_key` FROM {$this->table} WHERE "
             . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-            ."`cache_key` = ?",
+            . "`cache_key` = ?",
             $this->prefix . '.' . $key);
 
         $data = null;
@@ -140,7 +137,7 @@ class rcube_cache_db extends rcube_cache
             $result = $this->db->query(
                 "DELETE FROM {$this->table} WHERE "
                 . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-                ."`cache_key` = ?",
+                . "`cache_key` = ?",
                 $db_key);
 
             return !$this->db->is_error($result);
@@ -177,7 +174,7 @@ class rcube_cache_db extends rcube_cache
             $this->cache = [];
         }
         // Remove keys by name prefix
-        else if ($prefix_mode) {
+        elseif ($prefix_mode) {
             $where = "`cache_key` LIKE " . $this->db->quote($this->prefix . '.' . $key . '%');
             foreach (array_keys($this->cache) as $k) {
                 if (strpos($k, $key) === 0) {

@@ -52,7 +52,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         if ($check_all) {
             $a_mailboxes = $rcmail->storage->list_folders_subscribed('', '*', 'mail');
         }
-        else if ($search_request && isset($_SESSION['search'][1]) && is_object($_SESSION['search'][1])) {
+        elseif ($search_request && isset($_SESSION['search'][1]) && is_object($_SESSION['search'][1])) {
             $a_mailboxes = (array) $_SESSION['search'][1]->get_parameters('MAILBOX');
         }
         else {
@@ -139,7 +139,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 }
 
                 $rcmail->output->set_env('messagecount', $all_count);
-                $rcmail->output->set_env('pagecount', ceil($all_count/$page_size));
+                $rcmail->output->set_env('pagecount', ceil($all_count / $page_size));
                 $rcmail->output->command('set_rowcount', self::get_messagecount_text($all_count), $mbox_name);
                 $rcmail->output->set_env('current_page', $all_count ? $page : 1);
 

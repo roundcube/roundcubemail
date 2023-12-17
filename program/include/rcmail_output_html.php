@@ -19,9 +19,6 @@
 
 /**
  * Class to create HTML page output using a skin template
- *
- * @package    Webmail
- * @subpackage View
  */
 class rcmail_output_html extends rcmail_output
 {
@@ -136,10 +133,10 @@ class rcmail_output_html extends rcmail_output
 EOF;
         // add common javascripts
         $this->add_script($lic, 'head_top');
-        $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
+        $this->add_script('var ' . self::JS_OBJECT_NAME . ' = new rcube_webmail();', 'head_top');
 
         // don't wait for page onload. Call init at the bottom of the page (delayed)
-        $this->add_script(self::JS_OBJECT_NAME.'.init();', 'docready');
+        $this->add_script(self::JS_OBJECT_NAME . '.init();', 'docready');
 
         $this->scripts_path = 'program/js/';
         $this->include_script('jquery.min.js');
@@ -245,7 +242,7 @@ EOF;
         if (!empty($this->pagetitle)) {
             $title = $this->pagetitle;
         }
-        else if (isset($this->env['task'])) {
+        elseif (isset($this->env['task'])) {
             if ($this->env['task'] == 'login') {
                 $title = $this->app->gettext([
                         'name' => 'welcome',
@@ -264,7 +261,7 @@ EOF;
             if ($this->devel_mode && !empty($_SESSION['username'])) {
                 $title = $_SESSION['username'] . ' :: ' . $title;
             }
-            else if ($prod_name = $this->config->get('product_name')) {
+            elseif ($prod_name = $this->config->get('product_name')) {
                 $title = $prod_name . ' :: ' . $title;
             }
         }
@@ -485,7 +482,7 @@ EOF;
      */
     public function add_gui_object($obj, $id)
     {
-        $this->add_script(self::JS_OBJECT_NAME.".gui_object('$obj', '$id');");
+        $this->add_script(self::JS_OBJECT_NAME . ".gui_object('$obj', '$id');");
     }
 
     /**
@@ -803,7 +800,7 @@ EOF;
                     'code' => 404,
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => 'Error loading template for '.$realname,
+                    'message' => 'Error loading template for ' . $realname,
                 ], true, $write);
 
             $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
@@ -873,7 +870,7 @@ EOF;
         if ($this->framed) {
             $top_commands[] = ['iframe_loaded', $unlock];
         }
-        else if ($unlock) {
+        elseif ($unlock) {
             $top_commands[] = ['hide_message', $unlock];
         }
 
@@ -1083,7 +1080,9 @@ EOF;
      * @param string $input Template content
      *
      * @return string
+     *
      * @uses   rcmail_output_html::parse_xml()
+     *
      * @since  0.1-rc1
      */
     public function just_parse($input)
@@ -1207,6 +1206,7 @@ EOF;
      * @param string $condition Condition statement
      *
      * @return bool True if condition is met, False if not
+     *
      * @todo Extend this to allow real conditions, not just "set"
      */
     protected function check_condition($condition)
@@ -1312,6 +1312,7 @@ EOF;
      * @param string $input Input string to parse
      *
      * @return string Altered input string
+     *
      * @todo   Use DOM-parser to traverse template HTML
      * @todo   Maybe a cache.
      */
@@ -1378,7 +1379,7 @@ EOF;
                     if (!empty($attrib['quoting'])) {
                         $quoting = strtolower($attrib['quoting']);
                     }
-                    else if (isset($attrib['html'])) {
+                    elseif (isset($attrib['html'])) {
                         $quoting = rcube_utils::get_boolean((string) $attrib['html']) ? 'no' : '';
                     }
 
@@ -1483,10 +1484,10 @@ EOF;
                     $external = empty($attrib['src']);
                     $content  = call_user_func($handler, $attrib);
                 }
-                else if ($object == 'doctype') {
+                elseif ($object == 'doctype') {
                     $content = html::doctype($attrib['value']);
                 }
-                else if ($object == 'logo') {
+                elseif ($object == 'logo') {
                     $attrib += ['alt' => $this->xml_command(['', 'object', 'name="productname"'])];
 
                     // 'type' attribute added in 1.4 was renamed 'logo-type' in 1.5
@@ -1513,7 +1514,7 @@ EOF;
                         if (($template_logo = $this->get_template_logo($type)) !== null) {
                             $additional_logos[$type] = $this->abs_url($template_logo);
                         }
-                        else if (!empty($attrib['data-src-' . $type])) {
+                        elseif (!empty($attrib['data-src-' . $type])) {
                             $additional_logos[$type] = $this->abs_url($attrib['data-src-' . $type]);
                         }
                     }
@@ -1526,11 +1527,11 @@ EOF;
                         $content = html::img($attrib);
                     }
                 }
-                else if ($object == 'productname') {
+                elseif ($object == 'productname') {
                     $name    = $this->config->get('product_name', 'Roundcube Webmail');
                     $content = html::quote($name);
                 }
-                else if ($object == 'version') {
+                elseif ($object == 'version') {
                     $ver = (string) RCMAIL_VERSION;
                     if (is_file(RCUBE_INSTALL_PATH . '.svn/entries')) {
                         if (function_exists('shell_exec')) {
@@ -1541,7 +1542,7 @@ EOF;
                             $ver .= ' [SVN]';
                         }
                     }
-                    else if (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
+                    elseif (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
                         if (function_exists('shell_exec')) {
                             if (preg_match('/Date:\s+([^\n]+)/', (string) @shell_exec('git log -1'), $regs)) {
                                 if ($date = date('Ymd.Hi', strtotime($regs[1]))) {
@@ -1554,14 +1555,14 @@ EOF;
                     }
                     $content = html::quote($ver);
                 }
-                else if ($object == 'steptitle') {
+                elseif ($object == 'steptitle') {
                     $content = html::quote($this->get_pagetitle(false));
                 }
-                else if ($object == 'pagetitle') {
+                elseif ($object == 'pagetitle') {
                     // Deprecated, <title> will be added automatically
                     $content = html::quote($this->get_pagetitle());
                 }
-                else if ($object == 'contentframe') {
+                elseif ($object == 'contentframe') {
                     if (empty($attrib['id'])) {
                         $attrib['id'] = 'rcm' . $this->env['task'] . 'frame';
                     }
@@ -1573,7 +1574,7 @@ EOF;
 
                     $content = $this->frame($attrib, true);
                 }
-                else if ($object == 'meta' || $object == 'links') {
+                elseif ($object == 'meta' || $object == 'links') {
                     if ($object == 'meta') {
                         $source = 'meta_tags';
                         $tag    = 'meta';
@@ -1610,7 +1611,7 @@ EOF;
                                 if ($href = $this->get_template_logo('favicon')) {
                                     $args[$param] = $href;
                                 }
-                                else if ($href = $this->config->get('favicon', '/images/favicon.ico')) {
+                                elseif ($href = $this->config->get('favicon', '/images/favicon.ico')) {
                                     $args[$param] = $href;
                                 }
                             }
@@ -1726,6 +1727,7 @@ EOF;
      * @param array $attrib Named button attributes
      *
      * @return string HTML button
+     *
      * @todo   Remove all inline JS calls and use jQuery instead.
      * @todo   Remove all sprintf()'s - they are pretty, but also slow.
      */
@@ -1766,7 +1768,7 @@ EOF;
                 $menuitem = true;
             }
         }
-        else if (!empty($attrib['image']) || !empty($attrib['imagepas']) || !empty($attrib['imageact'])) {
+        elseif (!empty($attrib['image']) || !empty($attrib['imagepas']) || !empty($attrib['imageact'])) {
             $attrib['type'] = 'image';
         }
         else {
@@ -1777,7 +1779,7 @@ EOF;
             if (!empty($attrib['imagepas'])) {
                 $attrib['image'] = $attrib['imagepas'];
             }
-            else if (!empty($attrib['imageact'])) {
+            elseif (!empty($attrib['imageact'])) {
                 $attrib['image'] = $attrib['imageact'];
             }
         }
@@ -1842,13 +1844,13 @@ EOF;
                 $attrib['href']    = $this->app->url(['task' => $attrib['command']]);
                 $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", self::JS_OBJECT_NAME, $attrib['command']);
             }
-            else if (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
+            elseif (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(['action' => $attrib['command'], 'task' => $attrib['task']]);
             }
-            else if (in_array($attrib['command'], $a_static_commands)) {
+            elseif (in_array($attrib['command'], $a_static_commands)) {
                 $attrib['href'] = $this->app->url(['action' => $attrib['command']]);
             }
-            else if (($attrib['command'] == 'permaurl' || $attrib['command'] == 'extwin') && !empty($this->env['permaurl'])) {
+            elseif (($attrib['command'] == 'permaurl' || $attrib['command'] == 'extwin') && !empty($this->env['permaurl'])) {
                 $attrib['href'] = $this->env['permaurl'];
             }
         }
@@ -1863,7 +1865,7 @@ EOF;
                 $attrib['class'] = $attrib['classact'];
             }
         }
-        else if ($command && empty($attrib['onclick'])) {
+        elseif ($command && empty($attrib['onclick'])) {
             $attrib['onclick'] = sprintf(
                 "return %s.command('%s','%s',this,event)",
                 self::JS_OBJECT_NAME,
@@ -1887,18 +1889,18 @@ EOF;
             );
             $btn_content = sprintf('<img src="%s"%s />', $this->abs_url($attrib['image']), $attrib_str);
             if (!empty($attrib['label'])) {
-                $btn_content .= ' '.$attrib['label'];
+                $btn_content .= ' ' . $attrib['label'];
             }
             $link_attrib = ['href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target'];
         }
-        else if ($attrib['type'] == 'link') {
+        elseif ($attrib['type'] == 'link') {
             $btn_content = $attrib['content'] ?? (!empty($attrib['label']) ? $attrib['label'] : $attrib['command']);
             $link_attrib = array_merge(html::$common_attrib, ['href', 'onclick', 'tabindex', 'target', 'rel']);
             if (!empty($attrib['innerclass'])) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
             }
         }
-        else if ($attrib['type'] == 'input') {
+        elseif ($attrib['type'] == 'input') {
             $attrib['type'] = 'button';
 
             if (!empty($attrib['label'])) {
@@ -2131,10 +2133,10 @@ EOF;
                 $fpos = $npos;
             }
 
-            $output = substr_replace($output, $page_footer."\n", $fpos, 0);
+            $output = substr_replace($output, $page_footer . "\n", $fpos, 0);
         }
         else {
-            $output .= "\n".$page_footer;
+            $output .= "\n" . $page_footer;
         }
 
         // add css files in head, before scripts, for speed up with parallel downloads
@@ -2220,7 +2222,7 @@ EOF;
             $hiddenfield = new html_hiddenfield(['name' => '_extwin', 'value' => '1']);
             $hidden = $hiddenfield->show();
         }
-        else if ($this->framed || !empty($this->env['framed'])) {
+        elseif ($this->framed || !empty($this->env['framed'])) {
             $hiddenfield = new html_hiddenfield(['name' => '_framed', 'value' => '1']);
             $hidden = $hiddenfield->show();
         }
@@ -2294,7 +2296,7 @@ EOF;
             $username = $_SESSION['username'];
         }
         // get e-mail address from default identity
-        else if ($sql_arr = $this->app->user->get_identity()) {
+        elseif ($sql_arr = $this->app->user->get_identity()) {
             $username = $sql_arr['email'];
         }
         else {
@@ -2388,14 +2390,14 @@ EOF;
                 }
             }
         }
-        else if (is_array($default_host) && ($host = key($default_host)) !== null) {
+        elseif (is_array($default_host) && ($host = key($default_host)) !== null) {
             $val = is_numeric($host) ? $default_host[$host] : $host;
             $input_host = new html_hiddenfield(['name' => '_host', 'id' => 'rcmloginhost', 'value' => $val] + $attrib);
 
             $form_content['hidden']['host'] = $input_host->show();
             $input_host = null;
         }
-        else if (empty($default_host)) {
+        elseif (empty($default_host)) {
             $input_host = new html_inputfield(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control']
                 + $attrib + $host_attrib);
         }
@@ -2469,7 +2471,7 @@ EOF;
             return;
         }
 
-        $this->add_script('var images = ' . self::json_serialize($images, $this->devel_mode) .';
+        $this->add_script('var images = ' . self::json_serialize($images, $this->devel_mode) . ';
             for (var i=0; i<images.length; i++) {
                 img = new Image();
                 img.src = images[i];
@@ -2623,46 +2625,46 @@ EOF;
         }
 
         $charsets = [
-            'UTF-8'        => 'UTF-8 ('.$this->app->gettext('unicode').')',
-            'US-ASCII'     => 'ASCII ('.$this->app->gettext('english').')',
-            'ISO-8859-1'   => 'ISO-8859-1 ('.$this->app->gettext('westerneuropean').')',
-            'ISO-8859-2'   => 'ISO-8859-2 ('.$this->app->gettext('easterneuropean').')',
-            'ISO-8859-4'   => 'ISO-8859-4 ('.$this->app->gettext('baltic').')',
-            'ISO-8859-5'   => 'ISO-8859-5 ('.$this->app->gettext('cyrillic').')',
-            'ISO-8859-6'   => 'ISO-8859-6 ('.$this->app->gettext('arabic').')',
-            'ISO-8859-7'   => 'ISO-8859-7 ('.$this->app->gettext('greek').')',
-            'ISO-8859-8'   => 'ISO-8859-8 ('.$this->app->gettext('hebrew').')',
-            'ISO-8859-9'   => 'ISO-8859-9 ('.$this->app->gettext('turkish').')',
-            'ISO-8859-10'  => 'ISO-8859-10 ('.$this->app->gettext('nordic').')',
-            'ISO-8859-11'  => 'ISO-8859-11 ('.$this->app->gettext('thai').')',
-            'ISO-8859-13'  => 'ISO-8859-13 ('.$this->app->gettext('baltic').')',
-            'ISO-8859-14'  => 'ISO-8859-14 ('.$this->app->gettext('celtic').')',
-            'ISO-8859-15'  => 'ISO-8859-15 ('.$this->app->gettext('westerneuropean').')',
-            'ISO-8859-16'  => 'ISO-8859-16 ('.$this->app->gettext('southeasterneuropean').')',
-            'WINDOWS-1250' => 'Windows-1250 ('.$this->app->gettext('easterneuropean').')',
-            'WINDOWS-1251' => 'Windows-1251 ('.$this->app->gettext('cyrillic').')',
-            'WINDOWS-1252' => 'Windows-1252 ('.$this->app->gettext('westerneuropean').')',
-            'WINDOWS-1253' => 'Windows-1253 ('.$this->app->gettext('greek').')',
-            'WINDOWS-1254' => 'Windows-1254 ('.$this->app->gettext('turkish').')',
-            'WINDOWS-1255' => 'Windows-1255 ('.$this->app->gettext('hebrew').')',
-            'WINDOWS-1256' => 'Windows-1256 ('.$this->app->gettext('arabic').')',
-            'WINDOWS-1257' => 'Windows-1257 ('.$this->app->gettext('baltic').')',
-            'WINDOWS-1258' => 'Windows-1258 ('.$this->app->gettext('vietnamese').')',
-            'ISO-2022-JP'  => 'ISO-2022-JP ('.$this->app->gettext('japanese').')',
-            'ISO-2022-KR'  => 'ISO-2022-KR ('.$this->app->gettext('korean').')',
-            'ISO-2022-CN'  => 'ISO-2022-CN ('.$this->app->gettext('chinese').')',
-            'EUC-JP'       => 'EUC-JP ('.$this->app->gettext('japanese').')',
-            'EUC-KR'       => 'EUC-KR ('.$this->app->gettext('korean').')',
-            'EUC-CN'       => 'EUC-CN ('.$this->app->gettext('chinese').')',
-            'BIG5'         => 'BIG5 ('.$this->app->gettext('chinese').')',
-            'GB2312'       => 'GB2312 ('.$this->app->gettext('chinese').')',
-            'KOI8-R'       => 'KOI8-R ('.$this->app->gettext('cyrillic').')',
+            'UTF-8'        => 'UTF-8 (' . $this->app->gettext('unicode') . ')',
+            'US-ASCII'     => 'ASCII (' . $this->app->gettext('english') . ')',
+            'ISO-8859-1'   => 'ISO-8859-1 (' . $this->app->gettext('westerneuropean') . ')',
+            'ISO-8859-2'   => 'ISO-8859-2 (' . $this->app->gettext('easterneuropean') . ')',
+            'ISO-8859-4'   => 'ISO-8859-4 (' . $this->app->gettext('baltic') . ')',
+            'ISO-8859-5'   => 'ISO-8859-5 (' . $this->app->gettext('cyrillic') . ')',
+            'ISO-8859-6'   => 'ISO-8859-6 (' . $this->app->gettext('arabic') . ')',
+            'ISO-8859-7'   => 'ISO-8859-7 (' . $this->app->gettext('greek') . ')',
+            'ISO-8859-8'   => 'ISO-8859-8 (' . $this->app->gettext('hebrew') . ')',
+            'ISO-8859-9'   => 'ISO-8859-9 (' . $this->app->gettext('turkish') . ')',
+            'ISO-8859-10'  => 'ISO-8859-10 (' . $this->app->gettext('nordic') . ')',
+            'ISO-8859-11'  => 'ISO-8859-11 (' . $this->app->gettext('thai') . ')',
+            'ISO-8859-13'  => 'ISO-8859-13 (' . $this->app->gettext('baltic') . ')',
+            'ISO-8859-14'  => 'ISO-8859-14 (' . $this->app->gettext('celtic') . ')',
+            'ISO-8859-15'  => 'ISO-8859-15 (' . $this->app->gettext('westerneuropean') . ')',
+            'ISO-8859-16'  => 'ISO-8859-16 (' . $this->app->gettext('southeasterneuropean') . ')',
+            'WINDOWS-1250' => 'Windows-1250 (' . $this->app->gettext('easterneuropean') . ')',
+            'WINDOWS-1251' => 'Windows-1251 (' . $this->app->gettext('cyrillic') . ')',
+            'WINDOWS-1252' => 'Windows-1252 (' . $this->app->gettext('westerneuropean') . ')',
+            'WINDOWS-1253' => 'Windows-1253 (' . $this->app->gettext('greek') . ')',
+            'WINDOWS-1254' => 'Windows-1254 (' . $this->app->gettext('turkish') . ')',
+            'WINDOWS-1255' => 'Windows-1255 (' . $this->app->gettext('hebrew') . ')',
+            'WINDOWS-1256' => 'Windows-1256 (' . $this->app->gettext('arabic') . ')',
+            'WINDOWS-1257' => 'Windows-1257 (' . $this->app->gettext('baltic') . ')',
+            'WINDOWS-1258' => 'Windows-1258 (' . $this->app->gettext('vietnamese') . ')',
+            'ISO-2022-JP'  => 'ISO-2022-JP (' . $this->app->gettext('japanese') . ')',
+            'ISO-2022-KR'  => 'ISO-2022-KR (' . $this->app->gettext('korean') . ')',
+            'ISO-2022-CN'  => 'ISO-2022-CN (' . $this->app->gettext('chinese') . ')',
+            'EUC-JP'       => 'EUC-JP (' . $this->app->gettext('japanese') . ')',
+            'EUC-KR'       => 'EUC-KR (' . $this->app->gettext('korean') . ')',
+            'EUC-CN'       => 'EUC-CN (' . $this->app->gettext('chinese') . ')',
+            'BIG5'         => 'BIG5 (' . $this->app->gettext('chinese') . ')',
+            'GB2312'       => 'GB2312 (' . $this->app->gettext('chinese') . ')',
+            'KOI8-R'       => 'KOI8-R (' . $this->app->gettext('cyrillic') . ')',
         ];
 
         if ($post = rcube_utils::get_input_string('_charset', rcube_utils::INPUT_POST)) {
             $set = $post;
         }
-        else if (!empty($attrib['selected'])) {
+        elseif (!empty($attrib['selected'])) {
             $set = $attrib['selected'];
         }
         else {
@@ -2759,7 +2761,7 @@ EOF;
                     }
                 }
             }
-            else if ($type != 'link') {
+            elseif ($type != 'link') {
                 $template_logo = $logo;
             }
         }

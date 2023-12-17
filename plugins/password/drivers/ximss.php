@@ -12,6 +12,7 @@
  *   http://www.communigate.com/WebGuide/XMLAPI.html
  *
  * @version 2.0
+ *
  * @author Erik Meitner <erik wanderings.us>
  *
  * Copyright (C) The Roundcube Dev Team
@@ -45,9 +46,9 @@ class rcube_ximss_password
         }
 
         // send all requests at once(pipelined)
-        fwrite($sock, '<login id="A001" authData="'.$username.'" password="'.$pass.'" />'."\0");
-        fwrite($sock, '<passwordModify id="A002" oldPassword="'.$pass.'" newPassword="'.$newpass.'"  />'."\0");
-        fwrite($sock, '<bye id="A003" />'."\0");
+        fwrite($sock, '<login id="A001" authData="' . $username . '" password="' . $pass . '" />' . "\0");
+        fwrite($sock, '<passwordModify id="A002" oldPassword="' . $pass . '" newPassword="' . $newpass . '"  />' . "\0");
+        fwrite($sock, '<bye id="A003" />' . "\0");
 
         //example responses
         //  <session id="A001" urlID="4815-vN2Txjkggy7gjHRD10jw" userName="user@example.com"/>\0
@@ -65,7 +66,7 @@ class rcube_ximss_password
         fclose($sock);
 
         foreach (explode("\0", $responseblob) as $response) {
-            $resp = simplexml_load_string("<xml>".$response."</xml>");
+            $resp = simplexml_load_string("<xml>" . $response . "</xml>");
             $id = $resp && !empty($resp->response[0]['id']) ? $resp->response[0]['id'] : null;
 
             if ($id == 'A001') {
@@ -73,12 +74,12 @@ class rcube_ximss_password
                     return PASSWORD_CONNECT_ERROR;
                 }
             }
-            else if ($id == 'A002') {
+            elseif ($id == 'A002') {
                 if (isset($resp->response[0]['errorNum'])) {
                     return PASSWORD_ERROR;
                 }
             }
-            else if ($id == 'A003') {
+            elseif ($id == 'A003') {
                 if (isset($resp->response[0]['errorNum'])) {
                     // There was a problem during logout (This is probably harmless)
                 }

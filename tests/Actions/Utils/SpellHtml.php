@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_utils_spell_html
- *
- * @package Tests
  */
 class Actions_Utils_SpellHtml extends ActionTestCase
 {

@@ -92,11 +92,11 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                     if ($ancestor_folder) {
                         if (empty($seen[$ancestor_folder])) {
                             $seen[$ancestor_folder] = true;
-                            $ancestor_name = rcube_charset::convert($foldersplit[$i-1], 'UTF7-IMAP');
+                            $ancestor_name = rcube_charset::convert($foldersplit[$i - 1], 'UTF7-IMAP');
                             $list_folders[] = [
                                 'id'      => $ancestor_folder,
                                 'name'    => $ancestor_name,
-                                'level'   => $i-1,
+                                'level'   => $i - 1,
                                 'virtual' => true,
                             ];
                         }
@@ -123,7 +123,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $checkbox_subscribe = new html_checkbox([
                 'name'    => '_subscribed[]',
                 'title'   => $rcmail->gettext('changesubscription'),
-                'onclick' => rcmail_output::JS_OBJECT_NAME.".command(this.checked?'subscribe':'unsubscribe',this.value)",
+                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command(this.checked?'subscribe':'unsubscribe',this.value)",
         ]);
 
         $js_folders = [];
@@ -196,7 +196,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 }
             }
 
-            $is_collapsed = strpos($collapsed, '&'.rawurlencode($folder['id']).'&') !== false;
+            $is_collapsed = strpos($collapsed, '&' . rawurlencode($folder['id']) . '&') !== false;
             $folder_id    = rcube_utils::html_identifier($folder['id'], true);
 
             if ($folder_class = self::folder_classname($folder['id'])) {
@@ -237,7 +237,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
         array_unshift($plugin['list'], $root);
 
-        for ($i = 0, $length = count($plugin['list']); $i<$length; $i++) {
+        for ($i = 0, $length = count($plugin['list']); $i < $length; $i++) {
             $folders[] = self::folder_tree_element($plugin['list'], $i, $js_folders);
         }
 
@@ -267,7 +267,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         }
 
         $children = [];
-        while (!empty($folders[$key+1]) && ($folders[$key+1]['level'] > $data['level'])) {
+        while (!empty($folders[$key + 1]) && ($folders[$key + 1]['level'] > $data['level'])) {
             $key++;
             $children[] = self::folder_tree_element($folders, $key, $js_folders);
         }

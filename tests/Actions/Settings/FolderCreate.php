@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_settings_folder_create
- *
- * @package Tests
  */
 class Actions_Settings_FolderCreate extends ActionTestCase
 {

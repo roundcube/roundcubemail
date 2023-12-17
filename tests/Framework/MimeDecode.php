@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_mime_decode class
- *
- * @package Tests
  */
 class Framework_MimeDecode extends PHPUnit\Framework\TestCase
 {

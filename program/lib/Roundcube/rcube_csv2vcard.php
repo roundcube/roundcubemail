@@ -19,9 +19,6 @@
 
 /**
  * CSV to vCard data converter
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_csv2vcard
 {
@@ -637,7 +634,7 @@ class rcube_csv2vcard
 
         // Handle special values
         if (!empty($contact['birthday-d']) && !empty($contact['birthday-m']) && !empty($contact['birthday-y'])) {
-            $contact['birthday'] = $contact['birthday-y'] .'-' .$contact['birthday-m'] . '-' . $contact['birthday-d'];
+            $contact['birthday'] = $contact['birthday-y'] . '-' . $contact['birthday-m'] . '-' . $contact['birthday-d'];
         }
 
         if (!empty($contact['groups'])) {
@@ -670,7 +667,7 @@ class rcube_csv2vcard
         foreach ($contact as $idx => $value) {
             $name = explode(':', $idx);
             if (in_array($name[0], ['street', 'locality', 'region', 'zipcode', 'country'])) {
-                $contact['address:'.$name[1]][$name[0]] = $value;
+                $contact['address:' . $name[1]][$name[0]] = $value;
                 unset($contact[$idx]);
             }
         }

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_contacts class
- *
- * @package Tests
  */
 class Framework_Contacts extends PHPUnit\Framework\TestCase
 {

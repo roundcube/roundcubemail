@@ -16,6 +16,7 @@
  * log types and files.
  *
  * @author Ziba Scott
+ *
  * @website http://roundcube.net
  *
  * Example:
@@ -99,7 +100,7 @@ class debug_logger extends rcube_plugin
 
     function authenticate($args)
     {
-        $this->runlog->note('Authenticating '.$args['user'].'@'.$args['host']);
+        $this->runlog->note('Authenticating ' . $args['user'] . '@' . $args['host']);
         return $args;
     }
 

@@ -20,9 +20,6 @@
 
 /**
  * Class for output generation
- *
- * @package    Framework
- * @subpackage View
  */
 abstract class rcube_output
 {
@@ -143,8 +140,8 @@ abstract class rcube_output
             return;
         }
 
-        header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
-        header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+        header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
         // We need to set the following headers to make downloads work using IE in HTTPS mode.
         if ($this->browser->ie && rcube_utils::https_check()) {
@@ -168,7 +165,7 @@ abstract class rcube_output
             return;
         }
 
-        header("Expires: " . gmdate("D, d M Y H:i:s", time()+$offset) . " GMT");
+        header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
         header("Cache-Control: max-age=$offset");
         header("Pragma: ");
     }
@@ -323,13 +320,13 @@ abstract class rcube_output
             $attrib['value'] = '1';
             $input = new html_checkbox($attrib);
         }
-        else if ($type == 'textarea') {
+        elseif ($type == 'textarea') {
             if (!empty($attrib['size'])) {
                 $attrib['cols'] = $attrib['size'];
             }
             $input = new html_textarea($attrib);
         }
-        else if ($type == 'select') {
+        elseif ($type == 'select') {
             $input = new html_select($attrib);
             if (empty($attrib['skip-empty'])) {
                 $input->add('---', '');
@@ -338,7 +335,7 @@ abstract class rcube_output
                 $input->add(array_values($attrib['options']), array_keys($attrib['options']));
             }
         }
-        else if ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
+        elseif ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
             $input = new html_passwordfield($attrib);
         }
         else {

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_ldap_generic class
- *
- * @package Tests
  */
 class Framework_LdapGeneric extends PHPUnit\Framework\TestCase
 {

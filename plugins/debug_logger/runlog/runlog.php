@@ -39,8 +39,8 @@ class runlog
 
         $this->parent_stack[] = $name;
 
-        $this->print_to_console("start: ".$name, $tag);
-        $this->print_to_file("start: ".$name, $tag);
+        $this->print_to_console("start: " . $name, $tag);
+        $this->print_to_file("start: " . $name, $tag);
         $this->indent++;
     }
 
@@ -166,7 +166,7 @@ class runlog
             if (strlen($buffer) > $this->max_line_size) {
                 $buffer = substr($buffer,0,$this->max_line_size - 3) . "...";
             }
-            fwrite($this->file_handles['master'], $buffer."\n");
+            fwrite($this->file_handles['master'], $buffer . "\n");
         }
     }
 

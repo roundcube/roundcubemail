@@ -21,9 +21,6 @@
 
 /**
  * Class for accessing IMAP's THREAD result
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_result_thread
 {
@@ -293,8 +290,8 @@ class rcube_result_thread
             if ($get_index) {
                 $idx = 0;
                 if ($m[0][1]) {
-                    $idx = substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1]+1)
-                        + substr_count($this->raw_data, self::SEPARATOR_ITEM, 0, $m[0][1]+1);
+                    $idx = substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1] + 1)
+                        + substr_count($this->raw_data, self::SEPARATOR_ITEM, 0, $m[0][1] + 1);
                 }
                 // cache position of this element, so we can use it in get_element()
                 $this->meta['pos'][$idx] = (int) $m[0][1];
@@ -320,7 +317,7 @@ class rcube_result_thread
 
         $regexp = '/(' . preg_quote(self::SEPARATOR_ELEMENT, '/')
             . '|' . preg_quote(self::SEPARATOR_ITEM, '/') . '[0-9]+' . preg_quote(self::SEPARATOR_LEVEL, '/')
-            .')/';
+            . ')/';
 
         return preg_split($regexp, $this->raw_data);
     }
@@ -362,7 +359,7 @@ class rcube_result_thread
         }
 
         // last element
-        if ($index === 'LAST' || $index == $count-1) {
+        if ($index === 'LAST' || $index == $count - 1) {
             preg_match('/([0-9]+)$/', $this->raw_data, $m);
             $result = (int) $m[1];
             return $result;
@@ -371,7 +368,7 @@ class rcube_result_thread
         // do we know the position of the element or the neighbour of it?
         if (!empty($this->meta['pos'])) {
             $element = preg_quote(self::SEPARATOR_ELEMENT, '/');
-            $item    = preg_quote(self::SEPARATOR_ITEM, '/') . '[0-9]+' . preg_quote(self::SEPARATOR_LEVEL, '/') .'?';
+            $item    = preg_quote(self::SEPARATOR_ITEM, '/') . '[0-9]+' . preg_quote(self::SEPARATOR_LEVEL, '/') . '?';
             $regexp  = '(' . $element . '|' . $item . ')';
 
             if (isset($this->meta['pos'][$index])) {
@@ -379,19 +376,19 @@ class rcube_result_thread
                     $result = $m[1];
                 }
             }
-            else if (isset($this->meta['pos'][$index-1])) {
+            elseif (isset($this->meta['pos'][$index - 1])) {
                 // get chunk of data after previous element
-                $data = substr($this->raw_data, $this->meta['pos'][$index-1]+1, 50);
+                $data = substr($this->raw_data, $this->meta['pos'][$index - 1] + 1, 50);
                 $data = preg_replace('/^[0-9]+/', '', $data); // remove UID at $index position
                 $data = preg_replace("/^$regexp/", '', $data); // remove separator
                 if (preg_match('/^([0-9]+)/', $data, $m)) {
                     $result = $m[1];
                 }
             }
-            else if (isset($this->meta['pos'][$index+1])) {
+            elseif (isset($this->meta['pos'][$index + 1])) {
                 // get chunk of data before next element
-                $pos  = max(0, $this->meta['pos'][$index+1] - 50);
-                $len  = min(50, $this->meta['pos'][$index+1]);
+                $pos  = max(0, $this->meta['pos'][$index + 1] - 50);
+                $len  = min(50, $this->meta['pos'][$index + 1]);
                 $data = substr($this->raw_data, $pos, $len);
                 $data = preg_replace("/$regexp\$/", '', $data); // remove separator
 
@@ -418,7 +415,7 @@ class rcube_result_thread
      *
      * @return array|string Response parameters or parameter value
      */
-    public function get_parameters($param=null)
+    public function get_parameters($param = null)
     {
         $params = [
             'MAILBOX' => $this->mailbox,
@@ -472,7 +469,7 @@ class rcube_result_thread
             if ($root) {
                 $result[$root] = $root;
                 foreach ($items as $item) {
-                    list($lv, $id) = explode(self::SEPARATOR_LEVEL, $item);
+                    [$lv, $id] = explode(self::SEPARATOR_LEVEL, $item);
                     $result[$id] = $root;
                 }
             }
@@ -566,11 +563,11 @@ class rcube_result_thread
     {
         $result = [];
 
-        for ($len=count($items); $pos < $len; $pos++) {
-            list($lv, $id) = explode(self::SEPARATOR_LEVEL, $items[$pos]);
+        for ($len = count($items); $pos < $len; $pos++) {
+            [$lv, $id] = explode(self::SEPARATOR_LEVEL, $items[$pos]);
             if ($level == $lv) {
                 $pos++;
-                $result[$id] = $this->build_thread($items, $level+1, $pos);
+                $result[$id] = $this->build_thread($items, $level + 1, $pos);
             }
             else {
                 $pos--;
@@ -623,7 +620,7 @@ class rcube_result_thread
 
             foreach ($messages as $msg) {
                 if ($msg) {
-                    $node .= ($depth ? self::SEPARATOR_ITEM.$depth.self::SEPARATOR_LEVEL : '').$msg;
+                    $node .= ($depth ? self::SEPARATOR_ITEM . $depth . self::SEPARATOR_LEVEL : '') . $msg;
                     if (isset($this->meta['messages'])) {
                         $this->meta['messages']++;
                     }

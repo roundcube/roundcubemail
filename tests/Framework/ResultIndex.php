@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_result_index class
- *
- * @package Tests
  */
 class Framework_ResultIndex extends PHPUnit\Framework\TestCase
 {

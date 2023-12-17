@@ -20,9 +20,6 @@
 
 /**
  * Roundcube utilities
- *
- * @package    Webmail
- * @subpackage Utils
  */
 class rcmail_utils
 {
@@ -205,7 +202,7 @@ class rcmail_utils
                 }
                 return false;
             }
-            else if (empty($opts['quiet'])) {
+            elseif (empty($opts['quiet'])) {
                 echo "[OK]\n";
             }
         }
@@ -241,7 +238,7 @@ class rcmail_utils
 
         if (!$db->is_error() && !$db->affected_rows()) {
             $db->query("INSERT INTO " . $system_table
-                ." (`name`, `value`) VALUES (?, ?)",
+                . " (`name`, `value`) VALUES (?, ?)",
                 $package . '-version', $version);
         }
 
@@ -253,7 +250,7 @@ class rcmail_utils
      *
      * @param string $package Package name
      *
-     * @return null|string Version string
+     * @return string|null Version string
      */
     public static function db_version($package = 'roundcube')
     {
@@ -311,7 +308,7 @@ class rcmail_utils
             if (is_string($hosts)) {
                 $args['host'] = $hosts;
             }
-            else if (is_array($hosts) && count($hosts) == 1) {
+            elseif (is_array($hosts) && count($hosts) == 1) {
                 $args['host'] = reset($hosts);
             }
             else {
@@ -377,7 +374,7 @@ class rcmail_utils
         if ($type == 'bool' || $type == 'boolean') {
             $value = rcube_utils::get_boolean($value);
         }
-        else if ($type == 'int' || $type == 'integer') {
+        elseif ($type == 'int' || $type == 'integer') {
             $value = (int) $value;
         }
 
