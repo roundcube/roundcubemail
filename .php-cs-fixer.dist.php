@@ -2,7 +2,7 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in([__DIR__])
-    ->exclude(['vendor'])
+    ->exclude(['vendor', 'public_html'])
     ->ignoreDotFiles(false)
     ->name('*.php.dist')
     ->name('*.dist.php');
