@@ -214,10 +214,15 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $oauth->init();
 
         $_SESSION['oauth_state'] = "random-state";
+
+        StderrMock::start();
         $response = $oauth->request_access_token('fake-code', 'mismatch-state');
+        StderrMock::stop();
 
         // should be false as state do not match
         $this->assertFalse($response);
+
+        $this->assertSame("ERROR: OAuth token request failed: state parameter mismatch", trim(StderrMock::$output));
     }
 
     /**
