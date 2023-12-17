@@ -152,7 +152,7 @@ function in_array_nocase($needle, $haystack)
  */
 function parse_bytes($str)
 {
-    if (preg_match('/^([0-9\.]+)\s*([KMGT]?)I?B?$/', trim(strtoupper($str)), $regs)) {
+    if (preg_match('/^([0-9\.]+)\s*([KMGT]?)I?B?$/', trim(strtoupper($str ?? '')), $regs)) {
         $bytes = floatval($regs[1]);
         switch ($regs[2]) {
             case 'T':
