@@ -190,7 +190,7 @@ class rcube_mime_decode
                     break;
 
                 case 'message/rfc822':
-                    $obj = new rcube_mime_decode($this->params);
+                    $obj = new self($this->params);
                     $return->parts[] = $obj->decode($body, false);
                     unset($obj);
 

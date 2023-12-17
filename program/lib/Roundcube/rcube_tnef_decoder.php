@@ -404,7 +404,7 @@ class rcube_tnef_decoder
 
                 case self::MAPI_ATTACH_DATA:
                     $this->_getx($value, 16);
-                    $att = new rcube_tnef_decoder;
+                    $att = new self;
                     $res = $att->decompress($value);
                     $result = array_merge($result, $res['message']);
                     break;

@@ -609,7 +609,7 @@ class rcube_user
 
         // user already registered -> overwrite username
         if ($sql_arr) {
-            return new rcube_user($sql_arr['user_id'], $sql_arr);
+            return new self($sql_arr['user_id'], $sql_arr);
         }
     }
 
@@ -660,7 +660,7 @@ class rcube_user
 
         if ($dbh->affected_rows($insert) && ($user_id = $dbh->insert_id('users'))) {
             // create rcube_user instance to make plugin hooks work
-            $user_instance = new rcube_user($user_id, [
+            $user_instance = new self($user_id, [
                     'user_id'     => $user_id,
                     'username'    => $data['user'],
                     'mail_host'   => $data['host'],

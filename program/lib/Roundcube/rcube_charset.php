@@ -411,7 +411,7 @@ class rcube_charset
         foreach ($charsets as $charset) {
             $ret = self::convert($chunk, $charset);
 
-            if ($ret === rcube_charset::clean($ret)) {
+            if ($ret === self::clean($ret)) {
                 return $charset;
             }
         }

@@ -95,7 +95,7 @@ class rcmail_install
         static $inst;
 
         if (!$inst) {
-            $inst = new rcmail_install();
+            $inst = new self();
         }
 
         return $inst;

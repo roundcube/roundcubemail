@@ -66,7 +66,7 @@ class rcube_plugin_api
     static function get_instance()
     {
         if (!self::$instance) {
-            self::$instance = new rcube_plugin_api();
+            self::$instance = new self();
         }
 
         return self::$instance;

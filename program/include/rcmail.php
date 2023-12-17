@@ -90,7 +90,7 @@ class rcmail extends rcube
                 $env = 'test';
             }
 
-            self::$instance = new rcmail($env);
+            self::$instance = new self($env);
             // init AFTER object was linked with self::$instance
             self::$instance->startup();
         }
@@ -302,7 +302,7 @@ class rcmail extends rcube
 
         // if we arrive here, something went wrong
         $error = ['code' => 404, 'line' => __LINE__, 'file' => __FILE__, 'message' => "Invalid request"];
-        rcmail::raise_error($error, true, true);
+        self::raise_error($error, true, true);
     }
 
     /**
