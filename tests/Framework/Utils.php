@@ -187,7 +187,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $result = rcube_utils::rep_specialchars_output(
             $str, $type ?: 'html', $mode ?: 'strict');
 
-        $this->assertEquals($result, $res);
+        $this->assertSame($result, $res);
     }
 
     /**
@@ -217,41 +217,41 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     function test_mod_css_styles_xss()
     {
         $mod = rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "No url() values allowed");
+        $this->assertSame("/* evil! */", $mod, "No url() values allowed");
 
         $mod = rcube_utils::mod_css_styles("@import url('http://localhost/somestuff/css/master.css');", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "No import statements");
+        $this->assertSame("/* evil! */", $mod, "No import statements");
 
         $mod = rcube_utils::mod_css_styles("left:expression(document.body.offsetWidth-20)", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "No expression properties");
+        $this->assertSame("/* evil! */", $mod, "No expression properties");
 
         $mod = rcube_utils::mod_css_styles("left:exp/*  */ression( alert(&#039;xss3&#039;) )", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks");
+        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks");
 
         $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\00006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
+        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks (2)");
 
         $mod = rcube_utils::mod_css_styles("background: \\75 \\72 \\6C ('/images/img.png')", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (3)");
+        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks (3)");
 
         $mod = rcube_utils::mod_css_styles("background: u\\r\\l('/images/img.png')", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (4)");
+        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks (4)");
 
         // position: fixed (#5264)
         $mod = rcube_utils::mod_css_styles(".test { position: fixed; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (0)");
+        $this->assertSame("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (0)");
         $mod = rcube_utils::mod_css_styles(".test { position:\nfixed; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (1)");
+        $this->assertSame("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (1)");
         $mod = rcube_utils::mod_css_styles(".test { position:/**/fixed; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (2)");
+        $this->assertSame("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (2)");
 
         // position: fixed (#6898)
         $mod = rcube_utils::mod_css_styles(".test { position : fixed; top: 0; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (3)");
+        $this->assertSame("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (3)");
         $mod = rcube_utils::mod_css_styles(".test { position/**/: fixed; top: 0; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (4)");
+        $this->assertSame("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (4)");
         $mod = rcube_utils::mod_css_styles(".test { position\n: fixed; top: 0; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (5)");
+        $this->assertSame("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (5)");
 
         // allow data URIs with images (#5580)
         $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
@@ -784,7 +784,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_idn_to_ascii($decoded, $encoded)
     {
-        $this->assertEquals(rcube_utils::idn_to_ascii($decoded), $encoded);
+        $this->assertSame(rcube_utils::idn_to_ascii($decoded), $encoded);
     }
 
     /**
@@ -797,7 +797,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_idn_to_utf8($decoded, $encoded)
     {
-        $this->assertEquals(rcube_utils::idn_to_utf8($encoded), $decoded);
+        $this->assertSame(rcube_utils::idn_to_utf8($encoded), $decoded);
     }
 
     /**
@@ -805,8 +805,8 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_idn_to_ascii_special()
     {
-        $this->assertEquals(rcube_utils::idn_to_ascii('H.S'), 'H.S');
-        $this->assertEquals(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
+        $this->assertSame(rcube_utils::idn_to_ascii('H.S'), 'H.S');
+        $this->assertSame(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
     }
 
     /**
@@ -829,7 +829,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_parse_host($name, $host, $result)
     {
-        $this->assertEquals(rcube_utils::parse_host($name, $host), $result);
+        $this->assertSame(rcube_utils::parse_host($name, $host), $result);
     }
 
     /**
@@ -886,7 +886,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_remove_subject_prefix($mode, $subject, $result)
     {
-        $this->assertEquals(rcube_utils::remove_subject_prefix($subject, $mode), $result);
+        $this->assertSame(rcube_utils::remove_subject_prefix($subject, $mode), $result);
     }
 
     /**
@@ -894,13 +894,13 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_server_name()
     {
-        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', rcube_utils::server_name('test'));
 
         $_SERVER['test'] = 'test.com:843';
-        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+        $this->assertSame('test.com', rcube_utils::server_name('test'));
 
         $_SERVER['test'] = 'test.com';
-        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+        $this->assertSame('test.com', rcube_utils::server_name('test'));
     }
 
     /**
@@ -914,27 +914,27 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $rcube->config->set('trusted_host_patterns', ['my.domain.tld']);
 
         StderrMock::start();
-        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', rcube_utils::server_name('test'));
         StderrMock::stop();
         $this->assertSame("ERROR: Specified host is not trusted. Using 'localhost'.", trim(StderrMock::$output));
 
         $rcube->config->set('trusted_host_patterns', ['test.com']);
 
         StderrMock::start();
-        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+        $this->assertSame('test.com', rcube_utils::server_name('test'));
         StderrMock::stop();
 
         $_SERVER['test'] = 'subdomain.test.com';
 
         StderrMock::start();
-        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', rcube_utils::server_name('test'));
         StderrMock::stop();
 
         $rcube->config->set('trusted_host_patterns', ['^test.com$']);
         $_SERVER['test'] = '^test.com$';
 
         StderrMock::start();
-        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', rcube_utils::server_name('test'));
         StderrMock::stop();
     }
 }

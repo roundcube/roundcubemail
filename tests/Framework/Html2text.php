@@ -100,7 +100,7 @@ class rc_html2text extends PHPUnit\Framework\TestCase
         $ht->set_html($in);
         $res = $ht->get_text();
 
-        $this->assertEquals($out, $res, $title);
+        $this->assertSame($out, $res, $title);
     }
 
     /**

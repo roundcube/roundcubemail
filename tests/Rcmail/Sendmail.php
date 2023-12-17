@@ -154,7 +154,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $sendmail = new rcmail_sendmail();
         $sendmail->options['charset'] = $charset;
 
-        $this->assertEquals($output, $sendmail->email_input_format($input));
+        $this->assertSame($output, $sendmail->email_input_format($input));
     }
 
     /**
@@ -172,23 +172,23 @@ class Rcmail_RcmailSendmail extends ActionTestCase
     {
         $input  = ['test' => 'test'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertEquals('test=test', $result);
-        $this->assertEquals($input, rcmail_sendmail::draftinfo_decode($result));
+        $this->assertSame('test=test', $result);
+        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
         $input  = ['folder' => 'test'];
         $result =  rcmail_sendmail::draftinfo_encode($input);
-        $this->assertEquals('folder=B::dGVzdA==', $result);
-        $this->assertEquals($input, rcmail_sendmail::draftinfo_decode($result));
+        $this->assertSame('folder=B::dGVzdA==', $result);
+        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
         $input  = ['test' => 'test;test'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertEquals('test=B::dGVzdDt0ZXN0', $result);
-        $this->assertEquals($input, rcmail_sendmail::draftinfo_decode($result));
+        $this->assertSame('test=B::dGVzdDt0ZXN0', $result);
+        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
         $input  = ['test' => 'test;test', 'a' => 'b'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertEquals('test=B::dGVzdDt0ZXN0; a=b', $result);
-        $this->assertEquals($input, rcmail_sendmail::draftinfo_decode($result));
+        $this->assertSame('test=B::dGVzdDt0ZXN0; a=b', $result);
+        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
     }
 
     /**
