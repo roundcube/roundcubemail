@@ -80,7 +80,6 @@ return (new PhpCsFixer\Config())
         'class_reference_name_casing' => false,
         'constant_case' => false,
         'control_structure_continuation_position' => false,
-        'empty_loop_condition' => false,
         'explicit_indirect_variable' => false,
         'explicit_string_variable' => false,
         'general_phpdoc_annotation_remove' => false,
