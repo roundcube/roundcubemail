@@ -1,4 +1,5 @@
 <?php
+
 /**
  * XMail Password Driver
  *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Roundcube Reconnect Plugin
  *
