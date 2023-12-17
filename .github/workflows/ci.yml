@@ -70,4 +70,5 @@ jobs:
 
       - name: Run Static Analysis
         run: |
+          rm -r public_html
           vendor/bin/phpstan analyse
