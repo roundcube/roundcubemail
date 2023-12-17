@@ -102,7 +102,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_to_comment' => false,
         'single_line_comment_spacing' => false,
         'single_quote' => false,
-        'single_trait_insert_per_statement' => false,
         'standardize_increment' => false,
         'ternary_to_null_coalescing' => false,
         'visibility_required' => false,
