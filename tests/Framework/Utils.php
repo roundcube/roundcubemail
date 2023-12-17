@@ -181,6 +181,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
     /**
      * Test for rep_specialchars_output
+     *
      * @dataProvider data_rep_specialchars_output
      */
     function test_rep_specialchars_output($type, $mode, $str, $res)
@@ -780,6 +781,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @param string $decoded Decoded email address
      * @param string $encoded Encoded email address
+     *
      * @dataProvider data_idn_convert
      */
     function test_idn_to_ascii($decoded, $encoded)
@@ -792,6 +794,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @param string $decoded Decoded email address
      * @param string $encoded Encoded email address
+     *
      * @dataProvider data_idn_convert
      */
     function test_idn_to_utf8($decoded, $encoded)

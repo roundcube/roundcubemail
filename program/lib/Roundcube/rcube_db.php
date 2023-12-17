@@ -586,6 +586,7 @@ class rcube_db
      *                        should be the same as in $columns)
      *
      * @return PDOStatement|bool Query handle or False on error
+     *
      * @todo Multi-insert support
      */
     public function insert_or_update($table, $keys, $columns, $values)
@@ -640,6 +641,7 @@ class rcube_db
      * @param mixed $result Optional query handle
      *
      * @return mixed Number of rows or false on failure
+     *
      * @deprecated This method shows very poor performance and should be avoided.
      */
     public function num_rows($result = null)
@@ -942,6 +944,7 @@ class rcube_db
      * @param string $str Value to quote
      *
      * @return string Quoted string for use in query
+     *
      * @deprecated    Replaced by rcube_db::quote_identifier
      * @see           rcube_db::quote_identifier
      */
@@ -956,6 +959,7 @@ class rcube_db
      * @param string $str A string to escape
      *
      * @return string Escaped string for use in a query
+     *
      * @deprecated    Replaced by rcube_db::escape
      * @see           rcube_db::escape
      */
@@ -1046,6 +1050,7 @@ class rcube_db
      * @param string $field Field name
      *
      * @return string SQL statement to use in query
+     *
      * @deprecated
      */
     public function unixtimestamp($field)
@@ -1059,6 +1064,7 @@ class rcube_db
      * @param int $timestamp Unix timestamp
      *
      * @return string Date string in db-specific format
+     *
      * @deprecated
      */
     public function fromunixtime($timestamp)

@@ -626,6 +626,7 @@ class rcube_imap extends rcube_storage
      * Returns IMAP server vendor name
      *
      * @return string Vendor name
+     *
      * @since 1.2
      */
     public function get_vendor()
@@ -705,6 +706,7 @@ class rcube_imap extends rcube_storage
      * @param bool   $no_search Ignore current search result
      *
      * @return int Number of messages
+     *
      * @see rcube_imap::count()
      */
     protected function countmessages($folder, $mode = 'ALL', $force = false, $status = true, $no_search = false)
@@ -879,6 +881,7 @@ class rcube_imap extends rcube_storage
      * @param int    $slice      Number of slice items to extract from result array
      *
      * @return array Indexed array with message header objects
+     *
      * @see rcube_imap::list_messages
      */
     protected function _list_messages($folder = '', $page = null, $sort_field = null, $sort_order = null, $slice = 0)
@@ -930,6 +933,7 @@ class rcube_imap extends rcube_storage
      * @param int    $slice  Number of slice items to extract from result array
      *
      * @return array Indexed array with message header objects
+     *
      * @see rcube_imap::list_messages
      */
     protected function list_thread_messages($folder, $page, $slice = 0)
@@ -1264,6 +1268,7 @@ class rcube_imap extends rcube_storage
      * @param int    $slice  Number of slice items to extract from result array
      *
      * @return array Indexed array with message header objects
+     *
      * @see rcube_imap::list_search_messages()
      */
     protected function list_search_thread_messages($folder, $page, $slice = 0)
@@ -1378,6 +1383,7 @@ class rcube_imap extends rcube_storage
 
     /**
      * Stores folder statistic data in session
+     *
      * @TODO: move to separate DB table (cache?)
      *
      * @param string $folder Folder name
@@ -1616,6 +1622,7 @@ class rcube_imap extends rcube_storage
      * @param string $sort_field Header field to sort by
      *
      * @return rcube_result_index Search result object
+     *
      * @todo: Search criteria should be provided in non-IMAP format, e.g. array
      */
     public function search($folder = '', $search = 'ALL', $charset = null, $sort_field = null)
@@ -1726,6 +1733,7 @@ class rcube_imap extends rcube_storage
      * @param string $sort_field Sorting field
      *
      * @return rcube_result_index|rcube_result_thread Search results (UIDs)
+     *
      * @see rcube_imap::search()
      */
     protected function search_index($folder, $criteria = 'ALL', $charset = null, $sort_field = null)
@@ -2957,6 +2965,7 @@ class rcube_imap extends rcube_storage
      * @param string $name Optional name pattern
      *
      * @return array List of subscribed folders
+     *
      * @see rcube_imap::list_folders_subscribed()
      */
     public function list_folders_subscribed_direct($root = '', $name = '*')
@@ -3099,6 +3108,7 @@ class rcube_imap extends rcube_storage
      * @param string $name Optional name pattern
      *
      * @return array List of folders
+     *
      * @see rcube_imap::list_folders()
      */
     public function list_folders_direct($root = '', $name = '*')
@@ -3937,6 +3947,7 @@ class rcube_imap extends rcube_storage
      * @param string $acl    ACL string
      *
      * @return bool True on success, False on failure
+     *
      * @since 0.5-beta
      */
     public function set_acl($folder, $user, $acl)
@@ -3963,6 +3974,7 @@ class rcube_imap extends rcube_storage
      * @param string $user   User name
      *
      * @return bool True on success, False on failure
+     *
      * @since 0.5-beta
      */
     public function delete_acl($folder, $user)
@@ -3984,6 +3996,7 @@ class rcube_imap extends rcube_storage
      * @param string $folder Folder name
      *
      * @return array User-rights array on success, NULL on error
+     *
      * @since 0.5-beta
      */
     public function get_acl($folder)
@@ -4007,6 +4020,7 @@ class rcube_imap extends rcube_storage
      * @param string $user   User name
      *
      * @return array List of user rights
+     *
      * @since 0.5-beta
      */
     public function list_rights($folder, $user)
@@ -4029,6 +4043,7 @@ class rcube_imap extends rcube_storage
      * @param string $folder Folder name
      *
      * @return array MYRIGHTS response on success, NULL on error
+     *
      * @since 0.5-beta
      */
     public function my_rights($folder)
@@ -4051,6 +4066,7 @@ class rcube_imap extends rcube_storage
      * @param array  $entries Entry-value array (use NULL value as NIL)
      *
      * @return bool True on success, False on failure
+     *
      * @since 0.5-beta
      */
     public function set_metadata($folder, $entries)
@@ -4086,6 +4102,7 @@ class rcube_imap extends rcube_storage
      * @param array  $entries Entry names array
      *
      * @return bool True on success, False on failure
+     *
      * @since 0.5-beta
      */
     public function delete_metadata($folder, $entries)
@@ -4123,6 +4140,7 @@ class rcube_imap extends rcube_storage
      * @param bool   $force   Disables cache use
      *
      * @return array Metadata entry-value hash array on success, NULL on error
+     *
      * @since 0.5-beta
      */
     public function get_metadata($folder, $entries, $options = [], $force = false)

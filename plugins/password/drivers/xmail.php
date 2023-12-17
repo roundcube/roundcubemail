@@ -5,6 +5,7 @@
  * Driver for XMail password
  *
  * @version 2.0
+ *
  * @author Helio Cavichiolo Jr <helio@hcsistemas.com.br>
  *
  * Setup xmail_host, xmail_user, xmail_pass and xmail_port into

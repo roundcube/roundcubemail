@@ -2230,6 +2230,7 @@ class rcube_ldap extends rcube_addressbook
      * @param mixed $contact_id Record identifier
      *
      * @return array List of assigned groups as ID=>Name pairs
+     *
      * @since 0.5-beta
      */
     function get_record_groups($contact_id)

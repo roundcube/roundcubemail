@@ -208,19 +208,18 @@ class rcube_smtp
     /**
      * Function for sending mail
      *
-     * @param string $from Sender e-Mail address
-     *
-     * @param mixed $recipients Either a comma-separated list of recipients
-     *                          (RFC822 compliant), or an array of recipients,
-     *                          each RFC822 valid. This may contain recipients not
-     *                          specified in the headers, for Bcc:, resending
-     *                          messages, etc.
-     * @param mixed $headers    The message headers to send with the mail
-     *                          Either as an associative array or a finally
-     *                          formatted string
-     * @param mixed $body       The full text of the message body, including any Mime parts
-     *                          or file handle
-     * @param array $opts       Delivery options (e.g. DSN request)
+     * @param string $from       Sender e-Mail address
+     * @param mixed  $recipients Either a comma-separated list of recipients
+     *                           (RFC822 compliant), or an array of recipients,
+     *                           each RFC822 valid. This may contain recipients not
+     *                           specified in the headers, for Bcc:, resending
+     *                           messages, etc.
+     * @param mixed  $headers    The message headers to send with the mail
+     *                           Either as an associative array or a finally
+     *                           formatted string
+     * @param mixed  $body       The full text of the message body, including any Mime parts
+     *                           or file handle
+     * @param array  $opts       Delivery options (e.g. DSN request)
      *
      * @return bool True on success, or False on error
      */

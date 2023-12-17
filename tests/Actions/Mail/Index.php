@@ -426,6 +426,7 @@ class Actions_Mail_Index extends ActionTestCase
 
     /**
      * Test washtml class on non-unicode characters (#1487813)
+     *
      * @group mbstring
      */
     function test_washtml_utf8()

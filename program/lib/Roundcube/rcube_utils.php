@@ -276,6 +276,7 @@ class rcube_utils
      * @param string $charset    Charset to convert into
      *
      * @return string Request parameter value
+     *
      * @see self::get_input_value()
      */
     public static function get_input_string($fname, $source, $allow_html = false, $charset = null)
@@ -1490,6 +1491,7 @@ class rcube_utils
      * @param string $input Binary input
      *
      * @return string Readable output (Base62)
+     *
      * @deprecated since 1.3.1
      */
     public static function bin2ascii($input)

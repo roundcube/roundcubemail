@@ -49,6 +49,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
 
     /**
      * Test absolute_url()
+     *
      * @dataProvider data_absolute_url
      */
     function test_absolute_url($path, $base, $expected)

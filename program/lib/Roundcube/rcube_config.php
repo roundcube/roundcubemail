@@ -536,6 +536,7 @@ class rcube_config
      * Special getter for user's timezone offset including DST
      *
      * @return float Timezone offset (in hours)
+     *
      * @deprecated
      */
     public function get_timezone()
@@ -586,6 +587,7 @@ class rcube_config
      * Try to autodetect operating system and find the correct line endings
      *
      * @return string The appropriate mail header delimiter
+     *
      * @deprecated Since 1.3 we don't use mail()
      */
     public function header_delimiter()

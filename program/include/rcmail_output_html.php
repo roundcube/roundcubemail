@@ -1083,7 +1083,9 @@ EOF;
      * @param string $input Template content
      *
      * @return string
+     *
      * @uses   rcmail_output_html::parse_xml()
+     *
      * @since  0.1-rc1
      */
     public function just_parse($input)
@@ -1207,6 +1209,7 @@ EOF;
      * @param string $condition Condition statement
      *
      * @return bool True if condition is met, False if not
+     *
      * @todo Extend this to allow real conditions, not just "set"
      */
     protected function check_condition($condition)
@@ -1312,6 +1315,7 @@ EOF;
      * @param string $input Input string to parse
      *
      * @return string Altered input string
+     *
      * @todo   Use DOM-parser to traverse template HTML
      * @todo   Maybe a cache.
      */
@@ -1726,6 +1730,7 @@ EOF;
      * @param array $attrib Named button attributes
      *
      * @return string HTML button
+     *
      * @todo   Remove all inline JS calls and use jQuery instead.
      * @todo   Remove all sprintf()'s - they are pretty, but also slow.
      */

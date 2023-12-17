@@ -34,6 +34,7 @@ class rcmail_string_replacer extends rcube_string_replacer
      * @param array $matches Matches result from preg_replace_callback
      *
      * @return int Index of saved string value
+     *
      * @see rcube_string_replacer::mailto_callback()
      */
     protected function mailto_callback($matches)

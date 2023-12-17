@@ -457,6 +457,7 @@ abstract class rcube_storage
      * @param int $uid Message UID
      *
      * @return string $part Message/part body
+     *
      * @see    rcube_imap::get_message_part()
      */
     public function get_body($uid, $part = 1)
@@ -515,6 +516,7 @@ abstract class rcube_storage
      * @param string $folder Folder name
      *
      * @return bool Operation status
+     *
      * @see set_flag
      */
     public function unset_flag($uids, $flag, $folder = null)

@@ -196,6 +196,7 @@ class rcube_message
      * @param bool     $formatted         Enables formatting of text/* parts bodies
      *
      * @return string Part content
+     *
      * @deprecated
      */
     public function get_part_content($mime_id, $fp = null, $skip_charset_conv = false, $max_bytes = 0, $formatted = true)

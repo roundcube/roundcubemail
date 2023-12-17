@@ -267,8 +267,9 @@ class Browser extends \Laravel\Dusk\Browser
     /**
      * Wait for the given selector to be removed.
      *
-     * @param  string   $selector
-     * @param  int|null $seconds
+     * @param string   $selector
+     * @param int|null $seconds
+     *
      * @return $this
      *
      * @throws \Facebook\WebDriver\Exception\TimeoutException

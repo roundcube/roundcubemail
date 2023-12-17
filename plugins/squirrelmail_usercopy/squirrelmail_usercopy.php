@@ -4,6 +4,7 @@
  * Copy a new users identities and contacts from a nearby Squirrelmail installation
  *
  * @version 1.6
+ *
  * @author Thomas Bruederli, Johannes Hessellund, pommi, Thomas Lueder
  */
 class squirrelmail_usercopy extends rcube_plugin

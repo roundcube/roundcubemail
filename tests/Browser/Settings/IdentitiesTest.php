@@ -142,6 +142,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
      * Test identity deletion
      *
      * @depends testIdentityCreate
+     *
      * @group failsontravis-phone
      * @group failsonga-phone
      */
@@ -180,6 +181,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
      * Test identity update
      *
      * @depends testIdentityDelete
+     *
      * @group failsontravis-phone
      * @group failsonga-phone
      */
@@ -227,6 +229,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
      * Test identities in mail composer
      *
      * @depends testIdentityUpdate
+     *
      * @group failsontravis-phone
      * @group failsonga-phone
      */

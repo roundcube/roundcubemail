@@ -1474,6 +1474,7 @@ class rcube
      * Log an error
      *
      * @param array $arg_arr Named parameters
+     *
      * @see self::raise_error()
      */
     public static function log_bug($arg_arr)
@@ -1869,6 +1870,7 @@ class rcube_dummy_plugin_api
      * @param array  $args Hook arguments
      *
      * @return array Hook arguments
+     *
      * @see rcube_plugin_api::exec_hook()
      */
     public function exec_hook($hook, $args = [])

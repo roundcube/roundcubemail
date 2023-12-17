@@ -114,6 +114,7 @@ abstract class rcube_addressbook
 
     /**
      * Returns addressbook name (e.g. for addressbooks listing)
+     *
      * @return string
      */
     abstract function get_name();
@@ -145,6 +146,7 @@ abstract class rcube_addressbook
 
     /**
      * Reset saved results and search parameters
+     *
      * @return void
      */
     abstract function reset();
@@ -583,6 +585,7 @@ abstract class rcube_addressbook
      * @return array List of assigned groups indexed by a group ID.
      *               Every array element can be just a group name (string), or an array
      *               with 'ID' and 'name' elements.
+     *
      * @since 0.5-beta
      */
     function get_record_groups($id)

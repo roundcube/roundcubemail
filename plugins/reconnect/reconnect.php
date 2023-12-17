@@ -3,6 +3,7 @@
  * Roundcube Reconnect Plugin
  *
  * @version 0.2
+ *
  * @author Sandro Knauß <hefee@debian.org>
  * @license GPLv3+
  */

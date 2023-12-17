@@ -8,6 +8,7 @@
  * require PEAR's Net_LDAP2 to be installed
  *
  * @version 2.1
+ *
  * @author Wout Decre <wout@canodus.be>
  * @author Aleksander Machniak <machniak@kolabsys.com>
  *

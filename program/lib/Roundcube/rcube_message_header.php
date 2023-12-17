@@ -212,6 +212,7 @@ class rcube_message_header
      * Extra flags (for the messages list)
      *
      * @var array
+     *
      * @deprecated Use $flags
      */
     public $list_flags = [];

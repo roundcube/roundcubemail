@@ -1600,6 +1600,7 @@ class rcmail extends rcube
      * @param string $id_col     Name of the identifier col
      *
      * @return string HTML table code
+     *
      * @deprecated since 1.5-beta, use rcmail_action::table_output()
      */
     public function table_output($attrib, $table_data, $show_cols, $id_col)
@@ -1733,6 +1734,7 @@ class rcmail extends rcube
      * @param array $attrib Named parameters
      *
      * @return string HTML code for the gui object
+     *
      * @deprecated since 1.5-beta, use rcmail_action::folder_list()
      */
     public function folder_list($attrib)
@@ -1746,6 +1748,7 @@ class rcmail extends rcube
      * @param array $p Named parameters
      *
      * @return html_select HTML drop-down object
+     *
      * @deprecated since 1.5-beta, use rcmail_action::folder_selector()
      */
     public function folder_selector($p = [])
@@ -1760,6 +1763,7 @@ class rcmail extends rcube
      * @param string $folder_id IMAP Folder name
      *
      * @return string|null CSS class name
+     *
      * @deprecated since 1.5-beta, use rcmail_action::folder_classname()
      */
     public function folder_classname($folder_id)
@@ -1776,6 +1780,7 @@ class rcmail extends rcube
      * @param bool   $path_remove Remove the path
      *
      * @return string Localized folder name in UTF-8 encoding
+     *
      * @deprecated since 1.5-beta, use rcmail_action::localize_foldername()
      */
     public function localize_foldername($name, $with_path = false, $path_remove = false)
@@ -1799,6 +1804,7 @@ class rcmail extends rcube
      * @param array $attrib Named parameters
      *
      * @return string HTML code for the quota indicator object
+     *
      * @deprecated since 1.5-beta, use rcmail_action::quota_display()
      */
     public static function quota_display($attrib)
@@ -1813,6 +1819,7 @@ class rcmail extends rcube
      * @param array $folder Current folder
      *
      * @return array Quota information
+     *
      * @deprecated since 1.5-beta, use rcmail_action::quota_content()
      */
     public function quota_content($attrib = null, $folder = null)
@@ -1874,6 +1881,7 @@ class rcmail extends rcube
      * @param int $max_size Optional maximum file size in bytes
      *
      * @return string Human-readable file size limit
+     *
      * @deprecated since 1.5-beta, use rcmail_action::upload_init()
      */
     public function upload_init($max_size = null)
@@ -1891,6 +1899,7 @@ class rcmail extends rcube
      * @param int    $max_size   Maximum upload size
      *
      * @return string HTML output
+     *
      * @deprecated since 1.5-beta, use rcmail_action::upload_form()
      */
     public function upload_form($attrib, $name, $action, $input_attr = [], $max_size = null)
@@ -1914,6 +1923,7 @@ class rcmail extends rcube
      * @param string $font Font name
      *
      * @return string|array Font-family specification array or string (if $font is used)
+     *
      * @deprecated since 1.5-beta, use rcmail_action::autocomplete_init()
      */
     public static function font_defs($font = null)
@@ -1928,6 +1938,7 @@ class rcmail extends rcube
      * @param string &$unit Size unit
      *
      * @return string Byte string
+     *
      * @deprecated since 1.5-beta, use rcmail_action::show_bytes()
      */
     public function show_bytes($bytes, &$unit = null)
@@ -1941,6 +1952,7 @@ class rcmail extends rcube
      * @param rcube_message_part $part Message part
      *
      * @return string Part size (and unit)
+     *
      * @deprecated since 1.5-beta, use rcmail_action::message_part_size()
      */
     public function message_part_size($part)
@@ -1957,6 +1969,7 @@ class rcmail extends rcube
      * @param int    $mode           Request mode. Default: rcube_utils::INPUT_GPC.
      *
      * @return array List of message UIDs per folder
+     *
      * @deprecated since 1.5-beta, use rcmail_action::get_uids()
      */
     public static function get_uids($uids = null, $mbox = null, &$is_multifolder = false, $mode = null)
@@ -1970,6 +1983,7 @@ class rcmail extends rcube
      * @param string $name File name
      *
      * @return string File content
+     *
      * @deprecated since 1.5-beta, use rcmail_action::get_resource_content()
      */
     public function get_resource_content($name)

@@ -4,6 +4,7 @@
  * hMailserver password driver
  *
  * @version 2.0
+ *
  * @author Roland 'rosali' Liebl <myroundcube@mail4us.net>
  *
  * Copyright (C) The Roundcube Dev Team

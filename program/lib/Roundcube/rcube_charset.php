@@ -423,6 +423,7 @@ class rcube_charset
      * @param string $str Input string (UTF-7)
      *
      * @return string Converted string (UTF-8)
+     *
      * @deprecated use self::convert()
      */
     public static function utf7_to_utf8($str)
@@ -436,6 +437,7 @@ class rcube_charset
      * @param string $str Input string
      *
      * @return string The converted string
+     *
      * @deprecated use self::convert()
      */
     public static function utf16_to_utf8($str)
@@ -454,6 +456,7 @@ class rcube_charset
      * @param string $str Input string (UTF7-IMAP)
      *
      * @return string Output string (UTF-8)
+     *
      * @deprecated use self::convert()
      */
     public static function utf7imap_to_utf8($str)
@@ -469,6 +472,7 @@ class rcube_charset
      * @param string $str Input string (UTF-8)
      *
      * @return string Output string (UTF7-IMAP)
+     *
      * @deprecated use self::convert()
      */
     public static function utf8_to_utf7imap($str)
@@ -484,6 +488,7 @@ class rcube_charset
      * @param string $language User language
      *
      * @return string Charset name
+     *
      * @deprecated
      */
     public static function detect($string, $failover = null, $language = null)

@@ -48,6 +48,7 @@ abstract class rcmail_action
      * Deprecated action aliases.
      *
      * @todo Get rid of these (but it will be a big BC break)
+     *
      * @var array
      */
     public static $aliases = [];

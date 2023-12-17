@@ -16,6 +16,7 @@
  * log types and files.
  *
  * @author Ziba Scott
+ *
  * @website http://roundcube.net
  *
  * Example:

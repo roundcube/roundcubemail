@@ -9,6 +9,7 @@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  * @author Aleksander Machniak
+ *
  * @website https://roundcube.net
  */
 class emoticons extends rcube_plugin

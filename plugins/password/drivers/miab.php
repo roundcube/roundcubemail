@@ -14,6 +14,7 @@
  * - password_miab_url - the url to the control panel of Mail-in-a-Box
  *
  * @version 1.0
+ *
  * @author Alexey Shtokalo <alexey@shtokalo.net>
  *
  * Copyright (C) The Roundcube Dev Team

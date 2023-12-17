@@ -120,6 +120,7 @@ class html
      * @param string $cont Div content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function div($attr = null, $cont = null)
@@ -138,6 +139,7 @@ class html
      * @param string $cont Paragraph content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function p($attr = null, $cont = null)
@@ -155,6 +157,7 @@ class html
      * @param string|array $attr Hash array with tag attributes or string with image source (src)
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function img($attr = null)
@@ -175,6 +178,7 @@ class html
      * @param string       $cont Link content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function a($attr, $cont)
@@ -195,6 +199,7 @@ class html
      * @param string       $cont Tag content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function span($attr, $cont)
@@ -213,6 +218,7 @@ class html
      * @param string       $cont Tag content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function label($attr, $cont)
@@ -231,6 +237,7 @@ class html
      * @param string       $cont Tag content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function iframe($attr = null, $cont = null)
@@ -251,6 +258,7 @@ class html
      * @param string       $cont Javascript code to be placed as tag content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function script($attr, $cont = null)
@@ -281,6 +289,7 @@ class html
      * @param array $attrib Associative array with tag attributes
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function br($attrib = [])

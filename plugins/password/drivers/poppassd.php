@@ -6,6 +6,7 @@
  * Driver to change passwords via Poppassd/Courierpassd
  *
  * @version 2.0
+ *
  * @author Philip Weir
  *
  * Copyright (C) The Roundcube Dev Team

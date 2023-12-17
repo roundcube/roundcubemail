@@ -6,6 +6,7 @@
  * Driver for passwords stored in SQL database
  *
  * @version 2.1
+ *
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Copyright (C) The Roundcube Dev Team

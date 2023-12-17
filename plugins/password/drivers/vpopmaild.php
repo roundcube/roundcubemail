@@ -6,6 +6,7 @@
  * Driver to change passwords via vpopmaild
  *
  * @version 2.0
+ *
  * @author Johannes Hessellund
  *
  * Copyright (C) The Roundcube Dev Team

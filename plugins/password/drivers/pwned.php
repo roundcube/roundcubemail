@@ -35,6 +35,7 @@
  * https://www.troyhunt.com/ive-just-launched-pwned-passwords-version-2/#cloudflareprivacyandkanonymity
  *
  * @version 1.0
+ *
  * @author Christoph Langguth
  *
  * Copyright (C) The Roundcube Dev Team

@@ -9,6 +9,7 @@
  * For installation instructions please read the README file.
  *
  * @version 1.0
+ *
  * @author Peter Allgeyer <peter.allgeyer@salzburgresearch.at>
  *
  * Based on chpasswd roundcubemail password driver by

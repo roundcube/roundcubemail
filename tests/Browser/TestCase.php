@@ -32,6 +32,7 @@ abstract class TestCase extends PHPUnitTestCase
      * Prepare for Dusk test execution.
      *
      * @beforeClass
+     *
      * @return void
      */
     public static function prepare()

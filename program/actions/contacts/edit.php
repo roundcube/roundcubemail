@@ -207,6 +207,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
     /**
      * similar function as in /steps/settings/edit_identity.inc
+     *
      * @todo: Use rcmail_action::get_form_tags()
      */
     public static function get_form_tags($attrib, $action = null, $id = null, $hidden = null)

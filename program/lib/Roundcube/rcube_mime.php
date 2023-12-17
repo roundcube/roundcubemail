@@ -734,7 +734,9 @@ class rcube_mime
      * @param bool   $skip_suffix Set to True if the config/mimetypes.php map should be ignored
      *
      * @return string
+     *
      * @author Till Klampaeckel <till@php.net>
+     *
      * @see    http://de2.php.net/manual/en/ref.fileinfo.php
      * @see    http://de2.php.net/mime_content_type
      */

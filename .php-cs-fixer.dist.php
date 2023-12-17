@@ -106,7 +106,6 @@ return (new PhpCsFixer\Config())
         'php_unit_method_casing' => false,
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_no_package' => false,
-        'phpdoc_separation' => false,
         'phpdoc_summary' => false,
         'phpdoc_to_comment' => false,
         'phpdoc_trim' => false,

@@ -7,6 +7,7 @@
  * the 'change_ldap_pass.pl' command respecting password policy (history) in LDAP.
  *
  * @version 1.0
+ *
  * @author Zbigniew Szmyd <zbigniew.szmyd@linseco.pl>
  */
 

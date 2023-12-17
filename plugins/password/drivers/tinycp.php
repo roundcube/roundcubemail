@@ -7,6 +7,7 @@
  * See README for instructions, Connector Required.
  *
  * @version 1.2
+ *
  * @author Ricky Mendoza (HelloWorld@rickymendoza.dev)
  *
  * Copyright (C) 2020 Ricky Mendoza

@@ -139,6 +139,7 @@ class rcube_html2text
      * used in conjunction with $replace.
      *
      * @var array $search
+     *
      * @see self::$replace
      */
     protected $search = [
@@ -169,6 +170,7 @@ class rcube_html2text
      * List of pattern replacements corresponding to patterns searched.
      *
      * @var array $replace
+     *
      * @see self::$search
      */
     protected $replace = [
@@ -200,6 +202,7 @@ class rcube_html2text
      * used in conjunction with $ent_replace.
      *
      * @var array $ent_search
+     *
      * @see self::$ent_replace
      */
     protected $ent_search = [
@@ -224,6 +227,7 @@ class rcube_html2text
      * List of pattern replacements corresponding to patterns searched.
      *
      * @var array $ent_replace
+     *
      * @see self::$ent_search
      */
     protected $ent_replace = [
@@ -261,6 +265,7 @@ class rcube_html2text
      * used in conjunction with $pre_replace.
      *
      * @var array $pre_search
+     *
      * @see self::$pre_replace
      */
     protected $pre_search = [
@@ -275,6 +280,7 @@ class rcube_html2text
      * List of pattern replacements corresponding to patterns searched for PRE body.
      *
      * @var array $pre_replace
+     *
      * @see self::$pre_search
      */
     protected $pre_replace = [
@@ -296,6 +302,7 @@ class rcube_html2text
      * Contains a list of HTML tags to allow in the resulting text.
      *
      * @var string $allowed_tags
+     *
      * @see self::set_allowed_tags()
      */
     protected $allowed_tags = '';
@@ -311,6 +318,7 @@ class rcube_html2text
      * Indicates whether content in the $html variable has been converted yet.
      *
      * @var bool $_converted
+     *
      * @see self::$html
      * @see self::$text
      */
@@ -320,6 +328,7 @@ class rcube_html2text
      * Contains URL addresses from links to be rendered in plain text.
      *
      * @var array $_link_list
+     *
      * @see self::_build_link_list()
      */
     protected $_link_list = [];

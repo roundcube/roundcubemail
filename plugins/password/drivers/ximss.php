@@ -12,6 +12,7 @@
  *   http://www.communigate.com/WebGuide/XMLAPI.html
  *
  * @version 2.0
+ *
  * @author Erik Meitner <erik wanderings.us>
  *
  * Copyright (C) The Roundcube Dev Team

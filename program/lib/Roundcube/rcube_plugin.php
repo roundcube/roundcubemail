@@ -261,6 +261,7 @@ abstract class rcube_plugin
      * @param string|array $p Named parameters array or label name
      *
      * @return string Localized text
+     *
      * @see rcube::gettext()
      */
     public function gettext($p)

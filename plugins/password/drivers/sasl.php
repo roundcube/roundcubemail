@@ -13,6 +13,7 @@
  * For installation instructions please read the README file.
  *
  * @version 2.0
+ *
  * @author Thomas Bruederli
  *
  * Copyright (C) The Roundcube Dev Team
