@@ -408,7 +408,7 @@ $config['hmailserver_remote_dcom'] = false;
 $config['hmailserver_server'] = [
     'Server'   => 'localhost',      // hostname or ip address
     'Username' => 'administrator',  // windows username
-    'Password' => 'password'        // windows user password
+    'Password' => 'password',       // windows user password
 ];
 
 
