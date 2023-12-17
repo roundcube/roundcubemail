@@ -67,7 +67,6 @@ return (new PhpCsFixer\Config())
         'string_length_to_empty' => false,
 
         // TODO
-        'align_multiline_comment' => false,
         'array_indentation' => false,
         'binary_operator_spaces' => ['default' => 'at_least_single_space'],
         'blank_line_before_statement' => false,
