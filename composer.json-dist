@@ -19,6 +19,9 @@
     "require-dev": {
         "ergebnis/composer-normalize": "^2.13",
         "friendsofphp/php-cs-fixer": "^3.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan": "^1.2",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpunit/phpunit": "^9.6"
     },
     "suggest": {
@@ -34,6 +37,7 @@
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true,
+            "phpstan/extension-installer": true,
             "roundcube/plugin-installer": true
         }
     }
