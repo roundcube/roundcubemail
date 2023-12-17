@@ -5,7 +5,7 @@
  */
 class ActionTestCase extends PHPUnit\Framework\TestCase
 {
-    static $files = [];
+    private static $files = [];
 
 
     static function setUpBeforeClass(): void

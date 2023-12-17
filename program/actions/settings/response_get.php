@@ -19,7 +19,7 @@
 
 class rcmail_action_settings_response_get extends rcmail_action
 {
-    static $mode = self::MODE_AJAX;
+    public static $mode = self::MODE_AJAX;
 
     /**
      * Request handler.

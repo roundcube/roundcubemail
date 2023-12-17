@@ -52,7 +52,7 @@ class rcube_washtml
     /**
      * @var array Allowed HTML elements (default)
      */
-    static $html_elements = ['a', 'abbr', 'acronym', 'address', 'area', 'b',
+    public static $html_elements = ['a', 'abbr', 'acronym', 'address', 'area', 'b',
         'basefont', 'bdo', 'big', 'blockquote', 'br', 'caption', 'center',
         'cite', 'code', 'col', 'colgroup', 'dd', 'del', 'dfn', 'dir', 'div', 'dl',
         'dt', 'em', 'fieldset', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i',
@@ -89,12 +89,12 @@ class rcube_washtml
     /**
      * @var array Ignore these HTML tags and their content
      */
-    static $ignore_elements = ['script', 'applet', 'embed', 'style'];
+    public static $ignore_elements = ['script', 'applet', 'embed', 'style'];
 
     /**
      * @var array Allowed HTML attributes
      */
-    static $html_attribs = ['name', 'class', 'title', 'alt', 'width', 'height',
+    public static $html_attribs = ['name', 'class', 'title', 'alt', 'width', 'height',
         'align', 'nowrap', 'col', 'row', 'id', 'rowspan', 'colspan', 'cellspacing',
         'cellpadding', 'valign', 'bgcolor', 'color', 'border', 'bordercolorlight',
         'bordercolordark', 'face', 'marginwidth', 'marginheight', 'axis', 'border',
@@ -145,7 +145,7 @@ class rcube_washtml
     /**
      * @var array Elements which could be empty and be returned in short form (<tag />)
      */
-    static $void_elements = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr',
+    public static $void_elements = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr',
         'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr',
         // MathML
         'sep', 'infinity', 'in', 'plus', 'eq', 'power', 'times', 'divide', 'root',
@@ -155,7 +155,7 @@ class rcube_washtml
     /**
      * @var array Additional allowed attributes of body element
      */
-    static $body_attribs = ['alink', 'background', 'bgcolor', 'link', 'text', 'vlink'];
+    public static $body_attribs = ['alink', 'background', 'bgcolor', 'link', 'text', 'vlink'];
 
     /** @var bool State indicating existence of linked objects in HTML */
     public $extlinks = false;

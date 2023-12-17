@@ -89,7 +89,6 @@ return (new PhpCsFixer\Config())
         'method_argument_space' => false,
         'modernize_types_casting' => false,
         'native_constant_invocation' => false,
-        'native_type_declaration_casing' => false, // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7537#issuecomment-1859140860
         'new_with_parentheses' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
