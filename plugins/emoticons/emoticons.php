@@ -134,11 +134,11 @@ class emoticons extends rcube_plugin
         // E.g. situation when ";)" in "&quot;)" shouldn't be replaced by the icon
         // It's so long because of assertion format restrictions
         $entity = '(?<!&'
-            . '[a-zA-Z0-9]{2}' . '|' . '#[0-9]{2}' . '|'
-            . '[a-zA-Z0-9]{3}' . '|' . '#[0-9]{3}' . '|'
-            . '[a-zA-Z0-9]{4}' . '|' . '#[0-9]{4}' . '|'
-            . '[a-zA-Z0-9]{5}' . '|'
-            . '[a-zA-Z0-9]{6}' . '|'
+            . '[a-zA-Z0-9]{2}|#[0-9]{2}|'
+            . '[a-zA-Z0-9]{3}|#[0-9]{3}|'
+            . '[a-zA-Z0-9]{4}|#[0-9]{4}|'
+            . '[a-zA-Z0-9]{5}|'
+            . '[a-zA-Z0-9]{6}|'
             . '[a-zA-Z0-9]{7}'
             . ')';
 

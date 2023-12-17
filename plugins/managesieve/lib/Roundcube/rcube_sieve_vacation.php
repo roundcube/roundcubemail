@@ -723,8 +723,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         else if ($regex_extension) {
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
             if ($date_tests = self::parse_regexp_tests($this->vacation['tests'])) {
-                $start = new DateTime($date_tests['from'] . ' ' . '00:00:00', $timezone);
-                $end   = new DateTime($date_tests['to'] . ' ' . '23:59:59', $timezone);
+                $start = new DateTime($date_tests['from'] . ' 00:00:00', $timezone);
+                $end   = new DateTime($date_tests['to'] . ' 23:59:59', $timezone);
             }
         }
 
