@@ -1912,11 +1912,6 @@ parameters:
 			path: program/include/rcmail_oauth.php
 
 		-
-			message: "#^Method rcmail_oauth\\:\\:refresh_access_token\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/include/rcmail_oauth.php
-
-		-
 			message: "#^Binary operation \"\\*\" between string and 100 results in an error\\.$#"
 			count: 1
 			path: program/include/rcmail_output_html.php

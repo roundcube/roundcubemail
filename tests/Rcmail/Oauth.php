@@ -32,7 +32,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         "family_name"           => "Doe",
         "email"                 => "j.doe@test.fake",
         "email_verified"        => true,
-        "locale"                => "en"
+        "locale"                => "en",
     ];
 
     private function generate_fake_id_token()
@@ -141,11 +141,11 @@ class Rcmail_RcmailOauth extends ActionTestCase
             'token_endpoint'         => 'https://test/token',
             'userinfo_endpoint'      => 'https://test/userinfo',
             'end_session_endpoint'   => 'https://test/logout',
-            'jwks_uri'               => 'https://test/jwks'
+            'jwks_uri'               => 'https://test/jwks',
         ];
 
         $mock = new MockHandler([
-            new Response(200, ['Content-Type' => 'application/json'], json_encode($config_answer))
+            new Response(200, ['Content-Type' => 'application/json'], json_encode($config_answer)),
         ]);
         $handler = HandlerStack::create($mock);
 
@@ -154,7 +154,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             'provider'      => 'example',
             'config_uri'    => 'https://test/config',
             'client_id'     => 'some-client',
-            'http_options'  => ['handler' => $handler]
+            'http_options'  => ['handler' => $handler],
         ]);
         $oauth->init();
 
@@ -184,13 +184,13 @@ class Rcmail_RcmailOauth extends ActionTestCase
 
         try {
             $oauth->login_redirect();
+            $result = null;
+            $ecode = null;
         }
         catch (ExitException $e) {
             $result = $e->getMessage();
             $ecode  = $e->getCode();
         }
-        # return type: Location: https://localhost/auth/auth?response_type=code&client_id=some-client&scope=&redirect_uri=http%3A%2F%2F%2Fvendor%2Fbin%2Fphpunit%2Findex.php%2Flogin%2Foauth&state=HphWFK5EBHAr
-        //$result = $output->getOutput();
 
         $this->assertSame(OutputHtmlMock::E_REDIRECT, $ecode);
         $this->assertMatchesRegularExpression('|^Location: https://test/auth\?.*|', $result);
@@ -239,15 +239,15 @@ class Rcmail_RcmailOauth extends ActionTestCase
           'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
           'not-before-policy'   => 0,
           'session_state'       => 'fake-session',
-          'scope'               => 'openid profile email'
+          'scope'               => 'openid profile email',
         ];
 
         $mock = new MockHandler([
-            new Response(200, ['Content-Type' => 'application/json'], json_encode($payload))
+            new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),
         ]);
         $handler = HandlerStack::create($mock);
         $oauth = new rcmail_oauth((array) $this->config + [
-            'http_options'  => ['handler' => $handler]
+            'http_options'  => ['handler' => $handler],
         ]);
         $oauth->init();
 
@@ -274,18 +274,18 @@ class Rcmail_RcmailOauth extends ActionTestCase
           'refresh_expires_in'  => 1800,
           'not-before-policy'   => 0,
           'session_state'       => 'fake-session',
-          'scope'               => 'openid profile email'
+          'scope'               => 'openid profile email',
         ];
 
         //TODO should create a specific Mock to check request and validate it
         $mock = new MockHandler([
             new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),        // the request access
-            new Response(200, ['Content-Type' => 'application/json'], json_encode($this->identity))  // call to userinfo
+            new Response(200, ['Content-Type' => 'application/json'], json_encode($this->identity)), // call to userinfo
         ]);
         $handler = HandlerStack::create($mock);
 
         $oauth = new rcmail_oauth((array) $this->config + [
-            'http_options'  => ['handler' => $handler]
+            'http_options'  => ['handler' => $handler],
         ]);
         $oauth->init();
 
