@@ -26,6 +26,7 @@ class Rcmail_Rcmail extends ActionTestCase
 
         // Test keep-alive action handler
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'test', 'keep-alive');
+        $e = null;
 
         try {
             $rcmail->action_handler();
