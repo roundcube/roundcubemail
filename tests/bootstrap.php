@@ -136,3 +136,25 @@ function getHTMLNodes($html, $xpath_query)
 
     return $xpath->query($xpath_query);
 }
+
+/**
+ * Mock Guzzle HTTP Client
+ */
+function setHttpClientMock(array $responses)
+{
+    foreach ($responses as $idx => $response) {
+        if (is_array($response)) {
+            $responses[$idx] = new \GuzzleHttp\Psr7\Response(
+                $response['code'] ?? 200,
+                $response['headers'] ?? [],
+                $response['response'] ?? ''
+            );
+        }
+    }
+
+    $mock = new \GuzzleHttp\Handler\MockHandler($responses);
+    $handler = \GuzzleHttp\HandlerStack::create($mock);
+    $rcube = rcube::get_instance();
+
+    $rcube->config->set('http_client', ['handler' => $handler]);
+}
