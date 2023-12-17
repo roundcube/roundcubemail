@@ -60,6 +60,8 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
 
     /**
      * rcube::exec()
+     *
+     * @requires function shell_exec
      */
     function test_exec()
     {

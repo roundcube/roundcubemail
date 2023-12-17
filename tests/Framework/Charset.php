@@ -76,7 +76,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function test_parse_charset($input, $output)
     {
-        $this->assertEquals($output, rcube_charset::parse_charset($input));
+        $this->assertSame($output, rcube_charset::parse_charset($input));
     }
 
     /**
@@ -112,7 +112,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
      */
     function test_convert($input, $output, $from, $to)
     {
-        $this->assertEquals($output, rcube_charset::convert($input, $from, $to));
+        $this->assertSame($output, rcube_charset::convert($input, $from, $to));
     }
 
     /**
@@ -131,7 +131,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     function test_utf7_to_utf8($input, $output)
     {
         // @phpstan-ignore-next-line
-        $this->assertEquals($output, rcube_charset::utf7_to_utf8($input));
+        $this->assertSame($output, rcube_charset::utf7_to_utf8($input));
     }
 
     /**
@@ -150,7 +150,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     function test_utf7imap_to_utf8($input, $output)
     {
         // @phpstan-ignore-next-line
-        $this->assertEquals($output, rcube_charset::utf7imap_to_utf8($input));
+        $this->assertSame($output, rcube_charset::utf7imap_to_utf8($input));
     }
 
     /**
@@ -169,7 +169,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     function test_utf8_to_utf7imap($input, $output)
     {
         // @phpstan-ignore-next-line
-        $this->assertEquals($output, rcube_charset::utf8_to_utf7imap($input));
+        $this->assertSame($output, rcube_charset::utf8_to_utf7imap($input));
     }
 
     /**
@@ -188,7 +188,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     function test_utf16_to_utf8($input, $output)
     {
         // @phpstan-ignore-next-line
-        $this->assertEquals($output, rcube_charset::utf16_to_utf8($input));
+        $this->assertSame($output, rcube_charset::utf16_to_utf8($input));
     }
 
     /**
@@ -208,7 +208,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     function test_detect($input, $fallback, $output)
     {
         // @phpstan-ignore-next-line
-        $this->assertEquals($output, rcube_charset::detect($input, $fallback));
+        $this->assertSame($output, rcube_charset::detect($input, $fallback));
     }
 
     /**
@@ -227,6 +227,6 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     function test_detect_with_lang($input, $lang, $output)
     {
         // @phpstan-ignore-next-line
-        $this->assertEquals($output, rcube_charset::detect($input, $output, $lang));
+        $this->assertSame($output, rcube_charset::detect($input, $output, $lang));
     }
 }
