@@ -3,6 +3,7 @@
   backupGlobals="false"
   bootstrap="bootstrap.php"
   colors="true"
+  convertDeprecationsToExceptions="true"
   convertErrorsToExceptions="true"
   convertNoticesToExceptions="true"
   convertWarningsToExceptions="true"
