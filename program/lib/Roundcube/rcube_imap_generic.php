@@ -421,8 +421,8 @@ class rcube_imap_generic
         // by the server, feof() will hang.
         $start = microtime(true);
 
-        if (feof($this->fp) ||
-            ($this->prefs['timeout'] && (microtime(true) - $start > $this->prefs['timeout']))
+        if (feof($this->fp)
+            || ($this->prefs['timeout'] && (microtime(true) - $start > $this->prefs['timeout']))
         ) {
             $this->closeSocket();
             return true;

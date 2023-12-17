@@ -716,8 +716,8 @@ class html_select extends html
         foreach ($this->options as $option) {
             $attr = [
                 'value' => $option['value'],
-                'selected' => (in_array($option['value'], $select, true) ||
-                    in_array($option['text'], $select, true)) ? 1 : null,
+                'selected' => (in_array($option['value'], $select, true)
+                    || in_array($option['text'], $select, true)) ? 1 : null,
             ];
 
             $option_content = $option['text'];

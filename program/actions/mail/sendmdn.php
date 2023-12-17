@@ -78,8 +78,8 @@ class rcmail_action_mail_sendmdn extends rcmail_action
             $message = new rcube_message($message);
         }
 
-        if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT']) &&
-            ($rcmail->storage->check_permflag('MDNSENT') || $rcmail->storage->check_permflag('*'))
+        if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT'])
+            && ($rcmail->storage->check_permflag('MDNSENT') || $rcmail->storage->check_permflag('*'))
         ) {
             $charset   = $message->headers->charset;
             $identity  = rcmail_sendmail::identity_select($message);

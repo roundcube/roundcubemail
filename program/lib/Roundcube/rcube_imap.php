@@ -1448,8 +1448,8 @@ class rcube_imap extends rcube_storage
             }
             // search result is an index with the same sorting?
             else if (($this->search_set instanceof rcube_result_index)
-                && ((!$this->sort_field && !$this->search_sorted) ||
-                    ($this->search_sorted && $this->search_sort_field == $this->sort_field))
+                && ((!$this->sort_field && !$this->search_sorted)
+                    || ($this->search_sorted && $this->search_sort_field == $this->sort_field))
             ) {
                 $index = $this->search_set;
             }
@@ -4077,8 +4077,8 @@ class rcube_imap extends rcube_storage
 
         $this->clear_cache('mailboxes.metadata.', true);
 
-        if ($this->get_capability('METADATA') ||
-            (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
+        if ($this->get_capability('METADATA')
+            || (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             return $this->conn->setMetadata($folder, $entries);
         }
@@ -4113,8 +4113,8 @@ class rcube_imap extends rcube_storage
 
         $this->clear_cache('mailboxes.metadata.', true);
 
-        if ($this->get_capability('METADATA') ||
-            (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
+        if ($this->get_capability('METADATA')
+            || (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             return $this->conn->deleteMetadata($folder, $entries);
         }
@@ -4162,8 +4162,8 @@ class rcube_imap extends rcube_storage
             return null;
         }
 
-        if ($this->get_capability('METADATA') ||
-            (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
+        if ($this->get_capability('METADATA')
+            || (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             $res = $this->conn->getMetadata($folder, $entries, $options);
         }
