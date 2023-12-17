@@ -67,7 +67,7 @@ class rcmail_action_mail_index extends rcmail_action
         // remove mbox part from _uid
         $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GPC);
         if ($uid && preg_match('/^\d+-.+/', $uid)) {
-            list($uid, $mbox) = explode('-', $uid, 2);
+            [$uid, $mbox] = explode('-', $uid, 2);
             if (isset($_GET['_uid'])) {
                 $_GET['_uid'] = $uid;
             }

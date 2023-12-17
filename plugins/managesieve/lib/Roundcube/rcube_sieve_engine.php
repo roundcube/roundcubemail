@@ -182,7 +182,7 @@ class rcube_sieve_engine
                 'gssapi_cn'      => null,
         ]);
 
-        list($host, $scheme, $port) = rcube_utils::parse_host_uri($plugin['host']);
+        [$host, $scheme, $port] = rcube_utils::parse_host_uri($plugin['host']);
 
         // Support explicit STARTTLS by establishing an unencrypted TCP connection, then instructing Net_Sieve to send the `STARTTLS` command.
         $tls = $scheme === 'tls';
@@ -473,7 +473,7 @@ class rcube_sieve_engine
             if (!empty($rules)) {
                 $tests = [];
                 foreach ($rules as $rule) {
-                    list($header, $value) = explode(':', $rule, 2);
+                    [$header, $value] = explode(':', $rule, 2);
                     $tests[] = [
                         'type' => 'contains',
                         'test' => 'header',
@@ -2572,7 +2572,7 @@ class rcube_sieve_engine
         $method = $target = '';
 
         if (!empty($action['method'])) {
-            list($method, $target) = explode(':', $action['method'], 2);
+            [$method, $target] = explode(':', $action['method'], 2);
             $method = strtolower($method);
         }
 

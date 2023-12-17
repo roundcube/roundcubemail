@@ -147,7 +147,7 @@ class rcube_ldap extends rcube_addressbook
 
         // use fieldmap to advertise supported coltypes to the application
         foreach ($this->fieldmap as $colv => $lfv) {
-            list($col, $type) = rcube_utils::explode(':', $colv);
+            [$col, $type] = rcube_utils::explode(':', $colv);
             $params           = explode(':', $lfv);
 
             $lf    = array_shift($params);
@@ -312,7 +312,7 @@ class rcube_ldap extends rcube_addressbook
         // see http://www.php.net/manual/en/function.ldap-connect.php
         foreach ((array) $this->prop['hosts'] as $host) {
             // Parse host specification into the format expected by Net_LDAP3 (ldap_connect)
-            list($host, $scheme, $port) = rcube_utils::parse_host_uri($host, 389, 636);
+            [$host, $scheme, $port] = rcube_utils::parse_host_uri($host, 389, 636);
 
             $host = sprintf('%s://%s:%d', $scheme === 'ldaps' ? 'ldaps' : 'ldap', $host, $port);
 
@@ -351,7 +351,7 @@ class rcube_ldap extends rcube_addressbook
 
                 // Get the pieces needed for variable replacement.
                 if ($fu = ($rcube->get_user_email() ?: $conf['username'])) {
-                    list($u, $d) = explode('@', $fu);
+                    [$u, $d] = explode('@', $fu);
                 }
                 else {
                     $u = '';
@@ -1666,7 +1666,7 @@ class rcube_ldap extends rcube_addressbook
                     continue;
                 }
 
-                list($col, $subtype) = rcube_utils::explode(':', $rf);
+                [$col, $subtype] = rcube_utils::explode(':', $rf);
                 $out['_raw_attrib'][$lf][$i] = $value;
 
                 if ($col == 'email' && $this->mail_domain && !strpos($value, '@')) {
@@ -1677,7 +1677,7 @@ class rcube_ldap extends rcube_addressbook
                 }
                 else if ($col == 'address' && strpos($value, '$') !== false) {
                     // address data is represented as string separated with $
-                    list($out[$rf][$i]['street'], $out[$rf][$i]['locality'], $out[$rf][$i]['zipcode'], $out[$rf][$i]['country']) = explode('$', $value);
+                    [$out[$rf][$i]['street'], $out[$rf][$i]['locality'], $out[$rf][$i]['zipcode'], $out[$rf][$i]['country']] = explode('$', $value);
                 }
                 else if ($entry['count'] > 1) {
                     $out[$rf][] = $value;
@@ -1743,7 +1743,7 @@ class rcube_ldap extends rcube_addressbook
             $val = $save_cols[$rf];
 
             // check for value in base field (e.g. email instead of email:foo)
-            list($col, $subtype) = rcube_utils::explode(':', $rf);
+            [$col, $subtype] = rcube_utils::explode(':', $rf);
             if (!$val && !empty($save_cols[$col])) {
                 $val = $save_cols[$col];
                 unset($save_cols[$col]);  // use this value only once
@@ -1797,7 +1797,7 @@ class rcube_ldap extends rcube_addressbook
         $suffix = '';
 
         if (strpos($name, ':')) {
-            list($name, $limit) = explode(':', $name, 2);
+            [$name, $limit] = explode(':', $name, 2);
             $suffix = $limit ? ":$limit" : '';
         }
 

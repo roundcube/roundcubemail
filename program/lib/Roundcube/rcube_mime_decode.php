@@ -71,7 +71,7 @@ class rcube_mime_decode
      */
     public function decode($input, $convert = true)
     {
-        list($header, $body) = $this->splitBodyHeader($input);
+        [$header, $body] = $this->splitBodyHeader($input);
 
         $struct = $this->do_decode($header, $body);
 
@@ -183,7 +183,7 @@ class rcube_mime_decode
                     $parts         = $this->boundarySplit($body, $content_type['other']['boundary']);
 
                     for ($i = 0; $i < count($parts); $i++) {
-                        list($part_header, $part_body) = $this->splitBodyHeader($parts[$i]);
+                        [$part_header, $part_body] = $this->splitBodyHeader($parts[$i]);
                         $return->parts[] = $this->do_decode($part_header, $part_body, $default_ctype);
                     }
 

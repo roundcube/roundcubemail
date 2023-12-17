@@ -186,7 +186,7 @@ class enigma_engine
 
             // We can't use format=flowed for signed messages
             if (strpos($text_charset, 'format=flowed')) {
-                list($charset, $params) = explode(';', $text_charset);
+                [$charset, $params] = explode(';', $text_charset);
                 $body = rcube_mime::unfold_flowed($body);
                 $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
 
@@ -696,7 +696,7 @@ class enigma_engine
         }
 
         // set signed part body
-        list($msg_body, $sig_body) = $this->explode_signed_body($body, $boundary);
+        [$msg_body, $sig_body] = $this->explode_signed_body($body, $boundary);
 
         // Verify
         if ($sig_body && $msg_body) {
@@ -1493,7 +1493,7 @@ class enigma_engine
                 continue;
             }
 
-            list($local, $domain) = explode('@', $recipient);
+            [$local, $domain] = explode('@', $recipient);
 
             // Do this for configured domains only
             if (is_array($woat) && !in_array_nocase($domain, $woat)) {

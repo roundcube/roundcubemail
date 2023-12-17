@@ -87,7 +87,6 @@ return (new PhpCsFixer\Config())
         'general_phpdoc_annotation_remove' => false,
         'heredoc_indentation' => false,
         'increment_style' => false,
-        'list_syntax' => false,
         'method_argument_space' => false,
         'method_chaining_indentation' => false,
         'modernize_types_casting' => false,

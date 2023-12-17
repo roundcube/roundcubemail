@@ -88,7 +88,7 @@ class rcube_imap extends rcube_storage
             $this->delimiter = $_SESSION['imap_delimiter'];
         }
         if (!empty($_SESSION['imap_list_conf'])) {
-            list($this->list_root, $this->list_excludes) = $_SESSION['imap_list_conf'];
+            [$this->list_root, $this->list_excludes] = $_SESSION['imap_list_conf'];
         }
     }
 
@@ -1045,7 +1045,7 @@ class rcube_imap extends rcube_storage
     {
         $parents = [];
 
-        list($msg_depth, $msg_children) = $threads->get_thread_data();
+        [$msg_depth, $msg_children] = $threads->get_thread_data();
 
         foreach ($headers as $uid => $header) {
             $depth = $msg_depth[$uid] ?? 0;
@@ -1132,7 +1132,7 @@ class rcube_imap extends rcube_storage
                 $fetch = [];
 
                 foreach ($index as $msg_id) {
-                    list($uid, $folder) = explode('-', $msg_id, 2);
+                    [$uid, $folder] = explode('-', $msg_id, 2);
                     $fetch[$folder][] = $uid;
                 }
 
@@ -1886,7 +1886,7 @@ class rcube_imap extends rcube_storage
     {
         // decode combined UID-folder identifier
         if (preg_match('/^\d+-.+/', $uid)) {
-            list($uid, $folder) = explode('-', $uid, 2);
+            [$uid, $folder] = explode('-', $uid, 2);
         }
 
         if (!is_string($folder) || !strlen($folder)) {
@@ -1929,7 +1929,7 @@ class rcube_imap extends rcube_storage
 
         // decode combined UID-folder identifier
         if (preg_match('/^\d+-.+/', $uid)) {
-            list($uid, $folder) = explode('-', $uid, 2);
+            [$uid, $folder] = explode('-', $uid, 2);
         }
 
         // Check internal cache
@@ -2024,7 +2024,7 @@ class rcube_imap extends rcube_storage
             if (!empty($headers->ctype)) {
                 $struct->mime_id  = '1';
                 $struct->mimetype = strtolower($headers->ctype);
-                list($struct->ctype_primary, $struct->ctype_secondary) = explode('/', $struct->mimetype);
+                [$struct->ctype_primary, $struct->ctype_secondary] = explode('/', $struct->mimetype);
             }
 
             // ...and charset (there's a case described in #1488968 where invalid content-type
@@ -2414,7 +2414,7 @@ class rcube_imap extends rcube_storage
 
             if ($type != $part->mimetype) {
                 $part->mimetype = $type;
-                list($part->ctype_primary, $part->ctype_secondary) = explode('/', $part->mimetype);
+                [$part->ctype_primary, $part->ctype_secondary] = explode('/', $part->mimetype);
             }
         }
     }
@@ -2580,7 +2580,7 @@ class rcube_imap extends rcube_storage
         }
 
         $flag = strtoupper($flag);
-        list($uids, $all_mode) = $this->parse_uids($uids);
+        [$uids, $all_mode] = $this->parse_uids($uids);
 
         if (strpos($flag, 'UN') === 0) {
             $result = $this->conn->unflag($folder, $uids, substr($flag, 2));
@@ -2693,7 +2693,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        list($uids, $all_mode) = $this->parse_uids($uids);
+        [$uids, $all_mode] = $this->parse_uids($uids);
 
         // exit if no message uids are specified
         if (empty($uids)) {
@@ -2767,7 +2767,7 @@ class rcube_imap extends rcube_storage
             $from_mbox = $this->folder;
         }
 
-        list($uids) = $this->parse_uids($uids);
+        [$uids] = $this->parse_uids($uids);
 
         // exit if no message uids are specified
         if (empty($uids)) {
@@ -2802,7 +2802,7 @@ class rcube_imap extends rcube_storage
             $folder = $this->folder;
         }
 
-        list($uids, $all_mode) = $this->parse_uids($uids);
+        [$uids, $all_mode] = $this->parse_uids($uids);
 
         // exit if no message uids are specified
         if (empty($uids)) {
@@ -2856,7 +2856,7 @@ class rcube_imap extends rcube_storage
     public function expunge_message($uids, $folder = null, $clear_cache = true)
     {
         if ($uids && $this->get_capability('UIDPLUS')) {
-            list($uids, $all_mode) = $this->parse_uids($uids);
+            [$uids, $all_mode] = $this->parse_uids($uids);
         }
         else {
             $uids = null;
@@ -4085,7 +4085,7 @@ class rcube_imap extends rcube_storage
 
         if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
             foreach ((array) $entries as $entry => $value) {
-                list($ent, $attr) = $this->md2annotate($entry);
+                [$ent, $attr] = $this->md2annotate($entry);
                 $entries[$entry] = [$ent, $attr, $value];
             }
 
@@ -4121,7 +4121,7 @@ class rcube_imap extends rcube_storage
 
         if ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
             foreach ((array) $entries as $idx => $entry) {
-                list($ent, $attr) = $this->md2annotate($entry);
+                [$ent, $attr] = $this->md2annotate($entry);
                 $entries[$idx] = [$ent, $attr, null];
             }
 
@@ -4173,7 +4173,7 @@ class rcube_imap extends rcube_storage
 
             // Convert entry names
             foreach ($entries as $entry) {
-                list($ent, $attr) = $this->md2annotate($entry);
+                [$ent, $attr] = $this->md2annotate($entry);
                 $queries[$attr][] = $ent;
             }
 
@@ -4706,7 +4706,7 @@ class rcube_imap extends rcube_storage
      */
     protected function restore_conn_state($state)
     {
-        list($this->conn->error, $this->conn->errornum, $this->conn->resultcode) = $state;
+        [$this->conn->error, $this->conn->errornum, $this->conn->resultcode] = $state;
     }
 
     /**

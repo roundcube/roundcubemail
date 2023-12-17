@@ -614,7 +614,7 @@ abstract class rcube_addressbook
                     $out = array_merge($out, (array) $values);
                 }
                 else {
-                    list(, $type) = rcube_utils::explode(':', $c);
+                    [, $type] = rcube_utils::explode(':', $c);
                     if ($type !== null && isset($out[$type])) {
                         $out[$type] = array_merge((array) $out[$type], (array) $values);
                     }
@@ -663,7 +663,7 @@ abstract class rcube_addressbook
                 return $email;
             }
 
-            list($emailname) = explode('@', $email);
+            [$emailname] = explode('@', $email);
 
             if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match)) {
                 $fn = trim(ucfirst($match[1]).' '.ucfirst($match[2]));

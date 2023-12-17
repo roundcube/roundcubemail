@@ -70,7 +70,7 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         $id       = self::$response['id'] ?? '';
         $hidden   = ['name' => '_id', 'value' => $id];
 
-        list($form_start, $form_end) = self::get_form_tags($attrib, 'save-response', $id, $hidden);
+        [$form_start, $form_end] = self::get_form_tags($attrib, 'save-response', $id, $hidden);
         unset($attrib['form'], $attrib['id']);
 
         $name_attr = [

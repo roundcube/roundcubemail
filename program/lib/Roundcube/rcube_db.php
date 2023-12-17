@@ -1273,10 +1273,10 @@ class rcube_db
         // $dsn => protocol+hostspec/database (old format)
         else {
             if (strpos($dsn, '+') !== false) {
-                list($proto, $dsn) = explode('+', $dsn, 2);
+                [$proto, $dsn] = explode('+', $dsn, 2);
             }
             if (strpos($dsn, '/') !== false) {
-                list($proto_opts, $dsn) = explode('/', $dsn, 2);
+                [$proto_opts, $dsn] = explode('/', $dsn, 2);
             }
             else {
                 $proto_opts = $dsn;
@@ -1288,7 +1288,7 @@ class rcube_db
         $parsed['protocol'] = !empty($proto) ? $proto : 'tcp';
         $proto_opts = rawurldecode($proto_opts);
         if (strpos($proto_opts, ':') !== false) {
-            list($proto_opts, $parsed['port']) = explode(':', $proto_opts);
+            [$proto_opts, $parsed['port']] = explode(':', $proto_opts);
         }
         if ($parsed['protocol'] == 'tcp' && strlen($proto_opts)) {
             $parsed['hostspec'] = $proto_opts;
@@ -1316,7 +1316,7 @@ class rcube_db
                     $opts = [$dsn];
                 }
                 foreach ($opts as $opt) {
-                    list($key, $value) = explode('=', $opt);
+                    [$key, $value] = explode('=', $opt);
                     if (!array_key_exists($key, $parsed) || $parsed[$key] === false) {
                         // don't allow params overwrite
                         $parsed[$key] = rawurldecode($value);

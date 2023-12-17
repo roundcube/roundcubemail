@@ -1209,7 +1209,7 @@ class rcube_imap_cache
         // Another solution would be to use object's copy in rcube_message class
         // to prevent related issues, however I'm not sure which is better
         if (!empty($msg->mimetype)) {
-            list($msg->ctype_primary, $msg->ctype_secondary) = explode('/', $msg->mimetype);
+            [$msg->ctype_primary, $msg->ctype_secondary] = explode('/', $msg->mimetype);
         }
 
         unset($msg->replaces);

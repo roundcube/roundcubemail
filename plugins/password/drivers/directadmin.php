@@ -420,7 +420,7 @@ class HTTPSocket
             if ($pair == '' || $pair == "\r\n") {
                 continue;
             }
-            list($key,$value) = preg_split("/: /", $pair, 2);
+            [$key,$value] = preg_split("/: /", $pair, 2);
             $array_return[strtolower($key)] = $value;
         }
 

@@ -145,7 +145,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
                     // detect message part mimetype
                     $real_mimetype = rcube_mime::file_content_type($tmp_body, $filename, $mimetype, true, true);
-                    list($real_ctype_primary, $real_ctype_secondary) = explode('/', $real_mimetype);
+                    [$real_ctype_primary, $real_ctype_secondary] = explode('/', $real_mimetype);
 
                     // accept text/plain with any extension
                     if ($real_mimetype == 'text/plain' && self::mimetype_compare($real_mimetype, $mimetype)) {

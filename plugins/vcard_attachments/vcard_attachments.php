@@ -204,7 +204,7 @@ class vcard_attachments extends rcube_plugin
             $index = [];
 
             foreach (explode(',', $mime_id) as $id) {
-                list($part_id, $card_id) = rcube_utils::explode(':', $id);
+                [$part_id, $card_id] = rcube_utils::explode(':', $id);
                 if (!isset($index[$part_id])) {
                     $index[$part_id] = [];
                 }
@@ -334,7 +334,7 @@ class vcard_attachments extends rcube_plugin
     public function attach_vcard($args)
     {
         if (preg_match('|^vcard://(.+)$|', $args['uri'], $m)) {
-            list($source, $cid, $email) = explode('-', $m[1]);
+            [$source, $cid, $email] = explode('-', $m[1]);
 
             $vcard = $this->get_contact_vcard($source, $cid, $filename);
 
@@ -368,7 +368,7 @@ class vcard_attachments extends rcube_plugin
                 $vcard->reset();
 
                 foreach ($contact as $key => $values) {
-                    list($field, $section) = rcube_utils::explode(':', $key);
+                    [$field, $section] = rcube_utils::explode(':', $key);
                     $section = strtoupper($section ?? '');
                     // avoid unwanted casting of DateTime objects to an array
                     // (same as in rcube_contacts::convert_save_data())

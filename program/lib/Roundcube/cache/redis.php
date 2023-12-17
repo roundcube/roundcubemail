@@ -102,7 +102,7 @@ class rcube_cache_redis extends rcube_cache
 
         foreach ($hosts as $redis_host) {
             // explode individual fields
-            list($host, $port, $database, $password) = array_pad(explode(':', $redis_host, 4), 4, null);
+            [$host, $port, $database, $password] = array_pad(explode(':', $redis_host, 4), 4, null);
 
             if (substr($redis_host, 0, 7) === 'unix://') {
                 $host = substr($port, 2);

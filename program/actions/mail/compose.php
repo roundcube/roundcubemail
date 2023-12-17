@@ -802,7 +802,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      */
     public static function compose_body($attrib)
     {
-        list($form_start, $form_end) = self::$SENDMAIL->form_tags($attrib);
+        [$form_start, $form_end] = self::$SENDMAIL->form_tags($attrib);
         unset($attrib['form']);
 
         if (empty($attrib['id'])) {

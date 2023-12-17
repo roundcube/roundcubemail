@@ -64,7 +64,7 @@ if ($RCMAIL->action == 'error' && !empty($_GET['_code'])) {
 if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_https', false))) {
     // force_https can be true, <hostname>, <hostname>:<port>, <port>
     if (!is_bool($force_https)) {
-        list($host, $port) = explode(':', $force_https);
+        [$host, $port] = explode(':', $force_https);
 
         if (is_numeric($host) && empty($port)) {
             $port = $host;

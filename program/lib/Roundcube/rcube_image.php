@@ -78,7 +78,7 @@ class rcube_image
 
         // use ImageMagick
         if (empty($type) && ($data = $this->identify())) {
-            list($type, $width, $height) = $data;
+            [$type, $width, $height] = $data;
             $channels = null;
         }
 

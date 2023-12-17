@@ -719,7 +719,7 @@ class acl extends rcube_plugin
         $self = $this->rc->get_user_name();
 
         // find realm in username of logged user (?)
-        list($name, $domain) = rcube_utils::explode('@', $self);
+        [$name, $domain] = rcube_utils::explode('@', $self);
 
         // Use (always existent) ACL entry on the INBOX for the user to determine
         // whether or not the user ID in ACL entries need to be qualified and how
@@ -820,7 +820,7 @@ class acl extends rcube_plugin
         }
         // lowercase domain name
         else if ($login_lc && strpos($user, '@')) {
-            list($local, $domain) = explode('@', $user);
+            [$local, $domain] = explode('@', $user);
             $user = $local . '@' . mb_strtolower($domain);
         }
 

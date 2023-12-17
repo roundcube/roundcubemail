@@ -145,7 +145,7 @@ class help extends rcube_plugin
 
         // resolve task/action for deep linking
         $rel = !empty($_REQUEST['_rel']) ? $_REQUEST['_rel'] : '';
-        list($task) = explode('/', $rel);
+        [$task] = explode('/', $rel);
         if (!empty($index_map[$rel])) {
             $src .= $index_map[$rel];
         }

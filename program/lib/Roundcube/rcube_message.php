@@ -84,7 +84,7 @@ class rcube_message
     {
         // decode combined UID-folder identifier
         if (preg_match('/^[0-9.]+-.+/', $uid)) {
-            list($uid, $folder) = explode('-', $uid, 2);
+            [$uid, $folder] = explode('-', $uid, 2);
         }
 
         $context = null;
@@ -594,7 +594,7 @@ class rcube_message
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
                 $part_body = $this->get_part_body($structure->mime_id, false, 32768);
-                list($headers) = rcube_utils::explode("\r\n\r\n", $part_body, 2);
+                [$headers] = rcube_utils::explode("\r\n\r\n", $part_body, 2);
                 $structure->headers = rcube_mime::parse_headers($headers);
 
                 if ($this->context === $structure->mime_id) {
@@ -657,7 +657,7 @@ class rcube_message
         $mimetype  = $plugin['mimetype'];
         $recursive = $plugin['recursive'];
 
-        list($message_ctype_primary, $message_ctype_secondary) = explode('/', $mimetype);
+        [$message_ctype_primary, $message_ctype_secondary] = explode('/', $mimetype);
 
         // print body if message doesn't have multiple parts
         if ($message_ctype_primary == 'text' && !$recursive) {
@@ -851,7 +851,7 @@ class rcube_message
                     }
 
                     $mail_part = $plugin['structure'];
-                    list($primary_type, $secondary_type) = explode('/', $plugin['mimetype']);
+                    [$primary_type, $secondary_type] = explode('/', $plugin['mimetype']);
 
                     // add text part if it matches the prefs
                     if (!$this->parse_alternative
@@ -1191,7 +1191,7 @@ class rcube_message
 
             $ctype = rcube_mime::file_content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
             $uupart->mimetype = $ctype;
-            list($uupart->ctype_primary, $uupart->ctype_secondary) = explode('/', $ctype);
+            [$uupart->ctype_primary, $uupart->ctype_secondary] = explode('/', $ctype);
 
             $parts[] = $uupart;
             $pid++;

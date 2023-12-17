@@ -99,7 +99,7 @@ class rcube_user
                 return $this->data['username'];
             }
 
-            list($local, $domain) = rcube_utils::explode('@', $this->data['username']);
+            [$local, $domain] = rcube_utils::explode('@', $this->data['username']);
 
             // at least we should always have the local part
             if ($part == 'local') {

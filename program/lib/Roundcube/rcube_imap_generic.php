@@ -742,7 +742,7 @@ class rcube_imap_generic
 
             // RFC 4959 (SASL-IR): save one round trip
             if ($this->getCapability('SASL-IR')) {
-                list($result, $line) = $this->execute("AUTHENTICATE PLAIN", [$reply],
+                [$result, $line] = $this->execute("AUTHENTICATE PLAIN", [$reply],
                     self::COMMAND_LASTLINE | self::COMMAND_CAPABILITY | self::COMMAND_ANONYMIZED);
             }
             else {
@@ -828,7 +828,7 @@ class rcube_imap_generic
             return $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
         }
 
-        list($code, $response) = $this->execute('LOGIN', [$this->escape($user, true), $this->escape($password, true)],
+        [$code, $response] = $this->execute('LOGIN', [$this->escape($user, true), $this->escape($password, true)],
             self::COMMAND_CAPABILITY | self::COMMAND_ANONYMIZED);
 
         // re-set capabilities list if untagged CAPABILITY response provided
@@ -855,7 +855,7 @@ class rcube_imap_generic
         }
 
         // try (LIST "" ""), should return delimiter (RFC2060 Sec 6.3.8)
-        list($code, $response) = $this->execute('LIST', [$this->escape(''), $this->escape('')]);
+        [$code, $response] = $this->execute('LIST', [$this->escape(''), $this->escape('')]);
 
         if ($code == self::ERROR_OK) {
             $args = $this->tokenizeResponse($response, 4);
@@ -882,7 +882,7 @@ class rcube_imap_generic
             return self::ERROR_BAD;
         }
 
-        list($code, $response) = $this->execute('NAMESPACE');
+        [$code, $response] = $this->execute('NAMESPACE');
 
         if ($code == self::ERROR_OK && preg_match('/^\* NAMESPACE /', $response)) {
             $response = substr($response, 11);
@@ -1231,7 +1231,7 @@ class rcube_imap_generic
             $params[] = ['QRESYNC', $qresync_data];
         }
 
-        list($code, $response) = $this->execute('SELECT', $params);
+        [$code, $response] = $this->execute('SELECT', $params);
 
         if ($code == self::ERROR_OK) {
             $this->clear_mailbox_cache();
@@ -1337,14 +1337,14 @@ class rcube_imap_generic
             $items[] = 'UNSEEN';
         }
 
-        list($code, $response) = $this->execute('STATUS',
+        [$code, $response] = $this->execute('STATUS',
             [$this->escape($mailbox), '(' . implode(' ', $items) . ')'], 0, '/^\* STATUS /i');
 
         if ($code == self::ERROR_OK && $response) {
             $result   = [];
             $response = substr($response, 9); // remove prefix "* STATUS "
 
-            list($mbox, $items) = $this->tokenizeResponse($response, 2);
+            [$mbox, $items] = $this->tokenizeResponse($response, 2);
 
             // Fix for #1487859. Some buggy server returns not quoted
             // folder name with spaces. Let's try to handle this situation
@@ -1631,7 +1631,7 @@ class rcube_imap_generic
             $args[] = 'RETURN (' . implode(' ', $rets) . ')';
         }
 
-        list($code, $response) = $this->execute($subscribed ? 'LSUB' : 'LIST', $args);
+        [$code, $response] = $this->execute($subscribed ? 'LSUB' : 'LIST', $args);
 
         if ($code == self::ERROR_OK) {
             $folders  = [];
@@ -1657,7 +1657,7 @@ class rcube_imap_generic
 
                 // * LIST (<options>) <delimiter> <mailbox>
                 if ($cmd == 'LIST' || $cmd == 'LSUB') {
-                    list($opts, $delim, $mailbox) = $this->tokenizeResponse($line, 3);
+                    [$opts, $delim, $mailbox] = $this->tokenizeResponse($line, 3);
 
                     // Remove redundant separator at the end of folder name, UW-IMAP bug? (#1488879)
                     if ($delim) {
@@ -1699,16 +1699,16 @@ class rcube_imap_generic
                 else if ($lstatus) {
                     // * STATUS <mailbox> (<result>)
                     if ($cmd == 'STATUS') {
-                        list($mailbox, $status) = $this->tokenizeResponse($line, 2);
+                        [$mailbox, $status] = $this->tokenizeResponse($line, 2);
 
                         for ($i=0, $len=count($status); $i<$len; $i += 2) {
-                            list($name, $value) = $this->tokenizeResponse($status, 2);
+                            [$name, $value] = $this->tokenizeResponse($status, 2);
                             $folders[$mailbox][$name] = $value;
                         }
                     }
                     // * MYRIGHTS <mailbox> <acl>
                     else if ($cmd == 'MYRIGHTS') {
-                        list($mailbox, $acl)  = $this->tokenizeResponse($line, 2);
+                        [$mailbox, $acl]  = $this->tokenizeResponse($line, 2);
                         $folders[$mailbox]['MYRIGHTS'] = $acl;
                     }
                 }
@@ -1828,7 +1828,7 @@ class rcube_imap_generic
             }
         }
 
-        list($code, $response) = $this->execute('ID',
+        [$code, $response] = $this->execute('ID',
             [!empty($args) ? '(' . implode(' ', (array) $args) . ')' : $this->escape(null)],
             0, '/^\* ID /i'
         );
@@ -1887,7 +1887,7 @@ class rcube_imap_generic
             }
         }
 
-        list($code, $response) = $this->execute('ENABLE', $extension, 0, '/^\* ENABLED /i');
+        [$code, $response] = $this->execute('ENABLE', $extension, 0, '/^\* ENABLED /i');
 
         if ($code == self::ERROR_OK && $response) {
             $response = substr($response, 10); // remove prefix "* ENABLED "
@@ -1943,7 +1943,7 @@ class rcube_imap_generic
         $encoding = $encoding ? trim($encoding) : 'US-ASCII';
         $criteria = $criteria ? 'ALL ' . trim($criteria) : 'ALL';
 
-        list($code, $response) = $this->execute($return_uid ? 'UID SORT' : 'SORT',
+        [$code, $response] = $this->execute($return_uid ? 'UID SORT' : 'SORT',
             ["($field)", $encoding, $criteria]);
 
         if ($code != self::ERROR_OK) {
@@ -1981,7 +1981,7 @@ class rcube_imap_generic
         $algorithm = $algorithm ? trim($algorithm) : 'REFERENCES';
         $criteria  = $criteria ? 'ALL '.trim($criteria) : 'ALL';
 
-        list($code, $response) = $this->execute($return_uid ? 'UID THREAD' : 'THREAD',
+        [$code, $response] = $this->execute($return_uid ? 'UID THREAD' : 'THREAD',
             [$algorithm, $encoding, $criteria]);
 
         if ($code != self::ERROR_OK) {
@@ -2036,7 +2036,7 @@ class rcube_imap_generic
             $params .= 'ALL';
         }
 
-        list($code, $response) = $this->execute($return_uid ? 'UID SEARCH' : 'SEARCH', [$params]);
+        [$code, $response] = $this->execute($return_uid ? 'UID SEARCH' : 'SEARCH', [$params]);
 
         if ($code != self::ERROR_OK) {
             $response = null;
@@ -2100,7 +2100,7 @@ class rcube_imap_generic
             return false;
         }
         else if (strpos($message_set, ':')) {
-            list($from_idx, $to_idx) = explode(':', $message_set);
+            [$from_idx, $to_idx] = explode(':', $message_set);
             if ($to_idx != '*' && (int) $from_idx > (int) $to_idx) {
                 return false;
             }
@@ -2541,7 +2541,7 @@ class rcube_imap_generic
 
                 // Tokenize response and assign to object properties
                 while (($tokens = $this->tokenizeResponse($line, 2)) && count($tokens) == 2) {
-                    list($name, $value) = $tokens;
+                    [$name, $value] = $tokens;
                     if ($name == 'UID') {
                         $result[$id]->uid = intval($value);
                     }
@@ -2618,7 +2618,7 @@ class rcube_imap_generic
                             continue;
                         }
 
-                        list($field, $string) = explode(':', $str, 2);
+                        [$field, $string] = explode(':', $str, 2);
 
                         $field  = strtolower($field);
                         $string = preg_replace('/\n[\t\s]*/', ' ', trim($string));
@@ -3306,7 +3306,7 @@ class rcube_imap_generic
         // * QUOTA user/sample (STORAGE 654 9765)
         // a0001 OK Completed
 
-        list($code, $response) = $this->execute('GETQUOTAROOT', [$this->escape($mailbox)], 0, '/^\* QUOTA /i');
+        [$code, $response] = $this->execute('GETQUOTAROOT', [$this->escape($mailbox)], 0, '/^\* QUOTA /i');
 
         if ($code != self::ERROR_OK) {
             return false;
@@ -3326,7 +3326,7 @@ class rcube_imap_generic
             }
 
             foreach (array_chunk($quotas, 3) as $quota) {
-                list($type, $used, $total) = $quota;
+                [$type, $used, $total] = $quota;
                 $type = strtolower($type);
 
                 if ($type && $total) {
@@ -3438,7 +3438,7 @@ class rcube_imap_generic
      */
     public function getACL($mailbox)
     {
-        list($code, $response) = $this->execute('GETACL', [$this->escape($mailbox)], 0, '/^\* ACL /i');
+        [$code, $response] = $this->execute('GETACL', [$this->escape($mailbox)], 0, '/^\* ACL /i');
 
         if ($code == self::ERROR_OK && $response) {
             // Parse server response (remove "* ACL ")
@@ -3476,7 +3476,7 @@ class rcube_imap_generic
      */
     public function listRights($mailbox, $user)
     {
-        list($code, $response) = $this->execute('LISTRIGHTS',
+        [$code, $response] = $this->execute('LISTRIGHTS',
             [$this->escape($mailbox), $this->escape($user)], 0, '/^\* LISTRIGHTS /i');
 
         if ($code == self::ERROR_OK && $response) {
@@ -3506,7 +3506,7 @@ class rcube_imap_generic
      */
     public function myRights($mailbox)
     {
-        list($code, $response) = $this->execute('MYRIGHTS', [$this->escape($mailbox)], 0, '/^\* MYRIGHTS /i');
+        [$code, $response] = $this->execute('MYRIGHTS', [$this->escape($mailbox)], 0, '/^\* MYRIGHTS /i');
 
         if ($code == self::ERROR_OK && $response) {
             // Parse server response (remove "* MYRIGHTS ")
@@ -3622,7 +3622,7 @@ class rcube_imap_generic
 
         $optlist .= ($optlist ? ' ' : '') . $entlist;
 
-        list($code, $response) = $this->execute('GETMETADATA', [$this->escape($mailbox), $optlist]);
+        [$code, $response] = $this->execute('GETMETADATA', [$this->escape($mailbox), $optlist]);
 
         if ($code == self::ERROR_OK) {
             $result = [];
@@ -3733,7 +3733,7 @@ class rcube_imap_generic
         }
         $attribs = '(' . implode(' ', $attribs) . ')';
 
-        list($code, $response) = $this->execute('GETANNOTATION', [$this->escape($mailbox), $entries, $attribs]);
+        [$code, $response] = $this->execute('GETANNOTATION', [$this->escape($mailbox), $entries, $attribs]);
 
         if ($code == self::ERROR_OK) {
             $result     = [];

@@ -81,7 +81,7 @@ class rcmail_action_settings_index extends rcmail_action
             $attrib['id'] = 'rcmsectionslist';
         }
 
-        list($list, $cols) = self::user_prefs();
+        [$list, $cols] = self::user_prefs();
 
         // create XHTML table
         $out = self::table_output($attrib, $list, $cols, 'id');
@@ -185,7 +185,7 @@ class rcmail_action_settings_index extends rcmail_action
                         ksort($zones);
 
                         foreach ($zones as $zone) {
-                            list($tzs, $offset) = $zone;
+                            [$tzs, $offset] = $zone;
                             $select->add('(GMT ' . $offset . ') ' . self::timezone_label($tzs), $tzs);
                         }
 

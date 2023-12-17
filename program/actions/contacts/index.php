@@ -1030,7 +1030,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                     $rows = '';
 
-                    list($values, $subtypes) = self::contact_field_values($record, "$field:$subtype", $colprop);
+                    [$values, $subtypes] = self::contact_field_values($record, "$field:$subtype", $colprop);
 
                     foreach ($values as $i => $val) {
                         if (!empty($subtypes[$i])) {
@@ -1244,7 +1244,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
     public static function contact_field_values($record, $field_name, $colprop)
     {
-        list($field, $subtype) = explode(':', $field_name);
+        [$field, $subtype] = explode(':', $field_name);
 
         $subtypes = [];
         $values   = [];

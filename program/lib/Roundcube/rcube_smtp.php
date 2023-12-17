@@ -94,7 +94,7 @@ class rcube_smtp
 
         $smtp_host = $CONFIG['smtp_host'] ?: 'localhost';
 
-        list($smtp_host, $scheme, $smtp_port) = rcube_utils::parse_host_uri($smtp_host, 587, 465);
+        [$smtp_host, $scheme, $smtp_port] = rcube_utils::parse_host_uri($smtp_host, 587, 465);
 
         $use_tls = $scheme === 'tls';
 
@@ -237,7 +237,7 @@ class rcube_smtp
                 return false;
             }
 
-            list($from, $text_headers) = $headerElements;
+            [$from, $text_headers] = $headerElements;
         }
         else if (is_string($headers)) {
             $text_headers = $headers;

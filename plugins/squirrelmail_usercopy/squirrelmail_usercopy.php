@@ -184,7 +184,7 @@ class squirrelmail_usercopy extends rcube_plugin
             if (is_readable($prefsfile)) {
                 $this->prefs = [];
                 foreach (file($prefsfile) as $line) {
-                    list($key, $value) = rcube_utils::explode('=', $line);
+                    [$key, $value] = rcube_utils::explode('=', $line);
                     $this->prefs[$key] = $this->convert_charset(rtrim($value), $file_charset);
                 }
 

@@ -360,7 +360,7 @@ class rcube_plugin_api
                 }
 
                 if (!empty($json['name']) && is_string($json['name']) && strpos($json['name'], '/') !== false) {
-                    list($info['vendor'], $info['name']) = explode('/', $json['name'], 2);
+                    [$info['vendor'], $info['name']] = explode('/', $json['name'], 2);
                 }
 
                 $info['version'] = isset($json['version']) ? $json['version'] : null;

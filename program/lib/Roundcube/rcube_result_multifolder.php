@@ -345,7 +345,7 @@ class rcube_result_multifolder
         // restore result sets from saved index
         $data = [];
         foreach ($this->index as $item) {
-            list($uid, $folder) = explode('-', $item, 2);
+            [$uid, $folder] = explode('-', $item, 2);
             $data[$folder] = ($data[$folder] ?? '') . ' ' . $uid;
         }
 

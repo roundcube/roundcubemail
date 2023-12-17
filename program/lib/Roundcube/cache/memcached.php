@@ -92,7 +92,7 @@ class rcube_cache_memcached extends rcube_cache
         if (!$pconnect || !count(self::$memcache->getServerList())) {
             foreach ((array) $hosts as $host) {
                 if (substr($host, 0, 7) != 'unix://') {
-                    list($host, $port) = explode(':', $host);
+                    [$host, $port] = explode(':', $host);
                     if (!$port) {
                         $port = 11211;
                     }

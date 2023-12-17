@@ -61,7 +61,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                 // @TODO: at some point we might support drag-n-drop between
                 // two different accounts on the same server, for now make sure
                 // this is the same server and the same user
-                list($host, $port) = rcube_utils::explode(':', $_SERVER['HTTP_HOST']);
+                [$host, $port] = rcube_utils::explode(':', $_SERVER['HTTP_HOST']);
 
                 if (
                     $host == $url['host']

@@ -373,7 +373,7 @@ class password extends rcube_plugin
         }
 
         if (($driver = $this->_load_driver('strength')) && method_exists($driver, 'check_strength')) {
-            list($score, $reason) = $driver->check_strength($passwd);
+            [$score, $reason] = $driver->check_strength($passwd);
         }
         else {
             $score = (!preg_match("/[0-9]/", $passwd) || !preg_match("/[^A-Za-z0-9]/", $passwd)) ? 1 : 5;

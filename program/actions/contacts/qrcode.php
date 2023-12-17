@@ -78,7 +78,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
 
         foreach ($contact as $field => $value) {
             if (strpos($field, ':') !== false) {
-                list($field, $section) = explode(':', $field, 2);
+                [$field, $section] = explode(':', $field, 2);
             }
             else {
                 $section = null;

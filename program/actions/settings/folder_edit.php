@@ -277,7 +277,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         $form = $plugin['form'];
 
         // Set form tags and hidden fields
-        list($form_start, $form_end) = self::get_form_tags($attrib, 'save-folder', null, $hidden_fields);
+        [$form_start, $form_end] = self::get_form_tags($attrib, 'save-folder', null, $hidden_fields);
 
         unset($attrib['form'], $attrib['id']);
 

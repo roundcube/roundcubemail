@@ -472,7 +472,7 @@ class rcube_result_thread
             if ($root) {
                 $result[$root] = $root;
                 foreach ($items as $item) {
-                    list($lv, $id) = explode(self::SEPARATOR_LEVEL, $item);
+                    [$lv, $id] = explode(self::SEPARATOR_LEVEL, $item);
                     $result[$id] = $root;
                 }
             }
@@ -567,7 +567,7 @@ class rcube_result_thread
         $result = [];
 
         for ($len=count($items); $pos < $len; $pos++) {
-            list($lv, $id) = explode(self::SEPARATOR_LEVEL, $items[$pos]);
+            [$lv, $id] = explode(self::SEPARATOR_LEVEL, $items[$pos]);
             if ($level == $lv) {
                 $pos++;
                 $result[$id] = $this->build_thread($items, $level+1, $pos);

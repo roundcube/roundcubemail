@@ -215,7 +215,7 @@ class plesk_rpc
      */
     function change_mailbox_password($mailbox, $newpass)
     {
-        list($user, $domain) = explode("@", $mailbox);
+        [$user, $domain] = explode("@", $mailbox);
         $domain_id = $this->get_domain_id($domain);
 
         // if domain cannot be resolved to an id, do not continue

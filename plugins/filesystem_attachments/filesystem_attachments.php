@@ -169,7 +169,7 @@ class filesystem_attachments extends rcube_plugin
     protected static function file_id()
     {
         $rcube = rcube::get_instance();
-        list($usec, $sec) = explode(' ', microtime());
+        [$usec, $sec] = explode(' ', microtime());
         $id = preg_replace('/[^0-9]/', '', $rcube->user->ID . $sec . $usec);
 
         // make sure the ID is really unique (#1489546)

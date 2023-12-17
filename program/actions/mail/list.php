@@ -37,7 +37,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         $sort = rcube_utils::get_input_string('_sort', rcube_utils::INPUT_GET);
         if ($sort && preg_match('/^[a-zA-Z_-]+$/', $sort)) {
             // yes, so set the sort vars
-            list($sort_col, $sort_order) = explode('_', $sort);
+            [$sort_col, $sort_order] = explode('_', $sort);
 
             // set session vars for sort (so next page and task switch know how to sort)
             if (!in_array('message_sort_col', $dont_override)) {
