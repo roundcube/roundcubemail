@@ -622,7 +622,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
     }
 
-    /*
+    /**
      * Creates <THEAD> for message list table
      */
     public static function message_list_head($attrib, $a_show_cols)

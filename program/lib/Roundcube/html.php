@@ -56,7 +56,7 @@ class html
         return self::tag($this->tagname, $this->attrib, $this->content, array_merge(self::$common_attrib, $this->allowed));
     }
 
-    /* STATIC METHODS */
+    // STATIC METHODS
 
     /**
      * Generic method to create a HTML tag

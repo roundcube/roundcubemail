@@ -82,7 +82,7 @@ class rcube_result_set implements Iterator, ArrayAccess
         $this->current = $i;
     }
 
-    /* Implement PHP ArrayAccess interface */
+    // Implement PHP ArrayAccess interface
 
     public function offsetSet($offset, $value): void
     {
@@ -111,7 +111,7 @@ class rcube_result_set implements Iterator, ArrayAccess
         return $this->records[$offset];
     }
 
-    /* PHP 5 Iterator interface */
+    // PHP 5 Iterator interface
 
     public function rewind(): void
     {

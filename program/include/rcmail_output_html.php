@@ -972,7 +972,7 @@ class rcmail_output_html extends rcmail_output
     }
 
 
-    /* Template parsing methods */
+    // Template parsing methods
 
     /**
      * Replace all strings ($varname)
@@ -2204,7 +2204,7 @@ class rcmail_output_html extends rcmail_output
     }
 
 
-    /*  ************* common functions delivering gui objects **************  */
+    // common functions delivering gui objects
 
     /**
      * Create a form tag with the necessary hidden fields

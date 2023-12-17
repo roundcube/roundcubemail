@@ -129,7 +129,7 @@ class rcube_imap_search
 /**
  * Stackable item to run the search on a specific IMAP folder
  */
-class rcube_imap_search_job /* extends Stackable */
+class rcube_imap_search_job // extends Stackable
 {
     /** @var rcube_imap_search The job worker */
     public $worker;

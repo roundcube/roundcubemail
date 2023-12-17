@@ -67,8 +67,7 @@ class rcmail_oauth
     /** @var string */
     protected $logout_redirect_url;
 
-    /* helper to map .well-known entry to config (discovery URI) */
-    /** @var array */
+    /** @var array helper to map .well-known entry to config (discovery URI) */
     static protected $config_mapper = [
         'issuer'                 => 'issuer',
         'authorization_endpoint' => 'auth_uri',

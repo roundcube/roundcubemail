@@ -63,7 +63,6 @@ return (new PhpCsFixer\Config())
         'no_useless_else' => false,
         'phpdoc_no_empty_return' => false,
         'psr_autoloading' => false,
-        'single_line_comment_style' => false,
         'strict_comparison' => false,
         'string_length_to_empty' => false,
 
