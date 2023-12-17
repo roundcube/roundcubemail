@@ -131,7 +131,7 @@ echo $input_deskey->show($RCI->getprop('des_key'));
 <?php
 
 $check_ipcheck = new html_checkbox(['name' => '_ip_check', 'id' => 'cfgipcheck']);
-echo $check_ipcheck->show(intval($RCI->getprop('ip_check')), array('value' => 1));
+echo $check_ipcheck->show(intval($RCI->getprop('ip_check')), ['value' => 1]);
 
 ?>
 <label for="cfgipcheck">Check client IP in session authorization</label><br />
