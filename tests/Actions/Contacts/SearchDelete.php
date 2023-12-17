@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_contacts_search_delete
- *
- * @package Tests
  */
 class Actions_Contacts_Search_Delete extends ActionTestCase
 {

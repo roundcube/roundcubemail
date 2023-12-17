@@ -55,20 +55,20 @@ class enigma extends rcube_plugin
                 $this->add_hook('template_object_messagebody', [$this, 'message_output']);
             }
             // message composing
-            else if ($enabled && $this->rc->action == 'compose') {
+            elseif ($enabled && $this->rc->action == 'compose') {
                 $this->add_hook('message_compose_body', [$this, 'message_compose']);
 
                 $this->load_ui();
                 $this->ui->init();
             }
             // message sending (and draft storing)
-            else if ($enabled && $this->rc->action == 'send') {
+            elseif ($enabled && $this->rc->action == 'send') {
                 $this->add_hook('message_ready', [$this, 'message_ready']);
             }
 
             $this->password_handler();
         }
-        else if ($this->rc->task == 'settings') {
+        elseif ($this->rc->task == 'settings') {
             // add hooks for Enigma settings
             $this->add_hook('settings_actions', [$this, 'settings_actions']);
             $this->add_hook('preferences_sections_list', [$this, 'preferences_sections_list']);
@@ -88,7 +88,7 @@ class enigma extends rcube_plugin
 
             $this->password_handler();
         }
-        else if ($this->rc->task == 'cli') {
+        elseif ($this->rc->task == 'cli') {
             $this->add_hook('user_delete_commit', [$this, 'user_delete']);
         }
 

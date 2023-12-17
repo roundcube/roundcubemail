@@ -5,6 +5,7 @@
  * Driver for XMail password
  *
  * @version 2.0
+ *
  * @author Helio Cavichiolo Jr <helio@hcsistemas.com.br>
  *
  * Setup xmail_host, xmail_user, xmail_pass and xmail_port into
@@ -36,7 +37,7 @@ class rcube_xmail_password
     function save($currpass, $newpass)
     {
         $rcmail = rcmail::get_instance();
-        list($user, $domain) = explode('@', $_SESSION['username']);
+        [$user, $domain] = explode('@', $_SESSION['username']);
 
         $xmail = new XMail;
 
@@ -57,7 +58,7 @@ class rcube_xmail_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        if (!$xmail->send("userpasswd\t".$domain."\t".$user."\t".$newpass."\n")) {
+        if (!$xmail->send("userpasswd\t" . $domain . "\t" . $user . "\t" . $newpass . "\n")) {
             $xmail->close();
             rcube::raise_error([
                     'code' => 600,

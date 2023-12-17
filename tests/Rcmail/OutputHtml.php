@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_output_html class
- *
- * @package Tests
  */
 class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
 {

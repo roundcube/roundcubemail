@@ -19,9 +19,6 @@
 
 /**
  * Abstract skeleton of an address book/repository
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 abstract class rcube_addressbook
 {
@@ -75,7 +72,7 @@ abstract class rcube_addressbook
     public $ready = false;
 
     /**
-     * @var null|string|int If set, addressbook-specific identifier of the selected group. All contact listing and
+     * @var string|int|null If set, addressbook-specific identifier of the selected group. All contact listing and
      *                      contact searches will be limited to contacts that belong to this group.
      */
     public $group_id = null;
@@ -89,7 +86,7 @@ abstract class rcube_addressbook
     /** @var string Contact field by which to order listed records. */
     public $sort_col = 'name';
 
-    /** @var string Whether sorting of records by $sort_col is done in ascending (ASC) or descending (DESC) order. */
+    /** @var string Whether sorting of records by self::$sort_col is done in ascending (ASC) or descending (DESC) order. */
     public $sort_order = 'ASC';
 
     /** @var string[] A list of record fields that contain dates. */
@@ -114,6 +111,7 @@ abstract class rcube_addressbook
 
     /**
      * Returns addressbook name (e.g. for addressbooks listing)
+     *
      * @return string
      */
     abstract function get_name();
@@ -145,6 +143,7 @@ abstract class rcube_addressbook
 
     /**
      * Reset saved results and search parameters
+     *
      * @return void
      */
     abstract function reset();
@@ -472,7 +471,7 @@ abstract class rcube_addressbook
      * This filter mechanism is applied in addition to other filter mechanisms, see the description of the count()
      * operation.
      *
-     * @param null|int|string $group_id Database identifier of the group. Use 0/"0"/null to reset the group filter.
+     * @param int|string|null $group_id Database identifier of the group. Use 0/"0"/null to reset the group filter.
      */
     function set_group($group_id)
     {
@@ -583,6 +582,7 @@ abstract class rcube_addressbook
      * @return array List of assigned groups indexed by a group ID.
      *               Every array element can be just a group name (string), or an array
      *               with 'ID' and 'name' elements.
+     *
      * @since 0.5-beta
      */
     function get_record_groups($id)
@@ -606,12 +606,12 @@ abstract class rcube_addressbook
     {
         $out = [];
         foreach ((array) $data as $c => $values) {
-            if ($c === $col || strpos($c, $col.':') === 0) {
+            if ($c === $col || strpos($c, $col . ':') === 0) {
                 if ($flat) {
                     $out = array_merge($out, (array) $values);
                 }
                 else {
-                    list(, $type) = rcube_utils::explode(':', $c);
+                    [, $type] = rcube_utils::explode(':', $c);
                     if ($type !== null && isset($out[$type])) {
                         $out[$type] = array_merge((array) $out[$type], (array) $values);
                     }
@@ -660,10 +660,10 @@ abstract class rcube_addressbook
                 return $email;
             }
 
-            list($emailname) = explode('@', $email);
+            [$emailname] = explode('@', $email);
 
             if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match)) {
-                $fn = trim(ucfirst($match[1]).' '.ucfirst($match[2]));
+                $fn = trim(ucfirst($match[1]) . ' ' . ucfirst($match[2]));
             }
             else {
                 $fn = ucfirst($emailname);
@@ -739,11 +739,11 @@ abstract class rcube_addressbook
                 $fn = $name;
             }
             // ... organization
-            else if (isset($contact['organization']) && ($org = trim($contact['organization']))) {
+            elseif (isset($contact['organization']) && ($org = trim($contact['organization']))) {
                 $fn = $org;
             }
             // ... email address
-            else if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+            elseif (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
                 $fn = $email[0];
             }
         }
@@ -874,7 +874,7 @@ abstract class rcube_addressbook
             if ($mode & self::SEARCH_STRICT) {
                 $got = ($val == $search);
             }
-            else if ($mode & self::SEARCH_PREFIX) {
+            elseif ($mode & self::SEARCH_PREFIX) {
                 $got = ($search == substr($val, 0, strlen($search)));
             }
             else {

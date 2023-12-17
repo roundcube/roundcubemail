@@ -84,7 +84,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         if (strlen($path)) {
             $path_id = $path;
             $path    = $storage->mod_folder($path . $delimiter);
-            if (($path[strlen($path)-1] ?? '') == $delimiter) {
+            if (($path[strlen($path) - 1] ?? '') == $delimiter) {
                 $path = substr($path, 0, -1);
             }
         }
@@ -100,7 +100,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         if (!empty($options['protected'])) {
             $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q(self::localize_foldername($mbox, false, true)));
         }
-        else if (!empty($options['norename'])) {
+        elseif (!empty($options['norename'])) {
             $foldername = rcube::Q($folder);
         }
         else {
@@ -112,7 +112,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             $foldername = '<span class="input-group">' . $foldername->show($folder);
 
             if (!empty($options['special']) && ($sname = self::localize_foldername($mbox, false, true)) != $folder) {
-                $foldername .= ' <span class="input-group-append"><span class="input-group-text">(' . rcube::Q($sname) .')</span></span>';
+                $foldername .= ' <span class="input-group-append"><span class="input-group-text">(' . rcube::Q($sname) . ')</span></span>';
             }
 
             $foldername .= '</span>';
@@ -198,7 +198,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             if (isset($_POST['_viewmode'])) {
                 $value = (int) $_POST['_viewmode'];
             }
-            else if (strlen($mbox)) {
+            elseif (strlen($mbox)) {
                 $a_threaded   = $rcmail->config->get('message_threading', []);
                 $default_mode = $rcmail->config->get('default_list_mode', 'list');
 
@@ -277,7 +277,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         $form = $plugin['form'];
 
         // Set form tags and hidden fields
-        list($form_start, $form_end) = self::get_form_tags($attrib, 'save-folder', null, $hidden_fields);
+        [$form_start, $form_end] = self::get_form_tags($attrib, 'save-folder', null, $hidden_fields);
 
         unset($attrib['form'], $attrib['id']);
 
@@ -292,7 +292,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                     $subcontent = self::get_form_part($fieldset, $attrib);
                     if ($subcontent) {
                         $subcontent = html::tag('legend', null, rcube::Q($fieldset['name'])) . $subcontent;
-                        $content .= html::tag('fieldset', null, $subcontent) ."\n";
+                        $content .= html::tag('fieldset', null, $subcontent) . "\n";
                     }
                 }
             }
@@ -301,10 +301,10 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             }
 
             if ($idx != 'props') {
-                $out .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($tab['name'])) . $content) ."\n";
+                $out .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($tab['name'])) . $content) . "\n";
             }
             else {
-                $out .= $content ."\n";
+                $out .= $content . "\n";
             }
         }
 
@@ -338,7 +338,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
             $content = $table->show($attrib);
         }
-        else if (isset($form['content'])) {
+        elseif (isset($form['content'])) {
             $content = $form['content'];
         }
 

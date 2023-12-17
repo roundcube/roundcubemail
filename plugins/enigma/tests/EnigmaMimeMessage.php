@@ -89,7 +89,7 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
         $expected = "This is an OpenPGP/MIME signed message (RFC 4880 and 3156)\r\n"
-            ."\r\n"
+            . "\r\n"
             . "--=_%x\r\n"
             . "Content-Transfer-Encoding: quoted-printable\r\n"
             . "Content-Type: text/plain; charset=ISO-8859-1\r\n"
@@ -120,7 +120,7 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
         $message->addPGPSignature('signature', 'algorithm');
 
         $signed = "This is an OpenPGP/MIME signed message (RFC 4880 and 3156)\r\n"
-            ."\r\n"
+            . "\r\n"
             . "--=_%x\r\n"
             . "Content-Transfer-Encoding: quoted-printable\r\n"
             . "Content-Type: text/plain; charset=ISO-8859-1\r\n"
@@ -161,7 +161,7 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
         $message->setPGPEncryptedBody('encrypted body');
 
         $encrypted = "This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)\r\n"
-            ."\r\n"
+            . "\r\n"
             . "--=_%x\r\n"
             . "Content-Type: application/pgp-encrypted\r\n"
             . "Content-Description: PGP/MIME version identification\r\n"

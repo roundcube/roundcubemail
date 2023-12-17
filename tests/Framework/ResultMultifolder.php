@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_result_multifolder class
- *
- * @package Tests
  */
 class Framework_ResultMultifolder extends PHPUnit\Framework\TestCase
 {

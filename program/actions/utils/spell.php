@@ -38,17 +38,17 @@ class rcmail_action_utils_spell extends rcmail_action
         // Get data string
         $left  = strpos($data, '<text>');
         $right = strrpos($data, '</text>');
-        $data  = substr($data, $left+6, $right-($left+6));
+        $data  = substr($data, $left + 6, $right - ($left + 6));
         $data  = html_entity_decode($data, ENT_QUOTES, RCUBE_CHARSET);
 
         $spellchecker = new rcube_spellchecker($lang);
 
         if ($learn_word) {
             $spellchecker->add_word($data);
-            $result = '<?xml version="1.0" encoding="'.RCUBE_CHARSET.'"?><learnwordresult></learnwordresult>';
+            $result = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><learnwordresult></learnwordresult>';
         }
-        else if (empty($data)) {
-            $result = '<?xml version="1.0" encoding="'.RCUBE_CHARSET.'"?><spellresult charschecked="0"></spellresult>';
+        elseif (empty($data)) {
+            $result = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><spellresult charschecked="0"></spellresult>';
         }
         else {
             $spellchecker->check($data);

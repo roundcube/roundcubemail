@@ -22,9 +22,6 @@
 
 /**
  * Class to provide memcache session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_session_memcache extends rcube_session
 {

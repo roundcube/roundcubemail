@@ -54,7 +54,7 @@ class ListTest extends \Tests\Browser\TestCase
                     }
                 });
             }
-            else if ($browser->isTablet()) {
+            elseif ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button')
                     ->waitFor('#toolbar-list-menu');
 
@@ -104,7 +104,7 @@ class ListTest extends \Tests\Browser\TestCase
                     $browser->clickMenuItem('select', null, false);
                 });
             }
-            else if ($browser->isTablet()) {
+            elseif ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button');
                 $browser->click('#toolbar-list-menu a.select');
             }

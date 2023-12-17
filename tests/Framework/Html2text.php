@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_html2text class
- *
- * @package Tests
  */
 class rc_html2text extends PHPUnit\Framework\TestCase
 {
@@ -42,8 +40,8 @@ class rc_html2text extends PHPUnit\Framework\TestCase
             ],
             6 => [
                 'title' => 'Don\'t remove non-printable chars',
-                'in'    => chr(0x002).chr(0x003),
-                'out'   => chr(0x002).chr(0x003),
+                'in'    => chr(0x002) . chr(0x003),
+                'out'   => chr(0x002) . chr(0x003),
             ],
             7 => [
                 'title' => 'Remove spaces after <br>',

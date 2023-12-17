@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_spellcheck_enchant class
- *
- * @package Tests
  */
 class Framework_SpellcheckerEnchant extends PHPUnit\Framework\TestCase
 {

@@ -7,6 +7,7 @@
  * the 'change_ldap_pass.pl' command respecting password policy (history) in LDAP.
  *
  * @version 1.0
+ *
  * @author Zbigniew Szmyd <zbigniew.szmyd@linseco.pl>
  */
 
@@ -39,7 +40,7 @@ class rcube_ldap_ppolicy_password
             2 => ["pipe", "w"],  // stderr is a pipe that the child will write to
         ];
 
-        $cmd = 'plugins/password/helpers/'. $cmd;
+        $cmd = 'plugins/password/helpers/' . $cmd;
 
         $this->_debug('Policy request: ' . json_encode([
             'user'   => $username,
@@ -57,14 +58,14 @@ class rcube_ldap_ppolicy_password
             // 1 => readable handle connected to child stdout
             // Any error output will be appended to /tmp/error-output.txt
 
-            fwrite($pipes[0], $uri."\n");
-            fwrite($pipes[0], $baseDN."\n");
-            fwrite($pipes[0], $filter."\n");
-            fwrite($pipes[0], $bindDN."\n");
-            fwrite($pipes[0], $bindPW."\n");
-            fwrite($pipes[0], $username."\n");
-            fwrite($pipes[0], $currpass."\n");
-            fwrite($pipes[0], $newpass."\n");
+            fwrite($pipes[0], $uri . "\n");
+            fwrite($pipes[0], $baseDN . "\n");
+            fwrite($pipes[0], $filter . "\n");
+            fwrite($pipes[0], $bindDN . "\n");
+            fwrite($pipes[0], $bindPW . "\n");
+            fwrite($pipes[0], $username . "\n");
+            fwrite($pipes[0], $currpass . "\n");
+            fwrite($pipes[0], $newpass . "\n");
             fwrite($pipes[0], $cafile);
 
             $result = trim(stream_get_contents($pipes[1]));

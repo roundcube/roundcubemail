@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_folder_expunge
- *
- * @package Tests
  */
 class Actions_Mail_FolderExpunge extends ActionTestCase
 {

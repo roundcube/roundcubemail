@@ -6,6 +6,7 @@
  * Driver to change passwords via DirectAdmin Control Panel
  *
  * @version 2.2
+ *
  * @author Victor Benincasa <vbenincasa @ gmail.com>
  *
  * Copyright (C) The Roundcube Dev Team
@@ -82,7 +83,7 @@ class rcube_directadmin_password
  *   echo $Socket->get('http://user:pass@somesite.com/somedir/some.file?query=string&this=that');
  *
  * @author Phi1 'l0rdphi1' Stier <l0rdphi1@liquenox.net>
- * @package HTTPSocket
+ *
  * @version 3.0.2
  */
 class HTTPSocket
@@ -116,7 +117,6 @@ class HTTPSocket
 
     /**
      * Create server "connection".
-     *
      */
     function connect($host, $port = '')
     {
@@ -181,10 +181,10 @@ class HTTPSocket
         if (preg_match('!^http://!i',$request) || preg_match('!^https://!i',$request)) {
             $location = parse_url($request);
             if (preg_match('!^https://!i',$request)) {
-                $this->connect('https://'.$location['host'],$location['port']);
+                $this->connect('https://' . $location['host'],$location['port']);
             }
             else {
-                $this->connect('http://'.$location['host'],$location['port']);
+                $this->connect('http://' . $location['host'],$location['port']);
             }
 
             $this->set_login($location['user'], $location['pass']);
@@ -201,11 +201,11 @@ class HTTPSocket
         }
 
         if (preg_match('!^ssl://!i', $this->remote_host)) {
-            $this->remote_host = 'https://'.substr($this->remote_host, 6);
+            $this->remote_host = 'https://' . substr($this->remote_host, 6);
         }
 
         if (preg_match('!^tcp://!i', $this->remote_host)) {
-            $this->remote_host = 'http://'.substr($this->remote_host, 6);
+            $this->remote_host = 'http://' . substr($this->remote_host, 6);
         }
 
         if (preg_match('!^https://!i', $this->remote_host)) {
@@ -229,7 +229,7 @@ class HTTPSocket
             $pairs = [];
 
             foreach ($content as $key => $value) {
-                $pairs[] = "$key=".urlencode($value);
+                $pairs[] = "$key=" . urlencode($value);
             }
 
             $content = implode('&',$pairs);
@@ -239,10 +239,10 @@ class HTTPSocket
         $OK = true;
 
         if ($this->method == 'GET') {
-            $request .= '?'.$content;
+            $request .= '?' . $content;
         }
 
-        $ch = curl_init($this->remote_host.':'.$this->remote_port.$request);
+        $ch = curl_init($this->remote_host . ':' . $this->remote_port . $request);
 
         if ($is_ssl) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //1
@@ -268,7 +268,7 @@ class HTTPSocket
 
         // if we have a username and password, add the header
         if (isset($this->remote_uname) && isset($this->remote_passwd)) {
-            curl_setopt($ch, CURLOPT_USERPWD, $this->remote_uname.':'.$this->remote_passwd);
+            curl_setopt($ch, CURLOPT_USERPWD, $this->remote_uname . ':' . $this->remote_passwd);
         }
 
         // for DA skins: if $this->remote_passwd is NULL, try to use the login key system
@@ -300,7 +300,7 @@ class HTTPSocket
 
         curl_close($ch);
 
-        $this->query_cache[] = $this->remote_host.':'.$this->remote_port.$request;
+        $this->query_cache[] = $this->remote_host . ':' . $this->remote_port . $request;
 
         $headers = $this->fetch_header();
 
@@ -313,12 +313,12 @@ class HTTPSocket
         if ($this->doFollowLocationHeader) {
             //dont bother if we didn't even setup the script correctly
             if (isset($headers['x-use-https']) && $headers['x-use-https'] == 'yes') {
-                die($this->ssl_setting_message);
+                exit($this->ssl_setting_message);
             }
 
             if (isset($headers['location'])) {
                 if ($this->max_redirects <= 0) {
-                    die("Too many redirects on: ".$headers['location']);
+                    exit("Too many redirects on: " . $headers['location']);
                 }
 
                 $this->max_redirects--;
@@ -382,7 +382,6 @@ class HTTPSocket
 
     /**
      * Clears any extra headers.
-     *
      */
     function clear_headers()
     {
@@ -417,7 +416,7 @@ class HTTPSocket
             if ($pair == '' || $pair == "\r\n") {
                 continue;
             }
-            list($key,$value) = preg_split("/: /", $pair, 2);
+            [$key,$value] = preg_split("/: /", $pair, 2);
             $array_return[strtolower($key)] = $value;
         }
 

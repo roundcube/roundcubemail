@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_user class
- *
- * @package Tests
  */
 class Framework_User extends ActionTestCase
 {

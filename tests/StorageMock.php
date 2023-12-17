@@ -19,8 +19,6 @@
 
 /**
  * A class for easier testing of code utilizing rcube_storage
- *
- * @package Tests
  */
 class StorageMock
 {

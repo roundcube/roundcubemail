@@ -63,7 +63,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             if ($a_record['photo'] == '-del-') {
                 $a_record['photo'] = '';
             }
-            else if (preg_match('/^[a-z0-9]+$/i', $a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
+            elseif (preg_match('/^[a-z0-9]+$/i', $a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
                 $tempfile = $rcmail->plugins->exec_hook('attachment_get', $tempfile);
                 if (empty($tempfile['abort'])) {
                     $a_record['photo'] = $tempfile['data'] ?? @file_get_contents($tempfile['path']);
@@ -255,7 +255,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 }
             }
             // assign values and subtypes
-            else if (isset($_POST[$fname]) && is_array($_POST[$fname])) {
+            elseif (isset($_POST[$fname]) && is_array($_POST[$fname])) {
                 $values   = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
                 $subtypes = rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST);
 
@@ -268,11 +268,11 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                         }
                     }
 
-                    $subtype = $subtypes[$i] ? ':'.$subtypes[$i] : '';
-                    $record[$col.$subtype][] = $val;
+                    $subtype = $subtypes[$i] ? ':' . $subtypes[$i] : '';
+                    $record[$col . $subtype][] = $val;
                 }
             }
-            else if (isset($_POST[$fname])) {
+            elseif (isset($_POST[$fname])) {
                 $record[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
 
                 // normalize the submitted date strings

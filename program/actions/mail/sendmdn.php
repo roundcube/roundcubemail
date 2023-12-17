@@ -39,10 +39,10 @@ class rcmail_action_mail_sendmdn extends rcmail_action
             $rcmail->output->set_env('mdn_request', false);
             $rcmail->output->show_message('receiptsent', 'confirmation');
         }
-        else if (!empty($smtp_error) && is_string($smtp_error)) {
+        elseif (!empty($smtp_error) && is_string($smtp_error)) {
             $rcmail->output->show_message($smtp_error, 'error');
         }
-        else if (!empty($smtp_error) && !empty($smtp_error['label'])) {
+        elseif (!empty($smtp_error) && !empty($smtp_error['label'])) {
             $rcmail->output->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
         }
         else {
@@ -78,8 +78,8 @@ class rcmail_action_mail_sendmdn extends rcmail_action
             $message = new rcube_message($message);
         }
 
-        if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT']) &&
-            ($rcmail->storage->check_permflag('MDNSENT') || $rcmail->storage->check_permflag('*'))
+        if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT'])
+            && ($rcmail->storage->check_permflag('MDNSENT') || $rcmail->storage->check_permflag('*'))
         ) {
             $charset   = $message->headers->charset;
             $identity  = rcmail_sendmail::identity_select($message);
@@ -130,7 +130,7 @@ class rcmail_action_mail_sendmdn extends rcmail_action
                 "\r\n" . $rcmail->gettext("receiptnote");
 
             $compose->headers(array_filter($headers));
-            $compose->setContentType('multipart/report', ['report-type'=> 'disposition-notification']);
+            $compose->setContentType('multipart/report', ['report-type' => 'disposition-notification']);
             $compose->setTXTBody(rcube_mime::wordwrap($body, 75, "\r\n"));
             $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 

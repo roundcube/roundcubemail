@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_attachment_upload
- *
- * @package Tests
  */
 class Actions_Mail_AttachmentUpload extends ActionTestCase
 {

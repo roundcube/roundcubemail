@@ -19,7 +19,7 @@
 */
 
 if (PHP_SAPI != 'cli') {
-    die('Not on the "shell" (php-cli).');
+    exit('Not on the "shell" (php-cli).');
 }
 
 require_once INSTALL_PATH . 'program/include/iniset.php';

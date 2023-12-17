@@ -64,7 +64,7 @@ if ($RCMAIL->action == 'error' && !empty($_GET['_code'])) {
 if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_https', false))) {
     // force_https can be true, <hostname>, <hostname>:<port>, <port>
     if (!is_bool($force_https)) {
-        list($host, $port) = explode(':', $force_https);
+        [$host, $port] = explode(':', $force_https);
 
         if (is_numeric($host) && empty($port)) {
             $port = $host;
@@ -194,14 +194,14 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 }
 
 // end session
-else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
+elseif ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
     $RCMAIL->request_security_check(rcube_utils::INPUT_GET | rcube_utils::INPUT_POST);
 
-    $userdata = array(
+    $userdata = [
         'user' => $_SESSION['username'],
         'host' => $_SESSION['storage_host'],
         'lang' => $RCMAIL->user->language,
-    );
+    ];
 
     $RCMAIL->output->show_message('loggedout');
 
@@ -211,7 +211,7 @@ else if ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
 }
 
 // check session and auth cookie
-else if ($RCMAIL->task != 'login' && $_SESSION['user_id']) {
+elseif ($RCMAIL->task != 'login' && $_SESSION['user_id']) {
     if (!$RCMAIL->session->check_auth()) {
         $RCMAIL->kill_session();
         $session_error = 'sessionerror';
@@ -236,7 +236,7 @@ if (empty($RCMAIL->user->ID)) {
     // check if installer is still active
     if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {
         $RCMAIL->output->add_footer(html::div(['id' => 'login-addon', 'style' => "background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em"],
-            html::tag('h2', array('style' => "margin-top:0.2em"), "Installer script is still accessible") .
+            html::tag('h2', ['style' => "margin-top:0.2em"], "Installer script is still accessible") .
             html::p(null, "The install script of your Roundcube installation is still stored in its default location!") .
             html::p(null, "Please <b>remove</b> the whole <tt>installer</tt> folder from the Roundcube directory because
                 these files may expose sensitive configuration data like server passwords and encryption keys

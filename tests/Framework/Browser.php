@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_browser class
- *
- * @package Tests
  */
 class Framework_Browser extends PHPUnit\Framework\TestCase
 {

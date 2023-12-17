@@ -56,13 +56,13 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
             $mboxes = $rcmail->storage->list_folders_subscribed('', '*', 'mail');
             $input  = array_combine($mboxes, array_fill(0, count($mboxes), '*'));
         }
-        else if ($folders == 'sub') {
+        elseif ($folders == 'sub') {
             $delim  = $rcmail->storage->get_hierarchy_delimiter();
             $mboxes = $rcmail->storage->list_folders_subscribed($mbox . $delim, '*', 'mail');
             array_unshift($mboxes, $mbox);
             $input = array_combine($mboxes, array_fill(0, count($mboxes), '*'));
         }
-        else if ($folders == 'cur') {
+        elseif ($folders == 'cur') {
             $input = [$mbox => '*'];
         }
         else {
@@ -87,7 +87,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
             self::display_server_error('errormarking');
             $rcmail->output->send();
         }
-        else if (empty($_POST['_quiet'])) {
+        elseif (empty($_POST['_quiet'])) {
             $rcmail->output->show_message('messagemarked', 'confirmation');
         }
 
@@ -110,7 +110,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
 
             $rcmail->output->set_env('last_flag', $flag);
         }
-        else if ($flag == 'DELETED' && $skip_deleted) {
+        elseif ($flag == 'DELETED' && $skip_deleted) {
             if ($from == 'show') {
                 if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
                     $rcmail->output->command('show_message', $next);

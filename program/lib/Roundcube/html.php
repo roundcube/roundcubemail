@@ -19,9 +19,6 @@
 
 /**
  * Class for HTML code creation
- *
- * @package    Framework
- * @subpackage View
  */
 class html
 {
@@ -84,10 +81,10 @@ class html
         if (isset($content) || in_array($tagname, self::$containers)) {
             $suffix = !empty($attrib['noclose']) ? $suffix : '</' . $tagname . '>' . $suffix;
             unset($attrib['noclose'], $attrib['nl']);
-            return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
+            return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
         }
         else {
-            return '<' . $tagname  . self::attrib_string($attrib, $allowed) . '>' . $suffix;
+            return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $suffix;
         }
     }
 
@@ -120,6 +117,7 @@ class html
      * @param string $cont Div content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function div($attr = null, $cont = null)
@@ -138,6 +136,7 @@ class html
      * @param string $cont Paragraph content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function p($attr = null, $cont = null)
@@ -155,6 +154,7 @@ class html
      * @param string|array $attr Hash array with tag attributes or string with image source (src)
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function img($attr = null)
@@ -175,6 +175,7 @@ class html
      * @param string       $cont Link content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function a($attr, $cont)
@@ -195,6 +196,7 @@ class html
      * @param string       $cont Tag content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function span($attr, $cont)
@@ -213,6 +215,7 @@ class html
      * @param string       $cont Tag content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function label($attr, $cont)
@@ -231,6 +234,7 @@ class html
      * @param string       $cont Tag content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function iframe($attr = null, $cont = null)
@@ -251,6 +255,7 @@ class html
      * @param string       $cont Javascript code to be placed as tag content
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function script($attr, $cont = null)
@@ -281,6 +286,7 @@ class html
      * @param array $attrib Associative array with tag attributes
      *
      * @return string HTML code
+     *
      * @see html::tag()
      */
     public static function br($attrib = [])
@@ -346,7 +352,7 @@ class html
             }
         }
 
-        return count($attrib_arr) ? ' '.implode(' ', $attrib_arr) : '';
+        return count($attrib_arr) ? ' ' . implode(' ', $attrib_arr) : '';
     }
 
     /**
@@ -397,9 +403,6 @@ class html
 
 /**
  * Class to create an HTML input field
- *
- * @package    Framework
- * @subpackage View
  */
 class html_inputfield extends html
 {
@@ -456,9 +459,6 @@ class html_inputfield extends html
 
 /**
  * Class to create an HTML password field
- *
- * @package    Framework
- * @subpackage View
  */
 class html_passwordfield extends html_inputfield
 {
@@ -467,9 +467,6 @@ class html_passwordfield extends html_inputfield
 
 /**
  * Class to create an hidden HTML input field
- *
- * @package    Framework
- * @subpackage View
  */
 class html_hiddenfield extends html
 {
@@ -519,9 +516,6 @@ class html_hiddenfield extends html
 
 /**
  * Class to create HTML checkboxes
- *
- * @package    Framework
- * @subpackage View
  */
 class html_checkbox extends html_inputfield
 {
@@ -551,9 +545,6 @@ class html_checkbox extends html_inputfield
 
 /**
  * Class to create HTML radio buttons
- *
- * @package    Framework
- * @subpackage View
  */
 class html_radiobutton extends html_checkbox
 {
@@ -562,9 +553,6 @@ class html_radiobutton extends html_checkbox
 
 /**
  * Class to create HTML button
- *
- * @package    Framework
- * @subpackage View
  */
 class html_button extends html_inputfield
 {
@@ -594,9 +582,6 @@ class html_button extends html_inputfield
 
 /**
  * Class to create an HTML textarea
- *
- * @package    Framework
- * @subpackage View
  */
 class html_textarea extends html
 {
@@ -654,9 +639,6 @@ class html_textarea extends html
  * // as second argument the same attributes available to instantiate can be used
  * print $select->show('CH');
  * </pre>
- *
- * @package    Framework
- * @subpackage View
  */
 class html_select extends html
 {
@@ -707,8 +689,8 @@ class html_select extends html
         foreach ($this->options as $option) {
             $attr = [
                 'value' => $option['value'],
-                'selected' => (in_array($option['value'], $select, true) ||
-                    in_array($option['text'], $select, true)) ? 1 : null,
+                'selected' => (in_array($option['value'], $select, true)
+                    || in_array($option['text'], $select, true)) ? 1 : null,
             ];
 
             $option_content = $option['text'];
@@ -727,9 +709,6 @@ class html_select extends html
 
 /**
  * Class to build an HTML table
- *
- * @package    Framework
- * @subpackage View
  */
 class html_table extends html
 {

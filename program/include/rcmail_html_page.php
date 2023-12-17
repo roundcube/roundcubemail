@@ -19,9 +19,6 @@
 
 /**
  * Class to create an empty HTML page with some default styles
- *
- * @package    Webmail
- * @subpackage View
  */
 class rcmail_html_page extends rcmail_output_html
 {

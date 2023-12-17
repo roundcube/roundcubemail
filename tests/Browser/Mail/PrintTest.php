@@ -37,7 +37,7 @@ class PrintTest extends \Tests\Browser\TestCase
                     $this->markTestSkipped();
                 }
 
-                list($current_window, $new_window) = $browser->openWindow(function ($browser) {
+                [$current_window, $new_window] = $browser->openWindow(function ($browser) {
                     $browser->clickMenuItem('print');
                 });
             });

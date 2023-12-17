@@ -6,6 +6,7 @@
  * Driver to check password strength using Zxcvbn-PHP
  *
  * @version 0.1
+ *
  * @author Philip Weir
  *
  * Copyright (C) Philip Weir

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_getunread
- *
- * @package Tests
  */
 class Actions_Mail_Getunread extends ActionTestCase
 {

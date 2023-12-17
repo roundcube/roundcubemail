@@ -20,9 +20,6 @@
 
 /**
  * Interface class for a spell-checking backend
- *
- * @package    Framework
- * @subpackage Utils
  */
 abstract class rcube_spellchecker_engine
 {

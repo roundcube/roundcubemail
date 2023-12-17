@@ -55,7 +55,7 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
             if (!empty($group_data['email'])) {
                 $mailto[] = format_email_recipient($group_data['email'][0], $group_data['name']);
             }
-            else if ($contacts->ready) {
+            elseif ($contacts->ready) {
                 $maxnum = (int) $rcmail->config->get('max_group_members');
 
                 $contacts->set_group($group_id);

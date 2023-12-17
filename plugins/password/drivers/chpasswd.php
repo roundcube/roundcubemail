@@ -9,6 +9,7 @@
  * For installation instructions please read the README file.
  *
  * @version 2.0
+ *
  * @author Alex Cartwright <acartwright@mutinydesign.co.uk>
  *
  * Copyright (C) The Roundcube Dev Team

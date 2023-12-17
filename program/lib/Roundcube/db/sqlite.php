@@ -21,9 +21,6 @@
 /**
  * Database independent query interface
  * This is a wrapper for the PHP PDO
- *
- * @package    Framework
- * @subpackage Database
  */
 class rcube_db_sqlite extends rcube_db
 {
@@ -88,6 +85,7 @@ class rcube_db_sqlite extends rcube_db
      * @param string $field Field name
      *
      * @return string SQL statement to use in query
+     *
      * @deprecated
      */
     public function unixtimestamp($field)
@@ -122,7 +120,7 @@ class rcube_db_sqlite extends rcube_db
     {
         if ($this->tables === null) {
             $q = $this->query('SELECT name FROM sqlite_master'
-                .' WHERE type = \'table\' ORDER BY name');
+                . ' WHERE type = \'table\' ORDER BY name');
 
             $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
         }

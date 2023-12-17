@@ -6,8 +6,6 @@ use GuzzleHttp\Psr7\Response;
 
 /**
  * Test class to test rcmail_oauth class
- *
- * @package Tests
  */
 class Rcmail_RcmailOauth extends ActionTestCase
 {
@@ -195,7 +193,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $this->assertSame(OutputHtmlMock::E_REDIRECT, $ecode);
         $this->assertMatchesRegularExpression('|^Location: https://test/auth\?.*|', $result);
 
-        list($base, $query) = explode('?', substr($result, 10));
+        [$base, $query] = explode('?', substr($result, 10));
         parse_str($query, $map);
 
         $this->assertEquals($this->config['scope'], $map['scope']);

@@ -73,7 +73,7 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
                 $rcmail->output->command('set_headers', $source);
             }
         }
-        else if (!$inline) {
+        elseif (!$inline) {
             $rcmail->output->show_message('messageopenerror', 'error');
         }
 

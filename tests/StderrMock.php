@@ -19,8 +19,6 @@
 
 /**
  * A class for catching STDERR output
- *
- * @package Tests
  */
 class StderrMock extends php_user_filter
 {
@@ -43,7 +41,7 @@ class StderrMock extends php_user_filter
     public static function start()
     {
         if (!self::$registered) {
-            stream_filter_register("redirect", "StderrMock") || die("Failed to register filter");
+            stream_filter_register("redirect", "StderrMock") || exit("Failed to register filter");
             self::$registered = true;
         }
 

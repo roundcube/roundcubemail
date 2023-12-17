@@ -63,10 +63,10 @@ class acl extends rcube_plugin
         if ($action == 'save') {
             $this->action_save();
         }
-        else if ($action == 'delete') {
+        elseif ($action == 'delete') {
             $this->action_delete();
         }
-        else if ($action == 'list') {
+        elseif ($action == 'list') {
             $this->action_list();
         }
 
@@ -269,7 +269,7 @@ class acl extends rcube_plugin
             $id = "acl$val";
             $ul .= html::tag('li', null,
                 $input->show('', ['name' => "acl[$val]", 'value' => $val, 'id' => $id])
-                . html::label(['for' => $id, 'title' => $this->gettext('longacl'.$val)], $this->gettext('acl'.$val))
+                . html::label(['for' => $id, 'title' => $this->gettext('longacl' . $val)], $this->gettext('acl' . $val))
             );
         }
 
@@ -282,7 +282,7 @@ class acl extends rcube_plugin
             'read'   => 'lrs',
             'write'  => 'wi',
             'delete' => $deleteright,
-            'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode('', $supported)),
+            'other'  => preg_replace('/[lrswi' . $deleteright . ']/', '', implode('', $supported)),
         ];
 
         // give plugins the opportunity to adjust this list
@@ -292,8 +292,8 @@ class acl extends rcube_plugin
 
         foreach ($data['rights'] as $key => $val) {
             $id    = "acl$key";
-            $title = !empty($data['titles'][$key]) ? $data['titles'][$key] : $this->gettext('longacl'.$key);
-            $label = !empty($data['labels'][$key]) ? $data['labels'][$key] : $this->gettext('acl'.$key);
+            $title = !empty($data['titles'][$key]) ? $data['titles'][$key] : $this->gettext('longacl' . $key);
+            $label = !empty($data['labels'][$key]) ? $data['labels'][$key] : $this->gettext('acl' . $key);
             $ul   .= html::tag('li', null,
                 $input->show('', ['name' => "acl[$val]", 'value' => $val, 'id' => $id])
                 . html::label(['for' => $id, 'title' => $title], $label)
@@ -415,7 +415,7 @@ class acl extends rcube_plugin
                 'read'   => 'lrs',
                 'write'  => 'wi',
                 'delete' => $deleteright,
-                'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode('', $supported)),
+                'other'  => preg_replace('/[lrswi' . $deleteright . ']/', '', implode('', $supported)),
             ];
 
             // give plugins the opportunity to adjust this list
@@ -510,10 +510,10 @@ class acl extends rcube_plugin
             if ($prefix && strpos($user, $prefix) === 0) {
                 $username = $user;
             }
-            else if (!empty($this->specials) && in_array($user, $this->specials)) {
+            elseif (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
             }
-            else if (!empty($user)) {
+            elseif (!empty($user)) {
                 if (!strpos($user, '@') && ($realm = $this->get_realm())) {
                     $user .= '@' . rcube_utils::idn_to_ascii(preg_replace('/^@/', '', $realm));
                 }
@@ -719,7 +719,7 @@ class acl extends rcube_plugin
         $self = $this->rc->get_user_name();
 
         // find realm in username of logged user (?)
-        list($name, $domain) = rcube_utils::explode('@', $self);
+        [$name, $domain] = rcube_utils::explode('@', $self);
 
         // Use (always existent) ACL entry on the INBOX for the user to determine
         // whether or not the user ID in ACL entries need to be qualified and how
@@ -819,8 +819,8 @@ class acl extends rcube_plugin
             $user = mb_strtolower($user);
         }
         // lowercase domain name
-        else if ($login_lc && strpos($user, '@')) {
-            list($local, $domain) = explode('@', $user);
+        elseif ($login_lc && strpos($user, '@')) {
+            [$local, $domain] = explode('@', $user);
             $user = $local . '@' . mb_strtolower($domain);
         }
 

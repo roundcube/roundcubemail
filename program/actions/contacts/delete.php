@@ -62,7 +62,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 if (!empty($plugin['message'])) {
                     $error = $plugin['message'];
                 }
-                else if (($error = $CONTACTS->get_error()) && !empty($error['message'])) {
+                elseif (($error = $CONTACTS->get_error()) && !empty($error['message'])) {
                     $error = $error['message'];
                 }
                 else {
@@ -90,7 +90,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
             $_SESSION['contact_undo']['ts'] = time();
             $msg = html::span(null, $rcmail->gettext('contactdeleted'))
                 . ' ' . html::a(
-                    ['onclick' => rcmail_output::JS_OBJECT_NAME.".command('undo', '', this)"],
+                    ['onclick' => rcmail_output::JS_OBJECT_NAME . ".command('undo', '', this)"],
                     $rcmail->gettext('undo')
                 );
 
@@ -107,7 +107,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
         if (($records = self::search_update(true)) !== false) {
             // create resultset object
             $count  = count($records);
-            $first  = ($page-1) * $page_size;
+            $first  = ($page - 1) * $page_size;
             $result = new rcube_result_set($count, $first);
             $pages  = ceil((count($records) + $delcnt) / $page_size);
 
@@ -117,7 +117,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 $rowcount = $rcmail->gettext('loading');
             }
             // get records from the next page to add to the list
-            else if ($pages > 1 && $page < $pages) {
+            elseif ($pages > 1 && $page < $pages) {
                 // sort the records
                 ksort($records, SORT_LOCALE_STRING);
 
@@ -136,7 +136,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 unset($records);
             }
         }
-        else if (isset($CONTACTS)) {
+        elseif (isset($CONTACTS)) {
             // count contacts for this user
             $result = $CONTACTS->count();
             $pages  = ceil(($result->count + $delcnt) / $page_size);
@@ -147,7 +147,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 $rowcount = $rcmail->gettext('loading');
             }
             // get records from the next page to add to the list
-            else if ($pages > 1 && $page < $pages) {
+            elseif ($pages > 1 && $page < $pages) {
                 $CONTACTS->set_page($page);
                 $records = $CONTACTS->list_records(null, -$delcnt);
             }

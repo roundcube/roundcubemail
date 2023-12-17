@@ -19,9 +19,6 @@
 
 /**
  * Database query parameter
- *
- * @package    Framework
- * @subpackage Database
  */
 class rcube_db_param
 {

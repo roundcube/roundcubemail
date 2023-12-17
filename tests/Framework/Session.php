@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_session class
- *
- * @package Tests
  */
 class Framework_Session extends PHPUnit\Framework\TestCase
 {

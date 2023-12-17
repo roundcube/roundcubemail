@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_result_thread class
- *
- * @package Tests
  */
 class Framework_ResultThread extends PHPUnit\Framework\TestCase
 {

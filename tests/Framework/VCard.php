@@ -2,8 +2,6 @@
 
 /**
  * Unit tests for class rcube_vcard
- *
- * @package Tests
  */
 class Framework_VCard extends PHPUnit\Framework\TestCase
 {

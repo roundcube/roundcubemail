@@ -61,7 +61,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                 // @TODO: at some point we might support drag-n-drop between
                 // two different accounts on the same server, for now make sure
                 // this is the same server and the same user
-                list($host, $port) = rcube_utils::explode(':', $_SERVER['HTTP_HOST']);
+                [$host, $port] = rcube_utils::explode(':', $_SERVER['HTTP_HOST']);
 
                 if (
                     $host == $url['host']
@@ -137,7 +137,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                         $size = self::show_bytes(rcube_utils::max_upload_size());
                         $msg  = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $size]]);
                     }
-                    else if (!empty($attachment['error'])) {
+                    elseif (!empty($attachment['error'])) {
                         $msg = $attachment['error'];
                     }
                     else {
@@ -154,7 +154,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                 }
             }
         }
-        else if (self::upload_failure()) {
+        elseif (self::upload_failure()) {
             $rcmail->output->command('remove_from_attachment_list', $uploadid);
         }
 
@@ -170,11 +170,11 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         self::$SESSION_KEY = 'compose_data_' . self::$COMPOSE_ID;
 
         if (self::$COMPOSE_ID && !empty($_SESSION[self::$SESSION_KEY])) {
-            self::$COMPOSE =&$_SESSION[self::$SESSION_KEY];
+            self::$COMPOSE = &$_SESSION[self::$SESSION_KEY];
         }
 
         if (!self::$COMPOSE) {
-            die("Invalid session var!");
+            exit("Invalid session var!");
         }
 
         self::$file_id = rcube_utils::get_input_string('_file', rcube_utils::INPUT_GPC);
@@ -192,7 +192,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                     'alt' => $rcmail->gettext('delete'),
             ]);
         }
-        else if (!empty(self::$COMPOSE['textbuttons'])) {
+        elseif (!empty(self::$COMPOSE['textbuttons'])) {
             $button = rcube::Q($rcmail->gettext('delete'));
         }
         else {

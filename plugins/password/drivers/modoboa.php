@@ -7,6 +7,7 @@
  * Return value is a json string saying result: true if success.
  *
  * @version 1.0.1
+ *
  * @author stephane @actionweb.fr
  *
  * Copyright (C) The Roundcube Dev Team

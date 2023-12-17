@@ -2,8 +2,6 @@
 
 /**
  * Test class to test html class
- *
- * @package Tests
  */
 class Framework_Html extends PHPUnit\Framework\TestCase
 {
@@ -58,6 +56,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
 
     /**
      * Test for attrib_string()
+     *
      * @dataProvider data_attrib_string
      */
     function test_attrib_string($arg1, $arg2, $expected)
@@ -83,6 +82,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
 
     /**
      * Test for quote()
+     *
      * @dataProvider data_quote
      */
     function test_quote($str, $expected)
@@ -125,6 +125,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
 
     /**
      * Test for parse_attrib_string()
+     *
      * @dataProvider data_parse_attrib_string
      */
     function test_parse_attrib_string($arg1, $expected)

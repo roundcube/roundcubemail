@@ -73,7 +73,7 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
                     unset($a_threaded[$key]);
                     $a_threaded[$newname] = $val;
                 }
-                else if (preg_match($oldprefix, $key)) {
+                elseif (preg_match($oldprefix, $key)) {
                     unset($a_threaded[$key]);
                     $a_threaded[preg_replace($oldprefix, $newname . $delimiter, $key)] = $val;
                 }

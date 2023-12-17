@@ -51,7 +51,7 @@ class enigma_key
         if (!empty($this->subkeys[0]) && $this->subkeys[0]->has_private) {
             return self::TYPE_KEYPAIR;
         }
-        else if (!empty($this->subkeys[0])) {
+        elseif (!empty($this->subkeys[0])) {
             return self::TYPE_PUBLIC;
         }
 
@@ -158,7 +158,7 @@ class enigma_key
         }
 
         $result = '';
-        for ($i=0; $i<40; $i++) {
+        for ($i = 0; $i < 40; $i++) {
             if ($i % 4 == 0) {
                 $result .= ' ';
             }

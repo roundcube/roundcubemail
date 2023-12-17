@@ -24,9 +24,6 @@ if (!defined('RCUBE_PLUGINS_DIR')) {
 
 /**
  * The plugin loader and global API
- *
- * @package    Framework
- * @subpackage PluginAPI
  */
 class rcube_plugin_api
 {
@@ -262,7 +259,7 @@ class rcube_plugin_api
     private function filter($plugin)
     {
         return ($plugin->noajax  && !(is_object($this->output) && $this->output->type == 'html'))
-             || ($plugin->task && !preg_match('/^('.$plugin->task.')$/i', $this->task))
+             || ($plugin->task && !preg_match('/^(' . $plugin->task . ')$/i', $this->task))
              || ($plugin->noframe && !empty($_REQUEST['_framed']));
     }
 
@@ -360,7 +357,7 @@ class rcube_plugin_api
                 }
 
                 if (!empty($json['name']) && is_string($json['name']) && strpos($json['name'], '/') !== false) {
-                    list($info['vendor'], $info['name']) = explode('/', $json['name'], 2);
+                    [$info['vendor'], $info['name']] = explode('/', $json['name'], 2);
                 }
 
                 $info['version'] = isset($json['version']) ? $json['version'] : null;
@@ -429,7 +426,7 @@ class rcube_plugin_api
         if (!$info && class_exists($plugin_name)) {
             $info = ['name' => $plugin_name, 'version' => '--'];
         }
-        else if (!empty($info['license'])) {
+        elseif (!empty($info['license'])) {
             // Convert license identifier to something shorter
             if (preg_match('/^([ALGP]+)[-v]([0-9.]+)(\+|-or-later)?/', $info['license'], $matches)) {
                 $info['license'] = $matches[1] . '-' . sprintf('%.1f', $matches[2])
@@ -544,10 +541,10 @@ class rcube_plugin_api
     {
         // check action name
         if ($task) {
-            $action = $task.'.'.$action;
+            $action = $task . '.' . $action;
         }
-        else if (strpos($action, 'plugin.') !== 0) {
-            $action = 'plugin.'.$action;
+        elseif (strpos($action, 'plugin.') !== 0) {
+            $action = 'plugin.' . $action;
         }
 
         // can register action only if it's not taken or registered by myself
@@ -576,7 +573,7 @@ class rcube_plugin_api
         if (isset($this->actions[$action])) {
             call_user_func($this->actions[$action]);
         }
-        else if (rcube::get_instance()->action != 'refresh') {
+        elseif (rcube::get_instance()->action != 'refresh') {
             rcube::raise_error([
                     'code' => 524, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "No handler found for action $action",
@@ -611,7 +608,7 @@ class rcube_plugin_api
             rcube::raise_error([
                     'code' => 525, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register template handler $name;"
-                        ." already taken by another plugin or no output object available",
+                        . " already taken by another plugin or no output object available",
                 ],
                 true, false
             );
@@ -635,16 +632,16 @@ class rcube_plugin_api
             rcube::raise_error([
                     'code' => 526, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Invalid task name: $task."
-                        ." Only characters [a-z0-9_.-] are allowed",
+                        . " Only characters [a-z0-9_.-] are allowed",
                 ],
                 true, false
             );
         }
-        else if (in_array($task, rcmail::$main_tasks)) {
+        elseif (in_array($task, rcmail::$main_tasks)) {
             rcube::raise_error([
                     'code' => 526, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register task $task;"
-                        ." already taken by another plugin or the application itself",
+                        . " already taken by another plugin or the application itself",
                 ],
                 true, false
             );
@@ -718,7 +715,7 @@ class rcube_plugin_api
                         $fn = $less;
                     }
                 }
-                else if (!preg_match('/\.min\.css$/', $fn)) {
+                elseif (!preg_match('/\.min\.css$/', $fn)) {
                     $min = preg_replace('/\.css$/i', '.min.css', $fn);
                     if (is_file("$dir/$min")) {
                         $fn = $min;

@@ -111,7 +111,7 @@ class password extends rcube_plugin
         if (rcube_utils::get_input_value('_first', rcube_utils::INPUT_GET)) {
             $this->rc->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
         }
-        else if (!empty($_SESSION['password_expires'])) {
+        elseif (!empty($_SESSION['password_expires'])) {
             if ($_SESSION['password_expires'] == 1) {
                 $this->rc->output->command('display_message', $this->gettext('passwdexpired'), 'error');
             }
@@ -162,25 +162,25 @@ class password extends rcube_plugin
                 $this->rc->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
             }
             // other passwords validity checks
-            else if ($conpwd != $newpwd) {
+            elseif ($conpwd != $newpwd) {
                 $this->rc->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
             }
-            else if ($confirm && ($res = $this->_compare($sesspwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
+            elseif ($confirm && ($res = $this->_compare($sesspwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
                 $this->rc->output->command('display_message', $res, 'error');
             }
-            else if ($required_length && strlen($newpwd) < $required_length) {
+            elseif ($required_length && strlen($newpwd) < $required_length) {
                 $this->rc->output->command('display_message', $this->gettext(
                     ['name' => 'passwordshort', 'vars' => ['length' => $required_length]]), 'error');
             }
-            else if ($res = $this->_check_strength($newpwd)) {
+            elseif ($res = $this->_check_strength($newpwd)) {
                 $this->rc->output->command('display_message', $res, 'error');
             }
             // password is the same as the old one, warn user, return error
-            else if (!$force_save && ($res = $this->_compare($sesspwd, $newpwd, PASSWORD_COMPARE_NEW))) {
+            elseif (!$force_save && ($res = $this->_compare($sesspwd, $newpwd, PASSWORD_COMPARE_NEW))) {
                 $this->rc->output->command('display_message', $res, 'error');
             }
             // try to save the password
-            else if (!($res = $this->_save($curpwd, $newpwd))) {
+            elseif (!($res = $this->_save($curpwd, $newpwd))) {
                 $this->rc->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 
                 // allow additional actions after password change (e.g. reset some backends)
@@ -327,7 +327,7 @@ class password extends rcube_plugin
         if (!$driver) {
             $result = $this->gettext('internalerror');
         }
-        else if (method_exists($driver, 'compare')) {
+        elseif (method_exists($driver, 'compare')) {
             $result = $driver->compare($curpwd, $newpwd, $type);
         }
         else {
@@ -353,7 +353,7 @@ class password extends rcube_plugin
         if (($driver = $this->_load_driver('strength')) && method_exists($driver, 'strength_rules')) {
             $result = $driver->strength_rules();
         }
-        else if ($this->rc->config->get('password_minimum_score') > 1) {
+        elseif ($this->rc->config->get('password_minimum_score') > 1) {
             $result = $this->gettext('passwordweak');
         }
 
@@ -373,7 +373,7 @@ class password extends rcube_plugin
         }
 
         if (($driver = $this->_load_driver('strength')) && method_exists($driver, 'check_strength')) {
-            list($score, $reason) = $driver->check_strength($passwd);
+            [$score, $reason] = $driver->check_strength($passwd);
         }
         else {
             $score = (!preg_match("/[0-9]/", $passwd) || !preg_match("/[^A-Za-z0-9]/", $passwd)) ? 1 : 5;
@@ -598,7 +598,7 @@ class password extends rcube_plugin
                 if (function_exists('sha1')) {
                     $crypted = pack('H*', sha1($password));
                 }
-                else if (function_exists('hash')) {
+                elseif (function_exists('hash')) {
                     $crypted = hash('sha1', $password, true);
                 }
                 else {
@@ -620,7 +620,7 @@ class password extends rcube_plugin
                     $salt    = substr(pack("H*", sha1($salt . $password)), 0, 4);
                     $crypted = sha1($password . $salt, true);
                 }
-                else if (function_exists('hash')) {
+                elseif (function_exists('hash')) {
                     $salt    = substr(pack("H*", hash('sha1', $salt . $password)), 0, 4);
                     $crypted = hash('sha1', $password . $salt, true);
                 }
@@ -730,9 +730,9 @@ class password extends rcube_plugin
                     return false;
                 }
 
-                fwrite($pipes[0], $password . "\n", 1+strlen($password));
+                fwrite($pipes[0], $password . "\n", 1 + strlen($password));
                 usleep(1000);
-                fwrite($pipes[0], $password . "\n", 1+strlen($password));
+                fwrite($pipes[0], $password . "\n", 1 + strlen($password));
 
                 $crypted = trim(stream_get_contents($pipes[1]), "\n");
                 $stderr = trim(stream_get_contents($pipes[2]));

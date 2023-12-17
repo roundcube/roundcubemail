@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_utils_modcss
- *
- * @package Tests
  */
 class Actions_Utils_Modcss extends ActionTestCase
 {

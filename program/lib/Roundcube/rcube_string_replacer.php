@@ -19,9 +19,6 @@
 
 /**
  * Helper class for string replacements based on preg_replace_callback
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_string_replacer
 {
@@ -113,7 +110,7 @@ class rcube_string_replacer
         if (preg_match('!^(http|ftp|file)s?://!i', $scheme)) {
             $url = $matches[1] . $matches[2];
         }
-        else if (preg_match("/^({$this->noword}*)(www\.)$/i", $matches[1], $m)) {
+        elseif (preg_match("/^({$this->noword}*)(www\.)$/i", $matches[1], $m)) {
             $url        = $m[2] . $matches[2];
             $url_prefix = 'http://';
             $prefix     = $m[1];
@@ -295,14 +292,14 @@ class rcube_string_replacer
 
         if (preg_match('/(\\[|\\])/', $url)) {
             $in = false;
-            for ($i=0, $len=strlen($url); $i<$len; $i++) {
+            for ($i = 0, $len = strlen($url); $i < $len; $i++) {
                 if ($url[$i] == '[') {
                     if ($in) {
                         break;
                     }
                     $in = true;
                 }
-                else if ($url[$i] == ']') {
+                elseif ($url[$i] == ']') {
                     if (!$in) {
                         break;
                     }
@@ -319,14 +316,14 @@ class rcube_string_replacer
         // Do the same for parentheses
         if (preg_match('/(\\(|\\))/', $url)) {
             $in = false;
-            for ($i=0, $len=strlen($url); $i<$len; $i++) {
+            for ($i = 0, $len = strlen($url); $i < $len; $i++) {
                 if ($url[$i] == '(') {
                     if ($in) {
                         break;
                     }
                     $in = true;
                 }
-                else if ($url[$i] == ')') {
+                elseif ($url[$i] == ')') {
                     if (!$in) {
                         break;
                     }

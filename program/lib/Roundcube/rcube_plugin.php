@@ -20,9 +20,6 @@
 
 /**
  * Plugin interface class
- *
- * @package    Framework
- * @subpackage PluginAPI
  */
 abstract class rcube_plugin
 {
@@ -169,7 +166,7 @@ abstract class rcube_plugin
             );
             return false;
         }
-        else if (!$is_local) {
+        elseif (!$is_local) {
             // Search plugin_name.inc.php file in any configured path
             return $rcube->config->load_from_file($this->ID . '.inc.php');
         }
@@ -219,7 +216,7 @@ abstract class rcube_plugin
             $add    = [];
 
             foreach ($texts as $key => $value) {
-                $add[$domain.'.'.$key] = $value;
+                $add[$domain . '.' . $key] = $value;
             }
 
             $rcube->load_language($_SESSION['language'] ?? null, $add);
@@ -261,6 +258,7 @@ abstract class rcube_plugin
      * @param string|array $p Named parameters array or label name
      *
      * @return string Localized text
+     *
      * @see rcube::gettext()
      */
     public function gettext($p)
@@ -438,10 +436,10 @@ abstract class rcube_plugin
      */
     private function label_map_callback($key)
     {
-        if (strpos($key, $this->ID.'.') === 0) {
+        if (strpos($key, $this->ID . '.') === 0) {
             return $key;
         }
 
-        return $this->ID.'.'.$key;
+        return $this->ID . '.' . $key;
     }
 }

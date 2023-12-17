@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_viewsource
- *
- * @package Tests
  */
 class Actions_Mail_Viewsource extends ActionTestCase
 {

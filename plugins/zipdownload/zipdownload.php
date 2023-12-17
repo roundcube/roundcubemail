@@ -211,7 +211,7 @@ class zipdownload extends rcube_plugin
          * Ext: attach(1).txt on attach filename that has a attach.txt filename on same zip
          */
         if (isset($this->names[$displayname])) {
-            list($filename, $ext) = preg_split("/\.(?=[^\.]*$)/", $displayname);
+            [$filename, $ext] = preg_split("/\.(?=[^\.]*$)/", $displayname);
             $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
             $this->names[$displayname] = 1;
         }
@@ -316,7 +316,7 @@ class zipdownload extends rcube_plugin
         $zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
 
         foreach ($messages as $key => $value) {
-            list($uid, $mbox) = explode(':', $key, 2);
+            [$uid, $mbox] = explode(':', $key, 2);
             $imap->set_folder($mbox);
 
             if (!empty($tmpfp)) {

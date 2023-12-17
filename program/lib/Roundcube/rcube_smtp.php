@@ -20,9 +20,6 @@
 
 /**
  * Class to provide SMTP functionality using PEAR Net_SMTP
- *
- * @package    Framework
- * @subpackage Mail
  */
 class rcube_smtp
 {
@@ -70,7 +67,7 @@ class rcube_smtp
                 }
             }
         }
-        else if (!empty($port) && !empty($host) && !preg_match('/:\d+$/', $host)) {
+        elseif (!empty($port) && !empty($host) && !preg_match('/:\d+$/', $host)) {
             $host = "{$host}:{$port}";
         }
 
@@ -94,7 +91,7 @@ class rcube_smtp
 
         $smtp_host = $CONFIG['smtp_host'] ?: 'localhost';
 
-        list($smtp_host, $scheme, $smtp_port) = rcube_utils::parse_host_uri($smtp_host, 587, 465);
+        [$smtp_host, $scheme, $smtp_port] = rcube_utils::parse_host_uri($smtp_host, 587, 465);
 
         $use_tls = $scheme === 'tls';
 
@@ -208,19 +205,18 @@ class rcube_smtp
     /**
      * Function for sending mail
      *
-     * @param string $from Sender e-Mail address
-     *
-     * @param mixed $recipients Either a comma-separated list of recipients
-     *                          (RFC822 compliant), or an array of recipients,
-     *                          each RFC822 valid. This may contain recipients not
-     *                          specified in the headers, for Bcc:, resending
-     *                          messages, etc.
-     * @param mixed $headers    The message headers to send with the mail
-     *                          Either as an associative array or a finally
-     *                          formatted string
-     * @param mixed $body       The full text of the message body, including any Mime parts
-     *                          or file handle
-     * @param array $opts       Delivery options (e.g. DSN request)
+     * @param string $from       Sender e-Mail address
+     * @param mixed  $recipients Either a comma-separated list of recipients
+     *                           (RFC822 compliant), or an array of recipients,
+     *                           each RFC822 valid. This may contain recipients not
+     *                           specified in the headers, for Bcc:, resending
+     *                           messages, etc.
+     * @param mixed  $headers    The message headers to send with the mail
+     *                           Either as an associative array or a finally
+     *                           formatted string
+     * @param mixed  $body       The full text of the message body, including any Mime parts
+     *                           or file handle
+     * @param array  $opts       Delivery options (e.g. DSN request)
      *
      * @return bool True on success, or False on error
      */
@@ -238,9 +234,9 @@ class rcube_smtp
                 return false;
             }
 
-            list($from, $text_headers) = $headerElements;
+            [$from, $text_headers] = $headerElements;
         }
-        else if (is_string($headers)) {
+        elseif (is_string($headers)) {
             $text_headers = $headers;
         }
 
@@ -395,7 +391,7 @@ class rcube_smtp
             $this->anonymize_log = $m[1] == 'LOGIN' ? 2 : 1;
         }
         // anonymize this log entry
-        else if ($this->anonymize_log > 0 && strpos($message, 'Send:') === 0 && --$this->anonymize_log == 0) {
+        elseif ($this->anonymize_log > 0 && strpos($message, 'Send:') === 0 && --$this->anonymize_log == 0) {
             $message = sprintf('Send: ****** [%d]', strlen($message) - 8);
         }
 
@@ -459,7 +455,7 @@ class rcube_smtp
 
                 $lines[] = $key . ': ' . $value;
             }
-            else if (strcasecmp($key, 'Received') === 0) {
+            elseif (strcasecmp($key, 'Received') === 0) {
                 $received = [];
                 if (is_array($value)) {
                     foreach ($value as $line) {
@@ -518,7 +514,7 @@ class rcube_smtp
                 $word = trim($word);
                 $len  = strlen($word);
 
-                if ($len && strpos($word, "@") > 0 && $word[$len-1] != '"') {
+                if ($len && strpos($word, "@") > 0 && $word[$len - 1] != '"') {
                     $word = preg_replace('/^<|>$/', '', $word);
                     if (!in_array($word, $addresses)) {
                         $addresses[] = $word;

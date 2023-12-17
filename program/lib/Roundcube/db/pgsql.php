@@ -21,9 +21,6 @@
 /**
  * Database independent query interface
  * This is a wrapper for the PHP PDO
- *
- * @package    Framework
- * @subpackage Database
  */
 class rcube_db_pgsql extends rcube_db
 {
@@ -113,6 +110,7 @@ class rcube_db_pgsql extends rcube_db
      * @param string $field Field name
      *
      * @return string SQL statement to use in query
+     *
      * @deprecated
      */
     public function unixtimestamp($field)
@@ -195,6 +193,7 @@ class rcube_db_pgsql extends rcube_db
      *                        should be the same as in $columns)
      *
      * @return PDOStatement|bool Query handle or False on error
+     *
      * @todo Multi-insert support
      */
     public function insert_or_update($table, $keys, $columns, $values)
@@ -224,7 +223,7 @@ class rcube_db_pgsql extends rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            if (($schema = $this->options['table_prefix']) && $schema[strlen($schema)-1] === '.') {
+            if (($schema = $this->options['table_prefix']) && $schema[strlen($schema) - 1] === '.') {
                 $add = " AND TABLE_SCHEMA = " . $this->quote(substr($schema, 0, -1));
             }
             else {
@@ -252,7 +251,7 @@ class rcube_db_pgsql extends rcube_db
     {
         $args = [$table];
 
-        if (($schema = $this->options['table_prefix']) && $schema[strlen($schema)-1] === '.') {
+        if (($schema = $this->options['table_prefix']) && $schema[strlen($schema) - 1] === '.') {
             $add    = " AND TABLE_SCHEMA = ?";
             $args[] = substr($schema, 0, -1);
         }
@@ -285,7 +284,7 @@ class rcube_db_pgsql extends rcube_db
         if (isset($dsn['hostspec'])) {
             $params[] = 'host=' . $dsn['hostspec'];
         }
-        else if (isset($dsn['socket'])) {
+        elseif (isset($dsn['socket'])) {
             $params[] = 'host=' . $dsn['socket'];
         }
 

@@ -37,7 +37,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         $sort = rcube_utils::get_input_string('_sort', rcube_utils::INPUT_GET);
         if ($sort && preg_match('/^[a-zA-Z_-]+$/', $sort)) {
             // yes, so set the sort vars
-            list($sort_col, $sort_order) = explode('_', $sort);
+            [$sort_col, $sort_order] = explode('_', $sort);
 
             // set session vars for sort (so next page and task switch know how to sort)
             if (!in_array('message_sort_col', $dont_override)) {
@@ -91,7 +91,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
             $multifolder = !empty($_SESSION['search']) && !empty($_SESSION['search'][1]->multi);
         }
         // remove old search data
-        else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
+        elseif (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
             $rcmail->session->remove('search');
         }
 
@@ -139,7 +139,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
             if ($err_code = $rcmail->storage->get_error_code()) {
                 self::display_server_error();
             }
-            else if (!empty($search_request)) {
+            elseif (!empty($search_request)) {
                 $rcmail->output->show_message('searchnomatch', 'notice');
             }
             else {

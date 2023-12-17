@@ -64,7 +64,7 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
             if ($mbox === $trash_mbox) {
                 $rcmail->output->command('set_trash_count', 0);
             }
-            else if (strlen($trash_mbox)) {
+            elseif (strlen($trash_mbox)) {
                 $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash_mbox, 'EXISTS'));
             }
 

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_enriched class
- *
- * @package Tests
  */
 class Framework_Enriched extends PHPUnit\Framework\TestCase
 {
@@ -62,6 +60,7 @@ class Framework_Enriched extends PHPUnit\Framework\TestCase
 
     /**
      * Test formatting conversion
+     *
      * @dataProvider data_formatting
      */
     function test_formatting($enriched, $expected)

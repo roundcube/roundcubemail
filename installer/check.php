@@ -15,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    die("Not allowed! Please open installer/index.php instead.");
+    exit("Not allowed! Please open installer/index.php instead.");
 }
 
 $required_php_exts = [
@@ -220,7 +220,7 @@ foreach ($ini_checks as $var => $val) {
             $RCI->pass($var);
         }
     }
-    else if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
+    elseif (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     }
     else {
@@ -260,7 +260,7 @@ foreach ($optional_checks as $var => $val) {
             $RCI->pass($var);
         }
     }
-    else if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
+    elseif (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     }
     else {

@@ -20,9 +20,6 @@
 
 /**
  * Roundcube Framework Initialization
- *
- * @package    Framework
- * @subpackage Core
  */
 
 $config = [
@@ -272,7 +269,7 @@ function abbreviate_string($str, $maxlength, $placeholder = '...', $ending = fal
         }
 
         $placeholder_length = mb_strlen($placeholder);
-        $first_part_length  = floor(($maxlength - $placeholder_length)/2);
+        $first_part_length  = floor(($maxlength - $placeholder_length) / 2);
         $second_starting_location = $length - $maxlength + $first_part_length + $placeholder_length;
 
         $prefix = mb_substr($str, 0, $first_part_length);
@@ -367,7 +364,7 @@ function format_email_recipient($email, $name = '')
     if ($name && $name != $email) {
         // Special chars as defined by RFC 822 need to in quoted string (or escaped).
         if (preg_match('/[\(\)\<\>\\\.\[\]@,;:"]/', $name)) {
-            $name = '"'.addcslashes($name, '"').'"';
+            $name = '"' . addcslashes($name, '"') . '"';
         }
 
         return "$name <$email>";
@@ -390,7 +387,7 @@ function format_email($email)
     $count = count($parts);
 
     if ($count > 1) {
-        $parts[$count-1] = mb_strtolower($parts[$count-1]);
+        $parts[$count - 1] = mb_strtolower($parts[$count - 1]);
 
         $email = implode('@', $parts);
     }
@@ -430,16 +427,16 @@ function rcube_autoload($classname)
         $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\\1/', $classname);
         $classname = 'Roundcube/' . $classname;
     }
-    else if (strpos($classname, 'html_') === 0 || $classname === 'html') {
+    elseif (strpos($classname, 'html_') === 0 || $classname === 'html') {
         $classname = 'Roundcube/html';
     }
-    else if (strpos($classname, 'Mail_') === 0) {
+    elseif (strpos($classname, 'Mail_') === 0) {
         $classname = 'Mail/' . substr($classname, 5);
     }
-    else if (strpos($classname, 'Net_') === 0) {
+    elseif (strpos($classname, 'Net_') === 0) {
         $classname = 'Net/' . substr($classname, 4);
     }
-    else if (strpos($classname, 'Auth_') === 0) {
+    elseif (strpos($classname, 'Auth_') === 0) {
         $classname = 'Auth/' . substr($classname, 5);
     }
 

@@ -3,6 +3,7 @@
  * Roundcube Reconnect Plugin
  *
  * @version 0.2
+ *
  * @author Sandro Knauß <hefee@debian.org>
  * @license GPLv3+
  */
@@ -47,7 +48,7 @@ class reconnect extends rcube_plugin
 
         if ($args['retry']) {
             // if we do a new attempt, sleep 50 to 150ms before retry.
-            usleep(rand(50*1000, 150*1000));
+            usleep(rand(50 * 1000, 150 * 1000));
         }
 
         return $args;

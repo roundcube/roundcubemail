@@ -34,10 +34,10 @@ class rcmail_action_mail_pagenav extends rcmail_action_mail_index
         $cnt    = $index->count_messages();
 
         if ($cnt && ($pos = $index->exists($uid, true)) !== false) {
-            $prev  = $pos ? $index->get_element($pos-1) : 0;
+            $prev  = $pos ? $index->get_element($pos - 1) : 0;
             $first = $pos ? $index->get_element('FIRST') : 0;
-            $next  = $pos < $cnt-1 ? $index->get_element($pos+1) : 0;
-            $last  = $pos < $cnt-1 ? $index->get_element('LAST') : 0;
+            $next  = $pos < $cnt - 1 ? $index->get_element($pos + 1) : 0;
+            $last  = $pos < $cnt - 1 ? $index->get_element('LAST') : 0;
         }
         else {
             // error, this will at least disable page navigation

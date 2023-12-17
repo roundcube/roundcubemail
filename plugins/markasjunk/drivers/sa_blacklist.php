@@ -4,6 +4,7 @@
  * SpamAssassin Blacklist driver
  *
  * @version 2.0
+ *
  * @requires SAUserPrefs plugin
  *
  * @author Philip Weir

@@ -45,6 +45,7 @@ class rcube_plesk_password
      * roundcube already validated the old password so we just need to change it at this point
      *
      * @author Cyrill von Wattenwyl <cyrill.vonwattenwyl@adfinis-sygroup.ch>
+     *
      * @param string $currpass Current password
      * @param string $newpass  New password
      *
@@ -214,7 +215,7 @@ class plesk_rpc
      */
     function change_mailbox_password($mailbox, $newpass)
     {
-        list($user, $domain) = explode("@", $mailbox);
+        [$user, $domain] = explode("@", $mailbox);
         $domain_id = $this->get_domain_id($domain);
 
         // if domain cannot be resolved to an id, do not continue

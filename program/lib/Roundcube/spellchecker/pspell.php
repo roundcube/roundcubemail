@@ -20,9 +20,6 @@
 
 /**
  * Spellchecking backend implementation to work with Pspell
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_spellchecker_pspell extends rcube_spellchecker_engine
 {
@@ -45,7 +42,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
             $seen = [];
             foreach ($dicts as $lang) {
                 $lang  = preg_replace('/-.*$/', '', $lang);
-                $langc = strlen($lang) == 2 ? $lang.'_'.strtoupper($lang) : $lang;
+                $langc = strlen($lang) == 2 ? $lang . '_' . strtoupper($lang) : $lang;
 
                 if (empty($seen[$langc])) {
                     $langs[] = $lang;
@@ -108,7 +105,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
             if ($this->dictionary->is_exception($word)) {
                 // skip exceptions
             }
-            else if (!pspell_check($this->plink, $word)) {
+            elseif (!pspell_check($this->plink, $word)) {
                 $suggestions = pspell_suggest($this->plink, $word);
 
                 if (count($suggestions) > self::MAX_SUGGESTIONS) {

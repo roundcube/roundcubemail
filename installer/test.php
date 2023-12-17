@@ -14,7 +14,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    die("Not allowed! Please open installer/index.php instead.");
+    exit("Not allowed! Please open installer/index.php instead.");
 }
 
 ?>
@@ -160,7 +160,7 @@ if ($db_working && !empty($_POST['initdb'])) {
             Make sure that the configured database exists and that the user as write privileges</p>';
     }
 }
-else if ($db_working && !empty($_POST['updatedb'])) {
+elseif ($db_working && !empty($_POST['updatedb'])) {
     if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
     }
@@ -177,7 +177,7 @@ if ($db_working) {
 
         $db_working = false;
     }
-    else if ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
+    elseif ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
         $RCI->fail('DB Schema', "Database schema differs");
         echo '<ul style="margin:0"><li>' . implode("</li>\n<li>", $err) . "</li></ul>";
 
@@ -208,7 +208,7 @@ if ($db_working) {
     // write test
     $insert_id = md5(uniqid());
     $db_write = $DB->query("INSERT INTO " . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
-        . " (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, ".$DB->now().", '127.0.0.1', 'foo')", $insert_id);
+        . " (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, " . $DB->now() . ", '127.0.0.1', 'foo')", $insert_id);
 
     if ($db_write) {
         $RCI->pass('DB Write');

@@ -20,8 +20,6 @@
 
 /**
  * Mail_mime wrapper to handle mail resend/bounce
- *
- * @package Webmail
  */
 class rcmail_resend_mail extends Mail_mime
 {
@@ -84,7 +82,7 @@ class rcmail_resend_mail extends Mail_mime
             // txtHeaders() can be used to unset Bcc header
             if (array_key_exists($key, $headers)) {
                 $value = $headers[$key];
-                $this->build_params['bounce_headers']['Resent-'.$key] = $value;
+                $this->build_params['bounce_headers']['Resent-' . $key] = $value;
             }
 
             if ($value) {
@@ -154,8 +152,6 @@ class rcmail_resend_mail extends Mail_mime
 /**
  * Stream filter to remove message headers from the streamed
  * message source (and store them in a variable)
- *
- * @package Webmail
  */
 class rcmail_bounce_stream_filter extends php_user_filter
 {

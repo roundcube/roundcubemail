@@ -38,7 +38,7 @@
 
 ini_set('display_errors', 1);
 
-define('INSTALL_PATH', realpath(__DIR__ . '/../').'/');
+define('INSTALL_PATH', realpath(__DIR__ . '/../') . '/');
 
 require INSTALL_PATH . 'program/include/iniset.php';
 
@@ -60,13 +60,13 @@ if (isset($_GET['_getconfig'])) {
 
     if (!empty($_SESSION['config'])) {
         header('Content-type: text/plain');
-        header('Content-Disposition: attachment; filename="'.$filename.'"');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
         echo $_SESSION['config'];
         exit;
     }
 
     http_response_code(404);
-    die("The requested configuration was not found. Please run the installer from the beginning.");
+    exit("The requested configuration was not found. Please run the installer from the beginning.");
 }
 
 if (
@@ -77,7 +77,7 @@ if (
     $filename = 'config.inc.php';
 
     header('Content-type: text/plain');
-    header('Content-Disposition: attachment; filename="'.$filename.'"');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
 
     $RCI->merge_config();
     echo $RCI->create_config();
@@ -151,8 +151,8 @@ if (!in_array($RCI->step, array_keys($include_steps))) {
 
 foreach (['Check environment', 'Create config', 'Test config'] as $i => $item) {
     $j = $i + 1;
-    $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="./index.php?_step='.$j.'">' . rcube::Q($item) . '</a>' : rcube::Q($item);
-    printf('<li class="step%d%s">%s</li>', $j+1, $RCI->step > $j ? ' passed' : ($RCI->step == $j ? ' current' : ''), $link);
+    $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="./index.php?_step=' . $j . '">' . rcube::Q($item) . '</a>' : rcube::Q($item);
+    printf('<li class="step%d%s">%s</li>', $j + 1, $RCI->step > $j ? ' passed' : ($RCI->step == $j ? ' current' : ''), $link);
 }
 ?>
 </ol>

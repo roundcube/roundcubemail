@@ -2,8 +2,6 @@
 
 /**
  * Test class to test html_checkbox class
- *
- * @package Tests
  */
 class Framework_HtmlCheckbox extends PHPUnit\Framework\TestCase
 {

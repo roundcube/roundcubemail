@@ -71,7 +71,7 @@ class rcmail_action_contacts_group_addmembers extends rcmail_action_contacts_ind
         if ($result) {
             $rcmail->output->show_message('contactaddedtogroup', 'confirmation');
         }
-        else if (!empty($plugin['abort']) || $contacts->get_error()) {
+        elseif (!empty($plugin['abort']) || $contacts->get_error()) {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');
         }
