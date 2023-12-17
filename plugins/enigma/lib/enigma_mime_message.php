@@ -57,7 +57,7 @@ class enigma_mime_message extends Mail_mime
      */
     public function isMultipart()
     {
-        return $this->message instanceof enigma_mime_message
+        return $this->message instanceof self
             || $this->message->isMultipart() || $this->message->getHTMLBody();
     }
 

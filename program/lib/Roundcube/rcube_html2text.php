@@ -588,7 +588,7 @@ class rcube_html2text
         if (self::LINKS_NONE === $this->_links_mode) {
             // When not using link list use URL if there's no content (#5795)
             // The content here is HTML, convert it to text first
-            $h2t     = new rcube_html2text($display, false, false, 1024, $this->charset);
+            $h2t     = new self($display, false, false, 1024, $this->charset);
             $display = $h2t->get_text();
 
             if (empty($display) && preg_match('!^([a-z][a-z0-9.+-]+://)!i', $link)) {
