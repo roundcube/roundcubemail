@@ -111,7 +111,7 @@ class rcmail_output_html extends rcmail_output
             $this->set_env('framed', 1);
         }
 
-        $lic = <<<EOF
+        $lic = <<<'EOF'
 /*
         @licstart  The following is the entire license notice for the
         JavaScript code in this page.

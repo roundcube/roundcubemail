@@ -108,7 +108,7 @@ class rc_html2text extends PHPUnit\Framework\TestCase
      */
     function test_multiple_blockquotes()
     {
-        $html = <<<EOF
+        $html = <<<'EOF'
 <br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
 <blockQuote>INNER 2</blockquote><div><br></div><div>Par 2</div>
 <div><br></div><div>Par 3</div><div><br></div>
@@ -125,7 +125,7 @@ EOF;
     function test_broken_blockquotes()
     {
         // no end tag
-        $html = <<<EOF
+        $html = <<<'EOF'
 Begin<br>
 <blockquote>QUOTED TEXT
 <blockquote>
@@ -137,7 +137,7 @@ EOF;
         $this->assertStringContainsString('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
 
         // with some (nested) end tags
-        $html = <<<EOF
+        $html = <<<'EOF'
 Begin<br>
 <blockquote>QUOTED TEXT
 <blockquote>INNER 1</blockquote>

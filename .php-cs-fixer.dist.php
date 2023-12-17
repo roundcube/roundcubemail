@@ -60,7 +60,6 @@ return (new PhpCsFixer\Config())
         // disable too destructive formating for now
         'declare_strict_types' => false,
         'escape_implicit_backslashes' => false,
-        'heredoc_to_nowdoc' => false,
         'no_useless_else' => false,
         'phpdoc_no_empty_return' => false,
         'psr_autoloading' => false,
