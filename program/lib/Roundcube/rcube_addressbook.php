@@ -75,7 +75,7 @@ abstract class rcube_addressbook
      * @var string|int|null If set, addressbook-specific identifier of the selected group. All contact listing and
      *                      contact searches will be limited to contacts that belong to this group.
      */
-    public $group_id = null;
+    public $group_id;
 
     /** @var int The current page of the listing. Numbering starts at 1. */
     public $list_page = 1;

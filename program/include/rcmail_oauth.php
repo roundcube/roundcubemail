@@ -53,7 +53,7 @@ class rcmail_oauth
     protected $jwks;
 
     /** @var string */
-    protected $last_error = null;
+    protected $last_error;
 
     /** @var bool */
     protected $no_redirect = false;

@@ -26,7 +26,7 @@ class rcmail_output_json extends rcmail_output
     protected $texts     = [];
     protected $commands  = [];
     protected $callbacks = [];
-    protected $message   = null;
+    protected $message;
     protected $header_sent = false;
 
     public $type      = 'js';

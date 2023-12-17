@@ -26,7 +26,7 @@ class acl extends rcube_plugin
     public $task = 'settings';
 
     private $rc;
-    private $supported = null;
+    private $supported;
     private $mbox;
     private $ldap;
     private $specials = ['anyone'];

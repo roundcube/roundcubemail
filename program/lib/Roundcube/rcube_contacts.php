@@ -33,10 +33,10 @@ class rcube_contacts extends rcube_addressbook
      *
      * @var rcube_db
      */
-    protected $db      = null;
+    protected $db;
     protected $user_id = 0;
-    protected $filter  = null;
-    protected $result  = null;
+    protected $filter;
+    protected $result;
     protected $cache;
     protected $table_cols    = ['name', 'email', 'firstname', 'surname'];
     protected $fulltext_cols = ['name', 'firstname', 'surname', 'middlename', 'nickname',
