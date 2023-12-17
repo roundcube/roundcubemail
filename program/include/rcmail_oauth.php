@@ -345,7 +345,7 @@ class rcmail_oauth
         $link_attr = [
             'href'  => $this->rcmail->url(['action' => 'oauth']),
             'id'    => 'rcmloginoauth',
-            'class' => 'button oauth ' . $this->options['provider']
+            'class' => 'button oauth ' . $this->options['provider'],
         ];
 
         $provider = $this->options['provider_name'];
@@ -773,9 +773,9 @@ class rcmail_oauth
     /**
      * Parse and update the token from a grant request
      *
-     * @param string $grant_type the request type
-     * @param array $data the payload from the request (will be updated)
-     * @param array $previous_data the data from a previous request
+     * @param string $grant_type    The request type
+     * @param array  $data          The payload from the request (will be updated)
+     * @param array  $previous_data The data from a previous request
      *
      * @return string the bearer authorization to use on different transports
      */
@@ -868,9 +868,9 @@ class rcmail_oauth
      *
      * ... and attempt to refresh if possible.
      *
-     * @param array $token
+     * @param array $token OAuth token
      *
-     * @return integer
+     * @return int
      */
     protected function check_token_validity($token)
     {
@@ -1003,7 +1003,7 @@ class rcmail_oauth
     /**
      * Callback for 'logout_after' hook
      *
-     * @param array $options
+     * @param array $options Hook parameters
      *
      * @return array
      */
