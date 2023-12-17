@@ -23,6 +23,7 @@
 - OAuth: Add `oauth_config_uri` - support OAuth/OpenIDC discovery (#8201)
 - OAuth: Add `oauth_logout_uri` - allow invalidating the OAUTH-Session on logout (#8057)
 - OAuth: Support for OpenID Connect RP-Initiated Logout (#9109)
+- OAuth: Support for OpenID Connect Back-Channel Logout (#9110)
 - OAuth: Add support of OAUTHBEARER (#9217)
 - OAuth: Add `oauth_debug` option (#9217)
 - OAuth: Fix: missing config `oauth_provider_name` in rcmail_oauth's constructor (#9217)
