@@ -1,24 +1,24 @@
 <?php
 
 /**
- * +-----------------------------------------------------------------------+
- * | This file is part of the Roundcube Webmail client                     |
- * |                                                                       |
- * | Copyright (C) The Roundcube Dev Team                                  |
- * |                                                                       |
- * | Licensed under the GNU General Public License version 3 or            |
- * | any later version with exceptions for skins & plugins.                |
- * | See the README file for a full license statement.                     |
- * |                                                                       |
- * | PURPOSE:                                                              |
- * |    Implementation of backchannel logout from IDP                      |
- * |                                                                       |
- * | @see https://openid.net/specs/openid-connect-backchannel-1_0.html     |
- * |                                                                       |
- * | URL to declare: <roundcube instance>/index.php/login/backchannel      |
- * +-----------------------------------------------------------------------+
- * | Author: Thomas Bruederli <roundcube@gmail.com>                        |
- * +-----------------------------------------------------------------------+
+ +-----------------------------------------------------------------------+
+ | This file is part of the Roundcube Webmail client                     |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ |                                                                       |
+ | PURPOSE:                                                              |
+ |    Implementation of backchannel logout from IDP                      |
+ |                                                                       |
+ | @see https://openid.net/specs/openid-connect-backchannel-1_0.html     |
+ |                                                                       |
+ | URL to declare: <roundcube instance>/index.php/login/backchannel      |
+ +-----------------------------------------------------------------------+
+ | Author: Thomas Bruederli <roundcube@gmail.com>                        |
+ +-----------------------------------------------------------------------+
  */
 
 class rcmail_action_login_oauth_backchannel extends rcmail_action
