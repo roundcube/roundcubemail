@@ -3,6 +3,16 @@
     "name": "Roundcube",
     "icons": [
         {
+            "src": "./images/logo_192.png",
+            "sizes": "192x192",
+            "purpose": "any"
+        },
+        {
+            "src": "./images/logo_512.png",
+            "sizes": "512x512",
+            "purpose": "any"
+        },
+        {
             "src": "./images/logo.svg",
             "sizes": "any",
             "type": "image/svg+xml"
