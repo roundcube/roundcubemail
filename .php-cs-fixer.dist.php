@@ -86,7 +86,6 @@ return (new PhpCsFixer\Config())
         'heredoc_indentation' => false,
         'increment_style' => false,
         'method_argument_space' => false,
-        'method_chaining_indentation' => false,
         'modernize_types_casting' => false,
         'native_constant_invocation' => false,
         'native_type_declaration_casing' => false, // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7537#issuecomment-1859140860
