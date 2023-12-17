@@ -127,7 +127,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
                     $_SESSION['search'] = $rcmail->storage->refresh_search();
                 }
 
-                $msg_count      = $rcmail->storage->count(NULL, $threading ? 'THREADS' : 'ALL');
+                $msg_count      = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
                 $page_size      = $rcmail->storage->get_pagesize();
                 $page           = $rcmail->storage->get_page();
                 $pages          = ceil($msg_count / $page_size);

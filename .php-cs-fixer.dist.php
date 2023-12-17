@@ -72,7 +72,6 @@ return (new PhpCsFixer\Config())
         'binary_operator_spaces' => ['default' => 'at_least_single_space'],
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
-        'constant_case' => false,
         'control_structure_continuation_position' => false,
         'explicit_indirect_variable' => false,
         'explicit_string_variable' => false,
