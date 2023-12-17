@@ -71,7 +71,7 @@ abstract class TestCase extends PHPUnitTestCase
             $options->setExperimentalOption('mobileEmulation', ['userAgent' => $ua]);
             $options->addArguments(['--window-size=375,667']);
         }
-        else if (getenv('TESTS_MODE') == 'tablet') {
+        elseif (getenv('TESTS_MODE') == 'tablet') {
             // Fake User-Agent string for mobile mode
             $ua = 'Mozilla/5.0 (Linux; Android 6.0.1; vivo 1603 Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36';
             $options->setExperimentalOption('mobileEmulation', ['userAgent' => $ua]);

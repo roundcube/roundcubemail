@@ -81,7 +81,7 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
 
                 $out .= html::tag('fieldset', $class, html::tag('legend', null, $block['name']) . $table->show($attrib));
             }
-            else if (!empty($block['content'])) {
+            elseif (!empty($block['content'])) {
                 $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $block['content']);
             }
         }

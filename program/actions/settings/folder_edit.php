@@ -100,7 +100,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         if (!empty($options['protected'])) {
             $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q(self::localize_foldername($mbox, false, true)));
         }
-        else if (!empty($options['norename'])) {
+        elseif (!empty($options['norename'])) {
             $foldername = rcube::Q($folder);
         }
         else {
@@ -198,7 +198,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             if (isset($_POST['_viewmode'])) {
                 $value = (int) $_POST['_viewmode'];
             }
-            else if (strlen($mbox)) {
+            elseif (strlen($mbox)) {
                 $a_threaded   = $rcmail->config->get('message_threading', []);
                 $default_mode = $rcmail->config->get('default_list_mode', 'list');
 
@@ -338,7 +338,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
             $content = $table->show($attrib);
         }
-        else if (isset($form['content'])) {
+        elseif (isset($form['content'])) {
             $content = $form['content'];
         }
 

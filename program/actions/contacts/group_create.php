@@ -56,7 +56,7 @@ class rcmail_action_contacts_group_create extends rcmail_action_contacts_index
             $rcmail->output->show_message('groupcreated', 'confirmation');
             $rcmail->output->command('insert_contact_group', ['source' => $source] + $created);
         }
-        else if (empty($created)) {
+        elseif (empty($created)) {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');
         }

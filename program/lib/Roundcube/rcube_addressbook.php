@@ -739,11 +739,11 @@ abstract class rcube_addressbook
                 $fn = $name;
             }
             // ... organization
-            else if (isset($contact['organization']) && ($org = trim($contact['organization']))) {
+            elseif (isset($contact['organization']) && ($org = trim($contact['organization']))) {
                 $fn = $org;
             }
             // ... email address
-            else if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+            elseif (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
                 $fn = $email[0];
             }
         }
@@ -874,7 +874,7 @@ abstract class rcube_addressbook
             if ($mode & self::SEARCH_STRICT) {
                 $got = ($val == $search);
             }
-            else if ($mode & self::SEARCH_PREFIX) {
+            elseif ($mode & self::SEARCH_PREFIX) {
                 $got = ($search == substr($val, 0, strlen($search)));
             }
             else {

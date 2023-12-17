@@ -239,7 +239,7 @@ class rcube_user
         // Update error, but we are using replication (we have read-only DB connection)
         // and we are storing session not in the SQL database
         // we can store preferences in session and try to write later (see get_prefs())
-        else if (!$no_session && $this->db->is_replicated()
+        elseif (!$no_session && $this->db->is_replicated()
             && $config->get('session_storage', 'db') != 'db'
         ) {
             $_SESSION['preferences'] = $save_prefs;
@@ -678,7 +678,7 @@ class rcube_user
                 $email_list[] = $user_email;
             }
             // identities_level check
-            else if (count($email_list) > 1 && $rcube->config->get('identities_level', 0) > 1) {
+            elseif (count($email_list) > 1 && $rcube->config->get('identities_level', 0) > 1) {
                 $email_list = [$email_list[0]];
             }
 

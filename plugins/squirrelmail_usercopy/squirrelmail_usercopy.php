@@ -116,7 +116,7 @@ class squirrelmail_usercopy extends rcube_plugin
                         if (!empty($groups[$rec['name']])) {
                             $group_id = $groups[$rec['name']];
                         }
-                        else if ($group = $contacts->create_group($rec['name'])) {
+                        elseif ($group = $contacts->create_group($rec['name'])) {
                             $group_id = $group['id'];
                             $groups[$rec['name']] = $group_id;
                         }
@@ -129,7 +129,7 @@ class squirrelmail_usercopy extends rcube_plugin
                         if (!empty($addresses[$email])) {
                             $contact_id = $addresses[$email];
                         }
-                        else if (rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
+                        elseif (rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
                             $rec['email'] = rcube_utils::idn_to_utf8($email);
                             if ($contact_id = $contacts->insert($rec, true)) {
                                 $addresses[$email] = $contact_id;
@@ -226,7 +226,7 @@ class squirrelmail_usercopy extends rcube_plugin
             }
         }
         // Database backend
-        else if ($rcmail->config->get('squirrelmail_driver') == 'sql') {
+        elseif ($rcmail->config->get('squirrelmail_driver') == 'sql') {
             $this->prefs = [];
 
             // connect to squirrelmail database

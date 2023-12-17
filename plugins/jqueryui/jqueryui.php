@@ -69,7 +69,7 @@ class jqueryui extends rcube_plugin
                 if (self::asset_exists("js/i18n/$package-$lang_l.js", false)) {
                     $this->include_script("js/i18n/$package-$lang_l.js");
                 }
-                else if ($lang_s != 'en' && self::asset_exists("js/i18n/$package-$lang_s.js", false)) {
+                elseif ($lang_s != 'en' && self::asset_exists("js/i18n/$package-$lang_s.js", false)) {
                     $this->include_script("js/i18n/$package-$lang_s.js");
                 }
             }

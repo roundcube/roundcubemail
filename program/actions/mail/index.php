@@ -457,7 +457,7 @@ class rcmail_action_mail_index extends rcmail_action
             $a_show_cols[] = 'folder';
             $head_replace  = true;
         }
-        else if (!$multifolder && ($found = array_search('folder', $a_show_cols)) !== false) {
+        elseif (!$multifolder && ($found = array_search('folder', $a_show_cols)) !== false) {
             unset($a_show_cols[$found]);
             $head_replace = true;
         }
@@ -543,20 +543,20 @@ class rcmail_action_mail_index extends rcmail_action
                         $cont = '&nbsp;'; // for widescreen mode
                     }
                 }
-                else if ($col == 'subject') {
+                elseif ($col == 'subject') {
                     $cont = trim(rcube_mime::decode_header($header->subject, $header->charset));
                     if (!$cont) {
                         $cont = $rcmail->gettext('nosubject');
                     }
                     $cont = rcube::SQ($cont);
                 }
-                else if ($col == 'size') {
+                elseif ($col == 'size') {
                     $cont = self::show_bytes($header->size);
                 }
-                else if ($col == 'date') {
+                elseif ($col == 'date') {
                     $cont = $rcmail->format_date($sort_col == 'arrival' ? $header->internaldate : $header->date);
                 }
-                else if ($col == 'folder') {
+                elseif ($col == 'folder') {
                     if (!isset($last_folder) || !isset($last_folder_name) || $last_folder !== $header->folder) {
                         $last_folder      = $header->folder;
                         $last_folder_name = self::localize_foldername($last_folder, true);
@@ -565,7 +565,7 @@ class rcmail_action_mail_index extends rcmail_action
 
                     $cont = rcube::SQ($last_folder_name);
                 }
-                else if (isset($header->$col)) {
+                elseif (isset($header->$col)) {
                     $cont = rcube::SQ($header->$col);
                 }
                 else {
@@ -580,7 +580,7 @@ class rcmail_action_mail_index extends rcmail_action
             if (!empty($header->depth)) {
                 $a_msg_flags['depth'] = $header->depth;
             }
-            else if (!empty($header->has_children)) {
+            elseif (!empty($header->has_children)) {
                 $roots[] = $header->uid;
             }
             if (!empty($header->parent_uid)) {
@@ -706,7 +706,7 @@ class rcmail_action_mail_index extends rcmail_action
                         'title' => $rcmail->gettext('sortby'),
                     ], $col_name);
             }
-            else if (empty($col_name) || $col_name[0] != '<') {
+            elseif (empty($col_name) || $col_name[0] != '<') {
                 $col_name = '<span class="' . $col . '">' . $col_name . '</span>';
             }
 
@@ -742,7 +742,7 @@ class rcmail_action_mail_index extends rcmail_action
         if (!empty($attrib['icon']) && $attrib['icon'] != 'true') {
             $inner = html::img(['src' => $rcmail->output->asset_url($attrib['icon'], true), 'alt' => $title]);
         }
-        else if (!empty($attrib['innerclass'])) {
+        elseif (!empty($attrib['innerclass'])) {
             $inner = html::span($attrib['innerclass'], $inner);
         }
 
@@ -1036,12 +1036,12 @@ class rcmail_action_mail_index extends rcmail_action
             $part->ctype_secondary = 'plain';
         }
         // text/html
-        else if ($data['type'] == 'html') {
+        elseif ($data['type'] == 'html') {
             $body = self::wash_html($data['body'], $data, $part->replaces);
             $part->ctype_secondary = $data['type'];
         }
         // text/enriched
-        else if ($data['type'] == 'enriched') {
+        elseif ($data['type'] == 'enriched') {
             $body = rcube_enriched::to_html($data['body']);
             $body = self::wash_html($body, $data, $part->replaces);
             $part->ctype_secondary = 'html';
@@ -1292,7 +1292,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
         // make sure there's 'rcmBody' div, we need it for proper css modification
         // its name is hardcoded in self::message_body() also
-        else if (!empty($args['body_class'])) {
+        elseif (!empty($args['body_class'])) {
             $body = '<div class="' . $args['body_class'] . '">' . $body . '</div>';
         }
 
@@ -1326,7 +1326,7 @@ class rcmail_action_mail_index extends rcmail_action
                 ]);
                 $content = null;
             }
-            else if (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
+            elseif (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
                 $url_parts = explode('?', html_entity_decode($mailto[1], ENT_QUOTES, 'UTF-8'), 2);
                 $mailto    = $url_parts[0];
                 $url       = $url_parts[1] ?? '';
@@ -1360,7 +1360,7 @@ class rcmail_action_mail_index extends rcmail_action
                     $attrib['onclick'] = '';
                 }
             }
-            else if (!empty($attrib['href']) && $attrib['href'][0] != '#') {
+            elseif (!empty($attrib['href']) && $attrib['href'][0] != '#') {
                 $attrib['target'] = '_blank';
             }
 
@@ -1434,7 +1434,7 @@ class rcmail_action_mail_index extends rcmail_action
                     $address = rcube::SQ($name) . ' ' . $address;
                 }
             }
-            else if ($valid) {
+            elseif ($valid) {
                 if ($linked) {
                     $attrs = [
                         'href'    => 'mailto:' . $mailto,

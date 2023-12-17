@@ -79,7 +79,7 @@ class rcube_spellchecker
         if (!empty($configured)) {
             $langs = (array) $configured;
         }
-        else if ($this->backend) {
+        elseif ($this->backend) {
             $langs = $this->backend->languages();
         }
 
@@ -101,10 +101,10 @@ class rcube_spellchecker
             if (!empty($rcube_languages[$lang])) {
                 $languages[$lang] = $rcube_languages[$lang];
             }
-            else if (preg_match('/^en_([A-Z]+)/', $lang, $m)) {
+            elseif (preg_match('/^en_([A-Z]+)/', $lang, $m)) {
                 $languages[$lang] = sprintf('English (%s)', strtoupper($m[1]));
             }
-            else if (!empty($rcube_languages[$alias])) {
+            elseif (!empty($rcube_languages[$alias])) {
                 $languages[$lang] = $rcube_languages[$alias];
             }
             else {
@@ -242,7 +242,7 @@ class rcube_spellchecker
             if (is_array($item[4])) {
                 $suggestions = $item[4];
             }
-            else if (empty($item[4])) {
+            elseif (empty($item[4])) {
                 $suggestions = [];
             }
             else {
@@ -386,7 +386,7 @@ class rcube_spellchecker
                     $plugin['language']);
             }
         }
-        else if (!empty($this->dict)) {
+        elseif (!empty($this->dict)) {
             $this->rc->db->query(
                 "INSERT INTO " . $this->rc->db->table_name('dictionary', true)
                 . " (`user_id`, `language`, `data`) VALUES (?, ?, ?)",

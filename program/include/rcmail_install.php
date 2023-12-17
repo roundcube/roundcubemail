@@ -169,7 +169,7 @@ class rcmail_install
                         $i += 3;
                     }
                 }
-                else if ($in_config && $token[0] == T_COMMENT) {
+                elseif ($in_config && $token[0] == T_COMMENT) {
                     $buffer .= strtr($token[1], ['\n' => "\n"]) . "\n";
                 }
             }
@@ -235,33 +235,33 @@ class rcmail_install
                     $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'],
                         $_POST['_dbname'][0] == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
                 }
-                else if ($_POST['_dbtype']) {
+                elseif ($_POST['_dbtype']) {
                     $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'],
                         rawurlencode($_POST['_dbuser']), rawurlencode($_POST['_dbpass']), $_POST['_dbhost'], $_POST['_dbname']);
                 }
             }
-            else if ($prop == 'imap_host' && is_array($value)) {
+            elseif ($prop == 'imap_host' && is_array($value)) {
                 $value = self::_clean_array($value);
                 if (count($value) <= 1) {
                     $value = $value[0];
                 }
             }
-            else if ($prop == 'mail_pagesize' || $prop == 'addressbook_pagesize') {
+            elseif ($prop == 'mail_pagesize' || $prop == 'addressbook_pagesize') {
                 $value = max(2, intval($value));
             }
-            else if ($prop == 'smtp_user' && !empty($_POST['_smtp_user_u'])) {
+            elseif ($prop == 'smtp_user' && !empty($_POST['_smtp_user_u'])) {
                 $value = '%u';
             }
-            else if ($prop == 'smtp_pass' && !empty($_POST['_smtp_user_u'])) {
+            elseif ($prop == 'smtp_pass' && !empty($_POST['_smtp_user_u'])) {
                 $value = '%p';
             }
-            else if (is_bool($default)) {
+            elseif (is_bool($default)) {
                 $value = (bool) $value;
             }
-            else if (is_numeric($value)) {
+            elseif (is_numeric($value)) {
                 $value = intval($value);
             }
-            else if ($prop == 'plugins' && !empty($_POST['submit'])) {
+            elseif ($prop == 'plugins' && !empty($_POST['submit'])) {
                 $value = [];
                 foreach (array_keys($_POST) as $key) {
                     if (preg_match('/^_plugins_*/', $key)) {
@@ -337,7 +337,7 @@ class rcmail_install
                 $out['replaced'][]  = ['prop' => $prop, 'replacement' => $replacement];
                 $seen[$replacement] = true;
             }
-            else if (empty($seen[$prop]) && in_array($prop, $this->obsolete_config)) {
+            elseif (empty($seen[$prop]) && in_array($prop, $this->obsolete_config)) {
                 $out['obsolete'][] = ['prop' => $prop];
                 $seen[$prop]       = true;
             }
@@ -359,7 +359,7 @@ class rcmail_install
                     'explain' => "This requires the <tt>pspell</tt> extension which could not be loaded.",
                 ];
             }
-            else if (!empty($this->config['spellcheck_languages'])) {
+            elseif (!empty($this->config['spellcheck_languages'])) {
                 foreach ($this->config['spellcheck_languages'] as $lang => $descr) {
                     if (!@pspell_new($lang)) {
                         $out['dependencies'][] = [
@@ -427,7 +427,7 @@ class rcmail_install
                 if ($prop == 'skin_path') {
                     $this->config[$replacement] = preg_replace('#skins/(\w+)/?$#', '\\1', $current[$prop]);
                 }
-                else if ($prop == 'multiple_identities') {
+                elseif ($prop == 'multiple_identities') {
                     $this->config[$replacement] = $current[$prop] ? 2 : 0;
                 }
                 else {
@@ -496,7 +496,7 @@ class rcmail_install
             if (empty($version)) {
                 $errors[] = "Schema version not found";
             }
-            else if ($schema_version != $version) {
+            elseif ($schema_version != $version) {
                 $errors[] = "Schema version: {$version} (required: {$schema_version})";
             }
 
@@ -541,10 +541,10 @@ class rcmail_install
                 $table_name = end($table_name);
                 $table_name = preg_replace('/[`"\[\]]/', '', $table_name);
             }
-            else if (preg_match('/insert into/i', $line) && preg_match('/\'roundcube-version\',\s*\'([0-9]+)\'/', $line, $m)) {
+            elseif (preg_match('/insert into/i', $line) && preg_match('/\'roundcube-version\',\s*\'([0-9]+)\'/', $line, $m)) {
                 $version = $m[1];
             }
-            else if ($table_name && ($line = trim($line))) {
+            elseif ($table_name && ($line = trim($line))) {
                 if ($line == 'GO' || $line[0] == ')' || $line[strlen($line) - 1] == ';') {
                     $table_name = null;
                 }

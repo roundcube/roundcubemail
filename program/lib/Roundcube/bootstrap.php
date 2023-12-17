@@ -427,16 +427,16 @@ function rcube_autoload($classname)
         $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\\1/', $classname);
         $classname = 'Roundcube/' . $classname;
     }
-    else if (strpos($classname, 'html_') === 0 || $classname === 'html') {
+    elseif (strpos($classname, 'html_') === 0 || $classname === 'html') {
         $classname = 'Roundcube/html';
     }
-    else if (strpos($classname, 'Mail_') === 0) {
+    elseif (strpos($classname, 'Mail_') === 0) {
         $classname = 'Mail/' . substr($classname, 5);
     }
-    else if (strpos($classname, 'Net_') === 0) {
+    elseif (strpos($classname, 'Net_') === 0) {
         $classname = 'Net/' . substr($classname, 4);
     }
-    else if (strpos($classname, 'Auth_') === 0) {
+    elseif (strpos($classname, 'Auth_') === 0) {
         $classname = 'Auth/' . substr($classname, 5);
     }
 

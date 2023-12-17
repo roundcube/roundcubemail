@@ -146,10 +146,10 @@ class rcmail extends rcube
         if (PHP_SAPI == 'cli') {
             $this->output = new rcmail_output_cli();
         }
-        else if (!empty($_REQUEST['_remote'])) {
+        elseif (!empty($_REQUEST['_remote'])) {
             $this->json_init();
         }
-        else if (!empty($_SERVER['REMOTE_ADDR'])) {
+        elseif (!empty($_SERVER['REMOTE_ADDR'])) {
             $this->load_gui(!empty($_REQUEST['_framed']));
         }
 
@@ -170,7 +170,7 @@ class rcmail extends rcube
         if (PHP_SAPI == 'cli') {
             $task = 'cli';
         }
-        else if (!$this->user || !$this->user->ID) {
+        elseif (!$this->user || !$this->user->ID) {
             $task = 'login';
         }
         else {
@@ -326,7 +326,7 @@ class rcmail extends rcube
         if ($id == 'sql') {
             $id = (string) rcube_addressbook::TYPE_CONTACT;
         }
-        else if ($id === strval(rcube_addressbook::TYPE_DEFAULT) || $id === '-1') { // -1 for BC
+        elseif ($id === strval(rcube_addressbook::TYPE_DEFAULT) || $id === '-1') { // -1 for BC
             $id = $this->config->get('default_addressbook');
             $default = true;
         }
@@ -335,14 +335,14 @@ class rcmail extends rcube
         if (isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
             $contacts = $this->address_books[$id];
         }
-        else if ($id && !empty($ldap_config[$id])) {
+        elseif ($id && !empty($ldap_config[$id])) {
             $domain   = $this->config->mail_domain($_SESSION['storage_host']);
             $contacts = new rcube_ldap($ldap_config[$id], $this->config->get('ldap_debug'), $domain);
         }
-        else if ($id === (string) rcube_addressbook::TYPE_CONTACT) {
+        elseif ($id === (string) rcube_addressbook::TYPE_CONTACT) {
             $contacts = new rcube_contacts($this->db, $this->get_user_id());
         }
-        else if ($id === (string) rcube_addressbook::TYPE_RECIPIENT || $id === (string) rcube_addressbook::TYPE_TRUSTED_SENDER) {
+        elseif ($id === (string) rcube_addressbook::TYPE_RECIPIENT || $id === (string) rcube_addressbook::TYPE_TRUSTED_SENDER) {
             $contacts = new rcube_addresses($this->db, $this->get_user_id(), (int) $id);
         }
         else {
@@ -500,7 +500,7 @@ class rcmail extends rcube
                 unset($list[$idx]);
             }
             // remove from list if hidden as requested
-            else if ($skip_hidden && !empty($item['hidden'])) {
+            elseif ($skip_hidden && !empty($item['hidden'])) {
                 unset($list[$idx]);
             }
         }
@@ -735,7 +735,7 @@ class rcmail extends rcube
                     $username = substr($username, 0, $pos) . '@' . $domain;
                 }
                 // just add domain if not specified
-                else if ($pos === false) {
+                elseif ($pos === false) {
                     $username .= '@' . $domain;
                 }
             }
@@ -747,7 +747,7 @@ class rcmail extends rcube
             if ($login_lc == 2 || $login_lc === true) {
                 $username = mb_strtolower($username);
             }
-            else if (strpos($username, '@')) {
+            elseif (strpos($username, '@')) {
                 // lowercase domain name
                 [$local, $domain] = rcube_utils::explode('@', $username);
                 $username = $local . '@' . mb_strtolower($domain);
@@ -796,7 +796,7 @@ class rcmail extends rcube
             $user->touch();
         }
         // create new system user
-        else if ($this->config->get('auto_create_user')) {
+        elseif ($this->config->get('auto_create_user')) {
             // Temporarily set user email and password, so plugins can use it
             // this way until we set it in session later. This is required e.g.
             // by the user-specific LDAP operations from new_user_identity plugin.
@@ -975,13 +975,13 @@ class rcmail extends rcube
                 $host = $post_host;
             }
             // try to select host by mail domain
-            else if (!empty($domain)) {
+            elseif (!empty($domain)) {
                 foreach ($default_host as $storage_host => $mail_domains) {
                     if (is_array($mail_domains) && in_array_nocase($domain, $mail_domains)) {
                         $host = $storage_host;
                         break;
                     }
-                    else if (stripos($storage_host, $domain) !== false || stripos(strval($mail_domains), $domain) !== false) {
+                    elseif (stripos($storage_host, $domain) !== false || stripos(strval($mail_domains), $domain) !== false) {
                         $host = is_numeric($storage_host) ? $mail_domains : $storage_host;
                         break;
                     }
@@ -994,7 +994,7 @@ class rcmail extends rcube
                 $host = is_numeric($key) ? $default_host[$key] : $key;
             }
         }
-        else if (empty($default_host)) {
+        elseif (empty($default_host)) {
             $host = rcube_utils::get_input_string('_host', rcube_utils::INPUT_POST);
         }
         else {
@@ -1103,7 +1103,7 @@ class rcmail extends rcube
         if (!empty($p['_task'])) {
             $task = $p['_task'];
         }
-        else if (!empty($p['task'])) {
+        elseif (!empty($p['task'])) {
             $task = $p['task'];
         }
 
@@ -1134,7 +1134,7 @@ class rcmail extends rcube
             // this need to be full url to make redirects work
             $absolute = true;
         }
-        else if ($secure && ($token = $this->get_request_token())) {
+        elseif ($secure && ($token = $this->get_request_token())) {
             $url .= $delm . '_token=' . urlencode($token);
         }
 
@@ -1171,7 +1171,7 @@ class rcmail extends rcube
 
             $path = $_SERVER[$path];
         }
-        else if (empty($path)) {
+        elseif (empty($path)) {
             foreach (['REQUEST_URI', 'REDIRECT_SCRIPT_URL', 'SCRIPT_NAME'] as $name) {
                 if (!empty($_SERVER[$name])) {
                     $path = $_SERVER[$name];
@@ -1664,7 +1664,7 @@ class rcmail extends rcube
                 $format = $this->config->get('date_today', $this->config->get('time_format', 'H:i'));
                 $today  = true;
             }
-            else if ($pretty_date && $timestamp > $week_limit && $timestamp <= $now) {
+            elseif ($pretty_date && $timestamp > $week_limit && $timestamp <= $now) {
                 $format = $this->config->get('date_short', 'D H:i');
             }
             else {
@@ -1684,22 +1684,22 @@ class rcmail extends rcube
                 $out .= $format[$i];
             }
             // weekday (short)
-            else if ($format[$i] == 'D') {
+            elseif ($format[$i] == 'D') {
                 $out .= $this->gettext(strtolower(date('D', $timestamp)));
             }
             // weekday long
-            else if ($format[$i] == 'l') {
+            elseif ($format[$i] == 'l') {
                 $out .= $this->gettext(strtolower(date('l', $timestamp)));
             }
             // month name (short)
-            else if ($format[$i] == 'M') {
+            elseif ($format[$i] == 'M') {
                 $out .= $this->gettext(strtolower(date('M', $timestamp)));
             }
             // month name (long)
-            else if ($format[$i] == 'F') {
+            elseif ($format[$i] == 'F') {
                 $out .= $this->gettext('long' . strtolower(date('M', $timestamp)));
             }
-            else if ($format[$i] == 'x') {
+            elseif ($format[$i] == 'x') {
                 $formatter = new IntlDateFormatter(null, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
                 $out .= $formatter->format($timestamp);
             }

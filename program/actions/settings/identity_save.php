@@ -70,7 +70,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
             unset($save_data['email']);
         }
         // unset all fields except signature
-        else if ($IDENTITIES_LEVEL == 4) {
+        elseif ($IDENTITIES_LEVEL == 4) {
             foreach ($save_data as $idx => $value) {
                 if ($idx != 'signature' && $idx != 'html_signature') {
                     unset($save_data[$idx]);
@@ -155,7 +155,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
             }
         }
         // insert a new identity record
-        else if ($IDENTITIES_LEVEL < 2) {
+        elseif ($IDENTITIES_LEVEL < 2) {
             if ($IDENTITIES_LEVEL == 1) {
                 $save_data['email'] = $rcmail->get_user_email();
             }

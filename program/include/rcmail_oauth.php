@@ -261,7 +261,7 @@ class rcmail_oauth
         if (!isset($this->jwks['keys'])) {
             $this->log_debug("incorrect jwks response from %s", $jwks_uri);
         }
-        else if ($this->cache) {
+        elseif ($this->cache) {
             // this is a hack because we cannot specify the TTL in the shared_cache
             // and cache must not be too high as the Identity Provider can rotate it's keys
             $this->jwks['expires'] = time() + self::JWKS_CACHE_TTL;
@@ -406,10 +406,10 @@ class rcmail_oauth
         if (isset($body['azp']) && $body['azp'] !== $this->options['client_id']) {
             throw new RuntimeException('Failed to validate JWT: invalid azp value');
         }
-        else if (isset($body['aud']) && !in_array($this->options['client_id'], (array) $body['aud'])) {
+        elseif (isset($body['aud']) && !in_array($this->options['client_id'], (array) $body['aud'])) {
             throw new RuntimeException('Failed to validate JWT: invalid aud value');
         }
-        else if (!isset($body['azp']) && !isset($body['aud'])) {
+        elseif (!isset($body['azp']) && !isset($body['aud'])) {
             throw new RuntimeException('Failed to validate JWT: missing aud/azp value');
         }
 
@@ -1033,12 +1033,12 @@ class rcmail_oauth
             $oauth_handler = new rcmail_action_login_oauth();
             $oauth_handler->run();
         }
-        else if ($args['task'] == 'login' && $args['action'] == 'backchannel') {
+        elseif ($args['task'] == 'login' && $args['action'] == 'backchannel') {
             // handle oauth login requests
             $oauth_handler = new rcmail_action_login_oauth_backchannel();
             $oauth_handler->run();
         }
-        else if ($args['task'] == 'logout') {
+        elseif ($args['task'] == 'logout') {
             //handle only logout task
             $this->handle_logout();
         }

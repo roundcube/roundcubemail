@@ -319,7 +319,7 @@ class rcube_message_header
         if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
             $value = $this->{$this->obj_headers[$name]};
         }
-        else if (isset($this->others[$name])) {
+        elseif (isset($this->others[$name])) {
             $value = $this->others[$name];
         }
 

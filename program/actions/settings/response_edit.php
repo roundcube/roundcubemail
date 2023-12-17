@@ -35,7 +35,7 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         if (!empty($args['post'])) {
             self::$response = $args['post'];
         }
-        else if ($id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GP)) {
+        elseif ($id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GP)) {
             self::$response = $rcmail->get_compose_response($id);
 
             if (!is_array(self::$response)) {

@@ -284,7 +284,7 @@ class rcube_db_pgsql extends rcube_db
         if (isset($dsn['hostspec'])) {
             $params[] = 'host=' . $dsn['hostspec'];
         }
-        else if (isset($dsn['socket'])) {
+        elseif (isset($dsn['socket'])) {
             $params[] = 'host=' . $dsn['socket'];
         }
 

@@ -62,7 +62,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 if (!empty($plugin['message'])) {
                     $error = $plugin['message'];
                 }
-                else if (($error = $CONTACTS->get_error()) && !empty($error['message'])) {
+                elseif (($error = $CONTACTS->get_error()) && !empty($error['message'])) {
                     $error = $error['message'];
                 }
                 else {
@@ -117,7 +117,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 $rowcount = $rcmail->gettext('loading');
             }
             // get records from the next page to add to the list
-            else if ($pages > 1 && $page < $pages) {
+            elseif ($pages > 1 && $page < $pages) {
                 // sort the records
                 ksort($records, SORT_LOCALE_STRING);
 
@@ -136,7 +136,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 unset($records);
             }
         }
-        else if (isset($CONTACTS)) {
+        elseif (isset($CONTACTS)) {
             // count contacts for this user
             $result = $CONTACTS->count();
             $pages  = ceil(($result->count + $delcnt) / $page_size);
@@ -147,7 +147,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 $rowcount = $rcmail->gettext('loading');
             }
             // get records from the next page to add to the list
-            else if ($pages > 1 && $page < $pages) {
+            elseif ($pages > 1 && $page < $pages) {
                 $CONTACTS->set_page($page);
                 $records = $CONTACTS->list_records(null, -$delcnt);
             }

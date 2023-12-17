@@ -162,7 +162,7 @@ class rcube_ldap_simple_password
         if (!empty($plugin['user_dn'])) {
             $user_dn = $plugin['user_dn'];
         }
-        else if ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
+        elseif ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
             $user_dn = self::substitute_vars($user_dn);
         }
         else {
@@ -309,7 +309,7 @@ class rcube_ldap_simple_password
             $str = str_replace('%domain', $parts[1], $str);
             $str = str_replace('%d', $parts[1], $str);
         }
-        else if (count($parts) == 1) {
+        elseif (count($parts) == 1) {
             $str = str_replace('%name', $parts[0], $str);
             $str = str_replace('%n', $parts[0], $str);
         }

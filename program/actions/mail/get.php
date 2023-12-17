@@ -152,12 +152,12 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         $valid_extension = true;
                     }
                     // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
-                    else if ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
+                    elseif ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
                         $real_mimetype   = $mimetype;
                         $valid_extension = true;
                     }
                     // ignore filename extension if mimeclass matches (#1489029)
-                    else if (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
+                    elseif (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
                         $valid_extension = true;
                     }
                     else {

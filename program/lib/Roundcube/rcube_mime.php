@@ -120,10 +120,10 @@ class rcube_mime
                 if ($name && $address && $name != $address) {
                     $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"' . addcslashes($name, '"') . '"' : $name, $address);
                 }
-                else if ($address) {
+                elseif ($address) {
                     $string = $address;
                 }
-                else if ($name) {
+                elseif ($name) {
                     $string = $name;
                 }
 
@@ -345,16 +345,16 @@ class rcube_mime
                 $address = rtrim($m[2], '>');
                 $name    = trim($m[1]);
             }
-            else if (preg_match('/^(' . $email_rx . ')$/', $val, $m)) {
+            elseif (preg_match('/^(' . $email_rx . ')$/', $val, $m)) {
                 $address = $m[1];
                 $name    = '';
             }
             // special case (#1489092)
-            else if (preg_match('/(\s*<MAILER-DAEMON>)$/', $val, $m)) {
+            elseif (preg_match('/(\s*<MAILER-DAEMON>)$/', $val, $m)) {
                 $address = 'MAILER-DAEMON';
                 $name    = substr($val, 0, -strlen($m[1]));
             }
-            else if (preg_match('/(' . $email_rx . ')/', $val, $m)) {
+            elseif (preg_match('/(' . $email_rx . ')/', $val, $m)) {
                 $name = $m[1];
             }
             else {
@@ -421,7 +421,7 @@ class rcube_mime
                 if ($str[$i] == '"') {
                     $quoted = false;
                 }
-                else if ($str[$i] == "\\") {
+                elseif ($str[$i] == "\\") {
                     if ($comment <= 0) {
                         $out .= "\\";
                     }
@@ -429,20 +429,20 @@ class rcube_mime
                 }
             }
             // we are inside a comment string
-            else if ($comment > 0) {
+            elseif ($comment > 0) {
                 if ($str[$i] == ')') {
                     $comment--;
                 }
-                else if ($str[$i] == '(') {
+                elseif ($str[$i] == '(') {
                     $comment++;
                 }
-                else if ($str[$i] == "\\") {
+                elseif ($str[$i] == "\\") {
                     $i++;
                 }
                 continue;
             }
             // separator, add to result array
-            else if (strpos($separator, $str[$i]) !== false) {
+            elseif (strpos($separator, $str[$i]) !== false) {
                 if ($out) {
                     $result[] = $out;
                 }
@@ -450,11 +450,11 @@ class rcube_mime
                 continue;
             }
             // start of quoted string
-            else if ($str[$i] == '"') {
+            elseif ($str[$i] == '"') {
                 $quoted = true;
             }
             // start of comment
-            else if ($remove_comments && $str[$i] == '(') {
+            elseif ($remove_comments && $str[$i] == '(') {
                 $comment++;
             }
 
@@ -588,7 +588,7 @@ class rcube_mime
                     $prefix = str_repeat('>', $level) . ' ';
                     $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix", false, $charset);
                 }
-                else if ($line) {
+                elseif ($line) {
                     $line = self::wordwrap(rtrim($line), $length - 2, " \r\n", false, $charset);
                     // space-stuffing
                     $line = preg_replace('/(^|\r\n)(From| |>)/', '\\1 \\2', $line);
@@ -644,7 +644,7 @@ class rcube_mime
                 }
             }
             // next line found and current line is shorter than the limit
-            else if ($breakPos !== false && $breakPos < $width) {
+            elseif ($breakPos !== false && $breakPos < $width) {
                 if ($breakPos === $stringLength - 1) {
                     $subString = $string;
                     $cutLength = null;
@@ -681,14 +681,14 @@ class rcube_mime
                             $subString = mb_substr($subString, 0, $spacePos);
                             $cutLength = $spacePos + 1;
                         }
-                        else if ($cut === false) {
+                        elseif ($cut === false) {
                             $spacePos = mb_strpos($string, ' ', 0);
 
                             if ($spacePos !== false && ($breakPos === false || $spacePos < $breakPos)) {
                                 $subString = mb_substr($string, 0, $spacePos);
                                 $cutLength = $spacePos + 1;
                             }
-                            else if ($breakPos === false) {
+                            elseif ($breakPos === false) {
                                 $subString = $string;
                                 $cutLength = null;
                             }
@@ -934,10 +934,10 @@ class rcube_mime
         if (preg_match('/^\x89\x50\x4E\x47/', $data)) {
             $type = 'png';
         }
-        else if (preg_match('/^\x47\x49\x46\x38/', $data)) {
+        elseif (preg_match('/^\x47\x49\x46\x38/', $data)) {
             $type = 'gif';
         }
-        else if (preg_match('/^\x00\x00\x01\x00/', $data)) {
+        elseif (preg_match('/^\x00\x00\x01\x00/', $data)) {
             $type = 'ico';
         }
         // else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) {

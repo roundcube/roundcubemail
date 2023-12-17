@@ -282,7 +282,7 @@ class rcube_db
                     $mode = $this->options['table_dsn_map'][$table];
                     break;  // primary table rules
                 }
-                else if ($mode == 'r') {
+                elseif ($mode == 'r') {
                     // connected to db with the same or "higher" mode for this table
                     if (isset($this->table_connections[$table])) {
                         $db_mode = $this->table_connections[$table];
@@ -1290,7 +1290,7 @@ class rcube_db
         if ($parsed['protocol'] == 'tcp' && strlen($proto_opts)) {
             $parsed['hostspec'] = $proto_opts;
         }
-        else if ($parsed['protocol'] == 'unix') {
+        elseif ($parsed['protocol'] == 'unix') {
             $parsed['socket'] = $proto_opts;
         }
 

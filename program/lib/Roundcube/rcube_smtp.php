@@ -67,7 +67,7 @@ class rcube_smtp
                 }
             }
         }
-        else if (!empty($port) && !empty($host) && !preg_match('/:\d+$/', $host)) {
+        elseif (!empty($port) && !empty($host) && !preg_match('/:\d+$/', $host)) {
             $host = "{$host}:{$port}";
         }
 
@@ -236,7 +236,7 @@ class rcube_smtp
 
             [$from, $text_headers] = $headerElements;
         }
-        else if (is_string($headers)) {
+        elseif (is_string($headers)) {
             $text_headers = $headers;
         }
 
@@ -391,7 +391,7 @@ class rcube_smtp
             $this->anonymize_log = $m[1] == 'LOGIN' ? 2 : 1;
         }
         // anonymize this log entry
-        else if ($this->anonymize_log > 0 && strpos($message, 'Send:') === 0 && --$this->anonymize_log == 0) {
+        elseif ($this->anonymize_log > 0 && strpos($message, 'Send:') === 0 && --$this->anonymize_log == 0) {
             $message = sprintf('Send: ****** [%d]', strlen($message) - 8);
         }
 
@@ -455,7 +455,7 @@ class rcube_smtp
 
                 $lines[] = $key . ': ' . $value;
             }
-            else if (strcasecmp($key, 'Received') === 0) {
+            elseif (strcasecmp($key, 'Received') === 0) {
                 $received = [];
                 if (is_array($value)) {
                     foreach ($value as $line) {

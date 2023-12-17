@@ -66,7 +66,7 @@ class help extends rcube_plugin
         if ($rcmail->action == 'about') {
             $rcmail->output->set_pagetitle($this->gettext('about'));
         }
-        else if ($rcmail->action == 'license') {
+        elseif ($rcmail->action == 'license') {
             $rcmail->output->set_pagetitle($this->gettext('license'));
         }
         else {
@@ -92,7 +92,7 @@ class help extends rcube_plugin
             if ($rcmail->action == 'about') {
                 return file_get_contents($this->home . '/content/about.html');
             }
-            else if ($rcmail->action == 'license') {
+            elseif ($rcmail->action == 'license') {
                 return file_get_contents($this->home . '/content/license.html');
             }
         }
@@ -149,7 +149,7 @@ class help extends rcube_plugin
         if (!empty($index_map[$rel])) {
             $src .= $index_map[$rel];
         }
-        else if (!empty($index_map[$task])) {
+        elseif (!empty($index_map[$task])) {
             $src .= $index_map[$task];
         }
 

@@ -82,7 +82,7 @@ class bootstrap
                 escapeshellarg($dsn['database'])
             ));
         }
-        else if ($dsn['phptype'] == 'sqlite') {
+        elseif ($dsn['phptype'] == 'sqlite') {
             $db->closeConnection();
             // delete database file
             system(sprintf('rm -f %s', escapeshellarg($dsn['database'])));
@@ -130,7 +130,7 @@ class bootstrap
         if (!TESTS_USER) {
             return false;
         }
-        else if (!$force && self::$imap_ready !== null) {
+        elseif (!$force && self::$imap_ready !== null) {
             return self::$imap_ready;
         }
 
@@ -220,7 +220,7 @@ class bootstrap
         if (!in_array($mailbox, $folders)) {
             $imap->create_folder($mailbox, true);
         }
-        else if ($empty) {
+        elseif ($empty) {
             $imap->delete_message('*', $mailbox);
         }
     }

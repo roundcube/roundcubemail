@@ -594,7 +594,7 @@ abstract class rcube_storage
         if ($uids instanceof rcube_result_index) {
             $uids = $uids->get_compressed();
         }
-        else if ($uids === '*' || $uids === '1:*') {
+        elseif ($uids === '*' || $uids === '1:*') {
             if (empty($this->search_set)) {
                 $uids = '1:*';
                 $all = true;
@@ -608,7 +608,7 @@ abstract class rcube_storage
             if (is_array($uids)) {
                 $uids = implode(',', $uids);
             }
-            else if (strpos($uids, ':')) {
+            elseif (strpos($uids, ':')) {
                 $uids = implode(',', rcube_imap_generic::uncompressMessageSet($uids));
             }
 
@@ -847,7 +847,7 @@ abstract class rcube_storage
                 if (!$this->folder_exists($folder)) {
                     $this->create_folder($folder, true, $type);
                 }
-                else if (!$this->folder_exists($folder, true)) {
+                elseif (!$this->folder_exists($folder, true)) {
                     $this->subscribe($folder);
                 }
             }

@@ -77,7 +77,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                                 $this->script_name = $script;
                                 return 0;
                             }
-                            else if (empty($master) && empty($action['global']) && $action['type'] == 'include') {
+                            elseif (empty($master) && empty($action['global']) && $action['type'] == 'include') {
                                 $included[] = $action['target'];
                             }
                         }
@@ -144,7 +144,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                     if ($act['type'] == 'discard' || $act['type'] == 'keep') {
                         $action = $act['type'];
                     }
-                    else if ($act['type'] == 'redirect') {
+                    elseif ($act['type'] == 'redirect') {
                         $action = $act['copy'] ? 'copy' : 'redirect';
                         $target = $act['target'];
                     }
@@ -159,7 +159,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                         'target'   => $target,
                 ]);
             }
-            else if ($active) {
+            elseif ($active) {
                 $list[$idx] = $rule['name'] ?: ('#' . ($idx + 1));
             }
         }
@@ -215,7 +215,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             if (empty($address)) {
                 unset($vacation_action['addresses'][$aidx]);
             }
-            else if (!rcube_utils::check_email($address)) {
+            elseif (!rcube_utils::check_email($address)) {
                 $error = 'noemailwarning';
                 break;
             }
@@ -293,7 +293,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 }
             }
         }
-        else if ($regex_extension) {
+        elseif ($regex_extension) {
             // Add date range rules if range specified
             if ($date_from && $date_to) {
                 if ($tests = self::build_regexp_tests($date_from, $date_to, $error)) {
@@ -382,7 +382,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 $this->vacation['from'] = format_email_recipient($default_identity['email'], $default_identity['name']);
             }
         }
-        else if (!empty($this->vacation['from'])) {
+        elseif (!empty($this->vacation['from'])) {
             $from = rcube_mime::decode_address_list($this->vacation['from'], null, true, RCUBE_CHARSET);
             foreach ((array) $from as $idx => $addr) {
                 $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
@@ -468,7 +468,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                         if ($test['part'] == 'date') {
                             $date_value[$idx]['date'] = $test['arg'];
                         }
-                        else if ($test['part'] == 'iso8601') {
+                        elseif ($test['part'] == 'iso8601') {
                             $date_value[$idx]['datetime'] = $test['arg'];
                         }
                     }
@@ -484,7 +484,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 }
             }
         }
-        else if ($regex_extension) {
+        elseif ($regex_extension) {
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
             if ($date_tests = self::parse_regexp_tests($this->vacation['tests'])) {
                 $date_value['from'] = $this->rc->format_date($date_tests['from'], $date_format, false);
@@ -652,10 +652,10 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         if (isset($vacation['seconds'])) {
             $interval = $vacation['seconds'];
         }
-        else if (isset($vacation['days'])) {
+        elseif (isset($vacation['days'])) {
             $interval = $vacation['days'];
         }
-        else if ($interval_cfg = $rcube->config->get('managesieve_vacation_interval')) {
+        elseif ($interval_cfg = $rcube->config->get('managesieve_vacation_interval')) {
             if (preg_match('/^([0-9]+)s$/', $interval_cfg, $m)) {
                 if ($seconds_extension) {
                     $vacation['seconds'] = ($interval = intval($m[1])) ? $interval : null;
@@ -709,7 +709,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                         if ($test['part'] == 'date') {
                             $date_value[$idx]['date'] = $test['arg'];
                         }
-                        else if ($test['part'] == 'iso8601') {
+                        elseif ($test['part'] == 'iso8601') {
                             $date_value[$idx]['datetime'] = $test['arg'];
                         }
                     }
@@ -720,7 +720,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 ${$idx} = new DateTime(!empty($value['datetime']) ? $value['datetime'] : $value['date'], $timezone);
             }
         }
-        else if ($regex_extension) {
+        elseif ($regex_extension) {
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
             if ($date_tests = self::parse_regexp_tests($this->vacation['tests'])) {
                 $start = new DateTime($date_tests['from'] . ' 00:00:00', $timezone);
@@ -731,7 +731,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         if (isset($this->vacation['seconds'])) {
             $interval = $this->vacation['seconds'] . 's';
         }
-        else if (isset($this->vacation['days'])) {
+        elseif (isset($this->vacation['days'])) {
             $interval = $this->vacation['days'] . 'd';
         }
 
@@ -784,7 +784,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             if (empty($address)) {
                 unset($vacation['addresses'][$aidx]);
             }
-            else if (!rcube_utils::check_email($address)) {
+            elseif (!rcube_utils::check_email($address)) {
                 $this->error = "Invalid address in vacation addresses: $address";
                 return false;
             }
@@ -805,7 +805,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 $this->error = "Invalid vacation interval value: " . $data['interval'];
                 return false;
             }
-            else if ($m[1]) {
+            elseif ($m[1]) {
                 $vacation[strtolower($m[2]) == 's' ? 'seconds' : 'days'] = $m[1];
             }
         }
@@ -833,7 +833,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 }
             }
         }
-        else if ($regex_extension) {
+        elseif ($regex_extension) {
             // Add date range rules if range specified
             if (!empty($data['start']) && !empty($data['end'])) {
                 if ($tests = self::build_regexp_tests($data['start'], $data['end'], $error)) {
@@ -853,7 +853,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 return false;
             }
         }
-        else if ($data['action'] && $data['action'] != 'keep' && $data['action'] != 'discard') {
+        elseif ($data['action'] && $data['action'] != 'keep' && $data['action'] != 'discard') {
             $this->error = "Unsupported vacation action: " . $data['action'];
             return false;
         }

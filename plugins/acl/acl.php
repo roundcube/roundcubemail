@@ -63,10 +63,10 @@ class acl extends rcube_plugin
         if ($action == 'save') {
             $this->action_save();
         }
-        else if ($action == 'delete') {
+        elseif ($action == 'delete') {
             $this->action_delete();
         }
-        else if ($action == 'list') {
+        elseif ($action == 'list') {
             $this->action_list();
         }
 
@@ -510,10 +510,10 @@ class acl extends rcube_plugin
             if ($prefix && strpos($user, $prefix) === 0) {
                 $username = $user;
             }
-            else if (!empty($this->specials) && in_array($user, $this->specials)) {
+            elseif (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
             }
-            else if (!empty($user)) {
+            elseif (!empty($user)) {
                 if (!strpos($user, '@') && ($realm = $this->get_realm())) {
                     $user .= '@' . rcube_utils::idn_to_ascii(preg_replace('/^@/', '', $realm));
                 }
@@ -819,7 +819,7 @@ class acl extends rcube_plugin
             $user = mb_strtolower($user);
         }
         // lowercase domain name
-        else if ($login_lc && strpos($user, '@')) {
+        elseif ($login_lc && strpos($user, '@')) {
             [$local, $domain] = explode('@', $user);
             $user = $local . '@' . mb_strtolower($domain);
         }

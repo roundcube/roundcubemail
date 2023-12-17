@@ -179,7 +179,7 @@ class rcube_imap_cache
                 $index = $this->icache[$mailbox]['index'];
             }
             // We've got a valid index
-            else if ($sort_field == 'ANY' || $this->icache[$mailbox]['index']['sort_field'] == $sort_field) {
+            elseif ($sort_field == 'ANY' || $this->icache[$mailbox]['index']['sort_field'] == $sort_field) {
                 $result = $this->icache[$mailbox]['index']['object'];
                 if ($result->get_parameters('ORDER') != $sort_order) {
                     $result->revert();
@@ -868,7 +868,7 @@ class rcube_imap_cache
             }
         }
         // Folder is not empty but cache is
-        else if ($object->is_empty()) {
+        elseif ($object->is_empty()) {
             unset($this->icache[$mailbox][$is_thread ? 'thread' : 'index']);
             return false;
         }
@@ -931,7 +931,7 @@ class rcube_imap_cache
                     return false;
                 }
             }
-            else if ($object->is_empty()) {
+            elseif ($object->is_empty()) {
                 // We have to run ALL UNDELETED search anyway for this case, so we can
                 // return early to skip the following search command.
                 return false;

@@ -72,7 +72,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             $result->records = array_values($records);
         }
         // selected contacts
-        else if (!empty($_REQUEST['_cid'])) {
+        elseif (!empty($_REQUEST['_cid'])) {
             $records = [];
 
             // Selected contact IDs (with multi-source support)

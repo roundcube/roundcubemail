@@ -390,7 +390,7 @@ class enigma_driver_gnupg extends enigma_driver
                 $result = $this->delete_privkey($keyid);
             }
             // need to delete private key first
-            else if ($code == enigma_error::DELKEY) {
+            elseif ($code == enigma_error::DELKEY) {
                 $result = $this->delete_privkey($keyid);
 
                 if ($result === true) {
@@ -475,15 +475,15 @@ class enigma_driver_gnupg extends enigma_driver
             $error = enigma_error::KEYNOTFOUND;
             $data['id'] = $e->getKeyId();
         }
-        else if ($e instanceof Crypt_GPG_BadPassphraseException) {
+        elseif ($e instanceof Crypt_GPG_BadPassphraseException) {
             $error = enigma_error::BADPASS;
             $data['bad']     = $e->getBadPassphrases();
             $data['missing'] = $e->getMissingPassphrases();
         }
-        else if ($e instanceof Crypt_GPG_NoDataException) {
+        elseif ($e instanceof Crypt_GPG_NoDataException) {
             $error = enigma_error::NODATA;
         }
-        else if ($e instanceof Crypt_GPG_DeletePrivateKeyException) {
+        elseif ($e instanceof Crypt_GPG_DeletePrivateKeyException) {
             $error = enigma_error::DELKEY;
         }
         else {

@@ -1635,7 +1635,7 @@ class rcmail_action_settings_index extends rcmail_action
                 $action['prop'] = $action['action'];
                 $action['command'] = 'show';
             }
-            else if (empty($action['command']) || $action['command'] != 'show') {
+            elseif (empty($action['command']) || $action['command'] != 'show') {
                 // Backwards compatibility, show command added in 1.4
                 $action['prop']    = !empty($action['command']) ? $action['command'] : null;
                 $action['command'] = 'show';
@@ -1666,7 +1666,7 @@ class rcmail_action_settings_index extends rcmail_action
             if (!empty($action['class'])) {
                 $classnames[] = $action['class'];
             }
-            else if (!empty($cmd)) {
+            elseif (!empty($cmd)) {
                 $classnames[] = $cmd;
             }
             if ($cmd == $selected && !empty($attrib['selclass'])) {

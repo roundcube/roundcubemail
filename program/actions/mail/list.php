@@ -91,7 +91,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
             $multifolder = !empty($_SESSION['search']) && !empty($_SESSION['search'][1]->multi);
         }
         // remove old search data
-        else if (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
+        elseif (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
             $rcmail->session->remove('search');
         }
 
@@ -139,7 +139,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
             if ($err_code = $rcmail->storage->get_error_code()) {
                 self::display_server_error();
             }
-            else if (!empty($search_request)) {
+            elseif (!empty($search_request)) {
                 $rcmail->output->show_message('searchnomatch', 'notice');
             }
             else {

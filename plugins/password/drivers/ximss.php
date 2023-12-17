@@ -74,12 +74,12 @@ class rcube_ximss_password
                     return PASSWORD_CONNECT_ERROR;
                 }
             }
-            else if ($id == 'A002') {
+            elseif ($id == 'A002') {
                 if (isset($resp->response[0]['errorNum'])) {
                     return PASSWORD_ERROR;
                 }
             }
-            else if ($id == 'A003') {
+            elseif ($id == 'A003') {
                 if (isset($resp->response[0]['errorNum'])) {
                     // There was a problem during logout (This is probably harmless)
                 }

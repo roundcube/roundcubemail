@@ -160,7 +160,7 @@ if ($db_working && !empty($_POST['initdb'])) {
             Make sure that the configured database exists and that the user as write privileges</p>';
     }
 }
-else if ($db_working && !empty($_POST['updatedb'])) {
+elseif ($db_working && !empty($_POST['updatedb'])) {
     if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
     }
@@ -177,7 +177,7 @@ if ($db_working) {
 
         $db_working = false;
     }
-    else if ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
+    elseif ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
         $RCI->fail('DB Schema', "Database schema differs");
         echo '<ul style="margin:0"><li>' . implode("</li>\n<li>", $err) . "</li></ul>";
 

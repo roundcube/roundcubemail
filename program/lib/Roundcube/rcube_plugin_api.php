@@ -426,7 +426,7 @@ class rcube_plugin_api
         if (!$info && class_exists($plugin_name)) {
             $info = ['name' => $plugin_name, 'version' => '--'];
         }
-        else if (!empty($info['license'])) {
+        elseif (!empty($info['license'])) {
             // Convert license identifier to something shorter
             if (preg_match('/^([ALGP]+)[-v]([0-9.]+)(\+|-or-later)?/', $info['license'], $matches)) {
                 $info['license'] = $matches[1] . '-' . sprintf('%.1f', $matches[2])
@@ -543,7 +543,7 @@ class rcube_plugin_api
         if ($task) {
             $action = $task . '.' . $action;
         }
-        else if (strpos($action, 'plugin.') !== 0) {
+        elseif (strpos($action, 'plugin.') !== 0) {
             $action = 'plugin.' . $action;
         }
 
@@ -573,7 +573,7 @@ class rcube_plugin_api
         if (isset($this->actions[$action])) {
             call_user_func($this->actions[$action]);
         }
-        else if (rcube::get_instance()->action != 'refresh') {
+        elseif (rcube::get_instance()->action != 'refresh') {
             rcube::raise_error([
                     'code' => 524, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "No handler found for action $action",
@@ -637,7 +637,7 @@ class rcube_plugin_api
                 true, false
             );
         }
-        else if (in_array($task, rcmail::$main_tasks)) {
+        elseif (in_array($task, rcmail::$main_tasks)) {
             rcube::raise_error([
                     'code' => 526, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register task $task;"
@@ -715,7 +715,7 @@ class rcube_plugin_api
                         $fn = $less;
                     }
                 }
-                else if (!preg_match('/\.min\.css$/', $fn)) {
+                elseif (!preg_match('/\.min\.css$/', $fn)) {
                     $min = preg_replace('/\.css$/i', '.min.css', $fn);
                     if (is_file("$dir/$min")) {
                         $fn = $min;

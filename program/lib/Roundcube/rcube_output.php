@@ -320,13 +320,13 @@ abstract class rcube_output
             $attrib['value'] = '1';
             $input = new html_checkbox($attrib);
         }
-        else if ($type == 'textarea') {
+        elseif ($type == 'textarea') {
             if (!empty($attrib['size'])) {
                 $attrib['cols'] = $attrib['size'];
             }
             $input = new html_textarea($attrib);
         }
-        else if ($type == 'select') {
+        elseif ($type == 'select') {
             $input = new html_select($attrib);
             if (empty($attrib['skip-empty'])) {
                 $input->add('---', '');
@@ -335,7 +335,7 @@ abstract class rcube_output
                 $input->add(array_values($attrib['options']), array_keys($attrib['options']));
             }
         }
-        else if ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
+        elseif ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
             $input = new html_passwordfield($attrib);
         }
         else {

@@ -257,7 +257,7 @@ trait rcube_uploads
             if (isset($file['data']) && is_string($file['data'])) {
                 echo $file['data'];
             }
-            else if (!empty($file['path'])) {
+            elseif (!empty($file['path'])) {
                 readfile($file['path']);
             }
         }

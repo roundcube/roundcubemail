@@ -58,11 +58,11 @@ class archive extends rcube_plugin
             $rcmail->output->set_env('archive_folder', $this->archive_folder);
             $rcmail->output->set_env('archive_type', $rcmail->config->get('archive_type',''));
         }
-        else if ($rcmail->task == 'mail') {
+        elseif ($rcmail->task == 'mail') {
             // handler for ajax request
             $this->register_action('plugin.move2archive', [$this, 'move_messages']);
         }
-        else if ($rcmail->task == 'settings') {
+        elseif ($rcmail->task == 'settings') {
             $this->add_hook('preferences_list', [$this, 'prefs_table']);
             $this->add_hook('preferences_save', [$this, 'prefs_save']);
 
@@ -104,7 +104,7 @@ class archive extends rcube_plugin
                 $list[$idx]['name'] = $new_name;
                 return true;
             }
-            else if (!empty($item['folders'])) {
+            elseif (!empty($item['folders'])) {
                 if ($this->_mod_folder_name($list[$idx]['folders'], $folder, $new_name)) {
                     return true;
                 }
@@ -163,7 +163,7 @@ class archive extends rcube_plugin
                 $count = count($uids);
                 continue;
             }
-            else if (!$archive_type || $archive_type == 'folder') {
+            elseif (!$archive_type || $archive_type == 'folder') {
                 $folder = $this->archive_folder;
 
                 if ($archive_type == 'folder') {
@@ -450,7 +450,7 @@ class archive extends rcube_plugin
                 ];
             }
         }
-        else if ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
+        elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
             $chbox = new html_checkbox(['name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1]);
             $args['blocks']['main']['options']['read_on_archive'] = [
                 'title'   => html::label('ff_read_on_archive', rcube::Q($this->gettext('readonarchive'))),
@@ -476,7 +476,7 @@ class archive extends rcube_plugin
         if ($args['section'] == 'folders' && !in_array('archive_mbox', $dont_override)) {
             $args['prefs']['archive_type'] = rcube_utils::get_input_string('_archive_type', rcube_utils::INPUT_POST);
         }
-        else if ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
+        elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
             $args['prefs']['read_on_archive'] = (bool) rcube_utils::get_input_value('_read_on_archive', rcube_utils::INPUT_POST);
         }
 

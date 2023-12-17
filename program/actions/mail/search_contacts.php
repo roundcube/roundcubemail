@@ -124,7 +124,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
             $rcmail->output->set_env('source', '');
             $rcmail->output->command('unselect_directory');
         }
-        else if (!$group_count) {
+        elseif (!$group_count) {
             $rcmail->output->show_message('nocontactsfound', 'notice');
         }
 

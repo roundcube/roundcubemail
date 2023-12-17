@@ -106,7 +106,7 @@ class rcube_mime_decode
                 $return->headers[$header_name]   = [$return->headers[$header_name]];
                 $return->headers[$header_name][] = $value['value'];
             }
-            else if (isset($return->headers[$header_name])) {
+            elseif (isset($return->headers[$header_name])) {
                 $return->headers[$header_name][] = $value['value'];
             }
             else {
@@ -302,7 +302,7 @@ class rcube_mime_decode
                     $return['other'][strtolower($matches[1])] = $matches[2];
                 }
                 // Support RFC2231 encoding
-                else if (preg_match('/^([[:alnum:]]+)\*([0-9]*)\*?="*([^"]+)"*/', $parts[$n], $matches)) {
+                elseif (preg_match('/^([[:alnum:]]+)\*([0-9]*)\*?="*([^"]+)"*/', $parts[$n], $matches)) {
                     $key = strtolower($matches[1]);
                     $val = $matches[3];
 
@@ -394,7 +394,7 @@ class rcube_mime_decode
         if (!empty($part->d_parameters['filename'])) {
             $filename = $part->d_parameters['filename'];
         }
-        else if (!empty($part->ctype_parameters['name'])) {
+        elseif (!empty($part->ctype_parameters['name'])) {
             $filename = $part->ctype_parameters['name'];
         }
 

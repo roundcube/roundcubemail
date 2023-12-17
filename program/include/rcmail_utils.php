@@ -202,7 +202,7 @@ class rcmail_utils
                 }
                 return false;
             }
-            else if (empty($opts['quiet'])) {
+            elseif (empty($opts['quiet'])) {
                 echo "[OK]\n";
             }
         }
@@ -308,7 +308,7 @@ class rcmail_utils
             if (is_string($hosts)) {
                 $args['host'] = $hosts;
             }
-            else if (is_array($hosts) && count($hosts) == 1) {
+            elseif (is_array($hosts) && count($hosts) == 1) {
                 $args['host'] = reset($hosts);
             }
             else {
@@ -374,7 +374,7 @@ class rcmail_utils
         if ($type == 'bool' || $type == 'boolean') {
             $value = rcube_utils::get_boolean($value);
         }
-        else if ($type == 'int' || $type == 'integer') {
+        elseif ($type == 'int' || $type == 'integer') {
             $value = (int) $value;
         }
 

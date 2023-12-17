@@ -87,13 +87,13 @@ class rcube_browser
         if ($this->edge && preg_match('/edge\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[1];
         }
-        else if ($this->opera && preg_match('/(opera|opr)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+        elseif ($this->opera && preg_match('/(opera|opr)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[3];
         }
-        else if ($this->safari && preg_match('/(version|safari)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+        elseif ($this->safari && preg_match('/(version|safari)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[1];
         }
-        else if (preg_match('/(chrome|khtml|version|msie|rv:)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+        elseif (preg_match('/(chrome|khtml|version|msie|rv:)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[3];
         }
     }

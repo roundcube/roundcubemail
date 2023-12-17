@@ -151,17 +151,17 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $rcmail->output->set_env('draft_id', $msg_uid);
             $rcmail->storage->set_folder($drafts_mbox);
         }
-        else if (!empty(self::$COMPOSE['param']['reply_uid'])) {
+        elseif (!empty(self::$COMPOSE['param']['reply_uid'])) {
             $msg_uid      = self::$COMPOSE['param']['reply_uid'];
             $compose_mode = rcmail_sendmail::MODE_REPLY;
         }
-        else if (!empty(self::$COMPOSE['param']['forward_uid'])) {
+        elseif (!empty(self::$COMPOSE['param']['forward_uid'])) {
             $msg_uid      = self::$COMPOSE['param']['forward_uid'];
             $compose_mode = rcmail_sendmail::MODE_FORWARD;
             self::$COMPOSE['forward_uid']   = $msg_uid;
             self::$COMPOSE['as_attachment'] = !empty(self::$COMPOSE['param']['attachment']);
         }
-        else if (!empty(self::$COMPOSE['param']['uid'])) {
+        elseif (!empty(self::$COMPOSE['param']['uid'])) {
             $msg_uid = self::$COMPOSE['param']['uid'];
             $compose_mode = rcmail_sendmail::MODE_EDIT;
         }
@@ -179,13 +179,13 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $rcmail->output->set_env('show_sig_later', true);
             }
         }
-        else if ($config_show_sig == 1) {
+        elseif ($config_show_sig == 1) {
             $rcmail->output->set_env('show_sig', true);
         }
-        else if ($config_show_sig == 2 && empty($compose_mode)) {
+        elseif ($config_show_sig == 2 && empty($compose_mode)) {
             $rcmail->output->set_env('show_sig', true);
         }
-        else if (
+        elseif (
             $config_show_sig == 3
             && ($compose_mode == rcmail_sendmail::MODE_REPLY || $compose_mode == rcmail_sendmail::MODE_FORWARD)
         ) {
@@ -227,7 +227,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             if (empty(self::$MESSAGE->headers)) {
                 // error
             }
-            else if ($compose_mode == rcmail_sendmail::MODE_FORWARD || $compose_mode == rcmail_sendmail::MODE_REPLY) {
+            elseif ($compose_mode == rcmail_sendmail::MODE_FORWARD || $compose_mode == rcmail_sendmail::MODE_REPLY) {
                 if ($compose_mode == rcmail_sendmail::MODE_REPLY) {
                     self::$COMPOSE['reply_uid'] = self::$MESSAGE->context === null ? $msg_uid : null;
 
@@ -251,7 +251,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     self::$COMPOSE['param']['sent_mbox'] = $sent_folder;
                 }
             }
-            else if ($compose_mode == rcmail_sendmail::MODE_DRAFT || $compose_mode == rcmail_sendmail::MODE_EDIT) {
+            elseif ($compose_mode == rcmail_sendmail::MODE_DRAFT || $compose_mode == rcmail_sendmail::MODE_EDIT) {
                 if ($compose_mode == rcmail_sendmail::MODE_DRAFT) {
                     if ($draft_info = self::$MESSAGE->headers->get('x-draft-info')) {
                         // get reply_uid/forward_uid to flag the original message when sending
@@ -261,7 +261,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                             if ($info['type'] == 'reply') {
                                 self::$COMPOSE['reply_uid'] = $info['uid'];
                             }
-                            else if ($info['type'] == 'forward') {
+                            elseif ($info['type'] == 'forward') {
                                 self::$COMPOSE['forward_uid'] = $info['uid'];
                             }
                         }
@@ -462,16 +462,16 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (isset(self::$COMPOSE['param']['html']) && is_bool(self::$COMPOSE['param']['html'])) {
             $useHtml = self::$COMPOSE['param']['html'];
         }
-        else if (isset($_POST['_is_html'])) {
+        elseif (isset($_POST['_is_html'])) {
             $useHtml = !empty($_POST['_is_html']);
         }
-        else if ($compose_mode == rcmail_sendmail::MODE_DRAFT || $compose_mode == rcmail_sendmail::MODE_EDIT) {
+        elseif ($compose_mode == rcmail_sendmail::MODE_DRAFT || $compose_mode == rcmail_sendmail::MODE_EDIT) {
             $useHtml = self::message_is_html();
         }
-        else if ($compose_mode == rcmail_sendmail::MODE_REPLY) {
+        elseif ($compose_mode == rcmail_sendmail::MODE_REPLY) {
             $useHtml = $html_editor == 1 || ($html_editor >= 2 && self::message_is_html());
         }
-        else if ($compose_mode == rcmail_sendmail::MODE_FORWARD) {
+        elseif ($compose_mode == rcmail_sendmail::MODE_FORWARD) {
             $useHtml = $html_editor == 1 || $html_editor == 4
                 || ($html_editor == 3 && self::message_is_html());
         }
@@ -576,18 +576,18 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $body   = rcube_utils::get_input_string('_message', rcube_utils::INPUT_POST, true);
             $isHtml = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_POST);
         }
-        else if (!empty(self::$COMPOSE['param']['body'])) {
+        elseif (!empty(self::$COMPOSE['param']['body'])) {
             $body   = self::$COMPOSE['param']['body'];
             $isHtml = !empty(self::$COMPOSE['param']['html']);
         }
         // forward as attachment
-        else if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_FORWARD && !empty(self::$COMPOSE['as_attachment'])) {
+        elseif (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_FORWARD && !empty(self::$COMPOSE['as_attachment'])) {
             $isHtml = self::compose_editor_mode();
 
             self::write_forward_attachments();
         }
         // reply/edit/draft/forward
-        else if (!empty(self::$COMPOSE['mode'])
+        elseif (!empty(self::$COMPOSE['mode'])
             && (self::$COMPOSE['mode'] != rcmail_sendmail::MODE_REPLY || intval($rcmail->config->get('reply_mode')) != -1)
         ) {
             $isHtml   = self::compose_editor_mode();
@@ -656,11 +656,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
             }
             // forward message body inline
-            else if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_FORWARD) {
+            elseif (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_FORWARD) {
                 $body = self::create_forward_body($body, $isHtml);
             }
             // load draft message body
-            else if (
+            elseif (
                 self::$COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT
                 || self::$COMPOSE['mode'] == rcmail_sendmail::MODE_EDIT
             ) {
@@ -754,7 +754,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             if ($part->ctype_secondary == 'html') {
                 $body = self::prepare_html_body($body);
             }
-            else if ($part->ctype_secondary == 'enriched') {
+            elseif ($part->ctype_secondary == 'enriched') {
                 $body = rcube_enriched::to_html($body);
             }
             else {
@@ -895,7 +895,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             if ($reply_mode == 2) {
                 // top-posting, no indent
             }
-            else if ($reply_mode > 0) {
+            elseif ($reply_mode > 0) {
                 // top-posting
                 $prefix = '<br>' . $prefix;
             }
@@ -1142,7 +1142,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     }
                 }
                 // skip any other attachment on Reply
-                else if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY) {
+                elseif (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY) {
                     continue;
                 }
 
@@ -1229,10 +1229,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $index = $storage->index(null, self::sort_column(), self::sort_order());
             self::$COMPOSE['forward_uid'] = $index->get();
         }
-        else if (!is_array(self::$COMPOSE['forward_uid']) && strpos(self::$COMPOSE['forward_uid'], ':')) {
+        elseif (!is_array(self::$COMPOSE['forward_uid']) && strpos(self::$COMPOSE['forward_uid'], ':')) {
             self::$COMPOSE['forward_uid'] = rcube_imap_generic::uncompressMessageSet(self::$COMPOSE['forward_uid']);
         }
-        else if (is_string(self::$COMPOSE['forward_uid'])) {
+        elseif (is_string(self::$COMPOSE['forward_uid'])) {
             self::$COMPOSE['forward_uid'] = explode(',', self::$COMPOSE['forward_uid']);
         }
 
@@ -1417,7 +1417,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         'alt' => $rcmail->gettext('delete'),
                 ]);
             }
-            else if (self::get_bool_attr($attrib, 'textbuttons')) {
+            elseif (self::get_bool_attr($attrib, 'textbuttons')) {
                 $button = rcube::Q($rcmail->gettext('delete'));
             }
 
@@ -1481,7 +1481,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (!empty($attrib['deleteicon'])) {
             self::$COMPOSE['deleteicon'] = $rcmail->output->asset_url($attrib['deleteicon'], true);
         }
-        else if (self::get_bool_attr($attrib, 'textbuttons')) {
+        elseif (self::get_bool_attr($attrib, 'textbuttons')) {
             self::$COMPOSE['textbuttons'] = true;
         }
         if (!empty($attrib['cancelicon'])) {
@@ -1687,13 +1687,13 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
             $filename = !empty($params['filename']) ? $params['filename'] : self::attachment_name($part);
         }
-        else if ($message instanceof rcube_message) {
+        elseif ($message instanceof rcube_message) {
             // the whole message requested
             $size     = $message->size ?? null;
             $mimetype = 'message/rfc822';
             $filename = !empty($params['filename']) ? $params['filename'] : 'message_rfc822.eml';
         }
-        else if (is_string($message)) {
+        elseif (is_string($message)) {
             // the whole message requested
             $size     = strlen($message);
             $data     = $message;
@@ -1728,7 +1728,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     return false;
                 }
             }
-            else if ($pid) {
+            elseif ($pid) {
                 // part body
                 $data = $message->get_part_body($pid);
             }
@@ -1752,7 +1752,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if ($rcmail->insert_uploaded_file($attachment, 'attachment_save')) {
             return $attachment;
         }
-        else if (!empty($path)) {
+        elseif (!empty($path)) {
             @unlink($path);
         }
 

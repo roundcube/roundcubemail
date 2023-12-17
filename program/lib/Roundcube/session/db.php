@@ -181,7 +181,7 @@ class rcube_session_db extends rcube_session
                 . "SET `changed` = $now, `vars` = ? WHERE `sess_id` = ?",
                 base64_encode($newvars), $key);
         }
-        else if ($ts - $this->changed > $this->lifetime / 2) {
+        elseif ($ts - $this->changed > $this->lifetime / 2) {
             $this->db->query("UPDATE {$this->table_name} SET `changed` = $now"
                 . " WHERE `sess_id` = ?", $key);
         }

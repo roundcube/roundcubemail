@@ -60,7 +60,7 @@ class rcube_result_multifolder
         if ($result->count()) {
             $this->append_result($result);
         }
-        else if ($result->incomplete) {
+        elseif ($result->incomplete) {
             $this->incomplete = true;
         }
     }
@@ -323,7 +323,7 @@ class rcube_result_multifolder
             if ($set->incomplete) {
                 $this->sdata['incomplete'][] = $set->get_parameters('MAILBOX');
             }
-            else if ($set->is_error()) {
+            elseif ($set->is_error()) {
                 $this->sdata['error'][] = $set->get_parameters('MAILBOX');
             }
         }

@@ -166,7 +166,7 @@ class rcube_tnef_decoder
             }
             // RTF body (converted to HTML)
             // Note: RTF can contain encapsulated HTML content
-            else if (!empty($message['size']) && $message['subtype'] == 'rtf'
+            elseif (!empty($message['size']) && $message['subtype'] == 'rtf'
                 && function_exists('iconv')
                 && class_exists('RtfHtmlPhp\Document')
             ) {
@@ -497,7 +497,7 @@ class rcube_tnef_decoder
         ) {
             $str = rcube_charset::convert($str, $charset, RCUBE_CHARSET);
         }
-        else if (($pos = strpos($str, "\0")) !== false && $pos != strlen($str) - 1) {
+        elseif (($pos = strpos($str, "\0")) !== false && $pos != strlen($str) - 1) {
             $str = rcube_charset::convert($str, 'UTF-16LE', RCUBE_CHARSET);
         }
 

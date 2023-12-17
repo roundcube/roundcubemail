@@ -65,7 +65,7 @@ class rcube_result_index
                 $data_item = substr($data_item, 5);
                 break;
             }
-            else if (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
+            elseif (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
                 $data_item = substr($data_item, strlen($m[0]));
@@ -386,11 +386,11 @@ class rcube_result_index
             if (isset($this->meta['pos'][$index])) {
                 $pos = $this->meta['pos'][$index];
             }
-            else if (isset($this->meta['pos'][$index - 1])) {
+            elseif (isset($this->meta['pos'][$index - 1])) {
                 $pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT,
                     $this->meta['pos'][$index - 1] + 1);
             }
-            else if (isset($this->meta['pos'][$index + 1])) {
+            elseif (isset($this->meta['pos'][$index + 1])) {
                 $pos = strrpos($this->raw_data, self::SEPARATOR_ELEMENT,
                     $this->meta['pos'][$index + 1] - $this->length() - 1);
             }

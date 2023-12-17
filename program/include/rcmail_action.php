@@ -281,20 +281,20 @@ abstract class rcmail_action
         if ($res_code == rcube_storage::NOPERM) {
             $error = 'errornoperm';
         }
-        else if ($res_code == rcube_storage::READONLY) {
+        elseif ($res_code == rcube_storage::READONLY) {
             $error = 'errorreadonly';
         }
-        else if ($res_code == rcube_storage::OVERQUOTA) {
+        elseif ($res_code == rcube_storage::OVERQUOTA) {
             $error = 'erroroverquota';
         }
-        else if ($err_code && ($err_str = $storage->get_error_str())) {
+        elseif ($err_code && ($err_str = $storage->get_error_str())) {
             // try to detect access rights problem and display appropriate message
             if (stripos($err_str, 'Permission denied') !== false) {
                 $error = 'errornoperm';
             }
             // try to detect full mailbox problem and display appropriate message
             // there can be e.g. "Quota exceeded" / "quotum would exceed" / "Over quota"
-            else if (stripos($err_str, 'quot') !== false && preg_match('/exceed|over/i', $err_str)) {
+            elseif (stripos($err_str, 'quot') !== false && preg_match('/exceed|over/i', $err_str)) {
                 $error = 'erroroverquota';
             }
             else {
@@ -302,10 +302,10 @@ abstract class rcmail_action
                 $args  = ['msg' => rcube::Q($err_str)];
             }
         }
-        else if ($err_code < 0) {
+        elseif ($err_code < 0) {
             $error = 'storageerror';
         }
-        else if ($fallback) {
+        elseif ($fallback) {
             $error = $fallback;
             $args  = $fallback_args;
             $params['prefix'] = false;
@@ -587,10 +587,10 @@ abstract class rcmail_action
         if ($add_error) {
             $msg = $rcmail->gettext($add_error);
         }
-        else if ($attachment && !empty($attachment['error'])) {
+        elseif ($attachment && !empty($attachment['error'])) {
             $msg = $attachment['error'];
         }
-        else if ($php_error == UPLOAD_ERR_INI_SIZE || $php_error == UPLOAD_ERR_FORM_SIZE) {
+        elseif ($php_error == UPLOAD_ERR_INI_SIZE || $php_error == UPLOAD_ERR_FORM_SIZE) {
             $post_size = self::show_bytes(rcube_utils::max_upload_size());
             $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $post_size]]);
         }
@@ -732,12 +732,12 @@ abstract class rcmail_action
             $gb   = $bytes / 1073741824;
             $str  = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $rcmail->gettext($unit);
         }
-        else if ($bytes >= 1048576) {
+        elseif ($bytes >= 1048576) {
             $unit = 'MB';
             $mb   = $bytes / 1048576;
             $str  = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $rcmail->gettext($unit);
         }
-        else if ($bytes >= 1024) {
+        elseif ($bytes >= 1024) {
             $unit = 'KB';
             $str  = sprintf("%d ",  round($bytes / 1024)) . $rcmail->gettext($unit);
         }
@@ -838,7 +838,7 @@ abstract class rcmail_action
                 if ($uid == '*') {
                     $result[$mbox] = $uid;
                 }
-                else if (preg_match('/^[0-9:.]+$/', $uid)) {
+                elseif (preg_match('/^[0-9:.]+$/', $uid)) {
                     $result[$mbox][] = $uid;
                 }
             }
@@ -1123,7 +1123,7 @@ abstract class rcmail_action
             if (!strlen($subFolders)) {
                 $virtual = false;
             }
-            else if (!isset($arrFolders[$currentFolder])) {
+            elseif (!isset($arrFolders[$currentFolder])) {
                 $virtual = true;
             }
             else {
@@ -1213,7 +1213,7 @@ abstract class rcmail_action
             if ($folder['virtual']) {
                 $classes[] = 'virtual';
             }
-            else if ($unread) {
+            elseif ($unread) {
                 $classes[] = 'unread';
             }
 
@@ -1379,7 +1379,7 @@ abstract class rcmail_action
             }
         }
         // try to localize path of the folder
-        else if ($with_path && !$realnames) {
+        elseif ($with_path && !$realnames) {
             $path  = explode($delimiter, $name);
             $count = count($path);
 

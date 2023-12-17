@@ -56,7 +56,7 @@ class identicon_engine
                 }
                 $this->bgcolor = $bgcolor;
             }
-            else if ($bgcolor === 'transparent') {
+            elseif ($bgcolor === 'transparent') {
                 $this->bgcolor = $bgcolor;
             }
         }

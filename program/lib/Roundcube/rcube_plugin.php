@@ -166,7 +166,7 @@ abstract class rcube_plugin
             );
             return false;
         }
-        else if (!$is_local) {
+        elseif (!$is_local) {
             // Search plugin_name.inc.php file in any configured path
             return $rcube->config->load_from_file($this->ID . '.inc.php');
         }

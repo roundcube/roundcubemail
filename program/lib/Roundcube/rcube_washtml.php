@@ -268,7 +268,7 @@ class rcube_washtml
                         }
                     }
                 }
-                else if (!preg_match('/^(behavior|expression)/i', $val)) {
+                elseif (!preg_match('/^(behavior|expression)/i', $val)) {
                     // Set position:fixed to position:absolute for security (#5264)
                     if (!strcasecmp($cssid, 'position') && !strcasecmp($val, 'fixed')) {
                         $val = 'absolute';
@@ -319,7 +319,7 @@ class rcube_washtml
                 // replace double quotes to prevent syntax error and XSS issues (#1490227)
                 $result .= ' style="' . str_replace('"', '&quot;', $style) . '"';
             }
-            else if (isset($this->_html_attribs[$key]) || in_array($key, $additional_attribs)) {
+            elseif (isset($this->_html_attribs[$key]) || in_array($key, $additional_attribs)) {
                 $value = trim($value);
                 $out   = null;
 
@@ -334,10 +334,10 @@ class rcube_washtml
                 if ($this->is_image_attribute($node->nodeName, $key)) {
                     $out = $this->wash_uri($value, true);
                 }
-                else if ($this->is_link_attribute($node->nodeName, $key)) {
+                elseif ($this->is_link_attribute($node->nodeName, $key)) {
                     $out = $this->wash_link($value);
                 }
-                else if ($this->is_funciri_attribute($node->nodeName, $key)) {
+                elseif ($this->is_funciri_attribute($node->nodeName, $key)) {
                     if (preg_match('/^[a-z:]*url\(/i', $value)) {
                         if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
@@ -355,12 +355,12 @@ class rcube_washtml
                         $out = $value;
                     }
                 }
-                else if ($this->_css_prefix !== null
+                elseif ($this->_css_prefix !== null
                     && (in_array($key, ['id', 'class', 'for']) || ($key == 'name' && $node->nodeName == 'a'))
                 ) {
                     $out = preg_replace('/(\S+)/', $this->_css_prefix . '\1', $value);
                 }
-                else if ($key) {
+                elseif ($key) {
                     $out = $value;
                 }
 
@@ -368,7 +368,7 @@ class rcube_washtml
                     $v = htmlspecialchars($out, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']);
                     $result .= " {$attr->nodeName}=\"{$v}\"";
                 }
-                else if ($value) {
+                elseif ($value) {
                     $washed[] = htmlspecialchars($attr->nodeName, ENT_QUOTES, $this->config['charset']);
                 }
             }
@@ -423,7 +423,7 @@ class rcube_washtml
                 return $this->config['blocked_src'];
             }
         }
-        else if ($is_image && preg_match('/^data:image\/([^,]+),(.+)$/is', $uri, $matches)) { // RFC2397
+        elseif ($is_image && preg_match('/^data:image\/([^,]+),(.+)$/is', $uri, $matches)) { // RFC2397
             $type = preg_replace('/\s/', '', $matches[1]);
 
             // svg images can be insecure, we'll sanitize them
@@ -595,7 +595,7 @@ class rcube_washtml
 
                         $node->setAttribute('href', (string) $uri);
                     }
-                    else if (in_array($tagName, ['animate', 'animatecolor', 'set', 'animatetransform'])
+                    elseif (in_array($tagName, ['animate', 'animatecolor', 'set', 'animatetransform'])
                         && self::attribute_value($node, 'attributename', 'href')
                     ) {
                         // Insecure svg tags
@@ -608,7 +608,7 @@ class rcube_washtml
                         $dump .= call_user_func($callback, $tagName,
                             $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
                     }
-                    else if (isset($this->_html_elements[$tagName])) {
+                    elseif (isset($this->_html_elements[$tagName])) {
                         $content = $this->dumpHtml($node, $level);
                         $dump .= '<' . $node->nodeName;
 
@@ -623,7 +623,7 @@ class rcube_washtml
                                 }
                             }
                         }
-                        else if ($tagName == 'textarea' && strpos($content, '<') !== false) {
+                        elseif ($tagName == 'textarea' && strpos($content, '<') !== false) {
                             $content = htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE, $this->config['charset']);
                         }
 
@@ -636,7 +636,7 @@ class rcube_washtml
                             $dump .= '>' . $content . '</' . $node->nodeName . '>';
                         }
                     }
-                    else if (isset($this->_ignore_elements[$tagName])) {
+                    elseif (isset($this->_ignore_elements[$tagName])) {
                         $dump .= '<!-- ' . htmlspecialchars($node->nodeName, ENT_QUOTES, $this->config['charset']) . ' not allowed -->';
                     }
                     else {
@@ -889,17 +889,17 @@ class rcube_washtml
                         $p += 4;
                     }
                     // li close tag
-                    else if ($tt == '</li' && in_array($html[$p + 4], [' ', '>'])) {
+                    elseif ($tt == '</li' && in_array($html[$p + 4], [' ', '>'])) {
                         $li_pos = $p;
                         $in_li  = false;
                         $p += 4;
                     }
                     // ul/ol closing tag
-                    else if ($tt == '</' . $tag && in_array($html[$p + 4], [' ', '>'])) {
+                    elseif ($tt == '</' . $tag && in_array($html[$p + 4], [' ', '>'])) {
                         break;
                     }
                     // nested ol/ul element out of li
-                    else if (!$in_li && $li_pos && ($tt == '<ol>' || $tt == '<ol ' || $tt == '<ul>' || $tt == '<ul ')) {
+                    elseif (!$in_li && $li_pos && ($tt == '<ol>' || $tt == '<ol ' || $tt == '<ul>' || $tt == '<ul ')) {
                         // find closing tag of this ul/ol element
                         $element = substr($tt, 1, 2);
                         $cpos    = $p;
@@ -994,7 +994,7 @@ class rcube_washtml
                 if ($q == $style[$i]) {
                     $q = false;
                 }
-                else if (!$q) {
+                elseif (!$q) {
                     $q = $style[$i];
                 }
             }

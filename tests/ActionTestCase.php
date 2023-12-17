@@ -109,7 +109,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
                 escapeshellarg($dsn['database'])
             ));
         }
-        else if ($dsn['phptype'] == 'sqlite') {
+        elseif ($dsn['phptype'] == 'sqlite') {
             $db->closeConnection();
 
             // delete database file

@@ -112,7 +112,7 @@ class rcube_utils
             }
         }
         // dot-atom portion, make sure there's no prohibited characters
-        else if (preg_match('/(^\.|\.\.|\.$)/', $local_part)
+        elseif (preg_match('/(^\.|\.\.|\.$)/', $local_part)
             || preg_match('/[\\ ",:;<>@]/', $local_part)
         ) {
             return false;
@@ -206,7 +206,7 @@ class rcube_utils
             if ($mode == 'remove') {
                 $str = strip_tags($str);
             }
-            else if ($mode != 'strict') {
+            elseif ($mode != 'strict') {
                 // don't replace quotes and html tags
                 $ltpos = strpos($str, '<');
                 if ($ltpos !== false && strpos($str, '>', $ltpos) !== false) {
@@ -452,7 +452,7 @@ class rcube_utils
                 if ($rule[0] == 'position' && strcasecmp($rule[1], 'fixed') === 0) {
                     $rule[1] = 'absolute';
                 }
-                else if ($allow_remote) {
+                elseif ($allow_remote) {
                     $stripped = preg_replace('/[^a-z\(:;]/i', '', $rule[1]);
 
                     // allow data:image and strict url() values only
@@ -559,14 +559,14 @@ class rcube_utils
                     if ($q == $style[$i]) {
                         $q = false;
                     }
-                    else if ($q === false) {
+                    elseif ($q === false) {
                         $q = $style[$i];
                     }
                 }
-                else if ($style[$i] == "(" && !$q && ($i == 0 || $style[$i - 1] != "\\")) {
+                elseif ($style[$i] == "(" && !$q && ($i == 0 || $style[$i - 1] != "\\")) {
                     $q = "(";
                 }
-                else if ($style[$i] == ")" && $q == "(" && $style[$i - 1] != "\\") {
+                elseif ($style[$i] == ")" && $q == "(" && $style[$i - 1] != "\\") {
                     $q = false;
                 }
 
@@ -762,7 +762,7 @@ class rcube_utils
             if (!empty($url['port'])) {
                 $port = $url['port'];
             }
-            else if (
+            elseif (
                 $scheme
                 && $ssl_port
                 && ($scheme === 'ssl' || ($scheme != 'tls' && $scheme[strlen($scheme) - 1] === 's'))
@@ -811,7 +811,7 @@ class rcube_utils
                         return $name;
                     }
                 }
-                else if (strtolower($name) === strtolower($pattern)) {
+                elseif (strtolower($name) === strtolower($pattern)) {
                     return $name;
                 }
             }
@@ -1071,7 +1071,7 @@ class rcube_utils
             $date  = sprintf('%04d-%02d-%02d%s', $m[3], $month, $day, $m[4] ?? ' 00:00:00');
         }
         // I've found that YYYY.MM.DD is recognized wrong, so here's a fix
-        else if (preg_match('/^(\d{4})\.(\d{1,2})\.(\d{1,2})(\s.*)?$/', $date, $m)) {
+        elseif (preg_match('/^(\d{4})\.(\d{1,2})\.(\d{1,2})(\s.*)?$/', $date, $m)) {
             $date  = sprintf('%04d-%02d-%02d%s', $m[1], $m[2], $m[3], $m[4] ?? ' 00:00:00');
         }
 
@@ -1099,10 +1099,10 @@ class rcube_utils
             if ($format_items[0] == 'Y') {
                 $date = sprintf($iso_format, $date_items[0], $date_items[1], $date_items[2]);
             }
-            else if (strpos('dj', $format_items[0]) !== false) {
+            elseif (strpos('dj', $format_items[0]) !== false) {
                 $date = sprintf($iso_format, $date_items[2], $date_items[1], $date_items[0]);
             }
-            else if (strpos('mn', $format_items[0]) !== false) {
+            elseif (strpos('mn', $format_items[0]) !== false) {
                 $date = sprintf($iso_format, $date_items[2], $date_items[0], $date_items[1]);
             }
         }
@@ -1170,7 +1170,7 @@ class rcube_utils
                 $domain  = idn_to_ascii($domain, $options, $variant);
             }
         }
-        else if (preg_match('/(^|\.)xn--/i', $domain)) {
+        elseif (preg_match('/(^|\.)xn--/i', $domain)) {
             $options = IDNA_NONTRANSITIONAL_TO_UNICODE;
             $domain  = idn_to_utf8($domain, $options, $variant);
         }
@@ -1243,7 +1243,7 @@ class rcube_utils
             $mapping = array_combine($keys[0], $values[0]);
             $mapping = array_merge($mapping, ['ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u']);
         }
-        else if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
+        elseif (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
             // ISO-8859-2
             preg_match_all('/./u', 'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżý', $keys);
             preg_match_all('/./',  'aaaaccceeeeiilllnnooorrsssttuuuuzzzy', $values);
@@ -1286,7 +1286,7 @@ class rcube_utils
                     $hits++;
                 }
             }
-            else if (stripos($haystack, $w) !== false) {
+            elseif (stripos($haystack, $w) !== false) {
                 $hits++;
             }
         }
@@ -1328,10 +1328,10 @@ class rcube_utils
                     $key   = substr($key, 0, $sp - 2);
                     $value = substr($arg, $sp + 1);
                 }
-                else if (in_array($key, $bool)) {
+                elseif (in_array($key, $bool)) {
                     $value = true;
                 }
-                else if (
+                elseif (
                     isset($_SERVER['argv'][$i + 1])
                     && strlen($_SERVER['argv'][$i + 1])
                     && $_SERVER['argv'][$i + 1][0] != '-'
@@ -1671,12 +1671,12 @@ class rcube_utils
             $forward_prefixes = $config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
             $prefixes = array_merge($reply_prefixes, $forward_prefixes);
         }
-        else if ($mode == 'reply') {
+        elseif ($mode == 'reply') {
             $prefixes = $config->get('subject_reply_prefixes', ['Re:']);
             // replace (was: ...) (#1489375)
             $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
         }
-        else if ($mode == 'forward') {
+        elseif ($mode == 'forward') {
             $prefixes = $config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
         }
 

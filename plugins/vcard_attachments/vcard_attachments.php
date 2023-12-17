@@ -44,10 +44,10 @@ class vcard_attachments extends rcube_plugin
                 $this->add_hook('message_objects', [$this, 'message_objects']);
                 $this->add_hook('template_object_messagebody', [$this, 'html_output']);
             }
-            else if ($rcmail->action == 'upload') {
+            elseif ($rcmail->action == 'upload') {
                 $this->add_hook('attachment_from_uri', [$this, 'attach_vcard']);
             }
-            else if ($rcmail->action == 'compose' && !$rcmail->output->framed) {
+            elseif ($rcmail->action == 'compose' && !$rcmail->output->framed) {
                 $this->add_texts('localization', true);
                 $this->include_stylesheet($this->local_skin_path() . '/style.css');
                 $this->include_script('vcardattach.js');
@@ -65,7 +65,7 @@ class vcard_attachments extends rcube_plugin
 
                 $this->add_hook('message_compose', [$this, 'message_compose']);
             }
-            else if (!$rcmail->output->framed && (!$rcmail->action || $rcmail->action == 'list')) {
+            elseif (!$rcmail->output->framed && (!$rcmail->action || $rcmail->action == 'list')) {
                 $this->include_stylesheet($this->local_skin_path() . '/style.css');
                 $this->include_script('vcardattach.js');
             }

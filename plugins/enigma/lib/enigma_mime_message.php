@@ -211,7 +211,7 @@ class enigma_mime_message extends Mail_mime
                 ]);
             }
         }
-        else if ($this->type == self::PGP_ENCRYPTED) {
+        elseif ($this->type == self::PGP_ENCRYPTED) {
             $params = [
                 'preamble'     => "This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)",
                 'content_type' => "multipart/encrypted; protocol=\"application/pgp-encrypted\"",
@@ -287,7 +287,7 @@ class enigma_mime_message extends Mail_mime
         if (!empty($this->build_params['boundary'])) {
             $boundary = $this->build_params['boundary'];
         }
-        else if (!empty($this->headers['Content-Type'])
+        elseif (!empty($this->headers['Content-Type'])
             && preg_match('/boundary="([^"]+)"/', $this->headers['Content-Type'], $m)
         ) {
             $boundary = $m[1];
@@ -307,7 +307,7 @@ class enigma_mime_message extends Mail_mime
                 $headers['Content-Type'] .= ";{$eol} micalg=pgp-" . $this->micalg;
             }
         }
-        else if ($this->type == self::PGP_ENCRYPTED) {
+        elseif ($this->type == self::PGP_ENCRYPTED) {
             $headers['Content-Type'] = "multipart/encrypted;$eol"
                 . " protocol=\"application/pgp-encrypted\";$eol"
                 . " boundary=\"$boundary\"";

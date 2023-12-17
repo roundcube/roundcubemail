@@ -148,7 +148,7 @@ class rcube_contacts extends rcube_addressbook
             if ($mode & rcube_addressbook::SEARCH_STRICT) {
                 $sql_filter = $this->db->ilike('name', $search);
             }
-            else if ($mode & rcube_addressbook::SEARCH_PREFIX) {
+            elseif ($mode & rcube_addressbook::SEARCH_PREFIX) {
                 $sql_filter = $this->db->ilike('name', $search . '%');
             }
             else {
@@ -230,7 +230,7 @@ class rcube_contacts extends rcube_addressbook
         if ($order_col == 'firstname') {
             $order_cols[] = 'c.`surname`';
         }
-        else if ($order_col == 'surname') {
+        elseif ($order_col == 'surname') {
             $order_cols[] = 'c.`firstname`';
         }
         if ($order_col != 'name') {
@@ -275,11 +275,11 @@ class rcube_contacts extends rcube_addressbook
         if ($nocount) {
             $this->result->count = $cnt;
         }
-        else if ($this->list_page <= 1) {
+        elseif ($this->list_page <= 1) {
             if ($cnt < $this->page_size && $subset == 0) {
                 $this->result->count = $cnt;
             }
-            else if (isset($this->cache['count'])) {
+            elseif (isset($this->cache['count'])) {
                 $this->result->count = $this->cache['count'];
             }
             else {
@@ -317,7 +317,7 @@ class rcube_contacts extends rcube_addressbook
             $ids     = $this->db->array2list($ids, 'integer');
             $where[] = 'c.' . $this->primary_key . ' IN (' . $ids . ')';
         }
-        else if (is_array($value)) {
+        elseif (is_array($value)) {
             foreach ((array) $fields as $idx => $col) {
                 $val = $value[$idx];
 
@@ -339,7 +339,7 @@ class rcube_contacts extends rcube_addressbook
             }
         }
         // fulltext search in all fields
-        else if ($fields == '*') {
+        elseif ($fields == '*') {
             $where[] = $this->fulltext_sql_where($value, $mode, 'words');
         }
         else {
@@ -465,7 +465,7 @@ class rcube_contacts extends rcube_addressbook
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . $AS . '%')
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word) . ')';
             }
-            else if ($mode & rcube_addressbook::SEARCH_PREFIX) {
+            elseif ($mode & rcube_addressbook::SEARCH_PREFIX) {
                 $where[] = '(' . $this->db->ilike($col, $word . '%')
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . '%') . ')';
             }
@@ -750,7 +750,7 @@ class rcube_contacts extends rcube_addressbook
         if (!empty($record['vcard'])) {
             $vcard = $record['vcard'];
         }
-        else if (!empty($save_data['vcard'])) {
+        elseif (!empty($save_data['vcard'])) {
             $vcard = $save_data['vcard'];
         }
         else {
@@ -781,7 +781,7 @@ class rcube_contacts extends rcube_addressbook
                 if ($fulltext && is_array($value)) {
                     $words .= ' ' . rcube_utils::normalize_string(implode(' ', $value));
                 }
-                else if ($fulltext && strlen($value) >= 3) {
+                elseif ($fulltext && strlen($value) >= 3) {
                     $words .= ' ' . rcube_utils::normalize_string($value);
                 }
             }

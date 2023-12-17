@@ -242,7 +242,7 @@ EOF;
         if (!empty($this->pagetitle)) {
             $title = $this->pagetitle;
         }
-        else if (isset($this->env['task'])) {
+        elseif (isset($this->env['task'])) {
             if ($this->env['task'] == 'login') {
                 $title = $this->app->gettext([
                         'name' => 'welcome',
@@ -261,7 +261,7 @@ EOF;
             if ($this->devel_mode && !empty($_SESSION['username'])) {
                 $title = $_SESSION['username'] . ' :: ' . $title;
             }
-            else if ($prod_name = $this->config->get('product_name')) {
+            elseif ($prod_name = $this->config->get('product_name')) {
                 $title = $prod_name . ' :: ' . $title;
             }
         }
@@ -870,7 +870,7 @@ EOF;
         if ($this->framed) {
             $top_commands[] = ['iframe_loaded', $unlock];
         }
-        else if ($unlock) {
+        elseif ($unlock) {
             $top_commands[] = ['hide_message', $unlock];
         }
 
@@ -1379,7 +1379,7 @@ EOF;
                     if (!empty($attrib['quoting'])) {
                         $quoting = strtolower($attrib['quoting']);
                     }
-                    else if (isset($attrib['html'])) {
+                    elseif (isset($attrib['html'])) {
                         $quoting = rcube_utils::get_boolean((string) $attrib['html']) ? 'no' : '';
                     }
 
@@ -1484,10 +1484,10 @@ EOF;
                     $external = empty($attrib['src']);
                     $content  = call_user_func($handler, $attrib);
                 }
-                else if ($object == 'doctype') {
+                elseif ($object == 'doctype') {
                     $content = html::doctype($attrib['value']);
                 }
-                else if ($object == 'logo') {
+                elseif ($object == 'logo') {
                     $attrib += ['alt' => $this->xml_command(['', 'object', 'name="productname"'])];
 
                     // 'type' attribute added in 1.4 was renamed 'logo-type' in 1.5
@@ -1514,7 +1514,7 @@ EOF;
                         if (($template_logo = $this->get_template_logo($type)) !== null) {
                             $additional_logos[$type] = $this->abs_url($template_logo);
                         }
-                        else if (!empty($attrib['data-src-' . $type])) {
+                        elseif (!empty($attrib['data-src-' . $type])) {
                             $additional_logos[$type] = $this->abs_url($attrib['data-src-' . $type]);
                         }
                     }
@@ -1527,11 +1527,11 @@ EOF;
                         $content = html::img($attrib);
                     }
                 }
-                else if ($object == 'productname') {
+                elseif ($object == 'productname') {
                     $name    = $this->config->get('product_name', 'Roundcube Webmail');
                     $content = html::quote($name);
                 }
-                else if ($object == 'version') {
+                elseif ($object == 'version') {
                     $ver = (string) RCMAIL_VERSION;
                     if (is_file(RCUBE_INSTALL_PATH . '.svn/entries')) {
                         if (function_exists('shell_exec')) {
@@ -1542,7 +1542,7 @@ EOF;
                             $ver .= ' [SVN]';
                         }
                     }
-                    else if (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
+                    elseif (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
                         if (function_exists('shell_exec')) {
                             if (preg_match('/Date:\s+([^\n]+)/', (string) @shell_exec('git log -1'), $regs)) {
                                 if ($date = date('Ymd.Hi', strtotime($regs[1]))) {
@@ -1555,14 +1555,14 @@ EOF;
                     }
                     $content = html::quote($ver);
                 }
-                else if ($object == 'steptitle') {
+                elseif ($object == 'steptitle') {
                     $content = html::quote($this->get_pagetitle(false));
                 }
-                else if ($object == 'pagetitle') {
+                elseif ($object == 'pagetitle') {
                     // Deprecated, <title> will be added automatically
                     $content = html::quote($this->get_pagetitle());
                 }
-                else if ($object == 'contentframe') {
+                elseif ($object == 'contentframe') {
                     if (empty($attrib['id'])) {
                         $attrib['id'] = 'rcm' . $this->env['task'] . 'frame';
                     }
@@ -1574,7 +1574,7 @@ EOF;
 
                     $content = $this->frame($attrib, true);
                 }
-                else if ($object == 'meta' || $object == 'links') {
+                elseif ($object == 'meta' || $object == 'links') {
                     if ($object == 'meta') {
                         $source = 'meta_tags';
                         $tag    = 'meta';
@@ -1611,7 +1611,7 @@ EOF;
                                 if ($href = $this->get_template_logo('favicon')) {
                                     $args[$param] = $href;
                                 }
-                                else if ($href = $this->config->get('favicon', '/images/favicon.ico')) {
+                                elseif ($href = $this->config->get('favicon', '/images/favicon.ico')) {
                                     $args[$param] = $href;
                                 }
                             }
@@ -1768,7 +1768,7 @@ EOF;
                 $menuitem = true;
             }
         }
-        else if (!empty($attrib['image']) || !empty($attrib['imagepas']) || !empty($attrib['imageact'])) {
+        elseif (!empty($attrib['image']) || !empty($attrib['imagepas']) || !empty($attrib['imageact'])) {
             $attrib['type'] = 'image';
         }
         else {
@@ -1779,7 +1779,7 @@ EOF;
             if (!empty($attrib['imagepas'])) {
                 $attrib['image'] = $attrib['imagepas'];
             }
-            else if (!empty($attrib['imageact'])) {
+            elseif (!empty($attrib['imageact'])) {
                 $attrib['image'] = $attrib['imageact'];
             }
         }
@@ -1844,13 +1844,13 @@ EOF;
                 $attrib['href']    = $this->app->url(['task' => $attrib['command']]);
                 $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", self::JS_OBJECT_NAME, $attrib['command']);
             }
-            else if (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
+            elseif (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(['action' => $attrib['command'], 'task' => $attrib['task']]);
             }
-            else if (in_array($attrib['command'], $a_static_commands)) {
+            elseif (in_array($attrib['command'], $a_static_commands)) {
                 $attrib['href'] = $this->app->url(['action' => $attrib['command']]);
             }
-            else if (($attrib['command'] == 'permaurl' || $attrib['command'] == 'extwin') && !empty($this->env['permaurl'])) {
+            elseif (($attrib['command'] == 'permaurl' || $attrib['command'] == 'extwin') && !empty($this->env['permaurl'])) {
                 $attrib['href'] = $this->env['permaurl'];
             }
         }
@@ -1865,7 +1865,7 @@ EOF;
                 $attrib['class'] = $attrib['classact'];
             }
         }
-        else if ($command && empty($attrib['onclick'])) {
+        elseif ($command && empty($attrib['onclick'])) {
             $attrib['onclick'] = sprintf(
                 "return %s.command('%s','%s',this,event)",
                 self::JS_OBJECT_NAME,
@@ -1893,14 +1893,14 @@ EOF;
             }
             $link_attrib = ['href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target'];
         }
-        else if ($attrib['type'] == 'link') {
+        elseif ($attrib['type'] == 'link') {
             $btn_content = $attrib['content'] ?? (!empty($attrib['label']) ? $attrib['label'] : $attrib['command']);
             $link_attrib = array_merge(html::$common_attrib, ['href', 'onclick', 'tabindex', 'target', 'rel']);
             if (!empty($attrib['innerclass'])) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
             }
         }
-        else if ($attrib['type'] == 'input') {
+        elseif ($attrib['type'] == 'input') {
             $attrib['type'] = 'button';
 
             if (!empty($attrib['label'])) {
@@ -2222,7 +2222,7 @@ EOF;
             $hiddenfield = new html_hiddenfield(['name' => '_extwin', 'value' => '1']);
             $hidden = $hiddenfield->show();
         }
-        else if ($this->framed || !empty($this->env['framed'])) {
+        elseif ($this->framed || !empty($this->env['framed'])) {
             $hiddenfield = new html_hiddenfield(['name' => '_framed', 'value' => '1']);
             $hidden = $hiddenfield->show();
         }
@@ -2296,7 +2296,7 @@ EOF;
             $username = $_SESSION['username'];
         }
         // get e-mail address from default identity
-        else if ($sql_arr = $this->app->user->get_identity()) {
+        elseif ($sql_arr = $this->app->user->get_identity()) {
             $username = $sql_arr['email'];
         }
         else {
@@ -2390,14 +2390,14 @@ EOF;
                 }
             }
         }
-        else if (is_array($default_host) && ($host = key($default_host)) !== null) {
+        elseif (is_array($default_host) && ($host = key($default_host)) !== null) {
             $val = is_numeric($host) ? $default_host[$host] : $host;
             $input_host = new html_hiddenfield(['name' => '_host', 'id' => 'rcmloginhost', 'value' => $val] + $attrib);
 
             $form_content['hidden']['host'] = $input_host->show();
             $input_host = null;
         }
-        else if (empty($default_host)) {
+        elseif (empty($default_host)) {
             $input_host = new html_inputfield(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control']
                 + $attrib + $host_attrib);
         }
@@ -2664,7 +2664,7 @@ EOF;
         if ($post = rcube_utils::get_input_string('_charset', rcube_utils::INPUT_POST)) {
             $set = $post;
         }
-        else if (!empty($attrib['selected'])) {
+        elseif (!empty($attrib['selected'])) {
             $set = $attrib['selected'];
         }
         else {
@@ -2761,7 +2761,7 @@ EOF;
                     }
                 }
             }
-            else if ($type != 'link') {
+            elseif ($type != 'link') {
                 $template_logo = $logo;
             }
         }

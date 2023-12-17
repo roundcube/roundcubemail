@@ -87,7 +87,7 @@ class Framework_Image extends PHPUnit\Framework\TestCase
             $this->assertTrue($object->is_convertable('image/gif'));
             $this->assertFalse($object->is_convertable('xxx'));
         }
-        else if (!function_exists('getimagesize')) {
+        elseif (!function_exists('getimagesize')) {
             $this->markTestSkipped();
         }
 

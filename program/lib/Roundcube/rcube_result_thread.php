@@ -376,7 +376,7 @@ class rcube_result_thread
                     $result = $m[1];
                 }
             }
-            else if (isset($this->meta['pos'][$index - 1])) {
+            elseif (isset($this->meta['pos'][$index - 1])) {
                 // get chunk of data after previous element
                 $data = substr($this->raw_data, $this->meta['pos'][$index - 1] + 1, 50);
                 $data = preg_replace('/^[0-9]+/', '', $data); // remove UID at $index position
@@ -385,7 +385,7 @@ class rcube_result_thread
                     $result = $m[1];
                 }
             }
-            else if (isset($this->meta['pos'][$index + 1])) {
+            elseif (isset($this->meta['pos'][$index + 1])) {
                 // get chunk of data before next element
                 $pos  = max(0, $this->meta['pos'][$index + 1] - 50);
                 $len  = min(50, $this->meta['pos'][$index + 1]);

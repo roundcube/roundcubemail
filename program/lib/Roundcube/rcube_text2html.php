@@ -186,7 +186,7 @@ class rcube_text2html
                         $last = $n;
                     }
                 }
-                else if ($q < $quote_level) {
+                elseif ($q < $quote_level) {
                     $text[$last] .= (!$length ? "\n" : '')
                         . $replacer->get_replacement($replacer->add(
                             str_repeat('</blockquote>', $quote_level - $q)))
@@ -327,7 +327,7 @@ class rcube_text2html
             $text = $copy;
         }
         // make the whole line non-breakable if needed
-        else if ($text !== '' && preg_match('/[^a-zA-Z0-9_]/', $text)) {
+        elseif ($text !== '' && preg_match('/[^a-zA-Z0-9_]/', $text)) {
             // use non-breakable spaces to correctly display
             // trailing/leading spaces and multi-space inside
             $text = str_replace(' ', $nbsp, $text);

@@ -185,7 +185,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                     if (!$rcmail->output->check_skin($a_user_prefs['skin'])) {
                         unset($a_user_prefs['skin']);
                     }
-                    else if ($rcmail->config->get('skin') != $a_user_prefs['skin']) {
+                    elseif ($rcmail->config->get('skin') != $a_user_prefs['skin']) {
                         $rcmail->output->command('reload', 500);
                     }
                 }

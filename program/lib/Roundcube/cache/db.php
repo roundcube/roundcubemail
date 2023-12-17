@@ -174,7 +174,7 @@ class rcube_cache_db extends rcube_cache
             $this->cache = [];
         }
         // Remove keys by name prefix
-        else if ($prefix_mode) {
+        elseif ($prefix_mode) {
             $where = "`cache_key` LIKE " . $this->db->quote($this->prefix . '.' . $key . '%');
             foreach (array_keys($this->cache) as $k) {
                 if (strpos($k, $key) === 0) {
