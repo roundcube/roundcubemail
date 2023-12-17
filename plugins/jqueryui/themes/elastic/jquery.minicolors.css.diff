@@ -31,7 +31,7 @@
 @@ -250,67 +247,14 @@
    right: auto;
  }
- 
+
 -/* Default theme */
 -.minicolors-theme-default .minicolors-swatch {
 -  top: 5px;

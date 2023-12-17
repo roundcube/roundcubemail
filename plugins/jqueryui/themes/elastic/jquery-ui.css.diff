@@ -8,7 +8,7 @@ index 2f0601a..819a492 100644
  	opacity: 0;
 -	-ms-filter: "alpha(opacity=0)"; /* support: IE8 */
  }
- 
+
  .ui-front {
 @@ -121,13 +120,16 @@
  }
@@ -32,7 +32,7 @@ index 2f0601a..819a492 100644
 @@ -281,8 +283,6 @@ button.ui-button::-moz-focus-inner {
  /* Spinner specific style fixes */
  .ui-controlgroup-vertical .ui-spinner-input {
- 
+
 -	/* Support: IE8 only, Android < 4.4 only */
 -	width: 75%;
  	width: calc( 100% - 2.4em );
@@ -222,7 +222,7 @@ index 2f0601a..819a492 100644
 @@ -741,12 +691,6 @@ button.ui-button::-moz-focus-inner {
  	background-position: 0 0;
  }
- 
+
 -/* support: IE8 - See #6727 */
 -.ui-slider.ui-state-disabled .ui-slider-handle,
 -.ui-slider.ui-state-disabled .ui-slider-range {
@@ -233,7 +233,7 @@ index 2f0601a..819a492 100644
  	height: .8em;
  }
 @@ -883,39 +827,15 @@ body .ui-tooltip {
- 
+
  /* Component containers
  ----------------------------------*/
 -.ui-widget {
@@ -273,7 +273,7 @@ index 2f0601a..819a492 100644
 -	color: #333333;
 +	background-color: #fff;
  }
- 
+
  /* Interaction states
 @@ -944,19 +864,6 @@ a:visited.ui-button,
  	color: #454545;
@@ -314,7 +314,7 @@ index 2f0601a..819a492 100644
 -.ui-state-disabled .ui-icon {
 -	-ms-filter: "alpha(opacity=35)"; /* support: IE8 - See #6059 */
 -}
- 
+
  /* Icons
  ----------------------------------*/
 @@ -1070,24 +972,6 @@ a.ui-button:active,
@@ -345,7 +345,7 @@ index 2f0601a..819a492 100644
 @@ -1273,43 +1157,7 @@ a.ui-button:active,
  .ui-icon-gripsmall-diagonal-se { background-position: -64px -224px; }
  .ui-icon-grip-diagonal-se { background-position: -80px -224px; }
- 
+
 -
 -/* Misc visuals
 -----------------------------------*/
