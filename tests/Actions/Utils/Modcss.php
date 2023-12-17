@@ -45,6 +45,11 @@ class Actions_Utils_Modcss extends ActionTestCase
         // Valid url pointing to non-existing resource
         $_SESSION['modcssurls'][$key] = $url;
 
+        setHttpClientMock([
+            ['code' => 404],
+            ['code' => 200, 'headers' => ['Content-Type' => 'text/css'], 'response' => 'div.pre { display: none; }'],
+        ]);
+
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(404, $output->getProperty('errorCode'));
