@@ -57,7 +57,7 @@ class rcube_modoboa_password
             CURLOPT_HTTPHEADER     => [
                 "Authorization: Token " . $ModoboaToken,
                 "Cache-Control: no-cache",
-                "Content-Type: application/json"
+                "Content-Type: application/json",
             ],
         ]);
 
@@ -102,7 +102,7 @@ class rcube_modoboa_password
             CURLOPT_HTTPHEADER     => [
                 "Authorization: Token " . $ModoboaToken,
                 "Cache-Control: no-cache",
-                "Content-Type: application/json"
+                "Content-Type: application/json",
             ],
         ]);
 

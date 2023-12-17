@@ -319,7 +319,7 @@ class rcube_spellchecker
     /**
      * Add a word to dictionary
      *
-     * @param string  $word  The word to add
+     * @param string $word The word to add
      */
     public function add_word($word)
     {
@@ -342,7 +342,7 @@ class rcube_spellchecker
     /**
      * Remove a word from dictionary
      *
-     * @param string  $word  The word to remove
+     * @param string $word The word to remove
      */
     public function remove_word($word)
     {

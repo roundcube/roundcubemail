@@ -17,7 +17,7 @@ class Framework_User extends ActionTestCase
         $user = new rcube_user(1);
 
         $this->assertSame(1, $user->ID);
-        $this->assertSame(null, $user->language);
+        $this->assertNull($user->language);
     }
 
     /**

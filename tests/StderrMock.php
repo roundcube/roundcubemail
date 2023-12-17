@@ -43,7 +43,7 @@ class StderrMock extends php_user_filter
     public static function start()
     {
         if (!self::$registered) {
-            stream_filter_register("redirect", "StderrMock") or die("Failed to register filter");
+            stream_filter_register("redirect", "StderrMock") || die("Failed to register filter");
             self::$registered = true;
         }
 

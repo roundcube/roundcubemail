@@ -65,7 +65,7 @@ class rcube_cache_redis extends rcube_cache
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Failed to find Redis. Make sure php-redis is included"
+                    'message' => "Failed to find Redis. Make sure php-redis is included",
                 ],
                 true, true);
         }
@@ -80,7 +80,7 @@ class rcube_cache_redis extends rcube_cache
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Redis host not configured"
+                    'message' => "Redis host not configured",
                 ],
                 true, true);
         }
@@ -92,7 +92,7 @@ class rcube_cache_redis extends rcube_cache
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Redis cluster not yet supported"
+                    'message' => "Redis cluster not yet supported",
                 ],
                 true, true);
         }

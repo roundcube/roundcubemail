@@ -129,7 +129,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                                 ['title' => $email],
                                 rcube::Q($name ?: $email)
                                 . ($name && count($emails) > 1 ? '&nbsp;' . html::span('email', rcube::Q($email)) : '')
-                            )
+                            ),
                         ],
                         $classname
                     );
@@ -164,7 +164,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                     $row_id = 'G'.$group['ID'];
                     $jsresult[$row_id] = format_email_recipient($email, $group['name']);
                     $rcmail->output->command('add_contact_row', $row_id, [
-                            'contactgroup' => html::span(['title' => $email], rcube::Q($group['name']))
+                            'contactgroup' => html::span(['title' => $email], rcube::Q($group['name'])),
                         ], 'group');
                 }
             }
@@ -190,7 +190,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 $row_id = 'E'.$group['ID'];
                 $jsresult[$row_id] = ['name' => $group['name'], 'source' => $source_id];
                 $rcmail->output->command('add_contact_row', $row_id, [
-                        'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')')
+                        'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')'),
                     ], 'group');
             }
         }

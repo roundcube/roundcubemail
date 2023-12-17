@@ -118,10 +118,10 @@ class rcube_message
             'get_url'     => $this->app->url([
                     'action' => 'get',
                     'mbox'   => $this->folder,
-                    'uid'    => $uid
+                    'uid'    => $uid,
                 ],
                 false, false, true
-            )
+            ),
         ];
 
         $this->mime    = new rcube_mime($this->headers->charset);
@@ -172,7 +172,7 @@ class rcube_message
      * Compose a valid URL for getting a message part
      *
      * @param string $mime_id Part MIME-ID
-     * @param mixed  $embed Mimetype class for parts to be embedded
+     * @param mixed  $embed   Mimetype class for parts to be embedded
      *
      * @return string|false URL or false if part does not exist
      */
@@ -645,7 +645,7 @@ class rcube_message
                 'object'    => $this,
                 'structure' => $structure,
                 'mimetype'  => $mimetype,
-                'recursive' => $recursive
+                'recursive' => $recursive,
         ]);
 
         if ($plugin['abort']) {
@@ -754,7 +754,7 @@ class rcube_message
                         'object'    => $this,
                         'structure' => $print_part,
                         'mimetype'  => $print_part->mimetype,
-                        'recursive' => true
+                        'recursive' => true,
                 ]);
 
                 if (!$plugin['abort']) {
@@ -838,7 +838,7 @@ class rcube_message
                             'object'    => $this,
                             'structure' => $mail_part,
                             'mimetype'  => $part_mimetype,
-                            'recursive' => true
+                            'recursive' => true,
                     ]);
 
                     if ($plugin['abort']) {

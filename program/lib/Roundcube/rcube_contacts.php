@@ -725,7 +725,7 @@ class rcube_contacts extends rcube_addressbook
     private function convert_db_data($sql_arr)
     {
         $record = [
-            'ID' => $sql_arr[$this->primary_key]
+            'ID' => $sql_arr[$this->primary_key],
         ];
 
         if ($sql_arr['vcard']) {

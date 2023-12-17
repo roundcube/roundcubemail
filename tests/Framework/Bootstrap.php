@@ -150,9 +150,9 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
      */
     function test_array_first()
     {
-        $this->assertSame(null, array_first([]));
-        $this->assertSame(null, array_first(false));
-        $this->assertSame(null, array_first('test'));
+        $this->assertNull(array_first([]));
+        $this->assertNull(array_first(false));
+        $this->assertNull(array_first('test'));
         $this->assertSame('test', array_first(['test']));
 
         $input = ['test1', 'test2'];

@@ -115,7 +115,7 @@ class rcmail_action_settings_about extends rcmail_action
             if ($uri) {
                 $uri = html::a([
                         'target' => '_blank',
-                        'href'   => rcube::Q($uri)
+                        'href'   => rcube::Q($uri),
                     ],
                     rcube::Q($rcmail->gettext('download'))
                 );
@@ -126,7 +126,7 @@ class rcmail_action_settings_about extends rcmail_action
             if (!empty($data['license_uri'])) {
                 $license = html::a([
                         'target' => '_blank',
-                        'href' => rcube::Q($data['license_uri'])
+                        'href' => rcube::Q($data['license_uri']),
                     ],
                     rcube::Q($data['license'])
                 );

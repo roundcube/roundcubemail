@@ -105,7 +105,7 @@ class new_user_identity extends rcube_plugin
                     'user_id'  => $this->rc->user->ID,
                     'standard' => 0,
                     'email'    => $email,
-                    'name'     => $ldap_entry['user_name']
+                    'name'     => $ldap_entry['user_name'],
                 ],
             ]);
 

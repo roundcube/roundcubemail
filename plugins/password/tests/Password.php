@@ -62,7 +62,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
                 . 't permitted inside of webmail';
         $expected_result = [
             'code'    => PASSWORD_ERROR,
-            'message' => $error_message
+            'message' => $error_message,
         ];
         $fail_result     = $driver_class::decode_response($fail_response);
         $this->assertEquals($expected_result, $fail_result);
@@ -78,6 +78,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
      * driver's class name.
      *
      * @param string $driver driver name, example: "chpasswd"
+     *
      * @return string driver's class name, example: "rcube_chpasswd_password"
      */
     function load_driver($driver)

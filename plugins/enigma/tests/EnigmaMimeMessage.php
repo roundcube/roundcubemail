@@ -15,16 +15,16 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
         $mime     = new Mail_mime();
         $message1 = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertSame(false, $message1->isMultipart());
+        $this->assertFalse($message1->isMultipart());
 
         $mime->setHTMLBody('<html></html>');
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertSame(true, $message->isMultipart());
+        $this->assertTrue($message->isMultipart());
 
         $message = new enigma_mime_message($message1, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertSame(true, $message->isMultipart());
+        $this->assertTrue($message->isMultipart());
     }
 
     /**
@@ -35,7 +35,7 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
         $mime    = new Mail_mime();
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertSame(null, $message->getFromAddress());
+        $this->assertNull($message->getFromAddress());
 
         $mime->setFrom('test@domain.com');
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);

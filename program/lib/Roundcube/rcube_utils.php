@@ -820,7 +820,7 @@ class rcube_utils
 
             $rcube->raise_error([
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Specified host is not trusted. Using 'localhost'."
+                    'message' => "Specified host is not trusted. Using 'localhost'.",
                 ]
                 , true, false
             );
@@ -1187,8 +1187,8 @@ class rcube_utils
     /**
      * Split the given string into word tokens
      *
-     * @param string $str     Input to tokenize
-     * @param int    $minlen  Minimum length of a single token
+     * @param string $str    Input to tokenize
+     * @param int    $minlen Minimum length of a single token
      *
      * @return array List of tokens
      */
@@ -1658,7 +1658,7 @@ class rcube_utils
      * Clean the subject from reply and forward prefix
      *
      * @param string $subject Subject to clean
-     * @param string $mode Mode of cleaning : reply, forward or both
+     * @param string $mode    Mode of cleaning : reply, forward or both
      *
      * @return string Cleaned subject
      */
@@ -1744,11 +1744,11 @@ class rcube_utils
         // Binary PROXY protocol
         if ($version == 2) {
             $addr = inet_pton($remote_addr) . inet_pton($local_addr) . pack('n', $remote_port) . pack('n', $local_port);
-            $head = implode([
+            $head = implode('', [
                     '0D0A0D0A000D0A515549540A',     // protocol header
                     '21',                           // protocol version and command
                     $ip_version === 6 ? '2' : '1',  // IP version type
-                    '1'                             // TCP
+                    '1',                             // TCP
             ]);
 
             return pack('H*', $head) . pack('n', strlen($addr)) . $addr;

@@ -34,7 +34,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
     /**
      * Data for absolute_url() test
      */
-    function data_absolute_url()
+    function data_absolute_url(): iterable
     {
         return [
             ['', 'http://test', 'http://test/'],

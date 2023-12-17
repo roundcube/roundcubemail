@@ -187,7 +187,7 @@ class rcube_user
         $plugin = $this->rc->plugins->exec_hook('preferences_update', [
                 'userid' => $this->ID,
                 'prefs'  => $a_user_prefs,
-                'old'    => (array) $this->get_prefs()
+                'old'    => (array) $this->get_prefs(),
         ]);
 
         if (!empty($plugin['abort'])) {
@@ -724,7 +724,7 @@ class rcube_user
         else {
             rcube::raise_error([
                     'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to create new user"
+                    'message' => "Failed to create new user",
                 ],
                 true, false
             );
@@ -764,7 +764,7 @@ class rcube_user
                 'email'    => null,
                 'user'     => $user,
                 'first'    => $first,
-                'extended' => $extended
+                'extended' => $extended,
         ]);
 
         return empty($plugin['email']) ? null : $plugin['email'];

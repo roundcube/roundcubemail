@@ -263,8 +263,8 @@ class rcube_imap_generic
      * Reads more data from the connection stream when provided
      * data contain string literal
      *
-     * @param string  $line    Response text
-     * @param bool    $escape  Enables escaping
+     * @param string $line   Response text
+     * @param bool   $escape Enables escaping
      *
      * @return string Line of text response
      */
@@ -1577,10 +1577,10 @@ class rcube_imap_generic
      * @param bool   $subscribed  Enables returning subscribed mailboxes only
      * @param array  $return_opts List of RETURN options (RFC5819: LIST-STATUS, RFC5258: LIST-EXTENDED)
      *                            Possible: MESSAGES, RECENT, UIDNEXT, UIDVALIDITY, UNSEEN,
-     *                                      MYRIGHTS, SUBSCRIBED, CHILDREN
+     *                            MYRIGHTS, SUBSCRIBED, CHILDREN
      * @param array  $select_opts List of selection options (RFC5258: LIST-EXTENDED)
      *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE,
-     *                                      SPECIAL-USE (RFC6154)
+     *                            SPECIAL-USE (RFC6154)
      *
      * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
      *                    is requested, False on error.

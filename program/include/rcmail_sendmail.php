@@ -48,12 +48,12 @@ class rcmail_sendmail
      *
      * @param array $data    Compose data
      * @param array $options Operation options:
-     *    savedraft (bool) - Enable save-draft mode
-     *    sendmail (bool) - Enable send-mail mode
-     *    saveonly (bool) - Enable save-only mode
-     *    message (object) - Message object to get some data from
-     *    error_handler (callback) - Error handler
-     *    dsn_enabled (bool) - Enable DSN
+     *                       savedraft (bool) - Enable save-draft mode
+     *                       sendmail (bool) - Enable send-mail mode
+     *                       saveonly (bool) - Enable save-only mode
+     *                       message (object) - Message object to get some data from
+     *                       error_handler (callback) - Error handler
+     *                       dsn_enabled (bool) - Enable DSN
      */
     public function __construct($data = [], $options = [])
     {
@@ -344,7 +344,7 @@ class rcmail_sendmail
         $plugin = $this->rcmail->plugins->exec_hook('message_outgoing_body', [
                 'body'    => $body,
                 'type'    => $isHtml ? 'html' : 'plain',
-                'message' => $MAIL_MIME
+                'message' => $MAIL_MIME,
         ]);
 
         // For HTML-formatted messages, construct the MIME message with both
@@ -358,11 +358,11 @@ class rcmail_sendmail
             // There's no sense to use multipart/alternative if the text/plain
             // part would be blank. Completely blank text/plain part may confuse
             // some mail clients (#5283)
-            if (strlen(trim($plain_body)) > 0) {
+            if (trim($plain_body) !== '') {
                 $plugin = $this->rcmail->plugins->exec_hook('message_outgoing_body', [
                         'body'    => $plain_body,
                         'type'    => 'alternative',
-                        'message' => $MAIL_MIME
+                        'message' => $MAIL_MIME,
                 ]);
 
                 // add a plain text version of the e-mail as an alternative part.
@@ -1699,7 +1699,7 @@ class rcmail_sendmail
         $plugin = rcmail::get_instance()->plugins->exec_hook('identity_select', [
                 'message'    => $message,
                 'identities' => $identities,
-                'selected'   => $from_idx
+                'selected'   => $from_idx,
         ]);
 
         $selected = $plugin['selected'];

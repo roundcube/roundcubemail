@@ -119,7 +119,7 @@ function rcmail_error_handler()
  */
 function rcmail_fatal_error()
 {
-    if (php_sapi_name() === 'cli') {
+    if (PHP_SAPI === 'cli') {
         echo "Fatal error: Please check the Roundcube error log and/or server error logs for more information.\n";
     }
     elseif (!empty($_REQUEST['_remote'])) {

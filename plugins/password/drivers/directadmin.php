@@ -51,7 +51,7 @@ class rcube_directadmin_password
                 'oldpassword'   => $da_curpass,
                 'password1'     => $da_newpass,
                 'password2'     => $da_newpass,
-                'api'           => '1'
+                'api'           => '1',
         ]);
 
         $response = $Socket->fetch_parsed_body();
@@ -215,7 +215,7 @@ class HTTPSocket
         $array_headers = [
             'Host'       => $this->remote_port == 80 ? $this->remote_host : "$this->remote_host:$this->remote_port",
             'Accept'     => '*/*',
-            'Connection' => 'Close'
+            'Connection' => 'Close',
         ];
 
         foreach ($this->extra_headers as $key => $value) {
@@ -232,7 +232,7 @@ class HTTPSocket
                 $pairs[] = "$key=".urlencode($value);
             }
 
-            $content = join('&',$pairs);
+            $content = implode('&',$pairs);
             unset($pairs);
         }
 
@@ -403,6 +403,7 @@ class HTTPSocket
      * Return the header of result (stuff before body).
      *
      * @param string $header (optional) header to return
+     *
      * @return array result header
      */
     function fetch_header($header = '')

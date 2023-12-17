@@ -30,7 +30,7 @@ class Actions_Mail_Copy extends ActionTestCase
         $_POST = [
             '_uid'         => 1,
             '_mbox'        => 'INBOX',
-            '_target_mbox' => 'Trash'
+            '_target_mbox' => 'Trash',
         ];
 
         // Set expected storage function calls/results
@@ -61,7 +61,7 @@ class Actions_Mail_Copy extends ActionTestCase
         $_POST = [
             '_uid'         => 1,
             '_mbox'        => 'INBOX',
-            '_target_mbox' => 'Trash'
+            '_target_mbox' => 'Trash',
         ];
 
         // Set expected storage function calls/results

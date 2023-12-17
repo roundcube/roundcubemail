@@ -26,7 +26,7 @@ class Actions_Contacts_Show extends ActionTestCase
 
         $_GET = [
             '_cid'    => $contact['contact_id'],
-            '_source' => '0'
+            '_source' => '0',
         ];
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
@@ -36,7 +36,7 @@ class Actions_Contacts_Show extends ActionTestCase
         $this->assertSame('contact', $output->template);
         $this->assertSame('', $output->getProperty('pagetitle'));
         $this->assertSame($contact['contact_id'], $output->get_env('cid'));
-        $this->assertSame(false, $output->get_env('readonly'));
+        $this->assertFalse($output->get_env('readonly'));
         $this->assertSame('Personal Addresses', $output->get_env('sourcename'));
         $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
     }

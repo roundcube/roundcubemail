@@ -97,48 +97,48 @@ class Rcmail_RcmailSendmail extends ActionTestCase
     /**
      * Data for test_convert()
      */
-    function data_email_input_format()
+    function data_email_input_format(): iterable
     {
         return [
             [
                 'name <t@domain.jp>',
                 'name <t@domain.jp>',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 '"first last" <t@domain.jp>',
                 'first last <t@domain.jp>',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 '"first last" <t@domain.jp>, test2@domain.tld,',
                 'first last <t@domain.jp>, test2@domain.tld',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 '<test@domain.tld>',
                 'test@domain.tld',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 'test@domain.tld',
                 'test@domain.tld',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 'test@domain.tld.', // #7899
                 'test@domain.tld',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 'ö <t@test.com>',
                 'ö <t@test.com>',
-                null
+                null,
             ],
             [
                 base64_decode('GyRCLWo7M3l1OSk2SBsoQg==') . ' <t@domain.jp>',
                 '=?ISO-2022-JP?B?GyRCLWo7M3l1OSk2SBsoQg==?= <t@domain.jp>',
-                'ISO-2022-JP'
+                'ISO-2022-JP',
             ],
             [
                 'test@тест.рф.', // #8493
@@ -309,7 +309,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $message->headers->cc = '';
 
         $result = rcmail_sendmail::identity_select($message, []);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $identities = [
             [

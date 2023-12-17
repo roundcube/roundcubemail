@@ -171,7 +171,7 @@ class enigma_ui
 
         $data  = [
             'keyid' => $keyid,
-            'user'  => $data[$keyid]
+            'user'  => $data[$keyid],
         ];
 
         if (!empty($params)) {
@@ -265,7 +265,7 @@ class enigma_ui
                 $this->rc->output->command('enigma_add_list_row', [
                         'name'  => rcube::Q($key->name),
                         'id'    => $key->id,
-                        'flags' => $key->is_private() ? 'p' : ''
+                        'flags' => $key->is_private() ? 'p' : '',
                 ]);
             }
         }
@@ -311,7 +311,7 @@ class enigma_ui
 
             $out = $this->enigma->gettext([
                     'name' => 'keysfromto',
-                    'vars' => ['from' => $first + 1, 'to' => $first + $curr_count, 'count' => $all]
+                    'vars' => ['from' => $first + 1, 'to' => $first + $curr_count, 'count' => $all],
             ]);
         }
 
@@ -622,7 +622,7 @@ class enigma_ui
                     'name'  => '_file',
                     'id'    => 'rcmimportfile',
                     'size'  => 30,
-                    'class' => 'form-control'
+                    'class' => 'form-control',
             ]);
 
             $max_filesize  = rcmail_action::upload_init();
@@ -686,7 +686,7 @@ class enigma_ui
         $out = $this->rc->output->form_tag([
                 'action'  => $this->rc->url(['action' => $this->rc->action, 'a' => 'import']),
                 'method'  => 'post',
-                'enctype' => 'multipart/form-data'
+                'enctype' => 'multipart/form-data',
             ] + $attrib,
             $form ?? ''
         );

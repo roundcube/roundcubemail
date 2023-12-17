@@ -171,7 +171,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $data = [
             [
                 "<ol><li>First</li><li>Second</li><ul><li>First sub</li></ul><li>Third</li></ol>",
-                "<ol><li>First</li><li>Second<ul><li>First sub</li></ul></li><li>Third</li></ol>"
+                "<ol><li>First</li><li>Second<ul><li>First sub</li></ul></li><li>Third</li></ol>",
             ],
             [
                 "<ol><li>First<ul><li>First sub</li></ul></li></ol>",
@@ -374,42 +374,42 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test cases for SVG tests
      */
-    function data_wash_svg_tests()
+    function data_wash_svg_tests(): iterable
     {
         $svg1 = "<svg id='x' width='100' height='100'><a xlink:href='javascript:alert(1)'><rect x='0' y='0' width='100' height='100' /></a></svg>";
 
         return [
             [
                 '<head xmlns="&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;"><svg></svg></head>',
-                '<svg></svg>'
+                '<svg></svg>',
             ],
             [
                 '<head xmlns="&quot; onload=&quot;alert(document.domain)">Hello victim!<svg></svg></head>',
-                'Hello victim!<svg></svg>'
+                'Hello victim!<svg></svg>',
             ],
             [
                 '<p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
-                '<p>Hello victim!<svg /></p>'
+                '<p>Hello victim!<svg /></p>',
             ],
             [
                 '<html><p>Hello victim!<svg xmlns="&quot; onload=&quot;alert(document.domain)"></svg></p>',
-                '<p>Hello victim!<svg></svg></p>'
+                '<p>Hello victim!<svg></svg></p>',
             ],
             [
                 '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
-                '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />'
+                '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
             ],
             [
                 '<html><svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
-                '<svg></svg>'
+                '<svg></svg>',
             ],
             [
                 '<svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
-                '<svg><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
+                '<svg><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>',
             ],
             [
                 '<html><svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>',
-                '<svg><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>'
+                '<svg><a x-washed="xlink:href"><text x="20" y="20">XSS</text></a></svg>',
             ],
             [
                 '<svg><animate xlink:href="#xss" attributeName="href" values="javascript:alert(1)" />'
@@ -443,35 +443,35 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                 "<svg><use href=\"data:image/svg+xml;base64,PHN2ZyB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53"
                     . "My5vcmcvMTk5OS94bGluayIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBpZD0ie"
                     . "CIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiPjxhIHgtd2FzaGVkPSJ4bGluazpocmVmIj48cmVjdC"
-                    . "B4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgLz48L2E+PC9zdmc+\" /></svg>"
+                    . "B4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgLz48L2E+PC9zdmc+\" /></svg>",
             ],
             [
                 "<svg><use href=\"data:image/svg+xml;base64," . base64_encode($svg1) . "\"></use></svg>",
                 "<svg><use href=\"data:image/svg+xml;base64,PHN2ZyBpZD0ieCIgd2lkdGg9IjEwMCIgaGVpZ2h"
                     . "0PSIxMDAiPjxhIHgtd2FzaGVkPSJ4bGluazpocmVmIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0"
-                    . "iMTAwIiBoZWlnaHQ9IjEwMCIgLz48L2E+PC9zdmc+\" /></svg>"
+                    . "iMTAwIiBoZWlnaHQ9IjEwMCIgLz48L2E+PC9zdmc+\" /></svg>",
             ],
             [
                 '<svg><script href="data:text/javascript,alert(1)" /><text x="20" y="20">XSS</text></svg>',
-                '<svg><text x="20" y="20">XSS</text></svg>'
+                '<svg><text x="20" y="20">XSS</text></svg>',
             ],
             [
                 '<html><svg><use href="data:image/s vg+xml;base64,' // space
                     . 'PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGltYWdlIGhy'
                     . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
-                '<svg><use x-washed="href"></use></svg>'
+                '<svg><use x-washed="href"></use></svg>',
             ],
             [
                 '<html><svg><use href="data:image/s' . "\n" . 'vg+xml;base64,' // new-line
                     . 'PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGltYWdlIGhy'
                     . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
-                '<svg><use x-washed="href"></use></svg>'
+                '<svg><use x-washed="href"></use></svg>',
             ],
             [
                 '<html><svg><use href="data:image/s	vg+xml;base64,' // tab
                     . 'PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGltYWdlIGhy'
                     . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
-                '<svg><use x-washed="href"></use></svg>'
+                '<svg><use x-washed="href"></use></svg>',
             ],
         ];
     }
@@ -492,36 +492,36 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test cases for various XSS issues
      */
-    function data_wash_xss_tests()
+    function data_wash_xss_tests(): iterable
     {
         return [
             [
                 '<html><base href="javascript:/a/-alert(1)///////"><a href="../lol/safari.html">test</a>',
-                '<body><a x-washed="href">test</a></body>'
+                '<body><a x-washed="href">test</a></body>',
             ],
             [
                 '<html><math><x href="javascript:alert(1)">blah</x>',
-                '<body><math>blah</math></body>'
+                '<body><math>blah</math></body>',
             ],
             [
                 '<html><a href="j&#x61vascript:alert(1)">XSS</a>',
-                '<body><a x-washed="href">XSS</a></body>'
+                '<body><a x-washed="href">XSS</a></body>',
             ],
             [
                 '<html><a href="&#x6a avascript:alert(1)">XSS</a>',
-                '<body><a x-washed="href">XSS</a></body>'
+                '<body><a x-washed="href">XSS</a></body>',
             ],
             [
                 '<html><a href="&#x6a avascript:alert(1)">XSS</a>',
-                '<body><a x-washed="href">XSS</a></body>'
+                '<body><a x-washed="href">XSS</a></body>',
             ],
             [
                 '<html><body background="javascript:alert(1)">',
-                '<body x-washed="background"></body>'
+                '<body x-washed="background"></body>',
             ],
             [
                 '<html><body><img fill=\'asd:url(#asd)" src="x" onerror="alert(1)\' />',
-                '<body><img fill="asd:url(#asd)&quot; src=&quot;x&quot; onerror=&quot;alert(1)" /></body>'
+                '<body><img fill="asd:url(#asd)&quot; src=&quot;x&quot; onerror=&quot;alert(1)" /></body>',
             ],
             [
                 '<html><math href="javascript:alert(location);"><mi>clickme</mi></math>',

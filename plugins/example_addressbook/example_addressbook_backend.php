@@ -20,11 +20,11 @@ class example_addressbook_backend extends rcube_addressbook
     private $db_groups = [
         [
             'ID'   => 'testgroup1',
-            'name' => "Testgroup"
+            'name' => "Testgroup",
         ],
         [
             'ID'   => 'testgroup2',
-            'name' => "Sample Group"
+            'name' => "Sample Group",
         ],
     ];
 
@@ -35,7 +35,7 @@ class example_addressbook_backend extends rcube_addressbook
             'firstname' => "John",
             'surname'   => "Doe",
             'email'     => "example1@roundcube.net",
-            'groups'    => ['testgroup1']
+            'groups'    => ['testgroup1'],
         ],
         [
             'ID'        => '112',
@@ -43,8 +43,8 @@ class example_addressbook_backend extends rcube_addressbook
             'firstname' => "Jane",
             'surname'   => "Example",
             'email'     => "example2@roundcube.net",
-            'groups'    => ['testgroup2']
-        ]
+            'groups'    => ['testgroup2'],
+        ],
     ];
 
     public function __construct($name)

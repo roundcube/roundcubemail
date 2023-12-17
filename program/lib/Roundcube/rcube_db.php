@@ -91,7 +91,7 @@ class rcube_db
             rcube::raise_error([
                     'code' => 600, 'type' => 'db',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Configuration error. Unsupported database driver: $driver"
+                    'message' => "Configuration error. Unsupported database driver: $driver",
                 ],
                 true, true
             );
@@ -195,7 +195,7 @@ class rcube_db
             rcube::raise_error([
                     'code' => 500, 'type' => 'db',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => $this->db_error_msg
+                    'message' => $this->db_error_msg,
                 ],
                 true, false
             );
@@ -398,7 +398,7 @@ class rcube_db
      * @param string $query     SQL query to execute
      * @param mixed  ...$params Query parameter values
      *
-     * @return PDOStatement|false  Query handle or False on error
+     * @return PDOStatement|false Query handle or False on error
      */
     public function query($query, ...$params)
     {
@@ -567,7 +567,7 @@ class rcube_db
             if (empty($this->options['ignore_errors'])) {
                 rcube::raise_error([
                         'code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => $this->db_error_msg . " (SQL Query: $query)"
+                        'message' => $this->db_error_msg . " (SQL Query: $query)",
                     ], true, false);
             }
         }
@@ -886,7 +886,7 @@ class rcube_db
             return intval($input);
         }
 
-        if (is_null($input)) {
+        if ($input === null) {
             return 'NULL';
         }
 
@@ -929,7 +929,7 @@ class rcube_db
      */
     public function escape($str)
     {
-        if (is_null($str)) {
+        if ($str === null) {
             return 'NULL';
         }
 
@@ -1261,7 +1261,7 @@ class rcube_db
         // $dsn => proto(proto_opts)/database
         if (preg_match('|^([^(]+)\((.*?)\)/?(.*?)$|', $dsn, $match)) {
             $proto       = $match[1];
-            $proto_opts  = $match[2] ? $match[2] : false;
+            $proto_opts  = $match[2] ?: false;
             $dsn         = $match[3];
         }
         // $dsn => protocol+hostspec/database (old format)
@@ -1311,7 +1311,7 @@ class rcube_db
                 }
                 foreach ($opts as $opt) {
                     list($key, $value) = explode('=', $opt);
-                    if (!array_key_exists($key, $parsed) || false === $parsed[$key]) {
+                    if (!array_key_exists($key, $parsed) || $parsed[$key] === false) {
                         // don't allow params overwrite
                         $parsed[$key] = rawurldecode($value);
                     }

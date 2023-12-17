@@ -104,7 +104,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                     'reply-to'     => ['type' => 'text', 'size' => $i_size],
                     'bcc'          => ['type' => 'text', 'size' => $i_size],
                     'standard'     => ['type' => 'checkbox', 'label' => $rcmail->gettext('setdefault')],
-                ]
+                ],
             ],
             'signature' => [
                 'name'    => $rcmail->gettext('signature'),
@@ -114,20 +114,20 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                         'size'       => $t_cols,
                         'rows'       => $t_rows,
                         'spellcheck' => true,
-                        'data-html-editor' => true
+                        'data-html-editor' => true,
                     ],
                     'html_signature' => [
                         'type' => 'checkbox',
                         'label'   => $rcmail->gettext('htmlsignature'),
-                        'onclick' => "return rcmail.command('toggle-editor', {id: 'rcmfd_signature', html: this.checked}, '', event)"
+                        'onclick' => "return rcmail.command('toggle-editor', {id: 'rcmfd_signature', html: this.checked}, '', event)",
                     ],
-                ]
+                ],
             ],
             'encryption' => [
                 'name'    => $rcmail->gettext('identityencryption'),
                 'attrs'   => ['class' => 'identity-encryption', 'style' => 'display:none'],
-                'content' => html::div('identity-encryption-block', '')
-            ]
+                'content' => html::div('identity-encryption-block', ''),
+            ],
         ];
 
         // Enable TinyMCE editor
@@ -164,7 +164,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         // Allow plugins to modify identity form content
         $plugin = $rcmail->plugins->exec_hook('identity_form', [
                 'form'   => $form,
-                'record' => self::$record
+                'record' => self::$record,
         ]);
 
         $form = $plugin['form'];

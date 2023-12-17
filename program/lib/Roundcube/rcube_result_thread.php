@@ -267,7 +267,7 @@ class rcube_result_thread
     /**
      * Check if the given message ID exists in the object
      *
-     * @param int $msgid Message ID
+     * @param int  $msgid     Message ID
      * @param bool $get_index When enabled element's index will be returned.
      *                        Elements are indexed starting with 0
      *
@@ -342,7 +342,7 @@ class rcube_result_thread
     /**
      * Return result element at specified index (all messages, not roots)
      *
-     * @param int|string  $index  Element's index or "FIRST" or "LAST"
+     * @param int|string $index Element's index or "FIRST" or "LAST"
      *
      * @return int Element value
      */

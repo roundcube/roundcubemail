@@ -117,7 +117,7 @@ class newmail_notifier extends rcube_plugin
 
                 $args['blocks']['new_message']['options'][$key] = [
                     'title' => html::label($field_id, rcube::Q($this->gettext($type))),
-                    'content' => $content
+                    'content' => $content,
                 ];
             }
         }
@@ -136,7 +136,7 @@ class newmail_notifier extends rcube_plugin
 
             $args['blocks']['new_message']['options'][$key] = [
                 'title'   => html::label($field_id, rcube::Q($this->gettext('desktoptimeout'))),
-                'content' => $select->show((int) $this->rc->config->get($key))
+                'content' => $select->show((int) $this->rc->config->get($key)),
             ];
         }
 

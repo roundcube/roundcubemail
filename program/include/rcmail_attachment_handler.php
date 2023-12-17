@@ -224,8 +224,8 @@ class rcmail_attachment_handler
                     $result = fwrite($fp, $size ? substr($attachment['data'], 0, $size) : $attachment['data']) !== false;
                 }
                 else if ($attachment['path']) {
-                    if ($fh = fopen($attachment['path'], 'rb')) {
-                        $result = stream_copy_to_stream($fh, $fp, $size ? $size : -1);
+                    if ($fh = fopen($attachment['path'], 'r')) {
+                        $result = stream_copy_to_stream($fh, $fp, $size ?: -1);
                     }
                 }
             }
@@ -372,7 +372,7 @@ class rcmail_attachment_handler
             else {
                 rcube::raise_error([
                         'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => 'Unable to get/display message part. IMAP connection error'
+                        'message' => 'Unable to get/display message part. IMAP connection error',
                     ],
                     true, true
                 );

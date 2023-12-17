@@ -10,7 +10,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_text2html()
      */
-    function data_text2html()
+    function data_text2html(): iterable
     {
         $options = [
             'begin'  => '',

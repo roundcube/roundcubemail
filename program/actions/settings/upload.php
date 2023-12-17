@@ -91,7 +91,7 @@ class rcmail_action_settings_upload extends rcmail_action
                             'name'      => $attachment['name'],
                             'mimetype'  => $attachment['mimetype'],
                             'classname' => rcube_utils::file2class($attachment['mimetype'], $attachment['name']),
-                            'complete'  => true
+                            'complete'  => true,
                         ],
                         $uploadid
                     );

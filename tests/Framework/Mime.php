@@ -112,7 +112,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             2  => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
             3  => [
                 1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
-                2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com']
+                2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com'],
             ],
             4  => [
                 1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
@@ -193,7 +193,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
 
         $expected = [
             'subject' => 'Test',
-            'to' => 'test@test1.com test@test2.com'
+            'to' => 'test@test1.com test@test2.com',
         ];
 
         $this->assertEquals($expected, rcube_mime::parse_headers($headers));

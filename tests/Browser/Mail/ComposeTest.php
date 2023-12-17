@@ -34,7 +34,7 @@ class ComposeTest extends \Tests\Browser\TestCase
                     'messageform',
                     'attachmentlist',
                     'filedrop',
-                    'uploadform'
+                    'uploadform',
                 ]);
             });
 
@@ -79,7 +79,7 @@ class ComposeTest extends \Tests\Browser\TestCase
     }
 
     /**
-     * depends @testCompose
+     * @depends testCompose
      */
     function testPlainEditor()
     {
@@ -110,7 +110,7 @@ class ComposeTest extends \Tests\Browser\TestCase
     }
 
     /**
-     * depends @testCompose
+     * @depends testCompose
      */
     function testRecipientInput()
     {

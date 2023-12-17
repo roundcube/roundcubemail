@@ -36,7 +36,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Valid email addresses for test_valid_email()
      */
-    function data_valid_email()
+    function data_valid_email(): iterable
     {
         return [
             ['email@domain.com', 'Valid email'],
@@ -63,7 +63,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Invalid email addresses for test_invalid_email()
      */
-    function data_invalid_email()
+    function data_invalid_email(): iterable
     {
         return [
             ['plainaddress', 'Missing @ sign and domain'],
@@ -112,7 +112,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Valid IP addresses for test_valid_ip()
      */
-    function data_valid_ip()
+    function data_valid_ip(): iterable
     {
         return [
             ['0.0.0.0'],
@@ -129,7 +129,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Invalid IP addresses for test_invalid_ip()
      */
-    function data_invalid_ip()
+    function data_invalid_ip(): iterable
     {
         return [
             [''],
@@ -164,7 +164,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Data for test_rep_specialchars_output()
      */
-    function data_rep_specialchars_output()
+    function data_rep_specialchars_output(): iterable
     {
         return [
             ['', '', 'abc', 'abc'],
@@ -186,7 +186,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     function test_rep_specialchars_output($type, $mode, $str, $res)
     {
         $result = rcube_utils::rep_specialchars_output(
-            $str, $type ? $type : 'html', $mode ? $mode : 'strict');
+            $str, $type ?: 'html', $mode ?: 'strict');
 
         $this->assertEquals($result, $res);
     }
@@ -338,7 +338,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for parse_css_block() test
      */
-    function data_parse_css_block()
+    function data_parse_css_block(): iterable
     {
         return [
             [
@@ -399,7 +399,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             ],
             [
                 'font-family:"新細明體","serif";color:red',
-                [['font-family', '"新細明體","serif"'], ['color', 'red']]
+                [['font-family', '"新細明體","serif"'], ['color', 'red']],
             ],
         ];
     }
@@ -745,7 +745,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for IDN to ASCII and IDN to UTF-8
      */
-    function data_idn_convert()
+    function data_idn_convert(): iterable
     {
 
         /*
@@ -811,7 +811,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_parse_host()
      */
-    function data_parse_host()
+    function data_parse_host(): iterable
     {
         return [
             ['%z', 'hostname', 'hostname'],
@@ -834,7 +834,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_parse_host_uri()
      */
-    function data_parse_host_uri()
+    function data_parse_host_uri(): iterable
     {
         return [
             [['hostname', null, null], ['hostname', null, null]],
@@ -864,7 +864,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_remove_subject_prefix()
      */
-    function data_remove_subject_prefix()
+    function data_remove_subject_prefix(): iterable
     {
         return [
             ['both', 'Fwd: Re: Test subject both', 'Test subject both'],

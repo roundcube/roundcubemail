@@ -89,7 +89,7 @@ abstract class rcube_plugin
      */
     public function __construct($api)
     {
-        $this->ID      = get_class($this);
+        $this->ID      = static::class;
         $this->api     = $api;
         $this->home    = $api->dir . $this->ID;
         $this->urlbase = $api->url . $this->ID . '/';
@@ -104,14 +104,14 @@ abstract class rcube_plugin
      * Provide information about this
      *
      * @return array Meta information about a plugin or false if not implemented.
-     * As hash array with the following keys:
-     *      name: The plugin name
-     *    vendor: Name of the plugin developer
-     *   version: Plugin version name
-     *   license: License name (short form according to http://spdx.org/licenses/)
-     *       uri: The URL to the plugin homepage or source repository
-     *   src_uri: Direct download URL to the source code of this plugin
-     *   require: List of plugins required for this one (as array of plugin names)
+     *               As hash array with the following keys:
+     *               name: The plugin name
+     *               vendor: Name of the plugin developer
+     *               version: Plugin version name
+     *               license: License name (short form according to http://spdx.org/licenses/)
+     *               uri: The URL to the plugin homepage or source repository
+     *               src_uri: Direct download URL to the source code of this plugin
+     *               require: List of plugins required for this one (as array of plugin names)
      */
     public static function info()
     {
@@ -164,7 +164,7 @@ abstract class rcube_plugin
         if (($is_local = is_file($fpath)) && !$rcube->config->load_from_file($fpath)) {
             rcube::raise_error([
                     'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Failed to load config from $fpath"
+                    'message' => "Failed to load config from $fpath",
                 ], true, false
             );
             return false;
@@ -384,9 +384,10 @@ abstract class rcube_plugin
      * Provide path to the currently selected skin folder within the plugin directory
      * with a fallback to the default skin folder.
      *
-     * @param  string $extra_dir Additional directory to search in (optional)
-     * @param  mixed  $skin_name Specific skin name(s) to look for, string or array (optional)
-     * @return string            Skin path relative to plugins directory
+     * @param string $extra_dir Additional directory to search in (optional)
+     * @param mixed  $skin_name Specific skin name(s) to look for, string or array (optional)
+     *
+     * @return string Skin path relative to plugins directory
      */
     public function local_skin_path($extra_dir = null, $skin_name = null)
     {

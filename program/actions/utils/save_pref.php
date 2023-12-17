@@ -54,7 +54,7 @@ class rcmail_action_utils_save_pref extends rcmail_action
                     'code' => 500,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => sprintf("Hack attempt detected (user: %s)", $rcmail->get_user_name())
+                    'message' => sprintf("Hack attempt detected (user: %s)", $rcmail->get_user_name()),
                 ],
                 true,
                 false

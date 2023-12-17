@@ -268,7 +268,7 @@ class rcube_html2text
         "/\t/",
         '/ /',
         '/<pre[^>]*>/',
-        '/<\/pre>/'
+        '/<\/pre>/',
     ];
 
     /**
@@ -282,7 +282,7 @@ class rcube_html2text
         '&nbsp;&nbsp;&nbsp;&nbsp;',
         '&nbsp;',
         '',
-        ''
+        '',
     ];
 
     /**
@@ -369,7 +369,7 @@ class rcube_html2text
         $allowed = [
             self::LINKS_NONE,
             self::LINKS_END,
-            self::LINKS_INLINE
+            self::LINKS_INLINE,
         ];
 
         if (!in_array((int) $mode, $allowed)) {
@@ -585,7 +585,7 @@ class rcube_html2text
             $url .= "$link";
         }
 
-        if (self::LINKS_NONE === $this->_links_mode) {
+        if ($this->_links_mode === self::LINKS_NONE) {
             // When not using link list use URL if there's no content (#5795)
             // The content here is HTML, convert it to text first
             $h2t     = new self($display, false, false, 1024, $this->charset);
@@ -598,7 +598,7 @@ class rcube_html2text
             return $display;
         }
 
-        if (self::LINKS_INLINE === $this->_links_mode) {
+        if ($this->_links_mode === self::LINKS_INLINE) {
             return $this->_build_link_inline($url, $display);
         }
 
@@ -626,7 +626,7 @@ class rcube_html2text
      * text, with numeric indices to the original point in the text they
      * appeared.
      *
-     * @param string $url    URL of the link
+     * @param string $url     URL of the link
      * @param string $display Part of the text to associate number with
      */
     protected function _build_link_list($url, $display)
@@ -795,7 +795,7 @@ class rcube_html2text
             }
         }
 
-        return implode($chunks);
+        return implode('', $chunks);
     }
 
     /**

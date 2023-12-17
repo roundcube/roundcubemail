@@ -81,7 +81,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
                     'code'    => 500,
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "Message UID $uid not found"
+                    'message' => "Message UID $uid not found",
                 ],
                 true, true
             );

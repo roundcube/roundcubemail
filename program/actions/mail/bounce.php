@@ -67,7 +67,7 @@ class rcmail_action_mail_bounce extends rcmail_action
                 'error_handler' => function (...$args) use ($rcmail) {
                     call_user_func_array([$rcmail->output, 'show_message'], $args);
                     $rcmail->output->send('iframe');
-                }
+                },
             ]
         );
 

@@ -73,7 +73,7 @@ class rcmail_output_json extends rcmail_output
     /**
      * Register a template object handler
      *
-     * @param string $obj  Object name
+     * @param string   $obj  Object name
      * @param callable $func Function name to call
      */
     public function add_handler($obj, $func)
@@ -94,8 +94,8 @@ class rcmail_output_json extends rcmail_output
     /**
      * Call a client method
      *
-     * @param string $cmd    Method to call
-     * @param mixed ...$args Additional arguments
+     * @param string $cmd     Method to call
+     * @param mixed  ...$args Additional arguments
      */
     public function command($cmd, ...$args)
     {

@@ -20,7 +20,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_attrib_string()
      */
-    function data_attrib_string()
+    function data_attrib_string(): iterable
     {
         return [
             [
@@ -68,7 +68,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_quote()
      */
-    function data_quote()
+    function data_quote(): iterable
     {
         return [
             ['abc', 'abc'],
@@ -93,7 +93,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_parse_attrib_string()
      */
-    function data_parse_attrib_string()
+    function data_parse_attrib_string(): iterable
     {
         return [
             [

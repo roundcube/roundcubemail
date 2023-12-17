@@ -7,7 +7,7 @@
  */
 class rc_html2text extends PHPUnit\Framework\TestCase
 {
-    function data_html2text()
+    function data_html2text(): iterable
     {
         return [
             0 => [
@@ -257,7 +257,7 @@ Links:
         $this->assertSame($output, $res, 'Links handling');
     }
 
-    function data_links_no_list()
+    function data_links_no_list(): iterable
     {
         return [
             [

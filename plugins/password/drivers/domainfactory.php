@@ -8,7 +8,7 @@
  *
  * @version 2.1
  * @author Till Krüss <me@tillkruess.com>
- * @link http://tillkruess.com/projects/roundcube/
+ * @see http://tillkruess.com/projects/roundcube/
  *
  * Copyright (C) The Roundcube Dev Team
  *
@@ -39,8 +39,8 @@ class rcube_domainfactory_password
                 CURLOPT_POSTFIELDS => http_build_query([
                     'login'  => $username,
                     'pwd'    => $curpass,
-                    'action' => 'change'
-                ])
+                    'action' => 'change',
+                ]),
             ]);
 
             if ($result = curl_exec($ch)) {
@@ -48,7 +48,7 @@ class rcube_domainfactory_password
                 $postfields = [
                     'pwd1'           => $passwd,
                     'pwd2'           => $passwd,
-                    'action[update]' => 'Speichern'
+                    'action[update]' => 'Speichern',
                 ];
 
                 preg_match_all('~<input name="(.+?)" type="hidden" value="(.+?)">~i', $result, $fields);

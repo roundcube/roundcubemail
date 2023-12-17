@@ -198,17 +198,16 @@ class rcube_washtml
      * Class constructor
      *
      * @param array $p Configuration options:
-     *         allow_remote: is a boolean to allow link to remote resources (images/css)
-     *         blocked_src: string with image-src to be used for blocked remote images
-     *         show_washed: is a boolean to include washed out attributes as x-washed
-     *         cid_map: is an array where cid urls index urls to replace them
-     *         charset: is a string containing the charset of the HTML document,
-     *                  to be used if the charset is not defined in the document
-     *         css_prefix: A prefix to be added to id/class/for attribute values
-     *         html_elements: Additional allowed HTML elements
-     *         ignore_elements: Additional HTML elements to ignore
-     *         html_attribs: Additional allowed HTML attributes
-     *         void_elements: Elements which could be empty and be returned in short form (<tag />)
+     *                 allow_remote: is a boolean to allow link to remote resources (images/css)
+     *                 blocked_src: string with image-src to be used for blocked remote images
+     *                 show_washed: is a boolean to include washed out attributes as x-washed
+     *                 cid_map: is an array where cid urls index urls to replace them
+     *                 charset: is a string containing the charset of the HTML document, to be used if the charset is not defined in the document
+     *                 css_prefix: A prefix to be added to id/class/for attribute values
+     *                 html_elements: Additional allowed HTML elements
+     *                 ignore_elements: Additional HTML elements to ignore
+     *                 html_attribs: Additional allowed HTML attributes
+     *                 void_elements: Elements which could be empty and be returned in short form (<tag />)
      */
     public function __construct($p = [])
     {
@@ -573,7 +572,7 @@ class rcube_washtml
                 $this->max_nesting_level_error = true;
                 rcube::raise_error([
                         'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})"
+                        'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})",
                     ],
                     true, false
                 );
@@ -780,7 +779,7 @@ class rcube_washtml
             "\xe2\x80\x9c", // left double quote
             "\xe2\x80\x9d", // right double quote
             "\xe2\x80\x94", // em dash
-            "\xe2\x80\xa6"  // ellipses
+            "\xe2\x80\xa6",  // ellipses
         ];
 
         $fixedwordchars = [
@@ -789,7 +788,7 @@ class rcube_washtml
             '"',
             '"',
             '&mdash;',
-            '...'
+            '...',
         ];
 
         $html = str_replace($badwordchars, $fixedwordchars, $html);
@@ -957,7 +956,7 @@ class rcube_washtml
 
         // HTML5 requires <head> or <body> (#6713)
         // https://github.com/Masterminds/html5-php/issues/166
-        if (strlen($prefix) > 0 || !preg_match('/<(head|body)/i', $html)) {
+        if ($prefix !== '' || !preg_match('/<(head|body)/i', $html)) {
             $body_pos = stripos($html, '<body');
             $pos      = $body_pos !== false ? $body_pos : stripos($html, '<html');
 

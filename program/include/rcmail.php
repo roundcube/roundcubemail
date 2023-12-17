@@ -86,7 +86,7 @@ class rcmail extends rcube
     {
         if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
             // In cli-server mode env=test
-            if ($env === null && php_sapi_name() == 'cli-server') {
+            if ($env === null && PHP_SAPI == 'cli-server') {
                 $env = 'test';
             }
 
@@ -145,7 +145,7 @@ class rcmail extends rcube
         }
 
         // init output class
-        if (php_sapi_name() == 'cli') {
+        if (PHP_SAPI == 'cli') {
             $this->output = new rcmail_output_cli();
         }
         else if (!empty($_REQUEST['_remote'])) {
@@ -169,7 +169,7 @@ class rcmail extends rcube
      */
     public function set_task($task)
     {
-        if (php_sapi_name() == 'cli') {
+        if (PHP_SAPI == 'cli') {
             $task = 'cli';
         }
         else if (!$this->user || !$this->user->ID) {
@@ -388,7 +388,7 @@ class rcmail extends rcube
                     'code'    => 700,
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "Addressbook source ($id) not found!"
+                    'message' => "Addressbook source ($id) not found!",
                 ],
                 true, true);
         }
@@ -816,7 +816,7 @@ class rcmail extends rcube
                         'code'    => 620,
                         'file'    => __FILE__,
                         'line'    => __LINE__,
-                        'message' => "Failed to create a user record. Maybe aborted by a plugin?"
+                        'message' => "Failed to create a user record. Maybe aborted by a plugin?",
                     ],
                     true, false
                 );
@@ -827,7 +827,7 @@ class rcmail extends rcube
                     'code'    => 621,
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "Access denied for new user $username. 'auto_create_user' is disabled"
+                    'message' => "Access denied for new user $username. 'auto_create_user' is disabled",
                 ],
                 true, false
             );
@@ -1209,7 +1209,7 @@ class rcmail extends rcube
 
         // In CLI stop here, prevent from errors when the console.log might exist,
         // but be not accessible
-        if (php_sapi_name() == 'cli') {
+        if (PHP_SAPI == 'cli') {
             return;
         }
 
@@ -1956,7 +1956,7 @@ class rcmail extends rcube
      * @param bool   $is_multifolder Will be set to True if multi-folder request
      * @param int    $mode           Request mode. Default: rcube_utils::INPUT_GPC.
      *
-     * @return array  List of message UIDs per folder
+     * @return array List of message UIDs per folder
      * @deprecated since 1.5-beta, use rcmail_action::get_uids()
      */
     public static function get_uids($uids = null, $mbox = null, &$is_multifolder = false, $mode = null)

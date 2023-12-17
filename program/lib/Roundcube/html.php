@@ -409,7 +409,7 @@ class html_inputfield extends html
         'type', 'name', 'value', 'size', 'tabindex', 'autocapitalize', 'required',
         'autocomplete', 'checked', 'onchange', 'onclick', 'disabled', 'readonly',
         'spellcheck', 'results', 'maxlength', 'src', 'multiple', 'accept',
-        'placeholder', 'autofocus', 'pattern', 'oninput'
+        'placeholder', 'autofocus', 'pattern', 'oninput',
     ];
 
     /**
@@ -678,7 +678,7 @@ class html_select extends html
             foreach ($names as $i => $text) {
                 $this->options[] = [
                     'text'  => $text,
-                    'value' => $values[$i] ?? $i
+                    'value' => $values[$i] ?? $i,
                 ] + $attrib;
             }
         }
@@ -708,7 +708,7 @@ class html_select extends html
             $attr = [
                 'value' => $option['value'],
                 'selected' => (in_array($option['value'], $select, true) ||
-                    in_array($option['text'], $select, true)) ? 1 : null
+                    in_array($option['text'], $select, true)) ? 1 : null,
             ];
 
             $option_content = $option['text'];

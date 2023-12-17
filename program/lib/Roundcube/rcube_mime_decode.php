@@ -48,14 +48,11 @@ class rcube_mime_decode
      * Sets up the object, initialize the variables, and splits and
      * stores the header and body of the input.
      *
-     * @param array $params An array of various parameters that determine
-     *                       various things:
-     *              include_bodies - Whether to include the body in the returned
-     *                               object.
-     *              decode_bodies  - Whether to decode the bodies
-     *                               of the parts. (Transfer encoding)
-     *              decode_headers - Whether to decode headers
-     *              crlf           - CRLF type to use (CRLF/LF/CR)
+     * @param array $params An array of various parameters that determine various things:
+     *                      include_bodies - Whether to include the body in the returned object.
+     *                      decode_bodies  - Whether to decode the bodies of the parts. (Transfer encoding)
+     *                      decode_headers - Whether to decode headers
+     *                      crlf           - CRLF type to use (CRLF/LF/CR)
      */
     public function __construct($params = [])
     {

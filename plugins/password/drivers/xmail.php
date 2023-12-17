@@ -50,7 +50,7 @@ class rcube_xmail_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: Unable to connect to mail server"
+                    'message' => "Password plugin: Unable to connect to mail server",
                 ], true, false
             );
 
@@ -63,7 +63,7 @@ class rcube_xmail_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: Unable to change password"
+                    'message' => "Password plugin: Unable to change password",
                 ], true, false
             );
 

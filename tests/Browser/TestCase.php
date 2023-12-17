@@ -119,7 +119,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         // Purge screenshots from the last test run
         $pattern = sprintf('failure-%s_%s-*',
-            str_replace("\\", '_', get_class($this)),
+            str_replace("\\", '_', static::class),
             $this->getName(false)
         );
 
@@ -135,7 +135,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         // Purge console logs from the last test run
         $pattern = sprintf('%s_%s-*',
-            str_replace("\\", '_', get_class($this)),
+            str_replace("\\", '_', static::class),
             $this->getName(false)
         );
 

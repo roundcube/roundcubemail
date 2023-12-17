@@ -20,7 +20,7 @@
 
 error_reporting(E_ALL);
 
-if (php_sapi_name() != 'cli') {
+if (PHP_SAPI != 'cli') {
     die("Not in shell mode (php-cli)");
 }
 
@@ -85,7 +85,7 @@ function invokeMethod($object, $method, array $parameters = [], $class = null)
  *
  * @param rcube_sieve_vacation $object Object
  * @param string               $name   Property name
- * @param string $class        Object  class
+ * @param string               $class  Object  class
  *
  * @return mixed Property value
  */
@@ -105,7 +105,7 @@ function getProperty($object, $name, $class = null)
  * @param rcube_sieve_vacation $object Object
  * @param string               $name   Property name
  * @param mixed                $value  Property value
- * @param string $class        Object  class
+ * @param string               $class  Object  class
  *
  * @return void
  */

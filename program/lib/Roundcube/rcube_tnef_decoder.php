@@ -183,7 +183,7 @@ class rcube_tnef_decoder
                     rcube::raise_error([
                             'file' => __FILE__,
                             'line' => __LINE__,
-                            'message' => "Failed to extract RTF/HTML content from TNEF attachment"
+                            'message' => "Failed to extract RTF/HTML content from TNEF attachment",
                         ], true, false
                     );
                 }
@@ -285,7 +285,7 @@ class rcube_tnef_decoder
 
             if (($attr_type & self::MAPI_MV_FLAG) != 0) {
                 $have_mval = true;
-                $attr_type = $attr_type & ~self::MAPI_MV_FLAG;
+                $attr_type &= ~self::MAPI_MV_FLAG;
             }
 
             if (($attr_name >= 0x8000) && ($attr_name < 0xFFFE)) {
@@ -467,7 +467,7 @@ class rcube_tnef_decoder
                         'type'    => 'application',
                         'subtype' => 'octet-stream',
                         'name'    => 'unknown',
-                        'stream'  => ''
+                        'stream'  => '',
                 ]);
 
                 break;
@@ -748,7 +748,7 @@ class rcube_tnef_decoder
                     // New subgroup starts, add new stack element and write the data
                     // from previous stack element to it.
                     if (!empty($stack[$j])) {
-                        array_push($stack, $stack[$j++]);
+                        $stack[] = $stack[$j++];
                     }
                     else {
                         $j++;

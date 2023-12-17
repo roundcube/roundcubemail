@@ -109,7 +109,7 @@ class rcmail_action_settings_index extends rcmail_action
         // hook + define list cols
         $plugin = $rcmail->plugins->exec_hook('preferences_sections_list', [
                 'list' => $sections,
-                'cols' => ['section']
+                'cols' => ['section'],
         ]);
 
         $sections    = $plugin['list'];
@@ -149,7 +149,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select = new html_select([
                                 'name'  => '_language',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add(array_values($a_lang), array_keys($a_lang));
@@ -170,7 +170,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select = new html_select([
                                 'name'  => '_timezone',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('autodetect'), 'auto');
@@ -208,7 +208,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_time_format',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         foreach ($formats as $choice) {
@@ -233,7 +233,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_date_format',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         foreach ($formats as $choice) {
@@ -256,7 +256,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $input    = new html_checkbox([
                                 'name'  => '_pretty_date',
                                 'id'    => $field_id,
-                                'value' => 1
+                                'value' => 1,
                         ]);
 
                         $blocks['main']['options']['prettydate'] = [
@@ -275,7 +275,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $input    = new html_checkbox([
                                 'name'  => '_display_next',
                                 'id'    => $field_id,
-                                'value' => 1
+                                'value' => 1,
                         ]);
 
                         $blocks['main']['options']['display_next'] = [
@@ -293,7 +293,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_refresh_interval',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('never'), 0);
@@ -367,7 +367,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $checkbox = new html_checkbox([
                                 'name'  => '_standard_windows',
                                 'id'    => $field_id,
-                                'value' => 1
+                                'value' => 1,
                         ]);
 
                         $blocks['browser']['options']['standard_windows'] = [
@@ -407,13 +407,13 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_layout',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $layouts = [
                             'widescreen' => 'layoutwidescreendesc',
                             'desktop'    => 'layoutdesktopdesc',
-                            'list'       => 'layoutlistdesc'
+                            'list'       => 'layoutlistdesc',
                         ];
 
                         $available_layouts = array_intersect_key($layouts, array_flip($config['supported_layouts']));
@@ -440,7 +440,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_mail_read_time',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('never'), -1);
@@ -470,7 +470,7 @@ class rcmail_action_settings_index extends rcmail_action
                             $select   = new html_select([
                                     'name'  => '_autoexpand_threads',
                                     'id'    => $field_id,
-                                    'class' => 'custom-select'
+                                    'class' => 'custom-select',
                             ]);
 
                             $select->add($rcmail->gettext('never'), 0);
@@ -496,7 +496,7 @@ class rcmail_action_settings_index extends rcmail_action
                                 'name'  => '_mail_pagesize',
                                 'id'    => $field_id,
                                 'size'  => 5,
-                                'class' => 'form-control'
+                                'class' => 'form-control',
                         ]);
 
                         $blocks['main']['options']['pagesize'] = [
@@ -514,7 +514,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $input    = new html_checkbox([
                                 'name'  => '_check_all_folders',
                                 'id'    => $field_id,
-                                'value' => 1
+                                'value' => 1,
                         ]);
 
                         $blocks['new_message']['options']['check_all_folders'] = [
@@ -573,7 +573,7 @@ class rcmail_action_settings_index extends rcmail_action
                                 'name'     => '_prefer_html',
                                 'id'       => $field_id,
                                 'value'    => 1,
-                                'onchange' => "$('#rcmfd_show_images').prop('disabled', !this.checked).val(0)"
+                                'onchange' => "$('#rcmfd_show_images').prop('disabled', !this.checked).val(0)",
                         ]);
 
                         $blocks['main']['options']['prefer_html'] = [
@@ -596,7 +596,7 @@ class rcmail_action_settings_index extends rcmail_action
                                     'name'     => '_default_charset',
                                     'selected' => $config['default_charset'],
                                     'class'    => 'custom-select',
-                            ])
+                            ]),
                         ];
                     }
 
@@ -610,7 +610,7 @@ class rcmail_action_settings_index extends rcmail_action
                                 'name'     => '_show_images',
                                 'id'       => $field_id,
                                 'class'    => 'custom-select',
-                                'disabled' => empty($config['prefer_html'])
+                                'disabled' => empty($config['prefer_html']),
                         ]);
 
                         $input->add($rcmail->gettext('never'), 0);
@@ -633,7 +633,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_mdn_requests',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('askuser'), 0);
@@ -699,7 +699,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_htmleditor',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('never'), 0);
@@ -724,7 +724,7 @@ class rcmail_action_settings_index extends rcmail_action
                                 'name'     => '_draft_autosave',
                                 'id'       => $field_id,
                                 'class'    => 'custom-select',
-                                'disabled' => empty($config['drafts_mbox'])
+                                'disabled' => empty($config['drafts_mbox']),
                         ]);
 
                         $select->add($rcmail->gettext('never'), 0);
@@ -748,7 +748,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_mime_param_folding',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('2231folding'), 0);
@@ -845,7 +845,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $input    = new html_checkbox([
                                 'name'  => '_spellcheck_before_send',
                                 'id'    => $field_id,
-                                'value' => 1
+                                'value' => 1,
                         ]);
 
                         $blocks['spellcheck']['options']['spellcheck_before_send'] = [
@@ -881,7 +881,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_show_sig',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('never'), 0);
@@ -918,7 +918,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $input    = new html_checkbox([
                                 'name'  => '_strip_existing_sig',
                                 'id'    => $field_id,
-                                'value' => 1
+                                'value' => 1,
                         ]);
 
                         $blocks['sig']['options']['strip_existing_sig'] = [
@@ -950,7 +950,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select = new html_select([
                                 'name'  => '_forward_attachment',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('inline'), 0);
@@ -978,7 +978,7 @@ class rcmail_action_settings_index extends rcmail_action
                             $select_font = new html_select([
                                     'name' => '_default_font',
                                     'id' => $field_id,
-                                    'class' => 'custom-select'
+                                    'class' => 'custom-select',
                             ]);
 
                             $select_font->add('', '');
@@ -1003,7 +1003,7 @@ class rcmail_action_settings_index extends rcmail_action
                             $select_size = new html_select([
                                     'name'  => '_default_font_size',
                                     'id'    => $field_id,
-                                    'class' => 'custom-select'
+                                    'class' => 'custom-select',
                             ]);
 
                             $select_size->add('', '');
@@ -1020,7 +1020,7 @@ class rcmail_action_settings_index extends rcmail_action
                     if (!empty($font_settings)) {
                         $blocks['main']['options']['default_font'] = [
                             'title' => html::label($field_id, rcube::Q($rcmail->gettext('defaultfont'))),
-                            'content' => html::div('input-group', $font_settings)
+                            'content' => html::div('input-group', $font_settings),
                         ];
                     }
 
@@ -1033,7 +1033,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_reply_all_mode',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('replyalldefault'), 0);
@@ -1054,7 +1054,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $input    = new html_checkbox([
                                 'name'  => '_compose_save_localstorage',
                                 'id'    => $field_id,
-                                'value' => 1
+                                'value' => 1,
                         ]);
 
                         $blocks['advanced']['options']['compose_save_localstorage'] = [
@@ -1084,7 +1084,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_default_addressbook',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         if (!empty($books)) {
@@ -1109,7 +1109,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_addressbook_name_listing',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('name'), 0);
@@ -1133,7 +1133,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_addressbook_sort_col',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('name'), 'name');
@@ -1158,7 +1158,7 @@ class rcmail_action_settings_index extends rcmail_action
                                 'name'  => '_addressbook_pagesize',
                                 'id'    => $field_id,
                                 'size'  => 5,
-                                'class' => 'form-control'
+                                'class' => 'form-control',
                         ]);
 
                         $blocks['main']['options']['pagesize'] = [
@@ -1177,7 +1177,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_contact_form_mode',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('privatemode'), 'private');
@@ -1216,7 +1216,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_collected_recipients',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add('---', '');
@@ -1250,7 +1250,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_collected_senders',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('trustedsenders'), (string) rcube_addressbook::TYPE_TRUSTED_SENDER);
@@ -1439,7 +1439,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select   = new html_select([
                                 'name'  => '_logout_purge',
                                 'id'    => $field_id,
-                                'class' => 'custom-select'
+                                'class' => 'custom-select',
                         ]);
 
                         $select->add($rcmail->gettext('never'), 'never');
@@ -1501,7 +1501,7 @@ class rcmail_action_settings_index extends rcmail_action
                                     rcube::Q($rcmail->gettext('mailvelopenotfound'))
                                 )
                                 . html::script([], "if (!parent.mailvelope) \$('#mailvelope-warning').show()")
-                            )
+                            ),
                         ];
 
                         $blocks['mailvelope']['options']['mailvelope_main_keyring'] = [
@@ -1517,7 +1517,7 @@ class rcmail_action_settings_index extends rcmail_action
             $data  = $rcmail->plugins->exec_hook('preferences_list', [
                     'section' => $sect['id'],
                     'blocks'  => $blocks,
-                    'current' => $current
+                    'current' => $current,
             ]);
 
             $advanced_prefs = (array) $rcmail->config->get('advanced_prefs');
@@ -1673,11 +1673,11 @@ class rcmail_action_settings_index extends rcmail_action
                 $classnames[] = $attrib['selclass'];
             }
 
-            $attr['class'] = join(' ', $classnames);
+            $attr['class'] = implode(' ', $classnames);
             $tabs[] = html::tag($tagname, $attr, $button, html::$common_attrib);
         }
 
-        return join('', $tabs);
+        return implode('', $tabs);
     }
 
     /**
