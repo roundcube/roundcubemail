@@ -7,4 +7,3 @@ parameters:
         - .
     excludePaths:
         - vendor
-        - public_html
