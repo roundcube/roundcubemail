@@ -74,8 +74,6 @@ return (new PhpCsFixer\Config())
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
         'class_definition' => false,
-        'class_reference_name_casing' => false,
-        'class_reference_name_casing' => false,
         'constant_case' => false,
         'control_structure_continuation_position' => false,
         'explicit_indirect_variable' => false,

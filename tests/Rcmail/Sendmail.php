@@ -196,7 +196,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     function test_headers_output()
     {
-        $message = new StdClass;
+        $message = new stdClass;
         $message->headers = new rcube_message_header;
         $message->headers->charset = 'UTF-8';
         $message->headers->to = '';
@@ -299,7 +299,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     function test_identity_select()
     {
-        $message = new StdClass;
+        $message = new stdClass;
         $message->headers = new rcube_message_header;
         $message->headers->charset = 'UTF-8';
         $message->headers->to = '';

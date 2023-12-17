@@ -139,7 +139,7 @@ class zipdownload extends rcube_plugin
 
         // open zip file
         $zip = new ZipArchive();
-        $zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
+        $zip->open($tmpfname, ZipArchive::OVERWRITE);
 
         foreach ($message->attachments as $part) {
             $pid       = $part->mime_id;
@@ -313,7 +313,7 @@ class zipdownload extends rcube_plugin
 
         // open zip file
         $zip = new ZipArchive();
-        $zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
+        $zip->open($tmpfname, ZipArchive::OVERWRITE);
 
         foreach ($messages as $key => $value) {
             [$uid, $mbox] = explode(':', $key, 2);
