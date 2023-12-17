@@ -2382,7 +2382,7 @@ class rcmail_output_html extends rcmail_output
 
             foreach ($default_host as $key => $value) {
                 if (!is_array($value)) {
-                    $input_host->add($value, (is_numeric($key) ? $value : $key));
+                    $input_host->add($value, is_numeric($key) ? $value : $key);
                 }
                 else {
                     $input_host = null;

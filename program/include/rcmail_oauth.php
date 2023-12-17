@@ -786,7 +786,7 @@ class rcmail_oauth
             $data['token_type'], $data['expires_in'],
             $data['refresh_expires_in'],
             isset($data['id_token']),
-            ($data['not-before-policy'] ?? null)
+            $data['not-before-policy'] ?? null
         );
 
         if (is_array($previous_data)) {

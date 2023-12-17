@@ -83,7 +83,6 @@ return (new PhpCsFixer\Config())
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
         'no_extra_blank_lines' => false,
-        'no_unneeded_control_parentheses' => false,
         'php_unit_method_casing' => false,
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_summary' => false,

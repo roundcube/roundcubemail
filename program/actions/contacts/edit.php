@@ -87,7 +87,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
                 'filedroparea'    => [$this, 'photo_drop_area'],
         ]);
 
-        $rcmail->output->set_pagetitle($rcmail->gettext(($rcmail->action == 'add' ? 'addcontact' : 'editcontact')));
+        $rcmail->output->set_pagetitle($rcmail->gettext($rcmail->action == 'add' ? 'addcontact' : 'editcontact'));
 
         if ($rcmail->action == 'add' && $rcmail->output->template_exists('contactadd')) {
             $rcmail->output->send('contactadd');

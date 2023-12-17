@@ -176,7 +176,7 @@ class filesystem_attachments extends rcube_plugin
         while ($rcube->get_uploaded_file($id)) {
             // increment last four characters
             $x  = substr($id, -4) + 1;
-            $id = substr($id, 0, -4) . sprintf('%04d', ($x > 9999 ? $x - 9999 : $x));
+            $id = substr($id, 0, -4) . sprintf('%04d', $x > 9999 ? $x - 9999 : $x);
         }
 
         return $id;

@@ -857,9 +857,9 @@ abstract class rcube_addressbook
         // use only strict comparison (mode = 1)
         // @TODO: partial search, e.g. match only day and month
         if (in_array($colname, $this->date_cols)) {
-            return (($value = rcube_utils::anytodatetime($value))
+            return ($value = rcube_utils::anytodatetime($value))
                 && ($search = rcube_utils::anytodatetime($search))
-                && $value->format('Ymd') == $search->format('Ymd'));
+                && $value->format('Ymd') == $search->format('Ymd');
         }
 
         // Gender is a special value, must use strict comparison (#5757)

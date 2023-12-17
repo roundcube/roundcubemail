@@ -922,7 +922,7 @@ class rcube_vcard
                 $r[] = self::vcard_quote($part, $sep);
             }
 
-            return (implode($sep, $r));
+            return implode($sep, $r);
         }
 
         return strtr($str, ["\\" => "\\\\", "\r" => '', "\n" => '\n', $sep => "\\$sep"]);

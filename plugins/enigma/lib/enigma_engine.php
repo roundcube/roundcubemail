@@ -1393,10 +1393,10 @@ class enigma_engine
     public function is_keys_part($part)
     {
         // @TODO: S/MIME
-        return (
+        return
             // Content-Type: application/pgp-keys
             $part->mimetype == 'application/pgp-keys'
-        );
+        ;
     }
 
     /**

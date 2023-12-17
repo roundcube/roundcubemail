@@ -289,7 +289,7 @@ class vcard_attachments extends rcube_plugin
      */
     private static function is_vcard($part)
     {
-        return (
+        return
             // Content-Type: text/vcard;
             $part->mimetype == 'text/vcard'
             // Content-Type: text/x-vcard;
@@ -301,7 +301,7 @@ class vcard_attachments extends rcube_plugin
                 || (!empty($part->filename) && preg_match('/\.vcf$/i', $part->filename))
             )
             )
-        );
+        ;
     }
 
     /**
