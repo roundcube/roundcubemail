@@ -58,7 +58,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
         return [
             'WIN: Mozilla Firefox ' => [
                 'useragent'    => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.1) Gecko/20060111 Firefox/1.5.0.1',
-                'version'      => '1.8',
+                'version'      => 1.8,
                 'isWin'        => true,
                 'isLinux'      => false,
                 'isMac'        => false,
@@ -73,7 +73,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
 
             'LINUX: Bon Echo ' => [
                 'useragent'    => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.1) Gecko/20070222 BonEcho/2.0.0.1',
-                'version'      => '1.8',
+                'version'      => 1.8,
                 'isWin'        => false,
                 'isLinux'      => true,
                 'isMac'        => false,
@@ -88,7 +88,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
 
             'Chrome Mac' => [
                 'useragent'    => 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-US) AppleWebKit/534.3 (KHTML, like Gecko) Chrome/6.0.461.0 Safari/534.3',
-                'version'      => '6',
+                'version'      => 6.0,
                 'isWin'        => false,
                 'isLinux'      => false,
                 'isMac'        => true,
@@ -103,7 +103,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
 
             'IE 11' => [
                 'useragent'    => 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; .NET4.0E; .NET4.0C; rv:11.0) like Gecko',
-                'version'      => '11.0',
+                'version'      => 11.0,
                 'isWin'        => true,
                 'isLinux'      => false,
                 'isMac'        => false,
@@ -118,7 +118,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
 
             'Opera 15' => [
                 'useragent'    => 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36 OPR/15.0.1147.24',
-                'version'      => '15.0',
+                'version'      => 15.0,
                 'isWin'        => true,
                 'isLinux'      => false,
                 'isMac'        => false,
@@ -133,7 +133,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
 
             'Edge 14' => [
                 'useragent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14931',
-                'version'      => '14.14931',
+                'version'      => 14.14931,
                 'isWin'        => true,
                 'isLinux'      => false,
                 'isMac'        => false,

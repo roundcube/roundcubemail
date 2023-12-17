@@ -54,7 +54,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $value => $expected) {
             $result = parse_bytes($value);
-            $this->assertEquals($expected, $result, "Invalid parse_bytes() result for $value");
+            $this->{'assertEquals'}($expected, $result, "Invalid parse_bytes() result for $value");
         }
 
         $this->assertSame(0.0, parse_bytes(null));
@@ -112,7 +112,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
             '1h'    => 1 * 60 * 60,
             '1d'    => 1 * 60 * 60 * 24,
             '1w'    => 1 * 60 * 60 * 24 * 7,
-            '1y'    => (int) '1y',
+            '1y'    => 1,
             '100'   => 100,
         ];
 

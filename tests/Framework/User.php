@@ -126,11 +126,11 @@ class Framework_User extends ActionTestCase
 
         $this->assertCount(3, $idents);
         $this->assertSame('add@ident.com', $idents[0]['email']);
-        $this->assertEquals(1, $idents[0]['standard']);
+        $this->{'assertEquals'}(1, $idents[0]['standard']);
         $this->assertSame('test@example.com', $idents[1]['email']);
-        $this->assertEquals(0, $idents[1]['standard']);
+        $this->{'assertEquals'}(0, $idents[1]['standard']);
         $this->assertSame('test@example.org', $idents[2]['email']);
-        $this->assertEquals(0, $idents[2]['standard']);
+        $this->{'assertEquals'}(0, $idents[2]['standard']);
 
         $ident = $user->delete_identity($default);
 
@@ -152,7 +152,7 @@ class Framework_User extends ActionTestCase
 
         $user = new rcube_user(1);
 
-        $this->assertEquals(1, $user->data['failed_login_counter']);
+        $this->{'assertEquals'}(1, $user->data['failed_login_counter']);
 
         $this->assertFalse($user->is_locked());
     }
@@ -188,7 +188,7 @@ class Framework_User extends ActionTestCase
 
         $this->assertCount(1, $idents);
         $this->assertSame('new@example.com', $idents[0]['email']);
-        $this->assertEquals(1, $idents[0]['standard']);
+        $this->{'assertEquals'}(1, $idents[0]['standard']);
     }
 
     /**
