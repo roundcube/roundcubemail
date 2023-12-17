@@ -148,18 +148,13 @@ function in_array_nocase($needle, $haystack)
  *
  * @param string $str Input string
  *
- * @return int Number of bytes
+ * @return int|false Number of bytes
  */
 function parse_bytes($str)
 {
-    if (is_numeric($str)) {
-        return intval($str);
-    }
-
-    $bytes = 0;
-    if (preg_match('/([0-9\.]+)\s*([a-z])i?b?/i', (string) $str, $regs)) {
+    if (preg_match('/^([0-9\.]+)\s*([KMGT]?)I?B?$/', trim(strtoupper($str)), $regs)) {
         $bytes = floatval($regs[1]);
-        switch (strtoupper($regs[2])) {
+        switch ($regs[2]) {
             case 'T':
                 $bytes *= 1024;
             case 'G':
@@ -171,10 +166,10 @@ function parse_bytes($str)
                 break;
         }
 
-        $bytes = (int) round($bytes);
+        return (int) round($bytes);
     }
 
-    return $bytes;
+    return false;
 }
 
 /**
