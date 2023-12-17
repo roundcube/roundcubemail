@@ -316,12 +316,12 @@ class HTTPSocket
         if ($this->doFollowLocationHeader) {
             //dont bother if we didn't even setup the script correctly
             if (isset($headers['x-use-https']) && $headers['x-use-https'] == 'yes') {
-                die($this->ssl_setting_message);
+                exit($this->ssl_setting_message);
             }
 
             if (isset($headers['location'])) {
                 if ($this->max_redirects <= 0) {
-                    die("Too many redirects on: ".$headers['location']);
+                    exit("Too many redirects on: ".$headers['location']);
                 }
 
                 $this->max_redirects--;

@@ -19,7 +19,7 @@
 */
 
 if (PHP_SAPI != 'cli') {
-    die("Not in shell mode (php-cli)");
+    exit("Not in shell mode (php-cli)");
 }
 
 if (!defined('INSTALL_PATH')) {

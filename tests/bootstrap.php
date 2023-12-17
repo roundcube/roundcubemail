@@ -21,7 +21,7 @@
 error_reporting(E_ALL);
 
 if (PHP_SAPI != 'cli') {
-    die("Not in shell mode (php-cli)");
+    exit("Not in shell mode (php-cli)");
 }
 
 if (!defined('INSTALL_PATH')) {
@@ -46,7 +46,7 @@ rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
 // Extend include path so some plugin test won't fail
 $include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
 if (set_include_path($include_path) === false) {
-    die("Fatal error: ini_set/set_include_path does not work.");
+    exit("Fatal error: ini_set/set_include_path does not work.");
 }
 
 require_once TESTS_DIR . 'ActionTestCase.php';

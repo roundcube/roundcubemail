@@ -66,7 +66,7 @@ if (isset($_GET['_getconfig'])) {
     }
 
     http_response_code(404);
-    die("The requested configuration was not found. Please run the installer from the beginning.");
+    exit("The requested configuration was not found. Please run the installer from the beginning.");
 }
 
 if (

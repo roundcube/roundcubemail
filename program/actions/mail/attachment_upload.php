@@ -174,7 +174,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         }
 
         if (!self::$COMPOSE) {
-            die("Invalid session var!");
+            exit("Invalid session var!");
         }
 
         self::$file_id = rcube_utils::get_input_string('_file', rcube_utils::INPUT_GPC);

@@ -31,7 +31,7 @@ class rcmail_action_utils_killcache extends rcmail_action
         // don't allow public access if not in devel_mode
         if (!$rcmail->config->get('devel_mode')) {
             http_response_code(401);
-            die("Access denied!");
+            exit("Access denied!");
         }
 
         // @TODO: transaction here (if supported by DB) would be a good thing

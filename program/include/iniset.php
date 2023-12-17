@@ -20,7 +20,7 @@
 */
 
 if (PHP_VERSION_ID < 70300) {
-    die("Unsupported PHP version. Required PHP >= 7.3.");
+    exit("Unsupported PHP version. Required PHP >= 7.3.");
 }
 
 // application constants
@@ -52,7 +52,7 @@ $include_path = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
 $include_path.= ini_get('include_path');
 
 if (set_include_path($include_path) === false) {
-    die("Fatal error: ini_set/set_include_path does not work.");
+    exit("Fatal error: ini_set/set_include_path does not work.");
 }
 
 // increase maximum execution time for php scripts

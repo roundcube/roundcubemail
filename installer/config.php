@@ -15,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    die("Not allowed! Please open installer/index.php instead.");
+    exit("Not allowed! Please open installer/index.php instead.");
 }
 
 // allow the current user to get to the next step

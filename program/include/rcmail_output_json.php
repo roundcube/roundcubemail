@@ -199,7 +199,7 @@ class rcmail_output_json extends rcmail_output
     {
         if ($code == 403) {
             http_response_code(403);
-            die("Invalid Request");
+            exit("Invalid Request");
         }
 
         $this->show_message("Application Error ($code): $message", 'error');
