@@ -624,7 +624,6 @@ class rcube_sieve_script
 
     /**
      * Returns script object
-     *
      */
     public function as_array()
     {
@@ -633,7 +632,6 @@ class rcube_sieve_script
 
     /**
      * Returns array of supported extensions
-     *
      */
     public function get_extensions()
     {

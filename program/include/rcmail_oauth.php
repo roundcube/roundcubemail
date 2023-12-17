@@ -1050,7 +1050,6 @@ class rcmail_oauth
     }
 
     /**
-     *
      * Implement OpenID Connect RP-Initiated Logout 1.0
      *
      * will generate during the logout task the RP-initiated Logout URL and

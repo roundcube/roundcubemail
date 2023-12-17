@@ -119,7 +119,6 @@ class HTTPSocket
 
     /**
      * Create server "connection".
-     *
      */
     function connect($host, $port = '')
     {
@@ -385,7 +384,6 @@ class HTTPSocket
 
     /**
      * Clears any extra headers.
-     *
      */
     function clear_headers()
     {
