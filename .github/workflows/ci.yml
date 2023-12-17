@@ -39,3 +39,35 @@ jobs:
 
       - name: Check composer.json format
         run: composer validate --strict --no-check-lock && composer normalize --dry-run --no-check-lock
+
+  phpstan:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    name: Static Analysis
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring
+          tools: composer:v2
+          coverage: none
+          ini-values: error_reporting=E_ALL
+
+      - name: Setup composer
+        run: |
+            cp composer.json-dist composer.json
+            composer require "kolab/net_ldap3:~1.1.1" --no-update
+            composer require "laravel/dusk:^7.9" --no-update
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Run Static Analysis
+        run: |
+          vendor/bin/phpstan analyse
