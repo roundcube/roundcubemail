@@ -10,5 +10,3 @@
 
 // To remove (e.g. X-Sender) message header use null value
 // $config['additional_message_headers']['X-Sender'] = null;
-
-?>
