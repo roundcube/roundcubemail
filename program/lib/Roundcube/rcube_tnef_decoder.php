@@ -31,7 +31,7 @@
  */
 class rcube_tnef_decoder
 {
-    const SIGNATURE         = 0x223e9f78;
+    const SIGNATURE         = 0x223E9F78;
     const LVL_MESSAGE       = 0x01;
     const LVL_ATTACHMENT    = 0x02;
 
@@ -39,17 +39,17 @@ class rcube_tnef_decoder
     const ASUBJECT          = 0x18004;
     const AMESSAGEID        = 0x18009;
     const AFILENAME         = 0x18010;
-    const APARENTID         = 0x1800a;
-    const ACONVERSATIONID   = 0x1800b;
-    const ABODY             = 0x2800c;
+    const APARENTID         = 0x1800A;
+    const ACONVERSATIONID   = 0x1800B;
+    const ABODY             = 0x2800C;
     const ADATESENT         = 0x38005;
     const ADATERECEIVED     = 0x38006;
     const ADATEMODIFIED     = 0x38020;
-    const APRIORITY         = 0x4800d;
+    const APRIORITY         = 0x4800D;
     const AOWNER            = 0x60000;
     const ASENTFOR          = 0x60001;
     const ASTATUS           = 0x68007;
-    const ATTACHDATA        = 0x6800f;
+    const ATTACHDATA        = 0x6800F;
     const ATTACHMETAFILE    = 0x68011;
     const ATTACHCREATEDATE  = 0x38012;
     const ARENDDATA         = 0x69002;
@@ -69,12 +69,12 @@ class rcube_tnef_decoder
     const MAPI_DOUBLE         = 0x0005;
     const MAPI_CURRENCY       = 0x0006;
     const MAPI_APPTIME        = 0x0007;
-    const MAPI_ERROR          = 0x000a;
-    const MAPI_BOOLEAN        = 0x000b;
-    const MAPI_OBJECT         = 0x000d;
+    const MAPI_ERROR          = 0x000A;
+    const MAPI_BOOLEAN        = 0x000B;
+    const MAPI_OBJECT         = 0x000D;
     const MAPI_INT8BYTE       = 0x0014;
-    const MAPI_STRING         = 0x001e;
-    const MAPI_UNICODE_STRING = 0x001f;
+    const MAPI_STRING         = 0x001E;
+    const MAPI_UNICODE_STRING = 0x001F;
     const MAPI_SYSTIME        = 0x0040;
     const MAPI_CLSID          = 0x0048;
     const MAPI_BINARY         = 0x0102;
@@ -117,11 +117,11 @@ class rcube_tnef_decoder
 
     const MAPI_NAMED_TYPE_ID        = 0x0000;
     const MAPI_NAMED_TYPE_STRING    = 0x0001;
-    const MAPI_NAMED_TYPE_NONE      = 0xff;
+    const MAPI_NAMED_TYPE_NONE      = 0xFF;
     const MAPI_MV_FLAG              = 0x1000;
 
-    const RTF_UNCOMPRESSED = 0x414c454d;
-    const RTF_COMPRESSED   = 0x75465a4c;
+    const RTF_UNCOMPRESSED = 0x414C454D;
+    const RTF_COMPRESSED   = 0x75465A4C;
 
     protected $codepage;
 
