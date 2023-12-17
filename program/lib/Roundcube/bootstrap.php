@@ -158,7 +158,7 @@ function parse_bytes($str)
 
     $bytes = 0;
 
-    if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
+    if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', (string) $str, $regs)) {
         $bytes = floatval($regs[1]);
         switch (strtolower($regs[2])) {
             case 'g':
