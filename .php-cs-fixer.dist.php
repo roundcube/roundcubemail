@@ -5,7 +5,8 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude(['vendor'])
     ->ignoreDotFiles(false)
     ->name('*.php.dist')
-    ->name('*.dist.php');
+    ->name('*.dist.php')
+    ->name('*.sh');
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)

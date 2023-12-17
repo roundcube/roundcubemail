@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 require INSTALL_PATH . 'program/include/clisetup.php';
 
@@ -33,7 +33,7 @@ $options = rcube_utils::get_opt([
     'h' => 'html_signature',
     'S' => 'is_default',
     'a' => 'attribute',
-    'i' => 'identity_id'
+    'i' => 'identity_id',
 ]);
 
 $subcommand_executables = [
@@ -126,7 +126,7 @@ function delete_identity($options)
         echo "-u <username> - the identity holder e.g. -u mainmail@example.com\n";
         echo "-i <id> - the id of the identity being queried e.g. -i 70) use list sub-command to get identity id\n\n";
         exit;
-    }  
+    }
 
     $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
 
@@ -183,7 +183,7 @@ function add_identity($options)
     $new_identity['organization']  = get_option_value($options, 'organization', '', false, false);
 
     $new_identity['html_signature'] = 0;
-    $new_identity['signature'] = get_option_value($options, 'plain_text_signature', '', false, false);   
+    $new_identity['signature'] = get_option_value($options, 'plain_text_signature', '', false, false);
 
     if (isset($options['html_signature'])) {
         $new_identity['html_signature'] = 1;
@@ -230,7 +230,7 @@ function update_identity($options)
 
     if (isset($options['email'])) {
         validate_email($options['email'], 'email');
-    } 
+    }
     if (isset($options['bcc_email'])) {
         validate_email($options['bcc_email'], 'bcc email');
     }
@@ -244,39 +244,39 @@ function update_identity($options)
         $setAsDefault = filter_var($options['is_default'], FILTER_VALIDATE_BOOLEAN);
     }
 
-    $email = get_option_value($options, 'email', NULL, false, false);
-    $name = get_option_value($options, 'name', NULL, false, false);
-    $organization = get_option_value($options, 'organization', NULL, false, false);
-    $plain_text_signature = get_option_value($options, 'plain_text_signature', NULL, false, false);
-    $html_signature = get_option_value($options, 'html_signature', NULL, false, false);
-    $bcc = get_option_value($options, 'bcc_email', NULL, false, false);
-    $reply_to = get_option_value($options, 'reply_to_email', NULL, false, false);
+    $email = get_option_value($options, 'email', null, false, false);
+    $name = get_option_value($options, 'name', null, false, false);
+    $organization = get_option_value($options, 'organization', null, false, false);
+    $plain_text_signature = get_option_value($options, 'plain_text_signature', null, false, false);
+    $html_signature = get_option_value($options, 'html_signature', null, false, false);
+    $bcc = get_option_value($options, 'bcc_email', null, false, false);
+    $reply_to = get_option_value($options, 'reply_to_email', null, false, false);
 
-    if ($html_signature !== NULL) {
+    if ($html_signature !== null) {
         $updated_identity['html_signature'] = 1;
-        $updated_identity['signature'] = $html_signature; 
-    } else if ($plain_text_signature !== NULL) {
+        $updated_identity['signature'] = $html_signature;
+    } elseif ($plain_text_signature !== null) {
         $updated_identity['html_signature'] = 0;
-        $updated_identity['signature'] = $plain_text_signature;   
+        $updated_identity['signature'] = $plain_text_signature;
     }
 
-    if ($email !== NULL) {
+    if ($email !== null) {
         if ($identities_level > 0) {
             rcube::raise_error("Identities level doesn't allow setting email.", false, true);
         }
 
         $updated_identity['email'] = $email;
     }
-    if ($name !== NULL) {
+    if ($name !== null) {
         $updated_identity['name'] = $name;
     }
-    if ($organization !== NULL) {
+    if ($organization !== null) {
         $updated_identity['organization'] = $organization;
     }
-    if ($bcc !== NULL) {
+    if ($bcc !== null) {
         $updated_identity['bcc'] = $bcc;
     }
-    if ($reply_to !== NULL) {
+    if ($reply_to !== null) {
         $updated_identity['reply-to'] = $reply_to;
     }
 
@@ -307,7 +307,7 @@ function get_option_value($options, $key, $fallback, $isBoolean, $isMandatory, $
 
     if (isset($options[$key])) {
         if ($isBoolean || !is_bool($options[$key])) {
-            $isValid = true; 
+            $isValid = true;
         }
     }
 
@@ -361,7 +361,7 @@ function echo_shared_options()
     echo "-h <html-dig> - HTML signature content - e.g. -h '<h1>Sincerely, John Smith</h1>'\n";
     echo "-S <default> - Should this be set as a default identity for the user\n";
     echo "               (only 1 available so it disables all other. Empty value or 1 for yes, 0 for no) e.g. -S 1\n\n";
-};
+}
 
 function get_user($options)
 {

@@ -74,12 +74,12 @@ foreach ($dirs as $dir => $user) {
 
 function print_usage()
 {
-    print "Usage: import.sh [options]\n";
-    print "Options:\n";
-    print "    --user=username User, if not set --dir subfolders will be iterated\n";
-    print "    --host=host     The IMAP hostname or IP the given user is related to\n";
-    print "    --dir=path      Location of the gpg homedir\n";
-    print "    --dry-run       Do nothing, just list found user/files\n";
+    echo "Usage: import.sh [options]\n";
+    echo "Options:\n";
+    echo "    --user=username User, if not set --dir subfolders will be iterated\n";
+    echo "    --host=host     The IMAP hostname or IP the given user is related to\n";
+    echo "    --dir=path      Location of the gpg homedir\n";
+    echo "    --dry-run       Do nothing, just list found user/files\n";
 }
 
 function get_host($args)
@@ -91,7 +91,7 @@ function get_host($args)
         if (is_string($hosts)) {
             $args['host'] = $hosts;
         }
-        else if (is_array($hosts) && count($hosts) == 1) {
+        elseif (is_array($hosts) && count($hosts) == 1) {
             $args['host'] = reset($hosts);
         }
         else {
@@ -146,7 +146,7 @@ function import_dir($user_id, $dir, $dry_run = false)
     $db       = $rcmail->get_dbh();
     $table    = $db->table_name('filestore', true);
     $db_files = ['pubring.gpg', 'secring.gpg', 'pubring.kbx'];
-    $maxsize  = min($db->get_variable('max_allowed_packet', 1048500), 4*1024*1024) - 2000;
+    $maxsize  = min($db->get_variable('max_allowed_packet', 1048500), 4 * 1024 * 1024) - 2000;
 
     foreach (glob("$dir/private-keys-v1.d/*.key") as $file) {
         $db_files[] = substr($file, strlen($dir) + 1);
@@ -161,7 +161,7 @@ function import_dir($user_id, $dir, $dry_run = false)
             if ($datasize > $maxsize) {
                 rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet."
+                        'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet.",
                     ], true, false);
 
                 continue;
@@ -181,7 +181,7 @@ function import_dir($user_id, $dir, $dry_run = false)
             if ($db->is_error($result)) {
                 rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to save $file into database."
+                        'message' => "Enigma: Failed to save $file into database.",
                     ], true, false);
             }
         }

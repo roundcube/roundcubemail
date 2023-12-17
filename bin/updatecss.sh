@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
@@ -26,7 +26,7 @@ require_once INSTALL_PATH . 'program/include/clisetup.php';
 $opts = rcube_utils::get_opt(['d' => 'dir']);
 
 if (empty($opts['dir'])) {
-    print "Skin directory not specified (--dir). Using skins/ and plugins/*/skins/.\n";
+    echo "Skin directory not specified (--dir). Using skins/ and plugins/*/skins/.\n";
 
     $dir     = INSTALL_PATH . 'skins';
     $dir_p   = INSTALL_PATH . 'plugins';
@@ -36,7 +36,7 @@ if (empty($opts['dir'])) {
     $dirs = array_merge($skins, $skins_p);
 }
 // Check if directory exists
-else if (!file_exists($opts['dir'])) {
+elseif (!file_exists($opts['dir'])) {
     rcube::raise_error("Specified directory doesn't exist.", false, true);
 }
 else {
@@ -63,7 +63,7 @@ foreach ($dirs as $dir) {
 
     foreach ($files as $file) {
         $file    = $dir . '/' . $file;
-        print "File: $file\n";
+        echo "File: $file\n";
         $content = file_get_contents($file);
         $content = preg_replace($find, $replace, $content, -1, $count);
         if ($count) {
@@ -82,9 +82,9 @@ function get_images($dir)
         if (preg_match('/^(.+)\.(gif|ico|png|jpg|jpeg)$/', $file, $m)) {
             $filepath = "$dir/$file";
             $images[$file] = substr(md5_file($filepath), 0, 4) . '.' . filesize($filepath);
-            print "Image: $filepath ({$images[$file]})\n";
+            echo "Image: $filepath ({$images[$file]})\n";
         }
-        else if ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
+        elseif ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
             foreach (get_images($dir . '/' . $file) as $img => $sum) {
                 $images[$file . '/' . $img] = $sum;
             }
@@ -105,7 +105,7 @@ function get_files($dir)
         if (preg_match('/^(.+)\.(css|html)$/', $file, $m)) {
             $files[] = $file;
         }
-        else if ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
+        elseif ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
             foreach (get_files($dir . '/' . $file) as $f) {
                 $files[] = $file . '/' . $f;
             }
