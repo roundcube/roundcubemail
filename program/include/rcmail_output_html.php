@@ -89,7 +89,7 @@ class rcmail_output_html extends rcmail_output
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));
         $this->set_env('cookie_path', ini_get('session.cookie_path'));
-        $this->set_env('cookie_secure', filter_var(ini_get('session.cookie_secure'), FILTER_VALIDATE_BOOLEAN));
+        $this->set_env('cookie_secure', filter_var(ini_get('session.cookie_secure'), \FILTER_VALIDATE_BOOLEAN));
 
         // Easy way to change skin via GET argument, for developers
         if ($this->devel_mode && !empty($_GET['skin']) && preg_match('/^[a-z0-9-_]+$/i', $_GET['skin'])) {
@@ -1105,7 +1105,7 @@ class rcmail_output_html extends rcmail_output
         $pos = 0;
 
         // Find IF tags and process them
-        while ($pos < strlen($input) && preg_match($regexp1, $input, $conditions, PREG_OFFSET_CAPTURE, $pos)) {
+        while ($pos < strlen($input) && preg_match($regexp1, $input, $conditions, \PREG_OFFSET_CAPTURE, $pos)) {
             $pos = $start = $conditions[0][1];
 
             // Process the 'condition' attribute
@@ -1121,7 +1121,7 @@ class rcmail_output_html extends rcmail_output
             $n = $pos + 1;
 
             // Process the code until the closing tag (for the processed IF tag)
-            while (preg_match($regexp2, $input, $matches, PREG_OFFSET_CAPTURE, $n)) {
+            while (preg_match($regexp2, $input, $matches, \PREG_OFFSET_CAPTURE, $n)) {
                 $tag_start = $matches[0][1];
                 $tag_end   = $tag_start + strlen($matches[0][0]);
                 $tag_name  = strtolower($matches[1][0]);
@@ -1295,7 +1295,7 @@ class rcmail_output_html extends rcmail_output
                 $value = $_SESSION[$name] ?? '';
                 break;
             case 'cookie':
-                $value = htmlspecialchars($_COOKIE[$name], ENT_COMPAT | ENT_HTML401, RCUBE_CHARSET);
+                $value = htmlspecialchars($_COOKIE[$name], \ENT_COMPAT | \ENT_HTML401, RCUBE_CHARSET);
                 break;
             case 'browser':
                 $value = $this->browser->{$name} ?? '';
@@ -2463,7 +2463,7 @@ class rcmail_output_html extends rcmail_output
      */
     protected function preloader($attrib)
     {
-        $images = preg_split('/[\s\t\n,]+/', $attrib['images'], -1, PREG_SPLIT_NO_EMPTY);
+        $images = preg_split('/[\s\t\n,]+/', $attrib['images'], -1, \PREG_SPLIT_NO_EMPTY);
         $images = array_map([$this, 'abs_url'], $images);
         $images = array_map([$this, 'asset_url'], $images);
 
@@ -2742,7 +2742,7 @@ class rcmail_output_html extends rcmail_output
 
                 if (empty($type)) {
                     // If no type provided then remove those options from the list
-                    $template_names = preg_grep("/\]$/", $template_names, PREG_GREP_INVERT);
+                    $template_names = preg_grep("/\]$/", $template_names, \PREG_GREP_INVERT);
                 }
                 elseif ($match === null) {
                     // Type specified with no special matching requirements so remove all none type specific options from the list
@@ -2751,7 +2751,7 @@ class rcmail_output_html extends rcmail_output
 
                 if ($match == 'template') {
                     // Match only specific type or template name
-                    $template_names = preg_grep("/\*$/", $template_names, PREG_GREP_INVERT);
+                    $template_names = preg_grep("/\*$/", $template_names, \PREG_GREP_INVERT);
                 }
 
                 foreach ($template_names as $key) {

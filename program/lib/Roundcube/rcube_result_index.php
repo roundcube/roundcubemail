@@ -293,7 +293,7 @@ class rcube_result_index
         $end   = implode('|', ['$', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
 
         if (preg_match("/($begin)$msgid($end)/", $this->raw_data, $m,
-            $get_index ? PREG_OFFSET_CAPTURE : 0)
+            $get_index ? \PREG_OFFSET_CAPTURE : 0)
         ) {
             if ($get_index) {
                 $idx = 0;

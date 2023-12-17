@@ -46,7 +46,7 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
         // Use search result
         if (($records = self::search_update(true)) !== false) {
             // sort the records
-            ksort($records, SORT_LOCALE_STRING);
+            ksort($records, \SORT_LOCALE_STRING);
 
             // create resultset object
             $count  = count($records);

@@ -526,7 +526,7 @@ class rcube_html2text
         $text = preg_replace($this->ent_search, $this->ent_replace, $text);
 
         // Replace known html entities
-        $text = html_entity_decode($text, ENT_QUOTES, $this->charset);
+        $text = html_entity_decode($text, \ENT_QUOTES, $this->charset);
 
         // Replace unicode nbsp to regular spaces
         $text = preg_replace('/\xC2\xA0/', ' ', $text);
@@ -722,7 +722,7 @@ class rcube_html2text
 
                     // Add citation markers and create <pre> block
                     $body = preg_replace_callback('/((?:^|\n)>*)([^\n]*)/', [$this, 'blockquote_citation_callback'], trim($body));
-                    $body = '<pre>' . htmlspecialchars($body, ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, $this->charset) . '</pre>';
+                    $body = '<pre>' . htmlspecialchars($body, \ENT_COMPAT | \ENT_HTML401 | \ENT_SUBSTITUTE, $this->charset) . '</pre>';
 
                     $text = substr_replace($text, $body . "\n", $start, $end + 13 - $start);
                     $offset = 0;
@@ -792,7 +792,7 @@ class rcube_html2text
     private function _toupper($str)
     {
         // string can containing HTML tags
-        $chunks = preg_split('/(<[^>]*>)/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $chunks = preg_split('/(<[^>]*>)/', $str, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 
         // convert toupper only the text between HTML tags
         foreach ($chunks as $idx => $chunk) {
@@ -813,9 +813,9 @@ class rcube_html2text
      */
     private function _strtoupper($str)
     {
-        $str = html_entity_decode($str, ENT_COMPAT, $this->charset);
+        $str = html_entity_decode($str, \ENT_COMPAT, $this->charset);
         $str = mb_strtoupper($str);
-        $str = htmlspecialchars($str, ENT_COMPAT, $this->charset);
+        $str = htmlspecialchars($str, \ENT_COMPAT, $this->charset);
 
         return $str;
     }

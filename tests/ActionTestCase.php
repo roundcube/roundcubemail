@@ -250,7 +250,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         // load sample test data
         // Note: exec_script() does not really work with these queries
         $sql = file_get_contents(TESTS_DIR . "src/sql/{$name}.sql");
-        $sql = preg_split('/;\n/', $sql, -1, PREG_SPLIT_NO_EMPTY);
+        $sql = preg_split('/;\n/', $sql, -1, \PREG_SPLIT_NO_EMPTY);
 
         foreach ($sql as $query) {
             $result = $db->query($query);

@@ -126,7 +126,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                             $csvs[] = $temp_csv;
                         }
                         else {
-                            $upload_error = UPLOAD_ERR_CANT_WRITE;
+                            $upload_error = \UPLOAD_ERR_CANT_WRITE;
                         }
 
                         continue;

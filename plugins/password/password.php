@@ -764,17 +764,17 @@ class password extends rcube_plugin
                 break;
 
             case 'hash-bcrypt':
-                $crypted = password_hash($password, PASSWORD_BCRYPT, $options);
+                $crypted = password_hash($password, \PASSWORD_BCRYPT, $options);
                 $prefix  = '{BLF-CRYPT}';
                 break;
 
             case 'hash-argon2i':
-                $crypted = password_hash($password, PASSWORD_ARGON2I, $options);
+                $crypted = password_hash($password, \PASSWORD_ARGON2I, $options);
                 $prefix  = '{ARGON2I}';
                 break;
 
             case 'hash-argon2id':
-                $crypted = password_hash($password, PASSWORD_ARGON2ID, $options);
+                $crypted = password_hash($password, \PASSWORD_ARGON2ID, $options);
                 $prefix  = '{ARGON2ID}';
                 break;
 

@@ -273,7 +273,7 @@ class rcube_db
         $regex = '/(?:^|\s)(from|update|into|join)\s+' . $start . '?([a-z0-9._]+)' . $end . '?\s+/i';
 
         // find tables involved in this query
-        if (preg_match_all($regex, $query, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all($regex, $query, $matches, \PREG_SET_ORDER)) {
             foreach ($matches as $m) {
                 $table = $m[2];
 

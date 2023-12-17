@@ -30,7 +30,7 @@ $opts = rcube_utils::get_opt(['v' => 'version', 'y' => 'accept:bool']);
 if (empty($opts['version'])) {
     echo "What version are you upgrading from? Type '?' if you don't know.\n";
 
-    if (($input = trim(fgets(STDIN))) && preg_match('/^[0-9.]+[a-z0-9-]*$/', $input)) {
+    if (($input = trim(fgets(\STDIN))) && preg_match('/^[0-9.]+[a-z0-9-]*$/', $input)) {
         $opts['version'] = $input;
     }
     else {
@@ -82,7 +82,7 @@ if ($RCI->configured) {
         if ($err) {
             if (empty($opts['accept'])) {
                 echo "Do you want me to fix your local configuration? (y/N)\n";
-                $input = trim(fgets(STDIN));
+                $input = trim(fgets(\STDIN));
             }
 
             // positive: merge the local config with the defaults
@@ -248,7 +248,7 @@ if ($RCI->configured) {
             $composer_data['repositories'] = array_values($composer_data['repositories']);
         }
 
-        $composer_json = json_encode($composer_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $composer_json = json_encode($composer_data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES);
 
         // write updated composer.json back to disk
         if ($composer_json && is_writable(INSTALL_PATH . 'composer.json')) {

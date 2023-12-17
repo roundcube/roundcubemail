@@ -633,7 +633,7 @@ class enigma_driver_gnupg extends enigma_driver
 
                 $tmpfile = $file . '.tmp';
 
-                if (file_put_contents($tmpfile, $data, LOCK_EX) === strlen($data)) {
+                if (file_put_contents($tmpfile, $data, \LOCK_EX) === strlen($data)) {
                     rename($tmpfile, $file);
                     touch($file, $record['mtime']);
 

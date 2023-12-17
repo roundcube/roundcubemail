@@ -50,7 +50,7 @@ class markasjunk_cmd_learn
         }
 
         if (strpos($command, '%h') !== false) {
-            preg_match_all('/%h:([\w_-]+)/', $command, $header_names, PREG_SET_ORDER);
+            preg_match_all('/%h:([\w_-]+)/', $command, $header_names, \PREG_SET_ORDER);
             $header_names = array_column($header_names, 1);
         }
 

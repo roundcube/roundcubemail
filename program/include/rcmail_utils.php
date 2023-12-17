@@ -181,7 +181,7 @@ class rcmail_utils
                 $result[] = $m[1];
             }
         }
-        sort($result, SORT_NUMERIC);
+        sort($result, \SORT_NUMERIC);
 
         foreach ($result as $v) {
             if (empty($opts['quiet'])) {
@@ -317,7 +317,7 @@ class rcmail_utils
         }
 
         // host can be a URL like tls://192.168.12.44
-        $host_url = parse_url($args['host'], PHP_URL_HOST);
+        $host_url = parse_url($args['host'], \PHP_URL_HOST);
         if ($host_url) {
             $args['host'] = $host_url;
         }

@@ -427,7 +427,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 $name = $rcmail->gettext('personaladrbook');
             }
 
-            $rcmail->output->set_env('sourcename', html_entity_decode($name, ENT_COMPAT, 'UTF-8'));
+            $rcmail->output->set_env('sourcename', html_entity_decode($name, \ENT_COMPAT, 'UTF-8'));
         }
     }
 

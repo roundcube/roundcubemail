@@ -90,7 +90,7 @@ $config['syslog_id'] = 'roundcube';
 
 // Syslog facility to use, if using the 'syslog' log driver.
 // For possible values see installer or http://php.net/manual/en/function.openlog.php
-$config['syslog_facility'] = LOG_USER;
+$config['syslog_facility'] = \LOG_USER;
 
 // Activate this option if logs should be written to per-user directories.
 // Data will only be logged if a directory <log_dir>/<username>/ exists and is writable.

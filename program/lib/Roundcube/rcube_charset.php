@@ -301,7 +301,7 @@ class rcube_charset
         // FIXME: Is this really true with substitute character 'none'?
         // A warning is thrown in PHP<8 also on unsupported encoding, in PHP>=8 ValueError
         // is thrown instead (therefore we catch Throwable below)
-        set_error_handler($error_handler, E_WARNING);
+        set_error_handler($error_handler, \E_WARNING);
 
         try {
             $out = mb_convert_encoding($str, $to, $from);
@@ -338,7 +338,7 @@ class rcube_charset
             // If iconv reports an illegal character in input it means that input string
             // has been truncated. It's reported as E_NOTICE.
             // PHP8 will also throw E_WARNING on unsupported encoding.
-            set_error_handler($error_handler, E_NOTICE | E_WARNING);
+            set_error_handler($error_handler, \E_NOTICE | \E_WARNING);
 
             try {
                 $out = iconv($from, $to . $iconv_options, $str);

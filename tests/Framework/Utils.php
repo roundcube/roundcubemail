@@ -708,7 +708,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_is_absolute_path()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+        if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN') {
             $test = [
                 '' => false,
                 "C:\\" => true,

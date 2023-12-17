@@ -102,7 +102,7 @@ class rcube_base_replacer
             // strip './' because its the same as ''
             $path = preg_replace('/^\.\//', '', $path);
 
-            if (preg_match_all('/\.\.\//', $path, $matches, PREG_SET_ORDER)) {
+            if (preg_match_all('/\.\.\//', $path, $matches, \PREG_SET_ORDER)) {
                 $cnt = count($matches);
                 while ($cnt--) {
                     if ($pos = strrpos($base_url, '/')) {

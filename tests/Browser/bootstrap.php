@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-if (PHP_SAPI != 'cli') {
+if (\PHP_SAPI != 'cli') {
     exit("Not in shell mode (php-cli)");
 }
 
@@ -92,7 +92,7 @@ class bootstrap
             // load sample test data
             // Note: exec_script() does not really work with these queries
             $sql = file_get_contents(TESTS_DIR . 'data/data.sql');
-            $sql = preg_split('/;\n/', $sql, -1, PREG_SPLIT_NO_EMPTY);
+            $sql = preg_split('/;\n/', $sql, -1, \PREG_SPLIT_NO_EMPTY);
 
             foreach ($sql as $query) {
                 $result = $db->query($query);
@@ -111,7 +111,7 @@ class bootstrap
         $rcmail = rcmail::get_instance();
         $imap_host = $rcmail->config->get('imap_host');
 
-        if ($host = parse_url($imap_host, PHP_URL_HOST)) {
+        if ($host = parse_url($imap_host, \PHP_URL_HOST)) {
             $imap_host = $host;
         }
 

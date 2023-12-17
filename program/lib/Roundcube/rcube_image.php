@@ -206,21 +206,21 @@ class rcube_image
         }
 
         // do we have enough memory? (#1489937)
-        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
+        if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
             return false;
         }
 
         // use GD extension
         if ($props['gd_type'] && $props['width'] > 0 && $props['height'] > 0) {
-            if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
+            if ($props['gd_type'] == \IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = @imagecreatefromjpeg($this->image_file);
                 $type  = 'jpg';
             }
-            elseif ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
+            elseif ($props['gd_type'] == \IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = @imagecreatefromgif($this->image_file);
                 $type  = 'gif';
             }
-            elseif ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
+            elseif ($props['gd_type'] == \IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = @imagecreatefrompng($this->image_file);
                 $type  = 'png';
             }
@@ -251,7 +251,7 @@ class rcube_image
                 }
 
                 // Fix transparency of gif/png image
-                if ($props['gd_type'] != IMAGETYPE_JPEG) {
+                if ($props['gd_type'] != \IMAGETYPE_JPEG) {
                     imagealphablending($new_image, false);
                     imagesavealpha($new_image, true);
                     $transparent = imagecolorallocatealpha($new_image, 255, 255, 255, 127);
@@ -279,14 +279,14 @@ class rcube_image
                     }
                 }
 
-                if ($props['gd_type'] == IMAGETYPE_JPEG) {
+                if ($props['gd_type'] == \IMAGETYPE_JPEG) {
                     $result = imagejpeg($image, $filename, 75);
                 }
-                elseif ($props['gd_type'] == IMAGETYPE_GIF) {
+                elseif ($props['gd_type'] == \IMAGETYPE_GIF) {
                     $result = imagegif($image, $filename);
                 }
-                elseif ($props['gd_type'] == IMAGETYPE_PNG) {
-                    $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+                elseif ($props['gd_type'] == \IMAGETYPE_PNG) {
+                    $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
                 }
             }
 
@@ -361,21 +361,21 @@ class rcube_image
         $props = $this->props();
 
         // do we have enough memory? (#1489937)
-        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
+        if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
             return false;
         }
 
         if ($props['gd_type']) {
-            if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
+            if ($props['gd_type'] == \IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = imagecreatefromjpeg($this->image_file);
             }
-            elseif ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
+            elseif ($props['gd_type'] == \IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
             }
-            elseif ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
+            elseif ($props['gd_type'] == \IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
             }
-            elseif ($props['gd_type'] == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
+            elseif ($props['gd_type'] == \IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
                 $image = imagecreatefromwebp($this->image_file);
             }
             else {
@@ -390,7 +390,7 @@ class rcube_image
                 $result = imagegif($image, $filename);
             }
             elseif ($type == self::TYPE_PNG) {
-                $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+                $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
             }
 
             if (!empty($result)) {

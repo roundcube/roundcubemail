@@ -124,14 +124,14 @@ class rcube_cpanel_password
         $postfields = http_build_query($postdata, '', '&');
 
         // see http://php.net/manual/en/function.curl-setopt.php
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_BUFFERSIZE, 131072);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
-        curl_setopt($ch, CURLOPT_USERPWD, $userpwd);
+        curl_setopt($ch, \CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, \CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, \CURLOPT_BUFFERSIZE, 131072);
+        curl_setopt($ch, \CURLOPT_URL, $url);
+        curl_setopt($ch, \CURLOPT_POST, 1);
+        curl_setopt($ch, \CURLOPT_POSTFIELDS, $postfields);
+        curl_setopt($ch, \CURLOPT_USERPWD, $userpwd);
 
         $result = curl_exec($ch);
         $error  = curl_error($ch);

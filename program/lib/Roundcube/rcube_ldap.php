@@ -1115,14 +1115,14 @@ class rcube_ldap extends rcube_addressbook
             $dn = self::dn_decode($dn);
 
             if ($rec = $this->ldap->get_entry($dn, $this->prop['attributes'])) {
-                $rec = array_change_key_case($rec, CASE_LOWER);
+                $rec = array_change_key_case($rec, \CASE_LOWER);
             }
 
             // Use ldap_list to get subentries like country (c) attribute (#1488123)
             if (!empty($rec) && $this->sub_filter) {
                 if ($entries = $this->ldap->list_entries($dn, $this->sub_filter, array_keys($this->prop['sub_fields']))) {
                     foreach ($entries as $entry) {
-                        $lrec = array_change_key_case($entry, CASE_LOWER);
+                        $lrec = array_change_key_case($entry, \CASE_LOWER);
                         $rec  = array_merge($lrec, $rec);
                     }
                 }
@@ -2003,7 +2003,7 @@ class rcube_ldap extends rcube_addressbook
         }
         // when using VLV the list of groups is already sorted
         else {
-            array_multisort($group_sortnames, SORT_ASC, SORT_STRING, $groups);
+            array_multisort($group_sortnames, \SORT_ASC, \SORT_STRING, $groups);
         }
 
         // cache this
@@ -2315,7 +2315,7 @@ class rcube_ldap extends rcube_addressbook
      */
     static function dn_decode($str)
     {
-        $str = str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT);
+        $str = str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', \STR_PAD_RIGHT);
         return base64_decode($str);
     }
 }

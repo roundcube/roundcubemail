@@ -117,11 +117,11 @@ class plesk_rpc
         $url        = sprintf("https://%s:%s/%s", $host, $port, $path);
         $this->curl = curl_init();
 
-        curl_setopt($this->curl, CURLOPT_CONNECTTIMEOUT , 5);
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST , 0);
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER , false);
-        curl_setopt($this->curl, CURLOPT_HTTPHEADER     , $headers);
-        curl_setopt($this->curl, CURLOPT_URL            , $url);
+        curl_setopt($this->curl, \CURLOPT_CONNECTTIMEOUT , 5);
+        curl_setopt($this->curl, \CURLOPT_SSL_VERIFYHOST , 0);
+        curl_setopt($this->curl, \CURLOPT_SSL_VERIFYPEER , false);
+        curl_setopt($this->curl, \CURLOPT_HTTPHEADER     , $headers);
+        curl_setopt($this->curl, \CURLOPT_URL            , $url);
     }
 
     /**
@@ -133,8 +133,8 @@ class plesk_rpc
      */
     function send_request($packet)
     {
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $packet);
+        curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->curl, \CURLOPT_POSTFIELDS, $packet);
         $result = curl_exec($this->curl);
 
         return $result && strpos($result, '<?xml') === 0 ? $result : null;

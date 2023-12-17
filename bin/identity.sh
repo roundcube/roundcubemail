@@ -175,7 +175,7 @@ function add_identity($options)
     }
     if (isset($options['is_default'])) {
         validate_boolean($options['is_default'], 'is default identity (S)');
-        $setAsDefault = filter_var($options['is_default'], FILTER_VALIDATE_BOOLEAN);
+        $setAsDefault = filter_var($options['is_default'], \FILTER_VALIDATE_BOOLEAN);
     }
 
     $new_identity['email'] = get_option_value($options, 'email', '', false, true, "Enter the email e.g. -e somemail@example.com");
@@ -241,7 +241,7 @@ function update_identity($options)
     $setAsDefault = false;
     if (isset($options['is_default'])) {
         validate_boolean($options['is_default'], 'is default identity (S)');
-        $setAsDefault = filter_var($options['is_default'], FILTER_VALIDATE_BOOLEAN);
+        $setAsDefault = filter_var($options['is_default'], \FILTER_VALIDATE_BOOLEAN);
     }
 
     $email = get_option_value($options, 'email', null, false, false);
@@ -324,7 +324,7 @@ function get_option_value($options, $key, $fallback, $isBoolean, $isMandatory, $
 
 function validate_email($email, $fieldName)
 {
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($email, \FILTER_VALIDATE_EMAIL)) {
         rcube::raise_error("invalid {$fieldName} format", false, true);
     }
 }

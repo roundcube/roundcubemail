@@ -107,11 +107,11 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 <?php
 
 define('MIN_PHP_VERSION', '7.3.0');
-if (version_compare(PHP_VERSION, MIN_PHP_VERSION, '>=')) {
-    $RCI->pass('Version', 'PHP ' . PHP_VERSION . ' detected');
+if (version_compare(\PHP_VERSION, MIN_PHP_VERSION, '>=')) {
+    $RCI->pass('Version', 'PHP ' . \PHP_VERSION . ' detected');
 }
 else {
-    $RCI->fail('Version', 'PHP Version ' . MIN_PHP_VERSION . ' or greater is required ' . PHP_VERSION . ' detected');
+    $RCI->fail('Version', 'PHP Version ' . MIN_PHP_VERSION . ' or greater is required ' . \PHP_VERSION . ' detected');
 }
 ?>
 
@@ -122,13 +122,13 @@ else {
 // get extensions location
 $ext_dir = ini_get('extension_dir');
 
-$prefix = PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '';
+$prefix = \PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '';
 foreach ($required_php_exts as $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
     }
     else {
-        $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
+        $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->fail($name, $msg, $source_urls[$name]);
     }
@@ -145,7 +145,7 @@ foreach ($optional_php_exts as $name => $ext) {
         $RCI->pass($name);
     }
     else {
-        $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
+        $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->na($name, $msg, $source_urls[$name]);
     }
@@ -159,14 +159,14 @@ foreach ($optional_php_exts as $name => $ext) {
 
 <?php
 
-$prefix = PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '';
+$prefix = \PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '';
 foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($database);
         $found_db_driver = true;
     }
     else {
-        $_ext = $ext_dir . '/' . $prefix . $ext . '.' . PHP_SHLIB_SUFFIX;
+        $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->na($database, $msg, $source_urls[$ext]);
     }
@@ -220,7 +220,7 @@ foreach ($ini_checks as $var => $val) {
             $RCI->pass($var);
         }
     }
-    elseif (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
+    elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     }
     else {
@@ -260,7 +260,7 @@ foreach ($optional_checks as $var => $val) {
             $RCI->pass($var);
         }
     }
-    elseif (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
+    elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     }
     else {

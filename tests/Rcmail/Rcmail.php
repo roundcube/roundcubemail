@@ -270,7 +270,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertSame('Today ' . date('H:i'), $date);
 
         // Test various formats
-        setlocale(LC_ALL, 'en_US');
+        setlocale(\LC_ALL, 'en_US');
         ini_set('intl.default_locale', 'en_US');
         $date = new DateTime('2020-06-01 12:20:30', new DateTimeZone('UTC'));
 
@@ -281,7 +281,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertSame('Jun June', $rcmail->format_date($date, 'M F'));
         $date_x = '6/1/20, 12:20 PM';
         if (defined('INTL_ICU_VERSION')
-              && version_compare(INTL_ICU_VERSION, '72.1', '>=')) {
+              && version_compare(\INTL_ICU_VERSION, '72.1', '>=')) {
             // Starting with ICU 72.1, a NARROW NO-BREAK SPACE (NNBSP)
             // is used instead of an ASCII space before the meridian.
             $date_x = "6/1/20, 12:20\u{202f}PM";

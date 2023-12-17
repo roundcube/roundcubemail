@@ -50,7 +50,7 @@ elseif (!is_file($args['file'])) {
 if (empty($args['user'])) {
     //fwrite(STDOUT, "Please enter your name\n");
     echo "IMAP user: ";
-    $args['user'] = trim(fgets(STDIN));
+    $args['user'] = trim(fgets(\STDIN));
 }
 
 // prompt for password

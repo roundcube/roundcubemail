@@ -924,8 +924,8 @@ class rcube_imap_cache
                     return false;
                 }
 
-                sort($uids_new, SORT_NUMERIC);
-                sort($uids_old, SORT_NUMERIC);
+                sort($uids_new, \SORT_NUMERIC);
+                sort($uids_old, \SORT_NUMERIC);
 
                 if ($uids_old != $uids_new) {
                     return false;

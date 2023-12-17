@@ -284,7 +284,7 @@ class managesieve extends rcube_plugin
     {
         if (!$this->engine) {
             // Add include path for internal classes
-            $include_path = $this->home . '/lib' . PATH_SEPARATOR;
+            $include_path = $this->home . '/lib' . \PATH_SEPARATOR;
             $include_path .= ini_get('include_path');
             set_include_path($include_path);
 

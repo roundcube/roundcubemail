@@ -139,7 +139,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         $addr_tpl = $rcmail->config->get('address_template', '');
 
         // copy (parsed) address template to client
-        if (preg_match_all('/\{([a-z0-9]+)\}([^{]*)/i', $addr_tpl, $templ, PREG_SET_ORDER)) {
+        if (preg_match_all('/\{([a-z0-9]+)\}([^{]*)/i', $addr_tpl, $templ, \PREG_SET_ORDER)) {
             $rcmail->output->set_env('address_template', $templ);
         }
 
