@@ -575,7 +575,7 @@ class rcube_vcard
 
             if (preg_match('/^END:VCARD$/i', $line)) {
                 // parse vcard
-                $obj = new rcube_vcard($vcard_block, $charset, false, self::$fieldmap);
+                $obj = new self($vcard_block, $charset, false, self::$fieldmap);
 
                 // FN and N is required by vCard format (RFC 2426)
                 // on import we can be less restrictive, let's addressbook decide
