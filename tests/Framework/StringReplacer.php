@@ -58,7 +58,7 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
         $result = $replacer->replace($input);
         $result = $replacer->resolve($result);
 
-        $this->assertEquals($output, $result);
+        $this->assertSame($output, $result);
     }
 
     /**

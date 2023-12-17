@@ -61,7 +61,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
      */
     function test_attrib_string($arg1, $arg2, $expected)
     {
-        $this->assertEquals($expected, html::attrib_string($arg1, $arg2));
+        $this->assertSame($expected, html::attrib_string($arg1, $arg2));
     }
 
     /**
@@ -87,7 +87,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
      */
     function test_quote($str, $expected)
     {
-        $this->assertEquals($expected, html::quote($str));
+        $this->assertSame($expected, html::quote($str));
     }
 
     /**
@@ -130,6 +130,6 @@ class Framework_Html extends PHPUnit\Framework\TestCase
      */
     function test_parse_attrib_string($arg1, $expected)
     {
-        $this->assertEquals($expected, html::parse_attrib_string($arg1));
+        $this->assertSame($expected, html::parse_attrib_string($arg1));
     }
 }

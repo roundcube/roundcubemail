@@ -117,7 +117,7 @@ class Actions_Mail_Search extends ActionTestCase
     function data_search_input(): iterable
     {
         $week  = new DateInterval('P1W');
-        $weekDate = (new DateTime('now'))->sub($week)->format('j-M-Y');
+        $weekDate = (new DateTime('now', new DateTimeZone('UTC')))->sub($week)->format('j-M-Y');
 
         return [
             [
@@ -307,14 +307,16 @@ class Actions_Mail_Search extends ActionTestCase
         $month = new DateInterval('P1M');
         $year  = new DateInterval('P1Y');
 
+        $utcTz = new DateTimeZone('UTC');
+
         return [
             ['', null],
-            ['1W', 'SINCE ' . (new DateTime('now'))->sub($week)->format('j-M-Y')],
-            ['1M', 'SINCE ' . (new DateTime('now'))->sub($month)->format('j-M-Y')],
-            ['1Y', 'SINCE ' . (new DateTime('now'))->sub($year)->format('j-M-Y')],
-            ['-1W', 'BEFORE ' . (new DateTime('now'))->sub($week)->format('j-M-Y')],
-            ['-1M', 'BEFORE ' . (new DateTime('now'))->sub($month)->format('j-M-Y')],
-            ['-1Y', 'BEFORE ' . (new DateTime('now'))->sub($year)->format('j-M-Y')],
+            ['1W', 'SINCE ' . (new DateTime('now', $utcTz))->sub($week)->format('j-M-Y')],
+            ['1M', 'SINCE ' . (new DateTime('now', $utcTz))->sub($month)->format('j-M-Y')],
+            ['1Y', 'SINCE ' . (new DateTime('now', $utcTz))->sub($year)->format('j-M-Y')],
+            ['-1W', 'BEFORE ' . (new DateTime('now', $utcTz))->sub($week)->format('j-M-Y')],
+            ['-1M', 'BEFORE ' . (new DateTime('now', $utcTz))->sub($month)->format('j-M-Y')],
+            ['-1Y', 'BEFORE ' . (new DateTime('now', $utcTz))->sub($year)->format('j-M-Y')],
         ];
     }
 
