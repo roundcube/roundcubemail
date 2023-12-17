@@ -2,6 +2,7 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in([__DIR__])
+    ->name('*.php.dist')
     ->exclude(['vendor']);
 
 return (new PhpCsFixer\Config())
