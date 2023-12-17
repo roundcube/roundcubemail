@@ -538,7 +538,7 @@ class rcmail_action_mail_index extends rcmail_action
                 $col_name = $col == 'fromto' ? $smart_col : $col;
 
                 if (in_array($col_name, ['from', 'to', 'cc', 'replyto'])) {
-                    $cont = self::address_string($header->$col_name, 3, false, null, $header->charset, null, false);
+                    $cont = self::address_string($header->{$col_name}, 3, false, null, $header->charset, null, false);
                     if (empty($cont)) {
                         $cont = '&nbsp;'; // for widescreen mode
                     }
@@ -565,8 +565,8 @@ class rcmail_action_mail_index extends rcmail_action
 
                     $cont = rcube::SQ($last_folder_name);
                 }
-                elseif (isset($header->$col)) {
-                    $cont = rcube::SQ($header->$col);
+                elseif (isset($header->{$col})) {
+                    $cont = rcube::SQ($header->{$col});
                 }
                 else {
                     $cont = '';

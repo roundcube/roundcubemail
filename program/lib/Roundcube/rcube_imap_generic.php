@@ -2770,7 +2770,7 @@ class rcube_imap_generic
                 case 'date':
                 case 'internaldate':
                 case 'timestamp':
-                    $value = rcube_utils::strtotime($headers->$field);
+                    $value = rcube_utils::strtotime($headers->{$field});
                     if (!$value && $field != 'timestamp') {
                         $value = $headers->timestamp;
                     }
@@ -2779,7 +2779,7 @@ class rcube_imap_generic
 
                 default:
                     // @TODO: decode header value, convert to UTF-8
-                    $value = $headers->$field;
+                    $value = $headers->{$field};
                     if (is_string($value)) {
                         $value = str_replace('"', '', $value);
 

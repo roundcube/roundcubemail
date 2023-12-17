@@ -1115,7 +1115,7 @@ class rcube_db
 
         if (is_object($input)) {
             foreach (get_object_vars($input) as $idx => $value) {
-                $input->$idx = self::encode($value);
+                $input->{$idx} = self::encode($value);
             }
 
             return $input;

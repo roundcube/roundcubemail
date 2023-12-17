@@ -173,8 +173,8 @@ class rcube_vcard
 
         // copy name fields to output array
         foreach (['firstname', 'surname', 'middlename', 'nickname', 'organization'] as $col) {
-            if (is_string($this->$col) && strlen($this->$col)) {
-                $out[$col] = $this->$col;
+            if (is_string($this->{$col}) && strlen($this->{$col})) {
+                $out[$col] = $this->{$col};
             }
         }
 

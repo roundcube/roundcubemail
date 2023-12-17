@@ -1588,7 +1588,7 @@ class rcmail_output_html extends rcmail_output
                         $param  = 'href';
                     }
 
-                    foreach ($this->$source as $name => $vars) {
+                    foreach ($this->{$source} as $name => $vars) {
                         // $vars can be in many forms:
                         // - string
                         // - ['key' => 'val']
