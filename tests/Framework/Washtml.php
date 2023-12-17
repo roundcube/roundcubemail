@@ -107,32 +107,32 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $html   = "<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>";
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<p>p2</p>', $washed, "HTML conditional comments (#1489004)");
+        $this->assertSame('<p>p2</p>', $washed, "HTML conditional comments (#1489004)");
 
         $html   = "<!--TestCommentInvalid><p>test</p>";
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<p>test</p>', $washed, "HTML invalid comments (#1487759)");
+        $this->assertSame('<p>test</p>', $washed, "HTML invalid comments (#1487759)");
 
         $html   = "<p>para1</p><!-- comment --><p>para2</p>";
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<p>para1</p><p>para2</p>', $washed, "HTML comments - simple comment");
+        $this->assertSame('<p>para1</p><p>para2</p>', $washed, "HTML comments - simple comment");
 
         $html   = "<p>para1</p><!-- <hr> comment --><p>para2</p>";
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<p>para1</p><p>para2</p>', $washed, "HTML comments - tags inside (#1489904)");
+        $this->assertSame('<p>para1</p><p>para2</p>', $washed, "HTML comments - tags inside (#1489904)");
 
         $html   = "<p>para1</p><!-- comment => comment --><p>para2</p>";
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals('<p>para1</p><p>para2</p>', $washed, "HTML comments - bracket inside");
+        $this->assertSame('<p>para1</p><p>para2</p>', $washed, "HTML comments - bracket inside");
 
         $html   = "<p><!-- span>1</span -->\n<span>2</span>\n<!-- >3</span --><span>4</span></p>";
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertEquals("<p>\n<span>2</span>\n<span>4</span></p>", $washed, "HTML comments (#6464)");
+        $this->assertSame("<p>\n<span>2</span>\n<span>4</span></p>", $washed, "HTML comments (#6464)");
     }
 
     /**
