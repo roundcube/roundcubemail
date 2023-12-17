@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing Redis cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_redis extends rcube_cache
 {

@@ -19,9 +19,6 @@
 
 /**
  * CSV to vCard data converter
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_csv2vcard
 {

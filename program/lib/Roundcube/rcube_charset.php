@@ -23,9 +23,6 @@
 
 /**
  * Character sets conversion functionality
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_charset
 {

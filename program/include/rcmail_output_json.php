@@ -20,9 +20,6 @@
 
 /**
  * View class to produce JSON responses
- *
- * @package    Webmail
- * @subpackage View
  */
 class rcmail_output_json extends rcmail_output
 {

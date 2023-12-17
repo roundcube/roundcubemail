@@ -20,9 +20,6 @@
 
 /**
  * Class for Enriched to HTML conversion
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_enriched
 {

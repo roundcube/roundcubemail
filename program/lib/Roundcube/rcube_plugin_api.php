@@ -24,9 +24,6 @@ if (!defined('RCUBE_PLUGINS_DIR')) {
 
 /**
  * The plugin loader and global API
- *
- * @package    Framework
- * @subpackage PluginAPI
  */
 class rcube_plugin_api
 {

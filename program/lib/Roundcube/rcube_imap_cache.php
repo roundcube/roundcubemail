@@ -20,9 +20,6 @@
 
 /**
  * Interface class for accessing Roundcube messages cache
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_imap_cache
 {

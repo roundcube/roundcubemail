@@ -46,9 +46,6 @@
 
 /**
  * Utility class providing HTML sanitizer
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_washtml
 {

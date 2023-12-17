@@ -21,9 +21,6 @@
 /**
  * Logical representation of a vcard-based address record
  * Provides functions to parse and export vCard data format
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_vcard
 {

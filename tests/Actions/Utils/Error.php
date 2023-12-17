@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_utils_error
- *
- * @package Tests
  */
 class Actions_Utils_Error extends ActionTestCase
 {

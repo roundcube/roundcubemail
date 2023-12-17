@@ -22,9 +22,6 @@
 
 /**
  * Class for parsing MIME messages
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_mime_decode
 {

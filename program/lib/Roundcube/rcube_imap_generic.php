@@ -26,9 +26,6 @@
 
 /**
  * PHP based wrapper class to connect to an IMAP server
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_imap_generic
 {

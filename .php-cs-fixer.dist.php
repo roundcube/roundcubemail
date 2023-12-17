@@ -98,7 +98,6 @@ return (new PhpCsFixer\Config())
         'no_unneeded_control_parentheses' => false,
         'php_unit_method_casing' => false,
         'phpdoc_annotation_without_dot' => false,
-        'phpdoc_no_package' => false,
         'phpdoc_summary' => false,
         'phpdoc_to_comment' => false,
         'single_line_comment_spacing' => false,

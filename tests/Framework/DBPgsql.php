@@ -3,8 +3,6 @@
 /**
  * Test class to test rcube_db_pgsql class
  *
- * @package Tests
- *
  * @group database
  * @group postgres
  */

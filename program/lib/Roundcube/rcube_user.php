@@ -21,9 +21,6 @@
 
 /**
  * Class representing a user
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_user
 {

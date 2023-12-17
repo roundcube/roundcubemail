@@ -20,9 +20,6 @@
 
 /**
  * Roundcube Framework Initialization
- *
- * @package    Framework
- * @subpackage Core
  */
 
 $config = [

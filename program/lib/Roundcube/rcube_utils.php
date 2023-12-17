@@ -21,9 +21,6 @@
 
 /**
  * Utility class providing common functions
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_utils
 {

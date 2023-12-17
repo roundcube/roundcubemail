@@ -19,9 +19,6 @@
 
 /**
  * PHP stream filter to detect html/javascript code in attachments
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_content_filter extends php_user_filter
 {

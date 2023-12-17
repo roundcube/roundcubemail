@@ -20,9 +20,6 @@
 
 /**
  * Struct representing an e-mail message header
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_message_header
 {
@@ -381,9 +378,6 @@ class rcube_message_header
 
 /**
  * Class for sorting an array of rcube_message_header objects in a predetermined order.
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_message_header_sorter
 {

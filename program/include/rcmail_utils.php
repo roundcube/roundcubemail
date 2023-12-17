@@ -20,9 +20,6 @@
 
 /**
  * Roundcube utilities
- *
- * @package    Webmail
- * @subpackage Utils
  */
 class rcmail_utils
 {

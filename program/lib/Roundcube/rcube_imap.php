@@ -21,9 +21,6 @@
 
 /**
  * Interface class for accessing an IMAP server
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_imap extends rcube_storage
 {

@@ -20,9 +20,6 @@
 /**
  * Helper class for turning URLs and email addresses in plaintext content
  * into clickable links.
- *
- * @package    Webmail
- * @subpackage Utils
  */
 class rcmail_string_replacer extends rcube_string_replacer
 {

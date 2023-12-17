@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_settings_folder_size
- *
- * @package Tests
  */
 class Actions_Settings_FolderSize extends ActionTestCase
 {

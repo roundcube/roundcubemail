@@ -2,8 +2,6 @@
 
 /**
  * Test class to test html class
- *
- * @package Tests
  */
 class Framework_Html extends PHPUnit\Framework\TestCase
 {

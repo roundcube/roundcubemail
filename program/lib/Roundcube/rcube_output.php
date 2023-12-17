@@ -20,9 +20,6 @@
 
 /**
  * Class for output generation
- *
- * @package    Framework
- * @subpackage View
  */
 abstract class rcube_output
 {

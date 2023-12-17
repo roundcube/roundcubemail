@@ -19,9 +19,6 @@
 
 /**
  * Class for HTML code creation
- *
- * @package    Framework
- * @subpackage View
  */
 class html
 {
@@ -406,9 +403,6 @@ class html
 
 /**
  * Class to create an HTML input field
- *
- * @package    Framework
- * @subpackage View
  */
 class html_inputfield extends html
 {
@@ -465,9 +459,6 @@ class html_inputfield extends html
 
 /**
  * Class to create an HTML password field
- *
- * @package    Framework
- * @subpackage View
  */
 class html_passwordfield extends html_inputfield
 {
@@ -476,9 +467,6 @@ class html_passwordfield extends html_inputfield
 
 /**
  * Class to create an hidden HTML input field
- *
- * @package    Framework
- * @subpackage View
  */
 class html_hiddenfield extends html
 {
@@ -528,9 +516,6 @@ class html_hiddenfield extends html
 
 /**
  * Class to create HTML checkboxes
- *
- * @package    Framework
- * @subpackage View
  */
 class html_checkbox extends html_inputfield
 {
@@ -560,9 +545,6 @@ class html_checkbox extends html_inputfield
 
 /**
  * Class to create HTML radio buttons
- *
- * @package    Framework
- * @subpackage View
  */
 class html_radiobutton extends html_checkbox
 {
@@ -571,9 +553,6 @@ class html_radiobutton extends html_checkbox
 
 /**
  * Class to create HTML button
- *
- * @package    Framework
- * @subpackage View
  */
 class html_button extends html_inputfield
 {
@@ -603,9 +582,6 @@ class html_button extends html_inputfield
 
 /**
  * Class to create an HTML textarea
- *
- * @package    Framework
- * @subpackage View
  */
 class html_textarea extends html
 {
@@ -663,9 +639,6 @@ class html_textarea extends html
  * // as second argument the same attributes available to instantiate can be used
  * print $select->show('CH');
  * </pre>
- *
- * @package    Framework
- * @subpackage View
  */
 class html_select extends html
 {
@@ -736,9 +709,6 @@ class html_select extends html
 
 /**
  * Class to build an HTML table
- *
- * @package    Framework
- * @subpackage View
  */
 class html_table extends html
 {

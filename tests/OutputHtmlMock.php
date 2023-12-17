@@ -19,8 +19,6 @@
 
 /**
  * A class for easier testing of code that uses rcmail_output classes
- *
- * @package Tests
  */
 class OutputHtmlMock extends rcmail_output_html
 {

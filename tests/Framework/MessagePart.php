@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_message_part class
- *
- * @package Tests
  */
 class Framework_MessagePart extends PHPUnit\Framework\TestCase
 {

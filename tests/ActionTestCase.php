@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_index
- *
- * @package Tests
  */
 class ActionTestCase extends PHPUnit\Framework\TestCase
 {

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_imap_cache class
- *
- * @package Tests
  */
 class Framework_ImapCache extends PHPUnit\Framework\TestCase
 {

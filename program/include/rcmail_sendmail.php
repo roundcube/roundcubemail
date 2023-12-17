@@ -22,8 +22,6 @@
 /**
  * Common code for generating and saving/sending mail message
  * with support for common user interface elements.
- *
- * @package Webmail
  */
 class rcmail_sendmail
 {

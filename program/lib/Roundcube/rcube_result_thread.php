@@ -21,9 +21,6 @@
 
 /**
  * Class for accessing IMAP's THREAD result
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_result_thread
 {

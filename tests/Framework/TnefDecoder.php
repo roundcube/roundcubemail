@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_tnef_decoder class
- *
- * @package Tests
  */
 class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
 {

@@ -6,8 +6,6 @@ use GuzzleHttp\Psr7\Response;
 
 /**
  * Test class to test rcmail_oauth class
- *
- * @package Tests
  */
 class Rcmail_RcmailOauth extends ActionTestCase
 {

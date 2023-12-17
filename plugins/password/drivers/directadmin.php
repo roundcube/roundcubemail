@@ -84,8 +84,6 @@ class rcube_directadmin_password
  *
  * @author Phi1 'l0rdphi1' Stier <l0rdphi1@liquenox.net>
  *
- * @package HTTPSocket
- *
  * @version 3.0.2
  */
 class HTTPSocket

@@ -21,9 +21,6 @@
 
 /**
  * Class for accessing IMAP's SORT/SEARCH/ESEARCH result
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_result_index
 {

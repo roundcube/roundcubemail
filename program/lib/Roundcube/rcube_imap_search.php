@@ -20,9 +20,6 @@
 
 /**
  * Class to control search jobs on multiple IMAP folders.
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_imap_search
 {

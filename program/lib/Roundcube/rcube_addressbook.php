@@ -19,9 +19,6 @@
 
 /**
  * Abstract skeleton of an address book/repository
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 abstract class rcube_addressbook
 {

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_shared functions
- *
- * @package Tests
  */
 class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 {

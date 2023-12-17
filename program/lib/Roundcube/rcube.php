@@ -22,9 +22,6 @@
 /**
  * Base class of the Roundcube Framework
  * implemented as singleton
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube
 {
@@ -1857,9 +1854,6 @@ class rcube
 
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_dummy_plugin_api
 {

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_settings_responses
- *
- * @package Tests
  */
 class Actions_Settings_Responses extends ActionTestCase
 {

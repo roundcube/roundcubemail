@@ -24,9 +24,6 @@ use GuzzleHttp\MessageFormatter;
 
 /**
  * Roundcube OAuth2 utilities
- *
- * @package    Webmail
- * @subpackage Utils
  */
 class rcmail_oauth
 {

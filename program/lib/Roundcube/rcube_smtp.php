@@ -20,9 +20,6 @@
 
 /**
  * Class to provide SMTP functionality using PEAR Net_SMTP
- *
- * @package    Framework
- * @subpackage Mail
  */
 class rcube_smtp
 {

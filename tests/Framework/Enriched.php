@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_enriched class
- *
- * @package Tests
  */
 class Framework_Enriched extends PHPUnit\Framework\TestCase
 {

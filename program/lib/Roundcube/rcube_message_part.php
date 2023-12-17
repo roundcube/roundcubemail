@@ -21,9 +21,6 @@
 
 /**
  * Class representing a message part
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_message_part
 {

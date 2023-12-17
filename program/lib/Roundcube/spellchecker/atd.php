@@ -20,9 +20,6 @@
 /**
  * Spellchecking backend implementation to work with an After the Deadline service
  * See http://www.afterthedeadline.com/ for more information
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_spellchecker_atd extends rcube_spellchecker_engine
 {

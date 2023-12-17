@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_base_replacer class
- *
- * @package Tests
  */
 class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
 {

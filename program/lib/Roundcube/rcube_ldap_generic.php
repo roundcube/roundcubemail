@@ -22,9 +22,6 @@
 
 /**
  * Model class to access an LDAP directories
- *
- * @package    Framework
- * @subpackage LDAP
  */
 class rcube_ldap_generic extends Net_LDAP3
 {

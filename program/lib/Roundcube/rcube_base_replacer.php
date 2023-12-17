@@ -20,9 +20,6 @@
 /**
  * Helper class to turn relative urls into absolute ones
  * using a predefined base
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_base_replacer
 {

@@ -22,9 +22,6 @@
 
 /**
  * Class to provide database session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_session_db extends rcube_session
 {

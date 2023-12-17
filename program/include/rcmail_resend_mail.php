@@ -20,8 +20,6 @@
 
 /**
  * Mail_mime wrapper to handle mail resend/bounce
- *
- * @package Webmail
  */
 class rcmail_resend_mail extends Mail_mime
 {
@@ -154,8 +152,6 @@ class rcmail_resend_mail extends Mail_mime
 /**
  * Stream filter to remove message headers from the streamed
  * message source (and store them in a variable)
- *
- * @package Webmail
  */
 class rcmail_bounce_stream_filter extends php_user_filter
 {

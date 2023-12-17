@@ -22,9 +22,6 @@
 
 /**
  * Model class to access an LDAP address directory
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_ldap extends rcube_addressbook
 {

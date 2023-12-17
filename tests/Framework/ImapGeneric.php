@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_imap_generic class
- *
- * @package Tests
  */
 class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
 {

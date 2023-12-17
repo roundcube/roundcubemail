@@ -19,8 +19,6 @@
 
 /**
  * A class for catching STDERR output
- *
- * @package Tests
  */
 class StderrMock extends php_user_filter
 {

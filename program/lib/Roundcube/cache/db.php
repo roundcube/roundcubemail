@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing SQL Database cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_db extends rcube_cache
 {

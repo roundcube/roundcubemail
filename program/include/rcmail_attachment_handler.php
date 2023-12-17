@@ -22,8 +22,6 @@
 /**
  * Unified access to attachment properties and body
  * Unified for message parts as well as uploaded attachments
- *
- * @package Webmail
  */
 class rcmail_attachment_handler
 {

@@ -3,8 +3,6 @@
 /**
  * Test class to test rcube_db class
  *
- * @package Tests
- *
  * @group database
  */
 class Framework_DB extends PHPUnit\Framework\TestCase

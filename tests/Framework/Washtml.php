@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_washtml class
- *
- * @package Tests
  */
 class Framework_Washtml extends PHPUnit\Framework\TestCase
 {

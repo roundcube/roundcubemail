@@ -21,9 +21,6 @@
 
 /**
  * Abstract class for accessing mail messages storage server
- *
- * @package    Framework
- * @subpackage Storage
  */
 abstract class rcube_storage
 {

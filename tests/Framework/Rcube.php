@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube class
- *
- * @package Tests
  */
 class Framework_Rcube extends PHPUnit\Framework\TestCase
 {

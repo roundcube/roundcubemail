@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_mime class
- *
- * @package Tests
  */
 class Framework_Mime extends PHPUnit\Framework\TestCase
 {

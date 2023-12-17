@@ -19,8 +19,6 @@
 
 /**
  * A class for easier testing of code that uses rcmail_output classes
- *
- * @package Tests
  */
 class OutputJsonMock extends rcmail_output_json
 {

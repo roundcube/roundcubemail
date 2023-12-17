@@ -19,9 +19,6 @@
 
 /**
  * Converts plain text to HTML
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_text2html
 {

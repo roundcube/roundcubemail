@@ -19,9 +19,6 @@
 
 /**
  * Provide details about the client's browser based on the User-Agent header
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_browser
 {

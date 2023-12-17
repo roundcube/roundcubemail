@@ -19,9 +19,6 @@
 
 /**
  * A trait providing access to metadata of files uploaded in a session.
- *
- * @package    Framework
- * @subpackage Core
  */
 trait rcube_uploads
 {

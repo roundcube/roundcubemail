@@ -20,9 +20,6 @@
 
 /**
  * Spellchecking backend implementation to work with a Googiespell service
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_spellchecker_googie extends rcube_spellchecker_engine
 {

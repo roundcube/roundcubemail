@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_text2html class
- *
- * @package Tests
  */
 class Framework_Text2Html extends PHPUnit\Framework\TestCase
 {

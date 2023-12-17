@@ -92,9 +92,6 @@
 
 /**
  * Converts HTML to formatted plain text
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_html2text
 {

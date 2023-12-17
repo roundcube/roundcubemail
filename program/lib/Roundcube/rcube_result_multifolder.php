@@ -21,9 +21,6 @@
 /**
  * Class holding a set of rcube_result_index instances that together form a
  * result set of a multi-folder search
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_result_multifolder
 {

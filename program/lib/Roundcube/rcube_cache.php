@@ -21,9 +21,6 @@
 
 /**
  * Interface class for accessing Roundcube cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache
 {

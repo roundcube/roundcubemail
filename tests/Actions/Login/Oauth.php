@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_login_oauth
- *
- * @package Tests
  */
 class Actions_Login_Oauth extends ActionTestCase
 {

@@ -23,8 +23,6 @@
 /**
  * Application class of Roundcube Webmail
  * implemented as singleton
- *
- * @package Webmail
  */
 class rcmail extends rcube
 {

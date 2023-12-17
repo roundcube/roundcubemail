@@ -19,9 +19,6 @@
 
 /**
  * Configuration class for Roundcube
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_config
 {

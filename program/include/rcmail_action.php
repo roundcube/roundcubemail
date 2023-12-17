@@ -21,8 +21,6 @@
 
 /**
  * An abstract for HTTP request handlers with some helpers.
- *
- * @package Webmail
  */
 abstract class rcmail_action
 {

@@ -3,8 +3,6 @@
 /**
  * Test class to test rcube_db_mysql class
  *
- * @package Tests
- *
  * @group database
  * @group mysql
  */

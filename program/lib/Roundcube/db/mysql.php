@@ -22,9 +22,6 @@
  * Database independent query interface
  *
  * This is a wrapper for the PHP PDO
- *
- * @package    Framework
- * @subpackage Database
  */
 class rcube_db_mysql extends rcube_db
 {

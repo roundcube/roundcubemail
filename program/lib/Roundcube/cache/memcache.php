@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing Memcache cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_memcache extends rcube_cache
 {

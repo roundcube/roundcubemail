@@ -20,9 +20,6 @@
 
 /**
  * Plugin interface class
- *
- * @package    Framework
- * @subpackage PluginAPI
  */
 abstract class rcube_plugin
 {

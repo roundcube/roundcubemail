@@ -22,9 +22,6 @@
 
 /**
  * Abstract class to provide database supported session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 abstract class rcube_session implements SessionHandlerInterface
 {

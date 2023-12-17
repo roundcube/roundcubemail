@@ -19,9 +19,6 @@
 
 /**
  * Collected addresses database
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_addresses extends rcube_contacts
 {

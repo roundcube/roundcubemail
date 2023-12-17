@@ -25,9 +25,6 @@
  *   Graham Norbury <gnorbury@bondcar.com>
  * Original design by:
  *   Thomas Boll <tb@boll.ch>, Mark Simpson <damned@world.std.com>
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_tnef_decoder
 {

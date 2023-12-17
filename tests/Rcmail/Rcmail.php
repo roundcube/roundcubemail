@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail class
- *
- * @package Tests
  */
 class Rcmail_Rcmail extends ActionTestCase
 {

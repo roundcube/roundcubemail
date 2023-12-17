@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_utils_save_pref
- *
- * @package Tests
  */
 class Actions_Utils_SavePref extends ActionTestCase
 {

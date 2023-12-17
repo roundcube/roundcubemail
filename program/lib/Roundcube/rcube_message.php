@@ -21,9 +21,6 @@
 /**
  * Logical representation of a mail message with all its data
  * and related functions
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_message
 {

@@ -20,9 +20,6 @@
 
 /**
  * Spellchecking backend implementation to work with Pspell
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_spellchecker_pspell extends rcube_spellchecker_engine
 {

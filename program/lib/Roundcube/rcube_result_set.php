@@ -22,9 +22,6 @@
  *
  * Representing an address directory result set.
  * Implements Iterator and can thus be used in foreach() loops.
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_result_set implements Iterator, ArrayAccess
 {
