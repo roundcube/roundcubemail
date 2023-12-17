@@ -40,7 +40,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         self::$COMPOSE    = null;
 
         if (self::$COMPOSE_ID && !empty($_SESSION['compose_data_' . self::$COMPOSE_ID])) {
-            self::$COMPOSE =&$_SESSION['compose_data_' . self::$COMPOSE_ID];
+            self::$COMPOSE = &$_SESSION['compose_data_' . self::$COMPOSE_ID];
         }
 
         // give replicated session storage some time to synchronize
@@ -49,7 +49,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             usleep(500000);
             $rcmail->session->reload();
             if ($_SESSION['compose_data_' . self::$COMPOSE_ID]) {
-                self::$COMPOSE =&$_SESSION['compose_data_' . self::$COMPOSE_ID];
+                self::$COMPOSE = &$_SESSION['compose_data_' . self::$COMPOSE_ID];
             }
         }
 
@@ -78,7 +78,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     ? $params['mbox'] : $rcmail->storage->get_folder(),
             ];
 
-            self::$COMPOSE =&$_SESSION['compose_data_' . self::$COMPOSE_ID];
+            self::$COMPOSE = &$_SESSION['compose_data_' . self::$COMPOSE_ID];
             self::process_compose_params(self::$COMPOSE);
 
             // check if folder for saving sent messages exists and is subscribed (#1486802)
@@ -779,7 +779,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
                 // use html part if it has been used for message (pre)viewing
                 // decrease line length for quoting
-                $len  = self::$COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY ? $line_length-2 : $line_length;
+                $len  = self::$COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY ? $line_length - 2 : $line_length;
                 $body = $rcmail->html2text($body, ['width' => $len]);
             }
             else {
@@ -1059,10 +1059,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $sig_max_lines = $rcmail->config->get('sig_max_lines', 15);
 
         while (($sp = strrpos($body, "-- \n", !empty($sp) ? -$len + $sp - 1 : 0)) !== false) {
-            if ($sp == 0 || $body[$sp-1] == "\n") {
+            if ($sp == 0 || $body[$sp - 1] == "\n") {
                 // do not touch blocks with more that X lines
                 if (substr_count($body, "\n", $sp) < $sig_max_lines) {
-                    $body = substr($body, 0, max(0, $sp-1));
+                    $body = substr($body, 0, max(0, $sp - 1));
                 }
                 break;
             }

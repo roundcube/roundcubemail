@@ -709,7 +709,7 @@ class enigma_driver_gnupg extends enigma_driver
                 $datasize = strlen($data);
 
                 if (empty($maxsize)) {
-                    $maxsize = min($db->get_variable('max_allowed_packet', 1048500), 4*1024*1024) - 2000;
+                    $maxsize = min($db->get_variable('max_allowed_packet', 1048500), 4 * 1024 * 1024) - 2000;
                 }
 
                 if ($datasize > $maxsize) {

@@ -226,7 +226,7 @@ class rcube_db_pgsql extends rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            if (($schema = $this->options['table_prefix']) && $schema[strlen($schema)-1] === '.') {
+            if (($schema = $this->options['table_prefix']) && $schema[strlen($schema) - 1] === '.') {
                 $add = " AND TABLE_SCHEMA = " . $this->quote(substr($schema, 0, -1));
             }
             else {
@@ -254,7 +254,7 @@ class rcube_db_pgsql extends rcube_db
     {
         $args = [$table];
 
-        if (($schema = $this->options['table_prefix']) && $schema[strlen($schema)-1] === '.') {
+        if (($schema = $this->options['table_prefix']) && $schema[strlen($schema) - 1] === '.') {
             $add    = " AND TABLE_SCHEMA = ?";
             $args[] = substr($schema, 0, -1);
         }

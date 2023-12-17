@@ -163,8 +163,8 @@ class rcmail_install
                 $token = $tokens[$i];
                 if ($token[0] == T_VARIABLE && ($token[1] == '$config' || $token[1] == '$rcmail_config')) {
                     $in_config = true;
-                    if ($buffer && $tokens[$i+1] == '[' && $tokens[$i+2][0] == T_CONSTANT_ENCAPSED_STRING) {
-                        $propname = trim($tokens[$i+2][1], "'\"");
+                    if ($buffer && $tokens[$i + 1] == '[' && $tokens[$i + 2][0] == T_CONSTANT_ENCAPSED_STRING) {
+                        $propname = trim($tokens[$i + 2][1], "'\"");
                         $this->comments[$propname] = preg_replace('/\n\n/', "\n", $buffer);
                         $buffer = '';
                         $i += 3;
@@ -546,7 +546,7 @@ class rcmail_install
                 $version = $m[1];
             }
             else if ($table_name && ($line = trim($line))) {
-                if ($line == 'GO' || $line[0] == ')' || $line[strlen($line)-1] == ';') {
+                if ($line == 'GO' || $line[0] == ')' || $line[strlen($line) - 1] == ';') {
                     $table_name = null;
                 }
                 else {

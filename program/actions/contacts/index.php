@@ -1472,15 +1472,15 @@ class rcmail_action_contacts_index extends rcmail_action
             if (!$got_source) {
                 if ($sep = strrpos($id, '-')) {
                     $contact_id = substr($id, 0, $sep);
-                    $source_id  = (string) substr($id, $sep+1);
+                    $source_id  = (string) substr($id, $sep + 1);
                     if (strlen($source_id)) {
                         $result[$source_id][] = $contact_id;
                     }
                 }
             }
             else {
-                if (substr($id, -($got_source+1)) === "-$source") {
-                    $id = substr($id, 0, -($got_source+1));
+                if (substr($id, -($got_source + 1)) === "-$source") {
+                    $id = substr($id, 0, -($got_source + 1));
                 }
                 $result[$source][] = $id;
             }

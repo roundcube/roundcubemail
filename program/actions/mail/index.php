@@ -781,7 +781,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         $page_size = $rcmail->storage->get_pagesize();
-        $start_msg = ($page-1) * $page_size + 1;
+        $start_msg = ($page - 1) * $page_size + 1;
         $max       = $count;
 
         if ($max === null && $rcmail->action) {
@@ -1204,7 +1204,7 @@ class rcmail_action_mail_index extends rcmail_action
         );
 
         // find STYLE tags
-        while (($pos = stripos($body, '<style', $last_pos)) !== false && ($pos2 = stripos($body, '</style>', $pos+1))) {
+        while (($pos = stripos($body, '<style', $last_pos)) !== false && ($pos2 = stripos($body, '</style>', $pos + 1))) {
             $pos = strpos($body, '>', $pos) + 1;
             $len = $pos2 - $pos;
 
@@ -1582,7 +1582,7 @@ class rcmail_action_mail_index extends rcmail_action
         $ctypes = ['application/', 'multipart/m', 'multipart/signed', 'multipart/report'];
 
         // Build search string of "with attachment" filter
-        $attachment = trim(str_repeat(' OR', count($ctypes)-1));
+        $attachment = trim(str_repeat(' OR', count($ctypes) - 1));
         foreach ($ctypes as $type) {
             $attachment .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
         }

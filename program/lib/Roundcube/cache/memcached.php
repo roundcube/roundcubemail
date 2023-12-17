@@ -43,8 +43,8 @@ class rcube_cache_memcached extends rcube_cache
 
         // Maximum TTL is 30 days, bigger values are treated by Memcached
         // as unix timestamp which is not what we want
-        if ($this->ttl > 60*60*24*30) {
-            $this->ttl = 60*60*24*30;
+        if ($this->ttl > 60 * 60 * 24 * 30) {
+            $this->ttl = 60 * 60 * 24 * 30;
         }
 
         self::engine();

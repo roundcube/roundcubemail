@@ -640,7 +640,7 @@ class rcube_ldap extends rcube_addressbook
             usort($entries, [$this, '_entry_sort_cmp']);
 
             $entries['count'] = count($entries);
-            $this->result = new rcube_result_set($entries['count'], ($this->list_page-1) * $this->page_size);
+            $this->result = new rcube_result_set($entries['count'], ($this->list_page - 1) * $this->page_size);
         }
         else {
             // exec LDAP search if no result resource is stored
@@ -692,7 +692,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        for ($i=0; $i < $entries['count']; $i++) {
+        for ($i = 0; $i < $entries['count']; $i++) {
             $entry = $entries[$i];
             $attrs = [];
 
@@ -744,7 +744,7 @@ class rcube_ldap extends rcube_addressbook
 
         $filter = !empty($this->prop['groups']['member_filter']) ? $this->prop['groups']['member_filter'] : '(objectclass=*)';
 
-        for ($i=0; $i < $entry[$attr]['count']; $i++) {
+        for ($i = 0; $i < $entry[$attr]['count']; $i++) {
             if (empty($entry[$attr][$i])) {
                 continue;
             }
@@ -1004,7 +1004,7 @@ class rcube_ldap extends rcube_addressbook
             $count = $this->extended_search(true);
         }
 
-        return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
+        return new rcube_result_set($count, ($this->list_page - 1) * $this->page_size);
     }
 
     /**
@@ -1661,7 +1661,7 @@ class rcube_ldap extends rcube_addressbook
                 $entry['count'] = count($entry);
             }
 
-            for ($i=0; $i < $entry['count']; $i++) {
+            for ($i = 0; $i < $entry['count']; $i++) {
                 if (!($value = $entry[$i])) {
                     continue;
                 }
@@ -1937,7 +1937,7 @@ class rcube_ldap extends rcube_addressbook
 
             $ldap = clone $this->ldap;
             $ldap->config_set($this->prop['groups']);
-            $ldap->set_vlv_page($vlv_page+1, $page_size);
+            $ldap->set_vlv_page($vlv_page + 1, $page_size);
         }
 
         $props = ['sort' => $this->prop['groups']['sort'] ?? null];
@@ -1982,7 +1982,7 @@ class rcube_ldap extends rcube_addressbook
             $groups[$group_id]['member_attr'] = $this->get_group_member_attr($entry['objectclass']);
 
             // list email attributes of a group
-            for ($j=0; $entry[$email_attr] && $j < $entry[$email_attr]['count']; $j++) {
+            for ($j = 0; $entry[$email_attr] && $j < $entry[$email_attr]['count']; $j++) {
                 if (strpos($entry[$email_attr][$j], '@') > 0) {
                     $groups[$group_id]['email'][] = $entry[$email_attr][$j];
                 }

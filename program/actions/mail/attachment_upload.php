@@ -170,7 +170,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         self::$SESSION_KEY = 'compose_data_' . self::$COMPOSE_ID;
 
         if (self::$COMPOSE_ID && !empty($_SESSION[self::$SESSION_KEY])) {
-            self::$COMPOSE =&$_SESSION[self::$SESSION_KEY];
+            self::$COMPOSE = &$_SESSION[self::$SESSION_KEY];
         }
 
         if (!self::$COMPOSE) {

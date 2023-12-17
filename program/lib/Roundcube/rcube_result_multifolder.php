@@ -270,7 +270,7 @@ class rcube_result_multifolder
      *
      * @return array|string Response parameters or parameter value
      */
-    public function get_parameters($param=null)
+    public function get_parameters($param = null)
     {
         $params = [
             'SORT'    => $this->sorting,

@@ -193,7 +193,7 @@ class rcube_mime
 
                 // Append everything that is before the text to be decoded
                 if ($start != $pos) {
-                    $substr = substr($input, $start, $pos-$start);
+                    $substr = substr($input, $start, $pos - $start);
                     $out   .= rcube_charset::convert($substr, $default_charset);
                     $start  = $pos;
                 }
@@ -208,7 +208,7 @@ class rcube_mime
                 // aggregation as a whole.
 
                 $tmp[] = $text;
-                if (!empty($matches[$idx+1]) && ($next_match = $matches[$idx+1])) {
+                if (!empty($matches[$idx + 1]) && ($next_match = $matches[$idx + 1])) {
                     if ($next_match[0][1] == $start
                         && $next_match[1][0] == $charset
                         && $next_match[2][0] == $encoding
@@ -226,7 +226,7 @@ class rcube_mime
                     // base64 must be decoded a segment at a time.
                     // However, there are broken implementations that continue
                     // in the following word, we'll handle that (#6048)
-                    for ($i=0; $i<$count; $i++) {
+                    for ($i = 0; $i < $count; $i++) {
                         $chunk  = $rest . $tmp[$i];
                         $length = strlen($chunk);
                         if ($length % 4) {
@@ -240,7 +240,7 @@ class rcube_mime
                 }
                 else { // if ($encoding == 'Q' || $encoding == 'q') {
                     // quoted printable can be combined and processed at once
-                    for ($i=0; $i<$count; $i++) {
+                    for ($i = 0; $i < $count; $i++) {
                         $text .= $tmp[$i];
                     }
 
@@ -301,10 +301,10 @@ class rcube_mime
         $lines   = explode("\n", $headers);
         $count   = count($lines);
 
-        for ($i=0; $i<$count; $i++) {
+        for ($i = 0; $i < $count; $i++) {
             if ($p = strpos($lines[$i], ': ')) {
                 $field = strtolower(substr($lines[$i], 0, $p));
-                $value = trim(substr($lines[$i], $p+1));
+                $value = trim(substr($lines[$i], $p + 1));
                 if (!empty($value)) {
                     $result[$field] = $value;
                 }
@@ -337,7 +337,7 @@ class rcube_mime
 
             // First token might be a group name, ignore it
             $tokens = self::explode_header_string(' ', $val);
-            if (isset($tokens[0]) && $tokens[0][strlen($tokens[0])-1] == ':') {
+            if (isset($tokens[0]) && $tokens[0][strlen($tokens[0]) - 1] == ':') {
                 $val = substr($val, strlen($tokens[0]));
             }
 
@@ -367,11 +367,11 @@ class rcube_mime
             // unquote and/or decode name
             if ($name) {
                 // An unquoted name ending with colon is a address group name, ignore it
-                if ($name[strlen($name)-1] == ':') {
+                if ($name[strlen($name) - 1] == ':') {
                     $name = '';
                 }
 
-                if (strlen($name) > 1 && $name[0] == '"' && $name[strlen($name)-1] == '"') {
+                if (strlen($name) > 1 && $name[0] == '"' && $name[strlen($name) - 1] == '"') {
                     $name = substr($name, 1, -1);
                     $name = stripslashes($name);
                 }
@@ -379,7 +379,7 @@ class rcube_mime
                 if ($decode) {
                     $name = self::decode_header($name, $fallback);
                     // some clients encode addressee name with quotes around it
-                    if (strlen($name) > 1 && $name[0] == '"' && $name[strlen($name)-1] == '"') {
+                    if (strlen($name) > 1 && $name[0] == '"' && $name[strlen($name) - 1] == '"') {
                         $name = substr($name, 1, -1);
                     }
                 }
@@ -418,7 +418,7 @@ class rcube_mime
         $comment = 0;
         $out     = '';
 
-        for ($i=0; $i<$length; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             // we're inside a quoted string
             if ($quoted) {
                 if ($str[$i] == '"') {
@@ -503,7 +503,7 @@ class rcube_mime
                 // - previous line was flowed
                 // - previous line contains more than only one single space (and quote char(s))
                 if ($q == $q_level
-                    && isset($text[$last]) && $text[$last][strlen($text[$last])-1] == ' '
+                    && isset($text[$last]) && $text[$last][strlen($text[$last]) - 1] == ' '
                     && !preg_match('/^>+ {0,1}$/', $text[$last])
                 ) {
                     if ($delsp) {
@@ -534,7 +534,7 @@ class rcube_mime
 
                     if (
                         $last_len && $line && !$q_level && $text[$last] != '-- '
-                        && isset($text[$last][$last_len-1]) && $text[$last][$last_len-1] == ' '
+                        && isset($text[$last][$last_len - 1]) && $text[$last][$last_len - 1] == ' '
                     ) {
                         if ($delsp) {
                             $text[$last] = substr($text[$last], 0, -1);

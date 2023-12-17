@@ -661,7 +661,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                     $vacation['seconds'] = ($interval = intval($m[1])) ? $interval : null;
                 }
                 else {
-                    $vacation['days'] = $interval = ceil(intval($m[1])/86400);
+                    $vacation['days'] = $interval = ceil(intval($m[1]) / 86400);
                 }
             }
             else {

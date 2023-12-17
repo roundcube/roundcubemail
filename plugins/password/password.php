@@ -730,9 +730,9 @@ class password extends rcube_plugin
                     return false;
                 }
 
-                fwrite($pipes[0], $password . "\n", 1+strlen($password));
+                fwrite($pipes[0], $password . "\n", 1 + strlen($password));
                 usleep(1000);
-                fwrite($pipes[0], $password . "\n", 1+strlen($password));
+                fwrite($pipes[0], $password . "\n", 1 + strlen($password));
 
                 $crypted = trim(stream_get_contents($pipes[1]), "\n");
                 $stderr = trim(stream_get_contents($pipes[2]));

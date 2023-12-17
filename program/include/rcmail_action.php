@@ -199,7 +199,7 @@ abstract class rcmail_action
 
         if (!empty($quota['total']) && $quota['total'] > 0) {
             if (!isset($quota['percent'])) {
-                $quota_result['percent'] = min(100, round(($quota['used']/max(1,$quota['total']))*100));
+                $quota_result['percent'] = min(100, round(($quota['used'] / max(1,$quota['total'])) * 100));
             }
 
             $title = $rcmail->gettext('quota') . ': ' . sprintf('%s / %s (%.0f%%)',
@@ -731,17 +731,17 @@ abstract class rcmail_action
 
         if ($bytes >= 1073741824) {
             $unit = 'GB';
-            $gb   = $bytes/1073741824;
+            $gb   = $bytes / 1073741824;
             $str  = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $rcmail->gettext($unit);
         }
         else if ($bytes >= 1048576) {
             $unit = 'MB';
-            $mb   = $bytes/1048576;
+            $mb   = $bytes / 1048576;
             $str  = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $rcmail->gettext($unit);
         }
         else if ($bytes >= 1024) {
             $unit = 'KB';
-            $str  = sprintf("%d ",  round($bytes/1024)) . $rcmail->gettext($unit);
+            $str  = sprintf("%d ",  round($bytes / 1024)) . $rcmail->gettext($unit);
         }
         else {
             $unit = 'B';
@@ -1118,7 +1118,7 @@ abstract class rcmail_action
         $pos = strpos($folder, $delm);
 
         if ($pos !== false) {
-            $subFolders    = substr($folder, $pos+1);
+            $subFolders    = substr($folder, $pos + 1);
             $currentFolder = substr($folder, 0, $pos);
 
             // sometimes folder has a delimiter as the last character
@@ -1252,7 +1252,7 @@ abstract class rcmail_action
 
             if (!empty($folder['folders'])) {
                 $out .= html::tag('ul', ['style' => $is_collapsed ? "display:none;" : null],
-                    self::render_folder_tree_html($folder['folders'], $mbox_name, $jslist, $attrib, $nestLevel+1));
+                    self::render_folder_tree_html($folder['folders'], $mbox_name, $jslist, $attrib, $nestLevel + 1));
             }
 
             $out .= "</li>\n";
@@ -1299,11 +1299,11 @@ abstract class rcmail_action
                 }
             }
 
-            $select->add(str_repeat('&nbsp;', $nestLevel*4) . html::quote($foldername), $folder['id']);
+            $select->add(str_repeat('&nbsp;', $nestLevel * 4) . html::quote($foldername), $folder['id']);
 
             if (!empty($folder['folders'])) {
                 $out .= self::render_folder_tree_select($folder['folders'], $mbox_name, $maxlength,
-                    $select, $realnames, $nestLevel+1, $opts);
+                    $select, $realnames, $nestLevel + 1, $opts);
             }
         }
 
@@ -1415,7 +1415,7 @@ abstract class rcmail_action
         $result          = [];
 
         foreach ($path as $idx => $dir) {
-            $directory = implode($delimiter, array_slice($path, 0, $idx+1));
+            $directory = implode($delimiter, array_slice($path, 0, $idx + 1));
             if ($protect_folders && $rcmail->storage->is_special_folder($directory)) {
                 unset($result);
                 $result[] = self::localize_foldername($directory);

@@ -191,7 +191,7 @@ class rcube_spellchecker
      *
      * @return array List of misspelled words
      */
-    function get_words($text = null, $is_html=false)
+    function get_words($text = null, $is_html = false)
     {
         if ($is_html) {
             $text = $this->html2text($text);

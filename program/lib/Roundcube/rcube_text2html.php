@@ -235,8 +235,8 @@ class rcube_text2html
         $sig_sep       = "--" . $this->config['space'] . "\n";
         $sig_max_lines = rcube::get_instance()->config->get('sig_max_lines', 15);
 
-        while (($sp = strrpos($text, $sig_sep, !empty($sp) ? -$len+$sp-1 : 0)) !== false) {
-            if ($sp == 0 || $text[$sp-1] == "\n") {
+        while (($sp = strrpos($text, $sig_sep, !empty($sp) ? -$len + $sp - 1 : 0)) !== false) {
+            if ($sp == 0 || $text[$sp - 1] == "\n") {
                 // do not touch blocks with more that X lines
                 if (substr_count($text, "\n", $sp) < $sig_max_lines) {
                     $text = substr($text, 0, max(0, $sp))
@@ -319,7 +319,7 @@ class rcube_text2html
             $copy = $text;
 
             while (($pos = strpos($text, ' ', $pos)) !== false) {
-                if (($pos == 0 || $text[$pos-1] == ' ') && $pos - 1 != $last) {
+                if (($pos == 0 || $text[$pos - 1] == ' ') && $pos - 1 != $last) {
                     $last = $pos;
                     $copy = substr_replace($copy, $nbsp, $pos + $diff, 1);
                     $diff += $len - 1;

@@ -1222,7 +1222,7 @@ class rcmail extends rcube
             setlocale(LC_NUMERIC, 'en_US.utf8', 'en_US.UTF-8', 'en_US', 'C');
 
             if (function_exists('memory_get_usage')) {
-                $mem = round(memory_get_usage() / 1024 /1024, 1);
+                $mem = round(memory_get_usage() / 1024 / 1024, 1);
 
                 if (function_exists('memory_get_peak_usage')) {
                     $mem .= '/' . round(memory_get_peak_usage() / 1024 / 1024, 1);
@@ -1332,7 +1332,7 @@ class rcmail extends rcube
 
             if ($count) {
                 $folders[0]        = substr($folders[0], 1);
-                $folders[$count-1] = substr($folders[$count-1], 0, -1);
+                $folders[$count - 1] = substr($folders[$count - 1], 0, -1);
             }
 
             foreach ($folders as $value) {
@@ -1659,7 +1659,7 @@ class rcmail extends rcube
             $now         = time();
             $now_date    = getdate($now);
             $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
-            $week_limit  = mktime(0, 0, 0, $now_date['mon'], $now_date['mday']-6, $now_date['year']);
+            $week_limit  = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'] - 6, $now_date['year']);
             $pretty_date = $this->config->get('prettydate');
 
             if ($pretty_date && $timestamp > $today_limit && $timestamp <= $now) {
@@ -1682,7 +1682,7 @@ class rcmail extends rcube
             }
 
             // write char "as-is"
-            if ($format[$i] == ' ' || ($i > 0 && $format[$i-1] == "\\")) {
+            if ($format[$i] == ' ' || ($i > 0 && $format[$i - 1] == "\\")) {
                 $out .= $format[$i];
             }
             // weekday (short)

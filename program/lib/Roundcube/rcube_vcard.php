@@ -703,13 +703,13 @@ class rcube_vcard
         $lines  = explode("\n", $vcard);
         $result = [];
 
-        for ($i=0; $i < count($lines); $i++) {
+        for ($i = 0; $i < count($lines); $i++) {
             if (!($pos = strpos($lines[$i], ':'))) {
                 continue;
             }
 
             $prefix = substr($lines[$i], 0, $pos);
-            $data   = substr($lines[$i], $pos+1);
+            $data   = substr($lines[$i], $pos + 1);
 
             if (preg_match('/^(BEGIN|END)$/i', $prefix)) {
                 continue;

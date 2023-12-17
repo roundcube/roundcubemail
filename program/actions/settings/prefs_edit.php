@@ -61,7 +61,7 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
         $out = $form_start;
 
         if (!empty(self::$sections[self::$section]['header'])) {
-            $div_attr = ['id' => 'preferences-header', 'class' =>'boxcontent'];
+            $div_attr = ['id' => 'preferences-header', 'class' => 'boxcontent'];
             $out .= html::div($div_attr, self::$sections[self::$section]['header']);
         }
 

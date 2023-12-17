@@ -272,7 +272,7 @@ class enigma_ui
 
         $this->rc->output->set_env('rowcount', $size);
         $this->rc->output->set_env('search_request', $search);
-        $this->rc->output->set_env('pagecount', ceil($listsize/$pagesize));
+        $this->rc->output->set_env('pagecount', ceil($listsize / $pagesize));
         $this->rc->output->set_env('current_page', $page);
         $this->rc->output->command('set_rowcount', $this->get_rowcount_text($listsize, $size, $page));
 

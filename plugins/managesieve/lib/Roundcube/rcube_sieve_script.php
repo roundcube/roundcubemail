@@ -146,7 +146,7 @@ class rcube_sieve_script
     public function set_var($name, $value, $mods = [])
     {
         // Check if variable exists
-        for ($i=0, $len=count($this->vars); $i<$len; $i++) {
+        for ($i = 0, $len = count($this->vars); $i < $len; $i++) {
             if ($this->vars[$i]['name'] == $name) {
                 break;
             }
@@ -183,7 +183,7 @@ class rcube_sieve_script
     public function get_var($name)
     {
         // Check if variable exists
-        for ($i=0, $len=count($this->vars); $i<$len; $i++) {
+        for ($i = 0, $len = count($this->vars); $i < $len; $i++) {
             if ($this->vars[$i]['name'] == $name) {
                 return $this->vars[$i]['name'];
             }
@@ -796,7 +796,7 @@ class rcube_sieve_script
 
                     $test['arg'] = array_pop($tokens);
 
-                    for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                    for ($i = 0, $len = count($tokens); $i < $len; $i++) {
                         if (!is_array($tokens[$i])
                             && preg_match('/^:(under|over)$/i', $tokens[$i])
                         ) {
@@ -829,7 +829,7 @@ class rcube_sieve_script
                     $test += $this->test_tokens($tokens);
 
                     if ($token != 'header' && $token != 'string' && !empty($tokens)) {
-                        for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                        for ($i = 0, $len = count($tokens); $i < $len; $i++) {
                             if (!is_array($tokens[$i]) && preg_match('/^:(localpart|domain|all|user|detail)$/i', $tokens[$i])) {
                                 $test['part'] = strtolower(substr($tokens[$i], 1));
                             }
@@ -846,7 +846,7 @@ class rcube_sieve_script
 
                     $test += $this->test_tokens($tokens);
 
-                    for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                    for ($i = 0, $len = count($tokens); $i < $len; $i++) {
                         if (!is_array($tokens[$i]) && preg_match('/^:(raw|content|text)$/i', $tokens[$i])) {
                             $test['part'] = strtolower(substr($tokens[$i], 1));
 
@@ -872,7 +872,7 @@ class rcube_sieve_script
 
                     $test += $this->test_tokens($tokens);
 
-                    for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                    for ($i = 0, $len = count($tokens); $i < $len; $i++) {
                         if (!is_array($tokens[$i]) && preg_match('/^:zone$/i', $tokens[$i])) {
                             $test['zone'] = $tokens[++$i];
                         }
@@ -887,7 +887,7 @@ class rcube_sieve_script
                 case 'duplicate':
                     $test = ['test' => $token, 'not' => $not];
 
-                    for ($i=0, $len=count($tokens); $i<$len; $i++) {
+                    for ($i = 0, $len = count($tokens); $i < $len; $i++) {
                         if (!is_array($tokens[$i])) {
                             if (preg_match('/^:(handle|header|uniqueid|seconds)$/i', $tokens[$i], $m)) {
                                 $test[strtolower($m[1])] = $tokens[++$i];
@@ -1175,7 +1175,7 @@ class rcube_sieve_script
         $test   = [];
         $result = [];
 
-        for ($i=0, $len=count($tokens); $i<$len; $i++) {
+        for ($i = 0, $len = count($tokens); $i < $len; $i++) {
             $token = is_array($tokens[$i]) ? null : $tokens[$i];
             if ($token && preg_match('/^:comparator$/i', $token)) {
                 $test['comparator'] = $tokens[++$i];
@@ -1193,7 +1193,7 @@ class rcube_sieve_script
             }
             else if ($token && preg_match('/^:index$/i', $token)) {
                 $test['index'] = intval($tokens[++$i]);
-                if ($tokens[$i+1] && preg_match('/^:last$/i', $tokens[$i+1])) {
+                if ($tokens[$i + 1] && preg_match('/^:last$/i', $tokens[$i + 1])) {
                     $test['last'] = true;
                     $i++;
                 }
@@ -1216,7 +1216,7 @@ class rcube_sieve_script
         $action = [];
         $result = [];
 
-        for ($i=0, $len=count($tokens); $i<$len; $i++) {
+        for ($i = 0, $len = count($tokens); $i < $len; $i++) {
             $tok = $tokens[$i];
             if (!is_array($tok) && $tok[0] == ':') {
                 $tok = strtolower(substr($tok, 1));

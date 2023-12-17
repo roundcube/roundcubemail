@@ -293,8 +293,8 @@ class rcube_result_thread
             if ($get_index) {
                 $idx = 0;
                 if ($m[0][1]) {
-                    $idx = substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1]+1)
-                        + substr_count($this->raw_data, self::SEPARATOR_ITEM, 0, $m[0][1]+1);
+                    $idx = substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1] + 1)
+                        + substr_count($this->raw_data, self::SEPARATOR_ITEM, 0, $m[0][1] + 1);
                 }
                 // cache position of this element, so we can use it in get_element()
                 $this->meta['pos'][$idx] = (int) $m[0][1];
@@ -362,7 +362,7 @@ class rcube_result_thread
         }
 
         // last element
-        if ($index === 'LAST' || $index == $count-1) {
+        if ($index === 'LAST' || $index == $count - 1) {
             preg_match('/([0-9]+)$/', $this->raw_data, $m);
             $result = (int) $m[1];
             return $result;
@@ -379,19 +379,19 @@ class rcube_result_thread
                     $result = $m[1];
                 }
             }
-            else if (isset($this->meta['pos'][$index-1])) {
+            else if (isset($this->meta['pos'][$index - 1])) {
                 // get chunk of data after previous element
-                $data = substr($this->raw_data, $this->meta['pos'][$index-1]+1, 50);
+                $data = substr($this->raw_data, $this->meta['pos'][$index - 1] + 1, 50);
                 $data = preg_replace('/^[0-9]+/', '', $data); // remove UID at $index position
                 $data = preg_replace("/^$regexp/", '', $data); // remove separator
                 if (preg_match('/^([0-9]+)/', $data, $m)) {
                     $result = $m[1];
                 }
             }
-            else if (isset($this->meta['pos'][$index+1])) {
+            else if (isset($this->meta['pos'][$index + 1])) {
                 // get chunk of data before next element
-                $pos  = max(0, $this->meta['pos'][$index+1] - 50);
-                $len  = min(50, $this->meta['pos'][$index+1]);
+                $pos  = max(0, $this->meta['pos'][$index + 1] - 50);
+                $len  = min(50, $this->meta['pos'][$index + 1]);
                 $data = substr($this->raw_data, $pos, $len);
                 $data = preg_replace("/$regexp\$/", '', $data); // remove separator
 
@@ -418,7 +418,7 @@ class rcube_result_thread
      *
      * @return array|string Response parameters or parameter value
      */
-    public function get_parameters($param=null)
+    public function get_parameters($param = null)
     {
         $params = [
             'MAILBOX' => $this->mailbox,
@@ -566,11 +566,11 @@ class rcube_result_thread
     {
         $result = [];
 
-        for ($len=count($items); $pos < $len; $pos++) {
+        for ($len = count($items); $pos < $len; $pos++) {
             [$lv, $id] = explode(self::SEPARATOR_LEVEL, $items[$pos]);
             if ($level == $lv) {
                 $pos++;
-                $result[$id] = $this->build_thread($items, $level+1, $pos);
+                $result[$id] = $this->build_thread($items, $level + 1, $pos);
             }
             else {
                 $pos--;

@@ -374,8 +374,8 @@ class archive extends rcube_plugin
             $path = explode($delimiter, $folder);
 
             // we'll create all folders in the path
-            for ($i=0; $i<count($path); $i++) {
-                $_folder = implode($delimiter, array_slice($path, 0, $i+1));
+            for ($i = 0; $i < count($path); $i++) {
+                $_folder = implode($delimiter, array_slice($path, 0, $i + 1));
                 if (!in_array($_folder, $this->folders)) {
                     if ($storage->create_folder($_folder, true)) {
                         $this->result['reload'] = true;

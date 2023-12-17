@@ -231,7 +231,7 @@ class rcube_utils
             $xml_rep_table['&'] = '&amp;';
 
             // can be increased to support more charsets
-            for ($c=160; $c<256; $c++) {
+            for ($c = 160; $c < 256; $c++) {
                 $xml_rep_table[chr($c)] = "&#$c;";
             }
 
@@ -436,12 +436,12 @@ class rcube_utils
 
         // cut out all contents between { and }
         while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
-            $nested = strpos($source, '{', $pos+1);
+            $nested = strpos($source, '{', $pos + 1);
             if ($nested && $nested < $pos2) { // when dealing with nested blocks (e.g. @media), take the inner one
                 $pos = $nested;
             }
             $length = $pos2 - $pos - 1;
-            $styles = substr($source, $pos+1, $length);
+            $styles = substr($source, $pos + 1, $length);
             $output = '';
 
             // check every css rule in the style block...
@@ -473,7 +473,7 @@ class rcube_utils
 
             $key      = $replacements->add($output . ' ');
             $repl     = $replacements->get_replacement($key);
-            $source   = substr_replace($source, $repl, $pos+1, $length);
+            $source   = substr_replace($source, $repl, $pos + 1, $length);
             $last_pos = $pos2 - ($length - strlen($repl));
         }
 
@@ -533,7 +533,7 @@ class rcube_utils
 
         // first remove comments
         while (($pos = strpos($style, '/*', $pos)) !== false) {
-            $end = strpos($style, '*/', $pos+2);
+            $end = strpos($style, '*/', $pos + 2);
 
             if ($end === false) {
                 $style = substr($style, 0, $pos);
@@ -558,7 +558,7 @@ class rcube_utils
             // get the property value
             $q = $s = false;
             for ($i = $colon_pos + 1; $i < $length; $i++) {
-                if (($style[$i] == "\"" || $style[$i] == "'") && ($i == 0 || $style[$i-1] != "\\")) {
+                if (($style[$i] == "\"" || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != "\\")) {
                     if ($q == $style[$i]) {
                         $q = false;
                     }
@@ -566,10 +566,10 @@ class rcube_utils
                         $q = $style[$i];
                     }
                 }
-                else if ($style[$i] == "(" && !$q && ($i == 0 || $style[$i-1] != "\\")) {
+                else if ($style[$i] == "(" && !$q && ($i == 0 || $style[$i - 1] != "\\")) {
                     $q = "(";
                 }
-                else if ($style[$i] == ")" && $q == "(" && $style[$i-1] != "\\") {
+                else if ($style[$i] == ")" && $q == "(" && $style[$i - 1] != "\\") {
                     $q = false;
                 }
 
@@ -653,7 +653,7 @@ class rcube_utils
     public static function mem_check($need)
     {
         $mem_limit = parse_bytes(ini_get('memory_limit'));
-        $memory    = function_exists('memory_get_usage') ? memory_get_usage() : 16*1024*1024; // safe value: 16MB
+        $memory    = function_exists('memory_get_usage') ? memory_get_usage() : 16 * 1024 * 1024; // safe value: 16MB
 
         return $mem_limit > 0 && $memory + $need > $mem_limit ? false : true;
     }
@@ -1318,7 +1318,7 @@ class rcube_utils
             }
         }
 
-        for ($i=1; $i < count($_SERVER['argv']); $i++) {
+        for ($i = 1; $i < count($_SERVER['argv']); $i++) {
             $arg   = $_SERVER['argv'][$i];
             $value = true;
             $key   = null;
@@ -1329,7 +1329,7 @@ class rcube_utils
 
                 if ($sp > 0) {
                     $key   = substr($key, 0, $sp - 2);
-                    $value = substr($arg, $sp+1);
+                    $value = substr($arg, $sp + 1);
                 }
                 else if (in_array($key, $bool)) {
                     $value = true;

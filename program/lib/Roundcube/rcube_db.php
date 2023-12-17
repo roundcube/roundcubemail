@@ -460,12 +460,12 @@ class rcube_db
 
         if (count($params)) {
             while ($pos = strpos($query, '?', $pos)) {
-                if (isset($query[$pos+1]) && $query[$pos+1] == '?') {  // skip escaped '?'
+                if (isset($query[$pos + 1]) && $query[$pos + 1] == '?') {  // skip escaped '?'
                     $pos += 2;
                 }
                 else {
                     $val = $this->quote($params[$idx++]);
-                    unset($params[$idx-1]);
+                    unset($params[$idx - 1]);
                     $query = substr_replace($query, $val, $pos, 1);
                     $pos += strlen($val);
                 }
@@ -527,7 +527,7 @@ class rcube_db
         $in  = false;
 
         while ($pos = strpos($query, $quote, $pos)) {
-            if (isset($query[$pos+1]) && $query[$pos+1] == $quote) {  // skip escaped quote
+            if (isset($query[$pos + 1]) && $query[$pos + 1] == $quote) {  // skip escaped quote
                 $pos += 2;
             }
             else {
@@ -1417,7 +1417,7 @@ class rcube_db
                 continue;
             }
 
-            if ($trimmed[strlen($trimmed)-1] == ';') {
+            if ($trimmed[strlen($trimmed) - 1] == ';') {
                 $exec = $buff . substr(rtrim($line), 0, -1);
             }
 
@@ -1465,14 +1465,14 @@ class rcube_db
         $prefix = $this->options['table_prefix'];
 
         // Schema prefix (ends with a dot)
-        if ($prefix[strlen($prefix)-1] === '.') {
+        if ($prefix[strlen($prefix) - 1] === '.') {
             // These can't have a schema prefix
             if (preg_match('/(CONSTRAINT|UNIQUE|INDEX)[\s\t`"]*$/', $matches[1])) {
                 $prefix = '';
             }
             else {
                 // check if the identifier is quoted, then quote the prefix
-                $last = $matches[1][strlen($matches[1])-1];
+                $last = $matches[1][strlen($matches[1]) - 1];
 
                 if ($last === '`' || $last === '"') {
                     $prefix = substr($prefix, 0, -1) . $last . '.' . $last;
@@ -1480,6 +1480,6 @@ class rcube_db
             }
         }
 
-        return $matches[1] . $prefix . $matches[count($matches)-1];
+        return $matches[1] . $prefix . $matches[count($matches) - 1];
     }
 }

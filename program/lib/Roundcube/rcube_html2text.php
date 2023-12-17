@@ -481,7 +481,7 @@ class rcube_html2text
         if (!empty($this->_link_list)) {
             $text .= "\n\nLinks:\n------\n";
             foreach ($this->_link_list as $idx => $url) {
-                $text .= '[' . ($idx+1) . '] ' . $url . "\n";
+                $text .= '[' . ($idx + 1) . '] ' . $url . "\n";
             }
         }
 
@@ -645,7 +645,7 @@ class rcube_html2text
             $this->_link_list[] = $url;
         }
 
-        return $display . ' [' . ($index+1) . ']';
+        return $display . ' [' . ($index + 1) . ']';
     }
 
     /**

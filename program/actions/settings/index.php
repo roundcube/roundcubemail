@@ -133,7 +133,7 @@ class rcmail_action_settings_index extends rcmail_action
                         'main'    => ['name' => rcube::Q($rcmail->gettext('mainoptions'))],
                         'skin'    => ['name' => rcube::Q($rcmail->gettext('skin'))],
                         'browser' => ['name' => rcube::Q($rcmail->gettext('browseroptions'))],
-                        'advanced'=> ['name' => rcube::Q($rcmail->gettext('advancedoptions'))],
+                        'advanced' => ['name' => rcube::Q($rcmail->gettext('advancedoptions'))],
                     ];
 
                     // language selection
@@ -306,7 +306,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $blocks['main']['options']['refresh_interval'] = [
                             'title'   => html::label($field_id, rcube::Q($rcmail->gettext('refreshinterval'))),
-                            'content' => $select->show($config['refresh_interval']/60),
+                            'content' => $select->show($config['refresh_interval'] / 60),
                         ];
                     }
 

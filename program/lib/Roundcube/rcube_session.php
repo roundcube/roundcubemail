@@ -555,7 +555,7 @@ abstract class rcube_session implements SessionHandlerInterface
                             }
                             break;
                         case 'r': // reference
-                            $q+= 2;
+                            $q += 2;
                             for ($id = ''; ($q < $endptr) && ($str[$q] != ';'); $q++) {
                                 $id .= $str[$q];
                             }
@@ -567,12 +567,12 @@ abstract class rcube_session implements SessionHandlerInterface
                             }
                             break;
                         case 's': // string
-                            $q+=2;
-                            for ($length=''; ($q < $endptr) && ($str[$q] != ':'); $q++) {
+                            $q += 2;
+                            for ($length = ''; ($q < $endptr) && ($str[$q] != ':'); $q++) {
                                 $length .= $str[$q];
                             }
-                            $q+=2;
-                            $q+= (int) $length + 2;
+                            $q += 2;
+                            $q += (int) $length + 2;
                             $serialized .= substr($str, $p, $q - $p);
                             if ($level == 0) {
                                 break 2;

@@ -145,7 +145,7 @@ class example_addressbook_backend extends rcube_addressbook
     {
         // Note: Paging is not implemented
 
-        $result = new rcube_result_set(0, ($this->list_page-1) * $this->page_size);
+        $result = new rcube_result_set(0, ($this->list_page - 1) * $this->page_size);
         $count  = 0;
 
         foreach ($this->db_users as $user) {

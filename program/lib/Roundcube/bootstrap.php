@@ -272,7 +272,7 @@ function abbreviate_string($str, $maxlength, $placeholder = '...', $ending = fal
         }
 
         $placeholder_length = mb_strlen($placeholder);
-        $first_part_length  = floor(($maxlength - $placeholder_length)/2);
+        $first_part_length  = floor(($maxlength - $placeholder_length) / 2);
         $second_starting_location = $length - $maxlength + $first_part_length + $placeholder_length;
 
         $prefix = mb_substr($str, 0, $first_part_length);
@@ -390,7 +390,7 @@ function format_email($email)
     $count = count($parts);
 
     if ($count > 1) {
-        $parts[$count-1] = mb_strtolower($parts[$count-1]);
+        $parts[$count - 1] = mb_strtolower($parts[$count - 1]);
 
         $email = implode('@', $parts);
     }

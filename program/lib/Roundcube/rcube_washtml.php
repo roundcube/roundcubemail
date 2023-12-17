@@ -875,7 +875,7 @@ class rcube_washtml
                 $pos++;
 
                 // make sure this is an ol/ul tag
-                if (!in_array($html[$pos+2], [' ', '>'])) {
+                if (!in_array($html[$pos + 2], [' ', '>'])) {
                     continue;
                 }
 
@@ -892,13 +892,13 @@ class rcube_washtml
                         $p += 4;
                     }
                     // li close tag
-                    else if ($tt == '</li' && in_array($html[$p+4], [' ', '>'])) {
+                    else if ($tt == '</li' && in_array($html[$p + 4], [' ', '>'])) {
                         $li_pos = $p;
                         $in_li  = false;
                         $p += 4;
                     }
                     // ul/ol closing tag
-                    else if ($tt == '</' . $tag && in_array($html[$p+4], [' ', '>'])) {
+                    else if ($tt == '</' . $tag && in_array($html[$p + 4], [' ', '>'])) {
                         break;
                     }
                     // nested ol/ul element out of li
@@ -907,8 +907,8 @@ class rcube_washtml
                         $element = substr($tt, 1, 2);
                         $cpos    = $p;
                         do {
-                            $tpos = stripos($html, '<' . $element, $cpos+1);
-                            $cpos = stripos($html, '</' . $element, $cpos+1);
+                            $tpos = stripos($html, '<' . $element, $cpos + 1);
+                            $cpos = stripos($html, '</' . $element, $cpos + 1);
                         }
                         while ($tpos !== false && $cpos !== false && $cpos > $tpos);
 
@@ -993,7 +993,7 @@ class rcube_washtml
 
         // explode value
         for ($p = $i = 0; $i < $strlen; $i++) {
-            if (($style[$i] == "\"" || $style[$i] == "'") && ($i == 0 || $style[$i-1] != "\\")) {
+            if (($style[$i] == "\"" || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != "\\")) {
                 if ($q == $style[$i]) {
                     $q = false;
                 }
@@ -1002,7 +1002,7 @@ class rcube_washtml
                 }
             }
 
-            if (!$q && $style[$i] == ' ' && ($i == 0 || !preg_match('/[,\(]/', $style[$i-1]))) {
+            if (!$q && $style[$i] == ' ' && ($i == 0 || !preg_match('/[,\(]/', $style[$i - 1]))) {
                 $result[] = substr($style, $p, $i - $p);
                 $p = $i + 1;
             }

@@ -107,7 +107,7 @@ class identicon_engine
         $ident = md5($this->ident, true);
 
         // set icon color
-        $div         = intval(255/count($this->palette));
+        $div         = intval(255 / count($this->palette));
         $index       = intval(ord($ident[0]) / $div);
         $this->color = $this->palette[$index] ?? $this->palette[0];
 

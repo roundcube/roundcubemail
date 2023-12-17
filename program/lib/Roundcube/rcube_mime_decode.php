@@ -342,7 +342,7 @@ class rcube_mime_decode
         $tmp   = explode('--' . $boundary, $input);
         $parts = [];
 
-        for ($i = 1; $i < count($tmp)-1; $i++) {
+        for ($i = 1; $i < count($tmp) - 1; $i++) {
             $parts[] = $tmp[$i];
         }
 

@@ -500,7 +500,7 @@ class rcube_tnef_decoder
         ) {
             $str = rcube_charset::convert($str, $charset, RCUBE_CHARSET);
         }
-        else if (($pos = strpos($str, "\0")) !== false && $pos != strlen($str)-1) {
+        else if (($pos = strpos($str, "\0")) !== false && $pos != strlen($str) - 1) {
             $str = rcube_charset::convert($str, 'UTF-16LE', RCUBE_CHARSET);
         }
 
@@ -561,7 +561,7 @@ class rcube_tnef_decoder
                 $end = $offset + $length;
 
                 while ($offset < $end) {
-                    $uncomp.= $uncomp[$offset++];
+                    $uncomp .= $uncomp[$offset++];
                     ++$out;
                 }
             }

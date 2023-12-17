@@ -784,7 +784,7 @@ class rcmail_sendmail
             else if (preg_match('/<*' . $email_regexp . '>*$/', $item, $matches)) {
                 $address = $matches[0];
                 $name    = trim(str_replace($address, '', $item));
-                if ($name[0] == '"' && $name[strlen($name)-1] == '"') {
+                if ($name[0] == '"' && $name[strlen($name) - 1] == '"') {
                     $name = substr($name, 1, -1);
                 }
 

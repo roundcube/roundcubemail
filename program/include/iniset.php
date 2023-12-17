@@ -49,7 +49,7 @@ register_shutdown_function('rcmail_error_handler');
 // possible not compatible libraries (i.e PEAR) to be included
 // instead the ones provided by RC
 $include_path = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
-$include_path.= ini_get('include_path');
+$include_path .= ini_get('include_path');
 
 if (set_include_path($include_path) === false) {
     exit("Fatal error: ini_set/set_include_path does not work.");

@@ -518,8 +518,8 @@ class rcube
         // expire in 48 hours by default
         $temp_dir_ttl = $this->config->get('temp_dir_ttl', '48h');
         $temp_dir_ttl = get_offset_sec($temp_dir_ttl);
-        if ($temp_dir_ttl < 6*3600) {
-            $temp_dir_ttl = 6*3600;   // 6 hours sensible lower bound.
+        if ($temp_dir_ttl < 6 * 3600) {
+            $temp_dir_ttl = 6 * 3600;   // 6 hours sensible lower bound.
         }
 
         // Uploaded files metadata

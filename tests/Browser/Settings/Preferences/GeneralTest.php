@@ -73,7 +73,7 @@ class GeneralTest extends \Tests\Browser\TestCase
 
                     $browser->assertSeeIn('label[for=rcmfd_refresh_interval]', 'Refresh');
                     $browser->assertVisible('select[name=_refresh_interval]');
-                    $browser->assertSelected('select[name=_refresh_interval]', $this->app->config->get('refresh_interval')/60);
+                    $browser->assertSelected('select[name=_refresh_interval]', $this->app->config->get('refresh_interval') / 60);
                 });
 
                 // TODO: Interface Skin fieldset
@@ -160,6 +160,6 @@ class GeneralTest extends \Tests\Browser\TestCase
         }
 
         $this->assertEquals($this->settings['pretty_date'], $prefs['prettydate']);
-        $this->assertEquals($this->settings['refresh_interval'], $prefs['refresh_interval']/60);
+        $this->assertEquals($this->settings['refresh_interval'], $prefs['refresh_interval'] / 60);
     }
 }

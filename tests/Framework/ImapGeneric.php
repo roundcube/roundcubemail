@@ -209,7 +209,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
             $chunks = str_split($encoded, $x);
 
             foreach ($chunks as $idx => $chunk) {
-                $decoded .= $method->invokeArgs(null, [$chunk, $mode, $idx == count($chunks)-1, &$prev]);
+                $decoded .= $method->invokeArgs(null, [$chunk, $mode, $idx == count($chunks) - 1, &$prev]);
             }
 
             $this->assertSame($expected, $decoded, "Failed on chunk size of $x");

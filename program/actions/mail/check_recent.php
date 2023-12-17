@@ -139,7 +139,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 }
 
                 $rcmail->output->set_env('messagecount', $all_count);
-                $rcmail->output->set_env('pagecount', ceil($all_count/$page_size));
+                $rcmail->output->set_env('pagecount', ceil($all_count / $page_size));
                 $rcmail->output->command('set_rowcount', self::get_messagecount_text($all_count), $mbox_name);
                 $rcmail->output->set_env('current_page', $all_count ? $page : 1);
 

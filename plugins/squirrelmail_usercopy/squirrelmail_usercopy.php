@@ -195,7 +195,7 @@ class squirrelmail_usercopy extends rcube_plugin
                 }
 
                 if (isset($this->prefs['identities']) && $this->prefs['identities'] > 1) {
-                    for ($i=1; $i < $this->prefs['identities']; $i++) {
+                    for ($i = 1; $i < $this->prefs['identities']; $i++) {
                         // read signature file if exists
                         if (is_readable($sigbase . $i)) {
                             $sig = file_get_contents($sigbase . $i);

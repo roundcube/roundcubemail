@@ -780,7 +780,7 @@ class rcmail_oauth
      *
      * @return string the bearer authorization to use on different transports
      */
-    protected function parse_tokens($grant_type, &$data, $previous_data=null)
+    protected function parse_tokens($grant_type, &$data, $previous_data = null)
     {
         // TODO move it into to log_info ?
         $this->log_debug("received tokens from a grant request %s: session: %s with scope %s, "

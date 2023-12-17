@@ -170,7 +170,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
             if (($records = self::search_update(true)) !== false) {
                 // create resultset object
                 $count  = count($records);
-                $first  = ($page-1) * $page_size;
+                $first  = ($page - 1) * $page_size;
                 $result = new rcube_result_set($count, $first);
                 $pages  = ceil((count($records) + $deleted) / $page_size);
 

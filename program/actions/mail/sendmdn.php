@@ -130,7 +130,7 @@ class rcmail_action_mail_sendmdn extends rcmail_action
                 "\r\n" . $rcmail->gettext("receiptnote");
 
             $compose->headers(array_filter($headers));
-            $compose->setContentType('multipart/report', ['report-type'=> 'disposition-notification']);
+            $compose->setContentType('multipart/report', ['report-type' => 'disposition-notification']);
             $compose->setTXTBody(rcube_mime::wordwrap($body, 75, "\r\n"));
             $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 

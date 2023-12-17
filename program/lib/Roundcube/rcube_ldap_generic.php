@@ -289,7 +289,7 @@ class rcube_ldap_generic extends Net_LDAP3
 
         $rec = [];
 
-        for ($i=0; $i < $entry['count']; $i++) {
+        for ($i = 0; $i < $entry['count']; $i++) {
             $attr = $entry[$i];
             if ($entry[$attr]['count'] == 1) {
                 switch ($attr) {
@@ -302,7 +302,7 @@ class rcube_ldap_generic extends Net_LDAP3
                 }
             }
             else {
-                for ($j=0; $j < $entry[$attr]['count']; $j++) {
+                for ($j = 0; $j < $entry[$attr]['count']; $j++) {
                     $rec[$attr][$j] = $entry[$attr][$j];
                 }
             }

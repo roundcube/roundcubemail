@@ -168,7 +168,7 @@ abstract class rcube_output
             return;
         }
 
-        header("Expires: " . gmdate("D, d M Y H:i:s", time()+$offset) . " GMT");
+        header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
         header("Cache-Control: max-age=$offset");
         header("Pragma: ");
     }

@@ -146,18 +146,18 @@ class rcube_imap_generic
         $res = 0;
         if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, PREG_SPLIT_DELIM_CAPTURE)) {
             for ($i = 0, $cnt = count($parts); $i < $cnt; $i++) {
-                if ($i + 1 < $cnt && preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i+1], $matches)) {
+                if ($i + 1 < $cnt && preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i + 1], $matches)) {
                     // LITERAL+/LITERAL- support
                     $literal_plus = false;
                     if (
                         !empty($this->prefs['literal+'])
                         || (!empty($this->prefs['literal-']) && $matches[1] <= 4096)
                     ) {
-                        $parts[$i+1] = sprintf("{%d+}\r\n", $matches[1]);
+                        $parts[$i + 1] = sprintf("{%d+}\r\n", $matches[1]);
                         $literal_plus = true;
                     }
 
-                    $bytes = $this->putLine($parts[$i] . $parts[$i+1], false, $anonymized);
+                    $bytes = $this->putLine($parts[$i] . $parts[$i + 1], false, $anonymized);
                     if ($bytes === false) {
                         return false;
                     }
@@ -304,7 +304,7 @@ class rcube_imap_generic
         $len  = 0;
 
         while ($len < $bytes && !$this->eof()) {
-            $d = fread($this->fp, $bytes-$len);
+            $d = fread($this->fp, $bytes - $len);
             if ($this->debug) {
                 $this->debug('S: ' . $d);
             }
@@ -589,14 +589,14 @@ class rcube_imap_generic
                 $xor  = function ($str1, $str2) {
                     $result = '';
                     $size   = strlen($str1);
-                    for ($i=0; $i<$size; $i++) {
+                    for ($i = 0; $i < $size; $i++) {
                         $result .= chr(ord($str1[$i]) ^ ord($str2[$i]));
                     }
                     return $result;
                 };
 
                 // initialize ipad, opad
-                for ($i=0; $i<64; $i++) {
+                for ($i = 0; $i < 64; $i++) {
                     $ipad .= chr(0x36);
                     $opad .= chr(0x5C);
                 }
@@ -1286,8 +1286,8 @@ class rcube_imap_generic
                             $fetch_data = $this->tokenizeResponse($line, 1);
                             $data       = ['id' => $match[1]];
 
-                            for ($i=0, $size=count($fetch_data); $i<$size; $i+=2) {
-                                $data[strtolower($fetch_data[$i])] = $fetch_data[$i+1];
+                            for ($i = 0, $size = count($fetch_data); $i < $size; $i += 2) {
+                                $data[strtolower($fetch_data[$i])] = $fetch_data[$i + 1];
                             }
 
                             $this->data['QRESYNC'][$data['uid']] = $data;
@@ -1357,8 +1357,8 @@ class rcube_imap_generic
                 return $result;
             }
 
-            for ($i=0, $len=count($items); $i<$len; $i += 2) {
-                $result[$items[$i]] = $items[$i+1];
+            for ($i = 0, $len = count($items); $i < $len; $i += 2) {
+                $result[$items[$i]] = $items[$i + 1];
             }
 
             $this->data['STATUS:' . $mailbox] = $result;
@@ -1639,9 +1639,9 @@ class rcube_imap_generic
             $pos      = 0;
             $response .= "\r\n";
 
-            while ($pos = strpos($response, "\r\n", $pos+1)) {
+            while ($pos = strpos($response, "\r\n", $pos + 1)) {
                 // literal string, not real end-of-command-line
-                if ($response[$pos-1] == '}') {
+                if ($response[$pos - 1] == '}') {
                     continue;
                 }
 
@@ -1701,7 +1701,7 @@ class rcube_imap_generic
                     if ($cmd == 'STATUS') {
                         [$mailbox, $status] = $this->tokenizeResponse($line, 2);
 
-                        for ($i=0, $len=count($status); $i<$len; $i += 2) {
+                        for ($i = 0, $len = count($status); $i < $len; $i += 2) {
                             [$name, $value] = $this->tokenizeResponse($status, 2);
                             $folders[$mailbox][$name] = $value;
                         }
@@ -1839,8 +1839,8 @@ class rcube_imap_generic
             $result   = [];
 
             if (is_array($items)) {
-                for ($i=0, $len=count($items); $i<$len; $i += 2) {
-                    $result[$items[$i]] = $items[$i+1];
+                for ($i = 0, $len = count($items); $i < $len; $i += 2) {
+                    $result[$items[$i]] = $items[$i + 1];
                 }
             }
 
@@ -2953,9 +2953,9 @@ class rcube_imap_generic
                 $line = preg_replace('/(^\(|\)$)/', '', $line);
                 $tokens = $this->tokenizeResponse($line);
 
-                for ($i=0; $i<count($tokens); $i+=2) {
+                for ($i = 0; $i < count($tokens); $i += 2) {
                     if (preg_match('/^(BODY|BINARY)/i', $tokens[$i])) {
-                        $result = $tokens[$i+1];
+                        $result = $tokens[$i + 1];
                         $found  = true;
                         break;
                     }
@@ -3162,7 +3162,7 @@ class rcube_imap_generic
         $msg          = is_array($message) ? $message : [&$message];
         $chunk_size   = 512000;
 
-        for ($i=0, $cnt=count($msg); $i<$cnt; $i++) {
+        for ($i = 0, $cnt = count($msg); $i < $cnt; $i++) {
             if (is_resource($msg[$i])) {
                 $stat = fstat($msg[$i]);
                 if ($stat === false) {
@@ -3348,7 +3348,7 @@ class rcube_imap_generic
                 $min_free          = $free;
                 $result['used']    = $used;
                 $result['total']   = $total;
-                $result['percent'] = min(100, round(($used/max(1,$total))*100));
+                $result['percent'] = min(100, round(($used / max(1,$total)) * 100));
                 $result['free']    = 100 - $result['percent'];
             }
         }
@@ -3452,9 +3452,9 @@ class rcube_imap_generic
             // so we could return only standard rights defined in RFC4314,
             // excluding 'c' and 'd' defined in RFC2086.
             if ($size % 2 == 0) {
-                for ($i=0; $i<$size; $i++) {
+                for ($i = 0; $i < $size; $i++) {
                     $ret[$ret[$i]] = str_split($ret[++$i]);
-                    unset($ret[$i-1]);
+                    unset($ret[$i - 1]);
                     unset($ret[$i]);
                 }
                 return $ret;
@@ -3637,8 +3637,8 @@ class rcube_imap_generic
                     && is_array($data[++$i])
                 ) {
                     for ($x = 0, $size2 = count($data[$i]); $x < $size2; $x += 2) {
-                        if ($data[$i][$x+1] !== null) {
-                            $result[$mbox][$data[$i][$x]] = $data[$i][$x+1];
+                        if ($data[$i][$x + 1] !== null) {
+                            $result[$mbox][$data[$i][$x]] = $data[$i][$x + 1];
                         }
                     }
                 }
@@ -3742,15 +3742,15 @@ class rcube_imap_generic
 
             // Here we returns only data compatible with METADATA result format
             if (!empty($data) && ($size = count($data))) {
-                for ($i=0; $i<$size; $i++) {
+                for ($i = 0; $i < $size; $i++) {
                     $entry = $data[$i];
                     if (isset($mbox) && is_array($entry)) {
                         $attribs = $entry;
                         $entry   = $last_entry;
                     }
                     else if ($entry == '*') {
-                        if ($data[$i+1] == 'ANNOTATION') {
-                            $mbox = $data[$i+2];
+                        if ($data[$i + 1] == 'ANNOTATION') {
+                            $mbox = $data[$i + 2];
                             unset($data[$i]);   // "*"
                             unset($data[++$i]); // "ANNOTATION"
                             unset($data[++$i]); // Mailbox
@@ -3771,7 +3771,7 @@ class rcube_imap_generic
                     }
 
                     if (!empty($attribs)) {
-                        for ($x=0, $len=count($attribs); $x<$len;) {
+                        for ($x = 0, $len = count($attribs); $x < $len;) {
                             $attr  = $attribs[$x++];
                             $value = $attribs[$x++];
                             if ($attr == 'value.priv' && $value !== null) {
@@ -3845,7 +3845,7 @@ class rcube_imap_generic
             if (is_array($part_a[2])) {
                 foreach ($part_a[2] as $key => $val) {
                     if (strcasecmp($val, 'charset') == 0) {
-                        $data['charset'] = $part_a[2][$key+1];
+                        $data['charset'] = $part_a[2][$key + 1];
                         break;
                     }
                 }
@@ -3877,13 +3877,13 @@ class rcube_imap_generic
         if (strpos($part, '.') > 0) {
             $orig_part = $part;
             $pos       = strpos($part, '.');
-            $rest      = substr($orig_part, $pos+1);
+            $rest      = substr($orig_part, $pos + 1);
             $part      = substr($orig_part, 0, $pos);
 
-            return self::getStructurePartArray($a[$part-1], $rest);
+            return self::getStructurePartArray($a[$part - 1], $rest);
         }
         else if ($part > 0) {
-            return is_array($a[$part-1]) ? $a[$part-1] : $a;
+            return is_array($a[$part - 1]) ? $a[$part - 1] : $a;
         }
     }
 
@@ -3992,7 +3992,7 @@ class rcube_imap_generic
      *
      * @since 0.5-beta
      */
-    public static function tokenizeResponse(&$str, $num=0)
+    public static function tokenizeResponse(&$str, $num = 0)
     {
         $result = [];
 
@@ -4024,7 +4024,7 @@ class rcube_imap_generic
                 case '"':
                     $len = strlen($str);
 
-                    for ($pos=1; $pos<$len; $pos++) {
+                    for ($pos = 1; $pos < $len; $pos++) {
                         if ($str[$pos] == '"') {
                             break;
                         }
@@ -4232,7 +4232,7 @@ class rcube_imap_generic
     /**
      * CAPABILITY response parser
      */
-    protected function parseCapability($str, $trusted=false)
+    protected function parseCapability($str, $trusted = false)
     {
         $str = preg_replace('/^\* CAPABILITY /i', '', $str);
 

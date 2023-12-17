@@ -73,7 +73,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
 
             // create resultset object
             $count  = count($records);
-            $first  = ($list_page-1) * $page_size;
+            $first  = ($list_page - 1) * $page_size;
             $result = new rcube_result_set($count, $first);
 
             // we need only records for current page
