@@ -12,12 +12,12 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
     {
         $object = $this->getBrowser($useragent);
 
-        $this->assertEquals($opera, $object->opera, 'Check for Opera failed');
-        $this->assertEquals($chrome, $object->chrome, 'Check for Chrome failed');
-        $this->assertEquals($ie, $object->ie, 'Check for IE failed');
-        $this->assertEquals($edge, $object->edge, 'Check for Edge failed');
-        $this->assertEquals($safari, $object->safari, 'Check for Safari failed');
-        $this->assertEquals($mz, $object->mz, 'Check for MZ failed');
+        $this->assertSame($opera, $object->opera, 'Check for Opera failed');
+        $this->assertSame($chrome, $object->chrome, 'Check for Chrome failed');
+        $this->assertSame($ie, $object->ie, 'Check for IE failed');
+        $this->assertSame($edge, $object->edge, 'Check for Edge failed');
+        $this->assertSame($safari, $object->safari, 'Check for Safari failed');
+        $this->assertSame($mz, $object->mz, 'Check for MZ failed');
     }
 
     /**
@@ -27,10 +27,10 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
     {
         $object = $this->getBrowser($useragent);
 
-        $this->assertEquals($windows, $object->win, 'Check Result of Windows');
-        $this->assertEquals($linux, $object->linux, 'Check Result of Linux');
-        $this->assertEquals($mac, $object->mac, 'Check Result of Mac');
-        $this->assertEquals($unix, $object->unix, 'Check Result of Unix');
+        $this->assertSame($windows, $object->win, 'Check Result of Windows');
+        $this->assertSame($linux, $object->linux, 'Check Result of Linux');
+        $this->assertSame($mac, $object->mac, 'Check Result of Mac');
+        $this->assertSame($unix, $object->unix, 'Check Result of Unix');
 
     }
 
@@ -40,7 +40,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
     function test_version($useragent, $version)
     {
         $object = $this->getBrowser($useragent);
-        $this->assertEquals($version, $object->ver);
+        $this->assertSame($version, $object->ver);
     }
 
     function versions(): iterable

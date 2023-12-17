@@ -168,7 +168,7 @@ class Framework_User extends ActionTestCase
 
         $user = rcube_user::query('test@example.com', 'localhost');
 
-        $this->assertEquals(1, $user->ID);
+        $this->assertSame(1, $user->ID);
     }
 
     /**

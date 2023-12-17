@@ -156,10 +156,10 @@ class GeneralTest extends \Tests\Browser\TestCase
         $options = array_diff(array_keys($this->settings), ['refresh_interval', 'pretty_date']);
 
         foreach ($options as $option) {
-            $this->assertEquals($this->settings[$option], $prefs[$option]);
+            $this->assertSame($this->settings[$option], $prefs[$option]);
         }
 
-        $this->assertEquals($this->settings['pretty_date'], $prefs['prettydate']);
-        $this->assertEquals($this->settings['refresh_interval'], $prefs['refresh_interval'] / 60);
+        $this->assertSame($this->settings['pretty_date'], $prefs['prettydate']);
+        $this->assertSame($this->settings['refresh_interval'], $prefs['refresh_interval'] / 60);
     }
 }

@@ -320,7 +320,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $object = new rcmail_output_html;
         $result = $object->just_parse($input);
 
-        $this->assertEquals($output, $result);
+        $this->assertSame($output, $result);
     }
 
     /**

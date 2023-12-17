@@ -74,7 +74,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $value => $expected) {
             $result = slashify($value);
-            $this->assertEquals($expected, $result, "Invalid slashify() result for $value");
+            $this->assertSame($expected, $result, "Invalid slashify() result for $value");
         }
 
     }
@@ -96,7 +96,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $value => $expected) {
             $result = unslashify($value);
-            $this->assertEquals($expected, $result, "Invalid unslashify() result for $value");
+            $this->assertSame($expected, $result, "Invalid unslashify() result for $value");
         }
 
     }
@@ -118,7 +118,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $value => $expected) {
             $result = get_offset_sec($value);
-            $this->assertEquals($expected, $result, "Invalid get_offset_sec() result for $value");
+            $this->assertSame($expected, $result, "Invalid get_offset_sec() result for $value");
         }
 
     }
@@ -142,7 +142,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
         $input_str  = 'one,two,three,four,five';
         $result_str = implode(',', $result);
 
-        $this->assertEquals($input_str, $result_str, "Invalid array_keys_recursive() result");
+        $this->assertSame($input_str, $result_str, "Invalid array_keys_recursive() result");
     }
 
     /**
@@ -175,7 +175,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $set) {
             $result = abbreviate_string($set[1], $set[2], $set[3], $set[4]);
-            $this->assertEquals($set[0], $result);
+            $this->assertSame($set[0], $result);
         }
     }
 
@@ -194,7 +194,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $value => $expected) {
             $result = format_email($value);
-            $this->assertEquals($expected, $result, "Invalid format_email() result for $value");
+            $this->assertSame($expected, $result, "Invalid format_email() result for $value");
         }
     }
 
@@ -215,7 +215,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $expected => $value) {
             $result = format_email_recipient($value[0], isset($value[1]) ? $value[1] : null);
-            $this->assertEquals($expected, $result, "Invalid format_email_recipient()");
+            $this->assertSame($expected, $result, "Invalid format_email_recipient()");
         }
 
     }
@@ -253,7 +253,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
      */
     function test_version_parse()
     {
-        $this->assertEquals('0.9.0', version_parse('0.9-stable'));
-        $this->assertEquals('0.9.99', version_parse('0.9-git'));
+        $this->assertSame('0.9.0', version_parse('0.9-stable'));
+        $this->assertSame('0.9.99', version_parse('0.9-git'));
     }
 }
