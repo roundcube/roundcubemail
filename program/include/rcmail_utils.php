@@ -253,7 +253,7 @@ class rcmail_utils
      *
      * @param string $package Package name
      *
-     * @return null|string Version string
+     * @return string|null Version string
      */
     public static function db_version($package = 'roundcube')
     {

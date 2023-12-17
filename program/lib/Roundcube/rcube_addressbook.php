@@ -75,7 +75,7 @@ abstract class rcube_addressbook
     public $ready = false;
 
     /**
-     * @var null|string|int If set, addressbook-specific identifier of the selected group. All contact listing and
+     * @var string|int|null If set, addressbook-specific identifier of the selected group. All contact listing and
      *                      contact searches will be limited to contacts that belong to this group.
      */
     public $group_id = null;
@@ -474,7 +474,7 @@ abstract class rcube_addressbook
      * This filter mechanism is applied in addition to other filter mechanisms, see the description of the count()
      * operation.
      *
-     * @param null|int|string $group_id Database identifier of the group. Use 0/"0"/null to reset the group filter.
+     * @param int|string|null $group_id Database identifier of the group. Use 0/"0"/null to reset the group filter.
      */
     function set_group($group_id)
     {
