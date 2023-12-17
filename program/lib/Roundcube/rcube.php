@@ -99,7 +99,7 @@ class rcube
     static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance) {
-            self::$instance = new rcube($env);
+            self::$instance = new self($env);
             self::$instance->init($mode);
         }
 

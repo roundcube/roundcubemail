@@ -92,7 +92,7 @@ class rcmail_oauth
     static function get_instance($options = [])
     {
         if (!self::$instance) {
-            self::$instance = new rcmail_oauth($options);
+            self::$instance = new self($options);
             self::$instance->init();
         }
 
