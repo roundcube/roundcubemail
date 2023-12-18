@@ -1,4 +1,4 @@
-Roundcube Webmail 
+Roundcube Webmail
 =================
 [roundcube.net](https://roundcube.net)
 

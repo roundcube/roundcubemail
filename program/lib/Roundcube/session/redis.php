@@ -89,8 +89,9 @@ class rcube_session_redis extends rcube_session
     {
         if ($key) {
             try {
-                $fname  = method_exists($this->redis, 'del') ? 'del' : 'delete';
-                $result = $this->redis->$fname($key);
+                $result = method_exists($this->redis, 'del')
+                    ? $this->redis->del($key)
+                    : $this->redis->delete($key);
             }
             catch (Exception $e) {
                 rcube::raise_error($e, true, true);

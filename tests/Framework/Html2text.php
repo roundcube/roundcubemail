@@ -108,12 +108,12 @@ class rc_html2text extends PHPUnit\Framework\TestCase
      */
     function test_multiple_blockquotes()
     {
-        $html = <<<EOF
-<br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
-<blockQuote>INNER 2</blockquote><div><br></div><div>Par 2</div>
-<div><br></div><div>Par 3</div><div><br></div>
-<blockquote>INNER 3</blockquote>OUTER END</blockquote>
-EOF;
+        $html = <<<'EOF'
+            <br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
+            <blockQuote>INNER 2</blockquote><div><br></div><div>Par 2</div>
+            <div><br></div><div>Par 3</div><div><br></div>
+            <blockquote>INNER 3</blockquote>OUTER END</blockquote>
+            EOF;
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
@@ -125,25 +125,25 @@ EOF;
     function test_broken_blockquotes()
     {
         // no end tag
-        $html = <<<EOF
-Begin<br>
-<blockquote>QUOTED TEXT
-<blockquote>
-NO END TAG FOUND
-EOF;
+        $html = <<<'EOF'
+            Begin<br>
+            <blockquote>QUOTED TEXT
+            <blockquote>
+            NO END TAG FOUND
+            EOF;
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
         $this->assertStringContainsString('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
 
         // with some (nested) end tags
-        $html = <<<EOF
-Begin<br>
-<blockquote>QUOTED TEXT
-<blockquote>INNER 1</blockquote>
-<blockquote>INNER 2</blockquote>
-NO END TAG FOUND
-EOF;
+        $html = <<<'EOF'
+            Begin<br>
+            <blockquote>QUOTED TEXT
+            <blockquote>INNER 1</blockquote>
+            <blockquote>INNER 2</blockquote>
+            NO END TAG FOUND
+            EOF;
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 

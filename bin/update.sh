@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -18,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
@@ -230,7 +231,7 @@ if ($RCI->configured) {
                     if (isset($_repo['url']) && strpos($_repo['url'], 'git://git.kolab.org') === 0) {
                         unset($composer_data['repositories'][$k]);
                     }
-                    else if (
+                    elseif (
                         $_repo['type'] == 'package'
                         && !empty($_repo['package']['name'])
                         && $_repo['package']['name'] == 'Net_SMTP'
@@ -250,8 +251,8 @@ if ($RCI->configured) {
         $composer_json = json_encode($composer_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         // write updated composer.json back to disk
-        if ($composer_json && is_writeable(INSTALL_PATH . 'composer.json')) {
-            $success &= (bool)file_put_contents(INSTALL_PATH . 'composer.json', $composer_json);
+        if ($composer_json && is_writable(INSTALL_PATH . 'composer.json')) {
+            $success &= (bool) file_put_contents(INSTALL_PATH . 'composer.json', $composer_json);
         }
         else {
             echo "WARNING: unable to update composer.json!\n";
@@ -259,10 +260,10 @@ if ($RCI->configured) {
 
             $require_json = '';
             foreach ($composer_data['require'] as $pkg => $ver) {
-                $require_json .= sprintf('        "%s": "%s",'."\n", $pkg, $ver);
+                $require_json .= sprintf('        "%s": "%s",' . "\n", $pkg, $ver);
             }
 
-            echo '    "require": {'."\n";
+            echo '    "require": {' . "\n";
             echo rtrim($require_json, ",\n");
             echo "\n    }\n\n";
         }

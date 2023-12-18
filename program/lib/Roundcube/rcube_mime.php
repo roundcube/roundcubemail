@@ -707,7 +707,7 @@ class rcube_mime
             $result[] = $subString;
 
             if ($cutLength !== null) {
-                $string = mb_substr($string, $cutLength, ($stringLength - $cutLength));
+                $string = mb_substr($string, $cutLength, $stringLength - $cutLength);
             }
             else {
                 break;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Communigate driver for the Password Plugin for Roundcube
  *

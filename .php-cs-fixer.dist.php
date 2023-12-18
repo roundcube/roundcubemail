@@ -5,7 +5,8 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude(['vendor'])
     ->ignoreDotFiles(false)
     ->name('*.php.dist')
-    ->name('*.dist.php');
+    ->name('*.dist.php')
+    ->name('*.sh');
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
@@ -59,32 +60,21 @@ return (new PhpCsFixer\Config())
 
         // disable too destructive formating for now
         'declare_strict_types' => false,
-        'escape_implicit_backslashes' => false,
-        'heredoc_to_nowdoc' => false,
         'no_useless_else' => false,
         'phpdoc_no_empty_return' => false,
         'psr_autoloading' => false,
-        'single_line_comment_style' => false,
         'strict_comparison' => false,
         'string_length_to_empty' => false,
 
         // TODO
-        'align_multiline_comment' => false,
         'array_indentation' => false,
-        'backtick_to_shell_exec' => false,
         'binary_operator_spaces' => ['default' => 'at_least_single_space'],
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
-        'class_definition' => false,
-        'class_reference_name_casing' => false,
-        'class_reference_name_casing' => false,
-        'constant_case' => false,
         'control_structure_continuation_position' => false,
-        'empty_loop_condition' => false,
-        'explicit_indirect_variable' => false,
+        'escape_implicit_backslashes' => false, // TODO fix after "single_quote" rule is fixed
         'explicit_string_variable' => false,
         'general_phpdoc_annotation_remove' => false,
-        'heredoc_indentation' => false,
         'increment_style' => false,
         'method_argument_space' => false,
         'modernize_types_casting' => false,
@@ -92,18 +82,12 @@ return (new PhpCsFixer\Config())
         'new_with_parentheses' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
-        'no_empty_statement' => false,
         'no_extra_blank_lines' => false,
-        'no_null_property_initialization' => false,
-        'no_unneeded_control_parentheses' => false,
         'php_unit_method_casing' => false,
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_summary' => false,
-        'phpdoc_to_comment' => false,
         'single_line_comment_spacing' => false,
         'single_quote' => false,
-        'single_trait_insert_per_statement' => false,
-        'standardize_increment' => false,
         'ternary_to_null_coalescing' => false,
         'visibility_required' => false,
 

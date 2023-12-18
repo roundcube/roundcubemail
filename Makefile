@@ -37,7 +37,7 @@ dependent: roundcubemail-git
 	cp -RH roundcubemail-git roundcubemail-$(VERSION)
 	tar czf roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)
 	rm -rf roundcubemail-$(VERSION)
- 
+
 framework: roundcubemail-git /tmp/phpDocumentor.phar
 	cp -r roundcubemail-git/program/lib/Roundcube roundcube-framework-$(VERSION)
 	(cd roundcube-framework-$(VERSION); php /tmp/phpDocumentor.phar -d . -t ./doc --title="Roundcube Framework" --defaultpackagename="Framework" --template="clean")

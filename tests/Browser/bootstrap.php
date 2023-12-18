@@ -50,7 +50,7 @@ require_once __DIR__ . '/Components/Toolbarmenu.php';
  */
 class bootstrap
 {
-    private static $imap_ready = null;
+    private static $imap_ready;
 
     /**
      * Wipe and re-initialize database

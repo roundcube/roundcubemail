@@ -859,7 +859,7 @@ class rcube_imap_generic
             $delimiter = $args[3];
 
             if (strlen($delimiter) > 0) {
-                return ($this->prefs['delimiter'] = $delimiter);
+                return $this->prefs['delimiter'] = $delimiter;
             }
         }
     }
@@ -2770,7 +2770,7 @@ class rcube_imap_generic
                 case 'date':
                 case 'internaldate':
                 case 'timestamp':
-                    $value = rcube_utils::strtotime($headers->$field);
+                    $value = rcube_utils::strtotime($headers->{$field});
                     if (!$value && $field != 'timestamp') {
                         $value = $headers->timestamp;
                     }
@@ -2779,7 +2779,7 @@ class rcube_imap_generic
 
                 default:
                     // @TODO: decode header value, convert to UTF-8
-                    $value = $headers->$field;
+                    $value = $headers->{$field};
                     if (is_string($value)) {
                         $value = str_replace('"', '', $value);
 
@@ -3376,7 +3376,7 @@ class rcube_imap_generic
         $result = $this->execute('SETQUOTA', [$this->escape($root), "({$quota})"],
             self::COMMAND_NORESPONSE);
 
-        return ($result == self::ERROR_OK);
+        return $result == self::ERROR_OK;
     }
 
     /**
@@ -3925,7 +3925,7 @@ class rcube_imap_generic
         }
 
         // Send command
-        if (!$this->putLineC($query, true, ($options & self::COMMAND_ANONYMIZED))) {
+        if (!$this->putLineC($query, true, $options & self::COMMAND_ANONYMIZED)) {
             preg_match('/^[A-Z0-9]+ ((UID )?[A-Z]+)/', $query, $matches);
             $cmd = $matches[1] ?: 'UNKNOWN';
             $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
@@ -4009,7 +4009,7 @@ class rcube_imap_generic
                     if (($epos = strpos($str, "}\r\n", 1)) == false) {
                         // error
                     }
-                    if (!is_numeric(($bytes = substr($str, 1, $epos - 1)))) {
+                    if (!is_numeric($bytes = substr($str, 1, $epos - 1))) {
                         // error
                     }
 

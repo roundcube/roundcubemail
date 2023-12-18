@@ -368,7 +368,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         // set list properties and session vars
         if (!empty($_GET['_page'])) {
-            $contacts->set_page(($_SESSION['page'] = intval($_GET['_page'])));
+            $contacts->set_page($_SESSION['page'] = intval($_GET['_page']));
         }
         else {
             $contacts->set_page($_SESSION['page'] ?? 1);

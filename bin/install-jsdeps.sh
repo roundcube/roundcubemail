@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -18,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
@@ -33,13 +34,13 @@ if (empty($SOURCES['dependencies'])) {
     rcube::raise_error("Failed to read dependencies list from $cfgfile", false, true);
 }
 
-$CURL   = trim(`which curl`);
-$WGET   = trim(`which wget`);
+$CURL   = trim(shell_exec("which curl"));
+$WGET   = trim(shell_exec("which wget"));
 
-if (($CACHEDIR = getenv("CACHEDIR")) && is_writeable($CACHEDIR)) {
+if (($CACHEDIR = getenv("CACHEDIR")) && is_writable($CACHEDIR)) {
     // use $CACHEDIR
 }
-else if (is_writeable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
+elseif (is_writable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
     $CACHEDIR = INSTALL_PATH . 'temp/js_cache';
 }
 else {
@@ -50,55 +51,55 @@ else {
 //////////////// License definitions
 
 $LICENSES = [];
-$LICENSES['MIT'] = <<<EOM
- * Licensed under the MIT licenses
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+$LICENSES['MIT'] = <<<'EOM'
+     * Licensed under the MIT licenses
+     *
+     * Permission is hereby granted, free of charge, to any person obtaining
+     * a copy of this software and associated documentation files (the
+     * "Software"), to deal in the Software without restriction, including
+     * without limitation the rights to use, copy, modify, merge, publish,
+     * distribute, sublicense, and/or sell copies of the Software, and to
+     * permit persons to whom the Software is furnished to do so, subject to
+     * the following conditions:
+     *
+     * The above copyright notice and this permission notice shall be
+     * included in all copies or substantial portions of the Software.
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+     * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+     * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+     * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+     * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+     * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+     * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-EOM;
+    EOM;
 
-$LICENSES['GPLv3'] = <<<EOG
- * The JavaScript code in this page is free software: you can
- * redistribute it and/or modify it under the terms of the GNU
- * General Public License (GNU GPL) as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option)
- * any later version.  The code is distributed WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
- *
- * As additional permission under GNU GPL version 3 section 7, you
- * may distribute non-source (e.g., minimized or compacted) forms of
- * that code without the copy of the GNU GPL normally required by
- * section 4, provided you include this license notice and a URL
- * through which recipients can access the Corresponding Source.
+$LICENSES['GPLv3'] = <<<'EOG'
+     * The JavaScript code in this page is free software: you can
+     * redistribute it and/or modify it under the terms of the GNU
+     * General Public License (GNU GPL) as published by the Free Software
+     * Foundation, either version 3 of the License, or (at your option)
+     * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+     * without even the implied warranty of MERCHANTABILITY or FITNESS
+     * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+     *
+     * As additional permission under GNU GPL version 3 section 7, you
+     * may distribute non-source (e.g., minimized or compacted) forms of
+     * that code without the copy of the GNU GPL normally required by
+     * section 4, provided you include this license notice and a URL
+     * through which recipients can access the Corresponding Source.
 
-EOG;
+    EOG;
 
-$LICENSES['LGPL'] = <<<EOL
- * The JavaScript code in this page is free software: you can
- * redistribute it and/or modify it under the terms of the GNU
- * Lesser General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option)
- * any later version.
+$LICENSES['LGPL'] = <<<'EOL'
+     * The JavaScript code in this page is free software: you can
+     * redistribute it and/or modify it under the terms of the GNU
+     * Lesser General Public License as published by the Free Software
+     * Foundation, either version 3 of the License, or (at your option)
+     * any later version.
 
-EOL;
+    EOL;
 
 
 //////////////// Functions
@@ -223,7 +224,7 @@ function extract_zipfile($package, $srcfile)
         mkdir($destdir, 0775, true);
     }
 
-    if (!is_writeable($destdir)) {
+    if (!is_writable($destdir)) {
         rcube::raise_error("Cannot write to destination directory: $destdir", false, true);
     }
 
@@ -267,10 +268,10 @@ function extract_zipfile($package, $srcfile)
                 rcube::raise_error("Failed to move $src into $dest_file; " . implode('; ', $out));
             }
             // Remove sourceMappingURL
-            else if (isset($package['sourcemap']) && $package['sourcemap'] === false) {
+            elseif (isset($package['sourcemap']) && $package['sourcemap'] === false) {
                 if ($content = file($dest_file)) {
                     $index = count($content);
-                    if (preg_match('|sourceMappingURL=|', $content[$index-1])) {
+                    if (preg_match('|sourceMappingURL=|', $content[$index - 1])) {
                         array_pop($content);
                         file_put_contents($dest_file, implode('', $content));
                     }
@@ -284,14 +285,14 @@ function extract_zipfile($package, $srcfile)
 
     // remove some files from the destination
     if (!empty($package['omit'])) {
-        foreach ((array)$package['omit'] as $glob) {
+        foreach ((array) $package['omit'] as $glob) {
             exec(sprintf('rm -rf %s/%s', $destdir, escapeshellarg($glob)));
         }
     }
 
     // prepend license header to extracted files
     if (!empty($package['addlicense'])) {
-        foreach ((array)$package['addlicense'] as $filename) {
+        foreach ((array) $package['addlicense'] as $filename) {
             $pkg = $package;
             $pkg['dest'] = $package['dest'] . '/' . $filename;
             compose_destfile($pkg, $destdir . '/' . $filename);
@@ -323,13 +324,13 @@ $args = rcube_utils::get_opt([
         'f' => 'force:bool',
         'd' => 'delete:bool',
         'g' => 'get:bool',
-        'e' => 'extract:bool'
+        'e' => 'extract:bool',
     ])
     + [
         'force'   => false,
         'delete'  => false,
         'get'     => false,
-        'extract' => false
+        'extract' => false,
     ];
 
 $WHAT     = isset($args[0]) ? $args[0] : null;

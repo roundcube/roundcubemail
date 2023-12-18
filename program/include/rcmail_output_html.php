@@ -111,26 +111,26 @@ class rcmail_output_html extends rcmail_output
             $this->set_env('framed', 1);
         }
 
-        $lic = <<<EOF
-/*
-        @licstart  The following is the entire license notice for the
-        JavaScript code in this page.
+        $lic = <<<'EOF'
+            /*
+                    @licstart  The following is the entire license notice for the
+                    JavaScript code in this page.
 
-        Copyright (C) The Roundcube Dev Team
+                    Copyright (C) The Roundcube Dev Team
 
-        The JavaScript code in this page is free software: you can redistribute
-        it and/or modify it under the terms of the GNU General Public License
-        as published by the Free Software Foundation, either version 3 of
-        the License, or (at your option) any later version.
+                    The JavaScript code in this page is free software: you can redistribute
+                    it and/or modify it under the terms of the GNU General Public License
+                    as published by the Free Software Foundation, either version 3 of
+                    the License, or (at your option) any later version.
 
-        The code is distributed WITHOUT ANY WARRANTY; without even the implied
-        warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-        See the GNU GPL for more details.
+                    The code is distributed WITHOUT ANY WARRANTY; without even the implied
+                    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+                    See the GNU GPL for more details.
 
-        @licend  The above is the entire license notice
-        for the JavaScript code in this page.
-*/
-EOF;
+                    @licend  The above is the entire license notice
+                    for the JavaScript code in this page.
+            */
+            EOF;
         // add common javascripts
         $this->add_script($lic, 'head_top');
         $this->add_script('var ' . self::JS_OBJECT_NAME . ' = new rcube_webmail();', 'head_top');
@@ -972,7 +972,7 @@ EOF;
     }
 
 
-    /* Template parsing methods */
+    // Template parsing methods
 
     /**
      * Replace all strings ($varname)
@@ -1588,7 +1588,7 @@ EOF;
                         $param  = 'href';
                     }
 
-                    foreach ($this->$source as $name => $vars) {
+                    foreach ($this->{$source} as $name => $vars) {
                         // $vars can be in many forms:
                         // - string
                         // - ['key' => 'val']
@@ -2204,7 +2204,7 @@ EOF;
     }
 
 
-    /*  ************* common functions delivering gui objects **************  */
+    // common functions delivering gui objects
 
     /**
      * Create a form tag with the necessary hidden fields
@@ -2382,7 +2382,7 @@ EOF;
 
             foreach ($default_host as $key => $value) {
                 if (!is_array($value)) {
-                    $input_host->add($value, (is_numeric($key) ? $value : $key));
+                    $input_host->add($value, is_numeric($key) ? $value : $key);
                 }
                 else {
                     $input_host = null;

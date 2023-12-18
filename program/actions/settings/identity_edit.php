@@ -68,7 +68,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             'encryptioncreatekey', 'openmailvelopesettings', 'encryptionprivkeysinmailvelope',
             'encryptionnoprivkeysinmailvelope', 'keypaircreatesuccess');
 
-        $rcmail->output->set_pagetitle($rcmail->gettext(($rcmail->action == 'add-identity' ? 'addidentity' : 'editidentity')));
+        $rcmail->output->set_pagetitle($rcmail->gettext($rcmail->action == 'add-identity' ? 'addidentity' : 'editidentity'));
 
         if ($rcmail->action == 'add-identity' && $rcmail->output->template_exists('identityadd')) {
             $rcmail->output->send('identityadd');

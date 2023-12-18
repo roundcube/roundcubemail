@@ -5,7 +5,7 @@ TRUNCATE `messages`;
 ALTER TABLE `messages`
     ADD INDEX `index_index` (`user_id`, `cache_key`, `idx`);
 
-ALTER TABLE `session` 
+ALTER TABLE `session`
     CHANGE `vars` `vars` MEDIUMTEXT NOT NULL;
 
 ALTER TABLE `contacts`

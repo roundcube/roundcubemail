@@ -114,7 +114,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
 
         // jump back one page (user removed the whole last page)
         if ($page > 1 && $remaining == 0) {
-            $page -= 1;
+            --$page;
             $rcmail->storage->set_page($page);
             $_SESSION['page'] = $page;
             $jump_back = true;
@@ -144,7 +144,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
             // #5862: Don't add more rows than it was on the next page
             $count = !empty($jump_back) ? null : min($nextpage_count, $count);
 
-            $a_headers = $rcmail->storage->list_messages($mbox, NULL,
+            $a_headers = $rcmail->storage->list_messages($mbox, null,
                 self::sort_column(), self::sort_order(), $count);
 
             self::js_message_list($a_headers, false);

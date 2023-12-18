@@ -1,4 +1,5 @@
 <?php
+
 /**
  * New user identity
  *

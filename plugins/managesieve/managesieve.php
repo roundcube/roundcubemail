@@ -316,8 +316,8 @@ class managesieve extends rcube_plugin
 
         foreach (['From', 'To'] as $h) {
             $hl = strtolower($h);
-            if (!empty($headers->$hl)) {
-                $list = rcube_mime::decode_address_list($headers->$hl);
+            if (!empty($headers->{$hl})) {
+                $list = rcube_mime::decode_address_list($headers->{$hl});
                 foreach ($list as $item) {
                     if (!empty($item['mailto'])) {
                         $result[] = [$h, $item['mailto'], !$got_list];

@@ -60,7 +60,7 @@ if (!empty($_POST['submit'])) {
         echo '</p>';
 
         $textbox = new html_textarea(['rows' => 16, 'cols' => 60, 'class' => 'configfile']);
-        echo $textbox->show(($_SESSION['config']));
+        echo $textbox->show($_SESSION['config']);
     }
 
     echo '<p class="hint">Of course there are more options to configure.

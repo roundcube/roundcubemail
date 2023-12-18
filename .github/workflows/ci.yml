@@ -25,7 +25,6 @@ jobs:
           extensions: mbstring
           tools: composer:v2
           coverage: none
-          ini-values: error_reporting=E_ALL
 
       - name: Setup composer
         run: |
@@ -57,7 +56,6 @@ jobs:
           extensions: mbstring
           tools: composer:v2
           coverage: none
-          ini-values: error_reporting=E_ALL
 
       - name: Setup composer
         run: |

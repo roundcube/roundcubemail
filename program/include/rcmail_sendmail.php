@@ -1247,7 +1247,7 @@ class rcmail_sendmail
 
         // use subject from post
         if (isset($_POST['_subject'])) {
-            $subject = rcube_utils::get_input_string('_subject', rcube_utils::INPUT_POST, TRUE);
+            $subject = rcube_utils::get_input_string('_subject', rcube_utils::INPUT_POST, true);
         }
         elseif (!empty($this->data['param']['subject'])) {
             $subject = $this->data['param']['subject'];
