@@ -374,18 +374,18 @@ class rcube_imap_generic
             if ($str) {
                 $str = trim($str);
                 // get response string and code (RFC5530)
-                if (preg_match("/^\[([a-z-]+)\]/i", $str, $m)) {
+                if (preg_match('/^\\[([a-z-]+)\\]/i', $str, $m)) {
                     $this->resultcode = strtoupper($m[1]);
                     $str = trim(substr($str, strlen($m[1]) + 2));
                 }
                 else {
                     $this->resultcode = null;
                     // parse response for [APPENDUID 1204196876 3456]
-                    if (preg_match("/^\[APPENDUID [0-9]+ ([0-9]+)\]/i", $str, $m)) {
+                    if (preg_match('/^\\[APPENDUID [0-9]+ ([0-9]+)\\]/i', $str, $m)) {
                         $this->data['APPENDUID'] = $m[1];
                     }
                     // parse response for [COPYUID 1204196876 3456:3457 123:124]
-                    elseif (preg_match("/^\[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\]/i", $str, $m)) {
+                    elseif (preg_match('/^\\[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\\]/i', $str, $m)) {
                         $this->data['COPYUID'] = [$m[1], $m[2]];
                     }
                 }
@@ -3945,7 +3945,7 @@ class rcube_imap_generic
 
             // parse untagged response for [COPYUID 1204196876 3456:3457 123:124] (RFC6851)
             if ($line && $command == 'UID MOVE') {
-                if (preg_match("/^\* OK \[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\]/i", $line, $m)) {
+                if (preg_match('/^\\* OK \\[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\\]/i', $line, $m)) {
                     $this->data['COPYUID'] = [$m[1], $m[2]];
                 }
             }
@@ -3973,7 +3973,7 @@ class rcube_imap_generic
 
         // return last line only (without command tag, result and response code)
         if ($line && ($options & self::COMMAND_LASTLINE)) {
-            $response = preg_replace("/^$tag (OK|NO|BAD|BYE|PREAUTH)?\s*(\[[a-z-]+\])?\s*/i", '', trim($line));
+            $response = preg_replace("/^$tag (OK|NO|BAD|BYE|PREAUTH)?\\s*(\\[[a-z-]+\\])?\\s*/i", '', trim($line));
         }
 
         return $noresp ? $code : [$code, $response];

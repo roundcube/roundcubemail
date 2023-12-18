@@ -696,7 +696,7 @@ class rcube_vcard
     private static function vcard_decode($vcard)
     {
         // Perform RFC2425 line unfolding and split lines
-        $vcard  = preg_replace(["/\r/", "/\n\s+/"], '', $vcard);
+        $vcard  = preg_replace(["/\r/", "/\n\\s+/"], '', $vcard);
         $lines  = explode("\n", $vcard);
         $result = [];
 
@@ -1010,7 +1010,7 @@ class rcube_vcard
         // This will for example exclude photos
 
         // Perform RFC2425 line unfolding and split lines
-        $string = preg_replace(["/\r/", "/\n\s+/"], '', $string);
+        $string = preg_replace(["/\r/", "/\n\\s+/"], '', $string);
         $lines  = explode("\n", $string);
         $string = '';
 

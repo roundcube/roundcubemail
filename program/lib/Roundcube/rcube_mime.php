@@ -169,7 +169,7 @@ class rcube_mime
         // in the Base64 Alphabet must be ignored by decoding software
         // delete all blanks between MIME-lines, differently we can
         // receive unnecessary blanks and broken utf-8 symbols
-        $input = preg_replace("/\?=\s+=\?/", '?==?', $input);
+        $input = preg_replace('/\\?=\\s+=\\?/', '?==?', $input);
 
         // encoded-word regexp
         $re = '/=\?([^?]+)\?([BbQq])\?([^\n]*?)\?=/';
@@ -848,7 +848,7 @@ class rcube_mime
         $mime_types      = [];
         $mime_extensions = [];
         $lines = [];
-        $regex = "/([\w\+\-\.\/]+)\s+([\w\s]+)/i";
+        $regex = '/([\\w\\+\\-\\.\\/]+)\\s+([\\w\\s]+)/i';
 
         foreach ($file_paths as $fp) {
             if (@is_readable($fp)) {

@@ -2742,16 +2742,16 @@ class rcmail_output_html extends rcmail_output
 
                 if (empty($type)) {
                     // If no type provided then remove those options from the list
-                    $template_names = preg_grep("/\]$/", $template_names, \PREG_GREP_INVERT);
+                    $template_names = preg_grep('/\\]$/', $template_names, \PREG_GREP_INVERT);
                 }
                 elseif ($match === null) {
                     // Type specified with no special matching requirements so remove all none type specific options from the list
-                    $template_names = preg_grep("/\]$/", $template_names);
+                    $template_names = preg_grep('/\\]$/', $template_names);
                 }
 
                 if ($match == 'template') {
                     // Match only specific type or template name
-                    $template_names = preg_grep("/\*$/", $template_names, \PREG_GREP_INVERT);
+                    $template_names = preg_grep('/\\*$/', $template_names, \PREG_GREP_INVERT);
                 }
 
                 foreach ($template_names as $key) {

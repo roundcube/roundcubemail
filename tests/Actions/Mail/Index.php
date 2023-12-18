@@ -347,7 +347,7 @@ class Actions_Mail_Index extends ActionTestCase
 
         $this->assertMatchesRegularExpression('/<style [^>]+>/', $html, 'Allow styles in safe mode');
         $this->assertMatchesRegularExpression('#src="http://evilsite.net/mailings/ex3.jpg"#', $html, 'Allow external images in HTML (safe mode)');
-        $this->assertMatchesRegularExpression("#url\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\)#", $html, 'Allow external images in CSS (safe mode)');
+        $this->assertMatchesRegularExpression("#url\\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\\)#", $html, 'Allow external images in CSS (safe mode)');
         $css = '<link rel="stylesheet" .+_action=modcss.+_u=tmp-[a-z0-9]+\.css';
         $this->assertMatchesRegularExpression('#' . $css . '#Ui', $html, 'Filter (anonymized) external stylesheets with utils/modcss.php');
     }

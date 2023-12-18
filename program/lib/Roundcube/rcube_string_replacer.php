@@ -53,16 +53,16 @@ class rcube_string_replacer
         $url2       = 'a-zA-Z0-9%=#$@+?|!&\\/_~\\[\\]\\(\\){}\*\x80-\xFE-';
 
         // Supported link prefixes
-        $link_prefix = "([\w]+:\/\/|{$this->noword}[Ww][Ww][Ww]\.|^[Ww][Ww][Ww]\.)";
+        $link_prefix = "([\\w]+:\\/\\/|{$this->noword}[Ww][Ww][Ww]\\.|^[Ww][Ww][Ww]\\.)";
 
         $this->options         = $options;
         $this->linkref_index   = '/\[([^<>\]#]+)\](:?\s*' . substr($this->pattern, 1, -1) . ')/';
         $this->linkref_pattern = '/\[([^<>\]#]+)\]/';
         $this->link_pattern    = "/$link_prefix($utf_domain([$url1]*[$url2]+)*)/";
         $this->mailto_pattern  = '/('
-            . "[-\w!\#\$%&*+~\/^`|{}=]+(?:\.[-\w!\#\$%&*+~\/^`|{}=]+)*"  // local-part
+            . '[-\\w!\\#$%&*+~\\/^`|{}=]+(?:\\.[-\\w!\\#$%&*+~\\/^`|{}=]+)*'  // local-part
             . "@$utf_domain"                                             // domain-part
-            . "(\?[$url1$url2]+)?"                                       // e.g. ?subject=test...
+            . "(\\?[$url1$url2]+)?"                                       // e.g. ?subject=test...
             . ')/';
     }
 
@@ -110,7 +110,7 @@ class rcube_string_replacer
         if (preg_match('!^(http|ftp|file)s?://!i', $scheme)) {
             $url = $matches[1] . $matches[2];
         }
-        elseif (preg_match("/^({$this->noword}*)(www\.)$/i", $matches[1], $m)) {
+        elseif (preg_match("/^({$this->noword}*)(www\\.)$/i", $matches[1], $m)) {
             $url        = $m[2] . $matches[2];
             $url_prefix = 'http://';
             $prefix     = $m[1];

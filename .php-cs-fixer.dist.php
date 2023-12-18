@@ -89,7 +89,6 @@ return (new PhpCsFixer\Config())
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
         'control_structure_continuation_position' => false,
-        'escape_implicit_backslashes' => false, // TODO fix after "single_quote" rule is fixed
         'explicit_string_variable' => false,
         'general_phpdoc_annotation_remove' => false,
         'increment_style' => false,
