@@ -56,7 +56,7 @@ class html
         return self::tag($this->tagname, $this->attrib, $this->content, array_merge(self::$common_attrib, $this->allowed));
     }
 
-    /* STATIC METHODS */
+    // STATIC METHODS
 
     /**
      * Generic method to create a HTML tag
@@ -716,7 +716,7 @@ class html_table extends html
     protected $allowed = ['id', 'class', 'style', 'width', 'summary',
         'cellpadding', 'cellspacing', 'border'];
 
-    private $header   = null;
+    private $header;
     private $rows     = [];
     private $rowindex = 0;
     private $colindex = 0;

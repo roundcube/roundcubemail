@@ -272,7 +272,7 @@ class HTTPSocket
         }
 
         // for DA skins: if $this->remote_passwd is NULL, try to use the login key system
-        if (isset($this->remote_uname) && $this->remote_passwd == NULL) {
+        if (isset($this->remote_uname) && $this->remote_passwd == null) {
             $array_headers['Cookie'] = "session={$_SERVER['SESSION_ID']}; key={$_SERVER['SESSION_KEY']}";
         }
 

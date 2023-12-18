@@ -53,7 +53,7 @@ class rcmail_oauth
     protected $jwks;
 
     /** @var string */
-    protected $last_error = null;
+    protected $last_error;
 
     /** @var bool */
     protected $no_redirect = false;
@@ -67,8 +67,7 @@ class rcmail_oauth
     /** @var string */
     protected $logout_redirect_url;
 
-    /* helper to map .well-known entry to config (discovery URI) */
-    /** @var array */
+    /** @var array helper to map .well-known entry to config (discovery URI) */
     static protected $config_mapper = [
         'issuer'                 => 'issuer',
         'authorization_endpoint' => 'auth_uri',
@@ -787,7 +786,7 @@ class rcmail_oauth
             $data['token_type'], $data['expires_in'],
             $data['refresh_expires_in'],
             isset($data['id_token']),
-            ($data['not-before-policy'] ?? null)
+            $data['not-before-policy'] ?? null
         );
 
         if (is_array($previous_data)) {

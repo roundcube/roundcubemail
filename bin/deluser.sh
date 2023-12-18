@@ -19,22 +19,24 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 function print_usage()
 {
-    print "Usage: deluser.sh [--host=HOST][--age=DAYS][--dry-run] [username]\n";
-    print "--host=HOST  The IMAP hostname or IP the given user is related to\n";
-    print "--age=DAYS   Delete all users who have not logged in for more than X days\n";
-    print "--dry-run    List users but do not delete them (for use with --age)\n";
+    echo "Usage: deluser.sh [--host=HOST][--age=DAYS][--dry-run] [username]\n";
+    echo "--host=HOST  The IMAP hostname or IP the given user is related to\n";
+    echo "--age=DAYS   Delete all users who have not logged in for more than X days\n";
+    echo "--dry-run    List users but do not delete them (for use with --age)\n";
 }
 
-function _die($msg, $usage=false)
+function _die($msg, $usage = false)
 {
     fwrite(STDERR, $msg . "\n");
-    if ($usage) print_usage();
+    if ($usage) {
+        print_usage();
+    }
     exit(1);
 }
 
@@ -82,7 +84,7 @@ if (!$db->is_connected() || $db->is_error()) {
 $user = rcube_user::query($username, $hostname);
 
 if (!$user) {
-    die("User not found.\n");
+    exit("User not found.\n");
 }
 
 // inform plugins about approaching user deletion

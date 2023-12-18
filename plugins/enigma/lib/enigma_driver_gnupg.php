@@ -577,7 +577,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             $ekey->subkeys[$idx] = $skey;
-        };
+        }
 
         $ekey->id = $ekey->subkeys[0]->id;
 

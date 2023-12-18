@@ -13,7 +13,7 @@ Filtering is based on `Sieve <https://www.rfc-editor.org/info/rfc5228>`_ languag
 all filters are stored as a Sieve script on the server. This interface allows you to
 define rules in easy way without the need to know the language.
 
-Each filter definition has a name and set of rules and actions. Usually 
+Each filter definition has a name and set of rules and actions. Usually
 the number of definitions is unlimited and they can be grouped into sets
 (scripts) for convenience.
 

@@ -948,7 +948,7 @@ class rcmail_install
         }
 
         if ($un7zip === null) {
-            $un7zip = trim(`which 7z`);
+            $un7zip = trim(shell_exec("which 7z"));
         }
 
         if ($un7zip) {
@@ -982,7 +982,7 @@ class rcmail_install
         }
 
         if ($unzip === null) {
-            $unzip = trim(`which unzip`);
+            $unzip = trim(shell_exec("which unzip"));
         }
 
         if ($unzip) {

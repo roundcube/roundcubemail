@@ -534,7 +534,7 @@ abstract class rcube_session implements SessionHandlerInterface
             $serialized .= 's:' . strlen($name) . ':"' . $name . '";';
 
             if ($has_value) {
-                for (;;) {
+                while (true) {
                     $p = $q;
                     switch (strtolower($str[$q])) {
                         case 'n': // null

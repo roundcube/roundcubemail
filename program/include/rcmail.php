@@ -597,7 +597,7 @@ class rcmail extends rcube
     public function load_gui($framed = false)
     {
         // init output page
-        if (!($this->output instanceof rcmail_output_html)) {
+        if (!$this->output instanceof rcmail_output_html) {
             $this->output = new rcmail_output_html($this->task, $framed);
         }
 
@@ -637,7 +637,7 @@ class rcmail extends rcube
      */
     public function json_init()
     {
-        if (!($this->output instanceof rcmail_output_json)) {
+        if (!$this->output instanceof rcmail_output_json) {
             $this->output = new rcmail_output_json();
         }
 

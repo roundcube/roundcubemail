@@ -214,7 +214,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 'level'       => $folder['level'],
                 'collapsed'   => $is_collapsed,
                 'content'     => html::a(['href' => '#'], $display_folder)
-                    . $checkbox_subscribe->show(($is_subscribed ? $folder['id'] : ''),
+                    . $checkbox_subscribe->show($is_subscribed ? $folder['id'] : '',
                         ['value' => $folder['id'], 'disabled' => $is_disabled ? 'disabled' : '']),
             ];
         }

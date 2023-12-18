@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,18 +18,18 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
-require_once INSTALL_PATH.'program/include/clisetup.php';
+require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 function print_usage()
 {
-    print "Usage: moduserprefs.sh [options] pref-name [pref-value]\n";
-    print "Options:\n";
-    print "    --user=user-id User ID in local database\n";
-    print "    --config=path  Location of additional configuration file\n";
-    print "    --delete       Unset the given preference\n";
-    print "    --type=type    Pref-value type: int, bool, string\n";
+    echo "Usage: moduserprefs.sh [options] pref-name [pref-value]\n";
+    echo "Options:\n";
+    echo "    --user=user-id User ID in local database\n";
+    echo "    --config=path  Location of additional configuration file\n";
+    echo "    --delete       Unset the given preference\n";
+    echo "    --type=type    Pref-value type: int, bool, string\n";
 }
 
 
@@ -44,8 +45,8 @@ if (empty($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
 }
-else if (empty($args[0]) || (empty($args[1]) && empty($args['delete']))) {
-    print "Missing required parameters.\n";
+elseif (empty($args[0]) || (empty($args[1]) && empty($args['delete']))) {
+    echo "Missing required parameters.\n";
     print_usage();
     exit;
 }

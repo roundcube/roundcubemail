@@ -173,8 +173,8 @@ class rcube_vcard
 
         // copy name fields to output array
         foreach (['firstname', 'surname', 'middlename', 'nickname', 'organization'] as $col) {
-            if (is_string($this->$col) && strlen($this->$col)) {
-                $out[$col] = $this->$col;
+            if (is_string($this->{$col}) && strlen($this->{$col})) {
+                $out[$col] = $this->{$col};
             }
         }
 
@@ -922,7 +922,7 @@ class rcube_vcard
                 $r[] = self::vcard_quote($part, $sep);
             }
 
-            return (implode($sep, $r));
+            return implode($sep, $r);
         }
 
         return strtr($str, ["\\" => "\\\\", "\r" => '', "\n" => '\n', $sep => "\\$sep"]);
@@ -972,7 +972,7 @@ class rcube_vcard
                 $str = substr_replace($str, '', $pos, 1);
             }
 
-            $pos += 1;
+            ++$pos;
         }
 
         return $str;

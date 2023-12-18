@@ -11,7 +11,7 @@ class squirrelmail_usercopy extends rcube_plugin
 {
     public $task = 'login';
 
-    private $prefs            = null;
+    private $prefs;
     private $identities_level = 0;
     private $abook            = [];
 
@@ -170,7 +170,7 @@ class squirrelmail_usercopy extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
 
-        /* File based backend */
+        // File based backend
         if ($rcmail->config->get('squirrelmail_driver') == 'file' && ($srcdir = $rcmail->config->get('squirrelmail_data_dir'))) {
             if (($hash_level = $rcmail->config->get('squirrelmail_data_dir_hash_level')) > 0) {
                 $srcdir = slashify($srcdir) . chunk_split(substr(base_convert(crc32($uname), 10, 16), 0, $hash_level), 1, '/');

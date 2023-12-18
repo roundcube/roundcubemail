@@ -573,7 +573,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $header = self::$MESSAGE->context ? 'from' : self::message_list_smart_column_name();
         $label  = 'shortheader' . $header;
         $date   = $rcmail->format_date(self::$MESSAGE->headers->date, $rcmail->config->get('date_long', 'x'));
-        $user   = self::$MESSAGE->headers->$header;
+        $user   = self::$MESSAGE->headers->{$header};
 
         if (!$user && $header == 'to' && !empty(self::$MESSAGE->headers->cc)) {
             $user = self::$MESSAGE->headers->cc;

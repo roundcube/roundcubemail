@@ -237,8 +237,9 @@ class rcube_cache_redis extends rcube_cache
         }
 
         try {
-            $fname  = method_exists(self::$redis, 'del') ? 'del' : 'delete';
-            $result = self::$redis->$fname($key);
+            $result = method_exists(self::$redis, 'del')
+                ? self::$redis->del($key)
+                : self::$redis->delete($key);
         }
         catch (Exception $e) {
             rcube::raise_error($e, true, false);

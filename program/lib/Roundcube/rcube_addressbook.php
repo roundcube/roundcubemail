@@ -75,7 +75,7 @@ abstract class rcube_addressbook
      * @var string|int|null If set, addressbook-specific identifier of the selected group. All contact listing and
      *                      contact searches will be limited to contacts that belong to this group.
      */
-    public $group_id = null;
+    public $group_id;
 
     /** @var int The current page of the listing. Numbering starts at 1. */
     public $list_page = 1;
@@ -857,9 +857,9 @@ abstract class rcube_addressbook
         // use only strict comparison (mode = 1)
         // @TODO: partial search, e.g. match only day and month
         if (in_array($colname, $this->date_cols)) {
-            return (($value = rcube_utils::anytodatetime($value))
+            return ($value = rcube_utils::anytodatetime($value))
                 && ($search = rcube_utils::anytodatetime($search))
-                && $value->format('Ymd') == $search->format('Ymd'));
+                && $value->format('Ymd') == $search->format('Ymd');
         }
 
         // Gender is a special value, must use strict comparison (#5757)

@@ -1,8 +1,8 @@
 -- Roundcube Webmail initial database structure
 
--- 
+--
 -- Table structure for table users
--- 
+--
 
 CREATE TABLE users (
   user_id integer NOT NULL PRIMARY KEY,
@@ -18,9 +18,9 @@ CREATE TABLE users (
 
 CREATE UNIQUE INDEX ix_users_username ON users(username, mail_host);
 
--- 
+--
 -- Table structure for table contacts and related
--- 
+--
 
 CREATE TABLE contacts (
   contact_id integer NOT NULL PRIMARY KEY,
@@ -62,9 +62,9 @@ CREATE TABLE contactgroupmembers (
 
 CREATE INDEX ix_contactgroupmembers_contact_id ON contactgroupmembers (contact_id);
 
--- 
+--
 -- Table structure for table collected_addresses
--- 
+--
 
 CREATE TABLE collected_addresses (
   address_id integer NOT NULL PRIMARY KEY,
@@ -78,9 +78,9 @@ CREATE TABLE collected_addresses (
 
 CREATE UNIQUE INDEX ix_collected_addresses_user_id ON collected_addresses(user_id, "type", email);
 
--- 
+--
 -- Table structure for table identities
--- 
+--
 
 CREATE TABLE identities (
   identity_id integer NOT NULL PRIMARY KEY,
@@ -101,9 +101,9 @@ CREATE TABLE identities (
 CREATE INDEX ix_identities_user_id ON identities(user_id, del);
 CREATE INDEX ix_identities_email ON identities(email, del);
 
--- 
+--
 -- Table structure for table responses
--- 
+--
 
 CREATE TABLE responses (
   response_id integer NOT NULL PRIMARY KEY,
@@ -118,9 +118,9 @@ CREATE TABLE responses (
 
 CREATE INDEX ix_responses_user_id ON responses(user_id, del);
 
--- 
+--
 -- Table structure for table session
--- 
+--
 
 CREATE TABLE session (
   sess_id varchar(128) NOT NULL PRIMARY KEY,
@@ -159,9 +159,9 @@ CREATE TABLE searches (
 
 CREATE UNIQUE INDEX ix_searches_user_type_name ON searches (user_id, type, name);
 
--- 
+--
 -- Table structure for table cache
--- 
+--
 
 CREATE TABLE cache (
   user_id integer NOT NULL
@@ -174,9 +174,9 @@ CREATE TABLE cache (
 
 CREATE INDEX ix_cache_expires ON cache(expires);
 
--- 
+--
 -- Table structure for table cache_shared
--- 
+--
 
 CREATE TABLE cache_shared (
   cache_key varchar(255) NOT NULL,

@@ -13,8 +13,8 @@ use Symfony\Component\Process\Process;
 
 abstract class TestCase extends PHPUnitTestCase
 {
-    use ProvidesBrowser,
-        SupportsChrome;
+    use ProvidesBrowser;
+    use SupportsChrome;
 
     protected $app;
     protected static $phpProcess;

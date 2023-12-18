@@ -2193,7 +2193,7 @@ class rcube_sieve_engine
         $out .= sprintf('<a href="#" id="ruleadd%s" title="%s" onclick="rcmail.managesieve_ruleadd(\'%s\'); return false" class="button create add">'
             . '<span class="inner">%s</span></a>', $id, $add_title, $id, $add_title);
         $out .= sprintf('<a href="#" id="ruledel%s" title="%s" onclick="rcmail.managesieve_ruledel(\'%s\'); return false" class="button delete del%s">'
-            . '<span class="inner">%s</span></a>', $id, $del_title, $id, ($rows_num < 2 ? ' disabled' : ''), $del_title);
+            . '<span class="inner">%s</span></a>', $id, $del_title, $id, $rows_num < 2 ? ' disabled' : '', $del_title);
         $out .= '</td>';
 
         $out .= '</tr></table>';
@@ -2386,7 +2386,7 @@ class rcube_sieve_engine
                 'class' => $this->error_class($id, 'action', 'targetarea', 'action_target_area'),
                 'style' => 'display:' . (in_array($action['type'], ['reject', 'ereject']) ? 'inline' : 'none'),
             ],
-            (in_array($action['type'], ['reject', 'ereject']) ? rcube::Q($action['target'], 'strict', false) : '')
+            in_array($action['type'], ['reject', 'ereject']) ? rcube::Q($action['target'], 'strict', false) : ''
         );
 
         // vacation
@@ -2753,7 +2753,7 @@ class rcube_sieve_engine
         $out .= sprintf('<a href="#" id="actionadd%s" title="%s" onclick="rcmail.managesieve_actionadd(%s)" class="button create add">'
             . '<span class="inner">%s</span></a>', $id, $add_label, $id, $add_label);
         $out .= sprintf('<a href="#" id="actiondel%s" title="%s" onclick="rcmail.managesieve_actiondel(%s)" class="button delete del%s">'
-            . '<span class="inner">%s</span></a>', $id, $del_label, $id, ($rows_num < 2 ? ' disabled' : ''), $del_label);
+            . '<span class="inner">%s</span></a>', $id, $del_label, $id, $rows_num < 2 ? ' disabled' : '', $del_label);
         $out .= '</td>';
 
         $out .= '</tr></table>';
