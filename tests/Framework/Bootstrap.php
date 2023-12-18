@@ -36,28 +36,39 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     function test_parse_bytes()
     {
         $data = [
+            '0'      => 0,
             '1'      => 1,
             '1024'   => 1024,
+            ' 10 '   => 10,
+
             '2k'     => 2 * 1024,
+            '2m'     => 2 * 1024 * 1024,
+            '2g'     => 2 * 1024 * 1024 * 1024,
+            '2t'     => 2 * 1024 * 1024 * 1024 * 1024,
+
             '2 k'    => 2 * 1024,
             '2kb'    => 2 * 1024,
             '2kB'    => 2 * 1024,
-            '2m'     => 2 * 1048576,
-            '2 m'    => 2 * 1048576,
-            '2mb'    => 2 * 1048576,
-            '2mB'    => 2 * 1048576,
-            '2g'     => 2 * 1024 * 1048576,
-            '2 g'    => 2 * 1024 * 1048576,
-            '2gb'    => 2 * 1024 * 1048576,
-            '2gB'    => 2 * 1024 * 1048576,
+            '2KiB'   => 2 * 1024,
+            '2 m'    => 2 * 1024 * 1024,
+            '2TB'    => 2 * 1024 * 1024 * 1024 * 1024,
+
+            '2.5k'   => (int) round(2.5 * 1024),
+            '0.01 MiB' => (int) round(0.01 * 1024 * 1024),
+
+            ''       => false,
+            '-1'     => false,
+            '1 1'    => false,
+            '1BB'    => false,
+            '1MM'    => false,
         ];
 
         foreach ($data as $value => $expected) {
             $result = parse_bytes($value);
-            $this->{'assertEquals'}($expected, $result, "Invalid parse_bytes() result for $value");
+            $this->assertSame($expected, $result, "Invalid parse_bytes() result for $value");
         }
 
-        $this->assertSame(0.0, parse_bytes(null));
+        $this->assertFalse(parse_bytes(null));
     }
 
     /**

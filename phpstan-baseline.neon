@@ -1985,6 +1985,11 @@ parameters:
 			path: program/lib/Roundcube/bootstrap.php
 
 		-
+			message: "#^Variable \\$str on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/bootstrap.php
+
+		-
 			message: "#^Default value of the parameter \\#3 \\$ttl \\(int\\) of method rcube_cache_apc\\:\\:__construct\\(\\) is incompatible with type string\\.$#"
 			count: 1
 			path: program/lib/Roundcube/cache/apc.php
