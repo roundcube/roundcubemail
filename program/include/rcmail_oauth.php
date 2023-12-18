@@ -422,7 +422,7 @@ class rcmail_oauth
             throw new RuntimeException('Failed to validate JWT: expired message');
         }
 
-        $this->log_debug("'jwt: %s", json_encode($body));
+        $this->log_debug('jwt: %s', json_encode($body));
 
         return $body;
     }
