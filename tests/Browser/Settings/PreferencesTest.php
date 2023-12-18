@@ -8,10 +8,10 @@ class PreferencesTest extends \Tests\Browser\TestCase
 {
     public function testPreferences()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('settings');
 
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 $browser->assertObjects(['sectionslist']);
             });
 
@@ -24,7 +24,7 @@ class PreferencesTest extends \Tests\Browser\TestCase
                     ->waitFor('#sections-table');
             }
             // Preferences actions
-            $browser->with('#sections-table', function ($browser) {
+            $browser->with('#sections-table', static function ($browser) {
                 $browser->assertSeeIn('tr.general', 'User Interface')
                     ->assertSeeIn('tr.mailbox', 'Mailbox View')
                     ->assertSeeIn('tr.mailview', 'Displaying Messages')

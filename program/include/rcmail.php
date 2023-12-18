@@ -1031,7 +1031,7 @@ class rcmail extends rcube
         $trash_mbox     = $this->config->get('trash_mbox');
 
         if ($logout_purge && !empty($trash_mbox)) {
-            $getMessages = function ($folder) use ($logout_purge, $storage) {
+            $getMessages = static function ($folder) use ($logout_purge, $storage) {
                 if (is_numeric($logout_purge)) {
                     $now      = new DateTime('now');
                     $interval = new DateInterval('P' . intval($logout_purge) . 'D');

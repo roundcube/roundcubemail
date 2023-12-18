@@ -8,14 +8,14 @@ class LogoutTest extends TestCase
 {
     public function testLogout()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('settings');
 
             // click the Logout button in taskmenu
             $browser->clickTaskMenuItem('logout');
 
             // task should be set to 'login'
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv('task', 'login');
             });
 
