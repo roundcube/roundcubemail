@@ -113,7 +113,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
             $db->closeConnection();
 
             // delete database file
-            unlink($dsn['database']);
+            @unlink($dsn['database']);
 
             // load sample test data
             self::loadSQLScript($db, 'init');
