@@ -36,31 +36,31 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     function test_parse_bytes()
     {
         $data = [
-            '0'      => 0,
-            '1'      => 1,
-            '1024'   => 1024,
-            ' 10 '   => 10,
+            '0'    => 0,
+            '1'    => 1,
+            '1024' => 1024,
+            ' 10 ' => 10,
 
-            '2k'     => 2 * 1024,
-            '2m'     => 2 * 1024 * 1024,
-            '2g'     => 2 * 1024 * 1024 * 1024,
-            '2t'     => 2 * 1024 * 1024 * 1024 * 1024,
+            '2k'   => 2 * 1024,
+            '2m'   => 2 * 1024 * 1024,
+            '2g'   => 2 * 1024 * 1024 * 1024,
+            '2t'   => 2 * 1024 * 1024 * 1024 * 1024,
 
-            '2 k'    => 2 * 1024,
-            '2kb'    => 2 * 1024,
-            '2kB'    => 2 * 1024,
-            '2KiB'   => 2 * 1024,
-            '2 m'    => 2 * 1024 * 1024,
-            '2TB'    => 2 * 1024 * 1024 * 1024 * 1024,
+            '2 k'  => 2 * 1024,
+            '2kb'  => 2 * 1024,
+            '2kB'  => 2 * 1024,
+            '2KiB' => 2 * 1024,
+            '2 m'  => 2 * 1024 * 1024,
+            '2TB'  => 2 * 1024 * 1024 * 1024 * 1024,
 
-            '2.5k'   => (int) round(2.5 * 1024),
+            '2.5k' => (int) round(2.5 * 1024),
             '0.01 MiB' => (int) round(0.01 * 1024 * 1024),
 
-            ''       => false,
-            '-1'     => false,
-            '1 1'    => false,
-            '1BB'    => false,
-            '1MM'    => false,
+            ''     => false,
+            '-1'   => false,
+            '1 1'  => false,
+            '1BB'  => false,
+            '1MM'  => false,
         ];
 
         foreach ($data as $value => $expected) {
@@ -69,6 +69,8 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
         }
 
         $this->assertFalse(parse_bytes(null));
+        $this->assertSame(0, parse_bytes(0));
+        $this->assertSame(10, parse_bytes(10.1));
     }
 
     /**
