@@ -766,7 +766,7 @@ function rcube_treelist_widget(node, p)
   function walk_list(ul, level)
   {
     var result = [];
-    ul.children('li').each(function(i,e){
+    ul.children('li').each(function(i, e){
       var state, li = $(e), sublist = li.children('ul');
       var node = {
         id: dom2id(li),

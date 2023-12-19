@@ -1304,7 +1304,7 @@ clear_selection: function(id, no_event)
   if (id) {
     for (n in this.selection)
       if (this.selection[n] == id) {
-        this.selection.splice(n,1);
+        this.selection.splice(n, 1);
         break;
       }
   }

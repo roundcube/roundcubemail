@@ -46,9 +46,9 @@ function roundcube_browser()
   this.vendver = n.vendorSub ? parseFloat(n.vendorSub) : 0;
   this.product = n.product ? n.product : '';
   this.platform = String(n.platform).toLowerCase();
-  this.lang = n.language ? n.language.substring(0,2) :
-              n.browserLanguage ? n.browserLanguage.substring(0,2) :
-              n.systemLanguage ? n.systemLanguage.substring(0,2) : 'en';
+  this.lang = n.language ? n.language.substring(0, 2) :
+              n.browserLanguage ? n.browserLanguage.substring(0, 2) :
+              n.systemLanguage ? n.systemLanguage.substring(0, 2) : 'en';
 
   this.win = this.platform.indexOf('win') >= 0;
   this.mac = this.platform.indexOf('mac') >= 0;
@@ -358,7 +358,7 @@ removeEventListener: function(evt, func, obj)
   if (obj === undefined)
     obj = window;
 
-  for (var h,i=0; this._events && this._events[evt] && i < this._events[evt].length; i++)
+  for (var h, i=0; this._events && this._events[evt] && i < this._events[evt].length; i++)
     if ((h = this._events[evt][i]) && h.func == func && h.obj == obj)
       this._events[evt][i] = null;
 },

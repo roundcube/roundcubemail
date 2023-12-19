@@ -111,7 +111,6 @@ module.exports = {
         // TODO
         'indent': 'off', // eslint-disable-line no-dupe-keys
         'space-infix-ops': 'off',
-        'comma-spacing': 'off',
         'quotes': 'off',
         'no-tabs': 'off',
         'space-before-function-paren': 'off',

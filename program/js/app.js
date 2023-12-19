@@ -1801,7 +1801,7 @@ function rcube_webmail()
 
     // remove focus from list widgets
     if (window.rcube_list_widget && rcube_list_widget._instances.length) {
-      $.each(rcube_list_widget._instances, function(i,list) {
+      $.each(rcube_list_widget._instances, function(i, list) {
         if (list && !rcube_mouse_is_over(e, list.list.parentNode))
           list.blur();
       });
@@ -2235,7 +2235,7 @@ function rcube_webmail()
       list = this.message_list,
       rows = list.rows,
       message = this.env.messages[uid],
-      msg_id = this.html_identifier(uid,true),
+      msg_id = this.html_identifier(uid, true),
       row_class = 'message'
         + (!flags.seen ? ' unread' : '')
         + (flags.deleted ? ' deleted' : '')
@@ -3950,7 +3950,7 @@ function rcube_webmail()
   {
     // get recipients
     var recipients = [];
-    $.each(['to', 'cc', 'bcc'], function(i,field) {
+    $.each(['to', 'cc', 'bcc'], function(i, field) {
       var pos, rcpt, val = $('[name="_' + field + '"]').val().trim();
       while (val.length && rcube_check_email(val, true)) {
         rcpt = RegExp.$2.replace(/^<+/, '').replace(/>+$/, '');
@@ -3963,7 +3963,7 @@ function rcube_webmail()
     var isvalid = recipients.length > 0;
     ref.mailvelope_keyring.validKeyForAddress(recipients).then(function(status) {
       var missing_keys = [];
-      $.each(status, function(k,v) {
+      $.each(status, function(k, v) {
         if (v === false) {
           isvalid = false;
           missing_keys.push(k);
@@ -4004,7 +4004,7 @@ function rcube_webmail()
 
       ref.mailvelope_keyring.validKeyForAddress(senders).then(function(status) {
         valid_sender = null;
-        $.each(status, function(k,v) {
+        $.each(status, function(k, v) {
           if (v !== false) {
             valid_sender = k;
             if (valid_sender == selected_sender) {
@@ -5290,7 +5290,7 @@ function rcube_webmail()
 
     if ($.inArray(key, index) >= 0) {
       this.local_storage_remove_item('compose.' + key);
-      this.local_storage_set_item('compose.index', $.grep(index, function(val,i) { return val != key; }));
+      this.local_storage_set_item('compose.index', $.grep(index, function(val, i) { return val != key; }));
     }
   };
 
@@ -7132,7 +7132,7 @@ function rcube_webmail()
       prop = { name:name, id:id };
 
     this.savedsearchlist.insert({ id:key, html:link, classes:['contactsearch'] }, null, 'contactsearch');
-    this.select_folder(key,'',true);
+    this.select_folder(key, '', true);
     this.enable_command('search-delete', true);
     this.env.search_id = id;
 

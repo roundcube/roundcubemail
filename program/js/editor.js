@@ -270,7 +270,7 @@ function rcube_text_editor(config, id)
       // find :prev and :next elements to get focus when tabbing away
       if (textarea.tabIndex > 0) {
         var x = null,
-          tabfocus_elements = [':prev',':next'],
+          tabfocus_elements = [':prev', ':next'],
           el = tinymce.DOM.select('*[tabindex='+textarea.tabIndex+']:not(iframe)');
 
         tinymce.each(el, function(e, i) { if (e.id == ref.id) { x = i; return false; } });
