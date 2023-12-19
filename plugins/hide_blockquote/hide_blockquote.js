@@ -16,54 +16,54 @@
  */
 
 if (window.rcmail)
-  rcmail.addEventListener('init', function() { hide_blockquote(); });
+    rcmail.addEventListener('init', function() { hide_blockquote(); });
 
 function hide_blockquote()
 {
-  var limit = rcmail.env.blockquote_limit;
+    var limit = rcmail.env.blockquote_limit;
 
-  if (limit <= 0)
-    return;
-
-  $('div.message-part div.pre > blockquote', $('#messagebody')).each(function() {
-    var res, text, div, link, q = $(this);
-
-    // Add new-line character before each blockquote
-    // This fixes counting lines of text, it also prevents
-    // from merging lines from different quoting level
-    $('blockquote').before(document.createTextNode("\n"));
-
-    text = q.text().trim();
-    res = text.split(/\n/);
-
-    if (res.length <= limit) {
-      // there can be also a block with very long wrapped line
-      // assume line height = 15px
-      if (q.height() <= limit * 15)
+    if (limit <= 0)
         return;
-    }
 
-    div = $('<blockquote class="blockquote-header">')
-      .css({'white-space': 'nowrap', overflow: 'hidden', position: 'relative'})
-      .text(res[0]);
+    $('div.message-part div.pre > blockquote', $('#messagebody')).each(function() {
+        var res, text, div, link, q = $(this);
 
-    link = $('<span class="blockquote-link"></span>')
-      .css({position: 'absolute', 'z-Index': 2})
-      .text(rcmail.get_label('hide_blockquote.show'))
-      .data('parent', div)
-      .click(function() {
-        var t = $(this), parent = t.data('parent'), visible = parent.is(':visible');
+        // Add new-line character before each blockquote
+        // This fixes counting lines of text, it also prevents
+        // from merging lines from different quoting level
+        $('blockquote').before(document.createTextNode("\n"));
 
-        t.text(rcmail.get_label(visible ? 'hide' : 'show', 'hide_blockquote'))
-          .detach().appendTo(visible ? q : parent).toggleClass('collapsed');
+        text = q.text().trim();
+        res = text.split(/\n/);
 
-        parent[visible ? 'hide' : 'show']();
-        q[visible ? 'show' : 'hide']();
-      });
+        if (res.length <= limit) {
+            // there can be also a block with very long wrapped line
+            // assume line height = 15px
+            if (q.height() <= limit * 15)
+                return;
+        }
 
-    link.appendTo(div);
+        div = $('<blockquote class="blockquote-header">')
+            .css({'white-space': 'nowrap', overflow: 'hidden', position: 'relative'})
+            .text(res[0]);
 
-    // Modify blockquote
-    q.hide().css({position: 'relative'}).before(div);
-  });
+        link = $('<span class="blockquote-link"></span>')
+            .css({position: 'absolute', 'z-Index': 2})
+            .text(rcmail.get_label('hide_blockquote.show'))
+            .data('parent', div)
+            .click(function() {
+                var t = $(this), parent = t.data('parent'), visible = parent.is(':visible');
+
+                t.text(rcmail.get_label(visible ? 'hide' : 'show', 'hide_blockquote'))
+                    .detach().appendTo(visible ? q : parent).toggleClass('collapsed');
+
+                parent[visible ? 'hide' : 'show']();
+                q[visible ? 'show' : 'hide']();
+            });
+
+        link.appendTo(div);
+
+        // Modify blockquote
+        q.hide().css({position: 'relative'}).before(div);
+    });
 }

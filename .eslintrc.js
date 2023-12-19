@@ -109,7 +109,6 @@ module.exports = {
         'vars-on-top': 'off',
 
         // TODO
-        'indent': 'off', // eslint-disable-line no-dupe-keys
         'space-infix-ops': 'off',
         'quotes': 'off',
         'no-tabs': 'off',

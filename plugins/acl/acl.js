@@ -149,7 +149,7 @@ rcube_webmail.prototype.acl_mode_switch = function(elem)
     this.http_request('settings/plugin.acl', '_act=list'
         + '&_mode='+(this.env.acl_advanced ? 'advanced' : 'simple')
         + '&_mbox='+urlencode(this.env.mailbox),
-        this.set_busy(true, 'loading'));
+    this.set_busy(true, 'loading'));
 };
 
 // ACL table initialization

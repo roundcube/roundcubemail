@@ -198,10 +198,10 @@ rcube_webmail.prototype.enigma_key_create_save = function()
         openpgp.generateKey(options).then(function(keypair) {
             // success
             var post = {
-              _a: 'import',
-              _keys: keypair.privateKey,
-              _generated: 1,
-              _passwd: password
+                _a: 'import',
+                _keys: keypair.privateKey,
+                _generated: 1,
+                _passwd: password
             };
 
             // send request to server
@@ -392,9 +392,9 @@ rcube_webmail.prototype.enigma_search = function(props)
 
     if (props || this.env.search_request) {
         var params = {'_a': 'search', '_q': props},
-          lock = this.set_busy(true, 'searching');
-//        if (this.gui_objects.search_filter)
-//          addurl += '&_filter=' + this.gui_objects.search_filter.value;
+            lock = this.set_busy(true, 'searching');
+        //        if (this.gui_objects.search_filter)
+        //          addurl += '&_filter=' + this.gui_objects.search_filter.value;
         this.env.current_page = 1;
         this.enigma_loadframe();
         this.enigma_clear_list();
@@ -428,7 +428,7 @@ rcube_webmail.prototype.enigma_list = function(page, reset_frame)
         return parent.rcmail.enigma_list(page, reset_frame);
 
     var params = {'_a': 'list'},
-      lock = this.set_busy(true, 'loading');
+        lock = this.set_busy(true, 'loading');
 
     this.env.current_page = page ? page : 1;
 
