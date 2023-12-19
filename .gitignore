@@ -22,6 +22,11 @@ program/js/jstz.min.js
 program/js/publickey.js
 program/js/tinymce/
 
+# eslint dependencies
+/node_modules
+/package.json
+/package-lock.json
+
 # skin customization files
 skins/elastic/styles/_styles.less
 skins/elastic/styles/_variables.less
