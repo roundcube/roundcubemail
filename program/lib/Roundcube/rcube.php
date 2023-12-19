@@ -221,7 +221,7 @@ class rcube
             $this->caches[$name] = rcube_cache::factory($type, $userid, $name, $ttl, $packed, $indexed);
         }
 
-        return $this->caches[$name];
+        return $this->caches[$name] ?? null;
     }
 
     /**
