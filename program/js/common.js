@@ -607,7 +607,7 @@ Date.prototype.getStdTimezoneOffset = function()
   }
 
   return tzo;
-}
+};
 
 // define String's startsWith() method for old browsers
 if (!String.prototype.startsWith) {
@@ -632,7 +632,7 @@ if (!String.prototype.endsWith) {
 // array utility function
 jQuery.last = function(arr) {
   return arr && arr.length ? arr[arr.length-1] : undefined;
-}
+};
 
 // jQuery plugin to set HTML5 placeholder and title attributes on input elements
 jQuery.fn.placeholder = function(text) {

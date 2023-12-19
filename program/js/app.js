@@ -344,7 +344,7 @@ function rcube_webmail()
               var n, href = this.href, dt = e.originalEvent.dataTransfer;
               if (dt) {
                 // inject username to the uri
-                href = href.replace(/^https?:\/\//, function(m) { return m + urlencode(ref.env.username) + '@'});
+                href = href.replace(/^https?:\/\//, function(m) { return m + urlencode(ref.env.username) + '@';});
                 // cleanup the node to get filename without the size test
                 n = $(this).clone();
                 n.children().remove();
@@ -362,7 +362,7 @@ function rcube_webmail()
             'download-attachment', 'open-attachment', 'rename-attachment'];
 
           if (this.env.drafts_mailbox)
-            this.env.compose_commands.push('savedraft')
+            this.env.compose_commands.push('savedraft');
 
           this.enable_command(this.env.compose_commands, true);
 
@@ -373,7 +373,7 @@ function rcube_webmail()
             this.env.editor_config.spellchecker = googie;
             this.env.editor_config.spellcheck_observer = function(s) { ref.spellcheck_state(); };
 
-            this.env.compose_commands.push('spellcheck')
+            this.env.compose_commands.push('spellcheck');
             this.enable_command('spellcheck', true);
           }
 
@@ -600,7 +600,7 @@ function rcube_webmail()
 
         // detect client timezone
         try {
-            tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+            tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
         } catch (e) { };
 
         input_tz.val(tz ? tz : (new Date().getStdTimezoneOffset() / -60));
@@ -645,12 +645,12 @@ function rcube_webmail()
           parent_focus: true,
           id_encode: this.html_identifier_encode,
           id_decode: this.html_identifier_decode,
-          check_droptarget: function(node) { return !node.virtual && ref.check_droptarget(node.id) }
+          check_droptarget: function(node) { return !node.virtual && ref.check_droptarget(node.id); }
       });
 
       this.treelist
-        .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
-        .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
+        .addEventListener('collapse', function(node) { ref.folder_collapsed(node); })
+        .addEventListener('expand', function(node) { ref.folder_collapsed(node); })
         .addEventListener('beforeselect', function(node) { return !ref.busy; })
         .addEventListener('select', function(node) {
           ref.triggerEvent('selectfolder', { folder:node.id, prefix:'rcmli' });
@@ -1884,7 +1884,7 @@ function rcube_webmail()
     }
 
     return true;
-  }
+  };
 
   // Common handler for a keypress event on a list widget
   this.list_keypress = function(list, conf)
@@ -1925,7 +1925,7 @@ function rcube_webmail()
     // Find out whether any of the selected messages comes from the Drafts folder
     if (selected_count > 0) {
       if (!this.env.multifolder_listing) {
-        isDraft = this.env.mailbox == this.env.drafts_mailbox
+        isDraft = this.env.mailbox == this.env.drafts_mailbox;
       }
       else {
         $.each(selection, function(i, v) {
@@ -2805,7 +2805,7 @@ function rcube_webmail()
     if (typeof url != 'object')
       url = {};
 
-    url._layout = this.env.layout
+    url._layout = this.env.layout;
     url._mbox = mbox;
     url._page = page;
 
@@ -4308,7 +4308,7 @@ function rcube_webmail()
       })
       .catch(function(err) {
         console.error('Mailvelope keyring error', err);
-      })
+      });
   };
 
   // start pgp key generation using Mailvelope
@@ -4651,7 +4651,7 @@ function rcube_webmail()
 
     // check for locally stored compose data
     if (this.env.save_localstorage)
-      this.compose_restore_dialog(0, html_mode)
+      this.compose_restore_dialog(0, html_mode);
 
     if (input_to.val() == '')
       elem = input_to;
@@ -4695,8 +4695,8 @@ function rcube_webmail()
 
     var show_next = function(i) {
       if (++i < index.length)
-        ref.compose_restore_dialog(i, html_mode)
-    }
+        ref.compose_restore_dialog(i, html_mode);
+    };
 
     for (i = j || 0; i < index.length; i++) {
       key = index[i];
@@ -4756,7 +4756,7 @@ function rcube_webmail()
         break;
       }
     }
-  }
+  };
 
   this.init_address_input_events = function(obj, props)
   {
@@ -4859,7 +4859,7 @@ function rcube_webmail()
       var data, name, n, id;
       for (n = 0; n < selection.length; n++) {
         if ((id = selection[n]) && (data = this.env.contactdata[id])) {
-          name = data.name || data
+          name = data.name || data;
 
           // group is added, expand it
           if (id.charAt(0) == 'E' && input.length) {
@@ -6587,7 +6587,7 @@ function rcube_webmail()
       post_data._search = this.env.search_request;
 
     // send request to server
-    this.http_post(action, post_data, lock)
+    this.http_post(action, post_data, lock);
 
     return true;
   };
@@ -7385,8 +7385,8 @@ function rcube_webmail()
 
     this.subscription_list
       .addEventListener('select', function(node) { ref.subscription_select(node.id); })
-      .addEventListener('collapse', function(node) { ref.folder_collapsed(node) })
-      .addEventListener('expand', function(node) { ref.folder_collapsed(node) })
+      .addEventListener('collapse', function(node) { ref.folder_collapsed(node); })
+      .addEventListener('expand', function(node) { ref.folder_collapsed(node); })
       .addEventListener('search', function(p) { if (p.query) ref.subscription_select(); })
       .draggable({cancel: 'li.mailbox.root,input,div.treetoggle,.custom-control'})
       .droppable({
@@ -7547,7 +7547,7 @@ function rcube_webmail()
             return f1 < f2 ? -1 : 1;
         }
         else if (i == len-1) {
-          return -1
+          return -1;
         }
       }
     });
@@ -7811,7 +7811,7 @@ function rcube_webmail()
       else if (prefix) {
         if (folder !== prefix) {
           $(this).data('filtered', true).hide();
-          return
+          return;
         }
       }
       // no namespace prefix, filter out all other namespaces
@@ -9033,7 +9033,7 @@ function rcube_webmail()
 
   this.goto_url = function(action, query, lock, secure)
   {
-    var url = this.url(action, query)
+    var url = this.url(action, query);
     if (secure) url = this.secure_url(url);
     this.redirect(url, lock);
   };

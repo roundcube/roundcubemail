@@ -23,7 +23,7 @@ rcube_webmail.prototype.markasjunk_mark = function(is_spam) {
 
     var lock = this.set_busy(true, 'loading');
     this.http_post('plugin.markasjunk.' + (is_spam ? 'junk' : 'not_junk'), this.selection_post_data({_uid: uids}), lock);
-}
+};
 
 rcube_webmail.prototype.markasjunk_move = function(mbox, uids) {
     var prev_uid = this.env.uid;
@@ -39,7 +39,7 @@ rcube_webmail.prototype.markasjunk_move = function(mbox, uids) {
         this.delete_messages();
 
     this.env.uid = prev_uid;
-}
+};
 
 rcube_webmail.prototype.markasjunk_toggle_button = function() {
     var spamobj = $('a.junk'),
@@ -86,11 +86,11 @@ rcube_webmail.prototype.markasjunk_toggle_button = function() {
             cur_hamobj.insertAfter(cur_spamobj);
         }
     });
-}
+};
 
 rcube_webmail.prototype.markasjunk_is_spam_mbox = function() {
     return !this.is_multifolder_listing() && this.env.mailbox == this.env.markasjunk_spam_mailbox;
-}
+};
 
 if (window.rcmail) {
     rcmail.addEventListener('init', function() {

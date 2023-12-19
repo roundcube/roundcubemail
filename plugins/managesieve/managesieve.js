@@ -35,16 +35,16 @@ if (window.rcmail) {
     }
 
     // register commands
-    rcmail.register_command('plugin.managesieve-save', function() { rcmail.managesieve_save() });
-    rcmail.register_command('plugin.managesieve-act', function() { rcmail.managesieve_act() });
-    rcmail.register_command('plugin.managesieve-add', function() { rcmail.managesieve_add() });
-    rcmail.register_command('plugin.managesieve-del', function() { rcmail.managesieve_del() });
-    rcmail.register_command('plugin.managesieve-move', function() { rcmail.managesieve_move() });
-    rcmail.register_command('plugin.managesieve-setadd', function() { rcmail.managesieve_setadd() });
-    rcmail.register_command('plugin.managesieve-setdel', function() { rcmail.managesieve_setdel() });
-    rcmail.register_command('plugin.managesieve-setact', function() { rcmail.managesieve_setact() });
-    rcmail.register_command('plugin.managesieve-setget', function() { rcmail.managesieve_setget() });
-    rcmail.register_command('plugin.managesieve-seteditraw', function() { rcmail.managesieve_seteditraw() });
+    rcmail.register_command('plugin.managesieve-save', function() { rcmail.managesieve_save(); });
+    rcmail.register_command('plugin.managesieve-act', function() { rcmail.managesieve_act(); });
+    rcmail.register_command('plugin.managesieve-add', function() { rcmail.managesieve_add(); });
+    rcmail.register_command('plugin.managesieve-del', function() { rcmail.managesieve_del(); });
+    rcmail.register_command('plugin.managesieve-move', function() { rcmail.managesieve_move(); });
+    rcmail.register_command('plugin.managesieve-setadd', function() { rcmail.managesieve_setadd(); });
+    rcmail.register_command('plugin.managesieve-setdel', function() { rcmail.managesieve_setdel(); });
+    rcmail.register_command('plugin.managesieve-setact', function() { rcmail.managesieve_setact(); });
+    rcmail.register_command('plugin.managesieve-setget', function() { rcmail.managesieve_setget(); });
+    rcmail.register_command('plugin.managesieve-seteditraw', function() { rcmail.managesieve_seteditraw(); });
 
     if (rcmail.env.action.startsWith('plugin.managesieve')) {
       if (rcmail.gui_objects.sieveform) {
@@ -1063,7 +1063,7 @@ function sieve_form_init()
     })
     .click(function() {  // show drop-down upon clicks
       $(this).autocomplete('search', $(this).val() || ' ');
-    })
+    });
 
   // display advanced controls when contain errors
   $('input.error').each(function() {
@@ -1201,12 +1201,12 @@ rcube_webmail.prototype.managesieve_create = function(force)
   this.env.managesieve_dialog = dialog = this.show_popup_dialog(
     dialog, title, buttons, $.extend(props, {button_classes: ['mainaction next', 'cancel']})
   );
-}
+};
 
 rcube_webmail.prototype.managesieve_dialog_close = function()
 {
   this.env.managesieve_dialog.dialog('destroy');
-}
+};
 
 rcube_webmail.prototype.managesieve_dialog_resize = function(o)
 {
@@ -1220,4 +1220,4 @@ rcube_webmail.prototype.managesieve_dialog_resize = function(o)
     return;
 
   dialog.dialog('option', { height: Math.min(h-20, height+120), width: Math.min(w-20, width+65) });
-}
+};

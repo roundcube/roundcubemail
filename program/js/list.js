@@ -374,7 +374,7 @@ remove_row: function(uid, sel_next)
   this.rowcount--;
 
   // fix list header after removing any rows
-  clearTimeout(this.resize_timeout)
+  clearTimeout(this.resize_timeout);
   this.resize_timeout = setTimeout(function() { self.resize(); }, 50);
 },
 
@@ -426,7 +426,7 @@ insert_row: function(row, before)
   this.rowcount++;
 
   // fix list header after adding any rows
-  clearTimeout(this.resize_timeout)
+  clearTimeout(this.resize_timeout);
   this.resize_timeout = setTimeout(function() { self.resize(); }, 50);
 },
 
@@ -1055,7 +1055,7 @@ select_row: function(id, mod_key, with_mouse)
     mod_key = 0;
 
   if (!this.shift_start)
-    this.shift_start = id
+    this.shift_start = id;
 
   if (!mod_key) {
     this.shift_start = id;

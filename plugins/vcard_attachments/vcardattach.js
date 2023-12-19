@@ -29,7 +29,7 @@ function plugin_vcard_import(mime_id)
 
     var dialog,
       action = function(e, a) {
-        var contacts = []
+        var contacts = [];
 
         dialog.find('input:checked').each(function() {
           contacts.push(this.value);

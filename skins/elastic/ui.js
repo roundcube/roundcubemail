@@ -390,7 +390,7 @@ function rcube_elastic_ui()
             btn_class = target[0].className + (add_class ? ' ' + add_class : '');
 
         if (!menu_button) {
-            btn_class = btn_class.replace('btn-primary', 'primary').replace(/(btn[a-z-]*|button|disabled)/g, '').trim()
+            btn_class = btn_class.replace('btn-primary', 'primary').replace(/(btn[a-z-]*|button|disabled)/g, '').trim();
             btn_class += ' button' + (!always_active ? ' disabled' : '');
         }
         else if (popup = target.data('popup')) {
@@ -1396,7 +1396,7 @@ function rcube_elastic_ui()
                         $('#compose-subject').focus();
                         floating = false;
                     }
-                    toolbar.css({position: 'relative', top: 0, width: 'auto'})
+                    toolbar.css({position: 'relative', top: 0, width: 'auto'});
                 }
             });
 
@@ -1663,7 +1663,7 @@ function rcube_elastic_ui()
         // Hide content frame buttons on small devices (with frame toolbar in parent window)
         $.each(content_buttons, function() { $(this)[mobile ? 'hide' : 'show'](); });
 
-        rcmail.triggerEvent('skin-resize', { mode: mode })
+        rcmail.triggerEvent('skin-resize', { mode: mode });
     };
 
     function screen_resize()
@@ -2613,7 +2613,7 @@ function rcube_elastic_ui()
 
                 // setTimeout fixes Shift + drag'n'drop menu in Chrome (#8107)
                 setTimeout(function() { $(target).popover('show'); }, 1);
-            }
+            };
 
             fn();
         }
@@ -2839,7 +2839,7 @@ function rcube_elastic_ui()
             }
 
             $(obj).find('.proplist > li > a.dropdown').on('click', function() {
-                var list = $(this).next()
+                var list = $(this).next();
                 list[list.is('.d-none') ? 'removeClass' : 'addClass']('d-none');
             });
         }
@@ -3353,7 +3353,7 @@ function rcube_elastic_ui()
 
                 email_element.text((name ? email : '') + ',');
                 recipient.attr('title', name ? (name + email) : null)
-                    .append([name_element, email_element, link])
+                    .append([name_element, email_element, link]);
 
                 if (replace)
                     replace.replaceWith(recipient);
@@ -3916,7 +3916,7 @@ function rcube_elastic_ui()
 
                     return false;
                 }
-            })
+            });
     };
 
     /**
@@ -4280,7 +4280,7 @@ function rcube_elastic_ui()
             $(body).css({
                 color: $(document.body).css('color'),
                 backgroundColor: $(document.body).css('background-color')
-            })
+            });
         };
 
         var setColor = color_mode == 'dark' && /_task=mail/.test(url) && /_action=viewsource/.test(url);
@@ -4423,7 +4423,7 @@ if (window.rcmail) {
 
         // just delegate the action to rcube_elastic_ui
         return rcmail.triggerEvent(show === false ? 'menu-close' : 'menu-open', {name: name, obj: obj, props: prop, originalEvent: event});
-    }
+    };
 
     /**
      * Elastic version of hide_menu as we don't need e.g. menus stack handling
@@ -4432,7 +4432,7 @@ if (window.rcmail) {
     {
         // delegate to rcube_elastic_ui
         return rcmail.triggerEvent('menu-close', {name: name, props: {menu: name}, originalEvent: event});
-    }
+    };
 }
 else {
     // rcmail does not exists e.g. on the error template inside a frame

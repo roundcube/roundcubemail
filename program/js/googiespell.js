@@ -46,7 +46,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         var res = [];
         for (var key in arr) { res.push([key]); }
         return res;
-    }
+    };
 
     this.img_dir = img_dir;
     this.server_url = server_url;
@@ -575,7 +575,7 @@ this.showErrorWindow = function(elm, id)
                 $(e_col).html(e_elm[0])
                     .mouseover(ref.item_onmouseover)
                     .mouseout(ref.item_onmouseout)
-                    .click(function() { return e_elm[1](elm, ref) });
+                    .click(function() { return e_elm[1](elm, ref); });
 
                 e_row.appendChild(e_col);
                 list.appendChild(e_row);
@@ -753,7 +753,7 @@ this.showErrorsInIframe = function()
 
     var me = this;
     if (this.custom_item_evaluator)
-        $.map(this.error_links, function(elm){me.custom_item_evaluator(me, elm)});
+        $.map(this.error_links, function(elm){me.custom_item_evaluator(me, elm);});
 
     $(this.edit_layer).append(output);
 
@@ -823,7 +823,7 @@ this.flashNoSpellingErrorState = function(on_finish)
             no_spell_errors = fn;
         }
         else
-            no_spell_errors = function () { ref.checkSpellingState() };
+            no_spell_errors = function () { ref.checkSpellingState(); };
 
         var rsm = $('<span>').text(this.lang_no_error_found);
 
@@ -887,7 +887,7 @@ this.checkSpellingState = function(fire)
 /////
 this.isDefined = function(o)
 {
-    return (o !== undefined && o !== null)
+    return (o !== undefined && o !== null);
 };
 
 this.errorFixed = function()
@@ -956,7 +956,7 @@ this.appendIndicator = function(elm)
     else
         $('body').append(this.indicator);
 */
-}
+};
 
 this.createFocusLink = function(name)
 {

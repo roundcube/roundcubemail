@@ -124,13 +124,11 @@ module.exports = {
         'no-var': 'off', // eslint-disable-line no-dupe-keys
         'one-var-declaration-per-line': 'off',
         'curly': 'off', // eslint-disable-line no-dupe-keys
-        'semi': 'off',
         'space-in-parens': 'off',
         'space-before-blocks': 'off',
         'nonblock-statement-body-position': 'off',
         'brace-style': 'off',
         'eqeqeq': 'off',
-        'semi-spacing': 'off',
         'array-bracket-spacing': 'off',
         'one-var': 'off', // eslint-disable-line no-dupe-keys
         'keyword-spacing': 'off',

@@ -179,7 +179,7 @@ function rcube_text_editor(config, id)
 
         // Replace the 'src' with data: URI after the image has been loaded
         // This way if we fetch the image again the browser will fetch it from cache
-        this.onload = function() { this.onload = null; ref.replace_img_src(this.src, id) };
+        this.onload = function() { this.onload = null; ref.replace_img_src(this.src, id); };
       });
     });
     // make links open on shift-click

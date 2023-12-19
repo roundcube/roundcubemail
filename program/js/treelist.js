@@ -191,7 +191,7 @@ function rcube_treelist_widget(node, p)
     searchfield.parent().find('a.reset').off('click.treelist').on('click.treelist', function(e) {
       reset_search();
       return false;
-    })
+    });
   }
 
   $(document.body).on('keydown', keypress);
@@ -351,7 +351,7 @@ function rcube_treelist_widget(node, p)
   function insert(node, parent_id, sort)
   {
     var li, parent_li,
-      parent_node = parent_id ? indexbyid[parent_id] : null
+      parent_node = parent_id ? indexbyid[parent_id] : null;
       search_ = search_active;
 
     // ignore, already exists
@@ -776,7 +776,7 @@ function rcube_treelist_widget(node, p)
         html: li.children().first().get(0).outerHTML,
         text: li.children().first().text(),
         children: walk_list(sublist, level+1)
-      }
+      };
 
       if (sublist.length) {
         node.childlistclass = sublist.attr('class');
