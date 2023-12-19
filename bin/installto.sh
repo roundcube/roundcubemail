@@ -77,8 +77,9 @@ if (strtolower($input) == 'y') {
         }
     }
 
-    foreach (['index.php', 'config/defaults.inc.php', 'composer.json', 'jsdeps.json', 'CHANGELOG.md', 'README.md', 'UPGRADING', 'LICENSE', 'INSTALL'] as $file) {
-        $command = 'rsync -a --out-format=%n ' . INSTALL_PATH . "{$file} {$target_dir}/{$file}";
+    foreach (['index.php', 'config/defaults.inc.php', 'composer.json-dist', 'jsdeps.json', 'CHANGELOG.md', 'README.md', 'UPGRADING', 'LICENSE', 'INSTALL'] as $file) {
+        $source_file = $file === 'composer.json-dist' ? 'composer.json' : $file;
+        $command = 'rsync -a --out-format=%n ' . INSTALL_PATH . "{$source_file} {$target_dir}/{$file}";
 
         if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {
             rcube::raise_error("Failed to execute command: {$command}", false, true);
