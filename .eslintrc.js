@@ -14,6 +14,7 @@ module.exports = {
     ignorePatterns: [
         '!.*',
         '/vendor',
+        '/public_html',
         '/plugins/jqueryui/js',
     ],
     rules: {
