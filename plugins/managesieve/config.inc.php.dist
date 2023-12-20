@@ -106,6 +106,21 @@ $config['managesieve_vacation_addresses_init'] = false;
 // This option enables automatic filling of :from field on initial vacation form creation.
 $config['managesieve_vacation_from_init'] = false;
 
+// Enables separate management interface for spam configuration
+// 0 - no separate section (default),
+// 1 - add Spam section,
+// 2 - add Spam section, but hide Filters section
+$config['managesieve_spam'] = 0;
+
+// The header used in messages to identify the spam score
+$config['managesieve_spam_header'] = 'x-spam-score';
+
+// The default threshold when to classify a message as spam
+$config['managesieve_spam_threshold'] = 5;
+
+// The default folder to move messages to when the filter kicks in
+$config['managesieve_spam_folder'] = 'INBOX.Junk';
+
 // Supported methods of notify extension. Default: 'mailto'
 $config['managesieve_notify_methods'] = ['mailto'];
 

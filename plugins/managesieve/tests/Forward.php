@@ -10,9 +10,9 @@ class Managesieve_Forward extends ActionTestCase
     }
 
     /**
-     * Test vacation_form()
+     * Test forward_form()
      */
-    function test_vacation_form()
+    function test_forward_form()
     {
         $rcube  = rcube::get_instance();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'managesieve');
