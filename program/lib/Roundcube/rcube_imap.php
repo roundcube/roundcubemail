@@ -1140,7 +1140,7 @@ class rcube_imap extends rcube_storage
                 }
 
                 // Re-sort the result according to the original search set order
-                usort($a_msg_headers, function ($a, $b) use ($index) {
+                usort($a_msg_headers, static function ($a, $b) use ($index) {
                     return array_search($a->uid . '-' . $a->folder, $index) - array_search($b->uid . '-' . $b->folder, $index);
                 });
             }
@@ -3142,7 +3142,7 @@ class rcube_imap extends rcube_storage
 
         // Remove hidden folders
         if ($config->get('imap_skip_hidden_folders')) {
-            $result = array_filter($result, function ($v) { return $v[0] != '.'; });
+            $result = array_filter($result, static function ($v) { return $v[0] != '.'; });
         }
 
         // Remove folders in shared namespaces (if configured, see self::set_env())
@@ -3498,7 +3498,7 @@ class rcube_imap extends rcube_storage
             return $result;
         }
 
-        $types   = array_map(function ($value) { return "\\" . ucfirst($value); }, rcube_storage::$folder_types);
+        $types   = array_map(static function ($value) { return '\\' . ucfirst($value); }, rcube_storage::$folder_types);
         $special = [];
 
         // request \Subscribed flag in LIST response as performance improvement for folder_exists()

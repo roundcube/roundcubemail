@@ -79,7 +79,7 @@ class Taskmenu extends Component
     public function clickMenuItem(Browser $browser, $name)
     {
         if ($browser->isPhone()) {
-            $browser->withinBody(function ($browser) {
+            $browser->withinBody(static function ($browser) {
                 $browser->click('.task-menu-button');
             });
         }

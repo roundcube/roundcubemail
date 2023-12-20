@@ -56,7 +56,7 @@ class rcmail_action_mail_send extends rcmail_action
                 'sendmail'      => true,
                 'saveonly'      => $saveonly,
                 'savedraft'     => $savedraft,
-                'error_handler' => function (...$args) use ($rcmail) {
+                'error_handler' => static function (...$args) use ($rcmail) {
                     call_user_func_array([$rcmail->output, 'show_message'], $args);
                     $rcmail->output->send('iframe');
                 },

@@ -39,7 +39,7 @@ class GeneralTest extends \Tests\Browser\TestCase
                 }
 
                 // check task and action
-                $browser->with(new App(), function ($browser) {
+                $browser->with(new App(), static function ($browser) {
                     $browser->assertEnv('task', 'settings');
                     $browser->assertEnv('action', 'edit-prefs');
                 });

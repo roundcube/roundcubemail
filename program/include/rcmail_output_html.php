@@ -2024,11 +2024,11 @@ class rcmail_output_html extends rcmail_output
             $is_empty = true;
         }
 
-        $merge_script_files = function ($output, $script) {
+        $merge_script_files = static function ($output, $script) {
             return $output . html::script($script);
         };
 
-        $merge_scripts = function ($output, $script) {
+        $merge_scripts = static function ($output, $script) {
             return $output . html::script([], $script);
         };
 

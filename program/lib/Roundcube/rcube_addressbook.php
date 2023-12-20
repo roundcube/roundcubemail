@@ -689,7 +689,7 @@ abstract class rcube_addressbook
             $compose_mode = (int) rcube::get_instance()->config->get('addressbook_name_listing', 0);
         }
 
-        $get_names = function ($contact, $fields) {
+        $get_names = static function ($contact, $fields) {
             $result = [];
             foreach ($fields as $field) {
                 if (!empty($contact[$field])) {

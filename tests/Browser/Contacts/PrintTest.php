@@ -32,7 +32,7 @@ class PrintTest extends \Tests\Browser\TestCase
 
             $browser->driver->switchTo()->window($new_window);
 
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv([
                         'task' => 'addressbook',
                         'action' => 'print',

@@ -75,7 +75,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function assertTaskMenu($selected)
     {
-        $this->with(new Components\Taskmenu(), function ($browser) use ($selected) {
+        $this->with(new Components\Taskmenu(), static function ($browser) use ($selected) {
             $browser->assertMenuState($selected);
         });
 
@@ -87,7 +87,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function assertToolbarMenu($active, $disabled = [], $missing = [])
     {
-        $this->with(new Components\Toolbarmenu(), function ($browser) use ($active, $disabled, $missing) {
+        $this->with(new Components\Toolbarmenu(), static function ($browser) use ($active, $disabled, $missing) {
             $browser->assertMenuState($active, $disabled, $missing);
         });
 
@@ -99,7 +99,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function closeToolbarMenu()
     {
-        $this->with(new Components\Toolbarmenu(), function ($browser) {
+        $this->with(new Components\Toolbarmenu(), static function ($browser) {
             $browser->closeMenu();
         });
 
@@ -111,7 +111,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function clickTaskMenuItem($name)
     {
-        $this->with(new Components\Taskmenu(), function ($browser) use ($name) {
+        $this->with(new Components\Taskmenu(), static function ($browser) use ($name) {
             $browser->clickMenuItem($name);
         });
 
@@ -123,7 +123,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function clickToolbarMenuItem($name, $dropdown_action = null, $close = true)
     {
-        $this->with(new Components\Toolbarmenu(), function ($browser) use ($name, $dropdown_action, $close) {
+        $this->with(new Components\Toolbarmenu(), static function ($browser) use ($name, $dropdown_action, $close) {
             $browser->clickMenuItem($name, $dropdown_action, $close);
         });
 
@@ -147,7 +147,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function go($task = 'mail', $action = null, $login = true)
     {
-        $this->with(new Components\App(), function ($browser) use ($task, $action, $login) {
+        $this->with(new Components\App(), static function ($browser) use ($task, $action, $login) {
             $browser->gotoAction($task, $action, $login);
         });
 

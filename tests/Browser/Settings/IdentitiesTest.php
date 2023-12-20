@@ -14,11 +14,11 @@ class IdentitiesTest extends \Tests\Browser\TestCase
 
     public function testIdentities()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('settings', 'identities');
 
             // check task and action
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv('task', 'settings');
                 $browser->assertEnv('action', 'identities');
 
@@ -47,7 +47,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
      */
     public function testIdentityCreate()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('settings', 'identities');
 
             if ($browser->isPhone()) {
@@ -59,9 +59,9 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                 $browser->clickToolbarMenuItem('create');
             }
 
-            $browser->withinFrame('#preferences-frame', function ($browser) {
+            $browser->withinFrame('#preferences-frame', static function ($browser) {
                 $browser->waitFor('form')
-                    ->with('form fieldset:nth-of-type(1)', function ($browser) {
+                    ->with('form fieldset:nth-of-type(1)', static function ($browser) {
                         $browser->assertSeeIn('legend', 'Settings')
                             ->assertVisible('input[name=_name]')
                             ->assertValue('input[name=_name]', '')
@@ -81,7 +81,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                             ->assertCheckboxState('input[name=_standard]', false)
                             ->assertSeeIn('label[for=rcmfd_standard]', 'Set default');
                     })
-                    ->with('form fieldset:nth-of-type(2)', function ($browser) {
+                    ->with('form fieldset:nth-of-type(2)', static function ($browser) {
                         $browser->assertSeeIn('legend', 'Signature')
                             ->assertVisible('textarea[name=_signature]')
                             ->assertValue('textarea[name=_signature]', '');
@@ -101,7 +101,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
 
             if ($browser->isPhone()) {
                 $browser->assertVisible('#layout-content .header a.back-list-button')
-                    ->whenAvailable('#layout-content .footer .buttons', function ($browser) {
+                    ->whenAvailable('#layout-content .footer .buttons', static function ($browser) {
                         $browser->click('a.button.submit');
                     });
             }
@@ -110,8 +110,8 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                 ->closeMessage('confirmation')
                 ->waitFor('#preferences-frame');
 
-            $browser->withinFrame('#preferences-frame', function ($browser) {
-                $browser->whenAvailable('form', function ($browser) {
+            $browser->withinFrame('#preferences-frame', static function ($browser) {
+                $browser->whenAvailable('form', static function ($browser) {
                     $browser->assertValue('input[name=_name]', 'My Test')
                         ->assertValue('input[name=_email]', 'mynew@identity.com')
                         ->assertValue('input[name=_organization]', 'My Organization')
@@ -131,7 +131,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
             }
 
             // Identities list
-            $browser->with('#identities-table', function ($browser) {
+            $browser->with('#identities-table', static function ($browser) {
                 $browser->assertElementsCount('tbody tr', 2)
                     ->assertSeeIn('tbody tr:nth-child(2)', 'My Test');
             });
@@ -148,12 +148,12 @@ class IdentitiesTest extends \Tests\Browser\TestCase
      */
     public function testIdentityDelete()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->click('#identities-table tbody tr:first-child')
                 ->waitFor('#preferences-frame')
                 ->clickToolbarMenuItem('delete');
 
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser->assertDialogTitle('Are you sure...')
                     ->assertDialogContent('Do you really want to delete this identity?')
                     ->assertButton('mainaction.delete', 'Delete')
@@ -165,7 +165,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                 ->closeMessage('confirmation');
 
             // Preview frame should reset to the watermark page
-            $browser->withinFrame('#preferences-frame', function ($browser) {
+            $browser->withinFrame('#preferences-frame', static function ($browser) {
                 $browser->waitUntilMissing('> div');
             });
 
@@ -187,13 +187,13 @@ class IdentitiesTest extends \Tests\Browser\TestCase
      */
     public function testIdentityUpdate()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->click('#identities-table tbody tr:last-child')
                 ->waitFor('#preferences-frame')
                 ->waitUntilMissing('#messagestack div.loading');
 
-            $browser->withinFrame('#preferences-frame', function ($browser) {
-                $browser->whenAvailable('form', function ($browser) {
+            $browser->withinFrame('#preferences-frame', static function ($browser) {
+                $browser->whenAvailable('form', static function ($browser) {
                     $browser->type('[name=_name]', 'Default')
                         ->type('[name=_organization]', 'Default Org');
                 });
@@ -204,7 +204,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
             });
 
             if ($browser->isPhone()) {
-                $browser->whenAvailable('#layout-content .footer', function ($browser) {
+                $browser->whenAvailable('#layout-content .footer', static function ($browser) {
                     $browser->assertVisible('a.button.prev.disabled')
                         ->assertVisible('a.button.next.disabled')
                         ->click('a.button.submit');
@@ -219,7 +219,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                 $browser->click('#layout-content .header a.back-list-button');
             }
 
-            $browser->whenAvailable('#identities-table', function ($browser) {
+            $browser->whenAvailable('#identities-table', static function ($browser) {
                 $browser->assertSeeIn('tbody tr:last-child', 'Default <mynew@identity.com>');
             });
         });
@@ -260,7 +260,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
             // Test "unsaved changes" dialog
             $browser->type('#compose-subject', 'subject')
                 ->click('#compose_from a.edit')
-                ->with(new Dialog(), function ($browser) {
+                ->with(new Dialog(), static function ($browser) {
                     $browser->assertDialogTitle('Are you sure...')
                         ->assertDialogContent('The message has not been sent and has unsaved changes. Do you want to discard your changes?')
                         ->assertButton('mainaction.discard', 'Discard')

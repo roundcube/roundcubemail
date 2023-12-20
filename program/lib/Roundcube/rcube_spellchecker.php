@@ -139,7 +139,7 @@ class rcube_spellchecker
         }
 
         // ignore links (#8527)
-        $callback = function ($matches) {
+        $callback = static function ($matches) {
             // replace the link with a dummy string that has the same length
             // we can't just remove the link
             return str_repeat(' ', strlen($matches[0]));

@@ -98,7 +98,6 @@ return (new PhpCsFixer\Config())
         'php_unit_test_case_static_method_calls' => false,
         'random_api_migration' => false,
         'self_accessor' => false,
-        'static_lambda' => false,
         'strict_param' => false,
     ])
     ->setFinder($finder)
