@@ -201,7 +201,7 @@ class rcube_cache
         $cache_key = $prefix;
 
         if (!empty($params)) {
-            $func = function ($v) {
+            $func = static function ($v) {
                 if (is_array($v)) {
                     sort($v);
                 }

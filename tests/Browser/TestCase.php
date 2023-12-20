@@ -164,7 +164,7 @@ abstract class TestCase extends PHPUnitTestCase
         static::$phpProcess->setWorkingDirectory($path);
         static::$phpProcess->start();
 
-        static::afterClass(function () {
+        static::afterClass(static function () {
             static::$phpProcess->stop();
         });
     }

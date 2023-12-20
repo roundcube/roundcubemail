@@ -16,10 +16,10 @@ class ContactsTest extends \Tests\Browser\TestCase
      */
     public function testContactsUI()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('addressbook');
 
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 // check task
                 $browser->assertEnv('task', 'addressbook');
 

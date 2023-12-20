@@ -22,13 +22,13 @@ class MailTest extends \Tests\Browser\TestCase
         $this->browse(function ($browser) {
             $browser->go('mail');
 
-            $browser->whenAvailable('#messagelist tbody', function ($browser) {
+            $browser->whenAvailable('#messagelist tbody', static function ($browser) {
                 $browser->ctrlClick('tr:first-child');
             });
 
             // Test More > Download > Source (single message selected)
             $browser->clickToolbarMenuItem('more', null, false)
-                ->with(new Popupmenu('message-menu'), function ($browser) {
+                ->with(new Popupmenu('message-menu'), static function ($browser) {
                     $browser->clickMenuItem('download', null, false);
                 })
                 ->with(new Popupmenu('zipdownload-menu'), function ($browser) {
@@ -49,7 +49,7 @@ class MailTest extends \Tests\Browser\TestCase
             // Test More > Download > Mailbox format (two messages selected)
             $browser->ctrlClick('#messagelist tbody tr:nth-of-type(2)')
                 ->clickToolbarMenuItem('more', null, false)
-                ->with(new Popupmenu('message-menu'), function ($browser) {
+                ->with(new Popupmenu('message-menu'), static function ($browser) {
                     $browser->clickMenuItem('download', null, false);
                 })
                 ->with(new Popupmenu('zipdownload-menu'), function ($browser) {
@@ -67,7 +67,7 @@ class MailTest extends \Tests\Browser\TestCase
 
             // Test More > Download > Maildir format (two messages selected)
             $browser->clickToolbarMenuItem('more', null, false)
-                ->with(new Popupmenu('message-menu'), function ($browser) {
+                ->with(new Popupmenu('message-menu'), static function ($browser) {
                     $browser->clickMenuItem('download', null, false);
                 })
                 ->with(new Popupmenu('zipdownload-menu'), function ($browser) {
@@ -84,7 +84,7 @@ class MailTest extends \Tests\Browser\TestCase
                 ->waitForMessage('loading', 'Loading...')
                 ->waitFor('#messagecontframe')
                 ->waitUntilMissing('#messagestack')
-                ->withinFrame('#messagecontframe', function ($browser) {
+                ->withinFrame('#messagecontframe', static function ($browser) {
                     $browser->waitFor('.header-links a.zipdownload')
                         ->click('.header-links a.zipdownload');
                 });

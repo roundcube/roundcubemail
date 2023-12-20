@@ -62,7 +62,7 @@ class rcmail_sendmail
         $this->options['sendmail_delay'] = (int) $this->rcmail->config->get('sendmail_delay');
 
         if (empty($options['error_handler'])) {
-            $this->options['error_handler'] = function () { return false; };
+            $this->options['error_handler'] = static function () { return false; };
         }
 
         if (empty($this->data['mode'])) {
