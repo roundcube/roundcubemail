@@ -23,7 +23,7 @@ class LoginTest extends TestCase
             $browser->assertTitleContains($this->app->config->get('product_name'));
 
             // task should be set to 'login'
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv('task', 'login');
             });
 
@@ -45,7 +45,7 @@ class LoginTest extends TestCase
             $browser->go('mail');
 
             // task should be set to 'mail' now
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv('task', 'mail');
             });
         });

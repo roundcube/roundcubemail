@@ -17,20 +17,20 @@ class ImportTest extends \Tests\Browser\TestCase
      */
     public function testImportUI()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('addressbook');
 
             $browser->clickToolbarMenuItem('import');
 
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser->assertDialogTitle('Import contacts')
                     ->assertButton('mainaction.import', 'Import')
                     ->assertButton('cancel', 'Cancel');
             });
 
-            $browser->withinFrame('.ui-dialog iframe', function ($browser) {
+            $browser->withinFrame('.ui-dialog iframe', static function ($browser) {
                 // check task and action
-                $browser->with(new App(), function ($browser) {
+                $browser->with(new App(), static function ($browser) {
                     $browser->assertEnv('task', 'addressbook');
                     $browser->assertEnv('action', 'import');
                     // these objects should be there always
@@ -47,7 +47,7 @@ class ImportTest extends \Tests\Browser\TestCase
             });
 
             // Close the dialog
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser->clickButton('cancel');
             });
         });
@@ -60,29 +60,29 @@ class ImportTest extends \Tests\Browser\TestCase
      */
     public function testImportProcess()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             // Open the dialog again
             $browser->clickToolbarMenuItem('import');
 
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser->assertDialogTitle('Import contacts')
                     ->clickButton('import');
             });
 
             // Submit the form with no file attached
-            $browser->with(new Dialog(2), function ($browser) {
+            $browser->with(new Dialog(2), static function ($browser) {
                 $browser->assertDialogTitle('Attention')
                     ->assertDialogContent('Please select a file')
                     ->assertButton('save.mainaction', 'OK')
                     ->pressESC();
             });
 
-            $browser->with(new Dialog(), function ($browser) {
-                $browser->withinDialogFrame(function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
+                $browser->withinDialogFrame(static function ($browser) {
                     $browser->attach('.custom-file input', TESTS_DIR . 'data/contacts.vcf');
                 })
                     ->clickButton('import')
-                    ->withinDialogFrame(function ($browser) {
+                    ->withinDialogFrame(static function ($browser) {
                         $browser->waitForText('Successfully imported 2 contacts:');
                     })
                     ->closeDialog();
@@ -102,11 +102,11 @@ class ImportTest extends \Tests\Browser\TestCase
      */
     public function testImportResult()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             // Open the dialog again
             $browser->click('#contacts-table tr:last-child');
 
-            $browser->withinFrame('#contact-frame', function ($browser) {
+            $browser->withinFrame('#contact-frame', static function ($browser) {
                 $browser->waitFor('a.email'); // wait for iframe to load
                 $browser->assertSeeIn('.names', 'Sylvester Stalone');
                 $browser->assertSeeIn('a.email', 's.stalone@rambo.tv');

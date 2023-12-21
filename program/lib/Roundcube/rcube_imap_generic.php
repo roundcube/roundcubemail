@@ -583,7 +583,7 @@ class rcube_imap_generic
                 // RFC2195: CRAM-MD5
                 $ipad = '';
                 $opad = '';
-                $xor  = function ($str1, $str2) {
+                $xor  = static function ($str1, $str2) {
                     $result = '';
                     $size   = strlen($str1);
                     for ($i = 0; $i < $size; $i++) {
@@ -3367,7 +3367,7 @@ class rcube_imap_generic
      */
     public function setQuota($root, $quota)
     {
-        $fn = function ($key, $value) {
+        $fn = static function ($key, $value) {
             return strtoupper($key) . ' ' . $value;
         };
 

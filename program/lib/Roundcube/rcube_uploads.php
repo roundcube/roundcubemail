@@ -272,7 +272,7 @@ trait rcube_uploads
         $data = array_diff_key($data, array_fill_keys(['id', 'group', 'status', 'abort', 'error', 'data', 'created'], 1));
 
         // Remove null values
-        $data = array_filter($data, function ($v) { return $v !== null; });
+        $data = array_filter($data, static function ($v) { return $v !== null; });
 
         // Convert to string
         $data = json_encode($data, \JSON_INVALID_UTF8_IGNORE);

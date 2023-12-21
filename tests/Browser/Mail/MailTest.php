@@ -9,11 +9,11 @@ class MailTest extends \Tests\Browser\TestCase
 {
     public function testMailUI()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('mail');
 
             // check task
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv('task', 'mail');
                 // these objects should be there always
                 $browser->assertObjects([
@@ -60,12 +60,12 @@ class MailTest extends \Tests\Browser\TestCase
      */
     public function testMessageMenu()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('mail');
 
             $browser->clickToolbarMenuItem('more', null,  false);
 
-            $browser->with(new Popupmenu('message-menu'), function ($browser) {
+            $browser->with(new Popupmenu('message-menu'), static function ($browser) {
                 // Note: These are button class names, not action names
                 $active = ['import'];
                 $disabled = ['print', 'download', 'edit.asnew', 'source', 'move', 'copy', 'extwin'];

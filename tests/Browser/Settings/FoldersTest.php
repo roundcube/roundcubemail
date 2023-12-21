@@ -17,11 +17,11 @@ class FoldersTest extends \Tests\Browser\TestCase
      */
     public function testFolders()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('settings', 'folders');
 
             // task should be set to 'settings' and action to 'folders'
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv('task', 'settings');
                 $browser->assertEnv('action', 'folders');
 
@@ -44,7 +44,7 @@ class FoldersTest extends \Tests\Browser\TestCase
             $browser->assertToolbarMenu(['create'], ['delete', 'purge']);
 
             // Folders list
-            $browser->with('#subscription-table', function ($browser) {
+            $browser->with('#subscription-table', static function ($browser) {
                 // Note: first li element is root which is hidden in Elastic
                 $browser->assertHasClass('li:nth-child(2)', 'inbox')
                     ->assertSeeIn('li:nth-child(2)', 'Inbox')
@@ -73,7 +73,7 @@ class FoldersTest extends \Tests\Browser\TestCase
      */
     public function testFolderCreate()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('settings', 'folders');
 
             $num = count($browser->elements('#subscription-table li'));
@@ -87,9 +87,9 @@ class FoldersTest extends \Tests\Browser\TestCase
                 $browser->clickToolbarMenuItem('create');
             }
 
-            $browser->withinFrame('#preferences-frame', function ($browser) {
+            $browser->withinFrame('#preferences-frame', static function ($browser) {
                 $browser->waitFor('form')
-                    ->with('form fieldset', function ($browser) {
+                    ->with('form fieldset', static function ($browser) {
                         $browser->assertVisible('input[name=_name]')
                             ->assertValue('input[name=_name]', '')
                             ->assertVisible('select[name=_parent]')
@@ -124,7 +124,7 @@ class FoldersTest extends \Tests\Browser\TestCase
             $num++;
 
             // Folders list
-            $browser->with('#subscription-table', function ($browser) use ($num) {
+            $browser->with('#subscription-table', static function ($browser) use ($num) {
                 // Note: li.root is hidden in Elastic
                 $browser->waitFor("li.mailbox:nth-child({$num})")
                     ->assertElementsCount('li', $num - 1)
@@ -136,7 +136,7 @@ class FoldersTest extends \Tests\Browser\TestCase
                 $browser->waitFor('#preferences-frame');
             }
 
-            $browser->withinFrame('#preferences-frame', function ($browser) {
+            $browser->withinFrame('#preferences-frame', static function ($browser) {
                 $browser->waitFor('form');
                 // TODO
             });

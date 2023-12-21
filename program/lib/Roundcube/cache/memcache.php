@@ -75,7 +75,7 @@ class rcube_cache_memcache extends rcube_cache
         $available      = 0;
 
         // Callback for memcache failure
-        $error_callback = function ($host, $port) use ($seen, $available) {
+        $error_callback = static function ($host, $port) use ($seen, $available) {
             // only report once
             if (!$seen["$host:$port"]++) {
                 $available--;

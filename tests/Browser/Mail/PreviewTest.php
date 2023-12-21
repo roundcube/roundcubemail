@@ -33,7 +33,7 @@ class PreviewTest extends \Tests\Browser\TestCase
 
             // On phone check frame controls
             if ($browser->isPhone()) {
-                $browser->with('#layout-content .footer', function ($browser) {
+                $browser->with('#layout-content .footer', static function ($browser) {
                     $browser->assertVisible('a.button.prev.disabled')
                         ->assertVisible('a.button.next:not(.disabled)')
                         ->assertVisible('a.button.reply:not(.disabled)')
@@ -71,19 +71,19 @@ class PreviewTest extends \Tests\Browser\TestCase
 
             // On phone check frame controls
             if ($browser->isPhone()) {
-                $browser->with('#layout-content .footer', function ($browser) {
+                $browser->with('#layout-content .footer', static function ($browser) {
                     $browser->assertVisible('a.button.prev:not(.disabled)')
                         ->assertVisible('a.button.next.disabled')
                         ->assertVisible('a.button.reply:not(.disabled)');
                 });
             }
 
-            $browser->withinFrame('#messagecontframe', function ($browser) {
+            $browser->withinFrame('#messagecontframe', static function ($browser) {
                 $browser->waitFor('img.contactphoto')
                     ->assertMissing('#remote-objects-message');
 
                 // Attachments list
-                $browser->with('#attachment-list', function ($browser) {
+                $browser->with('#attachment-list', static function ($browser) {
                     $browser->assertVisible('li:nth-child(1).text.plain')
                         ->assertSeeIn('li:nth-child(1) .attachment-name', 'lines.txt')
                         ->assertSeeIn('li:nth-child(1) .attachment-size', '(~13 B)')
@@ -95,7 +95,7 @@ class PreviewTest extends \Tests\Browser\TestCase
 
                 if (!$browser->isPhone()) {
                     $browser->waitFor('#attachmentmenu')
-                        ->with('#attachmentmenu', function ($browser) {
+                        ->with('#attachmentmenu', static function ($browser) {
                             $browser->assertVisible('a.extwin:not(.disabled)')
                                 ->assertVisible('a.download:not(.disabled)')
                                 ->click('a.download');
@@ -105,7 +105,7 @@ class PreviewTest extends \Tests\Browser\TestCase
 
             if ($browser->isPhone()) {
                 $browser->waitFor('#attachmentmenu-clone')
-                    ->with('#attachmentmenu-clone', function ($browser) {
+                    ->with('#attachmentmenu-clone', static function ($browser) {
                         $browser->assertVisible('a.extwin:not(.disabled)')
                             ->assertVisible('a.download:not(.disabled)')
                             ->click('a.download');
@@ -134,7 +134,7 @@ class PreviewTest extends \Tests\Browser\TestCase
      */
     public function testPreviewMorelink()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('mail');
 
             $browser->waitFor('#messagelist tbody tr:last-child')
@@ -143,7 +143,7 @@ class PreviewTest extends \Tests\Browser\TestCase
                 ->waitFor('#messagecontframe')
                 ->waitUntilMissing('#messagestack');
 
-            $browser->withinFrame('#messagecontframe', function ($browser) {
+            $browser->withinFrame('#messagecontframe', static function ($browser) {
                 $browser->waitFor('img.contactphoto');
 
                 $browser->assertSeeIn('.subject', 'Lines')
@@ -160,7 +160,7 @@ class PreviewTest extends \Tests\Browser\TestCase
                     ->click('.header.cc a.morelink');
             });
 
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser->assertDialogTitle('Cc')
                     ->assertDialogContent('test1@domain.tld')
                     ->assertDialogContent('test12@domain.tld')
