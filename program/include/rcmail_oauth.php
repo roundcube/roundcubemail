@@ -75,7 +75,7 @@ class rcmail_oauth
             'identity_uri'    => $this->rcmail->config->get('oauth_identity_uri'),
             'identity_fields' => $this->rcmail->config->get('oauth_identity_fields', ['email']),
             'scope'           => $this->rcmail->config->get('oauth_scope'),
-            'timeout'         => $this->rcmail->config->get('oauth_timeout', 10),
+            'timeout'     => $this->rcmail->config->get('oauth_timeout', 10),
             'verify_peer'     => $this->rcmail->config->get('oauth_verify_peer', true),
             'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', []),
             'login_redirect'  => $this->rcmail->config->get('oauth_login_redirect', false),
@@ -214,7 +214,6 @@ class rcmail_oauth
         $oauth_client_id     = $this->options['client_id'];
         $oauth_client_secret = $this->options['client_secret'];
         $oauth_identity_uri  = $this->options['identity_uri'];
-        $oauth_provider      = $this->options['provider'];
 
         if (!empty($oauth_token_uri) && !empty($oauth_client_secret)) {
             try {
@@ -246,11 +245,14 @@ class rcmail_oauth
                     $username = null;
                     $identity = null;
 
-                    // for Kinde we need to transform "bearer" into "Bearer"
-                    if ( stripos($oauth_provider,"kinde") !== false )
-                        $authorization = sprintf('%s %s', ucfirst( $data['token_type']), $data['access_token']);
-                    else
-                        $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
+                    if (strcasecmp($data['token_type'], 'Bearer') == 0) {
+                        // always normalize Bearer (uppercase then lower case)
+                        $authorization = sprintf('Bearer %s', $data['access_token']); 
+                    }
+                    else {
+                        // unknown token type, do not alter it
+                        $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']); 
+                    }
 
                     // decode JWT id_token if provided
                     if (!empty($data['id_token'])) {
@@ -503,7 +505,7 @@ class rcmail_oauth
     {
         $smtp_user = $options['smtp_user'];
         $smtp_pass = $options['smtp_pass'];
-
+ 
         // skip XOAUTH2 authorization, if indicated
         if (($smtp_user == '') || ($smtp_pass == ''))
             return $options;
