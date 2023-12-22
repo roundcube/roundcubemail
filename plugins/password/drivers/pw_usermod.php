@@ -9,6 +9,7 @@
  * For installation instructions please read the README file.
  *
  * @version 2.0
+ *
  * @author Alex Cartwright <acartwright@mutinydesign.co.uk>
  * @author Adamson Huang <adomputer@gmail.com>
  *
@@ -46,7 +47,7 @@ class rcube_pw_usermod_password
                 'code' => 600,
                 'file' => __FILE__,
                 'line' => __LINE__,
-                'message' => "Password plugin: Unable to execute $cmd"
+                'message' => "Password plugin: Unable to execute $cmd",
             ], true, false
         );
 

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -21,9 +21,6 @@
 
 /**
  * Class for accessing IMAP's SORT/SEARCH/ESEARCH result
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_result_index
 {
@@ -57,10 +54,10 @@ class rcube_result_index
     {
         $this->meta = [];
 
-        $data = explode('*', (string)$data);
+        $data = explode('*', (string) $data);
 
         // ...skip unilateral untagged server responses
-        for ($i=0, $len=count($data); $i<$len; $i++) {
+        for ($i = 0, $len = count($data); $i < $len; $i++) {
             $data_item = &$data[$i];
             if (preg_match('/^ SORT/i', $data_item)) {
                 // valid response, initialize raw_data for is_error()
@@ -68,7 +65,7 @@ class rcube_result_index
                 $data_item = substr($data_item, 5);
                 break;
             }
-            else if (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
+            elseif (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
                 $data_item = substr($data_item, strlen($m[0]));
@@ -100,8 +97,8 @@ class rcube_result_index
                         }
                     }
 
-// @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
-// @TODO: work with compressed result?!
+                    // @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
+                    // @TODO: work with compressed result?!
                     if (isset($this->params['ALL'])) {
                         $data_item = implode(self::SEPARATOR_ELEMENT,
                             rcube_imap_generic::uncompressMessageSet($this->params['ALL']));
@@ -304,7 +301,7 @@ class rcube_result_index
                     $idx = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT, 0, $m[0][1]);
                 }
                 // cache position of this element, so we can use it in get_element()
-                $this->meta['pos'][$idx] = (int)$m[0][1];
+                $this->meta['pos'][$idx] = (int) $m[0][1];
 
                 return $idx;
             }
@@ -346,7 +343,7 @@ class rcube_result_index
     /**
      * Return result element at specified index
      *
-     * @param int|string  $index  Element's index or "FIRST" or "LAST"
+     * @param int|string $index Element's index or "FIRST" or "LAST"
      *
      * @return int|null Element value
      */
@@ -372,7 +369,7 @@ class rcube_result_index
         }
 
         // last element
-        if ($index === 'LAST' || $index == $count-1) {
+        if ($index === 'LAST' || $index == $count - 1) {
             $pos = strrpos($this->raw_data, self::SEPARATOR_ELEMENT);
             if ($pos === false) {
                 $result = (int) $this->raw_data;
@@ -389,13 +386,13 @@ class rcube_result_index
             if (isset($this->meta['pos'][$index])) {
                 $pos = $this->meta['pos'][$index];
             }
-            else if (isset($this->meta['pos'][$index-1])) {
+            elseif (isset($this->meta['pos'][$index - 1])) {
                 $pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT,
-                    $this->meta['pos'][$index-1] + 1);
+                    $this->meta['pos'][$index - 1] + 1);
             }
-            else if (isset($this->meta['pos'][$index+1])) {
+            elseif (isset($this->meta['pos'][$index + 1])) {
                 $pos = strrpos($this->raw_data, self::SEPARATOR_ELEMENT,
-                    $this->meta['pos'][$index+1] - $this->length() - 1);
+                    $this->meta['pos'][$index + 1] - $this->length() - 1);
             }
 
             if (isset($pos) && preg_match('/([0-9]+)/', $this->raw_data, $m, 0, $pos)) {

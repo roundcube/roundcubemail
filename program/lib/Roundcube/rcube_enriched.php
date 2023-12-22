@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -20,9 +20,6 @@
 
 /**
  * Class for Enriched to HTML conversion
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_enriched
 {
@@ -34,7 +31,7 @@ class rcube_enriched
         $nl   = 0;
         $out  = '';
 
-        for ($i=0; $i<$len; $i++) {
+        for ($i = 0; $i < $len; $i++) {
             $c = $body[$i];
             if (ord($c) == 10) {
                 $nl++;
@@ -56,17 +53,17 @@ class rcube_enriched
     protected static function convert_formatting($body)
     {
         $replace = [
-            '<bold>'        => '<b>',            '</bold>'   => '</b>',
-            '<italic>'      => '<i>',            '</italic>' => '</i>',
-            '<fixed>'       => '<tt>',           '</fixed>'  => '</tt>',
-            '<smaller>'     => '<font size=-1>', '</smaller>'=> '</font>',
+            '<bold>'        => '<b>', '</bold>'   => '</b>',
+            '<italic>'      => '<i>', '</italic>' => '</i>',
+            '<fixed>'       => '<tt>', '</fixed>'  => '</tt>',
+            '<smaller>'     => '<font size=-1>', '</smaller>' => '</font>',
             '<bigger>'      => '<font size=+1>', '</bigger>' => '</font>',
             '<underline>'   => '<span style="text-decoration: underline">', '</underline>'   => '</span>',
-            '<flushleft>'   => '<span style="text-align: left">',           '</flushleft>'   => '</span>',
-            '<flushright>'  => '<span style="text-align: right">',          '</flushright>'  => '</span>',
-            '<flushboth>'   => '<span style="text-align: justified">',      '</flushboth>'   => '</span>',
-            '<indent>'      => '<span style="padding-left: 20px">',         '</indent>'      => '</span>',
-            '<indentright>' => '<span style="padding-right: 20px">',        '</indentright>' => '</span>',
+            '<flushleft>'   => '<span style="text-align: left">', '</flushleft>'   => '</span>',
+            '<flushright>'  => '<span style="text-align: right">', '</flushright>'  => '</span>',
+            '<flushboth>'   => '<span style="text-align: justified">', '</flushboth>'   => '</span>',
+            '<indent>'      => '<span style="padding-left: 20px">', '</indent>'      => '</span>',
+            '<indentright>' => '<span style="padding-right: 20px">', '</indentright>' => '</span>',
         ];
 
         return str_ireplace(array_keys($replace), array_values($replace), $body);
@@ -81,7 +78,7 @@ class rcube_enriched
                 continue;
             }
 
-            $body = $a[1].'<span style="font-family: '.$a[2].'">'.$a[3].'</span>'.$a[4];
+            $body = $a[1] . '<span style="font-family: ' . $a[2] . '">' . $a[3] . '</span>' . $a[4];
         }
 
         return $body;
@@ -100,7 +97,7 @@ class rcube_enriched
             if (strpos($a[2],',')) {
                 $rgb   = explode(',', $a[2]);
                 $color = '#';
-                for ($i=0; $i<3; $i++) {
+                for ($i = 0; $i < 3; $i++) {
                     $color .= substr($rgb[$i], 0, 2); // just take first 2 bytes
                 }
             }
@@ -109,7 +106,7 @@ class rcube_enriched
             }
 
             // put it all together
-            $body = $a[1].'<span style="color: '.$color.'">'.$a[3].'</span>'.$a[4];
+            $body = $a[1] . '<span style="color: ' . $color . '">' . $a[3] . '</span>' . $a[4];
         }
 
         return $body;
@@ -128,10 +125,10 @@ class rcube_enriched
             $lines  = explode('<br>', $a[2]);
 
             foreach ($lines as $line) {
-                $quoted .= '&gt;'.$line.'<br>';
+                $quoted .= '&gt;' . $line . '<br>';
             }
 
-            $body = $a[1].'<span class="quotes">'.$quoted.'</span>'.$a[3];
+            $body = $a[1] . '<span class="quotes">' . $quoted . '</span>' . $a[3];
         }
 
         return $body;

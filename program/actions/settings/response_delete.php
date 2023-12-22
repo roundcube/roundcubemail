@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,7 +19,7 @@
 
 class rcmail_action_settings_response_delete extends rcmail_action
 {
-    static $mode = self::MODE_AJAX;
+    public static $mode = self::MODE_AJAX;
 
     /**
      * Request handler.

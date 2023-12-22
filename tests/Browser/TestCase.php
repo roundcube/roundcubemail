@@ -2,19 +2,19 @@
 
 namespace Tests\Browser;
 
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Facebook\WebDriver\Chrome\ChromeOptions;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\Chrome\SupportsChrome;
 use Laravel\Dusk\Concerns\ProvidesBrowser;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
 abstract class TestCase extends PHPUnitTestCase
 {
-    use ProvidesBrowser,
-        SupportsChrome;
+    use ProvidesBrowser;
+    use SupportsChrome;
 
     protected $app;
     protected static $phpProcess;
@@ -32,6 +32,7 @@ abstract class TestCase extends PHPUnitTestCase
      * Prepare for Dusk test execution.
      *
      * @beforeClass
+     *
      * @return void
      */
     public static function prepare()
@@ -70,7 +71,7 @@ abstract class TestCase extends PHPUnitTestCase
             $options->setExperimentalOption('mobileEmulation', ['userAgent' => $ua]);
             $options->addArguments(['--window-size=375,667']);
         }
-        else if (getenv('TESTS_MODE') == 'tablet') {
+        elseif (getenv('TESTS_MODE') == 'tablet') {
             // Fake User-Agent string for mobile mode
             $ua = 'Mozilla/5.0 (Linux; Android 6.0.1; vivo 1603 Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36';
             $options->setExperimentalOption('mobileEmulation', ['userAgent' => $ua]);
@@ -119,7 +120,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         // Purge screenshots from the last test run
         $pattern = sprintf('failure-%s_%s-*',
-            str_replace("\\", '_', get_class($this)),
+            str_replace("\\", '_', static::class),
             $this->getName(false)
         );
 
@@ -135,7 +136,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         // Purge console logs from the last test run
         $pattern = sprintf('%s_%s-*',
-            str_replace("\\", '_', get_class($this)),
+            str_replace("\\", '_', static::class),
             $this->getName(false)
         );
 
@@ -163,7 +164,7 @@ abstract class TestCase extends PHPUnitTestCase
         static::$phpProcess->setWorkingDirectory($path);
         static::$phpProcess->start();
 
-        static::afterClass(function () {
+        static::afterClass(static function () {
             static::$phpProcess->stop();
         });
     }

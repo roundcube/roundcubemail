@@ -63,7 +63,7 @@ class managesieve extends rcube_plugin
             $this->add_hook('settings_actions', [$this, 'settings_actions']);
             $this->init_ui();
         }
-        else if ($this->rc->task == 'mail') {
+        elseif ($this->rc->task == 'mail') {
             $this->add_hook('storage_init', [$this, 'storage_init']);
 
             if ($this->rc->action == 'show') {
@@ -102,7 +102,7 @@ class managesieve extends rcube_plugin
         if ($sieve_action || ($this->rc->task == 'settings' && empty($_REQUEST['_framed']))) {
             $this->include_stylesheet("$skin_path/managesieve.css");
         }
-        else if ($this->rc->task == 'mail') {
+        elseif ($this->rc->task == 'mail') {
             $this->include_stylesheet("$skin_path/managesieve_mail.css");
         }
 
@@ -272,7 +272,7 @@ class managesieve extends rcube_plugin
         }
 
         // load localization
-        $this->add_texts('localization/', ['filters','managefilters']);
+        $this->add_texts('localization/', ['filters', 'managefilters']);
 
         $engine->saveraw();
     }
@@ -316,8 +316,8 @@ class managesieve extends rcube_plugin
 
         foreach (['From', 'To'] as $h) {
             $hl = strtolower($h);
-            if (!empty($headers->$hl)) {
-                $list = rcube_mime::decode_address_list($headers->$hl);
+            if (!empty($headers->{$hl})) {
+                $list = rcube_mime::decode_address_list($headers->{$hl});
                 foreach ($list as $item) {
                     if (!empty($item['mailto'])) {
                         $result[] = [$h, $item['mailto'], !$got_list];

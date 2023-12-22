@@ -6,6 +6,7 @@
  * Driver to change passwords via DirectAdmin Control Panel
  *
  * @version 2.2
+ *
  * @author Victor Benincasa <vbenincasa @ gmail.com>
  *
  * Copyright (C) The Roundcube Dev Team
@@ -44,14 +45,14 @@ class rcube_directadmin_password
         $da_host = str_replace('%h', $_SESSION['imap_host'], $da_host);
         $da_host = str_replace('%d', $rcmail->user->get_username('domain'), $da_host);
 
-        $Socket->connect($da_host,$da_port); 
+        $Socket->connect($da_host,$da_port);
         $Socket->set_method('POST');
         $Socket->query('/CMD_CHANGE_EMAIL_PASSWORD', [
                 'email'         => $da_user,
                 'oldpassword'   => $da_curpass,
                 'password1'     => $da_newpass,
                 'password2'     => $da_newpass,
-                'api'           => '1'
+                'api'           => '1',
         ]);
 
         $response = $Socket->fetch_parsed_body();
@@ -82,7 +83,7 @@ class rcube_directadmin_password
  *   echo $Socket->get('http://user:pass@somesite.com/somedir/some.file?query=string&this=that');
  *
  * @author Phi1 'l0rdphi1' Stier <l0rdphi1@liquenox.net>
- * @package HTTPSocket
+ *
  * @version 3.0.2
  */
 class HTTPSocket
@@ -116,7 +117,6 @@ class HTTPSocket
 
     /**
      * Create server "connection".
-     *
      */
     function connect($host, $port = '')
     {
@@ -140,7 +140,7 @@ class HTTPSocket
     /**
      * Change the method being used to communicate.
      *
-     * @param string|null request method. supports GET, POST, and HEAD. default is GET
+     * @param string|null $method request method. supports GET, POST, and HEAD. default is GET
      */
     function set_method($method = 'GET')
     {
@@ -150,8 +150,8 @@ class HTTPSocket
     /**
      * Specify a username and password.
      *
-     * @param string|null username. default is null
-     * @param string|null password. default is null
+     * @param string|null $uname  username. default is null
+     * @param string|null $passwd password. default is null
      */
     function set_login($uname = '', $passwd = '')
     {
@@ -167,8 +167,8 @@ class HTTPSocket
     /**
      * Query the server
      *
-     * @param string containing properly formatted server API. See DA API docs and examples. Http:// URLs O.K. too.
-     * @param string|array query to pass to url
+     * @param string       $request containing properly formatted server API. See DA API docs and examples. Http:// URLs O.K. too.
+     * @param string|array $content query to pass to url
      */
     function query($request, $content = '')
     {
@@ -181,16 +181,16 @@ class HTTPSocket
         if (preg_match('!^http://!i',$request) || preg_match('!^https://!i',$request)) {
             $location = parse_url($request);
             if (preg_match('!^https://!i',$request)) {
-                $this->connect('https://'.$location['host'],$location['port']);
+                $this->connect('https://' . $location['host'],$location['port']);
             }
             else {
-                $this->connect('http://'.$location['host'],$location['port']);
+                $this->connect('http://' . $location['host'],$location['port']);
             }
 
             $this->set_login($location['user'], $location['pass']);
 
             $request = $location['path'];
-            
+
             if ($content == '') {
                 $content = $location['query'];
             }
@@ -201,11 +201,11 @@ class HTTPSocket
         }
 
         if (preg_match('!^ssl://!i', $this->remote_host)) {
-            $this->remote_host = 'https://'.substr($this->remote_host, 6);
+            $this->remote_host = 'https://' . substr($this->remote_host, 6);
         }
 
         if (preg_match('!^tcp://!i', $this->remote_host)) {
-            $this->remote_host = 'http://'.substr($this->remote_host, 6);
+            $this->remote_host = 'http://' . substr($this->remote_host, 6);
         }
 
         if (preg_match('!^https://!i', $this->remote_host)) {
@@ -215,7 +215,7 @@ class HTTPSocket
         $array_headers = [
             'Host'       => $this->remote_port == 80 ? $this->remote_host : "$this->remote_host:$this->remote_port",
             'Accept'     => '*/*',
-            'Connection' => 'Close'
+            'Connection' => 'Close',
         ];
 
         foreach ($this->extra_headers as $key => $value) {
@@ -229,20 +229,20 @@ class HTTPSocket
             $pairs = [];
 
             foreach ($content as $key => $value) {
-                $pairs[] = "$key=".urlencode($value);
+                $pairs[] = "$key=" . urlencode($value);
             }
 
-            $content = join('&',$pairs);
+            $content = implode('&',$pairs);
             unset($pairs);
         }
 
         $OK = true;
 
         if ($this->method == 'GET') {
-            $request .= '?'.$content;
+            $request .= '?' . $content;
         }
 
-        $ch = curl_init($this->remote_host.':'.$this->remote_port.$request);
+        $ch = curl_init($this->remote_host . ':' . $this->remote_port . $request);
 
         if ($is_ssl) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //1
@@ -268,11 +268,11 @@ class HTTPSocket
 
         // if we have a username and password, add the header
         if (isset($this->remote_uname) && isset($this->remote_passwd)) {
-            curl_setopt($ch, CURLOPT_USERPWD, $this->remote_uname.':'.$this->remote_passwd);
+            curl_setopt($ch, CURLOPT_USERPWD, $this->remote_uname . ':' . $this->remote_passwd);
         }
 
         // for DA skins: if $this->remote_passwd is NULL, try to use the login key system
-        if (isset($this->remote_uname) && $this->remote_passwd == NULL) {
+        if (isset($this->remote_uname) && $this->remote_passwd == null) {
             $array_headers['Cookie'] = "session={$_SERVER['SESSION_ID']}; key={$_SERVER['SESSION_KEY']}";
         }
 
@@ -300,7 +300,7 @@ class HTTPSocket
 
         curl_close($ch);
 
-        $this->query_cache[] = $this->remote_host.':'.$this->remote_port.$request;
+        $this->query_cache[] = $this->remote_host . ':' . $this->remote_port . $request;
 
         $headers = $this->fetch_header();
 
@@ -313,12 +313,12 @@ class HTTPSocket
         if ($this->doFollowLocationHeader) {
             //dont bother if we didn't even setup the script correctly
             if (isset($headers['x-use-https']) && $headers['x-use-https'] == 'yes') {
-                die($this->ssl_setting_message);
+                exit($this->ssl_setting_message);
             }
 
             if (isset($headers['location'])) {
                 if ($this->max_redirects <= 0) {
-                    die("Too many redirects on: ".$headers['location']);
+                    exit("Too many redirects on: " . $headers['location']);
                 }
 
                 $this->max_redirects--;
@@ -372,8 +372,8 @@ class HTTPSocket
     /**
      * Adds a header, sent with the next query.
      *
-     * @param string header name
-     * @param string header value
+     * @param string $key   header name
+     * @param string $value header value
      */
     function add_header($key, $value)
     {
@@ -382,7 +382,6 @@ class HTTPSocket
 
     /**
      * Clears any extra headers.
-     *
      */
     function clear_headers()
     {
@@ -402,7 +401,8 @@ class HTTPSocket
     /**
      * Return the header of result (stuff before body).
      *
-     * @param string (optional) header to return
+     * @param string $header (optional) header to return
+     *
      * @return array result header
      */
     function fetch_header($header = '')
@@ -413,8 +413,10 @@ class HTTPSocket
         unset($array_headers[0]);
 
         foreach ($array_headers as $pair) {
-            if ($pair == '' || $pair == "\r\n") continue;
-            list($key,$value) = preg_split("/: /", $pair, 2);
+            if ($pair == '' || $pair == "\r\n") {
+                continue;
+            }
+            [$key,$value] = preg_split("/: /", $pair, 2);
             $array_return[strtolower($key)] = $value;
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -22,14 +22,11 @@
 
 /**
  * Model class to access an LDAP directories
- *
- * @package    Framework
- * @subpackage LDAP
  */
 class rcube_ldap_generic extends Net_LDAP3
 {
     /** private properties */
-    protected $cache = null;
+    protected $cache;
     protected $attributes = ['dn'];
     protected $error;
 
@@ -66,25 +63,25 @@ class rcube_ldap_generic extends Net_LDAP3
         $msg = implode("\n", $msg);
 
         switch ($level) {
-        case LOG_DEBUG:
-        case LOG_INFO:
-        case LOG_NOTICE:
-            if (!empty($this->config['debug'])) {
-                rcube::write_log('ldap', $msg);
-            }
-            break;
+            case LOG_DEBUG:
+            case LOG_INFO:
+            case LOG_NOTICE:
+                if (!empty($this->config['debug'])) {
+                    rcube::write_log('ldap', $msg);
+                }
+                break;
 
-        case LOG_EMERG:
-        case LOG_ALERT:
-        case LOG_CRIT:
-            rcube::raise_error($msg, true, true);
-            break;
+            case LOG_EMERG:
+            case LOG_ALERT:
+            case LOG_CRIT:
+                rcube::raise_error($msg, true, true);
+                break;
 
-        case LOG_ERR:
-        case LOG_WARNING:
-            $this->error = $msg;
-            rcube::raise_error($msg, true, false);
-            break;
+            case LOG_ERR:
+            case LOG_WARNING:
+                $this->error = $msg;
+                rcube::raise_error($msg, true, false);
+                break;
         }
     }
 
@@ -153,7 +150,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function mod_replace($dn, $entry)
     {
-        $this->_debug("C: Replace $dn: ".print_r($entry, true));
+        $this->_debug("C: Replace $dn: " . print_r($entry, true));
 
         if (!ldap_mod_replace($this->conn, $dn, $entry)) {
             $this->_error("ldap_mod_replace() failed with " . ldap_error($this->conn));
@@ -171,7 +168,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function mod_add($dn, $entry)
     {
-        $this->_debug("C: Add $dn: ".print_r($entry, true));
+        $this->_debug("C: Add $dn: " . print_r($entry, true));
 
         if (!ldap_mod_add($this->conn, $dn, $entry)) {
             $this->_error("ldap_mod_add() failed with " . ldap_error($this->conn));
@@ -189,7 +186,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function mod_del($dn, $entry)
     {
-        $this->_debug("C: Delete $dn: ".print_r($entry, true));
+        $this->_debug("C: Delete $dn: " . print_r($entry, true));
 
         if (!ldap_mod_del($this->conn, $dn, $entry)) {
             $this->_error("ldap_mod_del() failed with " . ldap_error($this->conn));
@@ -260,7 +257,7 @@ class rcube_ldap_generic extends Net_LDAP3
         $this->_debug("C: Read $dn [{$filter}]");
 
         if ($this->conn && $dn) {
-            $result = @ldap_read($this->conn, $dn, $filter, $attributes, 0, (int)$this->config['sizelimit'], (int)$this->config['timelimit']);
+            $result = @ldap_read($this->conn, $dn, $filter, $attributes, 0, (int) $this->config['sizelimit'], (int) $this->config['timelimit']);
             if ($result === false) {
                 $this->_error("ldap_read() failed with " . ldap_error($this->conn));
                 return false;
@@ -289,7 +286,7 @@ class rcube_ldap_generic extends Net_LDAP3
 
         $rec = [];
 
-        for ($i=0; $i < $entry['count']; $i++) {
+        for ($i = 0; $i < $entry['count']; $i++) {
             $attr = $entry[$i];
             if ($entry[$attr]['count'] == 1) {
                 switch ($attr) {
@@ -302,7 +299,7 @@ class rcube_ldap_generic extends Net_LDAP3
                 }
             }
             else {
-                for ($j=0; $j < $entry[$attr]['count']; $j++) {
+                for ($j = 0; $j < $entry[$attr]['count']; $j++) {
                     $rec[$attr][$j] = $entry[$attr][$j];
                 }
             }
@@ -315,12 +312,13 @@ class rcube_ldap_generic extends Net_LDAP3
      * Compose an LDAP filter string matching all words from the search string
      * in the given list of attributes.
      *
-     * @param string $value Search value
-     * @param mixed  $attrs List of LDAP attributes to search
-     * @param int    $mode  Matching mode:
-     *                      0 - partial (*abc*),
-     *                      1 - strict (=),
-     *                      2 - prefix (abc*)
+     * @param string $value      Search value
+     * @param mixed  $attributes List of LDAP attributes to search
+     * @param int    $mode       Matching mode:
+     *                           0 - partial (*abc*),
+     *                           1 - strict (=),
+     *                           2 - prefix (abc*)
+     *
      * @return string LDAP filter
      */
     public static function fulltext_search_filter($value, $attributes, $mode = 1)

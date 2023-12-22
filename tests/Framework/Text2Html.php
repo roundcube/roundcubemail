@@ -2,15 +2,13 @@
 
 /**
  * Test class to test rcube_text2html class
- *
- * @package Tests
  */
 class Framework_Text2Html extends PHPUnit\Framework\TestCase
 {
     /**
      * Data for test_text2html()
      */
-    function data_text2html()
+    function data_text2html(): iterable
     {
         $options = [
             'begin'  => '',
@@ -117,7 +115,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
 
         $html = $t2h->get_html();
 
-        $this->assertEquals($output, $html);
+        $this->assertSame($output, $html);
     }
 
     /**
@@ -134,7 +132,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
             . "[&lt;script&gt;evil&lt;/script&gt;]:##str_replacement_0##<br>\n"
             . "</div>";
 
-        $this->assertEquals($expected, $html);
+        $this->assertSame($expected, $html);
     }
 
     /**
@@ -151,7 +149,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
             . "<a rel=\"noreferrer\" target=\"_blank\" href=\"https://google.com\">https://google.com</a><br>\n"
             . "</div>";
 
-        $this->assertEquals($expected, $html);
+        $this->assertSame($expected, $html);
     }
 
     /**
@@ -172,7 +170,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
         $html = $t2h->get_html();
         $html = preg_replace('/ (rel|target)="(noreferrer|_blank)"/', '', $html);
 
-        $this->assertEquals($expected, $html);
+        $this->assertSame($expected, $html);
     }
 
     /**
@@ -211,6 +209,6 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
         $t2h = new rcube_text2html($input, false, ['space' => '_']);
         $html = $t2h->get_html();
 
-        $this->assertEquals($expected, $html);
+        $this->assertSame($expected, $html);
     }
 }

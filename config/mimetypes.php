@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Local mapping file to specify mime-types based on common file-name extensions
  *
  * Please note that this mapping takes precedence over the content-based mime-type detection

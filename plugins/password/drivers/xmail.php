@@ -1,10 +1,12 @@
 <?php
+
 /**
  * XMail Password Driver
  *
  * Driver for XMail password
  *
  * @version 2.0
+ *
  * @author Helio Cavichiolo Jr <helio@hcsistemas.com.br>
  *
  * Setup xmail_host, xmail_user, xmail_pass and xmail_port into
@@ -36,7 +38,7 @@ class rcube_xmail_password
     function save($currpass, $newpass)
     {
         $rcmail = rcmail::get_instance();
-        list($user, $domain) = explode('@', $_SESSION['username']);
+        [$user, $domain] = explode('@', $_SESSION['username']);
 
         $xmail = new XMail;
 
@@ -50,20 +52,20 @@ class rcube_xmail_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: Unable to connect to mail server"
+                    'message' => "Password plugin: Unable to connect to mail server",
                 ], true, false
             );
 
             return PASSWORD_CONNECT_ERROR;
         }
 
-        if (!$xmail->send("userpasswd\t".$domain."\t".$user."\t".$newpass."\n")) {
+        if (!$xmail->send("userpasswd\t" . $domain . "\t" . $user . "\t" . $newpass . "\n")) {
             $xmail->close();
             rcube::raise_error([
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: Unable to change password"
+                    'message' => "Password plugin: Unable to change password",
                 ], true, false
             );
 
@@ -75,7 +77,8 @@ class rcube_xmail_password
     }
 }
 
-class XMail {
+class XMail
+{
     var $socket;
     var $hostname = 'localhost';
     var $username = 'xmail';
@@ -94,8 +97,9 @@ class XMail {
     function connect()
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, 0);
-        if ($this->socket < 0)
+        if ($this->socket < 0) {
             return false;
+        }
 
         $result = socket_connect($this->socket, $this->hostname, $this->port);
         if ($result < 0) {

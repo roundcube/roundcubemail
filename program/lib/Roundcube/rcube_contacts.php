@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,9 +19,6 @@
 
 /**
  * Model class for the local address book database
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_contacts extends rcube_addressbook
 {
@@ -36,10 +33,10 @@ class rcube_contacts extends rcube_addressbook
      *
      * @var rcube_db
      */
-    protected $db      = null;
+    protected $db;
     protected $user_id = 0;
-    protected $filter  = null;
-    protected $result  = null;
+    protected $filter;
+    protected $result;
     protected $cache;
     protected $table_cols    = ['name', 'email', 'firstname', 'surname'];
     protected $fulltext_cols = ['name', 'firstname', 'surname', 'middlename', 'nickname',
@@ -83,10 +80,10 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return string
      */
-     function get_name()
-     {
+    function get_name()
+    {
         return $this->name;
-     }
+    }
 
     /**
      * Save a search string for future listings
@@ -151,7 +148,7 @@ class rcube_contacts extends rcube_addressbook
             if ($mode & rcube_addressbook::SEARCH_STRICT) {
                 $sql_filter = $this->db->ilike('name', $search);
             }
-            else if ($mode & rcube_addressbook::SEARCH_PREFIX) {
+            elseif ($mode & rcube_addressbook::SEARCH_PREFIX) {
                 $sql_filter = $this->db->ilike('name', $search . '%');
             }
             else {
@@ -202,9 +199,9 @@ class rcube_contacts extends rcube_addressbook
     /**
      * List the current set of contact records
      *
-     * @param array List of cols to show, Null means all
-     * @param int   Only return this number of records, use negative values for tail
-     * @param bool  True to skip the count query (select only)
+     * @param array $cols    List of cols to show, Null means all
+     * @param int   $subset  Only return this number of records, use negative values for tail
+     * @param bool  $nocount True to skip the count query (select only)
      *
      * @return array Indexed list of contact records, each a hash array
      */
@@ -223,8 +220,8 @@ class rcube_contacts extends rcube_addressbook
         $join      = '';
 
         if ($this->group_id) {
-            $join = " LEFT JOIN " . $this->db->table_name($this->db_groupmembers, true) . " AS m".
-                " ON (m.`contact_id` = c.`".$this->primary_key."`)";
+            $join = " LEFT JOIN " . $this->db->table_name($this->db_groupmembers, true) . " AS m" .
+                " ON (m.`contact_id` = c.`" . $this->primary_key . "`)";
         }
 
         $order_col  = in_array($this->sort_col, $this->table_cols) ? $this->sort_col : 'name';
@@ -233,7 +230,7 @@ class rcube_contacts extends rcube_addressbook
         if ($order_col == 'firstname') {
             $order_cols[] = 'c.`surname`';
         }
-        else if ($order_col == 'surname') {
+        elseif ($order_col == 'surname') {
             $order_cols[] = 'c.`firstname`';
         }
         if ($order_col != 'name') {
@@ -246,9 +243,9 @@ class rcube_contacts extends rcube_addressbook
             $join .
             " WHERE c.`del` <> 1" .
                 " AND c.`user_id` = ?" .
-                ($this->group_id ? " AND m.`contactgroup_id` = ?" : "").
-                ($this->filter ? " AND ".$this->filter : "") .
-            " ORDER BY ". $this->db->concat($order_cols) . " " . $this->sort_order,
+                ($this->group_id ? " AND m.`contactgroup_id` = ?" : "") .
+                ($this->filter ? " AND " . $this->filter : "") .
+            " ORDER BY " . $this->db->concat($order_cols) . " " . $this->sort_order,
             $start_row,
             $length,
             $this->user_id,
@@ -278,11 +275,11 @@ class rcube_contacts extends rcube_addressbook
         if ($nocount) {
             $this->result->count = $cnt;
         }
-        else if ($this->list_page <= 1) {
+        elseif ($this->list_page <= 1) {
             if ($cnt < $this->page_size && $subset == 0) {
                 $this->result->count = $cnt;
             }
-            else if (isset($this->cache['count'])) {
+            elseif (isset($this->cache['count'])) {
                 $this->result->count = $this->cache['count'];
             }
             else {
@@ -318,9 +315,9 @@ class rcube_contacts extends rcube_addressbook
         if ($fields == 'ID' || $fields == $this->primary_key) {
             $ids     = !is_array($value) ? explode(self::SEPARATOR, $value) : $value;
             $ids     = $this->db->array2list($ids, 'integer');
-            $where[] = 'c.' . $this->primary_key.' IN ('.$ids.')';
+            $where[] = 'c.' . $this->primary_key . ' IN (' . $ids . ')';
         }
-        else if (is_array($value)) {
+        elseif (is_array($value)) {
             foreach ((array) $fields as $idx => $col) {
                 $val = $value[$idx];
 
@@ -342,7 +339,7 @@ class rcube_contacts extends rcube_addressbook
             }
         }
         // fulltext search in all fields
-        else if ($fields == '*') {
+        elseif ($fields == '*') {
             $where[] = $this->fulltext_sql_where($value, $mode, 'words');
         }
         else {
@@ -358,7 +355,7 @@ class rcube_contacts extends rcube_addressbook
         }
 
         foreach (array_intersect($required, $this->table_cols) as $col) {
-            $where[] = $this->db->quote_identifier($col).' <> '.$this->db->quote('');
+            $where[] = $this->db->quote_identifier($col) . ' <> ' . $this->db->quote('');
         }
         $required = array_diff($required, $this->table_cols);
 
@@ -384,7 +381,7 @@ class rcube_contacts extends rcube_addressbook
             $scnt  = !empty($post_search) ? count($post_search) : 0;
 
             // get (paged) result
-            for ($i=0; $i<$pages; $i++) {
+            for ($i = 0; $i < $pages; $i++) {
                 $this->list_records(null, $i, true);
                 while ($row = $this->result->next()) {
                     $id    = $row[$this->primary_key];
@@ -407,7 +404,7 @@ class rcube_contacts extends rcube_addressbook
                         foreach ($required as $req) {
                             $hit = false;
                             foreach (array_keys($row) as $c) {
-                                if ($c === $req || strpos($c, $req.':') === 0) {
+                                if ($c === $req || strpos($c, $req . ':') === 0) {
                                     if ((is_string($row[$c]) && strlen($row[$c])) || !empty($row[$c])) {
                                         $hit = true;
                                         break;
@@ -428,14 +425,14 @@ class rcube_contacts extends rcube_addressbook
 
             // build WHERE clause
             $ids = $this->db->array2list($ids, 'integer');
-            $where = 'c.`' . $this->primary_key.'` IN ('.$ids.')';
+            $where = 'c.`' . $this->primary_key . '` IN (' . $ids . ')';
             // reset counter
             unset($this->cache['count']);
 
             // when we know we have an empty result
             if ($ids == '0') {
                 $this->set_search_set($where);
-                return ($this->result = new rcube_result_set(0, 0));
+                return $this->result = new rcube_result_set(0, 0);
             }
         }
 
@@ -468,7 +465,7 @@ class rcube_contacts extends rcube_addressbook
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . $AS . '%')
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word) . ')';
             }
-            else if ($mode & rcube_addressbook::SEARCH_PREFIX) {
+            elseif ($mode & rcube_addressbook::SEARCH_PREFIX) {
                 $where[] = '(' . $this->db->ilike($col, $word . '%')
                     . ' OR ' . $this->db->ilike($col, '%' . $AS . $word . '%') . ')';
             }
@@ -489,7 +486,7 @@ class rcube_contacts extends rcube_addressbook
     {
         $count = $this->cache['count'] ?? $this->_count();
 
-        return new rcube_result_set($count, ($this->list_page-1) * $this->page_size);
+        return new rcube_result_set($count, ($this->list_page - 1) * $this->page_size);
     }
 
     /**
@@ -502,19 +499,19 @@ class rcube_contacts extends rcube_addressbook
         $join = null;
 
         if ($this->group_id) {
-            $join = " LEFT JOIN " . $this->db->table_name($this->db_groupmembers, true) . " AS m".
-                " ON (m.`contact_id` = c.`".$this->primary_key."`)";
+            $join = " LEFT JOIN " . $this->db->table_name($this->db_groupmembers, true) . " AS m" .
+                " ON (m.`contact_id` = c.`" . $this->primary_key . "`)";
         }
 
         // count contacts for this user
         $sql_result = $this->db->query(
-            "SELECT COUNT(c.`contact_id`) AS cnt".
-            " FROM " . $this->db->table_name($this->db_name, true) . " AS c".
-                $join.
-            " WHERE c.`del` <> 1".
-            " AND c.`user_id` = ?".
-            ($this->group_id ? " AND m.`contactgroup_id` = ?" : "").
-            ($this->filter ? " AND (".$this->filter.")" : ""),
+            "SELECT COUNT(c.`contact_id`) AS cnt" .
+            " FROM " . $this->db->table_name($this->db_name, true) . " AS c" .
+                $join .
+            " WHERE c.`del` <> 1" .
+            " AND c.`user_id` = ?" .
+            ($this->group_id ? " AND m.`contactgroup_id` = ?" : "") .
+            ($this->filter ? " AND (" . $this->filter . ")" : ""),
             $this->user_id,
             $this->group_id
         );
@@ -552,9 +549,9 @@ class rcube_contacts extends rcube_addressbook
         }
 
         $this->db->query(
-            "SELECT * FROM " . $this->db->table_name($this->db_name, true).
-            " WHERE `contact_id` = ?".
-                " AND `user_id` = ?".
+            "SELECT * FROM " . $this->db->table_name($this->db_name, true) .
+            " WHERE `contact_id` = ?" .
+                " AND `user_id` = ?" .
                 " AND `del` <> 1",
             $id,
             $this->user_id
@@ -650,9 +647,10 @@ class rcube_contacts extends rcube_addressbook
         if ($check) {
             foreach ($save_data as $col => $values) {
                 if (strpos($col, 'email') === 0) {
-                    foreach ((array)$values as $email) {
-                        if ($existing = $this->search('email', $email, false, false))
+                    foreach ((array) $values as $email) {
+                        if ($existing = $this->search('email', $email, false, false)) {
                             break 2;
+                        }
                     }
                 }
             }
@@ -724,7 +722,7 @@ class rcube_contacts extends rcube_addressbook
     private function convert_db_data($sql_arr)
     {
         $record = [
-            'ID' => $sql_arr[$this->primary_key]
+            'ID' => $sql_arr[$this->primary_key],
         ];
 
         if ($sql_arr['vcard']) {
@@ -752,7 +750,7 @@ class rcube_contacts extends rcube_addressbook
         if (!empty($record['vcard'])) {
             $vcard = $record['vcard'];
         }
-        else if (!empty($save_data['vcard'])) {
+        elseif (!empty($save_data['vcard'])) {
             $vcard = $save_data['vcard'];
         }
         else {
@@ -768,7 +766,7 @@ class rcube_contacts extends rcube_addressbook
         unset($save_data['groups']);
 
         foreach ($save_data as $key => $values) {
-            list($field, $section) = rcube_utils::explode(':', $key);
+            [$field, $section] = rcube_utils::explode(':', $key);
 
             $fulltext = in_array($field, $this->fulltext_cols);
 
@@ -783,7 +781,7 @@ class rcube_contacts extends rcube_addressbook
                 if ($fulltext && is_array($value)) {
                     $words .= ' ' . rcube_utils::normalize_string(implode(' ', $value));
                 }
-                else if ($fulltext && strlen($value) >= 3) {
+                elseif ($fulltext && strlen($value) >= 3) {
                     $words .= ' ' . rcube_utils::normalize_string($value);
                 }
             }
@@ -837,9 +835,9 @@ class rcube_contacts extends rcube_addressbook
 
         // flag record as deleted (always)
         $this->db->query(
-            "UPDATE " . $this->db->table_name($this->db_name, true).
-            " SET `del` = 1, `changed` = ".$this->db->now().
-            " WHERE `user_id` = ?".
+            "UPDATE " . $this->db->table_name($this->db_name, true) .
+            " SET `del` = 1, `changed` = " . $this->db->now() .
+            " WHERE `user_id` = ?" .
                 " AND `contact_id` IN ($ids)",
             $this->user_id
         );
@@ -866,9 +864,9 @@ class rcube_contacts extends rcube_addressbook
 
         // clear deleted flag
         $this->db->query(
-            "UPDATE " . $this->db->table_name($this->db_name, true).
-            " SET `del` = 0, `changed` = ".$this->db->now().
-            " WHERE `user_id` = ?".
+            "UPDATE " . $this->db->table_name($this->db_name, true) .
+            " SET `del` = 0, `changed` = " . $this->db->now() .
+            " WHERE `user_id` = ?" .
                 " AND `contact_id` IN ($ids)",
             $this->user_id
         );
@@ -923,9 +921,9 @@ class rcube_contacts extends rcube_addressbook
         $name = $this->unique_groupname($name);
 
         $this->db->query(
-            "INSERT INTO " . $this->db->table_name($this->db_groups, true).
-            " (`user_id`, `changed`, `name`)".
-            " VALUES (".intval($this->user_id).", ".$this->db->now().", ".$this->db->quote($name).")"
+            "INSERT INTO " . $this->db->table_name($this->db_groups, true) .
+            " (`user_id`, `changed`, `name`)" .
+            " VALUES (" . intval($this->user_id) . ", " . $this->db->now() . ", " . $this->db->quote($name) . ")"
         );
 
         if ($insert_id = $this->db->insert_id($this->db_groups)) {
@@ -973,9 +971,9 @@ class rcube_contacts extends rcube_addressbook
         $name = $this->unique_groupname($name);
 
         $sql_result = $this->db->query(
-            "UPDATE " . $this->db->table_name($this->db_groups, true).
-            " SET `name` = ?, `changed` = ".$this->db->now().
-            " WHERE `contactgroup_id` = ?".
+            "UPDATE " . $this->db->table_name($this->db_groups, true) .
+            " SET `name` = ?, `changed` = " . $this->db->now() .
+            " WHERE `contactgroup_id` = ?" .
                 " AND `user_id` = ?",
             $name, $gid, $this->user_id
         );
@@ -986,8 +984,8 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Add the given contact records the a certain group
      *
-     * @param string       Group identifier
-     * @param array|string List of contact identifiers to be added
+     * @param string       $group_id Group identifier
+     * @param array|string $ids      List of contact identifiers to be added
      *
      * @return int Number of contacts added
      */
@@ -1002,9 +1000,9 @@ class rcube_contacts extends rcube_addressbook
 
         // get existing assignments ...
         $sql_result = $this->db->query(
-            "SELECT `contact_id` FROM " . $this->db->table_name($this->db_groupmembers, true).
-            " WHERE `contactgroup_id` = ?".
-                " AND `contact_id` IN (".$this->db->array2list($ids, 'integer').")",
+            "SELECT `contact_id` FROM " . $this->db->table_name($this->db_groupmembers, true) .
+            " WHERE `contactgroup_id` = ?" .
+                " AND `contact_id` IN (" . $this->db->array2list($ids, 'integer') . ")",
             $group_id
         );
 
@@ -1017,9 +1015,9 @@ class rcube_contacts extends rcube_addressbook
 
         foreach ($ids as $contact_id) {
             $this->db->query(
-                "INSERT INTO " . $this->db->table_name($this->db_groupmembers, true).
-                " (`contactgroup_id`, `contact_id`, `created`)".
-                " VALUES (?, ?, ".$this->db->now().")",
+                "INSERT INTO " . $this->db->table_name($this->db_groupmembers, true) .
+                " (`contactgroup_id`, `contact_id`, `created`)" .
+                " VALUES (?, ?, " . $this->db->now() . ")",
                 $group_id,
                 $contact_id
             );
@@ -1052,8 +1050,8 @@ class rcube_contacts extends rcube_addressbook
         $ids = $this->db->array2list($ids, 'integer');
 
         $sql_result = $this->db->query(
-            "DELETE FROM " . $this->db->table_name($this->db_groupmembers, true).
-            " WHERE `contactgroup_id` = ?".
+            "DELETE FROM " . $this->db->table_name($this->db_groupmembers, true) .
+            " WHERE `contactgroup_id` = ?" .
                 " AND `contact_id` IN ($ids)",
             $group_id
         );
@@ -1076,9 +1074,9 @@ class rcube_contacts extends rcube_addressbook
 
         do {
             $sql_result = $this->db->query(
-                "SELECT 1 FROM " . $this->db->table_name($this->db_groups, true).
-                " WHERE `del` <> 1".
-                    " AND `user_id` = ?".
+                "SELECT 1 FROM " . $this->db->table_name($this->db_groups, true) .
+                " WHERE `del` <> 1" .
+                    " AND `user_id` = ?" .
                     " AND `name` = ?",
                 $this->user_id,
                 $checkname);

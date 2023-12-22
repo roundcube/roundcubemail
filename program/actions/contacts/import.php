@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -316,7 +316,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     'name'       => '_target',
                     'id'         => 'rcmimporttarget',
                     'is_escaped' => true,
-                    'class'      => 'custom-select'
+                    'class'      => 'custom-select',
             ]);
 
             foreach ($writable_books as $book) {
@@ -339,7 +339,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     'name'       => '_groups',
                     'id'         => 'rcmimportgroups',
                     'is_escaped' => true,
-                    'class'      => 'custom-select'
+                    'class'      => 'custom-select',
             ]);
             $select->add($rcmail->gettext('none'), '0');
             $select->add($rcmail->gettext('importgroupsall'), '1');
@@ -366,7 +366,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $attrib = [
             'action'  => $rcmail->url('import'),
             'method'  => 'post',
-            'enctype' => 'multipart/form-data'
+            'enctype' => 'multipart/form-data',
         ] + $attrib;
 
         return html::p(null, rcube::Q($rcmail->gettext('importdesc'), 'show'))
@@ -441,7 +441,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         );
 
         if (self::$stats->names) {
-            $content .= html::p('em', join(', ', array_map(['rcube', 'Q'], self::$stats->names)));
+            $content .= html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->names)));
         }
 
         if (self::$stats->skipped) {
@@ -450,7 +450,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     'nr'   => self::$stats->skipped,
                     'vars' => $vars,
                 ]) . ':')
-                . html::p('em', join(', ', array_map(['rcube', 'Q'], self::$stats->skipped_names)));
+                . html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->skipped_names)));
         }
 
         return html::div($attrib, $content);

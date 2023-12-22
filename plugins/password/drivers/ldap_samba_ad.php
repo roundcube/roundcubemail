@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * LDAP - Password Modify Extended Operation Driver
  *
  * Driver for passwords stored in SAMBA Active Directory
@@ -38,7 +38,7 @@ class rcube_ldap_samba_ad_password extends rcube_ldap_simple_password
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "ldap_mod_replace() not supported"
+                    'message' => "ldap_mod_replace() not supported",
                 ],
                 true
             );

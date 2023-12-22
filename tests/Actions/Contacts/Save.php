@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_contacts_save
- *
- * @package Tests
  */
 class Actions_Contacts_Save extends ActionTestCase
 {
@@ -23,8 +21,8 @@ class Actions_Contacts_Save extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame(null, $output->getOutput());
-        $this->assertSame(null, $output->getProperty('message'));
+        $this->assertNull($output->getOutput());
+        $this->assertNull($output->getProperty('message'));
         $this->assertSame('add', rcmail::get_instance()->action);
 
         // readonly addressbook
@@ -32,7 +30,7 @@ class Actions_Contacts_Save extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
         $this->assertSame('contactreadonly', $output->getProperty('message'));
         $this->assertSame('add', rcmail::get_instance()->action);
 
@@ -41,7 +39,7 @@ class Actions_Contacts_Save extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
         $this->assertSame('nonamewarning', $output->getProperty('message'));
         $this->assertSame('add', rcmail::get_instance()->action);
     }

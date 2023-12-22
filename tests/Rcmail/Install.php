@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_install class
- *
- * @package Tests
  */
 class Rcmail_RcmailInstall extends ActionTestCase
 {
@@ -56,7 +54,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $result = $install->db_schema_check($rcmail->get_dbh());
 
-        $this->assertSame(false, $result);
+        $this->assertFalse($result);
     }
 
     /**
@@ -74,6 +72,10 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
     /**
      * Test check_mime_extensions() method
+     *
+     * Windows feature request: https://github.com/php/php-src/issues/12918
+     *
+     * @requires OSFAMILY Linux
      */
     function test_check_mime_extensions()
     {

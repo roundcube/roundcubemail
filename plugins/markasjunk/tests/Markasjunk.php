@@ -28,7 +28,7 @@ class Markasjunk_Plugin extends PHPUnit\Framework\TestCase
         $plugin = new markasjunk($rcube->plugins);
 
         $drivers = ['amavis_blacklist', 'cmd_learn', 'dir_learn', 'edit_headers', 'email_learn',
-            'jsevent', 'sa_blacklist', 'sa_detach'
+            'jsevent', 'sa_blacklist', 'sa_detach',
         ];
 
         setProperty($plugin, 'rcube', $rcube);

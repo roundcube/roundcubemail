@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -22,9 +22,6 @@
 /**
  * Base class of the Roundcube Framework
  * implemented as singleton
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube
 {
@@ -99,7 +96,7 @@ class rcube
     static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance) {
-            self::$instance = new rcube($env);
+            self::$instance = new self($env);
             self::$instance->init($mode);
         }
 
@@ -159,7 +156,7 @@ class rcube
                 $this->config->get('db_persistent')
             );
 
-            $this->db->set_debug((bool)$this->config->get('sql_debug'));
+            $this->db->set_debug((bool) $this->config->get('sql_debug'));
         }
 
         return $this->db;
@@ -224,7 +221,7 @@ class rcube
             $this->caches[$name] = rcube_cache::factory($type, $userid, $name, $ttl, $packed, $indexed);
         }
 
-        return $this->caches[$name];
+        return $this->caches[$name] ?? null;
     }
 
     /**
@@ -276,7 +273,7 @@ class rcube
     /**
      * Create SMTP object and connect to server
      *
-     * @param boolean $connect True if connection should be established
+     * @param bool $connect True if connection should be established
      */
     public function smtp_init($connect = false)
     {
@@ -318,7 +315,7 @@ class rcube
         if (!class_exists($driver_class)) {
             self::raise_error([
                     'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Storage driver class ($driver) not found!"
+                    'message' => "Storage driver class ($driver) not found!",
                 ],
                 true, true
             );
@@ -348,7 +345,7 @@ class rcube
             $options['port']     = $_SESSION['storage_port'];
             $options['ssl']      = $_SESSION['storage_ssl'];
             $options['password'] = $this->decrypt($_SESSION['password']);
-            $_SESSION[$driver.'_host'] = $_SESSION['storage_host'];
+            $_SESSION[$driver . '_host'] = $_SESSION['storage_host'];
         }
 
         $options = $this->plugins->exec_hook("storage_init", $options);
@@ -518,8 +515,8 @@ class rcube
         // expire in 48 hours by default
         $temp_dir_ttl = $this->config->get('temp_dir_ttl', '48h');
         $temp_dir_ttl = get_offset_sec($temp_dir_ttl);
-        if ($temp_dir_ttl < 6*3600) {
-            $temp_dir_ttl = 6*3600;   // 6 hours sensible lower bound.
+        if ($temp_dir_ttl < 6 * 3600) {
+            $temp_dir_ttl = 6 * 3600;   // 6 hours sensible lower bound.
         }
 
         // Uploaded files metadata
@@ -589,7 +586,7 @@ class rcube
         if (isset($attrib[$slang])) {
             $this->texts[$name] = $attrib[$slang];
         }
-        else if ($slang != 'en_us' && isset($attrib['en_us'])) {
+        elseif ($slang != 'en_us' && isset($attrib['en_us'])) {
             $this->texts[$name] = $attrib['en_us'];
         }
 
@@ -597,7 +594,7 @@ class rcube
         if ($domain && isset($this->texts["$domain.$name"])) {
             $text = $this->texts["$domain.$name"];
         }
-        else if (isset($this->texts[$name])) {
+        elseif (isset($this->texts[$name])) {
             $text = $this->texts[$name];
         }
 
@@ -624,10 +621,10 @@ class rcube
         if ((!empty($attrib['uppercase']) && strtolower($attrib['uppercase']) == 'first') || !empty($attrib['ucfirst'])) {
             $case_mode = MB_CASE_TITLE;
         }
-        else if (!empty($attrib['uppercase'])) {
+        elseif (!empty($attrib['uppercase'])) {
             $case_mode = MB_CASE_UPPER;
         }
-        else if (!empty($attrib['lowercase'])) {
+        elseif (!empty($attrib['lowercase'])) {
             $case_mode = MB_CASE_LOWER;
         }
 
@@ -662,14 +659,14 @@ class rcube
         // any of loaded domains (plugins)
         if ($domain == '*') {
             foreach ($this->plugins->loaded_plugins() as $domain) {
-                if (isset($this->texts[$domain.'.'.$name])) {
+                if (isset($this->texts[$domain . '.' . $name])) {
                     $ref_domain = $domain;
                     return true;
                 }
             }
         }
         // specified domain
-        else if ($domain && isset($this->texts[$domain.'.'.$name])) {
+        elseif ($domain && isset($this->texts[$domain . '.' . $name])) {
             $ref_domain = $domain;
             return true;
         }
@@ -759,12 +756,12 @@ class rcube
                 $texts = array_merge($texts, $_texts);
             }
             // Fallback to a localization in similar language (#1488401)
-            else if ($lng != 'en_US') {
+            elseif ($lng != 'en_US') {
                 $alias = null;
                 if (!empty($aliases[$lng])) {
                     $alias = $aliases[$lng];
                 }
-                else if ($key = array_search($lng, $aliases)) {
+                elseif ($key = array_search($lng, $aliases)) {
                     $alias = $key;
                 }
 
@@ -832,7 +829,7 @@ class rcube
         }
 
         if (empty($rcube_languages)) {
-            @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
+            @include RCUBE_LOCALIZATION_DIR . 'index.inc';
         }
 
         // check if we have an alias for that language
@@ -840,7 +837,7 @@ class rcube
             $lang = $rcube_language_aliases[$lang];
         }
         // try the first two chars
-        else if ($lang && !isset($rcube_languages[$lang])) {
+        elseif ($lang && !isset($rcube_languages[$lang])) {
             $short = substr($lang, 0, 2);
 
             // check if we have an alias for the short language code
@@ -848,8 +845,8 @@ class rcube
                 $lang = $rcube_language_aliases[$short];
             }
             // expand 'nn' to 'nn_NN'
-            else if (!isset($rcube_languages[$short])) {
-                $lang = $short.'_'.strtoupper($short);
+            elseif (!isset($rcube_languages[$short])) {
+                $lang = $short . '_' . strtoupper($short);
             }
         }
 
@@ -870,7 +867,7 @@ class rcube
         static $sa_languages = [];
 
         if (!count($sa_languages)) {
-            @include(RCUBE_LOCALIZATION_DIR . 'index.inc');
+            @include RCUBE_LOCALIZATION_DIR . 'index.inc';
 
             if ($dh = @opendir(RCUBE_LOCALIZATION_DIR)) {
                 while (($name = readdir($dh)) !== false) {
@@ -923,7 +920,7 @@ class rcube
             self::raise_error([
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "Failed to encrypt data with configured cipher method: $method!"
+                    'message' => "Failed to encrypt data with configured cipher method: $method!",
                 ], true, false);
 
             return false;
@@ -965,7 +962,7 @@ class rcube
         $iv_size = openssl_cipher_iv_length($method);
         $tag     = null;
 
-        if (preg_match('/^##(.{16})##/', $cipher, $matches)) {
+        if (preg_match('/^##(.{16})##/s', $cipher, $matches)) {
             $tag    = $matches[1];
             $cipher = substr($cipher, strlen($matches[0]));
         }
@@ -1130,7 +1127,7 @@ class rcube
      * The functions will be executed before destroying any
      * objects like smtp, imap, session, etc.
      *
-     * @param callback $function Function callback
+     * @param callable $function Function callback
      */
     public function add_shutdown_function($function)
     {
@@ -1238,7 +1235,7 @@ class rcube
 
         preg_match_all('/({(-?)([a-z]\w*)})/', $cmd, $matches, PREG_SET_ORDER);
         foreach ($matches as $tags) {
-            list(, $tag, $option, $key) = $tags;
+            [, $tag, $option, $key] = $tags;
             $parts = [];
 
             if ($option) {
@@ -1247,7 +1244,7 @@ class rcube
                         $parts[] = $value ? $key : "";
                     }
                     else {
-                        foreach ((array)$value as $val) {
+                        foreach ((array) $value as $val) {
                             $parts[] = "$key " . escapeshellarg($val);
                         }
                     }
@@ -1367,7 +1364,7 @@ class rcube
             if (!empty($log['dir'])) {
                 $log_dir = $log['dir'];
             }
-            else if (self::$instance) {
+            elseif (self::$instance) {
                 $log_dir = self::$instance->config->get('log_dir');
             }
         }
@@ -1389,14 +1386,14 @@ class rcube
     /**
      * Throw system error, with optional logging and script termination.
      *
-     * @param array|Throwable|string|PEAR_Error $arg Error object, string or named parameters array:
-     *                                               - code:    Error code (required)
-     *                                               - type:    Error type: php, db, imap, etc.
-     *                                               - message: Error message
-     *                                               - file:    File where error occurred
-     *                                               - line:    Line where error occurred
-     * @param bool $log       True to log the error
-     * @param bool $terminate Terminate script execution
+     * @param array|Throwable|string|PEAR_Error $arg       Error object, string or named parameters array:
+     *                                                     - code:    Error code (required)
+     *                                                     - type:    Error type: php, db, imap, etc.
+     *                                                     - message: Error message
+     *                                                     - file:    File where error occurred
+     *                                                     - line:    Line where error occurred
+     * @param bool                              $log       True to log the error
+     * @param bool                              $terminate Terminate script execution
      */
     public static function raise_error($arg, $log = false, $terminate = false)
     {
@@ -1409,14 +1406,14 @@ class rcube
                 'message' => $arg->getMessage(),
             ];
         }
-        else if (is_object($arg) && is_a($arg, 'PEAR_Error')) {
+        elseif (is_object($arg) && is_a($arg, 'PEAR_Error')) {
             $info = $arg->getUserInfo();
             $arg  = [
                 'code'    => $arg->getCode(),
                 'message' => $arg->getMessage() . ($info ? ': ' . $info : ''),
             ];
         }
-        else if (is_string($arg)) {
+        elseif (is_string($arg)) {
             $arg = ['message' => $arg];
         }
 
@@ -1424,7 +1421,7 @@ class rcube
             $arg['code'] = 500;
         }
 
-        $cli = php_sapi_name() == 'cli';
+        $cli = PHP_SAPI == 'cli';
 
         $arg['cli'] = $cli;
         $arg['log'] = $log;
@@ -1454,10 +1451,10 @@ class rcube
         if ($cli) {
             fwrite(STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
         }
-        else if ($terminate && is_object(self::$instance->output)) {
+        elseif ($terminate && is_object(self::$instance->output)) {
             self::$instance->output->raise_error($arg['code'], $arg['message']);
         }
-        else if ($terminate) {
+        elseif ($terminate) {
             http_response_code(500);
         }
 
@@ -1474,6 +1471,7 @@ class rcube
      * Log an error
      *
      * @param array $arg_arr Named parameters
+     *
      * @see self::raise_error()
      */
     public static function log_bug($arg_arr)
@@ -1563,7 +1561,7 @@ class rcube
         $diff = $now - $timer;
 
         if (empty($label)) {
-            $label = 'Timer '.$print_count;
+            $label = 'Timer ' . $print_count;
         }
 
         self::write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
@@ -1582,7 +1580,7 @@ class rcube
     /**
      * Setter for system user object
      *
-     * @param rcube_user Current user instance
+     * @param rcube_user $user Current user instance
      */
     public function set_user($user)
     {
@@ -1590,7 +1588,7 @@ class rcube
             $this->user = $user;
 
             // overwrite config with user preferences
-            $this->config->set_user_prefs((array)$this->user->get_prefs());
+            $this->config->set_user_prefs((array) $this->user->get_prefs());
         }
     }
 
@@ -1604,7 +1602,7 @@ class rcube
         if (is_object($this->user)) {
             return $this->user->ID;
         }
-        else if (isset($_SESSION['user_id'])) {
+        elseif (isset($_SESSION['user_id'])) {
             return $_SESSION['user_id'];
         }
     }
@@ -1619,7 +1617,7 @@ class rcube
         if (is_object($this->user)) {
             return $this->user->get_username();
         }
-        else if (isset($_SESSION['username'])) {
+        elseif (isset($_SESSION['username'])) {
             return $_SESSION['username'];
         }
     }
@@ -1680,7 +1678,7 @@ class rcube
         if (is_object($this->user)) {
             return $this->user->language;
         }
-        else if (isset($_SESSION['language'])) {
+        elseif (isset($_SESSION['language'])) {
             return $_SESSION['language'];
         }
     }
@@ -1694,7 +1692,7 @@ class rcube
      */
     public function gen_message_id($sender = null)
     {
-        $local_part  = md5(uniqid('rcube'.mt_rand(), true));
+        $local_part  = md5(uniqid('rcube' . mt_rand(), true));
         $domain_part = '';
 
         if ($sender && preg_match('/@([^\s]+\.[a-z0-9-]+)/', $sender, $m)) {
@@ -1721,15 +1719,15 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param Mail_Mime    &$message    Reference to Mail_MIME object
-     * @param string       $from        Sender address string
-     * @param array|string $mailto      Either a comma-separated list of recipients (RFC822 compliant),
-     *                                  or an array of recipients, each RFC822 valid
-     * @param array|string &$error      SMTP error array or (deprecated) string
-     * @param string       &$body_file  Location of file with saved message body,
-     *                                  used when delay_file_io is enabled
-     * @param array        $options     SMTP options (e.g. DSN request)
-     * @param bool         $disconnect  Close SMTP connection ASAP
+     * @param Mail_mime    &$message   Reference to Mail_mime object
+     * @param string       $from       Sender address string
+     * @param array|string $mailto     Either a comma-separated list of recipients (RFC822 compliant),
+     *                                 or an array of recipients, each RFC822 valid
+     * @param array|string &$error     SMTP error array or (deprecated) string
+     * @param string       &$body_file Location of file with saved message body,
+     *                                 used when delay_file_io is enabled
+     * @param array        $options    SMTP options (e.g. DSN request)
+     * @param bool         $disconnect Close SMTP connection ASAP
      *
      * @return bool Send status.
      */
@@ -1781,7 +1779,7 @@ class rcube
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
                         'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: ".$mime_result->getMessage()
+                        'message' => "Could not create message: " . $mime_result->getMessage(),
                     ],
                     true, false
                 );
@@ -1808,7 +1806,7 @@ class rcube
             self::raise_error([
                     'code' => 800, 'type' => 'smtp',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => implode("\n", $response)
+                    'message' => implode("\n", $response),
                 ], true, false);
 
             // allow plugins to catch sending errors with the same parameters as in 'message_before_send'
@@ -1856,9 +1854,6 @@ class rcube
 
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_dummy_plugin_api
 {
@@ -1869,6 +1864,7 @@ class rcube_dummy_plugin_api
      * @param array  $args Hook arguments
      *
      * @return array Hook arguments
+     *
      * @see rcube_plugin_api::exec_hook()
      */
     public function exec_hook($hook, $args = [])

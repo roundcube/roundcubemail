@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Roundcube Password Driver for Plesk-RPC.
  *
  * This driver changes a E-Mail-Password via Plesk-RPC
@@ -45,9 +45,11 @@ class rcube_plesk_password
      * roundcube already validated the old password so we just need to change it at this point
      *
      * @author Cyrill von Wattenwyl <cyrill.vonwattenwyl@adfinis-sygroup.ch>
-     * @param string $curpass Current password
-     * @param string $newpass New password
-     * @returns int PASSWORD_SUCCESS|PASSWORD_ERROR
+     *
+     * @param string $currpass Current password
+     * @param string $newpass  New password
+     *
+     * @return int PASSWORD_SUCCESS|PASSWORD_ERROR
      */
     function save($currpass, $newpass, $username)
     {
@@ -101,14 +103,15 @@ class plesk_rpc
      * @param string $path plesk rpc path
      * @param string $user plesk user
      * @param string $user plesk password
-     * @returns void
+     *
+     * @return void
      */
     function init($host, $port, $path, $user, $pass)
     {
         $headers = [
             sprintf("HTTP_AUTH_LOGIN: %s", $user),
             sprintf("HTTP_AUTH_PASSWD: %s", $pass),
-            "Content-Type: text/xml"
+            "Content-Type: text/xml",
         ];
 
         $url        = sprintf("https://%s:%s/%s", $host, $port, $path);
@@ -126,7 +129,7 @@ class plesk_rpc
      *
      * @param string $packet XML-Packet to send to Plesk
      *
-     * @returns string Response body
+     * @return string Response body
      */
     function send_request($packet)
     {
@@ -149,7 +152,8 @@ class plesk_rpc
      * Get all hosting-information of a domain
      *
      * @param string $domain domain-name
-     * @returns object SimpleXML object
+     *
+     * @return object SimpleXML object
      */
     function domain_info($domain)
     {
@@ -192,7 +196,7 @@ class plesk_rpc
      *
      * @param string $domain domain-name
      *
-     * @returns int Domain ID
+     * @return int Domain ID
      */
     function get_domain_id($domain)
     {
@@ -207,11 +211,11 @@ class plesk_rpc
      * @param string $mailbox full email-address (user@domain.tld)
      * @param string $newpass new password of mailbox
      *
-     * @returns bool
+     * @return bool
      */
     function change_mailbox_password($mailbox, $newpass)
     {
-        list($user, $domain) = explode("@", $mailbox);
+        [$user, $domain] = explode("@", $mailbox);
         $domain_id = $this->get_domain_id($domain);
 
         // if domain cannot be resolved to an id, do not continue
@@ -248,7 +252,7 @@ class plesk_rpc
             if ($res != "ok") {
                 $res = [
                     'code' => PASSWORD_ERROR,
-                    'message' => strval($xml->mail->update->set->result->errtext)
+                    'message' => strval($xml->mail->update->set->result->errtext),
                 ];
             }
 

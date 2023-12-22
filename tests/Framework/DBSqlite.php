@@ -3,13 +3,11 @@
 /**
  * Test class to test rcube_db_sqlite class
  *
- * @package Tests
  * @group database
  * @group sqlite
  */
 class Framework_DBSqlite extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

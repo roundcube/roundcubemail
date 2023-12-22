@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcmail_action class
- *
- * @package Tests
  */
 class Rcmail_RcmailAction extends ActionTestCase
 {
-
     /**
      * Test rcmail_action::set_env_config()
      */
@@ -204,7 +201,7 @@ class Rcmail_RcmailAction extends ActionTestCase
             '_uid' => '1:2,56',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
-        $this->assertSame(['INBOX' => ['1:2','56']], $result);
+        $this->assertSame(['INBOX' => ['1:2', '56']], $result);
         $this->assertFalse($is_multifolder);
     }
 

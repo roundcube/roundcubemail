@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,9 +19,6 @@
 
 /**
  * Helper class for string replacements based on preg_replace_callback
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_string_replacer
 {
@@ -113,7 +110,7 @@ class rcube_string_replacer
         if (preg_match('!^(http|ftp|file)s?://!i', $scheme)) {
             $url = $matches[1] . $matches[2];
         }
-        else if (preg_match("/^({$this->noword}*)(www\.)$/i", $matches[1], $m)) {
+        elseif (preg_match("/^({$this->noword}*)(www\.)$/i", $matches[1], $m)) {
             $url        = $m[2] . $matches[2];
             $url_prefix = 'http://';
             $prefix     = $m[1];
@@ -149,7 +146,7 @@ class rcube_string_replacer
         // Store the reference and its occurrence position
         $this->linkrefs[$key][] = [
             $this->urls[$matches[3][0]] ?? null,
-            $matches[0][1]
+            $matches[0][1],
         ];
 
         return $this->get_replacement($this->add('[' . $key . ']')) . $matches[2][0];
@@ -230,7 +227,7 @@ class rcube_string_replacer
         $str = preg_replace_callback($this->mailto_pattern, [$this, 'mailto_callback'], $str);
 
         // resolve link references
-/*
+        /*
         This code requires PHP 7.4 and could be used instead of the two if() statements below,
         when we get there.
 
@@ -240,7 +237,7 @@ class rcube_string_replacer
         $str = preg_replace_callback($this->linkref_pattern,
             [$this, 'linkref_callback'], $str, -1, $count, PREG_OFFSET_CAPTURE
         );
-*/
+        */
         if (preg_match_all($this->linkref_index, $str, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)) {
             $diff = 0;
             foreach ($matches as $m) {
@@ -295,14 +292,14 @@ class rcube_string_replacer
 
         if (preg_match('/(\\[|\\])/', $url)) {
             $in = false;
-            for ($i=0, $len=strlen($url); $i<$len; $i++) {
+            for ($i = 0, $len = strlen($url); $i < $len; $i++) {
                 if ($url[$i] == '[') {
                     if ($in) {
                         break;
                     }
                     $in = true;
                 }
-                else if ($url[$i] == ']') {
+                elseif ($url[$i] == ']') {
                     if (!$in) {
                         break;
                     }
@@ -319,14 +316,14 @@ class rcube_string_replacer
         // Do the same for parentheses
         if (preg_match('/(\\(|\\))/', $url)) {
             $in = false;
-            for ($i=0, $len=strlen($url); $i<$len; $i++) {
+            for ($i = 0, $len = strlen($url); $i < $len; $i++) {
                 if ($url[$i] == '(') {
                     if ($in) {
                         break;
                     }
                     $in = true;
                 }
-                else if ($url[$i] == ')') {
+                elseif ($url[$i] == ')') {
                     if (!$in) {
                         break;
                     }

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_contacts_group_rename
- *
- * @package Tests
  */
 class Actions_Contacts_Group_Rename extends ActionTestCase
 {

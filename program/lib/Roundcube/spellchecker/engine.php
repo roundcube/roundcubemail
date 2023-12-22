@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -20,9 +20,6 @@
 
 /**
  * Interface class for a spell-checking backend
- *
- * @package    Framework
- * @subpackage Utils
  */
 abstract class rcube_spellchecker_engine
 {

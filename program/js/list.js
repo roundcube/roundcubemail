@@ -1778,7 +1778,7 @@ column_drag_mouse_move: function(e)
         .appendTo(document.body)
         // ... and column position indicator
        .append($('<div>').attr('id', 'rcmcolumnindicator')
-          .css({ position:'absolute', 'border-right':'2px dotted #555', 
+          .css({ position:'absolute', 'border-right':'2px dotted #555',
           'z-index':2002, height: (this.frame.offsetHeight-2)+'px' }));
 
       this.cols = [];

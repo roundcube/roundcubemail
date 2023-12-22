@@ -59,7 +59,7 @@ class new_user_dialog extends rcube_plugin
                     'type'     => 'text',
                     'name'     => '_name',
                     'value'    => $identity['name'],
-                    'disabled' => $identities_level == 4
+                    'disabled' => $identities_level == 4,
                 ])
             );
 
@@ -69,7 +69,7 @@ class new_user_dialog extends rcube_plugin
                     'type'     => 'text',
                     'name'     => '_email',
                     'value'    => rcube_utils::idn_to_utf8($identity['email']),
-                    'disabled' => in_array($identities_level, [1, 3, 4])
+                    'disabled' => in_array($identities_level, [1, 3, 4]),
                 ])
             );
 
@@ -79,7 +79,7 @@ class new_user_dialog extends rcube_plugin
                     'type'     => 'text',
                     'name'     => '_organization',
                     'value'    => $identity['organization'],
-                    'disabled' => $identities_level == 4
+                    'disabled' => $identities_level == 4,
                 ])
             );
 
@@ -156,7 +156,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
         if ($ident_level == 4) {
             $disabled = ['name', 'email', 'organization'];
         }
-        else if (in_array($ident_level, [1, 3])) {
+        elseif (in_array($ident_level, [1, 3])) {
             $disabled = ['email'];
         }
 
@@ -167,14 +167,14 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
         if (empty($save_data['name']) || empty($save_data['email'])) {
             $rcmail->output->show_message('formincomplete', 'error');
         }
-        else if (!rcube_utils::check_email($save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']))) {
+        elseif (!rcube_utils::check_email($save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']))) {
             $rcmail->output->show_message('emailformaterror', 'error', ['email' => $save_data['email']]);
         }
         else {
             // execute hook
             $plugin = $rcmail->plugins->exec_hook('identity_update', [
                 'id' => $identity['identity_id'],
-                'record' => $save_data
+                'record' => $save_data,
             ]);
 
             if (!$plugin['abort']) {

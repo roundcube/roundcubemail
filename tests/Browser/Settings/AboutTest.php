@@ -14,7 +14,7 @@ class AboutTest extends \Tests\Browser\TestCase
 
             $browser->clickTaskMenuItem('about');
 
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser->assertDialogTitle('About')
                     ->assertButton('cancel', 'Close')
                     ->assertVisible('@content #aboutframe');
@@ -26,7 +26,7 @@ class AboutTest extends \Tests\Browser\TestCase
 
             $browser->withinFrame('#aboutframe', function ($browser) {
                 // check task and action
-                $browser->with(new App(), function ($browser) {
+                $browser->with(new App(), static function ($browser) {
                     $browser->assertEnv('task', 'settings');
                     $browser->assertEnv('action', 'about');
                 });
@@ -35,7 +35,7 @@ class AboutTest extends \Tests\Browser\TestCase
                 $browser->assertVisible('#pluginlist');
             });
 
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser->closeDialog();
             });
         });

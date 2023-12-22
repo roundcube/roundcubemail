@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,9 +19,6 @@
 
 /**
  * Database query parameter
- *
- * @package    Framework
- * @subpackage Database
  */
 class rcube_db_param
 {

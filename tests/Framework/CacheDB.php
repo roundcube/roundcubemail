@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_cache_db class
- *
- * @package Tests
  */
 class Framework_CacheDB extends PHPUnit\Framework\TestCase
 {
@@ -34,13 +32,13 @@ class Framework_CacheDB extends PHPUnit\Framework\TestCase
         // Remove cached record
         $cache->remove('test');
 
-        $this->assertSame(null, $cache->get('test'));
+        $this->assertNull($cache->get('test'));
 
         $cache->close();
 
         $cache = new rcube_cache_db(1, 'test', 60);
 
-        $this->assertSame(null, $cache->get('test'));
+        $this->assertNull($cache->get('test'));
 
         // Call expunge methods
         $cache->expunge();

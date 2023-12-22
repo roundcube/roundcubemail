@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_base_replacer class
- *
- * @package Tests
  */
 class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */
@@ -35,7 +32,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
     /**
      * Data for absolute_url() test
      */
-    function data_absolute_url()
+    function data_absolute_url(): iterable
     {
         return [
             ['', 'http://test', 'http://test/'],
@@ -50,6 +47,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
 
     /**
      * Test absolute_url()
+     *
      * @dataProvider data_absolute_url
      */
     function test_absolute_url($path, $base, $expected)

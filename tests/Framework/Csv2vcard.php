@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_csv2vcard class
- *
- * @package Tests
  */
 class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
 {
-
     function test_import_generic()
     {
         $csv = new rcube_csv2vcard;
@@ -19,7 +16,7 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
 
     function test_localization_files()
     {
-        foreach (glob(RCUBE_LOCALIZATION_DIR ."*/csv2vcard.inc") as $filename) {
+        foreach (glob(RCUBE_LOCALIZATION_DIR . "*/csv2vcard.inc") as $filename) {
             $map = null;
             include $filename;
             $this->assertTrue(count($map) > 0);
@@ -41,7 +38,7 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
 
-        $this->assertEquals($vcf_text, $vcard);
+        $this->assertSame($vcf_text, $vcard);
     }
 
     function test_import_email()
@@ -62,7 +59,7 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
 
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
-        $this->assertEquals($vcf_text, $vcard);
+        $this->assertSame($vcf_text, $vcard);
     }
 
     function test_import_gmail()
@@ -80,7 +77,7 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
 
-        $this->assertEquals($vcf_text, $vcard);
+        $this->assertSame($vcf_text, $vcard);
     }
 
     function test_import_outlook()
@@ -98,6 +95,6 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard    = trim(str_replace("\r\n", "\n", $vcard));
 
-        $this->assertEquals($vcf_text, $vcard);
+        $this->assertSame($vcf_text, $vcard);
     }
 }

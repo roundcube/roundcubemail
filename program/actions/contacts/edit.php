@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -87,7 +87,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
                 'filedroparea'    => [$this, 'photo_drop_area'],
         ]);
 
-        $rcmail->output->set_pagetitle($rcmail->gettext(($rcmail->action == 'add' ? 'addcontact' : 'editcontact')));
+        $rcmail->output->set_pagetitle($rcmail->gettext($rcmail->action == 'add' ? 'addcontact' : 'editcontact'));
 
         if ($rcmail->action == 'add' && $rcmail->output->template_exists('contactadd')) {
             $rcmail->output->send('contactadd');
@@ -120,11 +120,11 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
                     'organization'  => ['size' => $i_size * 2, 'visible' => $business_mode],
                     'department'    => ['size' => $i_size * 2, 'visible' => $business_mode],
                     'jobtitle'      => ['size' => $i_size * 2, 'visible' => $business_mode],
-                ]
-            ]
+                ],
+            ],
         ];
 
-        list($form_start, $form_end) = self::get_form_tags($attrib);
+        [$form_start, $form_end] = self::get_form_tags($attrib);
         unset($attrib['form'], $attrib['name'], $attrib['size']);
 
         // return the address edit form
@@ -183,7 +183,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             ];
         }
 
-        list($form_start, $form_end) = self::get_form_tags($attrib);
+        [$form_start, $form_end] = self::get_form_tags($attrib);
         unset($attrib['form']);
 
         // return the complete address edit form as table
@@ -207,6 +207,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
     /**
      * similar function as in /steps/settings/edit_identity.inc
+     *
      * @todo: Use rcmail_action::get_form_tags()
      */
     public static function get_form_tags($attrib, $action = null, $id = null, $hidden = null)
@@ -262,7 +263,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
                     'action'    => 'upload-photo',
                     'fieldname' => '_photo',
                     'single'    => 1,
-                    'filter'    => '^image/.+'
+                    'filter'    => '^image/.+',
             ]);
         }
     }

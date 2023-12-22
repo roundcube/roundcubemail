@@ -2,12 +2,10 @@
 
 /**
  * Test class to test rcmail_action_mail_index
- *
- * @package Tests
  */
 class ActionTestCase extends PHPUnit\Framework\TestCase
 {
-    static $files = [];
+    private static $files = [];
 
 
     static function setUpBeforeClass(): void
@@ -31,7 +29,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail->shutdown();
     }
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $_GET     = [];
         $_POST    = [];
@@ -111,10 +109,11 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
                 escapeshellarg($dsn['database'])
             ));
         }
-        else if ($dsn['phptype'] == 'sqlite') {
+        elseif ($dsn['phptype'] == 'sqlite') {
             $db->closeConnection();
+
             // delete database file
-            system(sprintf('rm -f %s', escapeshellarg($dsn['database'])));
+            @unlink($dsn['database']);
 
             // load sample test data
             self::loadSQLScript($db, 'init');
@@ -186,7 +185,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         // Attachments handling plugins use move_uploaded_file() which does not work
         // here. We'll add a fake hook handler for our purposes.
         $rcmail = rcmail::get_instance();
-        $rcmail->plugins->register_hook('attachment_upload', function($att) use ($file) {
+        $rcmail->plugins->register_hook('attachment_upload', static function ($att) use ($file) {
             $att['status'] = true;
             $att['id']     = $file['id'];
             return $att;
@@ -228,7 +227,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         // Attachments handling plugins use move_uploaded_file() which does not work
         // here. We'll add a fake hook handler for our purposes.
         $rcmail = rcmail::get_instance();
-        $rcmail->plugins->register_hook('attachment_upload', function($att) use ($file) {
+        $rcmail->plugins->register_hook('attachment_upload', static function ($att) use ($file) {
             $att['status'] = true;
             $att['id']     = $file['id'];
             return $att;

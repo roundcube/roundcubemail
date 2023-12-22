@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-------------------------------------------------------------------------+
  | Engine of the Enigma Plugin                                             |
  |                                                                         |
@@ -80,7 +80,7 @@ class enigma_engine
         if (!$this->pgp_driver) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Enigma plugin: Unable to load PGP driver: $driver"
+                    'message' => "Enigma plugin: Unable to load PGP driver: $driver",
                 ], true, true
             );
         }
@@ -111,7 +111,7 @@ class enigma_engine
         if (!$this->smime_driver) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Enigma plugin: Unable to load S/MIME driver: $driver"
+                    'message' => "Enigma plugin: Unable to load S/MIME driver: $driver",
                 ], true, true
             );
         }
@@ -158,21 +158,21 @@ class enigma_engine
 
         // select mode
         switch ($mode) {
-        case self::SIGN_MODE_BODY:
-            $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
-            break;
-
-        case self::SIGN_MODE_MIME:
-            $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
-            break;
-
-        default:
-            if ($mime->isMultipart()) {
-                $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
-            }
-            else {
+            case self::SIGN_MODE_BODY:
                 $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
-            }
+                break;
+
+            case self::SIGN_MODE_MIME:
+                $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
+                break;
+
+            default:
+                if ($mime->isMultipart()) {
+                    $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
+                }
+                else {
+                    $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
+                }
         }
 
         // get message body
@@ -186,7 +186,7 @@ class enigma_engine
 
             // We can't use format=flowed for signed messages
             if (strpos($text_charset, 'format=flowed')) {
-                list($charset, $params) = explode(';', $text_charset);
+                [$charset, $params] = explode(';', $text_charset);
                 $body = rcube_mime::unfold_flowed($body);
                 $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
 
@@ -296,7 +296,7 @@ class enigma_engine
         if ($mode & self::ENCRYPT_MODE_BODY) {
             $encrypt_mode = $mode;
         }
-        else if ($mode & self::ENCRYPT_MODE_MIME) {
+        elseif ($mode & self::ENCRYPT_MODE_MIME) {
             $encrypt_mode = $mode;
         }
         else {
@@ -402,15 +402,15 @@ class enigma_engine
             $this->parse_plain($p, $body);
             $got_content = true;
         }
-        else if ($p['mimetype'] == 'multipart/signed') {
+        elseif ($p['mimetype'] == 'multipart/signed') {
             $this->parse_signed($p, $body);
             $got_content = true;
         }
-        else if ($p['mimetype'] == 'multipart/encrypted') {
+        elseif ($p['mimetype'] == 'multipart/encrypted') {
             $this->parse_encrypted($p);
             $got_content = true;
         }
-        else if ($p['mimetype'] == 'application/pkcs7-mime') {
+        elseif ($p['mimetype'] == 'application/pkcs7-mime') {
             $this->parse_encrypted($p);
             $got_content = true;
         }
@@ -488,27 +488,27 @@ class enigma_engine
         while (($line = fgets($fd)) !== false) {
             if (strlen($line) > 5 && $line[0] === '-' && $line[4] === '-' && preg_match($regexp, $line, $m)) {
                 switch ($tokens[$m[1]]) {
-                case 'signed-start':
-                    $body = $line;
-                    $mode = 'signed';
-                    break;
+                    case 'signed-start':
+                        $body = $line;
+                        $mode = 'signed';
+                        break;
 
-                case 'signed-end':
-                    if ($mode === 'signed') {
-                        $body .= $line;
-                    }
-                    break 2; // ignore anything after this line
+                    case 'signed-end':
+                        if ($mode === 'signed') {
+                            $body .= $line;
+                        }
+                        break 2; // ignore anything after this line
 
-                case 'encrypted-start':
-                    $body = $line;
-                    $mode = 'encrypted';
-                    break;
+                    case 'encrypted-start':
+                        $body = $line;
+                        $mode = 'encrypted';
+                        break;
 
-                case 'encrypted-end':
-                    if ($mode === 'encrypted') {
-                        $body .= $line;
-                    }
-                    break 2; // ignore anything after this line
+                    case 'encrypted-end':
+                        if ($mode === 'encrypted') {
+                            $body .= $line;
+                        }
+                        break 2; // ignore anything after this line
                 }
 
                 continue;
@@ -517,7 +517,7 @@ class enigma_engine
             if ($mode === 'signed') {
                 $body .= $line;
             }
-            else if ($mode === 'encrypted') {
+            elseif ($mode === 'encrypted') {
                 $body .= $line;
             }
             else {
@@ -530,7 +530,7 @@ class enigma_engine
         if ($mode === 'signed') {
             $this->parse_plain_signed($p, $body, $prefix);
         }
-        else if ($mode === 'encrypted') {
+        elseif ($mode === 'encrypted') {
             $this->parse_plain_encrypted($p, $body, $prefix);
         }
     }
@@ -555,7 +555,7 @@ class enigma_engine
         // including a set of appropriate content headers describing the data.
         // The second body MUST contain the PGP digital signature.  It MUST be
         // labeled with a content type of "application/pgp-signature".
-        else if (count($struct->parts) == 2
+        elseif (count($struct->parts) == 2
             && $struct->parts[1] && $struct->parts[1]->mimetype == 'application/pgp-signature'
         ) {
             $this->parse_pgp_signed($p, $body);
@@ -581,7 +581,7 @@ class enigma_engine
         // This body contains the control information.
         // The second MIME body part MUST contain the actual encrypted data.  It
         // must be labeled with a content type of "application/octet-stream".
-        else if (count($struct->parts) == 2
+        elseif (count($struct->parts) == 2
             && $struct->parts[0] && $struct->parts[0]->mimetype == 'application/pgp-encrypted'
             && $struct->parts[1] && $struct->parts[1]->mimetype == 'application/octet-stream'
         ) {
@@ -629,7 +629,7 @@ class enigma_engine
             if ($part->body === null) {
                 $part->body = '';
             }
-            else if (preg_match('/^-----BEGIN PGP SIGNATURE-----/', $line)) {
+            elseif (preg_match('/^-----BEGIN PGP SIGNATURE-----/', $line)) {
                 break;
             }
             else {
@@ -696,7 +696,7 @@ class enigma_engine
         }
 
         // set signed part body
-        list($msg_body, $sig_body) = $this->explode_signed_body($body, $boundary);
+        [$msg_body, $sig_body] = $this->explode_signed_body($body, $boundary);
 
         // Verify
         if ($sig_body && $msg_body) {
@@ -800,7 +800,7 @@ class enigma_engine
         // decryption failed, but the message may have already
         // been cached with the modified parts (see above),
         // let's bring the original state back
-        else if (!empty($p['object']->mime_parts[$parent])) {
+        elseif (!empty($p['object']->mime_parts[$parent])) {
             foreach ((array) $p['object']->mime_parts[$parent]->parts as $p) {
                 if ($p->need_decryption && !preg_match('/^(.*)\.pgp$/i', $p->filename, $m)) {
                     // modify filename
@@ -845,7 +845,7 @@ class enigma_engine
             $this->part_structure([
                     'object'    => $p['object'],
                     'structure' => $struct,
-                    'mimetype'  => $struct->mimetype
+                    'mimetype'  => $struct->mimetype,
                 ], $body);
 
             // Attach the decryption message to all parts
@@ -1133,8 +1133,8 @@ class enigma_engine
     /**
      * PGP keys/certs import.
      *
-     * @param mixed   $content Import file name or content
-     * @param boolean $isfile  True if first argument is a filename
+     * @param mixed $content Import file name or content
+     * @param bool  $isfile  True if first argument is a filename
      *
      * @return mixed Import status data array or enigma_error
      */
@@ -1388,15 +1388,15 @@ class enigma_engine
      *
      * @param rcube_message_part $part Part object
      *
-     * @return boolean True if part is a key/cert
+     * @return bool True if part is a key/cert
      */
     public function is_keys_part($part)
     {
         // @TODO: S/MIME
-        return (
+        return
             // Content-Type: application/pgp-keys
             $part->mimetype == 'application/pgp-keys'
-        );
+        ;
     }
 
     /**
@@ -1468,7 +1468,7 @@ class enigma_engine
                     'code'    => 600,
                     'file'    => __FILE__,
                     'line'    => $line,
-                    'message' => "Enigma plugin: " . $result->getMessage()
+                    'message' => "Enigma plugin: " . $result->getMessage(),
                 ], true, $abort
             );
         }
@@ -1493,7 +1493,7 @@ class enigma_engine
                 continue;
             }
 
-            list($local, $domain) = explode('@', $recipient);
+            [$local, $domain] = explode('@', $recipient);
 
             // Do this for configured domains only
             if (is_array($woat) && !in_array_nocase($domain, $woat)) {

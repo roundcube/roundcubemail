@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing Redis cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_redis extends rcube_cache
 {
@@ -34,10 +31,6 @@ class rcube_cache_redis extends rcube_cache
      */
     protected static $redis;
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
@@ -69,7 +62,7 @@ class rcube_cache_redis extends rcube_cache
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Failed to find Redis. Make sure php-redis is included"
+                    'message' => "Failed to find Redis. Make sure php-redis is included",
                 ],
                 true, true);
         }
@@ -84,7 +77,7 @@ class rcube_cache_redis extends rcube_cache
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Redis host not configured"
+                    'message' => "Redis host not configured",
                 ],
                 true, true);
         }
@@ -96,7 +89,7 @@ class rcube_cache_redis extends rcube_cache
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Redis cluster not yet supported"
+                    'message' => "Redis cluster not yet supported",
                 ],
                 true, true);
         }
@@ -106,7 +99,7 @@ class rcube_cache_redis extends rcube_cache
 
         foreach ($hosts as $redis_host) {
             // explode individual fields
-            list($host, $port, $database, $password) = array_pad(explode(':', $redis_host, 4), 4, null);
+            [$host, $port, $database, $password] = array_pad(explode(':', $redis_host, 4), 4, null);
 
             if (substr($redis_host, 0, 7) === 'unix://') {
                 $host = substr($port, 2);
@@ -207,7 +200,7 @@ class rcube_cache_redis extends rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -216,7 +209,7 @@ class rcube_cache_redis extends rcube_cache
         }
 
         try {
-            $result = self::$redis->setEx($key, $this->ttl, $data);
+            $result = self::$redis->setex($key, $this->ttl, $data);
         }
         catch (Exception $e) {
             rcube::raise_error($e, true, false);
@@ -235,7 +228,7 @@ class rcube_cache_redis extends rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function delete_item($key)
     {
@@ -244,8 +237,9 @@ class rcube_cache_redis extends rcube_cache
         }
 
         try {
-            $fname  = method_exists(self::$redis, 'del') ? 'del' : 'delete';
-            $result = self::$redis->$fname($key);
+            $result = method_exists(self::$redis, 'del')
+                ? self::$redis->del($key)
+                : self::$redis->delete($key);
         }
         catch (Exception $e) {
             rcube::raise_error($e, true, false);

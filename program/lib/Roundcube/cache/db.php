@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing SQL Database cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_db extends rcube_cache
 {
@@ -41,10 +38,6 @@ class rcube_cache_db extends rcube_cache
      */
     protected $table;
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
@@ -95,10 +88,10 @@ class rcube_cache_db extends rcube_cache
     protected function read_record($key)
     {
         $sql_result = $this->db->query(
-                "SELECT `data`, `cache_key` FROM {$this->table} WHERE "
-                . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-                ."`cache_key` = ?",
-                $this->prefix . '.' . $key);
+            "SELECT `data`, `cache_key` FROM {$this->table} WHERE "
+            . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
+            . "`cache_key` = ?",
+            $this->prefix . '.' . $key);
 
         $data = null;
 
@@ -124,7 +117,7 @@ class rcube_cache_db extends rcube_cache
      * @param mixed    $data Serialized cache data
      * @param DateTime $ts   Timestamp
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function store_record($key, $data, $ts = null)
     {
@@ -144,7 +137,7 @@ class rcube_cache_db extends rcube_cache
             $result = $this->db->query(
                 "DELETE FROM {$this->table} WHERE "
                 . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-                ."`cache_key` = ?",
+                . "`cache_key` = ?",
                 $db_key);
 
             return !$this->db->is_error($result);
@@ -181,7 +174,7 @@ class rcube_cache_db extends rcube_cache
             $this->cache = [];
         }
         // Remove keys by name prefix
-        else if ($prefix_mode) {
+        elseif ($prefix_mode) {
             $where = "`cache_key` LIKE " . $this->db->quote($this->prefix . '.' . $key . '%');
             foreach (array_keys($this->cache) as $k) {
                 if (strpos($k, $key) === 0) {

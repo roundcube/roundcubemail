@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -15,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    die("Not allowed! Please open installer/index.php instead.");
+    exit("Not allowed! Please open installer/index.php instead.");
 }
 
 $required_php_exts = [
@@ -173,7 +173,7 @@ foreach ($RCI->supported_dbs as $database => $ext) {
     echo '<br />';
 }
 if (empty($found_db_driver)) {
-  $RCI->failures++;
+    $RCI->failures++;
 }
 
 ?>
@@ -220,11 +220,11 @@ foreach ($ini_checks as $var => $val) {
             $RCI->pass($var);
         }
     }
-    else if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
+    elseif (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     }
     else {
-      $RCI->fail($var, "is '$status', should be '$val'");
+        $RCI->fail($var, "is '$status', should be '$val'");
     }
     echo '<br />';
 }
@@ -260,11 +260,11 @@ foreach ($optional_checks as $var => $val) {
             $RCI->pass($var);
         }
     }
-    else if (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
+    elseif (filter_var($status, FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     }
     else {
-      $RCI->optfail($var, "is '$status', could be '$val'");
+        $RCI->optfail($var, "is '$status', could be '$val'");
     }
     echo '<br />';
 }

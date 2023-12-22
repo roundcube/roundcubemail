@@ -331,7 +331,7 @@
 -----------------------------------------------------------
 - Support multiple managesieve hosts using %h variable
   in managesieve_host option
-- Fix first rule deleting (#1486140) 
+- Fix first rule deleting (#1486140)
 
 * version 1.6 [2009-09-08]
 -----------------------------------------------------------

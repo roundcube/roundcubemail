@@ -16,6 +16,7 @@
  * log types and files.
  *
  * @author Ziba Scott
+ *
  * @website http://roundcube.net
  *
  * Example:
@@ -48,9 +49,9 @@
  *   [17-Feb-2009 16:51:37 -0500]       sql: select * from example
  *   [17-Feb-2009 16:51:37 -0500]       sql: select * from example
  *   [17-Feb-2009 16:51:37 -0500]       sql: select * from example
- *   [17-Feb-2009 16:51:37 -0500]     end: my sql calls - 0.0018 seconds shell exec: 1, sql: 3, 
- *   [17-Feb-2009 16:51:37 -0500]   end: my test - 0.0055 seconds shell exec: 1, sql: 3, 
- *   [17-Feb-2009 16:51:38 -0500] end: Task: mail.  - 0.8854 seconds shell exec: 1, sql: 3, 
+ *   [17-Feb-2009 16:51:37 -0500]     end: my sql calls - 0.0018 seconds shell exec: 1, sql: 3,
+ *   [17-Feb-2009 16:51:37 -0500]   end: my test - 0.0055 seconds shell exec: 1, sql: 3,
+ *   [17-Feb-2009 16:51:38 -0500] end: Task: mail.  - 0.8854 seconds shell exec: 1, sql: 3,
  *
  * logs/sql (after reloading the main page):
  *
@@ -64,7 +65,7 @@ class debug_logger extends rcube_plugin
 
     function init()
     {
-        require_once(__DIR__ . '/runlog/runlog.php');
+        require_once __DIR__ . '/runlog/runlog.php';
 
         $this->runlog = new runlog();
 
@@ -99,7 +100,7 @@ class debug_logger extends rcube_plugin
 
     function authenticate($args)
     {
-        $this->runlog->note('Authenticating '.$args['user'].'@'.$args['host']);
+        $this->runlog->note('Authenticating ' . $args['user'] . '@' . $args['host']);
         return $args;
     }
 

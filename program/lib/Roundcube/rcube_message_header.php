@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -20,9 +20,6 @@
 
 /**
  * Struct representing an e-mail message header
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_message_header
 {
@@ -212,6 +209,7 @@ class rcube_message_header
      * Extra flags (for the messages list)
      *
      * @var array
+     *
      * @deprecated Use $flags
      */
     public $list_flags = [];
@@ -311,7 +309,7 @@ class rcube_message_header
      * @param string $name   Header name
      * @param bool   $decode Decode the header content
      *
-     * @param string|null Header content
+     * @return string|null Header content
      */
     public function get($name, $decode = true)
     {
@@ -321,7 +319,7 @@ class rcube_message_header
         if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
             $value = $this->{$this->obj_headers[$name]};
         }
-        else if (isset($this->others[$name])) {
+        elseif (isset($this->others[$name])) {
             $value = $this->others[$name];
         }
 
@@ -368,7 +366,7 @@ class rcube_message_header
      */
     public static function from_array($arr)
     {
-        $obj = new rcube_message_header;
+        $obj = new self;
         foreach ($arr as $k => $v) {
             $obj->set($k, $v);
         }
@@ -380,9 +378,6 @@ class rcube_message_header
 
 /**
  * Class for sorting an array of rcube_message_header objects in a predetermined order.
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_message_header_sorter
 {
@@ -393,7 +388,7 @@ class rcube_message_header_sorter
     /**
      * Set the predetermined sort order.
      *
-     * @param array $index  Numerically indexed array of IMAP UIDs
+     * @param array $index Numerically indexed array of IMAP UIDs
      */
     function set_index($index)
     {

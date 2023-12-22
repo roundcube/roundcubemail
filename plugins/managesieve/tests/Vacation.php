@@ -48,7 +48,7 @@ class Managesieve_Vacation extends ActionTestCase
 
         $tests = invokeMethod($vacation, 'build_regexp_tests', ['2014-02-20', '2014-01-05', &$error]);
 
-        $this->assertSame(null, $tests);
+        $this->assertNull($tests);
         $this->assertSame('managesieve.invaliddateformat', $error);
     }
 
@@ -66,7 +66,7 @@ class Managesieve_Vacation extends ActionTestCase
                 'type' => 'regex',
                 'arg1' => 'received',
                 'arg2' => '([ 0]1|[ 0]2|[ 0]3|[ 0]4|[ 0]5) Mar 2014',
-            ]
+            ],
         ];
 
         $vacation = new rcube_sieve_vacation(true);

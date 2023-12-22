@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_attachment_delete
- *
- * @package Tests
  */
 class Actions_Mail_AttachmentDelete extends ActionTestCase
 {
@@ -30,7 +28,7 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
         // This is needed so upload deletion works
         $rcmail = rcmail::get_instance();
         unset($rcmail->plugins->handlers['attachment_delete']);
-        $rcmail->plugins->register_hook('attachment_delete', function($att) {
+        $rcmail->plugins->register_hook('attachment_delete', static function ($att) {
             $att['status'] = true;
             $att['break'] = true;
             return $att;

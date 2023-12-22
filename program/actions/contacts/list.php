@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -50,7 +50,7 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
 
             // create resultset object
             $count  = count($records);
-            $first  = ($page-1) * $page_size;
+            $first  = ($page - 1) * $page_size;
             $result = new rcube_result_set($count, $first);
 
             // we need only records for current page
@@ -75,7 +75,7 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
 
             if (!empty($contacts->group_id)) {
                 $group_data = ['ID' => $contacts->group_id]
-                    + array_intersect_key((array) $contacts->get_group($contacts->group_id), ['name' => 1,'email' => 1]);
+                    + array_intersect_key((array) $contacts->get_group($contacts->group_id), ['name' => 1, 'email' => 1]);
             }
         }
 

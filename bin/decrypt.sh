@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-/**
+/*
  * If http_received_header_encrypt is configured, the IP address and the
  * host name of the added Received: header is encrypted with 3DES, to
  * protect information that some could consider sensitive, yet their
@@ -50,16 +51,16 @@
  *  - you are dealing with counterfeit header data.
  */
 
-define('INSTALL_PATH', realpath(__DIR__ .'/..') . '/');
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 require INSTALL_PATH . 'program/include/clisetup.php';
 
 if ($argc < 2) {
-    die("Usage: " . basename($argv[0]) . " encrypted-hdr-part [encrypted-hdr-part ...]\n");
+    exit("Usage: " . basename($argv[0]) . " encrypted-hdr-part [encrypted-hdr-part ...]\n");
 }
 
 $RCMAIL = rcube::get_instance();
 
 for ($i = 1; $i < $argc; $i++) {
     printf("%s\n", $RCMAIL->decrypt($argv[$i]));
-};
+}

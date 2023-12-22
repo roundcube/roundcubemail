@@ -16,13 +16,13 @@ class ComposeTest extends \Tests\Browser\TestCase
 
     public function testCompose()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('mail');
 
             $browser->clickTaskMenuItem('compose');
 
             // check task and action
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv('task', 'mail');
                 $browser->assertEnv('action', 'compose');
 
@@ -34,7 +34,7 @@ class ComposeTest extends \Tests\Browser\TestCase
                     'messageform',
                     'attachmentlist',
                     'filedrop',
-                    'uploadform'
+                    'uploadform',
                 ]);
             });
 
@@ -79,14 +79,14 @@ class ComposeTest extends \Tests\Browser\TestCase
     }
 
     /**
-     * depends @testCompose
+     * @depends testCompose
      */
     function testPlainEditor()
     {
         // Test for #7230: Shift+PageUp text selection
         // and copy-pasting with keyboard
-        $this->browse(function ($browser) {
-            $browser->with(new HtmlEditor('composebodycontainer'), function ($browser) {
+        $this->browse(static function ($browser) {
+            $browser->with(new HtmlEditor('composebodycontainer'), static function ($browser) {
                 $browser->assertMode(HtmlEditor::MODE_PLAIN)
                     ->type('@plain-body', "line1\nline2\n")
                     ->keys('@plain-body', [WebDriverKeys::SHIFT, WebDriverKeys::PAGE_UP])
@@ -99,8 +99,8 @@ class ComposeTest extends \Tests\Browser\TestCase
         });
 
         // Test switching to HTML and back
-        $this->browse(function ($browser) {
-            $browser->with(new HtmlEditor('composebodycontainer'), function ($browser) {
+        $this->browse(static function ($browser) {
+            $browser->with(new HtmlEditor('composebodycontainer'), static function ($browser) {
                 $browser->switchMode(HtmlEditor::MODE_HTML, true)
                     ->switchMode(HtmlEditor::MODE_PLAIN)
                     ->assertValue('@plain-body', "line1\nline2\nline1\nline2")
@@ -110,17 +110,17 @@ class ComposeTest extends \Tests\Browser\TestCase
     }
 
     /**
-     * depends @testCompose
+     * @depends testCompose
      */
     function testRecipientInput()
     {
         // Test for #7231: Recipient input bug when using click
         // to select a contact from autocomplete list
-        $this->browse(function ($browser) {
-            $browser->with(new RecipientInput('#compose_to'), function ($browser) {
+        $this->browse(static function ($browser) {
+            $browser->with(new RecipientInput('#compose_to'), static function ($browser) {
                 $browser->type('@input', 'johndoe@e')
-                    ->withinBody(function ($browser) {
-                        $browser->whenAvailable('#rcmKSearchpane', function ($browser) {
+                    ->withinBody(static function ($browser) {
+                        $browser->whenAvailable('#rcmKSearchpane', static function ($browser) {
                             $browser->click('li:first-child');
                         });
                     })

@@ -9,6 +9,7 @@
  * For installation instructions please read the README file.
  *
  * @version 2.0
+ *
  * @author Alex Cartwright <acartwright@mutinydesign.co.uk>
  *
  * Copyright (C) The Roundcube Dev Team
@@ -44,7 +45,7 @@ class rcube_chpasswd_password
                 'code' => 600,
                 'file' => __FILE__,
                 'line' => __LINE__,
-                'message' => "Password plugin: Unable to execute $cmd"
+                'message' => "Password plugin: Unable to execute $cmd",
             ], true, false
         );
 

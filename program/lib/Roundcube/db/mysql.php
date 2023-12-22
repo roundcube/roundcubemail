@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -22,17 +22,11 @@
  * Database independent query interface
  *
  * This is a wrapper for the PHP PDO
- *
- * @package    Framework
- * @subpackage Database
  */
 class rcube_db_mysql extends rcube_db
 {
     public $db_provider = 'mysql';
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($db_dsnw, $db_dsnr = '', $pconn = false)
     {
         parent::__construct($db_dsnw, $db_dsnr, $pconn);
@@ -233,16 +227,17 @@ class rcube_db_mysql extends rcube_db
      *                        should be the same as in $columns)
      *
      * @return PDOStatement|bool Query handle or False on error
+     *
      * @todo Multi-insert support
      */
     public function insert_or_update($table, $keys, $columns, $values)
     {
-        $columns = array_map(function($i) { return "`$i`"; }, $columns);
-        $cols    = implode(', ', array_map(function($i) { return "`$i`"; }, array_keys($keys)));
+        $columns = array_map(static function ($i) { return "`$i`"; }, $columns);
+        $cols    = implode(', ', array_map(static function ($i) { return "`$i`"; }, array_keys($keys)));
         $cols   .= ', ' . implode(', ', $columns);
-        $vals    = implode(', ', array_map(function($i) { return $this->quote($i); }, $keys));
+        $vals    = implode(', ', array_map(function ($i) { return $this->quote($i); }, $keys));
         $vals   .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
-        $update  = implode(', ', array_map(function($i) { return "$i = VALUES($i)"; }, $columns));
+        $update  = implode(', ', array_map(static function ($i) { return "$i = VALUES($i)"; }, $columns));
 
         return $this->query("INSERT INTO $table ($cols) VALUES ($vals)"
             . " ON DUPLICATE KEY UPDATE $update", $values);

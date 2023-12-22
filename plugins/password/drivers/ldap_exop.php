@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * LDAP - Password Modify Extended Operation Driver
  *
  * Driver for passwords stored in LDAP
@@ -37,7 +37,7 @@ class rcube_ldap_exop_password extends rcube_ldap_simple_password
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "ldap_exop_passwd not supported"
+                    'message' => "ldap_exop_passwd not supported",
                 ],
                 true
             );
@@ -52,7 +52,7 @@ class rcube_ldap_exop_password extends rcube_ldap_simple_password
         }
 
         if (!ldap_exop_passwd($this->conn, $this->user, $curpass, $passwd)) {
-            $this->_debug("S: ".ldap_error($this->conn));
+            $this->_debug("S: " . ldap_error($this->conn));
 
             $errno = ldap_errno($this->conn);
 

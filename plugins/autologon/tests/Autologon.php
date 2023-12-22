@@ -23,4 +23,3 @@ class Autologon_Plugin extends PHPUnit\Framework\TestCase
         $plugin->authenticate([]);
     }
 }
-

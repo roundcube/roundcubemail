@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_message_header class
- *
- * @package Tests
  */
 class Framework_MessageHeader extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

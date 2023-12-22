@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -43,7 +43,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         if (!empty($args['contact'])) {
             self::$contact = $args['contact'];
         }
-        else if ($cid) {
+        elseif ($cid) {
             self::$contact = self::$CONTACTS->get_record($cid, true);
         }
 

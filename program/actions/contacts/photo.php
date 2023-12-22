@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -45,7 +45,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
                 if (!empty($tempfile['data'])) {
                     $data = $tempfile['data'];
                 }
-                else if ($tempfile['path']) {
+                elseif ($tempfile['path']) {
                     $data = file_get_contents($tempfile['path']);
                 }
             }

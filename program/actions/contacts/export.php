@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -72,7 +72,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             $result->records = array_values($records);
         }
         // selected contacts
-        else if (!empty($_REQUEST['_cid'])) {
+        elseif (!empty($_REQUEST['_cid'])) {
             $records = [];
 
             // Selected contact IDs (with multi-source support)
@@ -154,7 +154,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             $vcard->reset();
 
             foreach ($record as $key => $values) {
-                list($field, $section) = rcube_utils::explode(':', $key);
+                [$field, $section] = rcube_utils::explode(':', $key);
                 // avoid unwanted casting of DateTime objects to an array
                 // (same as in rcube_contacts::convert_save_data())
                 if (is_object($values) && is_a($values, 'DateTime')) {
@@ -170,7 +170,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
 
             // append group names
             if ($groups) {
-                $vcard->set('groups', join(',', $groups), null);
+                $vcard->set('groups', implode(',', $groups), null);
             }
 
             $record['vcard'] = $vcard->export();

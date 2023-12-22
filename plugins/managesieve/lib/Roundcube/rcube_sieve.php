@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Classes for managesieve operations (using PEAR::Net_Sieve)
  *
  * Copyright (C) The Roundcube Dev Team
@@ -48,17 +48,17 @@ class rcube_sieve
     /**
      * Object constructor
      *
-     * @param string  Username (for managesieve login)
-     * @param string  Password (for managesieve login)
-     * @param string  Managesieve server hostname/address
-     * @param string  Managesieve server port number
-     * @param string  Managesieve authentication method 
-     * @param boolean Enable/disable TLS use
-     * @param array   Disabled extensions
-     * @param boolean Enable/disable debugging
-     * @param string  Proxy authentication identifier
-     * @param string  Proxy authentication password
-     * @param array   List of options to pass to stream_context_create().
+     * @param string $username  Username (for managesieve login)
+     * @param string $password  Password (for managesieve login)
+     * @param string $host      Managesieve server hostname/address
+     * @param string $port      Managesieve server port number
+     * @param string $auth_type Managesieve authentication method
+     * @param bool   $usetls    Enable/disable TLS use
+     * @param array  $disabled  Disabled extensions
+     * @param bool   $debug     Enable/disable debugging
+     * @param string $auth_cid  Proxy authentication identifier
+     * @param string $auth_pw   Proxy authentication password
+     * @param array  $options   List of options to pass to stream_context_create().
      */
     public function __construct($username, $password = '', $host = 'localhost', $port = 4190,
         $auth_type = null, $usetls = true, $disabled = [], $debug = false,
@@ -183,7 +183,7 @@ class rcube_sieve
                 foreach ($errMessages as $singleError) {
                     $res = preg_match('/line (\d+):(.*)/i', $singleError, $matches);
 
-                    if ($res === 1 ) {
+                    if ($res === 1) {
                         if (count($matches) > 2) {
                             $this->errorLines[] = ['line' => $matches[1], 'msg' => $matches[2]];
                         }
@@ -422,7 +422,7 @@ class rcube_sieve
                     }
                 }
 
-                if (!empty($script->content[$idx+1]) && $script->content[$idx+1]['type'] != 'if') {
+                if (!empty($script->content[$idx + 1]) && $script->content[$idx + 1]['type'] != 'if') {
                     $script->content[$idx]['actions'][] = ['type' => 'stop'];
                 }
             }

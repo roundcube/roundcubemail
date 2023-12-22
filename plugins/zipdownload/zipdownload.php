@@ -34,7 +34,7 @@ class zipdownload extends rcube_plugin
                     'code'    => 520,
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "php-zip extension is required for the zipdownload plugin"
+                    'message' => "php-zip extension is required for the zipdownload plugin",
                 ], true, false
             );
             return;
@@ -139,7 +139,7 @@ class zipdownload extends rcube_plugin
 
         // open zip file
         $zip = new ZipArchive();
-        $zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
+        $zip->open($tmpfname, ZipArchive::OVERWRITE);
 
         foreach ($message->attachments as $part) {
             $pid       = $part->mime_id;
@@ -206,12 +206,12 @@ class zipdownload extends rcube_plugin
 
         $displayname = $this->_convert_filename($filename);
 
-        /**
+        /*
          * Adding a number before dot of extension on a name of file with same name on zip
          * Ext: attach(1).txt on attach filename that has a attach.txt filename on same zip
          */
         if (isset($this->names[$displayname])) {
-            list($filename, $ext) = preg_split("/\.(?=[^\.]*$)/", $displayname);
+            [$filename, $ext] = preg_split("/\.(?=[^\.]*$)/", $displayname);
             $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
             $this->names[$displayname] = 1;
         }
@@ -225,7 +225,7 @@ class zipdownload extends rcube_plugin
     /**
      * Helper method to packs all the given messages into a zip archive
      *
-     * @param array List of message UIDs to download
+     * @param array $messageset List of message UIDs to download
      */
     private function _download_messages($messageset)
     {
@@ -294,7 +294,7 @@ class zipdownload extends rcube_plugin
 
                     $msg = $this->gettext([
                             'name' => 'sizelimiterror',
-                            'vars' => ['$size' => rcmail_action::show_bytes($limit)]
+                            'vars' => ['$size' => rcmail_action::show_bytes($limit)],
                     ]);
 
                     $rcmail->output->show_message($msg, 'error');
@@ -313,10 +313,10 @@ class zipdownload extends rcube_plugin
 
         // open zip file
         $zip = new ZipArchive();
-        $zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
+        $zip->open($tmpfname, ZipArchive::OVERWRITE);
 
         foreach ($messages as $key => $value) {
-            list($uid, $mbox) = explode(':', $key, 2);
+            [$uid, $mbox] = explode(':', $key, 2);
             $imap->set_folder($mbox);
 
             if (!empty($tmpfp)) {
@@ -401,7 +401,7 @@ class zipdownload_mbox_filter extends php_user_filter
             // messages are read line by line
             if (preg_match('/^>*From /', $bucket->data)) {
                 $bucket->data     = '>' . $bucket->data;
-                $bucket->datalen += 1;
+                ++$bucket->datalen;
             }
 
             $consumed += $bucket->datalen;

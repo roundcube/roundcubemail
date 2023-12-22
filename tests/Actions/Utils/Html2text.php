@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_utils_html2text
- *
- * @package Tests
  */
 class Actions_Utils_Html2text extends ActionTestCase
 {

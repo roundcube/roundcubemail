@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_utils_save_pref
- *
- * @package Tests
  */
 class Actions_Utils_SavePref extends ActionTestCase
 {
@@ -23,7 +21,7 @@ class Actions_Utils_SavePref extends ActionTestCase
 
         $_POST = [
             '_name' => 'list_cols',
-            '_value' => ['date']
+            '_value' => ['date'],
         ];
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);

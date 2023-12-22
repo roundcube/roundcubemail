@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,9 +19,6 @@
 
 /**
  * Class for output generation
- *
- * @package    Webmail
- * @subpackage View
  */
 class rcmail_output_cli extends rcmail_output
 {

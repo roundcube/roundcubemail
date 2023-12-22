@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -54,7 +54,7 @@ class rcmail_action_utils_save_pref extends rcmail_action
                     'code' => 500,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => sprintf("Hack attempt detected (user: %s)", $rcmail->get_user_name())
+                    'message' => sprintf("Hack attempt detected (user: %s)", $rcmail->get_user_name()),
                 ],
                 true,
                 false
@@ -76,10 +76,10 @@ class rcmail_action_utils_save_pref extends rcmail_action
             if (count($vars) == 1) {
                 $_SESSION[$vars[0]] = $value;
             }
-            else if (count($vars) == 2) {
+            elseif (count($vars) == 2) {
                 $_SESSION[$vars[0]][$vars[1]] = $value;
             }
-            else if (count($vars) == 3) {
+            elseif (count($vars) == 3) {
                 $_SESSION[$vars[0]][$vars[1]][$vars[2]] = $value;
             }
         }

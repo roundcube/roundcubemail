@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -36,10 +36,10 @@ class rcmail_action_settings_about extends rcmail_action
         $rcmail->output->add_handlers([
                 'supportlink' => [$this, 'supportlink'],
                 'pluginlist'  => [$this, 'plugins_list'],
-                'copyright'   => function() {
+                'copyright'   => static function () {
                     return 'Copyright &copy; 2005-2023, The Roundcube Dev Team';
                 },
-                'license' => function() {
+                'license' => static function () {
                     return 'This program is free software; you can redistribute it and/or modify it under the terms '
                         . 'of the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
                         . 'as published by the Free Software Foundation, either version 3 of the License, '
@@ -115,7 +115,7 @@ class rcmail_action_settings_about extends rcmail_action
             if ($uri) {
                 $uri = html::a([
                         'target' => '_blank',
-                        'href'   => rcube::Q($uri)
+                        'href'   => rcube::Q($uri),
                     ],
                     rcube::Q($rcmail->gettext('download'))
                 );
@@ -126,7 +126,7 @@ class rcmail_action_settings_about extends rcmail_action
             if (!empty($data['license_uri'])) {
                 $license = html::a([
                         'target' => '_blank',
-                        'href' => rcube::Q($data['license_uri'])
+                        'href' => rcube::Q($data['license_uri']),
                     ],
                     rcube::Q($data['license'])
                 );

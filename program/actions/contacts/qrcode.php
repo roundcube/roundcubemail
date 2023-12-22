@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -42,7 +42,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
         if ($data = self::contact_qrcode($contact)) {
             $headers = [
                 'Content-Type: ' . self::check_support(),
-                'Content-Length: ' . strlen($data)
+                'Content-Length: ' . strlen($data),
             ];
 
             $rcmail->output->sendExit($data, $headers);
@@ -78,7 +78,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
 
         foreach ($contact as $field => $value) {
             if (strpos($field, ':') !== false) {
-                list($field, $section) = explode(':', $field, 2);
+                [$field, $section] = explode(':', $field, 2);
             }
             else {
                 $section = null;

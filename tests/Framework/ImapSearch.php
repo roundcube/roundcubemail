@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_imap_search class
- *
- * @package Tests
  */
 class Framework_ImapSearch extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

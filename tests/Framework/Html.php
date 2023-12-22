@@ -2,12 +2,9 @@
 
 /**
  * Test class to test html class
- *
- * @package Tests
  */
 class Framework_Html extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */
@@ -21,7 +18,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_attrib_string()
      */
-    function data_attrib_string()
+    function data_attrib_string(): iterable
     {
         return [
             [
@@ -59,17 +56,18 @@ class Framework_Html extends PHPUnit\Framework\TestCase
 
     /**
      * Test for attrib_string()
+     *
      * @dataProvider data_attrib_string
      */
     function test_attrib_string($arg1, $arg2, $expected)
     {
-        $this->assertEquals($expected, html::attrib_string($arg1, $arg2));
+        $this->assertSame($expected, html::attrib_string($arg1, $arg2));
     }
 
     /**
      * Data for test_quote()
      */
-    function data_quote()
+    function data_quote(): iterable
     {
         return [
             ['abc', 'abc'],
@@ -84,17 +82,18 @@ class Framework_Html extends PHPUnit\Framework\TestCase
 
     /**
      * Test for quote()
+     *
      * @dataProvider data_quote
      */
     function test_quote($str, $expected)
     {
-        $this->assertEquals($expected, html::quote($str));
+        $this->assertSame($expected, html::quote($str));
     }
 
     /**
      * Data for test_parse_attrib_string()
      */
-    function data_parse_attrib_string()
+    function data_parse_attrib_string(): iterable
     {
         return [
             [
@@ -126,10 +125,11 @@ class Framework_Html extends PHPUnit\Framework\TestCase
 
     /**
      * Test for parse_attrib_string()
+     *
      * @dataProvider data_parse_attrib_string
      */
     function test_parse_attrib_string($arg1, $expected)
     {
-        $this->assertEquals($expected, html::parse_attrib_string($arg1));
+        $this->assertSame($expected, html::parse_attrib_string($arg1));
     }
 }

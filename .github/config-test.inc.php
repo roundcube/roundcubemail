@@ -3,7 +3,7 @@
 $config = [];
 
 // Database configuration
-$config['db_dsnw'] = 'sqlite:////tmp/sqlite.db?mode=0646';
+$config['db_dsnw'] = 'sqlite:///' . sys_get_temp_dir() . '/roundcube-test-sqlite.db?mode=0646';
 
 // Test user credentials
 $config['tests_username'] = 'test';
@@ -24,7 +24,7 @@ $config['plugins'] = [
     'archive',
     'attachment_reminder',
     'markasjunk',
-    'zipdownload'
+    'zipdownload',
 ];
 
 $config['archive_mbox'] = 'Archive';

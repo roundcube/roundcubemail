@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -20,9 +20,6 @@
 
 /**
  * Helper class for spoofing detection.
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_spoofchecker
 {

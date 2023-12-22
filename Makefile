@@ -20,10 +20,10 @@ complete: roundcubemail-git
 	cp -RH roundcubemail-git roundcubemail-$(VERSION)
 	(cd roundcubemail-$(VERSION); cp composer.json-dist composer.json)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config platform.php $(PHP_VERSION))
-	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "kolab/net_ldap3:~1.1.1" --no-update --no-install)
+	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "kolab/net_ldap3:~1.1.4" --no-update --no-install)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset suggest.kolab/net_ldap3)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset require-dev)
-	(cd roundcubemail-$(VERSION); php /tmp/composer.phar install --prefer-dist --no-dev --no-interaction)
+	(cd roundcubemail-$(VERSION); php /tmp/composer.phar update --prefer-dist --no-dev --no-interaction)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset platform)
 	(cd roundcubemail-$(VERSION); bin/install-jsdeps.sh --force)
 	(cd roundcubemail-$(VERSION); bin/jsshrink.sh program/js/publickey.js; bin/jsshrink.sh plugins/managesieve/codemirror/lib/codemirror.js)
@@ -37,7 +37,7 @@ dependent: roundcubemail-git
 	cp -RH roundcubemail-git roundcubemail-$(VERSION)
 	tar czf roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)
 	rm -rf roundcubemail-$(VERSION)
- 
+
 framework: roundcubemail-git /tmp/phpDocumentor.phar
 	cp -r roundcubemail-git/program/lib/Roundcube roundcube-framework-$(VERSION)
 	(cd roundcube-framework-$(VERSION); php /tmp/phpDocumentor.phar -d . -t ./doc --title="Roundcube Framework" --defaultpackagename="Framework" --template="clean")

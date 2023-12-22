@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_cache class
- *
- * @package Tests
  */
 class Framework_Cache extends PHPUnit\Framework\TestCase
 {

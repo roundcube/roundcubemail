@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -25,13 +25,10 @@
  *   Graham Norbury <gnorbury@bondcar.com>
  * Original design by:
  *   Thomas Boll <tb@boll.ch>, Mark Simpson <damned@world.std.com>
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_tnef_decoder
 {
-    const SIGNATURE         = 0x223e9f78;
+    const SIGNATURE         = 0x223E9F78;
     const LVL_MESSAGE       = 0x01;
     const LVL_ATTACHMENT    = 0x02;
 
@@ -39,17 +36,17 @@ class rcube_tnef_decoder
     const ASUBJECT          = 0x18004;
     const AMESSAGEID        = 0x18009;
     const AFILENAME         = 0x18010;
-    const APARENTID         = 0x1800a;
-    const ACONVERSATIONID   = 0x1800b;
-    const ABODY             = 0x2800c;
+    const APARENTID         = 0x1800A;
+    const ACONVERSATIONID   = 0x1800B;
+    const ABODY             = 0x2800C;
     const ADATESENT         = 0x38005;
     const ADATERECEIVED     = 0x38006;
     const ADATEMODIFIED     = 0x38020;
-    const APRIORITY         = 0x4800d;
+    const APRIORITY         = 0x4800D;
     const AOWNER            = 0x60000;
     const ASENTFOR          = 0x60001;
     const ASTATUS           = 0x68007;
-    const ATTACHDATA        = 0x6800f;
+    const ATTACHDATA        = 0x6800F;
     const ATTACHMETAFILE    = 0x68011;
     const ATTACHCREATEDATE  = 0x38012;
     const ARENDDATA         = 0x69002;
@@ -69,12 +66,12 @@ class rcube_tnef_decoder
     const MAPI_DOUBLE         = 0x0005;
     const MAPI_CURRENCY       = 0x0006;
     const MAPI_APPTIME        = 0x0007;
-    const MAPI_ERROR          = 0x000a;
-    const MAPI_BOOLEAN        = 0x000b;
-    const MAPI_OBJECT         = 0x000d;
+    const MAPI_ERROR          = 0x000A;
+    const MAPI_BOOLEAN        = 0x000B;
+    const MAPI_OBJECT         = 0x000D;
     const MAPI_INT8BYTE       = 0x0014;
-    const MAPI_STRING         = 0x001e;
-    const MAPI_UNICODE_STRING = 0x001f;
+    const MAPI_STRING         = 0x001E;
+    const MAPI_UNICODE_STRING = 0x001F;
     const MAPI_SYSTIME        = 0x0040;
     const MAPI_CLSID          = 0x0048;
     const MAPI_BINARY         = 0x0102;
@@ -117,11 +114,11 @@ class rcube_tnef_decoder
 
     const MAPI_NAMED_TYPE_ID        = 0x0000;
     const MAPI_NAMED_TYPE_STRING    = 0x0001;
-    const MAPI_NAMED_TYPE_NONE      = 0xff;
+    const MAPI_NAMED_TYPE_NONE      = 0xFF;
     const MAPI_MV_FLAG              = 0x1000;
 
-    const RTF_UNCOMPRESSED = 0x414c454d;
-    const RTF_COMPRESSED   = 0x75465a4c;
+    const RTF_UNCOMPRESSED = 0x414C454D;
+    const RTF_COMPRESSED   = 0x75465A4C;
 
     protected $codepage;
 
@@ -150,13 +147,13 @@ class rcube_tnef_decoder
 
             while (strlen($data) > 0) {
                 switch ($this->_geti($data, 8)) {
-                case self::LVL_MESSAGE:
-                    $this->_decodeMessage($data, $message);
-                    break;
+                    case self::LVL_MESSAGE:
+                        $this->_decodeMessage($data, $message);
+                        break;
 
-                case self::LVL_ATTACHMENT:
-                    $this->_decodeAttachment($data, $attachments);
-                    break;
+                    case self::LVL_ATTACHMENT:
+                        $this->_decodeAttachment($data, $attachments);
+                        break;
                 }
             }
         }
@@ -169,7 +166,7 @@ class rcube_tnef_decoder
             }
             // RTF body (converted to HTML)
             // Note: RTF can contain encapsulated HTML content
-            else if (!empty($message['size']) && $message['subtype'] == 'rtf'
+            elseif (!empty($message['size']) && $message['subtype'] == 'rtf'
                 && function_exists('iconv')
                 && class_exists('RtfHtmlPhp\Document')
             ) {
@@ -183,7 +180,7 @@ class rcube_tnef_decoder
                     rcube::raise_error([
                             'file' => __FILE__,
                             'line' => __LINE__,
-                            'message' => "Failed to extract RTF/HTML content from TNEF attachment"
+                            'message' => "Failed to extract RTF/HTML content from TNEF attachment",
                         ], true, false
                     );
                 }
@@ -268,8 +265,8 @@ class rcube_tnef_decoder
     /**
      * TODO
      *
-     * @param string $data   The data string.
-     * @param array  &result TODO
+     * @param string $data    The data string.
+     * @param array  &$result TODO
      */
     protected function _extractMapiAttributes($data, &$result)
     {
@@ -285,7 +282,7 @@ class rcube_tnef_decoder
 
             if (($attr_type & self::MAPI_MV_FLAG) != 0) {
                 $have_mval = true;
-                $attr_type = $attr_type & ~self::MAPI_MV_FLAG;
+                $attr_type &= ~self::MAPI_MV_FLAG;
             }
 
             if (($attr_name >= 0x8000) && ($attr_name < 0xFFFE)) {
@@ -293,20 +290,20 @@ class rcube_tnef_decoder
                 $named_type = $this->_geti($data, 32);
 
                 switch ($named_type) {
-                case self::MAPI_NAMED_TYPE_ID:
-                    $attr_name = $this->_geti($data, 32);
-                    break;
+                    case self::MAPI_NAMED_TYPE_ID:
+                        $attr_name = $this->_geti($data, 32);
+                        break;
 
-                case self::MAPI_NAMED_TYPE_STRING:
-                    $attr_name = 0x9999;
-                    $idlen     = $this->_geti($data, 32);
-                    $name      = $this->_getx($data, $idlen + ((4 - ($idlen % 4)) % 4));
-                    // $name      = $this->convertString(substr($name, 0, $idlen));
-                    break;
+                    case self::MAPI_NAMED_TYPE_STRING:
+                        $attr_name = 0x9999;
+                        $idlen     = $this->_geti($data, 32);
+                        $name      = $this->_getx($data, $idlen + ((4 - ($idlen % 4)) % 4));
+                        // $name      = $this->convertString(substr($name, 0, $idlen));
+                        break;
 
-                case self::MAPI_NAMED_TYPE_NONE:
-                default:
-                    continue 2;
+                    case self::MAPI_NAMED_TYPE_NONE:
+                    default:
+                        continue 2;
                 }
             }
 
@@ -315,99 +312,99 @@ class rcube_tnef_decoder
             }
 
             switch ($attr_type) {
-            case self::MAPI_NULL:
-            case self::MAPI_TYPE_UNSET:
-                break;
+                case self::MAPI_NULL:
+                case self::MAPI_TYPE_UNSET:
+                    break;
 
-            case self::MAPI_SHORT:
-                $value = $this->_geti($data, 16);
-                $this->_geti($data, 16);
-                break;
+                case self::MAPI_SHORT:
+                    $value = $this->_geti($data, 16);
+                    $this->_geti($data, 16);
+                    break;
 
-            case self::MAPI_INT:
-            case self::MAPI_BOOLEAN:
-                for ($i = 0; $i < $num_mval; $i++) {
-                    $value = $this->_geti($data, 32);
-                }
-                break;
+                case self::MAPI_INT:
+                case self::MAPI_BOOLEAN:
+                    for ($i = 0; $i < $num_mval; $i++) {
+                        $value = $this->_geti($data, 32);
+                    }
+                    break;
 
-            case self::MAPI_FLOAT:
-            case self::MAPI_ERROR:
-                $value = $this->_getx($data, 4);
-                break;
+                case self::MAPI_FLOAT:
+                case self::MAPI_ERROR:
+                    $value = $this->_getx($data, 4);
+                    break;
 
-            case self::MAPI_DOUBLE:
-            case self::MAPI_APPTIME:
-            case self::MAPI_CURRENCY:
-            case self::MAPI_INT8BYTE:
-            case self::MAPI_SYSTIME:
-                $value = $this->_getx($data, 8);
-                break;
+                case self::MAPI_DOUBLE:
+                case self::MAPI_APPTIME:
+                case self::MAPI_CURRENCY:
+                case self::MAPI_INT8BYTE:
+                case self::MAPI_SYSTIME:
+                    $value = $this->_getx($data, 8);
+                    break;
 
-            case self::MAPI_STRING:
-            case self::MAPI_UNICODE_STRING:
-            case self::MAPI_BINARY:
-            case self::MAPI_OBJECT:
-                $num_vals = $have_mval ? $num_mval : $this->_geti($data, 32);
-                for ($i = 0; $i < $num_vals; $i++) {
-                    $length = $this->_geti($data, 32);
+                case self::MAPI_STRING:
+                case self::MAPI_UNICODE_STRING:
+                case self::MAPI_BINARY:
+                case self::MAPI_OBJECT:
+                    $num_vals = $have_mval ? $num_mval : $this->_geti($data, 32);
+                    for ($i = 0; $i < $num_vals; $i++) {
+                        $length = $this->_geti($data, 32);
 
-                    // Pad to next 4 byte boundary.
-                    $datalen = $length + ((4 - ($length % 4)) % 4);
+                        // Pad to next 4 byte boundary.
+                        $datalen = $length + ((4 - ($length % 4)) % 4);
 
-                    // Read and truncate to length.
-                    $value = $this->_getx($data, $datalen);
-                }
+                        // Read and truncate to length.
+                        $value = $this->_getx($data, $datalen);
+                    }
 
-                if ($attr_type == self::MAPI_UNICODE_STRING) {
-                    $value = $this->convertString($value);
-                }
+                    if ($attr_type == self::MAPI_UNICODE_STRING) {
+                        $value = $this->convertString($value);
+                    }
 
-                break;
+                    break;
             }
 
             // Store any interesting attributes.
             switch ($attr_name) {
-            case self::MAPI_RTF_COMPRESSED:
-                $result['type']    = 'application';
-                $result['subtype'] = 'rtf';
-                $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled') . '.rtf';
-                $result['stream']  = $this->_decodeRTF($value);
-                $result['size']    = strlen($result['stream']);
-                break;
+                case self::MAPI_RTF_COMPRESSED:
+                    $result['type']    = 'application';
+                    $result['subtype'] = 'rtf';
+                    $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled') . '.rtf';
+                    $result['stream']  = $this->_decodeRTF($value);
+                    $result['size']    = strlen($result['stream']);
+                    break;
 
-            case self::MAPI_BODY:
-            case self::MAPI_BODY_HTML:
-                $result['type']    = 'text';
-                $result['subtype'] = $attr_name == self::MAPI_BODY ? 'plain' : 'html';
-                $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled')
-                    . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
-                $result['stream']  = $value;
-                $result['size']    = strlen($value);
-                break;
+                case self::MAPI_BODY:
+                case self::MAPI_BODY_HTML:
+                    $result['type']    = 'text';
+                    $result['subtype'] = $attr_name == self::MAPI_BODY ? 'plain' : 'html';
+                    $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled')
+                        . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
+                    $result['stream']  = $value;
+                    $result['size']    = strlen($value);
+                    break;
 
-            case self::MAPI_ATTACH_LONG_FILENAME:
-                // Used in preference to AFILENAME value.
-                $result['name'] = trim(preg_replace('/.*[\/](.*)$/', '\1', $value));
-                break;
+                case self::MAPI_ATTACH_LONG_FILENAME:
+                    // Used in preference to AFILENAME value.
+                    $result['name'] = trim(preg_replace('/.*[\/](.*)$/', '\1', $value));
+                    break;
 
-            case self::MAPI_ATTACH_MIME_TAG:
-                // Is this ever set, and what is format?
-                $value = explode('/', trim($value));
-                $result['type']    = $value[0];
-                $result['subtype'] = $value[1];
-                break;
+                case self::MAPI_ATTACH_MIME_TAG:
+                    // Is this ever set, and what is format?
+                    $value = explode('/', trim($value));
+                    $result['type']    = $value[0];
+                    $result['subtype'] = $value[1];
+                    break;
 
-            case self::MAPI_ATTACH_CONTENT_ID:
-                $result['content-id'] = $value;
-                break;
+                case self::MAPI_ATTACH_CONTENT_ID:
+                    $result['content-id'] = $value;
+                    break;
 
-            case self::MAPI_ATTACH_DATA:
-                $this->_getx($value, 16);
-                $att = new rcube_tnef_decoder;
-                $res = $att->decompress($value);
-                $result = array_merge($result, $res['message']);
-                break;
+                case self::MAPI_ATTACH_DATA:
+                    $this->_getx($value, 16);
+                    $att = new self;
+                    $res = $att->decompress($value);
+                    $result = array_merge($result, $res['message']);
+                    break;
             }
         }
     }
@@ -424,24 +421,24 @@ class rcube_tnef_decoder
         $value     = $this->_decodeAttribute($data);
 
         switch ($attribute) {
-        case self::AOEMCODEPAGE:
-            // Find codepage of the message
-            $value = unpack('V', $value);
-            $this->codepage = $value[1];
-            break;
+            case self::AOEMCODEPAGE:
+                // Find codepage of the message
+                $value = unpack('V', $value);
+                $this->codepage = $value[1];
+                break;
 
-        case self::AMCLASS:
-            $value = trim(str_replace('Microsoft Mail v3.0 ', '', $value));
-            // Normal message will be that with prefix 'IPM.Microsoft Mail.
-            break;
+            case self::AMCLASS:
+                $value = trim(str_replace('Microsoft Mail v3.0 ', '', $value));
+                // Normal message will be that with prefix 'IPM.Microsoft Mail.
+                break;
 
-        case self::ASUBJECT:
-            $message['name'] = $value;
-            break;
+            case self::ASUBJECT:
+                $message['name'] = $value;
+                break;
 
-        case self::AMAPIPROPS:
-            $this->_extractMapiAttributes($value, $message);
-            break;
+            case self::AMAPIPROPS:
+                $this->_extractMapiAttributes($value, $message);
+                break;
         }
     }
 
@@ -460,33 +457,33 @@ class rcube_tnef_decoder
         $this->_geti($data, 16); // checksum
 
         switch ($attribute) {
-        case self::ARENDDATA:
-            // Add a new default data block to hold details of this
-            // attachment. Reverse order is easier to handle later!
-            array_unshift($attachment, [
-                    'type'    => 'application',
-                    'subtype' => 'octet-stream',
-                    'name'    => 'unknown',
-                    'stream'  => ''
-            ]);
+            case self::ARENDDATA:
+                // Add a new default data block to hold details of this
+                // attachment. Reverse order is easier to handle later!
+                array_unshift($attachment, [
+                        'type'    => 'application',
+                        'subtype' => 'octet-stream',
+                        'name'    => 'unknown',
+                        'stream'  => '',
+                ]);
 
-            break;
+                break;
 
-        case self::AFILENAME:
-            $value = $this->convertString($value, true);
-            // Strip path
-            $attachment[0]['name'] = trim(preg_replace('/.*[\/](.*)$/', '\1', $value));
-            break;
+            case self::AFILENAME:
+                $value = $this->convertString($value, true);
+                // Strip path
+                $attachment[0]['name'] = trim(preg_replace('/.*[\/](.*)$/', '\1', $value));
+                break;
 
-        case self::ATTACHDATA:
-            // The attachment itself
-            $attachment[0]['size']   = $size;
-            $attachment[0]['stream'] = $value;
-            break;
+            case self::ATTACHDATA:
+                // The attachment itself
+                $attachment[0]['size']   = $size;
+                $attachment[0]['stream'] = $value;
+                break;
 
-        case self::AMAPIATTRS:
-            $this->_extractMapiAttributes($value, $attachment[0]);
-            break;
+            case self::AMAPIATTRS:
+                $this->_extractMapiAttributes($value, $attachment[0]);
+                break;
         }
     }
 
@@ -500,7 +497,7 @@ class rcube_tnef_decoder
         ) {
             $str = rcube_charset::convert($str, $charset, RCUBE_CHARSET);
         }
-        else if (($pos = strpos($str, "\0")) !== false && $pos != strlen($str)-1) {
+        elseif (($pos = strpos($str, "\0")) !== false && $pos != strlen($str) - 1) {
             $str = rcube_charset::convert($str, 'UTF-16LE', RCUBE_CHARSET);
         }
 
@@ -552,7 +549,7 @@ class rcube_tnef_decoder
                 $length = ord($data[$in++]);
                 $offset = ($offset << 4) | ($length >> 4);
                 $length = ($length & 0xF) + 2;
-                $offset = ((int)($out / 4096)) * 4096 + $offset;
+                $offset = ((int) ($out / 4096)) * 4096 + $offset;
 
                 if ($offset >= $out) {
                     $offset -= 4096;
@@ -561,7 +558,7 @@ class rcube_tnef_decoder
                 $end = $offset + $length;
 
                 while ($offset < $end) {
-                    $uncomp.= $uncomp[$offset++];
+                    $uncomp .= $uncomp[$offset++];
                     ++$out;
                 }
             }
@@ -592,187 +589,187 @@ class rcube_tnef_decoder
         for ($i = 0, $len = strlen($text); $i < $len; $i++) {
             $c = $text[$i];
             switch ($c) {
-            case "\\":
-                // Key Word
-                $nextChar = $text[$i + 1];
-                // If it is another backslash or nonbreaking space or hyphen,
-                // then the character is plain text and add it to the output stream.
-                if ($nextChar == "\\" && self::_rtfIsPlain($stack[$j])) {
-                    $document .= "\\";
-                }
-                elseif ($nextChar == '~' && self::_rtfIsPlain($stack[$j])) {
-                    $document .= ' ';
-                }
-                elseif ($nextChar == '_' && self::_rtfIsPlain($stack[$j])) {
-                    $document .= '-';
-                }
-                elseif ($nextChar == '*') {
-                    // Add to the stack.
-                    $stack[$j]['*'] = true;
-                }
-                elseif ($nextChar == "'") {
-                    // If it is a single quote, read next two characters that
-                    // are the hexadecimal notation of a character we should add
-                    // to the output stream.
-                    $hex = substr($text, $i + 2, 2);
-
-                    if (self::_rtfIsPlain($stack[$j])) {
-                        $document .= html_entity_decode('&#' . hexdec($hex) .';');
+                case "\\":
+                    // Key Word
+                    $nextChar = $text[$i + 1];
+                    // If it is another backslash or nonbreaking space or hyphen,
+                    // then the character is plain text and add it to the output stream.
+                    if ($nextChar == "\\" && self::_rtfIsPlain($stack[$j])) {
+                        $document .= "\\";
                     }
+                    elseif ($nextChar == '~' && self::_rtfIsPlain($stack[$j])) {
+                        $document .= ' ';
+                    }
+                    elseif ($nextChar == '_' && self::_rtfIsPlain($stack[$j])) {
+                        $document .= '-';
+                    }
+                    elseif ($nextChar == '*') {
+                        // Add to the stack.
+                        $stack[$j]['*'] = true;
+                    }
+                    elseif ($nextChar == "'") {
+                        // If it is a single quote, read next two characters that
+                        // are the hexadecimal notation of a character we should add
+                        // to the output stream.
+                        $hex = substr($text, $i + 2, 2);
 
-                    //Shift the pointer.
-                    $i += 2;
-                }
-                elseif ($nextChar >= 'a' && $nextChar <= 'z' || $nextChar >= 'A' && $nextChar <= 'Z') {
-                    // Since, we’ve found the alphabetic character, the next
-                    // characters are control words and, possibly, some digit
-                    // parameter.
-                    $word  = '';
-                    $param = null;
+                        if (self::_rtfIsPlain($stack[$j])) {
+                            $document .= html_entity_decode('&#' . hexdec($hex) . ';');
+                        }
 
-                    // Start reading characters after the backslash.
-                    for ($k = $i + 1, $m = 0; $k < strlen($text); $k++, $m++) {
-                        $nextChar = $text[$k];
-                        // If the current character is a letter and there were
-                        // no digits before it, then we’re still reading the
-                        // control word. If there were digits, we should stop
-                        // since we reach the end of the control word.
-                        if ($nextChar >= 'a' && $nextChar <= 'z'
-                            || $nextChar >= 'A' && $nextChar <= 'Z') {
-                            if (!empty($param)) {
+                        //Shift the pointer.
+                        $i += 2;
+                    }
+                    elseif ($nextChar >= 'a' && $nextChar <= 'z' || $nextChar >= 'A' && $nextChar <= 'Z') {
+                        // Since, we’ve found the alphabetic character, the next
+                        // characters are control words and, possibly, some digit
+                        // parameter.
+                        $word  = '';
+                        $param = null;
+
+                        // Start reading characters after the backslash.
+                        for ($k = $i + 1, $m = 0; $k < strlen($text); $k++, $m++) {
+                            $nextChar = $text[$k];
+                            // If the current character is a letter and there were
+                            // no digits before it, then we’re still reading the
+                            // control word. If there were digits, we should stop
+                            // since we reach the end of the control word.
+                            if ($nextChar >= 'a' && $nextChar <= 'z'
+                                || $nextChar >= 'A' && $nextChar <= 'Z') {
+                                if (!empty($param)) {
+                                    break;
+                                }
+                                $word .= $nextChar;
+                            }
+                            elseif ($nextChar >= '0' && $nextChar <= '9') {
+                                // If it is a digit, store the parameter.
+                                $param .= $nextChar;
+                            }
+                            elseif ($nextChar == '-') {
+                                // Since minus sign may occur only before a digit
+                                // parameter, check whether $param is empty.
+                                // Otherwise, we reach the end of the control word.
+                                if (!empty($param)) {
+                                    break;
+                                }
+                                $param .= $nextChar;
+                            }
+                            else {
                                 break;
                             }
-                            $word .= $nextChar;
                         }
-                        elseif ($nextChar >= '0' && $nextChar <= '9') {
-                            // If it is a digit, store the parameter.
-                            $param .= $nextChar;
-                        }
-                        elseif ($nextChar == '-') {
-                            // Since minus sign may occur only before a digit
-                            // parameter, check whether $param is empty.
-                            // Otherwise, we reach the end of the control word.
-                            if (!empty($param)) {
+
+                        // Shift the pointer on the number of read characters.
+                        $i += $m - 1;
+
+                        // Start analyzing.We are interested mostly in control words
+                        $toText = '';
+
+                        switch (strtolower($word)) {
+                            // If the control word is "u", then its parameter is
+                            // the decimal notation of the Unicode character that
+                            // should be added to the output stream. We need to
+                            // check whether the stack contains \ucN control word.
+                            // If it does, we should remove the N characters from
+                            // the output stream.
+                            case 'u':
+                                $toText .= html_entity_decode('&#x' . dechex($param) . ';');
+                                $ucDelta = @$stack[$j]['uc'];
+                                if ($ucDelta > 0) {
+                                    $i += $ucDelta;
+                                }
                                 break;
-                            }
-                            $param .= $nextChar;
+                            case 'par':
+                            case 'page':
+                            case 'column':
+                            case 'line':
+                            case 'lbr':
+                                $toText .= "\n";
+                                break;
+                            case 'emspace':
+                            case 'enspace':
+                            case 'qmspace':
+                                $toText .= ' ';
+                                break;
+                            case 'tab':
+                                $toText .= "\t";
+                                break;
+                            case 'chdate':
+                                $toText .= date('m.d.Y');
+                                break;
+                            case 'chdpl':
+                                $toText .= date('l, j F Y');
+                                break;
+                            case 'chdpa':
+                                $toText .= date('D, j M Y');
+                                break;
+                            case 'chtime':
+                                $toText .= date('H:i:s');
+                                break;
+                            case 'emdash':
+                                $toText .= html_entity_decode('&mdash;');
+                                break;
+                            case 'endash':
+                                $toText .= html_entity_decode('&ndash;');
+                                break;
+                            case 'bullet':
+                                $toText .= html_entity_decode('&#149;');
+                                break;
+                            case 'lquote':
+                                $toText .= html_entity_decode('&lsquo;');
+                                break;
+                            case 'rquote':
+                                $toText .= html_entity_decode('&rsquo;');
+                                break;
+                            case 'ldblquote':
+                                $toText .= html_entity_decode('&laquo;');
+                                break;
+                            case 'rdblquote':
+                                $toText .= html_entity_decode('&raquo;');
+                                break;
+                            default:
+                                $stack[$j][strtolower($word)] = empty($param) ? true : $param;
+                                break;
                         }
-                        else {
-                            break;
+
+                        // Add data to the output stream if required.
+                        if (self::_rtfIsPlain($stack[$j])) {
+                            $document .= $toText;
                         }
                     }
 
-                    // Shift the pointer on the number of read characters.
-                    $i += $m - 1;
+                    $i++;
+                    break;
 
-                    // Start analyzing.We are interested mostly in control words
-                    $toText = '';
-
-                    switch (strtolower($word)) {
-                    // If the control word is "u", then its parameter is
-                    // the decimal notation of the Unicode character that
-                    // should be added to the output stream. We need to
-                    // check whether the stack contains \ucN control word.
-                    // If it does, we should remove the N characters from
-                    // the output stream.
-                    case 'u':
-                        $toText .= html_entity_decode('&#x' . dechex($param) .';');
-                        $ucDelta = @$stack[$j]['uc'];
-                        if ($ucDelta > 0) {
-                            $i += $ucDelta;
-                        }
-                        break;
-                    case 'par':
-                    case 'page':
-                    case 'column':
-                    case 'line':
-                    case 'lbr':
-                        $toText .= "\n";
-                        break;
-                    case 'emspace':
-                    case 'enspace':
-                    case 'qmspace':
-                        $toText .= ' ';
-                        break;
-                    case 'tab':
-                        $toText .= "\t";
-                        break;
-                    case 'chdate':
-                        $toText .= date('m.d.Y');
-                        break;
-                    case 'chdpl':
-                        $toText .= date('l, j F Y');
-                        break;
-                    case 'chdpa':
-                        $toText .= date('D, j M Y');
-                        break;
-                    case 'chtime':
-                        $toText .= date('H:i:s');
-                        break;
-                    case 'emdash':
-                        $toText .= html_entity_decode('&mdash;');
-                        break;
-                    case 'endash':
-                        $toText .= html_entity_decode('&ndash;');
-                        break;
-                    case 'bullet':
-                        $toText .= html_entity_decode('&#149;');
-                        break;
-                    case 'lquote':
-                        $toText .= html_entity_decode('&lsquo;');
-                        break;
-                    case 'rquote':
-                        $toText .= html_entity_decode('&rsquo;');
-                        break;
-                    case 'ldblquote':
-                        $toText .= html_entity_decode('&laquo;');
-                        break;
-                    case 'rdblquote':
-                        $toText .= html_entity_decode('&raquo;');
-                        break;
-                    default:
-                        $stack[$j][strtolower($word)] = empty($param) ? true : $param;
-                        break;
+                case '{':
+                    // New subgroup starts, add new stack element and write the data
+                    // from previous stack element to it.
+                    if (!empty($stack[$j])) {
+                        $stack[] = $stack[$j++];
                     }
-
-                    // Add data to the output stream if required.
-                    if (self::_rtfIsPlain($stack[$j])) {
-                        $document .= $toText;
+                    else {
+                        $j++;
                     }
-                }
+                    break;
 
-                $i++;
-                break;
+                case '}':
+                    array_pop($stack);
+                    $j--;
+                    break;
 
-            case '{':
-                // New subgroup starts, add new stack element and write the data
-                // from previous stack element to it.
-                if (!empty($stack[$j])) {
-                    array_push($stack, $stack[$j++]);
-                }
-                else {
-                    $j++;
-                }
-                break;
+                case '\0':
+                case '\r':
+                case '\f':
+                case '\n':
+                    // Junk
+                    break;
 
-            case '}':
-                array_pop($stack);
-                $j--;
-                break;
-
-            case '\0':
-            case '\r':
-            case '\f':
-            case '\n':
-                // Junk
-                break;
-
-            default:
-                // Add other data to the output stream if required.
-                if (!empty($stack[$j]) && self::_rtfIsPlain($stack[$j])) {
-                    $document .= $c;
-                }
-                break;
+                default:
+                    // Add other data to the output stream if required.
+                    if (!empty($stack[$j]) && self::_rtfIsPlain($stack[$j])) {
+                        $document .= $c;
+                    }
+                    break;
             }
         }
 

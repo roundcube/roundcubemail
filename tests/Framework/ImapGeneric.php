@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_imap_generic class
- *
- * @package Tests
  */
 class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */
@@ -68,10 +65,10 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
      */
     function test_compressMessageSet()
     {
-        $result = rcube_imap_generic::compressMessageSet([5,4,3]);
+        $result = rcube_imap_generic::compressMessageSet([5, 4, 3]);
         $this->assertSame('3:5', $result);
 
-        $result = rcube_imap_generic::compressMessageSet([5,4,3,10,12,13]);
+        $result = rcube_imap_generic::compressMessageSet([5, 4, 3, 10, 12, 13]);
         $this->assertSame('3:5,10,12:13', $result);
 
         $result = rcube_imap_generic::compressMessageSet('1');
@@ -210,7 +207,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
             $chunks = str_split($encoded, $x);
 
             foreach ($chunks as $idx => $chunk) {
-                $decoded .= $method->invokeArgs(null, [$chunk, $mode, $idx == count($chunks)-1, &$prev]);
+                $decoded .= $method->invokeArgs(null, [$chunk, $mode, $idx == count($chunks) - 1, &$prev]);
             }
 
             $this->assertSame($expected, $decoded, "Failed on chunk size of $x");

@@ -18,15 +18,15 @@
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli') {
-    die("Not in shell mode (php-cli)");
+if (PHP_SAPI != 'cli') {
+    exit("Not in shell mode (php-cli)");
 }
 
 if (!defined('INSTALL_PATH')) {
-    define('INSTALL_PATH', realpath(__DIR__ . '/../../') . '/' );
+    define('INSTALL_PATH', realpath(__DIR__ . '/../../') . '/');
 }
 
-require_once(INSTALL_PATH . 'program/include/iniset.php');
+require_once INSTALL_PATH . 'program/include/iniset.php';
 
 $rcmail = rcmail::get_instance(0, 'test');
 
@@ -34,15 +34,15 @@ define('TESTS_DIR', realpath(__DIR__) . '/');
 define('TESTS_USER', $rcmail->config->get('tests_username'));
 define('TESTS_PASS', $rcmail->config->get('tests_password'));
 
-require_once(__DIR__ . '/Browser.php');
-require_once(__DIR__ . '/TestCase.php');
-require_once(__DIR__ . '/Components/App.php');
-require_once(__DIR__ . '/Components/Dialog.php');
-require_once(__DIR__ . '/Components/HtmlEditor.php');
-require_once(__DIR__ . '/Components/Popupmenu.php');
-require_once(__DIR__ . '/Components/RecipientInput.php');
-require_once(__DIR__ . '/Components/Taskmenu.php');
-require_once(__DIR__ . '/Components/Toolbarmenu.php');
+require_once __DIR__ . '/Browser.php';
+require_once __DIR__ . '/TestCase.php';
+require_once __DIR__ . '/Components/App.php';
+require_once __DIR__ . '/Components/Dialog.php';
+require_once __DIR__ . '/Components/HtmlEditor.php';
+require_once __DIR__ . '/Components/Popupmenu.php';
+require_once __DIR__ . '/Components/RecipientInput.php';
+require_once __DIR__ . '/Components/Taskmenu.php';
+require_once __DIR__ . '/Components/Toolbarmenu.php';
 
 
 /**
@@ -50,7 +50,7 @@ require_once(__DIR__ . '/Components/Toolbarmenu.php');
  */
 class bootstrap
 {
-    static $imap_ready = null;
+    private static $imap_ready;
 
     /**
      * Wipe and re-initialize database
@@ -82,7 +82,7 @@ class bootstrap
                 escapeshellarg($dsn['database'])
             ));
         }
-        else if ($dsn['phptype'] == 'sqlite') {
+        elseif ($dsn['phptype'] == 'sqlite') {
             $db->closeConnection();
             // delete database file
             system(sprintf('rm -f %s', escapeshellarg($dsn['database'])));
@@ -130,7 +130,7 @@ class bootstrap
         if (!TESTS_USER) {
             return false;
         }
-        else if (!$force && self::$imap_ready !== null) {
+        elseif (!$force && self::$imap_ready !== null) {
             return self::$imap_ready;
         }
 
@@ -160,7 +160,7 @@ class bootstrap
 
         if (!empty($a_host['host'])) {
             $imap_host = $a_host['host'];
-            $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl','imaps','tls']) ? $a_host['scheme'] : false;
+            $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls']) ? $a_host['scheme'] : false;
             $imap_port = $a_host['port'] ?? ($imap_ssl && $imap_ssl != 'tls' ? 993 : 143);
         }
 
@@ -220,7 +220,7 @@ class bootstrap
         if (!in_array($mailbox, $folders)) {
             $imap->create_folder($mailbox, true);
         }
-        else if ($empty) {
+        elseif ($empty) {
             $imap->delete_message('*', $mailbox);
         }
     }
@@ -275,7 +275,7 @@ class bootstrap
         // Create a separate connection to the DB, otherwise
         // we hit some strange and hard to investigate locking issues
         $db = rcube_db::factory($rcmail->config->get('db_dsnw'), $rcmail->config->get('db_dsnr'), false);
-        $db->set_debug((bool)$rcmail->config->get('sql_debug'));
+        $db->set_debug((bool) $rcmail->config->get('sql_debug'));
 
         $query  = $db->query("SELECT preferences FROM users WHERE username = ?", TESTS_USER);
         $record = $db->fetch_assoc($query);

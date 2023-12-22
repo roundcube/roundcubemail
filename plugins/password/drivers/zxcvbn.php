@@ -6,6 +6,7 @@
  * Driver to check password strength using Zxcvbn-PHP
  *
  * @version 0.1
+ *
  * @author Philip Weir
  *
  * Copyright (C) Philip Weir
@@ -51,7 +52,7 @@ class rcube_zxcvbn_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: Zxcvbn library not found."
+                    'message' => "Password plugin: Zxcvbn library not found.",
                 ], true, false
             );
 

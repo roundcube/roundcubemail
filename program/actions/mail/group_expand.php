@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -48,7 +48,7 @@ class rcmail_action_mail_group_expand extends rcmail_action
                 }
             }
 
-            $rcmail->output->command('replace_group_recipients', $gid, join(', ', array_unique($members)));
+            $rcmail->output->command('replace_group_recipients', $gid, implode(', ', array_unique($members)));
         }
 
         $rcmail->output->send();

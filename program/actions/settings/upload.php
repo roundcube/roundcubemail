@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -91,7 +91,7 @@ class rcmail_action_settings_upload extends rcmail_action
                             'name'      => $attachment['name'],
                             'mimetype'  => $attachment['mimetype'],
                             'classname' => rcube_utils::file2class($attachment['mimetype'], $attachment['name']),
-                            'complete'  => true
+                            'complete'  => true,
                         ],
                         $uploadid
                     );
@@ -101,7 +101,7 @@ class rcmail_action_settings_upload extends rcmail_action
                     if ($err == 'type_error') {
                         $error_label = 'invalidimageformat';
                     }
-                    else if ($err == 'size_error') {
+                    elseif ($err == 'size_error') {
                         $error_label = ['name' => 'filesizeerror', 'vars' => ['size' => self::show_bytes($max_size)]];
                     }
 
@@ -109,7 +109,7 @@ class rcmail_action_settings_upload extends rcmail_action
                 }
             }
         }
-        else if (self::upload_failure()) {
+        elseif (self::upload_failure()) {
             $rcmail->output->command('remove_from_attachment_list', $uploadid);
         }
 

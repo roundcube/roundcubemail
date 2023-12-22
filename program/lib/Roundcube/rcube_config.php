@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,9 +19,6 @@
 
 /**
  * Configuration class for Roundcube
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_config
 {
@@ -140,23 +137,23 @@ class rcube_config
     private function parse_env($string, $type = null)
     {
         switch ($type) {
-        case 'bool':
-            return (bool) $string;
+            case 'bool':
+                return (bool) $string;
 
-        case 'int':
-            return (int) $string;
+            case 'int':
+                return (int) $string;
 
-        case 'float':
-            return (float) $string;
+            case 'float':
+                return (float) $string;
 
-        case 'string':
-            return $string;
+            case 'string':
+                return $string;
 
-        case 'array':
-            return json_decode($string, true);
+            case 'array':
+                return json_decode($string, true);
 
-        case 'object':
-            return json_decode($string, false);
+            case 'object':
+                return json_decode($string, false);
         }
 
         return $this->parse_env($string, $this->guess_type($string));
@@ -204,7 +201,7 @@ class rcube_config
             if (!$this->load_from_file('main.inc.php') || !$this->load_from_file('db.inc.php')) {
                 $this->errors[] = 'config.inc.php was not found.';
             }
-            else if (rand(1,100) == 10) {  // log warning on every 100th request (average)
+            elseif (rand(1,100) == 10) {  // log warning on every 100th request (average)
                 trigger_error("config.inc.php was not found. Please migrate your config by running bin/update.sh", E_USER_WARNING);
             }
         }
@@ -317,7 +314,7 @@ class rcube_config
             if ($fpath && is_file($fpath) && is_readable($fpath)) {
                 // use output buffering, we don't need any output here
                 ob_start();
-                include($fpath);
+                include $fpath;
                 ob_end_clean();
 
                 if (isset($config) && is_array($config)) {
@@ -400,7 +397,7 @@ class rcube_config
                 $result = $this->client_timezone();
             }
         }
-        else if ($name == 'client_mimetypes') {
+        elseif ($name == 'client_mimetypes') {
             if (!$result && !$def) {
                 $result = 'text/plain,text/html'
                     . ',image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp'
@@ -410,18 +407,18 @@ class rcube_config
                 $result = explode(',', $result);
             }
         }
-        else if ($name == 'layout') {
+        elseif ($name == 'layout') {
             if (!in_array($result, $this->prop['supported_layouts'])) {
                 $result = $this->prop['supported_layouts'][0];
             }
         }
-        else if ($name == 'collected_senders') {
+        elseif ($name == 'collected_senders') {
             if (is_bool($result)) {
                 $result = $result ? rcube_addressbook::TYPE_TRUSTED_SENDER : '';
             }
             $result = (string) $result;
         }
-        else if ($name == 'collected_recipients') {
+        elseif ($name == 'collected_recipients') {
             if (is_bool($result)) {
                 $result = $result ? rcube_addressbook::TYPE_RECIPIENT : '';
             }
@@ -431,7 +428,7 @@ class rcube_config
         $plugin = $rcube->plugins->exec_hook('config_get', [
                 'name'    => $name,
                 'default' => $def,
-                'result'  => $result
+                'result'  => $result,
         ]);
 
         return $plugin['result'];
@@ -536,6 +533,7 @@ class rcube_config
      * Special getter for user's timezone offset including DST
      *
      * @return float Timezone offset (in hours)
+     *
      * @deprecated
      */
     public function get_timezone()
@@ -565,7 +563,7 @@ class rcube_config
         if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
             rcube::raise_error([
                     'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Request for unconfigured crypto key \"$key\""
+                    'message' => "Request for unconfigured crypto key \"$key\"",
                 ], true, true);
         }
 
@@ -586,6 +584,7 @@ class rcube_config
      * Try to autodetect operating system and find the correct line endings
      *
      * @return string The appropriate mail header delimiter
+     *
      * @deprecated Since 1.3 we don't use mail()
      */
     public function header_delimiter()
@@ -599,7 +598,7 @@ class rcube_config
             else {
                 rcube::raise_error([
                         'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Invalid mail_header_delimiter setting"
+                        'message' => "Invalid mail_header_delimiter setting",
                     ], true, false);
             }
         }
@@ -699,7 +698,9 @@ class rcube_config
                 $tz = new DateTimeZone($props['timezone']);
                 return $this->client_tz = $tz->getName();
             }
-            catch (Exception $e) { /* gracefully ignore */ }
+            catch (Exception $e) {
+                // gracefully ignore
+            }
         }
 
         // fallback to server's timezone

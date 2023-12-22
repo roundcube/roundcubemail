@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -21,9 +21,6 @@
 
 /**
  * Image resizer and converter
- *
- * @package    Framework
- * @subpackage Utils
  */
 class rcube_image
 {
@@ -78,7 +75,7 @@ class rcube_image
 
         // use ImageMagick
         if (empty($type) && ($data = $this->identify())) {
-            list($type, $width, $height) = $data;
+            [$type, $width, $height] = $data;
             $channels = null;
         }
 
@@ -219,11 +216,11 @@ class rcube_image
                 $image = @imagecreatefromjpeg($this->image_file);
                 $type  = 'jpg';
             }
-            else if ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
+            elseif ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = @imagecreatefromgif($this->image_file);
                 $type  = 'gif';
             }
-            else if ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
+            elseif ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = @imagecreatefrompng($this->image_file);
                 $type  = 'png';
             }
@@ -285,10 +282,10 @@ class rcube_image
                 if ($props['gd_type'] == IMAGETYPE_JPEG) {
                     $result = imagejpeg($image, $filename, 75);
                 }
-                elseif($props['gd_type'] == IMAGETYPE_GIF) {
+                elseif ($props['gd_type'] == IMAGETYPE_GIF) {
                     $result = imagegif($image, $filename);
                 }
-                elseif($props['gd_type'] == IMAGETYPE_PNG) {
+                elseif ($props['gd_type'] == IMAGETYPE_PNG) {
                     $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
                 }
             }
@@ -372,13 +369,13 @@ class rcube_image
             if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = imagecreatefromjpeg($this->image_file);
             }
-            else if ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
+            elseif ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
             }
-            else if ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
+            elseif ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
             }
-            else if ($props['gd_type'] == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
+            elseif ($props['gd_type'] == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
                 $image = imagecreatefromwebp($this->image_file);
             }
             else {
@@ -389,10 +386,10 @@ class rcube_image
             if ($type == self::TYPE_JPG) {
                 $result = imagejpeg($image, $filename, 75);
             }
-            else if ($type == self::TYPE_GIF) {
+            elseif ($type == self::TYPE_GIF) {
                 $result = imagegif($image, $filename);
             }
-            else if ($type == self::TYPE_PNG) {
+            elseif ($type == self::TYPE_PNG) {
                 $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
             }
 
@@ -425,7 +422,7 @@ class rcube_image
         }
 
         if (class_exists('Imagick', false)) {
-            return in_array($mimetype, Imagick::queryformats());
+            return in_array($mimetype, Imagick::queryFormats());
         }
 
         return (function_exists('imagecreatefromjpeg') && ($mimetype == 'JPG' || $mimetype == 'JPEG'))
@@ -471,7 +468,7 @@ class rcube_image
     /**
      * Check if we have enough memory to load specified image
      *
-     * @param array Hash array with image props like channels, width, height
+     * @param array $props Hash array with image props like channels, width, height
      *
      * @return bool True if there's enough memory to process the image, False otherwise
      */

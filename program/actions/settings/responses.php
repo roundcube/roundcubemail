@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -52,7 +52,7 @@ class rcmail_action_settings_responses extends rcmail_action_settings_index
 
         $plugin = $rcmail->plugins->exec_hook('responses_list', [
                 'list' => $rcmail->get_compose_responses(),
-                'cols' => ['name']
+                'cols' => ['name'],
         ]);
 
         $out = self::table_output($attrib, $plugin['list'], $plugin['cols'], 'id');

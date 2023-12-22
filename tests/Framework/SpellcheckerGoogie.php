@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_spellcheck_googie class
- *
- * @package Tests
  */
 class Framework_SpellcheckerGoogie extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

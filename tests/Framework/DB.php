@@ -3,7 +3,6 @@
 /**
  * Test class to test rcube_db class
  *
- * @package Tests
  * @group database
  */
 class Framework_DB extends PHPUnit\Framework\TestCase
@@ -255,7 +254,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     function test_encode_decode()
     {
         $str = '';
-        for ($x=0; $x<256; $x++) {
+        for ($x = 0; $x < 256; $x++) {
             $str .= chr($x);
         }
 
@@ -291,9 +290,7 @@ class rcube_db_test_wrapper extends rcube_db
         return true;
     }
 
-    protected function debug($data)
-    {
-    }
+    protected function debug($data) {}
 }
 
 class rcube_db_test_dbh

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -23,9 +23,6 @@
 
 /**
  * Character sets conversion functionality
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_charset
 {
@@ -214,7 +211,7 @@ class rcube_charset
             '/\$.*$/',          // e.g. _ISO-8859-JP$SIO
             '/UNICODE-1-1-*/',  // RFC1641/1642
             '/^X-/',            // X- prefix (e.g. X-ROMAN8 => ROMAN8)
-            '/\*.*$/'           // lang code according to RFC 2231.5
+            '/\*.*$/',           // lang code according to RFC 2231.5
         ], '', $charset);
 
         if ($charset == 'BINARY') {
@@ -230,25 +227,25 @@ class rcube_charset
             $result = self::$aliases[$str];
         }
         // UTF
-        else if (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m)) {
+        elseif (preg_match('/U[A-Z][A-Z](7|8|16|32)(BE|LE)*/', $str, $m)) {
             $result = 'UTF-' . $m[1] . (!empty($m[2]) ? $m[2] : '');
         }
         // ISO-8859
-        else if (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
+        elseif (preg_match('/ISO8859([0-9]{0,2})/', $str, $m)) {
             $iso = 'ISO-8859-' . ($m[1] ?: 1);
             // some clients sends windows-1252 text as latin1,
             // it is safe to use windows-1252 for all latin1
             $result = $iso == 'ISO-8859-1' ? 'WINDOWS-1252' : $iso;
         }
         // handle broken charset names e.g. WINDOWS-1250HTTP-EQUIVCONTENT-TYPE
-        else if (preg_match('/(WIN|WINDOWS)([0-9]+)/', $str, $m)) {
+        elseif (preg_match('/(WIN|WINDOWS)([0-9]+)/', $str, $m)) {
             $result = 'WINDOWS-' . $m[2];
         }
         // LATIN
-        else if (preg_match('/LATIN(.*)/', $str, $m)) {
+        elseif (preg_match('/LATIN(.*)/', $str, $m)) {
             $aliases = ['2' => 2, '3' => 3, '4' => 4, '5' => 9, '6' => 10,
                 '7' => 13, '8' => 14, '9' => 15, '10' => 16,
-                'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8
+                'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8,
             ];
 
             // some clients sends windows-1252 text as latin1,
@@ -257,8 +254,8 @@ class rcube_charset
                 $result = 'WINDOWS-1252';
             }
             // we need ISO labels
-            else if (!empty($aliases[$m[1]])) {
-                $result = 'ISO-8859-'.$aliases[$m[1]];
+            elseif (!empty($aliases[$m[1]])) {
+                $result = 'ISO-8859-' . $aliases[$m[1]];
             }
         }
 
@@ -294,7 +291,7 @@ class rcube_charset
         }
 
         $out = false;
-        $error_handler = function() { throw new \Exception(); };
+        $error_handler = static function () { throw new \Exception(); };
 
         // Ignore invalid characters
         $mbstring_sc = mb_substitute_character();
@@ -365,8 +362,8 @@ class rcube_charset
      * Check if the specified input string matches one of the provided charsets.
      * This includes UTF-32, UTF-16, RCUBE_CHARSET and default_charset.
      *
-     * @param string $str  Input string
-     * @param array  $from Suspected charsets of the input string
+     * @param string $str      Input string
+     * @param array  $charsets Suspected charsets of the input string
      *
      * @return string|null First matching charset
      */
@@ -375,16 +372,32 @@ class rcube_charset
         $chunk = strlen($str) > 100 * 1024 ? substr($str, 0, 100 * 1024) : $str;
 
         // Add dehault charset, system charset and easily detectable charset to the list
-        if (substr($chunk, 0, 4) == "\0\0\xFE\xFF") $charsets[] = 'UTF-32BE';
-        if (substr($chunk, 0, 4) == "\xFF\xFE\0\0") $charsets[] = 'UTF-32LE';
-        if (substr($chunk, 0, 2) == "\xFE\xFF")     $charsets[] = 'UTF-16BE';
-        if (substr($chunk, 0, 2) == "\xFF\xFE")     $charsets[] = 'UTF-16LE';
+        if (substr($chunk, 0, 4) == "\0\0\xFE\xFF") {
+            $charsets[] = 'UTF-32BE';
+        }
+        if (substr($chunk, 0, 4) == "\xFF\xFE\0\0") {
+            $charsets[] = 'UTF-32LE';
+        }
+        if (substr($chunk, 0, 2) == "\xFE\xFF") {
+            $charsets[] = 'UTF-16BE';
+        }
+        if (substr($chunk, 0, 2) == "\xFF\xFE") {
+            $charsets[] = 'UTF-16LE';
+        }
 
         // heuristics
-        if (preg_match('/\x00\x00\x00[^\x00]/', $chunk))    $charsets[] = 'UTF-32BE';
-        if (preg_match('/[^\x00]\x00\x00\x00/', $chunk))    $charsets[] = 'UTF-32LE';
-        if (preg_match('/\x00[^\x00]\x00[^\x00]/', $chunk)) $charsets[] = 'UTF-16BE';
-        if (preg_match('/[^\x00]\x00[^\x00]\x00/', $chunk)) $charsets[] = 'UTF-16LE';
+        if (preg_match('/\x00\x00\x00[^\x00]/', $chunk)) {
+            $charsets[] = 'UTF-32BE';
+        }
+        if (preg_match('/[^\x00]\x00\x00\x00/', $chunk)) {
+            $charsets[] = 'UTF-32LE';
+        }
+        if (preg_match('/\x00[^\x00]\x00[^\x00]/', $chunk)) {
+            $charsets[] = 'UTF-16BE';
+        }
+        if (preg_match('/[^\x00]\x00[^\x00]\x00/', $chunk)) {
+            $charsets[] = 'UTF-16LE';
+        }
 
         $charsets[] = RCUBE_CHARSET;
         $charsets[] = (string) rcube::get_instance()->config->get('default_charset');
@@ -395,7 +408,7 @@ class rcube_charset
         foreach ($charsets as $charset) {
             $ret = self::convert($chunk, $charset);
 
-            if ($ret === rcube_charset::clean($ret)) {
+            if ($ret === self::clean($ret)) {
                 return $charset;
             }
         }
@@ -407,6 +420,7 @@ class rcube_charset
      * @param string $str Input string (UTF-7)
      *
      * @return string Converted string (UTF-8)
+     *
      * @deprecated use self::convert()
      */
     public static function utf7_to_utf8($str)
@@ -420,6 +434,7 @@ class rcube_charset
      * @param string $str Input string
      *
      * @return string The converted string
+     *
      * @deprecated use self::convert()
      */
     public static function utf16_to_utf8($str)
@@ -438,6 +453,7 @@ class rcube_charset
      * @param string $str Input string (UTF7-IMAP)
      *
      * @return string Output string (UTF-8)
+     *
      * @deprecated use self::convert()
      */
     public static function utf7imap_to_utf8($str)
@@ -453,6 +469,7 @@ class rcube_charset
      * @param string $str Input string (UTF-8)
      *
      * @return string Output string (UTF7-IMAP)
+     *
      * @deprecated use self::convert()
      */
     public static function utf8_to_utf7imap($str)
@@ -468,22 +485,41 @@ class rcube_charset
      * @param string $language User language
      *
      * @return string Charset name
+     *
      * @deprecated
      */
     public static function detect($string, $failover = null, $language = null)
     {
-        if (substr($string, 0, 4) == "\0\0\xFE\xFF") return 'UTF-32BE';  // Big Endian
-        if (substr($string, 0, 4) == "\xFF\xFE\0\0") return 'UTF-32LE';  // Little Endian
-        if (substr($string, 0, 2) == "\xFE\xFF")     return 'UTF-16BE';  // Big Endian
-        if (substr($string, 0, 2) == "\xFF\xFE")     return 'UTF-16LE';  // Little Endian
-        if (substr($string, 0, 3) == "\xEF\xBB\xBF") return 'UTF-8';
+        if (substr($string, 0, 4) == "\0\0\xFE\xFF") { // Big Endian
+            return 'UTF-32BE';
+        }
+        if (substr($string, 0, 4) == "\xFF\xFE\0\0") { // Little Endian
+            return 'UTF-32LE';
+        }
+        if (substr($string, 0, 2) == "\xFE\xFF") { // Big Endian
+            return 'UTF-16BE';
+        }
+        if (substr($string, 0, 2) == "\xFF\xFE") { // Little Endian
+            return 'UTF-16LE';
+        }
+        if (substr($string, 0, 3) == "\xEF\xBB\xBF") {
+            return 'UTF-8';
+        }
 
         // heuristics
         if (strlen($string) >= 4) {
-            if ($string[0] == "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-32BE';
-            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] == "\0") return 'UTF-32LE';
-            if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") return 'UTF-16BE';
-            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") return 'UTF-16LE';
+            if ($string[0] == "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] != "\0") {
+                return 'UTF-32BE';
+            }
+            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] == "\0" && $string[3] == "\0") {
+                return 'UTF-32LE';
+            }
+            if ($string[0] == "\0" && $string[1] != "\0" && $string[2] == "\0" && $string[3] != "\0") {
+                return 'UTF-16BE';
+            }
+            if ($string[0] != "\0" && $string[1] == "\0" && $string[2] != "\0" && $string[3] == "\0") {
+                return 'UTF-16LE';
+            }
         }
 
         if (empty($language)) {
@@ -494,30 +530,30 @@ class rcube_charset
         // Prioritize charsets according to the current language (#1485669)
         $prio = null;
         switch ($language) {
-        case 'ja_JP':
-            $prio = ['ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS'];
-            break;
+            case 'ja_JP':
+                $prio = ['ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS'];
+                break;
 
-        case 'zh_CN':
-        case 'zh_TW':
-            $prio = ['UTF-8', 'BIG-5', 'EUC-TW', 'GB18030'];
-            break;
+            case 'zh_CN':
+            case 'zh_TW':
+                $prio = ['UTF-8', 'BIG-5', 'EUC-TW', 'GB18030'];
+                break;
 
-        case 'ko_KR':
-            $prio = ['UTF-8', 'EUC-KR', 'ISO-2022-KR'];
-            break;
+            case 'ko_KR':
+                $prio = ['UTF-8', 'EUC-KR', 'ISO-2022-KR'];
+                break;
 
-        case 'ru_RU':
-            $prio = ['UTF-8', 'WINDOWS-1251', 'KOI8-R'];
-            break;
+            case 'ru_RU':
+                $prio = ['UTF-8', 'WINDOWS-1251', 'KOI8-R'];
+                break;
 
-        case 'tr_TR':
-            $prio = ['UTF-8', 'ISO-8859-9', 'WINDOWS-1254'];
-            break;
-          
-        case 'sl_SI':
-            $prio = ['UTF-8', 'ISO-8859-2', 'WINDOWS-1251'];
-            break;
+            case 'tr_TR':
+                $prio = ['UTF-8', 'ISO-8859-9', 'WINDOWS-1254'];
+                break;
+
+            case 'sl_SI':
+                $prio = ['UTF-8', 'ISO-8859-2', 'WINDOWS-1251'];
+                break;
         }
 
         // mb_detect_encoding() is not reliable for some charsets (#1490135)

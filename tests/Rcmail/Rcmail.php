@@ -2,12 +2,10 @@
 
 /**
  * Test class to test rcmail class
- *
- * @package Tests
  */
 class Rcmail_Rcmail extends ActionTestCase
 {
-    function setUp(): void
+    protected function setUp(): void
     {
         // set some HTTP env vars
         $_SERVER['HTTP_HOST'] = 'mail.example.org';
@@ -28,6 +26,7 @@ class Rcmail_Rcmail extends ActionTestCase
 
         // Test keep-alive action handler
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'test', 'keep-alive');
+        $e = null;
 
         try {
             $rcmail->action_handler();
@@ -126,32 +125,32 @@ class Rcmail_Rcmail extends ActionTestCase
     {
         $rcmail = rcmail::get_instance();
 
-        $this->assertEquals(
+        $this->assertSame(
             '/sub/?_task=cli&_action=test',
             $rcmail->url('test'),
             "Action only"
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             '/sub/?_task=cli&_action=test&_a=AA',
             $rcmail->url(['action' => 'test', 'a' => 'AA']),
             "Unprefixed parameters"
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             '/sub/?_task=cli&_action=test&_b=BB',
             $rcmail->url(['_action' => 'test', '_b' => 'BB', '_c' => null]),
             "Prefixed parameters (skip empty)"
         );
-        $this->assertEquals('/sub/?_task=cli', $rcmail->url([]), "Empty input");
+        $this->assertSame('/sub/?_task=cli', $rcmail->url([]), "Empty input");
 
-        $this->assertEquals(
+        $this->assertSame(
             '/sub/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             "Absolute URL"
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             'https://mail.example.org/sub/?_task=calendar&_action=test&_mode=FQ',
             $rcmail->url(['task' => 'calendar', '_action' => 'test', '_mode' => 'FQ'], true, true),
             "Fully Qualified URL"
@@ -159,36 +158,36 @@ class Rcmail_Rcmail extends ActionTestCase
 
         // with different SCRIPT_NAME values
         $_SERVER['SCRIPT_NAME'] = 'index.php';
-        $this->assertEquals(
+        $this->assertSame(
             '/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             "Absolute URL (root)"
         );
 
         $_SERVER['SCRIPT_NAME'] = '';
-        $this->assertEquals(
+        $this->assertSame(
             '/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             "Absolute URL (root)"
         );
 
         $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
-        $this->assertEquals('/rc/?_task=cli', $rcmail->url([]), "Empty input with REQUEST_URI prefix");
+        $this->assertSame('/rc/?_task=cli', $rcmail->url([]), "Empty input with REQUEST_URI prefix");
 
         $rcmail->config->set('request_path', 'X_FORWARDED_PATH');
-        $this->assertEquals('/proxied/?_task=cli', $rcmail->url([]), "Consider request_path config (_SERVER)");
+        $this->assertSame('/proxied/?_task=cli', $rcmail->url([]), "Consider request_path config (_SERVER)");
 
         $rcmail->config->set('request_path', '/test');
-        $this->assertEquals('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path)");
+        $this->assertSame('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path)");
         $rcmail->config->set('request_path', '/test/');
-        $this->assertEquals('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path/)");
+        $this->assertSame('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path/)");
 
         $_SERVER['REQUEST_URI'] = null;
         $rcmail->config->set('request_path', null);
 
         $_SERVER['HTTPS'] = false;
         $_SERVER['SERVER_PORT'] = '8080';
-        $this->assertEquals(
+        $this->assertSame(
             'http://mail.example.org:8080/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true, true),
             "Full URL with port"
@@ -272,6 +271,7 @@ class Rcmail_Rcmail extends ActionTestCase
 
         // Test various formats
         setlocale(LC_ALL, 'en_US');
+        ini_set('intl.default_locale', 'en_US');
         $date = new DateTime('2020-06-01 12:20:30', new DateTimeZone('UTC'));
 
         $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date));
@@ -284,7 +284,7 @@ class Rcmail_Rcmail extends ActionTestCase
               && version_compare(INTL_ICU_VERSION, '72.1', '>=')) {
             // Starting with ICU 72.1, a NARROW NO-BREAK SPACE (NNBSP)
             // is used instead of an ASCII space before the meridian.
-            $date_x = '6/1/20, 12:20 PM';
+            $date_x = "6/1/20, 12:20\u{202f}PM";
         }
         $this->assertSame($date_x, $rcmail->format_date($date, 'x'));
         $this->assertSame('1591014030', $rcmail->format_date($date, 'U'));

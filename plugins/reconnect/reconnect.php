@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Roundcube Reconnect Plugin
  *
  * @version 0.2
+ *
  * @author Sandro Knauß <hefee@debian.org>
  * @license GPLv3+
  */
@@ -38,16 +40,16 @@ class reconnect extends rcube_plugin
         $storage = rcmail::get_instance()->get_storage();
 
         switch ($storage->get_error_code()) {
-        case rcube_imap_generic::ERROR_NO:
-        case rcube_imap_generic::ERROR_BAD:
-        case rcube_imap_generic::ERROR_BYE:
-            $args['retry'] = false;
-            break;
+            case rcube_imap_generic::ERROR_NO:
+            case rcube_imap_generic::ERROR_BAD:
+            case rcube_imap_generic::ERROR_BYE:
+                $args['retry'] = false;
+                break;
         }
 
         if ($args['retry']) {
             // if we do a new attempt, sleep 50 to 150ms before retry.
-            usleep(rand(50*1000, 150*1000));
+            usleep(rand(50 * 1000, 150 * 1000));
         }
 
         return $args;

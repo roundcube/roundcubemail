@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -52,7 +52,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         if ($check_all) {
             $a_mailboxes = $rcmail->storage->list_folders_subscribed('', '*', 'mail');
         }
-        else if ($search_request && isset($_SESSION['search'][1]) && is_object($_SESSION['search'][1])) {
+        elseif ($search_request && isset($_SESSION['search'][1]) && is_object($_SESSION['search'][1])) {
             $a_mailboxes = (array) $_SESSION['search'][1]->get_parameters('MAILBOX');
         }
         else {
@@ -76,7 +76,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                     !empty($search_request)
                     && isset($_SESSION['search'][1])
                     && is_object($_SESSION['search'][1])
-                    && in_array($mbox_name, (array)$_SESSION['search'][1]->get_parameters('MAILBOX'))
+                    && in_array($mbox_name, (array) $_SESSION['search'][1]->get_parameters('MAILBOX'))
                 );
 
             if ($is_current) {
@@ -96,7 +96,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 $rcmail->plugins->exec_hook('new_messages', [
                         'mailbox'    => $mbox_name,
                         'is_current' => $is_current,
-                        'diff'       => $diff
+                        'diff'       => $diff,
                 ]);
             }
 
@@ -132,14 +132,14 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 if ($all_count && $page > 1) {
                     $remaining = $all_count - $page_size * ($page - 1);
                     if ($remaining <= 0) {
-                        $page -= 1;
+                        --$page;
                         $rcmail->storage->set_page($page);
                         $_SESSION['page'] = $page;
                     }
                 }
 
                 $rcmail->output->set_env('messagecount', $all_count);
-                $rcmail->output->set_env('pagecount', ceil($all_count/$page_size));
+                $rcmail->output->set_env('pagecount', ceil($all_count / $page_size));
                 $rcmail->output->command('set_rowcount', self::get_messagecount_text($all_count), $mbox_name);
                 $rcmail->output->set_env('current_page', $all_count ? $page : 1);
 

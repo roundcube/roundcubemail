@@ -16,10 +16,10 @@ class ContactsTest extends \Tests\Browser\TestCase
      */
     public function testContactsUI()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('addressbook');
 
-            $browser->with(new App(), function ($browser) {
+            $browser->with(new App(), static function ($browser) {
                 // check task
                 $browser->assertEnv('task', 'addressbook');
 
@@ -51,7 +51,7 @@ class ContactsTest extends \Tests\Browser\TestCase
             if ($browser->isPhone()) {
                 $browser->assertToolbarMenu(['select'], []);
             }
-            else if ($browser->isTablet()) {
+            elseif ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button')
                     ->waitFor('#toolbar-list-menu')
                     ->assertVisible('#toolbar-list-menu a.select:not(.disabled)')

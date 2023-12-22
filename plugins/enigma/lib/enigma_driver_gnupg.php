@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-------------------------------------------------------------------------+
  | GnuPG (PGP) driver for the Enigma Plugin                                |
  |                                                                         |
@@ -236,9 +236,9 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Key file import.
      *
-     * @param string $content  File name or file content
-     * @param bool   $isfile   True if first argument is a filename
-     * @param array  $password Optional key => password map
+     * @param string $content   File name or file content
+     * @param bool   $isfile    True if first argument is a filename
+     * @param array  $passwords Optional key => password map
      *
      * @return mixed Import status array or enigma_error
      */
@@ -300,7 +300,7 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Keys listing.
      *
-     * @param string $patter Optional pattern for key ID, user ID or fingerprint
+     * @param string $pattern Optional pattern for key ID, user ID or fingerprint
      *
      * @return enigma_key[]|enigma_error Array of keys or enigma_error
      */
@@ -390,7 +390,7 @@ class enigma_driver_gnupg extends enigma_driver
                 $result = $this->delete_privkey($keyid);
             }
             // need to delete private key first
-            else if ($code == enigma_error::DELKEY) {
+            elseif ($code == enigma_error::DELKEY) {
                 $result = $this->delete_privkey($keyid);
 
                 if ($result === true) {
@@ -475,15 +475,15 @@ class enigma_driver_gnupg extends enigma_driver
             $error = enigma_error::KEYNOTFOUND;
             $data['id'] = $e->getKeyId();
         }
-        else if ($e instanceof Crypt_GPG_BadPassphraseException) {
+        elseif ($e instanceof Crypt_GPG_BadPassphraseException) {
             $error = enigma_error::BADPASS;
             $data['bad']     = $e->getBadPassphrases();
             $data['missing'] = $e->getMissingPassphrases();
         }
-        else if ($e instanceof Crypt_GPG_NoDataException) {
+        elseif ($e instanceof Crypt_GPG_NoDataException) {
             $error = enigma_error::NODATA;
         }
-        else if ($e instanceof Crypt_GPG_DeletePrivateKeyException) {
+        elseif ($e instanceof Crypt_GPG_DeletePrivateKeyException) {
             $error = enigma_error::DELKEY;
         }
         else {
@@ -577,7 +577,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             $ekey->subkeys[$idx] = $skey;
-        };
+        }
 
         $ekey->id = $ekey->subkeys[0]->id;
 
@@ -618,7 +618,7 @@ class enigma_driver_gnupg extends enigma_driver
                 if ($data === null || $data === false) {
                     rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                            'message' => "Enigma: Failed to sync $file ({$record['file_id']}). Decode error."
+                            'message' => "Enigma: Failed to sync $file ({$record['file_id']}). Decode error.",
                         ], true, false);
 
                     continue;
@@ -647,7 +647,7 @@ class enigma_driver_gnupg extends enigma_driver
 
                     rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                            'message' => "Enigma: Failed to sync $file."
+                            'message' => "Enigma: Failed to sync $file.",
                         ], true, false);
                 }
             }
@@ -709,13 +709,13 @@ class enigma_driver_gnupg extends enigma_driver
                 $datasize = strlen($data);
 
                 if (empty($maxsize)) {
-                    $maxsize = min($db->get_variable('max_allowed_packet', 1048500), 4*1024*1024) - 2000;
+                    $maxsize = min($db->get_variable('max_allowed_packet', 1048500), 4 * 1024 * 1024) - 2000;
                 }
 
                 if ($datasize > $maxsize) {
                     rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                            'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet."
+                            'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet.",
                         ], true, false);
 
                     continue;
@@ -727,7 +727,7 @@ class enigma_driver_gnupg extends enigma_driver
                 if ($db->is_error($result)) {
                     rcube::raise_error([
                             'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                            'message' => "Enigma: Failed to save $file into database."
+                            'message' => "Enigma: Failed to save $file into database.",
                         ], true, false);
 
                     break;
@@ -749,7 +749,7 @@ class enigma_driver_gnupg extends enigma_driver
             if ($db->is_error($result)) {
                 rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to delete $file from database."
+                        'message' => "Enigma: Failed to delete $file from database.",
                     ], true, false);
 
                 break;

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_index
- *
- * @package Tests
  */
 class Actions_Mail_Index extends ActionTestCase
 {
@@ -150,7 +148,7 @@ class Actions_Mail_Index extends ActionTestCase
 
         $action->js_message_list([]);
 
-        $this->assertSame(false, $output->get_env('multifolder_listing'));
+        $this->assertFalse($output->get_env('multifolder_listing'));
         $commands = $output->getProperty('commands');
         $this->assertCount(1, $commands);
         $this->assertSame('set_message_coltypes', $commands[0][0]);
@@ -219,7 +217,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $action = new rcmail_action_mail_index;
 
-        $this->assertSame(null, $action->address_string(''));
+        $this->assertNull($action->address_string(''));
 
         $result = $action->address_string('test@domain.com');
         $expected = '<span class="adr"><span title="test@domain.com" class="rcmContactAddress">test@domain.com</span></span>';
@@ -333,7 +331,7 @@ class Actions_Mail_Index extends ActionTestCase
         $body = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => false]);
         $html = rcmail_action_mail_index::html4inline($body, $params);
 
-        $this->assertMatchesRegularExpression('/src="'.$part->replaces['ex1.jpg'].'"/', $html, "Replace reference to inline image");
+        $this->assertMatchesRegularExpression('/src="' . $part->replaces['ex1.jpg'] . '"/', $html, "Replace reference to inline image");
         $this->assertMatchesRegularExpression('#background="program/resources/blocked.gif"#', $html, "Replace external background image");
         $this->assertDoesNotMatchRegularExpression('/ex3.jpg/', $html, "No references to external images");
         $this->assertDoesNotMatchRegularExpression('/<meta [^>]+>/', $html, "No meta tags allowed");
@@ -341,7 +339,7 @@ class Actions_Mail_Index extends ActionTestCase
         $this->assertMatchesRegularExpression('/Subscription form/', $html, "Include <form> contents");
         $this->assertMatchesRegularExpression('/<!-- link ignored -->/', $html, "No external links allowed");
         $this->assertMatchesRegularExpression('/<a[^>]+ target="_blank"/', $html, "Set target to _blank");
-//        $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
+        // $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
 
         // render HTML in safe mode
         $body = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
@@ -351,7 +349,7 @@ class Actions_Mail_Index extends ActionTestCase
         $this->assertMatchesRegularExpression('#src="http://evilsite.net/mailings/ex3.jpg"#', $html, "Allow external images in HTML (safe mode)");
         $this->assertMatchesRegularExpression("#url\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\)#", $html, "Allow external images in CSS (safe mode)");
         $css = '<link rel="stylesheet" .+_action=modcss.+_u=tmp-[a-z0-9]+\.css';
-        $this->assertMatchesRegularExpression('#'.$css.'#Ui', $html, "Filter (anonymized) external stylesheets with utils/modcss.php");
+        $this->assertMatchesRegularExpression('#' . $css . '#Ui', $html, "Filter (anonymized) external stylesheets with utils/modcss.php");
     }
 
     /**
@@ -401,7 +399,7 @@ class Actions_Mail_Index extends ActionTestCase
 
         // #1488850
         $html = '<p><a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
-            .'<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
+            . '<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
         $washed = rcmail_action_mail_index::wash_html($html, ['safe' => true], []);
 
         $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, "Remove data:text/html links");
@@ -426,6 +424,7 @@ class Actions_Mail_Index extends ActionTestCase
 
     /**
      * Test washtml class on non-unicode characters (#1487813)
+     *
      * @group mbstring
      */
     function test_washtml_utf8()
@@ -445,7 +444,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $meta = '<meta charset="'.RCUBE_CHARSET.'" />';
+        $meta = '<meta charset="' . RCUBE_CHARSET . '" />';
         $args = [
             'html_elements' => ['html', 'body', 'meta', 'head'],
             'html_attribs'  => ['charset'],
@@ -522,9 +521,9 @@ class Actions_Mail_Index extends ActionTestCase
         $html = rcmail_action_mail_index::html4inline($body, $params);
 
         $mailto = '<a href="mailto:me@me.com"'
-            .' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)" rel="noreferrer">e-mail</a>';
+            . ' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)" rel="noreferrer">e-mail</a>';
 
-        $this->assertMatchesRegularExpression('|'.preg_quote($mailto, '|').'|', $html, "Extended mailto links");
+        $this->assertMatchesRegularExpression('|' . preg_quote($mailto, '|') . '|', $html, "Extended mailto links");
     }
 
     /**

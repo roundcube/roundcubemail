@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_result_set class
- *
- * @package Tests
  */
 class Framework_ResultSet extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

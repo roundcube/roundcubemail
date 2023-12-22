@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-------------------------------------------------------------------------+
  | Signature class for the Enigma Plugin                                   |
  |                                                                         |
@@ -54,7 +54,7 @@ class enigma_signature
                 $parts = $message->mime_parts();
 
                 while (array_pop($level) !== null) {
-                    $parent = join('.', $level);
+                    $parent = implode('.', $level);
                     if (!empty($parts[$parent]) && $parts[$parent]->mimetype == 'message/rfc822') {
                         $from    = $parts[$parent]->headers['from'];
                         $charset = $parts[$parent]->charset;

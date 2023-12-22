@@ -58,7 +58,7 @@ class markasjunk_edit_headers
 
             if ($saved !== false) {
                 $rcube->output->command('markasjunk_move', null, [$uid]);
-                array_push($new_uids, $saved);
+                $new_uids[] = $saved;
             }
         }
 

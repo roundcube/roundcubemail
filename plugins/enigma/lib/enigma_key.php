@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-------------------------------------------------------------------------+
  | Key class for the Enigma Plugin                                         |
  |                                                                         |
@@ -49,13 +49,13 @@ class enigma_key
     function get_type()
     {
         if (!empty($this->subkeys[0]) && $this->subkeys[0]->has_private) {
-            return enigma_key::TYPE_KEYPAIR;
+            return self::TYPE_KEYPAIR;
         }
-        else if (!empty($this->subkeys[0])) {
-            return enigma_key::TYPE_PUBLIC;
+        elseif (!empty($this->subkeys[0])) {
+            return self::TYPE_PUBLIC;
         }
 
-        return enigma_key::TYPE_UNKNOWN;
+        return self::TYPE_UNKNOWN;
     }
 
     /**
@@ -158,7 +158,7 @@ class enigma_key
         }
 
         $result = '';
-        for ($i=0; $i<40; $i++) {
+        for ($i = 0; $i < 40; $i++) {
             if ($i % 4 == 0) {
                 $result .= ' ';
             }

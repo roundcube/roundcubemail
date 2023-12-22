@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_mime class
- *
- * @package Tests
  */
 class Framework_Mime extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Test decoding of single e-mail address strings
      * Uses rcube_mime::decode_address_list()
@@ -86,9 +83,9 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         foreach ($headers as $idx => $header) {
             $res = rcube_mime::decode_address_list($header);
 
-            $this->assertEquals($results[$idx][0], count($res), "Rows number in result for header: " . $header);
-            $this->assertEquals($results[$idx][1], $res[1]['name'], "Name part decoding for header: " . $header);
-            $this->assertEquals($results[$idx][2], $res[1]['mailto'], "Email part decoding for header: " . $header);
+            $this->assertSame($results[$idx][0], count($res), "Rows number in result for header: " . $header);
+            $this->assertSame($results[$idx][1], $res[1]['name'], "Name part decoding for header: " . $header);
+            $this->assertSame($results[$idx][2], $res[1]['mailto'], "Email part decoding for header: " . $header);
         }
     }
 
@@ -113,7 +110,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             2  => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
             3  => [
                 1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
-                2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com']
+                2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com'],
             ],
             4  => [
                 1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
@@ -122,7 +119,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             5  => [
                 1 => ['name' => 'TEST1', 'mailto' => 'test1@email.com', 'string' => 'TEST1 <test1@email.com>'],
                 2 => ['name' => 'TEST2', 'mailto' => 'test2@email.com', 'string' => 'TEST2 <test2@email.com>'],
-                3 => ['name' => '',      'mailto' => 'test3@email.com', 'string' => 'test3@email.com'],
+                3 => ['name' => '', 'mailto' => 'test3@email.com', 'string' => 'test3@email.com'],
             ],
         ];
 
@@ -131,7 +128,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         foreach ($headers as $idx => $header) {
             $res = rcube_mime::decode_address_list($header);
 
-            $this->assertEquals($results[$idx], $res, "Decode address groups (#$idx)");
+            $this->assertSame($results[$idx], $res, "Decode address groups (#$idx)");
         }
     }
 
@@ -177,7 +174,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             $res = rcube_mime::decode_mime_string($item['in'], 'UTF-8');
             $res = quoted_printable_encode($res);
 
-            $this->assertEquals($item['out'], $res, "Header decoding for: " . $idx);
+            $this->assertSame($item['out'], $res, "Header decoding for: " . $idx);
         }
     }
 
@@ -186,7 +183,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
      */
     function test_parse_headers()
     {
-        $this->assertEquals([], rcube_mime::parse_headers(''));
+        $this->assertSame([], rcube_mime::parse_headers(''));
 
 
         $headers = "Subject: Test\r\n"
@@ -194,10 +191,10 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
 
         $expected = [
             'subject' => 'Test',
-            'to' => 'test@test1.com test@test2.com'
+            'to' => 'test@test1.com test@test2.com',
         ];
 
-        $this->assertEquals($expected, rcube_mime::parse_headers($headers));
+        $this->assertSame($expected, rcube_mime::parse_headers($headers));
     }
 
     /**
@@ -208,7 +205,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         $raw = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
         $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
 
-        $this->assertEquals($flowed, rcube_mime::format_flowed($raw, 80), "Test correct folding and space-stuffing");
+        $this->assertSame($flowed, rcube_mime::format_flowed($raw, 80), "Test correct folding and space-stuffing");
     }
 
     /**
@@ -219,7 +216,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
         $unfolded = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
 
-        $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines");
+        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines");
     }
 
     /**
@@ -228,13 +225,13 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     function test_unfold_flowed2()
     {
         $flowed   = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
-                    ."> \r\n"
-                    ."Sed ut perspiciatis unde omnis iste natus error \r\nsit voluptatem";
+                    . "> \r\n"
+                    . "Sed ut perspiciatis unde omnis iste natus error \r\nsit voluptatem";
         $unfolded = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
-                    ."> \r\n"
-                    ."Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
+                    . "> \r\n"
+                    . "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
 
-        $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines [2]");
+        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines [2]");
     }
 
     /**
@@ -243,12 +240,12 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     function test_unfold_flowed_delsp()
     {
         $flowed   = "そしてジョバンニはすぐうしろの天気輪の柱が \r\n"
-                    ."いつかぼんやりした三角標の形になって、しば \r\n"
-                    ."らく蛍のように、ぺかぺか消えたりともったり \r\n"
-                    ."しているのを見ました。";
+                    . "いつかぼんやりした三角標の形になって、しば \r\n"
+                    . "らく蛍のように、ぺかぺか消えたりともったり \r\n"
+                    . "しているのを見ました。";
         $unfolded = "そしてジョバンニはすぐうしろの天気輪の柱がいつかぼんやりした三角標の形になって、しばらく蛍のように、ぺかぺか消えたりともったりしているのを見ました。";
 
-        $this->assertEquals($unfolded, rcube_mime::unfold_flowed($flowed, null, true), "Test correct unfolding of flowed DelSp=Yes lines");
+        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed, null, true), "Test correct unfolding of flowed DelSp=Yes lines");
     }
 
     /**
@@ -312,7 +309,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         ];
 
         foreach ($samples as $sample) {
-            $this->assertEquals($sample[1], call_user_func_array(['rcube_mime', 'wordwrap'], $sample[0]), "Test text wrapping");
+            $this->assertSame($sample[1], call_user_func_array(['rcube_mime', 'wordwrap'], $sample[0]), "Test text wrapping");
         }
     }
 

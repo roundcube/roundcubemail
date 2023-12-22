@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_shared functions
- *
- * @package Tests
  */
 class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 {
-
     /**
      * bootstrap.php: asciiwords()
      */
@@ -39,26 +36,41 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     function test_parse_bytes()
     {
         $data = [
-            '1'      => 1,
-            '1024'   => 1024,
-            '2k'     => 2 * 1024,
-            '2 k'    => 2 * 1024,
-            '2kb'    => 2 * 1024,
-            '2kB'    => 2 * 1024,
-            '2m'     => 2 * 1048576,
-            '2 m'    => 2 * 1048576,
-            '2mb'    => 2 * 1048576,
-            '2mB'    => 2 * 1048576,
-            '2g'     => 2 * 1024 * 1048576,
-            '2 g'    => 2 * 1024 * 1048576,
-            '2gb'    => 2 * 1024 * 1048576,
-            '2gB'    => 2 * 1024 * 1048576,
+            '0'    => 0,
+            '1'    => 1,
+            '1024' => 1024,
+            ' 10 ' => 10,
+
+            '2k'   => 2 * 1024,
+            '2m'   => 2 * 1024 * 1024,
+            '2g'   => 2 * 1024 * 1024 * 1024,
+            '2t'   => 2 * 1024 * 1024 * 1024 * 1024,
+
+            '2 k'  => 2 * 1024,
+            '2kb'  => 2 * 1024,
+            '2kB'  => 2 * 1024,
+            '2KiB' => 2 * 1024,
+            '2 m'  => 2 * 1024 * 1024,
+            '2TB'  => 2 * 1024 * 1024 * 1024 * 1024,
+
+            '2.5k' => (int) round(2.5 * 1024),
+            '0.01 MiB' => (int) round(0.01 * 1024 * 1024),
+
+            ''     => false,
+            '-1'   => false,
+            '1 1'  => false,
+            '1BB'  => false,
+            '1MM'  => false,
         ];
 
         foreach ($data as $value => $expected) {
             $result = parse_bytes($value);
-            $this->assertEquals($expected, $result, "Invalid parse_bytes() result for $value");
+            $this->assertSame($expected, $result, "Invalid parse_bytes() result for $value");
         }
+
+        $this->assertFalse(parse_bytes(null));
+        $this->assertSame(0, parse_bytes(0));
+        $this->assertSame(10, parse_bytes(10.1));
     }
 
     /**
@@ -75,7 +87,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $value => $expected) {
             $result = slashify($value);
-            $this->assertEquals($expected, $result, "Invalid slashify() result for $value");
+            $this->assertSame($expected, $result, "Invalid slashify() result for $value");
         }
 
     }
@@ -97,7 +109,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $value => $expected) {
             $result = unslashify($value);
-            $this->assertEquals($expected, $result, "Invalid unslashify() result for $value");
+            $this->assertSame($expected, $result, "Invalid unslashify() result for $value");
         }
 
     }
@@ -113,13 +125,13 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
             '1h'    => 1 * 60 * 60,
             '1d'    => 1 * 60 * 60 * 24,
             '1w'    => 1 * 60 * 60 * 24 * 7,
-            '1y'    => (int) '1y',
+            '1y'    => 1,
             '100'   => 100,
         ];
 
         foreach ($data as $value => $expected) {
             $result = get_offset_sec($value);
-            $this->assertEquals($expected, $result, "Invalid get_offset_sec() result for $value");
+            $this->assertSame($expected, $result, "Invalid get_offset_sec() result for $value");
         }
 
     }
@@ -143,7 +155,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
         $input_str  = 'one,two,three,four,five';
         $result_str = implode(',', $result);
 
-        $this->assertEquals($input_str, $result_str, "Invalid array_keys_recursive() result");
+        $this->assertSame($input_str, $result_str, "Invalid array_keys_recursive() result");
     }
 
     /**
@@ -151,9 +163,9 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
      */
     function test_array_first()
     {
-        $this->assertSame(null, array_first([]));
-        $this->assertSame(null, array_first(false));
-        $this->assertSame(null, array_first('test'));
+        $this->assertNull(array_first([]));
+        $this->assertNull(array_first(false));
+        $this->assertNull(array_first('test'));
         $this->assertSame('test', array_first(['test']));
 
         $input = ['test1', 'test2'];
@@ -176,7 +188,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $set) {
             $result = abbreviate_string($set[1], $set[2], $set[3], $set[4]);
-            $this->assertEquals($set[0], $result);
+            $this->assertSame($set[0], $result);
         }
     }
 
@@ -195,7 +207,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $value => $expected) {
             $result = format_email($value);
-            $this->assertEquals($expected, $result, "Invalid format_email() result for $value");
+            $this->assertSame($expected, $result, "Invalid format_email() result for $value");
         }
     }
 
@@ -216,7 +228,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $expected => $value) {
             $result = format_email_recipient($value[0], isset($value[1]) ? $value[1] : null);
-            $this->assertEquals($expected, $result, "Invalid format_email_recipient()");
+            $this->assertSame($expected, $result, "Invalid format_email_recipient()");
         }
 
     }
@@ -236,7 +248,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
         $this->assertTrue($result, "Valid ASCII (special characters)");
 
         $result = is_ascii("\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F"
-            ."\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F");
+            . "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F");
         $this->assertTrue($result, "Valid ASCII (control characters)");
 
         $result = is_ascii("\n", false);
@@ -254,7 +266,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
      */
     function test_version_parse()
     {
-        $this->assertEquals('0.9.0', version_parse('0.9-stable'));
-        $this->assertEquals('0.9.99', version_parse('0.9-git'));
+        $this->assertSame('0.9.0', version_parse('0.9-stable'));
+        $this->assertSame('0.9.99', version_parse('0.9-git'));
     }
 }

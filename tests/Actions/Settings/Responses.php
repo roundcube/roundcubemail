@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_settings_responses
- *
- * @package Tests
  */
 class Actions_Settings_Responses extends ActionTestCase
 {
@@ -40,7 +38,7 @@ class Actions_Settings_Responses extends ActionTestCase
         $rcmail->user->save_prefs([
             'compose_responses_static' => [
                 ['name' => 'static 1', 'text' => 'Static Response One'],
-            ]
+            ],
         ]);
 
         self::initDB('responses');

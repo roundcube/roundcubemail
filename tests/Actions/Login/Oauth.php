@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_login_oauth
- *
- * @package Tests
  */
 class Actions_Login_Oauth extends ActionTestCase
 {
@@ -23,6 +21,6 @@ class Actions_Login_Oauth extends ActionTestCase
         $result = $output->getOutput();
 
         $this->assertSame("ERROR: Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'", trim(StderrMock::$output));
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
     }
 }

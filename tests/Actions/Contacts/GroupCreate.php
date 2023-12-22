@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_contacts_group_create
- *
- * @package Tests
  */
 class Actions_Contacts_Group_Create extends ActionTestCase
 {

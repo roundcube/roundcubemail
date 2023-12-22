@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -68,7 +68,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             'encryptioncreatekey', 'openmailvelopesettings', 'encryptionprivkeysinmailvelope',
             'encryptionnoprivkeysinmailvelope', 'keypaircreatesuccess');
 
-        $rcmail->output->set_pagetitle($rcmail->gettext(($rcmail->action == 'add-identity' ? 'addidentity' : 'editidentity')));
+        $rcmail->output->set_pagetitle($rcmail->gettext($rcmail->action == 'add-identity' ? 'addidentity' : 'editidentity'));
 
         if ($rcmail->action == 'add-identity' && $rcmail->output->template_exists('identityadd')) {
             $rcmail->output->send('identityadd');
@@ -104,7 +104,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                     'reply-to'     => ['type' => 'text', 'size' => $i_size],
                     'bcc'          => ['type' => 'text', 'size' => $i_size],
                     'standard'     => ['type' => 'checkbox', 'label' => $rcmail->gettext('setdefault')],
-                ]
+                ],
             ],
             'signature' => [
                 'name'    => $rcmail->gettext('signature'),
@@ -114,20 +114,20 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                         'size'       => $t_cols,
                         'rows'       => $t_rows,
                         'spellcheck' => true,
-                        'data-html-editor' => true
+                        'data-html-editor' => true,
                     ],
                     'html_signature' => [
                         'type' => 'checkbox',
                         'label'   => $rcmail->gettext('htmlsignature'),
-                        'onclick' => "return rcmail.command('toggle-editor', {id: 'rcmfd_signature', html: this.checked}, '', event)"
+                        'onclick' => "return rcmail.command('toggle-editor', {id: 'rcmfd_signature', html: this.checked}, '', event)",
                     ],
-                ]
+                ],
             ],
             'encryption' => [
                 'name'    => $rcmail->gettext('identityencryption'),
                 'attrs'   => ['class' => 'identity-encryption', 'style' => 'display:none'],
-                'content' => html::div('identity-encryption-block', '')
-            ]
+                'content' => html::div('identity-encryption-block', ''),
+            ],
         ];
 
         // Enable TinyMCE editor
@@ -151,7 +151,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         }
 
         if ($IDENTITIES_LEVEL == 4) {
-            foreach ($form['addressing']['content'] as $formfield => $value){
+            foreach ($form['addressing']['content'] as $formfield => $value) {
                 $form['addressing']['content'][$formfield]['disabled'] = true;
                 $form['addressing']['content'][$formfield]['class']    = 'disabled';
             }
@@ -164,14 +164,14 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         // Allow plugins to modify identity form content
         $plugin = $rcmail->plugins->exec_hook('identity_form', [
                 'form'   => $form,
-                'record' => self::$record
+                'record' => self::$record,
         ]);
 
         $form = $plugin['form'];
         self::$record = $plugin['record'];
 
         // Set form tags and hidden fields
-        list($form_start, $form_end) = self::get_form_tags($attrib, 'save-identity',
+        [$form_start, $form_end] = self::get_form_tags($attrib, 'save-identity',
             intval(self::$record['identity_id'] ?? 0),
             ['name' => '_iid', 'value' => self::$record['identity_id'] ?? 0]
         );
@@ -192,7 +192,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                 $table = new html_table(['cols' => 2]);
 
                 foreach ($fieldset['content'] as $col => $colprop) {
-                    $colprop['id'] = 'rcmfd_'.$col;
+                    $colprop['id'] = 'rcmfd_' . $col;
 
                     if (!empty($colprop['label'])) {
                         $label = $colprop['label'];

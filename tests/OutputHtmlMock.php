@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,8 +19,6 @@
 
 /**
  * A class for easier testing of code that uses rcmail_output classes
- *
- * @package Tests
  */
 class OutputHtmlMock extends rcmail_output_html
 {
@@ -56,8 +54,8 @@ class OutputHtmlMock extends rcmail_output_html
      * Send the request output to the client.
      * This will either parse a skin template.
      *
-     * @param string  $templ Template name
-     * @param boolean $exit  True if script should terminate (default)
+     * @param string $templ Template name
+     * @param bool   $exit  True if script should terminate (default)
      */
     public function send($templ = null, $exit = true)
     {
@@ -117,11 +115,11 @@ class OutputHtmlMock extends rcmail_output_html
     /**
      * Parse a specific skin template and deliver to stdout (or return)
      *
-     * @param string  $name  Template name
-     * @param boolean $exit  Exit script
-     * @param boolean $write Don't write to stdout, return parsed content instead
+     * @param string $name  Template name
+     * @param bool   $exit  Exit script
+     * @param bool   $write Don't write to stdout, return parsed content instead
      *
-     * @link http://php.net/manual/en/function.exit.php
+     * @see http://php.net/manual/en/function.exit.php
      */
     function parse($name = 'main', $exit = true, $write = true)
     {

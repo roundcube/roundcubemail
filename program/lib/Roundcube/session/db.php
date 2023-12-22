@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -22,9 +22,6 @@
 
 /**
  * Class to provide database session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_session_db extends rcube_session
 {
@@ -157,7 +154,7 @@ class rcube_session_db extends rcube_session
         $this->db->query("INSERT INTO {$this->table_name}"
             . " (`sess_id`, `vars`, `ip`, `changed`)"
             . " VALUES (?, ?, ?, $now)",
-            $key, base64_encode($vars), (string)$this->ip
+            $key, base64_encode($vars), (string) $this->ip
         );
 
         return true;
@@ -184,7 +181,7 @@ class rcube_session_db extends rcube_session
                 . "SET `changed` = $now, `vars` = ? WHERE `sess_id` = ?",
                 base64_encode($newvars), $key);
         }
-        else if ($ts - $this->changed > $this->lifetime / 2) {
+        elseif ($ts - $this->changed > $this->lifetime / 2) {
             $this->db->query("UPDATE {$this->table_name} SET `changed` = $now"
                 . " WHERE `sess_id` = ?", $key);
         }

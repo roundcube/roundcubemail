@@ -66,4 +66,3 @@ class AttachmentReminder_Plugin extends PHPUnit\Framework\TestCase
         $this->assertTrue($result['prefs']['attachment_reminder']);
     }
 }
-

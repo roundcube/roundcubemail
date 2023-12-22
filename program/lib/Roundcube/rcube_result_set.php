@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -22,9 +22,6 @@
  *
  * Representing an address directory result set.
  * Implements Iterator and can thus be used in foreach() loops.
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_result_set implements Iterator, ArrayAccess
 {
@@ -35,7 +32,7 @@ class rcube_result_set implements Iterator, ArrayAccess
     public $count = 0;
 
     /**
-     * @var int When a subset of the total records is requested, $first gives the index into the total record
+     * @var int When a subset of the total records is requested, this property gives the index into the total record
      *          set from that the data records in this result set start. This is normally a multiple of the
      *          user-configured page size.
      */
@@ -85,11 +82,11 @@ class rcube_result_set implements Iterator, ArrayAccess
         $this->current = $i;
     }
 
-    /*** Implement PHP ArrayAccess interface ***/
+    // Implement PHP ArrayAccess interface
 
     public function offsetSet($offset, $value): void
     {
-        if (is_null($offset)) {
+        if ($offset === null) {
             $offset = count($this->records);
             $this->records[] = $value;
         }
@@ -114,7 +111,7 @@ class rcube_result_set implements Iterator, ArrayAccess
         return $this->records[$offset];
     }
 
-    /***  PHP 5 Iterator interface  ***/
+    // PHP 5 Iterator interface
 
     public function rewind(): void
     {

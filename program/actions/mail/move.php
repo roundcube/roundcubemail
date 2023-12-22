@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -55,7 +55,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
             if ($mbox === $target) {
                 $count += is_array($uids) ? count($uids) : 1;
             }
-            else if ($rcmail->storage->move_message($uids, $target, $mbox)) {
+            elseif ($rcmail->storage->move_message($uids, $target, $mbox)) {
                 $count += is_array($uids) ? count($uids) : 1;
                 $sources[] = $mbox;
             }
@@ -114,7 +114,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
 
         // jump back one page (user removed the whole last page)
         if ($page > 1 && $remaining == 0) {
-            $page -= 1;
+            --$page;
             $rcmail->storage->set_page($page);
             $_SESSION['page'] = $page;
             $jump_back = true;
@@ -144,7 +144,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
             // #5862: Don't add more rows than it was on the next page
             $count = !empty($jump_back) ? null : min($nextpage_count, $count);
 
-            $a_headers = $rcmail->storage->list_messages($mbox, NULL,
+            $a_headers = $rcmail->storage->list_messages($mbox, null,
                 self::sort_column(), self::sort_order(), $count);
 
             self::js_message_list($a_headers, false);
@@ -154,7 +154,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         if ($mbox === $trash) {
             $rcmail->output->command('set_trash_count', $exists);
         }
-        else if ($target === $trash) {
+        elseif ($target === $trash) {
             $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash, 'EXISTS', true));
         }
 

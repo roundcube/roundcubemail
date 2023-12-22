@@ -6,6 +6,7 @@
  * Provide the jQuery UI library with according themes.
  *
  * @version 1.13.2
+ *
  * @author Cor Bosman <roundcube@wa.ter.net>
  * @author Thomas Bruederli <roundcube@gmail.com>
  * @author Aleksander Machniak <alec@alec.pl>
@@ -68,7 +69,7 @@ class jqueryui extends rcube_plugin
                 if (self::asset_exists("js/i18n/$package-$lang_l.js", false)) {
                     $this->include_script("js/i18n/$package-$lang_l.js");
                 }
-                else if ($lang_s != 'en' && self::asset_exists("js/i18n/$package-$lang_s.js", false)) {
+                elseif ($lang_s != 'en' && self::asset_exists("js/i18n/$package-$lang_s.js", false)) {
                     $this->include_script("js/i18n/$package-$lang_s.js");
                 }
             }

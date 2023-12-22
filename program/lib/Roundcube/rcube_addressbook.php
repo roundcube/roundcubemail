@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,9 +19,6 @@
 
 /**
  * Abstract skeleton of an address book/repository
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 abstract class rcube_addressbook
 {
@@ -56,7 +53,7 @@ abstract class rcube_addressbook
 
     /**
      * @var bool True if the addressbook supports exporting contact groups. Requires the implementation of
-     *              get_record_groups().
+     *           get_record_groups().
      */
     public $export_groups = true;
 
@@ -75,10 +72,10 @@ abstract class rcube_addressbook
     public $ready = false;
 
     /**
-     * @var null|string|int If set, addressbook-specific identifier of the selected group. All contact listing and
+     * @var string|int|null If set, addressbook-specific identifier of the selected group. All contact listing and
      *                      contact searches will be limited to contacts that belong to this group.
      */
-    public $group_id = null;
+    public $group_id;
 
     /** @var int The current page of the listing. Numbering starts at 1. */
     public $list_page = 1;
@@ -89,7 +86,7 @@ abstract class rcube_addressbook
     /** @var string Contact field by which to order listed records. */
     public $sort_col = 'name';
 
-    /** @var string Whether sorting of records by $sort_col is done in ascending (ASC) or descending (DESC) order. */
+    /** @var string Whether sorting of records by self::$sort_col is done in ascending (ASC) or descending (DESC) order. */
     public $sort_order = 'ASC';
 
     /** @var string[] A list of record fields that contain dates. */
@@ -100,7 +97,7 @@ abstract class rcube_addressbook
         'name'      => ['limit' => 1],
         'firstname' => ['limit' => 1],
         'surname'   => ['limit' => 1],
-        'email'     => ['limit' => 1]
+        'email'     => ['limit' => 1],
     ];
 
     /**
@@ -114,6 +111,7 @@ abstract class rcube_addressbook
 
     /**
      * Returns addressbook name (e.g. for addressbooks listing)
+     *
      * @return string
      */
     abstract function get_name();
@@ -129,6 +127,7 @@ abstract class rcube_addressbook
      * operation.
      *
      * @param mixed $filter Search params to use in listing method, obtained by get_search_set()
+     *
      * @return void
      */
     abstract function set_search_set($filter);
@@ -144,6 +143,7 @@ abstract class rcube_addressbook
 
     /**
      * Reset saved results and search parameters
+     *
      * @return void
      */
     abstract function reset();
@@ -293,7 +293,7 @@ abstract class rcube_addressbook
      * Close connection to source
      * Called on script shutdown
      */
-    function close() { }
+    function close() {}
 
     /**
      * Set internal list page
@@ -471,7 +471,7 @@ abstract class rcube_addressbook
      * This filter mechanism is applied in addition to other filter mechanisms, see the description of the count()
      * operation.
      *
-     * @param null|int|string $gid Database identifier of the group. Use 0/"0"/null to reset the group filter.
+     * @param int|string|null $group_id Database identifier of the group. Use 0/"0"/null to reset the group filter.
      */
     function set_group($group_id)
     {
@@ -582,6 +582,7 @@ abstract class rcube_addressbook
      * @return array List of assigned groups indexed by a group ID.
      *               Every array element can be just a group name (string), or an array
      *               with 'ID' and 'name' elements.
+     *
      * @since 0.5-beta
      */
     function get_record_groups($id)
@@ -605,12 +606,12 @@ abstract class rcube_addressbook
     {
         $out = [];
         foreach ((array) $data as $c => $values) {
-            if ($c === $col || strpos($c, $col.':') === 0) {
+            if ($c === $col || strpos($c, $col . ':') === 0) {
                 if ($flat) {
                     $out = array_merge($out, (array) $values);
                 }
                 else {
-                    list(, $type) = rcube_utils::explode(':', $c);
+                    [, $type] = rcube_utils::explode(':', $c);
                     if ($type !== null && isset($out[$type])) {
                         $out[$type] = array_merge((array) $out[$type], (array) $values);
                     }
@@ -659,10 +660,10 @@ abstract class rcube_addressbook
                 return $email;
             }
 
-            list($emailname) = explode('@', $email);
+            [$emailname] = explode('@', $email);
 
             if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match)) {
-                $fn = trim(ucfirst($match[1]).' '.ucfirst($match[2]));
+                $fn = trim(ucfirst($match[1]) . ' ' . ucfirst($match[2]));
             }
             else {
                 $fn = ucfirst($emailname);
@@ -688,7 +689,7 @@ abstract class rcube_addressbook
             $compose_mode = (int) rcube::get_instance()->config->get('addressbook_name_listing', 0);
         }
 
-        $get_names = function ($contact, $fields) {
+        $get_names = static function ($contact, $fields) {
             $result = [];
             foreach ($fields as $field) {
                 if (!empty($contact[$field])) {
@@ -699,33 +700,33 @@ abstract class rcube_addressbook
         };
 
         switch ($compose_mode) {
-        case 3:
-            $names = $get_names($contact, ['firstname', 'middlename']);
-            if (!empty($contact['surname'])) {
-                array_unshift($names, $contact['surname'] . ',');
-            }
-            $fn = implode(' ', $names);
-            break;
-        case 2:
-            $keys = ['surname', 'firstname', 'middlename'];
-            $fn   = implode(' ', $get_names($contact, $keys));
-            break;
-        case 1:
-            $keys = ['firstname', 'middlename', 'surname'];
-            $fn   = implode(' ', $get_names($contact, $keys));
-            break;
-        case 0:
-            if (!empty($contact['name'])) {
-                $fn = $contact['name'];
-            }
-            else {
-                $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
+            case 3:
+                $names = $get_names($contact, ['firstname', 'middlename']);
+                if (!empty($contact['surname'])) {
+                    array_unshift($names, $contact['surname'] . ',');
+                }
+                $fn = implode(' ', $names);
+                break;
+            case 2:
+                $keys = ['surname', 'firstname', 'middlename'];
                 $fn   = implode(' ', $get_names($contact, $keys));
-            }
-            break;
-        default:
-            $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);
-            $fn     = $plugin['fn'];
+                break;
+            case 1:
+                $keys = ['firstname', 'middlename', 'surname'];
+                $fn   = implode(' ', $get_names($contact, $keys));
+                break;
+            case 0:
+                if (!empty($contact['name'])) {
+                    $fn = $contact['name'];
+                }
+                else {
+                    $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
+                    $fn   = implode(' ', $get_names($contact, $keys));
+                }
+                break;
+            default:
+                $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);
+                $fn     = $plugin['fn'];
         }
 
         $fn = trim($fn, ', ');
@@ -738,11 +739,11 @@ abstract class rcube_addressbook
                 $fn = $name;
             }
             // ... organization
-            else if (isset($contact['organization']) && ($org = trim($contact['organization']))) {
+            elseif (isset($contact['organization']) && ($org = trim($contact['organization']))) {
                 $fn = $org;
             }
             // ... email address
-            else if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+            elseif (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
                 $fn = $email[0];
             }
         }
@@ -779,20 +780,20 @@ abstract class rcube_addressbook
                 $value = '';
 
                 switch ($key) {
-                case 'name':
-                    $value = $name ?: self::compose_list_name($contact);
+                    case 'name':
+                        $value = $name ?: self::compose_list_name($contact);
 
-                    // If name(s) are undefined compose_list_name() may return an email address
-                    // here we prevent from returning the same name and email
-                    if ($name === $email && strpos($result, '{email}') !== false) {
-                        $value = '';
-                    }
+                        // If name(s) are undefined compose_list_name() may return an email address
+                        // here we prevent from returning the same name and email
+                        if ($name === $email && strpos($result, '{email}') !== false) {
+                            $value = '';
+                        }
 
-                    break;
+                        break;
 
-                case 'email':
-                    $value = $email;
-                    break;
+                    case 'email':
+                        $value = $email;
+                        break;
                 }
 
                 if (empty($value)) {
@@ -831,7 +832,7 @@ abstract class rcube_addressbook
 
         // add email to a key to not skip contacts with the same name (#1488375)
         if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
-            $key .= ':' . implode(':', (array)$email);
+            $key .= ':' . implode(':', (array) $email);
         }
 
         // Make the key really unique (as we e.g. support contacts with no email)
@@ -856,9 +857,9 @@ abstract class rcube_addressbook
         // use only strict comparison (mode = 1)
         // @TODO: partial search, e.g. match only day and month
         if (in_array($colname, $this->date_cols)) {
-            return (($value = rcube_utils::anytodatetime($value))
+            return ($value = rcube_utils::anytodatetime($value))
                 && ($search = rcube_utils::anytodatetime($search))
-                && $value->format('Ymd') == $search->format('Ymd'));
+                && $value->format('Ymd') == $search->format('Ymd');
         }
 
         // Gender is a special value, must use strict comparison (#5757)
@@ -873,7 +874,7 @@ abstract class rcube_addressbook
             if ($mode & self::SEARCH_STRICT) {
                 $got = ($val == $search);
             }
-            else if ($mode & self::SEARCH_PREFIX) {
+            elseif ($mode & self::SEARCH_PREFIX) {
                 $got = ($search == substr($val, 0, strlen($search)));
             }
             else {

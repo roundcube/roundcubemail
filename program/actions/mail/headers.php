@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -52,12 +52,12 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
                 [
                     '/\n[\t\s]+/',
                     '/^([a-z0-9_:-]+)/im',
-                    '/\r?\n/'
+                    '/\r?\n/',
                 ],
                 [
                     "\n&nbsp;&nbsp;&nbsp;&nbsp;",
                     '<font class="bold">\1</font>',
-                    '<br />'
+                    '<br />',
                 ],
                 $source
             );
@@ -73,7 +73,7 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
                 $rcmail->output->command('set_headers', $source);
             }
         }
-        else if (!$inline) {
+        elseif (!$inline) {
             $rcmail->output->show_message('messageopenerror', 'error');
         }
 

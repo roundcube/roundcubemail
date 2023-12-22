@@ -11,6 +11,7 @@
  * and requires shell access and gcc in order to compile the binary.
  *
  * @version 3.0
+ *
  * @author Martijn de Munnik
  *
  * Copyright (C) The Roundcube Dev Team
@@ -48,7 +49,7 @@ class rcube_virtualmin_password
                     'file' => __FILE__,
                     'line' => __LINE__,
                     'message' => "Password plugin: Unable to execute $curdir/chgvirtualminpasswd "
-                        . "or domain for mail-user '$username' not known to Virtualmin"
+                        . "or domain for mail-user '$username' not known to Virtualmin",
                 ], true, false
             );
 
@@ -68,7 +69,7 @@ class rcube_virtualmin_password
                 'code' => 600,
                 'file' => __FILE__,
                 'line' => __LINE__,
-                'message' => "Password plugin: Unable to execute $curdir/chgvirtualminpasswd"
+                'message' => "Password plugin: Unable to execute $curdir/chgvirtualminpasswd",
             ], true, false
         );
 

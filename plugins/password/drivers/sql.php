@@ -6,6 +6,7 @@
  * Driver for passwords stored in SQL database
  *
  * @version 2.1
+ *
  * @author Aleksander Machniak <alec@alec.pl>
  *
  * Copyright (C) The Roundcube Dev Team
@@ -43,7 +44,7 @@ class rcube_sql_password
 
         if ($dsn = $rcmail->config->get('password_db_dsn')) {
             $db = rcube_db::factory(self::parse_dsn($dsn), '', false);
-            $db->set_debug((bool)$rcmail->config->get('sql_debug'));
+            $db->set_debug((bool) $rcmail->config->get('sql_debug'));
         }
         else {
             $db = $rcmail->get_dbh();

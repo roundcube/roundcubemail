@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -63,7 +63,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             if ($a_record['photo'] == '-del-') {
                 $a_record['photo'] = '';
             }
-            else if (preg_match('/^[a-z0-9]+$/i', $a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
+            elseif (preg_match('/^[a-z0-9]+$/i', $a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
                 $tempfile = $rcmail->plugins->exec_hook('attachment_get', $tempfile);
                 if (empty($tempfile['abort'])) {
                     $a_record['photo'] = $tempfile['data'] ?? @file_get_contents($tempfile['path']);
@@ -79,7 +79,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             $plugin = $rcmail->plugins->exec_hook('contact_update', [
                     'id'     => $cid,
                     'record' => $a_record,
-                    'source' => $source
+                    'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
@@ -131,7 +131,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 }
 
                 // performance: unset some big data items we don't need here
-                $record = array_intersect_key($record, ['ID' => 1,'email' => 1,'name' => 1]);
+                $record = array_intersect_key($record, ['ID' => 1, 'email' => 1, 'name' => 1]);
                 $record['_type'] = 'person';
 
                 // update the changed col in list
@@ -166,7 +166,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
             $plugin = $rcmail->plugins->exec_hook('contact_create', [
                     'record' => $a_record,
-                    'source' => $source
+                    'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
@@ -187,7 +187,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                     $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
                             'group_id' => $contacts->group_id,
                             'ids'      => $insert_id,
-                            'source'   => $source
+                            'source'   => $source,
                     ]);
 
                     if (!$plugin['abort']) {
@@ -255,7 +255,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 }
             }
             // assign values and subtypes
-            else if (isset($_POST[$fname]) && is_array($_POST[$fname])) {
+            elseif (isset($_POST[$fname]) && is_array($_POST[$fname])) {
                 $values   = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
                 $subtypes = rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST);
 
@@ -268,11 +268,11 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                         }
                     }
 
-                    $subtype = $subtypes[$i] ? ':'.$subtypes[$i] : '';
-                    $record[$col.$subtype][] = $val;
+                    $subtype = $subtypes[$i] ? ':' . $subtypes[$i] : '';
+                    $record[$col . $subtype][] = $val;
                 }
             }
-            else if (isset($_POST[$fname])) {
+            elseif (isset($_POST[$fname])) {
                 $record[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
 
                 // normalize the submitted date strings

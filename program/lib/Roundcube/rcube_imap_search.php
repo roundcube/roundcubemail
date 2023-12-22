@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -20,9 +20,6 @@
 
 /**
  * Class to control search jobs on multiple IMAP folders.
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_imap_search
 {
@@ -132,7 +129,7 @@ class rcube_imap_search
 /**
  * Stackable item to run the search on a specific IMAP folder
  */
-class rcube_imap_search_job /* extends Stackable */
+class rcube_imap_search_job // extends Stackable
 {
     /** @var rcube_imap_search The job worker */
     public $worker;
@@ -207,7 +204,7 @@ class rcube_imap_search_job /* extends Stackable */
         }
 
         if ($this->worker->options['skip_deleted'] && !preg_match('/UNDELETED/', $criteria)) {
-            $criteria = 'UNDELETED '.$criteria;
+            $criteria = 'UNDELETED ' . $criteria;
         }
 
         // unset CHARSET if criteria string is ASCII, this way

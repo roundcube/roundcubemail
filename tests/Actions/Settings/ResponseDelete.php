@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_settings_response_delete
- *
- * @package Tests
  */
 class Actions_Settings_ResponseDelete extends ActionTestCase
 {
@@ -39,7 +37,7 @@ class Actions_Settings_ResponseDelete extends ActionTestCase
         $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
         $this->assertSame('delete-response', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully deleted.","confirmation");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.remove_response("' . $rid .'")') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.remove_response("' . $rid . '")') !== false);
 
         $responses = $rcmail->get_compose_responses();
 

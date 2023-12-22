@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -20,7 +20,7 @@
 */
 
 if (PHP_VERSION_ID < 70300) {
-    die("Unsupported PHP version. Required PHP >= 7.3.");
+    exit("Unsupported PHP version. Required PHP >= 7.3.");
 }
 
 // application constants
@@ -28,7 +28,7 @@ define('RCMAIL_VERSION', '1.7-git');
 define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {
-    define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
+    define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']) . '/');
 }
 
 if (!defined('RCMAIL_CONFIG_DIR')) {
@@ -40,7 +40,7 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 }
 
 define('RCUBE_INSTALL_PATH', INSTALL_PATH);
-define('RCUBE_CONFIG_DIR',  RCMAIL_CONFIG_DIR.'/');
+define('RCUBE_CONFIG_DIR',  RCMAIL_CONFIG_DIR . '/');
 
 // Show basic error message on fatal PHP error
 register_shutdown_function('rcmail_error_handler');
@@ -49,10 +49,10 @@ register_shutdown_function('rcmail_error_handler');
 // possible not compatible libraries (i.e PEAR) to be included
 // instead the ones provided by RC
 $include_path = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
-$include_path.= ini_get('include_path');
+$include_path .= ini_get('include_path');
 
 if (set_include_path($include_path) === false) {
-    die("Fatal error: ini_set/set_include_path does not work.");
+    exit("Fatal error: ini_set/set_include_path does not work.");
 }
 
 // increase maximum execution time for php scripts
@@ -119,7 +119,7 @@ function rcmail_error_handler()
  */
 function rcmail_fatal_error()
 {
-    if (php_sapi_name() === 'cli') {
+    if (PHP_SAPI === 'cli') {
         echo "Fatal error: Please check the Roundcube error log and/or server error logs for more information.\n";
     }
     elseif (!empty($_REQUEST['_remote'])) {

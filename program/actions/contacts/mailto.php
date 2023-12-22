@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -55,7 +55,7 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
             if (!empty($group_data['email'])) {
                 $mailto[] = format_email_recipient($group_data['email'][0], $group_data['name']);
             }
-            else if ($contacts->ready) {
+            elseif ($contacts->ready) {
                 $maxnum = (int) $rcmail->config->get('max_group_members');
 
                 $contacts->set_group($group_id);
@@ -76,7 +76,7 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
         }
 
         if (!empty($mailto)) {
-            $mailto_str = join(', ', $mailto);
+            $mailto_str = implode(', ', $mailto);
             $mailto_id  = substr(md5($mailto_str), 0, 16);
             $_SESSION['mailto'][$mailto_id] = urlencode($mailto_str);
             $rcmail->output->command('open_compose_step', ['_mailto' => $mailto_id]);

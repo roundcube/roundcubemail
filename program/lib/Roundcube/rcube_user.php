@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -21,9 +21,6 @@
 
 /**
  * Class representing a user
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_user
 {
@@ -99,7 +96,7 @@ class rcube_user
                 return $this->data['username'];
             }
 
-            list($local, $domain) = rcube_utils::explode('@', $this->data['username']);
+            [$local, $domain] = rcube_utils::explode('@', $this->data['username']);
 
             // at least we should always have the local part
             if ($part == 'local') {
@@ -187,7 +184,7 @@ class rcube_user
         $plugin = $this->rc->plugins->exec_hook('preferences_update', [
                 'userid' => $this->ID,
                 'prefs'  => $a_user_prefs,
-                'old'    => (array)$this->get_prefs()
+                'old'    => (array) $this->get_prefs(),
         ]);
 
         if (!empty($plugin['abort'])) {
@@ -216,8 +213,8 @@ class rcube_user
         }
 
         $this->db->query(
-            "UPDATE ".$this->db->table_name('users', true).
-            " SET `preferences` = ?, `language` = ?".
+            "UPDATE " . $this->db->table_name('users', true) .
+            " SET `preferences` = ?, `language` = ?" .
             " WHERE `user_id` = ?",
             $save_prefs,
             $this->language,
@@ -242,7 +239,7 @@ class rcube_user
         // Update error, but we are using replication (we have read-only DB connection)
         // and we are storing session not in the SQL database
         // we can store preferences in session and try to write later (see get_prefs())
-        else if (!$no_session && $this->db->is_replicated()
+        elseif (!$no_session && $this->db->is_replicated()
             && $config->get('session_storage', 'db') != 'db'
         ) {
             $_SESSION['preferences'] = $save_prefs;
@@ -284,9 +281,9 @@ class rcube_user
 
             $sql_result = $this->db->query(
                 "SELECT `identity_id`, `name`, `email`"
-                ." FROM " . $this->db->table_name('identities', true)
-                ." WHERE `user_id` = ? AND `del` <> 1"
-                ." ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC",
+                . " FROM " . $this->db->table_name('identities', true)
+                . " WHERE `user_id` = ? AND `del` <> 1"
+                . " ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC",
                 $this->ID
             );
 
@@ -331,7 +328,7 @@ class rcube_user
         $result = [];
 
         $sql_result = $this->db->query(
-            "SELECT * FROM ".$this->db->table_name('identities', true)
+            "SELECT * FROM " . $this->db->table_name('identities', true)
             . " WHERE `del` <> 1 AND `user_id` = ?" . ($sql_add ? " $sql_add" : "")
             . " ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC",
             $this->ID
@@ -376,8 +373,8 @@ class rcube_user
         $query_params[] = $iid;
         $query_params[] = $this->ID;
 
-        $sql = "UPDATE ".$this->db->table_name('identities', true).
-            " SET `changed` = ".$this->db->now() . ", " . implode(', ', $query_cols)
+        $sql = "UPDATE " . $this->db->table_name('identities', true) .
+            " SET `changed` = " . $this->db->now() . ", " . implode(', ', $query_cols)
             . " WHERE `identity_id` = ?"
                 . " AND `user_id` = ?"
                 . " AND `del` <> 1";
@@ -591,7 +588,7 @@ class rcube_user
 
         // query for matching user name
         $sql_result = $dbh->query("SELECT * FROM " . $dbh->table_name('users', true)
-            ." WHERE `mail_host` = ? AND `username` = ?", $host, $user);
+            . " WHERE `mail_host` = ? AND `username` = ?", $host, $user);
 
         $sql_arr = $dbh->fetch_assoc($sql_result);
 
@@ -609,7 +606,7 @@ class rcube_user
 
         // user already registered -> overwrite username
         if ($sql_arr) {
-            return new rcube_user($sql_arr['user_id'], $sql_arr);
+            return new self($sql_arr['user_id'], $sql_arr);
         }
     }
 
@@ -660,7 +657,7 @@ class rcube_user
 
         if ($dbh->affected_rows($insert) && ($user_id = $dbh->insert_id('users'))) {
             // create rcube_user instance to make plugin hooks work
-            $user_instance = new rcube_user($user_id, [
+            $user_instance = new self($user_id, [
                     'user_id'     => $user_id,
                     'username'    => $data['user'],
                     'mail_host'   => $data['host'],
@@ -681,7 +678,7 @@ class rcube_user
                 $email_list[] = $user_email;
             }
             // identities_level check
-            else if (count($email_list) > 1 && $rcube->config->get('identities_level', 0) > 1) {
+            elseif (count($email_list) > 1 && $rcube->config->get('identities_level', 0) > 1) {
                 $email_list = [$email_list[0]];
             }
 
@@ -724,7 +721,7 @@ class rcube_user
         else {
             rcube::raise_error([
                     'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to create new user"
+                    'message' => "Failed to create new user",
                 ],
                 true, false
             );
@@ -764,7 +761,7 @@ class rcube_user
                 'email'    => null,
                 'user'     => $user,
                 'first'    => $first,
-                'extended' => $extended
+                'extended' => $extended,
         ]);
 
         return empty($plugin['email']) ? null : $plugin['email'];
@@ -819,7 +816,7 @@ class rcube_user
 
         $sql_result = $this->db->query(
             "SELECT `name`, `data`, `type`"
-            . " FROM ".$this->db->table_name('searches', true)
+            . " FROM " . $this->db->table_name('searches', true)
             . " WHERE `user_id` = ? AND `search_id` = ?",
             (int) $this->ID, (int) $id
         );
@@ -851,7 +848,7 @@ class rcube_user
 
         $this->db->query(
             "DELETE FROM " . $this->db->table_name('searches', true)
-            ." WHERE `user_id` = ? AND `search_id` = ?",
+            . " WHERE `user_id` = ? AND `search_id` = ?",
             (int) $this->ID, $sid
         );
 

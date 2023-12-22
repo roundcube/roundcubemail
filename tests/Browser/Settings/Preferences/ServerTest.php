@@ -30,7 +30,7 @@ class ServerTest extends \Tests\Browser\TestCase
             $browser->click('#sections-table tr.server');
 
             if ($browser->isPhone()) {
-                $browser->whenAvailable('#layout-content .footer', function ($browser) {
+                $browser->whenAvailable('#layout-content .footer', static function ($browser) {
                     $browser->assertVisible('a.button.submit:not(.disabled)')
                         ->assertVisible('a.button.prev:not(.disabled)')
                         ->assertVisible('a.button.next');
@@ -43,7 +43,7 @@ class ServerTest extends \Tests\Browser\TestCase
                 }
 
                 // check task and action
-                $browser->with(new App(), function ($browser) {
+                $browser->with(new App(), static function ($browser) {
                     $browser->assertEnv('task', 'settings');
                     $browser->assertEnv('action', 'edit-prefs');
                 });

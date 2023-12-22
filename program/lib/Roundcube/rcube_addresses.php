@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,9 +19,6 @@
 
 /**
  * Collected addresses database
- *
- * @package    Framework
- * @subpackage Addressbook
  */
 class rcube_addresses extends rcube_contacts
 {
@@ -76,9 +73,9 @@ class rcube_addresses extends rcube_contacts
     /**
      * List the current set of contact records
      *
-     * @param  array $cols    List of cols to show, Null means all
-     * @param  int   $subset  Only return this number of records, use negative values for tail
-     * @param  bool  $nocount True to skip the count query (select only)
+     * @param array $cols    List of cols to show, Null means all
+     * @param int   $subset  Only return this number of records, use negative values for tail
+     * @param bool  $nocount True to skip the count query (select only)
      *
      * @return array Indexed list of contact records, each a hash array
      */
@@ -99,7 +96,7 @@ class rcube_addresses extends rcube_contacts
         $sql_result = $this->db->limitquery(
             "SELECT * FROM " . $this->db->table_name($this->db_name, true)
             . " WHERE `user_id` = ? AND `type` = ?"
-            . ($this->filter ? " AND ".$this->filter : "")
+            . ($this->filter ? " AND " . $this->filter : "")
             . " ORDER BY `name` " . $this->sort_order . ", `email` " . $this->sort_order,
             $start_row,
             $length,
@@ -118,11 +115,11 @@ class rcube_addresses extends rcube_contacts
         if ($nocount) {
             $this->result->count = $cnt;
         }
-        else if ($this->list_page <= 1) {
+        elseif ($this->list_page <= 1) {
             if ($cnt < $this->page_size && $subset == 0) {
                 $this->result->count = $cnt;
             }
-            else if (isset($this->cache['count'])) {
+            elseif (isset($this->cache['count'])) {
                 $this->result->count = $this->cache['count'];
             }
             else {
@@ -160,7 +157,7 @@ class rcube_addresses extends rcube_contacts
             $ids     = $this->db->array2list($ids, 'integer');
             $where[] = $this->primary_key . ' IN (' . $ids . ')';
         }
-        else if (is_array($value)) {
+        elseif (is_array($value)) {
             foreach ((array) $fields as $idx => $col) {
                 $val = $value[$idx];
 
@@ -172,7 +169,7 @@ class rcube_addresses extends rcube_contacts
                 if ($col == 'email' && ($mode & rcube_addressbook::SEARCH_STRICT)) {
                     $where[] = $this->db->ilike($col, $val);
                 }
-                else if (in_array($col, $this->table_cols)) {
+                elseif (in_array($col, $this->table_cols)) {
                     $where[] = $this->fulltext_sql_where($val, $mode, $col);
                 }
                 else {
@@ -194,7 +191,7 @@ class rcube_addresses extends rcube_contacts
                     if ($col == 'email' && ($mode & rcube_addressbook::SEARCH_STRICT)) {
                         $groups[] = $this->db->ilike($col, $word);
                     }
-                    else if (in_array($col, $this->table_cols)) {
+                    elseif (in_array($col, $this->table_cols)) {
                         $groups[] = $this->fulltext_sql_where($word, $mode, $col);
                     }
                 }

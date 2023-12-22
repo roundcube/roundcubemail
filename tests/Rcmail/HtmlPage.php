@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_html_page class
- *
- * @package Tests
  */
 class Rcmail_RcmailHtmlPage extends ActionTestCase
 {

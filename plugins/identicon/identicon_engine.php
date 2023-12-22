@@ -20,10 +20,10 @@ class identicon_engine
         '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#607D8B',
     ];
     private $grid = [
-         0,  1,  2,  1,  0,
-         3,  4,  5,  4,  3,
-         6,  7,  8,  7,  6,
-         9, 10, 11, 10,  9,
+         0, 1, 2, 1, 0,
+         3, 4, 5, 4, 3,
+         6, 7, 8, 7, 6,
+         9, 10, 11, 10, 9,
         12, 13, 14, 13, 12,
     ];
 
@@ -56,7 +56,7 @@ class identicon_engine
                 }
                 $this->bgcolor = $bgcolor;
             }
-            else if ($bgcolor === 'transparent') {
+            elseif ($bgcolor === 'transparent') {
                 $this->bgcolor = $bgcolor;
             }
         }
@@ -107,7 +107,7 @@ class identicon_engine
         $ident = md5($this->ident, true);
 
         // set icon color
-        $div         = intval(255/count($this->palette));
+        $div         = intval(255 / count($this->palette));
         $index       = intval(ord($ident[0]) / $div);
         $this->color = $this->palette[$index] ?? $this->palette[0];
 

@@ -17,7 +17,7 @@ class GroupsTest extends \Tests\Browser\TestCase
      */
     public function testGroups()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('addressbook');
 
             if (!$browser->isDesktop()) {
@@ -33,7 +33,7 @@ class GroupsTest extends \Tests\Browser\TestCase
 
             $browser->click('#layout-sidebar .header .sidebar-menu');
 
-            $browser->with(new Popupmenu('groupoptions-menu'), function ($browser) {
+            $browser->with(new Popupmenu('groupoptions-menu'), static function ($browser) {
                 // Note: These are button class names, not action names
                 $active = ['create'];
                 $disabled = ['group.rename', 'group.delete', 'search', 'search.delete'];
@@ -49,7 +49,7 @@ class GroupsTest extends \Tests\Browser\TestCase
      */
     public function testGroupCreate()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('addressbook');
 
             if (!$browser->isDesktop()) {
@@ -58,11 +58,11 @@ class GroupsTest extends \Tests\Browser\TestCase
 
             $browser->click('#layout-sidebar .header .sidebar-menu');
 
-            $browser->with(new Popupmenu('groupoptions-menu'), function ($browser) {
+            $browser->with(new Popupmenu('groupoptions-menu'), static function ($browser) {
                 $browser->clickMenuItem('create');
             });
 
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser->assertDialogTitle('Create new group')
                     ->assertButton('save.mainaction', 'Save')
                     ->assertButton('cancel', 'Cancel')
@@ -71,7 +71,7 @@ class GroupsTest extends \Tests\Browser\TestCase
                     ->clickButton('save');
             });
 
-            $browser->with('#directorylist', function ($browser) {
+            $browser->with('#directorylist', static function ($browser) {
                 $browser->waitFor('li:first-child ul.groups')
                     ->assertVisible('.treetoggle.expanded')
                     ->assertElementsCount('ul.groups > li.contactgroup', 1)
@@ -93,7 +93,7 @@ class GroupsTest extends \Tests\Browser\TestCase
      */
     public function testGroupRename()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('addressbook');
 
             if (!$browser->isDesktop()) {
@@ -108,11 +108,11 @@ class GroupsTest extends \Tests\Browser\TestCase
 
             $browser->click('#layout-sidebar .header .sidebar-menu');
 
-            $browser->with(new Popupmenu('groupoptions-menu'), function ($browser) {
+            $browser->with(new Popupmenu('groupoptions-menu'), static function ($browser) {
                 $browser->clickMenuItem('group.rename');
             });
 
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser
                     ->assertDialogTitle('Rename group')
                     ->assertButton('save.mainaction', 'Save')
@@ -123,7 +123,7 @@ class GroupsTest extends \Tests\Browser\TestCase
                     ->clickButton('save');
             });
 
-            $browser->with('#directorylist', function ($browser) {
+            $browser->with('#directorylist', static function ($browser) {
                 $browser->waitFor('li:first-child ul.groups')
                     ->assertVisible('.treetoggle.expanded')
                     ->assertElementsCount('ul.groups > li.contactgroup', 1)
@@ -145,7 +145,7 @@ class GroupsTest extends \Tests\Browser\TestCase
      */
     public function testGroupDelete()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('addressbook');
 
             if (!$browser->isDesktop()) {
@@ -160,11 +160,11 @@ class GroupsTest extends \Tests\Browser\TestCase
 
             $browser->click('#layout-sidebar .header .sidebar-menu');
 
-            $browser->with(new Popupmenu('groupoptions-menu'), function ($browser) {
+            $browser->with(new Popupmenu('groupoptions-menu'), static function ($browser) {
                 $browser->clickMenuItem('group.delete');
             });
 
-            $browser->with(new Dialog(), function ($browser) {
+            $browser->with(new Dialog(), static function ($browser) {
                 $browser
                     ->assertDialogTitle('Are you sure...')
                     ->assertDialogContent('Do you really want to delete selected group?')
@@ -173,7 +173,7 @@ class GroupsTest extends \Tests\Browser\TestCase
                     ->clickButton('delete');
             });
 
-            $browser->with('#directorylist', function ($browser) {
+            $browser->with('#directorylist', static function ($browser) {
                 $browser->assertMissing('.treetoggle.expanded')
                     ->assertMissing('ul.groups');
             });

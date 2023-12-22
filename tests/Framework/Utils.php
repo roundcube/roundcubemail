@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcube_utils class
- *
- * @package Tests
  */
 class Framework_Utils extends PHPUnit\Framework\TestCase
 {
@@ -36,7 +34,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Valid email addresses for test_valid_email()
      */
-    function data_valid_email()
+    function data_valid_email(): iterable
     {
         return [
             ['email@domain.com', 'Valid email'],
@@ -63,7 +61,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Invalid email addresses for test_invalid_email()
      */
-    function data_invalid_email()
+    function data_invalid_email(): iterable
     {
         return [
             ['plainaddress', 'Missing @ sign and domain'],
@@ -112,7 +110,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Valid IP addresses for test_valid_ip()
      */
-    function data_valid_ip()
+    function data_valid_ip(): iterable
     {
         return [
             ['0.0.0.0'],
@@ -129,7 +127,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Invalid IP addresses for test_invalid_ip()
      */
-    function data_invalid_ip()
+    function data_invalid_ip(): iterable
     {
         return [
             [''],
@@ -164,7 +162,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Data for test_rep_specialchars_output()
      */
-    function data_rep_specialchars_output()
+    function data_rep_specialchars_output(): iterable
     {
         return [
             ['', '', 'abc', 'abc'],
@@ -181,14 +179,15 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
     /**
      * Test for rep_specialchars_output
+     *
      * @dataProvider data_rep_specialchars_output
      */
     function test_rep_specialchars_output($type, $mode, $str, $res)
     {
         $result = rcube_utils::rep_specialchars_output(
-            $str, $type ? $type : 'html', $mode ? $mode : 'strict');
+            $str, $type ?: 'html', $mode ?: 'strict');
 
-        $this->assertEquals($result, $res);
+        $this->assertSame($result, $res);
     }
 
     /**
@@ -218,41 +217,41 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     function test_mod_css_styles_xss()
     {
         $mod = rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "No url() values allowed");
+        $this->assertSame("/* evil! */", $mod, "No url() values allowed");
 
         $mod = rcube_utils::mod_css_styles("@import url('http://localhost/somestuff/css/master.css');", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "No import statements");
+        $this->assertSame("/* evil! */", $mod, "No import statements");
 
         $mod = rcube_utils::mod_css_styles("left:expression(document.body.offsetWidth-20)", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "No expression properties");
+        $this->assertSame("/* evil! */", $mod, "No expression properties");
 
         $mod = rcube_utils::mod_css_styles("left:exp/*  */ression( alert(&#039;xss3&#039;) )", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks");
+        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks");
 
         $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\00006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
+        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks (2)");
 
         $mod = rcube_utils::mod_css_styles("background: \\75 \\72 \\6C ('/images/img.png')", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (3)");
+        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks (3)");
 
         $mod = rcube_utils::mod_css_styles("background: u\\r\\l('/images/img.png')", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (4)");
+        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks (4)");
 
         // position: fixed (#5264)
         $mod = rcube_utils::mod_css_styles(".test { position: fixed; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (0)");
+        $this->assertSame("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (0)");
         $mod = rcube_utils::mod_css_styles(".test { position:\nfixed; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (1)");
+        $this->assertSame("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (1)");
         $mod = rcube_utils::mod_css_styles(".test { position:/**/fixed; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (2)");
+        $this->assertSame("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (2)");
 
         // position: fixed (#6898)
         $mod = rcube_utils::mod_css_styles(".test { position : fixed; top: 0; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (3)");
+        $this->assertSame("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (3)");
         $mod = rcube_utils::mod_css_styles(".test { position/**/: fixed; top: 0; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (4)");
+        $this->assertSame("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (4)");
         $mod = rcube_utils::mod_css_styles(".test { position\n: fixed; top: 0; }", 'rcmbody');
-        $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (5)");
+        $this->assertSame("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (5)");
 
         // allow data URIs with images (#5580)
         $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
@@ -338,7 +337,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for parse_css_block() test
      */
-    function data_parse_css_block()
+    function data_parse_css_block(): iterable
     {
         return [
             [
@@ -399,7 +398,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             ],
             [
                 'font-family:"新細明體","serif";color:red',
-                [['font-family', '"新細明體","serif"'], ['color', 'red']]
+                [['font-family', '"新細明體","serif"'], ['color', 'red']],
             ],
         ];
     }
@@ -421,8 +420,11 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     {
         $data = [
             '"a,b"' => ['"a,b"'],
-            '"a,b","c,d"' => ['"a,b"','"c,d"'],
+            '"a,b","c,d"' => ['"a,b"', '"c,d"'],
             '"a,\\"b",d' => ['"a,\\"b"', 'd'],
+            'a,' => ['a', ''],
+            '"a,' => ['"a,'],
+            '"a,\\' => ['"a,\\'],
         ];
 
         foreach ($data as $text => $res) {
@@ -441,6 +443,24 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         foreach ($data as $text) {
             $result = rcube_utils::explode_quoted_string(',', $text);
             $this->assertSame(explode(',', $text), $result);
+        }
+    }
+
+    /**
+     * Check rcube_utils::explode_quoted_string() with multibyte delimiter
+     */
+    function test_explode_quoted_string_multibyte_delimiter()
+    {
+        $data = [
+            "a\nb" => ['a', 'b'],
+            "a\r\nb" => ['a', 'b'],
+            "a\r\n\nb" => ['a', 'b'],
+            "\"a\n\\\"\n\"\nb" => ["\"a\n\\\"\n\"", 'b'],
+        ];
+
+        foreach ($data as $text => $res) {
+            $result = rcube_utils::explode_quoted_string('[\n\r]+', $text);
+            $this->assertSame($res, $result);
         }
     }
 
@@ -590,7 +610,10 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime, $tz);
-            if ($result) $result->setTimezone($tz);  // move to target timezone for comparison
+            if ($result) {
+                // move to target timezone for comparison
+                $result->setTimezone($tz);
+            }
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
         }
     }
@@ -621,8 +644,8 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $test = [
             ''        => [],
             'abc d'   => ['abc'],
-            'abc de'  => ['abc','de'],
-            'äàé;êöü-xyz' => ['äàé','êöü','xyz'],
+            'abc de'  => ['abc', 'de'],
+            'äàé;êöü-xyz' => ['äàé', 'êöü', 'xyz'],
             '日期格式' => ['日期格式'],
         ];
 
@@ -721,7 +744,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for IDN to ASCII and IDN to UTF-8
      */
-    function data_idn_convert()
+    function data_idn_convert(): iterable
     {
 
         /*
@@ -756,11 +779,12 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @param string $decoded Decoded email address
      * @param string $encoded Encoded email address
+     *
      * @dataProvider data_idn_convert
      */
     function test_idn_to_ascii($decoded, $encoded)
     {
-        $this->assertEquals(rcube_utils::idn_to_ascii($decoded), $encoded);
+        $this->assertSame(rcube_utils::idn_to_ascii($decoded), $encoded);
     }
 
     /**
@@ -768,11 +792,12 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @param string $decoded Decoded email address
      * @param string $encoded Encoded email address
+     *
      * @dataProvider data_idn_convert
      */
     function test_idn_to_utf8($decoded, $encoded)
     {
-        $this->assertEquals(rcube_utils::idn_to_utf8($encoded), $decoded);
+        $this->assertSame(rcube_utils::idn_to_utf8($encoded), $decoded);
     }
 
     /**
@@ -780,14 +805,14 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_idn_to_ascii_special()
     {
-        $this->assertEquals(rcube_utils::idn_to_ascii('H.S'), 'H.S');
-        $this->assertEquals(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
+        $this->assertSame(rcube_utils::idn_to_ascii('H.S'), 'H.S');
+        $this->assertSame(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
     }
 
     /**
      * Test-Cases for test_parse_host()
      */
-    function data_parse_host()
+    function data_parse_host(): iterable
     {
         return [
             ['%z', 'hostname', 'hostname'],
@@ -804,13 +829,13 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_parse_host($name, $host, $result)
     {
-        $this->assertEquals(rcube_utils::parse_host($name, $host), $result);
+        $this->assertSame(rcube_utils::parse_host($name, $host), $result);
     }
 
     /**
      * Test-Cases for test_parse_host_uri()
      */
-    function data_parse_host_uri()
+    function data_parse_host_uri(): iterable
     {
         return [
             [['hostname', null, null], ['hostname', null, null]],
@@ -840,13 +865,14 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_remove_subject_prefix()
      */
-    function data_remove_subject_prefix() {
+    function data_remove_subject_prefix(): iterable
+    {
         return [
-            ['both',    'Fwd: Re: Test subject both', 'Test subject both'],
-            ['both',    'Re: Fwd: Test subject both', 'Test subject both'],
-            ['reply',   'Fwd: Re: Test subject reply', 'Fwd: Re: Test subject reply'],
-            ['reply',   'Re: Fwd: Test subject reply', 'Fwd: Test subject reply'],
-            ['reply',   'Re: Fwd: Test subject reply (was: other test)', 'Fwd: Test subject reply'],
+            ['both', 'Fwd: Re: Test subject both', 'Test subject both'],
+            ['both', 'Re: Fwd: Test subject both', 'Test subject both'],
+            ['reply', 'Fwd: Re: Test subject reply', 'Fwd: Re: Test subject reply'],
+            ['reply', 'Re: Fwd: Test subject reply', 'Fwd: Test subject reply'],
+            ['reply', 'Re: Fwd: Test subject reply (was: other test)', 'Fwd: Test subject reply'],
             ['forward', 'Re: Fwd: Test subject forward', 'Re: Fwd: Test subject forward'],
             ['forward', 'Fwd: Re: Test subject forward', 'Re: Test subject forward'],
             ['forward', 'Fw: Re: Test subject forward', 'Re: Test subject forward'],
@@ -855,11 +881,12 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
     /**
      * Test remove_subject_prefix
-     * 
+     *
      * @dataProvider data_remove_subject_prefix
      */
-    function test_remove_subject_prefix($mode, $subject, $result) {
-        $this->assertEquals(rcube_utils::remove_subject_prefix($subject, $mode), $result);
+    function test_remove_subject_prefix($mode, $subject, $result)
+    {
+        $this->assertSame(rcube_utils::remove_subject_prefix($subject, $mode), $result);
     }
 
     /**
@@ -867,13 +894,13 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_server_name()
     {
-        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', rcube_utils::server_name('test'));
 
         $_SERVER['test'] = 'test.com:843';
-        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+        $this->assertSame('test.com', rcube_utils::server_name('test'));
 
         $_SERVER['test'] = 'test.com';
-        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+        $this->assertSame('test.com', rcube_utils::server_name('test'));
     }
 
     /**
@@ -887,27 +914,27 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $rcube->config->set('trusted_host_patterns', ['my.domain.tld']);
 
         StderrMock::start();
-        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', rcube_utils::server_name('test'));
         StderrMock::stop();
         $this->assertSame("ERROR: Specified host is not trusted. Using 'localhost'.", trim(StderrMock::$output));
 
         $rcube->config->set('trusted_host_patterns', ['test.com']);
 
         StderrMock::start();
-        $this->assertEquals('test.com', rcube_utils::server_name('test'));
+        $this->assertSame('test.com', rcube_utils::server_name('test'));
         StderrMock::stop();
 
         $_SERVER['test'] = 'subdomain.test.com';
 
         StderrMock::start();
-        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', rcube_utils::server_name('test'));
         StderrMock::stop();
 
         $rcube->config->set('trusted_host_patterns', ['^test.com$']);
         $_SERVER['test'] = '^test.com$';
 
         StderrMock::start();
-        $this->assertEquals('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', rcube_utils::server_name('test'));
         StderrMock::stop();
     }
 }

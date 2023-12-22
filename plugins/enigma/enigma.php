@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-------------------------------------------------------------------------+
  | Enigma Plugin for Roundcube                                             |
  |                                                                         |
@@ -55,20 +55,20 @@ class enigma extends rcube_plugin
                 $this->add_hook('template_object_messagebody', [$this, 'message_output']);
             }
             // message composing
-            else if ($enabled && $this->rc->action == 'compose') {
+            elseif ($enabled && $this->rc->action == 'compose') {
                 $this->add_hook('message_compose_body', [$this, 'message_compose']);
 
                 $this->load_ui();
                 $this->ui->init();
             }
             // message sending (and draft storing)
-            else if ($enabled && $this->rc->action == 'send') {
+            elseif ($enabled && $this->rc->action == 'send') {
                 $this->add_hook('message_ready', [$this, 'message_ready']);
             }
 
             $this->password_handler();
         }
-        else if ($this->rc->task == 'settings') {
+        elseif ($this->rc->task == 'settings') {
             // add hooks for Enigma settings
             $this->add_hook('settings_actions', [$this, 'settings_actions']);
             $this->add_hook('preferences_sections_list', [$this, 'preferences_sections_list']);
@@ -78,7 +78,7 @@ class enigma extends rcube_plugin
 
             // register handler for keys/certs management
             $this->register_action('plugin.enigmakeys', [$this, 'preferences_ui']);
-//            $this->register_action('plugin.enigmacerts', [$this, 'preferences_ui']);
+            // $this->register_action('plugin.enigmacerts', [$this, 'preferences_ui']);
 
             $this->load_ui();
 
@@ -88,7 +88,7 @@ class enigma extends rcube_plugin
 
             $this->password_handler();
         }
-        else if ($this->rc->task == 'cli') {
+        elseif ($this->rc->task == 'cli') {
             $this->add_hook('user_delete_commit', [$this, 'user_delete']);
         }
 
@@ -156,7 +156,7 @@ class enigma extends rcube_plugin
      * Handler for message_part_structure hook.
      * Called for every part of the message.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -171,7 +171,7 @@ class enigma extends rcube_plugin
      * Handler for message_part_body hook.
      * Called to get body of a message part.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -186,7 +186,7 @@ class enigma extends rcube_plugin
      * Handler for settings_actions hook.
      * Adds Enigma settings section into preferences.
      *
-     * @param array Original parameters
+     * @param array $args Original parameters
      *
      * @return array Modified parameters
      */
@@ -203,7 +203,7 @@ class enigma extends rcube_plugin
             'title'  => 'enigmakeys',
             'domain' => 'enigma',
         ];
-/*
+        /*
         $args['actions'][] = [
             'action' => 'plugin.enigmacerts',
             'class'  => 'enigma certs',
@@ -211,7 +211,7 @@ class enigma extends rcube_plugin
             'title'  => 'enigmacerts',
             'domain' => 'enigma',
         ];
-*/
+        */
         return $args;
     }
 
@@ -219,7 +219,7 @@ class enigma extends rcube_plugin
      * Handler for preferences_sections_list hook.
      * Adds Encryption settings section into preferences sections list.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -236,7 +236,7 @@ class enigma extends rcube_plugin
      * Handler for preferences_list hook.
      * Adds options blocks into Enigma settings sections in Preferences.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -246,7 +246,7 @@ class enigma extends rcube_plugin
             return $p;
         }
 
-        $no_override = array_flip((array)$this->rc->config->get('dont_override'));
+        $no_override = array_flip((array) $this->rc->config->get('dont_override'));
 
         if (!isset($no_override['enigma_encryption'])) {
             if (!$p['current']) {
@@ -390,7 +390,7 @@ class enigma extends rcube_plugin
      * Handler for preferences_save hook.
      * Executed on Enigma settings form submit.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -425,7 +425,7 @@ class enigma extends rcube_plugin
      * This will list private keys matching this identity
      * and add a link to enigma key management action.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */
@@ -486,7 +486,7 @@ class enigma extends rcube_plugin
      * Adds infobox about signature verification and/or decryption
      * status above the body.
      *
-     * @param array Original parameters
+     * @param array $p Original parameters
      *
      * @return array Modified parameters
      */

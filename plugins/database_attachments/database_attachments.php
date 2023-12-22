@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Database Attachments
  *
  * This plugin which provides database backed storage for temporary

@@ -26,7 +26,7 @@ class acl extends rcube_plugin
     public $task = 'settings';
 
     private $rc;
-    private $supported = null;
+    private $supported;
     private $mbox;
     private $ldap;
     private $specials = ['anyone'];
@@ -63,10 +63,10 @@ class acl extends rcube_plugin
         if ($action == 'save') {
             $this->action_save();
         }
-        else if ($action == 'delete') {
+        elseif ($action == 'delete') {
             $this->action_delete();
         }
-        else if ($action == 'list') {
+        elseif ($action == 'list') {
             $this->action_list();
         }
 
@@ -156,12 +156,12 @@ class acl extends rcube_plugin
         if (!strlen($mbox_imap)) {
             return $args;
         }
-/*
+        /*
         // Do nothing on protected folders (?)
         if (!empty($args['options']['protected'])) {
             return $args;
         }
-*/
+        */
         // Get MYRIGHTS
         if (empty($myrights)) {
             return $args;
@@ -178,16 +178,17 @@ class acl extends rcube_plugin
         $this->include_stylesheet($this->local_skin_path() . '/acl.css');
 
         // add Info fieldset if it doesn't exist
-        if (!isset($args['form']['props']['fieldsets']['info']))
+        if (!isset($args['form']['props']['fieldsets']['info'])) {
             $args['form']['props']['fieldsets']['info'] = [
                 'name'    => $this->rc->gettext('info'),
-                'content' => []
+                'content' => [],
             ];
+        }
 
         // Display folder rights to 'Info' fieldset
         $args['form']['props']['fieldsets']['info']['content']['myrights'] = [
             'label' => rcube::Q($this->gettext('myrights')),
-            'value' => $this->acl2text($myrights)
+            'value' => $this->acl2text($myrights),
         ];
 
         // Return if not folder admin
@@ -256,7 +257,7 @@ class acl extends rcube_plugin
         $supported = $data['rights'];
 
         // depending on server capability either use 'te' or 'd' for deleting msgs
-        $deleteright = implode(array_intersect(str_split('ted'), $supported));
+        $deleteright = implode('', array_intersect(str_split('ted'), $supported));
 
         $out = '';
         $ul  = '';
@@ -268,7 +269,7 @@ class acl extends rcube_plugin
             $id = "acl$val";
             $ul .= html::tag('li', null,
                 $input->show('', ['name' => "acl[$val]", 'value' => $val, 'id' => $id])
-                . html::label(['for' => $id, 'title' => $this->gettext('longacl'.$val)], $this->gettext('acl'.$val))
+                . html::label(['for' => $id, 'title' => $this->gettext('longacl' . $val)], $this->gettext('acl' . $val))
             );
         }
 
@@ -281,7 +282,7 @@ class acl extends rcube_plugin
             'read'   => 'lrs',
             'write'  => 'wi',
             'delete' => $deleteright,
-            'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode($supported)),
+            'other'  => preg_replace('/[lrswi' . $deleteright . ']/', '', implode('', $supported)),
         ];
 
         // give plugins the opportunity to adjust this list
@@ -291,8 +292,8 @@ class acl extends rcube_plugin
 
         foreach ($data['rights'] as $key => $val) {
             $id    = "acl$key";
-            $title = !empty($data['titles'][$key]) ? $data['titles'][$key] : $this->gettext('longacl'.$key);
-            $label = !empty($data['labels'][$key]) ? $data['labels'][$key] : $this->gettext('acl'.$key);
+            $title = !empty($data['titles'][$key]) ? $data['titles'][$key] : $this->gettext('longacl' . $key);
+            $label = !empty($data['labels'][$key]) ? $data['labels'][$key] : $this->gettext('acl' . $key);
             $ul   .= html::tag('li', null,
                 $input->show('', ['name' => "acl[$val]", 'value' => $val, 'id' => $id])
                 . html::label(['for' => $id, 'title' => $title], $label)
@@ -398,7 +399,7 @@ class acl extends rcube_plugin
         $supported = $data['rights'];
 
         // depending on server capability either use 'te' or 'd' for deleting msgs
-        $deleteright = implode(array_intersect(str_split('ted'), $supported));
+        $deleteright = implode('', array_intersect(str_split('ted'), $supported));
 
         // Use advanced or simple (grouped) rights
         $advanced = $this->rc->config->get('acl_advanced_mode');
@@ -414,7 +415,7 @@ class acl extends rcube_plugin
                 'read'   => 'lrs',
                 'write'  => 'wi',
                 'delete' => $deleteright,
-                'other'  => preg_replace('/[lrswi'.$deleteright.']/', '', implode($supported)),
+                'other'  => preg_replace('/[lrswi' . $deleteright . ']/', '', implode('', $supported)),
             ];
 
             // give plugins the opportunity to adjust this list
@@ -462,14 +463,20 @@ class acl extends rcube_plugin
             foreach ($items as $key => $right) {
                 $in = $this->acl_compare($userrights, $right);
                 switch ($in) {
-                    case 2: $class = 'enabled'; break;
-                    case 1: $class = 'partial'; break;
-                    default: $class = 'disabled'; break;
+                    case 2:
+                        $class = 'enabled';
+                        break;
+                    case 1:
+                        $class = 'partial';
+                        break;
+                    default:
+                        $class = 'disabled';
+                        break;
                 }
                 $table->add('acl' . $key . ' ' . $class, '<span></span>');
             }
 
-            $js_table[$userid] = implode($userrights);
+            $js_table[$userid] = implode('', $userrights);
         }
 
         $this->rc->output->set_env('acl', $js_table);
@@ -503,10 +510,10 @@ class acl extends rcube_plugin
             if ($prefix && strpos($user, $prefix) === 0) {
                 $username = $user;
             }
-            else if (!empty($this->specials) && in_array($user, $this->specials)) {
+            elseif (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
             }
-            else if (!empty($user)) {
+            elseif (!empty($user)) {
                 if (!strpos($user, '@') && ($realm = $this->get_realm())) {
                     $user .= '@' . rcube_utils::idn_to_ascii(preg_replace('/^@/', '', $realm));
                 }
@@ -535,8 +542,8 @@ class acl extends rcube_plugin
                             'username' => $username,
                             'title'    => $title,
                             'display'  => $display,
-                            'acl'      => implode($acl),
-                            'old'      => $oldid
+                            'acl'      => implode('', $acl),
+                            'old'      => $oldid,
                     ]);
                     $result++;
                 }
@@ -584,7 +591,7 @@ class acl extends rcube_plugin
      */
     private function action_list()
     {
-        if (in_array('acl_advanced_mode', (array)$this->rc->config->get('dont_override'))) {
+        if (in_array('acl_advanced_mode', (array) $this->rc->config->get('dont_override'))) {
             return;
         }
 
@@ -641,12 +648,16 @@ class acl extends rcube_plugin
      * @param array $acl1 ACL rights array (or string)
      * @param array $acl2 ACL rights array (or string)
      *
-     * @param int Comparison result, 2 - full match, 1 - partial match, 0 - no match
+     * @return int Comparison result, 2 - full match, 1 - partial match, 0 - no match
      */
     function acl_compare($acl1, $acl2)
     {
-        if (!is_array($acl1)) $acl1 = str_split($acl1);
-        if (!is_array($acl2)) $acl2 = str_split($acl2);
+        if (!is_array($acl1)) {
+            $acl1 = str_split($acl1);
+        }
+        if (!is_array($acl2)) {
+            $acl2 = str_split($acl2);
+        }
 
         $rights = $this->rights_supported();
 
@@ -708,7 +719,7 @@ class acl extends rcube_plugin
         $self = $this->rc->get_user_name();
 
         // find realm in username of logged user (?)
-        list($name, $domain) = rcube_utils::explode('@', $self);
+        [$name, $domain] = rcube_utils::explode('@', $self);
 
         // Use (always existent) ACL entry on the INBOX for the user to determine
         // whether or not the user ID in ACL entries need to be qualified and how
@@ -808,8 +819,8 @@ class acl extends rcube_plugin
             $user = mb_strtolower($user);
         }
         // lowercase domain name
-        else if ($login_lc && strpos($user, '@')) {
-            list($local, $domain) = explode('@', $user);
+        elseif ($login_lc && strpos($user, '@')) {
+            [$local, $domain] = explode('@', $user);
             $user = $local . '@' . mb_strtolower($domain);
         }
 

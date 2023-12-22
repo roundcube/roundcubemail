@@ -2,8 +2,8 @@
 
 namespace Tests\Browser\Components;
 
-use Tests\Browser\Browser;
 use Laravel\Dusk\Component;
+use Tests\Browser\Browser;
 
 class Popupmenu extends Component
 {
@@ -106,7 +106,7 @@ class Popupmenu extends Component
 
         if ($dropdown_action) {
             $popup_id = $browser->attribute($selector, 'data-popup');
-            $browser->withinBody(function ($browser) use ($popup_id, $dropdown_action) {
+            $browser->withinBody(static function ($browser) use ($popup_id, $dropdown_action) {
                 $browser->click("#{$popup_id} li a.{$dropdown_action}");
             });
         }

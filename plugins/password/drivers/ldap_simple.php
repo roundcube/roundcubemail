@@ -8,6 +8,7 @@
  * require PEAR's Net_LDAP2 to be installed
  *
  * @version 2.1
+ *
  * @author Wout Decre <wout@canodus.be>
  * @author Aleksander Machniak <machniak@kolabsys.com>
  *
@@ -72,7 +73,7 @@ class rcube_ldap_simple_password
 
         // Update PasswordLastChange Attribute if desired
         if ($lchattr) {
-            $entry[$lchattr] = (int)(time() / 86400);
+            $entry[$lchattr] = (int) (time() / 86400);
         }
 
         // Update Samba password
@@ -88,7 +89,7 @@ class rcube_ldap_simple_password
         $this->_debug("C: Modify {$this->user}: " . print_r($entry, true));
 
         if (!ldap_modify($this->conn, $this->user, $entry)) {
-            $this->_debug("S: ".ldap_error($this->conn));
+            $this->_debug("S: " . ldap_error($this->conn));
 
             $errno = ldap_errno($this->conn);
 
@@ -130,7 +131,7 @@ class rcube_ldap_simple_password
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not connect to LDAP server"
+                    'message' => "Could not connect to LDAP server",
                 ],
                 true
             );
@@ -161,7 +162,7 @@ class rcube_ldap_simple_password
         if (!empty($plugin['user_dn'])) {
             $user_dn = $plugin['user_dn'];
         }
-        else if ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
+        elseif ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
             $user_dn = self::substitute_vars($user_dn);
         }
         else {
@@ -175,21 +176,21 @@ class rcube_ldap_simple_password
 
         // Connection method
         switch ($rcmail->config->get('password_ldap_method')) {
-        case 'sasl':
-            $binddn    = $rcmail->config->get('password_ldap_adminDN');
-            $bindpw    = $rcmail->config->get('password_ldap_adminPW');
-            $bindmech  = $rcmail->config->get('password_ldap_mech');
-            $bindrealm = $rcmail->config->get('password_ldap_realm');
-            break;
-        case 'admin':
-            $binddn = $rcmail->config->get('password_ldap_adminDN');
-            $bindpw = $rcmail->config->get('password_ldap_adminPW');
-            break;
-        case 'user':
-        default:
-            $binddn = $user_dn;
-            $bindpw = $curpass;
-            break;
+            case 'sasl':
+                $binddn    = $rcmail->config->get('password_ldap_adminDN');
+                $bindpw    = $rcmail->config->get('password_ldap_adminPW');
+                $bindmech  = $rcmail->config->get('password_ldap_mech');
+                $bindrealm = $rcmail->config->get('password_ldap_realm');
+                break;
+            case 'admin':
+                $binddn = $rcmail->config->get('password_ldap_adminDN');
+                $bindpw = $rcmail->config->get('password_ldap_adminPW');
+                break;
+            case 'user':
+            default:
+                $binddn = $user_dn;
+                $bindpw = $curpass;
+                break;
         }
 
         $this->_debug("C: Bind $binddn, pass: **** [" . strlen($bindpw) . "]");
@@ -197,7 +198,7 @@ class rcube_ldap_simple_password
         // Bind
         if ($rcmail->config->get('password_ldap_method') == 'sasl') {
             if (!ldap_sasl_bind($ds, $binddb, $bindpw, $bindmech, $bindrealm)) {
-                $this->_debug("S: ".ldap_error($ds));
+                $this->_debug("S: " . ldap_error($ds));
 
                 ldap_unbind($ds);
 
@@ -205,7 +206,7 @@ class rcube_ldap_simple_password
             }
         } else {
             if (!ldap_bind($ds, $binddn, $bindpw)) {
-                $this->_debug("S: ".ldap_error($ds));
+                $this->_debug("S: " . ldap_error($ds));
 
                 ldap_unbind($ds);
 
@@ -237,30 +238,30 @@ class rcube_ldap_simple_password
             return false;
         }
 
-        $this->_debug("C: Bind " . ($search_user ? $search_user : '[anonymous]'));
+        $this->_debug("C: Bind " . ($search_user ?: '[anonymous]'));
 
         switch ($rcmail->config->get('password_ldap_bind_method')) {
-        case 'sasl':
-            $search_mech     = $rcmail->config->get('password_ldap_mech');
-            $search_realm    = $rcmail->config->get('password_ldap_realm');
+            case 'sasl':
+                $search_mech     = $rcmail->config->get('password_ldap_mech');
+                $search_realm    = $rcmail->config->get('password_ldap_realm');
 
-            // Bind
-            if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {
-                $this->_debug("S: ".ldap_error($ds));
-                return false;
-            }
+                // Bind
+                if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {
+                    $this->_debug("S: " . ldap_error($ds));
+                    return false;
+                }
 
-            break;
-        case 'bind':
-        default:
+                break;
+            case 'bind':
+            default:
 
-            // Bind
-            if (!ldap_bind($ds, $search_user, $search_pass)) {
-                $this->_debug("S: ".ldap_error($ds));
-                return false;
-            }
+                // Bind
+                if (!ldap_bind($ds, $search_user, $search_pass)) {
+                    $this->_debug("S: " . ldap_error($ds));
+                    return false;
+                }
 
-            break;
+                break;
         }
 
         $this->_debug("S: OK");
@@ -272,7 +273,7 @@ class rcube_ldap_simple_password
 
         // Search for the DN
         if (!($sr = ldap_search($ds, $search_base, $search_filter))) {
-            $this->_debug("S: ".ldap_error($ds));
+            $this->_debug("S: " . ldap_error($ds));
             return false;
         }
 
@@ -300,7 +301,7 @@ class rcube_ldap_simple_password
         $parts = explode('@', $_SESSION['username']);
 
         if (count($parts) == 2) {
-            $dc = 'dc='.strtr($parts[1], ['.' => ',dc=']); // hierarchal domain string
+            $dc = 'dc=' . strtr($parts[1], ['.' => ',dc=']); // hierarchal domain string
 
             $str = str_replace('%name', $parts[0], $str);
             $str = str_replace('%n', $parts[0], $str);
@@ -308,7 +309,7 @@ class rcube_ldap_simple_password
             $str = str_replace('%domain', $parts[1], $str);
             $str = str_replace('%d', $parts[1], $str);
         }
-        else if (count($parts) == 1) {
+        elseif (count($parts) == 1) {
             $str = str_replace('%name', $parts[0], $str);
             $str = str_replace('%n', $parts[0], $str);
         }

@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_imap class
- *
- * @package Tests
  */
 class Framework_Imap extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

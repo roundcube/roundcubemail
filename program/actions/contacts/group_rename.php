@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -63,7 +63,7 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
                     'source' => $source,
                     'id'     => $gid,
                     'name'   => $newname,
-                    'newid'  => $newgid ?? null
+                    'newid'  => $newgid ?? null,
             ]);
         }
         else {

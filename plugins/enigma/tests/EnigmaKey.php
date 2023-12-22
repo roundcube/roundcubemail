@@ -16,13 +16,12 @@ class Enigma_EnigmaKey extends PHPUnit\Framework\TestCase
 
         $this->assertInstanceOf('enigma_key', $key);
         $this->assertSame(enigma_key::TYPE_UNKNOWN, $key->get_type());
-        $this->assertSame(false, $key->is_revoked());
-        $this->assertSame(false, $key->is_valid());
-        $this->assertSame(false, $key->is_private());
-        $this->assertSame(null, $key->find_subkey('test@domain.com', enigma_key::CAN_SIGN));
+        $this->assertFalse($key->is_revoked());
+        $this->assertFalse($key->is_valid());
+        $this->assertFalse($key->is_private());
+        $this->assertNull($key->find_subkey('test@domain.com', enigma_key::CAN_SIGN));
 
         $this->assertSame('89E037A5', $key::format_id('04622F2089E037A5'));
         // TODO: format_fingerprint();
     }
 }
-

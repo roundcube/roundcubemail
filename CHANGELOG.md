@@ -20,6 +20,14 @@
 - Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
+- OAuth: Add `oauth_config_uri` - support OAuth/OpenIDC discovery (#8201)
+- OAuth: Add `oauth_logout_uri` - allow invalidating the OAUTH-Session on logout (#8057)
+- OAuth: Support for OpenID Connect RP-Initiated Logout (#9109)
+- OAuth: Support for OpenID Connect Back-Channel Logout (#9110)
+- OAuth: Add support of OAUTHBEARER (#9217)
+- OAuth: Add `oauth_debug` option (#9217)
+- OAuth: Fix: missing config `oauth_provider_name` in rcmail_oauth's constructor (#9217)
+- OAuth: Refactor: move display to the rcmail_oauth class and use `loginform_content` hook (#9217)
 - ACL: Set default of 'acl_specials' option to ['anyone'] (#8911)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
@@ -32,9 +40,11 @@
 - Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
 - Fix page jump menu flickering on click (#9196)
 - Update to TinyMCE 5.10.9 security release (#9228)
-- Fix PHP8 warnings (#9235, #9238)
+- Fix PHP8 warnings (#9235, #9238, #9242)
 - Fix saving other encryption settings besides enigma's (#9240)
 - Fix unneeded php command use in installto.sh and deluser.sh scripts (#9237)
+- Fix TinyMCE localization installation (#9266)
+- Fix bug where trailing non-ascii characters in email addresses could have been removed in recipient input (#9257)
 
 ## Release 1.6.5
 

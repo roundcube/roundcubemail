@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_utils_modcss
- *
- * @package Tests
  */
 class Actions_Utils_Modcss extends ActionTestCase
 {
@@ -23,7 +21,7 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->assertSame(403, $output->getProperty('errorCode'));
         $this->assertSame("Unauthorized request", $output->getProperty('errorMessage'));
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
 
         // Invalid url
         $_GET['_u'] = '****';
@@ -31,7 +29,7 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->assertSame(403, $output->getProperty('errorCode'));
         $this->assertSame("Unauthorized request", $output->getProperty('errorMessage'));
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
 
         // Valid url but not "registered"
         $url = 'https://raw.githubusercontent.com/roundcube/roundcubemail/master/aaaaaaaaaa';
@@ -42,16 +40,21 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->assertSame(403, $output->getProperty('errorCode'));
         $this->assertSame("Unauthorized request", $output->getProperty('errorMessage'));
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
 
         // Valid url pointing to non-existing resource
         $_SESSION['modcssurls'][$key] = $url;
+
+        setHttpClientMock([
+            ['code' => 404],
+            ['code' => 200, 'headers' => ['Content-Type' => 'text/css'], 'response' => 'div.pre { display: none; }'],
+        ]);
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(404, $output->getProperty('errorCode'));
         $this->assertSame("Invalid response returned by server", $output->getProperty('errorMessage'));
-        $this->assertSame(null, $output->getOutput());
+        $this->assertNull($output->getOutput());
 
         // Valid url pointing to an existing resource
         $url = 'https://raw.githubusercontent.com/roundcube/roundcubemail/master/program/resources/tinymce/content.css';
@@ -61,7 +64,7 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
-        $this->assertSame(null, $output->getProperty('errorCode'));
+        $this->assertNull($output->getProperty('errorCode'));
         $this->assertSame(['Content-Type: text/css'], $output->getProperty('headers'));
         $this->assertStringContainsString('#cid div.prefixpre', $output->getOutput());
     }

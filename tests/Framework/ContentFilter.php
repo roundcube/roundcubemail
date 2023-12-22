@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_content_filter class
- *
- * @package Tests
  */
 class Framework_ContentFilter extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

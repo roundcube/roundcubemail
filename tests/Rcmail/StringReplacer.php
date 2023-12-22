@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_string_replacer class
- *
- * @package Tests
  */
 class Rcmail_RcmailStringReplacer extends PHPUnit\Framework\TestCase
 {

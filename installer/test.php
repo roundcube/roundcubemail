@@ -1,4 +1,5 @@
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -14,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    die("Not allowed! Please open installer/index.php instead.");
+    exit("Not allowed! Please open installer/index.php instead.");
 }
 
 ?>
@@ -102,7 +103,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 
 $dirs[] = !empty($RCI->config['temp_dir']) ? $RCI->config['temp_dir'] : 'temp';
 if ($RCI->config['log_driver'] != 'syslog') {
-    $dirs[] = $RCI->config['log_dir'] ? $RCI->config['log_dir'] : 'logs';
+    $dirs[] = $RCI->config['log_dir'] ?: 'logs';
 }
 
 foreach ($dirs as $dir) {
@@ -130,7 +131,7 @@ $db_working = false;
 if ($RCI->configured) {
     if (!empty($RCI->config['db_dsnw'])) {
         $DB = rcube_db::factory($RCI->config['db_dsnw'], '', false);
-        $DB->set_debug((bool)$RCI->config['sql_debug']);
+        $DB->set_debug((bool) $RCI->config['sql_debug']);
         $DB->db_connect('w');
 
         if (!($db_error_msg = $DB->is_error())) {
@@ -160,7 +161,7 @@ if ($db_working && !empty($_POST['initdb'])) {
             Make sure that the configured database exists and that the user as write privileges</p>';
     }
 }
-else if ($db_working && !empty($_POST['updatedb'])) {
+elseif ($db_working && !empty($_POST['updatedb'])) {
     if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
     }
@@ -177,9 +178,9 @@ if ($db_working) {
 
         $db_working = false;
     }
-    else if ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
+    elseif ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
         $RCI->fail('DB Schema', "Database schema differs");
-        echo '<ul style="margin:0"><li>' . join("</li>\n<li>", $err) . "</li></ul>";
+        echo '<ul style="margin:0"><li>' . implode("</li>\n<li>", $err) . "</li></ul>";
 
         $select = $RCI->versions_select(['name' => 'version']);
         $select->add('0.9 or newer', '');
@@ -208,7 +209,7 @@ if ($db_working) {
     // write test
     $insert_id = md5(uniqid());
     $db_write = $DB->query("INSERT INTO " . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
-        . " (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, ".$DB->now().", '127.0.0.1', 'foo')", $insert_id);
+        . " (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, " . $DB->now() . ", '127.0.0.1', 'foo')", $insert_id);
 
     if ($db_write) {
         $RCI->pass('DB Write');
@@ -376,7 +377,7 @@ if (isset($_POST['sendmail'])) {
             $RCI->pass('SMTP send');
         }
         else {
-            $RCI->fail('SMTP send', join('; ', $smtp_response));
+            $RCI->fail('SMTP send', implode('; ', $smtp_response));
         }
     }
     else {
@@ -455,7 +456,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
     $a_host = parse_url($imap_host);
     if ($a_host['host']) {
         $imap_host = $a_host['host'];
-        $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl','imaps','tls'])) ? $a_host['scheme'] : null;
+        $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) ? $a_host['scheme'] : null;
         $imap_port = $a_host['port'] ?? ($imap_ssl && $imap_ssl != 'tls' ? 993 : 143);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -21,9 +21,6 @@
 
 /**
  * Interface class for accessing Roundcube cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache
 {
@@ -62,7 +59,7 @@ class rcube_cache
      *                        Non-indexed cache does not remove data, but flags it for expiration,
      *                        also stores it in memory until close() method is called.
      *
-     * @param rcube_cache Cache object
+     * @return rcube_cache Cache object
      */
     public static function factory($type, $userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
@@ -73,7 +70,7 @@ class rcube_cache
             rcube::raise_error([
                     'code' => 600, 'type' => 'db',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Configuration error. Unsupported cache driver: $driver"
+                    'message' => "Configuration error. Unsupported cache driver: $driver",
                 ],
                 true, true
             );
@@ -204,7 +201,7 @@ class rcube_cache
         $cache_key = $prefix;
 
         if (!empty($params)) {
-            $func = function($v) {
+            $func = static function ($v) {
                 if (is_array($v)) {
                     sort($v);
                 }
@@ -327,9 +324,9 @@ class rcube_cache
     /**
      * Deletes the cache record(s).
      *
-     * @param string  $key         Cache key name or pattern
-     * @param boolean $prefix_mode Enable it to clear all keys starting
-     *                             with prefix specified in $key
+     * @param string $key         Cache key name or pattern
+     * @param bool   $prefix_mode Enable it to clear all keys starting
+     *                            with prefix specified in $key
      */
     protected function remove_record($key = null, $prefix_mode = false)
     {
@@ -344,7 +341,7 @@ class rcube_cache
             $this->cache = [];
         }
         // "Remove" keys by name prefix
-        else if ($prefix_mode) {
+        elseif ($prefix_mode) {
             $ts     = new DateTime('now', new DateTimeZone('UTC'));
             $prefix = implode('.', array_slice(explode('.', trim($key, '. ')), 0, self::MAX_EXP_LEVEL));
 
@@ -382,7 +379,7 @@ class rcube_cache
             $this->index = [];
         }
         // Remove keys by name prefix
-        else if ($prefix_mode) {
+        elseif ($prefix_mode) {
             foreach ($this->index as $idx => $k) {
                 if (strpos($k, $key) === 0) {
                     $this->delete_item($this->ckey($k));
@@ -507,7 +504,7 @@ class rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -519,7 +516,7 @@ class rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function delete_item($key)
     {

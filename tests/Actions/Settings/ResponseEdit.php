@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_settings_response_edit
- *
- * @package Tests
  */
 class Actions_Settings_ResponseEdit extends ActionTestCase
 {
@@ -22,7 +20,7 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
         $rcmail->user->save_prefs([
             'compose_responses_static' => [
                 ['name' => 'static 1', 'text' => 'Static Response One'],
-            ]
+            ],
         ]);
 
         self::initDB('responses');
@@ -38,7 +36,7 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
 
         $this->assertSame('responseedit', $output->template);
         $this->assertSame('Edit response', $output->getProperty('pagetitle'));
-        $this->assertSame(true, $output->get_env('readonly'));
+        $this->assertTrue($output->get_env('readonly'));
         $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
         $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
         $this->assertTrue(strpos($result, "tinymce.min.js") !== false);
@@ -53,7 +51,7 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
 
         $this->assertSame('responseedit', $output->template);
         $this->assertSame('Edit response', $output->getProperty('pagetitle'));
-        $this->assertSame(false, $output->get_env('readonly'));
+        $this->assertFalse($output->get_env('readonly'));
         $this->assertTrue(strpos($result, "test response 2&lt;/b&gt;&lt;/p&gt;</textarea>") !== false);
     }
 

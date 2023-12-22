@@ -2,13 +2,10 @@
 
 /**
  * Test class to test rcube_html2text class
- *
- * @package Tests
  */
 class rc_html2text extends PHPUnit\Framework\TestCase
 {
-
-    function data_html2text()
+    function data_html2text(): iterable
     {
         return [
             0 => [
@@ -43,8 +40,8 @@ class rc_html2text extends PHPUnit\Framework\TestCase
             ],
             6 => [
                 'title' => 'Don\'t remove non-printable chars',
-                'in'    => chr(0x002).chr(0x003),
-                'out'   => chr(0x002).chr(0x003),
+                'in'    => chr(0x002) . chr(0x003),
+                'out'   => chr(0x002) . chr(0x003),
             ],
             7 => [
                 'title' => 'Remove spaces after <br>',
@@ -103,7 +100,7 @@ class rc_html2text extends PHPUnit\Framework\TestCase
         $ht->set_html($in);
         $res = $ht->get_text();
 
-        $this->assertEquals($out, $res, $title);
+        $this->assertSame($out, $res, $title);
     }
 
     /**
@@ -111,12 +108,12 @@ class rc_html2text extends PHPUnit\Framework\TestCase
      */
     function test_multiple_blockquotes()
     {
-        $html = <<<EOF
-<br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
-<blockQuote>INNER 2</blockquote><div><br></div><div>Par 2</div>
-<div><br></div><div>Par 3</div><div><br></div>
-<blockquote>INNER 3</blockquote>OUTER END</blockquote>
-EOF;
+        $html = <<<'EOF'
+            <br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
+            <blockQuote>INNER 2</blockquote><div><br></div><div>Par 2</div>
+            <div><br></div><div>Par 3</div><div><br></div>
+            <blockquote>INNER 3</blockquote>OUTER END</blockquote>
+            EOF;
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
@@ -128,25 +125,25 @@ EOF;
     function test_broken_blockquotes()
     {
         // no end tag
-        $html = <<<EOF
-Begin<br>
-<blockquote>QUOTED TEXT
-<blockquote>
-NO END TAG FOUND
-EOF;
+        $html = <<<'EOF'
+            Begin<br>
+            <blockquote>QUOTED TEXT
+            <blockquote>
+            NO END TAG FOUND
+            EOF;
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
         $this->assertStringContainsString('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
 
         // with some (nested) end tags
-        $html = <<<EOF
-Begin<br>
-<blockquote>QUOTED TEXT
-<blockquote>INNER 1</blockquote>
-<blockquote>INNER 2</blockquote>
-NO END TAG FOUND
-EOF;
+        $html = <<<'EOF'
+            Begin<br>
+            <blockquote>QUOTED TEXT
+            <blockquote>INNER 1</blockquote>
+            <blockquote>INNER 2</blockquote>
+            NO END TAG FOUND
+            EOF;
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
@@ -258,7 +255,7 @@ Links:
         $this->assertSame($output, $res, 'Links handling');
     }
 
-    function data_links_no_list()
+    function data_links_no_list(): iterable
     {
         return [
             [

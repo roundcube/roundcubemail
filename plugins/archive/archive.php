@@ -7,6 +7,7 @@
  * to move messages to a (user selectable) archive folder.
  *
  * @version 3.2
+ *
  * @license GNU GPLv3+
  * @author Andre Rodier, Thomas Bruederli, Aleksander Machniak
  */
@@ -57,11 +58,11 @@ class archive extends rcube_plugin
             $rcmail->output->set_env('archive_folder', $this->archive_folder);
             $rcmail->output->set_env('archive_type', $rcmail->config->get('archive_type',''));
         }
-        else if ($rcmail->task == 'mail') {
+        elseif ($rcmail->task == 'mail') {
             // handler for ajax request
             $this->register_action('plugin.move2archive', [$this, 'move_messages']);
         }
-        else if ($rcmail->task == 'settings') {
+        elseif ($rcmail->task == 'settings') {
             $this->add_hook('preferences_list', [$this, 'prefs_table']);
             $this->add_hook('preferences_save', [$this, 'prefs_save']);
 
@@ -103,7 +104,7 @@ class archive extends rcube_plugin
                 $list[$idx]['name'] = $new_name;
                 return true;
             }
-            else if (!empty($item['folders'])) {
+            elseif (!empty($item['folders'])) {
                 if ($this->_mod_folder_name($list[$idx]['folders'], $folder, $new_name)) {
                     return true;
                 }
@@ -162,7 +163,7 @@ class archive extends rcube_plugin
                 $count = count($uids);
                 continue;
             }
-            else if (!$archive_type || $archive_type == 'folder') {
+            elseif (!$archive_type || $archive_type == 'folder') {
                 $folder = $this->archive_folder;
 
                 if ($archive_type == 'folder') {
@@ -187,35 +188,35 @@ class archive extends rcube_plugin
                 foreach ($messages as $message) {
                     $subfolder = null;
                     switch ($archive_type) {
-                    case 'year':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y');
-                        break;
+                        case 'year':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y');
+                            break;
 
-                    case 'month':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
-                            . $delimiter . $rcmail->format_date($message->timestamp, 'm');
-                        break;
+                        case 'month':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                                . $delimiter . $rcmail->format_date($message->timestamp, 'm');
+                            break;
 
-                    case 'tbmonth':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
-                            . $delimiter . $rcmail->format_date($message->timestamp, 'Y')
-                            . '-' . $rcmail->format_date($message->timestamp, 'm');
-                        break;
+                        case 'tbmonth':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                                . $delimiter . $rcmail->format_date($message->timestamp, 'Y')
+                                . '-' . $rcmail->format_date($message->timestamp, 'm');
+                            break;
 
-                    case 'sender':
-                        $subfolder = $this->sender_subfolder($message->get('from'));
-                        break;
+                        case 'sender':
+                            $subfolder = $this->sender_subfolder($message->get('from'));
+                            break;
 
-                    case 'folderyear':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
-                            . $delimiter . $mbox;
-                        break;
+                        case 'folderyear':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                                . $delimiter . $mbox;
+                            break;
 
-                    case 'foldermonth':
-                        $subfolder = $rcmail->format_date($message->timestamp, 'Y')
-                            . $delimiter . $rcmail->format_date($message->timestamp, 'm')
-                            . $delimiter . $mbox;
-                        break;
+                        case 'foldermonth':
+                            $subfolder = $rcmail->format_date($message->timestamp, 'Y')
+                                . $delimiter . $rcmail->format_date($message->timestamp, 'm')
+                                . $delimiter . $mbox;
+                            break;
                     }
 
                     // compose full folder path
@@ -280,7 +281,7 @@ class archive extends rcube_plugin
 
         // jump back one page (user removed the whole last page)
         if ($page > 1 && $remaining == 0) {
-            $page -= 1;
+            --$page;
             $storage->set_page($page);
             $_SESSION['page'] = $page;
             $jump_back = true;
@@ -373,8 +374,8 @@ class archive extends rcube_plugin
             $path = explode($delimiter, $folder);
 
             // we'll create all folders in the path
-            for ($i=0; $i<count($path); $i++) {
-                $_folder = implode($delimiter, array_slice($path, 0, $i+1));
+            for ($i = 0; $i < count($path); $i++) {
+                $_folder = implode($delimiter, array_slice($path, 0, $i + 1));
                 if (!in_array($_folder, $this->folders)) {
                     if ($storage->create_folder($_folder, true)) {
                         $this->result['reload'] = true;
@@ -421,7 +422,7 @@ class archive extends rcube_plugin
 
             $args['blocks']['main']['options']['archive_mbox'] = [
                 'title'   => html::label('_archive_mbox', rcube::Q($this->gettext('archivefolder'))),
-                'content' => $select->show($mbox, ['id' => '_archive_mbox', 'name' => '_archive_mbox'])
+                'content' => $select->show($mbox, ['id' => '_archive_mbox', 'name' => '_archive_mbox']),
             ];
 
             // If the server supports only either messages or folders in a folder
@@ -443,17 +444,17 @@ class archive extends rcube_plugin
                     'options' => [
                         'archive_type' => [
                             'title'   => html::label('ff_archive_type', rcube::Q($this->gettext('archivetype'))),
-                            'content' => $archive_type->show($type)
-                        ]
-                    ]
+                            'content' => $archive_type->show($type),
+                        ],
+                    ],
                 ];
             }
         }
-        else if ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
+        elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
             $chbox = new html_checkbox(['name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1]);
             $args['blocks']['main']['options']['read_on_archive'] = [
                 'title'   => html::label('ff_read_on_archive', rcube::Q($this->gettext('readonarchive'))),
-                'content' => $chbox->show($rcmail->config->get('read_on_archive') ? 1 : 0)
+                'content' => $chbox->show($rcmail->config->get('read_on_archive') ? 1 : 0),
             ];
         }
 
@@ -475,7 +476,7 @@ class archive extends rcube_plugin
         if ($args['section'] == 'folders' && !in_array('archive_mbox', $dont_override)) {
             $args['prefs']['archive_type'] = rcube_utils::get_input_string('_archive_type', rcube_utils::INPUT_POST);
         }
-        else if ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
+        elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
             $args['prefs']['read_on_archive'] = (bool) rcube_utils::get_input_value('_read_on_archive', rcube_utils::INPUT_POST);
         }
 

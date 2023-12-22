@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -38,8 +38,8 @@ class rcmail_action_login_oauth extends rcmail_action
 
             // oauth success
             if ($auth && isset($auth['username'], $auth['authorization'], $auth['token'])) {
-                // enforce XOAUTH2 auth type
-                $rcmail->config->set('imap_auth_type', 'XOAUTH2');
+                // enforce OAUTHBEARER/XOAUTH2 auth type
+                $rcmail->config->set('imap_auth_type', $rcmail->oauth->get_auth_type());
                 $rcmail->config->set('login_password_maxlen', strlen($auth['authorization']));
 
                 // use access_token and user info for IMAP login
@@ -54,6 +54,8 @@ class rcmail_action_login_oauth extends rcmail_action
 
                     // save OAuth token in session
                     $_SESSION['oauth_token'] = $auth['token'];
+
+                    $rcmail->oauth->log_debug('login successful for OIDC sub=%s with username=%s which is rcube-id=%s', $auth['token']['identity']['sub'], $auth['username'], $rcmail->user->ID);
 
                     // log successful login
                     $rcmail->log_login();
@@ -88,12 +90,12 @@ class rcmail_action_login_oauth extends rcmail_action
             }
         }
         // error return from oauth login
-        else if (!empty($auth_error)) {
+        elseif (!empty($auth_error)) {
             $error_message = rcube_utils::get_input_string('error_description', rcube_utils::INPUT_GET) ?: $auth_error;
             $rcmail->output->show_message($error_message, 'warning');
         }
         // login action: redirect to `oauth_auth_uri`
-        else if ($rcmail->task === 'login') {
+        elseif ($rcmail->task === 'login') {
             // this will always exit() the process
             $rcmail->oauth->login_redirect();
         }

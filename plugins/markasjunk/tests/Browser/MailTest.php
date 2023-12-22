@@ -2,8 +2,6 @@
 
 namespace Tests\Browser\Plugins\Markasjunk;
 
-use Tests\Browser\Components\Popupmenu;
-
 class MailTest extends \Tests\Browser\TestCase
 {
     public static function setUpBeforeClass(): void
@@ -22,13 +20,13 @@ class MailTest extends \Tests\Browser\TestCase
      */
     public function testMailUI()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('mail');
 
             // Toolbar menu (Spam button inactive)
             $browser->assertToolbarMenu([], ['junk']);
 
-            $browser->whenAvailable('#messagelist tbody', function ($browser) {
+            $browser->whenAvailable('#messagelist tbody', static function ($browser) {
                 $browser->ctrlClick('tr:last-child');
             });
 
@@ -44,7 +42,7 @@ class MailTest extends \Tests\Browser\TestCase
             }
 
             // Folders list
-            $browser->whenAvailable('#mailboxlist', function ($browser) {
+            $browser->whenAvailable('#mailboxlist', static function ($browser) {
                 $browser->assertSeeIn('li.mailbox.junk .unreadcount', '1')
                     ->assertMissing('li.mailbox.inbox .unreadcount')
                     ->click('li.mailbox.junk')
@@ -55,7 +53,7 @@ class MailTest extends \Tests\Browser\TestCase
             $browser->assertToolbarMenu([], ['notjunk']);
 
             // Messages list contains the moved message
-            $browser->whenAvailable('#messagelist tbody', function ($browser) {
+            $browser->whenAvailable('#messagelist tbody', static function ($browser) {
                 $browser->assertElementsCount('tr', 1)
                     ->ctrlClick('tr:last-child');
             });
@@ -72,7 +70,7 @@ class MailTest extends \Tests\Browser\TestCase
             }
 
             // Folders list, the message is back in INBOX
-            $browser->whenAvailable('#mailboxlist', function ($browser) {
+            $browser->whenAvailable('#mailboxlist', static function ($browser) {
                 $browser->assertMissing('li.mailbox.junk .unreadcount')
                     ->assertSeeIn('li.mailbox.inbox .unreadcount', '1')
                     ->click('li.mailbox.inbox')
@@ -80,7 +78,7 @@ class MailTest extends \Tests\Browser\TestCase
             });
 
             // Messages list contains the moved message
-            $browser->whenAvailable('#messagelist tbody', function ($browser) {
+            $browser->whenAvailable('#messagelist tbody', static function ($browser) {
                 $browser->assertElementsCount('tr', 1);
             });
         });
@@ -93,10 +91,10 @@ class MailTest extends \Tests\Browser\TestCase
      */
     public function testMailView()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('mail');
 
-            $browser->whenAvailable('#messagelist tbody', function ($browser) {
+            $browser->whenAvailable('#messagelist tbody', static function ($browser) {
                 $browser->click('tr:last-child');
             });
 
@@ -114,12 +112,12 @@ class MailTest extends \Tests\Browser\TestCase
             }
 
             // Folders list
-            $browser->whenAvailable('#mailboxlist', function ($browser) {
+            $browser->whenAvailable('#mailboxlist', static function ($browser) {
                 $browser->click('li.mailbox.junk')
                     ->waitUntilNotBusy();
             });
 
-            $browser->whenAvailable('#messagelist tbody', function ($browser) {
+            $browser->whenAvailable('#messagelist tbody', static function ($browser) {
                 $browser->click('tr:last-child');
             });
 

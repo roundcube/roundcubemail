@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -14,18 +15,18 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 ini_set('memory_limit', -1);
 
-require_once INSTALL_PATH.'program/include/clisetup.php';
+require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 function print_usage()
 {
-    print "Usage: msgimport.sh -h imap-host -u user-name -m mailbox -f message-file\n";
-    print "--host   IMAP host\n";
-    print "--user   IMAP user name\n";
-    print "--mbox   Target mailbox\n";
-    print "--file   Message file to upload\n";
+    echo "Usage: msgimport.sh -h imap-host -u user-name -m mailbox -f message-file\n";
+    echo "--host   IMAP host\n";
+    echo "--user   IMAP user name\n";
+    echo "--mbox   Target mailbox\n";
+    echo "--file   Message file to upload\n";
 }
 
 // get arguments
@@ -36,12 +37,12 @@ if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
 }
-else if (empty($args['host']) || empty($args['file'])) {
-    print "Missing required parameters.\n";
+elseif (empty($args['host']) || empty($args['file'])) {
+    echo "Missing required parameters.\n";
     print_usage();
     exit;
 }
-else if (!is_file($args['file'])) {
+elseif (!is_file($args['file'])) {
     rcube::raise_error("Cannot read message file.", false, true);
 }
 
@@ -61,7 +62,7 @@ if (empty($args['pass'])) {
 $a_host = parse_url($args['host']);
 if (!empty($a_host['host'])) {
     $host      = $a_host['host'];
-    $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl','imaps','tls'])) ? TRUE : FALSE;
+    $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) ? true : false;
     $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);
 }
 else {
@@ -75,8 +76,8 @@ $IMAP = new rcube_imap(null);
 
 // try to connect to IMAP server
 if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) {
-    print "IMAP login successful.\n";
-    print "Uploading messages...\n";
+    echo "IMAP login successful.\n";
+    echo "Uploading messages...\n";
 
     $count   = 0;
     $message = $lastline = '';
@@ -106,10 +107,10 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
 
     // upload message from file
     if ($count) {
-        print "$count messages successfully added to {$args['mbox']}.\n";
+        echo "$count messages successfully added to {$args['mbox']}.\n";
     }
     else {
-        print "Adding messages failed!\n";
+        echo "Adding messages failed!\n";
     }
 }
 else {

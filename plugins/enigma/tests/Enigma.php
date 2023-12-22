@@ -2,8 +2,7 @@
 
 class Enigma_Plugin extends PHPUnit\Framework\TestCase
 {
-
-    function setUp(): void
+    protected function setUp(): void
     {
         include_once __DIR__ . '/../enigma.php';
     }
@@ -20,4 +19,3 @@ class Enigma_Plugin extends PHPUnit\Framework\TestCase
         $this->assertInstanceOf('rcube_plugin', $plugin);
     }
 }
-

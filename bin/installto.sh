@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -18,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
@@ -58,7 +59,7 @@ if (strtolower($input) == 'y') {
     echo "Copying files to target location...";
 
     $adds = [];
-    $dirs = ['bin','SQL','plugins','skins','program','public_html'];
+    $dirs = ['bin', 'SQL', 'plugins', 'skins', 'program', 'public_html'];
 
     if (is_dir(INSTALL_PATH . 'vendor') && (!is_file("$target_dir/composer.json") || rcmail_install::vendor_dir_untouched($target_dir))) {
         $dirs[] = 'vendor';
@@ -77,7 +78,7 @@ if (strtolower($input) == 'y') {
         }
     }
 
-    foreach (['index.php','config/defaults.inc.php','composer.json-dist','jsdeps.json','CHANGELOG.md','README.md','UPGRADING','LICENSE','INSTALL'] as $file) {
+    foreach (['index.php', 'config/defaults.inc.php', 'composer.json-dist', 'jsdeps.json', 'CHANGELOG.md', 'README.md', 'UPGRADING', 'LICENSE', 'INSTALL'] as $file) {
         $command = "rsync -a --out-format=%n " . INSTALL_PATH . "$file $target_dir/$file";
 
         if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {
@@ -86,7 +87,7 @@ if (strtolower($input) == 'y') {
     }
 
     // Copy .htaccess or .user.ini if needed
-    foreach (['.htaccess','.user.ini'] as $file) {
+    foreach (['.htaccess', '.user.ini'] as $file) {
         if (file_exists(INSTALL_PATH . $file)) {
             if (!file_exists("$target_dir/$file") || file_get_contents(INSTALL_PATH . $file) != file_get_contents("$target_dir/$file")) {
                 if (copy(INSTALL_PATH . $file, "$target_dir/$file.new")) {
@@ -119,7 +120,7 @@ if (strtolower($input) == 'y') {
         $adds[] = "WARNING: JavaScript dependencies update skipped. New jsdeps.json file not found.";
     }
     // check if js-deps are up-to-date
-    else if (file_exists("$target_dir/jsdeps.json") && file_exists("$target_dir/bin/install-jsdeps.sh")) {
+    elseif (file_exists("$target_dir/jsdeps.json") && file_exists("$target_dir/bin/install-jsdeps.sh")) {
         $jsdeps    = json_decode(file_get_contents("$target_dir/jsdeps.json"));
         $package   = $jsdeps->dependencies[0];
         $dest_file = $target_dir . '/' . $package->dest;

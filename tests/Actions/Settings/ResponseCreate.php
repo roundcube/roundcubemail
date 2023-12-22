@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_settings_response_create
- *
- * @package Tests
  */
 class Actions_Settings_ResponseCreate extends ActionTestCase
 {
@@ -26,7 +24,7 @@ class Actions_Settings_ResponseCreate extends ActionTestCase
 
         $this->assertSame('responseedit', $output->template);
         $this->assertSame('Add response', $output->getProperty('pagetitle'));
-        $this->assertSame(false, $output->get_env('readonly'));
+        $this->assertFalse($output->get_env('readonly'));
         $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
         $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
     }

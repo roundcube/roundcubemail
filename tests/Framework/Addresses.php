@@ -2,12 +2,9 @@
 
 /**
  * Test class to test rcube_addresses class
- *
- * @package Tests
  */
 class Framework_Addresses extends PHPUnit\Framework\TestCase
 {
-
     /**
      * Class constructor
      */

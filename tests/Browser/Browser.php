@@ -4,7 +4,6 @@ namespace Tests\Browser;
 
 use Facebook\WebDriver\WebDriverKeys;
 use PHPUnit\Framework\Assert;
-use Tests\Browser\Components;
 
 /**
  * Laravel Dusk Browser extensions
@@ -76,7 +75,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function assertTaskMenu($selected)
     {
-        $this->with(new Components\Taskmenu(), function ($browser) use ($selected) {
+        $this->with(new Components\Taskmenu(), static function ($browser) use ($selected) {
             $browser->assertMenuState($selected);
         });
 
@@ -88,7 +87,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function assertToolbarMenu($active, $disabled = [], $missing = [])
     {
-        $this->with(new Components\Toolbarmenu(), function ($browser) use ($active, $disabled, $missing) {
+        $this->with(new Components\Toolbarmenu(), static function ($browser) use ($active, $disabled, $missing) {
             $browser->assertMenuState($active, $disabled, $missing);
         });
 
@@ -100,7 +99,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function closeToolbarMenu()
     {
-        $this->with(new Components\Toolbarmenu(), function ($browser) {
+        $this->with(new Components\Toolbarmenu(), static function ($browser) {
             $browser->closeMenu();
         });
 
@@ -112,7 +111,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function clickTaskMenuItem($name)
     {
-        $this->with(new Components\Taskmenu(), function ($browser) use ($name) {
+        $this->with(new Components\Taskmenu(), static function ($browser) use ($name) {
             $browser->clickMenuItem($name);
         });
 
@@ -124,7 +123,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function clickToolbarMenuItem($name, $dropdown_action = null, $close = true)
     {
-        $this->with(new Components\Toolbarmenu(), function ($browser) use ($name, $dropdown_action, $close) {
+        $this->with(new Components\Toolbarmenu(), static function ($browser) use ($name, $dropdown_action, $close) {
             $browser->clickMenuItem($name, $dropdown_action, $close);
         });
 
@@ -148,7 +147,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function go($task = 'mail', $action = null, $login = true)
     {
-        $this->with(new Components\App(), function ($browser) use ($task, $action, $login) {
+        $this->with(new Components\App(), static function ($browser) use ($task, $action, $login) {
             $browser->gotoAction($task, $action, $login);
         });
 
@@ -182,7 +181,7 @@ class Browser extends \Laravel\Dusk\Browser
     /**
      * Handler for actions that expect to open a new window
      *
-     * @param callback $callback Function to execute with Browser object as argument
+     * @param callable $callback Function to execute with Browser object as argument
      *
      * @return array Main window handle and new window handle
      */
@@ -216,7 +215,7 @@ class Browser extends \Laravel\Dusk\Browser
 
         $this->script(
             "var element = jQuery('$selector')[0] || jQuery('input[name=$selector]')[0];"
-            ."element = jQuery(element).next('.custom-control-label'); $run;"
+            . "element = jQuery(element).next('.custom-control-label'); $run;"
         );
 
         return $this;
@@ -268,8 +267,9 @@ class Browser extends \Laravel\Dusk\Browser
     /**
      * Wait for the given selector to be removed.
      *
-     * @param  string  $selector
-     * @param  int|null  $seconds
+     * @param string   $selector
+     * @param int|null $seconds
+     *
      * @return $this
      *
      * @throws \Facebook\WebDriver\Exception\TimeoutException
@@ -280,7 +280,7 @@ class Browser extends \Laravel\Dusk\Browser
 
         return $this->waitUsing($seconds, 100, function () use ($selector) {
             try {
-                $missing = ! $this->resolver->findOrFail($selector)->isDisplayed();
+                $missing = !$this->resolver->findOrFail($selector)->isDisplayed();
             } catch (\Facebook\WebDriver\Exception\NoSuchElementException $e) {
                 $missing = true;
             } catch (\Facebook\WebDriver\Exception\StaleElementReferenceException $e) {

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -20,16 +20,13 @@
 
 /**
  * View class to produce JSON responses
- *
- * @package    Webmail
- * @subpackage View
  */
 class rcmail_output_json extends rcmail_output
 {
     protected $texts     = [];
     protected $commands  = [];
     protected $callbacks = [];
-    protected $message   = null;
+    protected $message;
     protected $header_sent = false;
 
     public $type      = 'js';
@@ -73,7 +70,7 @@ class rcmail_output_json extends rcmail_output
     /**
      * Register a template object handler
      *
-     * @param string $obj  Object name
+     * @param string   $obj  Object name
      * @param callable $func Function name to call
      */
     public function add_handler($obj, $func)
@@ -94,8 +91,8 @@ class rcmail_output_json extends rcmail_output
     /**
      * Call a client method
      *
-     * @param string $cmd    Method to call
-     * @param mixed ...$args Additional arguments
+     * @param string $cmd     Method to call
+     * @param mixed  ...$args Additional arguments
      */
     public function command($cmd, ...$args)
     {
@@ -199,7 +196,7 @@ class rcmail_output_json extends rcmail_output
     {
         if ($code == 403) {
             http_response_code(403);
-            die("Invalid Request");
+            exit("Invalid Request");
         }
 
         $this->show_message("Application Error ($code): $message", 'error');

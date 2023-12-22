@@ -20,11 +20,13 @@
 
 error_reporting(E_ALL);
 
-if (php_sapi_name() != 'cli') {
-    die("Not in shell mode (php-cli)");
+if (PHP_SAPI != 'cli') {
+    exit("Not in shell mode (php-cli)");
 }
 
-if (!defined('INSTALL_PATH')) define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/' );
+if (!defined('INSTALL_PATH')) {
+    define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
+}
 
 define('ROUNDCUBE_TEST_MODE', true);
 define('ROUNDCUBE_TEST_SESSION', microtime(true));
@@ -37,22 +39,22 @@ if (@is_dir(TESTS_DIR . 'config')) {
 // Some tests depend on the way phpunit is executed
 $_SERVER['SCRIPT_NAME'] = 'vendor/bin/phpunit';
 
-require_once(INSTALL_PATH . 'program/include/iniset.php');
+require_once INSTALL_PATH . 'program/include/iniset.php';
 
 rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
 
 // Extend include path so some plugin test won't fail
 $include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
 if (set_include_path($include_path) === false) {
-    die("Fatal error: ini_set/set_include_path does not work.");
+    exit("Fatal error: ini_set/set_include_path does not work.");
 }
 
-require_once(TESTS_DIR . 'ActionTestCase.php');
-require_once(TESTS_DIR . 'ExitException.php');
-require_once(TESTS_DIR . 'OutputHtmlMock.php');
-require_once(TESTS_DIR . 'OutputJsonMock.php');
-require_once(TESTS_DIR . 'StderrMock.php');
-require_once(TESTS_DIR . 'StorageMock.php');
+require_once TESTS_DIR . 'ActionTestCase.php';
+require_once TESTS_DIR . 'ExitException.php';
+require_once TESTS_DIR . 'OutputHtmlMock.php';
+require_once TESTS_DIR . 'OutputJsonMock.php';
+require_once TESTS_DIR . 'StderrMock.php';
+require_once TESTS_DIR . 'StorageMock.php';
 
 // Initialize database and environment
 ActionTestCase::init();
@@ -83,7 +85,7 @@ function invokeMethod($object, $method, array $parameters = [], $class = null)
  *
  * @param rcube_sieve_vacation $object Object
  * @param string               $name   Property name
- * @param string $class        Object  class
+ * @param string               $class  Object  class
  *
  * @return mixed Property value
  */
@@ -103,7 +105,7 @@ function getProperty($object, $name, $class = null)
  * @param rcube_sieve_vacation $object Object
  * @param string               $name   Property name
  * @param mixed                $value  Property value
- * @param string $class        Object  class
+ * @param string               $class  Object  class
  *
  * @return void
  */
@@ -133,4 +135,26 @@ function getHTMLNodes($html, $xpath_query)
     $xpath = new DOMXPath($doc);
 
     return $xpath->query($xpath_query);
+}
+
+/**
+ * Mock Guzzle HTTP Client
+ */
+function setHttpClientMock(array $responses)
+{
+    foreach ($responses as $idx => $response) {
+        if (is_array($response)) {
+            $responses[$idx] = new \GuzzleHttp\Psr7\Response(
+                $response['code'] ?? 200,
+                $response['headers'] ?? [],
+                $response['response'] ?? ''
+            );
+        }
+    }
+
+    $mock = new \GuzzleHttp\Handler\MockHandler($responses);
+    $handler = \GuzzleHttp\HandlerStack::create($mock);
+    $rcube = rcube::get_instance();
+
+    $rcube->config->set('http_client', ['handler' => $handler]);
 }

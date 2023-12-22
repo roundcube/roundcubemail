@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * Mailcow Password Driver
  *
  * @version 1.0
@@ -23,7 +23,7 @@
  * $config['password_driver'] = 'mailcow';
  * $config['password_mailcow_api_host'] = '';
  * $config['password_mailcow_api_token'] = '';
-  */
+ */
 
 class rcube_mailcow_password
 {
@@ -39,15 +39,15 @@ class rcube_mailcow_password
 
             $headers = [
                 'X-API-Key' => $token,
-                'accept'    => 'application/json'
+                'accept'    => 'application/json',
             ];
 
             $cowdata = [
                 'attr' => [
                     'password'  => $passwd,
-                    'password2' => $passwd
+                    'password2' => $passwd,
                 ],
-                'items' => [ $username ]
+                'items' => [$username],
             ];
 
             if (!strpos($host, '://')) {
@@ -56,7 +56,7 @@ class rcube_mailcow_password
 
             $response = $client->post("{$host}/api/v1/edit/mailbox", [
                 'headers' => $headers,
-                'json'    => $cowdata
+                'json'    => $cowdata,
             ]);
 
             $cowreply = json_decode($response->getBody(),true);

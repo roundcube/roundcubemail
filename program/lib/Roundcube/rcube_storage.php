@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -21,9 +21,6 @@
 
 /**
  * Abstract class for accessing mail messages storage server
- *
- * @package    Framework
- * @subpackage Storage
  */
 abstract class rcube_storage
 {
@@ -93,11 +90,11 @@ abstract class rcube_storage
     /**
      * Connect to the server
      *
-     * @param  string   $host    Host to connect
-     * @param  string   $user    Username for IMAP account
-     * @param  string   $pass    Password for IMAP account
-     * @param  integer  $port    Port to connect to
-     * @param  string   $use_ssl SSL schema (either ssl or tls) or null if plain connection
+     * @param string $host    Host to connect
+     * @param string $user    Username for IMAP account
+     * @param string $pass    Password for IMAP account
+     * @param int    $port    Port to connect to
+     * @param string $use_ssl SSL schema (either ssl or tls) or null if plain connection
      *
      * @return bool True on success, False on failure
      */
@@ -158,7 +155,7 @@ abstract class rcube_storage
      *
      * @param string $name Option name
      *
-     * @param mixed Option value
+     * @return mixed Option value
      */
     public function get_option($name)
     {
@@ -336,11 +333,11 @@ abstract class rcube_storage
     /**
      * Get messages count for a specific folder.
      *
-     * @param string $folder  Folder name
-     * @param string $mode    Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
-     * @param bool   $force   Force reading from server and update cache
-     * @param bool   $status  Enables storing folder status info (max UID/count),
-     *                        required for folder_status()
+     * @param string $folder Folder name
+     * @param string $mode   Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
+     * @param bool   $force  Force reading from server and update cache
+     * @param bool   $status Enables storing folder status info (max UID/count),
+     *                       required for folder_status()
      *
      * @return int Number of messages
      */
@@ -360,13 +357,13 @@ abstract class rcube_storage
     /**
      * Public method for listing headers.
      *
-     * @param   string   $folder     Folder name
-     * @param   int      $page       Current page to list
-     * @param   string   $sort_field Header field to sort by
-     * @param   string   $sort_order Sort order [ASC|DESC]
-     * @param   int      $slice      Number of slice items to extract from result array
+     * @param string $folder     Folder name
+     * @param int    $page       Current page to list
+     * @param string $sort_field Header field to sort by
+     * @param string $sort_order Sort order [ASC|DESC]
+     * @param int    $slice      Number of slice items to extract from result array
      *
-     * @return  array    Indexed array with message header objects
+     * @return array Indexed array with message header objects
      */
     abstract function list_messages($folder = null, $page = null, $sort_field = null, $sort_order = null, $slice = 0);
 
@@ -384,10 +381,10 @@ abstract class rcube_storage
     /**
      * Invoke search request to the server.
      *
-     * @param  string  $folder     Folder name to search in
-     * @param  string  $str        Search criteria
-     * @param  string  $charset    Search charset
-     * @param  string  $sort_field Header field to sort by
+     * @param string $folder     Folder name to search in
+     * @param string $str        Search criteria
+     * @param string $charset    Search charset
+     * @param string $sort_field Header field to sort by
      *
      * @todo: Search criteria should be provided in non-IMAP format, e.g. array
      */
@@ -396,10 +393,10 @@ abstract class rcube_storage
     /**
      * Direct (real and simple) search request (without result sorting and caching).
      *
-     * @param  string  $folder  Folder name to search in
-     * @param  string  $str     Search string
+     * @param string $folder Folder name to search in
+     * @param string $str    Search string
      *
-     * @return rcube_result_index  Search result (UIDs)
+     * @return rcube_result_index Search result (UIDs)
      */
     abstract function search_once($folder = null, $str = 'ALL');
 
@@ -419,8 +416,8 @@ abstract class rcube_storage
      * Fetch message headers and body structure from the server and build
      * an object structure.
      *
-     * @param int     $uid     Message UID to fetch
-     * @param string  $folder  Folder to read from
+     * @param int    $uid    Message UID to fetch
+     * @param string $folder Folder to read from
      *
      * @return object rcube_message_header Message data
      */
@@ -429,9 +426,9 @@ abstract class rcube_storage
     /**
      * Return message headers object of a specific message
      *
-     * @param int     $id       Message sequence ID or UID
-     * @param string  $folder   Folder to read from
-     * @param bool    $force    True to skip cache
+     * @param int    $uid    Message sequence ID or UID
+     * @param string $folder Folder to read from
+     * @param bool   $force  True to skip cache
      *
      * @return rcube_message_header Message headers
      */
@@ -440,12 +437,12 @@ abstract class rcube_storage
     /**
      * Fetch message body of a specific message from the server
      *
-     * @param  int                $uid    Message UID
-     * @param  string             $part   Part number
-     * @param  rcube_message_part $o_part Part object created by get_structure()
-     * @param  mixed              $print  True to print part, resource to write part contents in
-     * @param  resource           $fp     File pointer to save the message part
-     * @param  bool               $skip_charset_conv Disables charset conversion
+     * @param int                $uid               Message UID
+     * @param string             $part              Part number
+     * @param rcube_message_part $o_part            Part object created by get_structure()
+     * @param mixed              $print             True to print part, resource to write part contents in
+     * @param resource           $fp                File pointer to save the message part
+     * @param bool               $skip_charset_conv Disables charset conversion
      *
      * @return string Message/part body if not printed
      */
@@ -457,6 +454,7 @@ abstract class rcube_storage
      * @param int $uid Message UID
      *
      * @return string $part Message/part body
+     *
      * @see    rcube_imap::get_message_part()
      */
     public function get_body($uid, $part = 1)
@@ -510,16 +508,17 @@ abstract class rcube_storage
     /**
      * Remove message flag for one or several messages
      *
-     * @param mixed  $uids    Message UIDs as array or comma-separated string, or '*'
-     * @param string $flag    Flag to unset: SEEN, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
-     * @param string $folder  Folder name
+     * @param mixed  $uids   Message UIDs as array or comma-separated string, or '*'
+     * @param string $flag   Flag to unset: SEEN, DELETED, RECENT, ANSWERED, DRAFT, MDNSENT
+     * @param string $folder Folder name
      *
      * @return bool Operation status
+     *
      * @see set_flag
      */
     public function unset_flag($uids, $flag, $folder = null)
     {
-        return $this->set_flag($uids, 'UN'.$flag, $folder);
+        return $this->set_flag($uids, 'UN' . $flag, $folder);
     }
 
     /**
@@ -540,9 +539,9 @@ abstract class rcube_storage
     /**
      * Move message(s) from one folder to another.
      *
-     * @param mixed  $uids  Message UIDs as array or comma-separated string, or '*'
-     * @param string $to    Target folder
-     * @param string $from  Source folder
+     * @param mixed  $uids Message UIDs as array or comma-separated string, or '*'
+     * @param string $to   Target folder
+     * @param string $from Source folder
      *
      * @return bool True on success, False on error
      */
@@ -551,9 +550,9 @@ abstract class rcube_storage
     /**
      * Copy message(s) from one mailbox to another.
      *
-     * @param mixed  $uids  Message UIDs as array or comma-separated string, or '*'
-     * @param string $to    Target folder
-     * @param string $from  Source folder
+     * @param mixed  $uids Message UIDs as array or comma-separated string, or '*'
+     * @param string $to   Target folder
+     * @param string $from Source folder
      *
      * @return bool True on success, False on error
      */
@@ -562,8 +561,8 @@ abstract class rcube_storage
     /**
      * Mark message(s) as deleted and expunge.
      *
-     * @param mixed  $uids    Message UIDs as array or comma-separated string, or '*'
-     * @param string $folder  Source folder
+     * @param mixed  $uids   Message UIDs as array or comma-separated string, or '*'
+     * @param string $folder Source folder
      *
      * @return bool True on success, False on error
      */
@@ -572,9 +571,9 @@ abstract class rcube_storage
     /**
      * Expunge message(s) and clear the cache.
      *
-     * @param mixed   $uids        Message UIDs as array or comma-separated string, or '*'
-     * @param string  $folder      Folder name
-     * @param bool    $clear_cache False if cache should not be cleared
+     * @param mixed  $uids        Message UIDs as array or comma-separated string, or '*'
+     * @param string $folder      Folder name
+     * @param bool   $clear_cache False if cache should not be cleared
      *
      * @return bool True on success, False on error
      */
@@ -595,7 +594,7 @@ abstract class rcube_storage
         if ($uids instanceof rcube_result_index) {
             $uids = $uids->get_compressed();
         }
-        else if ($uids === '*' || $uids === '1:*') {
+        elseif ($uids === '*' || $uids === '1:*') {
             if (empty($this->search_set)) {
                 $uids = '1:*';
                 $all = true;
@@ -609,7 +608,7 @@ abstract class rcube_storage
             if (is_array($uids)) {
                 $uids = implode(',', $uids);
             }
-            else if (strpos($uids, ':')) {
+            elseif (strpos($uids, ':')) {
                 $uids = implode(',', rcube_imap_generic::uncompressMessageSet($uids));
             }
 
@@ -629,24 +628,24 @@ abstract class rcube_storage
     /**
      * Get a list of subscribed folders.
      *
-     * @param   string  $root      Optional root folder
-     * @param   string  $name      Optional name pattern
-     * @param   string  $filter    Optional filter
-     * @param   string  $rights    Optional ACL requirements
-     * @param   bool    $skip_sort Enable to return unsorted list (for better performance)
+     * @param string $root      Optional root folder
+     * @param string $name      Optional name pattern
+     * @param string $filter    Optional filter
+     * @param string $rights    Optional ACL requirements
+     * @param bool   $skip_sort Enable to return unsorted list (for better performance)
      *
-     * @return  array   List of folders
+     * @return array List of folders
      */
     abstract function list_folders_subscribed($root = '', $name = '*', $filter = null, $rights = null, $skip_sort = false);
 
     /**
      * Get a list of all folders available on the server.
      *
-     * @param string  $root      IMAP root dir
-     * @param string  $name      Optional name pattern
-     * @param mixed   $filter    Optional filter
-     * @param string  $rights    Optional ACL requirements
-     * @param bool    $skip_sort Enable to return unsorted list (for better performance)
+     * @param string $root      IMAP root dir
+     * @param string $name      Optional name pattern
+     * @param mixed  $filter    Optional filter
+     * @param string $rights    Optional ACL requirements
+     * @param bool   $skip_sort Enable to return unsorted list (for better performance)
      *
      * @return array Indexed array with folder names
      */
@@ -673,12 +672,12 @@ abstract class rcube_storage
     /**
      * Create a new folder on the server.
      *
-     * @param string  $folder    New folder name
-     * @param bool    $subscribe True if the new folder should be subscribed
-     * @param string  $type      Optional folder type (junk, trash, drafts, sent, archive)
-     * @param bool    $noselect  Make the folder \NoSelect folder by adding hierarchy
-     *                           separator at the end (useful for server that do not support
-     *                           both folders and messages as folder children)
+     * @param string $folder    New folder name
+     * @param bool   $subscribe True if the new folder should be subscribed
+     * @param string $type      Optional folder type (junk, trash, drafts, sent, archive)
+     * @param bool   $noselect  Make the folder \NoSelect folder by adding hierarchy
+     *                          separator at the end (useful for server that do not support
+     *                          both folders and messages as folder children)
      *
      * @return bool True on success, False on error
      */
@@ -706,8 +705,8 @@ abstract class rcube_storage
     /**
      * Send expunge command and clear the cache.
      *
-     * @param string  $folder      Folder name
-     * @param bool    $clear_cache False if cache should not be cleared
+     * @param string $folder      Folder name
+     * @param bool   $clear_cache False if cache should not be cleared
      *
      * @return bool True on success, False on error
      */
@@ -719,7 +718,7 @@ abstract class rcube_storage
     /**
      * Remove all messages in a folder.
      *
-     * @param string  $folder  Folder name
+     * @param string $folder Folder name
      *
      * @return bool True on success, False on error
      */
@@ -731,8 +730,8 @@ abstract class rcube_storage
     /**
      * Checks if folder exists and is subscribed
      *
-     * @param string  $folder       Folder name
-     * @param bool    $subscription Enable subscription checking
+     * @param string $folder       Folder name
+     * @param bool   $subscription Enable subscription checking
      *
      * @return bool True if folder exists, False otherwise
      */
@@ -759,8 +758,8 @@ abstract class rcube_storage
     /**
      * Gets folder attributes (from LIST response, e.g. \Noselect, \Noinferiors).
      *
-     * @param string $folder  Folder name
-     * @param bool   $force   Set to True if attributes should be refreshed
+     * @param string $folder Folder name
+     * @param bool   $force  Set to True if attributes should be refreshed
      *
      * @return array Options list
      */
@@ -808,8 +807,8 @@ abstract class rcube_storage
      * For input it adds the prefix. Use it before creating a folder in root
      * of the folders tree.
      *
-     * @param string $folder  Folder name
-     * @param string $mode    Mode name (out/in)
+     * @param string $folder Folder name
+     * @param string $mode   Mode name (out/in)
      *
      * @return string Folder name
      */
@@ -848,7 +847,7 @@ abstract class rcube_storage
                 if (!$this->folder_exists($folder)) {
                     $this->create_folder($folder, true, $type);
                 }
-                else if (!$this->folder_exists($folder, true)) {
+                elseif (!$this->folder_exists($folder, true)) {
                     $this->subscribe($folder);
                 }
             }
@@ -895,7 +894,7 @@ abstract class rcube_storage
     /**
      * Get mailbox quota information.
      *
-     * @param string $folder  Folder name
+     * @param string $folder Folder name
      *
      * @return mixed Quota info or False if not supported
      */
@@ -909,9 +908,9 @@ abstract class rcube_storage
     /**
      * Changes the ACL on the specified folder (SETACL)
      *
-     * @param string $folder  Folder name
-     * @param string $user    User name
-     * @param string $acl     ACL string
+     * @param string $folder Folder name
+     * @param string $user   User name
+     * @param string $acl    ACL string
      *
      * @return bool True on success, False on failure
      */
@@ -922,8 +921,8 @@ abstract class rcube_storage
      * specified user from the ACL for the specified
      * folder (DELETEACL).
      *
-     * @param string $folder  Folder name
-     * @param string $user    User name
+     * @param string $folder Folder name
+     * @param string $user   User name
      *
      * @return bool True on success, False on failure
      */
@@ -942,8 +941,8 @@ abstract class rcube_storage
      * Returns information about what rights can be granted to the
      * user (identifier) in the ACL for the folder (LISTRIGHTS).
      *
-     * @param string $folder  Folder name
-     * @param string $user    User name
+     * @param string $folder Folder name
+     * @param string $user   User name
      *
      * @return array List of user rights
      */
@@ -981,10 +980,10 @@ abstract class rcube_storage
     /**
      * Returns folder metadata/annotations (GETMETADATA/GETANNOTATION).
      *
-     * @param string $folder   Folder name (empty for server metadata)
-     * @param array  $entries  Entries
-     * @param array  $options  Command options (with MAXSIZE and DEPTH keys)
-     * @param bool   $force    Disables cache use
+     * @param string $folder  Folder name (empty for server metadata)
+     * @param array  $entries Entries
+     * @param array  $options Command options (with MAXSIZE and DEPTH keys)
+     * @param bool   $force   Disables cache use
      *
      * @return array Metadata entry-value hash array on success, NULL on error
      */
@@ -997,9 +996,9 @@ abstract class rcube_storage
     /**
      * Clears the cache.
      *
-     * @param string  $key         Cache key name or pattern
-     * @param bool    $prefix_mode Enable it to clear all keys starting
-     *                             with prefix specified in $key
+     * @param string $key         Cache key name or pattern
+     * @param bool   $prefix_mode Enable it to clear all keys starting
+     *                            with prefix specified in $key
      */
     abstract function clear_cache($key = null, $prefix_mode = false);
 

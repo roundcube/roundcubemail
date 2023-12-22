@@ -41,19 +41,19 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
         $driver_class = $this->load_driver('cpanel');
 
         $error_result = $driver_class::decode_response(false);
-        $this->assertEquals($error_result, PASSWORD_CONNECT_ERROR);
+        $this->assertSame($error_result, PASSWORD_CONNECT_ERROR);
 
         $bad_result = $driver_class::decode_response(null);
-        $this->assertEquals($bad_result, PASSWORD_CONNECT_ERROR);
+        $this->assertSame($bad_result, PASSWORD_CONNECT_ERROR);
 
         $null_result = $driver_class::decode_response('null');
-        $this->assertEquals($null_result, PASSWORD_ERROR);
+        $this->assertSame($null_result, PASSWORD_ERROR);
 
         $malformed_result = $driver_class::decode_response('random {string]!');
-        $this->assertEquals($malformed_result, PASSWORD_ERROR);
+        $this->assertSame($malformed_result, PASSWORD_ERROR);
 
         $other_result = $driver_class::decode_response('{"a":"b"}');
-        $this->assertEquals($other_result, PASSWORD_ERROR);
+        $this->assertSame($other_result, PASSWORD_ERROR);
 
         $fail_response   = '{"data":null,"errors":["Execution of Email::passwdp'
                 . 'op (api version:3) is not permitted inside of webmail"],"sta'
@@ -62,15 +62,15 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
                 . 't permitted inside of webmail';
         $expected_result = [
             'code'    => PASSWORD_ERROR,
-            'message' => $error_message
+            'message' => $error_message,
         ];
         $fail_result     = $driver_class::decode_response($fail_response);
-        $this->assertEquals($expected_result, $fail_result);
+        $this->assertSame($expected_result, $fail_result);
 
         $success_response = '{"metadata":{},"data":null,"messages":null,"errors'
                 . '":null,"status":1}';
         $good_result      = $driver_class::decode_response($success_response);
-        $this->assertEquals($good_result, PASSWORD_SUCCESS);
+        $this->assertSame($good_result, PASSWORD_SUCCESS);
     }
 
     /**
@@ -78,6 +78,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
      * driver's class name.
      *
      * @param string $driver driver name, example: "chpasswd"
+     *
      * @return string driver's class name, example: "rcube_chpasswd_password"
      */
     function load_driver($driver)

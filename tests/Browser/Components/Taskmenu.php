@@ -2,8 +2,8 @@
 
 namespace Tests\Browser\Components;
 
-use Tests\Browser\Browser;
 use Laravel\Dusk\Component;
+use Tests\Browser\Browser;
 
 class Taskmenu extends Component
 {
@@ -79,7 +79,7 @@ class Taskmenu extends Component
     public function clickMenuItem(Browser $browser, $name)
     {
         if ($browser->isPhone()) {
-            $browser->withinBody(function ($browser) {
+            $browser->withinBody(static function ($browser) {
                 $browser->click('.task-menu-button');
             });
         }

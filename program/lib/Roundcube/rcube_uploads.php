@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,9 +19,6 @@
 
 /**
  * A trait providing access to metadata of files uploaded in a session.
- *
- * @package    Framework
- * @subpackage Core
  */
 trait rcube_uploads
 {
@@ -260,7 +257,7 @@ trait rcube_uploads
             if (isset($file['data']) && is_string($file['data'])) {
                 echo $file['data'];
             }
-            else if (!empty($file['path'])) {
+            elseif (!empty($file['path'])) {
                 readfile($file['path']);
             }
         }
@@ -275,7 +272,7 @@ trait rcube_uploads
         $data = array_diff_key($data, array_fill_keys(['id', 'group', 'status', 'abort', 'error', 'data', 'created'], 1));
 
         // Remove null values
-        $data = array_filter($data, function ($v) { return !is_null($v); });
+        $data = array_filter($data, static function ($v) { return $v !== null; });
 
         // Convert to string
         $data = json_encode($data, JSON_INVALID_UTF8_IGNORE);

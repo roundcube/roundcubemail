@@ -25,13 +25,13 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
         $script = new rcube_sieve_script($input, $caps);
         $result = $script->as_text();
 
-        $this->assertEquals(trim($result), trim($output), $message);
+        $this->assertSame(trim($output), trim($result), $message);
     }
 
     /**
      * Data provider for test_parser()
      */
-    function data_parser()
+    function data_parser(): iterable
     {
         $dir_path = realpath(__DIR__ . '/src');
         $dir      = opendir($dir_path);
@@ -59,7 +59,7 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
         return $result;
     }
 
-    function data_tokenizer()
+    function data_tokenizer(): iterable
     {
         return [
             [1, "text: #test\nThis is test ; message;\nMulti line\n.\n;\n", '"This is test ; message;\nMulti line"'],
@@ -81,6 +81,6 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
     {
         $res = json_encode(rcube_sieve_script::tokenize($input, $num));
 
-        $this->assertEquals(trim($res), trim($output));
+        $this->assertSame(trim($output), trim($res));
     }
 }

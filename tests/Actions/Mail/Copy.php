@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_copy
- *
- * @package Tests
  */
 class Actions_Mail_Copy extends ActionTestCase
 {
@@ -30,7 +28,7 @@ class Actions_Mail_Copy extends ActionTestCase
         $_POST = [
             '_uid'         => 1,
             '_mbox'        => 'INBOX',
-            '_target_mbox' => 'Trash'
+            '_target_mbox' => 'Trash',
         ];
 
         // Set expected storage function calls/results
@@ -61,7 +59,7 @@ class Actions_Mail_Copy extends ActionTestCase
         $_POST = [
             '_uid'         => 1,
             '_mbox'        => 'INBOX',
-            '_target_mbox' => 'Trash'
+            '_target_mbox' => 'Trash',
         ];
 
         // Set expected storage function calls/results

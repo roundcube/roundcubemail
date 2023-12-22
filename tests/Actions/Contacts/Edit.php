@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_contacts_edit
- *
- * @package Tests
  */
 class Actions_Contacts_Edit extends ActionTestCase
 {
@@ -26,7 +24,7 @@ class Actions_Contacts_Edit extends ActionTestCase
 
         $_GET = [
             '_cid'    => $contact['contact_id'],
-            '_source' => '0'
+            '_source' => '0',
         ];
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
@@ -100,6 +98,6 @@ class Actions_Contacts_Edit extends ActionTestCase
         $this->assertSame('upload-photo', $filedrop['action']);
         $this->assertSame('_photo', $filedrop['fieldname']);
         $this->assertSame(1, $filedrop['single']);
-        $this->assertSame( '^image/.+', $filedrop['filter']);
+        $this->assertSame('^image/.+', $filedrop['filter']);
     }
 }

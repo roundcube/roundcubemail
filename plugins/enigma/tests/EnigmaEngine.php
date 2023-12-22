@@ -35,4 +35,3 @@ class Enigma_EnigmaEngine extends PHPUnit\Framework\TestCase
         $this->assertSame(['ABC' => '123<a>456'], $engine->get_passwords());
     }
 }
-

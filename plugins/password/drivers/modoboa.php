@@ -7,6 +7,7 @@
  * Return value is a json string saying result: true if success.
  *
  * @version 1.0.1
+ *
  * @author stephane @actionweb.fr
  *
  * Copyright (C) The Roundcube Dev Team
@@ -24,7 +25,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see http://www.gnu.org/licenses/.
  *
- * The driver need modoboa core 1.10.6 or later 
+ * The driver need modoboa core 1.10.6 or later
  *
  * You need to define theses variables in plugin/password/config.inc.php
  *
@@ -57,7 +58,7 @@ class rcube_modoboa_password
             CURLOPT_HTTPHEADER     => [
                 "Authorization: Token " . $ModoboaToken,
                 "Cache-Control: no-cache",
-                "Content-Type: application/json"
+                "Content-Type: application/json",
             ],
         ]);
 
@@ -102,7 +103,7 @@ class rcube_modoboa_password
             CURLOPT_HTTPHEADER     => [
                 "Authorization: Token " . $ModoboaToken,
                 "Cache-Control: no-cache",
-                "Content-Type: application/json"
+                "Content-Type: application/json",
             ],
         ]);
 

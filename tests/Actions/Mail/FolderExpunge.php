@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_action_mail_folder_expunge
- *
- * @package Tests
  */
 class Actions_Mail_FolderExpunge extends ActionTestCase
 {
@@ -73,7 +71,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
                 'display_message',
                 'Folder successfully compacted.',
                 'confirmation',
-                0
+                0,
             ],
             $commands[0]
         );

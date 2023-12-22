@@ -9,6 +9,7 @@
  * For installation instructions please read the README file.
  *
  * @version 2.0
+ *
  * @author Andy Theuninck <gohanman@gmail.com)
  *
  * Based on chpasswd roundcubemail password driver by
@@ -63,7 +64,7 @@ class rcube_expect_password
                 'code' => 600,
                 'file' => __FILE__,
                 'line' => __LINE__,
-                'message' => "Password plugin: Unable to execute $cmd"
+                'message' => "Password plugin: Unable to execute $cmd",
             ], true, false
         );
 

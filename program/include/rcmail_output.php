@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -20,9 +20,6 @@
 
 /**
  * Class for output generation
- *
- * @package    Webmail
- * @subpackage View
  */
 abstract class rcmail_output extends rcube_output
 {
@@ -95,7 +92,7 @@ abstract class rcmail_output extends rcube_output
     /**
      * Register a template object handler
      *
-     * @param string $name Object name
+     * @param string   $name Object name
      * @param callable $func Function name to call
      *
      * @return void
@@ -144,7 +141,7 @@ abstract class rcmail_output extends rcube_output
             header($header);
         }
 
-        print $body;
+        echo $body;
         exit;
     }
 

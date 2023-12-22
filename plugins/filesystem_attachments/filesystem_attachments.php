@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Filesystem Attachments
  *
@@ -34,7 +35,7 @@ class filesystem_attachments extends rcube_plugin
         // Find filesystem_attachments-based plugins, we can use only one
         foreach ($this->api->loaded_plugins() as $plugin_name) {
             $plugin = $this->api->get_plugin($plugin_name);
-            if (($plugin instanceof filesystem_attachments) && $plugin->initialized) {
+            if (($plugin instanceof self) && $plugin->initialized) {
                 rcube::raise_error([
                         'file' => __FILE__, 'line' => __LINE__,
                         'message' => "Can use only one plugin for attachments/file uploads! Using '$plugin_name', ignoring others.",
@@ -169,14 +170,14 @@ class filesystem_attachments extends rcube_plugin
     protected static function file_id()
     {
         $rcube = rcube::get_instance();
-        list($usec, $sec) = explode(' ', microtime());
+        [$usec, $sec] = explode(' ', microtime());
         $id = preg_replace('/[^0-9]/', '', $rcube->user->ID . $sec . $usec);
 
         // make sure the ID is really unique (#1489546)
         while ($rcube->get_uploaded_file($id)) {
             // increment last four characters
             $x  = substr($id, -4) + 1;
-            $id = substr($id, 0, -4) . sprintf('%04d', ($x > 9999 ? $x - 9999 : $x));
+            $id = substr($id, 0, -4) . sprintf('%04d', $x > 9999 ? $x - 9999 : $x);
         }
 
         return $id;
@@ -217,7 +218,7 @@ class filesystem_attachments extends rcube_plugin
                     'file'    => __FILE__,
                     'line'    => __LINE__,
                     'message' => sprintf("%s can't read %s (not in temp_dir)",
-                        $rcmail->get_user_name(), substr($path, 0, 512))
+                        $rcmail->get_user_name(), substr($path, 0, 512)),
                 ], true, false
             );
 

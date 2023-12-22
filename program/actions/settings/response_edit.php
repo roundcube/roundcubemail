@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -35,7 +35,7 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         if (!empty($args['post'])) {
             self::$response = $args['post'];
         }
-        else if ($id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GP)) {
+        elseif ($id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GP)) {
             self::$response = $rcmail->get_compose_response($id);
 
             if (!is_array(self::$response)) {
@@ -70,7 +70,7 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         $id       = self::$response['id'] ?? '';
         $hidden   = ['name' => '_id', 'value' => $id];
 
-        list($form_start, $form_end) = self::get_form_tags($attrib, 'save-response', $id, $hidden);
+        [$form_start, $form_end] = self::get_form_tags($attrib, 'save-response', $id, $hidden);
         unset($attrib['form'], $attrib['id']);
 
         $name_attr = [
@@ -86,13 +86,13 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
             'rows'     => $attrib['textarearows'] ?? null,
             'readonly' => $readonly,
             'spellcheck'       => true,
-            'data-html-editor' => true
+            'data-html-editor' => true,
         ];
 
         $chk_attr = [
             'id'       => 'ffis_html',
             'disabled' => $readonly,
-            'onclick'  => "return rcmail.command('toggle-editor', {id: 'fftext', html: this.checked}, '', event)"
+            'onclick'  => "return rcmail.command('toggle-editor', {id: 'fftext', html: this.checked}, '', event)",
         ];
 
         // Add HTML editor script(s)

@@ -2,8 +2,6 @@
 
 /**
  * Test class to test rcmail_sendmail class
- *
- * @package Tests
  */
 class Rcmail_RcmailSendmail extends ActionTestCase
 {
@@ -97,48 +95,48 @@ class Rcmail_RcmailSendmail extends ActionTestCase
     /**
      * Data for test_convert()
      */
-    function data_email_input_format()
+    function data_email_input_format(): iterable
     {
         return [
             [
                 'name <t@domain.jp>',
                 'name <t@domain.jp>',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 '"first last" <t@domain.jp>',
                 'first last <t@domain.jp>',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 '"first last" <t@domain.jp>, test2@domain.tld,',
                 'first last <t@domain.jp>, test2@domain.tld',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 '<test@domain.tld>',
                 'test@domain.tld',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 'test@domain.tld',
                 'test@domain.tld',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 'test@domain.tld.', // #7899
                 'test@domain.tld',
-                'UTF-8'
+                'UTF-8',
             ],
             [
                 'ö <t@test.com>',
                 'ö <t@test.com>',
-                null
+                null,
             ],
             [
                 base64_decode('GyRCLWo7M3l1OSk2SBsoQg==') . ' <t@domain.jp>',
                 '=?ISO-2022-JP?B?GyRCLWo7M3l1OSk2SBsoQg==?= <t@domain.jp>',
-                'ISO-2022-JP'
+                'ISO-2022-JP',
             ],
             [
                 'test@тест.рф.', // #8493
@@ -156,7 +154,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $sendmail = new rcmail_sendmail();
         $sendmail->options['charset'] = $charset;
 
-        $this->assertEquals($output, $sendmail->email_input_format($input));
+        $this->assertSame($output, $sendmail->email_input_format($input));
     }
 
     /**
@@ -174,23 +172,23 @@ class Rcmail_RcmailSendmail extends ActionTestCase
     {
         $input  = ['test' => 'test'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertEquals('test=test', $result);
-        $this->assertEquals($input, rcmail_sendmail::draftinfo_decode($result));
+        $this->assertSame('test=test', $result);
+        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
         $input  = ['folder' => 'test'];
         $result =  rcmail_sendmail::draftinfo_encode($input);
-        $this->assertEquals('folder=B::dGVzdA==', $result);
-        $this->assertEquals($input, rcmail_sendmail::draftinfo_decode($result));
+        $this->assertSame('folder=B::dGVzdA==', $result);
+        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
         $input  = ['test' => 'test;test'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertEquals('test=B::dGVzdDt0ZXN0', $result);
-        $this->assertEquals($input, rcmail_sendmail::draftinfo_decode($result));
+        $this->assertSame('test=B::dGVzdDt0ZXN0', $result);
+        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
         $input  = ['test' => 'test;test', 'a' => 'b'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertEquals('test=B::dGVzdDt0ZXN0; a=b', $result);
-        $this->assertEquals($input, rcmail_sendmail::draftinfo_decode($result));
+        $this->assertSame('test=B::dGVzdDt0ZXN0; a=b', $result);
+        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
     }
 
     /**
@@ -198,7 +196,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     function test_headers_output()
     {
-        $message = new StdClass;
+        $message = new stdClass;
         $message->headers = new rcube_message_header;
         $message->headers->charset = 'UTF-8';
         $message->headers->to = '';
@@ -301,7 +299,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     function test_identity_select()
     {
-        $message = new StdClass;
+        $message = new stdClass;
         $message->headers = new rcube_message_header;
         $message->headers->charset = 'UTF-8';
         $message->headers->to = '';
@@ -309,7 +307,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $message->headers->cc = '';
 
         $result = rcmail_sendmail::identity_select($message, []);
-        $this->assertSame(null, $result);
+        $this->assertNull($result);
 
         $identities = [
             [

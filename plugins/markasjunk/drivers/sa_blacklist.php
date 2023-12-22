@@ -4,6 +4,7 @@
  * SpamAssassin Blacklist driver
  *
  * @version 2.0
+ *
  * @requires SAUserPrefs plugin
  *
  * @author Philip Weir
@@ -70,7 +71,7 @@ class markasjunk_sa_blacklist
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
             rcube::raise_error([
                     'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Failed to load config from $config_file"
+                    'message' => "Failed to load config from $config_file",
                 ], true, false
             );
 
@@ -86,7 +87,7 @@ class markasjunk_sa_blacklist
             rcube::raise_error([
                     'code' => 603,
                     'type' => 'db',
-                    'message' => $err_str
+                    'message' => $err_str,
                 ], false, true
             );
         }

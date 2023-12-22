@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -22,9 +22,6 @@
 
 /**
  * Class to provide native php session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_session_php extends rcube_session
 {
@@ -33,10 +30,15 @@ class rcube_session_php extends rcube_session
      * We do need to define abstract function implementations but they are not used.
      */
     public function open($save_path, $session_name) {}
+
     public function close() {}
+
     public function destroy($key) {}
+
     public function read($key) {}
+
     protected function save($key, $vars) {}
+
     protected function update($key, $newvars, $oldvars) {}
 
     /**

@@ -76,7 +76,7 @@ class newmail_notifier extends rcube_plugin
 
                     $this->add_hook('new_messages', [$this, 'notify']);
                 }
-             }
+            }
         }
     }
 
@@ -112,12 +112,12 @@ class newmail_notifier extends rcube_plugin
                 $field_id = '_' . $key;
                 $input    = new html_checkbox(['name' => $field_id, 'id' => $field_id, 'value' => 1]);
                 $content  = $input->show($this->rc->config->get($key))
-                    . ' ' . html::a(['href' => '#', 'onclick' => 'newmail_notifier_test_'.$type.'(); return false'],
+                    . ' ' . html::a(['href' => '#', 'onclick' => 'newmail_notifier_test_' . $type . '(); return false'],
                         $this->gettext('test'));
 
                 $args['blocks']['new_message']['options'][$key] = [
                     'title' => html::label($field_id, rcube::Q($this->gettext($type))),
-                    'content' => $content
+                    'content' => $content,
                 ];
             }
         }
@@ -136,7 +136,7 @@ class newmail_notifier extends rcube_plugin
 
             $args['blocks']['new_message']['options'][$key] = [
                 'title'   => html::label($field_id, rcube::Q($this->gettext('desktoptimeout'))),
-                'content' => $select->show((int) $this->rc->config->get($key))
+                'content' => $select->show((int) $this->rc->config->get($key)),
             ];
         }
 
@@ -191,7 +191,7 @@ class newmail_notifier extends rcube_plugin
 
         // Skip exception (sent/drafts) folders (and their subfolders)
         foreach ($this->exceptions as $folder) {
-            if (strpos($mbox.$delimiter, $folder.$delimiter) === 0) {
+            if (strpos($mbox . $delimiter, $folder . $delimiter) === 0) {
                 return $args;
             }
         }

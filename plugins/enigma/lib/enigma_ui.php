@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-------------------------------------------------------------------------+
  | User Interface for the Enigma Plugin                                    |
  |                                                                         |
@@ -52,11 +52,11 @@ class enigma_ui
                 case 'delete':
                     $this->key_delete();
                     break;
-/*
+                    /*
                 case 'edit':
                     $this->key_edit();
                     break;
-*/
+                    */
                 case 'import':
                     $this->key_import();
                     break;
@@ -96,7 +96,7 @@ class enigma_ui
             $this->rc->output->set_pagetitle($this->enigma->gettext('enigmakeys'));
             $this->rc->output->send('enigma.keys');
         }
-/*
+        /*
         // Preferences UI
         else if ($this->rc->action == 'plugin.enigmacerts') {
             $this->rc->output->add_handlers([
@@ -109,9 +109,9 @@ class enigma_ui
             $this->rc->output->set_pagetitle($this->enigma->gettext('enigmacerts'));
             $this->rc->output->send('enigma.certs');
         }
-*/
+        */
         // Message composing UI
-        else if ($this->rc->action == 'compose') {
+        elseif ($this->rc->action == 'compose') {
             $this->compose_ui();
         }
     }
@@ -171,7 +171,7 @@ class enigma_ui
 
         $data  = [
             'keyid' => $keyid,
-            'user'  => $data[$keyid]
+            'user'  => $data[$keyid],
         ];
 
         if (!empty($params)) {
@@ -246,7 +246,7 @@ class enigma_ui
         if (!is_array($list)) {
             $this->rc->output->show_message('enigma.keylisterror', 'error');
         }
-        else if (empty($list)) {
+        elseif (empty($list)) {
             $this->rc->output->show_message('enigma.nokeysfound', 'notice');
         }
         else {
@@ -265,14 +265,14 @@ class enigma_ui
                 $this->rc->output->command('enigma_add_list_row', [
                         'name'  => rcube::Q($key->name),
                         'id'    => $key->id,
-                        'flags' => $key->is_private() ? 'p' : ''
+                        'flags' => $key->is_private() ? 'p' : '',
                 ]);
             }
         }
 
         $this->rc->output->set_env('rowcount', $size);
         $this->rc->output->set_env('search_request', $search);
-        $this->rc->output->set_env('pagecount', ceil($listsize/$pagesize));
+        $this->rc->output->set_env('pagecount', ceil($listsize / $pagesize));
         $this->rc->output->set_env('current_page', $page);
         $this->rc->output->command('set_rowcount', $this->get_rowcount_text($listsize, $size, $page));
 
@@ -311,7 +311,7 @@ class enigma_ui
 
             $out = $this->enigma->gettext([
                     'name' => 'keysfromto',
-                    'vars' => ['from' => $first + 1, 'to' => $first + $curr_count, 'count' => $all]
+                    'vars' => ['from' => $first + 1, 'to' => $first + $curr_count, 'count' => $all],
             ]);
         }
 
@@ -384,7 +384,7 @@ class enigma_ui
         if ($keytype == enigma_key::TYPE_KEYPAIR) {
             $type = $this->enigma->gettext('typekeypair');
         }
-        else if ($keytype == enigma_key::TYPE_PUBLIC) {
+        elseif ($keytype == enigma_key::TYPE_PUBLIC) {
             $type = $this->enigma->gettext('typepublickey');
         }
 
@@ -557,7 +557,7 @@ class enigma_ui
 
             $this->rc->output->send();
         }
-        else if (!empty($_FILES['_file']['tmp_name']) && is_uploaded_file($_FILES['_file']['tmp_name'])) {
+        elseif (!empty($_FILES['_file']['tmp_name']) && is_uploaded_file($_FILES['_file']['tmp_name'])) {
             $this->enigma->load_engine();
             $result = $this->enigma->engine->import_key($_FILES['_file']['tmp_name'], true);
 
@@ -572,7 +572,7 @@ class enigma_ui
 
                 $this->rc->output->command('parent.enigma_import_success');
             }
-            else if ($result instanceof enigma_error && $result->getCode() == enigma_error::BADPASS) {
+            elseif ($result instanceof enigma_error && $result->getCode() == enigma_error::BADPASS) {
                 $this->password_prompt($result);
             }
             else {
@@ -580,7 +580,7 @@ class enigma_ui
             }
             $this->rc->output->send('iframe');
         }
-        else if (!empty($_FILES['_file']['error'])) {
+        elseif (!empty($_FILES['_file']['error'])) {
             rcmail_action::upload_error($_FILES['_file']['error']);
             $this->rc->output->send('iframe');
         }
@@ -622,7 +622,7 @@ class enigma_ui
                     'name'  => '_file',
                     'id'    => 'rcmimportfile',
                     'size'  => 30,
-                    'class' => 'form-control'
+                    'class' => 'form-control',
             ]);
 
             $max_filesize  = rcmail_action::upload_init();
@@ -686,7 +686,7 @@ class enigma_ui
         $out = $this->rc->output->form_tag([
                 'action'  => $this->rc->url(['action' => $this->rc->action, 'a' => 'import']),
                 'method'  => 'post',
-                'enctype' => 'multipart/form-data'
+                'enctype' => 'multipart/form-data',
             ] + $attrib,
             $form ?? ''
         );
@@ -990,20 +990,20 @@ class enigma_ui
                     $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($status->getData('id')),
                         $this->enigma->gettext('decryptnokey')));
                 }
-                else if ($code == enigma_error::BADPASS) {
+                elseif ($code == enigma_error::BADPASS) {
                     $missing = $status->getData('missing');
                     $label   = 'decrypt' . (!empty($missing) ? 'no' : 'bad') . 'pass';
                     $msg     = rcube::Q($this->enigma->gettext($label));
                     $this->password_prompt($status);
                 }
-                else if ($code == enigma_error::NOMDC) {
+                elseif ($code == enigma_error::NOMDC) {
                     $msg = rcube::Q($this->enigma->gettext('decryptnomdc'));
                 }
                 else {
                     $msg = rcube::Q($this->enigma->gettext('decrypterror'));
                 }
             }
-            else if ($status === enigma_engine::ENCRYPTED_PARTIALLY) {
+            elseif ($status === enigma_engine::ENCRYPTED_PARTIALLY) {
                 $attrib['class'] = 'boxwarning enigmawarning encrypted';
                 $msg = rcube::Q($this->enigma->gettext('decryptpartial'));
             }
@@ -1038,7 +1038,7 @@ class enigma_ui
                     $msg = str_replace('$keyid', $sig->id, $msg);
                     $msg = rcube::Q($msg);
                 }
-                else if ($sig->valid) {
+                elseif ($sig->valid) {
                     $attrib['class'] = ($sig->partial ? 'boxwarning enigmawarning' : 'boxconfirmation enigmanotice') . ' signed';
                     $label = 'sigvalid' . ($sig->partial ? 'partial' : '');
                     $msg = rcube::Q(str_replace('$sender', $sender, $this->enigma->gettext($label)));
@@ -1054,7 +1054,7 @@ class enigma_ui
                     }
                 }
             }
-            else if ($sig && $sig->getCode() == enigma_error::KEYNOTFOUND) {
+            elseif ($sig && $sig->getCode() == enigma_error::KEYNOTFOUND) {
                 $attrib['class'] = 'boxwarning enigmawarning signed';
                 $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($sig->getData('id')),
                     $this->enigma->gettext('signokey')));
@@ -1137,7 +1137,7 @@ class enigma_ui
             $p['content'] = html::p(['class' => 'enigmaattachment boxinformation aligned-buttons'],
                 html::span(null, rcube::Q($this->enigma->gettext('keyattfound'))) .
                 html::tag('button', [
-                        'onclick' => "return ".rcmail_output::JS_OBJECT_NAME.".enigma_import_attachment('".rcube::JQ($part)."')",
+                        'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".enigma_import_attachment('" . rcube::JQ($part) . "')",
                         'title'   => $this->enigma->gettext('keyattimport'),
                         'class'   => 'import btn-sm',
                     ], rcube::Q($this->rc->gettext('import'))
@@ -1196,7 +1196,7 @@ class enigma_ui
             $status = $engine->encrypt_message($p['message'], $mode, $savedraft);
             $mode   = 'encrypt';
         }
-        else if (!$savedraft && $sign_enable) {
+        elseif (!$savedraft && $sign_enable) {
             $engine = $this->enigma->load_engine();
             $status = $engine->sign_message($p['message'], enigma_engine::SIGN_MODE_MIME);
             $mode   = 'sign';
@@ -1215,7 +1215,7 @@ class enigma_ui
                     $msg = 'enigma.' . ($encrypt_enable ? 'encryptnoprivkey' : 'signnokey');
                 }
             }
-            else if ($code == enigma_error::BADPASS) {
+            elseif ($code == enigma_error::BADPASS) {
                 $this->password_prompt($status);
             }
             else {
@@ -1243,7 +1243,7 @@ class enigma_ui
         return $p;
     }
 
-   /**
+    /**
      * Handler for message_compose_body hook
      * Display error when the message cannot be encrypted
      * and provide a way to try again with a password.

@@ -2,8 +2,8 @@
 
 namespace Tests\Browser\Components;
 
-use Tests\Browser\Browser;
 use Laravel\Dusk\Component;
+use Tests\Browser\Browser;
 
 class Dialog extends Component
 {
@@ -116,8 +116,8 @@ class Dialog extends Component
      */
     public function withinDialogFrame($browser, $callback)
     {
-        $browser->withinFrame('@content iframe', function ($browser) use ($callback) {
-            $browser->withinBody(function ($browser) use ($callback) {
+        $browser->withinFrame('@content iframe', static function ($browser) use ($callback) {
+            $browser->withinBody(static function ($browser) use ($callback) {
                 $callback($browser);
             });
         });

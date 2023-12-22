@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -20,9 +20,6 @@
 
 /**
  * Class to provide redis session storage
- *
- * @package    Framework
- * @subpackage Core
  */
 class rcube_session_redis extends rcube_session
 {
@@ -49,7 +46,7 @@ class rcube_session_redis extends rcube_session
             rcube::raise_error([
                     'code' => 604, 'type' => 'redis',
                     'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to connect to redis. Please check configuration"
+                    'message' => "Failed to connect to redis. Please check configuration",
                 ],
                 true, true);
         }
@@ -92,8 +89,9 @@ class rcube_session_redis extends rcube_session
     {
         if ($key) {
             try {
-                $fname  = method_exists($this->redis, 'del') ? 'del' : 'delete';
-                $result = $this->redis->$fname($key);
+                $result = method_exists($this->redis, 'del')
+                    ? $this->redis->del($key)
+                    : $this->redis->delete($key);
             }
             catch (Exception $e) {
                 rcube::raise_error($e, true, true);

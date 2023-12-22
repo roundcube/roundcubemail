@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -21,9 +21,6 @@
 /**
  * Class holding a set of rcube_result_index instances that together form a
  * result set of a multi-folder search
- *
- * @package    Framework
- * @subpackage Storage
  */
 class rcube_result_multifolder
 {
@@ -54,7 +51,7 @@ class rcube_result_multifolder
     /**
      * Initializes object with SORT command response
      *
-     * @param rcube_result_index|rcube_result_thread Search result
+     * @param rcube_result_index|rcube_result_thread $result Search result
      */
     public function add($result)
     {
@@ -63,7 +60,7 @@ class rcube_result_multifolder
         if ($result->count()) {
             $this->append_result($result);
         }
-        else if ($result->incomplete) {
+        elseif ($result->incomplete) {
             $this->incomplete = true;
         }
     }
@@ -71,7 +68,7 @@ class rcube_result_multifolder
     /**
      * Append message UIDs from the given result to our index
      *
-     * @param rcube_result_index|rcube_result_thread Search result
+     * @param rcube_result_index|rcube_result_thread $result Search result
      */
     protected function append_result($result)
     {
@@ -79,7 +76,7 @@ class rcube_result_multifolder
 
         // append UIDs to global index
         $folder = $result->get_parameters('MAILBOX');
-        $index  = array_map(function($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
+        $index  = array_map(static function ($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
 
         $this->index = array_merge($this->index, $index);
     }
@@ -270,7 +267,7 @@ class rcube_result_multifolder
      *
      * @return array|string Response parameters or parameter value
      */
-    public function get_parameters($param=null)
+    public function get_parameters($param = null)
     {
         $params = [
             'SORT'    => $this->sorting,
@@ -326,7 +323,7 @@ class rcube_result_multifolder
             if ($set->incomplete) {
                 $this->sdata['incomplete'][] = $set->get_parameters('MAILBOX');
             }
-            else if ($set->is_error()) {
+            elseif ($set->is_error()) {
                 $this->sdata['error'][] = $set->get_parameters('MAILBOX');
             }
         }
@@ -345,7 +342,7 @@ class rcube_result_multifolder
         // restore result sets from saved index
         $data = [];
         foreach ($this->index as $item) {
-            list($uid, $folder) = explode('-', $item, 2);
+            [$uid, $folder] = explode('-', $item, 2);
             $data[$folder] = ($data[$folder] ?? '') . ' ' . $uid;
         }
 

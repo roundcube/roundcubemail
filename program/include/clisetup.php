@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -18,8 +18,8 @@
  +-----------------------------------------------------------------------+
 */
 
-if (php_sapi_name() != 'cli') {
-    die('Not on the "shell" (php-cli).');
+if (PHP_SAPI != 'cli') {
+    exit('Not on the "shell" (php-cli).');
 }
 
 require_once INSTALL_PATH . 'program/include/iniset.php';

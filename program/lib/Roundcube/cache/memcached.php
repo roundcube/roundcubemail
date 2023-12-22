@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -21,9 +21,6 @@
 
 /**
  * Interface implementation class for accessing Memcached cache
- *
- * @package    Framework
- * @subpackage Cache
  */
 class rcube_cache_memcached extends rcube_cache
 {
@@ -34,10 +31,6 @@ class rcube_cache_memcached extends rcube_cache
      */
     protected static $memcache;
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
@@ -47,8 +40,8 @@ class rcube_cache_memcached extends rcube_cache
 
         // Maximum TTL is 30 days, bigger values are treated by Memcached
         // as unix timestamp which is not what we want
-        if ($this->ttl > 60*60*24*30) {
-            $this->ttl = 60*60*24*30;
+        if ($this->ttl > 60 * 60 * 24 * 30) {
+            $this->ttl = 60 * 60 * 24 * 30;
         }
 
         self::engine();
@@ -71,7 +64,7 @@ class rcube_cache_memcached extends rcube_cache
 
             rcube::raise_error([
                     'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to find Memcached. Make sure php-memcached is installed"
+                    'message' => "Failed to find Memcached. Make sure php-memcached is installed",
                 ],
                 true, true);
         }
@@ -96,8 +89,10 @@ class rcube_cache_memcached extends rcube_cache
         if (!$pconnect || !count(self::$memcache->getServerList())) {
             foreach ((array) $hosts as $host) {
                 if (substr($host, 0, 7) != 'unix://') {
-                    list($host, $port) = explode(':', $host);
-                    if (!$port) $port = 11211;
+                    [$host, $port] = explode(':', $host);
+                    if (!$port) {
+                        $port = 11211;
+                    }
                 }
                 else {
                     $host = substr($host, 7);
@@ -116,7 +111,7 @@ class rcube_cache_memcached extends rcube_cache
 
             rcube::raise_error([
                     'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Memcache connection failure (code: $res_code)."
+                    'message' => "Memcache connection failure (code: $res_code).",
                 ],
                 true, false);
         }
@@ -168,7 +163,7 @@ class rcube_cache_memcached extends rcube_cache
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function add_item($key, $data)
     {
@@ -190,7 +185,7 @@ class rcube_cache_memcached extends rcube_cache
      *
      * @param string $key Cache internal key name
      *
-     * @param bool True on success, False on failure
+     * @return bool True on success, False on failure
      */
     protected function delete_item($key)
     {

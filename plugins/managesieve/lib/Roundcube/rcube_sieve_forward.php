@@ -76,7 +76,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
                                 $this->script_name = $script;
                                 return 0;
                             }
-                            else if (empty($master) && $rule['actions'][0]['type'] == 'include') {
+                            elseif (empty($master) && $rule['actions'][0]['type'] == 'include') {
                                 $included[] = $rule['actions'][0]['target'];
                             }
                         }
@@ -149,14 +149,14 @@ class rcube_sieve_forward extends rcube_sieve_engine
                     if ($act['type'] == 'keep') {
                         $action = 'copy';
                     }
-                    else if ($act['type'] == 'stop') {
+                    elseif ($act['type'] == 'stop') {
                         // we might loose information if there are rules after the stop
                         $stop_found = true;
                     }
-                    else if ($act['type'] == 'discard') {
+                    elseif ($act['type'] == 'discard') {
                         $action = 'redirect';
                     }
-                    else if ($act['type'] == 'redirect') {
+                    elseif ($act['type'] == 'redirect') {
                         if (!empty($target)) {
                             // we cannot use this rule, because there are multiple targets
                             $ignore_rule = true;
@@ -188,7 +188,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
                     ]);
                 }
             }
-            else if ($active) {
+            elseif ($active) {
                 $list[$idx] = $rule['name'];
             }
         }
@@ -264,7 +264,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
                 'method'  => 'post',
                 'task'    => 'settings',
                 'action'  => 'plugin.managesieve-forward',
-                'noclose' => true
+                'noclose' => true,
             ] + $attrib
         );
 
@@ -304,7 +304,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         // redirect target
         $action_target = '<span id="action_target_span" class="input-group">'
             . '<input type="text" name="action_target" id="action_target"'
-            . ' value="' .($redirect ? rcube::Q($this->forward['target'], 'strict', false) : '') . '"'
+            . ' value="' . ($redirect ? rcube::Q($this->forward['target'], 'strict', false) : '') . '"'
             . (!empty($domain_select) ? ' size="20"' : ' size="35"') . '/>'
             . (!empty($domain_select) ? ' <span class="input-group-prepend input-group-append"><span class="input-group-text">@</span></span> '
                 . $domain_select->show(!empty($this->forward['domain']) ? $this->forward['domain'] : null) : '')
@@ -354,7 +354,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
     /**
      * API: set forward rule
      *
-     * @param array $forward forward rule information (see self::get_forward())
+     * @param array $data forward rule information (see self::get_forward())
      *
      * @return bool True on success, False on failure
      */
@@ -374,7 +374,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
                 return false;
             }
         }
-        else if ($data['action']) {
+        elseif ($data['action']) {
             $this->error = "Unsupported forward action: " . $data['action'];
             return false;
         }

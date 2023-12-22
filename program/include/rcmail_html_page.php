@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -19,9 +19,6 @@
 
 /**
  * Class to create an empty HTML page with some default styles
- *
- * @package    Webmail
- * @subpackage View
  */
 class rcmail_html_page extends rcmail_output_html
 {
