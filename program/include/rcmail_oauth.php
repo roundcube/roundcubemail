@@ -974,7 +974,7 @@ class rcmail_oauth
     {
         $smtp_user = $options['smtp_user'];
         $smtp_pass = $options['smtp_pass'];
- 
+
         // skip XOAUTH2 authorization, if indicated
         if (($smtp_user == '') || ($smtp_pass == '')) {
             return $options;
