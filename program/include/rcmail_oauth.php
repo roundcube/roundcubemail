@@ -845,7 +845,7 @@ class rcmail_oauth
             // unknown token type, do not alter it
             $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
         }
-      
+
         return $authorization;
     }
 
