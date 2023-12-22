@@ -839,13 +839,12 @@ class rcmail_oauth
 
         if (strcasecmp($data['token_type'], 'Bearer') == 0) {
             // always normalize Bearer (uppercase then lower case)
-            $authorization = sprintf('Bearer %s', $data['access_token']); 
+            $authorization = sprintf('Bearer %s', $data['access_token']);
         }
         else {
             // unknown token type, do not alter it
-            $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']); 
+            $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
         }
-      
       
         return $authorization;
     }
