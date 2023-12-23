@@ -56,11 +56,6 @@ parameters:
 			path: plugins/archive/archive.php
 
 		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:get_vendor\\(\\)\\.$#"
-			count: 1
-			path: plugins/archive/archive.php
-
-		-
 			message: """
 				#^Call to deprecated method get_uids\\(\\) of class rcmail\\:
 				since 1\\.5\\-beta, use rcmail_action\\:\\:get_uids\\(\\)$#
@@ -2020,16 +2015,6 @@ parameters:
 			path: program/lib/Roundcube/html.php
 
 		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:set_caching\\(\\)\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:set_messages_caching\\(\\)\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
 			message: "#^Call to method getCode\\(\\) on an unknown class PEAR_Error\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube.php
@@ -2663,8 +2648,3 @@ parameters:
 			message: "#^Call to an undefined method Tests\\\\Browser\\\\Browser\\:\\:getEnv\\(\\)\\.$#"
 			count: 1
 			path: tests/Browser/Browser.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:get_vendor\\(\\)\\.$#"
-			count: 1
-			path: tests/Browser/bootstrap.php

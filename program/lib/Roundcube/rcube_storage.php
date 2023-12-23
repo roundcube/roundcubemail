@@ -141,6 +141,16 @@ abstract class rcube_storage
     abstract function get_response_code();
 
     /**
+     * Returns storage server vendor name
+     *
+     * @return string Vendor name
+     */
+    public function get_vendor()
+    {
+        return '';
+    }
+
+    /**
      * Set connection and class options
      *
      * @param array $opt Options array
@@ -994,13 +1004,37 @@ abstract class rcube_storage
      * ----------------------------------------*/
 
     /**
+     * Enable or disable indexes caching
+     *
+     * @param string $type Cache type (@see rcube::get_cache)
+     */
+    public function set_caching($type)
+    {
+        // NOP
+    }
+
+    /**
+     * Enable or disable messages caching
+     *
+     * @param bool $set  Flag
+     * @param int  $mode Cache mode
+     */
+    public function set_messages_caching($set, $mode = null)
+    {
+        // NOP
+    }
+
+    /**
      * Clears the cache.
      *
      * @param string $key         Cache key name or pattern
      * @param bool   $prefix_mode Enable it to clear all keys starting
      *                            with prefix specified in $key
      */
-    abstract function clear_cache($key = null, $prefix_mode = false);
+    public function clear_cache($key = null, $prefix_mode = false)
+    {
+        // NOP
+    }
 
     /**
      * Returns cached value
@@ -1009,10 +1043,16 @@ abstract class rcube_storage
      *
      * @return mixed Cached value
      */
-    abstract function get_cache($key);
+    public function get_cache($key)
+    {
+        return null;
+    }
 
     /**
      * Delete outdated cache entries
      */
-    abstract function cache_gc();
+    public function cache_gc()
+    {
+        // NOP
+    }
 }
