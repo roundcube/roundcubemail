@@ -45,13 +45,13 @@ class rcube_hmail_password
             return PASSWORD_ERROR;
         }
 
-        if (strstr($username,'@')) {
+        if (strstr($username, '@')) {
             [, $domain] = explode('@', $username);
         }
         else {
-            $domain = $rcmail->config->get('username_domain',false);
+            $domain = $rcmail->config->get('username_domain', false);
             if (!$domain) {
-                rcube::write_log('errors','Plugin password (hmail driver): $config[\'username_domain\'] is not defined.');
+                rcube::write_log('errors', 'Plugin password (hmail driver): $config[\'username_domain\'] is not defined.');
                 return PASSWORD_ERROR;
             }
             $username = $username . '@' . $domain;

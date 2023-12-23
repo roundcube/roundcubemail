@@ -106,7 +106,7 @@ class rcube_utils
         // quoted-string, make sure all backslashes and quotes are
         // escaped
         if (substr($local_part, 0, 1) == '"') {
-            $local_quoted = preg_replace('/\\\\(\\\\|\")/','', substr($local_part, 1, -1));
+            $local_quoted = preg_replace('/\\\\(\\\\|\")/', '', substr($local_part, 1, -1));
             if (preg_match('/\\\\|"/', $local_quoted)) {
                 return false;
             }
@@ -465,7 +465,7 @@ class rcube_utils
                     }
                 }
 
-                $output .= sprintf(' %s: %s;', $rule[0] , $rule[1]);
+                $output .= sprintf(' %s: %s;', $rule[0], $rule[1]);
             }
 
             $key      = $replacements->add($output . ' ');
@@ -819,8 +819,7 @@ class rcube_utils
             $rcube->raise_error([
                     'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Specified host is not trusted. Using 'localhost'.",
-                ]
-                , true, false
+                ], true, false
             );
         }
 
@@ -1238,7 +1237,7 @@ class rcube_utils
         if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-1'), 'ISO-8859-1', 'UTF-8') == $str) {
             // ISO-8859-1 (or ASCII)
             preg_match_all('/./u', 'äâàåáãæçéêëèïîìíñöôòøõóüûùúýÿ', $keys);
-            preg_match_all('/./',  'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
+            preg_match_all('/./', 'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
 
             $mapping = array_combine($keys[0], $values[0]);
             $mapping = array_merge($mapping, ['ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u']);
@@ -1246,7 +1245,7 @@ class rcube_utils
         elseif (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
             // ISO-8859-2
             preg_match_all('/./u', 'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżý', $keys);
-            preg_match_all('/./',  'aaaaccceeeeiilllnnooorrsssttuuuuzzzy', $values);
+            preg_match_all('/./', 'aaaaccceeeeiilllnnooorrsssttuuuuzzzy', $values);
 
             $mapping = array_combine($keys[0], $values[0]);
             $mapping = array_merge($mapping, ['ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u']);

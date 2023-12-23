@@ -200,7 +200,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         $attrib['prefix'] = $hidden->show();
         $input_attr       = ['name' => '_photo', 'accept' => 'image/*'];
 
-        $rcmail->output->add_label('addphoto','replacephoto');
+        $rcmail->output->add_label('addphoto', 'replacephoto');
 
         return self::upload_form($attrib, 'uploadform', 'upload-photo', $input_attr);
     }

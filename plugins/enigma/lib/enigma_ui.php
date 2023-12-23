@@ -677,8 +677,8 @@ class enigma_ui
         }
 
         $this->rc->output->add_label('selectimportfile', 'importwait', 'nopubkeyfor', 'nopubkeyforsender',
-            'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
-            'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
+            'encryptnoattachments', 'encryptedsendialog', 'searchpubkeyservers', 'importpubkeys',
+            'encryptpubkeysfound', 'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
             'keyrevoked', 'keyimportsuccess', 'keyservererror');
 
         $this->rc->output->add_gui_object('importform', $attrib['id']);

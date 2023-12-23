@@ -117,11 +117,11 @@ class plesk_rpc
         $url        = sprintf('https://%s:%s/%s', $host, $port, $path);
         $this->curl = curl_init();
 
-        curl_setopt($this->curl, \CURLOPT_CONNECTTIMEOUT , 5);
-        curl_setopt($this->curl, \CURLOPT_SSL_VERIFYHOST , 0);
-        curl_setopt($this->curl, \CURLOPT_SSL_VERIFYPEER , false);
-        curl_setopt($this->curl, \CURLOPT_HTTPHEADER     , $headers);
-        curl_setopt($this->curl, \CURLOPT_URL            , $url);
+        curl_setopt($this->curl, \CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($this->curl, \CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($this->curl, \CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($this->curl, \CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($this->curl, \CURLOPT_URL, $url);
     }
 
     /**

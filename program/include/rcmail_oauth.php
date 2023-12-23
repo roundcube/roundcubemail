@@ -421,7 +421,7 @@ class rcmail_oauth
 
     protected static function base64url_encode($payload)
     {
-        return rtrim(strtr(base64_encode($payload), '+/', '-_'),'=');
+        return rtrim(strtr(base64_encode($payload), '+/', '-_'), '=');
     }
 
     /**

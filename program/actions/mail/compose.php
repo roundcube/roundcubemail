@@ -101,8 +101,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             'fileuploaderror', 'sendmessage', 'newresponse', 'responsename', 'responsetext', 'save',
             'savingresponse', 'restoresavedcomposedata', 'restoremessage', 'delete', 'restore', 'ignore',
             'selectimportfile', 'messageissent', 'loadingdata', 'nopubkeyfor', 'nopubkeyforsender',
-            'encryptnoattachments','encryptedsendialog','searchpubkeyservers', 'importpubkeys',
-            'encryptpubkeysfound',  'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
+            'encryptnoattachments', 'encryptedsendialog', 'searchpubkeyservers', 'importpubkeys',
+            'encryptpubkeysfound', 'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
             'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching', 'namex', 'attachmentrename'
         );
 
@@ -1590,7 +1590,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             }
 
             $out .= sprintf($line_templ,
-                rcube_utils::html_identifier($id,true),
+                rcube_utils::html_identifier($id, true),
                 $class_name,
                 $source['id'],
                 $js_id,

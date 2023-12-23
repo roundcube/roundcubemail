@@ -62,7 +62,7 @@ class rcube_sql_password
                 return PASSWORD_CRYPT_ERROR;
             }
 
-            $sql = str_replace('%P',  $db->quote($password), $sql);
+            $sql = str_replace('%P', $db->quote($password), $sql);
         }
 
         // old password - default hash method
@@ -73,7 +73,7 @@ class rcube_sql_password
                 return PASSWORD_CRYPT_ERROR;
             }
 
-            $sql = str_replace('%O',  $db->quote($password), $sql);
+            $sql = str_replace('%O', $db->quote($password), $sql);
         }
 
         // Handle clear text passwords securely (#1487034)
@@ -117,7 +117,7 @@ class rcube_sql_password
         $res = $db->query($sql, $sql_vars);
 
         if (!$db->is_error()) {
-            if (strtolower(substr(trim($sql),0,6)) == 'select') {
+            if (strtolower(substr(trim($sql), 0, 6)) == 'select') {
                 if ($db->fetch_array($res)) {
                     return PASSWORD_SUCCESS;
                 }

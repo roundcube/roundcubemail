@@ -201,7 +201,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $reftime  = mktime(7,30,0);
+                        $reftime  = mktime(7, 30, 0);
                         $defaults = ['G:i', 'H:i', 'g:i a', 'h:i A'];
                         $formats  = (array) $rcmail->config->get('time_formats', $defaults);
                         $field_id = 'rcmfd_time_format';
@@ -226,7 +226,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $refdate  = mktime(12,30,0,7,24);
+                        $refdate  = mktime(12, 30, 0, 7, 24);
                         $defaults = ['Y-m-d', 'd-m-Y', 'Y/m/d', 'm/d/Y', 'd/m/Y', 'd.m.Y', 'j.n.Y'];
                         $formats  = (array) $rcmail->config->get('date_formats', $defaults);
                         $field_id = 'rcmfd_date_format';

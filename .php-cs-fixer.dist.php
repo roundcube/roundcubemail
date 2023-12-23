@@ -97,7 +97,7 @@ return (new PhpCsFixer\Config())
             'import_symbols' => false,
         ],
         'general_phpdoc_annotation_remove' => false,
-        'method_argument_space' => false,
+        'method_argument_space' => ['on_multiline' => 'ignore'],
         'modernize_types_casting' => false,
         'new_with_parentheses' => false,
         'no_blank_lines_after_phpdoc' => false,

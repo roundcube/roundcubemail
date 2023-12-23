@@ -2338,7 +2338,7 @@ class rcube_imap extends rcube_storage
 
             $ctype       = $headers['content-type'] ?? '';
             $disposition = $headers['content-disposition'] ?? '';
-            $tokens      = preg_split('/;[\s\r\n\t]*/',  $ctype . ';' . $disposition);
+            $tokens      = preg_split('/;[\s\r\n\t]*/', $ctype . ';' . $disposition);
 
             foreach ($tokens as $token) {
                 // TODO: Use order defined by the parameter name not order of occurrence in the header

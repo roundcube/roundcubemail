@@ -65,7 +65,7 @@ class ServerTest extends \Tests\Browser\TestCase
                         ->setCheckboxState('_skip_deleted', $this->settings['skip_deleted'] = !$this->settings['skip_deleted']);
 
                     $browser->assertSeeIn('label[for=rcmfd_delete_junk]', 'Directly delete messages in Junk')
-                        ->assertCheckboxState('_delete_junk',  $this->settings['delete_junk'])
+                        ->assertCheckboxState('_delete_junk', $this->settings['delete_junk'])
                         ->setCheckboxState('_delete_junk', $this->settings['delete_junk'] = !$this->settings['delete_junk']);
                 });
 

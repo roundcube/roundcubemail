@@ -197,7 +197,7 @@ abstract class rcmail_action
 
         if (!empty($quota['total']) && $quota['total'] > 0) {
             if (!isset($quota['percent'])) {
-                $quota_result['percent'] = min(100, round(($quota['used'] / max(1,$quota['total'])) * 100));
+                $quota_result['percent'] = min(100, round(($quota['used'] / max(1, $quota['total'])) * 100));
             }
 
             $title = $rcmail->gettext('quota') . ': ' . sprintf('%s / %s (%.0f%%)',
@@ -739,7 +739,7 @@ abstract class rcmail_action
         }
         elseif ($bytes >= 1024) {
             $unit = 'KB';
-            $str  = sprintf('%d ',  round($bytes / 1024)) . $rcmail->gettext($unit);
+            $str  = sprintf('%d ', round($bytes / 1024)) . $rcmail->gettext($unit);
         }
         else {
             $unit = 'B';

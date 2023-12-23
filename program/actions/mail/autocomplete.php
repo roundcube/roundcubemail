@@ -124,7 +124,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                 $index = format_email_recipient($email, $group['name']);
 
                                 if (empty($contacts[$index])) {
-                                    $sort_keys[$index] = sprintf('%s %03d', $group['name'] , $idx++);
+                                    $sort_keys[$index] = sprintf('%s %03d', $group['name'], $idx++);
                                     $contacts[$index]  = [
                                         'name'   => $index,
                                         'email'  => $email,

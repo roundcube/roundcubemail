@@ -40,7 +40,7 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 }
 
 define('RCUBE_INSTALL_PATH', INSTALL_PATH);
-define('RCUBE_CONFIG_DIR',  RCMAIL_CONFIG_DIR . '/');
+define('RCUBE_CONFIG_DIR', RCMAIL_CONFIG_DIR . '/');
 
 // Show basic error message on fatal PHP error
 register_shutdown_function('rcmail_error_handler');

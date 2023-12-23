@@ -56,7 +56,7 @@ class archive extends rcube_plugin
 
             // set env variables for client
             $rcmail->output->set_env('archive_folder', $this->archive_folder);
-            $rcmail->output->set_env('archive_type', $rcmail->config->get('archive_type',''));
+            $rcmail->output->set_env('archive_type', $rcmail->config->get('archive_type', ''));
         }
         elseif ($rcmail->task == 'mail') {
             // handler for ajax request

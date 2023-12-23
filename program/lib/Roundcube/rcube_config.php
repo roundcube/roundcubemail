@@ -201,7 +201,7 @@ class rcube_config
             if (!$this->load_from_file('main.inc.php') || !$this->load_from_file('db.inc.php')) {
                 $this->errors[] = 'config.inc.php was not found.';
             }
-            elseif (rand(1,100) == 10) {  // log warning on every 100th request (average)
+            elseif (rand(1, 100) == 10) {  // log warning on every 100th request (average)
                 trigger_error('config.inc.php was not found. Please migrate your config by running bin/update.sh', \E_USER_WARNING);
             }
         }

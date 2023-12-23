@@ -59,7 +59,7 @@ class rcube_mailcow_password
                 'json'    => $cowdata,
             ]);
 
-            $cowreply = json_decode($response->getBody(),true);
+            $cowreply = json_decode($response->getBody(), true);
 
             if ($cowreply[0]['type'] == 'success') {
                 return PASSWORD_SUCCESS;

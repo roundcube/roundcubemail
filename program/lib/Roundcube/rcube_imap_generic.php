@@ -3345,7 +3345,7 @@ class rcube_imap_generic
                 $min_free          = $free;
                 $result['used']    = $used;
                 $result['total']   = $total;
-                $result['percent'] = min(100, round(($used / max(1,$total)) * 100));
+                $result['percent'] = min(100, round(($used / max(1, $total)) * 100));
                 $result['free']    = 100 - $result['percent'];
             }
         }

@@ -45,7 +45,7 @@ class rcube_directadmin_password
         $da_host = str_replace('%h', $_SESSION['imap_host'], $da_host);
         $da_host = str_replace('%d', $rcmail->user->get_username('domain'), $da_host);
 
-        $Socket->connect($da_host,$da_port);
+        $Socket->connect($da_host, $da_port);
         $Socket->set_method('POST');
         $Socket->query('/CMD_CHANGE_EMAIL_PASSWORD', [
                 'email'         => $da_user,
@@ -178,13 +178,13 @@ class HTTPSocket
         $is_ssl = false;
 
         // is our request a http:// ... ?
-        if (preg_match('!^http://!i',$request) || preg_match('!^https://!i',$request)) {
+        if (preg_match('!^http://!i', $request) || preg_match('!^https://!i', $request)) {
             $location = parse_url($request);
-            if (preg_match('!^https://!i',$request)) {
-                $this->connect('https://' . $location['host'],$location['port']);
+            if (preg_match('!^https://!i', $request)) {
+                $this->connect('https://' . $location['host'], $location['port']);
             }
             else {
-                $this->connect('http://' . $location['host'],$location['port']);
+                $this->connect('http://' . $location['host'], $location['port']);
             }
 
             $this->set_login($location['user'], $location['pass']);
@@ -232,7 +232,7 @@ class HTTPSocket
                 $pairs[] = "$key=" . urlencode($value);
             }
 
-            $content = implode('&',$pairs);
+            $content = implode('&', $pairs);
             unset($pairs);
         }
 
@@ -251,7 +251,7 @@ class HTTPSocket
         }
 
         curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, \CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, \CURLOPT_USERAGENT, "HTTPSocket/$this->version");
         curl_setopt($ch, \CURLOPT_FORBID_REUSE, 1);
         curl_setopt($ch, \CURLOPT_TIMEOUT, 100);

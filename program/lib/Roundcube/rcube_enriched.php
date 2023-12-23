@@ -94,7 +94,7 @@ class rcube_enriched
             }
 
             // extract color (either by name, or ####,####,####)
-            if (strpos($a[2],',')) {
+            if (strpos($a[2], ',')) {
                 $rgb   = explode(',', $a[2]);
                 $color = '#';
                 for ($i = 0; $i < 3; $i++) {
@@ -143,7 +143,7 @@ class rcube_enriched
      */
     public static function to_html($body)
     {
-        $body = str_replace('<<','&lt;',$body);
+        $body = str_replace('<<', '&lt;', $body);
         $body = self::convert_newlines($body);
         $body = str_replace("\n", '<br>', $body);
         $body = self::convert_formatting($body);

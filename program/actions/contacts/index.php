@@ -496,7 +496,7 @@ class rcmail_action_contacts_index extends rcmail_action
         }
 
         $rcmail->output->set_env('contactgroups', $jsdata);
-        $rcmail->output->set_env('collapsed_abooks', (string) $rcmail->config->get('collapsed_abooks',''));
+        $rcmail->output->set_env('collapsed_abooks', (string) $rcmail->config->get('collapsed_abooks', ''));
         $rcmail->output->add_gui_object('folderlist', $attrib['id']);
         $rcmail->output->include_script('treelist.js');
 
@@ -573,7 +573,7 @@ class rcmail_action_contacts_index extends rcmail_action
             );
 
             // append collapse/expand toggle and open a new <ul>
-            $is_collapsed = strpos($rcmail->config->get('collapsed_abooks',''), '&' . rawurlencode($args['source']) . '&') !== false;
+            $is_collapsed = strpos($rcmail->config->get('collapsed_abooks', ''), '&' . rawurlencode($args['source']) . '&') !== false;
             $args['out'] .= html::div('treetoggle ' . ($is_collapsed ? 'collapsed' : 'expanded'), '&nbsp;');
 
             foreach ($groups as $group) {
@@ -713,7 +713,7 @@ class rcmail_action_contacts_index extends rcmail_action
         unset($attrib['name']);
 
         $rcmail->output->add_gui_object('addresslist_title', $attrib['id']);
-        $rcmail->output->add_label('contacts','uponelevel');
+        $rcmail->output->add_label('contacts', 'uponelevel');
 
         return html::tag($attrib['tag'], $attrib, $rcmail->gettext($attrib['label']), html::$common_attrib);
     }
