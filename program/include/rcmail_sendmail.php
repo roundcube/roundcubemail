@@ -684,7 +684,7 @@ class rcmail_sendmail
         $domain = 'localhost';
         $regexp = '#img[^>]+src=[\'"](data:([^;]*);base64,([a-z0-9+/=\r\n]+))([\'"])#i';
 
-        if (preg_match_all($regexp, $body, $matches, PREG_OFFSET_CAPTURE)) {
+        if (preg_match_all($regexp, $body, $matches, \PREG_OFFSET_CAPTURE)) {
             // get domain for the Content-ID, must be the same as in Mail_mime::get()
             if (preg_match('#@([0-9a-zA-Z\-\.]+)#', $from, $m)) {
                 $domain = $m[1];

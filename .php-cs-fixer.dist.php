@@ -31,7 +31,25 @@ return (new PhpCsFixer\Config())
             'equal' => false,
             'identical' => false,
         ],
-        'native_constant_invocation' => true,
+        'native_constant_invocation' => [
+            'include' => [
+                // https://github.com/php/php-src/commit/2475337bd8a0fad0dac03db3f5e7e9d331d53653
+                'LOG_LOCAL0',
+                'LOG_LOCAL1',
+                'LOG_LOCAL2',
+                'LOG_LOCAL3',
+                'LOG_LOCAL4',
+                'LOG_LOCAL5',
+                'LOG_LOCAL6',
+                'LOG_LOCAL7',
+                // https://github.com/php/php-src/blob/php-8.3.0/ext/ldap/ldap.stub.php#L104
+                'LDAP_OPT_PROTOCOL_VERSION',
+                // https://github.com/php/pecl-text-pspell/blob/1.0.1/pspell.stub.php#L24
+                'PSPELL_FAST',
+                // https://github.com/websupport-sk/pecl-memcache/blob/8.2/src/memcache.c#L755
+                'MEMCACHE_COMPRESSED',
+            ],
+        ],
         'native_function_invocation' => false,
         'void_return' => false,
         'blank_line_before_statement' => [
@@ -78,7 +96,6 @@ return (new PhpCsFixer\Config())
         'increment_style' => false,
         'method_argument_space' => false,
         'modernize_types_casting' => false,
-        'native_constant_invocation' => false,
         'new_with_parentheses' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
@@ -94,10 +111,8 @@ return (new PhpCsFixer\Config())
         // TODO - risky
         'no_unset_on_property' => false,
         'php_unit_data_provider_name' => false,
-        'php_unit_strict' => false,
         'php_unit_test_case_static_method_calls' => false,
         'random_api_migration' => false,
-        'self_accessor' => false,
         'strict_param' => false,
     ])
     ->setFinder($finder)

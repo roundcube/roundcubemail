@@ -108,7 +108,7 @@ class squirrelmail_usercopy extends rcube_plugin
                 foreach ($this->abook as $rec) {
                     // #1487096: handle multi-address and/or too long items
                     // #1487858: convert multi-address contacts into groups
-                    $emails   = preg_split('/[;,]/', $rec['email'], -1, PREG_SPLIT_NO_EMPTY);
+                    $emails   = preg_split('/[;,]/', $rec['email'], -1, \PREG_SPLIT_NO_EMPTY);
                     $group_id = null;
 
                     // create group for addresses

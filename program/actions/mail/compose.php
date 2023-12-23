@@ -1348,7 +1348,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     public static function basename($filename)
     {
         // basename() is not unicode safe and locale dependent
-        if (stristr(PHP_OS, 'win') || stristr(PHP_OS, 'netware')) {
+        if (stristr(\PHP_OS, 'win') || stristr(\PHP_OS, 'netware')) {
             return preg_replace('/^.*[\\\\\\/]/', '', $filename);
         }
         else {

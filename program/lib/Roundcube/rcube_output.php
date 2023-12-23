@@ -294,7 +294,7 @@ abstract class rcube_output
     public function raise_error($code, $message)
     {
         // STUB: to be overloaded by specific output classes
-        fwrite(STDERR, "Error $code: $message\n");
+        fwrite(\STDERR, "Error $code: $message\n");
         exit(-1);
     }
 
@@ -374,16 +374,16 @@ abstract class rcube_output
      */
     public static function json_serialize($input, $pretty = false, $inline = true)
     {
-        $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_IGNORE;
+        $options = \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_INVALID_UTF8_IGNORE;
 
         // JSON_HEX_TAG is needed for inlining JSON inside of the <script> tag
         // if input contains a html tag it will cause issues (#6207)
         if ($inline) {
-            $options |= JSON_HEX_TAG;
+            $options |= \JSON_HEX_TAG;
         }
 
         if ($pretty) {
-            $options |= JSON_PRETTY_PRINT;
+            $options |= \JSON_PRETTY_PRINT;
         }
 
         return json_encode($input, $options);

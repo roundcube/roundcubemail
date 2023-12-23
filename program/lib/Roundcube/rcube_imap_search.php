@@ -193,7 +193,7 @@ class rcube_imap_search_job // extends Stackable
         $imap     = $this->worker->get_imap();
 
         if (!$imap->connected()) {
-            trigger_error("No IMAP connection for $this->folder", E_USER_WARNING);
+            trigger_error("No IMAP connection for $this->folder", \E_USER_WARNING);
 
             if ($this->threading) {
                 return new rcube_result_thread($this->folder);

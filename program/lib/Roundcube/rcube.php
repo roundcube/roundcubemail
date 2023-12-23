@@ -127,8 +127,8 @@ class rcube
         // initialize syslog
         if ($this->config->get('log_driver') == 'syslog') {
             $syslog_id       = $this->config->get('syslog_id', 'roundcube');
-            $syslog_facility = $this->config->get('syslog_facility', LOG_USER);
-            openlog($syslog_id, LOG_ODELAY, $syslog_facility);
+            $syslog_facility = $this->config->get('syslog_facility', \LOG_USER);
+            openlog($syslog_id, \LOG_ODELAY, $syslog_facility);
         }
 
         // connect to database
@@ -619,13 +619,13 @@ class rcube
 
         // case folding
         if ((!empty($attrib['uppercase']) && strtolower($attrib['uppercase']) == 'first') || !empty($attrib['ucfirst'])) {
-            $case_mode = MB_CASE_TITLE;
+            $case_mode = \MB_CASE_TITLE;
         }
         elseif (!empty($attrib['uppercase'])) {
-            $case_mode = MB_CASE_UPPER;
+            $case_mode = \MB_CASE_UPPER;
         }
         elseif (!empty($attrib['lowercase'])) {
-            $case_mode = MB_CASE_LOWER;
+            $case_mode = \MB_CASE_LOWER;
         }
 
         if (isset($case_mode)) {
@@ -910,10 +910,10 @@ class rcube
         // This distinction is for PHP 7.3 which throws a warning when
         // we use $tag argument with non-AEAD cipher method here
         if (!preg_match('/-(gcm|ccm|poly1305)$/i', $method)) {
-            $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv);
+            $cipher = openssl_encrypt($clear, $method, $ckey, \OPENSSL_RAW_DATA, $iv);
         }
         else {
-            $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
+            $cipher = openssl_encrypt($clear, $method, $ckey, \OPENSSL_RAW_DATA, $iv, $tag);
         }
 
         if ($cipher === false) {
@@ -975,7 +975,7 @@ class rcube
         }
 
         $cipher = substr($cipher, $iv_size);
-        $clear  = openssl_decrypt($cipher, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
+        $clear  = openssl_decrypt($cipher, $method, $ckey, \OPENSSL_RAW_DATA, $iv, $tag);
 
         return $clear;
     }
@@ -1233,7 +1233,7 @@ class rcube
             $values += (array) $arg;
         }
 
-        preg_match_all('/({(-?)([a-z]\w*)})/', $cmd, $matches, PREG_SET_ORDER);
+        preg_match_all('/({(-?)([a-z]\w*)})/', $cmd, $matches, \PREG_SET_ORDER);
         foreach ($matches as $tags) {
             [, $tag, $option, $key] = $tags;
             $parts = [];
@@ -1335,7 +1335,7 @@ class rcube
         }
 
         if ($log_driver == 'syslog') {
-            $prio = $name == 'errors' ? LOG_ERR : LOG_INFO;
+            $prio = $name == 'errors' ? \LOG_ERR : \LOG_INFO;
             return syslog($prio, $line);
         }
 
@@ -1343,7 +1343,7 @@ class rcube
         if ($log_driver == 'stdout') {
             $stdout = "php://stdout";
             $line = "$name: $line\n";
-            return file_put_contents($stdout, $line, FILE_APPEND) !== false;
+            return file_put_contents($stdout, $line, \FILE_APPEND) !== false;
         }
 
         // log_driver == 'file' is assumed here
@@ -1380,7 +1380,7 @@ class rcube
             $name .= '.log';
         }
 
-        return file_put_contents("$log_dir/$name", $line, FILE_APPEND) !== false;
+        return file_put_contents("$log_dir/$name", $line, \FILE_APPEND) !== false;
     }
 
     /**
@@ -1421,7 +1421,7 @@ class rcube
             $arg['code'] = 500;
         }
 
-        $cli = PHP_SAPI == 'cli';
+        $cli = \PHP_SAPI == 'cli';
 
         $arg['cli'] = $cli;
         $arg['log'] = $log;
@@ -1449,7 +1449,7 @@ class rcube
         }
 
         if ($cli) {
-            fwrite(STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
+            fwrite(\STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
         }
         elseif ($terminate && is_object(self::$instance->output)) {
             self::$instance->output->raise_error($arg['code'], $arg['message']);
@@ -1504,7 +1504,7 @@ class rcube
 
         if (!self::write_log('errors', $log_entry)) {
             // send error to PHPs error handler if write_log didn't succeed
-            trigger_error($arg_arr['message'], E_USER_WARNING);
+            trigger_error($arg_arr['message'], \E_USER_WARNING);
         }
     }
 

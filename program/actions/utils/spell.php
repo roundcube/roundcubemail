@@ -39,7 +39,7 @@ class rcmail_action_utils_spell extends rcmail_action
         $left  = strpos($data, '<text>');
         $right = strrpos($data, '</text>');
         $data  = substr($data, $left + 6, $right - ($left + 6));
-        $data  = html_entity_decode($data, ENT_QUOTES, RCUBE_CHARSET);
+        $data  = html_entity_decode($data, \ENT_QUOTES, RCUBE_CHARSET);
 
         $spellchecker = new rcube_spellchecker($lang);
 

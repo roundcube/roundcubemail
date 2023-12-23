@@ -35,10 +35,10 @@ class rcube_domainfactory_password
         if ($ch = curl_init()) {
             // initial login
             curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL        => 'https://ssl.df.eu/chmail.php',
-                CURLOPT_POST       => true,
-                CURLOPT_POSTFIELDS => http_build_query([
+                \CURLOPT_RETURNTRANSFER => true,
+                \CURLOPT_URL        => 'https://ssl.df.eu/chmail.php',
+                \CURLOPT_POST       => true,
+                \CURLOPT_POSTFIELDS => http_build_query([
                     'login'  => $username,
                     'pwd'    => $curpass,
                     'action' => 'change',
@@ -60,7 +60,7 @@ class rcube_domainfactory_password
 
                 // change password
                 $ch = curl_copy_handle($ch);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postfields));
+                curl_setopt($ch, \CURLOPT_POSTFIELDS, http_build_query($postfields));
                 if ($result = curl_exec($ch)) {
                     // has the password been changed?
                     if (strpos($result, 'Einstellungen erfolgreich') !== false) {

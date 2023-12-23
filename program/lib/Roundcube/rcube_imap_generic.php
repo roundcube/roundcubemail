@@ -141,7 +141,7 @@ class rcube_imap_generic
         }
 
         $res = 0;
-        if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, PREG_SPLIT_DELIM_CAPTURE)) {
+        if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, \PREG_SPLIT_DELIM_CAPTURE)) {
             for ($i = 0, $cnt = count($parts); $i < $cnt; $i++) {
                 if ($i + 1 < $cnt && preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i + 1], $matches)) {
                     // LITERAL+/LITERAL- support
@@ -677,7 +677,7 @@ class rcube_imap_generic
                 $token   = base64_encode($token);
             }
             catch (Exception $e) {
-                trigger_error($e->getMessage(), E_USER_WARNING);
+                trigger_error($e->getMessage(), \E_USER_WARNING);
                 return $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
             }
 
@@ -715,7 +715,7 @@ class rcube_imap_generic
                 }
             }
             catch (Exception $e) {
-                trigger_error($e->getMessage(), E_USER_WARNING);
+                trigger_error($e->getMessage(), \E_USER_WARNING);
                 return $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
             }
 
@@ -1057,7 +1057,7 @@ class rcube_imap_generic
             $options  = array_intersect_key($this->prefs['socket_options'], ['ssl' => 1]);
             $context  = stream_context_create($options);
             $this->fp = stream_socket_client($host . ':' . $port, $errno, $errstr,
-                $this->prefs['timeout'], STREAM_CLIENT_CONNECT, $context);
+                $this->prefs['timeout'], \STREAM_CLIENT_CONNECT, $context);
         }
         else {
             $this->fp = @fsockopen($host, $port, $errno, $errstr, $this->prefs['timeout']);
@@ -1124,9 +1124,9 @@ class rcube_imap_generic
             else {
                 // There is no flag to enable all TLS methods. Net_SMTP
                 // handles enabling TLS similarly.
-                $crypto_method = STREAM_CRYPTO_METHOD_TLS_CLIENT
-                    | @STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT
-                    | @STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+                $crypto_method = \STREAM_CRYPTO_METHOD_TLS_CLIENT
+                    | @\STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT
+                    | @\STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
             }
 
             if (!stream_socket_enable_crypto($this->fp, true, $crypto_method)) {
@@ -2792,11 +2792,11 @@ class rcube_imap_generic
             $index[$key] = $value;
         }
 
-        $sort_order = $order == 'ASC' ? SORT_ASC : SORT_DESC;
-        $sort_flags = SORT_STRING | SORT_FLAG_CASE;
+        $sort_order = $order == 'ASC' ? \SORT_ASC : \SORT_DESC;
+        $sort_flags = \SORT_STRING | \SORT_FLAG_CASE;
 
         if (in_array($field, ['arrival', 'date', 'internaldate', 'timestamp', 'size', 'uid', 'id'])) {
-            $sort_flags = SORT_NUMERIC;
+            $sort_flags = \SORT_NUMERIC;
         }
 
         array_multisort($index, $sort_order, $sort_flags, $messages);
@@ -3309,7 +3309,7 @@ class rcube_imap_generic
             return false;
         }
 
-        $min_free = PHP_INT_MAX;
+        $min_free = \PHP_INT_MAX;
         $result   = [];
         $all      = [];
 
@@ -3602,7 +3602,7 @@ class rcube_imap_generic
 
         // create options string
         if (is_array($options)) {
-            $options = array_change_key_case($options, CASE_UPPER);
+            $options = array_change_key_case($options, \CASE_UPPER);
             $opts    = [];
 
             if (!empty($options['MAXSIZE'])) {

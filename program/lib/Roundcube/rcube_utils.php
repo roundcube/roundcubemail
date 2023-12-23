@@ -171,7 +171,7 @@ class rcube_utils
      */
     public static function check_ip($ip)
     {
-        return filter_var($ip, FILTER_VALIDATE_IP) !== false;
+        return filter_var($ip, \FILTER_VALIDATE_IP) !== false;
     }
 
     /**
@@ -197,7 +197,7 @@ class rcube_utils
         // encode for HTML output
         if ($enctype == 'html') {
             if (!$html_encode_arr) {
-                $html_encode_arr = get_html_translation_table(HTML_SPECIALCHARS);
+                $html_encode_arr = get_html_translation_table(\HTML_SPECIALCHARS);
                 unset($html_encode_arr['?']);
             }
 
@@ -727,7 +727,7 @@ class rcube_utils
         if (strpos($name, '%s') !== false) {
             $user_email = self::idn_to_ascii(self::get_input_value('_user', self::INPUT_POST));
             $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
-            if ($matches < 1 || filter_var($s[1] . "@" . $s[2], FILTER_VALIDATE_EMAIL) === false) {
+            if ($matches < 1 || filter_var($s[1] . "@" . $s[2], \FILTER_VALIDATE_EMAIL) === false) {
                 return false;
             }
             $s = $s[2];
@@ -905,7 +905,7 @@ class rcube_utils
         }
 
         if (!empty($headers)) {
-            $headers = array_change_key_case($headers, CASE_UPPER);
+            $headers = array_change_key_case($headers, \CASE_UPPER);
 
             return $headers[$key] ?? null;
         }
@@ -922,7 +922,7 @@ class rcube_utils
     public static function explode_quoted_string($delimiter, $string)
     {
         $res = [];
-        $parts = preg_split('/("(?:[^"\\\\]+|\\\\.)*+(?:"|\\\\?$))/s', $string, 0, PREG_SPLIT_DELIM_CAPTURE);
+        $parts = preg_split('/("(?:[^"\\\\]+|\\\\.)*+(?:"|\\\\?$))/s', $string, 0, \PREG_SPLIT_DELIM_CAPTURE);
         $isQuoted = false;
         $tmp = '';
         foreach ($parts as $part) {
@@ -1158,7 +1158,7 @@ class rcube_utils
 
         // Note that in PHP 7.2/7.3 calling idn_to_* functions with default arguments
         // throws a warning, so we have to set the variant explicitly (#6075)
-        $variant = INTL_IDNA_VARIANT_UTS46;
+        $variant = \INTL_IDNA_VARIANT_UTS46;
         $options = 0;
 
         // Because php-intl extension lowercases domains and return false
@@ -1166,12 +1166,12 @@ class rcube_utils
 
         if ($is_utf) {
             if (preg_match('/[^\x20-\x7E]/', $domain)) {
-                $options = IDNA_NONTRANSITIONAL_TO_ASCII;
+                $options = \IDNA_NONTRANSITIONAL_TO_ASCII;
                 $domain  = idn_to_ascii($domain, $options, $variant);
             }
         }
         elseif (preg_match('/(^|\.)xn--/i', $domain)) {
-            $options = IDNA_NONTRANSITIONAL_TO_UNICODE;
+            $options = \IDNA_NONTRANSITIONAL_TO_UNICODE;
             $domain  = idn_to_utf8($domain, $options, $variant);
         }
 
@@ -1364,7 +1364,7 @@ class rcube_utils
      */
     public static function prompt_silent($prompt = "Password:")
     {
-        if (preg_match('/^win/i', PHP_OS)) {
+        if (preg_match('/^win/i', \PHP_OS)) {
             $vbscript  = sys_get_temp_dir() . 'prompt_password.vbs';
             $vbcontent = 'wscript.echo(InputBox("' . addslashes($prompt) . '", "", "password here"))';
             file_put_contents($vbscript, $vbcontent);
@@ -1380,7 +1380,7 @@ class rcube_utils
 
         if (rtrim(shell_exec($command)) !== 'OK') {
             echo $prompt;
-            $pass = trim(fgets(STDIN));
+            $pass = trim(fgets(\STDIN));
             echo chr(8) . "\r" . $prompt . str_repeat("*", strlen($pass)) . "\n";
 
             return $pass;
@@ -1416,7 +1416,7 @@ class rcube_utils
      */
     public static function is_absolute_path($path)
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+        if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN') {
             return (bool) preg_match('!^[a-z]:[\\\\/]!i', $path);
         }
 
@@ -1586,17 +1586,17 @@ class rcube_utils
      */
     public static function preg_error($error = [], $terminate = false)
     {
-        if (($preg_error = preg_last_error()) != PREG_NO_ERROR) {
+        if (($preg_error = preg_last_error()) != \PREG_NO_ERROR) {
             $errstr = "PCRE Error: $preg_error.";
 
             if (function_exists('preg_last_error_msg')) {
                 $errstr .= ' ' . preg_last_error_msg();
             }
 
-            if ($preg_error == PREG_BACKTRACK_LIMIT_ERROR) {
+            if ($preg_error == \PREG_BACKTRACK_LIMIT_ERROR) {
                 $errstr .= " Consider raising pcre.backtrack_limit!";
             }
-            if ($preg_error == PREG_RECURSION_LIMIT_ERROR) {
+            if ($preg_error == \PREG_RECURSION_LIMIT_ERROR) {
                 $errstr .= " Consider raising pcre.recursion_limit!";
             }
 

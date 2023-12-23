@@ -553,10 +553,10 @@ class rcube_smtp
         if ($rcube->config->get('smtp_xclient_addr') && in_array_nocase('addr', $opts)) {
             $ip = rcube_utils::remote_addr();
 
-            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            if (filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {
                 $r = $ip;
             }
-            elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            elseif (filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
                 $r = "IPV6:{$ip}";
             }
             else {

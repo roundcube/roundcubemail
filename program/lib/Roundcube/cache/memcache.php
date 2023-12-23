@@ -167,10 +167,10 @@ class rcube_cache_memcache extends rcube_cache
             return false;
         }
 
-        $result = self::$memcache->replace($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
+        $result = self::$memcache->replace($key, $data, \MEMCACHE_COMPRESSED, $this->ttl);
 
         if (!$result) {
-            $result = self::$memcache->set($key, $data, MEMCACHE_COMPRESSED, $this->ttl);
+            $result = self::$memcache->set($key, $data, \MEMCACHE_COMPRESSED, $this->ttl);
         }
 
         if ($this->debug) {

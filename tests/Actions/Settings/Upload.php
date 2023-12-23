@@ -51,7 +51,7 @@ class Actions_Settings_Upload extends ActionTestCase
         $this->assertSame('identity', $upload['group']);
 
         // Upload error case
-        $file = $this->fakeUpload('_file', true, UPLOAD_ERR_INI_SIZE);
+        $file = $this->fakeUpload('_file', true, \UPLOAD_ERR_INI_SIZE);
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 

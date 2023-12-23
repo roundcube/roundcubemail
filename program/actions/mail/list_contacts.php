@@ -69,7 +69,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
             }
 
             // sort the records
-            ksort($records, SORT_LOCALE_STRING);
+            ksort($records, \SORT_LOCALE_STRING);
 
             // create resultset object
             $count  = count($records);

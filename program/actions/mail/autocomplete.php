@@ -161,7 +161,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
 
             if (count($contacts)) {
                 // sort contacts index
-                asort($sort_keys, SORT_LOCALE_STRING);
+                asort($sort_keys, \SORT_LOCALE_STRING);
                 // re-sort contacts according to index
                 foreach ($sort_keys as $idx => $val) {
                     $sort_keys[$idx] = $contacts[$idx];

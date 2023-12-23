@@ -35,7 +35,7 @@ class StderrMock extends php_user_filter
             self::$output .= $bucket->data;
         }
 
-        return PSFS_PASS_ON;
+        return \PSFS_PASS_ON;
     }
 
     public static function start()
@@ -46,7 +46,7 @@ class StderrMock extends php_user_filter
         }
 
         self::$output = '';
-        self::$redirect = stream_filter_prepend(STDERR, "redirect", STREAM_FILTER_WRITE);
+        self::$redirect = stream_filter_prepend(\STDERR, "redirect", \STREAM_FILTER_WRITE);
     }
 
     public static function stop()

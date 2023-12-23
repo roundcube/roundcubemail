@@ -30,14 +30,14 @@ $config = [
 // Some users are not using Installer, so we'll check some
 // critical PHP settings here. Only these, which doesn't provide
 // an error/warning in the logs later. See (#1486307).
-if (PHP_MAJOR_VERSION < 8) {
+if (\PHP_MAJOR_VERSION < 8) {
     $config += [
         'mbstring.func_overload' => 0,
     ];
 }
 
 // check these additional ini settings if not called via CLI
-if (PHP_SAPI != 'cli') {
+if (\PHP_SAPI != 'cli') {
     $config += [
         'suhosin.session.encrypt' => false,
         'file_uploads'            => true,
@@ -47,14 +47,14 @@ if (PHP_SAPI != 'cli') {
 }
 
 foreach ($config as $optname => $optval) {
-    $ini_optval = filter_var(ini_get($optname), is_bool($optval) ? FILTER_VALIDATE_BOOLEAN : FILTER_VALIDATE_INT);
+    $ini_optval = filter_var(ini_get($optname), is_bool($optval) ? \FILTER_VALIDATE_BOOLEAN : \FILTER_VALIDATE_INT);
     if ($optval != $ini_optval && @ini_set($optname, $optval) === false) {
         $optval = !is_bool($optval) ? $optval : ($optval ? 'On' : 'Off');
         $error  = "ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
             . "Check your PHP configuration (including php_admin_flag).";
 
         if (defined('STDERR')) {
-            fwrite(STDERR, $error);
+            fwrite(\STDERR, $error);
         } else {
             echo $error;
         }
@@ -93,12 +93,12 @@ mb_regex_encoding(RCUBE_CHARSET);
 
 // make sure the Roundcube lib directory is in the include_path
 $rcube_path = realpath(RCUBE_LIB_DIR . '..');
-$sep        = PATH_SEPARATOR;
+$sep        = \PATH_SEPARATOR;
 $regexp     = "!(^|$sep)" . preg_quote($rcube_path, '!') . "($sep|\$)!";
 $path       = ini_get('include_path');
 
 if (!preg_match($regexp, $path)) {
-    set_include_path($path . PATH_SEPARATOR . $rcube_path);
+    set_include_path($path . \PATH_SEPARATOR . $rcube_path);
 }
 
 // Register autoloader

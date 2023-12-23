@@ -53,7 +53,7 @@ else {
     echo "Upgrading from $oldversion. Do you want to continue? (y/N)\n";
 }
 
-$input = $accept ?: trim(fgets(STDIN));
+$input = $accept ?: trim(fgets(\STDIN));
 
 if (strtolower($input) == 'y') {
     echo "Copying files to target location...";

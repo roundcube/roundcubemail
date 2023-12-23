@@ -159,7 +159,7 @@ function extract_filetype($package, &$filetype = null)
 {
     global $CACHEDIR;
 
-    $filetype   = pathinfo(preg_replace('/[?&].*$/', '', $package['url']), PATHINFO_EXTENSION) ?: 'tmp';
+    $filetype   = pathinfo(preg_replace('/[?&].*$/', '', $package['url']), \PATHINFO_EXTENSION) ?: 'tmp';
     $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
 
     // Make sure it is a zip file
@@ -241,7 +241,7 @@ function extract_zipfile($package, $srcfile)
     // map source to dest files/directories
     if (!empty($package['map'])) {
         // get the root folder of the extracted package
-        $extract_tree = glob("$extract/*", GLOB_ONLYDIR);
+        $extract_tree = glob("$extract/*", \GLOB_ONLYDIR);
         $sourcedir    = count($extract_tree) ? $extract_tree[0] : $extract;
 
         foreach ($package['map'] as $src => $dest) {
@@ -308,7 +308,7 @@ function delete_destfile($package)
     $destdir = INSTALL_PATH . (!empty($package['rm']) ? $package['rm'] : $package['dest']);
 
     if (file_exists($destdir)) {
-        if (PHP_OS === 'Windows') {
+        if (\PHP_OS === 'Windows') {
             exec(sprintf("rd /s /q %s", escapeshellarg($destdir)));
         }
         else {

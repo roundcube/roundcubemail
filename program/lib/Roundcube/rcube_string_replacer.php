@@ -238,7 +238,7 @@ class rcube_string_replacer
             [$this, 'linkref_callback'], $str, -1, $count, PREG_OFFSET_CAPTURE
         );
         */
-        if (preg_match_all($this->linkref_index, $str, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)) {
+        if (preg_match_all($this->linkref_index, $str, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER)) {
             $diff = 0;
             foreach ($matches as $m) {
                 $replace = $this->linkref_addindex($m);
@@ -247,7 +247,7 @@ class rcube_string_replacer
             }
         }
 
-        if (preg_match_all($this->linkref_pattern, $str, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)) {
+        if (preg_match_all($this->linkref_pattern, $str, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER)) {
             $diff = 0;
             foreach ($matches as $m) {
                 $replace = $this->linkref_callback($m);

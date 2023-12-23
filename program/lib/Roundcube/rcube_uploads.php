@@ -275,7 +275,7 @@ trait rcube_uploads
         $data = array_filter($data, static function ($v) { return $v !== null; });
 
         // Convert to string
-        $data = json_encode($data, JSON_INVALID_UTF8_IGNORE);
+        $data = json_encode($data, \JSON_INVALID_UTF8_IGNORE);
 
         return $data;
     }

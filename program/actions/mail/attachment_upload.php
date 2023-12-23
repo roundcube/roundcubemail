@@ -133,7 +133,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                     self::attachment_success($attachment, $uploadid);
                 }
                 else {  // upload failed
-                    if ($err == UPLOAD_ERR_INI_SIZE || $err == UPLOAD_ERR_FORM_SIZE) {
+                    if ($err == \UPLOAD_ERR_INI_SIZE || $err == \UPLOAD_ERR_FORM_SIZE) {
                         $size = self::show_bytes(rcube_utils::max_upload_size());
                         $msg  = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $size]]);
                     }
@@ -144,7 +144,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                         $msg = $rcmail->gettext('fileuploaderror');
                     }
 
-                    if (!empty($attachment['error']) || $err != UPLOAD_ERR_NO_FILE) {
+                    if (!empty($attachment['error']) || $err != \UPLOAD_ERR_NO_FILE) {
                         if (!in_array($msg, $errors)) {
                             $rcmail->output->command('display_message', $msg, 'error');
                             $rcmail->output->command('remove_from_attachment_list', $uploadid);
