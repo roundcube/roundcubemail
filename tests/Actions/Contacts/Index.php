@@ -10,7 +10,7 @@ class Actions_Contacts_Index extends ActionTestCase
      */
     function test_run_http()
     {
-        $action = new rcmail_action_contacts_index;
+        $action = new rcmail_action_contacts_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -37,7 +37,7 @@ class Actions_Contacts_Index extends ActionTestCase
      */
     function test_run_ajax()
     {
-        $action = new rcmail_action_contacts_index;
+        $action = new rcmail_action_contacts_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'list');
 
         $this->assertTrue($action->checks());

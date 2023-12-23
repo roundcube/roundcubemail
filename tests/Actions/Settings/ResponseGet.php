@@ -10,7 +10,7 @@ class Actions_Settings_ResponseGet extends ActionTestCase
      */
     function test_get_response()
     {
-        $action = new rcmail_action_settings_response_get;
+        $action = new rcmail_action_settings_response_get();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'response-get');
 
         $this->assertInstanceOf('rcmail_action', $action);

@@ -121,7 +121,7 @@ class rcmail_action_mail_import extends rcmail_action
             return;
         }
 
-        $zip   = new ZipArchive;
+        $zip   = new ZipArchive();
         $files = [];
 
         if ($zip->open($path)) {

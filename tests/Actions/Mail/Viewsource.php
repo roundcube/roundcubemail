@@ -10,7 +10,7 @@ class Actions_Mail_Viewsource extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_viewsource;
+        $object = new rcmail_action_mail_viewsource();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

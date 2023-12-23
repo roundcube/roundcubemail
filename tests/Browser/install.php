@@ -74,5 +74,5 @@ if (empty($argv[1])) {
     rcube::raise_error('Chrome driver version is a required argument of this script.', false, true);
 }
 
-$installer = new Installer;
+$installer = new Installer();
 $installer->install($argv[1]);

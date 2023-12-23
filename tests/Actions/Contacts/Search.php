@@ -10,7 +10,7 @@ class Actions_Contacts_Search extends ActionTestCase
      */
     function test_run_search_form()
     {
-        $action = new rcmail_action_contacts_search;
+        $action = new rcmail_action_contacts_search();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'search');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -32,7 +32,7 @@ class Actions_Contacts_Search extends ActionTestCase
      */
     function test_run_quick_search()
     {
-        $action = new rcmail_action_contacts_search;
+        $action = new rcmail_action_contacts_search();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'search');
 
         $this->assertTrue($action->checks());

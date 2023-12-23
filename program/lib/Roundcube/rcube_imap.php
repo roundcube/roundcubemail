@@ -2016,7 +2016,7 @@ class rcube_imap extends rcube_storage
      */
     protected function structure_part($part, $count = 0, $parent = '', $mime_headers = null)
     {
-        $struct = new rcube_message_part;
+        $struct = new rcube_message_part();
         $struct->mime_id = empty($parent) ? (string) $count : "$parent.$count";
 
         // multipart
@@ -2417,7 +2417,7 @@ class rcube_imap extends rcube_storage
             $structure = $this->conn->getStructure($this->folder, $uid, true);
             $part_data = rcube_imap_generic::getStructurePartData($structure, $part);
 
-            $o_part = new rcube_message_part;
+            $o_part = new rcube_message_part();
             $o_part->ctype_primary   = $part_data['type'] ?? null;
             $o_part->ctype_secondary = $part_data['subtype'] ?? null;
             $o_part->encoding        = $part_data['encoding'] ?? null;

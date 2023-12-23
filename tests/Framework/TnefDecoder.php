@@ -11,7 +11,7 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
     function test_decompress()
     {
         $body   = file_get_contents(TESTS_DIR . 'src/one-file.tnef');
-        $tnef   = new rcube_tnef_decoder;
+        $tnef   = new rcube_tnef_decoder();
         $result = $tnef->decompress($body);
 
         $this->assertSame('one-file', trim($result['message']['name']));
@@ -29,7 +29,7 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
     function test_decompress_body()
     {
         $body   = file_get_contents(TESTS_DIR . 'src/body.tnef');
-        $tnef   = new rcube_tnef_decoder;
+        $tnef   = new rcube_tnef_decoder();
         $result = $tnef->decompress($body);
 
         $this->assertSame('Untitled.html', trim($result['message']['name']));
@@ -39,7 +39,7 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
         $this->assertSame(5360, $result['message']['size']);
         $this->assertMatchesRegularExpression('/^<\!DOCTYPE HTML/', $result['message']['stream']);
 
-        $tnef   = new rcube_tnef_decoder;
+        $tnef   = new rcube_tnef_decoder();
         $result = $tnef->decompress($body, true);
 
         $this->assertCount(0, $result['attachments']);

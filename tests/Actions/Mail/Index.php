@@ -10,7 +10,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_run_http()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -55,7 +55,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_run_ajax()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
 
         $this->assertTrue($action->checks());
@@ -96,7 +96,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_message_list_smart_column_name()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
 
         $output->set_env('mailbox', 'INBOX');
@@ -120,7 +120,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_message_list()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', 'list');
 
         rcmail::get_instance()->storage->registerFunction('get_folder', 'INBOX');
@@ -137,7 +137,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_js_message_list()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
 
         rcmail::get_instance()->storage
@@ -159,7 +159,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_options_menu_link()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
         $link = $action->options_menu_link(['icon' => 'ico.png']);
@@ -215,7 +215,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_address_string()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
 
         $this->assertNull($action->address_string(''));
 
@@ -245,7 +245,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_attachment_name()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $part = new rcube_message_part();
         $part->mime_id = 1;
 
@@ -296,7 +296,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     protected function get_html_part($body = null)
     {
-        $part = new rcube_message_part;
+        $part = new rcube_message_part();
         $part->ctype_primary   = 'text';
         $part->ctype_secondary = 'html';
         $part->body = $body ? file_get_contents(TESTS_DIR . $body) : null;
@@ -310,7 +310,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_index;
+        $object = new rcmail_action_mail_index();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }
@@ -483,7 +483,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part = new rcube_message_part;
+        $part = new rcube_message_part();
         $part->ctype_primary   = 'text';
         $part->ctype_secondary = 'plain';
         $part->body = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));

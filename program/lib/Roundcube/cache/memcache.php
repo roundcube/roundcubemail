@@ -88,7 +88,7 @@ class rcube_cache_memcache extends rcube_cache
             }
         };
 
-        self::$memcache = new Memcache;
+        self::$memcache = new Memcache();
 
         foreach ((array) $rcube->config->get('memcache_hosts') as $host) {
             if (substr($host, 0, 7) != 'unix://') {

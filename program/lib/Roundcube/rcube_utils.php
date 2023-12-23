@@ -413,7 +413,7 @@ class rcube_utils
     public static function mod_css_styles($source, $container_id, $allow_remote = false, $prefix = '')
     {
         $last_pos     = 0;
-        $replacements = new rcube_string_replacer;
+        $replacements = new rcube_string_replacer();
 
         // ignore the whole block if evil styles are detected
         $source   = self::xss_entity_decode($source);

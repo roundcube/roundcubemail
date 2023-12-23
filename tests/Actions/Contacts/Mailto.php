@@ -10,7 +10,7 @@ class Actions_Contacts_Mailto extends ActionTestCase
      */
     function test_run()
     {
-        $action = new rcmail_action_contacts_mailto;
+        $action = new rcmail_action_contacts_mailto();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'mailto');
 
         $this->assertInstanceOf('rcmail_action', $action);

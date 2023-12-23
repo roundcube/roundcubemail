@@ -10,7 +10,7 @@ class Framework_Smtp extends PHPUnit\Framework\TestCase
      */
     function test_class()
     {
-        $object = new rcube_smtp;
+        $object = new rcube_smtp();
 
         $this->assertInstanceOf('rcube_smtp', $object, 'Class constructor');
     }
@@ -20,7 +20,7 @@ class Framework_Smtp extends PHPUnit\Framework\TestCase
      */
     function test_prepare_headers()
     {
-        $smtp = new rcube_smtp;
+        $smtp = new rcube_smtp();
 
         $headers = [
             'Subject' => 'Test',
@@ -47,7 +47,7 @@ class Framework_Smtp extends PHPUnit\Framework\TestCase
      */
     function test_parse_rfc822()
     {
-        $smtp   = new rcube_smtp;
+        $smtp   = new rcube_smtp();
         $input  = 'test@test1.com, "test" <test@test2.pl>, "test@test3.eu" <test@test3.uk>';
         $result = invokeMethod($smtp, '_parse_rfc822', [$input]);
 

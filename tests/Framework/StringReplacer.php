@@ -10,7 +10,7 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
      */
     function test_class()
     {
-        $sr = new rcube_string_replacer;
+        $sr = new rcube_string_replacer();
 
         $this->assertInstanceOf('rcube_string_replacer', $sr, 'Class constructor');
     }
@@ -54,7 +54,7 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
      */
     function test_replace($input, $output)
     {
-        $replacer = new rcube_string_replacer;
+        $replacer = new rcube_string_replacer();
         $result = $replacer->replace($input);
         $result = $replacer->resolve($result);
 
@@ -70,7 +70,7 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
             . "[1] http://en.wikipedia.org/wiki/Email\n"
             . "[ref0] www.link-ref.com\n";
 
-        $replacer = new rcube_string_replacer;
+        $replacer = new rcube_string_replacer();
         $result = $replacer->replace($input);
         $result = $replacer->resolve($result);
 

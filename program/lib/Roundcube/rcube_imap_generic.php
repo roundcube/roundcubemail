@@ -607,7 +607,7 @@ class rcube_imap_generic
                     $user  = '';
                 }
 
-                $auth_sasl = new Auth_SASL;
+                $auth_sasl = new Auth_SASL();
                 $auth_sasl = $auth_sasl->factory('digestmd5');
                 $reply     = base64_encode($auth_sasl->getResponse($authc, $pass,
                     base64_decode($challenge), $this->host, 'imap', $user));
@@ -2475,7 +2475,7 @@ class rcube_imap_generic
             if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
                 $id = intval($m[1]);
 
-                $result[$id]            = new rcube_message_header;
+                $result[$id]            = new rcube_message_header();
                 $result[$id]->id        = $id;
                 $result[$id]->subject   = '';
                 $result[$id]->messageID = 'mid:' . $id;

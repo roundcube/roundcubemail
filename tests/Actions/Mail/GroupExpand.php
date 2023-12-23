@@ -10,7 +10,7 @@ class Actions_Mail_GroupExpand extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_group_expand;
+        $object = new rcmail_action_mail_group_expand();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

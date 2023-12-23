@@ -10,7 +10,7 @@ class Actions_Mail_CheckRecent extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_check_recent;
+        $object = new rcmail_action_mail_check_recent();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

@@ -50,7 +50,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             exit;
         }
 
-        $attachment = new rcmail_attachment_handler;
+        $attachment = new rcmail_attachment_handler();
         $mimetype = $attachment->mimetype;
         $filename = $attachment->filename;
 

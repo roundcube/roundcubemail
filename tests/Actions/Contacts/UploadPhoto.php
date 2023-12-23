@@ -10,7 +10,7 @@ class Actions_Contacts_Upload_Photo extends ActionTestCase
      */
     function test_run()
     {
-        $action = new rcmail_action_contacts_upload_photo;
+        $action = new rcmail_action_contacts_upload_photo();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'upload-photo');
 
         $this->assertInstanceOf('rcmail_action', $action);

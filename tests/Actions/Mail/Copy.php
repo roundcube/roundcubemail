@@ -10,7 +10,7 @@ class Actions_Mail_Copy extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_copy;
+        $object = new rcmail_action_mail_copy();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }
@@ -20,7 +20,7 @@ class Actions_Mail_Copy extends ActionTestCase
      */
     function test_copy_message()
     {
-        $action = new rcmail_action_mail_copy;
+        $action = new rcmail_action_mail_copy();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'copy');
 
         $this->assertTrue($action->checks());
@@ -53,7 +53,7 @@ class Actions_Mail_Copy extends ActionTestCase
      */
     function test_copy_message_error()
     {
-        $action = new rcmail_action_mail_copy;
+        $action = new rcmail_action_mail_copy();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'copy');
 
         $_POST = [

@@ -441,7 +441,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
     $imap_host = rcube_utils::idn_to_ascii($imap_host);
     $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
 
-    $imap = new rcube_imap;
+    $imap = new rcube_imap();
     $imap->set_options([
         'auth_type'      => $RCI->getprop('imap_auth_type'),
         'debug'          => $RCI->getprop('imap_debug'),

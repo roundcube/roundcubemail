@@ -94,7 +94,7 @@ class rcube_cache_redis extends rcube_cache
                 true, true);
         }
 
-        self::$redis = new Redis;
+        self::$redis = new Redis();
         $failures    = 0;
 
         foreach ($hosts as $redis_host) {

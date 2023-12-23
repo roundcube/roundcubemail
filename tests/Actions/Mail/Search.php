@@ -10,7 +10,7 @@ class Actions_Mail_Search extends ActionTestCase
      */
     function test_search_empty_result()
     {
-        $action = new rcmail_action_mail_search;
+        $action = new rcmail_action_mail_search();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'search');
 
         $this->assertTrue($action->checks());
@@ -56,7 +56,7 @@ class Actions_Mail_Search extends ActionTestCase
      */
     function test_search_non_empty_result()
     {
-        $action = new rcmail_action_mail_search;
+        $action = new rcmail_action_mail_search();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'search');
 
         $_GET = [

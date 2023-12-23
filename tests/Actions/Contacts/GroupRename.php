@@ -10,7 +10,7 @@ class Actions_Contacts_Group_Rename extends ActionTestCase
      */
     function test_group_rename_errors()
     {
-        $action = new rcmail_action_contacts_group_rename;
+        $action = new rcmail_action_contacts_group_rename();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-rename');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -44,7 +44,7 @@ class Actions_Contacts_Group_Rename extends ActionTestCase
      */
     function test_group_rename_success()
     {
-        $action = new rcmail_action_contacts_group_rename;
+        $action = new rcmail_action_contacts_group_rename();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-rename');
 
         $this->assertTrue($action->checks());

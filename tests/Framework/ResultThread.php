@@ -10,7 +10,7 @@ class Framework_ResultThread extends PHPUnit\Framework\TestCase
      */
     function test_class()
     {
-        $object = new rcube_result_thread;
+        $object = new rcube_result_thread();
 
         $this->assertInstanceOf('rcube_result_thread', $object, 'Class constructor');
     }

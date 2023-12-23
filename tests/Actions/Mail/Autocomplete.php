@@ -10,7 +10,7 @@ class Actions_Mail_Autocomplete extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_autocomplete;
+        $object = new rcmail_action_mail_autocomplete();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

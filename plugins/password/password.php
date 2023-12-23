@@ -450,7 +450,7 @@ class password extends rcube_plugin
                 return false;
             }
 
-            $this->drivers[$type] = new $class;
+            $this->drivers[$type] = new $class();
         }
 
         return $this->drivers[$type];

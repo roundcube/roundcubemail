@@ -10,7 +10,7 @@ class Actions_Mail_Headers extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_headers;
+        $object = new rcmail_action_mail_headers();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

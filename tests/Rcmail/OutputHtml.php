@@ -317,7 +317,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
      */
     function test_conditions($input, $output)
     {
-        $object = new rcmail_output_html;
+        $object = new rcmail_output_html();
         $result = $object->just_parse($input);
 
         $this->assertSame($output, $result);

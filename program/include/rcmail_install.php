@@ -896,7 +896,7 @@ class rcmail_install
         if (class_exists('ZipArchive', false)) {
             echo "Extracting {$zipfile} into {$destdir}\n";
 
-            $zip = new ZipArchive;
+            $zip = new ZipArchive();
 
             if ($zip->open($zipfile) === true) {
                 if ($flat) {

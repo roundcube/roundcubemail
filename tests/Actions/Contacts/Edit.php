@@ -10,7 +10,7 @@ class Actions_Contacts_Edit extends ActionTestCase
      */
     function test_run_edit_mode()
     {
-        $action = new rcmail_action_contacts_edit;
+        $action = new rcmail_action_contacts_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
 
         $this->assertInstanceOf('rcmail_action', $action);

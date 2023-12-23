@@ -10,7 +10,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_folder_expunge;
+        $object = new rcmail_action_mail_folder_expunge();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }
@@ -20,7 +20,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
      */
     function test_folder_expunge()
     {
-        $action = new rcmail_action_mail_folder_expunge;
+        $action = new rcmail_action_mail_folder_expunge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
 
         $this->assertTrue($action->checks());
@@ -47,7 +47,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
      */
     function test_folder_expunge_with_reload()
     {
-        $action = new rcmail_action_mail_folder_expunge;
+        $action = new rcmail_action_mail_folder_expunge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
 
         $this->assertTrue($action->checks());
@@ -84,7 +84,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
      */
     function test_folder_expunge_error()
     {
-        $action = new rcmail_action_mail_folder_expunge;
+        $action = new rcmail_action_mail_folder_expunge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
 
         $_POST = ['_mbox' => 'INBOX'];

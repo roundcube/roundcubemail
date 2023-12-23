@@ -10,7 +10,7 @@ class Actions_Contacts_Photo extends ActionTestCase
      */
     function test_no_photo()
     {
-        $action = new rcmail_action_contacts_photo;
+        $action = new rcmail_action_contacts_photo();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'photo');
 
         $this->assertInstanceOf('rcmail_action', $action);

@@ -10,7 +10,7 @@ class Actions_Settings_FolderEdit extends ActionTestCase
      */
     function test_run()
     {
-        $action = new rcmail_action_settings_folder_edit;
+        $action = new rcmail_action_settings_folder_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folder-edit');
 
         $this->assertInstanceOf('rcmail_action', $action);

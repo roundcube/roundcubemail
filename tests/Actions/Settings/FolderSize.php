@@ -10,7 +10,7 @@ class Actions_Settings_FolderSize extends ActionTestCase
      */
     function test_run()
     {
-        $action = new rcmail_action_settings_folder_size;
+        $action = new rcmail_action_settings_folder_size();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-size');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -36,7 +36,7 @@ class Actions_Settings_FolderSize extends ActionTestCase
      */
     function test_run_errors()
     {
-        $action = new rcmail_action_settings_folder_size;
+        $action = new rcmail_action_settings_folder_size();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-size');
 
         // Set expected storage function calls/results

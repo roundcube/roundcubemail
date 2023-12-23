@@ -10,7 +10,7 @@ class Actions_Contacts_Move extends ActionTestCase
      */
     function test_move_contact()
     {
-        $action = new rcmail_action_contacts_move;
+        $action = new rcmail_action_contacts_move();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'move');
 
         $this->assertInstanceOf('rcmail_action', $action);

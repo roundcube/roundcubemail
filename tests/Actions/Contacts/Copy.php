@@ -10,7 +10,7 @@ class Actions_Contacts_Copy extends ActionTestCase
      */
     function test_copy_pre_check_errors()
     {
-        $action = new rcmail_action_contacts_copy;
+        $action = new rcmail_action_contacts_copy();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'copy');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -73,7 +73,7 @@ class Actions_Contacts_Copy extends ActionTestCase
      */
     function test_copy_success()
     {
-        $action = new rcmail_action_contacts_copy;
+        $action = new rcmail_action_contacts_copy();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'copy');
 
         $this->assertTrue($action->checks());

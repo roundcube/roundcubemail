@@ -62,7 +62,7 @@ class rcube_plesk_password
         $path   = $rcmail->config->get('password_plesk_rpc_path');
 
         // create plesk-object
-        $plesk = new plesk_rpc;
+        $plesk = new plesk_rpc();
         $plesk->init($host, $port, $path, $user, $pass);
 
         // try to change password and return the status

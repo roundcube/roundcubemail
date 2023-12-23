@@ -10,7 +10,7 @@ class Actions_Contacts_Group_Create extends ActionTestCase
      */
     function test_group_create_errors()
     {
-        $action = new rcmail_action_contacts_group_create;
+        $action = new rcmail_action_contacts_group_create();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-create');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -44,7 +44,7 @@ class Actions_Contacts_Group_Create extends ActionTestCase
      */
     function test_group_create_success()
     {
-        $action = new rcmail_action_contacts_group_create;
+        $action = new rcmail_action_contacts_group_create();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-create');
 
         $this->assertTrue($action->checks());

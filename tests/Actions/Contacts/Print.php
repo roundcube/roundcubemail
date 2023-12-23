@@ -10,7 +10,7 @@ class Actions_Contacts_Print extends ActionTestCase
      */
     function test_run()
     {
-        $action = new rcmail_action_contacts_print;
+        $action = new rcmail_action_contacts_print();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'print');
 
         $this->assertInstanceOf('rcmail_action', $action);

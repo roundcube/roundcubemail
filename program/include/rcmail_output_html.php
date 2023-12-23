@@ -933,7 +933,7 @@ class rcmail_output_html extends rcmail_output
             'message' => $message,
         ];
 
-        $page = new rcmail_action_utils_error;
+        $page = new rcmail_action_utils_error();
         $page->run($args);
     }
 

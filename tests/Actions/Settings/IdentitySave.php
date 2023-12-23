@@ -10,7 +10,7 @@ class Actions_Settings_IdentitySave extends ActionTestCase
      */
     function test_identity_edit()
     {
-        $action = new rcmail_action_settings_identity_save;
+        $action = new rcmail_action_settings_identity_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-identity');
 
         $this->assertInstanceOf('rcmail_action', $action);

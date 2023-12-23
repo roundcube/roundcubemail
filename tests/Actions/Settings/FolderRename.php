@@ -10,7 +10,7 @@ class Actions_Settings_FolderRename extends ActionTestCase
      */
     function test_rename()
     {
-        $action = new rcmail_action_settings_folder_rename;
+        $action = new rcmail_action_settings_folder_rename();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-rename');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -38,7 +38,7 @@ class Actions_Settings_FolderRename extends ActionTestCase
      */
     function test_rename_errors()
     {
-        $action = new rcmail_action_settings_folder_rename;
+        $action = new rcmail_action_settings_folder_rename();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-rename');
 
         // Set expected storage function calls/results

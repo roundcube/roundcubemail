@@ -10,7 +10,7 @@ class Actions_Settings_FolderSave extends ActionTestCase
      */
     function test_new_folder()
     {
-        $action = new rcmail_action_settings_folder_save;
+        $action = new rcmail_action_settings_folder_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folder-save');
 
         $this->assertInstanceOf('rcmail_action', $action);

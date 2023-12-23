@@ -112,7 +112,7 @@ class rcube
     {
         // load configuration
         $this->config  = new rcube_config($env);
-        $this->plugins = new rcube_dummy_plugin_api;
+        $this->plugins = new rcube_dummy_plugin_api();
 
         register_shutdown_function([$this, 'shutdown']);
     }
@@ -322,7 +322,7 @@ class rcube
         }
 
         // Initialize storage object
-        $this->storage = new $driver_class;
+        $this->storage = new $driver_class();
 
         // set class options
         $options = [

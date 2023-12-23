@@ -11,7 +11,7 @@ class Actions_Utils_Error extends ActionTestCase
     function test_run_http()
     {
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', 'test');
-        $action = new rcmail_action_utils_error;
+        $action = new rcmail_action_utils_error();
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -39,7 +39,7 @@ class Actions_Utils_Error extends ActionTestCase
         $_SERVER['REQUEST_URI']    = '';
 
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'compose');
-        $action = new rcmail_action_utils_error;
+        $action = new rcmail_action_utils_error();
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());

@@ -10,7 +10,7 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
      */
     function test_class()
     {
-        $object = new rcube_imap;
+        $object = new rcube_imap();
 
         $this->assertInstanceOf('rcube_imap', $object, 'Class constructor');
     }
@@ -52,7 +52,7 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
             rcube::get_instance()->config->set("{$mbox}_mbox", ucfirst($mbox));
         }
 
-        $object = new rcube_imap;
+        $object = new rcube_imap();
 
         $result = $object->sort_folder_list([]);
         $this->assertSame([], $result);

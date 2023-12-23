@@ -1083,7 +1083,7 @@ class rcube_message
     {
         // @TODO: attachment may be huge, handle body via file
         $body     = $this->get_part_body($part->mime_id);
-        $tnef     = new rcube_tnef_decoder;
+        $tnef     = new rcube_tnef_decoder();
         $tnef_arr = $tnef->decompress($body, true);
         $parts    = [];
 
@@ -1091,7 +1091,7 @@ class rcube_message
 
         // HTML body
         if (!empty($tnef_arr['message'])) {
-            $tpart = new rcube_message_part;
+            $tpart = new rcube_message_part();
 
             $tpart->encoding        = 'stream';
             $tpart->ctype_primary   = 'text';
@@ -1107,7 +1107,7 @@ class rcube_message
 
         // Attachments
         foreach ($tnef_arr['attachments'] as $pid => $winatt) {
-            $tpart = new rcube_message_part;
+            $tpart = new rcube_message_part();
 
             $tpart->filename        = $this->fix_attachment_name(trim($winatt['name']), $part);
             $tpart->encoding        = 'stream';
@@ -1168,7 +1168,7 @@ class rcube_message
             $part->body_modified = true;
 
             // add attachments to the structure
-            $uupart = new rcube_message_part;
+            $uupart = new rcube_message_part();
             $uupart->filename = trim($matches[1][0]);
             $uupart->encoding = 'stream';
             $uupart->body     = convert_uudecode($filebody);

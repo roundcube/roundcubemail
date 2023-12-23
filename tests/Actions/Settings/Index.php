@@ -10,7 +10,7 @@ class Actions_Settings_Index extends ActionTestCase
      */
     function test_run()
     {
-        $action = new rcmail_action_settings_index;
+        $action = new rcmail_action_settings_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'preferences');
 
         $this->assertInstanceOf('rcmail_action', $action);

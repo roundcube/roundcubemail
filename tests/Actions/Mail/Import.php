@@ -10,7 +10,7 @@ class Actions_Mail_Import extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_import;
+        $object = new rcmail_action_mail_import();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

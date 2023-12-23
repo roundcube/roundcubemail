@@ -10,7 +10,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
      */
     function test_class()
     {
-        $object = new rcube_imap_generic;
+        $object = new rcube_imap_generic();
 
         $this->assertInstanceOf('rcube_imap_generic', $object, 'Class constructor');
     }

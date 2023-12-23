@@ -10,7 +10,7 @@ class Actions_Settings_FolderSubscribe extends ActionTestCase
      */
     function test_subscribe()
     {
-        $action = new rcmail_action_settings_folder_subscribe;
+        $action = new rcmail_action_settings_folder_subscribe();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-subscribe');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -39,7 +39,7 @@ class Actions_Settings_FolderSubscribe extends ActionTestCase
      */
     function test_subscribe_errors()
     {
-        $action = new rcmail_action_settings_folder_subscribe;
+        $action = new rcmail_action_settings_folder_subscribe();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-subscribe');
 
         // Set expected storage function calls/results

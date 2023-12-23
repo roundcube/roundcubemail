@@ -363,7 +363,7 @@ class rcube_message_header
      */
     public static function from_array($arr)
     {
-        $obj = new self;
+        $obj = new self();
         foreach ($arr as $k => $v) {
             $obj->set($k, $v);
         }

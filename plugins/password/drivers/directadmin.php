@@ -30,7 +30,7 @@ class rcube_directadmin_password
     public function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();
-        $Socket = new HTTPSocket;
+        $Socket = new HTTPSocket();
 
         $da_user    = $_SESSION['username'];
         $da_curpass = $curpass;

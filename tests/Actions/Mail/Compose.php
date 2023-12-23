@@ -10,7 +10,7 @@ class Actions_Mail_Compose extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_mail_compose;
+        $object = new rcmail_action_mail_compose();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }
@@ -20,7 +20,7 @@ class Actions_Mail_Compose extends ActionTestCase
      */
     function test_quote_text()
     {
-        $action = new rcmail_action_mail_compose;
+        $action = new rcmail_action_mail_compose();
 
         $this->assertSame('> ', $action->quote_text(''));
 

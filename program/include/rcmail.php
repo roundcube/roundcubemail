@@ -240,7 +240,7 @@ class rcmail extends rcube
 
         // execute the action index handler
         if (class_exists($task_class)) {
-            $task_handler = new $task_class;
+            $task_handler = new $task_class();
             $task_handler->run();
         }
 
@@ -274,7 +274,7 @@ class rcmail extends rcube
 
             // Run the action (except the index)
             if ($class != $task_class && class_exists($class)) {
-                $handler = new $class;
+                $handler = new $class();
                 if (!$handler->checks()) {
                     break;
                 }

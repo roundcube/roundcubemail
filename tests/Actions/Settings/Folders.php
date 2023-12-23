@@ -10,7 +10,7 @@ class Actions_Settings_Folders extends ActionTestCase
      */
     function test_run()
     {
-        $action = new rcmail_action_settings_folders;
+        $action = new rcmail_action_settings_folders();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folders');
 
         $this->assertInstanceOf('rcmail_action', $action);

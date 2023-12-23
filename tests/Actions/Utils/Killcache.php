@@ -10,7 +10,7 @@ class Actions_Utils_Killcache extends ActionTestCase
      */
     function test_class()
     {
-        $object = new rcmail_action_utils_killcache;
+        $object = new rcmail_action_utils_killcache();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

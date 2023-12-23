@@ -10,7 +10,7 @@ class Actions_Settings_FolderPurge extends ActionTestCase
      */
     function test_purge()
     {
-        $action = new rcmail_action_settings_folder_purge;
+        $action = new rcmail_action_settings_folder_purge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -40,7 +40,7 @@ class Actions_Settings_FolderPurge extends ActionTestCase
      */
     function test_purge_trash()
     {
-        $action = new rcmail_action_settings_folder_purge;
+        $action = new rcmail_action_settings_folder_purge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -70,7 +70,7 @@ class Actions_Settings_FolderPurge extends ActionTestCase
      */
     function test_purge_errors()
     {
-        $action = new rcmail_action_settings_folder_purge;
+        $action = new rcmail_action_settings_folder_purge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
         // Set expected storage function calls/results

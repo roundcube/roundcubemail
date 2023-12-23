@@ -10,7 +10,7 @@ class Framework_ResultSet extends PHPUnit\Framework\TestCase
      */
     function test_class()
     {
-        $object = new rcube_result_set;
+        $object = new rcube_result_set();
 
         $this->assertInstanceOf('rcube_result_set', $object, 'Class constructor');
     }

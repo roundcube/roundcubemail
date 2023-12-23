@@ -196,8 +196,8 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     function test_headers_output()
     {
-        $message = new stdClass;
-        $message->headers = new rcube_message_header;
+        $message = new stdClass();
+        $message->headers = new rcube_message_header();
         $message->headers->charset = 'UTF-8';
         $message->headers->to = '';
         $message->headers->from = '';
@@ -299,8 +299,8 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     function test_identity_select()
     {
-        $message = new stdClass;
-        $message->headers = new rcube_message_header;
+        $message = new stdClass();
+        $message->headers = new rcube_message_header();
         $message->headers->charset = 'UTF-8';
         $message->headers->to = '';
         $message->headers->from = '';
@@ -388,8 +388,8 @@ class Rcmail_RcmailSendmail extends ActionTestCase
             ],
         ];
 
-        $message = new stdClass;
-        $message->headers = new rcube_message_header;
+        $message = new stdClass();
+        $message->headers = new rcube_message_header();
         $message->headers->set('Return-Path', '<some_thing@domain.tld>');
         $res = rcmail_sendmail::identity_select($message, $identities);
 
@@ -429,8 +429,8 @@ class Rcmail_RcmailSendmail extends ActionTestCase
             ],
         ];
 
-        $message = new stdClass;
-        $message->headers = new rcube_message_header;
+        $message = new stdClass();
+        $message->headers = new rcube_message_header();
 
         $message->headers->set('From', '<addr2@domain.tld>');
         $res = rcmail_sendmail::identity_select($message, $identities);

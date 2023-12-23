@@ -10,7 +10,7 @@ class Actions_Contacts_Export extends ActionTestCase
      */
     function test_export_all()
     {
-        $action = new rcmail_action_contacts_export;
+        $action = new rcmail_action_contacts_export();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -52,7 +52,7 @@ class Actions_Contacts_Export extends ActionTestCase
      */
     function test_export_selected()
     {
-        $action = new rcmail_action_contacts_export;
+        $action = new rcmail_action_contacts_export();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
 
         $this->assertTrue($action->checks());

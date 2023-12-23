@@ -10,7 +10,7 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
      */
     function test_run()
     {
-        $action = new rcmail_action_mail_attachment_upload;
+        $action = new rcmail_action_mail_attachment_upload();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'upload');
 
         $this->assertInstanceOf('rcmail_action', $action);

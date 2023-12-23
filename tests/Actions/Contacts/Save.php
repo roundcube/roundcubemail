@@ -10,7 +10,7 @@ class Actions_Contacts_Save extends ActionTestCase
      */
     function test_run_prechecks()
     {
-        $action = new rcmail_action_contacts_save;
+        $action = new rcmail_action_contacts_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'save');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -49,7 +49,7 @@ class Actions_Contacts_Save extends ActionTestCase
      */
     function test_run_new_contact()
     {
-        $action = new rcmail_action_contacts_save;
+        $action = new rcmail_action_contacts_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'save');
 
         self::initDB('contacts');
