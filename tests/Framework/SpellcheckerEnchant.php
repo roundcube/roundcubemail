@@ -12,8 +12,8 @@ class Framework_SpellcheckerEnchant extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_spellchecker_enchant(null, 'en');
 
-        $this->assertInstanceOf('rcube_spellchecker_enchant', $object, "Class constructor");
-        $this->assertInstanceOf('rcube_spellchecker_engine', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_spellchecker_enchant', $object, 'Class constructor');
+        $this->assertInstanceOf('rcube_spellchecker_engine', $object, 'Class constructor');
     }
 
     /**

@@ -108,7 +108,7 @@ class rcube_session_db extends rcube_session
         }
 
         $sql_result = $this->db->query(
-            "SELECT `vars`, `ip`, `changed`, " . $this->db->now() . " AS ts"
+            'SELECT `vars`, `ip`, `changed`, ' . $this->db->now() . ' AS ts'
             . (isset($expire_check) ? ", $expire_check" : '')
             . " FROM {$this->table_name} WHERE `sess_id` = ?", $key
         );
@@ -152,7 +152,7 @@ class rcube_session_db extends rcube_session
         $now = $this->db->now();
 
         $this->db->query("INSERT INTO {$this->table_name}"
-            . " (`sess_id`, `vars`, `ip`, `changed`)"
+            . ' (`sess_id`, `vars`, `ip`, `changed`)'
             . " VALUES (?, ?, ?, $now)",
             $key, base64_encode($vars), (string) $this->ip
         );
@@ -183,7 +183,7 @@ class rcube_session_db extends rcube_session
         }
         elseif ($ts - $this->changed > $this->lifetime / 2) {
             $this->db->query("UPDATE {$this->table_name} SET `changed` = $now"
-                . " WHERE `sess_id` = ?", $key);
+                . ' WHERE `sess_id` = ?', $key);
         }
 
         return true;
@@ -195,10 +195,10 @@ class rcube_session_db extends rcube_session
     public function gc_db()
     {
         // just clean all old sessions when this GC is called
-        $this->db->query("DELETE FROM " . $this->db->table_name('session')
-            . " WHERE `changed` < " . $this->db->now(-$this->gc_enabled));
+        $this->db->query('DELETE FROM ' . $this->db->table_name('session')
+            . ' WHERE `changed` < ' . $this->db->now(-$this->gc_enabled));
 
-        $this->log("Session GC (DB): remove records < "
+        $this->log('Session GC (DB): remove records < '
             . date('Y-m-d H:i:s', time() - $this->gc_enabled)
             . '; rows = ' . intval($this->db->affected_rows()));
     }

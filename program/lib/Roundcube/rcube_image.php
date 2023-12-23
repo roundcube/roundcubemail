@@ -125,7 +125,7 @@ class rcube_image
                 $type = $data[0];
             }
 
-            $type = strtr($type, ["jpeg" => "jpg", "tiff" => "tif", "ps" => "eps", "ept" => "eps"]);
+            $type = strtr($type, ['jpeg' => 'jpg', 'tiff' => 'tif', 'ps' => 'eps', 'ept' => 'eps']);
             $p['intype'] = $type;
 
             // convert to an image format every browser can display
@@ -143,7 +143,7 @@ class rcube_image
                 $result = ($this->image_file == $filename || copy($this->image_file, $filename)) ? '' : false;
             }
             else {
-                $valid_types = "bmp,eps,gif,jp2,jpg,png,svg,tif";
+                $valid_types = 'bmp,eps,gif,jp2,jpg,png,svg,tif';
 
                 if (in_array($type, explode(',', $valid_types))) { // Valid type?
                     if ($scale >= 1) {
@@ -440,7 +440,7 @@ class rcube_image
 
         // use ImageMagick in command line
         if ($cmd = self::getCommand('im_identify_path')) {
-            $args = ['in' => $this->image_file, 'format' => "%m %[fx:w] %[fx:h]"];
+            $args = ['in' => $this->image_file, 'format' => '%m %[fx:w] %[fx:h]'];
             $id   = rcube::exec($cmd . ' 2>/dev/null -format {format} {in}', $args);
 
             if ($id) {
@@ -511,7 +511,7 @@ class rcube_image
         }
 
         // Executable must exist, also disallow network shares on Windows
-        if ($cmd[0] != "\\" && file_exists($cmd)) {
+        if ($cmd[0] != '\\' && file_exists($cmd)) {
             return $cmd;
         }
 

@@ -24,7 +24,7 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 if (!function_exists('system')) {
-    rcube::raise_error("PHP system() function is required. Check disable_functions in php.ini.", false, true);
+    rcube::raise_error('PHP system() function is required. Check disable_functions in php.ini.', false, true);
 }
 
 $target_dir = unslashify(end($_SERVER['argv']));
@@ -56,7 +56,7 @@ else {
 $input = $accept ?: trim(fgets(\STDIN));
 
 if (strtolower($input) == 'y') {
-    echo "Copying files to target location...";
+    echo 'Copying files to target location...';
 
     $adds = [];
     $dirs = ['bin', 'SQL', 'plugins', 'skins', 'program', 'public_html'];
@@ -71,7 +71,7 @@ if (strtolower($input) == 'y') {
     foreach ($dirs as $dir) {
         // @FIXME: should we use --delete for all directories?
         $delete  = in_array($dir, ['program', 'vendor', 'installer']) ? '--delete ' : '';
-        $command = "rsync -aC --out-format=%n " . $delete . INSTALL_PATH . "$dir/ $target_dir/$dir/";
+        $command = 'rsync -aC --out-format=%n ' . $delete . INSTALL_PATH . "$dir/ $target_dir/$dir/";
 
         if (system($command, $ret) === false || $ret > 0) {
             rcube::raise_error("Failed to execute command: $command", false, true);
@@ -79,7 +79,7 @@ if (strtolower($input) == 'y') {
     }
 
     foreach (['index.php', 'config/defaults.inc.php', 'composer.json-dist', 'jsdeps.json', 'CHANGELOG.md', 'README.md', 'UPGRADING', 'LICENSE', 'INSTALL'] as $file) {
-        $command = "rsync -a --out-format=%n " . INSTALL_PATH . "$file $target_dir/$file";
+        $command = 'rsync -a --out-format=%n ' . INSTALL_PATH . "$file $target_dir/$file";
 
         if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {
             rcube::raise_error("Failed to execute command: $command", false, true);
@@ -103,9 +103,9 @@ if (strtolower($input) == 'y') {
     echo "done.\n\n";
 
     if (is_dir("$target_dir/skins/default")) {
-        echo "Removing old default skin...";
+        echo 'Removing old default skin...';
         system("rm -rf $target_dir/skins/default $target_dir/plugins/jqueryui/themes/default");
-        foreach (glob(INSTALL_PATH . "plugins/*/skins") as $plugin_skin_dir) {
+        foreach (glob(INSTALL_PATH . 'plugins/*/skins') as $plugin_skin_dir) {
             $plugin_skin_dir = preg_replace('!^.*' . INSTALL_PATH . '!', '', $plugin_skin_dir);
             if (is_dir("$target_dir/$plugin_skin_dir/classic")) {
                 system("rm -rf $target_dir/$plugin_skin_dir/default");
@@ -116,8 +116,8 @@ if (strtolower($input) == 'y') {
 
     // Warn about situation when using "complete" package to update "custom" installation (#7087)
     // Note: "Complete" package do not include jsdeps.json nor install-jsdeps.sh
-    if (file_exists("$target_dir/jsdeps.json") && !file_exists(INSTALL_PATH . "jsdeps.json")) {
-        $adds[] = "WARNING: JavaScript dependencies update skipped. New jsdeps.json file not found.";
+    if (file_exists("$target_dir/jsdeps.json") && !file_exists(INSTALL_PATH . 'jsdeps.json')) {
+        $adds[] = 'WARNING: JavaScript dependencies update skipped. New jsdeps.json file not found.';
     }
     // check if js-deps are up-to-date
     elseif (file_exists("$target_dir/jsdeps.json") && file_exists("$target_dir/bin/install-jsdeps.sh")) {
@@ -126,7 +126,7 @@ if (strtolower($input) == 'y') {
         $dest_file = $target_dir . '/' . $package->dest;
 
         if (!file_exists($dest_file) || sha1_file($dest_file) !== $package->sha1) {
-            echo "Installing JavaScript dependencies...";
+            echo 'Installing JavaScript dependencies...';
             system("cd $target_dir && bin/install-jsdeps.sh");
             echo "done.\n\n";
         }

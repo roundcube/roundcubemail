@@ -30,8 +30,8 @@ $session_lifetime = $rcmail->config->get('session_lifetime', 0) * 60 * 2;
 // Clean expired SQL sessions
 if ($session_driver == 'db' && $session_lifetime) {
     $db = $rcmail->get_dbh();
-    $db->query("DELETE FROM " . $db->table_name('session')
-        . " WHERE changed < " . $db->now(-$session_lifetime));
+    $db->query('DELETE FROM ' . $db->table_name('session')
+        . ' WHERE changed < ' . $db->now(-$session_lifetime));
 }
 
 // Clean caches and temp directory

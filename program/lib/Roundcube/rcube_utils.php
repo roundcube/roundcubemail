@@ -235,7 +235,7 @@ class rcube_utils
             $xml_rep_table['"'] = '&quot;';
             $js_rep_table['"']  = '\\"';
             $js_rep_table["'"]  = "\\'";
-            $js_rep_table["\\"] = "\\\\";
+            $js_rep_table['\\'] = '\\\\';
             // Unicode line and paragraph separators (#1486310)
             $js_rep_table[chr(hexdec('E2')) . chr(hexdec('80')) . chr(hexdec('A8'))] = '&#8232;';
             $js_rep_table[chr(hexdec('E2')) . chr(hexdec('80')) . chr(hexdec('A9'))] = '&#8233;';
@@ -465,7 +465,7 @@ class rcube_utils
                     }
                 }
 
-                $output .= sprintf(" %s: %s;", $rule[0] , $rule[1]);
+                $output .= sprintf(' %s: %s;', $rule[0] , $rule[1]);
             }
 
             $key      = $replacements->add($output . ' ');
@@ -555,7 +555,7 @@ class rcube_utils
             // get the property value
             $q = $s = false;
             for ($i = $colon_pos + 1; $i < $length; $i++) {
-                if (($style[$i] == "\"" || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != "\\")) {
+                if (($style[$i] == '"' || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != '\\')) {
                     if ($q == $style[$i]) {
                         $q = false;
                     }
@@ -563,10 +563,10 @@ class rcube_utils
                         $q = $style[$i];
                     }
                 }
-                elseif ($style[$i] == "(" && !$q && ($i == 0 || $style[$i - 1] != "\\")) {
-                    $q = "(";
+                elseif ($style[$i] == '(' && !$q && ($i == 0 || $style[$i - 1] != '\\')) {
+                    $q = '(';
                 }
-                elseif ($style[$i] == ")" && $q == "(" && $style[$i - 1] != "\\") {
+                elseif ($style[$i] == ')' && $q == '(' && $style[$i - 1] != '\\') {
                     $q = false;
                 }
 
@@ -727,7 +727,7 @@ class rcube_utils
         if (strpos($name, '%s') !== false) {
             $user_email = self::idn_to_ascii(self::get_input_value('_user', self::INPUT_POST));
             $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
-            if ($matches < 1 || filter_var($s[1] . "@" . $s[2], \FILTER_VALIDATE_EMAIL) === false) {
+            if ($matches < 1 || filter_var($s[1] . '@' . $s[2], \FILTER_VALIDATE_EMAIL) === false) {
                 return false;
             }
             $s = $s[2];
@@ -1015,7 +1015,7 @@ class rcube_utils
         // try our advanced strtotime() method
         if (!$dt && ($timestamp = self::strtotime($date, $timezone))) {
             try {
-                $dt = new DateTime("@" . $timestamp);
+                $dt = new DateTime('@' . $timestamp);
                 if ($timezone) {
                     $dt->setTimezone($timezone);
                 }
@@ -1207,7 +1207,7 @@ class rcube_utils
 
         $str = preg_replace($expr, $repl, $str);
 
-        return is_string($str) ? array_filter(explode(" ", $str)) : [];
+        return is_string($str) ? array_filter(explode(' ', $str)) : [];
     }
 
     /**
@@ -1362,14 +1362,14 @@ class rcube_utils
      *
      * @return string Password
      */
-    public static function prompt_silent($prompt = "Password:")
+    public static function prompt_silent($prompt = 'Password:')
     {
         if (preg_match('/^win/i', \PHP_OS)) {
             $vbscript  = sys_get_temp_dir() . 'prompt_password.vbs';
             $vbcontent = 'wscript.echo(InputBox("' . addslashes($prompt) . '", "", "password here"))';
             file_put_contents($vbscript, $vbcontent);
 
-            $command  = "cscript //nologo " . escapeshellarg($vbscript);
+            $command  = 'cscript //nologo ' . escapeshellarg($vbscript);
             $password = rtrim(shell_exec($command));
             unlink($vbscript);
 
@@ -1381,7 +1381,7 @@ class rcube_utils
         if (rtrim(shell_exec($command)) !== 'OK') {
             echo $prompt;
             $pass = trim(fgets(\STDIN));
-            echo chr(8) . "\r" . $prompt . str_repeat("*", strlen($pass)) . "\n";
+            echo chr(8) . "\r" . $prompt . str_repeat('*', strlen($pass)) . "\n";
 
             return $pass;
         }
@@ -1471,7 +1471,7 @@ class rcube_utils
             return random_bytes($length);
         }
 
-        $hextab  = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $hextab  = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $tabsize = strlen($hextab);
 
         $result = '';
@@ -1493,7 +1493,7 @@ class rcube_utils
      */
     public static function bin2ascii($input)
     {
-        $hextab = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $hextab = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $result = '';
 
         for ($x = 0; $x < strlen($input); $x++) {
@@ -1594,10 +1594,10 @@ class rcube_utils
             }
 
             if ($preg_error == \PREG_BACKTRACK_LIMIT_ERROR) {
-                $errstr .= " Consider raising pcre.backtrack_limit!";
+                $errstr .= ' Consider raising pcre.backtrack_limit!';
             }
             if ($preg_error == \PREG_RECURSION_LIMIT_ERROR) {
-                $errstr .= " Consider raising pcre.recursion_limit!";
+                $errstr .= ' Consider raising pcre.recursion_limit!';
             }
 
             $error = array_merge(['code' => 620, 'line' => __LINE__, 'file' => __FILE__], $error);

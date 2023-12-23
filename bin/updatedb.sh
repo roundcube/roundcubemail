@@ -31,10 +31,10 @@ $opts = rcube_utils::get_opt([
 ]);
 
 if (empty($opts['dir'])) {
-    rcube::raise_error("Database schema directory not specified (--dir).", false, true);
+    rcube::raise_error('Database schema directory not specified (--dir).', false, true);
 }
 if (empty($opts['package'])) {
-    rcube::raise_error("Database schema package name not specified (--package).", false, true);
+    rcube::raise_error('Database schema package name not specified (--package).', false, true);
 }
 
 rcmail_utils::db_update($opts['dir'], $opts['package'], $opts['version'] ?? null, ['errors' => true]);

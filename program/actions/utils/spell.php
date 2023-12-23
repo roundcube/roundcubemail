@@ -60,7 +60,7 @@ class rcmail_action_utils_spell extends rcmail_action
                     'code' => 500,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Spellcheck error: " . $error,
+                    'message' => 'Spellcheck error: ' . $error,
                 ],
                 true,
                 false
@@ -71,10 +71,10 @@ class rcmail_action_utils_spell extends rcmail_action
         }
 
         // set response length
-        header("Content-Length: " . strlen($result));
+        header('Content-Length: ' . strlen($result));
 
         // Don't use server's default Content-Type charset (#1486406)
-        header("Content-Type: text/xml; charset=" . RCUBE_CHARSET);
+        header('Content-Type: text/xml; charset=' . RCUBE_CHARSET);
         echo $result;
         exit;
     }

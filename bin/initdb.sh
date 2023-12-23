@@ -30,7 +30,7 @@ $opts = rcube_utils::get_opt([
 ]);
 
 if (empty($opts['dir'])) {
-    rcube::raise_error("Database schema directory not specified (--dir).", false, true);
+    rcube::raise_error('Database schema directory not specified (--dir).', false, true);
 }
 
 // Check if directory exists
@@ -41,7 +41,7 @@ if (!file_exists($opts['dir'])) {
 $db = rcmail_utils::db();
 
 if (!empty($opts['update']) && in_array($db->table_name('system'), (array) $db->list_tables())) {
-    echo "Checking for database schema updates..." . \PHP_EOL;
+    echo 'Checking for database schema updates...' . \PHP_EOL;
     rcmail_utils::db_update($opts['dir'], 'roundcube', null, ['errors' => true]);
 } else {
     rcmail_utils::db_init($opts['dir']);

@@ -33,14 +33,14 @@ class rcmail_action_utils_modcss extends rcmail_action
         $url = preg_replace('![^a-z0-9.-]!i', '', $url);
 
         if ($url === null || empty($_SESSION['modcssurls'][$url])) {
-            $rcmail->output->sendExitError(403, "Unauthorized request");
+            $rcmail->output->sendExitError(403, 'Unauthorized request');
         }
 
         $realurl = $_SESSION['modcssurls'][$url];
 
         // don't allow any other connections than http(s)
         if (!preg_match('~^https?://~i', $realurl, $matches)) {
-            $rcmail->output->sendExitError(403, "Invalid URL");
+            $rcmail->output->sendExitError(403, 'Invalid URL');
         }
 
         $source = false;
@@ -74,6 +74,6 @@ class rcmail_action_utils_modcss extends rcmail_action
             );
         }
 
-        $rcmail->output->sendExitError(404, "Invalid response returned by server");
+        $rcmail->output->sendExitError(404, 'Invalid response returned by server');
     }
 }

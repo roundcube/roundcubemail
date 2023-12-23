@@ -66,7 +66,7 @@ if (isset($_GET['_getconfig'])) {
     }
 
     http_response_code(404);
-    exit("The requested configuration was not found. Please run the installer from the beginning.");
+    exit('The requested configuration was not found. Please run the installer from the beginning.');
 }
 
 if (
@@ -86,7 +86,7 @@ if (
 
 // go to 'check env' step if we have a local configuration
 if ($RCI->configured && empty($_REQUEST['_step'])) {
-    header("Location: ./?_step=1");
+    header('Location: ./?_step=1');
     exit;
 }
 

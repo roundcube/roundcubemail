@@ -629,11 +629,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 $textexp = preg_replace('/\[ ([^\]]*)\]/', '0', $test['arg2']);
 
                 if (empty($result['from']) && preg_match($rx_from, $textexp, $matches)) {
-                    $result['from'] = $matches[1] . " " . $matches[2] . " " . $matches[3];
+                    $result['from'] = $matches[1] . ' ' . $matches[2] . ' ' . $matches[3];
                 }
 
                 if (preg_match($rx_to, $textexp, $matches)) {
-                    $result['to'] = $matches[1] . " " . $matches[2] . " " . $matches[3];
+                    $result['to'] = $matches[1] . ' ' . $matches[2] . ' ' . $matches[3];
                 }
             }
         }
@@ -796,13 +796,13 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if ($vacation['reason'] == '') {
-            $this->error = "No vacation message specified";
+            $this->error = 'No vacation message specified';
             return false;
         }
 
         if (!empty($data['interval'])) {
             if (!preg_match('/^([0-9]+)\s*([sd])$/', $data['interval'], $m)) {
-                $this->error = "Invalid vacation interval value: " . $data['interval'];
+                $this->error = 'Invalid vacation interval value: ' . $data['interval'];
                 return false;
             }
             elseif ($m[1]) {
@@ -841,7 +841,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 }
 
                 if ($error) {
-                    $this->error = "Invalid dates specified or unsupported period length";
+                    $this->error = 'Invalid dates specified or unsupported period length';
                     return false;
                 }
             }
@@ -849,12 +849,12 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         if ($data['action'] == 'redirect' || $data['action'] == 'copy') {
             if (empty($data['target']) || !rcube_utils::check_email($data['target'])) {
-                $this->error = "Invalid address in action target: " . $data['target'];
+                $this->error = 'Invalid address in action target: ' . $data['target'];
                 return false;
             }
         }
         elseif ($data['action'] && $data['action'] != 'keep' && $data['action'] != 'discard') {
-            $this->error = "Unsupported vacation action: " . $data['action'];
+            $this->error = 'Unsupported vacation action: ' . $data['action'];
             return false;
         }
 

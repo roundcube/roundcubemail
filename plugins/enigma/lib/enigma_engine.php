@@ -1468,7 +1468,7 @@ class enigma_engine
                     'code'    => 600,
                     'file'    => __FILE__,
                     'line'    => $line,
-                    'message' => "Enigma plugin: " . $result->getMessage(),
+                    'message' => 'Enigma plugin: ' . $result->getMessage(),
                 ], true, $abort
             );
         }

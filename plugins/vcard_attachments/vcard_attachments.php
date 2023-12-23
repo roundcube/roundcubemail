@@ -134,7 +134,7 @@ class vcard_attachments extends rcube_plugin
             }
             else {
                 $display         = $this->gettext(['name' => 'contactsattached', 'vars' => ['num' => count($contacts)]]);
-                $attr['onclick'] = "return plugin_vcard_import()";
+                $attr['onclick'] = 'return plugin_vcard_import()';
 
                 $rcmail->output->set_env('vcards', $contacts);
                 $rcmail->output->add_label('vcard_attachments.addvcardmsg', 'import');
@@ -404,6 +404,6 @@ class vcard_attachments extends rcube_plugin
     {
         $str = preg_replace('/[\t\n\r\0\x0B:\/]+\s*/', ' ', $str);
 
-        return trim($str, " ./_");
+        return trim($str, ' ./_');
     }
 }

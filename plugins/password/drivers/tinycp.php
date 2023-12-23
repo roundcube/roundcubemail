@@ -50,7 +50,7 @@ class rcube_tinycp_password
             }
         }
         else {
-            $error_message = "Missing configuration value(s). ";
+            $error_message = 'Missing configuration value(s). ';
         }
 
         if ($error_message) {

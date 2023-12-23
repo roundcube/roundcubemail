@@ -12,7 +12,7 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
     {
         $object = rcube::get_instance();
 
-        $this->assertInstanceOf('rcube', $object, "Class singleton");
+        $this->assertInstanceOf('rcube', $object, 'Class singleton');
     }
 
     /**

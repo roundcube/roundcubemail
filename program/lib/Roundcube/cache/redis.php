@@ -62,7 +62,7 @@ class rcube_cache_redis extends rcube_cache
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Failed to find Redis. Make sure php-redis is included",
+                    'message' => 'Failed to find Redis. Make sure php-redis is included',
                 ],
                 true, true);
         }
@@ -77,7 +77,7 @@ class rcube_cache_redis extends rcube_cache
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Redis host not configured",
+                    'message' => 'Redis host not configured',
                 ],
                 true, true);
         }
@@ -89,7 +89,7 @@ class rcube_cache_redis extends rcube_cache
                     'type' => 'redis',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Redis cluster not yet supported",
+                    'message' => 'Redis cluster not yet supported',
                 ],
                 true, true);
         }
@@ -113,15 +113,15 @@ class rcube_cache_redis extends rcube_cache
 
             try {
                 if (self::$redis->connect($host, $port) === false) {
-                    throw new Exception("Could not connect to Redis server. Please check host and port.");
+                    throw new Exception('Could not connect to Redis server. Please check host and port.');
                 }
 
                 if ($password !== null && self::$redis->auth($password) === false) {
-                    throw new Exception("Could not authenticate with Redis server. Please check password.");
+                    throw new Exception('Could not authenticate with Redis server. Please check password.');
                 }
 
                 if ($database !== null && self::$redis->select($database) === false) {
-                    throw new Exception("Could not select Redis database. Please check database setting.");
+                    throw new Exception('Could not select Redis database. Please check database setting.');
                 }
             }
             catch (Exception $e) {
@@ -137,8 +137,8 @@ class rcube_cache_redis extends rcube_cache
         if (self::$redis) {
             try {
                 $ping = self::$redis->ping();
-                if ($ping !== true && $ping !== "+PONG") {
-                    throw new Exception("Redis connection failure. Ping failed.");
+                if ($ping !== true && $ping !== '+PONG') {
+                    throw new Exception('Redis connection failure. Ping failed.');
                 }
             }
             catch (Exception $e) {

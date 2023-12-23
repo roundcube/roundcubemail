@@ -314,7 +314,7 @@ class rcmail_output_html extends rcmail_output
     public function check_skin($skin)
     {
         // Sanity check to prevent from path traversal vulnerability (#1490620)
-        if (!is_string($skin) || strpos($skin, '/') !== false || strpos($skin, "\\") !== false) {
+        if (!is_string($skin) || strpos($skin, '/') !== false || strpos($skin, '\\') !== false) {
             rcube::raise_error([
                     'file'    => __FILE__,
                     'line'    => __LINE__,
@@ -822,7 +822,7 @@ class rcmail_output_html extends rcmail_output
         $output = $this->parse_xml($output);
 
         // trigger generic hook where plugins can put additional content to the page
-        $hook = $this->app->plugins->exec_hook("render_page", [
+        $hook = $this->app->plugins->exec_hook('render_page', [
                 'template' => $realname,
                 'content'  => $output,
                 'write'    => $write,
@@ -901,7 +901,7 @@ class rcmail_output_html extends rcmail_output
 
         // make the output more compact if all commands go to parent window
         if ($framed) {
-            $out = "if (window.parent && parent." . self::JS_OBJECT_NAME . ") {\n"
+            $out = 'if (window.parent && parent.' . self::JS_OBJECT_NAME . ") {\n"
                 . str_replace($parent_prefix, "\tparent.", $out)
                 . "}\n";
         }
@@ -1446,7 +1446,7 @@ class rcmail_output_html extends rcmail_output
                 return $include;
 
             case 'plugin.include':
-                $hook = $this->app->plugins->exec_hook("template_plugin_include", $attrib + ['content' => '']);
+                $hook = $this->app->plugins->exec_hook('template_plugin_include', $attrib + ['content' => '']);
                 return $hook['content'];
 
                 // define a container block (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
@@ -1454,7 +1454,7 @@ class rcmail_output_html extends rcmail_output
                 if (!empty($attrib['name']) && !empty($attrib['id'])) {
                     $this->command('gui_container', $attrib['name'], $attrib['id']);
                     // let plugins insert some content here
-                    $hook = $this->app->plugins->exec_hook("template_container", $attrib + ['content' => '']);
+                    $hook = $this->app->plugins->exec_hook('template_container', $attrib + ['content' => '']);
                     return $hook['content'];
                 }
                 break;
@@ -2165,7 +2165,7 @@ class rcmail_output_html extends rcmail_output
         $output = $this->postrender($output);
 
         // trigger hook with final HTML content to be sent
-        $hook = $this->app->plugins->exec_hook("send_page", ['content' => $output]);
+        $hook = $this->app->plugins->exec_hook('send_page', ['content' => $output]);
         if (!$hook['abort']) {
             if ($this->charset != RCUBE_CHARSET) {
                 echo rcube_charset::convert($hook['content'], RCUBE_CHARSET, $this->charset);

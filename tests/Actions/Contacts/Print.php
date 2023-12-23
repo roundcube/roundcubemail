@@ -30,7 +30,7 @@ class Actions_Contacts_Print extends ActionTestCase
 
         $this->assertSame('contactprint', $output->template);
         $this->assertSame('', $output->getProperty('pagetitle')); // TODO: there should be a title
-        $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
+        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
     }
 
     /**

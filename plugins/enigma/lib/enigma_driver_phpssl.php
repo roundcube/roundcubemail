@@ -84,7 +84,7 @@ class enigma_driver_phpssl extends enigma_driver
         $msg_file  = rcube_utils::temp_filename('enigmsg');
         $cert_file = rcube_utils::temp_filename('enigcrt');
 
-        $fh = fopen($msg_file, "w");
+        $fh = fopen($msg_file, 'w');
         if ($struct->mime_id) {
             $message->get_part_body($struct->mime_id, false, 0, $fh);
         }

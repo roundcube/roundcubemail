@@ -15,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    exit("Not allowed! Please open installer/index.php instead.");
+    exit('Not allowed! Please open installer/index.php instead.');
 }
 
 $required_php_exts = [
@@ -190,7 +190,7 @@ foreach ($required_libs as $classname => $vendor) {
     else {
         $RCI->fail($classname, "Failed to load class $classname from $vendor", $source_urls[$classname]);
     }
-    echo "<br />";
+    echo '<br />';
 }
 
 foreach ($optional_libs as $classname => $vendor) {
@@ -200,7 +200,7 @@ foreach ($optional_libs as $classname => $vendor) {
     else {
         $RCI->na($classname, "Recommended to install $classname from $vendor", $source_urls[$classname]);
     }
-    echo "<br />";
+    echo '<br />';
 }
 
 ?>
@@ -214,7 +214,7 @@ foreach ($ini_checks as $var => $val) {
     $status = ini_get($var);
     if ($val === '-NOTEMPTY-') {
         if (empty($status)) {
-            $RCI->fail($var, "empty value detected");
+            $RCI->fail($var, 'empty value detected');
         }
         else {
             $RCI->pass($var);
@@ -238,7 +238,7 @@ foreach ($optional_checks as $var => $val) {
     $status = ini_get($var);
     if ($val === '-NOTEMPTY-') {
         if (empty($status)) {
-            $RCI->optfail($var, "Could be set");
+            $RCI->optfail($var, 'Could be set');
         }
         else {
             $RCI->pass($var);
@@ -253,7 +253,7 @@ foreach ($optional_checks as $var => $val) {
                 $RCI->pass($var);
             }
             catch (Exception $e) {
-                $RCI->optfail($var, empty($status) ? "not set" : "invalid value detected: $status");
+                $RCI->optfail($var, empty($status) ? 'not set' : "invalid value detected: $status");
             }
         }
         else {

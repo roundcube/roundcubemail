@@ -17,7 +17,7 @@ class runlog
     public $print_to_console = false;
     public $threshold        = 0;
     public $tag_count        = [];
-    public $timestamp        = "d-M-Y H:i:s O";
+    public $timestamp        = 'd-M-Y H:i:s O';
     public $max_line_size    = 150;
 
     function __construct()
@@ -39,8 +39,8 @@ class runlog
 
         $this->parent_stack[] = $name;
 
-        $this->print_to_console("start: " . $name, $tag);
-        $this->print_to_file("start: " . $name, $tag);
+        $this->print_to_console('start: ' . $name, $tag);
+        $this->print_to_file('start: ' . $name, $tag);
         $this->indent++;
     }
 
@@ -70,7 +70,7 @@ class runlog
 
         $this->indent--;
         if ($this->run_log[$lastk]['duration'] >= $this->threshold) {
-            $tag_report = "";
+            $tag_report = '';
             foreach ($this->tag_count as $tag => $count) {
                 $tag_report .= "$tag: $count, ";
             }
@@ -91,16 +91,16 @@ class runlog
 
     public function get_text()
     {
-        $text = "";
+        $text = '';
         foreach ($this->run_log as $entry) {
-            $text .= str_repeat("   ", count($entry['parents']));
+            $text .= str_repeat('   ', count($entry['parents']));
             if ($entry['tag'] != 'text') {
                 $text .= $entry['tag'] . ': ';
             }
             $text .= $entry['value'];
 
             if ($entry['tag'] == 'end') {
-                $text .= sprintf(" - %0.4f seconds", $entry['duration']);
+                $text .= sprintf(' - %0.4f seconds', $entry['duration']);
             }
 
             $text .= "\n";
@@ -148,7 +148,7 @@ class runlog
             $buffer = $this->get_indent();
             $buffer .= "$msg\n";
             if (!empty($this->timestamp)) {
-                $buffer = sprintf("[%s] %s", date($this->timestamp, time()), $buffer);
+                $buffer = sprintf('[%s] %s', date($this->timestamp, time()), $buffer);
             }
             fwrite($this->file_handles[$file_handle_tag], wordwrap($buffer, $this->max_line_size, "\n     "));
         }
@@ -158,13 +158,13 @@ class runlog
             if ($tag) {
                 $buffer .= "$tag: ";
             }
-            $msg = str_replace("\n", "", $msg);
+            $msg = str_replace("\n", '', $msg);
             $buffer .= "$msg";
             if (!empty($this->timestamp)) {
-                $buffer = sprintf("[%s] %s", date($this->timestamp, time()), $buffer);
+                $buffer = sprintf('[%s] %s', date($this->timestamp, time()), $buffer);
             }
             if (strlen($buffer) > $this->max_line_size) {
-                $buffer = substr($buffer,0,$this->max_line_size - 3) . "...";
+                $buffer = substr($buffer,0,$this->max_line_size - 3) . '...';
             }
             fwrite($this->file_handles['master'], $buffer . "\n");
         }
@@ -194,9 +194,9 @@ class runlog
 
     private function get_indent()
     {
-        $buf = "";
+        $buf = '';
         for ($i = 0; $i < $this->indent; $i++) {
-            $buf .= "  ";
+            $buf .= '  ';
         }
         return $buf;
     }

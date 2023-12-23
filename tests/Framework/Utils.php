@@ -198,10 +198,10 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $css = file_get_contents(TESTS_DIR . 'src/valid.css');
         $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
 
-        $this->assertMatchesRegularExpression('/#rcmbody\s+\{/', $mod, "Replace body style definition");
-        $this->assertMatchesRegularExpression('/#rcmbody h1\s\{/', $mod, "Prefix tag styles (single)");
-        $this->assertMatchesRegularExpression('/#rcmbody h1, #rcmbody h2, #rcmbody h3, #rcmbody textarea\s+\{/', $mod, "Prefix tag styles (multiple)");
-        $this->assertMatchesRegularExpression('/#rcmbody \.noscript\s+\{/', $mod, "Prefix class styles");
+        $this->assertMatchesRegularExpression('/#rcmbody\s+\{/', $mod, 'Replace body style definition');
+        $this->assertMatchesRegularExpression('/#rcmbody h1\s\{/', $mod, 'Prefix tag styles (single)');
+        $this->assertMatchesRegularExpression('/#rcmbody h1, #rcmbody h2, #rcmbody h3, #rcmbody textarea\s+\{/', $mod, 'Prefix tag styles (multiple)');
+        $this->assertMatchesRegularExpression('/#rcmbody \.noscript\s+\{/', $mod, 'Prefix class styles');
 
         $css = file_get_contents(TESTS_DIR . 'src/media.css');
         $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
@@ -217,51 +217,51 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     function test_mod_css_styles_xss()
     {
         $mod = rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
-        $this->assertSame("/* evil! */", $mod, "No url() values allowed");
+        $this->assertSame('/* evil! */', $mod, 'No url() values allowed');
 
         $mod = rcube_utils::mod_css_styles("@import url('http://localhost/somestuff/css/master.css');", 'rcmbody');
-        $this->assertSame("/* evil! */", $mod, "No import statements");
+        $this->assertSame('/* evil! */', $mod, 'No import statements');
 
-        $mod = rcube_utils::mod_css_styles("left:expression(document.body.offsetWidth-20)", 'rcmbody');
-        $this->assertSame("/* evil! */", $mod, "No expression properties");
+        $mod = rcube_utils::mod_css_styles('left:expression(document.body.offsetWidth-20)', 'rcmbody');
+        $this->assertSame('/* evil! */', $mod, 'No expression properties');
 
-        $mod = rcube_utils::mod_css_styles("left:exp/*  */ression( alert(&#039;xss3&#039;) )", 'rcmbody');
-        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks");
+        $mod = rcube_utils::mod_css_styles('left:exp/*  */ression( alert(&#039;xss3&#039;) )', 'rcmbody');
+        $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks");
 
-        $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\00006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
-        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks (2)");
+        $mod = rcube_utils::mod_css_styles('background:\\0075\\0072\\00006c( javascript:alert(&#039;xss&#039;) )', 'rcmbody');
+        $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks (2)");
 
         $mod = rcube_utils::mod_css_styles("background: \\75 \\72 \\6C ('/images/img.png')", 'rcmbody');
-        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks (3)");
+        $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks (3)");
 
         $mod = rcube_utils::mod_css_styles("background: u\\r\\l('/images/img.png')", 'rcmbody');
-        $this->assertSame("/* evil! */", $mod, "Don't allow encoding quirks (4)");
+        $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks (4)");
 
         // position: fixed (#5264)
-        $mod = rcube_utils::mod_css_styles(".test { position: fixed; }", 'rcmbody');
-        $this->assertSame("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (0)");
+        $mod = rcube_utils::mod_css_styles('.test { position: fixed; }', 'rcmbody');
+        $this->assertSame('#rcmbody .test { position: absolute; }', $mod, 'Replace position:fixed with position:absolute (0)');
         $mod = rcube_utils::mod_css_styles(".test { position:\nfixed; }", 'rcmbody');
-        $this->assertSame("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (1)");
-        $mod = rcube_utils::mod_css_styles(".test { position:/**/fixed; }", 'rcmbody');
-        $this->assertSame("#rcmbody .test { position: absolute; }", $mod, "Replace position:fixed with position:absolute (2)");
+        $this->assertSame('#rcmbody .test { position: absolute; }', $mod, 'Replace position:fixed with position:absolute (1)');
+        $mod = rcube_utils::mod_css_styles('.test { position:/**/fixed; }', 'rcmbody');
+        $this->assertSame('#rcmbody .test { position: absolute; }', $mod, 'Replace position:fixed with position:absolute (2)');
 
         // position: fixed (#6898)
-        $mod = rcube_utils::mod_css_styles(".test { position : fixed; top: 0; }", 'rcmbody');
-        $this->assertSame("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (3)");
-        $mod = rcube_utils::mod_css_styles(".test { position/**/: fixed; top: 0; }", 'rcmbody');
-        $this->assertSame("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (4)");
+        $mod = rcube_utils::mod_css_styles('.test { position : fixed; top: 0; }', 'rcmbody');
+        $this->assertSame('#rcmbody .test { position: absolute; top: 0; }', $mod, 'Replace position:fixed with position:absolute (3)');
+        $mod = rcube_utils::mod_css_styles('.test { position/**/: fixed; top: 0; }', 'rcmbody');
+        $this->assertSame('#rcmbody .test { position: absolute; top: 0; }', $mod, 'Replace position:fixed with position:absolute (4)');
         $mod = rcube_utils::mod_css_styles(".test { position\n: fixed; top: 0; }", 'rcmbody');
-        $this->assertSame("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (5)");
+        $this->assertSame('#rcmbody .test { position: absolute; top: 0; }', $mod, 'Replace position:fixed with position:absolute (5)');
 
         // allow data URIs with images (#5580)
-        $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
-        $this->assertStringContainsString("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [1]");
-        $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody', true);
-        $this->assertStringContainsString("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [2]");
+        $mod = rcube_utils::mod_css_styles('body { background-image: url(data:image/png;base64,123); }', 'rcmbody');
+        $this->assertStringContainsString('#rcmbody { background-image: url(data:image/png;base64,123);', $mod, 'Data URIs in url() allowed [1]');
+        $mod = rcube_utils::mod_css_styles('body { background-image: url(data:image/png;base64,123); }', 'rcmbody', true);
+        $this->assertStringContainsString('#rcmbody { background-image: url(data:image/png;base64,123);', $mod, 'Data URIs in url() allowed [2]');
 
         // Allow strict url()
-        $mod = rcube_utils::mod_css_styles("body { background-image: url(http://example.com); }", 'rcmbody', true);
-        $this->assertStringContainsString("#rcmbody { background-image: url(http://example.com);", $mod, "Strict URIs in url() allowed with \$allow_remote=true");
+        $mod = rcube_utils::mod_css_styles('body { background-image: url(http://example.com); }', 'rcmbody', true);
+        $this->assertStringContainsString('#rcmbody { background-image: url(http://example.com);', $mod, 'Strict URIs in url() allowed with $allow_remote=true');
 
         // XSS issue, HTML in 'content' property
         $style = "body { content: '</style><img src onerror=\"alert(\'hello\');\">'; color: red; }";
@@ -273,13 +273,13 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $this->assertSame("#rcmbody { content: '< page: ;/style>< page: ;img src onerror=\"alert('hello');\">'; color: red; }", $mod);
 
         // Removing page: property
-        $style = "body { page: test; color: red }";
+        $style = 'body { page: test; color: red }';
         $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
-        $this->assertSame("#rcmbody { color: red; }", $mod);
+        $this->assertSame('#rcmbody { color: red; }', $mod);
 
-        $style = "body { background:url(alert(&#039;URL!&#039;) ) }";
+        $style = 'body { background:url(alert(&#039;URL!&#039;) ) }';
         $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
-        $this->assertSame("#rcmbody { background: /* evil! */; }", $mod);
+        $this->assertSame('#rcmbody { background: /* evil! */; }', $mod);
     }
 
     /**
@@ -320,18 +320,18 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
     function test_xss_entity_decode()
     {
-        $mod = rcube_utils::xss_entity_decode("&lt;img/src=x onerror=alert(1)// </b>");
-        $this->assertStringNotContainsString('<img', $mod, "Strip (encoded) tags from style node");
+        $mod = rcube_utils::xss_entity_decode('&lt;img/src=x onerror=alert(1)// </b>');
+        $this->assertStringNotContainsString('<img', $mod, 'Strip (encoded) tags from style node');
 
         $mod = rcube_utils::xss_entity_decode('#foo:after{content:"\003Cimg/src=x onerror=alert(2)>";}');
-        $this->assertStringNotContainsString('<img', $mod, "Strip (encoded) tags from content property");
+        $this->assertStringNotContainsString('<img', $mod, 'Strip (encoded) tags from content property');
 
         $mod = rcube_utils::xss_entity_decode("background: u\\r\\00006c('/images/img.png')");
-        $this->assertStringContainsString("url(", $mod, "Escape sequences resolving");
+        $this->assertStringContainsString('url(', $mod, 'Escape sequences resolving');
 
         // #5747
         $mod = rcube_utils::xss_entity_decode('<!-- #foo { content:css; } -->');
-        $this->assertStringContainsString('#foo', $mod, "Strip HTML comments from content, but not the content");
+        $this->assertStringContainsString('#foo', $mod, 'Strip HTML comments from content, but not the content');
     }
 
     /**
@@ -377,15 +377,15 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
                 [['prop', 'val1'], ['prop-two', "'val2: '"]],
             ],
             [
-                "prop: val1; prop-two :",
+                'prop: val1; prop-two :',
                 [['prop', 'val1']],
             ],
             [
-                "prop: val1; prop-two :;",
+                'prop: val1; prop-two :;',
                 [['prop', 'val1']],
             ],
             [
-                "background: url(data:image/png;base64,test)",
+                'background: url(data:image/png;base64,test)',
                 [['background', 'url(data:image/png;base64,test)']],
             ],
             [
@@ -393,7 +393,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
                 [['background', "url('data:image/png;base64,test')"]],
             ],
             [
-                "background: url(\"data:image/png;base64,test\")",
+                'background: url("data:image/png;base64,test")',
                 [['background', 'url("data:image/png;base64,test")']],
             ],
             [
@@ -632,7 +632,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
 
         foreach ($test as $data) {
             $result = rcube_utils::format_datestr($data[0], $data[1]);
-            $this->assertSame($data[2], $result, "Error formatting date: " . $data[0]);
+            $this->assertSame($data[2], $result, 'Error formatting date: ' . $data[0]);
         }
     }
 
@@ -711,7 +711,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN') {
             $test = [
                 '' => false,
-                "C:\\" => true,
+                'C:\\' => true,
                 'some/path' => false,
             ];
         }

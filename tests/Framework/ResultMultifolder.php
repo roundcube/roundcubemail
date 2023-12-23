@@ -12,6 +12,6 @@ class Framework_ResultMultifolder extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_result_multifolder;
 
-        $this->assertInstanceOf('rcube_result_multifolder', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_result_multifolder', $object, 'Class constructor');
     }
 }

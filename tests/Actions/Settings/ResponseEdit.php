@@ -37,10 +37,10 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
         $this->assertSame('responseedit', $output->template);
         $this->assertSame('Edit response', $output->getProperty('pagetitle'));
         $this->assertTrue($output->get_env('readonly'));
-        $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
+        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
         $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
-        $this->assertTrue(strpos($result, "tinymce.min.js") !== false);
-        $this->assertTrue(strpos($result, "Static Response One</textarea>") !== false);
+        $this->assertTrue(strpos($result, 'tinymce.min.js') !== false);
+        $this->assertTrue(strpos($result, 'Static Response One</textarea>') !== false);
 
         // Test writable response
         $_GET = ['_id' => $responses[2]['id']];
@@ -52,7 +52,7 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
         $this->assertSame('responseedit', $output->template);
         $this->assertSame('Edit response', $output->getProperty('pagetitle'));
         $this->assertFalse($output->get_env('readonly'));
-        $this->assertTrue(strpos($result, "test response 2&lt;/b&gt;&lt;/p&gt;</textarea>") !== false);
+        $this->assertTrue(strpos($result, 'test response 2&lt;/b&gt;&lt;/p&gt;</textarea>') !== false);
     }
 
     /**

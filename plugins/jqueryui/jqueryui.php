@@ -40,7 +40,7 @@ class jqueryui extends rcube_plugin
         $this->load_config();
 
         // include UI scripts
-        $this->include_script("js/jquery-ui.min.js");
+        $this->include_script('js/jquery-ui.min.js');
 
         // include UI stylesheet
         $skin     = $rcmail->config->get('skin');
@@ -113,7 +113,7 @@ class jqueryui extends rcube_plugin
 
         $rcube  = rcube::get_instance();
         $script = 'plugins/jqueryui/js/jquery.minicolors.min.js';
-        $css    = self::$css_path . "/jquery.minicolors.css";
+        $css    = self::$css_path . '/jquery.minicolors.css';
 
         $colors_theme = $rcube->config->get('jquery_ui_colors_theme', 'default');
         $config       = ['theme' => $colors_theme];
@@ -138,7 +138,7 @@ class jqueryui extends rcube_plugin
 
         $script = 'plugins/jqueryui/js/jquery.tagedit.js';
         $rcube  = rcube::get_instance();
-        $css    = self::$css_path . "/tagedit.css";
+        $css    = self::$css_path . '/tagedit.css';
 
         if (!array_key_exists('elastic', (array) $rcube->output->skins)) {
             $rcube->output->include_css('plugins/jqueryui/' . $css);

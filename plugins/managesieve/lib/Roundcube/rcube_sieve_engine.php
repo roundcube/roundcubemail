@@ -38,17 +38,17 @@ class rcube_sieve_engine
     protected $disabled_actions = [];
     protected $addr_headers = [
         // Required
-        "from", "to", "cc", "bcc", "sender", "resent-from", "resent-to",
+        'from', 'to', 'cc', 'bcc', 'sender', 'resent-from', 'resent-to',
         // Additional (RFC 822 / RFC 2822)
-        "reply-to", "resent-reply-to", "resent-sender", "resent-cc", "resent-bcc",
+        'reply-to', 'resent-reply-to', 'resent-sender', 'resent-cc', 'resent-bcc',
         // Non-standard (RFC 2076, draft-palme-mailext-headers-08.txt)
-        "for-approval", "for-handling", "for-comment", "apparently-to", "errors-to",
-        "delivered-to", "return-receipt-to", "x-admin", "read-receipt-to",
-        "x-confirm-reading-to", "return-receipt-requested",
-        "registered-mail-reply-requested-by", "mail-followup-to", "mail-reply-to",
-        "abuse-reports-to", "x-complaints-to", "x-report-abuse-to",
+        'for-approval', 'for-handling', 'for-comment', 'apparently-to', 'errors-to',
+        'delivered-to', 'return-receipt-to', 'x-admin', 'read-receipt-to',
+        'x-confirm-reading-to', 'return-receipt-requested',
+        'registered-mail-reply-requested-by', 'mail-followup-to', 'mail-reply-to',
+        'abuse-reports-to', 'x-complaints-to', 'x-report-abuse-to',
         // Undocumented
-        "x-beenthere",
+        'x-beenthere',
     ];
     protected $notify_methods = [
         'mailto',
@@ -510,7 +510,7 @@ class rcube_sieve_engine
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
             $errorLines = $this->sieve->get_error_lines();
             if (count($errorLines) > 0) {
-                $this->rc->output->set_env("sieve_errors", $errorLines);
+                $this->rc->output->set_env('sieve_errors', $errorLines);
             }
         }
         else {
@@ -541,7 +541,7 @@ class rcube_sieve_engine
         if ($max_post && count($_POST, \COUNT_RECURSIVE) >= $max_post) {
             rcube::raise_error([
                     'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Request size limit exceeded (one of max_input_vars/suhosin.request.max_vars/suhosin.post.max_vars)",
+                    'message' => 'Request size limit exceeded (one of max_input_vars/suhosin.request.max_vars/suhosin.post.max_vars)',
                 ], true, false
             );
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
@@ -550,7 +550,7 @@ class rcube_sieve_engine
         elseif ($max_depth && count($_POST['_header']) > $max_depth) {
             rcube::raise_error([
                     'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Request size limit exceeded (one of suhosin.request.max_array_depth/suhosin.post.max_array_depth)",
+                    'message' => 'Request size limit exceeded (one of suhosin.request.max_array_depth/suhosin.post.max_array_depth)',
                 ], true, false
             );
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
@@ -1954,16 +1954,16 @@ class rcube_sieve_engine
                     'id'    => 'rule_spamtest_target' . $id,
                     'class' => 'input-group-append custom-select',
             ]);
-            $select_spamtest_target->add(rcube::Q("0%"), '1');
-            $select_spamtest_target->add(rcube::Q("20%"), '2');
-            $select_spamtest_target->add(rcube::Q("30%"), '3');
-            $select_spamtest_target->add(rcube::Q("40%"), '4');
-            $select_spamtest_target->add(rcube::Q("50%"), '5');
-            $select_spamtest_target->add(rcube::Q("60%"), '6');
-            $select_spamtest_target->add(rcube::Q("70%"), '7');
-            $select_spamtest_target->add(rcube::Q("80%"), '8');
-            $select_spamtest_target->add(rcube::Q("90%"), '9');
-            $select_spamtest_target->add(rcube::Q("100%"), '10');
+            $select_spamtest_target->add(rcube::Q('0%'), '1');
+            $select_spamtest_target->add(rcube::Q('20%'), '2');
+            $select_spamtest_target->add(rcube::Q('30%'), '3');
+            $select_spamtest_target->add(rcube::Q('40%'), '4');
+            $select_spamtest_target->add(rcube::Q('50%'), '5');
+            $select_spamtest_target->add(rcube::Q('60%'), '6');
+            $select_spamtest_target->add(rcube::Q('70%'), '7');
+            $select_spamtest_target->add(rcube::Q('80%'), '8');
+            $select_spamtest_target->add(rcube::Q('90%'), '9');
+            $select_spamtest_target->add(rcube::Q('100%'), '10');
 
             $tout .= '<div id="rule_spamtest' . $id . '" class="input-group" style="display:' . ($rule['test'] == 'spamtest' ? 'inline' : 'none') . '">';
             $tout .= $select_spamtest_op->show($rule['test'] == 'spamtest' && $target > 0 ? $rule['type'] : '');

@@ -36,8 +36,8 @@ trait rcube_uploads
         }
 
         $sql_result = $this->db->query(
-            "SELECT * FROM " . $this->db->table_name('uploads', true)
-                . " WHERE `session_id` = ? AND `upload_id` = ?",
+            'SELECT * FROM ' . $this->db->table_name('uploads', true)
+                . ' WHERE `session_id` = ? AND `upload_id` = ?',
             $session_id, $id
         );
 
@@ -64,9 +64,9 @@ trait rcube_uploads
         }
 
         $sql_result = $this->db->query(
-            "SELECT * FROM " . $this->db->table_name('uploads', true)
-                . " WHERE `session_id` = ? AND `group` = ?"
-                . " ORDER BY `created`",
+            'SELECT * FROM ' . $this->db->table_name('uploads', true)
+                . ' WHERE `session_id` = ? AND `group` = ?'
+                . ' ORDER BY `created`',
             $session_id, $group
         );
 
@@ -98,9 +98,9 @@ trait rcube_uploads
 
         $metadata = $this->prepare_upload_metadata(array_merge($file, $data));
 
-        $sql = "UPDATE " . $this->db->table_name('uploads', true)
-            . " SET `metadata` = ?"
-            . " WHERE `upload_id` = ? AND `session_id` = ?";
+        $sql = 'UPDATE ' . $this->db->table_name('uploads', true)
+            . ' SET `metadata` = ?'
+            . ' WHERE `upload_id` = ? AND `session_id` = ?';
 
         $update = $this->db->query($sql, $metadata, $id, $this->get_session_id());
 
@@ -132,9 +132,9 @@ trait rcube_uploads
 
         $metadata = $this->prepare_upload_metadata($data);
 
-        $sql = "INSERT INTO " . $this->db->table_name('uploads', true)
-            . " (`created`, `session_id`, `upload_id`, `group`, `metadata`)"
-            . " VALUES (" . $this->db->now() . ", ?, ?, ?, ?)";
+        $sql = 'INSERT INTO ' . $this->db->table_name('uploads', true)
+            . ' (`created`, `session_id`, `upload_id`, `group`, `metadata`)'
+            . ' VALUES (' . $this->db->now() . ', ?, ?, ?, ?)';
 
         $insert = $this->db->query($sql, $session_id, $data['id'], $data['group'] ?? null, $metadata);
 
@@ -163,8 +163,8 @@ trait rcube_uploads
         }
 
         $this->db->query(
-            "DELETE FROM " . $this->db->table_name('uploads', true)
-                . " WHERE `session_id` = ? AND `upload_id` = ?",
+            'DELETE FROM ' . $this->db->table_name('uploads', true)
+                . ' WHERE `session_id` = ? AND `upload_id` = ?',
             $session_id,
             $id
         );
@@ -188,8 +188,8 @@ trait rcube_uploads
         $this->plugins->exec_hook('attachments_cleanup', ['group' => $group]);
 
         $this->db->query(
-            "DELETE FROM " . $this->db->table_name('uploads', true)
-                . " WHERE `session_id` = ? AND `group` = ?",
+            'DELETE FROM ' . $this->db->table_name('uploads', true)
+                . ' WHERE `session_id` = ? AND `group` = ?',
             $session_id,
             $group
         );

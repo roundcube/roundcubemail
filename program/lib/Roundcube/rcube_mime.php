@@ -421,9 +421,9 @@ class rcube_mime
                 if ($str[$i] == '"') {
                     $quoted = false;
                 }
-                elseif ($str[$i] == "\\") {
+                elseif ($str[$i] == '\\') {
                     if ($comment <= 0) {
-                        $out .= "\\";
+                        $out .= '\\';
                     }
                     $i++;
                 }
@@ -436,7 +436,7 @@ class rcube_mime
                 elseif ($str[$i] == '(') {
                     $comment++;
                 }
-                elseif ($str[$i] == "\\") {
+                elseif ($str[$i] == '\\') {
                     $i++;
                 }
                 continue;

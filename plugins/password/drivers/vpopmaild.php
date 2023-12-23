@@ -47,20 +47,20 @@ class rcube_vpopmaild_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $vpopmaild->writeLine("slogin " . $username . " " . $curpass);
+        $vpopmaild->writeLine('slogin ' . $username . ' ' . $curpass);
         $result = $vpopmaild->readLine();
 
         if (!preg_match('/^\+OK/', $result)) {
-            $vpopmaild->writeLine("quit");
+            $vpopmaild->writeLine('quit');
             $vpopmaild->disconnect();
             return PASSWORD_ERROR;
         }
 
-        $vpopmaild->writeLine("mod_user " . $username);
-        $vpopmaild->writeLine("clear_text_password " . $passwd);
-        $vpopmaild->writeLine(".");
+        $vpopmaild->writeLine('mod_user ' . $username);
+        $vpopmaild->writeLine('clear_text_password ' . $passwd);
+        $vpopmaild->writeLine('.');
         $result = $vpopmaild->readLine();
-        $vpopmaild->writeLine("quit");
+        $vpopmaild->writeLine('quit');
         $vpopmaild->disconnect();
 
         if (!preg_match('/^\+OK/', $result)) {

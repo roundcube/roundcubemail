@@ -566,7 +566,7 @@ class rcube_imap_generic
         if ($type == 'CRAM-MD5' || $type == 'DIGEST-MD5') {
             if ($type == 'DIGEST-MD5' && !class_exists('Auth_SASL')) {
                 return $this->setError(self::ERROR_BYE,
-                    "The Auth_SASL package is required for DIGEST-MD5 authentication");
+                    'The Auth_SASL package is required for DIGEST-MD5 authentication');
             }
 
             $this->putLine($this->nextTag() . " AUTHENTICATE $type");
@@ -602,7 +602,7 @@ class rcube_imap_generic
                 $pass = str_pad($pass, 64, chr(0));
 
                 // generate hash
-                $hash  = md5($xor($pass, $opad) . pack("H*",
+                $hash  = md5($xor($pass, $opad) . pack('H*',
                     md5($xor($pass, $ipad) . base64_decode($challenge))));
                 $reply = base64_encode($user . ' ' . $hash);
 
@@ -639,7 +639,7 @@ class rcube_imap_generic
                 $challenge = base64_decode($challenge);
                 if (strpos($challenge, 'rspauth=') === false) {
                     return $this->setError(self::ERROR_BAD,
-                        "Unexpected response from server to DIGEST-MD5 response");
+                        'Unexpected response from server to DIGEST-MD5 response');
                 }
 
                 $this->putLine('');
@@ -651,17 +651,17 @@ class rcube_imap_generic
         elseif ($type == 'GSSAPI') {
             if (!extension_loaded('krb5')) {
                 return $this->setError(self::ERROR_BYE,
-                    "The krb5 extension is required for GSSAPI authentication");
+                    'The krb5 extension is required for GSSAPI authentication');
             }
 
             if (empty($this->prefs['gssapi_cn'])) {
                 return $this->setError(self::ERROR_BYE,
-                    "The gssapi_cn parameter is required for GSSAPI authentication");
+                    'The gssapi_cn parameter is required for GSSAPI authentication');
             }
 
             if (empty($this->prefs['gssapi_context'])) {
                 return $this->setError(self::ERROR_BYE,
-                    "The gssapi_context parameter is required for GSSAPI authentication");
+                    'The gssapi_context parameter is required for GSSAPI authentication');
             }
 
             putenv('KRB5CCNAME=' . $this->prefs['gssapi_cn']);
@@ -678,10 +678,10 @@ class rcube_imap_generic
             }
             catch (Exception $e) {
                 trigger_error($e->getMessage(), \E_USER_WARNING);
-                return $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
+                return $this->setError(self::ERROR_BYE, 'GSSAPI authentication failed');
             }
 
-            $this->putLine($this->nextTag() . " AUTHENTICATE GSSAPI " . $token);
+            $this->putLine($this->nextTag() . ' AUTHENTICATE GSSAPI ' . $token);
             $line = trim($this->readReply());
 
             if ($line[0] != '+') {
@@ -692,11 +692,11 @@ class rcube_imap_generic
                 $itoken = base64_decode(substr($line, 2));
 
                 if (!$gssapicontext->unwrap($itoken, $itoken)) {
-                    throw new Exception("GSSAPI SASL input token unwrap failed");
+                    throw new Exception('GSSAPI SASL input token unwrap failed');
                 }
 
                 if (strlen($itoken) < 4) {
-                    throw new Exception("GSSAPI SASL input token invalid");
+                    throw new Exception('GSSAPI SASL input token invalid');
                 }
 
                 // Integrity/encryption layers are not supported. The first bit
@@ -704,19 +704,19 @@ class rcube_imap_generic
                 // 0x00 should not occur, but support broken implementations.
                 $server_layers = ord($itoken[0]);
                 if ($server_layers && ($server_layers & 0x1) != 0x1) {
-                    throw new Exception("Server requires GSSAPI SASL integrity/encryption");
+                    throw new Exception('Server requires GSSAPI SASL integrity/encryption');
                 }
 
                 // Construct output token. 0x01 in the first octet = SASL layer "none",
                 // zero in the following three octets = no data follows.
                 // See https://github.com/cyrusimap/cyrus-sasl/blob/e41cfb986c1b1935770de554872247453fdbb079/plugins/gssapi.c#L1284
-                if (!$gssapicontext->wrap(pack("CCCC", 0x1, 0, 0, 0), $otoken, true)) {
-                    throw new Exception("GSSAPI SASL output token wrap failed");
+                if (!$gssapicontext->wrap(pack('CCCC', 0x1, 0, 0, 0), $otoken, true)) {
+                    throw new Exception('GSSAPI SASL output token wrap failed');
                 }
             }
             catch (Exception $e) {
                 trigger_error($e->getMessage(), \E_USER_WARNING);
-                return $this->setError(self::ERROR_BYE, "GSSAPI authentication failed");
+                return $this->setError(self::ERROR_BYE, 'GSSAPI authentication failed');
             }
 
             $this->putLine(base64_encode($otoken));
@@ -739,11 +739,11 @@ class rcube_imap_generic
 
             // RFC 4959 (SASL-IR): save one round trip
             if ($this->getCapability('SASL-IR')) {
-                [$result, $line] = $this->execute("AUTHENTICATE PLAIN", [$reply],
+                [$result, $line] = $this->execute('AUTHENTICATE PLAIN', [$reply],
                     self::COMMAND_LASTLINE | self::COMMAND_CAPABILITY | self::COMMAND_ANONYMIZED);
             }
             else {
-                $this->putLine($this->nextTag() . " AUTHENTICATE PLAIN");
+                $this->putLine($this->nextTag() . ' AUTHENTICATE PLAIN');
                 $line = trim($this->readReply());
 
                 if ($line[0] != '+') {
@@ -757,7 +757,7 @@ class rcube_imap_generic
             }
         }
         elseif ($type == 'LOGIN') {
-            $this->putLine($this->nextTag() . " AUTHENTICATE LOGIN");
+            $this->putLine($this->nextTag() . ' AUTHENTICATE LOGIN');
 
             $line = trim($this->readReply());
             if ($line[0] != '+') {
@@ -822,7 +822,7 @@ class rcube_imap_generic
     {
         // Prevent from sending credentials in plain text when connection is not secure
         if ($this->getCapability('LOGINDISABLED')) {
-            return $this->setError(self::ERROR_BAD, "Login disabled by IMAP server");
+            return $this->setError(self::ERROR_BAD, 'Login disabled by IMAP server');
         }
 
         [$code, $response] = $this->execute('LOGIN', [$this->escape($user, true), $this->escape($password, true)],
@@ -921,17 +921,17 @@ class rcube_imap_generic
 
         // check input
         if (empty($host)) {
-            $this->setError(self::ERROR_BAD, "Empty host");
+            $this->setError(self::ERROR_BAD, 'Empty host');
             return false;
         }
 
         if (empty($user)) {
-            $this->setError(self::ERROR_NO, "Empty user");
+            $this->setError(self::ERROR_NO, 'Empty user');
             return false;
         }
 
         if (empty($password) && empty($options['gssapi_cn'])) {
-            $this->setError(self::ERROR_NO, "Empty password");
+            $this->setError(self::ERROR_NO, 'Empty password');
             return false;
         }
 
@@ -1064,8 +1064,8 @@ class rcube_imap_generic
         }
 
         if (!$this->fp) {
-            $this->setError(self::ERROR_BAD, sprintf("Could not connect to %s:%d: %s",
-                $host, $port, $errstr ?: "Unknown reason"));
+            $this->setError(self::ERROR_BAD, sprintf('Could not connect to %s:%d: %s',
+                $host, $port, $errstr ?: 'Unknown reason'));
 
             return false;
         }
@@ -1091,10 +1091,10 @@ class rcube_imap_generic
         // Connected to wrong port or connection error?
         if (!preg_match('/^\* (OK|PREAUTH)/i', $line)) {
             if ($line) {
-                $error = sprintf("Wrong startup greeting (%s:%d): %s", $host, $port, $line);
+                $error = sprintf('Wrong startup greeting (%s:%d): %s', $host, $port, $line);
             }
             else {
-                $error = sprintf("Empty startup greeting (%s:%d)", $host, $port);
+                $error = sprintf('Empty startup greeting (%s:%d)', $host, $port);
             }
 
             $this->setError(self::ERROR_BAD, $error);
@@ -1130,7 +1130,7 @@ class rcube_imap_generic
             }
 
             if (!stream_socket_enable_crypto($this->fp, true, $crypto_method)) {
-                $this->setError(self::ERROR_BAD, "Unable to negotiate TLS");
+                $this->setError(self::ERROR_BAD, 'Unable to negotiate TLS');
                 $this->closeConnection();
                 return false;
             }
@@ -1381,7 +1381,7 @@ class rcube_imap_generic
         }
 
         if (empty($this->data['READ-WRITE'])) {
-            $this->setError(self::ERROR_READONLY, "Mailbox is read-only");
+            $this->setError(self::ERROR_READONLY, 'Mailbox is read-only');
             return false;
         }
 
@@ -2166,7 +2166,7 @@ class rcube_imap_generic
             $fields[] = 'INTERNALDATE';
         }
 
-        $request = "$key $cmd $message_set (" . implode(' ', $fields) . ")";
+        $request = "$key $cmd $message_set (" . implode(' ', $fields) . ')';
 
         if (!$this->putLine($request)) {
             $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
@@ -2236,7 +2236,7 @@ class rcube_imap_generic
                     if (!$flags && preg_match('/FLAGS \(([^)]+)\)/', $line, $matches)) {
                         $flags = explode(' ', $matches[1]);
                     }
-                    $result[$id] = in_array("\\" . $index_field, (array) $flags) ? 1 : 0;
+                    $result[$id] = in_array('\\' . $index_field, (array) $flags) ? 1 : 0;
                 }
                 elseif ($mode == 4) {
                     if (preg_match('/INTERNALDATE "([^"]+)"/', $line, $matches)) {
@@ -2356,7 +2356,7 @@ class rcube_imap_generic
         }
 
         if (empty($this->data['READ-WRITE'])) {
-            $this->setError(self::ERROR_READONLY, "Mailbox is read-only");
+            $this->setError(self::ERROR_READONLY, 'Mailbox is read-only');
             return false;
         }
 
@@ -2434,7 +2434,7 @@ class rcube_imap_generic
         }
 
         if (empty($this->data['READ-WRITE'])) {
-            $this->setError(self::ERROR_READONLY, "Mailbox is read-only");
+            $this->setError(self::ERROR_READONLY, 'Mailbox is read-only');
             return false;
         }
 
@@ -2502,10 +2502,10 @@ class rcube_imap_generic
 
         $key      = $this->nextTag();
         $cmd      = ($is_uid ? 'UID ' : '') . 'FETCH';
-        $request  = "$key $cmd $message_set (" . implode(' ', $query_items) . ")";
+        $request  = "$key $cmd $message_set (" . implode(' ', $query_items) . ')';
 
         if ($mod_seq !== null && $this->hasCapability('CONDSTORE')) {
-            $request .= " (CHANGEDSINCE $mod_seq" . ($vanished ? " VANISHED" : '') . ")";
+            $request .= " (CHANGEDSINCE $mod_seq" . ($vanished ? ' VANISHED' : '') . ')';
         }
 
         if (!$this->putLine($request)) {
@@ -2556,7 +2556,7 @@ class rcube_imap_generic
                     elseif ($name == 'FLAGS') {
                         if (!empty($value)) {
                             foreach ((array) $value as $flag) {
-                                $flag = str_replace(['$', "\\"], '', $flag);
+                                $flag = str_replace(['$', '\\'], '', $flag);
                                 $flag = strtoupper($flag);
 
                                 $result[$id]->flags[$flag] = true;
@@ -2835,7 +2835,7 @@ class rcube_imap_generic
 
         // send request
         if (!$this->putLine($request)) {
-            $this->setError(self::ERROR_COMMAND, "Failed to send UID FETCH command");
+            $this->setError(self::ERROR_COMMAND, 'Failed to send UID FETCH command');
             return false;
         }
 
@@ -3191,7 +3191,7 @@ class rcube_imap_generic
 
         // send APPEND command
         if (!$this->putLine($request)) {
-            $this->setError(self::ERROR_COMMAND, "Failed to send APPEND command");
+            $this->setError(self::ERROR_COMMAND, 'Failed to send APPEND command');
             return false;
         }
 
@@ -3457,7 +3457,7 @@ class rcube_imap_generic
                 return $ret;
             }
 
-            $this->setError(self::ERROR_COMMAND, "Incomplete ACL response");
+            $this->setError(self::ERROR_COMMAND, 'Incomplete ACL response');
         }
     }
 
@@ -3529,7 +3529,7 @@ class rcube_imap_generic
     public function setMetadata($mailbox, $entries)
     {
         if (!is_array($entries) || empty($entries)) {
-            $this->setError(self::ERROR_COMMAND, "Wrong argument for SETMETADATA command");
+            $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETMETADATA command');
             return false;
         }
 
@@ -3563,7 +3563,7 @@ class rcube_imap_generic
         }
 
         if (empty($entries)) {
-            $this->setError(self::ERROR_COMMAND, "Wrong argument for SETMETADATA command");
+            $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETMETADATA command');
             return false;
         }
 
@@ -3659,7 +3659,7 @@ class rcube_imap_generic
     public function setAnnotation($mailbox, $data)
     {
         if (!is_array($data) || empty($data)) {
-            $this->setError(self::ERROR_COMMAND, "Wrong argument for SETANNOTATION command");
+            $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETANNOTATION command');
             return false;
         }
 
@@ -3689,7 +3689,7 @@ class rcube_imap_generic
     public function deleteAnnotation($mailbox, $data)
     {
         if (!is_array($data) || empty($data)) {
-            $this->setError(self::ERROR_COMMAND, "Wrong argument for SETANNOTATION command");
+            $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETANNOTATION command');
             return false;
         }
 
@@ -4025,8 +4025,8 @@ class rcube_imap_generic
                         if ($str[$pos] == '"') {
                             break;
                         }
-                        if ($str[$pos] == "\\") {
-                            if ($str[$pos + 1] == '"' || $str[$pos + 1] == "\\") {
+                        if ($str[$pos] == '\\') {
+                            if ($str[$pos + 1] == '"' || $str[$pos + 1] == '\\') {
                                 $pos++;
                             }
                         }

@@ -15,6 +15,6 @@ class Framework_DBSqlite extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_db_sqlite('test');
 
-        $this->assertInstanceOf('rcube_db_sqlite', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_db_sqlite', $object, 'Class constructor');
     }
 }

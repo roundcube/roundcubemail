@@ -44,7 +44,7 @@ class Actions_Settings_FolderCreate extends ActionTestCase
 
         $this->assertSame('folderedit', $output->template);
         $this->assertSame('', $output->getProperty('pagetitle')); // TODO: It should have some title
-        $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
+        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
         $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form');") !== false);
     }
 }

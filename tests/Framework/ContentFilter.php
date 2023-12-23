@@ -12,6 +12,6 @@ class Framework_ContentFilter extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_content_filter();
 
-        $this->assertInstanceOf('rcube_content_filter', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_content_filter', $object, 'Class constructor');
     }
 }

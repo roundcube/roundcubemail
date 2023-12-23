@@ -226,7 +226,7 @@ class rcmail_sendmail
             $a_priorities = [1 => 'highest', 2 => 'high', 4 => 'low', 5 => 'lowest'];
 
             if (!empty($a_priorities[$priority])) {
-                $headers['X-Priority'] = sprintf("%d (%s)", $priority, ucfirst($a_priorities[$priority]));
+                $headers['X-Priority'] = sprintf('%d (%s)', $priority, ucfirst($a_priorities[$priority]));
             }
         }
 
@@ -558,7 +558,7 @@ class rcmail_sendmail
                 if (is_a($msg, 'PEAR_Error')) {
                     rcube::raise_error([
                         'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: " . $msg->getMessage()],
+                        'message' => 'Could not create message: ' . $msg->getMessage()],
                         true, false);
                 }
                 else {
@@ -988,7 +988,7 @@ class rcmail_sendmail
             $separator     = $top_posting ? '---' : '-- ';
             $add_separator = (bool) $this->rcmail->config->get('sig_separator');
 
-            $field_attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . ".change_identity(this)";
+            $field_attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.change_identity(this)';
             $select_from = new html_select($field_attrib);
 
             // create SELECT element
@@ -1011,7 +1011,7 @@ class rcmail_sendmail
 
                     if ($add_separator && !preg_match('/^--[ -]\r?\n/m', $text)) {
                         $text = $separator . "\n" . ltrim($text, "\r\n");
-                        $html = $separator . "<br>" . $html;
+                        $html = $separator . '<br>' . $html;
                     }
 
                     $a_signatures[$identity_id]['text'] = $text;

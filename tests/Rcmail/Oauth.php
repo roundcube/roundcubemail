@@ -23,38 +23,38 @@ class Rcmail_RcmailOauth extends ActionTestCase
     ];
 
     private $identity = [
-        "sub"                   => "82c8f487-df95-4960-972c-4e680c3c72f5",
-        "name"                  => "John Doe",
-        "preferred_username"    => "John D",
-        "given_name"            => "John",
-        "family_name"           => "Doe",
-        "email"                 => "j.doe@test.fake",
-        "email_verified"        => true,
-        "locale"                => "en",
+        'sub'                   => '82c8f487-df95-4960-972c-4e680c3c72f5',
+        'name'                  => 'John Doe',
+        'preferred_username'    => 'John D',
+        'given_name'            => 'John',
+        'family_name'           => 'Doe',
+        'email'                 => 'j.doe@test.fake',
+        'email_verified'        => true,
+        'locale'                => 'en',
     ];
 
     private function generate_fake_id_token()
     {
         $id_token_payload = (array) [
-            "typ"                   => "ID", // this is a token id
-            "exp"                   => (time() + 600),
-            "iat"                   => time(),
-            "auth_time"             => time(),
-            "jti"                   => "uniq-id",
-            "iss"                   => $this->config['issuer'],
-            "aud"                   => $this->config['client_id'],
-            "azp"                   => $this->config['client_id'],
-            "session_state"         => "fake-session",
-            "acr"                   => "1",
-            "sid"                   => "65f8d42c-dbbd-4f76-b5f3-44b540e4253a",
+            'typ'                   => 'ID', // this is a token id
+            'exp'                   => (time() + 600),
+            'iat'                   => time(),
+            'auth_time'             => time(),
+            'jti'                   => 'uniq-id',
+            'iss'                   => $this->config['issuer'],
+            'aud'                   => $this->config['client_id'],
+            'azp'                   => $this->config['client_id'],
+            'session_state'         => 'fake-session',
+            'acr'                   => '1',
+            'sid'                   => '65f8d42c-dbbd-4f76-b5f3-44b540e4253a',
         ] + $this->identity;
 
         //Right now our code does not check signature
-        $jwt_header    = strtr(base64_encode(json_encode(["alg" => "NONE", "typ" => "JWT"])), '+/', '-_');
+        $jwt_header    = strtr(base64_encode(json_encode(['alg' => 'NONE', 'typ' => 'JWT'])), '+/', '-_');
         $jwt_body      = strtr(base64_encode(json_encode($id_token_payload)), '+/', '-_');
         $jwt_signature = ''; // NONE alg
 
-        return implode(".", [$jwt_header, $jwt_body, $jwt_signature]);
+        return implode('.', [$jwt_header, $jwt_body, $jwt_signature]);
     }
 
     /**
@@ -211,7 +211,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $oauth = new rcmail_oauth($this->config);
         $oauth->init();
 
-        $_SESSION['oauth_state'] = "random-state";
+        $_SESSION['oauth_state'] = 'random-state';
 
         StderrMock::start();
         $response = $oauth->request_access_token('fake-code', 'mismatch-state');
@@ -220,7 +220,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         // should be false as state do not match
         $this->assertFalse($response);
 
-        $this->assertSame("ERROR: OAuth token request failed: state parameter mismatch", trim(StderrMock::$output));
+        $this->assertSame('ERROR: OAuth token request failed: state parameter mismatch', trim(StderrMock::$output));
     }
 
     /**
@@ -249,7 +249,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ]);
         $oauth->init();
 
-        $_SESSION['oauth_state'] = "random-state"; // ensure state identiquals
+        $_SESSION['oauth_state'] = 'random-state'; // ensure state identiquals
         $response = $oauth->request_access_token('fake-code', 'random-state');
 
         $this->assertTrue(is_array($response));
@@ -287,7 +287,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ]);
         $oauth->init();
 
-        $_SESSION['oauth_state'] = "random-state"; // ensure state identiquals
+        $_SESSION['oauth_state'] = 'random-state'; // ensure state identiquals
         $response = $oauth->request_access_token('fake-code', 'random-state');
 
         $this->assertTrue(is_array($response));

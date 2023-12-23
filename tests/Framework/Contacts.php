@@ -12,7 +12,7 @@ class Framework_Contacts extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_contacts(null, null);
 
-        $this->assertInstanceOf('rcube_contacts', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_contacts', $object, 'Class constructor');
     }
 
     /**
