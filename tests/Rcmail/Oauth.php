@@ -4,6 +4,14 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 
+class rcmail_oauth_test extends rcmail_oauth
+{
+    public function forge_login_phase($data)
+    {
+        $this->login_phase = $data;
+    }
+}
+
 /**
  * Test class to test rcmail_oauth class
  */
@@ -296,6 +304,55 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $this->assertTrue(isset($response['token']));
         $this->assertFalse(isset($response['token']['access_token']));
     }
+
+    /**
+     * Test user_create() method
+     */
+    function test_valid_user_create()
+    {
+        $oauth = new rcmail_oauth_test();
+        $oauth->init();
+
+        // fake identity
+        $oauth->forge_login_phase([
+            'token' => [
+                'identity' => [
+                    'email' => 'jdoe@faké.dômain',
+                    'name' => 'John Doe',
+                    'locale' => 'en-US',
+                ],
+            ],
+        ]);
+        $answer = $oauth->user_create([]);
+
+        $this->assertSame($answer, [
+            'user_name' => 'John Doe',
+            'user_email' => 'jdoe@xn--fak-dma.xn--dmain-6ta',
+            'language' => 'en_US',
+        ]);
+    }
+
+    function test_invalid_user_create()
+    {
+        $oauth = new rcmail_oauth_test();
+        $oauth->init();
+
+        // fake identity
+        $oauth->forge_login_phase([
+            'token' => [
+                'identity' => [
+                    'email' => 'bad-domain',
+                    'name' => 'John Doe',
+                    'locale' => '/martian',
+                ],
+            ],
+        ]);
+        $answer = $oauth->user_create([]);
+
+        //only user_name can be defined
+        $this->assertSame($answer, ['user_name' => 'John Doe']);
+    }
+
 
     /**
      * Test refresh_access_token() method

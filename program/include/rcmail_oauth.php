@@ -70,6 +70,9 @@ class rcmail_oauth
     /** @var ?array parameters used during the login phase */
     protected $login_phase;
 
+    /** @var array list of allowed keys in user_create_map (note that user and host are protected) */
+    protected static $user_create_allowed_keys = ['user_name', 'user_email', 'language'];
+
     /** @var array map of .well-known entries to config (discovery URI) */
     static protected $config_mapper = [
         'issuer'                 => 'issuer',
@@ -156,6 +159,13 @@ class rcmail_oauth
             'client_secret'   => $this->rcmail->config->get('oauth_client_secret'),
             'identity_uri'    => $this->rcmail->config->get('oauth_identity_uri'),
             'identity_fields' => $this->rcmail->config->get('oauth_identity_fields', ['email']),
+            'user_create_map' => $this->rcmail->config->get('oauth_user_create_map', [
+                //rc key => OIDC Claim @see: https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims )
+                'user_name' => ['name'],
+                'user_email' => ['email'],
+                'language' => ['locale'],
+            ]),
+
             'scope'           => $this->rcmail->config->get('oauth_scope', ''),
             'timeout'         => $this->rcmail->config->get('oauth_timeout', 10),
             'verify_peer'     => $this->rcmail->config->get('oauth_verify_peer', true),
@@ -170,6 +180,7 @@ class rcmail_oauth
             $options['http_options'] = [];
         }
 
+        // sanity check on PKCE value
         if ($this->options['pkce'] && !array_key_exists($this->options['pkce'], self::$pkce_mapper)) {
             // will stops on error
             rcube::raise_error([
@@ -177,6 +188,18 @@ class rcmail_oauth
                 'file'    => __FILE__,
                 'line'    => __LINE__,
             ], true, true);
+        }
+
+        // sanity check that configuration user_create_map contains only allowed keys
+        foreach ($this->options['user_create_map'] as $key => $ignored) {
+            if (!in_array($key, self::$user_create_allowed_keys)) {
+                // will stops on error
+                rcube::raise_error([
+                    'message' => "use of key `{$key}` in `oauth_user_create_map` is not allowed",
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                ], true, true);
+            }
         }
 
         // prepare a http client with the correct options
@@ -329,6 +352,7 @@ class rcmail_oauth
         $this->rcmail->plugins->register_hook('authenticate', [$this, 'authenticate']);
         $this->rcmail->plugins->register_hook('login_after', [$this, 'login_after']);
         $this->rcmail->plugins->register_hook('login_failed', [$this, 'login_failed']);
+        $this->rcmail->plugins->register_hook('user_create', [$this, 'user_create']);
         $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
         $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
 
@@ -1130,6 +1154,72 @@ class rcmail_oauth
         $this->login_phase = null;
 
         return $options;
+    }
+
+    /**
+     * Callback for 'user_create' hook (create user using OIDC claims))
+     *
+     * @param array $data user_create parameters (user_name, user_email, language))
+     *
+     * @return array $data key/values to setup user's identity
+     */
+    public function user_create($data)
+    {
+        if (!$this->login_phase) {
+            return $data;
+        }
+
+        if (!isset($this->login_phase['token']['identity'])) {
+            $this->log_debug("identity not found, was the scope 'openid' defined?");
+            return $data;
+        }
+
+        $identity = $this->login_phase['token']['identity'];
+
+        foreach ($this->options['user_create_map'] as $rc_key => $oidc_claims) {
+            $oidc_claims = (array) $oidc_claims;
+            foreach ($oidc_claims as $oidc_claim) {
+                // use the first defined claim
+                if (isset($identity[$oidc_claim]) && is_string($identity[$oidc_claim]) && strlen($identity[$oidc_claim]) > 0) {
+                    $value = $identity[$oidc_claim];
+                    // normalize and check well known keys
+                    switch ($rc_key) {
+                        case 'user_email':
+                            // normalize to punicode for intl. domains (IDN)
+                            $value = rcube_utils::idn_to_ascii($value);
+                            // check format
+                            if (!rcube_utils::check_email($value, false)) {
+                                rcube::raise_error([
+                                    'message' => "user_create: ignoring invalid email '{$value}' (from claim '{$oidc_claim}')",
+                                    'file'    => __FILE__,
+                                    'line'    => __LINE__,
+                                ], true, false);
+                                continue 2; // continue on next foreach iteration
+                            }
+                            break;
+                        case 'language':
+                            // normalize language
+                            $value = strtr($value, '-', '_');
+                            // sanity check no extra chars than an language format (RFC5646)
+                            if (!preg_match('/^[a-z0-9_]{2,8}$/i', $value)) {
+                                rcube::raise_error([
+                                    'message' => "user_create: ignoring language '{$value}' (from claim '{$oidc_claim}')",
+                                    'file'    => __FILE__,
+                                    'line'    => __LINE__,
+                                ], true, false);
+                                continue 2; // continue on next foreach iteration
+                            }
+                            break;
+                    }
+                    $data[$rc_key] = $value;
+
+                    $this->log_debug("user_create: setting %s=%s (from claim %s)", $rc_key, $value, $oidc_claim);
+                    break; //no need to continue
+                }
+            }
+        }
+
+        return $data;
     }
 
     /**
