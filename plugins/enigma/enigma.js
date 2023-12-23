@@ -198,10 +198,10 @@ rcube_webmail.prototype.enigma_key_create_save = function()
         openpgp.generateKey(options).then(function(keypair) {
             // success
             var post = {
-              _a: 'import',
-              _keys: keypair.privateKey,
-              _generated: 1,
-              _passwd: password
+                _a: 'import',
+                _keys: keypair.privateKey,
+                _generated: 1,
+                _passwd: password
             };
 
             // send request to server
@@ -306,7 +306,7 @@ rcube_webmail.prototype.enigma_export_submit = function(data)
     var id = 'keyexport-' + new Date().getTime(),
         form = $('<form>').attr({target: id, method: 'post', style: 'display:none',
             action: '?_action=plugin.enigmakeys&_task=settings&_a=export'}),
-        iframe = $('<iframe>').attr({name: id, style: 'display:none'})
+        iframe = $('<iframe>').attr({name: id, style: 'display:none'});
 
     form.append($('<input>').attr({name: '_token', value: this.env.request_token}));
     $.each(data, function(i, v) {
@@ -392,9 +392,9 @@ rcube_webmail.prototype.enigma_search = function(props)
 
     if (props || this.env.search_request) {
         var params = {'_a': 'search', '_q': props},
-          lock = this.set_busy(true, 'searching');
-//        if (this.gui_objects.search_filter)
-//          addurl += '&_filter=' + this.gui_objects.search_filter.value;
+            lock = this.set_busy(true, 'searching');
+        //        if (this.gui_objects.search_filter)
+        //          addurl += '&_filter=' + this.gui_objects.search_filter.value;
         this.env.current_page = 1;
         this.enigma_loadframe();
         this.enigma_clear_list();
@@ -428,7 +428,7 @@ rcube_webmail.prototype.enigma_list = function(page, reset_frame)
         return parent.rcmail.enigma_list(page, reset_frame);
 
     var params = {'_a': 'list'},
-      lock = this.set_busy(true, 'loading');
+        lock = this.set_busy(true, 'loading');
 
     this.env.current_page = page ? page : 1;
 
@@ -611,7 +611,7 @@ rcube_webmail.prototype.enigma_password_submit = function(data)
     else if (this.env.action == 'plugin.enigmakeys' && (form = this.gui_objects.importform)) {
         if (!$('input[name="_keyid"]', form).length) {
             $(form).append($('<input>').attr({type: 'hidden', name: '_keyid', value: data.key}))
-                .append($('<input>').attr({type: 'hidden', name: '_passwd', value: data.password}))
+                .append($('<input>').attr({type: 'hidden', name: '_passwd', value: data.password}));
         }
 
         return this.enigma_import();
@@ -628,7 +628,7 @@ rcube_webmail.prototype.enigma_password_submit = function(data)
     // Additional form fields for request parameters
     $.each(data, function(i, v) {
         if (i.indexOf('input') == 0)
-            form.append($('<input>').attr({type: 'hidden', name: i.substring(5), value: v}))
+            form.append($('<input>').attr({type: 'hidden', name: i.substring(5), value: v}));
     });
 
     if (data.iframe) {
