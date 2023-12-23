@@ -65,19 +65,19 @@ function rcmail_zipdownload(mode)
             id = 'zipdownload-' + new Date().getTime(),
             iframe = $('<iframe>').attr({name: id, style: 'display:none'}),
             form = $('<form>').attr({
-                    target: id,
-                    style: 'display: none',
-                    method: 'post',
-                    action: rcmail.url('mail/plugin.zipdownload.messages')
-                });
+                target: id,
+                style: 'display: none',
+                method: 'post',
+                action: rcmail.url('mail/plugin.zipdownload.messages')
+            });
 
         post._mode = mode;
         post._token = rcmail.env.request_token;
 
         $.each(post, function(k, v) {
             if (typeof v == 'object' && v.length > 1) {
-              for (var j=0; j < v.length; j++)
-                  inputs.push($('<input>').attr({type: 'hidden', name: k+'[]', value: v[j]}));
+                for (var j=0; j < v.length; j++)
+                    inputs.push($('<input>').attr({type: 'hidden', name: k+'[]', value: v[j]}));
             }
             else {
                 inputs.push($('<input>').attr({type: 'hidden', name: k, value: v}));

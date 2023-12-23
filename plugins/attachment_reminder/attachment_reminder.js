@@ -17,71 +17,71 @@
 
 function rcmail_get_compose_message()
 {
-  var msg = rcmail.editor.get_content({ nosig: true });
+    var msg = rcmail.editor.get_content({ nosig: true });
 
-  if (rcmail.editor.is_html()) {
+    if (rcmail.editor.is_html()) {
     // Remove quoted content, all HTML tags, and some entities
-    msg = msg.replace(/<blockquote[^>]*>(.|[\r\n])*<\/blockquote>/gmi, '')
-             .replace(/<[^>]+>/gm, ' ')
-             .replace(/&nbsp;/g, ' ');
-  }
-  else {
+        msg = msg.replace(/<blockquote[^>]*>(.|[\r\n])*<\/blockquote>/gmi, '')
+            .replace(/<[^>]+>/gm, ' ')
+            .replace(/&nbsp;/g, ' ');
+    }
+    else {
     // Remove quoted content
-    msg = msg.replace(/^>.*$/gmi, '');
-  }
+        msg = msg.replace(/^>.*$/gmi, '');
+    }
 
-  return msg;
+    return msg;
 };
 
 function rcmail_check_message(msg)
 {
-  var i, rx, keywords = rcmail.get_label('keywords', 'attachment_reminder').split(",").concat([".doc", ".pdf"]);
+    var i, rx, keywords = rcmail.get_label('keywords', 'attachment_reminder').split(",").concat([".doc", ".pdf"]);
 
-  keywords = $.map(keywords, function(n) { return RegExp.escape(n); });
-  rx = new RegExp('(' + keywords.join('|') + ')', 'i');
+    keywords = $.map(keywords, function(n) { return RegExp.escape(n); });
+    rx = new RegExp('(' + keywords.join('|') + ')', 'i');
 
-  return msg.search(rx) != -1;
+    return msg.search(rx) != -1;
 };
 
 function rcmail_have_attachments()
 {
-  return rcmail.env.attachments && $('li', rcmail.gui_objects.attachmentlist).length;
+    return rcmail.env.attachments && $('li', rcmail.gui_objects.attachmentlist).length;
 };
 
 function rcmail_attachment_reminder_dialog()
 {
-  var buttons = {};
+    var buttons = {};
 
-  buttons[rcmail.get_label('addattachment')] = function() {
-    $(this).remove();
-    $('#messagetoolbar a.attach, .toolbar a.attach').first().click();
-  };
-  buttons[rcmail.get_label('send')] = function(e) {
-    $(this).remove();
-    rcmail.env.attachment_reminder = true;
-    rcmail.command('send', '', e);
-  };
+    buttons[rcmail.get_label('addattachment')] = function() {
+        $(this).remove();
+        $('#messagetoolbar a.attach, .toolbar a.attach').first().click();
+    };
+    buttons[rcmail.get_label('send')] = function(e) {
+        $(this).remove();
+        rcmail.env.attachment_reminder = true;
+        rcmail.command('send', '', e);
+    };
 
-  rcmail.env.attachment_reminder = false;
-  rcmail.show_popup_dialog(
-    rcmail.get_label('attachment_reminder.forgotattachment'),
-    rcmail.get_label('attachment_reminder.missingattachment'),
-    buttons,
-    {button_classes: ['mainaction attach', 'send']}
-  );
+    rcmail.env.attachment_reminder = false;
+    rcmail.show_popup_dialog(
+        rcmail.get_label('attachment_reminder.forgotattachment'),
+        rcmail.get_label('attachment_reminder.missingattachment'),
+        buttons,
+        {button_classes: ['mainaction attach', 'send']}
+    );
 };
 
 
 if (window.rcmail) {
-  rcmail.addEventListener('beforesend', function(evt) {
-    var msg = rcmail_get_compose_message(),
-      subject = $('#compose-subject').val();
+    rcmail.addEventListener('beforesend', function(evt) {
+        var msg = rcmail_get_compose_message(),
+            subject = $('#compose-subject').val();
 
-    if (!rcmail.env.attachment_reminder && !rcmail_have_attachments()
+        if (!rcmail.env.attachment_reminder && !rcmail_have_attachments()
       && (rcmail_check_message(msg) || rcmail_check_message(subject))
-    ) {
-      rcmail_attachment_reminder_dialog();
-      return false;
-    }
-  });
+        ) {
+            rcmail_attachment_reminder_dialog();
+            return false;
+        }
+    });
 }

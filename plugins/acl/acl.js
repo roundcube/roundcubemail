@@ -51,7 +51,7 @@ if (window.rcmail) {
 rcube_webmail.prototype.acl_create = function()
 {
     this.acl_init_form();
-}
+};
 
 // Display ACL edit form
 rcube_webmail.prototype.acl_edit = function()
@@ -60,7 +60,7 @@ rcube_webmail.prototype.acl_edit = function()
     var id = this.acl_list.get_single_selection();
     if (id)
         this.acl_init_form(id);
-}
+};
 
 // ACL entry delete
 rcube_webmail.prototype.acl_delete = function()
@@ -76,7 +76,7 @@ rcube_webmail.prototype.acl_delete = function()
             }, ref.set_busy(true, 'acl.deleting'));
         });
     }
-}
+};
 
 // Save ACL data
 rcube_webmail.prototype.acl_save = function()
@@ -107,21 +107,21 @@ rcube_webmail.prototype.acl_save = function()
         _user: user,
         _acl: rights,
         _mbox: this.env.mailbox
-    }
+    };
 
     if (this.acl_id) {
         data._old = this.acl_id;
     }
 
     this.http_post('settings/plugin.acl', data, this.set_busy(true, 'acl.saving'));
-}
+};
 
 // Cancel/Hide form
 rcube_webmail.prototype.acl_cancel = function()
 {
     this.ksearch_blur();
     this.acl_popup.dialog('close');
-}
+};
 
 // Update data after save (and hide form)
 rcube_webmail.prototype.acl_update = function(o)
@@ -139,7 +139,7 @@ rcube_webmail.prototype.acl_update = function(o)
     this.ksearch_blur();
     // hide form
     this.acl_popup.dialog('close');
-}
+};
 
 // Switch table display mode
 rcube_webmail.prototype.acl_mode_switch = function(elem)
@@ -149,8 +149,8 @@ rcube_webmail.prototype.acl_mode_switch = function(elem)
     this.http_request('settings/plugin.acl', '_act=list'
         + '&_mode='+(this.env.acl_advanced ? 'advanced' : 'simple')
         + '&_mbox='+urlencode(this.env.mailbox),
-        this.set_busy(true, 'loading'));
-}
+    this.set_busy(true, 'loading'));
+};
 
 // ACL table initialization
 rcube_webmail.prototype.acl_list_init = function()
@@ -166,7 +166,7 @@ rcube_webmail.prototype.acl_list_init = function()
         .addEventListener('dblclick', function(o) { rcmail.acl_list_dblclick(o); })
         .addEventListener('keypress', function(o) { rcmail.acl_list_keypress(o); })
         .init();
-}
+};
 
 // ACL table row selection handler
 rcube_webmail.prototype.acl_list_select = function(list)
@@ -174,13 +174,13 @@ rcube_webmail.prototype.acl_list_select = function(list)
     rcmail.enable_command('acl-delete', list.get_selection().length > 0);
     rcmail.enable_command('acl-edit', list.get_selection().length == 1);
     list.focus();
-}
+};
 
 // ACL table double-click handler
 rcube_webmail.prototype.acl_list_dblclick = function(list)
 {
     this.acl_edit();
-}
+};
 
 // ACL table keypress handler
 rcube_webmail.prototype.acl_list_keypress = function(list)
@@ -190,14 +190,14 @@ rcube_webmail.prototype.acl_list_keypress = function(list)
     else if (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY)
         if (!this.acl_form || !this.acl_form.is(':visible'))
             this.command('acl-delete');
-}
+};
 
 // Reloads ACL table
 rcube_webmail.prototype.acl_list_update = function(html)
 {
     $(this.gui_objects.acltable).html(html);
     this.acl_list_init();
-}
+};
 
 // Returns names of users in selected rows
 rcube_webmail.prototype.acl_get_usernames = function()
@@ -216,7 +216,7 @@ rcube_webmail.prototype.acl_get_usernames = function()
     }
 
     return users;
-}
+};
 
 // Removes ACL table row
 rcube_webmail.prototype.acl_remove_row = function(id)
@@ -232,7 +232,7 @@ rcube_webmail.prototype.acl_remove_row = function(id)
 
     this.enable_command('acl-delete', list.get_selection().length > 0);
     this.enable_command('acl-edit', list.get_selection().length == 1);
-}
+};
 
 // Adds ACL table row
 rcube_webmail.prototype.acl_add_row = function(o, sel)
@@ -295,7 +295,7 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
 
     if (sel)
         list.select_row(o.id);
-}
+};
 
 // Initializes and shows ACL create/edit form
 rcube_webmail.prototype.acl_init_form = function(id)
@@ -377,7 +377,7 @@ rcube_webmail.prototype.acl_init_form = function(id)
         name_input.focus();
     else
         $('input:checked', type_list).focus();
-}
+};
 
 // Returns class name according to ACL comparison result
 rcube_webmail.prototype.acl_class = function(acl1, acl2)
@@ -397,4 +397,4 @@ rcube_webmail.prototype.acl_class = function(acl1, acl2)
         return 'partial';
 
     return 'disabled';
-}
+};
