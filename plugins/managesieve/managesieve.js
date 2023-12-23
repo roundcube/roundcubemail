@@ -830,7 +830,7 @@ function smart_field_init(field)
 
     var id = field.id + '_list',
         area = $('<span class="listarea"></span>'),
-        list = field.value ? field.value.split("\n") : [''];
+        list = field.value ? field.value.split('\n') : [''];
 
     if ($('#'+id).length)
         return;
@@ -1031,7 +1031,7 @@ function sieve_form_init()
 
     // configure drop-down menu on time input fields based on jquery UI autocomplete
     $('#vacation_timefrom, #vacation_timeto')
-        .attr('autocomplete', "off")
+        .attr('autocomplete', 'off')
         .autocomplete({
             delay: 100,
             minLength: 1,
@@ -1081,9 +1081,9 @@ var cmeditor;
 
 function cmCreateErrorElem(msg)
 {
-    var marker = document.createElement("div");
-    marker.style.color = "#822";
-    marker.innerHTML = "●";
+    var marker = document.createElement('div');
+    marker.style.color = '#822';
+    marker.innerHTML = '●';
     marker.title = msg;
 
     return marker;
@@ -1105,7 +1105,7 @@ function sieve_raw_editor_init()
         cmeditor = CodeMirror.fromTextArea(textArea, {
             mode: 'sieve',
             lineNumbers: true,
-            gutters: ["CodeMirror-linenumbers", "errorGutter"],
+            gutters: ['CodeMirror-linenumbers', 'errorGutter'],
             styleActiveLine: true
         });
 

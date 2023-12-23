@@ -111,7 +111,6 @@ module.exports = {
 
         // TODO
         'space-infix-ops': 'off',
-        'quotes': 'off',
         'no-tabs': 'off',
         'space-before-function-paren': 'off',
         'no-undef': 'off',

@@ -35,7 +35,7 @@ function rcmail_get_compose_message()
 
 function rcmail_check_message(msg)
 {
-    var i, rx, keywords = rcmail.get_label('keywords', 'attachment_reminder').split(",").concat([".doc", ".pdf"]);
+    var i, rx, keywords = rcmail.get_label('keywords', 'attachment_reminder').split(',').concat(['.doc', '.pdf']);
 
     keywords = $.map(keywords, function(n) { return RegExp.escape(n); });
     rx = new RegExp('(' + keywords.join('|') + ')', 'i');

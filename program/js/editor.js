@@ -59,7 +59,7 @@ function rcube_text_editor(config, id)
             remove_script_host: false,
             convert_urls: false, // #1486944
             image_description: false,
-            paste_webkit_styles: "color font-size font-family font-weight background-color",
+            paste_webkit_styles: 'color font-size font-family font-weight background-color',
             automatic_uploads: false, // allows to paste images
             paste_data_images: true,
             // Note: We disable contextmenu options specifically for browser_spellcheck:true.
@@ -313,7 +313,7 @@ function rcube_text_editor(config, id)
         var curr, content, result,
             // these non-printable chars are not removed on text2html and html2text
             // we can use them as temp signature replacement
-            sig_mark = "\u0002\u0003",
+            sig_mark = '\u0002\u0003',
             input = $('#' + this.id),
             signature = rcmail.env.identity ? rcmail.env.signatures[rcmail.env.identity] : null,
             is_sig = signature && signature.text && signature.text.length > 1;
@@ -326,8 +326,8 @@ function rcube_text_editor(config, id)
 
             // replace current text signature with temp mark
             if (is_sig) {
-                content = content.replace(/\r\n/, "\n");
-                content = content.replace(signature.text.replace(/\r\n/, "\n"), sig_mark);
+                content = content.replace(/\r\n/, '\n');
+                content = content.replace(signature.text.replace(/\r\n/, '\n'), sig_mark);
             }
 
             var init_editor = function(data) {
@@ -372,7 +372,7 @@ function rcube_text_editor(config, id)
 
                 // replace signature mark with text version of the signature
                 if (is_sig)
-                    data = data.replace(sig_mark, "\n" + signature.text);
+                    data = data.replace(sig_mark, '\n' + signature.text);
 
                 input.val(data).focus().trigger('input');
                 rcmail.set_caret_pos(input.get(0), 0);
