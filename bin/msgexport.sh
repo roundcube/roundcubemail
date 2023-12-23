@@ -31,7 +31,7 @@ function print_usage()
 
 function vputs($str)
 {
-    $out = !empty($GLOBALS['args']['file']) ? STDOUT : STDERR;
+    $out = !empty($GLOBALS['args']['file']) ? \STDOUT : \STDERR;
     fwrite($out, $str);
 }
 
@@ -63,7 +63,7 @@ function export_mailbox($mbox, $filename)
         vputs("Writing to $filename\n");
     }
     else {
-        $out = STDOUT;
+        $out = \STDOUT;
     }
 
     for ($i = 0; $i < $count; $i++) {
@@ -100,7 +100,7 @@ elseif (!$args['host']) {
 // prompt for username if not set
 if (empty($args['user'])) {
     vputs("IMAP user: ");
-    $args['user'] = trim(fgets(STDIN));
+    $args['user'] = trim(fgets(\STDIN));
 }
 
 // prompt for password

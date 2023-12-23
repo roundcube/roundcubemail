@@ -1278,7 +1278,7 @@ class rcube_sieve_script
      */
     static function escape_multiline_string($str)
     {
-        $str = preg_split('/(\r?\n)/', $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $str = preg_split('/(\r?\n)/', $str, -1, \PREG_SPLIT_DELIM_CAPTURE);
 
         foreach ($str as $idx => $line) {
             // dot-stuffing
@@ -1397,7 +1397,7 @@ class rcube_sieve_script
                     }
 
                     // tag/identifier/number
-                    if (preg_match('/[a-zA-Z0-9:_]+/', $str, $m, PREG_OFFSET_CAPTURE, $position)
+                    if (preg_match('/[a-zA-Z0-9:_]+/', $str, $m, \PREG_OFFSET_CAPTURE, $position)
                         && $m[0][1] == $position
                     ) {
                         $atom      = $m[0][0];

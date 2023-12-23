@@ -33,7 +33,7 @@ function print_usage()
 
 function _die($msg, $usage = false)
 {
-    fwrite(STDERR, $msg . "\n");
+    fwrite(\STDERR, $msg . "\n");
     if ($usage) {
         print_usage();
     }

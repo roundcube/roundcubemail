@@ -245,30 +245,30 @@ class HTTPSocket
         $ch = curl_init($this->remote_host . ':' . $this->remote_port . $request);
 
         if ($is_ssl) {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //1
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); //2
+            curl_setopt($ch, \CURLOPT_SSL_VERIFYPEER, false); //1
+            curl_setopt($ch, \CURLOPT_SSL_VERIFYHOST, false); //2
             //curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
         }
 
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-        curl_setopt($ch, CURLOPT_USERAGENT, "HTTPSocket/$this->version");
-        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 100);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, \CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, \CURLOPT_USERAGENT, "HTTPSocket/$this->version");
+        curl_setopt($ch, \CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, \CURLOPT_TIMEOUT, 100);
+        curl_setopt($ch, \CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, \CURLOPT_HEADER, 1);
 
-        curl_setopt($ch, CURLOPT_LOW_SPEED_LIMIT, 512);
-        curl_setopt($ch, CURLOPT_LOW_SPEED_TIME, 120);
+        curl_setopt($ch, \CURLOPT_LOW_SPEED_LIMIT, 512);
+        curl_setopt($ch, \CURLOPT_LOW_SPEED_TIME, 120);
 
         // instance connection
         if ($this->bind_host) {
-            curl_setopt($ch, CURLOPT_INTERFACE, $this->bind_host);
+            curl_setopt($ch, \CURLOPT_INTERFACE, $this->bind_host);
         }
 
         // if we have a username and password, add the header
         if (isset($this->remote_uname) && isset($this->remote_passwd)) {
-            curl_setopt($ch, CURLOPT_USERPWD, $this->remote_uname . ':' . $this->remote_passwd);
+            curl_setopt($ch, \CURLOPT_USERPWD, $this->remote_uname . ':' . $this->remote_passwd);
         }
 
         // for DA skins: if $this->remote_passwd is NULL, try to use the login key system
@@ -278,25 +278,25 @@ class HTTPSocket
 
         // if method is POST, add content length & type headers
         if ($this->method == 'POST') {
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+            curl_setopt($ch, \CURLOPT_POST, 1);
+            curl_setopt($ch, \CURLOPT_POSTFIELDS, $content);
 
             //$array_headers['Content-type'] = 'application/x-www-form-urlencoded';
             $array_headers['Content-length'] = strlen($content);
         }
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $array_headers);
+        curl_setopt($ch, \CURLOPT_HTTPHEADER, $array_headers);
 
         if (!($this->result = curl_exec($ch))) {
             $this->error[] = curl_error($ch);
             $OK = false;
         }
 
-        $header_size              = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $header_size              = curl_getinfo($ch, \CURLINFO_HEADER_SIZE);
         $this->result_header      = substr($this->result, 0, $header_size);
         $this->result_body        = substr($this->result, $header_size);
-        $this->result_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $this->lastTransferSpeed  = curl_getinfo($ch, CURLINFO_SPEED_DOWNLOAD) / 1024;
+        $this->result_status_code = curl_getinfo($ch, \CURLINFO_HTTP_CODE);
+        $this->lastTransferSpeed  = curl_getinfo($ch, \CURLINFO_SPEED_DOWNLOAD) / 1024;
 
         curl_close($ch);
 

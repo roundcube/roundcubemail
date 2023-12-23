@@ -590,7 +590,7 @@ abstract class rcmail_action
         elseif ($attachment && !empty($attachment['error'])) {
             $msg = $attachment['error'];
         }
-        elseif ($php_error == UPLOAD_ERR_INI_SIZE || $php_error == UPLOAD_ERR_FORM_SIZE) {
+        elseif ($php_error == \UPLOAD_ERR_INI_SIZE || $php_error == \UPLOAD_ERR_FORM_SIZE) {
             $post_size = self::show_bytes(rcube_utils::max_upload_size());
             $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $post_size]]);
         }

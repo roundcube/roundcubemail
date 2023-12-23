@@ -84,7 +84,7 @@ class rcmail extends rcube
     {
         if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
             // In cli-server mode env=test
-            if ($env === null && PHP_SAPI == 'cli-server') {
+            if ($env === null && \PHP_SAPI == 'cli-server') {
                 $env = 'test';
             }
 
@@ -143,7 +143,7 @@ class rcmail extends rcube
         }
 
         // init output class
-        if (PHP_SAPI == 'cli') {
+        if (\PHP_SAPI == 'cli') {
             $this->output = new rcmail_output_cli();
         }
         elseif (!empty($_REQUEST['_remote'])) {
@@ -167,7 +167,7 @@ class rcmail extends rcube
      */
     public function set_task($task)
     {
-        if (PHP_SAPI == 'cli') {
+        if (\PHP_SAPI == 'cli') {
             $task = 'cli';
         }
         elseif (!$this->user || !$this->user->ID) {
@@ -209,14 +209,14 @@ class rcmail extends rcube
         $_SESSION['language'] = $this->user->language = $lang;
 
         // set localization
-        setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
+        setlocale(\LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
         ini_set('intl.default_locale', $lang);
 
         // Workaround for http://bugs.php.net/bug.php?id=18556
         // Also strtoupper/strtolower and other methods are locale-aware
         // for these locales it is problematic (#1490519)
         if (in_array($lang, ['tr_TR', 'ku', 'az_AZ'])) {
-            setlocale(LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8', 'C');
+            setlocale(\LC_CTYPE, 'en_US.utf8', 'en_US.UTF-8', 'C');
         }
     }
 
@@ -530,7 +530,7 @@ class rcmail extends rcube
             }
 
             if (!empty($additional)) {
-                ksort($additional, SORT_LOCALE_STRING);
+                ksort($additional, \SORT_LOCALE_STRING);
                 $responses = array_merge(array_values($additional), $responses);
             }
         }
@@ -1207,7 +1207,7 @@ class rcmail extends rcube
 
         // In CLI stop here, prevent from errors when the console.log might exist,
         // but be not accessible
-        if (PHP_SAPI == 'cli') {
+        if (\PHP_SAPI == 'cli') {
             return;
         }
 
@@ -1217,7 +1217,7 @@ class rcmail extends rcube
             $this->config->set('per_user_logging', false);
 
             // make sure logged numbers use unified format
-            setlocale(LC_NUMERIC, 'en_US.utf8', 'en_US.UTF-8', 'en_US', 'C');
+            setlocale(\LC_NUMERIC, 'en_US.utf8', 'en_US.UTF-8', 'en_US', 'C');
 
             if (function_exists('memory_get_usage')) {
                 $mem = round(memory_get_usage() / 1024 / 1024, 1);

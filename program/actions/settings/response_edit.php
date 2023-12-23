@@ -104,7 +104,7 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
             $text_attr['is_escaped'] = true;
 
             // Correctly handle HTML entities in HTML editor (#1488483)
-            self::$response['data'] = htmlspecialchars(self::$response['data'], ENT_NOQUOTES, RCUBE_CHARSET);
+            self::$response['data'] = htmlspecialchars(self::$response['data'], \ENT_NOQUOTES, RCUBE_CHARSET);
         }
 
         $table = new html_table(['cols' => 2]);

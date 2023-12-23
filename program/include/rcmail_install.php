@@ -160,16 +160,16 @@ class rcmail_install
 
             for ($i = 0; $i < count($tokens); $i++) {
                 $token = $tokens[$i];
-                if ($token[0] == T_VARIABLE && ($token[1] == '$config' || $token[1] == '$rcmail_config')) {
+                if ($token[0] == \T_VARIABLE && ($token[1] == '$config' || $token[1] == '$rcmail_config')) {
                     $in_config = true;
-                    if ($buffer && $tokens[$i + 1] == '[' && $tokens[$i + 2][0] == T_CONSTANT_ENCAPSED_STRING) {
+                    if ($buffer && $tokens[$i + 1] == '[' && $tokens[$i + 2][0] == \T_CONSTANT_ENCAPSED_STRING) {
                         $propname = trim($tokens[$i + 2][1], "'\"");
                         $this->comments[$propname] = preg_replace('/\n\n/', "\n", $buffer);
                         $buffer = '';
                         $i += 3;
                     }
                 }
-                elseif ($in_config && $token[0] == T_COMMENT) {
+                elseif ($in_config && $token[0] == \T_COMMENT) {
                     $buffer .= strtr($token[1], ['\n' => "\n"]) . "\n";
                 }
             }
@@ -926,7 +926,7 @@ class rcmail_install
                     for ($i = 0; $i < $zip->numFiles; $i++) {
                         $filename = $zip->getNameIndex($i);
                         if (substr($filename, -1, 1) != '/') {
-                            copy("zip://" . $zipfile . "#" . $filename, $destdir . '/' . pathinfo($filename, PATHINFO_BASENAME));
+                            copy("zip://" . $zipfile . "#" . $filename, $destdir . '/' . pathinfo($filename, \PATHINFO_BASENAME));
                         }
                     }
                 }
@@ -972,7 +972,7 @@ class rcmail_install
 
             if ($flat) {
                 // In flat mode remove all directories
-                $extract_tree = glob("$destdir/*", GLOB_ONLYDIR);
+                $extract_tree = glob("$destdir/*", \GLOB_ONLYDIR);
                 foreach ($extract_tree as $dir) {
                     rmdir($dir);
                 }

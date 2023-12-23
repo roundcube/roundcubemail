@@ -196,10 +196,10 @@ class Rcmail_RcmailOauth extends ActionTestCase
         [$base, $query] = explode('?', substr($result, 10));
         parse_str($query, $map);
 
-        $this->assertEquals($this->config['scope'], $map['scope']);
-        $this->assertEquals($this->config['client_id'], $map['client_id']);
-        $this->assertEquals('code', $map['response_type']);
-        $this->assertEquals($_SESSION['oauth_state'], $map['state']);
+        $this->assertSame($this->config['scope'], $map['scope']);
+        $this->assertSame($this->config['client_id'], $map['client_id']);
+        $this->assertSame('code', $map['response_type']);
+        $this->assertSame($_SESSION['oauth_state'], $map['state']);
         $this->assertMatchesRegularExpression('!http.*/login/oauth!', $map['redirect_uri']);
     }
 
@@ -253,8 +253,8 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $response = $oauth->request_access_token('fake-code', 'random-state');
 
         $this->assertTrue(is_array($response));
-        $this->assertEquals('Bearer FAKE-ACCESS-TOKEN', $response['authorization']);
-        $this->assertEquals($this->identity['email'], $response['username']);
+        $this->assertSame('Bearer FAKE-ACCESS-TOKEN', $response['authorization']);
+        $this->assertSame($this->identity['email'], $response['username']);
         $this->assertTrue(isset($response['token']));
         $this->assertFalse(isset($response['token']['access_token']));
     }
@@ -291,8 +291,8 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $response = $oauth->request_access_token('fake-code', 'random-state');
 
         $this->assertTrue(is_array($response));
-        $this->assertEquals('Bearer FAKE-ACCESS-TOKEN', $response['authorization']);
-        $this->assertEquals($this->identity['email'], $response['username']);
+        $this->assertSame('Bearer FAKE-ACCESS-TOKEN', $response['authorization']);
+        $this->assertSame($this->identity['email'], $response['username']);
         $this->assertTrue(isset($response['token']));
         $this->assertFalse(isset($response['token']['access_token']));
     }

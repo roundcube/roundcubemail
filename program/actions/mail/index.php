@@ -1264,7 +1264,7 @@ class rcmail_action_mail_index extends rcmail_action
                 if (preg_match('/#' . preg_quote($cont_id, '/') . '\s+\{([^}]+)}/i', $body, $m)) {
                     // get background related style
                     $regexp = '/(background-position|background-repeat)\s*:\s*([^;]+);/i';
-                    if (preg_match_all($regexp, $m[1], $matches, PREG_SET_ORDER)) {
+                    if (preg_match_all($regexp, $m[1], $matches, \PREG_SET_ORDER)) {
                         foreach ($matches as $m) {
                             $style[$m[1]] = $m[2];
                         }
@@ -1327,7 +1327,7 @@ class rcmail_action_mail_index extends rcmail_action
                 $content = null;
             }
             elseif (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
-                $url_parts = explode('?', html_entity_decode($mailto[1], ENT_QUOTES, 'UTF-8'), 2);
+                $url_parts = explode('?', html_entity_decode($mailto[1], \ENT_QUOTES, 'UTF-8'), 2);
                 $mailto    = $url_parts[0];
                 $url       = $url_parts[1] ?? '';
 

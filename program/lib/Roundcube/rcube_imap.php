@@ -136,8 +136,8 @@ class rcube_imap extends rcube_storage
             $this->options['ident'] = [
                 'name'    => 'Roundcube',
                 'version' => RCUBE_VERSION,
-                'php'     => PHP_VERSION,
-                'os'      => PHP_OS,
+                'php'     => \PHP_VERSION,
+                'os'      => \PHP_OS,
                 'command' => $_SERVER['REQUEST_URI'] ?? '',
             ];
         }
@@ -650,8 +650,8 @@ class rcube_imap extends rcube_storage
             $ident = $this->conn->id([
                     'name'    => 'Roundcube',
                     'version' => RCUBE_VERSION,
-                    'php'     => PHP_VERSION,
-                    'os'      => PHP_OS,
+                    'php'     => \PHP_VERSION,
+                    'os'      => \PHP_OS,
             ]);
         }
         else {
@@ -1809,7 +1809,7 @@ class rcube_imap extends rcube_storage
     public static function convert_criteria($str, $charset, $dest_charset = 'US-ASCII')
     {
         // convert strings to US_ASCII
-        if (preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, PREG_OFFSET_CAPTURE)) {
+        if (preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, \PREG_OFFSET_CAPTURE)) {
             $last = 0;
             $res  = '';
 
@@ -4530,7 +4530,7 @@ class rcube_imap extends rcube_storage
 
             // strcoll() does not work with UTF8 locale on Windows,
             // use Collator from the intl extension
-            if (stripos(PHP_OS, 'win') === 0 && function_exists('collator_compare')) {
+            if (stripos(\PHP_OS, 'win') === 0 && function_exists('collator_compare')) {
                 $locale = ($this->options['language'] ?? null) ?: 'en_US';
                 $this->sort_folder_collator = collator_create($locale) ?: false;
             }

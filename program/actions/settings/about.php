@@ -96,7 +96,7 @@ class rcmail_action_settings_about extends rcmail_action
             return '';
         }
 
-        ksort($plugin_info, SORT_LOCALE_STRING);
+        ksort($plugin_info, \SORT_LOCALE_STRING);
 
         $table = new html_table($attrib);
 

@@ -30,8 +30,8 @@ if (empty($opts['dir'])) {
 
     $dir     = INSTALL_PATH . 'skins';
     $dir_p   = INSTALL_PATH . 'plugins';
-    $skins   = glob("$dir/*", GLOB_ONLYDIR);
-    $skins_p = glob("$dir_p/*/skins/*", GLOB_ONLYDIR);
+    $skins   = glob("$dir/*", \GLOB_ONLYDIR);
+    $skins_p = glob("$dir_p/*/skins/*", \GLOB_ONLYDIR);
 
     $dirs = array_merge($skins, $skins_p);
 }

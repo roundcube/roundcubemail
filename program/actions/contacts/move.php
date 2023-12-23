@@ -182,7 +182,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 // get records from the next page to add to the list
                 elseif ($pages > 1 && $page < $pages) {
                     // sort the records
-                    ksort($records, SORT_LOCALE_STRING);
+                    ksort($records, \SORT_LOCALE_STRING);
 
                     $first += $page_size;
                     // create resultset object

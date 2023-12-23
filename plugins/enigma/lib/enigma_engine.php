@@ -1059,7 +1059,7 @@ class enigma_engine
 
         // Use the most recent one
         if (count($found) > 1) {
-            ksort($found, SORT_NUMERIC);
+            ksort($found, \SORT_NUMERIC);
         }
 
         $ret = count($found) > 0 ? array_pop($found) : null;
@@ -1409,7 +1409,7 @@ class enigma_engine
     public function delete_user_data($username)
     {
         $homedir = $this->rc->config->get('enigma_pgp_homedir', INSTALL_PATH . 'plugins/enigma/home');
-        $homedir .= DIRECTORY_SEPARATOR . $username;
+        $homedir .= \DIRECTORY_SEPARATOR . $username;
 
         return file_exists($homedir) ? self::delete_dir($homedir) : true;
     }
@@ -1431,7 +1431,7 @@ class enigma_engine
         if ($content = scandir($dir)) {
             foreach ($content as $filename) {
                 if ($filename != '.' && $filename != '..') {
-                    $filename = $dir . DIRECTORY_SEPARATOR . $filename;
+                    $filename = $dir . \DIRECTORY_SEPARATOR . $filename;
 
                     if (is_dir($filename)) {
                         self::delete_dir($filename);
@@ -1506,7 +1506,7 @@ class enigma_engine
             $fqdn = sha1($local) . '._woat.' . $domain;
 
             // Fetch the TXT record(s)
-            if (($records = dns_get_record($fqdn, DNS_TXT)) === false) {
+            if (($records = dns_get_record($fqdn, \DNS_TXT)) === false) {
                 continue;
             }
 

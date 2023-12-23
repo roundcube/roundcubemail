@@ -1158,10 +1158,10 @@ class rcube_message
         $uu_regexp_begin = '/begin [0-7]{3,4} ([^\r\n]+)\r?\n/s';
         $uu_regexp_end   = '/`\r?\nend((\r?\n)|($))/s';
 
-        while (preg_match($uu_regexp_begin, $part->body, $matches, PREG_OFFSET_CAPTURE)) {
+        while (preg_match($uu_regexp_begin, $part->body, $matches, \PREG_OFFSET_CAPTURE)) {
             $startpos = $matches[0][1];
 
-            if (!preg_match($uu_regexp_end, $part->body, $m, PREG_OFFSET_CAPTURE, $startpos)) {
+            if (!preg_match($uu_regexp_end, $part->body, $m, \PREG_OFFSET_CAPTURE, $startpos)) {
                 break;
             }
 

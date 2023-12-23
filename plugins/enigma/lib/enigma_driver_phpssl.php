@@ -101,7 +101,7 @@ class enigma_driver_phpssl extends enigma_driver
 
         if ($sig !== true) {
             // try without certificate verification
-            $sig      = openssl_pkcs7_verify($msg_file, PKCS7_NOVERIFY, $cert_file);
+            $sig      = openssl_pkcs7_verify($msg_file, \PKCS7_NOVERIFY, $cert_file);
             $validity = enigma_error::UNVERIFIED;
         }
 

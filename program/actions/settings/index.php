@@ -1089,7 +1089,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         if (!empty($books)) {
                             foreach ($books as $book) {
-                                $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
+                                $select->add(html_entity_decode($book['name'], \ENT_COMPAT, 'UTF-8'), $book['id']);
                             }
                         }
 
@@ -1223,7 +1223,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select->add($rcmail->gettext('collectedrecipients'), (string) rcube_addressbook::TYPE_RECIPIENT);
 
                         foreach ($books as $book) {
-                            $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
+                            $select->add(html_entity_decode($book['name'], \ENT_COMPAT, 'UTF-8'), $book['id']);
                         }
 
                         $selected = $config['collected_recipients'];
@@ -1256,7 +1256,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select->add($rcmail->gettext('trustedsenders'), (string) rcube_addressbook::TYPE_TRUSTED_SENDER);
 
                         foreach ($books as $book) {
-                            $select->add(html_entity_decode($book['name'], ENT_COMPAT, 'UTF-8'), $book['id']);
+                            $select->add(html_entity_decode($book['name'], \ENT_COMPAT, 'UTF-8'), $book['id']);
                         }
 
                         $selected = $config['collected_senders'];

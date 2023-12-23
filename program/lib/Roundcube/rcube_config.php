@@ -66,7 +66,7 @@ class rcube_config
         $this->env = $env;
 
         if ($paths = getenv('RCUBE_CONFIG_PATH')) {
-            $this->paths = explode(PATH_SEPARATOR, $paths);
+            $this->paths = explode(\PATH_SEPARATOR, $paths);
             // make all paths absolute
             foreach ($this->paths as $i => $path) {
                 if (!rcube_utils::is_absolute_path($path)) {
@@ -202,7 +202,7 @@ class rcube_config
                 $this->errors[] = 'config.inc.php was not found.';
             }
             elseif (rand(1,100) == 10) {  // log warning on every 100th request (average)
-                trigger_error("config.inc.php was not found. Please migrate your config by running bin/update.sh", E_USER_WARNING);
+                trigger_error("config.inc.php was not found. Please migrate your config by running bin/update.sh", \E_USER_WARNING);
             }
         }
 
@@ -603,7 +603,7 @@ class rcube_config
             }
         }
 
-        $php_os = strtolower(substr(PHP_OS, 0, 3));
+        $php_os = strtolower(substr(\PHP_OS, 0, 3));
 
         if ($php_os == 'win') {
             return "\r\n";

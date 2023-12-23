@@ -175,7 +175,7 @@ class rcube_mime
         $re = '/=\?([^?]+)\?([BbQq])\?([^\n]*?)\?=/';
 
         // Find all RFC2047's encoded words
-        if (preg_match_all($re, $input, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER)) {
+        if (preg_match_all($re, $input, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER)) {
             // Initialize variables
             $tmp   = [];
             $out   = '';
@@ -753,15 +753,15 @@ class rcube_mime
             // null as a 2nd argument should be the same as no argument
             // this however is not true on all systems/versions
             if ($mime_magic) {
-                $finfo = finfo_open(FILEINFO_MIME, $mime_magic);
+                $finfo = finfo_open(\FILEINFO_MIME, $mime_magic);
             }
             else {
-                $finfo = finfo_open(FILEINFO_MIME);
+                $finfo = finfo_open(\FILEINFO_MIME);
             }
 
             if ($finfo) {
                 $func      = $is_stream ? 'finfo_buffer' : 'finfo_file';
-                $mime_type = $func($finfo, $path, FILEINFO_MIME_TYPE);
+                $mime_type = $func($finfo, $path, \FILEINFO_MIME_TYPE);
                 finfo_close($finfo);
             }
         }
@@ -798,7 +798,7 @@ class rcube_mime
 
         // use file name suffix with hard-coded mime-type map
         if (!empty($mime_ext) && $filename) {
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $ext = strtolower(pathinfo($filename, \PATHINFO_EXTENSION));
             if ($ext && !empty($mime_ext[$ext])) {
                 return $mime_ext[$ext];
             }
@@ -830,7 +830,7 @@ class rcube_mime
         }
 
         // try common locations
-        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+        if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN') {
             $file_paths[] = 'C:/xampp/apache/conf/mime.types';
         }
         else {
@@ -852,7 +852,7 @@ class rcube_mime
 
         foreach ($file_paths as $fp) {
             if (@is_readable($fp)) {
-                $lines = file($fp, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                $lines = file($fp, \FILE_IGNORE_NEW_LINES | \FILE_SKIP_EMPTY_LINES);
                 break;
             }
         }

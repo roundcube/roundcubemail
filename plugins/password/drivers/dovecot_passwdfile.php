@@ -61,7 +61,7 @@ class rcube_dovecot_passwdfile_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        if (flock($fp, LOCK_EX)) {
+        if (flock($fp, \LOCK_EX)) {
             // Read the file and replace the user password
             while (($line = fgets($fp, 40960)) !== false) {
                 if (strpos($line, "$username:") === 0) {
@@ -75,7 +75,7 @@ class rcube_dovecot_passwdfile_password
 
             // Write back the entire file
             if (file_put_contents($mailuserfile, $content)) {
-                flock($fp, LOCK_UN);
+                flock($fp, \LOCK_UN);
                 fclose($fp);
 
                 return PASSWORD_SUCCESS;

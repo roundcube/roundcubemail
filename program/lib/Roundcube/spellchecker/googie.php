@@ -74,7 +74,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
 
         $gtext = '<?xml version="1.0" encoding="utf-8" ?>'
             . '<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
-            . '<text>' . htmlspecialchars($text, ENT_QUOTES, RCUBE_CHARSET) . '</text>'
+            . '<text>' . htmlspecialchars($text, \ENT_QUOTES, RCUBE_CHARSET) . '</text>'
             . '</spellrequest>';
 
         try {
@@ -105,7 +105,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
                 $this->error .= preg_match('/<errortext>([^<]+)/', $response_body, $m) ? ": " . html_entity_decode($m[1]) : '';
             }
 
-            preg_match_all('/<c o="([^"]*)" l="([^"]*)" s="([^"]*)">([^<]*)<\/c>/', $response_body, $matches, PREG_SET_ORDER);
+            preg_match_all('/<c o="([^"]*)" l="([^"]*)" s="([^"]*)">([^<]*)<\/c>/', $response_body, $matches, \PREG_SET_ORDER);
 
             // skip exceptions (if appropriate options are enabled)
             foreach ($matches as $idx => $m) {

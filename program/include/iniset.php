@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-if (PHP_VERSION_ID < 70300) {
+if (\PHP_VERSION_ID < 70300) {
     exit("Unsupported PHP version. Required PHP >= 7.3.");
 }
 
@@ -48,7 +48,7 @@ register_shutdown_function('rcmail_error_handler');
 // RC include folders MUST be included FIRST to avoid other
 // possible not compatible libraries (i.e PEAR) to be included
 // instead the ones provided by RC
-$include_path = INSTALL_PATH . 'program/lib' . PATH_SEPARATOR;
+$include_path = INSTALL_PATH . 'program/lib' . \PATH_SEPARATOR;
 $include_path .= ini_get('include_path');
 
 if (set_include_path($include_path) === false) {
@@ -109,7 +109,7 @@ function rcmail_error_handler()
 {
     $error = error_get_last();
 
-    if ($error && ($error['type'] === E_ERROR || $error['type'] === E_PARSE)) {
+    if ($error && ($error['type'] === \E_ERROR || $error['type'] === \E_PARSE)) {
         rcmail_fatal_error();
     }
 }
@@ -119,7 +119,7 @@ function rcmail_error_handler()
  */
 function rcmail_fatal_error()
 {
-    if (PHP_SAPI === 'cli') {
+    if (\PHP_SAPI === 'cli') {
         echo "Fatal error: Please check the Roundcube error log and/or server error logs for more information.\n";
     }
     elseif (!empty($_REQUEST['_remote'])) {

@@ -136,7 +136,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             $form['signature']['content']['signature']['is_escaped'] = true;
 
             // Correctly handle HTML entities in HTML editor (#1488483)
-            self::$record['signature'] = htmlspecialchars(self::$record['signature'], ENT_NOQUOTES, RCUBE_CHARSET);
+            self::$record['signature'] = htmlspecialchars(self::$record['signature'], \ENT_NOQUOTES, RCUBE_CHARSET);
         }
 
         // hide "default" checkbox if only one identity is allowed

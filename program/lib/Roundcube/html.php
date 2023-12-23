@@ -396,7 +396,7 @@ class html
             return (string) $str;
         }
 
-        return @htmlspecialchars($str, ENT_COMPAT | ENT_SUBSTITUTE, RCUBE_CHARSET);
+        return @htmlspecialchars($str, \ENT_COMPAT | \ENT_SUBSTITUTE, RCUBE_CHARSET);
     }
 }
 

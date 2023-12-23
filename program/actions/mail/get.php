@@ -132,7 +132,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
             // compare file mimetype with the stated content-type headers and file extension to avoid malicious operations
             if (!empty($_REQUEST['_embed']) && empty($_REQUEST['_nocheck'])) {
-                $file_extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                $file_extension = strtolower(pathinfo($filename, \PATHINFO_EXTENSION));
 
                 // 1. compare filename suffix with expected suffix derived from mimetype
                 $valid = $file_extension && in_array($file_extension, (array) $extensions)
@@ -267,7 +267,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             }
 
             // add filename extension if missing
-            if (!pathinfo($filename, PATHINFO_EXTENSION) && ($extensions = rcube_mime::get_mime_extensions($mimetype))) {
+            if (!pathinfo($filename, \PATHINFO_EXTENSION) && ($extensions = rcube_mime::get_mime_extensions($mimetype))) {
                 $filename .= '.' . $extensions[0];
             }
 

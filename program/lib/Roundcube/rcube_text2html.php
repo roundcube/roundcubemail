@@ -265,7 +265,7 @@ class rcube_text2html
         static $table;
 
         if (empty($table)) {
-            $table = get_html_translation_table(HTML_SPECIALCHARS);
+            $table = get_html_translation_table(\HTML_SPECIALCHARS);
             unset($table['?']);
 
             // replace some whitespace characters

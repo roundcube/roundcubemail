@@ -44,7 +44,7 @@ class rcmail_action_utils_spell_html extends rcmail_action
         }
         else {
             $data = rcube_utils::get_input_string('text', rcube_utils::INPUT_POST, true);
-            $data = html_entity_decode($data, ENT_QUOTES, RCUBE_CHARSET);
+            $data = html_entity_decode($data, \ENT_QUOTES, RCUBE_CHARSET);
 
             if ($data && !$spellchecker->check($data)) {
                 $result['words']      = $spellchecker->get();

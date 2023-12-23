@@ -18,9 +18,9 @@
  +-----------------------------------------------------------------------+
 */
 
-error_reporting(E_ALL);
+error_reporting(\E_ALL);
 
-if (PHP_SAPI != 'cli') {
+if (\PHP_SAPI != 'cli') {
     exit("Not in shell mode (php-cli)");
 }
 
@@ -44,7 +44,7 @@ require_once INSTALL_PATH . 'program/include/iniset.php';
 rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
 
 // Extend include path so some plugin test won't fail
-$include_path = ini_get('include_path') . PATH_SEPARATOR . TESTS_DIR . '..';
+$include_path = ini_get('include_path') . \PATH_SEPARATOR . TESTS_DIR . '..';
 if (set_include_path($include_path) === false) {
     exit("Fatal error: ini_set/set_include_path does not work.");
 }

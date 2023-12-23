@@ -175,7 +175,7 @@ class identicon_engine
 
         // generate an image and save it to a variable
         ob_start();
-        imagepng($image, null, 6, PNG_ALL_FILTERS);
+        imagepng($image, null, 6, \PNG_ALL_FILTERS);
         $this->binary = ob_get_contents();
         ob_end_clean();
 
