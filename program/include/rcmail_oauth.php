@@ -837,7 +837,14 @@ class rcmail_oauth
 
         $data['refresh_expires'] = time() + $data['refresh_expires_in'];
 
-        $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
+        if (strcasecmp($data['token_type'], 'Bearer') == 0) {
+            // always normalize Bearer (uppercase then lower case)
+            $authorization = sprintf('Bearer %s', $data['access_token']);
+        }
+        else {
+            // unknown token type, do not alter it
+            $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
+        }
 
         return $authorization;
     }
@@ -964,6 +971,14 @@ class rcmail_oauth
      */
     public function smtp_connect($options)
     {
+        $smtp_user = $options['smtp_user'];
+        $smtp_pass = $options['smtp_pass'];
+
+        // skip XOAUTH2 authorization, if indicated
+        if (($smtp_user == '') || ($smtp_pass == '')) {
+            return $options;
+        }
+
         if (isset($_SESSION['oauth_token'])) {
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
