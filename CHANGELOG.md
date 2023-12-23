@@ -20,6 +20,8 @@
 - Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
+- OAuth: Fix Bearer authentication for Kinde (#9244)
+- OAuth: Support SMTP without authentication (#9183)
 - OAuth: Add `oauth_config_uri` - support OAuth/OpenIDC discovery (#8201)
 - OAuth: Add `oauth_logout_uri` - allow invalidating the OAUTH-Session on logout (#8057)
 - OAuth: Support for OpenID Connect RP-Initiated Logout (#9109)
