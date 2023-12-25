@@ -61,7 +61,7 @@ class rcmail_oauth
     /** @var rcube_cache */
     protected $cache;
 
-    /** @var \GuzzleHttp\Client */
+    /** @var GuzzleHttp\Client */
     protected $http_client;
 
     /** @var string */

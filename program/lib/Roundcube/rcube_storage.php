@@ -465,7 +465,7 @@ abstract class rcube_storage
      *
      * @return string $part Message/part body
      *
-     * @see    rcube_imap::get_message_part()
+     * @see rcube_imap::get_message_part()
      */
     public function get_body($uid, $part = 1)
     {
