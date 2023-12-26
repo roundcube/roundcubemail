@@ -943,7 +943,7 @@ class rcube_db
      * @return string Quoted string for use in query
      *
      * @deprecated    Replaced by rcube_db::quote_identifier
-     * @see           rcube_db::quote_identifier
+     * @see rcube_db::quote_identifier
      */
     public function quoteIdentifier($str)
     {
@@ -958,7 +958,7 @@ class rcube_db
      * @return string Escaped string for use in a query
      *
      * @deprecated    Replaced by rcube_db::escape
-     * @see           rcube_db::escape
+     * @see rcube_db::escape
      */
     public function escapeSimple($str)
     {
