@@ -67,7 +67,10 @@ class rcmail_oauth
     /** @var string */
     protected $logout_redirect_url;
 
-    /** @var array helper to map .well-known entry to config (discovery URI) */
+    /** @var ?array parameters used during the login phase */
+    protected $login_phase;
+
+    /** @var array map of .well-known entries to config (discovery URI) */
     static protected $config_mapper = [
         'issuer'                 => 'issuer',
         'authorization_endpoint' => 'auth_uri',
@@ -102,8 +105,9 @@ class rcmail_oauth
      */
     private function logger($level, $message)
     {
-        $sub = $_SESSION['oauth_token']['identity']['sub'] ?? '-';
-        $ses = $_SESSION['oauth_token']['session_state']   ?? '-';
+        $token = $this->login_phase['token'] ?? $_SESSION['oauth_token'] ?? [];
+        $sub = $token['identity']['sub'] ?? '-';
+        $ses = $token['session_state']   ?? '-';
         rcube::write_log('oauth', sprintf('%s: [ip=%s sub=%s ses=%s] %s', $level, rcube_utils::remote_ip(), $sub, $ses, $message));
     }
 
@@ -287,15 +291,20 @@ class rcmail_oauth
         }
 
         // subscribe to storage and smtp init events
+        $this->rcmail->plugins->register_hook('loginform_content', [$this, 'loginform_content']);
+        $this->rcmail->plugins->register_hook('startup', [$this, 'startup']);
+
         $this->rcmail->plugins->register_hook('storage_init', [$this, 'storage_init']);
         $this->rcmail->plugins->register_hook('smtp_connect', [$this, 'smtp_connect']);
         $this->rcmail->plugins->register_hook('managesieve_connect', [$this, 'managesieve_connect']);
-        $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
+
+        $this->rcmail->plugins->register_hook('authenticate', [$this, 'authenticate']);
+        $this->rcmail->plugins->register_hook('login_after', [$this, 'login_after']);
         $this->rcmail->plugins->register_hook('login_failed', [$this, 'login_failed']);
+        $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
         $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
+
         $this->rcmail->plugins->register_hook('refresh', [$this, 'refresh']);
-        $this->rcmail->plugins->register_hook('startup', [$this, 'startup']);
-        $this->rcmail->plugins->register_hook('loginform_content', [$this, 'loginform_content']);
     }
 
     /**
@@ -422,7 +431,7 @@ class rcmail_oauth
             throw new RuntimeException('Failed to validate JWT: expired message');
         }
 
-        $this->log_debug("'jwt: %s", json_encode($body));
+        $this->log_debug("jwt: %s", json_encode($body));
 
         return $body;
     }
@@ -609,11 +618,12 @@ class rcmail_oauth
             $this->last_error = null; // clean last error
 
             // return auth data
-            return [
+            $this->login_phase = [
                 'username'      => $username,
                 'authorization' => $authorization, // the payload to authentificate through IMAP, SMTP, SIEVE .. servers
                 'token'         => $data,
             ];
+            return $this->login_phase;
         }
         catch (RequestException $e) {
             $this->last_error = "OAuth token request failed: " . $e->getMessage();
@@ -932,17 +942,6 @@ class rcmail_oauth
         $this->check_token_validity($_SESSION['oauth_token']);
     }
 
-
-    /**
-     * Returns the auth_type to use
-     *
-     * @return string The auth type: XOAUTH or OAUTHBEARER
-     */
-    public function get_auth_type()
-    {
-        return $this->auth_type;
-    }
-
     /**
      * Callback for 'storage_init' hook
      *
@@ -952,10 +951,19 @@ class rcmail_oauth
      */
     public function storage_init($options)
     {
-        if (isset($_SESSION['oauth_token']) && $options['driver'] === 'imap') {
+        if ($options['driver'] !== 'imap') {
+            return $options;
+        }
+
+        if ($this->login_phase) {
+            // enforce OAUTHBEARER/XOAUTH2 authorization type
+            $options['auth_type'] = $this->auth_type;
+        }
+        elseif (isset($_SESSION['oauth_token'])) {
             if ($this->check_token_validity($_SESSION['oauth_token']) === self::TOKEN_REFRESHED) {
                 $options['password'] = $this->rcmail->decrypt($_SESSION['password']);
             }
+            // enforce OAUTHBEARER/XOAUTH2 authorization type
             $options['auth_type'] = $this->auth_type;
         }
 
@@ -983,7 +991,7 @@ class rcmail_oauth
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
 
-            // enforce AUTHBEARER/XOAUTH2 authorization type
+            // enforce OAUTHBEARER/XOAUTH2 authorization type
             $options['smtp_user'] = '%u';
             $options['smtp_pass'] = '%p';
             $options['smtp_auth_type'] = $this->auth_type;
@@ -1004,10 +1012,56 @@ class rcmail_oauth
         if (isset($_SESSION['oauth_token'])) {
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
-
-            // enforce AUTHBEARER/XOAUTH2 authorization type
+            // enforce OAUTHBEARER/XOAUTH2 authorization type
             $options['auth_type'] = $this->auth_type;
         }
+
+        return $options;
+    }
+
+    /**
+     * Callback for 'authenticate' hook
+     *
+     * @param array $options
+     *
+     * @return array the authenticate parameters
+     */
+    public function authenticate($options)
+    {
+        if (!$this->login_phase) {
+            return;
+        }
+
+        $options['user'] = $this->login_phase['username'];
+        $options['pass'] = $this->login_phase['authorization'];
+        $this->rcmail->config->set('login_password_maxlen', strlen($options['pass']));
+
+        $this->log_debug("calling authenticate for user %s", $options['user']);
+
+        return $options;
+    }
+
+    /**
+     * Callback for 'login_after' hook
+     *
+     * @param array $options
+     *
+     * @return array
+     */
+    public function login_after($options)
+    {
+        if (!$this->login_phase) {
+            return;
+        }
+
+        // save OAuth token in session
+        $_SESSION['oauth_token'] = $this->login_phase['token'];
+
+        $this->log_debug('login successful for OIDC sub=%s with username=%s which is rcube-id=%s',
+            $this->login_phase['token']['identity']['sub'], $this->login_phase['username'], $this->rcmail->user->ID);
+
+        // login phase is terminated
+        $this->login_phase = null;
 
         return $options;
     }
@@ -1045,7 +1099,11 @@ class rcmail_oauth
         if ($args['task'] == 'login' && $args['action'] == 'oauth') {
             // handle oauth login requests
             $oauth_handler = new rcmail_action_login_oauth();
-            $oauth_handler->run();
+            $handler_answer = $oauth_handler->run();
+            if ($handler_answer && is_array($handler_answer)) {
+                // on success, handler will request next action = login
+                $args = $handler_answer + $args;
+            }
         }
         elseif ($args['task'] == 'login' && $args['action'] == 'backchannel') {
             // handle oauth login requests
@@ -1114,6 +1172,7 @@ class rcmail_oauth
     {
         // no redirect on imap login failures
         $this->no_redirect = true;
+        $this->login_phase = null;
         return $options;
     }
 
