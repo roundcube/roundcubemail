@@ -353,7 +353,7 @@ $config['oauth_client_id'] = null;
 $config['oauth_client_secret'] = null;
 
 // Optional: the OIDC discovery URI (the 'https://.../.well-known/openid-configuration')
-// if specified, the discovery will supersede `oauth_issuer`, `auth_auth_uri`, `oauth_token_uri`, `oauth_identity_uri`, `oauth_logout_uri`, `oauth_jwks_uri`)
+// if specified, the discovery will supersede `oauth_issuer`, `auth_auth_uri`, `oauth_token_uri`, `oauth_identity_uri`, `oauth_logout_uri`, `oauth_jwks_uri`
 // it is recommanded to activate a cache via `oauth_cache` and `oauth_cache_ttl`
 $config['oauth_config_uri'] = null;
 
@@ -365,6 +365,10 @@ $config['oauth_jwks_uri'] = null;
 
 // Mandatory: URI for OAuth user authentication (redirect)
 $config['oauth_auth_uri'] = null;
+
+// Optional: PKCE protection, by default it is enabled to S256 method, to disable it use `false`
+// please note that `plain` method is voluntarily not implemented
+$config['oauth_pkce'] = 'S256';
 
 // Mandatory or Optional if $oauth_config_uri is specified: Endpoint for OAuth authentication requests (server-to-server)
 $config['oauth_token_uri'] = null;
