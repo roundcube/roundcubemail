@@ -3049,21 +3049,12 @@ class rcube_imap_generic
     {
         // BASE64
         if ($mode == 1) {
-            $chunk = $prev . preg_replace('|[^a-zA-Z0-9+=/]|', '', $chunk);
-
-            // create chunks with proper length for base64 decoding
-            $length = strlen($chunk);
-
-            if ($length % 4) {
-                $length = floor($length / 4) * 4;
-                $prev = substr($chunk, $length);
-                $chunk = substr($chunk, 0, $length);
+            $decoded_chunk = '';
+            foreach(preg_split("/((\r?\n)|(\r\n?))/", $chunk) as $line){
+                $decoded_chunk .= base64_decode($line);
+                
             }
-            else {
-                $prev = '';
-            }
-
-            return base64_decode($chunk);
+            return $decoded_chunk;
         }
 
         // QUOTED-PRINTABLE
