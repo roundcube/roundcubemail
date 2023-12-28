@@ -261,7 +261,7 @@ class rcube
      *
      * @param array $options Configuration options
      *
-     * @return \GuzzleHttp\Client HTTP client
+     * @return GuzzleHttp\Client HTTP client
      */
     public function get_http_client($options = [])
     {
