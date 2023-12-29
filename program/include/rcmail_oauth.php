@@ -506,8 +506,11 @@ class rcmail_oauth
             return;
         }
 
-        // create a secret string
+        // create a secret string (OAuth security)
         $_SESSION['oauth_state'] = rcube_utils::random_bytes(12);
+
+        // create a nonce (OIDC security)
+        $_SESSION['oauth_nonce'] = rcube_utils::random_bytes(32);
 
         // compose full oauth login uri
         $query = [
@@ -516,6 +519,7 @@ class rcmail_oauth
             'scope'         => $this->options['scope'],
             'redirect_uri'  => $this->get_redirect_uri(),
             'state'         => $_SESSION['oauth_state'],
+            'nonce'         => $_SESSION['oauth_nonce'],
         ];
 
         // implementation of PKCE @see: rfc7636
@@ -620,15 +624,11 @@ class rcmail_oauth
             $response = $this->http_client->post($oauth_token_uri, ['form_params' => $form]);
             $data = json_decode($response->getBody(), true);
 
-            $authorization = $this->parse_tokens('authorization_code', $data);
+            [$authorization, $identity] = $this->parse_tokens('authorization_code', $data);
 
             $username = null;
-            $identity = null;
 
-            // decode JWT id_token if provided
-            if (!empty($data['id_token'])) {
-                $identity = $this->jwt_decode($data['id_token']);
-
+            if ($identity) {
                 // note that id_token values depend on scopes
                 foreach ($this->options['identity_fields'] as $field) {
                     if (isset($identity[$field])) {
@@ -676,6 +676,7 @@ class rcmail_oauth
                 'username'      => $username,
                 'authorization' => $authorization, // the payload to authentificate through IMAP, SMTP, SIEVE .. servers
                 'token'         => $data,
+                'nonce'         => $_SESSION['oauth_nonce'],
             ];
 
             if ($this->options['pkce']) {
@@ -747,7 +748,7 @@ class rcmail_oauth
             $response = $this->http_client->post($oauth_token_uri, ['form_params' => $form]);
             $data = json_decode($response->getBody(), true);
 
-            $authorization = $this->parse_tokens('refresh_token', $data, $token);
+            [$authorization, $identity] = $this->parse_tokens('refresh_token', $data, $token);
 
             // update access token stored as password
             $_SESSION['password'] = $this->rcmail->encrypt($authorization);
@@ -847,7 +848,9 @@ class rcmail_oauth
      * @param array  $data          The payload from the request (will be updated)
      * @param array  $previous_data The data from a previous request
      *
-     * @return string the bearer authorization to use on different transports
+     * @return array
+     *               1st element: the bearer authorization to use on different transports
+     *               2nd element: the decoded identity
      */
     protected function parse_tokens($grant_type, &$data, $previous_data = null)
     {
@@ -889,8 +892,18 @@ class rcmail_oauth
         }
 
         // please note that id_token / identity may have changed, could be interesting to grab it and refresh values, right now it is not used
+        // decode JWT id_token if provided
+        $identity = null;
+        if (!empty($data['id_token'])) {
+            $identity = $this->jwt_decode($data['id_token']);
 
-        //creation time. Information also present in JWT, but it is faster here
+            // sanity check, ensure that the identity have the same nonce
+            if (!isset($identity['nonce']) || $identity['nonce'] !== $_SESSION['oauth_nonce']) {
+                throw new RuntimeException("identity's nonce mismatch");
+            }
+        }
+
+        // creation time. Information also present in JWT, but it is faster here
         $data['created_at'] = time();
 
         $refresh_interval = $this->rcmail->config->get('refresh_interval');
@@ -919,7 +932,7 @@ class rcmail_oauth
             $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
         }
 
-        return $authorization;
+        return [$authorization, $identity];
     }
 
     /**
@@ -1119,6 +1132,7 @@ class rcmail_oauth
 
         // store important data to new freshly created session
         $_SESSION['oauth_token'] = $this->login_phase['token'];
+        $_SESSION['oauth_nonce'] = $this->login_phase['nonce'];
         if ($this->options['pkce']) {
             $_SESSION['oauth_code_verifier'] = $this->login_phase['code_verifier'];
         }
