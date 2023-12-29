@@ -823,7 +823,7 @@ class rcube
             $accept_langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
             $lang         = $accept_langs[0];
 
-            if (preg_match('/^([a-z]+)[_-]([a-z]+)$/i', $lang, $m)) {
+            if (preg_match('/^([a-z]+)[_-]([a-z0-9]+)$/i', $lang, $m)) {
                 $lang = $m[1] . '_' . strtoupper($m[2]);
             }
         }
