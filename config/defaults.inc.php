@@ -407,6 +407,17 @@ $config['oauth_cache'] = 'db';
 // Optional: cache ttl
 $config['oauth_cache_ttl'] = '8h';
 
+// Optional: map OIDC claims to Roundcube keys during the account creation
+// format: roundcube_key => array of claims (the first claim found and defined will be used)
+// more informations on claims: https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+// roundcube_key can be: user_name, user_email, language
+// default value:
+$config['oauth_user_create_map'] = [
+    'user_name' => ['name'],
+    'user_email' => ['email'],
+    'language' => ['locale'],
+];
+
 ///// Example config for Gmail
 
 // Register your service at https://console.developers.google.com/
