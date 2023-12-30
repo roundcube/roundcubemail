@@ -90,6 +90,9 @@ return (new PhpCsFixer\Config())
         'class_attributes_separation' => false,
         'control_structure_continuation_position' => false,
         'explicit_string_variable' => false,
+        'fully_qualified_strict_types' => [
+            'import_symbols' => false,
+        ],
         'general_phpdoc_annotation_remove' => false,
         'increment_style' => false,
         'method_argument_space' => false,
