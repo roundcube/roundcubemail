@@ -70,6 +70,9 @@ class rcmail_oauth
     /** @var ?array parameters used during the login phase */
     protected $login_phase;
 
+    /** @var array list of allowed keys in user_create_map (note that user and host are protected) */
+    protected static $user_create_allowed_keys = ['user_name', 'user_email', 'language'];
+
     /** @var array map of .well-known entries to config (discovery URI) */
     static protected $config_mapper = [
         'issuer'                 => 'issuer',
@@ -156,6 +159,13 @@ class rcmail_oauth
             'client_secret'   => $this->rcmail->config->get('oauth_client_secret'),
             'identity_uri'    => $this->rcmail->config->get('oauth_identity_uri'),
             'identity_fields' => $this->rcmail->config->get('oauth_identity_fields', ['email']),
+            'user_create_map' => $this->rcmail->config->get('oauth_user_create_map', [
+                //rc key => OIDC Claim @see: https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims )
+                'user_name' => ['name'],
+                'user_email' => ['email'],
+                'language' => ['locale'],
+            ]),
+
             'scope'           => $this->rcmail->config->get('oauth_scope', ''),
             'timeout'         => $this->rcmail->config->get('oauth_timeout', 10),
             'verify_peer'     => $this->rcmail->config->get('oauth_verify_peer', true),
@@ -170,6 +180,7 @@ class rcmail_oauth
             $options['http_options'] = [];
         }
 
+        // sanity check on PKCE value
         if ($this->options['pkce'] && !array_key_exists($this->options['pkce'], self::$pkce_mapper)) {
             // will stops on error
             rcube::raise_error([
@@ -177,6 +188,18 @@ class rcmail_oauth
                 'file'    => __FILE__,
                 'line'    => __LINE__,
             ], true, true);
+        }
+
+        // sanity check that configuration user_create_map contains only allowed keys
+        foreach ($this->options['user_create_map'] as $key => $ignored) {
+            if (!in_array($key, self::$user_create_allowed_keys)) {
+                // will stops on error
+                rcube::raise_error([
+                    'message' => "use of key `{$key}` in `oauth_user_create_map` is not allowed",
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                ], true, true);
+            }
         }
 
         // prepare a http client with the correct options
@@ -329,6 +352,7 @@ class rcmail_oauth
         $this->rcmail->plugins->register_hook('authenticate', [$this, 'authenticate']);
         $this->rcmail->plugins->register_hook('login_after', [$this, 'login_after']);
         $this->rcmail->plugins->register_hook('login_failed', [$this, 'login_failed']);
+        $this->rcmail->plugins->register_hook('user_create', [$this, 'user_create']);
         $this->rcmail->plugins->register_hook('logout_after', [$this, 'logout_after']);
         $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
 
@@ -506,8 +530,11 @@ class rcmail_oauth
             return;
         }
 
-        // create a secret string
+        // create a secret string (OAuth security)
         $_SESSION['oauth_state'] = rcube_utils::random_bytes(12);
+
+        // create a nonce (OIDC security)
+        $_SESSION['oauth_nonce'] = rcube_utils::random_bytes(32);
 
         // compose full oauth login uri
         $query = [
@@ -516,6 +543,7 @@ class rcmail_oauth
             'scope'         => $this->options['scope'],
             'redirect_uri'  => $this->get_redirect_uri(),
             'state'         => $_SESSION['oauth_state'],
+            'nonce'         => $_SESSION['oauth_nonce'],
         ];
 
         // implementation of PKCE @see: rfc7636
@@ -620,15 +648,11 @@ class rcmail_oauth
             $response = $this->http_client->post($oauth_token_uri, ['form_params' => $form]);
             $data = json_decode($response->getBody(), true);
 
-            $authorization = $this->parse_tokens('authorization_code', $data);
+            [$authorization, $identity] = $this->parse_tokens('authorization_code', $data);
 
             $username = null;
-            $identity = null;
 
-            // decode JWT id_token if provided
-            if (!empty($data['id_token'])) {
-                $identity = $this->jwt_decode($data['id_token']);
-
+            if ($identity) {
                 // note that id_token values depend on scopes
                 foreach ($this->options['identity_fields'] as $field) {
                     if (isset($identity[$field])) {
@@ -676,6 +700,7 @@ class rcmail_oauth
                 'username'      => $username,
                 'authorization' => $authorization, // the payload to authentificate through IMAP, SMTP, SIEVE .. servers
                 'token'         => $data,
+                'nonce'         => $_SESSION['oauth_nonce'],
             ];
 
             if ($this->options['pkce']) {
@@ -747,7 +772,7 @@ class rcmail_oauth
             $response = $this->http_client->post($oauth_token_uri, ['form_params' => $form]);
             $data = json_decode($response->getBody(), true);
 
-            $authorization = $this->parse_tokens('refresh_token', $data, $token);
+            [$authorization, $identity] = $this->parse_tokens('refresh_token', $data, $token);
 
             // update access token stored as password
             $_SESSION['password'] = $this->rcmail->encrypt($authorization);
@@ -847,7 +872,9 @@ class rcmail_oauth
      * @param array  $data          The payload from the request (will be updated)
      * @param array  $previous_data The data from a previous request
      *
-     * @return string the bearer authorization to use on different transports
+     * @return array
+     *               1st element: the bearer authorization to use on different transports
+     *               2nd element: the decoded identity
      */
     protected function parse_tokens($grant_type, &$data, $previous_data = null)
     {
@@ -889,8 +916,18 @@ class rcmail_oauth
         }
 
         // please note that id_token / identity may have changed, could be interesting to grab it and refresh values, right now it is not used
+        // decode JWT id_token if provided
+        $identity = null;
+        if (!empty($data['id_token'])) {
+            $identity = $this->jwt_decode($data['id_token']);
 
-        //creation time. Information also present in JWT, but it is faster here
+            // sanity check, ensure that the identity have the same nonce
+            if (!isset($identity['nonce']) || $identity['nonce'] !== $_SESSION['oauth_nonce']) {
+                throw new RuntimeException("identity's nonce mismatch");
+            }
+        }
+
+        // creation time. Information also present in JWT, but it is faster here
         $data['created_at'] = time();
 
         $refresh_interval = $this->rcmail->config->get('refresh_interval');
@@ -919,7 +956,7 @@ class rcmail_oauth
             $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
         }
 
-        return $authorization;
+        return [$authorization, $identity];
     }
 
     /**
@@ -1119,6 +1156,7 @@ class rcmail_oauth
 
         // store important data to new freshly created session
         $_SESSION['oauth_token'] = $this->login_phase['token'];
+        $_SESSION['oauth_nonce'] = $this->login_phase['nonce'];
         if ($this->options['pkce']) {
             $_SESSION['oauth_code_verifier'] = $this->login_phase['code_verifier'];
         }
@@ -1130,6 +1168,72 @@ class rcmail_oauth
         $this->login_phase = null;
 
         return $options;
+    }
+
+    /**
+     * Callback for 'user_create' hook (create user using OIDC claims))
+     *
+     * @param array $data user_create parameters (user_name, user_email, language))
+     *
+     * @return array $data key/values to setup user's identity
+     */
+    public function user_create($data)
+    {
+        if (!$this->login_phase) {
+            return $data;
+        }
+
+        if (!isset($this->login_phase['token']['identity'])) {
+            $this->log_debug("identity not found, was the scope 'openid' defined?");
+            return $data;
+        }
+
+        $identity = $this->login_phase['token']['identity'];
+
+        foreach ($this->options['user_create_map'] as $rc_key => $oidc_claims) {
+            $oidc_claims = (array) $oidc_claims;
+            foreach ($oidc_claims as $oidc_claim) {
+                // use the first defined claim
+                if (isset($identity[$oidc_claim]) && is_string($identity[$oidc_claim]) && strlen($identity[$oidc_claim]) > 0) {
+                    $value = $identity[$oidc_claim];
+                    // normalize and check well known keys
+                    switch ($rc_key) {
+                        case 'user_email':
+                            // normalize to punicode for intl. domains (IDN)
+                            $value = rcube_utils::idn_to_ascii($value);
+                            // check format
+                            if (!rcube_utils::check_email($value, false)) {
+                                rcube::raise_error([
+                                    'message' => "user_create: ignoring invalid email '{$value}' (from claim '{$oidc_claim}')",
+                                    'file'    => __FILE__,
+                                    'line'    => __LINE__,
+                                ], true, false);
+                                continue 2; // continue on next foreach iteration
+                            }
+                            break;
+                        case 'language':
+                            // normalize language
+                            $value = strtr($value, '-', '_');
+                            // sanity check no extra chars than an language format (RFC5646)
+                            if (!preg_match('/^[a-z0-9_]{2,8}$/i', $value)) {
+                                rcube::raise_error([
+                                    'message' => "user_create: ignoring language '{$value}' (from claim '{$oidc_claim}')",
+                                    'file'    => __FILE__,
+                                    'line'    => __LINE__,
+                                ], true, false);
+                                continue 2; // continue on next foreach iteration
+                            }
+                            break;
+                    }
+                    $data[$rc_key] = $value;
+
+                    $this->log_debug('user_create: setting %s=%s (from claim %s)', $rc_key, $value, $oidc_claim);
+                    break; //no need to continue
+                }
+            }
+        }
+
+        return $data;
     }
 
     /**
