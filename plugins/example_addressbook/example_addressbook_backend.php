@@ -20,29 +20,29 @@ class example_addressbook_backend extends rcube_addressbook
     private $db_groups = [
         [
             'ID'   => 'testgroup1',
-            'name' => "Testgroup",
+            'name' => 'Testgroup',
         ],
         [
             'ID'   => 'testgroup2',
-            'name' => "Sample Group",
+            'name' => 'Sample Group',
         ],
     ];
 
     private $db_users = [
         [
             'ID'        => '111',
-            'name'      => "John Doe",
-            'firstname' => "John",
-            'surname'   => "Doe",
-            'email'     => "example1@roundcube.net",
+            'name'      => 'John Doe',
+            'firstname' => 'John',
+            'surname'   => 'Doe',
+            'email'     => 'example1@roundcube.net',
             'groups'    => ['testgroup1'],
         ],
         [
             'ID'        => '112',
-            'name'      => "Jane Example",
-            'firstname' => "Jane",
-            'surname'   => "Example",
-            'email'     => "example2@roundcube.net",
+            'name'      => 'Jane Example',
+            'firstname' => 'Jane',
+            'surname'   => 'Example',
+            'email'     => 'example2@roundcube.net',
             'groups'    => ['testgroup2'],
         ],
     ];

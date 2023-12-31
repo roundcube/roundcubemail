@@ -140,17 +140,17 @@ abstract class rcube_output
             return;
         }
 
-        header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
         // We need to set the following headers to make downloads work using IE in HTTPS mode.
         if ($this->browser->ie && rcube_utils::https_check()) {
             header('Pragma: private');
-            header("Cache-Control: private, must-revalidate");
+            header('Cache-Control: private, must-revalidate');
         }
         else {
-            header("Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0");
-            header("Pragma: no-cache");
+            header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: no-cache');
         }
     }
 
@@ -165,9 +165,9 @@ abstract class rcube_output
             return;
         }
 
-        header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $offset) . ' GMT');
         header("Cache-Control: max-age=$offset");
-        header("Pragma: ");
+        header('Pragma: ');
     }
 
     /**
@@ -268,11 +268,11 @@ abstract class rcube_output
         header("Content-Type: {$ctype}");
 
         if ($params['disposition'] == 'attachment' && $this->browser->ie) {
-            header("Content-Type: application/force-download");
+            header('Content-Type: application/force-download');
         }
 
         if (isset($params['length'])) {
-            header("Content-Length: " . $params['length']);
+            header('Content-Length: ' . $params['length']);
         }
 
         // don't kill the connection if download takes more than 30 sec.

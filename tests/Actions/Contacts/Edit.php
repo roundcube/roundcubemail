@@ -34,7 +34,7 @@ class Actions_Contacts_Edit extends ActionTestCase
         $this->assertSame('contactedit', $output->template);
         $this->assertSame('Edit contact', $output->getProperty('pagetitle'));
         $this->assertSame($contact['contact_id'], $output->get_env('cid'));
-        $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
+        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
         $this->assertTrue(strpos($result, "rcmail.gui_object('contactphoto', 'contactpic');") !== false);
     }
 

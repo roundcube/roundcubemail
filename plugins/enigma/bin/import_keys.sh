@@ -40,7 +40,7 @@ if (!empty($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'help') {
 }
 
 if (empty($args['dir'])) {
-    rcube::raise_error("--dir argument is required", true);
+    rcube::raise_error('--dir argument is required', true);
 }
 
 $host = get_host($args);
@@ -95,7 +95,7 @@ function get_host($args)
             $args['host'] = reset($hosts);
         }
         else {
-            rcube::raise_error("Specify a host name", true);
+            rcube::raise_error('Specify a host name', true);
         }
 
         // host can be a URL like tls://192.168.12.44
@@ -134,8 +134,8 @@ function reset_state($user_id, $dry_run = false)
 
     $db = $rcmail->get_dbh();
 
-    $db->query("DELETE FROM " . $db->table_name('filestore', true)
-        . " WHERE `user_id` = ? AND `context` = ?",
+    $db->query('DELETE FROM ' . $db->table_name('filestore', true)
+        . ' WHERE `user_id` = ? AND `context` = ?',
         $user_id, 'enigma');
 }
 

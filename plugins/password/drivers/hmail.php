@@ -32,15 +32,15 @@ class rcube_hmail_password
         try {
             $remote = $rcmail->config->get('hmailserver_remote_dcom', false);
             if ($remote) {
-                $obApp = new COM("hMailServer.Application", $rcmail->config->get('hmailserver_server'));
+                $obApp = new COM('hMailServer.Application', $rcmail->config->get('hmailserver_server'));
             }
             else {
-                $obApp = new COM("hMailServer.Application");
+                $obApp = new COM('hMailServer.Application');
             }
         }
         catch (Exception $e) {
-            rcube::write_log('errors', "Plugin password (hmail driver): " . trim(strip_tags($e->getMessage())));
-            rcube::write_log('errors', "Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.");
+            rcube::write_log('errors', 'Plugin password (hmail driver): ' . trim(strip_tags($e->getMessage())));
+            rcube::write_log('errors', 'Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.');
 
             return PASSWORD_ERROR;
         }
@@ -54,7 +54,7 @@ class rcube_hmail_password
                 rcube::write_log('errors','Plugin password (hmail driver): $config[\'username_domain\'] is not defined.');
                 return PASSWORD_ERROR;
             }
-            $username = $username . "@" . $domain;
+            $username = $username . '@' . $domain;
         }
 
         try {
@@ -68,8 +68,8 @@ class rcube_hmail_password
             return PASSWORD_SUCCESS;
         }
         catch (Exception $e) {
-            rcube::write_log('errors', "Plugin password (hmail driver): " . trim(strip_tags($e->getMessage())));
-            rcube::write_log('errors', "Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.");
+            rcube::write_log('errors', 'Plugin password (hmail driver): ' . trim(strip_tags($e->getMessage())));
+            rcube::write_log('errors', 'Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.');
 
             return PASSWORD_ERROR;
         }

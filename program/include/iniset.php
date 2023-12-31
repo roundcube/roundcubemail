@@ -20,7 +20,7 @@
 */
 
 if (\PHP_VERSION_ID < 70300) {
-    exit("Unsupported PHP version. Required PHP >= 7.3.");
+    exit('Unsupported PHP version. Required PHP >= 7.3.');
 }
 
 // application constants
@@ -52,7 +52,7 @@ $include_path = INSTALL_PATH . 'program/lib' . \PATH_SEPARATOR;
 $include_path .= ini_get('include_path');
 
 if (set_include_path($include_path) === false) {
-    exit("Fatal error: ini_set/set_include_path does not work.");
+    exit('Fatal error: ini_set/set_include_path does not work.');
 }
 
 // increase maximum execution time for php scripts
@@ -125,7 +125,7 @@ function rcmail_fatal_error()
     elseif (!empty($_REQUEST['_remote'])) {
         // Ajax request from UI
         header('Content-Type: application/json; charset=UTF-8');
-        echo json_encode(['code' => 500, 'message' => "Internal Server Error"]);
+        echo json_encode(['code' => 500, 'message' => 'Internal Server Error']);
     }
     else {
         if (!defined('RCUBE_FATAL_ERROR_MSG')) {

@@ -51,7 +51,7 @@ class rcube_expect_password
         $params   = $rcmail->config->get('password_expect_params');
 
         $cmd = $bin . ' -f ' . $script . ' -- ' . $params;
-        $handle = popen($cmd, "w");
+        $handle = popen($cmd, 'w');
         fwrite($handle, "$username\n");
         fwrite($handle, "$currpass\n");
         fwrite($handle, "$newpass\n");

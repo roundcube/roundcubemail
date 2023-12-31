@@ -37,7 +37,7 @@ class database_attachments extends filesystem_attachments
     protected $cache;
 
     // A prefix for the cache key used in the session and in the key field of the cache table
-    const PREFIX = "ATTACH";
+    const PREFIX = 'ATTACH';
 
     /**
      * Save a newly uploaded attachment

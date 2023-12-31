@@ -764,7 +764,7 @@ class rcube_washtml
 
         $html = preg_replace($html_search, $html_replace, $html);
 
-        $err = ['line' => __LINE__, 'file' => __FILE__, 'message' => "Could not clean up HTML!"];
+        $err = ['line' => __LINE__, 'file' => __FILE__, 'message' => 'Could not clean up HTML!'];
         if ($html === null && rcube_utils::preg_error($err)) {
             return '';
         }
@@ -990,7 +990,7 @@ class rcube_washtml
 
         // explode value
         for ($p = $i = 0; $i < $strlen; $i++) {
-            if (($style[$i] == "\"" || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != "\\")) {
+            if (($style[$i] == '"' || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != '\\')) {
                 if ($q == $style[$i]) {
                     $q = false;
                 }

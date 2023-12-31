@@ -61,7 +61,7 @@ class rcube_cache_memcache extends rcube_cache
                     'type' => 'memcache',
                     'line' => __LINE__,
                     'file' => __FILE__,
-                    'message' => "Failed to find Memcache. Make sure php-memcache is included",
+                    'message' => 'Failed to find Memcache. Make sure php-memcache is included',
                 ],
                 true, true);
         }

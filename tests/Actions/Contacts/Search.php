@@ -24,7 +24,7 @@ class Actions_Contacts_Search extends ActionTestCase
 
         $this->assertSame('contactsearch', $output->template);
         $this->assertSame('', $output->getProperty('pagetitle')); // TODO: there should be a title
-        $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
+        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
     }
 
     /**

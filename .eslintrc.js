@@ -111,8 +111,6 @@ module.exports = {
 
         // TODO
         'space-infix-ops': 'off',
-        'quotes': 'off',
-        'no-tabs': 'off',
         'space-before-function-paren': 'off',
         'no-undef': 'off',
         'no-shadow': 'off',
@@ -243,7 +241,6 @@ module.exports = {
         'global-require': 'off',
         'prefer-regex-literals': 'off',
         'no-array-constructor': 'off',
-        'eol-last': 'off',
         'unicorn/no-new-array': 'off',
         'no-debugger': 'off',
         'no-whitespace-before-property': 'off',
@@ -253,7 +250,6 @@ module.exports = {
         'unicorn/prefer-default-parameters': 'off',
         'unicorn/prefer-negative-index': 'off',
         'no-regex-spaces': 'off',
-        'unicorn/no-useless-undefined': 'off',
     },
     reportUnusedDisableDirectives: true,
     globals: {

@@ -318,7 +318,7 @@ class HTTPSocket
 
             if (isset($headers['location'])) {
                 if ($this->max_redirects <= 0) {
-                    exit("Too many redirects on: " . $headers['location']);
+                    exit('Too many redirects on: ' . $headers['location']);
                 }
 
                 $this->max_redirects--;
@@ -416,7 +416,7 @@ class HTTPSocket
             if ($pair == '' || $pair == "\r\n") {
                 continue;
             }
-            [$key,$value] = preg_split("/: /", $pair, 2);
+            [$key,$value] = preg_split('/: /', $pair, 2);
             $array_return[strtolower($key)] = $value;
         }
 

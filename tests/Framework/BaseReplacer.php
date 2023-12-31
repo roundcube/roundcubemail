@@ -12,7 +12,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_base_replacer('test');
 
-        $this->assertInstanceOf('rcube_base_replacer', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_base_replacer', $object, 'Class constructor');
     }
 
     /**

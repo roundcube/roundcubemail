@@ -128,32 +128,32 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertSame(
             '/sub/?_task=cli&_action=test',
             $rcmail->url('test'),
-            "Action only"
+            'Action only'
         );
 
         $this->assertSame(
             '/sub/?_task=cli&_action=test&_a=AA',
             $rcmail->url(['action' => 'test', 'a' => 'AA']),
-            "Unprefixed parameters"
+            'Unprefixed parameters'
         );
 
         $this->assertSame(
             '/sub/?_task=cli&_action=test&_b=BB',
             $rcmail->url(['_action' => 'test', '_b' => 'BB', '_c' => null]),
-            "Prefixed parameters (skip empty)"
+            'Prefixed parameters (skip empty)'
         );
-        $this->assertSame('/sub/?_task=cli', $rcmail->url([]), "Empty input");
+        $this->assertSame('/sub/?_task=cli', $rcmail->url([]), 'Empty input');
 
         $this->assertSame(
             '/sub/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
-            "Absolute URL"
+            'Absolute URL'
         );
 
         $this->assertSame(
             'https://mail.example.org/sub/?_task=calendar&_action=test&_mode=FQ',
             $rcmail->url(['task' => 'calendar', '_action' => 'test', '_mode' => 'FQ'], true, true),
-            "Fully Qualified URL"
+            'Fully Qualified URL'
         );
 
         // with different SCRIPT_NAME values
@@ -161,26 +161,26 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertSame(
             '/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
-            "Absolute URL (root)"
+            'Absolute URL (root)'
         );
 
         $_SERVER['SCRIPT_NAME'] = '';
         $this->assertSame(
             '/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
-            "Absolute URL (root)"
+            'Absolute URL (root)'
         );
 
         $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
-        $this->assertSame('/rc/?_task=cli', $rcmail->url([]), "Empty input with REQUEST_URI prefix");
+        $this->assertSame('/rc/?_task=cli', $rcmail->url([]), 'Empty input with REQUEST_URI prefix');
 
         $rcmail->config->set('request_path', 'X_FORWARDED_PATH');
-        $this->assertSame('/proxied/?_task=cli', $rcmail->url([]), "Consider request_path config (_SERVER)");
+        $this->assertSame('/proxied/?_task=cli', $rcmail->url([]), 'Consider request_path config (_SERVER)');
 
         $rcmail->config->set('request_path', '/test');
-        $this->assertSame('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path)");
+        $this->assertSame('/test/?_task=cli', $rcmail->url([]), 'Consider request_path config (/path)');
         $rcmail->config->set('request_path', '/test/');
-        $this->assertSame('/test/?_task=cli', $rcmail->url([]), "Consider request_path config (/path/)");
+        $this->assertSame('/test/?_task=cli', $rcmail->url([]), 'Consider request_path config (/path/)');
 
         $_SERVER['REQUEST_URI'] = null;
         $rcmail->config->set('request_path', null);
@@ -190,7 +190,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertSame(
             'http://mail.example.org:8080/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true, true),
-            "Full URL with port"
+            'Full URL with port'
         );
     }
 

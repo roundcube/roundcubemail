@@ -20,7 +20,7 @@ class Actions_Utils_Modcss extends ActionTestCase
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(403, $output->getProperty('errorCode'));
-        $this->assertSame("Unauthorized request", $output->getProperty('errorMessage'));
+        $this->assertSame('Unauthorized request', $output->getProperty('errorMessage'));
         $this->assertNull($output->getOutput());
 
         // Invalid url
@@ -28,7 +28,7 @@ class Actions_Utils_Modcss extends ActionTestCase
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(403, $output->getProperty('errorCode'));
-        $this->assertSame("Unauthorized request", $output->getProperty('errorMessage'));
+        $this->assertSame('Unauthorized request', $output->getProperty('errorMessage'));
         $this->assertNull($output->getOutput());
 
         // Valid url but not "registered"
@@ -39,7 +39,7 @@ class Actions_Utils_Modcss extends ActionTestCase
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(403, $output->getProperty('errorCode'));
-        $this->assertSame("Unauthorized request", $output->getProperty('errorMessage'));
+        $this->assertSame('Unauthorized request', $output->getProperty('errorMessage'));
         $this->assertNull($output->getOutput());
 
         // Valid url pointing to non-existing resource
@@ -53,7 +53,7 @@ class Actions_Utils_Modcss extends ActionTestCase
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(404, $output->getProperty('errorCode'));
-        $this->assertSame("Invalid response returned by server", $output->getProperty('errorMessage'));
+        $this->assertSame('Invalid response returned by server', $output->getProperty('errorMessage'));
         $this->assertNull($output->getOutput());
 
         // Valid url pointing to an existing resource

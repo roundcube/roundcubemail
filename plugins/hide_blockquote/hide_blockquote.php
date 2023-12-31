@@ -29,7 +29,7 @@ class hide_blockquote extends rcube_plugin
             && ($limit = $rcmail->config->get('hide_blockquote_limit'))
         ) {
             // include styles
-            $this->include_stylesheet($this->local_skin_path() . "/style.css");
+            $this->include_stylesheet($this->local_skin_path() . '/style.css');
 
             // Script and localization
             $this->include_script('hide_blockquote.js');

@@ -371,7 +371,7 @@ class rcube_plugin_api
 
             // read local composer.lock file (once)
             if (!isset($composer_lock)) {
-                $composer_lock = @json_decode(@file_get_contents(INSTALL_PATH . "/composer.lock"), true);
+                $composer_lock = @json_decode(@file_get_contents(INSTALL_PATH . '/composer.lock'), true);
                 if ($composer_lock && !empty($composer_lock['packages'])) {
                     foreach ($composer_lock['packages'] as $i => $package) {
                         $composer_lock['installed'][$package['name']] = $package;
@@ -397,7 +397,7 @@ class rcube_plugin_api
                 $doc = new DOMDocument();
                 $doc->loadXML($file);
                 $xpath = new DOMXPath($doc);
-                $xpath->registerNamespace('rc', "http://pear.php.net/dtd/package-2.0");
+                $xpath->registerNamespace('rc', 'http://pear.php.net/dtd/package-2.0');
 
                 // XPaths of plugin metadata elements
                 $metadata = [
@@ -453,7 +453,7 @@ class rcube_plugin_api
             if (isset($this->deprecated_hooks[$hook])) {
                 rcube::raise_error([
                         'code' => 522, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Deprecated hook name. "
+                        'message' => 'Deprecated hook name. '
                             . $hook . ' -> ' . $this->deprecated_hooks[$hook],
                     ], true, false
                 );
@@ -608,7 +608,7 @@ class rcube_plugin_api
             rcube::raise_error([
                     'code' => 525, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register template handler $name;"
-                        . " already taken by another plugin or no output object available",
+                        . ' already taken by another plugin or no output object available',
                 ],
                 true, false
             );
@@ -632,7 +632,7 @@ class rcube_plugin_api
             rcube::raise_error([
                     'code' => 526, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Invalid task name: $task."
-                        . " Only characters [a-z0-9_.-] are allowed",
+                        . ' Only characters [a-z0-9_.-] are allowed',
                 ],
                 true, false
             );
@@ -641,7 +641,7 @@ class rcube_plugin_api
             rcube::raise_error([
                     'code' => 526, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register task $task;"
-                        . " already taken by another plugin or the application itself",
+                        . ' already taken by another plugin or the application itself',
                 ],
                 true, false
             );
@@ -706,7 +706,7 @@ class rcube_plugin_api
                 $devel_mode = $rcube->config->get('devel_mode');
                 $assets_dir = $rcube->config->get('assets_dir');
                 $path       = unslashify($assets_dir ?: RCUBE_INSTALL_PATH);
-                $dir        = $path . (strpos($fn, "plugins/") === false ? '/plugins' : '');
+                $dir        = $path . (strpos($fn, 'plugins/') === false ? '/plugins' : '');
 
                 // Prefer .less files in devel_mode (assume less.js is loaded)
                 if ($devel_mode) {

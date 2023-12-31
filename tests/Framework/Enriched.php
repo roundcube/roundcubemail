@@ -12,7 +12,7 @@ class Framework_Enriched extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_enriched();
 
-        $this->assertInstanceOf('rcube_enriched', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_enriched', $object, 'Class constructor');
     }
 
     /**

@@ -225,7 +225,7 @@ class rcmail_oauth
         if (empty($config_uri)) {
             return;
         }
-        $key_cache = "discovery." . md5($config_uri);
+        $key_cache = 'discovery.' . md5($config_uri);
 
         try {
             $data = $this->cache ? $this->cache->get($key_cache) : null;
@@ -236,7 +236,7 @@ class rcmail_oauth
 
                 //sanity check
                 if (!isset($data['issuer'])) {
-                    throw new RuntimeException("incorrect response from %s", $config_uri);
+                    throw new RuntimeException('incorrect response from %s', $config_uri);
                 }
 
                 //cache answer
@@ -300,7 +300,7 @@ class rcmail_oauth
         }
 
         $jwks_uri = $this->options['jwks_uri'];
-        $key_cache = "jwks." . md5($jwks_uri);
+        $key_cache = 'jwks.' . md5($jwks_uri);
         $this->jwks = $this->cache ? $this->cache->get($key_cache) : null;
 
         if ($this->jwks !== null && $this->jwks['expires'] > time()) {
@@ -313,7 +313,7 @@ class rcmail_oauth
 
         //sanity check
         if (!isset($this->jwks['keys'])) {
-            $this->log_debug("incorrect jwks response from %s", $jwks_uri);
+            $this->log_debug('incorrect jwks response from %s', $jwks_uri);
         }
         elseif ($this->cache) {
             // this is a hack because we cannot specify the TTL in the shared_cache
@@ -338,7 +338,7 @@ class rcmail_oauth
         }
 
         if ($this->cache === null) {
-            $this->log_debug("cache is disabled");
+            $this->log_debug('cache is disabled');
         }
 
         // subscribe to storage and smtp init events
@@ -459,7 +459,7 @@ class rcmail_oauth
             }
 
             if ($jwk === null) {
-                throw new RuntimeException("JWS key to verify JWT not found");
+                throw new RuntimeException('JWS key to verify JWT not found');
             }
 
             // TODO: check alg. matches
@@ -488,7 +488,7 @@ class rcmail_oauth
             throw new RuntimeException('Failed to validate JWT: expired message');
         }
 
-        $this->log_debug("jwt: %s", json_encode($body));
+        $this->log_debug('jwt: %s', json_encode($body));
 
         return $body;
     }
@@ -626,12 +626,12 @@ class rcmail_oauth
 
             // validate state parameter against $_SESSION['oauth_state']
             if (!isset($_SESSION['oauth_state']) || ($_SESSION['oauth_state'] !== $state)) {
-                throw new RuntimeException("state parameter mismatch");
+                throw new RuntimeException('state parameter mismatch');
             }
 
             $this->rcmail->session->remove('oauth_state');
 
-            $this->log_debug("requesting a grant_type=authorization_code to %s", $oauth_token_uri);
+            $this->log_debug('requesting a grant_type=authorization_code to %s', $oauth_token_uri);
 
             $form = [
                 'grant_type'    => 'authorization_code',
@@ -666,7 +666,7 @@ class rcmail_oauth
             if (empty($username)) {
                 $fetched_identity = $this->fetch_userinfo($authorization);
 
-                $this->log_debug("fetched identity: %s", json_encode($fetched_identity, true));
+                $this->log_debug('fetched identity: %s', json_encode($fetched_identity, true));
 
                 if (!empty($fetched_identity)) {
                     $identity = $fetched_identity;
@@ -710,7 +710,7 @@ class rcmail_oauth
             return $this->login_phase;
         }
         catch (RequestException $e) {
-            $this->last_error = "OAuth token request failed: " . $e->getMessage();
+            $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
             $this->no_redirect = true;
             $formatter = new MessageFormatter();
 
@@ -724,7 +724,7 @@ class rcmail_oauth
             return false;
         }
         catch (Exception $e) {
-            $this->last_error = "OAuth token request failed: " . $e->getMessage();
+            $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
             $this->no_redirect = true;
 
             rcube::raise_error([
@@ -756,7 +756,7 @@ class rcmail_oauth
 
         // send token request to get a real access token for the given auth code
         try {
-            $this->log_debug("requesting a grant_type=refresh_token to %s", $oauth_token_uri);
+            $this->log_debug('requesting a grant_type=refresh_token to %s', $oauth_token_uri);
 
             $form = [
                 'grant_type'    => 'refresh_token',
@@ -791,7 +791,7 @@ class rcmail_oauth
             ];
         }
         catch (RequestException $e) {
-            $this->last_error = "OAuth refresh token request failed: " . $e->getMessage();
+            $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             $formatter = new MessageFormatter();
             rcube::raise_error([
                     'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
@@ -808,7 +808,7 @@ class rcmail_oauth
             return false;
         }
         catch (Exception $e) {
-            $this->last_error = "OAuth refresh token request failed: " . $e->getMessage();
+            $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             rcube::raise_error([
                     'message' => $this->last_error,
                     'file'    => __FILE__,
@@ -832,7 +832,7 @@ class rcmail_oauth
     public function schedule_token_revocation($sub)
     {
         if ($this->cache === null) {
-            rcube::raise_error(['message' => "received a token revocation request, you must activate `oauth_cache` to enable this feature"], true, false);
+            rcube::raise_error(['message' => 'received a token revocation request, you must activate `oauth_cache` to enable this feature'], true, false);
             return;
         }
         $this->cache->set("revoke_{$sub}", time());
@@ -879,8 +879,8 @@ class rcmail_oauth
     protected function parse_tokens($grant_type, &$data, $previous_data = null)
     {
         // TODO move it into to log_info ?
-        $this->log_debug("received tokens from a grant request %s: session: %s with scope %s, "
-            . "access_token type %s exp in %ss, refresh_token exp in %ss, id_token present: %s, not-before-policy: %s",
+        $this->log_debug('received tokens from a grant request %s: session: %s with scope %s, '
+            . 'access_token type %s exp in %ss, refresh_token exp in %ss, id_token present: %s, not-before-policy: %s',
             $grant_type,
             $data['session_state'], $data['scope'],
             $data['token_type'], $data['expires_in'],
@@ -891,7 +891,7 @@ class rcmail_oauth
 
         if (is_array($previous_data)) {
             $this->log_debug(
-                "changes: session_state: %s, access_token: %s, refresh_token: %s, id_token: %s",
+                'changes: session_state: %s, access_token: %s, refresh_token: %s, id_token: %s',
                 isset($previous_data['session_state']) ? $previous_data['session_state'] !== $data['session_state'] : null,
                 isset($previous_data['access_token']) ? $previous_data['access_token']  !== $data['access_token'] : null,
                 isset($previous_data['refresh_token']) ? $previous_data['refresh_token'] !== $data['refresh_token'] : null,
@@ -901,17 +901,17 @@ class rcmail_oauth
 
         // sanity check, check that payload correctly contains access_token
         if (empty($data['access_token'])) {
-            throw new RuntimeException("access_token missing ins answer, error from server");
+            throw new RuntimeException('access_token missing ins answer, error from server');
         }
 
         // sanity check, check that payload correctly contains access_token
         if (empty($data['refresh_token'])) {
-            throw new RuntimeException("refresh_token missing ins answer, error from server");
+            throw new RuntimeException('refresh_token missing ins answer, error from server');
         }
 
         // (> 0, it means that all token generated before this timestamp date are compromisd and that we need to download a new version of JWKS)
         if (!empty($data['not-before-policy']) && $data['not-before-policy'] > 0) {
-            $this->log_debug("all tokens generated before %s timestmp are compromised", $data['not-before-policy']);
+            $this->log_debug('all tokens generated before %s timestmp are compromised', $data['not-before-policy']);
             // TODO
         }
 
@@ -993,7 +993,7 @@ class rcmail_oauth
         }
 
         if ($this->is_token_revoked($token)) {
-            $this->log_debug("abort, token for sub %s has been revoked", $token['identity']['sub']);
+            $this->log_debug('abort, token for sub %s has been revoked', $token['identity']['sub']);
             // in a such case, we are blocked, can only kill session
             $this->rcmail->kill_session();
             return self::TOKEN_REVOKED;
@@ -1004,7 +1004,7 @@ class rcmail_oauth
         }
 
         if (isset($token['refresh_expires']) && $token['refresh_expires'] < time()) {
-            $this->log_debug("abort, reresh token has expired");
+            $this->log_debug('abort, reresh token has expired');
             // in a such case, we are blocked, can only kill session
             $this->rcmail->kill_session();
             return self::TOKEN_REFRESH_EXPIRED;
@@ -1012,14 +1012,14 @@ class rcmail_oauth
 
         if (!empty($this->last_error)) {
             //TODO: challenge this part, what about transcient errors ?
-            $this->log_debug("abort, got an previous error %s", $this->last_error);
+            $this->log_debug('abort, got an previous error %s', $this->last_error);
             return self::TOKEN_ERROR;
         }
 
         if ($this->refresh_access_token($token) === false) {
             //FIXME: can have 2 kind of errors: transcient (can retry) or non recovreable error
             // currently it's up to refresh_access_token to kill_session is necessary
-            $this->log_debug("token refresh failed: %s", $this->last_error);
+            $this->log_debug('token refresh failed: %s', $this->last_error);
             return self::TOKEN_REFRESH_FAILED;
         }
 
@@ -1136,7 +1136,7 @@ class rcmail_oauth
         $options['pass'] = $this->login_phase['authorization'];
         $this->rcmail->config->set('login_password_maxlen', strlen($options['pass']));
 
-        $this->log_debug("calling authenticate for user %s", $options['user']);
+        $this->log_debug('calling authenticate for user %s', $options['user']);
 
         return $options;
     }
@@ -1227,7 +1227,7 @@ class rcmail_oauth
                     }
                     $data[$rc_key] = $value;
 
-                    $this->log_debug("user_create: setting %s=%s (from claim %s)", $rc_key, $value, $oidc_claim);
+                    $this->log_debug('user_create: setting %s=%s (from claim %s)', $rc_key, $value, $oidc_claim);
                     break; //no need to continue
                 }
             }
@@ -1328,7 +1328,7 @@ class rcmail_oauth
         }
 
         $this->logout_redirect_url = $this->options['logout_uri'] . '?' . http_build_query($params);
-        $this->log_debug("creating logout call: %s", $this->logout_redirect_url);
+        $this->log_debug('creating logout call: %s', $this->logout_redirect_url);
     }
 
     /**

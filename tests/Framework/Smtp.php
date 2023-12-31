@@ -12,7 +12,7 @@ class Framework_Smtp extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_smtp;
 
-        $this->assertInstanceOf('rcube_smtp', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_smtp', $object, 'Class constructor');
     }
 
     /**
@@ -34,7 +34,7 @@ class Framework_Smtp extends PHPUnit\Framework\TestCase
         $this->assertCount(2, $result);
         $this->assertSame('john@domain.tld', $result[0]);
         $this->assertSame(
-            "Received: from github.com ([10.48.109.45]) by smtp.github.com (Postfix) with ESMTPA id 8C9B4E0075"
+            'Received: from github.com ([10.48.109.45]) by smtp.github.com (Postfix) with ESMTPA id 8C9B4E0075'
                 . " for <john@domain.tld>; Sat, 28 Nov 2020 22:45:44 -0800 (PST)\r\n"
                 . "Subject: Test\r\n"
                 . "From: \"John Doe\" <john@domain.tld>\r\n",

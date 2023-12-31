@@ -31,9 +31,9 @@ class Actions_Settings_IdentityEdit extends ActionTestCase
         $this->assertSame('identityedit', $output->template);
         $this->assertSame('Edit identity', $output->getProperty('pagetitle'));
         $this->assertSame($identity['identity_id'], $output->get_env('iid'));
-        $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
+        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
         $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
-        $this->assertTrue(strpos($result, "test@example.com") !== false);
+        $this->assertTrue(strpos($result, 'test@example.com') !== false);
 
         // TODO: Test error handling
     }

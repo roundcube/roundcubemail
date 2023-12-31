@@ -174,13 +174,13 @@ class enigma_mime_message extends Mail_mime
 
         if ($this->type == self::PGP_SIGNED) {
             $params = [
-                'preamble'     => "This is an OpenPGP/MIME signed message (RFC 4880 and 3156)",
-                'content_type' => "multipart/signed; protocol=\"application/pgp-signature\"",
+                'preamble'     => 'This is an OpenPGP/MIME signed message (RFC 4880 and 3156)',
+                'content_type' => 'multipart/signed; protocol="application/pgp-signature"',
                 'eol'          => $this->build_params['eol'],
             ];
 
             if ($this->micalg) {
-                $params['content_type'] .= "; micalg=pgp-" . $this->micalg;
+                $params['content_type'] .= '; micalg=pgp-' . $this->micalg;
             }
 
             $message = new Mail_mimePart('', $params);
@@ -213,8 +213,8 @@ class enigma_mime_message extends Mail_mime
         }
         elseif ($this->type == self::PGP_ENCRYPTED) {
             $params = [
-                'preamble'     => "This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)",
-                'content_type' => "multipart/encrypted; protocol=\"application/pgp-encrypted\"",
+                'preamble'     => 'This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)',
+                'content_type' => 'multipart/encrypted; protocol="application/pgp-encrypted"',
                 'eol'          => $this->build_params['eol'],
             ];
 

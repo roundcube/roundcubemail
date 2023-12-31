@@ -617,7 +617,7 @@ function rcube_webmail()
 
         // select first input field in an edit form
         if (this.gui_objects.editform)
-            $("input,select,textarea", this.gui_objects.editform)
+            $('input,select,textarea', this.gui_objects.editform)
                 .not(':hidden').not(':disabled').first().select().focus();
 
         // prevent from form submit with Enter key in file input fields
@@ -5140,7 +5140,7 @@ function rcube_webmail()
     {
         if (this.env.draft_autosave) {
             this.save_timer = setTimeout(function() {
-                ref.command("savedraft");
+                ref.command('savedraft');
             }, this.env.draft_autosave * 1000);
         }
 
@@ -5266,7 +5266,7 @@ function rcube_webmail()
         if (formdata && typeof formdata == 'object') {
             $.each(formdata, function(k, value) {
                 if (k[0] == '_') {
-                    var elem = $("[name=" + k + "]");
+                    var elem = $('[name=' + k + ']');
                     if (elem[0] && elem[0].type == 'checkbox') {
                         elem.prop('checked', value != '');
                     }
@@ -5898,7 +5898,7 @@ function rcube_webmail()
     // address search processor
     this.ksearch_get_results = function(props)
     {
-        if (this.ksearch_pane && this.ksearch_pane.is(":visible"))
+        if (this.ksearch_pane && this.ksearch_pane.is(':visible'))
             this.ksearch_pane.hide();
 
         // get string from cursor position back to the last comma or semicolon
@@ -6960,7 +6960,7 @@ function rcube_webmail()
                             .appendTo(content);
 
                         if (!compact)
-                            content.append(suffices[i] || " ");
+                            content.append(suffices[i] || ' ');
 
                         this.init_edit_field(childcol, input);
                         if (!first) first = input;
@@ -8737,7 +8737,7 @@ function rcube_webmail()
 
     this.destroy_entity_selector = function(name)
     {
-        $("#" + name).remove();
+        $('#' + name).remove();
         delete this.entity_selectors[name];
         this.triggerEvent('destroy-entity-selector', { name: name });
     };
@@ -9357,7 +9357,7 @@ function rcube_webmail()
             this.display_message('connerror', 'error');
 
         // redirect to url specified in location header if not empty
-        var location_url = request.getResponseHeader("Location");
+        var location_url = request.getResponseHeader('Location');
         if (location_url && this.env.action != 'compose')  // don't redirect on compose screen, contents might get lost (#1488926)
             this.redirect(location_url);
 
@@ -9910,7 +9910,7 @@ function rcube_webmail()
     {
         var start = 0, end = 0, normalizedValue = '';
 
-        if (typeof obj.selectionStart == "number" && typeof obj.selectionEnd == "number") {
+        if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
             normalizedValue = obj.value;
             start = obj.selectionStart;
             end = obj.selectionEnd;
@@ -10027,7 +10027,7 @@ function rcube_webmail()
         if ('pdfViewerEnabled' in navigator)
             return navigator.pdfViewerEnabled ? 1 : 0;
 
-        var i, plugin = navigator.mimeTypes ? navigator.mimeTypes["application/pdf"] : {},
+        var i, plugin = navigator.mimeTypes ? navigator.mimeTypes['application/pdf'] : {},
             regex = /Adobe Reader|PDF|Acrobat/i;
 
         if (plugin && plugin.enabledPlugin)
@@ -10064,14 +10064,14 @@ function rcube_webmail()
 
     this.flash_support_check = function()
     {
-        var plugin = navigator.mimeTypes ? navigator.mimeTypes["application/x-shockwave-flash"] : {};
+        var plugin = navigator.mimeTypes ? navigator.mimeTypes['application/x-shockwave-flash'] : {};
 
         if (plugin && plugin.enabledPlugin)
             return 1;
 
         if ('ActiveXObject' in window) {
             try {
-                if (plugin = new ActiveXObject("ShockwaveFlash.ShockwaveFlash"))
+                if (plugin = new ActiveXObject('ShockwaveFlash.ShockwaveFlash'))
                     return 1;
             }
             catch (e) {}

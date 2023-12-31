@@ -240,7 +240,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 }
 
                 self::$COMPOSE['reply_msgid'] = self::$MESSAGE->headers->messageID;
-                self::$COMPOSE['references']  = trim(self::$MESSAGE->headers->references . " " . self::$MESSAGE->headers->messageID);
+                self::$COMPOSE['references']  = trim(self::$MESSAGE->headers->references . ' ' . self::$MESSAGE->headers->messageID);
 
                 // Save the sent message in the same folder of the message being replied to
                 if (
@@ -512,7 +512,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             if ($err = $spellchecker->error()) {
                 rcube::raise_error([
                     'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Spell check engine error: " . trim($err)],
+                    'message' => 'Spell check engine error: ' . trim($err)],
                     true, false
                 );
             }
@@ -824,7 +824,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         $hidden->add(['name' => '_draft_saveid', 'value' => $rcmail->output->get_env('draft_id')]);
         $hidden->add(['name' => '_draft', 'value' => '']);
-        $hidden->add(['name' => '_is_html', 'value' => self::$HTML_MODE ? "1" : "0"]);
+        $hidden->add(['name' => '_is_html', 'value' => self::$HTML_MODE ? '1' : '0']);
         $hidden->add(['name' => '_framed', 'value' => '1']);
 
         $rcmail->output->set_env('composebody', $attrib['id']);
@@ -968,12 +968,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
         else {
             $prefix = sprintf(
-                "<br /><p>-------- " . $rcmail->gettext('originalmessage') . " --------</p>" .
-                "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>" .
-                "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
-                "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
-                "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>" .
-                "<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
+                '<br /><p>-------- ' . $rcmail->gettext('originalmessage') . ' --------</p>' .
+                '<table border="0" cellpadding="0" cellspacing="0"><tbody>' .
+                '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>' .
+                '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>' .
+                '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>' .
+                '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>',
                 $rcmail->gettext('subject'), rcube::Q($message->subject),
                 $rcmail->gettext('date'), rcube::Q($date),
                 $rcmail->gettext('from'), rcube::Q($message->get_header('from'), 'replace'),
@@ -981,16 +981,16 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             );
 
             if ($extended && ($cc = $message->get_header('cc'))) {
-                $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
+                $prefix .= sprintf('<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>',
                     $rcmail->gettext('cc'), rcube::Q($cc, 'replace'));
             }
 
             if ($extended && ($replyto = $message->get_header('reply-to')) && $replyto != $message->get_header('from')) {
-                $prefix .= sprintf("<tr><th align=\"right\" nowrap=\"nowrap\" valign=\"baseline\">%s: </th><td>%s</td></tr>",
+                $prefix .= sprintf('<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>',
                     $rcmail->gettext('replyto'), rcube::Q($replyto, 'replace'));
             }
 
-            $prefix .= "</tbody></table><br>";
+            $prefix .= '</tbody></table><br>';
         }
 
         return $prefix;
@@ -1571,7 +1571,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             html::a([
                     'href'    => '#list',
                     'rel'     => '%s',
-                    'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('list-addresses','%s',this)",
+                    'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('list-addresses','%s',this)",
                 ],
                 '%s'
             )

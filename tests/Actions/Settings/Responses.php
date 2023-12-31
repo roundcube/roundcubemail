@@ -24,8 +24,8 @@ class Actions_Settings_Responses extends ActionTestCase
 
         $this->assertSame('responses', $output->template);
         $this->assertSame('Responses', $output->getProperty('pagetitle'));
-        $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
-        $this->assertTrue(stripos($result, "<table ") !== false);
+        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        $this->assertTrue(stripos($result, '<table ') !== false);
         $this->assertMatchesRegularExpression('/list(.min)?.js/', $result);
     }
 

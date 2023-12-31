@@ -59,9 +59,9 @@ class rcube_cache_db extends rcube_cache
         if ($this->ttl) {
             $this->db->query(
                 "DELETE FROM {$this->table} WHERE "
-                . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-                . "`cache_key` LIKE ?"
-                . " AND `expires` < " . $this->db->now(),
+                . ($this->userid ? "`user_id` = {$this->userid} AND " : '')
+                . '`cache_key` LIKE ?'
+                . ' AND `expires` < ' . $this->db->now(),
                 $this->prefix . '.%');
         }
     }
@@ -74,8 +74,8 @@ class rcube_cache_db extends rcube_cache
         $rcube = rcube::get_instance();
         $db    = $rcube->get_dbh();
 
-        $db->query("DELETE FROM " . $db->table_name('cache', true) . " WHERE `expires` < " . $db->now());
-        $db->query("DELETE FROM " . $db->table_name('cache_shared', true) . " WHERE `expires` < " . $db->now());
+        $db->query('DELETE FROM ' . $db->table_name('cache', true) . ' WHERE `expires` < ' . $db->now());
+        $db->query('DELETE FROM ' . $db->table_name('cache_shared', true) . ' WHERE `expires` < ' . $db->now());
     }
 
     /**
@@ -89,8 +89,8 @@ class rcube_cache_db extends rcube_cache
     {
         $sql_result = $this->db->query(
             "SELECT `data`, `cache_key` FROM {$this->table} WHERE "
-            . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-            . "`cache_key` = ?",
+            . ($this->userid ? "`user_id` = {$this->userid} AND " : '')
+            . '`cache_key` = ?',
             $this->prefix . '.' . $key);
 
         $data = null;
@@ -136,8 +136,8 @@ class rcube_cache_db extends rcube_cache
         if ($value == 'N;') {
             $result = $this->db->query(
                 "DELETE FROM {$this->table} WHERE "
-                . ($this->userid ? "`user_id` = {$this->userid} AND " : "")
-                . "`cache_key` = ?",
+                . ($this->userid ? "`user_id` = {$this->userid} AND " : '')
+                . '`cache_key` = ?',
                 $db_key);
 
             return !$this->db->is_error($result);
@@ -170,12 +170,12 @@ class rcube_cache_db extends rcube_cache
     {
         // Remove all keys (in specified cache)
         if ($key === null) {
-            $where = "`cache_key` LIKE " . $this->db->quote($this->prefix . '.%');
+            $where = '`cache_key` LIKE ' . $this->db->quote($this->prefix . '.%');
             $this->cache = [];
         }
         // Remove keys by name prefix
         elseif ($prefix_mode) {
-            $where = "`cache_key` LIKE " . $this->db->quote($this->prefix . '.' . $key . '%');
+            $where = '`cache_key` LIKE ' . $this->db->quote($this->prefix . '.' . $key . '%');
             foreach (array_keys($this->cache) as $k) {
                 if (strpos($k, $key) === 0) {
                     $this->cache[$k] = null;
@@ -184,13 +184,13 @@ class rcube_cache_db extends rcube_cache
         }
         // Remove one key by name
         else {
-            $where = "`cache_key` = " . $this->db->quote($this->prefix . '.' . $key);
+            $where = '`cache_key` = ' . $this->db->quote($this->prefix . '.' . $key);
             $this->cache[$key] = null;
         }
 
         $this->db->query(
             "DELETE FROM {$this->table} WHERE "
-            . ($this->userid ? "`user_id` = {$this->userid} AND " : "") . $where
+            . ($this->userid ? "`user_id` = {$this->userid} AND " : '') . $where
         );
     }
 

@@ -700,7 +700,7 @@ class rcmail_action_mail_index extends rcmail_action
             if (in_array($col, $a_sort_cols)) {
                 $sortable = true;
                 $col_name = html::a([
-                        'href'  => "./#sort",
+                        'href'  => './#sort',
                         'class' => 'sortcol',
                         'rel'   => $rel_col,
                         'title' => $rcmail->gettext('sortby'),
@@ -1454,7 +1454,7 @@ class rcmail_action_mail_index extends rcmail_action
                     $address = html::a($attrs, $content);
                 }
                 else {
-                    $address = html::span(['title' => $mailto, 'class' => "rcmContactAddress"],
+                    $address = html::span(['title' => $mailto, 'class' => 'rcmContactAddress'],
                         rcube::SQ($name ?: $mailto));
                 }
 
@@ -1466,7 +1466,7 @@ class rcmail_action_mail_index extends rcmail_action
                             'class' => 'noselect',
                     ]);
                     $address .= html::a([
-                            'href'    => "#add",
+                            'href'    => '#add',
                             'title'   => $label,
                             'class'   => 'rcmaddcontact',
                             'onclick' => sprintf("return %s.command('add-contact','%s',this)",

@@ -11,7 +11,7 @@
  * @license magnet:?xt=urn:btih:90dc5c0be029de84e523b9b3922520e79e0e6f08&dn=cc0.txt CC0-1.0
  */
 
-"use strict";
+'use strict';
 
 function rcube_elastic_ui()
 {
@@ -681,7 +681,7 @@ function rcube_elastic_ui()
         if (rcmail.task == 'mail') {
             if (rcmail.env.action == 'compose') {
                 rcmail.addEventListener('compose-encrypted', function(e) {
-                    $("a.mode-html, button.attach").prop('disabled', e.active);
+                    $('a.mode-html, button.attach').prop('disabled', e.active);
                     $('a.attach, a.responses:not(.edit)')[e.active ? 'addClass' : 'removeClass']('disabled');
                 });
 
@@ -1498,10 +1498,10 @@ function rcube_elastic_ui()
                                 // Month/Year change handlers do not work from parent, fix it
                                 if (is_framed) {
                                     win.$('select.ui-datepicker-month', v.target).on('change', function() {
-                                        $.datepicker._selectMonthYear($.datepicker._lastInput, this, "M");
+                                        $.datepicker._selectMonthYear($.datepicker._lastInput, this, 'M');
                                     });
                                     win.$('select.ui-datepicker-year', v.target).on('change', function() {
-                                        $.datepicker._selectMonthYear($.datepicker._lastInput, this, "Y");
+                                        $.datepicker._selectMonthYear($.datepicker._lastInput, this, 'Y');
                                     });
                                 }
                             }
@@ -3436,7 +3436,7 @@ function rcube_elastic_ui()
             .on('click', function() { if (!selection.length) input.focus(); })
             .sortable({
                 appendTo: document.body,
-                items: "> .recipient",
+                items: '> .recipient',
                 connectWith: '.recipient-input',
                 receive: function(event, ui) {
                     var recipient = list.text();
@@ -4037,7 +4037,7 @@ function rcube_elastic_ui()
     {
         var tip, id = field.id + '_list',
             area = $('<div class="multi-input"><div class="content"></div><div class="invalid-feedback"></div></div>'),
-            list = field.value ? field.value.split("\n") : [''];
+            list = field.value ? field.value.split('\n') : [''];
 
         if ($('#' + id).length) {
             return;

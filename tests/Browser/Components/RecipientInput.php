@@ -66,6 +66,6 @@ class RecipientInput extends Component
         $selector = $this->selector() . " ul.recipient-input li.recipient:nth-child($num)";
         $text = $browser->driver->executeScript("return \$('$selector').text()");
 
-        Assert::assertSame($recipient, is_string($text) ? trim($text, ", ") : null);
+        Assert::assertSame($recipient, is_string($text) ? trim($text, ', ') : null);
     }
 }

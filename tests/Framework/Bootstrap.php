@@ -23,11 +23,11 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
         $needle = 'test';
         $result = in_array_nocase($needle, $haystack);
 
-        $this->assertTrue($result, "Invalid in_array_nocase() result (Array)");
+        $this->assertTrue($result, 'Invalid in_array_nocase() result (Array)');
 
         $result = in_array_nocase($needle, null);
 
-        $this->assertFalse($result, "Invalid in_array_nocase() result (null)");
+        $this->assertFalse($result, 'Invalid in_array_nocase() result (null)');
     }
 
     /**
@@ -82,7 +82,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
             'test'    => 'test/',
             'test/'   => 'test/',
             ''        => '/',
-            "\\"      => "\\/",
+            '\\'      => '\\/',
         ];
 
         foreach ($data as $value => $expected) {
@@ -101,7 +101,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
             'test'      => 'test',
             'test/'     => 'test',
             '/'         => '',
-            "\\/"       => "\\",
+            '\\/'       => '\\',
             'test/test' => 'test/test',
             'test//'    => 'test',
             '/test//'   => '/test',
@@ -155,7 +155,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
         $input_str  = 'one,two,three,four,five';
         $result_str = implode(',', $result);
 
-        $this->assertSame($input_str, $result_str, "Invalid array_keys_recursive() result");
+        $this->assertSame($input_str, $result_str, 'Invalid array_keys_recursive() result');
     }
 
     /**
@@ -228,7 +228,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
 
         foreach ($data as $expected => $value) {
             $result = format_email_recipient($value[0], isset($value[1]) ? $value[1] : null);
-            $this->assertSame($expected, $result, "Invalid format_email_recipient()");
+            $this->assertSame($expected, $result, 'Invalid format_email_recipient()');
         }
 
     }
@@ -238,27 +238,27 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
      */
     function test_is_ascii()
     {
-        $result = is_ascii("0123456789");
-        $this->assertTrue($result, "Valid ASCII (numbers)");
+        $result = is_ascii('0123456789');
+        $this->assertTrue($result, 'Valid ASCII (numbers)');
 
-        $result = is_ascii("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
-        $this->assertTrue($result, "Valid ASCII (letters)");
+        $result = is_ascii('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
+        $this->assertTrue($result, 'Valid ASCII (letters)');
 
         $result = is_ascii(" !\"#\$%&'()*+,-./:;<=>?@[\\^_`{|}~");
-        $this->assertTrue($result, "Valid ASCII (special characters)");
+        $this->assertTrue($result, 'Valid ASCII (special characters)');
 
         $result = is_ascii("\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F"
             . "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F");
-        $this->assertTrue($result, "Valid ASCII (control characters)");
+        $this->assertTrue($result, 'Valid ASCII (control characters)');
 
         $result = is_ascii("\n", false);
-        $this->assertFalse($result, "Valid ASCII (control characters)");
+        $this->assertFalse($result, 'Valid ASCII (control characters)');
 
-        $result = is_ascii("ż");
-        $this->assertFalse($result, "Invalid ASCII (UTF-8 character)");
+        $result = is_ascii('ż');
+        $this->assertFalse($result, 'Invalid ASCII (UTF-8 character)');
 
-        $result = is_ascii("ż", false);
-        $this->assertFalse($result, "Invalid ASCII (UTF-8 character [2])");
+        $result = is_ascii('ż', false);
+        $this->assertFalse($result, 'Invalid ASCII (UTF-8 character [2])');
     }
 
     /**

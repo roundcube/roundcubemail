@@ -88,7 +88,7 @@ class App extends Component
      */
     public function getObjects($browser)
     {
-        return (array) $browser->driver->executeScript("var i, r = []; for (i in rcmail.gui_objects) r.push(i); return r");
+        return (array) $browser->driver->executeScript('var i, r = []; for (i in rcmail.gui_objects) r.push(i); return r');
     }
 
     /**

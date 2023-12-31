@@ -448,7 +448,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 [
                     'href'    => '%s',
                     'rel'     => '%s',
-                    'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('list','%s',this)",
+                    'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('list','%s',this)",
                 ],
                 '%s'
             )
@@ -522,7 +522,7 @@ class rcmail_action_contacts_index extends rcmail_action
             html::a([
                     'href'    => '#',
                     'rel'     => 'S%s',
-                    'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('listsearch', '%s', this)",
+                    'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('listsearch', '%s', this)",
                 ],
                 '%s'
             )
@@ -566,7 +566,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 html::a([
                         'href' => '#',
                         'rel' => '%s:%s',
-                        'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('listgroup',{'source':'%s','id':'%s'},this)",
+                        'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('listgroup',{'source':'%s','id':'%s'},this)",
                     ],
                     '%s'
                 )
@@ -868,7 +868,7 @@ class rcmail_action_contacts_index extends rcmail_action
             $select_add = new html_select([
                     'class'        => 'addfieldmenu custom-select',
                     'rel'          => $section,
-                    'data-compact' => $compact ? "true" : null,
+                    'data-compact' => $compact ? 'true' : null,
             ]);
 
             $select_add->add($rcmail->gettext('addfield'), '');

@@ -21,7 +21,7 @@ class Framework_LdapGeneric extends PHPUnit\Framework\TestCase
 
         $object = new rcube_ldap_generic([]);
 
-        $this->assertInstanceOf('rcube_ldap_generic', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_ldap_generic', $object, 'Class constructor');
     }
 
     /**

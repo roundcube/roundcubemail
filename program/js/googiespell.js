@@ -52,10 +52,10 @@ function GoogieSpell(img_dir, server_url, has_dict)
     this.server_url = server_url;
 
     this.org_lang_to_word = {
-        "da": "Dansk", "de": "Deutsch", "en": "English",
-        "es": "Español", "fr": "Français", "it": "Italiano",
-        "nl": "Nederlands", "pl": "Polski", "pt": "Português",
-        "ru": "Русский", "fi": "Suomi", "sv": "Svenska"
+        'da': 'Dansk', 'de': 'Deutsch', 'en': 'English',
+        'es': 'Español', 'fr': 'Français', 'it': 'Italiano',
+        'nl': 'Nederlands', 'pl': 'Polski', 'pt': 'Português',
+        'ru': 'Русский', 'fi': 'Suomi', 'sv': 'Svenska'
     };
     this.lang_to_word = this.org_lang_to_word;
     this.langlist_codes = this.array_keys(this.lang_to_word);
@@ -66,13 +66,13 @@ function GoogieSpell(img_dir, server_url, has_dict)
     this.ta_scroll_top = 0;
     this.el_scroll_top = 0;
 
-    this.lang_chck_spell = "Check spelling";
-    this.lang_revert = "Revert to";
-    this.lang_close = "Close";
-    this.lang_rsm_edt = "Resume editing";
-    this.lang_no_error_found = "No spelling errors found";
-    this.lang_no_suggestions = "No suggestions";
-    this.lang_learn_word = "Add to dictionary";
+    this.lang_chck_spell = 'Check spelling';
+    this.lang_revert = 'Revert to';
+    this.lang_close = 'Close';
+    this.lang_rsm_edt = 'Resume editing';
+    this.lang_no_error_found = 'No spelling errors found';
+    this.lang_no_suggestions = 'No suggestions';
+    this.lang_learn_word = 'Add to dictionary';
 
     this.use_ok_pic = false; // added by roundcube
     this.show_spell_img = false; // roundcube mod.
@@ -223,7 +223,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
 
     this.escapeSpecial = function(val)
     {
-        return val ? val.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        return val ? val.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
     };
 
     this.createXMLReq = function (text)
@@ -434,7 +434,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         if (rm_pre_space) {
             var pre_length = elm.previousSibling.innerHTML;
             elm.previousSibling.innerHTML = pre_length.slice(0, pre_length.length-1);
-            old_value = " " + old_value;
+            old_value = ' ' + old_value;
             offset--;
         }
 
@@ -703,14 +703,14 @@ function GoogieSpell(img_dir, server_url, has_dict)
 
     this.createPart = function(txt_part)
     {
-        if (txt_part == " ")
-            return document.createTextNode(" ");
+        if (txt_part == ' ')
+            return document.createTextNode(' ');
 
         txt_part = this.escapeSpecial(txt_part);
-        txt_part = txt_part.replace(/\n/g, "<br>");
-        txt_part = txt_part.replace(/    /g, " &nbsp;");
-        txt_part = txt_part.replace(/^ /g, "&nbsp;");
-        txt_part = txt_part.replace(/ $/g, "&nbsp;");
+        txt_part = txt_part.replace(/\n/g, '<br>');
+        txt_part = txt_part.replace(/    /g, ' &nbsp;');
+        txt_part = txt_part.replace(/^ /g, '&nbsp;');
+        txt_part = txt_part.replace(/ $/g, '&nbsp;');
 
         var span = document.createElement('span');
         $(span).html(txt_part);

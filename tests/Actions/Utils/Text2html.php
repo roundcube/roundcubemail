@@ -21,7 +21,7 @@ class Actions_Utils_Text2html extends ActionTestCase
     function test_run()
     {
         $object = new rcmail_action_utils_text2html;
-        $input = "test plain text input";
+        $input = 'test plain text input';
         $object::$source = $this->createTempFile($input);
 
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'utils', 'text2html');

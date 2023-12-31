@@ -34,7 +34,7 @@ class rcube_chpasswd_password
     {
         $cmd = rcmail::get_instance()->config->get('password_chpasswd_cmd');
 
-        $handle = popen($cmd, "w");
+        $handle = popen($cmd, 'w');
         fwrite($handle, "$username:$newpass\n");
 
         if (pclose($handle) == 0) {

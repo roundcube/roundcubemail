@@ -274,7 +274,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
         if (!empty($children)) {
             $content .= html::div('treetoggle ' . (!empty($data['collapsed']) ? 'collapsed' : 'expanded'), '&nbsp;')
-                . html::tag('ul', ['style' => !empty($data['collapsed']) ? "display:none" : null],
+                . html::tag('ul', ['style' => !empty($data['collapsed']) ? 'display:none' : null],
                     implode("\n", $children));
         }
 

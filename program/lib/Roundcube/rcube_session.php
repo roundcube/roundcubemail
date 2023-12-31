@@ -77,7 +77,7 @@ abstract class rcube_session implements SessionHandlerInterface
         rcube::raise_error([
                 'code' => 604, 'type' => 'session',
                 'line' => __LINE__, 'file' => __FILE__,
-                'message' => "Failed to find session driver. Check session_storage config option",
+                'message' => 'Failed to find session driver. Check session_storage config option',
             ],
             true, true
         );
@@ -407,7 +407,7 @@ abstract class rcube_session implements SessionHandlerInterface
      */
     public function kill()
     {
-        $this->log("Session destroy: " . session_id());
+        $this->log('Session destroy: ' . session_id());
 
         $this->vars = null;
         $this->ip   = rcube_utils::remote_addr(); // update IP (might have changed)
@@ -687,18 +687,18 @@ abstract class rcube_session implements SessionHandlerInterface
         $prev   = null;
 
         if (!$result) {
-            $this->log("IP check failed for " . $this->key . "; expected " . $this->ip . "; got " . rcube_utils::remote_addr());
+            $this->log('IP check failed for ' . $this->key . '; expected ' . $this->ip . '; got ' . rcube_utils::remote_addr());
         }
 
         if ($result && $this->mkcookie($this->now) != $this->cookie) {
-            $this->log("Session auth check failed for " . $this->key . "; timeslot = " . date('Y-m-d H:i:s', $this->now));
+            $this->log('Session auth check failed for ' . $this->key . '; timeslot = ' . date('Y-m-d H:i:s', $this->now));
             $result = false;
 
             // Check if using id from a previous time slot
             for ($i = 1; $i <= 2; $i++) {
                 $prev = $this->now - ($this->lifetime / 2) * $i;
                 if ($this->mkcookie($prev) == $this->cookie) {
-                    $this->log("Send new auth cookie for " . $this->key . ": " . $this->cookie);
+                    $this->log('Send new auth cookie for ' . $this->key . ': ' . $this->cookie);
                     $this->set_auth_cookie();
                     $result = true;
                 }
@@ -706,8 +706,8 @@ abstract class rcube_session implements SessionHandlerInterface
         }
 
         if (!$result) {
-            $this->log("Session authentication failed for " . $this->key
-                . "; invalid auth cookie sent; timeslot = " . date('Y-m-d H:i:s', $prev));
+            $this->log('Session authentication failed for ' . $this->key
+                . '; invalid auth cookie sent; timeslot = ' . date('Y-m-d H:i:s', $prev));
         }
 
         return $result;

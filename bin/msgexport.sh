@@ -99,12 +99,12 @@ elseif (!$args['host']) {
 
 // prompt for username if not set
 if (empty($args['user'])) {
-    vputs("IMAP user: ");
+    vputs('IMAP user: ');
     $args['user'] = trim(fgets(\STDIN));
 }
 
 // prompt for password
-$args['pass'] = rcube_utils::prompt_silent("Password: ");
+$args['pass'] = rcube_utils::prompt_silent('Password: ');
 
 
 // parse $host URL

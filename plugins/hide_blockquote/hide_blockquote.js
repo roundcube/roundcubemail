@@ -31,7 +31,7 @@ function hide_blockquote()
         // Add new-line character before each blockquote
         // This fixes counting lines of text, it also prevents
         // from merging lines from different quoting level
-        $('blockquote').before(document.createTextNode("\n"));
+        $('blockquote').before(document.createTextNode('\n'));
 
         text = q.text().trim();
         res = text.split(/\n/);

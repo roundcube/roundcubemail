@@ -81,7 +81,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             $response = $client->post($url, [
                     'connect_timeout' => 5, // seconds
                     'headers' => [
-                        'User-Agent' => "Roundcube Webmail/" . RCUBE_VERSION . " (Googiespell Wrapper)",
+                        'User-Agent' => 'Roundcube Webmail/' . RCUBE_VERSION . ' (Googiespell Wrapper)',
                             'Content-type' => 'text/xml',
                     ],
                     'body' => $gtext,
@@ -93,7 +93,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
         }
 
         if (empty($response)) {
-            $this->error = $e ? $e->getMessage() : "Spelling engine failure";
+            $this->error = $e ? $e->getMessage() : 'Spelling engine failure';
         }
         elseif ($response->getStatusCode() != 200) {
             $this->error = 'HTTP ' . $response->getReasonPhrase();
@@ -102,7 +102,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             $response_body = $response->getBody();
             if (preg_match('/<spellresult error="([^"]+)"/', $response_body, $m) && $m[1]) {
                 $this->error = "Error code $m[1] returned";
-                $this->error .= preg_match('/<errortext>([^<]+)/', $response_body, $m) ? ": " . html_entity_decode($m[1]) : '';
+                $this->error .= preg_match('/<errortext>([^<]+)/', $response_body, $m) ? ': ' . html_entity_decode($m[1]) : '';
             }
 
             preg_match_all('/<c o="([^"]*)" l="([^"]*)" s="([^"]*)">([^<]*)<\/c>/', $response_body, $matches, \PREG_SET_ORDER);

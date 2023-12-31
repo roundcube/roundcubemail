@@ -92,8 +92,8 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
         if ($dsn['phptype'] == 'mysql' || $dsn['phptype'] == 'mysqli') {
             // drop all existing tables first
-            $db->query("SET FOREIGN_KEY_CHECKS=0");
-            $sql_res = $db->query("SHOW TABLES");
+            $db->query('SET FOREIGN_KEY_CHECKS=0');
+            $sql_res = $db->query('SHOW TABLES');
             while ($sql_arr = $db->fetch_array($sql_res)) {
                 $table = reset($sql_arr);
                 $db->query("DROP TABLE $table");
