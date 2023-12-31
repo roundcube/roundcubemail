@@ -36,7 +36,7 @@ class Actions_Contacts_Show extends ActionTestCase
         $this->assertSame($contact['contact_id'], $output->get_env('cid'));
         $this->assertFalse($output->get_env('readonly'));
         $this->assertSame('Personal Addresses', $output->get_env('sourcename'));
-        $this->assertTrue(stripos($result, "<!DOCTYPE html>") === 0);
+        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
     }
 
     /**

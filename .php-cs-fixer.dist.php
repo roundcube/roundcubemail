@@ -89,8 +89,10 @@ return (new PhpCsFixer\Config())
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
         'control_structure_continuation_position' => false,
-        'escape_implicit_backslashes' => false, // TODO fix after "single_quote" rule is fixed
         'explicit_string_variable' => false,
+        'fully_qualified_strict_types' => [
+            'import_symbols' => false,
+        ],
         'general_phpdoc_annotation_remove' => false,
         'increment_style' => false,
         'method_argument_space' => false,
@@ -103,7 +105,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_summary' => false,
         'single_line_comment_spacing' => false,
-        'single_quote' => false,
         'ternary_to_null_coalescing' => false,
         'visibility_required' => false,
 

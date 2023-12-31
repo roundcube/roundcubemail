@@ -94,10 +94,10 @@ class rcube_addresses extends rcube_contacts
         $length     = $subset != 0 ? abs($subset) : $this->page_size;
 
         $sql_result = $this->db->limitquery(
-            "SELECT * FROM " . $this->db->table_name($this->db_name, true)
-            . " WHERE `user_id` = ? AND `type` = ?"
-            . ($this->filter ? " AND " . $this->filter : "")
-            . " ORDER BY `name` " . $this->sort_order . ", `email` " . $this->sort_order,
+            'SELECT * FROM ' . $this->db->table_name($this->db_name, true)
+            . ' WHERE `user_id` = ? AND `type` = ?'
+            . ($this->filter ? ' AND ' . $this->filter : '')
+            . ' ORDER BY `name` ' . $this->sort_order . ', `email` ' . $this->sort_order,
             $start_row,
             $length,
             $this->user_id,
@@ -232,10 +232,10 @@ class rcube_addresses extends rcube_contacts
     {
         // count contacts for this user
         $sql_result = $this->db->query(
-            "SELECT COUNT(`address_id`) AS cnt"
-            . " FROM " . $this->db->table_name($this->db_name, true)
-            . " WHERE `user_id` = ? AND `type` = ?"
-            . ($this->filter ? " AND (" . $this->filter . ")" : ""),
+            'SELECT COUNT(`address_id`) AS cnt'
+            . ' FROM ' . $this->db->table_name($this->db_name, true)
+            . ' WHERE `user_id` = ? AND `type` = ?'
+            . ($this->filter ? ' AND (' . $this->filter . ')' : ''),
             $this->user_id,
             $this->type
         );
@@ -263,8 +263,8 @@ class rcube_addresses extends rcube_contacts
         }
 
         $this->db->query(
-            "SELECT * FROM " . $this->db->table_name($this->db_name, true)
-            . " WHERE `address_id` = ? AND `user_id` = ?",
+            'SELECT * FROM ' . $this->db->table_name($this->db_name, true)
+            . ' WHERE `address_id` = ? AND `user_id` = ?',
             $id,
             $this->user_id
         );
@@ -335,9 +335,9 @@ class rcube_addresses extends rcube_contacts
         $this->cache = null;
 
         $this->db->query(
-            "INSERT INTO " . $this->db->table_name($this->db_name, true)
-            . " (`user_id`, `changed`, `type`, `name`, `email`)"
-            . " VALUES (?, " . $this->db->now() . ", ?, ?, ?)",
+            'INSERT INTO ' . $this->db->table_name($this->db_name, true)
+            . ' (`user_id`, `changed`, `type`, `name`, `email`)'
+            . ' VALUES (?, ' . $this->db->now() . ', ?, ?, ?)',
             $this->user_id,
             $this->type,
             $save_data['name'],
@@ -378,7 +378,7 @@ class rcube_addresses extends rcube_contacts
 
         // flag record as deleted (always)
         $this->db->query(
-            "DELETE FROM " . $this->db->table_name($this->db_name, true)
+            'DELETE FROM ' . $this->db->table_name($this->db_name, true)
             . " WHERE `user_id` = ? AND `type` = ? AND `address_id` IN ($ids)",
             $this->user_id, $this->type
         );
@@ -397,8 +397,8 @@ class rcube_addresses extends rcube_contacts
      */
     function delete_all($with_groups = false)
     {
-        $this->db->query("DELETE FROM " . $this->db->table_name($this->db_name, true)
-            . " WHERE `user_id` = ? AND `type` = ?",
+        $this->db->query('DELETE FROM ' . $this->db->table_name($this->db_name, true)
+            . ' WHERE `user_id` = ? AND `type` = ?',
             $this->user_id, $this->type
         );
 

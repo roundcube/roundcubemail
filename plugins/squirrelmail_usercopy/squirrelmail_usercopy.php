@@ -208,7 +208,7 @@ class squirrelmail_usercopy extends rcube_plugin
                 if (filesize($abookfile)) {
                     foreach (file($abookfile) as $line) {
                         $line = $this->convert_charset(rtrim($line), $file_charset);
-                        $line = str_getcsv($line, "|");
+                        $line = str_getcsv($line, '|');
 
                         $rec = [
                             'name'      => $line[0],

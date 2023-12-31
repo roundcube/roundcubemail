@@ -38,7 +38,7 @@ class rcube_ldap_samba_ad_password extends rcube_ldap_simple_password
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "ldap_mod_replace() not supported",
+                    'message' => 'ldap_mod_replace() not supported',
                 ],
                 true
             );
@@ -63,7 +63,7 @@ class rcube_ldap_samba_ad_password extends rcube_ldap_simple_password
         $this->_debug("C: Replace password for {$this->user}: " . print_r($entry, true));
 
         if (!ldap_mod_replace($this->conn, $this->user, $entry)) {
-            $this->_debug("S: " . ldap_error($this->conn));
+            $this->_debug('S: ' . ldap_error($this->conn));
 
             $errno = ldap_errno($this->conn);
 
@@ -76,7 +76,7 @@ class rcube_ldap_samba_ad_password extends rcube_ldap_simple_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $this->_debug("S: OK");
+        $this->_debug('S: OK');
 
         // All done, no error
         ldap_unbind($this->conn);

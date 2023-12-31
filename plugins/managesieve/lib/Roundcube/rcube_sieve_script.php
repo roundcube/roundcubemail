@@ -458,18 +458,18 @@ class rcube_sieve_script
                             array_push($exts, 'editheader');
                             $action_script .= $action['type'];
                             if (!empty($action['index'])) {
-                                $action_script .= " :index " . intval($action['index']);
+                                $action_script .= ' :index ' . intval($action['index']);
                             }
                             if (!empty($action['last']) && (!empty($action['index']) || $action['type'] == 'addheader')) {
-                                $action_script .= " :last";
+                                $action_script .= ' :last';
                             }
                             if ($action['type'] == 'deleteheader') {
                                 $action['type'] = $action['match-type'] ?? null;
                                 $this->add_operator($action, $action_script, $exts);
                             }
-                            $action_script .= " " . self::escape_string($action['name']);
+                            $action_script .= ' ' . self::escape_string($action['name']);
                             if ((is_string($action['value']) && strlen($action['value']) > 0) || (is_array($action['value']) && !empty($action['value']))) {
-                                $action_script .= " " . self::escape_string($action['value']);
+                                $action_script .= ' ' . self::escape_string($action['value']);
                             }
                             break;
 
@@ -501,13 +501,13 @@ class rcube_sieve_script
                             array_push($exts, 'mime');
                             $action_script .= 'replace';
                             if (!empty($action['mime'])) {
-                                $action_script .= " :mime";
+                                $action_script .= ' :mime';
                             }
                             if (!empty($action['subject'])) {
-                                $action_script .= " :subject " . self::escape_string($action['subject']);
+                                $action_script .= ' :subject ' . self::escape_string($action['subject']);
                             }
                             if (!empty($action['from'])) {
-                                $action_script .= " :from " . self::escape_string($action['from']);
+                                $action_script .= ' :from ' . self::escape_string($action['from']);
                             }
                             $action_script .= ' ' . self::escape_string($action['replace']);
                             break;
@@ -525,13 +525,13 @@ class rcube_sieve_script
                                 if (!empty($action['importance'])) {
                                     switch ($action['importance']) {
                                         case 1:
-                                            $action_script .= " :high";
+                                            $action_script .= ' :high';
                                             break;
                                         case 2:
                                             // $action_script .= " :normal";
                                             break;
                                         case 3:
-                                            $action_script .= " :low";
+                                            $action_script .= ' :low';
                                             break;
                                     }
                                 }
@@ -565,27 +565,27 @@ class rcube_sieve_script
                             $action_script .= 'vacation';
                             if (isset($action['seconds'])) {
                                 $exts[] = 'vacation-seconds';
-                                $action_script .= " :seconds " . intval($action['seconds']);
+                                $action_script .= ' :seconds ' . intval($action['seconds']);
                             }
                             elseif (!empty($action['days'])) {
-                                $action_script .= " :days " . intval($action['days']);
+                                $action_script .= ' :days ' . intval($action['days']);
                             }
                             if (!empty($action['addresses'])) {
-                                $action_script .= " :addresses " . self::escape_string($action['addresses']);
+                                $action_script .= ' :addresses ' . self::escape_string($action['addresses']);
                             }
                             if (!empty($action['subject'])) {
-                                $action_script .= " :subject " . self::escape_string($action['subject']);
+                                $action_script .= ' :subject ' . self::escape_string($action['subject']);
                             }
                             if (!empty($action['handle'])) {
-                                $action_script .= " :handle " . self::escape_string($action['handle']);
+                                $action_script .= ' :handle ' . self::escape_string($action['handle']);
                             }
                             if (!empty($action['from'])) {
-                                $action_script .= " :from " . self::escape_string($action['from']);
+                                $action_script .= ' :from ' . self::escape_string($action['from']);
                             }
                             if (!empty($action['mime'])) {
-                                $action_script .= " :mime";
+                                $action_script .= ' :mime';
                             }
-                            $action_script .= " " . self::escape_string($action['reason']);
+                            $action_script .= ' ' . self::escape_string($action['reason']);
                             break;
                     }
 
@@ -1319,8 +1319,8 @@ class rcube_sieve_script
                         if ($str[$pos] == '"') {
                             break;
                         }
-                        if ($str[$pos] == "\\") {
-                            if ($str[$pos + 1] == '"' || $str[$pos + 1] == "\\") {
+                        if ($str[$pos] == '\\') {
+                            if ($str[$pos + 1] == '"' || $str[$pos + 1] == '\\') {
                                 $pos++;
                             }
                         }
@@ -1473,7 +1473,7 @@ class rcube_sieve_script
      */
     static function ltrim_position($content, $position, $br = true)
     {
-        $blanks = ["\t", "\0", "\x0B", " "];
+        $blanks = ["\t", "\0", "\x0B", ' '];
 
         if ($br) {
             $blanks[] = "\r";

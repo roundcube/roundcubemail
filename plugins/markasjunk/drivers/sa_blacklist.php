@@ -47,15 +47,15 @@ class markasjunk_sa_blacklist
     private function _do_list($uids, $spam)
     {
         $rcube = rcube::get_instance();
-        $this->sa_user             = $rcube->config->get('sauserprefs_userid', "%u");
+        $this->sa_user             = $rcube->config->get('sauserprefs_userid', '%u');
         $this->sa_table            = $rcube->config->get('sauserprefs_sql_table_name');
         $this->sa_username_field   = $rcube->config->get('sauserprefs_sql_username_field');
         $this->sa_preference_field = $rcube->config->get('sauserprefs_sql_preference_field');
         $this->sa_value_field      = $rcube->config->get('sauserprefs_sql_value_field');
 
         // SAv4 compatibility
-        $blocklist_pref_name       = $rcube->config->get('sauserprefs_sav4', false) ? "blocklist_from" : "blacklist_from";
-        $welcomelist_pref_name     = $rcube->config->get('sauserprefs_sav4', false) ? "welcomelist_from" : "whitelist_from";
+        $blocklist_pref_name       = $rcube->config->get('sauserprefs_sav4', false) ? 'blocklist_from' : 'blacklist_from';
+        $welcomelist_pref_name     = $rcube->config->get('sauserprefs_sav4', false) ? 'welcomelist_from' : 'whitelist_from';
 
         $identity = $rcube->user->get_identity();
         $identity = $identity['email'];
@@ -123,7 +123,7 @@ class markasjunk_sa_blacklist
                 if (!$db->fetch_array($sql_result)) {
                     $db->query(
                         "INSERT INTO `{$this->sa_table}` (`{$this->sa_username_field}`, `{$this->sa_preference_field}`, `{$this->sa_value_field}`)"
-                            . " VALUES (?, ?, ?)",
+                            . ' VALUES (?, ?, ?)',
                         $this->sa_user,
                         $blocklist_pref_name,
                         $email
@@ -156,7 +156,7 @@ class markasjunk_sa_blacklist
                 if (!$db->fetch_array($sql_result)) {
                     $db->query(
                         "INSERT INTO `{$this->sa_table}` (`{$this->sa_username_field}`, `{$this->sa_preference_field}`, `{$this->sa_value_field}`)"
-                            . " VALUES (?, ?, ?)",
+                            . ' VALUES (?, ?, ?)',
                         $this->sa_user,
                         $welcomelist_pref_name,
                         $email);

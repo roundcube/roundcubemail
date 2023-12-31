@@ -192,9 +192,9 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         // thus real content should be returned once fixed.
                         $content = self::get_resource_content('blocked.gif');
                         $rcmail->output->nocacheing_headers();
-                        header("Content-Type: image/gif");
-                        header("Content-Transfer-Encoding: binary");
-                        header("Content-Length: " . strlen($content));
+                        header('Content-Type: image/gif');
+                        header('Content-Transfer-Encoding: binary');
+                        header('Content-Length: ' . strlen($content));
                         echo $content;
                     }
                     // html warning with a button to load the file anyway
@@ -285,7 +285,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 if ($attachment->body_to_file($file_path)) {
                     $image = new rcube_image($file_path);
                     if ($image->convert(rcube_image::TYPE_JPG, $file_path)) {
-                        header("Content-Length: " . filesize($file_path));
+                        header('Content-Length: ' . filesize($file_path));
                         readfile($file_path);
                     }
                 }

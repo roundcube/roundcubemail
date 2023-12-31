@@ -69,7 +69,7 @@ class rcube_plesk_password
         $result = $plesk->change_mailbox_password($username, $newpass);
         //$plesk->destroy();
 
-        if ($result == "ok") {
+        if ($result == 'ok') {
             return PASSWORD_SUCCESS;
         } elseif (is_array($result)) {
             return $result;
@@ -109,12 +109,12 @@ class plesk_rpc
     function init($host, $port, $path, $user, $pass)
     {
         $headers = [
-            sprintf("HTTP_AUTH_LOGIN: %s", $user),
-            sprintf("HTTP_AUTH_PASSWD: %s", $pass),
-            "Content-Type: text/xml",
+            sprintf('HTTP_AUTH_LOGIN: %s', $user),
+            sprintf('HTTP_AUTH_PASSWD: %s', $pass),
+            'Content-Type: text/xml',
         ];
 
-        $url        = sprintf("https://%s:%s/%s", $host, $port, $path);
+        $url        = sprintf('https://%s:%s/%s', $host, $port, $path);
         $this->curl = curl_init();
 
         curl_setopt($this->curl, \CURLOPT_CONNECTTIMEOUT , 5);
@@ -158,15 +158,15 @@ class plesk_rpc
     function domain_info($domain)
     {
         // build xml
-        $request = new SimpleXMLElement("<packet></packet>");
-        $site    = $request->addChild("site");
-        $get     = $site->addChild("get");
-        $filter  = $get->addChild("filter");
+        $request = new SimpleXMLElement('<packet></packet>');
+        $site    = $request->addChild('site');
+        $get     = $site->addChild('get');
+        $filter  = $get->addChild('filter');
 
-        $filter->addChild("name", $domain);
-        $dataset = $get->addChild("dataset");
+        $filter->addChild('name', $domain);
+        $dataset = $get->addChild('dataset');
 
-        $dataset->addChild("hosting");
+        $dataset->addChild('hosting');
         $packet = $request->asXML();
         $xml    = null;
 
@@ -177,7 +177,7 @@ class plesk_rpc
 
         // Old Plesk versions require version attribute, add it and try again
         if ($xml && $xml->site->get->result->status == 'error' && $xml->site->get->result->errcode == 1017) {
-            $request->addAttribute("version", "1.6.3.0");
+            $request->addAttribute('version', '1.6.3.0');
             $packet = $request->asXML();
 
             $this->old_version = true;
@@ -215,7 +215,7 @@ class plesk_rpc
      */
     function change_mailbox_password($mailbox, $newpass)
     {
-        [$user, $domain] = explode("@", $mailbox);
+        [$user, $domain] = explode('@', $mailbox);
         $domain_id = $this->get_domain_id($domain);
 
         // if domain cannot be resolved to an id, do not continue
@@ -224,22 +224,22 @@ class plesk_rpc
         }
 
         // build xml-packet
-        $request = new SimpleXMLElement("<packet></packet>");
-        $mail    = $request->addChild("mail");
-        $update  = $mail->addChild("update");
-        $add     = $update->addChild("set");
-        $filter  = $add->addChild("filter");
-        $filter->addChild("site-id", $domain_id);
+        $request = new SimpleXMLElement('<packet></packet>');
+        $mail    = $request->addChild('mail');
+        $update  = $mail->addChild('update');
+        $add     = $update->addChild('set');
+        $filter  = $add->addChild('filter');
+        $filter->addChild('site-id', $domain_id);
 
-        $mailname = $filter->addChild("mailname");
-        $mailname->addChild("name", $user);
+        $mailname = $filter->addChild('mailname');
+        $mailname->addChild('name', $user);
 
-        $password = $mailname->addChild("password");
-        $password->addChild("value", $newpass);
-        $password->addChild("type", "plain");
+        $password = $mailname->addChild('password');
+        $password->addChild('value', $newpass);
+        $password->addChild('type', 'plain');
 
         if ($this->old_version) {
-            $request->addAttribute("version", "1.6.3.0");
+            $request->addAttribute('version', '1.6.3.0');
         }
 
         $packet = $request->asXML();
@@ -249,7 +249,7 @@ class plesk_rpc
             $xml = new SimpleXMLElement($res);
             $res = strval($xml->mail->update->set->result->status);
 
-            if ($res != "ok") {
+            if ($res != 'ok') {
                 $res = [
                     'code' => PASSWORD_ERROR,
                     'message' => strval($xml->mail->update->set->result->errtext),

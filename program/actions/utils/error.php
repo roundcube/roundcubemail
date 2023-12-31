@@ -74,8 +74,8 @@ class rcmail_action_utils_error extends rcmail_action
         }
         // database connection error
         elseif ($ERROR_CODE == 601) {
-            $error_title = "Configuration error";
-            $error_text  =  nl2br($ERROR_MESSAGE) . "<br />Please read the INSTALL instructions!";
+            $error_title = 'Configuration error';
+            $error_text  =  nl2br($ERROR_MESSAGE) . '<br />Please read the INSTALL instructions!';
         }
         // database connection error
         elseif ($ERROR_CODE == 603) {

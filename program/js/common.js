@@ -105,7 +105,7 @@ function roundcube_browser()
     this.mobile = /iphone|ipod|blackberry|iemobile|opera mini|opera mobi|mobile/i.test(this.agent_lc);
     this.tablet = !this.mobile && /ipad|android|xoom|sch-i800|playbook|tablet|kindle/i.test(this.agent_lc);
     this.touch = this.mobile || this.tablet;
-    this.pointer = typeof window.PointerEvent == "function";
+    this.pointer = typeof window.PointerEvent == 'function';
     this.cookies = n.cookieEnabled;
 
     // set class names to html tag according to the current user agent detection
@@ -545,11 +545,11 @@ function rcube_mouse_is_over(ev, obj)
 // cookie functions by GoogieSpell
 function setCookie(name, value, expires, path, domain, secure)
 {
-    var curCookie = name + "=" + escape(value) +
-      (expires ? "; expires=" + expires.toGMTString() : "") +
-      (path ? "; path=" + path : "") +
-      (domain ? "; domain=" + domain : "") +
-      (secure ? "; secure" : "") + '; SameSite=Lax';
+    var curCookie = name + '=' + escape(value) +
+      (expires ? '; expires=' + expires.toGMTString() : '') +
+      (path ? '; path=' + path : '') +
+      (domain ? '; domain=' + domain : '') +
+      (secure ? '; secure' : '') + '; SameSite=Lax';
 
     document.cookie = curCookie;
 };
@@ -557,8 +557,8 @@ function setCookie(name, value, expires, path, domain, secure)
 function getCookie(name)
 {
     var dc = document.cookie,
-        prefix = name + "=",
-        begin = dc.indexOf("; " + prefix);
+        prefix = name + '=',
+        begin = dc.indexOf('; ' + prefix);
 
     if (begin == -1) {
         begin = dc.indexOf(prefix);
@@ -569,7 +569,7 @@ function getCookie(name)
         begin += 2;
     }
 
-    var end = dc.indexOf(";", begin);
+    var end = dc.indexOf(';', begin);
     if (end == -1)
         end = dc.length;
 
@@ -672,11 +672,11 @@ var rcube_parse_query = function(query)
 
 // Base64 code from Tyler Akins -- http://rumkin.com
 var Base64 = (function () {
-    var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
     // private method for UTF-8 encoding
     var utf8_encode = function(string) {
-        string = string.replace(/\r\n/g, "\n");
+        string = string.replace(/\r\n/g, '\n');
         var utftext = '';
 
         for (var n = 0; n < string.length; n++) {
@@ -781,7 +781,7 @@ var Base64 = (function () {
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4, len, i = 0, output = '';
 
             // remove all characters that are not A-Z, a-z, 0-9, +, /, or =
-            input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+            input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');
             len = input.length;
 
             while (i < len) {

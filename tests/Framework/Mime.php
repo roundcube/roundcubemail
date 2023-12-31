@@ -83,9 +83,9 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         foreach ($headers as $idx => $header) {
             $res = rcube_mime::decode_address_list($header);
 
-            $this->assertSame($results[$idx][0], count($res), "Rows number in result for header: " . $header);
-            $this->assertSame($results[$idx][1], $res[1]['name'], "Name part decoding for header: " . $header);
-            $this->assertSame($results[$idx][2], $res[1]['mailto'], "Email part decoding for header: " . $header);
+            $this->assertSame($results[$idx][0], count($res), 'Rows number in result for header: ' . $header);
+            $this->assertSame($results[$idx][1], $res[1]['name'], 'Name part decoding for header: ' . $header);
+            $this->assertSame($results[$idx][2], $res[1]['mailto'], 'Email part decoding for header: ' . $header);
         }
     }
 
@@ -174,7 +174,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
             $res = rcube_mime::decode_mime_string($item['in'], 'UTF-8');
             $res = quoted_printable_encode($res);
 
-            $this->assertSame($item['out'], $res, "Header decoding for: " . $idx);
+            $this->assertSame($item['out'], $res, 'Header decoding for: ' . $idx);
         }
     }
 
@@ -205,7 +205,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         $raw = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
         $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
 
-        $this->assertSame($flowed, rcube_mime::format_flowed($raw, 80), "Test correct folding and space-stuffing");
+        $this->assertSame($flowed, rcube_mime::format_flowed($raw, 80), 'Test correct folding and space-stuffing');
     }
 
     /**
@@ -216,7 +216,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
         $unfolded = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
 
-        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines");
+        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed), 'Test correct unfolding of quoted lines');
     }
 
     /**
@@ -229,9 +229,9 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
                     . "Sed ut perspiciatis unde omnis iste natus error \r\nsit voluptatem";
         $unfolded = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
                     . "> \r\n"
-                    . "Sed ut perspiciatis unde omnis iste natus error sit voluptatem";
+                    . 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem';
 
-        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed), "Test correct unfolding of quoted lines [2]");
+        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed), 'Test correct unfolding of quoted lines [2]');
     }
 
     /**
@@ -242,10 +242,10 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         $flowed   = "そしてジョバンニはすぐうしろの天気輪の柱が \r\n"
                     . "いつかぼんやりした三角標の形になって、しば \r\n"
                     . "らく蛍のように、ぺかぺか消えたりともったり \r\n"
-                    . "しているのを見ました。";
-        $unfolded = "そしてジョバンニはすぐうしろの天気輪の柱がいつかぼんやりした三角標の形になって、しばらく蛍のように、ぺかぺか消えたりともったりしているのを見ました。";
+                    . 'しているのを見ました。';
+        $unfolded = 'そしてジョバンニはすぐうしろの天気輪の柱がいつかぼんやりした三角標の形になって、しばらく蛍のように、ぺかぺか消えたりともったりしているのを見ました。';
 
-        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed, null, true), "Test correct unfolding of flowed DelSp=Yes lines");
+        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed, null, true), 'Test correct unfolding of flowed DelSp=Yes lines');
     }
 
     /**
@@ -259,23 +259,23 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
                 "aaaa aaaa\n           aaaa",
             ],
             [
-                ["123456789 123456789 123456789 123", 29],
+                ['123456789 123456789 123456789 123', 29],
                 "123456789 123456789 123456789\n123",
             ],
             [
-                ["123456789   3456789 123456789", 29],
-                "123456789   3456789 123456789",
+                ['123456789   3456789 123456789', 29],
+                '123456789   3456789 123456789',
             ],
             [
-                ["123456789 123456789 123456789   123", 29],
+                ['123456789 123456789 123456789   123', 29],
                 "123456789 123456789 123456789\n  123",
             ],
             [
-                ["abc", 1, "\n", true],
+                ['abc', 1, "\n", true],
                 "a\nb\nc",
             ],
             [
-                ["ąść", 1, "\n", true, 'UTF-8'],
+                ['ąść', 1, "\n", true, 'UTF-8'],
                 "ą\nś\nć",
             ],
             [
@@ -283,8 +283,8 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
                 ">abc\n>def",
             ],
             [
-                ["abc def", 3, "-"],
-                "abc-def",
+                ['abc def', 3, '-'],
+                'abc-def',
             ],
             [
                 ["----------------------------------------------------------------------------------------\nabc                        def123456789012345", 76],
@@ -295,21 +295,21 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
                 "-------\nabc\ndef",
             ],
             [
-                ["http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/", 70],
-                "http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/",
+                ['http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/', 70],
+                'http://xx.xxx.xx.xxx:8080/addressbooks/roundcubexxxxx%40xxxxxxxxxxxxxxxxxxxxxxx.xx.xx/testing/',
             ],
             [
-                ["this-is-just-some-blabla-to-make-this-more-than-seventy-five-characters-in-a-row -- this line should be wrapped", 20, "\n"],
+                ['this-is-just-some-blabla-to-make-this-more-than-seventy-five-characters-in-a-row -- this line should be wrapped', 20, "\n"],
                 "this-is-just-some-blabla-to-make-this-more-than-seventy-five-characters-in-a-row\n-- this line should\nbe wrapped",
             ],
             [
-                [rcube_charset::convert("㈱山﨑工業", 'UTF-8', 'ISO-2022-JP'), 1, "\n", true, 'ISO-2022-JP'],
+                [rcube_charset::convert('㈱山﨑工業', 'UTF-8', 'ISO-2022-JP'), 1, "\n", true, 'ISO-2022-JP'],
                 rcube_charset::convert("㈱\n山\n﨑\n工\n業", 'UTF-8', 'ISO-2022-JP'),
             ],
         ];
 
         foreach ($samples as $sample) {
-            $this->assertSame($sample[1], call_user_func_array(['rcube_mime', 'wordwrap'], $sample[0]), "Test text wrapping");
+            $this->assertSame($sample[1], call_user_func_array(['rcube_mime', 'wordwrap'], $sample[0]), 'Test text wrapping');
         }
     }
 
@@ -328,7 +328,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
         $this->assertSame('1',              $result->parts[0]->mime_id);
         $this->assertSame(12,               $result->parts[0]->size);
         $this->assertSame('text/plain',     $result->parts[0]->mimetype);
-        $this->assertSame("this is test",   $result->parts[0]->body);
+        $this->assertSame('this is test',   $result->parts[0]->body);
         $this->assertSame('2',              $result->parts[1]->mime_id);
         $this->assertSame(0,                $result->parts[1]->size);
         $this->assertSame('multipart/related', $result->parts[1]->mimetype);

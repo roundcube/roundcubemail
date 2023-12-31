@@ -12,7 +12,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     {
         $object = new html;
 
-        $this->assertInstanceOf('html', $object, "Class constructor");
+        $this->assertInstanceOf('html', $object, 'Class constructor');
     }
 
     /**

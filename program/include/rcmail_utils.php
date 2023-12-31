@@ -42,7 +42,7 @@ class rcmail_utils
             $db->db_connect('w');
 
             if (!$db->is_connected()) {
-                rcube::raise_error("Failed to connect to database", false, true);
+                rcube::raise_error('Failed to connect to database', false, true);
             }
 
             self::$db = $db;
@@ -66,7 +66,7 @@ class rcmail_utils
             rcube::raise_error("DDL file $file not found", false, true);
         }
 
-        echo "Creating database schema... ";
+        echo 'Creating database schema... ';
 
         if ($sql = file_get_contents($file)) {
             if (!$db->exec_script($sql)) {
@@ -168,7 +168,7 @@ class rcmail_utils
         $dir .= '/' . $db->db_provider;
         if (!file_exists($dir)) {
             if (!empty($opts['errors'])) {
-                rcube::raise_error("DDL Upgrade files for " . $db->db_provider . " driver not found.", false, true);
+                rcube::raise_error('DDL Upgrade files for ' . $db->db_provider . ' driver not found.', false, true);
             }
             return false;
         }
@@ -231,14 +231,14 @@ class rcmail_utils
 
         $system_table = $db->table_name('system', true);
 
-        $db->query("UPDATE " . $system_table
-            . " SET `value` = ?"
-            . " WHERE `name` = ?",
+        $db->query('UPDATE ' . $system_table
+            . ' SET `value` = ?'
+            . ' WHERE `name` = ?',
             $version, $package . '-version');
 
         if (!$db->is_error() && !$db->affected_rows()) {
-            $db->query("INSERT INTO " . $system_table
-                . " (`name`, `value`) VALUES (?, ?)",
+            $db->query('INSERT INTO ' . $system_table
+                . ' (`name`, `value`) VALUES (?, ?)',
                 $package . '-version', $version);
         }
 
@@ -256,9 +256,9 @@ class rcmail_utils
     {
         $db = self::db();
 
-        $db->query("SELECT `value`"
-            . " FROM " . $db->table_name('system', true)
-            . " WHERE `name` = ?",
+        $db->query('SELECT `value`'
+            . ' FROM ' . $db->table_name('system', true)
+            . ' WHERE `name` = ?',
             $package . '-version');
 
         $row     = $db->fetch_array();
@@ -312,7 +312,7 @@ class rcmail_utils
                 $args['host'] = reset($hosts);
             }
             else {
-                rcube::raise_error("Specify a host name", false, true);
+                rcube::raise_error('Specify a host name', false, true);
             }
         }
 
@@ -333,9 +333,9 @@ class rcmail_utils
         $db = self::db();
 
         // iterate over all users
-        $sql_result = $db->query("SELECT `user_id` FROM " . $db->table_name('users', true) . " ORDER BY `user_id`");
+        $sql_result = $db->query('SELECT `user_id` FROM ' . $db->table_name('users', true) . ' ORDER BY `user_id`');
         while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
-            echo "Indexing contacts for user " . $sql_arr['user_id'] . "...\n";
+            echo 'Indexing contacts for user ' . $sql_arr['user_id'] . "...\n";
 
             $contacts = new rcube_contacts($db, $sql_arr['user_id']);
             $contacts->set_pagesize(9999);
@@ -379,10 +379,10 @@ class rcmail_utils
         }
 
         // iterate over all users
-        $sql_result = $db->query("SELECT * FROM " . $db->table_name('users', true) . " WHERE $query");
+        $sql_result = $db->query('SELECT * FROM ' . $db->table_name('users', true) . " WHERE $query");
 
         while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
-            echo "Updating prefs for user " . $sql_arr['user_id'] . "...";
+            echo 'Updating prefs for user ' . $sql_arr['user_id'] . '...';
 
             $user  = new rcube_user($sql_arr['user_id'], $sql_arr);
             $prefs = $old_prefs = $user->get_prefs();

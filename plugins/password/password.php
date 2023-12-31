@@ -376,7 +376,7 @@ class password extends rcube_plugin
             [$score, $reason] = $driver->check_strength($passwd);
         }
         else {
-            $score = (!preg_match("/[0-9]/", $passwd) || !preg_match("/[^A-Za-z0-9]/", $passwd)) ? 1 : 5;
+            $score = (!preg_match('/[0-9]/', $passwd) || !preg_match('/[^A-Za-z0-9]/', $passwd)) ? 1 : 5;
         }
 
         if ($score < $min_score) {
@@ -604,7 +604,7 @@ class password extends rcube_plugin
                 else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Password plugin: Your PHP installation does not have the hash() nor sha1() function",
+                            'message' => 'Password plugin: Your PHP installation does not have the hash() nor sha1() function',
                         ], true, true
                     );
                 }
@@ -617,17 +617,17 @@ class password extends rcube_plugin
                 $salt = rcube_utils::random_bytes(8);
 
                 if (function_exists('sha1')) {
-                    $salt    = substr(pack("H*", sha1($salt . $password)), 0, 4);
+                    $salt    = substr(pack('H*', sha1($salt . $password)), 0, 4);
                     $crypted = sha1($password . $salt, true);
                 }
                 elseif (function_exists('hash')) {
-                    $salt    = substr(pack("H*", hash('sha1', $salt . $password)), 0, 4);
+                    $salt    = substr(pack('H*', hash('sha1', $salt . $password)), 0, 4);
                     $crypted = hash('sha1', $password . $salt, true);
                 }
                 else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Password plugin: Your PHP installation does not have the hash() nor sha1() function",
+                            'message' => 'Password plugin: Your PHP installation does not have the hash() nor sha1() function',
                        ], true, true
                     );
                 }
@@ -641,13 +641,13 @@ class password extends rcube_plugin
                 $salt = rcube_utils::random_bytes(8);
 
                 if (function_exists('hash')) {
-                    $salt    = substr(pack("H*", hash('sha256', $salt . $password)), 0, 4);
+                    $salt    = substr(pack('H*', hash('sha256', $salt . $password)), 0, 4);
                     $crypted = hash('sha256', $password . $salt, true);
                 }
                 else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Password plugin: Your PHP installation does not have the hash() function",
+                            'message' => 'Password plugin: Your PHP installation does not have the hash() function',
                        ], true, true
                     );
                 }
@@ -660,13 +660,13 @@ class password extends rcube_plugin
                 $salt = rcube_utils::random_bytes(8);
 
                 if (function_exists('hash')) {
-                    $salt    = substr(pack("H*", hash('sha512', $salt . $password)), 0, 4);
+                    $salt    = substr(pack('H*', hash('sha512', $salt . $password)), 0, 4);
                     $crypted = hash('sha512', $password . $salt, true);
                 }
                 else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Password plugin: Your PHP installation does not have the hash() function",
+                            'message' => 'Password plugin: Your PHP installation does not have the hash() function',
                         ], true, true
                     );
                 }
@@ -679,11 +679,11 @@ class password extends rcube_plugin
                 $salt = rcube_utils::random_bytes(8);
 
                 if (function_exists('hash')) {
-                    $salt    = substr(pack("H*", hash('md5', $salt . $password)), 0, 4);
+                    $salt    = substr(pack('H*', hash('md5', $salt . $password)), 0, 4);
                     $crypted = hash('md5', $password . $salt, true);
                 }
                 else {
-                    $salt    = substr(pack("H*", md5($salt . $password)), 0, 4);
+                    $salt    = substr(pack('H*', md5($salt . $password)), 0, 4);
                     $crypted = md5($password . $salt, true);
                 }
 
@@ -699,7 +699,7 @@ class password extends rcube_plugin
                 else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Password plugin: Your PHP installation does not have hash() function",
+                            'message' => 'Password plugin: Your PHP installation does not have hash() function',
                         ], true, true
                     );
                 }
@@ -785,7 +785,7 @@ class password extends rcube_plugin
             default:
                 rcube::raise_error([
                         'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Password plugin: Hash method not supported.",
+                        'message' => 'Password plugin: Hash method not supported.',
                     ], true, true
                 );
         }

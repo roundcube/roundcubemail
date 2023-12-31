@@ -896,8 +896,6 @@ function rcube_treelist_widget(node, p)
             }
             return tree_state[id];
         }
-
-        return undefined;
     }
 
     /**

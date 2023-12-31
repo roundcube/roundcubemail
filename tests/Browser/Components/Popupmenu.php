@@ -57,7 +57,7 @@ class Popupmenu extends Component
         foreach ($active as $option) {
             // Print action is disabled on phones
             if ($option == 'print' && $browser->isPhone()) {
-                $browser->assertMissing("a.print");
+                $browser->assertMissing('a.print');
             }
             else {
                 $browser->assertVisible("a.{$option}:not(.disabled)");
@@ -66,7 +66,7 @@ class Popupmenu extends Component
 
         foreach ($disabled as $option) {
             if ($option == 'print' && $browser->isPhone()) {
-                $browser->assertMissing("a.print");
+                $browser->assertMissing('a.print');
             }
             else {
                 $browser->assertVisible("a.{$option}.disabled");
@@ -100,7 +100,7 @@ class Popupmenu extends Component
      */
     public function clickMenuItem($browser, $name, $dropdown_action = null)
     {
-        $selector = "a.{$name}" . ($dropdown_action ? " + a.dropdown" : '');
+        $selector = "a.{$name}" . ($dropdown_action ? ' + a.dropdown' : '');
 
         $browser->click($selector);
 

@@ -12,7 +12,7 @@ class Framework_Config extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_config();
 
-        $this->assertInstanceOf('rcube_config', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_config', $object, 'Class constructor');
     }
 
     /**

@@ -347,7 +347,7 @@ class rcmail_install
         if ($this->config['mime_magic'] == '/usr/share/misc/magic') {
             $out['obsolete'][] = [
                 'prop'    => 'mime_magic',
-                'explain' => "Set value to null in order to use system default",
+                'explain' => 'Set value to null in order to use system default',
             ];
         }
 
@@ -356,7 +356,7 @@ class rcmail_install
             if (!extension_loaded('pspell')) {
                 $out['dependencies'][] = [
                     'prop'    => 'spellcheck_engine',
-                    'explain' => "This requires the <tt>pspell</tt> extension which could not be loaded.",
+                    'explain' => 'This requires the <tt>pspell</tt> extension which could not be loaded.',
                 ];
             }
             elseif (!empty($this->config['spellcheck_languages'])) {
@@ -375,14 +375,14 @@ class rcmail_install
             if (!function_exists('openlog')) {
                 $out['dependencies'][] = [
                     'prop'    => 'log_driver',
-                    'explain' => "This requires the <tt>syslog</tt> extension which could not be loaded.",
+                    'explain' => 'This requires the <tt>syslog</tt> extension which could not be loaded.',
                 ];
             }
 
             if (empty($this->config['syslog_id'])) {
                 $out['dependencies'][] = [
                     'prop'    => 'syslog_id',
-                    'explain' => "Using <tt>syslog</tt> for logging requires a syslog ID to be configured",
+                    'explain' => 'Using <tt>syslog</tt> for logging requires a syslog ID to be configured',
                 ];
             }
         }
@@ -494,7 +494,7 @@ class rcmail_install
             $version = rcmail_utils::db_version();
 
             if (empty($version)) {
-                $errors[] = "Schema version not found";
+                $errors[] = 'Schema version not found';
             }
             elseif ($schema_version != $version) {
                 $errors[] = "Schema version: {$version} (required: {$schema_version})";
@@ -926,7 +926,7 @@ class rcmail_install
                     for ($i = 0; $i < $zip->numFiles; $i++) {
                         $filename = $zip->getNameIndex($i);
                         if (substr($filename, -1, 1) != '/') {
-                            copy("zip://" . $zipfile . "#" . $filename, $destdir . '/' . pathinfo($filename, \PATHINFO_BASENAME));
+                            copy('zip://' . $zipfile . '#' . $filename, $destdir . '/' . pathinfo($filename, \PATHINFO_BASENAME));
                         }
                     }
                 }
@@ -948,7 +948,7 @@ class rcmail_install
         }
 
         if ($un7zip === null) {
-            $un7zip = trim(shell_exec("which 7z"));
+            $un7zip = trim(shell_exec('which 7z'));
         }
 
         if ($un7zip) {
@@ -982,7 +982,7 @@ class rcmail_install
         }
 
         if ($unzip === null) {
-            $unzip = trim(shell_exec("which unzip"));
+            $unzip = trim(shell_exec('which unzip'));
         }
 
         if ($unzip) {

@@ -439,7 +439,7 @@ class rcube_ldap extends rcube_addressbook
                             rcube::raise_error([
                                     'code' => 100, 'type' => 'ldap',
                                     'file' => __FILE__, 'line' => __LINE__,
-                                    'message' => "DN not found using LDAP search.",
+                                    'message' => 'DN not found using LDAP search.',
                                 ], true
                             );
                             continue;
@@ -509,7 +509,7 @@ class rcube_ldap extends rcube_addressbook
             rcube::raise_error([
                     'code' => 100, 'type' => 'ldap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not connect to any LDAP server",
+                    'message' => 'Could not connect to any LDAP server',
                 ], true
             );
 
@@ -2136,7 +2136,7 @@ class rcube_ldap extends rcube_addressbook
     {
         $group_cache = $this->_fetch_groups();
         $old_dn      = $group_cache[$group_id]['dn'];
-        $new_rdn     = "cn=" . rcube_ldap_generic::quote_string($new_name, true);
+        $new_rdn     = 'cn=' . rcube_ldap_generic::quote_string($new_name, true);
         $new_gid     = self::dn_encode($new_rdn . ',' . $this->groups_base_dn);
 
         if (!$this->ldap->rename($old_dn, $new_rdn, null, true)) {
@@ -2246,7 +2246,7 @@ class rcube_ldap extends rcube_addressbook
             $add_filter = "($member_attr=$contact_dn)";
         }
 
-        $filter = strtr("(|(member=$contact_dn)(uniqueMember=$contact_dn)$add_filter)", ["\\" => "\\\\"]);
+        $filter = strtr("(|(member=$contact_dn)(uniqueMember=$contact_dn)$add_filter)", ['\\' => '\\\\']);
 
         $ldap_data = $this->ldap->search($base_dn, $filter, 'sub', ['dn', $name_attr]);
 

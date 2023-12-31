@@ -696,7 +696,7 @@ class rcube_vcard
     private static function vcard_decode($vcard)
     {
         // Perform RFC2425 line unfolding and split lines
-        $vcard  = preg_replace(["/\r/", "/\n\s+/"], '', $vcard);
+        $vcard  = preg_replace(["/\r/", "/\n\\s+/"], '', $vcard);
         $lines  = explode("\n", $vcard);
         $result = [];
 
@@ -715,7 +715,7 @@ class rcube_vcard
             // convert 2.1-style "EMAIL;internet;home:" to 3.0-style "EMAIL;TYPE=internet;TYPE=home:"
             if (
                 !empty($result['VERSION'])
-                && $result['VERSION'][0] == "2.1"
+                && $result['VERSION'][0] == '2.1'
                 && preg_match('/^([^;]+);([^:]+)/', $prefix, $regs2)
                 && !preg_match('/^TYPE=/i', $regs2[2])
             ) {
@@ -865,7 +865,7 @@ class rcube_vcard
                             if ($attrvalues) {
                                 // vCard v3 uses ENCODING=b (#1489183)
                                 if ($attrname == 'base64') {
-                                    $attr .= ";ENCODING=b";
+                                    $attr .= ';ENCODING=b';
                                 }
                                 else {
                                     $attr .= strtoupper(";$attrname");
@@ -925,7 +925,7 @@ class rcube_vcard
             return implode($sep, $r);
         }
 
-        return strtr($str, ["\\" => "\\\\", "\r" => '', "\n" => '\n', $sep => "\\$sep"]);
+        return strtr($str, ['\\' => '\\\\', "\r" => '', "\n" => '\n', $sep => "\\$sep"]);
     }
 
     /**
@@ -941,8 +941,8 @@ class rcube_vcard
         // break string into parts separated by $sep
         if (!empty($sep)) {
             // Handle properly backslash escaping (#1488896)
-            $rep1 = ["\\\\" => "\010", "\\$sep" => "\007"];
-            $rep2 = ["\007" => "\\$sep", "\010" => "\\\\"];
+            $rep1 = ['\\\\' => "\010", "\\$sep" => "\007"];
+            $rep2 = ["\007" => "\\$sep", "\010" => '\\\\'];
 
             if (count($parts = explode($sep, strtr($str, $rep1))) > 1) {
                 $result = [];
@@ -963,7 +963,7 @@ class rcube_vcard
         $str = str_replace("\r", '', $str);
         $pos = 0;
 
-        while (($pos = strpos($str, "\\", $pos)) !== false) {
+        while (($pos = strpos($str, '\\', $pos)) !== false) {
             $next = substr($str, $pos + 1, 1);
             if ($next == 'n' || $next == 'N') {
                 $str = substr_replace($str, "\n", $pos, 2);
@@ -1010,7 +1010,7 @@ class rcube_vcard
         // This will for example exclude photos
 
         // Perform RFC2425 line unfolding and split lines
-        $string = preg_replace(["/\r/", "/\n\s+/"], '', $string);
+        $string = preg_replace(["/\r/", "/\n\\s+/"], '', $string);
         $lines  = explode("\n", $string);
         $string = '';
 

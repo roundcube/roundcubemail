@@ -609,7 +609,7 @@ class enigma_driver_gnupg extends enigma_driver
 
             if ($mtime < $record['mtime']) {
                 $data_result = $db->query("SELECT `data`, `mtime` FROM $table"
-                    . " WHERE `file_id` = ?", $record['file_id']
+                    . ' WHERE `file_id` = ?', $record['file_id']
                 );
 
                 $record = $db->fetch_assoc($data_result);

@@ -12,7 +12,7 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_imap;
 
-        $this->assertInstanceOf('rcube_imap', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_imap', $object, 'Class constructor');
     }
 
     /**
@@ -21,12 +21,12 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
     function test_convert_criteria()
     {
         $this->assertSame(
-            "FLAGGED SINCE 1-Feb-1994 NOT FROM \"Smith\"",
-            rcube_imap::convert_criteria("FLAGGED SINCE 1-Feb-1994 NOT FROM \"Smith\"", RCUBE_CHARSET)
+            'FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"',
+            rcube_imap::convert_criteria('FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"', RCUBE_CHARSET)
         );
 
         $this->assertSame(
-            "ALL TEXT el",
+            'ALL TEXT el',
             rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET)
         );
 

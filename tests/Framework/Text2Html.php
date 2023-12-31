@@ -23,83 +23,83 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
             'nobr_end'   => '<',
         ];
 
-        $data[] = [" aaaa", ">_aaaa<", $options];
-        $data[] = ["aa>aa", ">aa&gt;aa<", $options];
-        $data[] = ["aaaa aaaa", ">aaaa_aaaa<", $options];
-        $data[] = ["aaaa  aaaa", ">aaaa__aaaa<", $options];
-        $data[] = ["aaaa   aaaa", ">aaaa___aaaa<", $options];
-        $data[] = ["aaaa\taaaa", ">aaaa____aaaa<", $options];
-        $data[] = ["aaaa\naaaa", "aaaa<br>aaaa", $options];
-        $data[] = ["aaaa\n aaaa", "aaaa<br>>_aaaa<", $options];
-        $data[] = ["aaaa\n  aaaa", "aaaa<br>>__aaaa<", $options];
-        $data[] = ["aaaa\n   aaaa", "aaaa<br>>___aaaa<", $options];
-        $data[] = ["\n", "<br>", $options];
-        $data[] = ["\taaaa", ">____aaaa<", $options];
-        $data[] = ["\naaaa", "<br>aaaa", $options];
-        $data[] = ["\n aaaa", "<br>>_aaaa<", $options];
-        $data[] = ["\n  aaaa", "<br>>__aaaa<", $options];
-        $data[] = ["\n   aaaa", "<br>>___aaaa<", $options];
-        $data[] = ["aaaa\n\nbbbb", "aaaa<br><br>bbbb", $options];
-        $data[] = [">aaaa \n>aaaa", "<blockquote>>aaaa_<<br>aaaa</blockquote>", $options];
-        $data[] = [">aaaa\n>aaaa", "<blockquote>aaaa<br>aaaa</blockquote>", $options];
-        $data[] = [">aaaa \n>bbbb\ncccc dddd", "<blockquote>>aaaa_<<br>bbbb</blockquote>>cccc_dddd<", $options];
-        $data[] = ["aaaa-bbbb/cccc", ">aaaa-bbbb/cccc<", $options];
-        $data[] = ["aaaa-bbbb\r\tcccc", ">aaaa-bbbb____cccc<", $options];
+        $data[] = [' aaaa', '>_aaaa<', $options];
+        $data[] = ['aa>aa', '>aa&gt;aa<', $options];
+        $data[] = ['aaaa aaaa', '>aaaa_aaaa<', $options];
+        $data[] = ['aaaa  aaaa', '>aaaa__aaaa<', $options];
+        $data[] = ['aaaa   aaaa', '>aaaa___aaaa<', $options];
+        $data[] = ["aaaa\taaaa", '>aaaa____aaaa<', $options];
+        $data[] = ["aaaa\naaaa", 'aaaa<br>aaaa', $options];
+        $data[] = ["aaaa\n aaaa", 'aaaa<br>>_aaaa<', $options];
+        $data[] = ["aaaa\n  aaaa", 'aaaa<br>>__aaaa<', $options];
+        $data[] = ["aaaa\n   aaaa", 'aaaa<br>>___aaaa<', $options];
+        $data[] = ["\n", '<br>', $options];
+        $data[] = ["\taaaa", '>____aaaa<', $options];
+        $data[] = ["\naaaa", '<br>aaaa', $options];
+        $data[] = ["\n aaaa", '<br>>_aaaa<', $options];
+        $data[] = ["\n  aaaa", '<br>>__aaaa<', $options];
+        $data[] = ["\n   aaaa", '<br>>___aaaa<', $options];
+        $data[] = ["aaaa\n\nbbbb", 'aaaa<br><br>bbbb', $options];
+        $data[] = [">aaaa \n>aaaa", '<blockquote>>aaaa_<<br>aaaa</blockquote>', $options];
+        $data[] = [">aaaa\n>aaaa", '<blockquote>aaaa<br>aaaa</blockquote>', $options];
+        $data[] = [">aaaa \n>bbbb\ncccc dddd", '<blockquote>>aaaa_<<br>bbbb</blockquote>>cccc_dddd<', $options];
+        $data[] = ['aaaa-bbbb/cccc', '>aaaa-bbbb/cccc<', $options];
+        $data[] = ["aaaa-bbbb\r\tcccc", '>aaaa-bbbb____cccc<', $options];
 
         $options['flowed'] = true;
 
-        $data[] = [" aaaa", "aaaa", $options];
-        $data[] = ["aaaa aaaa", "aaaa aaaa", $options];
-        $data[] = ["aaaa  aaaa", "aaaa _aaaa", $options];
-        $data[] = ["aaaa   aaaa", "aaaa _ aaaa", $options];
-        $data[] = ["aaaa\taaaa", "aaaa _ _aaaa", $options];
-        $data[] = ["aaaa\naaaa", "aaaa<br>aaaa", $options];
-        $data[] = ["aaaa\n aaaa", "aaaa<br>aaaa", $options];
-        $data[] = ["aaaa\n  aaaa", "aaaa<br>_aaaa", $options];
-        $data[] = ["aaaa\n   aaaa", "aaaa<br>_ aaaa", $options];
-        $data[] = ["\taaaa", "_ _ aaaa", $options];
-        $data[] = ["\naaaa", "<br>aaaa", $options];
-        $data[] = ["\n aaaa", "<br>aaaa", $options];
-        $data[] = ["\n  aaaa", "<br>_aaaa", $options];
-        $data[] = ["\n   aaaa", "<br>_ aaaa", $options];
-        $data[] = ["aaaa\n\nbbbb", "aaaa<br><br>bbbb", $options];
-        $data[] = [">aaaa \n>aaaa", "<blockquote>aaaa aaaa</blockquote>", $options];
-        $data[] = [">aaaa\n>aaaa", "<blockquote>aaaa<br>aaaa</blockquote>", $options];
-        $data[] = [">aaaa \n>bbbb\ncccc dddd", "<blockquote>aaaa bbbb</blockquote>cccc dddd", $options];
+        $data[] = [' aaaa', 'aaaa', $options];
+        $data[] = ['aaaa aaaa', 'aaaa aaaa', $options];
+        $data[] = ['aaaa  aaaa', 'aaaa _aaaa', $options];
+        $data[] = ['aaaa   aaaa', 'aaaa _ aaaa', $options];
+        $data[] = ["aaaa\taaaa", 'aaaa _ _aaaa', $options];
+        $data[] = ["aaaa\naaaa", 'aaaa<br>aaaa', $options];
+        $data[] = ["aaaa\n aaaa", 'aaaa<br>aaaa', $options];
+        $data[] = ["aaaa\n  aaaa", 'aaaa<br>_aaaa', $options];
+        $data[] = ["aaaa\n   aaaa", 'aaaa<br>_ aaaa', $options];
+        $data[] = ["\taaaa", '_ _ aaaa', $options];
+        $data[] = ["\naaaa", '<br>aaaa', $options];
+        $data[] = ["\n aaaa", '<br>aaaa', $options];
+        $data[] = ["\n  aaaa", '<br>_aaaa', $options];
+        $data[] = ["\n   aaaa", '<br>_ aaaa', $options];
+        $data[] = ["aaaa\n\nbbbb", 'aaaa<br><br>bbbb', $options];
+        $data[] = [">aaaa \n>aaaa", '<blockquote>aaaa aaaa</blockquote>', $options];
+        $data[] = [">aaaa\n>aaaa", '<blockquote>aaaa<br>aaaa</blockquote>', $options];
+        $data[] = [">aaaa \n>bbbb\ncccc dddd", '<blockquote>aaaa bbbb</blockquote>cccc dddd', $options];
         $data[] = ["\x02\x03", "\x02\x03", $options];
 
         $options['flowed'] = true;
         $options['delsp']  = true;
 
-        $data[] = [" aaaa", "aaaa", $options];
-        $data[] = ["aaaa aaaa", "aaaa aaaa", $options];
-        $data[] = ["aaaa  aaaa", "aaaa _aaaa", $options];
-        $data[] = ["aaaa   aaaa", "aaaa _ aaaa", $options];
-        $data[] = ["aaaa\taaaa", "aaaa _ _aaaa", $options];
-        $data[] = ["aaaa\naaaa", "aaaa<br>aaaa", $options];
-        $data[] = ["aaaa\n aaaa", "aaaa<br>aaaa", $options];
-        $data[] = ["aaaa\n  aaaa", "aaaa<br>_aaaa", $options];
-        $data[] = ["aaaa\n   aaaa", "aaaa<br>_ aaaa", $options];
-        $data[] = ["\taaaa", "_ _ aaaa", $options];
-        $data[] = ["\naaaa", "<br>aaaa", $options];
-        $data[] = ["\n aaaa", "<br>aaaa", $options];
-        $data[] = ["\n  aaaa", "<br>_aaaa", $options];
-        $data[] = ["\n   aaaa", "<br>_ aaaa", $options];
-        $data[] = ["aaaa\n\nbbbb", "aaaa<br><br>bbbb", $options];
-        $data[] = [">aaaa \n>aaaa", "<blockquote>aaaaaaaa</blockquote>", $options];
-        $data[] = [">aaaa\n>aaaa", "<blockquote>aaaa<br>aaaa</blockquote>", $options];
-        $data[] = [">aaaa \n>bbbb\ncccc dddd", "<blockquote>aaaabbbb</blockquote>cccc dddd", $options];
+        $data[] = [' aaaa', 'aaaa', $options];
+        $data[] = ['aaaa aaaa', 'aaaa aaaa', $options];
+        $data[] = ['aaaa  aaaa', 'aaaa _aaaa', $options];
+        $data[] = ['aaaa   aaaa', 'aaaa _ aaaa', $options];
+        $data[] = ["aaaa\taaaa", 'aaaa _ _aaaa', $options];
+        $data[] = ["aaaa\naaaa", 'aaaa<br>aaaa', $options];
+        $data[] = ["aaaa\n aaaa", 'aaaa<br>aaaa', $options];
+        $data[] = ["aaaa\n  aaaa", 'aaaa<br>_aaaa', $options];
+        $data[] = ["aaaa\n   aaaa", 'aaaa<br>_ aaaa', $options];
+        $data[] = ["\taaaa", '_ _ aaaa', $options];
+        $data[] = ["\naaaa", '<br>aaaa', $options];
+        $data[] = ["\n aaaa", '<br>aaaa', $options];
+        $data[] = ["\n  aaaa", '<br>_aaaa', $options];
+        $data[] = ["\n   aaaa", '<br>_ aaaa', $options];
+        $data[] = ["aaaa\n\nbbbb", 'aaaa<br><br>bbbb', $options];
+        $data[] = [">aaaa \n>aaaa", '<blockquote>aaaaaaaa</blockquote>', $options];
+        $data[] = [">aaaa\n>aaaa", '<blockquote>aaaa<br>aaaa</blockquote>', $options];
+        $data[] = [">aaaa \n>bbbb\ncccc dddd", '<blockquote>aaaabbbb</blockquote>cccc dddd', $options];
 
         $options['flowed'] = false;
         $options['delsp']  = false;
         $options['wrap']   = true;
 
         $data[] = [">>aaaa bbbb\n>>\n>>>\n>cccc\n\ndddd eeee",
-            "<blockquote><blockquote>aaaa bbbb<br><br><blockquote><br></blockquote></blockquote>cccc</blockquote><br>dddd eeee", $options];
+            '<blockquote><blockquote>aaaa bbbb<br><br><blockquote><br></blockquote></blockquote>cccc</blockquote><br>dddd eeee', $options];
         $data[] = ["\n>>aaaa\n\ndddd",
-            "<br><blockquote><blockquote>aaaa</blockquote></blockquote><br>dddd", $options];
+            '<br><blockquote><blockquote>aaaa</blockquote></blockquote><br>dddd', $options];
         $data[] = ["aaaa\n>bbbb\n>cccc\n\ndddd\n>>test",
-            "aaaa<blockquote>bbbb<br>cccc</blockquote><br>dddd<blockquote><blockquote>test</blockquote></blockquote>", $options];
+            'aaaa<blockquote>bbbb<br>cccc</blockquote><br>dddd<blockquote><blockquote>test</blockquote></blockquote>', $options];
 
         return $data;
     }
@@ -130,7 +130,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
 
         $expected = "<div class=\"pre\"><br>\n"
             . "[&lt;script&gt;evil&lt;/script&gt;]:##str_replacement_0##<br>\n"
-            . "</div>";
+            . '</div>';
 
         $this->assertSame($expected, $html);
     }
@@ -147,7 +147,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
 
         $expected = "<div class=\"pre\"><br>\n[&lt;script&gt;evil&lt;/script&gt;] "
             . "<a rel=\"noreferrer\" target=\"_blank\" href=\"https://google.com\">https://google.com</a><br>\n"
-            . "</div>";
+            . '</div>';
 
         $this->assertSame($expected, $html);
     }
@@ -190,7 +190,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
             . "-test4\n"
             . "+test5\n"
             . " \n"
-            . "End";
+            . 'End';
 
         $expected = "<div class=\"pre\">Start<br>\n"
             . "diff --git a/test.txt b/test.txt<br>\n"
@@ -204,7 +204,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
             . "<span style=\"white-space:nowrap\">-test4</span><br>\n"
             . "<span style=\"white-space:nowrap\">+test5</span><br>\n"
             . "<span style=\"white-space:nowrap\">_</span><br>\n"
-            . "End</div>";
+            . 'End</div>';
 
         $t2h = new rcube_text2html($input, false, ['space' => '_']);
         $html = $t2h->get_html();

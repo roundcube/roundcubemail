@@ -174,7 +174,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         }
 
         if (!self::$COMPOSE) {
-            exit("Invalid session var!");
+            exit('Invalid session var!');
         }
 
         self::$file_id = rcube_utils::get_input_string('_file', rcube_utils::INPUT_GPC);
@@ -205,7 +205,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         );
 
         $content_link = html::a([
-                'href'    => "#load",
+                'href'    => '#load',
                 'class'   => 'filename',
                 'onclick' => sprintf(
                     "return %s.command('load-attachment','rcmfile%s', this, event)",
@@ -215,7 +215,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             ], $link_content);
 
         $delete_link = html::a([
-                'href'    => "#delete",
+                'href'    => '#delete',
                 'onclick' => sprintf(
                     "return %s.command('remove-attachment','rcmfile%s', this, event)",
                     rcmail_output::JS_OBJECT_NAME,

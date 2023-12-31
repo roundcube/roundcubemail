@@ -64,7 +64,7 @@ class OutputHtmlMock extends rcmail_output_html
         parent::send($templ, false);
 
         if ($exit) {
-            throw new ExitException("Output sent", self::E_EXIT);
+            throw new ExitException('Output sent', self::E_EXIT);
         }
     }
 
@@ -82,7 +82,7 @@ class OutputHtmlMock extends rcmail_output_html
 
         $this->output = $body;
 
-        throw new ExitException("Output sent", self::E_EXIT);
+        throw new ExitException('Output sent', self::E_EXIT);
     }
 
     /**
@@ -96,7 +96,7 @@ class OutputHtmlMock extends rcmail_output_html
         $this->errorCode = $code;
         $this->errorMessage = $message;
 
-        throw new ExitException("Output sent (error)", self::E_EXIT);
+        throw new ExitException('Output sent (error)', self::E_EXIT);
     }
 
     /**
@@ -129,7 +129,7 @@ class OutputHtmlMock extends rcmail_output_html
         //ob_end_clean();
 
         if ($exit) {
-            throw new ExitException("Output sent", self::E_EXIT);
+            throw new ExitException('Output sent', self::E_EXIT);
         }
     }
 

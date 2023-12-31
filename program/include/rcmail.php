@@ -299,7 +299,7 @@ class rcmail extends rcube
         $this->output->send($this->task);
 
         // if we arrive here, something went wrong
-        $error = ['code' => 404, 'line' => __LINE__, 'file' => __FILE__, 'message' => "Invalid request"];
+        $error = ['code' => 404, 'line' => __LINE__, 'file' => __FILE__, 'message' => 'Invalid request'];
         self::raise_error($error, true, true);
     }
 
@@ -814,7 +814,7 @@ class rcmail extends rcube
                         'code'    => 620,
                         'file'    => __FILE__,
                         'line'    => __LINE__,
-                        'message' => "Failed to create a user record. Maybe aborted by a plugin?",
+                        'message' => 'Failed to create a user record. Maybe aborted by a plugin?',
                     ],
                     true, false
                 );
@@ -944,7 +944,7 @@ class rcmail extends rcube
             $cookie_sessauth = $this->config->get('session_auth_name') ?: 'roundcube_sessauth';
 
             if (substr_count($cookie, $cookie_sessid . '=') > 1 || substr_count($cookie, $cookie_sessauth . '=') > 1) {
-                $log .= ". Cookies mismatch";
+                $log .= '. Cookies mismatch';
                 $error = 'cookiesmismatch';
             }
 
@@ -1247,7 +1247,7 @@ class rcmail extends rcube
     {
         // check request token
         if (!$this->check_request($mode)) {
-            $error = ['code' => 403, 'message' => "Request security check failed"];
+            $error = ['code' => 403, 'message' => 'Request security check failed'];
             self::raise_error($error, false, true);
         }
     }
@@ -1631,7 +1631,7 @@ class rcmail extends rcube
             }
 
             try {
-                $date = new DateTime("@" . $timestamp);
+                $date = new DateTime('@' . $timestamp);
             }
             catch (Exception $e) {
                 return '';
@@ -1675,12 +1675,12 @@ class rcmail extends rcube
         // parse format string manually in order to provide localized weekday and month names
         $out = '';
         for ($i = 0; $i < strlen($format); $i++) {
-            if ($format[$i] == "\\") {  // skip escape chars
+            if ($format[$i] == '\\') {  // skip escape chars
                 continue;
             }
 
             // write char "as-is"
-            if ($format[$i] == ' ' || ($i > 0 && $format[$i - 1] == "\\")) {
+            if ($format[$i] == ' ' || ($i > 0 && $format[$i - 1] == '\\')) {
                 $out .= $format[$i];
             }
             // weekday (short)

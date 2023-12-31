@@ -43,19 +43,19 @@ elseif (empty($args['host']) || empty($args['file'])) {
     exit;
 }
 elseif (!is_file($args['file'])) {
-    rcube::raise_error("Cannot read message file.", false, true);
+    rcube::raise_error('Cannot read message file.', false, true);
 }
 
 // prompt for username if not set
 if (empty($args['user'])) {
     //fwrite(STDOUT, "Please enter your name\n");
-    echo "IMAP user: ";
+    echo 'IMAP user: ';
     $args['user'] = trim(fgets(\STDIN));
 }
 
 // prompt for password
 if (empty($args['pass'])) {
-    $args['pass'] = rcube_utils::prompt_silent("Password: ");
+    $args['pass'] = rcube_utils::prompt_silent('Password: ');
 }
 
 // parse $host URL
@@ -114,5 +114,5 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
     }
 }
 else {
-    rcube::raise_error("IMAP login failed.", false, true);
+    rcube::raise_error('IMAP login failed.', false, true);
 }

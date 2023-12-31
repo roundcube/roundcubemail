@@ -202,7 +202,7 @@ class rcube_config
                 $this->errors[] = 'config.inc.php was not found.';
             }
             elseif (rand(1,100) == 10) {  // log warning on every 100th request (average)
-                trigger_error("config.inc.php was not found. Please migrate your config by running bin/update.sh", \E_USER_WARNING);
+                trigger_error('config.inc.php was not found. Please migrate your config by running bin/update.sh', \E_USER_WARNING);
             }
         }
 
@@ -598,7 +598,7 @@ class rcube_config
             else {
                 rcube::raise_error([
                         'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Invalid mail_header_delimiter setting",
+                        'message' => 'Invalid mail_header_delimiter setting',
                     ], true, false);
             }
         }
@@ -767,44 +767,44 @@ class rcube_config
 
         // try with more complete list (#1489261)
         $timezones = [
-            '-660' => "Pacific/Apia",
-            '-600' => "Pacific/Honolulu",
-            '-570' => "Pacific/Marquesas",
-            '-540' => "America/Anchorage",
-            '-480' => "America/Los_Angeles",
-            '-420' => "America/Denver",
-            '-360' => "America/Chicago",
-            '-300' => "America/New_York",
-            '-270' => "America/Caracas",
-            '-240' => "America/Halifax",
-            '-210' => "Canada/Newfoundland",
-            '-180' => "America/Sao_Paulo",
-             '-60' => "Atlantic/Azores",
-               '0' => "Europe/London",
-              '60' => "Europe/Paris",
-             '120' => "Europe/Helsinki",
-             '180' => "Europe/Moscow",
-             '210' => "Asia/Tehran",
-             '240' => "Asia/Dubai",
-             '270' => "Asia/Kabul",
-             '300' => "Asia/Karachi",
-             '330' => "Asia/Kolkata",
-             '345' => "Asia/Katmandu",
-             '360' => "Asia/Yekaterinburg",
-             '390' => "Asia/Rangoon",
-             '420' => "Asia/Krasnoyarsk",
-             '480' => "Asia/Shanghai",
-             '525' => "Australia/Eucla",
-             '540' => "Asia/Tokyo",
-             '570' => "Australia/Adelaide",
-             '600' => "Australia/Melbourne",
-             '630' => "Australia/Lord_Howe",
-             '660' => "Asia/Vladivostok",
-             '690' => "Pacific/Norfolk",
-             '720' => "Pacific/Auckland",
-             '765' => "Pacific/Chatham",
-             '780' => "Pacific/Enderbury",
-             '840' => "Pacific/Kiritimati",
+            '-660' => 'Pacific/Apia',
+            '-600' => 'Pacific/Honolulu',
+            '-570' => 'Pacific/Marquesas',
+            '-540' => 'America/Anchorage',
+            '-480' => 'America/Los_Angeles',
+            '-420' => 'America/Denver',
+            '-360' => 'America/Chicago',
+            '-300' => 'America/New_York',
+            '-270' => 'America/Caracas',
+            '-240' => 'America/Halifax',
+            '-210' => 'Canada/Newfoundland',
+            '-180' => 'America/Sao_Paulo',
+             '-60' => 'Atlantic/Azores',
+               '0' => 'Europe/London',
+              '60' => 'Europe/Paris',
+             '120' => 'Europe/Helsinki',
+             '180' => 'Europe/Moscow',
+             '210' => 'Asia/Tehran',
+             '240' => 'Asia/Dubai',
+             '270' => 'Asia/Kabul',
+             '300' => 'Asia/Karachi',
+             '330' => 'Asia/Kolkata',
+             '345' => 'Asia/Katmandu',
+             '360' => 'Asia/Yekaterinburg',
+             '390' => 'Asia/Rangoon',
+             '420' => 'Asia/Krasnoyarsk',
+             '480' => 'Asia/Shanghai',
+             '525' => 'Australia/Eucla',
+             '540' => 'Asia/Tokyo',
+             '570' => 'Australia/Adelaide',
+             '600' => 'Australia/Melbourne',
+             '630' => 'Australia/Lord_Howe',
+             '660' => 'Asia/Vladivostok',
+             '690' => 'Pacific/Norfolk',
+             '720' => 'Pacific/Auckland',
+             '765' => 'Pacific/Chatham',
+             '780' => 'Pacific/Enderbury',
+             '840' => 'Pacific/Kiritimati',
         ];
 
         $key = (string) intval($offset * 60);

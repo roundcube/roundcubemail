@@ -404,7 +404,7 @@ class rcube_message_header_sorter
      */
     function sort_headers(&$headers)
     {
-        uksort($headers, [$this, "compare_uids"]);
+        uksort($headers, [$this, 'compare_uids']);
     }
 
     /**

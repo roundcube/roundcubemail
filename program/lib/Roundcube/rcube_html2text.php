@@ -539,7 +539,7 @@ class rcube_html2text
         $text = str_replace('|+|amp|+|', '&', $text);
 
         // Bring down number of empty lines to 2 max
-        $text = preg_replace("/\n\s+\n/", "\n\n", $text);
+        $text = preg_replace("/\n\\s+\n/", "\n\n", $text);
         $text = preg_replace("/[\n]{3,}/", "\n\n", $text);
 
         // remove leading empty lines (can be produced by e.g. P tag on the beginning)

@@ -64,7 +64,7 @@ class rcube_cache_memcached extends rcube_cache
 
             rcube::raise_error([
                     'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to find Memcached. Make sure php-memcached is installed",
+                    'message' => 'Failed to find Memcached. Make sure php-memcached is installed',
                 ],
                 true, true);
         }

@@ -61,7 +61,7 @@ class Taskmenu extends Component
         }
 
         foreach ($this->options as $option) {
-            $browser->assertVisible("a.{$option}:not(.disabled)" . ($selected == $option ? ".selected" : ":not(.selected)"));
+            $browser->assertVisible("a.{$option}:not(.disabled)" . ($selected == $option ? '.selected' : ':not(.selected)'));
         }
 
         // hide the menu back

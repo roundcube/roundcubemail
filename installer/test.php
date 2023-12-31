@@ -15,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    exit("Not allowed! Please open installer/index.php instead.");
+    exit('Not allowed! Please open installer/index.php instead.');
 }
 
 ?>
@@ -81,7 +81,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 
     echo '<p class="suggestion">OK, lazy people can download the updated config file here: ';
     echo html::a(['href' => './?_mergeconfig=1'], 'config.inc.php') . ' &nbsp;';
-    echo "</p>";
+    echo '</p>';
 
     if (!empty($messages['dependencies'])) {
         echo '<h3 class="warning">Dependency check failed</h3>';
@@ -169,9 +169,9 @@ elseif ($db_working && !empty($_POST['updatedb'])) {
 
 // test database
 if ($db_working) {
-    $db_read = $DB->query("SELECT count(*) FROM " . $DB->quote_identifier($RCI->config['db_prefix'] . 'users'));
+    $db_read = $DB->query('SELECT count(*) FROM ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'users'));
     if ($DB->is_error()) {
-        $RCI->fail('DB Schema', "Database not initialized");
+        $RCI->fail('DB Schema', 'Database not initialized');
         echo '<form action="index.php?_step=3" method="post">'
             . '<p><input type="submit" name="initdb" value="Initialize database" /></p>'
             . '</form>';
@@ -179,8 +179,8 @@ if ($db_working) {
         $db_working = false;
     }
     elseif ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
-        $RCI->fail('DB Schema', "Database schema differs");
-        echo '<ul style="margin:0"><li>' . implode("</li>\n<li>", $err) . "</li></ul>";
+        $RCI->fail('DB Schema', 'Database schema differs');
+        echo '<ul style="margin:0"><li>' . implode("</li>\n<li>", $err) . '</li></ul>';
 
         $select = $RCI->versions_select(['name' => 'version']);
         $select->add('0.9 or newer', '');
@@ -208,13 +208,13 @@ if ($db_working) {
 
     // write test
     $insert_id = md5(uniqid());
-    $db_write = $DB->query("INSERT INTO " . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
-        . " (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, " . $DB->now() . ", '127.0.0.1', 'foo')", $insert_id);
+    $db_write = $DB->query('INSERT INTO ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
+        . ' (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, ' . $DB->now() . ", '127.0.0.1', 'foo')", $insert_id);
 
     if ($db_write) {
         $RCI->pass('DB Write');
-        $DB->query("DELETE FROM " . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
-            . " WHERE `sess_id` = ?", $insert_id);
+        $DB->query('DELETE FROM ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
+            . ' WHERE `sess_id` = ?', $insert_id);
     }
     else {
         $RCI->fail('DB Write', $RCI->get_error());
@@ -261,7 +261,7 @@ if ($errors = $RCI->check_mime_detection()) {
 }
 else {
     $RCI->pass('Fileinfo/mime_content_type configuration');
-    echo "<br/>";
+    echo '<br/>';
 }
 
 
@@ -272,7 +272,7 @@ if ($errors = $RCI->check_mime_extensions()) {
 }
 else {
     $RCI->pass('Mimetype to file extension mapping');
-    echo "<br/>";
+    echo '<br/>';
 }
 
 $smtp_hosts = $RCI->get_hostlist('smtp_host');

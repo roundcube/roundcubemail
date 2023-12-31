@@ -12,6 +12,6 @@ class Framework_MessageHeader extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_message_header;
 
-        $this->assertInstanceOf('rcube_message_header', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_message_header', $object, 'Class constructor');
     }
 }

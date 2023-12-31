@@ -148,9 +148,9 @@ class rcube_db_mysql extends rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+            $q = $this->query('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES'
                 . " WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'"
-                . " ORDER BY TABLE_NAME", $this->db_dsnw_array['database']);
+                . ' ORDER BY TABLE_NAME', $this->db_dsnw_array['database']);
 
             $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
         }
@@ -167,8 +167,8 @@ class rcube_db_mysql extends rcube_db
      */
     public function list_cols($table)
     {
-        $q = $this->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS"
-            . " WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
+        $q = $this->query('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS'
+            . ' WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?',
             $this->db_dsnw_array['database'], $table);
 
         if ($q) {

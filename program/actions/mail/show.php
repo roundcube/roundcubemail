@@ -266,7 +266,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $msg = html::span(null, rcube::Q($rcmail->gettext('blockedresources')));
 
         $buttons = html::a([
-                'href'    => "#loadremote",
+                'href'    => '#loadremote',
                 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote')",
             ],
             rcube::Q($rcmail->gettext('allow'))
@@ -277,9 +277,9 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         if (!empty(self::$MESSAGE->sender['mailto']) && ($show_images == 1 || $show_images == 3)) {
             $arg = $show_images == 3 ? rcube_addressbook::TYPE_TRUSTED_SENDER : 'true';
             $buttons .= ' ' . html::a([
-                    'href'    => "#loadremotealways",
+                    'href'    => '#loadremotealways',
                     'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', $arg)",
-                    'style'   => "white-space:nowrap",
+                    'style'   => 'white-space:nowrap',
                 ],
                 rcube::Q($rcmail->gettext(['name' => 'alwaysallow', 'vars' => ['sender' => self::$MESSAGE->sender['mailto']]]))
             );
@@ -335,7 +335,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $msg = html::span(null, rcube::Q($rcmail->gettext('isdraft')))
             . '&nbsp;'
             . html::a([
-                    'href'    => "#edit",
+                    'href'    => '#edit',
                     'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('edit')",
                 ],
                 rcube::Q($rcmail->gettext('edit'))
@@ -621,12 +621,12 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
     {
         $rcmail = rcmail::get_instance();
 
-        $html = html::div(['id' => "all-headers", 'class' => "all", 'style' => 'display:none'],
+        $html = html::div(['id' => 'all-headers', 'class' => 'all', 'style' => 'display:none'],
             html::div(['id' => 'headers-source'], ''));
 
         $html .= html::div([
-                'class'   => "more-headers show-headers",
-                'onclick' => "return " . rcmail_output::JS_OBJECT_NAME . ".command('show-headers','',this)",
+                'class'   => 'more-headers show-headers',
+                'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('show-headers','',this)",
                 'title'   => $rcmail->gettext('togglefullheaders'),
             ], '');
 

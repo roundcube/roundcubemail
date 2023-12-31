@@ -291,7 +291,7 @@ class rcmail_attachment_handler
         }
 
         if ($this->body !== null && !$this->download) {
-            header("Content-Length: " . strlen($this->body));
+            header('Content-Length: ' . strlen($this->body));
             echo $this->body;
             return true;
         }

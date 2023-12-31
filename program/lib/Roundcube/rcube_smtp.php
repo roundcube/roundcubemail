@@ -61,7 +61,7 @@ class rcube_smtp
                     $host = $host[$_SESSION['storage_host']];
                 }
                 else {
-                    $this->response[] = "Connection failed: No SMTP server found for IMAP host " . $_SESSION['storage_host'];
+                    $this->response[] = 'Connection failed: No SMTP server found for IMAP host ' . $_SESSION['storage_host'];
                     $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
                     return false;
                 }
@@ -136,7 +136,7 @@ class rcube_smtp
         $result = $this->conn->connect($CONFIG['smtp_timeout']);
 
         if (is_a($result, 'PEAR_Error')) {
-            $this->_conn_error('smtpconnerror', "Connection failed", [], $result);
+            $this->_conn_error('smtpconnerror', 'Connection failed', [], $result);
             $this->conn = null;
             return false;
         }
@@ -152,7 +152,7 @@ class rcube_smtp
         $result = $this->_process_xclient($use_tls, $helo_host);
 
         if (is_a($result, 'PEAR_Error')) {
-            $this->_conn_error('smtpconnerror', "XCLIENT failed", [], $result);
+            $this->_conn_error('smtpconnerror', 'XCLIENT failed', [], $result);
             $this->disconnect();
             return false;
         }
@@ -161,7 +161,7 @@ class rcube_smtp
             $result = $this->conn->starttls();
 
             if (is_a($result, 'PEAR_Error')) {
-                $this->_conn_error('smtpconnerror', "STARTTLS failed", [], $result);
+                $this->_conn_error('smtpconnerror', 'STARTTLS failed', [], $result);
                 $this->disconnect();
                 return false;
             }
@@ -193,7 +193,7 @@ class rcube_smtp
             $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, false, $smtp_authz);
 
             if (is_a($result, 'PEAR_Error')) {
-                $this->_conn_error('smtpautherror', "Authentication failure", [], $result);
+                $this->_conn_error('smtpautherror', 'Authentication failure', [], $result);
                 $this->disconnect();
                 return false;
             }
@@ -243,7 +243,7 @@ class rcube_smtp
         // exit if no from address is given
         if (!isset($from)) {
             $this->reset();
-            $this->response[] = "No From address has been provided";
+            $this->response[] = 'No From address has been provided';
             return false;
         }
 
@@ -273,7 +273,7 @@ class rcube_smtp
                 $from_params = ltrim($from_params . ' SMTPUTF8');
             }
             else {
-                $this->_conn_error('smtputf8error', "SMTP server does not support unicode in email addresses");
+                $this->_conn_error('smtputf8error', 'SMTP server does not support unicode in email addresses');
                 $this->reset();
                 return false;
             }
@@ -351,7 +351,7 @@ class rcube_smtp
             $err_vars['msg'] = $msg;
 
             $this->error = ['label' => $err_label, 'vars' => $err_vars];
-            $this->response[] = "Failed to send data. " . $msg;
+            $this->response[] = 'Failed to send data. ' . $msg;
             $this->reset();
             return false;
         }
@@ -514,7 +514,7 @@ class rcube_smtp
                 $word = trim($word);
                 $len  = strlen($word);
 
-                if ($len && strpos($word, "@") > 0 && $word[$len - 1] != '"') {
+                if ($len && strpos($word, '@') > 0 && $word[$len - 1] != '"') {
                     $word = preg_replace('/^<|>$/', '', $word);
                     if (!in_array($word, $addresses)) {
                         $addresses[] = $word;
@@ -547,7 +547,7 @@ class rcube_smtp
         $cmd = '';
 
         if ($rcube->config->get('smtp_xclient_login') && in_array_nocase('login', $opts)) {
-            $cmd .= " LOGIN=" . $rcube->get_user_name();
+            $cmd .= ' LOGIN=' . $rcube->get_user_name();
         }
 
         if ($rcube->config->get('smtp_xclient_addr') && in_array_nocase('addr', $opts)) {
@@ -560,14 +560,14 @@ class rcube_smtp
                 $r = "IPV6:{$ip}";
             }
             else {
-                $r = "[UNAVAILABLE]";
+                $r = '[UNAVAILABLE]';
             }
 
             $cmd .= " ADDR={$r}";
         }
 
         if ($cmd) {
-            $result = $this->conn->command("XCLIENT" . $cmd, [220]);
+            $result = $this->conn->command('XCLIENT' . $cmd, [220]);
 
             if ($result !== true) {
                 return $result;

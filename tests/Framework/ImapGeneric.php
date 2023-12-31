@@ -12,7 +12,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_imap_generic;
 
-        $this->assertInstanceOf('rcube_imap_generic', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_imap_generic', $object, 'Class constructor');
     }
 
     /**
@@ -104,16 +104,16 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
         $response = "test brack[et] {1}\r\na {0}\r\n (item1 item2)";
 
         $result = rcube_imap_generic::tokenizeResponse($response, 1);
-        $this->assertSame("test", $result);
+        $this->assertSame('test', $result);
 
         $result = rcube_imap_generic::tokenizeResponse($response, 1);
-        $this->assertSame("brack[et]", $result);
+        $this->assertSame('brack[et]', $result);
 
         $result = rcube_imap_generic::tokenizeResponse($response, 1);
-        $this->assertSame("a", $result);
+        $this->assertSame('a', $result);
 
         $result = rcube_imap_generic::tokenizeResponse($response, 1);
-        $this->assertSame("", $result);
+        $this->assertSame('', $result);
 
         $result = rcube_imap_generic::tokenizeResponse($response, 1);
         $this->assertSame(['item1', 'item2'], $result);
@@ -140,8 +140,8 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
         $this->runDecodeContent($content, $encoded, 1);
 
         // Test some real-life example
-        $content = file_get_contents(TESTS_DIR . "src/test.pdf");
-        $encoded = file_get_contents(TESTS_DIR . "src/test.base64");
+        $content = file_get_contents(TESTS_DIR . 'src/test.pdf');
+        $encoded = file_get_contents(TESTS_DIR . 'src/test.base64');
 
         $this->runDecodeContent($content, $encoded, 1, 2000);
         $this->runDecodeContent($content, $encoded, 1, 4000);
@@ -165,13 +165,13 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     function test_decode_content_uuencode()
     {
         $content = "test uuencode encoded content\ntest uuencode encoded content";
-        $encoded = "begin 664 test.txt\r\n" . convert_uuencode($content) . "end";
+        $encoded = "begin 664 test.txt\r\n" . convert_uuencode($content) . 'end';
 
         $this->runDecodeContent($content, $encoded, 3);
 
         // Test some real-life example
-        $content = file_get_contents(TESTS_DIR . "src/test.pdf");
-        $encoded = file_get_contents(TESTS_DIR . "src/test.uuencode");
+        $content = file_get_contents(TESTS_DIR . 'src/test.pdf');
+        $encoded = file_get_contents(TESTS_DIR . 'src/test.uuencode');
 
         $this->runDecodeContent($content, $encoded, 3, 2000);
         $this->runDecodeContent($content, $encoded, 3, 4000);

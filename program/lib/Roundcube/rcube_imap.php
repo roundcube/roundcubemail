@@ -122,7 +122,7 @@ class rcube_imap extends rcube_storage
             rcube::raise_error([
                     'code' => 403, 'type' => 'imap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "OpenSSL not available",
+                    'message' => 'OpenSSL not available',
                 ], true, false);
 
             $port = 143;
@@ -202,7 +202,7 @@ class rcube_imap extends rcube_storage
             // When log_logins=true the entry in userlogins.log will be created
             // in this case another error message is redundant, skip it
             if ($pass && $user && !rcube::get_instance()->config->get('log_logins')) {
-                $message = sprintf("Login failed for %s against %s from %s. %s",
+                $message = sprintf('Login failed for %s against %s from %s. %s',
                     $user, $host, rcube_utils::remote_ip(), $this->conn->error);
 
                 rcube::raise_error([
@@ -757,11 +757,11 @@ class rcube_imap extends rcube_storage
         }
         // use SEARCH for message counting
         elseif ($mode != 'EXISTS' && !empty($this->options['skip_deleted'])) {
-            $search_str = "ALL UNDELETED";
+            $search_str = 'ALL UNDELETED';
             $keys       = ['COUNT'];
 
             if ($mode == 'UNSEEN') {
-                $search_str .= " UNSEEN";
+                $search_str .= ' UNSEEN';
             }
             else {
                 if ($this->messages_caching) {
@@ -1538,7 +1538,7 @@ class rcube_imap extends rcube_storage
             }
 
             if (empty($index) || $index->is_error()) {
-                $index = $this->conn->index($folder, $search ?: "1:*",
+                $index = $this->conn->index($folder, $search ?: '1:*',
                     $sort_field, $this->options['skip_deleted'],
                     $search ? true : false, true);
             }
@@ -3347,7 +3347,7 @@ class rcube_imap extends rcube_storage
             $folder .= $this->delimiter;
         }
 
-        $result = $this->conn->createFolder($folder, $type ? ["\\" . ucfirst($type)] : null);
+        $result = $this->conn->createFolder($folder, $type ? ['\\' . ucfirst($type)] : null);
 
         // Folder creation may fail when specific special-use flag is not supported.
         // Try to create it anyway with no flag specified (#7147)
@@ -3553,7 +3553,7 @@ class rcube_imap extends rcube_storage
                     }
                     // set new folder metadata
                     if ($folder) {
-                        $this->set_metadata($folder, ['/private/specialuse' => "\\" . ucfirst($type)]);
+                        $this->set_metadata($folder, ['/private/specialuse' => '\\' . ucfirst($type)]);
                     }
                 }
             }
@@ -4671,7 +4671,7 @@ class rcube_imap extends rcube_storage
         if (!is_object($date) || !is_a($date, 'DateTime')) {
             try {
                 $timestamp = rcube_utils::strtotime($date);
-                $date      = new DateTime("@" . $timestamp);
+                $date      = new DateTime('@' . $timestamp);
             }
             catch (Exception $e) {
                 return null;

@@ -16,7 +16,7 @@ class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
 
     function test_localization_files()
     {
-        foreach (glob(RCUBE_LOCALIZATION_DIR . "*/csv2vcard.inc") as $filename) {
+        foreach (glob(RCUBE_LOCALIZATION_DIR . '*/csv2vcard.inc') as $filename) {
             $map = null;
             include $filename;
             $this->assertTrue(count($map) > 0);

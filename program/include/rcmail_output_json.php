@@ -196,7 +196,7 @@ class rcmail_output_json extends rcmail_output
     {
         if ($code == 403) {
             http_response_code(403);
-            exit("Invalid Request");
+            exit('Invalid Request');
         }
 
         $this->show_message("Application Error ($code): $message", 'error');
@@ -243,7 +243,7 @@ class rcmail_output_json extends rcmail_output
         }
 
         // trigger generic hook where plugins can put additional content to the response
-        $hook = $this->app->plugins->exec_hook("render_response", ['response' => $response]);
+        $hook = $this->app->plugins->exec_hook('render_response', ['response' => $response]);
 
         // save some memory
         $response = $hook['response'];
