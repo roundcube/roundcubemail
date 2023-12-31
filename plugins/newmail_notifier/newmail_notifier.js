@@ -101,10 +101,10 @@ function newmail_notifier_desktop(body, disabled_callback)
         icon = rcmail.assets_path('plugins/newmail_notifier/mail.png'),
         success_callback = function() {
             var popup = new window.Notification(rcmail.get_label('title', 'newmail_notifier'), {
-                dir: "auto",
-                lang: "",
+                dir: 'auto',
+                lang: '',
                 body: body,
-                tag: "newmail_notifier",
+                tag: 'newmail_notifier',
                 icon: icon
             });
             popup.onclick = function() { this.close(); };

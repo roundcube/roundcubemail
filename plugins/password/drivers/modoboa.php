@@ -48,17 +48,17 @@ class rcube_modoboa_password
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            \CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/?search=" . urlencode($RoudCubeUsername),
+            \CURLOPT_URL            => 'https://' . $IMAPhost . '/api/v1/accounts/?search=' . urlencode($RoudCubeUsername),
             \CURLOPT_RETURNTRANSFER => true,
-            \CURLOPT_ENCODING       => "",
+            \CURLOPT_ENCODING       => '',
             \CURLOPT_MAXREDIRS      => 10,
             \CURLOPT_TIMEOUT        => 30,
             \CURLOPT_HTTP_VERSION   => \CURL_HTTP_VERSION_1_1,
-            \CURLOPT_CUSTOMREQUEST  => "GET",
+            \CURLOPT_CUSTOMREQUEST  => 'GET',
             \CURLOPT_HTTPHEADER     => [
-                "Authorization: Token " . $ModoboaToken,
-                "Cache-Control: no-cache",
-                "Content-Type: application/json",
+                'Authorization: Token ' . $ModoboaToken,
+                'Cache-Control: no-cache',
+                'Content-Type: application/json',
             ],
         ]);
 
@@ -92,18 +92,18 @@ class rcube_modoboa_password
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            \CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/" . $userid . "/",
+            \CURLOPT_URL            => 'https://' . $IMAPhost . '/api/v1/accounts/' . $userid . '/',
             \CURLOPT_RETURNTRANSFER => true,
-            \CURLOPT_ENCODING       => "",
+            \CURLOPT_ENCODING       => '',
             \CURLOPT_MAXREDIRS      => 10,
             \CURLOPT_TIMEOUT        => 30,
             \CURLOPT_HTTP_VERSION   => \CURL_HTTP_VERSION_1_1,
-            \CURLOPT_CUSTOMREQUEST  => "PUT",
-            \CURLOPT_POSTFIELDS     => "" . $encoded . "",
+            \CURLOPT_CUSTOMREQUEST  => 'PUT',
+            \CURLOPT_POSTFIELDS     => '' . $encoded . '',
             \CURLOPT_HTTPHEADER     => [
-                "Authorization: Token " . $ModoboaToken,
-                "Cache-Control: no-cache",
-                "Content-Type: application/json",
+                'Authorization: Token ' . $ModoboaToken,
+                'Cache-Control: no-cache',
+                'Content-Type: application/json',
             ],
         ]);
 

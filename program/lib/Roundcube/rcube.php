@@ -348,10 +348,10 @@ class rcube
             $_SESSION[$driver . '_host'] = $_SESSION['storage_host'];
         }
 
-        $options = $this->plugins->exec_hook("storage_init", $options);
+        $options = $this->plugins->exec_hook('storage_init', $options);
 
         // for backward compat. (deprecated, to be removed)
-        $options = $this->plugins->exec_hook("imap_init", $options);
+        $options = $this->plugins->exec_hook('imap_init', $options);
 
         $this->storage->set_options($options);
         $this->set_storage_prop();
@@ -521,8 +521,8 @@ class rcube
 
         // Uploaded files metadata
         $db = $this->get_dbh();
-        $db->query("DELETE FROM " . $db->table_name('uploads', true)
-            . " WHERE `created` < " . $db->now($temp_dir_ttl * -1));
+        $db->query('DELETE FROM ' . $db->table_name('uploads', true)
+            . ' WHERE `created` < ' . $db->now($temp_dir_ttl * -1));
 
         $expire = time() - $temp_dir_ttl;
 
@@ -823,7 +823,7 @@ class rcube
             $accept_langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
             $lang         = $accept_langs[0];
 
-            if (preg_match('/^([a-z]+)[_-]([a-z]+)$/i', $lang, $m)) {
+            if (preg_match('/^([a-z]+)[_-]([a-z0-9]+)$/i', $lang, $m)) {
                 $lang = $m[1] . '_' . strtoupper($m[2]);
             }
         }
@@ -1241,7 +1241,7 @@ class rcube
             if ($option) {
                 foreach ((array) $values["-$key"] as $key => $value) {
                     if ($value === true || $value === false || $value === null) {
-                        $parts[] = $value ? $key : "";
+                        $parts[] = $value ? $key : '';
                     }
                     else {
                         foreach ((array) $value as $val) {
@@ -1341,7 +1341,7 @@ class rcube
 
         // write message with file name when configured to log to STDOUT
         if ($log_driver == 'stdout') {
-            $stdout = "php://stdout";
+            $stdout = 'php://stdout';
             $line = "$name: $line\n";
             return file_put_contents($stdout, $line, \FILE_APPEND) !== false;
         }
@@ -1494,7 +1494,7 @@ class rcube
             }
         }
 
-        $log_entry = sprintf("%s Error: %s%s (%s %s)",
+        $log_entry = sprintf('%s Error: %s%s (%s %s)',
             $program,
             $arg_arr['message'],
             !empty($arg_arr['file']) ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
@@ -1564,7 +1564,7 @@ class rcube
             $label = 'Timer ' . $print_count;
         }
 
-        self::write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
+        self::write_log($dest, sprintf('%s: %0.4f sec', $label, $diff));
     }
 
     /**
@@ -1779,7 +1779,7 @@ class rcube
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
                         'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: " . $mime_result->getMessage(),
+                        'message' => 'Could not create message: ' . $mime_result->getMessage(),
                     ],
                     true, false
                 );
@@ -1824,7 +1824,7 @@ class rcube
                 $mailto = implode(',', $a_recipients);
                 $mailto = rcube_mime::decode_address_list($mailto, null, false, null, true);
 
-                self::write_log('sendmail', sprintf("User %s [%s]; Message %s for %s; %s",
+                self::write_log('sendmail', sprintf('User %s [%s]; Message %s for %s; %s',
                     $this->user->get_username(),
                     rcube_utils::remote_addr(),
                     $headers['Message-ID'],

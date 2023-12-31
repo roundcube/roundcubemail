@@ -57,7 +57,7 @@ foreach ($dirs as $dir) {
     // build regexps array
     foreach ($images as $path => $sum) {
         $path_ex   = str_replace('.', '\\.', $path);
-        $find[]    = "#url\(['\"]?images/$path_ex(\?v=[a-f0-9-\.]+)?['\"]?\)#";
+        $find[]    = "#url\\(['\"]?images/$path_ex(\\?v=[a-f0-9-\\.]+)?['\"]?\\)#";
         $replace[] = "url(images/$path?v=$sum)";
     }
 

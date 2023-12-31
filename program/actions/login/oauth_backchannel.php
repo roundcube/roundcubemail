@@ -33,7 +33,7 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
         $rcmail = rcmail::get_instance();
 
         // default message
-        $answer = ['error' => 'invalid_request', 'error_description' => "Error, no action"];
+        $answer = ['error' => 'invalid_request', 'error_description' => 'Error, no action'];
 
         //Beware we are in back-channel from OP (IDP)
         $logout_token = rcube_utils::get_input_string('logout_token', rcube_utils::INPUT_POST);
@@ -78,7 +78,7 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                         'line'    => __LINE__,
                     ], true, false
                 );
-                $answer['error_description'] = "Error decoding JWT";
+                $answer['error_description'] = 'Error decoding JWT';
             }
         }
         else {

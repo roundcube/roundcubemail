@@ -18,7 +18,7 @@
 */
 
 if (\PHP_SAPI != 'cli') {
-    exit("Not in shell mode (php-cli)");
+    exit('Not in shell mode (php-cli)');
 }
 
 if (!defined('INSTALL_PATH')) {
@@ -71,7 +71,7 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
 }
 
 if (empty($argv[1])) {
-    rcube::raise_error("Chrome driver version is a required argument of this script.", false, true);
+    rcube::raise_error('Chrome driver version is a required argument of this script.', false, true);
 }
 
 $installer = new Installer;

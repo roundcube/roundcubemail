@@ -84,7 +84,7 @@ class rcube_httpapi_password
         else {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Invalid httpapi method",
+                    'message' => 'Password plugin: Invalid httpapi method',
                 ],
                 true, false
             );
@@ -101,7 +101,7 @@ class rcube_httpapi_password
         catch (Exception $e) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: " . $e->getMessage(),
+                    'message' => 'Password plugin: ' . $e->getMessage(),
                 ],
                 true, false
             );
@@ -126,7 +126,7 @@ class rcube_httpapi_password
         if ($expect && !preg_match($expect, $result)) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Unexpected response body: " . substr($result, 0, 1024),
+                    'message' => 'Password plugin: Unexpected response body: ' . substr($result, 0, 1024),
                 ],
                 true, false
             );

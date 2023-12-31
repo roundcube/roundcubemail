@@ -12,8 +12,8 @@ class Framework_Cache extends PHPUnit\Framework\TestCase
     {
         $object = rcube_cache::factory('db', 1);
 
-        $this->assertInstanceOf('rcube_cache_db', $object, "Class constructor");
-        $this->assertInstanceOf('rcube_cache', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_cache_db', $object, 'Class constructor');
+        $this->assertInstanceOf('rcube_cache', $object, 'Class constructor');
     }
 
     /**

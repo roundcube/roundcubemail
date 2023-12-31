@@ -593,12 +593,12 @@ class rcube_db
         $where   = $keys;
 
         array_walk($where, function (&$val, $key) {
-            $val = $this->quote_identifier($key) . " = " . $this->quote($val);
+            $val = $this->quote_identifier($key) . ' = ' . $this->quote($val);
         });
 
         // First try UPDATE
-        $result = $this->query("UPDATE $table SET " . implode(", ", $sets)
-            . " WHERE " . implode(" AND ", $where), $values);
+        $result = $this->query("UPDATE $table SET " . implode(', ', $sets)
+            . ' WHERE ' . implode(' AND ', $where), $values);
 
         // if UPDATE fails use INSERT
         if ($result && !$this->affected_rows($result)) {
@@ -756,9 +756,9 @@ class rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+            $q = $this->query('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES'
                 . " WHERE TABLE_TYPE = 'BASE TABLE'"
-                . " ORDER BY TABLE_NAME"
+                . ' ORDER BY TABLE_NAME'
             );
 
             $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];

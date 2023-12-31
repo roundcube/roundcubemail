@@ -52,7 +52,7 @@ class rcube_xmail_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: Unable to connect to mail server",
+                    'message' => 'Password plugin: Unable to connect to mail server',
                 ], true, false
             );
 
@@ -65,7 +65,7 @@ class rcube_xmail_password
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Password plugin: Unable to change password",
+                    'message' => 'Password plugin: Unable to change password',
                 ], true, false
             );
 
@@ -88,7 +88,7 @@ class XMail
     function send($msg)
     {
         socket_write($this->socket,$msg);
-        if (substr(socket_read($this->socket, 512, \PHP_BINARY_READ),0,1) != "+") {
+        if (substr(socket_read($this->socket, 512, \PHP_BINARY_READ),0,1) != '+') {
             return false;
         }
         return true;
@@ -107,7 +107,7 @@ class XMail
             return false;
         }
 
-        if (substr(socket_read($this->socket, 512, \PHP_BINARY_READ),0,1) != "+") {
+        if (substr(socket_read($this->socket, 512, \PHP_BINARY_READ),0,1) != '+') {
             socket_close($this->socket);
             return false;
         }

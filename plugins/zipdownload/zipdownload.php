@@ -34,7 +34,7 @@ class zipdownload extends rcube_plugin
                     'code'    => 520,
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "php-zip extension is required for the zipdownload plugin",
+                    'message' => 'php-zip extension is required for the zipdownload plugin',
                 ], true, false
             );
             return;
@@ -117,7 +117,7 @@ class zipdownload extends rcube_plugin
 
         $rcmail->output->add_footer(
             html::div(['id' => 'zipdownload-menu', 'class' => 'popupmenu', 'aria-hidden' => 'true'],
-                html::tag('h2', ['class' => 'voice', 'id' => 'aria-label-zipdownloadmenu'], "Message Download Options Menu")
+                html::tag('h2', ['class' => 'voice', 'id' => 'aria-label-zipdownloadmenu'], 'Message Download Options Menu')
                 . html::tag('ul', $ul_attr, implode('', $menu))
             )
         );
@@ -211,7 +211,7 @@ class zipdownload extends rcube_plugin
          * Ext: attach(1).txt on attach filename that has a attach.txt filename on same zip
          */
         if (isset($this->names[$displayname])) {
-            [$filename, $ext] = preg_split("/\.(?=[^\.]*$)/", $displayname);
+            [$filename, $ext] = preg_split('/\\.(?=[^\\.]*$)/', $displayname);
             $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
             $this->names[$displayname] = 1;
         }
@@ -388,7 +388,7 @@ class zipdownload extends rcube_plugin
     {
         $str = preg_replace('/[\t\n\r\0\x0B]+\s*/', ' ', $str);
 
-        return trim($str, " ./_");
+        return trim($str, ' ./_');
     }
 }
 

@@ -67,8 +67,8 @@ class rcube_user
 
         if ($id && !$sql_arr) {
             $sql_result = $this->db->query(
-                "SELECT * FROM " . $this->db->table_name('users', true)
-                . " WHERE `user_id` = ?", $id
+                'SELECT * FROM ' . $this->db->table_name('users', true)
+                . ' WHERE `user_id` = ?', $id
             );
 
             $sql_arr = $this->db->fetch_assoc($sql_result);
@@ -213,9 +213,9 @@ class rcube_user
         }
 
         $this->db->query(
-            "UPDATE " . $this->db->table_name('users', true) .
-            " SET `preferences` = ?, `language` = ?" .
-            " WHERE `user_id` = ?",
+            'UPDATE ' . $this->db->table_name('users', true) .
+            ' SET `preferences` = ?, `language` = ?' .
+            ' WHERE `user_id` = ?',
             $save_prefs,
             $this->language,
             $this->ID
@@ -280,10 +280,10 @@ class rcube_user
             $this->emails = [];
 
             $sql_result = $this->db->query(
-                "SELECT `identity_id`, `name`, `email`"
-                . " FROM " . $this->db->table_name('identities', true)
-                . " WHERE `user_id` = ? AND `del` <> 1"
-                . " ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC",
+                'SELECT `identity_id`, `name`, `email`'
+                . ' FROM ' . $this->db->table_name('identities', true)
+                . ' WHERE `user_id` = ? AND `del` <> 1'
+                . ' ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC',
                 $this->ID
             );
 
@@ -328,9 +328,9 @@ class rcube_user
         $result = [];
 
         $sql_result = $this->db->query(
-            "SELECT * FROM " . $this->db->table_name('identities', true)
-            . " WHERE `del` <> 1 AND `user_id` = ?" . ($sql_add ? " $sql_add" : "")
-            . " ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC",
+            'SELECT * FROM ' . $this->db->table_name('identities', true)
+            . ' WHERE `del` <> 1 AND `user_id` = ?' . ($sql_add ? " $sql_add" : '')
+            . ' ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC',
             $this->ID
         );
 
@@ -373,11 +373,11 @@ class rcube_user
         $query_params[] = $iid;
         $query_params[] = $this->ID;
 
-        $sql = "UPDATE " . $this->db->table_name('identities', true) .
-            " SET `changed` = " . $this->db->now() . ", " . implode(', ', $query_cols)
-            . " WHERE `identity_id` = ?"
-                . " AND `user_id` = ?"
-                . " AND `del` <> 1";
+        $sql = 'UPDATE ' . $this->db->table_name('identities', true) .
+            ' SET `changed` = ' . $this->db->now() . ', ' . implode(', ', $query_cols)
+            . ' WHERE `identity_id` = ?'
+                . ' AND `user_id` = ?'
+                . ' AND `del` <> 1';
 
         $this->db->query($sql, $query_params);
 
@@ -414,9 +414,9 @@ class rcube_user
         $insert_cols[]   = $this->db->quote_identifier('user_id');
         $insert_values[] = $this->ID;
 
-        $sql = "INSERT INTO " . $this->db->table_name('identities', true)
-            . " (`changed`, " . implode(', ', $insert_cols) . ")"
-            . " VALUES (" . $this->db->now() . ", " . implode(', ', array_pad([], count($insert_values), '?')) . ")";
+        $sql = 'INSERT INTO ' . $this->db->table_name('identities', true)
+            . ' (`changed`, ' . implode(', ', $insert_cols) . ')'
+            . ' VALUES (' . $this->db->now() . ', ' . implode(', ', array_pad([], count($insert_values), '?')) . ')';
 
         $insert = $this->db->query($sql, $insert_values);
 
@@ -441,8 +441,8 @@ class rcube_user
         }
 
         $sql_result = $this->db->query(
-            "SELECT count(*) AS ident_count FROM " . $this->db->table_name('identities', true)
-            . " WHERE `user_id` = ? AND `del` <> 1",
+            'SELECT count(*) AS ident_count FROM ' . $this->db->table_name('identities', true)
+            . ' WHERE `user_id` = ? AND `del` <> 1',
             $this->ID
         );
 
@@ -454,9 +454,9 @@ class rcube_user
         }
 
         $this->db->query(
-            "UPDATE " . $this->db->table_name('identities', true)
-            . " SET `del` = 1, `changed` = " . $this->db->now()
-            . " WHERE `user_id` = ? AND `identity_id` = ?",
+            'UPDATE ' . $this->db->table_name('identities', true)
+            . ' SET `del` = 1, `changed` = ' . $this->db->now()
+            . ' WHERE `user_id` = ? AND `identity_id` = ?',
             $this->ID,
             $iid
         );
@@ -477,17 +477,17 @@ class rcube_user
     {
         if ($this->ID && $iid) {
             $this->db->query(
-                "UPDATE " . $this->db->table_name('identities', true)
+                'UPDATE ' . $this->db->table_name('identities', true)
                 . " SET `standard` = '0'"
-                . " WHERE `user_id` = ? AND `identity_id` <> ?",
+                . ' WHERE `user_id` = ? AND `identity_id` <> ?',
                 $this->ID,
                 $iid
             );
 
             $this->db->query(
-                "UPDATE " . $this->db->table_name('identities', true)
+                'UPDATE ' . $this->db->table_name('identities', true)
                 . " SET `standard` = '1'"
-                . " WHERE `user_id` = ? AND `identity_id` = ?",
+                . ' WHERE `user_id` = ? AND `identity_id` = ?',
                 $this->ID,
                 $iid
             );
@@ -503,9 +503,9 @@ class rcube_user
     {
         if ($this->ID) {
             $this->db->query(
-                "UPDATE " . $this->db->table_name('users', true)
-                . " SET `last_login` = " . $this->db->now()
-                . " WHERE `user_id` = ?",
+                'UPDATE ' . $this->db->table_name('users', true)
+                . ' SET `last_login` = ' . $this->db->now()
+                . ' WHERE `user_id` = ?',
                 $this->ID
             );
         }
@@ -534,10 +534,10 @@ class rcube_user
             }
 
             $this->db->query(
-                "UPDATE " . $this->db->table_name('users', true)
-                    . " SET `failed_login` = ?"
-                    . ", `failed_login_counter` = " . ($counter ?: "`failed_login_counter` + 1")
-                . " WHERE `user_id` = ?",
+                'UPDATE ' . $this->db->table_name('users', true)
+                    . ' SET `failed_login` = ?'
+                    . ', `failed_login_counter` = ' . ($counter ?: '`failed_login_counter` + 1')
+                . ' WHERE `user_id` = ?',
                 $failed_login, $this->ID
             );
         }
@@ -587,17 +587,17 @@ class rcube_user
         $config = rcube::get_instance()->config;
 
         // query for matching user name
-        $sql_result = $dbh->query("SELECT * FROM " . $dbh->table_name('users', true)
-            . " WHERE `mail_host` = ? AND `username` = ?", $host, $user);
+        $sql_result = $dbh->query('SELECT * FROM ' . $dbh->table_name('users', true)
+            . ' WHERE `mail_host` = ? AND `username` = ?', $host, $user);
 
         $sql_arr = $dbh->fetch_assoc($sql_result);
 
         // username not found, try aliases from identities
         if (empty($sql_arr) && $config->get('user_aliases') && strpos($user, '@')) {
-            $sql_result = $dbh->limitquery("SELECT u.*"
-                . " FROM " . $dbh->table_name('users', true) . " u"
-                . " JOIN " . $dbh->table_name('identities', true) . " i ON (i.`user_id` = u.`user_id`)"
-                . " WHERE `email` = ? AND `del` <> 1",
+            $sql_result = $dbh->limitquery('SELECT u.*'
+                . ' FROM ' . $dbh->table_name('users', true) . ' u'
+                . ' JOIN ' . $dbh->table_name('identities', true) . ' i ON (i.`user_id` = u.`user_id`)'
+                . ' WHERE `email` = ? AND `del` <> 1',
                 0, 1, $user
             );
 
@@ -646,9 +646,9 @@ class rcube_user
         }
 
         $insert = $dbh->query(
-            "INSERT INTO " . $dbh->table_name('users', true)
-            . " (`created`, `last_login`, `username`, `mail_host`, `language`, `preferences`)"
-            . " VALUES (" . $dbh->now() . ", " . $dbh->now() . ", ?, ?, ?, ?)",
+            'INSERT INTO ' . $dbh->table_name('users', true)
+            . ' (`created`, `last_login`, `username`, `mail_host`, `language`, `preferences`)'
+            . ' VALUES (' . $dbh->now() . ', ' . $dbh->now() . ', ?, ?, ?, ?)',
             $data['user'],
             $data['host'],
             $data['language'],
@@ -721,7 +721,7 @@ class rcube_user
         else {
             rcube::raise_error([
                     'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to create new user",
+                    'message' => 'Failed to create new user',
                 ],
                 true, false
             );
@@ -785,10 +785,10 @@ class rcube_user
         $result = [];
 
         $sql_result = $this->db->query(
-            "SELECT `search_id` AS id, `name`"
-            . " FROM " . $this->db->table_name('searches', true)
-            . " WHERE `user_id` = ? AND `type` = ?"
-            . " ORDER BY `name`",
+            'SELECT `search_id` AS id, `name`'
+            . ' FROM ' . $this->db->table_name('searches', true)
+            . ' WHERE `user_id` = ? AND `type` = ?'
+            . ' ORDER BY `name`',
             (int) $this->ID, (int) $type
         );
 
@@ -815,9 +815,9 @@ class rcube_user
         }
 
         $sql_result = $this->db->query(
-            "SELECT `name`, `data`, `type`"
-            . " FROM " . $this->db->table_name('searches', true)
-            . " WHERE `user_id` = ? AND `search_id` = ?",
+            'SELECT `name`, `data`, `type`'
+            . ' FROM ' . $this->db->table_name('searches', true)
+            . ' WHERE `user_id` = ? AND `search_id` = ?',
             (int) $this->ID, (int) $id
         );
 
@@ -847,8 +847,8 @@ class rcube_user
         }
 
         $this->db->query(
-            "DELETE FROM " . $this->db->table_name('searches', true)
-            . " WHERE `user_id` = ? AND `search_id` = ?",
+            'DELETE FROM ' . $this->db->table_name('searches', true)
+            . ' WHERE `user_id` = ? AND `search_id` = ?',
             (int) $this->ID, $sid
         );
 
@@ -877,9 +877,9 @@ class rcube_user
         $insert_cols[]   = $this->db->quote_identifier('data');
         $insert_values[] = serialize($data['data']);
 
-        $sql = "INSERT INTO " . $this->db->table_name('searches', true)
-            . " (" . implode(', ', $insert_cols) . ")"
-            . " VALUES (" . implode(', ', array_pad([], count($insert_values), '?')) . ")";
+        $sql = 'INSERT INTO ' . $this->db->table_name('searches', true)
+            . ' (' . implode(', ', $insert_cols) . ')'
+            . ' VALUES (' . implode(', ', array_pad([], count($insert_values), '?')) . ')';
 
         $insert = $this->db->query($sql, $insert_values);
 
@@ -896,8 +896,8 @@ class rcube_user
     function get_response($id)
     {
         $sql_result = $this->db->query(
-            "SELECT * FROM " . $this->db->table_name('responses', true)
-                . " WHERE `user_id` = ? AND `response_id` = ? AND `del` = 0",
+            'SELECT * FROM ' . $this->db->table_name('responses', true)
+                . ' WHERE `user_id` = ? AND `response_id` = ? AND `del` = 0',
             $this->ID, $id
         );
 
@@ -931,9 +931,9 @@ class rcube_user
         }
 
         $sql_result = $this->db->query(
-            "SELECT `response_id`, `name` FROM " . $this->db->table_name('responses', true)
-                . " WHERE `user_id` = ? AND `del` = 0"
-                . " ORDER BY `name`",
+            'SELECT `response_id`, `name` FROM ' . $this->db->table_name('responses', true)
+                . ' WHERE `user_id` = ? AND `del` = 0'
+                . ' ORDER BY `name`',
             $this->ID
         );
 
@@ -974,9 +974,9 @@ class rcube_user
         $query_params[] = $id;
         $query_params[] = $this->ID;
 
-        $sql = "UPDATE " . $this->db->table_name('responses', true)
-            . " SET `changed` = " . $this->db->now() . ", " . implode(', ', $query_cols)
-            . " WHERE `response_id` = ? AND `user_id` = ? AND `del` = 0";
+        $sql = 'UPDATE ' . $this->db->table_name('responses', true)
+            . ' SET `changed` = ' . $this->db->now() . ', ' . implode(', ', $query_cols)
+            . ' WHERE `response_id` = ? AND `user_id` = ? AND `del` = 0';
 
         $this->db->query($sql, $query_params);
 
@@ -1006,9 +1006,9 @@ class rcube_user
             }
         }
 
-        $sql = "INSERT INTO " . $this->db->table_name('responses', true)
-            . " (`changed`, " . implode(', ', $query_cols) . ")"
-            . " VALUES (" . $this->db->now() . ", " . trim(str_repeat('?, ', count($query_cols)), ', ') . ")";
+        $sql = 'INSERT INTO ' . $this->db->table_name('responses', true)
+            . ' (`changed`, ' . implode(', ', $query_cols) . ')'
+            . ' VALUES (' . $this->db->now() . ', ' . trim(str_repeat('?, ', count($query_cols)), ', ') . ')';
 
         $insert = $this->db->query($sql, $query_params);
 
@@ -1029,8 +1029,8 @@ class rcube_user
         }
 
         $this->db->query(
-            "UPDATE " . $this->db->table_name('responses', true)
-                . " SET `del` = 1 WHERE `user_id` = ? AND `response_id` = ?",
+            'UPDATE ' . $this->db->table_name('responses', true)
+                . ' SET `del` = 1 WHERE `user_id` = ? AND `response_id` = ?',
             $this->ID,
             $id
         );

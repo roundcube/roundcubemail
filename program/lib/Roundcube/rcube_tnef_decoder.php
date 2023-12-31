@@ -180,7 +180,7 @@ class rcube_tnef_decoder
                     rcube::raise_error([
                             'file' => __FILE__,
                             'line' => __LINE__,
-                            'message' => "Failed to extract RTF/HTML content from TNEF attachment",
+                            'message' => 'Failed to extract RTF/HTML content from TNEF attachment',
                         ], true, false
                     );
                 }
@@ -589,13 +589,13 @@ class rcube_tnef_decoder
         for ($i = 0, $len = strlen($text); $i < $len; $i++) {
             $c = $text[$i];
             switch ($c) {
-                case "\\":
+                case '\\':
                     // Key Word
                     $nextChar = $text[$i + 1];
                     // If it is another backslash or nonbreaking space or hyphen,
                     // then the character is plain text and add it to the output stream.
-                    if ($nextChar == "\\" && self::_rtfIsPlain($stack[$j])) {
-                        $document .= "\\";
+                    if ($nextChar == '\\' && self::_rtfIsPlain($stack[$j])) {
+                        $document .= '\\';
                     }
                     elseif ($nextChar == '~' && self::_rtfIsPlain($stack[$j])) {
                         $document .= ' ';

@@ -428,7 +428,7 @@ abstract class rcmail_action
             $style[] = "font-size: $font_size;";
         }
         if (!empty($style)) {
-            $config['content_style'] = "body {" . implode(' ', $style) . "}";
+            $config['content_style'] = 'body {' . implode(' ', $style) . '}';
         }
 
         $rcmail->output->set_env('editor_config', $config);
@@ -730,16 +730,16 @@ abstract class rcmail_action
         if ($bytes >= 1073741824) {
             $unit = 'GB';
             $gb   = $bytes / 1073741824;
-            $str  = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $rcmail->gettext($unit);
+            $str  = sprintf($gb >= 10 ? '%d ' : '%.1f ', $gb) . $rcmail->gettext($unit);
         }
         elseif ($bytes >= 1048576) {
             $unit = 'MB';
             $mb   = $bytes / 1048576;
-            $str  = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $rcmail->gettext($unit);
+            $str  = sprintf($mb >= 10 ? '%d ' : '%.1f ', $mb) . $rcmail->gettext($unit);
         }
         elseif ($bytes >= 1024) {
             $unit = 'KB';
-            $str  = sprintf("%d ",  round($bytes / 1024)) . $rcmail->gettext($unit);
+            $str  = sprintf('%d ',  round($bytes / 1024)) . $rcmail->gettext($unit);
         }
         else {
             $unit = 'B';
@@ -1227,7 +1227,7 @@ abstract class rcmail_action
             ];
 
             $out .= html::tag('li', [
-                    'id'      => "rcmli" . $folder_id,
+                    'id'      => 'rcmli' . $folder_id,
                     'class'   => implode(' ', $classes),
                     'noclose' => true,
                 ],
@@ -1249,7 +1249,7 @@ abstract class rcmail_action
             }
 
             if (!empty($folder['folders'])) {
-                $out .= html::tag('ul', ['style' => $is_collapsed ? "display:none;" : null],
+                $out .= html::tag('ul', ['style' => $is_collapsed ? 'display:none;' : null],
                     self::render_folder_tree_html($folder['folders'], $mbox_name, $jslist, $attrib, $nestLevel + 1));
             }
 

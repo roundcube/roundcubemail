@@ -42,7 +42,7 @@ class rcmail_action_mail_send extends rcmail_action
                     'code' => 500,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => "Invalid compose ID",
+                    'message' => 'Invalid compose ID',
                 ], true, false
             );
 
@@ -101,7 +101,7 @@ class rcmail_action_mail_send extends rcmail_action
             $message_body = '<html><head>'
                 . '<meta http-equiv="Content-Type" content="text/html; charset='
                 . ($message_charset ?: RCUBE_CHARSET) . '" /></head>'
-                . "<body" . $bstyle . ">\r\n" . $message_body;
+                . '<body' . $bstyle . ">\r\n" . $message_body;
         }
 
         if (!$savedraft) {
@@ -134,7 +134,7 @@ class rcmail_action_mail_send extends rcmail_action
                 rcube_utils::preg_error([
                         'line'    => __LINE__,
                         'file'    => __FILE__,
-                        'message' => "Could not format HTML!",
+                        'message' => 'Could not format HTML!',
                     ], true);
             }
 
@@ -153,7 +153,7 @@ class rcmail_action_mail_send extends rcmail_action
                 if ($error = $spellchecker->error()) {
                     rcube::raise_error([
                             'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Spellcheck error: " . $error,
+                            'message' => 'Spellcheck error: ' . $error,
                         ],
                         true, false
                     );
@@ -372,7 +372,7 @@ class rcmail_action_mail_send extends rcmail_action
                     rcube_utils::preg_error([
                             'line'    => __LINE__,
                             'file'    => __FILE__,
-                            'message' => "Could not replace an image reference!",
+                            'message' => 'Could not replace an image reference!',
                         ], true
                     );
 

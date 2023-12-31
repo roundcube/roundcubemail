@@ -19,7 +19,7 @@
 */
 
 if (\PHP_SAPI != 'cli') {
-    exit("Not in shell mode (php-cli)");
+    exit('Not in shell mode (php-cli)');
 }
 
 if (!defined('INSTALL_PATH')) {
@@ -63,8 +63,8 @@ class bootstrap
 
         if ($dsn['phptype'] == 'mysql' || $dsn['phptype'] == 'mysqli') {
             // drop all existing tables first
-            $db->query("SET FOREIGN_KEY_CHECKS=0");
-            $sql_res = $db->query("SHOW TABLES");
+            $db->query('SET FOREIGN_KEY_CHECKS=0');
+            $sql_res = $db->query('SHOW TABLES');
             while ($sql_arr = $db->fetch_array($sql_res)) {
                 $table = reset($sql_arr);
                 $db->query("DROP TABLE $table");
@@ -115,10 +115,10 @@ class bootstrap
             $imap_host = $host;
         }
 
-        $db->query("INSERT INTO `users` (`username`, `mail_host`, `language`)"
+        $db->query('INSERT INTO `users` (`username`, `mail_host`, `language`)'
                 . " VALUES (?, ?, 'en_US')", TESTS_USER, $imap_host);
 
-        $db->query("INSERT INTO `identities` (`user_id`, `email`, `standard`)"
+        $db->query('INSERT INTO `identities` (`user_id`, `email`, `standard`)'
                 . " VALUES (1, ?, '1')", TESTS_USER);
     }
 
@@ -165,7 +165,7 @@ class bootstrap
         }
 
         if (!$imap->connect($imap_host, $username, $password, $imap_port, $imap_ssl)) {
-            rcube::raise_error("IMAP error: unable to authenticate with user " . TESTS_USER, false, true);
+            rcube::raise_error('IMAP error: unable to authenticate with user ' . TESTS_USER, false, true);
         }
 
         if (in_array('archive', (array) $rcmail->config->get('plugins'))) {
@@ -277,7 +277,7 @@ class bootstrap
         $db = rcube_db::factory($rcmail->config->get('db_dsnw'), $rcmail->config->get('db_dsnr'), false);
         $db->set_debug((bool) $rcmail->config->get('sql_debug'));
 
-        $query  = $db->query("SELECT preferences FROM users WHERE username = ?", TESTS_USER);
+        $query  = $db->query('SELECT preferences FROM users WHERE username = ?', TESTS_USER);
         $record = $db->fetch_assoc($query);
 
         return unserialize($record['preferences']);

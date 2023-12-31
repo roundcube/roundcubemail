@@ -296,7 +296,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function waitUntilNotBusy()
     {
-        $this->waitUntil("!rcmail.busy");
+        $this->waitUntil('!rcmail.busy');
 
         return $this;
     }

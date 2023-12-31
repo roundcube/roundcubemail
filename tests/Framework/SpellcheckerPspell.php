@@ -12,8 +12,8 @@ class Framework_SpellcheckerPspell extends PHPUnit\Framework\TestCase
     {
         $object = new rcube_spellchecker_pspell(null, 'en');
 
-        $this->assertInstanceOf('rcube_spellchecker_pspell', $object, "Class constructor");
-        $this->assertInstanceOf('rcube_spellchecker_engine', $object, "Class constructor");
+        $this->assertInstanceOf('rcube_spellchecker_pspell', $object, 'Class constructor');
+        $this->assertInstanceOf('rcube_spellchecker_engine', $object, 'Class constructor');
     }
 
     /**

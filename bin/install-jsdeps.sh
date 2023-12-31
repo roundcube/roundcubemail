@@ -24,7 +24,7 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 if (!function_exists('exec')) {
-    rcube::raise_error("PHP exec() function is required. Check disable_functions in php.ini.", false, true);
+    rcube::raise_error('PHP exec() function is required. Check disable_functions in php.ini.', false, true);
 }
 
 $cfgfile = INSTALL_PATH . 'jsdeps.json';
@@ -34,10 +34,10 @@ if (empty($SOURCES['dependencies'])) {
     rcube::raise_error("Failed to read dependencies list from $cfgfile", false, true);
 }
 
-$CURL   = trim(shell_exec("which curl"));
-$WGET   = trim(shell_exec("which wget"));
+$CURL   = trim(shell_exec('which curl'));
+$WGET   = trim(shell_exec('which wget'));
 
-if (($CACHEDIR = getenv("CACHEDIR")) && is_writable($CACHEDIR)) {
+if (($CACHEDIR = getenv('CACHEDIR')) && is_writable($CACHEDIR)) {
     // use $CACHEDIR
 }
 elseif (is_writable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
@@ -183,7 +183,7 @@ function compose_destfile($package, $srcfile)
     $header = sprintf("/**\n * %s - v%s\n *\n", $package['name'], $package['version']);
 
     if (!empty($package['source'])) {
-        $header .= " * @source " . str_replace('$v', $package['version'], $package['source']) . "\n";
+        $header .= ' * @source ' . str_replace('$v', $package['version'], $package['source']) . "\n";
         $header .= " *\n";
     }
 
@@ -192,7 +192,7 @@ function compose_destfile($package, $srcfile)
         $header .= " * JavaScript code in this file.\n";
         $header .= " *\n";
         if (!empty($package['copyright'])) {
-            $header .= " * " . $package['copyright'] . "\n";
+            $header .= ' * ' . $package['copyright'] . "\n";
             $header .= " *\n";
         }
 
@@ -205,10 +205,10 @@ function compose_destfile($package, $srcfile)
     $header .= " */\n";
 
     if (file_put_contents(INSTALL_PATH . $package['dest'], $header . file_get_contents($srcfile))) {
-        echo "Wrote file " . INSTALL_PATH . $package['dest'] . "\n";
+        echo 'Wrote file ' . INSTALL_PATH . $package['dest'] . "\n";
     }
     else {
-        rcube::raise_error("Failed to write destination file " . INSTALL_PATH . $package['dest'], false, true);
+        rcube::raise_error('Failed to write destination file ' . INSTALL_PATH . $package['dest'], false, true);
     }
 }
 
@@ -309,10 +309,10 @@ function delete_destfile($package)
 
     if (file_exists($destdir)) {
         if (\PHP_OS === 'Windows') {
-            exec(sprintf("rd /s /q %s", escapeshellarg($destdir)));
+            exec(sprintf('rd /s /q %s', escapeshellarg($destdir)));
         }
         else {
-            exec(sprintf("rm -rf %s", escapeshellarg($destdir)));
+            exec(sprintf('rm -rf %s', escapeshellarg($destdir)));
         }
     }
 }

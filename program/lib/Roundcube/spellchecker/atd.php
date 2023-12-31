@@ -92,8 +92,8 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
 
         if ($fp = fsockopen($host, $port, $errno, $errstr, 30)) {
             $out = "POST $path HTTP/1.0\r\n";
-            $out .= "Host: " . str_replace('ssl://', '', $host) . "\r\n";
-            $out .= "Content-Length: " . strlen($postdata) . "\r\n";
+            $out .= 'Host: ' . str_replace('ssl://', '', $host) . "\r\n";
+            $out .= 'Content-Length: ' . strlen($postdata) . "\r\n";
             $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
             $out .= "Connection: Close\r\n\r\n";
             $out .= $postdata;
@@ -123,14 +123,14 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
         }
 
         if (!$response) {
-            $this->error = "Empty result from spelling engine";
+            $this->error = 'Empty result from spelling engine';
         }
 
         try {
             $result = new SimpleXMLElement($response);
         }
         catch (Exception $e) {
-            $this->error = "Unexpected response from server: " . $response;
+            $this->error = 'Unexpected response from server: ' . $response;
             return [];
         }
 

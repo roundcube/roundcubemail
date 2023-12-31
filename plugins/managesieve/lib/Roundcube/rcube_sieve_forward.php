@@ -172,7 +172,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
                     }
                 }
 
-                if (count($rule['tests']) != 1 || $rule['tests'][0]['test'] != "true" || $rule['tests'][0]['not'] != null) {
+                if (count($rule['tests']) != 1 || $rule['tests'][0]['test'] != 'true' || $rule['tests'][0]['not'] != null) {
                     // ignore rules that have special conditions
                     $ignore_rule = true;
                 }
@@ -370,12 +370,12 @@ class rcube_sieve_forward extends rcube_sieve_engine
 
         if ($data['action'] == 'redirect' || $data['action'] == 'copy') {
             if (empty($data['target']) || !rcube_utils::check_email($data['target'])) {
-                $this->error = "Invalid address in action target: " . $data['target'];
+                $this->error = 'Invalid address in action target: ' . $data['target'];
                 return false;
             }
         }
         elseif ($data['action']) {
-            $this->error = "Unsupported forward action: " . $data['action'];
+            $this->error = 'Unsupported forward action: ' . $data['action'];
             return false;
         }
 
