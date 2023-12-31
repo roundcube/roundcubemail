@@ -965,6 +965,11 @@ class rcmail_output_html extends rcmail_output
         }
 
         if (!$this->assets_path || in_array($path[0], ['?', '/', '.']) || strpos($path, '://')) {
+
+            if (!str_starts_with($path, 'static.php/') && strpos($path, '://') === false) {
+                $path = 'static.php/' . $path;
+            }
+
             return $path;
         }
 
@@ -1000,7 +1005,7 @@ class rcmail_output_html extends rcmail_output
      */
     protected function fix_paths($output)
     {
-        $regexp = '!(src|href|background|data-src-[a-z]+)=(["\']?)([a-z0-9/_.-]+)(["\'\s>])!i';
+        $regexp = '!(src|href|background|data-src-[a-z]+)=(["\']?)([a-z0-9/_.?=-]+)(["\'\s>])!i';
 
         return preg_replace_callback($regexp, [$this, 'file_callback'], $output);
     }
@@ -1026,6 +1031,10 @@ class rcmail_output_html extends rcmail_output
             $file = $this->file_mod($file);
         }
 
+        if (!str_starts_with($file, 'static.php/') && strpos($file, '://') === false) {
+            $file = 'static.php/' . $file;
+        }
+
         return $matches[1] . '=' . $matches[2] . $file . $matches[4];
     }
 
@@ -1047,6 +1056,10 @@ class rcmail_output_html extends rcmail_output
     protected function assets_callback($matches)
     {
         $file = $this->asset_url($matches[3]);
+
+        if (!str_starts_with($file, 'static.php/') && strpos($file, '://') === false) {
+            $file = 'static.php/' . $file;
+        }
 
         return $matches[1] . '=' . $matches[2] . $file . $matches[4];
     }
