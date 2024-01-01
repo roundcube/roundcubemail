@@ -8,7 +8,7 @@ class Actions_Settings_IdentitySave extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_identity_edit()
+    public function test_identity_edit()
     {
         $action = new rcmail_action_settings_identity_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-identity');
@@ -49,7 +49,7 @@ class Actions_Settings_IdentitySave extends ActionTestCase
     /**
      * Test run() method for a new identity
      */
-    function test_new_identity()
+    public function test_new_identity()
     {
         $this->markTestIncomplete();
     }
@@ -57,7 +57,7 @@ class Actions_Settings_IdentitySave extends ActionTestCase
     /**
      * Test run() method errors handling
      */
-    function test_run_errors()
+    public function test_run_errors()
     {
         $this->markTestIncomplete();
     }

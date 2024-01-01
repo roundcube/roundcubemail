@@ -8,7 +8,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
     /**
      * Test for db() method
      */
-    function test_db()
+    public function test_db()
     {
         $db = rcmail_utils::db();
 
@@ -18,7 +18,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
     /**
      * Test for db_version() method
      */
-    function test_db_version()
+    public function test_db_version()
     {
         // FIXME: It breaks the test suite for some reason
         $this->markTestIncomplete();
@@ -31,7 +31,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
     /**
      * Test for db_clean() method
      */
-    function test_db_clean()
+    public function test_db_clean()
     {
         ob_start();
         rcmail_utils::db_clean(7);
@@ -44,7 +44,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
     /**
      * Test for indexcontacts() method
      */
-    function test_indexcontacts()
+    public function test_indexcontacts()
     {
         self::initDB('contacts');
 
@@ -59,7 +59,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
     /**
      * Test for mod_pref() method
      */
-    function test_mod_pref()
+    public function test_mod_pref()
     {
         // FIXME: The test hangs for some reason, probably related with the extra DB connection
         $this->markTestIncomplete();

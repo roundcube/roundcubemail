@@ -35,7 +35,7 @@ class rcube_ldap_generic extends Net_LDAP3
      *
      * @param array $config Configuration
      */
-    function __construct($config = null)
+    public function __construct($config = null)
     {
         parent::__construct($config);
 
@@ -93,7 +93,7 @@ class rcube_ldap_generic extends Net_LDAP3
      *
      * @return mixed Error message string or null if no error occurred
      */
-    function get_error()
+    public function get_error()
     {
         return $this->error;
     }

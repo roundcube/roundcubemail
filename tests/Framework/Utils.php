@@ -8,7 +8,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test for rcube_utils::date_format()
      */
-    function test_date_format()
+    public function test_date_format()
     {
         date_default_timezone_set('Europe/Berlin');
 
@@ -24,7 +24,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test for rcube_utils::explode()
      */
-    function test_explode()
+    public function test_explode()
     {
         $this->assertSame(['test', null], rcube_utils::explode(':', 'test'));
         $this->assertSame(['test1', 'test2'], rcube_utils::explode(':', 'test1:test2'));
@@ -34,7 +34,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Valid email addresses for test_valid_email()
      */
-    function data_valid_email(): iterable
+    public function data_valid_email(): iterable
     {
         return [
             ['email@domain.com', 'Valid email'],
@@ -61,7 +61,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Invalid email addresses for test_invalid_email()
      */
-    function data_invalid_email(): iterable
+    public function data_invalid_email(): iterable
     {
         return [
             ['plainaddress', 'Missing @ sign and domain'],
@@ -94,7 +94,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_valid_email
      */
-    function test_valid_email($email, $title)
+    public function test_valid_email($email, $title)
     {
         $this->assertTrue(rcube_utils::check_email($email, false), $title);
     }
@@ -102,7 +102,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_invalid_email
      */
-    function test_invalid_email($email, $title)
+    public function test_invalid_email($email, $title)
     {
         $this->assertFalse(rcube_utils::check_email($email, false), $title);
     }
@@ -110,7 +110,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Valid IP addresses for test_valid_ip()
      */
-    function data_valid_ip(): iterable
+    public function data_valid_ip(): iterable
     {
         return [
             ['0.0.0.0'],
@@ -127,7 +127,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Invalid IP addresses for test_invalid_ip()
      */
-    function data_invalid_ip(): iterable
+    public function data_invalid_ip(): iterable
     {
         return [
             [''],
@@ -146,7 +146,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_valid_ip
      */
-    function test_valid_ip($ip)
+    public function test_valid_ip($ip)
     {
         $this->assertTrue(rcube_utils::check_ip($ip));
     }
@@ -154,7 +154,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_invalid_ip
      */
-    function test_invalid_ip($ip)
+    public function test_invalid_ip($ip)
     {
         $this->assertFalse(rcube_utils::check_ip($ip));
     }
@@ -162,7 +162,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Data for test_rep_specialchars_output()
      */
-    function data_rep_specialchars_output(): iterable
+    public function data_rep_specialchars_output(): iterable
     {
         return [
             ['', '', 'abc', 'abc'],
@@ -182,7 +182,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_rep_specialchars_output
      */
-    function test_rep_specialchars_output($type, $mode, $str, $res)
+    public function test_rep_specialchars_output($type, $mode, $str, $res)
     {
         $result = rcube_utils::rep_specialchars_output(
             $str, $type ?: 'html', $mode ?: 'strict');
@@ -193,7 +193,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube_utils::mod_css_styles()
      */
-    function test_mod_css_styles()
+    public function test_mod_css_styles()
     {
         $css = file_get_contents(TESTS_DIR . 'src/valid.css');
         $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
@@ -214,7 +214,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube_utils::mod_css_styles()
      */
-    function test_mod_css_styles_xss()
+    public function test_mod_css_styles_xss()
     {
         $mod = rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
         $this->assertSame('/* evil! */', $mod, 'No url() values allowed');
@@ -285,7 +285,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube_utils::mod_css_styles()'s prefix argument handling
      */
-    function test_mod_css_styles_prefix()
+    public function test_mod_css_styles_prefix()
     {
         $css = '
             .one { font-size: 10pt; }
@@ -318,7 +318,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $this->assertStringContainsString('#rc > * ', $mod);
     }
 
-    function test_xss_entity_decode()
+    public function test_xss_entity_decode()
     {
         $mod = rcube_utils::xss_entity_decode('&lt;img/src=x onerror=alert(1)// </b>');
         $this->assertStringNotContainsString('<img', $mod, 'Strip (encoded) tags from style node');
@@ -337,7 +337,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for parse_css_block() test
      */
-    function data_parse_css_block(): iterable
+    public function data_parse_css_block(): iterable
     {
         return [
             [
@@ -408,7 +408,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_parse_css_block
      */
-    function test_explode_style($input, $output)
+    public function test_explode_style($input, $output)
     {
         $this->assertSame($output, rcube_utils::parse_css_block($input));
     }
@@ -416,7 +416,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Check rcube_utils::explode_quoted_string()
      */
-    function test_explode_quoted_string()
+    public function test_explode_quoted_string()
     {
         $data = [
             '"a,b"' => ['"a,b"'],
@@ -436,7 +436,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Check rcube_utils::explode_quoted_string() compat. with explode()
      */
-    function test_explode_quoted_string_compat()
+    public function test_explode_quoted_string_compat()
     {
         $data = ['', 'a,b,c', 'a', ',', ',a'];
 
@@ -449,7 +449,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Check rcube_utils::explode_quoted_string() with multibyte delimiter
      */
-    function test_explode_quoted_string_multibyte_delimiter()
+    public function test_explode_quoted_string_multibyte_delimiter()
     {
         $data = [
             "a\nb" => ['a', 'b'],
@@ -467,7 +467,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube_utils::get_boolean()
      */
-    function test_get_boolean()
+    public function test_get_boolean()
     {
         $input = [
             false, 'false', '0', 'no', 'off', 'nein', 'FALSE', '', null,
@@ -489,7 +489,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube_utils::get_input_string()
      */
-    function test_get_input_string()
+    public function test_get_input_string()
     {
         $_GET = [];
         $this->assertSame('', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
@@ -504,7 +504,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::file2class()
      */
-    function test_file2class()
+    public function test_file2class()
     {
         $test = [
             ['', '', 'unknown'],
@@ -521,7 +521,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::strtotime()
      */
-    function test_strtotime()
+    public function test_strtotime()
     {
         // this test depends on system timezone if not set
         date_default_timezone_set('UTC');
@@ -551,7 +551,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::anytodatetime()
      */
-    function test_anytodatetime()
+    public function test_anytodatetime()
     {
         $test = [
             '2013-04-22' => '2013-04-22',
@@ -597,7 +597,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::anytodatetime()
      */
-    function test_anytodatetime_timezone()
+    public function test_anytodatetime_timezone()
     {
         $tz = new DateTimeZone('Europe/Helsinki');
         $test = [
@@ -621,7 +621,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::format_datestr()
      */
-    function test_format_datestr()
+    public function test_format_datestr()
     {
         $test = [
             ['abc-555', 'abc', 'abc-555'],
@@ -639,7 +639,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::tokenize_string()
      */
-    function test_tokenize_string()
+    public function test_tokenize_string()
     {
         $test = [
             ''        => [],
@@ -658,7 +658,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::normalize_string()
      */
-    function test_normalize_string()
+    public function test_normalize_string()
     {
         $test = [
             ''        => '',
@@ -683,7 +683,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::words_match()
      */
-    function test_words_match()
+    public function test_words_match()
     {
         $test = [
             ['', 'test', false],
@@ -706,7 +706,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::is_absolute_path()
      */
-    function test_is_absolute_path()
+    public function test_is_absolute_path()
     {
         if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN') {
             $test = [
@@ -731,7 +731,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * rcube:utils::random_bytes()
      */
-    function test_random_bytes()
+    public function test_random_bytes()
     {
         $this->assertMatchesRegularExpression('/^[a-zA-Z0-9]{15}$/', rcube_utils::random_bytes(15));
         $this->assertSame(15, strlen(rcube_utils::random_bytes(15, true)));
@@ -743,7 +743,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for IDN to ASCII and IDN to UTF-8
      */
-    function data_idn_convert(): iterable
+    public function data_idn_convert(): iterable
     {
 
         /*
@@ -781,7 +781,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_idn_convert
      */
-    function test_idn_to_ascii($decoded, $encoded)
+    public function test_idn_to_ascii($decoded, $encoded)
     {
         $this->assertSame(rcube_utils::idn_to_ascii($decoded), $encoded);
     }
@@ -794,7 +794,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_idn_convert
      */
-    function test_idn_to_utf8($decoded, $encoded)
+    public function test_idn_to_utf8($decoded, $encoded)
     {
         $this->assertSame(rcube_utils::idn_to_utf8($encoded), $decoded);
     }
@@ -802,7 +802,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test idn_to_ascii with non-domain input (#6224)
      */
-    function test_idn_to_ascii_special()
+    public function test_idn_to_ascii_special()
     {
         $this->assertSame(rcube_utils::idn_to_ascii('H.S'), 'H.S');
         $this->assertSame(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
@@ -811,7 +811,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_parse_host()
      */
-    function data_parse_host(): iterable
+    public function data_parse_host(): iterable
     {
         return [
             ['%z', 'hostname', 'hostname'],
@@ -826,7 +826,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_parse_host
      */
-    function test_parse_host($name, $host, $result)
+    public function test_parse_host($name, $host, $result)
     {
         $this->assertSame(rcube_utils::parse_host($name, $host), $result);
     }
@@ -834,7 +834,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_parse_host_uri()
      */
-    function data_parse_host_uri(): iterable
+    public function data_parse_host_uri(): iterable
     {
         return [
             [['hostname', null, null], ['hostname', null, null]],
@@ -856,7 +856,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_parse_host_uri
      */
-    function test_parse_host_uri($args, $result)
+    public function test_parse_host_uri($args, $result)
     {
         $this->assertSame($result, call_user_func_array('rcube_utils::parse_host_uri', $args));
     }
@@ -864,7 +864,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_remove_subject_prefix()
      */
-    function data_remove_subject_prefix(): iterable
+    public function data_remove_subject_prefix(): iterable
     {
         return [
             ['both', 'Fwd: Re: Test subject both', 'Test subject both'],
@@ -883,7 +883,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_remove_subject_prefix
      */
-    function test_remove_subject_prefix($mode, $subject, $result)
+    public function test_remove_subject_prefix($mode, $subject, $result)
     {
         $this->assertSame(rcube_utils::remove_subject_prefix($subject, $mode), $result);
     }
@@ -891,7 +891,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test server_name()
      */
-    function test_server_name()
+    public function test_server_name()
     {
         $this->assertSame('localhost', rcube_utils::server_name('test'));
 
@@ -905,7 +905,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test server_name() with trusted_host_patterns
      */
-    function test_server_name_trusted_host_patterns()
+    public function test_server_name_trusted_host_patterns()
     {
         $_SERVER['test'] = 'test.com';
 

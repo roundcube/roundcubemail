@@ -26,15 +26,15 @@
 class rcube
 {
     // Init options
-    const INIT_WITH_DB      = 1;
-    const INIT_WITH_PLUGINS = 2;
+    public const INIT_WITH_DB      = 1;
+    public const INIT_WITH_PLUGINS = 2;
 
     // Request status
-    const REQUEST_VALID       = 0;
-    const REQUEST_ERROR_URL   = 1;
-    const REQUEST_ERROR_TOKEN = 2;
+    public const REQUEST_VALID       = 0;
+    public const REQUEST_ERROR_URL   = 1;
+    public const REQUEST_ERROR_TOKEN = 2;
 
-    const DEBUG_LINE_LENGTH = 4096;
+    public const DEBUG_LINE_LENGTH = 4096;
 
     /** @var rcube_config Stores instance of rcube_config */
     public $config;
@@ -82,7 +82,7 @@ class rcube
     protected $shutdown_functions = [];
 
     /** @var rcube Singleton instance of rcube */
-    static protected $instance;
+    protected static $instance;
 
 
     /**
@@ -93,7 +93,7 @@ class rcube
      *
      * @return rcube The one and only instance
      */
-    static function get_instance($mode = 0, $env = '')
+    public static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance) {
             self::$instance = new self($env);

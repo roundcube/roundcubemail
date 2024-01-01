@@ -15,7 +15,7 @@ class reconnect extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $this->add_hook('storage_connect', [$this, 'storage_connect']);
     }
@@ -23,7 +23,7 @@ class reconnect extends rcube_plugin
     /**
      * Storage_connect hook handler
      */
-    function storage_connect($args)
+    public function storage_connect($args)
     {
         $rcmail = rcmail::get_instance();
 

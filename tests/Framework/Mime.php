@@ -9,7 +9,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
      * Test decoding of single e-mail address strings
      * Uses rcube_mime::decode_address_list()
      */
-    function test_decode_single_address()
+    public function test_decode_single_address()
     {
         $headers = [
             0  => 'test@domain.tld',
@@ -93,7 +93,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
      * Test decoding of address groups
      * Uses rcube_mime::decode_address_list()
      */
-    function test_decode_address_groups()
+    public function test_decode_address_groups()
     {
         $headers = [
             0  => 'undisclosed-recipients:;',
@@ -136,7 +136,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
      * Test decoding of header values
      * Uses rcube_mime::decode_mime_string()
      */
-    function test_header_decode_qp()
+    public function test_header_decode_qp()
     {
         $test = [
             // #1488232: invalid character "?"
@@ -181,7 +181,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test headers parsing
      */
-    function test_parse_headers()
+    public function test_parse_headers()
     {
         $this->assertSame([], rcube_mime::parse_headers(''));
 
@@ -200,7 +200,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test format=flowed unfolding
      */
-    function test_format_flowed()
+    public function test_format_flowed()
     {
         $raw = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
         $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
@@ -211,7 +211,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test format=flowed unfolding
      */
-    function test_unfold_flowed()
+    public function test_unfold_flowed()
     {
         $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
         $unfolded = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
@@ -222,7 +222,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test format=flowed unfolding (#1490284)
      */
-    function test_unfold_flowed2()
+    public function test_unfold_flowed2()
     {
         $flowed   = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
                     . "> \r\n"
@@ -237,7 +237,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test format=flowed delsp=yes unfolding (RFC3676)
      */
-    function test_unfold_flowed_delsp()
+    public function test_unfold_flowed_delsp()
     {
         $flowed   = "そしてジョバンニはすぐうしろの天気輪の柱が \r\n"
                     . "いつかぼんやりした三角標の形になって、しば \r\n"
@@ -251,7 +251,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test wordwrap()
      */
-    function test_wordwrap()
+    public function test_wordwrap()
     {
         $samples = [
             [
@@ -316,7 +316,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test parse_message()
      */
-    function test_parse_message()
+    public function test_parse_message()
     {
         $file   = file_get_contents(__DIR__ . '/../src/html.msg');
         $result = rcube_mime::parse_message($file);
@@ -349,7 +349,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test file_content_type()
      */
-    function test_file_content_type()
+    public function test_file_content_type()
     {
         $file = INSTALL_PATH . 'program/resources/blocked.gif';
         $this->assertSame('image/gif', rcube_mime::file_content_type($file, 'blocked.gif'));
@@ -360,7 +360,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test get_mime_extensions()
      */
-    function test_get_mime_extensions()
+    public function test_get_mime_extensions()
     {
         $this->assertSame([], rcube_mime::get_mime_extensions('unknown'));
         $this->assertSame(['gif'], rcube_mime::get_mime_extensions('image/gif'));
@@ -371,7 +371,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test image_content_type()
      */
-    function test_image_content_type()
+    public function test_image_content_type()
     {
         $file = file_get_contents(INSTALL_PATH . 'program/resources/blocked.gif');
         $this->assertSame('image/gif', rcube_mime::image_content_type($file));
@@ -380,7 +380,7 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     /**
      * Test fix_mimetype()
      */
-    function test_fix_mimetype()
+    public function test_fix_mimetype()
     {
         $this->assertSame('unknown', rcube_mime::fix_mimetype('unknown'));
         $this->assertSame('application/pdf', rcube_mime::fix_mimetype('pdf'));

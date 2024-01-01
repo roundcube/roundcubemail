@@ -23,8 +23,8 @@
  */
 class rcube_imap_cache
 {
-    const MODE_INDEX   = 1;
-    const MODE_MESSAGE = 2;
+    public const MODE_INDEX   = 1;
+    public const MODE_MESSAGE = 2;
 
     /**
      * Instance of rcube_imap
@@ -110,7 +110,7 @@ class rcube_imap_cache
      * @param string     $ttl          Expiration time of memcache/apc items
      * @param int        $threshold    Maximum cached message size
      */
-    function __construct($db, $imap, $userid, $skip_deleted, $ttl = 0, $threshold = 0)
+    public function __construct($db, $imap, $userid, $skip_deleted, $ttl = 0, $threshold = 0)
     {
         // convert ttl string to seconds
         $ttl = get_offset_sec($ttl);
@@ -164,7 +164,7 @@ class rcube_imap_cache
      *
      * @return array Messages index
      */
-    function get_index($mailbox, $sort_field = null, $sort_order = null, $existing = false)
+    public function get_index($mailbox, $sort_field = null, $sort_order = null, $existing = false)
     {
         if (empty($this->icache[$mailbox])) {
             $this->icache[$mailbox] = [];
@@ -277,7 +277,7 @@ class rcube_imap_cache
      *
      * @return array Messages threaded index
      */
-    function get_thread($mailbox)
+    public function get_thread($mailbox)
     {
         if (empty($this->icache[$mailbox])) {
             $this->icache[$mailbox] = [];
@@ -334,7 +334,7 @@ class rcube_imap_cache
      *
      * @return array The list of messages (rcube_message_header) indexed by UID
      */
-    function get_messages($mailbox, $msgs = [])
+    public function get_messages($mailbox, $msgs = [])
     {
         $result = [];
 
@@ -401,7 +401,7 @@ class rcube_imap_cache
      *
      * @return rcube_message_header Message data
      */
-    function get_message($mailbox, $uid, $update = true, $cache = true)
+    public function get_message($mailbox, $uid, $update = true, $cache = true)
     {
         // Check internal cache
         if (!empty($this->icache['__message'])
@@ -467,7 +467,7 @@ class rcube_imap_cache
      * @param rcube_message_header $message Message data
      * @param bool                 $force   Skips message in-cache existence check
      */
-    function add_message($mailbox, $message, $force = false)
+    public function add_message($mailbox, $message, $force = false)
     {
         if (!is_object($message) || empty($message->uid)) {
             return;
@@ -510,7 +510,7 @@ class rcube_imap_cache
      * @param string $flag    The name of the flag
      * @param bool   $enabled Flag state
      */
-    function change_flag($mailbox, $uids, $flag, $enabled = false)
+    public function change_flag($mailbox, $uids, $flag, $enabled = false)
     {
         if (empty($uids)) {
             return;
@@ -560,7 +560,7 @@ class rcube_imap_cache
      * @param string $mailbox Folder name
      * @param array  $uids    Message UIDs, NULL removes all messages
      */
-    function remove_message($mailbox = null, $uids = null)
+    public function remove_message($mailbox = null, $uids = null)
     {
         if (!($this->mode & self::MODE_MESSAGE)) {
             return;
@@ -599,7 +599,7 @@ class rcube_imap_cache
      * @param string $mailbox Folder name
      * @param bool   $remove  Enable to remove the DB row
      */
-    function remove_index($mailbox = null, $remove = false)
+    public function remove_index($mailbox = null, $remove = false)
     {
         if (!($this->mode & self::MODE_INDEX)) {
             return;
@@ -639,7 +639,7 @@ class rcube_imap_cache
      *
      * @param string $mailbox Folder name
      */
-    function remove_thread($mailbox = null)
+    public function remove_thread($mailbox = null)
     {
         if (!($this->mode & self::MODE_INDEX)) {
             return;
@@ -667,7 +667,7 @@ class rcube_imap_cache
      * @param string $mailbox Folder name
      * @param array  $uids    Message UIDs, NULL removes all messages in a folder
      */
-    function clear($mailbox = null, $uids = null)
+    public function clear($mailbox = null, $uids = null)
     {
         $this->remove_index($mailbox, true);
         $this->remove_thread($mailbox);
@@ -677,7 +677,7 @@ class rcube_imap_cache
     /**
      * Delete expired cache entries
      */
-    static function gc()
+    public static function gc()
     {
         $rcube = rcube::get_instance();
         $db    = $rcube->get_dbh();
@@ -963,7 +963,7 @@ class rcube_imap_cache
      *
      * @param string $mailbox Folder name
      */
-    function synchronize($mailbox)
+    public function synchronize($mailbox)
     {
         // RFC4549: Synchronization Operations for Disconnected IMAP4 Clients
         // RFC4551: IMAP Extension for Conditional STORE Operation

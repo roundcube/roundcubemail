@@ -19,7 +19,7 @@ class vcard_attachments extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $rcmail = rcmail::get_instance();
 
@@ -73,7 +73,7 @@ class vcard_attachments extends rcube_plugin
     /**
      * Check message bodies and attachments for vcards
      */
-    function message_load($p)
+    public function message_load($p)
     {
         $this->message = $p['object'];
 
@@ -100,7 +100,7 @@ class vcard_attachments extends rcube_plugin
      * This callback function adds a box above the message content
      * if there is a vcard attachment available
      */
-    function message_objects($p)
+    public function message_objects($p)
     {
         $rcmail   = rcmail::get_instance();
         $contacts = [];
@@ -151,7 +151,7 @@ class vcard_attachments extends rcube_plugin
     /**
      * This callback function adds a vCard to the message when attached from the Address book
      */
-    function message_compose($p)
+    public function message_compose($p)
     {
         if (
             rcube_utils::get_input_string('_attach_vcard', rcube_utils::INPUT_GET) == '1'
@@ -167,7 +167,7 @@ class vcard_attachments extends rcube_plugin
      * This callback function removes message part's content
      * for parts that are vcards
      */
-    function html_output($p)
+    public function html_output($p)
     {
         foreach ($this->vcard_parts as $part) {
             // remove part's body
@@ -182,7 +182,7 @@ class vcard_attachments extends rcube_plugin
     /**
      * Handler for request action
      */
-    function save_vcard()
+    public function save_vcard()
     {
         $this->add_texts('localization');
 
@@ -392,7 +392,7 @@ class vcard_attachments extends rcube_plugin
     /**
      * Helper function to convert contact name into filename
      */
-    static private function parse_filename($str)
+    private static function parse_filename($str)
     {
         $str = preg_replace('/[\t\n\r\0\x0B:\/]+\s*/', ' ', $str);
 

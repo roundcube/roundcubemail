@@ -31,7 +31,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
-    function languages()
+    public function languages()
     {
         $defaults = ['en'];
         $langs    = [];
@@ -83,7 +83,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
-    function check($text)
+    public function check($text)
     {
         $this->init();
 
@@ -125,7 +125,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
-    function get_suggestions($word)
+    public function get_suggestions($word)
     {
         $this->init();
 
@@ -147,7 +147,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
-    function get_words($text = null)
+    public function get_words($text = null)
     {
         $result = [];
 

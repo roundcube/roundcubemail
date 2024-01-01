@@ -2,7 +2,7 @@
 
 class Managesieve_Forward extends ActionTestCase
 {
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../managesieve.php';
         include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_engine.php';
@@ -12,7 +12,7 @@ class Managesieve_Forward extends ActionTestCase
     /**
      * Test vacation_form()
      */
-    function test_vacation_form()
+    public function test_vacation_form()
     {
         $rcube  = rcube::get_instance();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'managesieve');

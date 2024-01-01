@@ -51,7 +51,7 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     private $current = 0;
 
-    function __construct($count = 0, $first = 0)
+    public function __construct($count = 0, $first = 0)
     {
         $this->count = (int) $count;
         $this->first = (int) $first;

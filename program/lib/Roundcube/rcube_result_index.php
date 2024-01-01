@@ -32,7 +32,7 @@ class rcube_result_index
     protected $params = [];
     protected $order  = 'ASC';
 
-    const SEPARATOR_ELEMENT = ' ';
+    public const SEPARATOR_ELEMENT = ' ';
 
 
     /**

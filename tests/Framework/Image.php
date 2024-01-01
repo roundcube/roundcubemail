@@ -8,7 +8,7 @@ class Framework_Image extends PHPUnit\Framework\TestCase
     /**
      * Test props() method
      */
-    function test_props()
+    public function test_props()
     {
         $object = new rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
@@ -26,7 +26,7 @@ class Framework_Image extends PHPUnit\Framework\TestCase
     /**
      * Test resize() method
      */
-    function test_resize()
+    public function test_resize()
     {
         $object = new rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
@@ -51,7 +51,7 @@ class Framework_Image extends PHPUnit\Framework\TestCase
     /**
      * Test convert() method
      */
-    function test_convert()
+    public function test_convert()
     {
         $object = new rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
@@ -76,7 +76,7 @@ class Framework_Image extends PHPUnit\Framework\TestCase
     /**
      * Test is_convertable() method
      */
-    function test_convertable()
+    public function test_convertable()
     {
         rcube::get_instance()->config->set('im_convert_path', '');
 

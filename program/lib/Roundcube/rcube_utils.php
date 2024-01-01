@@ -25,11 +25,11 @@
 class rcube_utils
 {
     // define constants for input reading
-    const INPUT_GET    = 1;
-    const INPUT_POST   = 2;
-    const INPUT_COOKIE = 4;
-    const INPUT_GP     = 3; // GET + POST
-    const INPUT_GPC    = 7; // GET + POST + COOKIE
+    public const INPUT_GET    = 1;
+    public const INPUT_POST   = 2;
+    public const INPUT_COOKIE = 4;
+    public const INPUT_GP     = 3; // GET + POST
+    public const INPUT_GPC    = 7; // GET + POST + COOKIE
 
 
     /**

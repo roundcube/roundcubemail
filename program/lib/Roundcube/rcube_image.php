@@ -24,9 +24,9 @@
  */
 class rcube_image
 {
-    const TYPE_GIF = 1;
-    const TYPE_JPG = 2;
-    const TYPE_PNG = 3;
+    public const TYPE_GIF = 1;
+    public const TYPE_JPG = 2;
+    public const TYPE_PNG = 3;
 
     /** @var array Image file type to extension map */
     public static $extensions = [
@@ -44,7 +44,7 @@ class rcube_image
      *
      * @param string $filename Image file name/path
      */
-    function __construct($filename)
+    public function __construct($filename)
     {
         $this->image_file = $filename;
     }

@@ -8,7 +8,7 @@ class Actions_Contacts_List extends ActionTestCase
     /**
      * Test listing contacts
      */
-    function test_list()
+    public function test_list()
     {
         $action = new rcmail_action_contacts_list();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'list');

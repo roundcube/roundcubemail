@@ -2,7 +2,7 @@
 
 class Acl_Plugin extends ActionTestCase
 {
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../acl.php';
     }
@@ -10,7 +10,7 @@ class Acl_Plugin extends ActionTestCase
     /**
      * Plugin object construction test
      */
-    function test_constructor()
+    public function test_constructor()
     {
         $rcube  = rcube::get_instance();
         $plugin = new acl($rcube->plugins);

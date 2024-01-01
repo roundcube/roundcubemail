@@ -27,7 +27,7 @@
 
 class rcube_mailcow_password
 {
-    function save($curpass, $passwd, $username)
+    public function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
 

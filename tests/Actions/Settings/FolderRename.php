@@ -8,7 +8,7 @@ class Actions_Settings_FolderRename extends ActionTestCase
     /**
      * Test renaming a folder
      */
-    function test_rename()
+    public function test_rename()
     {
         $action = new rcmail_action_settings_folder_rename();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-rename');
@@ -36,7 +36,7 @@ class Actions_Settings_FolderRename extends ActionTestCase
     /**
      * Test handling errors
      */
-    function test_rename_errors()
+    public function test_rename_errors()
     {
         $action = new rcmail_action_settings_folder_rename();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-rename');

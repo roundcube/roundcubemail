@@ -8,7 +8,7 @@ class Actions_Contacts_Save extends ActionTestCase
     /**
      * Test pre-checks
      */
-    function test_run_prechecks()
+    public function test_run_prechecks()
     {
         $action = new rcmail_action_contacts_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'save');
@@ -47,7 +47,7 @@ class Actions_Contacts_Save extends ActionTestCase
     /**
      * Test saving a new contact
      */
-    function test_run_new_contact()
+    public function test_run_new_contact()
     {
         $action = new rcmail_action_contacts_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'save');
@@ -80,7 +80,7 @@ class Actions_Contacts_Save extends ActionTestCase
     /**
      * Test editing a contact
      */
-    function test_run_existing_contact()
+    public function test_run_existing_contact()
     {
         $this->markTestIncomplete();
     }
@@ -88,7 +88,7 @@ class Actions_Contacts_Save extends ActionTestCase
     /**
      * Test process_input() method
      */
-    function test_process_input()
+    public function test_process_input()
     {
         $this->markTestIncomplete();
     }

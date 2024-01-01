@@ -65,7 +65,7 @@ class rcube_message
     public $pgp_mime     = false;
     public $encrypted_part;
 
-    const BODY_MAX_SIZE = 1048576; // 1MB
+    public const BODY_MAX_SIZE = 1048576; // 1MB
 
 
     /**
@@ -77,7 +77,7 @@ class rcube_message
      * @param string $folder  Folder name
      * @param bool   $is_safe Security flag
      */
-    function __construct($uid, $folder = null, $is_safe = false)
+    public function __construct($uid, $folder = null, $is_safe = false)
     {
         // decode combined UID-folder identifier
         if (preg_match('/^[0-9.]+-.+/', $uid)) {
@@ -1087,7 +1087,7 @@ class rcube_message
      *
      * @return rcube_message_part[] List of message parts extracted from TNEF
      */
-    function tnef_decode(&$part)
+    public function tnef_decode(&$part)
     {
         // @TODO: attachment may be huge, handle body via file
         $body     = $this->get_part_body($part->mime_id);
@@ -1144,7 +1144,7 @@ class rcube_message
      *
      * @return rcube_message_part[] List of message parts extracted from the file
      */
-    function uu_decode(&$part)
+    public function uu_decode(&$part)
     {
         // @TODO: messages may be huge, handle body via file
         $part->body = $this->get_part_body($part->mime_id);

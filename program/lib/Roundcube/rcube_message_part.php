@@ -122,7 +122,7 @@ class rcube_message_part
     /**
      * Clone handler.
      */
-    function __clone()
+    public function __clone()
     {
         if (isset($this->parts)) {
             foreach ($this->parts as $idx => $part) {

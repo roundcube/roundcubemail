@@ -157,7 +157,7 @@ class rcube_ldap_password
      * Use search_base and search_filter defined in config file.
      * Return the found DN.
      */
-    function search_userdn($rcmail)
+    public function search_userdn($rcmail)
     {
         $binddn = $rcmail->config->get('password_ldap_searchDN');
         $bindpw = $rcmail->config->get('password_ldap_searchPW');

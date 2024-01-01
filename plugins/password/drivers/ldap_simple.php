@@ -113,7 +113,7 @@ class rcube_ldap_simple_password
     /**
      * Connect and bind to LDAP server
      */
-    function connect($curpass)
+    public function connect($curpass)
     {
         $rcmail = rcmail::get_instance();
 
@@ -230,7 +230,7 @@ class rcube_ldap_simple_password
      * Use search_base and search_filter defined in config file
      * Return the found DN
      */
-    function search_userdn($rcmail, $ds)
+    public function search_userdn($rcmail, $ds)
     {
         $search_user   = $rcmail->config->get('password_ldap_searchDN');
         $search_pass   = $rcmail->config->get('password_ldap_searchPW');

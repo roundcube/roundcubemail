@@ -40,7 +40,7 @@ class rcube_string_replacer
      *
      * @param array $options Configuration options
      */
-    function __construct($options = [])
+    public function __construct($options = [])
     {
         // Create hard-to-guess replacement string
         $uniq_ident    = sprintf('%010d%010d', mt_rand(), mt_rand());

@@ -44,7 +44,7 @@ class rcube_httpapi_password
      *
      * @return int PASSWORD_SUCCESS|PASSWORD_ERROR|PASSWORD_CONNECT_ERROR
      */
-    function save($curpass, $newpass, $username)
+    public function save($curpass, $newpass, $username)
     {
         $rcmail = rcmail::get_instance();
         $client = password::get_http_client();

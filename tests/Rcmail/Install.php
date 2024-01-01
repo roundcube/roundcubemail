@@ -8,7 +8,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
     /**
      * Test getprop() method
      */
-    function test_getprop()
+    public function test_getprop()
     {
         $install = rcmail_install::get_instance();
 
@@ -19,7 +19,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
     /**
      * Test create_config() method
      */
-    function test_create_config()
+    public function test_create_config()
     {
         $install = rcmail_install::get_instance();
 
@@ -47,7 +47,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
     /**
      * Test db_schema_check() method
      */
-    function test_db_schema_check()
+    public function test_db_schema_check()
     {
         $rcmail  = rcmail::get_instance();
         $install = rcmail_install::get_instance();
@@ -60,7 +60,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
     /**
      * Test check_mime_detection() method
      */
-    function test_check_mime_detection()
+    public function test_check_mime_detection()
     {
         $rcmail  = rcmail::get_instance();
         $install = rcmail_install::get_instance();
@@ -77,7 +77,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
      *
      * @requires OSFAMILY Linux
      */
-    function test_check_mime_extensions()
+    public function test_check_mime_extensions()
     {
         $rcmail  = rcmail::get_instance();
         $install = rcmail_install::get_instance();
@@ -90,7 +90,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
     /**
      * Test list_skins() method
      */
-    function test_list_skins()
+    public function test_list_skins()
     {
         $rcmail  = rcmail::get_instance();
         $install = rcmail_install::get_instance();
@@ -103,7 +103,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
     /**
      * Test list_plugins() method
      */
-    function test_list_plugins()
+    public function test_list_plugins()
     {
         $rcmail  = rcmail::get_instance();
         $install = rcmail_install::get_instance();
@@ -122,7 +122,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
     /**
      * Test merge_config() method
      */
-    function test_merge_config()
+    public function test_merge_config()
     {
         $config = [
             'imap_host' => 'ssl://test:993',

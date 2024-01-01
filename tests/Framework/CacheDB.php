@@ -8,7 +8,7 @@ class Framework_CacheDB extends PHPUnit\Framework\TestCase
     /**
      * Test common cache functionality
      */
-    function test_common_cache_operations()
+    public function test_common_cache_operations()
     {
         $rcube = rcube::get_instance();
         $db    = $rcube->get_dbh();

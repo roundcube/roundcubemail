@@ -30,7 +30,7 @@ class rcube_mime
     /**
      * Object constructor.
      */
-    function __construct($default_charset = null)
+    public function __construct($default_charset = null)
     {
         self::$default_charset = $default_charset;
     }
@@ -88,7 +88,7 @@ class rcube_mime
      *
      * @return array Indexed list of addresses
      */
-    static function decode_address_list($input, $max = null, $decode = true, $fallback = null, $addronly = false)
+    public static function decode_address_list($input, $max = null, $decode = true, $fallback = null, $addronly = false)
     {
         // A common case when the same header is used many times in a mail message
         if (is_array($input)) {

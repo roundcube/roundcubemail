@@ -8,7 +8,7 @@ class Actions_Contacts_Edit extends ActionTestCase
     /**
      * Test run() method in edit mode
      */
-    function test_run_edit_mode()
+    public function test_run_edit_mode()
     {
         $action = new rcmail_action_contacts_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
@@ -41,7 +41,7 @@ class Actions_Contacts_Edit extends ActionTestCase
     /**
      * Test run() method in add mode
      */
-    function test_run_add_mode()
+    public function test_run_add_mode()
     {
         $this->markTestIncomplete();
     }
@@ -49,7 +49,7 @@ class Actions_Contacts_Edit extends ActionTestCase
     /**
      * Test contact_edithead() method
      */
-    function test_contact_edithead()
+    public function test_contact_edithead()
     {
         $this->markTestIncomplete();
     }
@@ -57,7 +57,7 @@ class Actions_Contacts_Edit extends ActionTestCase
     /**
      * Test contact_editform() method
      */
-    function test_contact_editform()
+    public function test_contact_editform()
     {
         $this->markTestIncomplete();
     }
@@ -65,7 +65,7 @@ class Actions_Contacts_Edit extends ActionTestCase
     /**
      * Test get_form_tags() method
      */
-    function test_get_form_tags()
+    public function test_get_form_tags()
     {
         $this->markTestIncomplete();
     }
@@ -73,7 +73,7 @@ class Actions_Contacts_Edit extends ActionTestCase
     /**
      * Test upload_photo_form() method
      */
-    function test_upload_photo_form()
+    public function test_upload_photo_form()
     {
         $this->markTestIncomplete();
     }
@@ -81,7 +81,7 @@ class Actions_Contacts_Edit extends ActionTestCase
     /**
      * Test photo_drop_area() method
      */
-    function test_photo_drop_area()
+    public function test_photo_drop_area()
     {
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
         $result = rcmail_action_contacts_edit::photo_drop_area([]);

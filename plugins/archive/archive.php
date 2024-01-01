@@ -23,7 +23,7 @@ class archive extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    function init()
+    public function init()
     {
         $rcmail = rcmail::get_instance();
 
@@ -76,7 +76,7 @@ class archive extends rcube_plugin
     /**
      * Hook to give the archive folder a localized name in the mailbox list
      */
-    function render_mailboxlist($p)
+    public function render_mailboxlist($p)
     {
         // set localized name for the configured archive folder
         if ($this->archive_folder && !rcmail::get_instance()->config->get('show_real_foldernames')) {
@@ -115,7 +115,7 @@ class archive extends rcube_plugin
      * Plugin action to move the submitted list of messages to the archive subfolders
      * according to the user settings and their headers.
      */
-    function move_messages()
+    public function move_messages()
     {
         $rcmail = rcmail::get_instance();
 
@@ -392,7 +392,7 @@ class archive extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_table($args)
+    public function prefs_table($args)
     {
         $this->add_texts('localization');
 
@@ -465,7 +465,7 @@ class archive extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_save($args)
+    public function prefs_save($args)
     {
         $rcmail        = rcmail::get_instance();
         $dont_override = $rcmail->config->get('dont_override', []);

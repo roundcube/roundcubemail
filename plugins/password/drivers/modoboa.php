@@ -36,7 +36,7 @@
 
 class rcube_modoboa_password
 {
-    function save($curpass, $passwd)
+    public function save($curpass, $passwd)
     {
         // Init config access
         $rcmail           = rcmail::get_instance();

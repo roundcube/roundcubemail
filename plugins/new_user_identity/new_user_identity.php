@@ -20,7 +20,7 @@ class new_user_identity extends rcube_plugin
     /**
      * Plugin initialization. API hooks binding.
      */
-    function init()
+    public function init()
     {
         $this->rc = rcmail::get_instance();
 
@@ -31,7 +31,7 @@ class new_user_identity extends rcube_plugin
     /**
      * 'user_create' hook handler.
      */
-    function lookup_user_name($args)
+    public function lookup_user_name($args)
     {
         if ($this->init_ldap($args['host'], $args['user'])) {
             $results = $this->ldap->search('*', $args['user'], true);
@@ -75,7 +75,7 @@ class new_user_identity extends rcube_plugin
      * 'login_after' hook handler. This is where we create identities for
      * all user email addresses.
      */
-    function login_after($args)
+    public function login_after($args)
     {
         $this->load_config();
 
@@ -149,7 +149,7 @@ class new_user_identity extends rcube_plugin
 
 class new_user_identity_ldap_backend extends rcube_ldap
 {
-    function __construct($p, $debug, $mail_domain, $search)
+    public function __construct($p, $debug, $mail_domain, $search)
     {
         parent::__construct($p, $debug, $mail_domain);
         $this->prop['search_fields'] = (array) $search;

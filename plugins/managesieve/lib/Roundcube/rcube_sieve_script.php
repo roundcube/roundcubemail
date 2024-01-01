@@ -1268,7 +1268,7 @@ class rcube_sieve_script
      *
      * @return string Result text
      */
-    static function escape_string($str)
+    public static function escape_string($str)
     {
         if (is_array($str) && count($str) > 1) {
             foreach ($str as $idx => $val) {
@@ -1297,7 +1297,7 @@ class rcube_sieve_script
      *
      * @return string Text
      */
-    static function escape_multiline_string($str)
+    public static function escape_multiline_string($str)
     {
         $str = preg_split('/(\r?\n)/', $str, -1, \PREG_SPLIT_DELIM_CAPTURE);
 
@@ -1322,7 +1322,7 @@ class rcube_sieve_script
      *
      * @return mixed Tokens array or string if $num=1
      */
-    static function tokenize($str, $num = 0, &$position = 0)
+    public static function tokenize($str, $num = 0, &$position = 0)
     {
         $result = [];
         $length = strlen($str);
@@ -1499,7 +1499,7 @@ class rcube_sieve_script
     /**
      * Skip whitespace characters in a string from specified position.
      */
-    static function ltrim_position($content, $position, $br = true)
+    public static function ltrim_position($content, $position, $br = true)
     {
         $blanks = ["\t", "\0", "\x0B", ' '];
 

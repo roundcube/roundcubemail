@@ -24,8 +24,8 @@
  */
 abstract class rcmail_action
 {
-    const MODE_AJAX = 1;
-    const MODE_HTTP = 2;
+    public const MODE_AJAX = 1;
+    public const MODE_HTTP = 2;
 
     /**
      * Mode of operation supported by the action. Use MODE_* constants.

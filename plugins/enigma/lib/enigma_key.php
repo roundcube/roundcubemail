@@ -23,20 +23,20 @@ class enigma_key
     public $reference;
     public $password;
 
-    const TYPE_UNKNOWN = 0;
-    const TYPE_KEYPAIR = 1;
-    const TYPE_PUBLIC  = 2;
+    public const TYPE_UNKNOWN = 0;
+    public const TYPE_KEYPAIR = 1;
+    public const TYPE_PUBLIC  = 2;
 
-    const CAN_ENCRYPT      = 1;
-    const CAN_SIGN         = 2;
-    const CAN_CERTIFY      = 4;
-    const CAN_AUTHENTICATE = 8;
+    public const CAN_ENCRYPT      = 1;
+    public const CAN_SIGN         = 2;
+    public const CAN_CERTIFY      = 4;
+    public const CAN_AUTHENTICATE = 8;
 
 
     /**
      * Keys list sorting callback for usort()
      */
-    static function cmp($a, $b)
+    public static function cmp($a, $b)
     {
         return strcmp($a->name, $b->name);
     }
@@ -46,7 +46,7 @@ class enigma_key
      *
      * @return int One of self::TYPE_* constant values
      */
-    function get_type()
+    public function get_type()
     {
         if (!empty($this->subkeys[0]) && $this->subkeys[0]->has_private) {
             return self::TYPE_KEYPAIR;
@@ -62,7 +62,7 @@ class enigma_key
      *
      * @return bool
      */
-    function is_revoked()
+    public function is_revoked()
     {
         foreach ($this->subkeys as $subkey) {
             if (!$subkey->revoked) {
@@ -78,7 +78,7 @@ class enigma_key
      *
      * @return bool
      */
-    function is_valid()
+    public function is_valid()
     {
         foreach ($this->users as $user) {
             if ($user->valid) {
@@ -94,7 +94,7 @@ class enigma_key
      *
      * @return bool
      */
-    function is_private()
+    public function is_private()
     {
         foreach ($this->subkeys as $subkey) {
             if ($subkey->has_private) {
@@ -113,7 +113,7 @@ class enigma_key
      *
      * @return enigma_subkey|null Subkey object
      */
-    function find_subkey($email, $mode)
+    public function find_subkey($email, $mode)
     {
         foreach ($this->users as $user) {
             if (strcasecmp($user->email, $email) === 0 && $user->valid && !$user->revoked) {
@@ -136,7 +136,7 @@ class enigma_key
      *
      * @return string Key short ID
      */
-    static function format_id($id)
+    public static function format_id($id)
     {
         // E.g. 04622F2089E037A5 => 89E037A5
 
@@ -150,7 +150,7 @@ class enigma_key
      *
      * @return string Formatted fingerprint (with spaces)
      */
-    static function format_fingerprint($fingerprint)
+    public static function format_fingerprint($fingerprint)
     {
         if (!$fingerprint) {
             return '';

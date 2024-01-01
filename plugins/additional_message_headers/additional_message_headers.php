@@ -18,7 +18,7 @@ class additional_message_headers extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $this->add_hook('message_before_send', [$this, 'message_headers']);
     }
@@ -30,7 +30,7 @@ class additional_message_headers extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function message_headers($args)
+    public function message_headers($args)
     {
         $this->load_config();
 

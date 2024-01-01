@@ -27,7 +27,7 @@ if (!defined('RCUBE_PLUGINS_DIR')) {
  */
 class rcube_plugin_api
 {
-    static protected $instance;
+    protected static $instance;
 
     /** @var string */
     public $dir;
@@ -60,7 +60,7 @@ class rcube_plugin_api
      *
      * @return rcube_plugin_api The one and only instance if this class
      */
-    static function get_instance()
+    public static function get_instance()
     {
         if (!self::$instance) {
             self::$instance = new self();

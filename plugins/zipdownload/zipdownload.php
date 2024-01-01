@@ -21,7 +21,7 @@ class zipdownload extends rcube_plugin
     private $default_limit = '50MB';
 
     // RFC4155: mbox date format
-    const MBOX_DATE_FORMAT = 'D M d H:i:s Y';
+    public const MBOX_DATE_FORMAT = 'D M d H:i:s Y';
 
     /**
      * Plugin initialization

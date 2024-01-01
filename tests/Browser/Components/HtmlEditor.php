@@ -7,8 +7,8 @@ use Tests\Browser\Browser;
 
 class HtmlEditor extends Component
 {
-    const MODE_PLAIN = 'plain';
-    const MODE_HTML  = 'html';
+    public const MODE_PLAIN = 'plain';
+    public const MODE_HTML  = 'html';
 
     public $id;
 

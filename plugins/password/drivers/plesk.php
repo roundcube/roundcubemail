@@ -51,7 +51,7 @@ class rcube_plesk_password
      *
      * @return int PASSWORD_SUCCESS|PASSWORD_ERROR
      */
-    function save($currpass, $newpass, $username)
+    public function save($currpass, $newpass, $username)
     {
         // get config
         $rcmail = rcmail::get_instance();
@@ -106,7 +106,7 @@ class plesk_rpc
      *
      * @return void
      */
-    function init($host, $port, $path, $user, $pass)
+    public function init($host, $port, $path, $user, $pass)
     {
         $headers = [
             sprintf('HTTP_AUTH_LOGIN: %s', $user),
@@ -131,7 +131,7 @@ class plesk_rpc
      *
      * @return string Response body
      */
-    function send_request($packet)
+    public function send_request($packet)
     {
         curl_setopt($this->curl, \CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->curl, \CURLOPT_POSTFIELDS, $packet);
@@ -143,7 +143,7 @@ class plesk_rpc
     /**
      * close curl
      */
-    function destroy()
+    public function destroy()
     {
         curl_close($this->curl);
     }
@@ -155,7 +155,7 @@ class plesk_rpc
      *
      * @return object SimpleXML object
      */
-    function domain_info($domain)
+    public function domain_info($domain)
     {
         // build xml
         $request = new SimpleXMLElement('<packet></packet>');
@@ -198,7 +198,7 @@ class plesk_rpc
      *
      * @return int Domain ID
      */
-    function get_domain_id($domain)
+    public function get_domain_id($domain)
     {
         if ($xml = $this->domain_info($domain)) {
             return intval($xml->site->get->result->id);
@@ -213,7 +213,7 @@ class plesk_rpc
      *
      * @return bool
      */
-    function change_mailbox_password($mailbox, $newpass)
+    public function change_mailbox_password($mailbox, $newpass)
     {
         [$user, $domain] = explode('@', $mailbox);
         $domain_id = $this->get_domain_id($domain);

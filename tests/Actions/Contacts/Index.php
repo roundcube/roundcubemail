@@ -8,7 +8,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test run() method in HTTP mode
      */
-    function test_run_http()
+    public function test_run_http()
     {
         $action = new rcmail_action_contacts_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
@@ -35,7 +35,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test run() method in AJAX mode
      */
-    function test_run_ajax()
+    public function test_run_ajax()
     {
         $action = new rcmail_action_contacts_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'list');
@@ -55,7 +55,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test contact_source() method
      */
-    function test_contact_source()
+    public function test_contact_source()
     {
         $this->markTestIncomplete();
     }
@@ -63,7 +63,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test set_sourcename() method
      */
-    function test_set_sourcename()
+    public function test_set_sourcename()
     {
         $this->markTestIncomplete();
     }
@@ -71,7 +71,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test directory_list() method
      */
-    function test_directory_list()
+    public function test_directory_list()
     {
         $this->markTestIncomplete();
     }
@@ -79,7 +79,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test savedsearch_list() method
      */
-    function test_savedsearch_list()
+    public function test_savedsearch_list()
     {
         $this->markTestIncomplete();
     }
@@ -87,7 +87,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test contact_groups() method
      */
-    function test_contact_groups()
+    public function test_contact_groups()
     {
         $this->markTestIncomplete();
     }
@@ -95,7 +95,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test contacts_list() method
      */
-    function test_contacts_list()
+    public function test_contacts_list()
     {
         $this->markTestIncomplete();
     }
@@ -103,7 +103,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test contacts_list_title() method
      */
-    function test_contacts_list_title()
+    public function test_contacts_list_title()
     {
         $this->markTestIncomplete();
     }
@@ -111,7 +111,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test rowcount_display() method
      */
-    function test_rowcount_display()
+    public function test_rowcount_display()
     {
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
         $result = rcmail_action_contacts_index::rowcount_display([]);
@@ -122,7 +122,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test get_rowcount_text() method
      */
-    function test_get_rowcount_text()
+    public function test_get_rowcount_text()
     {
         $this->markTestIncomplete();
     }
@@ -130,7 +130,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test get_type_label() method
      */
-    function test_get_type_label()
+    public function test_get_type_label()
     {
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
         $result = rcmail_action_contacts_index::get_type_label('home');
@@ -141,7 +141,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test contact_form() method
      */
-    function test_contact_form()
+    public function test_contact_form()
     {
         $this->markTestIncomplete();
     }
@@ -149,7 +149,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test contact_photo() method
      */
-    function test_contact_photo()
+    public function test_contact_photo()
     {
         $this->markTestIncomplete();
     }
@@ -157,7 +157,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test search_update() method
      */
-    function test_search_update()
+    public function test_search_update()
     {
         $this->markTestIncomplete();
     }
@@ -165,7 +165,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test get_cids() method
      */
-    function test_get_cids()
+    public function test_get_cids()
     {
         $this->markTestIncomplete();
     }
@@ -173,7 +173,7 @@ class Actions_Contacts_Index extends ActionTestCase
     /**
      * Test source_selector() method
      */
-    function test_source_selector()
+    public function test_source_selector()
     {
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
 

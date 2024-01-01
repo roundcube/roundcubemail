@@ -8,7 +8,7 @@ class Actions_Contacts_Photo extends ActionTestCase
     /**
      * Test run() method - no photo case
      */
-    function test_no_photo()
+    public function test_no_photo()
     {
         $action = new rcmail_action_contacts_photo();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'photo');
@@ -36,7 +36,7 @@ class Actions_Contacts_Photo extends ActionTestCase
     /**
      * Test run() method - a contact with real photo
      */
-    function test_photo()
+    public function test_photo()
     {
         $this->markTestIncomplete();
     }

@@ -20,7 +20,7 @@ class hide_blockquote extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $rcmail = rcmail::get_instance();
 
@@ -53,7 +53,7 @@ class hide_blockquote extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_table($args)
+    public function prefs_table($args)
     {
         if ($args['section'] != 'mailview') {
             return $args;
@@ -86,7 +86,7 @@ class hide_blockquote extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_save($args)
+    public function prefs_save($args)
     {
         if ($args['section'] == 'mailview') {
             $args['prefs']['hide_blockquote_limit'] = (int) rcube_utils::get_input_value('_hide_blockquote_limit', rcube_utils::INPUT_POST);

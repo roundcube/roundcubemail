@@ -34,7 +34,7 @@ class attachment_reminder extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $rcmail = rcube::get_instance();
 
@@ -63,7 +63,7 @@ class attachment_reminder extends rcube_plugin
      *
      * @return array Hook arguments
      */
-    function prefs_list($args)
+    public function prefs_list($args)
     {
         if ($args['section'] == 'compose') {
             $this->add_texts('localization/');
@@ -87,7 +87,7 @@ class attachment_reminder extends rcube_plugin
      *
      * @return array Hook arguments
      */
-    function prefs_save($args)
+    public function prefs_save($args)
     {
         if ($args['section'] == 'compose') {
             $dont_override = rcube::get_instance()->config->get('dont_override', []);

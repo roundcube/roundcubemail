@@ -30,7 +30,7 @@
 
 class rcube_domainfactory_password
 {
-    function save($curpass, $passwd, $username)
+    public function save($curpass, $passwd, $username)
     {
         if ($ch = curl_init()) {
             // initial login

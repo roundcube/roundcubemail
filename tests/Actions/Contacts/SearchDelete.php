@@ -8,7 +8,7 @@ class Actions_Contacts_Search_Delete extends ActionTestCase
     /**
      * Test error handling
      */
-    function test_search_delete_errors()
+    public function test_search_delete_errors()
     {
         $action = new rcmail_action_contacts_search_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'search-delete');
@@ -30,7 +30,7 @@ class Actions_Contacts_Search_Delete extends ActionTestCase
     /**
      * Test deleting a saved-search
      */
-    function test_search_create_success()
+    public function test_search_create_success()
     {
         $action = new rcmail_action_contacts_search_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'search-delete');

@@ -34,7 +34,7 @@ class acl extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $this->rc = rcmail::get_instance();
 
@@ -49,7 +49,7 @@ class acl extends rcube_plugin
     /**
      * Handler for plugin actions (AJAX)
      */
-    function acl_actions()
+    public function acl_actions()
     {
         $action = trim(rcube_utils::get_input_string('_act', rcube_utils::INPUT_GPC));
 
@@ -75,7 +75,7 @@ class acl extends rcube_plugin
     /**
      * Handler for user login autocomplete request
      */
-    function acl_autocomplete()
+    public function acl_autocomplete()
     {
         $this->load_config();
 
@@ -145,7 +145,7 @@ class acl extends rcube_plugin
      *
      * @return array Hook arguments array
      */
-    function folder_form($args)
+    public function folder_form($args)
     {
         $mbox_imap = $args['options']['name'] ?? '';
         $myrights  = $args['options']['rights'] ?? '';
@@ -223,7 +223,7 @@ class acl extends rcube_plugin
      *
      * @return string HTML Content
      */
-    function templ_table($attrib)
+    public function templ_table($attrib)
     {
         if (empty($attrib['id'])) {
             $attrib['id'] = 'acl-table';
@@ -243,7 +243,7 @@ class acl extends rcube_plugin
      *
      * @return string HTML Content
      */
-    function templ_rights($attrib)
+    public function templ_rights($attrib)
     {
         // Get supported rights
         $supported = $this->rights_supported();
@@ -312,7 +312,7 @@ class acl extends rcube_plugin
      *
      * @return string HTML Content
      */
-    function templ_user($attrib)
+    public function templ_user($attrib)
     {
         // Create username input
         $class = !empty($attrib['class']) ? $attrib['class'] : '';
@@ -610,7 +610,7 @@ class acl extends rcube_plugin
      *
      * @return string HTML content
      */
-    function acl2text($rights)
+    public function acl2text($rights)
     {
         if (empty($rights)) {
             return '';
@@ -644,7 +644,7 @@ class acl extends rcube_plugin
      *
      * @return int Comparison result, 2 - full match, 1 - partial match, 0 - no match
      */
-    function acl_compare($acl1, $acl2)
+    public function acl_compare($acl1, $acl2)
     {
         if (!is_array($acl1)) {
             $acl1 = str_split($acl1);
@@ -678,7 +678,7 @@ class acl extends rcube_plugin
      *
      * @return array List of supported access rights abbreviations
      */
-    function rights_supported()
+    public function rights_supported()
     {
         if ($this->supported !== null) {
             return $this->supported;

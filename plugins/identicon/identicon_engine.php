@@ -27,8 +27,8 @@ class identicon_engine
         12, 13, 14, 13, 12,
     ];
 
-    const GRID_SIZE = 5;
-    const ICON_SIZE = 150;
+    public const GRID_SIZE = 5;
+    public const ICON_SIZE = 150;
 
 
     /**

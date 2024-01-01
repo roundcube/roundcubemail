@@ -37,12 +37,12 @@ class database_attachments extends filesystem_attachments
     protected $cache;
 
     // A prefix for the cache key used in the session and in the key field of the cache table
-    const PREFIX = 'ATTACH';
+    public const PREFIX = 'ATTACH';
 
     /**
      * Save a newly uploaded attachment
      */
-    function upload($args)
+    public function upload($args)
     {
         $args['status'] = false;
 
@@ -69,7 +69,7 @@ class database_attachments extends filesystem_attachments
     /**
      * Save an attachment from a non-upload source (draft or forward)
      */
-    function save($args)
+    public function save($args)
     {
         $args['status'] = false;
 
@@ -101,7 +101,7 @@ class database_attachments extends filesystem_attachments
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
      */
-    function remove($args)
+    public function remove($args)
     {
         $cache  = $this->get_cache();
         $status = $cache->remove($args['id']);
@@ -116,7 +116,7 @@ class database_attachments extends filesystem_attachments
      * For this plugin, $this->get() will check the file and
      * return it's contents
      */
-    function display($args)
+    public function display($args)
     {
         return $this->get($args);
     }
@@ -125,7 +125,7 @@ class database_attachments extends filesystem_attachments
      * When displaying or sending the attachment the file contents are fetched
      * using this method. This is also called by the attachment_display hook.
      */
-    function get($args)
+    public function get($args)
     {
         $cache = $this->get_cache();
         $data  = $cache->get($args['id']);
@@ -143,7 +143,7 @@ class database_attachments extends filesystem_attachments
     /**
      * Delete all temp files associated with this user
      */
-    function cleanup($args)
+    public function cleanup($args)
     {
         // check if cache object exist, it may be empty on session_destroy (#1489726)
         if ($cache = $this->get_cache()) {

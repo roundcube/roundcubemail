@@ -61,15 +61,15 @@ class rcube_sieve_engine
         1 => 'notifyimportancehigh',
     ];
 
-    const VERSION  = '9.5';
-    const PROGNAME = 'Roundcube (Managesieve)';
-    const PORT     = 4190;
+    public const VERSION  = '9.5';
+    public const PROGNAME = 'Roundcube (Managesieve)';
+    public const PORT     = 4190;
 
 
     /**
      * Class constructor
      */
-    function __construct($plugin)
+    public function __construct($plugin)
     {
         $this->rc      = rcube::get_instance();
         $this->plugin  = $plugin;
@@ -79,7 +79,7 @@ class rcube_sieve_engine
     /**
      * Loads configuration, initializes plugin (including sieve connection)
      */
-    function start($mode = null)
+    public function start($mode = null)
     {
         // register UI objects
         $this->rc->output->add_handlers([
@@ -267,7 +267,7 @@ class rcube_sieve_engine
     /**
      * User interface actions handler
      */
-    function actions()
+    public function actions()
     {
         $error = $this->start();
 
@@ -471,7 +471,7 @@ class rcube_sieve_engine
         $this->send();
     }
 
-    function saveraw()
+    public function saveraw()
     {
         // Init plugin and handle managesieve connection
         $error = $this->start();
@@ -494,7 +494,7 @@ class rcube_sieve_engine
         $this->send();
     }
 
-    function save()
+    public function save()
     {
         // Init plugin and handle managesieve connection
         $error = $this->start();
@@ -1240,7 +1240,7 @@ class rcube_sieve_engine
     /**
      * Return the filters list as HTML table
      */
-    function filters_list($attrib)
+    public function filters_list($attrib)
     {
         // add id to message list table if not specified
         if (empty($attrib['id'])) {
@@ -1268,7 +1268,7 @@ class rcube_sieve_engine
     /**
      * Return the filters list as <SELECT>
      */
-    function filtersets_list($attrib, $no_env = false)
+    public function filtersets_list($attrib, $no_env = false)
     {
         // add id to message list table if not specified
         if (empty($attrib['id'])) {
@@ -1329,7 +1329,7 @@ class rcube_sieve_engine
         return $out;
     }
 
-    function filterset_editraw($attrib)
+    public function filterset_editraw($attrib)
     {
         $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_GP);
         $script      = $this->sieve->get_script($script_name);
@@ -1376,7 +1376,7 @@ class rcube_sieve_engine
         return str_replace('</form>', '', $out);
     }
 
-    function filterset_form($attrib)
+    public function filterset_form($attrib)
     {
         if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmfiltersetform';
@@ -1479,7 +1479,7 @@ class rcube_sieve_engine
     /**
      * Filter form object for templates engine
      */
-    function filter_form($attrib)
+    public function filter_form($attrib)
     {
         if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmfilterform';
@@ -1655,7 +1655,7 @@ class rcube_sieve_engine
         return $out;
     }
 
-    function rule_div($fid, $id, $div = true, $compact = false)
+    public function rule_div($fid, $id, $div = true, $compact = false)
     {
         if (isset($id) && isset($this->form)) {
             $rule = $this->form['tests'][$id];
@@ -2178,7 +2178,7 @@ class rcube_sieve_engine
         return $test;
     }
 
-    function action_div($fid, $id, $div = true)
+    public function action_div($fid, $id, $div = true)
     {
         if (isset($id) && isset($this->form)) {
             $action = $this->form['actions'][$id];

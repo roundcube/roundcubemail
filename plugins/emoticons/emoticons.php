@@ -20,7 +20,7 @@ class emoticons extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    function init()
+    public function init()
     {
         $rcube = rcube::get_instance();
 
@@ -37,7 +37,7 @@ class emoticons extends rcube_plugin
      * 'message_part_after' hook handler to replace common
      * plain text emoticons with emoji
      */
-    function message_part_after($args)
+    public function message_part_after($args)
     {
         if ($args['type'] == 'plain') {
             $this->load_config();
@@ -56,7 +56,7 @@ class emoticons extends rcube_plugin
     /**
      * 'html_editor' hook handler, where we enable emoticons in TinyMCE
      */
-    function html_editor($args)
+    public function html_editor($args)
     {
         $rcube = rcube::get_instance();
 
@@ -73,7 +73,7 @@ class emoticons extends rcube_plugin
     /**
      * 'preferences_list' hook handler
      */
-    function preferences_list($args)
+    public function preferences_list($args)
     {
         $rcube         = rcube::get_instance();
         $dont_override = $rcube->config->get('dont_override', []);
@@ -108,7 +108,7 @@ class emoticons extends rcube_plugin
     /**
      * 'preferences_save' hook handler
      */
-    function preferences_save($args)
+    public function preferences_save($args)
     {
         if ($args['section'] == 'mailview') {
             $args['prefs']['emoticons_display'] = (bool) rcube_utils::get_input_value('_emoticons_display', rcube_utils::INPUT_POST);

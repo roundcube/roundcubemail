@@ -8,7 +8,7 @@ class Framework_HtmlCheckbox extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_checked_state()
+    public function test_checked_state()
     {
         $input = new html_checkbox(['value' => 1]);
 

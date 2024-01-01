@@ -27,16 +27,16 @@ use GuzzleHttp\MessageFormatter;
  */
 class rcmail_oauth
 {
-    const TOKEN_REFRESHED       = 1;
-    const TOKEN_STILL_VALID     = 0;
-    const TOKEN_REFRESH_FAILED  = -1;
-    const TOKEN_NOT_FOUND       = -2;
-    const TOKEN_ERROR           = -3;
-    const TOKEN_REFRESH_EXPIRED = -4;
-    const TOKEN_REVOKED         = -5;
-    const TOKEN_COMPROMISED     = -6;
+    public const TOKEN_REFRESHED       = 1;
+    public const TOKEN_STILL_VALID     = 0;
+    public const TOKEN_REFRESH_FAILED  = -1;
+    public const TOKEN_NOT_FOUND       = -2;
+    public const TOKEN_ERROR           = -3;
+    public const TOKEN_REFRESH_EXPIRED = -4;
+    public const TOKEN_REVOKED         = -5;
+    public const TOKEN_COMPROMISED     = -6;
 
-    const JWKS_CACHE_TTL        = 30; // TTL for JWKS (in seconds)
+    public const JWKS_CACHE_TTL        = 30; // TTL for JWKS (in seconds)
 
     // prepare the OAUTHBEARER which is now the official protocol (rfc 7628)
     // but currently implement mostly the formal XOAUTH2
@@ -74,7 +74,7 @@ class rcmail_oauth
     protected static $user_create_allowed_keys = ['user_name', 'user_email', 'language'];
 
     /** @var array map of .well-known entries to config (discovery URI) */
-    static protected $config_mapper = [
+    protected static $config_mapper = [
         'issuer'                 => 'issuer',
         'authorization_endpoint' => 'auth_uri',
         'token_endpoint'         => 'token_uri',
@@ -84,20 +84,20 @@ class rcmail_oauth
     ];
 
     /** @var array map PKCE code_challenge_method to hash method */
-    static protected $pkce_mapper = [
+    protected static $pkce_mapper = [
         'S256' => 'sha256',
         // plain method is not implemented: @see RFC7636 4.2: "If the client is capable of using "S256", it MUST use "S256"
     ];
 
     /** @var rcmail_oauth */
-    static protected $instance;
+    protected static $instance;
 
     /**
      * Singleton factory
      *
      * @return rcmail_oauth The one and only instance
      */
-    static function get_instance($options = [])
+    public static function get_instance($options = [])
     {
         if (!self::$instance) {
             self::$instance = new self($options);

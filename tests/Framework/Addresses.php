@@ -8,7 +8,7 @@ class Framework_Addresses extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $db     = new rcube_db('test');
         $object = new rcube_addresses($db, null, 1);

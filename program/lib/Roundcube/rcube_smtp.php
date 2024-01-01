@@ -29,9 +29,9 @@ class rcube_smtp
     private $anonymize_log = 0;
 
     // define headers delimiter
-    const SMTP_MIME_CRLF = "\r\n";
+    public const SMTP_MIME_CRLF = "\r\n";
 
-    const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
+    public const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
 
 
     /**

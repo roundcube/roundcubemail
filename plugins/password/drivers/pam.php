@@ -25,7 +25,7 @@
 
 class rcube_pam_password
 {
-    function save($currpass, $newpass, $username)
+    public function save($currpass, $newpass, $username)
     {
         $error = '';
 

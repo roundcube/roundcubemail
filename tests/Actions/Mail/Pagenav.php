@@ -8,7 +8,7 @@ class Actions_Mail_Pagenav extends ActionTestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcmail_action_mail_pagenav();
 

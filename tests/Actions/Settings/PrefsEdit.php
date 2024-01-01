@@ -8,7 +8,7 @@ class Actions_Settings_PrefsEdit extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
         $action = new rcmail_action_settings_prefs_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-prefs');

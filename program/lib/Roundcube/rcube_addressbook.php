@@ -23,25 +23,25 @@
 abstract class rcube_addressbook
 {
     // constants for error reporting
-    const ERROR_READ_ONLY     = 1;
-    const ERROR_NO_CONNECTION = 2;
-    const ERROR_VALIDATE      = 3;
-    const ERROR_SAVING        = 4;
-    const ERROR_SEARCH        = 5;
+    public const ERROR_READ_ONLY     = 1;
+    public const ERROR_NO_CONNECTION = 2;
+    public const ERROR_VALIDATE      = 3;
+    public const ERROR_SAVING        = 4;
+    public const ERROR_SEARCH        = 5;
 
     // search modes
-    const SEARCH_ALL    = 0;
-    const SEARCH_STRICT = 1;
-    const SEARCH_PREFIX = 2;
-    const SEARCH_GROUPS = 4;
+    public const SEARCH_ALL    = 0;
+    public const SEARCH_STRICT = 1;
+    public const SEARCH_PREFIX = 2;
+    public const SEARCH_GROUPS = 4;
 
     // contact types, note: some of these are used as addressbook source identifiers
-    const TYPE_CONTACT        = 0;
-    const TYPE_RECIPIENT      = 1;
-    const TYPE_TRUSTED_SENDER = 2;
-    const TYPE_DEFAULT        = 4;
-    const TYPE_WRITEABLE      = 8;
-    const TYPE_READONLY       = 16;
+    public const TYPE_CONTACT        = 0;
+    public const TYPE_RECIPIENT      = 1;
+    public const TYPE_TRUSTED_SENDER = 2;
+    public const TYPE_DEFAULT        = 4;
+    public const TYPE_WRITEABLE      = 8;
+    public const TYPE_READONLY       = 16;
 
     // public properties (mandatory)
 
@@ -114,7 +114,7 @@ abstract class rcube_addressbook
      *
      * @return string
      */
-    abstract function get_name();
+    abstract public function get_name();
 
     /**
      * Sets a search filter.
@@ -130,7 +130,7 @@ abstract class rcube_addressbook
      *
      * @return void
      */
-    abstract function set_search_set($filter);
+    abstract public function set_search_set($filter);
 
     /**
      * Getter for saved search properties.
@@ -139,21 +139,21 @@ abstract class rcube_addressbook
      *
      * @return mixed Search properties used by this class
      */
-    abstract function get_search_set();
+    abstract public function get_search_set();
 
     /**
      * Reset saved results and search parameters
      *
      * @return void
      */
-    abstract function reset();
+    abstract public function reset();
 
     /**
      * Refresh saved search set after data has changed
      *
      * @return mixed New search set
      */
-    function refresh_search()
+    public function refresh_search()
     {
         return $this->get_search_set();
     }
@@ -185,7 +185,7 @@ abstract class rcube_addressbook
      *
      * @return rcube_result_set Indexed list of contact records, each a hash array
      */
-    abstract function list_records($cols = null, $subset = 0, $nocount = false);
+    abstract public function list_records($cols = null, $subset = 0, $nocount = false);
 
     /**
      * Search records
@@ -239,7 +239,7 @@ abstract class rcube_addressbook
      *
      * @return rcube_result_set Contact records and 'count' value
      */
-    abstract function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = []);
+    abstract public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = []);
 
     /**
      * Count the number of contacts in the database matching the current filter criteria.
@@ -249,14 +249,14 @@ abstract class rcube_addressbook
      *
      * @return rcube_result_set Result set with values for 'count' and 'first'
      */
-    abstract function count();
+    abstract public function count();
 
     /**
      * Return the last result set
      *
      * @return ?rcube_result_set Current result set or NULL if nothing selected yet
      */
-    abstract function get_result();
+    abstract public function get_result();
 
     /**
      * Get a specific contact record
@@ -266,14 +266,14 @@ abstract class rcube_addressbook
      *
      * @return rcube_result_set|array Result object with all record fields
      */
-    abstract function get_record($id, $assoc = false);
+    abstract public function get_record($id, $assoc = false);
 
     /**
      * Returns the last error occurred (e.g. when updating/inserting failed)
      *
      * @return ?array Hash array with the following fields: type, message. Null if no error set.
      */
-    function get_error()
+    public function get_error()
     {
         return $this->error;
     }
@@ -293,14 +293,14 @@ abstract class rcube_addressbook
      * Close connection to source
      * Called on script shutdown
      */
-    function close() {}
+    public function close() {}
 
     /**
      * Set internal list page
      *
      * @param int $page Page number to list
      */
-    function set_page($page)
+    public function set_page($page)
     {
         $this->list_page = (int) $page;
     }
@@ -310,7 +310,7 @@ abstract class rcube_addressbook
      *
      * @param int $size Number of messages to display on one page
      */
-    function set_pagesize($size)
+    public function set_pagesize($size)
     {
         $this->page_size = (int) $size;
     }
@@ -321,7 +321,7 @@ abstract class rcube_addressbook
      * @param ?string $sort_col   Sort column
      * @param ?string $sort_order Sort order
      */
-    function set_sort_order($sort_col, $sort_order = null)
+    public function set_sort_order($sort_col, $sort_order = null)
     {
         if ($sort_col && (array_key_exists($sort_col, $this->coltypes) || in_array($sort_col, $this->coltypes))) {
             $this->sort_col = $sort_col;
@@ -387,7 +387,7 @@ abstract class rcube_addressbook
      *
      * @return mixed The created record ID on success, False on error
      */
-    function insert($save_data, $check = false)
+    public function insert($save_data, $check = false)
     {
         // empty for read-only address books
     }
@@ -400,7 +400,7 @@ abstract class rcube_addressbook
      *
      * @return array List of created record IDs
      */
-    function insertMultiple($recset, $check = false)
+    public function insertMultiple($recset, $check = false)
     {
         $ids = [];
         if ($recset instanceof rcube_result_set) {
@@ -424,7 +424,7 @@ abstract class rcube_addressbook
      *
      * @return mixed On success if ID has been changed returns ID, otherwise True, False on error
      */
-    function update($id, $save_cols)
+    public function update($id, $save_cols)
     {
         // empty for read-only address books
     }
@@ -437,7 +437,7 @@ abstract class rcube_addressbook
      *
      * @return int|false Number of removed records, False on failure
      */
-    function delete($ids, $force = true)
+    public function delete($ids, $force = true)
     {
         // empty for read-only address books
     }
@@ -447,7 +447,7 @@ abstract class rcube_addressbook
      *
      * @param array $ids Record identifiers
      */
-    function undelete($ids)
+    public function undelete($ids)
     {
         // empty for read-only address books
     }
@@ -457,7 +457,7 @@ abstract class rcube_addressbook
      *
      * @param bool $with_groups Remove also groups
      */
-    function delete_all($with_groups = false)
+    public function delete_all($with_groups = false)
     {
         // empty for read-only address books
     }
@@ -474,7 +474,7 @@ abstract class rcube_addressbook
      *
      * @param int|string|null $group_id Database identifier of the group. Use 0/"0"/null to reset the group filter.
      */
-    function set_group($group_id)
+    public function set_group($group_id)
     {
         // empty for address books don't supporting groups
     }
@@ -487,7 +487,7 @@ abstract class rcube_addressbook
      *
      * @return array Indexed list of contact groups, each a hash array
      */
-    function list_groups($search = null, $mode = 0)
+    public function list_groups($search = null, $mode = 0)
     {
         // empty for address books don't supporting groups
         return [];
@@ -500,7 +500,7 @@ abstract class rcube_addressbook
      *
      * @return ?array Group properties as hash array, null in case of error.
      */
-    function get_group($group_id)
+    public function get_group($group_id)
     {
         // empty for address books don't supporting groups
         return null;
@@ -513,7 +513,7 @@ abstract class rcube_addressbook
      *
      * @return array|false False on error, array with record props in success
      */
-    function create_group($name)
+    public function create_group($name)
     {
         // empty for address books don't supporting groups
         return false;
@@ -526,7 +526,7 @@ abstract class rcube_addressbook
      *
      * @return bool True on success, false if no data was changed
      */
-    function delete_group($group_id)
+    public function delete_group($group_id)
     {
         // empty for address books don't supporting groups
         return false;
@@ -541,7 +541,7 @@ abstract class rcube_addressbook
      *
      * @return string|false New name on success, false if no data was changed
      */
-    function rename_group($group_id, $newname, &$newid)
+    public function rename_group($group_id, $newname, &$newid)
     {
         // empty for address books don't supporting groups
         return false;
@@ -555,7 +555,7 @@ abstract class rcube_addressbook
      *
      * @return int Number of contacts added
      */
-    function add_to_group($group_id, $ids)
+    public function add_to_group($group_id, $ids)
     {
         // empty for address books don't supporting groups
         return 0;
@@ -569,7 +569,7 @@ abstract class rcube_addressbook
      *
      * @return int Number of deleted group members
      */
-    function remove_from_group($group_id, $ids)
+    public function remove_from_group($group_id, $ids)
     {
         // empty for address books don't supporting groups
         return 0;
@@ -586,7 +586,7 @@ abstract class rcube_addressbook
      *
      * @since 0.5-beta
      */
-    function get_record_groups($id)
+    public function get_record_groups($id)
     {
         // empty for address books don't supporting groups
         return [];

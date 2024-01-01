@@ -65,11 +65,11 @@ class rcmail extends rcube
     private $action_map    = [];
     private $action_args   = [];
 
-    const ERROR_STORAGE          = -2;
-    const ERROR_INVALID_REQUEST  = 1;
-    const ERROR_INVALID_HOST     = 2;
-    const ERROR_COOKIES_DISABLED = 3;
-    const ERROR_RATE_LIMIT       = 4;
+    public const ERROR_STORAGE          = -2;
+    public const ERROR_INVALID_REQUEST  = 1;
+    public const ERROR_INVALID_HOST     = 2;
+    public const ERROR_COOKIES_DISABLED = 3;
+    public const ERROR_RATE_LIMIT       = 4;
 
 
     /**
@@ -80,7 +80,7 @@ class rcmail extends rcube
      *
      * @return rcmail The one and only instance
      */
-    static function get_instance($mode = 0, $env = '')
+    public static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
             // In cli-server mode env=test
@@ -661,7 +661,7 @@ class rcmail extends rcube
      *
      * @return bool True on success, False on failure
      */
-    function login($username, $password, $host = null, $cookiecheck = false)
+    public function login($username, $password, $host = null, $cookiecheck = false)
     {
         $this->login_error = null;
 

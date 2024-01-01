@@ -32,7 +32,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @param rcube_user $user User object
      */
-    function __construct($user)
+    public function __construct($user)
     {
         $this->rc   = rcmail::get_instance();
         $this->user = $user;
@@ -44,7 +44,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return enigma_error|null NULL on success, enigma_error on failure
      */
-    function init()
+    public function init()
     {
         $homedir = $this->rc->config->get('enigma_pgp_homedir');
         $debug   = $this->rc->config->get('enigma_debug');
@@ -123,7 +123,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return string|enigma_error Encrypted message or enigma_error on failure
      */
-    function encrypt($text, $keys, $sign_key = null)
+    public function encrypt($text, $keys, $sign_key = null)
     {
         try {
             foreach ($keys as $key) {
@@ -156,7 +156,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return mixed Decrypted message or enigma_error on failure
      */
-    function decrypt($text, $keys = [], &$signature = null)
+    public function decrypt($text, $keys = [], &$signature = null)
     {
         try {
             foreach ($keys as $key => $password) {
@@ -194,7 +194,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return mixed True on success or enigma_error on failure
      */
-    function sign($text, $key, $mode = null)
+    public function sign($text, $key, $mode = null)
     {
         try {
             $this->gpg->addSignKey($key->reference, $key->password);
@@ -218,7 +218,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return enigma_signature|enigma_error Signature information or enigma_error
      */
-    function verify($text, $signature)
+    public function verify($text, $signature)
     {
         try {
             $verified = $this->gpg->verify($text, $signature);

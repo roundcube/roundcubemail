@@ -8,7 +8,7 @@ class Rcmail_RcmailHtmlPage extends ActionTestCase
     /**
      * Test html page output
      */
-    function test_html_output()
+    public function test_html_output()
     {
         $page = new rcmail_html_page();
 

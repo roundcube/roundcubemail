@@ -20,7 +20,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test action_handler() method
      */
-    function test_action_handler()
+    public function test_action_handler()
     {
         $rcmail = rcmail::get_instance();
 
@@ -57,7 +57,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::get_address_book()
      */
-    function test_get_address_book()
+    public function test_get_address_book()
     {
         $rcmail = rcmail::get_instance();
 
@@ -73,7 +73,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::get_compose_responses()
      */
-    function test_get_compose_responses()
+    public function test_get_compose_responses()
     {
         $this->markTestIncomplete();
     }
@@ -81,7 +81,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::login()
      */
-    function test_login()
+    public function test_login()
     {
         $this->markTestIncomplete();
     }
@@ -89,7 +89,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::logout_actions()
      */
-    function test_logout_actions()
+    public function test_logout_actions()
     {
         $this->markTestIncomplete();
     }
@@ -97,7 +97,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::get_address_sources()
      */
-    function test_get_address_sources()
+    public function test_get_address_sources()
     {
         $rcmail = rcmail::get_instance();
 
@@ -119,7 +119,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::url()
      */
-    function test_url()
+    public function test_url()
     {
         $rcmail = rcmail::get_instance();
 
@@ -195,7 +195,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::request_security_check()
      */
-    function test_request_security_check()
+    public function test_request_security_check()
     {
         $this->markTestIncomplete();
     }
@@ -203,7 +203,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::contact_create() and rcmail::contact_exists()
      */
-    function test_contact_create_and_contact_exists()
+    public function test_contact_create_and_contact_exists()
     {
         self::initDB('contacts');
 
@@ -234,7 +234,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::user_date()
      */
-    function test_user_date()
+    public function test_user_date()
     {
         $rcmail = rcmail::get_instance();
 
@@ -246,7 +246,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::find_asset()
      */
-    function test_find_asset()
+    public function test_find_asset()
     {
         $rcmail = rcmail::get_instance();
 
@@ -260,7 +260,7 @@ class Rcmail_Rcmail extends ActionTestCase
     /**
      * Test rcmail::format_date()
      */
-    function test_format_date()
+    public function test_format_date()
     {
         $rcmail = rcmail::get_instance();
 

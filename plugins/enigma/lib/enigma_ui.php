@@ -31,7 +31,7 @@ class enigma_ui
      * @param enigma $enigma_plugin The plugin instance
      * @param string $home          Home directory
      */
-    function __construct($enigma_plugin, $home = '')
+    public function __construct($enigma_plugin, $home = '')
     {
         $this->enigma = $enigma_plugin;
         $this->rc     = $enigma_plugin->rc;
@@ -41,7 +41,7 @@ class enigma_ui
     /**
      * UI initialization and requests handlers.
      */
-    function init()
+    public function init()
     {
         $this->add_js();
 
@@ -128,7 +128,7 @@ class enigma_ui
     /**
      * Adds CSS style file to the page header.
      */
-    function add_css()
+    public function add_css()
     {
         if ($this->css_loaded) {
             return;
@@ -142,7 +142,7 @@ class enigma_ui
     /**
      * Adds javascript file to the page header.
      */
-    function add_js()
+    public function add_js()
     {
         if ($this->js_loaded) {
             return;
@@ -161,7 +161,7 @@ class enigma_ui
      * @param enigma_error $status Error object with key info
      * @param array        $params Optional prompt parameters
      */
-    function password_prompt($status, $params = [])
+    public function password_prompt($status, $params = [])
     {
         $data = array_merge($status->getData('missing') ?: [], $status->getData('bad') ?: []);
 
@@ -208,7 +208,7 @@ class enigma_ui
      *
      * @return string HTML content
      */
-    function tpl_keys_list($attrib)
+    public function tpl_keys_list($attrib)
     {
         // add id to message list table if not specified
         if (empty($attrib['id'])) {
@@ -292,7 +292,7 @@ class enigma_ui
      *
      * @return string HTML output
      */
-    function tpl_keys_rowcount($attrib)
+    public function tpl_keys_rowcount($attrib)
     {
         if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmcountdisplay';
@@ -357,7 +357,7 @@ class enigma_ui
      *
      * @return string HTML output
      */
-    function tpl_key_name($attrib)
+    public function tpl_key_name($attrib)
     {
         return rcube::Q($this->data->name);
     }
@@ -369,7 +369,7 @@ class enigma_ui
      *
      * @return string HTML output
      */
-    function tpl_key_data($attrib)
+    public function tpl_key_data($attrib)
     {
         $out   = '';
         $table = new html_table(['cols' => 2]);
@@ -608,7 +608,7 @@ class enigma_ui
      *
      * @return string HTML output
      */
-    function tpl_key_import_form($attrib)
+    public function tpl_key_import_form($attrib)
     {
         $attrib += ['id' => 'rcmKeyImportForm'];
 
@@ -755,7 +755,7 @@ class enigma_ui
      *
      * @return string HTML output
      */
-    function tpl_key_create_form($attrib)
+    public function tpl_key_create_form($attrib)
     {
         $attrib += ['id' => 'rcmKeyCreateForm'];
         $table  = new html_table(['cols' => 2]);
@@ -947,7 +947,7 @@ class enigma_ui
      *
      * @return array Modified parameters
      */
-    function status_message($p)
+    public function status_message($p)
     {
         // skip: not a message part
         if ($p['part'] instanceof rcube_message) {
@@ -1075,7 +1075,7 @@ class enigma_ui
      * Handler for message_load hook.
      * Check message bodies and attachments for keys/certs.
      */
-    function message_load($p)
+    public function message_load($p)
     {
         $engine = $this->enigma->load_engine();
 
@@ -1108,7 +1108,7 @@ class enigma_ui
      * This callback function adds a box below the message content
      * if there is a key/cert attachment available
      */
-    function message_output($p)
+    public function message_output($p)
     {
         foreach ($this->keys_parts as $part) {
             // remove part's body
@@ -1142,7 +1142,7 @@ class enigma_ui
     /**
      * Handle message_ready hook (encryption/signing/attach public key)
      */
-    function message_ready($p)
+    public function message_ready($p)
     {
         // The message might have been already encrypted by Mailvelope
         if (strpos((string) $p['message']->getParam('ctype'), 'multipart/encrypted') === 0) {
@@ -1226,7 +1226,7 @@ class enigma_ui
      * Display error when the message cannot be encrypted
      * and provide a way to try again with a password.
      */
-    function message_compose($p)
+    public function message_compose($p)
     {
         $engine = $this->enigma->load_engine();
 
@@ -1276,7 +1276,7 @@ class enigma_ui
     /**
      * Handler for keys/certs import request action
      */
-    function import_file()
+    public function import_file()
     {
         $uid     = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_POST);
         $mbox    = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);

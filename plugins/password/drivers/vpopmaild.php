@@ -27,7 +27,7 @@
 
 class rcube_vpopmaild_password
 {
-    function save($curpass, $passwd, $username)
+    public function save($curpass, $passwd, $username)
     {
         $rcmail    = rcmail::get_instance();
         $vpopmaild = new Net_Socket();

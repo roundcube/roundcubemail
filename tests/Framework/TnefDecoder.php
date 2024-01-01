@@ -8,7 +8,7 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
     /**
      * Test TNEF decoding
      */
-    function test_decompress()
+    public function test_decompress()
     {
         $body   = file_get_contents(TESTS_DIR . 'src/one-file.tnef');
         $tnef   = new rcube_tnef_decoder();
@@ -26,7 +26,7 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
     /**
      * Test TNEF decoding
      */
-    function test_decompress_body()
+    public function test_decompress_body()
     {
         $body   = file_get_contents(TESTS_DIR . 'src/body.tnef');
         $tnef   = new rcube_tnef_decoder();
@@ -50,7 +50,7 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
     /**
      * Test rtf2text()
      */
-    function test_rtf2text()
+    public function test_rtf2text()
     {
         $body = file_get_contents(TESTS_DIR . 'src/sample.rtf');
         $text = rcube_tnef_decoder::rtf2text($body);

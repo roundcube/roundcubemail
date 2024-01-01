@@ -8,7 +8,7 @@ class Actions_Contacts_Qrcode extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
         $action = new rcmail_action_contacts_qrcode();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'qrcode');

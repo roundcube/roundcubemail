@@ -34,7 +34,7 @@ class rcube_sql_password
      *
      * @return int Result
      */
-    function save($curpass, $passwd)
+    public function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();
 

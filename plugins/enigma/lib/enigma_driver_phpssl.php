@@ -20,7 +20,7 @@ class enigma_driver_phpssl extends enigma_driver
     private $homedir;
     private $user;
 
-    function __construct($user)
+    public function __construct($user)
     {
         $rcmail = rcmail::get_instance();
         $this->rc   = $rcmail;
@@ -33,7 +33,7 @@ class enigma_driver_phpssl extends enigma_driver
      *
      * @return mixed NULL on success, enigma_error on failure
      */
-    function init()
+    public function init()
     {
         $homedir = $this->rc->config->get('enigma_smime_homedir', INSTALL_PATH . '/plugins/enigma/home');
 
@@ -72,13 +72,13 @@ class enigma_driver_phpssl extends enigma_driver
 
     }
 
-    function encrypt($text, $keys, $sign_key = null) {}
+    public function encrypt($text, $keys, $sign_key = null) {}
 
-    function decrypt($text, $keys = [], &$signature = null) {}
+    public function decrypt($text, $keys = [], &$signature = null) {}
 
-    function sign($text, $key, $mode = null) {}
+    public function sign($text, $key, $mode = null) {}
 
-    function verify($struct, $message)
+    public function verify($struct, $message)
     {
         // use common temp dir
         $msg_file  = rcube_utils::temp_filename('enigmsg');

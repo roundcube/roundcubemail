@@ -8,7 +8,7 @@ class Actions_Mail_Copy extends ActionTestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcmail_action_mail_copy();
 
@@ -18,7 +18,7 @@ class Actions_Mail_Copy extends ActionTestCase
     /**
      * Test copying a single message
      */
-    function test_copy_message()
+    public function test_copy_message()
     {
         $action = new rcmail_action_mail_copy();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'copy');
@@ -51,7 +51,7 @@ class Actions_Mail_Copy extends ActionTestCase
     /**
      * Test copying error
      */
-    function test_copy_message_error()
+    public function test_copy_message_error()
     {
         $action = new rcmail_action_mail_copy();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'copy');

@@ -8,7 +8,7 @@ class Actions_Contacts_Delete extends ActionTestCase
     /**
      * Test deleting of a single existing contact
      */
-    function test_delete_single_existing_contact()
+    public function test_delete_single_existing_contact()
     {
         $action = new rcmail_action_contacts_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'delete');
@@ -47,7 +47,7 @@ class Actions_Contacts_Delete extends ActionTestCase
     /**
      * Test deleting from a search result (with multiple sources)
      */
-    function test_delete_from_search()
+    public function test_delete_from_search()
     {
         $this->markTestIncomplete();
     }

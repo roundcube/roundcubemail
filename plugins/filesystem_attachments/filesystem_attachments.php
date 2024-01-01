@@ -30,7 +30,7 @@ class filesystem_attachments extends rcube_plugin
     public $task = '?(?!login).*';
     public $initialized = false;
 
-    function init()
+    public function init()
     {
         // Find filesystem_attachments-based plugins, we can use only one
         foreach ($this->api->loaded_plugins() as $plugin_name) {
@@ -71,7 +71,7 @@ class filesystem_attachments extends rcube_plugin
     /**
      * Save a newly uploaded attachment
      */
-    function upload($args)
+    public function upload($args)
     {
         $args['status'] = false;
         $group = $args['group'];
@@ -92,7 +92,7 @@ class filesystem_attachments extends rcube_plugin
     /**
      * Save an attachment from a non-upload source (draft or forward)
      */
-    function save($args)
+    public function save($args)
     {
         $group = $args['group'];
         $args['status'] = false;
@@ -119,7 +119,7 @@ class filesystem_attachments extends rcube_plugin
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
      */
-    function remove($args)
+    public function remove($args)
     {
         $args['status'] = $this->verify_path($args['path']) && @unlink($args['path']);
 
@@ -131,7 +131,7 @@ class filesystem_attachments extends rcube_plugin
      * For this plugin, the file is already in place, just check for
      * the existence of the proper metadata
      */
-    function display($args)
+    public function display($args)
     {
         $args['status'] = $this->verify_path($args['path']) && file_exists($args['path']);
 
@@ -143,7 +143,7 @@ class filesystem_attachments extends rcube_plugin
      * on disk for use. This stub function is kept here to make this
      * class handy as a parent class for other plugins which may need it.
      */
-    function get($args)
+    public function get($args)
     {
         if (!$this->verify_path($args['path'])) {
             $args['path'] = null;
@@ -155,7 +155,7 @@ class filesystem_attachments extends rcube_plugin
     /**
      * Delete all temp files associated with this user session
      */
-    function cleanup($args)
+    public function cleanup($args)
     {
         $rcube = rcube::get_instance();
         $group = $args['group'] ?? null;

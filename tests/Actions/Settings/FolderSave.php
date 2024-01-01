@@ -8,7 +8,7 @@ class Actions_Settings_FolderSave extends ActionTestCase
     /**
      * Test folder creation
      */
-    function test_new_folder()
+    public function test_new_folder()
     {
         $action = new rcmail_action_settings_folder_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folder-save');
@@ -42,7 +42,7 @@ class Actions_Settings_FolderSave extends ActionTestCase
     /**
      * Test folder update/rename
      */
-    function test_folder_update()
+    public function test_folder_update()
     {
         $this->markTestIncomplete();
     }
@@ -50,7 +50,7 @@ class Actions_Settings_FolderSave extends ActionTestCase
     /**
      * Test error handling
      */
-    function test_error_handling()
+    public function test_error_handling()
     {
         $this->markTestIncomplete();
     }

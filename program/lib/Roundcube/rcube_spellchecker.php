@@ -41,7 +41,7 @@ class rcube_spellchecker
      *
      * @param string $lang Language code
      */
-    function __construct($lang = 'en')
+    public function __construct($lang = 'en')
     {
         $this->rc     = rcube::get_instance();
         $this->engine = $this->rc->config->get('spellcheck_engine', 'googie');
@@ -66,7 +66,7 @@ class rcube_spellchecker
     /**
      * Return a list of supported languages
      */
-    function languages()
+    public function languages()
     {
         // trust configuration
         $configured = $this->rc->config->get('spellcheck_languages');
@@ -123,7 +123,7 @@ class rcube_spellchecker
      *
      * @return bool True when no misspelling found, otherwise false
      */
-    function check($text, $is_html = false)
+    public function check($text, $is_html = false)
     {
         // convert to plain text
         if ($is_html) {
@@ -153,7 +153,7 @@ class rcube_spellchecker
      *
      * @return int Number of misspellings
      */
-    function found()
+    public function found()
     {
         return count($this->matches);
     }
@@ -165,7 +165,7 @@ class rcube_spellchecker
      *
      * @return array Suggestions list
      */
-    function get_suggestions($word)
+    public function get_suggestions($word)
     {
         if ($this->backend) {
             return $this->backend->get_suggestions($word);
@@ -182,7 +182,7 @@ class rcube_spellchecker
      *
      * @return array List of misspelled words
      */
-    function get_words($text = null, $is_html = false)
+    public function get_words($text = null, $is_html = false)
     {
         if ($is_html) {
             $text = $this->html2text($text);
@@ -200,7 +200,7 @@ class rcube_spellchecker
      *
      * @return string XML content
      */
-    function get_xml()
+    public function get_xml()
     {
         // send output
         $out = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><spellresult charschecked="' . mb_strlen($this->content) . '">';
@@ -221,7 +221,7 @@ class rcube_spellchecker
      *
      * @return array Spellchecking result. An array indexed by word.
      */
-    function get()
+    public function get()
     {
         $result = [];
 
@@ -251,7 +251,7 @@ class rcube_spellchecker
      *
      * @return string Error message
      */
-    function error()
+    public function error()
     {
         return $this->error ?: ($this->backend ? $this->backend->error() : false);
     }

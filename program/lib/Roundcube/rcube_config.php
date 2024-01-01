@@ -22,7 +22,7 @@
  */
 class rcube_config
 {
-    const DEFAULT_SKIN = 'elastic';
+    public const DEFAULT_SKIN = 'elastic';
 
     /** @var string A skin configured in the config file (before being replaced by a user preference) */
     public $system_skin = 'elastic';
@@ -745,7 +745,7 @@ class rcube_config
      *
      * @return string|null Timezone abbreviation
      */
-    static public function timezone_name_from_abbr($offset)
+    public static function timezone_name_from_abbr($offset)
     {
         // List of timezones here is not complete - https://bugs.php.net/bug.php?id=44780
         if ($tz = timezone_name_from_abbr('', $offset * 3600, 0)) {
@@ -806,7 +806,7 @@ class rcube_config
      *
      * @return string Timezone name
      */
-    static public function resolve_timezone_alias($tzname)
+    public static function resolve_timezone_alias($tzname)
     {
         // http://www.php.net/manual/en/timezones.others.php
         // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones

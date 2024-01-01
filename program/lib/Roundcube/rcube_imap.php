@@ -942,7 +942,7 @@ class rcube_imap extends rcube_storage
      *
      * @return rcube_result_thread Thread data object
      */
-    function threads($folder)
+    public function threads($folder)
     {
         if ($mcache = $this->get_mcache_engine()) {
             // don't store in self's internal cache, cache has it's own internal cache
@@ -969,7 +969,7 @@ class rcube_imap extends rcube_storage
      *
      * @return rcube_result_thread Thread data object
      */
-    function threads_direct($folder)
+    public function threads_direct($folder)
     {
         if (!$this->check_connection()) {
             return new rcube_result_thread();
@@ -1278,7 +1278,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Messages headers indexed by UID
      */
-    function fetch_headers($folder, $msgs, $sort = true, $force = false)
+    public function fetch_headers($folder, $msgs, $sort = true, $force = false)
     {
         if (empty($msgs)) {
             return [];
@@ -4296,7 +4296,7 @@ class rcube_imap extends rcube_storage
     /**
      * Delete outdated cache entries
      */
-    function cache_gc()
+    public function cache_gc()
     {
         rcube_imap_cache::gc();
     }

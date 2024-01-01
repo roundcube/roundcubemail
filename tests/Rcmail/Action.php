@@ -8,7 +8,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::set_env_config()
      */
-    function test_set_env_config()
+    public function test_set_env_config()
     {
         $rcmail = rcmail::get_instance();
 
@@ -24,7 +24,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::table_output()
      */
-    function test_table_output()
+    public function test_table_output()
     {
         $attrib = [];
         $table_data = [];
@@ -39,7 +39,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::quota_content()
      */
-    function test_quota_content()
+    public function test_quota_content()
     {
         $this->markTestIncomplete();
     }
@@ -47,7 +47,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::display_server_error()
      */
-    function test_display_server_error()
+    public function test_display_server_error()
     {
         $this->markTestIncomplete();
     }
@@ -55,7 +55,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::html_editor()
      */
-    function test_html_editor()
+    public function test_html_editor()
     {
         $this->markTestIncomplete();
     }
@@ -63,7 +63,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::upload_init()
      */
-    function test_upload_init()
+    public function test_upload_init()
     {
         $this->markTestIncomplete();
     }
@@ -71,7 +71,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::upload_form()
      */
-    function test_upload_form()
+    public function test_upload_form()
     {
         $this->markTestIncomplete();
     }
@@ -79,7 +79,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::upload_error()
      */
-    function test_upload_error()
+    public function test_upload_error()
     {
         $this->markTestIncomplete();
     }
@@ -87,7 +87,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::upload_failure()
      */
-    function test_upload_failure()
+    public function test_upload_failure()
     {
         $this->markTestIncomplete();
     }
@@ -95,7 +95,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::display_uploaded_file()
      */
-    function test_display_uploaded_file()
+    public function test_display_uploaded_file()
     {
         $this->markTestIncomplete();
     }
@@ -103,7 +103,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::autocomplete_init()
      */
-    function test_autocomplete_init()
+    public function test_autocomplete_init()
     {
         $this->markTestIncomplete();
     }
@@ -111,7 +111,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::font_defs()
      */
-    function test_font_defs()
+    public function test_font_defs()
     {
         $result = rcmail_action::font_defs();
         $this->assertCount(13, $result);
@@ -120,7 +120,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::fontsize_defs()
      */
-    function test_fontsize_defs()
+    public function test_fontsize_defs()
     {
         $result = rcmail_action::fontsize_defs();
         $this->assertCount(9, $result);
@@ -129,7 +129,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::show_bytes)
      */
-    function test_show_bytes()
+    public function test_show_bytes()
     {
         $result = rcmail_action::show_bytes(0);
         $this->assertSame('0 B', $result);
@@ -145,7 +145,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::message_part_size()
      */
-    function test_message_part_size()
+    public function test_message_part_size()
     {
         $this->markTestIncomplete();
     }
@@ -153,7 +153,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::get_uids()
      */
-    function test_get_uids()
+    public function test_get_uids()
     {
         $result = rcmail_action::get_uids();
         $this->assertSame([], $result);
@@ -208,7 +208,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::get_resource_content()
      */
-    function test_get_resource_content()
+    public function test_get_resource_content()
     {
         $result = rcmail_action::get_resource_content('blocked.gif');
         $this->assertTrue(strpos($result, 'GIF89') === 0);
@@ -217,7 +217,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::get_form_tags()
      */
-    function test_get_form_tags()
+    public function test_get_form_tags()
     {
         $this->markTestIncomplete();
     }
@@ -225,7 +225,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::folder_list()
      */
-    function test_folder_list()
+    public function test_folder_list()
     {
         $this->markTestIncomplete();
     }
@@ -233,7 +233,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     /**
      * Test rcmail_action::folder_selector()
      */
-    function test_folder_selector()
+    public function test_folder_selector()
     {
         $this->markTestIncomplete();
     }

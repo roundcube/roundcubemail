@@ -60,20 +60,20 @@ class rcube_imap_generic
     protected $debug             = false;
     protected $debug_handler     = false;
 
-    const ERROR_OK       = 0;
-    const ERROR_NO       = -1;
-    const ERROR_BAD      = -2;
-    const ERROR_BYE      = -3;
-    const ERROR_UNKNOWN  = -4;
-    const ERROR_COMMAND  = -5;
-    const ERROR_READONLY = -6;
+    public const ERROR_OK       = 0;
+    public const ERROR_NO       = -1;
+    public const ERROR_BAD      = -2;
+    public const ERROR_BYE      = -3;
+    public const ERROR_UNKNOWN  = -4;
+    public const ERROR_COMMAND  = -5;
+    public const ERROR_READONLY = -6;
 
-    const COMMAND_NORESPONSE = 1;
-    const COMMAND_CAPABILITY = 2;
-    const COMMAND_LASTLINE   = 4;
-    const COMMAND_ANONYMIZED = 8;
+    public const COMMAND_NORESPONSE = 1;
+    public const COMMAND_CAPABILITY = 2;
+    public const COMMAND_LASTLINE   = 4;
+    public const COMMAND_ANONYMIZED = 8;
 
-    const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
+    public const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
 
 
     /**

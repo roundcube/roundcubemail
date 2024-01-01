@@ -8,7 +8,7 @@ class Framework_Message extends PHPUnit\Framework\TestCase
     /**
      * Test format_part_body() method
      */
-    function test_format_part_body()
+    public function test_format_part_body()
     {
         $part   = new rcube_message_part();
         $body   = 'test';

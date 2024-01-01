@@ -8,7 +8,7 @@ class Actions_Settings_PrefsSave extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
         $action = new rcmail_action_settings_prefs_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-prefs');
@@ -28,7 +28,7 @@ class Actions_Settings_PrefsSave extends ActionTestCase
     /**
      * Test prefs_input() method
      */
-    function test_prefs_input()
+    public function test_prefs_input()
     {
         $action = new rcmail_action_settings_prefs_save();
 

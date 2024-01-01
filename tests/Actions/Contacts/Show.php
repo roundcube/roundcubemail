@@ -8,7 +8,7 @@ class Actions_Contacts_Show extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
         $action = new rcmail_action_contacts_show();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'show');
@@ -42,7 +42,7 @@ class Actions_Contacts_Show extends ActionTestCase
     /**
      * Test contact_head() method
      */
-    function test_contact_head()
+    public function test_contact_head()
     {
         $this->markTestIncomplete();
     }
@@ -50,7 +50,7 @@ class Actions_Contacts_Show extends ActionTestCase
     /**
      * Test contact_details() method
      */
-    function test_contact_details()
+    public function test_contact_details()
     {
         $this->markTestIncomplete();
     }
@@ -58,7 +58,7 @@ class Actions_Contacts_Show extends ActionTestCase
     /**
      * Test render_email_value() method
      */
-    function test_render_email_value()
+    public function test_render_email_value()
     {
         $input = 'test@<email.tld';
         $expected = '<a href="mailto:test@&lt;email.tld" onclick="return rcmail.command(\'compose\',\'test@&lt;email.tld\',this)"'
@@ -69,7 +69,7 @@ class Actions_Contacts_Show extends ActionTestCase
     /**
      * Test render_phone_value() method
      */
-    function test_render_phone_value()
+    public function test_render_phone_value()
     {
         $input = '+48-123<456';
         $expected = '<a href="tel:+48-123456" class="phone">+48-123&lt;456</a>';
@@ -79,7 +79,7 @@ class Actions_Contacts_Show extends ActionTestCase
     /**
      * Test render_url_value() method
      */
-    function test_render_url_value()
+    public function test_render_url_value()
     {
         $input = 'http://test/<123';
         $expected = '<a href="http://test/&lt;123" target="_blank" class="url">http://test/&lt;123</a>';
@@ -89,7 +89,7 @@ class Actions_Contacts_Show extends ActionTestCase
     /**
      * Test contact_record_groups() method
      */
-    function test_contact_record_groups()
+    public function test_contact_record_groups()
     {
         $this->markTestIncomplete();
     }

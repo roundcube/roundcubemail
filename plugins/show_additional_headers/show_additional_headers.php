@@ -19,7 +19,7 @@ class show_additional_headers extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $rcmail = rcmail::get_instance();
 
@@ -40,7 +40,7 @@ class show_additional_headers extends rcube_plugin
      *
      * @return array Modified hook parameters
      */
-    function storage_init($p)
+    public function storage_init($p)
     {
         $rcmail      = rcmail::get_instance();
         $add_headers = $rcmail->config->get('show_additional_headers', []);
@@ -65,7 +65,7 @@ class show_additional_headers extends rcube_plugin
      *
      * @return array Modified hook parameters
      */
-    function message_headers($p)
+    public function message_headers($p)
     {
         $rcmail      = rcmail::get_instance();
         $add_headers = $rcmail->config->get('show_additional_headers', []);

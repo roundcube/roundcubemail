@@ -8,7 +8,7 @@ class Framework_Cache extends PHPUnit\Framework\TestCase
     /**
      * Test factory method
      */
-    function test_factory()
+    public function test_factory()
     {
         $object = rcube_cache::factory('db', 1);
 
@@ -19,7 +19,7 @@ class Framework_Cache extends PHPUnit\Framework\TestCase
     /**
      * key_name() method
      */
-    function test_key_name()
+    public function test_key_name()
     {
         $this->assertSame('test', rcube_cache::key_name('test'));
 

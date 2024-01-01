@@ -31,9 +31,9 @@ class rcube_result_thread
     protected $meta  = [];
     protected $order = 'ASC';
 
-    const SEPARATOR_ELEMENT = ' ';
-    const SEPARATOR_ITEM    = '~';
-    const SEPARATOR_LEVEL   = ':';
+    public const SEPARATOR_ELEMENT = ' ';
+    public const SEPARATOR_ITEM    = '~';
+    public const SEPARATOR_LEVEL   = ':';
 
 
     /**

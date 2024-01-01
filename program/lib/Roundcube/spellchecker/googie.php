@@ -23,7 +23,7 @@
  */
 class rcube_spellchecker_googie extends rcube_spellchecker_engine
 {
-    const GOOGIE_HOST = 'https://spell.roundcube.net';
+    public const GOOGIE_HOST = 'https://spell.roundcube.net';
 
     private $matches = [];
     private $content;
@@ -33,7 +33,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
-    function languages()
+    public function languages()
     {
         return [
             'am', 'ar', 'ar', 'bg', 'br', 'ca', 'cs', 'cy', 'da',
@@ -50,7 +50,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
-    function check($text)
+    public function check($text)
     {
         $this->content = $text;
 
@@ -122,7 +122,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
-    function get_suggestions($word)
+    public function get_suggestions($word)
     {
         $matches = $word ? $this->check($word) : $this->matches;
 
@@ -143,7 +143,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
-    function get_words($text = null)
+    public function get_words($text = null)
     {
         if ($text) {
             $matches = $this->check($text);

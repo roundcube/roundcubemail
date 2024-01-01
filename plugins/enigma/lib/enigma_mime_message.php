@@ -16,8 +16,8 @@
 
 class enigma_mime_message extends Mail_mime
 {
-    const PGP_SIGNED    = 1;
-    const PGP_ENCRYPTED = 2;
+    public const PGP_SIGNED    = 1;
+    public const PGP_ENCRYPTED = 2;
 
     protected $type;
     protected $message;
@@ -33,7 +33,7 @@ class enigma_mime_message extends Mail_mime
      * @param Mail_mime $message Original message
      * @param int       $type    Output message type
      */
-    function __construct($message, $type)
+    public function __construct($message, $type)
     {
         $this->message = $message;
         $this->type    = $type;

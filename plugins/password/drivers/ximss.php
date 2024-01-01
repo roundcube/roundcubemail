@@ -34,7 +34,7 @@
 
 class rcube_ximss_password
 {
-    function save($pass, $newpass, $username)
+    public function save($pass, $newpass, $username)
     {
         $rcmail = rcmail::get_instance();
 

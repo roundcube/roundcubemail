@@ -8,7 +8,7 @@ class Actions_Settings_IdentityCreate extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
         $action = new rcmail_action_settings_identity_create();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'add-identity');

@@ -18,7 +18,7 @@ class krb_authentication extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);
         $this->add_hook('authenticate', [$this, 'authenticate']);
@@ -31,7 +31,7 @@ class krb_authentication extends rcube_plugin
     /**
      * Startup hook handler
      */
-    function startup($args)
+    public function startup($args)
     {
         if (!empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])) {
             // handle login action
@@ -49,7 +49,7 @@ class krb_authentication extends rcube_plugin
     /**
      * Authenticate hook handler
      */
-    function authenticate($args)
+    public function authenticate($args)
     {
         if (!empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])) {
             // Load plugin's config file
@@ -77,7 +77,7 @@ class krb_authentication extends rcube_plugin
     /**
      * login_after hook handler
      */
-    function login($args)
+    public function login($args)
     {
         // Redirect to the previous QUERY_STRING
         if ($this->redirect_query) {
@@ -92,7 +92,7 @@ class krb_authentication extends rcube_plugin
     /**
      * Storage_connect hook handler
      */
-    function storage_connect($args)
+    public function storage_connect($args)
     {
         if (!empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])) {
             $args['gssapi_context'] = $this->gssapi_context('imap');
@@ -106,7 +106,7 @@ class krb_authentication extends rcube_plugin
     /**
      * managesieve_connect hook handler
      */
-    function managesieve_connect($args)
+    public function managesieve_connect($args)
     {
         if (
             (!isset($args['auth_type']) || $args['auth_type'] == 'GSSAPI')
@@ -123,7 +123,7 @@ class krb_authentication extends rcube_plugin
     /**
      * smtp_connect hook handler
      */
-    function smtp_connect($args)
+    public function smtp_connect($args)
     {
         if (
             (!isset($args['smtp_auth_type']) || $args['smtp_auth_type'] == 'GSSAPI')

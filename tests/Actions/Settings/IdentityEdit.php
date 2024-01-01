@@ -8,7 +8,7 @@ class Actions_Settings_IdentityEdit extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
         $action = new rcmail_action_settings_identity_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-identity');
@@ -41,7 +41,7 @@ class Actions_Settings_IdentityEdit extends ActionTestCase
     /**
      * Test identity_form() method
      */
-    function test_identity_form()
+    public function test_identity_form()
     {
         $action = new rcmail_action_settings_identity_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-identity');

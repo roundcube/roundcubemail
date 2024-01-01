@@ -8,7 +8,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcmail_action_mail_folder_expunge();
 
@@ -18,7 +18,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
     /**
      * Test expunging a folder
      */
-    function test_folder_expunge()
+    public function test_folder_expunge()
     {
         $action = new rcmail_action_mail_folder_expunge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
@@ -45,7 +45,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
     /**
      * Test expunging a folder (with reload)
      */
-    function test_folder_expunge_with_reload()
+    public function test_folder_expunge_with_reload()
     {
         $action = new rcmail_action_mail_folder_expunge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
@@ -82,7 +82,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
     /**
      * Test expunging error
      */
-    function test_folder_expunge_error()
+    public function test_folder_expunge_error()
     {
         $action = new rcmail_action_mail_folder_expunge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');

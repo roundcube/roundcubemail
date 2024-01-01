@@ -27,7 +27,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
     protected $script_name;
     protected $forward = [];
 
-    function actions()
+    public function actions()
     {
         $error = $this->start('forward');
 

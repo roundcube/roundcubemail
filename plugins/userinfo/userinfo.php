@@ -10,14 +10,14 @@ class userinfo extends rcube_plugin
     public $noajax  = true;
     public $noframe = true;
 
-    function init()
+    public function init()
     {
         $this->add_texts('localization/', ['userinfo']);
         $this->add_hook('settings_actions', [$this, 'settings_actions']);
         $this->register_action('plugin.userinfo', [$this, 'infostep']);
     }
 
-    function settings_actions($args)
+    public function settings_actions($args)
     {
         $args['actions'][] = [
             'action' => 'plugin.userinfo',
@@ -29,7 +29,7 @@ class userinfo extends rcube_plugin
         return $args;
     }
 
-    function infostep()
+    public function infostep()
     {
         $this->register_handler('plugin.body', [$this, 'infohtml']);
 
@@ -38,7 +38,7 @@ class userinfo extends rcube_plugin
         $rcmail->output->send('plugin');
     }
 
-    function infohtml()
+    public function infohtml()
     {
         $rcmail   = rcmail::get_instance();
         $user     = $rcmail->user;

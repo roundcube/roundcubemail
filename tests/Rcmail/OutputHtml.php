@@ -8,7 +8,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test check_skin()
      */
-    function test_check_skin()
+    public function test_check_skin()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -20,7 +20,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test get_skin_file()
      */
-    function test_get_skin_file()
+    public function test_get_skin_file()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -34,7 +34,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test get_template_logo()
      */
-    function test_logo()
+    public function test_logo()
     {
         $rcmail            = rcube::get_instance();
         $output            = new rcmail_output_html();
@@ -271,7 +271,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Data for test_conditions()
      */
-    function data_conditions(): iterable
+    public function data_conditions(): iterable
     {
         $txt = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt '
             . 'ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco '
@@ -315,7 +315,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_conditions
      */
-    function test_conditions($input, $output)
+    public function test_conditions($input, $output)
     {
         $object = new rcmail_output_html();
         $result = $object->just_parse($input);
@@ -326,7 +326,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test reset()
      */
-    function test_reset()
+    public function test_reset()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -337,7 +337,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test abs_url()
      */
-    function test_abs_url()
+    public function test_abs_url()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -349,7 +349,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test asset_url()
      */
-    function test_asset_url()
+    public function test_asset_url()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -362,7 +362,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test button()
      */
-    function test_button()
+    public function test_button()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -376,7 +376,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test form_tag()
      */
-    function test_form_tag()
+    public function test_form_tag()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -387,7 +387,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test request_form()
      */
-    function test_request_form()
+    public function test_request_form()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -398,7 +398,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test search_form()
      */
-    function test_search_form()
+    public function test_search_form()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -413,7 +413,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test charset_selector()
      */
-    function test_charset_selector()
+    public function test_charset_selector()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();

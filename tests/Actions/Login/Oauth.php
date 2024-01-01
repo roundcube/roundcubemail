@@ -8,7 +8,7 @@ class Actions_Login_Oauth extends ActionTestCase
     /**
      * Test run
      */
-    function test_run_login_redirect()
+    public function test_run_login_redirect()
     {
         $action = new rcmail_action_login_oauth();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'login', '');

@@ -8,7 +8,7 @@ class Actions_Contacts_Export extends ActionTestCase
     /**
      * Test exporting all contacts
      */
-    function test_export_all()
+    public function test_export_all()
     {
         $action = new rcmail_action_contacts_export();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
@@ -50,7 +50,7 @@ class Actions_Contacts_Export extends ActionTestCase
      *
      * @depends test_export_all
      */
-    function test_export_selected()
+    public function test_export_selected()
     {
         $action = new rcmail_action_contacts_export();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
@@ -93,7 +93,7 @@ class Actions_Contacts_Export extends ActionTestCase
      *
      * @depends test_export_all
      */
-    function test_export_search()
+    public function test_export_search()
     {
         $this->markTestIncomplete();
     }
@@ -101,7 +101,7 @@ class Actions_Contacts_Export extends ActionTestCase
     /**
      * Test prepare_for_export() method
      */
-    function test_prepare_for_export()
+    public function test_prepare_for_export()
     {
         $this->markTestIncomplete();
     }

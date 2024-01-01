@@ -116,7 +116,7 @@ abstract class rcube_output
      * @param bool   $override Override last set message
      * @param int    $timeout  Message displaying time in seconds
      */
-    abstract function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
+    abstract public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
 
     /**
      * Redirect to a certain url.
@@ -124,12 +124,12 @@ abstract class rcube_output
      * @param array|string $p     Either a string with the action or url parameters as key-value pairs
      * @param int          $delay Delay in seconds
      */
-    abstract function redirect($p = [], $delay = 1);
+    abstract public function redirect($p = [], $delay = 1);
 
     /**
      * Send output to the client.
      */
-    abstract function send();
+    abstract public function send();
 
     /**
      * Send HTTP headers to prevent caching a page

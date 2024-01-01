@@ -39,9 +39,9 @@ class rcube_cache
     protected $debug        = false;
     protected $max_packet   = -1;
 
-    const MAX_EXP_LEVEL     = 2;
-    const DATE_FORMAT       = 'Y-m-d H:i:s.u';
-    const DATE_FORMAT_REGEX = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{1,6}';
+    public const MAX_EXP_LEVEL     = 2;
+    public const DATE_FORMAT       = 'Y-m-d H:i:s.u';
+    public const DATE_FORMAT_REGEX = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{1,6}';
 
 
     /**

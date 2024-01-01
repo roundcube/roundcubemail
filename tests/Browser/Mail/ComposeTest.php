@@ -80,7 +80,7 @@ class ComposeTest extends \Tests\Browser\TestCase
     /**
      * @depends testCompose
      */
-    function testPlainEditor()
+    public function testPlainEditor()
     {
         // Test for #7230: Shift+PageUp text selection
         // and copy-pasting with keyboard
@@ -111,7 +111,7 @@ class ComposeTest extends \Tests\Browser\TestCase
     /**
      * @depends testCompose
      */
-    function testRecipientInput()
+    public function testRecipientInput()
     {
         // Test for #7231: Recipient input bug when using click
         // to select a contact from autocomplete list

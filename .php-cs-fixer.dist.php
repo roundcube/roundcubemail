@@ -105,7 +105,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_summary' => false,
         'single_line_comment_spacing' => false,
         'ternary_to_null_coalescing' => false,
-        'visibility_required' => false,
 
         // TODO - risky
         'no_unset_on_property' => false,

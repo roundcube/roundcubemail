@@ -54,13 +54,13 @@ class rcube_db
         'table_prefix'     => '',
     ];
 
-    const DEBUG_LINE_LENGTH = 4096;
-    const DEFAULT_QUOTE     = '`';
+    public const DEBUG_LINE_LENGTH = 4096;
+    public const DEFAULT_QUOTE     = '`';
 
-    const TYPE_SQL    = 'sql';
-    const TYPE_INT    = 'integer';
-    const TYPE_BOOL   = 'bool';
-    const TYPE_STRING = 'string';
+    public const TYPE_SQL    = 'sql';
+    public const TYPE_INT    = 'integer';
+    public const TYPE_BOOL   = 'bool';
+    public const TYPE_STRING = 'string';
 
 
     /**

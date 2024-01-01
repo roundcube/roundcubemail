@@ -70,7 +70,7 @@ class rcube_text2html
      * @param bool   $from_file Indicates $source is a file to pull content from
      * @param array  $config    Class configuration
      */
-    function __construct($source = '', $from_file = false, $config = [])
+    public function __construct($source = '', $from_file = false, $config = [])
     {
         if (!empty($source)) {
             $this->set_text($source, $from_file);
@@ -87,7 +87,7 @@ class rcube_text2html
      * @param string $source    Plain text
      * @param bool   $from_file Indicates $source is a file to pull content from
      */
-    function set_text($source, $from_file = false)
+    public function set_text($source, $from_file = false)
     {
         if ($from_file && file_exists($source)) {
             $this->text = file_get_contents($source);
@@ -103,7 +103,7 @@ class rcube_text2html
      *
      * @return string HTML content
      */
-    function get_html()
+    public function get_html()
     {
         if (!$this->converted) {
             $this->convert();
@@ -115,7 +115,7 @@ class rcube_text2html
     /**
      * Prints the HTML.
      */
-    function print_html()
+    public function print_html()
     {
         echo $this->get_html();
     }

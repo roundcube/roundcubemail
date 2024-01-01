@@ -8,7 +8,7 @@ class Rcmail_RcmailAttachmentHandler extends ActionTestCase
     /**
      * Test rcmail_action::svg_filter()
      */
-    function test_svg_filter()
+    public function test_svg_filter()
     {
         $svg = '<svg><a xlink:href="javascript:alert(1)"><text x="20" y="20">XSS</text></a></svg>';
         $exp = '<svg><a><text x="20" y="20">XSS</text></a></svg>';

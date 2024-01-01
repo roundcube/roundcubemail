@@ -39,7 +39,7 @@ class newmail_notifier extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $this->rc = rcmail::get_instance();
 
@@ -82,7 +82,7 @@ class newmail_notifier extends rcube_plugin
     /**
      * Handler for user preferences form (preferences_list hook)
      */
-    function prefs_list($args)
+    public function prefs_list($args)
     {
         if ($args['section'] != 'mailbox') {
             return $args;
@@ -145,7 +145,7 @@ class newmail_notifier extends rcube_plugin
     /**
      * Handler for user preferences save (preferences_save hook)
      */
-    function prefs_save($args)
+    public function prefs_save($args)
     {
         if ($args['section'] != 'mailbox') {
             return $args;
@@ -177,7 +177,7 @@ class newmail_notifier extends rcube_plugin
     /**
      * Handler for new message action (new_messages hook)
      */
-    function notify($args)
+    public function notify($args)
     {
         // Already notified or unexpected input
         if ($this->notified || empty($args['diff']['new'])) {

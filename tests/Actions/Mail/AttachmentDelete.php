@@ -8,7 +8,7 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
     /**
      * Test uploaded attachment delete
      */
-    function test_run()
+    public function test_run()
     {
         $rcmail = rcube::get_instance();
         $action = new rcmail_action_mail_attachment_delete();

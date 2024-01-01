@@ -8,7 +8,7 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
         $action = new rcmail_action_settings_folders();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folders');
@@ -57,7 +57,7 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test folder_subscriptions() method
      */
-    function test_folder_subscriptions()
+    public function test_folder_subscriptions()
     {
         $this->markTestIncomplete();
     }
@@ -65,7 +65,7 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test folder_filter() method
      */
-    function test_folder_filter()
+    public function test_folder_filter()
     {
         $this->markTestIncomplete();
     }
@@ -73,7 +73,7 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test folder_options() method
      */
-    function test_folder_options()
+    public function test_folder_options()
     {
         $this->markTestIncomplete();
     }
@@ -81,7 +81,7 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test update_folder_row() method
      */
-    function test_update_folder_row()
+    public function test_update_folder_row()
     {
         $this->markTestIncomplete();
     }

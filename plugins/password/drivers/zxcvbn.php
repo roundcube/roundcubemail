@@ -27,7 +27,7 @@
 
 class rcube_zxcvbn_password
 {
-    function strength_rules()
+    public function strength_rules()
     {
         $rcmail = rcmail::get_instance();
         $rules  = [
@@ -45,7 +45,7 @@ class rcube_zxcvbn_password
      *
      * @return array Score (1 to 5) and Reason
      */
-    function check_strength($passwd)
+    public function check_strength($passwd)
     {
         if (!class_exists('ZxcvbnPhp\Zxcvbn')) {
             rcube::raise_error([

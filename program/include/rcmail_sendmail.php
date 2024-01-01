@@ -34,11 +34,11 @@ class rcmail_sendmail
     protected $temp_files = [];
 
     // define constants for message compose mode
-    const MODE_NONE    = 'none';
-    const MODE_REPLY   = 'reply';
-    const MODE_FORWARD = 'forward';
-    const MODE_DRAFT   = 'draft';
-    const MODE_EDIT    = 'edit';
+    public const MODE_NONE    = 'none';
+    public const MODE_REPLY   = 'reply';
+    public const MODE_FORWARD = 'forward';
+    public const MODE_DRAFT   = 'draft';
+    public const MODE_EDIT    = 'edit';
 
 
     /**

@@ -63,7 +63,7 @@ class debug_logger extends rcube_plugin
 {
     protected $runlog;
 
-    function init()
+    public function init()
     {
         require_once __DIR__ . '/runlog/runlog.php';
 
@@ -98,14 +98,14 @@ class debug_logger extends rcube_plugin
         $this->add_hook('authenticate', [$this, 'authenticate']);
     }
 
-    function authenticate($args)
+    public function authenticate($args)
     {
         $this->runlog->note('Authenticating ' . $args['user'] . '@' . $args['host']);
 
         return $args;
     }
 
-    function console($args)
+    public function console($args)
     {
         $note = $args['args'][0];
 
@@ -158,7 +158,7 @@ class debug_logger extends rcube_plugin
         return $args;
     }
 
-    function __destruct()
+    public function __destruct()
     {
         if ($this->runlog) {
             $this->runlog->end();

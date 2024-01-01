@@ -8,7 +8,7 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
     /**
      * Test error handling
      */
-    function test_group_addmembers_errors()
+    public function test_group_addmembers_errors()
     {
         $action = new rcmail_action_contacts_group_addmembers();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'add-members');
@@ -42,7 +42,7 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
     /**
      * Test adding a group member
      */
-    function test_group_addmembers_success()
+    public function test_group_addmembers_success()
     {
         $action = new rcmail_action_contacts_group_addmembers();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'add-members');

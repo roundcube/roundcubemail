@@ -28,7 +28,7 @@
 
 class rcube_gearman_password
 {
-    function save($currpass, $newpass, $username)
+    public function save($currpass, $newpass, $username)
     {
         if (extension_loaded('gearman')) {
             $rcmail  = rcmail::get_instance();

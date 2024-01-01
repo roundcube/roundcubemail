@@ -10,7 +10,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Plugin object construction test
      */
-    function test_constructor()
+    public function test_constructor()
     {
         $rcube  = rcube::get_instance();
         $plugin = new password($rcube->plugins);
@@ -22,7 +22,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
     /**
      * A dummy test testing PHP syntax on password drivers
      */
-    function test_all_drivers()
+    public function test_all_drivers()
     {
         if ($files = glob(__DIR__ . '/../drivers/*.php')) {
             foreach ($files as $file) {
@@ -36,7 +36,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
     /**
      * cpanel driver test
      */
-    function test_driver_cpanel()
+    public function test_driver_cpanel()
     {
         $driver_class = $this->load_driver('cpanel');
 
@@ -81,7 +81,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
      *
      * @return string driver's class name, example: "rcube_chpasswd_password"
      */
-    function load_driver($driver)
+    public function load_driver($driver)
     {
         include_once __DIR__ . "/../drivers/$driver.php";
         $driver_class = "rcube_{$driver}_password";
@@ -93,7 +93,7 @@ class Password_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test hash_password()
      */
-    function test_hash_password()
+    public function test_hash_password()
     {
         $pass = password::hash_password('test', 'clear');
         $this->assertSame('test', $pass);

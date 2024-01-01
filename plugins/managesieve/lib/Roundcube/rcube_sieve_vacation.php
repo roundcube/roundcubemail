@@ -27,7 +27,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     protected $script_name;
     protected $vacation = [];
 
-    function actions()
+    public function actions()
     {
         $error = $this->start('vacation');
 

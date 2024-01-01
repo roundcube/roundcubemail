@@ -8,7 +8,7 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_imap();
 
@@ -18,7 +18,7 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
     /**
      * Test convert_criteria()
      */
-    function test_convert_criteria()
+    public function test_convert_criteria()
     {
         $this->assertSame(
             'FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"',
@@ -39,7 +39,7 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
     /**
      * Folder sorting
      */
-    function test_sort_folder_list()
+    public function test_sort_folder_list()
     {
         $_SESSION['imap_delimiter'] = '.';
         $_SESSION['imap_namespace'] = [
@@ -100,7 +100,7 @@ class Framework_Imap extends PHPUnit\Framework\TestCase
     /**
      * BODYSTRUCTURE parsing
      */
-    function test_bodystructure()
+    public function test_bodystructure()
     {
         // A sample from #8803
         $str = '(("TEXT" "PLAIN" ("CHARSET" "utf-8") NIL NIL "8bit" 232 7)'

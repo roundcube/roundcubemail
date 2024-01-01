@@ -52,7 +52,7 @@ class password extends rcube_plugin
     private $rc;
 
 
-    function init()
+    public function init()
     {
         $this->rc = rcmail::get_instance();
 
@@ -88,7 +88,7 @@ class password extends rcube_plugin
         }
     }
 
-    function settings_actions($args)
+    public function settings_actions($args)
     {
         // register as settings action
         $args['actions'][] = [
@@ -102,7 +102,7 @@ class password extends rcube_plugin
         return $args;
     }
 
-    function password_init()
+    public function password_init()
     {
         $this->register_handler('plugin.body', [$this, 'password_form']);
 
@@ -124,7 +124,7 @@ class password extends rcube_plugin
         $this->rc->output->send('plugin');
     }
 
-    function password_save()
+    public function password_save()
     {
         $this->register_handler('plugin.body', [$this, 'password_form']);
 
@@ -207,7 +207,7 @@ class password extends rcube_plugin
         $this->rc->output->send('plugin');
     }
 
-    function password_form()
+    public function password_form()
     {
         // add some labels to client
         $this->rc->output->add_label(
@@ -464,14 +464,14 @@ class password extends rcube_plugin
         return $this->drivers[$type];
     }
 
-    function user_create($args)
+    public function user_create($args)
     {
         $this->newuser = true;
 
         return $args;
     }
 
-    function login_after($args)
+    public function login_after($args)
     {
         if ($this->newuser && $this->check_host_login_exceptions()) {
             $this->rc->user->save_prefs(['newuserpassword' => true]);

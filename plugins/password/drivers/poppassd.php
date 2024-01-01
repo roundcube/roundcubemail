@@ -27,7 +27,7 @@
 
 class rcube_poppassd_password
 {
-    function format_error_result($code, $line)
+    public function format_error_result($code, $line)
     {
         if (preg_match('/^\d\d\d\s+(\S.*)\s*$/', $line, $matches)) {
             return ['code' => $code, 'message' => $matches[1]];
@@ -36,7 +36,7 @@ class rcube_poppassd_password
         return $code;
     }
 
-    function save($curpass, $passwd, $username)
+    public function save($curpass, $passwd, $username)
     {
         $rcmail   = rcmail::get_instance();
         $poppassd = new Net_Socket();

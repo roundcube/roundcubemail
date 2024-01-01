@@ -95,7 +95,7 @@ abstract class rcube_plugin
     /**
      * Initialization method, needs to be implemented by the plugin itself
      */
-    abstract function init();
+    abstract public function init();
 
     /**
      * Provide information about this

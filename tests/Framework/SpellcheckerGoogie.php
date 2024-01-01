@@ -8,7 +8,7 @@ class Framework_SpellcheckerGoogie extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_spellchecker_googie(null, 'en');
 

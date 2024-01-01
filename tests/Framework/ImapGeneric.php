@@ -8,7 +8,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_imap_generic();
 
@@ -18,7 +18,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for escape()
      */
-    function test_escape()
+    public function test_escape()
     {
         $this->assertSame('NIL', rcube_imap_generic::escape(null));
         $this->assertSame('""', rcube_imap_generic::escape(''));
@@ -31,7 +31,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for sortHeaders()
      */
-    function test_sortHeaders()
+    public function test_sortHeaders()
     {
         $headers = [
             rcube_message_header::from_array([
@@ -63,7 +63,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for compressMessageSet()
      */
-    function test_compressMessageSet()
+    public function test_compressMessageSet()
     {
         $result = rcube_imap_generic::compressMessageSet([5, 4, 3]);
         $this->assertSame('3:5', $result);
@@ -81,7 +81,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for uncompressMessageSet()
      */
-    function test_uncompressMessageSet()
+    public function test_uncompressMessageSet()
     {
         $result = rcube_imap_generic::uncompressMessageSet(null);
         $this->assertSame([], $result);
@@ -99,7 +99,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for tokenizeResponse()
      */
-    function test_tokenizeResponse()
+    public function test_tokenizeResponse()
     {
         $response = "test brack[et] {1}\r\na {0}\r\n (item1 item2)";
 
@@ -122,7 +122,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for decodeContent() with no encoding
      */
-    function test_decode_content_plain()
+    public function test_decode_content_plain()
     {
         $content = "test uuencode encoded content\ntest uuencode encoded content";
 
@@ -132,7 +132,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for decodeContent() with base64 encoding
      */
-    function test_decode_content_base64()
+    public function test_decode_content_base64()
     {
         $content = "test base64 encoded content\ntest base64 encoded content";
         $encoded = chunk_split(base64_encode($content), 10, "\r\n");
@@ -151,7 +151,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for decodeContent() with quoted-printable encoding
      */
-    function test_decode_content_qp()
+    public function test_decode_content_qp()
     {
         $content = "test quoted-printable\n\n żąśźć encoded content\ntest quoted-printable żąśźć encoded content";
         $encoded = Mail_mimePart::quotedPrintableEncode($content, 12);
@@ -162,7 +162,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for decodeContent() with x-uuencode encoding
      */
-    function test_decode_content_uuencode()
+    public function test_decode_content_uuencode()
     {
         $content = "test uuencode encoded content\ntest uuencode encoded content";
         $encoded = "begin 664 test.txt\r\n" . convert_uuencode($content) . 'end';
@@ -180,7 +180,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test for decodeContent() with no encoding, but formatted output
      */
-    function test_decode_content_formatted()
+    public function test_decode_content_formatted()
     {
         $content = "test \r\n plain text\tcontent\t\r\n test plain text content\t";
         $expected = "test \n plain text\tcontent\n test plain text content";
@@ -192,7 +192,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
      * Helper to execute decodeCOntent() method in multiple variations of an input
      * and assert with the expected output
      */
-    function runDecodeContent($expected, $encoded, $mode, $size = null)
+    public function runDecodeContent($expected, $encoded, $mode, $size = null)
     {
         $method = new ReflectionMethod('rcube_imap_generic', 'decodeContent');
         $method->setAccessible(true);

@@ -31,7 +31,7 @@ class rcube_charset
      *
      * @var array
      */
-    static public $aliases = [
+    public static $aliases = [
         'USASCII'       => 'WINDOWS-1252',
         'ANSIX31101983' => 'WINDOWS-1252',
         'ANSIX341968'   => 'WINDOWS-1252',
@@ -74,7 +74,7 @@ class rcube_charset
      *
      * @var array
      */
-    static public $windows_codepages = [
+    public static $windows_codepages = [
          37 => 'IBM037',    // IBM EBCDIC US-Canada
         437 => 'IBM437',    // OEM United States
         500 => 'IBM500',    // IBM EBCDIC International

@@ -8,7 +8,7 @@ class Actions_Settings_FolderEdit extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
         $action = new rcmail_action_settings_folder_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folder-edit');
@@ -52,7 +52,7 @@ class Actions_Settings_FolderEdit extends ActionTestCase
     /**
      * Test folder_form() method
      */
-    function test_folder_form()
+    public function test_folder_form()
     {
         $this->markTestIncomplete();
     }

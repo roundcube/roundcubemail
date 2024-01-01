@@ -8,7 +8,7 @@ class Actions_Contacts_Move extends ActionTestCase
     /**
      * Test moving of a single contact
      */
-    function test_move_contact()
+    public function test_move_contact()
     {
         $action = new rcmail_action_contacts_move();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'move');
@@ -49,7 +49,7 @@ class Actions_Contacts_Move extends ActionTestCase
     /**
      * Test moving a contact to a group
      */
-    function test_move_contact_to_group()
+    public function test_move_contact_to_group()
     {
         // Test error handling, test moving to a group, test moving multiple contacts
         $this->markTestIncomplete();

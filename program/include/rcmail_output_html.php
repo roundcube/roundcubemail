@@ -725,7 +725,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @see http://php.net/manual/en/function.exit.php
      */
-    function parse($name = 'main', $exit = true, $write = true)
+    public function parse($name = 'main', $exit = true, $write = true)
     {
         $plugin   = false;
         $realname = $name;

@@ -8,7 +8,7 @@ class Rcmail_RcmailResendMail extends PHPUnit\Framework\TestCase
     /**
      * Test for header() method
      */
-    function test_headers()
+    public function test_headers()
     {
         $mail = new rcmail_resend_mail();
 

@@ -387,7 +387,7 @@ class rcube_message_header_sorter
      *
      * @param array $index Numerically indexed array of IMAP UIDs
      */
-    function set_index($index)
+    public function set_index($index)
     {
         $index = array_flip($index);
 
@@ -399,7 +399,7 @@ class rcube_message_header_sorter
      *
      * @param array $headers Array of rcube_message_header objects indexed by UID
      */
-    function sort_headers(&$headers)
+    public function sort_headers(&$headers)
     {
         uksort($headers, [$this, 'compare_uids']);
     }
@@ -410,7 +410,7 @@ class rcube_message_header_sorter
      * @param int $a Array key (UID)
      * @param int $b Array key (UID)
      */
-    function compare_uids($a, $b)
+    public function compare_uids($a, $b)
     {
         // then find each sequence number in my ordered list
         $posa = isset($this->uids[$a]) ? intval($this->uids[$a]) : -1;

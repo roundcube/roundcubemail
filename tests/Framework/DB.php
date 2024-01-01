@@ -10,7 +10,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     /**
      * Test script execution and table_prefix replacements
      */
-    function test_exec_script()
+    public function test_exec_script()
     {
         $db = new rcube_db_test_wrapper('test');
         $db->set_option('table_prefix', 'prefix_');
@@ -62,7 +62,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     /**
      * Test script execution and table_prefix replacements when the prefix is a schema prefix
      */
-    function test_exec_script_schema_prefix()
+    public function test_exec_script_schema_prefix()
     {
         $db = new rcube_db_test_wrapper('test');
         $db->set_option('table_prefix', 'prefix.');
@@ -114,7 +114,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     /**
      * Test query parsing and arguments quoting
      */
-    function test_query_parsing()
+    public function test_query_parsing()
     {
         $db = new rcube_db_test_wrapper('test');
         $db->set_option('identifier_start', '`');
@@ -173,7 +173,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
         $this->assertSame($expected, implode("\n", $db->queries), 'Query parsing [2]');
     }
 
-    function test_parse_dsn()
+    public function test_parse_dsn()
     {
         $dsn = 'mysql://USERNAME:PASSWORD@HOST:3306/DATABASE';
 
@@ -201,7 +201,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     /**
      * Test list_tables() method
      */
-    function test_list_tables()
+    public function test_list_tables()
     {
         $db = rcube::get_instance()->get_dbh();
 
@@ -213,7 +213,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     /**
      * Test list_columns() method
      */
-    function test_list_cols()
+    public function test_list_cols()
     {
         $db = rcube::get_instance()->get_dbh();
 
@@ -225,7 +225,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     /**
      * Test array2list() method
      */
-    function test_array2list()
+    public function test_array2list()
     {
         $db = rcube::get_instance()->get_dbh();
 
@@ -238,7 +238,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     /**
      * Test concat() method
      */
-    function test_concat()
+    public function test_concat()
     {
         $db = rcube::get_instance()->get_dbh();
 
@@ -251,7 +251,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     /**
      * Test encode() and decode() methods
      */
-    function test_encode_decode()
+    public function test_encode_decode()
     {
         $str = '';
         for ($x = 0; $x < 256; $x++) {

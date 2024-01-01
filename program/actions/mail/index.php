@@ -358,7 +358,7 @@ class rcmail_action_mail_index extends rcmail_action
     /**
      * return the message list as HTML table
      */
-    function message_list($attrib)
+    public function message_list($attrib)
     {
         $rcmail = rcmail::get_instance();
 

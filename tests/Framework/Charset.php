@@ -10,7 +10,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_clean()
      */
-    function data_clean(): iterable
+    public function data_clean(): iterable
     {
         return [
             ['', ''],
@@ -26,7 +26,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_clean
      */
-    function test_clean($input, $output)
+    public function test_clean($input, $output)
     {
         $this->assertSame($output, rcube_charset::clean($input));
     }
@@ -34,7 +34,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_is_valid()
      */
-    function data_is_valid(): iterable
+    public function data_is_valid(): iterable
     {
         $list = [];
         foreach (mb_list_encodings() as $charset) {
@@ -55,7 +55,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_is_valid
      */
-    function test_is_valid($input, $result)
+    public function test_is_valid($input, $result)
     {
         $this->assertSame($result, rcube_charset::is_valid($input));
     }
@@ -63,7 +63,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_parse_charset()
      */
-    function data_parse_charset(): iterable
+    public function data_parse_charset(): iterable
     {
         return [
             ['UTF8', 'UTF-8'],
@@ -74,7 +74,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_parse_charset
      */
-    function test_parse_charset($input, $output)
+    public function test_parse_charset($input, $output)
     {
         $this->assertSame($output, rcube_charset::parse_charset($input));
     }
@@ -82,7 +82,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_convert()
      */
-    function data_convert(): iterable
+    public function data_convert(): iterable
     {
         $data = [
             ['ö', 'ö', 'UTF-8', 'UTF-8'],
@@ -110,7 +110,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_convert
      */
-    function test_convert($input, $output, $from, $to)
+    public function test_convert($input, $output, $from, $to)
     {
         $this->assertSame($output, rcube_charset::convert($input, $from, $to));
     }
@@ -118,7 +118,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf7_to_utf8()
      */
-    function data_utf7_to_utf8(): iterable
+    public function data_utf7_to_utf8(): iterable
     {
         return [
             ['+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
@@ -128,7 +128,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_utf7_to_utf8
      */
-    function test_utf7_to_utf8($input, $output)
+    public function test_utf7_to_utf8($input, $output)
     {
         // @phpstan-ignore-next-line
         $this->assertSame($output, rcube_charset::utf7_to_utf8($input));
@@ -137,7 +137,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf7imap_to_utf8()
      */
-    function data_utf7imap_to_utf8(): iterable
+    public function data_utf7imap_to_utf8(): iterable
     {
         return [
             ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
@@ -147,7 +147,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_utf7imap_to_utf8
      */
-    function test_utf7imap_to_utf8($input, $output)
+    public function test_utf7imap_to_utf8($input, $output)
     {
         // @phpstan-ignore-next-line
         $this->assertSame($output, rcube_charset::utf7imap_to_utf8($input));
@@ -156,7 +156,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf8_to_utf7imap()
      */
-    function data_utf8_to_utf7imap(): iterable
+    public function data_utf8_to_utf7imap(): iterable
     {
         return [
             ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'],
@@ -166,7 +166,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_utf8_to_utf7imap
      */
-    function test_utf8_to_utf7imap($input, $output)
+    public function test_utf8_to_utf7imap($input, $output)
     {
         // @phpstan-ignore-next-line
         $this->assertSame($output, rcube_charset::utf8_to_utf7imap($input));
@@ -175,7 +175,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf16_to_utf8()
      */
-    function data_utf16_to_utf8(): iterable
+    public function data_utf16_to_utf8(): iterable
     {
         return [
             [base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'],
@@ -185,7 +185,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_utf16_to_utf8
      */
-    function test_utf16_to_utf8($input, $output)
+    public function test_utf16_to_utf8($input, $output)
     {
         // @phpstan-ignore-next-line
         $this->assertSame($output, rcube_charset::utf16_to_utf8($input));
@@ -194,7 +194,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_detect()
      */
-    function data_detect(): iterable
+    public function data_detect(): iterable
     {
         return [
             ['', '', 'UTF-8'],
@@ -205,7 +205,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_detect
      */
-    function test_detect($input, $fallback, $output)
+    public function test_detect($input, $fallback, $output)
     {
         // @phpstan-ignore-next-line
         $this->assertSame($output, rcube_charset::detect($input, $fallback));
@@ -214,7 +214,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_detect()
      */
-    function data_detect_with_lang(): iterable
+    public function data_detect_with_lang(): iterable
     {
         return [
             [base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'],
@@ -224,7 +224,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_detect_with_lang
      */
-    function test_detect_with_lang($input, $lang, $output)
+    public function test_detect_with_lang($input, $lang, $output)
     {
         // @phpstan-ignore-next-line
         $this->assertSame($output, rcube_charset::detect($input, $output, $lang));

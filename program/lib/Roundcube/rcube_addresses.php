@@ -244,7 +244,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return rcube_result_set|array Result object with all record fields
      */
-    function get_record($id, $assoc = false)
+    public function get_record($id, $assoc = false)
     {
         // return cached result
         if ($this->result && ($first = $this->result->first()) && $first[$this->primary_key] == $id) {
@@ -311,7 +311,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return int|bool The created record ID on success, False on error
      */
-    function insert($save_data, $check = false)
+    public function insert($save_data, $check = false)
     {
         if (!is_array($save_data)) {
             return false;
@@ -346,7 +346,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return bool True on success, False on error
      */
-    function update($id, $save_cols)
+    public function update($id, $save_cols)
     {
         return false;
     }
@@ -359,7 +359,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return int|false Number of removed records
      */
-    function delete($ids, $force = true)
+    public function delete($ids, $force = true)
     {
         if (!is_array($ids)) {
             $ids = explode(self::SEPARATOR, $ids);
@@ -386,7 +386,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return int Number of removed records
      */
-    function delete_all($with_groups = false)
+    public function delete_all($with_groups = false)
     {
         $this->db->query('DELETE FROM ' . $this->db->table_name($this->db_name, true)
             . ' WHERE `user_id` = ? AND `type` = ?',

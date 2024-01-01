@@ -16,22 +16,22 @@
 
 abstract class enigma_driver
 {
-    const SUPPORT_RSA = 'RSA';
-    const SUPPORT_ECC = 'ECC';
+    public const SUPPORT_RSA = 'RSA';
+    public const SUPPORT_ECC = 'ECC';
 
     /**
      * Class constructor.
      *
      * @param string $user User name (email address)
      */
-    abstract function __construct($user);
+    abstract public function __construct($user);
 
     /**
      * Driver initialization.
      *
      * @return mixed NULL on success, enigma_error on failure
      */
-    abstract function init();
+    abstract public function init();
 
     /**
      * Encryption (and optional signing).
@@ -42,7 +42,7 @@ abstract class enigma_driver
      *
      * @return mixed Encrypted message or enigma_error on failure
      */
-    abstract function encrypt($text, $keys, $sign_key = null);
+    abstract public function encrypt($text, $keys, $sign_key = null);
 
     /**
      * Decryption (and sig verification if sig exists).
@@ -53,7 +53,7 @@ abstract class enigma_driver
      *
      * @return mixed Decrypted message or enigma_error on failure
      */
-    abstract function decrypt($text, $keys = [], &$signature = null);
+    abstract public function decrypt($text, $keys = [], &$signature = null);
 
     /**
      * Signing.
@@ -64,7 +64,7 @@ abstract class enigma_driver
      *
      * @return mixed True on success or enigma_error on failure
      */
-    abstract function sign($text, $key, $mode = null);
+    abstract public function sign($text, $key, $mode = null);
 
     /**
      * Signature verification.
@@ -74,7 +74,7 @@ abstract class enigma_driver
      *
      * @return mixed Signature information (enigma_signature) or enigma_error
      */
-    abstract function verify($text, $signature);
+    abstract public function verify($text, $signature);
 
     /**
      * Key/Cert file import.
@@ -85,7 +85,7 @@ abstract class enigma_driver
      *
      * @return mixed Import status array or enigma_error
      */
-    abstract function import($content, $isfile = false, $passwords = []);
+    abstract public function import($content, $isfile = false, $passwords = []);
 
     /**
      * Key/Cert export.
@@ -96,7 +96,7 @@ abstract class enigma_driver
      *
      * @return mixed Key content or enigma_error
      */
-    abstract function export($key, $with_private = false, $passwords = []);
+    abstract public function export($key, $with_private = false, $passwords = []);
 
     /**
      * Keys listing.
@@ -105,7 +105,7 @@ abstract class enigma_driver
      *
      * @return mixed Array of enigma_key objects or enigma_error
      */
-    abstract function list_keys($pattern = '');
+    abstract public function list_keys($pattern = '');
 
     /**
      * Single key information.
@@ -114,7 +114,7 @@ abstract class enigma_driver
      *
      * @return mixed Key (enigma_key) object or enigma_error
      */
-    abstract function get_key($keyid);
+    abstract public function get_key($keyid);
 
     /**
      * Key pair generation.
@@ -123,7 +123,7 @@ abstract class enigma_driver
      *
      * @return mixed Key (enigma_key) object or enigma_error
      */
-    abstract function gen_key($data);
+    abstract public function gen_key($data);
 
     /**
      * Key deletion.
@@ -132,7 +132,7 @@ abstract class enigma_driver
      *
      * @return mixed True on success or enigma_error
      */
-    abstract function delete_key($keyid);
+    abstract public function delete_key($keyid);
 
     /**
      * Returns a name of the hash algorithm used for the last
@@ -140,7 +140,7 @@ abstract class enigma_driver
      *
      * @return string Hash algorithm name e.g. sha1
      */
-    abstract function signature_algorithm();
+    abstract public function signature_algorithm();
 
     /**
      * Returns a list of supported features.

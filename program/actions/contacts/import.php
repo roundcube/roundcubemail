@@ -20,7 +20,7 @@
 
 class rcmail_action_contacts_import extends rcmail_action_contacts_index
 {
-    const UPLOAD_ERR_CSV_FIELDS = 101;
+    public const UPLOAD_ERR_CSV_FIELDS = 101;
 
     protected static $stats;
 

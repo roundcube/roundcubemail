@@ -20,7 +20,7 @@ class runlog
     public $timestamp        = 'd-M-Y H:i:s O';
     public $max_line_size    = 150;
 
-    function __construct()
+    public function __construct()
     {
         $this->start_time = microtime(true);
     }
@@ -201,7 +201,7 @@ class runlog
         return $buf;
     }
 
-    function __destruct()
+    public function __destruct()
     {
         foreach ($this->file_handles as $handle) {
             fclose($handle);

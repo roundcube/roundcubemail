@@ -8,7 +8,7 @@ class Actions_Utils_SavePref extends ActionTestCase
     /**
      * Test for run()
      */
-    function test_run()
+    public function test_run()
     {
         $action = new rcmail_action_utils_save_pref();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'utils', 'save_pref');

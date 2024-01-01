@@ -8,7 +8,7 @@ class Actions_Settings_ResponseDelete extends ActionTestCase
     /**
      * Test deleting a response
      */
-    function test_delete_response()
+    public function test_delete_response()
     {
         $action = new rcmail_action_settings_response_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'delete-response');

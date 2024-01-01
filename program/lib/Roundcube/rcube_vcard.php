@@ -833,7 +833,7 @@ class rcube_vcard
      *
      * @return string vCard encoded string
      */
-    static function vcard_encode($data)
+    public static function vcard_encode($data)
     {
         $vcard = '';
 

@@ -10,7 +10,7 @@ class SubscriptionsOption_Plugin extends ActionTestCase
     /**
      * Plugin object construction test
      */
-    function test_constructor()
+    public function test_constructor()
     {
         $rcube  = rcube::get_instance();
         $plugin = new subscriptions_option($rcube->plugins);
@@ -22,7 +22,7 @@ class SubscriptionsOption_Plugin extends ActionTestCase
     /**
      * Test prefs_list() method
      */
-    function test_prefs_list()
+    public function test_prefs_list()
     {
         $rcube  = rcube::get_instance();
         $plugin = new subscriptions_option($rcube->plugins);
@@ -47,7 +47,7 @@ class SubscriptionsOption_Plugin extends ActionTestCase
     /**
      * Test prefs_save() method
      */
-    function test_prefs_save()
+    public function test_prefs_save()
     {
         self::initStorage();
 

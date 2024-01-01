@@ -35,7 +35,7 @@
 
 class rcube_xmail_password
 {
-    function save($currpass, $newpass)
+    public function save($currpass, $newpass)
     {
         $rcmail = rcmail::get_instance();
         [$user, $domain] = explode('@', $_SESSION['username']);
@@ -80,13 +80,13 @@ class rcube_xmail_password
 
 class XMail
 {
-    var $socket;
-    var $hostname = 'localhost';
-    var $username = 'xmail';
-    var $password = '';
-    var $port = 6017;
+    public $socket;
+    public $hostname = 'localhost';
+    public $username = 'xmail';
+    public $password = '';
+    public $port = 6017;
 
-    function send($msg)
+    public function send($msg)
     {
         socket_write($this->socket, $msg);
         if (substr(socket_read($this->socket, 512, \PHP_BINARY_READ), 0, 1) != '+') {
@@ -96,7 +96,7 @@ class XMail
         return true;
     }
 
-    function connect()
+    public function connect()
     {
         $this->socket = socket_create(\AF_INET, \SOCK_STREAM, 0);
         if ($this->socket < 0) {
@@ -125,7 +125,7 @@ class XMail
         return true;
     }
 
-    function close()
+    public function close()
     {
         $this->send("quit\n");
         socket_close($this->socket);

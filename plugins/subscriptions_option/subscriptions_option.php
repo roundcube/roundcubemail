@@ -29,7 +29,7 @@ class subscriptions_option extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $dont_override = rcmail::get_instance()->config->get('dont_override', []);
 
@@ -49,7 +49,7 @@ class subscriptions_option extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_list($args)
+    public function prefs_list($args)
     {
         if ($args['section'] == 'server') {
             $this->add_texts('localization/', false);
@@ -73,7 +73,7 @@ class subscriptions_option extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_save($args)
+    public function prefs_save($args)
     {
         if ($args['section'] == 'server') {
             $rcmail = rcmail::get_instance();
@@ -94,7 +94,7 @@ class subscriptions_option extends rcube_plugin
         return $args;
     }
 
-    function mailboxes_list($args)
+    public function mailboxes_list($args)
     {
         $rcmail = rcmail::get_instance();
 
@@ -115,7 +115,7 @@ class subscriptions_option extends rcube_plugin
         return $args;
     }
 
-    function folders_list($args)
+    public function folders_list($args)
     {
         $rcmail = rcmail::get_instance();
 

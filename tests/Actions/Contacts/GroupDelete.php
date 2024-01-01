@@ -8,7 +8,7 @@ class Actions_Contacts_Group_Delete extends ActionTestCase
     /**
      * Test error handling
      */
-    function test_group_delete_errors()
+    public function test_group_delete_errors()
     {
         $action = new rcmail_action_contacts_group_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-delete');
@@ -42,7 +42,7 @@ class Actions_Contacts_Group_Delete extends ActionTestCase
     /**
      * Test deleting a group
      */
-    function test_group_delete_success()
+    public function test_group_delete_success()
     {
         $action = new rcmail_action_contacts_group_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-delete');
