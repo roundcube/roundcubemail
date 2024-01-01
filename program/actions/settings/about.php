@@ -37,7 +37,7 @@ class rcmail_action_settings_about extends rcmail_action
                 'supportlink' => [$this, 'supportlink'],
                 'pluginlist'  => [$this, 'plugins_list'],
                 'copyright'   => static function () {
-                    return 'Copyright &copy; 2005-2023, The Roundcube Dev Team';
+                    return 'Copyright &copy; 2005-2024, The Roundcube Dev Team';
                 },
                 'license' => static function () {
                     return 'This program is free software; you can redistribute it and/or modify it under the terms '
