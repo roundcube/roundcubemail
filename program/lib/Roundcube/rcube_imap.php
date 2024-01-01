@@ -1361,7 +1361,7 @@ class rcube_imap extends rcube_storage
 
         // got new messages
         if ($new['maxuid'] > $old['maxuid']) {
-            ++$result;
+            $result++;
             // get new message UIDs range, that can be used for example
             // to get the data of these messages
             $diff['new'] = ($old['maxuid'] + 1 < $new['maxuid'] ? ($old['maxuid'] + 1) . ':' : '') . $new['maxuid'];
@@ -2189,7 +2189,7 @@ class rcube_imap extends rcube_storage
         // read part disposition
         $di = 8;
         if ($struct->ctype_primary == 'text') {
-            ++$di;
+            $di++;
         }
         elseif ($struct->mimetype == 'message/rfc822') {
             $di += 3;

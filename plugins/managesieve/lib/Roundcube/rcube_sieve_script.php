@@ -661,7 +661,7 @@ class rcube_sieve_script
                 if ($endl === false) {
                     $endl = $length;
                 } elseif ($script[$endl - 1] === "\r") {
-                    --$endl;
+                    $endl--;
                 }
                 $line = substr($script, $position, $endl - $position);
 

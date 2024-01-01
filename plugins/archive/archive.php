@@ -281,7 +281,7 @@ class archive extends rcube_plugin
 
         // jump back one page (user removed the whole last page)
         if ($page > 1 && $remaining == 0) {
-            --$page;
+            $page--;
             $storage->set_page($page);
             $_SESSION['page'] = $page;
             $jump_back = true;

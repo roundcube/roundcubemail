@@ -77,6 +77,9 @@ return (new PhpCsFixer\Config())
 
         // disable too destructive formating for now
         'declare_strict_types' => false,
+        'increment_style' => [
+            'style' => 'post',
+        ],
         'no_useless_else' => false,
         'phpdoc_no_empty_return' => false,
         'psr_autoloading' => false,
@@ -94,7 +97,6 @@ return (new PhpCsFixer\Config())
             'import_symbols' => false,
         ],
         'general_phpdoc_annotation_remove' => false,
-        'increment_style' => false,
         'method_argument_space' => false,
         'modernize_types_casting' => false,
         'new_with_parentheses' => false,

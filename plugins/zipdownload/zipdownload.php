@@ -401,7 +401,7 @@ class zipdownload_mbox_filter extends php_user_filter
             // messages are read line by line
             if (preg_match('/^>*From /', $bucket->data)) {
                 $bucket->data     = '>' . $bucket->data;
-                ++$bucket->datalen;
+                $bucket->datalen++;
             }
 
             $consumed += $bucket->datalen;

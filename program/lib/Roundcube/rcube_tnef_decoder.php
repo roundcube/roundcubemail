@@ -533,7 +533,7 @@ class rcube_tnef_decoder
 
         for ($cnt = 0; $cnt < $length_preload; $cnt++) {
             $uncomp .= $preload[$cnt];
-            ++$out;
+            $out++;
         }
 
         while ($out < ($size + $length_preload)) {
@@ -559,12 +559,12 @@ class rcube_tnef_decoder
 
                 while ($offset < $end) {
                     $uncomp .= $uncomp[$offset++];
-                    ++$out;
+                    $out++;
                 }
             }
             else {
                 $uncomp .= $data[$in++];
-                ++$out;
+                $out++;
             }
         }
 
