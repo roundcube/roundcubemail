@@ -49,12 +49,11 @@ class rcube_xmail_password
 
         if (!$xmail->connect()) {
             rcube::raise_error([
-                    'code' => 600,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => 'Password plugin: Unable to connect to mail server',
-                ], true, false
-            );
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => 'Password plugin: Unable to connect to mail server',
+            ], true, false);
 
             return PASSWORD_CONNECT_ERROR;
         }
@@ -62,12 +61,11 @@ class rcube_xmail_password
         if (!$xmail->send("userpasswd\t" . $domain . "\t" . $user . "\t" . $newpass . "\n")) {
             $xmail->close();
             rcube::raise_error([
-                    'code' => 600,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => 'Password plugin: Unable to change password',
-                ], true, false
-            );
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => 'Password plugin: Unable to change password',
+            ], true, false);
 
             return PASSWORD_ERROR;
         }

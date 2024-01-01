@@ -429,11 +429,10 @@ class rcube_ldap extends rcube_addressbook
                             $replaces['%dn'] = $conf['search_dn_default'];
                         } else {
                             rcube::raise_error([
-                                    'code' => 100, 'type' => 'ldap',
-                                    'file' => __FILE__, 'line' => __LINE__,
-                                    'message' => 'DN not found using LDAP search.',
-                                ], true
-                            );
+                                'code' => 100, 'type' => 'ldap',
+                                'file' => __FILE__, 'line' => __LINE__,
+                                'message' => 'DN not found using LDAP search.',
+                            ], true);
 
                             continue;
                         }
@@ -497,11 +496,10 @@ class rcube_ldap extends rcube_addressbook
 
         if (empty($this->ldap->conn)) {
             rcube::raise_error([
-                    'code' => 100, 'type' => 'ldap',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'Could not connect to any LDAP server',
-                ], true
-            );
+                'code' => 100, 'type' => 'ldap',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Could not connect to any LDAP server',
+            ], true);
 
             return false;
         }
@@ -1586,9 +1584,9 @@ class rcube_ldap extends rcube_addressbook
 
                     if ($res === false) {
                         rcube::raise_error([
-                                'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
-                                'message' => "Expression parse error on: ($code)",
-                            ], true, false);
+                            'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
+                            'message' => "Expression parse error on: ($code)",
+                        ], true, false);
 
                         continue;
                     }

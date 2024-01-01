@@ -314,11 +314,9 @@ class rcube
 
         if (!class_exists($driver_class)) {
             self::raise_error([
-                    'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Storage driver class ($driver) not found!",
-                ],
-                true, true
-            );
+                'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Storage driver class ($driver) not found!",
+            ], true, true);
         }
 
         // Initialize storage object
@@ -915,10 +913,10 @@ class rcube
 
         if ($cipher === false) {
             self::raise_error([
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => "Failed to encrypt data with configured cipher method: $method!",
-                ], true, false);
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+                'message' => "Failed to encrypt data with configured cipher method: $method!",
+            ], true, false);
 
             return false;
         }
@@ -1769,11 +1767,9 @@ class rcube
 
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
-                        'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => 'Could not create message: ' . $mime_result->getMessage(),
-                    ],
-                    true, false
-                );
+                    'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => 'Could not create message: ' . $mime_result->getMessage(),
+                ], true, false);
 
                 return false;
             }
@@ -1795,10 +1791,10 @@ class rcube
 
         if (!$sent) {
             self::raise_error([
-                    'code' => 800, 'type' => 'smtp',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => implode("\n", $response),
-                ], true, false);
+                'code' => 800, 'type' => 'smtp',
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => implode("\n", $response),
+            ], true, false);
 
             // allow plugins to catch sending errors with the same parameters as in 'message_before_send'
             $plugin = $this->plugins->exec_hook('message_send_error', $plugin + ['error' => $error]);

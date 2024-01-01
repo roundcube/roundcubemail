@@ -49,20 +49,18 @@ class rcube_gearman_password
             }
 
             rcube::raise_error([
-                    'code' => 600,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => "Password plugin: Gearman authentication failed for user $username",
-                ], true, false
-            );
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "Password plugin: Gearman authentication failed for user $username",
+            ], true, false);
         } else {
             rcube::raise_error([
-                    'code' => 600,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => 'Password plugin: PECL Gearman module not loaded',
-                ], true, false
-            );
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => 'Password plugin: PECL Gearman module not loaded',
+            ], true, false);
         }
 
         return PASSWORD_ERROR;

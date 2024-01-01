@@ -119,10 +119,10 @@ class rcube_imap extends rcube_storage
             $this->options['ssl_mode'] = $use_ssl == 'imaps' ? 'ssl' : $use_ssl;
         } elseif ($use_ssl) {
             rcube::raise_error([
-                    'code' => 403, 'type' => 'imap',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'OpenSSL not available',
-                ], true, false);
+                'code' => 403, 'type' => 'imap',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'OpenSSL not available',
+            ], true, false);
 
             $port = 143;
         }
@@ -205,10 +205,10 @@ class rcube_imap extends rcube_storage
                     $user, $host, rcube_utils::remote_ip(), $this->conn->error);
 
                 rcube::raise_error([
-                        'code' => 403, 'type' => 'imap',
-                        'file' => __FILE__, 'line' => __LINE__,
-                        'message' => $message,
-                    ], true, false);
+                    'code' => 403, 'type' => 'imap',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => $message,
+                ], true, false);
             }
         }
 

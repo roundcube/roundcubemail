@@ -50,12 +50,11 @@ class rcube_sasl_password
         }
 
         rcube::raise_error([
-                'code' => 600,
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => "Password plugin: Unable to execute $curdir/chgsaslpasswd",
-            ], true, false
-        );
+            'code' => 600,
+            'file' => __FILE__,
+            'line' => __LINE__,
+            'message' => "Password plugin: Unable to execute $curdir/chgsaslpasswd",
+        ], true, false);
 
         return PASSWORD_ERROR;
     }

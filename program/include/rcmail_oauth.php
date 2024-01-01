@@ -249,11 +249,10 @@ class rcmail_oauth
             foreach (self::$config_mapper as $config_key => $options_key) {
                 if (empty($data[$config_key])) {
                     rcube::raise_error([
-                            'message' => "key {$config_key} not found in answer of {$config_uri}",
-                            'file'    => __FILE__,
-                            'line'    => __LINE__,
-                        ], true, false
-                    );
+                        'message' => "key {$config_key} not found in answer of {$config_uri}",
+                        'file'    => __FILE__,
+                        'line'    => __LINE__,
+                    ], true, false);
                 } else {
                     $this->options[$options_key] = $data[$config_key];
                 }
@@ -263,20 +262,18 @@ class rcmail_oauth
             if ($this->options['pkce'] && isset($data['code_challenge_methods_supported']) && is_array($data['code_challenge_methods_supported'])) {
                 if (!in_array($this->options['pkce'], $data['code_challenge_methods_supported'])) {
                     rcube::raise_error([
-                           'message' => "OAuth server does not support this PKCE method (oauth_pkce='{$this->options['pkce']}')",
-                           'file'    => __FILE__,
-                           'line'    => __LINE__,
-                       ], true, false
-                    );
+                        'message' => "OAuth server does not support this PKCE method (oauth_pkce='{$this->options['pkce']}')",
+                        'file'    => __FILE__,
+                        'line'    => __LINE__,
+                    ], true, false);
                 }
             }
         } catch (\Exception $e) {
             rcube::raise_error([
-                   'message' => "Error fetching {$config_uri} : {$e->getMessage()}",
-                   'file'    => __FILE__,
-                   'line'    => __LINE__,
-               ], true, false
-            );
+                'message' => "Error fetching {$config_uri} : {$e->getMessage()}",
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+            ], true, false);
         }
     }
 
@@ -518,11 +515,10 @@ class rcmail_oauth
         if (empty($this->options['auth_uri']) || empty($this->options['client_id'])) {
             // log error about missing config options
             rcube::raise_error([
-                    'message' => "Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'",
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
+                'message' => "Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'",
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+            ], true, false);
 
             return;
         }
@@ -714,11 +710,10 @@ class rcmail_oauth
             $formatter = new MessageFormatter();
 
             rcube::raise_error([
-                    'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
+                'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+            ], true, false);
 
             return false;
         } catch (Exception $e) {
@@ -726,11 +721,10 @@ class rcmail_oauth
             $this->no_redirect = true;
 
             rcube::raise_error([
-                    'message' => $this->last_error,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
+                'message' => $this->last_error,
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+            ], true, false);
 
             return false;
         }
@@ -792,11 +786,10 @@ class rcmail_oauth
             $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             $formatter = new MessageFormatter();
             rcube::raise_error([
-                    'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
+                'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+            ], true, false);
 
             // refrehsing token failed, mark session as expired
             if ($e->getCode() >= 400 && $e->getCode() < 500) {
@@ -807,11 +800,10 @@ class rcmail_oauth
         } catch (Exception $e) {
             $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             rcube::raise_error([
-                    'message' => $this->last_error,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
+                'message' => $this->last_error,
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+            ], true, false);
 
             return false;
         }

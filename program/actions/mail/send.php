@@ -39,12 +39,11 @@ class rcmail_action_mail_send extends rcmail_action
         // Sanity checks
         if (!isset($COMPOSE['id'])) {
             rcube::raise_error([
-                    'code' => 500,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => 'Invalid compose ID',
-                ], true, false
-            );
+                'code' => 500,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => 'Invalid compose ID',
+            ], true, false);
 
             $rcmail->output->show_message('internalerror', 'error');
             $rcmail->output->send('iframe');
@@ -152,11 +151,9 @@ class rcmail_action_mail_send extends rcmail_action
 
                 if ($error = $spellchecker->error()) {
                     rcube::raise_error([
-                            'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => 'Spellcheck error: ' . $error,
-                        ],
-                        true, false
-                    );
+                        'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => 'Spellcheck error: ' . $error,
+                    ], true, false);
                 } else {
                     $COMPOSE['spell_checked'] = true;
 
@@ -248,14 +245,12 @@ class rcmail_action_mail_send extends rcmail_action
             // raise error if deletion of old draft failed
             if (!$deleted) {
                 rcube::raise_error([
-                        'code'    => 800,
-                        'type'    => 'imap',
-                        'file'    => __FILE__,
-                        'line'    => __LINE__,
-                        'message' => "Could not delete message from $drafts_mbox",
-                    ],
-                    true, false
-                );
+                    'code'    => 800,
+                    'type'    => 'imap',
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => "Could not delete message from $drafts_mbox",
+                ], true, false);
             }
         }
 

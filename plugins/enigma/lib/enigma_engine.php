@@ -79,10 +79,9 @@ class enigma_engine
 
         if (!$this->pgp_driver) {
             rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Enigma plugin: Unable to load PGP driver: $driver",
-                ], true, true
-            );
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Enigma plugin: Unable to load PGP driver: $driver",
+            ], true, true);
         }
 
         // Initialise driver
@@ -110,10 +109,9 @@ class enigma_engine
 
         if (!$this->smime_driver) {
             rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Enigma plugin: Unable to load S/MIME driver: $driver",
-                ], true, true
-            );
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Enigma plugin: Unable to load S/MIME driver: $driver",
+            ], true, true);
         }
 
         // Initialise driver
@@ -1455,12 +1453,11 @@ class enigma_engine
     {
         if ($result->getCode() != enigma_error::BADPASS) {
             rcube::raise_error([
-                    'code'    => 600,
-                    'file'    => __FILE__,
-                    'line'    => $line,
-                    'message' => 'Enigma plugin: ' . $result->getMessage(),
-                ], true, $abort
-            );
+                'code'    => 600,
+                'file'    => __FILE__,
+                'line'    => $line,
+                'message' => 'Enigma plugin: ' . $result->getMessage(),
+            ], true, $abort);
         }
     }
 

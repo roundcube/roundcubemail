@@ -542,8 +542,8 @@ class rcmail_sendmail
                 if (is_a($msg, 'PEAR_Error')) {
                     rcube::raise_error([
                         'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => 'Could not create message: ' . $msg->getMessage()],
-                        true, false);
+                        'message' => 'Could not create message: ' . $msg->getMessage(),
+                    ], true, false);
                 } else {
                     $is_file = !empty($this->temp_files[$msg_id]);
                     $saved   = $storage->save_message($store_target, $msg, $headers, $is_file, ['SEEN']);
@@ -554,7 +554,8 @@ class rcmail_sendmail
             if (!$saved) {
                 rcube::raise_error(['code' => 800, 'type' => 'imap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not save message in $store_target"], true, false);
+                    'message' => "Could not save message in $store_target",
+                ], true, false);
             }
         }
 

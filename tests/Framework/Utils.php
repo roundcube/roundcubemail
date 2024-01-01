@@ -76,7 +76,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             ['email@domain.com (Joe Smith)', 'Text followed email is not allowed'],
             ['email@domain', 'Missing top level domain (.com/.net/.org/etc)'],
             ['email@-domain.com', 'Leading dash in front of domain is invalid'],
-//            ['email@domain.web', '.web is not a valid top level domain'],
+            // ['email@domain.web', '.web is not a valid top level domain'],
             ['email@123.123.123.123', 'IP address without brackets'],
             ['email@2001:2d12:c4fe:5afe::1', 'IPv6 address without brackets'],
             ['email@IPv6:2001:2d12:c4fe:5afe::1', 'IPv6 address without brackets (2)'],

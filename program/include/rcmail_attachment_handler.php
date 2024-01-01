@@ -361,11 +361,9 @@ class rcmail_attachment_handler
                 header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
             } else {
                 rcube::raise_error([
-                        'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => 'Unable to get/display message part. IMAP connection error',
-                    ],
-                    true, true
-                );
+                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => 'Unable to get/display message part. IMAP connection error',
+                ], true, true);
             }
 
             // Don't kill session, just quit (#1486995)

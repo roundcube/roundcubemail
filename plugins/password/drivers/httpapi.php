@@ -81,11 +81,9 @@ class rcube_httpapi_password
             $params['query'] = $vars;
         } else {
             rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'Password plugin: Invalid httpapi method',
-                ],
-                true, false
-            );
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Password plugin: Invalid httpapi method',
+            ], true, false);
 
             return PASSWORD_CONNECT_ERROR;
         }
@@ -97,11 +95,9 @@ class rcube_httpapi_password
             $result        = $response->getBody();
         } catch (Exception $e) {
             rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'Password plugin: ' . $e->getMessage(),
-                ],
-                true, false
-            );
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Password plugin: ' . $e->getMessage(),
+            ], true, false);
 
             return PASSWORD_CONNECT_ERROR;
         }
@@ -109,12 +105,10 @@ class rcube_httpapi_password
         // Non-2xx response codes mean the password change failed
         if ($response_code < 200 || $response_code > 299) {
             rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Unexpected response code {$response_code}: "
-                        . substr($result, 0, 1024),
-                ],
-                true, false
-            );
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password plugin: Unexpected response code {$response_code}: "
+                    . substr($result, 0, 1024),
+            ], true, false);
 
             return ($response_code == 404 || $response_code > 499) ? PASSWORD_CONNECT_ERROR : PASSWORD_ERROR;
         }
@@ -122,11 +116,9 @@ class rcube_httpapi_password
         // If configured, check the body of the response
         if ($expect && !preg_match($expect, $result)) {
             rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'Password plugin: Unexpected response body: ' . substr($result, 0, 1024),
-                ],
-                true, false
-            );
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Password plugin: Unexpected response body: ' . substr($result, 0, 1024),
+            ], true, false);
 
             return PASSWORD_ERROR;
         }

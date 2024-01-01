@@ -312,10 +312,10 @@ class rcmail_output_html extends rcmail_output
         // Sanity check to prevent from path traversal vulnerability (#1490620)
         if (!is_string($skin) || strpos($skin, '/') !== false || strpos($skin, '\\') !== false) {
             rcube::raise_error([
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => 'Invalid skin name',
-                ], true, false);
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+                'message' => 'Invalid skin name',
+            ], true, false);
 
             return false;
         }
@@ -633,12 +633,11 @@ class rcmail_output_html extends rcmail_output
             // prevent from endless loops
             if ($exit != 'recur' && $this->app->plugins->is_processing('render_page')) {
                 rcube::raise_error([
-                        'code'    => 505,
-                        'file'    => __FILE__,
-                        'line'    => __LINE__,
-                        'message' => 'Recursion alert: ignoring output->send()',
-                    ], true, false
-                );
+                    'code'    => 505,
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => 'Recursion alert: ignoring output->send()',
+                ], true, false);
 
                 return;
             }
@@ -769,10 +768,9 @@ class rcmail_output_html extends rcmail_output
 
                 if (is_readable($path)) {
                     rcube::raise_error([
-                            'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'",
-                        ], true, false
-                    );
+                        'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'",
+                    ], true, false);
                 }
             }
 
@@ -791,11 +789,11 @@ class rcmail_output_html extends rcmail_output
         // read template file
         if (!$path || ($templ = @file_get_contents($path)) === false) {
             rcube::raise_error([
-                    'code' => 404,
-                    'line' => __LINE__,
-                    'file' => __FILE__,
-                    'message' => 'Error loading template for ' . $realname,
-                ], true, $write);
+                'code' => 404,
+                'line' => __LINE__,
+                'file' => __FILE__,
+                'message' => 'Error loading template for ' . $realname,
+            ], true, $write);
 
             $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
 

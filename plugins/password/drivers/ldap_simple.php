@@ -129,12 +129,10 @@ class rcube_ldap_simple_password
             $this->_debug('S: NOT OK');
 
             rcube::raise_error([
-                    'code' => 100, 'type' => 'ldap',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'Could not connect to LDAP server',
-                ],
-                true
-            );
+                'code' => 100, 'type' => 'ldap',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Could not connect to LDAP server',
+            ], true);
 
             return PASSWORD_CONNECT_ERROR;
         }

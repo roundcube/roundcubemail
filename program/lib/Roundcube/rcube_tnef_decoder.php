@@ -179,11 +179,10 @@ class rcube_tnef_decoder
                 } catch (Exception $e) {
                     // ignore the body
                     rcube::raise_error([
-                            'file' => __FILE__,
-                            'line' => __LINE__,
-                            'message' => 'Failed to extract RTF/HTML content from TNEF attachment',
-                        ], true, false
-                    );
+                        'file' => __FILE__,
+                        'line' => __LINE__,
+                        'message' => 'Failed to extract RTF/HTML content from TNEF attachment',
+                    ], true, false);
                 }
             } else {
                 $message = null;

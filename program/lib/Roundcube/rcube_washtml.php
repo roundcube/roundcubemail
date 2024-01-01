@@ -557,11 +557,9 @@ class rcube_washtml
             if (empty($this->max_nesting_level_error)) {
                 $this->max_nesting_level_error = true;
                 rcube::raise_error([
-                        'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})",
-                    ],
-                    true, false
-                );
+                    'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})",
+                ], true, false);
             }
 
             return '<!-- ignored -->';
@@ -813,10 +811,9 @@ class rcube_washtml
 
         $tagname = $matches[2];
         $tagname = preg_replace([
-                '/:.*$/',                // Microsoft's Smart Tags <st1:xxxx>
-                '/[^a-z0-9_\[\]\!?-]/i', // forbidden characters
-            ], '', $tagname
-        );
+            '/:.*$/',                // Microsoft's Smart Tags <st1:xxxx>
+            '/[^a-z0-9_\[\]\!?-]/i', // forbidden characters
+        ], '', $tagname);
 
         // fix invalid closing tags - remove any attributes (#1489446)
         if ($matches[1] == '</') {

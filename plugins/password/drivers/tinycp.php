@@ -53,11 +53,9 @@ class rcube_tinycp_password
 
         if ($error_message) {
             rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password driver: $error_message",
-                ],
-                true, false
-            );
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password driver: $error_message",
+            ], true, false);
 
             return PASSWORD_ERROR;
         }

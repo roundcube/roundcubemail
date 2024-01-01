@@ -55,10 +55,9 @@ class markasjunk_amavis_blacklist
 
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
             rcube::raise_error([
-                    'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Failed to load config from $config_file",
-                ], true, false
-            );
+                'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Failed to load config from $config_file",
+            ], true, false);
 
             return false;
         }
@@ -72,11 +71,10 @@ class markasjunk_amavis_blacklist
         // check DB connections and exit on failure
         if ($err_str = $db->is_error()) {
             rcube::raise_error([
-                    'code'    => 603,
-                    'type'    => 'db',
-                    'message' => $err_str,
-                ], false, true
-            );
+                'code'    => 603,
+                'type'    => 'db',
+                'message' => $err_str,
+            ], false, true);
         }
 
         $sql_result = $db->query('SELECT `id` FROM `users` WHERE `email` = ?', $this->user_email);

@@ -375,12 +375,11 @@ class rcmail extends rcube
             }
 
             self::raise_error([
-                    'code'    => 700,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => "Addressbook source ($id) not found!",
-                ],
-                true, true);
+                'code'    => 700,
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+                'message' => "Addressbook source ($id) not found!",
+            ], true, true);
         }
 
         // add to the 'books' array for shutdown function
@@ -806,23 +805,19 @@ class rcmail extends rcube
 
             if (!$user) {
                 self::raise_error([
-                        'code'    => 620,
-                        'file'    => __FILE__,
-                        'line'    => __LINE__,
-                        'message' => 'Failed to create a user record. Maybe aborted by a plugin?',
-                    ],
-                    true, false
-                );
+                    'code'    => 620,
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => 'Failed to create a user record. Maybe aborted by a plugin?',
+                ], true, false);
             }
         } else {
             self::raise_error([
-                    'code'    => 621,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => "Access denied for new user $username. 'auto_create_user' is disabled",
-                ],
-                true, false
-            );
+                'code'    => 621,
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+                'message' => "Access denied for new user $username. 'auto_create_user' is disabled",
+            ], true, false);
         }
 
         // login succeeded

@@ -63,10 +63,9 @@ class rcube_cache_memcached extends rcube_cache
             self::$memcache = false;
 
             rcube::raise_error([
-                    'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => 'Failed to find Memcached. Make sure php-memcached is installed',
-                ],
-                true, true);
+                'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
+                'message' => 'Failed to find Memcached. Make sure php-memcached is installed',
+            ], true, true);
         }
 
         // add all configured hosts to pool
@@ -109,10 +108,9 @@ class rcube_cache_memcached extends rcube_cache
             self::$memcache = false;
 
             rcube::raise_error([
-                    'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Memcache connection failure (code: $res_code).",
-                ],
-                true, false);
+                'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
+                'message' => "Memcache connection failure (code: $res_code).",
+            ], true, false);
         }
 
         return self::$memcache;
