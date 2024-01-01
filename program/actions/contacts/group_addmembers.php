@@ -44,9 +44,9 @@ class rcmail_action_contacts_group_addmembers extends rcmail_action_contacts_ind
 
         if ($gid && $ids) {
             $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
-                    'group_id' => $gid,
-                    'ids'      => $ids,
-                    'source'   => $source,
+                'group_id' => $gid,
+                'ids'      => $ids,
+                'source'   => $source,
             ]);
 
             $contacts->set_group($gid);

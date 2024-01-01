@@ -172,9 +172,9 @@ class rcmail_action_mail_autocomplete extends rcmail_action
 
         // Allow autocomplete result optimization via plugin
         $plugin = $rcmail->plugins->exec_hook('contacts_autocomplete_after', [
-                'search'   => $search,
-                // Provide already-found contacts to plugin if they are required
-                'contacts' => $contacts,
+            'search'   => $search,
+            // Provide already-found contacts to plugin if they are required
+            'contacts' => $contacts,
         ]);
 
         $contacts = $plugin['contacts'];

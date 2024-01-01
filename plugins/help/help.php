@@ -73,8 +73,8 @@ class help extends rcube_plugin
 
         // register UI objects
         $rcmail->output->add_handlers([
-                'helpcontent'  => [$this, 'help_content'],
-                'tablink'      => [$this, 'tablink'],
+            'helpcontent'  => [$this, 'help_content'],
+            'tablink'      => [$this, 'tablink'],
         ]);
 
         $rcmail->output->set_env('help_links', $this->help_metadata());

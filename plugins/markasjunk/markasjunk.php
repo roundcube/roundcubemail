@@ -76,47 +76,47 @@ class markasjunk extends rcube_plugin
             if ($toolbar) {
                 // add the buttons to the main toolbar
                 $this->add_button([
-                        'command'    => 'plugin.markasjunk.junk',
-                        'type'       => 'link',
-                        'class'      => 'button buttonPas junk disabled',
-                        'classact'   => 'button junk',
-                        'classsel'   => 'button junk pressed',
-                        'title'      => 'markasjunk.buttonjunk',
-                        'innerclass' => 'inner',
-                        'label'      => 'junk',
-                    ], 'toolbar');
+                    'command'    => 'plugin.markasjunk.junk',
+                    'type'       => 'link',
+                    'class'      => 'button buttonPas junk disabled',
+                    'classact'   => 'button junk',
+                    'classsel'   => 'button junk pressed',
+                    'title'      => 'markasjunk.buttonjunk',
+                    'innerclass' => 'inner',
+                    'label'      => 'junk',
+                ], 'toolbar');
 
                 $this->add_button([
-                        'command'    => 'plugin.markasjunk.not_junk',
-                        'type'       => 'link',
-                        'class'      => 'button buttonPas notjunk disabled',
-                        'classact'   => 'button notjunk',
-                        'classsel'   => 'button notjunk pressed',
-                        'title'      => 'markasjunk.buttonnotjunk',
-                        'innerclass' => 'inner',
-                        'label'      => 'markasjunk.notjunk',
-                    ], 'toolbar');
+                    'command'    => 'plugin.markasjunk.not_junk',
+                    'type'       => 'link',
+                    'class'      => 'button buttonPas notjunk disabled',
+                    'classact'   => 'button notjunk',
+                    'classsel'   => 'button notjunk pressed',
+                    'title'      => 'markasjunk.buttonnotjunk',
+                    'innerclass' => 'inner',
+                    'label'      => 'markasjunk.notjunk',
+                ], 'toolbar');
             } else {
                 // add the buttons to the mark message menu
                 $this->add_button([
-                        'command'    => 'plugin.markasjunk.junk',
-                        'type'       => 'link-menuitem',
-                        'label'      => 'markasjunk.asjunk',
-                        'id'         => 'markasjunk',
-                        'class'      => 'icon junk disabled',
-                        'classact'   => 'icon junk active',
-                        'innerclass' => 'icon junk',
-                    ], 'markmenu');
+                    'command'    => 'plugin.markasjunk.junk',
+                    'type'       => 'link-menuitem',
+                    'label'      => 'markasjunk.asjunk',
+                    'id'         => 'markasjunk',
+                    'class'      => 'icon junk disabled',
+                    'classact'   => 'icon junk active',
+                    'innerclass' => 'icon junk',
+                ], 'markmenu');
 
                 $this->add_button([
-                        'command'    => 'plugin.markasjunk.not_junk',
-                        'type'       => 'link-menuitem',
-                        'label'      => 'markasjunk.asnotjunk',
-                        'id'         => 'markasnotjunk',
-                        'class'      => 'icon notjunk disabled',
-                        'classact'   => 'icon notjunk active',
-                        'innerclass' => 'icon notjunk',
-                    ], 'markmenu');
+                    'command'    => 'plugin.markasjunk.not_junk',
+                    'type'       => 'link-menuitem',
+                    'label'      => 'markasjunk.asnotjunk',
+                    'id'         => 'markasnotjunk',
+                    'class'      => 'icon notjunk disabled',
+                    'classact'   => 'icon notjunk active',
+                    'innerclass' => 'icon notjunk',
+                ], 'markmenu');
             }
 
             // add markasjunk folder settings to the env for JS

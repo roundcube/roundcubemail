@@ -20,8 +20,8 @@ class Managesieve_Engine extends ActionTestCase
         // Set expected storage function calls/results
         $rcube->storage
             ->registerFunction('list_folders_subscribed', [
-                    'INBOX',
-                    'Test',
+                'INBOX',
+                'Test',
             ])
             ->registerFunction('mod_folder', 'Test')
             ->registerFunction('mod_folder', 'Test')

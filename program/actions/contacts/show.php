@@ -60,9 +60,9 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         self::set_sourcename(self::$CONTACTS);
 
         $rcmail->output->add_handlers([
-                'contacthead'    => [$this, 'contact_head'],
-                'contactdetails' => [$this, 'contact_details'],
-                'contactphoto'   => [$this, 'contact_photo'],
+            'contacthead'    => [$this, 'contact_head'],
+            'contactdetails' => [$this, 'contact_details'],
+            'contactphoto'   => [$this, 'contact_photo'],
         ]);
 
         $rcmail->output->send('contact');

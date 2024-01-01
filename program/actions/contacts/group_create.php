@@ -40,8 +40,8 @@ class rcmail_action_contacts_group_create extends rcmail_action_contacts_index
 
         if ($name = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true))) {
             $plugin = $rcmail->plugins->exec_hook('group_create', [
-                    'name'   => $name,
-                    'source' => $source,
+                'name'   => $name,
+                'source' => $source,
             ]);
 
             if (empty($plugin['abort'])) {

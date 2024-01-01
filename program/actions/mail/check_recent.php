@@ -92,9 +92,9 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
             if ($status & 1) {
                 // trigger plugin hook
                 $rcmail->plugins->exec_hook('new_messages', [
-                        'mailbox'    => $mbox_name,
-                        'is_current' => $is_current,
-                        'diff'       => $diff,
+                    'mailbox'    => $mbox_name,
+                    'is_current' => $is_current,
+                    'diff'       => $diff,
                 ]);
             }
 

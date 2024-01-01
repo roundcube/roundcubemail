@@ -204,10 +204,10 @@ class enigma_mime_message extends Mail_mime
 
             if (!empty($this->signature)) {
                 $message->addSubpart($this->signature, [
-                        'filename'     => 'signature.asc',
-                        'content_type' => 'application/pgp-signature',
-                        'disposition'  => 'attachment',
-                        'description'  => 'OpenPGP digital signature',
+                    'filename'     => 'signature.asc',
+                    'content_type' => 'application/pgp-signature',
+                    'disposition'  => 'attachment',
+                    'description'  => 'OpenPGP digital signature',
                 ]);
             }
         } elseif ($this->type == self::PGP_ENCRYPTED) {
@@ -220,15 +220,15 @@ class enigma_mime_message extends Mail_mime
             $message = new Mail_mimePart('', $params);
 
             $message->addSubpart('Version: 1', [
-                    'content_type' => 'application/pgp-encrypted',
-                    'description'  => 'PGP/MIME version identification',
+                'content_type' => 'application/pgp-encrypted',
+                'description'  => 'PGP/MIME version identification',
             ]);
 
             $message->addSubpart($this->encrypted, [
-                    'content_type' => 'application/octet-stream',
-                    'description'  => 'PGP/MIME encrypted message',
-                    'disposition'  => 'inline',
-                    'filename'     => 'encrypted.asc',
+                'content_type' => 'application/octet-stream',
+                'description'  => 'PGP/MIME encrypted message',
+                'disposition'  => 'inline',
+                'filename'     => 'encrypted.asc',
             ]);
         }
 

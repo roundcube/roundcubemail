@@ -39,7 +39,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         $this->plugin->add_label('vacation.saving');
         $this->rc->output->add_handlers([
-                'vacationform' => [$this, 'vacation_form'],
+            'vacationform' => [$this, 'vacation_form'],
         ]);
 
         $this->rc->output->set_pagetitle($this->plugin->gettext('vacation'));
@@ -151,12 +151,12 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 }
 
                 $this->vacation = array_merge($rule['actions'][0], [
-                        'idx'      => $idx,
-                        'disabled' => $rule['disabled'] || !$active,
-                        'name'     => $rule['name'],
-                        'tests'    => $rule['tests'],
-                        'action'   => $action,
-                        'target'   => $target,
+                    'idx'      => $idx,
+                    'disabled' => $rule['disabled'] || !$active,
+                    'name'     => $rule['name'],
+                    'tests'    => $rule['tests'],
+                    'action'   => $action,
+                    'target'   => $target,
                 ]);
             } elseif ($active) {
                 $list[$idx] = $rule['name'] ?: ('#' . ($idx + 1));
@@ -396,11 +396,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $status    = new html_select(['name' => 'vacation_status', 'id' => 'vacation_status', 'class' => 'custom-select']);
         $action    = new html_select(['name' => 'vacation_action', 'id' => 'vacation_action', 'class' => 'custom-select', 'onchange' => 'vacation_action_select()']);
         $addresses_link = new html_inputfield([
-                'type'    => 'button',
-                'href'    => '#',
-                'class' => 'button',
-                'onclick' => rcmail_output::JS_OBJECT_NAME . '.managesieve_vacation_addresses()',
-            ]);
+            'type'    => 'button',
+            'href'    => '#',
+            'class' => 'button',
+            'onclick' => rcmail_output::JS_OBJECT_NAME . '.managesieve_vacation_addresses()',
+        ]);
 
         $redirect = !empty($this->vacation['action'])
             && ($this->vacation['action'] == 'redirect' || $this->vacation['action'] == 'copy');

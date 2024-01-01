@@ -587,10 +587,10 @@ class rcmail_oauth
         }
 
         $identity_response = $this->http_client->get($oauth_identity_uri, [
-                'headers' => [
-                    'Authorization' => $authorization,
-                    'Accept' => 'application/json',
-                ],
+            'headers' => [
+                'Authorization' => $authorization,
+                'Accept' => 'application/json',
+            ],
         ]);
 
         return json_decode($identity_response->getBody(), true);

@@ -181,9 +181,9 @@ class rcube_user
         }
 
         $plugin = $this->rc->plugins->exec_hook('preferences_update', [
-                'userid' => $this->ID,
-                'prefs'  => $a_user_prefs,
-                'old'    => (array) $this->get_prefs(),
+            'userid' => $this->ID,
+            'prefs'  => $a_user_prefs,
+            'old'    => (array) $this->get_prefs(),
         ]);
 
         if (!empty($plugin['abort'])) {
@@ -629,13 +629,13 @@ class rcube_user
         }
 
         $data = $rcube->plugins->exec_hook('user_create', [
-                'host'        => $host,
-                'user'        => $user,
-                'user_name'   => $user_name,
-                'user_email'  => $user_email,
-                'email_list'  => $email_list,
-                'language'    => $_SESSION['language'] ?? null,
-                'preferences' => [],
+            'host'        => $host,
+            'user'        => $user,
+            'user_name'   => $user_name,
+            'user_email'  => $user_email,
+            'email_list'  => $email_list,
+            'language'    => $_SESSION['language'] ?? null,
+            'preferences' => [],
         ]);
 
         // plugin aborted this operation
@@ -656,11 +656,11 @@ class rcube_user
         if ($dbh->affected_rows($insert) && ($user_id = $dbh->insert_id('users'))) {
             // create rcube_user instance to make plugin hooks work
             $user_instance = new self($user_id, [
-                    'user_id'     => $user_id,
-                    'username'    => $data['user'],
-                    'mail_host'   => $data['host'],
-                    'language'    => $data['language'],
-                    'preferences' => serialize($data['preferences']),
+                'user_id'     => $user_id,
+                'username'    => $data['user'],
+                'mail_host'   => $data['host'],
+                'language'    => $data['language'],
+                'preferences' => serialize($data['preferences']),
             ]);
 
             $rcube->user = $user_instance;
@@ -754,10 +754,10 @@ class rcube_user
     {
         $rcube  = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('user2email', [
-                'email'    => null,
-                'user'     => $user,
-                'first'    => $first,
-                'extended' => $extended,
+            'email'    => null,
+            'user'     => $user,
+            'first'    => $first,
+            'extended' => $extended,
         ]);
 
         return empty($plugin['email']) ? null : $plugin['email'];
@@ -918,8 +918,8 @@ class rcube_user
         if (!empty($this->prefs['compose_responses'])) {
             foreach ($this->prefs['compose_responses'] as $response) {
                 $this->insert_response([
-                        'name' => $response['name'],
-                        'data' => $response['text'],
+                    'name' => $response['name'],
+                    'data' => $response['text'],
                 ]);
             }
 

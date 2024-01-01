@@ -191,7 +191,7 @@ class rcube_imap extends rcube_storage
 
             // trigger post-connect hook
             $this->plugins->exec_hook('storage_connected', [
-                    'host' => $host, 'user' => $user, 'session' => $session,
+                'host' => $host, 'user' => $user, 'session' => $session,
             ]);
 
             return true;
@@ -641,10 +641,10 @@ class rcube_imap extends rcube_storage
             $ident = $this->conn->data['ID'];
         } elseif ($this->get_capability('ID')) {
             $ident = $this->conn->id([
-                    'name'    => 'Roundcube',
-                    'version' => RCUBE_VERSION,
-                    'php'     => \PHP_VERSION,
-                    'os'      => \PHP_OS,
+                'name'    => 'Roundcube',
+                'version' => RCUBE_VERSION,
+                'php'     => \PHP_VERSION,
+                'os'      => \PHP_OS,
             ]);
         } else {
             $ident = null;
@@ -1612,12 +1612,12 @@ class rcube_imap extends rcube_storage
         }
 
         $plugin = $this->plugins->exec_hook('imap_search_before', [
-                'folder'     => $folder,
-                'search'     => $search,
-                'charset'    => $charset,
-                'sort_field' => $sort_field,
-                'threading'  => $this->threading,
-                'result'     => null,
+            'folder'     => $folder,
+            'search'     => $search,
+            'charset'    => $charset,
+            'sort_field' => $sort_field,
+            'threading'  => $this->threading,
+            'result'     => null,
         ]);
 
         $folder     = $plugin['folder'];
@@ -2612,14 +2612,14 @@ class rcube_imap extends rcube_storage
             $this->set_messagecount($folder, 'ALL', 1);
 
             $this->plugins->exec_hook('message_saved', [
-                    'folder'  => $folder,
-                    'message' => $message,
-                    'headers' => $headers,
-                    'is_file' => $is_file,
-                    'flags'   => $flags,
-                    'date'    => $date,
-                    'binary'  => $binary,
-                    'result'  => $saved,
+                'folder'  => $folder,
+                'message' => $message,
+                'headers' => $headers,
+                'is_file' => $is_file,
+                'flags'   => $flags,
+                'date'    => $date,
+                'binary'  => $binary,
+                'result'  => $saved,
             ]);
         }
 

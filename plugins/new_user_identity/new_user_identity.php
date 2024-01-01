@@ -85,8 +85,8 @@ class new_user_identity extends rcube_plugin
 
         $identities = $this->rc->user->list_emails();
         $ldap_entry = $this->lookup_user_name([
-                'user' => $this->rc->user->data['username'],
-                'host' => $this->rc->user->data['mail_host'],
+            'user' => $this->rc->user->data['username'],
+            'host' => $this->rc->user->data['mail_host'],
         ]);
 
         if (empty($ldap_entry['email_list'])) {

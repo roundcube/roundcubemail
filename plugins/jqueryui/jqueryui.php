@@ -78,12 +78,12 @@ class jqueryui extends rcube_plugin
         // Date format for datepicker
         $date_format = $date_format_localized = $rcmail->config->get('date_format', 'Y-m-d');
         $date_format = strtr($date_format, [
-                'y' => 'y',
-                'Y' => 'yy',
-                'm' => 'mm',
-                'n' => 'm',
-                'd' => 'dd',
-                'j' => 'd',
+            'y' => 'y',
+            'Y' => 'yy',
+            'm' => 'mm',
+            'n' => 'm',
+            'd' => 'dd',
+            'j' => 'd',
         ]);
 
         $replaces = ['Y' => 'yyyy', 'y' => 'yy', 'm' => 'mm', 'd' => 'dd', 'j' => 'd', 'n' => 'm'];

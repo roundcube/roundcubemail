@@ -39,7 +39,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
 
         $this->plugin->add_label('forward.saving');
         $this->rc->output->add_handlers([
-                'forwardform' => [$this, 'forward_form'],
+            'forwardform' => [$this, 'forward_form'],
         ]);
 
         $this->rc->output->set_pagetitle($this->plugin->gettext('forward'));
@@ -226,9 +226,9 @@ class rcube_sieve_forward extends rcube_sieve_engine
             $rule['tests']      = $forward_tests;
             $rule['join']       = $date_extension ? count($forward_tests) > 1 : false;
             $rule['actions']    = [[
-                    'type'   => 'redirect',
-                    'copy'   => $action == 'copy',
-                    'target' => $target,
+                'type'   => 'redirect',
+                'copy'   => $action == 'copy',
+                'target' => $target,
             ]];
 
             if ($this->merge_rule($rule, $this->forward, $this->script_name)) {
@@ -385,9 +385,9 @@ class rcube_sieve_forward extends rcube_sieve_engine
         $rule['tests']    = $forward_tests;
         $rule['join']     = $date_extension ? count($forward_tests) > 1 : false;
         $rule['actions']  = [[
-                'type'   => 'redirect',
-                'copy'   => $data['action'] == 'copy',
-                'target' => $data['target'],
+            'type'   => 'redirect',
+            'copy'   => $data['action'] == 'copy',
+            'target' => $data['target'],
         ]];
 
         return $this->merge_rule($rule, $this->forward, $this->script_name);

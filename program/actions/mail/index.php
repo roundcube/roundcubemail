@@ -690,11 +690,11 @@ class rcmail_action_mail_index extends rcmail_action
             if (in_array($col, $a_sort_cols)) {
                 $sortable = true;
                 $col_name = html::a([
-                        'href'  => './#sort',
-                        'class' => 'sortcol',
-                        'rel'   => $rel_col,
-                        'title' => $rcmail->gettext('sortby'),
-                    ], $col_name);
+                    'href'  => './#sort',
+                    'class' => 'sortcol',
+                    'rel'   => $rel_col,
+                    'title' => $rcmail->gettext('sortby'),
+                ], $col_name);
             } elseif (empty($col_name) || $col_name[0] != '<') {
                 $col_name = '<span class="' . $col . '">' . $col_name . '</span>';
             }
@@ -780,12 +780,12 @@ class rcmail_action_mail_index extends rcmail_action
             $out = $rcmail->storage->get_search_set() ? $rcmail->gettext('nomessages') : $rcmail->gettext('mailboxempty');
         } else {
             $out = $rcmail->gettext([
-                    'name' => $rcmail->storage->get_threading() ? 'threadsfromto' : 'messagesfromto',
-                    'vars' => [
-                        'from'  => $start_msg,
-                        'to'    => min($max, $start_msg + $page_size - 1),
-                        'count' => $max,
-                    ],
+                'name' => $rcmail->storage->get_threading() ? 'threadsfromto' : 'messagesfromto',
+                'vars' => [
+                    'from'  => $start_msg,
+                    'to'    => min($max, $start_msg + $page_size - 1),
+                    'count' => $max,
+                ],
             ]);
         }
 
@@ -1051,10 +1051,10 @@ class rcmail_action_mail_index extends rcmail_action
 
         // allow post-processing of the message body
         $data = $rcmail->plugins->exec_hook('message_part_after', [
-                'type' => $part->ctype_secondary,
-                'body' => $body,
-                'id'   => $part->mime_id,
-            ] + $data);
+            'type' => $part->ctype_secondary,
+            'body' => $body,
+            'id'   => $part->mime_id,
+        ] + $data);
 
         return $data['body'];
     }
@@ -1304,11 +1304,11 @@ class rcmail_action_mail_index extends rcmail_action
                 $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
                 $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
                 $attrib['href'] = $rcmail->url([
-                        'task'   => 'utils',
-                        'action' => 'modcss',
-                        'u'      => $tempurl,
-                        'c'      => $washtml->get_config('container_id'),
-                        'p'      => $washtml->get_config('css_prefix'),
+                    'task'   => 'utils',
+                    'action' => 'modcss',
+                    'u'      => $tempurl,
+                    'c'      => $washtml->get_config('container_id'),
+                    'p'      => $washtml->get_config('css_prefix'),
                 ]);
                 $content = null;
             } elseif (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
@@ -1440,9 +1440,9 @@ class rcmail_action_mail_index extends rcmail_action
                 if ($addicon && $_SESSION['writeable_abook']) {
                     $label = $rcmail->gettext('addtoaddressbook');
                     $icon = html::img([
-                            'src'   => $rcmail->output->asset_url($addicon, true),
-                            'alt'   => $label,
-                            'class' => 'noselect',
+                        'src'   => $rcmail->output->asset_url($addicon, true),
+                        'alt'   => $label,
+                        'class' => 'noselect',
                     ]);
                     $address .= html::a([
                             'href'    => '#add',
@@ -1492,13 +1492,13 @@ class rcmail_action_mail_index extends rcmail_action
                     . html::span(['style' => 'display:none'], implode(', ', array_diff($allvalues, $shown_addresses)));
             } else {
                 $out .= ', ' . html::a([
-                        'href'    => '#more',
-                        'class'   => 'morelink',
-                        'onclick' => sprintf("return %s.simple_dialog('%s','%s',null,{cancel_button:'close'})",
-                            rcmail_output::JS_OBJECT_NAME,
-                            rcube::JQ(implode(', ', $allvalues)),
-                            rcube::JQ($title)),
-                    ], $label);
+                    'href'    => '#more',
+                    'class'   => 'morelink',
+                    'onclick' => sprintf("return %s.simple_dialog('%s','%s',null,{cancel_button:'close'})",
+                        rcmail_output::JS_OBJECT_NAME,
+                        rcube::JQ(implode(', ', $allvalues)),
+                        rcube::JQ($title)),
+                ], $label);
             }
         }
 

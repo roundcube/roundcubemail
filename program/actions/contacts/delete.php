@@ -53,8 +53,8 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
             }
 
             $plugin = $rcmail->plugins->exec_hook('contact_delete', [
-                    'id'     => $cid,
-                    'source' => $source,
+                'id'     => $cid,
+                'source' => $source,
             ]);
 
             $deleted = !$plugin['abort'] ? $CONTACTS->delete($cid, $undo_time < 1) : $plugin['result'];

@@ -80,10 +80,10 @@ class rcube_cache_memcached extends rcube_cache
         self::$memcache = new Memcached($persistent_id);
 
         self::$memcache->setOptions([
-                Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
-                Memcached::OPT_RETRY_TIMEOUT   => $timeout,
-                Memcached::OPT_DISTRIBUTION    => Memcached::DISTRIBUTION_CONSISTENT,
-                Memcached::OPT_COMPRESSION     => true,
+            Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
+            Memcached::OPT_RETRY_TIMEOUT   => $timeout,
+            Memcached::OPT_DISTRIBUTION    => Memcached::DISTRIBUTION_CONSISTENT,
+            Memcached::OPT_COMPRESSION     => true,
         ]);
 
         if (!$pconnect || !count(self::$memcache->getServerList())) {

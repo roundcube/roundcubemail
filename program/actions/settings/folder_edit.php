@@ -31,7 +31,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         $rcmail = rcmail::get_instance();
 
         $rcmail->output->add_handlers([
-                'folderdetails' => [$this, 'folder_form'],
+            'folderdetails' => [$this, 'folder_form'],
         ]);
 
         $rcmail->output->add_label('nonamewarning');
@@ -141,14 +141,14 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             }
 
             $select = self::folder_selector([
-                    'id'          => '_parent',
-                    'name'        => '_parent',
-                    'noselection' => '---',
-                    'maxlength'   => 150,
-                    'unsubscribed' => true,
-                    'skip_noinferiors' => true,
-                    'exceptions'  => $exceptions,
-                    'additional'  => is_string($selected) && strlen($selected) ? [$selected] : null,
+                'id'          => '_parent',
+                'name'        => '_parent',
+                'noselection' => '---',
+                'maxlength'   => 150,
+                'unsubscribed' => true,
+                'skip_noinferiors' => true,
+                'exceptions'  => $exceptions,
+                'additional'  => is_string($selected) && strlen($selected) ? [$selected] : null,
             ]);
 
             $form['props']['fieldsets']['location']['content']['parent'] = [
@@ -261,10 +261,10 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         // Allow plugins to modify folder form content
         $plugin = $rcmail->plugins->exec_hook('folder_form', [
-                'form'        => $form,
-                'options'     => $options,
-                'name'        => $mbox,
-                'parent_name' => $parent,
+            'form'        => $form,
+            'options'     => $options,
+            'name'        => $mbox,
+            'parent_name' => $parent,
         ]);
 
         $form = $plugin['form'];

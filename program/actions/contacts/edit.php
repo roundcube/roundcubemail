@@ -79,12 +79,12 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         }
 
         $rcmail->output->add_handlers([
-                'contactedithead' => [$this, 'contact_edithead'],
-                'contacteditform' => [$this, 'contact_editform'],
-                'contactphoto'    => [$this, 'contact_photo'],
-                'photouploadform' => [$this, 'upload_photo_form'],
-                'sourceselector'  => [$this, 'source_selector'],
-                'filedroparea'    => [$this, 'photo_drop_area'],
+            'contactedithead' => [$this, 'contact_edithead'],
+            'contacteditform' => [$this, 'contact_editform'],
+            'contactphoto'    => [$this, 'contact_photo'],
+            'photouploadform' => [$this, 'upload_photo_form'],
+            'sourceselector'  => [$this, 'source_selector'],
+            'filedroparea'    => [$this, 'photo_drop_area'],
         ]);
 
         $rcmail->output->set_pagetitle($rcmail->gettext($rcmail->action == 'add' ? 'addcontact' : 'editcontact'));
@@ -260,10 +260,10 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         if (!empty($attrib['id'])) {
             $rcmail->output->add_gui_object('filedrop', $attrib['id']);
             $rcmail->output->set_env('filedrop', [
-                    'action'    => 'upload-photo',
-                    'fieldname' => '_photo',
-                    'single'    => 1,
-                    'filter'    => '^image/.+',
+                'action'    => 'upload-photo',
+                'fieldname' => '_photo',
+                'single'    => 1,
+                'filter'    => '^image/.+',
             ]);
         }
     }

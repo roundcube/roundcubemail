@@ -836,10 +836,10 @@ class enigma_engine
 
             // Parse the structure (there may be encrypted/signed parts inside
             $this->part_structure([
-                    'object'    => $p['object'],
-                    'structure' => $struct,
-                    'mimetype'  => $struct->mimetype,
-                ], $body);
+                'object'    => $p['object'],
+                'structure' => $struct,
+                'mimetype'  => $struct->mimetype,
+            ], $body);
 
             // Attach the decryption message to all parts
             $this->decryptions[$struct->mime_id] = $result;

@@ -78,9 +78,9 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         // update an existing contact
         if (!empty($cid)) {
             $plugin = $rcmail->plugins->exec_hook('contact_update', [
-                    'id'     => $cid,
-                    'record' => $a_record,
-                    'source' => $source,
+                'id'     => $cid,
+                'record' => $a_record,
+                'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
@@ -165,8 +165,8 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             }
 
             $plugin = $rcmail->plugins->exec_hook('contact_create', [
-                    'record' => $a_record,
-                    'source' => $source,
+                'record' => $a_record,
+                'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
@@ -184,9 +184,9 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 // add new contact to the specified group
                 if ($contacts->groups && $contacts->group_id) {
                     $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
-                            'group_id' => $contacts->group_id,
-                            'ids'      => $insert_id,
-                            'source'   => $source,
+                        'group_id' => $contacts->group_id,
+                        'ids'      => $insert_id,
+                        'source'   => $source,
                     ]);
 
                     if (!$plugin['abort']) {

@@ -22,19 +22,19 @@ class Actions_Settings_Folders extends ActionTestCase
             ->registerFunction('get_capability', true)
             ->registerFunction('get_capability', true)
             ->registerFunction('folder_info', [
-                    'name'      => 'Test',
-                    'is_root'   => false,
-                    'noselect'  => false,
-                    'special'   => false,
-                    'namespace' => 'personal',
+                'name'      => 'Test',
+                'is_root'   => false,
+                'noselect'  => false,
+                'special'   => false,
+                'namespace' => 'personal',
             ])
             ->registerFunction('list_folders', [
-                    'INBOX',
-                    'Test',
+                'INBOX',
+                'Test',
             ])
             ->registerFunction('list_folders_subscribed', [
-                    'INBOX',
-                    'Test',
+                'INBOX',
+                'Test',
             ])
             ->registerFunction('get_special_folders', [])
             ->registerFunction('mod_folder', 'Test')

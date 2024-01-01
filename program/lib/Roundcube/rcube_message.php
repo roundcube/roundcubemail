@@ -640,10 +640,10 @@ class rcube_message
 
         // Allow plugins to handle message parts
         $plugin = $this->app->plugins->exec_hook('message_part_structure', [
-                'object'    => $this,
-                'structure' => $structure,
-                'mimetype'  => $mimetype,
-                'recursive' => $recursive,
+            'object'    => $this,
+            'structure' => $structure,
+            'mimetype'  => $mimetype,
+            'recursive' => $recursive,
         ]);
 
         if ($plugin['abort']) {
@@ -744,10 +744,10 @@ class rcube_message
 
                 // Allow plugins to handle also this part
                 $plugin = $this->app->plugins->exec_hook('message_part_structure', [
-                        'object'    => $this,
-                        'structure' => $print_part,
-                        'mimetype'  => $print_part->mimetype,
-                        'recursive' => true,
+                    'object'    => $this,
+                    'structure' => $print_part,
+                    'mimetype'  => $print_part->mimetype,
+                    'recursive' => true,
                 ]);
 
                 if (!$plugin['abort']) {
@@ -828,10 +828,10 @@ class rcube_message
                 ) {
                     // Allow plugins to handle also this part
                     $plugin = $this->app->plugins->exec_hook('message_part_structure', [
-                            'object'    => $this,
-                            'structure' => $mail_part,
-                            'mimetype'  => $part_mimetype,
-                            'recursive' => true,
+                        'object'    => $this,
+                        'structure' => $mail_part,
+                        'mimetype'  => $part_mimetype,
+                        'recursive' => true,
                     ]);
 
                     if ($plugin['abort']) {

@@ -89,9 +89,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
             // redirect to a unique URL with all parameters stored in session
             $rcmail->output->redirect([
-                    '_action' => 'compose',
-                    '_id'     => self::$COMPOSE['id'],
-                    '_search' => !empty($_REQUEST['_search']) ? $_REQUEST['_search'] : null,
+                '_action' => 'compose',
+                '_id'     => self::$COMPOSE['id'],
+                '_search' => !empty($_REQUEST['_search']) ? $_REQUEST['_search'] : null,
             ]);
         }
 
@@ -312,16 +312,16 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         // register UI objects (Note: some objects are registered by rcmail_sendmail above)
         $rcmail->output->add_handlers([
-                'composebody'           => [$this, 'compose_body'],
-                'composeobjects'        => [$this, 'compose_objects'],
-                'composeattachmentlist' => [$this, 'compose_attachment_list'],
-                'composeattachmentform' => [$this, 'compose_attachment_form'],
-                'composeattachment'     => [$this, 'compose_attachment_field'],
-                'filedroparea'          => [$this, 'compose_file_drop_area'],
-                'editorselector'        => [$this, 'editor_selector'],
-                'addressbooks'          => [$this, 'addressbook_list'],
-                'addresslist'           => [$this, 'contacts_list'],
-                'responseslist'         => [$this, 'compose_responses_list'],
+            'composebody'           => [$this, 'compose_body'],
+            'composeobjects'        => [$this, 'compose_objects'],
+            'composeattachmentlist' => [$this, 'compose_attachment_list'],
+            'composeattachmentform' => [$this, 'compose_attachment_form'],
+            'composeattachment'     => [$this, 'compose_attachment_field'],
+            'filedroparea'          => [$this, 'compose_file_drop_area'],
+            'editorselector'        => [$this, 'editor_selector'],
+            'addressbooks'          => [$this, 'addressbook_list'],
+            'addresslist'           => [$this, 'contacts_list'],
+            'responseslist'         => [$this, 'compose_responses_list'],
         ]);
 
         $rcmail->output->include_script('publickey.js');
@@ -600,9 +600,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         // find the encrypted message payload part
                         if ($pgp_mime_part = self::$MESSAGE->get_multipart_encrypted_part()) {
                             $rcmail->output->set_env('pgp_mime_message', [
-                                    '_mbox' => $rcmail->storage->get_folder(),
-                                    '_uid'  => self::$MESSAGE->uid,
-                                    '_part' => $pgp_mime_part->mime_id,
+                                '_mbox' => $rcmail->storage->get_folder(),
+                                '_uid'  => self::$MESSAGE->uid,
+                                '_part' => $pgp_mime_part->mime_id,
                             ]);
                         }
 
@@ -657,10 +657,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
 
         $plugin = $rcmail->plugins->exec_hook('message_compose_body', [
-                'body'    => $body,
-                'html'    => $isHtml,
-                'mode'    => self::$COMPOSE['mode'],
-                'message' => self::$MESSAGE,
+            'body'    => $body,
+            'html'    => $isHtml,
+            'mode'    => self::$COMPOSE['mode'],
+            'message' => self::$MESSAGE,
         ]);
 
         $body = $plugin['body'];
@@ -717,9 +717,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
             self::$MESSAGE->pgp_mime = true;
             $rcmail->output->set_env('pgp_mime_message', [
-                    '_mbox' => $rcmail->storage->get_folder(),
-                    '_uid'  => self::$MESSAGE->uid,
-                    '_part' => $part->mime_id,
+                '_mbox' => $rcmail->storage->get_folder(),
+                '_uid'  => self::$MESSAGE->uid,
+                '_part' => $part->mime_id,
             ]);
         }
 
@@ -890,11 +890,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $from   = array_pop($list);
 
         return $rcmail->gettext([
-                'name' => 'mailreplyintro',
-                'vars' => [
-                    'date'   => $rcmail->format_date($message->get_header('date'), $rcmail->config->get('date_long')),
-                    'sender' => !empty($from['name']) ? $from['name'] : rcube_utils::idn_to_utf8($from['mailto']),
-                ],
+            'name' => 'mailreplyintro',
+            'vars' => [
+                'date'   => $rcmail->format_date($message->get_header('date'), $rcmail->config->get('date_long')),
+                'sender' => !empty($from['name']) ? $from['name'] : rcube_utils::idn_to_utf8($from['mailto']),
+            ],
         ]);
     }
 
@@ -1259,8 +1259,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if ($size_errors) {
             $limit = self::show_bytes($size_limit);
             $error = $rcmail->gettext([
-                    'name' => 'msgsizeerrorfwd',
-                    'vars' => ['num' => $size_errors, 'size' => $limit],
+                'name' => 'msgsizeerrorfwd',
+                'vars' => ['num' => $size_errors, 'size' => $limit],
             ]);
             $script = sprintf("%s.display_message('%s', 'error');", rcmail_output::JS_OBJECT_NAME, rcube::JQ($error));
             $rcmail->output->add_script($script, 'docready');
@@ -1376,8 +1376,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (!empty($attachments)) {
             if (!empty($attrib['deleteicon'])) {
                 $button = html::img([
-                        'src' => $rcmail->output->asset_url($attrib['deleteicon'], true),
-                        'alt' => $rcmail->gettext('delete'),
+                    'src' => $rcmail->output->asset_url($attrib['deleteicon'], true),
+                    'alt' => $rcmail->gettext('delete'),
                 ]);
             } elseif (self::get_bool_attr($attrib, 'textbuttons')) {
                 $button = rcube::Q($rcmail->gettext('delete'));

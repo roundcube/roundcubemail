@@ -75,7 +75,7 @@ class rcube_charset
      * @var array
      */
     public static $windows_codepages = [
-         37 => 'IBM037',    // IBM EBCDIC US-Canada
+        37 => 'IBM037',     // IBM EBCDIC US-Canada
         437 => 'IBM437',    // OEM United States
         500 => 'IBM500',    // IBM EBCDIC International
         708 => 'ASMO-708',  // Arabic (ASMO 708)

@@ -292,8 +292,8 @@ class zipdownload extends rcube_plugin
                     unlink($tmpfname);
 
                     $msg = $this->gettext([
-                            'name' => 'sizelimiterror',
-                            'vars' => ['$size' => rcmail_action::show_bytes($limit)],
+                        'name' => 'sizelimiterror',
+                        'vars' => ['$size' => rcmail_action::show_bytes($limit)],
                     ]);
 
                     $rcmail->output->show_message($msg, 'error');

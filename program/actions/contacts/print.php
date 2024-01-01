@@ -47,9 +47,9 @@ class rcmail_action_contacts_print extends rcmail_action_contacts_index
         }
 
         $rcmail->output->add_handlers([
-                'contacthead'    => [$this, 'contact_head'],
-                'contactdetails' => [$this, 'contact_details'],
-                'contactphoto'   => [$this, 'contact_photo'],
+            'contacthead'    => [$this, 'contact_head'],
+            'contactdetails' => [$this, 'contact_details'],
+            'contactphoto'   => [$this, 'contact_photo'],
         ]);
 
         $rcmail->output->send('contactprint');

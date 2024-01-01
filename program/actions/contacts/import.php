@@ -264,7 +264,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $rcmail->output->set_pagetitle($rcmail->gettext('importcontacts'));
 
         $rcmail->output->add_handlers([
-                'importstep' => [$this, $importstep],
+            'importstep' => [$this, $importstep],
         ]);
 
         // render page
@@ -292,12 +292,12 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $hint   = $rcmail->gettext(['id' => 'importfile', 'name' => 'maxuploadsize', 'vars' => ['size' => $max_filesize]]);
         $table  = new html_table(['cols' => 2]);
         $upload = new html_inputfield([
-                'type'     => 'file',
-                'name'     => '_file[]',
-                'id'       => 'rcmimportfile',
-                'size'     => 40,
-                'multiple' => 'multiple',
-                'class'    => 'form-control-file',
+            'type'     => 'file',
+            'name'     => '_file[]',
+            'id'       => 'rcmimportfile',
+            'size'     => 40,
+            'multiple' => 'multiple',
+            'class'    => 'form-control-file',
         ]);
 
         $table->add('title', html::label('rcmimportfile', $rcmail->gettext('importfromfile')));
@@ -306,10 +306,10 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         // addressbook selector
         if (count($writable_books) > 1) {
             $select = new html_select([
-                    'name'       => '_target',
-                    'id'         => 'rcmimporttarget',
-                    'is_escaped' => true,
-                    'class'      => 'custom-select',
+                'name'       => '_target',
+                'id'         => 'rcmimporttarget',
+                'is_escaped' => true,
+                'class'      => 'custom-select',
             ]);
 
             foreach ($writable_books as $book) {
@@ -328,10 +328,10 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         // selector for group import options
         if (count($writable_books) >= 1 || $writable_books[0]->groups) {
             $select = new html_select([
-                    'name'       => '_groups',
-                    'id'         => 'rcmimportgroups',
-                    'is_escaped' => true,
-                    'class'      => 'custom-select',
+                'name'       => '_groups',
+                'id'         => 'rcmimportgroups',
+                'is_escaped' => true,
+                'class'      => 'custom-select',
             ]);
             $select->add($rcmail->gettext('none'), '0');
             $select->add($rcmail->gettext('importgroupsall'), '1');

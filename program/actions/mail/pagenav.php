@@ -68,8 +68,8 @@ class rcmail_action_mail_pagenav extends rcmail_action_mail_index
 
         // Set rowcount text
         $rcmail->output->command('set_rowcount', $rcmail->gettext([
-                'name' => 'messagenrof',
-                'vars' => ['nr'  => ($pos ?? 0) + 1, 'count' => $cnt],
+            'name' => 'messagenrof',
+            'vars' => ['nr'  => ($pos ?? 0) + 1, 'count' => $cnt],
         ]));
 
         $rcmail->output->send();

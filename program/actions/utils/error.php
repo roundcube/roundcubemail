@@ -90,9 +90,9 @@ class rcmail_action_utils_error extends rcmail_action
         // inform plugins
         if ($rcmail->plugins) {
             $plugin = $rcmail->plugins->exec_hook('error_page', [
-                    'code'  => $ERROR_CODE,
-                    'title' => $error_title,
-                    'text'  => $error_text,
+                'code'  => $ERROR_CODE,
+                'title' => $error_title,
+                'text'  => $error_text,
             ]);
 
             if (!empty($plugin['title'])) {

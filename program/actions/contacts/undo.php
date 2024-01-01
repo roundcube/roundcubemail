@@ -36,8 +36,8 @@ class rcmail_action_contacts_undo extends rcmail_action_contacts_index
                 $contacts = self::contact_source($source);
 
                 $plugin = $rcmail->plugins->exec_hook('contact_undelete', [
-                        'id'     => $cid,
-                        'source' => $source,
+                    'id'     => $cid,
+                    'source' => $source,
                 ]);
 
                 $restored = empty($plugin['abort']) ? $contacts->undelete($cid) : $plugin['result'];

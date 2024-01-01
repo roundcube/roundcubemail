@@ -361,9 +361,9 @@ abstract class rcube_addressbook
 
         // allow plugins to do contact validation and auto-fixing
         $plugin = $rcube->plugins->exec_hook('contact_validate', [
-                'record'  => $save_data,
-                'autofix' => $autofix,
-                'valid'   => $valid,
+            'record'  => $save_data,
+            'autofix' => $autofix,
+            'valid'   => $valid,
         ]);
 
         if ($valid && !$plugin['valid']) {

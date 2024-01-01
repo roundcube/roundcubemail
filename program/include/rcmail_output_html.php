@@ -145,12 +145,12 @@ class rcmail_output_html extends rcmail_output
 
         // register common UI objects
         $this->add_handlers([
-                'loginform'       => [$this, 'login_form'],
-                'preloader'       => [$this, 'preloader'],
-                'username'        => [$this, 'current_username'],
-                'message'         => [$this, 'message_container'],
-                'charsetselector' => [$this, 'charset_selector'],
-                'aboutcontent'    => [$this, 'about_content'],
+            'loginform'       => [$this, 'login_form'],
+            'preloader'       => [$this, 'preloader'],
+            'username'        => [$this, 'current_username'],
+            'message'         => [$this, 'message_container'],
+            'charsetselector' => [$this, 'charset_selector'],
+            'aboutcontent'    => [$this, 'about_content'],
         ]);
 
         // set blankpage (watermark) url
@@ -244,8 +244,8 @@ class rcmail_output_html extends rcmail_output
         } elseif (isset($this->env['task'])) {
             if ($this->env['task'] == 'login') {
                 $title = $this->app->gettext([
-                        'name' => 'welcome',
-                        'vars' => ['product' => $this->config->get('product_name')],
+                    'name' => 'welcome',
+                    'vars' => ['product' => $this->config->get('product_name')],
                 ]);
             } else {
                 $title = ucfirst($this->env['task']);
@@ -818,9 +818,9 @@ class rcmail_output_html extends rcmail_output
 
         // trigger generic hook where plugins can put additional content to the page
         $hook = $this->app->plugins->exec_hook('render_page', [
-                'template' => $realname,
-                'content'  => $output,
-                'write'    => $write,
+            'template' => $realname,
+            'content'  => $output,
+            'write'    => $write,
         ]);
 
         // save some memory
@@ -2042,9 +2042,9 @@ class rcmail_output_html extends rcmail_output
             }
 
             $meta .= html::tag('meta', [
-                    'http-equiv' => 'content-type',
-                    'content'    => "text/html; charset={$this->charset}",
-                    'nl'         => true,
+                'http-equiv' => 'content-type',
+                'content'    => "text/html; charset={$this->charset}",
+                'nl'         => true,
             ]);
         }
 
@@ -2128,10 +2128,10 @@ class rcmail_output_html extends rcmail_output
             foreach ($this->css_files as $file) {
                 $is_less = substr_compare($file, '.less', -5, 5, true) === 0;
                 $css    .= html::tag('link', [
-                        'rel'  => $is_less ? 'stylesheet/less' : 'stylesheet',
-                        'type' => 'text/css',
-                        'href' => $file,
-                        'nl'   => true,
+                    'rel'  => $is_less ? 'stylesheet/less' : 'stylesheet',
+                    'type' => 'text/css',
+                    'href' => $file,
+                    'nl'   => true,
                 ]);
             }
             $output = substr_replace($output, $css, $pos, 0);
@@ -2494,14 +2494,14 @@ class rcmail_output_html extends rcmail_output
         // add form tag around text field
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag([
-                    'name'     => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
-                    'onsubmit' => sprintf(
-                        "%s.command('%s'); return false",
-                        self::JS_OBJECT_NAME,
-                        !empty($attrib['command']) ? $attrib['command'] : 'search'
-                    ),
-                    // 'style'    => "display:inline"
-                ], $out);
+                'name'     => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
+                'onsubmit' => sprintf(
+                    "%s.command('%s'); return false",
+                    self::JS_OBJECT_NAME,
+                    !empty($attrib['command']) ? $attrib['command'] : 'search'
+                ),
+                // 'style'    => "display:inline"
+            ], $out);
         }
 
         if (!empty($attrib['wrapper'])) {
@@ -2521,35 +2521,35 @@ class rcmail_output_html extends rcmail_output
 
             if (!empty($attrib['options'])) {
                 $options_button = $this->button([
-                        'type'       => 'link',
-                        'href'       => '#search-filter',
-                        'class'      => 'button options',
-                        'label'      => 'options',
-                        'title'      => 'options',
-                        'tabindex'   => '0',
-                        'innerclass' => 'inner',
-                        'data-target' => $options,
+                    'type'       => 'link',
+                    'href'       => '#search-filter',
+                    'class'      => 'button options',
+                    'label'      => 'options',
+                    'title'      => 'options',
+                    'tabindex'   => '0',
+                    'innerclass' => 'inner',
+                    'data-target' => $options,
                 ]);
             }
 
             $search_button = $this->button([
-                    'type'       => 'link',
-                    'href'       => '#search',
-                    'class'      => 'button search',
-                    'label'      => $attrib['buttontitle'],
-                    'title'      => $attrib['buttontitle'],
-                    'tabindex'   => '0',
-                    'innerclass' => 'inner',
+                'type'       => 'link',
+                'href'       => '#search',
+                'class'      => 'button search',
+                'label'      => $attrib['buttontitle'],
+                'title'      => $attrib['buttontitle'],
+                'tabindex'   => '0',
+                'innerclass' => 'inner',
             ]);
 
             $reset_button = $this->button([
-                    'type'       => 'link',
-                    'command'    => !empty($attrib['reset-command']) ? $attrib['reset-command'] : 'reset-search',
-                    'class'      => 'button reset',
-                    'label'      => 'resetsearch',
-                    'title'      => 'resetsearch',
-                    'tabindex'   => '0',
-                    'innerclass' => 'inner',
+                'type'       => 'link',
+                'command'    => !empty($attrib['reset-command']) ? $attrib['reset-command'] : 'reset-search',
+                'class'      => 'button reset',
+                'label'      => 'resetsearch',
+                'title'      => 'resetsearch',
+                'tabindex'   => '0',
+                'innerclass' => 'inner',
             ]);
 
             $out = html::div([

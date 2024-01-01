@@ -70,15 +70,15 @@ class markasjunk_email_learn
 
             $OUTPUT   = $this->rcube->output;
             $SENDMAIL = new rcmail_sendmail(null, [
-                    'sendmail'      => true,
-                    'from'          => $from,
-                    'mailto'        => $mailto,
-                    'dsn_enabled'   => false,
-                    'charset'       => 'UTF-8',
-                    'error_handler' => static function (...$args) use ($OUTPUT) {
-                        call_user_func_array([$OUTPUT, 'show_message'], $args);
-                        $OUTPUT->send();
-                    },
+                'sendmail'      => true,
+                'from'          => $from,
+                'mailto'        => $mailto,
+                'dsn_enabled'   => false,
+                'charset'       => 'UTF-8',
+                'error_handler' => static function (...$args) use ($OUTPUT) {
+                    call_user_func_array([$OUTPUT, 'show_message'], $args);
+                    $OUTPUT->send();
+                },
             ]);
 
             if ($attach) {
@@ -137,8 +137,8 @@ class markasjunk_email_learn
 
                 // create the bounce message
                 $MAIL_MIME = new rcmail_resend_mail([
-                        'bounce_message' => $MESSAGE,
-                        'bounce_headers' => $headers,
+                    'bounce_message' => $MESSAGE,
+                    'bounce_headers' => $headers,
                 ]);
             }
 

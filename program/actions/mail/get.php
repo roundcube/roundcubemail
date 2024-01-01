@@ -63,8 +63,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
             // register UI objects
             $rcmail->output->add_handlers([
-                    'messagepartframe'    => [$this, 'message_part_frame'],
-                    'messagepartcontrols' => [$this, 'message_part_controls'],
+                'messagepartframe'    => [$this, 'message_part_frame'],
+                'messagepartcontrols' => [$this, 'message_part_controls'],
             ]);
 
             $part_id = rcube_utils::get_input_string('_part', rcube_utils::INPUT_GET);
@@ -200,11 +200,11 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         $rcmail->output = new rcmail_html_page();
                         $rcmail->output->register_inline_warning(
                             $rcmail->gettext([
-                                    'name' => 'attachmentvalidationerror',
-                                    'vars' => [
-                                        'expected' => $mimetype . (!empty($file_extension) ? rcube::Q(" (.{$file_extension})") : ''),
-                                        'detected' => $real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : ''),
-                                    ],
+                                'name' => 'attachmentvalidationerror',
+                                'vars' => [
+                                    'expected' => $mimetype . (!empty($file_extension) ? rcube::Q(" (.{$file_extension})") : ''),
+                                    'detected' => $real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : ''),
+                                ],
                             ]),
                             $rcmail->gettext('showanyway'),
                             $rcmail->url(array_merge($_GET, ['_nocheck' => 1]))
@@ -271,9 +271,9 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             }
 
             $rcmail->output->download_headers($filename, [
-                    'type'         => $mimetype,
-                    'type_charset' => $attachment->charset,
-                    'disposition'  => !empty($_GET['_download']) ? 'attachment' : 'inline',
+                'type'         => $mimetype,
+                'type_charset' => $attachment->charset,
+                'disposition'  => !empty($_GET['_download']) ? 'attachment' : 'inline',
             ]);
 
             // handle tiff to jpeg conversion

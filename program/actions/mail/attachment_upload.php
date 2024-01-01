@@ -77,9 +77,9 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             }
 
             $plugin = $rcmail->plugins->exec_hook('attachment_from_uri', [
-                    'attachment' => $attachment,
-                    'uri'        => $uri,
-                    'compose_id' => self::$COMPOSE_ID,
+                'attachment' => $attachment,
+                'uri'        => $uri,
+                'compose_id' => self::$COMPOSE_ID,
             ]);
 
             if ($plugin['attachment']) {
@@ -183,8 +183,8 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
         if (!empty(self::$COMPOSE['deleteicon']) && is_file(self::$COMPOSE['deleteicon'])) {
             $button = html::img([
-                    'src' => self::$COMPOSE['deleteicon'],
-                    'alt' => $rcmail->gettext('delete'),
+                'src' => self::$COMPOSE['deleteicon'],
+                'alt' => $rcmail->gettext('delete'),
             ]);
         } elseif (!empty(self::$COMPOSE['textbuttons'])) {
             $button = rcube::Q($rcmail->gettext('delete'));
@@ -198,26 +198,26 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         );
 
         $content_link = html::a([
-                'href'    => '#load',
-                'class'   => 'filename',
-                'onclick' => sprintf(
-                    "return %s.command('load-attachment','rcmfile%s', this, event)",
-                    rcmail_output::JS_OBJECT_NAME,
-                    $id
-                ),
-            ], $link_content);
+            'href'    => '#load',
+            'class'   => 'filename',
+            'onclick' => sprintf(
+                "return %s.command('load-attachment','rcmfile%s', this, event)",
+                rcmail_output::JS_OBJECT_NAME,
+                $id
+            ),
+        ], $link_content);
 
         $delete_link = html::a([
-                'href'    => '#delete',
-                'onclick' => sprintf(
-                    "return %s.command('remove-attachment','rcmfile%s', this, event)",
-                    rcmail_output::JS_OBJECT_NAME,
-                    $id
-                ),
-                'title'   => $rcmail->gettext('delete'),
-                'class'   => 'delete',
-                'aria-label' => $rcmail->gettext('delete') . ' ' . $attachment['name'],
-            ], $button);
+            'href'    => '#delete',
+            'onclick' => sprintf(
+                "return %s.command('remove-attachment','rcmfile%s', this, event)",
+                rcmail_output::JS_OBJECT_NAME,
+                $id
+            ),
+            'title'   => $rcmail->gettext('delete'),
+            'class'   => 'delete',
+            'aria-label' => $rcmail->gettext('delete') . ' ' . $attachment['name'],
+        ], $button);
 
         if (!empty(self::$COMPOSE['icon_pos']) && self::$COMPOSE['icon_pos'] == 'left') {
             $content = $delete_link . $content_link;

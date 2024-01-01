@@ -237,15 +237,15 @@ class Rcmail_RcmailOauth extends ActionTestCase
     public function test_request_access_token_with_wrong_nonce()
     {
         $payload = [
-          'token_type'          => 'Bearer',
-          'access_token'        => 'FAKE-ACCESS-TOKEN',
-          'expires_in'          => 300,
-          'refresh_token'       => 'FAKE-REFRESH-TOKEN',
-          'refresh_expires_in'  => 1800,
-          'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
-          'not-before-policy'   => 0,
-          'session_state'       => 'fake-session',
-          'scope'               => 'openid profile email',
+            'token_type'          => 'Bearer',
+            'access_token'        => 'FAKE-ACCESS-TOKEN',
+            'expires_in'          => 300,
+            'refresh_token'       => 'FAKE-REFRESH-TOKEN',
+            'refresh_expires_in'  => 1800,
+            'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
+            'not-before-policy'   => 0,
+            'session_state'       => 'fake-session',
+            'scope'               => 'openid profile email',
         ];
 
         $mock = new MockHandler([
@@ -275,15 +275,15 @@ class Rcmail_RcmailOauth extends ActionTestCase
     public function test_request_access_token()
     {
         $payload = [
-          'token_type'          => 'Bearer',
-          'access_token'        => 'FAKE-ACCESS-TOKEN',
-          'expires_in'          => 300,
-          'refresh_token'       => 'FAKE-REFRESH-TOKEN',
-          'refresh_expires_in'  => 1800,
-          'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
-          'not-before-policy'   => 0,
-          'session_state'       => 'fake-session',
-          'scope'               => 'openid profile email',
+            'token_type'          => 'Bearer',
+            'access_token'        => 'FAKE-ACCESS-TOKEN',
+            'expires_in'          => 300,
+            'refresh_token'       => 'FAKE-REFRESH-TOKEN',
+            'refresh_expires_in'  => 1800,
+            'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
+            'not-before-policy'   => 0,
+            'session_state'       => 'fake-session',
+            'scope'               => 'openid profile email',
         ];
 
         $mock = new MockHandler([
@@ -312,14 +312,14 @@ class Rcmail_RcmailOauth extends ActionTestCase
     public function test_request_access_token_without_id_token()
     {
         $payload = [
-          'token_type'          => 'Bearer',
-          'access_token'        => 'FAKE-ACCESS-TOKEN',
-          'expires_in'          => 300,
-          'refresh_token'       => 'FAKE-REFRESH-TOKEN',
-          'refresh_expires_in'  => 1800,
-          'not-before-policy'   => 0,
-          'session_state'       => 'fake-session',
-          'scope'               => 'openid profile email',
+            'token_type'          => 'Bearer',
+            'access_token'        => 'FAKE-ACCESS-TOKEN',
+            'expires_in'          => 300,
+            'refresh_token'       => 'FAKE-REFRESH-TOKEN',
+            'refresh_expires_in'  => 1800,
+            'not-before-policy'   => 0,
+            'session_state'       => 'fake-session',
+            'scope'               => 'openid profile email',
         ];
 
         //TODO should create a specific Mock to check request and validate it

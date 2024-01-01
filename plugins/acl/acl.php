@@ -199,9 +199,9 @@ class acl extends rcube_plugin
         $this->rc->output->set_env('acl_users_source', (bool) $this->rc->config->get('acl_users_source'));
         $this->rc->output->set_env('mailbox', $mbox_imap);
         $this->rc->output->add_handlers([
-                'acltable'  => [$this, 'templ_table'],
-                'acluser'   => [$this, 'templ_user'],
-                'aclrights' => [$this, 'templ_rights'],
+            'acltable'  => [$this, 'templ_table'],
+            'acluser'   => [$this, 'templ_user'],
+            'aclrights' => [$this, 'templ_rights'],
         ]);
 
         $this->rc->output->set_env('autocomplete_max', (int) $this->rc->config->get('autocomplete_max', 15));
@@ -535,12 +535,12 @@ class acl extends rcube_plugin
                 if ($this->rc->storage->set_acl($mbox, $user, $acl)) {
                     $display = $this->resolve_acl_identifier($username, $title);
                     $this->rc->output->command('acl_update', [
-                            'id'       => rcube_utils::html_identifier($user),
-                            'username' => $username,
-                            'title'    => $title,
-                            'display'  => $display,
-                            'acl'      => implode('', $acl),
-                            'old'      => $oldid,
+                        'id'       => rcube_utils::html_identifier($user),
+                        'username' => $username,
+                        'title'    => $title,
+                        'display'  => $display,
+                        'acl'      => implode('', $acl),
+                        'old'      => $oldid,
                     ]);
                     $result++;
                 }

@@ -164,8 +164,8 @@ class rcmail_action_settings_identity_edit extends rcmail_action
 
         // Allow plugins to modify identity form content
         $plugin = $rcmail->plugins->exec_hook('identity_form', [
-                'form'   => $form,
-                'record' => self::$record,
+            'form'   => $form,
+            'record' => self::$record,
         ]);
 
         $form = $plugin['form'];

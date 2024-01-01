@@ -406,13 +406,13 @@ class archive extends rcube_plugin
             // load folders list when needed
             if ($args['current']) {
                 $select = rcmail_action::folder_selector([
-                        'noselection'   => '---',
-                        'realnames'     => true,
-                        'maxlength'     => 30,
-                        'folder_filter' => 'mail',
-                        'folder_rights' => 'w',
-                        'onchange'      => "if ($(this).val() == 'INBOX') $(this).val('')",
-                        'class'         => 'custom-select',
+                    'noselection'   => '---',
+                    'realnames'     => true,
+                    'maxlength'     => 30,
+                    'folder_filter' => 'mail',
+                    'folder_rights' => 'w',
+                    'onchange'      => "if ($(this).val() == 'INBOX') $(this).val('')",
+                    'class'         => 'custom-select',
                 ]);
             } else {
                 $select = new html_select();

@@ -1726,10 +1726,10 @@ class rcube
         &$body_file = null, $options = null, $disconnect = false)
     {
         $plugin = $this->plugins->exec_hook('message_before_send', [
-                'message' => $message,
-                'from'    => $from,
-                'mailto'  => $mailto,
-                'options' => $options,
+            'message' => $message,
+            'from'    => $from,
+            'mailto'  => $mailto,
+            'options' => $options,
         ]);
 
         if ($plugin['abort']) {

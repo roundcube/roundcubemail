@@ -333,9 +333,9 @@ class rcmail_sendmail
         }
 
         $plugin = $this->rcmail->plugins->exec_hook('message_outgoing_body', [
-                'body'    => $body,
-                'type'    => $isHtml ? 'html' : 'plain',
-                'message' => $MAIL_MIME,
+            'body'    => $body,
+            'type'    => $isHtml ? 'html' : 'plain',
+            'message' => $MAIL_MIME,
         ]);
 
         // For HTML-formatted messages, construct the MIME message with both
@@ -351,9 +351,9 @@ class rcmail_sendmail
             // some mail clients (#5283)
             if (trim($plain_body) !== '') {
                 $plugin = $this->rcmail->plugins->exec_hook('message_outgoing_body', [
-                        'body'    => $plain_body,
-                        'type'    => 'alternative',
-                        'message' => $MAIL_MIME,
+                    'body'    => $plain_body,
+                    'type'    => 'alternative',
+                    'message' => $MAIL_MIME,
                 ]);
 
                 // add a plain text version of the e-mail as an alternative part.
@@ -1515,14 +1515,14 @@ class rcmail_sendmail
         }
 
         $this->rcmail->output->add_handlers([
-                'storetarget'      => [$this, 'folder_selector'],
-                'composeheaders'   => [$this, 'headers_output'],
-                'composesubject'   => [$this, 'compose_subject'],
-                'priorityselector' => [$this, 'priority_selector'],
-                'mdncheckbox'      => [$this, 'mdn_checkbox'],
-                'dsncheckbox'      => [$this, 'dsn_checkbox'],
-                'keepformattingcheckbox' => [$this, 'keep_formatting_checkbox'],
-                'composeformhead'  => [$this, 'form_head'],
+            'storetarget'      => [$this, 'folder_selector'],
+            'composeheaders'   => [$this, 'headers_output'],
+            'composesubject'   => [$this, 'compose_subject'],
+            'priorityselector' => [$this, 'priority_selector'],
+            'mdncheckbox'      => [$this, 'mdn_checkbox'],
+            'dsncheckbox'      => [$this, 'dsn_checkbox'],
+            'keepformattingcheckbox' => [$this, 'keep_formatting_checkbox'],
+            'composeformhead'  => [$this, 'form_head'],
         ]);
 
         // add some labels to client
@@ -1658,9 +1658,9 @@ class rcmail_sendmail
 
         // See identity_select plugin for example usage of this hook
         $plugin = rcmail::get_instance()->plugins->exec_hook('identity_select', [
-                'message'    => $message,
-                'identities' => $identities,
-                'selected'   => $from_idx,
+            'message'    => $message,
+            'identities' => $identities,
+            'selected'   => $from_idx,
         ]);
 
         $selected = $plugin['selected'];

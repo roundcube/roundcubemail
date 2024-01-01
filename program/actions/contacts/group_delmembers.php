@@ -43,9 +43,9 @@ class rcmail_action_contacts_group_delmembers extends rcmail_action_contacts_ind
 
         if ($gid && $ids) {
             $plugin = $rcmail->plugins->exec_hook('group_delmembers', [
-                    'group_id' => $gid,
-                    'ids'      => $ids,
-                    'source'   => $source,
+                'group_id' => $gid,
+                'ids'      => $ids,
+                'source'   => $source,
             ]);
 
             if (empty($plugin['abort'])) {

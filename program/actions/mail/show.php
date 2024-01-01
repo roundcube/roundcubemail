@@ -131,9 +131,9 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 } elseif ($v == 0) {
                     $rcmail->output->command('set_unread_message', $MESSAGE->uid, $mbox_name);
                     $rcmail->plugins->exec_hook('message_read', [
-                            'uid'     => $MESSAGE->uid,
-                            'mailbox' => $mbox_name,
-                            'message' => $MESSAGE,
+                        'uid'     => $MESSAGE->uid,
+                        'mailbox' => $mbox_name,
+                        'message' => $MESSAGE,
                     ]);
 
                     $set_seen_flag = true;
@@ -142,14 +142,14 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         }
 
         $rcmail->output->add_handlers([
-                'mailboxname'        => [$this, 'mailbox_name_display'],
-                'messageattachments' => [$this, 'message_attachments'],
-                'messageobjects'     => [$this, 'message_objects'],
-                'messagesummary'     => [$this, 'message_summary'],
-                'messageheaders'     => [$this, 'message_headers'],
-                'messagefullheaders' => [$this, 'message_full_headers'],
-                'messagebody'        => [$this, 'message_body'],
-                'contactphoto'       => [$this, 'message_contactphoto'],
+            'mailboxname'        => [$this, 'mailbox_name_display'],
+            'messageattachments' => [$this, 'message_attachments'],
+            'messageobjects'     => [$this, 'message_objects'],
+            'messagesummary'     => [$this, 'message_summary'],
+            'messageheaders'     => [$this, 'message_headers'],
+            'messagefullheaders' => [$this, 'message_full_headers'],
+            'messagebody'        => [$this, 'message_body'],
+            'contactphoto'       => [$this, 'message_contactphoto'],
         ]);
 
         if ($rcmail->action == 'print' && $rcmail->output->template_exists('messageprint')) {
@@ -392,11 +392,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         if (!empty(self::$MESSAGE->sender)) {
             $photo_img = $rcmail->url([
-                    '_task'   => 'addressbook',
-                    '_action' => 'photo',
-                    '_email'  => self::$MESSAGE->sender['mailto'],
-                    '_error'  => $error_handler ? 1 : null,
-                    '_bgcolor' => $attrib['bg-color'] ?? null,
+                '_task'   => 'addressbook',
+                '_action' => 'photo',
+                '_email'  => self::$MESSAGE->sender['mailto'],
+                '_error'  => $error_handler ? 1 : null,
+                '_bgcolor' => $attrib['bg-color'] ?? null,
             ]);
         } else {
             $photo_img = $placeholder;
@@ -511,11 +511,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         }
 
         $plugin = $rcmail->plugins->exec_hook('message_headers_output', [
-                'output'  => $output_headers,
-                'headers' => $headers_obj,
-                'exclude' => $exclude_headers,       // readonly
-                'folder'  => self::$MESSAGE->folder, // readonly
-                'uid'     => self::$MESSAGE->uid,    // readonly
+            'output'  => $output_headers,
+            'headers' => $headers_obj,
+            'exclude' => $exclude_headers,       // readonly
+            'folder'  => self::$MESSAGE->folder, // readonly
+            'uid'     => self::$MESSAGE->uid,    // readonly
         ]);
 
         // single header value is requested
@@ -607,10 +607,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             html::div(['id' => 'headers-source'], ''));
 
         $html .= html::div([
-                'class'   => 'more-headers show-headers',
-                'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('show-headers','',this)",
-                'title'   => $rcmail->gettext('togglefullheaders'),
-            ], '');
+            'class'   => 'more-headers show-headers',
+            'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('show-headers','',this)",
+            'title'   => $rcmail->gettext('togglefullheaders'),
+        ], '');
 
         $rcmail->output->add_gui_object('all_headers_row', 'all-headers');
         $rcmail->output->add_gui_object('all_headers_box', 'headers-source');
@@ -832,13 +832,13 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
         $token  = $rcmail->get_request_token();
         $url    = $rcmail->url([
-                'task'     => 'mail',
-                'action'   => 'get',
-                'download' => 1,
-                'uid'      => $message->uid,
-                'part'     => $part_id,
-                'mbox'     => $message->folder,
-                'token'    => $token,
+            'task'     => 'mail',
+            'action'   => 'get',
+            'download' => 1,
+            'uid'      => $message->uid,
+            'part'     => $part_id,
+            'mbox'     => $message->folder,
+            'token'    => $token,
         ]);
 
         return html::span('part-notice', $rcmail->gettext('messagetoobig')

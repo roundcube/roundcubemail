@@ -69,7 +69,7 @@ class rcube_washtml
         'lineargradient', 'marker', 'mask', 'mpath', 'path', 'pattern',
         'polygon', 'polyline', 'radialgradient', 'rect', 'set', 'stop', 'switch', 'symbol',
         'text', 'textpath', 'tref', 'tspan', 'use', 'view', 'vkern', 'filter',
-         // SVG Filters
+        // SVG Filters
         'feblend', 'fecolormatrix', 'fecomponenttransfer', 'fecomposite',
         'feconvolvematrix', 'fediffuselighting', 'fedisplacementmap',
         'feflood', 'fefunca', 'fefuncb', 'fefuncg', 'fefuncr', 'fegaussianblur',

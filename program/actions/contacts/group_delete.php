@@ -40,8 +40,8 @@ class rcmail_action_contacts_group_delete extends rcmail_action_contacts_index
 
         if ($gid = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_POST)) {
             $plugin = $rcmail->plugins->exec_hook('group_delete', [
-                    'group_id' => $gid,
-                    'source'   => $source,
+                'group_id' => $gid,
+                'source'   => $source,
             ]);
 
             if (empty($plugin['abort'])) {

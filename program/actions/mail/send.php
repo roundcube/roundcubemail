@@ -53,14 +53,14 @@ class rcmail_action_mail_send extends rcmail_action
         $saveonly  = !empty($_GET['_saveonly']);
         $savedraft = !empty($_POST['_draft']) && !$saveonly;
         $SENDMAIL  = new rcmail_sendmail($COMPOSE, [
-                'sendmail'      => true,
-                'saveonly'      => $saveonly,
-                'savedraft'     => $savedraft,
-                'error_handler' => static function (...$args) use ($rcmail) {
-                    call_user_func_array([$rcmail->output, 'show_message'], $args);
-                    $rcmail->output->send('iframe');
-                },
-                'keepformatting' => !empty($_POST['_keepformatting']),
+            'sendmail'      => true,
+            'saveonly'      => $saveonly,
+            'savedraft'     => $savedraft,
+            'error_handler' => static function (...$args) use ($rcmail) {
+                call_user_func_array([$rcmail->output, 'show_message'], $args);
+                $rcmail->output->send('iframe');
+            },
+            'keepformatting' => !empty($_POST['_keepformatting']),
         ]);
 
         // Collect input for message headers
@@ -132,10 +132,10 @@ class rcmail_action_mail_send extends rcmail_action
                 );
 
                 rcube_utils::preg_error([
-                        'line'    => __LINE__,
-                        'file'    => __FILE__,
-                        'message' => 'Could not format HTML!',
-                    ], true);
+                    'line'    => __LINE__,
+                    'file'    => __FILE__,
+                    'message' => 'Could not format HTML!',
+                ], true);
             }
 
             // Check spelling before send
@@ -201,14 +201,14 @@ class rcmail_action_mail_send extends rcmail_action
         // compose PGP/Mime message
         if (!empty($pgp_mime)) {
             $MAIL_MIME->addAttachment(new Mail_mimePart('Version: 1', [
-                    'content_type' => 'application/pgp-encrypted',
-                    'description'  => 'PGP/MIME version identification',
+                'content_type' => 'application/pgp-encrypted',
+                'description'  => 'PGP/MIME version identification',
             ]));
 
             $MAIL_MIME->addAttachment(new Mail_mimePart($pgp_mime, [
-                    'content_type' => 'application/octet-stream',
-                    'filename'     => 'encrypted.asc',
-                    'disposition'  => 'inline',
+                'content_type' => 'application/octet-stream',
+                'filename'     => 'encrypted.asc',
+                'disposition'  => 'inline',
             ]));
 
             $MAIL_MIME->setContentType('multipart/encrypted', ['protocol' => 'application/pgp-encrypted']);
@@ -268,9 +268,9 @@ class rcmail_action_mail_send extends rcmail_action
 
             if ($saved) {
                 $plugin = $rcmail->plugins->exec_hook('message_draftsaved', [
-                        'msgid'  => $message_id,
-                        'uid'    => $saved,
-                        'folder' => $store_target,
+                    'msgid'  => $message_id,
+                    'uid'    => $saved,
+                    'folder' => $store_target,
                 ]);
 
                 // display success
@@ -365,11 +365,10 @@ class rcmail_action_mail_send extends rcmail_action
                     $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
 
                     rcube_utils::preg_error([
-                            'line'    => __LINE__,
-                            'file'    => __FILE__,
-                            'message' => 'Could not replace an image reference!',
-                        ], true
-                    );
+                        'line'    => __LINE__,
+                        'file'    => __FILE__,
+                        'message' => 'Could not replace an image reference!',
+                    ], true);
 
                     $message->setHTMLBody($message_body);
                 }

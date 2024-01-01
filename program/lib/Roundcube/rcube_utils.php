@@ -1717,10 +1717,10 @@ class rcube_utils
         if ($version == 2) {
             $addr = inet_pton($remote_addr) . inet_pton($local_addr) . pack('n', $remote_port) . pack('n', $local_port);
             $head = implode('', [
-                    '0D0A0D0A000D0A515549540A',     // protocol header
-                    '21',                           // protocol version and command
-                    $ip_version === 6 ? '2' : '1',  // IP version type
-                    '1',                             // TCP
+                '0D0A0D0A000D0A515549540A',     // protocol header
+                '21',                           // protocol version and command
+                $ip_version === 6 ? '2' : '1',  // IP version type
+                '1',                             // TCP
             ]);
 
             return pack('H*', $head) . pack('n', strlen($addr)) . $addr;

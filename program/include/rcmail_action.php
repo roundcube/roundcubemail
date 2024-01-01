@@ -357,11 +357,11 @@ abstract class rcmail_action
         }
 
         $hook = $rcmail->plugins->exec_hook('html_editor', [
-                'mode'             => $mode,
-                'disabled_plugins' => $disabled_plugins,
-                'disabled_buttons' => $disabled_buttons,
-                'extra_plugins'    => $extra_plugins,
-                'extra_buttons'    => $extra_buttons,
+            'mode'             => $mode,
+            'disabled_plugins' => $disabled_plugins,
+            'disabled_buttons' => $disabled_buttons,
+            'extra_plugins'    => $extra_plugins,
+            'extra_buttons'    => $extra_buttons,
         ]);
 
         if (!empty($hook['abort'])) {
@@ -608,8 +608,8 @@ abstract class rcmail_action
         // show filesizeerror instead of fileuploaderror
         if ($maxsize = ini_get('post_max_size')) {
             $msg = $rcmail->gettext([
-                    'name' => 'filesizeerror',
-                    'vars' => ['size' => self::show_bytes(parse_bytes($maxsize))],
+                'name' => 'filesizeerror',
+                'vars' => ['size' => self::show_bytes(parse_bytes($maxsize))],
             ]);
         } else {
             $msg = $rcmail->gettext('fileuploaderror');
@@ -875,14 +875,13 @@ abstract class rcmail_action
         if (empty(self::$edit_form)) {
             $request_key = $action . (isset($id) ? '.' . $id : '');
             $form_start = $rcmail->output->request_form([
-                    'name'    => 'form',
-                    'method'  => 'post',
-                    'task'    => $rcmail->task,
-                    'action'  => $action,
-                    'request' => $request_key,
-                    'noclose' => true,
-                ] + $attrib
-            );
+                'name'    => 'form',
+                'method'  => 'post',
+                'task'    => $rcmail->task,
+                'action'  => $action,
+                'request' => $request_key,
+                'noclose' => true,
+            ] + $attrib);
 
             if (!empty($hidden) && is_array($hidden)) {
                 $hiddenfields = new html_hiddenfield($hidden);
@@ -945,10 +944,10 @@ abstract class rcmail_action
 
         // allow plugins to alter the folder tree or to localize folder names
         $hook = $rcmail->plugins->exec_hook('render_mailboxlist', [
-                'list'      => $a_mailboxes,
-                'delimiter' => $delimiter,
-                'type'      => $type,
-                'attribs'   => $attrib,
+            'list'      => $a_mailboxes,
+            'delimiter' => $delimiter,
+            'type'      => $type,
+            'attribs'   => $attrib,
         ]);
 
         $a_mailboxes = $hook['list'];
@@ -1053,9 +1052,9 @@ abstract class rcmail_action
 
         // allow plugins to alter the folder tree or to localize folder names
         $hook = $rcmail->plugins->exec_hook('render_folder_selector', [
-                'list'      => $a_mailboxes,
-                'delimiter' => $delimiter,
-                'attribs'   => $p,
+            'list'      => $a_mailboxes,
+            'delimiter' => $delimiter,
+            'attribs'   => $p,
         ]);
 
         $a_mailboxes = $hook['list'];

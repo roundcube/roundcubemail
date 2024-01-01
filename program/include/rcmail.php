@@ -528,8 +528,8 @@ class rcmail extends rcube
         }
 
         $hook = $this->plugins->exec_hook('get_compose_responses', [
-                'list'      => $responses,
-                'user_only' => $user_only,
+            'list'      => $responses,
+            'user_only' => $user_only,
         ]);
 
         return $hook['list'];
@@ -571,8 +571,8 @@ class rcmail extends rcube
 
         // Plugin-provided response or other modifications
         $hook = $this->plugins->exec_hook('get_compose_response', [
-                'id'     => $id,
-                'record' => $record,
+            'id'     => $id,
+            'record' => $record,
         ]);
 
         return $hook['record'];
@@ -1391,8 +1391,8 @@ class rcmail extends rcube
         }
 
         $plugin = $this->plugins->exec_hook('contact_create', [
-                'record' => $contact,
-                'source' => $this->get_address_book_id($source),
+            'record' => $contact,
+            'source' => $this->get_address_book_id($source),
         ]);
 
         $contact = $plugin['record'];
@@ -1457,9 +1457,9 @@ class rcmail extends rcube
         }
 
         $plugin = $this->plugins->exec_hook('contact_exists', [
-                'email'   => $email,
-                'type'    => $type,
-                'sources' => $sources,
+            'email'   => $email,
+            'type'    => $type,
+            'sources' => $sources,
         ]);
 
         if (!empty($plugin['abort'])) {

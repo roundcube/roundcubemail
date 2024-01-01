@@ -115,9 +115,9 @@ class password extends rcube_plugin
                 $this->rc->output->command('display_message', $this->gettext('passwdexpired'), 'error');
             } else {
                 $this->rc->output->command('display_message', $this->gettext([
-                        'name' => 'passwdexpirewarning',
-                        'vars' => ['expirationdatetime' => $_SESSION['password_expires']],
-                    ]), 'warning');
+                    'name' => 'passwdexpirewarning',
+                    'vars' => ['expirationdatetime' => $_SESSION['password_expires']],
+                ]), 'warning');
             }
         }
 
@@ -179,8 +179,8 @@ class password extends rcube_plugin
 
                 // allow additional actions after password change (e.g. reset some backends)
                 $plugin = $this->rc->plugins->exec_hook('password_change', [
-                        'old_pass' => $curpwd,
-                        'new_pass' => $newpwd,
+                    'old_pass' => $curpwd,
+                    'new_pass' => $newpwd,
                 ]);
 
                 // Reset session password
@@ -227,10 +227,10 @@ class password extends rcube_plugin
             // show current password selection
             $field_id = 'curpasswd';
             $input_curpasswd = new html_passwordfield([
-                    'name'         => '_curpasswd',
-                    'id'           => $field_id,
-                    'size'         => 20,
-                    'autocomplete' => 'off',
+                'name'         => '_curpasswd',
+                'id'           => $field_id,
+                'size'         => 20,
+                'autocomplete' => 'off',
             ]);
 
             $table->add('title', html::label($field_id, rcube::Q($this->gettext('curpasswd'))));
@@ -240,10 +240,10 @@ class password extends rcube_plugin
         // show new password selection
         $field_id = 'newpasswd';
         $input_newpasswd = new html_passwordfield([
-                'name'         => '_newpasswd',
-                'id'           => $field_id,
-                'size'         => 20,
-                'autocomplete' => 'off',
+            'name'         => '_newpasswd',
+            'id'           => $field_id,
+            'size'         => 20,
+            'autocomplete' => 'off',
         ]);
 
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('newpasswd'))));
@@ -252,10 +252,10 @@ class password extends rcube_plugin
         // show confirm password selection
         $field_id = 'confpasswd';
         $input_confpasswd = new html_passwordfield([
-                'name'         => '_confpasswd',
-                'id'           => $field_id,
-                'size'         => 20,
-                'autocomplete' => 'off',
+            'name'         => '_confpasswd',
+            'id'           => $field_id,
+            'size'         => 20,
+            'autocomplete' => 'off',
         ]);
 
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('confpasswd'))));
@@ -288,9 +288,9 @@ class password extends rcube_plugin
         }
 
         $submit_button = $this->rc->output->button([
-                'command' => 'plugin.password-save',
-                'class'   => 'button mainaction submit',
-                'label'   => 'save',
+            'command' => 'plugin.password-save',
+            'class'   => 'button mainaction submit',
+            'label'   => 'save',
         ]);
         $form_buttons = html::p(['class' => 'formbuttons footerleft'], $submit_button);
 
@@ -749,9 +749,9 @@ class password extends rcube_plugin
 
                 if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
                     rcube::raise_error([
-                            'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Password plugin: Failed to execute command: $command. Error: $stderr",
-                        ], true, false);
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Failed to execute command: $command. Error: $stderr",
+                    ], true, false);
 
                     return false;
                 }
@@ -840,9 +840,9 @@ class password extends rcube_plugin
         }
 
         return strtr($format, [
-                '%l' => $rcmail->user->get_username('local'),
-                '%d' => $rcmail->user->get_username('domain'),
-                '%u' => $_SESSION['username'],
+            '%l' => $rcmail->user->get_username('local'),
+            '%d' => $rcmail->user->get_username('domain'),
+            '%u' => $_SESSION['username'],
         ]);
     }
 

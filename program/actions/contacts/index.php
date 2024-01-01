@@ -332,12 +332,12 @@ class rcmail_action_contacts_index extends rcmail_action
 
         // register UI objects
         $rcmail->output->add_handlers([
-                'directorylist'       => [$this, 'directory_list'],
-                'savedsearchlist'     => [$this, 'savedsearch_list'],
-                'addresslist'         => [$this, 'contacts_list'],
-                'addresslisttitle'    => [$this, 'contacts_list_title'],
-                'recordscountdisplay' => [$this, 'rowcount_display'],
-                'searchform'          => [$rcmail->output, 'search_form'],
+            'directorylist'       => [$this, 'directory_list'],
+            'savedsearchlist'     => [$this, 'savedsearch_list'],
+            'addresslist'         => [$this, 'contacts_list'],
+            'addresslisttitle'    => [$this, 'contacts_list_title'],
+            'recordscountdisplay' => [$this, 'rowcount_display'],
+            'searchform'          => [$rcmail->output, 'search_form'],
         ]);
 
         // Disable qr-code if imagick, iconv or BaconQrCode is not installed
@@ -751,12 +751,12 @@ class rcmail_action_contacts_index extends rcmail_action
         $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
 
         return $rcmail->gettext([
-                'name'  => !empty($_SESSION['contactcountdisplay']) ? $_SESSION['contactcountdisplay'] : 'contactsfromto',
-                'vars'  => [
-                    'from'  => $result->first + 1,
-                    'to'    => min($result->count, $result->first + $page_size),
-                    'count' => $result->count,
-                ],
+            'name'  => !empty($_SESSION['contactcountdisplay']) ? $_SESSION['contactcountdisplay'] : 'contactsfromto',
+            'vars'  => [
+                'from'  => $result->first + 1,
+                'to'    => min($result->count, $result->first + $page_size),
+                'count' => $result->count,
+            ],
         ]);
     }
 
@@ -797,9 +797,9 @@ class rcmail_action_contacts_index extends rcmail_action
 
         // Allow plugins to modify contact form content
         $plugin = $rcmail->plugins->exec_hook('contact_form', [
-                'form'        => $form,
-                'record'      => $record,
-                'head_fields' => $head_fields,
+            'form'        => $form,
+            'record'      => $record,
+            'head_fields' => $head_fields,
         ]);
 
         $form        = $plugin['form'];
@@ -813,8 +813,8 @@ class rcmail_action_contacts_index extends rcmail_action
 
         if (!empty($attrib['deleteicon'])) {
             $del_button = html::img([
-                    'src' => $rcmail->output->get_skin_file($attrib['deleteicon']),
-                    'alt' => $rcmail->gettext('delete'),
+                'src' => $rcmail->output->get_skin_file($attrib['deleteicon']),
+                'alt' => $rcmail->gettext('delete'),
             ]);
         } else {
             $del_button = html::span('inner', $rcmail->gettext('delete'));
@@ -842,9 +842,9 @@ class rcmail_action_contacts_index extends rcmail_action
 
                 $subtype_names  = array_map('rcmail_action_contacts_index::get_type_label', $prop['subtypes']);
                 $select_subtype = new html_select([
-                        'name'  => "_subtype_{$col}[]",
-                        'class' => 'contactselectsubtype custom-select',
-                        'title' => $prop['label'] . ' ' . $rcmail->gettext('type'),
+                    'name'  => "_subtype_{$col}[]",
+                    'class' => 'contactselectsubtype custom-select',
+                    'title' => $prop['label'] . ' ' . $rcmail->gettext('type'),
                 ]);
                 $select_subtype->add($subtype_names, $prop['subtypes']);
 
@@ -865,9 +865,9 @@ class rcmail_action_contacts_index extends rcmail_action
             }
 
             $select_add = new html_select([
-                    'class'        => 'addfieldmenu custom-select',
-                    'rel'          => $section,
-                    'data-compact' => $compact ? 'true' : null,
+                'class'        => 'addfieldmenu custom-select',
+                'rel'          => $section,
+                'data-compact' => $compact ? 'true' : null,
             ]);
 
             $select_add->add($rcmail->gettext('addfield'), '');
@@ -1011,9 +1011,9 @@ class rcmail_action_contacts_index extends rcmail_action
                     if ($edit_mode && isset($colprop['subtypes']) && is_array($colprop['subtypes'])) {
                         $subtype_names  = array_map('rcmail_action_contacts_index::get_type_label', $colprop['subtypes']);
                         $select_subtype = new html_select([
-                                'name'  => "_subtype_{$col}[]",
-                                'class' => 'contactselectsubtype custom-select',
-                                'title' => $colprop['label'] . ' ' . $rcmail->gettext('type'),
+                            'name'  => "_subtype_{$col}[]",
+                            'class' => 'contactselectsubtype custom-select',
+                            'title' => $colprop['label'] . ' ' . $rcmail->gettext('type'),
                         ]);
                         $select_subtype->add($subtype_names, $colprop['subtypes']);
                     } else {
@@ -1297,9 +1297,9 @@ class rcmail_action_contacts_index extends rcmail_action
         unset($attrib['placeholder']);
 
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
-                'record' => $record,
-                'data'   => $record['photo'] ?? null,
-                'attrib' => $attrib,
+            'record' => $record,
+            'data'   => $record['photo'] ?? null,
+            'attrib' => $attrib,
         ]);
 
         // check if we have photo data from contact form
@@ -1330,8 +1330,8 @@ class rcmail_action_contacts_index extends rcmail_action
         }
 
         $content = html::div($attrib, html::img([
-                'src'     => $photo_img,
-                'onerror' => 'this.onerror = null; this.src = rcmail.env.photo_placeholder;',
+            'src'     => $photo_img,
+            'onerror' => 'this.onerror = null; this.src = rcmail.env.photo_placeholder;',
         ]));
 
         if (!empty(self::$CONTACT_COLTYPES['photo']) && ($rcmail->action == 'edit' || $rcmail->action == 'add')) {

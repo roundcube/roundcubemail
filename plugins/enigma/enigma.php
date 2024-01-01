@@ -257,9 +257,9 @@ class enigma extends rcube_plugin
 
             $field_id = 'rcmfd_enigma_encryption';
             $input    = new html_checkbox([
-                    'name'  => '_enigma_encryption',
-                    'id'    => $field_id,
-                    'value' => 1,
+                'name'  => '_enigma_encryption',
+                'id'    => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_encryption'] = [
@@ -277,9 +277,9 @@ class enigma extends rcube_plugin
 
             $field_id = 'rcmfd_enigma_signatures';
             $input    = new html_checkbox([
-                    'name'  => '_enigma_signatures',
-                    'id'    => $field_id,
-                    'value' => 1,
+                'name'  => '_enigma_signatures',
+                'id'    => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_signatures'] = [
@@ -297,9 +297,9 @@ class enigma extends rcube_plugin
 
             $field_id = 'rcmfd_enigma_decryption';
             $input    = new html_checkbox([
-                    'name'  => '_enigma_decryption',
-                    'id'    => $field_id,
-                    'value' => 1,
+                'name'  => '_enigma_decryption',
+                'id'    => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_decryption'] = [
@@ -317,9 +317,9 @@ class enigma extends rcube_plugin
 
             $field_id = 'rcmfd_enigma_sign_all';
             $input    = new html_checkbox([
-                    'name'  => '_enigma_sign_all',
-                    'id'    => $field_id,
-                    'value' => 1,
+                'name'  => '_enigma_sign_all',
+                'id'    => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_sign_all'] = [
@@ -337,9 +337,9 @@ class enigma extends rcube_plugin
 
             $field_id = 'rcmfd_enigma_encrypt_all';
             $input    = new html_checkbox([
-                    'name'  => '_enigma_encrypt_all',
-                    'id'    => $field_id,
-                    'value' => 1,
+                'name'  => '_enigma_encrypt_all',
+                'id'    => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_encrypt_all'] = [
@@ -357,9 +357,9 @@ class enigma extends rcube_plugin
 
             $field_id = 'rcmfd_enigma_attach_pubkey';
             $input    = new html_checkbox([
-                    'name'  => '_enigma_attach_pubkey',
-                    'id'    => $field_id,
-                    'value' => 1,
+                'name'  => '_enigma_attach_pubkey',
+                'id'    => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_attach_pubkey'] = [

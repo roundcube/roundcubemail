@@ -44,10 +44,10 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
         // register UI objects
         $rcmail->output->add_handlers([
-                'foldersubscription' => [$this, 'folder_subscriptions'],
-                'folderfilter'       => [$this, 'folder_filter'],
-                'quotadisplay'       => [$rcmail, 'quota_display'],
-                'searchform'         => [$rcmail->output, 'search_form'],
+            'foldersubscription' => [$this, 'folder_subscriptions'],
+            'folderfilter'       => [$this, 'folder_filter'],
+            'quotadisplay'       => [$rcmail, 'quota_display'],
+            'searchform'         => [$rcmail->output, 'search_form'],
         ]);
 
         $rcmail->output->send('folders');
@@ -121,9 +121,9 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         unset($seen);
 
         $checkbox_subscribe = new html_checkbox([
-                'name'    => '_subscribed[]',
-                'title'   => $rcmail->gettext('changesubscription'),
-                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command(this.checked?'subscribe':'unsubscribe',this.value)",
+            'name'    => '_subscribed[]',
+            'title'   => $rcmail->gettext('changesubscription'),
+            'onclick' => rcmail_output::JS_OBJECT_NAME . ".command(this.checked?'subscribe':'unsubscribe',this.value)",
         ]);
 
         $js_folders = [];

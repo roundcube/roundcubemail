@@ -315,17 +315,16 @@ function delete_destfile($package)
 //////////////// Execution
 
 $args = rcube_utils::get_opt([
-        'f' => 'force:bool',
-        'd' => 'delete:bool',
-        'g' => 'get:bool',
-        'e' => 'extract:bool',
-    ])
-    + [
-        'force'   => false,
-        'delete'  => false,
-        'get'     => false,
-        'extract' => false,
-    ];
+    'f' => 'force:bool',
+    'd' => 'delete:bool',
+    'g' => 'get:bool',
+    'e' => 'extract:bool',
+]) + [
+    'force'   => false,
+    'delete'  => false,
+    'get'     => false,
+    'extract' => false,
+];
 
 $WHAT     = isset($args[0]) ? $args[0] : null;
 $useCache = !$args['force'] && !$args['get'];

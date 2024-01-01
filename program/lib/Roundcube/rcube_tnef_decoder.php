@@ -478,10 +478,10 @@ class rcube_tnef_decoder
                 // Add a new default data block to hold details of this
                 // attachment. Reverse order is easier to handle later!
                 array_unshift($attachment, [
-                        'type'    => 'application',
-                        'subtype' => 'octet-stream',
-                        'name'    => 'unknown',
-                        'stream'  => '',
+                    'type'    => 'application',
+                    'subtype' => 'octet-stream',
+                    'name'    => 'unknown',
+                    'stream'  => '',
                 ]);
 
                 break;

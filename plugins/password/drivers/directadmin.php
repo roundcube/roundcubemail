@@ -48,11 +48,11 @@ class rcube_directadmin_password
         $Socket->connect($da_host, $da_port);
         $Socket->set_method('POST');
         $Socket->query('/CMD_CHANGE_EMAIL_PASSWORD', [
-                'email'         => $da_user,
-                'oldpassword'   => $da_curpass,
-                'password1'     => $da_newpass,
-                'password2'     => $da_newpass,
-                'api'           => '1',
+            'email'         => $da_user,
+            'oldpassword'   => $da_curpass,
+            'password1'     => $da_newpass,
+            'password2'     => $da_newpass,
+            'api'           => '1',
         ]);
 
         $response = $Socket->fetch_parsed_body();

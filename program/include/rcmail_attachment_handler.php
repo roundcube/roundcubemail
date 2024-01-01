@@ -70,11 +70,11 @@ class rcmail_attachment_handler
                 if (empty($_GET['_frame'])) {
                     // allow post-processing of the attachment body
                     $plugin = $rcube->plugins->exec_hook('message_part_get', [
-                            'uid'      => $uid,
-                            'id'       => $this->part->mime_id,
-                            'mimetype' => $this->mimetype,
-                            'part'     => $this->part,
-                            'download' => $this->download,
+                        'uid'      => $uid,
+                        'id'       => $this->part->mime_id,
+                        'mimetype' => $this->mimetype,
+                        'part'     => $this->part,
+                        'download' => $this->download,
                     ]);
 
                     if ($plugin['abort']) {
