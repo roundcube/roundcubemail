@@ -37,6 +37,7 @@ class zipdownload extends rcube_plugin
                     'message' => 'php-zip extension is required for the zipdownload plugin',
                 ], true, false
             );
+
             return;
         }
 
@@ -297,6 +298,7 @@ class zipdownload extends rcube_plugin
 
                     $rcmail->output->show_message($msg, 'error');
                     $rcmail->output->send('iframe');
+
                     exit;
                 }
             }

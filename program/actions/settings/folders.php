@@ -167,6 +167,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                             foreach ($ns as $item) {
                                 if ($item[0] === $fname) {
                                     $is_disabled = true;
+
                                     break 2;
                                 }
                             }
@@ -180,6 +181,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                     foreach ($namespace['other'] as $item) {
                         if ($item[0] === $fname) {
                             $is_disabled = true;
+
                             break;
                         }
                     }
@@ -190,6 +192,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                     foreach ($tmp_ns as $item) {
                         if (strlen($item[0]) && strpos($folder['id'], $item[0]) === 0) {
                             $is_disabled = true;
+
                             break;
                         }
                     }

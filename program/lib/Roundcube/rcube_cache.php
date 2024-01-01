@@ -205,6 +205,7 @@ class rcube_cache
                 if (is_array($v)) {
                     sort($v);
                 }
+
                 return is_string($v) ? $v : serialize($v);
             };
 
@@ -270,6 +271,7 @@ class rcube_cache
 
                     if (($ts = $this->get_exp_timestamp($prefix)) && $ts > $timestamp) {
                         $timestamp = 0;
+
                         break;
                     }
                 }
@@ -477,6 +479,7 @@ class rcube_cache
         // don't attempt to write too big data sets
         if ($size > $this->max_packet_size()) {
             trigger_error("rcube_cache: max_packet_size ($this->max_packet) exceeded for key $key. Tried to write $size bytes", \E_USER_WARNING);
+
             return false;
         }
 

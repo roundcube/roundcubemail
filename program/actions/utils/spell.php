@@ -65,6 +65,7 @@ class rcmail_action_utils_spell extends rcmail_action
             );
 
             http_response_code(500);
+
             exit;
         }
 
@@ -74,6 +75,7 @@ class rcmail_action_utils_spell extends rcmail_action
         // Don't use server's default Content-Type charset (#1486406)
         header('Content-Type: text/xml; charset=' . RCUBE_CHARSET);
         echo $result;
+
         exit;
     }
 }

@@ -444,6 +444,7 @@ class HTTPSocket
     function fetch_parsed_body()
     {
         parse_str($this->result_body, $x);
+
         return $x;
     }
 

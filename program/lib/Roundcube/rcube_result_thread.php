@@ -62,6 +62,7 @@ class rcube_result_thread
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
                 $data[$i] = substr($data[$i], 7);
+
                 break;
             }
 
@@ -295,6 +296,7 @@ class rcube_result_thread
 
                 return $idx;
             }
+
             return true;
         }
 
@@ -352,6 +354,7 @@ class rcube_result_thread
         if ($index === 0 || $index === '0' || $index === 'FIRST') {
             preg_match('/^([0-9]+)/', $this->raw_data, $m);
             $result = (int) $m[1];
+
             return $result;
         }
 
@@ -359,6 +362,7 @@ class rcube_result_thread
         if ($index === 'LAST' || $index == $count - 1) {
             preg_match('/([0-9]+)$/', $this->raw_data, $m);
             $result = (int) $m[1];
+
             return $result;
         }
 
@@ -565,6 +569,7 @@ class rcube_result_thread
                 $result[$id] = $this->build_thread($items, $level + 1, $pos);
             } else {
                 $pos--;
+
                 break;
             }
         }

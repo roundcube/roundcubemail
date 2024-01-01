@@ -353,6 +353,7 @@ abstract class rcube_addressbook
                     $error = $rcube->gettext(['name' => 'emailformaterror', 'vars' => ['email' => $email]]);
                     $this->set_error(self::ERROR_VALIDATE, $error);
                     $valid = false;
+
                     break;
                 }
             }
@@ -693,6 +694,7 @@ abstract class rcube_addressbook
                     $result[] = $contact[$field];
                 }
             }
+
             return $result;
         };
 
@@ -703,14 +705,17 @@ abstract class rcube_addressbook
                     array_unshift($names, $contact['surname'] . ',');
                 }
                 $fn = implode(' ', $names);
+
                 break;
             case 2:
                 $keys = ['surname', 'firstname', 'middlename'];
                 $fn   = implode(' ', $get_names($contact, $keys));
+
                 break;
             case 1:
                 $keys = ['firstname', 'middlename', 'surname'];
                 $fn   = implode(' ', $get_names($contact, $keys));
+
                 break;
             case 0:
                 if (!empty($contact['name'])) {
@@ -719,6 +724,7 @@ abstract class rcube_addressbook
                     $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
                     $fn   = implode(' ', $get_names($contact, $keys));
                 }
+
                 break;
             default:
                 $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);
@@ -789,6 +795,7 @@ abstract class rcube_addressbook
 
                     case 'email':
                         $value = $email;
+
                         break;
                 }
 

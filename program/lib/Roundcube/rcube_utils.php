@@ -1657,6 +1657,7 @@ class rcube_utils
         // replace Re:, Re[x]:, Re-x (#1490497)
         $pieces = array_map(static function ($prefix) {
             $prefix = strtolower(str_replace(':', '', $prefix));
+
             return "$prefix:|$prefix\\[\\d\\]:|$prefix-\\d:";
         }, $prefixes);
         $pattern = '/^(' . implode('|', $pieces) . ')\s*/i';

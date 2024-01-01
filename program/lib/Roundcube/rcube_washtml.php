@@ -340,6 +340,7 @@ class rcube_washtml
                                 $result .= ' ' . $attr->nodeName . '="' . $match[1]
                                     . '(' . htmlspecialchars($url, \ENT_QUOTES, $this->config['charset']) . ')'
                                     . htmlspecialchars(substr($value, strlen($match[0])), \ENT_QUOTES, $this->config['charset']) . '"';
+
                                 continue;
                             }
                         } else {
@@ -578,6 +579,7 @@ class rcube_washtml
                         $uri = $this->wash_uri($node->getAttribute('href'), false, false);
                         if (!$uri) {
                             $dump .= '<!-- link ignored -->';
+
                             break;
                         }
 
@@ -587,6 +589,7 @@ class rcube_washtml
                     ) {
                         // Insecure svg tags
                         $dump .= "<!-- $tagName blocked -->";
+
                         break;
                     }
 
@@ -625,15 +628,18 @@ class rcube_washtml
                         $dump .= '<!-- ' . htmlspecialchars($node->nodeName, \ENT_QUOTES, $this->config['charset']) . ' ignored -->';
                         $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                     }
+
                     break;
 
                 case \XML_CDATA_SECTION_NODE:
                 case \XML_TEXT_NODE:
                     $dump .= htmlspecialchars($node->nodeValue, \ENT_COMPAT | \ENT_HTML401 | \ENT_SUBSTITUTE, $this->config['charset']);
+
                     break;
 
                 case \XML_HTML_DOCUMENT_NODE:
                     $dump .= $this->dumpHtml($node, $level);
+
                     break;
             }
         } while ($node = $node->nextSibling);
@@ -801,6 +807,7 @@ class rcube_washtml
         // It might be an ending of a comment, ignore (#6464)
         if (substr($matches[3], -2) == '--') {
             $matches[0] = '';
+
             return implode('', $matches);
         }
 

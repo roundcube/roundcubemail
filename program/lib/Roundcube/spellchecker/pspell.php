@@ -66,6 +66,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
         if (!$this->plink) {
             if (!extension_loaded('pspell')) {
                 $this->error = 'Pspell extension not available';
+
                 return;
             }
 

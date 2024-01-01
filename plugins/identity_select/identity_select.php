@@ -66,6 +66,7 @@ class identity_select extends rcube_plugin
                 foreach ($p['identities'] as $idx => $ident) {
                     if (in_array($ident['email_ascii'], $emails)) {
                         $p['selected'] = $idx;
+
                         break 2;
                     }
                 }
@@ -88,6 +89,7 @@ class identity_select extends rcube_plugin
             foreach ((array) $value as $entry) {
                 if (preg_match('/[\s\t]+for[\s\t]+<([^>]+)>/', $entry, $matches)) {
                     $email = $matches[1];
+
                     break;
                 }
             }

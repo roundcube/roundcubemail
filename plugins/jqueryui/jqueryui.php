@@ -55,6 +55,7 @@ class jqueryui extends rcube_plugin
             $css = self::$css_path . '/jquery-ui.css';
             if (self::asset_exists($css)) {
                 $this->include_stylesheet($css);
+
                 break;
             }
         }

@@ -58,6 +58,7 @@ class enigma_signature
                     if (!empty($parts[$parent]) && $parts[$parent]->mimetype == 'message/rfc822') {
                         $from    = $parts[$parent]->headers['from'];
                         $charset = $parts[$parent]->charset;
+
                         break;
                     }
                 }

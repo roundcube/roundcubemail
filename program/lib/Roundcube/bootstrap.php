@@ -58,6 +58,7 @@ foreach ($config as $optname => $optval) {
         } else {
             echo $error;
         }
+
         exit(1);
     }
 }
@@ -162,6 +163,7 @@ function parse_bytes($str)
                 $bytes *= 1024;
             case 'K':
                 $bytes *= 1024;
+
                 break;
         }
 
@@ -323,6 +325,7 @@ function array_first($array)
 function asciiwords($str, $css_id = false, $replace_with = '')
 {
     $allowed = 'a-z0-9\_\-' . (!$css_id ? '\.' : '');
+
     return preg_replace("/[^$allowed]+/i", $replace_with, (string) $str);
 }
 
@@ -337,6 +340,7 @@ function asciiwords($str, $css_id = false, $replace_with = '')
 function is_ascii($str, $control_chars = true)
 {
     $regexp = $control_chars ? '/[^\x00-\x7F]/' : '/[^\x20-\x7E]/';
+
     return preg_match($regexp, (string) $str) ? false : true;
 }
 
@@ -435,6 +439,7 @@ function rcube_autoload($classname)
     if ($fp = @fopen("$classname.php", 'r', true)) {
         fclose($fp);
         include_once "$classname.php";
+
         return true;
     }
 

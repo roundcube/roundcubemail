@@ -80,6 +80,7 @@ class rcmail_action_mail_import extends rcmail_action
 
                                 $message  = $line;
                                 $lastline = '';
+
                                 continue;
                             }
 

@@ -180,6 +180,7 @@ class rcube_cache_redis extends rcube_cache
             $data = self::$redis->get($key);
         } catch (Exception $e) {
             rcube::raise_error($e, true, false);
+
             return false;
         }
 
@@ -208,6 +209,7 @@ class rcube_cache_redis extends rcube_cache
             $result = self::$redis->setex($key, $this->ttl, $data);
         } catch (Exception $e) {
             rcube::raise_error($e, true, false);
+
             return false;
         }
 
@@ -237,6 +239,7 @@ class rcube_cache_redis extends rcube_cache
                 : self::$redis->delete($key);
         } catch (Exception $e) {
             rcube::raise_error($e, true, false);
+
             return false;
         }
 

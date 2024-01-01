@@ -234,6 +234,7 @@ foreach ($optional_checks as $var => $val) {
             $RCI->pass($var);
         }
         echo '<br />';
+
         continue;
     }
     if ($val === '-VALID-') {

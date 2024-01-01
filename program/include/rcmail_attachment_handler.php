@@ -106,6 +106,7 @@ class rcmail_attachment_handler
 
         if (empty($this->part) && empty($this->upload)) {
             http_response_code(404);
+
             exit;
         }
 
@@ -169,6 +170,7 @@ class rcmail_attachment_handler
     public function size()
     {
         $part = $this->part ?: ((object) ['size' => $this->size, 'exact_size' => true]);
+
         return rcmail_action::message_part_size($part);
     }
 
@@ -276,12 +278,14 @@ class rcmail_attachment_handler
             }
 
             echo self::svg_filter($this->body);
+
             return true;
         }
 
         if ($this->body !== null && !$this->download) {
             header('Content-Length: ' . strlen($this->body));
             echo $this->body;
+
             return true;
         }
 

@@ -525,6 +525,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
 
             $row = $plugin['output'][$attrib['valueof']];
+
             return !empty($row['html']) ? $row['value'] : rcube::SQ($row['value']);
         }
 
@@ -671,6 +672,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                                 $out .= html::span('part-notice', $rcmail->gettext('encryptedmessage'));
                             }
                         }
+
                         continue;
                     } elseif (!$part->size) {
                         continue;
@@ -679,6 +681,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     // #1487424: we need up to 10x more memory than the body
                     elseif (!rcube_utils::mem_check($part->size * 10)) {
                         $out .= self::part_too_big_message(self::$MESSAGE, $part->mime_id);
+
                         continue;
                     }
 
@@ -690,6 +693,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         // Don't bail out if it is only one-of-many part of the message (#6854)
                         if (strlen($out)) {
                             $out .= html::span('part-notice', $rcmail->gettext('messageopenerror'));
+
                             continue;
                         }
 

@@ -89,6 +89,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
 
                     if (!empty($v_list)) {
                         $vcards = array_merge($vcards, $v_list);
+
                         continue;
                     }
 
@@ -116,6 +117,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                             if ($last_map && $last_map !== $map) {
                                 $csvs = [];
                                 $upload_error = self::UPLOAD_ERR_CSV_FIELDS;
+
                                 break;
                             }
 
@@ -186,6 +188,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     // skip invalid (incomplete) entries
                     if (!$CONTACTS->validate($a_record, true)) {
                         self::$stats->invalid++;
+
                         continue;
                     }
 
@@ -209,6 +212,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                         if ($existing && $existing->count) {
                             self::$stats->skipped++;
                             self::$stats->skipped_names[] = $vcard->displayname ?: $email;
+
                             continue;
                         }
                     }
@@ -453,6 +457,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         foreach ($import_groups as $group) {
             if (strtolower($group['name']) === strtolower($group_name)) {
                 $group_id = $group['ID'];
+
                 break;
             }
         }

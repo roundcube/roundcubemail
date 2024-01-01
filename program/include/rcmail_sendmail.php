@@ -786,6 +786,7 @@ class rcmail_sendmail
             $item = trim($item, '<>');
             if ($item && $check && !rcube_utils::check_email($item)) {
                 $this->parse_data['INVALID_EMAIL'] = $item;
+
                 return;
             }
         }
@@ -900,6 +901,7 @@ class rcmail_sendmail
 
                 $allow_attrib = ['id', 'class', 'style', 'cols', 'rows', 'tabindex'];
                 $field_type   = 'html_textarea';
+
                 break;
 
             case 'replyto':
@@ -916,6 +918,7 @@ class rcmail_sendmail
 
                 $allow_attrib = ['id', 'class', 'style', 'size', 'tabindex'];
                 $field_type   = 'html_inputfield';
+
                 break;
         }
 
@@ -1093,6 +1096,7 @@ class rcmail_sendmail
 
                         if (in_array($this->data['ident']['email_ascii'], $senders)) {
                             $fvalue = $message->headers->to;
+
                             break;
                         }
                     }
@@ -1602,6 +1606,7 @@ class rcmail_sendmail
                 // match identity name
                 if ($from['name'] && $ident['name'] && $from['name'] == $ident['name']) {
                     $from_idx = $idx;
+
                     break;
                 }
             }
@@ -1615,6 +1620,7 @@ class rcmail_sendmail
                 // match identity name
                 if ($a_names[$found] && $ident['name'] && $a_names[$found] == $ident['name']) {
                     $from_idx = $idx;
+
                     break;
                 }
             }
@@ -1643,6 +1649,7 @@ class rcmail_sendmail
                 foreach ($return_path as $path) {
                     if ($path == $ident1 || stripos($path, $ident2)) {
                         $from_idx = $idx;
+
                         break 2;
                     }
                 }

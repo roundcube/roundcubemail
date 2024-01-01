@@ -44,6 +44,7 @@ class reconnect extends rcube_plugin
             case rcube_imap_generic::ERROR_BAD:
             case rcube_imap_generic::ERROR_BYE:
                 $args['retry'] = false;
+
                 break;
         }
 

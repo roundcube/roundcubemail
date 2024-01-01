@@ -54,6 +54,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                 $rcmail->output->show_message('opnotpermitted', 'error');
                 // go to identities page
                 $rcmail->overwrite_action('identities');
+
                 return;
             }
 

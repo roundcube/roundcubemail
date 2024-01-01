@@ -164,6 +164,7 @@ abstract class rcube_plugin
                     'message' => "Failed to load config from $fpath",
                 ], true, false
             );
+
             return false;
         } elseif (!$is_local) {
             // Search plugin_name.inc.php file in any configured path

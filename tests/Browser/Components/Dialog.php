@@ -26,6 +26,7 @@ class Dialog extends Component
     {
         // work with the specified dialog (in case there's more than one)
         $suffix = $this->num > 1 ? str_repeat(' + div + .ui-dialog', $this->num - 1) : '';
+
         return '.ui-dialog' . $suffix;
     }
 

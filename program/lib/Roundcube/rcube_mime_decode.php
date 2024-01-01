@@ -138,6 +138,7 @@ class rcube_mime_decode
 
                 case 'content-transfer-encoding':
                     $content_transfer_encoding = $this->parseHeaderValue($value['value']);
+
                     break;
             }
         }

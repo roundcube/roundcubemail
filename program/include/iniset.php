@@ -94,6 +94,7 @@ function rcmail_autoload($classname)
 
         if (is_readable($filepath)) {
             include_once $filepath;
+
             return true;
         }
     }

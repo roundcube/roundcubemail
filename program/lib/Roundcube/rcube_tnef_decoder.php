@@ -149,10 +149,12 @@ class rcube_tnef_decoder
                 switch ($this->_geti($data, 8)) {
                     case self::LVL_MESSAGE:
                         $this->_decodeMessage($data, $message);
+
                         break;
 
                     case self::LVL_ATTACHMENT:
                         $this->_decodeAttachment($data, $attachments);
+
                         break;
                 }
             }
@@ -290,6 +292,7 @@ class rcube_tnef_decoder
                 switch ($named_type) {
                     case self::MAPI_NAMED_TYPE_ID:
                         $attr_name = $this->_geti($data, 32);
+
                         break;
 
                     case self::MAPI_NAMED_TYPE_STRING:
@@ -297,6 +300,7 @@ class rcube_tnef_decoder
                         $idlen     = $this->_geti($data, 32);
                         $name      = $this->_getx($data, $idlen + ((4 - ($idlen % 4)) % 4));
                         // $name      = $this->convertString(substr($name, 0, $idlen));
+
                         break;
 
                     case self::MAPI_NAMED_TYPE_NONE:
@@ -317,6 +321,7 @@ class rcube_tnef_decoder
                 case self::MAPI_SHORT:
                     $value = $this->_geti($data, 16);
                     $this->_geti($data, 16);
+
                     break;
 
                 case self::MAPI_INT:
@@ -324,11 +329,13 @@ class rcube_tnef_decoder
                     for ($i = 0; $i < $num_mval; $i++) {
                         $value = $this->_geti($data, 32);
                     }
+
                     break;
 
                 case self::MAPI_FLOAT:
                 case self::MAPI_ERROR:
                     $value = $this->_getx($data, 4);
+
                     break;
 
                 case self::MAPI_DOUBLE:
@@ -337,6 +344,7 @@ class rcube_tnef_decoder
                 case self::MAPI_INT8BYTE:
                 case self::MAPI_SYSTIME:
                     $value = $this->_getx($data, 8);
+
                     break;
 
                 case self::MAPI_STRING:
@@ -369,6 +377,7 @@ class rcube_tnef_decoder
                     $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled') . '.rtf';
                     $result['stream']  = $this->_decodeRTF($value);
                     $result['size']    = strlen($result['stream']);
+
                     break;
 
                 case self::MAPI_BODY:
@@ -379,11 +388,13 @@ class rcube_tnef_decoder
                         . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
                     $result['stream']  = $value;
                     $result['size']    = strlen($value);
+
                     break;
 
                 case self::MAPI_ATTACH_LONG_FILENAME:
                     // Used in preference to AFILENAME value.
                     $result['name'] = trim(preg_replace('/.*[\/](.*)$/', '\1', $value));
+
                     break;
 
                 case self::MAPI_ATTACH_MIME_TAG:
@@ -391,10 +402,12 @@ class rcube_tnef_decoder
                     $value = explode('/', trim($value));
                     $result['type']    = $value[0];
                     $result['subtype'] = $value[1];
+
                     break;
 
                 case self::MAPI_ATTACH_CONTENT_ID:
                     $result['content-id'] = $value;
+
                     break;
 
                 case self::MAPI_ATTACH_DATA:
@@ -402,6 +415,7 @@ class rcube_tnef_decoder
                     $att = new self();
                     $res = $att->decompress($value);
                     $result = array_merge($result, $res['message']);
+
                     break;
             }
         }
@@ -423,19 +437,24 @@ class rcube_tnef_decoder
                 // Find codepage of the message
                 $value = unpack('V', $value);
                 $this->codepage = $value[1];
+
                 break;
 
             case self::AMCLASS:
                 $value = trim(str_replace('Microsoft Mail v3.0 ', '', $value));
+
                 // Normal message will be that with prefix 'IPM.Microsoft Mail.
+
                 break;
 
             case self::ASUBJECT:
                 $message['name'] = $value;
+
                 break;
 
             case self::AMAPIPROPS:
                 $this->_extractMapiAttributes($value, $message);
+
                 break;
         }
     }
@@ -471,16 +490,19 @@ class rcube_tnef_decoder
                 $value = $this->convertString($value, true);
                 // Strip path
                 $attachment[0]['name'] = trim(preg_replace('/.*[\/](.*)$/', '\1', $value));
+
                 break;
 
             case self::ATTACHDATA:
                 // The attachment itself
                 $attachment[0]['size']   = $size;
                 $attachment[0]['stream'] = $value;
+
                 break;
 
             case self::AMAPIATTRS:
                 $this->_extractMapiAttributes($value, $attachment[0]);
+
                 break;
         }
     }
@@ -665,6 +687,7 @@ class rcube_tnef_decoder
                                 if ($ucDelta > 0) {
                                     $i += $ucDelta;
                                 }
+
                                 break;
                             case 'par':
                             case 'page':
@@ -672,50 +695,65 @@ class rcube_tnef_decoder
                             case 'line':
                             case 'lbr':
                                 $toText .= "\n";
+
                                 break;
                             case 'emspace':
                             case 'enspace':
                             case 'qmspace':
                                 $toText .= ' ';
+
                                 break;
                             case 'tab':
                                 $toText .= "\t";
+
                                 break;
                             case 'chdate':
                                 $toText .= date('m.d.Y');
+
                                 break;
                             case 'chdpl':
                                 $toText .= date('l, j F Y');
+
                                 break;
                             case 'chdpa':
                                 $toText .= date('D, j M Y');
+
                                 break;
                             case 'chtime':
                                 $toText .= date('H:i:s');
+
                                 break;
                             case 'emdash':
                                 $toText .= html_entity_decode('&mdash;');
+
                                 break;
                             case 'endash':
                                 $toText .= html_entity_decode('&ndash;');
+
                                 break;
                             case 'bullet':
                                 $toText .= html_entity_decode('&#149;');
+
                                 break;
                             case 'lquote':
                                 $toText .= html_entity_decode('&lsquo;');
+
                                 break;
                             case 'rquote':
                                 $toText .= html_entity_decode('&rsquo;');
+
                                 break;
                             case 'ldblquote':
                                 $toText .= html_entity_decode('&laquo;');
+
                                 break;
                             case 'rdblquote':
                                 $toText .= html_entity_decode('&raquo;');
+
                                 break;
                             default:
                                 $stack[$j][strtolower($word)] = empty($param) ? true : $param;
+
                                 break;
                         }
 
@@ -726,6 +764,7 @@ class rcube_tnef_decoder
                     }
 
                     $i++;
+
                     break;
 
                 case '{':
@@ -736,11 +775,13 @@ class rcube_tnef_decoder
                     } else {
                         $j++;
                     }
+
                     break;
 
                 case '}':
                     array_pop($stack);
                     $j--;
+
                     break;
 
                 case '\0':
@@ -755,6 +796,7 @@ class rcube_tnef_decoder
                     if (!empty($stack[$j]) && self::_rtfIsPlain($stack[$j])) {
                         $document .= $c;
                     }
+
                     break;
             }
         }

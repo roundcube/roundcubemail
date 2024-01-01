@@ -41,6 +41,7 @@ class filesystem_attachments extends rcube_plugin
                         'message' => "Can use only one plugin for attachments/file uploads! Using '$plugin_name', ignoring others.",
                     ], true, false
                 );
+
                 return;
             }
         }
@@ -121,6 +122,7 @@ class filesystem_attachments extends rcube_plugin
     function remove($args)
     {
         $args['status'] = $this->verify_path($args['path']) && @unlink($args['path']);
+
         return $args;
     }
 
@@ -132,6 +134,7 @@ class filesystem_attachments extends rcube_plugin
     function display($args)
     {
         $args['status'] = $this->verify_path($args['path']) && file_exists($args['path']);
+
         return $args;
     }
 

@@ -236,11 +236,13 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         foreach ($parts as $idx => $part) {
             if (strcasecmp($part, 'OR') === 0) {
                 $parts[$idx] = 'OR';
+
                 continue;
             }
 
             if (strcasecmp($part, 'AND') === 0) {
                 $parts[$idx] = 'AND';
+
                 continue;
             }
 
@@ -257,6 +259,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
 
                 if ($imap_query = self::search_input_option($option, $value)) {
                     $parts[$idx] = $not . $imap_query;
+
                     continue;
                 }
             }
@@ -276,6 +279,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 // Ignore OR on the start and end, and successive ORs
                 if ($idx === 0 || !isset($parts[$idx + 1]) || $parts[$idx + 1] == 'OR') {
                     unset($parts[$idx]);
+
                     continue;
                 }
 
@@ -284,6 +288,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 while ($index-- >= 0) {
                     if (isset($parts[$index])) {
                         $parts[$index] = 'OR ' . $parts[$index];
+
                         break;
                     }
                 }
@@ -394,6 +399,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                     }
                 } elseif (preg_match('|^([0-9]{4})[-/]([0-9]{1,2})[-/]([0-9]{1,2})$|i', $value, $m)) {
                     $dt = new DateTime(sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]) . 'T00:00:00Z');
+
                     return strtoupper($option) . ' ' . $dt->format('j-M-Y');
                 }
 
@@ -402,6 +408,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             default:
                 if (in_array($option, $supported)) {
                     $header = strtoupper($option);
+
                     return "HEADER {$header} {$escaped}";
                 }
         }

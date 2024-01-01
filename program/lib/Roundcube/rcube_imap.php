@@ -657,6 +657,7 @@ class rcube_imap extends rcube_storage
         foreach ($vendors as $v) {
             if (strpos($ident, $v) !== false) {
                 $vendor = $v;
+
                 break;
             }
         }
@@ -1755,6 +1756,7 @@ class rcube_imap extends rcube_storage
 
             if (!$messages->is_error()) {
                 $this->search_sorted = true;
+
                 return $messages;
             }
         }
@@ -3551,6 +3553,7 @@ class rcube_imap extends rcube_storage
 
         if (is_array($a_folders) && in_array($folder, $a_folders)) {
             $this->icache[$key][] = $folder;
+
             return true;
         }
 
@@ -3742,6 +3745,7 @@ class rcube_imap extends rcube_storage
                     foreach ($ns as $item) {
                         if ($item[0] === $mbox) {
                             $options['is_root'] = true;
+
                             break 2;
                         }
                     }
@@ -3756,6 +3760,7 @@ class rcube_imap extends rcube_storage
                 foreach ($namespace['other'] as $item) {
                     if ($item[0] === $mbox) {
                         $options['is_root'] = true;
+
                         break;
                     }
                 }

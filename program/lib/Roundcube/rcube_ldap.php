@@ -434,6 +434,7 @@ class rcube_ldap extends rcube_addressbook
                                     'message' => 'DN not found using LDAP search.',
                                 ], true
                             );
+
                             continue;
                         }
                     }
@@ -820,6 +821,7 @@ class rcube_ldap extends rcube_addressbook
                     $result->count++;
                 }
             }
+
             return $result;
         }
 
@@ -853,6 +855,7 @@ class rcube_ldap extends rcube_addressbook
                             if ($this->compare_search_value($f, $val, $search, $mode)) {
                                 $this->result->add($rec);
                                 $this->result->count++;
+
                                 break 2;
                             }
                         }
@@ -1158,6 +1161,7 @@ class rcube_ldap extends rcube_addressbook
         // check for name input
         if (empty($save_data['name'])) {
             $this->set_error(self::ERROR_VALIDATE, 'nonamewarning');
+
             return false;
         }
 
@@ -1205,6 +1209,7 @@ class rcube_ldap extends rcube_addressbook
             // TODO: generate message saying which fields are missing
             if (!empty($missing)) {
                 $this->set_error(self::ERROR_VALIDATE, 'formincomplete');
+
                 return false;
             }
         }
@@ -1243,6 +1248,7 @@ class rcube_ldap extends rcube_addressbook
         // TODO: generate message saying which fields are missing
         if ($missing) {
             $this->set_error(self::ERROR_VALIDATE, 'formincomplete');
+
             return false;
         }
 
@@ -1262,6 +1268,7 @@ class rcube_ldap extends rcube_addressbook
 
         if (!$this->ldap->add_entry($dn, $newentry)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
             return false;
         }
 
@@ -1341,6 +1348,7 @@ class rcube_ldap extends rcube_addressbook
                     } elseif ($old !== null) {
                         $subdata[$fld] = $old;
                     }
+
                     continue;
                 }
 
@@ -1376,6 +1384,7 @@ class rcube_ldap extends rcube_addressbook
             // Delete the fields.
             if (!$this->ldap->mod_del($dn, $deletedata)) {
                 $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
                 return false;
             }
         }
@@ -1397,6 +1406,7 @@ class rcube_ldap extends rcube_addressbook
             if (!empty($replacedata)) {
                 if (!$this->ldap->mod_replace($dn, $replacedata)) {
                     $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
                     return false;
                 }
             }
@@ -1422,6 +1432,7 @@ class rcube_ldap extends rcube_addressbook
             // Add the fields.
             if (!$this->ldap->mod_add($dn, $newdata)) {
                 $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
                 return false;
             }
         }
@@ -1430,6 +1441,7 @@ class rcube_ldap extends rcube_addressbook
         if (!empty($newrdn) && !empty($newdn)) {
             if (!$this->ldap->rename($dn, $newrdn, null, true)) {
                 $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
                 return false;
             }
 
@@ -1487,6 +1499,7 @@ class rcube_ldap extends rcube_addressbook
                     foreach ($entries as $entry) {
                         if (!$this->ldap->delete_entry($entry['dn'])) {
                             $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
                             return false;
                         }
                     }
@@ -1496,6 +1509,7 @@ class rcube_ldap extends rcube_addressbook
             // Delete the record.
             if (!$this->ldap->delete_entry($dn)) {
                 $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
                 return false;
             }
 
@@ -1575,6 +1589,7 @@ class rcube_ldap extends rcube_addressbook
                                 'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
                                 'message' => "Expression parse error on: ($code)",
                             ], true, false);
+
                         continue;
                     }
 
@@ -1616,6 +1631,7 @@ class rcube_ldap extends rcube_addressbook
             foreach (array_map('strtolower', (array) $rec['objectclass']) as $objcls) {
                 if (!empty($this->prop['class_type_map'][$objcls])) {
                     $out['_type'] = $this->prop['class_type_map'][$objcls];
+
                     break;
                 }
             }
@@ -1741,6 +1757,7 @@ class rcube_ldap extends rcube_addressbook
                     if ($dt = rcube_utils::anytodatetime($ldap_data[$fld])) {
                         $ldap_data[$fld] = $dt->format($format['format']);
                     }
+
                     break;
             }
         }
@@ -2055,6 +2072,7 @@ class rcube_ldap extends rcube_addressbook
 
         if (!$this->ldap->add_entry($new_dn, $new_entry)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
             return false;
         }
 
@@ -2079,6 +2097,7 @@ class rcube_ldap extends rcube_addressbook
 
         if (!$this->ldap->delete_entry($del_dn)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
             return false;
         }
 
@@ -2108,6 +2127,7 @@ class rcube_ldap extends rcube_addressbook
 
         if (!$this->ldap->rename($old_dn, $new_rdn, null, true)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
             return false;
         }
 
@@ -2143,6 +2163,7 @@ class rcube_ldap extends rcube_addressbook
 
         if (!$this->ldap->mod_add($group_dn, $new_attrs)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
             return 0;
         }
 
@@ -2178,6 +2199,7 @@ class rcube_ldap extends rcube_addressbook
 
         if (!$this->ldap->mod_del($group_dn, $del_attrs)) {
             $this->set_error(self::ERROR_SAVING, 'errorsaving');
+
             return 0;
         }
 
@@ -2283,6 +2305,7 @@ class rcube_ldap extends rcube_addressbook
     static function dn_decode($str)
     {
         $str = str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', \STR_PAD_RIGHT);
+
         return base64_decode($str);
     }
 }

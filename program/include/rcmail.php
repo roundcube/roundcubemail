@@ -250,6 +250,7 @@ class rcmail extends rcube
             // execute a plugin action
             if (preg_match('/^plugin\./', $this->action)) {
                 $this->plugins->exec_action($this->action);
+
                 break;
             }
 
@@ -259,6 +260,7 @@ class rcmail extends rcube
                     $this->action = 'index';
                 }
                 $this->plugins->exec_action("{$task}.{$this->action}");
+
                 break;
             }
 
@@ -556,6 +558,7 @@ class rcmail extends rcube
                         'is_html' => !empty($response['html']),
                         'static'  => true,
                     ];
+
                     break;
                 }
             }
@@ -668,6 +671,7 @@ class rcmail extends rcube
 
         if ($cookiecheck && empty($_COOKIE)) {
             $this->login_error = self::ERROR_COOKIES_DISABLED;
+
             return false;
         }
 
@@ -678,6 +682,7 @@ class rcmail extends rcube
         // check username input validity
         if (!$this->login_input_checks($username, $password)) {
             $this->login_error = self::ERROR_INVALID_REQUEST;
+
             return false;
         }
 
@@ -696,6 +701,7 @@ class rcmail extends rcube
 
         if (!$host) {
             $this->login_error = self::ERROR_INVALID_HOST;
+
             return false;
         }
 
@@ -760,6 +766,7 @@ class rcmail extends rcube
             // Brute-force prevention
             if ($user->is_locked()) {
                 $this->login_error = self::ERROR_RATE_LIMIT;
+
                 return false;
             }
         }
@@ -774,6 +781,7 @@ class rcmail extends rcube
 
             // Wait a second to slow down brute-force attacks (#1490549)
             sleep(1);
+
             return false;
         }
 
@@ -965,9 +973,11 @@ class rcmail extends rcube
                 foreach ($default_host as $storage_host => $mail_domains) {
                     if (is_array($mail_domains) && in_array_nocase($domain, $mail_domains)) {
                         $host = $storage_host;
+
                         break;
                     } elseif (stripos($storage_host, $domain) !== false || stripos(strval($mail_domains), $domain) !== false) {
                         $host = is_numeric($storage_host) ? $mail_domains : $storage_host;
+
                         break;
                     }
                 }
@@ -1153,6 +1163,7 @@ class rcmail extends rcube
             foreach (['REQUEST_URI', 'REDIRECT_SCRIPT_URL', 'SCRIPT_NAME'] as $name) {
                 if (!empty($_SERVER[$name])) {
                     $path = $_SERVER[$name];
+
                     break;
                 }
             }

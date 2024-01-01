@@ -659,6 +659,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 switch ($col) {
                     case 'name':
                         $val = rcube::Q(rcube_addressbook::compose_list_name($row));
+
                         break;
 
                     case 'action':
@@ -681,10 +682,12 @@ class rcmail_action_contacts_index extends rcmail_action
                         } else {
                             $val = null;
                         }
+
                         break;
 
                     default:
                         $val = rcube::Q($row[$col]);
+
                         break;
                 }
 
@@ -971,6 +974,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                 $legend = !empty($fieldset['name']) ? html::tag('legend', null, rcube::Q($fieldset['name'])) : '';
                 $out   .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) . "\n";
+
                 continue;
             }
 
@@ -1342,6 +1346,7 @@ class rcmail_action_contacts_index extends rcmail_action
     public static function format_date_col($val)
     {
         $rcmail = rcmail::get_instance();
+
         return $rcmail->format_date($val, $rcmail->config->get('date_format', 'Y-m-d'), false);
     }
 
@@ -1380,6 +1385,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
             if (!$result->count) {
                 unset($search[$s]);
+
                 continue;
             }
 

@@ -325,9 +325,11 @@ class password extends rcube_plugin
             switch ($type) {
                 case PASSWORD_COMPARE_CURRENT:
                     $result = $curpwd != $newpwd ? $this->gettext('passwordincorrect') : null;
+
                     break;
                 case PASSWORD_COMPARE_NEW:
                     $result = $curpwd == $newpwd ? $this->gettext('samepasswd') : null;
+
                     break;
                 default:
                     $result = $this->gettext('internalerror');
@@ -398,15 +400,19 @@ class password extends rcube_plugin
                 return;
             case PASSWORD_CRYPT_ERROR:
                 $reason = $this->gettext('crypterror');
+
                 break;
             case PASSWORD_CONNECT_ERROR:
                 $reason = $this->gettext('connecterror');
+
                 break;
             case PASSWORD_IN_HISTORY:
                 $reason = $this->gettext('passwdinhistory');
+
                 break;
             case PASSWORD_CONSTRAINT_VIOLATION:
                 $reason = $this->gettext('passwdconstraintviolation');
+
                 break;
             case PASSWORD_ERROR:
             default:
@@ -436,6 +442,7 @@ class password extends rcube_plugin
                         'message' => "Password plugin: Driver file does not exist ($file)",
                     ], true, false
                 );
+
                 return false;
             }
 
@@ -447,6 +454,7 @@ class password extends rcube_plugin
                         'message' => "Password plugin: Broken driver $driver",
                     ], true, false
                 );
+
                 return false;
             }
 
@@ -459,6 +467,7 @@ class password extends rcube_plugin
     function user_create($args)
     {
         $this->newuser = true;
+
         return $args;
     }
 
@@ -530,18 +539,21 @@ class password extends rcube_plugin
             case 'des-crypt':
                 $crypted = crypt($password, rcube_utils::random_bytes(2));
                 $prefix  = '{CRYPT}';
+
                 break;
 
             case 'ext_des': // for BC
             case 'ext-des-crypt':
                 $crypted = crypt($password, '_' . rcube_utils::random_bytes(8));
                 $prefix  = '{CRYPT}';
+
                 break;
 
             case 'md5crypt': // for BC
             case 'md5-crypt':
                 $crypted = crypt($password, '$1$' . rcube_utils::random_bytes(9));
                 $prefix  = '{MD5-CRYPT}';
+
                 break;
 
             case 'sha256-crypt':
@@ -554,6 +566,7 @@ class password extends rcube_plugin
 
                 $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
                 $prefix  = '{SHA256-CRYPT}';
+
                 break;
 
             case 'sha512-crypt':
@@ -566,6 +579,7 @@ class password extends rcube_plugin
 
                 $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
                 $prefix  = '{SHA512-CRYPT}';
+
                 break;
 
             case 'blowfish': // for BC
@@ -576,11 +590,13 @@ class password extends rcube_plugin
 
                 $crypted = crypt($password, $prefix . rcube_utils::random_bytes(22));
                 $prefix  = '{BLF-CRYPT}';
+
                 break;
 
             case 'md5':
                 $crypted = base64_encode(pack('H*', md5($password)));
                 $prefix  = '{MD5}';
+
                 break;
 
             case 'sha':
@@ -598,6 +614,7 @@ class password extends rcube_plugin
 
                 $crypted = base64_encode($crypted);
                 $prefix = '{SHA}';
+
                 break;
 
             case 'ssha':
@@ -619,6 +636,7 @@ class password extends rcube_plugin
 
                 $crypted = base64_encode($crypted . $salt);
                 $prefix  = '{SSHA}';
+
                 break;
 
                 // base64 encoded ssha256 for mailcow (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
@@ -638,6 +656,7 @@ class password extends rcube_plugin
 
                 $crypted = base64_encode($crypted . $salt);
                 $prefix  = '{SSHA256}';
+
                 break;
 
             case 'ssha512':
@@ -656,6 +675,7 @@ class password extends rcube_plugin
 
                 $crypted = base64_encode($crypted . $salt);
                 $prefix  = '{SSHA512}';
+
                 break;
 
             case 'smd5':
@@ -671,6 +691,7 @@ class password extends rcube_plugin
 
                 $crypted = base64_encode($crypted . $salt);
                 $prefix  = '{SMD5}';
+
                 break;
 
             case 'samba':
@@ -684,10 +705,12 @@ class password extends rcube_plugin
                         ], true, true
                     );
                 }
+
                 break;
 
             case 'ad':
                 $crypted = rcube_charset::convert('"' . $password . '"', RCUBE_CHARSET, 'UTF-16LE');
+
                 break;
 
             case 'dovecot':
@@ -708,6 +731,7 @@ class password extends rcube_plugin
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                             'message' => "Password plugin: Failed to execute command: $command",
                         ], true, false);
+
                     return false;
                 }
 
@@ -747,20 +771,24 @@ class password extends rcube_plugin
             case 'hash-bcrypt':
                 $crypted = password_hash($password, \PASSWORD_BCRYPT, $options);
                 $prefix  = '{BLF-CRYPT}';
+
                 break;
 
             case 'hash-argon2i':
                 $crypted = password_hash($password, \PASSWORD_ARGON2I, $options);
                 $prefix  = '{ARGON2I}';
+
                 break;
 
             case 'hash-argon2id':
                 $crypted = password_hash($password, \PASSWORD_ARGON2ID, $options);
                 $prefix  = '{ARGON2ID}';
+
                 break;
 
             case 'clear':
                 $crypted = $password;
+
                 break;
 
             default:

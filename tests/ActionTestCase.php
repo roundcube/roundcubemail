@@ -87,6 +87,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
         if ($file) {
             self::loadSQLScript($db, $file);
+
             return;
         }
 
@@ -187,6 +188,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail->plugins->register_hook('attachment_upload', static function ($att) use ($file) {
             $att['status'] = true;
             $att['id']     = $file['id'];
+
             return $att;
         });
 
@@ -228,6 +230,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail->plugins->register_hook('attachment_upload', static function ($att) use ($file) {
             $att['status'] = true;
             $att['id']     = $file['id'];
+
             return $att;
         });
 
@@ -282,6 +285,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
             }
 
             echo StderrMock::$output;
+
             throw $e;
         }
     }

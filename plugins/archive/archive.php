@@ -99,6 +99,7 @@ class archive extends rcube_plugin
         foreach ($list as $idx => $item) {
             if ($item['id'] == $folder) {
                 $list[$idx]['name'] = $new_name;
+
                 return true;
             } elseif (!empty($item['folders'])) {
                 if ($this->_mod_folder_name($list[$idx]['folders'], $folder, $new_name)) {
@@ -157,6 +158,7 @@ class archive extends rcube_plugin
         foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
             if (!$this->archive_folder || $mbox === $this->archive_folder || strpos($mbox, $archive_prefix) === 0) {
                 $count = count($uids);
+
                 continue;
             } elseif (!$archive_type || $archive_type == 'folder') {
                 $folder = $this->archive_folder;
@@ -184,32 +186,38 @@ class archive extends rcube_plugin
                     switch ($archive_type) {
                         case 'year':
                             $subfolder = $rcmail->format_date($message->timestamp, 'Y');
+
                             break;
 
                         case 'month':
                             $subfolder = $rcmail->format_date($message->timestamp, 'Y')
                                 . $delimiter . $rcmail->format_date($message->timestamp, 'm');
+
                             break;
 
                         case 'tbmonth':
                             $subfolder = $rcmail->format_date($message->timestamp, 'Y')
                                 . $delimiter . $rcmail->format_date($message->timestamp, 'Y')
                                 . '-' . $rcmail->format_date($message->timestamp, 'm');
+
                             break;
 
                         case 'sender':
                             $subfolder = $this->sender_subfolder($message->get('from'));
+
                             break;
 
                         case 'folderyear':
                             $subfolder = $rcmail->format_date($message->timestamp, 'Y')
                                 . $delimiter . $mbox;
+
                             break;
 
                         case 'foldermonth':
                             $subfolder = $rcmail->format_date($message->timestamp, 'Y')
                                 . $delimiter . $rcmail->format_date($message->timestamp, 'm')
                                 . $delimiter . $mbox;
+
                             break;
                     }
 
