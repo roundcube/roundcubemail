@@ -261,10 +261,13 @@ class Rcmail_RcmailOauth extends ActionTestCase
 
         $_SESSION['oauth_state'] = 'random-state'; // ensure state identiquals
         $_SESSION['oauth_nonce'] = 'wrong-nonce';
+
+        StderrMock::start();
         $response = $oauth->request_access_token('fake-code', 'random-state');
+        StderrMock::stop();
 
         $this->assertFalse($response);
-
+        $this->assertStringContainsString('identity\'s nonce mismatch', StderrMock::$output);
     }
 
 
@@ -371,6 +374,9 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ]);
     }
 
+    /**
+     * Test invalid properties in user_create
+     */
     function test_invalid_user_create()
     {
         $oauth = new rcmail_oauth_test();
@@ -386,12 +392,16 @@ class Rcmail_RcmailOauth extends ActionTestCase
                 ],
             ],
         ]);
+
+        StderrMock::start();
         $answer = $oauth->user_create([]);
+        StderrMock::stop();
 
-        //only user_name can be defined
+        // only user_name can be defined
         $this->assertSame($answer, ['user_name' => 'John Doe']);
+        $this->assertStringContainsString('ignoring invalid email', StderrMock::$output);
+        $this->assertStringContainsString('ignoring language', StderrMock::$output);
     }
-
 
     /**
      * Test refresh_access_token() method

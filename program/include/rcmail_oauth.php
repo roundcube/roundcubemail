@@ -872,7 +872,7 @@ class rcmail_oauth
      * @param array  $data          The payload from the request (will be updated)
      * @param array  $previous_data The data from a previous request
      *
-     * @return array
+     * @return array Token properties:
      *               1st element: the bearer authorization to use on different transports
      *               2nd element: the decoded identity
      */
@@ -912,7 +912,6 @@ class rcmail_oauth
         // (> 0, it means that all token generated before this timestamp date are compromisd and that we need to download a new version of JWKS)
         if (!empty($data['not-before-policy']) && $data['not-before-policy'] > 0) {
             $this->log_debug('all tokens generated before %s timestmp are compromised', $data['not-before-policy']);
-            // TODO
         }
 
         // please note that id_token / identity may have changed, could be interesting to grab it and refresh values, right now it is not used
@@ -1011,13 +1010,13 @@ class rcmail_oauth
         }
 
         if (!empty($this->last_error)) {
-            //TODO: challenge this part, what about transcient errors ?
+            // TODO: challenge this part, what about transcient errors ?
             $this->log_debug('abort, got an previous error %s', $this->last_error);
             return self::TOKEN_ERROR;
         }
 
         if ($this->refresh_access_token($token) === false) {
-            //FIXME: can have 2 kind of errors: transcient (can retry) or non recovreable error
+            // FIXME: can have 2 kind of errors: transcient (can retry) or non recovreable error
             // currently it's up to refresh_access_token to kill_session is necessary
             $this->log_debug('token refresh failed: %s', $this->last_error);
             return self::TOKEN_REFRESH_FAILED;
