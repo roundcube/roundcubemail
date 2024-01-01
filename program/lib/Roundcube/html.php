@@ -824,7 +824,7 @@ class html_table extends html
      */
     public function add_row($attr = [])
     {
-        $this->rowindex++;
+        ++$this->rowindex;
         $this->colindex = 0;
         $this->rows[$this->rowindex] = new stdClass;
         $this->rows[$this->rowindex]->attrib = $attr;

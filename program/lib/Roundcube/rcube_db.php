@@ -538,7 +538,7 @@ class rcube_db
                 }
 
                 $query = substr_replace($query, $q, $pos, 1);
-                $pos++;
+                ++$pos;
             }
         }
 

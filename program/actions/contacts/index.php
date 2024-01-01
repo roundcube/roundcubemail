@@ -284,9 +284,9 @@ class rcmail_action_contacts_index extends rcmail_action
             $count     = 0;
 
             foreach ($js_list as $sid => $s) {
-                $count++;
+                ++$count;
                 if (!$s['readonly']) {
-                    $writeable++;
+                    ++$writeable;
                 }
                 // unset hidden sources
                 if (!empty($s['hidden'])) {
@@ -1080,13 +1080,13 @@ class rcmail_action_contacts_index extends rcmail_action
                                     $composite['{' . $childcol . '}'] = html::span('data ' . $childcol, $childval) . ' ';
                                 }
 
-                                $j++;
+                                ++$j;
                             }
 
                             $coltypes[$field] += (array) $colprop;
 
                             if (isset($coltypes[$field]['count'])) {
-                                $coltypes[$field]['count']++;
+                                ++$coltypes[$field]['count'];
                             }
                             else {
                                 $coltypes[$field]['count'] = 1;
@@ -1124,7 +1124,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                 $coltypes[$field]['count'] = 1;
                             }
                             else {
-                                $coltypes[$field]['count']++;
+                                ++$coltypes[$field]['count'];
                             }
                         }
                         elseif (!empty($colprop['render_func'])) {
@@ -1194,7 +1194,7 @@ class rcmail_action_contacts_index extends rcmail_action
                     // add option to the add-field menu
                     if (empty($colprop['limit']) || empty($coltypes[$field]['count']) || $coltypes[$field]['count'] < $colprop['limit']) {
                         $select_add->add($colprop['label'], $col);
-                        $select_add_count++;
+                        ++$select_add_count;
                     }
 
                     // wrap rows in fieldgroup container

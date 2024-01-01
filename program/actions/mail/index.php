@@ -1402,7 +1402,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         foreach ($a_parts as $part) {
-            $j++;
+            ++$j;
 
             $name   = $part['name'];
             $mailto = $part['mailto'];

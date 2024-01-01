@@ -87,7 +87,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
         if (preg_match('/^From\s+-/', $line) && $lastline == '') {
             if (!empty($message)) {
                 if ($IMAP->save_message($args['mbox'], rtrim($message))) {
-                    $count++;
+                    ++$count;
                 }
                 else {
                     rcube::raise_error("Failed to save message to {$args['mbox']}", false, true);
@@ -102,7 +102,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
     }
 
     if (!empty($message) && $IMAP->save_message($args['mbox'], rtrim($message))) {
-        $count++;
+        ++$count;
     }
 
     // upload message from file

@@ -693,12 +693,12 @@ class rcube_html2text
                 // nested <blockquote>, skip
                 if ($next !== false && $next < $end) {
                     $offset = $next + 12;
-                    $level++;
+                    ++$level;
                 }
                 // nested </blockquote> tag
                 if ($end !== false && $level > 0) {
                     $offset = $end + 12;
-                    $level--;
+                    --$level;
                 }
                 // found matching end tag
                 elseif ($end !== false && $level == 0) {

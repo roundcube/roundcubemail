@@ -94,7 +94,6 @@ return (new PhpCsFixer\Config())
             'import_symbols' => false,
         ],
         'general_phpdoc_annotation_remove' => false,
-        'increment_style' => false,
         'method_argument_space' => false,
         'modernize_types_casting' => false,
         'new_with_parentheses' => false,

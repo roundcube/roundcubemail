@@ -179,7 +179,7 @@ class rcube_mime_decode
                     $default_ctype = $ctype === 'multipart/digest' ? 'message/rfc822' : 'text/plain';
                     $parts         = $this->boundarySplit($body, $content_type['other']['boundary']);
 
-                    for ($i = 0; $i < count($parts); $i++) {
+                    for ($i = 0; $i < count($parts); ++$i) {
                         [$part_header, $part_body] = $this->splitBodyHeader($parts[$i]);
                         $return->parts[] = $this->do_decode($part_header, $part_body, $default_ctype);
                     }
@@ -297,7 +297,7 @@ class rcube_mime_decode
         if (!empty($parts)) {
             $return['value'] = trim($parts[0]);
 
-            for ($n = 1; $n < count($parts); $n++) {
+            for ($n = 1; $n < count($parts); ++$n) {
                 if (preg_match('/^([[:alnum:]]+)="?([^"]*)"?+/', $parts[$n], $matches)) {
                     $return['other'][strtolower($matches[1])] = $matches[2];
                 }
@@ -339,7 +339,7 @@ class rcube_mime_decode
         $tmp   = explode('--' . $boundary, $input);
         $parts = [];
 
-        for ($i = 1; $i < count($tmp) - 1; $i++) {
+        for ($i = 1; $i < count($tmp) - 1; ++$i) {
             $parts[] = $tmp[$i];
         }
 

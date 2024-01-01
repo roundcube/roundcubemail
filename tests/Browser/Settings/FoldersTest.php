@@ -121,7 +121,7 @@ class FoldersTest extends \Tests\Browser\TestCase
 
             $browser->closeMessage('confirmation');
 
-            $num++;
+            ++$num;
 
             // Folders list
             $browser->with('#subscription-table', static function ($browser) use ($num) {

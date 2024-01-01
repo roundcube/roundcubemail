@@ -158,7 +158,7 @@ class enigma_key
         }
 
         $result = '';
-        for ($i = 0; $i < 40; $i++) {
+        for ($i = 0; $i < 40; ++$i) {
             if ($i % 4 == 0) {
                 $result .= ' ';
             }

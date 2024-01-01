@@ -66,7 +66,7 @@ function export_mailbox($mbox, $filename)
         $out = \STDOUT;
     }
 
-    for ($i = 0; $i < $count; $i++) {
+    for ($i = 0; $i < $count; ++$i) {
         $headers = $IMAP->get_message_headers($index[$i]);
         $from = current(rcube_mime::decode_address_list($headers->from, 1, false));
 

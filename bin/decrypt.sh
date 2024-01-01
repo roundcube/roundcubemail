@@ -61,6 +61,6 @@ if ($argc < 2) {
 
 $RCMAIL = rcube::get_instance();
 
-for ($i = 1; $i < $argc; $i++) {
+for ($i = 1; $i < $argc; ++$i) {
     printf("%s\n", $RCMAIL->decrypt($argv[$i]));
 }

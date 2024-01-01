@@ -338,7 +338,7 @@ function validate_boolean($value, $fieldName)
 
 function echo_identities($identities)
 {
-    for ($i = 0; $i < count($identities); $i++) {
+    for ($i = 0; $i < count($identities); ++$i) {
         foreach ($identities[$i] as $key => $val) {
             $diff = 17 - strlen($key);
             $separator = $diff > 0 ? str_repeat(' ', $diff) : '';

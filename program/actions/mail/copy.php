@@ -43,7 +43,7 @@ class rcmail_action_mail_copy extends rcmail_action_mail_index
 
         foreach ($uids as $mbox => $uids) {
             if ($mbox === $target) {
-                $copied++;
+                ++$copied;
             }
             else {
                 $copied += (int) $rcmail->storage->copy_message($uids, $target, $mbox);

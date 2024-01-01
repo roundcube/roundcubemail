@@ -283,7 +283,7 @@ class rcmail extends rcube
                     break;
                 }
                 $handler->run($this->action_args);
-                $redirects++;
+                ++$redirects;
             }
             else {
                 break;
@@ -1674,7 +1674,7 @@ class rcmail extends rcube
 
         // parse format string manually in order to provide localized weekday and month names
         $out = '';
-        for ($i = 0; $i < strlen($format); $i++) {
+        for ($i = 0; $i < strlen($format); ++$i) {
             if ($format[$i] == '\\') {  // skip escape chars
                 continue;
             }

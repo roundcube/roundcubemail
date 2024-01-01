@@ -38,7 +38,7 @@ class virtuser_file extends rcube_plugin
         $r = $this->findinvirtual('/\s' . preg_quote($p['user'], '/') . '\s*$/');
         $result = [];
 
-        for ($i = 0; $i < count($r); $i++) {
+        for ($i = 0; $i < count($r); ++$i) {
             $arr = preg_split('/\s+/', $r[$i]);
 
             if (count($arr) > 0 && strpos($arr[0], '@')) {
@@ -63,7 +63,7 @@ class virtuser_file extends rcube_plugin
     {
         $r = $this->findinvirtual('/^' . preg_quote($p['email'], '/') . '\s/');
 
-        for ($i = 0; $i < count($r); $i++) {
+        for ($i = 0; $i < count($r); ++$i) {
             $arr = preg_split('/\s+/', trim($r[$i]));
 
             if (count($arr) > 0) {

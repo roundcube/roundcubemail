@@ -321,7 +321,7 @@ class HTTPSocket
                     exit('Too many redirects on: ' . $headers['location']);
                 }
 
-                $this->max_redirects--;
+                --$this->max_redirects;
                 $this->redirectURL = $headers['location'];
                 $this->query($headers['location'], $content);
             }

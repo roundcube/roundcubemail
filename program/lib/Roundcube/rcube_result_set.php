@@ -66,7 +66,7 @@ class rcube_result_set implements Iterator, ArrayAccess
     {
         $current = $this->current();
 
-        $this->current++;
+        ++$this->current;
 
         return $current;
     }
