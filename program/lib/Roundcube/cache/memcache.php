@@ -96,8 +96,7 @@ class rcube_cache_memcache extends rcube_cache
                 if (!$port) {
                     $port = 11211;
                 }
-            }
-            else {
+            } else {
                 $port = 0;
             }
 

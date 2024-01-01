@@ -57,12 +57,10 @@ class archive extends rcube_plugin
             // set env variables for client
             $rcmail->output->set_env('archive_folder', $this->archive_folder);
             $rcmail->output->set_env('archive_type', $rcmail->config->get('archive_type', ''));
-        }
-        elseif ($rcmail->task == 'mail') {
+        } elseif ($rcmail->task == 'mail') {
             // handler for ajax request
             $this->register_action('plugin.move2archive', [$this, 'move_messages']);
-        }
-        elseif ($rcmail->task == 'settings') {
+        } elseif ($rcmail->task == 'settings') {
             $this->add_hook('preferences_list', [$this, 'prefs_table']);
             $this->add_hook('preferences_save', [$this, 'prefs_save']);
 
@@ -84,8 +82,7 @@ class archive extends rcube_plugin
         if ($this->archive_folder && !rcmail::get_instance()->config->get('show_real_foldernames')) {
             if (isset($p['list'][$this->archive_folder])) {
                 $p['list'][$this->archive_folder]['name'] = $this->gettext('archivefolder');
-            }
-            else {
+            } else {
                 // search in subfolders
                 $this->_mod_folder_name($p['list'], $this->archive_folder, $this->gettext('archivefolder'));
             }
@@ -103,8 +100,7 @@ class archive extends rcube_plugin
             if ($item['id'] == $folder) {
                 $list[$idx]['name'] = $new_name;
                 return true;
-            }
-            elseif (!empty($item['folders'])) {
+            } elseif (!empty($item['folders'])) {
                 if ($this->_mod_folder_name($list[$idx]['folders'], $folder, $new_name)) {
                     return true;
                 }
@@ -162,8 +158,7 @@ class archive extends rcube_plugin
             if (!$this->archive_folder || $mbox === $this->archive_folder || strpos($mbox, $archive_prefix) === 0) {
                 $count = count($uids);
                 continue;
-            }
-            elseif (!$archive_type || $archive_type == 'folder') {
+            } elseif (!$archive_type || $archive_type == 'folder') {
                 $folder = $this->archive_folder;
 
                 if ($archive_type == 'folder') {
@@ -175,8 +170,7 @@ class archive extends rcube_plugin
                 $this->subfolder_worker($folder);
 
                 $count += $this->move_messages_worker($uids, $mbox, $folder, $read_on_move);
-            }
-            else {
+            } else {
                 if ($uids == '*') {
                     $index = $storage->index(null, $sort_col, $sort_ord);
                     $uids  = $index->get();
@@ -247,8 +241,7 @@ class archive extends rcube_plugin
             // FIXME: send updated message rows instead of reloading the entire list
             $rcmail->output->command('refresh_list');
             $addrows = false;
-        }
-        else {
+        } else {
             $addrows = true;
         }
 
@@ -260,8 +253,7 @@ class archive extends rcube_plugin
         if ($from_show_action) {
             if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
-            }
-            else {
+            } else {
                 $rcmail->output->command('command', 'list');
             }
 
@@ -316,8 +308,7 @@ class archive extends rcube_plugin
 
         if ($this->result['reload']) {
             $rcmail->output->show_message($this->gettext('archivedreload'), 'confirmation');
-        }
-        else {
+        } else {
             $rcmail->output->show_message($this->gettext('archived'), 'confirmation');
 
             if (!$read_on_move) {
@@ -415,8 +406,7 @@ class archive extends rcube_plugin
                         'onchange'      => "if ($(this).val() == 'INBOX') $(this).val('')",
                         'class'         => 'custom-select',
                 ]);
-            }
-            else {
+            } else {
                 $select = new html_select();
             }
 
@@ -449,8 +439,7 @@ class archive extends rcube_plugin
                     ],
                 ];
             }
-        }
-        elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
+        } elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
             $chbox = new html_checkbox(['name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1]);
             $args['blocks']['main']['options']['read_on_archive'] = [
                 'title'   => html::label('ff_read_on_archive', rcube::Q($this->gettext('readonarchive'))),
@@ -475,8 +464,7 @@ class archive extends rcube_plugin
 
         if ($args['section'] == 'folders' && !in_array('archive_mbox', $dont_override)) {
             $args['prefs']['archive_type'] = rcube_utils::get_input_string('_archive_type', rcube_utils::INPUT_POST);
-        }
-        elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
+        } elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
             $args['prefs']['read_on_archive'] = (bool) rcube_utils::get_input_value('_read_on_archive', rcube_utils::INPUT_POST);
         }
 

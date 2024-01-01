@@ -145,8 +145,7 @@ class rcube_user
                     $this->rc->session->remove('preferences');
                     $this->rc->session->remove('preferences_time');
                     $this->save_prefs($saved_prefs);
-                }
-                else {
+                } else {
                     $this->data['preferences'] = $_SESSION['preferences'];
                 }
             }
@@ -522,8 +521,7 @@ class rcube_user
             if (empty($this->data['failed_login'])) {
                 $failed_login = new DateTime('now');
                 $counter      = 1;
-            }
-            else {
+            } else {
                 $failed_login = new DateTime($this->data['failed_login']);
                 $threshold    = new DateTime('- 60 seconds');
 
@@ -696,8 +694,7 @@ class rcube_user
                         continue;
                     }
                     $record = $row;
-                }
-                else {
+                } else {
                     $record['email'] = $row;
                 }
 
@@ -717,8 +714,7 @@ class rcube_user
 
                 $standard = 0;
             }
-        }
-        else {
+        } else {
             rcube::raise_error([
                     'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
                     'message' => 'Failed to create new user',

@@ -55,8 +55,7 @@ class identicon_engine
                     $bgcolor = "#{$bgcolor}";
                 }
                 $this->bgcolor = $bgcolor;
-            }
-            elseif ($bgcolor === 'transparent') {
+            } elseif ($bgcolor === 'transparent') {
                 $this->bgcolor = $bgcolor;
             }
         }
@@ -132,8 +131,7 @@ class identicon_engine
         // really generate the image using supported methods
         if (function_exists('imagepng')) {
             $this->generateGD();
-        }
-        else {
+        } else {
             // log an error
             $error = [
                 'code'    => 500,
@@ -158,8 +156,7 @@ class identicon_engine
         if ($this->bgcolor === 'transparent') {
             $bgcolor = imagecolorallocatealpha($image, 0, 0, 0, 127);
             imagesavealpha($image, true);
-        }
-        else {
+        } else {
             $bgcolor = $this->toRGB($this->bgcolor);
             $bgcolor = imagecolorallocate($image, $bgcolor[0], $bgcolor[1], $bgcolor[2]);
         }

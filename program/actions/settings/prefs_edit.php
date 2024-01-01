@@ -73,15 +73,13 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
                     if (isset($option['title'])) {
                         $table->add('title', $option['title']);
                         $table->add(null, $option['content']);
-                    }
-                    else {
+                    } else {
                         $table->add(['colspan' => 2], $option['content']);
                     }
                 }
 
                 $out .= html::tag('fieldset', $class, html::tag('legend', null, $block['name']) . $table->show($attrib));
-            }
-            elseif (!empty($block['content'])) {
+            } elseif (!empty($block['content'])) {
                 $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $block['content']);
             }
         }

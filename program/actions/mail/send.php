@@ -157,16 +157,14 @@ class rcmail_action_mail_send extends rcmail_action
                         ],
                         true, false
                     );
-                }
-                else {
+                } else {
                     $COMPOSE['spell_checked'] = true;
 
                     if (!$spell_result) {
                         if ($isHtml) {
                             $result['words']      = $spellchecker->get();
                             $result['dictionary'] = (bool) $rcmail->config->get('spellcheck_dictionary');
-                        }
-                        else {
+                        } else {
                             $result = $spellchecker->get_xml();
                         }
 
@@ -286,8 +284,7 @@ class rcmail_action_mail_send extends rcmail_action
 
             // start the auto-save timer again
             $rcmail->output->command('auto_save_start');
-        }
-        else {
+        } else {
             // Collect folders which could contain the composed message,
             // we'll refresh the list if currently opened folder is one of them (#1490238)
             $folders    = [];
@@ -311,8 +308,7 @@ class rcmail_action_mail_send extends rcmail_action
                 }
 
                 $save_error = true;
-            }
-            else {
+            } else {
                 $rcmail->delete_uploaded_files($COMPOSE_ID);
                 $rcmail->session->remove('compose_data_' . $COMPOSE_ID);
                 $_SESSION['last_compose_session'] = $COMPOSE_ID;
@@ -361,8 +357,7 @@ class rcmail_action_mail_send extends rcmail_action
                 $cid = preg_replace('/[^0-9a-zA-Z]/', '', uniqid(time(), true));
                 if (preg_match('#(@[0-9a-zA-Z\-\.]+)#', $SENDMAIL->options['from'], $matches)) {
                     $cid .= $matches[1];
-                }
-                else {
+                } else {
                     $cid .= '@localhost';
                 }
 
@@ -380,8 +375,7 @@ class rcmail_action_mail_send extends rcmail_action
                 }
 
                 $message->addHTMLImage($file, $ctype, $attachment['name'], $is_file, $cid);
-            }
-            else {
+            } else {
                 $message->addAttachment($file,
                     $ctype,
                     $attachment['name'],

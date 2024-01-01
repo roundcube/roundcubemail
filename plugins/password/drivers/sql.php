@@ -45,8 +45,7 @@ class rcube_sql_password
         if ($dsn = $rcmail->config->get('password_db_dsn')) {
             $db = rcube_db::factory(self::parse_dsn($dsn), '', false);
             $db->set_debug((bool) $rcmail->config->get('sql_debug'));
-        }
-        else {
+        } else {
             $db = $rcmail->get_dbh();
         }
 
@@ -83,8 +82,7 @@ class rcube_sql_password
                 if ($var == '%p') {
                     $sql = preg_replace('/%p/', '?', $sql, 1);
                     $sql_vars[] = (string) $passwd;
-                }
-                else { // %o
+                } else { // %o
                     $sql = preg_replace('/%o/', '?', $sql, 1);
                     $sql_vars[] = (string) $curpass;
                 }
@@ -101,8 +99,7 @@ class rcube_sql_password
             $domain_part = rcube_utils::idn_to_ascii($domain_part);
             $username    = rcube_utils::idn_to_ascii($username);
             $host        = rcube_utils::idn_to_ascii($host);
-        }
-        else {
+        } else {
             $domain_part = rcube_utils::idn_to_utf8($domain_part);
             $username    = rcube_utils::idn_to_utf8($username);
             $host        = rcube_utils::idn_to_utf8($host);
@@ -121,8 +118,7 @@ class rcube_sql_password
                 if ($db->fetch_array($res)) {
                     return PASSWORD_SUCCESS;
                 }
-            }
-            else {
+            } else {
                 // Note: Don't be tempted to check affected_rows = 1. For some queries
                 // (e.g. INSERT ... ON DUPLICATE KEY UPDATE) the result can be 2.
                 if ($db->affected_rows($res) > 0) {

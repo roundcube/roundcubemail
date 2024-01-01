@@ -30,8 +30,7 @@ class Taskmenu extends Component
     {
         if ($browser->isPhone()) {
             $browser->assertPresent($this->selector());
-        }
-        else {
+        } else {
             $browser->assertVisible($this->selector());
         }
     }

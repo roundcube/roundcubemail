@@ -107,8 +107,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
 
         if (!empty($result) && !$result->count && $result->searchonly) {
             $rcmail->output->show_message('contactsearchonly', 'notice');
-        }
-        elseif (!empty($result) && $result->count > 0) {
+        } elseif (!empty($result) && $result->count > 0) {
             // create javascript list
             while ($row = $result->next()) {
                 $name = rcube_addressbook::compose_list_name($row);

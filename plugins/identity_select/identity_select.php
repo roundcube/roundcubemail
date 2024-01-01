@@ -42,8 +42,7 @@ class identity_select extends rcube_plugin
 
             if (isset($p['fetch_headers'])) {
                 $p['fetch_headers'] .= ' ' . $add_headers;
-            }
-            else {
+            } else {
                 $p['fetch_headers'] = $add_headers;
             }
         }

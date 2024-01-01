@@ -105,11 +105,9 @@ class rcube_mime_decode
             if (isset($return->headers[$header_name]) && !is_array($return->headers[$header_name])) {
                 $return->headers[$header_name]   = [$return->headers[$header_name]];
                 $return->headers[$header_name][] = $value['value'];
-            }
-            elseif (isset($return->headers[$header_name])) {
+            } elseif (isset($return->headers[$header_name])) {
                 $return->headers[$header_name][] = $value['value'];
-            }
-            else {
+            } else {
                 $return->headers[$header_name] = $value['value'];
             }
 
@@ -205,8 +203,7 @@ class rcube_mime_decode
 
                     break;
             }
-        }
-        else {
+        } else {
             $ctype = explode('/', $default_ctype);
             $return->ctype_primary   = $ctype[0];
             $return->ctype_secondary = $ctype[1];
@@ -312,14 +309,12 @@ class rcube_mime_decode
 
                     if (isset($return['other'][$key])) {
                         $return['other'][$key] .= $val;
-                    }
-                    else {
+                    } else {
                         $return['other'][$key] = $val;
                     }
                 }
             }
-        }
-        else {
+        } else {
             $return['value'] = trim($input);
         }
 
@@ -393,8 +388,7 @@ class rcube_mime_decode
         // determine filename
         if (!empty($part->d_parameters['filename'])) {
             $filename = $part->d_parameters['filename'];
-        }
-        elseif (!empty($part->ctype_parameters['name'])) {
+        } elseif (!empty($part->ctype_parameters['name'])) {
             $filename = $part->ctype_parameters['name'];
         }
 

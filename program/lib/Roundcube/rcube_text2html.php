@@ -91,8 +91,7 @@ class rcube_text2html
     {
         if ($from_file && file_exists($source)) {
             $this->text = file_get_contents($source);
-        }
-        else {
+        } else {
             $this->text = $source;
         }
 
@@ -178,27 +177,23 @@ class rcube_text2html
                             . $text[$n];
 
                         unset($text[$n]);
-                    }
-                    else {
+                    } else {
                         $text[$n] = $replacer->get_replacement($replacer->add(
                             str_repeat('<blockquote>', $q - $quote_level))) . $text[$n];
 
                         $last = $n;
                     }
-                }
-                elseif ($q < $quote_level) {
+                } elseif ($q < $quote_level) {
                     $text[$last] .= (!$length ? "\n" : '')
                         . $replacer->get_replacement($replacer->add(
                             str_repeat('</blockquote>', $quote_level - $q)))
                         . $text[$n];
 
                     unset($text[$n]);
-                }
-                else {
+                } else {
                     $last = $n;
                 }
-            }
-            else {
+            } else {
                 $text[$n] = $this->convert_line($text[$n]);
                 $q        = 0;
                 $_length  = strlen(str_replace(' ', '', $text[$n]));
@@ -210,8 +205,7 @@ class rcube_text2html
                         . $text[$n];
 
                     unset($text[$n]);
-                }
-                else {
+                } else {
                     $last = $n;
                 }
             }
@@ -287,8 +281,7 @@ class rcube_text2html
             if (!in_array($text[0], [' ', '-', '+', '@'])) {
                 $this->nowrap = false;
             }
-        }
-        else {
+        } else {
             // Detect start of a unified diff
             // TODO: Support normal diffs
             // TODO: Support diff header and comment

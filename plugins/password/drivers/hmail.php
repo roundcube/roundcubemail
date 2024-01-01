@@ -33,12 +33,10 @@ class rcube_hmail_password
             $remote = $rcmail->config->get('hmailserver_remote_dcom', false);
             if ($remote) {
                 $obApp = new COM('hMailServer.Application', $rcmail->config->get('hmailserver_server'));
-            }
-            else {
+            } else {
                 $obApp = new COM('hMailServer.Application');
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             rcube::write_log('errors', 'Plugin password (hmail driver): ' . trim(strip_tags($e->getMessage())));
             rcube::write_log('errors', 'Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.');
 
@@ -47,8 +45,7 @@ class rcube_hmail_password
 
         if (strstr($username, '@')) {
             [, $domain] = explode('@', $username);
-        }
-        else {
+        } else {
             $domain = $rcmail->config->get('username_domain', false);
             if (!$domain) {
                 rcube::write_log('errors', 'Plugin password (hmail driver): $config[\'username_domain\'] is not defined.');
@@ -66,8 +63,7 @@ class rcube_hmail_password
             $obAccount->Save();
 
             return PASSWORD_SUCCESS;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             rcube::write_log('errors', 'Plugin password (hmail driver): ' . trim(strip_tags($e->getMessage())));
             rcube::write_log('errors', 'Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.');
 

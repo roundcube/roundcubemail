@@ -1308,8 +1308,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         // #1486114, #1488279, #1489219
                         $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
-                    }
-                    else {
+                    } else {
                         $onchange = null;
                         $select   = new html_select();
                     }
@@ -1547,8 +1546,7 @@ class rcmail_action_settings_index extends rcmail_action
 
             if (!$found) {
                 unset($sections[$idx]);
-            }
-            else {
+            } else {
                 $sections[$idx]['blocks'] = $data['blocks'];
             }
 
@@ -1634,8 +1632,7 @@ class rcmail_action_settings_index extends rcmail_action
             if (empty($action['command']) && !empty($action['action'])) {
                 $action['prop'] = $action['action'];
                 $action['command'] = 'show';
-            }
-            elseif (empty($action['command']) || $action['command'] != 'show') {
+            } elseif (empty($action['command']) || $action['command'] != 'show') {
                 // Backwards compatibility, show command added in 1.4
                 $action['prop']    = !empty($action['command']) ? $action['command'] : null;
                 $action['command'] = 'show';
@@ -1665,8 +1662,7 @@ class rcmail_action_settings_index extends rcmail_action
             }
             if (!empty($action['class'])) {
                 $classnames[] = $action['class'];
-            }
-            elseif (!empty($cmd)) {
+            } elseif (!empty($cmd)) {
                 $classnames[] = $cmd;
             }
             if ($cmd == $selected && !empty($attrib['selclass'])) {
@@ -1742,8 +1738,7 @@ class rcmail_action_settings_index extends rcmail_action
                 'key'    => $sortkey,
                 'offset' => $date->format('P'),
             ];
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             // ignore
         }
     }

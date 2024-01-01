@@ -89,8 +89,7 @@ class rcube_result_set implements Iterator, ArrayAccess
         if ($offset === null) {
             $offset = count($this->records);
             $this->records[] = $value;
-        }
-        else {
+        } else {
             $this->records[$offset] = $value;
         }
     }

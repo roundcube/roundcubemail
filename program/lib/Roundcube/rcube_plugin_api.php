@@ -320,8 +320,7 @@ class rcube_plugin_api
         if (!class_exists($plugin_name, false)) {
             if (is_readable($fn)) {
                 include $fn;
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -425,8 +424,7 @@ class rcube_plugin_api
         // At least provide the name
         if (!$info && class_exists($plugin_name)) {
             $info = ['name' => $plugin_name, 'version' => '--'];
-        }
-        elseif (!empty($info['license'])) {
+        } elseif (!empty($info['license'])) {
             // Convert license identifier to something shorter
             if (preg_match('/^([ALGP]+)[-v]([0-9.]+)(\+|-or-later)?/', $info['license'], $matches)) {
                 $info['license'] = $matches[1] . '-' . sprintf('%.1f', $matches[2])
@@ -460,8 +458,7 @@ class rcube_plugin_api
                 $hook = $this->deprecated_hooks[$hook];
             }
             $this->handlers[$hook][] = $callback;
-        }
-        else {
+        } else {
             rcube::raise_error([
                     'code' => 521, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Invalid callback function for $hook",
@@ -542,8 +539,7 @@ class rcube_plugin_api
         // check action name
         if ($task) {
             $action = $task . '.' . $action;
-        }
-        elseif (strpos($action, 'plugin.') !== 0) {
+        } elseif (strpos($action, 'plugin.') !== 0) {
             $action = 'plugin.' . $action;
         }
 
@@ -551,8 +547,7 @@ class rcube_plugin_api
         if (!isset($this->actionmap[$action]) || $this->actionmap[$action] == $owner) {
             $this->actions[$action] = $callback;
             $this->actionmap[$action] = $owner;
-        }
-        else {
+        } else {
             rcube::raise_error([
                     'code' => 523, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register action $action; already taken by another plugin",
@@ -572,8 +567,7 @@ class rcube_plugin_api
     {
         if (isset($this->actions[$action])) {
             call_user_func($this->actions[$action]);
-        }
-        elseif (rcube::get_instance()->action != 'refresh') {
+        } elseif (rcube::get_instance()->action != 'refresh') {
             rcube::raise_error([
                     'code' => 524, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "No handler found for action $action",
@@ -603,8 +597,7 @@ class rcube_plugin_api
         ) {
             $this->output->add_handler($name, $callback);
             $this->objectsmap[$name] = $owner;
-        }
-        else {
+        } else {
             rcube::raise_error([
                     'code' => 525, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register template handler $name;"
@@ -636,8 +629,7 @@ class rcube_plugin_api
                 ],
                 true, false
             );
-        }
-        elseif (in_array($task, rcmail::$main_tasks)) {
+        } elseif (in_array($task, rcmail::$main_tasks)) {
             rcube::raise_error([
                     'code' => 526, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Cannot register task $task;"
@@ -645,8 +637,7 @@ class rcube_plugin_api
                 ],
                 true, false
             );
-        }
-        else {
+        } else {
             $this->tasks[$task] = $owner;
             rcmail::$main_tasks[] = $task;
             return true;
@@ -714,8 +705,7 @@ class rcube_plugin_api
                     if ($less != $fn && is_file("$dir/$less")) {
                         $fn = $less;
                     }
-                }
-                elseif (!preg_match('/\.min\.css$/', $fn)) {
+                } elseif (!preg_match('/\.min\.css$/', $fn)) {
                     $min = preg_replace('/\.css$/i', '.min.css', $fn);
                     if (is_file("$dir/$min")) {
                         $fn = $min;
@@ -798,8 +788,7 @@ class rcube_plugin_api
         // pattern "skins/" used to identify plugin resources loaded from the core skin folder
         if ($fn[0] != '/' && !preg_match('#^(https?://|skins/)#i', $fn)) {
             return $this->url . $fn;
-        }
-        else {
+        } else {
             return $fn;
         }
     }

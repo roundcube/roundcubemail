@@ -218,8 +218,7 @@ class rcube_imap_cache
 
             if ($sort_field != $isf) {
                 $is_valid = false;
-            }
-            else {
+            } else {
                 $is_valid = $this->validate($mailbox, $index, $exists);
             }
 
@@ -230,8 +229,7 @@ class rcube_imap_cache
                     $data->revert();
                 }
             }
-        }
-        else {
+        } else {
             if ($existing) {
                 return null;
             }
@@ -572,8 +570,7 @@ class rcube_imap_cache
                 "DELETE FROM {$this->messages_table}"
                 . ' WHERE `user_id` = ?',
                 $this->userid);
-        }
-        else {
+        } else {
             // Remove the message from internal cache
             if (
                 !empty($uids)
@@ -617,8 +614,7 @@ class rcube_imap_cache
                     . (strlen($mailbox) ? ' AND `mailbox` = ' . $this->db->quote($mailbox) : ''),
                 $this->userid
             );
-        }
-        else {
+        } else {
             $this->db->query(
                 "UPDATE {$this->index_table}"
                 . ' SET `valid` = 0'
@@ -632,8 +628,7 @@ class rcube_imap_cache
             unset($this->icache[$mailbox]['index']);
             // Index removed, set flag to skip SELECT query in get_index()
             $this->icache[$mailbox]['index_queried'] = true;
-        }
-        else {
+        } else {
             $this->icache = [];
         }
     }
@@ -660,8 +655,7 @@ class rcube_imap_cache
             unset($this->icache[$mailbox]['thread']);
             // Thread data removed, set flag to skip SELECT query in get_thread()
             $this->icache[$mailbox]['thread_queried'] = true;
-        }
-        else {
+        } else {
             $this->icache = [];
         }
     }
@@ -930,13 +924,11 @@ class rcube_imap_cache
                 if ($uids_old != $uids_new) {
                     return false;
                 }
-            }
-            elseif ($object->is_empty()) {
+            } elseif ($object->is_empty()) {
                 // We have to run ALL UNDELETED search anyway for this case, so we can
                 // return early to skip the following search command.
                 return false;
-            }
-            else {
+            } else {
                 // get all undeleted messages excluding cached UIDs
                 $existing = rcube_imap_generic::compressMessageSet($object->get());
                 $ids = $this->imap->search_once($mailbox, "ALL UNDELETED NOT UID $existing");
@@ -945,8 +937,7 @@ class rcube_imap_cache
                     return false;
                 }
             }
-        }
-        else {
+        } else {
             // check messages number...
             if ($mbox_data['EXISTS'] != $object->count()) {
                 return false;
@@ -1125,8 +1116,7 @@ class rcube_imap_cache
 
             // Update index
             $data = $this->get_index_data($mailbox, $sort_field, $sort_order, $mbox_data);
-        }
-        else {
+        } else {
             $data = $index['object'];
         }
 
@@ -1196,8 +1186,7 @@ class rcube_imap_cache
 
             if (!empty($msg->body_modified) || $size + $length > $this->threshold * 1024) {
                 unset($msg->body);
-            }
-            else {
+            } else {
                 $size += $length;
             }
         }
@@ -1234,8 +1223,7 @@ class rcube_imap_cache
         if (!empty($mbox_data['EXISTS'])) {
             // fetch sorted sequence numbers
             $index = $this->imap->index_direct($mailbox, $sort_field, $sort_order);
-        }
-        else {
+        } else {
             $index = new rcube_result_index($mailbox, '* SORT');
         }
 

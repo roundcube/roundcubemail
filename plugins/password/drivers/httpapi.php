@@ -77,11 +77,9 @@ class rcube_httpapi_password
 
         if ($method == 'POST') {
             $params['form_params'] = $vars;
-        }
-        elseif ($method == 'GET') {
+        } elseif ($method == 'GET') {
             $params['query'] = $vars;
-        }
-        else {
+        } else {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => 'Password plugin: Invalid httpapi method',
@@ -97,8 +95,7 @@ class rcube_httpapi_password
 
             $response_code = $response->getStatusCode();
             $result        = $response->getBody();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => 'Password plugin: ' . $e->getMessage(),

@@ -152,12 +152,10 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
         // send redirect
         $RCMAIL->output->redirect($redir, 0, true);
-    }
-    else {
+    } else {
         if (!$auth['valid']) {
             $error_code = rcmail::ERROR_INVALID_REQUEST;
-        }
-        else {
+        } else {
             $error_code = is_numeric($auth['error']) ? $auth['error'] : $RCMAIL->login_error();
         }
 
@@ -171,8 +169,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
         if (!empty($auth['error']) && !is_numeric($auth['error'])) {
             $error_message = $auth['error'];
-        }
-        else {
+        } else {
             $error_message = !empty($error_labels[$error_code]) ? $error_labels[$error_code] : 'loginfailed';
         }
 
@@ -258,8 +255,7 @@ if (empty($RCMAIL->user->ID)) {
     }
 
     $RCMAIL->output->send($plugin['task']);
-}
-else {
+} else {
     // CSRF prevention
     $RCMAIL->request_security_check();
 

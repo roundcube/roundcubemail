@@ -186,8 +186,7 @@ class rcube_sieve
                     if ($res === 1) {
                         if (count($matches) > 2) {
                             $this->errorLines[] = ['line' => $matches[1], 'msg' => $matches[2]];
-                        }
-                        else {
+                        } else {
                             $this->errorLines[] = ['line' => $matches[1], 'msg' => null];
                         }
                     }

@@ -38,14 +38,11 @@ class rcmail_action_mail_sendmdn extends rcmail_action
         if (!empty($sent)) {
             $rcmail->output->set_env('mdn_request', false);
             $rcmail->output->show_message('receiptsent', 'confirmation');
-        }
-        elseif (!empty($smtp_error) && is_string($smtp_error)) {
+        } elseif (!empty($smtp_error) && is_string($smtp_error)) {
             $rcmail->output->show_message($smtp_error, 'error');
-        }
-        elseif (!empty($smtp_error) && !empty($smtp_error['label'])) {
+        } elseif (!empty($smtp_error) && !empty($smtp_error['label'])) {
             $rcmail->output->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
-        }
-        else {
+        } else {
             $rcmail->output->show_message('errorsendingreceipt', 'error');
         }
 

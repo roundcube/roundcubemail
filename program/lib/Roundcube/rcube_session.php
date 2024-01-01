@@ -169,8 +169,7 @@ abstract class rcube_session implements SessionHandlerInterface
         if ($oldvars) {
             $newvars = $this->fixvars($vars, $oldvars);
             return $this->update($key, $newvars, $oldvars);
-        }
-        else {
+        } else {
             return $this->save($key, $vars);
         }
     }
@@ -238,8 +237,7 @@ abstract class rcube_session implements SessionHandlerInterface
                 foreach ((array) $this->unsets as $var) {
                     if (isset($a_oldvars[$var])) {
                         unset($a_oldvars[$var]);
-                    }
-                    else {
+                    } else {
                         $path = explode('.', $var);
                         $k = array_pop($path);
                         $node = &$this->get_node($path, $a_oldvars);
@@ -249,8 +247,7 @@ abstract class rcube_session implements SessionHandlerInterface
 
                 $newvars = $this->serialize(array_merge(
                     (array) $a_oldvars, (array) $this->unserialize($vars)));
-            }
-            else {
+            } else {
                 $newvars = $vars;
             }
         }
@@ -329,8 +326,7 @@ abstract class rcube_session implements SessionHandlerInterface
         // use internal data for fast requests (up to 0.5 sec.)
         elseif ($key == $this->key && (!$this->vars || microtime(true) - $this->start < 0.5)) {
             $cache = $this->vars;
-        }
-        else { // else read data again
+        } else { // else read data again
             $cache = $this->read($key);
         }
 
@@ -360,8 +356,7 @@ abstract class rcube_session implements SessionHandlerInterface
         if ($key !== null) {
             $node[$key] = $value;
             $path .= '.' . $key;
-        }
-        else {
+        } else {
             $node[] = $value;
         }
 
@@ -391,8 +386,7 @@ abstract class rcube_session implements SessionHandlerInterface
 
         if (isset($_SESSION[$var])) {
             unset($_SESSION[$var]);
-        }
-        else {
+        } else {
             $path = explode('.', $var);
             $key = array_pop($path);
             $node = &$this->get_node($path, $_SESSION);
@@ -444,8 +438,7 @@ abstract class rcube_session implements SessionHandlerInterface
             foreach ((array) $this->unsets as $var) {
                 if (isset($_SESSION[$var])) {
                     unset($_SESSION[$var]);
-                }
-                else {
+                } else {
                     $path = explode('.', $var);
                     $k = array_pop($path);
                     $node = &$this->get_node($path, $_SESSION);
@@ -486,8 +479,7 @@ abstract class rcube_session implements SessionHandlerInterface
             foreach ($vars as $var => $value) {
                 $data .= $var . '|' . serialize($value);
             }
-        }
-        else {
+        } else {
             $data = 'b:0;';
         }
 
@@ -523,8 +515,7 @@ abstract class rcube_session implements SessionHandlerInterface
             if ($str[$p] == '!') {
                 $p++;
                 $has_value = false;
-            }
-            else {
+            } else {
                 $has_value = true;
             }
 
@@ -543,8 +534,7 @@ abstract class rcube_session implements SessionHandlerInterface
                         case 'd': // decimal
                             do {
                                 $q++;
-                            }
-                            while (($q < $endptr) && ($str[$q] != ';'));
+                            } while (($q < $endptr) && ($str[$q] != ';'));
                             $q++;
                             $serialized .= substr($str, $p, $q - $p);
                             if ($level == 0) {
@@ -579,8 +569,7 @@ abstract class rcube_session implements SessionHandlerInterface
                         case 'o': // object
                             do {
                                 $q++;
-                            }
-                            while ($q < $endptr && $str[$q] != '{');
+                            } while ($q < $endptr && $str[$q] != '{');
                             $q++;
                             $level++;
                             $serialized .= substr($str, $p, $q - $p);
@@ -596,8 +585,7 @@ abstract class rcube_session implements SessionHandlerInterface
                             return false;
                     }
                 }
-            }
-            else {
+            } else {
                 $serialized .= 'N;';
                 $q += 2;
             }
@@ -643,8 +631,7 @@ abstract class rcube_session implements SessionHandlerInterface
         if (!$secret) {
             if (!empty($_SESSION['auth_secret'])) {
                 $secret = $_SESSION['auth_secret'];
-            }
-            else {
+            } else {
                 $secret = rcube_utils::random_bytes(strlen($this->key));
             }
         }

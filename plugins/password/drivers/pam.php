@@ -34,8 +34,7 @@ class rcube_pam_password
                 if (pam_chpass($username, $currpass, $newpass)) {
                     return PASSWORD_SUCCESS;
                 }
-            }
-            else {
+            } else {
                 rcube::raise_error([
                         'code' => 600,
                         'file' => __FILE__,
@@ -44,8 +43,7 @@ class rcube_pam_password
                     ], true, false
                 );
             }
-        }
-        else {
+        } else {
             rcube::raise_error([
                     'code' => 600,
                     'file' => __FILE__,

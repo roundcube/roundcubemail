@@ -42,8 +42,7 @@ class rcube_virtualmin_password
 
         if ($returnvalue == 0 && count($output_domain) == 1) {
             $domain = trim($output_domain[0]);
-        }
-        else {
+        } else {
             rcube::raise_error([
                     'code' => 600,
                     'file' => __FILE__,

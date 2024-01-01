@@ -305,8 +305,7 @@ class rcube_charset
 
         try {
             $out = mb_convert_encoding($str, $to, $from);
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $out = false;
         }
 
@@ -325,8 +324,7 @@ class rcube_charset
                     // iconv implementation does not support options
                     $iconv_options = '';
                 }
-            }
-            else {
+            } else {
                 $iconv_options = false;
             }
         }
@@ -342,8 +340,7 @@ class rcube_charset
 
             try {
                 $out = iconv($from, $to . $iconv_options, $str);
-            }
-            catch (Throwable $e) {
+            } catch (Throwable $e) {
                 $out = false;
             }
 
@@ -633,8 +630,7 @@ class rcube_charset
                     if (!array_key_exists($k, $input)) {
                         $input[$k] = $v;
                     }
-                }
-                else {
+                } else {
                     $input[$k] = $v;
                 }
             }

@@ -59,8 +59,7 @@ class rcmail_output_json extends rcmail_output
     {
         if ($this->config->get('devel_mode') && !empty($_SESSION['username'])) {
             $name = $_SESSION['username'];
-        }
-        else {
+        } else {
             $name = $this->config->get('product_name');
         }
 
@@ -100,8 +99,7 @@ class rcmail_output_json extends rcmail_output
 
         if (strpos($args[0], 'plugin.') === 0) {
             $this->callbacks[] = $args;
-        }
-        else {
+        } else {
             $this->commands[] = $args;
         }
     }
@@ -141,8 +139,7 @@ class rcmail_output_json extends rcmail_output
                     $vars = array_map(['rcmail', 'Q'], $vars);
                 }
                 $msgtext = $this->app->gettext(['name' => $message, 'vars' => $vars]);
-            }
-            else {
+            } else {
                 $msgtext = $message;
             }
 

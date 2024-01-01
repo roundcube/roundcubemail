@@ -65,11 +65,9 @@ class help extends rcube_plugin
 
         if ($rcmail->action == 'about') {
             $rcmail->output->set_pagetitle($this->gettext('about'));
-        }
-        elseif ($rcmail->action == 'license') {
+        } elseif ($rcmail->action == 'license') {
             $rcmail->output->set_pagetitle($this->gettext('license'));
-        }
-        else {
+        } else {
             $rcmail->output->set_pagetitle($this->gettext('help'));
         }
 
@@ -91,8 +89,7 @@ class help extends rcube_plugin
         if (!empty($_GET['_content'])) {
             if ($rcmail->action == 'about') {
                 return file_get_contents($this->home . '/content/about.html');
-            }
-            elseif ($rcmail->action == 'license') {
+            } elseif ($rcmail->action == 'license') {
                 return file_get_contents($this->home . '/content/license.html');
             }
         }
@@ -123,8 +120,7 @@ class help extends rcube_plugin
         // About
         if (is_readable($this->home . '/content/about.html')) {
             $content['about'] = 'self';
-        }
-        else {
+        } else {
             $default = $rcmail->url(['_task' => 'settings', '_action' => 'about', '_framed' => 1]);
             $content['about'] = $rcmail->config->get('help_about_url', $default);
             $content['about'] = $this->resolve_language($content['about']);
@@ -133,8 +129,7 @@ class help extends rcube_plugin
         // License
         if (is_readable($this->home . '/content/license.html')) {
             $content['license'] = 'self';
-        }
-        else {
+        } else {
             $content['license'] = $rcmail->config->get('help_license_url', 'http://www.gnu.org/licenses/gpl-3.0-standalone.html');
             $content['license'] = $this->resolve_language($content['license']);
         }
@@ -148,8 +143,7 @@ class help extends rcube_plugin
         [$task] = explode('/', $rel);
         if (!empty($index_map[$rel])) {
             $src .= $index_map[$rel];
-        }
-        elseif (!empty($index_map[$task])) {
+        } elseif (!empty($index_map[$task])) {
             $src .= $index_map[$task];
         }
 

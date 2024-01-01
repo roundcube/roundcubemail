@@ -91,7 +91,6 @@ return (new PhpCsFixer\Config())
         'binary_operator_spaces' => ['default' => 'at_least_single_space'],
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
-        'control_structure_continuation_position' => false,
         'explicit_string_variable' => false,
         'fully_qualified_strict_types' => [
             'import_symbols' => false,

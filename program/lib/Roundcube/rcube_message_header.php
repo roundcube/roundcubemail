@@ -318,8 +318,7 @@ class rcube_message_header
 
         if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
             $value = $this->{$this->obj_headers[$name]};
-        }
-        elseif (isset($this->others[$name])) {
+        } elseif (isset($this->others[$name])) {
             $value = $this->others[$name];
         }
 
@@ -329,8 +328,7 @@ class rcube_message_header
                     $val         = rcube_mime::decode_header($val, $this->charset);
                     $value[$key] = rcube_charset::clean($val);
                 }
-            }
-            else {
+            } else {
                 $value = rcube_mime::decode_header($value, $this->charset);
                 $value = rcube_charset::clean($value);
             }
@@ -351,8 +349,7 @@ class rcube_message_header
 
         if (isset($this->obj_headers[$name])) {
             $this->{$this->obj_headers[$name]} = $value;
-        }
-        else {
+        } else {
             $this->others[$name] = $value;
         }
     }

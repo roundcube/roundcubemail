@@ -133,8 +133,7 @@ class markasjunk_sa_blacklist
                         rcube::write_log('markasjunk', $this->sa_user . ' blocklist ' . $email);
                     }
                 }
-            }
-            else {
+            } else {
                 // delete any blocklisting for this address
                 $db->query(
                     "DELETE FROM `{$this->sa_table}` WHERE `{$this->sa_username_field}` = ? AND "

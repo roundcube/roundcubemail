@@ -95,21 +95,18 @@ class rcmail_action_settings_upload extends rcmail_action
                         ],
                         $uploadid
                     );
-                }
-                else {
+                } else {
                     $error_label = null;
                     if ($err == 'type_error') {
                         $error_label = 'invalidimageformat';
-                    }
-                    elseif ($err == 'size_error') {
+                    } elseif ($err == 'size_error') {
                         $error_label = ['name' => 'filesizeerror', 'vars' => ['size' => self::show_bytes($max_size)]];
                     }
 
                     self::upload_error($err, $attachment, $error_label);
                 }
             }
-        }
-        elseif (self::upload_failure()) {
+        } elseif (self::upload_failure()) {
             $rcmail->output->command('remove_from_attachment_list', $uploadid);
         }
 

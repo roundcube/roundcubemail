@@ -50,8 +50,7 @@ if (isset($subcommand_executables[$program_name])) {
     $program = $subcommand_executables[$program_name];
 
     $program($options);
-}
-else {
+} else {
     echo "Available sub-commands:\n";
     echo "add       - create a new identity for a user\n";
     echo "delete    - delete an identity (mark as deleted)\n";
@@ -88,8 +87,7 @@ function get_identity_attr($options)
         $attrValue = $identity[$attribute];
 
         echo "$attrValue\n";
-    }
-    else {
+    } else {
         rcube::raise_error('Invalid attribute name. Available attributes: identity_id, user_id, changed, del, standard, name, '
             . 'organization, email, reply-to, bcc, signature, html_signature.', false, true);
     }

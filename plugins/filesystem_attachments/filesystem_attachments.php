@@ -103,8 +103,7 @@ class filesystem_attachments extends rcube_plugin
                 fwrite($fp, $args['data']);
                 fclose($fp);
                 $args['path'] = $tmp_path;
-            }
-            else {
+            } else {
                 return $args;
             }
         }

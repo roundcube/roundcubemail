@@ -60,8 +60,7 @@ class identicon extends rcube_plugin
 
                 if (!empty($args['attrib']['bg-color'])) {
                     $bgcolor = $args['attrib']['bg-color'];
-                }
-                else {
+                } else {
                     $bgcolor = rcube_utils::get_input_string('_bgcolor', rcube_utils::INPUT_GET);
                 }
 
@@ -73,8 +72,7 @@ class identicon extends rcube_plugin
                         $mimetype    = $identicon->getMimetype();
                         $args['url'] = sprintf('data:%s;base64,%s', $mimetype, $icon);
                     }
-                }
-                else {
+                } else {
                     // send the icon to the browser
                     if ($identicon->sendOutput()) {
                         exit;

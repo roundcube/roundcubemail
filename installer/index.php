@@ -123,8 +123,7 @@ if ($RCI->configured && !$RCI->getprop('enable_installer') && empty($_SESSION['a
         echo '<p>We changed the configuration files structure and your installation needs to be updated accordingly.</p>';
         echo '<p>Please run the <tt>bin/update.sh</tt> script from the command line or set <p>&nbsp; <tt>$rcube_config[\'enable_installer\'] = true;</tt></p>';
         echo ' in your RCUBE_CONFIG_DIR/main.inc.php to let the installer help you migrating it.</p>';
-    }
-    else {
+    } else {
         echo '<h2 class="error">The installer is disabled!</h2>';
         echo '<p>To enable it again, set <tt>$config[\'enable_installer\'] = true;</tt> in RCUBE_CONFIG_DIR/config.inc.php</p>';
     }

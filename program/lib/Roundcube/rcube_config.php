@@ -72,12 +72,10 @@ class rcube_config
                 if (!rcube_utils::is_absolute_path($path)) {
                     if ($realpath = realpath(RCUBE_INSTALL_PATH . $path)) {
                         $this->paths[$i] = unslashify($realpath) . '/';
-                    }
-                    else {
+                    } else {
                         unset($this->paths[$i]);
                     }
-                }
-                else {
+                } else {
                     $this->paths[$i] = unslashify($path) . '/';
                 }
             }
@@ -177,8 +175,7 @@ class rcube_config
 
         if ($value === false) {
             $value = $default_value;
-        }
-        else {
+        } else {
             $value = $this->parse_env($value, $type ?: gettype($default_value));
         }
 
@@ -200,8 +197,7 @@ class rcube_config
             // Old configuration files
             if (!$this->load_from_file('main.inc.php') || !$this->load_from_file('db.inc.php')) {
                 $this->errors[] = 'config.inc.php was not found.';
-            }
-            elseif (rand(1, 100) == 10) {  // log warning on every 100th request (average)
+            } elseif (rand(1, 100) == 10) {  // log warning on every 100th request (average)
                 trigger_error('config.inc.php was not found. Please migrate your config by running bin/update.sh', \E_USER_WARNING);
             }
         }
@@ -213,8 +209,7 @@ class rcube_config
         if (empty($this->prop['skin'])) {
             if (!empty($this->prop['skin_path'])) {
                 $this->prop['skin'] = str_replace('skins/', '', unslashify($this->prop['skin_path']));
-            }
-            else {
+            } else {
                 $this->prop['skin'] = self::DEFAULT_SKIN;
             }
         }
@@ -287,8 +282,7 @@ class rcube_config
                 if (isset($this->prop['include_host_config'][$name])) {
                     $fname = $this->prop['include_host_config'][$name];
                 }
-            }
-            else {
+            } else {
                 $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $name) . '.inc.php';
             }
 
@@ -384,8 +378,7 @@ class rcube_config
     {
         if (isset($this->prop[$name])) {
             $result = $this->prop[$name];
-        }
-        else {
+        } else {
             $result = $def;
         }
 
@@ -396,8 +389,7 @@ class rcube_config
             if (empty($result) || $result == 'auto') {
                 $result = $this->client_timezone();
             }
-        }
-        elseif ($name == 'client_mimetypes') {
+        } elseif ($name == 'client_mimetypes') {
             if (!$result && !$def) {
                 $result = 'text/plain,text/html'
                     . ',image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp'
@@ -406,19 +398,16 @@ class rcube_config
             if ($result && is_string($result)) {
                 $result = explode(',', $result);
             }
-        }
-        elseif ($name == 'layout') {
+        } elseif ($name == 'layout') {
             if (!in_array($result, $this->prop['supported_layouts'])) {
                 $result = $this->prop['supported_layouts'][0];
             }
-        }
-        elseif ($name == 'collected_senders') {
+        } elseif ($name == 'collected_senders') {
             if (is_bool($result)) {
                 $result = $result ? rcube_addressbook::TYPE_TRUSTED_SENDER : '';
             }
             $result = (string) $result;
-        }
-        elseif ($name == 'collected_recipients') {
+        } elseif ($name == 'collected_recipients') {
             if (is_bool($result)) {
                 $result = $result ? rcube_addressbook::TYPE_RECIPIENT : '';
             }
@@ -542,8 +531,7 @@ class rcube_config
             try {
                 $tz = new DateTimeZone($tz);
                 return $tz->getOffset(new DateTime('now')) / 3600;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
             }
         }
 
@@ -594,8 +582,7 @@ class rcube_config
             $delim = $this->prop['mail_header_delimiter'];
             if ($delim == "\n" || $delim == "\r\n") {
                 return $delim;
-            }
-            else {
+            } else {
                 rcube::raise_error([
                         'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
                         'message' => 'Invalid mail_header_delimiter setting',
@@ -653,8 +640,7 @@ class rcube_config
                 if (isset($this->prop['mail_domain'][$host])) {
                     $domain = $this->prop['mail_domain'][$host];
                 }
-            }
-            else {
+            } else {
                 $domain = rcube_utils::parse_host($this->prop['mail_domain']);
             }
         }
@@ -697,8 +683,7 @@ class rcube_config
             try {
                 $tz = new DateTimeZone($props['timezone']);
                 return $this->client_tz = $tz->getName();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // gracefully ignore
             }
         }
@@ -729,8 +714,7 @@ class rcube_config
         if (isset($props['timezone']) && is_numeric($props['timezone'])) {
             if ($tz = self::timezone_name_from_abbr($props['timezone'])) {
                 $props['timezone'] = $tz;
-            }
-            else {
+            } else {
                 unset($props['timezone']);
             }
         }

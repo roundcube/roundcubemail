@@ -42,8 +42,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         // read contact record (or get the one defined in 'save' action)
         if (!empty($args['contact'])) {
             self::$contact = $args['contact'];
-        }
-        elseif ($cid) {
+        } elseif ($cid) {
             self::$contact = self::$CONTACTS->get_record($cid, true);
         }
 

@@ -358,8 +358,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
         if (!empty($options['protected'])) {
             $display_name = self::localize_foldername($name);
-        }
-        else {
+        } else {
             $display_name = rcube_charset::convert($foldersplit[$level], 'UTF7-IMAP');
         }
 
@@ -368,8 +367,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         if ($oldname === null) {
             $rcmail->output->command('add_folder_row', $name, $name_utf8, $display_name,
                 $protected, $subscribe, $class_name);
-        }
-        else {
+        } else {
             $rcmail->output->command('replace_folder_row', $oldname, $name, $name_utf8, $display_name,
                 $protected, $class_name);
         }

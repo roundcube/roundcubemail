@@ -110,8 +110,7 @@ class rcube_sieve_engine
             if ($mode != 'vacation' && $mode != 'forward') {
                 if (!empty($_GET['_set']) || !empty($_POST['_set'])) {
                     $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_GPC, true);
-                }
-                elseif (!empty($_SESSION['managesieve_current'])) {
+                } elseif (!empty($_SESSION['managesieve_current'])) {
                     $script_name = $_SESSION['managesieve_current'];
                 }
             }
@@ -140,8 +139,7 @@ class rcube_sieve_engine
             // to disable 'Add filter' button set env variable
             $this->rc->output->set_env('filterconnerror', true);
             $this->script = [];
-        }
-        else {
+        } else {
             $this->exts = $this->sieve->get_extensions();
             $this->init_script();
             $this->rc->output->set_env('currentset', $this->sieve->current);
@@ -249,11 +247,9 @@ class rcube_sieve_engine
             // get (first) active script
             if (!empty($this->active)) {
                 $script_name = $this->active[0];
-            }
-            elseif ($list) {
+            } elseif ($list) {
                 $script_name = $list[0];
-            }
-            else {
+            } else {
                 // if script does not exist create one with default content
                 $this->create_default_script();
             }
@@ -288,17 +284,14 @@ class rcube_sieve_engine
                         if ($result === true) {
                             $this->rc->output->show_message('managesieve.filterdeleted', 'confirmation');
                             $this->rc->output->command('managesieve_updatelist', 'del', ['id' => $fid]);
-                        }
-                        else {
+                        } else {
                             $this->rc->output->show_message('managesieve.filterdeleteerror', 'error');
                         }
                     }
-                }
-                else {
+                } else {
                     $this->rc->output->show_message('managesieve.disabledaction', 'error');
                 }
-            }
-            elseif ($action == 'move' && !$error) {
+            } elseif ($action == 'move' && !$error) {
                 if (isset($this->script[$fid])) {
                     $to   = (int) rcube_utils::get_input_value('_to', rcube_utils::INPUT_POST);
                     $rule = $this->script[$fid];
@@ -310,8 +303,7 @@ class rcube_sieve_engine
                     // add at target position
                     if ($to >= count($this->script)) {
                         $this->script[] = $rule;
-                    }
-                    else {
+                    } else {
                         $script = [];
                         foreach ($this->script as $idx => $r) {
                             if ($idx == $to) {
@@ -331,13 +323,11 @@ class rcube_sieve_engine
                         $this->rc->output->show_message('managesieve.moved', 'confirmation');
                         $this->rc->output->command('managesieve_updatelist', 'list',
                             ['list' => $result, 'clear' => true, 'set' => $to]);
-                    }
-                    else {
+                    } else {
                         $this->rc->output->show_message('managesieve.moveerror', 'error');
                     }
                 }
-            }
-            elseif ($action == 'act' && !$error) {
+            } elseif ($action == 'act' && !$error) {
                 if (isset($this->script[$fid])) {
                     $rule     = $this->script[$fid];
                     $disabled = !empty($rule['disabled']);
@@ -351,24 +341,20 @@ class rcube_sieve_engine
                     if ($result === true) {
                         if ($rule['disabled']) {
                             $this->rc->output->show_message('managesieve.deactivated', 'confirmation');
-                        }
-                        else {
+                        } else {
                             $this->rc->output->show_message('managesieve.activated', 'confirmation');
                         }
                         $this->rc->output->command('managesieve_updatelist', 'update',
                             ['id' => $fid, 'disabled' => $rule['disabled']]);
-                    }
-                    else {
+                    } else {
                         if ($rule['disabled']) {
                             $this->rc->output->show_message('managesieve.deactivateerror', 'error');
-                        }
-                        else {
+                        } else {
                             $this->rc->output->show_message('managesieve.activateerror', 'error');
                         }
                     }
                 }
-            }
-            elseif ($action == 'setact' && !$error) {
+            } elseif ($action == 'setact' && !$error) {
                 if (!in_array('enable_disable_set', $this->disabled_actions)) {
                     $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_POST, true);
                     $result      = $this->activate_script($script_name);
@@ -379,16 +365,13 @@ class rcube_sieve_engine
                         $this->rc->output->show_message('managesieve.setactivated', 'confirmation');
                         $this->rc->output->command('managesieve_updatelist', 'setact',
                             ['name' => $script_name, 'active' => true, 'all' => !$kep14]);
-                    }
-                    else {
+                    } else {
                         $this->rc->output->show_message('managesieve.setactivateerror', 'error');
                     }
-                }
-                else {
+                } else {
                     $this->rc->output->show_message('managesieve.disabledaction', 'error');
                 }
-            }
-            elseif ($action == 'deact' && !$error) {
+            } elseif ($action == 'deact' && !$error) {
                 if (!in_array('enable_disable_set', $this->disabled_actions)) {
                     $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_POST, true);
                     $result      = $this->deactivate_script($script_name);
@@ -398,16 +381,13 @@ class rcube_sieve_engine
                         $this->rc->output->show_message('managesieve.setdeactivated', 'confirmation');
                         $this->rc->output->command('managesieve_updatelist', 'setact',
                             ['name' => $script_name, 'active' => false]);
-                    }
-                    else {
+                    } else {
                         $this->rc->output->show_message('managesieve.setdeactivateerror', 'error');
                     }
-                }
-                else {
+                } else {
                     $this->rc->output->show_message('managesieve.disabledaction', 'error');
                 }
-            }
-            elseif ($action == 'setdel' && !$error) {
+            } elseif ($action == 'setdel' && !$error) {
                 if (!in_array('delete_set', $this->disabled_actions)) {
                     $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_POST, true);
                     $result      = $this->remove_script($script_name);
@@ -416,16 +396,13 @@ class rcube_sieve_engine
                         $this->rc->output->show_message('managesieve.setdeleted', 'confirmation');
                         $this->rc->output->command('managesieve_updatelist', 'setdel', ['name' => $script_name]);
                         $this->rc->session->remove('managesieve_current');
-                    }
-                    else {
+                    } else {
                         $this->rc->output->show_message('managesieve.setdeleteerror', 'error');
                     }
-                }
-                else {
+                } else {
                     $this->rc->output->show_message('managesieve.disabledaction', 'error');
                 }
-            }
-            elseif ($action == 'setget') {
+            } elseif ($action == 'setget') {
                 if (!in_array('download_set', $this->disabled_actions)) {
                     $this->rc->request_security_check(rcube_utils::INPUT_GET);
 
@@ -439,35 +416,30 @@ class rcube_sieve_engine
 
                     exit;
                 }
-            }
-            elseif ($action == 'list') {
+            } elseif ($action == 'list') {
                 $result = $this->list_rules();
 
                 $this->rc->output->command('managesieve_updatelist', 'list', ['list' => $result]);
-            }
-            elseif ($action == 'ruleadd') {
+            } elseif ($action == 'ruleadd') {
                 $rid = rcube_utils::get_input_string('_rid', rcube_utils::INPUT_POST);
                 $id  = $this->genid();
                 $content = $this->rule_div($fid, $id, false, !empty($_SESSION['managesieve-compact-form']));
 
                 $this->rc->output->command('managesieve_rulefill', $content, $id, $rid);
-            }
-            elseif ($action == 'actionadd') {
+            } elseif ($action == 'actionadd') {
                 $aid = rcube_utils::get_input_string('_aid', rcube_utils::INPUT_POST);
                 $id  = $this->genid();
                 $content = $this->action_div($fid, $id, false);
 
                 $this->rc->output->command('managesieve_actionfill', $content, $id, $aid);
-            }
-            elseif ($action == 'addresses') {
+            } elseif ($action == 'addresses') {
                 $aid = rcube_utils::get_input_string('_aid', rcube_utils::INPUT_POST);
 
                 $this->rc->output->command('managesieve_vacation_addresses_update', $aid, $this->user_emails());
             }
 
             $this->rc->output->send();
-        }
-        elseif ($this->rc->task == 'mail') {
+        } elseif ($this->rc->task == 'mail') {
             // Initialize the form
             $rules = rcube_utils::get_input_value('r', rcube_utils::INPUT_GET);
             if (!empty($rules)) {
@@ -512,8 +484,7 @@ class rcube_sieve_engine
             if (count($errorLines) > 0) {
                 $this->rc->output->set_env('sieve_errors', $errorLines);
             }
-        }
-        else {
+        } else {
             $this->rc->output->show_message('managesieve.setupdated', 'confirmation');
             $this->rc->output->command('parent.managesieve_updatelist', 'refresh');
         }
@@ -567,23 +538,17 @@ class rcube_sieve_engine
 
             if (in_array('new_set', $this->disabled_actions)) {
                 $error = 'managesieve.disabledaction';
-            }
-            elseif (!$name) {
+            } elseif (!$name) {
                 $this->errors['name'] = $this->plugin->gettext('cannotbeempty');
-            }
-            elseif (mb_strlen($name) > 128) {
+            } elseif (mb_strlen($name) > 128) {
                 $this->errors['name'] = $this->plugin->gettext('nametoolong');
-            }
-            elseif (!empty($exceptions) && in_array($name, (array) $exceptions)) {
+            } elseif (!empty($exceptions) && in_array($name, (array) $exceptions)) {
                 $this->errors['name'] = $this->plugin->gettext('namereserved');
-            }
-            elseif (!empty($kolab) && in_array($name_uc, ['MASTER', 'USER', 'MANAGEMENT'])) {
+            } elseif (!empty($kolab) && in_array($name_uc, ['MASTER', 'USER', 'MANAGEMENT'])) {
                 $this->errors['name'] = $this->plugin->gettext('namereserved');
-            }
-            elseif (in_array($name, $list)) {
+            } elseif (in_array($name, $list)) {
                 $this->errors['name'] = $this->plugin->gettext('setexist');
-            }
-            elseif ($from == 'file') {
+            } elseif ($from == 'file') {
                 // from file
                 if (is_uploaded_file($_FILES['_file']['tmp_name'])) {
                     $file = file_get_contents($_FILES['_file']['tmp_name']);
@@ -594,13 +559,11 @@ class rcube_sieve_engine
                     if (!$this->save_script($name)) {
                         $this->errors['file'] = $this->plugin->gettext('setcreateerror');
                     }
-                }
-                else {
+                } else {
                     // upload failed
                     rcmail_action::upload_error($_FILES['_file']['error']);
                 }
-            }
-            elseif (!$this->sieve->copy($name, $from == 'set' ? $copy : '')) {
+            } elseif (!$this->sieve->copy($name, $from == 'set' ? $copy : '')) {
                 $error = 'managesieve.setcreateerror';
             }
 
@@ -614,11 +577,9 @@ class rcube_sieve_engine
                 $this->rc->output->show_message('managesieve.setcreated', 'confirmation');
                 $this->rc->output->command('parent.managesieve_updatelist', 'setadd',
                     ['name' => $name, 'index' => $index]);
-            }
-            elseif (!empty($msg)) {
+            } elseif (!empty($msg)) {
                 $this->rc->output->command('display_message', $msg, 'error');
-            }
-            elseif ($error) {
+            } elseif ($error) {
                 $this->rc->output->show_message($error, 'error');
             }
         }
@@ -696,8 +657,7 @@ class rcube_sieve_engine
 
             if ($name == '') {
                 $this->errors['name'] = $this->plugin->gettext('cannotbeempty');
-            }
-            else {
+            } else {
                 foreach ($this->script as $idx => $rule) {
                     if ($rule['name'] == $name && $idx != $fid) {
                         $this->errors['name'] = $this->plugin->gettext('ruleexist');
@@ -710,8 +670,7 @@ class rcube_sieve_engine
             // rules
             if ($join == 'any') {
                 $this->form['tests'][0]['test'] = 'true';
-            }
-            else {
+            } else {
                 foreach ($headers as $idx => $header) {
                     // targets are indexed differently (assume form order)
                     $target     = $this->strip_value($targets[$idx], true);
@@ -730,16 +689,13 @@ class rcube_sieve_engine
 
                         if ($sizetarget === '') {
                             $this->errors['tests'][$i]['sizetarget'] = $this->plugin->gettext('cannotbeempty');
-                        }
-                        elseif (!preg_match('/^[0-9]+(K|M|G)?$/i', $sizetarget . $sizeitem, $m)) {
+                        } elseif (!preg_match('/^[0-9]+(K|M|G)?$/i', $sizetarget . $sizeitem, $m)) {
                             $this->errors['tests'][$i]['sizetarget'] = $this->plugin->gettext('forbiddenchars');
                             $this->form['tests'][$i]['item'] = $sizeitem;
-                        }
-                        else {
+                        } else {
                             $this->form['tests'][$i]['arg'] .= $m[1];
                         }
-                    }
-                    elseif ($header == 'spamtest') {
+                    } elseif ($header == 'spamtest') {
                         $spamtestop     = $this->strip_value($spamtestops[$idx]);
                         $spamtesttarget = $this->strip_value($spamtesttargets[$idx]);
                         $comparator     = 'i;ascii-numeric';
@@ -755,12 +711,10 @@ class rcube_sieve_engine
 
                         if ($spamtesttarget === '') {
                             $this->errors['tests'][$i]['spamtesttarget'] = $this->plugin->gettext('cannotbeempty');
-                        }
-                        elseif (!preg_match('/^([0-9]|10)$/i', $spamtesttarget)) {
+                        } elseif (!preg_match('/^([0-9]|10)$/i', $spamtesttarget)) {
                             $this->errors['tests'][$i]['spamtesttarget'] = $this->plugin->gettext('forbiddenchars');
                         }
-                    }
-                    elseif ($header == 'currentdate') {
+                    } elseif ($header == 'currentdate') {
                         $datepart = $this->strip_value($dateparts[$idx]);
                         $type     = preg_replace('/^not/', '', $operator);
 
@@ -777,15 +731,13 @@ class rcube_sieve_engine
                         if ($type != 'exists') {
                             if (empty($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                            }
-                            elseif (strpos($type, 'count-') === 0) {
+                            } elseif (strpos($type, 'count-') === 0) {
                                 foreach ($target as $arg) {
                                     if (preg_match('/[^0-9]/', $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
                                     }
                                 }
-                            }
-                            elseif (strpos($type, 'value-') === 0) {
+                            } elseif (strpos($type, 'value-') === 0) {
                                 // Some date/time formats do not support i;ascii-numeric comparator
                                 if ($comparator == 'i;ascii-numeric' && in_array($datepart, ['date', 'time', 'iso8601', 'std11'])) {
                                     $comparator = '';
@@ -801,8 +753,7 @@ class rcube_sieve_engine
                                 }
                             }
                         }
-                    }
-                    elseif ($header == 'date') {
+                    } elseif ($header == 'date') {
                         $datepart    = $this->strip_value($dateparts[$idx]);
                         $dateheader  = $this->strip_value($dateheaders[$idx]);
                         $index       = $this->strip_value($indexes[$idx]);
@@ -822,8 +773,7 @@ class rcube_sieve_engine
 
                         if (empty($dateheader)) {
                             $dateheader = 'Date';
-                        }
-                        elseif (!preg_match('/^[\x21-\x39\x41-\x7E]+$/i', $dateheader)) {
+                        } elseif (!preg_match('/^[\x21-\x39\x41-\x7E]+$/i', $dateheader)) {
                             $this->errors['tests'][$i]['dateheader'] = $this->plugin->gettext('forbiddenchars');
                         }
 
@@ -837,15 +787,13 @@ class rcube_sieve_engine
                         if ($type != 'exists') {
                             if (empty($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                            }
-                            elseif (strpos($type, 'count-') === 0) {
+                            } elseif (strpos($type, 'count-') === 0) {
                                 foreach ($target as $arg) {
                                     if (preg_match('/[^0-9]/', $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
                                     }
                                 }
-                            }
-                            elseif (strpos($type, 'value-') === 0) {
+                            } elseif (strpos($type, 'value-') === 0) {
                                 // Some date/time formats do not support i;ascii-numeric comparator
                                 if ($comparator == 'i;ascii-numeric' && in_array($datepart, ['date', 'time', 'iso8601', 'std11'])) {
                                     $comparator = '';
@@ -861,8 +809,7 @@ class rcube_sieve_engine
                                 }
                             }
                         }
-                    }
-                    elseif ($header == 'body') {
+                    } elseif ($header == 'body') {
                         $trans      = $this->strip_value($body_trans[$idx]);
                         $trans_type = $this->strip_value($body_types[$idx], true);
                         $type       = preg_replace('/^not/', '', $operator);
@@ -883,16 +830,14 @@ class rcube_sieve_engine
 
                         if (empty($target) && $type != 'exists') {
                             $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                        }
-                        elseif (preg_match('/^(value|count)-/', $type)) {
+                        } elseif (preg_match('/^(value|count)-/', $type)) {
                             foreach ($target as $target_value) {
                                 if (preg_match('/[^0-9]/', $target_value)) {
                                     $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
                                 }
                             }
                         }
-                    }
-                    elseif ($header == 'message') {
+                    } elseif ($header == 'message') {
                         $test = $this->strip_value($message[$idx]);
 
                         if (preg_match('/^not/', $test)) {
@@ -919,8 +864,7 @@ class rcube_sieve_engine
                                 $this->errors['tests'][$i]['duplicate_uniqueid'] = $this->plugin->gettext('duplicate.conflict.err');
                             }
                         }
-                    }
-                    else {
+                    } else {
                         $cust_header = $headers = $this->strip_value($cust_headers[$idx]);
                         $mod         = $this->strip_value($mods[$idx]);
                         $mod_type    = $this->strip_value($mod_types[$idx]);
@@ -947,8 +891,7 @@ class rcube_sieve_engine
                         if ($header == '...' || $header == 'string') {
                             if (!count($headers)) {
                                 $this->errors['tests'][$i]['header'] = $this->plugin->gettext('cannotbeempty');
-                            }
-                            elseif ($header == '...') {
+                            } elseif ($header == '...') {
                                 foreach ($headers as $hr) {
                                     // RFC2822: printable ASCII except colon
                                     if (!preg_match('/^[\x21-\x39\x41-\x7E]+$/i', $hr)) {
@@ -977,8 +920,7 @@ class rcube_sieve_engine
                         if ($type == 'exists') {
                             $this->form['tests'][$i]['test'] = 'exists';
                             $this->form['tests'][$i]['arg'] = $header;
-                        }
-                        else {
+                        } else {
                             if ($mod == 'address' || $mod == 'envelope') {
                                 $found = false;
                                 if (empty($this->errors['tests'][$i]['header'])) {
@@ -1000,8 +942,7 @@ class rcube_sieve_engine
 
                             if (empty($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                            }
-                            elseif (preg_match('/^(value|count)-/', $type)) {
+                            } elseif (preg_match('/^(value|count)-/', $type)) {
                                 foreach ($target as $target_value) {
                                     if (preg_match('/[^0-9]/', $target_value)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
@@ -1086,8 +1027,7 @@ class rcube_sieve_engine
 
                         if ($target === '') {
                             $this->errors['actions'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                        }
-                        elseif (!rcube_utils::check_email($target)) {
+                        } elseif (!rcube_utils::check_email($target)) {
                             $this->errors['actions'][$i]['target'] = $this->plugin->gettext(!empty($domains) ? 'forbiddenchars' : 'noemailwarning');
                         }
 
@@ -1117,8 +1057,7 @@ class rcube_sieve_engine
 
                         if (empty($this->form['actions'][$i]['name'])) {
                             $this->errors['actions'][$i]['name'] = $this->plugin->gettext('cannotbeempty');
-                        }
-                        elseif (!preg_match('/^[0-9a-z_-]+$/i', $this->form['actions'][$i]['name'])) {
+                        } elseif (!preg_match('/^[0-9a-z_-]+$/i', $this->form['actions'][$i]['name'])) {
                             $this->errors['actions'][$i]['name'] = $this->plugin->gettext('forbiddenchars');
                         }
 
@@ -1137,12 +1076,10 @@ class rcube_sieve_engine
                                 if (!empty($this->form['actions'][$i]['last'])) {
                                     $this->errors['actions'][$i]['index'] = $this->plugin->gettext('lastindexempty');
                                 }
-                            }
-                            elseif (!preg_match('/^[0-9]+$/i', $this->form['actions'][$i]['index'])) {
+                            } elseif (!preg_match('/^[0-9]+$/i', $this->form['actions'][$i]['index'])) {
                                 $this->errors['actions'][$i]['index'] = $this->plugin->gettext('forbiddenchars');
                             }
-                        }
-                        else {
+                        } else {
                             if (empty($this->form['actions'][$i]['value'])) {
                                 $this->errors['actions'][$i]['value'] = $this->plugin->gettext('cannotbeempty');
                             }
@@ -1167,8 +1104,7 @@ class rcube_sieve_engine
 
                             if (empty($address)) {
                                 unset($this->form['actions'][$i]['addresses'][$aidx]);
-                            }
-                            elseif (!rcube_utils::check_email($address)) {
+                            } elseif (!rcube_utils::check_email($address)) {
                                 $this->errors['actions'][$i]['addresses'] = $this->plugin->gettext('noemailwarning');
                                 break;
                             }
@@ -1196,8 +1132,7 @@ class rcube_sieve_engine
 
                         if (empty($varnames[$idx])) {
                             $this->errors['actions'][$i]['name'] = $this->plugin->gettext('cannotbeempty');
-                        }
-                        elseif (!preg_match('/^[0-9a-z_]+$/i', $varnames[$idx])) {
+                        } elseif (!preg_match('/^[0-9a-z_]+$/i', $varnames[$idx])) {
                             $this->errors['actions'][$i]['name'] = $this->plugin->gettext('forbiddenchars');
                         }
 
@@ -1244,8 +1179,7 @@ class rcube_sieve_engine
                 if (!isset($this->script[$fid])) {
                     $fid = $this->sieve->script->add_rule($this->form);
                     $new = true;
-                }
-                else {
+                } else {
                     $fid = $this->sieve->script->update_rule($fid, $this->form);
                 }
 
@@ -1262,17 +1196,14 @@ class rcube_sieve_engine
                             'disabled' => $this->form['disabled'],
                         ];
                         $this->rc->output->command('parent.managesieve_updatelist', isset($new) ? 'add' : 'update', $args);
-                    }
-                    else {
+                    } else {
                         $this->rc->output->command('managesieve_dialog_close');
                         $this->rc->output->send('iframe');
                     }
-                }
-                else {
+                } else {
                     $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
                 }
-            }
-            else {
+            } else {
                 $this->rc->output->show_message('managesieve.filterformerror', 'warning');
             }
         }
@@ -1286,15 +1217,12 @@ class rcube_sieve_engine
         if (isset($_GET['_framed']) || isset($_POST['_framed'])) {
             if (isset($_GET['_newset']) || isset($_POST['_newset'])) {
                 $this->rc->output->send('managesieve.setedit');
-            }
-            elseif (isset($_GET['_seteditraw']) || isset($_POST['_seteditraw'])) {
+            } elseif (isset($_GET['_seteditraw']) || isset($_POST['_seteditraw'])) {
                 $this->rc->output->send('managesieve.seteditraw');
-            }
-            else {
+            } else {
                 $this->rc->output->send('managesieve.filteredit');
             }
-        }
-        else {
+        } else {
             $this->rc->output->set_pagetitle($this->plugin->gettext('filters'));
             $this->rc->output->send('managesieve.managesieve');
         }
@@ -1366,8 +1294,7 @@ class rcube_sieve_engine
 
             $this->rc->output->set_env('filtersets', $scripts);
             $this->rc->output->include_script('list.js');
-        }
-        else {
+        } else {
             $select = new html_select([
                     'name'     => '_set',
                     'id'       => $attrib['id'],
@@ -1637,8 +1564,7 @@ class rcube_sieve_engine
 
             $out .= '<div id="rules"' . ($any ? ' style="display: none"' : '') . '>';
             $out .= "\n<fieldset><legend>" . rcube::Q($this->plugin->gettext('rules')) . "</legend>\n";
-        }
-        else {
+        } else {
             $out .= '<br><fieldset><legend>' . rcube::Q($this->plugin->gettext('messagesrules')) . "</legend>\n";
 
             // any, allof, anyof radio buttons
@@ -1648,8 +1574,7 @@ class rcube_sieve_engine
 
             if (isset($scr) && !$any) {
                 $input_join = $input_join->show($scr['join'] ? 'allof' : '');
-            }
-            else {
+            } else {
                 $input_join = $input_join->show();
             }
 
@@ -1661,8 +1586,7 @@ class rcube_sieve_engine
 
             if (isset($scr) && !$any) {
                 $input_join = $input_join->show($scr['join'] ? '' : 'anyof');
-            }
-            else {
+            } else {
                 $input_join = $input_join->show('anyof'); // default
             }
 
@@ -1725,21 +1649,17 @@ class rcube_sieve_engine
     {
         if (isset($id) && isset($this->form)) {
             $rule = $this->form['tests'][$id];
-        }
-        elseif (isset($id) && isset($this->script[$fid]['tests'][$id])) {
+        } elseif (isset($id) && isset($this->script[$fid]['tests'][$id])) {
             $rule = $this->script[$fid]['tests'][$id];
-        }
-        else {
+        } else {
             $rule = ['test' => null];
         }
 
         if (isset($this->form['tests'])) {
             $rows_num = count($this->form['tests']);
-        }
-        elseif (isset($this->script[$fid]['tests'])) {
+        } elseif (isset($this->script[$fid]['tests'])) {
             $rows_num = count($this->script[$fid]['tests']);
-        }
-        else {
+        } else {
             $rows_num = 0;
         }
 
@@ -1781,8 +1701,7 @@ class rcube_sieve_engine
                 $header  = !is_array($rule['arg1']) ? strtolower($rule['arg1']) : null;
                 $matches = !is_array($rule['arg1']) && $header && isset($this->headers[$header]);
                 $test    = $matches ? $header : '...';
-            }
-            elseif ($rule['test'] == 'exists') {
+            } elseif ($rule['test'] == 'exists') {
                 if (is_array($rule['arg']) && count($rule['arg']) == 1) {
                     $rule['arg'] = $rule['arg'][0];
                 }
@@ -1790,14 +1709,11 @@ class rcube_sieve_engine
                 $header  = !is_array($rule['arg']) ? strtolower($rule['arg']) : null;
                 $matches = !is_array($rule['arg']) && $header && isset($this->headers[$header]);
                 $test    = $matches ? $header : '...';
-            }
-            elseif (in_array($rule['test'], ['size', 'spamtest', 'body', 'date', 'currentdate', 'string'])) {
+            } elseif (in_array($rule['test'], ['size', 'spamtest', 'body', 'date', 'currentdate', 'string'])) {
                 $test = $rule['test'];
-            }
-            elseif (in_array($rule['test'], ['duplicate'])) {
+            } elseif (in_array($rule['test'], ['duplicate'])) {
                 $test = 'message';
-            }
-            elseif ($rule['test'] != 'true') {
+            } elseif ($rule['test'] != 'true') {
                 $test = '...';
             }
         }
@@ -1814,14 +1730,12 @@ class rcube_sieve_engine
             if (count($custom) == 1 && isset($this->headers[strtolower($custom[0])])) {
                 $custom = null;
             }
-        }
-        elseif (isset($rule['test']) && $rule['test'] == 'string') {
+        } elseif (isset($rule['test']) && $rule['test'] == 'string') {
             $customv = (array) $rule['arg1'];
             if (count($customv) == 1 && isset($this->headers[strtolower($customv[0])])) {
                 $customv = null;
             }
-        }
-        elseif (isset($rule['test']) && $rule['test'] == 'exists') {
+        } elseif (isset($rule['test']) && $rule['test'] == 'exists') {
             $custom = (array) $rule['arg'];
             if (count($custom) == 1 && isset($this->headers[strtolower($custom[0])])) {
                 $custom = null;
@@ -1849,16 +1763,13 @@ class rcube_sieve_engine
         // target(s) input
         if (in_array($rule['test'], ['header', 'address', 'envelope', 'string'])) {
             $target = $rule['arg2'];
-        }
-        elseif (in_array($rule['test'], ['body', 'date', 'currentdate', 'spamtest'])) {
+        } elseif (in_array($rule['test'], ['body', 'date', 'currentdate', 'spamtest'])) {
             $target = $rule['arg'];
-        }
-        elseif ($rule['test'] == 'size') {
+        } elseif ($rule['test'] == 'size') {
             if (preg_match('/^([0-9]+)(K|M|G)?$/', $rule['arg'], $matches)) {
                 $sizetarget = $matches[1];
                 $sizeitem   = $matches[2];
-            }
-            else {
+            } else {
                 $sizetarget = $rule['arg'];
                 $sizeitem   = $rule['item'];
             }
@@ -2231,8 +2142,7 @@ class rcube_sieve_engine
                     $rule['type'] = $m[1] . '-eq';
                     break;
             }
-        }
-        elseif (!empty($rule['not']) && !empty($rule['test']) && $rule['test'] == 'size') {
+        } elseif (!empty($rule['not']) && !empty($rule['test']) && $rule['test'] == 'size') {
             $rule['not']  = false;
             $rule['type'] = $rule['type'] == 'over' ? 'under' : 'over';
         }
@@ -2243,11 +2153,9 @@ class rcube_sieve_engine
         // build test string supported by select element
         if (!empty($rule['size'])) {
             $test = $rule['type'];
-        }
-        elseif (!empty($rule['test']) && in_array($rule['test'], $set)) {
+        } elseif (!empty($rule['test']) && in_array($rule['test'], $set)) {
             $test = (!empty($rule['not']) ? 'not' : '') . ($rule['type'] ?: 'is');
-        }
-        elseif (!empty($rule['test'])) {
+        } elseif (!empty($rule['test'])) {
             $test = (!empty($rule['not']) ? 'not' : '') . $rule['test'];
         }
 
@@ -2258,21 +2166,17 @@ class rcube_sieve_engine
     {
         if (isset($id) && isset($this->form)) {
             $action = $this->form['actions'][$id];
-        }
-        elseif (isset($id) && isset($this->script[$fid]['actions'][$id])) {
+        } elseif (isset($id) && isset($this->script[$fid]['actions'][$id])) {
             $action = $this->script[$fid]['actions'][$id];
-        }
-        else {
+        } else {
             $action = ['type' => null];
         }
 
         if (isset($this->form['actions'])) {
             $rows_num = count($this->form['actions']);
-        }
-        elseif (isset($this->script[$fid]['actions'])) {
+        } elseif (isset($this->script[$fid]['actions'])) {
             $rows_num = count($this->script[$fid]['actions']);
-        }
-        else {
+        } else {
             $rows_num = 0;
         }
 
@@ -2301,8 +2205,7 @@ class rcube_sieve_engine
         }
         if (in_array('reject', $this->exts)) {
             $select_action->add($this->plugin->gettext('messagediscard'), 'reject');
-        }
-        elseif (in_array('ereject', $this->exts)) {
+        } elseif (in_array('ereject', $this->exts)) {
             $select_action->add($this->plugin->gettext('messagediscard'), 'ereject');
         }
         if (in_array('vacation', $this->exts)) {
@@ -2402,8 +2305,7 @@ class rcube_sieve_engine
                 $default_identity = $this->rc->user->list_emails(true);
                 $action['from']   = format_email_recipient($default_identity['email'], $default_identity['name']);
             }
-        }
-        elseif (!empty($action['from'])) {
+        } elseif (!empty($action['from'])) {
             $from = rcube_mime::decode_address_list($action['from'], null, true, RCUBE_CHARSET);
             foreach ((array) $from as $idx => $addr) {
                 $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
@@ -2468,8 +2370,7 @@ class rcube_sieve_engine
             $interval_select->add($this->plugin->gettext('days'), 'days');
             $interval_select->add($this->plugin->gettext('seconds'), 'seconds');
             $out .= $interval_select->show(isset($action['seconds']) ? 'seconds' : 'days');
-        }
-        else {
+        } else {
             $out .= "\n" . html::span('input-group-append', html::span('input-group-text', $this->plugin->gettext('days')));
         }
         $out .= '</div></div>';
@@ -2731,8 +2632,7 @@ class rcube_sieve_engine
             if ($mailbox = $this->mod_mailbox($action['target'], 'out')) {
                 $additional = [$mailbox];
             }
-        }
-        else {
+        } else {
             $mailbox = '';
         }
 
@@ -2919,8 +2819,7 @@ class rcube_sieve_engine
             if ($replace_delimiter && $replace_delimiter != $delimiter) {
                 $mailbox = str_replace($replace_delimiter, $delimiter, $mailbox);
             }
-        }
-        else {
+        } else {
             $mailbox = rcube_charset::convert($mailbox, 'UTF7-IMAP', $mbox_encoding);
             if ($replace_delimiter && $replace_delimiter != $delimiter) {
                 $mailbox = str_replace($delimiter, $replace_delimiter, $mailbox);
@@ -2950,14 +2849,11 @@ class rcube_sieve_engine
                 $_name = strtoupper($name);
                 if ($_name == 'MASTER') {
                     $master_script = $name;
-                }
-                elseif ($_name == 'MANAGEMENT') {
+                } elseif ($_name == 'MANAGEMENT') {
                     $management_script = $name;
-                }
-                elseif ($_name == 'USER') {
+                } elseif ($_name == 'USER') {
                     $user_script = $name;
-                }
-                else {
+                } else {
                     continue;
                 }
 
@@ -3003,8 +2899,7 @@ class rcube_sieve_engine
                     }
                 }
             }
-        }
-        elseif (!empty($this->list)) {
+        } elseif (!empty($this->list)) {
             // Get active script name
             if ($active = $this->sieve->get_active()) {
                 $this->active = [$active];
@@ -3127,8 +3022,7 @@ class rcube_sieve_engine
                     }
                 }
             }
-        }
-        else {
+        } else {
             $result = $this->sieve->activate($name);
             if ($result) {
                 $this->active = [$name];
@@ -3181,8 +3075,7 @@ class rcube_sieve_engine
                     }
                 }
             }
-        }
-        else {
+        } else {
             $result = $this->sieve->deactivate();
             if ($result) {
                 $this->active = [];
@@ -3423,8 +3316,7 @@ class rcube_sieve_engine
                     $this->script[] = $rule;
                     $this->script = array_values(array_filter($this->script));
                     $rule_index = count($this->script);
-                }
-                else {
+                } else {
                     $script = [];
 
                     foreach ($this->script as $idx => $r) {
@@ -3517,8 +3409,7 @@ class rcube_sieve_engine
             if (empty($addr['mailto']) || !rcube_utils::check_email($addr['mailto'])) {
                 $this->errors['actions'][$i][$field] = $this->plugin->gettext('noemailwarning');
                 break;
-            }
-            else {
+            } else {
                 $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
             }
         }

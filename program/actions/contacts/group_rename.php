@@ -51,8 +51,7 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
 
             if (empty($plugin['abort'])) {
                 $newname = $contacts->rename_group($gid, $plugin['name'], $newgid);
-            }
-            else {
+            } else {
                 $newname = $plugin['result'];
             }
         }
@@ -65,8 +64,7 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
                     'name'   => $newname,
                     'newid'  => $newgid ?? null,
             ]);
-        }
-        else {
+        } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');
         }

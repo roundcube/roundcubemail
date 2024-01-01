@@ -127,8 +127,7 @@ class markasjunk_email_learn
                         '', RCUBE_CHARSET
                     );
                 }
-            }
-            else {
+            } else {
                 $headers = [
                     'Resent-From'       => $from_string,
                     'Resent-To'         => $mailto,

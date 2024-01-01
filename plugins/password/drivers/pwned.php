@@ -100,8 +100,7 @@ class rcube_pwned_password
             $rc = rcmail::get_instance();
             if ($score === self::SCORE_LISTED) {
                 $message = $rc->gettext('password.pwned_isdisclosed');
-            }
-            else {
+            } else {
                 $message = $rc->gettext('password.pwned_fetcherror');
             }
         }
@@ -124,8 +123,7 @@ class rcube_pwned_password
         if (!$this->can_retrieve()) {
             // Log the fact that we cannot check because of configuration error.
             rcube::raise_error("Need curl or allow_url_fopen to check password strength with 'pwned'", true, true);
-        }
-        else {
+        } else {
             [$prefix, $suffix] = $this->hash_split($passwd);
 
             $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
@@ -166,8 +164,7 @@ class rcube_pwned_password
     {
         if ($this->can_curl()) {
             return $this->retrieve_curl($url);
-        }
-        else {
+        } else {
             return $this->retrieve_fopen($url);
         }
     }
@@ -215,8 +212,7 @@ class rcube_pwned_password
 
                 // valid line, not matching the current password
                 $result = self::SCORE_NOT_LISTED;
-            }
-            else {
+            } else {
                 // invalid line
                 return self::SCORE_ERROR;
             }

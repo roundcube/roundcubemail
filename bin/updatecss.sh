@@ -38,8 +38,7 @@ if (empty($opts['dir'])) {
 // Check if directory exists
 elseif (!file_exists($opts['dir'])) {
     rcube::raise_error("Specified directory doesn't exist.", false, true);
-}
-else {
+} else {
     $dirs = [$opts['dir']];
 }
 
@@ -83,8 +82,7 @@ function get_images($dir)
             $filepath = "$dir/$file";
             $images[$file] = substr(md5_file($filepath), 0, 4) . '.' . filesize($filepath);
             echo "Image: $filepath ({$images[$file]})\n";
-        }
-        elseif ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
+        } elseif ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
             foreach (get_images($dir . '/' . $file) as $img => $sum) {
                 $images[$file . '/' . $img] = $sum;
             }
@@ -104,8 +102,7 @@ function get_files($dir)
     while ($file = readdir($dh)) {
         if (preg_match('/^(.+)\.(css|html)$/', $file, $m)) {
             $files[] = $file;
-        }
-        elseif ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
+        } elseif ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
             foreach (get_files($dir . '/' . $file) as $f) {
                 $files[] = $file . '/' . $f;
             }

@@ -90,11 +90,9 @@ function get_host($args)
         $hosts = $rcmail->config->get('imap_host', '');
         if (is_string($hosts)) {
             $args['host'] = $hosts;
-        }
-        elseif (is_array($hosts) && count($hosts) == 1) {
+        } elseif (is_array($hosts) && count($hosts) == 1) {
             $args['host'] = reset($hosts);
-        }
-        else {
+        } else {
             rcube::raise_error('Specify a host name', true);
         }
 

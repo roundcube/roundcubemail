@@ -214,8 +214,7 @@ class zipdownload extends rcube_plugin
             [$filename, $ext] = preg_split('/\\.(?=[^\\.]*$)/', $displayname);
             $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
             $this->names[$displayname] = 1;
-        }
-        else {
+        } else {
             $this->names[$displayname] = 1;
         }
 
@@ -275,8 +274,7 @@ class zipdownload extends rcube_plugin
                     );
 
                     $messages[$uid . ':' . $mbox] = $header;
-                }
-                else { // maildir
+                } else { // maildir
                     $subject = rcube_mime::decode_header($headers->subject, $headers->charset);
                     $subject = $this->_filename_from_subject(mb_substr($subject, 0, 16));
                     $subject = $this->_convert_filename($subject);
@@ -328,8 +326,7 @@ class zipdownload extends rcube_plugin
                 $imap->get_raw_body($uid, $tmpfp);
                 stream_filter_remove($filter);
                 fwrite($tmpfp, "\r\n");
-            }
-            else { // maildir
+            } else { // maildir
                 $tmpfn = rcube_utils::temp_filename('zipmessage');
                 $fp = fopen($tmpfn, 'w');
                 $imap->get_raw_body($uid, $fp);

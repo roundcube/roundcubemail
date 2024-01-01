@@ -26,8 +26,7 @@ class show_additional_headers extends rcube_plugin
         if ($rcmail->action == 'show' || $rcmail->action == 'preview') {
             $this->add_hook('storage_init', [$this, 'storage_init']);
             $this->add_hook('message_headers_output', [$this, 'message_headers']);
-        }
-        elseif ($rcmail->action == '') {
+        } elseif ($rcmail->action == '') {
             // with enabled_caching we're fetching additional headers before show/preview
             $this->add_hook('storage_init', [$this, 'storage_init']);
         }
@@ -50,8 +49,7 @@ class show_additional_headers extends rcube_plugin
             $add_headers = strtoupper(implode(' ', (array) $add_headers));
             if (isset($p['fetch_headers'])) {
                 $p['fetch_headers'] .= ' ' . $add_headers;
-            }
-            else {
+            } else {
                 $p['fetch_headers'] = $add_headers;
             }
         }
@@ -78,8 +76,7 @@ class show_additional_headers extends rcube_plugin
                     foreach ($value as $idx => $v) {
                         $p['output']["$header:$idx"] = ['title' => $header, 'value' => $v];
                     }
-                }
-                else {
+                } else {
                     $p['output'][$header] = ['title' => $header, 'value' => $value];
                 }
             }

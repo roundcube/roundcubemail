@@ -86,14 +86,11 @@ class rcube_browser
         // Version detection
         if ($this->edge && preg_match('/edge\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[1];
-        }
-        elseif ($this->opera && preg_match('/(opera|opr)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+        } elseif ($this->opera && preg_match('/(opera|opr)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[3];
-        }
-        elseif ($this->safari && preg_match('/(version|safari)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+        } elseif ($this->safari && preg_match('/(version|safari)\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[1];
-        }
-        elseif (preg_match('/(chrome|khtml|version|msie|rv:)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
+        } elseif (preg_match('/(chrome|khtml|version|msie|rv:)(\s*|\/)([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {
             $this->ver = (float) $regs[3];
         }
     }

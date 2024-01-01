@@ -46,8 +46,7 @@ class ComposeTest extends \Tests\Browser\TestCase
 
             if ($browser->isPhone()) {
                 $browser->assertToolbarMenu(['options'], []);
-            }
-            else {
+            } else {
                 $browser->assertToolbarMenu(['attach'], []);
                 $browser->assertMissing('#toolbar-menu a.options');
             }

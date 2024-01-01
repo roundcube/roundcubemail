@@ -130,8 +130,7 @@ class rcmail_action_settings_about extends rcmail_action
                     ],
                     rcube::Q($data['license'])
                 );
-            }
-            else {
+            } else {
                 $license = rcube::Q($license);
             }
 

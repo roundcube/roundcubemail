@@ -80,8 +80,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
 
         try {
             $oauth->jwt_decode($jwt);
-        }
-        catch (RuntimeException $e) {
+        } catch (RuntimeException $e) {
         }
 
         $this->assertTrue(isset($e));
@@ -193,8 +192,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             $oauth->login_redirect();
             $result = null;
             $ecode = null;
-        }
-        catch (ExitException $e) {
+        } catch (ExitException $e) {
             $result = $e->getMessage();
             $ecode  = $e->getCode();
         }

@@ -113,8 +113,7 @@ class rcube_result_thread
 
         if (empty($this->raw_data)) {
             $this->meta['count'] = 0;
-        }
-        else {
+        } else {
             $this->meta['count'] = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT);
         }
 
@@ -138,8 +137,7 @@ class rcube_result_thread
 
         if (empty($this->raw_data)) {
             $this->meta['messages'] = 0;
-        }
-        else {
+        } else {
             $this->meta['messages'] = 1
                 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT)
                 + substr_count($this->raw_data, self::SEPARATOR_ITEM);
@@ -229,8 +227,7 @@ class rcube_result_thread
             // extract root message ID
             if ($npos = strpos($elem, self::SEPARATOR_ITEM)) {
                 $root = (int) substr($elem, 0, $npos);
-            }
-            else {
+            } else {
                 $root = $elem;
             }
 
@@ -375,8 +372,7 @@ class rcube_result_thread
                 if (preg_match('/([0-9]+)/', $this->raw_data, $m, null, $this->meta['pos'][$index])) {
                     $result = $m[1];
                 }
-            }
-            elseif (isset($this->meta['pos'][$index - 1])) {
+            } elseif (isset($this->meta['pos'][$index - 1])) {
                 // get chunk of data after previous element
                 $data = substr($this->raw_data, $this->meta['pos'][$index - 1] + 1, 50);
                 $data = preg_replace('/^[0-9]+/', '', $data); // remove UID at $index position
@@ -384,8 +380,7 @@ class rcube_result_thread
                 if (preg_match('/^([0-9]+)/', $data, $m)) {
                     $result = $m[1];
                 }
-            }
-            elseif (isset($this->meta['pos'][$index + 1])) {
+            } elseif (isset($this->meta['pos'][$index + 1])) {
                 // get chunk of data before next element
                 $pos  = max(0, $this->meta['pos'][$index + 1] - 50);
                 $len  = min(50, $this->meta['pos'][$index + 1]);
@@ -568,8 +563,7 @@ class rcube_result_thread
             if ($level == $lv) {
                 $pos++;
                 $result[$id] = $this->build_thread($items, $level + 1, $pos);
-            }
-            else {
+            } else {
                 $pos--;
                 break;
             }
@@ -623,8 +617,7 @@ class rcube_result_thread
                     $node .= ($depth ? self::SEPARATOR_ITEM . $depth . self::SEPARATOR_LEVEL : '') . $msg;
                     if (isset($this->meta['messages'])) {
                         $this->meta['messages']++;
-                    }
-                    else {
+                    } else {
                         $this->meta['messages'] = 1;
                     }
                     $depth++;
@@ -634,8 +627,7 @@ class rcube_result_thread
             if ($stop < $end) {
                 $node .= $this->parse_thread($str, $stop, $end, $depth);
             }
-        }
-        else {
+        } else {
             $off = $begin;
             while ($off < $end) {
                 $start = $off;
@@ -653,8 +645,7 @@ class rcube_result_thread
                     if ($p1 !== false && $p1 < $p) {
                         $off = $p1 + 1;
                         $n++;
-                    }
-                    else {
+                    } else {
                         $off = $p + 1;
                         $n--;
                     }
@@ -675,8 +666,7 @@ class rcube_result_thread
                     $thread  = substr_replace($thread, $token, 1, $len);
                     // Parse the thread
                     $thread = $this->parse_thread($thread, 0, 0, $depth);
-                }
-                else {
+                } else {
                     $thread = $this->parse_thread($str, $start + 1, $off - 1, $depth);
                 }
 

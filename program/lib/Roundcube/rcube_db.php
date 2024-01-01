@@ -184,8 +184,7 @@ class rcube_db
             }
 
             $this->conn_configure($dsn, $this->dbh);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->db_error     = true;
             $this->db_error_msg = $e->getMessage();
 
@@ -281,8 +280,7 @@ class rcube_db
                 if (!empty($this->options['table_dsn_map'][$table])) {
                     $mode = $this->options['table_dsn_map'][$table];
                     break;  // primary table rules
-                }
-                elseif ($mode == 'r') {
+                } elseif ($mode == 'r') {
                     // connected to db with the same or "higher" mode for this table
                     if (isset($this->table_connections[$table])) {
                         $db_mode = $this->table_connections[$table];
@@ -459,8 +457,7 @@ class rcube_db
             while ($pos = strpos($query, '?', $pos)) {
                 if (isset($query[$pos + 1]) && $query[$pos + 1] == '?') {  // skip escaped '?'
                     $pos += 2;
-                }
-                else {
+                } else {
                     $val = $this->quote($params[$idx++]);
                     unset($params[$idx - 1]);
                     $query = substr_replace($query, $val, $pos, 1);
@@ -526,13 +523,11 @@ class rcube_db
         while ($pos = strpos($query, $quote, $pos)) {
             if (isset($query[$pos + 1]) && $query[$pos + 1] == $quote) {  // skip escaped quote
                 $pos += 2;
-            }
-            else {
+            } else {
                 if ($in) {
                     $q  = $end;
                     $in = false;
-                }
-                else {
+                } else {
                     $q  = $start;
                     $in = true;
                 }
@@ -648,8 +643,7 @@ class rcube_db
             if (preg_match('/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/ims', $result->queryString, $m)) {
                 $query = $this->dbh->query('SELECT COUNT(*) FROM ' . $m[1], PDO::FETCH_NUM);
                 return $query ? intval($query->fetchColumn(0)) : false;
-            }
-            else {
+            } else {
                 $num = count($result->fetchAll());
                 $result->execute();  // re-execute query because there's no seek(0)
                 return $num;
@@ -1225,8 +1219,7 @@ class rcube_db
         if (($pos = strpos($dsn, '://')) !== false) {
             $str = substr($dsn, 0, $pos);
             $dsn = substr($dsn, $pos + 3);
-        }
-        else {
+        } else {
             $str = $dsn;
             $dsn = null;
         }
@@ -1236,8 +1229,7 @@ class rcube_db
         if (preg_match('|^(.+?)\((.*?)\)$|', $str, $arr)) {
             $parsed['phptype']  = $arr[1];
             $parsed['dbsyntax'] = !$arr[2] ? $arr[1] : $arr[2];
-        }
-        else {
+        } else {
             $parsed['phptype']  = $str;
             $parsed['dbsyntax'] = $str;
         }
@@ -1254,8 +1246,7 @@ class rcube_db
             if (($pos = strpos($str, ':')) !== false) {
                 $parsed['username'] = rawurldecode(substr($str, 0, $pos));
                 $parsed['password'] = rawurldecode(substr($str, $pos + 1));
-            }
-            else {
+            } else {
                 $parsed['username'] = rawurldecode($str);
             }
         }
@@ -1274,8 +1265,7 @@ class rcube_db
             }
             if (strpos($dsn, '/') !== false) {
                 [$proto_opts, $dsn] = explode('/', $dsn, 2);
-            }
-            else {
+            } else {
                 $proto_opts = $dsn;
                 $dsn = null;
             }
@@ -1289,8 +1279,7 @@ class rcube_db
         }
         if ($parsed['protocol'] == 'tcp' && strlen($proto_opts)) {
             $parsed['hostspec'] = $proto_opts;
-        }
-        elseif ($parsed['protocol'] == 'unix') {
+        } elseif ($parsed['protocol'] == 'unix') {
             $parsed['socket'] = $proto_opts;
         }
 
@@ -1300,16 +1289,14 @@ class rcube_db
             // /database
             if (($pos = strpos($dsn, '?')) === false) {
                 $parsed['database'] = rawurldecode($dsn);
-            }
-            else {
+            } else {
                 // /database?param1=value1&param2=value2
                 $parsed['database'] = rawurldecode(substr($dsn, 0, $pos));
                 $dsn = substr($dsn, $pos + 1);
 
                 if (strpos($dsn, '&') !== false) {
                     $opts = explode('&', $dsn);
-                }
-                else { // database?param1=value1
+                } else { // database?param1=value1
                     $opts = [$dsn];
                 }
                 foreach ($opts as $opt) {
@@ -1425,8 +1412,7 @@ class rcube_db
                 if ($this->db_error) {
                     break;
                 }
-            }
-            else {
+            } else {
                 $buff .= $line . "\n";
             }
         }
@@ -1466,8 +1452,7 @@ class rcube_db
             // These can't have a schema prefix
             if (preg_match('/(CONSTRAINT|UNIQUE|INDEX)[\s\t`"]*$/', $matches[1])) {
                 $prefix = '';
-            }
-            else {
+            } else {
                 // check if the identifier is quoted, then quote the prefix
                 $last = $matches[1][strlen($matches[1]) - 1];
 

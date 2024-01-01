@@ -44,12 +44,10 @@ class rcube_tinycp_password
                 $tcp = new TinyCPConnector($tinycp_host, $tinycp_port);
                 $tcp->Auth($tinycp_user, $tinycp_pass);
                 $tcp->mail___mailserver___email_pass_change2($username, $newpass);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $error_message = $e->getMessage();
             }
-        }
-        else {
+        } else {
             $error_message = 'Missing configuration value(s). ';
         }
 

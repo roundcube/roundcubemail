@@ -107,8 +107,7 @@ class enigma_driver_gnupg extends enigma_driver
         // Create Crypt_GPG object
         try {
             $this->gpg = new Crypt_GPG($options);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
 
@@ -143,8 +142,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             return $this->gpg->encrypt($text, true);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -182,8 +180,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             return $result['data'];
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -208,8 +205,7 @@ class enigma_driver_gnupg extends enigma_driver
             $this->last_sig_algorithm = $sigInfo->getHashAlgorithmName();
 
             return $res;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -227,8 +223,7 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $verified = $this->gpg->verify($text, $signature);
             return $this->parse_signature($verified[0]);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -252,16 +247,14 @@ class enigma_driver_gnupg extends enigma_driver
 
             if ($isfile) {
                 $result = $this->gpg->importKeyFile($content);
-            }
-            else {
+            } else {
                 $result = $this->gpg->importKey($content);
             }
 
             $this->db_save();
 
             return $result;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -291,8 +284,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             return $key;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -315,8 +307,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             return $result;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -363,8 +354,7 @@ class enigma_driver_gnupg extends enigma_driver
                 ->generateKey($data['user'], $data['email']);
 
             return $this->parse_key($key);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -440,8 +430,7 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $this->gpg->deletePrivateKey($keyid);
             return true;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -454,8 +443,7 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $this->gpg->deletePublicKey($keyid);
             return true;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -474,19 +462,15 @@ class enigma_driver_gnupg extends enigma_driver
         if ($e instanceof Crypt_GPG_KeyNotFoundException) {
             $error = enigma_error::KEYNOTFOUND;
             $data['id'] = $e->getKeyId();
-        }
-        elseif ($e instanceof Crypt_GPG_BadPassphraseException) {
+        } elseif ($e instanceof Crypt_GPG_BadPassphraseException) {
             $error = enigma_error::BADPASS;
             $data['bad']     = $e->getBadPassphrases();
             $data['missing'] = $e->getMissingPassphrases();
-        }
-        elseif ($e instanceof Crypt_GPG_NoDataException) {
+        } elseif ($e instanceof Crypt_GPG_NoDataException) {
             $error = enigma_error::NODATA;
-        }
-        elseif ($e instanceof Crypt_GPG_DeletePrivateKeyException) {
+        } elseif ($e instanceof Crypt_GPG_DeletePrivateKeyException) {
             $error = enigma_error::DELKEY;
-        }
-        else {
+        } else {
             $error = enigma_error::INTERNAL;
         }
 
@@ -562,8 +546,7 @@ class enigma_driver_gnupg extends enigma_driver
             if (method_exists($subkey, 'getCreationDateTime')) {
                 $skey->created = $subkey->getCreationDateTime();
                 $skey->expires = $subkey->getExpirationDateTime();
-            }
-            else {
+            } else {
                 $skey->created = $subkey->getCreationDate();
                 $skey->expires = $subkey->getExpirationDate();
 
@@ -640,8 +623,7 @@ class enigma_driver_gnupg extends enigma_driver
                     if ($this->debug) {
                         $this->debug("SYNC: Fetched file: $file");
                     }
-                }
-                else {
+                } else {
                     // error
                     @unlink($tmpfile);
 

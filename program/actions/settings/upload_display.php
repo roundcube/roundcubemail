@@ -30,8 +30,7 @@ class rcmail_action_settings_upload_display extends rcmail_action
     {
         if (!empty($_GET['_file']) && preg_match('/^rcmfile(\w+)$/', $_GET['_file'], $regs)) {
             $id = $regs[1];
-        }
-        else {
+        } else {
             exit;
         }
 

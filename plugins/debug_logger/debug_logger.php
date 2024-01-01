@@ -110,8 +110,7 @@ class debug_logger extends rcube_plugin
 
         if (!empty($args['args'][1])) {
             $type = $args['args'][1];
-        }
-        else {
+        } else {
             // This could be extended to detect types based on the
             // file which called console. For now only rcube_imap/rcube_storage is supported
             $bt   = debug_backtrace();

@@ -84,8 +84,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
             if ($plugin['attachment']) {
                 self::attachment_success($plugin['attachment'], $uploadid);
-            }
-            else {
+            } else {
                 $rcmail->output->command('display_message', $rcmail->gettext('filelinkerror'), 'error');
                 $rcmail->output->command('remove_from_attachment_list', $uploadid);
             }
@@ -131,16 +130,13 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
                 if (!$err && $inserted) {
                     self::attachment_success($attachment, $uploadid);
-                }
-                else {  // upload failed
+                } else {  // upload failed
                     if ($err == \UPLOAD_ERR_INI_SIZE || $err == \UPLOAD_ERR_FORM_SIZE) {
                         $size = self::show_bytes(rcube_utils::max_upload_size());
                         $msg  = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $size]]);
-                    }
-                    elseif (!empty($attachment['error'])) {
+                    } elseif (!empty($attachment['error'])) {
                         $msg = $attachment['error'];
-                    }
-                    else {
+                    } else {
                         $msg = $rcmail->gettext('fileuploaderror');
                     }
 
@@ -153,8 +149,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                     }
                 }
             }
-        }
-        elseif (self::upload_failure()) {
+        } elseif (self::upload_failure()) {
             $rcmail->output->command('remove_from_attachment_list', $uploadid);
         }
 
@@ -191,11 +186,9 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                     'src' => self::$COMPOSE['deleteicon'],
                     'alt' => $rcmail->gettext('delete'),
             ]);
-        }
-        elseif (!empty(self::$COMPOSE['textbuttons'])) {
+        } elseif (!empty(self::$COMPOSE['textbuttons'])) {
             $button = rcube::Q($rcmail->gettext('delete'));
-        }
-        else {
+        } else {
             $button = '';
         }
 
@@ -228,8 +221,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
         if (!empty(self::$COMPOSE['icon_pos']) && self::$COMPOSE['icon_pos'] == 'left') {
             $content = $delete_link . $content_link;
-        }
-        else {
+        } else {
             $content = $content_link . $delete_link;
         }
 

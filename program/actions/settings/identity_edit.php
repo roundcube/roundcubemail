@@ -196,15 +196,13 @@ class rcmail_action_settings_identity_edit extends rcmail_action
 
                     if (!empty($colprop['label'])) {
                         $label = $colprop['label'];
-                    }
-                    else {
+                    } else {
                         $label = $rcmail->gettext(str_replace('-', '', $col));
                     }
 
                     if (!empty($colprop['value'])) {
                         $value = $colprop['value'];
-                    }
-                    else {
+                    } else {
                         $val   = self::$record[$col] ?? '';
                         $value = rcube_output::get_edit_field($col, $val, $colprop, $colprop['type']);
                     }
@@ -214,8 +212,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                 }
 
                 $content = $table->show($attrib);
-            }
-            else {
+            } else {
                 $content = $fieldset['content'];
             }
 

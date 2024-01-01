@@ -72,16 +72,14 @@ class rcmail_utils
             if (!$db->exec_script($sql)) {
                 $error = $db->is_error();
             }
-        }
-        else {
+        } else {
             $error = "Unable to read file $file or it is empty";
         }
 
         if ($error) {
             echo "[FAILED]\n";
             rcube::raise_error($error, false, true);
-        }
-        else {
+        } else {
             echo "[OK]\n";
         }
     }
@@ -201,8 +199,7 @@ class rcmail_utils
                     rcube::raise_error("Error in DDL upgrade $v: $error", false, true);
                 }
                 return false;
-            }
-            elseif (empty($opts['quiet'])) {
+            } elseif (empty($opts['quiet'])) {
                 echo "[OK]\n";
             }
         }
@@ -307,11 +304,9 @@ class rcmail_utils
             $hosts = $rcmail->config->get('imap_host');
             if (is_string($hosts)) {
                 $args['host'] = $hosts;
-            }
-            elseif (is_array($hosts) && count($hosts) == 1) {
+            } elseif (is_array($hosts) && count($hosts) == 1) {
                 $args['host'] = reset($hosts);
-            }
-            else {
+            } else {
                 rcube::raise_error('Specify a host name', false, true);
             }
         }
@@ -364,8 +359,7 @@ class rcmail_utils
 
         if ($userid) {
             $query = '`user_id` = ' . intval($userid);
-        }
-        else {
+        } else {
             $query = '1=1';
         }
 
@@ -373,8 +367,7 @@ class rcmail_utils
 
         if ($type == 'bool' || $type == 'boolean') {
             $value = rcube_utils::get_boolean($value);
-        }
-        elseif ($type == 'int' || $type == 'integer') {
+        } elseif ($type == 'int' || $type == 'integer') {
             $value = (int) $value;
         }
 
@@ -392,8 +385,7 @@ class rcmail_utils
             if ($prefs != $old_prefs) {
                 $user->save_prefs($prefs, true);
                 echo "saved.\n";
-            }
-            else {
+            } else {
                 echo "nothing changed.\n";
             }
         }

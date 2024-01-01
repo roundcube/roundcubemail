@@ -43,8 +43,7 @@ class rcmail_action_mail_getunread extends rcmail_action_mail_index
 
                 if (!$check_all && $unseen_old !== null && $mbox != $current) {
                     $unseen = $unseen_old;
-                }
-                else {
+                } else {
                     $unseen = $rcmail->storage->count($mbox, 'UNSEEN', $unseen_old === null);
                 }
 

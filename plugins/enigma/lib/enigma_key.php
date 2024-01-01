@@ -50,8 +50,7 @@ class enigma_key
     {
         if (!empty($this->subkeys[0]) && $this->subkeys[0]->has_private) {
             return self::TYPE_KEYPAIR;
-        }
-        elseif (!empty($this->subkeys[0])) {
+        } elseif (!empty($this->subkeys[0])) {
             return self::TYPE_PUBLIC;
         }
 

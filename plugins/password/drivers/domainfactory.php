@@ -78,16 +78,13 @@ class rcube_domainfactory_password
                             return ['code' => PASSWORD_ERROR, 'message' => $error_message];
                         }
                     }
-                }
-                else {
+                } else {
                     return PASSWORD_CONNECT_ERROR;
                 }
-            }
-            else {
+            } else {
                 return PASSWORD_CONNECT_ERROR;
             }
-        }
-        else {
+        } else {
             return PASSWORD_CONNECT_ERROR;
         }
 

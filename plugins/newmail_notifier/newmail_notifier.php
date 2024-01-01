@@ -47,8 +47,7 @@ class newmail_notifier extends rcube_plugin
         if ($this->rc->task == 'settings') {
             $this->add_hook('preferences_list', [$this, 'prefs_list']);
             $this->add_hook('preferences_save', [$this, 'prefs_save']);
-        }
-        else { // if ($this->rc->task == 'mail') {
+        } else { // if ($this->rc->task == 'mail') {
             // add script when not in ajax and not in frame and only in main window
             if ($this->rc->output->type == 'html' && empty($_REQUEST['_framed']) && $this->rc->action == '') {
                 $this->add_texts('localization/');

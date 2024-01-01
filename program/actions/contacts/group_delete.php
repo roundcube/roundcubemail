@@ -46,8 +46,7 @@ class rcmail_action_contacts_group_delete extends rcmail_action_contacts_index
 
             if (empty($plugin['abort'])) {
                 $deleted = $contacts->delete_group($gid);
-            }
-            else {
+            } else {
                 $deleted = $plugin['result'];
             }
         }
@@ -55,8 +54,7 @@ class rcmail_action_contacts_group_delete extends rcmail_action_contacts_index
         if (!empty($deleted)) {
             $rcmail->output->show_message('groupdeleted', 'confirmation');
             $rcmail->output->command('remove_group_item', ['source' => $source, 'id' => $gid]);
-        }
-        else {
+        } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');
         }

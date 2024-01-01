@@ -237,8 +237,7 @@ class rcube_ldap_generic extends Net_LDAP3
             unset($list['count']);
 
             $this->_debug("S: $count record(s)");
-        }
-        else {
+        } else {
             $list = [];
             $this->_error('ldap_list() failed with ' . ldap_error($this->conn));
         }
@@ -297,8 +296,7 @@ class rcube_ldap_generic extends Net_LDAP3
                         $rec[$attr] = $entry[$attr][0];
                         break;
                 }
-            }
-            else {
+            } else {
                 for ($j = 0; $j < $entry[$attr]['count']; $j++) {
                     $rec[$attr][$j] = $entry[$attr][$j];
                 }

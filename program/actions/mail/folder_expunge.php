@@ -44,8 +44,7 @@ class rcmail_action_mail_folder_expunge extends rcmail_action
                 $rcmail->action = 'list';
                 return;
             }
-        }
-        else {
+        } else {
             self::display_server_error();
         }
 

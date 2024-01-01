@@ -39,11 +39,9 @@ $WGET   = trim(shell_exec('which wget'));
 
 if (($CACHEDIR = getenv('CACHEDIR')) && is_writable($CACHEDIR)) {
     // use $CACHEDIR
-}
-elseif (is_writable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
+} elseif (is_writable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
     $CACHEDIR = INSTALL_PATH . 'temp/js_cache';
-}
-else {
+} else {
     $CACHEDIR = sys_get_temp_dir();
 }
 
@@ -124,8 +122,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 
         if ($CURL) {
             exec(sprintf('%s -L -s %s -o %s', $CURL, escapeshellarg($url), $cache_file), $out, $retval);
-        }
-        else {
+        } else {
             exec(sprintf('%s -q %s -O %s', $WGET, escapeshellarg($url), $cache_file), $out, $retval);
         }
 
@@ -138,8 +135,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 
             if ($CURL) {
                 exec(sprintf('%s -L -H %s -s %s -o %s', $CURL, escapeshellarg($header), escapeshellarg($url), $cache_file), $out, $retval);
-            }
-            else {
+            } else {
                 exec(sprintf('%s --header %s -q %s -O %s', $WGET, escapeshellarg($header), escapeshellarg($url), $cache_file), $out, $retval);
             }
         }
@@ -206,8 +202,7 @@ function compose_destfile($package, $srcfile)
 
     if (file_put_contents(INSTALL_PATH . $package['dest'], $header . file_get_contents($srcfile))) {
         echo 'Wrote file ' . INSTALL_PATH . $package['dest'] . "\n";
-    }
-    else {
+    } else {
         rcube::raise_error('Failed to write destination file ' . INSTALL_PATH . $package['dest'], false, true);
     }
 }
@@ -310,8 +305,7 @@ function delete_destfile($package)
     if (file_exists($destdir)) {
         if (\PHP_OS === 'Windows') {
             exec(sprintf('rd /s /q %s', escapeshellarg($destdir)));
-        }
-        else {
+        } else {
             exec(sprintf('rm -rf %s', escapeshellarg($destdir)));
         }
     }
@@ -356,8 +350,7 @@ foreach ($SOURCES['dependencies'] as $package) {
 
     if ($args['get']) {
         $srcfile = fetch_from_source($package, $useCache, $filetype);
-    }
-    else {
+    } else {
         $srcfile = extract_filetype($package, $filetype);
     }
 
@@ -370,8 +363,7 @@ foreach ($SOURCES['dependencies'] as $package) {
 
         if ($filetype === 'zip') {
             extract_zipfile($package, $srcfile);
-        }
-        else {
+        } else {
             compose_destfile($package, $srcfile);
         }
 

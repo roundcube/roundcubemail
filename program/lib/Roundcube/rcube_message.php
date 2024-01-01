@@ -129,8 +129,7 @@ class rcube_message
         if (!empty($this->headers->structure)) {
             $this->get_mime_numbers($this->headers->structure);
             $this->parse_structure($this->headers->structure);
-        }
-        elseif ($this->context === null) {
+        } elseif ($this->context === null) {
             $this->body = $this->storage->get_body($uid);
         }
 
@@ -326,11 +325,9 @@ class rcube_message
             // try to extract charset information from HTML meta tag (#1488125)
             if ($part->ctype_secondary == 'html' && preg_match('/<meta[^>]+charset=([a-z0-9-_]+)/i', $body, $m)) {
                 $part->charset = strtoupper($m[1]);
-            }
-            elseif ($default_charset) {
+            } elseif ($default_charset) {
                 $part->charset = $default_charset;
-            }
-            else {
+            } else {
                 $rcube         = rcube::get_instance();
                 $part->charset = $rcube->config->get('default_charset', RCUBE_CHARSET);
             }
@@ -617,8 +614,7 @@ class rcube_message
                     }
                 }
             }
-        }
-        else {
+        } else {
             $mimetype = $structure->mimetype;
         }
 
@@ -702,18 +698,14 @@ class rcube_message
                 // check if sub part is
                 if ($is_multipart) {
                     $related_part = $p;
-                }
-                elseif ($sub_mimetype == 'text/plain' && !isset($plain_part)) {
+                } elseif ($sub_mimetype == 'text/plain' && !isset($plain_part)) {
                     $plain_part = $p;
-                }
-                elseif ($sub_mimetype == 'text/html' && !isset($html_part)) {
+                } elseif ($sub_mimetype == 'text/html' && !isset($html_part)) {
                     $html_part = $p;
                     $this->got_html_part = true;
-                }
-                elseif ($sub_mimetype == 'text/enriched' && !isset($enriched_part)) {
+                } elseif ($sub_mimetype == 'text/enriched' && !isset($enriched_part)) {
                     $enriched_part = $p;
-                }
-                else {
+                } else {
                     // add unsupported/unrecognized parts to attachments list
                     $this->add_part($sub_part, 'attachment');
                 }
@@ -735,11 +727,9 @@ class rcube_message
             $print_part = null;
             if (isset($html_part) && !empty($this->opt['prefer_html'])) {
                 $print_part = $structure->parts[$html_part];
-            }
-            elseif (isset($enriched_part)) {
+            } elseif (isset($enriched_part)) {
                 $print_part = $structure->parts[$enriched_part];
-            }
-            elseif (isset($plain_part)) {
+            } elseif (isset($plain_part)) {
                 $print_part = $structure->parts[$plain_part];
             }
 
@@ -893,8 +883,7 @@ class rcube_message
                                 }
                             }
                             $this->add_part($tpart);
-                        }
-                        else {
+                        } else {
                             $inline = !empty($tpart->content_id) && strpos($tnef_body, "cid:{$tpart->content_id}") !== false;
                             $this->add_part($tpart, $inline ? 'inline' : 'attachment');
                         }
@@ -1214,8 +1203,7 @@ class rcube_message
         // find charset from part or its parent(s)
         if ($part->charset) {
             $charsets[] = $part->charset;
-        }
-        else {
+        } else {
             // check first part (common case)
             $n = strpos($part->mime_id, '.') ? preg_replace('/\.[0-9]+$/', '', $part->mime_id) . '.1' : 1;
             if (($_part = $this->mime_parts[$n]) && $_part->charset) {

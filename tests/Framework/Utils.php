@@ -714,8 +714,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
                 'C:\\' => true,
                 'some/path' => false,
             ];
-        }
-        else {
+        } else {
             $test = [
                 '' => false,
                 '/path' => true,

@@ -169,8 +169,7 @@ class enigma_engine
             default:
                 if ($mime->isMultipart()) {
                     $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
-                }
-                else {
+                } else {
                     $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
                 }
         }
@@ -192,8 +191,7 @@ class enigma_engine
 
                 $text_charset = str_replace(";\r\n format=flowed", '', $text_charset);
             }
-        }
-        else {
+        } else {
             // here we'll build PGP/MIME message
             $body = $mime->getOrigBody();
         }
@@ -217,8 +215,7 @@ class enigma_engine
             if (!empty($text_charset)) {
                 $message->setParam('text_charset', $text_charset);
             }
-        }
-        else {
+        } else {
             $mime->addPGPSignature($body, $this->pgp_driver->signature_algorithm());
             $message = $mime;
         }
@@ -280,8 +277,7 @@ class enigma_engine
         foreach ((array) $recipients as $email) {
             if ($email == $from && $sign_key) {
                 $key = $sign_key;
-            }
-            else {
+            } else {
                 $key = $this->find_key($email);
             }
 
@@ -295,11 +291,9 @@ class enigma_engine
         // select mode
         if ($mode & self::ENCRYPT_MODE_BODY) {
             $encrypt_mode = $mode;
-        }
-        elseif ($mode & self::ENCRYPT_MODE_MIME) {
+        } elseif ($mode & self::ENCRYPT_MODE_MIME) {
             $encrypt_mode = $mode;
-        }
-        else {
+        } else {
             $encrypt_mode = $mime->isMultipart() ? self::ENCRYPT_MODE_MIME : self::ENCRYPT_MODE_BODY;
         }
 
@@ -308,8 +302,7 @@ class enigma_engine
             // in this mode we'll replace text part
             // with the one containing encrypted message
             $body = $message->getTXTBody();
-        }
-        else {
+        } else {
             // here we'll build PGP/MIME message
             $body = $mime->getOrigBody();
         }
@@ -330,8 +323,7 @@ class enigma_engine
         // replace message body
         if ($encrypt_mode == self::ENCRYPT_MODE_BODY) {
             $message->setTXTBody($body);
-        }
-        else {
+        } else {
             $mime->setPGPEncryptedBody($body);
             $message = $mime;
         }
@@ -401,20 +393,16 @@ class enigma_engine
         if ($p['mimetype'] == 'text/plain' || $p['mimetype'] == 'application/pgp') {
             $this->parse_plain($p, $body);
             $got_content = true;
-        }
-        elseif ($p['mimetype'] == 'multipart/signed') {
+        } elseif ($p['mimetype'] == 'multipart/signed') {
             $this->parse_signed($p, $body);
             $got_content = true;
-        }
-        elseif ($p['mimetype'] == 'multipart/encrypted') {
+        } elseif ($p['mimetype'] == 'multipart/encrypted') {
             $this->parse_encrypted($p);
             $got_content = true;
-        }
-        elseif ($p['mimetype'] == 'application/pkcs7-mime') {
+        } elseif ($p['mimetype'] == 'application/pkcs7-mime') {
             $this->parse_encrypted($p);
             $got_content = true;
-        }
-        else {
+        } else {
             $got_content = !empty($p['structure']->type) && $p['structure']->type === 'content';
         }
 
@@ -516,11 +504,9 @@ class enigma_engine
 
             if ($mode === 'signed') {
                 $body .= $line;
-            }
-            elseif ($mode === 'encrypted') {
+            } elseif ($mode === 'encrypted') {
                 $body .= $line;
-            }
-            else {
+            } else {
                 $prefix .= $line;
             }
         }
@@ -529,8 +515,7 @@ class enigma_engine
 
         if ($mode === 'signed') {
             $this->parse_plain_signed($p, $body, $prefix);
-        }
-        elseif ($mode === 'encrypted') {
+        } elseif ($mode === 'encrypted') {
             $this->parse_plain_encrypted($p, $body, $prefix);
         }
     }
@@ -628,11 +613,9 @@ class enigma_engine
         while (($line = fgets($fd, 1024)) !== false) {
             if ($part->body === null) {
                 $part->body = '';
-            }
-            elseif (preg_match('/^-----BEGIN PGP SIGNATURE-----/', $line)) {
+            } elseif (preg_match('/^-----BEGIN PGP SIGNATURE-----/', $line)) {
                 break;
-            }
-            else {
+            } else {
                 $part->body .= $line;
             }
         }
@@ -756,8 +739,7 @@ class enigma_engine
             $items = explode('.', $part->mime_id);
             array_pop($items);
             $parent = implode('.', $items);
-        }
-        else {
+        } else {
             $parent = 0;
         }
 
@@ -856,8 +838,7 @@ class enigma_engine
                     $this->signatures[$sp->mime_id] = $signature;
                 }
             }
-        }
-        else {
+        } else {
             $this->decryptions[$part->mime_id] = $result;
 
             // Make sure decryption status message will be displayed
@@ -1145,8 +1126,7 @@ class enigma_engine
 
         if ($result instanceof enigma_error) {
             self::raise_error($result, __LINE__);
-        }
-        else {
+        } else {
             $result['imported']  = $result['public_imported'] + $result['private_imported'];
             $result['unchanged'] = $result['public_unchanged'] + $result['private_unchanged'];
         }
@@ -1175,8 +1155,7 @@ class enigma_engine
 
         if ($fp) {
             fwrite($fp, $result);
-        }
-        else {
+        } else {
             return $result;
         }
     }
@@ -1231,8 +1210,7 @@ class enigma_engine
                 if ($threshold && $value[1] < $threshold) {
                     unset($config[$key]);
                     $modified = true;
-                }
-                else {
+                } else {
                     $keys[$key] = $value[0];
                 }
             }
@@ -1273,8 +1251,7 @@ class enigma_engine
             if (!empty($reset)) {
                 $part->size = 0;
             }
-        }
-        else {
+        } else {
             $body = $msg->get_part_body($part->mime_id, false);
         }
 
@@ -1435,8 +1412,7 @@ class enigma_engine
 
                     if (is_dir($filename)) {
                         self::delete_dir($filename);
-                    }
-                    else {
+                    } else {
                         unlink($filename);
                     }
                 }

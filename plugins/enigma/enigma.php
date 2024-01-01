@@ -67,8 +67,7 @@ class enigma extends rcube_plugin
             }
 
             $this->password_handler();
-        }
-        elseif ($this->rc->task == 'settings') {
+        } elseif ($this->rc->task == 'settings') {
             // add hooks for Enigma settings
             $this->add_hook('settings_actions', [$this, 'settings_actions']);
             $this->add_hook('preferences_sections_list', [$this, 'preferences_sections_list']);
@@ -87,8 +86,7 @@ class enigma extends rcube_plugin
             }
 
             $this->password_handler();
-        }
-        elseif ($this->rc->task == 'cli') {
+        } elseif ($this->rc->task == 'cli') {
             $this->add_hook('user_delete_commit', [$this, 'user_delete']);
         }
 
@@ -457,8 +455,7 @@ class enigma extends rcube_plugin
                 if (count($listing)) {
                     $content .= html::p(null, $this->gettext(['name' => 'identitymatchingprivkeys', 'vars' => ['nr' => count($listing)]]));
                     $content .= html::tag('ul', 'keylist', implode("\n", $listing));
-                }
-                else {
+                } else {
                     $content .= html::p(null, $this->gettext('identitynoprivkeys'));
                 }
             }

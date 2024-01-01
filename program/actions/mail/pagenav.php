@@ -38,8 +38,7 @@ class rcmail_action_mail_pagenav extends rcmail_action_mail_index
             $first = $pos ? $index->get_element('FIRST') : 0;
             $next  = $pos < $cnt - 1 ? $index->get_element($pos + 1) : 0;
             $last  = $pos < $cnt - 1 ? $index->get_element('LAST') : 0;
-        }
-        else {
+        } else {
             // error, this will at least disable page navigation
             $rcmail->output->command('set_rowcount', '');
             $rcmail->output->send();

@@ -62,8 +62,7 @@ class rcube_miab_password
             ) {
                 return PASSWORD_SUCCESS;
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $result = $e->getMessage();
         }
 

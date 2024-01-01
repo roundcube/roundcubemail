@@ -92,8 +92,7 @@ class rcube_ldap extends rcube_addressbook
             // set member field
             if (!empty($p['groups']['member_attr'])) {
                 $this->prop['member_attr'] = strtolower($p['groups']['member_attr']);
-            }
-            elseif (empty($p['member_attr'])) {
+            } elseif (empty($p['member_attr'])) {
                 $this->prop['member_attr'] = 'member';
             }
             // set default name attribute to cn
@@ -132,8 +131,7 @@ class rcube_ldap extends rcube_addressbook
             foreach ($p['fieldmap'] as $rf => $lf) {
                 $this->fieldmap[$rf] = $this->_attr_name($lf);
             }
-        }
-        elseif (!empty($p)) {
+        } elseif (!empty($p)) {
             // read deprecated *_field properties to remain backwards compatible
             foreach ($p as $prop => $value) {
                 if (!empty($value) && preg_match('/^(.+)_field$/', $prop, $matches)) {
@@ -159,8 +157,7 @@ class rcube_ldap extends rcube_addressbook
                 elseif ($idx === 0) {
                     if ($param == '*') {
                         $limit = null;
-                    }
-                    else {
+                    } else {
                         $limit = max(1, intval($param));
                     }
                 }
@@ -173,8 +170,7 @@ class rcube_ldap extends rcube_addressbook
             if (!isset($this->coltypes[$col]) || !is_array($this->coltypes[$col])) {
                 $subtypes = $type ? [$type] : null;
                 $this->coltypes[$col] = ['limit' => $limit, 'subtypes' => $subtypes, 'attributes' => [$lf]];
-            }
-            elseif ($type) {
+            } elseif ($type) {
                 $this->coltypes[$col]['subtypes'][] = $type;
                 $this->coltypes[$col]['attributes'][] = $lf;
                 $this->coltypes[$col]['limit'] += $limit;
@@ -210,8 +206,7 @@ class rcube_ldap extends rcube_addressbook
             if (empty($this->coltypes['address']['subtypes'])) {
                 $this->coltypes['address']['subtypes'] = ['home'];
             }
-        }
-        elseif (!empty($this->coltypes['address'])) {
+        } elseif (!empty($this->coltypes['address'])) {
             $this->coltypes['address'] += ['type' => 'textarea', 'childs' => null, 'size' => 40];
 
             // 'serialized' means the UI has to present a composite address field
@@ -349,8 +344,7 @@ class rcube_ldap extends rcube_addressbook
                 // Get the pieces needed for variable replacement.
                 if ($fu = ($rcube->get_user_email() ?: $conf['username'])) {
                     [$u, $d] = explode('@', $fu);
-                }
-                else {
+                } else {
                     $u = '';
                     $d = $this->mail_domain;
                 }
@@ -392,8 +386,7 @@ class rcube_ldap extends rcube_addressbook
 
                     if ($this->cache && ($dn = $this->cache->get($cache_key))) {
                         $replaces['%dn'] = $dn;
-                    }
-                    else {
+                    } else {
                         $ldap = $this->ldap;
                         if (!empty($search_bind_dn) && !empty($conf['search_bind_pw'])) {
                             // To protect from "Critical extension is unavailable" error
@@ -434,8 +427,7 @@ class rcube_ldap extends rcube_addressbook
                     if (empty($replaces['%dn'])) {
                         if (!empty($conf['search_dn_default'])) {
                             $replaces['%dn'] = $conf['search_dn_default'];
-                        }
-                        else {
+                        } else {
                             rcube::raise_error([
                                     'code' => 100, 'type' => 'ldap',
                                     'file' => __FILE__, 'line' => __LINE__,
@@ -485,15 +477,12 @@ class rcube_ldap extends rcube_addressbook
 
             if (empty($bind_pass) && strcasecmp($auth_method, 'GSSAPI') != 0) {
                 $this->ready = true;
-            }
-            else {
+            } else {
                 if (!empty($conf['auth_cid'])) {
                     $this->ready = $this->ldap->sasl_bind($conf['auth_cid'], $bind_pass, $bind_dn);
-                }
-                elseif (!empty($bind_dn)) {
+                } elseif (!empty($bind_dn)) {
                     $this->ready = $this->ldap->bind($bind_dn, $bind_pass);
-                }
-                else {
+                } else {
                     $this->ready = $this->ldap->sasl_bind($bind_user, $bind_pass);
                 }
             }
@@ -638,8 +627,7 @@ class rcube_ldap extends rcube_addressbook
 
             $entries['count'] = count($entries);
             $this->result = new rcube_result_set($entries['count'], ($this->list_page - 1) * $this->page_size);
-        }
-        else {
+        } else {
             // exec LDAP search if no result resource is stored
             if ($this->ready && $this->ldap_result === null) {
                 $this->ldap_result = $this->extended_search();
@@ -700,8 +688,7 @@ class rcube_ldap extends rcube_addressbook
                     $members       = $this->_list_group_members($dn, $entry, $member_attr, $count);
                     $group_members = array_merge($group_members, $members);
                     $attrs[]       = $member_attr;
-                }
-                elseif (!empty($entry['memberurl'])) {
+                } elseif (!empty($entry['memberurl'])) {
                     $members       = $this->_list_group_memberurl($dn, $entry, $count);
                     $group_members = array_merge($group_members, $members);
                 }
@@ -789,8 +776,7 @@ class rcube_ldap extends rcube_addressbook
                 for ($j = 0; $j < $entries['count']; $j++) {
                     if ($this->is_group_entry($entries[$j]) && ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count))) {
                         $group_members = array_merge($group_members, $nested_group_members);
-                    }
-                    else {
+                    } else {
                         $group_members[] = $entries[$j];
                     }
                 }
@@ -910,8 +896,7 @@ class rcube_ldap extends rcube_addressbook
             }
 
             $filter .= ')';
-        }
-        else {
+        } else {
             $attributes = [];
 
             if ($fields == '*') {
@@ -973,8 +958,7 @@ class rcube_ldap extends rcube_addressbook
 
         if ($select) {
             $this->list_records();
-        }
-        else {
+        } else {
             $this->result = $this->count();
         }
 
@@ -992,8 +976,7 @@ class rcube_ldap extends rcube_addressbook
 
         if (!empty($this->ldap_result)) {
             $count = $this->ldap_result['count'];
-        }
-        elseif ($this->group_id && !empty($this->group_data['dn'])) {
+        } elseif ($this->group_id && !empty($this->group_data['dn'])) {
             $count = count($this->list_group_members($this->group_data['dn'], true));
         }
         // We have a connection but no result set, attempt to get one.
@@ -1068,8 +1051,7 @@ class rcube_ldap extends rcube_addressbook
 
             if ($count && $res) {
                 $result += $res;
-            }
-            elseif (!$count && $res && ($res_count = $res->count())) {
+            } elseif (!$count && $res && ($res_count = $res->count())) {
                 $res = $res->entries();
                 unset($res['count']);
                 $result = array_merge($result, $res);
@@ -1356,8 +1338,7 @@ class rcube_ldap extends rcube_addressbook
                         if ($val) {
                             $subnewdata[$fld] = $val;
                         }
-                    }
-                    elseif ($old !== null) {
+                    } elseif ($old !== null) {
                         $subdata[$fld] = $old;
                     }
                     continue;
@@ -1369,8 +1350,7 @@ class rcube_ldap extends rcube_addressbook
                     if ($old === null) {
                         // Field was not set prior, need to add it.
                         $newdata[$fld] = $val;
-                    }
-                    elseif ($val == '') {
+                    } elseif ($val == '') {
                         // Field supplied is empty, verify that it is not required.
                         if (!in_array($fld, $this->prop['required_fields'])) {
                             // ...It is not, safe to clear.
@@ -1379,8 +1359,7 @@ class rcube_ldap extends rcube_addressbook
                             $deletedata[$fld] = [];
                             //$deletedata[$fld] = $old_data[$fld];
                         }
-                    }
-                    else {
+                    } else {
                         // The data was modified, save it out.
                         $replacedata[$fld] = $val;
                     }
@@ -1587,8 +1566,7 @@ class rcube_ldap extends rcube_addressbook
 
                     try {
                         $res = eval("return ($code);");
-                    }
-                    catch (ParseError $e) {
+                    } catch (ParseError $e) {
                         // ignore
                     }
 
@@ -1601,8 +1579,7 @@ class rcube_ldap extends rcube_addressbook
                     }
 
                     $attrs[$lf] = $res;
-                }
-                else {
+                } else {
                     // replace {attr} placeholders with concrete attribute values
                     $attrs[$lf] = preg_replace('/\{\w+\}/', '', strtr($templ, $attrvals));
                 }
@@ -1629,8 +1606,7 @@ class rcube_ldap extends rcube_addressbook
 
             if (!empty($this->group_data['name_attr'])) {
                 $fieldmap['name'] = $this->group_data['name_attr'];
-            }
-            elseif (!empty($this->prop['groups']['name_attr'])) {
+            } elseif (!empty($this->prop['groups']['name_attr'])) {
                 $fieldmap['name'] = $this->prop['groups']['name_attr'];
             }
         }
@@ -1668,18 +1644,14 @@ class rcube_ldap extends rcube_addressbook
 
                 if ($col == 'email' && $this->mail_domain && !strpos($value, '@')) {
                     $out[$rf][] = sprintf('%s@%s', $value, $this->mail_domain);
-                }
-                elseif (in_array($col, ['street', 'zipcode', 'locality', 'country', 'region'])) {
+                } elseif (in_array($col, ['street', 'zipcode', 'locality', 'country', 'region'])) {
                     $out['address' . ($subtype ? ':' : '') . $subtype][$i][$col] = $value;
-                }
-                elseif ($col == 'address' && strpos($value, '$') !== false) {
+                } elseif ($col == 'address' && strpos($value, '$') !== false) {
                     // address data is represented as string separated with $
                     [$out[$rf][$i]['street'], $out[$rf][$i]['locality'], $out[$rf][$i]['zipcode'], $out[$rf][$i]['country']] = explode('$', $value);
-                }
-                elseif ($entry['count'] > 1) {
+                } elseif ($entry['count'] > 1) {
                     $out[$rf][] = $value;
-                }
-                else {
+                } else {
                     $out[$rf] = $value;
                 }
             }
@@ -1744,8 +1716,7 @@ class rcube_ldap extends rcube_addressbook
             if (!$val && !empty($save_cols[$col])) {
                 $val = $save_cols[$col];
                 unset($save_cols[$col]);  // use this value only once
-            }
-            elseif (!$val && !$subtype) {
+            } elseif (!$val && !$subtype) {
                 // extract values from subtype cols
                 $val = $this->get_col_values($col, $save_cols, true);
             }
@@ -1841,8 +1812,7 @@ class rcube_ldap extends rcube_addressbook
         if ($group_id) {
             $this->group_id = $group_id;
             $this->group_data = $this->get_group_entry($group_id);
-        }
-        else {
+        } else {
             $this->group_id = 0;
             $this->group_data = null;
         }
@@ -1871,8 +1841,7 @@ class rcube_ldap extends rcube_addressbook
                     $groups[] = $group;
                 }
             }
-        }
-        else {
+        } else {
             $groups = $group_cache;
         }
 
@@ -2009,8 +1978,7 @@ class rcube_ldap extends rcube_addressbook
         // cache this
         if ($this->cache && $search === null) {
             $this->cache->set('groups', $groups);
-        }
-        elseif ($search !== null) {
+        } elseif ($search !== null) {
             $this->group_search_cache = $groups;
         }
 
@@ -2039,8 +2007,7 @@ class rcube_ldap extends rcube_addressbook
                 $group_cache[$group_id]['dn'] = $dn;
                 $group_cache[$group_id]['name'] = $group_name;
                 $group_cache[$group_id]['member_attr'] = $this->get_group_member_attr($classes);
-            }
-            else {
+            } else {
                 $group_cache[$group_id] = false;
             }
 

@@ -369,8 +369,7 @@ class rcmail_action_contacts_index extends rcmail_action
         // set list properties and session vars
         if (!empty($_GET['_page'])) {
             $contacts->set_page($_SESSION['page'] = intval($_GET['_page']));
-        }
-        else {
+        } else {
             $contacts->set_page($_SESSION['page'] ?? 1);
         }
 
@@ -403,8 +402,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                     if (isset(self::$CONTACT_COLTYPES[$col])) {
                         self::$CONTACT_COLTYPES[$col] = array_merge(self::$CONTACT_COLTYPES[$col], $colprop);
-                    }
-                    else {
+                    } else {
                         self::$CONTACT_COLTYPES[$col] = $colprop;
                     }
                 }
@@ -680,8 +678,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                 ],
                                 '&raquo;'
                             );
-                        }
-                        else {
+                        } else {
                             $val = null;
                         }
                         break;
@@ -816,8 +813,7 @@ class rcmail_action_contacts_index extends rcmail_action
                     'src' => $rcmail->output->get_skin_file($attrib['deleteicon']),
                     'alt' => $rcmail->gettext('delete'),
             ]);
-        }
-        else {
+        } else {
             $del_button = html::span('inner', $rcmail->gettext('delete'));
         }
 
@@ -896,11 +892,9 @@ class rcmail_action_contacts_index extends rcmail_action
 
                             if (!$edit_mode) {
                                 $record['source'] = $rcmail->gettext('addressbook') . ': ' . $source;
-                            }
-                            elseif ($rcmail->action == 'add') {
+                            } elseif ($rcmail->action == 'add') {
                                 $record['source'] = $source;
-                            }
-                            else {
+                            } else {
                                 continue;
                             }
                         }
@@ -923,8 +917,7 @@ class rcmail_action_contacts_index extends rcmail_action
                             if (!empty($record[$col])) {
                                 $fields .= html::span('namefield ' . $col, rcube::Q($record[$col])) . ' ';
                             }
-                        }
-                        else {
+                        } else {
                             $visible = true;
                             $colprop = [];
 
@@ -948,8 +941,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                             if ($col == 'source') {
                                 $input = self::source_selector(['id' => $colprop['id']]);
-                            }
-                            else {
+                            } else {
                                 $val   = $record[$col] ?? null;
                                 $input = rcube_output::get_edit_field($col, $val, $colprop);
                             }
@@ -958,13 +950,11 @@ class rcmail_action_contacts_index extends rcmail_action
                                 $_content = html::label($colprop['id'], rcube::Q($colprop['label'])) . html::div(null, $input);
                                 if (count($colnames) > 1) {
                                     $fields .= html::div(['class' => 'row', 'style' => $visible ? null : 'display:none'], $_content);
-                                }
-                                else {
+                                } else {
                                     $fields .= $_content;
                                     $block_attr['style'] = $visible ? null : 'display:none';
                                 }
-                            }
-                            else {
+                            } else {
                                 $fields .= $input;
                             }
                         }
@@ -993,8 +983,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                     if (empty($tokens[1])) {
                         $subtype = $business_mode ? 'work' : 'home';
-                    }
-                    else {
+                    } else {
                         $subtype = $tokens[1];
                     }
 
@@ -1023,8 +1012,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                 'title' => $colprop['label'] . ' ' . $rcmail->gettext('type'),
                         ]);
                         $select_subtype->add($subtype_names, $colprop['subtypes']);
-                    }
-                    else {
+                    } else {
                         $select_subtype = null;
                     }
 
@@ -1052,12 +1040,10 @@ class rcmail_action_contacts_index extends rcmail_action
                                 if (!empty($val) && is_array($val)) {
                                     if (!empty($val[$childcol])) {
                                         $childvalue = $val[$childcol];
-                                    }
-                                    else {
+                                    } else {
                                         $childvalue = $val[$j] ?? null;
                                     }
-                                }
-                                else {
+                                } else {
                                     $childvalue = '';
                                 }
 
@@ -1068,12 +1054,10 @@ class rcmail_action_contacts_index extends rcmail_action
 
                                     $cp_type = $cp['type'] ?? null;
                                     $composite['{' . $childcol . '}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp_type) . ' ';
-                                }
-                                else {
+                                } else {
                                     if (!empty($cp['render_func'])) {
                                         $childval = call_user_func($cp['render_func'], $childvalue, $childcol);
-                                    }
-                                    else {
+                                    } else {
                                         $childval = rcube::Q($childvalue);
                                     }
 
@@ -1087,8 +1071,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                             if (isset($coltypes[$field]['count'])) {
                                 $coltypes[$field]['count']++;
-                            }
-                            else {
+                            } else {
                                 $coltypes[$field]['count'] = 1;
                             }
 
@@ -1097,8 +1080,7 @@ class rcmail_action_contacts_index extends rcmail_action
                             if ($compact) {
                                 $val = html::div('content', str_replace('<br/>', '', $val));
                             }
-                        }
-                        elseif ($edit_mode) {
+                        } elseif ($edit_mode) {
                             // call callback to render/format value
                             if (!empty($colprop['render_func'])) {
                                 $val = call_user_func($colprop['render_func'], $val, $col);
@@ -1122,18 +1104,14 @@ class rcmail_action_contacts_index extends rcmail_action
 
                             if (empty($coltypes[$field]['count'])) {
                                 $coltypes[$field]['count'] = 1;
-                            }
-                            else {
+                            } else {
                                 $coltypes[$field]['count']++;
                             }
-                        }
-                        elseif (!empty($colprop['render_func'])) {
+                        } elseif (!empty($colprop['render_func'])) {
                             $val = call_user_func($colprop['render_func'], $val, $col);
-                        }
-                        elseif (isset($colprop['options']) && isset($colprop['options'][$val])) {
+                        } elseif (isset($colprop['options']) && isset($colprop['options'][$val])) {
                             $val = $colprop['options'][$val];
-                        }
-                        else {
+                        } else {
                             $val = rcube::Q($val);
                         }
 
@@ -1165,21 +1143,18 @@ class rcmail_action_contacts_index extends rcmail_action
                                 if (!$compact) {
                                     $_label = html::div('contactfieldlabel label', $_label);
                                 }
-                            }
-                            elseif ($select_subtype) {
+                            } elseif ($select_subtype) {
                                 $_label = $select_subtype->show($subtype);
                                 if (!$compact) {
                                     $_label = html::div('contactfieldlabel label', $_label);
                                 }
-                            }
-                            else {
+                            } else {
                                 $_label = html::label(['class' => 'contactfieldlabel label', 'for' => $colprop['id']], rcube::Q($label));
                             }
 
                             if (!$compact) {
                                 $val = html::div('contactfieldcontent ' . $colprop['type'], $val);
-                            }
-                            else {
+                            } else {
                                 $val .= $_del_btn;
                             }
 
@@ -1221,8 +1196,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 }
 
                 $content = html::div(['id' => 'contactsection' . $section], $content);
-            }
-            else {
+            } else {
                 $content = $fieldset['content'];
             }
 
@@ -1251,8 +1225,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         if (!empty($colprop['value'])) {
             $values = (array) $colprop['value'];
-        }
-        elseif (!empty($colprop['subtypes'])) {
+        } elseif (!empty($colprop['subtypes'])) {
             // iterate over possible subtypes and collect values with their subtype
             $c_values = rcube_addressbook::get_col_values($field, $record);
 
@@ -1276,11 +1249,9 @@ class rcmail_action_contacts_index extends rcmail_action
                     $values[$i]   = $value;
                 }
             }
-        }
-        elseif (isset($record[$field_name])) {
+        } elseif (isset($record[$field_name])) {
             $values = $record[$field_name];
-        }
-        elseif (isset($record[$field])) {
+        } elseif (isset($record[$field])) {
             $values = $record[$field];
         }
 
@@ -1301,8 +1272,7 @@ class rcmail_action_contacts_index extends rcmail_action
     {
         if ($result = self::$CONTACTS->get_result()) {
             $record = $result->first();
-        }
-        else {
+        } else {
             $record = ['photo' => null, '_type' => 'contact'];
         }
 
@@ -1311,12 +1281,10 @@ class rcmail_action_contacts_index extends rcmail_action
         if (!empty($record['_type']) && $record['_type'] == 'group' && !empty($attrib['placeholdergroup'])) {
             $photo_img = $rcmail->output->abs_url($attrib['placeholdergroup'], true);
             $photo_img = $rcmail->output->asset_url($photo_img);
-        }
-        elseif (!empty($attrib['placeholder'])) {
+        } elseif (!empty($attrib['placeholder'])) {
             $photo_img = $rcmail->output->abs_url($attrib['placeholder'], true);
             $photo_img = $rcmail->output->asset_url($photo_img);
-        }
-        else {
+        } else {
             $photo_img = 'data:image/gif;base64,' . rcmail_output::BLANK_GIF;
         }
 
@@ -1335,8 +1303,7 @@ class rcmail_action_contacts_index extends rcmail_action
             if (!empty(self::$contact['photo'])) {
                 if (self::$contact['photo'] == '-del-') {
                     $record['photo'] = '';
-                }
-                elseif (preg_match('/^[a-z0-9]+$/i', self::$contact['photo']) && $rcmail->get_uploaded_file(self::$contact['photo'])) {
+                } elseif (preg_match('/^[a-z0-9]+$/i', self::$contact['photo']) && $rcmail->get_uploaded_file(self::$contact['photo'])) {
                     $record['photo'] = $file_id = self::$contact['photo'];
                 }
             }
@@ -1346,18 +1313,15 @@ class rcmail_action_contacts_index extends rcmail_action
 
         if (!empty($plugin['url'])) {
             $photo_img = $plugin['url'];
-        }
-        elseif (!empty($record['photo']) && preg_match('!^https?://!i', $record['photo'])) {
+        } elseif (!empty($record['photo']) && preg_match('!^https?://!i', $record['photo'])) {
             $photo_img = $record['photo'];
-        }
-        elseif (!empty($record['photo'])) {
+        } elseif (!empty($record['photo'])) {
             $url = ['_action' => 'photo', '_cid' => $record['ID'], '_source' => self::$SOURCE_ID];
             if (!empty($file_id)) {
                 $url['_photo'] = $ff_value = $file_id;
             }
             $photo_img = $rcmail->url($url);
-        }
-        else {
+        } else {
             $ff_value = '-del-'; // will disable delete-photo action
         }
 
@@ -1477,8 +1441,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         $result[$source_id][] = $contact_id;
                     }
                 }
-            }
-            else {
+            } else {
                 if (substr($id, -($got_source + 1)) === "-$source") {
                     $id = substr($id, 0, -($got_source + 1));
                 }

@@ -78,8 +78,7 @@ class virtuser_query extends rcube_plugin
                         'signature'      => $sql_arr[5] ?? '',
                         'html_signature' => isset($sql_arr[6]) ? intval($sql_arr[6]) : 0,
                     ];
-                }
-                else {
+                } else {
                     $result[] = $sql_arr[0];
                 }
 
@@ -153,8 +152,7 @@ class virtuser_query extends rcube_plugin
                 $this->db = rcube_db::factory($dsn);
                 $this->db->set_debug((bool) $this->app->config->get('sql_debug'));
                 $this->db->db_connect('r'); // connect in read mode
-            }
-            else {
+            } else {
                 $this->db = $this->app->get_dbh();
             }
         }

@@ -38,8 +38,7 @@ class krb_authentication extends rcube_plugin
             if (empty($_SESSION['user_id'])) {
                 $args['action']       = 'login';
                 $this->redirect_query = $_SERVER['QUERY_STRING'];
-            }
-            else {
+            } else {
                 $_SESSION['password'] = null;
             }
         }

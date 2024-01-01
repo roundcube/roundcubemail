@@ -96,8 +96,7 @@ class markasjunk extends rcube_plugin
                         'innerclass' => 'inner',
                         'label'      => 'markasjunk.notjunk',
                     ], 'toolbar');
-            }
-            else {
+            } else {
                 // add the buttons to the mark message menu
                 $this->add_button([
                         'command'    => 'plugin.markasjunk.junk',
@@ -155,8 +154,7 @@ class markasjunk extends rcube_plugin
         if ($result) {
             if ($dest_mbox && ($mbox_name !== $dest_mbox || $multifolder)) {
                 $this->rcube->output->command('markasjunk_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multifolder));
-            }
-            else {
+            } else {
                 $this->rcube->output->command('command', 'list', $mbox_name);
             }
 
@@ -170,8 +168,7 @@ class markasjunk extends rcube_plugin
     {
         if (!empty($p['message_flags'])) {
             $p['message_flags'] = array_merge((array) $p['message_flags'], $this->flags);
-        }
-        else {
+        } else {
             $p['message_flags'] = $this->flags;
         }
 
@@ -249,8 +246,7 @@ class markasjunk extends rcube_plugin
 
         if ($action == 'spam') {
             $this->driver->spam($uids, $source_mbox, $dest_mbox);
-        }
-        elseif ($action == 'ham') {
+        } elseif ($action == 'ham') {
             $this->driver->ham($uids, $source_mbox, $dest_mbox);
         }
 
@@ -290,15 +286,13 @@ class markasjunk extends rcube_plugin
 
         if ($spam_flag === false) {
             unset($this->flags['JUNK']);
-        }
-        elseif (!empty($spam_flag)) {
+        } elseif (!empty($spam_flag)) {
             $this->flags['JUNK'] = $spam_flag;
         }
 
         if ($ham_flag === false) {
             unset($this->flags['NONJUNK']);
-        }
-        elseif (!empty($ham_flag)) {
+        } elseif (!empty($ham_flag)) {
             $this->flags['NONJUNK'] = $ham_flag;
         }
 

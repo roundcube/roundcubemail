@@ -30,8 +30,7 @@ class Rcmail_Rcmail extends ActionTestCase
 
         try {
             $rcmail->action_handler();
-        }
-        catch (ExitException $e) {
+        } catch (ExitException $e) {
         }
 
         $result = $output->getOutput();
@@ -44,8 +43,7 @@ class Rcmail_Rcmail extends ActionTestCase
 
         try {
             $rcmail->action_handler();
-        }
-        catch (ExitException $e) {
+        } catch (ExitException $e) {
         }
 
         $result = $output->getOutput();

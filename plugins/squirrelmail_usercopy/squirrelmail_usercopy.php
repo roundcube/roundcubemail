@@ -81,8 +81,7 @@ class squirrelmail_usercopy extends rcube_plugin
 
                     if ($this->identities_level == 0 && !empty($this->prefs['email_address' . $i])) {
                         $ident_data['email'] = $this->prefs['email_address' . $i];
-                    }
-                    else {
+                    } else {
                         $ident_data['email'] = $p['record']['email'];
                     }
 
@@ -115,8 +114,7 @@ class squirrelmail_usercopy extends rcube_plugin
                     if (count($emails) > 1) {
                         if (!empty($groups[$rec['name']])) {
                             $group_id = $groups[$rec['name']];
-                        }
-                        elseif ($group = $contacts->create_group($rec['name'])) {
+                        } elseif ($group = $contacts->create_group($rec['name'])) {
                             $group_id = $group['id'];
                             $groups[$rec['name']] = $group_id;
                         }
@@ -128,8 +126,7 @@ class squirrelmail_usercopy extends rcube_plugin
 
                         if (!empty($addresses[$email])) {
                             $contact_id = $addresses[$email];
-                        }
-                        elseif (rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
+                        } elseif (rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
                             $rec['email'] = rcube_utils::idn_to_utf8($email);
                             if ($contact_id = $contacts->insert($rec, true)) {
                                 $addresses[$email] = $contact_id;

@@ -174,8 +174,7 @@ class rcube_tnef_decoder
                     $document  = new RtfHtmlPhp\Document($message['stream']);
                     $formatter = new RtfHtmlPhp\Html\HtmlFormatter(RCUBE_CHARSET);
                     $message   = $formatter->format($document);
-                }
-                catch (Exception $e) {
+                } catch (Exception $e) {
                     // ignore the body
                     rcube::raise_error([
                             'file' => __FILE__,
@@ -184,8 +183,7 @@ class rcube_tnef_decoder
                         ], true, false
                     );
                 }
-            }
-            else {
+            } else {
                 $message = null;
             }
         }
@@ -496,8 +494,7 @@ class rcube_tnef_decoder
             && ($charset = rcube_charset::$windows_codepages[$this->codepage])
         ) {
             $str = rcube_charset::convert($str, $charset, RCUBE_CHARSET);
-        }
-        elseif (($pos = strpos($str, "\0")) !== false && $pos != strlen($str) - 1) {
+        } elseif (($pos = strpos($str, "\0")) !== false && $pos != strlen($str) - 1) {
             $str = rcube_charset::convert($str, 'UTF-16LE', RCUBE_CHARSET);
         }
 
@@ -539,8 +536,7 @@ class rcube_tnef_decoder
         while ($out < ($size + $length_preload)) {
             if (($flag_count++ % 8) == 0) {
                 $flags = ord($data[$in++]);
-            }
-            else {
+            } else {
                 $flags = $flags >> 1;
             }
 
@@ -561,8 +557,7 @@ class rcube_tnef_decoder
                     $uncomp .= $uncomp[$offset++];
                     $out++;
                 }
-            }
-            else {
+            } else {
                 $uncomp .= $data[$in++];
                 $out++;
             }
@@ -596,18 +591,14 @@ class rcube_tnef_decoder
                     // then the character is plain text and add it to the output stream.
                     if ($nextChar == '\\' && self::_rtfIsPlain($stack[$j])) {
                         $document .= '\\';
-                    }
-                    elseif ($nextChar == '~' && self::_rtfIsPlain($stack[$j])) {
+                    } elseif ($nextChar == '~' && self::_rtfIsPlain($stack[$j])) {
                         $document .= ' ';
-                    }
-                    elseif ($nextChar == '_' && self::_rtfIsPlain($stack[$j])) {
+                    } elseif ($nextChar == '_' && self::_rtfIsPlain($stack[$j])) {
                         $document .= '-';
-                    }
-                    elseif ($nextChar == '*') {
+                    } elseif ($nextChar == '*') {
                         // Add to the stack.
                         $stack[$j]['*'] = true;
-                    }
-                    elseif ($nextChar == "'") {
+                    } elseif ($nextChar == "'") {
                         // If it is a single quote, read next two characters that
                         // are the hexadecimal notation of a character we should add
                         // to the output stream.
@@ -619,8 +610,7 @@ class rcube_tnef_decoder
 
                         //Shift the pointer.
                         $i += 2;
-                    }
-                    elseif ($nextChar >= 'a' && $nextChar <= 'z' || $nextChar >= 'A' && $nextChar <= 'Z') {
+                    } elseif ($nextChar >= 'a' && $nextChar <= 'z' || $nextChar >= 'A' && $nextChar <= 'Z') {
                         // Since, we’ve found the alphabetic character, the next
                         // characters are control words and, possibly, some digit
                         // parameter.
@@ -640,12 +630,10 @@ class rcube_tnef_decoder
                                     break;
                                 }
                                 $word .= $nextChar;
-                            }
-                            elseif ($nextChar >= '0' && $nextChar <= '9') {
+                            } elseif ($nextChar >= '0' && $nextChar <= '9') {
                                 // If it is a digit, store the parameter.
                                 $param .= $nextChar;
-                            }
-                            elseif ($nextChar == '-') {
+                            } elseif ($nextChar == '-') {
                                 // Since minus sign may occur only before a digit
                                 // parameter, check whether $param is empty.
                                 // Otherwise, we reach the end of the control word.
@@ -653,8 +641,7 @@ class rcube_tnef_decoder
                                     break;
                                 }
                                 $param .= $nextChar;
-                            }
-                            else {
+                            } else {
                                 break;
                             }
                         }
@@ -746,8 +733,7 @@ class rcube_tnef_decoder
                     // from previous stack element to it.
                     if (!empty($stack[$j])) {
                         $stack[] = $stack[$j++];
-                    }
-                    else {
+                    } else {
                         $j++;
                     }
                     break;

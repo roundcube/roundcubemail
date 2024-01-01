@@ -66,8 +66,7 @@ class HtmlEditor extends Component
         if ($mode == self::MODE_PLAIN) {
             $browser->assertVisible('@plain-toolbar')
                 ->assertMissing('@html-body');
-        }
-        else {
+        } else {
             $browser->assertMissing('@plain-toolbar')
                 ->assertVisible('@html-body');
         }
@@ -84,8 +83,7 @@ class HtmlEditor extends Component
                 $browser->waitForDialog()->acceptDialog();
             }
             $browser->waitFor('@html-body')->waitFor('@html-toolbar');
-        }
-        else {
+        } else {
             $browser->click('.tox-toolbar__group:first-child button');
             if ($accept_warning) {
                 $browser->waitForDialog()->acceptDialog();

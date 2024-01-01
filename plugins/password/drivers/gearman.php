@@ -55,8 +55,7 @@ class rcube_gearman_password
                     'message' => "Password plugin: Gearman authentication failed for user $username",
                 ], true, false
             );
-        }
-        else {
+        } else {
             rcube::raise_error([
                     'code' => 600,
                     'file' => __FILE__,

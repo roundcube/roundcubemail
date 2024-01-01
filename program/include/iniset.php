@@ -88,8 +88,7 @@ function rcmail_autoload($classname)
     if (strpos($classname, 'rcmail') === 0) {
         if (preg_match('/^rcmail_action_([^_]+)_(.*)$/', $classname, $matches)) {
             $filepath = INSTALL_PATH . "program/actions/{$matches[1]}/{$matches[2]}.php";
-        }
-        else {
+        } else {
             $filepath = INSTALL_PATH . "program/include/$classname.php";
         }
 
@@ -121,13 +120,11 @@ function rcmail_fatal_error()
 {
     if (\PHP_SAPI === 'cli') {
         echo "Fatal error: Please check the Roundcube error log and/or server error logs for more information.\n";
-    }
-    elseif (!empty($_REQUEST['_remote'])) {
+    } elseif (!empty($_REQUEST['_remote'])) {
         // Ajax request from UI
         header('Content-Type: application/json; charset=UTF-8');
         echo json_encode(['code' => 500, 'message' => 'Internal Server Error']);
-    }
-    else {
+    } else {
         if (!defined('RCUBE_FATAL_ERROR_MSG')) {
             define('RCUBE_FATAL_ERROR_MSG', INSTALL_PATH . 'program/resources/error.html');
         }

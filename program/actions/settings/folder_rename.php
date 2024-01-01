@@ -39,8 +39,7 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
 
         if (!empty($rename)) {
             self::update_folder_row($name, $oldname);
-        }
-        else {
+        } else {
             self::display_server_error('errorsaving');
         }
 
@@ -57,8 +56,7 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
 
         if (empty($plugin['abort'])) {
             $renamed =  $storage->rename_folder($oldname, $newname);
-        }
-        else {
+        } else {
             $renamed = $plugin['result'];
         }
 
@@ -72,8 +70,7 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
                 if ($key == $oldname) {
                     unset($a_threaded[$key]);
                     $a_threaded[$newname] = $val;
-                }
-                elseif (preg_match($oldprefix, $key)) {
+                } elseif (preg_match($oldprefix, $key)) {
                     unset($a_threaded[$key]);
                     $a_threaded[preg_replace($oldprefix, $newname . $delimiter, $key)] = $val;
                 }

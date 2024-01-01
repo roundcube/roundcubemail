@@ -43,8 +43,7 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
 
                 if (file_exists($dir_path . '/' . $file . '.out')) {
                     $output = file_get_contents($dir_path . '/' . $file . '.out');
-                }
-                else {
+                } else {
                     $output = $input;
                 }
 

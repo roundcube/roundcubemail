@@ -181,8 +181,7 @@ class runlog
                     }
                     echo "$msg\n";
                 }
-            }
-            else {
+            } else {
                 echo $this->get_indent();
                 if ($tag) {
                     echo "$tag: ";

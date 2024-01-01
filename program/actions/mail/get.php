@@ -100,8 +100,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
                 if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
                     $mimetype = 'image/' . $imgtype;
-                }
-                else {
+                } else {
                     // Resize failed, we need to check the file mimetype
                     // So, we do not exit here, but goto generic file body handler below
                     $_GET['_thumb']     = 0;
@@ -159,8 +158,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     // ignore filename extension if mimeclass matches (#1489029)
                     elseif (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
                         $valid_extension = true;
-                    }
-                    else {
+                    } else {
                         // get valid file extensions
                         $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
                         $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array) $extensions);
@@ -179,8 +177,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     $real_mimetype = rcube_mime::fix_mimetype($real_mimetype);
 
                     $valid = $valid_extension && self::mimetype_compare($real_mimetype, $mimetype);
-                }
-                else {
+                } else {
                     $real_mimetype = $mimetype;
                 }
 
@@ -247,8 +244,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         $rcmail->gettext('download'),
                         $rcmail->url(array_merge($_GET, ['_download' => 1]))
                     );
-                }
-                else {
+                } else {
                     // render HTML body
                     $out = $attachment->html();
 
@@ -289,8 +285,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         readfile($file_path);
                     }
                 }
-            }
-            else {
+            } else {
                 $attachment->output($mimetype);
             }
 
@@ -353,8 +348,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 'uid'    => $rcmail->output->get_env('uid'),
                 'mbox'   => $rcmail->output->get_env('mailbox'),
             ];
-        }
-        else {
+        } else {
             $mimetype = $rcmail->output->get_env('mimetype');
             $url      = $_GET;
             $url[strpos($mimetype, 'text/') === 0 ? '_embed' : '_preload'] = 1;

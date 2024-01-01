@@ -89,8 +89,7 @@ class emoticons extends rcube_plugin
                     'title'   => html::label($field_id, $this->gettext('emoticonsdisplay')),
                     'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false))),
             ];
-        }
-        elseif ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
+        } elseif ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
             $this->load_config();
             $this->add_texts('localization');
 
@@ -113,8 +112,7 @@ class emoticons extends rcube_plugin
     {
         if ($args['section'] == 'mailview') {
             $args['prefs']['emoticons_display'] = (bool) rcube_utils::get_input_value('_emoticons_display', rcube_utils::INPUT_POST);
-        }
-        elseif ($args['section'] == 'compose') {
+        } elseif ($args['section'] == 'compose') {
             $args['prefs']['emoticons_compose'] = (bool) rcube_utils::get_input_value('_emoticons_compose', rcube_utils::INPUT_POST);
         }
 

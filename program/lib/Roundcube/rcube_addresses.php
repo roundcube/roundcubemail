@@ -84,8 +84,7 @@ class rcube_addresses extends rcube_contacts
         if ($nocount || $this->list_page <= 1) {
             // create dummy result, we don't need a count now
             $this->result = new rcube_result_set();
-        }
-        else {
+        } else {
             // count all records
             $this->result = $this->count();
         }
@@ -114,15 +113,12 @@ class rcube_addresses extends rcube_contacts
         // update counter
         if ($nocount) {
             $this->result->count = $cnt;
-        }
-        elseif ($this->list_page <= 1) {
+        } elseif ($this->list_page <= 1) {
             if ($cnt < $this->page_size && $subset == 0) {
                 $this->result->count = $cnt;
-            }
-            elseif (isset($this->cache['count'])) {
+            } elseif (isset($this->cache['count'])) {
                 $this->result->count = $this->cache['count'];
-            }
-            else {
+            } else {
                 $this->result->count = $this->_count();
             }
         }
@@ -156,8 +152,7 @@ class rcube_addresses extends rcube_contacts
             $ids     = !is_array($value) ? explode(self::SEPARATOR, $value) : $value;
             $ids     = $this->db->array2list($ids, 'integer');
             $where[] = $this->primary_key . ' IN (' . $ids . ')';
-        }
-        elseif (is_array($value)) {
+        } elseif (is_array($value)) {
             foreach ((array) $fields as $idx => $col) {
                 $val = $value[$idx];
 
@@ -168,16 +163,13 @@ class rcube_addresses extends rcube_contacts
                 // table column
                 if ($col == 'email' && ($mode & rcube_addressbook::SEARCH_STRICT)) {
                     $where[] = $this->db->ilike($col, $val);
-                }
-                elseif (in_array($col, $this->table_cols)) {
+                } elseif (in_array($col, $this->table_cols)) {
                     $where[] = $this->fulltext_sql_where($val, $mode, $col);
-                }
-                else {
+                } else {
                     $where[] = '1 = 0'; // unsupported column
                 }
             }
-        }
-        else {
+        } else {
             // fulltext search in all fields
             if ($fields == '*') {
                 $fields = ['name', 'email'];
@@ -190,8 +182,7 @@ class rcube_addresses extends rcube_contacts
                 foreach ((array) $fields as $idx => $col) {
                     if ($col == 'email' && ($mode & rcube_addressbook::SEARCH_STRICT)) {
                         $groups[] = $this->db->ilike($col, $word);
-                    }
-                    elseif (in_array($col, $this->table_cols)) {
+                    } elseif (in_array($col, $this->table_cols)) {
                         $groups[] = $this->fulltext_sql_where($word, $mode, $col);
                     }
                 }
@@ -211,12 +202,10 @@ class rcube_addresses extends rcube_contacts
 
             if ($select) {
                 $this->list_records(null, 0, $nocount);
-            }
-            else {
+            } else {
                 $this->result = $this->count();
             }
-        }
-        else {
+        } else {
             $this->result = new rcube_result_set();
         }
 

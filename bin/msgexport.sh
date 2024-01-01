@@ -61,8 +61,7 @@ function export_mailbox($mbox, $filename)
             return;
         }
         vputs("Writing to $filename\n");
-    }
-    else {
+    } else {
         $out = \STDOUT;
     }
 
@@ -90,8 +89,7 @@ $args = rcube_utils::get_opt($opts) + ['host' => 'localhost', 'mbox' => 'INBOX']
 if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
-}
-elseif (!$args['host']) {
+} elseif (!$args['host']) {
     vputs("Missing required parameters.\n");
     print_usage();
     exit;
@@ -113,8 +111,7 @@ if (!empty($a_host['host'])) {
     $host      = $a_host['host'];
     $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) ? true : false;
     $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);
-}
-else {
+} else {
     $host      = $args['host'];
     $imap_port = 143;
     $imap_ssl  = false;
@@ -133,8 +130,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
     foreach ($mailboxes as $mbox) {
         if (!empty($args['file'])) {
             $filename = preg_replace('/\.[a-z0-9]{3,4}$/i', '', $args['file']) . asciiwords($mbox) . '.mbox';
-        }
-        elseif ($args['mbox'] == '*') {
+        } elseif ($args['mbox'] == '*') {
             $filename = asciiwords($mbox) . '.mbox';
         }
 
@@ -144,7 +140,6 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
 
         export_mailbox($mbox, $filename);
     }
-}
-else {
+} else {
     vputs("IMAP login failed.\n");
 }

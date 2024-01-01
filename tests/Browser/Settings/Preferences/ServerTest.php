@@ -102,8 +102,7 @@ class ServerTest extends \Tests\Browser\TestCase
                 foreach ($this->settings as $key => $value) {
                     if (is_bool($value)) {
                         $browser->assertCheckboxState('_' . $key, $value);
-                    }
-                    else {
+                    } else {
                         $browser->assertValue("[name=_{$key}]", $value);
                     }
                 }

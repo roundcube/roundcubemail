@@ -104,8 +104,7 @@ class rcube_cache_redis extends rcube_cache
             if (substr($redis_host, 0, 7) === 'unix://') {
                 $host = substr($port, 2);
                 $port = 0;
-            }
-            else {
+            } else {
                 // set default values if not set
                 $host = $host ?: '127.0.0.1';
                 $port = $port ?: 6379;
@@ -123,8 +122,7 @@ class rcube_cache_redis extends rcube_cache
                 if ($database !== null && self::$redis->select($database) === false) {
                     throw new Exception('Could not select Redis database. Please check database setting.');
                 }
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 rcube::raise_error($e, true, false);
                 $failures++;
             }
@@ -140,8 +138,7 @@ class rcube_cache_redis extends rcube_cache
                 if ($ping !== true && $ping !== '+PONG') {
                     throw new Exception('Redis connection failure. Ping failed.');
                 }
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 self::$redis = false;
                 rcube::raise_error($e, true, false);
             }
@@ -181,8 +178,7 @@ class rcube_cache_redis extends rcube_cache
 
         try {
             $data = self::$redis->get($key);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             rcube::raise_error($e, true, false);
             return false;
         }
@@ -210,8 +206,7 @@ class rcube_cache_redis extends rcube_cache
 
         try {
             $result = self::$redis->setex($key, $this->ttl, $data);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             rcube::raise_error($e, true, false);
             return false;
         }
@@ -240,8 +235,7 @@ class rcube_cache_redis extends rcube_cache
             $result = method_exists(self::$redis, 'del')
                 ? self::$redis->del($key)
                 : self::$redis->delete($key);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             rcube::raise_error($e, true, false);
             return false;
         }

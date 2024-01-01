@@ -193,8 +193,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
 
         if (strlen($source)) {
             $book_types = [$source];
-        }
-        else {
+        } else {
             $book_types = (array) $rcmail->config->get('autocomplete_addressbooks', 'sql');
         }
 

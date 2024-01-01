@@ -62,21 +62,18 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
 
             if ($CONTACTS->readonly) {
                 $rcmail->output->show_message('addresswriterror', 'error');
-            }
-            else {
+            } else {
                 $filepaths = [];
                 if ($has_map) {
                     $filepaths = $_SESSION['contactcsvimport']['files'];
-                }
-                else {
+                } else {
                     foreach ((array) $_FILES['_file']['tmp_name'] as $i => $filepath) {
                         // Process uploaded file if there is no error
                         $err = $_FILES['_file']['error'][$i];
 
                         if ($err) {
                             $upload_error = $err;
-                        }
-                        else {
+                        } else {
                             $filepaths[] = $filepath;
                         }
                     }
@@ -107,8 +104,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                         $csv->import($file_content, false, $skip_head);
 
                         unlink($filepath);
-                    }
-                    else {
+                    } else {
                         // save uploaded file for the real import in the next step
                         $temp_csv = rcube_utils::temp_filename('csvimpt');
                         if (move_uploaded_file($filepath, $temp_csv) && file_exists($temp_csv)) {
@@ -124,8 +120,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                             }
 
                             $csvs[] = $temp_csv;
-                        }
-                        else {
+                        } else {
                             $upload_error = \UPLOAD_ERR_CANT_WRITE;
                         }
 
@@ -157,8 +152,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
 
                 // Re-enable the import button
                 $rcmail->output->command('parent.import_state_set', 'error');
-            }
-            elseif (count($vcards) > 0) {
+            } elseif (count($vcards) > 0) {
                 // import vcards
                 self::$stats = new stdClass;
                 self::$stats->names         = [];
@@ -227,8 +221,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     // insert record and send response
                     if (empty($plugin['abort'])) {
                         $success = $CONTACTS->insert($a_record);
-                    }
-                    else {
+                    } else {
                         $success = $plugin['result'];
                     }
 
@@ -244,8 +237,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
 
                         self::$stats->inserted++;
                         self::$stats->names[] = $a_record['name'] ?: $email;
-                    }
-                    else {
+                    } else {
                         self::$stats->errors++;
                     }
                 }
@@ -254,12 +246,10 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 $_SESSION['contactcsvimport'] = null;
 
                 $rcmail->output->command('parent.import_state_set', self::$stats->inserted ? 'reload' : 'ok');
-            }
-            else {
+            } else {
                 if ($upload_error == self::UPLOAD_ERR_CSV_FIELDS) {
                     $rcmail->output->show_message('csvfilemismatch', 'error');
-                }
-                else {
+                } else {
                     self::upload_error($upload_error);
                 }
 
@@ -276,8 +266,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         // render page
         if ($rcmail->output->template_exists('contactimport')) {
             $rcmail->output->send('contactimport');
-        }
-        else {
+        } else {
             $rcmail->output->send('importcontacts'); // deprecated
         }
     }
@@ -325,8 +314,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
 
             $table->add('title', html::label('rcmimporttarget', $rcmail->gettext('importtarget')));
             $table->add(null, $select->show($target));
-        }
-        else {
+        } else {
             $abook = new html_hiddenfield(['name' => '_target', 'value' => key($writable_books)]);
             $form .= $abook->show();
         }

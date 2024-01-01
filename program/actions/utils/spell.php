@@ -46,11 +46,9 @@ class rcmail_action_utils_spell extends rcmail_action
         if ($learn_word) {
             $spellchecker->add_word($data);
             $result = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><learnwordresult></learnwordresult>';
-        }
-        elseif (empty($data)) {
+        } elseif (empty($data)) {
             $result = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><spellresult charschecked="0"></spellresult>';
-        }
-        else {
+        } else {
             $spellchecker->check($data);
             $result = $spellchecker->get_xml();
         }

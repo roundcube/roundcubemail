@@ -141,16 +141,14 @@ class rcube_image
             // but copy original file to destination file
             if ($scale >= 1 && $p['intype'] == $type) {
                 $result = ($this->image_file == $filename || copy($this->image_file, $filename)) ? '' : false;
-            }
-            else {
+            } else {
                 $valid_types = 'bmp,eps,gif,jp2,jpg,png,svg,tif';
 
                 if (in_array($type, explode(',', $valid_types))) { // Valid type?
                     if ($scale >= 1) {
                         $width  = $props['width'];
                         $height = $props['height'];
-                    }
-                    else {
+                    } else {
                         $width  = intval($props['width']  * $scale);
                         $height = intval($props['height'] * $scale);
                     }
@@ -177,8 +175,7 @@ class rcube_image
                                 $image->setImageBackgroundColor('white');
                                 $image->setImageAlphaChannel(11);
                                 $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-                            }
-                            catch (Exception $e) {
+                            } catch (Exception $e) {
                                 // ignore errors
                             }
 
@@ -191,8 +188,7 @@ class rcube_image
                             if ($image->writeImage($filename)) {
                                 $result = '';
                             }
-                        }
-                        catch (Exception $e) {
+                        } catch (Exception $e) {
                             rcube::raise_error($e, true, false);
                         }
                     }
@@ -215,16 +211,13 @@ class rcube_image
             if ($props['gd_type'] == \IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = @imagecreatefromjpeg($this->image_file);
                 $type  = 'jpg';
-            }
-            elseif ($props['gd_type'] == \IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
+            } elseif ($props['gd_type'] == \IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = @imagecreatefromgif($this->image_file);
                 $type  = 'gif';
-            }
-            elseif ($props['gd_type'] == \IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
+            } elseif ($props['gd_type'] == \IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = @imagecreatefrompng($this->image_file);
                 $type  = 'png';
-            }
-            else {
+            } else {
                 // @TODO: print error to the log?
                 return false;
             }
@@ -240,8 +233,7 @@ class rcube_image
             // we do nothing but copy original file to destination file
             if ($scale >= 1) {
                 $result = $this->image_file == $filename || copy($this->image_file, $filename);
-            }
-            else {
+            } else {
                 $width     = intval($props['width']  * $scale);
                 $height    = intval($props['height'] * $scale);
                 $new_image = imagecreatetruecolor($width, $height);
@@ -281,11 +273,9 @@ class rcube_image
 
                 if ($props['gd_type'] == \IMAGETYPE_JPEG) {
                     $result = imagejpeg($image, $filename, 75);
-                }
-                elseif ($props['gd_type'] == \IMAGETYPE_GIF) {
+                } elseif ($props['gd_type'] == \IMAGETYPE_GIF) {
                     $result = imagegif($image, $filename);
-                }
-                elseif ($props['gd_type'] == \IMAGETYPE_PNG) {
+                } elseif ($props['gd_type'] == \IMAGETYPE_PNG) {
                     $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
                 }
             }
@@ -351,8 +341,7 @@ class rcube_image
                     @chmod($filename, 0600);
                     return true;
                 }
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 rcube::raise_error($e, true, false);
             }
         }
@@ -368,28 +357,22 @@ class rcube_image
         if ($props['gd_type']) {
             if ($props['gd_type'] == \IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
                 $image = imagecreatefromjpeg($this->image_file);
-            }
-            elseif ($props['gd_type'] == \IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
+            } elseif ($props['gd_type'] == \IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
                 $image = imagecreatefromgif($this->image_file);
-            }
-            elseif ($props['gd_type'] == \IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
+            } elseif ($props['gd_type'] == \IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
                 $image = imagecreatefrompng($this->image_file);
-            }
-            elseif ($props['gd_type'] == \IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
+            } elseif ($props['gd_type'] == \IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
                 $image = imagecreatefromwebp($this->image_file);
-            }
-            else {
+            } else {
                 // @TODO: print error to the log?
                 return false;
             }
 
             if ($type == self::TYPE_JPG) {
                 $result = imagejpeg($image, $filename, 75);
-            }
-            elseif ($type == self::TYPE_GIF) {
+            } elseif ($type == self::TYPE_GIF) {
                 $result = imagegif($image, $filename);
-            }
-            elseif ($type == self::TYPE_PNG) {
+            } elseif ($type == self::TYPE_PNG) {
                 $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
             }
 
@@ -458,8 +441,7 @@ class rcube_image
                     $image->getImageWidth(),
                     $image->getImageHeight(),
                 ];
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // ignore
             }
         }

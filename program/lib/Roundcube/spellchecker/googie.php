@@ -87,18 +87,15 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
                     'body' => $gtext,
                 ]
             );
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             // Do nothing, the error set below should be logged by the caller
         }
 
         if (empty($response)) {
             $this->error = $e ? $e->getMessage() : 'Spelling engine failure';
-        }
-        elseif ($response->getStatusCode() != 200) {
+        } elseif ($response->getStatusCode() != 200) {
             $this->error = 'HTTP ' . $response->getReasonPhrase();
-        }
-        else {
+        } else {
             $response_body = $response->getBody();
             if (preg_match('/<spellresult error="([^"]+)"/', $response_body, $m) && $m[1]) {
                 $this->error = "Error code $m[1] returned";
@@ -150,8 +147,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
     {
         if ($text) {
             $matches = $this->check($text);
-        }
-        else {
+        } else {
             $matches = $this->matches;
             $text    = $this->content;
         }

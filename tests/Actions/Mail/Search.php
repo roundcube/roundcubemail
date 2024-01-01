@@ -290,8 +290,7 @@ class Actions_Mail_Search extends ActionTestCase
     {
         if (is_array($input)) {
             $result = call_user_func_array('rcmail_action_mail_search::search_input', $input);
-        }
-        else {
+        } else {
             $result = rcmail_action_mail_search::search_input($input);
         }
 

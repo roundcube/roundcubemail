@@ -90,8 +90,7 @@ class rcmail_attachment_handler
                     }
                 }
             }
-        }
-        elseif ($file_id && $compose_id) {
+        } elseif ($file_id && $compose_id) {
             $file_id = preg_replace('/^rcmfile/', '', $file_id);
 
             $this->upload = $rcube->get_uploaded_file($file_id);
@@ -182,52 +181,43 @@ class rcmail_attachment_handler
         if ($this->body !== null) {
             if ($fp == -1) {
                 echo $size ? substr($this->body, 0, $size) : $this->body;
-            }
-            elseif ($fp) {
+            } elseif ($fp) {
                 $result = fwrite($fp, $size ? substr($this->body, $size) : $this->body) !== false;
-            }
-            else {
+            } else {
                 $result = $size ? substr($this->body, 0, $size) : $this->body;
             }
-        }
-        elseif ($this->body_file) {
+        } elseif ($this->body_file) {
             if ($size) {
                 $result = file_get_contents($this->body_file, false, null, 0, $size);
-            }
-            else {
+            } else {
                 $result = file_get_contents($this->body_file);
             }
 
             if ($fp == -1) {
                 echo $result;
-            }
-            elseif ($fp) {
+            } elseif ($fp) {
                 $result = fwrite($fp, $result) !== false;
             }
-        }
-        elseif ($this->message) {
+        } elseif ($this->message) {
             $result = $this->message->get_part_body($this->part->mime_id, false, 0, $fp);
 
             // check connection status
             if (!$fp && $this->size && empty($result)) {
                 self::check_storage_status();
             }
-        }
-        elseif ($this->upload) {
+        } elseif ($this->upload) {
             // This hook retrieves the attachment contents from the file storage backend
             $attachment = rcube::get_instance()->plugins->exec_hook('attachment_get', $this->upload);
 
             if ($fp && $fp != -1) {
                 if ($attachment['data']) {
                     $result = fwrite($fp, $size ? substr($attachment['data'], 0, $size) : $attachment['data']) !== false;
-                }
-                elseif ($attachment['path']) {
+                } elseif ($attachment['path']) {
                     if ($fh = fopen($attachment['path'], 'r')) {
                         $result = stream_copy_to_stream($fh, $fp, $size ?: -1);
                     }
                 }
-            }
-            else {
+            } else {
                 $data = $attachment['data'] ?? '';
                 if (!$data && $attachment['path']) {
                     $data = file_get_contents($attachment['path']);
@@ -235,8 +225,7 @@ class rcmail_attachment_handler
 
                 if ($fp == -1) {
                     echo $size ? substr($data, 0, $size) : $data;
-                }
-                else {
+                } else {
                     $result = $size ? substr($data, 0, $size) : $data;
                 }
             }
@@ -366,8 +355,7 @@ class rcmail_attachment_handler
             if (!isset($_GET['_redirected'])) {
                 usleep(rand(10, 30) * 100000); // 1-3 sec.
                 header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
-            }
-            else {
+            } else {
                 rcube::raise_error([
                         'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
                         'message' => 'Unable to get/display message part. IMAP connection error',

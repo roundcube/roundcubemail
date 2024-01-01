@@ -48,8 +48,7 @@ class rcmail_action_contacts_undo extends rcmail_action_contacts_index
                     $rcmail->output->show_message($error, 'error');
                     $rcmail->output->command('list_contacts');
                     $rcmail->output->send();
-                }
-                else {
+                } else {
                     $delcnt += $restored;
                 }
             }

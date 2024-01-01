@@ -396,8 +396,7 @@ class rcube_html2text
     {
         if ($from_file && file_exists($source)) {
             $this->html = file_get_contents($source);
-        }
-        else {
+        } else {
             $this->html = $source;
         }
 
@@ -446,12 +445,10 @@ class rcube_html2text
         if (empty($url)) {
             if (!empty($_SERVER['HTTP_HOST'])) {
                 $this->url = 'http://' . $_SERVER['HTTP_HOST'];
-            }
-            else {
+            } else {
                 $this->url = '';
             }
-        }
-        else {
+        } else {
             // Strip any trailing slashes for consistency (relative
             // URLs may already start with a slash like "/file.html")
             if (substr($url, -1) == '/') {
@@ -582,8 +579,7 @@ class rcube_html2text
 
         if (preg_match('!^([a-z][a-z0-9.+-]+:)!i', $link)) {
             $url = $link;
-        }
-        else {
+        } else {
             $url = $this->url;
             if (substr($link, 0, 1) != '/') {
                 $url .= '/';
@@ -733,8 +729,7 @@ class rcube_html2text
                 else {
                     break;
                 }
-            }
-            while ($end || $next);
+            } while ($end || $next);
         }
     }
 

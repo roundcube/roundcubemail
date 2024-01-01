@@ -51,8 +51,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
             }
 
             $langs = array_unique($langs);
-        }
-        else {
+        } else {
             $langs = $defaults;
         }
 
@@ -104,8 +103,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
 
             if ($this->dictionary->is_exception($word)) {
                 // skip exceptions
-            }
-            elseif (!pspell_check($this->plink, $word)) {
+            } elseif (!pspell_check($this->plink, $word)) {
                 $suggestions = pspell_suggest($this->plink, $word);
 
                 if (count($suggestions) > self::MAX_SUGGESTIONS) {

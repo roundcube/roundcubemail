@@ -127,8 +127,7 @@ class rcmail_sendmail
         if (empty($mailto) && !empty($mailcc)) {
             $mailto = $mailcc;
             $mailcc = null;
-        }
-        elseif (empty($mailto)) {
+        } elseif (empty($mailto)) {
             $mailto = 'undisclosed-recipients:;';
         }
 
@@ -150,12 +149,10 @@ class rcmail_sendmail
                 if ($identity_arr['string']) {
                     $from_string = $identity_arr['string'];
                 }
-            }
-            else {
+            } else {
                 $from = null;
             }
-        }
-        else {
+        } else {
             // ... if there is no identity record, this might be a custom from
             $from_addresses = rcube_mime::decode_address_list($from, null, true, $charset);
 
@@ -182,8 +179,7 @@ class rcmail_sendmail
 
         if (!empty($this->data['param']['message-id'])) {
             $message_id  = $this->data['param']['message-id'];
-        }
-        else {
+        } else {
             $message_id = $this->rcmail->gen_message_id($from);
         }
 
@@ -243,8 +239,7 @@ class rcmail_sendmail
                 $draft_info['type']   = 'reply';
                 $draft_info['uid']    = $uid;
                 $draft_info['folder'] = $this->data['mailbox'];
-            }
-            elseif (
+            } elseif (
                 !empty($this->data['forward_uid'])
                 && ($uid = rcube_imap_generic::compressMessageSet($this->data['forward_uid']))
                 && !preg_match('/^\d+[0-9.]+$/', $uid)
@@ -281,11 +276,9 @@ class rcmail_sendmail
         // choose encodings for plain/text body and message headers
         if (preg_match('/ISO-2022/i', $text_charset)) {
             $head_encoding = 'base64'; // RFC1468
-        }
-        elseif (preg_match('/[^\x00-\x7F]/', $message->getTXTBody() . $message->getHTMLBody())) {
+        } elseif (preg_match('/[^\x00-\x7F]/', $message->getTXTBody() . $message->getHTMLBody())) {
             $transfer_encoding = $this->rcmail->config->get('force_7bit') ? 'quoted-printable' : '8bit';
-        }
-        elseif ($this->options['charset'] == 'UTF-8') {
+        } elseif ($this->options['charset'] == 'UTF-8') {
             $text_charset = 'US-ASCII';
         }
 
@@ -369,8 +362,7 @@ class rcmail_sendmail
 
             // Extract image Data URIs into message attachments (#1488502)
             $this->extract_inline_images($MAIL_MIME, $this->options['from']);
-        }
-        else {
+        } else {
             $body = $this->format_plain_body($plugin['body'], $flowed);
 
             $MAIL_MIME->setTXTBody($body, false, true);
@@ -402,8 +394,7 @@ class rcmail_sendmail
 
             if ($flowed) {
                 $body = rcube_mime::format_flowed($body, min($line_length + 2, 79), $charset);
-            }
-            else {
+            } else {
                 $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
             }
 
@@ -446,11 +437,9 @@ class rcmail_sendmail
 
             if ($smtp_error && is_string($smtp_error)) {
                 $this->options['error_handler']($smtp_error, 'error');
-            }
-            elseif ($smtp_error && !empty($smtp_error['label'])) {
+            } elseif ($smtp_error && !empty($smtp_error['label'])) {
                 $this->options['error_handler']($smtp_error['label'], 'error', $smtp_error['vars']);
-            }
-            else {
+            } else {
                 $this->options['error_handler']('sendingfailed', 'error');
             }
 
@@ -477,8 +466,7 @@ class rcmail_sendmail
                     $this->rcmail->storage->set_flag($uids, 'ANSWERED', $mbox);
                 }
             }
-        }
-        elseif (!empty($this->data['forward_uid'])) {
+        } elseif (!empty($this->data['forward_uid'])) {
             foreach (rcmail::get_uids($this->data['forward_uid'], $this->data['mailbox']) as $mbox => $uids) {
                 // skip <UID>.<PART> forwards
                 if (!preg_match('/^\d+\.[0-9.]+$/', implode(',', (array) $uids))) {
@@ -507,12 +495,10 @@ class rcmail_sendmail
         // Determine which folder to save message
         if (!empty($this->options['savedraft'])) {
             $store_target = $this->rcmail->config->get('drafts_mbox');
-        }
-        elseif (!$this->rcmail->config->get('no_save_sent_messages')) {
+        } elseif (!$this->rcmail->config->get('no_save_sent_messages')) {
             if (isset($_POST['_store_target'])) {
                 $store_target = rcube_utils::get_input_string('_store_target', rcube_utils::INPUT_POST, true);
-            }
-            else {
+            } else {
                 $store_target = $this->rcmail->config->get('sent_mbox');
             }
         }
@@ -527,8 +513,7 @@ class rcmail_sendmail
             // folder may be existing but not subscribed (#1485241)
             elseif (!$storage->folder_exists($store_target)) {
                 $store_folder = $storage->create_folder($store_target, true);
-            }
-            elseif ($storage->subscribe($store_target)) {
+            } elseif ($storage->subscribe($store_target)) {
                 $store_folder = true;
             }
 
@@ -549,8 +534,7 @@ class rcmail_sendmail
                 if (!empty($this->temp_files[$msg_id])) {
                     $msg     = $this->temp_files[$msg_id];
                     $headers = $message->txtHeaders();
-                }
-                elseif (empty($msg)) {
+                } elseif (empty($msg)) {
                     $msg     = $message->getMessage();
                     $headers = '';
                 }
@@ -560,8 +544,7 @@ class rcmail_sendmail
                         'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
                         'message' => 'Could not create message: ' . $msg->getMessage()],
                         true, false);
-                }
-                else {
+                } else {
                     $is_file = !empty($this->temp_files[$msg_id]);
                     $saved   = $storage->save_message($store_target, $msg, $headers, $is_file, ['SEEN']);
                 }
@@ -790,8 +773,7 @@ class rcmail_sendmail
                 if (!empty($use_base64)) {
                     $name = rcube_charset::convert($name, RCUBE_CHARSET, $charset);
                     $name = Mail_mimePart::encodeMB($name, $charset, 'base64');
-                }
-                else {
+                } else {
                     $name = stripcslashes($name);
                 }
 
@@ -826,8 +808,7 @@ class rcmail_sendmail
     {
         if ($isHtml && ($file = $this->rcmail->config->get('generic_message_footer_html'))) {
             $html_footer = true;
-        }
-        else {
+        } else {
             $file = $this->rcmail->config->get('generic_message_footer');
             $html_footer = false;
         }
@@ -884,8 +865,7 @@ class rcmail_sendmail
             [$key, $val] = explode('=', $part, 2);
             if (strpos($val, 'B::') === 0) {
                 $val = base64_decode(substr($val, 3));
-            }
-            elseif ($key == 'folder') {
+            } elseif ($key == 'folder') {
                 $val = base64_decode($val);
             }
 
@@ -1003,8 +983,7 @@ class rcmail_sendmail
                     if ($sql_arr['html_signature']) {
                         $text = $this->rcmail->html2text($html, ['links' => false]);
                         $text = trim($text, "\r\n");
-                    }
-                    else {
+                    } else {
                         $t2h  = new rcube_text2html($text, false);
                         $html = $t2h->get_html();
                     }
@@ -1073,16 +1052,13 @@ class rcmail_sendmail
 
             // make session to not grow up too much
             $this->rcmail->session->remove("mailto.$mailto_id");
-        }
-        elseif (!empty($_POST['_' . $header])) {
+        } elseif (!empty($_POST['_' . $header])) {
             $fvalue  = rcube_utils::get_input_string('_' . $header, rcube_utils::INPUT_POST, true);
             $charset = $this->rcmail->output->charset;
-        }
-        elseif (!empty($this->data['param'][$header])) {
+        } elseif (!empty($this->data['param'][$header])) {
             $fvalue  = $this->data['param'][$header];
             $charset = $this->rcmail->output->charset;
-        }
-        elseif ($mode == self::MODE_REPLY) {
+        } elseif ($mode == self::MODE_REPLY) {
             // get recipient address(es) out of the message headers
             if ($header == 'to') {
                 $mailfollowup = $message->headers->others['mail-followup-to'] ?? [];
@@ -1092,8 +1068,7 @@ class rcmail_sendmail
                 // Reply to mailing list...
                 if ($reply_all == 'list' && $mailfollowup) {
                     $fvalue = $mailfollowup;
-                }
-                elseif ($reply_all == 'list'
+                } elseif ($reply_all == 'list'
                     && preg_match('/<mailto:([^>]+)>/i', $message->headers->others['list-post'], $m)
                 ) {
                     $fvalue = $m[1];
@@ -1101,15 +1076,12 @@ class rcmail_sendmail
                 // Reply to...
                 elseif ($reply_all && $mailfollowup) {
                     $fvalue = $mailfollowup;
-                }
-                elseif ($mailreplyto) {
+                } elseif ($mailreplyto) {
                     $fvalue = $mailreplyto;
-                }
-                elseif (!empty($message->headers->replyto)) {
+                } elseif (!empty($message->headers->replyto)) {
                     $fvalue  = $message->headers->replyto;
                     $replyto = true;
-                }
-                elseif (!empty($message->headers->from)) {
+                } elseif (!empty($message->headers->from)) {
                     $fvalue = $message->headers->from;
                 }
 
@@ -1150,25 +1122,19 @@ class rcmail_sendmail
                     }
                 }
             }
-        }
-        elseif (in_array($mode, [self::MODE_DRAFT, self::MODE_EDIT])) {
+        } elseif (in_array($mode, [self::MODE_DRAFT, self::MODE_EDIT])) {
             // get drafted headers
             if ($header == 'to' && !empty($message->headers->to)) {
                 $fvalue = $message->get_header('to', true);
-            }
-            elseif ($header == 'cc' && !empty($message->headers->cc)) {
+            } elseif ($header == 'cc' && !empty($message->headers->cc)) {
                 $fvalue = $message->get_header('cc', true);
-            }
-            elseif ($header == 'bcc' && !empty($message->headers->bcc)) {
+            } elseif ($header == 'bcc' && !empty($message->headers->bcc)) {
                 $fvalue = $message->get_header('bcc', true);
-            }
-            elseif ($header == 'replyto' && !empty($message->headers->others['mail-reply-to'])) {
+            } elseif ($header == 'replyto' && !empty($message->headers->others['mail-reply-to'])) {
                 $fvalue = $message->get_header('mail-reply-to');
-            }
-            elseif ($header == 'replyto' && !empty($message->headers->replyto)) {
+            } elseif ($header == 'replyto' && !empty($message->headers->replyto)) {
                 $fvalue = $message->get_header('reply-to');
-            }
-            elseif ($header == 'followupto' && !empty($message->headers->others['mail-followup-to'])) {
+            } elseif ($header == 'followupto' && !empty($message->headers->others['mail-followup-to'])) {
                 $fvalue = $message->get_header('mail-followup-to');
             }
         }
@@ -1248,8 +1214,7 @@ class rcmail_sendmail
         // use subject from post
         if (isset($_POST['_subject'])) {
             $subject = rcube_utils::get_input_string('_subject', rcube_utils::INPUT_POST, true);
-        }
-        elseif (!empty($this->data['param']['subject'])) {
+        } elseif (!empty($this->data['param']['subject'])) {
             $subject = $this->data['param']['subject'];
         }
         // create a reply-subject
@@ -1337,8 +1302,7 @@ class rcmail_sendmail
     {
         if (isset($_POST['_store_target'])) {
             $mbox = $_POST['_store_target'];
-        }
-        else {
+        } else {
             $mbox = $this->data['param']['sent_mbox'] ?? null;
         }
 
@@ -1377,11 +1341,9 @@ class rcmail_sendmail
 
         if (isset($_POST['_mdn'])) {
             $mdn_default = $_POST['_mdn'];
-        }
-        elseif (in_array($this->data['mode'], [self::MODE_DRAFT, self::MODE_EDIT])) {
+        } elseif (in_array($this->data['mode'], [self::MODE_DRAFT, self::MODE_EDIT])) {
             $mdn_default = !empty($this->options['message']->headers->mdn_to);
-        }
-        else {
+        } else {
             $mdn_default = $this->rcmail->config->get('mdn_default');
         }
 
@@ -1415,8 +1377,7 @@ class rcmail_sendmail
 
         if (!empty($_POST['_dsn']) || !empty($this->options['dsn_enabled'])) {
             $dsn_value = 1;
-        }
-        else {
+        } else {
             $dsn_value = $this->rcmail->config->get('dsn_default');
         }
 
@@ -1481,13 +1442,11 @@ class rcmail_sendmail
 
         if (isset($_POST['_priority'])) {
             $sel = (int) $_POST['_priority'];
-        }
-        elseif (isset($this->options['message']->headers->priority)
+        } elseif (isset($this->options['message']->headers->priority)
             && intval($this->options['message']->headers->priority) != 3
         ) {
             $sel = (int) $this->options['message']->headers->priority;
-        }
-        else {
+        } else {
             $sel = 0;
         }
 
@@ -1523,8 +1482,7 @@ class rcmail_sendmail
         if ($create) {
             if (!$rcmail->storage->folder_exists($folder)) {
                 return $rcmail->storage->create_folder($folder, true);
-            }
-            else {
+            } else {
                 return $rcmail->storage->subscribe($folder);
             }
         }
@@ -1543,11 +1501,9 @@ class rcmail_sendmail
         // Set From field value
         if (!empty($_POST['_from'])) {
             $this->data['from'] = rcube_utils::get_input_string('_from', rcube_utils::INPUT_POST);
-        }
-        elseif (!empty($this->data['param']['from'])) {
+        } elseif (!empty($this->data['param']['from'])) {
             $this->data['from'] = $this->data['param']['from'];
-        }
-        elseif (!empty($this->data['identities'])) {
+        } elseif (!empty($this->data['identities'])) {
             $ident = self::identity_select($message, $this->data['identities'], $this->data['mode']);
 
             $this->data['from']  = $ident['identity_id'];

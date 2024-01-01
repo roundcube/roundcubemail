@@ -62,20 +62,17 @@ class rcmail_action_contacts_group_addmembers extends rcmail_action_contacts_ind
                 }
 
                 $result = $contacts->add_to_group($gid, $plugin['ids']);
-            }
-            else {
+            } else {
                 $result = $plugin['result'];
             }
         }
 
         if ($result) {
             $rcmail->output->show_message('contactaddedtogroup', 'confirmation');
-        }
-        elseif (!empty($plugin['abort']) || $contacts->get_error()) {
+        } elseif (!empty($plugin['abort']) || $contacts->get_error()) {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');
-        }
-        else {
+        } else {
             $message = !empty($plugin['message']) ? $plugin['message'] : 'nogroupassignmentschanged';
             $rcmail->output->show_message($message);
         }

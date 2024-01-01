@@ -155,8 +155,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
 
         if ($ident_level == 4) {
             $disabled = ['name', 'email', 'organization'];
-        }
-        elseif (in_array($ident_level, [1, 3])) {
+        } elseif (in_array($ident_level, [1, 3])) {
             $disabled = ['email'];
         }
 
@@ -166,11 +165,9 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
 
         if (empty($save_data['name']) || empty($save_data['email'])) {
             $rcmail->output->show_message('formincomplete', 'error');
-        }
-        elseif (!rcube_utils::check_email($save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']))) {
+        } elseif (!rcube_utils::check_email($save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']))) {
             $rcmail->output->show_message('emailformaterror', 'error', ['email' => $save_data['email']]);
-        }
-        else {
+        } else {
             // execute hook
             $plugin = $rcmail->plugins->exec_hook('identity_update', [
                 'id' => $identity['identity_id'],

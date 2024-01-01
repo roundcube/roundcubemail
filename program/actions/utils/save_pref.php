@@ -75,11 +75,9 @@ class rcmail_action_utils_save_pref extends rcmail_action
             // ... up to 3 levels
             if (count($vars) == 1) {
                 $_SESSION[$vars[0]] = $value;
-            }
-            elseif (count($vars) == 2) {
+            } elseif (count($vars) == 2) {
                 $_SESSION[$vars[0]][$vars[1]] = $value;
-            }
-            elseif (count($vars) == 3) {
+            } elseif (count($vars) == 3) {
                 $_SESSION[$vars[0]][$vars[1]][$vars[2]] = $value;
             }
         }

@@ -52,8 +52,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             if (empty(self::$contact)) {
                 $rcmail->output->show_message('contactnotfound', 'error');
             }
-        }
-        else {
+        } else {
             $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
             if (strlen($source)) {

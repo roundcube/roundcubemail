@@ -58,8 +58,7 @@ class rcube_spellchecker
 
         if (class_exists($class)) {
             $this->backend = new $class($this, $this->lang, $this->options);
-        }
-        else {
+        } else {
             $this->error = "Unknown spellcheck engine '$this->engine'";
         }
     }
@@ -78,8 +77,7 @@ class rcube_spellchecker
         $langs = [];
         if (!empty($configured)) {
             $langs = (array) $configured;
-        }
-        elseif ($this->backend) {
+        } elseif ($this->backend) {
             $langs = $this->backend->languages();
         }
 
@@ -100,14 +98,11 @@ class rcube_spellchecker
             }
             if (!empty($rcube_languages[$lang])) {
                 $languages[$lang] = $rcube_languages[$lang];
-            }
-            elseif (preg_match('/^en_([A-Z]+)/', $lang, $m)) {
+            } elseif (preg_match('/^en_([A-Z]+)/', $lang, $m)) {
                 $languages[$lang] = sprintf('English (%s)', strtoupper($m[1]));
-            }
-            elseif (!empty($rcube_languages[$alias])) {
+            } elseif (!empty($rcube_languages[$alias])) {
                 $languages[$lang] = $rcube_languages[$alias];
-            }
-            else {
+            } else {
                 $languages[$lang] = ucfirst($lang);
             }
         }
@@ -133,8 +128,7 @@ class rcube_spellchecker
         // convert to plain text
         if ($is_html) {
             $this->content = $this->html2text($text);
-        }
-        else {
+        } else {
             $this->content = $text;
         }
 
@@ -234,18 +228,15 @@ class rcube_spellchecker
         foreach ((array) $this->matches as $item) {
             if ($this->engine == 'pspell') {
                 $word = $item[0];
-            }
-            else {
+            } else {
                 $word = mb_substr($this->content, $item[1], $item[2], RCUBE_CHARSET);
             }
 
             if (is_array($item[4])) {
                 $suggestions = $item[4];
-            }
-            elseif (empty($item[4])) {
+            } elseif (empty($item[4])) {
                 $suggestions = [];
-            }
-            else {
+            } else {
                 $suggestions = explode("\t", $item[4]);
             }
 
@@ -385,8 +376,7 @@ class rcube_spellchecker
                         . ' AND `language` = ?',
                     $plugin['language']);
             }
-        }
-        elseif (!empty($this->dict)) {
+        } elseif (!empty($this->dict)) {
             $this->rc->db->query(
                 'INSERT INTO ' . $this->rc->db->table_name('dictionary', true)
                 . ' (`user_id`, `language`, `data`) VALUES (?, ?, ?)',
@@ -431,8 +421,7 @@ class rcube_spellchecker
 
         if (!empty($plugin['dictionary']) && is_array($plugin['dictionary'])) {
             $this->dict = $plugin['dictionary'];
-        }
-        else {
+        } else {
             $this->dict = [];
         }
 

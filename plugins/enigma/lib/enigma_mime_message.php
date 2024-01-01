@@ -210,8 +210,7 @@ class enigma_mime_message extends Mail_mime
                         'description'  => 'OpenPGP digital signature',
                 ]);
             }
-        }
-        elseif ($this->type == self::PGP_ENCRYPTED) {
+        } elseif ($this->type == self::PGP_ENCRYPTED) {
             $params = [
                 'preamble'     => 'This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)',
                 'content_type' => 'multipart/encrypted; protocol="application/pgp-encrypted"',
@@ -236,8 +235,7 @@ class enigma_mime_message extends Mail_mime
         // Use saved boundary
         if (!empty($this->build_params['boundary'])) {
             $boundary = $this->build_params['boundary'];
-        }
-        else {
+        } else {
             $boundary = null;
         }
 
@@ -251,8 +249,7 @@ class enigma_mime_message extends Mail_mime
             }
 
             $this->headers = array_merge($this->headers, $headers);
-        }
-        else {
+        } else {
             $output = $message->encode($boundary, $skip_head);
 
             if ($this->isError($output)) {
@@ -286,13 +283,11 @@ class enigma_mime_message extends Mail_mime
         // multipart message: and boundary
         if (!empty($this->build_params['boundary'])) {
             $boundary = $this->build_params['boundary'];
-        }
-        elseif (!empty($this->headers['Content-Type'])
+        } elseif (!empty($this->headers['Content-Type'])
             && preg_match('/boundary="([^"]+)"/', $this->headers['Content-Type'], $m)
         ) {
             $boundary = $m[1];
-        }
-        else {
+        } else {
             $boundary = '=_' . md5(rand() . microtime());
         }
 
@@ -306,8 +301,7 @@ class enigma_mime_message extends Mail_mime
             if ($this->micalg) {
                 $headers['Content-Type'] .= ";{$eol} micalg=pgp-" . $this->micalg;
             }
-        }
-        elseif ($this->type == self::PGP_ENCRYPTED) {
+        } elseif ($this->type == self::PGP_ENCRYPTED) {
             $headers['Content-Type'] = "multipart/encrypted;$eol"
                 . " protocol=\"application/pgp-encrypted\";$eol"
                 . " boundary=\"$boundary\"";

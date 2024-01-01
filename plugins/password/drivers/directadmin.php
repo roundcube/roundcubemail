@@ -182,8 +182,7 @@ class HTTPSocket
             $location = parse_url($request);
             if (preg_match('!^https://!i', $request)) {
                 $this->connect('https://' . $location['host'], $location['port']);
-            }
-            else {
+            } else {
                 $this->connect('http://' . $location['host'], $location['port']);
             }
 

@@ -609,13 +609,11 @@ abstract class rcube_addressbook
             if ($c === $col || strpos($c, $col . ':') === 0) {
                 if ($flat) {
                     $out = array_merge($out, (array) $values);
-                }
-                else {
+                } else {
                     [, $type] = rcube_utils::explode(':', $c);
                     if ($type !== null && isset($out[$type])) {
                         $out[$type] = array_merge((array) $out[$type], (array) $values);
-                    }
-                    else {
+                    } else {
                         $out[$type] = (array) $values;
                     }
                 }
@@ -664,8 +662,7 @@ abstract class rcube_addressbook
 
             if (preg_match('/(.*)[\.\-\_](.*)/', $emailname, $match)) {
                 $fn = trim(ucfirst($match[1]) . ' ' . ucfirst($match[2]));
-            }
-            else {
+            } else {
                 $fn = ucfirst($emailname);
             }
         }
@@ -718,8 +715,7 @@ abstract class rcube_addressbook
             case 0:
                 if (!empty($contact['name'])) {
                     $fn = $contact['name'];
-                }
-                else {
+                } else {
                     $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
                     $fn   = implode(' ', $get_names($contact, $keys));
                 }
@@ -873,11 +869,9 @@ abstract class rcube_addressbook
 
             if ($mode & self::SEARCH_STRICT) {
                 $got = ($val == $search);
-            }
-            elseif ($mode & self::SEARCH_PREFIX) {
+            } elseif ($mode & self::SEARCH_PREFIX) {
                 $got = ($search == substr($val, 0, strlen($search)));
-            }
-            else {
+            } else {
                 $got = (strpos($val, $search) !== false);
             }
 

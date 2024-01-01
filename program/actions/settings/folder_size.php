@@ -39,8 +39,7 @@ class rcmail_action_settings_folder_size extends rcmail_action
 
         if ($size !== false) {
             $rcmail->output->command('folder_size_update', self::show_bytes($size));
-        }
-        else {
+        } else {
             self::display_server_error();
         }
 

@@ -41,8 +41,7 @@ class rcube_enriched
             }
             if ($nl != 1) {
                 $out .= $c;
-            }
-            else {
+            } else {
                 $out .= ' ';
             }
         }
@@ -100,8 +99,7 @@ class rcube_enriched
                 for ($i = 0; $i < 3; $i++) {
                     $color .= substr($rgb[$i], 0, 2); // just take first 2 bytes
                 }
-            }
-            else {
+            } else {
                 $color = $a[2];
             }
 

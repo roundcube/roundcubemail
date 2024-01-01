@@ -62,11 +62,9 @@ class acl extends rcube_plugin
 
         if ($action == 'save') {
             $this->action_save();
-        }
-        elseif ($action == 'delete') {
+        } elseif ($action == 'delete') {
             $this->action_delete();
-        }
-        elseif ($action == 'list') {
+        } elseif ($action == 'list') {
             $this->action_list();
         }
 
@@ -409,8 +407,7 @@ class acl extends rcube_plugin
             foreach ($supported as $sup) {
                 $items[$sup] = $sup;
             }
-        }
-        else {
+        } else {
             $items = [
                 'read'   => 'lrs',
                 'write'  => 'wi',
@@ -450,8 +447,7 @@ class acl extends rcube_plugin
 
             if (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
-            }
-            else {
+            } else {
                 $username = $this->resolve_acl_identifier($user, $title);
             }
 
@@ -509,11 +505,9 @@ class acl extends rcube_plugin
 
             if ($prefix && strpos($user, $prefix) === 0) {
                 $username = $user;
-            }
-            elseif (!empty($this->specials) && in_array($user, $this->specials)) {
+            } elseif (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
-            }
-            elseif (!empty($user)) {
+            } elseif (!empty($user)) {
                 if (!strpos($user, '@') && ($realm = $this->get_realm())) {
                     $user .= '@' . rcube_utils::idn_to_ascii(preg_replace('/^@/', '', $realm));
                 }
@@ -552,8 +546,7 @@ class acl extends rcube_plugin
 
         if ($result) {
             $this->rc->output->show_message($oldid ? 'acl.updatesuccess' : 'acl.createsuccess', 'confirmation');
-        }
-        else {
+        } else {
             $this->rc->output->show_message($oldid ? 'acl.updateerror' : 'acl.createerror', 'error');
         }
     }
@@ -572,16 +565,14 @@ class acl extends rcube_plugin
             $u = trim($u);
             if ($this->rc->storage->delete_acl($mbox, $u)) {
                 $this->rc->output->command('acl_remove_row', rcube_utils::html_identifier($u));
-            }
-            else {
+            } else {
                 $error = true;
             }
         }
 
         if (empty($error)) {
             $this->rc->output->show_message('acl.deletesuccess', 'confirmation');
-        }
-        else {
+        } else {
             $this->rc->output->show_message('acl.deleteerror', 'error');
         }
     }
@@ -694,8 +685,7 @@ class acl extends rcube_plugin
 
         if (is_array($capa) && !empty($capa)) {
             $rights = strtolower($capa[0]);
-        }
-        else {
+        } else {
             $rights = 'cd';
         }
 

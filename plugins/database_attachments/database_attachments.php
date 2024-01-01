@@ -133,8 +133,7 @@ class database_attachments extends filesystem_attachments
         if ($data !== null && $data !== false) {
             $args['data'] = base64_decode($data);
             $args['status'] = true;
-        }
-        else {
+        } else {
             $args['status'] = false;
         }
 

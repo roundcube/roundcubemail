@@ -87,8 +87,7 @@ class enigma_driver_phpssl extends enigma_driver
         $fh = fopen($msg_file, 'w');
         if ($struct->mime_id) {
             $message->get_part_body($struct->mime_id, false, 0, $fh);
-        }
-        else {
+        } else {
             $this->rc->storage->get_raw_body($message->uid, $fh);
         }
         fclose($fh);
@@ -107,8 +106,7 @@ class enigma_driver_phpssl extends enigma_driver
 
         if ($sig === true) {
             $sig = $this->parse_sig_cert($cert_file, $validity);
-        }
-        else {
+        } else {
             $errorstr = $this->get_openssl_error();
             $sig = new enigma_error(enigma_error::INTERNAL, $errorstr);
         }

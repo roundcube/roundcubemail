@@ -110,12 +110,10 @@ class password extends rcube_plugin
 
         if (rcube_utils::get_input_value('_first', rcube_utils::INPUT_GET)) {
             $this->rc->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
-        }
-        elseif (!empty($_SESSION['password_expires'])) {
+        } elseif (!empty($_SESSION['password_expires'])) {
             if ($_SESSION['password_expires'] == 1) {
                 $this->rc->output->command('display_message', $this->gettext('passwdexpired'), 'error');
-            }
-            else {
+            } else {
                 $this->rc->output->command('display_message', $this->gettext([
                         'name' => 'passwdexpirewarning',
                         'vars' => ['expirationdatetime' => $_SESSION['password_expires']],
@@ -138,8 +136,7 @@ class password extends rcube_plugin
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
             $this->rc->output->command('display_message', $this->gettext('nopassword'), 'error');
-        }
-        else {
+        } else {
             $charset    = strtoupper($this->rc->config->get('password_charset', 'UTF-8'));
             $rc_charset = strtoupper($this->rc->output->get_charset());
 
@@ -164,15 +161,12 @@ class password extends rcube_plugin
             // other passwords validity checks
             elseif ($conpwd != $newpwd) {
                 $this->rc->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
-            }
-            elseif ($confirm && ($res = $this->_compare($sesspwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
+            } elseif ($confirm && ($res = $this->_compare($sesspwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
                 $this->rc->output->command('display_message', $res, 'error');
-            }
-            elseif ($required_length && strlen($newpwd) < $required_length) {
+            } elseif ($required_length && strlen($newpwd) < $required_length) {
                 $this->rc->output->command('display_message', $this->gettext(
                     ['name' => 'passwordshort', 'vars' => ['length' => $required_length]]), 'error');
-            }
-            elseif ($res = $this->_check_strength($newpwd)) {
+            } elseif ($res = $this->_check_strength($newpwd)) {
                 $this->rc->output->command('display_message', $res, 'error');
             }
             // password is the same as the old one, warn user, return error
@@ -204,8 +198,7 @@ class password extends rcube_plugin
 
                 // Remove expiration date/time
                 $this->rc->session->remove('password_expires');
-            }
-            else {
+            } else {
                 $this->rc->output->command('display_message', $res, 'error');
             }
         }
@@ -326,11 +319,9 @@ class password extends rcube_plugin
 
         if (!$driver) {
             $result = $this->gettext('internalerror');
-        }
-        elseif (method_exists($driver, 'compare')) {
+        } elseif (method_exists($driver, 'compare')) {
             $result = $driver->compare($curpwd, $newpwd, $type);
-        }
-        else {
+        } else {
             switch ($type) {
                 case PASSWORD_COMPARE_CURRENT:
                     $result = $curpwd != $newpwd ? $this->gettext('passwordincorrect') : null;
@@ -352,8 +343,7 @@ class password extends rcube_plugin
 
         if (($driver = $this->_load_driver('strength')) && method_exists($driver, 'strength_rules')) {
             $result = $driver->strength_rules();
-        }
-        elseif ($this->rc->config->get('password_minimum_score') > 1) {
+        } elseif ($this->rc->config->get('password_minimum_score') > 1) {
             $result = $this->gettext('passwordweak');
         }
 
@@ -374,8 +364,7 @@ class password extends rcube_plugin
 
         if (($driver = $this->_load_driver('strength')) && method_exists($driver, 'check_strength')) {
             [$score, $reason] = $driver->check_strength($passwd);
-        }
-        else {
+        } else {
             $score = (!preg_match('/[0-9]/', $passwd) || !preg_match('/[^A-Za-z0-9]/', $passwd)) ? 1 : 5;
         }
 
@@ -597,11 +586,9 @@ class password extends rcube_plugin
             case 'sha':
                 if (function_exists('sha1')) {
                     $crypted = pack('H*', sha1($password));
-                }
-                elseif (function_exists('hash')) {
+                } elseif (function_exists('hash')) {
                     $crypted = hash('sha1', $password, true);
-                }
-                else {
+                } else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                             'message' => 'Password plugin: Your PHP installation does not have the hash() nor sha1() function',
@@ -619,12 +606,10 @@ class password extends rcube_plugin
                 if (function_exists('sha1')) {
                     $salt    = substr(pack('H*', sha1($salt . $password)), 0, 4);
                     $crypted = sha1($password . $salt, true);
-                }
-                elseif (function_exists('hash')) {
+                } elseif (function_exists('hash')) {
                     $salt    = substr(pack('H*', hash('sha1', $salt . $password)), 0, 4);
                     $crypted = hash('sha1', $password . $salt, true);
-                }
-                else {
+                } else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                             'message' => 'Password plugin: Your PHP installation does not have the hash() nor sha1() function',
@@ -643,8 +628,7 @@ class password extends rcube_plugin
                 if (function_exists('hash')) {
                     $salt    = substr(pack('H*', hash('sha256', $salt . $password)), 0, 4);
                     $crypted = hash('sha256', $password . $salt, true);
-                }
-                else {
+                } else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                             'message' => 'Password plugin: Your PHP installation does not have the hash() function',
@@ -662,8 +646,7 @@ class password extends rcube_plugin
                 if (function_exists('hash')) {
                     $salt    = substr(pack('H*', hash('sha512', $salt . $password)), 0, 4);
                     $crypted = hash('sha512', $password . $salt, true);
-                }
-                else {
+                } else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                             'message' => 'Password plugin: Your PHP installation does not have the hash() function',
@@ -681,8 +664,7 @@ class password extends rcube_plugin
                 if (function_exists('hash')) {
                     $salt    = substr(pack('H*', hash('md5', $salt . $password)), 0, 4);
                     $crypted = hash('md5', $password . $salt, true);
-                }
-                else {
+                } else {
                     $salt    = substr(pack('H*', md5($salt . $password)), 0, 4);
                     $crypted = md5($password . $salt, true);
                 }
@@ -695,8 +677,7 @@ class password extends rcube_plugin
                 if (function_exists('hash')) {
                     $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'));
                     $crypted = strtoupper($crypted);
-                }
-                else {
+                } else {
                     rcube::raise_error([
                             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                             'message' => 'Password plugin: Your PHP installation does not have hash() function',

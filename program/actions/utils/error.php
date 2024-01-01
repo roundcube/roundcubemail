@@ -42,8 +42,7 @@ class rcmail_action_utils_error extends rcmail_action
             if ($_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->request_status == rcube::REQUEST_ERROR_URL) {
                 $url = $rcmail->url($_GET, true, false, true);
                 $add = html::a($url, $rcmail->gettext('clicktoresumesession'));
-            }
-            else {
+            } else {
                 $add = $rcmail->gettext('errcontactserveradmin');
             }
 

@@ -54,8 +54,7 @@ class IdentitiesTest extends \Tests\Browser\TestCase
                 $browser->assertVisible('.floating-action-buttons a.create:not(.disabled)')
                     ->click('.floating-action-buttons a.create')
                     ->waitFor('#preferences-frame');
-            }
-            else {
+            } else {
                 $browser->clickToolbarMenuItem('create');
             }
 
