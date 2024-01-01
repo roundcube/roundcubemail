@@ -1258,7 +1258,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             // generate (unique) attachment name
             $name = strlen($message->subject) ? mb_substr($message->subject, 0, 64) : 'message_rfc822';
             if (!empty($names[$name])) {
-                ++$names[$name];
+                $names[$name]++;
                 $name .= '_' . $names[$name];
             }
             $names[$name] = 1;
@@ -1269,7 +1269,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             }
 
             if ($size_limit && $size_limit < $total_size + $message->headers->size) {
-                ++$size_errors;
+                $size_errors++;
                 continue;
             }
 

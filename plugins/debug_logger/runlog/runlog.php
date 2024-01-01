@@ -41,7 +41,7 @@ class runlog
 
         $this->print_to_console('start: ' . $name, $tag);
         $this->print_to_file('start: ' . $name, $tag);
-        ++$this->indent;
+        $this->indent++;
     }
 
     public function end()
@@ -68,7 +68,7 @@ class runlog
             'parents'  => $this->parent_stack,
         ];
 
-        --$this->indent;
+        $this->indent--;
         if ($this->run_log[$lastk]['duration'] >= $this->threshold) {
             $tag_report = '';
             foreach ($this->tag_count as $tag => $count) {
@@ -86,7 +86,7 @@ class runlog
             $this->tag_count[$tag] = 0;
         }
 
-        ++$this->tag_count[$tag];
+        $this->tag_count[$tag]++;
     }
 
     public function get_text()
@@ -195,7 +195,7 @@ class runlog
     private function get_indent()
     {
         $buf = '';
-        for ($i = 0; $i < $this->indent; ++$i) {
+        for ($i = 0; $i < $this->indent; $i++) {
             $buf .= '  ';
         }
         return $buf;

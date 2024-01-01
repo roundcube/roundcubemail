@@ -21,7 +21,7 @@ class Browser extends \Laravel\Dusk\Browser
         if ($visible) {
             foreach ($elements as $element) {
                 if (!$element->isDisplayed()) {
-                    --$count;
+                    $count--;
                 }
             }
         }

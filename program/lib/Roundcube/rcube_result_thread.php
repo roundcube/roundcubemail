@@ -57,7 +57,7 @@ class rcube_result_thread
         $data = explode('*', (string) $data);
 
         // ...skip unilateral untagged server responses
-        for ($i = 0, $len = count($data); $i < $len; ++$i) {
+        for ($i = 0, $len = count($data); $i < $len; $i++) {
             if (preg_match('/^ THREAD/i', $data[$i])) {
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
@@ -235,7 +235,7 @@ class rcube_result_thread
             }
 
             if (isset($roots[$root])) {
-                ++$this->meta['count'];
+                $this->meta['count']++;
                 $result .= self::SEPARATOR_ELEMENT . $elem;
             }
         }
@@ -563,14 +563,14 @@ class rcube_result_thread
     {
         $result = [];
 
-        for ($len = count($items); $pos < $len; ++$pos) {
+        for ($len = count($items); $pos < $len; $pos++) {
             [$lv, $id] = explode(self::SEPARATOR_LEVEL, $items[$pos]);
             if ($level == $lv) {
-                ++$pos;
+                $pos++;
                 $result[$id] = $this->build_thread($items, $level + 1, $pos);
             }
             else {
-                --$pos;
+                $pos--;
                 break;
             }
         }
@@ -622,12 +622,12 @@ class rcube_result_thread
                 if ($msg) {
                     $node .= ($depth ? self::SEPARATOR_ITEM . $depth . self::SEPARATOR_LEVEL : '') . $msg;
                     if (isset($this->meta['messages'])) {
-                        ++$this->meta['messages'];
+                        $this->meta['messages']++;
                     }
                     else {
                         $this->meta['messages'] = 1;
                     }
-                    ++$depth;
+                    $depth++;
                 }
             }
 
@@ -639,7 +639,7 @@ class rcube_result_thread
             $off = $begin;
             while ($off < $end) {
                 $start = $off;
-                ++$off;
+                $off++;
                 $n = 1;
                 while ($n > 0) {
                     $p = strpos($str, ')', $off);
@@ -652,11 +652,11 @@ class rcube_result_thread
                     $p1 = strpos($str, '(', $off);
                     if ($p1 !== false && $p1 < $p) {
                         $off = $p1 + 1;
-                        ++$n;
+                        $n++;
                     }
                     else {
                         $off = $p + 1;
-                        --$n;
+                        $n--;
                     }
                 }
 

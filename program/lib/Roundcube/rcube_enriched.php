@@ -31,10 +31,10 @@ class rcube_enriched
         $nl   = 0;
         $out  = '';
 
-        for ($i = 0; $i < $len; ++$i) {
+        for ($i = 0; $i < $len; $i++) {
             $c = $body[$i];
             if (ord($c) == 10) {
-                ++$nl;
+                $nl++;
             }
             if ($nl && ord($c) != 10) {
                 $nl = 0;
@@ -97,7 +97,7 @@ class rcube_enriched
             if (strpos($a[2],',')) {
                 $rgb   = explode(',', $a[2]);
                 $color = '#';
-                for ($i = 0; $i < 3; ++$i) {
+                for ($i = 0; $i < 3; $i++) {
                     $color .= substr($rgb[$i], 0, 2); // just take first 2 bytes
                 }
             }

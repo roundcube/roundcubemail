@@ -415,7 +415,7 @@ class rcube_plugin_api
 
                 // dependent required plugins (can be used, but not included in config)
                 $deps = $xpath->evaluate('//rc:package/rc:dependencies/rc:required/rc:package/rc:name');
-                for ($i = 0; $i < $deps->length; ++$i) {
+                for ($i = 0; $i < $deps->length; $i++) {
                     $dn = $deps->item($i)->nodeValue;
                     $info['require'][] = $dn;
                 }
@@ -513,7 +513,7 @@ class rcube_plugin_api
 
         // Use for loop here, so handlers added in the hook will be executed too
         if (!empty($this->handlers[$hook])) {
-            for ($i = 0; $i < count($this->handlers[$hook]); ++$i) {
+            for ($i = 0; $i < count($this->handlers[$hook]); $i++) {
                 $ret = call_user_func($this->handlers[$hook][$i], $args);
                 if ($ret && is_array($ret)) {
                     $args = $ret + $args;

@@ -161,7 +161,7 @@ class rcube_text2html
         $length      = 0;
 
         // wrap quoted lines with <blockquote>
-        for ($n = 0, $cnt = count($text); $n < $cnt; ++$n) {
+        for ($n = 0, $cnt = count($text); $n < $cnt; $n++) {
             $first  = $text[$n][0] ?? '';
 
             if ($first == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
@@ -321,7 +321,7 @@ class rcube_text2html
                     $copy = substr_replace($copy, $nbsp, $pos + $diff, 1);
                     $diff += $len - 1;
                 }
-                ++$pos;
+                $pos++;
             }
 
             $text = $copy;

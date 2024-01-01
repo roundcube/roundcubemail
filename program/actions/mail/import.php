@@ -130,7 +130,7 @@ class rcmail_action_mail_import extends rcmail_action
         $files = [];
 
         if ($zip->open($path)) {
-            for ($i = 0; $i < $zip->numFiles; ++$i) {
+            for ($i = 0; $i < $zip->numFiles; $i++) {
                 $entry    = $zip->getNameIndex($i);
                 $tmpfname = rcube_utils::temp_filename('zipimport');
 

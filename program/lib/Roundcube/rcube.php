@@ -1556,7 +1556,7 @@ class rcube
     {
         static $print_count = 0;
 
-        ++$print_count;
+        $print_count++;
         $now  = self::timer();
         $diff = $now - $timer;
 

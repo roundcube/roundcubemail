@@ -156,7 +156,7 @@ class example_addressbook_backend extends rcube_addressbook
             // TODO: This should consider current search filter
 
             $result->add($user);
-            ++$count;
+            $count++;
         }
 
         $result->count = $count;

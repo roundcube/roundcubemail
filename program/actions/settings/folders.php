@@ -87,7 +87,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
             // add any necessary "virtual" parent folders
             if ($parent_folder && empty($seen[$parent_folder])) {
-                for ($i = 1; $i <= $level; ++$i) {
+                for ($i = 1; $i <= $level; $i++) {
                     $ancestor_folder = implode($delimiter, array_slice($foldersplit, 0, $i));
                     if ($ancestor_folder) {
                         if (empty($seen[$ancestor_folder])) {
@@ -237,7 +237,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
         array_unshift($plugin['list'], $root);
 
-        for ($i = 0, $length = count($plugin['list']); $i < $length; ++$i) {
+        for ($i = 0, $length = count($plugin['list']); $i < $length; $i++) {
             $folders[] = self::folder_tree_element($plugin['list'], $i, $js_folders);
         }
 
@@ -268,7 +268,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
         $children = [];
         while (!empty($folders[$key + 1]) && ($folders[$key + 1]['level'] > $data['level'])) {
-            ++$key;
+            $key++;
             $children[] = self::folder_tree_element($folders, $key, $js_folders);
         }
 

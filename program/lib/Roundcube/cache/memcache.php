@@ -78,7 +78,7 @@ class rcube_cache_memcache extends rcube_cache
         $error_callback = static function ($host, $port) use ($seen, $available) {
             // only report once
             if (!$seen["$host:$port"]++) {
-                --$available;
+                $available--;
                 rcube::raise_error([
                         'code' => 604, 'type' => 'memcache',
                         'line' => __LINE__, 'file' => __FILE__,

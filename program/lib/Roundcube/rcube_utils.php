@@ -228,7 +228,7 @@ class rcube_utils
             $xml_rep_table['&'] = '&amp;';
 
             // can be increased to support more charsets
-            for ($c = 160; $c < 256; ++$c) {
+            for ($c = 160; $c < 256; $c++) {
                 $xml_rep_table[chr($c)] = "&#$c;";
             }
 
@@ -554,7 +554,7 @@ class rcube_utils
 
             // get the property value
             $q = $s = false;
-            for ($i = $colon_pos + 1; $i < $length; ++$i) {
+            for ($i = $colon_pos + 1; $i < $length; $i++) {
                 if (($style[$i] == '"' || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != '\\')) {
                     if ($q == $style[$i]) {
                         $q = false;
@@ -1200,7 +1200,7 @@ class rcube_utils
         $repl = [' ', '\\1\\2'];
 
         if ($minlen > 1) {
-            --$minlen;
+            $minlen--;
             $expr[] = "/(^|\\s+)\\w{1,$minlen}(\\s+|$)/u";
             $repl[] = ' ';
         }
@@ -1283,11 +1283,11 @@ class rcube_utils
         foreach ($a_needle as $w) {
             if ($valid) {
                 if (stripos($_haystack, $w) !== false) {
-                    ++$hits;
+                    $hits++;
                 }
             }
             elseif (stripos($haystack, $w) !== false) {
-                ++$hits;
+                $hits++;
             }
         }
 
@@ -1315,7 +1315,7 @@ class rcube_utils
             }
         }
 
-        for ($i = 1; $i < count($_SERVER['argv']); ++$i) {
+        for ($i = 1; $i < count($_SERVER['argv']); $i++) {
             $arg   = $_SERVER['argv'][$i];
             $value = true;
             $key   = null;
@@ -1496,7 +1496,7 @@ class rcube_utils
         $hextab = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $result = '';
 
-        for ($x = 0; $x < strlen($input); ++$x) {
+        for ($x = 0; $x < strlen($input); $x++) {
             $result .= $hextab[ord($input[$x]) % 62];
         }
 

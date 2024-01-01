@@ -1732,7 +1732,7 @@ class rcmail_action_settings_index extends rcmail_action
             // Move back for a month (up to 12 times) until non-DST date is found
             while ($count > 0 && $date->format('I')) {
                 $date->sub(new DateInterval('P1M'));
-                --$count;
+                $count--;
             }
 
             $offset  = $date->format('Z') + 45000;

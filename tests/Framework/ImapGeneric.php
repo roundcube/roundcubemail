@@ -198,7 +198,7 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
         $method->setAccessible(true);
 
         // Make sure the method works with any chunk size
-        for ($x = 1; $x <= strlen($encoded); ++$x) {
+        for ($x = 1; $x <= strlen($encoded); $x++) {
             if ($size && $size != $x) {
                 continue;
             }

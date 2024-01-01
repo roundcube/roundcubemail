@@ -1051,10 +1051,10 @@ class rcube_imap extends rcube_storage
             if (!empty($parents)) {
                 $headers[$uid]->parent_uid = end($parents);
                 if (empty($header->flags['SEEN'])) {
-                    ++$headers[$parents[0]]->unread_children;
+                    $headers[$parents[0]]->unread_children++;
                 }
                 if (!empty($header->flags['FLAGGED'])) {
-                    ++$headers[$parents[0]]->flagged_children;
+                    $headers[$parents[0]]->flagged_children++;
                 }
             }
 
@@ -1361,7 +1361,7 @@ class rcube_imap extends rcube_storage
 
         // got new messages
         if ($new['maxuid'] > $old['maxuid']) {
-            ++$result;
+            $result++;
             // get new message UIDs range, that can be used for example
             // to get the data of these messages
             $diff['new'] = ($old['maxuid'] + 1 < $new['maxuid'] ? ($old['maxuid'] + 1) . ':' : '') . $new['maxuid'];
@@ -2066,7 +2066,7 @@ class rcube_imap extends rcube_storage
             */
 
             // find first non-array entry
-            for ($i = 1; $i < count($part); ++$i) {
+            for ($i = 1; $i < count($part); $i++) {
                 if (is_string($part[$i])) {
                     $struct->ctype_secondary = strtolower($part[$i]);
 
@@ -2088,7 +2088,7 @@ class rcube_imap extends rcube_storage
             $struct->mimetype = 'multipart/' . $struct->ctype_secondary;
 
             // build parts list for headers pre-fetching
-            for ($i = 0; $i < count($part); ++$i) {
+            for ($i = 0; $i < count($part); $i++) {
                 // fetch message headers if message/rfc822 or named part
                 if (is_array($part[$i]) && !is_array($part[$i][0])) {
                     $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : $i + 1;
@@ -2110,7 +2110,7 @@ class rcube_imap extends rcube_storage
             }
 
             $struct->parts = [];
-            for ($i = 0, $count = 0; $i < count($part); ++$i) {
+            for ($i = 0, $count = 0; $i < count($part); $i++) {
                 if (!is_array($part[$i])) {
                     break;
                 }
@@ -2189,7 +2189,7 @@ class rcube_imap extends rcube_storage
         // read part disposition
         $di = 8;
         if ($struct->ctype_primary == 'text') {
-            ++$di;
+            $di++;
         }
         elseif ($struct->mimetype == 'message/rfc822') {
             $di += 3;
@@ -2214,7 +2214,7 @@ class rcube_imap extends rcube_storage
         if (isset($part[8]) && is_array($part[8]) && $di != 8) {
             $struct->parts = [];
 
-            for ($i = 0; $i < count($part[8]); ++$i) {
+            for ($i = 0; $i < count($part[8]); $i++) {
                 if (!is_array($part[8][$i])) {
                     break;
                 }
@@ -2276,7 +2276,7 @@ class rcube_imap extends rcube_storage
                 }
                 // multi-part
                 else {
-                    for ($n = 0; $n < count($part[8]); ++$n) {
+                    for ($n = 0; $n < count($part[8]); $n++) {
                         if (!is_array($part[8][$n])) {
                             break;
                         }
@@ -4501,7 +4501,7 @@ class rcube_imap extends rcube_storage
     {
         $count = count($list);
 
-        for ($i = 0; $i < $count; ++$i) {
+        for ($i = 0; $i < $count; $i++) {
             $name = $list[$i];
             if ($name === null) {
                 continue;
@@ -4541,7 +4541,7 @@ class rcube_imap extends rcube_storage
 
         $len = max(count($path1), count($path2));
 
-        for ($idx = 0; $idx < $len; ++$idx) {
+        for ($idx = 0; $idx < $len; $idx++) {
             $folder1 = $path1[$idx] ?? '';
             $folder2 = $path2[$idx] ?? '';
 

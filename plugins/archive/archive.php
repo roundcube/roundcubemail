@@ -281,7 +281,7 @@ class archive extends rcube_plugin
 
         // jump back one page (user removed the whole last page)
         if ($page > 1 && $remaining == 0) {
-            --$page;
+            $page--;
             $storage->set_page($page);
             $_SESSION['page'] = $page;
             $jump_back = true;
@@ -374,7 +374,7 @@ class archive extends rcube_plugin
             $path = explode($delimiter, $folder);
 
             // we'll create all folders in the path
-            for ($i = 0; $i < count($path); ++$i) {
+            for ($i = 0; $i < count($path); $i++) {
                 $_folder = implode($delimiter, array_slice($path, 0, $i + 1));
                 if (!in_array($_folder, $this->folders)) {
                     if ($storage->create_folder($_folder, true)) {

@@ -785,7 +785,7 @@ class rcube_message
 
             // add encrypted payload part as attachment
             if (!empty($structure->parts)) {
-                for ($i = 0; $i < count($structure->parts); ++$i) {
+                for ($i = 0; $i < count($structure->parts); $i++) {
                     $subpart = $structure->parts[$i];
                     if ($subpart->mimetype == 'application/octet-stream' || !empty($subpart->filename)) {
                         $this->add_part($subpart, 'attachment');
@@ -812,7 +812,7 @@ class rcube_message
         // message contains multiple parts
         elseif (is_array($structure->parts) && !empty($structure->parts)) {
             // iterate over parts
-            for ($i = 0; $i < count($structure->parts); ++$i) {
+            for ($i = 0; $i < count($structure->parts); $i++) {
                 $mail_part      = &$structure->parts[$i];
                 $primary_type   = $mail_part->ctype_primary;
                 $secondary_type = $mail_part->ctype_secondary;
@@ -1040,7 +1040,7 @@ class rcube_message
         }
 
         if (is_array($part->parts)) {
-            for ($i = 0; $i < count($part->parts); ++$i) {
+            for ($i = 0; $i < count($part->parts); $i++) {
                 $this->get_mime_numbers($part->parts[$i]);
             }
         }
@@ -1191,7 +1191,7 @@ class rcube_message
             [$uupart->ctype_primary, $uupart->ctype_secondary] = explode('/', $ctype);
 
             $parts[] = $uupart;
-            ++$pid;
+            $pid++;
         }
 
         return $parts;
@@ -1224,7 +1224,7 @@ class rcube_message
 
             // check parents' charset
             $items = explode('.', $part->mime_id);
-            for ($i = count($items) - 1; $i > 0; --$i) {
+            for ($i = count($items) - 1; $i > 0; $i--) {
                 array_pop($items);
                 $parent = $this->mime_parts[implode('.', $items)];
 

@@ -545,7 +545,7 @@ class acl extends rcube_plugin
                             'acl'      => implode('', $acl),
                             'old'      => $oldid,
                     ]);
-                    ++$result;
+                    $result++;
                 }
             }
         }

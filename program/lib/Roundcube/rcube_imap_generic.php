@@ -142,7 +142,7 @@ class rcube_imap_generic
 
         $res = 0;
         if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, \PREG_SPLIT_DELIM_CAPTURE)) {
-            for ($i = 0, $cnt = count($parts); $i < $cnt; ++$i) {
+            for ($i = 0, $cnt = count($parts); $i < $cnt; $i++) {
                 if ($i + 1 < $cnt && preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i + 1], $matches)) {
                     // LITERAL+/LITERAL- support
                     $literal_plus = false;
@@ -170,7 +170,7 @@ class rcube_imap_generic
                         }
                     }
 
-                    ++$i;
+                    $i++;
                 }
                 else {
                     $bytes = $this->putLine($parts[$i], false, $anonymized);
@@ -586,14 +586,14 @@ class rcube_imap_generic
                 $xor  = static function ($str1, $str2) {
                     $result = '';
                     $size   = strlen($str1);
-                    for ($i = 0; $i < $size; ++$i) {
+                    for ($i = 0; $i < $size; $i++) {
                         $result .= chr(ord($str1[$i]) ^ ord($str2[$i]));
                     }
                     return $result;
                 };
 
                 // initialize ipad, opad
-                for ($i = 0; $i < 64; ++$i) {
+                for ($i = 0; $i < 64; $i++) {
                     $ipad .= chr(0x36);
                     $opad .= chr(0x5C);
                 }
@@ -3159,7 +3159,7 @@ class rcube_imap_generic
         $msg          = is_array($message) ? $message : [&$message];
         $chunk_size   = 512000;
 
-        for ($i = 0, $cnt = count($msg); $i < $cnt; ++$i) {
+        for ($i = 0, $cnt = count($msg); $i < $cnt; $i++) {
             if (is_resource($msg[$i])) {
                 $stat = fstat($msg[$i]);
                 if ($stat === false) {
@@ -3449,7 +3449,7 @@ class rcube_imap_generic
             // so we could return only standard rights defined in RFC4314,
             // excluding 'c' and 'd' defined in RFC2086.
             if ($size % 2 == 0) {
-                for ($i = 0; $i < $size; ++$i) {
+                for ($i = 0; $i < $size; $i++) {
                     $ret[$ret[$i]] = str_split($ret[++$i]);
                     unset($ret[$i - 1]);
                     unset($ret[$i]);
@@ -3627,7 +3627,7 @@ class rcube_imap_generic
 
             // The METADATA response can contain multiple entries in a single
             // response or multiple responses for each entry or group of entries
-            for ($i = 0, $size = count($data); $i < $size; ++$i) {
+            for ($i = 0, $size = count($data); $i < $size; $i++) {
                 if ($data[$i] === '*'
                     && $data[++$i] === 'METADATA'
                     && is_string($mbox = $data[++$i])
@@ -3739,7 +3739,7 @@ class rcube_imap_generic
 
             // Here we returns only data compatible with METADATA result format
             if (!empty($data) && ($size = count($data))) {
-                for ($i = 0; $i < $size; ++$i) {
+                for ($i = 0; $i < $size; $i++) {
                     $entry = $data[$i];
                     if (isset($mbox) && is_array($entry)) {
                         $attribs = $entry;
@@ -3893,7 +3893,7 @@ class rcube_imap_generic
      */
     public function nextTag()
     {
-        ++$this->cmd_num;
+        $this->cmd_num++;
         $this->cmd_tag = sprintf('A%04d', $this->cmd_num);
 
         return $this->cmd_tag;
@@ -4021,13 +4021,13 @@ class rcube_imap_generic
                 case '"':
                     $len = strlen($str);
 
-                    for ($pos = 1; $pos < $len; ++$pos) {
+                    for ($pos = 1; $pos < $len; $pos++) {
                         if ($str[$pos] == '"') {
                             break;
                         }
                         if ($str[$pos] == '\\') {
                             if ($str[$pos + 1] == '"' || $str[$pos + 1] == '\\') {
-                                ++$pos;
+                                $pos++;
                             }
                         }
                     }
@@ -4169,7 +4169,7 @@ class rcube_imap_generic
                 $max = $items[0];
             }
 
-            for ($x = $items[0]; $x <= $max; ++$x) {
+            for ($x = $items[0]; $x <= $max; $x++) {
                 $result[] = (int) $x;
             }
 

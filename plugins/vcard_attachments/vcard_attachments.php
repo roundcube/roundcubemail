@@ -265,7 +265,7 @@ class vcard_attachments extends rcube_plugin
                     // do nothing
                 }
                 else {
-                    ++$errors;
+                    $errors++;
                 }
             }
         }

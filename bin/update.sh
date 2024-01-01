@@ -55,7 +55,7 @@ if ($RCI->configured) {
 
             foreach ($messages['replaced'] as $msg) {
                 echo "- '" . $msg['prop'] . "' was replaced by '" . $msg['replacement'] . "'\n";
-                ++$err;
+                $err++;
             }
         }
 
@@ -67,7 +67,7 @@ if ($RCI->configured) {
 
             foreach ($messages['obsolete'] as $msg) {
                 echo "- '" . $msg['prop'] . (!empty($msg['explain']) ? "': " . $msg['explain'] : "'") . "\n";
-                ++$err;
+                $err++;
             }
         }
 
@@ -75,7 +75,7 @@ if ($RCI->configured) {
             echo "WARNING: Your configuration needs to be migrated!\n";
             echo 'We changed the configuration files structure and your two config files '
                 . "main.inc.php and db.inc.php have to be merged into one single file.\n";
-            ++$err;
+            $err++;
         }
 
         // ask user to update config files

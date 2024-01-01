@@ -1036,7 +1036,7 @@ class rcube_sieve_engine
                         $this->form['tests'][$i]['comparator'] = $comparator;
                     }
 
-                    ++$i;
+                    $i++;
                 }
             }
 
@@ -1236,7 +1236,7 @@ class rcube_sieve_engine
                 }
 
                 $this->form['actions'][$i]['type'] = $type;
-                ++$i;
+                $i++;
             }
 
             if (!$this->errors && !$error) {
@@ -1679,7 +1679,7 @@ class rcube_sieve_engine
         }
 
         $rows_num = !empty($scr['tests']) ? count($scr['tests']) : 1;
-        for ($x = 0; $x < $rows_num; ++$x) {
+        for ($x = 0; $x < $rows_num; $x++) {
             $out .= $this->rule_div($fid, $x, true, $compact);
         }
 
@@ -1692,7 +1692,7 @@ class rcube_sieve_engine
         $rows_num = isset($scr) ? count($scr['actions']) : 1;
 
         $out .= '<div id="actions">';
-        for ($x = 0; $x < $rows_num; ++$x) {
+        for ($x = 0; $x < $rows_num; $x++) {
             $out .= $this->action_div($fid, $x);
         }
         $out .= "</div>\n";
@@ -3226,7 +3226,7 @@ class rcube_sieve_engine
                 'name'  => $fname,
                 'class' => !empty($filter['disabled']) ? 'disabled' : '',
             ];
-            ++$i;
+            $i++;
         }
 
         return $result;

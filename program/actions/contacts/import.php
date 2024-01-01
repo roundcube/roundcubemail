@@ -191,7 +191,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
 
                     // skip invalid (incomplete) entries
                     if (!$CONTACTS->validate($a_record, true)) {
-                        ++self::$stats->invalid;
+                        self::$stats->invalid++;
                         continue;
                     }
 
@@ -213,7 +213,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                             $existing = $CONTACTS->search('name', $vcard->displayname, 1, false);
                         }
                         if ($existing && $existing->count) {
-                            ++self::$stats->skipped;
+                            self::$stats->skipped++;
                             self::$stats->skipped_names[] = $vcard->displayname ?: $email;
                             continue;
                         }
@@ -242,11 +242,11 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                             }
                         }
 
-                        ++self::$stats->inserted;
+                        self::$stats->inserted++;
                         self::$stats->names[] = $a_record['name'] ?: $email;
                     }
                     else {
-                        ++self::$stats->errors;
+                        self::$stats->errors++;
                     }
                 }
 

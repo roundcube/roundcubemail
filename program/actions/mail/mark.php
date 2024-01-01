@@ -137,7 +137,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
 
                 // jump back one page (user removed the whole last page)
                 if ($page > 1 && $remaining == 0) {
-                    --$page;
+                    $page--;
                     $rcmail->storage->set_page($page);
                     $_SESSION['page'] = $page;
                     $jump_back = true;

@@ -57,7 +57,7 @@ class rcube_result_index
         $data = explode('*', (string) $data);
 
         // ...skip unilateral untagged server responses
-        for ($i = 0, $len = count($data); $i < $len; ++$i) {
+        for ($i = 0, $len = count($data); $i < $len; $i++) {
             $data_item = &$data[$i];
             if (preg_match('/^ SORT/i', $data_item)) {
                 // valid response, initialize raw_data for is_error()

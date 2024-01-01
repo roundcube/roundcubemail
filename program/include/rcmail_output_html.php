@@ -885,7 +885,7 @@ class rcmail_output_html extends rcmail_output
             }
 
             if ($parent) {
-                ++$parent_commands;
+                $parent_commands++;
                 $method        = preg_replace('/^parent\./', '', $method);
                 $parent_prefix = 'if (window.parent && parent.' . self::JS_OBJECT_NAME . ') parent.';
                 $method        = $parent_prefix . self::JS_OBJECT_NAME . '.' . $method;
@@ -2107,9 +2107,9 @@ class rcmail_output_html extends rcmail_output
             }
             if (!is_numeric($hpos) && ($hpos = stripos($output, '<html'))) {
                 while ($output[$hpos] != '>') {
-                    ++$hpos;
+                    $hpos++;
                 }
-                ++$hpos;
+                $hpos++;
             }
             $page_header = "<head>\n$page_header\n</head>\n";
         }

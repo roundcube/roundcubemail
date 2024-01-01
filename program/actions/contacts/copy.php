@@ -93,12 +93,12 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                     if (!$plugin['abort']) {
                         if ($insert_id = $TARGET->insert($plugin['record'], false)) {
                             $ids[] = $insert_id;
-                            ++$success;
+                            $success++;
                         }
                     }
                     elseif ($plugin['result']) {
                         $ids = array_merge($ids, $plugin['result']);
-                        ++$success;
+                        $success++;
                     }
                 }
                 else {

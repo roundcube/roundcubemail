@@ -113,7 +113,7 @@ class MailTest extends \Tests\Browser\TestCase
         $files = [];
 
         if ($zip->open($filename)) {
-            for ($i = 0; $i < $zip->numFiles; ++$i) {
+            for ($i = 0; $i < $zip->numFiles; $i++) {
                 $files[] = $zip->getNameIndex($i);
             }
         }

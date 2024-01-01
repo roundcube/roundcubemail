@@ -561,7 +561,7 @@ class rcube_washtml
             return '';
         }
 
-        ++$level;
+        $level++;
 
         if ($this->max_nesting_level > 0 && $level == $this->max_nesting_level - 1) {
             // log error message once
@@ -869,7 +869,7 @@ class rcube_washtml
         foreach (['ol', 'ul'] as $tag) {
             $pos = 0;
             while (($pos = stripos($html, '<' . $tag, $pos)) !== false) {
-                ++$pos;
+                $pos++;
 
                 // make sure this is an ol/ul tag
                 if (!in_array($html[$pos + 2], [' ', '>'])) {
@@ -926,7 +926,7 @@ class rcube_washtml
                         $p = $end;
                     }
                     else {
-                        ++$p;
+                        $p++;
                     }
                 }
             }
@@ -989,7 +989,7 @@ class rcube_washtml
         $q      = false;
 
         // explode value
-        for ($p = $i = 0; $i < $strlen; ++$i) {
+        for ($p = $i = 0; $i < $strlen; $i++) {
             if (($style[$i] == '"' || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != '\\')) {
                 if ($q == $style[$i]) {
                     $q = false;

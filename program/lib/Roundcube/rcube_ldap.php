@@ -658,7 +658,7 @@ class rcube_ldap extends rcube_addressbook
         $last_row = $subset != 0 ? $start_row + abs($subset) : $last_row;
 
         // filter entries for this page
-        for ($i = $start_row; $i < min($entries['count'] ?? 0, $last_row); ++$i) {
+        for ($i = $start_row; $i < min($entries['count'] ?? 0, $last_row); $i++) {
             if (!empty($entries[$i])) {
                 $this->result->add($this->_ldap2result($entries[$i]));
             }
@@ -689,7 +689,7 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
-        for ($i = 0; $i < $entries['count']; ++$i) {
+        for ($i = 0; $i < $entries['count']; $i++) {
             $entry = $entries[$i];
             $attrs = [];
 
@@ -741,7 +741,7 @@ class rcube_ldap extends rcube_addressbook
 
         $filter = !empty($this->prop['groups']['member_filter']) ? $this->prop['groups']['member_filter'] : '(objectclass=*)';
 
-        for ($i = 0; $i < $entry[$attr]['count']; ++$i) {
+        for ($i = 0; $i < $entry[$attr]['count']; $i++) {
             if (empty($entry[$attr][$i])) {
                 continue;
             }
@@ -774,7 +774,7 @@ class rcube_ldap extends rcube_addressbook
     {
         $group_members = [];
 
-        for ($i = 0; $i < $entry['memberurl']['count']; ++$i) {
+        for ($i = 0; $i < $entry['memberurl']['count']; $i++) {
             // extract components from url
             if (!preg_match('!ldap://[^/]*/([^\?]+)\?\?(\w+)\?(.*)$!', $entry['memberurl'][$i], $m)) {
                 continue;
@@ -786,7 +786,7 @@ class rcube_ldap extends rcube_addressbook
 
             if ($result = $this->ldap->search($m[1], $filter, $m[2], $attrs, $this->group_data)) {
                 $entries = $result->entries();
-                for ($j = 0; $j < $entries['count']; ++$j) {
+                for ($j = 0; $j < $entries['count']; $j++) {
                     if ($this->is_group_entry($entries[$j]) && ($nested_group_members = $this->list_group_members($entries[$j]['dn'], $count))) {
                         $group_members = array_merge($group_members, $nested_group_members);
                     }
@@ -831,7 +831,7 @@ class rcube_ldap extends rcube_addressbook
             foreach ($ids as $id) {
                 if ($rec = $this->get_record($id, true)) {
                     $result->add($rec);
-                    ++$result->count;
+                    $result->count++;
                 }
             }
             return $result;
@@ -866,7 +866,7 @@ class rcube_ldap extends rcube_addressbook
                         foreach ((array) $rec[$f] as $val) {
                             if ($this->compare_search_value($f, $val, $search, $mode)) {
                                 $this->result->add($rec);
-                                ++$this->result->count;
+                                $this->result->count++;
                                 break 2;
                             }
                         }
@@ -1658,7 +1658,7 @@ class rcube_ldap extends rcube_addressbook
                 $entry['count'] = count($entry);
             }
 
-            for ($i = 0; $i < $entry['count']; ++$i) {
+            for ($i = 0; $i < $entry['count']; $i++) {
                 if (!($value = $entry[$i])) {
                     continue;
                 }
@@ -1979,7 +1979,7 @@ class rcube_ldap extends rcube_addressbook
             $groups[$group_id]['member_attr'] = $this->get_group_member_attr($entry['objectclass']);
 
             // list email attributes of a group
-            for ($j = 0; $entry[$email_attr] && $j < $entry[$email_attr]['count']; ++$j) {
+            for ($j = 0; $entry[$email_attr] && $j < $entry[$email_attr]['count']; $j++) {
                 if (strpos($entry[$email_attr][$j], '@') > 0) {
                     $groups[$group_id]['email'][] = $entry[$email_attr][$j];
                 }

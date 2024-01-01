@@ -254,7 +254,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
     function test_encode_decode()
     {
         $str = '';
-        for ($x = 0; $x < 256; ++$x) {
+        for ($x = 0; $x < 256; $x++) {
             $str .= chr($x);
         }
 

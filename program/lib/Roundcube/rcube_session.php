@@ -521,7 +521,7 @@ abstract class rcube_session implements SessionHandlerInterface
             }
 
             if ($str[$p] == '!') {
-                ++$p;
+                $p++;
                 $has_value = false;
             }
             else {
@@ -529,7 +529,7 @@ abstract class rcube_session implements SessionHandlerInterface
             }
 
             $name = substr($str, $p, $q - $p);
-            ++$q;
+            $q++;
 
             $serialized .= 's:' . strlen($name) . ':"' . $name . '";';
 
@@ -542,10 +542,10 @@ abstract class rcube_session implements SessionHandlerInterface
                         case 'i': // integer
                         case 'd': // decimal
                             do {
-                                ++$q;
+                                $q++;
                             }
                             while (($q < $endptr) && ($str[$q] != ';'));
-                            ++$q;
+                            $q++;
                             $serialized .= substr($str, $p, $q - $p);
                             if ($level == 0) {
                                 break 2;
@@ -553,10 +553,10 @@ abstract class rcube_session implements SessionHandlerInterface
                             break;
                         case 'r': // reference
                             $q += 2;
-                            for ($id = ''; ($q < $endptr) && ($str[$q] != ';'); ++$q) {
+                            for ($id = ''; ($q < $endptr) && ($str[$q] != ';'); $q++) {
                                 $id .= $str[$q];
                             }
-                            ++$q;
+                            $q++;
                             // increment pointer because of outer array
                             $serialized .= 'R:' . ($id + 1) . ';';
                             if ($level == 0) {
@@ -565,7 +565,7 @@ abstract class rcube_session implements SessionHandlerInterface
                             break;
                         case 's': // string
                             $q += 2;
-                            for ($length = ''; ($q < $endptr) && ($str[$q] != ':'); ++$q) {
+                            for ($length = ''; ($q < $endptr) && ($str[$q] != ':'); $q++) {
                                 $length .= $str[$q];
                             }
                             $q += 2;
@@ -578,11 +578,11 @@ abstract class rcube_session implements SessionHandlerInterface
                         case 'a': // array
                         case 'o': // object
                             do {
-                                ++$q;
+                                $q++;
                             }
                             while ($q < $endptr && $str[$q] != '{');
-                            ++$q;
-                            ++$level;
+                            $q++;
+                            $level++;
                             $serialized .= substr($str, $p, $q - $p);
                             break;
                         case '}': // end of array|object
@@ -601,7 +601,7 @@ abstract class rcube_session implements SessionHandlerInterface
                 $serialized .= 'N;';
                 $q += 2;
             }
-            ++$items;
+            $items++;
             $p = $q;
         }
 
@@ -695,7 +695,7 @@ abstract class rcube_session implements SessionHandlerInterface
             $result = false;
 
             // Check if using id from a previous time slot
-            for ($i = 1; $i <= 2; ++$i) {
+            for ($i = 1; $i <= 2; $i++) {
                 $prev = $this->now - ($this->lifetime / 2) * $i;
                 if ($this->mkcookie($prev) == $this->cookie) {
                     $this->log('Send new auth cookie for ' . $this->key . ': ' . $this->cookie);

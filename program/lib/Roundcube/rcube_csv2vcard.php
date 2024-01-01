@@ -545,7 +545,7 @@ class rcube_csv2vcard
         $size = count($elements);
 
         // check English labels
-        for ($i = 0; $i < $size; ++$i) {
+        for ($i = 0; $i < $size; $i++) {
             if (!empty($this->label_map[$elements[$i]])) {
                 $label = $this->label_map[$elements[$i]];
                 if ($label && !empty($this->csv2vcard_map[$label])) {
@@ -556,7 +556,7 @@ class rcube_csv2vcard
 
         // check localized labels
         if (!empty($this->local_label_map)) {
-            for ($i = 0; $i < $size; ++$i) {
+            for ($i = 0; $i < $size; $i++) {
                 $label = $this->local_label_map[$elements[$i]];
 
                 // special localization label
@@ -572,7 +572,7 @@ class rcube_csv2vcard
 
         // If nothing recognized fallback to simple non-localized labels
         if (empty($map1) && empty($map2)) {
-            for ($i = 0; $i < $size; ++$i) {
+            for ($i = 0; $i < $size; $i++) {
                 $label = str_replace(' ', '_', strtolower($elements[$i]));
                 if (!empty($this->csv2vcard_map[$label])) {
                     $map1[$i] = $this->csv2vcard_map[$label];
@@ -596,7 +596,7 @@ class rcube_csv2vcard
                         }
                     }
 
-                    ++$num;
+                    $num++;
                 }
             }
         }

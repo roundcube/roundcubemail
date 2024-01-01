@@ -381,7 +381,7 @@ class rcube_contacts extends rcube_addressbook
             $scnt  = !empty($post_search) ? count($post_search) : 0;
 
             // get (paged) result
-            for ($i = 0; $i < $pages; ++$i) {
+            for ($i = 0; $i < $pages; $i++) {
                 $this->list_records(null, $i, true);
                 while ($row = $this->result->next()) {
                     $id    = $row[$this->primary_key];
@@ -1026,7 +1026,7 @@ class rcube_contacts extends rcube_addressbook
                 $this->set_error(self::ERROR_SAVING, $error);
             }
             else {
-                ++$added;
+                $added++;
             }
         }
 

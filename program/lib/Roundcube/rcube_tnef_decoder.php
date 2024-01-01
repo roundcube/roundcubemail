@@ -323,7 +323,7 @@ class rcube_tnef_decoder
 
                 case self::MAPI_INT:
                 case self::MAPI_BOOLEAN:
-                    for ($i = 0; $i < $num_mval; ++$i) {
+                    for ($i = 0; $i < $num_mval; $i++) {
                         $value = $this->_geti($data, 32);
                     }
                     break;
@@ -346,7 +346,7 @@ class rcube_tnef_decoder
                 case self::MAPI_BINARY:
                 case self::MAPI_OBJECT:
                     $num_vals = $have_mval ? $num_mval : $this->_geti($data, 32);
-                    for ($i = 0; $i < $num_vals; ++$i) {
+                    for ($i = 0; $i < $num_vals; $i++) {
                         $length = $this->_geti($data, 32);
 
                         // Pad to next 4 byte boundary.
@@ -531,9 +531,9 @@ class rcube_tnef_decoder
         $preload   = "{\\rtf1\\ansi\\mac\\deff0\\deftab720{\\fonttbl;}{\\f0\\fnil \\froman \\fswiss \\fmodern \\fscript \\fdecor MS Sans SerifSymbolArialTimes New RomanCourier{\\colortbl\\red0\\green0\\blue0\n\r\\par \\pard\\plain\\f0\\fs20\\b\\i\\u\\tab\\tx";
         $length_preload = strlen($preload);
 
-        for ($cnt = 0; $cnt < $length_preload; ++$cnt) {
+        for ($cnt = 0; $cnt < $length_preload; $cnt++) {
             $uncomp .= $preload[$cnt];
-            ++$out;
+            $out++;
         }
 
         while ($out < ($size + $length_preload)) {
@@ -559,12 +559,12 @@ class rcube_tnef_decoder
 
                 while ($offset < $end) {
                     $uncomp .= $uncomp[$offset++];
-                    ++$out;
+                    $out++;
                 }
             }
             else {
                 $uncomp .= $data[$in++];
-                ++$out;
+                $out++;
             }
         }
 
@@ -586,7 +586,7 @@ class rcube_tnef_decoder
         $j        = -1;
 
         // Read the data character-by- character…
-        for ($i = 0, $len = strlen($text); $i < $len; ++$i) {
+        for ($i = 0, $len = strlen($text); $i < $len; $i++) {
             $c = $text[$i];
             switch ($c) {
                 case '\\':
@@ -738,7 +738,7 @@ class rcube_tnef_decoder
                         }
                     }
 
-                    ++$i;
+                    $i++;
                     break;
 
                 case '{':
@@ -748,13 +748,13 @@ class rcube_tnef_decoder
                         $stack[] = $stack[$j++];
                     }
                     else {
-                        ++$j;
+                        $j++;
                     }
                     break;
 
                 case '}':
                     array_pop($stack);
-                    --$j;
+                    $j--;
                     break;
 
                 case '\0':
@@ -783,7 +783,7 @@ class rcube_tnef_decoder
     {
         $notPlain = ['*', 'fonttbl', 'colortbl', 'datastore', 'themedata', 'stylesheet'];
 
-        for ($i = 0; $i < count($notPlain); ++$i) {
+        for ($i = 0; $i < count($notPlain); $i++) {
             if (!empty($s[$notPlain[$i]])) {
                 return false;
             }

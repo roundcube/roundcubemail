@@ -107,7 +107,7 @@ class rcube_mime
         }
 
         foreach ($a as $val) {
-            ++$j;
+            $j++;
             $address = trim($val['address']);
 
             if ($addronly) {
@@ -223,7 +223,7 @@ class rcube_mime
                     // base64 must be decoded a segment at a time.
                     // However, there are broken implementations that continue
                     // in the following word, we'll handle that (#6048)
-                    for ($i = 0; $i < $count; ++$i) {
+                    for ($i = 0; $i < $count; $i++) {
                         $chunk  = $rest . $tmp[$i];
                         $length = strlen($chunk);
                         if ($length % 4) {
@@ -237,7 +237,7 @@ class rcube_mime
                 }
                 else { // if ($encoding == 'Q' || $encoding == 'q') {
                     // quoted printable can be combined and processed at once
-                    for ($i = 0; $i < $count; ++$i) {
+                    for ($i = 0; $i < $count; $i++) {
                         $text .= $tmp[$i];
                     }
 
@@ -298,7 +298,7 @@ class rcube_mime
         $lines   = explode("\n", $headers);
         $count   = count($lines);
 
-        for ($i = 0; $i < $count; ++$i) {
+        for ($i = 0; $i < $count; $i++) {
             if ($p = strpos($lines[$i], ': ')) {
                 $field = strtolower(substr($lines[$i], 0, $p));
                 $value = trim(substr($lines[$i], $p + 1));
@@ -415,7 +415,7 @@ class rcube_mime
         $comment = 0;
         $out     = '';
 
-        for ($i = 0; $i < $length; ++$i) {
+        for ($i = 0; $i < $length; $i++) {
             // we're inside a quoted string
             if ($quoted) {
                 if ($str[$i] == '"') {
@@ -425,19 +425,19 @@ class rcube_mime
                     if ($comment <= 0) {
                         $out .= '\\';
                     }
-                    ++$i;
+                    $i++;
                 }
             }
             // we are inside a comment string
             elseif ($comment > 0) {
                 if ($str[$i] == ')') {
-                    --$comment;
+                    $comment--;
                 }
                 elseif ($str[$i] == '(') {
-                    ++$comment;
+                    $comment++;
                 }
                 elseif ($str[$i] == '\\') {
-                    ++$i;
+                    $i++;
                 }
                 continue;
             }
@@ -455,7 +455,7 @@ class rcube_mime
             }
             // start of comment
             elseif ($remove_comments && $str[$i] == '(') {
-                ++$comment;
+                $comment++;
             }
 
             if ($comment <= 0) {

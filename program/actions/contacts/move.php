@@ -103,12 +103,12 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                     if (empty($plugin['abort'])) {
                         if ($insert_id = $TARGET->insert($plugin['record'], false)) {
                             $ids[] = $insert_id;
-                            ++$success;
+                            $success++;
                         }
                     }
                     elseif (!empty($plugin['result'])) {
                         $ids = array_merge($ids, $plugin['result']);
-                        ++$success;
+                        $success++;
                     }
                 }
                 else {

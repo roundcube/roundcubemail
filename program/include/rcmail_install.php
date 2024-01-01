@@ -158,7 +158,7 @@ class rcmail_install
             $in_config = false;
             $buffer    = '';
 
-            for ($i = 0; $i < count($tokens); ++$i) {
+            for ($i = 0; $i < count($tokens); $i++) {
                 $token = $tokens[$i];
                 if ($token[0] == \T_VARIABLE && ($token[1] == '$config' || $token[1] == '$rcmail_config')) {
                     $in_config = true;
@@ -756,7 +756,7 @@ class rcmail_install
     public function fail($name, $message = '', $url = '', $optional = false)
     {
         if (!$optional) {
-            ++$this->failures;
+            $this->failures++;
         }
 
         echo rcube::Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
@@ -923,7 +923,7 @@ class rcmail_install
 
             if ($zip->open($zipfile) === true) {
                 if ($flat) {
-                    for ($i = 0; $i < $zip->numFiles; ++$i) {
+                    for ($i = 0; $i < $zip->numFiles; $i++) {
                         $filename = $zip->getNameIndex($i);
                         if (substr($filename, -1, 1) != '/') {
                             copy('zip://' . $zipfile . '#' . $filename, $destdir . '/' . pathinfo($filename, \PATHINFO_BASENAME));

@@ -263,7 +263,7 @@ class rcube_cache
                 $path     = explode('.', "*.$key");
                 $path_len = min(self::MAX_EXP_LEVEL + 1, count($path));
 
-                for ($x = 1; $x <= $path_len; ++$x) {
+                for ($x = 1; $x <= $path_len; $x++) {
                     $prefix = implode('.', array_slice($path, 0, $x));
                     if ($x > 1) {
                         $prefix = substr($prefix, 2); // remove "*." prefix

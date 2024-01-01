@@ -1384,7 +1384,7 @@ abstract class rcmail_action
             $count = count($path);
 
             if ($count > 1) {
-                for ($i = 1; $i < $count; ++$i) {
+                for ($i = 1; $i < $count; $i++) {
                     $folder       = implode($delimiter, array_slice($path, 0, -$i));
                     $folder_class = self::folder_classname($folder);
 

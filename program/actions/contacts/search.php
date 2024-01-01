@@ -112,7 +112,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
                 foreach ($fields as $f) {
                     if (array_key_exists($f, $cols)) {
-                        ++$supported;
+                        $supported++;
                     }
                 }
 

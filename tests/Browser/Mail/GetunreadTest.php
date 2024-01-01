@@ -14,7 +14,7 @@ class GetunreadTest extends \Tests\Browser\TestCase
         // import email messages
         foreach (glob(TESTS_DIR . 'data/mail/list_??.eml') as $f) {
             \bootstrap::import_message($f, 'INBOX');
-            ++self::$msgcount;
+            self::$msgcount++;
         }
     }
 

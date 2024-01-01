@@ -215,7 +215,7 @@ class rcube_vcard
                         }
 
                         while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref')) {
-                            ++$k;
+                            $k++;
                             if (!empty($raw['type'][$k])) {
                                 if (!empty($typemap[$raw['type'][$k]])) {
                                     $subtype = $typemap[$raw['type'][$k]];
@@ -660,7 +660,7 @@ class rcube_vcard
         $c = 71;
         $out = substr($matches[1], 0, $c);
 
-        for ($n = $c; $c < strlen($matches[1]); ++$c) {
+        for ($n = $c; $c < strlen($matches[1]); $c++) {
             // break if length > 75 or multibyte character starts after position 71
             if ($n > 75 || ($n > 71 && ord($matches[1][$c]) >> 6 == 3)) {
                 $out .= "\r\n ";
@@ -668,7 +668,7 @@ class rcube_vcard
             }
 
             $out .= $matches[1][$c];
-            ++$n;
+            $n++;
         }
 
         return $out;
@@ -700,7 +700,7 @@ class rcube_vcard
         $lines  = explode("\n", $vcard);
         $result = [];
 
-        for ($i = 0; $i < count($lines); ++$i) {
+        for ($i = 0; $i < count($lines); $i++) {
             if (!($pos = strpos($lines[$i], ':'))) {
                 continue;
             }
@@ -972,7 +972,7 @@ class rcube_vcard
                 $str = substr_replace($str, '', $pos, 1);
             }
 
-            ++$pos;
+            $pos++;
         }
 
         return $str;
@@ -1014,7 +1014,7 @@ class rcube_vcard
         $lines  = explode("\n", $string);
         $string = '';
 
-        for ($i = 0, $len = count($lines); $i < $len; ++$i) {
+        for ($i = 0, $len = count($lines); $i < $len; $i++) {
             if (!($pos = strpos($lines[$i], ':'))) {
                 continue;
             }
