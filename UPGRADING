@@ -52,7 +52,6 @@ it on a unix system, you need to do the following operations by hand:
    by running `php composer.phar update --no-dev`.
 4b. Install/update dependencies using composer:
    - get composer from https://getcomposer.org/download/
-   - rename the composer.json-dist file into composer.json
    - if you want to use LDAP address books, enable the LDAP libraries in your
      composer.json file by moving the items from "suggest" to the "require"
      section (remove the explanation texts after the version!).
