@@ -3,7 +3,7 @@
     "description": "The Roundcube Webmail suite",
     "license": "GPL-3.0-or-later",
     "require": {
-        "php": ">=7.3.0",
+        "php": ">=7.3 <8.4",
         "bacon/bacon-qr-code": "^2.0.8",
         "guzzlehttp/guzzle": "^7.3.0",
         "masterminds/html5": "~2.8.0",
