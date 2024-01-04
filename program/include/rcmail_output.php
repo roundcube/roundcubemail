@@ -133,7 +133,7 @@ abstract class rcmail_output extends rcube_output
      * @param string $body    The output body
      * @param array  $headers Headers
      *
-     * @return void
+     * @return never
      */
     public function sendExit($body = '', $headers = [])
     {
@@ -151,7 +151,7 @@ abstract class rcmail_output extends rcube_output
      * @param int    $code    The HTTP error code
      * @param string $message The HTTP error message
      *
-     * @return void
+     * @return never
      */
     public function sendExitError($code, $message = '')
     {
