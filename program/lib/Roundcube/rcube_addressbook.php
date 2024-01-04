@@ -127,10 +127,8 @@ abstract class rcube_addressbook
      * operation.
      *
      * @param mixed $filter Search params to use in listing method, obtained by get_search_set()
-     *
-     * @return void
      */
-    abstract public function set_search_set($filter);
+    abstract public function set_search_set($filter): void;
 
     /**
      * Getter for saved search properties.
@@ -143,10 +141,8 @@ abstract class rcube_addressbook
 
     /**
      * Reset saved results and search parameters
-     *
-     * @return void
      */
-    abstract public function reset();
+    abstract public function reset(): void;
 
     /**
      * Refresh saved search set after data has changed
