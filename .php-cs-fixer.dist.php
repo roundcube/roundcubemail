@@ -81,7 +81,6 @@ return (new PhpCsFixer\Config())
             'style' => 'post',
         ],
         'no_useless_else' => false,
-        'phpdoc_no_empty_return' => false,
         'psr_autoloading' => false,
         'strict_comparison' => false,
         'string_length_to_empty' => false,
