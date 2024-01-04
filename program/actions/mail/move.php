@@ -54,12 +54,10 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
             if ($mbox === $target) {
                 $count += is_array($uids) ? count($uids) : 1;
-            }
-            elseif ($rcmail->storage->move_message($uids, $target, $mbox)) {
+            } elseif ($rcmail->storage->move_message($uids, $target, $mbox)) {
                 $count += is_array($uids) ? count($uids) : 1;
                 $sources[] = $mbox;
-            }
-            else {
+            } else {
                 $success = false;
             }
         }
@@ -72,16 +70,14 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
 
             self::display_server_error('errormoving', null, $target == $trash ? 'delete' : '');
             $rcmail->output->send();
-        }
-        else {
+        } else {
             $rcmail->output->show_message($target == $trash ? 'messagemovedtotrash' : 'messagemoved', 'confirmation');
         }
 
         if (!empty($_POST['_refresh'])) {
             // FIXME: send updated message rows instead of reloading the entire list
             $rcmail->output->command('refresh_list');
-        }
-        else {
+        } else {
             $addrows = true;
         }
 
@@ -95,8 +91,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         if (!empty($_POST['_from']) && $_POST['_from'] == 'show') {
             if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
-            }
-            else {
+            } else {
                 $rcmail->output->command('command', 'list');
             }
 
@@ -153,8 +148,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         // set trash folder state
         if ($mbox === $trash) {
             $rcmail->output->command('set_trash_count', $exists);
-        }
-        elseif ($target === $trash) {
+        } elseif ($target === $trash) {
             $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash, 'EXISTS', true));
         }
 

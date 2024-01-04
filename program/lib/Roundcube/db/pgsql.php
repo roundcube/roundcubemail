@@ -225,8 +225,7 @@ class rcube_db_pgsql extends rcube_db
         if ($this->tables === null) {
             if (($schema = $this->options['table_prefix']) && $schema[strlen($schema) - 1] === '.') {
                 $add = ' AND TABLE_SCHEMA = ' . $this->quote(substr($schema, 0, -1));
-            }
-            else {
+            } else {
                 $add = " AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')";
             }
 
@@ -254,8 +253,7 @@ class rcube_db_pgsql extends rcube_db
         if (($schema = $this->options['table_prefix']) && $schema[strlen($schema) - 1] === '.') {
             $add    = ' AND TABLE_SCHEMA = ?';
             $args[] = substr($schema, 0, -1);
-        }
-        else {
+        } else {
             $add = " AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')";
         }
 
@@ -283,8 +281,7 @@ class rcube_db_pgsql extends rcube_db
 
         if (isset($dsn['hostspec'])) {
             $params[] = 'host=' . $dsn['hostspec'];
-        }
-        elseif (isset($dsn['socket'])) {
+        } elseif (isset($dsn['socket'])) {
             $params[] = 'host=' . $dsn['socket'];
         }
 

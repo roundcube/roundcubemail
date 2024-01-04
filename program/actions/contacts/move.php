@@ -84,20 +84,18 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
 
                 if (!empty($email)) {
                     $result = $TARGET->search('email', $email[0], 1, true, true);
-                }
-                elseif (!empty($record['name'])) {
+                } elseif (!empty($record['name'])) {
                     $result = $TARGET->search('name', $record['name'], 1, true, true);
-                }
-                else {
+                } else {
                     $result = new rcube_result_set();
                 }
 
                 // insert contact record
                 if (!$result->count) {
                     $plugin = $rcmail->plugins->exec_hook('contact_create', [
-                            'record' => $record,
-                            'source' => $target,
-                            'group'  => $target_group,
+                        'record' => $record,
+                        'source' => $target,
+                        'group'  => $target_group,
                     ]);
 
                     if (empty($plugin['abort'])) {
@@ -105,13 +103,11 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                             $ids[] = $insert_id;
                             $success++;
                         }
-                    }
-                    elseif (!empty($plugin['result'])) {
+                    } elseif (!empty($plugin['result'])) {
                         $ids = array_merge($ids, $plugin['result']);
                         $success++;
                     }
-                }
-                else {
+                } else {
                     $record   = $result->first();
                     $ids[]    = $record['ID'];
                     $errormsg = empty($email) ? 'contactnameexists' : 'contactexists';
@@ -122,8 +118,8 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
             if ($success && !empty($source_cids)) {
                 $all   += count($source_cids);
                 $plugin = $rcmail->plugins->exec_hook('contact_delete', [
-                        'id'     => $source_cids,
-                        'source' => $source,
+                    'id'     => $source_cids,
+                    'source' => $source,
                 ]);
 
                 $del_status = !$plugin['abort'] ? $CONTACTS->delete($source_cids) : $plugin['result'];
@@ -136,9 +132,9 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
             // assign to group
             if ($target_group && $TARGET->groups && !empty($ids)) {
                 $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
-                        'group_id' => $target_group,
-                        'ids'      => $ids,
-                        'source'   => $target,
+                    'group_id' => $target_group,
+                    'ids'      => $ids,
+                    'source'   => $target,
                 ]);
 
                 if (empty($plugin['abort'])) {
@@ -153,8 +149,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                     if (($cnt = $TARGET->add_to_group($target_group, $plugin['ids'])) && $cnt > $success) {
                         $success = $cnt;
                     }
-                }
-                elseif ($plugin['result']) {
+                } elseif ($plugin['result']) {
                     $success = $plugin['result'];
                 }
 
@@ -164,8 +159,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
 
         if (!$deleted || $deleted != $all) {
             $rcmail->output->command('list_contacts');
-        }
-        else {
+        } else {
             // update saved search after data changed
             if (($records = self::search_update(true)) !== false) {
                 // create resultset object
@@ -194,12 +188,10 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
 
                     $res->records = array_values($records);
                     $records = $res;
-                }
-                else {
+                } else {
                     unset($records);
                 }
-            }
-            elseif (isset($CONTACTS)) {
+            } elseif (isset($CONTACTS)) {
                 // count contacts for this user
                 $result = $CONTACTS->count();
                 $pages  = ceil(($result->count + $deleted) / $page_size);
@@ -232,8 +224,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
 
         if (!$success) {
             $rcmail->output->show_message($errormsg, 'error');
-        }
-        else {
+        } else {
             $rcmail->output->show_message('movesuccess', 'confirmation', ['nr' => $success]);
         }
 

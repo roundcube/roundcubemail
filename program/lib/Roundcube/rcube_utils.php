@@ -25,11 +25,11 @@
 class rcube_utils
 {
     // define constants for input reading
-    const INPUT_GET    = 1;
-    const INPUT_POST   = 2;
-    const INPUT_COOKIE = 4;
-    const INPUT_GP     = 3; // GET + POST
-    const INPUT_GPC    = 7; // GET + POST + COOKIE
+    public const INPUT_GET    = 1;
+    public const INPUT_POST   = 2;
+    public const INPUT_COOKIE = 4;
+    public const INPUT_GP     = 3; // GET + POST
+    public const INPUT_GPC    = 7; // GET + POST + COOKIE
 
 
     /**
@@ -106,7 +106,7 @@ class rcube_utils
         // quoted-string, make sure all backslashes and quotes are
         // escaped
         if (substr($local_part, 0, 1) == '"') {
-            $local_quoted = preg_replace('/\\\\(\\\\|\")/','', substr($local_part, 1, -1));
+            $local_quoted = preg_replace('/\\\\(\\\\|\")/', '', substr($local_part, 1, -1));
             if (preg_match('/\\\\|"/', $local_quoted)) {
                 return false;
             }
@@ -121,8 +121,7 @@ class rcube_utils
         // Validate domain part
         if (preg_match('/^\[((IPv6:[0-9a-f:.]+)|([0-9.]+))\]$/i', $domain_part, $matches)) {
             return self::check_ip(preg_replace('/^IPv6:/i', '', $matches[1])); // valid IPv4 or IPv6 address
-        }
-        else {
+        } else {
             // If not an IP address
             $domain_array = explode('.', $domain_part);
             // Not enough parts to be a valid domain
@@ -205,8 +204,7 @@ class rcube_utils
 
             if ($mode == 'remove') {
                 $str = strip_tags($str);
-            }
-            elseif ($mode != 'strict') {
+            } elseif ($mode != 'strict') {
                 // don't replace quotes and html tags
                 $ltpos = strpos($str, '<');
                 if ($ltpos !== false && strpos($str, '>', $ltpos) !== false) {
@@ -415,7 +413,7 @@ class rcube_utils
     public static function mod_css_styles($source, $container_id, $allow_remote = false, $prefix = '')
     {
         $last_pos     = 0;
-        $replacements = new rcube_string_replacer;
+        $replacements = new rcube_string_replacer();
 
         // ignore the whole block if evil styles are detected
         $source   = self::xss_entity_decode($source);
@@ -451,8 +449,7 @@ class rcube_utils
                 // Convert position:fixed to position:absolute (#5264)
                 if ($rule[0] == 'position' && strcasecmp($rule[1], 'fixed') === 0) {
                     $rule[1] = 'absolute';
-                }
-                elseif ($allow_remote) {
+                } elseif ($allow_remote) {
                     $stripped = preg_replace('/[^a-z\(:;]/i', '', $rule[1]);
 
                     // allow data:image and strict url() values only
@@ -465,7 +462,7 @@ class rcube_utils
                     }
                 }
 
-                $output .= sprintf(' %s: %s;', $rule[0] , $rule[1]);
+                $output .= sprintf(' %s: %s;', $rule[0], $rule[1]);
             }
 
             $key      = $replacements->add($output . ' ');
@@ -534,8 +531,7 @@ class rcube_utils
 
             if ($end === false) {
                 $style = substr($style, 0, $pos);
-            }
-            else {
+            } else {
                 $style = substr_replace($style, '', $pos, $end - $pos + 2);
             }
         }
@@ -558,15 +554,12 @@ class rcube_utils
                 if (($style[$i] == '"' || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != '\\')) {
                     if ($q == $style[$i]) {
                         $q = false;
-                    }
-                    elseif ($q === false) {
+                    } elseif ($q === false) {
                         $q = $style[$i];
                     }
-                }
-                elseif ($style[$i] == '(' && !$q && ($i == 0 || $style[$i - 1] != '\\')) {
+                } elseif ($style[$i] == '(' && !$q && ($i == 0 || $style[$i - 1] != '\\')) {
                     $q = '(';
-                }
-                elseif ($style[$i] == ')' && $q == '(' && $style[$i - 1] != '\\') {
+                } elseif ($style[$i] == ')' && $q == '(' && $style[$i - 1] != '\\') {
                     $q = false;
                 }
 
@@ -761,8 +754,7 @@ class rcube_utils
 
             if (!empty($url['port'])) {
                 $port = $url['port'];
-            }
-            elseif (
+            } elseif (
                 $scheme
                 && $ssl_port
                 && ($scheme === 'ssl' || ($scheme != 'tls' && $scheme[strlen($scheme) - 1] === 's'))
@@ -810,18 +802,15 @@ class rcube_utils
                     if (preg_match("/$pattern/", $name)) {
                         return $name;
                     }
-                }
-                elseif (strtolower($name) === strtolower($pattern)) {
+                } elseif (strtolower($name) === strtolower($pattern)) {
                     return $name;
                 }
             }
 
             $rcube->raise_error([
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Specified host is not trusted. Using 'localhost'.",
-                ]
-                , true, false
-            );
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Specified host is not trusted. Using 'localhost'.",
+            ], true, false);
         }
 
         return 'localhost';
@@ -898,8 +887,7 @@ class rcube_utils
         if (function_exists('apache_request_headers')) {
             $headers = apache_request_headers();
             $key     = strtoupper($name);
-        }
-        else {
+        } else {
             $headers = $_SERVER;
             $key     = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
         }
@@ -1006,8 +994,7 @@ class rcube_utils
             try {
                 $_date = preg_match('/^[0-9]+$/', $date) ? "@$date" : $date;
                 $dt    = $timezone ? new DateTime($_date, $timezone) : new DateTime($_date);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // ignore
             }
         }
@@ -1019,8 +1006,7 @@ class rcube_utils
                 if ($timezone) {
                     $dt->setTimezone($timezone);
                 }
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // ignore
             }
         }
@@ -1098,11 +1084,9 @@ class rcube_utils
         if (count($format_items) == 3 && count($date_items) == 3) {
             if ($format_items[0] == 'Y') {
                 $date = sprintf($iso_format, $date_items[0], $date_items[1], $date_items[2]);
-            }
-            elseif (strpos('dj', $format_items[0]) !== false) {
+            } elseif (strpos('dj', $format_items[0]) !== false) {
                 $date = sprintf($iso_format, $date_items[2], $date_items[1], $date_items[0]);
-            }
-            elseif (strpos('mn', $format_items[0]) !== false) {
+            } elseif (strpos('mn', $format_items[0]) !== false) {
                 $date = sprintf($iso_format, $date_items[2], $date_items[0], $date_items[1]);
             }
         }
@@ -1150,8 +1134,7 @@ class rcube_utils
         if ($at = strpos($input, '@')) {
             $user   = substr($input, 0, $at);
             $domain = substr($input, $at + 1);
-        }
-        else {
+        } else {
             $user   = '';
             $domain = $input;
         }
@@ -1169,8 +1152,7 @@ class rcube_utils
                 $options = \IDNA_NONTRANSITIONAL_TO_ASCII;
                 $domain  = idn_to_ascii($domain, $options, $variant);
             }
-        }
-        elseif (preg_match('/(^|\.)xn--/i', $domain)) {
+        } elseif (preg_match('/(^|\.)xn--/i', $domain)) {
             $options = \IDNA_NONTRANSITIONAL_TO_UNICODE;
             $domain  = idn_to_utf8($domain, $options, $variant);
         }
@@ -1238,15 +1220,14 @@ class rcube_utils
         if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-1'), 'ISO-8859-1', 'UTF-8') == $str) {
             // ISO-8859-1 (or ASCII)
             preg_match_all('/./u', 'äâàåáãæçéêëèïîìíñöôòøõóüûùúýÿ', $keys);
-            preg_match_all('/./',  'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
+            preg_match_all('/./', 'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
 
             $mapping = array_combine($keys[0], $values[0]);
             $mapping = array_merge($mapping, ['ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u']);
-        }
-        elseif (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
+        } elseif (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
             // ISO-8859-2
             preg_match_all('/./u', 'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżý', $keys);
-            preg_match_all('/./',  'aaaaccceeeeiilllnnooorrsssttuuuuzzzy', $values);
+            preg_match_all('/./', 'aaaaccceeeeiilllnnooorrsssttuuuuzzzy', $values);
 
             $mapping = array_combine($keys[0], $values[0]);
             $mapping = array_merge($mapping, ['ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u']);
@@ -1285,8 +1266,7 @@ class rcube_utils
                 if (stripos($_haystack, $w) !== false) {
                     $hits++;
                 }
-            }
-            elseif (stripos($haystack, $w) !== false) {
+            } elseif (stripos($haystack, $w) !== false) {
                 $hits++;
             }
         }
@@ -1327,11 +1307,9 @@ class rcube_utils
                 if ($sp > 0) {
                     $key   = substr($key, 0, $sp - 2);
                     $value = substr($arg, $sp + 1);
-                }
-                elseif (in_array($key, $bool)) {
+                } elseif (in_array($key, $bool)) {
                     $value = true;
-                }
-                elseif (
+                } elseif (
                     isset($_SERVER['argv'][$i + 1])
                     && strlen($_SERVER['argv'][$i + 1])
                     && $_SERVER['argv'][$i + 1][0] != '-'
@@ -1340,8 +1318,7 @@ class rcube_utils
                 }
 
                 $args[$key] = is_string($value) ? preg_replace(['/^["\']/', '/["\']$/'], '', $value) : $value;
-            }
-            else {
+            } else {
                 $args[] = $arg;
             }
 
@@ -1525,8 +1502,7 @@ class rcube_utils
                 $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
                 return $date->format($format);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // ignore, fallback to date()
             }
         }
@@ -1604,8 +1580,7 @@ class rcube_utils
 
             if (!empty($error['message'])) {
                 $error['message'] .= ' ' . $errstr;
-            }
-            else {
+            } else {
                 $error['message'] = $errstr;
             }
 
@@ -1670,13 +1645,11 @@ class rcube_utils
             $reply_prefixes = $config->get('subject_reply_prefixes', ['Re:']);
             $forward_prefixes = $config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
             $prefixes = array_merge($reply_prefixes, $forward_prefixes);
-        }
-        elseif ($mode == 'reply') {
+        } elseif ($mode == 'reply') {
             $prefixes = $config->get('subject_reply_prefixes', ['Re:']);
             // replace (was: ...) (#1489375)
             $subject = preg_replace('/\s*\([wW]as:[^\)]+\)\s*$/', '', $subject);
-        }
-        elseif ($mode == 'forward') {
+        } elseif ($mode == 'forward') {
             $prefixes = $config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
         }
 
@@ -1688,8 +1661,7 @@ class rcube_utils
         $pattern = '/^(' . implode('|', $pieces) . ')\s*/i';
         do {
             $subject = preg_replace($pattern, '', $subject, -1, $count);
-        }
-        while ($count);
+        } while ($count);
 
         return trim($subject);
     }
@@ -1715,8 +1687,7 @@ class rcube_utils
         if (is_array($options['proxy_protocol'])) {
             $version = $options['proxy_protocol']['version'];
             $options = $options['proxy_protocol'];
-        }
-        else {
+        } else {
             $version = (int) $options['proxy_protocol'];
             $options = [];
         }
@@ -1744,10 +1715,10 @@ class rcube_utils
         if ($version == 2) {
             $addr = inet_pton($remote_addr) . inet_pton($local_addr) . pack('n', $remote_port) . pack('n', $local_port);
             $head = implode('', [
-                    '0D0A0D0A000D0A515549540A',     // protocol header
-                    '21',                           // protocol version and command
-                    $ip_version === 6 ? '2' : '1',  // IP version type
-                    '1',                             // TCP
+                '0D0A0D0A000D0A515549540A',     // protocol header
+                '21',                           // protocol version and command
+                $ip_version === 6 ? '2' : '1',  // IP version type
+                '1',                             // TCP
             ]);
 
             return pack('H*', $head) . pack('n', strlen($addr)) . $addr;

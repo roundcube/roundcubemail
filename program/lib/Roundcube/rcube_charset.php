@@ -31,7 +31,7 @@ class rcube_charset
      *
      * @var array
      */
-    static public $aliases = [
+    public static $aliases = [
         'USASCII'       => 'WINDOWS-1252',
         'ANSIX31101983' => 'WINDOWS-1252',
         'ANSIX341968'   => 'WINDOWS-1252',
@@ -74,8 +74,8 @@ class rcube_charset
      *
      * @var array
      */
-    static public $windows_codepages = [
-         37 => 'IBM037',    // IBM EBCDIC US-Canada
+    public static $windows_codepages = [
+        37 => 'IBM037',     // IBM EBCDIC US-Canada
         437 => 'IBM437',    // OEM United States
         500 => 'IBM500',    // IBM EBCDIC International
         708 => 'ASMO-708',  // Arabic (ASMO 708)
@@ -291,7 +291,7 @@ class rcube_charset
         }
 
         $out = false;
-        $error_handler = static function () { throw new \Exception(); };
+        $error_handler = static function () { throw new Exception(); };
 
         // Ignore invalid characters
         $mbstring_sc = mb_substitute_character();
@@ -305,8 +305,7 @@ class rcube_charset
 
         try {
             $out = mb_convert_encoding($str, $to, $from);
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $out = false;
         }
 
@@ -325,8 +324,7 @@ class rcube_charset
                     // iconv implementation does not support options
                     $iconv_options = '';
                 }
-            }
-            else {
+            } else {
                 $iconv_options = false;
             }
         }
@@ -342,8 +340,7 @@ class rcube_charset
 
             try {
                 $out = iconv($from, $to . $iconv_options, $str);
-            }
-            catch (Throwable $e) {
+            } catch (Throwable $e) {
                 $out = false;
             }
 
@@ -633,8 +630,7 @@ class rcube_charset
                     if (!array_key_exists($k, $input)) {
                         $input[$k] = $v;
                     }
-                }
-                else {
+                } else {
                     $input[$k] = $v;
                 }
             }

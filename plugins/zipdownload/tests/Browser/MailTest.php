@@ -109,7 +109,7 @@ class MailTest extends \Tests\Browser\TestCase
             sleep(2);
         }
 
-        $zip   = new \ZipArchive;
+        $zip   = new \ZipArchive();
         $files = [];
 
         if ($zip->open($filename)) {

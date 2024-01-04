@@ -53,8 +53,7 @@ class rcmail_action_contacts_search_create extends rcmail_action
 
             if (empty($plugin['abort'])) {
                 $result = $rcmail->user->insert_search($plugin['data']);
-            }
-            else {
+            } else {
                 $result = $plugin['result'];
             }
         }
@@ -62,8 +61,7 @@ class rcmail_action_contacts_search_create extends rcmail_action
         if (!empty($result)) {
             $rcmail->output->show_message('savedsearchcreated', 'confirmation');
             $rcmail->output->command('insert_saved_search', rcube::Q($name), rcube::Q($result));
-        }
-        else {
+        } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'savedsearchcreateerror';
             $rcmail->output->show_message($error, 'error');
         }

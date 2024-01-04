@@ -56,8 +56,7 @@ class rcmail_action_settings_folder_subscribe extends rcmail_action
             }
 
             $rcmail->output->show_message('foldersubscribed', 'confirmation');
-        }
-        else {
+        } else {
             self::display_server_error('errorsaving');
             $rcmail->output->command('reset_subscription', $mbox, false);
         }

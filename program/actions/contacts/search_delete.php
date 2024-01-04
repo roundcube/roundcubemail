@@ -40,8 +40,7 @@ class rcmail_action_contacts_search_delete extends rcmail_action
 
             if (empty($plugin['abort'])) {
                 $result = $rcmail->user->delete_search($id);
-            }
-            else {
+            } else {
                 $result = $plugin['result'];
             }
         }
@@ -52,8 +51,7 @@ class rcmail_action_contacts_search_delete extends rcmail_action
             // contact list will be cleared, clear also page counter
             $rcmail->output->command('set_rowcount', $rcmail->gettext('nocontactsfound'));
             $rcmail->output->set_env('pagecount', 0);
-        }
-        else {
+        } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'savedsearchdeleteerror';
             $rcmail->output->show_message($error, 'error');
         }

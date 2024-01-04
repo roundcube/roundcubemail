@@ -22,8 +22,8 @@
  */
 class OutputHtmlMock extends rcmail_output_html
 {
-    const E_EXIT     = 101;
-    const E_REDIRECT = 102;
+    public const E_EXIT     = 101;
+    public const E_REDIRECT = 102;
 
     public $output;
     public $headers  = [];
@@ -121,7 +121,7 @@ class OutputHtmlMock extends rcmail_output_html
      *
      * @see http://php.net/manual/en/function.exit.php
      */
-    function parse($name = 'main', $exit = true, $write = true)
+    public function parse($name = 'main', $exit = true, $write = true)
     {
         //ob_start();
         parent::parse($name, false, $write);

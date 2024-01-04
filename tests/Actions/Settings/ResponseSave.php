@@ -8,9 +8,9 @@ class Actions_Settings_ResponseSave extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
-        $action = new rcmail_action_settings_response_save;
+        $action = new rcmail_action_settings_response_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-response');
 
         $this->assertInstanceOf('rcmail_action', $action);

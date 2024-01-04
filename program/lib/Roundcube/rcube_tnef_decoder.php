@@ -28,97 +28,97 @@
  */
 class rcube_tnef_decoder
 {
-    const SIGNATURE         = 0x223E9F78;
-    const LVL_MESSAGE       = 0x01;
-    const LVL_ATTACHMENT    = 0x02;
+    public const SIGNATURE         = 0x223E9F78;
+    public const LVL_MESSAGE       = 0x01;
+    public const LVL_ATTACHMENT    = 0x02;
 
-    const AFROM             = 0x08000;
-    const ASUBJECT          = 0x18004;
-    const AMESSAGEID        = 0x18009;
-    const AFILENAME         = 0x18010;
-    const APARENTID         = 0x1800A;
-    const ACONVERSATIONID   = 0x1800B;
-    const ABODY             = 0x2800C;
-    const ADATESENT         = 0x38005;
-    const ADATERECEIVED     = 0x38006;
-    const ADATEMODIFIED     = 0x38020;
-    const APRIORITY         = 0x4800D;
-    const AOWNER            = 0x60000;
-    const ASENTFOR          = 0x60001;
-    const ASTATUS           = 0x68007;
-    const ATTACHDATA        = 0x6800F;
-    const ATTACHMETAFILE    = 0x68011;
-    const ATTACHCREATEDATE  = 0x38012;
-    const ARENDDATA         = 0x69002;
-    const AMAPIPROPS        = 0x69003;
-    const ARECIPIENTTABLE   = 0x69004;
-    const AMAPIATTRS        = 0x69005;
-    const AOEMCODEPAGE      = 0x69007;
-    const AORIGINALMCLASS   = 0x70006;
-    const AMCLASS           = 0x78008;
-    const AVERSION          = 0x89006;
+    public const AFROM             = 0x08000;
+    public const ASUBJECT          = 0x18004;
+    public const AMESSAGEID        = 0x18009;
+    public const AFILENAME         = 0x18010;
+    public const APARENTID         = 0x1800A;
+    public const ACONVERSATIONID   = 0x1800B;
+    public const ABODY             = 0x2800C;
+    public const ADATESENT         = 0x38005;
+    public const ADATERECEIVED     = 0x38006;
+    public const ADATEMODIFIED     = 0x38020;
+    public const APRIORITY         = 0x4800D;
+    public const AOWNER            = 0x60000;
+    public const ASENTFOR          = 0x60001;
+    public const ASTATUS           = 0x68007;
+    public const ATTACHDATA        = 0x6800F;
+    public const ATTACHMETAFILE    = 0x68011;
+    public const ATTACHCREATEDATE  = 0x38012;
+    public const ARENDDATA         = 0x69002;
+    public const AMAPIPROPS        = 0x69003;
+    public const ARECIPIENTTABLE   = 0x69004;
+    public const AMAPIATTRS        = 0x69005;
+    public const AOEMCODEPAGE      = 0x69007;
+    public const AORIGINALMCLASS   = 0x70006;
+    public const AMCLASS           = 0x78008;
+    public const AVERSION          = 0x89006;
 
-    const MAPI_TYPE_UNSET     = 0x0000;
-    const MAPI_NULL           = 0x0001;
-    const MAPI_SHORT          = 0x0002;
-    const MAPI_INT            = 0x0003;
-    const MAPI_FLOAT          = 0x0004;
-    const MAPI_DOUBLE         = 0x0005;
-    const MAPI_CURRENCY       = 0x0006;
-    const MAPI_APPTIME        = 0x0007;
-    const MAPI_ERROR          = 0x000A;
-    const MAPI_BOOLEAN        = 0x000B;
-    const MAPI_OBJECT         = 0x000D;
-    const MAPI_INT8BYTE       = 0x0014;
-    const MAPI_STRING         = 0x001E;
-    const MAPI_UNICODE_STRING = 0x001F;
-    const MAPI_SYSTIME        = 0x0040;
-    const MAPI_CLSID          = 0x0048;
-    const MAPI_BINARY         = 0x0102;
+    public const MAPI_TYPE_UNSET     = 0x0000;
+    public const MAPI_NULL           = 0x0001;
+    public const MAPI_SHORT          = 0x0002;
+    public const MAPI_INT            = 0x0003;
+    public const MAPI_FLOAT          = 0x0004;
+    public const MAPI_DOUBLE         = 0x0005;
+    public const MAPI_CURRENCY       = 0x0006;
+    public const MAPI_APPTIME        = 0x0007;
+    public const MAPI_ERROR          = 0x000A;
+    public const MAPI_BOOLEAN        = 0x000B;
+    public const MAPI_OBJECT         = 0x000D;
+    public const MAPI_INT8BYTE       = 0x0014;
+    public const MAPI_STRING         = 0x001E;
+    public const MAPI_UNICODE_STRING = 0x001F;
+    public const MAPI_SYSTIME        = 0x0040;
+    public const MAPI_CLSID          = 0x0048;
+    public const MAPI_BINARY         = 0x0102;
 
-    const MAPI_BODY                     = 0x1000;
-    const MAPI_RTF_COMPRESSED           = 0x1009;
-    const MAPI_BODY_HTML                = 0x1013;
-    const MAPI_NATIVE_BODY              = 0x1016;
+    public const MAPI_BODY                     = 0x1000;
+    public const MAPI_RTF_COMPRESSED           = 0x1009;
+    public const MAPI_BODY_HTML                = 0x1013;
+    public const MAPI_NATIVE_BODY              = 0x1016;
 
-    const MAPI_DISPLAY_NAME             = 0x3001;
-    const MAPI_ADDRTYPE                 = 0x3002;
-    const MAPI_EMAIL_ADDRESS            = 0x3003;
-    const MAPI_COMMENT                  = 0x3004;
-    const MAPI_DEPTH                    = 0x3005;
-    const MAPI_PROVIDER_DISPLAY         = 0x3006;
-    const MAPI_CREATION_TIME            = 0x3007;
-    const MAPI_LAST_MODIFICATION_TIME   = 0x3008;
-    const MAPI_RESOURCE_FLAGS           = 0x3009;
-    const MAPI_PROVIDER_DLL_NAME        = 0x300A;
-    const MAPI_SEARCH_KEY               = 0x300B;
-    const MAPI_ATTACHMENT_X400_PARAMETERS = 0x3700;
-    const MAPI_ATTACH_DATA              = 0x3701;
-    const MAPI_ATTACH_ENCODING          = 0x3702;
-    const MAPI_ATTACH_EXTENSION         = 0x3703;
-    const MAPI_ATTACH_FILENAME          = 0x3704;
-    const MAPI_ATTACH_METHOD            = 0x3705;
-    const MAPI_ATTACH_LONG_FILENAME     = 0x3707;
-    const MAPI_ATTACH_PATHNAME          = 0x3708;
-    const MAPI_ATTACH_RENDERING         = 0x3709;
-    const MAPI_ATTACH_TAG               = 0x370A;
-    const MAPI_RENDERING_POSITION       = 0x370B;
-    const MAPI_ATTACH_TRANSPORT_NAME    = 0x370C;
-    const MAPI_ATTACH_LONG_PATHNAME     = 0x370D;
-    const MAPI_ATTACH_MIME_TAG          = 0x370E;
-    const MAPI_ATTACH_ADDITIONAL_INFO   = 0x370F;
-    const MAPI_ATTACH_MIME_SEQUENCE     = 0x3710;
-    const MAPI_ATTACH_CONTENT_ID        = 0x3712;
-    const MAPI_ATTACH_CONTENT_LOCATION  = 0x3713;
-    const MAPI_ATTACH_FLAGS             = 0x3714;
+    public const MAPI_DISPLAY_NAME             = 0x3001;
+    public const MAPI_ADDRTYPE                 = 0x3002;
+    public const MAPI_EMAIL_ADDRESS            = 0x3003;
+    public const MAPI_COMMENT                  = 0x3004;
+    public const MAPI_DEPTH                    = 0x3005;
+    public const MAPI_PROVIDER_DISPLAY         = 0x3006;
+    public const MAPI_CREATION_TIME            = 0x3007;
+    public const MAPI_LAST_MODIFICATION_TIME   = 0x3008;
+    public const MAPI_RESOURCE_FLAGS           = 0x3009;
+    public const MAPI_PROVIDER_DLL_NAME        = 0x300A;
+    public const MAPI_SEARCH_KEY               = 0x300B;
+    public const MAPI_ATTACHMENT_X400_PARAMETERS = 0x3700;
+    public const MAPI_ATTACH_DATA              = 0x3701;
+    public const MAPI_ATTACH_ENCODING          = 0x3702;
+    public const MAPI_ATTACH_EXTENSION         = 0x3703;
+    public const MAPI_ATTACH_FILENAME          = 0x3704;
+    public const MAPI_ATTACH_METHOD            = 0x3705;
+    public const MAPI_ATTACH_LONG_FILENAME     = 0x3707;
+    public const MAPI_ATTACH_PATHNAME          = 0x3708;
+    public const MAPI_ATTACH_RENDERING         = 0x3709;
+    public const MAPI_ATTACH_TAG               = 0x370A;
+    public const MAPI_RENDERING_POSITION       = 0x370B;
+    public const MAPI_ATTACH_TRANSPORT_NAME    = 0x370C;
+    public const MAPI_ATTACH_LONG_PATHNAME     = 0x370D;
+    public const MAPI_ATTACH_MIME_TAG          = 0x370E;
+    public const MAPI_ATTACH_ADDITIONAL_INFO   = 0x370F;
+    public const MAPI_ATTACH_MIME_SEQUENCE     = 0x3710;
+    public const MAPI_ATTACH_CONTENT_ID        = 0x3712;
+    public const MAPI_ATTACH_CONTENT_LOCATION  = 0x3713;
+    public const MAPI_ATTACH_FLAGS             = 0x3714;
 
-    const MAPI_NAMED_TYPE_ID        = 0x0000;
-    const MAPI_NAMED_TYPE_STRING    = 0x0001;
-    const MAPI_NAMED_TYPE_NONE      = 0xFF;
-    const MAPI_MV_FLAG              = 0x1000;
+    public const MAPI_NAMED_TYPE_ID        = 0x0000;
+    public const MAPI_NAMED_TYPE_STRING    = 0x0001;
+    public const MAPI_NAMED_TYPE_NONE      = 0xFF;
+    public const MAPI_MV_FLAG              = 0x1000;
 
-    const RTF_UNCOMPRESSED = 0x414C454D;
-    const RTF_COMPRESSED   = 0x75465A4C;
+    public const RTF_UNCOMPRESSED = 0x414C454D;
+    public const RTF_COMPRESSED   = 0x75465A4C;
 
     protected $codepage;
 
@@ -174,18 +174,15 @@ class rcube_tnef_decoder
                     $document  = new RtfHtmlPhp\Document($message['stream']);
                     $formatter = new RtfHtmlPhp\Html\HtmlFormatter(RCUBE_CHARSET);
                     $message   = $formatter->format($document);
-                }
-                catch (Exception $e) {
+                } catch (Exception $e) {
                     // ignore the body
                     rcube::raise_error([
-                            'file' => __FILE__,
-                            'line' => __LINE__,
-                            'message' => 'Failed to extract RTF/HTML content from TNEF attachment',
-                        ], true, false
-                    );
+                        'file' => __FILE__,
+                        'line' => __LINE__,
+                        'message' => 'Failed to extract RTF/HTML content from TNEF attachment',
+                    ], true, false);
                 }
-            }
-            else {
+            } else {
                 $message = null;
             }
         }
@@ -401,7 +398,7 @@ class rcube_tnef_decoder
 
                 case self::MAPI_ATTACH_DATA:
                     $this->_getx($value, 16);
-                    $att = new self;
+                    $att = new self();
                     $res = $att->decompress($value);
                     $result = array_merge($result, $res['message']);
                     break;
@@ -461,10 +458,10 @@ class rcube_tnef_decoder
                 // Add a new default data block to hold details of this
                 // attachment. Reverse order is easier to handle later!
                 array_unshift($attachment, [
-                        'type'    => 'application',
-                        'subtype' => 'octet-stream',
-                        'name'    => 'unknown',
-                        'stream'  => '',
+                    'type'    => 'application',
+                    'subtype' => 'octet-stream',
+                    'name'    => 'unknown',
+                    'stream'  => '',
                 ]);
 
                 break;
@@ -496,8 +493,7 @@ class rcube_tnef_decoder
             && ($charset = rcube_charset::$windows_codepages[$this->codepage])
         ) {
             $str = rcube_charset::convert($str, $charset, RCUBE_CHARSET);
-        }
-        elseif (($pos = strpos($str, "\0")) !== false && $pos != strlen($str) - 1) {
+        } elseif (($pos = strpos($str, "\0")) !== false && $pos != strlen($str) - 1) {
             $str = rcube_charset::convert($str, 'UTF-16LE', RCUBE_CHARSET);
         }
 
@@ -539,8 +535,7 @@ class rcube_tnef_decoder
         while ($out < ($size + $length_preload)) {
             if (($flag_count++ % 8) == 0) {
                 $flags = ord($data[$in++]);
-            }
-            else {
+            } else {
                 $flags = $flags >> 1;
             }
 
@@ -561,8 +556,7 @@ class rcube_tnef_decoder
                     $uncomp .= $uncomp[$offset++];
                     $out++;
                 }
-            }
-            else {
+            } else {
                 $uncomp .= $data[$in++];
                 $out++;
             }
@@ -596,18 +590,14 @@ class rcube_tnef_decoder
                     // then the character is plain text and add it to the output stream.
                     if ($nextChar == '\\' && self::_rtfIsPlain($stack[$j])) {
                         $document .= '\\';
-                    }
-                    elseif ($nextChar == '~' && self::_rtfIsPlain($stack[$j])) {
+                    } elseif ($nextChar == '~' && self::_rtfIsPlain($stack[$j])) {
                         $document .= ' ';
-                    }
-                    elseif ($nextChar == '_' && self::_rtfIsPlain($stack[$j])) {
+                    } elseif ($nextChar == '_' && self::_rtfIsPlain($stack[$j])) {
                         $document .= '-';
-                    }
-                    elseif ($nextChar == '*') {
+                    } elseif ($nextChar == '*') {
                         // Add to the stack.
                         $stack[$j]['*'] = true;
-                    }
-                    elseif ($nextChar == "'") {
+                    } elseif ($nextChar == "'") {
                         // If it is a single quote, read next two characters that
                         // are the hexadecimal notation of a character we should add
                         // to the output stream.
@@ -619,8 +609,7 @@ class rcube_tnef_decoder
 
                         //Shift the pointer.
                         $i += 2;
-                    }
-                    elseif ($nextChar >= 'a' && $nextChar <= 'z' || $nextChar >= 'A' && $nextChar <= 'Z') {
+                    } elseif ($nextChar >= 'a' && $nextChar <= 'z' || $nextChar >= 'A' && $nextChar <= 'Z') {
                         // Since, we’ve found the alphabetic character, the next
                         // characters are control words and, possibly, some digit
                         // parameter.
@@ -640,12 +629,10 @@ class rcube_tnef_decoder
                                     break;
                                 }
                                 $word .= $nextChar;
-                            }
-                            elseif ($nextChar >= '0' && $nextChar <= '9') {
+                            } elseif ($nextChar >= '0' && $nextChar <= '9') {
                                 // If it is a digit, store the parameter.
                                 $param .= $nextChar;
-                            }
-                            elseif ($nextChar == '-') {
+                            } elseif ($nextChar == '-') {
                                 // Since minus sign may occur only before a digit
                                 // parameter, check whether $param is empty.
                                 // Otherwise, we reach the end of the control word.
@@ -653,8 +640,7 @@ class rcube_tnef_decoder
                                     break;
                                 }
                                 $param .= $nextChar;
-                            }
-                            else {
+                            } else {
                                 break;
                             }
                         }
@@ -746,8 +732,7 @@ class rcube_tnef_decoder
                     // from previous stack element to it.
                     if (!empty($stack[$j])) {
                         $stack[] = $stack[$j++];
-                    }
-                    else {
+                    } else {
                         $j++;
                     }
                     break;

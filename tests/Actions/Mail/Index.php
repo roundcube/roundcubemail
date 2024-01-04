@@ -8,9 +8,9 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test run() method in HTTP mode
      */
-    function test_run_http()
+    public function test_run_http()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -53,9 +53,9 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test run() method in AJAX mode
      */
-    function test_run_ajax()
+    public function test_run_ajax()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
 
         $this->assertTrue($action->checks());
@@ -94,9 +94,9 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test message_list_smart_column_name() method
      */
-    function test_message_list_smart_column_name()
+    public function test_message_list_smart_column_name()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
 
         $output->set_env('mailbox', 'INBOX');
@@ -118,9 +118,9 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test message_list() method
      */
-    function test_message_list()
+    public function test_message_list()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', 'list');
 
         rcmail::get_instance()->storage->registerFunction('get_folder', 'INBOX');
@@ -135,9 +135,9 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test js_message_list() method
      */
-    function test_js_message_list()
+    public function test_js_message_list()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
 
         rcmail::get_instance()->storage
@@ -157,9 +157,9 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test options_menu_link() method
      */
-    function test_options_menu_link()
+    public function test_options_menu_link()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
         $link = $action->options_menu_link(['icon' => 'ico.png']);
@@ -173,7 +173,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test messagecount_display() method
      */
-    function test_messagecount_display()
+    public function test_messagecount_display()
     {
         $this->markTestIncomplete();
     }
@@ -181,7 +181,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test get_messagecount_text() method
      */
-    function test_get_messagecount_text()
+    public function test_get_messagecount_text()
     {
         $this->markTestIncomplete();
     }
@@ -189,7 +189,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test send_unread_count() method
      */
-    function test_send_unread_count()
+    public function test_send_unread_count()
     {
         $this->markTestIncomplete();
     }
@@ -197,7 +197,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test check_safe() method
      */
-    function test_check_safe()
+    public function test_check_safe()
     {
         $this->markTestIncomplete();
     }
@@ -205,7 +205,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test part_image_type() method
      */
-    function test_part_image_type()
+    public function test_part_image_type()
     {
         $this->markTestIncomplete();
     }
@@ -213,9 +213,9 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test address_string() method
      */
-    function test_address_string()
+    public function test_address_string()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
 
         $this->assertNull($action->address_string(''));
 
@@ -243,9 +243,9 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test attachment_name() method
      */
-    function test_attachment_name()
+    public function test_attachment_name()
     {
-        $action = new rcmail_action_mail_index;
+        $action = new rcmail_action_mail_index();
         $part = new rcube_message_part();
         $part->mime_id = 1;
 
@@ -262,7 +262,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test search_filter() method
      */
-    function test_search_filter()
+    public function test_search_filter()
     {
         $this->markTestIncomplete();
     }
@@ -270,7 +270,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test search_interval() method
      */
-    function test_search_interval()
+    public function test_search_interval()
     {
         $this->markTestIncomplete();
     }
@@ -278,7 +278,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test message_error() method
      */
-    function test_message_error()
+    public function test_message_error()
     {
         $this->markTestIncomplete();
     }
@@ -286,7 +286,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test message_import_form() method
      */
-    function test_message_import_form()
+    public function test_message_import_form()
     {
         $this->markTestIncomplete();
     }
@@ -296,7 +296,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     protected function get_html_part($body = null)
     {
-        $part = new rcube_message_part;
+        $part = new rcube_message_part();
         $part->ctype_primary   = 'text';
         $part->ctype_secondary = 'html';
         $part->body = $body ? file_get_contents(TESTS_DIR . $body) : null;
@@ -308,9 +308,9 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
-        $object = new rcmail_action_mail_index;
+        $object = new rcmail_action_mail_index();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }
@@ -318,7 +318,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test sanitization of a "normal" html message
      */
-    function test_html()
+    public function test_html()
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
@@ -355,7 +355,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test the elimination of some trivial XSS vulnerabilities
      */
-    function test_html_xss()
+    public function test_html_xss()
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
@@ -377,7 +377,7 @@ class Actions_Mail_Index extends ActionTestCase
      * Test HTML sanitization to fix the CSS Expression Input Validation Vulnerability
      * reported at http://www.securityfocus.com/bid/26800/
      */
-    function test_html_xss2()
+    public function test_html_xss2()
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
@@ -393,7 +393,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test the elimination of some XSS vulnerabilities
      */
-    function test_html_xss3()
+    public function test_html_xss3()
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
@@ -409,7 +409,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test handling of body style attributes
      */
-    function test_html4inline_body_style()
+    public function test_html4inline_body_style()
     {
         $html   = '<body background="test" bgcolor="#fff" style="font-size:11px" text="#000"><p>test</p></body>';
         $params = ['container_id' => 'foo'];
@@ -427,7 +427,7 @@ class Actions_Mail_Index extends ActionTestCase
      *
      * @group mbstring
      */
-    function test_washtml_utf8()
+    public function test_washtml_utf8()
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
@@ -440,7 +440,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test inserting meta tag with required charset definition
      */
-    function test_meta_insertion()
+    public function test_meta_insertion()
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
@@ -479,11 +479,11 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test links pattern replacements in plaintext messages
      */
-    function test_plaintext()
+    public function test_plaintext()
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part = new rcube_message_part;
+        $part = new rcube_message_part();
         $part->ctype_primary   = 'text';
         $part->ctype_secondary = 'plain';
         $part->body = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));
@@ -509,7 +509,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test mailto links in html messages
      */
-    function test_mailto()
+    public function test_mailto()
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
@@ -529,7 +529,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test the elimination of HTML comments
      */
-    function test_html_comments()
+    public function test_html_comments()
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
@@ -582,7 +582,7 @@ class Actions_Mail_Index extends ActionTestCase
     /**
      * Test supported_mimetypes() method
      */
-    function test_supported_mimetypes()
+    public function test_supported_mimetypes()
     {
         $this->markTestIncomplete();
     }

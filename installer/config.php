@@ -34,8 +34,7 @@ if (!empty($_POST['submit'])) {
         }
 
         echo '</p>';
-    }
-    else {
+    } else {
         $save_button = '';
         if (($dir = sys_get_temp_dir()) && @is_writable($dir)) {
             echo '<iframe name="getconfig" style="display:none"></iframe>';

@@ -28,8 +28,7 @@ class Toolbarmenu extends Component
     {
         if ($browser->isPhone()) {
             $browser->assertPresent($this->selector());
-        }
-        else {
+        } else {
             $browser->assertVisible($this->selector());
         }
     }
@@ -56,8 +55,7 @@ class Toolbarmenu extends Component
             // Print action is disabled on phones
             if ($option == 'print' && $browser->isPhone()) {
                 $browser->assertMissing('a.print');
-            }
-            else {
+            } else {
                 $browser->assertVisible("a.{$option}:not(.disabled)");
             }
         }
@@ -65,8 +63,7 @@ class Toolbarmenu extends Component
         foreach ($disabled as $option) {
             if ($option == 'print' && $browser->isPhone()) {
                 $browser->assertMissing('a.print');
-            }
-            else {
+            } else {
                 $browser->assertVisible("a.{$option}.disabled");
             }
         }

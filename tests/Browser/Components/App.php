@@ -57,8 +57,7 @@ class App extends Component
             foreach ($key as $name => $expected) {
                 Assert::assertEquals($expected, $this->getEnv($browser, $name));
             }
-        }
-        else {
+        } else {
             Assert::assertEquals($expected, $this->getEnv($browser, $key));
         }
     }

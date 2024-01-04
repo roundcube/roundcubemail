@@ -44,8 +44,7 @@ class rcmail_action_mail_copy extends rcmail_action_mail_index
         foreach ($uids as $mbox => $uids) {
             if ($mbox === $target) {
                 $copied++;
-            }
-            else {
+            } else {
                 $copied += (int) $rcmail->storage->copy_message($uids, $target, $mbox);
                 $sources[] = $mbox;
             }
@@ -53,8 +52,7 @@ class rcmail_action_mail_copy extends rcmail_action_mail_index
 
         if (!$copied) {
             self::display_server_error('errorcopying');
-        }
-        else {
+        } else {
             $rcmail->output->show_message('messagecopied', 'confirmation');
 
             self::send_unread_count($target, true);

@@ -70,7 +70,7 @@ class rcube_text2html
      * @param bool   $from_file Indicates $source is a file to pull content from
      * @param array  $config    Class configuration
      */
-    function __construct($source = '', $from_file = false, $config = [])
+    public function __construct($source = '', $from_file = false, $config = [])
     {
         if (!empty($source)) {
             $this->set_text($source, $from_file);
@@ -87,12 +87,11 @@ class rcube_text2html
      * @param string $source    Plain text
      * @param bool   $from_file Indicates $source is a file to pull content from
      */
-    function set_text($source, $from_file = false)
+    public function set_text($source, $from_file = false)
     {
         if ($from_file && file_exists($source)) {
             $this->text = file_get_contents($source);
-        }
-        else {
+        } else {
             $this->text = $source;
         }
 
@@ -104,7 +103,7 @@ class rcube_text2html
      *
      * @return string HTML content
      */
-    function get_html()
+    public function get_html()
     {
         if (!$this->converted) {
             $this->convert();
@@ -116,7 +115,7 @@ class rcube_text2html
     /**
      * Prints the HTML.
      */
-    function print_html()
+    public function print_html()
     {
         echo $this->get_html();
     }
@@ -178,27 +177,23 @@ class rcube_text2html
                             . $text[$n];
 
                         unset($text[$n]);
-                    }
-                    else {
+                    } else {
                         $text[$n] = $replacer->get_replacement($replacer->add(
                             str_repeat('<blockquote>', $q - $quote_level))) . $text[$n];
 
                         $last = $n;
                     }
-                }
-                elseif ($q < $quote_level) {
+                } elseif ($q < $quote_level) {
                     $text[$last] .= (!$length ? "\n" : '')
                         . $replacer->get_replacement($replacer->add(
                             str_repeat('</blockquote>', $quote_level - $q)))
                         . $text[$n];
 
                     unset($text[$n]);
-                }
-                else {
+                } else {
                     $last = $n;
                 }
-            }
-            else {
+            } else {
                 $text[$n] = $this->convert_line($text[$n]);
                 $q        = 0;
                 $_length  = strlen(str_replace(' ', '', $text[$n]));
@@ -210,8 +205,7 @@ class rcube_text2html
                         . $text[$n];
 
                     unset($text[$n]);
-                }
-                else {
+                } else {
                     $last = $n;
                 }
             }
@@ -287,8 +281,7 @@ class rcube_text2html
             if (!in_array($text[0], [' ', '-', '+', '@'])) {
                 $this->nowrap = false;
             }
-        }
-        else {
+        } else {
             // Detect start of a unified diff
             // TODO: Support normal diffs
             // TODO: Support diff header and comment

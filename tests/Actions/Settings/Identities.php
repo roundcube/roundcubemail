@@ -8,9 +8,9 @@ class Actions_Settings_Identities extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
-        $action = new rcmail_action_settings_identities;
+        $action = new rcmail_action_settings_identities();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'identities');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -32,9 +32,9 @@ class Actions_Settings_Identities extends ActionTestCase
     /**
      * Test identities_list() method
      */
-    function test_identities_list()
+    public function test_identities_list()
     {
-        $action = new rcmail_action_settings_identities;
+        $action = new rcmail_action_settings_identities();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'identities');
 
         self::initDB('identities');

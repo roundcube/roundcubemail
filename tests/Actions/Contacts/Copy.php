@@ -8,9 +8,9 @@ class Actions_Contacts_Copy extends ActionTestCase
     /**
      * Test copying pre-check errors
      */
-    function test_copy_pre_check_errors()
+    public function test_copy_pre_check_errors()
     {
-        $action = new rcmail_action_contacts_copy;
+        $action = new rcmail_action_contacts_copy();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'copy');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -71,9 +71,9 @@ class Actions_Contacts_Copy extends ActionTestCase
     /**
      * Test successful copying a contact
      */
-    function test_copy_success()
+    public function test_copy_success()
     {
-        $action = new rcmail_action_contacts_copy;
+        $action = new rcmail_action_contacts_copy();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'copy');
 
         $this->assertTrue($action->checks());
@@ -110,7 +110,7 @@ class Actions_Contacts_Copy extends ActionTestCase
     /**
      * Test copying a contact with group assignment
      */
-    function test_copy_with_group()
+    public function test_copy_with_group()
     {
         $this->markTestIncomplete();
     }

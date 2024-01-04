@@ -8,9 +8,9 @@ class Actions_Contacts_Import extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run_init()
+    public function test_run_init()
     {
-        $action = new rcmail_action_contacts_import;
+        $action = new rcmail_action_contacts_import();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'import');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -33,7 +33,7 @@ class Actions_Contacts_Import extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run_steps()
+    public function test_run_steps()
     {
         // TODO: Test all import steps
         $this->markTestIncomplete();

@@ -23,8 +23,8 @@
  */
 class rcube_spellchecker_atd extends rcube_spellchecker_engine
 {
-    const SERVICE_HOST = 'service.afterthedeadline.com';
-    const SERVICE_PORT = 80;
+    public const SERVICE_HOST = 'service.afterthedeadline.com';
+    public const SERVICE_PORT = 80;
 
     private $matches = [];
     private $content;
@@ -40,7 +40,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
-    function languages()
+    public function languages()
     {
         $langs = array_values($this->langhosts);
         $langs[] = 'en';
@@ -53,7 +53,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
-    function check($text)
+    public function check($text)
     {
         $this->content = $text;
 
@@ -68,8 +68,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
             $port  = !empty($a_uri['port']) ? $a_uri['port'] : ($ssl ? 443 : 80);
             $host  = ($ssl ? 'ssl://' : '') . $a_uri['host'];
             $path  = $a_uri['path'] . (!empty($a_uri['query']) ? '?' . $a_uri['query'] : '') . $this->lang;
-        }
-        else {
+        } else {
             $host = self::SERVICE_HOST;
             $port = self::SERVICE_PORT;
             $path = '/checkDocument';
@@ -106,8 +105,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
                     if (trim($line) == '') {
                         $in_header = false;
                     }
-                }
-                else {
+                } else {
                     $response .= fgets($fp, 1024);
                 }
             }
@@ -128,8 +126,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
 
         try {
             $result = new SimpleXMLElement($response);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->error = 'Unexpected response from server: ' . $response;
             return [];
         }
@@ -172,7 +169,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
-    function get_suggestions($word)
+    public function get_suggestions($word)
     {
         $matches = $word ? $this->check($word) : $this->matches;
 
@@ -188,12 +185,11 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
-    function get_words($text = null)
+    public function get_words($text = null)
     {
         if ($text) {
             $matches = $this->check($text);
-        }
-        else {
+        } else {
             $matches = $this->matches;
             $text    = $this->content;
         }

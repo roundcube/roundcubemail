@@ -107,8 +107,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
 
         if (!empty($result) && !$result->count && $result->searchonly) {
             $rcmail->output->show_message('contactsearchonly', 'notice');
-        }
-        elseif (!empty($result) && $result->count > 0) {
+        } elseif (!empty($result) && $result->count > 0) {
             // create javascript list
             while ($row = $result->next()) {
                 $name = rcube_addressbook::compose_list_name($row);
@@ -164,8 +163,8 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                     $row_id = 'G' . $group['ID'];
                     $jsresult[$row_id] = format_email_recipient($email, $group['name']);
                     $rcmail->output->command('add_contact_row', $row_id, [
-                            'contactgroup' => html::span(['title' => $email], rcube::Q($group['name'])),
-                        ], 'group');
+                        'contactgroup' => html::span(['title' => $email], rcube::Q($group['name'])),
+                    ], 'group');
                 }
             }
             // make virtual groups clickable to list their members
@@ -190,8 +189,8 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 $row_id = 'E' . $group['ID'];
                 $jsresult[$row_id] = ['name' => $group['name'], 'source' => $source_id];
                 $rcmail->output->command('add_contact_row', $row_id, [
-                        'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')'),
-                    ], 'group');
+                    'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')'),
+                ], 'group');
             }
         }
 

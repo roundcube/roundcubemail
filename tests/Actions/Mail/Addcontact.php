@@ -8,9 +8,9 @@ class Actions_Mail_Addcontact extends ActionTestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
-        $object = new rcmail_action_mail_addcontact;
+        $object = new rcmail_action_mail_addcontact();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

@@ -120,8 +120,7 @@ class rcmail_install
         // config
         if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'config.inc.php')) {
             $this->config = array_merge($this->config, $config);
-        }
-        else {
+        } else {
             if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'main.inc.php')) {
                 $this->config        = array_merge($this->config, $config);
                 $this->legacy_config = true;
@@ -168,8 +167,7 @@ class rcmail_install
                         $buffer = '';
                         $i += 3;
                     }
-                }
-                elseif ($in_config && $token[0] == \T_COMMENT) {
+                } elseif ($in_config && $token[0] == \T_COMMENT) {
                     $buffer .= strtr($token[1], ['\n' => "\n"]) . "\n";
                 }
             }
@@ -234,34 +232,26 @@ class rcmail_install
                 if ($_POST['_dbtype'] == 'sqlite') {
                     $value = sprintf('%s://%s?mode=0646', $_POST['_dbtype'],
                         $_POST['_dbname'][0] == '/' ? '/' . $_POST['_dbname'] : $_POST['_dbname']);
-                }
-                elseif ($_POST['_dbtype']) {
+                } elseif ($_POST['_dbtype']) {
                     $value = sprintf('%s://%s:%s@%s/%s', $_POST['_dbtype'],
                         rawurlencode($_POST['_dbuser']), rawurlencode($_POST['_dbpass']), $_POST['_dbhost'], $_POST['_dbname']);
                 }
-            }
-            elseif ($prop == 'imap_host' && is_array($value)) {
+            } elseif ($prop == 'imap_host' && is_array($value)) {
                 $value = self::_clean_array($value);
                 if (count($value) <= 1) {
                     $value = $value[0];
                 }
-            }
-            elseif ($prop == 'mail_pagesize' || $prop == 'addressbook_pagesize') {
+            } elseif ($prop == 'mail_pagesize' || $prop == 'addressbook_pagesize') {
                 $value = max(2, intval($value));
-            }
-            elseif ($prop == 'smtp_user' && !empty($_POST['_smtp_user_u'])) {
+            } elseif ($prop == 'smtp_user' && !empty($_POST['_smtp_user_u'])) {
                 $value = '%u';
-            }
-            elseif ($prop == 'smtp_pass' && !empty($_POST['_smtp_user_u'])) {
+            } elseif ($prop == 'smtp_pass' && !empty($_POST['_smtp_user_u'])) {
                 $value = '%p';
-            }
-            elseif (is_bool($default)) {
+            } elseif (is_bool($default)) {
                 $value = (bool) $value;
-            }
-            elseif (is_numeric($value)) {
+            } elseif (is_numeric($value)) {
                 $value = intval($value);
-            }
-            elseif ($prop == 'plugins' && !empty($_POST['submit'])) {
+            } elseif ($prop == 'plugins' && !empty($_POST['submit'])) {
                 $value = [];
                 foreach (array_keys($_POST) as $key) {
                     if (preg_match('/^_plugins_*/', $key)) {
@@ -336,8 +326,7 @@ class rcmail_install
                 $replacement = $this->replaced_config[$prop];
                 $out['replaced'][]  = ['prop' => $prop, 'replacement' => $replacement];
                 $seen[$replacement] = true;
-            }
-            elseif (empty($seen[$prop]) && in_array($prop, $this->obsolete_config)) {
+            } elseif (empty($seen[$prop]) && in_array($prop, $this->obsolete_config)) {
                 $out['obsolete'][] = ['prop' => $prop];
                 $seen[$prop]       = true;
             }
@@ -358,8 +347,7 @@ class rcmail_install
                     'prop'    => 'spellcheck_engine',
                     'explain' => 'This requires the <tt>pspell</tt> extension which could not be loaded.',
                 ];
-            }
-            elseif (!empty($this->config['spellcheck_languages'])) {
+            } elseif (!empty($this->config['spellcheck_languages'])) {
                 foreach ($this->config['spellcheck_languages'] as $lang => $descr) {
                     if (!@pspell_new($lang)) {
                         $out['dependencies'][] = [
@@ -426,11 +414,9 @@ class rcmail_install
             if (isset($current[$prop])) {
                 if ($prop == 'skin_path') {
                     $this->config[$replacement] = preg_replace('#skins/(\w+)/?$#', '\\1', $current[$prop]);
-                }
-                elseif ($prop == 'multiple_identities') {
+                } elseif ($prop == 'multiple_identities') {
                     $this->config[$replacement] = $current[$prop] ? 2 : 0;
-                }
-                else {
+                } else {
                     $this->config[$replacement] = $current[$prop];
                 }
 
@@ -495,8 +481,7 @@ class rcmail_install
 
             if (empty($version)) {
                 $errors[] = 'Schema version not found';
-            }
-            elseif ($schema_version != $version) {
+            } elseif ($schema_version != $version) {
                 $errors[] = "Schema version: {$version} (required: {$schema_version})";
             }
 
@@ -511,8 +496,7 @@ class rcmail_install
 
             if (!in_array($table, $existing_tables)) {
                 $errors[] = "Missing table '" . $table . "'";
-            }
-            else {  // compare cols
+            } else {  // compare cols
                 $db_cols = $db->list_cols($table);
                 $diff    = array_diff(array_keys($cols), $db_cols);
 
@@ -540,15 +524,12 @@ class rcmail_install
                 $table_name = explode('.', $m[1]);
                 $table_name = end($table_name);
                 $table_name = preg_replace('/[`"\[\]]/', '', $table_name);
-            }
-            elseif (preg_match('/insert into/i', $line) && preg_match('/\'roundcube-version\',\s*\'([0-9]+)\'/', $line, $m)) {
+            } elseif (preg_match('/insert into/i', $line) && preg_match('/\'roundcube-version\',\s*\'([0-9]+)\'/', $line, $m)) {
                 $version = $m[1];
-            }
-            elseif ($table_name && ($line = trim($line))) {
+            } elseif ($table_name && ($line = trim($line))) {
                 if ($line == 'GO' || $line[0] == ')' || $line[strlen($line) - 1] == ';') {
                     $table_name = null;
-                }
-                else {
+                } else {
                     $items = explode(' ', $line);
                     $col   = $items[0];
                     $col   = preg_replace('/[`"\[\]]/', '', $col);
@@ -644,8 +625,7 @@ class rcmail_install
                 if ($prop == 'smtp_host') {
                     // SMTP host array uses `IMAP host => SMTP host` format
                     $host = $name;
-                }
-                else {
+                } else {
                     $host = is_numeric($key) ? $name : $key;
                 }
 
@@ -663,16 +643,16 @@ class rcmail_install
     {
         $select = new html_select($attrib);
         $select->add([
-                '0.1-stable', '0.1.1',
-                '0.2-alpha', '0.2-beta', '0.2-stable',
-                '0.3-stable', '0.3.1',
-                '0.4-beta', '0.4.2',
-                '0.5-beta', '0.5', '0.5.1', '0.5.2', '0.5.3', '0.5.4',
-                '0.6-beta', '0.6',
-                '0.7-beta', '0.7', '0.7.1', '0.7.2', '0.7.3', '0.7.4',
-                '0.8-beta', '0.8-rc', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4', '0.8.5', '0.8.6',
-                '0.9-beta', '0.9-rc', '0.9-rc2',
-                // Note: Do not add newer versions here
+            '0.1-stable', '0.1.1',
+            '0.2-alpha', '0.2-beta', '0.2-stable',
+            '0.3-stable', '0.3.1',
+            '0.4-beta', '0.4.2',
+            '0.5-beta', '0.5', '0.5.1', '0.5.2', '0.5.3', '0.5.4',
+            '0.6-beta', '0.6',
+            '0.7-beta', '0.7', '0.7.1', '0.7.2', '0.7.3', '0.7.4',
+            '0.8-beta', '0.8-rc', '0.8.0', '0.8.1', '0.8.2', '0.8.3', '0.8.4', '0.8.5', '0.8.6',
+            '0.9-beta', '0.9-rc', '0.9-rc2',
+            // Note: Do not add newer versions here
         ]);
 
         return $select;
@@ -717,8 +697,7 @@ class rcmail_install
             if (is_readable($path . '/composer.json')) {
                 $file_json   = json_decode(file_get_contents($path . '/composer.json'));
                 $plugin_desc = $file_json->description ?: 'N/A';
-            }
-            else {
+            } else {
                 $plugin_desc = 'N/A';
             }
 
@@ -810,8 +789,7 @@ class rcmail_install
             if (!empty($val)) {
                 if (is_numeric($k)) {
                     $out[] = $val;
-                }
-                else {
+                } else {
                     $out[$k] = $val;
                 }
             }
@@ -878,8 +856,7 @@ class rcmail_install
         if ($sql = @file_get_contents($fname)) {
             $db->set_option('table_prefix', $this->config['db_prefix']);
             $db->exec_script($sql);
-        }
-        else {
+        } else {
             $this->fail('DB Schema', "Cannot read the schema file: $fname");
             return false;
         }
@@ -919,7 +896,7 @@ class rcmail_install
         if (class_exists('ZipArchive', false)) {
             echo "Extracting {$zipfile} into {$destdir}\n";
 
-            $zip = new ZipArchive;
+            $zip = new ZipArchive();
 
             if ($zip->open($zipfile) === true) {
                 if ($flat) {
@@ -929,14 +906,12 @@ class rcmail_install
                             copy('zip://' . $zipfile . '#' . $filename, $destdir . '/' . pathinfo($filename, \PATHINFO_BASENAME));
                         }
                     }
-                }
-                else {
+                } else {
                     $zip->extractTo($destdir, !empty($pick) ? $pick : null);
                 }
 
                 $zip->close();
-            }
-            else {
+            } else {
                 rcube::raise_error("Failed to unpack {$zipfile}");
             }
 

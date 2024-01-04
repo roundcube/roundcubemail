@@ -8,7 +8,7 @@ class Framework_Session extends PHPUnit\Framework\TestCase
     /**
      * Test factory method
      */
-    function test_factory()
+    public function test_factory()
     {
         $rcube = rcube::get_instance();
 
@@ -27,7 +27,7 @@ class Framework_Session extends PHPUnit\Framework\TestCase
     /**
      * Test unserialize() method
      */
-    function test_unserialize()
+    public function test_unserialize()
     {
         $rcube = rcube::get_instance();
 

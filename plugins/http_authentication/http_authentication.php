@@ -20,7 +20,7 @@ class http_authentication extends rcube_plugin
 {
     private $redirect_query;
 
-    function init()
+    public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);
         $this->add_hook('authenticate', [$this, 'authenticate']);
@@ -28,7 +28,7 @@ class http_authentication extends rcube_plugin
         $this->add_hook('login_after', [$this, 'login']);
     }
 
-    function startup($args)
+    public function startup($args)
     {
         if (!empty($_SERVER['PHP_AUTH_USER'])) {
             $rcmail = rcmail::get_instance();
@@ -50,7 +50,7 @@ class http_authentication extends rcube_plugin
         return $args;
     }
 
-    function authenticate($args)
+    public function authenticate($args)
     {
         // Load plugin's config file
         $this->load_config();
@@ -79,7 +79,7 @@ class http_authentication extends rcube_plugin
         return $args;
     }
 
-    function logout($args)
+    public function logout($args)
     {
         // redirect to configured URL in order to clear HTTP auth credentials
         if (!empty($_SERVER['PHP_AUTH_USER']) && $args['user'] == $_SERVER['PHP_AUTH_USER']) {
@@ -90,14 +90,14 @@ class http_authentication extends rcube_plugin
         }
     }
 
-    static function shutdown()
+    public static function shutdown()
     {
         // There's no need to store password (even if encrypted) in session
         // We'll set it back on startup (#1486553)
         rcmail::get_instance()->session->remove('password');
     }
 
-    function login($args)
+    public function login($args)
     {
         // Redirect to the previous QUERY_STRING
         if ($this->redirect_query) {

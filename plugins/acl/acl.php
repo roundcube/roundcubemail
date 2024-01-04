@@ -34,7 +34,7 @@ class acl extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $this->rc = rcmail::get_instance();
 
@@ -49,7 +49,7 @@ class acl extends rcube_plugin
     /**
      * Handler for plugin actions (AJAX)
      */
-    function acl_actions()
+    public function acl_actions()
     {
         $action = trim(rcube_utils::get_input_string('_act', rcube_utils::INPUT_GPC));
 
@@ -62,11 +62,9 @@ class acl extends rcube_plugin
 
         if ($action == 'save') {
             $this->action_save();
-        }
-        elseif ($action == 'delete') {
+        } elseif ($action == 'delete') {
             $this->action_delete();
-        }
-        elseif ($action == 'list') {
+        } elseif ($action == 'list') {
             $this->action_list();
         }
 
@@ -77,7 +75,7 @@ class acl extends rcube_plugin
     /**
      * Handler for user login autocomplete request
      */
-    function acl_autocomplete()
+    public function acl_autocomplete()
     {
         $this->load_config();
 
@@ -147,7 +145,7 @@ class acl extends rcube_plugin
      *
      * @return array Hook arguments array
      */
-    function folder_form($args)
+    public function folder_form($args)
     {
         $mbox_imap = $args['options']['name'] ?? '';
         $myrights  = $args['options']['rights'] ?? '';
@@ -201,9 +199,9 @@ class acl extends rcube_plugin
         $this->rc->output->set_env('acl_users_source', (bool) $this->rc->config->get('acl_users_source'));
         $this->rc->output->set_env('mailbox', $mbox_imap);
         $this->rc->output->add_handlers([
-                'acltable'  => [$this, 'templ_table'],
-                'acluser'   => [$this, 'templ_user'],
-                'aclrights' => [$this, 'templ_rights'],
+            'acltable'  => [$this, 'templ_table'],
+            'acluser'   => [$this, 'templ_user'],
+            'aclrights' => [$this, 'templ_rights'],
         ]);
 
         $this->rc->output->set_env('autocomplete_max', (int) $this->rc->config->get('autocomplete_max', 15));
@@ -225,7 +223,7 @@ class acl extends rcube_plugin
      *
      * @return string HTML Content
      */
-    function templ_table($attrib)
+    public function templ_table($attrib)
     {
         if (empty($attrib['id'])) {
             $attrib['id'] = 'acl-table';
@@ -245,7 +243,7 @@ class acl extends rcube_plugin
      *
      * @return string HTML Content
      */
-    function templ_rights($attrib)
+    public function templ_rights($attrib)
     {
         // Get supported rights
         $supported = $this->rights_supported();
@@ -314,7 +312,7 @@ class acl extends rcube_plugin
      *
      * @return string HTML Content
      */
-    function templ_user($attrib)
+    public function templ_user($attrib)
     {
         // Create username input
         $class = !empty($attrib['class']) ? $attrib['class'] : '';
@@ -409,8 +407,7 @@ class acl extends rcube_plugin
             foreach ($supported as $sup) {
                 $items[$sup] = $sup;
             }
-        }
-        else {
+        } else {
             $items = [
                 'read'   => 'lrs',
                 'write'  => 'wi',
@@ -450,8 +447,7 @@ class acl extends rcube_plugin
 
             if (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
-            }
-            else {
+            } else {
                 $username = $this->resolve_acl_identifier($user, $title);
             }
 
@@ -509,11 +505,9 @@ class acl extends rcube_plugin
 
             if ($prefix && strpos($user, $prefix) === 0) {
                 $username = $user;
-            }
-            elseif (!empty($this->specials) && in_array($user, $this->specials)) {
+            } elseif (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
-            }
-            elseif (!empty($user)) {
+            } elseif (!empty($user)) {
                 if (!strpos($user, '@') && ($realm = $this->get_realm())) {
                     $user .= '@' . rcube_utils::idn_to_ascii(preg_replace('/^@/', '', $realm));
                 }
@@ -538,12 +532,12 @@ class acl extends rcube_plugin
                 if ($this->rc->storage->set_acl($mbox, $user, $acl)) {
                     $display = $this->resolve_acl_identifier($username, $title);
                     $this->rc->output->command('acl_update', [
-                            'id'       => rcube_utils::html_identifier($user),
-                            'username' => $username,
-                            'title'    => $title,
-                            'display'  => $display,
-                            'acl'      => implode('', $acl),
-                            'old'      => $oldid,
+                        'id'       => rcube_utils::html_identifier($user),
+                        'username' => $username,
+                        'title'    => $title,
+                        'display'  => $display,
+                        'acl'      => implode('', $acl),
+                        'old'      => $oldid,
                     ]);
                     $result++;
                 }
@@ -552,8 +546,7 @@ class acl extends rcube_plugin
 
         if ($result) {
             $this->rc->output->show_message($oldid ? 'acl.updatesuccess' : 'acl.createsuccess', 'confirmation');
-        }
-        else {
+        } else {
             $this->rc->output->show_message($oldid ? 'acl.updateerror' : 'acl.createerror', 'error');
         }
     }
@@ -572,16 +565,14 @@ class acl extends rcube_plugin
             $u = trim($u);
             if ($this->rc->storage->delete_acl($mbox, $u)) {
                 $this->rc->output->command('acl_remove_row', rcube_utils::html_identifier($u));
-            }
-            else {
+            } else {
                 $error = true;
             }
         }
 
         if (empty($error)) {
             $this->rc->output->show_message('acl.deletesuccess', 'confirmation');
-        }
-        else {
+        } else {
             $this->rc->output->show_message('acl.deleteerror', 'error');
         }
     }
@@ -616,7 +607,7 @@ class acl extends rcube_plugin
      *
      * @return string HTML content
      */
-    function acl2text($rights)
+    public function acl2text($rights)
     {
         if (empty($rights)) {
             return '';
@@ -650,7 +641,7 @@ class acl extends rcube_plugin
      *
      * @return int Comparison result, 2 - full match, 1 - partial match, 0 - no match
      */
-    function acl_compare($acl1, $acl2)
+    public function acl_compare($acl1, $acl2)
     {
         if (!is_array($acl1)) {
             $acl1 = str_split($acl1);
@@ -684,7 +675,7 @@ class acl extends rcube_plugin
      *
      * @return array List of supported access rights abbreviations
      */
-    function rights_supported()
+    public function rights_supported()
     {
         if ($this->supported !== null) {
             return $this->supported;
@@ -694,8 +685,7 @@ class acl extends rcube_plugin
 
         if (is_array($capa) && !empty($capa)) {
             $rights = strtolower($capa[0]);
-        }
-        else {
+        } else {
             $rights = 'cd';
         }
 

@@ -10,7 +10,7 @@ class Identicon_IdenticonEngine extends PHPUnit\Framework\TestCase
     /**
      * Test icon generation
      */
-    function test_icon_generation()
+    public function test_icon_generation()
     {
         if (!function_exists('imagepng')) {
             $this->markTestSkipped();

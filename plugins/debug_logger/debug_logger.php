@@ -63,7 +63,7 @@ class debug_logger extends rcube_plugin
 {
     protected $runlog;
 
-    function init()
+    public function init()
     {
         require_once __DIR__ . '/runlog/runlog.php';
 
@@ -98,20 +98,19 @@ class debug_logger extends rcube_plugin
         $this->add_hook('authenticate', [$this, 'authenticate']);
     }
 
-    function authenticate($args)
+    public function authenticate($args)
     {
         $this->runlog->note('Authenticating ' . $args['user'] . '@' . $args['host']);
         return $args;
     }
 
-    function console($args)
+    public function console($args)
     {
         $note = $args['args'][0];
 
         if (!empty($args['args'][1])) {
             $type = $args['args'][1];
-        }
-        else {
+        } else {
             // This could be extended to detect types based on the
             // file which called console. For now only rcube_imap/rcube_storage is supported
             $bt   = debug_backtrace();
@@ -151,7 +150,7 @@ class debug_logger extends rcube_plugin
         return $args;
     }
 
-    function __destruct()
+    public function __destruct()
     {
         if ($this->runlog) {
             $this->runlog->end();

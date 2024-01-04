@@ -107,12 +107,12 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     }
 
     $auth = $RCMAIL->plugins->exec_hook('authenticate', [
-            'host'  => $RCMAIL->autoselect_host(),
-            'user'  => trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST)),
-            'pass'  => rcube_utils::get_input_string('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
-            'valid' => $request_valid,
-            'error' => null,
-            'cookiecheck' => true,
+        'host'  => $RCMAIL->autoselect_host(),
+        'user'  => trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST)),
+        'pass'  => rcube_utils::get_input_string('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
+        'valid' => $request_valid,
+        'error' => null,
+        'cookiecheck' => true,
     ]);
 
     // Login
@@ -152,12 +152,10 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
         // send redirect
         $RCMAIL->output->redirect($redir, 0, true);
-    }
-    else {
+    } else {
         if (!$auth['valid']) {
             $error_code = rcmail::ERROR_INVALID_REQUEST;
-        }
-        else {
+        } else {
             $error_code = is_numeric($auth['error']) ? $auth['error'] : $RCMAIL->login_error();
         }
 
@@ -171,8 +169,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
         if (!empty($auth['error']) && !is_numeric($auth['error'])) {
             $error_message = $auth['error'];
-        }
-        else {
+        } else {
             $error_message = !empty($error_labels[$error_code]) ? $error_labels[$error_code] : 'loginfailed';
         }
 
@@ -182,9 +179,9 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
         $RCMAIL->log_login($auth['user'], true, $error_code);
 
         $RCMAIL->plugins->exec_hook('login_failed', [
-                'code' => $error_code,
-                'host' => $auth['host'],
-                'user' => $auth['user'],
+            'code' => $error_code,
+            'host' => $auth['host'],
+            'user' => $auth['user'],
         ]);
 
         if (!isset($_SESSION['user_id'])) {
@@ -245,10 +242,10 @@ if (empty($RCMAIL->user->ID)) {
     }
 
     $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', [
-            'task'      => 'login',
-            'error'     => $session_error,
-            // Return 401 only on failed logins (#7010)
-            'http_code' => empty($session_error) && !empty($error_message) ? 401 : 200,
+        'task'      => 'login',
+        'error'     => $session_error,
+        // Return 401 only on failed logins (#7010)
+        'http_code' => empty($session_error) && !empty($error_message) ? 401 : 200,
     ]);
 
     $RCMAIL->set_task($plugin['task']);
@@ -258,8 +255,7 @@ if (empty($RCMAIL->user->ID)) {
     }
 
     $RCMAIL->output->send($plugin['task']);
-}
-else {
+} else {
     // CSRF prevention
     $RCMAIL->request_security_check();
 

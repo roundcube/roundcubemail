@@ -82,8 +82,7 @@ class html
             $suffix = !empty($attrib['noclose']) ? $suffix : '</' . $tagname . '>' . $suffix;
             unset($attrib['noclose'], $attrib['nl']);
             return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
-        }
-        else {
+        } else {
             return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $suffix;
         }
     }
@@ -346,8 +345,7 @@ class html
 
                     $attrib_arr[] = $value;
                 }
-            }
-            else {
+            } else {
                 $attrib_arr[] = $key . '="' . self::quote((string) $value) . '"';
             }
         }
@@ -663,8 +661,7 @@ class html_select extends html
                     'value' => $values[$i] ?? $i,
                 ] + $attrib;
             }
-        }
-        else {
+        } else {
             $this->options[] = ['text' => $names, 'value' => $values] + $attrib;
         }
     }
@@ -749,12 +746,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell = new stdClass;
+        $cell = new stdClass();
         $cell->attrib  = $attr;
         $cell->content = $cont;
 
         if (!isset($this->rows[$this->rowindex])) {
-            $this->rows[$this->rowindex] = new stdClass;
+            $this->rows[$this->rowindex] = new stdClass();
             $this->rows[$this->rowindex]->attrib = [];
         }
 
@@ -778,12 +775,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell = new stdClass;
+        $cell = new stdClass();
         $cell->attrib  = $attr;
         $cell->content = $cont;
 
         if (empty($this->header)) {
-            $this->header = new stdClass;
+            $this->header = new stdClass();
             $this->header->attrib = [];
         }
 
@@ -826,7 +823,7 @@ class html_table extends html
     {
         $this->rowindex++;
         $this->colindex = 0;
-        $this->rows[$this->rowindex] = new stdClass;
+        $this->rows[$this->rowindex] = new stdClass();
         $this->rows[$this->rowindex]->attrib = $attr;
         $this->rows[$this->rowindex]->cells  = [];
     }
@@ -843,7 +840,7 @@ class html_table extends html
         }
 
         if (empty($this->header)) {
-            $this->header = new stdClass;
+            $this->header = new stdClass();
         }
 
         $this->header->attrib = $attr;
@@ -867,7 +864,7 @@ class html_table extends html
 
         // make sure row object exists (#1489094)
         if (empty($this->rows[$index])) {
-            $this->rows[$index] = new stdClass;
+            $this->rows[$index] = new stdClass();
         }
 
         $this->rows[$index]->attrib = $attr;
@@ -923,8 +920,7 @@ class html_table extends html
             foreach ($row->cells as $c => $col) {
                 if ($row_tagname == 'li' && empty($col->attrib) && count($row->cells) == 1) {
                     $rowcontent .= $col->content;
-                }
-                else {
+                } else {
                     $rowcontent .= self::tag($col_tagname, $col->attrib, $col->content);
                 }
             }

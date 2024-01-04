@@ -109,8 +109,7 @@ $db->query('DELETE FROM ' . $db->table_name('users', true) . ' WHERE `user_id` =
 if ($db->is_error()) {
     $rcmail->plugins->exec_hook('user_delete_rollback', $plugin);
     _die('DB error occurred: ' . $db->is_error());
-}
-else {
+} else {
     // inform plugins about executed user deletion
     $plugin = $rcmail->plugins->exec_hook('user_delete_commit', $plugin);
 
@@ -118,8 +117,7 @@ else {
         unset($plugin['abort']);
         $db->rollbackTransaction();
         $rcmail->plugins->exec_hook('user_delete_rollback', $plugin);
-    }
-    else {
+    } else {
         $db->endTransaction();
         echo "Successfully deleted user $user->ID\n";
     }

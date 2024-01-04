@@ -10,7 +10,7 @@ class HideBlockquote_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Plugin object construction test
      */
-    function test_constructor()
+    public function test_constructor()
     {
         $rcube  = rcube::get_instance();
         $plugin = new hide_blockquote($rcube->plugins);
@@ -24,7 +24,7 @@ class HideBlockquote_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test prefs_table() method
      */
-    function test_prefs_table()
+    public function test_prefs_table()
     {
         $rcube  = rcube::get_instance();
         $plugin = new hide_blockquote($rcube->plugins);
@@ -47,7 +47,7 @@ class HideBlockquote_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test prefs_save() method
      */
-    function test_prefs_save()
+    public function test_prefs_save()
     {
         $rcube  = rcube::get_instance();
         $plugin = new hide_blockquote($rcube->plugins);

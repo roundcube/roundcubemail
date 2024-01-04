@@ -63,10 +63,9 @@ class rcube_cache_memcached extends rcube_cache
             self::$memcache = false;
 
             rcube::raise_error([
-                    'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => 'Failed to find Memcached. Make sure php-memcached is installed',
-                ],
-                true, true);
+                'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
+                'message' => 'Failed to find Memcached. Make sure php-memcached is installed',
+            ], true, true);
         }
 
         // add all configured hosts to pool
@@ -80,10 +79,10 @@ class rcube_cache_memcached extends rcube_cache
         self::$memcache = new Memcached($persistent_id);
 
         self::$memcache->setOptions([
-                Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
-                Memcached::OPT_RETRY_TIMEOUT   => $timeout,
-                Memcached::OPT_DISTRIBUTION    => Memcached::DISTRIBUTION_CONSISTENT,
-                Memcached::OPT_COMPRESSION     => true,
+            Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
+            Memcached::OPT_RETRY_TIMEOUT   => $timeout,
+            Memcached::OPT_DISTRIBUTION    => Memcached::DISTRIBUTION_CONSISTENT,
+            Memcached::OPT_COMPRESSION     => true,
         ]);
 
         if (!$pconnect || !count(self::$memcache->getServerList())) {
@@ -93,8 +92,7 @@ class rcube_cache_memcached extends rcube_cache
                     if (!$port) {
                         $port = 11211;
                     }
-                }
-                else {
+                } else {
                     $host = substr($host, 7);
                     $port = 0;
                 }
@@ -110,10 +108,9 @@ class rcube_cache_memcached extends rcube_cache
             self::$memcache = false;
 
             rcube::raise_error([
-                    'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Memcache connection failure (code: $res_code).",
-                ],
-                true, false);
+                'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
+                'message' => "Memcache connection failure (code: $res_code).",
+            ], true, false);
         }
 
         return self::$memcache;

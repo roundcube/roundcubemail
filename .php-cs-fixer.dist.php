@@ -91,15 +91,13 @@ return (new PhpCsFixer\Config())
         'binary_operator_spaces' => ['default' => 'at_least_single_space'],
         'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
-        'control_structure_continuation_position' => false,
         'explicit_string_variable' => false,
         'fully_qualified_strict_types' => [
             'import_symbols' => false,
         ],
         'general_phpdoc_annotation_remove' => false,
-        'method_argument_space' => false,
+        'method_argument_space' => ['on_multiline' => 'ignore'],
         'modernize_types_casting' => false,
-        'new_with_parentheses' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
         'no_extra_blank_lines' => false,
@@ -108,7 +106,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_summary' => false,
         'single_line_comment_spacing' => false,
         'ternary_to_null_coalescing' => false,
-        'visibility_required' => false,
 
         // TODO - risky
         'no_unset_on_property' => false,

@@ -18,7 +18,7 @@ class help extends rcube_plugin
     // we've got no ajax handlers
     public $noajax = true;
 
-    function init()
+    public function init()
     {
         $this->load_config();
         $this->add_texts('localization/', false);
@@ -35,7 +35,7 @@ class help extends rcube_plugin
         $this->add_hook('error_page', [$this, 'error_page']);
     }
 
-    function startup($args)
+    public function startup($args)
     {
         $rcmail = rcmail::get_instance();
 
@@ -59,31 +59,29 @@ class help extends rcube_plugin
         $this->include_stylesheet($this->local_skin_path() . '/help.css');
     }
 
-    function action()
+    public function action()
     {
         $rcmail = rcmail::get_instance();
 
         if ($rcmail->action == 'about') {
             $rcmail->output->set_pagetitle($this->gettext('about'));
-        }
-        elseif ($rcmail->action == 'license') {
+        } elseif ($rcmail->action == 'license') {
             $rcmail->output->set_pagetitle($this->gettext('license'));
-        }
-        else {
+        } else {
             $rcmail->output->set_pagetitle($this->gettext('help'));
         }
 
         // register UI objects
         $rcmail->output->add_handlers([
-                'helpcontent'  => [$this, 'help_content'],
-                'tablink'      => [$this, 'tablink'],
+            'helpcontent'  => [$this, 'help_content'],
+            'tablink'      => [$this, 'tablink'],
         ]);
 
         $rcmail->output->set_env('help_links', $this->help_metadata());
         $rcmail->output->send(!empty($_GET['_content']) ? 'help.content' : 'help.help');
     }
 
-    function help_content($attrib)
+    public function help_content($attrib)
     {
         $rcmail = rcmail::get_instance();
         // $rcmail->output->set_env('content', $content);
@@ -91,14 +89,13 @@ class help extends rcube_plugin
         if (!empty($_GET['_content'])) {
             if ($rcmail->action == 'about') {
                 return file_get_contents($this->home . '/content/about.html');
-            }
-            elseif ($rcmail->action == 'license') {
+            } elseif ($rcmail->action == 'license') {
                 return file_get_contents($this->home . '/content/license.html');
             }
         }
     }
 
-    function tablink($attrib)
+    public function tablink($attrib)
     {
         $rcmail = rcmail::get_instance();
 
@@ -115,7 +112,7 @@ class help extends rcube_plugin
         return $rcmail->output->button($attrib);
     }
 
-    function help_metadata()
+    public function help_metadata()
     {
         $rcmail  = rcmail::get_instance();
         $content = [];
@@ -123,8 +120,7 @@ class help extends rcube_plugin
         // About
         if (is_readable($this->home . '/content/about.html')) {
             $content['about'] = 'self';
-        }
-        else {
+        } else {
             $default = $rcmail->url(['_task' => 'settings', '_action' => 'about', '_framed' => 1]);
             $content['about'] = $rcmail->config->get('help_about_url', $default);
             $content['about'] = $this->resolve_language($content['about']);
@@ -133,8 +129,7 @@ class help extends rcube_plugin
         // License
         if (is_readable($this->home . '/content/license.html')) {
             $content['license'] = 'self';
-        }
-        else {
+        } else {
             $content['license'] = $rcmail->config->get('help_license_url', 'http://www.gnu.org/licenses/gpl-3.0-standalone.html');
             $content['license'] = $this->resolve_language($content['license']);
         }
@@ -148,8 +143,7 @@ class help extends rcube_plugin
         [$task] = explode('/', $rel);
         if (!empty($index_map[$rel])) {
             $src .= $index_map[$rel];
-        }
-        elseif (!empty($index_map[$task])) {
+        } elseif (!empty($index_map[$task])) {
             $src .= $index_map[$task];
         }
 
@@ -158,7 +152,7 @@ class help extends rcube_plugin
         return $content;
     }
 
-    function error_page($args)
+    public function error_page($args)
     {
         $rcmail = rcmail::get_instance();
 

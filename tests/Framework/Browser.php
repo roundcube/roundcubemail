@@ -8,7 +8,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider browsers
      */
-    function test_browser($useragent, $opera, $chrome, $ie, $edge, $safari, $mz)
+    public function test_browser($useragent, $opera, $chrome, $ie, $edge, $safari, $mz)
     {
         $object = $this->getBrowser($useragent);
 
@@ -23,7 +23,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider os
      */
-    function test_os($useragent, $windows, $linux, $unix, $mac)
+    public function test_os($useragent, $windows, $linux, $unix, $mac)
     {
         $object = $this->getBrowser($useragent);
 
@@ -37,23 +37,23 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider versions
      */
-    function test_version($useragent, $version)
+    public function test_version($useragent, $version)
     {
         $object = $this->getBrowser($useragent);
         $this->assertSame($version, $object->ver);
     }
 
-    function versions(): iterable
+    public function versions(): iterable
     {
         return $this->extractDataSet(['version']);
     }
 
-    function browsers(): iterable
+    public function browsers(): iterable
     {
         return $this->extractDataSet(['isOpera', 'isChrome', 'isIE', 'isEdge', 'isSafari', 'isMZ']);
     }
 
-    function useragents()
+    public function useragents()
     {
         return [
             'WIN: Mozilla Firefox ' => [
@@ -148,7 +148,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
         ];
     }
 
-    function os(): iterable
+    public function os(): iterable
     {
         return $this->extractDataSet(['isWin', 'isLinux', 'isUnix', 'isMac']);
     }

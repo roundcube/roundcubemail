@@ -27,7 +27,7 @@
 
 class rcube_zxcvbn_password
 {
-    function strength_rules()
+    public function strength_rules()
     {
         $rcmail = rcmail::get_instance();
         $rules  = [
@@ -45,16 +45,15 @@ class rcube_zxcvbn_password
      *
      * @return array Score (1 to 5) and Reason
      */
-    function check_strength($passwd)
+    public function check_strength($passwd)
     {
         if (!class_exists('ZxcvbnPhp\Zxcvbn')) {
             rcube::raise_error([
-                    'code' => 600,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => 'Password plugin: Zxcvbn library not found.',
-                ], true, false
-            );
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => 'Password plugin: Zxcvbn library not found.',
+            ], true, false);
 
             return;
         }

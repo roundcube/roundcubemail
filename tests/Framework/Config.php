@@ -8,7 +8,7 @@ class Framework_Config extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_config();
 
@@ -18,7 +18,7 @@ class Framework_Config extends PHPUnit\Framework\TestCase
     /**
      * Test resolve_timezone_alias()
      */
-    function test_resolve_timezone_alias()
+    public function test_resolve_timezone_alias()
     {
         $this->assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/GMT'));
         $this->assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/Zulu'));
@@ -27,7 +27,7 @@ class Framework_Config extends PHPUnit\Framework\TestCase
     /**
      * Test get() and set()
      */
-    function test_get_and_set()
+    public function test_get_and_set()
     {
         $object = new rcube_config();
 
@@ -48,7 +48,7 @@ class Framework_Config extends PHPUnit\Framework\TestCase
     /**
      * Test guess_type()
      */
-    function test_guess_type()
+    public function test_guess_type()
     {
         $object = new rcube_config();
 
@@ -76,7 +76,7 @@ class Framework_Config extends PHPUnit\Framework\TestCase
     /**
      * Test parse_env()
      */
-    function test_parse_env()
+    public function test_parse_env()
     {
         $object = new rcube_config();
 

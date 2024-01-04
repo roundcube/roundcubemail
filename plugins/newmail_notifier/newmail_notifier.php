@@ -39,7 +39,7 @@ class newmail_notifier extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $this->rc = rcmail::get_instance();
 
@@ -47,8 +47,7 @@ class newmail_notifier extends rcube_plugin
         if ($this->rc->task == 'settings') {
             $this->add_hook('preferences_list', [$this, 'prefs_list']);
             $this->add_hook('preferences_save', [$this, 'prefs_save']);
-        }
-        else { // if ($this->rc->task == 'mail') {
+        } else { // if ($this->rc->task == 'mail') {
             // add script when not in ajax and not in frame and only in main window
             if ($this->rc->output->type == 'html' && empty($_REQUEST['_framed']) && $this->rc->action == '') {
                 $this->add_texts('localization/');
@@ -83,7 +82,7 @@ class newmail_notifier extends rcube_plugin
     /**
      * Handler for user preferences form (preferences_list hook)
      */
-    function prefs_list($args)
+    public function prefs_list($args)
     {
         if ($args['section'] != 'mailbox') {
             return $args;
@@ -146,7 +145,7 @@ class newmail_notifier extends rcube_plugin
     /**
      * Handler for user preferences save (preferences_save hook)
      */
-    function prefs_save($args)
+    public function prefs_save($args)
     {
         if ($args['section'] != 'mailbox') {
             return $args;
@@ -178,7 +177,7 @@ class newmail_notifier extends rcube_plugin
     /**
      * Handler for new message action (new_messages hook)
      */
-    function notify($args)
+    public function notify($args)
     {
         // Already notified or unexpected input
         if ($this->notified || empty($args['diff']['new'])) {

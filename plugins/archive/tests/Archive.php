@@ -2,7 +2,7 @@
 
 class Archive_Plugin extends PHPUnit\Framework\TestCase
 {
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../archive.php';
     }
@@ -10,7 +10,7 @@ class Archive_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Plugin object construction test
      */
-    function test_constructor()
+    public function test_constructor()
     {
         $rcube  = rcube::get_instance();
         $plugin = new archive($rcube->plugins);
@@ -24,7 +24,7 @@ class Archive_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test prefs_table() method
      */
-    function test_prefs_table()
+    public function test_prefs_table()
     {
         $rcube  = rcube::get_instance();
         $plugin = new archive($rcube->plugins);
@@ -49,7 +49,7 @@ class Archive_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test prefs_save() method
      */
-    function test_prefs_save()
+    public function test_prefs_save()
     {
         $rcube  = rcube::get_instance();
         $plugin = new archive($rcube->plugins);

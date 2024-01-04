@@ -130,8 +130,7 @@ function in_array_nocase($needle, $haystack)
                 return true;
             }
         }
-    }
-    else {
+    } else {
         $needle = mb_strtolower($needle);
         foreach ((array) $haystack as $value) {
             if (is_string($value) && $needle === mb_strtolower($value)) {
@@ -208,8 +207,7 @@ function get_offset_sec($str)
     if (preg_match('/^([0-9]+)\s*([smhdw])/i', $str, $regs)) {
         $amount = (int) $regs[1];
         $unit   = strtolower($regs[2]);
-    }
-    else {
+    } else {
         $amount = (int) $str;
         $unit   = 's';
     }
@@ -419,17 +417,13 @@ function rcube_autoload($classname)
     if (strpos($classname, 'rcube') === 0) {
         $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\\1/', $classname);
         $classname = 'Roundcube/' . $classname;
-    }
-    elseif (strpos($classname, 'html_') === 0 || $classname === 'html') {
+    } elseif (strpos($classname, 'html_') === 0 || $classname === 'html') {
         $classname = 'Roundcube/html';
-    }
-    elseif (strpos($classname, 'Mail_') === 0) {
+    } elseif (strpos($classname, 'Mail_') === 0) {
         $classname = 'Mail/' . substr($classname, 5);
-    }
-    elseif (strpos($classname, 'Net_') === 0) {
+    } elseif (strpos($classname, 'Net_') === 0) {
         $classname = 'Net/' . substr($classname, 4);
-    }
-    elseif (strpos($classname, 'Auth_') === 0) {
+    } elseif (strpos($classname, 'Auth_') === 0) {
         $classname = 'Auth/' . substr($classname, 5);
     }
 

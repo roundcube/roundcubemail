@@ -2,7 +2,7 @@
 
 class Managesieve_Engine extends ActionTestCase
 {
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../managesieve.php';
         include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_engine.php';
@@ -12,7 +12,7 @@ class Managesieve_Engine extends ActionTestCase
     /**
      * Test filter_form()
      */
-    function test_filter_form()
+    public function test_filter_form()
     {
         $rcube  = rcube::get_instance();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'managesieve');
@@ -20,8 +20,8 @@ class Managesieve_Engine extends ActionTestCase
         // Set expected storage function calls/results
         $rcube->storage
             ->registerFunction('list_folders_subscribed', [
-                    'INBOX',
-                    'Test',
+                'INBOX',
+                'Test',
             ])
             ->registerFunction('mod_folder', 'Test')
             ->registerFunction('mod_folder', 'Test')
@@ -49,7 +49,7 @@ class Managesieve_Engine extends ActionTestCase
     /**
      * Data sets for strip_value() test
      */
-    function data_strip_value(): iterable
+    public function data_strip_value(): iterable
     {
         return [
             ['', ['']],
@@ -67,7 +67,7 @@ class Managesieve_Engine extends ActionTestCase
      *
      * @dataProvider data_strip_value
      */
-    function test_strip_value($expected, $args)
+    public function test_strip_value($expected, $args)
     {
         $rcube  = rcube::get_instance();
 
@@ -80,7 +80,7 @@ class Managesieve_Engine extends ActionTestCase
     /**
      * Test list_input()
      */
-    function test_list_input()
+    public function test_list_input()
     {
         $rcube  = rcube::get_instance();
 

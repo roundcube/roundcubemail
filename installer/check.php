@@ -109,8 +109,7 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 define('MIN_PHP_VERSION', '7.3.0');
 if (version_compare(\PHP_VERSION, MIN_PHP_VERSION, '>=')) {
     $RCI->pass('Version', 'PHP ' . \PHP_VERSION . ' detected');
-}
-else {
+} else {
     $RCI->fail('Version', 'PHP Version ' . MIN_PHP_VERSION . ' or greater is required ' . \PHP_VERSION . ' detected');
 }
 ?>
@@ -126,8 +125,7 @@ $prefix = \PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '';
 foreach ($required_php_exts as $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
-    }
-    else {
+    } else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->fail($name, $msg, $source_urls[$name]);
@@ -143,8 +141,7 @@ foreach ($required_php_exts as $name => $ext) {
 foreach ($optional_php_exts as $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
-    }
-    else {
+    } else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->na($name, $msg, $source_urls[$name]);
@@ -164,8 +161,7 @@ foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($database);
         $found_db_driver = true;
-    }
-    else {
+    } else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->na($database, $msg, $source_urls[$ext]);
@@ -186,8 +182,7 @@ if (empty($found_db_driver)) {
 foreach ($required_libs as $classname => $vendor) {
     if (class_exists($classname)) {
         $RCI->pass($classname);
-    }
-    else {
+    } else {
         $RCI->fail($classname, "Failed to load class $classname from $vendor", $source_urls[$classname]);
     }
     echo '<br />';
@@ -196,8 +191,7 @@ foreach ($required_libs as $classname => $vendor) {
 foreach ($optional_libs as $classname => $vendor) {
     if (class_exists($classname)) {
         $RCI->pass($classname);
-    }
-    else {
+    } else {
         $RCI->na($classname, "Recommended to install $classname from $vendor", $source_urls[$classname]);
     }
     echo '<br />';
@@ -215,15 +209,12 @@ foreach ($ini_checks as $var => $val) {
     if ($val === '-NOTEMPTY-') {
         if (empty($status)) {
             $RCI->fail($var, 'empty value detected');
-        }
-        else {
+        } else {
             $RCI->pass($var);
         }
-    }
-    elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
+    } elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
-    }
-    else {
+    } else {
         $RCI->fail($var, "is '$status', should be '$val'");
     }
     echo '<br />';
@@ -239,8 +230,7 @@ foreach ($optional_checks as $var => $val) {
     if ($val === '-NOTEMPTY-') {
         if (empty($status)) {
             $RCI->optfail($var, 'Could be set');
-        }
-        else {
+        } else {
             $RCI->pass($var);
         }
         echo '<br />';
@@ -251,19 +241,15 @@ foreach ($optional_checks as $var => $val) {
             try {
                 $tz = new DateTimeZone($status);
                 $RCI->pass($var);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $RCI->optfail($var, empty($status) ? 'not set' : "invalid value detected: $status");
             }
-        }
-        else {
+        } else {
             $RCI->pass($var);
         }
-    }
-    elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
+    } elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
-    }
-    else {
+    } else {
         $RCI->optfail($var, "is '$status', could be '$val'");
     }
     echo '<br />';

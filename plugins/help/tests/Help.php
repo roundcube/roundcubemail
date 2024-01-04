@@ -10,7 +10,7 @@ class Help_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Plugin object construction test
      */
-    function test_constructor()
+    public function test_constructor()
     {
         $rcube  = rcube::get_instance();
         $plugin = new help($rcube->plugins);
@@ -22,7 +22,7 @@ class Help_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test help_metadata()
      */
-    function test_help_metadata()
+    public function test_help_metadata()
     {
         $rcube  = rcube::get_instance();
         $plugin = new help($rcube->plugins);

@@ -133,16 +133,13 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
             if (!empty($data['HIGHESTMODSEQ'])) {
                 $_SESSION['list_mod_seq'] = $data['HIGHESTMODSEQ'];
             }
-        }
-        else {
+        } else {
             // handle IMAP errors (e.g. #1486905)
             if ($err_code = $rcmail->storage->get_error_code()) {
                 self::display_server_error();
-            }
-            elseif (!empty($search_request)) {
+            } elseif (!empty($search_request)) {
                 $rcmail->output->show_message('searchnomatch', 'notice');
-            }
-            else {
+            } else {
                 $rcmail->output->show_message('nomessagesfound', 'notice');
             }
         }

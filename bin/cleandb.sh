@@ -24,8 +24,7 @@ require INSTALL_PATH . 'program/include/clisetup.php';
 
 if (!empty($_SERVER['argv'][1])) {
     $days = intval($_SERVER['argv'][1]);
-}
-else {
+} else {
     $days = 7;
 }
 

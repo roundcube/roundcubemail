@@ -28,10 +28,10 @@ $rcmail = rcube::get_instance();
 
 // get arguments
 $args = rcube_utils::get_opt([
-        'u' => 'user',
-        'h' => 'host',
-        'd' => 'dir',
-        'x' => 'dry-run',
+    'u' => 'user',
+    'h' => 'host',
+    'd' => 'dir',
+    'x' => 'dry-run',
 ]);
 
 if (!empty($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'help') {
@@ -90,11 +90,9 @@ function get_host($args)
         $hosts = $rcmail->config->get('imap_host', '');
         if (is_string($hosts)) {
             $args['host'] = $hosts;
-        }
-        elseif (is_array($hosts) && count($hosts) == 1) {
+        } elseif (is_array($hosts) && count($hosts) == 1) {
             $args['host'] = reset($hosts);
-        }
-        else {
+        } else {
             rcube::raise_error('Specify a host name', true);
         }
 
@@ -160,9 +158,9 @@ function import_dir($user_id, $dir, $dry_run = false)
 
             if ($datasize > $maxsize) {
                 rcube::raise_error([
-                        'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet.",
-                    ], true, false);
+                    'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet.",
+                ], true, false);
 
                 continue;
             }
@@ -180,9 +178,9 @@ function import_dir($user_id, $dir, $dry_run = false)
 
             if ($db->is_error($result)) {
                 rcube::raise_error([
-                        'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to save $file into database.",
-                    ], true, false);
+                    'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "Enigma: Failed to save $file into database.",
+                ], true, false);
             }
         }
     }

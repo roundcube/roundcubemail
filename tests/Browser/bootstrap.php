@@ -81,8 +81,7 @@ class bootstrap
                 escapeshellarg($dsn['password']),
                 escapeshellarg($dsn['database'])
             ));
-        }
-        elseif ($dsn['phptype'] == 'sqlite') {
+        } elseif ($dsn['phptype'] == 'sqlite') {
             $db->closeConnection();
             // delete database file
             system(sprintf('rm -f %s', escapeshellarg($dsn['database'])));
@@ -129,8 +128,7 @@ class bootstrap
     {
         if (!TESTS_USER) {
             return false;
-        }
-        elseif (!$force && self::$imap_ready !== null) {
+        } elseif (!$force && self::$imap_ready !== null) {
             return self::$imap_ready;
         }
 
@@ -219,8 +217,7 @@ class bootstrap
         $folders = $imap->list_folders();
         if (!in_array($mailbox, $folders)) {
             $imap->create_folder($mailbox, true);
-        }
-        elseif ($empty) {
+        } elseif ($empty) {
             $imap->delete_message('*', $mailbox);
         }
     }
@@ -245,8 +242,7 @@ class bootstrap
                 // GreenMail throws errors when unsubscribing a deleted folder
                 if ($vendor == 'greenmail') {
                     $imap->conn->deleteFolder($folder);
-                }
-                else {
+                } else {
                     $imap->delete_folder($folder);
                 }
             }

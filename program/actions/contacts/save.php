@@ -62,14 +62,12 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         if (isset($a_record['photo'])) {
             if ($a_record['photo'] == '-del-') {
                 $a_record['photo'] = '';
-            }
-            elseif (preg_match('/^[a-z0-9]+$/i', $a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
+            } elseif (preg_match('/^[a-z0-9]+$/i', $a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
                 $tempfile = $rcmail->plugins->exec_hook('attachment_get', $tempfile);
                 if (empty($tempfile['abort'])) {
                     $a_record['photo'] = $tempfile['data'] ?? @file_get_contents($tempfile['path']);
                 }
-            }
-            else {
+            } else {
                 unset($a_record['photo']);
             }
         }
@@ -77,17 +75,16 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         // update an existing contact
         if (!empty($cid)) {
             $plugin = $rcmail->plugins->exec_hook('contact_update', [
-                    'id'     => $cid,
-                    'record' => $a_record,
-                    'source' => $source,
+                'id'     => $cid,
+                'record' => $a_record,
+                'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
 
             if (!$plugin['abort']) {
                 $result = $contacts->update($cid, $a_record);
-            }
-            else {
+            } else {
                 $result = $plugin['result'];
             }
 
@@ -138,8 +135,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
 
                 $rcmail->overwrite_action('show', ['contact' => $contact]);
-            }
-            else {
+            } else {
                 // show error message
                 $error = self::error_str($contacts, $plugin);
 
@@ -165,8 +161,8 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             }
 
             $plugin = $rcmail->plugins->exec_hook('contact_create', [
-                    'record' => $a_record,
-                    'source' => $source,
+                'record' => $a_record,
+                'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
@@ -174,8 +170,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             // insert record and send response
             if (!$plugin['abort']) {
                 $insert_id = $contacts->insert($a_record);
-            }
-            else {
+            } else {
                 $insert_id = $plugin['result'];
             }
 
@@ -185,9 +180,9 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 // add new contact to the specified group
                 if ($contacts->groups && $contacts->group_id) {
                     $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
-                            'group_id' => $contacts->group_id,
-                            'ids'      => $insert_id,
-                            'source'   => $source,
+                        'group_id' => $contacts->group_id,
+                        'ids'      => $insert_id,
+                        'source'   => $source,
                     ]);
 
                     if (!$plugin['abort']) {
@@ -195,8 +190,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                             // @FIXME: should we remove the contact?
                             $msgtext = $rcmail->gettext(['name' => 'maxgroupmembersreached', 'vars' => ['max' => $maxnum]]);
                             $rcmail->output->command('parent.display_message', $msgtext, 'warning');
-                        }
-                        else {
+                        } else {
                             $contacts->add_to_group($plugin['group_id'], $plugin['ids']);
                         }
                     }
@@ -209,8 +203,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.list_contacts');
 
                 $rcmail->output->send('iframe');
-            }
-            else {
+            } else {
                 // show error message
                 $error = self::error_str($contacts, $plugin);
                 $rcmail->output->show_message($error, 'error', null, false);
@@ -242,8 +235,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
                 if (isset($_REQUEST['_subtype_' . $col])) {
                     $subtypes = (array) rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST);
-                }
-                else {
+                } else {
                     $subtypes = [''];
                 }
 
@@ -271,16 +263,14 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                     $subtype = $subtypes[$i] ? ':' . $subtypes[$i] : '';
                     $record[$col . $subtype][] = $val;
                 }
-            }
-            elseif (isset($_POST[$fname])) {
+            } elseif (isset($_POST[$fname])) {
                 $record[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
 
                 // normalize the submitted date strings
                 if ($colprop['type'] == 'date') {
                     if ($record[$col] && ($dt = rcube_utils::anytodatetime($record[$col]))) {
                         $record[$col] = $dt->format('Y-m-d');
-                    }
-                    else {
+                    } else {
                         unset($record[$col]);
                     }
                 }

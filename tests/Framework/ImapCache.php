@@ -8,7 +8,7 @@ class Framework_ImapCache extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_imap_cache(new rcube_db('test'), null, null, null);
 

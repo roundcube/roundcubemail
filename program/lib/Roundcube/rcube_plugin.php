@@ -95,7 +95,7 @@ abstract class rcube_plugin
     /**
      * Initialization method, needs to be implemented by the plugin itself
      */
-    abstract function init();
+    abstract public function init();
 
     /**
      * Provide information about this
@@ -160,13 +160,11 @@ abstract class rcube_plugin
 
         if (($is_local = is_file($fpath)) && !$rcube->config->load_from_file($fpath)) {
             rcube::raise_error([
-                    'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Failed to load config from $fpath",
-                ], true, false
-            );
+                'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Failed to load config from $fpath",
+            ], true, false);
             return false;
-        }
-        elseif (!$is_local) {
+        } elseif (!$is_local) {
             // Search plugin_name.inc.php file in any configured path
             return $rcube->config->load_from_file($this->ID . '.inc.php');
         }
@@ -225,8 +223,7 @@ abstract class rcube_plugin
             if ($add2client && method_exists($rcube->output, 'add_label')) {
                 if (is_array($add2client)) {
                     $js_labels = array_map([$this, 'label_map_callback'], $add2client);
-                }
-                else {
+                } else {
                     $js_labels = array_keys($add);
                 }
 
@@ -372,8 +369,7 @@ abstract class rcube_plugin
         // pattern "skins/[a-z0-9-_]+/plugins/$this->ID/" used to identify plugin resources loaded from the core skin folder
         if ($fn[0] != '/' && !preg_match("#^(https?://|skins/[a-z0-9-_]+/plugins/$this->ID/)#i", $fn)) {
             return $this->ID . '/' . $fn;
-        }
-        else {
+        } else {
             return $fn;
         }
     }
@@ -417,8 +413,7 @@ abstract class rcube_plugin
                     if (is_dir(realpath(slashify(RCUBE_INSTALL_PATH) . $skin_path))) {
                         break 2;
                     }
-                }
-                else {
+                } else {
                     break 2;
                 }
             }

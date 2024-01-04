@@ -113,7 +113,7 @@ class rcube_ldap_simple_password
     /**
      * Connect and bind to LDAP server
      */
-    function connect($curpass)
+    public function connect($curpass)
     {
         $rcmail = rcmail::get_instance();
 
@@ -129,12 +129,10 @@ class rcube_ldap_simple_password
             $this->_debug('S: NOT OK');
 
             rcube::raise_error([
-                    'code' => 100, 'type' => 'ldap',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'Could not connect to LDAP server',
-                ],
-                true
-            );
+                'code' => 100, 'type' => 'ldap',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Could not connect to LDAP server',
+            ], true);
 
             return PASSWORD_CONNECT_ERROR;
         }
@@ -161,11 +159,9 @@ class rcube_ldap_simple_password
         // Build user DN
         if (!empty($plugin['user_dn'])) {
             $user_dn = $plugin['user_dn'];
-        }
-        elseif ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
+        } elseif ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
             $user_dn = self::substitute_vars($user_dn);
-        }
-        else {
+        } else {
             $user_dn = $this->search_userdn($rcmail, $ds);
         }
 
@@ -227,7 +223,7 @@ class rcube_ldap_simple_password
      * Use search_base and search_filter defined in config file
      * Return the found DN
      */
-    function search_userdn($rcmail, $ds)
+    public function search_userdn($rcmail, $ds)
     {
         $search_user   = $rcmail->config->get('password_ldap_searchDN');
         $search_pass   = $rcmail->config->get('password_ldap_searchPW');
@@ -308,8 +304,7 @@ class rcube_ldap_simple_password
             $str = str_replace('%dc', $dc, $str);
             $str = str_replace('%domain', $parts[1], $str);
             $str = str_replace('%d', $parts[1], $str);
-        }
-        elseif (count($parts) == 1) {
+        } elseif (count($parts) == 1) {
             $str = str_replace('%name', $parts[0], $str);
             $str = str_replace('%n', $parts[0], $str);
         }

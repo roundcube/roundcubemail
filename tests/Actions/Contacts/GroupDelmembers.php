@@ -8,9 +8,9 @@ class Actions_Contacts_Group_Delmembers extends ActionTestCase
     /**
      * Test error handling
      */
-    function test_group_delmembers_errors()
+    public function test_group_delmembers_errors()
     {
-        $action = new rcmail_action_contacts_group_delmembers;
+        $action = new rcmail_action_contacts_group_delmembers();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'del-members');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -42,9 +42,9 @@ class Actions_Contacts_Group_Delmembers extends ActionTestCase
     /**
      * Test deleting a group member
      */
-    function test_group_delmembers_success()
+    public function test_group_delmembers_success()
     {
-        $action = new rcmail_action_contacts_group_delmembers;
+        $action = new rcmail_action_contacts_group_delmembers();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'del-members');
 
         $this->assertTrue($action->checks());

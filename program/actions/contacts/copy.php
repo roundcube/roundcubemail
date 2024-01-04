@@ -74,20 +74,18 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                 $email = $CONTACTS->get_col_values('email', $a_record, true);
                 if (!empty($email)) {
                     $result = $TARGET->search('email', $email[0], 1, true, true);
-                }
-                elseif (!empty($a_record['name'])) {
+                } elseif (!empty($a_record['name'])) {
                     $result = $TARGET->search('name', $a_record['name'], 1, true, true);
-                }
-                else {
+                } else {
                     $result = new rcube_result_set();
                 }
 
                 // insert contact record
                 if (!$result->count) {
                     $plugin = $rcmail->plugins->exec_hook('contact_create', [
-                            'record' => $a_record,
-                            'source' => $target,
-                            'group'  => $target_group,
+                        'record' => $a_record,
+                        'source' => $target,
+                        'group'  => $target_group,
                     ]);
 
                     if (!$plugin['abort']) {
@@ -95,13 +93,11 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                             $ids[] = $insert_id;
                             $success++;
                         }
-                    }
-                    elseif ($plugin['result']) {
+                    } elseif ($plugin['result']) {
                         $ids = array_merge($ids, $plugin['result']);
                         $success++;
                     }
-                }
-                else {
+                } else {
                     $record   = $result->first();
                     $ids[]    = $record['ID'];
                     $errormsg = empty($email) ? 'contactnameexists' : 'contactexists';
@@ -111,9 +107,9 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
             // assign to group
             if ($target_group && $TARGET->groups && !empty($ids)) {
                 $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
-                        'group_id' => $target_group,
-                        'ids'      => $ids,
-                        'source'  => $target,
+                    'group_id' => $target_group,
+                    'ids'      => $ids,
+                    'source'  => $target,
                 ]);
 
                 if (!$plugin['abort']) {
@@ -128,8 +124,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                     if (($cnt = $TARGET->add_to_group($target_group, $plugin['ids'])) && $cnt > $success) {
                         $success = $cnt;
                     }
-                }
-                elseif (!empty($plugin['result'])) {
+                } elseif (!empty($plugin['result'])) {
                     $success = $plugin['result'];
                 }
 
@@ -139,8 +134,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
 
         if (!$success) {
             $rcmail->output->show_message($errormsg, 'error');
-        }
-        else {
+        } else {
             $rcmail->output->show_message('copysuccess', 'confirmation', ['nr' => $success]);
         }
 

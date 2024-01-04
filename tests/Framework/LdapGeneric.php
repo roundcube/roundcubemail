@@ -15,7 +15,7 @@ class Framework_LdapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $this->markTestSkippedIfNetLdapPackageIsNotInstalled();
 
@@ -27,7 +27,7 @@ class Framework_LdapGeneric extends PHPUnit\Framework\TestCase
     /**
      * Test fulltext_search_filter() method
      */
-    function test_fulltext_search_filter()
+    public function test_fulltext_search_filter()
     {
         $this->markTestSkippedIfNetLdapPackageIsNotInstalled();
 

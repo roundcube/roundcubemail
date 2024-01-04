@@ -27,12 +27,10 @@ if ($read_config = is_readable(RCUBE_CONFIG_DIR . 'defaults.inc.php')) {
     $config = $RCI->load_config_file(RCUBE_CONFIG_DIR . 'defaults.inc.php');
     if (!empty($config)) {
         $RCI->pass('defaults.inc.php');
-    }
-    else {
+    } else {
         $RCI->fail('defaults.inc.php', 'Syntax error');
     }
-}
-else {
+} else {
     $RCI->fail('defaults.inc.php', 'Unable to read default config file?');
 }
 
@@ -42,12 +40,10 @@ if ($read_config = is_readable(RCUBE_CONFIG_DIR . 'config.inc.php')) {
     $config = $RCI->load_config_file(RCUBE_CONFIG_DIR . 'config.inc.php');
     if (!empty($config)) {
         $RCI->pass('config.inc.php');
-    }
-    else {
+    } else {
         $RCI->fail('config.inc.php', 'Syntax error');
     }
-}
-else {
+} else {
     $RCI->fail('config.inc.php', 'Unable to read file. Did you create the config file?');
 }
 
@@ -111,8 +107,7 @@ foreach ($dirs as $dir) {
     if (is_writable(realpath($dirpath))) {
         $RCI->pass($dir);
         $pass = true;
-    }
-    else {
+    } else {
         $RCI->fail($dir, 'not writeable for the webserver');
     }
     echo '<br />';
@@ -138,18 +133,15 @@ if ($RCI->configured) {
             $RCI->pass('DSN (write)');
             echo '<br />';
             $db_working = true;
-        }
-        else {
+        } else {
             $RCI->fail('DSN (write)', $db_error_msg);
             echo '<p class="hint">Make sure that the configured database exists and that the user has write privileges<br />';
             echo 'DSN: ' . rcube::Q($RCI->config['db_dsnw']) . '</p>';
         }
-    }
-    else {
+    } else {
         $RCI->fail('DSN (write)', 'not set');
     }
-}
-else {
+} else {
     $RCI->fail('DSN (write)', 'Could not read config file');
 }
 
@@ -160,8 +152,7 @@ if ($db_working && !empty($_POST['initdb'])) {
         echo '<p class="warning">Please try to initialize the database manually as described in the INSTALL guide.
             Make sure that the configured database exists and that the user as write privileges</p>';
     }
-}
-elseif ($db_working && !empty($_POST['updatedb'])) {
+} elseif ($db_working && !empty($_POST['updatedb'])) {
     if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
     }
@@ -177,8 +168,7 @@ if ($db_working) {
             . '</form>';
 
         $db_working = false;
-    }
-    elseif ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
+    } elseif ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
         $RCI->fail('DB Schema', 'Database schema differs');
         echo '<ul style="margin:0"><li>' . implode("</li>\n<li>", $err) . '</li></ul>';
 
@@ -192,8 +182,7 @@ if ($db_working) {
             . '</form>';
 
         $db_working = false;
-    }
-    else {
+    } else {
         $RCI->pass('DB Schema');
         echo '<br />';
     }
@@ -215,8 +204,7 @@ if ($db_working) {
         $RCI->pass('DB Write');
         $DB->query('DELETE FROM ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
             . ' WHERE `sess_id` = ?', $insert_id);
-    }
-    else {
+    } else {
         $RCI->fail('DB Write', $RCI->get_error());
     }
     echo '<br />';
@@ -237,8 +225,7 @@ if ($db_working) {
     // sometimes db and web servers are on separate hosts, so allow a 30 minutes delta
     if (abs($tz_diff) > 1800) {
         $RCI->fail('DB Time', "Database time differs {$tz_diff}s from PHP time");
-    }
-    else {
+    } else {
         $RCI->pass('DB Time');
     }
 }
@@ -253,13 +240,11 @@ if ($errors = $RCI->check_mime_detection()) {
     $RCI->fail('Fileinfo/mime_content_type configuration');
     if (!empty($RCI->config['mime_magic'])) {
         echo '<p class="hint">Try setting the <tt>mime_magic</tt> config option to <tt>null</tt>.</p>';
-    }
-    else {
+    } else {
         echo '<p class="hint">Check the <a href="http://www.php.net/manual/en/function.finfo-open.php">Fileinfo functions</a> of your PHP installation.<br/>';
         echo 'The path to the magic.mime file can be set using the <tt>mime_magic</tt> config option in Roundcube.</p>';
     }
-}
-else {
+} else {
     $RCI->pass('Fileinfo/mime_content_type configuration');
     echo '<br/>';
 }
@@ -269,8 +254,7 @@ if ($errors = $RCI->check_mime_extensions()) {
     $RCI->fail('Mimetype to file extension mapping');
     echo '<p class="hint">Please set a valid path to your webserver\'s mime.types file to the <tt>mime_types</tt> config option.<br/>';
     echo 'If you can\'t find such a file, download it from <a href="http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types">svn.apache.org</a>.</p>';
-}
-else {
+} else {
     $RCI->pass('Mimetype to file extension mapping');
     echo '<br/>';
 }
@@ -279,8 +263,7 @@ $smtp_hosts = $RCI->get_hostlist('smtp_host');
 if (!empty($smtp_hosts)) {
     $smtp_host_field = new html_select(['name' => '_smtp_host', 'id' => 'smtp_host']);
     $smtp_host_field->add($smtp_hosts, $smtp_hosts);
-}
-else {
+} else {
     $smtp_host_field = new html_inputfield(['name' => '_smtp_host', 'id' => 'smtp_host']);
 }
 
@@ -290,15 +273,13 @@ $pass = $RCI->getprop('smtp_pass', '(none)');
 if ($user == '%u') {
     $user_field = new html_inputfield(['name' => '_smtp_user', 'id' => 'smtp_user']);
     $user = $user_field->show(isset($_POST['_smtp_user']) ? $_POST['_smtp_user'] : '');
-}
-else {
+} else {
     $user = html::quote($user);
 }
 if ($pass == '%p') {
     $pass_field = new html_passwordfield(['name' => '_smtp_pass', 'id' => 'smtp_pass']);
     $pass = $pass_field->show();
-}
-else {
+} else {
     $pass = html::quote($pass);
 }
 
@@ -375,12 +356,10 @@ if (isset($_POST['sendmail'])) {
 
         if ($status) {
             $RCI->pass('SMTP send');
-        }
-        else {
+        } else {
             $RCI->fail('SMTP send', implode('; ', $smtp_response));
         }
-    }
-    else {
+    } else {
         $RCI->fail('SMTP send', 'Invalid sender or recipient');
     }
 
@@ -416,8 +395,7 @@ $default_hosts = $RCI->get_hostlist();
 if (!empty($default_hosts)) {
     $host_field = new html_select(['name' => '_host', 'id' => 'imaphost']);
     $host_field->add($default_hosts, $default_hosts);
-}
-else {
+} else {
     $host_field = new html_inputfield(['name' => '_host', 'id' => 'imaphost']);
 }
 
@@ -463,7 +441,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
     $imap_host = rcube_utils::idn_to_ascii($imap_host);
     $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
 
-    $imap = new rcube_imap;
+    $imap = new rcube_imap();
     $imap->set_options([
         'auth_type'      => $RCI->getprop('imap_auth_type'),
         'debug'          => $RCI->getprop('imap_debug'),
@@ -473,8 +451,7 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
     if ($imap->connect($imap_host, $imap_user, $_POST['_pass'], $imap_port, $imap_ssl)) {
         $RCI->pass('IMAP connect', 'SORT capability: ' . ($imap->get_capability('SORT') ? 'yes' : 'no'));
         $imap->close();
-    }
-    else {
+    } else {
         $RCI->fail('IMAP connect', $RCI->get_error());
     }
 }

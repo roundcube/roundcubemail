@@ -2,7 +2,7 @@
 
 class AttachmentReminder_Plugin extends PHPUnit\Framework\TestCase
 {
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../attachment_reminder.php';
     }
@@ -10,7 +10,7 @@ class AttachmentReminder_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Plugin object construction test
      */
-    function test_constructor()
+    public function test_constructor()
     {
         $rcube  = rcube::get_instance();
         $plugin = new attachment_reminder($rcube->plugins);
@@ -24,7 +24,7 @@ class AttachmentReminder_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test prefs_list() method
      */
-    function test_prefs_list()
+    public function test_prefs_list()
     {
         $rcube  = rcube::get_instance();
         $plugin = new attachment_reminder($rcube->plugins);
@@ -46,7 +46,7 @@ class AttachmentReminder_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test prefs_save() method
      */
-    function test_prefs_save()
+    public function test_prefs_save()
     {
         $rcube  = rcube::get_instance();
         $plugin = new attachment_reminder($rcube->plugins);

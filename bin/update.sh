@@ -32,8 +32,7 @@ if (empty($opts['version'])) {
 
     if (($input = trim(fgets(\STDIN))) && preg_match('/^[0-9.]+[a-z0-9-]*$/', $input)) {
         $opts['version'] = $input;
-    }
-    else {
+    } else {
         $opts['version'] = RCMAIL_VERSION;
     }
 }
@@ -122,14 +121,12 @@ if ($RCI->configured) {
                             @unlink(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php');
                         }
                     }
-                }
-                else {
+                } else {
                     echo "Failed to write config file(s)!\n";
                     echo 'Grant write privileges to the current user or update the files manually '
                         . "according to the above messages.\n";
                 }
-            }
-            else {
+            } else {
                 echo "Please update your config files manually according to the above messages.\n";
             }
         }
@@ -230,8 +227,7 @@ if ($RCI->configured) {
                     // remove old repos
                     if (isset($_repo['url']) && strpos($_repo['url'], 'git://git.kolab.org') === 0) {
                         unset($composer_data['repositories'][$k]);
-                    }
-                    elseif (
+                    } elseif (
                         $_repo['type'] == 'package'
                         && !empty($_repo['package']['name'])
                         && $_repo['package']['name'] == 'Net_SMTP'
@@ -253,8 +249,7 @@ if ($RCI->configured) {
         // write updated composer.json back to disk
         if ($composer_json && is_writable(INSTALL_PATH . 'composer.json')) {
             $success &= (bool) file_put_contents(INSTALL_PATH . 'composer.json', $composer_json);
-        }
-        else {
+        } else {
             echo "WARNING: unable to update composer.json!\n";
             echo "Please replace the 'require' section in your composer.json with the following:\n";
 
@@ -291,8 +286,7 @@ if ($RCI->configured) {
         echo "This instance of Roundcube is up-to-date.\n";
         echo "Have fun!\n";
     }
-}
-else {
+} else {
     echo "This instance of Roundcube is not yet configured!\n";
     echo "Open http://url-to-roundcube/installer/ in your browser and follow the instructions.\n";
 }

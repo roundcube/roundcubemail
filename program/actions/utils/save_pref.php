@@ -51,14 +51,11 @@ class rcmail_action_utils_save_pref extends rcmail_action
 
         if (!in_array($name, $whitelist) || ($sessname && !in_array($sessname, $whitelist_sess))) {
             rcube::raise_error([
-                    'code' => 500,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => sprintf('Hack attempt detected (user: %s)', $rcmail->get_user_name()),
-                ],
-                true,
-                false
-            );
+                'code' => 500,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => sprintf('Hack attempt detected (user: %s)', $rcmail->get_user_name()),
+            ], true, false);
 
             $rcmail->output->reset();
             $rcmail->output->send();
@@ -75,11 +72,9 @@ class rcmail_action_utils_save_pref extends rcmail_action
             // ... up to 3 levels
             if (count($vars) == 1) {
                 $_SESSION[$vars[0]] = $value;
-            }
-            elseif (count($vars) == 2) {
+            } elseif (count($vars) == 2) {
                 $_SESSION[$vars[0]][$vars[1]] = $value;
-            }
-            elseif (count($vars) == 3) {
+            } elseif (count($vars) == 3) {
                 $_SESSION[$vars[0]][$vars[1]][$vars[2]] = $value;
             }
         }

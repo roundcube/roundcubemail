@@ -48,8 +48,7 @@ class Browser extends \Laravel\Dusk\Browser
     {
         if ($state) {
             $this->assertChecked($selector);
-        }
-        else {
+        } else {
             $this->assertNotChecked($selector);
         }
 
@@ -208,8 +207,7 @@ class Browser extends \Laravel\Dusk\Browser
 
         if ($state) {
             $run = "if (!element.prev().is(':checked')) element.click()";
-        }
-        else {
+        } else {
             $run = "if (element.prev().is(':checked')) element.click()";
         }
 

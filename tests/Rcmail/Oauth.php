@@ -69,7 +69,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test jwt_decode() method with an invalid token
      */
-    function test_jwt_decode_invalid()
+    public function test_jwt_decode_invalid()
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.EkN-DOsnsuRjRO6BxXemmJDm3HbxrbRzXglbN2S4sOkopdU4IsDxTI8jO19W_A4K8ZPJijNLis4EZsHeY559a4DFOd50_OqgHGuERTqYZyuhtF39yxJPAjUESwxk2J5k_4zM3O-vtd1Ghyo4IbqKKSy6J9mTniYJPenn5-HIirE';
 
@@ -80,8 +80,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
 
         try {
             $oauth->jwt_decode($jwt);
-        }
-        catch (RuntimeException $e) {
+        } catch (RuntimeException $e) {
         }
 
         $this->assertTrue(isset($e));
@@ -90,7 +89,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test jwt_decode() method with an array aud
      */
-    function test_jwt_decode_array()
+    public function test_jwt_decode_array()
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6WyJzb21lLWNsaWVudCJdfQ.signature';
 
@@ -104,7 +103,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test jwt_decode() method with a string aud
      */
-    function test_jwt_decode_string()
+    public function test_jwt_decode_string()
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6InNvbWUtY2xpZW50In0.signature';
 
@@ -118,7 +117,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test is_enabled() method
      */
-    function test_is_enabled()
+    public function test_is_enabled()
     {
         $oauth = rcmail_oauth::get_instance();
 
@@ -128,7 +127,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test is_enabled() method
      */
-    function test_is_enabled_with_token_url()
+    public function test_is_enabled_with_token_url()
     {
         $oauth = new rcmail_oauth($this->config);
         $oauth->init();
@@ -139,7 +138,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test discovery method
      */
-    function test_discovery()
+    public function test_discovery()
     {
         //fake discovery response
         $config_answer = [
@@ -172,7 +171,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test get_redirect_uri() method
      */
-    function test_get_redirect_uri()
+    public function test_get_redirect_uri()
     {
         $oauth = rcmail_oauth::get_instance();
 
@@ -182,7 +181,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test login_redirect() method
      */
-    function test_login_redirect()
+    public function test_login_redirect()
     {
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'login', '');
 
@@ -193,8 +192,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             $oauth->login_redirect();
             $result = null;
             $ecode = null;
-        }
-        catch (ExitException $e) {
+        } catch (ExitException $e) {
             $result = $e->getMessage();
             $ecode  = $e->getCode();
         }
@@ -216,7 +214,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test request_access_token() method with a wrong state
      */
-    function test_request_access_token_with_wrong_state()
+    public function test_request_access_token_with_wrong_state()
     {
         $oauth = new rcmail_oauth($this->config);
         $oauth->init();
@@ -236,18 +234,18 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test request_access_token()
      */
-    function test_request_access_token_with_wrong_nonce()
+    public function test_request_access_token_with_wrong_nonce()
     {
         $payload = [
-          'token_type'          => 'Bearer',
-          'access_token'        => 'FAKE-ACCESS-TOKEN',
-          'expires_in'          => 300,
-          'refresh_token'       => 'FAKE-REFRESH-TOKEN',
-          'refresh_expires_in'  => 1800,
-          'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
-          'not-before-policy'   => 0,
-          'session_state'       => 'fake-session',
-          'scope'               => 'openid profile email',
+            'token_type'          => 'Bearer',
+            'access_token'        => 'FAKE-ACCESS-TOKEN',
+            'expires_in'          => 300,
+            'refresh_token'       => 'FAKE-REFRESH-TOKEN',
+            'refresh_expires_in'  => 1800,
+            'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
+            'not-before-policy'   => 0,
+            'session_state'       => 'fake-session',
+            'scope'               => 'openid profile email',
         ];
 
         $mock = new MockHandler([
@@ -274,18 +272,18 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test request_access_token() method
      */
-    function test_request_access_token()
+    public function test_request_access_token()
     {
         $payload = [
-          'token_type'          => 'Bearer',
-          'access_token'        => 'FAKE-ACCESS-TOKEN',
-          'expires_in'          => 300,
-          'refresh_token'       => 'FAKE-REFRESH-TOKEN',
-          'refresh_expires_in'  => 1800,
-          'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
-          'not-before-policy'   => 0,
-          'session_state'       => 'fake-session',
-          'scope'               => 'openid profile email',
+            'token_type'          => 'Bearer',
+            'access_token'        => 'FAKE-ACCESS-TOKEN',
+            'expires_in'          => 300,
+            'refresh_token'       => 'FAKE-REFRESH-TOKEN',
+            'refresh_expires_in'  => 1800,
+            'id_token'            => $this->generate_fake_id_token(), // inject a generated identity
+            'not-before-policy'   => 0,
+            'session_state'       => 'fake-session',
+            'scope'               => 'openid profile email',
         ];
 
         $mock = new MockHandler([
@@ -311,17 +309,17 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test request_access_token() method without identity, code will have to fetch the identity using the access token
      */
-    function test_request_access_token_without_id_token()
+    public function test_request_access_token_without_id_token()
     {
         $payload = [
-          'token_type'          => 'Bearer',
-          'access_token'        => 'FAKE-ACCESS-TOKEN',
-          'expires_in'          => 300,
-          'refresh_token'       => 'FAKE-REFRESH-TOKEN',
-          'refresh_expires_in'  => 1800,
-          'not-before-policy'   => 0,
-          'session_state'       => 'fake-session',
-          'scope'               => 'openid profile email',
+            'token_type'          => 'Bearer',
+            'access_token'        => 'FAKE-ACCESS-TOKEN',
+            'expires_in'          => 300,
+            'refresh_token'       => 'FAKE-REFRESH-TOKEN',
+            'refresh_expires_in'  => 1800,
+            'not-before-policy'   => 0,
+            'session_state'       => 'fake-session',
+            'scope'               => 'openid profile email',
         ];
 
         //TODO should create a specific Mock to check request and validate it
@@ -350,7 +348,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test user_create() method
      */
-    function test_valid_user_create()
+    public function test_valid_user_create()
     {
         $oauth = new rcmail_oauth_test();
         $oauth->init();
@@ -377,7 +375,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test invalid properties in user_create
      */
-    function test_invalid_user_create()
+    public function test_invalid_user_create()
     {
         $oauth = new rcmail_oauth_test();
         $oauth->init();
@@ -406,7 +404,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     /**
      * Test refresh_access_token() method
      */
-    function test_refresh_access_token()
+    public function test_refresh_access_token()
     {
         //FIXME
         $this->markTestIncomplete();

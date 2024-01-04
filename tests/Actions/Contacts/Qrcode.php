@@ -8,9 +8,9 @@ class Actions_Contacts_Qrcode extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
-        $action = new rcmail_action_contacts_qrcode;
+        $action = new rcmail_action_contacts_qrcode();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'qrcode');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -42,8 +42,7 @@ class Actions_Contacts_Qrcode extends ActionTestCase
         if ($type == 'image/png') {
             $this->assertSame('Content-Type: image/png', $output->headers[0]);
             $this->assertMatchesRegularExpression('/^\x89\x50\x4E\x47/', $result);
-        }
-        else {
+        } else {
             $this->assertSame('Content-Type: image/svg+xml', $output->headers[0]);
             $this->assertMatchesRegularExpression('/^<\?xml/', $result);
             $this->assertMatchesRegularExpression('/<svg /', $result);

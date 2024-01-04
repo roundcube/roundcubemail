@@ -25,7 +25,7 @@
 
 class rcube_pam_password
 {
-    function save($currpass, $newpass, $username)
+    public function save($currpass, $newpass, $username)
     {
         $error = '';
 
@@ -34,25 +34,21 @@ class rcube_pam_password
                 if (pam_chpass($username, $currpass, $newpass)) {
                     return PASSWORD_SUCCESS;
                 }
-            }
-            else {
+            } else {
                 rcube::raise_error([
-                        'code' => 600,
-                        'file' => __FILE__,
-                        'line' => __LINE__,
-                        'message' => "Password plugin: PAM authentication failed for user $username: $error",
-                    ], true, false
-                );
-            }
-        }
-        else {
-            rcube::raise_error([
                     'code' => 600,
                     'file' => __FILE__,
                     'line' => __LINE__,
-                    'message' => 'Password plugin: PECL-PAM module not loaded',
-                ], true, false
-            );
+                    'message' => "Password plugin: PAM authentication failed for user $username: $error",
+                ], true, false);
+            }
+        } else {
+            rcube::raise_error([
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => 'Password plugin: PECL-PAM module not loaded',
+            ], true, false);
         }
 
         return PASSWORD_ERROR;

@@ -40,7 +40,7 @@ class managesieve extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $this->rc = rcube::get_instance();
 
@@ -62,8 +62,7 @@ class managesieve extends rcube_plugin
         if ($this->rc->task == 'settings') {
             $this->add_hook('settings_actions', [$this, 'settings_actions']);
             $this->init_ui();
-        }
-        elseif ($this->rc->task == 'mail') {
+        } elseif ($this->rc->task == 'mail') {
             $this->add_hook('storage_init', [$this, 'storage_init']);
 
             if ($this->rc->action == 'show') {
@@ -82,7 +81,7 @@ class managesieve extends rcube_plugin
     /**
      * Initializes plugin's UI (localization, js script)
      */
-    function init_ui()
+    public function init_ui()
     {
         if (!empty($this->ui_initialized)) {
             return;
@@ -101,8 +100,7 @@ class managesieve extends rcube_plugin
         $skin_path = $this->local_skin_path();
         if ($sieve_action || ($this->rc->task == 'settings' && empty($_REQUEST['_framed']))) {
             $this->include_stylesheet("$skin_path/managesieve.css");
-        }
-        elseif ($this->rc->task == 'mail') {
+        } elseif ($this->rc->task == 'mail') {
             $this->include_stylesheet("$skin_path/managesieve_mail.css");
         }
 
@@ -112,7 +110,7 @@ class managesieve extends rcube_plugin
     /**
      * Adds Filters section in Settings
      */
-    function settings_actions($args)
+    public function settings_actions($args)
     {
         $vacation_mode = (int) $this->rc->config->get('managesieve_vacation');
         $forward_mode  = (int) $this->rc->config->get('managesieve_forward');
@@ -156,7 +154,7 @@ class managesieve extends rcube_plugin
     /**
      * Add UI elements to the 'mailbox view' and 'show message' UI.
      */
-    function mail_task_handler()
+    public function mail_task_handler()
     {
         // make sure we're not in ajax request
         if ($this->rc->output->type != 'html') {
@@ -194,7 +192,7 @@ class managesieve extends rcube_plugin
     /**
      * Get message headers for popup window
      */
-    function mail_headers($args)
+    public function mail_headers($args)
     {
         // this hook can be executed many times
         if (!empty($this->mail_headers_done)) {
@@ -207,8 +205,7 @@ class managesieve extends rcube_plugin
 
         if ($this->rc->action == 'preview') {
             $this->rc->output->command('parent.set_env', ['sieve_headers' => $headers]);
-        }
-        else {
+        } else {
             $this->rc->output->set_env('sieve_headers', $headers);
         }
 
@@ -218,7 +215,7 @@ class managesieve extends rcube_plugin
     /**
      * Plugin action handler
      */
-    function managesieve_actions()
+    public function managesieve_actions()
     {
         $uids = rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);
 
@@ -246,7 +243,7 @@ class managesieve extends rcube_plugin
     /**
      * Forms save action handler
      */
-    function managesieve_save()
+    public function managesieve_save()
     {
         // load localization
         $this->add_texts('localization/', ['filters', 'managefilters']);
@@ -263,7 +260,7 @@ class managesieve extends rcube_plugin
     /**
      * Raw form save action handler
      */
-    function managesieve_saveraw()
+    public function managesieve_saveraw()
     {
         $engine = $this->get_engine();
 
@@ -336,7 +333,7 @@ class managesieve extends rcube_plugin
      *
      * @return array Modified hook parameters
      */
-    function storage_init($p)
+    public function storage_init($p)
     {
         // Fetch extra mail headers used by the plugin
         $p['fetch_headers'] = trim(($p['fetch_headers'] ?? '') . ' List-Id');

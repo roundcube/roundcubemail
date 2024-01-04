@@ -55,8 +55,7 @@ class rcmail_action_utils_modcss extends rcmail_action
                 $ctype  = !empty($ctype) ? $ctype[0] : '';
                 $source = $response->getBody();
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             rcube::raise_error($e, true, false);
         }
 

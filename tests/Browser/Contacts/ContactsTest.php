@@ -42,22 +42,19 @@ class ContactsTest extends \Tests\Browser\TestCase
                 $browser->assertMissing('#contacts-table');
                 $browser->click('#directorylist li:first-child');
                 $browser->waitFor('#contacts-table');
-            }
-            else {
+            } else {
                 $browser->assertVisible('#contacts-table');
             }
 
             // Contacts list menu
             if ($browser->isPhone()) {
                 $browser->assertToolbarMenu(['select'], []);
-            }
-            elseif ($browser->isTablet()) {
+            } elseif ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button')
                     ->waitFor('#toolbar-list-menu')
                     ->assertVisible('#toolbar-list-menu a.select:not(.disabled)')
                     ->click();
-            }
-            else {
+            } else {
                 $browser->assertVisible('#toolbar-list-menu a.select:not(.disabled)');
             }
 

@@ -51,11 +51,9 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         // list of folders to check
         if ($check_all) {
             $a_mailboxes = $rcmail->storage->list_folders_subscribed('', '*', 'mail');
-        }
-        elseif ($search_request && isset($_SESSION['search'][1]) && is_object($_SESSION['search'][1])) {
+        } elseif ($search_request && isset($_SESSION['search'][1]) && is_object($_SESSION['search'][1])) {
             $a_mailboxes = (array) $_SESSION['search'][1]->get_parameters('MAILBOX');
-        }
-        else {
+        } else {
             $a_mailboxes = (array) $current;
             if ($current != 'INBOX') {
                 $a_mailboxes[] = 'INBOX';
@@ -94,9 +92,9 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
             if ($status & 1) {
                 // trigger plugin hook
                 $rcmail->plugins->exec_hook('new_messages', [
-                        'mailbox'    => $mbox_name,
-                        'is_current' => $is_current,
-                        'diff'       => $diff,
+                    'mailbox'    => $mbox_name,
+                    'is_current' => $is_current,
+                    'diff'       => $diff,
                 ]);
             }
 

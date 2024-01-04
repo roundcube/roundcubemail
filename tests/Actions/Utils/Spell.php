@@ -8,9 +8,9 @@ class Actions_Utils_Spell extends ActionTestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
-        $object = new rcmail_action_utils_spell;
+        $object = new rcmail_action_utils_spell();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }
