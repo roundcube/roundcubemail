@@ -106,10 +106,8 @@ function getProperty($object, $name, $class = null)
  * @param string               $name   Property name
  * @param mixed                $value  Property value
  * @param string               $class  Object  class
- *
- * @return void
  */
-function setProperty($object, $name, $value, $class = null)
+function setProperty($object, $name, $value, $class = null): void
 {
     $reflection = new ReflectionClass($class ?: get_class($object));
 

@@ -22,10 +22,8 @@ class App extends Component
      * Assert that the browser page contains the component.
      *
      * @param Browser $browser
-     *
-     * @return void
      */
-    public function assert($browser)
+    public function assert($browser): void
     {
         // Assume the app (window.rcmail) is always available
         // we can't assert that before we visit the page

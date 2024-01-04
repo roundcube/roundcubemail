@@ -34,10 +34,8 @@ class HtmlEditor extends Component
      * Assert that the browser page contains the component.
      *
      * @param Browser $browser
-     *
-     * @return void
      */
-    public function assert($browser)
+    public function assert($browser): void
     {
         $browser->waitFor($this->selector() . '.html-editor');
     }
