@@ -41,8 +41,7 @@ class rcmail_action_settings_identity_delete extends rcmail_action
         if ($deleted > 0 && $deleted !== false) {
             $rcmail->output->show_message('deletedsuccessfully', 'confirmation', null, false);
             $rcmail->output->command('remove_identity', $iid);
-        }
-        else {
+        } else {
             $msg = !empty($plugin['message']) ? $plugin['message'] : ($deleted < 0 ? 'nodeletelastidentity' : 'errorsaving');
             $rcmail->output->show_message($msg, 'error', null, false);
         }

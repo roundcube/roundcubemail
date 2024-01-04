@@ -11,7 +11,7 @@ class Framework_DBMysql extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_db_mysql('test');
 

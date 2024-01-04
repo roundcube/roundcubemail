@@ -8,9 +8,9 @@ class Actions_Mail_Bounce extends ActionTestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
-        $object = new rcmail_action_mail_bounce;
+        $object = new rcmail_action_mail_bounce();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

@@ -621,8 +621,7 @@ class rcube_csv2vcard
                 if (!empty($contact[$name])) {
                     $contact[$name]   = (array) $contact[$name];
                     $contact[$name][] = $value;
-                }
-                else {
+                } else {
                     $contact[$name] = $value;
                 }
             }
@@ -680,8 +679,7 @@ class rcube_csv2vcard
                 foreach ((array) $value as $val) {
                     $vcard->set($name[0], $val, $name[1] ?? null);
                 }
-            }
-            else {
+            } else {
                 $vcard->set($name[0], $value, $name[1] ?? null);
             }
         }

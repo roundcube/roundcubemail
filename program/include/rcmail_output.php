@@ -23,8 +23,8 @@
  */
 abstract class rcmail_output extends rcube_output
 {
-    const JS_OBJECT_NAME = 'rcmail';
-    const BLANK_GIF      = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
+    public const JS_OBJECT_NAME = 'rcmail';
+    public const BLANK_GIF      = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
 
     public $type      = 'html';
     public $ajax_call = false;
@@ -80,14 +80,14 @@ abstract class rcmail_output extends rcube_output
      * @param string $cmd     Method to call
      * @param mixed  ...$args Method arguments
      */
-    abstract function command($cmd, ...$args);
+    abstract public function command($cmd, ...$args);
 
     /**
      * Add a localized label(s) to the client environment
      *
      * @param mixed ...$args Labels (an array of strings, or many string arguments)
      */
-    abstract function add_label(...$args);
+    abstract public function add_label(...$args);
 
     /**
      * Register a template object handler

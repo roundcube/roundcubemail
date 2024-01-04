@@ -29,9 +29,9 @@ class rcube_smtp
     private $anonymize_log = 0;
 
     // define headers delimiter
-    const SMTP_MIME_CRLF = "\r\n";
+    public const SMTP_MIME_CRLF = "\r\n";
 
-    const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
+    public const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
 
 
     /**
@@ -59,15 +59,13 @@ class rcube_smtp
             if (is_array($host)) {
                 if (array_key_exists($_SESSION['storage_host'], $host)) {
                     $host = $host[$_SESSION['storage_host']];
-                }
-                else {
+                } else {
                     $this->response[] = 'Connection failed: No SMTP server found for IMAP host ' . $_SESSION['storage_host'];
                     $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
                     return false;
                 }
             }
-        }
-        elseif (!empty($port) && !empty($host) && !preg_match('/:\d+$/', $host)) {
+        } elseif (!empty($port) && !empty($host) && !preg_match('/:\d+$/', $host)) {
             $host = "{$host}:{$port}";
         }
 
@@ -235,8 +233,7 @@ class rcube_smtp
             }
 
             [$from, $text_headers] = $headerElements;
-        }
-        elseif (is_string($headers)) {
+        } elseif (is_string($headers)) {
             $text_headers = $headers;
         }
 
@@ -271,8 +268,7 @@ class rcube_smtp
         if (preg_match('/[^\x00-\x7F]/', $from . implode('', $recipients))) {
             if (isset($exts['SMTPUTF8'])) {
                 $from_params = ltrim($from_params . ' SMTPUTF8');
-            }
-            else {
+            } else {
                 $this->_conn_error('smtputf8error', 'SMTP server does not support unicode in email addresses');
                 $this->reset();
                 return false;
@@ -309,8 +305,7 @@ class rcube_smtp
             if ($text_headers) {
                 $text_headers = preg_replace('/[\r\n]+$/', '', $text_headers);
             }
-        }
-        else {
+        } else {
             if ($text_headers) {
                 $body = $text_headers . "\r\n" . $body;
             }
@@ -327,8 +322,7 @@ class rcube_smtp
 
             if (!in_array($err[0], [354, 250, 221])) {
                 $msg = sprintf('[%d] %s', $err[0], $err[1]);
-            }
-            else {
+            } else {
                 $msg = $result->getMessage();
 
                 if (strpos($msg, 'size exceeds')) {
@@ -454,15 +448,13 @@ class rcube_smtp
                 }
 
                 $lines[] = $key . ': ' . $value;
-            }
-            elseif (strcasecmp($key, 'Received') === 0) {
+            } elseif (strcasecmp($key, 'Received') === 0) {
                 $received = [];
                 if (is_array($value)) {
                     foreach ($value as $line) {
                         $received[] = $key . ': ' . $line;
                     }
-                }
-                else {
+                } else {
                     $received[] = $key . ': ' . $value;
                 }
 
@@ -470,8 +462,7 @@ class rcube_smtp
                 // flag messages with Received: headers after the Subject:
                 // as spam.
                 $lines = array_merge($received, $lines);
-            }
-            else {
+            } else {
                 // If $value is an array (i.e., a list of addresses), convert
                 // it to a comma-delimited string of its elements (addresses).
                 if (is_array($value)) {
@@ -555,11 +546,9 @@ class rcube_smtp
 
             if (filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {
                 $r = $ip;
-            }
-            elseif (filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+            } elseif (filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
                 $r = "IPV6:{$ip}";
-            }
-            else {
+            } else {
                 $r = '[UNAVAILABLE]';
             }
 

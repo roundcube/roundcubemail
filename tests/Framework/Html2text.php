@@ -5,7 +5,7 @@
  */
 class rc_html2text extends PHPUnit\Framework\TestCase
 {
-    function data_html2text(): iterable
+    public function data_html2text(): iterable
     {
         return [
             0 => [
@@ -93,7 +93,7 @@ class rc_html2text extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_html2text
      */
-    function test_html2text($title, $in, $out)
+    public function test_html2text($title, $in, $out)
     {
         $ht = new rcube_html2text(null, false, rcube_html2text::LINKS_NONE);
 
@@ -106,7 +106,7 @@ class rc_html2text extends PHPUnit\Framework\TestCase
     /**
      * Test blockquote tags handling
      */
-    function test_multiple_blockquotes()
+    public function test_multiple_blockquotes()
     {
         $html = <<<'EOF'
             <br>Begin<br><blockquote>OUTER BEGIN<blockquote>INNER 1<br></blockquote><div><br></div><div>Par 1</div>
@@ -122,7 +122,7 @@ class rc_html2text extends PHPUnit\Framework\TestCase
         $this->assertStringContainsString('> OUTER END', $res, 'Quote outer');
     }
 
-    function test_broken_blockquotes()
+    public function test_broken_blockquotes()
     {
         // no end tag
         $html = <<<'EOF'
@@ -153,7 +153,7 @@ class rc_html2text extends PHPUnit\Framework\TestCase
     /**
      * Test links handling
      */
-    function test_links()
+    public function test_links()
     {
         $html     = '<a href="http://test.com">content</a>';
         $expected = 'content [1]
@@ -181,7 +181,7 @@ Links:
     /**
      * Test links handling with backward compatibility boolean flag
      */
-    function test_links_bc_with_boolean()
+    public function test_links_bc_with_boolean()
     {
         $html     = '<a href="http://test.com">content</a>';
         $expected = 'content [1]
@@ -209,7 +209,7 @@ Links:
     /**
      * Test links inline handling
      */
-    function test_links_inline()
+    public function test_links_inline()
     {
         $html     = '<a href="http://test.com">content</a>';
         $expected = 'content <http://test.com>';
@@ -234,7 +234,7 @@ Links:
      *
      * @dataProvider data_links_no_list
      */
-    function test_links_no_list($input, $output)
+    public function test_links_no_list($input, $output)
     {
         $h2t = new rcube_html2text($input, false, rcube_html2text::LINKS_NONE);
         $res = $h2t->get_text();
@@ -247,7 +247,7 @@ Links:
      *
      * @dataProvider data_links_no_list
      */
-    function test_links_no_list_bc_with_boolean($input, $output)
+    public function test_links_no_list_bc_with_boolean($input, $output)
     {
         $h2t = new rcube_html2text($input, false, false);
         $res = $h2t->get_text();
@@ -255,7 +255,7 @@ Links:
         $this->assertSame($output, $res, 'Links handling');
     }
 
-    function data_links_no_list(): iterable
+    public function data_links_no_list(): iterable
     {
         return [
             [
@@ -280,7 +280,7 @@ Links:
     /**
      * Test links fallback to default handling
      */
-    function test_links_fallback_to_default_link_list()
+    public function test_links_fallback_to_default_link_list()
     {
         $html     = '<a href="http://test.com">content</a>';
         $expected = 'content [1]
@@ -309,7 +309,7 @@ Links:
     /**
      * Test huge HTML content (#8137)
      */
-    function test_memory_fix_8137()
+    public function test_memory_fix_8137()
     {
         // create >1MB input
         $src = 'data:image/png;base64,' . str_repeat('1234567890abcdefghijklmnopqrstuvwxyz', 50000);

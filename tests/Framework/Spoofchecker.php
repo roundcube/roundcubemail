@@ -8,7 +8,7 @@ class Framework_Spoofchecker extends PHPUnit\Framework\TestCase
     /**
      * Test data for test_check()
      */
-    function data_check(): iterable
+    public function data_check(): iterable
     {
         return [
             // Valid:
@@ -32,7 +32,7 @@ class Framework_Spoofchecker extends PHPUnit\Framework\TestCase
     /**
      * @dataProvider data_check
      */
-    function test_check($email, $expected)
+    public function test_check($email, $expected)
     {
         $this->assertSame($expected, rcube_spoofchecker::check($email));
     }

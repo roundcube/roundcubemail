@@ -52,8 +52,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             $rcmail->storage->set_search_set($_SESSION['search']);
             $search = $_SESSION['search'][0];
             $search_request = $continue;
-        }
-        else {
+        } else {
             // Parse input parameters into an IMAP search criteria
             $search = self::search_input($str, $headers, $filter, $interval);
             $search_request = md5($mbox . $scope . $interval . $filter . $str);
@@ -76,8 +75,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 $mboxes = $rcmail->storage->list_folders_subscribed('', '*', 'mail', null, true);
                 // we want natural alphabetic sorting of folders in the result set
                 natcasesort($mboxes);
-            }
-            elseif ($scope == 'sub') {
+            } elseif ($scope == 'sub') {
                 $delim  = $rcmail->storage->get_hierarchy_delimiter();
                 $mboxes = $rcmail->storage->list_folders_subscribed($mbox . $delim, '*', 'mail');
                 array_unshift($mboxes, $mbox);
@@ -141,8 +139,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         elseif (!empty($result) && !empty($result->incomplete)) {
             $count = 0;  // keep UI locked
             $rcmail->output->command('continue_search', $search_request);
-        }
-        else {
+        } else {
             $count = 0;
 
             $rcmail->output->show_message('searchnomatch', 'notice');
@@ -190,8 +187,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         if ($interval[0] == '-') {
             $search   = 'BEFORE';
             $interval = substr($interval, 1);
-        }
-        else {
+        } else {
             $search = 'SINCE';
         }
 
@@ -293,8 +289,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 }
 
                 unset($parts[$idx]);
-            }
-            elseif ($part == 'AND') {
+            } elseif ($part == 'AND') {
                 unset($parts[$idx]);
             }
         }
@@ -397,8 +392,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                     if ($search_interval = self::search_interval_criteria(strtoupper($value))) {
                         return $search_interval;
                     }
-                }
-                elseif (preg_match('|^([0-9]{4})[-/]([0-9]{1,2})[-/]([0-9]{1,2})$|i', $value, $m)) {
+                } elseif (preg_match('|^([0-9]{4})[-/]([0-9]{1,2})[-/]([0-9]{1,2})$|i', $value, $m)) {
                     $dt = new DateTime(sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]) . 'T00:00:00Z');
                     return strtoupper($option) . ' ' . $dt->format('j-M-Y');
                 }

@@ -5,12 +5,12 @@
  */
 class Framework_VCard extends PHPUnit\Framework\TestCase
 {
-    function _srcpath($fn)
+    public function _srcpath($fn)
     {
         return realpath(__DIR__ . '/../src/' . $fn);
     }
 
-    function test_parse_one()
+    public function test_parse_one()
     {
         $vcard = new rcube_vcard(file_get_contents($this->_srcpath('apple.vcf')));
 
@@ -19,7 +19,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
         $this->assertSame('', $vcard->firstname, 'No person name set');
     }
 
-    function test_parse_two()
+    public function test_parse_two()
     {
         $vcard = new rcube_vcard(file_get_contents($this->_srcpath('johndoe.vcf')), null);
 
@@ -33,7 +33,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
     /**
      * Make sure MOBILE phone is returned as CELL (as specified in standard)
      */
-    function test_parse_three()
+    public function test_parse_three()
     {
         $vcard = new rcube_vcard(file_get_contents($this->_srcpath('johndoe.vcf')), null);
 
@@ -50,7 +50,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
     /**
      * Backslash escaping test (#1488896)
      */
-    function test_parse_four()
+    public function test_parse_four()
     {
         $vcard = "BEGIN:VCARD\nVERSION:3.0\nN:last\\;;first\\\\;middle\\\\\\;\\\\;prefix;\nFN:test\nEND:VCARD";
         $vcard = new rcube_vcard($vcard, null);
@@ -65,7 +65,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
     /**
      * Backslash parsing test (#1489085)
      */
-    function test_parse_five()
+    public function test_parse_five()
     {
         $vcard = "BEGIN:VCARD\nVERSION:3.0\nN:last\\\\\\a;fir\\nst\nURL:http\\://domain.tld\nEND:VCARD";
         $vcard = new rcube_vcard($vcard, null);
@@ -79,7 +79,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
     /**
      * Some Apple vCard quirks (#1489993)
      */
-    function test_parse_six()
+    public function test_parse_six()
     {
         $vcard = new rcube_vcard("BEGIN:VCARD\n"
             . "VERSION:3.0\n"
@@ -95,7 +95,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
         $this->assertCount(1, $result['address:work'], 'ITEM1.-prefixed entry');
     }
 
-    function test_import()
+    public function test_import()
     {
         $input = file_get_contents($this->_srcpath('apple.vcf'));
         $input .= file_get_contents($this->_srcpath('johndoe.vcf'));
@@ -114,7 +114,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
         // TODO: Test reset() method
     }
 
-    function test_import_photo_encoding()
+    public function test_import_photo_encoding()
     {
         $input = file_get_contents($this->_srcpath('photo.vcf'));
 
@@ -145,7 +145,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
         $this->assertSame('/9j/4AAQSkZJRgABAQA', substr(base64_encode($vcard['photo']), 0, 19), 'Photo decoding');
     }
 
-    function test_encodings()
+    public function test_encodings()
     {
         $input = file_get_contents($this->_srcpath('utf-16_sample.vcf'));
 
@@ -156,7 +156,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
     /**
      * Skipping empty values (#6564)
      */
-    function test_parse_skip_empty()
+    public function test_parse_skip_empty()
     {
         $vcard = new rcube_vcard("BEGIN:VCARD\n"
             . "VERSION:3.0\n"
@@ -180,7 +180,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
     /**
      * Support BDAT in YYYYMMRR format
      */
-    function test_bday_v4()
+    public function test_bday_v4()
     {
         $vcard = "BEGIN:VCARD\nVERSION:4.0\nN:last\\;;first\\\\;middle\\\\\\;\\\\;prefix;\nFN:test\nBDAY:19800202\nEND:VCARD";
         $vcard = new rcube_vcard($vcard, null);
@@ -192,7 +192,7 @@ class Framework_VCard extends PHPUnit\Framework\TestCase
     /**
      * Test required fields in output (#8771)
      */
-    function test_required_fields()
+    public function test_required_fields()
     {
         $vcard = new rcube_vcard();
         $result = $vcard->export();

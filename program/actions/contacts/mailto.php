@@ -54,8 +54,7 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
             // group has an email address assigned: use that
             if (!empty($group_data['email'])) {
                 $mailto[] = format_email_recipient($group_data['email'][0], $group_data['name']);
-            }
-            elseif ($contacts->ready) {
+            } elseif ($contacts->ready) {
                 $maxnum = (int) $rcmail->config->get('max_group_members');
 
                 $contacts->set_group($group_id);
@@ -80,8 +79,7 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
             $mailto_id  = substr(md5($mailto_str), 0, 16);
             $_SESSION['mailto'][$mailto_id] = urlencode($mailto_str);
             $rcmail->output->command('open_compose_step', ['_mailto' => $mailto_id]);
-        }
-        else {
+        } else {
             $rcmail->output->show_message('nocontactsfound', 'warning');
         }
 

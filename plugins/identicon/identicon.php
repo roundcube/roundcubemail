@@ -25,7 +25,7 @@ class identicon extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    function init()
+    public function init()
     {
         $this->add_hook('contact_photo', [$this, 'contact_photo']);
     }
@@ -33,7 +33,7 @@ class identicon extends rcube_plugin
     /**
      * 'contact_photo' hook handler to inject an identicon image
      */
-    function contact_photo($args)
+    public function contact_photo($args)
     {
         // pre-conditions, exit if photo already exists or invalid input
         if (!empty($args['url']) || !empty($args['data'])
@@ -60,8 +60,7 @@ class identicon extends rcube_plugin
 
                 if (!empty($args['attrib']['bg-color'])) {
                     $bgcolor = $args['attrib']['bg-color'];
-                }
-                else {
+                } else {
                     $bgcolor = rcube_utils::get_input_string('_bgcolor', rcube_utils::INPUT_GET);
                 }
 
@@ -73,8 +72,7 @@ class identicon extends rcube_plugin
                         $mimetype    = $identicon->getMimetype();
                         $args['url'] = sprintf('data:%s;base64,%s', $mimetype, $icon);
                     }
-                }
-                else {
+                } else {
                     // send the icon to the browser
                     if ($identicon->sendOutput()) {
                         exit;

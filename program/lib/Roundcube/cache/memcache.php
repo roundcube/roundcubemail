@@ -57,13 +57,12 @@ class rcube_cache_memcache extends rcube_cache
             self::$memcache = false;
 
             rcube::raise_error([
-                    'code' => 604,
-                    'type' => 'memcache',
-                    'line' => __LINE__,
-                    'file' => __FILE__,
-                    'message' => 'Failed to find Memcache. Make sure php-memcache is included',
-                ],
-                true, true);
+                'code' => 604,
+                'type' => 'memcache',
+                'line' => __LINE__,
+                'file' => __FILE__,
+                'message' => 'Failed to find Memcache. Make sure php-memcache is included',
+            ], true, true);
         }
 
         // add all configured hosts to pool
@@ -80,15 +79,14 @@ class rcube_cache_memcache extends rcube_cache
             if (!$seen["$host:$port"]++) {
                 $available--;
                 rcube::raise_error([
-                        'code' => 604, 'type' => 'memcache',
-                        'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Memcache failure on host $host:$port",
-                    ],
-                    true, false);
+                    'code' => 604, 'type' => 'memcache',
+                    'line' => __LINE__, 'file' => __FILE__,
+                    'message' => "Memcache failure on host $host:$port",
+                ], true, false);
             }
         };
 
-        self::$memcache = new Memcache;
+        self::$memcache = new Memcache();
 
         foreach ((array) $rcube->config->get('memcache_hosts') as $host) {
             if (substr($host, 0, 7) != 'unix://') {
@@ -96,8 +94,7 @@ class rcube_cache_memcache extends rcube_cache
                 if (!$port) {
                     $port = 11211;
                 }
-            }
-            else {
+            } else {
                 $port = 0;
             }
 

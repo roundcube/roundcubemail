@@ -8,9 +8,9 @@ class Framework_MessagePart extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
-        $object = new rcube_message_part;
+        $object = new rcube_message_part();
 
         $this->assertInstanceOf('rcube_message_part', $object, 'Class constructor');
     }

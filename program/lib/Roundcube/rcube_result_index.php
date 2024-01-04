@@ -32,7 +32,7 @@ class rcube_result_index
     protected $params = [];
     protected $order  = 'ASC';
 
-    const SEPARATOR_ELEMENT = ' ';
+    public const SEPARATOR_ELEMENT = ' ';
 
 
     /**
@@ -64,8 +64,7 @@ class rcube_result_index
                 $this->raw_data = '';
                 $data_item = substr($data_item, 5);
                 break;
-            }
-            elseif (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
+            } elseif (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
                 $data_item = substr($data_item, strlen($m[0]));
@@ -160,8 +159,7 @@ class rcube_result_index
         if (empty($this->raw_data)) {
             $this->meta['count']  = 0;
             $this->meta['length'] = 0;
-        }
-        else {
+        } else {
             $this->meta['count'] = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT);
         }
 
@@ -360,8 +358,7 @@ class rcube_result_index
             $pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT);
             if ($pos === false) {
                 $result = (int) $this->raw_data;
-            }
-            else {
+            } else {
                 $result = (int) substr($this->raw_data, 0, $pos);
             }
 
@@ -373,8 +370,7 @@ class rcube_result_index
             $pos = strrpos($this->raw_data, self::SEPARATOR_ELEMENT);
             if ($pos === false) {
                 $result = (int) $this->raw_data;
-            }
-            else {
+            } else {
                 $result = (int) substr($this->raw_data, $pos);
             }
 
@@ -385,12 +381,10 @@ class rcube_result_index
         if (!empty($this->meta['pos'])) {
             if (isset($this->meta['pos'][$index])) {
                 $pos = $this->meta['pos'][$index];
-            }
-            elseif (isset($this->meta['pos'][$index - 1])) {
+            } elseif (isset($this->meta['pos'][$index - 1])) {
                 $pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT,
                     $this->meta['pos'][$index - 1] + 1);
-            }
-            elseif (isset($this->meta['pos'][$index + 1])) {
+            } elseif (isset($this->meta['pos'][$index + 1])) {
                 $pos = strrpos($this->raw_data, self::SEPARATOR_ELEMENT,
                     $this->meta['pos'][$index + 1] - $this->length() - 1);
             }

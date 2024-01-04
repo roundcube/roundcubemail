@@ -22,7 +22,7 @@
  */
 class rcube_config
 {
-    const DEFAULT_SKIN = 'elastic';
+    public const DEFAULT_SKIN = 'elastic';
 
     /** @var string A skin configured in the config file (before being replaced by a user preference) */
     public $system_skin = 'elastic';
@@ -72,12 +72,10 @@ class rcube_config
                 if (!rcube_utils::is_absolute_path($path)) {
                     if ($realpath = realpath(RCUBE_INSTALL_PATH . $path)) {
                         $this->paths[$i] = unslashify($realpath) . '/';
-                    }
-                    else {
+                    } else {
                         unset($this->paths[$i]);
                     }
-                }
-                else {
+                } else {
                     $this->paths[$i] = unslashify($path) . '/';
                 }
             }
@@ -177,8 +175,7 @@ class rcube_config
 
         if ($value === false) {
             $value = $default_value;
-        }
-        else {
+        } else {
             $value = $this->parse_env($value, $type ?: gettype($default_value));
         }
 
@@ -200,8 +197,7 @@ class rcube_config
             // Old configuration files
             if (!$this->load_from_file('main.inc.php') || !$this->load_from_file('db.inc.php')) {
                 $this->errors[] = 'config.inc.php was not found.';
-            }
-            elseif (rand(1,100) == 10) {  // log warning on every 100th request (average)
+            } elseif (rand(1, 100) == 10) {  // log warning on every 100th request (average)
                 trigger_error('config.inc.php was not found. Please migrate your config by running bin/update.sh', \E_USER_WARNING);
             }
         }
@@ -213,8 +209,7 @@ class rcube_config
         if (empty($this->prop['skin'])) {
             if (!empty($this->prop['skin_path'])) {
                 $this->prop['skin'] = str_replace('skins/', '', unslashify($this->prop['skin_path']));
-            }
-            else {
+            } else {
                 $this->prop['skin'] = self::DEFAULT_SKIN;
             }
         }
@@ -287,8 +282,7 @@ class rcube_config
                 if (isset($this->prop['include_host_config'][$name])) {
                     $fname = $this->prop['include_host_config'][$name];
                 }
-            }
-            else {
+            } else {
                 $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $name) . '.inc.php';
             }
 
@@ -384,8 +378,7 @@ class rcube_config
     {
         if (isset($this->prop[$name])) {
             $result = $this->prop[$name];
-        }
-        else {
+        } else {
             $result = $def;
         }
 
@@ -396,8 +389,7 @@ class rcube_config
             if (empty($result) || $result == 'auto') {
                 $result = $this->client_timezone();
             }
-        }
-        elseif ($name == 'client_mimetypes') {
+        } elseif ($name == 'client_mimetypes') {
             if (!$result && !$def) {
                 $result = 'text/plain,text/html'
                     . ',image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp'
@@ -406,19 +398,16 @@ class rcube_config
             if ($result && is_string($result)) {
                 $result = explode(',', $result);
             }
-        }
-        elseif ($name == 'layout') {
+        } elseif ($name == 'layout') {
             if (!in_array($result, $this->prop['supported_layouts'])) {
                 $result = $this->prop['supported_layouts'][0];
             }
-        }
-        elseif ($name == 'collected_senders') {
+        } elseif ($name == 'collected_senders') {
             if (is_bool($result)) {
                 $result = $result ? rcube_addressbook::TYPE_TRUSTED_SENDER : '';
             }
             $result = (string) $result;
-        }
-        elseif ($name == 'collected_recipients') {
+        } elseif ($name == 'collected_recipients') {
             if (is_bool($result)) {
                 $result = $result ? rcube_addressbook::TYPE_RECIPIENT : '';
             }
@@ -426,9 +415,9 @@ class rcube_config
         }
 
         $plugin = $rcube->plugins->exec_hook('config_get', [
-                'name'    => $name,
-                'default' => $def,
-                'result'  => $result,
+            'name'    => $name,
+            'default' => $def,
+            'result'  => $result,
         ]);
 
         return $plugin['result'];
@@ -542,8 +531,7 @@ class rcube_config
             try {
                 $tz = new DateTimeZone($tz);
                 return $tz->getOffset(new DateTime('now')) / 3600;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
             }
         }
 
@@ -562,9 +550,9 @@ class rcube_config
         // Bomb out if the requested key does not exist
         if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
             rcube::raise_error([
-                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Request for unconfigured crypto key \"$key\"",
-                ], true, true);
+                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Request for unconfigured crypto key \"$key\"",
+            ], true, true);
         }
 
         return $this->prop[$key];
@@ -594,12 +582,11 @@ class rcube_config
             $delim = $this->prop['mail_header_delimiter'];
             if ($delim == "\n" || $delim == "\r\n") {
                 return $delim;
-            }
-            else {
+            } else {
                 rcube::raise_error([
-                        'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => 'Invalid mail_header_delimiter setting',
-                    ], true, false);
+                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => 'Invalid mail_header_delimiter setting',
+                ], true, false);
             }
         }
 
@@ -653,8 +640,7 @@ class rcube_config
                 if (isset($this->prop['mail_domain'][$host])) {
                     $domain = $this->prop['mail_domain'][$host];
                 }
-            }
-            else {
+            } else {
                 $domain = rcube_utils::parse_host($this->prop['mail_domain']);
             }
         }
@@ -697,8 +683,7 @@ class rcube_config
             try {
                 $tz = new DateTimeZone($props['timezone']);
                 return $this->client_tz = $tz->getName();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // gracefully ignore
             }
         }
@@ -729,8 +714,7 @@ class rcube_config
         if (isset($props['timezone']) && is_numeric($props['timezone'])) {
             if ($tz = self::timezone_name_from_abbr($props['timezone'])) {
                 $props['timezone'] = $tz;
-            }
-            else {
+            } else {
                 unset($props['timezone']);
             }
         }
@@ -758,7 +742,7 @@ class rcube_config
      *
      * @return string|null Timezone abbreviation
      */
-    static public function timezone_name_from_abbr($offset)
+    public static function timezone_name_from_abbr($offset)
     {
         // List of timezones here is not complete - https://bugs.php.net/bug.php?id=44780
         if ($tz = timezone_name_from_abbr('', $offset * 3600, 0)) {
@@ -779,32 +763,32 @@ class rcube_config
             '-240' => 'America/Halifax',
             '-210' => 'Canada/Newfoundland',
             '-180' => 'America/Sao_Paulo',
-             '-60' => 'Atlantic/Azores',
-               '0' => 'Europe/London',
-              '60' => 'Europe/Paris',
-             '120' => 'Europe/Helsinki',
-             '180' => 'Europe/Moscow',
-             '210' => 'Asia/Tehran',
-             '240' => 'Asia/Dubai',
-             '270' => 'Asia/Kabul',
-             '300' => 'Asia/Karachi',
-             '330' => 'Asia/Kolkata',
-             '345' => 'Asia/Katmandu',
-             '360' => 'Asia/Yekaterinburg',
-             '390' => 'Asia/Rangoon',
-             '420' => 'Asia/Krasnoyarsk',
-             '480' => 'Asia/Shanghai',
-             '525' => 'Australia/Eucla',
-             '540' => 'Asia/Tokyo',
-             '570' => 'Australia/Adelaide',
-             '600' => 'Australia/Melbourne',
-             '630' => 'Australia/Lord_Howe',
-             '660' => 'Asia/Vladivostok',
-             '690' => 'Pacific/Norfolk',
-             '720' => 'Pacific/Auckland',
-             '765' => 'Pacific/Chatham',
-             '780' => 'Pacific/Enderbury',
-             '840' => 'Pacific/Kiritimati',
+            '-60' => 'Atlantic/Azores',
+            '0' => 'Europe/London',
+            '60' => 'Europe/Paris',
+            '120' => 'Europe/Helsinki',
+            '180' => 'Europe/Moscow',
+            '210' => 'Asia/Tehran',
+            '240' => 'Asia/Dubai',
+            '270' => 'Asia/Kabul',
+            '300' => 'Asia/Karachi',
+            '330' => 'Asia/Kolkata',
+            '345' => 'Asia/Katmandu',
+            '360' => 'Asia/Yekaterinburg',
+            '390' => 'Asia/Rangoon',
+            '420' => 'Asia/Krasnoyarsk',
+            '480' => 'Asia/Shanghai',
+            '525' => 'Australia/Eucla',
+            '540' => 'Asia/Tokyo',
+            '570' => 'Australia/Adelaide',
+            '600' => 'Australia/Melbourne',
+            '630' => 'Australia/Lord_Howe',
+            '660' => 'Asia/Vladivostok',
+            '690' => 'Pacific/Norfolk',
+            '720' => 'Pacific/Auckland',
+            '765' => 'Pacific/Chatham',
+            '780' => 'Pacific/Enderbury',
+            '840' => 'Pacific/Kiritimati',
         ];
 
         $key = (string) intval($offset * 60);
@@ -819,7 +803,7 @@ class rcube_config
      *
      * @return string Timezone name
      */
-    static public function resolve_timezone_alias($tzname)
+    public static function resolve_timezone_alias($tzname)
     {
         // http://www.php.net/manual/en/timezones.others.php
         // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones

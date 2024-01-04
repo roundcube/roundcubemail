@@ -11,7 +11,7 @@ class ExampleAddressbook_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Plugin object construction test
      */
-    function test_constructor()
+    public function test_constructor()
     {
         $rcube  = rcube::get_instance();
         $plugin = new example_addressbook($rcube->plugins);
@@ -25,7 +25,7 @@ class ExampleAddressbook_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test address_sources()
      */
-    function test_address_sources()
+    public function test_address_sources()
     {
         $rcube  = rcube::get_instance();
         $plugin = new example_addressbook($rcube->plugins);

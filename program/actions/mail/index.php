@@ -209,8 +209,7 @@ class rcmail_action_mail_index extends rcmail_action
                 }
 
                 $a_threading[$_SESSION['mbox']] = true;
-            }
-            else {
+            } else {
                 // re-set current page number when listing mode changes
                 if (!empty($a_threading[$_SESSION['mbox']])) {
                     $rcmail->storage->set_page($_SESSION['page'] = 1);
@@ -236,8 +235,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         if ($rcmail->output->get_env('search_request')) {
             $pagetitle = $rcmail->gettext('searchresult');
-        }
-        else {
+        } else {
             $mbox_name = $rcmail->output->get_env('mailbox') ?: $rcmail->storage->get_folder();
             $delimiter = $rcmail->storage->get_hierarchy_delimiter();
             $pagetitle = self::localize_foldername($mbox_name, true);
@@ -331,8 +329,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         if (isset($_SESSION['sort_col'])) {
             $column = $_SESSION['sort_col'];
-        }
-        else {
+        } else {
             $column = $rcmail->config->get('message_sort_col');
         }
 
@@ -361,7 +358,7 @@ class rcmail_action_mail_index extends rcmail_action
     /**
      * return the message list as HTML table
      */
-    function message_list($attrib)
+    public function message_list($attrib)
     {
         $rcmail = rcmail::get_instance();
 
@@ -379,8 +376,7 @@ class rcmail_action_mail_index extends rcmail_action
             $a_show_cols = !empty($list_cols) && is_array($list_cols) ? $list_cols : ['subject'];
 
             $rcmail->output->set_env('col_movable', !in_array('list_cols', (array) $rcmail->config->get('dont_override')));
-        }
-        else {
+        } else {
             $a_show_cols = preg_split('/[\s,;]+/', str_replace(["'", '"'], '', $attrib['columns']));
             $attrib['columns'] = $a_show_cols;
         }
@@ -435,13 +431,11 @@ class rcmail_action_mail_index extends rcmail_action
         if (empty($a_show_cols)) {
             if (!empty($_SESSION['list_attrib']['columns'])) {
                 $a_show_cols = $_SESSION['list_attrib']['columns'];
-            }
-            else {
+            } else {
                 $list_cols   = $rcmail->config->get('list_cols');
                 $a_show_cols = !empty($list_cols) && is_array($list_cols) ? $list_cols : ['subject'];
             }
-        }
-        else {
+        } else {
             if (!is_array($a_show_cols)) {
                 $a_show_cols = preg_split('/[\s,;]+/', str_replace(["'", '"'], '', $a_show_cols));
             }
@@ -456,8 +450,7 @@ class rcmail_action_mail_index extends rcmail_action
         if ($multifolder && !in_array('folder', $a_show_cols)) {
             $a_show_cols[] = 'folder';
             $head_replace  = true;
-        }
-        elseif (!$multifolder && ($found = array_search('folder', $a_show_cols)) !== false) {
+        } elseif (!$multifolder && ($found = array_search('folder', $a_show_cols)) !== false) {
             unset($a_show_cols[$found]);
             $head_replace = true;
         }
@@ -542,21 +535,17 @@ class rcmail_action_mail_index extends rcmail_action
                     if (empty($cont)) {
                         $cont = '&nbsp;'; // for widescreen mode
                     }
-                }
-                elseif ($col == 'subject') {
+                } elseif ($col == 'subject') {
                     $cont = trim(rcube_mime::decode_header($header->subject, $header->charset));
                     if (!$cont) {
                         $cont = $rcmail->gettext('nosubject');
                     }
                     $cont = rcube::SQ($cont);
-                }
-                elseif ($col == 'size') {
+                } elseif ($col == 'size') {
                     $cont = self::show_bytes($header->size);
-                }
-                elseif ($col == 'date') {
+                } elseif ($col == 'date') {
                     $cont = $rcmail->format_date($sort_col == 'arrival' ? $header->internaldate : $header->date);
-                }
-                elseif ($col == 'folder') {
+                } elseif ($col == 'folder') {
                     if (!isset($last_folder) || !isset($last_folder_name) || $last_folder !== $header->folder) {
                         $last_folder      = $header->folder;
                         $last_folder_name = self::localize_foldername($last_folder, true);
@@ -564,11 +553,9 @@ class rcmail_action_mail_index extends rcmail_action
                     }
 
                     $cont = rcube::SQ($last_folder_name);
-                }
-                elseif (isset($header->{$col})) {
+                } elseif (isset($header->{$col})) {
                     $cont = rcube::SQ($header->{$col});
-                }
-                else {
+                } else {
                     $cont = '';
                 }
 
@@ -579,8 +566,7 @@ class rcmail_action_mail_index extends rcmail_action
 
             if (!empty($header->depth)) {
                 $a_msg_flags['depth'] = $header->depth;
-            }
-            elseif (!empty($header->has_children)) {
+            } elseif (!empty($header->has_children)) {
                 $roots[] = $header->uid;
             }
             if (!empty($header->parent_uid)) {
@@ -643,8 +629,7 @@ class rcmail_action_mail_index extends rcmail_action
         // define sortable columns
         if ($disabled_sort) {
             $a_sort_cols = $sort_col && !$disabled_order ? [$sort_col] : [];
-        }
-        else {
+        } else {
             $a_sort_cols = ['subject', 'date', 'from', 'to', 'fromto', 'size', 'cc'];
         }
 
@@ -700,13 +685,12 @@ class rcmail_action_mail_index extends rcmail_action
             if (in_array($col, $a_sort_cols)) {
                 $sortable = true;
                 $col_name = html::a([
-                        'href'  => './#sort',
-                        'class' => 'sortcol',
-                        'rel'   => $rel_col,
-                        'title' => $rcmail->gettext('sortby'),
-                    ], $col_name);
-            }
-            elseif (empty($col_name) || $col_name[0] != '<') {
+                    'href'  => './#sort',
+                    'class' => 'sortcol',
+                    'rel'   => $rel_col,
+                    'title' => $rcmail->gettext('sortby'),
+                ], $col_name);
+            } elseif (empty($col_name) || $col_name[0] != '<') {
                 $col_name = '<span class="' . $col . '">' . $col_name . '</span>';
             }
 
@@ -741,8 +725,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         if (!empty($attrib['icon']) && $attrib['icon'] != 'true') {
             $inner = html::img(['src' => $rcmail->output->asset_url($attrib['icon'], true), 'alt' => $title]);
-        }
-        elseif (!empty($attrib['innerclass'])) {
+        } elseif (!empty($attrib['innerclass'])) {
             $inner = html::span($attrib['innerclass'], $inner);
         }
 
@@ -790,15 +773,14 @@ class rcmail_action_mail_index extends rcmail_action
 
         if (!$max) {
             $out = $rcmail->storage->get_search_set() ? $rcmail->gettext('nomessages') : $rcmail->gettext('mailboxempty');
-        }
-        else {
+        } else {
             $out = $rcmail->gettext([
-                    'name' => $rcmail->storage->get_threading() ? 'threadsfromto' : 'messagesfromto',
-                    'vars' => [
-                        'from'  => $start_msg,
-                        'to'    => min($max, $start_msg + $page_size - 1),
-                        'count' => $max,
-                    ],
+                'name' => $rcmail->storage->get_threading() ? 'threadsfromto' : 'messagesfromto',
+                'vars' => [
+                    'from'  => $start_msg,
+                    'to'    => min($max, $start_msg + $page_size - 1),
+                    'count' => $max,
+                ],
             ]);
         }
 
@@ -937,8 +919,7 @@ class rcmail_action_mail_index extends rcmail_action
             // Note: HTML without <html> tag may still be a valid input (#6713)
             if (($pos = stripos($html, '<html')) === false) {
                 $html = '<html><head>' . $meta . '</head>' . $html;
-            }
-            else {
+            } else {
                 $pos  = strpos($html, '>', $pos);
                 $html = substr_replace($html, '<head>' . $meta . '</head>', $pos + 1, 0);
             }
@@ -1045,8 +1026,7 @@ class rcmail_action_mail_index extends rcmail_action
             $body = rcube_enriched::to_html($data['body']);
             $body = self::wash_html($body, $data, $part->replaces);
             $part->ctype_secondary = 'html';
-        }
-        else {
+        } else {
             // assert plaintext
             $body = $data['body'];
             $part->ctype_secondary = $data['type'] = 'plain';
@@ -1064,10 +1044,10 @@ class rcmail_action_mail_index extends rcmail_action
 
         // allow post-processing of the message body
         $data = $rcmail->plugins->exec_hook('message_part_after', [
-                'type' => $part->ctype_secondary,
-                'body' => $body,
-                'id'   => $part->mime_id,
-            ] + $data);
+            'type' => $part->ctype_secondary,
+            'body' => $body,
+            'id'   => $part->mime_id,
+        ] + $data);
 
         return $data['body'];
     }
@@ -1122,8 +1102,7 @@ class rcmail_action_mail_index extends rcmail_action
                 if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
                     if (!$washtml->get_config('allow_remote') && preg_match('/url\((?!data:image)/', $stripped)) {
                         $washtml->extlinks = true;
-                    }
-                    else {
+                    } else {
                         $out = html::tag('style', ['type' => 'text/css'], $decoded);
                     }
                 }
@@ -1283,8 +1262,7 @@ class rcmail_action_mail_index extends rcmail_action
             // replace <body> with <div>
             if (!empty($args['body_class'])) {
                 $replace['/<body([^>]*)>/i'] = '<div class="' . $args['body_class'] . '"\\1>';
-            }
-            else {
+            } else {
                 $replace['/<body/i'] = '<div';
             }
 
@@ -1318,15 +1296,14 @@ class rcmail_action_mail_index extends rcmail_action
                 $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
                 $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
                 $attrib['href'] = $rcmail->url([
-                        'task'   => 'utils',
-                        'action' => 'modcss',
-                        'u'      => $tempurl,
-                        'c'      => $washtml->get_config('container_id'),
-                        'p'      => $washtml->get_config('css_prefix'),
+                    'task'   => 'utils',
+                    'action' => 'modcss',
+                    'u'      => $tempurl,
+                    'c'      => $washtml->get_config('container_id'),
+                    'p'      => $washtml->get_config('css_prefix'),
                 ]);
                 $content = null;
-            }
-            elseif (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
+            } elseif (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
                 $url_parts = explode('?', html_entity_decode($mailto[1], \ENT_QUOTES, 'UTF-8'), 2);
                 $mailto    = $url_parts[0];
                 $url       = $url_parts[1] ?? '';
@@ -1342,8 +1319,7 @@ class rcmail_action_mail_index extends rcmail_action
                     if (rcube_utils::check_email($addr['mailto'], false)) {
                         $addresses[$idx] = $addr['mailto'];
                         $mailto[]        = $addr['string'];
-                    }
-                    else {
+                    } else {
                         unset($addresses[$idx]);
                     }
                 }
@@ -1354,13 +1330,11 @@ class rcmail_action_mail_index extends rcmail_action
                         "return %s.command('compose','%s',this)",
                         rcmail_output::JS_OBJECT_NAME,
                         rcube::JQ(implode(',', $mailto) . ($url ? "?$url" : '')));
-                }
-                else {
+                } else {
                     $attrib['href']    = '#NOP';
                     $attrib['onclick'] = '';
                 }
-            }
-            elseif (!empty($attrib['href']) && $attrib['href'][0] != '#') {
+            } elseif (!empty($attrib['href']) && $attrib['href'][0] != '#') {
                 $attrib['target'] = '_blank';
             }
 
@@ -1433,8 +1407,7 @@ class rcmail_action_mail_index extends rcmail_action
                 if ($name) {
                     $address = rcube::SQ($name) . ' ' . $address;
                 }
-            }
-            elseif ($valid) {
+            } elseif ($valid) {
                 if ($linked) {
                     $attrs = [
                         'href'    => 'mailto:' . $mailto,
@@ -1445,15 +1418,13 @@ class rcmail_action_mail_index extends rcmail_action
 
                     if ($show_email && $name && $mailto) {
                         $content = rcube::SQ($name ? sprintf('%s <%s>', $name, $mailto) : $mailto);
-                    }
-                    else {
+                    } else {
                         $content = rcube::SQ($name ?: $mailto);
                         $attrs['title'] = $mailto;
                     }
 
                     $address = html::a($attrs, $content);
-                }
-                else {
+                } else {
                     $address = html::span(['title' => $mailto, 'class' => 'rcmContactAddress'],
                         rcube::SQ($name ?: $mailto));
                 }
@@ -1461,9 +1432,9 @@ class rcmail_action_mail_index extends rcmail_action
                 if ($addicon && $_SESSION['writeable_abook']) {
                     $label = $rcmail->gettext('addtoaddressbook');
                     $icon = html::img([
-                            'src'   => $rcmail->output->asset_url($addicon, true),
-                            'alt'   => $label,
-                            'class' => 'noselect',
+                        'src'   => $rcmail->output->asset_url($addicon, true),
+                        'alt'   => $label,
+                        'class' => 'noselect',
                     ]);
                     $address .= html::a([
                             'href'    => '#add',
@@ -1475,8 +1446,7 @@ class rcmail_action_mail_index extends rcmail_action
                         $addicon == 'virtual' ? '' : $icon
                     );
                 }
-            }
-            else {
+            } else {
                 $address = $name ? rcube::Q($name) : '';
                 if ($mailto) {
                     $address = trim($address . ' ' . rcube::Q($name ? sprintf('<%s>', $mailto) : $mailto));
@@ -1494,8 +1464,7 @@ class rcmail_action_mail_index extends rcmail_action
             if ($max && $j == $max && $c > $j) {
                 if ($linked) {
                     $moreadrs = $c - $j;
-                }
-                else {
+                } else {
                     $out .= '...';
                     break;
                 }
@@ -1512,16 +1481,15 @@ class rcmail_action_mail_index extends rcmail_action
                         'onclick' => '$(this).hide().next().show()',
                     ], $label)
                     . html::span(['style' => 'display:none'], implode(', ', array_diff($allvalues, $shown_addresses)));
-            }
-            else {
+            } else {
                 $out .= ', ' . html::a([
-                        'href'    => '#more',
-                        'class'   => 'morelink',
-                        'onclick' => sprintf("return %s.simple_dialog('%s','%s',null,{cancel_button:'close'})",
-                            rcmail_output::JS_OBJECT_NAME,
-                            rcube::JQ(implode(', ', $allvalues)),
-                            rcube::JQ($title)),
-                    ], $label);
+                    'href'    => '#more',
+                    'class'   => 'morelink',
+                    'onclick' => sprintf("return %s.simple_dialog('%s','%s',null,{cancel_button:'close'})",
+                        rcmail_output::JS_OBJECT_NAME,
+                        rcube::JQ(implode(', ', $allvalues)),
+                        rcube::JQ($title)),
+                ], $label);
             }
         }
 
@@ -1545,8 +1513,7 @@ class rcmail_action_mail_index extends rcmail_action
         if ($filename === '') {
             if ($attachment->mimetype == 'text/html') {
                 $filename = $rcmail->gettext('htmlmessage');
-            }
-            else {
+            } else {
                 $ext      = array_first((array) rcube_mime::get_mime_extensions($attachment->mimetype));
                 $filename = $rcmail->gettext('messagepart') . ' ' . $attachment->mime_id;
                 if ($ext) {
@@ -1650,8 +1617,7 @@ class rcmail_action_mail_index extends rcmail_action
 
             $rcmail->output->show_message('messageopenerror', 'error');
             $rcmail->output->send('messageerror');
-        }
-        else {
+        } else {
             $rcmail->raise_error(['code' => 410], false, true);
         }
     }

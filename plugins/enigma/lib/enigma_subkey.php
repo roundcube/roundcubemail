@@ -33,7 +33,7 @@ class enigma_subkey
      *
      * @return string Key ID
      */
-    function get_short_id()
+    public function get_short_id()
     {
         // E.g. 04622F2089E037A5 => 89E037A5
         return enigma_key::format_id($this->id);
@@ -44,7 +44,7 @@ class enigma_subkey
      *
      * @return string Formatted fingerprint
      */
-    function get_fingerprint()
+    public function get_fingerprint()
     {
         return enigma_key::format_fingerprint($this->fingerprint);
     }
@@ -54,7 +54,7 @@ class enigma_subkey
      *
      * @return string Algorithm name
      */
-    function get_algorithm()
+    public function get_algorithm()
     {
         // http://tools.ietf.org/html/rfc4880#section-9.1
         switch ($this->algorithm) {
@@ -83,7 +83,7 @@ class enigma_subkey
      *
      * @return bool
      */
-    function is_expired()
+    public function is_expired()
     {
         $now = new DateTime('now');
 
@@ -97,7 +97,7 @@ class enigma_subkey
      *
      * @return string|int|null
      */
-    function get_creation_date($asInt = false)
+    public function get_creation_date($asInt = false)
     {
         if (empty($this->created)) {
             return $asInt ? 0 : null;
@@ -117,7 +117,7 @@ class enigma_subkey
      *
      * @return string|null
      */
-    function get_expiration_date()
+    public function get_expiration_date()
     {
         if (empty($this->expires)) {
             return null;

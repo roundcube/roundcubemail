@@ -87,8 +87,7 @@ class markasjunk_cmd_learn
 
                     if (!empty($val)) {
                         $tmp_command = str_replace('%h:' . $header, escapeshellarg($val), $tmp_command);
-                    }
-                    else {
+                    } else {
                         if ($debug) {
                             rcube::write_log('markasjunk', "header {$header} not found in message {$src_mbox}/{$uid}");
                         }

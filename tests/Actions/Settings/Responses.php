@@ -8,9 +8,9 @@ class Actions_Settings_Responses extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
-        $action = new rcmail_action_settings_responses;
+        $action = new rcmail_action_settings_responses();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'responses');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -32,7 +32,7 @@ class Actions_Settings_Responses extends ActionTestCase
     /**
      * Test responses_list() method
      */
-    function test_responses_list()
+    public function test_responses_list()
     {
         $rcmail = rcmail::get_instance();
         $rcmail->user->save_prefs([
@@ -43,7 +43,7 @@ class Actions_Settings_Responses extends ActionTestCase
 
         self::initDB('responses');
 
-        $action = new rcmail_action_settings_responses;
+        $action = new rcmail_action_settings_responses();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'responses');
 
         $result = $action->responses_list([]);

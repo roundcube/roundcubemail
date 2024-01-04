@@ -19,7 +19,7 @@ class virtuser_file extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $this->app  = rcmail::get_instance();
         $this->file = $this->app->config->get('virtuser_file');
@@ -33,7 +33,7 @@ class virtuser_file extends rcube_plugin
     /**
      * User > Email
      */
-    function user2email($p)
+    public function user2email($p)
     {
         $r = $this->findinvirtual('/\s' . preg_quote($p['user'], '/') . '\s*$/');
         $result = [];
@@ -59,7 +59,7 @@ class virtuser_file extends rcube_plugin
     /**
      * Email > User
      */
-    function email2user($p)
+    public function email2user($p)
     {
         $r = $this->findinvirtual('/^' . preg_quote($p['email'], '/') . '\s/');
 

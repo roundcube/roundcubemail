@@ -32,7 +32,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
-    function languages()
+    public function languages()
     {
         $this->init();
 
@@ -77,7 +77,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
-    function check($text)
+    public function check($text)
     {
         $this->init();
 
@@ -98,8 +98,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
 
             if ($this->dictionary->is_exception($word)) {
                 // skip exceptions
-            }
-            elseif (!enchant_dict_check($this->enchant_dictionary, $word)) {
+            } elseif (!enchant_dict_check($this->enchant_dictionary, $word)) {
                 $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
 
                 if (is_array($suggestions) && count($suggestions) > self::MAX_SUGGESTIONS) {
@@ -121,7 +120,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
-    function get_suggestions($word)
+    public function get_suggestions($word)
     {
         $this->init();
 
@@ -143,7 +142,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
-    function get_words($text = null)
+    public function get_words($text = null)
     {
         $result = [];
 

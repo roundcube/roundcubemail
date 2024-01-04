@@ -30,7 +30,7 @@ class rcube_directadmin_password
     public function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();
-        $Socket = new HTTPSocket;
+        $Socket = new HTTPSocket();
 
         $da_user    = $_SESSION['username'];
         $da_curpass = $curpass;
@@ -45,14 +45,14 @@ class rcube_directadmin_password
         $da_host = str_replace('%h', $_SESSION['imap_host'], $da_host);
         $da_host = str_replace('%d', $rcmail->user->get_username('domain'), $da_host);
 
-        $Socket->connect($da_host,$da_port);
+        $Socket->connect($da_host, $da_port);
         $Socket->set_method('POST');
         $Socket->query('/CMD_CHANGE_EMAIL_PASSWORD', [
-                'email'         => $da_user,
-                'oldpassword'   => $da_curpass,
-                'password1'     => $da_newpass,
-                'password2'     => $da_newpass,
-                'api'           => '1',
+            'email'         => $da_user,
+            'oldpassword'   => $da_curpass,
+            'password1'     => $da_newpass,
+            'password2'     => $da_newpass,
+            'api'           => '1',
         ]);
 
         $response = $Socket->fetch_parsed_body();
@@ -88,37 +88,37 @@ class rcube_directadmin_password
  */
 class HTTPSocket
 {
-    var $version = '3.0.2';
+    public $version = '3.0.2';
 
     // all vars are private except $error, $query_cache, and $doFollowLocationHeader
 
-    var $method = 'GET';
+    public $method = 'GET';
 
-    var $remote_host;
-    var $remote_port;
-    var $remote_uname;
-    var $remote_passwd;
+    public $remote_host;
+    public $remote_port;
+    public $remote_uname;
+    public $remote_passwd;
 
-    var $result;
-    var $result_header;
-    var $result_body;
-    var $result_status_code;
+    public $result;
+    public $result_header;
+    public $result_body;
+    public $result_status_code;
 
-    var $lastTransferSpeed;
-    var $bind_host;
-    var $error       = [];
-    var $warn        = [];
-    var $query_cache = [];
-    var $doFollowLocationHeader = true;
-    var $redirectURL;
-    var $max_redirects = 5;
-    var $ssl_setting_message = 'DirectAdmin appears to be using SSL. Change your script to connect to ssl://';
-    var $extra_headers = [];
+    public $lastTransferSpeed;
+    public $bind_host;
+    public $error       = [];
+    public $warn        = [];
+    public $query_cache = [];
+    public $doFollowLocationHeader = true;
+    public $redirectURL;
+    public $max_redirects = 5;
+    public $ssl_setting_message = 'DirectAdmin appears to be using SSL. Change your script to connect to ssl://';
+    public $extra_headers = [];
 
     /**
      * Create server "connection".
      */
-    function connect($host, $port = '')
+    public function connect($host, $port = '')
     {
         if (!is_numeric($port)) {
             $port = 2222;
@@ -128,7 +128,7 @@ class HTTPSocket
         $this->remote_port = $port;
     }
 
-    function bind($ip = '')
+    public function bind($ip = '')
     {
         if ($ip == '') {
             $ip = $_SERVER['SERVER_ADDR'];
@@ -142,7 +142,7 @@ class HTTPSocket
      *
      * @param string|null $method request method. supports GET, POST, and HEAD. default is GET
      */
-    function set_method($method = 'GET')
+    public function set_method($method = 'GET')
     {
         $this->method = strtoupper($method);
     }
@@ -153,7 +153,7 @@ class HTTPSocket
      * @param string|null $uname  username. default is null
      * @param string|null $passwd password. default is null
      */
-    function set_login($uname = '', $passwd = '')
+    public function set_login($uname = '', $passwd = '')
     {
         if (strlen($uname) > 0) {
             $this->remote_uname = $uname;
@@ -170,7 +170,7 @@ class HTTPSocket
      * @param string       $request containing properly formatted server API. See DA API docs and examples. Http:// URLs O.K. too.
      * @param string|array $content query to pass to url
      */
-    function query($request, $content = '')
+    public function query($request, $content = '')
     {
         $this->error = $this->warn = [];
         $this->result_status_code  = null;
@@ -178,13 +178,12 @@ class HTTPSocket
         $is_ssl = false;
 
         // is our request a http:// ... ?
-        if (preg_match('!^http://!i',$request) || preg_match('!^https://!i',$request)) {
+        if (preg_match('!^http://!i', $request) || preg_match('!^https://!i', $request)) {
             $location = parse_url($request);
-            if (preg_match('!^https://!i',$request)) {
-                $this->connect('https://' . $location['host'],$location['port']);
-            }
-            else {
-                $this->connect('http://' . $location['host'],$location['port']);
+            if (preg_match('!^https://!i', $request)) {
+                $this->connect('https://' . $location['host'], $location['port']);
+            } else {
+                $this->connect('http://' . $location['host'], $location['port']);
             }
 
             $this->set_login($location['user'], $location['pass']);
@@ -232,7 +231,7 @@ class HTTPSocket
                 $pairs[] = "$key=" . urlencode($value);
             }
 
-            $content = implode('&',$pairs);
+            $content = implode('&', $pairs);
             unset($pairs);
         }
 
@@ -251,7 +250,7 @@ class HTTPSocket
         }
 
         curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, \CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, \CURLOPT_USERAGENT, "HTTPSocket/$this->version");
         curl_setopt($ch, \CURLOPT_FORBID_REUSE, 1);
         curl_setopt($ch, \CURLOPT_TIMEOUT, 100);
@@ -328,7 +327,7 @@ class HTTPSocket
         }
     }
 
-    function getTransferSpeed()
+    public function getTransferSpeed()
     {
         return $this->lastTransferSpeed;
     }
@@ -341,7 +340,7 @@ class HTTPSocket
      *
      * @return string result body
      */
-    function get($location, $asArray = false)
+    public function get($location, $asArray = false)
     {
         $this->query($location);
 
@@ -364,7 +363,7 @@ class HTTPSocket
      *
      * @return int status code
      */
-    function get_status_code()
+    public function get_status_code()
     {
         return $this->result_status_code;
     }
@@ -375,7 +374,7 @@ class HTTPSocket
      * @param string $key   header name
      * @param string $value header value
      */
-    function add_header($key, $value)
+    public function add_header($key, $value)
     {
         $this->extra_headers[$key] = $value;
     }
@@ -383,7 +382,7 @@ class HTTPSocket
     /**
      * Clears any extra headers.
      */
-    function clear_headers()
+    public function clear_headers()
     {
         $this->extra_headers = [];
     }
@@ -393,7 +392,7 @@ class HTTPSocket
      *
      * @return string result
      */
-    function fetch_result()
+    public function fetch_result()
     {
         return $this->result;
     }
@@ -405,7 +404,7 @@ class HTTPSocket
      *
      * @return array result header
      */
-    function fetch_header($header = '')
+    public function fetch_header($header = '')
     {
         $array_headers = preg_split("/\r\n/", $this->result_header);
 
@@ -432,7 +431,7 @@ class HTTPSocket
      *
      * @return string result body
      */
-    function fetch_body()
+    public function fetch_body()
     {
         return $this->result_body;
     }
@@ -442,7 +441,7 @@ class HTTPSocket
      *
      * @return array result parsed
      */
-    function fetch_parsed_body()
+    public function fetch_parsed_body()
     {
         parse_str($this->result_body, $x);
         return $x;
@@ -451,7 +450,7 @@ class HTTPSocket
     /**
      * Set a specific message on how to change the SSL setting, in the event that it's not set correctly.
      */
-    function set_ssl_setting_message($str)
+    public function set_ssl_setting_message($str)
     {
         $this->ssl_setting_message = $str;
     }

@@ -8,9 +8,9 @@ class Actions_Utils_Modcss extends ActionTestCase
     /**
      * Test for run()
      */
-    function test_run()
+    public function test_run()
     {
-        $action = new rcmail_action_utils_modcss;
+        $action = new rcmail_action_utils_modcss();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'utils', 'modcss');
 
         $this->assertInstanceOf('rcmail_action', $action);

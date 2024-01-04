@@ -31,7 +31,7 @@ class virtuser_query extends rcube_plugin
     private $app;
     private $db;
 
-    function init()
+    public function init()
     {
         $this->app    = rcmail::get_instance();
         $this->config = $this->app->config->get('virtuser_query');
@@ -59,7 +59,7 @@ class virtuser_query extends rcube_plugin
     /**
      * User > Email
      */
-    function user2email($p)
+    public function user2email($p)
     {
         $dbh = $this->get_dbh();
 
@@ -78,8 +78,7 @@ class virtuser_query extends rcube_plugin
                         'signature'      => $sql_arr[5] ?? '',
                         'html_signature' => isset($sql_arr[6]) ? intval($sql_arr[6]) : 0,
                     ];
-                }
-                else {
+                } else {
                     $result[] = $sql_arr[0];
                 }
 
@@ -97,7 +96,7 @@ class virtuser_query extends rcube_plugin
     /**
      * EMail > User
      */
-    function email2user($p)
+    public function email2user($p)
     {
         $dbh = $this->get_dbh();
 
@@ -113,7 +112,7 @@ class virtuser_query extends rcube_plugin
     /**
      * User > Host
      */
-    function user2host($p)
+    public function user2host($p)
     {
         $dbh = $this->get_dbh();
 
@@ -129,7 +128,7 @@ class virtuser_query extends rcube_plugin
     /**
      * Alias > User
      */
-    function alias2user($p)
+    public function alias2user($p)
     {
         $dbh = $this->get_dbh();
 
@@ -145,7 +144,7 @@ class virtuser_query extends rcube_plugin
     /**
      * Initialize database handler
      */
-    function get_dbh()
+    public function get_dbh()
     {
         if (!$this->db) {
             if ($dsn = $this->app->config->get('virtuser_query_dsn')) {
@@ -153,8 +152,7 @@ class virtuser_query extends rcube_plugin
                 $this->db = rcube_db::factory($dsn);
                 $this->db->set_debug((bool) $this->app->config->get('sql_debug'));
                 $this->db->db_connect('r'); // connect in read mode
-            }
-            else {
+            } else {
                 $this->db = $this->app->get_dbh();
             }
         }

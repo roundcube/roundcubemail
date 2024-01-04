@@ -8,7 +8,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_base_replacer('test');
 
@@ -18,7 +18,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
     /**
      * Test replace()
      */
-    function test_replace()
+    public function test_replace()
     {
         $base = 'http://thisshouldntbetheurl.bob.com/';
         $html = '<A href=http://shouldbethislink.com>Test URL</A>';
@@ -32,7 +32,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
     /**
      * Data for absolute_url() test
      */
-    function data_absolute_url(): iterable
+    public function data_absolute_url(): iterable
     {
         return [
             ['', 'http://test', 'http://test/'],
@@ -50,7 +50,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_absolute_url
      */
-    function test_absolute_url($path, $base, $expected)
+    public function test_absolute_url($path, $base, $expected)
     {
         $replacer = new rcube_base_replacer('test');
         $result   = $replacer->absolute_url($path, $base);

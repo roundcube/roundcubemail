@@ -55,8 +55,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $prefer_html = $_GET['_format'] == 'html';
                 $rcmail->config->set('prefer_html', $prefer_html);
                 $_SESSION['msg_formats'][$mbox_name . ':' . $uid] = $prefer_html;
-            }
-            elseif (isset($_SESSION['msg_formats'][$mbox_name . ':' . $uid])) {
+            } elseif (isset($_SESSION['msg_formats'][$mbox_name . ':' . $uid])) {
                 $rcmail->config->set('prefer_html', $_SESSION['msg_formats'][$mbox_name . ':' . $uid]);
             }
 
@@ -129,13 +128,12 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $v = intval($rcmail->config->get('mail_read_time'));
                 if ($v > 0) {
                     $rcmail->output->set_env('mail_read_time', $v);
-                }
-                elseif ($v == 0) {
+                } elseif ($v == 0) {
                     $rcmail->output->command('set_unread_message', $MESSAGE->uid, $mbox_name);
                     $rcmail->plugins->exec_hook('message_read', [
-                            'uid'     => $MESSAGE->uid,
-                            'mailbox' => $mbox_name,
-                            'message' => $MESSAGE,
+                        'uid'     => $MESSAGE->uid,
+                        'mailbox' => $mbox_name,
+                        'message' => $MESSAGE,
                     ]);
 
                     $set_seen_flag = true;
@@ -144,23 +142,21 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         }
 
         $rcmail->output->add_handlers([
-                'mailboxname'        => [$this, 'mailbox_name_display'],
-                'messageattachments' => [$this, 'message_attachments'],
-                'messageobjects'     => [$this, 'message_objects'],
-                'messagesummary'     => [$this, 'message_summary'],
-                'messageheaders'     => [$this, 'message_headers'],
-                'messagefullheaders' => [$this, 'message_full_headers'],
-                'messagebody'        => [$this, 'message_body'],
-                'contactphoto'       => [$this, 'message_contactphoto'],
+            'mailboxname'        => [$this, 'mailbox_name_display'],
+            'messageattachments' => [$this, 'message_attachments'],
+            'messageobjects'     => [$this, 'message_objects'],
+            'messagesummary'     => [$this, 'message_summary'],
+            'messageheaders'     => [$this, 'message_headers'],
+            'messagefullheaders' => [$this, 'message_full_headers'],
+            'messagebody'        => [$this, 'message_body'],
+            'contactphoto'       => [$this, 'message_contactphoto'],
         ]);
 
         if ($rcmail->action == 'print' && $rcmail->output->template_exists('messageprint')) {
             $rcmail->output->send('messageprint', false);
-        }
-        elseif ($rcmail->action == 'preview' && $rcmail->output->template_exists('messagepreview')) {
+        } elseif ($rcmail->action == 'preview' && $rcmail->output->template_exists('messagepreview')) {
             $rcmail->output->send('messagepreview', false);
-        }
-        else {
+        } else {
             $rcmail->output->send('message', false);
         }
 
@@ -213,8 +209,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             if (!empty($attrib['maxlength']) && mb_strlen($filename) > $attrib['maxlength']) {
                 $title    = $filename;
                 $filename = abbreviate_string($filename, $attrib['maxlength']);
-            }
-            else {
+            } else {
                 $title = '';
             }
 
@@ -397,14 +392,13 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         if (!empty(self::$MESSAGE->sender)) {
             $photo_img = $rcmail->url([
-                    '_task'   => 'addressbook',
-                    '_action' => 'photo',
-                    '_email'  => self::$MESSAGE->sender['mailto'],
-                    '_error'  => $error_handler ? 1 : null,
-                    '_bgcolor' => $attrib['bg-color'] ?? null,
+                '_task'   => 'addressbook',
+                '_action' => 'photo',
+                '_email'  => self::$MESSAGE->sender['mailto'],
+                '_error'  => $error_handler ? 1 : null,
+                '_bgcolor' => $attrib['bg-color'] ?? null,
             ]);
-        }
-        else {
+        } else {
             $photo_img = $placeholder;
         }
 
@@ -421,8 +415,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         // keep header table attrib
         if (is_array($attrib) && !$sa_attrib && empty($attrib['valueof'])) {
             $sa_attrib = $attrib;
-        }
-        elseif (!is_array($attrib) && is_array($sa_attrib)) {
+        } elseif (!is_array($attrib) && is_array($sa_attrib)) {
             $attrib = $sa_attrib;
         }
 
@@ -436,12 +429,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         if (!$headers) {
             $headers_obj = self::$MESSAGE->headers;
             $headers     = get_object_vars(self::$MESSAGE->headers);
-        }
-        elseif (is_object($headers)) {
+        } elseif (is_object($headers)) {
             $headers_obj = $headers;
             $headers     = get_object_vars($headers_obj);
-        }
-        else {
+        } else {
             $headers_obj = rcube_message_header::from_array($headers);
         }
 
@@ -459,11 +450,9 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $value = null;
             if (!empty($headers[$hkey])) {
                 $value = $headers[$hkey];
-            }
-            elseif (!empty($headers['others'][$hkey])) {
+            } elseif (!empty($headers['others'][$hkey])) {
                 $value = $headers['others'][$hkey];
-            }
-            elseif (empty($attrib['valueof'])) {
+            } elseif (empty($attrib['valueof'])) {
                 continue;
             }
 
@@ -478,41 +467,33 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             if ($hkey == 'date') {
                 $header_value = $rcmail->format_date($value,
                     self::$PRINT_MODE ? $rcmail->config->get('date_long', 'x') : null);
-            }
-            elseif ($hkey == 'priority') {
+            } elseif ($hkey == 'priority') {
                 $header_value = html::span('prio' . $value, rcube::Q(self::localized_priority($value)));
                 $ishtml       = true;
-            }
-            elseif ($hkey == 'replyto') {
+            } elseif ($hkey == 'replyto') {
                 if ($value != $headers['from']) {
                     $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }
-            }
-            elseif ($hkey == 'mail-reply-to') {
+            } elseif ($hkey == 'mail-reply-to') {
                 if ((!isset($headers['replyto']) || $value != $headers['replyto']) && $value != $headers['from']) {
                     $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }
-            }
-            elseif ($hkey == 'sender') {
+            } elseif ($hkey == 'sender') {
                 if ($value != $headers['from']) {
                     $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                     $ishtml = true;
                 }
-            }
-            elseif ($hkey == 'mail-followup-to') {
+            } elseif ($hkey == 'mail-followup-to') {
                 $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                 $ishtml = true;
-            }
-            elseif (in_array($hkey, ['from', 'to', 'cc', 'bcc'])) {
+            } elseif (in_array($hkey, ['from', 'to', 'cc', 'bcc'])) {
                 $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                 $ishtml = true;
-            }
-            elseif ($hkey == 'subject' && empty($value)) {
+            } elseif ($hkey == 'subject' && empty($value)) {
                 $header_value = $rcmail->gettext('nosubject');
-            }
-            else {
+            } else {
                 $value        = is_array($value) ? implode(' ', $value) : $value;
                 $header_value = trim(rcube_mime::decode_header($value, $charset));
             }
@@ -530,11 +511,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         }
 
         $plugin = $rcmail->plugins->exec_hook('message_headers_output', [
-                'output'  => $output_headers,
-                'headers' => $headers_obj,
-                'exclude' => $exclude_headers,       // readonly
-                'folder'  => self::$MESSAGE->folder, // readonly
-                'uid'     => self::$MESSAGE->uid,    // readonly
+            'output'  => $output_headers,
+            'headers' => $headers_obj,
+            'exclude' => $exclude_headers,       // readonly
+            'folder'  => self::$MESSAGE->folder, // readonly
+            'uid'     => self::$MESSAGE->uid,    // readonly
         ]);
 
         // single header value is requested
@@ -625,10 +606,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             html::div(['id' => 'headers-source'], ''));
 
         $html .= html::div([
-                'class'   => 'more-headers show-headers',
-                'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('show-headers','',this)",
-                'title'   => $rcmail->gettext('togglefullheaders'),
-            ], '');
+            'class'   => 'more-headers show-headers',
+            'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('show-headers','',this)",
+            'title'   => $rcmail->gettext('togglefullheaders'),
+        ], '');
 
         $rcmail->output->add_gui_object('all_headers_row', 'all-headers');
         $rcmail->output->add_gui_object('all_headers_box', 'headers-source');
@@ -672,8 +653,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             foreach (self::$MESSAGE->parts as $part) {
                 if ($part->type == 'headers') {
                     $out .= html::div('message-partheaders', self::message_headers(count($header_attrib) ? $header_attrib : null, $part->headers));
-                }
-                elseif ($part->type == 'content') {
+                } elseif ($part->type == 'content') {
                     // unsupported (e.g. encrypted)
                     if (!empty($part->realtype)) {
                         if ($part->realtype == 'multipart/encrypted' || $part->realtype == 'application/pkcs7-mime') {
@@ -692,8 +672,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                             }
                         }
                         continue;
-                    }
-                    elseif (!$part->size) {
+                    } elseif (!$part->size) {
                         continue;
                     }
                     // Check if we have enough memory to handle the message in it
@@ -749,14 +728,12 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     $out .= html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
                 }
             }
-        }
-        else {
+        } else {
             // Check if we have enough memory to handle the message in it
             // #1487424: we need up to 10x more memory than the body
             if (isset(self::$MESSAGE->body) && !rcube_utils::mem_check(strlen(self::$MESSAGE->body) * 10)) {
                 $out .= self::part_too_big_message(self::$MESSAGE, 0);
-            }
-            else {
+            } else {
                 $plugin = $rcmail->plugins->exec_hook('message_body_prefix',
                     ['part' => self::$MESSAGE, 'prefix' => '']);
 
@@ -812,8 +789,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                             html::span('attachment-links', ($supported ? $show_link . '&nbsp;' : '') . $download_link) .
                             html::br(['style' => 'clear:both'])
                         );
-                    }
-                    else {
+                    } else {
                         $out .= html::tag('fieldset', 'image-attachment',
                             html::tag('legend', 'image-filename', rcube::Q($attach_prop->filename)) .
                             html::p(['align' => 'center'],
@@ -852,13 +828,13 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
         $token  = $rcmail->get_request_token();
         $url    = $rcmail->url([
-                'task'     => 'mail',
-                'action'   => 'get',
-                'download' => 1,
-                'uid'      => $message->uid,
-                'part'     => $part_id,
-                'mbox'     => $message->folder,
-                'token'    => $token,
+            'task'     => 'mail',
+            'action'   => 'get',
+            'download' => 1,
+            'uid'      => $message->uid,
+            'part'     => $part_id,
+            'mbox'     => $message->folder,
+            'token'    => $token,
         ]);
 
         return html::span('part-notice', $rcmail->gettext('messagetoobig')
@@ -904,18 +880,14 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 // Send MDN
                 if (rcmail_action_mail_sendmdn::send_mdn($message, $smtp_error)) {
                     $rcmail->output->show_message('receiptsent', 'confirmation');
-                }
-                elseif ($smtp_error && is_string($smtp_error)) {
+                } elseif ($smtp_error && is_string($smtp_error)) {
                     $rcmail->output->show_message($smtp_error, 'error');
-                }
-                elseif ($smtp_error && !empty($smtp_error['label'])) {
+                } elseif ($smtp_error && !empty($smtp_error['label'])) {
                     $rcmail->output->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
-                }
-                else {
+                } else {
                     $rcmail->output->show_message('errorsendingreceipt', 'error');
                 }
-            }
-            elseif ($mdn_cfg != 2 && $mdn_cfg != 4 && $mdn_cfg != 6) {
+            } elseif ($mdn_cfg != 2 && $mdn_cfg != 4 && $mdn_cfg != 6) {
                 // Ask the user
                 $rcmail->output->add_label('sendreceipt', 'mdnrequest', 'send', 'sendalwaysto', 'ignore');
                 $rcmail->output->set_env('mdn_request_save', $mdn_cfg == 3 || $mdn_cfg == 5 ? $mdn_cfg : 0);

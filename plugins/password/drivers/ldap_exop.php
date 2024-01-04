@@ -31,16 +31,14 @@ require_once __DIR__ . '/ldap_simple.php';
 
 class rcube_ldap_exop_password extends rcube_ldap_simple_password
 {
-    function save($curpass, $passwd)
+    public function save($curpass, $passwd)
     {
         if (!function_exists('ldap_exop_passwd')) {
             rcube::raise_error([
-                    'code' => 100, 'type' => 'ldap',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'ldap_exop_passwd not supported',
-                ],
-                true
-            );
+                'code' => 100, 'type' => 'ldap',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'ldap_exop_passwd not supported',
+            ], true);
 
             return PASSWORD_ERROR;
         }

@@ -8,7 +8,7 @@ class Framework_SpellcheckerPspell extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_spellchecker_pspell(null, 'en');
 
@@ -19,7 +19,7 @@ class Framework_SpellcheckerPspell extends PHPUnit\Framework\TestCase
     /**
      * Test languages() method
      */
-    function test_languages()
+    public function test_languages()
     {
         if (!extension_loaded('pspell')) {
             $this->markTestSkipped();
@@ -37,7 +37,7 @@ class Framework_SpellcheckerPspell extends PHPUnit\Framework\TestCase
     /**
      * Test check() method
      */
-    function test_check()
+    public function test_check()
     {
         if (!extension_loaded('pspell')) {
             $this->markTestSkipped();
@@ -87,7 +87,7 @@ class Framework_SpellcheckerPspell extends PHPUnit\Framework\TestCase
     /**
      * Test get_suggestions() method
      */
-    function test_get_suggestions()
+    public function test_get_suggestions()
     {
         if (!extension_loaded('pspell')) {
             $this->markTestSkipped();
@@ -109,7 +109,7 @@ class Framework_SpellcheckerPspell extends PHPUnit\Framework\TestCase
     /**
      * Test get_words() method
      */
-    function test_get_words()
+    public function test_get_words()
     {
         if (!extension_loaded('pspell')) {
             $this->markTestSkipped();

@@ -8,9 +8,9 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test searching mail (empty result)
      */
-    function test_search_empty_result()
+    public function test_search_empty_result()
     {
-        $action = new rcmail_action_mail_search;
+        $action = new rcmail_action_mail_search();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'search');
 
         $this->assertTrue($action->checks());
@@ -54,9 +54,9 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test searching mail (non-empty result)
      */
-    function test_search_non_empty_result()
+    public function test_search_non_empty_result()
     {
-        $action = new rcmail_action_mail_search;
+        $action = new rcmail_action_mail_search();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'search');
 
         $_GET = [
@@ -114,7 +114,7 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test data for test_search_input()
      */
-    function data_search_input(): iterable
+    public function data_search_input(): iterable
     {
         $week  = new DateInterval('P1W');
         $weekDate = (new DateTime('now', new DateTimeZone('UTC')))->sub($week)->format('j-M-Y');
@@ -286,12 +286,11 @@ class Actions_Mail_Search extends ActionTestCase
      *
      * @dataProvider data_search_input
      */
-    function test_search_input($input, $output)
+    public function test_search_input($input, $output)
     {
         if (is_array($input)) {
             $result = call_user_func_array('rcmail_action_mail_search::search_input', $input);
-        }
-        else {
+        } else {
             $result = rcmail_action_mail_search::search_input($input);
         }
 
@@ -301,7 +300,7 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test data for test_search_interval_criteria()
      */
-    function data_search_interval_criteria(): iterable
+    public function data_search_interval_criteria(): iterable
     {
         $week  = new DateInterval('P1W');
         $month = new DateInterval('P1M');
@@ -325,7 +324,7 @@ class Actions_Mail_Search extends ActionTestCase
      *
      * @dataProvider data_search_interval_criteria
      */
-    function test_search_interval_criteria($input, $output)
+    public function test_search_interval_criteria($input, $output)
     {
         $result = rcmail_action_mail_search::search_interval_criteria($input);
         $this->assertSame($output, $result);

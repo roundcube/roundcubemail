@@ -225,8 +225,7 @@ trait rcube_uploads
                     if (empty($file['path'])) {
                         $orig_name = $filename = $cache_file . '.tmp';
                         file_put_contents($orig_name, $file['data']);
-                    }
-                    else {
+                    } else {
                         $filename = $file['path'];
                     }
 
@@ -256,8 +255,7 @@ trait rcube_uploads
 
             if (isset($file['data']) && is_string($file['data'])) {
                 echo $file['data'];
-            }
-            elseif (!empty($file['path'])) {
+            } elseif (!empty($file['path'])) {
                 readfile($file['path']);
             }
         }

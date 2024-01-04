@@ -10,7 +10,7 @@ class VcardAttachments_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Plugin object construction test
      */
-    function test_constructor()
+    public function test_constructor()
     {
         $rcube  = rcube::get_instance();
         $plugin = new vcard_attachments($rcube->plugins);
@@ -22,7 +22,7 @@ class VcardAttachments_Plugin extends PHPUnit\Framework\TestCase
     /**
      * Test is_vcard()
      */
-    function test_is_vcard()
+    public function test_is_vcard()
     {
         $rcube  = rcube::get_instance();
         $plugin = new vcard_attachments($rcube->plugins);

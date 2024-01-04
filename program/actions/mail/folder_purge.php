@@ -63,8 +63,7 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
             // set trash folder state
             if ($mbox === $trash_mbox) {
                 $rcmail->output->command('set_trash_count', 0);
-            }
-            elseif (strlen($trash_mbox)) {
+            } elseif (strlen($trash_mbox)) {
                 $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash_mbox, 'EXISTS'));
             }
 
@@ -80,8 +79,7 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
                 $rcmail->output->command('set_rowcount', self::get_messagecount_text(), $mbox);
                 $rcmail->output->command('set_quota', self::quota_content(null, $mbox));
             }
-        }
-        else {
+        } else {
             self::display_server_error();
         }
 

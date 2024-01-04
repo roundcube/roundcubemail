@@ -116,7 +116,7 @@ abstract class rcube_output
      * @param bool   $override Override last set message
      * @param int    $timeout  Message displaying time in seconds
      */
-    abstract function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
+    abstract public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
 
     /**
      * Redirect to a certain url.
@@ -124,12 +124,12 @@ abstract class rcube_output
      * @param array|string $p     Either a string with the action or url parameters as key-value pairs
      * @param int          $delay Delay in seconds
      */
-    abstract function redirect($p = [], $delay = 1);
+    abstract public function redirect($p = [], $delay = 1);
 
     /**
      * Send output to the client.
      */
-    abstract function send();
+    abstract public function send();
 
     /**
      * Send HTTP headers to prevent caching a page
@@ -147,8 +147,7 @@ abstract class rcube_output
         if ($this->browser->ie && rcube_utils::https_check()) {
             header('Pragma: private');
             header('Cache-Control: private, must-revalidate');
-        }
-        else {
+        } else {
             header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
             header('Pragma: no-cache');
         }
@@ -252,8 +251,7 @@ abstract class rcube_output
             // For non-ascii characters we'll use RFC2231 syntax
             if (!preg_match('/[^a-zA-Z0-9_.:,?;@+ -]/', $filename)) {
                 $disposition .= "; filename=\"{$filename}\"";
-            }
-            else {
+            } else {
                 $filename = rawurlencode($filename);
                 $charset  = $this->charset;
                 if (!empty($params['charset']) && rcube_charset::is_valid($params['charset'])) {
@@ -319,14 +317,12 @@ abstract class rcube_output
         if ($type == 'checkbox') {
             $attrib['value'] = '1';
             $input = new html_checkbox($attrib);
-        }
-        elseif ($type == 'textarea') {
+        } elseif ($type == 'textarea') {
             if (!empty($attrib['size'])) {
                 $attrib['cols'] = $attrib['size'];
             }
             $input = new html_textarea($attrib);
-        }
-        elseif ($type == 'select') {
+        } elseif ($type == 'select') {
             $input = new html_select($attrib);
             if (empty($attrib['skip-empty'])) {
                 $input->add('---', '');
@@ -334,11 +330,9 @@ abstract class rcube_output
             if (!empty($attrib['options'])) {
                 $input->add(array_values($attrib['options']), array_keys($attrib['options']));
             }
-        }
-        elseif ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
+        } elseif ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
             $input = new html_passwordfield($attrib);
-        }
-        else {
+        } else {
             if (!isset($attrib['type']) || ($attrib['type'] != 'text' && $attrib['type'] != 'hidden')) {
                 $attrib['type'] = 'text';
             }
@@ -354,8 +348,7 @@ abstract class rcube_output
                 }
                 $idx   = intval($colcounts[$name]++);
                 $value = $postvalue[$idx] ?? null;
-            }
-            else {
+            } else {
                 $value = $postvalue;
             }
         }

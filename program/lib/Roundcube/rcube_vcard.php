@@ -206,11 +206,9 @@ class rcube_vcard
 
                         if (!empty($typemap[$combined])) {
                             $subtype = $typemap[$combined];
-                        }
-                        elseif (!empty($typemap[$raw['type'][++$k]])) {
+                        } elseif (!empty($typemap[$raw['type'][++$k]])) {
                             $subtype = $typemap[$raw['type'][$k]];
-                        }
-                        else {
+                        } else {
                             $subtype = $raw['type'][$k];
                         }
 
@@ -219,8 +217,7 @@ class rcube_vcard
                             if (!empty($raw['type'][$k])) {
                                 if (!empty($typemap[$raw['type'][$k]])) {
                                     $subtype = $typemap[$raw['type'][$k]];
-                                }
-                                else {
+                                } else {
                                     $subtype = $raw['type'][$k];
                                 }
                             }
@@ -271,12 +268,10 @@ class rcube_vcard
                     // support vCard v4 date format (YYYYMMDD)
                     elseif ($tag == 'BDAY' && preg_match('/^([12][90]\d\d)([01]\d)([0123]\d)$/', $raw[0], $m)) {
                         $out[$key][] = sprintf('%04d-%02d-%02d', intval($m[1]), intval($m[2]), intval($m[3]));
-                    }
-                    else {
+                    } else {
                         $out[$key][] = $raw[0];
                     }
-                }
-                else {
+                } else {
                     $out[$col][] = $raw;
                 }
             }
@@ -389,8 +384,7 @@ class rcube_vcard
                 if (strpos($value, 'http:') === 0) {
                     // TODO: fetch file from URL and save it locally?
                     $this->raw['PHOTO'][0] = [0 => $value, 'url' => true];
-                }
-                else {
+                } else {
                     $this->raw['PHOTO'][0] = [0 => $value, 'base64' => (bool) preg_match('![^a-z0-9/=+-]!i', $value)];
                 }
                 break;
@@ -455,8 +449,7 @@ class rcube_vcard
                             $type_val = !empty($typemap[$type_uc]) ? $typemap[$type_uc] : $type;
                             $this->raw[$tag][$index]['type'] = explode(',', $type_val);
                         }
-                    }
-                    else {
+                    } else {
                         unset($this->raw[$tag]);
                     }
                 }
@@ -581,8 +574,7 @@ class rcube_vcard
                 }
 
                 $in_vcard_block = false;
-            }
-            elseif (preg_match('/^BEGIN:VCARD$/i', $line)) {
+            } elseif (preg_match('/^BEGIN:VCARD$/i', $line)) {
                 $vcard_block    = $line . "\n";
                 $in_vcard_block = true;
             }
@@ -743,20 +735,17 @@ class rcube_vcard
                                 }
                             }
                             $enc = $value == 'BASE64' ? 'B' : $value;
-                        }
-                        else {
+                        } else {
                             $lc_key = strtolower($key);
                             $value  = (array) self::vcard_unquote($value, ',');
 
                             if (array_key_exists($lc_key, $entry)) {
                                 $entry[$lc_key] = array_merge((array) $entry[$lc_key], $value);
-                            }
-                            else {
+                            } else {
                                 $entry[$lc_key] = $value;
                             }
                         }
-                    }
-                    elseif ($attrid > 0) {
+                    } elseif ($attrid > 0) {
                         $entry[strtolower($key)] = true;  // true means attr without =value
                     }
                 }
@@ -771,8 +760,7 @@ class rcube_vcard
                     }
 
                     $data = self::decode_value($data, $enc ?: 'base64');
-                }
-                elseif ($field == 'PHOTO') {
+                } elseif ($field == 'PHOTO') {
                     // vCard 4.0 data URI, "PHOTO:data:image/jpeg;base64,..."
                     if (preg_match('/^data:[a-z\/_-]+;base64,/i', $data, $m)) {
                         $entry['encoding'] = $enc = 'B';
@@ -829,7 +817,7 @@ class rcube_vcard
      *
      * @return string vCard encoded string
      */
-    static function vcard_encode($data)
+    public static function vcard_encode($data)
     {
         $vcard = '';
 
@@ -859,20 +847,17 @@ class rcube_vcard
                                 $attrvalues = base64_encode($attrvalues);
                             }
                             $value[] = $attrvalues;
-                        }
-                        elseif (is_bool($attrvalues)) {
+                        } elseif (is_bool($attrvalues)) {
                             // true means just a tag, not tag=value, as in PHOTO;BASE64:...
                             if ($attrvalues) {
                                 // vCard v3 uses ENCODING=b (#1489183)
                                 if ($attrname == 'base64') {
                                     $attr .= ';ENCODING=b';
-                                }
-                                else {
+                                } else {
                                     $attr .= strtoupper(";$attrname");
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             foreach ((array) $attrvalues as $attrvalue) {
                                 $attrname = strtoupper($attrname);
                                 // TYPE=OTHER is non-standard, TYPE=INTERNET is redundant, remove these
@@ -888,8 +873,7 @@ class rcube_vcard
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     $value = $entry;
                 }
 
@@ -967,8 +951,7 @@ class rcube_vcard
             $next = substr($str, $pos + 1, 1);
             if ($next == 'n' || $next == 'N') {
                 $str = substr_replace($str, "\n", $pos, 2);
-            }
-            else {
+            } else {
                 $str = substr_replace($str, '', $pos, 1);
             }
 

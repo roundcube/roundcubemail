@@ -31,7 +31,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
-    function languages()
+    public function languages()
     {
         $defaults = ['en'];
         $langs    = [];
@@ -51,8 +51,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
             }
 
             $langs = array_unique($langs);
-        }
-        else {
+        } else {
             $langs = $defaults;
         }
 
@@ -83,7 +82,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
-    function check($text)
+    public function check($text)
     {
         $this->init();
 
@@ -104,8 +103,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
 
             if ($this->dictionary->is_exception($word)) {
                 // skip exceptions
-            }
-            elseif (!pspell_check($this->plink, $word)) {
+            } elseif (!pspell_check($this->plink, $word)) {
                 $suggestions = pspell_suggest($this->plink, $word);
 
                 if (count($suggestions) > self::MAX_SUGGESTIONS) {
@@ -126,7 +124,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
-    function get_suggestions($word)
+    public function get_suggestions($word)
     {
         $this->init();
 
@@ -148,7 +146,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
-    function get_words($text = null)
+    public function get_words($text = null)
     {
         $result = [];
 

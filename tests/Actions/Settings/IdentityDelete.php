@@ -8,9 +8,9 @@ class Actions_Settings_IdentityDelete extends ActionTestCase
     /**
      * Test deleting an identity
      */
-    function test_delete_identity()
+    public function test_delete_identity()
     {
-        $action = new rcmail_action_settings_identity_delete;
+        $action = new rcmail_action_settings_identity_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'delete-identity');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -40,7 +40,7 @@ class Actions_Settings_IdentityDelete extends ActionTestCase
         $this->assertTrue(!empty($result['del']));
 
         // Test error handling
-        $action = new rcmail_action_settings_identity_delete;
+        $action = new rcmail_action_settings_identity_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'delete-identity');
 
         $_POST = ['_iid' => 'unknown'];

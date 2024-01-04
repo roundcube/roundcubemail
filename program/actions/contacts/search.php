@@ -72,8 +72,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
             if (empty($fields)) {
                 $fields = array_keys(self::$SEARCH_MODS_DEFAULT);
-            }
-            else {
+            } else {
                 $fields = array_filter(explode(',', $fields));
             }
 
@@ -180,8 +179,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             // create javascript list
             self::js_contacts_list($result);
             $rcmail->output->show_message('contactsearchsuccessful', 'confirmation', ['nr' => $result->count]);
-        }
-        else {
+        } else {
             $rcmail->output->show_message('nocontactsfound', 'notice');
         }
 
@@ -247,8 +245,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         foreach ($coltypes as $col => $colprop) {
             if (!empty(rcmail_action_contacts_index::$CONTACT_COLTYPES[$col])) {
                 $coltypes[$col] = array_merge(rcmail_action_contacts_index::$CONTACT_COLTYPES[$col], (array) $colprop);
-            }
-            else {
+            } else {
                 $coltypes[$col] = (array) $colprop;
             }
         }
@@ -266,8 +263,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
                 // load jquery UI datepicker for date fields
                 if ($colprop['type'] == 'date') {
                     $colprop['class'] = (!empty($colprop['class']) ? $colprop['class'] . ' ' : '') . 'datepicker';
-                }
-                elseif ($ftype == 'text') {
+                } elseif ($ftype == 'text') {
                     $colprop['size'] = $i_size;
                 }
 

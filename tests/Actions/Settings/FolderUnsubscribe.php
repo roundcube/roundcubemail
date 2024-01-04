@@ -8,9 +8,9 @@ class Actions_Settings_FolderUnsubscribe extends ActionTestCase
     /**
      * Test unsubscribing a folder
      */
-    function test_unsubscribe()
+    public function test_unsubscribe()
     {
-        $action = new rcmail_action_settings_folder_unsubscribe;
+        $action = new rcmail_action_settings_folder_unsubscribe();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-unsubscribe');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -35,9 +35,9 @@ class Actions_Settings_FolderUnsubscribe extends ActionTestCase
     /**
      * Test handling errors
      */
-    function test_unsubscribe_errors()
+    public function test_unsubscribe_errors()
     {
-        $action = new rcmail_action_settings_folder_unsubscribe;
+        $action = new rcmail_action_settings_folder_unsubscribe();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-unsubscribe');
 
         // Set expected storage function calls/results

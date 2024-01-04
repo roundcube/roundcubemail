@@ -8,9 +8,9 @@ class Actions_Contacts_Search extends ActionTestCase
     /**
      * Test search form request
      */
-    function test_run_search_form()
+    public function test_run_search_form()
     {
-        $action = new rcmail_action_contacts_search;
+        $action = new rcmail_action_contacts_search();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'search');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -30,9 +30,9 @@ class Actions_Contacts_Search extends ActionTestCase
     /**
      * Test search request
      */
-    function test_run_quick_search()
+    public function test_run_quick_search()
     {
-        $action = new rcmail_action_contacts_search;
+        $action = new rcmail_action_contacts_search();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'search');
 
         $this->assertTrue($action->checks());
@@ -60,7 +60,7 @@ class Actions_Contacts_Search extends ActionTestCase
     /**
      * Test search request
      */
-    function test_run_search()
+    public function test_run_search()
     {
         // TODO: Search using saved search, or using the form
         $this->markTestIncomplete();
@@ -69,7 +69,7 @@ class Actions_Contacts_Search extends ActionTestCase
     /**
      * Test contact_search_form() method
      */
-    function test_contact_search_form()
+    public function test_contact_search_form()
     {
         $this->markTestIncomplete();
     }

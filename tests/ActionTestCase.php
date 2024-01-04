@@ -8,7 +8,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
     private static $files = [];
 
 
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         // reset some interfering globals set in other tests
         $_SERVER['REQUEST_URI'] = '';
@@ -17,7 +17,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail->load_gui();
     }
 
-    static function tearDownAfterClass(): void
+    public static function tearDownAfterClass(): void
     {
         foreach (self::$files as $file) {
             unlink($file);
@@ -108,8 +108,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
                 escapeshellarg($dsn['password']),
                 escapeshellarg($dsn['database'])
             ));
-        }
-        elseif ($dsn['phptype'] == 'sqlite') {
+        } elseif ($dsn['phptype'] == 'sqlite') {
             $db->closeConnection();
 
             // delete database file
@@ -202,8 +201,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
                 'size'     => [$file['size']],
                 'id'       => [$file['id']],
             ];
-        }
-        else {
+        } else {
             $_FILES[$name] = $file;
         }
 
@@ -276,11 +274,9 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
             StderrMock::start();
             $action->run($args);
             StderrMock::stop();
-        }
-        catch (ExitException $e) {
+        } catch (ExitException $e) {
             $this->assertSame($expected_code, $e->getCode());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             if ($e->getMessage() == 'Error raised' && $expected_code == OutputHtmlMock::E_EXIT) {
                 return;
             }

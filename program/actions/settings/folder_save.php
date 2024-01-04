@@ -47,31 +47,24 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         // Folder name checks
         if (!empty($options['protected']) || !empty($options['norename'])) {
             // do nothing
-        }
-        elseif (!strlen($name)) {
+        } elseif (!strlen($name)) {
             $error = $rcmail->gettext('namecannotbeempty');
-        }
-        elseif (mb_strlen($name) > 128) {
+        } elseif (mb_strlen($name) > 128) {
             $error = $rcmail->gettext('nametoolong');
-        }
-        elseif ($name[0] == '.' && $rcmail->config->get('imap_skip_hidden_folders')) {
+        } elseif ($name[0] == '.' && $rcmail->config->get('imap_skip_hidden_folders')) {
             $error = $rcmail->gettext('namedotforbidden');
-        }
-        elseif (!$storage->folder_validate($name, $char)) {
+        } elseif (!$storage->folder_validate($name, $char)) {
             $error = $rcmail->gettext('forbiddencharacter') . " ($char)";
         }
 
         if (!empty($error)) {
             $rcmail->output->command('display_message', $error, 'error');
-        }
-        else {
+        } else {
             if (!empty($options['protected']) || !empty($options['norename'])) {
                 $name_imap = $old_imap;
-            }
-            elseif (strlen($path)) {
+            } elseif (strlen($path)) {
                 $name_imap = $path . $delimiter . $name_imap;
-            }
-            else {
+            } else {
                 $name_imap = $storage->mod_folder($name_imap, 'in');
             }
         }
@@ -92,8 +85,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         if (!empty($error)) {
             $rcmail->output->command('display_message', $error, 'error');
             $folder = null;
-        }
-        else {
+        } else {
             $folder = [
                 'name'     => $name_imap,
                 'oldname'  => $old_imap,
@@ -129,8 +121,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
 
             if (!$plugin['abort']) {
                 $created = $storage->create_folder($folder['name'], $folder['subscribe'], null, $folder['noselect']);
-            }
-            else {
+            } else {
                 $created = $plugin['result'];
             }
 
@@ -150,13 +141,11 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
                 // reset folder preview frame
                 $rcmail->output->command('subscription_select');
                 $rcmail->output->send('iframe');
-            }
-            else {
+            } else {
                 // show error message
                 if (!empty($plugin['message'])) {
                     $rcmail->output->show_message($plugin['message'], 'error', null, false);
-                }
-                else {
+                } else {
                     self::display_server_error('errorsaving');
                 }
             }
@@ -171,12 +160,10 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             if (!$plugin['abort']) {
                 if ($rename) {
                     $updated = $storage->rename_folder($folder['oldname'], $folder['name']);
-                }
-                else {
+                } else {
                     $updated = true;
                 }
-            }
-            else {
+            } else {
                 $updated = $plugin['result'];
             }
 
@@ -191,8 +178,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
                         foreach ($a_threaded as $key => $val) {
                             if ($key == $folder['oldname']) {
                                 unset($a_threaded[$key]);
-                            }
-                            elseif (preg_match($oldprefix, $key)) {
+                            } elseif (preg_match($oldprefix, $key)) {
                                 unset($a_threaded[$key]);
                                 $a_threaded[preg_replace($oldprefix, $folder['name'] . $delimiter, $key)] = $val;
                             }
@@ -214,17 +200,14 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
                     }
                     self::update_folder_row($folder['name'], $folder['oldname'], $folder['subscribe'], $folder['class']);
                     $rcmail->output->send('iframe');
-                }
-                elseif (!empty($folder['class'])) {
+                } elseif (!empty($folder['class'])) {
                     self::update_folder_row($folder['name'], $folder['oldname'], $folder['subscribe'], $folder['class']);
                 }
-            }
-            else {
+            } else {
                 // show error message
                 if (!empty($plugin['message'])) {
                     $rcmail->output->show_message($plugin['message'], 'error', null, false);
-                }
-                else {
+                } else {
                     self::display_server_error('errorsaving');
                 }
             }

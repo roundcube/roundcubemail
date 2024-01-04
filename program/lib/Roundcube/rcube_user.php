@@ -50,8 +50,8 @@ class rcube_user
     private $emails;
 
 
-    const SEARCH_ADDRESSBOOK = 1;
-    const SEARCH_MAIL        = 2;
+    public const SEARCH_ADDRESSBOOK = 1;
+    public const SEARCH_MAIL        = 2;
 
 
     /**
@@ -60,7 +60,7 @@ class rcube_user
      * @param int   $id      User id
      * @param array $sql_arr SQL result set
      */
-    function __construct($id = null, $sql_arr = null)
+    public function __construct($id = null, $sql_arr = null)
     {
         $this->rc = rcube::get_instance();
         $this->db = $this->rc->get_dbh();
@@ -88,7 +88,7 @@ class rcube_user
      *
      * @return string Full user name or its part
      */
-    function get_username($part = null)
+    public function get_username($part = null)
     {
         if (!empty($this->data['username'])) {
             // return real name
@@ -124,7 +124,7 @@ class rcube_user
      *
      * @return array Hash array with prefs
      */
-    function get_prefs()
+    public function get_prefs()
     {
         if (isset($this->prefs)) {
             return $this->prefs;
@@ -145,8 +145,7 @@ class rcube_user
                     $this->rc->session->remove('preferences');
                     $this->rc->session->remove('preferences_time');
                     $this->save_prefs($saved_prefs);
-                }
-                else {
+                } else {
                     $this->data['preferences'] = $_SESSION['preferences'];
                 }
             }
@@ -167,7 +166,7 @@ class rcube_user
      *
      * @return bool True on success, False on failure
      */
-    function save_prefs($a_user_prefs, $no_session = false)
+    public function save_prefs($a_user_prefs, $no_session = false)
     {
         if (!$this->ID) {
             return false;
@@ -182,9 +181,9 @@ class rcube_user
         }
 
         $plugin = $this->rc->plugins->exec_hook('preferences_update', [
-                'userid' => $this->ID,
-                'prefs'  => $a_user_prefs,
-                'old'    => (array) $this->get_prefs(),
+            'userid' => $this->ID,
+            'prefs'  => $a_user_prefs,
+            'old'    => (array) $this->get_prefs(),
         ]);
 
         if (!empty($plugin['abort'])) {
@@ -254,7 +253,7 @@ class rcube_user
     /**
      * Generate a unique hash to identify this user with
      */
-    function get_hash()
+    public function get_hash()
     {
         $prefs = $this->get_prefs();
 
@@ -274,7 +273,7 @@ class rcube_user
      *
      * @return array List of emails (identity_id, name, email) or single email-data
      */
-    function list_emails($default = false)
+    public function list_emails($default = false)
     {
         if ($this->emails === null) {
             $this->emails = [];
@@ -302,7 +301,7 @@ class rcube_user
      *
      * @return array Hash array with all cols of the identity record
      */
-    function get_identity($id = null)
+    public function get_identity($id = null)
     {
         $id = (int) $id;
 
@@ -323,7 +322,7 @@ class rcube_user
      *
      * @return array List of identities
      */
-    function list_identities($sql_add = '', $formatted = false)
+    public function list_identities($sql_add = '', $formatted = false)
     {
         $result = [];
 
@@ -358,7 +357,7 @@ class rcube_user
      *
      * @return bool True if saved successfully, false if nothing changed
      */
-    function update_identity($iid, $data)
+    public function update_identity($iid, $data)
     {
         if (!$this->ID) {
             return false;
@@ -395,7 +394,7 @@ class rcube_user
      *
      * @return int|false The inserted identity ID or false on error
      */
-    function insert_identity($data)
+    public function insert_identity($data)
     {
         if (!$this->ID) {
             return false;
@@ -434,7 +433,7 @@ class rcube_user
      *
      * @return bool True if deleted successfully, false if nothing changed
      */
-    function delete_identity($iid)
+    public function delete_identity($iid)
     {
         if (!$this->ID) {
             return false;
@@ -473,7 +472,7 @@ class rcube_user
      *
      * @param int $iid The identity ID
      */
-    function set_default($iid)
+    public function set_default($iid)
     {
         if ($this->ID && $iid) {
             $this->db->query(
@@ -499,7 +498,7 @@ class rcube_user
     /**
      * Update user's last_login timestamp
      */
-    function touch()
+    public function touch()
     {
         if ($this->ID) {
             $this->db->query(
@@ -514,7 +513,7 @@ class rcube_user
     /**
      * Update user's failed_login timestamp and counter
      */
-    function failed_login()
+    public function failed_login()
     {
         if ($this->ID && $this->rc->config->get('login_rate_limit', 3)) {
             $counter = 0;
@@ -522,8 +521,7 @@ class rcube_user
             if (empty($this->data['failed_login'])) {
                 $failed_login = new DateTime('now');
                 $counter      = 1;
-            }
-            else {
+            } else {
                 $failed_login = new DateTime($this->data['failed_login']);
                 $threshold    = new DateTime('- 60 seconds');
 
@@ -546,7 +544,7 @@ class rcube_user
     /**
      * Checks if the account is locked, e.g. as a result of brute-force prevention
      */
-    function is_locked()
+    public function is_locked()
     {
         if (empty($this->data['failed_login'])) {
             return false;
@@ -567,7 +565,7 @@ class rcube_user
     /**
      * Clear the saved object state
      */
-    function reset()
+    public function reset()
     {
         $this->ID   = null;
         $this->data = null;
@@ -581,7 +579,7 @@ class rcube_user
      *
      * @return rcube_user New user instance
      */
-    static function query($user, $host)
+    public static function query($user, $host)
     {
         $dbh    = rcube::get_instance()->get_dbh();
         $config = rcube::get_instance()->config;
@@ -618,7 +616,7 @@ class rcube_user
      *
      * @return rcube_user|null New user instance on success, Null on error/abort
      */
-    static function create($user, $host)
+    public static function create($user, $host)
     {
         $user_name  = '';
         $user_email = '';
@@ -631,13 +629,13 @@ class rcube_user
         }
 
         $data = $rcube->plugins->exec_hook('user_create', [
-                'host'        => $host,
-                'user'        => $user,
-                'user_name'   => $user_name,
-                'user_email'  => $user_email,
-                'email_list'  => $email_list,
-                'language'    => $_SESSION['language'] ?? null,
-                'preferences' => [],
+            'host'        => $host,
+            'user'        => $user,
+            'user_name'   => $user_name,
+            'user_email'  => $user_email,
+            'email_list'  => $email_list,
+            'language'    => $_SESSION['language'] ?? null,
+            'preferences' => [],
         ]);
 
         // plugin aborted this operation
@@ -658,11 +656,11 @@ class rcube_user
         if ($dbh->affected_rows($insert) && ($user_id = $dbh->insert_id('users'))) {
             // create rcube_user instance to make plugin hooks work
             $user_instance = new self($user_id, [
-                    'user_id'     => $user_id,
-                    'username'    => $data['user'],
-                    'mail_host'   => $data['host'],
-                    'language'    => $data['language'],
-                    'preferences' => serialize($data['preferences']),
+                'user_id'     => $user_id,
+                'username'    => $data['user'],
+                'mail_host'   => $data['host'],
+                'language'    => $data['language'],
+                'preferences' => serialize($data['preferences']),
             ]);
 
             $rcube->user = $user_instance;
@@ -696,8 +694,7 @@ class rcube_user
                         continue;
                     }
                     $record = $row;
-                }
-                else {
+                } else {
                     $record['email'] = $row;
                 }
 
@@ -717,14 +714,11 @@ class rcube_user
 
                 $standard = 0;
             }
-        }
-        else {
+        } else {
             rcube::raise_error([
-                    'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => 'Failed to create new user',
-                ],
-                true, false
-            );
+                'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                'message' => 'Failed to create new user',
+            ], true, false);
         }
 
         return !empty($user_instance) ? $user_instance : null;
@@ -737,7 +731,7 @@ class rcube_user
      *
      * @return string Resolved IMAP username
      */
-    static function email2user($email)
+    public static function email2user($email)
     {
         $rcube  = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('email2user', ['email' => $email, 'user' => null]);
@@ -754,14 +748,14 @@ class rcube_user
      *
      * @return mixed Resolved e-mail address string or array of strings
      */
-    static function user2email($user, $first = true, $extended = false)
+    public static function user2email($user, $first = true, $extended = false)
     {
         $rcube  = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('user2email', [
-                'email'    => null,
-                'user'     => $user,
-                'first'    => $first,
-                'extended' => $extended,
+            'email'    => null,
+            'user'     => $user,
+            'first'    => $first,
+            'extended' => $extended,
         ]);
 
         return empty($plugin['email']) ? null : $plugin['email'];
@@ -774,7 +768,7 @@ class rcube_user
      *
      * @return array List of saved searches indexed by search ID
      */
-    function list_searches($type)
+    public function list_searches($type)
     {
         $plugin = $this->rc->plugins->exec_hook('saved_search_list', ['type' => $type]);
 
@@ -806,7 +800,7 @@ class rcube_user
      *
      * @return array Data
      */
-    function get_search($id)
+    public function get_search($id)
     {
         $plugin = $this->rc->plugins->exec_hook('saved_search_get', ['id' => $id]);
 
@@ -840,7 +834,7 @@ class rcube_user
      *
      * @return bool True if deleted successfully, false if nothing changed
      */
-    function delete_search($sid)
+    public function delete_search($sid)
     {
         if (!$this->ID) {
             return false;
@@ -862,7 +856,7 @@ class rcube_user
      *
      * @return int The inserted search ID or false on error
      */
-    function insert_search($data)
+    public function insert_search($data)
     {
         if (!$this->ID) {
             return false;
@@ -893,7 +887,7 @@ class rcube_user
      *
      * @return array|null Hash array with all cols of the response record, NULL if not found
      */
-    function get_response($id)
+    public function get_response($id)
     {
         $sql_result = $this->db->query(
             'SELECT * FROM ' . $this->db->table_name('responses', true)
@@ -916,14 +910,14 @@ class rcube_user
      *
      * @return array List of responses (id, name)
      */
-    function list_responses()
+    public function list_responses()
     {
         // Migrate the old responses existing in user preferences
         if (!empty($this->prefs['compose_responses'])) {
             foreach ($this->prefs['compose_responses'] as $response) {
                 $this->insert_response([
-                        'name' => $response['name'],
-                        'data' => $response['text'],
+                    'name' => $response['name'],
+                    'data' => $response['text'],
                 ]);
             }
 
@@ -957,7 +951,7 @@ class rcube_user
      *
      * @return bool True if saved successfully, false if nothing changed
      */
-    function update_response($id, $data)
+    public function update_response($id, $data)
     {
         if (!$this->ID) {
             return false;
@@ -990,7 +984,7 @@ class rcube_user
      *
      * @return int|false The inserted response ID or false on error
      */
-    function insert_response($data)
+    public function insert_response($data)
     {
         if (!$this->ID) {
             return false;
@@ -1022,7 +1016,7 @@ class rcube_user
      *
      * @return bool True if deleted successfully, false otherwise
      */
-    function delete_response($id)
+    public function delete_response($id)
     {
         if (!$this->ID) {
             return false;

@@ -8,9 +8,9 @@ class Actions_Mail_Compose extends ActionTestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
-        $object = new rcmail_action_mail_compose;
+        $object = new rcmail_action_mail_compose();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }
@@ -18,9 +18,9 @@ class Actions_Mail_Compose extends ActionTestCase
     /**
      * Test quote_text() method
      */
-    function test_quote_text()
+    public function test_quote_text()
     {
-        $action = new rcmail_action_mail_compose;
+        $action = new rcmail_action_mail_compose();
 
         $this->assertSame('> ', $action->quote_text(''));
 

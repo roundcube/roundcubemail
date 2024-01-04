@@ -52,8 +52,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             if (empty(self::$contact)) {
                 $rcmail->output->show_message('contactnotfound', 'error');
             }
-        }
-        else {
+        } else {
             $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
             if (strlen($source)) {
@@ -79,12 +78,12 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         }
 
         $rcmail->output->add_handlers([
-                'contactedithead' => [$this, 'contact_edithead'],
-                'contacteditform' => [$this, 'contact_editform'],
-                'contactphoto'    => [$this, 'contact_photo'],
-                'photouploadform' => [$this, 'upload_photo_form'],
-                'sourceselector'  => [$this, 'source_selector'],
-                'filedroparea'    => [$this, 'photo_drop_area'],
+            'contactedithead' => [$this, 'contact_edithead'],
+            'contacteditform' => [$this, 'contact_editform'],
+            'contactphoto'    => [$this, 'contact_photo'],
+            'photouploadform' => [$this, 'upload_photo_form'],
+            'sourceselector'  => [$this, 'source_selector'],
+            'filedroparea'    => [$this, 'photo_drop_area'],
         ]);
 
         $rcmail->output->set_pagetitle($rcmail->gettext($rcmail->action == 'add' ? 'addcontact' : 'editcontact'));
@@ -200,7 +199,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         $attrib['prefix'] = $hidden->show();
         $input_attr       = ['name' => '_photo', 'accept' => 'image/*'];
 
-        $rcmail->output->add_label('addphoto','replacephoto');
+        $rcmail->output->add_label('addphoto', 'replacephoto');
 
         return self::upload_form($attrib, 'uploadform', 'upload-photo', $input_attr);
     }
@@ -260,10 +259,10 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         if (!empty($attrib['id'])) {
             $rcmail->output->add_gui_object('filedrop', $attrib['id']);
             $rcmail->output->set_env('filedrop', [
-                    'action'    => 'upload-photo',
-                    'fieldname' => '_photo',
-                    'single'    => 1,
-                    'filter'    => '^image/.+',
+                'action'    => 'upload-photo',
+                'fieldname' => '_photo',
+                'single'    => 1,
+                'filter'    => '^image/.+',
             ]);
         }
     }

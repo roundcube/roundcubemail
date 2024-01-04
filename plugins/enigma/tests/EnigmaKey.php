@@ -2,7 +2,7 @@
 
 class Enigma_EnigmaKey extends PHPUnit\Framework\TestCase
 {
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../lib/enigma_key.php';
     }
@@ -10,7 +10,7 @@ class Enigma_EnigmaKey extends PHPUnit\Framework\TestCase
     /**
      * Test "empty" key
      */
-    function test_empty_key()
+    public function test_empty_key()
     {
         $key = new enigma_key();
 

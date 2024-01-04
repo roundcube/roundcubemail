@@ -34,15 +34,15 @@ class rcube_sieve
     public $script;                 // rcube_sieve_script object
     public $current;                // name of currently loaded script
 
-    const ERROR_CONNECTION = 1;
-    const ERROR_LOGIN      = 2;
-    const ERROR_NOT_EXISTS = 3;    // script not exists
-    const ERROR_INSTALL    = 4;    // script installation
-    const ERROR_ACTIVATE   = 5;    // script activation
-    const ERROR_DELETE     = 6;    // script deletion
-    const ERROR_INTERNAL   = 7;    // internal error
-    const ERROR_DEACTIVATE = 8;    // script activation
-    const ERROR_OTHER      = 255;  // other/unknown error
+    public const ERROR_CONNECTION = 1;
+    public const ERROR_LOGIN      = 2;
+    public const ERROR_NOT_EXISTS = 3;    // script not exists
+    public const ERROR_INSTALL    = 4;    // script installation
+    public const ERROR_ACTIVATE   = 5;    // script activation
+    public const ERROR_DELETE     = 6;    // script deletion
+    public const ERROR_INTERNAL   = 7;    // internal error
+    public const ERROR_DEACTIVATE = 8;    // script activation
+    public const ERROR_OTHER      = 255;  // other/unknown error
 
 
     /**
@@ -186,8 +186,7 @@ class rcube_sieve
                     if ($res === 1) {
                         if (count($matches) > 2) {
                             $this->errorLines[] = ['line' => $matches[1], 'msg' => $matches[2]];
-                        }
-                        else {
+                        } else {
                             $this->errorLines[] = ['line' => $matches[1], 'msg' => null];
                         }
                     }

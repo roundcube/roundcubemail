@@ -8,9 +8,9 @@ class Actions_Settings_FolderDelete extends ActionTestCase
     /**
      * Test deleting a folder
      */
-    function test_delete()
+    public function test_delete()
     {
-        $action = new rcmail_action_settings_folder_delete;
+        $action = new rcmail_action_settings_folder_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-delete');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -38,9 +38,9 @@ class Actions_Settings_FolderDelete extends ActionTestCase
     /**
      * Test handling errors
      */
-    function test_delete_errors()
+    public function test_delete_errors()
     {
-        $action = new rcmail_action_settings_folder_delete;
+        $action = new rcmail_action_settings_folder_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-delete');
 
         // Set expected storage function calls/results

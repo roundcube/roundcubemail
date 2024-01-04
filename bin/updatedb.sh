@@ -25,9 +25,9 @@ require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 // get arguments
 $opts = rcube_utils::get_opt([
-        'v' => 'version',
-        'd' => 'dir',
-        'p' => 'package',
+    'v' => 'version',
+    'd' => 'dir',
+    'p' => 'package',
 ]);
 
 if (empty($opts['dir'])) {

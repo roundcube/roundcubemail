@@ -184,8 +184,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 if (!empty($a_user_prefs['skin'])) {
                     if (!$rcmail->output->check_skin($a_user_prefs['skin'])) {
                         unset($a_user_prefs['skin']);
-                    }
-                    elseif ($rcmail->config->get('skin') != $a_user_prefs['skin']) {
+                    } elseif ($rcmail->config->get('skin') != $a_user_prefs['skin']) {
                         $rcmail->output->command('reload', 500);
                     }
                 }
@@ -250,15 +249,13 @@ class rcmail_action_settings_prefs_save extends rcmail_action
         // Save preferences
         if (empty($plugin['abort'])) {
             $saved = $rcmail->user->save_prefs($a_user_prefs);
-        }
-        else {
+        } else {
             $saved = $plugin['result'];
         }
 
         if ($saved) {
             $rcmail->output->show_message('successfullysaved', 'confirmation');
-        }
-        else {
+        } else {
             $rcmail->output->show_message(!empty($plugin['message']) ? $plugin['message'] : 'errorsaving', 'error');
         }
 

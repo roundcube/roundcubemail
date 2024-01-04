@@ -8,9 +8,9 @@ class Actions_Contacts_Undo extends ActionTestCase
     /**
      * Test contact undelete
      */
-    function test_undo()
+    public function test_undo()
     {
-        $action = new rcmail_action_contacts_undo;
+        $action = new rcmail_action_contacts_undo();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'undo');
 
         $this->assertInstanceOf('rcmail_action', $action);

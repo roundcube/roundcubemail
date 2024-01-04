@@ -48,8 +48,7 @@ if (version_compare(version_parse($oldversion), version_parse(RCMAIL_VERSION), '
 
 if (version_compare(version_parse($oldversion), version_parse(RCMAIL_VERSION), '==')) {
     echo "Target installation already in version $oldversion. Do you want to update again? (y/N)\n";
-}
-else {
+} else {
     echo "Upgrading from $oldversion. Do you want to continue? (y/N)\n";
 }
 
@@ -143,7 +142,6 @@ if (strtolower($input) == 'y') {
     echo "Running update script at target...\n";
     system("cd $target_dir && bin/update.sh --version=$oldversion" . ($accept ? ' -y' : ''));
     echo "All done.\n";
-}
-else {
+} else {
     echo "Update cancelled. See ya!\n";
 }

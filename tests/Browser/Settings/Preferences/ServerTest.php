@@ -65,7 +65,7 @@ class ServerTest extends \Tests\Browser\TestCase
                         ->setCheckboxState('_skip_deleted', $this->settings['skip_deleted'] = !$this->settings['skip_deleted']);
 
                     $browser->assertSeeIn('label[for=rcmfd_delete_junk]', 'Directly delete messages in Junk')
-                        ->assertCheckboxState('_delete_junk',  $this->settings['delete_junk'])
+                        ->assertCheckboxState('_delete_junk', $this->settings['delete_junk'])
                         ->setCheckboxState('_delete_junk', $this->settings['delete_junk'] = !$this->settings['delete_junk']);
                 });
 
@@ -102,8 +102,7 @@ class ServerTest extends \Tests\Browser\TestCase
                 foreach ($this->settings as $key => $value) {
                     if (is_bool($value)) {
                         $browser->assertCheckboxState('_' . $key, $value);
-                    }
-                    else {
+                    } else {
                         $browser->assertValue("[name=_{$key}]", $value);
                     }
                 }

@@ -57,22 +57,22 @@
 class rcube_pwned_password
 {
     // API URL. Note: the trailing slash is mandatory.
-    const API_URL = 'https://api.pwnedpasswords.com/range/';
+    public const API_URL = 'https://api.pwnedpasswords.com/range/';
 
     // See https://www.troyhunt.com/enhancing-pwned-passwords-privacy-with-padding/
-    const ENHANCED_PRIVACY_CURL = 1;
+    public const ENHANCED_PRIVACY_CURL = 1;
 
     // Score constants, these directly correspond to the score that is returned.
-    const SCORE_LISTED = 1;
-    const SCORE_ERROR = 2;
-    const SCORE_NOT_LISTED = 3;
+    public const SCORE_LISTED = 1;
+    public const SCORE_ERROR = 2;
+    public const SCORE_NOT_LISTED = 3;
 
     /**
      * Rule description.
      *
      * @return array human-readable description of the check rule.
      */
-    function strength_rules()
+    public function strength_rules()
     {
         $rc = rcmail::get_instance();
         $href = 'https://haveibeenpwned.com/Passwords';
@@ -91,7 +91,7 @@ class rcube_pwned_password
      *
      * @return array password score (1 to 3) and (optional) reason message
      */
-    function check_strength($passwd)
+    public function check_strength($passwd)
     {
         $score   = $this->check_pwned($passwd);
         $message = null;
@@ -100,8 +100,7 @@ class rcube_pwned_password
             $rc = rcmail::get_instance();
             if ($score === self::SCORE_LISTED) {
                 $message = $rc->gettext('password.pwned_isdisclosed');
-            }
-            else {
+            } else {
                 $message = $rc->gettext('password.pwned_fetcherror');
             }
         }
@@ -116,7 +115,7 @@ class rcube_pwned_password
      *
      * @return int score, one of the SCORE_* constants (between 1 and 3).
      */
-    function check_pwned($passwd)
+    public function check_pwned($passwd)
     {
         // initialize with error score
         $result = self::SCORE_ERROR;
@@ -124,8 +123,7 @@ class rcube_pwned_password
         if (!$this->can_retrieve()) {
             // Log the fact that we cannot check because of configuration error.
             rcube::raise_error("Need curl or allow_url_fopen to check password strength with 'pwned'", true, true);
-        }
-        else {
+        } else {
             [$prefix, $suffix] = $this->hash_split($passwd);
 
             $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
@@ -138,7 +136,7 @@ class rcube_pwned_password
         return $result;
     }
 
-    function hash_split($passwd)
+    public function hash_split($passwd)
     {
         $hash   = strtolower(sha1($passwd));
         $prefix = substr($hash, 0, 5);
@@ -147,32 +145,31 @@ class rcube_pwned_password
         return [$prefix, $suffix];
     }
 
-    function can_retrieve()
+    public function can_retrieve()
     {
         return $this->can_curl() || $this->can_fopen();
     }
 
-    function can_curl()
+    public function can_curl()
     {
         return function_exists('curl_init');
     }
 
-    function can_fopen()
+    public function can_fopen()
     {
         return ini_get('allow_url_fopen');
     }
 
-    function retrieve_suffixes($url)
+    public function retrieve_suffixes($url)
     {
         if ($this->can_curl()) {
             return $this->retrieve_curl($url);
-        }
-        else {
+        } else {
             return $this->retrieve_fopen($url);
         }
     }
 
-    function retrieve_curl($url)
+    public function retrieve_curl($url)
     {
         $ch = curl_init();
         curl_setopt($ch, \CURLOPT_URL, $url);
@@ -186,7 +183,7 @@ class rcube_pwned_password
         return $output;
     }
 
-    function retrieve_fopen($url)
+    public function retrieve_fopen($url)
     {
         $output = '';
         $ch = fopen($url, 'r');
@@ -198,7 +195,7 @@ class rcube_pwned_password
         return $output;
     }
 
-    function check_suffix_in_list($candidate, $list)
+    public function check_suffix_in_list($candidate, $list)
     {
         // initialize to error in case there are no lines at all
         $result = self::SCORE_ERROR;
@@ -215,8 +212,7 @@ class rcube_pwned_password
 
                 // valid line, not matching the current password
                 $result = self::SCORE_NOT_LISTED;
-            }
-            else {
+            } else {
                 // invalid line
                 return self::SCORE_ERROR;
             }

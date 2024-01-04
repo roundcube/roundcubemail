@@ -8,9 +8,9 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
-        $action = new rcmail_action_settings_folders;
+        $action = new rcmail_action_settings_folders();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folders');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -22,19 +22,19 @@ class Actions_Settings_Folders extends ActionTestCase
             ->registerFunction('get_capability', true)
             ->registerFunction('get_capability', true)
             ->registerFunction('folder_info', [
-                    'name'      => 'Test',
-                    'is_root'   => false,
-                    'noselect'  => false,
-                    'special'   => false,
-                    'namespace' => 'personal',
+                'name'      => 'Test',
+                'is_root'   => false,
+                'noselect'  => false,
+                'special'   => false,
+                'namespace' => 'personal',
             ])
             ->registerFunction('list_folders', [
-                    'INBOX',
-                    'Test',
+                'INBOX',
+                'Test',
             ])
             ->registerFunction('list_folders_subscribed', [
-                    'INBOX',
-                    'Test',
+                'INBOX',
+                'Test',
             ])
             ->registerFunction('get_special_folders', [])
             ->registerFunction('mod_folder', 'Test')
@@ -57,7 +57,7 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test folder_subscriptions() method
      */
-    function test_folder_subscriptions()
+    public function test_folder_subscriptions()
     {
         $this->markTestIncomplete();
     }
@@ -65,7 +65,7 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test folder_filter() method
      */
-    function test_folder_filter()
+    public function test_folder_filter()
     {
         $this->markTestIncomplete();
     }
@@ -73,7 +73,7 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test folder_options() method
      */
-    function test_folder_options()
+    public function test_folder_options()
     {
         $this->markTestIncomplete();
     }
@@ -81,7 +81,7 @@ class Actions_Settings_Folders extends ActionTestCase
     /**
      * Test update_folder_row() method
      */
-    function test_update_folder_row()
+    public function test_update_folder_row()
     {
         $this->markTestIncomplete();
     }

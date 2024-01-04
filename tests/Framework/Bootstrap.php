@@ -8,7 +8,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: asciiwords()
      */
-    function test_asciiwords()
+    public function test_asciiwords()
     {
         $this->assertSame('abc.123', asciiwords('abc%.123', false));
         $this->assertSame('abc-123', asciiwords('abc%.123', true, '-'));
@@ -17,7 +17,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: in_array_nocase()
      */
-    function test_in_array_nocase()
+    public function test_in_array_nocase()
     {
         $haystack = ['Test'];
         $needle = 'test';
@@ -33,7 +33,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: parse_bytes()
      */
-    function test_parse_bytes()
+    public function test_parse_bytes()
     {
         $data = [
             '0'    => 0,
@@ -76,7 +76,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: slashify()
      */
-    function test_slashify()
+    public function test_slashify()
     {
         $data = [
             'test'    => 'test/',
@@ -95,7 +95,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: unslashify()
      */
-    function test_unslashify()
+    public function test_unslashify()
     {
         $data = [
             'test'      => 'test',
@@ -117,7 +117,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: get_offset_sec()
      */
-    function test_get_offset_sec()
+    public function test_get_offset_sec()
     {
         $data = [
             '1s'    => 1,
@@ -139,7 +139,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: array_keys_recursive()
      */
-    function test_array_keys_recursive()
+    public function test_array_keys_recursive()
     {
         $input = [
             'one' => [
@@ -161,7 +161,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: array_first()
      */
-    function test_array_first()
+    public function test_array_first()
     {
         $this->assertNull(array_first([]));
         $this->assertNull(array_first(false));
@@ -176,7 +176,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: abbreviate_string()
      */
-    function test_abbreviate_string()
+    public function test_abbreviate_string()
     {
         $data = [
             // expected, string, maxlength, placeholder, $ending
@@ -195,7 +195,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: format_email()
      */
-    function test_format_email()
+    public function test_format_email()
     {
         $data = [
             ''                 => '',
@@ -214,7 +214,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: format_email_recipient()
      */
-    function test_format_email_recipient()
+    public function test_format_email_recipient()
     {
         $data = [
             ''                          => [''],
@@ -236,7 +236,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: is_ascii()
      */
-    function test_is_ascii()
+    public function test_is_ascii()
     {
         $result = is_ascii('0123456789');
         $this->assertTrue($result, 'Valid ASCII (numbers)');
@@ -264,7 +264,7 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
     /**
      * bootstrap.php: version_parse()
      */
-    function test_version_parse()
+    public function test_version_parse()
     {
         $this->assertSame('0.9.0', version_parse('0.9-stable'));
         $this->assertSame('0.9.99', version_parse('0.9-git'));

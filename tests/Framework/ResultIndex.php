@@ -8,9 +8,9 @@ class Framework_ResultIndex extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
-        $object = new rcube_result_index;
+        $object = new rcube_result_index();
 
         $this->assertInstanceOf('rcube_result_index', $object, 'Class constructor');
     }
@@ -18,7 +18,7 @@ class Framework_ResultIndex extends PHPUnit\Framework\TestCase
     /**
      * SORT result parsing test
      */
-    function test_parse_sort()
+    public function test_parse_sort()
     {
         $text = '* SORT 2001 2002 2035 2036 2037 2038 2044 2046 2043 2045 2226 2225 2224 2223';
         $object = new rcube_result_index('INBOX', $text);
@@ -64,7 +64,7 @@ class Framework_ResultIndex extends PHPUnit\Framework\TestCase
     /**
      * ESEARCH result parsing test
      */
-    function test_parse_esearch()
+    public function test_parse_esearch()
     {
         $text = '* ESEARCH (TAG "A282") MIN 2 COUNT 3 ALL 2,10:11';
         $object = new rcube_result_index('INBOX', $text);
@@ -105,7 +105,7 @@ class Framework_ResultIndex extends PHPUnit\Framework\TestCase
     /**
      * Empty SORT result parsing test
      */
-    function test_parse_empty()
+    public function test_parse_empty()
     {
         $object = new rcube_result_index('INBOX', '* SORT');
 

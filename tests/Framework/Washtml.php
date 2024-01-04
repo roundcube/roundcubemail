@@ -8,7 +8,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * A helper method to remove comments added by rcube_washtml
      */
-    function cleanupResult($html)
+    public function cleanupResult($html)
     {
         return preg_replace('/<!-- [a-z]+ (ignored|not allowed) -->/', '', $html);
     }
@@ -16,7 +16,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test the elimination of some XSS vulnerabilities
      */
-    function test_html_xss()
+    public function test_html_xss()
     {
         // #1488850
         $html = '<a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
@@ -25,7 +25,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             . '<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a>'
             . '<a href="data:application/xhtml+xml;base64,PGh0bW">CLICK ME</a>'; // #6896
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, 'Remove data:text/html links');
@@ -36,11 +36,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test fixing of invalid href
      */
-    function test_href()
+    public function test_href()
     {
         $html = "<p><a href=\"\nhttp://test.com\n\">Firefox</a><a href=\"domain.com\">Firefox</a>";
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|href="http://test\.com"|', $washed, 'Link href with newlines (#1488940)');
@@ -50,11 +50,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test data:image with newlines (#8613)
      */
-    function test_data_image_with_newline()
+    public function test_data_image_with_newline()
     {
         $html = "<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>";
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertSame("<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>", $this->cleanupResult($washed));
@@ -63,7 +63,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test XSS in area's href (#5240)
      */
-    function test_href_area()
+    public function test_href_area()
     {
         $html = '<p><area href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">'
             . '<area href="vbscript:alert(document.cookie)">Internet Explorer</p>'
@@ -72,7 +72,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             . '<Area href="vbscript:alert(document.cookie)">Internet Explorer</p>'
             . '<area HREF="javascript:alert(document.domain)" shape=default>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, 'data:text/html in area href');
@@ -83,13 +83,13 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test removing of object tag, but keeping innocent children
      */
-    function test_object()
+    public function test_object()
     {
         $html = "<div>\n<object data=\"move.swf\" type=\"application/x-shockwave-flash\">\n"
                . "<param name=\"foo\" value=\"bar\">\n"
                . '<p>This alternative text should survive</p>'
                . "</object>\n</div>";
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertDoesNotMatchRegularExpression('/<\/?object/', $washed, 'Remove object tag');
@@ -100,9 +100,9 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test handling HTML comments
      */
-    function test_comments()
+    public function test_comments()
     {
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
 
         $html   = '<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
@@ -138,11 +138,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test fixing of invalid self-closing elements (#1489137)
      */
-    function test_self_closing()
+    public function test_self_closing()
     {
         $html = '<textarea>test';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|<textarea>test</textarea>|', $washed);
@@ -151,11 +151,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test fixing of invalid closing tags (#1489446)
      */
-    function test_closing_tag_attrs()
+    public function test_closing_tag_attrs()
     {
         $html = '<a href="http://test.com">test</a href>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|</a>|', $washed);
@@ -164,7 +164,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test fixing of invalid lists nesting (#1488768)
      */
-    function test_lists()
+    public function test_lists()
     {
         $data = [
             [
@@ -207,11 +207,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test color style handling (#1489697)
      */
-    function test_color_style()
+    public function test_color_style()
     {
         $html = '<p style="font-size: 10px; color: rgb(241, 245, 218)">a</p>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|color: rgb\(241, 245, 218\)|', $washed, 'Color style (#1489697)');
@@ -221,12 +221,12 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test handling of unicode chars in style (#1489777)
      */
-    function test_style_unicode()
+    public function test_style_unicode()
     {
         $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
             <body><span style='font-family:\"新細明體\",\"serif\";color:red'>test</span></body></html>";
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression(
@@ -238,7 +238,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
             <body><span style='font-family:新細明體;color:red'>test</span></body></html>";
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression(
@@ -251,7 +251,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test deprecated body attributes (#7109)
      */
-    function test_style_body_attrs()
+    public function test_style_body_attrs()
     {
         $html = '<html><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             <body bgcolor="#fff" text="#000" background="#test" link="#111" alink="#222" vlink="#333">
@@ -271,11 +271,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test style item fixes
      */
-    function test_style_wash()
+    public function test_style_wash()
     {
         $html = '<p style="line-height: 1; height: 10">a</p>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|line-height: 1;|', $washed, 'Untouched line-height (#1489917)');
@@ -284,7 +284,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $html     = "<div style=\"padding: 0px\n   20px;border:1px solid #000;\"></div>";
         $expected = '<div style="padding: 0px 20px; border: 1px solid #000"></div>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $expected) !== false, 'White-space and new-line characters handling');
@@ -293,12 +293,12 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test invalid style cleanup - XSS prevention (#1490227)
      */
-    function test_style_wash_xss()
+    public function test_style_wash_xss()
     {
         $html = "<img style=aaa:'\"/onerror=alert(1)//'>";
         $exp  = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
@@ -306,7 +306,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $html = "<img style=aaa:'&quot;/onerror=alert(1)//'>";
         $exp  = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
@@ -315,9 +315,9 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test handling of title tag
      */
-    function test_title()
+    public function test_title()
     {
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
 
         $html = '<html><head><title>title1</title></head><body><p>test</p></body>';
         $washed = $washer->wash($html);
@@ -333,7 +333,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test SVG cleanup
      */
-    function test_wash_svg()
+    public function test_wash_svg()
     {
         $svg = '<?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -363,7 +363,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
   <animate attributeName="xlink:href" begin="0" x-washed="from" />
 </svg>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($svg);
 
         $this->assertSame($washed, $exp, 'SVG content');
@@ -372,7 +372,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test cases for SVG tests
      */
-    function data_wash_svg_tests(): iterable
+    public function data_wash_svg_tests(): iterable
     {
         $svg1 = "<svg id='x' width='100' height='100'><a xlink:href='javascript:alert(1)'><rect x='0' y='0' width='100' height='100' /></a></svg>";
 
@@ -479,9 +479,9 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_wash_svg_tests
      */
-    function test_wash_svg_tests($input, $expected)
+    public function test_wash_svg_tests($input, $expected)
     {
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($input);
 
         $this->assertSame($expected, $this->cleanupResult($washed), 'SVG content');
@@ -490,7 +490,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test cases for various XSS issues
      */
-    function data_wash_xss_tests(): iterable
+    public function data_wash_xss_tests(): iterable
     {
         return [
             [
@@ -545,7 +545,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_wash_xss_tests
      */
-    function test_wash_xss_tests($input, $expected)
+    public function test_wash_xss_tests($input, $expected)
     {
         $washer = new rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);
         $washed = $washer->wash($input);
@@ -556,12 +556,12 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test position:fixed cleanup - (#5264)
      */
-    function test_style_wash_position_fixed()
+    public function test_style_wash_position_fixed()
     {
         $html = "<img style='position:fixed' /><img style=\"position:/**/ fixed; top:10px\" />";
         $exp  = '<img style="position: absolute" /><img style="position: absolute; top: 10px" />';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $exp) !== false, 'Position:fixed (#5264)');
@@ -570,7 +570,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test MathML cleanup
      */
-    function test_wash_mathml()
+    public function test_wash_mathml()
     {
         $mathml = '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>
             <math><semantics>
@@ -605,7 +605,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                 <annotation encoding="TeX">I_D = \frac{1}{2} k_n \frac{W}{L} (V_{GS}-V_t)^2</annotation>
             </semantics></math>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($mathml);
 
         // remove whitespace between tags
@@ -618,11 +618,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test external links in src of input/video elements (#5583)
      */
-    function test_src_wash()
+    public function test_src_wash()
     {
         $html = '<input type="image" src="http://TRACKING_URL/">';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue($washer->extlinks);
@@ -630,7 +630,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
 
         $html = '<video src="http://TRACKING_URL/">';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue($washer->extlinks);
@@ -640,7 +640,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test external links
      */
-    function test_extlinks()
+    public function test_extlinks()
     {
         $html = [
             ['<link href="http://TRACKING_URL/">', true],
@@ -651,7 +651,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         ];
 
         foreach ($html as $item) {
-            $washer = new rcube_washtml;
+            $washer = new rcube_washtml();
             $washed = $washer->wash($item[0]);
 
             $this->assertSame($item[1], $washer->extlinks);
@@ -665,11 +665,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         }
     }
 
-    function test_textarea_content_escaping()
+    public function test_textarea_content_escaping()
     {
         $html = '<textarea><p style="x:</textarea><img src=x onerror=alert(1)>">';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertStringNotContainsString('onerror=alert(1)>', $washed);
@@ -679,7 +679,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test css_prefix feature
      */
-    function test_css_prefix()
+    public function test_css_prefix()
     {
         $washer = new rcube_washtml(['css_prefix' => 'test']);
 
@@ -705,18 +705,18 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test removing xml tag
      */
-    function test_xml_tag()
+    public function test_xml_tag()
     {
         $html = '<p><?xml:namespace prefix = "xsl" /></p>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame($washed, '<p></p>');
 
         $html = '<?xml encoding="UTF-8"><html><body>HTML</body></html>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame($washed, 'HTML');
@@ -725,7 +725,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test missing main HTML hierarchy tags (#6713)
      */
-    function test_missing_tags()
+    public function test_missing_tags()
     {
         $washer = new rcube_washtml();
 
@@ -765,11 +765,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test CDATA cleanup
      */
-    function test_cdata()
+    public function test_cdata()
     {
         $html = '<p><![CDATA[<script>alert(document.cookie)</script>]]></p>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, '<script>') === false, 'CDATA content');
@@ -778,7 +778,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test URI base resolving in HTML messages
      */
-    function test_resolve_base()
+    public function test_resolve_base()
     {
         $html = file_get_contents(TESTS_DIR . 'src/htmlbase.txt');
         $html = rcube_washtml::resolve_base($html);
@@ -795,7 +795,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     /**
      * Test workaround for HTML5 bug (#7356)
      */
-    function test_table_bug7356()
+    public function test_table_bug7356()
     {
         $html = '
 <table id="t1">
@@ -827,7 +827,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
   <tr><td></td></tr>
 </table>';
 
-        $washer = new rcube_washtml;
+        $washer = new rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame(trim($expected), $washed);

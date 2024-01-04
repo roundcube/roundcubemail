@@ -8,7 +8,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test check_skin()
      */
-    function test_check_skin()
+    public function test_check_skin()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -20,7 +20,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test get_skin_file()
      */
-    function test_get_skin_file()
+    public function test_get_skin_file()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -34,7 +34,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test get_template_logo()
      */
-    function test_logo()
+    public function test_logo()
     {
         $rcmail            = rcube::get_instance();
         $output            = new rcmail_output_html();
@@ -62,14 +62,14 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $this->assertNull($result);
 
         $rcmail->config->set('skin_logo', [
-                'elastic:login[small]' => 'img01',
-                'elastic:login'        => 'img02',
-                'elastic:*[small]'     => 'img03',
-                'larry:*'              => 'img04',
-                '*:login[small]'       => 'img05',
-                '*:login'              => 'img06',
-                '*[print]'             => 'img07',
-                '*'                    => 'img08',
+            'elastic:login[small]' => 'img01',
+            'elastic:login'        => 'img02',
+            'elastic:*[small]'     => 'img03',
+            'larry:*'              => 'img04',
+            '*:login[small]'       => 'img05',
+            '*:login'              => 'img06',
+            '*[print]'             => 'img07',
+            '*'                    => 'img08',
         ]);
 
         $set_template->setValue($output, 'login');
@@ -185,14 +185,14 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $this->assertSame('img07', $result);
 
         $rcmail->config->set('skin_logo', [
-                'elastic:login[small]' => 'img09',
-                'elastic:login'        => 'img10',
-                'larry:*'              => 'img11',
-                'elastic[small]'       => 'img12',
-                'login[small]'         => 'img13',
-                'login'                => 'img14',
-                '[print]'              => 'img15',
-                '*'                    => 'img16',
+            'elastic:login[small]' => 'img09',
+            'elastic:login'        => 'img10',
+            'larry:*'              => 'img11',
+            'elastic[small]'       => 'img12',
+            'login[small]'         => 'img13',
+            'login'                => 'img14',
+            '[print]'              => 'img15',
+            '*'                    => 'img16',
         ]);
 
         $set_skin->setValue($output, 'elastic');
@@ -236,9 +236,9 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
         $this->assertSame('img16', $result);
 
         $rcmail->config->set('skin_logo', [
-                'elastic:[print]'      => 'img17',
-                'elastic:messageprint' => 'img18',
-                'elastic:*'            => 'img19',
+            'elastic:[print]'      => 'img17',
+            'elastic:messageprint' => 'img18',
+            'elastic:*'            => 'img19',
         ]);
 
         $set_skin->setValue($output, 'elastic');
@@ -271,7 +271,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Data for test_conditions()
      */
-    function data_conditions(): iterable
+    public function data_conditions(): iterable
     {
         $txt = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt '
             . 'ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco '
@@ -315,9 +315,9 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_conditions
      */
-    function test_conditions($input, $output)
+    public function test_conditions($input, $output)
     {
-        $object = new rcmail_output_html;
+        $object = new rcmail_output_html();
         $result = $object->just_parse($input);
 
         $this->assertSame($output, $result);
@@ -326,7 +326,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test reset()
      */
-    function test_reset()
+    public function test_reset()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -337,7 +337,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test abs_url()
      */
-    function test_abs_url()
+    public function test_abs_url()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -349,7 +349,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test asset_url()
      */
-    function test_asset_url()
+    public function test_asset_url()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -362,7 +362,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test button()
      */
-    function test_button()
+    public function test_button()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -376,7 +376,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test form_tag()
      */
-    function test_form_tag()
+    public function test_form_tag()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -387,7 +387,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test request_form()
      */
-    function test_request_form()
+    public function test_request_form()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -398,7 +398,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test search_form()
      */
-    function test_search_form()
+    public function test_search_form()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();
@@ -413,7 +413,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test charset_selector()
      */
-    function test_charset_selector()
+    public function test_charset_selector()
     {
         $rcmail = rcube::get_instance();
         $output = new rcmail_output_html();

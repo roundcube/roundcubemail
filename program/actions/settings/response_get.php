@@ -40,8 +40,7 @@ class rcmail_action_settings_response_get extends rcmail_action
 
                 $response['data'] = $converter->get_html();
                 $response['is_html'] = true;
-            }
-            elseif (!$is_html && !empty($response['is_html'])) {
+            } elseif (!$is_html && !empty($response['is_html'])) {
                 $params = [
                     'width' => $rcmail->config->get('line_length', 72),
                     'links' => false,

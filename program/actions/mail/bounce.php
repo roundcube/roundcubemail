@@ -84,8 +84,8 @@ class rcmail_action_mail_bounce extends rcmail_action
 
         // Create the bounce message
         $BOUNCE = new rcmail_resend_mail([
-                'bounce_message' => $MESSAGE,
-                'bounce_headers' => $headers,
+            'bounce_message' => $MESSAGE,
+            'bounce_headers' => $headers,
         ]);
 
         // Send the bounce message

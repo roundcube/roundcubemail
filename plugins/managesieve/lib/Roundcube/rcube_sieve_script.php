@@ -218,8 +218,7 @@ class rcube_sieve_script
                 if (empty($has_vars)) {
                     // 'variables' extension not supported, put vars in comments
                     $output .= sprintf("# %s %s\r\n", $var['name'], $var['value']);
-                }
-                else {
+                } else {
                     $output .= 'set ';
                     foreach (array_diff(array_keys($var), ['name', 'value']) as $opt) {
                         $output .= ":$opt ";
@@ -351,8 +350,7 @@ class rcube_sieve_script
 
                             if (!empty($test['originalzone']) && $test['test'] == 'date') {
                                 $tests[$i] .= ' :originalzone';
-                            }
-                            elseif (!empty($test['zone'])) {
+                            } elseif (!empty($test['zone'])) {
                                 $tests[$i] .= ' :zone ' . self::escape_string($test['zone']);
                             }
 
@@ -400,15 +398,13 @@ class rcube_sieve_script
 
                 if (count($tests) > 1) {
                     $tests_str = implode(', ', $tests);
-                }
-                else {
+                } else {
                     $tests_str = $tests[0];
                 }
 
                 if ($rule['join'] || count($tests) > 1) {
                     $script .= sprintf('%s (%s)', $rule['join'] ? 'allof' : 'anyof', $tests_str);
-                }
-                else {
+                } else {
                     $script .= $tests_str;
                 }
                 $script .= "\r\n{\r\n";
@@ -566,8 +562,7 @@ class rcube_sieve_script
                             if (isset($action['seconds'])) {
                                 $exts[] = 'vacation-seconds';
                                 $action_script .= ' :seconds ' . intval($action['seconds']);
-                            }
-                            elseif (!empty($action['days'])) {
+                            } elseif (!empty($action['days'])) {
                                 $action_script .= ' :days ' . intval($action['days']);
                             }
                             if (!empty($action['addresses'])) {
@@ -678,8 +673,7 @@ class rcube_sieve_script
                     && preg_match('/^# (.*)/', $line, $matches)
                 ) {
                     $rulename = $matches[1];
-                }
-                elseif (empty($options['prefix'])) {
+                } elseif (empty($options['prefix'])) {
                     $prefix .= $line . "\n";
                 }
 
@@ -711,8 +705,7 @@ class rcube_sieve_script
                         unset($rule[0]['type']);
                         $this->vars[] = $rule[0];
                         unset($rule);
-                    }
-                    else {
+                    } else {
                         $rule = ['actions' => $rule];
                     }
                 }
@@ -760,8 +753,7 @@ class rcube_sieve_script
 
             if (!empty($tokens)) {
                 $token = array_shift($tokens);
-            }
-            else {
+            } else {
                 $token = $separator;
             }
 
@@ -770,8 +762,7 @@ class rcube_sieve_script
             if ($token == 'not') {
                 $not = true;
                 $token = strtolower(array_shift($tokens));
-            }
-            else {
+            } else {
                 $not = false;
             }
 
@@ -873,8 +864,7 @@ class rcube_sieve_script
                     for ($i = 0, $len = count($tokens); $i < $len; $i++) {
                         if (!is_array($tokens[$i]) && preg_match('/^:zone$/i', $tokens[$i])) {
                             $test['zone'] = $tokens[++$i];
-                        }
-                        elseif (!is_array($tokens[$i]) && preg_match('/^:originalzone$/i', $tokens[$i])) {
+                        } elseif (!is_array($tokens[$i]) && preg_match('/^:originalzone$/i', $tokens[$i])) {
                             $test['originalzone'] = true;
                         }
                     }
@@ -889,8 +879,7 @@ class rcube_sieve_script
                         if (!is_array($tokens[$i])) {
                             if (preg_match('/^:(handle|header|uniqueid|seconds)$/i', $tokens[$i], $m)) {
                                 $test[strtolower($m[1])] = $tokens[++$i];
-                            }
-                            elseif (preg_match('/^:last$/i', $tokens[$i])) {
+                            } elseif (preg_match('/^:last$/i', $tokens[$i])) {
                                 $test['last'] = true;
                             }
                         }
@@ -1092,8 +1081,7 @@ class rcube_sieve_script
         if ($test['comparator'] == 'i;ascii-numeric') {
             $exts[] = 'relational';
             $exts[] = 'comparator-i;ascii-numeric';
-        }
-        elseif (!in_array($test['comparator'], ['i;octet', 'i;ascii-casemap'])) {
+        } elseif (!in_array($test['comparator'], ['i;octet', 'i;ascii-casemap'])) {
             $exts[] = 'comparator-' . $test['comparator'];
         }
 
@@ -1153,8 +1141,7 @@ class rcube_sieve_script
             $exts[] = 'relational';
 
             $out .= ' :' . $m[1] . ' "' . $m[2] . '"';
-        }
-        else {
+        } else {
             if ($test['type'] == 'regex') {
                 $exts[] = 'regex';
             }
@@ -1177,26 +1164,21 @@ class rcube_sieve_script
             $token = is_array($tokens[$i]) ? null : $tokens[$i];
             if ($token && preg_match('/^:comparator$/i', $token)) {
                 $test['comparator'] = $tokens[++$i];
-            }
-            elseif ($token && preg_match('/^:(count|value)$/i', $token)) {
+            } elseif ($token && preg_match('/^:(count|value)$/i', $token)) {
                 $test['type'] = strtolower(substr($token, 1)) . '-' . $tokens[++$i];
-            }
-            elseif ($token && preg_match('/^:(is|contains|matches|regex)$/i', $token)) {
+            } elseif ($token && preg_match('/^:(is|contains|matches|regex)$/i', $token)) {
                 $test['type'] = strtolower(substr($token, 1));
-            }
-            elseif ($token && preg_match('/^:(mime|anychild|type|subtype|contenttype|param)$/i', $token)) {
+            } elseif ($token && preg_match('/^:(mime|anychild|type|subtype|contenttype|param)$/i', $token)) {
                 $token = strtolower(substr($token, 1));
                 $key   = $token == 'mime' ? $token : "mime-$token";
                 $test[$key] = $token == 'param' ? $tokens[++$i] : true;
-            }
-            elseif ($token && preg_match('/^:index$/i', $token)) {
+            } elseif ($token && preg_match('/^:index$/i', $token)) {
                 $test['index'] = intval($tokens[++$i]);
                 if ($tokens[$i + 1] && preg_match('/^:last$/i', $tokens[$i + 1])) {
                     $test['last'] = true;
                     $i++;
                 }
-            }
-            else {
+            } else {
                 $result[] = $tokens[$i];
             }
         }
@@ -1220,15 +1202,12 @@ class rcube_sieve_script
                 $tok = strtolower(substr($tok, 1));
                 if (in_array($tok, $bool_args)) {
                     $action[$tok] = true;
-                }
-                elseif (in_array($tok, $val_args)) {
+                } elseif (in_array($tok, $val_args)) {
                     $action[$tok] = $tokens[++$i];
-                }
-                else {
+                } else {
                     $result[] = $tok;
                 }
-            }
-            else {
+            } else {
                 $result[] = $tok;
             }
         }
@@ -1246,7 +1225,7 @@ class rcube_sieve_script
      *
      * @return string Result text
      */
-    static function escape_string($str)
+    public static function escape_string($str)
     {
         if (is_array($str) && count($str) > 1) {
             foreach ($str as $idx => $val) {
@@ -1254,8 +1233,7 @@ class rcube_sieve_script
             }
 
             return '[' . implode(',', $str) . ']';
-        }
-        elseif (is_array($str)) {
+        } elseif (is_array($str)) {
             $str = array_pop($str);
         }
 
@@ -1276,7 +1254,7 @@ class rcube_sieve_script
      *
      * @return string Text
      */
-    static function escape_multiline_string($str)
+    public static function escape_multiline_string($str)
     {
         $str = preg_split('/(\r?\n)/', $str, -1, \PREG_SPLIT_DELIM_CAPTURE);
 
@@ -1301,7 +1279,7 @@ class rcube_sieve_script
      *
      * @return mixed Tokens array or string if $num=1
      */
-    static function tokenize($str, $num = 0, &$position = 0)
+    public static function tokenize($str, $num = 0, &$position = 0)
     {
         $result = [];
         $length = strlen($str);
@@ -1366,8 +1344,7 @@ class rcube_sieve_script
                     if ($str[$position + 1] == '*') {
                         if ($end_pos = strpos($str, '*/', $position + 2)) {
                             $position = $end_pos + 2;
-                        }
-                        else {
+                        } else {
                             // error
                             $position = $length;
                         }
@@ -1379,8 +1356,7 @@ class rcube_sieve_script
                     if ($lf_pos = strpos($str, "\n", $position)) {
                         $position = $lf_pos + 1;
                         break;
-                    }
-                    else {
+                    } else {
                         $position = $length;
                     }
 
@@ -1420,8 +1396,7 @@ class rcube_sieve_script
                             // skip \n or \r\n
                             if ($str[$position] == "\n") {
                                 $position++;
-                            }
-                            elseif ($str[$position] == "\r" && $str[$position + 1] == "\n") {
+                            } elseif ($str[$position] == "\r" && $str[$position + 1] == "\n") {
                                 $position += 2;
                             }
 
@@ -1471,7 +1446,7 @@ class rcube_sieve_script
     /**
      * Skip whitespace characters in a string from specified position.
      */
-    static function ltrim_position($content, $position, $br = true)
+    public static function ltrim_position($content, $position, $br = true)
     {
         $blanks = ["\t", "\0", "\x0B", ' '];
 

@@ -52,8 +52,8 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
             }
 
             $plugin = $rcmail->plugins->exec_hook('contact_delete', [
-                    'id'     => $cid,
-                    'source' => $source,
+                'id'     => $cid,
+                'source' => $source,
             ]);
 
             $deleted = !$plugin['abort'] ? $CONTACTS->delete($cid, $undo_time < 1) : $plugin['result'];
@@ -61,11 +61,9 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
             if (!$deleted) {
                 if (!empty($plugin['message'])) {
                     $error = $plugin['message'];
-                }
-                elseif (($error = $CONTACTS->get_error()) && !empty($error['message'])) {
+                } elseif (($error = $CONTACTS->get_error()) && !empty($error['message'])) {
                     $error = $error['message'];
-                }
-                else {
+                } else {
                     $error = 'contactdelerror';
                 }
 
@@ -75,8 +73,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 $rcmail->output->show_message($error, 'error');
                 $rcmail->output->command('list_contacts', $source, $group);
                 $rcmail->output->send();
-            }
-            else {
+            } else {
                 $delcnt += $deleted;
 
                 // store deleted contacts IDs in session for undo action
@@ -95,8 +92,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 );
 
             $rcmail->output->show_message($msg, 'confirmation', null, true, $undo_time);
-        }
-        else {
+        } else {
             $rcmail->output->show_message('contactdeleted', 'confirmation');
         }
 
@@ -131,12 +127,10 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
 
                 $res->records = array_values($records);
                 $records = $res;
-            }
-            else {
+            } else {
                 unset($records);
             }
-        }
-        elseif (isset($CONTACTS)) {
+        } elseif (isset($CONTACTS)) {
             // count contacts for this user
             $result = $CONTACTS->count();
             $pages  = ceil(($result->count + $delcnt) / $page_size);

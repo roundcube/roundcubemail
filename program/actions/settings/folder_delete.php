@@ -38,8 +38,7 @@ class rcmail_action_settings_folder_delete extends rcmail_action
 
             if (empty($plugin['abort'])) {
                 $deleted = $storage->delete_folder($plugin['name']);
-            }
-            else {
+            } else {
                 $deleted = $plugin['result'];
             }
 
@@ -56,8 +55,7 @@ class rcmail_action_settings_folder_delete extends rcmail_action
             // Clear content frame
             $rcmail->output->command('subscription_select');
             $rcmail->output->command('set_quota', self::quota_content());
-        }
-        else {
+        } else {
             self::display_server_error('errorsaving');
         }
 

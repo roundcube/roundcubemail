@@ -21,7 +21,7 @@ class zipdownload extends rcube_plugin
     private $default_limit = '50MB';
 
     // RFC4155: mbox date format
-    const MBOX_DATE_FORMAT = 'D M d H:i:s Y';
+    public const MBOX_DATE_FORMAT = 'D M d H:i:s Y';
 
     /**
      * Plugin initialization
@@ -31,12 +31,11 @@ class zipdownload extends rcube_plugin
         // check requirements first
         if (!class_exists('ZipArchive', false)) {
             rcmail::raise_error([
-                    'code'    => 520,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => 'php-zip extension is required for the zipdownload plugin',
-                ], true, false
-            );
+                'code'    => 520,
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+                'message' => 'php-zip extension is required for the zipdownload plugin',
+            ], true, false);
             return;
         }
 
@@ -214,8 +213,7 @@ class zipdownload extends rcube_plugin
             [$filename, $ext] = preg_split('/\\.(?=[^\\.]*$)/', $displayname);
             $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
             $this->names[$displayname] = 1;
-        }
-        else {
+        } else {
             $this->names[$displayname] = 1;
         }
 
@@ -275,8 +273,7 @@ class zipdownload extends rcube_plugin
                     );
 
                     $messages[$uid . ':' . $mbox] = $header;
-                }
-                else { // maildir
+                } else { // maildir
                     $subject = rcube_mime::decode_header($headers->subject, $headers->charset);
                     $subject = $this->_filename_from_subject(mb_substr($subject, 0, 16));
                     $subject = $this->_convert_filename($subject);
@@ -293,8 +290,8 @@ class zipdownload extends rcube_plugin
                     unlink($tmpfname);
 
                     $msg = $this->gettext([
-                            'name' => 'sizelimiterror',
-                            'vars' => ['$size' => rcmail_action::show_bytes($limit)],
+                        'name' => 'sizelimiterror',
+                        'vars' => ['$size' => rcmail_action::show_bytes($limit)],
                     ]);
 
                     $rcmail->output->show_message($msg, 'error');
@@ -328,8 +325,7 @@ class zipdownload extends rcube_plugin
                 $imap->get_raw_body($uid, $tmpfp);
                 stream_filter_remove($filter);
                 fwrite($tmpfp, "\r\n");
-            }
-            else { // maildir
+            } else { // maildir
                 $tmpfn = rcube_utils::temp_filename('zipmessage');
                 $fp = fopen($tmpfn, 'w');
                 $imap->get_raw_body($uid, $fp);

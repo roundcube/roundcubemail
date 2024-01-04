@@ -8,7 +8,7 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = rcube::get_instance();
 
@@ -18,7 +18,7 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
     /**
      * rcube::read_localization()
      */
-    function test_read_localization()
+    public function test_read_localization()
     {
         $rcube = rcube::get_instance();
         $result = $rcube->read_localization(INSTALL_PATH . 'plugins/acl/localization', 'pl_PL');
@@ -29,7 +29,7 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
     /**
      * rcube::list_languages()
      */
-    function test_list_languages()
+    public function test_list_languages()
     {
         $rcube = rcube::get_instance();
         $result = $rcube->list_languages();
@@ -40,7 +40,7 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
     /**
      * rcube::encrypt() and rcube::decrypt()
      */
-    function test_encrypt_and_decrypt()
+    public function test_encrypt_and_decrypt()
     {
         $rcube = rcube::get_instance();
 
@@ -63,7 +63,7 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
      *
      * @requires function shell_exec
      */
-    function test_exec()
+    public function test_exec()
     {
         if (\PHP_OS_FAMILY === 'Windows') {
             $this->assertSame('', rcube::exec('where.exe unknown-command-123 2> nul'));

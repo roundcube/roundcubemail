@@ -59,8 +59,7 @@ class rcube_result_multifolder
 
         if ($result->count()) {
             $this->append_result($result);
-        }
-        elseif ($result->incomplete) {
+        } elseif ($result->incomplete) {
             $this->incomplete = true;
         }
     }
@@ -322,8 +321,7 @@ class rcube_result_multifolder
         foreach ($this->sets as $set) {
             if ($set->incomplete) {
                 $this->sdata['incomplete'][] = $set->get_parameters('MAILBOX');
-            }
-            elseif ($set->is_error()) {
+            } elseif ($set->is_error()) {
                 $this->sdata['error'][] = $set->get_parameters('MAILBOX');
             }
         }
@@ -349,8 +347,7 @@ class rcube_result_multifolder
         foreach ($this->folders as $folder) {
             if (in_array($folder, $this->sdata['error'])) {
                 $data_str = null;
-            }
-            else {
+            } else {
                 $data_str = '* SORT' . ($data[$folder] ?? '');
             }
 

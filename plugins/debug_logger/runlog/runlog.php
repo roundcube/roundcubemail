@@ -20,7 +20,7 @@ class runlog
     public $timestamp        = 'd-M-Y H:i:s O';
     public $max_line_size    = 150;
 
-    function __construct()
+    public function __construct()
     {
         $this->start_time = microtime(true);
     }
@@ -76,7 +76,7 @@ class runlog
             }
             $end_txt = sprintf("end: $name - %0.4f seconds $tag_report", $this->run_log[$lastk]['duration']);
             $this->print_to_console($end_txt, $this->run_log[$lastk]['tag']);
-            $this->print_to_file($end_txt,  $this->run_log[$lastk]['tag']);
+            $this->print_to_file($end_txt, $this->run_log[$lastk]['tag']);
         }
     }
 
@@ -164,7 +164,7 @@ class runlog
                 $buffer = sprintf('[%s] %s', date($this->timestamp, time()), $buffer);
             }
             if (strlen($buffer) > $this->max_line_size) {
-                $buffer = substr($buffer,0,$this->max_line_size - 3) . '...';
+                $buffer = substr($buffer, 0, $this->max_line_size - 3) . '...';
             }
             fwrite($this->file_handles['master'], $buffer . "\n");
         }
@@ -181,8 +181,7 @@ class runlog
                     }
                     echo "$msg\n";
                 }
-            }
-            else {
+            } else {
                 echo $this->get_indent();
                 if ($tag) {
                     echo "$tag: ";
@@ -201,7 +200,7 @@ class runlog
         return $buf;
     }
 
-    function __destruct()
+    public function __destruct()
     {
         foreach ($this->file_handles as $handle) {
             fclose($handle);

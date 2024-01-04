@@ -8,7 +8,7 @@ class Framework_Addressbook extends PHPUnit\Framework\TestCase
     /**
      * Test for get_col_values() method
      */
-    function test_get_col_values()
+    public function test_get_col_values()
     {
         $data = ['email' => 'test@test.com', 'other' => 'test'];
         $result = rcube_addressbook::get_col_values('email', $data, true);
@@ -29,7 +29,7 @@ class Framework_Addressbook extends PHPUnit\Framework\TestCase
     /**
      * Test for compose_list_name() method
      */
-    function test_compose_list_name()
+    public function test_compose_list_name()
     {
         $contact = [];
         $result  = rcube_addressbook::compose_list_name($contact);

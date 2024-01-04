@@ -68,8 +68,7 @@ class jqueryui extends rcube_plugin
             foreach ($jquery_ui_i18n as $package) {
                 if (self::asset_exists("js/i18n/$package-$lang_l.js", false)) {
                     $this->include_script("js/i18n/$package-$lang_l.js");
-                }
-                elseif ($lang_s != 'en' && self::asset_exists("js/i18n/$package-$lang_s.js", false)) {
+                } elseif ($lang_s != 'en' && self::asset_exists("js/i18n/$package-$lang_s.js", false)) {
                     $this->include_script("js/i18n/$package-$lang_s.js");
                 }
             }
@@ -78,12 +77,12 @@ class jqueryui extends rcube_plugin
         // Date format for datepicker
         $date_format = $date_format_localized = $rcmail->config->get('date_format', 'Y-m-d');
         $date_format = strtr($date_format, [
-                'y' => 'y',
-                'Y' => 'yy',
-                'm' => 'mm',
-                'n' => 'm',
-                'd' => 'dd',
-                'j' => 'd',
+            'y' => 'y',
+            'Y' => 'yy',
+            'm' => 'mm',
+            'n' => 'm',
+            'd' => 'dd',
+            'j' => 'd',
         ]);
 
         $replaces = ['Y' => 'yyyy', 'y' => 'yy', 'm' => 'mm', 'd' => 'dd', 'j' => 'd', 'n' => 'm'];

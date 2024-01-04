@@ -27,7 +27,7 @@
 
 class rcube_mailcow_password
 {
-    function save($curpass, $passwd, $username)
+    public function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
 
@@ -59,24 +59,21 @@ class rcube_mailcow_password
                 'json'    => $cowdata,
             ]);
 
-            $cowreply = json_decode($response->getBody(),true);
+            $cowreply = json_decode($response->getBody(), true);
 
             if ($cowreply[0]['type'] == 'success') {
                 return PASSWORD_SUCCESS;
             }
 
             return PASSWORD_ERROR;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $result = $e->getMessage();
         }
 
         rcube::raise_error([
-                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Problem with Mailcow API: $result",
-            ],
-            true, false
-        );
+            'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Password plugin: Problem with Mailcow API: $result",
+        ], true, false);
 
         return PASSWORD_CONNECT_ERROR;
     }

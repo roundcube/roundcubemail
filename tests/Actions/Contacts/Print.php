@@ -8,9 +8,9 @@ class Actions_Contacts_Print extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
-        $action = new rcmail_action_contacts_print;
+        $action = new rcmail_action_contacts_print();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'print');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -36,7 +36,7 @@ class Actions_Contacts_Print extends ActionTestCase
     /**
      * Test contact_head() method
      */
-    function test_contact_head()
+    public function test_contact_head()
     {
         $this->markTestIncomplete();
     }
@@ -44,7 +44,7 @@ class Actions_Contacts_Print extends ActionTestCase
     /**
      * Test contact_details() method
      */
-    function test_contact_details()
+    public function test_contact_details()
     {
         $this->markTestIncomplete();
     }

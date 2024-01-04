@@ -8,7 +8,7 @@ class Framework_Contacts extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_contacts(null, null);
 
@@ -18,7 +18,7 @@ class Framework_Contacts extends PHPUnit\Framework\TestCase
     /**
      * Test validate() method
      */
-    function test_validate()
+    public function test_validate()
     {
         $contacts = new rcube_contacts(null, null);
 

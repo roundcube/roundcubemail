@@ -131,8 +131,7 @@ class rcube_db_mysql extends rcube_db
         // Disable emulating of prepared statements
         if (isset($dsn['emulate_prepares'])) {
             $result[PDO::ATTR_EMULATE_PREPARES] = rcube_utils::get_boolean($dsn['emulate_prepares']);
-        }
-        else {
+        } else {
             $result[PDO::ATTR_EMULATE_PREPARES] = false;
         }
 

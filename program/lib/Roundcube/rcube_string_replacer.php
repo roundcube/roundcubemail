@@ -40,7 +40,7 @@ class rcube_string_replacer
      *
      * @param array $options Configuration options
      */
-    function __construct($options = [])
+    public function __construct($options = [])
     {
         // Create hard-to-guess replacement string
         $uniq_ident    = sprintf('%010d%010d', mt_rand(), mt_rand());
@@ -109,8 +109,7 @@ class rcube_string_replacer
 
         if (preg_match('!^(http|ftp|file)s?://!i', $scheme)) {
             $url = $matches[1] . $matches[2];
-        }
-        elseif (preg_match("/^({$this->noword}*)(www\\.)$/i", $matches[1], $m)) {
+        } elseif (preg_match("/^({$this->noword}*)(www\\.)$/i", $matches[1], $m)) {
             $url        = $m[2] . $matches[2];
             $url_prefix = 'http://';
             $prefix     = $m[1];
@@ -298,8 +297,7 @@ class rcube_string_replacer
                         break;
                     }
                     $in = true;
-                }
-                elseif ($url[$i] == ']') {
+                } elseif ($url[$i] == ']') {
                     if (!$in) {
                         break;
                     }
@@ -322,8 +320,7 @@ class rcube_string_replacer
                         break;
                     }
                     $in = true;
-                }
-                elseif ($url[$i] == ')') {
+                } elseif ($url[$i] == ')') {
                     if (!$in) {
                         break;
                     }

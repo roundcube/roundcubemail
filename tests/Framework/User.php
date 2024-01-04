@@ -8,7 +8,7 @@ class Framework_User extends ActionTestCase
     /**
      * Test class constructor
      */
-    function test_constructor()
+    public function test_constructor()
     {
         self::initDB('init');
 
@@ -21,7 +21,7 @@ class Framework_User extends ActionTestCase
     /**
      * Test get_username()
      */
-    function test_get_username()
+    public function test_get_username()
     {
         self::initDB('init');
 
@@ -35,7 +35,7 @@ class Framework_User extends ActionTestCase
     /**
      * Test save_prefs() and get_prefs() and get_hash()
      */
-    function test_save_prefs()
+    public function test_save_prefs()
     {
         self::initDB('init');
 
@@ -65,7 +65,7 @@ class Framework_User extends ActionTestCase
     /**
      * Test identities related methods
      */
-    function test_list_emails_and_identities()
+    public function test_list_emails_and_identities()
     {
         self::initDB('init');
         self::initDB('identities');
@@ -105,8 +105,8 @@ class Framework_User extends ActionTestCase
         $this->assertSame('test-new', $ident['name']);
 
         $id = $user->insert_identity([
-                'name' => 'name',
-                'email' => 'add@ident.com',
+            'name' => 'name',
+            'email' => 'add@ident.com',
         ]);
 
         $this->assertTrue(is_numeric($id));
@@ -142,7 +142,7 @@ class Framework_User extends ActionTestCase
     /**
      * Test failed_login() and is_locked()
      */
-    function test_failed_login()
+    public function test_failed_login()
     {
         self::initDB('init');
 
@@ -160,7 +160,7 @@ class Framework_User extends ActionTestCase
     /**
      * Test query()
      */
-    function test_query()
+    public function test_query()
     {
         self::initDB('init');
 
@@ -174,7 +174,7 @@ class Framework_User extends ActionTestCase
     /**
      * Test create()
      */
-    function test_create()
+    public function test_create()
     {
         self::initDB('init');
 
@@ -194,7 +194,7 @@ class Framework_User extends ActionTestCase
     /**
      * Test saved searches
      */
-    function test_saved_searches()
+    public function test_saved_searches()
     {
         $this->markTestIncomplete();
     }

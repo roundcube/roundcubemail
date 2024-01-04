@@ -17,7 +17,7 @@ class new_user_dialog extends rcube_plugin
     public $noframe = true;
 
 
-    function init()
+    public function init()
     {
         $this->add_hook('identity_create', [$this, 'create_identity']);
         $this->add_hook('render_page', [$this, 'render_page']);
@@ -27,7 +27,7 @@ class new_user_dialog extends rcube_plugin
     /**
      * Check newly created identity at first login
      */
-    function create_identity($p)
+    public function create_identity($p)
     {
         // set session flag when a new user was created and the default identity seems to be incomplete
         if (!empty($p['login']) && empty($p['complete']) && !empty($p['record']['standard'])) {
@@ -40,7 +40,7 @@ class new_user_dialog extends rcube_plugin
      * Callback function when HTML page is rendered
      * We'll add an overlay box here.
      */
-    function render_page($p)
+    public function render_page($p)
     {
         $rcmail = rcmail::get_instance();
 
@@ -139,7 +139,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
      * Check fields and save to default identity if valid.
      * Afterwards the session flag is removed and we're done.
      */
-    function save_data()
+    public function save_data()
     {
         $rcmail      = rcmail::get_instance();
         $identity    = $rcmail->user->get_identity();
@@ -155,8 +155,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
 
         if ($ident_level == 4) {
             $disabled = ['name', 'email', 'organization'];
-        }
-        elseif (in_array($ident_level, [1, 3])) {
+        } elseif (in_array($ident_level, [1, 3])) {
             $disabled = ['email'];
         }
 
@@ -166,11 +165,9 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
 
         if (empty($save_data['name']) || empty($save_data['email'])) {
             $rcmail->output->show_message('formincomplete', 'error');
-        }
-        elseif (!rcube_utils::check_email($save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']))) {
+        } elseif (!rcube_utils::check_email($save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']))) {
             $rcmail->output->show_message('emailformaterror', 'error', ['email' => $save_data['email']]);
-        }
-        else {
+        } else {
             // execute hook
             $plugin = $rcmail->plugins->exec_hook('identity_update', [
                 'id' => $identity['identity_id'],

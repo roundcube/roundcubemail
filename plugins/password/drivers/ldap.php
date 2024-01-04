@@ -40,8 +40,7 @@ class rcube_ldap_password
         // Building user DN
         if ($userDN = $rcmail->config->get('password_ldap_userDN_mask')) {
             $userDN = rcube_ldap_simple_password::substitute_vars($userDN);
-        }
-        else {
+        } else {
             $userDN = $this->search_userdn($rcmail);
         }
 
@@ -156,7 +155,7 @@ class rcube_ldap_password
      * Use search_base and search_filter defined in config file.
      * Return the found DN.
      */
-    function search_userdn($rcmail)
+    public function search_userdn($rcmail)
     {
         $binddn = $rcmail->config->get('password_ldap_searchDN');
         $bindpw = $rcmail->config->get('password_ldap_searchPW');

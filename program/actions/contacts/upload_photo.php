@@ -72,20 +72,17 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
                 ];
 
                 $inserted = $rcmail->insert_uploaded_file($attachment, $save_hook);
-            }
-            else {
+            } else {
                 $attachment = ['error' => $rcmail->gettext('invalidimageformat')];
             }
 
             if ($inserted) {
                 $rcmail->output->command('replace_contact_photo', $attachment['id']);
-            }
-            else {
+            } else {
                 // upload failed
                 self::upload_error($_FILES['_photo']['error'], $attachment);
             }
-        }
-        else {
+        } else {
             self::upload_failure();
         }
 

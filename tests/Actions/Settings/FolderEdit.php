@@ -8,9 +8,9 @@ class Actions_Settings_FolderEdit extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
-        $action = new rcmail_action_settings_folder_edit;
+        $action = new rcmail_action_settings_folder_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folder-edit');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -21,15 +21,15 @@ class Actions_Settings_FolderEdit extends ActionTestCase
             ->registerFunction('get_capability', true)
             ->registerFunction('get_capability', true)
             ->registerFunction('folder_info', [
-                    'name'      => 'Test',
-                    'is_root'   => false,
-                    'noselect'  => false,
-                    'special'   => false,
-                    'namespace' => 'personal',
+                'name'      => 'Test',
+                'is_root'   => false,
+                'noselect'  => false,
+                'special'   => false,
+                'namespace' => 'personal',
             ])
             ->registerFunction('list_folders', [
-                    'INBOX',
-                    'Test',
+                'INBOX',
+                'Test',
             ])
             ->registerFunction('mod_folder', 'Test')
             ->registerFunction('folder_attributes', [])
@@ -52,7 +52,7 @@ class Actions_Settings_FolderEdit extends ActionTestCase
     /**
      * Test folder_form() method
      */
-    function test_folder_form()
+    public function test_folder_form()
     {
         $this->markTestIncomplete();
     }

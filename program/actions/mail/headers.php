@@ -40,8 +40,7 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
             $message = new rcube_message($uid);
             $source  = $message->get_part_body(substr($uid, $pos + 1));
             $source  = substr($source, 0, strpos($source, "\r\n\r\n"));
-        }
-        else {
+        } else {
             $source = $rcmail->storage->get_raw_headers($uid);
         }
 
@@ -68,12 +67,10 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
 
             if ($inline) {
                 $rcmail->output->set_env('dialog_class', 'text-nowrap');
-            }
-            else {
+            } else {
                 $rcmail->output->command('set_headers', $source);
             }
-        }
-        elseif (!$inline) {
+        } elseif (!$inline) {
             $rcmail->output->show_message('messageopenerror', 'error');
         }
 

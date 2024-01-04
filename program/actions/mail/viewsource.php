@@ -40,8 +40,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
                 $message = new rcube_message($uid);
                 $headers = $message->headers;
                 $part_id = substr($uid, $pos + 1);
-            }
-            else {
+            } else {
                 $headers = $rcmail->storage->get_message_headers($uid);
             }
 
@@ -59,8 +58,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
 
                 $params['length'] = $headers->size;
                 $params['disposition'] = 'attachment';
-            }
-            else {
+            } else {
                 // Make sure it works in an iframe (#9084)
                 $rcmail->output->page_headers();
 
@@ -71,20 +69,16 @@ class rcmail_action_mail_viewsource extends rcmail_action
 
             if (isset($part_id) && isset($message)) {
                 $message->get_part_body($part_id, empty($_GET['_save']), 0, -1);
-            }
-            else {
+            } else {
                 $rcmail->storage->print_raw_body($uid, empty($_GET['_save']));
             }
-        }
-        else {
+        } else {
             rcube::raise_error([
-                    'code'    => 500,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => "Message UID $uid not found",
-                ],
-                true, true
-            );
+                'code'    => 500,
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+                'message' => "Message UID $uid not found",
+            ], true, true);
         }
 
         exit;

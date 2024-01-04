@@ -8,9 +8,9 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
-        $object = new html;
+        $object = new html();
 
         $this->assertInstanceOf('html', $object, 'Class constructor');
     }
@@ -18,7 +18,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_attrib_string()
      */
-    function data_attrib_string(): iterable
+    public function data_attrib_string(): iterable
     {
         return [
             [
@@ -59,7 +59,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_attrib_string
      */
-    function test_attrib_string($arg1, $arg2, $expected)
+    public function test_attrib_string($arg1, $arg2, $expected)
     {
         $this->assertSame($expected, html::attrib_string($arg1, $arg2));
     }
@@ -67,7 +67,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_quote()
      */
-    function data_quote(): iterable
+    public function data_quote(): iterable
     {
         return [
             ['abc', 'abc'],
@@ -85,7 +85,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_quote
      */
-    function test_quote($str, $expected)
+    public function test_quote($str, $expected)
     {
         $this->assertSame($expected, html::quote($str));
     }
@@ -93,7 +93,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_parse_attrib_string()
      */
-    function data_parse_attrib_string(): iterable
+    public function data_parse_attrib_string(): iterable
     {
         return [
             [
@@ -128,7 +128,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_parse_attrib_string
      */
-    function test_parse_attrib_string($arg1, $expected)
+    public function test_parse_attrib_string($arg1, $expected)
     {
         $this->assertSame($expected, html::parse_attrib_string($arg1));
     }

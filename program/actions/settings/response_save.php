@@ -64,29 +64,25 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
 
             if (!$plugin['abort']) {
                 $updated = $rcmail->user->update_response($id, $response);
-            }
-            else {
+            } else {
                 $updated = $plugin['result'];
             }
 
             if ($updated) {
                 $rcmail->output->show_message('successfullysaved', 'confirmation');
                 $rcmail->output->command('parent.update_response_row', $id, rcube::Q($response['name']));
-            }
-            else {
+            } else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);
             }
-        }
-        else {
+        } else {
             $plugin   = $rcmail->plugins->exec_hook('response_create', ['record' => $response]);
             $response = $plugin['record'];
 
             if (!$plugin['abort']) {
                 $insert_id = $rcmail->user->insert_response($response);
-            }
-            else {
+            } else {
                 $insert_id = $plugin['result'];
             }
 
@@ -97,8 +93,7 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
 
                 // add a new row to the list
                 $rcmail->output->command('parent.update_response_row', $insert_id, rcube::Q($response['name']), true);
-            }
-            else {
+            } else {
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);
                 $rcmail->overwrite_action('add-response');

@@ -44,13 +44,11 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
             if (!empty($tempfile['status'])) {
                 if (!empty($tempfile['data'])) {
                     $data = $tempfile['data'];
-                }
-                elseif ($tempfile['path']) {
+                } elseif ($tempfile['path']) {
                     $data = file_get_contents($tempfile['path']);
                 }
             }
-        }
-        else {
+        } else {
             // by email, search for contact first
             if ($email = rcube_utils::get_input_string('_email', rcube_utils::INPUT_GPC)) {
                 foreach ($rcmail->get_address_sources() as $s) {
@@ -82,9 +80,9 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
 
         // let plugins do fancy things with contact photos
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
-                'record' => $record ?? null,
-                'email'  => $email ?? null,
-                'data'   => $data ?? null,
+            'record' => $record ?? null,
+            'email'  => $email ?? null,
+            'data'   => $data ?? null,
         ]);
 
         // redirect to url provided by a plugin

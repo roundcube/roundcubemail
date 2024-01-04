@@ -8,7 +8,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_text2html()
      */
-    function data_text2html(): iterable
+    public function data_text2html(): iterable
     {
         $options = [
             'begin'  => '',
@@ -109,7 +109,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_text2html
      */
-    function test_text2html($input, $output, $options)
+    public function test_text2html($input, $output, $options)
     {
         $t2h = new rcube_text2html($input, false, $options);
 
@@ -121,7 +121,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     /**
      * Test XSS issue
      */
-    function test_text2html_xss()
+    public function test_text2html_xss()
     {
         $input = "\n[<script>evil</script>]:##str_replacement_0##\n";
         $t2h = new rcube_text2html($input);
@@ -138,7 +138,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     /**
      * Test XSS issue
      */
-    function test_text2html_xss2()
+    public function test_text2html_xss2()
     {
         $input = "\n[<script>evil</script>] https://google.com\n";
         $t2h = new rcube_text2html($input);
@@ -155,7 +155,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     /**
      * Test bug #8021
      */
-    function test_text2html_8021()
+    public function test_text2html_8021()
     {
         $input = "Test1 [1]\n\n[1] http://d1.tld\n\nyou wrote:\n> Test2 [1]\n>\n> [1] http://d2.tld";
         $expected = '<div class="pre">Test1 [<a href="http://d1.tld">1</a>]'
@@ -176,7 +176,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     /**
      * Test patches/diffs handling
      */
-    function test_text2html_patches_handling()
+    public function test_text2html_patches_handling()
     {
         $input = "Start\n"
             . "diff --git a/test.txt b/test.txt\n"

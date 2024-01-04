@@ -33,8 +33,7 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
 
         if (!empty($_GET['_page'])) {
             $page = intval($_GET['_page']);
-        }
-        else {
+        } else {
             $page = !empty($_SESSION['page']) ? $_SESSION['page'] : 1;
         }
 

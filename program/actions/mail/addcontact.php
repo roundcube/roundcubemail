@@ -88,8 +88,7 @@ class rcmail_action_mail_addcontact extends rcmail_action
             if (!empty($_POST['_reload'])) {
                 $rcmail->output->command('command', 'load-remote');
             }
-        }
-        else {
+        } else {
             $rcmail->output->show_message($error ?: 'errorsavingcontact', 'error', null, false);
         }
 

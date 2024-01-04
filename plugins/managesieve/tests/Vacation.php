@@ -2,7 +2,7 @@
 
 class Managesieve_Vacation extends ActionTestCase
 {
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../managesieve.php';
         include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_engine.php';
@@ -12,7 +12,7 @@ class Managesieve_Vacation extends ActionTestCase
     /**
      * Test vacation_form()
      */
-    function test_vacation_form()
+    public function test_vacation_form()
     {
         $rcube  = rcube::get_instance();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'managesieve');
@@ -30,7 +30,7 @@ class Managesieve_Vacation extends ActionTestCase
         $this->assertTrue(strpos($result, '<input type="hidden" name="_action" value="plugin.managesieve-vacation">') !== false);
     }
 
-    function test_build_regexp_tests()
+    public function test_build_regexp_tests()
     {
         $error    = null;
         $vacation = new rcube_sieve_vacation(true);
@@ -52,7 +52,7 @@ class Managesieve_Vacation extends ActionTestCase
         $this->assertSame('managesieve.invaliddateformat', $error);
     }
 
-    function test_parse_regexp_tests()
+    public function test_parse_regexp_tests()
     {
         $tests = [
             [

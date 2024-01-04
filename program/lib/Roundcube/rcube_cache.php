@@ -39,9 +39,9 @@ class rcube_cache
     protected $debug        = false;
     protected $max_packet   = -1;
 
-    const MAX_EXP_LEVEL     = 2;
-    const DATE_FORMAT       = 'Y-m-d H:i:s.u';
-    const DATE_FORMAT_REGEX = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{1,6}';
+    public const MAX_EXP_LEVEL     = 2;
+    public const DATE_FORMAT       = 'Y-m-d H:i:s.u';
+    public const DATE_FORMAT_REGEX = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{1,6}';
 
 
     /**
@@ -68,12 +68,10 @@ class rcube_cache
 
         if (!$driver || !class_exists($class)) {
             rcube::raise_error([
-                    'code' => 600, 'type' => 'db',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Configuration error. Unsupported cache driver: $driver",
-                ],
-                true, true
-            );
+                'code' => 600, 'type' => 'db',
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => "Configuration error. Unsupported cache driver: $driver",
+            ], true, true);
         }
 
         return new $class($userid, $prefix, $ttl, $packed, $indexed);
@@ -250,8 +248,7 @@ class rcube_cache
                 try {
                     $timestamp = new DateTime($matches[1], $utc);
                     $data      = substr($data, strlen($matches[1]) + 1);
-                }
-                catch (Exception $e) {
+                } catch (Exception $e) {
                     // invalid date = no timestamp
                 }
             }
@@ -277,8 +274,7 @@ class rcube_cache
             }
 
             $data = $timestamp ? $this->unserialize($data) : null;
-        }
-        else {
+        } else {
             $data = null;
         }
 
@@ -306,8 +302,7 @@ class rcube_cache
                     $this->index_update = time();
                 }
             }
-        }
-        else {
+        } else {
             // In this mode we do not save the entry to the database immediately
             // It's because we have cases where the same entry is updated
             // multiple times in one request (e.g. 'messagecount' entry rcube_imap).

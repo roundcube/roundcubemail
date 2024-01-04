@@ -145,12 +145,12 @@ class rcmail_output_html extends rcmail_output
 
         // register common UI objects
         $this->add_handlers([
-                'loginform'       => [$this, 'login_form'],
-                'preloader'       => [$this, 'preloader'],
-                'username'        => [$this, 'current_username'],
-                'message'         => [$this, 'message_container'],
-                'charsetselector' => [$this, 'charset_selector'],
-                'aboutcontent'    => [$this, 'about_content'],
+            'loginform'       => [$this, 'login_form'],
+            'preloader'       => [$this, 'preloader'],
+            'username'        => [$this, 'current_username'],
+            'message'         => [$this, 'message_container'],
+            'charsetselector' => [$this, 'charset_selector'],
+            'aboutcontent'    => [$this, 'about_content'],
         ]);
 
         // set blankpage (watermark) url
@@ -241,27 +241,23 @@ class rcmail_output_html extends rcmail_output
     {
         if (!empty($this->pagetitle)) {
             $title = $this->pagetitle;
-        }
-        elseif (isset($this->env['task'])) {
+        } elseif (isset($this->env['task'])) {
             if ($this->env['task'] == 'login') {
                 $title = $this->app->gettext([
-                        'name' => 'welcome',
-                        'vars' => ['product' => $this->config->get('product_name')],
+                    'name' => 'welcome',
+                    'vars' => ['product' => $this->config->get('product_name')],
                 ]);
-            }
-            else {
+            } else {
                 $title = ucfirst($this->env['task']);
             }
-        }
-        else {
+        } else {
             $title = '';
         }
 
         if ($full && $title) {
             if ($this->devel_mode && !empty($_SESSION['username'])) {
                 $title = $_SESSION['username'] . ' :: ' . $title;
-            }
-            elseif ($prod_name = $this->config->get('product_name')) {
+            } elseif ($prod_name = $this->config->get('product_name')) {
                 $title = $prod_name . ' :: ' . $title;
             }
         }
@@ -316,10 +312,10 @@ class rcmail_output_html extends rcmail_output
         // Sanity check to prevent from path traversal vulnerability (#1490620)
         if (!is_string($skin) || strpos($skin, '/') !== false || strpos($skin, '\\') !== false) {
             rcube::raise_error([
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => 'Invalid skin name',
-                ], true, false);
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+                'message' => 'Invalid skin name',
+            ], true, false);
 
             return false;
         }
@@ -495,8 +491,7 @@ class rcmail_output_html extends rcmail_output
     {
         if (strpos($cmd, 'plugin.') !== false) {
             $this->js_commands[] = ['triggerEvent', $cmd, $args[0]];
-        }
-        else {
+        } else {
             array_unshift($args, $cmd);
 
             $this->js_commands[] = $args;
@@ -539,8 +534,7 @@ class rcmail_output_html extends rcmail_output
                 }
 
                 $msgtext = $this->app->gettext(['name' => $message, 'vars' => $vars]);
-            }
-            else {
+            } else {
                 $msgtext = $message;
             }
 
@@ -638,19 +632,17 @@ class rcmail_output_html extends rcmail_output
             // prevent from endless loops
             if ($exit != 'recur' && $this->app->plugins->is_processing('render_page')) {
                 rcube::raise_error([
-                        'code'    => 505,
-                        'file'    => __FILE__,
-                        'line'    => __LINE__,
-                        'message' => 'Recursion alert: ignoring output->send()',
-                    ], true, false
-                );
+                    'code'    => 505,
+                    'file'    => __FILE__,
+                    'line'    => __LINE__,
+                    'message' => 'Recursion alert: ignoring output->send()',
+                ], true, false);
 
                 return;
             }
 
             $this->parse($templ, false);
-        }
-        else {
+        } else {
             $this->framed = true;
             $this->write();
         }
@@ -731,7 +723,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @see http://php.net/manual/en/function.exit.php
      */
-    function parse($name = 'main', $exit = true, $write = true)
+    public function parse($name = 'main', $exit = true, $write = true)
     {
         $plugin   = false;
         $realname = $name;
@@ -775,10 +767,9 @@ class rcmail_output_html extends rcmail_output
 
                 if (is_readable($path)) {
                     rcube::raise_error([
-                            'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'",
-                        ], true, false
-                    );
+                        'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'",
+                    ], true, false);
                 }
             }
 
@@ -788,8 +779,7 @@ class rcmail_output_html extends rcmail_output
                 $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
                 $skin_dir        = preg_replace('!^plugins/!', '', $skin_path);
                 break;
-            }
-            else {
+            } else {
                 $path = false;
             }
         }
@@ -797,11 +787,11 @@ class rcmail_output_html extends rcmail_output
         // read template file
         if (!$path || ($templ = @file_get_contents($path)) === false) {
             rcube::raise_error([
-                    'code' => 404,
-                    'line' => __LINE__,
-                    'file' => __FILE__,
-                    'message' => 'Error loading template for ' . $realname,
-                ], true, $write);
+                'code' => 404,
+                'line' => __LINE__,
+                'file' => __FILE__,
+                'message' => 'Error loading template for ' . $realname,
+            ], true, $write);
 
             $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
             return false;
@@ -823,9 +813,9 @@ class rcmail_output_html extends rcmail_output
 
         // trigger generic hook where plugins can put additional content to the page
         $hook = $this->app->plugins->exec_hook('render_page', [
-                'template' => $realname,
-                'content'  => $output,
-                'write'    => $write,
+            'template' => $realname,
+            'content'  => $output,
+            'write'    => $write,
         ]);
 
         // save some memory
@@ -869,8 +859,7 @@ class rcmail_output_html extends rcmail_output
         $unlock = isset($_REQUEST['_unlock']) ? preg_replace('/[^a-z0-9]/i', '', $_REQUEST['_unlock']) : 0;
         if ($this->framed) {
             $top_commands[] = ['iframe_loaded', $unlock];
-        }
-        elseif ($unlock) {
+        } elseif ($unlock) {
             $top_commands[] = ['hide_message', $unlock];
         }
 
@@ -889,8 +878,7 @@ class rcmail_output_html extends rcmail_output
                 $method        = preg_replace('/^parent\./', '', $method);
                 $parent_prefix = 'if (window.parent && parent.' . self::JS_OBJECT_NAME . ') parent.';
                 $method        = $parent_prefix . self::JS_OBJECT_NAME . '.' . $method;
-            }
-            else {
+            } else {
                 $method = self::JS_OBJECT_NAME . '.' . $method;
             }
 
@@ -943,7 +931,7 @@ class rcmail_output_html extends rcmail_output
             'message' => $message,
         ];
 
-        $page = new rcmail_action_utils_error;
+        $page = new rcmail_action_utils_error();
         $page->run($args);
     }
 
@@ -1147,8 +1135,7 @@ class rcmail_output_html extends rcmail_output
                                 if ($content_end === null) {
                                     $content_end = $tag_start;
                                 }
-                            }
-                            else {
+                            } else {
                                 // Process the 'condition' attribute
                                 $attrib  = html::parse_attrib_string($matches[2][0]);
                                 $condmet = isset($attrib['condition']) && $this->check_condition($attrib['condition']);
@@ -1166,8 +1153,7 @@ class rcmail_output_html extends rcmail_output
                                 if ($content_end === null) {
                                     $content_end = $tag_start;
                                 }
-                            }
-                            else {
+                            } else {
                                 $content_start = $tag_end;
                             }
                         }
@@ -1187,8 +1173,7 @@ class rcmail_output_html extends rcmail_output
 
             if ($content_start === null) {
                 $content = '';
-            }
-            else {
+            } else {
                 $content = substr($input, $content_start, $content_end - $content_start);
             }
 
@@ -1378,8 +1363,7 @@ class rcmail_output_html extends rcmail_output
 
                     if (!empty($attrib['quoting'])) {
                         $quoting = strtolower($attrib['quoting']);
-                    }
-                    elseif (isset($attrib['html'])) {
+                    } elseif (isset($attrib['html'])) {
                         $quoting = rcube_utils::get_boolean((string) $attrib['html']) ? 'no' : '';
                     }
 
@@ -1483,11 +1467,9 @@ class rcmail_output_html extends rcmail_output
                     // is added to the internal assets paths
                     $external = empty($attrib['src']);
                     $content  = call_user_func($handler, $attrib);
-                }
-                elseif ($object == 'doctype') {
+                } elseif ($object == 'doctype') {
                     $content = html::doctype($attrib['value']);
-                }
-                elseif ($object == 'logo') {
+                } elseif ($object == 'logo') {
                     $attrib += ['alt' => $this->xml_command(['', 'object', 'name="productname"'])];
 
                     // 'type' attribute added in 1.4 was renamed 'logo-type' in 1.5
@@ -1513,8 +1495,7 @@ class rcmail_output_html extends rcmail_output
                     foreach ($logo_types as $type) {
                         if (($template_logo = $this->get_template_logo($type)) !== null) {
                             $additional_logos[$type] = $this->abs_url($template_logo);
-                        }
-                        elseif (!empty($attrib['data-src-' . $type])) {
+                        } elseif (!empty($attrib['data-src-' . $type])) {
                             $additional_logos[$type] = $this->abs_url($attrib['data-src-' . $type]);
                         }
                     }
@@ -1526,12 +1507,10 @@ class rcmail_output_html extends rcmail_output
                     if (!empty($attrib['src'])) {
                         $content = html::img($attrib);
                     }
-                }
-                elseif ($object == 'productname') {
+                } elseif ($object == 'productname') {
                     $name    = $this->config->get('product_name', 'Roundcube Webmail');
                     $content = html::quote($name);
-                }
-                elseif ($object == 'version') {
+                } elseif ($object == 'version') {
                     $ver = (string) RCMAIL_VERSION;
                     if (is_file(RCUBE_INSTALL_PATH . '.svn/entries')) {
                         if (function_exists('shell_exec')) {
@@ -1541,8 +1520,7 @@ class rcmail_output_html extends rcmail_output
                         } else {
                             $ver .= ' [SVN]';
                         }
-                    }
-                    elseif (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
+                    } elseif (is_file(RCUBE_INSTALL_PATH . '.git/index')) {
                         if (function_exists('shell_exec')) {
                             if (preg_match('/Date:\s+([^\n]+)/', (string) @shell_exec('git log -1'), $regs)) {
                                 if ($date = date('Ymd.Hi', strtotime($regs[1]))) {
@@ -1554,15 +1532,12 @@ class rcmail_output_html extends rcmail_output
                         }
                     }
                     $content = html::quote($ver);
-                }
-                elseif ($object == 'steptitle') {
+                } elseif ($object == 'steptitle') {
                     $content = html::quote($this->get_pagetitle(false));
-                }
-                elseif ($object == 'pagetitle') {
+                } elseif ($object == 'pagetitle') {
                     // Deprecated, <title> will be added automatically
                     $content = html::quote($this->get_pagetitle());
-                }
-                elseif ($object == 'contentframe') {
+                } elseif ($object == 'contentframe') {
                     if (empty($attrib['id'])) {
                         $attrib['id'] = 'rcm' . $this->env['task'] . 'frame';
                     }
@@ -1573,15 +1548,13 @@ class rcmail_output_html extends rcmail_output
                     }
 
                     $content = $this->frame($attrib, true);
-                }
-                elseif ($object == 'meta' || $object == 'links') {
+                } elseif ($object == 'meta' || $object == 'links') {
                     if ($object == 'meta') {
                         $source = 'meta_tags';
                         $tag    = 'meta';
                         $key    = 'name';
                         $param  = 'content';
-                    }
-                    else {
+                    } else {
                         $source = 'link_tags';
                         $tag    = 'link';
                         $key    = 'rel';
@@ -1610,8 +1583,7 @@ class rcmail_output_html extends rcmail_output
                             if ($object == 'links' && $name == 'shortcut icon' && empty($args[$param])) {
                                 if ($href = $this->get_template_logo('favicon')) {
                                     $args[$param] = $href;
-                                }
-                                elseif ($href = $this->config->get('favicon', '/images/favicon.ico')) {
+                                } elseif ($href = $this->config->get('favicon', '/images/favicon.ico')) {
                                     $args[$param] = $href;
                                 }
                             }
@@ -1676,8 +1648,7 @@ class rcmail_output_html extends rcmail_output
             if (strpos($key, 'data-label-') === 0) {
                 // Localize data-label-* attributes
                 $value = $this->app->gettext($value);
-            }
-            elseif ($key[0] == ':') {
+            } elseif ($key[0] == ':') {
                 // Evaluate attributes with expressions and remove special character from attribute name
                 $attribs[substr($key, 1)] = $this->eval_expression($value);
                 unset($attribs[$key]);
@@ -1748,8 +1719,7 @@ class rcmail_output_html extends rcmail_output
         if (!empty($attrib['task'])) {
             $command = $attrib['task'] . '.' . $command;
             $element = $attrib['task'] . '.' . $action;
-        }
-        else {
+        } else {
             $element = (!empty($this->env['task']) ? $this->env['task'] . '.' : '') . $action;
         }
 
@@ -1767,19 +1737,16 @@ class rcmail_output_html extends rcmail_output
                 $attrib['type'] = substr($attrib['type'], 0, -9);
                 $menuitem = true;
             }
-        }
-        elseif (!empty($attrib['image']) || !empty($attrib['imagepas']) || !empty($attrib['imageact'])) {
+        } elseif (!empty($attrib['image']) || !empty($attrib['imagepas']) || !empty($attrib['imageact'])) {
             $attrib['type'] = 'image';
-        }
-        else {
+        } else {
             $attrib['type'] = 'button';
         }
 
         if (empty($attrib['image'])) {
             if (!empty($attrib['imagepas'])) {
                 $attrib['image'] = $attrib['imagepas'];
-            }
-            elseif (!empty($attrib['imageact'])) {
+            } elseif (!empty($attrib['imageact'])) {
                 $attrib['image'] = $attrib['imageact'];
             }
         }
@@ -1843,14 +1810,11 @@ class rcmail_output_html extends rcmail_output
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href']    = $this->app->url(['task' => $attrib['command']]);
                 $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", self::JS_OBJECT_NAME, $attrib['command']);
-            }
-            elseif (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
+            } elseif (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(['action' => $attrib['command'], 'task' => $attrib['task']]);
-            }
-            elseif (in_array($attrib['command'], $a_static_commands)) {
+            } elseif (in_array($attrib['command'], $a_static_commands)) {
                 $attrib['href'] = $this->app->url(['action' => $attrib['command']]);
-            }
-            elseif (($attrib['command'] == 'permaurl' || $attrib['command'] == 'extwin') && !empty($this->env['permaurl'])) {
+            } elseif (($attrib['command'] == 'permaurl' || $attrib['command'] == 'extwin') && !empty($this->env['permaurl'])) {
                 $attrib['href'] = $this->env['permaurl'];
             }
         }
@@ -1864,8 +1828,7 @@ class rcmail_output_html extends rcmail_output
             if (!empty($attrib['classact'])) {
                 $attrib['class'] = $attrib['classact'];
             }
-        }
-        elseif ($command && empty($attrib['onclick'])) {
+        } elseif ($command && empty($attrib['onclick'])) {
             $attrib['onclick'] = sprintf(
                 "return %s.command('%s','%s',this,event)",
                 self::JS_OBJECT_NAME,
@@ -1892,15 +1855,13 @@ class rcmail_output_html extends rcmail_output
                 $btn_content .= ' ' . $attrib['label'];
             }
             $link_attrib = ['href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target'];
-        }
-        elseif ($attrib['type'] == 'link') {
+        } elseif ($attrib['type'] == 'link') {
             $btn_content = $attrib['content'] ?? (!empty($attrib['label']) ? $attrib['label'] : $attrib['command']);
             $link_attrib = array_merge(html::$common_attrib, ['href', 'onclick', 'tabindex', 'target', 'rel']);
             if (!empty($attrib['innerclass'])) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
             }
-        }
-        elseif ($attrib['type'] == 'input') {
+        } elseif ($attrib['type'] == 'input') {
             $attrib['type'] = 'button';
 
             if (!empty($attrib['label'])) {
@@ -1911,8 +1872,7 @@ class rcmail_output_html extends rcmail_output
             }
 
             $out = html::tag('input', $attrib, null, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
-        }
-        else {
+        } else {
             if (!empty($attrib['label'])) {
                 $attrib['value'] = $attrib['label'];
             }
@@ -1973,8 +1933,7 @@ class rcmail_output_html extends rcmail_output
     {
         if (!isset($this->scripts[$position])) {
             $this->scripts[$position] = rtrim($script);
-        }
-        else {
+        } else {
             $this->scripts[$position] .= "\n" . rtrim($script);
         }
     }
@@ -2058,9 +2017,9 @@ class rcmail_output_html extends rcmail_output
             }
 
             $meta .= html::tag('meta', [
-                    'http-equiv' => 'content-type',
-                    'content'    => "text/html; charset={$this->charset}",
-                    'nl'         => true,
+                'http-equiv' => 'content-type',
+                'content'    => "text/html; charset={$this->charset}",
+                'nl'         => true,
             ]);
         }
 
@@ -2100,8 +2059,7 @@ class rcmail_output_html extends rcmail_output
         // find page header
         if ($hpos = stripos($output, '</head>')) {
             $page_header .= "\n";
-        }
-        else {
+        } else {
             if (!is_numeric($hpos)) {
                 $hpos = stripos($output, '<body');
             }
@@ -2117,8 +2075,7 @@ class rcmail_output_html extends rcmail_output
         // add page header
         if ($hpos) {
             $output = substr_replace($output, $page_header, $hpos, 0);
-        }
-        else {
+        } else {
             $output = $page_header . $output;
         }
 
@@ -2134,8 +2091,7 @@ class rcmail_output_html extends rcmail_output
             }
 
             $output = substr_replace($output, $page_footer . "\n", $fpos, 0);
-        }
-        else {
+        } else {
             $output .= "\n" . $page_footer;
         }
 
@@ -2147,10 +2103,10 @@ class rcmail_output_html extends rcmail_output
             foreach ($this->css_files as $file) {
                 $is_less = substr_compare($file, '.less', -5, 5, true) === 0;
                 $css    .= html::tag('link', [
-                        'rel'  => $is_less ? 'stylesheet/less' : 'stylesheet',
-                        'type' => 'text/css',
-                        'href' => $file,
-                        'nl'   => true,
+                    'rel'  => $is_less ? 'stylesheet/less' : 'stylesheet',
+                    'type' => 'text/css',
+                    'href' => $file,
+                    'nl'   => true,
                 ]);
             }
             $output = substr_replace($output, $css, $pos, 0);
@@ -2169,8 +2125,7 @@ class rcmail_output_html extends rcmail_output
         if (!$hook['abort']) {
             if ($this->charset != RCUBE_CHARSET) {
                 echo rcube_charset::convert($hook['content'], RCUBE_CHARSET, $this->charset);
-            }
-            else {
+            } else {
                 echo $hook['content'];
             }
         }
@@ -2221,8 +2176,7 @@ class rcmail_output_html extends rcmail_output
         if (!empty($this->env['extwin'])) {
             $hiddenfield = new html_hiddenfield(['name' => '_extwin', 'value' => '1']);
             $hidden = $hiddenfield->show();
-        }
-        elseif ($this->framed || !empty($this->env['framed'])) {
+        } elseif ($this->framed || !empty($this->env['framed'])) {
             $hiddenfield = new html_hiddenfield(['name' => '_framed', 'value' => '1']);
             $hidden = $hiddenfield->show();
         }
@@ -2298,8 +2252,7 @@ class rcmail_output_html extends rcmail_output
         // get e-mail address from default identity
         elseif ($sql_arr = $this->app->user->get_identity()) {
             $username = $sql_arr['email'];
-        }
-        else {
+        } else {
             $username = $this->app->user->get_username();
         }
 
@@ -2383,21 +2336,18 @@ class rcmail_output_html extends rcmail_output
             foreach ($default_host as $key => $value) {
                 if (!is_array($value)) {
                     $input_host->add($value, is_numeric($key) ? $value : $key);
-                }
-                else {
+                } else {
                     $input_host = null;
                     break;
                 }
             }
-        }
-        elseif (is_array($default_host) && ($host = key($default_host)) !== null) {
+        } elseif (is_array($default_host) && ($host = key($default_host)) !== null) {
             $val = is_numeric($host) ? $default_host[$host] : $host;
             $input_host = new html_hiddenfield(['name' => '_host', 'id' => 'rcmloginhost', 'value' => $val] + $attrib);
 
             $form_content['hidden']['host'] = $input_host->show();
             $input_host = null;
-        }
-        elseif (empty($default_host)) {
+        } elseif (empty($default_host)) {
             $input_host = new html_inputfield(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control']
                 + $attrib + $host_attrib);
         }
@@ -2432,8 +2382,7 @@ class rcmail_output_html extends rcmail_output
                 if (isset($input['title'])) {
                     $table->add('title', $input['title']);
                     $table->add('input', $input['content']);
-                }
-                else {
+                } else {
                     $table->add(['colspan' => 2, 'class' => 'input'], $input['content']);
                 }
             }
@@ -2519,14 +2468,14 @@ class rcmail_output_html extends rcmail_output
         // add form tag around text field
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag([
-                    'name'     => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
-                    'onsubmit' => sprintf(
-                        "%s.command('%s'); return false",
-                        self::JS_OBJECT_NAME,
-                        !empty($attrib['command']) ? $attrib['command'] : 'search'
-                    ),
-                    // 'style'    => "display:inline"
-                ], $out);
+                'name'     => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
+                'onsubmit' => sprintf(
+                    "%s.command('%s'); return false",
+                    self::JS_OBJECT_NAME,
+                    !empty($attrib['command']) ? $attrib['command'] : 'search'
+                ),
+                // 'style'    => "display:inline"
+            ], $out);
         }
 
         if (!empty($attrib['wrapper'])) {
@@ -2546,35 +2495,35 @@ class rcmail_output_html extends rcmail_output
 
             if (!empty($attrib['options'])) {
                 $options_button = $this->button([
-                        'type'       => 'link',
-                        'href'       => '#search-filter',
-                        'class'      => 'button options',
-                        'label'      => 'options',
-                        'title'      => 'options',
-                        'tabindex'   => '0',
-                        'innerclass' => 'inner',
-                        'data-target' => $options,
+                    'type'       => 'link',
+                    'href'       => '#search-filter',
+                    'class'      => 'button options',
+                    'label'      => 'options',
+                    'title'      => 'options',
+                    'tabindex'   => '0',
+                    'innerclass' => 'inner',
+                    'data-target' => $options,
                 ]);
             }
 
             $search_button = $this->button([
-                    'type'       => 'link',
-                    'href'       => '#search',
-                    'class'      => 'button search',
-                    'label'      => $attrib['buttontitle'],
-                    'title'      => $attrib['buttontitle'],
-                    'tabindex'   => '0',
-                    'innerclass' => 'inner',
+                'type'       => 'link',
+                'href'       => '#search',
+                'class'      => 'button search',
+                'label'      => $attrib['buttontitle'],
+                'title'      => $attrib['buttontitle'],
+                'tabindex'   => '0',
+                'innerclass' => 'inner',
             ]);
 
             $reset_button = $this->button([
-                    'type'       => 'link',
-                    'command'    => !empty($attrib['reset-command']) ? $attrib['reset-command'] : 'reset-search',
-                    'class'      => 'button reset',
-                    'label'      => 'resetsearch',
-                    'title'      => 'resetsearch',
-                    'tabindex'   => '0',
-                    'innerclass' => 'inner',
+                'type'       => 'link',
+                'command'    => !empty($attrib['reset-command']) ? $attrib['reset-command'] : 'reset-search',
+                'class'      => 'button reset',
+                'label'      => 'resetsearch',
+                'title'      => 'resetsearch',
+                'tabindex'   => '0',
+                'innerclass' => 'inner',
             ]);
 
             $out = html::div([
@@ -2663,11 +2612,9 @@ class rcmail_output_html extends rcmail_output
 
         if ($post = rcube_utils::get_input_string('_charset', rcube_utils::INPUT_POST)) {
             $set = $post;
-        }
-        elseif (!empty($attrib['selected'])) {
+        } elseif (!empty($attrib['selected'])) {
             $set = $attrib['selected'];
-        }
-        else {
+        } else {
             $set = $this->get_charset();
         }
 
@@ -2743,8 +2690,7 @@ class rcmail_output_html extends rcmail_output
                 if (empty($type)) {
                     // If no type provided then remove those options from the list
                     $template_names = preg_grep('/\\]$/', $template_names, \PREG_GREP_INVERT);
-                }
-                elseif ($match === null) {
+                } elseif ($match === null) {
                     // Type specified with no special matching requirements so remove all none type specific options from the list
                     $template_names = preg_grep('/\\]$/', $template_names);
                 }
@@ -2760,8 +2706,7 @@ class rcmail_output_html extends rcmail_output
                         break;
                     }
                 }
-            }
-            elseif ($type != 'link') {
+            } elseif ($type != 'link') {
                 $template_logo = $logo;
             }
         }

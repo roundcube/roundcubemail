@@ -2,7 +2,7 @@
 
 class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
 {
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../lib/enigma_mime_message.php';
     }
@@ -10,7 +10,7 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
     /**
      * Test isMultipart()
      */
-    function test_is_multipart()
+    public function test_is_multipart()
     {
         $mime     = new Mail_mime();
         $message1 = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
@@ -30,7 +30,7 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
     /**
      * Test getFromAddress()
      */
-    function test_get_from_address()
+    public function test_get_from_address()
     {
         $mime    = new Mail_mime();
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
@@ -46,7 +46,7 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
     /**
      * Test getRecipients()
      */
-    function test_get_recipients()
+    public function test_get_recipients()
     {
         $mime = new Mail_mime();
         $mime->setFrom('test1@domain.com');
@@ -64,7 +64,7 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
     /**
      * Test getOrigBody()
      */
-    function test_get_orig_body()
+    public function test_get_orig_body()
     {
         $mime = new Mail_mime();
         $mime->setTXTBody('test body');
@@ -81,7 +81,7 @@ class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
     /**
      * Test get()
      */
-    function test_get()
+    public function test_get()
     {
         $mime = new Mail_mime();
         $mime->setTXTBody('test body');

@@ -30,7 +30,7 @@ class rcube_mime
     /**
      * Object constructor.
      */
-    function __construct($default_charset = null)
+    public function __construct($default_charset = null)
     {
         self::$default_charset = $default_charset;
     }
@@ -88,7 +88,7 @@ class rcube_mime
      *
      * @return array Indexed list of addresses
      */
-    static function decode_address_list($input, $max = null, $decode = true, $fallback = null, $addronly = false)
+    public static function decode_address_list($input, $max = null, $decode = true, $fallback = null, $addronly = false)
     {
         // A common case when the same header is used many times in a mail message
         if (is_array($input)) {
@@ -112,18 +112,15 @@ class rcube_mime
 
             if ($addronly) {
                 $out[$j] = $address;
-            }
-            else {
+            } else {
                 $name   = trim($val['name']);
                 $string = '';
 
                 if ($name && $address && $name != $address) {
                     $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"' . addcslashes($name, '"') . '"' : $name, $address);
-                }
-                elseif ($address) {
+                } elseif ($address) {
                     $string = $address;
-                }
-                elseif ($name) {
+                } elseif ($name) {
                     $string = $name;
                 }
 
@@ -234,8 +231,7 @@ class rcube_mime
 
                         $text .= base64_decode($chunk);
                     }
-                }
-                else { // if ($encoding == 'Q' || $encoding == 'q') {
+                } else { // if ($encoding == 'Q' || $encoding == 'q') {
                     // quoted printable can be combined and processed at once
                     for ($i = 0; $i < $count; $i++) {
                         $text .= $tmp[$i];
@@ -344,8 +340,7 @@ class rcube_mime
                 // remove it later, because $email_rx will catch it (#8164)
                 $address = rtrim($m[2], '>');
                 $name    = trim($m[1]);
-            }
-            elseif (preg_match('/^(' . $email_rx . ')$/', $val, $m)) {
+            } elseif (preg_match('/^(' . $email_rx . ')$/', $val, $m)) {
                 $address = $m[1];
                 $name    = '';
             }
@@ -353,11 +348,9 @@ class rcube_mime
             elseif (preg_match('/(\s*<MAILER-DAEMON>)$/', $val, $m)) {
                 $address = 'MAILER-DAEMON';
                 $name    = substr($val, 0, -strlen($m[1]));
-            }
-            elseif (preg_match('/(' . $email_rx . ')/', $val, $m)) {
+            } elseif (preg_match('/(' . $email_rx . ')/', $val, $m)) {
                 $name = $m[1];
-            }
-            else {
+            } else {
                 $name = $val;
             }
 
@@ -420,8 +413,7 @@ class rcube_mime
             if ($quoted) {
                 if ($str[$i] == '"') {
                     $quoted = false;
-                }
-                elseif ($str[$i] == '\\') {
+                } elseif ($str[$i] == '\\') {
                     if ($comment <= 0) {
                         $out .= '\\';
                     }
@@ -432,11 +424,9 @@ class rcube_mime
             elseif ($comment > 0) {
                 if ($str[$i] == ')') {
                     $comment--;
-                }
-                elseif ($str[$i] == '(') {
+                } elseif ($str[$i] == '(') {
                     $comment++;
-                }
-                elseif ($str[$i] == '\\') {
+                } elseif ($str[$i] == '\\') {
                     $i++;
                 }
                 continue;
@@ -512,16 +502,13 @@ class rcube_mime
                     if ($mark) {
                         $marks[$last] = true;
                     }
-                }
-                else {
+                } else {
                     $last = $idx;
                 }
-            }
-            else {
+            } else {
                 if ($line == '-- ') {
                     $last = $idx;
-                }
-                else {
+                } else {
                     // remove space-stuffing
                     if (isset($line[0]) && $line[0] === ' ') {
                         $line = substr($line, 1);
@@ -542,8 +529,7 @@ class rcube_mime
                         if ($mark) {
                             $marks[$last] = true;
                         }
-                    }
-                    else {
+                    } else {
                         $text[$idx] = $line;
                         $last = $idx;
                     }
@@ -587,8 +573,7 @@ class rcube_mime
 
                     $prefix = str_repeat('>', $level) . ' ';
                     $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix", false, $charset);
-                }
-                elseif ($line) {
+                } elseif ($line) {
                     $line = self::wordwrap(rtrim($line), $length - 2, " \r\n", false, $charset);
                     // space-stuffing
                     $line = preg_replace('/(^|\r\n)(From| |>)/', '\\1 \\2', $line);
@@ -637,8 +622,7 @@ class rcube_mime
                 if ($breakPos === $stringLength - 1 || $breakPos === false) {
                     $subString = $string;
                     $cutLength = null;
-                }
-                else {
+                } else {
                     $subString = mb_substr($string, 0, $breakPos);
                     $cutLength = $breakPos + 1;
                 }
@@ -648,20 +632,17 @@ class rcube_mime
                 if ($breakPos === $stringLength - 1) {
                     $subString = $string;
                     $cutLength = null;
-                }
-                else {
+                } else {
                     $subString = mb_substr($string, 0, $breakPos);
                     $cutLength = $breakPos + 1;
                 }
-            }
-            else {
+            } else {
                 $subString = mb_substr($string, 0, $width);
 
                 // last line
                 if ($breakPos === false && $subString === $string) {
                     $cutLength = null;
-                }
-                else {
+                } else {
                     $nextChar = mb_substr($string, $width, 1);
 
                     if ($nextChar === ' ' || $nextChar === $separator) {
@@ -673,31 +654,26 @@ class rcube_mime
                         }
 
                         $cutLength = mb_strlen($subString) + 1;
-                    }
-                    else {
+                    } else {
                         $spacePos = mb_strrpos($subString, ' ', 0);
 
                         if ($spacePos !== false) {
                             $subString = mb_substr($subString, 0, $spacePos);
                             $cutLength = $spacePos + 1;
-                        }
-                        elseif ($cut === false) {
+                        } elseif ($cut === false) {
                             $spacePos = mb_strpos($string, ' ', 0);
 
                             if ($spacePos !== false && ($breakPos === false || $spacePos < $breakPos)) {
                                 $subString = mb_substr($string, 0, $spacePos);
                                 $cutLength = $spacePos + 1;
-                            }
-                            elseif ($breakPos === false) {
+                            } elseif ($breakPos === false) {
                                 $subString = $string;
                                 $cutLength = null;
-                            }
-                            else {
+                            } else {
                                 $subString = mb_substr($string, 0, $breakPos);
                                 $cutLength = $breakPos + 1;
                             }
-                        }
-                        else {
+                        } else {
                             $cutLength = $width;
                         }
                     }
@@ -708,8 +684,7 @@ class rcube_mime
 
             if ($cutLength !== null) {
                 $string = mb_substr($string, $cutLength, $stringLength - $cutLength);
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -754,8 +729,7 @@ class rcube_mime
             // this however is not true on all systems/versions
             if ($mime_magic) {
                 $finfo = finfo_open(\FILEINFO_MIME, $mime_magic);
-            }
-            else {
+            } else {
                 $finfo = finfo_open(\FILEINFO_MIME);
             }
 
@@ -832,8 +806,7 @@ class rcube_mime
         // try common locations
         if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN') {
             $file_paths[] = 'C:/xampp/apache/conf/mime.types';
-        }
-        else {
+        } else {
             $file_paths[] = '/etc/mime.types';
             $file_paths[] = '/etc/httpd/mime.types';
             $file_paths[] = '/etc/httpd2/mime.types';
@@ -902,8 +875,7 @@ class rcube_mime
         foreach ($aliases as $mime => $exts) {
             if (isset($mime_types[$mime])) {
                 $mime_types[$mime] = array_unique(array_merge((array) $mime_types[$mime], $exts));
-            }
-            else {
+            } else {
                 $mime_types[$mime] = $exts;
             }
 
@@ -933,11 +905,9 @@ class rcube_mime
         $type = 'jpeg';
         if (preg_match('/^\x89\x50\x4E\x47/', $data)) {
             $type = 'png';
-        }
-        elseif (preg_match('/^\x47\x49\x46\x38/', $data)) {
+        } elseif (preg_match('/^\x47\x49\x46\x38/', $data)) {
             $type = 'gif';
-        }
-        elseif (preg_match('/^\x00\x00\x01\x00/', $data)) {
+        } elseif (preg_match('/^\x00\x00\x01\x00/', $data)) {
             $type = 'ico';
         }
         // else if (preg_match('/^\xFF\xD8\xFF\xE0/', $data)) {

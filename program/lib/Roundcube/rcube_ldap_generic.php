@@ -35,7 +35,7 @@ class rcube_ldap_generic extends Net_LDAP3
      *
      * @param array $config Configuration
      */
-    function __construct($config = null)
+    public function __construct($config = null)
     {
         parent::__construct($config);
 
@@ -90,7 +90,7 @@ class rcube_ldap_generic extends Net_LDAP3
      *
      * @return mixed Error message string or null if no error occurred
      */
-    function get_error()
+    public function get_error()
     {
         return $this->error;
     }
@@ -237,8 +237,7 @@ class rcube_ldap_generic extends Net_LDAP3
             unset($list['count']);
 
             $this->_debug("S: $count record(s)");
-        }
-        else {
+        } else {
             $list = [];
             $this->_error('ldap_list() failed with ' . ldap_error($this->conn));
         }
@@ -297,8 +296,7 @@ class rcube_ldap_generic extends Net_LDAP3
                         $rec[$attr] = $entry[$attr][0];
                         break;
                 }
-            }
-            else {
+            } else {
                 for ($j = 0; $j < $entry[$attr]['count']; $j++) {
                     $rec[$attr][$j] = $entry[$attr][$j];
                 }

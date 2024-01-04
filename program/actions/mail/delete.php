@@ -61,8 +61,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
 
             self::display_server_error('errordeleting');
             $rcmail->output->send();
-        }
-        else {
+        } else {
             $rcmail->output->show_message('messagedeleted', 'confirmation');
         }
 
@@ -76,8 +75,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         if (!empty($_POST['_from']) && $_POST['_from'] == 'show') {
             if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
-            }
-            else {
+            } else {
                 $rcmail->output->command('command', 'list');
             }
 

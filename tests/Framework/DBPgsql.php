@@ -11,7 +11,7 @@ class Framework_DBPgsql extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_db_pgsql('test');
 
@@ -21,7 +21,7 @@ class Framework_DBPgsql extends PHPUnit\Framework\TestCase
     /**
      * Test script execution and table_prefix replacements when the prefix is a schema prefix
      */
-    function test_exec_script_schema_prefix()
+    public function test_exec_script_schema_prefix()
     {
         $db = rcube_db::factory('pgsql:test');
         $db->set_option('table_prefix', 'prefix.');
@@ -74,7 +74,7 @@ class Framework_DBPgsql extends PHPUnit\Framework\TestCase
     /**
      * Test converting config DSN string into PDO connection string
      */
-    function test_dsn_string()
+    public function test_dsn_string()
     {
         $db = new rcube_db_pgsql('test');
 

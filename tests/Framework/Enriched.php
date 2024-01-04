@@ -8,7 +8,7 @@ class Framework_Enriched extends PHPUnit\Framework\TestCase
     /**
      * Class constructor
      */
-    function test_class()
+    public function test_class()
     {
         $object = new rcube_enriched();
 
@@ -18,7 +18,7 @@ class Framework_Enriched extends PHPUnit\Framework\TestCase
     /**
      * Test to_html()
      */
-    function test_to_html()
+    public function test_to_html()
     {
         $enriched = '<bold><italic>the-text</italic></bold>';
         $expected = '<b><i>the-text</i></b>';
@@ -30,7 +30,7 @@ class Framework_Enriched extends PHPUnit\Framework\TestCase
     /**
      * Data for test_formatting()
      */
-    function data_formatting(): iterable
+    public function data_formatting(): iterable
     {
         return [
             ['<bold>', '<b>'],
@@ -63,7 +63,7 @@ class Framework_Enriched extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_formatting
      */
-    function test_formatting($enriched, $expected)
+    public function test_formatting($enriched, $expected)
     {
         $result = rcube_enriched::to_html($enriched);
 

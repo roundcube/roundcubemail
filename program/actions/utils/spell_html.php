@@ -41,8 +41,7 @@ class rcmail_action_utils_spell_html extends rcmail_action
 
             $spellchecker->add_word($data);
             $result['result'] = true;
-        }
-        else {
+        } else {
             $data = rcube_utils::get_input_string('text', rcube_utils::INPUT_POST, true);
             $data = html_entity_decode($data, \ENT_QUOTES, RCUBE_CHARSET);
 
@@ -56,14 +55,11 @@ class rcmail_action_utils_spell_html extends rcmail_action
 
         if ($error = $spellchecker->error()) {
             rcube::raise_error([
-                    'code'    => 500,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => 'Spellcheck error: ' . $error,
-                ],
-                true,
-                false
-            );
+                'code'    => 500,
+                'file'    => __FILE__,
+                'line'    => __LINE__,
+                'message' => 'Spellcheck error: ' . $error,
+            ], true, false);
 
             echo json_encode(['error' => $rcmail->gettext('internalerror')]);
             exit;

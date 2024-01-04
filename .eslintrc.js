@@ -86,170 +86,128 @@ module.exports = {
         'wrap-iife': ['error', 'inside'],
 
         // TODO rules to be removed/fixed later as fixes are not compatible with IE11
-        'guard-for-in': 'off', // refactor to "for of"
-        'no-restricted-globals': 'off',
-        'no-restricted-properties': 'off',
-        'no-var': 'off',
-        'one-var': 'off',
-        'prefer-const': 'off',
-        'prefer-exponentiation-operator': 'off',
-        'prefer-rest-params': 'off',
-        'prefer-spread': 'off',
-        'semi-style': 'off',
-        'unicorn/no-array-for-each': 'off',
-        'unicorn/no-for-loop': 'off', // autofixes to "for of"
-        'unicorn/prefer-code-point': 'off',
-        'unicorn/prefer-includes': 'off',
-        'unicorn/prefer-node-protocol': 'off', // needs Node 14+
-        'unicorn/prefer-number-properties': 'off',
-        'unicorn/prefer-optional-catch-binding': 'off',
-        'unicorn/prefer-prototype-methods': 'off',
-        'unicorn/prefer-reflect-apply': 'off',
-        'unicorn/prefer-spread': 'off',
-        'unicorn/prefer-top-level-await': 'off', // needs Node 14+
-        'vars-on-top': 'off',
+        'guard-for-in': 'off', // refactor to "for of" (32 matches)
+        'no-restricted-globals': 'off', // (72 matches)
+        'no-var': 'off', // (986 matches)
+        'one-var': 'off', // (489 matches)
+        'prefer-rest-params': 'off', // (3 matches)
+        'prefer-spread': 'off', // (2 matches)
+        'unicorn/no-array-for-each': 'off', // (2 matches)
+        'unicorn/no-for-loop': 'off', // autofixes to "for of" // (3 matches)
+        'unicorn/prefer-code-point': 'off', // (21 matches)
+        'unicorn/prefer-includes': 'off', // (34 matches)
+        'unicorn/prefer-number-properties': 'off', // (24 matches)
+        'unicorn/prefer-optional-catch-binding': 'off', // (25 matches)
+        'unicorn/prefer-spread': 'off', // (7 matches)
+        'vars-on-top': 'off', // (448 matches)
 
         // TODO
-        'space-infix-ops': 'off',
-        'space-before-function-paren': 'off',
-        'no-undef': 'off',
-        'no-shadow': 'off',
-        'key-spacing': 'off',
-        'block-spacing': 'off',
-        'camelcase': 'off',
-        'object-curly-spacing': 'off',
-        'unicorn/prevent-abbreviations': 'off', // eslint-disable-line no-dupe-keys
-        'no-var': 'off', // eslint-disable-line no-dupe-keys
-        'one-var-declaration-per-line': 'off',
-        'curly': 'off', // eslint-disable-line no-dupe-keys
-        'space-in-parens': 'off',
-        'space-before-blocks': 'off',
-        'nonblock-statement-body-position': 'off',
-        'brace-style': 'off',
-        'eqeqeq': 'off',
-        'array-bracket-spacing': 'off',
-        'one-var': 'off', // eslint-disable-line no-dupe-keys
-        'keyword-spacing': 'off',
-        'yoda': 'off',
-        'no-unused-expressions': 'off',
-        'padding-line-between-statements': 'off', // eslint-disable-line no-dupe-keys
-        'no-use-before-define': 'off',
-        'prefer-arrow-callback': 'off',
-        'no-sequences': 'off',
-        'vars-on-top': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/no-null': 'off', // eslint-disable-line no-dupe-keys
-        'block-scoped-var': 'off',
-        'object-curly-newline': 'off',
-        'no-return-assign': 'off',
-        'unicorn/explicit-length-check': 'off',
-        'unicorn/switch-case-braces': 'off',
-        'no-mixed-operators': 'off',
-        'no-cond-assign': 'off',
-        'padded-blocks': 'off',
-        'switch-colon-spacing': 'off',
-        'comma-dangle': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-module': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-number-properties': 'off', // eslint-disable-line no-dupe-keys
-        'strict': 'off', // eslint-disable-line no-dupe-keys
-        'no-redeclare': 'off',
-        'no-extra-semi': 'off',
-        'function-paren-newline': 'off',
-        'unicorn/no-this-assignment': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/no-nested-ternary': 'off',
-        'unicorn/no-negated-condition': 'off', // eslint-disable-line no-dupe-keys
-        'computed-property-spacing': 'off',
-        'no-restricted-globals': 'off', // eslint-disable-line no-dupe-keys
-        'quote-props': 'off',
-        'no-multiple-empty-lines': 'off',
-        'wrap-iife': 'off', // eslint-disable-line no-dupe-keys
-        'no-multi-assign': 'off',
-        'no-multi-spaces': 'off', // eslint-disable-line no-dupe-keys
-        'newline-per-chained-call': 'off',
-        'unicorn/prefer-query-selector': 'off',
-        'unicorn/better-regex': 'off',
-        'unicorn/prefer-string-replace-all': 'off',
-        'no-void': 'off',
-        'prefer-rest-params': 'off', // eslint-disable-line no-dupe-keys
-        'no-bitwise': 'off',
-        'spaced-comment': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-string-slice': 'off',
-        'unicorn/catch-error-name': 'off', // eslint-disable-line no-dupe-keys
-        'no-useless-escape': 'off',
-        'guard-for-in': 'off', // eslint-disable-line no-dupe-keys
-        'object-property-newline': 'off',
-        'unicorn/consistent-function-scoping': 'off',
-        'unicorn/prefer-regexp-test': 'off',
-        'unicorn/prefer-optional-catch-binding': 'off', // eslint-disable-line no-dupe-keys
-        'dot-notation': 'off',
-        'unicorn/prefer-includes': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-spread': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-reflect-apply': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/no-array-callback-reference': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-dom-node-append': 'off',
-        'unicorn/numeric-separators-style': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-add-event-listener': 'off',
-        'unicorn/no-lonely-if': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-date-now': 'off',
-        'unicorn/prefer-code-point': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-logical-operator-over-ternary': 'off',
-        'no-unneeded-ternary': 'off',
-        'no-empty': 'off',
-        'new-cap': 'off',
-        'function-call-argument-newline': 'off',
-        'unicorn/filename-case': 'off',
-        'no-else-return': 'off',
-        'unicorn/prefer-ternary': 'off',
-        'new-parens': 'off',
-        'no-fallthrough': 'off',
-        'operator-linebreak': 'off',
-        'space-unary-ops': 'off',
-        'radix': 'off',
-        'unicorn/no-array-method-this-argument': 'off',
-        'no-floating-decimal': 'off',
-        'array-callback-return': 'off',
-        'prefer-spread': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-string-starts-ends-with': 'off',
-        'unicorn/require-array-join-separator': 'off',
-        'unicorn/prefer-at': 'off',
-        'unicorn/no-typeof-undefined': 'off',
-        'unicorn/prefer-dom-node-remove': 'off',
-        'no-throw-literal': 'off',
-        'no-loop-func': 'off',
-        'prefer-exponentiation-operator': 'off', // eslint-disable-line no-dupe-keys
-        'no-restricted-properties': 'off', // eslint-disable-line no-dupe-keys
-        'operator-assignment': 'off',
-        'no-alert': 'off',
-        'unicorn/escape-case': 'off',
-        'unicorn/prefer-dom-node-dataset': 'off',
-        'unicorn/empty-brace-spaces': 'off',
-        'unicorn/no-for-loop': 'off', // eslint-disable-line no-dupe-keys
-        'lines-around-directive': 'off',
-        'unicorn/no-hex-escape': 'off',
-        'no-script-url': 'off',
-        'no-extend-native': 'off',
-        'no-shadow-restricted-names': 'off',
-        'unicorn/prefer-math-trunc': 'off',
-        'no-labels': 'off',
-        'unicorn/prefer-modern-math-apis': 'off',
-        'no-eval': 'off',
-        'unicorn/new-for-builtins': 'off',
-        'unicorn/no-array-for-each': 'off', // eslint-disable-line no-dupe-keys
-        'unicorn/prefer-modern-dom-apis': 'off',
-        'no-extra-boolean-cast': 'off',
-        'no-control-regex': 'off',
-        'no-label-var': 'off',
-        'global-require': 'off',
-        'prefer-regex-literals': 'off',
-        'no-array-constructor': 'off',
-        'unicorn/no-new-array': 'off',
-        'no-debugger': 'off',
-        'no-whitespace-before-property': 'off',
-        'no-constant-condition': 'off',
-        'no-implied-eval': 'off',
-        'unicorn/no-document-cookie': 'off',
-        'unicorn/prefer-default-parameters': 'off',
-        'unicorn/prefer-negative-index': 'off',
-        'no-regex-spaces': 'off',
+        'array-callback-return': 'off', // (7 matches)
+        'block-scoped-var': 'off', // (391 matches)
+        'block-spacing': 'off', // (7 matches)
+        'brace-style': 'off', // (1139 matches)
+        'camelcase': 'off', // (1886 matches)
+        'comma-dangle': 'off', // eslint-disable-line no-dupe-keys -- (131 matches)
+        'curly': 'off', // eslint-disable-line no-dupe-keys -- (1211 matches)
+        'dot-notation': 'off', // (36 matches)
+        'eqeqeq': 'off', // (921 matches)
+        'function-call-argument-newline': 'off', // (20 matches)
+        'function-paren-newline': 'off', // (109 matches)
+        'guard-for-in': 'off', // eslint-disable-line no-dupe-keys -- (32 matches)
+        'key-spacing': 'off', // (233 matches)
+        'keyword-spacing': 'off', // (15 matches)
+        'new-cap': 'off', // (16 matches)
+        'newline-per-chained-call': 'off', // (38 matches)
+        'new-parens': 'off', // (1 match)
+        'no-alert': 'off', // (3 matches)
+        'no-bitwise': 'off', // (45 matches)
+        'no-cond-assign': 'off', // (142 matches)
+        'no-constant-condition': 'off', // (1 match)
+        'no-debugger': 'off', // (1 match)
+        'no-else-return': 'off', // (15 matches)
+        'no-empty': 'off', // (15 matches)
+        'no-eval': 'off', // (2 matches)
+        'no-extend-native': 'off', // (3 matches)
+        'no-extra-semi': 'off', // (122 matches)
+        'no-fallthrough': 'off', // (10 matches)
+        'no-implied-eval': 'off', // (1 match)
+        'no-loop-func': 'off', // (5 matches)
+        'no-mixed-operators': 'off', // (8 matches)
+        'no-multi-assign': 'off', // (18 matches)
+        'no-multiple-empty-lines': 'off', // (85 matches)
+        'no-multi-spaces': 'off', // eslint-disable-line no-dupe-keys -- (69 matches)
+        'nonblock-statement-body-position': 'off', // (1158 matches)
+        'no-redeclare': 'off', // (37 matches)
+        'no-regex-spaces': 'off', // (1 match)
+        'no-restricted-globals': 'off', // eslint-disable-line no-dupe-keys -- (72 matches)
+        'no-return-assign': 'off', // (1 match)
+        'no-script-url': 'off', // (3 matches)
+        'no-sequences': 'off', // (5 matches)
+        'no-shadow': 'off', // (85 matches)
+        'no-undef': 'off', // (2472 matches)
+        'no-unneeded-ternary': 'off', // (22 matches)
+        'no-unused-expressions': 'off', // (15 matches)
+        'no-use-before-define': 'off', // (495 matches)
+        'no-useless-escape': 'off', // (18 matches)
+        'no-var': 'off', // eslint-disable-line no-dupe-keys -- (986 matches)
+        'no-whitespace-before-property': 'off', // (1 match)
+        'object-curly-newline': 'off', // (82 matches)
+        'object-curly-spacing': 'off', // (667 matches)
+        'object-property-newline': 'off', // (40 matches)
+        'one-var': 'off', // eslint-disable-line no-dupe-keys -- (489 matches)
+        'one-var-declaration-per-line': 'off', // (501 matches)
+        'operator-assignment': 'off', // (4 matches)
+        'operator-linebreak': 'off', // (14 matches)
+        'padded-blocks': 'off', // (7 matches)
+        'padding-line-between-statements': 'off', // eslint-disable-line no-dupe-keys -- (301 matches)
+        'prefer-arrow-callback': 'off', // (423 matches)
+        'prefer-rest-params': 'off', // eslint-disable-line no-dupe-keys -- (3 matches)
+        'prefer-spread': 'off', // eslint-disable-line no-dupe-keys -- (2 matches)
+        'quote-props': 'off', // (86 matches)
+        'radix': 'off', // (12 matches)
+        'space-before-blocks': 'off', // (13 matches)
+        'space-before-function-paren': 'off', // (1409 matches)
+        'spaced-comment': 'off', // eslint-disable-line no-dupe-keys -- (47 matches)
+        'space-infix-ops': 'off', // (485 matches)
+        'space-unary-ops': 'off', // (7 matches)
+        'unicorn/better-regex': 'off', // (42 matches)
+        'unicorn/consistent-function-scoping': 'off', // (19 matches)
+        'unicorn/empty-brace-spaces': 'off', // (5 matches)
+        'unicorn/escape-case': 'off', // (4 matches)
+        'unicorn/explicit-length-check': 'off', // (219 matches)
+        'unicorn/filename-case': 'off', // (3 matches)
+        'unicorn/new-for-builtins': 'off', // (2 matches)
+        'unicorn/no-array-for-each': 'off', // eslint-disable-line no-dupe-keys -- (2 matches)
+        'unicorn/no-document-cookie': 'off', // (1 match)
+        'unicorn/no-for-loop': 'off', // eslint-disable-line no-dupe-keys -- (3 matches)
+        'unicorn/no-hex-escape': 'off', // (2 matches)
+        'unicorn/no-nested-ternary': 'off', // (2 matches)
+        'unicorn/no-new-array': 'off', // (1 match)
+        'unicorn/no-typeof-undefined': 'off', // (3 matches)
+        'unicorn/prefer-add-event-listener': 'off', // (28 matches)
+        'unicorn/prefer-at': 'off', // (7 matches)
+        'unicorn/prefer-code-point': 'off', // eslint-disable-line no-dupe-keys -- (21 matches)
+        'unicorn/prefer-date-now': 'off', // (25 matches)
+        'unicorn/prefer-default-parameters': 'off', // (1 match)
+        'unicorn/prefer-dom-node-append': 'off', // (28 matches)
+        'unicorn/prefer-dom-node-dataset': 'off', // (1 match)
+        'unicorn/prefer-dom-node-remove': 'off', // (4 matches)
+        'unicorn/prefer-includes': 'off', // eslint-disable-line no-dupe-keys -- (34 matches)
+        'unicorn/prefer-logical-operator-over-ternary': 'off', // (23 matches)
+        'unicorn/prefer-modern-dom-apis': 'off', // (2 matches)
+        'unicorn/prefer-negative-index': 'off', // (1 match)
+        'unicorn/prefer-number-properties': 'off', // eslint-disable-line no-dupe-keys -- (24 matches)
+        'unicorn/prefer-optional-catch-binding': 'off', // eslint-disable-line no-dupe-keys -- (25 matches)
+        'unicorn/prefer-query-selector': 'off', // (61 matches)
+        'unicorn/prefer-regexp-test': 'off', // (31 matches)
+        'unicorn/prefer-spread': 'off', // eslint-disable-line no-dupe-keys -- (7 matches)
+        'unicorn/prefer-string-replace-all': 'off', // (43 matches)
+        'unicorn/prefer-string-slice': 'off', // (39 matches)
+        'unicorn/prefer-string-starts-ends-with': 'off', // (2 matches)
+        'unicorn/prefer-ternary': 'off', // (16 matches)
+        'unicorn/require-array-join-separator': 'off', // (5 matches)
+        'unicorn/switch-case-braces': 'off', // (161 matches)
+        'vars-on-top': 'off', // eslint-disable-line no-dupe-keys -- (448 matches)
     },
     reportUnusedDisableDirectives: true,
     globals: {

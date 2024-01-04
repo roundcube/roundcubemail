@@ -20,15 +20,15 @@ class identicon_engine
         '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#607D8B',
     ];
     private $grid = [
-         0, 1, 2, 1, 0,
-         3, 4, 5, 4, 3,
-         6, 7, 8, 7, 6,
-         9, 10, 11, 10, 9,
+        0, 1, 2, 1, 0,
+        3, 4, 5, 4, 3,
+        6, 7, 8, 7, 6,
+        9, 10, 11, 10, 9,
         12, 13, 14, 13, 12,
     ];
 
-    const GRID_SIZE = 5;
-    const ICON_SIZE = 150;
+    public const GRID_SIZE = 5;
+    public const ICON_SIZE = 150;
 
 
     /**
@@ -55,8 +55,7 @@ class identicon_engine
                     $bgcolor = "#{$bgcolor}";
                 }
                 $this->bgcolor = $bgcolor;
-            }
-            elseif ($bgcolor === 'transparent') {
+            } elseif ($bgcolor === 'transparent') {
                 $this->bgcolor = $bgcolor;
             }
         }
@@ -132,8 +131,7 @@ class identicon_engine
         // really generate the image using supported methods
         if (function_exists('imagepng')) {
             $this->generateGD();
-        }
-        else {
+        } else {
             // log an error
             $error = [
                 'code'    => 500,
@@ -158,8 +156,7 @@ class identicon_engine
         if ($this->bgcolor === 'transparent') {
             $bgcolor = imagecolorallocatealpha($image, 0, 0, 0, 127);
             imagesavealpha($image, true);
-        }
-        else {
+        } else {
             $bgcolor = $this->toRGB($this->bgcolor);
             $bgcolor = imagecolorallocate($image, $bgcolor[0], $bgcolor[1], $bgcolor[2]);
         }

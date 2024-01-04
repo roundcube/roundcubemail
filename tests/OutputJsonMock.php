@@ -22,8 +22,8 @@
  */
 class OutputJsonMock extends rcmail_output_json
 {
-    const E_EXIT     = 101;
-    const E_REDIRECT = 102;
+    public const E_EXIT     = 101;
+    public const E_REDIRECT = 102;
 
     public $output;
     public $headers = [];

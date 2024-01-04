@@ -53,8 +53,7 @@ class rcmail_action_mail_import extends rcmail_action
                         if (empty($filepath)) {
                             continue;
                         }
-                    }
-                    elseif (!in_array($mtype_primary, ['text', 'message'])) {
+                    } elseif (!in_array($mtype_primary, ['text', 'message'])) {
                         continue;
                     }
 
@@ -63,8 +62,7 @@ class rcmail_action_mail_import extends rcmail_action
                         $fp = fopen($file, 'r');
                         do {
                             $line = fgets($fp);
-                        }
-                        while ($line !== false && trim($line) == '');
+                        } while ($line !== false && trim($line) == '');
 
                         if (!preg_match('/^From .+/', $line) && !preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
                             continue;
@@ -98,8 +96,7 @@ class rcmail_action_mail_import extends rcmail_action
                             unlink($file);
                         }
                     }
-                }
-                else {
+                } else {
                     self::upload_error($err);
                 }
             }
@@ -107,12 +104,10 @@ class rcmail_action_mail_import extends rcmail_action
             if ($imported) {
                 $rcmail->output->show_message($rcmail->gettext(['name' => 'importmessagesuccess', 'nr' => $imported, 'vars' => ['nr' => $imported]]), 'confirmation');
                 $rcmail->output->command('command', 'list');
-            }
-            else {
+            } else {
                 $rcmail->output->show_message('importmessageerror', 'error');
             }
-        }
-        else {
+        } else {
             self::upload_failure();
         }
 
@@ -126,7 +121,7 @@ class rcmail_action_mail_import extends rcmail_action
             return;
         }
 
-        $zip   = new ZipArchive;
+        $zip   = new ZipArchive();
         $files = [];
 
         if ($zip->open($path)) {
@@ -140,8 +135,7 @@ class rcmail_action_mail_import extends rcmail_action
 
                     if (in_array($mtype_primary, ['text', 'message'])) {
                         $files[] = $tmpfname;
-                    }
-                    else {
+                    } else {
                         unlink($tmpfname);
                     }
                 }
@@ -177,8 +171,7 @@ class rcmail_action_mail_import extends rcmail_action
             ) {
                 try {
                     $date = new DateTime($m[0], new DateTimeZone('UTC'));
-                }
-                catch (Exception $e) {
+                } catch (Exception $e) {
                     // ignore
                 }
             }

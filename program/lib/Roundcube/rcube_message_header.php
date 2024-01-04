@@ -318,8 +318,7 @@ class rcube_message_header
 
         if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
             $value = $this->{$this->obj_headers[$name]};
-        }
-        elseif (isset($this->others[$name])) {
+        } elseif (isset($this->others[$name])) {
             $value = $this->others[$name];
         }
 
@@ -329,8 +328,7 @@ class rcube_message_header
                     $val         = rcube_mime::decode_header($val, $this->charset);
                     $value[$key] = rcube_charset::clean($val);
                 }
-            }
-            else {
+            } else {
                 $value = rcube_mime::decode_header($value, $this->charset);
                 $value = rcube_charset::clean($value);
             }
@@ -351,8 +349,7 @@ class rcube_message_header
 
         if (isset($this->obj_headers[$name])) {
             $this->{$this->obj_headers[$name]} = $value;
-        }
-        else {
+        } else {
             $this->others[$name] = $value;
         }
     }
@@ -366,7 +363,7 @@ class rcube_message_header
      */
     public static function from_array($arr)
     {
-        $obj = new self;
+        $obj = new self();
         foreach ($arr as $k => $v) {
             $obj->set($k, $v);
         }
@@ -390,7 +387,7 @@ class rcube_message_header_sorter
      *
      * @param array $index Numerically indexed array of IMAP UIDs
      */
-    function set_index($index)
+    public function set_index($index)
     {
         $index = array_flip($index);
 
@@ -402,7 +399,7 @@ class rcube_message_header_sorter
      *
      * @param array $headers Array of rcube_message_header objects indexed by UID
      */
-    function sort_headers(&$headers)
+    public function sort_headers(&$headers)
     {
         uksort($headers, [$this, 'compare_uids']);
     }
@@ -413,7 +410,7 @@ class rcube_message_header_sorter
      * @param int $a Array key (UID)
      * @param int $b Array key (UID)
      */
-    function compare_uids($a, $b)
+    public function compare_uids($a, $b)
     {
         // then find each sequence number in my ordered list
         $posa = isset($this->uids[$a]) ? intval($this->uids[$a]) : -1;

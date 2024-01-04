@@ -8,9 +8,9 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
     /**
      * Test run() method
      */
-    function test_run()
+    public function test_run()
     {
-        $action = new rcmail_action_settings_response_edit;
+        $action = new rcmail_action_settings_response_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-response');
 
         $this->assertInstanceOf('rcmail_action', $action);
@@ -58,7 +58,7 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
     /**
      * Test response_form() method
      */
-    function test_response_form()
+    public function test_response_form()
     {
         $result = rcmail_action_settings_response_edit::response_form([]);
 

@@ -54,10 +54,10 @@ $config['db_prefix'] = '';
 // This can be used in a setup with replicated databases and a DB master
 // where read/write access to cache tables should not go to master.
 $config['db_table_dsn'] = [
-//    'cache' => 'r',
-//    'cache_index' => 'r',
-//    'cache_thread' => 'r',
-//    'cache_messages' => 'r',
+    // 'cache' => 'r',
+    // 'cache_index' => 'r',
+    // 'cache_thread' => 'r',
+    // 'cache_messages' => 'r',
 ];
 
 // It is possible to specify database variable values e.g. some limits here.
@@ -1038,8 +1038,8 @@ $config['undo_timeout'] = 0;
 
 // A static list of canned responses which are immutable for the user
 $config['compose_responses_static'] = [
-//  ['name' => 'Canned Response 1', 'text' => 'Static Response One'],
-//  ['name' => 'Canned Response 2', 'text' => 'Static Response Two'],
+    // ['name' => 'Canned Response 1', 'text' => 'Static Response One'],
+    // ['name' => 'Canned Response 2', 'text' => 'Static Response Two'],
 ];
 
 // List of HKP key servers for PGP public key lookups in Enigma/Mailvelope
