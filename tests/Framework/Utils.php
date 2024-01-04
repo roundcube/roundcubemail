@@ -743,7 +743,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for IDN to ASCII and IDN to UTF-8
      */
-    public function data_idn_convert(): iterable
+    public function provide_idn_convert_cases(): iterable
     {
         /*
          * Check https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_brand_top-level_domains
@@ -778,7 +778,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      * @param string $decoded Decoded email address
      * @param string $encoded Encoded email address
      *
-     * @dataProvider data_idn_convert
+     * @dataProvider provide_idn_convert_cases
      */
     public function test_idn_to_ascii($decoded, $encoded)
     {
@@ -791,7 +791,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      * @param string $decoded Decoded email address
      * @param string $encoded Encoded email address
      *
-     * @dataProvider data_idn_convert
+     * @dataProvider provide_idn_convert_cases
      */
     public function test_idn_to_utf8($decoded, $encoded)
     {
