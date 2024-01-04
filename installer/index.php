@@ -139,9 +139,9 @@ if ($RCI->configured && !$RCI->getprop('enable_installer') && empty($_SESSION['a
 <ol id="progress">
 <?php
 $include_steps = [
-    1 => './check.php',
-    2 => './config.php',
-    3 => './test.php',
+    1 => __DIR__ . '/check.php',
+    2 => __DIR__ . '/config.php',
+    3 => __DIR__ . '/test.php',
 ];
 
 if (!in_array($RCI->step, array_keys($include_steps))) {
