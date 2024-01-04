@@ -267,7 +267,7 @@ class rcube
     {
         $defaults = ['timeout' => 30, 'connect_timeout' => 5, 'read_timeout' => 120];
 
-        return new \GuzzleHttp\Client($options + $this->config->get('http_client') + $defaults);
+        return new GuzzleHttp\Client($options + $this->config->get('http_client') + $defaults);
     }
 
     /**

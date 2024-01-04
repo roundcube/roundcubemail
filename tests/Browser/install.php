@@ -44,7 +44,7 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
 
         $url = $this->resolveChromeDriverDownloadUrl($version, $os);
 
-        $client = new \GuzzleHttp\Client();
+        $client = new GuzzleHttp\Client();
 
         $response = $client->get($url);
 

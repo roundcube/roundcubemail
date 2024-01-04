@@ -70,7 +70,7 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 header('Cache-Control: no-store');
                 echo '{}';
                 exit;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 rcube::raise_error([
                     'message' => $e->getMessage(),
                     'file'    => __FILE__,

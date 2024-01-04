@@ -268,7 +268,7 @@ class rcmail_oauth
                     ], true, false);
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             rcube::raise_error([
                 'message' => "Error fetching {$config_uri} : {$e->getMessage()}",
                 'file'    => __FILE__,
