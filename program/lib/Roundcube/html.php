@@ -81,7 +81,6 @@ class html
         if (isset($content) || in_array($tagname, self::$containers)) {
             $suffix = !empty($attrib['noclose']) ? $suffix : '</' . $tagname . '>' . $suffix;
             unset($attrib['noclose'], $attrib['nl']);
-
             return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
         } else {
             return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $suffix;
@@ -104,7 +103,6 @@ class html
 
         if (!empty($doctypes[$type])) {
             self::$doctype = preg_replace('/-\w+$/', '', $type);
-
             return $doctypes[$type];
         }
 
@@ -801,7 +799,6 @@ class html_table extends html
         foreach ($this->header->cells as $index => $header) {
             if ($header->attrib['class'] == $class) {
                 unset($this->header[$index]);
-
                 break;
             }
         }
@@ -811,7 +808,6 @@ class html_table extends html
             foreach ($row->cells as $j => $cell) {
                 if ($cell->attrib['class'] == $class) {
                     unset($this->rows[$i]->cells[$j]);
-
                     break;
                 }
             }
@@ -971,7 +967,6 @@ class html_table extends html
     private function _row_tagname()
     {
         static $row_tagnames = ['table' => 'tr', 'ul' => 'li', '*' => 'div'];
-
         return !empty($row_tagnames[$this->tagname]) ? $row_tagnames[$this->tagname] : $row_tagnames['*'];
     }
 
@@ -981,7 +976,6 @@ class html_table extends html
     private function _head_tagname()
     {
         static $head_tagnames = ['table' => 'th', '*' => 'span'];
-
         return !empty($head_tagnames[$this->tagname]) ? $head_tagnames[$this->tagname] : $head_tagnames['*'];
     }
 
@@ -991,7 +985,6 @@ class html_table extends html
     private function _col_tagname()
     {
         static $col_tagnames = ['table' => 'td', '*' => 'span'];
-
         return !empty($col_tagnames[$this->tagname]) ? $col_tagnames[$this->tagname] : $col_tagnames['*'];
     }
 }

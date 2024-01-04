@@ -58,7 +58,6 @@ function export_mailbox($mbox, $filename)
     if ($filename) {
         if (!($out = fopen($filename, 'w'))) {
             vputs("Cannot write to output file\n");
-
             return;
         }
         vputs("Writing to $filename\n");
@@ -89,12 +88,10 @@ $args = rcube_utils::get_opt($opts) + ['host' => 'localhost', 'mbox' => 'INBOX']
 
 if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
-
     exit;
 } elseif (!$args['host']) {
     vputs("Missing required parameters.\n");
     print_usage();
-
     exit;
 }
 

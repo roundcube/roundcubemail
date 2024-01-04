@@ -124,12 +124,10 @@ class rcube_sieve_engine
                 case rcube_sieve::ERROR_CONNECTION:
                 case rcube_sieve::ERROR_LOGIN:
                     $this->rc->output->show_message('managesieve.filterconnerror', 'error');
-
                     break;
 
                 default:
                     $this->rc->output->show_message('managesieve.filterunknownerror', 'error');
-
                     break;
             }
 
@@ -660,7 +658,6 @@ class rcube_sieve_engine
                 foreach ($this->script as $idx => $rule) {
                     if ($rule['name'] == $name && $idx != $fid) {
                         $this->errors['name'] = $this->plugin->gettext('ruleexist');
-
                         break;
                     }
                 }
@@ -748,7 +745,6 @@ class rcube_sieve_engine
                                 foreach ($target as $arg) {
                                     if (!$this->validate_date_part($datepart, $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('invaliddateformat');
-
                                         break;
                                     }
                                 }
@@ -805,7 +801,6 @@ class rcube_sieve_engine
                                 foreach ($target as $arg) {
                                     if (!$this->validate_date_part($datepart, $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('invaliddateformat');
-
                                         break;
                                     }
                                 }
@@ -998,7 +993,6 @@ class rcube_sieve_engine
                             $type = 'fileinto';
                             $this->form['actions'][$i]['copy'] = true;
                         }
-
                         break;
 
                     case 'reject':
@@ -1109,7 +1103,6 @@ class rcube_sieve_engine
                                 unset($this->form['actions'][$i]['addresses'][$aidx]);
                             } elseif (!rcube_utils::check_email($address)) {
                                 $this->errors['actions'][$i]['addresses'] = $this->plugin->gettext('noemailwarning');
-
                                 break;
                             }
                         }
@@ -1125,7 +1118,6 @@ class rcube_sieve_engine
                         if ($this->form['actions'][$i][$interval_type] && !preg_match('/^[0-9]+$/', $this->form['actions'][$i][$interval_type])) {
                             $this->errors['actions'][$i]['interval'] = $this->plugin->gettext('forbiddenchars');
                         }
-
                         break;
 
                     case 'set':
@@ -1144,7 +1136,6 @@ class rcube_sieve_engine
                         if (!isset($varvalues[$idx]) || $varvalues[$idx] === '') {
                             $this->errors['actions'][$i]['value'] = $this->plugin->gettext('cannotbeempty');
                         }
-
                         break;
 
                     case 'notify':
@@ -1492,7 +1483,6 @@ class rcube_sieve_engine
         // do not allow creation of new filters
         if ($fid === null && in_array('new_filter', $this->disabled_actions)) {
             $this->rc->output->show_message('managesieve.disabledaction', 'error');
-
             return;
         }
 
@@ -2132,27 +2122,21 @@ class rcube_sieve_engine
             switch ($m[2]) {
                 case 'gt':
                     $rule['type'] = $m[1] . '-le';
-
                     break;
                 case 'ge':
                     $rule['type'] = $m[1] . '-lt';
-
                     break;
                 case 'lt':
                     $rule['type'] = $m[1] . '-ge';
-
                     break;
                 case 'le':
                     $rule['type'] = $m[1] . '-gt';
-
                     break;
                 case 'eq':
                     $rule['type'] = $m[1] . '-ne';
-
                     break;
                 case 'ne':
                     $rule['type'] = $m[1] . '-eq';
-
                     break;
             }
         } elseif (!empty($rule['not']) && !empty($rule['test']) && $rule['test'] == 'size') {
@@ -3421,7 +3405,6 @@ class rcube_sieve_engine
         foreach ((array) $from as $idx => $addr) {
             if (empty($addr['mailto']) || !rcube_utils::check_email($addr['mailto'])) {
                 $this->errors['actions'][$i][$field] = $this->plugin->gettext('noemailwarning');
-
                 break;
             } else {
                 $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);

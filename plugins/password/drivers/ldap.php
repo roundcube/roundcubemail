@@ -53,13 +53,11 @@ class rcube_ldap_password
             case 'admin':
                 $binddn = $rcmail->config->get('password_ldap_adminDN');
                 $bindpw = $rcmail->config->get('password_ldap_adminPW');
-
                 break;
             case 'user':
             default:
                 $binddn = $userDN;
                 $bindpw = $curpass;
-
                 break;
         }
 
@@ -193,7 +191,6 @@ class rcube_ldap_password
 
         if (is_a($result, 'PEAR_Error') || ($result->count() != 1)) {
             $ldap->done();
-
             return '';
         }
 

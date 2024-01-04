@@ -461,15 +461,12 @@ class acl extends rcube_plugin
                 switch ($in) {
                     case 2:
                         $class = 'enabled';
-
                         break;
                     case 1:
                         $class = 'partial';
-
                         break;
                     default:
                         $class = 'disabled';
-
                         break;
                 }
                 $table->add('acl' . $key . ' ' . $class, '<span></span>');
@@ -724,7 +721,6 @@ class acl extends rcube_plugin
                 foreach (array_keys($acl) as $name) {
                     if (preg_match($regexp, $name, $matches)) {
                         $domain = $matches[1];
-
                         break;
                     }
                 }

@@ -380,7 +380,6 @@ class rcube_html2text
 
         if (!in_array((int) $mode, $allowed)) {
             $this->_links_mode = self::LINKS_DEFAULT;
-
             return;
         }
 
@@ -762,7 +761,6 @@ class rcube_html2text
             case 'a':
                 // Remove spaces in URL (#1487805)
                 $url = str_replace(' ', '', $matches[3]);
-
                 return $this->_handle_link($url, $matches[4]);
         }
     }

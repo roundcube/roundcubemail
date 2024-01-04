@@ -184,7 +184,6 @@ class rcube_imap_cache
                 if ($result->get_parameters('ORDER') != $sort_order) {
                     $result->revert();
                 }
-
                 return $result;
             }
         }
@@ -851,7 +850,6 @@ class rcube_imap_cache
         if (empty($index['validity']) || $index['validity'] != $mbox_data['UIDVALIDITY']) {
             $this->clear($mailbox);
             $exists = false;
-
             return false;
         }
 
@@ -860,21 +858,18 @@ class rcube_imap_cache
             if (!$object->is_empty()) {
                 $this->clear($mailbox);
                 $exists = false;
-
                 return false;
             }
         }
         // Folder is not empty but cache is
         elseif ($object->is_empty()) {
             unset($this->icache[$mailbox][$is_thread ? 'thread' : 'index']);
-
             return false;
         }
 
         // Validation flag
         if (!$is_thread && empty($index['valid'])) {
             unset($this->icache[$mailbox]['index']);
-
             return false;
         }
 
@@ -893,7 +888,6 @@ class rcube_imap_cache
         // Check UIDNEXT
         if ($index['uidnext'] != $mbox_data['UIDNEXT']) {
             unset($this->icache[$mailbox][$is_thread ? 'thread' : 'index']);
-
             return false;
         }
 
@@ -903,7 +897,6 @@ class rcube_imap_cache
             if (!$this->skip_deleted && $mbox_data['EXISTS'] != $object->count_messages()) {
                 return false;
             }
-
             return true;
         }
 
@@ -986,7 +979,6 @@ class rcube_imap_cache
             // set the flag that DB was already queried for index
             // this way we'll be able to skip one SELECT in get_index()
             $this->icache[$mailbox]['index_queried'] = true;
-
             return;
         }
 
@@ -1022,7 +1014,6 @@ class rcube_imap_cache
         // Check UIDVALIDITY
         if ($index['validity'] != $mbox_data['UIDVALIDITY']) {
             $this->clear($mailbox);
-
             return;
         }
 
@@ -1068,7 +1059,6 @@ class rcube_imap_cache
                         $removed[] = $uid;
                         // Invalidate index
                         $index['valid'] = false;
-
                         continue;
                     }
 

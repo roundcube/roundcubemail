@@ -89,6 +89,7 @@ return (new PhpCsFixer\Config())
         // TODO
         'array_indentation' => false,
         'binary_operator_spaces' => ['default' => 'at_least_single_space'],
+        'blank_line_before_statement' => false,
         'class_attributes_separation' => false,
         'explicit_string_variable' => false,
         'fully_qualified_strict_types' => [

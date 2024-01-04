@@ -36,7 +36,6 @@ class rcmail_action_login_oauth extends rcmail_action
         if (!empty($auth_error)) {
             $error_message = rcube_utils::get_input_string('error_description', rcube_utils::INPUT_GET) ?: $auth_error;
             $rcmail->output->show_message($error_message, 'warning');
-
             return;
         }
 
@@ -45,14 +44,12 @@ class rcmail_action_login_oauth extends rcmail_action
             $auth = $rcmail->oauth->request_access_token($auth_code, $auth_state);
             if (!$auth) {
                 $rcmail->output->show_message('oauthloginfailed', 'warning');
-
                 return;
             }
 
             // next action will be the login
             $args['task'] = 'login';
             $args['action'] = 'login';
-
             return $args;
         }
 

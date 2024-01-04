@@ -37,7 +37,6 @@ function _die($msg, $usage = false)
     if ($usage) {
         print_usage();
     }
-
     exit(1);
 }
 
@@ -58,12 +57,10 @@ if (!empty($args['age']) && ($age = intval($args['age']))) {
     while ($user = $db->fetch_assoc($query)) {
         if (!empty($args['dry-run'])) {
             printf("%s (%s)\n", $user['username'], $user['mail_host']);
-
             continue;
         }
         system(sprintf('%s/deluser.sh --host=%s %s', INSTALL_PATH . 'bin', escapeshellarg($user['mail_host']), escapeshellarg($user['username'])));
     }
-
     exit(0);
 }
 

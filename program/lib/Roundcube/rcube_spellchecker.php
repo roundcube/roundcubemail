@@ -259,7 +259,6 @@ class rcube_spellchecker
     private function html2text($text)
     {
         $h2t = new rcube_html2text($text, false, false, 0);
-
         return $h2t->get_text();
     }
 

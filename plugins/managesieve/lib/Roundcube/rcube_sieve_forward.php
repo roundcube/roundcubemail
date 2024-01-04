@@ -74,7 +74,6 @@ class rcube_sieve_forward extends rcube_sieve_engine
                         if (!empty($rule['actions'])) {
                             if ($rule['actions'][0]['type'] == 'redirect') {
                                 $this->script_name = $script;
-
                                 return 0;
                             } elseif (empty($master) && $rule['actions'][0]['type'] == 'include') {
                                 $included[] = $rule['actions'][0]['target'];
@@ -90,7 +89,6 @@ class rcube_sieve_forward extends rcube_sieve_engine
                     foreach ($this->sieve->script->as_array() as $rule) {
                         if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'redirect') {
                             $this->script_name = $script;
-
                             return 0;
                         }
                     }
@@ -106,7 +104,6 @@ class rcube_sieve_forward extends rcube_sieve_engine
                     foreach ($this->sieve->script->as_array() as $rule) {
                         if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'redirect') {
                             $this->script_name = $script;
-
                             return 0;
                         }
                     }
@@ -365,12 +362,10 @@ class rcube_sieve_forward extends rcube_sieve_engine
         if ($data['action'] == 'redirect' || $data['action'] == 'copy') {
             if (empty($data['target']) || !rcube_utils::check_email($data['target'])) {
                 $this->error = 'Invalid address in action target: ' . $data['target'];
-
                 return false;
             }
         } elseif ($data['action']) {
             $this->error = 'Unsupported forward action: ' . $data['action'];
-
             return false;
         }
 

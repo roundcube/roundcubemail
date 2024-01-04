@@ -55,7 +55,6 @@ if (isset($_GET['_getconfig'])) {
         $path = sys_get_temp_dir() . \DIRECTORY_SEPARATOR . $filename;
         @unlink($path);
         file_put_contents($path, $_SESSION['config']);
-
         exit;
     }
 
@@ -63,12 +62,10 @@ if (isset($_GET['_getconfig'])) {
         header('Content-type: text/plain');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         echo $_SESSION['config'];
-
         exit;
     }
 
     http_response_code(404);
-
     exit('The requested configuration was not found. Please run the installer from the beginning.');
 }
 
@@ -84,14 +81,12 @@ if (
 
     $RCI->merge_config();
     echo $RCI->create_config();
-
     exit;
 }
 
 // go to 'check env' step if we have a local configuration
 if ($RCI->configured && empty($_REQUEST['_step'])) {
     header('Location: ./?_step=1');
-
     exit;
 }
 
@@ -134,7 +129,6 @@ if ($RCI->configured && !$RCI->getprop('enable_installer') && empty($_SESSION['a
     }
 
     echo '</div></body></html>';
-
     exit;
 }
 

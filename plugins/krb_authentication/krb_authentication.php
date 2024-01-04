@@ -82,7 +82,6 @@ class krb_authentication extends rcube_plugin
         // Redirect to the previous QUERY_STRING
         if ($this->redirect_query) {
             header('Location: ./?' . $this->redirect_query);
-
             exit;
         }
 

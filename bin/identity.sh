@@ -69,7 +69,6 @@ function get_identity_attr($options)
         echo "-a <attr-name> - e.g. -a email\n";
         echo "   available attributes: identity_id, user_id, changed, del, standard, name,\n";
         echo "                         organization, email, reply-to, bcc, signature, html_signature.\n\n";
-
         exit;
     }
 
@@ -100,7 +99,6 @@ function list_identities($options)
         echo "list: Prints the attributes of all identities of a user.\n\n";
         echo "Mandatory arguments:\n";
         echo "-u <username> - the identity holder e.g. -u mainmail@example.com\n\n";
-
         exit;
     }
 
@@ -125,7 +123,6 @@ function delete_identity($options)
         echo "Mandatory arguments:\n";
         echo "-u <username> - the identity holder e.g. -u mainmail@example.com\n";
         echo "-i <id> - the id of the identity being queried e.g. -i 70) use list sub-command to get identity id\n\n";
-
         exit;
     }
 
@@ -137,7 +134,6 @@ function delete_identity($options)
 
     if (!$identity) {
         rcube::raise_error('Invalid identity ID.');
-
         exit;
     }
 
@@ -160,7 +156,6 @@ function add_identity($options)
         echo "-n <name> - the name of the identity - e.g. -n 'John Smith'\n\n";
         echo "Optional arguments:\n";
         echo_shared_options();
-
         exit;
     }
 
@@ -224,7 +219,6 @@ function update_identity($options)
         echo "-e <email> - the email of the identity e.g. identityemail@example.com\n";
         echo "-n <name> - the name of the identity - e.g. -n 'John Smith'\n";
         echo_shared_options();
-
         exit;
     }
 

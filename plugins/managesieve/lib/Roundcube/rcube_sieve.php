@@ -473,7 +473,6 @@ class rcube_sieve
     private function _set_error($error)
     {
         $this->error = $error;
-
         return false;
     }
 

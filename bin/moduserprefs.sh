@@ -43,12 +43,10 @@ $args = rcube_utils::get_opt([
 
 if (empty($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
-
     exit;
 } elseif (empty($args[0]) || (empty($args[1]) && empty($args['delete']))) {
     echo "Missing required parameters.\n";
     print_usage();
-
     exit;
 }
 

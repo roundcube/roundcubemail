@@ -429,7 +429,6 @@ class rcube_mime
                 } elseif ($str[$i] == '\\') {
                     $i++;
                 }
-
                 continue;
             }
             // separator, add to result array
@@ -438,7 +437,6 @@ class rcube_mime
                     $result[] = $out;
                 }
                 $out = '';
-
                 continue;
             }
             // start of quoted string
@@ -828,7 +826,6 @@ class rcube_mime
         foreach ($file_paths as $fp) {
             if (@is_readable($fp)) {
                 $lines = file($fp, \FILE_IGNORE_NEW_LINES | \FILE_SKIP_EMPTY_LINES);
-
                 break;
             }
         }

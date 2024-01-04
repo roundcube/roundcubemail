@@ -221,7 +221,6 @@ if ($RCI->configured) {
                         }
 
                         $existing = true;
-
                         break;
                     }
 

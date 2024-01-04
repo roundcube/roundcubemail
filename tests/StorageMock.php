@@ -40,7 +40,6 @@ class StorageMock
                 $result = $mock[1];
                 $this->methodCalls[] = ['name' => $name, 'args' => $arguments];
                 unset($this->mocks[$idx]);
-
                 return $result;
             }
         }

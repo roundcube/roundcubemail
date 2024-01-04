@@ -101,7 +101,6 @@ class debug_logger extends rcube_plugin
     public function authenticate($args)
     {
         $this->runlog->note('Authenticating ' . $args['user'] . '@' . $args['host']);
-
         return $args;
     }
 
@@ -120,15 +119,12 @@ class debug_logger extends rcube_plugin
             switch (basename($file)) {
                 case 'rcube_imap.php':
                     $type = 'imap';
-
                     break;
                 case 'rcube_storage.php':
                     $type = 'storage';
-
                     break;
                 default:
                     $type = false;
-
                     break;
             }
         }
@@ -136,22 +132,18 @@ class debug_logger extends rcube_plugin
         switch ($note) {
             case 'end':
                 $type = 'end';
-
                 break;
         }
 
         switch ($type) {
             case 'start':
                 $this->runlog->start($note);
-
                 break;
             case 'end':
                 $this->runlog->end();
-
                 break;
             default:
                 $this->runlog->note($note, $type);
-
                 break;
         }
 

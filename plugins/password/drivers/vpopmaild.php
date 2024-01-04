@@ -44,7 +44,6 @@ class rcube_vpopmaild_password
         $result = $vpopmaild->readLine();
         if (!preg_match('/^\+OK/', $result)) {
             $vpopmaild->disconnect();
-
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -54,7 +53,6 @@ class rcube_vpopmaild_password
         if (!preg_match('/^\+OK/', $result)) {
             $vpopmaild->writeLine('quit');
             $vpopmaild->disconnect();
-
             return PASSWORD_ERROR;
         }
 

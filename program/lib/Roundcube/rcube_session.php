@@ -166,7 +166,6 @@ abstract class rcube_session implements SessionHandlerInterface
         // if there are cached vars, update store, else insert new data
         if ($oldvars) {
             $newvars = $this->fixvars($vars, $oldvars);
-
             return $this->update($key, $newvars, $oldvars);
         } else {
             return $this->save($key, $vars);
@@ -539,7 +538,6 @@ abstract class rcube_session implements SessionHandlerInterface
                             if ($level == 0) {
                                 break 2;
                             }
-
                             break;
                         case 'r': // reference
                             $q += 2;
@@ -552,7 +550,6 @@ abstract class rcube_session implements SessionHandlerInterface
                             if ($level == 0) {
                                 break 2;
                             }
-
                             break;
                         case 's': // string
                             $q += 2;
@@ -565,7 +562,6 @@ abstract class rcube_session implements SessionHandlerInterface
                             if ($level == 0) {
                                 break 2;
                             }
-
                             break;
                         case 'a': // array
                         case 'o': // object
@@ -575,7 +571,6 @@ abstract class rcube_session implements SessionHandlerInterface
                             $q++;
                             $level++;
                             $serialized .= substr($str, $p, $q - $p);
-
                             break;
                         case '}': // end of array|object
                             $q++;
@@ -583,7 +578,6 @@ abstract class rcube_session implements SessionHandlerInterface
                             if (--$level == 0) {
                                 break 2;
                             }
-
                             break;
                         default:
                             return false;

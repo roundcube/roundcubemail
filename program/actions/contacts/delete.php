@@ -48,7 +48,6 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                     $rcmail->output->command('list_contacts');
                     $rcmail->output->send();
                 }
-
                 continue;
             }
 

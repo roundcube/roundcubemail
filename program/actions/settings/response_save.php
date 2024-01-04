@@ -55,7 +55,6 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
             // TODO: error
             $rcmail->output->show_message('formincomplete', 'error');
             $rcmail->overwrite_action('edit-response', ['post' => $response]);
-
             return;
         }
 
@@ -98,7 +97,6 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);
                 $rcmail->overwrite_action('add-response');
-
                 return;
             }
         }

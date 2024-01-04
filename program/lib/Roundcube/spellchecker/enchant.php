@@ -58,7 +58,6 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         if (!$this->enchant_broker) {
             if (!extension_loaded('enchant')) {
                 $this->error = 'Enchant extension not available';
-
                 return;
             }
 
@@ -67,7 +66,6 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
 
         if (!enchant_broker_dict_exists($this->enchant_broker, $this->lang)) {
             $this->error = 'Unable to load dictionary for selected language using Enchant';
-
             return;
         }
 
@@ -114,7 +112,6 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         }
 
         $this->matches = $matches;
-
         return $matches;
     }
 

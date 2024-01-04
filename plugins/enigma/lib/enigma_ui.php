@@ -51,48 +51,39 @@ class enigma_ui
             switch ($action) {
                 case 'delete':
                     $this->key_delete();
-
                     break;
                     /*
                 case 'edit':
                     $this->key_edit();
-
                     break;
                     */
                 case 'import':
                     $this->key_import();
-
                     break;
 
                 case 'import-search':
                     $this->key_import_search();
-
                     break;
 
                 case 'export':
                     $this->key_export();
-
                     break;
 
                 case 'generate':
                     $this->key_generate();
-
                     break;
 
                 case 'create':
                     $this->key_create();
-
                     break;
 
                 case 'search':
                 case 'list':
                     $this->key_list();
-
                     break;
 
                 case 'info':
                     $this->key_info();
-
                     break;
             }
 
@@ -1245,7 +1236,6 @@ class enigma_ui
 
                 if ($code == enigma_error::BADPASS) {
                     $this->password_prompt($status, ['compose-init' => true]);
-
                     return $p;
                 }
 
@@ -1302,7 +1292,6 @@ class enigma_ui
                             'iframe'       => true,
                         ]);
                         $this->rc->output->send($this->rc->output->type == 'html' ? 'iframe' : null);
-
                         return;
                     }
                 }

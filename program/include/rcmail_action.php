@@ -380,7 +380,6 @@ abstract class rcmail_action
         foreach ($lang_codes as $code) {
             if (file_exists("$assets_dir/program/js/tinymce/langs/$code.js")) {
                 $lang = $code;
-
                 break;
             }
         }

@@ -63,7 +63,6 @@ class rcube_result_index
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
                 $data_item = substr($data_item, 5);
-
                 break;
             } elseif (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
                 // valid response, initialize raw_data for is_error()

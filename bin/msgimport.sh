@@ -35,12 +35,10 @@ $args = rcube_utils::get_opt($opts) + ['host' => 'localhost', 'mbox' => 'INBOX']
 
 if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
-
     exit;
 } elseif (empty($args['host']) || empty($args['file'])) {
     echo "Missing required parameters.\n";
     print_usage();
-
     exit;
 } elseif (!is_file($args['file'])) {
     rcube::raise_error('Cannot read message file.', false, true);
@@ -92,7 +90,6 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
                 }
                 $message = '';
             }
-
             continue;
         }
 

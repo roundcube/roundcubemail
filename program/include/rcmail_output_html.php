@@ -616,7 +616,6 @@ class rcmail_output_html extends rcmail_output
 
         $location = $this->app->url($p, false, false, $secure);
         $this->header('Location: ' . $location);
-
         exit;
     }
 
@@ -779,7 +778,6 @@ class rcmail_output_html extends rcmail_output
                 // set base_path to core skin directory (not plugin's skin)
                 $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
                 $skin_dir        = preg_replace('!^plugins/!', '', $skin_path);
-
                 break;
             } else {
                 $path = false;
@@ -796,7 +794,6 @@ class rcmail_output_html extends rcmail_output
             ], true, $write);
 
             $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
-
             return false;
         }
 
@@ -1120,7 +1117,6 @@ class rcmail_output_html extends rcmail_output
                 switch ($tag_name) {
                     case 'if':
                         $level++;
-
                         break;
 
                     case 'endif':
@@ -1129,10 +1125,8 @@ class rcmail_output_html extends rcmail_output
                             if ($content_end === null) {
                                 $content_end = $tag_start;
                             }
-
                             break 2;
                         }
-
                         break;
 
                     case 'elseif':
@@ -1151,7 +1145,6 @@ class rcmail_output_html extends rcmail_output
                                 }
                             }
                         }
-
                         break;
 
                     case 'else':
@@ -1164,7 +1157,6 @@ class rcmail_output_html extends rcmail_output
                                 $content_start = $tag_end;
                             }
                         }
-
                         break;
                 }
 
@@ -1274,30 +1266,24 @@ class rcmail_output_html extends rcmail_output
         switch ($type) {
             case 'env':
                 $value = $this->env[$name] ?? null;
-
                 break;
             case 'config':
                 $value = $this->config->get($name);
                 if (is_array($value) && !empty($value[$_SESSION['storage_host']])) {
                     $value = $value[$_SESSION['storage_host']];
                 }
-
                 break;
             case 'request':
                 $value = rcube_utils::get_input_value($name, rcube_utils::INPUT_GPC);
-
                 break;
             case 'session':
                 $value = $_SESSION[$name] ?? '';
-
                 break;
             case 'cookie':
                 $value = htmlspecialchars($_COOKIE[$name], \ENT_COMPAT | \ENT_HTML401, RCUBE_CHARSET);
-
                 break;
             case 'browser':
                 $value = $this->browser->{$name} ?? '';
-
                 break;
         }
 
@@ -1355,13 +1341,11 @@ class rcmail_output_html extends rcmail_output
                 if (!empty($attrib['name']) || !empty($attrib['command'])) {
                     return $this->button($attrib);
                 }
-
                 break;
 
                 // frame (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'frame':
                 return $this->frame($attrib);
-
                 break;
 
                 // show a label (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
@@ -1395,22 +1379,18 @@ class rcmail_output_html extends rcmail_output
                         case 'javascript':
                         case 'js':
                             $label = rcube::JQ($label);
-
                             break;
                         default:
                             $label = html::quote($label);
-
                             break;
                     }
 
                     return $label;
                 }
-
                 break;
 
             case 'add_label':
                 $this->add_label($attrib['name']);
-
                 break;
 
                 // include a file (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
@@ -1451,7 +1431,6 @@ class rcmail_output_html extends rcmail_output
 
             case 'plugin.include':
                 $hook = $this->app->plugins->exec_hook('template_plugin_include', $attrib + ['content' => '']);
-
                 return $hook['content'];
 
                 // define a container block (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
@@ -1460,10 +1439,8 @@ class rcmail_output_html extends rcmail_output
                     $this->command('gui_container', $attrib['name'], $attrib['id']);
                     // let plugins insert some content here
                     $hook = $this->app->plugins->exec_hook('template_container', $attrib + ['content' => '']);
-
                     return $hook['content'];
                 }
-
                 break;
 
                 // return code for a specific application object (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
@@ -2361,7 +2338,6 @@ class rcmail_output_html extends rcmail_output
                     $input_host->add($value, is_numeric($key) ? $value : $key);
                 } else {
                     $input_host = null;
-
                     break;
                 }
             }
@@ -2671,7 +2647,6 @@ class rcmail_output_html extends rcmail_output
                 $content = file_get_contents($fn);
                 $content = $this->parse_conditions($content);
                 $content = $this->parse_xml($content);
-
                 break;
             }
         }
@@ -2728,7 +2703,6 @@ class rcmail_output_html extends rcmail_output
                 foreach ($template_names as $key) {
                     if (isset($logo[$key])) {
                         $template_logo = $logo[$key];
-
                         break;
                     }
                 }

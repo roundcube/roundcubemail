@@ -344,7 +344,6 @@ foreach ($SOURCES['dependencies'] as $package) {
 
     if ($args['delete']) {
         delete_destfile($package);
-
         continue;
     }
 

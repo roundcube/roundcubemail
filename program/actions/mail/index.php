@@ -661,25 +661,20 @@ class rcmail_action_mail_index extends rcmail_action
             switch ($col) {
                 case 'flag':
                     $col_name = html::span('flagged', $rcmail->gettext('flagged'));
-
                     break;
                 case 'attachment':
                 case 'priority':
                     $col_name = html::span($col, $rcmail->gettext($col));
-
                     break;
                 case 'status':
                     $col_name = html::span($col, $rcmail->gettext('readstatus'));
-
                     break;
                 case 'threads':
                     $col_name = !empty($list_menu) ? $list_menu : '';
-
                     break;
                 case 'fromto':
                     $label    = $rcmail->gettext($smart_col);
                     $col_name = rcube::Q($label);
-
                     break;
                 default:
                     $label    = $rcmail->gettext($col);
@@ -885,12 +880,10 @@ class rcmail_action_mail_index extends rcmail_action
                     }
 
                     $rcmail->plugins->exec_hook('message_check_safe', ['message' => $message]);
-
                     break;
 
                 case 2: // always
                     $message->set_safe(true);
-
                     break;
             }
         }
@@ -1092,7 +1085,6 @@ class rcmail_action_mail_index extends rcmail_action
         switch ($tagname) {
             case 'form':
                 $out = html::div('form', $content);
-
                 break;
 
             case 'style':
@@ -1474,7 +1466,6 @@ class rcmail_action_mail_index extends rcmail_action
                     $moreadrs = $c - $j;
                 } else {
                     $out .= '...';
-
                     break;
                 }
             }

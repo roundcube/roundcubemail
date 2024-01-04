@@ -74,7 +74,6 @@ class rcube_result_set implements Iterator, ArrayAccess
     public function first()
     {
         $this->current = 0;
-
         return $this->current();
     }
 

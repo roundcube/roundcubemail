@@ -74,7 +74,6 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 // avoid moving groups
                 if (isset($record['_type']) && $record['_type'] == 'group') {
                     unset($source_cids[$idx]);
-
                     continue;
                 }
 

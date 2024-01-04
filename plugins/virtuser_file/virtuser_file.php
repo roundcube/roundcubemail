@@ -46,7 +46,6 @@ class virtuser_file extends rcube_plugin
 
                 if (!empty($p['first'])) {
                     $p['email'] = $result[0];
-
                     break;
                 }
             }
@@ -69,7 +68,6 @@ class virtuser_file extends rcube_plugin
 
             if (count($arr) > 0) {
                 $p['user'] = trim($arr[count($arr) - 1]);
-
                 break;
             }
         }
