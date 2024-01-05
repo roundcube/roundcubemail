@@ -33,10 +33,8 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
      * Execute the console command.
      *
      * @param string $version
-     *
-     * @return void
      */
-    public function install($version = '')
+    public function install($version = ''): void
     {
         $os = Laravel\Dusk\OperatingSystem::id();
         $version = trim($version);

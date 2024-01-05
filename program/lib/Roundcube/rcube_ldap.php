@@ -566,7 +566,7 @@ class rcube_ldap extends rcube_addressbook
      *
      * @param string $filter Filter string
      */
-    public function set_search_set($filter)
+    public function set_search_set($filter): void
     {
         $this->filter = $filter;
     }
@@ -584,7 +584,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Reset all saved results and search parameters
      */
-    public function reset()
+    public function reset(): void
     {
         $this->result      = null;
         $this->ldap_result = null;
