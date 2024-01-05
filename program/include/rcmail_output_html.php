@@ -2407,10 +2407,8 @@ class rcmail_output_html extends rcmail_output
      * Loads javascript code for images preloading
      *
      * @param array $attrib Named parameters
-     *
-     * @return void
      */
-    protected function preloader($attrib)
+    protected function preloader($attrib): void
     {
         $images = preg_split('/[\s\t\n,]+/', $attrib['images'], -1, \PREG_SPLIT_NO_EMPTY);
         $images = array_map([$this, 'abs_url'], $images);

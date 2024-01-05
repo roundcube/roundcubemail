@@ -109,10 +109,8 @@ class rcmail_oauth
 
     /**
      * Helper to log oauth
-     *
-     * @return void
      */
-    private function logger($level, $message)
+    private function logger($level, $message): void
     {
         $token = $this->login_phase['token'] ?? $_SESSION['oauth_token'] ?? [];
         $sub = $token['identity']['sub'] ?? '-';
@@ -124,10 +122,8 @@ class rcmail_oauth
      * Helper to log oauth debug message (only if `oauth_debug`is true)
      *
      * XXX for debug only, please use rcube::raise_error to raise errors in a centralized place
-     *
-     * @return void
      */
-    public function log_debug(...$args)
+    public function log_debug(...$args): void
     {
         if ($this->options['debug']) {
             $this->logger('DEBUG', sprintf(...$args));
@@ -215,11 +211,9 @@ class rcmail_oauth
      *
      * use cache if defined
      *
-     * @return void
-     *
      * @see https://datatracker.ietf.org/doc/html/rfc8414
      */
-    protected function discover()
+    protected function discover(): void
     {
         $config_uri = $this->options['config_uri'];
         if (empty($config_uri)) {
@@ -279,10 +273,8 @@ class rcmail_oauth
 
     /**
      * Fetch JWKS certificates (use cache if active)
-     *
-     * @return void
      */
-    protected function fetch_jwks()
+    protected function fetch_jwks(): void
     {
         if (!$this->options['jwks_uri']) {
             // not activated
@@ -319,10 +311,8 @@ class rcmail_oauth
 
     /**
      * Initialize this instance
-     *
-     * @return void
      */
-    public function init()
+    public function init(): void
     {
         // important must be called before is_enabled()
         $this->discover();
@@ -381,8 +371,6 @@ class rcmail_oauth
      *
      * Append Oauth button on login page if defined (this is a hook)
      * can also hide default user/pass form if flag oauth_login_redirect is true
-     *
-     * @return void
      */
     public function loginform_content(array $form_content)
     {
@@ -506,10 +494,8 @@ class rcmail_oauth
      * Authorization Code Request
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.1
-     *
-     * @return void
      */
-    public function login_redirect()
+    public function login_redirect(): void
     {
         if (empty($this->options['auth_uri']) || empty($this->options['client_id'])) {
             // log error about missing config options
@@ -809,10 +795,8 @@ class rcmail_oauth
      * Warning: cache TTL should be at least > refresh_token frequency
      *
      * @param string $sub the sub of the identity
-     *
-     * @return void
      */
-    public function schedule_token_revocation($sub)
+    public function schedule_token_revocation($sub): void
     {
         if ($this->cache === null) {
             rcube::raise_error(['message' => 'received a token revocation request, you must activate `oauth_cache` to enable this feature'], true, false);
@@ -943,10 +927,8 @@ class rcmail_oauth
      * Modify some properties of the received auth response
      *
      * @param array $data
-     *
-     * @return void
      */
-    protected function mask_auth_data(&$data)
+    protected function mask_auth_data(&$data): void
     {
         // remove by security access_token as it is crypted in $_SESSION['password']
         unset($data['access_token']);
@@ -1010,10 +992,8 @@ class rcmail_oauth
      * Callback for 'refresh' hook
      *
      * @param array $options
-     *
-     * @return void
      */
-    public function refresh($options)
+    public function refresh($options): void
     {
         if (!isset($_SESSION['oauth_token'])) {
             return;
@@ -1271,11 +1251,9 @@ class rcmail_oauth
      * will generate during the logout task the RP-initiated Logout URL and
      * store it in `logout_redirect_url`
      *
-     * @return void
-     *
      * @see https://openid.net/specs/openid-connect-rpinitiated-1_0.html
      */
-    public function handle_logout()
+    public function handle_logout(): void
     {
         // if no logout URI, or no refresh token, safe to give up
         if (!$this->options['logout_uri'] || !isset($_SESSION['oauth_token'])) {

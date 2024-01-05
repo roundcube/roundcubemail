@@ -103,10 +103,8 @@ class plesk_rpc
      * @param string $path plesk rpc path
      * @param string $user plesk user
      * @param string $user plesk password
-     *
-     * @return void
      */
-    public function init($host, $port, $path, $user, $pass)
+    public function init($host, $port, $path, $user, $pass): void
     {
         $headers = [
             sprintf('HTTP_AUTH_LOGIN: %s', $user),

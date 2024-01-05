@@ -74,7 +74,7 @@ class example_addressbook_backend extends rcube_addressbook
         return $this->name;
     }
 
-    public function set_search_set($filter)
+    public function set_search_set($filter): void
     {
         $this->filter = $filter;
     }
@@ -84,7 +84,7 @@ class example_addressbook_backend extends rcube_addressbook
         return $this->filter;
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->result = null;
         $this->filter = null;
