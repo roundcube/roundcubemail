@@ -3551,13 +3551,11 @@ class rcube_imap_generic
             $entries = [$entries];
         }
 
-        // create entries string
         foreach ($entries as $idx => $name) {
             $entries[$idx] = $this->escape($name);
         }
 
-        $optlist = '';
-        $entlist = '(' . implode(' ', $entries) . ')';
+        $args = [];
 
         // create options string
         if (is_array($options)) {
@@ -3568,17 +3566,18 @@ class rcube_imap_generic
                 $opts[] = 'MAXSIZE '.intval($options['MAXSIZE']);
             }
             if (!empty($options['DEPTH'])) {
-                $opts[] = 'DEPTH '.intval($options['DEPTH']);
+                $opts[] = 'DEPTH ' . $this->escape($options['DEPTH']);
             }
 
-            if ($opts) {
-                $optlist = '(' . implode(' ', $opts) . ')';
+            if (!empty($opts)) {
+                $args[] = $opts;
             }
         }
 
-        $optlist .= ($optlist ? ' ' : '') . $entlist;
+        $args[] = $this->escape($mailbox);
+        $args[] = $entries;
 
-        list($code, $response) = $this->execute('GETMETADATA', [$this->escape($mailbox), $optlist]);
+        list($code, $response) = $this->execute('GETMETADATA', $args);
 
         if ($code == self::ERROR_OK) {
             $result = [];
