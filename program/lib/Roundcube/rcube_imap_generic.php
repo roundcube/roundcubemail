@@ -3551,10 +3551,6 @@ class rcube_imap_generic
             $entries = [$entries];
         }
 
-        foreach ($entries as $idx => $name) {
-            $entries[$idx] = $this->escape($name);
-        }
-
         $args = [];
 
         // create options string
@@ -3565,7 +3561,8 @@ class rcube_imap_generic
             if (!empty($options['MAXSIZE'])) {
                 $opts[] = 'MAXSIZE '.intval($options['MAXSIZE']);
             }
-            if (!empty($options['DEPTH'])) {
+
+            if (isset($options['DEPTH'])) {
                 $opts[] = 'DEPTH ' . $this->escape($options['DEPTH']);
             }
 
@@ -3575,7 +3572,7 @@ class rcube_imap_generic
         }
 
         $args[] = $this->escape($mailbox);
-        $args[] = $entries;
+        $args[] = array_map([$this, 'escape'], $entries);
 
         list($code, $response) = $this->execute('GETMETADATA', $args);
 
