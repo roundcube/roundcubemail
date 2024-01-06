@@ -26,7 +26,6 @@ class rcube_mime
 {
     private static $default_charset;
 
-
     /**
      * Object constructor.
      */

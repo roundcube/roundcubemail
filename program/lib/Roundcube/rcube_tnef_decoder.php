@@ -122,7 +122,6 @@ class rcube_tnef_decoder
 
     protected $codepage;
 
-
     /**
      * Decompress the data.
      *

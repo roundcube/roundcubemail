@@ -83,7 +83,6 @@ class rcube_vcard
 
     public static $eol = "\r\n";
 
-
     /**
      * Constructor
      *

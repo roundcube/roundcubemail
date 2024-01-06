@@ -38,7 +38,6 @@ class rcube_mime_decode
         'default_charset' => RCUBE_CHARSET,
     ];
 
-
     /**
      * Constructor.
      *

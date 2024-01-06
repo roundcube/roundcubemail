@@ -61,7 +61,6 @@ class rcube_contacts extends rcube_addressbook
 
     public const SEPARATOR = ',';
 
-
     /**
      * Object constructor
      *

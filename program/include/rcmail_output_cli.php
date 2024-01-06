@@ -24,7 +24,6 @@ class rcmail_output_cli extends rcmail_output
 {
     public $type = 'cli';
 
-
     /**
      * Call a client method
      *

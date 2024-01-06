@@ -199,5 +199,4 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
 
         return $jsresult;
     }
-
 }

@@ -58,7 +58,6 @@ class rcube_text2html
     /** @var bool Internal no-wrap mode state */
     protected $nowrap = false;
 
-
     /**
      * Constructor.
      *

@@ -45,7 +45,6 @@ class enigma_engine
     public const ENCRYPT_MODE_MIME = 2;
     public const ENCRYPT_MODE_SIGN = 4;
 
-
     /**
      * Plugin initialization.
      */

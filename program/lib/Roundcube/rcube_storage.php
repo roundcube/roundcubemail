@@ -86,7 +86,6 @@ abstract class rcube_storage
 
     public const DUAL_USE_FOLDERS = 'X-DUAL-USE-FOLDERS';
 
-
     /**
      * Connect to the server
      *

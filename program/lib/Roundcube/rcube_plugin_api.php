@@ -54,7 +54,6 @@ class rcube_plugin_api
     protected $exec_stack        = [];
     protected $deprecated_hooks  = [];
 
-
     /**
      * This implements the 'singleton' design pattern
      *

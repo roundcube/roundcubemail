@@ -34,7 +34,6 @@ class rcube_ldap_simple_password
     protected $user;
     protected $conn;
 
-
     public function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();

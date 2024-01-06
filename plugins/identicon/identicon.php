@@ -21,7 +21,6 @@ class identicon extends rcube_plugin
 {
     public $task = 'addressbook';
 
-
     /**
      * Plugin initialization.
      */

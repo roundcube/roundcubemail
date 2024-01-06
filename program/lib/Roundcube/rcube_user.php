@@ -53,7 +53,6 @@ class rcube_user
     public const SEARCH_ADDRESSBOOK = 1;
     public const SEARCH_MAIL        = 2;
 
-
     /**
      * Object constructor
      *

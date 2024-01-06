@@ -383,7 +383,6 @@ class rcube_csv2vcard
     /** @var array Field mapping */
     protected $map = [];
 
-
     /**
      * Class constructor
      *

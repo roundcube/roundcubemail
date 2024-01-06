@@ -19,7 +19,6 @@ class archive extends rcube_plugin
     private $folders;
     private $result;
 
-
     /**
      * Plugin initialization.
      */

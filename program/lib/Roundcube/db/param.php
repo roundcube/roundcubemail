@@ -26,7 +26,6 @@ class rcube_db_param
     protected $type;
     protected $value;
 
-
     /**
      * Object constructor
      *

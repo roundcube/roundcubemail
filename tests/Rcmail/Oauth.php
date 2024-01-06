@@ -260,7 +260,6 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $this->assertStringContainsString('identity\'s nonce mismatch', StderrMock::$output);
     }
 
-
     /**
      * Test request_access_token() method
      */

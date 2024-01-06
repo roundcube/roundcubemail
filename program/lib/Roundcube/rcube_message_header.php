@@ -381,7 +381,6 @@ class rcube_message_header_sorter
     /** @var array Message UIDs */
     private $uids = [];
 
-
     /**
      * Set the predetermined sort order.
      *

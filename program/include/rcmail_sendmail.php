@@ -40,7 +40,6 @@ class rcmail_sendmail
     public const MODE_DRAFT   = 'draft';
     public const MODE_EDIT    = 'edit';
 
-
     /**
      * Object constructor
      *

@@ -67,7 +67,6 @@ class rcube_message
 
     public const BODY_MAX_SIZE = 1048576; // 1MB
 
-
     /**
      * __construct
      *
@@ -1237,7 +1236,6 @@ class rcube_message
     /**
      * Deprecated methods (to be removed)
      */
-
     public static function unfold_flowed($text)
     {
         return rcube_mime::unfold_flowed($text);

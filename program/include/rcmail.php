@@ -71,7 +71,6 @@ class rcmail extends rcube
     public const ERROR_COOKIES_DISABLED = 3;
     public const ERROR_RATE_LIMIT       = 4;
 
-
     /**
      * This implements the 'singleton' design pattern
      *

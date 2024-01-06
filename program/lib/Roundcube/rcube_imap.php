@@ -67,7 +67,6 @@ class rcube_imap extends rcube_storage
     protected $msg_uid;
     protected $sort_folder_collator;
 
-
     /**
      * Object constructor.
      */
@@ -2389,7 +2388,6 @@ class rcube_imap extends rcube_storage
             $structure = $structure[0];
         }
     }
-
 
     /**
      * Fetch message body of a specific message from the server

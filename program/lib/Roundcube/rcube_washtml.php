@@ -190,7 +190,6 @@ class rcube_washtml
     /** @var bool True if current document is XML */
     private $is_xml = false;
 
-
     /**
      * Class constructor
      *

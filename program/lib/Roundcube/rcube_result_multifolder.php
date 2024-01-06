@@ -36,7 +36,6 @@ class rcube_result_multifolder
     protected $order   = 'ASC';
     protected $sorting;
 
-
     /**
      * Object constructor.
      *

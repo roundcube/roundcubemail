@@ -32,7 +32,6 @@ class rcmail_output_json extends rcmail_output
     public $type      = 'js';
     public $ajax_call = true;
 
-
     /**
      * Object constructor
      */

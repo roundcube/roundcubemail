@@ -135,14 +135,18 @@ abstract class rcube_session implements SessionHandlerInterface
      */
     #[\ReturnTypeWillChange]
     abstract public function open($save_path, $session_name);
+
     #[\ReturnTypeWillChange]
     abstract public function close();
+
     #[\ReturnTypeWillChange]
     abstract public function destroy($key);
+
     #[\ReturnTypeWillChange]
     abstract public function read($key);
 
     abstract protected function save($key, $vars);
+
     abstract protected function update($key, $newvars, $oldvars);
 
     /**

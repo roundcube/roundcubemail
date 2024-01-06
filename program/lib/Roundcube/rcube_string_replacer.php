@@ -34,7 +34,6 @@ class rcube_string_replacer
     protected $urls     = [];
     protected $noword   = '[^\w@.#-]';
 
-
     /**
      * Object constructor
      *

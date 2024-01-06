@@ -25,7 +25,6 @@ class rcube_base_replacer
 {
     private $base_url;
 
-
     /**
      * Class constructor
      *

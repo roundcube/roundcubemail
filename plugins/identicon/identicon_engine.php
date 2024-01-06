@@ -30,7 +30,6 @@ class identicon_engine
     public const GRID_SIZE = 5;
     public const ICON_SIZE = 150;
 
-
     /**
      * Class constructor
      *

@@ -108,7 +108,6 @@ abstract class rcube_addressbook
     /** @var ?array Error state - hash array with the following fields: type, message */
     protected $error;
 
-
     /**
      * Returns addressbook name (e.g. for addressbooks listing)
      *

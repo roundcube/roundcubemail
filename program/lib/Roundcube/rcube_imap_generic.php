@@ -75,7 +75,6 @@ class rcube_imap_generic
 
     public const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
 
-
     /**
      * Send simple (one line) command to the connection stream
      *

@@ -38,7 +38,6 @@ class rcube_image
     /** @var string Image file location */
     private $image_file;
 
-
     /**
      * Class constructor
      *

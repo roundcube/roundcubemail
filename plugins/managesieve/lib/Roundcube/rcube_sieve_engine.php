@@ -65,7 +65,6 @@ class rcube_sieve_engine
     public const PROGNAME = 'Roundcube (Managesieve)';
     public const PORT     = 4190;
 
-
     /**
      * Class constructor
      */

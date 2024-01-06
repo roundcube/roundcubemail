@@ -27,7 +27,6 @@ class enigma extends rcube_plugin
 
     private $env_loaded = false;
 
-
     /**
      * Plugin initialization.
      */

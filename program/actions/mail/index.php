@@ -1495,6 +1495,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         return $out;
     }
+
     /**
      * Return attachment filename, handle empty filename case
      *
