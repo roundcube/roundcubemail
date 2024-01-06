@@ -34,7 +34,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Valid email addresses for test_valid_email()
      */
-    public function data_valid_email(): iterable
+    public function provide_valid_email_cases(): iterable
     {
         return [
             ['email@domain.com', 'Valid email'],
@@ -61,7 +61,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Invalid email addresses for test_invalid_email()
      */
-    public function data_invalid_email(): iterable
+    public function provide_invalid_email_cases(): iterable
     {
         return [
             ['plainaddress', 'Missing @ sign and domain'],
@@ -92,7 +92,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_valid_email
+     * @dataProvider provide_valid_email_cases
      */
     public function test_valid_email($email, $title)
     {
@@ -100,7 +100,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_invalid_email
+     * @dataProvider provide_invalid_email_cases
      */
     public function test_invalid_email($email, $title)
     {
@@ -110,7 +110,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Valid IP addresses for test_valid_ip()
      */
-    public function data_valid_ip(): iterable
+    public function provide_valid_ip_cases(): iterable
     {
         return [
             ['0.0.0.0'],
@@ -127,7 +127,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Invalid IP addresses for test_invalid_ip()
      */
-    public function data_invalid_ip(): iterable
+    public function provide_invalid_ip_cases(): iterable
     {
         return [
             [''],
@@ -144,7 +144,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_valid_ip
+     * @dataProvider provide_valid_ip_cases
      */
     public function test_valid_ip($ip)
     {
@@ -152,7 +152,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_invalid_ip
+     * @dataProvider provide_invalid_ip_cases
      */
     public function test_invalid_ip($ip)
     {
@@ -162,7 +162,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Data for test_rep_specialchars_output()
      */
-    public function data_rep_specialchars_output(): iterable
+    public function provide_rep_specialchars_output_cases(): iterable
     {
         return [
             ['', '', 'abc', 'abc'],
@@ -180,7 +180,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test for rep_specialchars_output
      *
-     * @dataProvider data_rep_specialchars_output
+     * @dataProvider provide_rep_specialchars_output_cases
      */
     public function test_rep_specialchars_output($type, $mode, $str, $res)
     {
@@ -337,7 +337,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for parse_css_block() test
      */
-    public function data_parse_css_block(): iterable
+    public function provide_explode_style_cases(): iterable
     {
         return [
             [
@@ -406,7 +406,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test parse_css_block()
      *
-     * @dataProvider data_parse_css_block
+     * @dataProvider provide_explode_style_cases
      */
     public function test_explode_style($input, $output)
     {
@@ -810,7 +810,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_parse_host()
      */
-    public function data_parse_host(): iterable
+    public function provide_parse_host_cases(): iterable
     {
         return [
             ['%z', 'hostname', 'hostname'],
@@ -823,7 +823,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test parse_host()
      *
-     * @dataProvider data_parse_host
+     * @dataProvider provide_parse_host_cases
      */
     public function test_parse_host($name, $host, $result)
     {
@@ -833,7 +833,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_parse_host_uri()
      */
-    public function data_parse_host_uri(): iterable
+    public function provide_parse_host_uri_cases(): iterable
     {
         return [
             [['hostname', null, null], ['hostname', null, null]],
@@ -853,7 +853,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test parse_host_uri()
      *
-     * @dataProvider data_parse_host_uri
+     * @dataProvider provide_parse_host_uri_cases
      */
     public function test_parse_host_uri($args, $result)
     {
@@ -863,7 +863,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test-Cases for test_remove_subject_prefix()
      */
-    public function data_remove_subject_prefix(): iterable
+    public function provide_remove_subject_prefix_cases(): iterable
     {
         return [
             ['both', 'Fwd: Re: Test subject both', 'Test subject both'],
@@ -880,7 +880,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     /**
      * Test remove_subject_prefix
      *
-     * @dataProvider data_remove_subject_prefix
+     * @dataProvider provide_remove_subject_prefix_cases
      */
     public function test_remove_subject_prefix($mode, $subject, $result)
     {

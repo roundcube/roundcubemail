@@ -6,7 +6,7 @@
 class Framework_Browser extends PHPUnit\Framework\TestCase
 {
     /**
-     * @dataProvider browsers
+     * @dataProvider provide_browser_cases
      */
     public function test_browser($useragent, $opera, $chrome, $ie, $edge, $safari, $mz)
     {
@@ -21,7 +21,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider os
+     * @dataProvider provide_os_cases
      */
     public function test_os($useragent, $windows, $linux, $unix, $mac)
     {
@@ -34,7 +34,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider versions
+     * @dataProvider provide_version_cases
      */
     public function test_version($useragent, $version)
     {
@@ -42,12 +42,12 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
         $this->assertSame($version, $object->ver);
     }
 
-    public function versions(): iterable
+    public function provide_version_cases(): iterable
     {
         return $this->extractDataSet(['version']);
     }
 
-    public function browsers(): iterable
+    public function provide_browser_cases(): iterable
     {
         return $this->extractDataSet(['isOpera', 'isChrome', 'isIE', 'isEdge', 'isSafari', 'isMZ']);
     }
@@ -147,7 +147,7 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
         ];
     }
 
-    public function os(): iterable
+    public function provide_os_cases(): iterable
     {
         return $this->extractDataSet(['isWin', 'isLinux', 'isUnix', 'isMac']);
     }

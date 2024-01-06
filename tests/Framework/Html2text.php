@@ -5,7 +5,7 @@
  */
 class rc_html2text extends PHPUnit\Framework\TestCase
 {
-    public function data_html2text(): iterable
+    public function provide_html2text_cases(): iterable
     {
         return [
             0 => [
@@ -91,7 +91,7 @@ class rc_html2text extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_html2text
+     * @dataProvider provide_html2text_cases
      */
     public function test_html2text($title, $in, $out)
     {

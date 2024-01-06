@@ -81,6 +81,10 @@ return (new PhpCsFixer\Config())
         'increment_style' => [
             'style' => 'post',
         ],
+        'php_unit_data_provider_name' => [
+            'prefix' => 'provide_',
+            'suffix' => '_cases',
+        ],
         'psr_autoloading' => false,
         'strict_comparison' => false,
 
@@ -105,7 +109,6 @@ return (new PhpCsFixer\Config())
 
         // TODO - risky
         'no_unset_on_property' => false,
-        'php_unit_data_provider_name' => false,
         'php_unit_test_case_static_method_calls' => false,
         'random_api_migration' => false,
         'strict_param' => false,
