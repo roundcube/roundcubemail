@@ -365,7 +365,6 @@ class rcmail_oauth
         return $this->last_error;
     }
 
-
     /**
      * Callback for `loginform_content` hook
      *
@@ -395,7 +394,7 @@ class rcmail_oauth
         return $form_content;
     }
 
-
+    // TODO: move it into an helper class
     protected static function base64url_decode($encoded)
     {
         return base64_decode(strtr($encoded, '-_', '+/'), true);
@@ -449,7 +448,6 @@ class rcmail_oauth
         }
 
         // FIXME depends on body type: ID, Logout, Bearer, Refresh,
-
         if (isset($body['azp']) && $body['azp'] !== $this->options['client_id']) {
             throw new RuntimeException('Failed to validate JWT: invalid azp value');
         } elseif (isset($body['aud']) && !in_array($this->options['client_id'], (array) $body['aud'])) {
@@ -582,10 +580,7 @@ class rcmail_oauth
      * @param string $auth_code
      * @param string $state
      *
-     * @return array Authorization data as hash array with entries
-     *               `username` as the authentication user name
-     *               `authorization` as the oauth authorization string "<type> <access-token>"
-     *               `token` as the complete oauth response to be stored in session
+     * @return bool true on access token, false on error
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3
      */
@@ -684,7 +679,7 @@ class rcmail_oauth
                 // store crypted code_verifier because session is going to be killed
                 $this->login_phase['code_verifier'] = $_SESSION['oauth_code_verifier'];
             }
-            return $this->login_phase;
+            return true;
         } catch (RequestException $e) {
             $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
             $this->no_redirect = true;
@@ -696,7 +691,6 @@ class rcmail_oauth
                 'line'    => __LINE__,
             ], true, false);
 
-            return false;
         } catch (Exception $e) {
             $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
             $this->no_redirect = true;
@@ -707,8 +701,8 @@ class rcmail_oauth
                 'line'    => __LINE__,
             ], true, false);
 
-            return false;
         }
+        return false;
     }
 
     /**

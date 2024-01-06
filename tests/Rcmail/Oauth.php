@@ -4,14 +4,6 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 
-class rcmail_oauth_test extends rcmail_oauth
-{
-    public function forge_login_phase($data)
-    {
-        $this->login_phase = $data;
-    }
-}
-
 /**
  * Test class to test rcmail_oauth class
  */
@@ -299,11 +291,14 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $_SESSION['oauth_nonce'] = 'fake-nonce';
         $response = $oauth->request_access_token('fake-code', 'random-state');
 
-        $this->assertTrue(is_array($response));
-        $this->assertSame('Bearer FAKE-ACCESS-TOKEN', $response['authorization']);
-        $this->assertSame($this->identity['email'], $response['username']);
-        $this->assertTrue(isset($response['token']));
-        $this->assertFalse(isset($response['token']['access_token']));
+        $this->assertTrue($response);
+
+        $login_phase = getProperty($oauth, 'login_phase');
+
+        $this->assertSame('Bearer FAKE-ACCESS-TOKEN', $login_phase['authorization']);
+        $this->assertSame($this->identity['email'], $login_phase['username']);
+        $this->assertTrue(isset($login_phase['token']));
+        $this->assertFalse(isset($login_phase['token']['access_token']));
     }
 
     /**
@@ -338,11 +333,13 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $_SESSION['oauth_nonce'] = 'fake-nonce'; // ensure nonce identiquals
         $response = $oauth->request_access_token('fake-code', 'random-state');
 
-        $this->assertTrue(is_array($response));
-        $this->assertSame('Bearer FAKE-ACCESS-TOKEN', $response['authorization']);
-        $this->assertSame($this->identity['email'], $response['username']);
-        $this->assertTrue(isset($response['token']));
-        $this->assertFalse(isset($response['token']['access_token']));
+        $this->assertTrue($response);
+        $login_phase = getProperty($oauth, 'login_phase');
+
+        $this->assertSame('Bearer FAKE-ACCESS-TOKEN', $login_phase['authorization']);
+        $this->assertSame($this->identity['email'], $login_phase['username']);
+        $this->assertTrue(isset($login_phase['token']));
+        $this->assertFalse(isset($login_phase['token']['access_token']));
     }
 
     /**
@@ -350,11 +347,11 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_valid_user_create()
     {
-        $oauth = new rcmail_oauth_test();
+        $oauth = new rcmail_oauth();
         $oauth->init();
 
         // fake identity
-        $oauth->forge_login_phase([
+        setProperty($oauth, 'login_phase', [
             'token' => [
                 'identity' => [
                     'email' => 'jdoe@faké.dômain',
@@ -377,11 +374,11 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_invalid_user_create()
     {
-        $oauth = new rcmail_oauth_test();
+        $oauth = new rcmail_oauth();
         $oauth->init();
 
         // fake identity
-        $oauth->forge_login_phase([
+        setProperty($oauth, 'login_phase', [
             'token' => [
                 'identity' => [
                     'email' => 'bad-domain',
