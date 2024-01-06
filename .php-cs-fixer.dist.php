@@ -103,7 +103,6 @@ return (new PhpCsFixer\Config())
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_summary' => false,
         'single_line_comment_spacing' => false,
-        'ternary_to_null_coalescing' => false,
 
         // TODO - risky
         'no_unset_on_property' => false,

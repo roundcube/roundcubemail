@@ -753,7 +753,7 @@ class rcube_sieve_engine
                         $datepart    = $this->strip_value($dateparts[$idx]);
                         $dateheader  = $this->strip_value($dateheaders[$idx]);
                         $index       = $this->strip_value($indexes[$idx]);
-                        $indexlast   = $this->strip_value(isset($lastindexes[$idx]) ? $lastindexes[$idx] : null);
+                        $indexlast   = $this->strip_value($lastindexes[$idx] ?? null);
                         $mod         = $this->strip_value($mods[$idx]);
 
                         $type = preg_replace('/^not/', '', $operator);
@@ -1512,7 +1512,7 @@ class rcube_sieve_engine
             $this->add_tip('_name', $this->errors['name'], true);
         }
 
-        $input_name = $input_name->show(isset($scr['name']) ? $scr['name'] : '');
+        $input_name = $input_name->show($scr['name'] ?? '');
 
         $out .= sprintf("\n" . '<div class="form-group row">'
             . '<label for="_name" class="col-sm-4 col-form-label">%s</label>'

@@ -326,7 +326,7 @@ $args = rcube_utils::get_opt([
     'extract' => false,
 ];
 
-$WHAT     = isset($args[0]) ? $args[0] : null;
+$WHAT     = $args[0] ?? null;
 $useCache = !$args['force'] && !$args['get'];
 
 if (!$args['get'] && !$args['extract'] && !$args['delete']) {

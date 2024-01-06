@@ -670,7 +670,7 @@ abstract class rcube_session implements SessionHandlerInterface
      */
     public function check_auth()
     {
-        $this->cookie = isset($_COOKIE[$this->cookiename]) ? $_COOKIE[$this->cookiename] : null;
+        $this->cookie = $_COOKIE[$this->cookiename] ?? null;
 
         $result = $this->ip_check ? rcube_utils::remote_addr() == $this->ip : true;
         $prev   = null;

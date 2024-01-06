@@ -121,7 +121,7 @@ class rcmail_action_settings_about extends rcmail_action
                 );
             }
 
-            $license = isset($data['license']) ? $data['license'] : '';
+            $license = $data['license'] ?? '';
 
             if (!empty($data['license_uri'])) {
                 $license = html::a([
