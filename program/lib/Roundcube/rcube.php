@@ -1825,7 +1825,6 @@ class rcube
     }
 }
 
-
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled
  */

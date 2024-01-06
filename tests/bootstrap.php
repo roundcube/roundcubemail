@@ -59,7 +59,6 @@ require_once TESTS_DIR . 'StorageMock.php';
 // Initialize database and environment
 ActionTestCase::init();
 
-
 /**
  * Call protected/private method of a object.
  *

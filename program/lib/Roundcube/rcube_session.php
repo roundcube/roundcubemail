@@ -44,7 +44,6 @@ abstract class rcube_session implements SessionHandlerInterface
     protected $logging      = false;
     protected $ignore_write = false;
 
-
     /**
      * Blocks session data from being written to database.
      * Can be used if write-race conditions are to be expected

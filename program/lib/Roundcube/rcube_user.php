@@ -36,7 +36,6 @@ class rcube_user
     /** @var array User preferences */
     public $prefs;
 
-
     /** @var rcube_db Holds database connection */
     private $db;
 
@@ -48,7 +47,6 @@ class rcube_user
 
     /** @var array Internal emails cache */
     private $emails;
-
 
     public const SEARCH_ADDRESSBOOK = 1;
     public const SEARCH_MAIL        = 2;

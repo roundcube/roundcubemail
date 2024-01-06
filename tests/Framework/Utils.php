@@ -745,7 +745,6 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     public function data_idn_convert(): iterable
     {
-
         /*
          * Check https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_brand_top-level_domains
          * and https://github.com/true/php-punycode/blob/master/tests/PunycodeTest.php for more Test-Data

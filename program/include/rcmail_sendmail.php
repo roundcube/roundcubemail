@@ -892,7 +892,6 @@ class rcmail_sendmail
         switch ($part) {
             case 'from':
                 return $form_start . $this->compose_header_from($attrib);
-
             case 'to':
             case 'cc':
             case 'bcc':
@@ -901,7 +900,6 @@ class rcmail_sendmail
                 $allow_attrib = ['id', 'class', 'style', 'cols', 'rows', 'tabindex'];
                 $field_type   = 'html_textarea';
                 break;
-
             case 'replyto':
             case 'reply-to':
                 $fname  = '_replyto';

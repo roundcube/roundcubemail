@@ -881,7 +881,6 @@ class rcmail_action_mail_index extends rcmail_action
 
                     $rcmail->plugins->exec_hook('message_check_safe', ['message' => $message]);
                     break;
-
                 case 2: // always
                     $message->set_safe(true);
                     break;
@@ -1086,7 +1085,6 @@ class rcmail_action_mail_index extends rcmail_action
             case 'form':
                 $out = html::div('form', $content);
                 break;
-
             case 'style':
                 // Crazy big styles may freeze the browser (#1490539)
                 // remove content with more than 5k lines

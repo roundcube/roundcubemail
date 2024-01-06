@@ -31,7 +31,6 @@ class Framework_Browser extends PHPUnit\Framework\TestCase
         $this->assertSame($linux, $object->linux, 'Check Result of Linux');
         $this->assertSame($mac, $object->mac, 'Check Result of Mac');
         $this->assertSame($unix, $object->unix, 'Check Result of Unix');
-
     }
 
     /**

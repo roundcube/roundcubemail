@@ -372,7 +372,6 @@ class rcube_message_header
     }
 }
 
-
 /**
  * Class for sorting an array of rcube_message_header objects in a predetermined order.
  */

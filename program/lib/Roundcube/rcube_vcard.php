@@ -350,35 +350,27 @@ class rcube_vcard
             case 'displayname':
                 $this->raw['FN'][0][0] = $this->displayname = $value;
                 break;
-
             case 'surname':
                 $this->raw['N'][0][0] = $this->surname = $value;
                 break;
-
             case 'firstname':
                 $this->raw['N'][0][1] = $this->firstname = $value;
                 break;
-
             case 'middlename':
                 $this->raw['N'][0][2] = $this->middlename = $value;
                 break;
-
             case 'prefix':
                 $this->raw['N'][0][3] = $value;
                 break;
-
             case 'suffix':
                 $this->raw['N'][0][4] = $value;
                 break;
-
             case 'nickname':
                 $this->raw['NICKNAME'][0][0] = $this->nickname = $value;
                 break;
-
             case 'organization':
                 $this->raw['ORG'][0][0] = $this->organization = $value;
                 break;
-
             case 'photo':
                 if (strpos($value, 'http:') === 0) {
                     // TODO: fetch file from URL and save it locally?
@@ -387,12 +379,10 @@ class rcube_vcard
                     $this->raw['PHOTO'][0] = [0 => $value, 'base64' => (bool) preg_match('![^a-z0-9/=+-]!i', $value)];
                 }
                 break;
-
             case 'email':
                 $this->raw['EMAIL'][] = [0 => $value, 'type' => array_filter(['INTERNET', $type_uc])];
                 $this->email[] = $value;
                 break;
-
             case 'im':
                 // save IM subtypes into extension fields
                 $typemap = array_flip($this->immap);
@@ -401,7 +391,6 @@ class rcube_vcard
                     $this->raw[$field][] = [$value];
                 }
                 break;
-
             case 'birthday':
             case 'anniversary':
                 if (($val = rcube_utils::anytodatetime($value)) && !empty(self::$fieldmap[$field])) {
@@ -409,7 +398,6 @@ class rcube_vcard
                     $this->raw[$fn][] = [0 => $val->format('Y-m-d'), 'value' => ['date']];
                 }
                 break;
-
             case 'address':
                 if (!empty($this->addresstypemap[$type_uc])) {
                     $type = $this->addresstypemap[$type_uc];
@@ -798,12 +786,10 @@ class rcube_vcard
             case 'quoted-printable':
                 self::$values_decoded = true;
                 return quoted_printable_decode($value);
-
             case 'base64':
             case 'b':
                 self::$values_decoded = true;
                 return base64_decode($value);
-
             default:
                 return $value;
         }

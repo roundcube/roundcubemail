@@ -528,19 +528,16 @@ class password extends rcube_plugin
                 $crypted = crypt($password, rcube_utils::random_bytes(2));
                 $prefix  = '{CRYPT}';
                 break;
-
             case 'ext_des': // for BC
             case 'ext-des-crypt':
                 $crypted = crypt($password, '_' . rcube_utils::random_bytes(8));
                 $prefix  = '{CRYPT}';
                 break;
-
             case 'md5crypt': // for BC
             case 'md5-crypt':
                 $crypted = crypt($password, '$1$' . rcube_utils::random_bytes(9));
                 $prefix  = '{MD5-CRYPT}';
                 break;
-
             case 'sha256-crypt':
                 $rounds = (int) $rcmail->config->get('password_crypt_rounds');
                 $prefix = '$5$';
@@ -552,7 +549,6 @@ class password extends rcube_plugin
                 $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
                 $prefix  = '{SHA256-CRYPT}';
                 break;
-
             case 'sha512-crypt':
                 $rounds = (int) $rcmail->config->get('password_crypt_rounds');
                 $prefix = '$6$';
@@ -564,7 +560,6 @@ class password extends rcube_plugin
                 $crypted = crypt($password, $prefix . rcube_utils::random_bytes(16));
                 $prefix  = '{SHA512-CRYPT}';
                 break;
-
             case 'blowfish': // for BC
             case 'blowfish-crypt':
                 $cost   = (int) ($options['cost'] ?? $rcmail->config->get('password_blowfish_cost'));
@@ -574,12 +569,10 @@ class password extends rcube_plugin
                 $crypted = crypt($password, $prefix . rcube_utils::random_bytes(22));
                 $prefix  = '{BLF-CRYPT}';
                 break;
-
             case 'md5':
                 $crypted = base64_encode(pack('H*', md5($password)));
                 $prefix  = '{MD5}';
                 break;
-
             case 'sha':
                 if (function_exists('sha1')) {
                     $crypted = pack('H*', sha1($password));
@@ -595,7 +588,6 @@ class password extends rcube_plugin
                 $crypted = base64_encode($crypted);
                 $prefix = '{SHA}';
                 break;
-
             case 'ssha':
                 $salt = rcube_utils::random_bytes(8);
 
@@ -615,7 +607,6 @@ class password extends rcube_plugin
                 $crypted = base64_encode($crypted . $salt);
                 $prefix  = '{SSHA}';
                 break;
-
                 // base64 encoded ssha256 for mailcow (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'ssha256':
                 $salt = rcube_utils::random_bytes(8);
@@ -633,7 +624,6 @@ class password extends rcube_plugin
                 $crypted = base64_encode($crypted . $salt);
                 $prefix  = '{SSHA256}';
                 break;
-
             case 'ssha512':
                 $salt = rcube_utils::random_bytes(8);
 
@@ -650,7 +640,6 @@ class password extends rcube_plugin
                 $crypted = base64_encode($crypted . $salt);
                 $prefix  = '{SSHA512}';
                 break;
-
             case 'smd5':
                 $salt = rcube_utils::random_bytes(8);
 
@@ -665,7 +654,6 @@ class password extends rcube_plugin
                 $crypted = base64_encode($crypted . $salt);
                 $prefix  = '{SMD5}';
                 break;
-
             case 'samba':
                 if (function_exists('hash')) {
                     $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'));
@@ -677,11 +665,9 @@ class password extends rcube_plugin
                     ], true, true);
                 }
                 break;
-
             case 'ad':
                 $crypted = rcube_charset::convert('"' . $password . '"', RCUBE_CHARSET, 'UTF-16LE');
                 break;
-
             case 'dovecot':
                 if (!($dovecotpw = $rcmail->config->get('password_dovecotpw'))) {
                     $dovecotpw = 'dovecotpw';
@@ -735,26 +721,21 @@ class password extends rcube_plugin
                 $prefixed = false;
 
                 break;
-
             case 'hash-bcrypt':
                 $crypted = password_hash($password, \PASSWORD_BCRYPT, $options);
                 $prefix  = '{BLF-CRYPT}';
                 break;
-
             case 'hash-argon2i':
                 $crypted = password_hash($password, \PASSWORD_ARGON2I, $options);
                 $prefix  = '{ARGON2I}';
                 break;
-
             case 'hash-argon2id':
                 $crypted = password_hash($password, \PASSWORD_ARGON2ID, $options);
                 $prefix  = '{ARGON2ID}';
                 break;
-
             case 'clear':
                 $crypted = $password;
                 break;
-
             default:
                 rcube::raise_error([
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,

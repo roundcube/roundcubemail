@@ -124,7 +124,6 @@ class rcube_sieve_engine
                 case rcube_sieve::ERROR_LOGIN:
                     $this->rc->output->show_message('managesieve.filterconnerror', 'error');
                     break;
-
                 default:
                     $this->rc->output->show_message('managesieve.filterunknownerror', 'error');
                     break;
@@ -993,7 +992,6 @@ class rcube_sieve_engine
                             $this->form['actions'][$i]['copy'] = true;
                         }
                         break;
-
                     case 'reject':
                     case 'ereject':
                         $target = $this->strip_value($area_targets[$idx]);
@@ -1003,7 +1001,6 @@ class rcube_sieve_engine
                         //     $this->errors['actions'][$i]['targetarea'] = $this->plugin->gettext('cannotbeempty');
                         // }
                         break;
-
                     case 'redirect':
                     case 'redirect_copy':
                         $target = $this->strip_value($act_targets[$idx] ?? null);
@@ -1033,7 +1030,6 @@ class rcube_sieve_engine
                         }
 
                         break;
-
                     case 'addflag':
                     case 'setflag':
                     case 'removeflag':
@@ -1044,7 +1040,6 @@ class rcube_sieve_engine
                         }
 
                         break;
-
                     case 'addheader':
                     case 'deleteheader':
                         $this->form['actions'][$i]['name']  = trim($type == 'addheader' ? $addheader_name[$idx] : $delheader_name[$idx]);
@@ -1082,7 +1077,6 @@ class rcube_sieve_engine
                         }
 
                         break;
-
                     case 'vacation':
                         $reason        = $this->strip_value($reasons[$idx], true);
                         $interval_type = $interval_types && $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
@@ -1118,7 +1112,6 @@ class rcube_sieve_engine
                             $this->errors['actions'][$i]['interval'] = $this->plugin->gettext('forbiddenchars');
                         }
                         break;
-
                     case 'set':
                         $this->form['actions'][$i]['name'] = $varnames[$idx];
                         $this->form['actions'][$i]['value'] = $varvalues[$idx];
@@ -1136,7 +1129,6 @@ class rcube_sieve_engine
                             $this->errors['actions'][$i]['value'] = $this->plugin->gettext('cannotbeempty');
                         }
                         break;
-
                     case 'notify':
                         if (empty($notifymethods[$idx])) {
                             $this->errors['actions'][$i]['method'] = $this->plugin->gettext('cannotbeempty');

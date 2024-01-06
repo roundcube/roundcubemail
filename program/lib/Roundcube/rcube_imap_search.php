@@ -124,7 +124,6 @@ class rcube_imap_search
     }
 }
 
-
 /**
  * Stackable item to run the search on a specific IMAP folder
  */

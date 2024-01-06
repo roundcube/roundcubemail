@@ -124,7 +124,6 @@ class rcube_mime_decode
                     }
 
                     break;
-
                 case 'content-disposition':
                     $content_disposition = $this->parseHeaderValue($value['value']);
                     $return->disposition = $content_disposition['value'];
@@ -134,7 +133,6 @@ class rcube_mime_decode
                     }
 
                     break;
-
                 case 'content-transfer-encoding':
                     $content_transfer_encoding = $this->parseHeaderValue($value['value']);
                     break;
@@ -153,7 +151,6 @@ class rcube_mime_decode
                     }
 
                     break;
-
                 case 'text/html':
                     $encoding = $content_transfer_encoding['value'] ?? '7bit';
 
@@ -162,7 +159,6 @@ class rcube_mime_decode
                     }
 
                     break;
-
                 case 'multipart/digest':
                 case 'multipart/alternative':
                 case 'multipart/related':
@@ -182,7 +178,6 @@ class rcube_mime_decode
                     }
 
                     break;
-
                 case 'message/rfc822':
                     $obj = new self($this->params);
                     $return->parts[] = $obj->decode($body, false);
@@ -193,7 +188,6 @@ class rcube_mime_decode
                     }
 
                     break;
-
                 default:
                     if ($this->params['include_bodies']) {
                         $encoding = !empty($content_transfer_encoding['value']) ? $content_transfer_encoding['value'] : '7bit';

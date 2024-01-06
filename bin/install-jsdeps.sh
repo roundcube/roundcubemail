@@ -45,7 +45,6 @@ if (($CACHEDIR = getenv('CACHEDIR')) && is_writable($CACHEDIR)) {
     $CACHEDIR = sys_get_temp_dir();
 }
 
-
 //////////////// License definitions
 
 $LICENSES = [];
@@ -98,7 +97,6 @@ $LICENSES['LGPL'] = <<<'EOL'
      * any later version.
 
     EOL;
-
 
 //////////////// Functions
 
@@ -310,7 +308,6 @@ function delete_destfile($package)
         }
     }
 }
-
 
 //////////////// Execution
 

@@ -397,7 +397,6 @@ class html
     }
 }
 
-
 /**
  * Class to create an HTML input field
  */

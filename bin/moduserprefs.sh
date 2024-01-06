@@ -32,7 +32,6 @@ function print_usage()
     echo "    --type=type    Pref-value type: int, bool, string\n";
 }
 
-
 // get arguments
 $args = rcube_utils::get_opt([
     'u' => 'user',

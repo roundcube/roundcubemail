@@ -76,19 +76,17 @@ return (new PhpCsFixer\Config())
         'use_arrow_functions' => false,
 
         // disable too destructive formating for now
+        'blank_line_before_statement' => false,
         'declare_strict_types' => false,
         'increment_style' => [
             'style' => 'post',
         ],
-        'no_useless_else' => false,
         'psr_autoloading' => false,
         'strict_comparison' => false,
-        'string_length_to_empty' => false,
 
         // TODO
         'array_indentation' => false,
         'binary_operator_spaces' => ['default' => 'at_least_single_space'],
-        'blank_line_before_statement' => false,
         'explicit_string_variable' => false,
         'fully_qualified_strict_types' => [
             'import_symbols' => false,
@@ -98,11 +96,12 @@ return (new PhpCsFixer\Config())
         'modernize_types_casting' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
-        'no_extra_blank_lines' => false,
+        'no_useless_else' => false,
         'php_unit_method_casing' => false,
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_summary' => false,
         'single_line_comment_spacing' => false,
+        'string_length_to_empty' => false,
 
         // TODO - risky
         'no_unset_on_property' => false,

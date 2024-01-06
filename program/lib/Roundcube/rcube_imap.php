@@ -2838,7 +2838,6 @@ class rcube_imap extends rcube_storage
         return $result;
     }
 
-
     /* --------------------------------
      *        folder management
      * --------------------------------*/
@@ -3864,7 +3863,6 @@ class rcube_imap extends rcube_storage
         return $headers;
     }
 
-
     /* -----------------------------------------
      *   ACL and METADATA/ANNOTATEMORE methods
      * ----------------------------------------*/
@@ -4149,7 +4147,6 @@ class rcube_imap extends rcube_storage
         // @TODO: log error
     }
 
-
     /* --------------------------------
      *   internal caching methods
      * --------------------------------*/
@@ -4227,7 +4224,6 @@ class rcube_imap extends rcube_storage
         }
     }
 
-
     /* --------------------------------
      *   message caching methods
      * --------------------------------*/
@@ -4293,7 +4289,6 @@ class rcube_imap extends rcube_storage
     {
         rcube_imap_cache::gc();
     }
-
 
     /* --------------------------------
      *         protected methods

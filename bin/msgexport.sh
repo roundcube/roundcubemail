@@ -104,7 +104,6 @@ if (empty($args['user'])) {
 // prompt for password
 $args['pass'] = rcube_utils::prompt_silent('Password: ');
 
-
 // parse $host URL
 $a_host = parse_url($args['host']);
 if (!empty($a_host['host'])) {

@@ -959,7 +959,6 @@ class rcmail_output_html extends rcmail_output
         return $this->assets_path . $path;
     }
 
-
     // Template parsing methods
 
     /**
@@ -1118,7 +1117,6 @@ class rcmail_output_html extends rcmail_output
                     case 'if':
                         $level++;
                         break;
-
                     case 'endif':
                         if (!$level--) {
                             $endif = $tag_end;
@@ -1128,7 +1126,6 @@ class rcmail_output_html extends rcmail_output
                             break 2;
                         }
                         break;
-
                     case 'elseif':
                         if (!$level) {
                             if ($condmet) {
@@ -1146,7 +1143,6 @@ class rcmail_output_html extends rcmail_output
                             }
                         }
                         break;
-
                     case 'else':
                         if (!$level) {
                             if ($condmet) {
@@ -1342,12 +1338,10 @@ class rcmail_output_html extends rcmail_output
                     return $this->button($attrib);
                 }
                 break;
-
                 // frame (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'frame':
                 return $this->frame($attrib);
                 break;
-
                 // show a label (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'label':
                 if (!empty($attrib['expression'])) {
@@ -1388,11 +1382,9 @@ class rcmail_output_html extends rcmail_output
                     return $label;
                 }
                 break;
-
             case 'add_label':
                 $this->add_label($attrib['name']);
                 break;
-
                 // include a file (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'include':
                 if (!empty($attrib['condition']) && !$this->check_condition($attrib['condition'])) {
@@ -1428,11 +1420,9 @@ class rcmail_output_html extends rcmail_output
                 $this->base_path = $old_base_path;
 
                 return $include;
-
             case 'plugin.include':
                 $hook = $this->app->plugins->exec_hook('template_plugin_include', $attrib + ['content' => '']);
                 return $hook['content'];
-
                 // define a container block (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'container':
                 if (!empty($attrib['name']) && !empty($attrib['id'])) {
@@ -1442,7 +1432,6 @@ class rcmail_output_html extends rcmail_output
                     return $hook['content'];
                 }
                 break;
-
                 // return code for a specific application object (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'object':
                 $object  = strtolower($attrib['name']);
@@ -1603,7 +1592,6 @@ class rcmail_output_html extends rcmail_output
                 }
 
                 return $hook['content'];
-
                 // return <link> element (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'link':
                 if ($attrib['condition'] && !$this->check_condition($attrib['condition'])) {
@@ -1613,12 +1601,9 @@ class rcmail_output_html extends rcmail_output
                 unset($attrib['condition']);
 
                 return html::tag('link', $attrib);
-
-
                 // return code for a specified eval expression (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'exp':
                 return html::quote($this->eval_expression($attrib['expression']));
-
                 // return variable (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'var':
                 $var = explode(':', $attrib['name']);
@@ -1629,7 +1614,6 @@ class rcmail_output_html extends rcmail_output
                 }
 
                 return html::quote($value);
-
             case 'form':
                 return $this->form_tag($attrib);
         }
@@ -2157,7 +2141,6 @@ class rcmail_output_html extends rcmail_output
 
         return html::iframe($attrib);
     }
-
 
     // common functions delivering gui objects
 

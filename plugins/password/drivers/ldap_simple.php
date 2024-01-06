@@ -249,7 +249,6 @@ class rcube_ldap_simple_password
                 break;
             case 'bind':
             default:
-
                 // Bind
                 if (!ldap_bind($ds, $search_user, $search_pass)) {
                     $this->_debug('S: ' . ldap_error($ds));

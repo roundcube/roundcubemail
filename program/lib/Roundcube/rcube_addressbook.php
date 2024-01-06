@@ -781,7 +781,6 @@ abstract class rcube_addressbook
                         }
 
                         break;
-
                     case 'email':
                         $value = $email;
                         break;

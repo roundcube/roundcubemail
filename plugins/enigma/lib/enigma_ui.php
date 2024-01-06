@@ -60,28 +60,22 @@ class enigma_ui
                 case 'import':
                     $this->key_import();
                     break;
-
                 case 'import-search':
                     $this->key_import_search();
                     break;
-
                 case 'export':
                     $this->key_export();
                     break;
-
                 case 'generate':
                     $this->key_generate();
                     break;
-
                 case 'create':
                     $this->key_create();
                     break;
-
                 case 'search':
                 case 'list':
                     $this->key_list();
                     break;
-
                 case 'info':
                     $this->key_info();
                     break;
@@ -690,7 +684,6 @@ class enigma_ui
         // request time limit) and requires entropy generator
         // That's why we use only OpenPGP.js method of key generation
         return;
-
         $user = rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST, true);
         $pass = rcube_utils::get_input_string('_password', rcube_utils::INPUT_POST, true);
         $size = (int) rcube_utils::get_input_value('_size', rcube_utils::INPUT_POST);

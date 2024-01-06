@@ -489,7 +489,6 @@ class rcube_ldap extends rcube_addressbook
             if ($this->ready) {
                 break;
             }
-
         }  // end foreach hosts
 
         if (empty($this->ldap->conn)) {

@@ -249,7 +249,6 @@ if ($errors = $RCI->check_mime_detection()) {
     echo '<br/>';
 }
 
-
 if ($errors = $RCI->check_mime_extensions()) {
     $RCI->fail('Mimetype to file extension mapping');
     echo '<p class="hint">Please set a valid path to your webserver\'s mime.types file to the <tt>mime_types</tt> config option.<br/>';
@@ -314,7 +313,6 @@ $from_field = new html_inputfield(['name' => '_from', 'id' => 'sendmailfrom']);
 $to_field   = new html_inputfield(['name' => '_to', 'id' => 'sendmailto']);
 
 if (isset($_POST['sendmail'])) {
-
     echo '<p>Trying to send email...<br />';
 
     $smtp_host = trim($_POST['_smtp_host']);
@@ -424,7 +422,6 @@ $pass_field = new html_passwordfield(['name' => '_pass', 'id' => 'imappass']);
 <?php
 
 if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user'])) {
-
     echo '<p>Connecting to ' . rcube::Q($_POST['_host']) . '...<br />';
 
     $imap_host = trim($_POST['_host']);

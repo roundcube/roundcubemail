@@ -101,7 +101,6 @@ $config['password_username_format'] = '%u';
 // ]
 $config['password_http_client'] = [];
 
-
 // SQL Driver options
 // ------------------
 // PEAR database DSN for performing the query. By default
@@ -136,7 +135,6 @@ $config['password_query'] = 'SELECT update_passwd(%P, %u)';
 // Enable this option to use punycoded names
 $config['password_idn_ascii'] = false;
 
-
 // Poppassd Driver options
 // -----------------------
 // The host which changes the password (default: localhost)
@@ -152,12 +150,10 @@ $config['password_pop_host'] = 'localhost';
 // TCP port used for poppassd connections (default: 106)
 $config['password_pop_port'] = 106;
 
-
 // SASL Driver options
 // -------------------
 // Additional arguments for the saslpasswd2 call
 $config['password_saslpasswd_args'] = '';
-
 
 // LDAP, LDAP_SIMPLE, LDAP_SAMBA_AD and LDAP_EXOP Driver options
 // -----------------------------------
@@ -339,8 +335,6 @@ $config['password_ldap_ppolicy_search_filter'] = '(uid=%login)';
 // CA Certificate file if in URI is LDAPS connection
 $config['password_ldap_ppolicy_cafile'] = '/etc/ssl/cacert.crt';
 
-
-
 // DirectAdmin Driver options
 // --------------------------
 // The host which changes the password
@@ -353,7 +347,6 @@ $config['password_directadmin_host'] = 'tcp://localhost';
 // TCP port used for DirectAdmin connections
 $config['password_directadmin_port'] = 2222;
 
-
 // vpopmaild Driver options
 // -----------------------
 // The host which changes the password
@@ -365,7 +358,6 @@ $config['password_vpopmaild_port'] = 89;
 // Timeout used for the connection to vpopmaild (in seconds)
 $config['password_vpopmaild_timeout'] = 10;
 
-
 // cPanel Driver options
 // ---------------------
 // The cPanel Host name
@@ -373,7 +365,6 @@ $config['password_cpanel_host'] = 'host.domain.com';
 
 // The cPanel port to use
 $config['password_cpanel_port'] = 2096;
-
 
 // XIMSS (Communigate server) Driver options
 // -----------------------------------------
@@ -383,12 +374,10 @@ $config['password_ximss_host'] = 'mail.example.com';
 // XIMSS port on Communigate server
 $config['password_ximss_port'] = 11024;
 
-
 // chpasswd Driver options
 // ---------------------
 // Command to use (see "Sudo setup" in README)
 $config['password_chpasswd_cmd'] = 'sudo /usr/sbin/chpasswd 2> /dev/null';
-
 
 // XMail Driver options
 // ---------------------
@@ -396,7 +385,6 @@ $config['xmail_host'] = 'localhost';
 $config['xmail_user'] = 'YourXmailControlUser';
 $config['xmail_pass'] = 'YourXmailControlPass';
 $config['xmail_port'] = 6017;
-
 
 // hMail Driver options
 // -----------------------
@@ -411,19 +399,16 @@ $config['hmailserver_server'] = [
     'Password' => 'password',       // windows user password
 ];
 
-
 // pw_usermod Driver options
 // --------------------------
 // Use comma delimited exlist to disable password change for users.
 // See "Sudo setup" in README file.
 $config['password_pw_usermod_cmd'] = 'sudo /usr/sbin/pw usermod -h 0 -n';
 
-
 // DBMail Driver options
 // -------------------
 // Additional arguments for the dbmail-users call
 $config['password_dbmail_args'] = '-p sha512';
-
 
 // Expect Driver options
 // ---------------------
@@ -437,7 +422,6 @@ $config['password_expect_script'] = '';
 // This is probably a good starting default:
 //   -telnet -host localhost -output /tmp/passwd.log -log /tmp/passwd.log
 $config['password_expect_params'] = '';
-
 
 // smb Driver options
 // ---------------------
@@ -454,7 +438,6 @@ $config['password_smb_cmd'] = '/usr/bin/smbpasswd';
 // ---------------------
 // Gearman host (default: localhost)
 $config['password_gearman_host'] = 'localhost';
-
 
 // Plesk/PPA Driver options
 // --------------------
@@ -475,18 +458,15 @@ $config['password_plesk_rpc_port'] = '8443';
 // Plesk RPC Path
 $config['password_plesk_rpc_path'] = 'enterprise/control/agent.php';
 
-
 // kpasswd Driver options
 // ---------------------
 // Command to use
 $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
 
-
 // Modoboa Driver options
 // ---------------------
 // put token number from Modoboa server
 $config['password_modoboa_api_token'] = '';
-
 
 // Mail-in-a-Box Driver options
 // ----------------------------
@@ -496,7 +476,6 @@ $config['password_miab_url'] = '';
 $config['password_miab_user'] = '';
 // password of the admin user used to access api
 $config['password_miab_pass'] = '';
-
 
 // TinyCP
 // --------------
@@ -530,11 +509,9 @@ $config['password_httpapi_var_newpass'] = 'newpass';
 // confirm the change. It's a preg_match regular expression.
 $config['password_httpapi_expect'] = '/^ok$/i';
 
-
 // dovecot_passwdfile
 // ------------------
 $config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';
-
 
 // Mailcow driver options
 // ----------------------

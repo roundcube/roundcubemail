@@ -70,13 +70,11 @@ class rcube_ldap_generic extends Net_LDAP3
                     rcube::write_log('ldap', $msg);
                 }
                 break;
-
             case \LOG_EMERG:
             case \LOG_ALERT:
             case \LOG_CRIT:
                 rcube::raise_error($msg, true, true);
                 break;
-
             case \LOG_ERR:
             case \LOG_WARNING:
                 $this->error = $msg;

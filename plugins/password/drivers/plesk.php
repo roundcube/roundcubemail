@@ -79,7 +79,6 @@ class rcube_plesk_password
     }
 }
 
-
 /**
  * Plesk RPC-Class
  *

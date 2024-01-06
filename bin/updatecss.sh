@@ -71,7 +71,6 @@ foreach ($dirs as $dir) {
     }
 }
 
-
 function get_images($dir)
 {
     $images = [];
