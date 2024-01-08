@@ -1184,6 +1184,7 @@ class rcube_imap_generic
         }
 
         $this->closeSocket();
+        $this->clearCapability();
     }
 
     /**
