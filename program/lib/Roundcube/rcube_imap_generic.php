@@ -2623,6 +2623,10 @@ class rcube_imap_generic
             }
         } while (!$this->startsWith($line, $key, true));
 
+        if ($this->parseResult($line, 'FETCH: ') != self::ERROR_OK) {
+            return false;
+        }
+
         return $result;
     }
 
