@@ -52,13 +52,13 @@ class rcube_imap_generic
     protected $cmd_tag;
     protected $cmd_num = 0;
     protected $resourceid;
-    protected $extensions_enabled;
-    protected $prefs             = [];
-    protected $logged            = false;
-    protected $capability        = [];
-    protected $capability_read   = false;
-    protected $debug             = false;
-    protected $debug_handler     = false;
+    protected $extensions_enabled = [];
+    protected $prefs = [];
+    protected $logged = false;
+    protected $capability = [];
+    protected $capability_read = false;
+    protected $debug = false;
+    protected $debug_handler = false;
 
     public const ERROR_OK       = 0;
     public const ERROR_NO       = -1;
@@ -1857,7 +1857,7 @@ class rcube_imap_generic
             $response = substr($response, 10); // remove prefix "* ENABLED "
             $result   = (array) $this->tokenizeResponse($response);
 
-            $this->extensions_enabled = array_unique(array_merge((array) $this->extensions_enabled, $result));
+            $this->extensions_enabled = array_unique(array_merge($this->extensions_enabled, $result));
 
             return $this->extensions_enabled;
         }
