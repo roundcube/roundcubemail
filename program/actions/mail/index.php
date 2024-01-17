@@ -114,7 +114,7 @@ class rcmail_action_mail_index extends rcmail_action
             $rcmail->output->set_env('threads', $threading || $rcmail->storage->get_capability('THREAD'));
             $rcmail->output->set_env('reply_all_mode', (int) $rcmail->config->get('reply_all_mode'));
             $rcmail->output->set_env('layout', $rcmail->config->get('layout') ?: 'widescreen');
-            $rcmail->output->set_env('quota', $rcmail->storage->get_capability('QUOTA'));
+            self::quota_set_env();
 
             // set special folders
             foreach (['drafts', 'trash', 'junk'] as $mbox) {

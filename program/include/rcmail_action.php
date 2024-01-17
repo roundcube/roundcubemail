@@ -152,6 +152,26 @@ abstract class rcmail_action
     }
 
     /**
+     * Set env-flag for quota. It is used in templates to determine if quota
+     * data should be displayed.
+     * In case the quota is zero and the config option
+     * `quota_zero_as_unlimited` is true, then the account has no quota and
+     * should not be shown a meaningless (or even wrong) quota-display.
+     */
+    public static function quota_set_env()
+    {
+        $rcmail = rcmail::get_instance();
+        // This call also checks the QUOTA capability of the server, we don't
+        // need to do that manually (the return value is `false` if the server
+        // doesn't support it).
+        $quota = $rcmail->storage->get_quota();
+        $zero_as_unlimited = (bool) $rcmail->config->get("quota_zero_as_unlimited");
+        // Show the quota display only if it's not unlimited.
+        $show_quota = is_array($quota) && !($quota['total'] === 0 && $zero_as_unlimited);
+        $rcmail->output->set_env('quota', $show_quota);
+    }
+    
+    /**
      * Return HTML for quota indicator object
      *
      * @param array $attrib Named parameters

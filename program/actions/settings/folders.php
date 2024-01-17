@@ -34,7 +34,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
         $rcmail->output->set_pagetitle($rcmail->gettext('folders'));
         $rcmail->output->set_env('prefix_ns', $storage->get_namespace('prefix'));
-        $rcmail->output->set_env('quota', (bool) $storage->get_capability('QUOTA'));
+        self::quota_set_env();
         $rcmail->output->include_script('treelist.js');
 
         // add some labels to client
