@@ -132,16 +132,16 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Abstract methods should be implemented by driver classes
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     abstract public function open($save_path, $session_name);
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     abstract public function close();
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     abstract public function destroy($key);
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     abstract public function read($key);
 
     abstract protected function save($key, $vars);
@@ -156,7 +156,7 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @return bool True on success, False on failure
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function write($key, $vars)
     {
         if ($this->nowrite) {
@@ -182,7 +182,7 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @return bool True on success, False on failure
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         // move gc execution to the script shutdown function
