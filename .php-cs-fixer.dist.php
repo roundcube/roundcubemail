@@ -85,6 +85,7 @@ return (new PhpCsFixer\Config())
             'prefix' => 'provide_',
             'suffix' => '_cases',
         ],
+        'php_unit_test_case_static_method_calls' => false,
         'psr_autoloading' => false,
         'strict_comparison' => false,
 
@@ -109,7 +110,6 @@ return (new PhpCsFixer\Config())
 
         // TODO - risky
         'no_unset_on_property' => false,
-        'php_unit_test_case_static_method_calls' => false,
         'random_api_migration' => false,
         'strict_param' => false,
     ])
