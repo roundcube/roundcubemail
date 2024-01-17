@@ -1384,11 +1384,12 @@ class rcmail_action_contacts_index extends rcmail_action
             }
 
             if ($return) {
-                while ($row = $result->next()) {
+                foreach ($result as $row) {
                     $row['sourceid'] = $s;
                     $key = rcube_addressbook::compose_contact_key($row, $sort_col);
                     $records[$key] = $row;
                 }
+
                 unset($result);
             }
 

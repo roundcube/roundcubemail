@@ -201,7 +201,7 @@ class rcube_contacts extends rcube_addressbook
      * @param int   $subset  Only return this number of records, use negative values for tail
      * @param bool  $nocount True to skip the count query (select only)
      *
-     * @return array Indexed list of contact records, each a hash array
+     * @return rcube_result_set Indexed list of contact records, each a hash array
      */
     public function list_records($cols = null, $subset = 0, $nocount = false)
     {
