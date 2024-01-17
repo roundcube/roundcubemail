@@ -134,15 +134,12 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             }
 
             // get records
-            $result = $source->list_records($afields);
-
-            while ($row = $result->next()) {
+            foreach ($source->list_records($afields) as $row) {
                 $row['sourceid'] = $s['id'];
                 $key = rcube_addressbook::compose_contact_key($row, $sort_col);
                 $records[$key] = $row;
             }
 
-            unset($result);
             $search_set[$s['id']] = $source->get_search_set();
         }
 

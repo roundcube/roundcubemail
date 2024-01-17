@@ -49,9 +49,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
                 $source->set_search_set($set);
 
                 // get records
-                $result = $source->list_records();
-
-                while ($record = $result->next()) {
+                foreach ($source->list_records() as $record) {
                     // because vcard_map is per-source we need to create vcard here
                     self::prepare_for_export($record, $source);
 
@@ -59,8 +57,6 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
                     $key = rcube_addressbook::compose_contact_key($record, $sort_col);
                     $records[$key] = $record;
                 }
-
-                unset($result);
             }
 
             // sort the records
@@ -85,9 +81,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
                 $source->set_page(1);
                 $source->set_pagesize(count($ids));
 
-                $result = $source->search('ID', $ids, 1, true, true);
-
-                while ($record = $result->next()) {
+                foreach ($source->search('ID', $ids, 1, true, true) as $record) {
                     // because vcard_map is per-source we need to create vcard here
                     self::prepare_for_export($record, $source);
 

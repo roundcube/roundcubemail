@@ -58,14 +58,11 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 $CONTACTS->set_search_set($set);
 
                 // get records
-                $result = $CONTACTS->list_records($afields);
-
-                while ($row = $result->next()) {
+                foreach ($CONTACTS->list_records($afields) as $row) {
                     $row['sourceid'] = $s;
                     $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
                     $records[$key] = $row;
                 }
-                unset($result);
             }
 
             // sort the records
@@ -109,7 +106,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
             $rcmail->output->show_message('contactsearchonly', 'notice');
         } elseif (!empty($result) && $result->count > 0) {
             // create javascript list
-            while ($row = $result->next()) {
+            foreach ($result as $row) {
                 $name = rcube_addressbook::compose_list_name($row);
 
                 // add record for every email address of the contact

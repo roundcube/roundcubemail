@@ -335,8 +335,7 @@ class rcmail_utils
             $contacts = new rcube_contacts($db, $sql_arr['user_id']);
             $contacts->set_pagesize(9999);
 
-            $result = $contacts->list_records();
-            while ($result->count && ($row = $result->next())) {
+            foreach ($contacts->list_records() as $row) {
                 unset($row['words']);
                 $contacts->update($row['ID'], $row);
             }

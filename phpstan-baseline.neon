@@ -648,16 +648,6 @@ parameters:
 			path: program/actions/contacts/export.php
 
 		-
-			message: "#^Cannot call method next\\(\\) on array\\.$#"
-			count: 1
-			path: program/actions/contacts/export.php
-
-		-
-			message: "#^Result of method rcube_result_set\\:\\:next\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: program/actions/contacts/export.php
-
-		-
 			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
 			count: 1
 			path: program/actions/contacts/group_create.php
@@ -768,16 +758,6 @@ parameters:
 			path: program/actions/contacts/index.php
 
 		-
-			message: "#^Cannot access property \\$count on array\\.$#"
-			count: 1
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Cannot call method next\\(\\) on array\\.$#"
-			count: 1
-			path: program/actions/contacts/index.php
-
-		-
 			message: "#^Call to an undefined method object\\:\\:get_group\\(\\)\\.$#"
 			count: 1
 			path: program/actions/contacts/list.php
@@ -849,11 +829,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method rcube_output\\:\\:request_form\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/search.php
-
-		-
-			message: "#^Cannot call method next\\(\\) on array\\.$#"
 			count: 1
 			path: program/actions/contacts/search.php
 
@@ -1124,11 +1099,6 @@ parameters:
 			path: program/actions/mail/group_expand.php
 
 		-
-			message: "#^Cannot call method iterate\\(\\) on array\\.$#"
-			count: 1
-			path: program/actions/mail/group_expand.php
-
-		-
 			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
 			count: 1
 			path: program/actions/mail/headers.php
@@ -1261,16 +1231,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
 			count: 5
-			path: program/actions/mail/list_contacts.php
-
-		-
-			message: "#^Cannot call method next\\(\\) on array\\.$#"
-			count: 1
-			path: program/actions/mail/list_contacts.php
-
-		-
-			message: "#^Result of method rcube_result_set\\:\\:next\\(\\) \\(void\\) is used\\.$#"
-			count: 1
 			path: program/actions/mail/list_contacts.php
 
 		-
@@ -1963,16 +1923,6 @@ parameters:
 			message: "#^Variable \\$headers might not be defined\\.$#"
 			count: 1
 			path: program/include/rcmail_sendmail.php
-
-		-
-			message: "#^Cannot access property \\$count on array\\.$#"
-			count: 1
-			path: program/include/rcmail_utils.php
-
-		-
-			message: "#^Cannot call method next\\(\\) on array\\.$#"
-			count: 1
-			path: program/include/rcmail_utils.php
 
 		-
 			message: "#^Call to an undefined static method PEAR\\:\\:setErrorHandling\\(\\)\\.$#"
