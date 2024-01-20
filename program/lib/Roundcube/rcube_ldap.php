@@ -1945,7 +1945,7 @@ class rcube_ldap extends rcube_addressbook
 
             // list email attributes of a group
             for ($j = 0; !empty($entry[$email_attr]) && $j < $entry[$email_attr]['count']; $j++) {
-                if (strpos($entry[$email_attr][$j], '@') > 0)
+                if (strpos($entry[$email_attr][$j], '@') > 0) {
                     $groups[$group_id]['email'][] = $entry[$email_attr][$j];
                 }
             }
