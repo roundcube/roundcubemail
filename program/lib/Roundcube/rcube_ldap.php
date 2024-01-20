@@ -1975,15 +1975,15 @@ class rcube_ldap extends rcube_addressbook
             $groups[$group_id]['ID'] = $group_id;
             $groups[$group_id]['dn'] = $entry['dn'];
             $groups[$group_id]['name'] = $group_name;
-            $groups[$group_id]['member_attr'] = $this->get_group_member_attr($entry['objectclass']);
+            $groups[$group_id]['member_attr'] = $this->get_group_member_attr($entry['objectclass'] ?? null);
 
             // list email attributes of a group
-            for ($j=0; $entry[$email_attr] && $j < $entry[$email_attr]['count']; $j++) {
+            for ($j=0; !empty($entry[$email_attr]) && $j < $entry[$email_attr]['count']; $j++) {
                 if (strpos($entry[$email_attr][$j], '@') > 0)
                     $groups[$group_id]['email'][] = $entry[$email_attr][$j];
             }
 
-            $group_sortnames[] = mb_strtolower($entry[$sort_attr][0]);
+            $group_sortnames[] = mb_strtolower($entry[$sort_attr][0] ?? '');
         }
 
         // recursive call can exit here
@@ -2270,7 +2270,7 @@ class rcube_ldap extends rcube_addressbook
      */
     private function get_group_member_attr($object_classes = [], $default = 'member')
     {
-        if (empty($object_classes)) {
+        if (empty($object_classes) && !empty($this->prop['groups']['object_classes'])) {
             $object_classes = $this->prop['groups']['object_classes'];
         }
 

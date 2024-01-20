@@ -6,7 +6,7 @@
 - Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
 - Fix page jump menu flickering on click (#9196)
 - Update to TinyMCE 5.10.9 security release (#9228)
-- Fix PHP8 warnings (#9235, #9238, #9242)
+- Fix PHP8 warnings (#9235, #9238, #9242, #9306)
 - Fix saving other encryption settings besides enigma's (#9240)
 - Fix unneeded php command use in installto.sh and deluser.sh scripts (#9237)
 - Fix TinyMCE localization installation (#9266)
