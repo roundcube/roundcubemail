@@ -39,6 +39,9 @@
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+
+## Release 1.6.6
+
 - Fix regression in handling LDAP search_fields configuration parameter (#9210)
 - Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
 - Fix page jump menu flickering on click (#9196)
