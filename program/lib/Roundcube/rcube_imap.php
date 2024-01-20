@@ -67,7 +67,6 @@ class rcube_imap extends rcube_storage
     protected $msg_uid;
     protected $sort_folder_collator;
 
-
     /**
      * Object constructor.
      */
@@ -2390,7 +2389,6 @@ class rcube_imap extends rcube_storage
         }
     }
 
-
     /**
      * Fetch message body of a specific message from the server
      *
@@ -2839,7 +2837,6 @@ class rcube_imap extends rcube_storage
 
         return $result;
     }
-
 
     /* --------------------------------
      *        folder management
@@ -3866,7 +3863,6 @@ class rcube_imap extends rcube_storage
         return $headers;
     }
 
-
     /* -----------------------------------------
      *   ACL and METADATA/ANNOTATEMORE methods
      * ----------------------------------------*/
@@ -4151,7 +4147,6 @@ class rcube_imap extends rcube_storage
         // @TODO: log error
     }
 
-
     /* --------------------------------
      *   internal caching methods
      * --------------------------------*/
@@ -4229,7 +4224,6 @@ class rcube_imap extends rcube_storage
         }
     }
 
-
     /* --------------------------------
      *   message caching methods
      * --------------------------------*/
@@ -4295,7 +4289,6 @@ class rcube_imap extends rcube_storage
     {
         rcube_imap_cache::gc();
     }
-
 
     /* --------------------------------
      *         protected methods

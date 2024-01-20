@@ -16,7 +16,6 @@ class new_user_dialog extends rcube_plugin
     public $task    = '';
     public $noframe = true;
 
-
     public function init()
     {
         $this->add_hook('identity_create', [$this, 'create_identity']);

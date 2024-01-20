@@ -251,7 +251,6 @@ class rcube_sieve_script
                             $tests[$i] .= (!empty($test['not']) ? 'not ' : '');
                             $tests[$i] .= 'size :' . ($test['type'] == 'under' ? 'under ' : 'over ') . $test['arg'];
                             break;
-
                         case 'spamtest':
                             array_push($exts, 'spamtest');
                             $tests[$i] .= (!empty($test['not']) ? 'not ' : '');
@@ -261,11 +260,9 @@ class rcube_sieve_script
 
                             $tests[$i] .= ' ' . self::escape_string($test['arg']);
                             break;
-
                         case 'true':
                             $tests[$i] .= !empty($test['not']) ? 'false' : 'true';
                             break;
-
                         case 'exists':
                             $tests[$i] .= (!empty($test['not']) ? 'not ' : '') . 'exists';
 
@@ -273,7 +270,6 @@ class rcube_sieve_script
 
                             $tests[$i] .= ' ' . self::escape_string($test['arg']);
                             break;
-
                         case 'header':
                         case 'string':
                             if ($test['test'] == 'string') {
@@ -293,7 +289,6 @@ class rcube_sieve_script
                             $tests[$i] .= ' ' . self::escape_string($test['arg1']);
                             $tests[$i] .= ' ' . self::escape_string($test['arg2']);
                             break;
-
                         case 'address':
                         case 'envelope':
                             if ($test['test'] == 'envelope') {
@@ -321,7 +316,6 @@ class rcube_sieve_script
                             $tests[$i] .= ' ' . self::escape_string($test['arg1']);
                             $tests[$i] .= ' ' . self::escape_string($test['arg2']);
                             break;
-
                         case 'body':
                             array_push($exts, 'body');
 
@@ -339,7 +333,6 @@ class rcube_sieve_script
 
                             $tests[$i] .= ' ' . self::escape_string($test['arg']);
                             break;
-
                         case 'date':
                         case 'currentdate':
                             array_push($exts, 'date');
@@ -364,7 +357,6 @@ class rcube_sieve_script
                             $tests[$i] .= ' ' . self::escape_string($test['arg']);
 
                             break;
-
                         case 'duplicate':
                             array_push($exts, 'duplicate');
 
@@ -416,7 +408,6 @@ class rcube_sieve_script
                     $action_script = '';
 
                     switch ($action['type']) {
-
                         case 'fileinto':
                             array_push($exts, 'fileinto');
                             $action_script .= 'fileinto ';
@@ -426,7 +417,6 @@ class rcube_sieve_script
                             }
                             $action_script .= self::escape_string($action['target']);
                             break;
-
                         case 'redirect':
                             $action_script .= 'redirect ';
                             if (!empty($action['copy'])) {
@@ -435,20 +425,17 @@ class rcube_sieve_script
                             }
                             $action_script .= self::escape_string($action['target']);
                             break;
-
                         case 'reject':
                         case 'ereject':
                             array_push($exts, $action['type']);
                             $action_script .= $action['type'] . ' ' . self::escape_string($action['target']);
                             break;
-
                         case 'addflag':
                         case 'setflag':
                         case 'removeflag':
                             array_push($exts, $imapflags);
                             $action_script .= $action['type'] . ' ' . self::escape_string($action['target']);
                             break;
-
                         case 'addheader':
                         case 'deleteheader':
                             array_push($exts, 'editheader');
@@ -468,13 +455,11 @@ class rcube_sieve_script
                                 $action_script .= ' ' . self::escape_string($action['value']);
                             }
                             break;
-
                         case 'keep':
                         case 'discard':
                         case 'stop':
                             $action_script .= $action['type'];
                             break;
-
                         case 'include':
                             array_push($exts, 'include');
                             $action_script .= 'include ';
@@ -483,7 +468,6 @@ class rcube_sieve_script
                             }
                             $action_script .= self::escape_string($action['target']);
                             break;
-
                         case 'set':
                             array_push($exts, 'variables');
                             $action_script .= 'set ';
@@ -492,7 +476,6 @@ class rcube_sieve_script
                             }
                             $action_script .= self::escape_string($action['name']) . ' ' . self::escape_string($action['value']);
                             break;
-
                         case 'replace':
                             array_push($exts, 'mime');
                             $action_script .= 'replace';
@@ -507,7 +490,6 @@ class rcube_sieve_script
                             }
                             $action_script .= ' ' . self::escape_string($action['replace']);
                             break;
-
                         case 'notify':
                             array_push($exts, $notify);
                             $action_script .= 'notify';
@@ -555,7 +537,6 @@ class rcube_sieve_script
                             }
 
                             break;
-
                         case 'vacation':
                             array_push($exts, 'vacation');
                             $action_script .= 'vacation';
@@ -776,10 +757,8 @@ class rcube_sieve_script
                     $join     = true;
                     $join_not = $not;
                     break;
-
                 case 'anyof':
                     break;
-
                 case 'size':
                     $test = ['test' => 'size', 'not' => $not];
 
@@ -795,7 +774,6 @@ class rcube_sieve_script
 
                     $tests[] = $test;
                     break;
-
                 case 'spamtest':
                     $test = ['test' => 'spamtest', 'not' => $not];
 
@@ -805,7 +783,6 @@ class rcube_sieve_script
 
                     $tests[] = $test;
                     break;
-
                 case 'header':
                 case 'string':
                 case 'address':
@@ -827,7 +804,6 @@ class rcube_sieve_script
 
                     $tests[] = $test;
                     break;
-
                 case 'body':
                     $test = ['test' => 'body', 'not' => $not];
 
@@ -847,7 +823,6 @@ class rcube_sieve_script
 
                     $tests[] = $test;
                     break;
-
                 case 'date':
                 case 'currentdate':
                     $test = ['test' => $token, 'not' => $not];
@@ -871,7 +846,6 @@ class rcube_sieve_script
 
                     $tests[] = $test;
                     break;
-
                 case 'duplicate':
                     $test = ['test' => $token, 'not' => $not];
 
@@ -887,17 +861,14 @@ class rcube_sieve_script
 
                     $tests[] = $test;
                     break;
-
                 case 'exists':
                     $test = ['test' => 'exists', 'not' => $not, 'arg'  => array_pop($tokens)];
                     $test += $this->test_tokens($tokens);
                     $tests[] = $test;
                     break;
-
                 case 'true':
                     $tests[] = ['test' => 'true', 'not' => $not];
                     break;
-
                 case 'false':
                     $tests[] = ['test' => 'true', 'not' => !$not];
                     break;
@@ -951,13 +922,11 @@ class rcube_sieve_script
                     // nested 'if' conditions, ignore the whole rule (#5540)
                     $this->_parse_actions($content, $position);
                     continue 2;
-
                 case 'discard':
                 case 'keep':
                 case 'stop':
                     $result[] = ['type' => $token];
                     break;
-
                 case 'fileinto':
                 case 'redirect':
                     $action  = ['type' => $token, 'target' => array_pop($tokens)];
@@ -966,7 +935,6 @@ class rcube_sieve_script
 
                     $result[] = $action;
                     break;
-
                 case 'vacation':
                     $action  = ['type' => 'vacation', 'reason' => array_pop($tokens)];
                     $args    = ['mime'];
@@ -975,7 +943,6 @@ class rcube_sieve_script
 
                     $result[] = $action;
                     break;
-
                 case 'addheader':
                 case 'deleteheader':
                     $args = $this->test_tokens($tokens);
@@ -990,7 +957,6 @@ class rcube_sieve_script
 
                     $result[] = $action + $args;
                     break;
-
                 case 'reject':
                 case 'ereject':
                 case 'setflag':
@@ -998,7 +964,6 @@ class rcube_sieve_script
                 case 'removeflag':
                     $result[] = ['type' => $token, 'target' => array_pop($tokens)];
                     break;
-
                 case 'include':
                     $action  = ['type' => 'include', 'target' => array_pop($tokens)];
                     $args    = ['once', 'optional', 'global', 'personal'];
@@ -1006,7 +971,6 @@ class rcube_sieve_script
 
                     $result[] = $action;
                     break;
-
                 case 'set':
                     $action  = ['type' => 'set', 'value' => array_pop($tokens), 'name' => array_pop($tokens)];
                     $args    = ['lower', 'upper', 'lowerfirst', 'upperfirst', 'quotewildcard', 'length', 'encodeurl'];
@@ -1014,7 +978,6 @@ class rcube_sieve_script
 
                     $result[] = $action;
                     break;
-
                 case 'replace':
                     $action  = ['type' => 'replace', 'replace' => array_pop($tokens)];
                     $args    = ['mime'];
@@ -1023,12 +986,10 @@ class rcube_sieve_script
 
                     $result[] = $action;
                     break;
-
                 case 'require':
                     // skip, will be build according to used commands
                     // $result[] = ['type' => 'require', 'target' => array_pop($tokens)];
                     break;
-
                 case 'notify':
                     $action     = ['type' => 'notify'];
                     $priorities = ['high' => 1, 'normal' => 2, 'low' => 3];
@@ -1290,7 +1251,6 @@ class rcube_sieve_script
             $position = self::ltrim_position($str, $position);
 
             switch ($str[$position]) {
-
                 // Quoted string
                 case '"':
                     for ($pos = $position + 1; $pos < $length; $pos++) {
@@ -1311,7 +1271,6 @@ class rcube_sieve_script
                     $result[] = stripslashes(substr($str, $position + 1, $pos - $position - 1));
                     $position = $pos + 1;
                     break;
-
                     // Parenthesized list (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case '[':
                     $position++;
@@ -1321,7 +1280,6 @@ class rcube_sieve_script
                     $position++;
                     return $result;
                     break;
-
                     // list/test separator (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case ',':
                     // command separator (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
@@ -1338,7 +1296,6 @@ class rcube_sieve_script
                         break 2;
                     }
                     break;
-
                     // bracket-comment (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case '/':
                     if ($str[$position + 1] == '*') {
@@ -1350,7 +1307,6 @@ class rcube_sieve_script
                         }
                     }
                     break;
-
                     // hash-comment (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case '#':
                     if ($lf_pos = strpos($str, "\n", $position)) {

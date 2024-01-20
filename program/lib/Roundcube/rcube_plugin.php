@@ -78,7 +78,6 @@ abstract class rcube_plugin
     /** @var array List of plugin configuration files already loaded */
     private $loaded_config = [];
 
-
     /**
      * Default constructor.
      *

@@ -249,7 +249,6 @@ if ($errors = $RCI->check_mime_detection()) {
     echo '<br/>';
 }
 
-
 if ($errors = $RCI->check_mime_extensions()) {
     $RCI->fail('Mimetype to file extension mapping');
     echo '<p class="hint">Please set a valid path to your webserver\'s mime.types file to the <tt>mime_types</tt> config option.<br/>';
@@ -272,7 +271,7 @@ $pass = $RCI->getprop('smtp_pass', '(none)');
 
 if ($user == '%u') {
     $user_field = new html_inputfield(['name' => '_smtp_user', 'id' => 'smtp_user']);
-    $user = $user_field->show(isset($_POST['_smtp_user']) ? $_POST['_smtp_user'] : '');
+    $user = $user_field->show($_POST['_smtp_user'] ?? '');
 } else {
     $user = html::quote($user);
 }
@@ -294,7 +293,7 @@ if ($pass == '%p') {
 <tbody>
   <tr>
     <td><label for="smtp_host">Host</label></td>
-    <td><?php echo $smtp_host_field->show(isset($_POST['_smtp_host']) ? $_POST['_smtp_host'] : ''); ?></td>
+    <td><?php echo $smtp_host_field->show($_POST['_smtp_host'] ?? ''); ?></td>
   </tr>
   <tr>
     <td><label for="smtp_user">Username</label></td>
@@ -314,7 +313,6 @@ $from_field = new html_inputfield(['name' => '_from', 'id' => 'sendmailfrom']);
 $to_field   = new html_inputfield(['name' => '_to', 'id' => 'sendmailto']);
 
 if (isset($_POST['sendmail'])) {
-
     echo '<p>Trying to send email...<br />';
 
     $smtp_host = trim($_POST['_smtp_host']);
@@ -372,11 +370,11 @@ if (isset($_POST['sendmail'])) {
 <tbody>
   <tr>
     <td><label for="sendmailfrom">Sender</label></td>
-    <td><?php echo $from_field->show(isset($_POST['_from']) ? $_POST['_from'] : ''); ?></td>
+    <td><?php echo $from_field->show($_POST['_from'] ?? ''); ?></td>
   </tr>
   <tr>
     <td><label for="sendmailto">Recipient</label></td>
-    <td><?php echo $to_field->show(isset($_POST['_to']) ? $_POST['_to'] : ''); ?></td>
+    <td><?php echo $to_field->show($_POST['_to'] ?? ''); ?></td>
   </tr>
 </tbody>
 </table>
@@ -408,11 +406,11 @@ $pass_field = new html_passwordfield(['name' => '_pass', 'id' => 'imappass']);
 <tbody>
   <tr>
     <td><label for="imaphost">Host</label></td>
-    <td><?php echo $host_field->show(isset($_POST['_host']) ? $_POST['_host'] : ''); ?></td>
+    <td><?php echo $host_field->show($_POST['_host'] ?? ''); ?></td>
   </tr>
   <tr>
     <td><label for="imapuser">Username</label></td>
-    <td><?php echo $user_field->show(isset($_POST['_user']) ? $_POST['_user'] : ''); ?></td>
+    <td><?php echo $user_field->show($_POST['_user'] ?? ''); ?></td>
   </tr>
   <tr>
     <td><label for="imappass">Password</label></td>
@@ -424,7 +422,6 @@ $pass_field = new html_passwordfield(['name' => '_pass', 'id' => 'imappass']);
 <?php
 
 if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user'])) {
-
     echo '<p>Connecting to ' . rcube::Q($_POST['_host']) . '...<br />';
 
     $imap_host = trim($_POST['_host']);

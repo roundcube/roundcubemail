@@ -71,7 +71,6 @@ foreach ($dirs as $dir => $user) {
     }
 }
 
-
 function print_usage()
 {
     echo "Usage: import.sh [options]\n";

@@ -31,7 +31,6 @@ abstract class rcube_output
     protected $env     = [];
     protected $skins   = [];
 
-
     /**
      * Object constructor
      */

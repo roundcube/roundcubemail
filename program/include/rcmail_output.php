@@ -34,7 +34,6 @@ abstract class rcmail_output extends rcube_output
     protected $object_handlers = [];
     protected $devel_mode      = false;
 
-
     /**
      * Object constructor
      */

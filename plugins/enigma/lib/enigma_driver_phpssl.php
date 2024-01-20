@@ -69,7 +69,6 @@ class enigma_driver_phpssl extends enigma_driver
         }
 
         $this->homedir = $homedir;
-
     }
 
     public function encrypt($text, $keys, $sign_key = null) {}

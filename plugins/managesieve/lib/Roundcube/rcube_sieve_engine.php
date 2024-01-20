@@ -65,7 +65,6 @@ class rcube_sieve_engine
     public const PROGNAME = 'Roundcube (Managesieve)';
     public const PORT     = 4190;
 
-
     /**
      * Class constructor
      */
@@ -125,7 +124,6 @@ class rcube_sieve_engine
                 case rcube_sieve::ERROR_LOGIN:
                     $this->rc->output->show_message('managesieve.filterconnerror', 'error');
                     break;
-
                 default:
                     $this->rc->output->show_message('managesieve.filterunknownerror', 'error');
                     break;
@@ -754,7 +752,7 @@ class rcube_sieve_engine
                         $datepart    = $this->strip_value($dateparts[$idx]);
                         $dateheader  = $this->strip_value($dateheaders[$idx]);
                         $index       = $this->strip_value($indexes[$idx]);
-                        $indexlast   = $this->strip_value(isset($lastindexes[$idx]) ? $lastindexes[$idx] : null);
+                        $indexlast   = $this->strip_value($lastindexes[$idx] ?? null);
                         $mod         = $this->strip_value($mods[$idx]);
 
                         $type = preg_replace('/^not/', '', $operator);
@@ -994,7 +992,6 @@ class rcube_sieve_engine
                             $this->form['actions'][$i]['copy'] = true;
                         }
                         break;
-
                     case 'reject':
                     case 'ereject':
                         $target = $this->strip_value($area_targets[$idx]);
@@ -1004,7 +1001,6 @@ class rcube_sieve_engine
                         //     $this->errors['actions'][$i]['targetarea'] = $this->plugin->gettext('cannotbeempty');
                         // }
                         break;
-
                     case 'redirect':
                     case 'redirect_copy':
                         $target = $this->strip_value($act_targets[$idx] ?? null);
@@ -1034,7 +1030,6 @@ class rcube_sieve_engine
                         }
 
                         break;
-
                     case 'addflag':
                     case 'setflag':
                     case 'removeflag':
@@ -1045,7 +1040,6 @@ class rcube_sieve_engine
                         }
 
                         break;
-
                     case 'addheader':
                     case 'deleteheader':
                         $this->form['actions'][$i]['name']  = trim($type == 'addheader' ? $addheader_name[$idx] : $delheader_name[$idx]);
@@ -1083,7 +1077,6 @@ class rcube_sieve_engine
                         }
 
                         break;
-
                     case 'vacation':
                         $reason        = $this->strip_value($reasons[$idx], true);
                         $interval_type = $interval_types && $interval_types[$idx] == 'seconds' ? 'seconds' : 'days';
@@ -1119,7 +1112,6 @@ class rcube_sieve_engine
                             $this->errors['actions'][$i]['interval'] = $this->plugin->gettext('forbiddenchars');
                         }
                         break;
-
                     case 'set':
                         $this->form['actions'][$i]['name'] = $varnames[$idx];
                         $this->form['actions'][$i]['value'] = $varvalues[$idx];
@@ -1137,7 +1129,6 @@ class rcube_sieve_engine
                             $this->errors['actions'][$i]['value'] = $this->plugin->gettext('cannotbeempty');
                         }
                         break;
-
                     case 'notify':
                         if (empty($notifymethods[$idx])) {
                             $this->errors['actions'][$i]['method'] = $this->plugin->gettext('cannotbeempty');
@@ -1513,7 +1504,7 @@ class rcube_sieve_engine
             $this->add_tip('_name', $this->errors['name'], true);
         }
 
-        $input_name = $input_name->show(isset($scr['name']) ? $scr['name'] : '');
+        $input_name = $input_name->show($scr['name'] ?? '');
 
         $out .= sprintf("\n" . '<div class="form-group row">'
             . '<label for="_name" class="col-sm-4 col-form-label">%s</label>'

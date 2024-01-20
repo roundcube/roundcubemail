@@ -47,7 +47,6 @@ class redundant_attachments extends filesystem_attachments
 
     private $loaded;
 
-
     /**
      * Loads plugin configuration and initializes cache object(s)
      */

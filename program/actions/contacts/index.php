@@ -431,7 +431,6 @@ class rcmail_action_contacts_index extends rcmail_action
 
     public static function directory_list($attrib)
     {
-
         if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmdirectorylist';
         }
@@ -660,7 +659,6 @@ class rcmail_action_contacts_index extends rcmail_action
                     case 'name':
                         $val = rcube::Q(rcube_addressbook::compose_list_name($row));
                         break;
-
                     case 'action':
                         if ($type == 'group') {
                             $val = html::a([
@@ -682,7 +680,6 @@ class rcmail_action_contacts_index extends rcmail_action
                             $val = null;
                         }
                         break;
-
                     default:
                         $val = rcube::Q($row[$col]);
                         break;

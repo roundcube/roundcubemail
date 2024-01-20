@@ -35,7 +35,6 @@ class rcube_config
     private $immutable = [];
     private $client_tz;
 
-
     /**
      * Renamed options
      *
@@ -137,19 +136,14 @@ class rcube_config
         switch ($type) {
             case 'bool':
                 return (bool) $string;
-
             case 'int':
                 return (int) $string;
-
             case 'float':
                 return (float) $string;
-
             case 'string':
                 return $string;
-
             case 'array':
                 return json_decode($string, true);
-
             case 'object':
                 return json_decode($string, false);
         }

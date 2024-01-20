@@ -44,7 +44,6 @@ class rcube_sieve
     public const ERROR_DEACTIVATE = 8;    // script activation
     public const ERROR_OTHER      = 255;  // other/unknown error
 
-
     /**
      * Object constructor
      *

@@ -320,18 +320,14 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         switch ($option) {
             case 'body':
                 return "BODY {$escaped}";
-
             case 'text':
                 return "TEXT {$escaped}";
-
             case 'replyto':
             case 'reply-to':
                 return "OR HEADER REPLY-TO {$escaped} HEADER MAIL-REPLY-TO {$escaped}";
-
             case 'followupto':
             case 'followup-to':
                 return "OR HEADER FOLLOWUP-TO {$escaped} HEADER MAIL-FOLLOWUP-TO {$escaped}";
-
             case 'larger':
             case 'smaller':
                 if (preg_match('/([0-9\.]+)(k|m|g|b|kb|mb|gb)/i', $value)) {
@@ -339,7 +335,6 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 }
 
                 break;
-
             case 'is':
                 $map = [
                     'unread' => 'UNSEEN',
@@ -360,7 +355,6 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 }
 
                 break;
-
             case 'has':
                 if ($value == 'attachment') {
                     // Content-Type values of messages with attachments
@@ -377,7 +371,6 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 }
 
                 break;
-
             case 'older_than': // GMail alias
                 $option = 'before';
             case 'newer_than': // GMail alias
@@ -398,7 +391,6 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 }
 
                 break;
-
             default:
                 if (in_array($option, $supported)) {
                     $header = strtoupper($option);

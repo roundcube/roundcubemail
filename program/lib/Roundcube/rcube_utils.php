@@ -31,7 +31,6 @@ class rcube_utils
     public const INPUT_GP     = 3; // GET + POST
     public const INPUT_GPC    = 7; // GET + POST + COOKIE
 
-
     /**
      * A wrapper for PHP's explode() that does not throw a warning
      * when the separator does not exist in the string

@@ -32,7 +32,6 @@ function print_usage()
     echo "    --type=type    Pref-value type: int, bool, string\n";
 }
 
-
 // get arguments
 $args = rcube_utils::get_opt([
     'u' => 'user',
@@ -62,7 +61,7 @@ if (!empty($args['config'])) {
     $rcube->config->load_from_file($args['config']);
 }
 
-$type = isset($args['type']) ? $args['type'] : null;
-$user = isset($args['user']) ? $args['user'] : null;
+$type = $args['type'] ?? null;
+$user = $args['user'] ?? null;
 
 rcmail_utils::mod_pref($pref_name, $pref_value, $user, $type);

@@ -31,7 +31,6 @@ class enigma_error
     public const UNVERIFIED  = 7;
     public const NOMDC       = 8;
 
-
     public function __construct($code = null, $message = '', $data = [])
     {
         $this->code    = $code;

@@ -10,7 +10,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_clean()
      */
-    public function data_clean(): iterable
+    public function provide_clean_cases(): iterable
     {
         return [
             ['', ''],
@@ -24,7 +24,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_clean
+     * @dataProvider provide_clean_cases
      */
     public function test_clean($input, $output)
     {
@@ -34,7 +34,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_is_valid()
      */
-    public function data_is_valid(): iterable
+    public function provide_is_valid_cases(): iterable
     {
         $list = [];
         foreach (mb_list_encodings() as $charset) {
@@ -53,7 +53,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_is_valid
+     * @dataProvider provide_is_valid_cases
      */
     public function test_is_valid($input, $result)
     {
@@ -63,7 +63,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_parse_charset()
      */
-    public function data_parse_charset(): iterable
+    public function provide_parse_charset_cases(): iterable
     {
         return [
             ['UTF8', 'UTF-8'],
@@ -72,7 +72,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_parse_charset
+     * @dataProvider provide_parse_charset_cases
      */
     public function test_parse_charset($input, $output)
     {
@@ -82,7 +82,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_convert()
      */
-    public function data_convert(): iterable
+    public function provide_convert_cases(): iterable
     {
         $data = [
             ['ö', 'ö', 'UTF-8', 'UTF-8'],
@@ -108,7 +108,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_convert
+     * @dataProvider provide_convert_cases
      */
     public function test_convert($input, $output, $from, $to)
     {
@@ -118,7 +118,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf7_to_utf8()
      */
-    public function data_utf7_to_utf8(): iterable
+    public function provide_utf7_to_utf8_cases(): iterable
     {
         return [
             ['+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
@@ -126,7 +126,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_utf7_to_utf8
+     * @dataProvider provide_utf7_to_utf8_cases
      */
     public function test_utf7_to_utf8($input, $output)
     {
@@ -137,7 +137,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf7imap_to_utf8()
      */
-    public function data_utf7imap_to_utf8(): iterable
+    public function provide_utf7imap_to_utf8_cases(): iterable
     {
         return [
             ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
@@ -145,7 +145,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_utf7imap_to_utf8
+     * @dataProvider provide_utf7imap_to_utf8_cases
      */
     public function test_utf7imap_to_utf8($input, $output)
     {
@@ -156,7 +156,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf8_to_utf7imap()
      */
-    public function data_utf8_to_utf7imap(): iterable
+    public function provide_utf8_to_utf7imap_cases(): iterable
     {
         return [
             ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'],
@@ -164,7 +164,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_utf8_to_utf7imap
+     * @dataProvider provide_utf8_to_utf7imap_cases
      */
     public function test_utf8_to_utf7imap($input, $output)
     {
@@ -175,7 +175,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_utf16_to_utf8()
      */
-    public function data_utf16_to_utf8(): iterable
+    public function provide_utf16_to_utf8_cases(): iterable
     {
         return [
             [base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'],
@@ -183,7 +183,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_utf16_to_utf8
+     * @dataProvider provide_utf16_to_utf8_cases
      */
     public function test_utf16_to_utf8($input, $output)
     {
@@ -194,7 +194,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_detect()
      */
-    public function data_detect(): iterable
+    public function provide_detect_cases(): iterable
     {
         return [
             ['', '', 'UTF-8'],
@@ -203,7 +203,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_detect
+     * @dataProvider provide_detect_cases
      */
     public function test_detect($input, $fallback, $output)
     {
@@ -214,7 +214,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     /**
      * Data for test_detect()
      */
-    public function data_detect_with_lang(): iterable
+    public function provide_detect_with_lang_cases(): iterable
     {
         return [
             [base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'],
@@ -222,7 +222,7 @@ class Framework_Charset extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_detect_with_lang
+     * @dataProvider provide_detect_with_lang_cases
      */
     public function test_detect_with_lang($input, $lang, $output)
     {

@@ -61,7 +61,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 }
 
                 break;
-
             case 'mailbox':
                 $a_user_prefs = [
                     'layout'             => self::prefs_input('layout', '/^[a-z]+$/'),
@@ -72,7 +71,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 ];
 
                 break;
-
             case 'mailview':
                 $a_user_prefs = [
                     'message_extwin'     => self::prefs_input_int('message_extwin'),
@@ -85,7 +83,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 ];
 
                 break;
-
             case 'compose':
                 $a_user_prefs = [
                     'compose_extwin'     => self::prefs_input_int('compose_extwin'),
@@ -113,7 +110,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 ];
 
                 break;
-
             case 'addressbook':
                 $a_user_prefs = [
                     'default_addressbook'  => rcube_utils::get_input_string('_default_addressbook', rcube_utils::INPUT_POST, true),
@@ -127,7 +123,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 ];
 
                 break;
-
             case 'server':
                 $a_user_prefs = [
                     'read_when_deleted' => isset($_POST['_read_when_deleted']),
@@ -139,7 +134,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 ];
 
                 break;
-
             case 'folders':
                 $a_user_prefs = [
                     'show_real_foldernames' => isset($_POST['_show_real_foldernames']),
@@ -152,7 +146,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 }
 
                 break;
-
             case 'encryption':
                 $a_user_prefs = [
                     'mailvelope_main_keyring' => isset($_POST['_mailvelope_main_keyring']),
@@ -199,7 +192,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 }
 
                 break;
-
             case 'mailbox':
                 // force min size
                 if ($a_user_prefs['mail_pagesize'] < 1) {
@@ -212,7 +204,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 }
 
                 break;
-
             case 'addressbook':
                 // force min size
                 if ($a_user_prefs['addressbook_pagesize'] < 1) {
@@ -225,7 +216,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 }
 
                 break;
-
             case 'folders':
                 $storage  = $rcmail->get_storage();
                 $specials = [];
@@ -237,7 +227,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 $storage->set_special_folders($specials);
 
                 break;
-
             case 'server':
                 if (isset($a_user_prefs['logout_purge']) && !is_numeric($a_user_prefs['logout_purge'])) {
                     $a_user_prefs['logout_purge'] = $a_user_prefs['logout_purge'] !== 'never';

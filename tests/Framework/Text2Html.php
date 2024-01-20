@@ -8,7 +8,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_text2html()
      */
-    public function data_text2html(): iterable
+    public function provide_text2html_cases(): iterable
     {
         $options = [
             'begin'  => '',
@@ -107,7 +107,7 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     /**
      * Test text to html conversion
      *
-     * @dataProvider data_text2html
+     * @dataProvider provide_text2html_cases
      */
     public function test_text2html($input, $output, $options)
     {

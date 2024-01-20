@@ -26,7 +26,6 @@ class enigma_driver_gnupg extends enigma_driver
     protected $debug    = false;
     protected $db_files = ['pubring.gpg', 'secring.gpg', 'pubring.kbx'];
 
-
     /**
      * Class constructor
      *

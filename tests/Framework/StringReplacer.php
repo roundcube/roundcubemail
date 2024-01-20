@@ -18,7 +18,7 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
     /**
      * Data for test_replace()
      */
-    public function data_replace(): iterable
+    public function provide_replace_cases(): iterable
     {
         return [
             ['http://domain.tld/path*path2', '<a href="http://domain.tld/path*path2">http://domain.tld/path*path2</a>'],
@@ -50,7 +50,7 @@ class Framework_StringReplacer extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_replace
+     * @dataProvider provide_replace_cases
      */
     public function test_replace($input, $output)
     {

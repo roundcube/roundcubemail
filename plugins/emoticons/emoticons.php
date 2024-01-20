@@ -16,7 +16,6 @@ class emoticons extends rcube_plugin
 {
     public $task = 'mail|settings|utils';
 
-
     /**
      * Plugin initialization.
      */

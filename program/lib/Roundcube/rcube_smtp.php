@@ -33,7 +33,6 @@ class rcube_smtp
 
     public const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
 
-
     /**
      * SMTP Connection and authentication
      *

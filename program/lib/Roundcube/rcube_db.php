@@ -62,7 +62,6 @@ class rcube_db
     public const TYPE_BOOL   = 'bool';
     public const TYPE_STRING = 'string';
 
-
     /**
      * Factory, returns driver-specific instance of the class
      *

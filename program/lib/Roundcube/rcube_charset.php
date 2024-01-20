@@ -530,24 +530,19 @@ class rcube_charset
             case 'ja_JP':
                 $prio = ['ISO-2022-JP', 'JIS', 'UTF-8', 'EUC-JP', 'eucJP-win', 'SJIS'];
                 break;
-
             case 'zh_CN':
             case 'zh_TW':
                 $prio = ['UTF-8', 'BIG-5', 'EUC-TW', 'GB18030'];
                 break;
-
             case 'ko_KR':
                 $prio = ['UTF-8', 'EUC-KR', 'ISO-2022-KR'];
                 break;
-
             case 'ru_RU':
                 $prio = ['UTF-8', 'WINDOWS-1251', 'KOI8-R'];
                 break;
-
             case 'tr_TR':
                 $prio = ['UTF-8', 'ISO-8859-9', 'WINDOWS-1254'];
                 break;
-
             case 'sl_SI':
                 $prio = ['UTF-8', 'ISO-8859-2', 'WINDOWS-1251'];
                 break;

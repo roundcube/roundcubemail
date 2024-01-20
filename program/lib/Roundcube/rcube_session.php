@@ -44,7 +44,6 @@ abstract class rcube_session implements SessionHandlerInterface
     protected $logging      = false;
     protected $ignore_write = false;
 
-
     /**
      * Blocks session data from being written to database.
      * Can be used if write-race conditions are to be expected
@@ -133,16 +132,20 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Abstract methods should be implemented by driver classes
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     abstract public function open($save_path, $session_name);
-    #[\ReturnTypeWillChange]
+
+    #[ReturnTypeWillChange]
     abstract public function close();
-    #[\ReturnTypeWillChange]
+
+    #[ReturnTypeWillChange]
     abstract public function destroy($key);
-    #[\ReturnTypeWillChange]
+
+    #[ReturnTypeWillChange]
     abstract public function read($key);
 
     abstract protected function save($key, $vars);
+
     abstract protected function update($key, $newvars, $oldvars);
 
     /**
@@ -153,7 +156,7 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @return bool True on success, False on failure
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function write($key, $vars)
     {
         if ($this->nowrite) {
@@ -179,7 +182,7 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @return bool True on success, False on failure
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         // move gc execution to the script shutdown function
@@ -666,7 +669,7 @@ abstract class rcube_session implements SessionHandlerInterface
      */
     public function check_auth()
     {
-        $this->cookie = isset($_COOKIE[$this->cookiename]) ? $_COOKIE[$this->cookiename] : null;
+        $this->cookie = $_COOKIE[$this->cookiename] ?? null;
 
         $result = $this->ip_check ? rcube_utils::remote_addr() == $this->ip : true;
         $prev   = null;

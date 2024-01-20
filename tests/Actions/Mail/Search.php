@@ -114,7 +114,7 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test data for test_search_input()
      */
-    public function data_search_input(): iterable
+    public function provide_search_input_cases(): iterable
     {
         $week  = new DateInterval('P1W');
         $weekDate = (new DateTime('now', new DateTimeZone('UTC')))->sub($week)->format('j-M-Y');
@@ -284,7 +284,7 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test search_input() method
      *
-     * @dataProvider data_search_input
+     * @dataProvider provide_search_input_cases
      */
     public function test_search_input($input, $output)
     {
@@ -300,7 +300,7 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test data for test_search_interval_criteria()
      */
-    public function data_search_interval_criteria(): iterable
+    public function provide_search_interval_criteria_cases(): iterable
     {
         $week  = new DateInterval('P1W');
         $month = new DateInterval('P1M');
@@ -322,7 +322,7 @@ class Actions_Mail_Search extends ActionTestCase
     /**
      * Test search_interval_criteria() method
      *
-     * @dataProvider data_search_interval_criteria
+     * @dataProvider provide_search_interval_criteria_cases
      */
     public function test_search_interval_criteria($input, $output)
     {

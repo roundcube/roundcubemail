@@ -58,7 +58,6 @@ class rcube_browser
     /** @var bool Browser is Mozilla Firefox */
     public $mz = false;
 
-
     /**
      * Object constructor
      */

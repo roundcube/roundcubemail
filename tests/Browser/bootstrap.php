@@ -44,7 +44,6 @@ require_once __DIR__ . '/Components/RecipientInput.php';
 require_once __DIR__ . '/Components/Taskmenu.php';
 require_once __DIR__ . '/Components/Toolbarmenu.php';
 
-
 /**
  * Utilities for test environment setup
  */

@@ -41,7 +41,7 @@
 require_once 'program/include/iniset.php';
 
 // init application, start session, init output class, etc.
-$RCMAIL = rcmail::get_instance(0, isset($GLOBALS['env']) ? $GLOBALS['env'] : null);
+$RCMAIL = rcmail::get_instance(0, $GLOBALS['env'] ?? null);
 
 // Make the whole PHP output non-cacheable (#1487797)
 $RCMAIL->output->nocacheing_headers();

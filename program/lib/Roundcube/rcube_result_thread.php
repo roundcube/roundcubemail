@@ -35,7 +35,6 @@ class rcube_result_thread
     public const SEPARATOR_ITEM    = '~';
     public const SEPARATOR_LEVEL   = ':';
 
-
     /**
      * Object constructor.
      */

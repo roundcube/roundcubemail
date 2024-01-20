@@ -26,7 +26,6 @@ class enigma_mime_message extends Mail_mime
     protected $encrypted;
     protected $micalg;
 
-
     /**
      * Object constructor
      *

@@ -8,7 +8,7 @@ class Framework_Spoofchecker extends PHPUnit\Framework\TestCase
     /**
      * Test data for test_check()
      */
-    public function data_check(): iterable
+    public function provide_check_cases(): iterable
     {
         return [
             // Valid:
@@ -30,7 +30,7 @@ class Framework_Spoofchecker extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_check
+     * @dataProvider provide_check_cases
      */
     public function test_check($email, $expected)
     {

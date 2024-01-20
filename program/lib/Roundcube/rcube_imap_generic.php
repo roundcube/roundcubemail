@@ -75,7 +75,6 @@ class rcube_imap_generic
 
     public const DEBUG_LINE_LENGTH = 4098; // 4KB + 2B for \r\n
 
-
     /**
      * Send simple (one line) command to the connection stream
      *
@@ -967,11 +966,9 @@ class rcube_imap_generic
             case 'OAUTHBEARER':
                 $result = $this->authenticate($user, $password, $auth_method);
                 break;
-
             case 'IMAP':
                 $result = $this->login($user, $password);
                 break;
-
             default:
                 $this->setError(self::ERROR_BAD, "Configuration error. Unknown auth method: $auth_method");
         }
@@ -1222,17 +1219,14 @@ class rcube_imap_generic
                                 $this->data[$token] = (int) substr($line, $pos, $len);
                             }
                             break;
-
                         case 'HIGHESTMODSEQ':
                             if ($len = strspn($line, '0123456789', $pos)) {
                                 $this->data[$token] = (string) substr($line, $pos, $len);
                             }
                             break;
-
                         case 'NOMODSEQ':
                             $this->data[$token] = true;
                             break;
-
                         case 'PERMANENTFLAGS':
                             $start = strpos($line, '(', $pos);
                             $end   = strrpos($line, ')');
@@ -1249,7 +1243,6 @@ class rcube_imap_generic
                         case 'RECENT':
                             $this->data[$token] = (int) $match[1];
                             break;
-
                         case 'FETCH':
                             // QRESYNC FETCH response (RFC5162)
                             $line       = substr($line, strlen($match[0]));
@@ -2715,7 +2708,6 @@ class rcube_imap_generic
                     }
 
                     break;
-
                 default:
                     // @TODO: decode header value, convert to UTF-8
                     $value = $headers->{$field};
@@ -3923,7 +3915,6 @@ class rcube_imap_generic
             }
 
             switch ($str[0]) {
-
                 // String literal
                 case '{':
                     if (($epos = strpos($str, "}\r\n", 1)) == false) {
@@ -3936,7 +3927,6 @@ class rcube_imap_generic
                     $result[] = $bytes ? substr($str, $epos + 3, $bytes) : '';
                     $str      = substr($str, $epos + 3 + $bytes);
                     break;
-
                     // Quoted string (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case '"':
                     $len = strlen($str);
@@ -3956,17 +3946,14 @@ class rcube_imap_generic
                     $result[] = stripslashes(substr($str, 1, $pos - 1));
                     $str      = substr($str, $pos + 1);
                     break;
-
                     // Parenthesized list (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case '(':
                     $str      = substr($str, 1);
                     $result[] = self::tokenizeResponse($str);
                     break;
-
                 case ')':
                     $str = substr($str, 1);
                     return $result;
-
                     // String atom, number, astring, NIL, *, % (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 default:
                     // excluded chars: SP, CTL, ), DEL
