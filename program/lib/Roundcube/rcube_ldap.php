@@ -1915,12 +1915,12 @@ class rcube_ldap extends rcube_addressbook
         }
 
         $base_dn    = $this->groups_base_dn;
-        $filter     = $this->prop['groups']['filter'];
+        $filter     = $this->prop['groups']['filter'] ?? null;
         $scope      = $this->prop['groups']['scope'] ?? 'sub';
         $name_attr  = !empty($this->prop['groups']['name_attr']) ? $this->prop['groups']['name_attr'] : 'cn';
         $email_attr = !empty($this->prop['groups']['email_attr']) ? $this->prop['groups']['email_attr'] : 'mail';
         $sort_attrs = (array) (!empty($this->prop['groups']['sort']) ? $this->prop['groups']['sort'] : $name_attr);
-        $sort_attr  = $sort_attrs[0];
+        $sort_attr  = array_first($sort_attrs) ?: $name_attr;
         $page_size  = 200;
 
         $ldap = $this->ldap;
