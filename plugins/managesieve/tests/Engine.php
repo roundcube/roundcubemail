@@ -49,7 +49,7 @@ class Managesieve_Engine extends ActionTestCase
     /**
      * Data sets for strip_value() test
      */
-    public function data_strip_value(): iterable
+    public function provide_strip_value_cases(): iterable
     {
         return [
             ['', ['']],
@@ -65,7 +65,7 @@ class Managesieve_Engine extends ActionTestCase
     /**
      * Test strip_value()
      *
-     * @dataProvider data_strip_value
+     * @dataProvider provide_strip_value_cases
      */
     public function test_strip_value($expected, $args)
     {

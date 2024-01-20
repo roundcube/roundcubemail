@@ -32,7 +32,6 @@ class enigma_key
     public const CAN_CERTIFY      = 4;
     public const CAN_AUTHENTICATE = 8;
 
-
     /**
      * Keys list sorting callback for usort()
      */

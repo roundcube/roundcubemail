@@ -190,7 +190,6 @@ class rcube_washtml
     /** @var bool True if current document is XML */
     private $is_xml = false;
 
-
     /**
      * Class constructor
      *
@@ -624,12 +623,10 @@ class rcube_washtml
                         $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                     }
                     break;
-
                 case \XML_CDATA_SECTION_NODE:
                 case \XML_TEXT_NODE:
                     $dump .= htmlspecialchars($node->nodeValue, \ENT_COMPAT | \ENT_HTML401 | \ENT_SUBSTITUTE, $this->config['charset']);
                     break;
-
                 case \XML_HTML_DOCUMENT_NODE:
                     $dump .= $this->dumpHtml($node, $level);
                     break;

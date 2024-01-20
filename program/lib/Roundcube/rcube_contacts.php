@@ -61,7 +61,6 @@ class rcube_contacts extends rcube_addressbook
 
     public const SEPARATOR = ',';
 
-
     /**
      * Object constructor
      *
@@ -791,7 +790,7 @@ class rcube_contacts extends rcube_addressbook
         if (!empty($vcard->email)) {
             $out['email'] = implode(self::SEPARATOR, $vcard->email);
         } else {
-            $out['email'] = isset($save_data['email']) ? $save_data['email'] : '';
+            $out['email'] = $save_data['email'] ?? '';
         }
 
         // join words for fulltext search

@@ -118,7 +118,6 @@ class rcube_message_part
     public $ctype_parameters = [];
     public $body_modified = false;
 
-
     /**
      * Clone handler.
      */

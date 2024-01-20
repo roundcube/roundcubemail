@@ -35,7 +35,6 @@ class newmail_notifier extends rcube_plugin
     private $opt = [];
     private $exceptions = [];
 
-
     /**
      * Plugin initialization
      */

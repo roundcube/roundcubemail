@@ -26,7 +26,6 @@ class rcmail_resend_mail extends Mail_mime
     protected $orig_head;
     protected $orig_body;
 
-
     /**
      * Object constructor.
      *

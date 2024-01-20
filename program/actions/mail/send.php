@@ -342,7 +342,7 @@ class rcmail_action_mail_send extends rcmail_action
                 $is_inline    = preg_match($dispurl, $message_body);
             }
 
-            $ctype = isset($attachment['mimetype']) ? $attachment['mimetype'] : '';
+            $ctype = $attachment['mimetype'] ?? '';
             $ctype = str_replace('image/pjpeg', 'image/jpeg', $ctype); // #1484914
 
             // inline image

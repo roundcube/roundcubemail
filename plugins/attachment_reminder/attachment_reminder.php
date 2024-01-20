@@ -30,7 +30,6 @@ class attachment_reminder extends rcube_plugin
     public $task   = 'mail|settings';
     public $noajax = true;
 
-
     /**
      * Plugin initialization
      */

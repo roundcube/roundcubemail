@@ -45,7 +45,6 @@ if (($CACHEDIR = getenv('CACHEDIR')) && is_writable($CACHEDIR)) {
     $CACHEDIR = sys_get_temp_dir();
 }
 
-
 //////////////// License definitions
 
 $LICENSES = [];
@@ -98,7 +97,6 @@ $LICENSES['LGPL'] = <<<'EOL'
      * any later version.
 
     EOL;
-
 
 //////////////// Functions
 
@@ -311,7 +309,6 @@ function delete_destfile($package)
     }
 }
 
-
 //////////////// Execution
 
 $args = rcube_utils::get_opt([
@@ -326,7 +323,7 @@ $args = rcube_utils::get_opt([
     'extract' => false,
 ];
 
-$WHAT     = isset($args[0]) ? $args[0] : null;
+$WHAT     = $args[0] ?? null;
 $useCache = !$args['force'] && !$args['get'];
 
 if (!$args['get'] && !$args['extract'] && !$args['delete']) {

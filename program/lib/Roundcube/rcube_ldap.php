@@ -67,7 +67,6 @@ class rcube_ldap extends rcube_addressbook
     private $group_search_cache;
     private $cache;
 
-
     /**
      * Object constructor
      *
@@ -490,7 +489,6 @@ class rcube_ldap extends rcube_addressbook
             if ($this->ready) {
                 break;
             }
-
         }  // end foreach hosts
 
         if (empty($this->ldap->conn)) {

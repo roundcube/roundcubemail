@@ -89,7 +89,6 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
             $result = slashify($value);
             $this->assertSame($expected, $result, "Invalid slashify() result for $value");
         }
-
     }
 
     /**
@@ -111,7 +110,6 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
             $result = unslashify($value);
             $this->assertSame($expected, $result, "Invalid unslashify() result for $value");
         }
-
     }
 
     /**
@@ -133,7 +131,6 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
             $result = get_offset_sec($value);
             $this->assertSame($expected, $result, "Invalid get_offset_sec() result for $value");
         }
-
     }
 
     /**
@@ -227,10 +224,9 @@ class Framework_Bootstrap extends PHPUnit\Framework\TestCase
         ];
 
         foreach ($data as $expected => $value) {
-            $result = format_email_recipient($value[0], isset($value[1]) ? $value[1] : null);
+            $result = format_email_recipient($value[0], $value[1] ?? null);
             $this->assertSame($expected, $result, 'Invalid format_email_recipient()');
         }
-
     }
 
     /**

@@ -5,7 +5,7 @@
  */
 class rc_html2text extends PHPUnit\Framework\TestCase
 {
-    public function data_html2text(): iterable
+    public function provide_html2text_cases(): iterable
     {
         return [
             0 => [
@@ -91,7 +91,7 @@ class rc_html2text extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_html2text
+     * @dataProvider provide_html2text_cases
      */
     public function test_html2text($title, $in, $out)
     {
@@ -232,7 +232,7 @@ Links:
     /**
      * Test <a> links handling when not using link list (#5795)
      *
-     * @dataProvider data_links_no_list
+     * @dataProvider provide_links_no_list_cases
      */
     public function test_links_no_list($input, $output)
     {
@@ -245,7 +245,7 @@ Links:
     /**
      * Test <a> links handling when not using link list (#5795) with backward compatibility boolean flag
      *
-     * @dataProvider data_links_no_list
+     * @dataProvider provide_links_no_list_cases
      */
     public function test_links_no_list_bc_with_boolean($input, $output)
     {
@@ -255,7 +255,7 @@ Links:
         $this->assertSame($output, $res, 'Links handling');
     }
 
-    public function data_links_no_list(): iterable
+    public function provide_links_no_list_cases(): iterable
     {
         return [
             [

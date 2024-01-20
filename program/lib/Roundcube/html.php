@@ -33,7 +33,6 @@ class html
     public static $containers    = ['iframe', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'ul', 'form', 'textarea', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'style', 'script', 'a'];
     public static $bool_attrib   = ['checked', 'multiple', 'disabled', 'selected', 'autofocus', 'readonly', 'required'];
 
-
     /**
      * Constructor
      *
@@ -397,7 +396,6 @@ class html
         return @htmlspecialchars($str, \ENT_COMPAT | \ENT_SUBSTITUTE, RCUBE_CHARSET);
     }
 }
-
 
 /**
  * Class to create an HTML input field

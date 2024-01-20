@@ -43,7 +43,6 @@ class rcube_cache
     public const DATE_FORMAT       = 'Y-m-d H:i:s.u';
     public const DATE_FORMAT_REGEX = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{1,6}';
 
-
     /**
      * Object factory
      *

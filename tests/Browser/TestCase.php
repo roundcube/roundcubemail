@@ -19,7 +19,6 @@ abstract class TestCase extends PHPUnitTestCase
     protected $app;
     protected static $phpProcess;
 
-
     /**
      * Replace Dusk's Browser with our (extended) Browser
      */

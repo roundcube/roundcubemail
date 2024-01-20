@@ -99,7 +99,6 @@ class rcube_imap_cache
         131072  => 'HASNOATTACHMENT',
     ];
 
-
     /**
      * Object constructor.
      *

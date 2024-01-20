@@ -34,7 +34,6 @@ class rcube_result_index
 
     public const SEPARATOR_ELEMENT = ' ';
 
-
     /**
      * Object constructor.
      */

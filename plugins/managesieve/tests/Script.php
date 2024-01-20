@@ -10,7 +10,7 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
     /**
      * Sieve script parsing
      *
-     * @dataProvider data_parser
+     * @dataProvider provide_parser_cases
      */
     public function test_parser($input, $output, $message)
     {
@@ -31,7 +31,7 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
     /**
      * Data provider for test_parser()
      */
-    public function data_parser(): iterable
+    public function provide_parser_cases(): iterable
     {
         $dir_path = realpath(__DIR__ . '/src');
         $dir      = opendir($dir_path);
@@ -58,7 +58,7 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
         return $result;
     }
 
-    public function data_tokenizer(): iterable
+    public function provide_tokenizer_cases(): iterable
     {
         return [
             [1, "text: #test\nThis is test ; message;\nMulti line\n.\n;\n", '"This is test ; message;\nMulti line"'],
@@ -74,7 +74,7 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data_tokenizer
+     * @dataProvider provide_tokenizer_cases
      */
     public function test_tokenizer($num, $input, $output)
     {

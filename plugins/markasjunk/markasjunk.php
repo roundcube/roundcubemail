@@ -44,7 +44,6 @@ class markasjunk extends rcube_plugin
         'NONJUNK' => 'NonJunk',
     ];
 
-
     /**
      * Plugin initialization
      */

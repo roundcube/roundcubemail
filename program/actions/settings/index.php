@@ -126,7 +126,6 @@ class rcmail_action_settings_index extends rcmail_action
             $blocks = [];
 
             switch ($sect['id']) {
-
                 // general
                 case 'general':
                     $blocks = [
@@ -389,7 +388,6 @@ class rcmail_action_settings_index extends rcmail_action
                     ];
 
                     break;
-
                     // Mailbox view (mail screen) (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case 'mailbox':
                     $blocks = [
@@ -524,7 +522,6 @@ class rcmail_action_settings_index extends rcmail_action
                     }
 
                     break;
-
                     // Message viewing (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case 'mailview':
                     $blocks = [
@@ -665,7 +662,6 @@ class rcmail_action_settings_index extends rcmail_action
                     }
 
                     break;
-
                     // Mail composition (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case 'compose':
                     $blocks = [
@@ -1064,7 +1060,6 @@ class rcmail_action_settings_index extends rcmail_action
                     }
 
                     break;
-
                     // Addressbook config (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case 'addressbook':
                     $blocks = [
@@ -1271,7 +1266,6 @@ class rcmail_action_settings_index extends rcmail_action
                     }
 
                     break;
-
                     // Special IMAP folders (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case 'folders':
                     $blocks = [
@@ -1362,7 +1356,6 @@ class rcmail_action_settings_index extends rcmail_action
                     }
 
                     break;
-
                     // Server settings (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case 'server':
                     $blocks = [
@@ -1475,7 +1468,6 @@ class rcmail_action_settings_index extends rcmail_action
                     }
 
                     break;
-
                     // Server settings (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case 'encryption':
                     $blocks = [

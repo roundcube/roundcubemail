@@ -31,7 +31,6 @@ class rcube_session_memcache extends rcube_session
     /** @var bool Debug state */
     private $debug;
 
-
     /**
      * Object constructor
      *

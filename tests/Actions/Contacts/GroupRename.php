@@ -72,5 +72,4 @@ class Actions_Contacts_Group_Rename extends ActionTestCase
 
         $this->assertTrue(!empty($result));
     }
-
 }

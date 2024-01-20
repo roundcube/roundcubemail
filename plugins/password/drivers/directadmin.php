@@ -72,7 +72,6 @@ class rcube_directadmin_password
     }
 }
 
-
 /**
  * Socket communication class.
  *

@@ -84,7 +84,6 @@ class rcube
     /** @var rcube Singleton instance of rcube */
     protected static $instance;
 
-
     /**
      * This implements the 'singleton' design pattern
      *
@@ -767,7 +766,6 @@ class rcube
 
         return $texts;
     }
-
 
     /**
      * Load localization file
@@ -1826,7 +1824,6 @@ class rcube
         return $sent;
     }
 }
-
 
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled

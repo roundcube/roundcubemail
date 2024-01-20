@@ -66,7 +66,6 @@ $config['db_table_dsn'] = [
 // which limits query size for database cache operations.
 $config['db_max_allowed_packet'] = null;
 
-
 // ----------------------------------
 // LOGGING/DEBUGGING
 // ----------------------------------
@@ -125,7 +124,6 @@ $config['apc_debug'] = false;
 
 // Log Redis conversation to <log_dir>/redis.log or to syslog
 $config['redis_debug'] = false;
-
 
 // ----------------------------------
 // IMAP
@@ -262,7 +260,6 @@ $config['messages_cache_ttl'] = '10d';
 // Note: On MySQL this should be less than (max_allowed_packet - 30%)
 $config['messages_cache_threshold'] = 50;
 
-
 // ----------------------------------
 // SMTP
 // ----------------------------------
@@ -306,7 +303,6 @@ $config['smtp_xclient_login'] = false;
 // Pass the remote IP (XCLIENT ADDR) to the server
 $config['smtp_xclient_addr'] = false;
 
-
 // SMTP HELO host
 // Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages
 // Leave this blank and you will get the server variable 'server_name' or
@@ -331,7 +327,6 @@ $config['smtp_timeout'] = 0;
 // ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['smtp_conn_options'] = null;
-
 
 // ----------------------------------
 // OAuth
@@ -464,7 +459,6 @@ $config['ldap_cache'] = 'db';
 // Lifetime of LDAP cache. Possible units: s, m, h, d, w
 $config['ldap_cache_ttl'] = '10m';
 
-
 // ----------------------------------
 // CACHE(S)
 // ----------------------------------
@@ -505,7 +499,6 @@ $config['apc_max_allowed_packet'] = '2M';
 
 // Maximum size of an object in Redis cache (in bytes). Default: 2MB
 $config['redis_max_allowed_packet'] = '2M';
-
 
 // ----------------------------------
 // SYSTEM
@@ -1310,7 +1303,6 @@ $config['collected_recipients'] = true;
 // Default: true (the built-in "Trusted senders" addressbook, source id = '2')
 // Note: It can be set to any writeable addressbook, e.g. 'sql'
 $config['collected_senders'] = true;
-
 
 // ----------------------------------
 // USER PREFERENCES

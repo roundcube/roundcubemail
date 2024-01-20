@@ -259,7 +259,6 @@ class rcube_sieve_forward extends rcube_sieve_engine
             ] + $attrib
         );
 
-
         // form elements
         $status = new html_select(['name' => 'forward_status', 'id' => 'forward_status', 'class' => 'custom-select']);
         $action = new html_select(['name' => 'forward_action', 'id' => 'forward_action', 'class' => 'custom-select']);

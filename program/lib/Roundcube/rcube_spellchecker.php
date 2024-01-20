@@ -35,7 +35,6 @@ class rcube_spellchecker
     private $dict;
     private $have_dict;
 
-
     /**
      * Constructor
      *

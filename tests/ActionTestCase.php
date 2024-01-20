@@ -7,7 +7,6 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 {
     private static $files = [];
 
-
     public static function setUpBeforeClass(): void
     {
         // reset some interfering globals set in other tests

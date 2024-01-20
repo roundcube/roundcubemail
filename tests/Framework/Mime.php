@@ -185,7 +185,6 @@ class Framework_Mime extends PHPUnit\Framework\TestCase
     {
         $this->assertSame([], rcube_mime::parse_headers(''));
 
-
         $headers = "Subject: Test\r\n"
             . "To: test@test1.com\r\n\ttest@test2.com\r\n";
 

@@ -719,12 +719,12 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             'start'     => $start,
             'end'       => $end,
             'enabled'   => !empty($this->vacation['reason']) && empty($this->vacation['disabled']),
-            'message'   => isset($this->vacation['reason']) ? $this->vacation['reason'] : null,
-            'subject'   => isset($this->vacation['subject']) ? $this->vacation['subject'] : null,
-            'action'    => isset($this->vacation['action']) ? $this->vacation['action'] : null,
-            'target'    => isset($this->vacation['target']) ? $this->vacation['target'] : null,
-            'addresses' => isset($this->vacation['addresses']) ? $this->vacation['addresses'] : null,
-            'from'      => isset($this->vacation['from']) ? $this->vacation['from'] : null,
+            'message'   => $this->vacation['reason'] ?? null,
+            'subject'   => $this->vacation['subject'] ?? null,
+            'action'    => $this->vacation['action'] ?? null,
+            'target'    => $this->vacation['target'] ?? null,
+            'addresses' => $this->vacation['addresses'] ?? null,
+            'from'      => $this->vacation['from'] ?? null,
         ];
 
         return $vacation;

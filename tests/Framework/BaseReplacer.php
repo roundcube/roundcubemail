@@ -32,7 +32,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
     /**
      * Data for absolute_url() test
      */
-    public function data_absolute_url(): iterable
+    public function provide_absolute_url_cases(): iterable
     {
         return [
             ['', 'http://test', 'http://test/'],
@@ -48,7 +48,7 @@ class Framework_BaseReplacer extends PHPUnit\Framework\TestCase
     /**
      * Test absolute_url()
      *
-     * @dataProvider data_absolute_url
+     * @dataProvider provide_absolute_url_cases
      */
     public function test_absolute_url($path, $base, $expected)
     {

@@ -95,7 +95,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
     /**
      * Data for test_convert()
      */
-    public function data_email_input_format(): iterable
+    public function provide_email_input_format_cases(): iterable
     {
         return [
             [
@@ -147,7 +147,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
     }
 
     /**
-     * @dataProvider data_email_input_format
+     * @dataProvider provide_email_input_format_cases
      */
     public function test_email_input_format($input, $output, $charset)
     {

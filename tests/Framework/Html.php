@@ -18,7 +18,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_attrib_string()
      */
-    public function data_attrib_string(): iterable
+    public function provide_attrib_string_cases(): iterable
     {
         return [
             [
@@ -57,7 +57,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Test for attrib_string()
      *
-     * @dataProvider data_attrib_string
+     * @dataProvider provide_attrib_string_cases
      */
     public function test_attrib_string($arg1, $arg2, $expected)
     {
@@ -67,7 +67,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_quote()
      */
-    public function data_quote(): iterable
+    public function provide_quote_cases(): iterable
     {
         return [
             ['abc', 'abc'],
@@ -83,7 +83,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Test for quote()
      *
-     * @dataProvider data_quote
+     * @dataProvider provide_quote_cases
      */
     public function test_quote($str, $expected)
     {
@@ -93,7 +93,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Data for test_parse_attrib_string()
      */
-    public function data_parse_attrib_string(): iterable
+    public function provide_parse_attrib_string_cases(): iterable
     {
         return [
             [
@@ -126,7 +126,7 @@ class Framework_Html extends PHPUnit\Framework\TestCase
     /**
      * Test for parse_attrib_string()
      *
-     * @dataProvider data_parse_attrib_string
+     * @dataProvider provide_parse_attrib_string_cases
      */
     public function test_parse_attrib_string($arg1, $expected)
     {

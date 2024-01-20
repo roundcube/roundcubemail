@@ -108,7 +108,6 @@ abstract class rcube_addressbook
     /** @var ?array Error state - hash array with the following fields: type, message */
     protected $error;
 
-
     /**
      * Returns addressbook name (e.g. for addressbooks listing)
      *
@@ -782,7 +781,6 @@ abstract class rcube_addressbook
                         }
 
                         break;
-
                     case 'email':
                         $value = $email;
                         break;
@@ -820,7 +818,7 @@ abstract class rcube_addressbook
      */
     public static function compose_contact_key($contact, $sort_col)
     {
-        $key = isset($contact[$sort_col]) ? $contact[$sort_col] : null;
+        $key = $contact[$sort_col] ?? null;
 
         // add email to a key to not skip contacts with the same name (#1488375)
         if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {

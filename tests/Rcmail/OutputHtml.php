@@ -271,7 +271,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Data for test_conditions()
      */
-    public function data_conditions(): iterable
+    public function provide_conditions_cases(): iterable
     {
         $txt = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt '
             . 'ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco '
@@ -313,7 +313,7 @@ class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
     /**
      * Test text to html conversion
      *
-     * @dataProvider data_conditions
+     * @dataProvider provide_conditions_cases
      */
     public function test_conditions($input, $output)
     {

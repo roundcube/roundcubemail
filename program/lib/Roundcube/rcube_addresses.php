@@ -36,7 +36,6 @@ class rcube_addresses extends rcube_contacts
     public $coltypes    = ['name', 'email'];
     public $date_cols   = [];
 
-
     /**
      * Object constructor
      *

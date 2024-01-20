@@ -86,7 +86,6 @@ abstract class rcube_storage
 
     public const DUAL_USE_FOLDERS = 'X-DUAL-USE-FOLDERS';
 
-
     /**
      * Connect to the server
      *
@@ -417,7 +416,6 @@ abstract class rcube_storage
      */
     abstract public function refresh_search();
 
-
     /* --------------------------------
      *        messages management
      * --------------------------------*/
@@ -626,7 +624,6 @@ abstract class rcube_storage
 
         return [$uids, $all];
     }
-
 
     /* --------------------------------
      *        folder management
@@ -905,7 +902,6 @@ abstract class rcube_storage
      * @return mixed Quota info or False if not supported
      */
     abstract public function get_quota($folder = null);
-
 
     /* -----------------------------------------
      *   ACL and METADATA methods

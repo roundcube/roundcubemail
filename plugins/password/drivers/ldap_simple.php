@@ -34,7 +34,6 @@ class rcube_ldap_simple_password
     protected $user;
     protected $conn;
 
-
     public function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();
@@ -250,7 +249,6 @@ class rcube_ldap_simple_password
                 break;
             case 'bind':
             default:
-
                 // Bind
                 if (!ldap_bind($ds, $search_user, $search_pass)) {
                     $this->_debug('S: ' . ldap_error($ds));

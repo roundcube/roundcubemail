@@ -203,7 +203,6 @@ class rcmail_oauth
             'timeout' => $this->options['timeout'],
             'verify'  => $this->options['verify_peer'],
         ]);
-
     }
 
     /**
@@ -690,7 +689,6 @@ class rcmail_oauth
                 'file'    => __FILE__,
                 'line'    => __LINE__,
             ], true, false);
-
         } catch (Exception $e) {
             $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
             $this->no_redirect = true;
@@ -700,7 +698,6 @@ class rcmail_oauth
                 'file'    => __FILE__,
                 'line'    => __LINE__,
             ], true, false);
-
         }
         return false;
     }
@@ -1260,7 +1257,6 @@ class rcmail_oauth
             case self::TOKEN_STILL_VALID:
                 //token still ok or refreshed
                 break;
-
             default:
                 //got an error, cannot request IDP to cleanup other sessions
                 return;

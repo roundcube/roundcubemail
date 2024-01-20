@@ -45,7 +45,6 @@ class enigma_engine
     public const ENCRYPT_MODE_MIME = 2;
     public const ENCRYPT_MODE_SIGN = 4;
 
-
     /**
      * Plugin initialization.
      */
@@ -159,11 +158,9 @@ class enigma_engine
             case self::SIGN_MODE_BODY:
                 $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
                 break;
-
             case self::SIGN_MODE_MIME:
                 $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
                 break;
-
             default:
                 if ($mime->isMultipart()) {
                     $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
@@ -478,18 +475,15 @@ class enigma_engine
                         $body = $line;
                         $mode = 'signed';
                         break;
-
                     case 'signed-end':
                         if ($mode === 'signed') {
                             $body .= $line;
                         }
                         break 2; // ignore anything after this line
-
                     case 'encrypted-start':
                         $body = $line;
                         $mode = 'encrypted';
                         break;
-
                     case 'encrypted-end':
                         if ($mode === 'encrypted') {
                             $body .= $line;
