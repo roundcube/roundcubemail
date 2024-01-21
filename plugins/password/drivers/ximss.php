@@ -51,7 +51,7 @@ class rcube_ximss_password
         fwrite($sock, '<passwordModify id="A002" oldPassword="' . $pass . '" newPassword="' . $newpass . '"  />' . "\0");
         fwrite($sock, '<bye id="A003" />' . "\0");
 
-        //example responses
+        // example responses
         //  <session id="A001" urlID="4815-vN2Txjkggy7gjHRD10jw" userName="user@example.com"/>\0
         //  <response id="A001"/>\0
         //  <response id="A002"/>\0

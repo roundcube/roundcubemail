@@ -3,8 +3,9 @@
 namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\TestCase;
 
-class FoldersTest extends \Tests\Browser\TestCase
+class FoldersTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

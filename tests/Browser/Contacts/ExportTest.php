@@ -2,7 +2,9 @@
 
 namespace Tests\Browser\Contacts;
 
-class ExportTest extends \Tests\Browser\TestCase
+use Tests\Browser\TestCase;
+
+class ExportTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

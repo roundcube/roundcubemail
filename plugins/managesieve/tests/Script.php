@@ -1,6 +1,8 @@
 <?php
 
-class Managesieve_Script extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Managesieve_Script extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

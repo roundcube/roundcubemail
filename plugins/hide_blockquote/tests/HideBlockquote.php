@@ -1,6 +1,8 @@
 <?php
 
-class HideBlockquote_Plugin extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class HideBlockquote_Plugin extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

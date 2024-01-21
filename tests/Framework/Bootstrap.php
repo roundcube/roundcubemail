@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_shared functions
  */
-class Framework_Bootstrap extends PHPUnit\Framework\TestCase
+class Framework_Bootstrap extends TestCase
 {
     /**
      * bootstrap.php: asciiwords()

@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_csv2vcard class
  */
-class Framework_Csv2vcard extends PHPUnit\Framework\TestCase
+class Framework_Csv2vcard extends TestCase
 {
     public function test_import_generic()
     {

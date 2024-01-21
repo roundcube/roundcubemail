@@ -1,13 +1,16 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+$finder = Finder::create()
     ->in([__DIR__])
     ->exclude(['vendor'])
     ->ignoreDotFiles(false)
     ->name('*.php.dist')
     ->name('*.sh');
 
-return (new PhpCsFixer\Config())
+return (new Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PhpCsFixer' => true,
@@ -85,6 +88,7 @@ return (new PhpCsFixer\Config())
             'prefix' => 'provide_',
             'suffix' => '_cases',
         ],
+        'php_unit_method_casing' => false,
         'php_unit_test_case_static_method_calls' => false,
         'psr_autoloading' => false,
         'strict_comparison' => false,
@@ -93,19 +97,14 @@ return (new PhpCsFixer\Config())
         'array_indentation' => false,
         'binary_operator_spaces' => ['default' => 'at_least_single_space'],
         'explicit_string_variable' => false,
-        'fully_qualified_strict_types' => [
-            'import_symbols' => false,
-        ],
         'general_phpdoc_annotation_remove' => false,
         'method_argument_space' => ['on_multiline' => 'ignore'],
         'modernize_types_casting' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
         'no_useless_else' => false,
-        'php_unit_method_casing' => false,
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_summary' => false,
-        'single_line_comment_spacing' => false,
         'string_length_to_empty' => false,
 
         // TODO - risky

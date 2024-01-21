@@ -3,8 +3,9 @@
 namespace Tests\Browser\Settings\Preferences;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\TestCase;
 
-class GeneralTest extends \Tests\Browser\TestCase
+class GeneralTest extends TestCase
 {
     private $settings;
 

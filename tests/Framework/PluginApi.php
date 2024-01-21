@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_plugin_api class
  */
-class Framework_PluginApi extends PHPUnit\Framework\TestCase
+class Framework_PluginApi extends TestCase
 {
     /**
      * Test get_info()

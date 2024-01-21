@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_image class
  */
-class Framework_Image extends PHPUnit\Framework\TestCase
+class Framework_Image extends TestCase
 {
     /**
      * Test props() method

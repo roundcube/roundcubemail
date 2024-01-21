@@ -1,5 +1,9 @@
 <?php
 
+use GuzzleHttp\Client as HttpClient;
+use Laravel\Dusk\Console\ChromeDriverCommand;
+use Laravel\Dusk\OperatingSystem;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -27,7 +31,7 @@ if (!defined('INSTALL_PATH')) {
 
 require_once INSTALL_PATH . 'program/include/iniset.php';
 
-class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
+class Installer extends ChromeDriverCommand
 {
     /**
      * Execute the console command.
@@ -36,13 +40,13 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
      */
     public function install($version = ''): void
     {
-        $os = Laravel\Dusk\OperatingSystem::id();
+        $os = OperatingSystem::id();
         $version = trim($version);
         $archive = $this->directory . 'chromedriver.zip';
 
         $url = $this->resolveChromeDriverDownloadUrl($version, $os);
 
-        $client = new GuzzleHttp\Client();
+        $client = new HttpClient();
 
         $response = $client->get($url);
 

@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_session class
  */
-class Framework_Session extends PHPUnit\Framework\TestCase
+class Framework_Session extends TestCase
 {
     /**
      * Test factory method

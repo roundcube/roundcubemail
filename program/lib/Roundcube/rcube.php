@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Client as HttpClient;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -260,13 +262,13 @@ class rcube
      *
      * @param array $options Configuration options
      *
-     * @return GuzzleHttp\Client HTTP client
+     * @return HttpClient HTTP client
      */
     public function get_http_client($options = [])
     {
         $defaults = ['timeout' => 30, 'connect_timeout' => 5, 'read_timeout' => 120];
 
-        return new GuzzleHttp\Client($options + $this->config->get('http_client') + $defaults);
+        return new HttpClient($options + $this->config->get('http_client') + $defaults);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use ZxcvbnPhp\Zxcvbn;
+
 /**
  * Zxcvb Password Strength Driver
  *
@@ -58,7 +60,7 @@ class rcube_zxcvbn_password
             return;
         }
 
-        $zxcvbn   = new ZxcvbnPhp\Zxcvbn();
+        $zxcvbn   = new Zxcvbn();
         $strength = $zxcvbn->passwordStrength($passwd);
 
         return [$strength['score'] + 1, $strength['feedback']['warning']];

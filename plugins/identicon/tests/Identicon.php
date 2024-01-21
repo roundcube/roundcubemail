@@ -1,6 +1,8 @@
 <?php
 
-class Identicon_Plugin extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Identicon_Plugin extends TestCase
 {
     public static function setUpBeforeCLass(): void
     {

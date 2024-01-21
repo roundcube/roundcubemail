@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_content_filter class
  */
-class Framework_ContentFilter extends PHPUnit\Framework\TestCase
+class Framework_ContentFilter extends TestCase
 {
     /**
      * Class constructor

@@ -3,8 +3,9 @@
 namespace Tests\Browser\Contacts;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\TestCase;
 
-class PrintTest extends \Tests\Browser\TestCase
+class PrintTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

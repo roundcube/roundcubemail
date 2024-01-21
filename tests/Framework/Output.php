@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_output class
  */
-class Framework_Output extends PHPUnit\Framework\TestCase
+class Framework_Output extends TestCase
 {
     /**
      * Test get_edit_field()

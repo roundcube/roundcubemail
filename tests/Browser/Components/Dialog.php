@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Components;
 
+use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Component;
 use Tests\Browser\Browser;
 
@@ -105,7 +106,7 @@ class Dialog extends Component
      */
     public function pressESC($browser)
     {
-        $browser->driver->getKeyboard()->sendKeys(\Facebook\WebDriver\WebDriverKeys::ESCAPE);
+        $browser->driver->getKeyboard()->sendKeys(WebDriverKeys::ESCAPE);
         $browser->waitUntilMissing($this->selector());
     }
 

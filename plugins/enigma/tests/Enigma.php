@@ -1,6 +1,8 @@
 <?php
 
-class Enigma_Plugin extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Enigma_Plugin extends TestCase
 {
     protected function setUp(): void
     {

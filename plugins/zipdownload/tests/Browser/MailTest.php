@@ -3,8 +3,9 @@
 namespace Tests\Browser\Plugins\Zipdownload;
 
 use Tests\Browser\Components\Popupmenu;
+use Tests\Browser\TestCase;
 
-class MailTest extends \Tests\Browser\TestCase
+class MailTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

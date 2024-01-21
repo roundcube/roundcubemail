@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_text2html class
  */
-class Framework_Text2Html extends PHPUnit\Framework\TestCase
+class Framework_Text2Html extends TestCase
 {
     /**
      * Data for test_text2html()

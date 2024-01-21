@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_message class
  */
-class Framework_Message extends PHPUnit\Framework\TestCase
+class Framework_Message extends TestCase
 {
     /**
      * Test format_part_body() method

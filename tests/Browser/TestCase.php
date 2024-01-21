@@ -8,6 +8,7 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\Chrome\SupportsChrome;
 use Laravel\Dusk\Concerns\ProvidesBrowser;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
@@ -123,7 +124,7 @@ abstract class TestCase extends PHPUnitTestCase
             foreach ($files as $file) {
                 @unlink($file->getRealPath());
             }
-        } catch (\Symfony\Component\Finder\Exception\DirectoryNotFoundException $e) {
+        } catch (DirectoryNotFoundException $e) {
             // ignore missing screenshots directory
         }
 
@@ -138,7 +139,7 @@ abstract class TestCase extends PHPUnitTestCase
             foreach ($files as $file) {
                 @unlink($file->getRealPath());
             }
-        } catch (\Symfony\Component\Finder\Exception\DirectoryNotFoundException $e) {
+        } catch (DirectoryNotFoundException $e) {
             // ignore missing screenshots directory
         }
     }

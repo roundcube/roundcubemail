@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_imap_cache class
  */
-class Framework_ImapCache extends PHPUnit\Framework\TestCase
+class Framework_ImapCache extends TestCase
 {
     /**
      * Class constructor

@@ -50,7 +50,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             'sid'                   => '65f8d42c-dbbd-4f76-b5f3-44b540e4253a',
         ] + $this->identity;
 
-        //Right now our code does not check signature
+        // Right now our code does not check signature
         $jwt_header    = strtr(base64_encode(json_encode(['alg' => 'NONE', 'typ' => 'JWT'])), '+/', '-_');
         $jwt_body      = strtr(base64_encode(json_encode($id_token_payload)), '+/', '-_');
         $jwt_signature = ''; // NONE alg
@@ -132,7 +132,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_discovery()
     {
-        //fake discovery response
+        // fake discovery response
         $config_answer = [
             'issuer'                 => 'https://test/issuer',
             'authorization_endpoint' => 'https://test/auth',
@@ -147,7 +147,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ]);
         $handler = HandlerStack::create($mock);
 
-        //provide only the config
+        // provide only the config
         $oauth = new rcmail_oauth([
             'provider'      => 'example',
             'config_uri'    => 'https://test/config',
@@ -156,7 +156,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ]);
         $oauth->init();
 
-        //if discovery succeed, should be enabled
+        // if discovery succeed, should be enabled
         $this->assertTrue($oauth->is_enabled());
     }
 
@@ -316,7 +316,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             'scope'               => 'openid profile email',
         ];
 
-        //TODO should create a specific Mock to check request and validate it
+        // TODO should create a specific Mock to check request and validate it
         $mock = new MockHandler([
             new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),        // the request access
             new Response(200, ['Content-Type' => 'application/json'], json_encode($this->identity)), // call to userinfo
@@ -402,7 +402,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_refresh_access_token()
     {
-        //FIXME
+        // FIXME
         $this->markTestIncomplete();
     }
 }

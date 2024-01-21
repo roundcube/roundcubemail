@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_spellcheck_pspell class
  */
-class Framework_SpellcheckerPspell extends PHPUnit\Framework\TestCase
+class Framework_SpellcheckerPspell extends TestCase
 {
     /**
      * Class constructor

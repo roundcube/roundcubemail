@@ -1,12 +1,14 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_db_mysql class
  *
  * @group database
  * @group mysql
  */
-class Framework_DBMysql extends PHPUnit\Framework\TestCase
+class Framework_DBMysql extends TestCase
 {
     /**
      * Class constructor

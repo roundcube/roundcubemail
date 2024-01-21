@@ -4,8 +4,9 @@ namespace Tests\Browser\Mail;
 
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\Popupmenu;
+use Tests\Browser\TestCase;
 
-class PrintTest extends \Tests\Browser\TestCase
+class PrintTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

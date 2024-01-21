@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_result_thread class
  */
-class Framework_ResultThread extends PHPUnit\Framework\TestCase
+class Framework_ResultThread extends TestCase
 {
     /**
      * Class constructor

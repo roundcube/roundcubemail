@@ -1,6 +1,8 @@
 <?php
 
-class Enigma_EnigmaSignature extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Enigma_EnigmaSignature extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

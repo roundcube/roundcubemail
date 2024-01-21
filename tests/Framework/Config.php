@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_config class
  */
-class Framework_Config extends PHPUnit\Framework\TestCase
+class Framework_Config extends TestCase
 {
     /**
      * Class constructor
