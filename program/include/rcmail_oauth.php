@@ -19,6 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
+use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\MessageFormatter;
 
@@ -61,7 +62,7 @@ class rcmail_oauth
     /** @var rcube_cache */
     protected $cache;
 
-    /** @var GuzzleHttp\Client */
+    /** @var HttpClient */
     protected $http_client;
 
     /** @var string */

@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Client as HttpClient;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -42,7 +44,7 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
 
         $url = $this->resolveChromeDriverDownloadUrl($version, $os);
 
-        $client = new GuzzleHttp\Client();
+        $client = new HttpClient();
 
         $response = $client->get($url);
 
