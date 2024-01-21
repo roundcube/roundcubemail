@@ -6,13 +6,12 @@ use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\WebDriverKeys;
-use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Assert;
 
 /**
  * Laravel Dusk Browser extensions
  */
-class Browser extends Browser
+class Browser extends \Laravel\Dusk\Browser
 {
     /**
      * Assert number of (visible) elements
