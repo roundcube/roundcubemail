@@ -240,8 +240,8 @@ function get_offset_time($offset_str, $factor = 1)
 }
 
 /**
- * Truncate string if it is longer than the allowed length.
- * Replace the middle or the ending part of a string with a placeholder.
+ * Truncates a string if it is longer than the allowed length. Replaces
+ * the middle or the ending part of a string with a placeholder.
  *
  * @param string $str         Input string
  * @param int    $maxlength   Max. length
