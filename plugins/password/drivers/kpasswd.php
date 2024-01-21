@@ -36,7 +36,7 @@ class rcube_kpasswd_password
             'code' => 600,
             'file' => __FILE__,
             'line' => __LINE__,
-            'message' => "Password plugin: Unable to execute $cmd",
+            'message' => "Password plugin: Unable to execute {$cmd}",
         ], true, false);
 
         return PASSWORD_ERROR;

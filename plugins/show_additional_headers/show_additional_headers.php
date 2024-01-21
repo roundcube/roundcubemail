@@ -74,7 +74,7 @@ class show_additional_headers extends rcube_plugin
             if ($value = $p['headers']->get($header)) {
                 if (is_array($value)) {
                     foreach ($value as $idx => $v) {
-                        $p['output']["$header:$idx"] = ['title' => $header, 'value' => $v];
+                        $p['output']["{$header}:{$idx}"] = ['title' => $header, 'value' => $v];
                     }
                 } else {
                     $p['output'][$header] = ['title' => $header, 'value' => $value];

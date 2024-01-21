@@ -545,7 +545,7 @@ class rcube_config
         if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
             rcube::raise_error([
                 'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Request for unconfigured crypto key \"$key\"",
+                'message' => "Request for unconfigured crypto key \"{$key}\"",
             ], true, true);
         }
 
@@ -608,7 +608,7 @@ class rcube_config
 
         foreach ($list as $idx => $host) {
             if (!preg_match('|^[a-z]+://|', $host)) {
-                $host = "https://$host";
+                $host = "https://{$host}";
             }
 
             $list[$idx] = slashify($host);

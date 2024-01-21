@@ -496,7 +496,7 @@ class archive extends rcube_plugin
             $regexp .= '!`(){}|\\?<;"';
         }
 
-        $folder_name = preg_replace("/[$regexp]/", '', $m[1]);
+        $folder_name = preg_replace("/[{$regexp}]/", '', $m[1]);
 
         if ($skip_hidden && $folder_name[0] == '.') {
             $folder_name = substr($folder_name, 1);

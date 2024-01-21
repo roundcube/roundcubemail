@@ -118,6 +118,6 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         $table->add(null, rcube_output::get_edit_field('is_html', $is_html, $chk_attr, 'checkbox'));
 
         // return the complete edit form as table
-        return "$form_start\n" . $table->show($attrib) . $form_end;
+        return "{$form_start}\n" . $table->show($attrib) . $form_end;
     }
 }

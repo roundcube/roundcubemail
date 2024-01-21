@@ -211,7 +211,7 @@ class HTTPSocket
         }
 
         $array_headers = [
-            'Host'       => $this->remote_port == 80 ? $this->remote_host : "$this->remote_host:$this->remote_port",
+            'Host'       => $this->remote_port == 80 ? $this->remote_host : "{$this->remote_host}:{$this->remote_port}",
             'Accept'     => '*/*',
             'Connection' => 'Close',
         ];
@@ -227,7 +227,7 @@ class HTTPSocket
             $pairs = [];
 
             foreach ($content as $key => $value) {
-                $pairs[] = "$key=" . urlencode($value);
+                $pairs[] = "{$key}=" . urlencode($value);
             }
 
             $content = implode('&', $pairs);
@@ -250,7 +250,7 @@ class HTTPSocket
 
         curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, \CURLOPT_USERAGENT, "HTTPSocket/$this->version");
+        curl_setopt($ch, \CURLOPT_USERAGENT, "HTTPSocket/{$this->version}");
         curl_setopt($ch, \CURLOPT_FORBID_REUSE, 1);
         curl_setopt($ch, \CURLOPT_TIMEOUT, 100);
         curl_setopt($ch, \CURLOPT_CONNECTTIMEOUT, 10);

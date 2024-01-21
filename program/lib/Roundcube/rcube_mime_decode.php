@@ -363,7 +363,7 @@ class rcube_mime_decode
     protected function structure_part($part, $count = 0, $parent = '')
     {
         $struct = new rcube_message_part();
-        $struct->mime_id          = $part->mime_id ?: (empty($parent) ? (string) $count : "$parent.$count");
+        $struct->mime_id          = $part->mime_id ?: (empty($parent) ? (string) $count : "{$parent}.{$count}");
         $struct->headers          = $part->headers;
         $struct->mimetype         = $part->ctype_primary . '/' . $part->ctype_secondary;
         $struct->ctype_primary    = $part->ctype_primary;

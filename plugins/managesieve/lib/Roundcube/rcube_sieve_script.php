@@ -221,7 +221,7 @@ class rcube_sieve_script
                 } else {
                     $output .= 'set ';
                     foreach (array_diff(array_keys($var), ['name', 'value']) as $opt) {
-                        $output .= ":$opt ";
+                        $output .= ":{$opt} ";
                     }
                     $output .= self::escape_string($var['name']) . ' ' . self::escape_string($var['value']) . ";\r\n";
                 }
@@ -365,7 +365,7 @@ class rcube_sieve_script
                             $tokens = ['handle', 'uniqueid', 'header'];
                             foreach ($tokens as $token) {
                                 if (isset($test[$token]) && $test[$token] !== '') {
-                                    $tests[$i] .= " :$token " . self::escape_string($test[$token]);
+                                    $tests[$i] .= " :{$token} " . self::escape_string($test[$token]);
                                 }
                             }
 
@@ -464,7 +464,7 @@ class rcube_sieve_script
                             array_push($exts, 'include');
                             $action_script .= 'include ';
                             foreach (array_diff(array_keys($action), ['target', 'type']) as $opt) {
-                                $action_script .= ":$opt ";
+                                $action_script .= ":{$opt} ";
                             }
                             $action_script .= self::escape_string($action['target']);
                             break;
@@ -472,7 +472,7 @@ class rcube_sieve_script
                             array_push($exts, 'variables');
                             $action_script .= 'set ';
                             foreach (array_diff(array_keys($action), ['name', 'value', 'type']) as $opt) {
-                                $action_script .= ":$opt ";
+                                $action_script .= ":{$opt} ";
                             }
                             $action_script .= self::escape_string($action['name']) . ' ' . self::escape_string($action['value']);
                             break;
@@ -528,7 +528,7 @@ class rcube_sieve_script
 
                             foreach (['id', 'importance', 'method', 'options', 'from', 'message'] as $n_tag) {
                                 if (!empty($action[$n_tag])) {
-                                    $action_script .= " :$n_tag " . self::escape_string($action[$n_tag]);
+                                    $action_script .= " :{$n_tag} " . self::escape_string($action[$n_tag]);
                                 }
                             }
 
@@ -1078,7 +1078,7 @@ class rcube_sieve_script
                 }
 
                 if ($opt_name != 'mime') {
-                    $out .= " :$opt_name";
+                    $out .= " :{$opt_name}";
                 }
 
                 if ($opt_name == 'param') {
@@ -1131,7 +1131,7 @@ class rcube_sieve_script
                 $test['type'] = strtolower(substr($token, 1));
             } elseif ($token && preg_match('/^:(mime|anychild|type|subtype|contenttype|param)$/i', $token)) {
                 $token = strtolower(substr($token, 1));
-                $key   = $token == 'mime' ? $token : "mime-$token";
+                $key   = $token == 'mime' ? $token : "mime-{$token}";
                 $test[$key] = $token == 'param' ? $tokens[++$i] : true;
             } elseif ($token && preg_match('/^:index$/i', $token)) {
                 $test['index'] = intval($tokens[++$i]);

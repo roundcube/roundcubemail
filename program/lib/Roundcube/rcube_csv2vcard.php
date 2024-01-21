@@ -392,8 +392,8 @@ class rcube_csv2vcard
     {
         // Localize fields map
         if ($lang && $lang != 'en_US') {
-            if (file_exists(RCUBE_LOCALIZATION_DIR . "$lang/csv2vcard.inc")) {
-                include RCUBE_LOCALIZATION_DIR . "$lang/csv2vcard.inc";
+            if (file_exists(RCUBE_LOCALIZATION_DIR . "{$lang}/csv2vcard.inc")) {
+                include RCUBE_LOCALIZATION_DIR . "{$lang}/csv2vcard.inc";
             }
 
             if (!empty($map)) {
@@ -584,12 +584,12 @@ class rcube_csv2vcard
         if (!empty($contents)) {
             foreach ($this->gmail_label_map as $key => $items) {
                 $num = 1;
-                while (($_key = "$key $num - Type") && ($found = array_search($_key, $elements)) !== false) {
+                while (($_key = "{$key} {$num} - Type") && ($found = array_search($_key, $elements)) !== false) {
                     $type = $contents[$found];
                     $type = preg_replace('/[^a-z]/', '', strtolower($type));
 
                     foreach ($items as $item_key => $vcard_fields) {
-                        $_key = "$key $num - $item_key";
+                        $_key = "{$key} {$num} - {$item_key}";
                         if (($found = array_search($_key, $elements)) !== false) {
                             $this->map[$found] = $vcard_fields[$type];
                         }

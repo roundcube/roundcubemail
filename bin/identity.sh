@@ -86,7 +86,7 @@ function get_identity_attr($options)
     if (isset($identity[$attribute])) {
         $attrValue = $identity[$attribute];
 
-        echo "$attrValue\n";
+        echo "{$attrValue}\n";
     } else {
         rcube::raise_error('Invalid attribute name. Available attributes: identity_id, user_id, changed, del, standard, name, '
             . 'organization, email, reply-to, bcc, signature, html_signature.', false, true);
@@ -199,7 +199,7 @@ function add_identity($options)
         $user->set_default($id);
     }
 
-    echo "Identity created successfully with ID: $id.\n";
+    echo "Identity created successfully with ID: {$id}.\n";
 }
 
 function update_identity($options)
@@ -294,7 +294,7 @@ function update_identity($options)
         $user->set_default($id);
     }
 
-    echo "Identity updated successfully. ID: $identity_id.\n";
+    echo "Identity updated successfully. ID: {$identity_id}.\n";
 }
 
 // Helpers
@@ -341,7 +341,7 @@ function echo_identities($identities)
             $diff = 17 - strlen($key);
             $separator = $diff > 0 ? str_repeat(' ', $diff) : '';
 
-            echo "$key$separator: $val\n";
+            echo "{$key}{$separator}: {$val}\n";
         }
 
         if ($i < count($identities) - 1) {
@@ -374,7 +374,7 @@ function get_user($options)
     $user = rcube_user::query($username, $host);
 
     if (empty($user)) {
-        rcube::raise_error("User does not exist: $username", false, true);
+        rcube::raise_error("User does not exist: {$username}", false, true);
     }
 
     return $user;

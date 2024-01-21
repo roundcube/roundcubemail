@@ -275,7 +275,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         unset($attrib['form'], $attrib['id']);
 
         // return the complete edit form as table
-        $out = "$form_start\n";
+        $out = "{$form_start}\n";
 
         // Create form output
         foreach ($form as $idx => $tab) {
@@ -299,7 +299,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             }
         }
 
-        $out .= "\n$form_end";
+        $out .= "\n{$form_end}";
 
         $rcmail->output->set_env('messagecount', $msgcount);
         $rcmail->output->set_env('folder', $mbox);

@@ -160,7 +160,7 @@ abstract class rcube_plugin
         if (($is_local = is_file($fpath)) && !$rcube->config->load_from_file($fpath)) {
             rcube::raise_error([
                 'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Failed to load config from $fpath",
+                'message' => "Failed to load config from {$fpath}",
             ], true, false);
             return false;
         } elseif (!$is_local) {
@@ -366,7 +366,7 @@ abstract class rcube_plugin
     private function resource_url($fn)
     {
         // pattern "skins/[a-z0-9-_]+/plugins/$this->ID/" used to identify plugin resources loaded from the core skin folder
-        if ($fn[0] != '/' && !preg_match("#^(https?://|skins/[a-z0-9-_]+/plugins/$this->ID/)#i", $fn)) {
+        if ($fn[0] != '/' && !preg_match("#^(https?://|skins/[a-z0-9-_]+/plugins/{$this->ID}/)#i", $fn)) {
             return $this->ID . '/' . $fn;
         } else {
             return $fn;

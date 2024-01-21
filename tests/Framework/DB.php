@@ -299,6 +299,6 @@ class rcube_db_test_dbh
 {
     public function quote($data, $type)
     {
-        return "'$data'";
+        return "'{$data}'";
     }
 }

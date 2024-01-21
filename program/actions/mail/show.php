@@ -273,7 +273,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $arg = $show_images == 3 ? rcube_addressbook::TYPE_TRUSTED_SENDER : 'true';
             $buttons .= ' ' . html::a([
                     'href'    => '#loadremotealways',
-                    'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', $arg)",
+                    'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', {$arg})",
                     'style'   => 'white-space:nowrap',
                 ],
                 rcube::Q($rcmail->gettext(['name' => 'alwaysallow', 'vars' => ['sender' => self::$MESSAGE->sender['mailto']]]))
@@ -387,7 +387,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
             // set error handler on <img>
             $error_handler     = true;
-            $attrib['onerror'] = "this.onerror = null; this.src = '$placeholder';";
+            $attrib['onerror'] = "this.onerror = null; this.src = '{$placeholder}';";
         }
 
         if (!empty(self::$MESSAGE->sender)) {

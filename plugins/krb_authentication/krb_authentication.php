@@ -152,7 +152,7 @@ class krb_authentication extends rcube_plugin
         }
 
         if (empty($context)) {
-            rcube::raise_error("Empty GSSAPI context ($protocol).", true);
+            rcube::raise_error("Empty GSSAPI context ({$protocol}).", true);
         }
 
         return $context;

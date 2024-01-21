@@ -188,7 +188,7 @@ class rcube_ldap_simple_password
                 break;
         }
 
-        $this->_debug("C: Bind $binddn, pass: **** [" . strlen($bindpw) . ']');
+        $this->_debug("C: Bind {$binddn}, pass: **** [" . strlen($bindpw) . ']');
 
         // Bind
         if ($rcmail->config->get('password_ldap_method') == 'sasl') {
@@ -263,7 +263,7 @@ class rcube_ldap_simple_password
         $search_base   = self::substitute_vars($search_base);
         $search_filter = self::substitute_vars($search_filter);
 
-        $this->_debug("C: Search $search_base for $search_filter");
+        $this->_debug("C: Search {$search_base} for {$search_filter}");
 
         // Search for the DN
         if (!($sr = ldap_search($ds, $search_base, $search_filter))) {
@@ -273,7 +273,7 @@ class rcube_ldap_simple_password
 
         $found = ldap_count_entries($ds, $sr);
 
-        $this->_debug("S: OK [found $found records]");
+        $this->_debug("S: OK [found {$found} records]");
 
         // If no or more entries were found, return false
         if ($found != 1) {

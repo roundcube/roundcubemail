@@ -63,7 +63,7 @@ else {
 }
 
 foreach ($dirs as $dir => $user) {
-    echo "Importing keys from $dir\n";
+    echo "Importing keys from {$dir}\n";
 
     if ($user_id = get_user_id($user, $host)) {
         reset_state($user_id, !empty($args['dry-run']));
@@ -115,7 +115,7 @@ function get_user_id($username, $host)
     $user = rcube_user::query($username, $host);
 
     if (empty($user)) {
-        rcube::raise_error("User does not exist: $username");
+        rcube::raise_error("User does not exist: {$username}");
     }
 
     return $user->ID;
@@ -145,40 +145,40 @@ function import_dir($user_id, $dir, $dry_run = false)
     $db_files = ['pubring.gpg', 'secring.gpg', 'pubring.kbx'];
     $maxsize  = min($db->get_variable('max_allowed_packet', 1048500), 4 * 1024 * 1024) - 2000;
 
-    foreach (glob("$dir/private-keys-v1.d/*.key") as $file) {
+    foreach (glob("{$dir}/private-keys-v1.d/*.key") as $file) {
         $db_files[] = substr($file, strlen($dir) + 1);
     }
 
     foreach ($db_files as $file) {
-        if ($mtime = @filemtime("$dir/$file")) {
-            $data     = file_get_contents("$dir/$file");
+        if ($mtime = @filemtime("{$dir}/{$file}")) {
+            $data     = file_get_contents("{$dir}/{$file}");
             $data     = base64_encode($data);
             $datasize = strlen($data);
 
             if ($datasize > $maxsize) {
                 rcube::raise_error([
                     'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet.",
+                    'message' => "Enigma: Failed to save {$file}. Size exceeds max_allowed_packet.",
                 ], true, false);
 
                 continue;
             }
 
-            echo "* $file\n";
+            echo "* {$file}\n";
 
             if ($dry_run) {
                 continue;
             }
 
             $result = $db->query(
-                "INSERT INTO $table (`user_id`, `context`, `filename`, `mtime`, `data`)"
+                "INSERT INTO {$table} (`user_id`, `context`, `filename`, `mtime`, `data`)"
                 . " VALUES(?, 'enigma', ?, ?, ?)",
                 $user_id, $file, $mtime, $data);
 
             if ($db->is_error($result)) {
                 rcube::raise_error([
                     'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Enigma: Failed to save $file into database.",
+                    'message' => "Enigma: Failed to save {$file} into database.",
                 ], true, false);
             }
         }

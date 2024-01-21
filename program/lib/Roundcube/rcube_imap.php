@@ -386,7 +386,7 @@ class rcube_imap extends rcube_storage
     public function get_capability($cap)
     {
         $cap      = strtoupper($cap);
-        $sess_key = "STORAGE_$cap";
+        $sess_key = "STORAGE_{$cap}";
 
         if (!isset($_SESSION[$sess_key])) {
             if (!$this->check_connection()) {
@@ -1759,7 +1759,7 @@ class rcube_imap extends rcube_storage
         }
 
         $messages = $this->conn->search($folder,
-            ($charset && $charset != 'US-ASCII' ? "CHARSET $charset " : '') . $criteria, true);
+            ($charset && $charset != 'US-ASCII' ? "CHARSET {$charset} " : '') . $criteria, true);
 
         // Error, try with US-ASCII (some servers may support only US-ASCII)
         if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
@@ -2016,7 +2016,7 @@ class rcube_imap extends rcube_storage
     protected function structure_part($part, $count = 0, $parent = '', $mime_headers = null)
     {
         $struct = new rcube_message_part();
-        $struct->mime_id = empty($parent) ? (string) $count : "$parent.$count";
+        $struct->mime_id = empty($parent) ? (string) $count : "{$parent}.{$count}";
 
         // multipart
         if (is_array($part[0])) {
@@ -3833,7 +3833,7 @@ class rcube_imap extends rcube_storage
                 $regexp .= '!`@(){}|\\?<;"';
             }
 
-            if (!preg_match("/[$regexp]/", $folder, $m)) {
+            if (!preg_match("/[{$regexp}]/", $folder, $m)) {
                 return true;
             }
 

@@ -264,9 +264,9 @@ class acl extends rcube_plugin
         // Advanced rights
         $attrib['id'] = 'advancedrights';
         foreach ($supported as $key => $val) {
-            $id = "acl$val";
+            $id = "acl{$val}";
             $ul .= html::tag('li', null,
-                $input->show('', ['name' => "acl[$val]", 'value' => $val, 'id' => $id])
+                $input->show('', ['name' => "acl[{$val}]", 'value' => $val, 'id' => $id])
                 . html::label(['for' => $id, 'title' => $this->gettext('longacl' . $val)], $this->gettext('acl' . $val))
             );
         }
@@ -289,11 +289,11 @@ class acl extends rcube_plugin
         );
 
         foreach ($data['rights'] as $key => $val) {
-            $id    = "acl$key";
+            $id    = "acl{$key}";
             $title = !empty($data['titles'][$key]) ? $data['titles'][$key] : $this->gettext('longacl' . $key);
             $label = !empty($data['labels'][$key]) ? $data['labels'][$key] : $this->gettext('acl' . $key);
             $ul   .= html::tag('li', null,
-                $input->show('', ['name' => "acl[$val]", 'value' => $val, 'id' => $id])
+                $input->show('', ['name' => "acl[{$val}]", 'value' => $val, 'id' => $id])
                 . html::label(['for' => $id, 'title' => $title], $label)
             );
         }

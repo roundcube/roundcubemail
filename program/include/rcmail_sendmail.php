@@ -553,7 +553,7 @@ class rcmail_sendmail
             if (!$saved) {
                 rcube::raise_error(['code' => 800, 'type' => 'imap',
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not save message in $store_target",
+                    'message' => "Could not save message in {$store_target}",
                 ], true, false);
             }
         }
@@ -620,7 +620,7 @@ class rcmail_sendmail
         }
 
         if (!preg_match('/[^0-9:.]/', $host)) {
-            return "[$host]";
+            return "[{$host}]";
         }
 
         return $host;
@@ -739,12 +739,12 @@ class rcmail_sendmail
         $email_regexp = '(\S+|("[^"]+"))@\S+';
 
         $delim   = ',;';
-        $regexp  = ["/[$delim]\\s*[\r\n]+/", '/[\r\n]+/', "/[$delim]\\s*\$/m", '/;/', '/(\S{1})(<' . $email_regexp . '>)/U'];
+        $regexp  = ["/[{$delim}]\\s*[\r\n]+/", '/[\r\n]+/', "/[{$delim}]\\s*\$/m", '/;/', '/(\S{1})(<' . $email_regexp . '>)/U'];
         $replace = [', ', ', ', '', ',', '\\1 \\2'];
 
         // replace new lines and strip ending ', ', make address input more valid
         $mailto = trim(preg_replace($regexp, $replace, $mailto));
-        $items  = rcube_utils::explode_quoted_string("[$delim]", $mailto);
+        $items  = rcube_utils::explode_quoted_string("[{$delim}]", $mailto);
         $result = [];
 
         foreach ($items as $item) {
@@ -1049,7 +1049,7 @@ class rcmail_sendmail
             $charset       = $this->rcmail->output->charset;
 
             // make session to not grow up too much
-            $this->rcmail->session->remove("mailto.$mailto_id");
+            $this->rcmail->session->remove("mailto.{$mailto_id}");
         } elseif (!empty($_POST['_' . $header])) {
             $fvalue  = rcube_utils::get_input_string('_' . $header, rcube_utils::INPUT_POST, true);
             $charset = $this->rcmail->output->charset;
@@ -1230,9 +1230,9 @@ class rcmail_sendmail
             $subject = $this->options['message']->subject;
         }
 
-        $out = $form_start ? "$form_start\n" : '';
+        $out = $form_start ? "{$form_start}\n" : '';
         $out .= $textfield->show($subject);
-        $out .= $form_end ? "\n$form_end" : '';
+        $out .= $form_end ? "\n{$form_end}" : '';
 
         return $out;
     }
@@ -1345,9 +1345,9 @@ class rcmail_sendmail
             $mdn_default = $this->rcmail->config->get('mdn_default');
         }
 
-        $out = $form_start ? "$form_start\n" : '';
+        $out = $form_start ? "{$form_start}\n" : '';
         $out .= $checkbox->show($mdn_default);
-        $out .= $form_end ? "\n$form_end" : '';
+        $out .= $form_end ? "\n{$form_end}" : '';
 
         return $out;
     }
@@ -1379,9 +1379,9 @@ class rcmail_sendmail
             $dsn_value = $this->rcmail->config->get('dsn_default');
         }
 
-        $out = $form_start ? "$form_start\n" : '';
+        $out = $form_start ? "{$form_start}\n" : '';
         $out .= $checkbox->show($dsn_value);
-        $out .= $form_end ? "\n$form_end" : '';
+        $out .= $form_end ? "\n{$form_end}" : '';
 
         return $out;
     }
@@ -1407,9 +1407,9 @@ class rcmail_sendmail
 
         $checkbox = new html_checkbox($attrib);
 
-        $out = $form_start ? "$form_start\n" : '';
+        $out = $form_start ? "{$form_start}\n" : '';
         $out .= $checkbox->show();
-        $out .= $form_end ? "\n$form_end" : '';
+        $out .= $form_end ? "\n{$form_end}" : '';
 
         return $out;
     }
@@ -1448,9 +1448,9 @@ class rcmail_sendmail
             $sel = 0;
         }
 
-        $out = $form_start ? "$form_start\n" : '';
+        $out = $form_start ? "{$form_start}\n" : '';
         $out .= $selector->show((int) $sel);
-        $out .= $form_end ? "\n$form_end" : '';
+        $out .= $form_end ? "\n{$form_end}" : '';
 
         return $out;
     }

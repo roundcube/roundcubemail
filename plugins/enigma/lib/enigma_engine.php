@@ -79,7 +79,7 @@ class enigma_engine
         if (!$this->pgp_driver) {
             rcube::raise_error([
                 'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: Unable to load PGP driver: $driver",
+                'message' => "Enigma plugin: Unable to load PGP driver: {$driver}",
             ], true, true);
         }
 
@@ -109,7 +109,7 @@ class enigma_engine
         if (!$this->smime_driver) {
             rcube::raise_error([
                 'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: Unable to load S/MIME driver: $driver",
+                'message' => "Enigma plugin: Unable to load S/MIME driver: {$driver}",
             ], true, true);
         }
 
@@ -1393,7 +1393,7 @@ class enigma_engine
         // This code can be executed from command line, make sure
         // we have permissions to delete keys directory
         if (!is_writable($dir)) {
-            rcube::raise_error("Unable to delete $dir", false, true);
+            rcube::raise_error("Unable to delete {$dir}", false, true);
             return false;
         }
 

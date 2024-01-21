@@ -306,7 +306,7 @@ abstract class rcube_session implements SessionHandlerInterface
         $this->vars = null;
         $this->key  = session_id();
 
-        $this->log("Session regenerate: $old_id -> {$this->key}");
+        $this->log("Session regenerate: {$old_id} -> {$this->key}");
 
         return true;
     }

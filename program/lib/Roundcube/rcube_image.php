@@ -497,7 +497,7 @@ class rcube_image
         }
 
         if (empty($error[$opt_name])) {
-            rcube::raise_error("Invalid $opt_name: $cmd", true, false);
+            rcube::raise_error("Invalid {$opt_name}: {$cmd}", true, false);
             $error[$opt_name] = true;
         }
 

@@ -226,7 +226,7 @@ class rcube_utils
 
             // can be increased to support more charsets
             for ($c = 160; $c < 256; $c++) {
-                $xml_rep_table[chr($c)] = "&#$c;";
+                $xml_rep_table[chr($c)] = "&#{$c};";
             }
 
             $xml_rep_table['"'] = '&quot;';
@@ -419,7 +419,7 @@ class rcube_utils
         $stripped = preg_replace('/[^a-z\(:;]/i', '', $source);
         $evilexpr = 'expression|behavior|javascript:|import[^a]' . (!$allow_remote ? '|url\((?!data:image)' : '');
 
-        if (preg_match("/$evilexpr/i", $stripped)) {
+        if (preg_match("/{$evilexpr}/i", $stripped)) {
             return '/* evil! */';
         }
 
@@ -484,11 +484,11 @@ class rcube_utils
                 }
 
                 if ($prefix) {
-                    $replace = str_replace(['.', '#'], [".$prefix", "#$prefix"], $replace);
+                    $replace = str_replace(['.', '#'], [".{$prefix}", "#{$prefix}"], $replace);
                 }
 
                 if ($container_id) {
-                    $replace = "#$container_id " . $replace;
+                    $replace = "#{$container_id} " . $replace;
                 }
 
                 // Remove redundant spaces (for simpler testing)
@@ -503,7 +503,7 @@ class rcube_utils
         // replace body definition because we also stripped off the <body> tag
         if ($container_id) {
             $regexp = '/#' . preg_quote($container_id, '/') . '\s+body/i';
-            $source = preg_replace($regexp, "#$container_id", $source);
+            $source = preg_replace($regexp, "#{$container_id}", $source);
         }
 
         // put block contents back in
@@ -798,7 +798,7 @@ class rcube_utils
             foreach ($patterns as $pattern) {
                 // the pattern might be a regular expression or just a host/domain name
                 if (preg_match('/[^a-zA-Z0-9.:-]/', $pattern)) {
-                    if (preg_match("/$pattern/", $name)) {
+                    if (preg_match("/{$pattern}/", $name)) {
                         return $name;
                     }
                 } elseif (strtolower($name) === strtolower($pattern)) {
@@ -991,7 +991,7 @@ class rcube_utils
         // try to parse string with DateTime first
         if (!empty($date)) {
             try {
-                $_date = preg_match('/^[0-9]+$/', $date) ? "@$date" : $date;
+                $_date = preg_match('/^[0-9]+$/', $date) ? "@{$date}" : $date;
                 $dt    = $timezone ? new DateTime($_date, $timezone) : new DateTime($_date);
             } catch (Exception $e) {
                 // ignore
@@ -1182,7 +1182,7 @@ class rcube_utils
 
         if ($minlen > 1) {
             $minlen--;
-            $expr[] = "/(^|\\s+)\\w{1,$minlen}(\\s+|$)/u";
+            $expr[] = "/(^|\\s+)\\w{1,{$minlen}}(\\s+|$)/u";
             $repl[] = ' ';
         }
 
@@ -1562,7 +1562,7 @@ class rcube_utils
     public static function preg_error($error = [], $terminate = false)
     {
         if (($preg_error = preg_last_error()) != \PREG_NO_ERROR) {
-            $errstr = "PCRE Error: $preg_error.";
+            $errstr = "PCRE Error: {$preg_error}.";
 
             if (function_exists('preg_last_error_msg')) {
                 $errstr .= ' ' . preg_last_error_msg();
@@ -1655,7 +1655,7 @@ class rcube_utils
         // replace Re:, Re[x]:, Re-x (#1490497)
         $pieces = array_map(static function ($prefix) {
             $prefix = strtolower(str_replace(':', '', $prefix));
-            return "$prefix:|$prefix\\[\\d\\]:|$prefix-\\d:";
+            return "{$prefix}:|{$prefix}\\[\\d\\]:|{$prefix}-\\d:";
         }, $prefixes);
         $pattern = '/^(' . implode('|', $pieces) . ')\s*/i';
         do {

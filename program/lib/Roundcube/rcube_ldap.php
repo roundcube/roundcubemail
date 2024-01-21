@@ -883,7 +883,7 @@ class rcube_ldap extends rcube_addressbook
                         $filter .= '(|';
                     }
                     foreach ($attrs as $f) {
-                        $filter .= "($f=$wp" . rcube_ldap_generic::quote_string($val) . "$ws)";
+                        $filter .= "({$f}={$wp}" . rcube_ldap_generic::quote_string($val) . "{$ws})";
                     }
                     if (count($attrs) > 1) {
                         $filter .= ')';
@@ -927,7 +927,7 @@ class rcube_ldap extends rcube_addressbook
                     $req_filter .= '(|';
                 }
                 foreach ($attrs as $f) {
-                    $req_filter .= "($f=*)";
+                    $req_filter .= "({$f}=*)";
                 }
                 if (count($attrs) > 1) {
                     $req_filter .= ')';
@@ -1561,7 +1561,7 @@ class rcube_ldap extends rcube_addressbook
                     $res  = false;
 
                     try {
-                        $res = eval("return ($code);");
+                        $res = eval("return ({$code});");
                     } catch (ParseError $e) {
                         // ignore
                     }
@@ -1569,7 +1569,7 @@ class rcube_ldap extends rcube_addressbook
                     if ($res === false) {
                         rcube::raise_error([
                             'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Expression parse error on: ($code)",
+                            'message' => "Expression parse error on: ({$code})",
                         ], true, false);
                         continue;
                     }
@@ -1762,7 +1762,7 @@ class rcube_ldap extends rcube_addressbook
 
         if (strpos($name, ':')) {
             [$name, $limit] = explode(':', $name, 2);
-            $suffix = $limit ? ":$limit" : '';
+            $suffix = $limit ? ":{$limit}" : '';
         }
 
         $name = strtolower($name);
@@ -1915,7 +1915,7 @@ class rcube_ldap extends rcube_addressbook
                     $wp = '*';
                 }
             }
-            $filter = "(&$filter($name_attr=$wp" . rcube_ldap_generic::quote_string($search) . "$ws))";
+            $filter = "(&{$filter}({$name_attr}={$wp}" . rcube_ldap_generic::quote_string($search) . "{$ws}))";
             $props['search'] = $wp . $search . $ws;
         }
 
@@ -2206,10 +2206,10 @@ class rcube_ldap extends rcube_addressbook
         $add_filter  = '';
 
         if ($member_attr != 'member' && $member_attr != 'uniqueMember') {
-            $add_filter = "($member_attr=$contact_dn)";
+            $add_filter = "({$member_attr}={$contact_dn})";
         }
 
-        $filter = strtr("(|(member=$contact_dn)(uniqueMember=$contact_dn)$add_filter)", ['\\' => '\\\\']);
+        $filter = strtr("(|(member={$contact_dn})(uniqueMember={$contact_dn}){$add_filter})", ['\\' => '\\\\']);
 
         $ldap_data = $this->ldap->search($base_dn, $filter, 'sub', ['dn', $name_attr]);
 

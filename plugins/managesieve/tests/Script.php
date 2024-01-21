@@ -52,7 +52,7 @@ class Managesieve_Script extends TestCase
                 $result[] = [
                     'input'   => $input,
                     'output'  => $output,
-                    'message' => "Error in parsing '$file' file",
+                    'message' => "Error in parsing '{$file}' file",
                 ];
             }
         }

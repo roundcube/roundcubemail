@@ -115,7 +115,7 @@ class rcmail_action_mail_sendmdn extends rcmail_action
 
             if ($agent = $rcmail->config->get('useragent')) {
                 $headers['User-Agent'] = $agent;
-                $report .= "Reporting-UA: $agent\r\n";
+                $report .= "Reporting-UA: {$agent}\r\n";
             }
 
             $to   = rcube_mime::decode_mime_string($message->headers->to, $charset);

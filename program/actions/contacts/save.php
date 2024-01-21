@@ -240,7 +240,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 }
 
                 foreach ($subtypes as $i => $subtype) {
-                    $suffix = $subtype ? ":$subtype" : '';
+                    $suffix = $subtype ? ":{$subtype}" : '';
                     if ($values[$i]) {
                         $record[$col . $suffix][] = $values[$i];
                     }

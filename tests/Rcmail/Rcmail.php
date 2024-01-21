@@ -216,7 +216,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertNull($error);
         $this->assertTrue($contact_id != false);
 
-        $sql_result = $db->query("SELECT * FROM `contacts` WHERE `contact_id` = $contact_id");
+        $sql_result = $db->query("SELECT * FROM `contacts` WHERE `contact_id` = {$contact_id}");
         $contact = $db->fetch_assoc($sql_result);
 
         $this->assertSame('test@тест.рф', $contact['email']);

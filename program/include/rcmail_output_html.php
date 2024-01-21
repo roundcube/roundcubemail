@@ -478,7 +478,7 @@ class rcmail_output_html extends rcmail_output
      */
     public function add_gui_object($obj, $id)
     {
-        $this->add_script(self::JS_OBJECT_NAME . ".gui_object('$obj', '$id');");
+        $this->add_script(self::JS_OBJECT_NAME . ".gui_object('{$obj}', '{$id}');");
     }
 
     /**
@@ -758,17 +758,17 @@ class rcmail_output_html extends rcmail_output
                 continue;
             }
 
-            $path = RCUBE_INSTALL_PATH . "$skin_path/templates/$name.html";
+            $path = RCUBE_INSTALL_PATH . "{$skin_path}/templates/{$name}.html";
 
             // fallback to deprecated template names
             if (!is_readable($path) && !empty($this->deprecated_templates[$realname])) {
                 $dname = $this->deprecated_templates[$realname];
-                $path  = RCUBE_INSTALL_PATH . "$skin_path/templates/$dname.html";
+                $path  = RCUBE_INSTALL_PATH . "{$skin_path}/templates/{$dname}.html";
 
                 if (is_readable($path)) {
                     rcube::raise_error([
                         'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Using deprecated template '$dname' in $skin_path/templates. Please rename to '$realname'",
+                        'message' => "Using deprecated template '{$dname}' in {$skin_path}/templates. Please rename to '{$realname}'",
                     ], true, false);
                 }
             }
@@ -1244,7 +1244,7 @@ class rcmail_output_html extends rcmail_output
 
         // Note: We used create_function() before but it's deprecated in PHP 7.2
         //       and really it was just a wrapper on eval().
-        return eval("return ($expression);");
+        return eval("return ({$expression});");
     }
 
     /**
@@ -1474,7 +1474,7 @@ class rcmail_output_html extends rcmail_output
                     }
 
                     if (($link = $this->get_template_logo('link')) !== null) {
-                        $attrib['onclick'] = "location.href='$link';";
+                        $attrib['onclick'] = "location.href='{$link}';";
                         $attrib['style'] = 'cursor:pointer;';
                     }
 
@@ -1583,7 +1583,7 @@ class rcmail_output_html extends rcmail_output
                 }
 
                 // exec plugin hooks for this template object
-                $hook = $this->app->plugins->exec_hook("template_object_$object", $attrib + ['content' => (string) $content]);
+                $hook = $this->app->plugins->exec_hook("template_object_{$object}", $attrib + ['content' => (string) $content]);
 
                 if (strlen($hook['content']) && !empty($external)) {
                     $object_id                 = uniqid('TEMPLOBJECT:', true);
@@ -2053,7 +2053,7 @@ class rcmail_output_html extends rcmail_output
                 }
                 $hpos++;
             }
-            $page_header = "<head>\n$page_header\n</head>\n";
+            $page_header = "<head>\n{$page_header}\n</head>\n";
         }
 
         // add page header
@@ -2512,7 +2512,7 @@ class rcmail_output_html extends rcmail_output
                     'aria-labelledby' => !empty($attrib['label']) ? 'aria-label-' . $attrib['label'] : null,
                     'class'           => $attrib['wrapper'],
                 ],
-                "$header$out\n$reset_button\n$options_button\n$search_button"
+                "{$header}{$out}\n{$reset_button}\n{$options_button}\n{$search_button}"
             );
         }
 

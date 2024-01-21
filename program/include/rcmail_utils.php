@@ -63,7 +63,7 @@ class rcmail_utils
         $file  = $dir . '/' . $db->db_provider . '.initial.sql';
 
         if (!file_exists($file)) {
-            rcube::raise_error("DDL file $file not found", false, true);
+            rcube::raise_error("DDL file {$file} not found", false, true);
         }
 
         echo 'Creating database schema... ';
@@ -73,7 +73,7 @@ class rcmail_utils
                 $error = $db->is_error();
             }
         } else {
-            $error = "Unable to read file $file or it is empty";
+            $error = "Unable to read file {$file} or it is empty";
         }
 
         if ($error) {
@@ -183,12 +183,12 @@ class rcmail_utils
 
         foreach ($result as $v) {
             if (empty($opts['quiet'])) {
-                echo "Updating database schema for {$package} ($v)... ";
+                echo "Updating database schema for {$package} ({$v})... ";
             }
 
             // Ignore errors here to print the error only once
             $db->set_option('ignore_errors', true);
-            $error = self::db_update_schema($package, $v, "$dir/$v.sql");
+            $error = self::db_update_schema($package, $v, "{$dir}/{$v}.sql");
             $db->set_option('ignore_errors', false);
 
             if ($error) {
@@ -196,7 +196,7 @@ class rcmail_utils
                     echo "[FAILED]\n";
                 }
                 if (!empty($opts['errors'])) {
-                    rcube::raise_error("Error in DDL upgrade $v: $error", false, true);
+                    rcube::raise_error("Error in DDL upgrade {$v}: {$error}", false, true);
                 }
                 return false;
             } elseif (empty($opts['quiet'])) {
@@ -287,9 +287,9 @@ class rcmail_utils
             $sqltable = $db->table_name($table, true);
 
             // delete outdated records
-            $db->query("DELETE FROM $sqltable WHERE `del` = 1 AND `changed` < ?", $threshold);
+            $db->query("DELETE FROM {$sqltable} WHERE `del` = 1 AND `changed` < ?", $threshold);
 
-            echo $db->affected_rows() . " records deleted from '$table'\n";
+            echo $db->affected_rows() . " records deleted from '{$table}'\n";
         }
     }
 
@@ -371,7 +371,7 @@ class rcmail_utils
         }
 
         // iterate over all users
-        $sql_result = $db->query('SELECT * FROM ' . $db->table_name('users', true) . " WHERE $query");
+        $sql_result = $db->query('SELECT * FROM ' . $db->table_name('users', true) . " WHERE {$query}");
 
         while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
             echo 'Updating prefs for user ' . $sql_arr['user_id'] . '...';

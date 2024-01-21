@@ -152,7 +152,7 @@ class rcube_contacts extends rcube_addressbook
                 $sql_filter = $this->db->ilike('name', '%' . $search . '%');
             }
 
-            $sql_filter = " AND $sql_filter";
+            $sql_filter = " AND {$sql_filter}";
         }
 
         $sql_result = $this->db->query(
@@ -222,7 +222,7 @@ class rcube_contacts extends rcube_addressbook
         }
 
         $order_col  = in_array($this->sort_col, $this->table_cols) ? $this->sort_col : 'name';
-        $order_cols = ["c.`$order_col`"];
+        $order_cols = ["c.`{$order_col}`"];
 
         if ($order_col == 'firstname') {
             $order_cols[] = 'c.`surname`';
@@ -461,7 +461,7 @@ class rcube_contacts extends rcube_addressbook
             }
         }
 
-        return count($where) ? '(' . implode(" $bool ", $where) . ')' : '';
+        return count($where) ? '(' . implode(" {$bool} ", $where) . ')' : '';
     }
 
     /**
@@ -820,7 +820,7 @@ class rcube_contacts extends rcube_addressbook
             'UPDATE ' . $this->db->table_name($this->db_name, true) .
             ' SET `del` = 1, `changed` = ' . $this->db->now() .
             ' WHERE `user_id` = ?' .
-                " AND `contact_id` IN ($ids)",
+                " AND `contact_id` IN ({$ids})",
             $this->user_id
         );
 
@@ -849,7 +849,7 @@ class rcube_contacts extends rcube_addressbook
             'UPDATE ' . $this->db->table_name($this->db_name, true) .
             ' SET `del` = 0, `changed` = ' . $this->db->now() .
             ' WHERE `user_id` = ?' .
-                " AND `contact_id` IN ($ids)",
+                " AND `contact_id` IN ({$ids})",
             $this->user_id
         );
 
@@ -872,14 +872,14 @@ class rcube_contacts extends rcube_addressbook
         $now = $this->db->now();
 
         $this->db->query('UPDATE ' . $this->db->table_name($this->db_name, true)
-            . " SET `del` = 1, `changed` = $now"
+            . " SET `del` = 1, `changed` = {$now}"
             . ' WHERE `user_id` = ?', $this->user_id);
 
         $count = $this->db->affected_rows();
 
         if ($with_groups) {
             $this->db->query('UPDATE ' . $this->db->table_name($this->db_groups, true)
-                . " SET `del` = 1, `changed` = $now"
+                . " SET `del` = 1, `changed` = {$now}"
                 . ' WHERE `user_id` = ?', $this->user_id);
 
             $count += $this->db->affected_rows();
@@ -1033,7 +1033,7 @@ class rcube_contacts extends rcube_addressbook
         $sql_result = $this->db->query(
             'DELETE FROM ' . $this->db->table_name($this->db_groupmembers, true) .
             ' WHERE `contactgroup_id` = ?' .
-                " AND `contact_id` IN ($ids)",
+                " AND `contact_id` IN ({$ids})",
             $group_id
         );
 

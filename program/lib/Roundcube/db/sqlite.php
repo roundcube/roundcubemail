@@ -88,7 +88,7 @@ class rcube_db_sqlite extends rcube_db
      */
     public function unixtimestamp($field)
     {
-        return "strftime('%s', $field)";
+        return "strftime('%s', {$field})";
     }
 
     /**
@@ -106,7 +106,7 @@ class rcube_db_sqlite extends rcube_db
             $add = ($interval > 0 ? '+' : '') . intval($interval) . ' seconds';
         }
 
-        return "datetime('now'" . ($add ? ", '$add'" : '') . ')';
+        return "datetime('now'" . ($add ? ", '{$add}'" : '') . ')';
     }
 
     /**

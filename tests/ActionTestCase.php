@@ -97,7 +97,7 @@ class ActionTestCase extends TestCase
             $sql_res = $db->query('SHOW TABLES');
             while ($sql_arr = $db->fetch_array($sql_res)) {
                 $table = reset($sql_arr);
-                $db->query("DROP TABLE $table");
+                $db->query("DROP TABLE {$table}");
             }
 
             // init database with schema

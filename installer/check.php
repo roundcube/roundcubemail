@@ -183,7 +183,7 @@ foreach ($required_libs as $classname => $vendor) {
     if (class_exists($classname)) {
         $RCI->pass($classname);
     } else {
-        $RCI->fail($classname, "Failed to load class $classname from $vendor", $source_urls[$classname]);
+        $RCI->fail($classname, "Failed to load class {$classname} from {$vendor}", $source_urls[$classname]);
     }
     echo '<br />';
 }
@@ -192,7 +192,7 @@ foreach ($optional_libs as $classname => $vendor) {
     if (class_exists($classname)) {
         $RCI->pass($classname);
     } else {
-        $RCI->na($classname, "Recommended to install $classname from $vendor", $source_urls[$classname]);
+        $RCI->na($classname, "Recommended to install {$classname} from {$vendor}", $source_urls[$classname]);
     }
     echo '<br />';
 }
@@ -215,7 +215,7 @@ foreach ($ini_checks as $var => $val) {
     } elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     } else {
-        $RCI->fail($var, "is '$status', should be '$val'");
+        $RCI->fail($var, "is '{$status}', should be '{$val}'");
     }
     echo '<br />';
 }
@@ -242,7 +242,7 @@ foreach ($optional_checks as $var => $val) {
                 $tz = new DateTimeZone($status);
                 $RCI->pass($var);
             } catch (Exception $e) {
-                $RCI->optfail($var, empty($status) ? 'not set' : "invalid value detected: $status");
+                $RCI->optfail($var, empty($status) ? 'not set' : "invalid value detected: {$status}");
             }
         } else {
             $RCI->pass($var);
@@ -250,7 +250,7 @@ foreach ($optional_checks as $var => $val) {
     } elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
         $RCI->pass($var);
     } else {
-        $RCI->optfail($var, "is '$status', could be '$val'");
+        $RCI->optfail($var, "is '{$status}', could be '{$val}'");
     }
     echo '<br />';
 }

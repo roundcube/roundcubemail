@@ -38,7 +38,7 @@ class filesystem_attachments extends rcube_plugin
             if (($plugin instanceof self) && $plugin->initialized) {
                 rcube::raise_error([
                     'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Can use only one plugin for attachments/file uploads! Using '$plugin_name', ignoring others.",
+                    'message' => "Can use only one plugin for attachments/file uploads! Using '{$plugin_name}', ignoring others.",
                 ], true, false);
                 return;
             }
@@ -205,7 +205,7 @@ class filesystem_attachments extends rcube_plugin
                     'file'    => __FILE__,
                     'line'    => __LINE__,
                     'message' => "Detected 'temp_dir' change. "
-                        . "Access to '$temp_dir' restricted by filesystem permissions or open_basedir",
+                        . "Access to '{$temp_dir}' restricted by filesystem permissions or open_basedir",
                 ], true, false);
 
                 return true;
