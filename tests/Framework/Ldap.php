@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_ldap class
  */
-class Framework_Ldap extends PHPUnit\Framework\TestCase
+class Framework_Ldap extends TestCase
 {
     /**
      * Class constructor

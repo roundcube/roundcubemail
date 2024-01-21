@@ -1,6 +1,8 @@
 <?php
 
-class Enigma_EnigmaDriverGnupg extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Enigma_EnigmaDriverGnupg extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

@@ -1,6 +1,8 @@
 <?php
 
-class ShowAdditionalHeaders_Plugin extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class ShowAdditionalHeaders_Plugin extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

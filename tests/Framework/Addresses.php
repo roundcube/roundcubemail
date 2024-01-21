@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_addresses class
  */
-class Framework_Addresses extends PHPUnit\Framework\TestCase
+class Framework_Addresses extends TestCase
 {
     /**
      * Class constructor

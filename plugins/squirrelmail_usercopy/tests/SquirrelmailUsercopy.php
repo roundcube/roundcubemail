@@ -1,6 +1,8 @@
 <?php
 
-class SquirrelmailUsercopy_Plugin extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class SquirrelmailUsercopy_Plugin extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

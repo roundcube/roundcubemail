@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_db class
  *
  * @group database
  */
-class Framework_DB extends PHPUnit\Framework\TestCase
+class Framework_DB extends TestCase
 {
     /**
      * Test script execution and table_prefix replacements

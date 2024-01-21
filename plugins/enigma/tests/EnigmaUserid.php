@@ -1,6 +1,8 @@
 <?php
 
-class Enigma_EnigmaUserid extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Enigma_EnigmaUserid extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

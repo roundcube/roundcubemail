@@ -1,12 +1,14 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_db_pgsql class
  *
  * @group database
  * @group postgres
  */
-class Framework_DBPgsql extends PHPUnit\Framework\TestCase
+class Framework_DBPgsql extends TestCase
 {
     /**
      * Class constructor

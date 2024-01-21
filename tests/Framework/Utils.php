@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_utils class
  */
-class Framework_Utils extends PHPUnit\Framework\TestCase
+class Framework_Utils extends TestCase
 {
     /**
      * Test for rcube_utils::date_format()

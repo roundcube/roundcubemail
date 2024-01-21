@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_charset class
  *
  * @group mbstring
  */
-class Framework_Charset extends PHPUnit\Framework\TestCase
+class Framework_Charset extends TestCase
 {
     /**
      * Data for test_clean()

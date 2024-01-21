@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcmail_resend_mail class
  */
-class Rcmail_RcmailResendMail extends PHPUnit\Framework\TestCase
+class Rcmail_RcmailResendMail extends TestCase
 {
     /**
      * Test for header() method

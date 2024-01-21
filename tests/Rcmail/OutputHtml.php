@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcmail_output_html class
  */
-class Rcmail_RcmailOutputHtml extends PHPUnit\Framework\TestCase
+class Rcmail_RcmailOutputHtml extends TestCase
 {
     /**
      * Test check_skin()

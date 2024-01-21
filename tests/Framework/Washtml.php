@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_washtml class
  */
-class Framework_Washtml extends PHPUnit\Framework\TestCase
+class Framework_Washtml extends TestCase
 {
     /**
      * A helper method to remove comments added by rcube_washtml

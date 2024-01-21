@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test html class
  */
-class Framework_Html extends PHPUnit\Framework\TestCase
+class Framework_Html extends TestCase
 {
     /**
      * Class constructor

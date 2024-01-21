@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_cache_db class
  */
-class Framework_CacheDB extends PHPUnit\Framework\TestCase
+class Framework_CacheDB extends TestCase
 {
     /**
      * Test common cache functionality

@@ -1,6 +1,8 @@
 <?php
 
-class Enigma_EnigmaMimeMessage extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Enigma_EnigmaMimeMessage extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
