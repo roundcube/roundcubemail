@@ -158,7 +158,7 @@ $config['imap_auth_type'] = null;
 // See http://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
 // WARNING: Please note this is currently incompatible with implicit ssl,
 // since the proxy protocol preamble is expected before the ssl handshake.
-//$config['imap_conn_options'] = [
+// $config['imap_conn_options'] = [
 //    'ssl' => [
 //        'verify_peer'  => true,
 //        'verify_depth' => 3,
@@ -171,7 +171,7 @@ $config['imap_auth_type'] = null;
 //        'local_addr'    => $_SERVER['SERVER_ADDR'], // optional
 //        'local_port'    => $_SERVER['SERVER_PORT'], // optional
 //    ],
-//];
+// ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['imap_conn_options'] = null;
 
@@ -413,7 +413,7 @@ $config['oauth_user_create_map'] = [
     'language' => ['locale'],
 ];
 
-///// Example config for Gmail
+// /// Example config for Gmail
 
 // Register your service at https://console.developers.google.com/
 // - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
@@ -429,7 +429,7 @@ $config['oauth_user_create_map'] = [
 // $config['oauth_scope'] = "email profile openid https://mail.google.com/";
 // $config['oauth_auth_parameters'] = ['access_type' => 'offline', 'prompt' => 'consent'];
 
-///// Example config for Outlook.com (Office 365)
+// /// Example config for Outlook.com (Office 365)
 
 // Register your OAuth client at https://portal.azure.com
 // - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL

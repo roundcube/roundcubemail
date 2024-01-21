@@ -1,6 +1,8 @@
 <?php
 
-class Enigma_EnigmaError extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Enigma_EnigmaError extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

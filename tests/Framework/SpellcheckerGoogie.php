@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_spellcheck_googie class
  */
-class Framework_SpellcheckerGoogie extends PHPUnit\Framework\TestCase
+class Framework_SpellcheckerGoogie extends TestCase
 {
     /**
      * Class constructor

@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_spoofchecker class
  */
-class Framework_Spoofchecker extends PHPUnit\Framework\TestCase
+class Framework_Spoofchecker extends TestCase
 {
     /**
      * Test data for test_check()

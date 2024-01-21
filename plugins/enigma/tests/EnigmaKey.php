@@ -1,6 +1,8 @@
 <?php
 
-class Enigma_EnigmaKey extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Enigma_EnigmaKey extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

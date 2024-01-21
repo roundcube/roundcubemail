@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_result_index class
  */
-class Framework_ResultIndex extends PHPUnit\Framework\TestCase
+class Framework_ResultIndex extends TestCase
 {
     /**
      * Class constructor

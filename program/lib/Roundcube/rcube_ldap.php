@@ -833,7 +833,7 @@ class rcube_ldap extends rcube_addressbook
             $this->ldap->config_set('fuzzy_search', $fuzzy_search);
 
             $ldap_data = $this->ldap->search($this->base_dn, $this->prop['filter'], $this->prop['scope'], $this->prop['attributes'],
-                ['search' => $value /*, 'sort' => $this->prop['sort'] */]);
+                ['search' => $value /* , 'sort' => $this->prop['sort'] */]);
 
             if ($ldap_data === false) {
                 return $this->result;
@@ -1353,7 +1353,7 @@ class rcube_ldap extends rcube_addressbook
                             // #1488420: Workaround "ldap_mod_del(): Modify: Inappropriate matching in..."
                             // jpegPhoto attribute require an array here. It looks to me that it works for other attribs too
                             $deletedata[$fld] = [];
-                            //$deletedata[$fld] = $old_data[$fld];
+                            // $deletedata[$fld] = $old_data[$fld];
                         }
                     } else {
                         // The data was modified, save it out.

@@ -57,8 +57,8 @@ class rcube_directadmin_password
 
         $response = $Socket->fetch_parsed_body();
 
-        //DEBUG
-        //rcube::console("Password Plugin: [USER: $da_user] [HOST: $da_host] - Response: [SOCKET: ".$Socket->result_status_code."] [DA ERROR: ".strip_tags($response['error'])."] [TEXT: ".$response[text]."]");
+        // DEBUG
+        // rcube::console("Password Plugin: [USER: $da_user] [HOST: $da_host] - Response: [SOCKET: ".$Socket->result_status_code."] [DA ERROR: ".strip_tags($response['error'])."] [TEXT: ".$response[text]."]");
 
         if ($Socket->result_status_code != 200) {
             return ['code' => PASSWORD_CONNECT_ERROR, 'message' => $Socket->error[0]];
@@ -243,9 +243,9 @@ class HTTPSocket
         $ch = curl_init($this->remote_host . ':' . $this->remote_port . $request);
 
         if ($is_ssl) {
-            curl_setopt($ch, \CURLOPT_SSL_VERIFYPEER, false); //1
-            curl_setopt($ch, \CURLOPT_SSL_VERIFYHOST, false); //2
-            //curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+            curl_setopt($ch, \CURLOPT_SSL_VERIFYPEER, false); // 1
+            curl_setopt($ch, \CURLOPT_SSL_VERIFYHOST, false); // 2
+            // curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
         }
 
         curl_setopt($ch, \CURLOPT_HTTP_VERSION, \CURL_HTTP_VERSION_1_1);
@@ -279,7 +279,7 @@ class HTTPSocket
             curl_setopt($ch, \CURLOPT_POST, 1);
             curl_setopt($ch, \CURLOPT_POSTFIELDS, $content);
 
-            //$array_headers['Content-type'] = 'application/x-www-form-urlencoded';
+            // $array_headers['Content-type'] = 'application/x-www-form-urlencoded';
             $array_headers['Content-length'] = strlen($content);
         }
 
@@ -309,7 +309,7 @@ class HTTPSocket
 
         // now, if we're being passed a location header, should we follow it?
         if ($this->doFollowLocationHeader) {
-            //dont bother if we didn't even setup the script correctly
+            // dont bother if we didn't even setup the script correctly
             if (isset($headers['x-use-https']) && $headers['x-use-https'] == 'yes') {
                 exit($this->ssl_setting_message);
             }

@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_html2text class
  */
-class rc_html2text extends PHPUnit\Framework\TestCase
+class rc_html2text extends TestCase
 {
     public function provide_html2text_cases(): iterable
     {

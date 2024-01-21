@@ -1,6 +1,8 @@
 <?php
 
-class Jqueryui_Plugin extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Jqueryui_Plugin extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

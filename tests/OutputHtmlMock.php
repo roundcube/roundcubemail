@@ -123,10 +123,10 @@ class OutputHtmlMock extends rcmail_output_html
      */
     public function parse($name = 'main', $exit = true, $write = true)
     {
-        //ob_start();
+        // ob_start();
         parent::parse($name, false, $write);
-        //$this->output = ob_get_contents();
-        //ob_end_clean();
+        // $this->output = ob_get_contents();
+        // ob_end_clean();
 
         if ($exit) {
             throw new ExitException('Output sent', self::E_EXIT);

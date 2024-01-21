@@ -67,7 +67,7 @@ class rcube_plesk_password
 
         // try to change password and return the status
         $result = $plesk->change_mailbox_password($username, $newpass);
-        //$plesk->destroy();
+        // $plesk->destroy();
 
         if ($result == 'ok') {
             return PASSWORD_SUCCESS;

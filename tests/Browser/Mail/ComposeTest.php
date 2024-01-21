@@ -6,8 +6,9 @@ use Facebook\WebDriver\WebDriverKeys;
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\HtmlEditor;
 use Tests\Browser\Components\RecipientInput;
+use Tests\Browser\TestCase;
 
-class ComposeTest extends \Tests\Browser\TestCase
+class ComposeTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

@@ -4,8 +4,9 @@ namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\Dialog;
+use Tests\Browser\TestCase;
 
-class IdentitiesTest extends \Tests\Browser\TestCase
+class IdentitiesTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

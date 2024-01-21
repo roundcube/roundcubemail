@@ -45,7 +45,7 @@ if (($CACHEDIR = getenv('CACHEDIR')) && is_writable($CACHEDIR)) {
     $CACHEDIR = sys_get_temp_dir();
 }
 
-//////////////// License definitions
+// ////////////// License definitions
 
 $LICENSES = [];
 $LICENSES['MIT'] = <<<'EOM'
@@ -98,7 +98,7 @@ $LICENSES['LGPL'] = <<<'EOL'
 
     EOL;
 
-//////////////// Functions
+// ////////////// Functions
 
 /**
  * Fetch package file from source
@@ -309,7 +309,7 @@ function delete_destfile($package)
     }
 }
 
-//////////////// Execution
+// ////////////// Execution
 
 $args = rcube_utils::get_opt([
     'f' => 'force:bool',

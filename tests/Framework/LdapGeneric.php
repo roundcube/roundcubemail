@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_ldap_generic class
  */
-class Framework_LdapGeneric extends PHPUnit\Framework\TestCase
+class Framework_LdapGeneric extends TestCase
 {
     protected function markTestSkippedIfNetLdapPackageIsNotInstalled(): void
     {

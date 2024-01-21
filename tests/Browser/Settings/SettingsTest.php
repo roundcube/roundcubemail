@@ -3,8 +3,9 @@
 namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\TestCase;
 
-class SettingsTest extends \Tests\Browser\TestCase
+class SettingsTest extends TestCase
 {
     public function testSettings()
     {

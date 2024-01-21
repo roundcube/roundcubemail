@@ -4,8 +4,9 @@ namespace Tests\Browser\Contacts;
 
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\Dialog;
+use Tests\Browser\TestCase;
 
-class ImportTest extends \Tests\Browser\TestCase
+class ImportTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

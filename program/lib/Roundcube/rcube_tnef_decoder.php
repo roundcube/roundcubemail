@@ -1,5 +1,8 @@
 <?php
 
+use RtfHtmlPhp\Document;
+use RtfHtmlPhp\Html\HtmlFormatter;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -169,8 +172,8 @@ class rcube_tnef_decoder
                 && class_exists('RtfHtmlPhp\Document')
             ) {
                 try {
-                    $document  = new RtfHtmlPhp\Document($message['stream']);
-                    $formatter = new RtfHtmlPhp\Html\HtmlFormatter(RCUBE_CHARSET);
+                    $document  = new Document($message['stream']);
+                    $formatter = new HtmlFormatter(RCUBE_CHARSET);
                     $message   = $formatter->format($document);
                 } catch (Exception $e) {
                     // ignore the body
@@ -587,7 +590,7 @@ class rcube_tnef_decoder
                             $document .= html_entity_decode('&#' . hexdec($hex) . ';');
                         }
 
-                        //Shift the pointer.
+                        // Shift the pointer.
                         $i += 2;
                     } elseif ($nextChar >= 'a' && $nextChar <= 'z' || $nextChar >= 'A' && $nextChar <= 'Z') {
                         // Since, we’ve found the alphabetic character, the next

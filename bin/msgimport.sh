@@ -46,7 +46,7 @@ if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
 
 // prompt for username if not set
 if (empty($args['user'])) {
-    //fwrite(STDOUT, "Please enter your name\n");
+    // fwrite(STDOUT, "Please enter your name\n");
     echo 'IMAP user: ';
     $args['user'] = trim(fgets(\STDIN));
 }

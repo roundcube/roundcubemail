@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Unit tests for class rcube_vcard
  */
-class Framework_VCard extends PHPUnit\Framework\TestCase
+class Framework_VCard extends TestCase
 {
     public function _srcpath($fn)
     {

@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_addressbook class
  */
-class Framework_Addressbook extends PHPUnit\Framework\TestCase
+class Framework_Addressbook extends TestCase
 {
     /**
      * Test for get_col_values() method

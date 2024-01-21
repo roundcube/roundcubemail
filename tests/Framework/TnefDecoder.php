@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_tnef_decoder class
  */
-class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
+class Framework_TnefDecoder extends TestCase
 {
     /**
      * Test TNEF decoding

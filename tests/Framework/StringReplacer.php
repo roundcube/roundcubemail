@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_string_replacer class
  */
-class Framework_StringReplacer extends PHPUnit\Framework\TestCase
+class Framework_StringReplacer extends TestCase
 {
     /**
      * Class constructor

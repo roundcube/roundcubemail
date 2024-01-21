@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_mime class
  */
-class Framework_Mime extends PHPUnit\Framework\TestCase
+class Framework_Mime extends TestCase
 {
     /**
      * Test decoding of single e-mail address strings

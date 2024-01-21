@@ -1,5 +1,11 @@
 <?php
 
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -96,13 +102,13 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
             return null;
         }
 
-        $renderer_style = new BaconQrCode\Renderer\RendererStyle\RendererStyle(300, 1);
+        $renderer_style = new RendererStyle(300, 1);
         $renderer_image = $type == 'image/png'
-            ? new BaconQrCode\Renderer\Image\ImagickImageBackEnd()
-            : new BaconQrCode\Renderer\Image\SvgImageBackEnd();
+            ? new ImagickImageBackEnd()
+            : new SvgImageBackEnd();
 
-        $renderer = new BaconQrCode\Renderer\ImageRenderer($renderer_style, $renderer_image);
-        $writer   = new BaconQrCode\Writer($renderer);
+        $renderer = new ImageRenderer($renderer_style, $renderer_image);
+        $writer   = new Writer($renderer);
 
         return $writer->writeString($data, RCUBE_CHARSET);
     }

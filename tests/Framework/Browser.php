@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcube_browser class
  */
-class Framework_Browser extends PHPUnit\Framework\TestCase
+class Framework_Browser extends TestCase
 {
     /**
      * @dataProvider provide_browser_cases

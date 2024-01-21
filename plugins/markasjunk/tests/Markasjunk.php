@@ -1,6 +1,8 @@
 <?php
 
-class Markasjunk_Plugin extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class Markasjunk_Plugin extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

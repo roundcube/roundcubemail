@@ -1,9 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcmail_string_replacer class
  */
-class Rcmail_RcmailStringReplacer extends PHPUnit\Framework\TestCase
+class Rcmail_RcmailStringReplacer extends TestCase
 {
     /**
      * Test for mailto_callback() method

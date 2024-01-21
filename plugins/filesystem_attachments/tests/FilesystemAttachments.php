@@ -1,6 +1,8 @@
 <?php
 
-class FilesystemAttachments_Plugin extends PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class FilesystemAttachments_Plugin extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
