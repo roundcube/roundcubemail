@@ -5,8 +5,9 @@ namespace Tests\Browser\Settings;
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\Dialog;
 use Tests\Browser\Components\Popupmenu;
+use Tests\Browser\TestCase;
 
-class ResponsesTest extends \Tests\Browser\TestCase
+class ResponsesTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

@@ -3,8 +3,9 @@
 namespace Tests\Browser\Mail;
 
 use Tests\Browser\Components\Dialog;
+use Tests\Browser\TestCase;
 
-class PreviewTest extends \Tests\Browser\TestCase
+class PreviewTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
