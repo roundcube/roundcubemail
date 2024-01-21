@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Makefile: Use phpDocumentor v3.4 for the Framework docs (#9313)
+
+## Release 1.6.6
+
 - Fix regression in handling LDAP search_fields configuration parameter (#9210)
 - Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
 - Fix page jump menu flickering on click (#9196)
