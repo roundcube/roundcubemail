@@ -1,13 +1,16 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+$finder = Finder::create()
     ->in([__DIR__])
     ->exclude(['vendor'])
     ->ignoreDotFiles(false)
     ->name('*.php.dist')
     ->name('*.sh');
 
-return (new PhpCsFixer\Config())
+return (new Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PhpCsFixer' => true,

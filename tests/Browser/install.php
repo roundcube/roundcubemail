@@ -1,6 +1,8 @@
 <?php
 
 use GuzzleHttp\Client as HttpClient;
+use Laravel\Dusk\Console\ChromeDriverCommand;
+use Laravel\Dusk\OperatingSystem;
 
 /*
  +-----------------------------------------------------------------------+
@@ -29,7 +31,7 @@ if (!defined('INSTALL_PATH')) {
 
 require_once INSTALL_PATH . 'program/include/iniset.php';
 
-class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
+class Installer extends ChromeDriverCommand
 {
     /**
      * Execute the console command.
@@ -38,7 +40,7 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
      */
     public function install($version = ''): void
     {
-        $os = Laravel\Dusk\OperatingSystem::id();
+        $os = OperatingSystem::id();
         $version = trim($version);
         $archive = $this->directory . 'chromedriver.zip';
 

@@ -1,5 +1,7 @@
 <?php
 
+use Masterminds\HTML5;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -669,7 +671,7 @@ class rcube_washtml
             try {
                 // disabled_html_ns=true is a workaround for the performance issue
                 // https://github.com/Masterminds/html5-php/issues/181
-                $html5 = new Masterminds\HTML5(['disable_html_ns' => true]);
+                $html5 = new HTML5(['disable_html_ns' => true]);
                 $node  = $html5->loadHTML($this->fix_html5($html));
             } catch (Exception $e) {
                 // ignore, fallback to DOMDocument
