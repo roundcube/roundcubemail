@@ -148,7 +148,7 @@ class rcube_enriched
         $body = self::convert_color($body);
         $body = self::convert_font($body);
         $body = self::convert_excerpt($body);
-        //$body = nl2br($body);
+        // $body = nl2br($body);
 
         return $body;
     }

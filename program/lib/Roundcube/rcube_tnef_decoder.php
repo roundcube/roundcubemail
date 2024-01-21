@@ -590,7 +590,7 @@ class rcube_tnef_decoder
                             $document .= html_entity_decode('&#' . hexdec($hex) . ';');
                         }
 
-                        //Shift the pointer.
+                        // Shift the pointer.
                         $i += 2;
                     } elseif ($nextChar >= 'a' && $nextChar <= 'z' || $nextChar >= 'A' && $nextChar <= 'Z') {
                         // Since, we’ve found the alphabetic character, the next

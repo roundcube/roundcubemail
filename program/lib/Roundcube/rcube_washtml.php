@@ -570,7 +570,7 @@ class rcube_washtml
 
         do {
             switch ($node->nodeType) {
-                case \XML_ELEMENT_NODE: //Check element
+                case \XML_ELEMENT_NODE: // Check element
                     $tagName = strtolower($node->nodeName);
 
                     if ($tagName == 'link') {

@@ -35,7 +35,7 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
         // default message
         $answer = ['error' => 'invalid_request', 'error_description' => 'Error, no action'];
 
-        //Beware we are in back-channel from OP (IDP)
+        // Beware we are in back-channel from OP (IDP)
         $logout_token = rcube_utils::get_input_string('logout_token', rcube_utils::INPUT_POST);
 
         if (!empty($logout_token)) {

@@ -157,7 +157,7 @@ class rcmail_oauth
             'identity_uri'    => $this->rcmail->config->get('oauth_identity_uri'),
             'identity_fields' => $this->rcmail->config->get('oauth_identity_fields', ['email']),
             'user_create_map' => $this->rcmail->config->get('oauth_user_create_map', [
-                //rc key => OIDC Claim @see: https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims )
+                // rc key => OIDC Claim @see: https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims )
                 'user_name' => ['name'],
                 'user_email' => ['email'],
                 'language' => ['locale'],
@@ -228,12 +228,12 @@ class rcmail_oauth
                 $response = $this->http_client->get($config_uri);
                 $data = json_decode($response->getBody(), true);
 
-                //sanity check
+                // sanity check
                 if (!isset($data['issuer'])) {
                     throw new RuntimeException('incorrect response from %s', $config_uri);
                 }
 
-                //cache answer
+                // cache answer
                 if ($this->cache) {
                     $this->cache->set($key_cache, $data);
                 }
@@ -298,7 +298,7 @@ class rcmail_oauth
         $response = $this->http_client->get($jwks_uri);
         $this->jwks = json_decode($response->getBody(), true);
 
-        //sanity check
+        // sanity check
         if (!isset($this->jwks['keys'])) {
             $this->log_debug('incorrect jwks response from %s', $jwks_uri);
         } elseif ($this->cache) {
@@ -420,7 +420,7 @@ class rcmail_oauth
 
         $header = json_decode(static::base64url_decode($headb64), true);
         $body   = json_decode(static::base64url_decode($bodyb64), true);
-        //$crypto = static::base64url_decode($cryptob64);
+        // $crypto = static::base64url_decode($cryptob64);
 
         if ($this->options['jwks_uri']) {
             // jwks_uri defined, will check JWT signature
@@ -807,7 +807,7 @@ class rcmail_oauth
     protected function is_token_revoked($token)
     {
         if ($this->cache === null) {
-            //oops cache not enabled
+            // oops cache not enabled
             return false;
         }
 
@@ -1179,7 +1179,7 @@ class rcmail_oauth
                     $data[$rc_key] = $value;
 
                     $this->log_debug('user_create: setting %s=%s (from claim %s)', $rc_key, $value, $oidc_claim);
-                    break; //no need to continue
+                    break; // no need to continue
                 }
             }
         }
@@ -1200,7 +1200,7 @@ class rcmail_oauth
 
         if ($this->logout_redirect_url) {
             // propagate logout request to the identity provider
-            $this->rcmail->output->redirect($this->logout_redirect_url); //exit
+            $this->rcmail->output->redirect($this->logout_redirect_url); // exit
         }
     }
 
@@ -1230,7 +1230,7 @@ class rcmail_oauth
             $oauth_handler = new rcmail_action_login_oauth_backchannel();
             $oauth_handler->run();
         } elseif ($args['task'] == 'logout') {
-            //handle only logout task
+            // handle only logout task
             $this->handle_logout();
         }
 
@@ -1256,10 +1256,10 @@ class rcmail_oauth
         switch ($this->check_token_validity($_SESSION['oauth_token'])) {
             case self::TOKEN_REFRESHED:
             case self::TOKEN_STILL_VALID:
-                //token still ok or refreshed
+                // token still ok or refreshed
                 break;
             default:
-                //got an error, cannot request IDP to cleanup other sessions
+                // got an error, cannot request IDP to cleanup other sessions
                 return;
         }
 

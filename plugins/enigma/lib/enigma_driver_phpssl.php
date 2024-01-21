@@ -167,7 +167,7 @@ class enigma_driver_phpssl extends enigma_driver
 
         $data = new enigma_signature();
 
-        $data->id          = $cert['hash']; //?
+        $data->id          = $cert['hash']; // ?
         $data->valid       = $validity;
         $data->fingerprint = $cert['serialNumber'];
         $data->created     = $cert['validFrom_time_t'];

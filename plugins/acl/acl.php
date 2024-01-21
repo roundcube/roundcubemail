@@ -556,7 +556,7 @@ class acl extends rcube_plugin
      */
     private function action_delete()
     {
-        $mbox = trim(rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true)); //UTF7-IMAP
+        $mbox = trim(rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true)); // UTF7-IMAP
         $user = trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST));
 
         $user = explode(',', $user);

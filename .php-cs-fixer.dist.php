@@ -105,7 +105,6 @@ return (new Config())
         'no_useless_else' => false,
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_summary' => false,
-        'single_line_comment_spacing' => false,
         'string_length_to_empty' => false,
 
         // TODO - risky
