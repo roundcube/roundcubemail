@@ -215,8 +215,8 @@ class Browser extends \Laravel\Dusk\Browser
         }
 
         $this->script(
-            "var element = jQuery('$selector')[0] || jQuery('input[name=$selector]')[0];"
-            . "element = jQuery(element).next('.custom-control-label'); $run;"
+            "var element = jQuery('{$selector}')[0] || jQuery('input[name={$selector}]')[0];"
+            . "element = jQuery(element).next('.custom-control-label'); {$run};"
         );
 
         return $this;
@@ -227,7 +227,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function readDownloadedFile($filename)
     {
-        $filename = TESTS_DIR . "downloads/$filename";
+        $filename = TESTS_DIR . "downloads/{$filename}";
 
         // Give the browser a chance to finish download
         $n = 0;
@@ -248,7 +248,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function removeDownloadedFile($filename)
     {
-        @unlink(TESTS_DIR . "downloads/$filename");
+        @unlink(TESTS_DIR . "downloads/{$filename}");
 
         return $this;
     }

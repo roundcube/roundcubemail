@@ -543,11 +543,11 @@ class rcube_imap_cache
         $this->db->query(
             "UPDATE {$this->messages_table}"
             . ' SET `expires` = ' . ($this->ttl ? $this->db->now($this->ttl) : 'NULL')
-            . ', `flags` = `flags` ' . ($enabled ? "+ $idx" : "- $idx")
+            . ', `flags` = `flags` ' . ($enabled ? "+ {$idx}" : "- {$idx}")
             . ' WHERE `user_id` = ?'
                 . ' AND `mailbox` = ?'
                 . (!empty($uids) ? ' AND `uid` IN (' . $this->db->array2list($uids, 'integer') . ')' : '')
-                . " AND (`flags` & $idx) = " . ($enabled ? '0' : $idx),
+                . " AND (`flags` & {$idx}) = " . ($enabled ? '0' : $idx),
             $this->userid, $mailbox
         );
     }
@@ -682,13 +682,13 @@ class rcube_imap_cache
         $now   = $db->now();
 
         $db->query('DELETE FROM ' . $db->table_name('cache_messages', true)
-              . " WHERE `expires` < $now");
+              . " WHERE `expires` < {$now}");
 
         $db->query('DELETE FROM ' . $db->table_name('cache_index', true)
-              . " WHERE `expires` < $now");
+              . " WHERE `expires` < {$now}");
 
         $db->query('DELETE FROM ' . $db->table_name('cache_thread', true)
-              . " WHERE `expires` < $now");
+              . " WHERE `expires` < {$now}");
     }
 
     /**
@@ -930,7 +930,7 @@ class rcube_imap_cache
             } else {
                 // get all undeleted messages excluding cached UIDs
                 $existing = rcube_imap_generic::compressMessageSet($object->get());
-                $ids = $this->imap->search_once($mailbox, "ALL UNDELETED NOT UID $existing");
+                $ids = $this->imap->search_once($mailbox, "ALL UNDELETED NOT UID {$existing}");
 
                 if (!$ids->is_empty()) {
                     return false;

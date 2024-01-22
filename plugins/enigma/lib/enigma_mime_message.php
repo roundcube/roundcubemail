@@ -293,17 +293,17 @@ class enigma_mime_message extends Mail_mime
         $this->build_params['boundary'] = $boundary;
 
         if ($this->type == self::PGP_SIGNED) {
-            $headers['Content-Type'] = "multipart/signed;$eol"
-                . " protocol=\"application/pgp-signature\";$eol"
-                . " boundary=\"$boundary\"";
+            $headers['Content-Type'] = "multipart/signed;{$eol}"
+                . " protocol=\"application/pgp-signature\";{$eol}"
+                . " boundary=\"{$boundary}\"";
 
             if ($this->micalg) {
                 $headers['Content-Type'] .= ";{$eol} micalg=pgp-" . $this->micalg;
             }
         } elseif ($this->type == self::PGP_ENCRYPTED) {
-            $headers['Content-Type'] = "multipart/encrypted;$eol"
-                . " protocol=\"application/pgp-encrypted\";$eol"
-                . " boundary=\"$boundary\"";
+            $headers['Content-Type'] = "multipart/encrypted;{$eol}"
+                . " protocol=\"application/pgp-encrypted\";{$eol}"
+                . " boundary=\"{$boundary}\"";
         }
 
         return $headers;

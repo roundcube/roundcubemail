@@ -56,7 +56,7 @@ class rcmail_action_utils_error extends rcmail_action
             $error_text  = nl2br($rcmail->gettext('errnotfoundexplain')
                 . "\n" . $rcmail->gettext('errcontactserveradmin'));
 
-            $error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ": $request_url</i></p>";
+            $error_text .= '<p><i>' . $rcmail->gettext('errfailedrequest') . ": {$request_url}</i></p>";
         }
         // Gone, e.g. message cached but not in the storage
         elseif ($ERROR_CODE == 410) {
@@ -107,7 +107,7 @@ class rcmail_action_utils_error extends rcmail_action
 
         // Ajax request
         if ($rcmail->output && $rcmail->output->type == 'js') {
-            $rcmail->output->sendExit('', ["HTTP/1.0 $HTTP_ERR_CODE $error_title"]);
+            $rcmail->output->sendExit('', ["HTTP/1.0 {$HTTP_ERR_CODE} {$error_title}"]);
         }
 
         // compose page content

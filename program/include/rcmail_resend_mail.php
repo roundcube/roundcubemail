@@ -85,7 +85,7 @@ class rcmail_resend_mail extends Mail_mime
             }
 
             if ($value) {
-                $result[] = "$name: $value";
+                $result[] = "{$name}: {$value}";
             }
         }
 

@@ -92,7 +92,7 @@ class markasjunk_email_learn
                     'X-Sender'   => $from,
                 ];
 
-                $message_text = ($spam ? 'Spam' : 'Ham') . " report from $product";
+                $message_text = ($spam ? 'Spam' : 'Ham') . " report from {$product}";
 
                 // create attachment
                 $orig_subject = $MESSAGE->get_header('subject');

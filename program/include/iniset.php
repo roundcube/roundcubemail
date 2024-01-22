@@ -89,7 +89,7 @@ function rcmail_autoload($classname)
         if (preg_match('/^rcmail_action_([^_]+)_(.*)$/', $classname, $matches)) {
             $filepath = INSTALL_PATH . "program/actions/{$matches[1]}/{$matches[2]}.php";
         } else {
-            $filepath = INSTALL_PATH . "program/include/$classname.php";
+            $filepath = INSTALL_PATH . "program/include/{$classname}.php";
         }
 
         if (is_readable($filepath)) {

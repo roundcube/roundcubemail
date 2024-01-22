@@ -557,7 +557,7 @@ class rcube_imap_generic
                     'The Auth_SASL package is required for DIGEST-MD5 authentication');
             }
 
-            $this->putLine($this->nextTag() . " AUTHENTICATE $type");
+            $this->putLine($this->nextTag() . " AUTHENTICATE {$type}");
             $line = trim($this->readReply());
 
             if ($line[0] == '+') {
@@ -756,9 +756,9 @@ class rcube_imap_generic
             $result = $this->parseResult($line);
         } elseif (($type == 'XOAUTH2') || ($type == 'OAUTHBEARER')) {
             $auth = ($type == 'XOAUTH2')
-                ? base64_encode("user=$user\1auth=$pass\1\1")  // XOAUTH: original extension, still widely used
-                : base64_encode("n,a=$user,\1auth=$pass\1\1"); // OAUTHBEARER: official RFC 7628
-            $this->putLine($this->nextTag() . " AUTHENTICATE $type $auth", true, true);
+                ? base64_encode("user={$user}\1auth={$pass}\1\1")  // XOAUTH: original extension, still widely used
+                : base64_encode("n,a={$user},\1auth={$pass}\1\1"); // OAUTHBEARER: official RFC 7628
+            $this->putLine($this->nextTag() . " AUTHENTICATE {$type} {$auth}", true, true);
 
             $line = trim($this->readReply());
 
@@ -783,7 +783,7 @@ class rcube_imap_generic
             return $this->fp;
         }
 
-        return $this->setError($result, "AUTHENTICATE $type: $line");
+        return $this->setError($result, "AUTHENTICATE {$type}: {$line}");
     }
 
     /**
@@ -970,7 +970,7 @@ class rcube_imap_generic
                 $result = $this->login($user, $password);
                 break;
             default:
-                $this->setError(self::ERROR_BAD, "Configuration error. Unknown auth method: $auth_method");
+                $this->setError(self::ERROR_BAD, "Configuration error. Unknown auth method: {$auth_method}");
         }
 
         // Connected and authenticated
@@ -1024,7 +1024,7 @@ class rcube_imap_generic
             $this->resourceid = strtoupper(substr(md5(microtime() . $host . $this->user), 0, 4));
 
             $_host = ($ssl_mode == 'tls' ? 'tls://' : '') . $host . ':' . $port;
-            $this->debug("Connecting to $_host...");
+            $this->debug("Connecting to {$_host}...");
         }
 
         if (!empty($this->prefs['socket_options'])) {
@@ -1901,7 +1901,7 @@ class rcube_imap_generic
         $criteria = $criteria ? 'ALL ' . trim($criteria) : 'ALL';
 
         [$code, $response] = $this->execute($return_uid ? 'UID SORT' : 'SORT',
-            ["($field)", $encoding, $criteria]);
+            ["({$field})", $encoding, $criteria]);
 
         if ($code != self::ERROR_OK) {
             $response = null;
@@ -2105,7 +2105,7 @@ class rcube_imap_generic
             if ($index_field == 'DATE') {
                 $fields[] = 'INTERNALDATE';
             }
-            $fields[] = "BODY.PEEK[HEADER.FIELDS ($index_field)]";
+            $fields[] = "BODY.PEEK[HEADER.FIELDS ({$index_field})]";
         } elseif ($mode == 2) {
             if ($index_field == 'SIZE') {
                 $fields[] = 'RFC822.SIZE';
@@ -2118,10 +2118,10 @@ class rcube_imap_generic
             $fields[] = 'INTERNALDATE';
         }
 
-        $request = "$key $cmd $message_set (" . implode(' ', $fields) . ')';
+        $request = "{$key} {$cmd} {$message_set} (" . implode(' ', $fields) . ')';
 
         if (!$this->putLine($request)) {
-            $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
+            $this->setError(self::ERROR_COMMAND, "Failed to send {$cmd} command");
             return false;
         }
 
@@ -2206,7 +2206,7 @@ class rcube_imap_generic
     public function UID2ID($mailbox, $uid)
     {
         if ($uid > 0) {
-            $index = $this->search($mailbox, "UID $uid");
+            $index = $this->search($mailbox, "UID {$uid}");
 
             if ($index->count() == 1) {
                 $arr = $index->get();
@@ -2324,7 +2324,7 @@ class rcube_imap_generic
         }
 
         $result = $this->execute('UID STORE',
-            [$this->compressMessageSet($messages), $mod . 'FLAGS.SILENT', "($flag)"],
+            [$this->compressMessageSet($messages), $mod . 'FLAGS.SILENT', "({$flag})"],
             self::COMMAND_NORESPONSE
         );
 
@@ -2443,14 +2443,14 @@ class rcube_imap_generic
 
         $key      = $this->nextTag();
         $cmd      = ($is_uid ? 'UID ' : '') . 'FETCH';
-        $request  = "$key $cmd $message_set (" . implode(' ', $query_items) . ')';
+        $request  = "{$key} {$cmd} {$message_set} (" . implode(' ', $query_items) . ')';
 
         if ($mod_seq !== null && $this->hasCapability('CONDSTORE')) {
-            $request .= " (CHANGEDSINCE $mod_seq" . ($vanished ? ' VANISHED' : '') . ')';
+            $request .= " (CHANGEDSINCE {$mod_seq}" . ($vanished ? ' VANISHED' : '') . ')';
         }
 
         if (!$this->putLine($request)) {
-            $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
+            $this->setError(self::ERROR_COMMAND, "Failed to send {$cmd} command");
             return false;
         }
 
@@ -2759,10 +2759,10 @@ class rcube_imap_generic
 
         // format request
         foreach ($parts as $part) {
-            $peeks[] = "BODY.PEEK[$part.$type]";
+            $peeks[] = "BODY.PEEK[{$part}.{$type}]";
         }
 
-        $request = "$key UID FETCH $uid (" . implode(' ', $peeks) . ')';
+        $request = "{$key} UID FETCH {$uid} (" . implode(' ', $peeks) . ')';
 
         // send request
         if (!$this->putLine($request)) {
@@ -2837,14 +2837,14 @@ class rcube_imap_generic
                 // format request
                 $key       = $this->nextTag();
                 $cmd       = ($is_uid ? 'UID ' : '') . 'FETCH';
-                $request   = "$key $cmd $id ($fetch_mode.PEEK[$part]$partial)";
+                $request   = "{$key} {$cmd} {$id} ({$fetch_mode}.PEEK[{$part}]{$partial})";
                 $result    = false;
                 $found     = false;
                 $initiated = true;
 
                 // send request
                 if (!$this->putLine($request)) {
-                    $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
+                    $this->setError(self::ERROR_COMMAND, "Failed to send {$cmd} command");
                     return false;
                 }
 
@@ -3106,7 +3106,7 @@ class rcube_imap_generic
 
         // build APPEND command
         $key = $this->nextTag();
-        $request = "$key APPEND " . $this->escape($mailbox) . ' (' . $this->flagsToStr($flags) . ')';
+        $request = "{$key} APPEND " . $this->escape($mailbox) . ' (' . $this->flagsToStr($flags) . ')';
         if (!empty($date)) {
             $request .= ' ' . $this->escape($date);
         }
@@ -3195,7 +3195,7 @@ class rcube_imap_generic
         }
 
         if (empty($fp)) {
-            $this->setError(self::ERROR_UNKNOWN, "Couldn't open $path for reading");
+            $this->setError(self::ERROR_UNKNOWN, "Couldn't open {$path} for reading");
             return false;
         }
 
@@ -3841,7 +3841,7 @@ class rcube_imap_generic
         if (!$this->putLineC($query, true, $options & self::COMMAND_ANONYMIZED)) {
             preg_match('/^[A-Z0-9]+ ((UID )?[A-Z]+)/', $query, $matches);
             $cmd = $matches[1] ?: 'UNKNOWN';
-            $this->setError(self::ERROR_COMMAND, "Failed to send $cmd command");
+            $this->setError(self::ERROR_COMMAND, "Failed to send {$cmd} command");
 
             return $noresp ? self::ERROR_COMMAND : [self::ERROR_COMMAND, ''];
         }
@@ -3885,7 +3885,7 @@ class rcube_imap_generic
 
         // return last line only (without command tag, result and response code)
         if ($line && ($options & self::COMMAND_LASTLINE)) {
-            $response = preg_replace("/^$tag (OK|NO|BAD|BYE|PREAUTH)?\\s*(\\[[a-z-]+\\])?\\s*/i", '', trim($line));
+            $response = preg_replace("/^{$tag} (OK|NO|BAD|BYE|PREAUTH)?\\s*(\\[[a-z-]+\\])?\\s*/i", '', trim($line));
         }
 
         return $noresp ? $code : [$code, $response];
@@ -4214,7 +4214,7 @@ class rcube_imap_generic
         if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
             $diff    = $len - self::DEBUG_LINE_LENGTH;
             $message = substr($message, 0, self::DEBUG_LINE_LENGTH)
-                . "... [truncated $diff bytes]";
+                . "... [truncated {$diff} bytes]";
         }
 
         if ($this->resourceid) {
@@ -4224,7 +4224,7 @@ class rcube_imap_generic
         if ($this->debug_handler) {
             call_user_func_array($this->debug_handler, [$this, $message]);
         } else {
-            echo "DEBUG: $message\n";
+            echo "DEBUG: {$message}\n";
         }
     }
 }

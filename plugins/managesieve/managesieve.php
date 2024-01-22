@@ -99,9 +99,9 @@ class managesieve extends rcube_plugin
         // include styles
         $skin_path = $this->local_skin_path();
         if ($sieve_action || ($this->rc->task == 'settings' && empty($_REQUEST['_framed']))) {
-            $this->include_stylesheet("$skin_path/managesieve.css");
+            $this->include_stylesheet("{$skin_path}/managesieve.css");
         } elseif ($this->rc->task == 'mail') {
-            $this->include_stylesheet("$skin_path/managesieve_mail.css");
+            $this->include_stylesheet("{$skin_path}/managesieve_mail.css");
         }
 
         $this->ui_initialized = true;

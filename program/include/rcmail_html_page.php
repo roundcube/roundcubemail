@@ -73,7 +73,7 @@ class rcmail_html_page extends rcmail_output_html
         $text = html::span(null, $text);
 
         if ($button_label) {
-            $onclick = "location.href = '$button_url'";
+            $onclick = "location.href = '{$button_url}'";
             $button  = html::tag('button', ['onclick' => $onclick], rcube::Q($button_label));
             $text   .= html::p(['class' => 'rcmail-inline-buttons'], $button);
         }

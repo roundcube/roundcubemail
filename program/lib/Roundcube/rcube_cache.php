@@ -63,13 +63,13 @@ class rcube_cache
     public static function factory($type, $userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
         $driver = strtolower($type) ?: 'db';
-        $class  = "rcube_cache_$driver";
+        $class  = "rcube_cache_{$driver}";
 
         if (!$driver || !class_exists($class)) {
             rcube::raise_error([
                 'code' => 600, 'type' => 'db',
                 'line' => __LINE__, 'file' => __FILE__,
-                'message' => "Configuration error. Unsupported cache driver: $driver",
+                'message' => "Configuration error. Unsupported cache driver: {$driver}",
             ], true, true);
         }
 
@@ -256,7 +256,7 @@ class rcube_cache
             // For example for key 'mailboxes.123456789' we check entries:
             // 'EXP:*', 'EXP:mailboxes' and 'EXP:mailboxes.123456789'.
             if ($timestamp) {
-                $path     = explode('.', "*.$key");
+                $path     = explode('.', "*.{$key}");
                 $path_len = min(self::MAX_EXP_LEVEL + 1, count($path));
 
                 for ($x = 1; $x <= $path_len; $x++) {
@@ -473,7 +473,7 @@ class rcube_cache
 
         // don't attempt to write too big data sets
         if ($size > $this->max_packet_size()) {
-            trigger_error("rcube_cache: max_packet_size ($this->max_packet) exceeded for key $key. Tried to write $size bytes", \E_USER_WARNING);
+            trigger_error("rcube_cache: max_packet_size ({$this->max_packet}) exceeded for key {$key}. Tried to write {$size} bytes", \E_USER_WARNING);
             return false;
         }
 

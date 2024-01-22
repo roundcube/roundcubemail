@@ -180,7 +180,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         unset($attrib['form'], $attrib['id']);
 
         // return the complete edit form as table
-        $out = "$form_start\n";
+        $out = "{$form_start}\n";
 
         foreach ($form as $fieldset) {
             if (empty($fieldset['content'])) {

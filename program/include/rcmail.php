@@ -375,7 +375,7 @@ class rcmail extends rcube
                 'code'    => 700,
                 'file'    => __FILE__,
                 'line'    => __LINE__,
-                'message' => "Addressbook source ($id) not found!",
+                'message' => "Addressbook source ({$id}) not found!",
             ], true, true);
         }
 
@@ -807,7 +807,7 @@ class rcmail extends rcube
                 'code'    => 621,
                 'file'    => __FILE__,
                 'line'    => __LINE__,
-                'message' => "Access denied for new user $username. 'auto_create_user' is disabled",
+                'message' => "Access denied for new user {$username}. 'auto_create_user' is disabled",
             ], true, false);
         }
 
@@ -911,7 +911,7 @@ class rcmail extends rcube
 
         if ($task && !in_array($task, ['login', 'logout']) && !empty($_COOKIE[ini_get('session.name')])) {
             $sess_id = $_COOKIE[ini_get('session.name')];
-            $log     = "Aborted session $sess_id; no valid session data found";
+            $log     = "Aborted session {$sess_id}; no valid session data found";
             $error   = 'sessionerror';
 
             // In rare cases web browser might end up with multiple cookies of the same name
@@ -1198,7 +1198,7 @@ class rcmail extends rcube
                 }
             }
 
-            $log = $this->task . ($this->action ? '/' . $this->action : '') . (isset($mem) ? " [$mem]" : '');
+            $log = $this->task . ($this->action ? '/' . $this->action : '') . (isset($mem) ? " [{$mem}]" : '');
 
             if (defined('RCMAIL_START')) {
                 self::print_timer(RCMAIL_START, $log);

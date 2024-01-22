@@ -103,12 +103,12 @@ class rcube_session_db extends rcube_session
     {
         if ($this->lifetime) {
             $expire_time  = $this->db->now(-$this->lifetime);
-            $expire_check = "CASE WHEN `changed` < $expire_time THEN 1 ELSE 0 END AS expired";
+            $expire_check = "CASE WHEN `changed` < {$expire_time} THEN 1 ELSE 0 END AS expired";
         }
 
         $sql_result = $this->db->query(
             'SELECT `vars`, `ip`, `changed`, ' . $this->db->now() . ' AS ts'
-            . (isset($expire_check) ? ", $expire_check" : '')
+            . (isset($expire_check) ? ", {$expire_check}" : '')
             . " FROM {$this->table_name} WHERE `sess_id` = ?", $key
         );
 
@@ -152,7 +152,7 @@ class rcube_session_db extends rcube_session
 
         $this->db->query("INSERT INTO {$this->table_name}"
             . ' (`sess_id`, `vars`, `ip`, `changed`)'
-            . " VALUES (?, ?, ?, $now)",
+            . " VALUES (?, ?, ?, {$now})",
             $key, base64_encode($vars), (string) $this->ip
         );
 
@@ -177,10 +177,10 @@ class rcube_session_db extends rcube_session
         // else update expire timestamp only when certain conditions are met
         if ($newvars !== $oldvars) {
             $this->db->query("UPDATE {$this->table_name} "
-                . "SET `changed` = $now, `vars` = ? WHERE `sess_id` = ?",
+                . "SET `changed` = {$now}, `vars` = ? WHERE `sess_id` = ?",
                 base64_encode($newvars), $key);
         } elseif ($ts - $this->changed > $this->lifetime / 2) {
-            $this->db->query("UPDATE {$this->table_name} SET `changed` = $now"
+            $this->db->query("UPDATE {$this->table_name} SET `changed` = {$now}"
                 . ' WHERE `sess_id` = ?', $key);
         }
 

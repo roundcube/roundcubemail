@@ -476,7 +476,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($input as $idx => $value) {
-            $this->assertFalse(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
+            $this->assertFalse(rcube_utils::get_boolean($value), "Invalid result for {$idx} test item");
         }
 
         $input = [
@@ -484,7 +484,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($input as $idx => $value) {
-            $this->assertTrue(rcube_utils::get_boolean($value), "Invalid result for $idx test item");
+            $this->assertTrue(rcube_utils::get_boolean($value), "Invalid result for {$idx} test item");
         }
     }
 
@@ -546,7 +546,7 @@ class Framework_Utils extends TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::strtotime($datetime);
-            $this->assertSame($ts, $result, "Error parsing date: $datetime");
+            $this->assertSame($ts, $result, "Error parsing date: {$datetime}");
         }
     }
 
@@ -573,7 +573,7 @@ class Framework_Utils extends TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
-            $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: $datetime");
+            $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: {$datetime}");
         }
 
         $test = [
@@ -583,7 +583,7 @@ class Framework_Utils extends TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
-            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s') : false, "Error parsing date: $datetime");
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s') : false, "Error parsing date: {$datetime}");
         }
 
         $test = [
@@ -592,7 +592,7 @@ class Framework_Utils extends TestCase
 
         foreach ($test as $datetime => $ts) {
             $result = rcube_utils::anytodatetime($datetime);
-            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s O') : false, "Error parsing date: $datetime");
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s O') : false, "Error parsing date: {$datetime}");
         }
     }
 
@@ -616,7 +616,7 @@ class Framework_Utils extends TestCase
                 // move to target timezone for comparison
                 $result->setTimezone($tz);
             }
-            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: $datetime");
+            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: {$datetime}");
         }
     }
 
@@ -678,7 +678,7 @@ class Framework_Utils extends TestCase
 
         foreach ($test as $input => $output) {
             $result = rcube_utils::normalize_string($input);
-            $this->assertSame($output, $result, "Error normalizing '$input'");
+            $this->assertSame($output, $result, "Error normalizing '{$input}'");
         }
     }
 
@@ -701,7 +701,7 @@ class Framework_Utils extends TestCase
 
         foreach ($test as $idx => $params) {
             $result = rcube_utils::words_match($params[0], $params[1]);
-            $this->assertSame($params[2], $result, "words_match() at index $idx");
+            $this->assertSame($params[2], $result, "words_match() at index {$idx}");
         }
     }
 

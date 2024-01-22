@@ -50,7 +50,7 @@ foreach ($config as $optname => $optval) {
     $ini_optval = filter_var(ini_get($optname), is_bool($optval) ? \FILTER_VALIDATE_BOOLEAN : \FILTER_VALIDATE_INT);
     if ($optval != $ini_optval && @ini_set($optname, $optval) === false) {
         $optval = !is_bool($optval) ? $optval : ($optval ? 'On' : 'Off');
-        $error  = "ERROR: Wrong '$optname' option value and it wasn't possible to set it to required value ($optval).\n"
+        $error  = "ERROR: Wrong '{$optname}' option value and it wasn't possible to set it to required value ({$optval}).\n"
             . 'Check your PHP configuration (including php_admin_flag).';
 
         if (defined('STDERR')) {
@@ -94,7 +94,7 @@ mb_regex_encoding(RCUBE_CHARSET);
 // make sure the Roundcube lib directory is in the include_path
 $rcube_path = realpath(RCUBE_LIB_DIR . '..');
 $sep        = \PATH_SEPARATOR;
-$regexp     = "!(^|$sep)" . preg_quote($rcube_path, '!') . "($sep|\$)!";
+$regexp     = "!(^|{$sep})" . preg_quote($rcube_path, '!') . "({$sep}|\$)!";
 $path       = ini_get('include_path');
 
 if (!preg_match($regexp, $path)) {
@@ -323,7 +323,7 @@ function array_first($array)
 function asciiwords($str, $css_id = false, $replace_with = '')
 {
     $allowed = 'a-z0-9\_\-' . (!$css_id ? '\.' : '');
-    return preg_replace("/[^$allowed]+/i", $replace_with, (string) $str);
+    return preg_replace("/[^{$allowed}]+/i", $replace_with, (string) $str);
 }
 
 /**
@@ -358,7 +358,7 @@ function format_email_recipient($email, $name = '')
             $name = '"' . addcslashes($name, '"') . '"';
         }
 
-        return "$name <$email>";
+        return "{$name} <{$email}>";
     }
 
     return $email;
@@ -432,9 +432,9 @@ function rcube_autoload($classname)
     //      -> Sabre/VObject/Reader.php
     $classname = str_replace('\\', '/', $classname);
 
-    if ($fp = @fopen("$classname.php", 'r', true)) {
+    if ($fp = @fopen("{$classname}.php", 'r', true)) {
         fclose($fp);
-        include_once "$classname.php";
+        include_once "{$classname}.php";
         return true;
     }
 

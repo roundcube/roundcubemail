@@ -30,8 +30,8 @@ if (empty($opts['dir'])) {
 
     $dir     = INSTALL_PATH . 'skins';
     $dir_p   = INSTALL_PATH . 'plugins';
-    $skins   = glob("$dir/*", \GLOB_ONLYDIR);
-    $skins_p = glob("$dir_p/*/skins/*", \GLOB_ONLYDIR);
+    $skins   = glob("{$dir}/*", \GLOB_ONLYDIR);
+    $skins_p = glob("{$dir_p}/*/skins/*", \GLOB_ONLYDIR);
 
     $dirs = array_merge($skins, $skins_p);
 }
@@ -56,13 +56,13 @@ foreach ($dirs as $dir) {
     // build regexps array
     foreach ($images as $path => $sum) {
         $path_ex   = str_replace('.', '\\.', $path);
-        $find[]    = "#url\\(['\"]?images/$path_ex(\\?v=[a-f0-9-\\.]+)?['\"]?\\)#";
-        $replace[] = "url(images/$path?v=$sum)";
+        $find[]    = "#url\\(['\"]?images/{$path_ex}(\\?v=[a-f0-9-\\.]+)?['\"]?\\)#";
+        $replace[] = "url(images/{$path}?v={$sum})";
     }
 
     foreach ($files as $file) {
         $file    = $dir . '/' . $file;
-        echo "File: $file\n";
+        echo "File: {$file}\n";
         $content = file_get_contents($file);
         $content = preg_replace($find, $replace, $content, -1, $count);
         if ($count) {
@@ -78,9 +78,9 @@ function get_images($dir)
 
     while ($file = readdir($dh)) {
         if (preg_match('/^(.+)\.(gif|ico|png|jpg|jpeg)$/', $file, $m)) {
-            $filepath = "$dir/$file";
+            $filepath = "{$dir}/{$file}";
             $images[$file] = substr(md5_file($filepath), 0, 4) . '.' . filesize($filepath);
-            echo "Image: $filepath ({$images[$file]})\n";
+            echo "Image: {$filepath} ({$images[$file]})\n";
         } elseif ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
             foreach (get_images($dir . '/' . $file) as $img => $sum) {
                 $images[$file . '/' . $img] = $sum;

@@ -130,7 +130,7 @@ class Framework_Mime extends TestCase
         foreach ($headers as $idx => $header) {
             $res = rcube_mime::decode_address_list($header);
 
-            $this->assertSame($results[$idx], $res, "Decode address groups (#$idx)");
+            $this->assertSame($results[$idx], $res, "Decode address groups (#{$idx})");
         }
     }
 

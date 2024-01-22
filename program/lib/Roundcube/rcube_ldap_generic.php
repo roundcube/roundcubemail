@@ -148,7 +148,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function mod_replace($dn, $entry)
     {
-        $this->_debug("C: Replace $dn: " . print_r($entry, true));
+        $this->_debug("C: Replace {$dn}: " . print_r($entry, true));
 
         if (!ldap_mod_replace($this->conn, $dn, $entry)) {
             $this->_error('ldap_mod_replace() failed with ' . ldap_error($this->conn));
@@ -166,7 +166,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function mod_add($dn, $entry)
     {
-        $this->_debug("C: Add $dn: " . print_r($entry, true));
+        $this->_debug("C: Add {$dn}: " . print_r($entry, true));
 
         if (!ldap_mod_add($this->conn, $dn, $entry)) {
             $this->_error('ldap_mod_add() failed with ' . ldap_error($this->conn));
@@ -184,7 +184,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function mod_del($dn, $entry)
     {
-        $this->_debug("C: Delete $dn: " . print_r($entry, true));
+        $this->_debug("C: Delete {$dn}: " . print_r($entry, true));
 
         if (!ldap_mod_del($this->conn, $dn, $entry)) {
             $this->_error('ldap_mod_del() failed with ' . ldap_error($this->conn));
@@ -202,7 +202,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function rename($dn, $newrdn, $newparent = null, $deleteoldrdn = true)
     {
-        $this->_debug("C: Rename $dn to $newrdn");
+        $this->_debug("C: Rename {$dn} to {$newrdn}");
 
         if (!ldap_rename($this->conn, $dn, $newrdn, $newparent, $deleteoldrdn)) {
             $this->_error('ldap_rename() failed with ' . ldap_error($this->conn));
@@ -221,7 +221,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function list_entries($dn, $filter, $attributes = ['dn'])
     {
-        $this->_debug("C: List $dn [{$filter}]");
+        $this->_debug("C: List {$dn} [{$filter}]");
 
         if ($result = ldap_list($this->conn, $dn, $filter, $attributes)) {
             $list = ldap_get_entries($this->conn, $result);
@@ -234,7 +234,7 @@ class rcube_ldap_generic extends Net_LDAP3
             $count = $list['count'];
             unset($list['count']);
 
-            $this->_debug("S: $count record(s)");
+            $this->_debug("S: {$count} record(s)");
         } else {
             $list = [];
             $this->_error('ldap_list() failed with ' . ldap_error($this->conn));
@@ -251,7 +251,7 @@ class rcube_ldap_generic extends Net_LDAP3
      */
     public function read_entries($dn, $filter, $attributes = null)
     {
-        $this->_debug("C: Read $dn [{$filter}]");
+        $this->_debug("C: Read {$dn} [{$filter}]");
 
         if ($this->conn && $dn) {
             $result = @ldap_read($this->conn, $dn, $filter, $attributes, 0, (int) $this->config['sizelimit'], (int) $this->config['timelimit']);
@@ -339,7 +339,7 @@ class rcube_ldap_generic extends Net_LDAP3
             $parts = [];
 
             foreach ($attributes as $attr) {
-                $parts[] = "($attr=$wp" . self::quote_string($word) . "$ws)";
+                $parts[] = "({$attr}={$wp}" . self::quote_string($word) . "{$ws})";
             }
 
             $groups[] = '(|' . implode('', $parts) . ')';

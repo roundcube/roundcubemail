@@ -105,10 +105,10 @@ class zipdownload extends rcube_plugin
 
         foreach (['eml', 'mbox', 'maildir'] as $type) {
             $menu[] = html::tag('li', null, $rcmail->output->button([
-                    'command'  => "download-$type",
-                    'label'    => "zipdownload.download$type",
-                    'class'    => "download $type disabled",
-                    'classact' => "download $type active",
+                    'command'  => "download-{$type}",
+                    'label'    => "zipdownload.download{$type}",
+                    'class'    => "download {$type} disabled",
+                    'classact' => "download {$type} active",
                     'type'     => 'link',
                 ])
             );
@@ -279,7 +279,7 @@ class zipdownload extends rcube_plugin
                     $subject = $this->_convert_filename($subject);
 
                     $path      = $folders ? str_replace($delimiter, '/', $mbox) . '/' : '';
-                    $disp_name = $path . $uid . ($subject ? " $subject" : '') . '.eml';
+                    $disp_name = $path . $uid . ($subject ? " {$subject}" : '') . '.eml';
 
                     $messages[$uid . ':' . $mbox] = $disp_name;
                 }

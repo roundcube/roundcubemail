@@ -31,7 +31,7 @@ $cfgfile = INSTALL_PATH . 'jsdeps.json';
 $SOURCES = json_decode(file_get_contents($cfgfile), true);
 
 if (empty($SOURCES['dependencies'])) {
-    rcube::raise_error("Failed to read dependencies list from $cfgfile", false, true);
+    rcube::raise_error("Failed to read dependencies list from {$cfgfile}", false, true);
 }
 
 $CURL   = trim(shell_exec('which curl'));
@@ -116,7 +116,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 
         $url = str_replace('$v', $package['version'], $package['url']);
 
-        echo "Fetching $url\n";
+        echo "Fetching {$url}\n";
 
         if ($CURL) {
             exec(sprintf('%s -L -s %s -o %s', $CURL, escapeshellarg($url), $cache_file), $out, $retval);
@@ -129,7 +129,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
             $url    = str_replace('$v', $package['version'], $package['api_url']);
             $header = 'Accept:application/vnd.github.v3.raw';
 
-            rcube::raise_error("Fetching failed. Using Github API on $url");
+            rcube::raise_error("Fetching failed. Using Github API on {$url}");
 
             if ($CURL) {
                 exec(sprintf('%s -L -H %s -s %s -o %s', $CURL, escapeshellarg($header), escapeshellarg($url), $cache_file), $out, $retval);
@@ -139,7 +139,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
         }
 
         if ($retval !== 0) {
-            rcube::raise_error("Failed to download source file from $url", false, true);
+            rcube::raise_error("Failed to download source file from {$url}", false, true);
         }
     }
 
@@ -218,7 +218,7 @@ function extract_zipfile($package, $srcfile)
     }
 
     if (!is_writable($destdir)) {
-        rcube::raise_error("Cannot write to destination directory: $destdir", false, true);
+        rcube::raise_error("Cannot write to destination directory: {$destdir}", false, true);
     }
 
     if (!empty($package['map'])) {
@@ -234,11 +234,11 @@ function extract_zipfile($package, $srcfile)
     // map source to dest files/directories
     if (!empty($package['map'])) {
         // get the root folder of the extracted package
-        $extract_tree = glob("$extract/*", \GLOB_ONLYDIR);
+        $extract_tree = glob("{$extract}/*", \GLOB_ONLYDIR);
         $sourcedir    = count($extract_tree) ? $extract_tree[0] : $extract;
 
         foreach ($package['map'] as $src => $dest) {
-            echo "Installing $sourcedir/$src into $destdir/$dest\n";
+            echo "Installing {$sourcedir}/{$src} into {$destdir}/{$dest}\n";
 
             $dest_file = $destdir . '/' . $dest;
             $src_file  = $sourcedir . '/' . $src;
@@ -258,7 +258,7 @@ function extract_zipfile($package, $srcfile)
 
             exec(sprintf('mv -f %s %s', $src_file, $dest_file), $out, $retval);
             if ($retval !== 0) {
-                rcube::raise_error("Failed to move $src into $dest_file; " . implode('; ', $out));
+                rcube::raise_error("Failed to move {$src} into {$dest_file}; " . implode('; ', $out));
             }
             // Remove sourceMappingURL
             elseif (isset($package['sourcemap']) && $package['sourcemap'] === false) {
@@ -351,7 +351,7 @@ foreach ($SOURCES['dependencies'] as $package) {
     }
 
     if (!empty($package['sha1']) && ($sum = sha1_file($srcfile)) !== $package['sha1']) {
-        rcube::raise_error("Incorrect sha1 sum of $srcfile. Expected: {$package['sha1']}, got: $sum", false, true);
+        rcube::raise_error("Incorrect sha1 sum of {$srcfile}. Expected: {$package['sha1']}, got: {$sum}", false, true);
     }
 
     if ($args['extract']) {

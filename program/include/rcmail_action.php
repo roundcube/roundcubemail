@@ -378,7 +378,7 @@ abstract class rcmail_action
         }
 
         foreach ($lang_codes as $code) {
-            if (file_exists("$assets_dir/program/js/tinymce/langs/$code.js")) {
+            if (file_exists("{$assets_dir}/program/js/tinymce/langs/{$code}.js")) {
                 $lang = $code;
                 break;
             }
@@ -414,10 +414,10 @@ abstract class rcmail_action
         $style       = [];
 
         if ($font_family) {
-            $style[] = "font-family: $font_family;";
+            $style[] = "font-family: {$font_family};";
         }
         if ($font_size) {
-            $style[] = "font-size: $font_size;";
+            $style[] = "font-size: {$font_size};";
         }
         if (!empty($style)) {
             $config['content_style'] = 'body {' . implode(' ', $style) . '}';
@@ -434,7 +434,7 @@ abstract class rcmail_action
 
         if (!empty($editorId)) {
             $script = rcmail_output::JS_OBJECT_NAME . ".enable_command('toggle-editor', true);"
-                . rcmail_output::JS_OBJECT_NAME . ".editor_init(null, '$editorId');";
+                . rcmail_output::JS_OBJECT_NAME . ".editor_init(null, '{$editorId}');";
 
             $rcmail->output->add_script($script, 'docready');
         }
@@ -514,7 +514,7 @@ abstract class rcmail_action
         // set defaults
         $attrib += ['id' => 'rcmUploadbox', 'buttons' => 'yes'];
 
-        $event   = rcmail_output::JS_OBJECT_NAME . ".command('$action', this.form)";
+        $event   = rcmail_output::JS_OBJECT_NAME . ".command('{$action}', this.form)";
         $form_id = $attrib['id'] . 'Frm';
 
         // Default attributes of file input and form
@@ -538,7 +538,7 @@ abstract class rcmail_action
             $input_attr = array_merge($input_attr, [
                 // #5854: Chrome does not execute onchange when selecting the same file.
                 //        To fix this we reset the input using null value.
-                'onchange' => "$event; this.value=null",
+                'onchange' => "{$event}; this.value=null",
                 'class'    => 'smart-upload',
                 'tabindex' => '-1',
             ]);
@@ -838,7 +838,7 @@ abstract class rcmail_action
     public static function get_resource_content($name)
     {
         if (strpos($name, '/') !== 0) {
-            $name = "program/resources/$name";
+            $name = "program/resources/{$name}";
         }
 
         $assets_dir = rcmail::get_instance()->config->get('assets_dir');
@@ -1309,7 +1309,7 @@ abstract class rcmail_action
                     foreach ($ns as $root) {
                         $root = substr($root[0], 0, -1);
                         if (strlen($root) && !isset($classes[$root])) {
-                            $classes[$root] = "ns-$ns_name";
+                            $classes[$root] = "ns-{$ns_name}";
                         }
                     }
                 }

@@ -129,7 +129,7 @@ class rcmail_action_mail_import extends rcmail_action
                 $entry    = $zip->getNameIndex($i);
                 $tmpfname = rcube_utils::temp_filename('zipimport');
 
-                if (copy("zip://$path#$entry", $tmpfname)) {
+                if (copy("zip://{$path}#{$entry}", $tmpfname)) {
                     $ctype = rcube_mime::file_content_type($tmpfname, $entry);
                     [$mtype_primary] = explode('/', $ctype);
 
@@ -186,7 +186,7 @@ class rcmail_action_mail_import extends rcmail_action
             return true;
         }
 
-        rcube::raise_error("Failed to import message to $folder", true, false);
+        rcube::raise_error("Failed to import message to {$folder}", true, false);
 
         return false;
     }

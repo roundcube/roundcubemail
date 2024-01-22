@@ -280,7 +280,7 @@ class rcube_result_thread
             preg_quote(self::SEPARATOR_ITEM, '/'),
         ]);
 
-        if (preg_match("/($begin)$msgid($end)/", $this->raw_data, $m,
+        if (preg_match("/({$begin}){$msgid}({$end})/", $this->raw_data, $m,
             $get_index ? \PREG_OFFSET_CAPTURE : 0)
         ) {
             if ($get_index) {
@@ -375,7 +375,7 @@ class rcube_result_thread
                 // get chunk of data after previous element
                 $data = substr($this->raw_data, $this->meta['pos'][$index - 1] + 1, 50);
                 $data = preg_replace('/^[0-9]+/', '', $data); // remove UID at $index position
-                $data = preg_replace("/^$regexp/", '', $data); // remove separator
+                $data = preg_replace("/^{$regexp}/", '', $data); // remove separator
                 if (preg_match('/^([0-9]+)/', $data, $m)) {
                     $result = $m[1];
                 }
@@ -384,7 +384,7 @@ class rcube_result_thread
                 $pos  = max(0, $this->meta['pos'][$index + 1] - 50);
                 $len  = min(50, $this->meta['pos'][$index + 1]);
                 $data = substr($this->raw_data, $pos, $len);
-                $data = preg_replace("/$regexp\$/", '', $data); // remove separator
+                $data = preg_replace("/{$regexp}\$/", '', $data); // remove separator
 
                 if (preg_match('/([0-9]+)$/', $data, $m)) {
                     $result = $m[1];

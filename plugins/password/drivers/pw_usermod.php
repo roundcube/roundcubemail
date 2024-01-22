@@ -37,7 +37,7 @@ class rcube_pw_usermod_password
         $cmd .= ' ' . escapeshellarg($username) . ' > /dev/null';
 
         $handle = popen($cmd, 'w');
-        fwrite($handle, "$newpass\n");
+        fwrite($handle, "{$newpass}\n");
 
         if (pclose($handle) == 0) {
             return PASSWORD_SUCCESS;
@@ -47,7 +47,7 @@ class rcube_pw_usermod_password
             'code' => 600,
             'file' => __FILE__,
             'line' => __LINE__,
-            'message' => "Password plugin: Unable to execute $cmd",
+            'message' => "Password plugin: Unable to execute {$cmd}",
         ], true, false);
 
         return PASSWORD_ERROR;

@@ -116,7 +116,7 @@ class rcube_mime
                 $string = '';
 
                 if ($name && $address && $name != $address) {
-                    $string = sprintf('%s <%s>', preg_match("/$special_chars/", $name) ? '"' . addcslashes($name, '"') . '"' : $name, $address);
+                    $string = sprintf('%s <%s>', preg_match("/{$special_chars}/", $name) ? '"' . addcslashes($name, '"') . '"' : $name, $address);
                 } elseif ($address) {
                     $string = $address;
                 } elseif ($name) {
@@ -571,7 +571,7 @@ class rcube_mime
                     }
 
                     $prefix = str_repeat('>', $level) . ' ';
-                    $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n$prefix", false, $charset);
+                    $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n{$prefix}", false, $charset);
                 } elseif ($line) {
                     $line = self::wordwrap(rtrim($line), $length - 2, " \r\n", false, $charset);
                     // space-stuffing

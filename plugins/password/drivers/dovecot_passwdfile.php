@@ -53,7 +53,7 @@ class rcube_dovecot_passwdfile_password
         if (empty($fp)) {
             rcube::raise_error([
                 'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Unable to read password file $mailuserfile.",
+                'message' => "Password plugin: Unable to read password file {$mailuserfile}.",
             ], true, false);
 
             return PASSWORD_CONNECT_ERROR;
@@ -62,7 +62,7 @@ class rcube_dovecot_passwdfile_password
         if (flock($fp, \LOCK_EX)) {
             // Read the file and replace the user password
             while (($line = fgets($fp, 40960)) !== false) {
-                if (strpos($line, "$username:") === 0) {
+                if (strpos($line, "{$username}:") === 0) {
                     $tokens    = explode(':', $line);
                     $tokens[1] = $password;
                     $line      = implode(':', $tokens);
@@ -84,7 +84,7 @@ class rcube_dovecot_passwdfile_password
 
         rcube::raise_error([
             'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-            'message' => "Password plugin: Failed to save file $mailuserfile.",
+            'message' => "Password plugin: Failed to save file {$mailuserfile}.",
         ], true, false);
 
         return PASSWORD_ERROR;

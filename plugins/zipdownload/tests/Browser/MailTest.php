@@ -103,7 +103,7 @@ class MailTest extends TestCase
      */
     private function getFilesFromZip($filename)
     {
-        $filename = TESTS_DIR . "downloads/$filename";
+        $filename = TESTS_DIR . "downloads/{$filename}";
 
         // Give the browser a chance to finish download
         if (!file_exists($filename)) {

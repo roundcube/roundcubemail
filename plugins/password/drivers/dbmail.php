@@ -38,7 +38,7 @@ class rcube_dbmail_password
         $username = escapeshellarg($username);
         $password = escapeshellarg($newpass);
         $args     = rcmail::get_instance()->config->get('password_dbmail_args', '');
-        $command  = "$curdir/chgdbmailusers -c $username -w $password $args";
+        $command  = "{$curdir}/chgdbmailusers -c {$username} -w {$password} {$args}";
 
         exec($command, $output, $return_value);
 
@@ -50,7 +50,7 @@ class rcube_dbmail_password
             'code' => 600,
             'file' => __FILE__,
             'line' => __LINE__,
-            'message' => "Password plugin: Unable to execute $curdir/chgdbmailusers",
+            'message' => "Password plugin: Unable to execute {$curdir}/chgdbmailusers",
         ], true, false);
 
         return PASSWORD_ERROR;

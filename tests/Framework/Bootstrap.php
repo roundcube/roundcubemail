@@ -67,7 +67,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = parse_bytes($value);
-            $this->assertSame($expected, $result, "Invalid parse_bytes() result for $value");
+            $this->assertSame($expected, $result, "Invalid parse_bytes() result for {$value}");
         }
 
         $this->assertFalse(parse_bytes(null));
@@ -89,7 +89,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = slashify($value);
-            $this->assertSame($expected, $result, "Invalid slashify() result for $value");
+            $this->assertSame($expected, $result, "Invalid slashify() result for {$value}");
         }
     }
 
@@ -110,7 +110,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = unslashify($value);
-            $this->assertSame($expected, $result, "Invalid unslashify() result for $value");
+            $this->assertSame($expected, $result, "Invalid unslashify() result for {$value}");
         }
     }
 
@@ -131,7 +131,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = get_offset_sec($value);
-            $this->assertSame($expected, $result, "Invalid get_offset_sec() result for $value");
+            $this->assertSame($expected, $result, "Invalid get_offset_sec() result for {$value}");
         }
     }
 
@@ -206,7 +206,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = format_email($value);
-            $this->assertSame($expected, $result, "Invalid format_email() result for $value");
+            $this->assertSame($expected, $result, "Invalid format_email() result for {$value}");
         }
     }
 

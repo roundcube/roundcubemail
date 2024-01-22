@@ -47,7 +47,7 @@ class OutputHtmlMock extends rcmail_output_html
         $location = $this->app->url($p, false, false, $secure);
 
         // header('Location: ' . $location);
-        throw new ExitException("Location: $location", self::E_REDIRECT);
+        throw new ExitException("Location: {$location}", self::E_REDIRECT);
     }
 
     /**

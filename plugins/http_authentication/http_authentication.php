@@ -84,7 +84,7 @@ class http_authentication extends rcube_plugin
         // redirect to configured URL in order to clear HTTP auth credentials
         if (!empty($_SERVER['PHP_AUTH_USER']) && $args['user'] == $_SERVER['PHP_AUTH_USER']) {
             if ($url = rcmail::get_instance()->config->get('logout_url')) {
-                header("Location: $url", true, 307);
+                header("Location: {$url}", true, 307);
                 exit;
             }
         }

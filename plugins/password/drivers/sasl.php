@@ -40,7 +40,7 @@ class rcube_sasl_password
         $username = escapeshellarg($username);
         $args     = rcmail::get_instance()->config->get('password_saslpasswd_args', '');
 
-        if ($fh = popen("$curdir/chgsaslpasswd -p $args $username", 'w')) {
+        if ($fh = popen("{$curdir}/chgsaslpasswd -p {$args} {$username}", 'w')) {
             fwrite($fh, $newpass . "\n");
             $code = pclose($fh);
 
@@ -53,7 +53,7 @@ class rcube_sasl_password
             'code' => 600,
             'file' => __FILE__,
             'line' => __LINE__,
-            'message' => "Password plugin: Unable to execute $curdir/chgsaslpasswd",
+            'message' => "Password plugin: Unable to execute {$curdir}/chgsaslpasswd",
         ], true, false);
 
         return PASSWORD_ERROR;

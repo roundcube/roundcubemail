@@ -304,7 +304,7 @@ class rcube_user
 
         // cache identities for better performance
         if (!array_key_exists($id, $this->identities)) {
-            $result = $this->list_identities($id ? "AND `identity_id` = $id" : '');
+            $result = $this->list_identities($id ? "AND `identity_id` = {$id}" : '');
             $this->identities[$id] = $result[0];
         }
 
@@ -325,7 +325,7 @@ class rcube_user
 
         $sql_result = $this->db->query(
             'SELECT * FROM ' . $this->db->table_name('identities', true)
-            . ' WHERE `del` <> 1 AND `user_id` = ?' . ($sql_add ? " $sql_add" : '')
+            . ' WHERE `del` <> 1 AND `user_id` = ?' . ($sql_add ? " {$sql_add}" : '')
             . ' ORDER BY `standard` DESC, `name` ASC, `email` ASC, `identity_id` ASC',
             $this->ID
         );

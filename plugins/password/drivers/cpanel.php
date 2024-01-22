@@ -41,7 +41,7 @@ class rcube_cpanel_password
     {
         $url     = self::url();
         $user    = password::username();
-        $userpwd = "$user:$curpas";
+        $userpwd = "{$user}:{$curpas}";
         $data    = [
             'email'    => password::username('%l'),
             'password' => $newpass,
@@ -65,7 +65,7 @@ class rcube_cpanel_password
         $host = $config->get('password_cpanel_host', $storage_host);
         $port = $config->get('password_cpanel_port', 2096);
 
-        return "https://$host:$port/execute/Email/passwd_pop";
+        return "https://{$host}:{$port}/execute/Email/passwd_pop";
     }
 
     /**
@@ -138,7 +138,7 @@ class rcube_cpanel_password
         curl_close($ch);
 
         if ($result === false) {
-            rcube::raise_error("curl error: $error", true, false);
+            rcube::raise_error("curl error: {$error}", true, false);
         }
 
         return $result;
