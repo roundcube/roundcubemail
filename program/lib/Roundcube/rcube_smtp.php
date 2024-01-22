@@ -118,7 +118,7 @@ class rcube_smtp
             $this->anonymize_log = 0;
 
             $_host = ($use_tls ? 'tls://' : '') . $smtp_host . ':' . $smtp_port;
-            $this->debug_handler($this->conn, "Connecting to $_host...");
+            $this->debug_handler($this->conn, "Connecting to {$_host}...");
         }
 
         // register authentication methods
@@ -285,7 +285,7 @@ class rcube_smtp
         // set From: address
         $result = $this->conn->mailFrom($from, $from_params);
         if (is_a($result, 'PEAR_Error')) {
-            $this->_conn_error('smtpfromerror', "Failed to set sender '$from'", ['from' => $from]);
+            $this->_conn_error('smtpfromerror', "Failed to set sender '{$from}'", ['from' => $from]);
             $this->reset();
             return false;
         }
@@ -294,7 +294,7 @@ class rcube_smtp
         foreach ($recipients as $recipient) {
             $result = $this->conn->rcptTo($recipient, $recipient_params);
             if (is_a($result, 'PEAR_Error')) {
-                $this->_conn_error('smtptoerror', "Failed to add recipient '$recipient'", ['to' => $recipient]);
+                $this->_conn_error('smtptoerror', "Failed to add recipient '{$recipient}'", ['to' => $recipient]);
                 $this->reset();
                 return false;
             }
@@ -330,7 +330,7 @@ class rcube_smtp
 
                     if (!empty($exts['SIZE'])) {
                         $limit = $exts['SIZE'];
-                        $msg .= " (Limit: $limit)";
+                        $msg .= " (Limit: {$limit})";
                         if (class_exists('rcmail_action')) {
                             $limit = rcmail_action::show_bytes($limit);
                         }
@@ -391,7 +391,7 @@ class rcube_smtp
         if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
             $diff    = $len - self::DEBUG_LINE_LENGTH;
             $message = substr($message, 0, self::DEBUG_LINE_LENGTH)
-                . "... [truncated $diff bytes]";
+                . "... [truncated {$diff} bytes]";
         }
 
         rcube::write_log('smtp', preg_replace('/\r\n$/', '', $message));

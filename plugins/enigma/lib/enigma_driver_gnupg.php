@@ -59,11 +59,11 @@ class enigma_driver_gnupg extends enigma_driver
         // check if homedir exists (create it if not) and is readable
         if (!file_exists($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
-                "Keys directory doesn't exists: $homedir");
+                "Keys directory doesn't exists: {$homedir}");
         }
         if (!is_writable($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
-                "Keys directory isn't writeable: $homedir");
+                "Keys directory isn't writeable: {$homedir}");
         }
 
         $homedir = $homedir . '/' . $this->user;
@@ -75,11 +75,11 @@ class enigma_driver_gnupg extends enigma_driver
 
         if (!file_exists($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
-                "Unable to create keys directory: $homedir");
+                "Unable to create keys directory: {$homedir}");
         }
         if (!is_writable($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
-                "Unable to write to keys directory: $homedir");
+                "Unable to write to keys directory: {$homedir}");
         }
 
         $this->debug   = $debug;
@@ -580,7 +580,7 @@ class enigma_driver_gnupg extends enigma_driver
         $files = [];
 
         $result = $db->query(
-            "SELECT `file_id`, `filename`, `mtime` FROM $table WHERE `user_id` = ? AND `context` = ?",
+            "SELECT `file_id`, `filename`, `mtime` FROM {$table} WHERE `user_id` = ? AND `context` = ?",
             $this->rc->user->ID, 'enigma'
         );
 
@@ -590,7 +590,7 @@ class enigma_driver_gnupg extends enigma_driver
             $files[] = $record['filename'];
 
             if ($mtime < $record['mtime']) {
-                $data_result = $db->query("SELECT `data`, `mtime` FROM $table"
+                $data_result = $db->query("SELECT `data`, `mtime` FROM {$table}"
                     . ' WHERE `file_id` = ?', $record['file_id']
                 );
 
@@ -600,7 +600,7 @@ class enigma_driver_gnupg extends enigma_driver
                 if ($data === null || $data === false) {
                     rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to sync $file ({$record['file_id']}). Decode error.",
+                        'message' => "Enigma: Failed to sync {$file} ({$record['file_id']}). Decode error.",
                     ], true, false);
 
                     continue;
@@ -620,7 +620,7 @@ class enigma_driver_gnupg extends enigma_driver
                     touch($file, $record['mtime']);
 
                     if ($this->debug) {
-                        $this->debug("SYNC: Fetched file: $file");
+                        $this->debug("SYNC: Fetched file: {$file}");
                     }
                 } else {
                     // error
@@ -628,7 +628,7 @@ class enigma_driver_gnupg extends enigma_driver
 
                     rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to sync $file.",
+                        'message' => "Enigma: Failed to sync {$file}.",
                     ], true, false);
                 }
             }
@@ -641,7 +641,7 @@ class enigma_driver_gnupg extends enigma_driver
 
                 if (unlink($file)) {
                     if ($this->debug) {
-                        $this->debug("SYNC: Removed file: $file");
+                        $this->debug("SYNC: Removed file: {$file}");
                     }
                 }
             }
@@ -668,7 +668,7 @@ class enigma_driver_gnupg extends enigma_driver
 
         if (!$is_empty) {
             $result = $db->query(
-                "SELECT `file_id`, `filename`, `mtime` FROM $table WHERE `user_id` = ? AND `context` = ?",
+                "SELECT `file_id`, `filename`, `mtime` FROM {$table} WHERE `user_id` = ? AND `context` = ?",
                 $this->rc->user->ID, 'enigma'
             );
 
@@ -696,7 +696,7 @@ class enigma_driver_gnupg extends enigma_driver
                 if ($datasize > $maxsize) {
                     rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to save $file. Size exceeds max_allowed_packet.",
+                        'message' => "Enigma: Failed to save {$file}. Size exceeds max_allowed_packet.",
                     ], true, false);
 
                     continue;
@@ -708,14 +708,14 @@ class enigma_driver_gnupg extends enigma_driver
                 if ($db->is_error($result)) {
                     rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to save $file into database.",
+                        'message' => "Enigma: Failed to save {$file} into database.",
                     ], true, false);
 
                     break;
                 }
 
                 if ($this->debug) {
-                    $this->debug("SYNC: Pushed file: $file");
+                    $this->debug("SYNC: Pushed file: {$file}");
                 }
             }
         }
@@ -723,21 +723,21 @@ class enigma_driver_gnupg extends enigma_driver
         // Delete removed files from database
         foreach (array_keys($records) as $filename) {
             $file   = $this->homedir . '/' . $filename;
-            $result = $db->query("DELETE FROM $table WHERE `user_id` = ? AND `context` = ? AND `filename` = ?",
+            $result = $db->query("DELETE FROM {$table} WHERE `user_id` = ? AND `context` = ? AND `filename` = ?",
                 $this->rc->user->ID, 'enigma', $filename
             );
 
             if ($db->is_error($result)) {
                 rcube::raise_error([
                     'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Enigma: Failed to delete $file from database.",
+                    'message' => "Enigma: Failed to delete {$file} from database.",
                 ], true, false);
 
                 break;
             }
 
             if ($this->debug) {
-                $this->debug("SYNC: Removed file: $file");
+                $this->debug("SYNC: Removed file: {$file}");
             }
         }
     }

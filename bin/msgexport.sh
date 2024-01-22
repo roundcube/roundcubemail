@@ -53,14 +53,14 @@ function export_mailbox($mbox, $filename)
     $count = $index->count();
     $index = $index->get();
 
-    vputs("$count messages\n");
+    vputs("{$count} messages\n");
 
     if ($filename) {
         if (!($out = fopen($filename, 'w'))) {
             vputs("Cannot write to output file\n");
             return;
         }
-        vputs("Writing to $filename\n");
+        vputs("Writing to {$filename}\n");
     } else {
         $out = \STDOUT;
     }

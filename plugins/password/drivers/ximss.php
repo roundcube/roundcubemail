@@ -40,7 +40,7 @@ class rcube_ximss_password
 
         $host = $rcmail->config->get('password_ximss_host');
         $port = $rcmail->config->get('password_ximss_port');
-        $sock = stream_socket_client("tcp://$host:$port", $errno, $errstr, 30);
+        $sock = stream_socket_client("tcp://{$host}:{$port}", $errno, $errstr, 30);
 
         if ($sock === false) {
             return PASSWORD_CONNECT_ERROR;

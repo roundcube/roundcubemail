@@ -817,7 +817,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // include HTML editor
         self::html_editor();
 
-        return "$form_start\n$content\n$form_end\n";
+        return "{$form_start}\n{$content}\n{$form_end}\n";
     }
 
     /**

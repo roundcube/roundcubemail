@@ -44,7 +44,7 @@ class StorageMock
             }
         }
 
-        throw new Exception("Unhandled function call for '$name' in StorageMock");
+        throw new Exception("Unhandled function call for '{$name}' in StorageMock");
     }
 
     /**

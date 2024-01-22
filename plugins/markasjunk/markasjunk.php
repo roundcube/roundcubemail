@@ -309,15 +309,15 @@ class markasjunk extends rcube_plugin
             return;
         }
 
-        $driver = $this->home . "/drivers/$driver_name.php";
-        $class  = "markasjunk_$driver_name";
+        $driver = $this->home . "/drivers/{$driver_name}.php";
+        $class  = "markasjunk_{$driver_name}";
 
         if (!is_readable($driver)) {
             rcube::raise_error([
                 'code' => 600,
                 'file' => __FILE__,
                 'line' => __LINE__,
-                'message' => "markasjunk plugin: Unable to open driver file $driver",
+                'message' => "markasjunk plugin: Unable to open driver file {$driver}",
             ], true, false);
         }
 
@@ -328,7 +328,7 @@ class markasjunk extends rcube_plugin
                 'code' => 600,
                 'file' => __FILE__,
                 'line' => __LINE__,
-                'message' => "markasjunk plugin: Broken driver: $driver",
+                'message' => "markasjunk plugin: Broken driver: {$driver}",
             ], true, false);
         }
 

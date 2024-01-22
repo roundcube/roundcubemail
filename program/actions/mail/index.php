@@ -694,12 +694,12 @@ class rcmail_action_mail_index extends rcmail_action
                 $col_name = '<span class="' . $col . '">' . $col_name . '</span>';
             }
 
-            $sort_class = $rel_col == $sort_col && !$disabled_order ? " sorted$sort_order" : '';
+            $sort_class = $rel_col == $sort_col && !$disabled_order ? " sorted{$sort_order}" : '';
             $class_name = $col . $sort_class;
 
             // put it all together
-            $cells[$col]    = ['className' => $class_name, 'id' => "rcm$col", 'html' => $col_name];
-            $coltypes[$col] = ['className' => $class_name, 'id' => "rcm$col", 'label' => $label, 'sortable' => $sortable];
+            $cells[$col]    = ['className' => $class_name, 'id' => "rcm{$col}", 'html' => $col_name];
+            $coltypes[$col] = ['className' => $class_name, 'id' => "rcm{$col}", 'label' => $label, 'sortable' => $sortable];
         }
 
         $rcmail->output->set_env('coltypes', $coltypes);
@@ -1327,7 +1327,7 @@ class rcmail_action_mail_index extends rcmail_action
                     $attrib['onclick'] = sprintf(
                         "return %s.command('compose','%s',this)",
                         rcmail_output::JS_OBJECT_NAME,
-                        rcube::JQ(implode(',', $mailto) . ($url ? "?$url" : '')));
+                        rcube::JQ(implode(',', $mailto) . ($url ? "?{$url}" : '')));
                 } else {
                     $attrib['href']    = '#NOP';
                     $attrib['onclick'] = '';

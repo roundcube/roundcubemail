@@ -582,14 +582,14 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         while (!$dt_i->diff($dt_to)->invert) {
             $days     = (int) $dt_i->format('d');
-            $matchexp .= $days < 10 ? "[ 0]$days" : $days;
+            $matchexp .= $days < 10 ? "[ 0]{$days}" : $days;
 
             if ($days == $dt_i->format('t') || $dt_i->diff($dt_to)->days == 0) {
                 $test = [
                     'test' => 'header',
                     'type' => 'regex',
                     'arg1' => 'received',
-                    'arg2' => "($matchexp) " . $dt_i->format('M Y'),
+                    'arg2' => "({$matchexp}) " . $dt_i->format('M Y'),
                 ];
 
                 $tests[]  = $test;
@@ -762,7 +762,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             if (empty($address)) {
                 unset($vacation['addresses'][$aidx]);
             } elseif (!rcube_utils::check_email($address)) {
-                $this->error = "Invalid address in vacation addresses: $address";
+                $this->error = "Invalid address in vacation addresses: {$address}";
                 return false;
             }
         }

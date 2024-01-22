@@ -56,7 +56,7 @@ class markasjunk_amavis_blacklist
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
             rcube::raise_error([
                 'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Failed to load config from $config_file",
+                'message' => "Failed to load config from {$config_file}",
             ], true, false);
 
             return false;
@@ -103,7 +103,7 @@ class markasjunk_amavis_blacklist
                 $sid = $res_array['id'];
             } else {
                 if ($debug) {
-                    rcube::write_log('markasjunk', "$email not found in mailaddr table - add it");
+                    rcube::write_log('markasjunk', "{$email} not found in mailaddr table - add it");
                 }
 
                 $sql_result = $db->query('INSERT INTO `mailaddr` ( `priority`, `email` ) VALUES ( 20, ? )', $email);
@@ -112,7 +112,7 @@ class markasjunk_amavis_blacklist
                     $sid = $db->insert_id();
                 } else {
                     if ($debug) {
-                        rcube::write_log('markasjunk', "Cannot add $email to mailaddr table: " . $db->is_error($sql_result));
+                        rcube::write_log('markasjunk', "Cannot add {$email} to mailaddr table: " . $db->is_error($sql_result));
                     }
 
                     return false;
@@ -143,7 +143,7 @@ class markasjunk_amavis_blacklist
 
                 if (!$sql_result) {
                     if ($debug) {
-                        rcube::write_log('markasjunk', "Cannot update wblist for user {$this->user_email} with $email");
+                        rcube::write_log('markasjunk', "Cannot update wblist for user {$this->user_email} with {$email}");
                     }
 
                     return false;

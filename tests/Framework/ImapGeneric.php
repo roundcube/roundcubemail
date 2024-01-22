@@ -212,7 +212,7 @@ class Framework_ImapGeneric extends TestCase
                 $decoded .= $method->invokeArgs(null, [$chunk, $mode, $idx == count($chunks) - 1, &$prev]);
             }
 
-            $this->assertSame($expected, $decoded, "Failed on chunk size of $x");
+            $this->assertSame($expected, $decoded, "Failed on chunk size of {$x}");
         }
     }
 }

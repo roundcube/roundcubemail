@@ -72,9 +72,9 @@ class runlog
         if ($this->run_log[$lastk]['duration'] >= $this->threshold) {
             $tag_report = '';
             foreach ($this->tag_count as $tag => $count) {
-                $tag_report .= "$tag: $count, ";
+                $tag_report .= "{$tag}: {$count}, ";
             }
-            $end_txt = sprintf("end: $name - %0.4f seconds $tag_report", $this->run_log[$lastk]['duration']);
+            $end_txt = sprintf("end: {$name} - %0.4f seconds {$tag_report}", $this->run_log[$lastk]['duration']);
             $this->print_to_console($end_txt, $this->run_log[$lastk]['tag']);
             $this->print_to_file($end_txt, $this->run_log[$lastk]['tag']);
         }
@@ -114,7 +114,7 @@ class runlog
         if (!isset($this->file_handles[$tag])) {
             $this->file_handles[$tag] = fopen($filename, 'a');
             if (!$this->file_handles[$tag]) {
-                trigger_error("Could not open file for writing: $filename");
+                trigger_error("Could not open file for writing: {$filename}");
             }
         }
     }
@@ -146,7 +146,7 @@ class runlog
 
         if ($file_handle_tag != 'master' && isset($this->file_handles[$file_handle_tag])) {
             $buffer = $this->get_indent();
-            $buffer .= "$msg\n";
+            $buffer .= "{$msg}\n";
             if (!empty($this->timestamp)) {
                 $buffer = sprintf('[%s] %s', date($this->timestamp, time()), $buffer);
             }
@@ -156,10 +156,10 @@ class runlog
         if (isset($this->file_handles['master']) && $this->file_handles['master']) {
             $buffer = $this->get_indent();
             if ($tag) {
-                $buffer .= "$tag: ";
+                $buffer .= "{$tag}: ";
             }
             $msg = str_replace("\n", '', $msg);
-            $buffer .= "$msg";
+            $buffer .= "{$msg}";
             if (!empty($this->timestamp)) {
                 $buffer = sprintf('[%s] %s', date($this->timestamp, time()), $buffer);
             }
@@ -177,16 +177,16 @@ class runlog
                 if (in_array($tag, $this->print_to_console)) {
                     echo $this->get_indent();
                     if ($tag) {
-                        echo "$tag: ";
+                        echo "{$tag}: ";
                     }
-                    echo "$msg\n";
+                    echo "{$msg}\n";
                 }
             } else {
                 echo $this->get_indent();
                 if ($tag) {
-                    echo "$tag: ";
+                    echo "{$tag}: ";
                 }
-                echo "$msg\n";
+                echo "{$msg}\n";
             }
         }
     }

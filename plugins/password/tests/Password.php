@@ -85,7 +85,7 @@ class Password_Plugin extends TestCase
      */
     public function load_driver($driver)
     {
-        include_once __DIR__ . "/../drivers/$driver.php";
+        include_once __DIR__ . "/../drivers/{$driver}.php";
         $driver_class = "rcube_{$driver}_password";
         $this->assertTrue(class_exists($driver_class));
         return $driver_class;

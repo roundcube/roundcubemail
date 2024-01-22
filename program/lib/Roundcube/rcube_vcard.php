@@ -839,7 +839,7 @@ class rcube_vcard
                                 if ($attrname == 'base64') {
                                     $attr .= ';ENCODING=b';
                                 } else {
-                                    $attr .= strtoupper(";$attrname");
+                                    $attr .= strtoupper(";{$attrname}");
                                 }
                             }
                         } else {
@@ -894,7 +894,7 @@ class rcube_vcard
             return implode($sep, $r);
         }
 
-        return strtr($str, ['\\' => '\\\\', "\r" => '', "\n" => '\n', $sep => "\\$sep"]);
+        return strtr($str, ['\\' => '\\\\', "\r" => '', "\n" => '\n', $sep => "\\{$sep}"]);
     }
 
     /**
@@ -910,8 +910,8 @@ class rcube_vcard
         // break string into parts separated by $sep
         if (!empty($sep)) {
             // Handle properly backslash escaping (#1488896)
-            $rep1 = ['\\\\' => "\010", "\\$sep" => "\007"];
-            $rep2 = ["\007" => "\\$sep", "\010" => '\\\\'];
+            $rep1 = ['\\\\' => "\010", "\\{$sep}" => "\007"];
+            $rep2 = ["\007" => "\\{$sep}", "\010" => '\\\\'];
 
             if (count($parts = explode($sep, strtr($str, $rep1))) > 1) {
                 $result = [];

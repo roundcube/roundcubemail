@@ -249,7 +249,7 @@ class rcmail_action_mail_send extends rcmail_action
                     'type'    => 'imap',
                     'file'    => __FILE__,
                     'line'    => __LINE__,
-                    'message' => "Could not delete message from $drafts_mbox",
+                    'message' => "Could not delete message from {$drafts_mbox}",
                 ], true, false);
             }
         }

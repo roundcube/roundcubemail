@@ -188,7 +188,7 @@ class rcmail_install
     {
         $value = $this->config[$name] ?? null;
 
-        if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_$name"])) {
+        if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_{$name}"])) {
             $value = rcube_utils::random_bytes(24);
         }
 
@@ -208,7 +208,7 @@ class rcmail_install
         $config = [];
 
         foreach ($this->config as $prop => $default) {
-            $post_value = $_POST["_$prop"] ?? null;
+            $post_value = $_POST["_{$prop}"] ?? null;
             $value      = $default;
 
             if ($use_post && in_array($prop, $this->supported_config)
@@ -281,7 +281,7 @@ class rcmail_install
         foreach ($config as $prop => $value) {
             // copy option descriptions from existing config or defaults.inc.php
             $out .= $this->comments[$prop] ?? '';
-            $out .= "\$config['$prop'] = " . self::_dump_var($value, $prop) . ";\n\n";
+            $out .= "\$config['{$prop}'] = " . self::_dump_var($value, $prop) . ";\n\n";
         }
 
         return $out;
@@ -352,7 +352,7 @@ class rcmail_install
                     if (!@pspell_new($lang)) {
                         $out['dependencies'][] = [
                             'prop'    => 'spellcheck_languages',
-                            'explain' => "You are missing pspell support for language $lang ($descr)",
+                            'explain' => "You are missing pspell support for language {$lang} ({$descr})",
                         ];
                     }
                 }
@@ -472,7 +472,7 @@ class rcmail_install
 
         // read reference schema from mysql.initial.sql
         $engine    = $db->db_provider;
-        $db_schema = $this->db_read_schema(INSTALL_PATH . "SQL/$engine.initial.sql", $schema_version);
+        $db_schema = $this->db_read_schema(INSTALL_PATH . "SQL/{$engine}.initial.sql", $schema_version);
         $errors    = [];
 
         // Just check the version
@@ -501,7 +501,7 @@ class rcmail_install
                 $diff    = array_diff(array_keys($cols), $db_cols);
 
                 if (!empty($diff)) {
-                    $errors[] = "Missing columns in table '$table': " . implode(',', $diff);
+                    $errors[] = "Missing columns in table '{$table}': " . implode(',', $diff);
                 }
             }
         }
@@ -852,17 +852,17 @@ class rcmail_install
         $engine = $db->db_provider;
 
         // read schema file from /SQL/*
-        $fname = INSTALL_PATH . "SQL/$engine.initial.sql";
+        $fname = INSTALL_PATH . "SQL/{$engine}.initial.sql";
         if ($sql = @file_get_contents($fname)) {
             $db->set_option('table_prefix', $this->config['db_prefix']);
             $db->exec_script($sql);
         } else {
-            $this->fail('DB Schema', "Cannot read the schema file: $fname");
+            $this->fail('DB Schema', "Cannot read the schema file: {$fname}");
             return false;
         }
 
         if ($err = $this->get_error()) {
-            $this->fail('DB Schema', "Error creating database schema: $err");
+            $this->fail('DB Schema', "Error creating database schema: {$err}");
             return false;
         }
 
@@ -947,7 +947,7 @@ class rcmail_install
 
             if ($flat) {
                 // In flat mode remove all directories
-                $extract_tree = glob("$destdir/*", \GLOB_ONLYDIR);
+                $extract_tree = glob("{$destdir}/*", \GLOB_ONLYDIR);
                 foreach ($extract_tree as $dir) {
                     rmdir($dir);
                 }

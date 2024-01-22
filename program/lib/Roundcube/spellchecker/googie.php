@@ -98,7 +98,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
         } else {
             $response_body = $response->getBody();
             if (preg_match('/<spellresult error="([^"]+)"/', $response_body, $m) && $m[1]) {
-                $this->error = "Error code $m[1] returned";
+                $this->error = "Error code {$m[1]} returned";
                 $this->error .= preg_match('/<errortext>([^<]+)/', $response_body, $m) ? ': ' . html_entity_decode($m[1]) : '';
             }
 

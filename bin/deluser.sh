@@ -119,6 +119,6 @@ if ($db->is_error()) {
         $rcmail->plugins->exec_hook('user_delete_rollback', $plugin);
     } else {
         $db->endTransaction();
-        echo "Successfully deleted user $user->ID\n";
+        echo "Successfully deleted user {$user->ID}\n";
     }
 }

@@ -585,7 +585,7 @@ class rcube_washtml
                         && self::attribute_value($node, 'attributename', 'href')
                     ) {
                         // Insecure svg tags
-                        $dump .= "<!-- $tagName blocked -->";
+                        $dump .= "<!-- {$tagName} blocked -->";
                         break;
                     }
 

@@ -104,7 +104,7 @@ class new_user_dialog extends rcube_plugin
 
             $title  = rcube::JQ($this->gettext('identitydialogtitle'));
             $script = "
-var newuserdialog = rcmail.show_popup_dialog($('#newuserdialog'), '$title', [{
+var newuserdialog = rcmail.show_popup_dialog($('#newuserdialog'), '{$title}', [{
     text: rcmail.get_label('save'),
     'class': 'mainaction save',
     click: function() {

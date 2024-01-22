@@ -164,7 +164,7 @@ abstract class rcube_output
         }
 
         header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $offset) . ' GMT');
-        header("Cache-Control: max-age=$offset");
+        header("Cache-Control: max-age={$offset}");
         header('Pragma: ');
     }
 
@@ -202,7 +202,7 @@ abstract class rcube_output
         $plugin = $this->app->plugins->exec_hook('common_headers', ['headers' => $headers, 'privacy' => $privacy]);
 
         foreach ($plugin['headers'] as $header => $value) {
-            header("$header: $value");
+            header("{$header}: {$value}");
         }
     }
 
@@ -291,7 +291,7 @@ abstract class rcube_output
     public function raise_error($code, $message)
     {
         // STUB: to be overloaded by specific output classes
-        fwrite(\STDERR, "Error $code: $message\n");
+        fwrite(\STDERR, "Error {$code}: {$message}\n");
         exit(-1);
     }
 

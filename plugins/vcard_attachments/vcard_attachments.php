@@ -114,7 +114,7 @@ class vcard_attachments extends rcube_plugin
                     continue;
                 }
 
-                $contacts["$part:$idx"] = "{$vcard->displayname} <{$vcard->email[0]}>";
+                $contacts["{$part}:{$idx}"] = "{$vcard->displayname} <{$vcard->email[0]}>";
             }
         }
 

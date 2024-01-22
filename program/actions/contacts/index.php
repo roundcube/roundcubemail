@@ -1015,7 +1015,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
                     $rows = '';
 
-                    [$values, $subtypes] = self::contact_field_values($record, "$field:$subtype", $colprop);
+                    [$values, $subtypes] = self::contact_field_values($record, "{$field}:{$subtype}", $colprop);
 
                     foreach ($values as $i => $val) {
                         if (!empty($subtypes[$i])) {
@@ -1440,7 +1440,7 @@ class rcmail_action_contacts_index extends rcmail_action
                     }
                 }
             } else {
-                if (substr($id, -($got_source + 1)) === "-$source") {
+                if (substr($id, -($got_source + 1)) === "-{$source}") {
                     $id = substr($id, 0, -($got_source + 1));
                 }
                 $result[$source][] = $id;

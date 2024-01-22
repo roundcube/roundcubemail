@@ -103,7 +103,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
 
     // upload message from file
     if ($count) {
-        echo "$count messages successfully added to {$args['mbox']}.\n";
+        echo "{$count} messages successfully added to {$args['mbox']}.\n";
     } else {
         echo "Adding messages failed!\n";
     }

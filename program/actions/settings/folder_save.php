@@ -54,7 +54,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         } elseif ($name[0] == '.' && $rcmail->config->get('imap_skip_hidden_folders')) {
             $error = $rcmail->gettext('namedotforbidden');
         } elseif (!$storage->folder_validate($name, $char)) {
-            $error = $rcmail->gettext('forbiddencharacter') . " ($char)";
+            $error = $rcmail->gettext('forbiddencharacter') . " ({$char})";
         }
 
         if (!empty($error)) {

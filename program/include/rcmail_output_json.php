@@ -195,7 +195,7 @@ class rcmail_output_json extends rcmail_output
             exit('Invalid Request');
         }
 
-        $this->show_message("Application Error ($code): $message", 'error');
+        $this->show_message("Application Error ({$code}): {$message}", 'error');
         $this->remote_response();
         exit;
     }

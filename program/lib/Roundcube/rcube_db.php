@@ -81,13 +81,13 @@ class rcube_db
         ];
 
         $driver = $driver_map[$driver] ?? $driver;
-        $class  = "rcube_db_$driver";
+        $class  = "rcube_db_{$driver}";
 
         if (!$driver || !class_exists($class)) {
             rcube::raise_error([
                 'code' => 600, 'type' => 'db',
                 'line' => __LINE__, 'file' => __FILE__,
-                'message' => "Configuration error. Unsupported database driver: $driver",
+                'message' => "Configuration error. Unsupported database driver: {$driver}",
             ], true, true);
         }
 
@@ -315,7 +315,7 @@ class rcube_db
             if (($len = strlen($query)) > self::DEBUG_LINE_LENGTH) {
                 $diff  = $len - self::DEBUG_LINE_LENGTH;
                 $query = substr($query, 0, self::DEBUG_LINE_LENGTH)
-                    . "... [truncated $diff bytes]";
+                    . "... [truncated {$diff} bytes]";
             }
 
             rcube::write_log('sql', '[' . (++$this->db_index) . '] ' . $query . ';');
@@ -554,7 +554,7 @@ class rcube_db
             if (empty($this->options['ignore_errors'])) {
                 rcube::raise_error([
                     'code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
-                    'message' => $this->db_error_msg . " (SQL Query: $query)",
+                    'message' => $this->db_error_msg . " (SQL Query: {$query})",
                 ], true, false);
             }
         }
@@ -578,8 +578,8 @@ class rcube_db
      */
     public function insert_or_update($table, $keys, $columns, $values)
     {
-        $columns = array_map(static function ($i) { return "`$i`"; }, $columns);
-        $sets    = array_map(static function ($i) { return "$i = ?"; }, $columns);
+        $columns = array_map(static function ($i) { return "`{$i}`"; }, $columns);
+        $sets    = array_map(static function ($i) { return "{$i} = ?"; }, $columns);
         $where   = $keys;
 
         array_walk($where, function (&$val, $key) {
@@ -587,17 +587,17 @@ class rcube_db
         });
 
         // First try UPDATE
-        $result = $this->query("UPDATE $table SET " . implode(', ', $sets)
+        $result = $this->query("UPDATE {$table} SET " . implode(', ', $sets)
             . ' WHERE ' . implode(' AND ', $where), $values);
 
         // if UPDATE fails use INSERT
         if ($result && !$this->affected_rows($result)) {
-            $cols  = implode(', ', array_map(static function ($i) { return "`$i`"; }, array_keys($keys)));
+            $cols  = implode(', ', array_map(static function ($i) { return "`{$i}`"; }, array_keys($keys)));
             $cols .= ', ' . implode(', ', $columns);
             $vals  = implode(', ', array_map(function ($i) { return $this->quote($i); }, $keys));
             $vals .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
 
-            $result = $this->query("INSERT INTO $table ($cols) VALUES ($vals)", $values);
+            $result = $this->query("INSERT INTO {$table} ({$cols}) VALUES ({$vals})", $values);
         }
 
         return $result;
@@ -1041,7 +1041,7 @@ class rcube_db
      */
     public function unixtimestamp($field)
     {
-        return "UNIX_TIMESTAMP($field)";
+        return "UNIX_TIMESTAMP({$field})";
     }
 
     /**

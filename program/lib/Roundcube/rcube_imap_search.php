@@ -191,7 +191,7 @@ class rcube_imap_search_job // extends Stackable
         $imap     = $this->worker->get_imap();
 
         if (!$imap->connected()) {
-            trigger_error("No IMAP connection for $this->folder", \E_USER_WARNING);
+            trigger_error("No IMAP connection for {$this->folder}", \E_USER_WARNING);
 
             if ($this->threading) {
                 return new rcube_result_thread($this->folder);
@@ -236,7 +236,7 @@ class rcube_imap_search_job // extends Stackable
 
         if (empty($messages) || $messages->is_error()) {
             $messages = $imap->search($this->folder,
-                ($charset && $charset != 'US-ASCII' ? "CHARSET $charset " : '') . $criteria, true);
+                ($charset && $charset != 'US-ASCII' ? "CHARSET {$charset} " : '') . $criteria, true);
 
             // Error, try with US-ASCII (some servers may support only US-ASCII)
             if ($messages->is_error() && $charset && $charset != 'US-ASCII') {

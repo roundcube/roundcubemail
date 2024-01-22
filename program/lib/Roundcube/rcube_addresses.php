@@ -367,7 +367,7 @@ class rcube_addresses extends rcube_contacts
         // flag record as deleted (always)
         $this->db->query(
             'DELETE FROM ' . $this->db->table_name($this->db_name, true)
-            . " WHERE `user_id` = ? AND `type` = ? AND `address_id` IN ($ids)",
+            . " WHERE `user_id` = ? AND `type` = ? AND `address_id` IN ({$ids})",
             $this->user_id, $this->type
         );
 

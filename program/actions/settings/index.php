@@ -327,7 +327,7 @@ class rcmail_action_settings_index extends rcmail_action
                                 $skinname     = ucfirst($skin);
                                 $author_link  = '';
                                 $license_link = '';
-                                $meta         = @json_decode(@file_get_contents(INSTALL_PATH . "skins/$skin/meta.json"), true);
+                                $meta         = @json_decode(@file_get_contents(INSTALL_PATH . "skins/{$skin}/meta.json"), true);
 
                                 if (is_array($meta) && !empty($meta['name'])) {
                                     $skinname     = $meta['name'];
@@ -336,7 +336,7 @@ class rcmail_action_settings_index extends rcmail_action
                                 }
 
                                 $img = html::img([
-                                    'src'     => $rcmail->output->asset_url("skins/$skin/thumbnail.png"),
+                                    'src'     => $rcmail->output->asset_url("skins/{$skin}/thumbnail.png"),
                                     'class'   => 'skinthumbnail',
                                     'alt'     => $skin,
                                     'width'   => 64,
@@ -1683,8 +1683,8 @@ class rcmail_action_settings_index extends rcmail_action
             $labels = [];
             $lang   = $_SESSION['language'] ?? 'en_US';
             if ($lang && $lang != 'en_US') {
-                if (file_exists(RCUBE_LOCALIZATION_DIR . "$lang/timezones.inc")) {
-                    include RCUBE_LOCALIZATION_DIR . "$lang/timezones.inc";
+                if (file_exists(RCUBE_LOCALIZATION_DIR . "{$lang}/timezones.inc")) {
+                    include RCUBE_LOCALIZATION_DIR . "{$lang}/timezones.inc";
                 }
             }
         }
@@ -1699,7 +1699,7 @@ class rcmail_action_settings_index extends rcmail_action
         foreach ($tokens as $i => $token) {
             $idx   = strtolower($token);
             $token = str_replace('_', ' ', $token);
-            $key  .= ":$idx";
+            $key  .= ":{$idx}";
 
             $tokens[$i] = !empty($labels[$key]) ? $labels[$key] : $token;
         }

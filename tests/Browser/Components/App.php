@@ -77,7 +77,7 @@ class App extends Component
      */
     public function getEnv($browser, $key)
     {
-        return $browser->driver->executeScript("return rcmail.env['$key']");
+        return $browser->driver->executeScript("return rcmail.env['{$key}']");
     }
 
     /**

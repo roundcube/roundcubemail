@@ -584,7 +584,7 @@ class rcube_html2text
             if (substr($link, 0, 1) != '/') {
                 $url .= '/';
             }
-            $url .= "$link";
+            $url .= "{$link}";
         }
 
         if ($this->_links_mode === self::LINKS_NONE) {

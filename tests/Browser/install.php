@@ -56,7 +56,7 @@ class Installer extends ChromeDriverCommand
 
         $this->rename($binary, $os);
 
-        echo "ChromeDriver binary successfully installed for version $version.\n";
+        echo "ChromeDriver binary successfully installed for version {$version}.\n";
     }
 
     /**

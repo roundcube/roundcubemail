@@ -110,7 +110,7 @@ class XMail
             return false;
         }
 
-        if (!$this->send("$this->username\t$this->password\n")) {
+        if (!$this->send("{$this->username}\t{$this->password}\n")) {
             socket_close($this->socket);
             return false;
         }

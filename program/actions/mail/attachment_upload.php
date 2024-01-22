@@ -225,7 +225,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             $content = $content_link . $delete_link;
         }
 
-        $rcmail->output->command('add2attachment_list', "rcmfile$id", [
+        $rcmail->output->command('add2attachment_list', "rcmfile{$id}", [
                 'html'      => $content,
                 'name'      => $attachment['name'],
                 'mimetype'  => $attachment['mimetype'],

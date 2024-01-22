@@ -66,10 +66,10 @@ class jqueryui extends rcube_plugin
             $lang_s = substr($_SESSION['language'], 0, 2);
 
             foreach ($jquery_ui_i18n as $package) {
-                if (self::asset_exists("js/i18n/$package-$lang_l.js", false)) {
-                    $this->include_script("js/i18n/$package-$lang_l.js");
-                } elseif ($lang_s != 'en' && self::asset_exists("js/i18n/$package-$lang_s.js", false)) {
-                    $this->include_script("js/i18n/$package-$lang_s.js");
+                if (self::asset_exists("js/i18n/{$package}-{$lang_l}.js", false)) {
+                    $this->include_script("js/i18n/{$package}-{$lang_l}.js");
+                } elseif ($lang_s != 'en' && self::asset_exists("js/i18n/{$package}-{$lang_s}.js", false)) {
+                    $this->include_script("js/i18n/{$package}-{$lang_s}.js");
                 }
             }
         }
@@ -88,8 +88,8 @@ class jqueryui extends rcube_plugin
         $replaces = ['Y' => 'yyyy', 'y' => 'yy', 'm' => 'mm', 'd' => 'dd', 'j' => 'd', 'n' => 'm'];
 
         foreach (array_keys($replaces) as $key) {
-            if ($rcmail->text_exists("dateformat$key")) {
-                $replaces[$key] = $rcmail->gettext("dateformat$key");
+            if ($rcmail->text_exists("dateformat{$key}")) {
+                $replaces[$key] = $rcmail->gettext("dateformat{$key}");
             }
         }
 

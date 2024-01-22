@@ -235,7 +235,7 @@ class rcube
      */
     public function get_cache_shared($name, $packed = true)
     {
-        $shared_name = "shared_$name";
+        $shared_name = "shared_{$name}";
 
         if (!array_key_exists($shared_name, $this->caches)) {
             $opt  = strtolower($name) . '_cache';
@@ -316,7 +316,7 @@ class rcube
         if (!class_exists($driver_class)) {
             self::raise_error([
                 'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Storage driver class ($driver) not found!",
+                'message' => "Storage driver class ({$driver}) not found!",
             ], true, true);
         }
 
@@ -531,8 +531,8 @@ class rcube
                     continue;
                 }
 
-                if (@filemtime("$tmp/$fname") < $expire) {
-                    @unlink("$tmp/$fname");
+                if (@filemtime("{$tmp}/{$fname}") < $expire) {
+                    @unlink("{$tmp}/{$fname}");
                 }
             }
 
@@ -589,15 +589,15 @@ class rcube
         }
 
         // check for text with domain
-        if ($domain && isset($this->texts["$domain.$name"])) {
-            $text = $this->texts["$domain.$name"];
+        if ($domain && isset($this->texts["{$domain}.{$name}"])) {
+            $text = $this->texts["{$domain}.{$name}"];
         } elseif (isset($this->texts[$name])) {
             $text = $this->texts[$name];
         }
 
         // text does not exist
         if (!isset($text)) {
-            return "[$name]";
+            return "[{$name}]";
         }
 
         // replace vars in text
@@ -912,7 +912,7 @@ class rcube
             self::raise_error([
                 'file'    => __FILE__,
                 'line'    => __LINE__,
-                'message' => "Failed to encrypt data with configured cipher method: $method!",
+                'message' => "Failed to encrypt data with configured cipher method: {$method}!",
             ], true, false);
 
             return false;
@@ -1231,12 +1231,12 @@ class rcube
             $parts = [];
 
             if ($option) {
-                foreach ((array) $values["-$key"] as $key => $value) {
+                foreach ((array) $values["-{$key}"] as $key => $value) {
                     if ($value === true || $value === false || $value === null) {
                         $parts[] = $value ? $key : '';
                     } else {
                         foreach ((array) $value as $val) {
-                            $parts[] = "$key " . escapeshellarg($val);
+                            $parts[] = "{$key} " . escapeshellarg($val);
                         }
                     }
                 }
@@ -1332,7 +1332,7 @@ class rcube
         // write message with file name when configured to log to STDOUT
         if ($log_driver == 'stdout') {
             $stdout = 'php://stdout';
-            $line = "$name: $line\n";
+            $line = "{$name}: {$line}\n";
             return file_put_contents($stdout, $line, \FILE_APPEND) !== false;
         }
 
@@ -1368,7 +1368,7 @@ class rcube
             $name .= '.log';
         }
 
-        return file_put_contents("$log_dir/$name", $line, \FILE_APPEND) !== false;
+        return file_put_contents("{$log_dir}/{$name}", $line, \FILE_APPEND) !== false;
     }
 
     /**
@@ -1507,7 +1507,7 @@ class rcube
 
         if (($len = strlen($line)) > self::DEBUG_LINE_LENGTH) {
             $diff = $len - self::DEBUG_LINE_LENGTH;
-            $line = substr($line, 0, self::DEBUG_LINE_LENGTH) . "... [truncated $diff bytes]";
+            $line = substr($line, 0, self::DEBUG_LINE_LENGTH) . "... [truncated {$diff} bytes]";
         }
 
         if ($result !== null) {

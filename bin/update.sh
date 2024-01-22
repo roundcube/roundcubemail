@@ -267,7 +267,7 @@ if ($RCI->configured) {
             $exit_code = 1;
             if ($composer_bin = find_composer()) {
                 echo 'Executing ' . $composer_bin . " to update dependencies...\n";
-                echo system("$composer_bin update -d " . escapeshellarg(INSTALL_PATH) . ' --no-dev', $exit_code);
+                echo system("{$composer_bin} update -d " . escapeshellarg(INSTALL_PATH) . ' --no-dev', $exit_code);
             }
             if ($exit_code != 0) {
                 echo "-----------------------------------------------------------------------------\n";
@@ -313,7 +313,7 @@ function find_composer()
     }
 
     foreach (['composer', 'composer.phar'] as $check_file) {
-        $which = trim(rcube::exec("which $check_file"));
+        $which = trim(rcube::exec("which {$check_file}"));
         if (!empty($which)) {
             return $which;
         }

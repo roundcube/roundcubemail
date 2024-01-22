@@ -452,27 +452,27 @@ class Actions_Mail_Index extends ActionTestCase
 
         $body   = '<html><head><meta charset="iso-8859-1_X"></head><body>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertStringContainsString("<html><head>$meta</head><body>Test1", $washed, 'Meta tag insertion (1)');
+        $this->assertStringContainsString("<html><head>{$meta}</head><body>Test1", $washed, 'Meta tag insertion (1)');
 
         $body   = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" /></head><body>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertStringContainsString("<html><head>$meta</head><body>Test1", $washed, 'Meta tag insertion (2)');
+        $this->assertStringContainsString("<html><head>{$meta}</head><body>Test1", $washed, 'Meta tag insertion (2)');
 
         $body   = 'Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>$meta</head>") === 0, 'Meta tag insertion (3)');
+        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (3)');
 
         $body   = '<html>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>$meta</head>") === 0, 'Meta tag insertion (4)');
+        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (4)');
 
         $body   = '<html><head></head>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>$meta</head>") === 0, 'Meta tag insertion (5)');
+        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (5)');
 
         $body   = '<html><head></head><body>Test1<br>Test2<meta charset="utf-8"></body>';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>$meta</head>") === 0, 'Meta tag insertion (6)');
+        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (6)');
         $this->assertTrue(strpos($washed, 'Test2</body>') > 0, 'Meta tag insertion (7)');
     }
 

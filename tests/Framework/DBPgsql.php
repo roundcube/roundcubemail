@@ -69,7 +69,7 @@ class Framework_DBPgsql extends TestCase
 
         foreach ($script as $idx => $query) {
             $res = $method->invoke($db, $query);
-            $this->assertSame($output[$idx], $res, "Test case $idx");
+            $this->assertSame($output[$idx], $res, "Test case {$idx}");
         }
     }
 

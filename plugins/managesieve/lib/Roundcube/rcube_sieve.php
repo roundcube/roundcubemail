@@ -176,7 +176,7 @@ class rcube_sieve
 
         if (is_a($result, 'PEAR_Error')) {
             $rawErrorMessage = $result->getMessage();
-            $errMessages = preg_split("/$name:/", $rawErrorMessage);
+            $errMessages = preg_split("/{$name}:/", $rawErrorMessage);
 
             if (count($errMessages) > 0) {
                 foreach ($errMessages as $singleError) {

@@ -96,7 +96,6 @@ return (new Config())
         // TODO
         'array_indentation' => false,
         'binary_operator_spaces' => ['default' => 'at_least_single_space'],
-        'explicit_string_variable' => false,
         'general_phpdoc_annotation_remove' => false,
         'method_argument_space' => ['on_multiline' => 'ignore'],
         'modernize_types_casting' => false,
