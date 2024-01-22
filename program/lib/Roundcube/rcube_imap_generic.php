@@ -465,6 +465,7 @@ class rcube_imap_generic
             if (strtoupper($m[1]) == 'BYE') {
                 $this->closeSocket();
             }
+
             return true;
         }
 
@@ -576,6 +577,7 @@ class rcube_imap_generic
                     for ($i = 0; $i < $size; $i++) {
                         $result .= chr(ord($str1[$i]) ^ ord($str2[$i]));
                     }
+
                     return $result;
                 };
 
@@ -3377,6 +3379,7 @@ class rcube_imap_generic
                     unset($ret[$i - 1]);
                     unset($ret[$i]);
                 }
+
                 return $ret;
             }
 

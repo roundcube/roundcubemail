@@ -183,6 +183,7 @@ class rcube_imap_cache
                 if ($result->get_parameters('ORDER') != $sort_order) {
                     $result->revert();
                 }
+
                 return $result;
             }
         }
@@ -896,6 +897,7 @@ class rcube_imap_cache
             if (!$this->skip_deleted && $mbox_data['EXISTS'] != $object->count_messages()) {
                 return false;
             }
+
             return true;
         }
 

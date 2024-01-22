@@ -688,6 +688,7 @@ abstract class rcube_addressbook
                     $result[] = $contact[$field];
                 }
             }
+
             return $result;
         };
 

@@ -294,6 +294,7 @@ class rcube_result_thread
 
                 return $idx;
             }
+
             return true;
         }
 

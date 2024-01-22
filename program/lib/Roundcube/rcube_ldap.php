@@ -816,6 +816,7 @@ class rcube_ldap extends rcube_addressbook
                     $result->count++;
                 }
             }
+
             return $result;
         }
 

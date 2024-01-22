@@ -58,6 +58,7 @@ foreach ($config as $optname => $optval) {
         } else {
             echo $error;
         }
+
         exit(1);
     }
 }
