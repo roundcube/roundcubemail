@@ -303,7 +303,6 @@ class rcube_vcard
     public function export($folded = true)
     {
         $vcard = self::vcard_encode($this->raw);
-
         return $folded ? self::rfc2425_fold($vcard) : $vcard;
     }
 
@@ -786,12 +785,10 @@ class rcube_vcard
         switch (strtolower($encoding)) {
             case 'quoted-printable':
                 self::$values_decoded = true;
-
                 return quoted_printable_decode($value);
             case 'base64':
             case 'b':
                 self::$values_decoded = true;
-
                 return base64_decode($value);
             default:
                 return $value;

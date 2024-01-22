@@ -197,7 +197,6 @@ class runlog
         for ($i = 0; $i < $this->indent; $i++) {
             $buf .= '  ';
         }
-
         return $buf;
     }
 

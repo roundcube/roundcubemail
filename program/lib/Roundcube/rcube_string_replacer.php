@@ -76,7 +76,6 @@ class rcube_string_replacer
     {
         $i = count($this->values);
         $this->values[$i] = $str;
-
         return $i;
     }
 

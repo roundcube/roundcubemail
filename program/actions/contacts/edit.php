@@ -46,7 +46,6 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             if ($CONTACTS->readonly || !empty(self::$contact['readonly'])) {
                 $rcmail->output->show_message('sourceisreadonly');
                 $rcmail->overwrite_action('show');
-
                 return;
             }
 

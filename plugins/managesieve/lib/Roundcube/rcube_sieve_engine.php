@@ -1474,7 +1474,6 @@ class rcube_sieve_engine
         // do not allow creation of new filters
         if ($fid === null && in_array('new_filter', $this->disabled_actions)) {
             $this->rc->output->show_message('managesieve.disabledaction', 'error');
-
             return;
         }
 

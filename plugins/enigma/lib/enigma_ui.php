@@ -1229,7 +1229,6 @@ class enigma_ui
 
                 if ($code == enigma_error::BADPASS) {
                     $this->password_prompt($status, ['compose-init' => true]);
-
                     return $p;
                 }
 
@@ -1286,7 +1285,6 @@ class enigma_ui
                             'iframe'       => true,
                         ]);
                         $this->rc->output->send($this->rc->output->type == 'html' ? 'iframe' : null);
-
                         return;
                     }
                 }

@@ -798,7 +798,6 @@ class rcube_washtml
         // It might be an ending of a comment, ignore (#6464)
         if (substr($matches[3], -2) == '--') {
             $matches[0] = '';
-
             return implode('', $matches);
         }
 

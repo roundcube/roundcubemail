@@ -28,7 +28,6 @@ class rcube_content_filter extends php_user_filter
     public function onCreate(): bool
     {
         $this->cutoff = rand(2048, 3027);
-
         return true;
     }
 

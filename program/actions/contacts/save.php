@@ -37,7 +37,6 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         // Source changed, display the form again
         if (!empty($_GET['_reload'])) {
             $rcmail->overwrite_action($return_action);
-
             return;
         }
 
@@ -45,7 +44,6 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         if (!$contacts || $contacts->readonly) {
             $rcmail->output->show_message('contactreadonly', 'error');
             $rcmail->overwrite_action($return_action);
-
             return;
         }
 
@@ -57,7 +55,6 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             $err = (array) $contacts->get_error();
             $rcmail->output->show_message(!empty($err['message']) ? rcube::Q($err['message']) : 'formincomplete', 'warning');
             $rcmail->overwrite_action($return_action, ['contact' => $a_record]);
-
             return;
         }
 

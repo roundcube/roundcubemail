@@ -524,7 +524,6 @@ class rcube_config
         if ($tz = $this->get('timezone')) {
             try {
                 $tz = new DateTimeZone($tz);
-
                 return $tz->getOffset(new DateTime('now')) / 3600;
             } catch (Exception $e) {
             }
@@ -677,7 +676,6 @@ class rcube_config
 
             try {
                 $tz = new DateTimeZone($props['timezone']);
-
                 return $this->client_tz = $tz->getName();
             } catch (Exception $e) {
                 // gracefully ignore

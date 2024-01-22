@@ -502,7 +502,6 @@ class rcmail_oauth
                 'file'    => __FILE__,
                 'line'    => __LINE__,
             ], true, false);
-
             return;
         }
 
@@ -680,7 +679,6 @@ class rcmail_oauth
                 // store crypted code_verifier because session is going to be killed
                 $this->login_phase['code_verifier'] = $_SESSION['oauth_code_verifier'];
             }
-
             return true;
         } catch (RequestException $e) {
             $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
@@ -702,7 +700,6 @@ class rcmail_oauth
                 'line'    => __LINE__,
             ], true, false);
         }
-
         return false;
     }
 
@@ -753,7 +750,6 @@ class rcmail_oauth
             $this->rcmail->plugins->exec_hook('oauth_refresh_token', $data);
 
             $this->last_error = null; // clean last error
-
             return [
                 'token'         => $data,
                 'authorization' => $authorization,
@@ -796,7 +792,6 @@ class rcmail_oauth
     {
         if ($this->cache === null) {
             rcube::raise_error(['message' => 'received a token revocation request, you must activate `oauth_cache` to enable this feature'], true, false);
-
             return;
         }
         $this->cache->set("revoke_{$sub}", time());
@@ -955,7 +950,6 @@ class rcmail_oauth
             $this->log_debug('abort, token for sub %s has been revoked', $token['identity']['sub']);
             // in a such case, we are blocked, can only kill session
             $this->rcmail->kill_session();
-
             return self::TOKEN_REVOKED;
         }
 
@@ -967,14 +961,12 @@ class rcmail_oauth
             $this->log_debug('abort, reresh token has expired');
             // in a such case, we are blocked, can only kill session
             $this->rcmail->kill_session();
-
             return self::TOKEN_REFRESH_EXPIRED;
         }
 
         if (!empty($this->last_error)) {
             // TODO: challenge this part, what about transcient errors ?
             $this->log_debug('abort, got an previous error %s', $this->last_error);
-
             return self::TOKEN_ERROR;
         }
 
@@ -982,7 +974,6 @@ class rcmail_oauth
             // FIXME: can have 2 kind of errors: transcient (can retry) or non recovreable error
             // currently it's up to refresh_access_token to kill_session is necessary
             $this->log_debug('token refresh failed: %s', $this->last_error);
-
             return self::TOKEN_REFRESH_FAILED;
         }
 
@@ -1145,7 +1136,6 @@ class rcmail_oauth
 
         if (!isset($this->login_phase['token']['identity'])) {
             $this->log_debug("identity not found, was the scope 'openid' defined?");
-
             return $data;
         }
 
@@ -1299,7 +1289,6 @@ class rcmail_oauth
         // no redirect on imap login failures
         $this->no_redirect = true;
         $this->login_phase = null;
-
         return $options;
     }
 

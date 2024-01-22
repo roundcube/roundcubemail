@@ -148,7 +148,6 @@ class enigma_engine
         if ($pass === null && !$this->rc->config->get('enigma_passwordless')) {
             // ask for password
             $error = ['missing' => [$key->id => $key->name]];
-
             return new enigma_error(enigma_error::BADPASS, '', $error);
         }
 
@@ -199,7 +198,6 @@ class enigma_engine
             if ($result->getCode() == enigma_error::BADPASS) {
                 // ask for password
                 $error = ['bad' => [$key->id => $key->name]];
-
                 return new enigma_error(enigma_error::BADPASS, '', $error);
             }
 
@@ -252,7 +250,6 @@ class enigma_engine
             if ($sign_pass === null && !$this->rc->config->get('enigma_passwordless')) {
                 // ask for password
                 $error = ['missing' => [$sign_key->id => $sign_key->name]];
-
                 return new enigma_error(enigma_error::BADPASS, '', $error);
             }
 
@@ -312,7 +309,6 @@ class enigma_engine
             if ($result->getCode() == enigma_error::BADPASS) {
                 // ask for password
                 $error = ['bad' => [$sign_key->id => $sign_key->name]];
-
                 return new enigma_error(enigma_error::BADPASS, '', $error);
             }
 
@@ -348,7 +344,6 @@ class enigma_engine
             if (!$pubkey_armor instanceof enigma_error) {
                 $pubkey_name = '0x' . enigma_key::format_id($key->id) . '.asc';
                 $message->addAttachment($pubkey_armor, 'application/pgp-keys', $pubkey_name, false, '7bit');
-
                 return true;
             }
         }
@@ -1020,7 +1015,6 @@ class enigma_engine
 
         if ($result instanceof enigma_error) {
             self::raise_error($result, __LINE__);
-
             return;
         }
 
@@ -1148,7 +1142,6 @@ class enigma_engine
 
         if ($result instanceof enigma_error) {
             self::raise_error($result, __LINE__);
-
             return $result;
         }
 
@@ -1401,7 +1394,6 @@ class enigma_engine
         // we have permissions to delete keys directory
         if (!is_writable($dir)) {
             rcube::raise_error("Unable to delete {$dir}", false, true);
-
             return false;
         }
 

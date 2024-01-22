@@ -412,7 +412,6 @@ class rcube_imap_generic
             || ($this->prefs['timeout'] && (microtime(true) - $start > $this->prefs['timeout']))
         ) {
             $this->closeSocket();
-
             return true;
         }
 
@@ -466,7 +465,6 @@ class rcube_imap_generic
             if (strtoupper($m[1]) == 'BYE') {
                 $this->closeSocket();
             }
-
             return true;
         }
 
@@ -578,7 +576,6 @@ class rcube_imap_generic
                     for ($i = 0; $i < $size; $i++) {
                         $result .= chr(ord($str1[$i]) ^ ord($str2[$i]));
                     }
-
                     return $result;
                 };
 
@@ -664,7 +661,6 @@ class rcube_imap_generic
                 $token   = base64_encode($token);
             } catch (Exception $e) {
                 trigger_error($e->getMessage(), \E_USER_WARNING);
-
                 return $this->setError(self::ERROR_BYE, 'GSSAPI authentication failed');
             }
 
@@ -702,7 +698,6 @@ class rcube_imap_generic
                 }
             } catch (Exception $e) {
                 trigger_error($e->getMessage(), \E_USER_WARNING);
-
                 return $this->setError(self::ERROR_BYE, 'GSSAPI authentication failed');
             }
 
@@ -903,19 +898,16 @@ class rcube_imap_generic
         // check input
         if (empty($host)) {
             $this->setError(self::ERROR_BAD, 'Empty host');
-
             return false;
         }
 
         if (empty($user)) {
             $this->setError(self::ERROR_NO, 'Empty user');
-
             return false;
         }
 
         if (empty($password) && empty($options['gssapi_cn'])) {
             $this->setError(self::ERROR_NO, 'Empty password');
-
             return false;
         }
 
@@ -1079,7 +1071,6 @@ class rcube_imap_generic
 
             $this->setError(self::ERROR_BAD, $error);
             $this->closeConnection();
-
             return false;
         }
 
@@ -1096,7 +1087,6 @@ class rcube_imap_generic
 
             if (empty($res) || $res[0] != self::ERROR_OK) {
                 $this->closeConnection();
-
                 return false;
             }
 
@@ -1113,7 +1103,6 @@ class rcube_imap_generic
             if (!stream_socket_enable_crypto($this->fp, true, $crypto_method)) {
                 $this->setError(self::ERROR_BAD, 'Unable to negotiate TLS');
                 $this->closeConnection();
-
                 return false;
             }
 
@@ -1359,7 +1348,6 @@ class rcube_imap_generic
 
         if (empty($this->data['READ-WRITE'])) {
             $this->setError(self::ERROR_READONLY, 'Mailbox is read-only');
-
             return false;
         }
 
@@ -1375,7 +1363,6 @@ class rcube_imap_generic
 
         if ($result == self::ERROR_OK) {
             $this->selected = null; // state has changed, need to reselect
-
             return true;
         }
 
@@ -1395,7 +1382,6 @@ class rcube_imap_generic
 
         if ($result == self::ERROR_OK) {
             $this->selected = null;
-
             return true;
         }
 
@@ -2136,7 +2122,6 @@ class rcube_imap_generic
 
         if (!$this->putLine($request)) {
             $this->setError(self::ERROR_COMMAND, "Failed to send {$cmd} command");
-
             return false;
         }
 
@@ -2225,7 +2210,6 @@ class rcube_imap_generic
 
             if ($index->count() == 1) {
                 $arr = $index->get();
-
                 return (int) $arr[0];
             }
         }
@@ -2261,7 +2245,6 @@ class rcube_imap_generic
 
         if ($index->count() == 1) {
             $arr = $index->get();
-
             return $this->data['UID-MAP'][$id] = (int) $arr[0];
         }
     }
@@ -2316,7 +2299,6 @@ class rcube_imap_generic
 
         if (empty($this->data['READ-WRITE'])) {
             $this->setError(self::ERROR_READONLY, 'Mailbox is read-only');
-
             return false;
         }
 
@@ -2395,7 +2377,6 @@ class rcube_imap_generic
 
         if (empty($this->data['READ-WRITE'])) {
             $this->setError(self::ERROR_READONLY, 'Mailbox is read-only');
-
             return false;
         }
 
@@ -2470,7 +2451,6 @@ class rcube_imap_generic
 
         if (!$this->putLine($request)) {
             $this->setError(self::ERROR_COMMAND, "Failed to send {$cmd} command");
-
             return false;
         }
 
@@ -2787,7 +2767,6 @@ class rcube_imap_generic
         // send request
         if (!$this->putLine($request)) {
             $this->setError(self::ERROR_COMMAND, 'Failed to send UID FETCH command');
-
             return false;
         }
 
@@ -2866,7 +2845,6 @@ class rcube_imap_generic
                 // send request
                 if (!$this->putLine($request)) {
                     $this->setError(self::ERROR_COMMAND, "Failed to send {$cmd} command");
-
                     return false;
                 }
 
@@ -2973,7 +2951,6 @@ class rcube_imap_generic
                 return fwrite($file, $result);
             } elseif ($print) {
                 echo $result;
-
                 return true;
             }
 
@@ -3074,7 +3051,6 @@ class rcube_imap_generic
                 $chunk = substr($chunk, 0, $pos + 1);
             } else {
                 $prev = $chunk;
-
                 return false;
             }
         }
@@ -3139,7 +3115,6 @@ class rcube_imap_generic
         // send APPEND command
         if (!$this->putLine($request)) {
             $this->setError(self::ERROR_COMMAND, 'Failed to send APPEND command');
-
             return false;
         }
 
@@ -3149,7 +3124,6 @@ class rcube_imap_generic
 
             if ($line[0] != '+') {
                 $this->parseResult($line, 'APPEND: ');
-
                 return false;
             }
         }
@@ -3222,7 +3196,6 @@ class rcube_imap_generic
 
         if (empty($fp)) {
             $this->setError(self::ERROR_UNKNOWN, "Couldn't open {$path} for reading");
-
             return false;
         }
 
@@ -3404,7 +3377,6 @@ class rcube_imap_generic
                     unset($ret[$i - 1]);
                     unset($ret[$i]);
                 }
-
                 return $ret;
             }
 
@@ -3481,7 +3453,6 @@ class rcube_imap_generic
     {
         if (!is_array($entries) || empty($entries)) {
             $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETMETADATA command');
-
             return false;
         }
 
@@ -3516,7 +3487,6 @@ class rcube_imap_generic
 
         if (empty($entries)) {
             $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETMETADATA command');
-
             return false;
         }
 
@@ -3609,7 +3579,6 @@ class rcube_imap_generic
     {
         if (!is_array($data) || empty($data)) {
             $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETANNOTATION command');
-
             return false;
         }
 
@@ -3640,7 +3609,6 @@ class rcube_imap_generic
     {
         if (!is_array($data) || empty($data)) {
             $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETANNOTATION command');
-
             return false;
         }
 
@@ -3753,7 +3721,6 @@ class rcube_imap_generic
 
         if (is_array($result) && !empty($result)) {
             $result = array_first($result);
-
             return $result->bodystructure;
         }
 
@@ -3986,7 +3953,6 @@ class rcube_imap_generic
                     break;
                 case ')':
                     $str = substr($str, 1);
-
                     return $result;
                     // String atom, number, astring, NIL, *, % (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 default:

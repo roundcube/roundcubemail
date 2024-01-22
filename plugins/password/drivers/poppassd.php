@@ -55,7 +55,6 @@ class rcube_poppassd_password
 
         if (!preg_match('/^2\d\d/', $result)) {
             $poppassd->disconnect();
-
             return $this->format_error_result(PASSWORD_ERROR, $result);
         }
 
@@ -64,7 +63,6 @@ class rcube_poppassd_password
 
         if (!preg_match('/^[23]\d\d/', $result)) {
             $poppassd->disconnect();
-
             return $this->format_error_result(PASSWORD_CONNECT_ERROR, $result);
         }
 
@@ -73,7 +71,6 @@ class rcube_poppassd_password
 
         if (!preg_match('/^[23]\d\d/', $result)) {
             $poppassd->disconnect();
-
             return $this->format_error_result(PASSWORD_ERROR, $result);
         }
 

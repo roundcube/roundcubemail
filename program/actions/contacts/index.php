@@ -1339,7 +1339,6 @@ class rcmail_action_contacts_index extends rcmail_action
     public static function format_date_col($val)
     {
         $rcmail = rcmail::get_instance();
-
         return $rcmail->format_date($val, $rcmail->config->get('date_format', 'Y-m-d'), false);
     }
 

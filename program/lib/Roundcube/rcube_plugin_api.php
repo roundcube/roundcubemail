@@ -509,7 +509,6 @@ class rcube_plugin_api
         }
 
         array_pop($this->exec_stack);
-
         return $args;
     }
 
@@ -617,7 +616,6 @@ class rcube_plugin_api
         } else {
             $this->tasks[$task] = $owner;
             rcmail::$main_tasks[] = $task;
-
             return true;
         }
 

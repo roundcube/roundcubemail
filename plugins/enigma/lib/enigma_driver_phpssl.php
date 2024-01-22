@@ -162,7 +162,6 @@ class enigma_driver_phpssl extends enigma_driver
 
         if (empty($cert) || empty($cert['subject'])) {
             $errorstr = $this->get_openssl_error();
-
             return new enigma_error(enigma_error::INTERNAL, $errorstr);
         }
 

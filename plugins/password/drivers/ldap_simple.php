@@ -146,7 +146,6 @@ class rcube_ldap_simple_password
         if ($rcmail->config->get('password_ldap_starttls')) {
             if (!ldap_start_tls($ds)) {
                 ldap_unbind($ds);
-
                 return PASSWORD_CONNECT_ERROR;
             }
         }
@@ -167,7 +166,6 @@ class rcube_ldap_simple_password
 
         if (empty($user_dn)) {
             ldap_unbind($ds);
-
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -245,7 +243,6 @@ class rcube_ldap_simple_password
                 // Bind
                 if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {
                     $this->_debug('S: ' . ldap_error($ds));
-
                     return false;
                 }
 
@@ -255,7 +252,6 @@ class rcube_ldap_simple_password
                 // Bind
                 if (!ldap_bind($ds, $search_user, $search_pass)) {
                     $this->_debug('S: ' . ldap_error($ds));
-
                     return false;
                 }
 
@@ -272,7 +268,6 @@ class rcube_ldap_simple_password
         // Search for the DN
         if (!($sr = ldap_search($ds, $search_base, $search_filter))) {
             $this->_debug('S: ' . ldap_error($ds));
-
             return false;
         }
 

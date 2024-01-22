@@ -629,7 +629,6 @@ class rcube_charset
                     $input[$k] = $v;
                 }
             }
-
             return $input;
         }
 

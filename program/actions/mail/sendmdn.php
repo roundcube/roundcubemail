@@ -53,7 +53,6 @@ class rcmail_action_mail_sendmdn extends rcmail_action
             }
 
             $rcmail->action = 'addcontact';
-
             return;
         }
 
@@ -139,7 +138,6 @@ class rcmail_action_mail_sendmdn extends rcmail_action
 
             if ($sent) {
                 $rcmail->storage->set_flag($message->uid, 'MDNSENT');
-
                 return true;
             }
         }

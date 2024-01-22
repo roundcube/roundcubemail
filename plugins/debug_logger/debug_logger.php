@@ -101,7 +101,6 @@ class debug_logger extends rcube_plugin
     public function authenticate($args)
     {
         $this->runlog->note('Authenticating ' . $args['user'] . '@' . $args['host']);
-
         return $args;
     }
 

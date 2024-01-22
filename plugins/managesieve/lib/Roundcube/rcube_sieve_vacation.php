@@ -75,7 +75,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                             $action = $rule['actions'][0];
                             if ($action['type'] == 'vacation') {
                                 $this->script_name = $script;
-
                                 return 0;
                             } elseif (empty($master) && empty($action['global']) && $action['type'] == 'include') {
                                 $included[] = $action['target'];
@@ -91,7 +90,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                     foreach ($this->sieve->script->as_array() as $rule) {
                         if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'vacation') {
                             $this->script_name = $script;
-
                             return 0;
                         }
                     }
@@ -107,7 +105,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                     foreach ($this->sieve->script->as_array() as $rule) {
                         if (!empty($rule['actions']) && $rule['actions'][0]['type'] == 'vacation') {
                             $this->script_name = $script;
-
                             return 0;
                         }
                     }
@@ -576,7 +573,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         if ($interval->invert || $interval->days > 365) {
             $error = 'managesieve.invaliddateformat';
-
             return;
         }
 
@@ -767,27 +763,23 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 unset($vacation['addresses'][$aidx]);
             } elseif (!rcube_utils::check_email($address)) {
                 $this->error = "Invalid address in vacation addresses: {$address}";
-
                 return false;
             }
         }
 
         if (!empty($vacation['from']) && !rcube_utils::check_email($vacation['from'])) {
             $this->error = "Invalid address in 'from': " . $vacation['from'];
-
             return false;
         }
 
         if ($vacation['reason'] == '') {
             $this->error = 'No vacation message specified';
-
             return false;
         }
 
         if (!empty($data['interval'])) {
             if (!preg_match('/^([0-9]+)\s*([sd])$/', $data['interval'], $m)) {
                 $this->error = 'Invalid vacation interval value: ' . $data['interval'];
-
                 return false;
             } elseif ($m[1]) {
                 $vacation[strtolower($m[2]) == 's' ? 'seconds' : 'days'] = $m[1];
@@ -825,7 +817,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
                 if ($error) {
                     $this->error = 'Invalid dates specified or unsupported period length';
-
                     return false;
                 }
             }
@@ -834,12 +825,10 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         if ($data['action'] == 'redirect' || $data['action'] == 'copy') {
             if (empty($data['target']) || !rcube_utils::check_email($data['target'])) {
                 $this->error = 'Invalid address in action target: ' . $data['target'];
-
                 return false;
             }
         } elseif ($data['action'] && $data['action'] != 'keep' && $data['action'] != 'discard') {
             $this->error = 'Unsupported vacation action: ' . $data['action'];
-
             return false;
         }
 

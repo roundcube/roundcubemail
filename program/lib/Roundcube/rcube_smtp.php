@@ -61,7 +61,6 @@ class rcube_smtp
                 } else {
                     $this->response[] = 'Connection failed: No SMTP server found for IMAP host ' . $_SESSION['storage_host'];
                     $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
-
                     return false;
                 }
             }
@@ -136,7 +135,6 @@ class rcube_smtp
         if (is_a($result, 'PEAR_Error')) {
             $this->_conn_error('smtpconnerror', 'Connection failed', [], $result);
             $this->conn = null;
-
             return false;
         }
 
@@ -153,7 +151,6 @@ class rcube_smtp
         if (is_a($result, 'PEAR_Error')) {
             $this->_conn_error('smtpconnerror', 'XCLIENT failed', [], $result);
             $this->disconnect();
-
             return false;
         }
 
@@ -163,7 +160,6 @@ class rcube_smtp
             if (is_a($result, 'PEAR_Error')) {
                 $this->_conn_error('smtpconnerror', 'STARTTLS failed', [], $result);
                 $this->disconnect();
-
                 return false;
             }
         }
@@ -196,7 +192,6 @@ class rcube_smtp
             if (is_a($result, 'PEAR_Error')) {
                 $this->_conn_error('smtpautherror', 'Authentication failure', [], $result);
                 $this->disconnect();
-
                 return false;
             }
         }
@@ -233,7 +228,6 @@ class rcube_smtp
         if (is_array($headers)) {
             if (!($headerElements = $this->_prepare_headers($headers))) {
                 $this->reset();
-
                 return false;
             }
 
@@ -246,7 +240,6 @@ class rcube_smtp
         if (!isset($from)) {
             $this->reset();
             $this->response[] = 'No From address has been provided';
-
             return false;
         }
 
@@ -255,7 +248,6 @@ class rcube_smtp
         if (is_a($recipients, 'PEAR_Error')) {
             $this->error = ['label' => 'smtprecipientserror'];
             $this->reset();
-
             return false;
         }
 
@@ -278,7 +270,6 @@ class rcube_smtp
             } else {
                 $this->_conn_error('smtputf8error', 'SMTP server does not support unicode in email addresses');
                 $this->reset();
-
                 return false;
             }
         }
@@ -296,7 +287,6 @@ class rcube_smtp
         if (is_a($result, 'PEAR_Error')) {
             $this->_conn_error('smtpfromerror', "Failed to set sender '{$from}'", ['from' => $from]);
             $this->reset();
-
             return false;
         }
 
@@ -306,7 +296,6 @@ class rcube_smtp
             if (is_a($result, 'PEAR_Error')) {
                 $this->_conn_error('smtptoerror', "Failed to add recipient '{$recipient}'", ['to' => $recipient]);
                 $this->reset();
-
                 return false;
             }
         }
@@ -357,12 +346,10 @@ class rcube_smtp
             $this->error = ['label' => $err_label, 'vars' => $err_vars];
             $this->response[] = 'Failed to send data. ' . $msg;
             $this->reset();
-
             return false;
         }
 
         $this->response[] = implode(': ', $this->conn->getResponse());
-
         return true;
     }
 

@@ -200,7 +200,6 @@ class enigma extends rcube_plugin
             'title'  => 'enigmakeys',
             'domain' => 'enigma',
         ];
-
         /*
         $args['actions'][] = [
             'action' => 'plugin.enigmacerts',
@@ -249,7 +248,6 @@ class enigma extends rcube_plugin
         if (!isset($no_override['enigma_encryption'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
-
                 return $p;
             }
 
@@ -269,7 +267,6 @@ class enigma extends rcube_plugin
         if (!isset($no_override['enigma_signatures'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
-
                 return $p;
             }
 
@@ -289,7 +286,6 @@ class enigma extends rcube_plugin
         if (!isset($no_override['enigma_decryption'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
-
                 return $p;
             }
 
@@ -309,7 +305,6 @@ class enigma extends rcube_plugin
         if (!isset($no_override['enigma_sign_all'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
-
                 return $p;
             }
 
@@ -329,7 +324,6 @@ class enigma extends rcube_plugin
         if (!isset($no_override['enigma_encrypt_all'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
-
                 return $p;
             }
 
@@ -349,7 +343,6 @@ class enigma extends rcube_plugin
         if (!isset($no_override['enigma_attach_pubkey'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
-
                 return $p;
             }
 
@@ -369,7 +362,6 @@ class enigma extends rcube_plugin
         if (!isset($no_override['enigma_password_time'])) {
             if (!$p['current']) {
                 $p['blocks']['main']['content'] = true;
-
                 return $p;
             }
 

@@ -71,7 +71,6 @@ class rcube_xmail_password
         }
 
         $xmail->close();
-
         return PASSWORD_SUCCESS;
     }
 }
@@ -90,7 +89,6 @@ class XMail
         if (substr(socket_read($this->socket, 512, \PHP_BINARY_READ), 0, 1) != '+') {
             return false;
         }
-
         return true;
     }
 
@@ -104,22 +102,18 @@ class XMail
         $result = socket_connect($this->socket, $this->hostname, $this->port);
         if ($result < 0) {
             socket_close($this->socket);
-
             return false;
         }
 
         if (substr(socket_read($this->socket, 512, \PHP_BINARY_READ), 0, 1) != '+') {
             socket_close($this->socket);
-
             return false;
         }
 
         if (!$this->send("{$this->username}\t{$this->password}\n")) {
             socket_close($this->socket);
-
             return false;
         }
-
         return true;
     }
 

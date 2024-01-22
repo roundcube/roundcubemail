@@ -79,9 +79,7 @@ return (new Config())
         'use_arrow_functions' => false,
 
         // disable too destructive formating for now
-        'blank_line_before_statement' => [
-            'statements' => ['declare', 'return', 'throw', 'exit'],
-        ],
+        'blank_line_before_statement' => false,
         'declare_strict_types' => false,
         'increment_style' => [
             'style' => 'post',

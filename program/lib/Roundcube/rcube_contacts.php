@@ -187,7 +187,6 @@ class rcube_contacts extends rcube_addressbook
 
         if ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
             $sql_arr['ID'] = $sql_arr['contactgroup_id'];
-
             return $sql_arr;
         }
 
@@ -423,7 +422,6 @@ class rcube_contacts extends rcube_addressbook
             // when we know we have an empty result
             if ($ids == '0') {
                 $this->set_search_set($where);
-
                 return $this->result = new rcube_result_set(0, 0);
             }
         }

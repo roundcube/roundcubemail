@@ -135,7 +135,6 @@ abstract class rcmail_output extends rcube_output
         }
 
         echo $body;
-
         exit;
     }
 
@@ -150,7 +149,6 @@ abstract class rcmail_output extends rcube_output
     public function sendExitError($code, $message = '')
     {
         http_response_code($code);
-
         exit($message);
     }
 }

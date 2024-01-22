@@ -294,7 +294,6 @@ class rcube_result_thread
 
                 return $idx;
             }
-
             return true;
         }
 
@@ -352,7 +351,6 @@ class rcube_result_thread
         if ($index === 0 || $index === '0' || $index === 'FIRST') {
             preg_match('/^([0-9]+)/', $this->raw_data, $m);
             $result = (int) $m[1];
-
             return $result;
         }
 
@@ -360,7 +358,6 @@ class rcube_result_thread
         if ($index === 'LAST' || $index == $count - 1) {
             preg_match('/([0-9]+)$/', $this->raw_data, $m);
             $result = (int) $m[1];
-
             return $result;
         }
 

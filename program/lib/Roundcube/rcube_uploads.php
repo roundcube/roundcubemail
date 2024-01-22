@@ -246,7 +246,6 @@ trait rcube_uploads
                     header('Content-Length: ' . filesize($cache_file));
 
                     readfile($cache_file);
-
                     exit;
                 }
             }

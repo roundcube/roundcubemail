@@ -169,7 +169,6 @@ abstract class rcube_session implements SessionHandlerInterface
         // if there are cached vars, update store, else insert new data
         if ($oldvars) {
             $newvars = $this->fixvars($vars, $oldvars);
-
             return $this->update($key, $newvars, $oldvars);
         }
 

@@ -666,7 +666,6 @@ class rcmail extends rcube
 
         if ($cookiecheck && empty($_COOKIE)) {
             $this->login_error = self::ERROR_COOKIES_DISABLED;
-
             return false;
         }
 
@@ -677,7 +676,6 @@ class rcmail extends rcube
         // check username input validity
         if (!$this->login_input_checks($username, $password)) {
             $this->login_error = self::ERROR_INVALID_REQUEST;
-
             return false;
         }
 
@@ -696,7 +694,6 @@ class rcmail extends rcube
 
         if (!$host) {
             $this->login_error = self::ERROR_INVALID_HOST;
-
             return false;
         }
 
@@ -761,7 +758,6 @@ class rcmail extends rcube
             // Brute-force prevention
             if ($user->is_locked()) {
                 $this->login_error = self::ERROR_RATE_LIMIT;
-
                 return false;
             }
         }
@@ -776,7 +772,6 @@ class rcmail extends rcube
 
             // Wait a second to slow down brute-force attacks (#1490549)
             sleep(1);
-
             return false;
         }
 
