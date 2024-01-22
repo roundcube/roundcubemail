@@ -195,9 +195,9 @@ class rcube_imap_search_job // extends Stackable
 
             if ($this->threading) {
                 return new rcube_result_thread($this->folder);
-            } else {
-                return new rcube_result_index($this->folder);
             }
+
+            return new rcube_result_index($this->folder);
         }
 
         if ($this->worker->options['skip_deleted'] && !preg_match('/UNDELETED/', $criteria)) {

@@ -120,40 +120,40 @@ class rcube_utils
         // Validate domain part
         if (preg_match('/^\[((IPv6:[0-9a-f:.]+)|([0-9.]+))\]$/i', $domain_part, $matches)) {
             return self::check_ip(preg_replace('/^IPv6:/i', '', $matches[1])); // valid IPv4 or IPv6 address
-        } else {
-            // If not an IP address
-            $domain_array = explode('.', $domain_part);
-            // Not enough parts to be a valid domain
-            if (count($domain_array) < 2) {
+        }
+
+        // If not an IP address
+        $domain_array = explode('.', $domain_part);
+        // Not enough parts to be a valid domain
+        if (count($domain_array) < 2) {
+            return false;
+        }
+
+        foreach ($domain_array as $part) {
+            if (!preg_match('/^((xn--)?([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]))$/', $part)) {
                 return false;
             }
+        }
 
-            foreach ($domain_array as $part) {
-                if (!preg_match('/^((xn--)?([A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9])|([A-Za-z0-9]))$/', $part)) {
-                    return false;
-                }
-            }
+        // last domain part (allow extended TLD)
+        $last_part = array_pop($domain_array);
+        if (strpos($last_part, 'xn--') !== 0
+            && (preg_match('/[^a-zA-Z0-9]/', $last_part) || preg_match('/^[0-9]+$/', $last_part))
+        ) {
+            return false;
+        }
 
-            // last domain part (allow extended TLD)
-            $last_part = array_pop($domain_array);
-            if (strpos($last_part, 'xn--') !== 0
-                && (preg_match('/[^a-zA-Z0-9]/', $last_part) || preg_match('/^[0-9]+$/', $last_part))
-            ) {
-                return false;
-            }
+        $rcube = rcube::get_instance();
 
-            $rcube = rcube::get_instance();
+        if (!$dns_check || !function_exists('checkdnsrr') || !$rcube->config->get('email_dns_check')) {
+            return true;
+        }
 
-            if (!$dns_check || !function_exists('checkdnsrr') || !$rcube->config->get('email_dns_check')) {
+        // Check DNS record(s)
+        // Note: We can't use ANY (#6581)
+        foreach (['A', 'MX', 'CNAME', 'AAAA'] as $type) {
+            if (checkdnsrr($domain_part, $type)) {
                 return true;
-            }
-
-            // Check DNS record(s)
-            // Note: We can't use ANY (#6581)
-            foreach (['A', 'MX', 'CNAME', 'AAAA'] as $type) {
-                if (checkdnsrr($domain_part, $type)) {
-                    return true;
-                }
             }
         }
 

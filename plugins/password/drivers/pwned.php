@@ -164,9 +164,9 @@ class rcube_pwned_password
     {
         if ($this->can_curl()) {
             return $this->retrieve_curl($url);
-        } else {
-            return $this->retrieve_fopen($url);
         }
+
+        return $this->retrieve_fopen($url);
     }
 
     public function retrieve_curl($url)

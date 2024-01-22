@@ -779,9 +779,9 @@ class rcmail_output_html extends rcmail_output
                 $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
                 $skin_dir        = preg_replace('!^plugins/!', '', $skin_path);
                 break;
-            } else {
-                $path = false;
             }
+
+            $path = false;
         }
 
         // read template file

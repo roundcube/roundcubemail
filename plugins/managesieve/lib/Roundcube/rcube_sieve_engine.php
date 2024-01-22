@@ -3397,9 +3397,9 @@ class rcube_sieve_engine
             if (empty($addr['mailto']) || !rcube_utils::check_email($addr['mailto'])) {
                 $this->errors['actions'][$i][$field] = $this->plugin->gettext('noemailwarning');
                 break;
-            } else {
-                $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
             }
+
+            $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
         }
 
         // Only one address is allowed (at least on cyrus imap)

@@ -1310,9 +1310,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // basename() is not unicode safe and locale dependent
         if (stristr(\PHP_OS, 'win') || stristr(\PHP_OS, 'netware')) {
             return preg_replace('/^.*[\\\\\\/]/', '', $filename);
-        } else {
-            return preg_replace('/^.*[\/]/', '', $filename);
         }
+
+        return preg_replace('/^.*[\/]/', '', $filename);
     }
 
     /**

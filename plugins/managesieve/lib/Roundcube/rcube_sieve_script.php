@@ -1202,10 +1202,9 @@ class rcube_sieve_script
         if (preg_match('/[\r\n\0]/', $str)) {
             return sprintf("text:\r\n%s\r\n.\r\n", self::escape_multiline_string($str));
         }
+
         // quoted-string
-        else {
-            return '"' . addcslashes($str, '\\"') . '"';
-        }
+        return '"' . addcslashes($str, '\\"') . '"';
     }
 
     /**
@@ -1312,9 +1311,9 @@ class rcube_sieve_script
                     if ($lf_pos = strpos($str, "\n", $position)) {
                         $position = $lf_pos + 1;
                         break;
-                    } else {
-                        $position = $length;
                     }
+
+                    $position = $length;
 
                     // String atom (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 default:

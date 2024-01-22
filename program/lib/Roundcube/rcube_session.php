@@ -170,9 +170,9 @@ abstract class rcube_session implements SessionHandlerInterface
         if ($oldvars) {
             $newvars = $this->fixvars($vars, $oldvars);
             return $this->update($key, $newvars, $oldvars);
-        } else {
-            return $this->save($key, $vars);
         }
+
+        return $this->save($key, $vars);
     }
 
     /**
