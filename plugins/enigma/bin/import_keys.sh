@@ -36,6 +36,7 @@ $args = rcube_utils::get_opt([
 
 if (!empty($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'help') {
     print_usage();
+
     exit;
 }
 

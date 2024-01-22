@@ -221,6 +221,7 @@ class enigma_driver_gnupg extends enigma_driver
     {
         try {
             $verified = $this->gpg->verify($text, $signature);
+
             return $this->parse_signature($verified[0]);
         } catch (Exception $e) {
             return $this->get_error_from_exception($e);
@@ -428,6 +429,7 @@ class enigma_driver_gnupg extends enigma_driver
     {
         try {
             $this->gpg->deletePrivateKey($keyid);
+
             return true;
         } catch (Exception $e) {
             return $this->get_error_from_exception($e);
@@ -441,6 +443,7 @@ class enigma_driver_gnupg extends enigma_driver
     {
         try {
             $this->gpg->deletePublicKey($keyid);
+
             return true;
         } catch (Exception $e) {
             return $this->get_error_from_exception($e);

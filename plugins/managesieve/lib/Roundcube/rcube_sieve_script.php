@@ -87,6 +87,7 @@ class rcube_sieve_script
     {
         // TODO: check this->supported
         $this->content[] = $content;
+
         return count($this->content) - 1;
     }
 
@@ -101,6 +102,7 @@ class rcube_sieve_script
     {
         if (isset($this->content[$index])) {
             unset($this->content[$index]);
+
             return true;
         }
 
@@ -130,6 +132,7 @@ class rcube_sieve_script
         // TODO: check this->supported
         if (isset($this->content[$index])) {
             $this->content[$index] = $content;
+
             return $index;
         }
 
@@ -1277,6 +1280,7 @@ class rcube_sieve_script
                     break;
                 case ']':
                     $position++;
+
                     return $result;
                     break;
                     // list/test separator (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)

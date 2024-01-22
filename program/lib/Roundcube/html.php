@@ -103,6 +103,7 @@ class html
 
         if (!empty($doctypes[$type])) {
             self::$doctype = preg_replace('/-\w+$/', '', $type);
+
             return $doctypes[$type];
         }
 
@@ -952,6 +953,7 @@ class html_table extends html
     private function _row_tagname()
     {
         static $row_tagnames = ['table' => 'tr', 'ul' => 'li', '*' => 'div'];
+
         return !empty($row_tagnames[$this->tagname]) ? $row_tagnames[$this->tagname] : $row_tagnames['*'];
     }
 
@@ -961,6 +963,7 @@ class html_table extends html
     private function _head_tagname()
     {
         static $head_tagnames = ['table' => 'th', '*' => 'span'];
+
         return !empty($head_tagnames[$this->tagname]) ? $head_tagnames[$this->tagname] : $head_tagnames['*'];
     }
 
@@ -970,6 +973,7 @@ class html_table extends html
     private function _col_tagname()
     {
         static $col_tagnames = ['table' => 'td', '*' => 'span'];
+
         return !empty($col_tagnames[$this->tagname]) ? $col_tagnames[$this->tagname] : $col_tagnames['*'];
     }
 }

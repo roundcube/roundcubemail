@@ -616,6 +616,7 @@ class rcmail_output_html extends rcmail_output
 
         $location = $this->app->url($p, false, false, $secure);
         $this->header('Location: ' . $location);
+
         exit;
     }
 
@@ -794,6 +795,7 @@ class rcmail_output_html extends rcmail_output
             ], true, $write);
 
             $this->skin_paths = array_slice($this->skin_paths, count($plugin_skin_paths));
+
             return false;
         }
 
@@ -1422,6 +1424,7 @@ class rcmail_output_html extends rcmail_output
                 return $include;
             case 'plugin.include':
                 $hook = $this->app->plugins->exec_hook('template_plugin_include', $attrib + ['content' => '']);
+
                 return $hook['content'];
                 // define a container block (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'container':
@@ -1429,6 +1432,7 @@ class rcmail_output_html extends rcmail_output
                     $this->command('gui_container', $attrib['name'], $attrib['id']);
                     // let plugins insert some content here
                     $hook = $this->app->plugins->exec_hook('template_container', $attrib + ['content' => '']);
+
                     return $hook['content'];
                 }
                 break;

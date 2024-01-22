@@ -31,6 +31,7 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
         $rcmail->plugins->register_hook('attachment_delete', static function ($att) {
             $att['status'] = true;
             $att['break'] = true;
+
             return $att;
         });
 

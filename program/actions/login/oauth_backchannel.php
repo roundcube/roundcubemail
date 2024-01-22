@@ -69,6 +69,7 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 header('Content-Type: application/json; charset=UTF-8');
                 header('Cache-Control: no-store');
                 echo '{}';
+
                 exit;
             } catch (Exception $e) {
                 rcube::raise_error([
@@ -90,6 +91,7 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
         header('Content-Type: application/json; charset=UTF-8');
         header('Cache-Control: no-store');
         echo json_encode($answer);
+
         exit;
     }
 }

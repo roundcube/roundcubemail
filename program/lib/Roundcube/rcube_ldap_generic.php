@@ -152,10 +152,12 @@ class rcube_ldap_generic extends Net_LDAP3
 
         if (!ldap_mod_replace($this->conn, $dn, $entry)) {
             $this->_error('ldap_mod_replace() failed with ' . ldap_error($this->conn));
+
             return false;
         }
 
         $this->_debug('S: OK');
+
         return true;
     }
 
@@ -170,10 +172,12 @@ class rcube_ldap_generic extends Net_LDAP3
 
         if (!ldap_mod_add($this->conn, $dn, $entry)) {
             $this->_error('ldap_mod_add() failed with ' . ldap_error($this->conn));
+
             return false;
         }
 
         $this->_debug('S: OK');
+
         return true;
     }
 
@@ -188,10 +192,12 @@ class rcube_ldap_generic extends Net_LDAP3
 
         if (!ldap_mod_del($this->conn, $dn, $entry)) {
             $this->_error('ldap_mod_del() failed with ' . ldap_error($this->conn));
+
             return false;
         }
 
         $this->_debug('S: OK');
+
         return true;
     }
 
@@ -206,10 +212,12 @@ class rcube_ldap_generic extends Net_LDAP3
 
         if (!ldap_rename($this->conn, $dn, $newrdn, $newparent, $deleteoldrdn)) {
             $this->_error('ldap_rename() failed with ' . ldap_error($this->conn));
+
             return false;
         }
 
         $this->_debug('S: OK');
+
         return true;
     }
 
@@ -228,6 +236,7 @@ class rcube_ldap_generic extends Net_LDAP3
 
             if ($list === false) {
                 $this->_error('ldap_get_entries() failed with ' . ldap_error($this->conn));
+
                 return [];
             }
 
@@ -257,10 +266,12 @@ class rcube_ldap_generic extends Net_LDAP3
             $result = @ldap_read($this->conn, $dn, $filter, $attributes, 0, (int) $this->config['sizelimit'], (int) $this->config['timelimit']);
             if ($result === false) {
                 $this->_error('ldap_read() failed with ' . ldap_error($this->conn));
+
                 return false;
             }
 
             $this->_debug('S: OK');
+
             return ldap_get_entries($this->conn, $result);
         }
 

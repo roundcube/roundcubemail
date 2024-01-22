@@ -42,6 +42,7 @@ class rcmail_action_mail_folder_expunge extends rcmail_action
                 $rcmail->output->command('set_quota', self::quota_content(null, $mbox));
                 $rcmail->output->command('message_list.clear');
                 $rcmail->action = 'list';
+
                 return;
             }
         } else {

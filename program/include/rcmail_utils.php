@@ -101,6 +101,7 @@ class rcmail_utils
             if (!empty($opts['errors'])) {
                 rcube::raise_error("Specified database schema directory doesn't exist.", false, true);
             }
+
             return false;
         }
 
@@ -168,6 +169,7 @@ class rcmail_utils
             if (!empty($opts['errors'])) {
                 rcube::raise_error('DDL Upgrade files for ' . $db->db_provider . ' driver not found.', false, true);
             }
+
             return false;
         }
 
@@ -198,6 +200,7 @@ class rcmail_utils
                 if (!empty($opts['errors'])) {
                     rcube::raise_error("Error in DDL upgrade {$v}: {$error}", false, true);
                 }
+
                 return false;
             } elseif (empty($opts['quiet'])) {
                 echo "[OK]\n";

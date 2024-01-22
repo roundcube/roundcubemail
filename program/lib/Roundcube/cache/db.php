@@ -127,6 +127,7 @@ class rcube_cache_db extends rcube_cache
         // don't attempt to write too big data sets
         if ($size > $this->max_packet_size()) {
             trigger_error("rcube_cache: max_packet_size ({$this->max_packet}) exceeded for key {$key}. Tried to write {$size} bytes", \E_USER_WARNING);
+
             return false;
         }
 

@@ -85,6 +85,7 @@ if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_h
         }
 
         header('Location: https://' . $host . $_SERVER['REQUEST_URI']);
+
         exit;
     }
 }

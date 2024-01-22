@@ -47,6 +47,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 . '<meta http-equiv="refresh" content="0; url=' . rcube::Q($url) . '">' . "\n"
                 . '<meta http-equiv="content-type" content="text/html; charset=' . RCUBE_CHARSET . '">' . "\n"
                 . "</head>\n<body>\n{$message}\n</body>\n</html>";
+
             exit;
         }
 
@@ -259,6 +260,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 }
 
                 $rcmail->output->write($out);
+
                 exit;
             }
 
@@ -294,6 +296,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
         // if we arrive here, the requested part was not found
         http_response_code(404);
+
         exit;
     }
 

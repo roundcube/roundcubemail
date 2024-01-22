@@ -525,6 +525,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
 
             $row = $plugin['output'][$attrib['valueof']];
+
             return !empty($row['html']) ? $row['value'] : rcube::SQ($row['value']);
         }
 

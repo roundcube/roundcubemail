@@ -436,6 +436,7 @@ class password extends rcube_plugin
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Password plugin: Driver file does not exist ({$file})",
                 ], true, false);
+
                 return false;
             }
 
@@ -446,6 +447,7 @@ class password extends rcube_plugin
                     'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Password plugin: Broken driver {$driver}",
                 ], true, false);
+
                 return false;
             }
 
@@ -458,6 +460,7 @@ class password extends rcube_plugin
     public function user_create($args)
     {
         $this->newuser = true;
+
         return $args;
     }
 
@@ -688,6 +691,7 @@ class password extends rcube_plugin
                         'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                         'message' => "Password plugin: Failed to execute command: {$command}",
                     ], true, false);
+
                     return false;
                 }
 

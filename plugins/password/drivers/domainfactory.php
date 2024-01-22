@@ -75,6 +75,7 @@ class rcube_domainfactory_password
                             foreach ($errors[1] as $error) {
                                 $error_message .= trim(rcube_charset::convert($error, 'ISO-8859-15')) . ' ';
                             }
+
                             return ['code' => PASSWORD_ERROR, 'message' => $error_message];
                         }
                     }

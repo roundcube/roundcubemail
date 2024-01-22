@@ -637,6 +637,7 @@ class rcube_db
             // repeat query with SELECT COUNT(*) ...
             if (preg_match('/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/ims', $result->queryString, $m)) {
                 $query = $this->dbh->query('SELECT COUNT(*) FROM ' . $m[1], PDO::FETCH_NUM);
+
                 return $query ? intval($query->fetchColumn(0)) : false;
             }
 

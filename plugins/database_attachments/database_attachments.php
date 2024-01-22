@@ -157,6 +157,7 @@ class database_attachments extends filesystem_attachments
     protected function _key($args)
     {
         $uname = !empty($args['path']) ? $args['path'] : $args['name'];
+
         return $args['group'] . md5(microtime() . $uname . $_SESSION['user_id']);
     }
 

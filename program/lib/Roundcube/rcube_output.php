@@ -292,6 +292,7 @@ abstract class rcube_output
     {
         // STUB: to be overloaded by specific output classes
         fwrite(\STDERR, "Error {$code}: {$message}\n");
+
         exit(-1);
     }
 

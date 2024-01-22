@@ -98,6 +98,7 @@ class archive extends rcube_plugin
         foreach ($list as $idx => $item) {
             if ($item['id'] == $folder) {
                 $list[$idx]['name'] = $new_name;
+
                 return true;
             } elseif (!empty($item['folders'])) {
                 if ($this->_mod_folder_name($list[$idx]['folders'], $folder, $new_name)) {

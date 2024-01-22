@@ -40,6 +40,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
         if (empty($_POST['_email']) && ($IDENTITIES_LEVEL == 0 || $IDENTITIES_LEVEL == 2)) {
             $rcmail->output->show_message('noemailwarning', 'warning');
             $rcmail->overwrite_action('edit-identity');
+
             return;
         }
 
@@ -93,6 +94,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 // show error message
                 $rcmail->output->show_message('emailformaterror', 'error', ['email' => rcube_utils::idn_to_utf8($email)], false);
                 $rcmail->overwrite_action('edit-identity');
+
                 return;
             }
         }
@@ -149,6 +151,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);
                 $rcmail->overwrite_action('edit-identity');
+
                 return;
             }
         }
@@ -190,6 +193,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);
                 $rcmail->overwrite_action('edit-identity');
+
                 return;
             }
         } else {

@@ -284,6 +284,7 @@ class rcube_addresses extends rcube_contacts
         // require email
         if (empty($email) || count($email) > 1) {
             $this->set_error(self::ERROR_VALIDATE, 'noemailwarning');
+
             return false;
         }
 
@@ -294,6 +295,7 @@ class rcube_addresses extends rcube_contacts
             $rcube = rcube::get_instance();
             $error = $rcube->gettext(['name' => 'emailformaterror', 'vars' => ['email' => $email]]);
             $this->set_error(self::ERROR_VALIDATE, $error);
+
             return false;
         }
 

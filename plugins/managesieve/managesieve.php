@@ -337,6 +337,7 @@ class managesieve extends rcube_plugin
     {
         // Fetch extra mail headers used by the plugin
         $p['fetch_headers'] = trim(($p['fetch_headers'] ?? '') . ' List-Id');
+
         return $p;
     }
 }

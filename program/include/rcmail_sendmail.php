@@ -786,6 +786,7 @@ class rcmail_sendmail
             $item = trim($item, '<>');
             if ($item && $check && !rcube_utils::check_email($item)) {
                 $this->parse_data['INVALID_EMAIL'] = $item;
+
                 return;
             }
         }

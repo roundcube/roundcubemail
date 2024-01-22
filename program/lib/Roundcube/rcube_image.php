@@ -196,6 +196,7 @@ class rcube_image
 
             if ($result === '') {
                 @chmod($filename, 0600);
+
                 return $type;
             }
         }
@@ -281,6 +282,7 @@ class rcube_image
 
             if ($result) {
                 @chmod($filename, 0600);
+
                 return $type;
             }
         }
@@ -322,6 +324,7 @@ class rcube_image
 
             if ($result === '') {
                 chmod($filename, 0600);
+
                 return true;
             }
         }
@@ -338,6 +341,7 @@ class rcube_image
 
                 if ($image->writeImage($filename)) {
                     @chmod($filename, 0600);
+
                     return true;
                 }
             } catch (Exception $e) {
@@ -377,6 +381,7 @@ class rcube_image
 
             if (!empty($result)) {
                 @chmod($filename, 0600);
+
                 return true;
             }
         }

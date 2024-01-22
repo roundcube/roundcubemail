@@ -648,6 +648,7 @@ class rcube
 
         if (isset($this->texts[$name])) {
             $ref_domain = '';
+
             return true;
         }
 
@@ -656,6 +657,7 @@ class rcube
             foreach ($this->plugins->loaded_plugins() as $domain) {
                 if (isset($this->texts[$domain . '.' . $name])) {
                     $ref_domain = $domain;
+
                     return true;
                 }
             }
@@ -663,6 +665,7 @@ class rcube
         // specified domain
         elseif ($domain && isset($this->texts[$domain . '.' . $name])) {
             $ref_domain = $domain;
+
             return true;
         }
 
@@ -1058,6 +1061,7 @@ class rcube
 
         if (empty($_COOKIE[ini_get('session.name')]) || $token !== $sess_tok) {
             $this->request_status = self::REQUEST_ERROR_TOKEN;
+
             return false;
         }
 
@@ -1326,6 +1330,7 @@ class rcube
 
         if ($log_driver == 'syslog') {
             $prio = $name == 'errors' ? \LOG_ERR : \LOG_INFO;
+
             return syslog($prio, $line);
         }
 
@@ -1333,6 +1338,7 @@ class rcube
         if ($log_driver == 'stdout') {
             $stdout = 'php://stdout';
             $line = "{$name}: {$line}\n";
+
             return file_put_contents($stdout, $line, \FILE_APPEND) !== false;
         }
 
@@ -1422,6 +1428,7 @@ class rcube
         if (!$cli && class_exists('rcmail_install', false)) {
             $rci = rcmail_install::get_instance();
             $rci->raise_error($arg);
+
             return;
         }
 
@@ -1447,6 +1454,7 @@ class rcube
             if (defined('ROUNDCUBE_TEST_MODE') && ROUNDCUBE_TEST_MODE) {
                 throw new Exception('Error raised');
             }
+
             exit(1);
         }
     }
@@ -1761,6 +1769,7 @@ class rcube
                     'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => 'Could not create message: ' . $mime_result->getMessage(),
                 ], true, false);
+
                 return false;
             }
 

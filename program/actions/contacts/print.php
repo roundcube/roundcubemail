@@ -62,6 +62,7 @@ class rcmail_action_contacts_print extends rcmail_action_contacts_index
         // check if we have a valid result
         if (!self::$contact) {
             $rcmail->output->show_message('contactnotfound', 'error');
+
             return false;
         }
 

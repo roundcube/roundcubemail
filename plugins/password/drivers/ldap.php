@@ -191,6 +191,7 @@ class rcube_ldap_password
 
         if (is_a($result, 'PEAR_Error') || ($result->count() != 1)) {
             $ldap->done();
+
             return '';
         }
 

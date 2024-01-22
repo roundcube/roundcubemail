@@ -62,11 +62,13 @@ class rcmail_action_utils_spell_html extends rcmail_action
             ], true, false);
 
             echo json_encode(['error' => $rcmail->gettext('internalerror')]);
+
             exit;
         }
 
         // send output
         echo json_encode($result);
+
         exit;
     }
 }

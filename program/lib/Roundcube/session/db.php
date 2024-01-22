@@ -116,6 +116,7 @@ class rcube_session_db extends rcube_session
             // Remove expired sessions (we use gc, but it may not be precise enough or disabled)
             if (!empty($sql_arr['expired'])) {
                 $this->destroy($key);
+
                 return '';
             }
 

@@ -202,6 +202,7 @@ class rcube_message
                 if ($fp) {
                     fwrite($fp, $part->body);
                 }
+
                 return $fp ? true : $part->body;
             }
 
@@ -290,6 +291,7 @@ class rcube_message
 
         if (is_resource($mode)) {
             @rewind($mode);
+
             return $body !== false;
         }
 
@@ -499,6 +501,7 @@ class rcube_message
         if (!$strict && ($body = $this->first_html_part($part, true))) {
             // create instance of html2text class
             $h2t  = new rcube_html2text($body);
+
             return $h2t->get_text();
         }
     }
@@ -564,6 +567,7 @@ class rcube_message
                     || (!empty($mpart->filename) && $mpart->filename != 'version.txt'))
             ) {
                 $this->encrypted_part = $mime_id;
+
                 return $mpart;
             }
         }
@@ -656,6 +660,7 @@ class rcube_message
             // parts with unsupported type add to attachments list
             if (!in_array($message_ctype_secondary, ['plain', 'html', 'enriched'])) {
                 $this->add_part($structure, 'attachment');
+
                 return;
             }
 

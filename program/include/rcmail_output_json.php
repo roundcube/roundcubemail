@@ -170,6 +170,7 @@ class rcmail_output_json extends rcmail_output
         $location = $this->app->url($p);
         $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);",
             self::JS_OBJECT_NAME, $location, $delay));
+
         exit;
     }
 
@@ -179,6 +180,7 @@ class rcmail_output_json extends rcmail_output
     public function send()
     {
         $this->remote_response();
+
         exit;
     }
 
@@ -192,11 +194,13 @@ class rcmail_output_json extends rcmail_output
     {
         if ($code == 403) {
             http_response_code(403);
+
             exit('Invalid Request');
         }
 
         $this->show_message("Application Error ({$code}): {$message}", 'error');
         $this->remote_response();
+
         exit;
     }
 
