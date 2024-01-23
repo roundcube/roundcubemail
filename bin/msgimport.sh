@@ -90,6 +90,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
                 }
                 $message = '';
             }
+
             continue;
         }
 

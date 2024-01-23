@@ -1220,11 +1220,13 @@ class rcube_imap_generic
                             if ($len = strspn($line, '0123456789', $pos)) {
                                 $this->data[$token] = (int) substr($line, $pos, $len);
                             }
+
                             break;
                         case 'HIGHESTMODSEQ':
                             if ($len = strspn($line, '0123456789', $pos)) {
                                 $this->data[$token] = (string) substr($line, $pos, $len);
                             }
+
                             break;
                         case 'NOMODSEQ':
                             $this->data[$token] = true;
@@ -1236,6 +1238,7 @@ class rcube_imap_generic
                                 $flags = substr($line, $start + 1, $end - $start - 1);
                                 $this->data[$token] = explode(' ', $flags);
                             }
+
                             break;
                     }
                 } elseif (preg_match('/^\* ([0-9]+) (EXISTS|RECENT|FETCH)/i', $line, $match)) {
@@ -2580,6 +2583,7 @@ class rcube_imap_generic
                                 if (preg_match('/charset\s*=\s*"?([a-z0-9\-\.\_]+)"?/i', $string, $regs)) {
                                     $result[$id]->charset = $regs[1];
                                 }
+
                                 break;
                             case 'in-reply-to':
                                 $result[$id]->in_reply_to = str_replace(["\n", '<', '>'], '', $string);
@@ -2595,6 +2599,7 @@ class rcube_imap_generic
                                 if (preg_match('/^(\d+)/', $string, $matches)) {
                                     $result[$id]->priority = intval($matches[1]);
                                 }
+
                                 break;
                             default:
                                 if (strlen($field) < 3) {
@@ -3678,6 +3683,7 @@ class rcube_imap_generic
                             unset($mbox);
                             unset($data[$i]);
                         }
+
                         continue;
                     } elseif (isset($mbox)) {
                         $attribs = $data[++$i];

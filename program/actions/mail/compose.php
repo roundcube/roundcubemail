@@ -604,6 +604,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                                 '_part' => $pgp_mime_part->mime_id,
                             ]);
                         }
+
                         continue;
                     }
 
@@ -1029,6 +1030,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 if (substr_count($body, "\n", $sp) < $sig_max_lines) {
                     $body = substr($body, 0, max(0, $sp - 1));
                 }
+
                 break;
             }
         }

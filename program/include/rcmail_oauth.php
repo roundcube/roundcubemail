@@ -1163,6 +1163,7 @@ class rcmail_oauth
                                 ], true, false);
                                 continue 2; // continue on next foreach iteration
                             }
+
                             break;
                         case 'language':
                             // normalize language
@@ -1176,6 +1177,7 @@ class rcmail_oauth
                                 ], true, false);
                                 continue 2; // continue on next foreach iteration
                             }
+
                             break;
                     }
                     $data[$rc_key] = $value;

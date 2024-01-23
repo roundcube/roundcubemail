@@ -1123,8 +1123,10 @@ class rcmail_output_html extends rcmail_output
                             if ($content_end === null) {
                                 $content_end = $tag_start;
                             }
+
                             break 2;
                         }
+
                         break;
                     case 'elseif':
                         if (!$level) {
@@ -1142,6 +1144,7 @@ class rcmail_output_html extends rcmail_output
                                 }
                             }
                         }
+
                         break;
                     case 'else':
                         if (!$level) {
@@ -1153,6 +1156,7 @@ class rcmail_output_html extends rcmail_output
                                 $content_start = $tag_end;
                             }
                         }
+
                         break;
                 }
 
@@ -1268,6 +1272,7 @@ class rcmail_output_html extends rcmail_output
                 if (is_array($value) && !empty($value[$_SESSION['storage_host']])) {
                     $value = $value[$_SESSION['storage_host']];
                 }
+
                 break;
             case 'request':
                 $value = rcube_utils::get_input_value($name, rcube_utils::INPUT_GPC);
@@ -1337,6 +1342,7 @@ class rcmail_output_html extends rcmail_output
                 if (!empty($attrib['name']) || !empty($attrib['command'])) {
                     return $this->button($attrib);
                 }
+
                 break;
                 // frame (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'frame':
@@ -1381,6 +1387,7 @@ class rcmail_output_html extends rcmail_output
 
                     return $label;
                 }
+
                 break;
             case 'add_label':
                 $this->add_label($attrib['name']);
@@ -1431,6 +1438,7 @@ class rcmail_output_html extends rcmail_output
                     $hook = $this->app->plugins->exec_hook('template_container', $attrib + ['content' => '']);
                     return $hook['content'];
                 }
+
                 break;
                 // return code for a specific application object (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'object':

@@ -479,6 +479,7 @@ class enigma_engine
                         if ($mode === 'signed') {
                             $body .= $line;
                         }
+
                         break 2; // ignore anything after this line
                     case 'encrypted-start':
                         $body = $line;
@@ -488,6 +489,7 @@ class enigma_engine
                         if ($mode === 'encrypted') {
                             $body .= $line;
                         }
+
                         break 2; // ignore anything after this line
                 }
 

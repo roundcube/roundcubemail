@@ -541,6 +541,7 @@ abstract class rcube_session implements SessionHandlerInterface
                             if ($level == 0) {
                                 break 2;
                             }
+
                             break;
                         case 'r': // reference
                             $q += 2;
@@ -553,6 +554,7 @@ abstract class rcube_session implements SessionHandlerInterface
                             if ($level == 0) {
                                 break 2;
                             }
+
                             break;
                         case 's': // string
                             $q += 2;
@@ -565,6 +567,7 @@ abstract class rcube_session implements SessionHandlerInterface
                             if ($level == 0) {
                                 break 2;
                             }
+
                             break;
                         case 'a': // array
                         case 'o': // object
@@ -581,6 +584,7 @@ abstract class rcube_session implements SessionHandlerInterface
                             if (--$level == 0) {
                                 break 2;
                             }
+
                             break;
                         default:
                             return false;
