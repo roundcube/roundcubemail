@@ -35,7 +35,7 @@ class attachment_reminder extends rcube_plugin
      */
     public function init()
     {
-        $rcmail = rcube::get_instance();
+        $rcmail = rcmail::get_instance();
 
         if ($rcmail->task == 'mail' && $rcmail->action == 'compose') {
             if ($rcmail->config->get('attachment_reminder')) {

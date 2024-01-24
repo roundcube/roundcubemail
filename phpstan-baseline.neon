@@ -1,31 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$ajax_call\\.$#"
-			count: 1
-			path: index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_footer\\(\\)\\.$#"
-			count: 1
-			path: index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: index.php
-
-		-
-			message: "#^Method rcube_output\\:\\:redirect\\(\\) invoked with 3 parameters, 0\\-2 required\\.$#"
-			count: 1
-			path: index.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 2
-			path: index.php
-
-		-
 			message: "#^Call to an undefined method object\\:\\:fail\\(\\)\\.$#"
 			count: 1
 			path: installer/test.php
@@ -41,16 +16,6 @@ parameters:
 			path: installer/test.php
 
 		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$ajax_call\\.$#"
-			count: 1
-			path: plugins/archive/archive.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 6
-			path: plugins/archive/archive.php
-
-		-
 			message: "#^Call to an undefined method rcube_storage\\:\\:fetch_headers\\(\\)\\.$#"
 			count: 1
 			path: plugins/archive/archive.php
@@ -62,21 +27,6 @@ parameters:
 			"""
 			count: 1
 			path: plugins/archive/archive.php
-
-		-
-			message: "#^Access to an undefined property rcube\\:\\:\\$action\\.$#"
-			count: 1
-			path: plugins/attachment_reminder/attachment_reminder.php
-
-		-
-			message: "#^Access to an undefined property rcube\\:\\:\\$task\\.$#"
-			count: 2
-			path: plugins/attachment_reminder/attachment_reminder.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: plugins/attachment_reminder/attachment_reminder.php
 
 		-
 			message: "#^Access to an undefined property rcube\\:\\:\\$task\\.$#"
@@ -239,66 +189,6 @@ parameters:
 			path: plugins/filesystem_attachments/filesystem_attachments.php
 
 		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$framed\\.$#"
-			count: 1
-			path: plugins/help/help.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: plugins/help/help.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:button\\(\\)\\.$#"
-			count: 1
-			path: plugins/help/help.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 3
-			path: plugins/help/help.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: plugins/help/help.php
-
-		-
-			message: "#^Method rcube_output\\:\\:set_env\\(\\) invoked with 3 parameters, 2 required\\.$#"
-			count: 1
-			path: plugins/help/help.php
-
-		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$type\\.$#"
-			count: 1
-			path: plugins/jqueryui/jqueryui.php
-
-		-
-			message: "#^Access to protected property rcube_output\\:\\:\\$skins\\.$#"
-			count: 2
-			path: plugins/jqueryui/jqueryui.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:find_asset\\(\\)\\.$#"
-			count: 1
-			path: plugins/jqueryui/jqueryui.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_script\\(\\)\\.$#"
-			count: 1
-			path: plugins/jqueryui/jqueryui.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_css\\(\\)\\.$#"
-			count: 2
-			path: plugins/jqueryui/jqueryui.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_script\\(\\)\\.$#"
-			count: 2
-			path: plugins/jqueryui/jqueryui.php
-
-		-
 			message: "#^Call to method getMessage\\(\\) on an unknown class PEAR_Error\\.$#"
 			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve.php
@@ -382,32 +272,12 @@ parameters:
 			path: plugins/managesieve/tests/Engine.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: plugins/markasjunk/drivers/edit_headers.php
-
-		-
 			message: "#^Call to an undefined method rcube\\:\\:user_date\\(\\)\\.$#"
 			count: 2
 			path: plugins/markasjunk/drivers/email_learn.php
 
 		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$type\\.$#"
-			count: 1
-			path: plugins/markasjunk/drivers/jsevent.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_script\\(\\)\\.$#"
-			count: 1
-			path: plugins/markasjunk/drivers/jsevent.php
-
-		-
 			message: "#^Access to an undefined property object\\:\\:\\$mime_id\\.$#"
-			count: 1
-			path: plugins/markasjunk/drivers/sa_detach.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
 			count: 1
 			path: plugins/markasjunk/drivers/sa_detach.php
 
@@ -423,31 +293,6 @@ parameters:
 			"""
 			count: 1
 			path: plugins/markasjunk/markasjunk.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_footer\\(\\)\\.$#"
-			count: 1
-			path: plugins/new_user_dialog/new_user_dialog.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_script\\(\\)\\.$#"
-			count: 1
-			path: plugins/new_user_dialog/new_user_dialog.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: plugins/new_user_dialog/new_user_dialog.php
-
-		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$type\\.$#"
-			count: 1
-			path: plugins/newmail_notifier/newmail_notifier.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: plugins/newmail_notifier/newmail_notifier.php
 
 		-
 			message: "#^Access to an undefined property COM\\:\\:\\$Domains\\.$#"
@@ -515,11 +360,6 @@ parameters:
 			path: plugins/password/drivers/xmail.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: plugins/password/password.php
-
-		-
 			message: "#^Call to an undefined method rcube_storage\\:\\:list_folders_direct\\(\\)\\.$#"
 			count: 1
 			path: plugins/subscriptions_option/subscriptions_option.php
@@ -535,49 +375,9 @@ parameters:
 			path: plugins/subscriptions_option/tests/SubscriptionsOption.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: plugins/userinfo/userinfo.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: plugins/userinfo/userinfo.php
-
-		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$ajax_call\\.$#"
-			count: 1
-			path: plugins/vcard_attachments/vcard_attachments.php
-
-		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$framed\\.$#"
-			count: 2
-			path: plugins/vcard_attachments/vcard_attachments.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: plugins/vcard_attachments/vcard_attachments.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: plugins/vcard_attachments/vcard_attachments.php
-
-		-
 			message: "#^Call to deprecated method get_part_content\\(\\) of class rcube_message\\.$#"
 			count: 1
 			path: plugins/vcard_attachments/vcard_attachments.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_footer\\(\\)\\.$#"
-			count: 1
-			path: plugins/zipdownload/zipdownload.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:button\\(\\)\\.$#"
-			count: 1
-			path: plugins/zipdownload/zipdownload.php
 
 		-
 			message: """
@@ -588,174 +388,9 @@ parameters:
 			path: plugins/zipdownload/zipdownload.php
 
 		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: plugins/zipdownload/zipdownload.php
-
-		-
 			message: "#^Method rcube_storage\\:\\:index\\(\\) invoked with 4 parameters, 0\\-3 required\\.$#"
 			count: 1
 			path: plugins/zipdownload/zipdownload.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 5
-			path: program/actions/contacts/delete.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:request_form\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:template_exists\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/edit.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 2
-			path: program/actions/contacts/edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:header\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/export.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:sendExit\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/export.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/group_create.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/group_delete.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/group_delmembers.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/group_rename.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/import.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/import.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/import.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 3
-			path: program/actions/contacts/import.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:form_tag\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/import.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/import.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:template_exists\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/import.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 2
-			path: program/actions/contacts/import.php
-
-		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$ajax_call\\.$#"
-			count: 2
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:abs_url\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 6
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 5
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:asset_url\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:get_skin_file\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_script\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/index.php
 
 		-
 			message: "#^Call to an undefined method object\\:\\:get_group\\(\\)\\.$#"
@@ -763,79 +398,9 @@ parameters:
 			path: program/actions/contacts/list.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/list.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/mailto.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 4
-			path: program/actions/contacts/move.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:sendExit\\(\\)\\.$#"
-			count: 3
-			path: program/actions/contacts/photo.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/print.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/contacts/print.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:sendExit\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/qrcode.php
-
-		-
 			message: "#^Method rcmail_action_contacts_qrcode\\:\\:check_support\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: program/actions/contacts/qrcode.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 6
-			path: program/actions/contacts/save.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 3
-			path: program/actions/contacts/save.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/search.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handler\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/search.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 6
-			path: program/actions/contacts/search.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:request_form\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/search.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/contacts/search.php
 
 		-
 			message: "#^Variable \\$result in empty\\(\\) always exists and is not falsy\\.$#"
@@ -843,104 +408,9 @@ parameters:
 			path: program/actions/contacts/search.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/search_create.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/search_delete.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:request_form\\(\\)\\.$#"
-			count: 1
-			path: program/actions/contacts/show.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/contacts/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/undo.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/contacts/upload_photo.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/contacts/upload_photo.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/addcontact.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/attachment_delete.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/attachment_rename.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 9
-			path: program/actions/mail/attachment_upload.php
-
-		-
 			message: "#^Method rcmail_action_mail_attachment_upload\\:\\:check_message_size\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: program/actions/mail/attachment_upload.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/mail/attachment_upload.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/autocomplete.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handler\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/bounce.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 4
-			path: program/actions/mail/bounce.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 5
-			path: program/actions/mail/check_recent.php
 
 		-
 			message: "#^Access to an undefined property object\\:\\:\\$subject\\.$#"
@@ -978,55 +448,10 @@ parameters:
 			path: program/actions/mail/compose.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 5
-			path: program/actions/mail/compose.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/compose.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 2
-			path: program/actions/mail/compose.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_script\\(\\)\\.$#"
-			count: 2
-			path: program/actions/mail/compose.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:asset_url\\(\\)\\.$#"
-			count: 6
-			path: program/actions/mail/compose.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:get_skin_path\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/compose.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_script\\(\\)\\.$#"
-			count: 3
-			path: program/actions/mail/compose.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/compose.php
-
-		-
 			message: """
 				#^Call to deprecated method table_output\\(\\) of class rcmail\\:
 				since 1\\.5\\-beta, use rcmail_action\\:\\:table_output\\(\\)$#
 			"""
-			count: 1
-			path: program/actions/mail/compose.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: program/actions/mail/compose.php
 
@@ -1036,92 +461,12 @@ parameters:
 			path: program/actions/mail/compose.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/copy.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 6
-			path: program/actions/mail/delete.php
-
-		-
 			message: """
 				#^Call to deprecated method get_uids\\(\\) of class rcmail\\:
 				since 1\\.5\\-beta, use rcmail_action\\:\\:get_uids\\(\\)$#
 			"""
 			count: 1
 			path: program/actions/mail/delete.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/mail/folder_expunge.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 6
-			path: program/actions/mail/folder_purge.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/get.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/get.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:page_headers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/get.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/get.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/mail/get.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/mail/getunread.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/group_expand.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/headers.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/headers.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/mail/headers.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/import.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/mail/import.php
 
 		-
 			message: "#^Access to an undefined property object\\:\\:\\$charset\\.$#"
@@ -1169,79 +514,9 @@ parameters:
 			path: program/actions/mail/index.php
 
 		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$ajax_call\\.$#"
-			count: 2
-			path: program/actions/mail/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 5
-			path: program/actions/mail/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 3
-			path: program/actions/mail/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:asset_url\\(\\)\\.$#"
-			count: 3
-			path: program/actions/mail/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 5
-			path: program/actions/mail/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_script\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:template_exists\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/index.php
-
-		-
 			message: "#^Method rcmail_action_mail_index\\:\\:part_image_type\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: program/actions/mail/index.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/mail/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 4
-			path: program/actions/mail/list.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 5
-			path: program/actions/mail/list_contacts.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 5
-			path: program/actions/mail/mark.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 8
-			path: program/actions/mail/move.php
 
 		-
 			message: """
@@ -1250,21 +525,6 @@ parameters:
 			"""
 			count: 1
 			path: program/actions/mail/move.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 4
-			path: program/actions/mail/pagenav.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 4
-			path: program/actions/mail/search.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 3
-			path: program/actions/mail/search_contacts.php
 
 		-
 			message: "#^Result of method rcube_result_set\\:\\:next\\(\\) \\(void\\) is used\\.$#"
@@ -1277,23 +537,8 @@ parameters:
 			path: program/actions/mail/search_contacts.php
 
 		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$framed\\.$#"
-			count: 1
-			path: program/actions/mail/send.php
-
-		-
 			message: "#^Access to an undefined static property rcmail_action_mail_send\\:\\:\\$COMPOSE_ID\\.$#"
 			count: 1
-			path: program/actions/mail/send.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 7
-			path: program/actions/mail/send.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 6
 			path: program/actions/mail/send.php
 
 		-
@@ -1322,429 +567,14 @@ parameters:
 			path: program/actions/mail/show.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:abs_url\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 5
-			path: program/actions/mail/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 4
-			path: program/actions/mail/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:asset_url\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:template_exists\\(\\)\\.$#"
-			count: 2
-			path: program/actions/mail/show.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 2 parameters, 0 required\\.$#"
-			count: 3
-			path: program/actions/mail/show.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:page_headers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/mail/viewsource.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/about.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/about.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/settings/about.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 3
-			path: program/actions/settings/folder_delete.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/folder_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/folder_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/folder_edit.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/settings/folder_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/folder_purge.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 3
-			path: program/actions/settings/folder_save.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 2
-			path: program/actions/settings/folder_save.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/folder_size.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/folder_subscribe.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/folder_unsubscribe.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/folders.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/folders.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/folders.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/folders.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_script\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/folders.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/folders.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/settings/folders.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identities.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identities.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identities.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_script\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identities.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identities.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/settings/identities.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identity_delete.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identity_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handler\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identity_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/identity_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identity_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:template_exists\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/identity_edit.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 3
-			path: program/actions/settings/identity_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/identity_save.php
-
-		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$type\\.$#"
-			count: 1
-			path: program/actions/settings/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_script\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:asset_url\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:button\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:charset_selector\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_script\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/index.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/index.php
-
-		-
 			message: "#^Variable \\$field_id might not be defined\\.$#"
 			count: 1
 			path: program/actions/settings/index.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/prefs_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/prefs_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/prefs_edit.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/settings/prefs_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:check_skin\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/prefs_save.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/prefs_save.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/response_delete.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handler\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/response_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/response_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/response_edit.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 2
-			path: program/actions/settings/response_edit.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/response_get.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/response_save.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/responses.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_handlers\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/responses.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/responses.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_script\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/responses.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:set_pagetitle\\(\\)\\.$#"
-			count: 1
-			path: program/actions/settings/responses.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/settings/responses.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/actions/settings/upload.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/settings/upload.php
-
-		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$type\\.$#"
-			count: 1
-			path: program/actions/utils/error.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:sendExit\\(\\)\\.$#"
-			count: 2
-			path: program/actions/utils/error.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:template_exists\\(\\)\\.$#"
-			count: 1
-			path: program/actions/utils/error.php
-
-		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/actions/utils/error.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:sendExit\\(\\)\\.$#"
-			count: 1
-			path: program/actions/utils/html2text.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:sendExit\\(\\)\\.$#"
-			count: 1
-			path: program/actions/utils/modcss.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:sendExitError\\(\\)\\.$#"
-			count: 3
-			path: program/actions/utils/modcss.php
-
-		-
 			message: "#^Variable \\$response in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: program/actions/utils/modcss.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:sendExit\\(\\)\\.$#"
-			count: 1
-			path: program/actions/utils/text2html.php
 
 		-
 			message: "#^Call to an undefined method DateTimeInterface\\:\\:setTimezone\\(\\)\\.$#"
@@ -1782,11 +612,6 @@ parameters:
 			path: program/include/rcmail.php
 
 		-
-			message: "#^Method rcube_output\\:\\:send\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: program/include/rcmail.php
-
-		-
 			message: "#^Variable \\$search_mods in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: program/include/rcmail.php
@@ -1807,59 +632,9 @@ parameters:
 			path: program/include/rcmail_action.php
 
 		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_gui_object\\(\\)\\.$#"
-			count: 4
-			path: program/include/rcmail_action.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_label\\(\\)\\.$#"
-			count: 4
-			path: program/include/rcmail_action.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:add_script\\(\\)\\.$#"
-			count: 2
-			path: program/include/rcmail_action.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:command\\(\\)\\.$#"
-			count: 2
-			path: program/include/rcmail_action.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:form_tag\\(\\)\\.$#"
-			count: 1
-			path: program/include/rcmail_action.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:get_skin_path\\(\\)\\.$#"
-			count: 1
-			path: program/include/rcmail_action.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_css\\(\\)\\.$#"
-			count: 1
-			path: program/include/rcmail_action.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:include_script\\(\\)\\.$#"
-			count: 3
-			path: program/include/rcmail_action.php
-
-		-
-			message: "#^Call to an undefined method rcube_output\\:\\:request_form\\(\\)\\.$#"
-			count: 1
-			path: program/include/rcmail_action.php
-
-		-
 			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
 			count: 1
 			path: program/include/rcmail_attachment_handler.php
-
-		-
-			message: "#^Access to an undefined property rcube_output\\:\\:\\$ajax_call\\.$#"
-			count: 1
-			path: program/include/rcmail_oauth.php
 
 		-
 			message: "#^Method rcmail_oauth\\:\\:logout_after\\(\\) should return array but return statement is missing\\.$#"
@@ -2360,11 +1135,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_mime_decode.php
 
 		-
-			message: "#^Access to protected property rcube_output\\:\\:\\$skins\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_plugin.php
-
-		-
 			message: "#^Access to an undefined property rcube\\:\\:\\$action\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_plugin_api.php
@@ -2481,11 +1251,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
-			count: 1
-			path: tests/ActionTestCase.php
-
-		-
-			message: "#^Method rcube_output\\:\\:reset\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: tests/ActionTestCase.php
 

@@ -110,7 +110,7 @@ class jqueryui extends rcube_plugin
 
         self::$features[] = 'miniColors';
 
-        $rcube  = rcube::get_instance();
+        $rcube  = rcmail::get_instance();
         $script = 'plugins/jqueryui/js/jquery.minicolors.min.js';
         $css    = self::$css_path . '/jquery.minicolors.css';
 
@@ -136,7 +136,7 @@ class jqueryui extends rcube_plugin
         self::$features[] = 'tagedit';
 
         $script = 'plugins/jqueryui/js/jquery.tagedit.js';
-        $rcube  = rcube::get_instance();
+        $rcube  = rcmail::get_instance();
         $css    = self::$css_path . '/tagedit.css';
 
         if (!array_key_exists('elastic', (array) $rcube->output->skins)) {
@@ -151,7 +151,7 @@ class jqueryui extends rcube_plugin
      */
     protected static function asset_exists($path, $minified = true)
     {
-        $rcube = rcube::get_instance();
+        $rcube = rcmail::get_instance();
         $path = (strpos($path, 'plugins/') !== false ? '/' : '/plugins/jqueryui/') . $path;
 
         return $rcube->find_asset($path, $minified) !== null;

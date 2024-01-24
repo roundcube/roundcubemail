@@ -24,12 +24,12 @@
 abstract class rcube_output
 {
     public $browser;
+    public $skins = [];
 
     protected $app;
     protected $config;
     protected $charset = RCUBE_CHARSET;
     protected $env     = [];
-    protected $skins   = [];
 
     /**
      * Object constructor
