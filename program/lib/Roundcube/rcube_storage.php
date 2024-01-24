@@ -353,6 +353,18 @@ abstract class rcube_storage
     abstract public function count($folder = null, $mode = 'ALL', $force = false, $status = true);
 
     /**
+     * Fetches messages headers (by UID)
+     *
+     * @param string $folder Folder name
+     * @param array  $msgs   Message UIDs
+     * @param bool   $sort   Enables result sorting by $msgs
+     * @param bool   $force  Disables cache use
+     *
+     * @return array Messages headers indexed by UID
+     */
+    abstract public function fetch_headers($folder, $msgs, $sort = true, $force = false);
+
+    /**
      * Public method for listing message flags
      *
      * @param string $folder  Folder name
