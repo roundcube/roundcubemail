@@ -55,6 +55,9 @@ class rcmail extends rcube
     public $login_error;
     public $oauth;
 
+    /** @var rcmail_output_cli|rcmail_output_html|rcmail_output_json Output handler */
+    public $output;
+
     /** @var ?string Temporary user email (set on user creation only) */
     public $user_email;
 
