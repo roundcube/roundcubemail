@@ -58,6 +58,8 @@ class rcube_imap_search
      * @param string $charset    Search charset
      * @param string $sort_field Header field to sort by
      * @param bool   $threading  True if threaded listing is active
+     *
+     * @return rcube_result_multifolder
      */
     public function exec($folders, $str, $charset = null, $sort_field = null, $threading = null)
     {

@@ -121,18 +121,6 @@ abstract class rcmail_output extends rcube_output
     }
 
     /**
-     * Link an external script file
-     *
-     * @param string $file     File URL
-     * @param string $position Target position [head|head_bottom|foot]
-     */
-/*
-    public function include_script($file, $position = 'head', $add_path = true)
-    {
-        // to be implemented by an inheriting class
-    }
-*/
-    /**
      * A helper to send output to the browser and exit
      *
      * @param string $body    The output body
