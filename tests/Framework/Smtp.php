@@ -45,6 +45,34 @@ class Framework_Smtp extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test preparing unicode headers.
+     *
+     * When either the sender or any recipient requires EAI, then it's
+     * okay to send UTF-8 in headers (without RFC2047 encoding, that
+     * is). This test tests that Roundcube chooses plain UTF-8 in the
+     * Subject, in a the display-name of an address, and in the
+     * message-id.
+     */
+    function test_prepare_unicode_headers()
+    {
+        $smtp = new rcube_smtp;
+
+        $headers = [
+            'Subject' => 'भारत',
+            'From' => '"भारत" <भारत@भारत.भारत>'
+        ];
+
+        $result = invokeMethod($smtp, '_prepare_headers', [$headers]);
+
+        $this->assertCount(2, $result);
+        $this->assertSame('भारत@भारत.भारत', $result[0]);
+        $this->assertSame(
+            "Subject: भारत\r\nFrom: \"भारत\" <भारत@भारत.भारत>\r\n",
+            $result[1]
+        );
+    }
+
+    /**
      * Test parsing email address input
      */
     function test_parse_rfc822()

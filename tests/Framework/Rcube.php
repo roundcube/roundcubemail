@@ -41,6 +41,23 @@ class Framework_Rcube extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test that gen_message_id produces a message-ID that can be
+     * used safely in References and In-Reply-To messages.
+     */
+    function test_gen_message_id()
+    {
+        $rcube = rcube::get_instance();
+
+        $result = $rcube->gen_message_id('a@example.com');
+        $result = preg_replace('/.*@/', '', $result);
+        $this->assertSame('example.com>', $result);
+
+        $result = $rcube->gen_message_id('a@dømi.fo');
+        $result = preg_replace('/.*@/', '', $result);
+        $this->assertSame('xn--dmi-0na.fo>', $result);
+   }
+
+    /**
      * rcube::encrypt() and rcube::decrypt()
      */
     function test_encrypt_and_decrypt()
