@@ -1669,7 +1669,7 @@ class rcube_imap extends rcube_storage
      * @param string $folder Mailbox name to search in
      * @param string $str    Search string
      *
-     * @return rcube_result_index Search result (UIDs)
+     * @return rcube_result_index|rcube_result_multifolder Search result (UIDs)
      */
     public function search_once($folder = null, $str = 'ALL')
     {
