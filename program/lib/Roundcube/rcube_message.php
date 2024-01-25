@@ -56,14 +56,22 @@ class rcube_message
     public $sender;
     public $context;
     public $body;
-    public $parts        = [];
-    public $mime_parts   = [];
-    public $inline_parts = [];
-    public $attachments  = [];
-    public $subject      = '';
-    public $is_safe      = false;
-    public $pgp_mime     = false;
+    public $subject  = '';
+    public $is_safe  = false;
+    public $pgp_mime = false;
     public $encrypted_part;
+
+    /** @var array<rcube_message_part> */
+    public $parts = [];
+
+    /** @var array<rcube_message_part> */
+    public $mime_parts = [];
+
+    /** @var array<rcube_message_part> */
+    public $inline_parts = [];
+
+    /** @var array<rcube_message_part> */
+    public $attachments = [];
 
     public const BODY_MAX_SIZE = 1048576; // 1MB
 
@@ -645,6 +653,7 @@ class rcube_message
             return;
         }
 
+        /** @var rcube_message_part $structure */
         $structure = $plugin['structure'];
         $mimetype  = $plugin['mimetype'];
         $recursive = $plugin['recursive'];
@@ -801,8 +810,7 @@ class rcube_message
         // message contains multiple parts
         elseif (is_array($structure->parts) && !empty($structure->parts)) {
             // iterate over parts
-            for ($i = 0; $i < count($structure->parts); $i++) {
-                $mail_part      = &$structure->parts[$i];
+            foreach ($structure->parts as $mail_part) {
                 $primary_type   = $mail_part->ctype_primary;
                 $secondary_type = $mail_part->ctype_secondary;
                 $part_mimetype  = $mail_part->mimetype;
@@ -890,6 +898,7 @@ class rcube_message
 
                     // add winmail.dat to the list if it's content is unknown
                     if (empty($tnef_parts) && !empty($mail_part->filename)) {
+                        // @phpstan-ignore-next-line
                         $this->mime_parts[$mail_part->mime_id] = $mail_part;
                         $this->add_part($mail_part, 'attachment');
                     }

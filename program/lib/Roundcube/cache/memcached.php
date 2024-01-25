@@ -50,7 +50,7 @@ class rcube_cache_memcached extends rcube_cache
     /**
      * Get global handle for memcache access
      *
-     * @return object Memcache
+     * @return Memcache
      */
     public static function engine()
     {

@@ -1888,7 +1888,7 @@ class rcube_imap extends rcube_storage
      * @param int    $uid    Message UID to fetch
      * @param string $folder Folder to read from
      *
-     * @return object rcube_message_header Message data
+     * @return rcube_message_header Message data
      */
     public function get_message($uid, $folder = null)
     {
@@ -2401,7 +2401,7 @@ class rcube_imap extends rcube_storage
      * @param int                $max_bytes         Only read this number of bytes
      * @param bool               $formatted         Enables formatting of text/* parts bodies
      *
-     * @return string Message/part body if not printed
+     * @return string|true|null Message/part body if not printed
      */
     public function get_message_part($uid, $part = 1, $o_part = null, $print = null, $fp = null,
         $skip_charset_conv = false, $max_bytes = 0, $formatted = true)
@@ -2452,6 +2452,7 @@ class rcube_imap extends rcube_storage
                         $o_part->charset = $this->default_charset;
                     }
                 }
+
                 $body = rcube_charset::convert($body, $o_part->charset);
             }
         }

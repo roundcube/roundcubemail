@@ -90,7 +90,7 @@ class rcube_message_part
     /**
      * Sub-Parts
      *
-     * @var array
+     * @var array<rcube_message_part>
      */
     public $parts = [];
 

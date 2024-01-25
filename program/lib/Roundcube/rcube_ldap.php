@@ -964,7 +964,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Count number of available contacts in database
      *
-     * @return object rcube_result_set Resultset with values for 'count' and 'first'
+     * @return rcube_result_set Resultset with values for 'count' and 'first'
      */
     public function count()
     {
@@ -1070,7 +1070,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Return the last result set
      *
-     * @return object rcube_result_set Current resultset or NULL if nothing selected yet
+     * @return rcube_result_set Current resultset or NULL if nothing selected yet
      */
     public function get_result()
     {
