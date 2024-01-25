@@ -439,7 +439,7 @@ abstract class rcube_storage
      * @param int    $uid    Message UID to fetch
      * @param string $folder Folder to read from
      *
-     * @return object rcube_message_header Message data
+     * @return rcube_message_header Message data
      */
     abstract public function get_message($uid, $folder = null);
 
@@ -464,7 +464,7 @@ abstract class rcube_storage
      * @param resource           $fp                File pointer to save the message part
      * @param bool               $skip_charset_conv Disables charset conversion
      *
-     * @return string Message/part body if not printed
+     * @return string|true|null Message/part body if not printed
      */
     abstract public function get_message_part($uid, $part = 1, $o_part = null, $print = null, $fp = null, $skip_charset_conv = false);
 

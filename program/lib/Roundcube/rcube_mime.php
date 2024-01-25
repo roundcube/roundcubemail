@@ -60,7 +60,7 @@ class rcube_mime
      *
      * @param string $raw_body The message source
      *
-     * @return object rcube_message_part The message structure
+     * @return rcube_message_part The message structure
      */
     public static function parse_message($raw_body)
     {

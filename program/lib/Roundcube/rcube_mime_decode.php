@@ -63,7 +63,7 @@ class rcube_mime_decode
      * @param string $input   The input to decode
      * @param bool   $convert Convert result to rcube_message_part structure
      *
-     * @return object|bool Decoded results or False on failure
+     * @return rcube_message_part|false Decoded results or False on failure
      */
     public function decode($input, $convert = true)
     {
@@ -91,7 +91,7 @@ class rcube_mime_decode
      * @param string $body          Body section
      * @param string $default_ctype Default content type
      *
-     * @return object|bool Decoded results or False on error
+     * @return rcube_message_part|false Decoded results or False on error
      */
     protected function do_decode($headers, $body, $default_ctype = 'text/plain')
     {
@@ -352,11 +352,11 @@ class rcube_mime_decode
      * Recursive method to convert a rcube_mime_decode structure
      * into a rcube_message_part object.
      *
-     * @param object $part   A message part struct
-     * @param int    $count  Part count
-     * @param string $parent Parent MIME ID
+     * @param rcube_message_part $part   A message part struct
+     * @param int                $count  Part count
+     * @param string             $parent Parent MIME ID
      *
-     * @return object rcube_message_part
+     * @return rcube_message_part
      *
      * @see self::decode()
      */

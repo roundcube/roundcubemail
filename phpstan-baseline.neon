@@ -272,11 +272,6 @@ parameters:
 			path: plugins/markasjunk/drivers/email_learn.php
 
 		-
-			message: "#^Access to an undefined property object\\:\\:\\$mime_id\\.$#"
-			count: 1
-			path: plugins/markasjunk/drivers/sa_detach.php
-
-		-
 			message: "#^Access to an undefined property rcube\\:\\:\\$action\\.$#"
 			count: 2
 			path: plugins/markasjunk/markasjunk.php
@@ -1060,31 +1055,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_ldap.php
 
 		-
-			message: "#^Access to an undefined property object\\:\\:\\$content_id\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Access to an undefined property object\\:\\:\\$content_location\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Access to an undefined property object\\:\\:\\$mime_id\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Access to an undefined property object\\:\\:\\$mimetype\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Cannot access property \\$parts on bool\\|object\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
 			message: "#^Method rcube\\:\\:url\\(\\) invoked with 4 parameters, 1 required\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_message.php
@@ -1096,11 +1066,6 @@ parameters:
 
 		-
 			message: "#^Method rcube_message\\:\\:first_text_part\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Method rcube_message\\:\\:get_part_content\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_message.php
 
@@ -1123,11 +1088,6 @@ parameters:
 			message: "#^Method rcube_mime\\:\\:file_ext_type\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_mime.php
-
-		-
-			message: "#^Cannot access property \\$size on object\\|true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_mime_decode.php
 
 		-
 			message: "#^Access to an undefined property rcube\\:\\:\\$action\\.$#"
