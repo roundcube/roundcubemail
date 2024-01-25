@@ -165,6 +165,10 @@ abstract class rcmail_action
         // need to do that manually (the return value is `false` if the server
         // doesn't support it).
         $quota = $rcmail->storage->get_quota();
+        // Return early if the server doesn't support quotas anyway.
+        if ($quota === false) {
+            $rcmail->output->set_env('quota', false);
+        }
         $zero_as_unlimited = (bool) $rcmail->config->get('quota_zero_as_unlimited');
         // Show the quota display only if it's not unlimited.
         $show_quota = is_array($quota) && !($quota['total'] === 0 && $zero_as_unlimited);
