@@ -764,8 +764,8 @@ class rcube_plugin_api
         // pattern "skins/" used to identify plugin resources loaded from the core skin folder
         if ($fn[0] != '/' && !preg_match('#^(https?://|skins/)#i', $fn)) {
             return $this->url . $fn;
-        } else {
-            return $fn;
         }
+
+        return $fn;
     }
 }

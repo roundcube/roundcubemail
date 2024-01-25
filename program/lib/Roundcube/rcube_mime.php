@@ -428,6 +428,7 @@ class rcube_mime
                 } elseif ($str[$i] == '\\') {
                     $i++;
                 }
+
                 continue;
             }
             // separator, add to result array

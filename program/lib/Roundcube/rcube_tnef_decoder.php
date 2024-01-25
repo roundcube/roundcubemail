@@ -320,6 +320,7 @@ class rcube_tnef_decoder
                     for ($i = 0; $i < $num_mval; $i++) {
                         $value = $this->_geti($data, 32);
                     }
+
                     break;
                 case self::MAPI_FLOAT:
                 case self::MAPI_ERROR:
@@ -647,6 +648,7 @@ class rcube_tnef_decoder
                                 if ($ucDelta > 0) {
                                     $i += $ucDelta;
                                 }
+
                                 break;
                             case 'par':
                             case 'page':
@@ -717,6 +719,7 @@ class rcube_tnef_decoder
                     } else {
                         $j++;
                     }
+
                     break;
                 case '}':
                     array_pop($stack);
@@ -733,6 +736,7 @@ class rcube_tnef_decoder
                     if (!empty($stack[$j]) && self::_rtfIsPlain($stack[$j])) {
                         $document .= $c;
                     }
+
                     break;
             }
         }

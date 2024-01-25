@@ -202,6 +202,7 @@ class rcube_cache
                 if (is_array($v)) {
                     sort($v);
                 }
+
                 return is_string($v) ? $v : serialize($v);
             };
 

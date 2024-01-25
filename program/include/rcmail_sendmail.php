@@ -1480,9 +1480,9 @@ class rcmail_sendmail
         if ($create) {
             if (!$rcmail->storage->folder_exists($folder)) {
                 return $rcmail->storage->create_folder($folder, true);
-            } else {
-                return $rcmail->storage->subscribe($folder);
             }
+
+            return $rcmail->storage->subscribe($folder);
         }
 
         return false;

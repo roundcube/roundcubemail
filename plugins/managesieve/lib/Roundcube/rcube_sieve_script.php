@@ -454,6 +454,7 @@ class rcube_sieve_script
                             if ((is_string($action['value']) && strlen($action['value']) > 0) || (is_array($action['value']) && !empty($action['value']))) {
                                 $action_script .= ' ' . self::escape_string($action['value']);
                             }
+
                             break;
                         case 'keep':
                         case 'discard':
@@ -1202,10 +1203,9 @@ class rcube_sieve_script
         if (preg_match('/[\r\n\0]/', $str)) {
             return sprintf("text:\r\n%s\r\n.\r\n", self::escape_multiline_string($str));
         }
+
         // quoted-string
-        else {
-            return '"' . addcslashes($str, '\\"') . '"';
-        }
+        return '"' . addcslashes($str, '\\"') . '"';
     }
 
     /**
@@ -1295,6 +1295,7 @@ class rcube_sieve_script
                         $result[] = $sep;
                         break 2;
                     }
+
                     break;
                     // bracket-comment (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case '/':
@@ -1306,15 +1307,16 @@ class rcube_sieve_script
                             $position = $length;
                         }
                     }
+
                     break;
                     // hash-comment (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case '#':
                     if ($lf_pos = strpos($str, "\n", $position)) {
                         $position = $lf_pos + 1;
                         break;
-                    } else {
-                        $position = $length;
                     }
+
+                    $position = $length;
 
                     // String atom (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 default:

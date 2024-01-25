@@ -368,9 +368,9 @@ abstract class rcube_plugin
         // pattern "skins/[a-z0-9-_]+/plugins/$this->ID/" used to identify plugin resources loaded from the core skin folder
         if ($fn[0] != '/' && !preg_match("#^(https?://|skins/[a-z0-9-_]+/plugins/{$this->ID}/)#i", $fn)) {
             return $this->ID . '/' . $fn;
-        } else {
-            return $fn;
         }
+
+        return $fn;
     }
 
     /**

@@ -378,6 +378,7 @@ class rcube_vcard
                 } else {
                     $this->raw['PHOTO'][0] = [0 => $value, 'base64' => (bool) preg_match('![^a-z0-9/=+-]!i', $value)];
                 }
+
                 break;
             case 'email':
                 $this->raw['EMAIL'][] = [0 => $value, 'type' => array_filter(['INTERNET', $type_uc])];
@@ -390,6 +391,7 @@ class rcube_vcard
                     $field = $typemap[strtolower($type)];
                     $this->raw[$field][] = [$value];
                 }
+
                 break;
             case 'birthday':
             case 'anniversary':
@@ -397,6 +399,7 @@ class rcube_vcard
                     $fn = self::$fieldmap[$field];
                     $this->raw[$fn][] = [0 => $val->format('Y-m-d'), 'value' => ['date']];
                 }
+
                 break;
             case 'address':
                 if (!empty($this->addresstypemap[$type_uc])) {

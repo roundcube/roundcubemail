@@ -1447,6 +1447,7 @@ class rcube
             if (defined('ROUNDCUBE_TEST_MODE') && ROUNDCUBE_TEST_MODE) {
                 throw new Exception('Error raised');
             }
+
             exit(1);
         }
     }

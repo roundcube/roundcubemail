@@ -624,6 +624,7 @@ class rcube_washtml
                         $dump .= '<!-- ' . htmlspecialchars($node->nodeName, \ENT_QUOTES, $this->config['charset']) . ' ignored -->';
                         $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                     }
+
                     break;
                 case \XML_CDATA_SECTION_NODE:
                 case \XML_TEXT_NODE:

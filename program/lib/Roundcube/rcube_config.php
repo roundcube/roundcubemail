@@ -576,12 +576,12 @@ class rcube_config
             $delim = $this->prop['mail_header_delimiter'];
             if ($delim == "\n" || $delim == "\r\n") {
                 return $delim;
-            } else {
-                rcube::raise_error([
-                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'Invalid mail_header_delimiter setting',
-                ], true, false);
             }
+
+            rcube::raise_error([
+                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Invalid mail_header_delimiter setting',
+            ], true, false);
         }
 
         $php_os = strtolower(substr(\PHP_OS, 0, 3));

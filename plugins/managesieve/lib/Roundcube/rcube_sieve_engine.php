@@ -991,6 +991,7 @@ class rcube_sieve_engine
                             $type = 'fileinto';
                             $this->form['actions'][$i]['copy'] = true;
                         }
+
                         break;
                     case 'reject':
                     case 'ereject':
@@ -1000,6 +1001,7 @@ class rcube_sieve_engine
                         // if ($target == '') {
                         //     $this->errors['actions'][$i]['targetarea'] = $this->plugin->gettext('cannotbeempty');
                         // }
+
                         break;
                     case 'redirect':
                     case 'redirect_copy':
@@ -1111,6 +1113,7 @@ class rcube_sieve_engine
                         if ($this->form['actions'][$i][$interval_type] && !preg_match('/^[0-9]+$/', $this->form['actions'][$i][$interval_type])) {
                             $this->errors['actions'][$i]['interval'] = $this->plugin->gettext('forbiddenchars');
                         }
+
                         break;
                     case 'set':
                         $this->form['actions'][$i]['name'] = $varnames[$idx];
@@ -1128,6 +1131,7 @@ class rcube_sieve_engine
                         if (!isset($varvalues[$idx]) || $varvalues[$idx] === '') {
                             $this->errors['actions'][$i]['value'] = $this->plugin->gettext('cannotbeempty');
                         }
+
                         break;
                     case 'notify':
                         if (empty($notifymethods[$idx])) {
@@ -3397,9 +3401,9 @@ class rcube_sieve_engine
             if (empty($addr['mailto']) || !rcube_utils::check_email($addr['mailto'])) {
                 $this->errors['actions'][$i][$field] = $this->plugin->gettext('noemailwarning');
                 break;
-            } else {
-                $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
             }
+
+            $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
         }
 
         // Only one address is allowed (at least on cyrus imap)

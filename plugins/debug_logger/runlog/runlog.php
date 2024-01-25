@@ -159,7 +159,7 @@ class runlog
                 $buffer .= "{$tag}: ";
             }
             $msg = str_replace("\n", '', $msg);
-            $buffer .= "{$msg}";
+            $buffer .= $msg;
             if (!empty($this->timestamp)) {
                 $buffer = sprintf('[%s] %s', date($this->timestamp, time()), $buffer);
             }
@@ -197,6 +197,7 @@ class runlog
         for ($i = 0; $i < $this->indent; $i++) {
             $buf .= '  ';
         }
+
         return $buf;
     }
 

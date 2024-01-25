@@ -679,6 +679,7 @@ class rcmail_oauth
                 // store crypted code_verifier because session is going to be killed
                 $this->login_phase['code_verifier'] = $_SESSION['oauth_code_verifier'];
             }
+
             return true;
         } catch (RequestException $e) {
             $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
@@ -700,6 +701,7 @@ class rcmail_oauth
                 'line'    => __LINE__,
             ], true, false);
         }
+
         return false;
     }
 
@@ -1161,6 +1163,7 @@ class rcmail_oauth
                                 ], true, false);
                                 continue 2; // continue on next foreach iteration
                             }
+
                             break;
                         case 'language':
                             // normalize language
@@ -1174,6 +1177,7 @@ class rcmail_oauth
                                 ], true, false);
                                 continue 2; // continue on next foreach iteration
                             }
+
                             break;
                     }
                     $data[$rc_key] = $value;

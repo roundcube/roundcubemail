@@ -679,6 +679,7 @@ class rcmail_action_contacts_index extends rcmail_action
                         } else {
                             $val = null;
                         }
+
                         break;
                     default:
                         $val = rcube::Q($row[$col]);
