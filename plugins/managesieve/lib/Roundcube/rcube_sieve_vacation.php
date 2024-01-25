@@ -223,9 +223,9 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 if (empty($addr['mailto']) || !rcube_utils::check_email($addr['mailto'])) {
                     $error = $from_error = 'noemailwarning';
                     break;
-                } else {
-                    $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
                 }
+
+                $from[$idx] = format_email_recipient($addr['mailto'], $addr['name']);
             }
 
             // Only one address is allowed (at least on cyrus imap)

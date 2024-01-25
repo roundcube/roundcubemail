@@ -210,6 +210,7 @@ class rcube_message
                 if ($fp) {
                     fwrite($fp, $part->body);
                 }
+
                 return $fp ? true : $part->body;
             }
 

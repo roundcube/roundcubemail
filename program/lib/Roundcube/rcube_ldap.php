@@ -816,6 +816,7 @@ class rcube_ldap extends rcube_addressbook
                     $result->count++;
                 }
             }
+
             return $result;
         }
 
@@ -1337,6 +1338,7 @@ class rcube_ldap extends rcube_addressbook
                     } elseif ($old !== null) {
                         $subdata[$fld] = $old;
                     }
+
                     continue;
                 }
 
@@ -1737,6 +1739,7 @@ class rcube_ldap extends rcube_addressbook
                     if ($dt = rcube_utils::anytodatetime($ldap_data[$fld])) {
                         $ldap_data[$fld] = $dt->format($format['format']);
                     }
+
                     break;
             }
         }

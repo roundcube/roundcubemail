@@ -688,6 +688,7 @@ abstract class rcube_addressbook
                     $result[] = $contact[$field];
                 }
             }
+
             return $result;
         };
 
@@ -714,6 +715,7 @@ abstract class rcube_addressbook
                     $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
                     $fn   = implode(' ', $get_names($contact, $keys));
                 }
+
                 break;
             default:
                 $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);

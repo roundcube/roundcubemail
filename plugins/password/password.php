@@ -666,6 +666,7 @@ class password extends rcube_plugin
                         'message' => 'Password plugin: Your PHP installation does not have hash() function',
                     ], true, true);
                 }
+
                 break;
             case 'ad':
                 $crypted = rcube_charset::convert('"' . $password . '"', RCUBE_CHARSET, 'UTF-16LE');

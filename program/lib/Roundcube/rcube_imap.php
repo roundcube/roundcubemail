@@ -1218,28 +1218,28 @@ class rcube_imap extends rcube_storage
             $a_msg_headers = $this->fetch_headers($folder, $a_index);
 
             return array_values($a_msg_headers);
-        } else {
-            // for small result set we can fetch all messages headers
-            $a_index       = $index->get();
-            $a_msg_headers = $this->fetch_headers($folder, $a_index, false);
-
-            // return empty array if no messages found
-            if (!is_array($a_msg_headers) || empty($a_msg_headers)) {
-                return [];
-            }
-
-            // if not already sorted
-            $a_msg_headers = rcube_imap_generic::sortHeaders(
-                $a_msg_headers, $this->sort_field, $this->sort_order);
-
-            $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $this->page_size);
-
-            if ($slice) {
-                $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
-            }
-
-            return $a_msg_headers;
         }
+
+        // for small result set we can fetch all messages headers
+        $a_index       = $index->get();
+        $a_msg_headers = $this->fetch_headers($folder, $a_index, false);
+
+        // return empty array if no messages found
+        if (!is_array($a_msg_headers) || empty($a_msg_headers)) {
+            return [];
+        }
+
+        // if not already sorted
+        $a_msg_headers = rcube_imap_generic::sortHeaders(
+            $a_msg_headers, $this->sort_field, $this->sort_order);
+
+        $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $this->page_size);
+
+        if ($slice) {
+            $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
+        }
+
+        return $a_msg_headers;
     }
 
     /**
@@ -1713,9 +1713,9 @@ class rcube_imap extends rcube_storage
         if (!$this->check_connection()) {
             if ($this->threading) {
                 return new rcube_result_thread();
-            } else {
-                return new rcube_result_index();
             }
+
+            return new rcube_result_index();
         }
 
         if ($this->options['skip_deleted'] && !preg_match('/UNDELETED/', $criteria)) {

@@ -671,6 +671,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                                 $out .= html::span('part-notice', $rcmail->gettext('encryptedmessage'));
                             }
                         }
+
                         continue;
                     } elseif (!$part->size) {
                         continue;

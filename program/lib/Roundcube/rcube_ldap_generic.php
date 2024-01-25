@@ -69,6 +69,7 @@ class rcube_ldap_generic extends Net_LDAP3
                 if (!empty($this->config['debug'])) {
                     rcube::write_log('ldap', $msg);
                 }
+
                 break;
             case \LOG_EMERG:
             case \LOG_ALERT:
