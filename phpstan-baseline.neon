@@ -750,11 +750,6 @@ parameters:
 			path: program/lib/Roundcube/rcube.php
 
 		-
-			message: "#^Method rcube\\:\\:get_user_password\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
 			message: "#^Parameter \\$arg of method rcube\\:\\:raise_error\\(\\) has invalid type PEAR_Error\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube.php

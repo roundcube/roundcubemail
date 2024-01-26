@@ -41,34 +41,34 @@ class rcube
     /** @var rcube_config Stores instance of rcube_config */
     public $config;
 
-    /** @var rcube_db Instance of database class */
+    /** @var ?rcube_db Instance of database class */
     public $db;
 
-    /** @var Memcache Instance of Memcache class */
+    /** @var ?Memcache Instance of Memcache class */
     public $memcache;
 
-    /** @var Memcached Instance of Memcached class */
+    /** @var ?Memcached Instance of Memcached class */
     public $memcached;
 
-    /** @var Redis Instance of Redis class */
+    /** @var ?Redis Instance of Redis class */
     public $redis;
 
-    /** @var rcube_session Instance of rcube_session class */
+    /** @var ?rcube_session Instance of rcube_session class */
     public $session;
 
-    /** @var rcube_smtp Instance of rcube_smtp class */
+    /** @var ?rcube_smtp Instance of rcube_smtp class */
     public $smtp;
 
-    /** @var rcube_storage Instance of rcube_storage class */
+    /** @var ?rcube_storage Instance of rcube_storage class */
     public $storage;
 
-    /** @var rcube_output Instance of rcube_output class */
+    /** @var ?rcube_output Instance of rcube_output class */
     public $output;
 
     /** @var rcube_plugin_api Instance of rcube_plugin_api */
     public $plugins;
 
-    /** @var rcube_user Instance of rcube_user class */
+    /** @var ?rcube_user Instance of rcube_user class */
     public $user;
 
     /** @var int Request status */
@@ -1594,21 +1594,25 @@ class rcube
     /**
      * Getter for logged user name.
      *
-     * @return string User name
+     * @return string|null User name
      */
     public function get_user_name()
     {
         if (is_object($this->user)) {
             return $this->user->get_username();
-        } elseif (isset($_SESSION['username'])) {
+        }
+
+        if (isset($_SESSION['username'])) {
             return $_SESSION['username'];
         }
+
+        return null;
     }
 
     /**
      * Getter for logged user email (derived from user name not identity).
      *
-     * @return string User email address
+     * @return string|null User email address
      */
     public function get_user_email()
     {
@@ -1619,12 +1623,14 @@ class rcube
         if (is_object($this->user)) {
             return $this->user->get_username('mail');
         }
+
+        return null;
     }
 
     /**
      * Getter for logged user password.
      *
-     * @return string User password
+     * @return string|null User password
      */
     public function get_user_password()
     {
@@ -1635,6 +1641,8 @@ class rcube
         if (isset($_SESSION['password'])) {
             return $this->decrypt($_SESSION['password']);
         }
+
+        return null;
     }
 
     /**
@@ -1654,15 +1662,19 @@ class rcube
     /**
      * Getter for logged user language code.
      *
-     * @return string User language code
+     * @return string|null User language code
      */
     public function get_user_language()
     {
         if (is_object($this->user)) {
             return $this->user->language;
-        } elseif (isset($_SESSION['language'])) {
+        }
+
+        if (isset($_SESSION['language'])) {
             return $_SESSION['language'];
         }
+
+        return null;
     }
 
     /**
