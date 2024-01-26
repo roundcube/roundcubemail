@@ -296,7 +296,7 @@ class rcube_user
      *
      * @param int $id Identity ID. If empty, the default identity is returned
      *
-     * @return array Hash array with all cols of the identity record
+     * @return array|null Hash array with all cols of the identity record
      */
     public function get_identity($id = null)
     {
@@ -305,10 +305,12 @@ class rcube_user
         // cache identities for better performance
         if (!array_key_exists($id, $this->identities)) {
             $result = $this->list_identities($id ? "AND `identity_id` = {$id}" : '');
-            $this->identities[$id] = $result[0];
+            if (!empty($result)) {
+                $this->identities[$id] = $result[0];
+            }
         }
 
-        return $this->identities[$id];
+        return $this->identities[$id] ?? null;
     }
 
     /**
