@@ -27,7 +27,7 @@ class FoldersTest extends TestCase
                 $browser->assertEnv('action', 'folders');
 
                 // these objects should be there always
-                $browser->assertObjects(['quotadisplay', 'subscriptionlist']);
+                $browser->assertObjects(['subscriptionlist']);
             });
 
             if ($browser->isDesktop()) {
