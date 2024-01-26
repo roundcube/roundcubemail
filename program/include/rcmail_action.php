@@ -154,9 +154,6 @@ abstract class rcmail_action
     /**
      * Set env-flag for quota. It is used in templates to determine if quota
      * data should be displayed.
-     * In case the quota is zero and the config option
-     * `quota_zero_as_unlimited` is true, then the account has no quota and
-     * should not be shown a meaningless (or even wrong) quota-display.
      */
     public static function quota_set_env()
     {
