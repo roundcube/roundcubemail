@@ -162,22 +162,13 @@ abstract class rcmail_action
     {
         $rcmail = rcmail::get_instance();
         // This call also checks the QUOTA capability of the server, we don't
-        // need to do that manually (the return value is `false` if the server
-        // doesn't support it).
+        // need to do that manually.
         $quota = $rcmail->storage->get_quota();
-        // Return early if the server doesn't support quotas anyway.
-        if ($quota === false) {
-            $rcmail->output->set_env('quota', false);
-            return;
-        }
-        $zero_as_unlimited = (bool) $rcmail->config->get('quota_zero_as_unlimited');
-        
-        if($zero_as_unlimited === false) {
-        	$rcmail->output->set_env('quota', true);
-        	return;
-        }
-        // Show the quota display only if it's not unlimited.
-        $show_quota = is_array($quota) && !($quota['total'] === 0 && $zero_as_unlimited);
+        // $quota being `false` means that the server doesn't support quotas,
+        // an empty array means "unlimited", a `total` of zero means
+        // "unlimited" or "unknown"). In all these cases we don't want to show
+        // the element.
+        $show_quota = is_array($quota) && array_key_exists('total', $quota) && $quota['total'] > 0;
         $rcmail->output->set_env('quota', $show_quota);
     }
 
@@ -276,8 +267,11 @@ abstract class rcmail_action
                 $quota_result['table'] = $table->show();
             }
         } else {
-            $unlimited               = $rcmail->config->get('quota_zero_as_unlimited');
-            $quota_result['title']   = $rcmail->gettext($unlimited ? 'unlimited' : 'unknown');
+            // This shouldn't happen because unsupported, unlimited or unknown
+            // quota shouldn't be shown (see `quota_set_env()`), but we better
+            // not risk breaking third-party templates that didn't check
+            // `env:quota` before calling this method.
+            $quota_result['title']   = $rcmail->gettext('unknown');
             $quota_result['percent'] = 0;
         }
 
