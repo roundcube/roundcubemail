@@ -53,10 +53,10 @@ class App extends Component
     {
         if (is_array($key)) {
             foreach ($key as $name => $expected) {
-                Assert::assertEquals($expected, $this->getEnv($browser, $name));
+                Assert::assertEquals($expected, $browser->getEnv($name));
             }
         } else {
-            Assert::assertEquals($expected, $this->getEnv($browser, $key));
+            Assert::assertEquals($expected, $browser->getEnv($key));
         }
     }
 
@@ -70,14 +70,6 @@ class App extends Component
         foreach ($names as $object_name) {
             Assert::assertContains($object_name, $objects);
         }
-    }
-
-    /**
-     * Return rcmail.env entry
-     */
-    public function getEnv($browser, $key)
-    {
-        return $browser->driver->executeScript("return rcmail.env['{$key}']");
     }
 
     /**
@@ -96,7 +88,7 @@ class App extends Component
         $browser->visit("?_task={$task}&_action={$action}");
 
         // check if we have a valid session
-        if ($login && $this->getEnv($browser, 'task') == 'login') {
+        if ($login && $browser->getEnv($browser, 'task') == 'login') {
             $this->doLogin($browser);
         }
     }
