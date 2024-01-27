@@ -67,6 +67,8 @@ class example_addressbook_backend extends rcube_addressbook
                 return $group;
             }
         }
+
+        return null;
     }
 
     public function get_name()

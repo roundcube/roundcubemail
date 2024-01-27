@@ -135,16 +135,10 @@ class enigma_driver_phpssl extends enigma_driver
      *
      * @return string Hash algorithm name e.g. sha1
      */
-    public function signature_algorithm() {}
-
-    /**
-     * Converts Crypt_GPG_Key object into Enigma's key object
-     *
-     * @param Crypt_GPG_Key $key Key object
-     *
-     * @return enigma_key Key object
-     */
-    private function parse_key($key) {}
+    public function signature_algorithm()
+    {
+        return ''; // TODO
+    }
 
     private function get_openssl_error()
     {

@@ -1206,6 +1206,8 @@ class rcmail_oauth
             // propagate logout request to the identity provider
             $this->rcmail->output->redirect($this->logout_redirect_url); // exit
         }
+
+        return $options;
     }
 
     /**

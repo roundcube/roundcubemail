@@ -210,7 +210,7 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @param array $data Session data
      *
-     * @return string Session identifier (on success)
+     * @return ?string Session identifier (on success)
      */
     public function create($data)
     {
@@ -221,6 +221,8 @@ abstract class rcube_session implements SessionHandlerInterface
         if ($this->save($key, $this->serialize($data))) {
             return $key;
         }
+
+        return null;
     }
 
     /**

@@ -111,6 +111,8 @@ class enigma_driver_gnupg extends enigma_driver
         }
 
         $this->db_sync();
+
+        return null;
     }
 
     /**

@@ -87,6 +87,8 @@ class rcube_image
                 'channels' => $channels,
             ];
         }
+
+        return null;
     }
 
     /**

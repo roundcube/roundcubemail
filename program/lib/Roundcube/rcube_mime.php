@@ -777,6 +777,8 @@ class rcube_mime
                 return $mime_ext[$ext];
             }
         }
+
+        return null;
     }
 
     /**

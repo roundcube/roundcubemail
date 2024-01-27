@@ -51,7 +51,7 @@ class enigma_subkey
     /**
      * Returns human-readable name of the key's algorithm
      *
-     * @return string Algorithm name
+     * @return ?string Algorithm name
      */
     public function get_algorithm()
     {
@@ -75,6 +75,8 @@ class enigma_subkey
             case 22:
                 return 'EdDSA';
         }
+
+        return null;
     }
 
     /**

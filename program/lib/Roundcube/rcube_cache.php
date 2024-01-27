@@ -504,6 +504,7 @@ class rcube_cache
     protected function add_item($key, $data)
     {
         // to be overwritten by engine class
+        return false;
     }
 
     /**
@@ -516,6 +517,7 @@ class rcube_cache
     protected function delete_item($key)
     {
         // to be overwritten by engine class
+        return false;
     }
 
     /**

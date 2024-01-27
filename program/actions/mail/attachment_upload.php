@@ -243,7 +243,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
      * @param int    $filesize File size
      * @param string $filetype File mimetype
      *
-     * @return string Error message if the limit is exceeded
+     * @return ?string Error message if the limit is exceeded
      */
     public static function check_message_size($filesize, $filetype)
     {
@@ -252,7 +252,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         $size   = 10 * 1024; // size of message body
 
         if (!$limit) {
-            return;
+            return null;
         }
 
         // add size of already attached files
@@ -270,5 +270,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             $limit = self::show_bytes($limit);
             return $rcmail->gettext(['name' => 'msgsizeerror', 'vars' => ['size' => $limit]]);
         }
+
+        return null;
     }
 }

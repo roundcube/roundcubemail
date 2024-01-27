@@ -412,7 +412,7 @@ class rcube_csv2vcard
      * @param bool   $dry_run   Generate automatic field mapping
      * @param bool   $skip_head Skip header line
      *
-     * @return array Field mapping info (dry run only)
+     * @return array|null Field mapping info (dry run only)
      */
     public function import($csv, $dry_run = false, $skip_head = true)
     {
@@ -421,6 +421,7 @@ class rcube_csv2vcard
         if ($charset = rcube_charset::check($csv)) {
             $csv = rcube_charset::convert($csv, $charset);
         }
+
         $csv = preg_replace(['/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'], '', $csv); // also remove BOM
 
         // Split CSV file into lines
@@ -449,6 +450,8 @@ class rcube_csv2vcard
                 $this->csv_to_vcard($elements);
             }
         }
+
+        return null;
     }
 
     /**

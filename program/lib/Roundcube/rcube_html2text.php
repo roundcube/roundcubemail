@@ -765,6 +765,8 @@ class rcube_html2text
 
                 return $this->_handle_link($url, $matches[4]);
         }
+
+        return '';
     }
 
     /**

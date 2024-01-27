@@ -1128,7 +1128,7 @@ class rcmail_action_mail_index extends rcmail_action
         $webp_support = $webp_support || rcube_image::is_convertable('image/webp');
 
         if ((!$tiff_support && $mimetype == 'image/tiff') || (!$webp_support && $mimetype == 'image/webp')) {
-            return;
+            return null;
         }
 
         // Content-Type: image/*...
@@ -1165,6 +1165,8 @@ class rcmail_action_mail_index extends rcmail_action
         ) {
             return $types[$extension];
         }
+
+        return null;
     }
 
     /**

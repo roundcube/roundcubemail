@@ -821,7 +821,7 @@ class rcube_imap_generic
     /**
      * Detects hierarchy delimiter
      *
-     * @return string The delimiter
+     * @return ?string The delimiter
      */
     public function getHierarchyDelimiter()
     {
@@ -840,6 +840,8 @@ class rcube_imap_generic
                 return $this->prefs['delimiter'] = $delimiter;
             }
         }
+
+        return null;
     }
 
     /**
@@ -2206,7 +2208,7 @@ class rcube_imap_generic
      * @param string $mailbox Mailbox name
      * @param int    $uid     Message unique identifier (UID)
      *
-     * @return int Message sequence identifier
+     * @return ?int Message sequence identifier
      */
     public function UID2ID($mailbox, $uid)
     {
@@ -2218,6 +2220,8 @@ class rcube_imap_generic
                 return (int) $arr[0];
             }
         }
+
+        return null;
     }
 
     /**
@@ -2226,7 +2230,7 @@ class rcube_imap_generic
      * @param string $mailbox Mailbox name
      * @param int    $id      Message sequence identifier
      *
-     * @return int Message unique identifier
+     * @return ?int Message unique identifier
      */
     public function ID2UID($mailbox, $id)
     {
@@ -2252,6 +2256,8 @@ class rcube_imap_generic
             $arr = $index->get();
             return $this->data['UID-MAP'][$id] = (int) $arr[0];
         }
+
+        return null;
     }
 
     /**
@@ -3359,7 +3365,7 @@ class rcube_imap_generic
      *
      * @param string $mailbox Mailbox name
      *
-     * @return array User-rights array on success, NULL on error
+     * @return ?array User-rights array on success, NULL on error
      *
      * @since 0.5-beta
      */
@@ -3390,6 +3396,8 @@ class rcube_imap_generic
 
             $this->setError(self::ERROR_COMMAND, 'Incomplete ACL response');
         }
+
+        return null;
     }
 
     /**
@@ -3398,7 +3406,7 @@ class rcube_imap_generic
      * @param string $mailbox Mailbox name
      * @param string $user    User name
      *
-     * @return array List of user rights
+     * @return ?array List of user rights, NULL on error
      *
      * @since 0.5-beta
      */
@@ -3421,6 +3429,8 @@ class rcube_imap_generic
                 'optional' => explode(' ', $optional),
             ];
         }
+
+        return null;
     }
 
     /**
@@ -3428,7 +3438,7 @@ class rcube_imap_generic
      *
      * @param string $mailbox Mailbox name
      *
-     * @return array MYRIGHTS response on success, NULL on error
+     * @return ?array MYRIGHTS response on success, NULL on error
      *
      * @since 0.5-beta
      */
@@ -3445,6 +3455,8 @@ class rcube_imap_generic
 
             return str_split($rights);
         }
+
+        return null;
     }
 
     /**
@@ -3513,7 +3525,7 @@ class rcube_imap_generic
      * @param array  $entries Entries
      * @param array  $options Command options (with MAXSIZE and DEPTH keys)
      *
-     * @return array GETMETADATA result on success, NULL on error
+     * @return ?array GETMETADATA result on success, NULL on error
      *
      * @since 0.5-beta
      */
@@ -3570,6 +3582,8 @@ class rcube_imap_generic
 
             return $result;
         }
+
+        return null;
     }
 
     /**
@@ -3630,7 +3644,7 @@ class rcube_imap_generic
      * @param array  $entries Entries names
      * @param array  $attribs Attribs names
      *
-     * @return array Annotations result on success, NULL on error
+     * @return ?array Annotations result on success, NULL on error
      *
      * @since 0.5-beta
      */
@@ -3711,6 +3725,8 @@ class rcube_imap_generic
 
             return $result;
         }
+
+        return null;
     }
 
     /**

@@ -127,7 +127,7 @@ class enigma_engine
      * @param Mail_mime &$message Original message
      * @param int       $mode     Encryption mode
      *
-     * @return enigma_error On error returns error object
+     * @return ?enigma_error On error returns error object
      */
     public function sign_message(&$message, $mode = null)
     {
@@ -214,6 +214,8 @@ class enigma_engine
             $mime->addPGPSignature($body, $this->pgp_driver->signature_algorithm());
             $message = $mime;
         }
+
+        return null;
     }
 
     /**
@@ -223,7 +225,7 @@ class enigma_engine
      * @param int       $mode     Encryption mode
      * @param bool      $is_draft Is draft-save action - use only sender's key for encryption
      *
-     * @return enigma_error On error returns error object
+     * @return ?enigma_error On error returns error object
      */
     public function encrypt_message(&$message, $mode = null, $is_draft = false)
     {
@@ -322,6 +324,8 @@ class enigma_engine
             $mime->setPGPEncryptedBody($body);
             $message = $mime;
         }
+
+        return null;
     }
 
     /**

@@ -593,6 +593,8 @@ class rcmail_sendmail
 
             return wordwrap($http_header, 69, $nldlm);
         }
+
+        return null;
     }
 
     /**
@@ -829,6 +831,8 @@ class rcmail_sendmail
                 return $footer;
             }
         }
+
+        return null;
     }
 
     /**

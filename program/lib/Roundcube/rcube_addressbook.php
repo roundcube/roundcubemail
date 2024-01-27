@@ -434,6 +434,7 @@ abstract class rcube_addressbook
     public function delete($ids, $force = true)
     {
         // empty for read-only address books
+        return false;
     }
 
     /**
@@ -444,6 +445,7 @@ abstract class rcube_addressbook
     public function undelete($ids)
     {
         // empty for read-only address books
+        return [];
     }
 
     /**
@@ -454,6 +456,7 @@ abstract class rcube_addressbook
     public function delete_all($with_groups = false)
     {
         // empty for read-only address books
+        return false;
     }
 
     /**
@@ -471,6 +474,7 @@ abstract class rcube_addressbook
     public function set_group($group_id)
     {
         // empty for address books don't supporting groups
+        return null;
     }
 
     /**
