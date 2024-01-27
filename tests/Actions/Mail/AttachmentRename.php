@@ -10,7 +10,7 @@ class Actions_Mail_AttachmentRename extends ActionTestCase
      */
     public function test_run()
     {
-        $rcmail = rcube::get_instance();
+        $rcmail = rcmail::get_instance();
         $action = new rcmail_action_mail_attachment_rename();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'rename-attachment');
 
@@ -33,7 +33,7 @@ class Actions_Mail_AttachmentRename extends ActionTestCase
         $this->assertSame('rename-attachment', $result['action']);
         $this->assertSame('this.rename_attachment_handler("rcmfile' . $file['id'] . '","mod.gif");', trim($result['exec']));
 
-        $upload = rcube::get_instance()->get_uploaded_file($file['id']);
+        $upload = $rcmail->get_uploaded_file($file['id']);
         $this->assertSame($_POST['_name'], $upload['name']);
         $this->assertSame($_POST['_id'], $upload['group']);
     }

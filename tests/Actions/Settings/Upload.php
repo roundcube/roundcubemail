@@ -44,7 +44,7 @@ class Actions_Settings_Upload extends ActionTestCase
         $this->assertSame('upload', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"') !== false);
 
-        $upload = rcube::get_instance()->get_uploaded_file($file['id']);
+        $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
         $this->assertSame($file['name'], $upload['name']);
         $this->assertSame($file['type'], $upload['mimetype']);
         $this->assertSame($file['size'], $upload['size']);

@@ -156,6 +156,7 @@ class filesystem_attachments extends rcube_plugin
         $rcube = rcube::get_instance();
         $group = $args['group'] ?? null;
 
+        // @phpstan-ignore-next-line
         foreach ($rcube->list_uploaded_files($group) as $file) {
             if ($file['path'] && $this->verify_path($file['path']) && file_exists($file['path'])) {
                 unlink($file['path']);
@@ -172,6 +173,7 @@ class filesystem_attachments extends rcube_plugin
         $id = preg_replace('/[^0-9]/', '', $rcube->user->ID . $sec . $usec);
 
         // make sure the ID is really unique (#1489546)
+        // @phpstan-ignore-next-line
         while ($rcube->get_uploaded_file($id)) {
             // increment last four characters
             $x  = substr($id, -4) + 1;

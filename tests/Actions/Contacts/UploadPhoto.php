@@ -39,7 +39,7 @@ class Actions_Contacts_Upload_Photo extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.replace_contact_photo("' . $file['id'] . '");') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.photo_upload_end();') !== false);
 
-        $upload = rcube::get_instance()->get_uploaded_file($file['id']);
+        $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
         $this->assertSame($file['name'], $upload['name']);
         $this->assertSame($file['type'], $upload['mimetype']);
         $this->assertSame($file['size'], $upload['size']);
