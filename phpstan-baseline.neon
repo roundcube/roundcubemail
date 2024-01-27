@@ -326,11 +326,6 @@ parameters:
 			path: plugins/subscriptions_option/subscriptions_option.php
 
 		-
-			message: "#^Access to an undefined property rcube_storage\\:\\:\\$methodCalls\\.$#"
-			count: 3
-			path: plugins/subscriptions_option/tests/SubscriptionsOption.php
-
-		-
 			message: "#^Method rcube_storage\\:\\:index\\(\\) invoked with 4 parameters, 0\\-3 required\\.$#"
 			count: 1
 			path: plugins/zipdownload/zipdownload.php
