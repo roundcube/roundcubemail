@@ -39,7 +39,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function assertEnvEquals($key, $expected)
     {
-        $this->assertEquals($expected, $this->getEnv($key));
+        Assert::assertEquals($expected, $this->getEnv($key));
 
         return $this;
     }
@@ -142,6 +142,14 @@ class Browser extends \Laravel\Dusk\Browser
         $this->driver->getKeyboard()->releaseKey(WebDriverKeys::LEFT_CONTROL);
 
         return $this;
+    }
+
+    /**
+     * Return rcmail.env entry
+     */
+    public function getEnv($key)
+    {
+        return $this->driver->executeScript("return rcmail.env['{$key}']");
     }
 
     /**
