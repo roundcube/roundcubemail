@@ -88,7 +88,7 @@ class App extends Component
         $browser->visit("?_task={$task}&_action={$action}");
 
         // check if we have a valid session
-        if ($login && $browser->getEnv($browser, 'task') == 'login') {
+        if ($login && $browser->getEnv('task') == 'login') {
             $this->doLogin($browser);
         }
     }
