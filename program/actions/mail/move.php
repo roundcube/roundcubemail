@@ -39,7 +39,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
             $old_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
         }
 
-        $target  = rcube_utils::get_input_string('_target_mbox', rcube_utils::INPUT_POST, true);
+        $target = rcube_utils::get_input_string('_target_mbox', rcube_utils::INPUT_POST, true);
 
         if (empty($_POST['_uid']) || !strlen($target)) {
             $rcmail->output->show_message('internalerror', 'error');
@@ -51,7 +51,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         $count   = 0;
         $sources = [];
 
-        foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
+        foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
             if ($mbox === $target) {
                 $count += is_array($uids) ? count($uids) : 1;
             } elseif ($rcmail->storage->move_message($uids, $target, $mbox)) {

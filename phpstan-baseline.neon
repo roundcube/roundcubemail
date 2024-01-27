@@ -16,14 +16,6 @@ parameters:
 			path: installer/test.php
 
 		-
-			message: """
-				#^Call to deprecated method get_uids\\(\\) of class rcmail\\:
-				since 1\\.5\\-beta, use rcmail_action\\:\\:get_uids\\(\\)$#
-			"""
-			count: 1
-			path: plugins/archive/archive.php
-
-		-
 			message: "#^Access to an undefined property rcube\\:\\:\\$task\\.$#"
 			count: 1
 			path: plugins/emoticons/emoticons.php
@@ -254,14 +246,6 @@ parameters:
 			path: plugins/managesieve/managesieve.php
 
 		-
-			message: """
-				#^Call to deprecated method get_uids\\(\\) of class rcmail\\:
-				since 1\\.5\\-beta, use rcmail_action\\:\\:get_uids\\(\\)$#
-			"""
-			count: 1
-			path: plugins/managesieve/managesieve.php
-
-		-
 			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
 			count: 1
 			path: plugins/managesieve/tests/Engine.php
@@ -274,14 +258,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property rcube\\:\\:\\$action\\.$#"
 			count: 2
-			path: plugins/markasjunk/markasjunk.php
-
-		-
-			message: """
-				#^Call to deprecated method get_uids\\(\\) of class rcmail\\:
-				since 1\\.5\\-beta, use rcmail_action\\:\\:get_uids\\(\\)$#
-			"""
-			count: 1
 			path: plugins/markasjunk/markasjunk.php
 
 		-
@@ -365,19 +341,6 @@ parameters:
 			path: plugins/subscriptions_option/tests/SubscriptionsOption.php
 
 		-
-			message: "#^Call to deprecated method get_part_content\\(\\) of class rcube_message\\.$#"
-			count: 1
-			path: plugins/vcard_attachments/vcard_attachments.php
-
-		-
-			message: """
-				#^Call to deprecated method get_uids\\(\\) of class rcmail\\:
-				since 1\\.5\\-beta, use rcmail_action\\:\\:get_uids\\(\\)$#
-			"""
-			count: 1
-			path: plugins/zipdownload/zipdownload.php
-
-		-
 			message: "#^Method rcube_storage\\:\\:index\\(\\) invoked with 4 parameters, 0\\-3 required\\.$#"
 			count: 1
 			path: plugins/zipdownload/zipdownload.php
@@ -438,25 +401,9 @@ parameters:
 			path: program/actions/mail/compose.php
 
 		-
-			message: """
-				#^Call to deprecated method table_output\\(\\) of class rcmail\\:
-				since 1\\.5\\-beta, use rcmail_action\\:\\:table_output\\(\\)$#
-			"""
-			count: 1
-			path: program/actions/mail/compose.php
-
-		-
 			message: "#^Variable \\$to_addresses in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: program/actions/mail/compose.php
-
-		-
-			message: """
-				#^Call to deprecated method get_uids\\(\\) of class rcmail\\:
-				since 1\\.5\\-beta, use rcmail_action\\:\\:get_uids\\(\\)$#
-			"""
-			count: 1
-			path: program/actions/mail/delete.php
 
 		-
 			message: "#^Access to an undefined property object\\:\\:\\$charset\\.$#"
@@ -507,14 +454,6 @@ parameters:
 			message: "#^Method rcmail_action_mail_index\\:\\:part_image_type\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: program/actions/mail/index.php
-
-		-
-			message: """
-				#^Call to deprecated method get_uids\\(\\) of class rcmail\\:
-				since 1\\.5\\-beta, use rcmail_action\\:\\:get_uids\\(\\)$#
-			"""
-			count: 1
-			path: program/actions/mail/move.php
 
 		-
 			message: "#^Result of method rcube_result_set\\:\\:next\\(\\) \\(void\\) is used\\.$#"
@@ -659,14 +598,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method rcube\\:\\:get_address_book\\(\\)\\.$#"
 			count: 1
-			path: program/include/rcmail_sendmail.php
-
-		-
-			message: """
-				#^Call to deprecated method get_uids\\(\\) of class rcmail\\:
-				since 1\\.5\\-beta, use rcmail_action\\:\\:get_uids\\(\\)$#
-			"""
-			count: 2
 			path: program/include/rcmail_sendmail.php
 
 		-

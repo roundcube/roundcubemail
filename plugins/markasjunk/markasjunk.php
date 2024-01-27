@@ -138,11 +138,11 @@ class markasjunk extends rcube_plugin
         $is_spam    = $this->rcube->action == 'plugin.markasjunk.junk';
         $uids       = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
         $mbox_name  = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
-        $messageset = rcmail::get_uids($uids, $mbox_name, $multifolder);
+        $messageset = rcmail_action::get_uids($uids, $mbox_name, $multifolder);
         $dest_mbox  = $is_spam ? $this->spam_mbox : $this->ham_mbox;
 
         // special case when select all is used, uid is '*', and not in multi folder mode and we are using a driver
-        // rcmail::get_uids does not handle this
+        // rcmail_action::get_uids does not handle this
         if ($uids == '*' && !$multifolder && is_object($this->driver)) {
             $storage      = $this->rcube->get_storage();
             $result_index = $storage->index($mbox_name);

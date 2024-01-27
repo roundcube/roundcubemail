@@ -459,14 +459,14 @@ class rcmail_sendmail
 
         // set replied/forwarded flag
         if (!empty($this->data['reply_uid'])) {
-            foreach (rcmail::get_uids($this->data['reply_uid'], $this->data['mailbox']) as $mbox => $uids) {
+            foreach (rcmail_action::get_uids($this->data['reply_uid'], $this->data['mailbox']) as $mbox => $uids) {
                 // skip <UID>.<PART> replies
                 if (!preg_match('/^\d+\.[0-9.]+$/', implode(',', (array) $uids))) {
                     $this->rcmail->storage->set_flag($uids, 'ANSWERED', $mbox);
                 }
             }
         } elseif (!empty($this->data['forward_uid'])) {
-            foreach (rcmail::get_uids($this->data['forward_uid'], $this->data['mailbox']) as $mbox => $uids) {
+            foreach (rcmail_action::get_uids($this->data['forward_uid'], $this->data['mailbox']) as $mbox => $uids) {
                 // skip <UID>.<PART> forwards
                 if (!preg_match('/^\d+\.[0-9.]+$/', implode(',', (array) $uids))) {
                     $this->rcmail->storage->set_flag($uids, 'FORWARDED', $mbox);

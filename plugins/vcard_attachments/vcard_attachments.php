@@ -106,7 +106,7 @@ class vcard_attachments extends rcube_plugin
         $contacts = [];
 
         foreach ($this->vcard_parts as $part) {
-            $vcards = rcube_vcard::import($this->message->get_part_content($part, null, true));
+            $vcards = rcube_vcard::import($this->message->get_part_body($part));
 
             foreach ($vcards as $idx => $vcard) {
                 // skip invalid vCards
@@ -207,7 +207,7 @@ class vcard_attachments extends rcube_plugin
             }
 
             foreach ($index as $part_id => $mime_ids) {
-                $part = $message->get_part_content($part_id, null, true);
+                $part = $message->get_part_body($part_id);
 
                 if (!empty($part) && ($part_vcards = rcube_vcard::import($part))) {
                     foreach ($mime_ids as $id) {
