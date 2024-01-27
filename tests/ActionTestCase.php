@@ -45,7 +45,7 @@ class ActionTestCase extends TestCase
         self::initSession();
         self::initDB();
         self::initUser();
-        self::initStorage();
+        self::mockStorage();
     }
 
     /**
@@ -143,7 +143,7 @@ class ActionTestCase extends TestCase
      *
      * @return StorageMock The storage object
      */
-    public static function initStorage()
+    public static function mockStorage()
     {
         $rcmail = rcmail::get_instance();
         $rcmail->storage = new StorageMock();

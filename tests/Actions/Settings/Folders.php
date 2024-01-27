@@ -17,7 +17,7 @@ class Actions_Settings_Folders extends ActionTestCase
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('clear_cache', true)
             ->registerFunction('get_capability', true)
             ->registerFunction('get_capability', true)

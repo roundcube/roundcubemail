@@ -49,8 +49,6 @@ class SubscriptionsOption_Plugin extends ActionTestCase
      */
     public function test_prefs_save()
     {
-        self::initStorage();
-
         $rcube  = rcube::get_instance();
         $plugin = new subscriptions_option($rcube->plugins);
 
@@ -61,8 +59,7 @@ class SubscriptionsOption_Plugin extends ActionTestCase
 
         $this->assertTrue($result['prefs']['use_subscriptions']);
 
-        $storage = $rcube->storage;
-        $storage->registerFunction('clear_cache', true);
+        $storage = self::mockStorage()->registerFunction('clear_cache', true);
 
         $_POST = [];
         $args  = ['section' => 'server', 'prefs' => []];

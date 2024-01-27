@@ -17,7 +17,7 @@ class Actions_Settings_FolderRename extends ActionTestCase
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('rename_folder', true)
             ->registerFunction('folder_info', [])
             ->registerFunction('mod_folder', 'Test2');
@@ -42,7 +42,7 @@ class Actions_Settings_FolderRename extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-rename');
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('rename_folder', false)
             ->registerFunction('get_error_code', -1)
             ->registerFunction('get_response_code', rcube_storage::READONLY);

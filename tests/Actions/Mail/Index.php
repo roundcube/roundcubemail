@@ -19,7 +19,7 @@ class Actions_Mail_Index extends ActionTestCase
         $_GET = ['_uid' => 10];
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('set_options')
             ->registerFunction('get_pagesize', 10)
             ->registerFunction('set_charset')
@@ -61,9 +61,9 @@ class Actions_Mail_Index extends ActionTestCase
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('set_options')
-            ->registerFunction('get_pagesize')
+            ->registerFunction('get_pagesize', 10)
             ->registerFunction('set_charset')
             ->registerFunction('is_connected', true)
             ->registerFunction('set_folder')
@@ -123,7 +123,7 @@ class Actions_Mail_Index extends ActionTestCase
         $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', 'list');
 
-        rcmail::get_instance()->storage->registerFunction('get_folder', 'INBOX');
+        self::mockStorage()->registerFunction('get_folder', 'INBOX');
 
         $result = $action->message_list([]);
 
@@ -140,7 +140,7 @@ class Actions_Mail_Index extends ActionTestCase
         $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
 
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('get_search_set', null)
             ->registerFunction('get_threading', true)
             ->registerFunction('get_folder', 'INBOX')

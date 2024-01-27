@@ -246,11 +246,6 @@ parameters:
 			path: plugins/managesieve/managesieve.php
 
 		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 1
-			path: plugins/managesieve/tests/Engine.php
-
-		-
 			message: "#^Call to an undefined method rcube\\:\\:user_date\\(\\)\\.$#"
 			count: 2
 			path: plugins/markasjunk/drivers/email_learn.php
@@ -333,11 +328,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property rcube_storage\\:\\:\\$methodCalls\\.$#"
 			count: 3
-			path: plugins/subscriptions_option/tests/SubscriptionsOption.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 1
 			path: plugins/subscriptions_option/tests/SubscriptionsOption.php
 
 		-
@@ -1159,76 +1149,6 @@ parameters:
 			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
 			count: 1
 			path: tests/Actions/Mail/AttachmentUpload.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 6
-			path: tests/Actions/Mail/Copy.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 7
-			path: tests/Actions/Mail/FolderExpunge.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 4
-			path: tests/Actions/Mail/Index.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Mail/Search.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Settings/FolderCreate.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 2
-			path: tests/Actions/Settings/FolderDelete.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Settings/FolderEdit.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 3
-			path: tests/Actions/Settings/FolderPurge.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 2
-			path: tests/Actions/Settings/FolderRename.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Settings/FolderSave.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 2
-			path: tests/Actions/Settings/FolderSize.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 2
-			path: tests/Actions/Settings/FolderSubscribe.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 2
-			path: tests/Actions/Settings/FolderUnsubscribe.php
-
-		-
-			message: "#^Call to an undefined method rcube_storage\\:\\:registerFunction\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Settings/Folders.php
 
 		-
 			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"

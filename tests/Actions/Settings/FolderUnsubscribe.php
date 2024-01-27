@@ -17,7 +17,7 @@ class Actions_Settings_FolderUnsubscribe extends ActionTestCase
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('unsubscribe', true)
             ->registerFunction('is_special_folder', false);
 
@@ -41,7 +41,7 @@ class Actions_Settings_FolderUnsubscribe extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-unsubscribe');
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('unsubscribe', false)
             ->registerFunction('get_error_code', -1)
             ->registerFunction('get_response_code', rcube_storage::READONLY);
