@@ -179,6 +179,20 @@ Links:
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Skip link with href == content');
+
+        // HTML entities in links
+        $html     = '<a href="http://test.com?test1&amp;test2">test3&amp;test4</a>';
+        $expected = 'test3&test4 [1]
+
+Links:
+------
+[1] http://test.com?test1&test2
+';
+
+        $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_END);
+        $res = $ht->get_text();
+
+        $this->assertSame($expected, $res, 'Links with HTML entities');
     }
 
     /**

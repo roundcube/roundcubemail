@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Makefile: Use phpDocumentor v3.4 for the Framework docs (#9313)
+- Fix bug where HTML entities in URLs were not decoded on HTML to plain text conversion (#9312)
 
 ## Release 1.6.6
 
