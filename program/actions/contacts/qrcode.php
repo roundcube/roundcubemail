@@ -129,5 +129,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
                 return 'image/png';
             }
         }
+
+        return null;
     }
 }

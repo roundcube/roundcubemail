@@ -48,6 +48,8 @@ trait rcube_uploads
 
             return $sql_arr;
         }
+
+        return null;
     }
 
     /**

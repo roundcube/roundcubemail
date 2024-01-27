@@ -125,6 +125,8 @@ class enigma_key
                 }
             }
         }
+
+        return null;
     }
 
     /**

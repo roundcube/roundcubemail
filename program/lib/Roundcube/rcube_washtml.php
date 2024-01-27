@@ -439,6 +439,8 @@ class rcube_washtml
 
             return $uri;
         }
+
+        return '';
     }
 
     /**
@@ -463,6 +465,8 @@ class rcube_washtml
                 return $href;
             }
         }
+
+        return '';
     }
 
     /**

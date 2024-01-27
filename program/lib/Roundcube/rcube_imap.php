@@ -1017,13 +1017,11 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * protected method for setting threaded messages flags:
+     * Protected method for setting threaded messages flags:
      * depth, has_children, unread_children, flagged_children
      *
      * @param array               $headers Reference to headers array indexed by message UID
      * @param rcube_result_thread $threads Threads data object
-     *
-     * @return array Message headers array indexed by message UID
      */
     protected function set_thread_flags(&$headers, $threads)
     {
@@ -2377,7 +2375,7 @@ class rcube_imap extends rcube_storage
      *
      * @param array $structure Message structure
      *
-     * @return string Charset name
+     * @return ?string Charset name
      */
     protected function structure_charset($structure)
     {
@@ -2385,8 +2383,11 @@ class rcube_imap extends rcube_storage
             if (is_array($structure[2]) && $structure[2][0] == 'charset') {
                 return $structure[2][1];
             }
+
             $structure = $structure[0];
         }
+
+        return null;
     }
 
     /**
@@ -4068,7 +4069,7 @@ class rcube_imap extends rcube_storage
      * @param array  $options Command options (with MAXSIZE and DEPTH keys)
      * @param bool   $force   Disables cache use
      *
-     * @return array Metadata entry-value hash array on success, NULL on error
+     * @return array|null Metadata entry-value hash array on success, NULL on error
      *
      * @since 0.5-beta
      */
@@ -4127,6 +4128,8 @@ class rcube_imap extends rcube_storage
 
             return $res;
         }
+
+        return null;
     }
 
     /**
@@ -4135,17 +4138,20 @@ class rcube_imap extends rcube_storage
      *
      * @param string $entry Entry name
      *
-     * @return array Entry-attribute list, NULL if not supported (?)
+     * @return array|null Entry-attribute list, NULL if not supported (?)
      */
     protected function md2annotate($entry)
     {
         if (substr($entry, 0, 7) == '/shared') {
             return [substr($entry, 7), 'value.shared'];
-        } elseif (substr($entry, 0, 8) == '/private') {
+        }
+
+        if (substr($entry, 0, 8) == '/private') {
             return [substr($entry, 8), 'value.priv'];
         }
 
         // @TODO: log error
+        return null;
     }
 
     /* --------------------------------

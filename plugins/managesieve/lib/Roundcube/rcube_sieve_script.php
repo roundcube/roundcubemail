@@ -178,7 +178,7 @@ class rcube_sieve_script
      *
      * @param string $name Variable name
      *
-     * @return string Variable value
+     * @return ?string Variable value
      */
     public function get_var($name)
     {
@@ -188,6 +188,8 @@ class rcube_sieve_script
                 return $this->vars[$i]['name'];
             }
         }
+
+        return null;
     }
 
     /**

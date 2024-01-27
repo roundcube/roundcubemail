@@ -482,6 +482,8 @@ class rcube_message
 
             return $body;
         }
+
+        return null;
     }
 
     /**
@@ -510,6 +512,8 @@ class rcube_message
             $h2t  = new rcube_html2text($body);
             return $h2t->get_text();
         }
+
+        return null;
     }
 
     /**

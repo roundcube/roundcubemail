@@ -409,6 +409,8 @@ class rcube_charset
                 return $charset;
             }
         }
+
+        return null;
     }
 
     /**

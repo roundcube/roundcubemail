@@ -411,6 +411,8 @@ class rcmail extends rcube
                 return $index;
             }
         }
+
+        return null;
     }
 
     /**
@@ -863,6 +865,8 @@ class rcmail extends rcube
         if ($this->storage && $this->storage->get_error_code() < -1) {
             return self::ERROR_STORAGE;
         }
+
+        return null;
     }
 
     /**
@@ -935,6 +939,8 @@ class rcmail extends rcube
 
             return $error;
         }
+
+        return null;
     }
 
     /**
@@ -1539,7 +1545,7 @@ class rcmail extends rcube
     public function find_asset($path, $minified = true)
     {
         if (empty($path)) {
-            return;
+            return null;
         }
 
         $assets_dir = $this->config->get('assets_dir');
@@ -1558,6 +1564,8 @@ class rcmail extends rcube
                 return $path;
             }
         }
+
+        return null;
     }
 
     /**

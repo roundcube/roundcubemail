@@ -21,11 +21,6 @@ parameters:
 			path: plugins/enigma/lib/enigma_driver_gnupg.php
 
 		-
-			message: "#^Method enigma_driver_gnupg\\:\\:init\\(\\) should return enigma_error\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_driver_gnupg.php
-
-		-
 			message: "#^Cannot access property \\$mime_id on string\\.$#"
 			count: 2
 			path: plugins/enigma/lib/enigma_driver_phpssl.php
@@ -37,16 +32,6 @@ parameters:
 
 		-
 			message: "#^Cannot call method get_part_body\\(\\) on string\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_driver_phpssl.php
-
-		-
-			message: "#^Method enigma_driver_phpssl\\:\\:parse_key\\(\\) should return enigma_key but return statement is missing\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_driver_phpssl.php
-
-		-
-			message: "#^Method enigma_driver_phpssl\\:\\:signature_algorithm\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: plugins/enigma/lib/enigma_driver_phpssl.php
 
@@ -86,16 +71,6 @@ parameters:
 			path: plugins/enigma/lib/enigma_engine.php
 
 		-
-			message: "#^Method enigma_engine\\:\\:encrypt_message\\(\\) should return enigma_error but return statement is missing\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Method enigma_engine\\:\\:sign_message\\(\\) should return enigma_error but return statement is missing\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
 			message: "#^Variable \\$key in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 2
 			path: plugins/enigma/lib/enigma_engine.php
@@ -104,11 +79,6 @@ parameters:
 			message: "#^Variable \\$sign_key in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Method enigma_key\\:\\:find_subkey\\(\\) should return enigma_subkey\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_key.php
 
 		-
 			message: "#^Method Mail_mimePart\\:\\:encode\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
@@ -126,22 +96,12 @@ parameters:
 			path: plugins/enigma/lib/enigma_mime_message.php
 
 		-
-			message: "#^Method enigma_subkey\\:\\:get_algorithm\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_subkey.php
-
-		-
 			message: "#^Variable \\$keyid might not be defined\\.$#"
 			count: 2
 			path: plugins/enigma/lib/enigma_ui.php
 
 		-
 			message: "#^Default value of the parameter \\#3 \\$strict \\(false\\) of method example_addressbook_backend\\:\\:search\\(\\) is incompatible with type int\\.$#"
-			count: 1
-			path: plugins/example_addressbook/example_addressbook_backend.php
-
-		-
-			message: "#^Method example_addressbook_backend\\:\\:get_group\\(\\) should return array\\|null but return statement is missing\\.$#"
 			count: 1
 			path: plugins/example_addressbook/example_addressbook_backend.php
 
@@ -204,11 +164,6 @@ parameters:
 			message: "#^Variable \\$parts in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_forward.php
-
-		-
-			message: "#^Method rcube_sieve_script\\:\\:get_var\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
 
 		-
 			message: "#^Variable \\$date_to might not be defined\\.$#"
@@ -321,19 +276,9 @@ parameters:
 			path: program/actions/contacts/list.php
 
 		-
-			message: "#^Method rcmail_action_contacts_qrcode\\:\\:check_support\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/actions/contacts/qrcode.php
-
-		-
 			message: "#^Variable \\$result in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: program/actions/contacts/search.php
-
-		-
-			message: "#^Method rcmail_action_mail_attachment_upload\\:\\:check_message_size\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: program/actions/mail/attachment_upload.php
 
 		-
 			message: "#^Access to an undefined property object\\:\\:\\$subject\\.$#"
@@ -421,11 +366,6 @@ parameters:
 			path: program/actions/mail/index.php
 
 		-
-			message: "#^Method rcmail_action_mail_index\\:\\:part_image_type\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/actions/mail/index.php
-
-		-
 			message: "#^Result of method rcube_result_set\\:\\:next\\(\\) \\(void\\) is used\\.$#"
 			count: 2
 			path: program/actions/mail/search_contacts.php
@@ -486,31 +426,6 @@ parameters:
 			path: program/include/rcmail.php
 
 		-
-			message: "#^Method rcmail\\:\\:find_asset\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/include/rcmail.php
-
-		-
-			message: "#^Method rcmail\\:\\:get_address_book_id\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/include/rcmail.php
-
-		-
-			message: "#^Method rcmail\\:\\:get_uploaded_file\\(\\) should return array\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/include/rcmail.php
-
-		-
-			message: "#^Method rcmail\\:\\:login_error\\(\\) should return int\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/include/rcmail.php
-
-		-
-			message: "#^Method rcmail\\:\\:session_error\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/include/rcmail.php
-
-		-
 			message: "#^Variable \\$search_mods in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: program/include/rcmail.php
@@ -534,11 +449,6 @@ parameters:
 			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
 			count: 1
 			path: program/include/rcmail_attachment_handler.php
-
-		-
-			message: "#^Method rcmail_oauth\\:\\:logout_after\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/include/rcmail_oauth.php
 
 		-
 			message: "#^Binary operation \"\\*\" between string and 100 results in an error\\.$#"
@@ -572,16 +482,6 @@ parameters:
 
 		-
 			message: "#^Call to method getMessage\\(\\) on an unknown class PEAR_Error\\.$#"
-			count: 1
-			path: program/include/rcmail_sendmail.php
-
-		-
-			message: "#^Method rcmail_sendmail\\:\\:generic_message_footer\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/include/rcmail_sendmail.php
-
-		-
-			message: "#^Method rcmail_sendmail\\:\\:header_received\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: program/include/rcmail_sendmail.php
 
@@ -666,11 +566,6 @@ parameters:
 			path: program/lib/Roundcube/rcube.php
 
 		-
-			message: "#^Method rcube_addressbook\\:\\:delete\\(\\) should return int\\|false but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_addressbook.php
-
-		-
 			message: "#^Result of method rcube_result_set\\:\\:next\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_addressbook.php
@@ -696,29 +591,9 @@ parameters:
 			path: program/lib/Roundcube/rcube_cache.php
 
 		-
-			message: "#^Method rcube_cache\\:\\:add_item\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_cache.php
-
-		-
-			message: "#^Method rcube_cache\\:\\:delete_item\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_cache.php
-
-		-
-			message: "#^Method rcube_charset\\:\\:check\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_charset.php
-
-		-
 			message: "#^Variable \\$required in empty\\(\\) is never defined\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_contacts.php
-
-		-
-			message: "#^Method rcube_csv2vcard\\:\\:import\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_csv2vcard.php
 
 		-
 			message: "#^Undefined variable\\: \\$map$#"
@@ -729,16 +604,6 @@ parameters:
 			message: "#^Variable \\$map in empty\\(\\) is never defined\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_csv2vcard.php
-
-		-
-			message: "#^Method rcube_html2text\\:\\:tags_preg_callback\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_html2text.php
-
-		-
-			message: "#^Method rcube_image\\:\\:props\\(\\) should return array\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_image.php
 
 		-
 			message: "#^Access to an undefined property object\\:\\:\\$sets\\.$#"
@@ -777,26 +642,6 @@ parameters:
 
 		-
 			message: "#^Default value of the parameter \\#2 \\$part \\(int\\) of method rcube_imap\\:\\:get_message_part\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap.php
-
-		-
-			message: "#^Method rcube_imap\\:\\:get_metadata\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap.php
-
-		-
-			message: "#^Method rcube_imap\\:\\:md2annotate\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap.php
-
-		-
-			message: "#^Method rcube_imap\\:\\:set_thread_flags\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap.php
-
-		-
-			message: "#^Method rcube_imap\\:\\:structure_charset\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap.php
 
@@ -866,46 +711,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap_generic.php
 
 		-
-			message: "#^Method rcube_imap_generic\\:\\:ID2UID\\(\\) should return int but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
-			message: "#^Method rcube_imap_generic\\:\\:UID2ID\\(\\) should return int but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
-			message: "#^Method rcube_imap_generic\\:\\:getACL\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
-			message: "#^Method rcube_imap_generic\\:\\:getAnnotation\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
-			message: "#^Method rcube_imap_generic\\:\\:getHierarchyDelimiter\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
-			message: "#^Method rcube_imap_generic\\:\\:getMetadata\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
-			message: "#^Method rcube_imap_generic\\:\\:listRights\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
-			message: "#^Method rcube_imap_generic\\:\\:myRights\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
 			message: "#^Static method rcube_utils\\:\\:proxy_protocol_header\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_generic.php
@@ -956,16 +761,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_message.php
 
 		-
-			message: "#^Method rcube_message\\:\\:first_html_part\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Method rcube_message\\:\\:first_text_part\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
 			message: "#^Method rcube_storage\\:\\:get_message_part\\(\\) invoked with 8 parameters, 1\\-6 required\\.$#"
 			count: 3
 			path: program/lib/Roundcube/rcube_message.php
@@ -981,11 +776,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_message.php
 
 		-
-			message: "#^Method rcube_mime\\:\\:file_ext_type\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_mime.php
-
-		-
 			message: "#^Access to an undefined property rcube\\:\\:\\$action\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_plugin_api.php
@@ -997,11 +787,6 @@ parameters:
 
 		-
 			message: "#^Binary operation \"\\+\" between string and 1 results in an error\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_session.php
-
-		-
-			message: "#^Method rcube_session\\:\\:create\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_session.php
 
@@ -1026,26 +811,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_storage.php
 
 		-
-			message: "#^Method rcube_user\\:\\:get_response\\(\\) should return array\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_user.php
-
-		-
-			message: "#^Method rcube_user\\:\\:get_username\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_user.php
-
-		-
-			message: "#^Method rcube_user\\:\\:query\\(\\) should return rcube_user but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_user.php
-
-		-
-			message: "#^Method rcube_utils\\:\\:request_header\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_utils.php
-
-		-
 			message: "#^Variable \\$prefixes might not be defined\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_utils.php
@@ -1064,36 +829,6 @@ parameters:
 			message: "#^Call to an undefined method DOMNode\\:\\:setAttribute\\(\\)\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_washtml.php
-
-		-
-			message: "#^Method rcube_washtml\\:\\:wash_link\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_washtml.php
-
-		-
-			message: "#^Method rcube_washtml\\:\\:wash_uri\\(\\) should return string but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_washtml.php
-
-		-
-			message: "#^Method rcube_session_php\\:\\:close\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/session/php.php
-
-		-
-			message: "#^Method rcube_session_php\\:\\:destroy\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/session/php.php
-
-		-
-			message: "#^Method rcube_session_php\\:\\:open\\(\\) should return bool but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/session/php.php
-
-		-
-			message: "#^Method rcube_session_php\\:\\:read\\(\\) should return string\\|false but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/session/php.php
 
 		-
 			message: "#^Variable \\$e might not be defined\\.$#"

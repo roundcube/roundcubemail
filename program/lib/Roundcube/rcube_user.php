@@ -83,7 +83,7 @@ class rcube_user
      *
      * @param string $part Username part (empty or 'local' or 'domain', 'mail')
      *
-     * @return string Full user name or its part
+     * @return ?string Full user name or its part
      */
     public function get_username($part = null)
     {
@@ -114,6 +114,8 @@ class rcube_user
 
             return $local;
         }
+
+        return null;
     }
 
     /**
@@ -576,7 +578,7 @@ class rcube_user
      * @param string $user IMAP user name
      * @param string $host IMAP host name
      *
-     * @return rcube_user New user instance
+     * @return ?rcube_user New user instance, NULL if not found
      */
     public static function query($user, $host)
     {
@@ -605,6 +607,8 @@ class rcube_user
         if ($sql_arr) {
             return new self($sql_arr['user_id'], $sql_arr);
         }
+
+        return null;
     }
 
     /**
@@ -902,6 +906,8 @@ class rcube_user
 
             return $sql_arr;
         }
+
+        return null;
     }
 
     /**
