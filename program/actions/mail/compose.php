@@ -1577,7 +1577,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $rcmail->output->set_env('current_page', 0);
         $rcmail->output->include_script('list.js');
 
-        return $rcmail->table_output($attrib, [], ['name'], 'ID');
+        return rcmail_action::table_output($attrib, [], ['name'], 'ID');
     }
 
     /**

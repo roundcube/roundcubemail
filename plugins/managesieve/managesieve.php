@@ -217,7 +217,7 @@ class managesieve extends rcube_plugin
      */
     public function managesieve_actions()
     {
-        $uids = rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);
+        $uids = rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);
 
         // handle fetching email headers for the new filter form
         if (!empty($uids)) {
