@@ -10,7 +10,7 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
      */
     public function test_run()
     {
-        $rcmail = rcube::get_instance();
+        $rcmail = rcmail::get_instance();
         $action = new rcmail_action_mail_attachment_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'delete-attachment');
 
@@ -46,7 +46,6 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
         $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
         $this->assertSame('delete-attachment', $result['action']);
         $this->assertSame('this.remove_from_attachment_list("rcmfile' . $file['id'] . '");', trim($result['exec']));
-
-        $this->assertNull(rcube::get_instance()->get_uploaded_file($file['id']));
+        $this->assertNull($rcmail->get_uploaded_file($file['id']));
     }
 }

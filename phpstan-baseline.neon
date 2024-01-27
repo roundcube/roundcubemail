@@ -111,16 +111,6 @@ parameters:
 			path: plugins/filesystem_attachments/filesystem_attachments.php
 
 		-
-			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
-			count: 1
-			path: plugins/filesystem_attachments/filesystem_attachments.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:list_uploaded_files\\(\\)\\.$#"
-			count: 1
-			path: plugins/filesystem_attachments/filesystem_attachments.php
-
-		-
 			message: "#^Call to method getMessage\\(\\) on an unknown class PEAR_Error\\.$#"
 			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve.php
@@ -444,11 +434,6 @@ parameters:
 			message: "#^Access to an undefined property rcube_message_part\\:\\:\\$exact_size\\.$#"
 			count: 1
 			path: program/include/rcmail_action.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
-			count: 1
-			path: program/include/rcmail_attachment_handler.php
 
 		-
 			message: "#^Binary operation \"\\*\" between string and 100 results in an error\\.$#"
@@ -834,38 +819,3 @@ parameters:
 			message: "#^Variable \\$e might not be defined\\.$#"
 			count: 1
 			path: program/lib/Roundcube/spellchecker/googie.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
-			count: 1
-			path: tests/ActionTestCase.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Contacts/UploadPhoto.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Mail/AttachmentDelete.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:list_uploaded_files\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Mail/AttachmentDelete.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Mail/AttachmentRename.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Mail/AttachmentUpload.php
-
-		-
-			message: "#^Call to an undefined method rcube\\:\\:get_uploaded_file\\(\\)\\.$#"
-			count: 1
-			path: tests/Actions/Settings/Upload.php

@@ -50,7 +50,7 @@ class rcmail_attachment_handler
         $file_id    = rcube_utils::get_input_string('_file', rcube_utils::INPUT_GET);
         $compose_id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GET);
         $uid        = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
-        $rcube      = rcube::get_instance();
+        $rcube      = rcmail::get_instance();
 
         $this->download = !empty($_GET['_download']);
 

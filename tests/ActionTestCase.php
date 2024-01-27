@@ -234,7 +234,7 @@ class ActionTestCase extends TestCase
 
         $rcmail->insert_uploaded_file($file);
 
-        $upload = rcube::get_instance()->get_uploaded_file($file['id']);
+        $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
 
         $this->assertTrue(is_array($upload));
 
