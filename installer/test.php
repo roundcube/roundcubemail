@@ -18,6 +18,11 @@ if (!class_exists('rcmail_install', false) || !isset($RCI)) {
     exit('Not allowed! Please open installer/index.php instead.');
 }
 
+/** @var rcmail_install $RCI */
+/** @var rcube_db|null $DB */
+
+$DB = null;
+
 ?>
 
 <h3>Check config file</h3>
@@ -122,7 +127,6 @@ if (empty($pass)) {
 <h3>Check DB config</h3>
 <?php
 
-$db_working = false;
 if ($RCI->configured) {
     if (!empty($RCI->config['db_dsnw'])) {
         $DB = rcube_db::factory($RCI->config['db_dsnw'], '', false);
@@ -132,11 +136,11 @@ if ($RCI->configured) {
         if (!($db_error_msg = $DB->is_error())) {
             $RCI->pass('DSN (write)');
             echo '<br />';
-            $db_working = true;
         } else {
             $RCI->fail('DSN (write)', $db_error_msg);
             echo '<p class="hint">Make sure that the configured database exists and that the user has write privileges<br />';
             echo 'DSN: ' . rcube::Q($RCI->config['db_dsnw']) . '</p>';
+            $DB = null;
         }
     } else {
         $RCI->fail('DSN (write)', 'not set');
@@ -146,20 +150,20 @@ if ($RCI->configured) {
 }
 
 // initialize db with schema found in /SQL/*
-if ($db_working && !empty($_POST['initdb'])) {
+if ($DB && !empty($_POST['initdb'])) {
     if (!$RCI->init_db($DB)) {
-        $db_working = false;
+        $DB = null;
         echo '<p class="warning">Please try to initialize the database manually as described in the INSTALL guide.
             Make sure that the configured database exists and that the user as write privileges</p>';
     }
-} elseif ($db_working && !empty($_POST['updatedb'])) {
+} elseif ($DB && !empty($_POST['updatedb'])) {
     if (!$RCI->update_db($_POST['version'])) {
         echo '<p class="warning">Database schema update failed.</p>';
     }
 }
 
 // test database
-if ($db_working) {
+if ($DB) {
     $db_read = $DB->query('SELECT count(*) FROM ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'users'));
     if ($DB->is_error()) {
         $RCI->fail('DB Schema', 'Database not initialized');
@@ -167,8 +171,8 @@ if ($db_working) {
             . '<p><input type="submit" name="initdb" value="Initialize database" /></p>'
             . '</form>';
 
-        $db_working = false;
-    } elseif ($err = $RCI->db_schema_check($DB, $update = !empty($_POST['updatedb']))) {
+        $DB = null;
+    } elseif ($err = $RCI->db_schema_check($DB)) {
         $RCI->fail('DB Schema', 'Database schema differs');
         echo '<ul style="margin:0"><li>' . implode("</li>\n<li>", $err) . '</li></ul>';
 
@@ -181,7 +185,7 @@ if ($db_working) {
             . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>'
             . '</form>';
 
-        $db_working = false;
+        $DB = null;
     } else {
         $RCI->pass('DB Schema');
         echo '<br />';
@@ -189,7 +193,7 @@ if ($db_working) {
 }
 
 // more database tests
-if ($db_working) {
+if ($DB) {
     // Using transactions to workaround SQLite bug (#7064)
     if ($DB->db_provider == 'sqlite') {
         $DB->startTransaction();
@@ -212,21 +216,6 @@ if ($db_working) {
     // Transaction end
     if ($DB->db_provider == 'sqlite') {
         $DB->rollbackTransaction();
-    }
-
-    // check timezone settings
-    $tz_db = 'SELECT ' . $DB->unixtimestamp($DB->now()) . ' AS tz_db';
-    $tz_db = $DB->query($tz_db);
-    $tz_db = $DB->fetch_assoc($tz_db);
-    $tz_db = (int) $tz_db['tz_db'];
-    $tz_local = (int) time();
-    $tz_diff  = $tz_local - $tz_db;
-
-    // sometimes db and web servers are on separate hosts, so allow a 30 minutes delta
-    if (abs($tz_diff) > 1800) {
-        $RCI->fail('DB Time', "Database time differs {$tz_diff}s from PHP time");
-    } else {
-        $RCI->pass('DB Time');
     }
 }
 

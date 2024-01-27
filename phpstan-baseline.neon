@@ -1,21 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined method object\\:\\:fail\\(\\)\\.$#"
-			count: 1
-			path: installer/test.php
-
-		-
-			message: "#^Call to an undefined method object\\:\\:pass\\(\\)\\.$#"
-			count: 1
-			path: installer/test.php
-
-		-
-			message: "#^Variable \\$DB might not be defined\\.$#"
-			count: 18
-			path: installer/test.php
-
-		-
 			message: "#^Access to an undefined property rcube\\:\\:\\$task\\.$#"
 			count: 1
 			path: plugins/emoticons/emoticons.php
