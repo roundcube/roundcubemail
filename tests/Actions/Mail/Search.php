@@ -21,8 +21,7 @@ class Actions_Mail_Search extends ActionTestCase
         ];
 
         // Set expected storage function calls/results
-        self::initStorage();
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('set_page')
             ->registerFunction('set_search_set')
             ->registerFunction('search', new rcube_result_index())
@@ -67,7 +66,7 @@ class Actions_Mail_Search extends ActionTestCase
         $index = new rcube_result_index('INBOX', 'SEARCH 10');
 
         // Set expected storage function calls/results
-        self::initStorage()
+        self::mockStorage()
             ->registerFunction('set_page')
             ->registerFunction('set_search_set')
             ->registerFunction('search')

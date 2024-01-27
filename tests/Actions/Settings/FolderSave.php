@@ -17,13 +17,14 @@ class Actions_Settings_FolderSave extends ActionTestCase
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('get_capability', true)
             ->registerFunction('get_capability', true)
             ->registerFunction('folder_validate', true)
             ->registerFunction('mod_folder', 'NewTest')
             ->registerFunction('create_folder', true)
             ->registerFunction('mod_folder', 'NewTest')
+            ->registerFunction('folder_info', [])
             ->registerFunction('folder_options', []);
 
         $_POST = ['_name' => 'NewTest'];

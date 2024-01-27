@@ -17,7 +17,7 @@ class Actions_Settings_FolderDelete extends ActionTestCase
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('delete_folder', true)
             ->registerFunction('get_quota', false);
 
@@ -44,7 +44,7 @@ class Actions_Settings_FolderDelete extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-delete');
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('delete_folder', false)
             ->registerFunction('get_error_code', -1)
             ->registerFunction('get_response_code', rcube_storage::READONLY);

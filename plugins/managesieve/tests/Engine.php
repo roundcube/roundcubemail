@@ -18,7 +18,7 @@ class Managesieve_Engine extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'managesieve');
 
         // Set expected storage function calls/results
-        $rcube->storage
+        self::mockStorage()
             ->registerFunction('list_folders_subscribed', [
                 'INBOX',
                 'Test',

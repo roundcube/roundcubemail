@@ -17,7 +17,7 @@ class Actions_Settings_FolderSubscribe extends ActionTestCase
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('subscribe', true)
             ->registerFunction('is_special_folder', false);
 
@@ -43,7 +43,7 @@ class Actions_Settings_FolderSubscribe extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-subscribe');
 
         // Set expected storage function calls/results
-        rcmail::get_instance()->storage
+        self::mockStorage()
             ->registerFunction('subscribe', false)
             ->registerFunction('get_error_code', -1)
             ->registerFunction('get_response_code', rcube_storage::READONLY)
