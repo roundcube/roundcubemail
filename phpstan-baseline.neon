@@ -81,11 +81,6 @@ parameters:
 			path: plugins/enigma/lib/enigma_engine.php
 
 		-
-			message: "#^Method Mail_mimePart\\:\\:encode\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_mime_message.php
-
-		-
 			message: "#^Variable \\$headers might not be defined\\.$#"
 			count: 1
 			path: plugins/enigma/lib/enigma_mime_message.php

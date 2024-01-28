@@ -249,7 +249,7 @@ class enigma_mime_message extends Mail_mime
 
             $this->headers = array_merge($this->headers, $headers);
         } else {
-            $output = $message->encode($boundary, $skip_head);
+            $output = $message->encode($boundary);
 
             if ($this->isError($output)) {
                 return $output;
