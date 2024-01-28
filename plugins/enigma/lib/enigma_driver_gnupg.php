@@ -535,6 +535,7 @@ class enigma_driver_gnupg extends enigma_driver
         $ekey->reference = $key;
 
         foreach ($key->getSubKeys() as $idx => $subkey) {
+            /** @var Crypt_GPG_SubKey $subkey */
             $skey = new enigma_subkey();
             $skey->id          = $subkey->getId();
             $skey->revoked     = $subkey->isRevoked();

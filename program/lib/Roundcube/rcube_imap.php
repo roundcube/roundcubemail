@@ -615,7 +615,7 @@ class rcube_imap extends rcube_storage
     /**
      * Returns IMAP server vendor name
      *
-     * @return string Vendor name
+     * @return ?string Vendor name
      *
      * @since 1.2
      */
@@ -633,7 +633,7 @@ class rcube_imap extends rcube_storage
         }
 
         if (!$this->check_connection()) {
-            return;
+            return '';
         }
 
         if (isset($this->conn->data['ID'])) {
@@ -1849,7 +1849,7 @@ class rcube_imap extends rcube_storage
      * @param string $folder Folder to read from
      * @param bool   $force  True to skip cache
      *
-     * @return rcube_message_header Message headers
+     * @return rcube_message_header|false Message headers, False on error
      */
     public function get_message_headers($uid, $folder = null, $force = false)
     {
@@ -1886,7 +1886,7 @@ class rcube_imap extends rcube_storage
      * @param int    $uid    Message UID to fetch
      * @param string $folder Folder to read from
      *
-     * @return rcube_message_header Message data
+     * @return ?rcube_message_header Message data
      */
     public function get_message($uid, $folder = null)
     {
@@ -2468,7 +2468,7 @@ class rcube_imap extends rcube_storage
      * @param resource $fp   File pointer to save the message
      * @param string   $part Optional message part ID
      *
-     * @return string Message source string
+     * @return ?string Message source string
      */
     public function get_raw_body($uid, $fp = null, $part = null)
     {
@@ -2486,7 +2486,7 @@ class rcube_imap extends rcube_storage
      * @param int    $uid  Message UID
      * @param string $part Optional message part ID
      *
-     * @return string Message headers string
+     * @return ?string Message headers string
      */
     public function get_raw_headers($uid, $part = null)
     {
@@ -2908,7 +2908,7 @@ class rcube_imap extends rcube_storage
      * @param string $root Optional root folder
      * @param string $name Optional name pattern
      *
-     * @return array List of subscribed folders
+     * @return ?array List of subscribed folders
      *
      * @see rcube_imap::list_folders_subscribed()
      */
@@ -2934,7 +2934,7 @@ class rcube_imap extends rcube_storage
         }
 
         if (!is_array($result)) {
-            return [];
+            return null;
         }
 
         // Add/Remove folders according to some configuration options
@@ -3048,7 +3048,7 @@ class rcube_imap extends rcube_storage
      * @param string $root Optional root folder
      * @param string $name Optional name pattern
      *
-     * @return array List of folders
+     * @return ?array List of folders, Null on error
      *
      * @see rcube_imap::list_folders()
      */

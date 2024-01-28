@@ -50,7 +50,7 @@ class rcube_sieve
      * @param string $username  Username (for managesieve login)
      * @param string $password  Password (for managesieve login)
      * @param string $host      Managesieve server hostname/address
-     * @param string $port      Managesieve server port number
+     * @param int    $port      Managesieve server port number
      * @param string $auth_type Managesieve authentication method
      * @param bool   $usetls    Enable/disable TLS use
      * @param array  $disabled  Disabled extensions

@@ -116,7 +116,7 @@ class example_addressbook_backend extends rcube_addressbook
         return $this->result = $this->count();
     }
 
-    public function search($fields, $value, $strict = false, $select = true, $nocount = false, $required = [])
+    public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = [])
     {
         // Note: we do not implement all possible search request modes and variants.
         //       We implement only the simplest searching case in "select" mode
