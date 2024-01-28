@@ -985,10 +985,10 @@ class rcmail_action_mail_index extends rcmail_action
      * Convert the given message part to proper HTML
      * which can be displayed the message view
      *
-     * @param string             $body Message part body
-     * @param rcube_message_part $part Message part
-     * @param array              $p    Display parameters array
-     * @param array  $used_cids    List of CIDs appearing in message body
+     * @param string             $body      Message part body
+     * @param rcube_message_part $part      Message part
+     * @param array              $p         Display parameters array
+     * @param array              $used_cids List of CIDs appearing in message body
      *
      * @return string Formatted HTML string
      */

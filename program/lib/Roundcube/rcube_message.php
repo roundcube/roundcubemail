@@ -1032,7 +1032,9 @@ class rcube_message
 
     /**
      * Return list of orphan parts: inline images that are not included in the message HTML body
-     * @param  array $used_cids List of used CIDs in body
+     *
+     * @param array $used_cids List of used CIDs in body
+     *
      * @return array
      */
     public function get_orphan_inline_parts($used_cids)
@@ -1049,9 +1051,10 @@ class rcube_message
 
             if (isset($part->content_id)) {
                 $find = 'cid:' . $part->content_id;
-            }
-            elseif (!empty($part->content_location)) {
+            } elseif (!empty($part->content_location)) {
                 $find = $part->content_location;
+            } else {
+                continue;
             }
 
             if (!in_array($find, $used_cids)) {
