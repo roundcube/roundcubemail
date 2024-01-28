@@ -1031,6 +1031,38 @@ class rcube_message
     }
 
     /**
+     * Return list of orphan parts: inline images that are not included in the message HTML body
+     * @param  array $used_cids List of used CIDs in body
+     * @return array
+     */
+    public function get_orphan_inline_parts($used_cids)
+    {
+        $orphan_parts = [];
+
+        foreach ($this->inline_parts as $i => $part) {
+            $id = (string) $part->mime_id;
+
+            // The orphan part will not be returned if it is already in the attachments list
+            if (array_key_exists($id, $this->attachments)) {
+                continue;
+            }
+
+            if (isset($part->content_id)) {
+                $find = 'cid:' . $part->content_id;
+            }
+            elseif (!empty($part->content_location)) {
+                $find = $part->content_location;
+            }
+
+            if (!in_array($find, $used_cids)) {
+                $orphan_parts[$id] = $part;
+            }
+        }
+
+        return $orphan_parts;
+    }
+
+    /**
      * Fill a flat array with references to all parts, indexed by part numbers
      *
      * @param rcube_message_part $part Message body structure

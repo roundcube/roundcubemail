@@ -183,6 +183,9 @@ class rcube_washtml
     /** @var string A prefix to be added to id/class/for attribute values */
     private $_css_prefix;
 
+    /** @var array List of CIDs used in body */
+    private $_used_cids = [];
+
     /** @var int Max nesting level */
     private $max_nesting_level;
 
@@ -227,6 +230,16 @@ class rcube_washtml
         if (!isset($this->config['charset'])) {
             $this->config['charset'] = RCUBE_CHARSET;
         }
+    }
+
+    /**
+     * Return list of CIDs that haven't been used in HTML
+     *
+     * @return array
+     */
+    public function get_used_cids()
+    {
+        return array_keys($this->_used_cids);
     }
 
     /**
@@ -387,11 +400,13 @@ class rcube_washtml
     private function wash_uri($uri, $blocked_source = false, $is_image = true)
     {
         if (!empty($this->config['cid_map'][$uri])) {
+            $this->_used_cids[$uri] = true;
             return $this->config['cid_map'][$uri];
         }
 
         $key = $this->config['base_url'] . $uri;
         if (!empty($this->config['cid_map'][$key])) {
+            $this->_used_cids[$key] = true;
             return $this->config['cid_map'][$key];
         }
 

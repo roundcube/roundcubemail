@@ -896,10 +896,11 @@ class rcmail_action_mail_index extends rcmail_action
      * @param string $html         HTML
      * @param array  $p            Display parameters
      * @param array  $cid_replaces CID map replaces (inline images)
+     * @param array  $used_cids    List of CIDs appearing in message body
      *
      * @return string Clean HTML
      */
-    public static function wash_html($html, $p, $cid_replaces = [])
+    public static function wash_html($html, $p, $cid_replaces = [], &$used_cids = [])
     {
         $rcmail = rcmail::get_instance();
 
@@ -975,6 +976,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         $html = $washer->wash($html);
         self::$REMOTE_OBJECTS = $washer->extlinks;
+        $used_cids = $washer->get_used_cids();
 
         return $html;
     }
@@ -986,10 +988,11 @@ class rcmail_action_mail_index extends rcmail_action
      * @param string             $body Message part body
      * @param rcube_message_part $part Message part
      * @param array              $p    Display parameters array
+     * @param array  $used_cids    List of CIDs appearing in message body
      *
      * @return string Formatted HTML string
      */
-    public static function print_body($body, $part, $p = [])
+    public static function print_body($body, $part, $p = [], &$used_cids = [])
     {
         $rcmail = rcmail::get_instance();
 
@@ -1006,6 +1009,8 @@ class rcmail_action_mail_index extends rcmail_action
             ]
         );
 
+        $used_cids = [];
+
         // convert html to text/plain
         if ($data['plain'] && ($data['type'] == 'html' || $data['type'] == 'enriched')) {
             if ($data['type'] == 'enriched') {
@@ -1017,13 +1022,13 @@ class rcmail_action_mail_index extends rcmail_action
         }
         // text/html
         elseif ($data['type'] == 'html') {
-            $body = self::wash_html($data['body'], $data, $part->replaces);
+            $body = self::wash_html($data['body'], $data, $part->replaces, $used_cids);
             $part->ctype_secondary = $data['type'];
         }
         // text/enriched
         elseif ($data['type'] == 'enriched') {
             $body = rcube_enriched::to_html($data['body']);
-            $body = self::wash_html($body, $data, $part->replaces);
+            $body = self::wash_html($body, $data, $part->replaces, $used_cids);
             $part->ctype_secondary = 'html';
         } else {
             // assert plaintext
