@@ -7,3 +7,5 @@ parameters:
         - .
     excludePaths:
         - vendor
+    scanFiles:
+        - vendor/pear/pear-core-minimal/src/PEAR.php

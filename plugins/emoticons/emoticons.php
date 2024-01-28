@@ -21,7 +21,7 @@ class emoticons extends rcube_plugin
      */
     public function init()
     {
-        $rcube = rcube::get_instance();
+        $rcube = rcmail::get_instance();
 
         $this->add_hook('message_part_after', [$this, 'message_part_after']);
         $this->add_hook('html_editor', [$this, 'html_editor']);
@@ -41,7 +41,7 @@ class emoticons extends rcube_plugin
         if ($args['type'] == 'plain') {
             $this->load_config();
 
-            $rcube = rcube::get_instance();
+            $rcube = rcmail::get_instance();
             if (!$rcube->config->get('emoticons_display', false)) {
                 return $args;
             }
@@ -57,7 +57,7 @@ class emoticons extends rcube_plugin
      */
     public function html_editor($args)
     {
-        $rcube = rcube::get_instance();
+        $rcube = rcmail::get_instance();
 
         $this->load_config();
 
@@ -74,7 +74,7 @@ class emoticons extends rcube_plugin
      */
     public function preferences_list($args)
     {
-        $rcube         = rcube::get_instance();
+        $rcube         = rcmail::get_instance();
         $dont_override = $rcube->config->get('dont_override', []);
 
         if ($args['section'] == 'mailview' && !in_array('emoticons_display', $dont_override)) {

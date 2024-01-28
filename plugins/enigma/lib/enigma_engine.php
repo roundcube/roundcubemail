@@ -417,19 +417,22 @@ class enigma_engine
      */
     public function part_body($p)
     {
+        /** @var rcube_message_part $part */
+        $part = $p['part'];
+
         // encrypted attachment, see parse_plain_encrypted()
-        if (!empty($p['part']->need_decryption) && $p['part']->body === null) {
+        if (!empty($part->need_decryption) && $part->body === null) {
             $this->load_pgp_driver();
 
             $storage = $this->rc->get_storage();
-            $body    = $storage->get_message_part($p['object']->uid, $p['part']->mime_id, $p['part'], null, null, true, 0, false);
+            $body    = $storage->get_message_part($p['object']->uid, $part->mime_id, $part, null, null, true, 0, false);
             $result  = $this->pgp_decrypt($body);
 
             // @TODO: what to do on error?
             if ($result === true) {
-                $p['part']->body = $body;
-                $p['part']->size = strlen($body);
-                $p['part']->body_modified = true;
+                $part->body = $body;
+                $part->size = strlen($body);
+                $part->body_modified = true;
             }
         }
 
@@ -1008,7 +1011,7 @@ class enigma_engine
      * @param string $email    E-mail address
      * @param bool   $can_sign Need a key for signing?
      *
-     * @return enigma_key The key
+     * @return ?enigma_key The key
      */
     public function find_key($email, $can_sign = false)
     {
@@ -1021,7 +1024,7 @@ class enigma_engine
 
         if ($result instanceof enigma_error) {
             self::raise_error($result, __LINE__);
-            return;
+            return null;
         }
 
         $mode  = $can_sign ? enigma_key::CAN_SIGN : enigma_key::CAN_ENCRYPT;
@@ -1261,7 +1264,7 @@ class enigma_engine
      *
      * @param string &$body Message body
      *
-     * @return array Message structure
+     * @return rcube_message_part Message structure
      */
     private function parse_body(&$body)
     {

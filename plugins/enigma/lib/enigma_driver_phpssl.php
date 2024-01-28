@@ -79,6 +79,7 @@ class enigma_driver_phpssl extends enigma_driver
 
     public function verify($struct, $message)
     {
+        /*
         // use common temp dir
         $msg_file  = rcube_utils::temp_filename('enigmsg');
         $cert_file = rcube_utils::temp_filename('enigcrt');
@@ -115,6 +116,7 @@ class enigma_driver_phpssl extends enigma_driver
         @unlink($cert_file);
 
         return $sig;
+        */
     }
 
     public function import($content, $isfile = false, $passwords = []) {}

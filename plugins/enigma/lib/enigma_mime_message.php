@@ -229,6 +229,8 @@ class enigma_mime_message extends Mail_mime
                 'disposition'  => 'inline',
                 'filename'     => 'encrypted.asc',
             ]);
+        } else {
+            throw new Exception('Unexpected message type');
         }
 
         // Use saved boundary
@@ -304,6 +306,8 @@ class enigma_mime_message extends Mail_mime
             $headers['Content-Type'] = "multipart/encrypted;{$eol}"
                 . " protocol=\"application/pgp-encrypted\";{$eol}"
                 . " boundary=\"{$boundary}\"";
+        } else {
+            throw new Exception('Unexpected message type');
         }
 
         return $headers;

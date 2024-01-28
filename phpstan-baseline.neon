@@ -1,146 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to an undefined property rcube\\:\\:\\$task\\.$#"
-			count: 1
-			path: plugins/emoticons/emoticons.php
-
-		-
-			message: "#^Access to an undefined property rcube\\:\\:\\$action\\.$#"
-			count: 6
-			path: plugins/enigma/enigma.php
-
-		-
-			message: "#^Access to an undefined property rcube\\:\\:\\$task\\.$#"
-			count: 3
-			path: plugins/enigma/enigma.php
-
-		-
-			message: "#^Cannot call method getExpirationDateTime\\(\\) on class\\-string\\|object\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_driver_gnupg.php
-
-		-
-			message: "#^Cannot access property \\$mime_id on string\\.$#"
-			count: 2
-			path: plugins/enigma/lib/enigma_driver_phpssl.php
-
-		-
-			message: "#^Cannot access property \\$uid on string\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_driver_phpssl.php
-
-		-
-			message: "#^Cannot call method get_part_body\\(\\) on string\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_driver_phpssl.php
-
-		-
-			message: "#^Access to an undefined property object\\:\\:\\$body\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Access to an undefined property object\\:\\:\\$body_modified\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Access to an undefined property object\\:\\:\\$mime_id\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Access to an undefined property object\\:\\:\\$size\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Cannot access property \\$mime_id on array\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Cannot access property \\$mimetype on array\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Cannot access property \\$parts on array\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Variable \\$key in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 2
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Variable \\$sign_key in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_engine.php
-
-		-
-			message: "#^Variable \\$headers might not be defined\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_mime_message.php
-
-		-
-			message: "#^Variable \\$message might not be defined\\.$#"
-			count: 2
-			path: plugins/enigma/lib/enigma_mime_message.php
-
-		-
-			message: "#^Variable \\$keyid might not be defined\\.$#"
-			count: 2
-			path: plugins/enigma/lib/enigma_ui.php
-
-		-
-			message: "#^Default value of the parameter \\#3 \\$strict \\(false\\) of method example_addressbook_backend\\:\\:search\\(\\) is incompatible with type int\\.$#"
-			count: 1
-			path: plugins/example_addressbook/example_addressbook_backend.php
-
-		-
-			message: "#^Binary operation \"\\+\" between string and 1 results in an error\\.$#"
-			count: 1
-			path: plugins/filesystem_attachments/filesystem_attachments.php
-
-		-
-			message: "#^Call to method getMessage\\(\\) on an unknown class PEAR_Error\\.$#"
-			count: 1
-			path: plugins/managesieve/lib/Roundcube/rcube_sieve.php
-
-		-
-			message: "#^Default value of the parameter \\#4 \\$port \\(int\\) of method rcube_sieve\\:\\:__construct\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: plugins/managesieve/lib/Roundcube/rcube_sieve.php
-
-		-
-			message: "#^Undefined variable\\: \\$list$#"
-			count: 1
-			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
-
-		-
-			message: "#^Undefined variable\\: \\$msg$#"
-			count: 1
-			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
-
-		-
-			message: "#^Variable \\$list in empty\\(\\) is never defined\\.$#"
-			count: 1
-			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
-
-		-
-			message: "#^Variable \\$msg in empty\\(\\) is never defined\\.$#"
-			count: 1
-			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
-
-		-
-			message: "#^Variable \\$parts in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
-
-		-
 			message: "#^Variable \\$forward_tests in empty\\(\\) is never defined\\.$#"
 			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_forward.php
@@ -219,11 +79,6 @@ parameters:
 			message: "#^Comparison operation \"\\=\\=\" between \\(SimpleXMLElement\\|null\\) and 1017 results in an error\\.$#"
 			count: 1
 			path: plugins/password/drivers/plesk.php
-
-		-
-			message: "#^Call to method getMessage\\(\\) on an unknown class PEAR_Error\\.$#"
-			count: 1
-			path: plugins/password/drivers/poppassd.php
 
 		-
 			message: "#^Call to method Auth\\(\\) on an unknown class TinyCPConnector\\.$#"
@@ -456,11 +311,6 @@ parameters:
 			path: program/include/rcmail_sendmail.php
 
 		-
-			message: "#^Call to method getMessage\\(\\) on an unknown class PEAR_Error\\.$#"
-			count: 1
-			path: program/include/rcmail_sendmail.php
-
-		-
 			message: "#^Variable \\$headers might not be defined\\.$#"
 			count: 1
 			path: program/include/rcmail_sendmail.php
@@ -506,27 +356,7 @@ parameters:
 			path: program/lib/Roundcube/html.php
 
 		-
-			message: "#^Call to method getCode\\(\\) on an unknown class PEAR_Error\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Call to method getMessage\\(\\) on an unknown class PEAR_Error\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Call to method getUserInfo\\(\\) on an unknown class PEAR_Error\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
 			message: "#^Default value of the parameter \\#3 \\$ttl \\(int\\) of method rcube\\:\\:get_cache\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Parameter \\$arg of method rcube\\:\\:raise_error\\(\\) has invalid type PEAR_Error\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube.php
 
@@ -622,11 +452,6 @@ parameters:
 
 		-
 			message: "#^Variable \\$folder in empty\\(\\) is never defined\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap.php
-
-		-
-			message: "#^Variable \\$headers in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap.php
 
@@ -749,11 +574,6 @@ parameters:
 			message: "#^Method rcube_session\\:\\:factory\\(\\) should return rcube_session but return statement is missing\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_session.php
-
-		-
-			message: "#^Call to method getMessage\\(\\) on an unknown class PEAR_Error\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_smtp.php
 
 		-
 			message: "#^Variable \\$host in empty\\(\\) always exists and is not falsy\\.$#"

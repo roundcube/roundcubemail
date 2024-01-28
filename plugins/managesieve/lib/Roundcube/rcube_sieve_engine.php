@@ -95,6 +95,7 @@ class rcube_sieve_engine
         $error = $this->connect($_SESSION['username'], $this->rc->decrypt($_SESSION['password']));
 
         $script_name = null;
+        $list = [];
 
         // load current/active script
         if (!$error) {
@@ -572,8 +573,6 @@ class rcube_sieve_engine
                 $this->rc->output->show_message('managesieve.setcreated', 'confirmation');
                 $this->rc->output->command('parent.managesieve_updatelist', 'setadd',
                     ['name' => $name, 'index' => $index]);
-            } elseif (!empty($msg)) {
-                $this->rc->output->command('display_message', $msg, 'error');
             } elseif ($error) {
                 $this->rc->output->show_message($error, 'error');
             }
@@ -2249,7 +2248,7 @@ class rcube_sieve_engine
 
             if ($action['type'] == 'redirect') {
                 $parts = explode('@', $action['target']);
-                if (!empty($parts)) {
+                if (count($parts) > 0) {
                     $action['domain'] = array_pop($parts);
                     $action['target'] = implode('@', $parts);
                 }

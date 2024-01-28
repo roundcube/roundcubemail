@@ -163,10 +163,14 @@ class enigma_ui
             }
         }
 
-        $data  = [
-            'keyid' => $keyid,
-            'user'  => $data[$keyid],
-        ];
+        if (isset($keyid)) {
+            $data = [
+                'keyid' => $keyid,
+                'user'  => $data[$keyid] ?? null,
+            ];
+        } else {
+            $data = [];
+        }
 
         if (!empty($params)) {
             $data = array_merge($params, $data);
