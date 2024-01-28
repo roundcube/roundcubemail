@@ -4,6 +4,7 @@
 
 - Makefile: Use phpDocumentor v3.4 for the Framework docs (#9313)
 - Fix bug where HTML entities in URLs were not decoded on HTML to plain text conversion (#9312)
+- Fix bug in collapsing/expanding folders with some special characters in names (#9324)
 
 ## Release 1.6.6
 

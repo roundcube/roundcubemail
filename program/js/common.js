@@ -481,14 +481,12 @@ function rcube_clone_object(obj)
 // make a string URL safe (and compatible with PHP's rawurlencode())
 function urlencode(str)
 {
-  if (window.encodeURIComponent)
-    return encodeURIComponent(str).replace('*', '%2A');
-
-  return escape(str)
-    .replace('+', '%2B')
+  return encodeURIComponent(str)
     .replace('*', '%2A')
-    .replace('/', '%2F')
-    .replace('@', '%40');
+    .replace('(', '%28')
+    .replace(')', '%29')
+    .replace('!', '%21')
+    .replace("'", '%27');
 };
 
 
