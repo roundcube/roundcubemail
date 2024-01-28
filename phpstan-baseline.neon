@@ -726,11 +726,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_ldap.php
 
 		-
-			message: "#^Static method rcube_utils\\:\\:explode\\(\\) invoked with 3 parameters, 2 required\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
 			message: "#^Variable \\$charsets might not be defined\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_message.php
