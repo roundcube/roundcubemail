@@ -1766,7 +1766,7 @@ function rcube_webmail()
             clearTimeout(this.folder_collapsed_timer);
 
         var prefname = this.env.task == 'addressbook' ? 'collapsed_abooks' : 'collapsed_folders',
-            old = this.env[prefname]
+            old = this.env[prefname],
             entry = '&' + urlencode(node.id) + '&';
 
         this.env[prefname] = old.replace(entry, '');
