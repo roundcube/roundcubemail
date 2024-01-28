@@ -394,10 +394,12 @@ abstract class rcube_storage
      * @param string $folder     Folder to get index from
      * @param string $sort_field Sort column
      * @param string $sort_order Sort order [ASC, DESC]
+     * @param bool   $no_threads Get not threaded index
+     * @param bool   $no_search  Get index not limited to search result (optionally)
      *
      * @return rcube_result_index|rcube_result_thread List of messages (UIDs)
      */
-    abstract public function index($folder = null, $sort_field = null, $sort_order = null);
+    abstract public function index($folder = null, $sort_field = null, $sort_order = null, $no_threads = false, $no_search = false);
 
     /**
      * Invoke search request to the server.
@@ -455,7 +457,7 @@ abstract class rcube_storage
     abstract public function get_message_headers($uid, $folder = null, $force = false);
 
     /**
-     * Fetch message body of a specific message from the server
+     * Fetch message body of a specific message from the server.
      *
      * @param int                $uid               Message UID
      * @param string             $part              Part number
@@ -463,10 +465,13 @@ abstract class rcube_storage
      * @param mixed              $print             True to print part, resource to write part contents in
      * @param resource           $fp                File pointer to save the message part
      * @param bool               $skip_charset_conv Disables charset conversion
+     * @param int                $max_bytes         Only read this number of bytes
+     * @param bool               $formatted         Enables formatting of text/* parts bodies
      *
      * @return string|true|null Message/part body if not printed
      */
-    abstract public function get_message_part($uid, $part = 1, $o_part = null, $print = null, $fp = null, $skip_charset_conv = false);
+    abstract public function get_message_part($uid, $part = 1, $o_part = null, $print = null, $fp = null,
+        $skip_charset_conv = false, $max_bytes = 0, $formatted = true);
 
     /**
      * Fetch message body of a specific message from the server
