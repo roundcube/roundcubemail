@@ -251,11 +251,6 @@ parameters:
 			path: plugins/subscriptions_option/subscriptions_option.php
 
 		-
-			message: "#^Method rcube_storage\\:\\:index\\(\\) invoked with 4 parameters, 0\\-3 required\\.$#"
-			count: 1
-			path: plugins/zipdownload/zipdownload.php
-
-		-
 			message: "#^Call to an undefined method object\\:\\:get_group\\(\\)\\.$#"
 			count: 1
 			path: program/actions/contacts/list.php
@@ -691,11 +686,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap_generic.php
 
 		-
-			message: "#^Static method rcube_utils\\:\\:proxy_protocol_header\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
 			message: "#^Undefined variable\\: \\$otoken$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_imap_generic.php
@@ -734,16 +724,6 @@ parameters:
 			message: "#^Cannot call method bind\\(\\) on class\\-string\\|object\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Method rcube\\:\\:url\\(\\) invoked with 4 parameters, 1 required\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Method rcube_storage\\:\\:get_message_part\\(\\) invoked with 8 parameters, 1\\-6 required\\.$#"
-			count: 3
-			path: program/lib/Roundcube/rcube_message.php
 
 		-
 			message: "#^Static method rcube_utils\\:\\:explode\\(\\) invoked with 3 parameters, 2 required\\.$#"

@@ -1065,13 +1065,17 @@ class rcube
     }
 
     /**
-     * Build a valid URL to this instance of Roundcube
+     * Build a valid URL to this instance of Roundcube.
      *
-     * @param mixed $p Either a string with the action or url parameters as key-value pairs
+     * @param mixed $p        Either a string with the action or
+     *                        url parameters as key-value pairs
+     * @param bool  $absolute Build a URL absolute to document root
+     * @param bool  $full     Create fully qualified URL including http(s):// and hostname
+     * @param bool  $secure   Return absolute URL in secure location
      *
      * @return string Valid application URL
      */
-    public function url($p)
+    public function url($p, $absolute = false, $full = false, $secure = false)
     {
         // STUB: should be overloaded by the application
         return '';

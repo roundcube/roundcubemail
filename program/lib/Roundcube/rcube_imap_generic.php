@@ -1049,7 +1049,7 @@ class rcube_imap_generic
 
         // insert proxy protocol header, if enabled
         if (!empty($this->prefs['socket_options'])) {
-            $proxy_protocol_header = rcube_utils::proxy_protocol_header($this->prefs['socket_options'], $this->fp);
+            $proxy_protocol_header = rcube_utils::proxy_protocol_header($this->prefs['socket_options']);
             if (strlen($proxy_protocol_header) > 0) {
                 fwrite($this->fp, $proxy_protocol_header);
             }
