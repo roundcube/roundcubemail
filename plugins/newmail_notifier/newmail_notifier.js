@@ -23,18 +23,18 @@ if (window.rcmail && rcmail.env.task == 'mail') {
         .addEventListener('init', function () {
             // bind to messages list select event, so favicon will be reverted on message preview too
             if (rcmail.message_list)
-                rcmail.message_list.addEventListener('select', newmail_notifier_stop);
+            { rcmail.message_list.addEventListener('select', newmail_notifier_stop); }
         });
 }
 
 // Executes notification methods
 function newmail_notifier_run(prop) {
     if (prop.basic)
-        newmail_notifier_basic();
+    { newmail_notifier_basic(); }
     if (prop.sound)
-        newmail_notifier_sound();
+    { newmail_notifier_sound(); }
     if (prop.desktop)
-        newmail_notifier_desktop(rcmail.get_label('body', 'newmail_notifier'));
+    { newmail_notifier_desktop(rcmail.get_label('body', 'newmail_notifier')); }
 }
 
 // Stops notification
@@ -65,7 +65,7 @@ function newmail_notifier_basic() {
         oldlink = $('link[rel="shortcut icon"]', w.document);
 
     if (!rcmail.env.favicon_href)
-        rcmail.env.favicon_href = oldlink.attr('href');
+    { rcmail.env.favicon_href = oldlink.attr('href'); }
 
     rcmail.env.favicon_changed = 1;
     link.replaceAll(oldlink);
@@ -109,9 +109,9 @@ function newmail_notifier_desktop(body, disabled_callback) {
     try {
         window.Notification.requestPermission(function (perm) {
             if (perm == 'granted')
-                success_callback();
+            { success_callback(); }
             else if (perm == 'denied' && disabled_callback)
-                disabled_callback();
+            { disabled_callback(); }
         });
 
         return true;

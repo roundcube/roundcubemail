@@ -21,9 +21,9 @@ if (window.rcmail) {
     // so it's state will be updated on message selection/unselection
         if (rcmail.env.task == 'mail') {
             if (rcmail.env.action != 'show')
-                rcmail.env.message_commands.push('managesieve-create');
+            { rcmail.env.message_commands.push('managesieve-create'); }
             else
-                rcmail.enable_command('managesieve-create', true);
+            { rcmail.enable_command('managesieve-create', true); }
         }
 
         if (rcmail.env.task == 'mail' || rcmail.env.action.startsWith('plugin.managesieve')) {
@@ -154,7 +154,7 @@ rcube_webmail.prototype.managesieve_setselect = function (list) {
     this.enable_command('plugin.managesieve-seteditraw', list.rowcount > 0 && this.env.raw_sieve_editor);
 
     if (rcmail.env.contextmenu_opening)
-        return;
+    { return; }
 
     this.show_contentframe(false);
     this.filters_list.clear(true);
@@ -170,15 +170,15 @@ rcube_webmail.prototype.managesieve_rowid = function (id) {
     var i, rows = this.filters_list.rows;
 
     for (i in rows)
-        if (rows[i] != null && rows[i].uid == id)
-            return i;
+    { if (rows[i] != null && rows[i].uid == id)
+    { return i; } }
 };
 
 // Returns set's identifier
 rcube_webmail.prototype.managesieve_setid = function (name) {
     for (var i in this.env.filtersets)
-        if (this.env.filtersets[i] == name)
-            return i;
+    { if (this.env.filtersets[i] == name)
+    { return i; } }
 };
 
 // Filters listing request
@@ -270,11 +270,11 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             var i, row = $('#rcmrow' + this.managesieve_rowid(o.id));
 
             if (o.name)
-                $('td', row).text(o.name);
+            { $('td', row).text(o.name); }
             if (o.disabled)
-                row.addClass('disabled');
+            { row.addClass('disabled'); }
             else
-                row.removeClass('disabled');
+            { row.removeClass('disabled'); }
 
             $('#fenabled', $('iframe').contents()).prop('checked', !o.disabled);
 
@@ -288,7 +288,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             $('td', row).text(o.name);
             row.attr('id', 'rcmrow' + o.id);
             if (o.disabled)
-                row.addClass('disabled');
+            { row.addClass('disabled'); }
 
             list.insert_row(row.get(0));
             list.highlight_row(o.id);
@@ -303,7 +303,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             var i, tr, td, el, list = this.filters_list;
 
             if (o.clear)
-                list.clear();
+            { list.clear(); }
 
             for (i in o.list) {
                 el = o.list[i];
@@ -314,16 +314,16 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
                 td.className = 'name';
                 tr.id = 'rcmrow' + el.id;
                 if (el['class'])
-                    tr.className = el['class'];
+                { tr.className = el['class']; }
                 tr.appendChild(td);
 
                 list.insert_row(tr);
             }
 
             if (o.set)
-                list.highlight_row(o.set);
+            { list.highlight_row(o.set); }
             else
-                this.enable_command('plugin.managesieve-del', 'plugin.managesieve-act', false);
+            { this.enable_command('plugin.managesieve-del', 'plugin.managesieve-act', false); }
 
             break;
 
@@ -332,10 +332,10 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             var id = this.managesieve_setid(o.name), row = $('#rcmrow' + id);
             if (o.active) {
                 if (o.all)
-                    $('tr', this.gui_objects.filtersetslist).addClass('disabled');
+                { $('tr', this.gui_objects.filtersetslist).addClass('disabled'); }
                 row.removeClass('disabled');
             } else
-                row.addClass('disabled');
+            { row.addClass('disabled'); }
 
             break;
 
@@ -402,7 +402,7 @@ rcube_webmail.prototype.reset_filters_list = function (reload) {
 // load filter frame
 rcube_webmail.prototype.load_managesieveframe = function (add_url, reset) {
     if (reset)
-        this.reset_filters_list();
+    { this.reset_filters_list(); }
 
     var target = this.get_frame_window(this.env.contentframe),
         url = this.url('plugin.managesieve-action', '_framed=1' + (add_url ? ('&' + add_url) : ''));
@@ -439,7 +439,7 @@ rcube_webmail.prototype.managesieve_fixdragend = function (elem) {
     var p = this;
     $(elem).on('mouseup' + ((bw.iphone || bw.ipad) ? ' touchend' : ''), function (e) {
         if (p.drag_active)
-            p.filters_list.drag_mouse_up(e);
+        { p.filters_list.drag_mouse_up(e); }
     });
 };
 
@@ -480,7 +480,7 @@ rcube_webmail.prototype.managesieve_save = function () {
         if (parent.rcmail && parent.rcmail.filters_list && this.gui_objects.sieveform.name != 'filtersetform') {
             var id = parent.rcmail.filters_list.get_single_selection();
             if (id != null)
-                this.gui_objects.sieveform.elements['_fid'].value = parent.rcmail.filters_list.rows[id].uid;
+            { this.gui_objects.sieveform.elements['_fid'].value = parent.rcmail.filters_list.rows[id].uid; }
         }
         this.gui_objects.sieveform.submit();
     } else if (this.gui_objects.sievesetrawform) {
@@ -513,7 +513,7 @@ rcube_webmail.prototype.managesieve_rulefill = function (content, id, after) {
 
 rcube_webmail.prototype.managesieve_ruledel = function (id) {
     if ($('#ruledel' + id).hasClass('disabled'))
-        return;
+    { return; }
 
     this.confirm_dialog(this.get_label('managesieve.ruledeleteconfirm'), 'delete', function (e, ref) {
         var row = document.getElementById('rulerow' + id);
@@ -545,7 +545,7 @@ rcube_webmail.prototype.managesieve_actionfill = function (content, id, after) {
 
 rcube_webmail.prototype.managesieve_actiondel = function (id) {
     if ($('#actiondel' + id).hasClass('disabled'))
-        return;
+    { return; }
 
     this.confirm_dialog(this.get_label('managesieve.actiondeleteconfirm'), 'delete', function (e, ref) {
         var row = document.getElementById('actionrow' + id);
@@ -559,9 +559,9 @@ rcube_webmail.prototype.managesieve_insertrow = function (div, row, after) {
     var node = $('#' + ($(div).attr('id') == 'rules' ? 'rulerow' : 'actionrow')  + after)[0];
 
     if (node)
-        $(row).insertAfter(node);
+    { $(row).insertAfter(node); }
     else
-        $(div).append(row);
+    { $(div).append(row); }
 
     this.triggerEvent('managesieve.insertrow', { obj: row });
 };
@@ -572,7 +572,7 @@ rcube_webmail.prototype.managesieve_formbuttons = function (div) {
 
     buttons.removeClass('disabled');
     if (buttons.length == 1)
-        buttons.addClass('disabled');
+    { buttons.addClass('disabled'); }
 };
 
 // update vacation addresses field with user identities
@@ -608,19 +608,19 @@ function rule_header_select(id) {
         set = [op, header, custstr, mod, trans, comp, size, mime, mime_part];
 
     if (h == 'size') {
-        if (msg) set.push(msg);
-        $.each(set, function () { if (this != window) this.style.display = 'none'; });
+        if (msg) { set.push(msg); }
+        $.each(set, function () { if (this != window) { this.style.display = 'none'; } });
         if (spamtest)
-            spamtest.style.display = 'none';
+        { spamtest.style.display = 'none'; }
         size.style.display = '';
     } else if (h == 'spamtest') {
-        if (msg) set.push(msg);
-        $.each(set, function () { if (this != window) this.style.display = 'none'; });
+        if (msg) { set.push(msg); }
+        $.each(set, function () { if (this != window) { this.style.display = 'none'; } });
         if (spamtest)
-            spamtest.style.display = '';
+        { spamtest.style.display = ''; }
         size.style.display = 'none';
     } else if (h == 'message' && msg) {
-        $.each(set, function () { if (this != window)  this.style.display = 'none'; });
+        $.each(set, function () { if (this != window)  { this.style.display = 'none'; } });
         msg.style.display = '';
     } else {
         is_header = h != 'body' && h != 'currentdate' && h != 'date' && h != 'string';
@@ -632,29 +632,29 @@ function rule_header_select(id) {
         mod.style.display = is_header ? '' : 'none';
         trans.style.display = h == 'body' ? '' : 'none';
         if (spamtest)
-            spamtest.style.display = 'none';
+        { spamtest.style.display = 'none'; }
         if (mime)
-            mime.style.display =  is_header ? '' : 'none';
+        { mime.style.display =  is_header ? '' : 'none'; }
         if (mime_part)
-            mime_part.style.display = is_header ? '' : 'none';
+        { mime_part.style.display = is_header ? '' : 'none'; }
         if (msg)
-            msg.style.display = h == 'message' ? '' : 'none';
+        { msg.style.display = h == 'message' ? '' : 'none'; }
     }
 
     if (datepart)
-        datepart.style.display = h == 'currentdate' || h == 'date' ? 'inline' : 'none';
+    { datepart.style.display = h == 'currentdate' || h == 'date' ? 'inline' : 'none'; }
     if (dateheader)
-        dateheader.style.display = h == 'date' ? '' : 'none';
+    { dateheader.style.display = h == 'date' ? '' : 'none'; }
 
     $('[value="exists"],[value="notexists"]', rule).prop('disabled', h == 'string');
     if (!rule.val())
-        rule.val('contains');
+    { rule.val('contains'); }
 
     rule_op_select(op, id, h);
     rule_mod_select(id, h, !is_header);
     rule_mime_select(id);
     if (spamtest)
-        rule_spamtest_select(id);
+    { rule_spamtest_select(id); }
 
     obj.style.width = h == '...' ? '40px' : '';
 }
@@ -663,7 +663,7 @@ function rule_op_select(obj, id, header) {
     var target = document.getElementById('rule_target' + id + '_list');
 
     if (!header)
-        header = document.getElementById('header' + id).value;
+    { header = document.getElementById('header' + id).value; }
 
     target.style.display = obj.value.match(/^(exists|notexists)$/) || header.match(/^(size|spamtest|message)$/) ? 'none' : '';
 }
@@ -682,18 +682,18 @@ function rule_mod_select(id, header, reset) {
         index = document.getElementById('rule_index_div' + id);
 
     if (reset)
-        obj.value = '';
+    { obj.value = ''; }
 
     if (!header)
-        header = document.getElementById('header' + id).value;
+    { header = document.getElementById('header' + id).value; }
 
     target.style.display = obj.value != 'address' && obj.value != 'envelope' ? 'none' : '';
 
     if (index)
-        index.style.display = !header.match(/^(body|currentdate|size|spamtest|message|string)$/) && obj.value != 'envelope'  ? '' : 'none';
+    { index.style.display = !header.match(/^(body|currentdate|size|spamtest|message|string)$/) && obj.value != 'envelope'  ? '' : 'none'; }
 
     if (duplicate)
-        duplicate.style.display = header == 'message' ? '' : 'none';
+    { duplicate.style.display = header == 'message' ? '' : 'none'; }
 }
 
 function rule_spamtest_select(id) {
@@ -725,7 +725,7 @@ function rule_mime_select(id) {
         param_elem = $('#rule_mime_param' + id + '_list');
 
     if (param_elem.length)
-        param_elem[0].style.display = elem.val() == 'param' ? '' : 'none';
+    { param_elem[0].style.display = elem.val() == 'param' ? '' : 'none'; }
 }
 
 function action_type_select(id) {
@@ -758,7 +758,7 @@ function action_type_select(id) {
 
     for (var x in elems) {
         if (elems[x])
-            elems[x].style.display = !enabled[x] ? 'none' : '';
+        { elems[x].style.display = !enabled[x] ? 'none' : ''; }
     }
 }
 
@@ -771,14 +771,14 @@ function vacation_action_select() {
 // Initializes smart list input
 function smart_field_init(field) {
     if (window.UI && UI.smart_field_init)
-        return UI.smart_field_init(field);
+    { return UI.smart_field_init(field); }
 
     var id = field.id + '_list',
         area = $('<span class="listarea"></span>'),
         list = field.value ? field.value.split('\n') : [''];
 
     if ($('#' + id).length)
-        return;
+    { return; }
 
     // add input rows
     $.each(list, function (i, v) {
@@ -789,13 +789,13 @@ function smart_field_init(field) {
     field = $(field);
 
     if (field.attr('disabled'))
-        area.hide();
+    { area.hide(); }
     // disable the original field anyway, we don't want it in POST
     else
-        field.prop('disabled', true);
+    { field.prop('disabled', true); }
 
     if (field.data('hidden'))
-        area.hide();
+    { area.hide(); }
 
     field.after(area);
 
@@ -834,9 +834,9 @@ function smart_field_row(value, idx, field) {
 
             if (siblings.length > 1) {
                 if (parent.prev().length)
-                    parent.prev().children('input').focus();
+                { parent.prev().children('input').focus(); }
                 else
-                    parent.next().children('input').focus();
+                { parent.next().children('input').focus(); }
 
                 parent.remove();
                 return false;
@@ -849,9 +849,9 @@ function smart_field_row(value, idx, field) {
         var span = $(this.parentNode);
 
         if (span.parent().children().length > 1)
-            span.remove();
+        { span.remove(); }
         else
-            $('input', span).val('').focus();
+        { $('input', span).val('').focus(); }
     });
 
     return elem;
@@ -860,7 +860,7 @@ function smart_field_row(value, idx, field) {
 // Reset and fill the smart list input with new data
 function smart_field_reset(field, data) {
     if (window.UI && UI.smart_field_reset)
-        return UI.smart_field_reset(field, data);
+    { return UI.smart_field_reset(field, data); }
 
     var id = field.id + '_list',
         list = data.length ? data : [''];
@@ -877,7 +877,7 @@ function smart_field_reset(field, data) {
 // Register onmouse(leave/enter) events for tips on specified form element
 rcube_webmail.prototype.managesieve_tip_register = function (tips) {
     if (window.UI && UI.form_errors)
-        return UI.form_errors(tips);
+    { return UI.form_errors(tips); }
 
     var n, framed = parent.rcmail,
         tip = framed ? parent.rcmail.env.ms_tip_layer : rcmail.env.ms_tip_layer;
@@ -977,7 +977,7 @@ function sieve_form_init() {
             source: function (p, callback) {
                 var h, result = [];
                 for (h = 0; h < 24; h++)
-                    result.push(sieve_formattime(h, 0));
+                { result.push(sieve_formattime(h, 0)); }
                 result.push(sieve_formattime(23, 59));
 
                 return callback(result);
@@ -989,11 +989,11 @@ function sieve_form_init() {
                     menu = $this.data('ui-autocomplete').menu;
 
                 if (val && val.length)
-                    widget.children().each(function () {
-                        var li = $(this);
-                        if (li.text().indexOf(val) == 0)
-                            menu._scrollIntoView(li);
-                    });
+                { widget.children().each(function () {
+                    var li = $(this);
+                    if (li.text().indexOf(val) == 0)
+                    { menu._scrollIntoView(li); }
+                }); }
             },
             select: function (event, ui) {
                 $(this).val(ui.item.value);
@@ -1051,7 +1051,7 @@ function sieve_raw_editor_init() {
             var lineNo = Number(err.line) - 1;
             cmeditor.addLineClass(lineNo, 'background', 'line-error');
             cmeditor.setGutterMarker(lineNo, 'errorGutter', cmCreateErrorElem(err.msg));
-            if (!i) cmScrollToError();
+            if (!i) { cmScrollToError(); }
         });
     }
 }
@@ -1071,7 +1071,7 @@ rcube_webmail.prototype.managesieve_create = function (force) {
     }
 
     if (!this.env.sieve_headers || !this.env.sieve_headers.length)
-        return;
+    { return; }
 
     var i, buttons = {},
         title = this.get_label('managesieve.newfilter'),
@@ -1150,7 +1150,7 @@ rcube_webmail.prototype.managesieve_dialog_resize = function (o) {
     w = win.width(), h = win.height();
 
     if (height < 100)
-        return;
+    { return; }
 
     dialog.dialog('option', { height: Math.min(h - 20, height + 120), width: Math.min(w - 20, width + 65) });
 };

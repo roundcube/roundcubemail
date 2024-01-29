@@ -107,7 +107,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     $(document).click(function (e) {
         var target = $(e.target);
         if (target.attr('googie_action_btn') != '1' && ref.isErrorWindowShown())
-            ref.hideErrorWindow();
+        { ref.hideErrorWindow(); }
     });
 
 
@@ -191,7 +191,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     this.setStateChanged = function (current_state) {
         this.state = current_state;
         if (this.spelling_state_observer != null && this.report_state_change)
-            this.spelling_state_observer(current_state, this);
+        { this.spelling_state_observer(current_state, this); }
     };
 
     this.setReportStateChange = function (bool) {
@@ -239,9 +239,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                 ref.processData(data);
                 if (!ref.results.length) {
                     if (!ref.custom_no_spelling_error)
-                        ref.flashNoSpellingErrorState();
+                    { ref.flashNoSpellingErrorState(); }
                     else
-                        ref.custom_no_spelling_error(ref);
+                    { ref.custom_no_spelling_error(ref); }
                 }
                 ref.removeIndicator();
             }
@@ -278,7 +278,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         this.original_text = '';
 
         if (!no_indicator && this.main_controller)
-            this.appendIndicator(this.spell_span);
+        { this.appendIndicator(this.spell_span); }
 
         this.error_links = [];
         this.ta_scroll_top = this.text_area.scrollTop;
@@ -288,9 +288,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         if (area.val() == '' || ignore) {
             if (!this.custom_no_spelling_error)
-                this.flashNoSpellingErrorState();
+            { this.flashNoSpellingErrorState(); }
             else
-                this.custom_no_spelling_error(this);
+            { this.custom_no_spelling_error(this); }
             this.removeIndicator();
             return;
         }
@@ -303,7 +303,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         $('body').append(this.error_window);
 
         if (this.main_controller)
-            $(this.spell_span).off('click');
+        { $(this.spell_span).off('click'); }
 
         this.original_text = area.val();
     };
@@ -316,7 +316,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             results = [];
 
         if (matched_c == null)
-            return results;
+        { return results; }
 
         for (var i = 0, len = matched_c.length; i < len; i++) {
             var item = [];
@@ -338,7 +338,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                 split_t = only_text.split(re_split_text);
             for (var k = 0; k < split_t.length; k++) {
                 if(split_t[k] != '')
-                    item['suggestions'].push(split_t[k]);
+                { item['suggestions'].push(split_t[k]); }
             }
             results.push(item);
         }
@@ -381,7 +381,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         for (var j = 0, len = this.results.length; j < len; j++) {
         // Don't edit the offset of the current item
             if (j != id && j > id)
-                this.results[j]['attrs']['o'] += add_2_offset;
+            { this.results[j]['attrs']['o'] += add_2_offset; }
         }
     };
 
@@ -416,7 +416,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         this.results[id]['attrs']['l'] = new_value.length;
 
         if (!this.isDefined(elm.old_value))
-            this.saveOldValue(elm, old_value);
+        { this.saveOldValue(elm, old_value); }
 
         this.errorFixed();
     };
@@ -429,7 +429,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
     this.showErrorWindow = function (elm, id) {
         if (this.show_menu_observer)
-            this.show_menu_observer(this);
+        { this.show_menu_observer(this); }
 
         var ref = this,
             pos = $(elm).offset(),
@@ -493,7 +493,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         var onsub = function () {
             if (edit_input.value != '') {
                 if (!ref.isDefined(elm.old_value))
-                    ref.saveOldValue(elm, elm.innerHTML);
+                { ref.saveOldValue(elm, elm.innerHTML); }
 
                 ref.updateOriginalText(offset, elm.innerHTML, edit_input.value, id);
                 $(elm).attr('is_corrected', true).css('color', 'green').text(edit_input.value);
@@ -529,7 +529,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         // Append extra menu items
         if (this.extra_menu_items.length > 0)
-            list.appendChild(this.createListSeparator());
+        { list.appendChild(this.createListSeparator()); }
 
         var loop = function (i) {
             if (i < ref.extra_menu_items.length) {
@@ -572,8 +572,8 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             top = pos.top + height + 20 < pageheight ? pos.top + 20 : pos.top - height,
             left = pos.left + width < pagewidth ? pos.left : pos.left - width;
 
-        if (left < 0) left = 0;
-        if (top < 0) top = 0;
+        if (left < 0) { left = 0; }
+        if (top < 0) { top = 0; }
 
         $(this.error_window).css({ 'top': top + 'px', 'left': left + 'px', position: 'absolute' }).show();
 
@@ -628,12 +628,12 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         this.setStateChanged('ready');
 
         if (this.edit_layer)
-            this.el_scroll_top = this.edit_layer.scrollTop;
+        { this.el_scroll_top = this.edit_layer.scrollTop; }
 
         this.hideErrorWindow();
 
         if (this.main_controller)
-            $(this.spell_span).removeClass().addClass('googie_no_style');
+        { $(this.spell_span).removeClass().addClass('googie_no_style'); }
 
         if (!this.ignore) {
             if (this.use_focus) {
@@ -645,7 +645,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             $(this.text_area).show();
 
             if (this.el_scroll_top != undefined)
-                this.text_area.scrollTop = this.el_scroll_top;
+            { this.text_area.scrollTop = this.el_scroll_top; }
         }
         this.checkSpellingState(false);
     };
@@ -667,7 +667,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
     this.createPart = function (txt_part) {
         if (txt_part == ' ')
-            return document.createTextNode(' ');
+        { return document.createTextNode(' '); }
 
         txt_part = this.escapeSpecial(txt_part);
         txt_part = txt_part.replace(/\n/g, '<br>');
@@ -708,13 +708,13 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
             output.appendChild(part_2);
         } else
-            output.innerHTML = this.original_text;
+        { output.innerHTML = this.original_text; }
 
         $(output).css('text-align', 'left');
 
         var me = this;
         if (this.custom_item_evaluator)
-            $.map(this.error_links, function (elm) { me.custom_item_evaluator(me, elm); });
+        { $.map(this.error_links, function (elm) { me.custom_item_evaluator(me, elm); }); }
 
         $(this.edit_layer).append(output);
 
@@ -739,7 +739,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
     this.highlightCurSel = function () {
         if (GOOGIE_CUR_LANG == null)
-            GOOGIE_CUR_LANG = GOOGIE_DEFAULT_LANG;
+        { GOOGIE_CUR_LANG = GOOGIE_DEFAULT_LANG; }
         for (var i = 0; i < this.lang_elms.length; i++) {
             if ($(this.lang_elms[i]).attr('googieId') == GOOGIE_CUR_LANG) {
                 this.lang_elms[i].className = 'googie_list_selected';
@@ -778,7 +778,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                 };
                 no_spell_errors = fn;
             } else
-                no_spell_errors = function () { ref.checkSpellingState(); };
+            { no_spell_errors = function () { ref.checkSpellingState(); }; }
 
             var rsm = $('<span>').text(this.lang_no_error_found);
 
@@ -809,7 +809,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
     this.checkSpellingState = function (fire) {
         if (fire)
-            this.setStateChanged('ready');
+        { this.setStateChanged('ready'); }
 
         this.switch_lan_pic = document.createElement('span');
 
@@ -817,7 +817,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             ref = this;
 
         if (this.custom_spellcheck_starter)
-            $(span_chck).click(function (e) { ref.custom_spellcheck_starter(); });
+        { $(span_chck).click(function (e) { ref.custom_spellcheck_starter(); }); }
         else {
             $(span_chck).click(function (e) { ref.spellCheck(); });
         }
@@ -844,10 +844,10 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     this.errorFixed = function () {
         this.cnt_errors_fixed++;
         if (this.all_errors_fixed_observer)
-            if (this.cnt_errors_fixed == this.cnt_errors) {
-                this.hideErrorWindow();
-                this.all_errors_fixed_observer();
-            }
+        { if (this.cnt_errors_fixed == this.cnt_errors) {
+            this.hideErrorWindow();
+            this.all_errors_fixed_observer();
+        } }
     };
 
     this.errorFound = function () {
@@ -884,13 +884,13 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     //$(this.indicator).remove();
     // roundcube mod.
         if (window.rcmail)
-            rcmail.set_busy(false, null, this.rc_msg_id);
+        { rcmail.set_busy(false, null, this.rc_msg_id); }
     };
 
     this.appendIndicator = function (elm) {
     // modified by roundcube
         if (window.rcmail)
-            this.rc_msg_id = rcmail.set_busy(true, 'checking');
+        { this.rc_msg_id = rcmail.set_busy(true, 'checking'); }
         /*
     this.indicator = document.createElement('img');
     $(this.indicator).attr('src', this.img_dir + 'indicator.gif')
@@ -911,15 +911,15 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
     this.item_onmouseover = function (e) {
         if (this.className != 'googie_list_revert' && this.className != 'googie_list_close')
-            this.className = 'googie_list_onhover';
+        { this.className = 'googie_list_onhover'; }
         else
-            this.parentNode.className = 'googie_list_onhover';
+        { this.parentNode.className = 'googie_list_onhover'; }
     };
 
     this.item_onmouseout = function (e) {
         if (this.className != 'googie_list_revert' && this.className != 'googie_list_close')
-            this.className = 'googie_list_onout';
+        { this.className = 'googie_list_onout'; }
         else
-            this.parentNode.className = 'googie_list_onout';
+        { this.parentNode.className = 'googie_list_onout'; }
     };
 }

@@ -77,12 +77,12 @@ function plugin_vcard_attach() {
         } else {
             id = selection[n];
             if (id && id.charAt(0) != 'E' && rcmail.env.contactdata[id])
-                contacts.push(id);
+            { contacts.push(id); }
         }
     }
 
     if (!contacts.length)
-        return false;
+    { return false; }
 
     args._uri = 'vcard://' + contacts.join(',');
 
@@ -92,7 +92,7 @@ function plugin_vcard_attach() {
     } else {
     // add to attachments list
         if (!rcmail.add2attachment_list(ts, { name: '', html: rcmail.get_label('attaching'), classname: 'uploading', complete: false }))
-            rcmail.file_upload_id = rcmail.set_busy(true, 'attaching');
+        { rcmail.file_upload_id = rcmail.set_busy(true, 'attaching'); }
 
         rcmail.http_post('upload', args);
     }
@@ -100,7 +100,7 @@ function plugin_vcard_attach() {
 
 window.rcmail && rcmail.addEventListener('init', function (evt) {
     if (rcmail.gui_objects.messagelist)
-        rcmail.addEventListener('insertrow', function (data, evt) { plugin_vcard_insertrow(data); });
+    { rcmail.addEventListener('insertrow', function (data, evt) { plugin_vcard_insertrow(data); }); }
 
     if ((rcmail.env.action == 'compose' || (rcmail.env.task == 'addressbook' && rcmail.env.action == '')) && rcmail.gui_objects.contactslist) {
         if (rcmail.env.action == 'compose') {

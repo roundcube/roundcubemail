@@ -1572,13 +1572,13 @@ function rcube_elastic_ui() {
         var size, width = $(window).width();
 
         if (width <= 480)
-            size = 'phone';
+        { size = 'phone'; }
         else if (width > 1200)
-            size = 'large';
+        { size = 'large'; }
         else if (width > 768)
-            size = 'normal';
+        { size = 'normal'; }
         else
-            size = 'small';
+        { size = 'small'; }
 
         touch = width <= 1024;
         mode = size;
@@ -1881,7 +1881,7 @@ function rcube_elastic_ui() {
 
                 if (!env.menu_initialized) {
                     env.menu_initialized = true;
-                    $('a', layout.menu).on('click', function (e) { if (mode == 'phone') app_menu(); });
+                    $('a', layout.menu).on('click', function (e) { if (mode == 'phone') { app_menu(); } });
                 }
 
                 layout.menu.addClass('popover');
@@ -2098,7 +2098,7 @@ function rcube_elastic_ui() {
                 button = cloned ? create_cloned_button($(button), true, 'hidden-big hidden-large') : $(button).detach();
 
                 // Remove empty text nodes that break alignment of text of the menu item
-                button.contents().filter(function () { if (this.nodeType == 3 && this.nodeValue.trim().length == 0) $(this).remove(); });
+                button.contents().filter(function () { if (this.nodeType == 3 && this.nodeValue.trim().length == 0) { $(this).remove(); } });
 
                 if (button.is('.spacer')) {
                     item.addClass('spacer');
@@ -2195,7 +2195,7 @@ function rcube_elastic_ui() {
             return parent.UI.popup_init(item, win || window);
         }
 
-        if (!win) win = window;
+        if (!win) { win = window; }
         var level,
             popup_id = $(item).data('popup'),
             popup = $(win.$('#' + popup_id).get(0)), // a "hack" to support elements in frames
@@ -3113,7 +3113,7 @@ function rcube_elastic_ui() {
      * Recipient (contact) selector
      */
     function recipient_selector(field, opts) {
-        if (!opts) opts = {};
+        if (!opts) { opts = {}; }
 
         var title = opts.title || 'insertcontact',
             dialog = $('#recipient-dialog'),
@@ -3226,9 +3226,9 @@ function rcube_elastic_ui() {
                     .append([name_element, email_element, link]);
 
                 if (replace)
-                    replace.replaceWith(recipient);
+                { replace.replaceWith(recipient); }
                 else
-                    recipient.insertBefore(input.parent());
+                { recipient.insertBefore(input.parent()); }
 
                 apply_func();
             },
@@ -3303,7 +3303,7 @@ function rcube_elastic_ui() {
             .append($('<li class="input">').append(input))
             // "selection" hack to allow text selection in the recipient box or multiple boxes (#7129)
             .on('mouseup', function () { selection = window.getSelection().toString(); })
-            .on('click', function () { if (!selection.length) input.focus(); })
+            .on('click', function () { if (!selection.length) { input.focus(); } })
             .sortable({
                 appendTo: document.body,
                 items: '> .recipient',

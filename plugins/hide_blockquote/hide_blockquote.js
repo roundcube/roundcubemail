@@ -16,13 +16,13 @@
  */
 
 if (window.rcmail)
-    rcmail.addEventListener('init', function () { hide_blockquote(); });
+{ rcmail.addEventListener('init', function () { hide_blockquote(); }); }
 
 function hide_blockquote() {
     var limit = rcmail.env.blockquote_limit;
 
     if (limit <= 0)
-        return;
+    { return; }
 
     $('div.message-part div.pre > blockquote', $('#messagebody')).each(function () {
         var res, text, div, link, q = $(this);
@@ -39,7 +39,7 @@ function hide_blockquote() {
             // there can be also a block with very long wrapped line
             // assume line height = 15px
             if (q.height() <= limit * 15)
-                return;
+            { return; }
         }
 
         div = $('<blockquote class="blockquote-header">')

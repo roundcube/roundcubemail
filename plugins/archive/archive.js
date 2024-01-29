@@ -17,13 +17,13 @@
 
 function rcmail_archive(prop) {
     if (rcmail_is_archive())
-        return;
+    { return; }
 
     var post_data = rcmail.selection_post_data();
 
     // exit if selection is empty
     if (!post_data._uid)
-        return;
+    { return; }
 
     // Disable message command buttons until a message is selected
     rcmail.enable_command(rcmail.env.message_commands, false);
@@ -50,22 +50,22 @@ if (window.rcmail) {
 
         // add event-listener to message list
         if (rcmail.message_list)
-            rcmail.message_list.addEventListener('select', function (list) {
-                rcmail.enable_command('plugin.archive', list.get_selection().length > 0 && !rcmail_is_archive());
-            });
+        { rcmail.message_list.addEventListener('select', function (list) {
+            rcmail.enable_command('plugin.archive', list.get_selection().length > 0 && !rcmail_is_archive());
+        }); }
 
         // set css style for archive folder
         var li;
         if (rcmail.env.archive_folder) {
             // in Settings > Folders
             if (rcmail.subscription_list)
-                li = rcmail.subscription_list.get_item(rcmail.env.archive_folder);
+            { li = rcmail.subscription_list.get_item(rcmail.env.archive_folder); }
             // in folders list
             else
-                li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true);
+            { li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true); }
 
             if (li)
-                $(li).addClass('archive');
+            { $(li).addClass('archive'); }
 
             // in folder selector popup
             rcmail.addEventListener('menu-open', function (p) {
