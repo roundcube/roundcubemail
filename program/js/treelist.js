@@ -442,7 +442,7 @@ function rcube_treelist_widget(node, p)
                 if (updates.parent && (parent_node = indexbyid[updates.parent])) {
                     // remove reference from old parent's child list
                     if (parent_ul.closest('li').length && (old_parent = indexbyid[dom2id(parent_ul.closest('li'))])) {
-                        old_parent.children = $.grep(old_parent.children, function(elem, i){ return elem.id != node.id; });
+                        old_parent.children = $.grep(old_parent.children, function(elem, i) { return elem.id != node.id; });
                     }
 
                     // append to new parent node
@@ -766,7 +766,7 @@ function rcube_treelist_widget(node, p)
     function walk_list(ul, level)
     {
         var result = [];
-        ul.children('li').each(function(i, e){
+        ul.children('li').each(function(i, e) {
             var state, li = $(e), sublist = li.children('ul');
             var node = {
                 id: dom2id(li),

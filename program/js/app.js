@@ -82,8 +82,8 @@ function rcube_webmail()
     $.ajaxSetup({
         cache: false,
         timeout: this.env.request_timeout * 1000,
-        error: function(request, status, err){ ref.http_error(request, status, err); },
-        beforeSend: function(xmlhttp){ xmlhttp.setRequestHeader('X-Roundcube-Request', ref.env.request_token); }
+        error: function(request, status, err) { ref.http_error(request, status, err); },
+        beforeSend: function(xmlhttp) { xmlhttp.setRequestHeader('X-Roundcube-Request', ref.env.request_token); }
     });
 
     // unload fix
@@ -277,7 +277,7 @@ function rcube_webmail()
                         .init();
 
                     // TODO: this should go into the list-widget code
-                    $(this.message_list.thead).on('click', 'a.sortcol', function(e){
+                    $(this.message_list.thead).on('click', 'a.sortcol', function(e) {
                         return ref.command('sort', $(this).attr('rel'), this);
                     });
 
@@ -4722,7 +4722,7 @@ function rcube_webmail()
                     [{
                         text: this.get_label('restore'),
                         'class': 'mainaction restore',
-                        click: function(){
+                        click: function() {
                             ref.restore_compose_form(key, html_mode);
                             ref.remove_compose_data(key);  // remove old copy
                             ref.save_compose_form_local();  // save under current compose_id
@@ -4732,7 +4732,7 @@ function rcube_webmail()
                     {
                         text: this.get_label('delete'),
                         'class': 'delete',
-                        click: function(){
+                        click: function() {
                             ref.remove_compose_data(key);
                             $(this).dialog('close');
                             show_next(i);
@@ -4741,7 +4741,7 @@ function rcube_webmail()
                     {
                         text: this.get_label('ignore'),
                         'class': 'cancel',
-                        click: function(){
+                        click: function() {
                             $(this).dialog('close');
                             show_next(i);
                         }
@@ -5144,7 +5144,7 @@ function rcube_webmail()
             this.compose_type_activity = this.compose_type_activity_last = 0;
             $(document).keypress(function(e) { ref.compose_type_activity++; });
 
-            this.local_save_timer = setInterval(function(){
+            this.local_save_timer = setInterval(function() {
                 if (ref.compose_type_activity > ref.compose_type_activity_last) {
                     ref.save_compose_form_local();
                     ref.compose_type_activity_last = ref.compose_type_activity;
@@ -9748,7 +9748,7 @@ function rcube_webmail()
         if (this._refresh)
             clearInterval(this._refresh);
 
-        this._refresh = setInterval(function(){ ref.refresh(); }, this.env.refresh_interval * 1000);
+        this._refresh = setInterval(function() { ref.refresh(); }, this.env.refresh_interval * 1000);
     };
 
     // sends keep-alive signal

@@ -232,7 +232,7 @@ var rcube_event = {
 
         var key = p.event + '*' + p.method;
         if (!p.object._rc_events[key])
-            p.object._rc_events[key] = function(e){ return p.object[p.method](e); };
+            p.object._rc_events[key] = function(e) { return p.object[p.method](e); };
 
         if (p.element.addEventListener)
             p.element.addEventListener(p.event, p.object._rc_events[key], false);

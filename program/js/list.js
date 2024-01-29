@@ -72,7 +72,7 @@ function rcube_list_widget(list, p)
     this.focused = false;
     this.drag_mouse_start = null;
     this.dblclick_time = 500; // default value on MS Windows is 500
-    this.row_init = function(){};  // @deprecated; use list.addEventListener('initrow') instead
+    this.row_init = function() {};  // @deprecated; use list.addEventListener('initrow') instead
 
     this.touch_start_time = 0; // start time of the touch event
     this.touch_event_time = 500; // maximum time a touch should be considered a left mouse button event, after this its something else (eg contextmenu event)
