@@ -18,6 +18,7 @@ module.exports = {
         '/plugins/jqueryui/js',
     ],
     rules: {
+        'brace-style': ['error', '1tbs'],
         'class-methods-use-this': 'off',
         'comma-dangle': ['error', {
             arrays: 'always-multiline',
@@ -27,7 +28,6 @@ module.exports = {
             objects: 'always-multiline',
         }],
         'consistent-return': 'off',
-        'brace-style': ['error', '1tbs'],
         curly: ['error', 'all'],
         'default-case': 'off',
         'func-names': 'off',
@@ -105,7 +105,7 @@ module.exports = {
         // TODO
         'array-callback-return': 'off', // (7 matches)
         'block-scoped-var': 'off', // (391 matches)
-        'brace-style': 'off', // (69 remaining non-autofixable matches)
+        'brace-style': 'off', // eslint-disable-line no-dupe-keys -- (69 remaining non-autofixable matches)
         'camelcase': 'off', // (1886 matches)
         'comma-dangle': 'off', // eslint-disable-line no-dupe-keys -- (131 matches)
         'dot-notation': 'off', // (36 matches)
