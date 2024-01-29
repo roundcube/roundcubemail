@@ -271,15 +271,15 @@ function rcube_text_editor(config, id)
             if (textarea.tabIndex > 0) {
                 var x = null,
                     tabfocus_elements = [':prev', ':next'],
-                    el = tinymce.DOM.select('*[tabindex='+textarea.tabIndex+']:not(iframe)');
+                    el = tinymce.DOM.select('*[tabindex=' + textarea.tabIndex + ']:not(iframe)');
 
                 tinymce.each(el, function (e, i) { if (e.id == ref.id) { x = i; return false; } });
                 if (x !== null) {
-                    if (el[x-1] && el[x-1].id) {
-                        tabfocus_elements[0] = el[x-1].id;
+                    if (el[x - 1] && el[x - 1].id) {
+                        tabfocus_elements[0] = el[x - 1].id;
                     }
-                    if (el[x+1] && el[x+1].id) {
-                        tabfocus_elements[1] = el[x+1].id;
+                    if (el[x + 1] && el[x + 1].id) {
+                        tabfocus_elements[1] = el[x + 1].id;
                     }
                     this.editor.settings.tabfocus_elements = tabfocus_elements.join(',');
                 }
@@ -597,7 +597,7 @@ function rcube_text_editor(config, id)
 
                 p = rcmail.env.top_posting ? message.indexOf(sig) : message.lastIndexOf(sig);
                 if (p >= 0)
-                    message = message.substring(0, p) + message.substring(p+sig.length, message.length);
+                    message = message.substring(0, p) + message.substring(p + sig.length, message.length);
             }
 
             // add the new signature string

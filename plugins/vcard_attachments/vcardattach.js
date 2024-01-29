@@ -73,7 +73,7 @@ function plugin_vcard_attach()
         args = { _uploadid: ts, _id: rcmail.env.compose_id || null },
         selection = rcmail.contact_list.get_selection();
 
-    for (n=0; n < selection.length; n++) {
+    for (n = 0; n < selection.length; n++) {
         if (rcmail.env.task == 'addressbook') {
             id = selection[n];
             contacts.push(rcmail.env.source + '-' + id + '-0');

@@ -117,7 +117,7 @@ rcube_list_widget.prototype = {
 
             var r, len, rows = this.tbody.childNodes;
 
-            for (r=0, len=rows.length; r<len; r++) {
+            for (r = 0, len = rows.length; r < len; r++) {
                 if (rows[r].nodeType == 1)
                     this.rowcount += this.init_row(rows[r]) ? 1 : 0;
             }
@@ -248,7 +248,7 @@ rcube_list_widget.prototype = {
             var col, r, p = this;
             // add events for list columns moving
             if (this.column_movable && this.thead && this.thead.rows) {
-                for (r=0; r<this.thead.rows[0].cells.length; r++) {
+                for (r = 0; r < this.thead.rows[0].cells.length; r++) {
                     if (this.column_fixed == r)
                         continue;
                     col = this.thead.rows[0].cells[r];
@@ -397,7 +397,7 @@ rcube_list_widget.prototype = {
             if (row.className) domrow.className = row.className;
             if (row.style) $.extend(domrow.style, row.style);
 
-            for (i=0; row.cols && i < row.cols.length; i++) {
+            for (i = 0; row.cols && i < row.cols.length; i++) {
                 col = row.cols[i];
                 domcell = col.dom;
                 if (!domcell) {
@@ -505,7 +505,7 @@ rcube_list_widget.prototype = {
 
         if (this.thead) {
             rows = this.thead.childNodes;
-            for (r=0, len=rows.length; r<len; r++) {
+            for (r = 0, len = rows.length; r < len; r++) {
                 if (rows[r].nodeName == row_tag && (cell = rows[r].firstChild)) {
                     if (cell.className == 'selection')
                         break;
@@ -515,7 +515,7 @@ rcube_list_widget.prototype = {
         }
 
         rows = this.tbody.childNodes;
-        for (r=0, len=rows.length; r<len; r++) {
+        for (r = 0, len = rows.length; r < len; r++) {
             if (rows[r].nodeName == row_tag && (cell = rows[r].firstChild)) {
                 if (cell.className == 'selection')
                     break;
@@ -600,9 +600,9 @@ rcube_list_widget.prototype = {
         var method = hide ? 'addClass' : 'removeClass';
 
         if (this.fixed_header)
-            $(this.row_tagname()+' '+this.col_tagname()+'.'+col, this.fixed_header)[method]('hidden');
+            $(this.row_tagname() + ' ' + this.col_tagname() + '.' + col, this.fixed_header)[method]('hidden');
 
-        $(this.row_tagname()+' '+this.col_tagname()+'.'+col, this.list)[method]('hidden');
+        $(this.row_tagname() + ' ' + this.col_tagname() + '.' + col, this.list)[method]('hidden');
     },
 
 
@@ -622,7 +622,7 @@ rcube_list_widget.prototype = {
             this.add_dragfix();
 
             // find selected column number
-            for (var i=0; i<this.thead.rows[0].cells.length; i++) {
+            for (var i = 0; i < this.thead.rows[0].cells.length; i++) {
                 if (col == this.thead.rows[0].cells[i]) {
                     this.selected_column = i;
                     break;
@@ -989,7 +989,7 @@ rcube_list_widget.prototype = {
         if (this.rowcount) {
             var i, uid, rows = this.tbody.childNodes;
 
-            for (i=0; i<rows.length; i++)
+            for (i = 0; i < rows.length; i++)
                 if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid])
                     return uid;
         }
@@ -1002,7 +1002,7 @@ rcube_list_widget.prototype = {
         if (this.rowcount) {
             var i, uid, rows = this.tbody.childNodes;
 
-            for (i=rows.length-1; i>=0; i--)
+            for (i = rows.length - 1; i >= 0; i--)
                 if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid])
                     return uid;
         }
@@ -1174,7 +1174,7 @@ rcube_list_widget.prototype = {
     {
         var i, children = this.row_children(uid), len = children.length;
 
-        for (i=0; i<len; i++)
+        for (i = 0; i < len; i++)
             if (!this.in_selection(children[i]))
                 this.select_row(children[i], CONTROL_KEY, true);
     },
@@ -1341,11 +1341,11 @@ rcube_list_widget.prototype = {
 
         // return children of selected threads even if only root is selected
         if (deep !== false && res.length) {
-            for (var uid, uids, i=0, len=res.length; i<len; i++) {
+            for (var uid, uids, i = 0, len = res.length; i < len; i++) {
                 uid = res[i];
                 if (this.rows[uid] && this.rows[uid].has_children && !this.rows[uid].expanded) {
                     uids = this.row_children(uid);
-                    for (var j=0, uids_len=uids.length; j<uids_len; j++) {
+                    for (var j = 0, uids_len = uids.length; j < uids_len; j++) {
                         uid = uids[j];
                         if (!this.in_selection(uid))
                             res.push(uid);
@@ -1405,7 +1405,7 @@ rcube_list_widget.prototype = {
             }
             else { // unselect row
                 pre = this.selection.slice(0, p);
-                post = this.selection.slice(p+1, this.selection.length);
+                post = this.selection.slice(p + 1, this.selection.length);
 
                 this.selection = pre.concat(post);
                 $(this.rows[id].obj).removeClass('selected').removeAttr('aria-selected');
@@ -1428,7 +1428,7 @@ rcube_list_widget.prototype = {
         var i, selected,
             children = this.row_children(id), len = children.length;
 
-        for (i=0; i<len; i++) {
+        for (i = 0; i < len; i++) {
             selected = this.in_selection(children[i]);
             if ((status && !selected) || (!status && selected))
                 this.highlight_row(children[i], true, true);
@@ -1701,8 +1701,8 @@ rcube_list_widget.prototype = {
 
         if (this.drag_active && this.draglayer) {
             var pos = rcube_event.get_mouse_pos(e);
-            this.draglayer.css({ left:(pos.x+20)+'px', top:(pos.y-5 + (bw.ie ? document.documentElement.scrollTop : 0))+'px' });
-            this.triggerEvent('dragmove', e?e:window.event);
+            this.draglayer.css({ left:(pos.x + 20) + 'px', top:(pos.y - 5 + (bw.ie ? document.documentElement.scrollTop : 0)) + 'px' });
+            this.triggerEvent('dragmove', e ? e : window.event);
         }
 
         this.drag_start = false;
@@ -1774,17 +1774,17 @@ rcube_list_widget.prototype = {
                 this.col_draglayer = $('<div>').attr('id', 'rcmcoldraglayer')
                     .css(lpos).css({ position:'absolute', 'z-index':2001,
                         'background-color':'white', opacity:0.75,
-                        height: (this.frame.offsetHeight-2)+'px', width: (this.frame.offsetWidth-2)+'px' })
+                        height: (this.frame.offsetHeight - 2) + 'px', width: (this.frame.offsetWidth - 2) + 'px' })
                     .appendTo(document.body)
                 // ... and column position indicator
                     .append($('<div>').attr('id', 'rcmcolumnindicator')
                         .css({ position:'absolute', 'border-right':'2px dotted #555',
-                            'z-index':2002, height: (this.frame.offsetHeight-2)+'px' }));
+                            'z-index':2002, height: (this.frame.offsetHeight - 2) + 'px' }));
 
                 this.cols = [];
                 this.list_pos = this.list_min_pos = lpos.left;
                 // save columns positions
-                for (i=0; i<cells.length; i++) {
+                for (i = 0; i < cells.length; i++) {
                     this.cols[i] = cells[i].offsetWidth;
                     if (this.column_fixed !== null && i <= this.column_fixed) {
                         this.list_min_pos += this.cols[i];
@@ -1801,8 +1801,8 @@ rcube_list_widget.prototype = {
         if (this.col_drag_active && this.col_draglayer) {
             var i, cpos = 0, pos = rcube_event.get_mouse_pos(e);
 
-            for (i=0; i<this.cols.length; i++) {
-                if (pos.x >= this.cols[i]/2 + this.list_pos + cpos)
+            for (i = 0; i < this.cols.length; i++) {
+                if (pos.x >= this.cols[i] / 2 + this.list_pos + cpos)
                     cpos += this.cols[i];
                 else
                     break;
@@ -1814,8 +1814,8 @@ rcube_list_widget.prototype = {
             // empty list needs some assignment
             else if (!this.list.rowcount && i == this.cols.length)
                 cpos -= 2;
-            $('#rcmcolumnindicator').css({ width: cpos+'px' });
-            this.triggerEvent('column_dragmove', e?e:window.event);
+            $('#rcmcolumnindicator').css({ width: cpos + 'px' });
+            this.triggerEvent('column_dragmove', e ? e : window.event);
         }
 
         this.drag_start = false;
@@ -1851,14 +1851,14 @@ rcube_list_widget.prototype = {
                 var i, cpos = 0, pos = rcube_event.get_mouse_pos(e);
 
                 // find destination position
-                for (i=0; i<this.cols.length; i++) {
-                    if (pos.x >= this.cols[i]/2 + this.list_pos + cpos)
+                for (i = 0; i < this.cols.length; i++) {
+                    if (pos.x >= this.cols[i] / 2 + this.list_pos + cpos)
                         cpos += this.cols[i];
                     else
                         break;
                 }
 
-                if (i != this.selected_column && i != this.selected_column+1) {
+                if (i != this.selected_column && i != this.selected_column + 1) {
                     this.column_replace(this.selected_column, i);
                 }
             }
@@ -1902,7 +1902,7 @@ rcube_list_widget.prototype = {
         $('iframe').each(function () {
             $('<div class="iframe-dragdrop-fix"></div>')
                 .css({ background: '#fff',
-                    width: this.offsetWidth+'px', height: this.offsetHeight+'px',
+                    width: this.offsetWidth + 'px', height: this.offsetHeight + 'px',
                     position: 'absolute', opacity: '0.001', zIndex: 1000
                 })
                 .css($(this).offset())
@@ -1942,7 +1942,7 @@ rcube_list_widget.prototype = {
         cells[0].parentNode.replaceChild(elem, td);
 
         // replace list cells
-        for (r=0, len=this.tbody.rows.length; r<len; r++) {
+        for (r = 0, len = this.tbody.rows.length; r < len; r++) {
             row = this.tbody.rows[r];
 
             elem = row.cells[from];

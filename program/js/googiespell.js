@@ -341,7 +341,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         if (matched_c == null)
             return results;
 
-        for (var i=0, len=matched_c.length; i < len; i++) {
+        for (var i = 0, len = matched_c.length; i < len; i++) {
             var item = [];
             this.errorFound();
 
@@ -349,7 +349,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
             item['attrs'] = [];
             var c_attr, val,
                 split_c = matched_c[i].match(re_split_attr_c);
-            for (var j=0; j < split_c.length; j++) {
+            for (var j = 0; j < split_c.length; j++) {
                 c_attr = split_c[j].split(/=/);
                 val = c_attr[1].replace(/"/g, '');
                 item['attrs'][c_attr[0]] = val != 'true' ? parseInt(val) : val;
@@ -359,7 +359,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
             item['suggestions'] = [];
             var only_text = matched_c[i].replace(/<[^>]*>/g, ''),
                 split_t = only_text.split(re_split_text);
-            for (var k=0; k < split_t.length; k++) {
+            for (var k = 0; k < split_t.length; k++) {
                 if(split_t[k] != '')
                     item['suggestions'].push(split_t[k]);
             }
@@ -401,12 +401,12 @@ function GoogieSpell(img_dir, server_url, has_dict)
     this.updateOriginalText = function (offset, old_value, new_value, id)
     {
         var part_1 = this.original_text.substring(0, offset),
-            part_2 = this.original_text.substring(offset+old_value.length),
+            part_2 = this.original_text.substring(offset + old_value.length),
             add_2_offset = new_value.length - old_value.length;
 
         this.original_text = part_1 + new_value + part_2;
         $(this.text_area).val(this.original_text);
-        for (var j=0, len=this.results.length; j<len; j++) {
+        for (var j = 0, len = this.results.length; j < len; j++) {
         // Don't edit the offset of the current item
             if (j != id && j > id)
                 this.results[j]['attrs']['o'] += add_2_offset;
@@ -433,7 +433,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
 
         if (rm_pre_space) {
             var pre_length = elm.previousSibling.innerHTML;
-            elm.previousSibling.innerHTML = pre_length.slice(0, pre_length.length-1);
+            elm.previousSibling.innerHTML = pre_length.slice(0, pre_length.length - 1);
             old_value = ' ' + old_value;
             offset--;
         }
@@ -491,7 +491,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
                 .appendTo(list);
         }
 
-        for (var i=0, len=suggestions.length; i < len; i++) {
+        for (var i = 0, len = suggestions.length; i < len; i++) {
             dummy = $('<a>').html(suggestions[i]).addClass('active');
 
             $('<li>').mouseover(this.item_onmouseover).mouseout(this.item_onmouseout)
@@ -580,7 +580,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
                     e_row.appendChild(e_col);
                     list.appendChild(e_row);
                 }
-                loop(i+1);
+                loop(i + 1);
             }
         };
 
@@ -608,7 +608,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         if (left < 0) left = 0;
         if (top < 0) top = 0;
 
-        $(this.error_window).css({ 'top': top+'px', 'left': left+'px', position: 'absolute' }).show();
+        $(this.error_window).css({ 'top': top + 'px', 'left': left + 'px', position: 'absolute' }).show();
 
         // Dummy for IE - dropdown bug fix
         if (document.all && !window.opera) {
@@ -724,7 +724,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
             results = this.results;
 
         if (results.length > 0) {
-            for (var i=0, length=results.length; i < length; i++) {
+            for (var i = 0, length = results.length; i < length; i++) {
                 var offset = results[i]['attrs']['o'],
                     len = results[i]['attrs']['l'],
                     part_1_text = this.original_text.substring(pointer, offset),
@@ -781,7 +781,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
     {
         if (GOOGIE_CUR_LANG == null)
             GOOGIE_CUR_LANG = GOOGIE_DEFAULT_LANG;
-        for (var i=0; i < this.lang_elms.length; i++) {
+        for (var i = 0; i < this.lang_elms.length; i++) {
             if ($(this.lang_elms[i]).attr('googieId') == GOOGIE_CUR_LANG) {
                 this.lang_elms[i].className = 'googie_list_selected';
                 this.lang_cur_elm = this.lang_elms[i];

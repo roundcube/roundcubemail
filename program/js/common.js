@@ -115,7 +115,7 @@ function roundcube_browser()
         var classname = ' js';
 
         if (this.ie)
-            classname += ' ms ie ie'+parseInt(this.vendver);
+            classname += ' ms ie ie' + parseInt(this.vendver);
         else if (this.edge && this.vendver > 74)
             classname += ' chrome';
         else if (this.edge)
@@ -239,11 +239,11 @@ var rcube_event = {
         else if (p.element.attachEvent) {
             // IE allows multiple events with the same function to be applied to the same object
             // forcibly detach the event, then attach
-            p.element.detachEvent('on'+p.event, p.object._rc_events[key]);
-            p.element.attachEvent('on'+p.event, p.object._rc_events[key]);
+            p.element.detachEvent('on' + p.event, p.object._rc_events[key]);
+            p.element.attachEvent('on' + p.event, p.object._rc_events[key]);
         }
         else
-            p.element['on'+p.event] = p.object._rc_events[key];
+            p.element['on' + p.event] = p.object._rc_events[key];
     },
 
     /**
@@ -259,9 +259,9 @@ var rcube_event = {
             if (p.element.removeEventListener)
                 p.element.removeEventListener(p.event, p.object._rc_events[key], false);
             else if (p.element.detachEvent)
-                p.element.detachEvent('on'+p.event, p.object._rc_events[key]);
+                p.element.detachEvent('on' + p.event, p.object._rc_events[key]);
             else
-                p.element['on'+p.event] = null;
+                p.element['on' + p.event] = null;
         }
     },
 
@@ -358,7 +358,7 @@ rcube_event_engine.prototype = {
         if (obj === undefined)
             obj = window;
 
-        for (var h, i=0; this._events && this._events[evt] && i < this._events[evt].length; i++)
+        for (var h, i = 0; this._events && this._events[evt] && i < this._events[evt].length; i++)
             if ((h = this._events[evt][i]) && h.func == func && h.obj == obj)
                 this._events[evt][i] = null;
     },
@@ -386,7 +386,7 @@ rcube_event_engine.prototype = {
 
         if (this._events && this._events[evt] && !this._event_exec[evt]) {
             this._event_exec[evt] = true;
-            for (var i=0; i < this._events[evt].length; i++) {
+            for (var i = 0; i < this._events[evt].length; i++) {
                 if ((h = this._events[evt][i])) {
                     if (typeof h.func === 'function')
                         ret = h.func.call ? h.func.call(h.obj, e) : h.func(e);
@@ -424,7 +424,7 @@ function rcube_check_email(input, inline, count, strict)
         dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]',
         atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+',
         quoted_pair = '\\x5c[\\x00-\\x7f]',
-        quoted_string = '\\x22('+qtext+'|'+quoted_pair+')*\\x22',
+        quoted_string = '\\x22(' + qtext + '|' + quoted_pair + ')*\\x22',
         ipv4 = '\\[(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}\\]',
         ipv6 = '\\[IPv6:[0-9a-f:.]+\\]',
         ip_addr = '(' + ipv4 + ')|(' + ipv6 + ')',
@@ -432,7 +432,7 @@ function rcube_check_email(input, inline, count, strict)
         // So, e-mail address should be validated also on server side after idn_to_ascii()
         // Allow punycode/unicode top-level domains, allow extended domains (#5588)
         // Allow a domain ending with .s (#8854)
-        domain = '(('+ip_addr+')|(([^@.]+\\.)+([^\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|s|xn--[a-z0-9]{2,})))',
+        domain = '((' + ip_addr + ')|(([^@.]+\\.)+([^\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|s|xn--[a-z0-9]{2,})))',
         // ICANN e-mail test (http://idn.icann.org/E-mail_test)
         icann_domains = [
             '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631',
@@ -447,13 +447,13 @@ function rcube_check_email(input, inline, count, strict)
             '\\u0b89\\u0ba4\\u0bbe\\u0bb0\\u0ba3\\u0bae\\u0bcd\\x2e\\u0baa\\u0bb0\\u0bbf\\u0b9f\\u0bcd\\u0b9a\\u0bc8',
             '\\u05d1\\u05f2\\u05b7\\u05e9\\u05e4\\u05bc\\u05d9\\u05dc\\x2e\\u05d8\\u05e2\\u05e1\\u05d8'
         ],
-        icann_addr = 'mailtest\\x40('+icann_domains.join('|')+')',
-        word = strict ? '('+atom+'|'+quoted_string+')' : '[^\\u0000-\\u0020\\u002e\\u00a0\\u0040\\u007f\\u2028\\u2029]+',
+        icann_addr = 'mailtest\\x40(' + icann_domains.join('|') + ')',
+        word = strict ? '(' + atom + '|' + quoted_string + ')' : '[^\\u0000-\\u0020\\u002e\\u00a0\\u0040\\u007f\\u2028\\u2029]+',
         delim = '[,;\\s\\n]',
-        local_part = word+'(\\x2e'+word+')*',
-        addr_spec = '(('+local_part+'\\x40'+domain+')|('+icann_addr+'))',
+        local_part = word + '(\\x2e' + word + ')*',
+        addr_spec = '((' + local_part + '\\x40' + domain + ')|(' + icann_addr + '))',
         rx_flag = count ? 'ig' : 'i',
-        rx = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', rx_flag) : new RegExp('^'+addr_spec+'$', 'i');
+        rx = inline ? new RegExp('(^|<|' + delim + ')' + addr_spec + '($|>|' + delim + ')', rx_flag) : new RegExp('^' + addr_spec + '$', 'i');
 
     if (count) {
         var re = input.match(rx);
@@ -511,7 +511,7 @@ function rcube_find_object(id, d)
         obj = d.images[id];
 
     if (!obj && d.forms.length) {
-        for (f=0; f<d.forms.length; f++) {
+        for (f = 0; f < d.forms.length; f++) {
             if (d.forms[f].name == id)
                 obj = d.forms[f];
             else if(d.forms[f].elements[id])
@@ -522,7 +522,7 @@ function rcube_find_object(id, d)
     if (!obj && d.layers) {
         if (d.layers[id])
             obj = d.layers[id];
-        for (n=0; !obj && n<d.layers.length; n++)
+        for (n = 0; !obj && n < d.layers.length; n++)
             obj = rcube_find_object(id, d.layers[n].document);
     }
 
@@ -629,7 +629,7 @@ if (!String.prototype.endsWith) {
 
 // array utility function
 jQuery.last = function (arr) {
-    return arr && arr.length ? arr[arr.length-1] : undefined;
+    return arr && arr.length ? arr[arr.length - 1] : undefined;
 };
 
 // jQuery plugin to set HTML5 placeholder and title attributes on input elements

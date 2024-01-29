@@ -161,7 +161,6 @@ module.exports = {
         'quote-props': 'off', // (86 matches)
         'radix': 'off', // (12 matches)
         'spaced-comment': 'off', // eslint-disable-line no-dupe-keys -- (47 matches)
-        'space-infix-ops': 'off', // (485 matches)
         'unicorn/better-regex': 'off', // (42 matches)
         'unicorn/consistent-function-scoping': 'off', // (19 matches)
         'unicorn/empty-brace-spaces': 'off', // (5 matches)

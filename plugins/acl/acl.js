@@ -147,8 +147,8 @@ rcube_webmail.prototype.acl_mode_switch = function (elem)
     this.env.acl_advanced = !this.env.acl_advanced;
     this.enable_command('acl-delete', 'acl-edit', false);
     this.http_request('settings/plugin.acl', '_act=list'
-        + '&_mode='+(this.env.acl_advanced ? 'advanced' : 'simple')
-        + '&_mbox='+urlencode(this.env.mailbox),
+        + '&_mode=' + (this.env.acl_advanced ? 'advanced' : 'simple')
+        + '&_mbox=' + urlencode(this.env.mailbox),
     this.set_busy(true, 'loading'));
 };
 
@@ -206,7 +206,7 @@ rcube_webmail.prototype.acl_get_usernames = function ()
         list = this.acl_list,
         selection = list.get_selection();
 
-    for (n=0, len=selection.length; n<len; n++) {
+    for (n = 0, len = selection.length; n < len; n++) {
         if (this.env.acl_specials.length && $.inArray(selection[n], this.env.acl_specials) >= 0) {
             users.push(selection[n]);
         }
@@ -227,7 +227,7 @@ rcube_webmail.prototype.acl_remove_row = function (id)
     list.clear_selection();
 
     // we don't need it anymore (remove id conflict)
-    $('#rcmrow'+id).remove();
+    $('#rcmrow' + id).remove();
     this.env.acl[id] = null;
 
     this.enable_command('acl-delete', list.get_selection().length > 0);
@@ -280,13 +280,13 @@ rcube_webmail.prototype.acl_add_row = function (o, sel)
     ids = spec.concat(ids);
 
     // find current id
-    for (n=0, len=ids.length; n<len; n++)
+    for (n = 0, len = ids.length; n < len; n++)
         if (ids[n] == id)
             break;
 
     // add row
     if (n && n < len) {
-        $('#rcmrow'+ids[n-1]).after(row);
+        $('#rcmrow' + ids[n - 1]).after(row);
         list.init_row(row);
         list.rowcount++;
     }
@@ -330,7 +330,7 @@ rcube_webmail.prototype.acl_init_form = function (id)
     if (id && (row = this.acl_list.rows[id])) {
         row = row.obj;
         li_elements.map(function () {
-            td = $('td.'+this.id, row);
+            td = $('td.' + this.id, row);
             if (td.length && td.hasClass('enabled'))
                 this.checked = true;
         });
@@ -346,7 +346,7 @@ rcube_webmail.prototype.acl_init_form = function (id)
     }
 
     name_input.val(val);
-    $('input[value='+type+']').prop('checked', true);
+    $('input[value=' + type + ']').prop('checked', true);
 
     this.acl_id = id;
 
@@ -387,7 +387,7 @@ rcube_webmail.prototype.acl_class = function (acl1, acl2)
     acl1 = String(acl1);
     acl2 = String(acl2);
 
-    for (i=0, len=acl2.length; i<len; i++)
+    for (i = 0, len = acl2.length; i < len; i++)
         if (acl1.indexOf(acl2[i]) > -1)
             found++;
 

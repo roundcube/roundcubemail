@@ -2967,7 +2967,7 @@ function rcube_elastic_ui()
 
             for (i in rcmail.env.spell_langs) {
                 li = $('<li role="menuitem">');
-                link = $('<a href="#'+ i +'" tabindex="0"></a>')
+                link = $('<a href="#' + i + '" tabindex="0"></a>')
                     .text(rcmail.env.spell_langs[i])
                     .addClass('active').data('lang', i)
                     .on('click keypress', function (e) {
@@ -3536,7 +3536,7 @@ function rcube_elastic_ui()
             text = '"' + text.replace('\\', '\\\\').replace('"', '\\"') + '"';
         }
 
-        for (i=0; i<len; i++) {
+        for (i = 0; i < len; i++) {
             char = text.charAt(i);
             switch (char) {
                 case '"':
@@ -3551,7 +3551,7 @@ function rcube_elastic_ui()
                 case '\\':
                     result += '<span class="quotes">' + char + '</span>';
 
-                    if (text.charAt(i+1) == '\\') {
+                    if (text.charAt(i + 1) == '\\') {
                         result += char;
                         i++;
                     }
@@ -3865,7 +3865,7 @@ function rcube_elastic_ui()
 
                         // try to scroll the list so focused element is in center (for Firefox)
                         if (bw.mz && last_index > 5) {
-                            list_parent.scrollTop(list_parent.scrollTop() + list_parent.height()/2 - 20);
+                            list_parent.scrollTop(list_parent.scrollTop() + list_parent.height() / 2 - 20);
                         }
                     }
                     // focus first active element on the list

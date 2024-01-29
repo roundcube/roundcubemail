@@ -224,7 +224,7 @@ function rcube_treelist_widget(node, p)
             update_dom(node);
 
             if (recursive && node.children) {
-                for (var i=0; i < node.children.length; i++) {
+                for (var i = 0; i < node.children.length; i++) {
                     collapse(node.children[i].id, recursive, set);
                 }
             }
@@ -652,7 +652,7 @@ function rcube_treelist_widget(node, p)
         search_tree(data);
         search_active = true;
 
-        me.triggerEvent('search', { query: q, last: last_search, count: hits.length, ids: hits, execute: enter||false });
+        me.triggerEvent('search', { query: q, last: last_search, count: hits.length, ids: hits, execute: enter || false });
 
         last_search = q;
 
@@ -699,7 +699,7 @@ function rcube_treelist_widget(node, p)
         container.html('');
 
         // render child nodes
-        for (var i=0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++) {
             data[i].level = 0;
             render_node(data[i], container);
         }
@@ -745,12 +745,12 @@ function rcube_treelist_widget(node, p)
         // add child list and toggle icon
         if (node.children && node.children.length) {
             li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
-            $('<div class="treetoggle '+(node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
+            $('<div class="treetoggle ' + (node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
             var ul = $('<ul>').appendTo(li).attr('class', node.childlistclass).attr('role', 'group');
             if (node.collapsed)
                 ul.hide();
 
-            for (var i=0; i < node.children.length; i++) {
+            for (var i = 0; i < node.children.length; i++) {
                 node.children[i].level = node.level + 1;
                 render_node(node.children[i], ul);
             }
@@ -775,7 +775,7 @@ function rcube_treelist_widget(node, p)
                 level: level,
                 html: li.children().first().get(0).outerHTML,
                 text: li.children().first().text(),
-                children: walk_list(sublist, level+1)
+                children: walk_list(sublist, level + 1)
             };
 
             if (sublist.length) {
@@ -789,11 +789,11 @@ function rcube_treelist_widget(node, p)
                 state = get_state(node.id, node.collapsed);
                 if (state !== undefined) {
                     node.collapsed = state;
-                    sublist[(state?'hide':'show')]();
+                    sublist[(state ? 'hide' : 'show')]();
                 }
 
                 if (!li.children('div.treetoggle').length)
-                    $('<div class="treetoggle '+(node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
+                    $('<div class="treetoggle ' + (node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
 
                 li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
             }
@@ -805,7 +805,7 @@ function rcube_treelist_widget(node, p)
             li.data('id', node.id);
 
             // declare list item as treeitem
-            li.attr('role', 'treeitem').attr('aria-level', node.level+1);
+            li.attr('role', 'treeitem').attr('aria-level', node.level + 1);
 
             // allow virtual nodes to receive focus
             if (node.virtual) {
@@ -829,7 +829,7 @@ function rcube_treelist_widget(node, p)
         if (node.id) {
             indexbyid[node.id] = node;
         }
-        for (var c=0; node.children && c < node.children.length; c++) {
+        for (var c = 0; node.children && c < node.children.length; c++) {
             index_data(node.children[c]);
         }
     }
@@ -935,7 +935,7 @@ function rcube_treelist_widget(node, p)
                 if (p.keyboard && p.tabexit) {
                     // jump to last/first item to move focus away from the treelist widget by tab
                     var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
-                    focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:'+limit));
+                    focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:' + limit));
                 }
                 break;
         }

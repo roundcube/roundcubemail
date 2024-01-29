@@ -478,7 +478,7 @@ rcube_webmail.prototype.enigma_add_list_row = function (r)
     var list = this.keys_list,
         tbody = this.gui_objects.keyslist.tBodies[0],
         rowcount = tbody.rows.length,
-        even = rowcount%2,
+        even = rowcount % 2,
         // for performance use DOM instead of jQuery here
         row = document.createElement('tr'),
         col = document.createElement('td');

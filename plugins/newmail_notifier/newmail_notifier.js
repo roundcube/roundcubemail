@@ -43,7 +43,7 @@ function newmail_notifier_stop(prop)
 {
     // revert original favicon
     if (rcmail.env.favicon_href && rcmail.env.favicon_changed && (!prop || prop.action != 'check-recent')) {
-        $('<link rel="shortcut icon" href="'+rcmail.env.favicon_href+'"/>').replaceAll('link[rel="shortcut icon"]');
+        $('<link rel="shortcut icon" href="' + rcmail.env.favicon_href + '"/>').replaceAll('link[rel="shortcut icon"]');
         rcmail.env.favicon_changed = 0;
     }
 

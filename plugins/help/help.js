@@ -23,7 +23,7 @@ if (window.rcmail) {
             if (rcmail.task == 'help')  // we're already there
                 return false;
 
-            var url = rcmail.url('help/index', { _rel: rcmail.task + (rcmail.env.action ? '/'+rcmail.env.action : '') });
+            var url = rcmail.url('help/index', { _rel: rcmail.task + (rcmail.env.action ? '/' + rcmail.env.action : '') });
             if (rcmail.env.help_open_extwin) {
                 rcmail.open_window(url, 1020, false);
             }
