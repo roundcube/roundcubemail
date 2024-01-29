@@ -1571,14 +1571,7 @@ function rcube_elastic_ui() {
     function screen_mode() {
         var size, width = $(window).width();
 
-        if (width <= 480)
-        { size = 'phone'; }
-        else if (width > 1200)
-        { size = 'large'; }
-        else if (width > 768)
-        { size = 'normal'; }
-        else
-        { size = 'small'; }
+        if (width <= 480) { size = 'phone'; } else if (width > 1200) { size = 'large'; } else if (width > 768) { size = 'normal'; } else { size = 'small'; }
 
         touch = width <= 1024;
         mode = size;
@@ -3225,10 +3218,7 @@ function rcube_elastic_ui() {
                 recipient.attr('title', name ? (name + email) : null)
                     .append([name_element, email_element, link]);
 
-                if (replace)
-                { replace.replaceWith(recipient); }
-                else
-                { recipient.insertBefore(input.parent()); }
+                if (replace) { replace.replaceWith(recipient); } else { recipient.insertBefore(input.parent()); }
 
                 apply_func();
             },
