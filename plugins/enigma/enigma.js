@@ -35,8 +35,8 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
         }
 
         if (rcmail.env.action == 'plugin.enigmakeys') {
-            rcmail.register_command('search', function(props) {return rcmail.enigma_search(props); }, true);
-            rcmail.register_command('reset-search', function(props) {return rcmail.enigma_search_reset(props); }, true);
+            rcmail.register_command('search', function(props) { return rcmail.enigma_search(props); }, true);
+            rcmail.register_command('reset-search', function(props) { return rcmail.enigma_search_reset(props); }, true);
             rcmail.register_command('plugin.enigma-import', function() { rcmail.enigma_import(); }, true);
             rcmail.register_command('plugin.enigma-import-search', function() { rcmail.enigma_import_search(); }, true);
             rcmail.register_command('plugin.enigma-key-export', function() { rcmail.enigma_export(); });

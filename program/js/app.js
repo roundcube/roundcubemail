@@ -344,7 +344,7 @@ function rcube_webmail()
                             var n, href = this.href, dt = e.originalEvent.dataTransfer;
                             if (dt) {
                                 // inject username to the uri
-                                href = href.replace(/^https?:\/\//, function(m) { return m + urlencode(ref.env.username) + '@';});
+                                href = href.replace(/^https?:\/\//, function(m) { return m + urlencode(ref.env.username) + '@'; });
                                 // cleanup the node to get filename without the size test
                                 n = $(this).clone();
                                 n.children().remove();
@@ -10214,11 +10214,11 @@ rcube_webmail.set_iframe_events = function(events)
         $.each(events, function(event_name, event_handler) {
             frame.on('load', function(e) {
                 try { $(this).contents().on(event_name, event_handler); }
-                catch (e) {/* catch possible permission error in IE */ }
+                catch (e) { /* catch possible permission error in IE */ }
             });
 
             try { frame.contents().on(event_name, event_handler); }
-            catch (e) {/* catch possible permission error in IE */ }
+            catch (e) { /* catch possible permission error in IE */ }
         });
     });
 };

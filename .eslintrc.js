@@ -104,7 +104,6 @@ module.exports = {
         // TODO
         'array-callback-return': 'off', // (7 matches)
         'block-scoped-var': 'off', // (391 matches)
-        'block-spacing': 'off', // (7 matches)
         'brace-style': 'off', // (1139 matches)
         'camelcase': 'off', // (1886 matches)
         'comma-dangle': 'off', // eslint-disable-line no-dupe-keys -- (131 matches)
