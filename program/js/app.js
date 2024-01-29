@@ -376,9 +376,9 @@ function rcube_webmail() {
                             if (contents.find('img').length) {
                                 contents.find('head').append(
                                     '<style type="text/css">'
-                  + 'img { max-width:100%; max-height:100%; } ' // scale
-                  + 'body { display:flex; align-items:center; justify-content:center; height:100%; margin:0; }' // align
-                  + '</style>'
+                                        + 'img { max-width:100%; max-height:100%; } ' // scale
+                                        + 'body { display:flex; align-items:center; justify-content:center; height:100%; margin:0; }' // align
+                                        + '</style>'
                                 );
                             }
                         });
@@ -586,10 +586,10 @@ function rcube_webmail() {
 
         // init treelist widget
         if (this.gui_objects.folderlist && window.rcube_treelist_widget
-      // some plugins may load rcube_treelist_widget and there's one case
-      // when this will cause problems - addressbook widget in compose,
-      // which already has been initialized using rcube_list_widget
-      && this.gui_objects.folderlist != this.gui_objects.addressbookslist
+            // some plugins may load rcube_treelist_widget and there's one case
+            // when this will cause problems - addressbook widget in compose,
+            // which already has been initialized using rcube_list_widget
+            && this.gui_objects.folderlist != this.gui_objects.addressbookslist
         ) {
             this.treelist = new rcube_treelist_widget(this.gui_objects.folderlist, {
                 selectable: true,
@@ -859,7 +859,7 @@ function rcube_webmail() {
                 if (this.env.exists) { this.purge_mailbox(this.env.mailbox); }
                 break;
 
-                // common commands used in multiple tasks
+            // common commands used in multiple tasks
             case 'show':
                 if (this.task == 'mail') {
                     uid = this.get_single_uid();
@@ -930,7 +930,7 @@ function rcube_webmail() {
                 else if (this.task == 'settings') { this.delete_identity(); }
                 break;
 
-                // mail task commands
+            // mail task commands
             case 'move':
             case 'moveto': // deprecated
                 if (this.task == 'mail') { this.move_messages(props, event); } else if (this.task == 'addressbook') { this.move_contacts(props, event); }
@@ -1190,11 +1190,11 @@ function rcube_webmail() {
                 }
                 break;
 
-                // quicksearch
+            // quicksearch
             case 'search':
                 return this.qsearch(props);
 
-                // reset quicksearch
+            // reset quicksearch
             case 'reset-search':
                 var n, s = this.env.search_request || this.env.qsearch;
 
@@ -1317,7 +1317,7 @@ function rcube_webmail() {
                 this.http_request('undo', '', this.display_message('', 'loading'));
                 break;
 
-                // unified command call (command name == function name)
+            // unified command call (command name == function name)
             default:
                 var func = command.replace(/-/g, '_');
                 if (this[func] && typeof this[func] === 'function') {
@@ -1860,7 +1860,7 @@ function rcube_webmail() {
                 t = (win.screenTop || win.screenY) + 20,
                 extwin = window.open(url, wname,
                     'width=' + w + ',height=' + h + ',top=' + t + ',left=' + l + ',resizable=yes,location=no,scrollbars=yes'
-          + (toolbar ? ',toolbar=yes,menubar=yes,status=yes' : ',toolbar=no,menubar=no,status=no'));
+                        + (toolbar ? ',toolbar=yes,menubar=yes,status=yes' : ',toolbar=no,menubar=no,status=no'));
         }
 
         // detect popup blocker (#1489618)
@@ -1971,10 +1971,10 @@ function rcube_webmail() {
             message = this.env.messages[uid],
             msg_id = this.html_identifier(uid, true),
             row_class = 'message'
-        + (!flags.seen ? ' unread' : '')
-        + (flags.deleted ? ' deleted' : '')
-        + (flags.flagged ? ' flagged' : '')
-        + (message.selected ? ' selected' : ''),
+                + (!flags.seen ? ' unread' : '')
+                + (flags.deleted ? ' deleted' : '')
+                + (flags.flagged ? ' flagged' : '')
+                + (message.selected ? ' selected' : ''),
             row = { cols:[], style:{}, id:'rcmrow' + msg_id, uid:uid },
             layout = this.env.msglist_layout,
             listcols = this.env.msglist_cols;
@@ -2047,7 +2047,7 @@ function rcube_webmail() {
                 query = { _mbox: flags.mbox };
             query[uid_param] = uid;
             cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"'
-        + ' onmouseover="rcube_webmail.long_subject_title(this,' + (message.depth + 1) + ')" tabindex="-1"><span>' + cols.subject + '</span></a>';
+                + ' onmouseover="rcube_webmail.long_subject_title(this,' + (message.depth + 1) + ')" tabindex="-1"><span>' + cols.subject + '</span></a>';
         }
 
         // add each submitted col
@@ -3173,7 +3173,7 @@ function rcube_webmail() {
                 // display page selector
                 ref.show_menu('pagejump-selector', true, e);
             })
-        // keyboard navigation
+            // keyboard navigation
             .on('keydown keyup click', function (e) {
                 var current, selector = $('#pagejump-selector'),
                     ul = $('ul', selector),
@@ -3443,7 +3443,7 @@ function rcube_webmail() {
                 // display dialog with missing keys
                 ref.simple_dialog(
                     ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', '))
-            + '<p>' + ref.get_label('searchpubkeyservers') + '</p>',
+                        + '<p>' + ref.get_label('searchpubkeyservers') + '</p>',
                     'encryptedsendialog',
                     function () {
                         ref.mailvelope_search_pubkeys(missing_keys, function () {
@@ -4790,7 +4790,7 @@ function rcube_webmail() {
         if (!att.complete) {
             label = this.get_label('cancel');
             att.html = '<a title="' + label + '" onclick="return rcmail.cancel_attachment_upload(\'' + name + '\');" href="#cancelupload" class="cancelupload">'
-        + (this.env.cancelicon ? '<img src="' + this.env.cancelicon + '" />' : '<span class="inner">' + label + '</span>') + '</a>' + att.html;
+                + (this.env.cancelicon ? '<img src="' + this.env.cancelicon + '" />' : '<span class="inner">' + label + '</span>') + '</a>' + att.html;
         }
 
         li.attr('id', name).addClass(att.classname).html(att.html)
@@ -8272,18 +8272,18 @@ function rcube_webmail() {
     };
 
     /**
-   Send multi-threaded parallel HTTP requests to the server for a list if items.
-   The string '%' in either a GET query or POST parameters will be replaced with the respective item value.
-   This is the argument object expected: {
-       items: ['foo','bar','gna'],      // list of items to send requests for
-       action: 'task/some-action',      // Roundcube action to call
-       query: { q:'%s' },               // GET query parameters
-       postdata: { source:'%s' },       // POST data (sends a POST request if present)
-       threads: 3,                      // max. number of concurrent requests
-       onresponse: function(data){ },   // Callback function called for every response received from server
-       whendone: function(alldata){ }   // Callback function called when all requests have been sent
-   }
-  */
+     Send multi-threaded parallel HTTP requests to the server for a list if items.
+     The string '%' in either a GET query or POST parameters will be replaced with the respective item value.
+     This is the argument object expected: {
+         items: ['foo','bar','gna'],      // list of items to send requests for
+         action: 'task/some-action',      // Roundcube action to call
+         query: { q:'%s' },               // GET query parameters
+         postdata: { source:'%s' },       // POST data (sends a POST request if present)
+         threads: 3,                      // max. number of concurrent requests
+         onresponse: function(data){ },   // Callback function called for every response received from server
+         whendone: function(alldata){ }   // Callback function called when all requests have been sent
+     }
+     */
     this.multi_thread_http_request = function (prop) {
         var i, item, reqid = new Date().getTime(),
             threads = prop.threads || 1;
@@ -8641,8 +8641,8 @@ function rcube_webmail() {
     /********************************************************/
 
     /**
-   * Quote html entities
-   */
+     * Quote html entities
+     */
     this.quote_html = function (str) {
         return String(str).replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     };

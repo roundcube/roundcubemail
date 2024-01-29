@@ -126,7 +126,7 @@ function rcube_treelist_widget(node, p) {
         .on('focusout', function (e) {
             has_focus = false;
         })
-    // register click handlers on list
+        // register click handlers on list
         .on('click', 'div.treetoggle', function (e) {
             toggle(dom2id($(this).parent()));
             e.stopPropagation();
@@ -141,7 +141,7 @@ function rcube_treelist_widget(node, p) {
                 e.stopPropagation();
             }
         })
-    // mute clicks on virtual folder links (they need tabindex="0" in order to be selectable by keyboard)
+        // mute clicks on virtual folder links (they need tabindex="0" in order to be selectable by keyboard)
         .on('mousedown', 'a', function (e) {
             var link = $(e.target), node = indexbyid[dom2id(link.closest('li'))];
             if (node && node.virtual && !link.attr('href')) {
@@ -205,8 +205,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Collapse a the node with the given ID
-   */
+     * Collapse a the node with the given ID
+     */
     function collapse(id, recursive, set) {
         var node;
 
@@ -226,15 +226,15 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Expand a the node with the given ID
-   */
+     * Expand a the node with the given ID
+     */
     function expand(id, recursive) {
         collapse(id, recursive, false);
     }
 
     /**
-   * Toggle collapsed state of a list node
-   */
+     * Toggle collapsed state of a list node
+     */
     function toggle(id, recursive) {
         var node;
         if (node = indexbyid[id]) {
@@ -243,8 +243,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Collapse all expanded nodes
-   */
+     * Collapse all expanded nodes
+     */
     function collapse_all() {
         $.each(indexbyid, function (id, data) {
             if (data.children.length > 0 && !data.collapsed) {
@@ -254,8 +254,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Expand all collapsed nodes
-   */
+     * Expand all collapsed nodes
+     */
     function expand_all() {
         $.each(indexbyid, function (id, data) {
             if (data.children.length > 0 && data.collapsed) {
@@ -265,8 +265,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Select a tree node by it's ID
-   */
+     * Select a tree node by it's ID
+     */
     function select(id) {
     // allow subscribes to prevent selection change
         if (me.triggerEvent('beforeselect', indexbyid[id]) === false) {
@@ -296,37 +296,37 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Getter for the currently selected node ID
-   */
+     * Getter for the currently selected node ID
+     */
     function get_selection() {
         return selection;
     }
 
     /**
-   * Check if given id is selected
-   * This is for consistency with rcube_list_widget
-   */
+     * Check if given id is selected
+     * This is for consistency with rcube_list_widget
+     */
     function in_selection(id) {
         return selection == id;
     }
 
     /**
-   * Return the DOM element of the list item with the given ID
-   */
+     * Return the DOM element of the list item with the given ID
+     */
     function get_node(id) {
         return indexbyid[id];
     }
 
     /**
-   * Return the DOM element of the list item with the given ID
-   */
+     * Return the DOM element of the list item with the given ID
+     */
     function get_item(id, real) {
         return id2dom(id, real).get(0);
     }
 
     /**
-   * Insert the given node
-   */
+     * Insert the given node
+     */
     function insert(node, parent_id, sort) {
         var li, parent_li,
             parent_node = parent_id ? indexbyid[parent_id] : null;
@@ -402,8 +402,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Update properties of an existing node
-   */
+     * Update properties of an existing node
+     */
     function update_node(id, updates, sort) {
         var li, parent_ul, parent_node, old_parent,
             node = indexbyid[id];
@@ -443,8 +443,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Helper method to sort the list of the given item
-   */
+     * Helper method to sort the list of the given item
+     */
     function resort_node(li, filter) {
         var first, sibling,
             myid = li.get(0).id,
@@ -472,8 +472,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Remove the item with the given ID
-   */
+     * Remove the item with the given ID
+     */
     function remove(id) {
         var node, li, parent;
 
@@ -506,15 +506,15 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * (Re-)read tree data from DOM
-   */
+     * (Re-)read tree data from DOM
+     */
     function update_data() {
         data = walk_list(container, 0);
     }
 
     /**
-   * Apply the 'collapsed' status of the data node to the corresponding DOM element(s)
-   */
+     * Apply the 'collapsed' status of the data node to the corresponding DOM element(s)
+     */
     function update_dom(node) {
         var li = id2dom(node.id, true);
         li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
@@ -524,8 +524,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   *
-   */
+     *
+     */
     function reset(keep_content, keep_selection) {
         if (!keep_selection) { select(''); }
 
@@ -553,8 +553,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   *
-   */
+     *
+     */
     function search(q, enter) {
         q = String(q).toLowerCase();
 
@@ -574,7 +574,7 @@ function rcube_treelist_widget(node, p) {
                         .attr('id', li.attr('id') + '--xsR')
                         .attr('class', li.attr('class'))
                         .addClass('searchresult__')
-                    // append all elements like links and inputs, but not sub-trees
+                        // append all elements like links and inputs, but not sub-trees
                         .append(li.children(':not(div.treetoggle,ul)').clone(true, true))
                         .appendTo(container);
 
@@ -614,8 +614,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   *
-   */
+     *
+     */
     function reset_search(nosel) {
         if (searchfield) { searchfield.val(''); }
 
@@ -631,15 +631,15 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   *
-   */
+     *
+     */
     function is_search() {
         return search_active;
     }
 
     /**
-   * Render the tree list from the internal data structure
-   */
+     * Render the tree list from the internal data structure
+     */
     function render() {
         if (me.triggerEvent('renderBefore', data) === false) { return; }
 
@@ -656,8 +656,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Render a specific node into the DOM list
-   */
+     * Render a specific node into the DOM list
+     */
     function render_node(node, parent, replace) {
         if (node.deleted) { return; }
 
@@ -696,9 +696,9 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Recursively walk the DOM tree and build an internal data structure
-   * representing the skeleton of this tree list.
-   */
+     * Recursively walk the DOM tree and build an internal data structure
+     * representing the skeleton of this tree list.
+     */
     function walk_list(ul, level) {
         var result = [];
         ul.children('li').each(function (i, e) {
@@ -755,8 +755,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Recursively walk the data tree and index nodes by their ID
-   */
+     * Recursively walk the data tree and index nodes by their ID
+     */
     function index_data(node) {
         if (node.id) {
             indexbyid[node.id] = node;
@@ -767,16 +767,16 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Get the (stripped) node ID from the given DOM element
-   */
+     * Get the (stripped) node ID from the given DOM element
+     */
     function dom2id(li) {
         var domid = String(li.attr('id')).replace(new RegExp('^' + (p.id_prefix) || '%'), '').replace(/--xsR$/, '');
         return p.id_decode ? p.id_decode(domid) : domid;
     }
 
     /**
-   * Get the <li> element for the given node ID
-   */
+     * Get the <li> element for the given node ID
+     */
     function id2dom(id, real) {
         var domid = p.id_encode ? p.id_encode(id) : id,
             suffix = search_active && !real ? '--xsR' : '';
@@ -785,8 +785,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Scroll the parent container to make the given list item visible
-   */
+     * Scroll the parent container to make the given list item visible
+     */
     function scroll_to_node(li) {
         var scroller = container.parent(),
             current_offset = scroller.scrollTop(),
@@ -796,8 +796,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Save node collapse state to localStorage
-   */
+     * Save node collapse state to localStorage
+     */
     function save_state(id, collapsed) {
         if (p.save_state && window.rcmail) {
             var key = 'treelist-' + list_id;
@@ -813,8 +813,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Read node collapse state from localStorage
-   */
+     * Read node collapse state from localStorage
+     */
     function get_state(id) {
         if (p.save_state && window.rcmail) {
             if (!tree_state) {
@@ -825,8 +825,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Handler for keyboard events on treelist
-   */
+     * Handler for keyboard events on treelist
+     */
     function keypress(e) {
         var target = e.target || {},
             keyCode = rcube_event.get_keycode(e);
@@ -889,8 +889,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Focus the given element without scrolling the list container
-   */
+     * Focus the given element without scrolling the list container
+     */
     function focus_noscroll(elem) {
         if (elem.length) {
             var frame = container.parent().get(0) || { scrollTop:0 },
@@ -947,9 +947,9 @@ function rcube_treelist_widget(node, p) {
     ///// drag & drop support
 
     /**
-   * When dragging starts, compute absolute bounding boxes of the list and it's items
-   * for faster comparisons while mouse is moving
-   */
+     * When dragging starts, compute absolute bounding boxes of the list and it's items
+     * for faster comparisons while mouse is moving
+     */
     function drag_start(force) {
         if (!force && drag_active) { return; }
 
@@ -1016,8 +1016,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Signal that dragging has stopped
-   */
+     * Signal that dragging has stopped
+     */
     function drag_end() {
         container.parent().off('.treelist');
         $('li.droptarget', container).removeClass('droptarget');
@@ -1035,8 +1035,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Scroll list container in the given direction
-   */
+     * Scroll list container in the given direction
+     */
     function drag_scroll(dir) {
         if (!drag_active) { return; }
 
@@ -1049,8 +1049,8 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Determine if the given mouse coords intersect the list and one of its items
-   */
+     * Determine if the given mouse coords intersect the list and one of its items
+     */
     function intersects(mouse, highlight) {
     // offsets to compensate for scrolling while dragging a message
         var boffset = bw.ie ? -document.documentElement.scrollTop : body_scroll_top,
@@ -1110,10 +1110,10 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Wrapper for jQuery.UI.droppable() activation on this widget
-   *
-   * @param object Options as passed to regular .droppable() function
-   */
+     * Wrapper for jQuery.UI.droppable() activation on this widget
+     *
+     * @param object Options as passed to regular .droppable() function
+     */
     function droppable(opts) {
         if (!opts) { opts = {}; }
 
@@ -1157,10 +1157,10 @@ function rcube_treelist_widget(node, p) {
     }
 
     /**
-   * Wrapper for jQuery.UI.draggable() activation on this widget
-   *
-   * @param object Options as passed to regular .draggable() function
-   */
+     * Wrapper for jQuery.UI.draggable() activation on this widget
+     *
+     * @param object Options as passed to regular .draggable() function
+     */
     function draggable(opts) {
         if (!opts) { opts = {}; }
 

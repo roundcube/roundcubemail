@@ -111,32 +111,32 @@ function roundcube_browser() {
 var rcube_event = {
 
     /**
- * returns the event target element
- */
+     * returns the event target element
+     */
     get_target: function (e) {
         e = e || window.event;
         return e && e.target ? e.target : e.srcElement || document;
     },
 
     /**
- * returns the event key code
- */
+     * returns the event key code
+     */
     get_keycode: function (e) {
         e = e || window.event;
         return e && e.keyCode ? e.keyCode : (e && e.which ? e.which : 0);
     },
 
     /**
- * returns the event key code
- */
+     * returns the event key code
+     */
     get_button: function (e) {
         e = e || window.event;
         return e && e.button !== undefined ? e.button : (e && e.which ? e.which : 0);
     },
 
     /**
- * returns modifier key (constants defined at top of file)
- */
+     * returns modifier key (constants defined at top of file)
+     */
     get_modifier: function (e) {
         var opcode = 0;
         e = e || window.event;
@@ -147,8 +147,8 @@ var rcube_event = {
     },
 
     /**
- * Return absolute mouse position of an event
- */
+     * Return absolute mouse position of an event
+     */
     get_mouse_pos: function (e) {
         if (!e) { e = window.event; }
         var mX = (e.pageX) ? e.pageX : e.clientX,
@@ -168,8 +168,8 @@ var rcube_event = {
     },
 
     /**
- * Add an object method as event listener to a certain element
- */
+     * Add an object method as event listener to a certain element
+     */
     add_listener: function (p) {
         if (!p.object || !p.method) // not enough arguments
         { return; }
@@ -189,8 +189,8 @@ var rcube_event = {
     },
 
     /**
- * Remove event listener
- */
+     * Remove event listener
+     */
     remove_listener: function (p) {
         if (!p.element) { p.element = document; }
 
@@ -201,8 +201,8 @@ var rcube_event = {
     },
 
     /**
- * Prevent event propagation and bubbling
- */
+     * Prevent event propagation and bubbling
+     */
     cancel: function (evt) {
         var e = evt ? evt : window.event;
 
@@ -216,8 +216,8 @@ var rcube_event = {
     },
 
     /**
- * Determine whether the given event was triggered from keyboard
- */
+     * Determine whether the given event was triggered from keyboard
+     */
     is_keyboard: function (e) {
         if (!e) { return false; }
 
@@ -231,8 +231,8 @@ var rcube_event = {
     },
 
     /**
- * Accept event if triggered from keyboard action (e.g. <Enter>)
- */
+     * Accept event if triggered from keyboard action (e.g. <Enter>)
+     */
     keyboard_only: function (e) {
         return rcube_event.is_keyboard(e) ? true : rcube_event.cancel(e);
     },
@@ -254,11 +254,11 @@ function rcube_event_engine() {
 rcube_event_engine.prototype = {
 
     /**
- * Setter for object event handlers
- *
- * @param {String}   Event name
- * @param {Function} Handler function
- */
+     * Setter for object event handlers
+     *
+     * @param {String}   Event name
+     * @param {Function} Handler function
+     */
     addEventListener: function (evt, func, obj) {
         if (!this._events) { this._events = {}; }
         if (!this._events[evt]) { this._events[evt] = []; }
@@ -269,11 +269,11 @@ rcube_event_engine.prototype = {
     },
 
     /**
- * Removes a specific event listener
- *
- * @param {String} Event name
- * @param {Int}    Listener ID to remove
- */
+     * Removes a specific event listener
+     *
+     * @param {String} Event name
+     * @param {Int}    Listener ID to remove
+     */
     removeEventListener: function (evt, func, obj) {
         if (obj === undefined) { obj = window; }
 
@@ -283,11 +283,11 @@ rcube_event_engine.prototype = {
     },
 
     /**
- * This will execute all registered event handlers
- *
- * @param {String} Event to trigger
- * @param {Object} Event object/arguments
- */
+     * This will execute all registered event handlers
+     *
+     * @param {String} Event to trigger
+     * @param {Object} Event object/arguments
+     */
     triggerEvent: function (evt, e) {
         var ret, h,
             reset_fn = function (o) {
@@ -631,17 +631,17 @@ var Base64 = (function () {
                 if (isNaN(chr2)) { enc3 = enc4 = 64; } else if (isNaN(chr3)) { enc4 = 64; }
 
                 output = output
-          + keyStr.charAt(enc1) + keyStr.charAt(enc2)
-          + keyStr.charAt(enc3) + keyStr.charAt(enc4);
+                    + keyStr.charAt(enc1) + keyStr.charAt(enc2)
+                    + keyStr.charAt(enc3) + keyStr.charAt(enc4);
             }
 
             return output;
         },
 
         /**
-     * Decodes a base64 string.
-     * @param {String} input The string to decode.
-     */
+         * Decodes a base64 string.
+         * @param {String} input The string to decode.
+         */
         decode: function (input) {
             if (typeof (window.atob) === 'function') {
                 try {

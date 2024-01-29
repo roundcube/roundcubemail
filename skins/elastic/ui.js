@@ -2375,12 +2375,12 @@ function rcube_elastic_ui() {
                     switch (e.originalEvent.which) {
                         case 13:
                         case 32:
-                        // Open the popup on ENTER or SPACE
+                            // Open the popup on ENTER or SPACE
                             e.preventDefault();
                             $(this).data('event', 'key').popover('toggle');
                             break;
                         case 27:
-                        // Close the popup on ESC key
+                            // Close the popup on ESC key
                             $(this).popover('hide');
                             break;
                     }
@@ -3032,8 +3032,8 @@ function rcube_elastic_ui() {
         var record,
             menu = $('<div class="menu listing-hover-menu">'
                 + '<span class="txt"></span>'
-            //    + '<a class="button read" data-flag="read" title="' + rcmail.gettext('markasread') + '"></a>'
-            //    + '<a class="button unread d-none" data-flag="unread" title="' + rcmail.gettext('markasunread') + '"></a>'
+                // + '<a class="button read" data-flag="read" title="' + rcmail.gettext('markasread') + '"></a>'
+                // + '<a class="button unread d-none" data-flag="unread" title="' + rcmail.gettext('markasunread') + '"></a>'
                 + '<a class="button flag" data-flag="flagged" title="' + rcmail.gettext('markasflagged') + '"></a>'
                 + '<a class="button unflag d-none" data-flag="unflagged" title="' + rcmail.gettext('markasunflagged') + '"></a>'
                 + '<a class="button delete" data-flag="delete" title="' + rcmail.gettext('deletemessage') + '"></a>'

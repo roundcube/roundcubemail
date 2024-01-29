@@ -50,7 +50,7 @@ function rcube_text_editor(config, id) {
             // toolbar_sticky: true, // does not work in scrollable element: https://github.com/tinymce/tinymce/issues/5227
             toolbar_drawer: 'sliding',
             toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
-        + ' | $font | forecolor backcolor',
+                + ' | $font | forecolor backcolor',
             extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
             // Allow style tag, have to be allowed inside body/div/blockquote (#7088)
             valid_children: '+body[style],+blockquote[style],+div[style]',
@@ -109,7 +109,7 @@ function rcube_text_editor(config, id) {
         + ' | link unlink table | $extra charmap image media | code searchreplace undo redo',
         $.extend(conf, {
             plugins: 'autolink charmap code directionality link lists image media nonbreaking'
-        + ' paste table tabfocus searchreplace spellchecker',
+                + ' paste table tabfocus searchreplace spellchecker',
             spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
             spellchecker_language: rcmail.env.spell_lang
         });

@@ -261,7 +261,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
             break;
 
-            // Update filter row
+        // Update filter row
         case 'update':
             var i, row = $('#rcmrow' + this.managesieve_rowid(o.id));
 
@@ -272,7 +272,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
             break;
 
-            // Add filter row to the list
+        // Add filter row to the list
         case 'add':
             var list = this.filters_list,
                 row = $('<tr><td class="name"></td></tr>');
@@ -289,7 +289,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
             break;
 
-            // Filling rules list
+        // Filling rules list
         case 'list':
             var i, tr, td, el, list = this.filters_list;
 
@@ -313,7 +313,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
             break;
 
-            // Activate/Deactivate the set
+        // Activate/Deactivate the set
         case 'setact':
             var id = this.managesieve_setid(o.name), row = $('#rcmrow' + id);
             if (o.active) {
@@ -323,7 +323,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
             break;
 
-            // Delete set row
+        // Delete set row
         case 'setdel':
             var id = this.managesieve_setid(o.name);
 
@@ -336,7 +336,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             delete this.env.filtersets[id];
             break;
 
-            // Create set row
+        // Create set row
         case 'setadd':
             var id = 'S' + new Date().getTime(),
                 list = this.filtersets_list,
@@ -410,7 +410,7 @@ rcube_webmail.prototype.managesieve_dragend = function (e) {
 
             this.show_contentframe(false);
             this.http_post('plugin.managesieve-action', '_act=move&_fid=' + this.drag_filter
-        + '&_to=' + this.drag_filter_target, lock);
+                + '&_to=' + this.drag_filter_target, lock);
         }
         this.drag_active = false;
     }

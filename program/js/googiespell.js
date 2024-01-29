@@ -863,14 +863,15 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     // modified by roundcube
         if (window.rcmail) { this.rc_msg_id = rcmail.set_busy(true, 'checking'); }
         /*
-    this.indicator = document.createElement('img');
-    $(this.indicator).attr('src', this.img_dir + 'indicator.gif')
-        .css({'margin-right': '5px', 'text-decoration': 'none'}).width(16).height(16);
+        this.indicator = document.createElement('img');
+        $(this.indicator).attr('src', this.img_dir + 'indicator.gif')
+            .css({'margin-right': '5px', 'text-decoration': 'none'}).width(16).height(16);
 
-    if (elm)
-        $(this.indicator).insertBefore(elm);
-    else
-        $('body').append(this.indicator);
+        if (elm) {
+            $(this.indicator).insertBefore(elm);
+        } else {
+            $('body').append(this.indicator);
+        }
 */
     };
 
