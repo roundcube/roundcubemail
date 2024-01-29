@@ -2898,7 +2898,7 @@ function rcube_elastic_ui()
         }
 
         if (!elem.checked) {
-            delete(m[elem.value]);
+            delete (m[elem.value]);
         }
         else {
             m[elem.value] = 1;

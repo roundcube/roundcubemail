@@ -732,7 +732,7 @@ var Base64 = (function () {
             // encode UTF8 as btoa() may fail on some characters
             input = utf8_encode(input);
 
-            if (typeof(window.btoa) === 'function') {
+            if (typeof (window.btoa) === 'function') {
                 try {
                     return btoa(input);
                 }
@@ -769,7 +769,7 @@ var Base64 = (function () {
      * @param {String} input The string to decode.
      */
         decode: function (input) {
-            if (typeof(window.atob) === 'function') {
+            if (typeof (window.atob) === 'function') {
                 try {
                     return utf8_decode(atob(input));
                 }

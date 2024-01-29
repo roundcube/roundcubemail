@@ -826,7 +826,7 @@ rcube_list_widget.prototype = {
                             }
                         }
                         else
-                            if (row && (! p || p.depth <= depth))
+                            if (row && (!p || p.depth <= depth))
                                 break;
                     }
                 }

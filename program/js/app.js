@@ -163,7 +163,7 @@ function rcube_webmail()
             $.each(ref.menu_buttons, function () {
                 var disabled = true;
                 $.each(this[1], function () {
-                    var is_func = typeof(this) == 'function';
+                    var is_func = typeof (this) == 'function';
                     if ((is_func && this()) || (!is_func && ref.commands[this])) {
                         return disabled = false;
                     }
@@ -3407,7 +3407,7 @@ function rcube_webmail()
     // build post data for message delete/move/copy/flag requests
     this.selection_post_data = function (data)
     {
-        if (!data || typeof(data) != 'object')
+        if (!data || typeof (data) != 'object')
             data = {};
 
         if (!data._uid)

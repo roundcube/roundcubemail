@@ -146,7 +146,7 @@ rcube_webmail.prototype.managesieve_select = function (list)
         this.load_managesieveframe('_fid=' + id);
     }
 
-    var has_id = typeof(id) != 'undefined' && id != null;
+    var has_id = typeof (id) != 'undefined' && id != null;
 
     this.enable_command('plugin.managesieve-act', has_id);
     this.enable_command('plugin.managesieve-del', has_id && $.inArray('delete_filter', rcmail.env.managesieve_disabled_actions) == -1);
