@@ -113,6 +113,9 @@ function rcube_elastic_ui()
     // Update layout after initialization
     resize();
 
+    // change direction
+    changeDirection();
+
 
     /**
      * Setup procedure
@@ -2962,6 +2965,7 @@ function rcube_elastic_ui()
             lang = rcmail.spellcheck_lang(),
             ul = $('ul', obj);
 
+
         if (!ul.length) {
             ul = $('<ul class="selectable listing iconized" role="menu">');
 
@@ -4403,6 +4407,14 @@ function rcube_elastic_ui()
         if (!rcmail.local_storage_set_item('prefs.elastic', prefs)) {
             // store value in cookie
             rcmail.set_cookie(key, val, false);
+        }
+    };
+
+    function changeDirection() {
+        lang = rcmail.env.locale;
+        if (lang == 'fa_IR'){
+            parent.document.documentElement.className += ' rtl'
+            document.documentElement.className += ' rtl'
         }
     };
 }
