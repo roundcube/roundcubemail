@@ -15,12 +15,18 @@
  * for the JavaScript code in this file.
  */
 
-if (window.rcmail) { rcmail.addEventListener('init', function () { hide_blockquote(); }); }
+if (window.rcmail) {
+    rcmail.addEventListener('init', function () {
+        hide_blockquote();
+    });
+}
 
 function hide_blockquote() {
     var limit = rcmail.env.blockquote_limit;
 
-    if (limit <= 0) { return; }
+    if (limit <= 0) {
+        return;
+    }
 
     $('div.message-part div.pre > blockquote', $('#messagebody')).each(function () {
         var res, text, div, link, q = $(this);
@@ -36,7 +42,9 @@ function hide_blockquote() {
         if (res.length <= limit) {
             // there can be also a block with very long wrapped line
             // assume line height = 15px
-            if (q.height() <= limit * 15) { return; }
+            if (q.height() <= limit * 15) {
+                return;
+            }
         }
 
         div = $('<blockquote class="blockquote-header">')

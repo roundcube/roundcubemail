@@ -16,12 +16,16 @@
  */
 
 function rcmail_archive(prop) {
-    if (rcmail_is_archive()) { return; }
+    if (rcmail_is_archive()) {
+        return;
+    }
 
     var post_data = rcmail.selection_post_data();
 
     // exit if selection is empty
-    if (!post_data._uid) { return; }
+    if (!post_data._uid) {
+        return;
+    }
 
     // Disable message command buttons until a message is selected
     rcmail.enable_command(rcmail.env.message_commands, false);
@@ -57,17 +61,25 @@ if (window.rcmail) {
         var li;
         if (rcmail.env.archive_folder) {
             // in Settings > Folders
-            if (rcmail.subscription_list) { li = rcmail.subscription_list.get_item(rcmail.env.archive_folder); }
+            if (rcmail.subscription_list) {
+                li = rcmail.subscription_list.get_item(rcmail.env.archive_folder);
+            }
             // in folders list
-            else { li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true); }
+            else {
+                li = rcmail.get_folder_li(rcmail.env.archive_folder, '', true);
+            }
 
-            if (li) { $(li).addClass('archive'); }
+            if (li) {
+                $(li).addClass('archive');
+            }
 
             // in folder selector popup
             rcmail.addEventListener('menu-open', function (p) {
                 if (p.name == 'folder-selector') {
                     var search = rcmail.env.archive_folder;
-                    $('a', p.obj).filter(function () { return $(this).data('id') == search; }).parent().addClass('archive');
+                    $('a', p.obj).filter(function () {
+                        return $(this).data('id') == search;
+                    }).parent().addClass('archive');
                 }
             });
         }

@@ -21,7 +21,9 @@ if (window.rcmail) {
         // catch clicks to help task button
         if (prop == 'help') {
             if (rcmail.task == 'help') // we're already there
-            { return false; }
+            {
+                return false;
+            }
 
             var url = rcmail.url('help/index', { _rel: rcmail.task + (rcmail.env.action ? '/' + rcmail.env.action : '') });
             if (rcmail.env.help_open_extwin) {

@@ -17,9 +17,15 @@
 
 window.rcmail && rcmail.addEventListener('init', function (evt) {
     // register additional actions
-    rcmail.register_command('download-eml', function () { rcmail_zipdownload('eml'); });
-    rcmail.register_command('download-mbox', function () { rcmail_zipdownload('mbox'); });
-    rcmail.register_command('download-maildir', function () { rcmail_zipdownload('maildir'); });
+    rcmail.register_command('download-eml', function () {
+        rcmail_zipdownload('eml');
+    });
+    rcmail.register_command('download-mbox', function () {
+        rcmail_zipdownload('mbox');
+    });
+    rcmail.register_command('download-maildir', function () {
+        rcmail_zipdownload('maildir');
+    });
 
     // commands status
     rcmail.message_list && rcmail.message_list.addEventListener('select', function (list) {
@@ -75,7 +81,9 @@ function rcmail_zipdownload(mode) {
 
         $.each(post, function (k, v) {
             if (typeof v == 'object' && v.length > 1) {
-                for (var j = 0; j < v.length; j++) { inputs.push($('<input>').attr({ type: 'hidden', name: k + '[]', value: v[j] })); }
+                for (var j = 0; j < v.length; j++) {
+                    inputs.push($('<input>').attr({ type: 'hidden', name: k + '[]', value: v[j] }));
+                }
             } else {
                 inputs.push($('<input>').attr({ type: 'hidden', name: k, value: v }));
             }

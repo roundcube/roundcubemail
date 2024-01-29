@@ -75,14 +75,32 @@ function roundcube_browser() {
     }
 
     if (!this.vendver) {
-        if (this.ie) { pattern = /(msie|rv)(\s|:)([0-9\.]+)/; } else if (this.edge) { pattern = /(edge?)(\/)([0-9\.]+)/; } else if (this.opera) { pattern = /(opera|opr)(\/)([0-9\.]+)/; } else if (this.konq) { pattern = /(konqueror)(\/)([0-9\.]+)/; } else if (this.safari) { pattern = /(version)(\/)([0-9\.]+)/; } else if (this.chrome) { pattern = /(chrome)(\/)([0-9\.]+)/; } else if (this.mz) { pattern = /(firefox)(\/)([0-9\.]+)/; } else { pattern = /(khtml|safari|applewebkit|rv)(\s|\/|:)([0-9\.]+)/; }
+        if (this.ie) {
+            pattern = /(msie|rv)(\s|:)([0-9\.]+)/;
+        } else if (this.edge) {
+            pattern = /(edge?)(\/)([0-9\.]+)/;
+        } else if (this.opera) {
+            pattern = /(opera|opr)(\/)([0-9\.]+)/;
+        } else if (this.konq) {
+            pattern = /(konqueror)(\/)([0-9\.]+)/;
+        } else if (this.safari) {
+            pattern = /(version)(\/)([0-9\.]+)/;
+        } else if (this.chrome) {
+            pattern = /(chrome)(\/)([0-9\.]+)/;
+        } else if (this.mz) {
+            pattern = /(firefox)(\/)([0-9\.]+)/;
+        } else {
+            pattern = /(khtml|safari|applewebkit|rv)(\s|\/|:)([0-9\.]+)/;
+        }
 
         // common version strings
         this.vendver = pattern.test(this.agent_lc) ? parseFloat(RegExp.$3) : 0;
     }
 
     // get real language out of safari's user agent
-    if (this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc))) { this.lang = RegExp.$1; }
+    if (this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc))) {
+        this.lang = RegExp.$1;
+    }
 
     this.mobile = /iphone|ipod|blackberry|iemobile|opera mini|opera mobi|mobile/i.test(this.agent_lc);
     this.tablet = !this.mobile && /ipad|android|xoom|sch-i800|playbook|tablet|kindle/i.test(this.agent_lc);
@@ -95,14 +113,42 @@ function roundcube_browser() {
     this.set_html_class = function () {
         var classname = ' js';
 
-        if (this.ie) { classname += ' ms ie ie' + parseInt(this.vendver); } else if (this.edge && this.vendver > 74) { classname += ' chrome'; } else if (this.edge) { classname += ' ms edge'; } else if (this.opera) { classname += ' opera'; } else if (this.konq) { classname += ' konqueror'; } else if (this.safari) { classname += ' chrome'; } else if (this.chrome) { classname += ' chrome'; } else if (this.mz) { classname += ' mozilla'; }
+        if (this.ie) {
+            classname += ' ms ie ie' + parseInt(this.vendver);
+        } else if (this.edge && this.vendver > 74) {
+            classname += ' chrome';
+        } else if (this.edge) {
+            classname += ' ms edge';
+        } else if (this.opera) {
+            classname += ' opera';
+        } else if (this.konq) {
+            classname += ' konqueror';
+        } else if (this.safari) {
+            classname += ' chrome';
+        } else if (this.chrome) {
+            classname += ' chrome';
+        } else if (this.mz) {
+            classname += ' mozilla';
+        }
 
-        if (this.iphone) { classname += ' iphone'; } else if (this.ipad) { classname += ' ipad'; } else if (this.webkit) { classname += ' webkit'; }
+        if (this.iphone) {
+            classname += ' iphone';
+        } else if (this.ipad) {
+            classname += ' ipad';
+        } else if (this.webkit) {
+            classname += ' webkit';
+        }
 
-        if (this.mobile) { classname += ' mobile'; }
-        if (this.tablet) { classname += ' tablet'; }
+        if (this.mobile) {
+            classname += ' mobile';
+        }
+        if (this.tablet) {
+            classname += ' tablet';
+        }
 
-        if (document.documentElement) { document.documentElement.className += classname; }
+        if (document.documentElement) {
+            document.documentElement.className += classname;
+        }
     };
 }
 
@@ -141,7 +187,11 @@ var rcube_event = {
         var opcode = 0;
         e = e || window.event;
 
-        if (bw.mac && e) { opcode += (e.metaKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY); } else if (e) { opcode += (e.ctrlKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY); }
+        if (bw.mac && e) {
+            opcode += (e.metaKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
+        } else if (e) {
+            opcode += (e.ctrlKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
+        }
 
         return opcode;
     },
@@ -150,7 +200,9 @@ var rcube_event = {
      * Return absolute mouse position of an event
      */
     get_mouse_pos: function (e) {
-        if (!e) { e = window.event; }
+        if (!e) {
+            e = window.event;
+        }
         var mX = (e.pageX) ? e.pageX : e.clientX,
             mY = (e.pageY) ? e.pageY : e.clientY;
 
@@ -172,31 +224,53 @@ var rcube_event = {
      */
     add_listener: function (p) {
         if (!p.object || !p.method) // not enough arguments
-        { return; }
-        if (!p.element) { p.element = document; }
+        {
+            return;
+        }
+        if (!p.element) {
+            p.element = document;
+        }
 
-        if (!p.object._rc_events) { p.object._rc_events = {}; }
+        if (!p.object._rc_events) {
+            p.object._rc_events = {};
+        }
 
         var key = p.event + '*' + p.method;
-        if (!p.object._rc_events[key]) { p.object._rc_events[key] = function (e) { return p.object[p.method](e); }; }
+        if (!p.object._rc_events[key]) {
+            p.object._rc_events[key] = function (e) {
+                return p.object[p.method](e);
+            };
+        }
 
-        if (p.element.addEventListener) { p.element.addEventListener(p.event, p.object._rc_events[key], false); } else if (p.element.attachEvent) {
+        if (p.element.addEventListener) {
+            p.element.addEventListener(p.event, p.object._rc_events[key], false);
+        } else if (p.element.attachEvent) {
             // IE allows multiple events with the same function to be applied to the same object
             // forcibly detach the event, then attach
             p.element.detachEvent('on' + p.event, p.object._rc_events[key]);
             p.element.attachEvent('on' + p.event, p.object._rc_events[key]);
-        } else { p.element['on' + p.event] = p.object._rc_events[key]; }
+        } else {
+            p.element['on' + p.event] = p.object._rc_events[key];
+        }
     },
 
     /**
      * Remove event listener
      */
     remove_listener: function (p) {
-        if (!p.element) { p.element = document; }
+        if (!p.element) {
+            p.element = document;
+        }
 
         var key = p.event + '*' + p.method;
         if (p.object && p.object._rc_events && p.object._rc_events[key]) {
-            if (p.element.removeEventListener) { p.element.removeEventListener(p.event, p.object._rc_events[key], false); } else if (p.element.detachEvent) { p.element.detachEvent('on' + p.event, p.object._rc_events[key]); } else { p.element['on' + p.event] = null; }
+            if (p.element.removeEventListener) {
+                p.element.removeEventListener(p.event, p.object._rc_events[key], false);
+            } else if (p.element.detachEvent) {
+                p.element.detachEvent('on' + p.event, p.object._rc_events[key]);
+            } else {
+                p.element['on' + p.event] = null;
+            }
         }
     },
 
@@ -206,9 +280,15 @@ var rcube_event = {
     cancel: function (evt) {
         var e = evt ? evt : window.event;
 
-        if (e.preventDefault) { e.preventDefault(); } else { e.returnValue = false; }
+        if (e.preventDefault) {
+            e.preventDefault();
+        } else {
+            e.returnValue = false;
+        }
 
-        if (e.stopPropagation) { e.stopPropagation(); }
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        }
 
         e.cancelBubble = true;
 
@@ -219,12 +299,16 @@ var rcube_event = {
      * Determine whether the given event was triggered from keyboard
      */
     is_keyboard: function (e) {
-        if (!e) { return false; }
+        if (!e) {
+            return false;
+        }
 
         // DOM3-compatible
         // An event invoked by pressing Enter on a link will produce a 'click' event,
         // so we have to extend the check, e.g. with use of e.clientX.
-        if (e.type) { return !!e.type.match(/^key/) || (e.type == 'click' && !e.clientX); }
+        if (e.type) {
+            return !!e.type.match(/^key/) || (e.type == 'click' && !e.clientX);
+        }
 
         // Old browsers
         return !e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0;
@@ -260,8 +344,12 @@ rcube_event_engine.prototype = {
      * @param {Function} Handler function
      */
     addEventListener: function (evt, func, obj) {
-        if (!this._events) { this._events = {}; }
-        if (!this._events[evt]) { this._events[evt] = []; }
+        if (!this._events) {
+            this._events = {};
+        }
+        if (!this._events[evt]) {
+            this._events[evt] = [];
+        }
 
         this._events[evt].push({ func:func, obj:obj ? obj : window });
 
@@ -275,10 +363,14 @@ rcube_event_engine.prototype = {
      * @param {Int}    Listener ID to remove
      */
     removeEventListener: function (evt, func, obj) {
-        if (obj === undefined) { obj = window; }
+        if (obj === undefined) {
+            obj = window;
+        }
 
         for (var h, i = 0; this._events && this._events[evt] && i < this._events[evt].length; i++) {
-            if ((h = this._events[evt][i]) && h.func == func && h.obj == obj) { this._events[evt][i] = null; }
+            if ((h = this._events[evt][i]) && h.func == func && h.obj == obj) {
+                this._events[evt][i] = null;
+            }
         }
     },
 
@@ -291,21 +383,37 @@ rcube_event_engine.prototype = {
     triggerEvent: function (evt, e) {
         var ret, h,
             reset_fn = function (o) {
-                try { if (o && o.event) { delete o.event; } } catch(err) { }
+                try {
+                    if (o && o.event) {
+                        delete o.event;
+                    }
+                } catch(err) { }
             };
 
-        if (e === undefined) { e = this; } else if (typeof e === 'object') { e.event = evt; }
+        if (e === undefined) {
+            e = this;
+        } else if (typeof e === 'object') {
+            e.event = evt;
+        }
 
-        if (!this._event_exec) { this._event_exec = {}; }
+        if (!this._event_exec) {
+            this._event_exec = {};
+        }
 
         if (this._events && this._events[evt] && !this._event_exec[evt]) {
             this._event_exec[evt] = true;
             for (var i = 0; i < this._events[evt].length; i++) {
                 if ((h = this._events[evt][i])) {
-                    if (typeof h.func === 'function') { ret = h.func.call ? h.func.call(h.obj, e) : h.func(e); } else if (typeof h.obj[h.func] === 'function') { ret = h.obj[h.func](e); }
+                    if (typeof h.func === 'function') {
+                        ret = h.func.call ? h.func.call(h.obj, e) : h.func(e);
+                    } else if (typeof h.obj[h.func] === 'function') {
+                        ret = h.obj[h.func](e);
+                    }
 
                     // cancel event execution
-                    if (ret !== undefined && !ret) { break; }
+                    if (ret !== undefined && !ret) {
+                        break;
+                    }
                 }
             }
             reset_fn(ret);
@@ -324,9 +432,13 @@ rcube_event_engine.prototype = {
 // By Cal Henderson <cal@iamcal.com>
 // http://code.iamcal.com/php/rfc822/
 function rcube_check_email(input, inline, count, strict) {
-    if (!input) { return count ? 0 : false; }
+    if (!input) {
+        return count ? 0 : false;
+    }
 
-    if (count) { inline = true; }
+    if (count) {
+        inline = true;
+    }
 
     var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]',
         dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]',
@@ -376,7 +488,11 @@ function rcube_clone_object(obj) {
     var out = {};
 
     for (var key in obj) {
-        if (obj[key] && typeof obj[key] === 'object') { out[key] = rcube_clone_object(obj[key]); } else { out[key] = obj[key]; }
+        if (obj[key] && typeof obj[key] === 'object') {
+            out[key] = rcube_clone_object(obj[key]);
+        } else {
+            out[key] = obj[key];
+        }
     }
 
     return out;
@@ -397,27 +513,45 @@ function urlencode(str) {
 function rcube_find_object(id, d) {
     var n, f, obj, e;
 
-    if (!d) { d = document; }
-
-    if (d.getElementById) {
-        if (obj = d.getElementById(id)) { return obj; }
+    if (!d) {
+        d = document;
     }
 
-    if (!obj && d.getElementsByName && (e = d.getElementsByName(id))) { obj = e[0]; }
+    if (d.getElementById) {
+        if (obj = d.getElementById(id)) {
+            return obj;
+        }
+    }
 
-    if (!obj && d.all) { obj = d.all[id]; }
+    if (!obj && d.getElementsByName && (e = d.getElementsByName(id))) {
+        obj = e[0];
+    }
 
-    if (!obj && d.images.length) { obj = d.images[id]; }
+    if (!obj && d.all) {
+        obj = d.all[id];
+    }
+
+    if (!obj && d.images.length) {
+        obj = d.images[id];
+    }
 
     if (!obj && d.forms.length) {
         for (f = 0; f < d.forms.length; f++) {
-            if (d.forms[f].name == id) { obj = d.forms[f]; } else if(d.forms[f].elements[id]) { obj = d.forms[f].elements[id]; }
+            if (d.forms[f].name == id) {
+                obj = d.forms[f];
+            } else if(d.forms[f].elements[id]) {
+                obj = d.forms[f].elements[id];
+            }
         }
     }
 
     if (!obj && d.layers) {
-        if (d.layers[id]) { obj = d.layers[id]; }
-        for (n = 0; !obj && n < d.layers.length; n++) { obj = rcube_find_object(id, d.layers[n].document); }
+        if (d.layers[id]) {
+            obj = d.layers[id];
+        }
+        for (n = 0; !obj && n < d.layers.length; n++) {
+            obj = rcube_find_object(id, d.layers[n].document);
+        }
     }
 
     return obj;
@@ -451,13 +585,17 @@ function getCookie(name) {
 
     if (begin == -1) {
         begin = dc.indexOf(prefix);
-        if (begin != 0) { return null; }
+        if (begin != 0) {
+            return null;
+        }
     } else {
         begin += 2;
     }
 
     var end = dc.indexOf(';', begin);
-    if (end == -1) { end = dc.length; }
+    if (end == -1) {
+        end = dc.length;
+    }
 
     return unescape(dc.substring(begin + prefix.length, end));
 }
@@ -527,12 +665,16 @@ jQuery.fn.placeholder = function (text) {
 
 // function to parse query string into an object
 var rcube_parse_query = function (query) {
-    if (!query) { return {}; }
+    if (!query) {
+        return {};
+    }
 
     var params = {}, e, k, v,
         re = /([^&=]+)=?([^&]*)/g,
         decodeRE = /\+/g, // Regex for replacing addition symbol with a space
-        decode = function (str) { return decodeURIComponent(str.replace(decodeRE, ' ')); };
+        decode = function (str) {
+            return decodeURIComponent(str.replace(decodeRE, ' '));
+        };
 
     query = query.replace(/\?/, '');
 
@@ -543,7 +685,9 @@ var rcube_parse_query = function (query) {
         if (k.substring(k.length - 2) === '[]') {
             k = k.substring(0, k.length - 2);
             (params[k] || (params[k] = [])).push(v);
-        } else { params[k] = v; }
+        } else {
+            params[k] = v;
+        }
     }
 
     return params;
@@ -628,7 +772,11 @@ var Base64 = (function () {
                 enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
                 enc4 = chr3 & 63;
 
-                if (isNaN(chr2)) { enc3 = enc4 = 64; } else if (isNaN(chr3)) { enc4 = 64; }
+                if (isNaN(chr2)) {
+                    enc3 = enc4 = 64;
+                } else if (isNaN(chr3)) {
+                    enc4 = 64;
+                }
 
                 output = output
                     + keyStr.charAt(enc1) + keyStr.charAt(enc2)
@@ -667,8 +815,12 @@ var Base64 = (function () {
 
                 output = output + String.fromCharCode(chr1);
 
-                if (enc3 != 64) { output = output + String.fromCharCode(chr2); }
-                if (enc4 != 64) { output = output + String.fromCharCode(chr3); }
+                if (enc3 != 64) {
+                    output = output + String.fromCharCode(chr2);
+                }
+                if (enc4 != 64) {
+                    output = output + String.fromCharCode(chr3);
+                }
             }
 
             return utf8_decode(output);

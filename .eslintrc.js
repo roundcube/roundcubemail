@@ -27,6 +27,7 @@ module.exports = {
             objects: 'always-multiline',
         }],
         'consistent-return': 'off',
+        'brace-style': ['error', '1tbs'],
         curly: ['error', 'all'],
         'default-case': 'off',
         'func-names': 'off',

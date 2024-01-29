@@ -43,7 +43,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
     this.array_keys = function (arr) {
         var res = [];
-        for (var key in arr) { res.push([key]); }
+        for (var key in arr) {
+            res.push([key]);
+        }
         return res;
     };
 
@@ -106,7 +108,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     // Set document's onclick to hide the language and error menu
     $(document).click(function (e) {
         var target = $(e.target);
-        if (target.attr('googie_action_btn') != '1' && ref.isErrorWindowShown()) { ref.hideErrorWindow(); }
+        if (target.attr('googie_action_btn') != '1' && ref.isErrorWindowShown()) {
+            ref.hideErrorWindow();
+        }
     });
 
 
@@ -189,7 +193,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     /////
     this.setStateChanged = function (current_state) {
         this.state = current_state;
-        if (this.spelling_state_observer != null && this.report_state_change) { this.spelling_state_observer(current_state, this); }
+        if (this.spelling_state_observer != null && this.report_state_change) {
+            this.spelling_state_observer(current_state, this);
+        }
     };
 
     this.setReportStateChange = function (bool) {
@@ -236,7 +242,11 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             success: function (data) {
                 ref.processData(data);
                 if (!ref.results.length) {
-                    if (!ref.custom_no_spelling_error) { ref.flashNoSpellingErrorState(); } else { ref.custom_no_spelling_error(ref); }
+                    if (!ref.custom_no_spelling_error) {
+                        ref.flashNoSpellingErrorState();
+                    } else {
+                        ref.custom_no_spelling_error(ref);
+                    }
                 }
                 ref.removeIndicator();
             }
@@ -272,7 +282,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         this.setStateChanged('checking_spell');
         this.original_text = '';
 
-        if (!no_indicator && this.main_controller) { this.appendIndicator(this.spell_span); }
+        if (!no_indicator && this.main_controller) {
+            this.appendIndicator(this.spell_span);
+        }
 
         this.error_links = [];
         this.ta_scroll_top = this.text_area.scrollTop;
@@ -281,7 +293,11 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         var area = $(this.text_area);
 
         if (area.val() == '' || ignore) {
-            if (!this.custom_no_spelling_error) { this.flashNoSpellingErrorState(); } else { this.custom_no_spelling_error(this); }
+            if (!this.custom_no_spelling_error) {
+                this.flashNoSpellingErrorState();
+            } else {
+                this.custom_no_spelling_error(this);
+            }
             this.removeIndicator();
             return;
         }
@@ -293,7 +309,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         $('body').append(this.error_window);
 
-        if (this.main_controller) { $(this.spell_span).off('click'); }
+        if (this.main_controller) {
+            $(this.spell_span).off('click');
+        }
 
         this.original_text = area.val();
     };
@@ -305,7 +323,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             matched_c = r_text.match(/<c[^>]*>[^<]*<\/c>/g),
             results = [];
 
-        if (matched_c == null) { return results; }
+        if (matched_c == null) {
+            return results;
+        }
 
         for (var i = 0, len = matched_c.length; i < len; i++) {
             var item = [];
@@ -326,7 +346,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             var only_text = matched_c[i].replace(/<[^>]*>/g, ''),
                 split_t = only_text.split(re_split_text);
             for (var k = 0; k < split_t.length; k++) {
-                if(split_t[k] != '') { item['suggestions'].push(split_t[k]); }
+                if(split_t[k] != '') {
+                    item['suggestions'].push(split_t[k]);
+                }
             }
             results.push(item);
         }
@@ -368,7 +390,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         $(this.text_area).val(this.original_text);
         for (var j = 0, len = this.results.length; j < len; j++) {
         // Don't edit the offset of the current item
-            if (j != id && j > id) { this.results[j]['attrs']['o'] += add_2_offset; }
+            if (j != id && j > id) {
+                this.results[j]['attrs']['o'] += add_2_offset;
+            }
         }
     };
 
@@ -402,7 +426,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         this.results[id]['attrs']['l'] = new_value.length;
 
-        if (!this.isDefined(elm.old_value)) { this.saveOldValue(elm, old_value); }
+        if (!this.isDefined(elm.old_value)) {
+            this.saveOldValue(elm, old_value);
+        }
 
         this.errorFixed();
     };
@@ -414,7 +440,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     };
 
     this.showErrorWindow = function (elm, id) {
-        if (this.show_menu_observer) { this.show_menu_observer(this); }
+        if (this.show_menu_observer) {
+            this.show_menu_observer(this);
+        }
 
         var ref = this,
             pos = $(elm).offset(),
@@ -448,7 +476,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             dummy = $('<a>').html(suggestions[i]).addClass('active');
 
             $('<li>').mouseover(this.item_onmouseover).mouseout(this.item_onmouseout)
-                .click(function (e) { ref.correctError(id, elm, e.target.firstChild); })
+                .click(function (e) {
+                    ref.correctError(id, elm, e.target.firstChild);
+                })
                 .append(dummy)
                 .appendTo(list);
         }
@@ -477,7 +507,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         var onsub = function () {
             if (edit_input.value != '') {
-                if (!ref.isDefined(elm.old_value)) { ref.saveOldValue(elm, elm.innerHTML); }
+                if (!ref.isDefined(elm.old_value)) {
+                    ref.saveOldValue(elm, elm.innerHTML);
+                }
 
                 ref.updateOriginalText(offset, elm.innerHTML, edit_input.value, id);
                 $(elm).attr('is_corrected', true).css('color', 'green').text(edit_input.value);
@@ -488,7 +520,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         $(edit_input).width(120).val($(elm).text()).attr('googie_action_btn', '1');
         $(edit_row).css('cursor', 'default').attr('googie_action_btn', '1')
-            .on('click', function () { return false; });
+            .on('click', function () {
+                return false;
+            });
 
         // roundcube modified image use
         if (this.use_ok_pic) {
@@ -512,7 +546,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         list.appendChild(edit_row);
 
         // Append extra menu items
-        if (this.extra_menu_items.length > 0) { list.appendChild(this.createListSeparator()); }
+        if (this.extra_menu_items.length > 0) {
+            list.appendChild(this.createListSeparator());
+        }
 
         var loop = function (i) {
             if (i < ref.extra_menu_items.length) {
@@ -525,7 +561,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                     $(e_col).html(e_elm[0])
                         .mouseover(ref.item_onmouseover)
                         .mouseout(ref.item_onmouseout)
-                        .click(function () { return e_elm[1](elm, ref); });
+                        .click(function () {
+                            return e_elm[1](elm, ref);
+                        });
 
                     e_row.appendChild(e_col);
                     list.appendChild(e_row);
@@ -555,8 +593,12 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             top = pos.top + height + 20 < pageheight ? pos.top + 20 : pos.top - height,
             left = pos.left + width < pagewidth ? pos.left : pos.left - width;
 
-        if (left < 0) { left = 0; }
-        if (top < 0) { top = 0; }
+        if (left < 0) {
+            left = 0;
+        }
+        if (top < 0) {
+            top = 0;
+        }
 
         $(this.error_window).css({ 'top': top + 'px', 'left': left + 'px', position: 'absolute' }).show();
 
@@ -610,11 +652,15 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     this.resumeEditing = function () {
         this.setStateChanged('ready');
 
-        if (this.edit_layer) { this.el_scroll_top = this.edit_layer.scrollTop; }
+        if (this.edit_layer) {
+            this.el_scroll_top = this.edit_layer.scrollTop;
+        }
 
         this.hideErrorWindow();
 
-        if (this.main_controller) { $(this.spell_span).removeClass().addClass('googie_no_style'); }
+        if (this.main_controller) {
+            $(this.spell_span).removeClass().addClass('googie_no_style');
+        }
 
         if (!this.ignore) {
             if (this.use_focus) {
@@ -625,7 +671,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             $(this.edit_layer).remove();
             $(this.text_area).show();
 
-            if (this.el_scroll_top != undefined) { this.text_area.scrollTop = this.el_scroll_top; }
+            if (this.el_scroll_top != undefined) {
+                this.text_area.scrollTop = this.el_scroll_top;
+            }
         }
         this.checkSpellingState(false);
     };
@@ -646,7 +694,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     };
 
     this.createPart = function (txt_part) {
-        if (txt_part == ' ') { return document.createTextNode(' '); }
+        if (txt_part == ' ') {
+            return document.createTextNode(' ');
+        }
 
         txt_part = this.escapeSpecial(txt_part);
         txt_part = txt_part.replace(/\n/g, '<br>');
@@ -686,12 +736,18 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                 part_2 = this.createPart(part_2_text);
 
             output.appendChild(part_2);
-        } else { output.innerHTML = this.original_text; }
+        } else {
+            output.innerHTML = this.original_text;
+        }
 
         $(output).css('text-align', 'left');
 
         var me = this;
-        if (this.custom_item_evaluator) { $.map(this.error_links, function (elm) { me.custom_item_evaluator(me, elm); }); }
+        if (this.custom_item_evaluator) {
+            $.map(this.error_links, function (elm) {
+                me.custom_item_evaluator(me, elm);
+            });
+        }
 
         $(this.edit_layer).append(output);
 
@@ -715,7 +771,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     };
 
     this.highlightCurSel = function () {
-        if (GOOGIE_CUR_LANG == null) { GOOGIE_CUR_LANG = GOOGIE_DEFAULT_LANG; }
+        if (GOOGIE_CUR_LANG == null) {
+            GOOGIE_CUR_LANG = GOOGIE_DEFAULT_LANG;
+        }
         for (var i = 0; i < this.lang_elms.length; i++) {
             if ($(this.lang_elms[i]).attr('googieId') == GOOGIE_CUR_LANG) {
                 this.lang_elms[i].className = 'googie_list_selected';
@@ -753,7 +811,11 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                     ref.checkSpellingState();
                 };
                 no_spell_errors = fn;
-            } else { no_spell_errors = function () { ref.checkSpellingState(); }; }
+            } else {
+                no_spell_errors = function () {
+                    ref.checkSpellingState();
+                };
+            }
 
             var rsm = $('<span>').text(this.lang_no_error_found);
 
@@ -775,23 +837,35 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
             $(this.switch_lan_pic).hide();
             $(this.spell_span).empty().off().append(rsm)
-                .click(function () { ref.resumeEditing(); })
+                .click(function () {
+                    ref.resumeEditing();
+                })
                 .removeClass().addClass('googie_resume_editing');
         }
 
-        try { this.edit_layer.scrollTop = this.ta_scroll_top; } catch (e) {}
+        try {
+            this.edit_layer.scrollTop = this.ta_scroll_top;
+        } catch (e) {}
     };
 
     this.checkSpellingState = function (fire) {
-        if (fire) { this.setStateChanged('ready'); }
+        if (fire) {
+            this.setStateChanged('ready');
+        }
 
         this.switch_lan_pic = document.createElement('span');
 
         var span_chck = this.createSpellDiv(),
             ref = this;
 
-        if (this.custom_spellcheck_starter) { $(span_chck).click(function (e) { ref.custom_spellcheck_starter(); }); } else {
-            $(span_chck).click(function (e) { ref.spellCheck(); });
+        if (this.custom_spellcheck_starter) {
+            $(span_chck).click(function (e) {
+                ref.custom_spellcheck_starter();
+            });
+        } else {
+            $(span_chck).click(function (e) {
+                ref.spellCheck();
+            });
         }
 
         if (this.main_controller) {
@@ -856,12 +930,16 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     this.removeIndicator = function (elm) {
     //$(this.indicator).remove();
     // roundcube mod.
-        if (window.rcmail) { rcmail.set_busy(false, null, this.rc_msg_id); }
+        if (window.rcmail) {
+            rcmail.set_busy(false, null, this.rc_msg_id);
+        }
     };
 
     this.appendIndicator = function (elm) {
     // modified by roundcube
-        if (window.rcmail) { this.rc_msg_id = rcmail.set_busy(true, 'checking'); }
+        if (window.rcmail) {
+            this.rc_msg_id = rcmail.set_busy(true, 'checking');
+        }
         /*
         this.indicator = document.createElement('img');
         $(this.indicator).attr('src', this.img_dir + 'indicator.gif')
@@ -882,10 +960,18 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     };
 
     this.item_onmouseover = function (e) {
-        if (this.className != 'googie_list_revert' && this.className != 'googie_list_close') { this.className = 'googie_list_onhover'; } else { this.parentNode.className = 'googie_list_onhover'; }
+        if (this.className != 'googie_list_revert' && this.className != 'googie_list_close') {
+            this.className = 'googie_list_onhover';
+        } else {
+            this.parentNode.className = 'googie_list_onhover';
+        }
     };
 
     this.item_onmouseout = function (e) {
-        if (this.className != 'googie_list_revert' && this.className != 'googie_list_close') { this.className = 'googie_list_onout'; } else { this.parentNode.className = 'googie_list_onout'; }
+        if (this.className != 'googie_list_revert' && this.className != 'googie_list_close') {
+            this.className = 'googie_list_onout';
+        } else {
+            this.parentNode.className = 'googie_list_onout';
+        }
     };
 }

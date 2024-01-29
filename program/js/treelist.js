@@ -47,7 +47,9 @@ function rcube_treelist_widget(node, p) {
         keyboard: true,
         tabexit: true,
         parent_focus: false,
-        check_droptarget: function (node) { return !node.virtual; }
+        check_droptarget: function (node) {
+            return !node.virtual;
+        }
     }, p || {});
 
     var container = $(node),
@@ -107,11 +109,17 @@ function rcube_treelist_widget(node, p) {
     /////// startup code (constructor)
 
     // abort if node not found
-    if (!container.length) { return; }
+    if (!container.length) {
+        return;
+    }
 
-    if (p.data) { index_data({ children:data }); }
+    if (p.data) {
+        index_data({ children:data });
+    }
     // load data from DOM
-    else { update_data(); }
+    else {
+        update_data();
+    }
 
     // scroll to the selected item
     if (selection) {
@@ -133,11 +141,15 @@ function rcube_treelist_widget(node, p) {
         })
         .on('click', 'li', function (e) {
             // do not select record on checkbox/input click
-            if ($(e.target).is('input')) { return true; }
+            if ($(e.target).is('input')) {
+                return true;
+            }
 
             var node = p.selectable ? indexbyid[dom2id($(this))] : null;
             if (node) {
-                if (!node.virtual) { select(node.id); }
+                if (!node.virtual) {
+                    select(node.id);
+                }
                 e.stopPropagation();
             }
         })
@@ -194,7 +206,9 @@ function rcube_treelist_widget(node, p) {
     if (p.parent_focus) {
         container.parent(':not(body)').click(function (e) {
             // click on a checkbox does not catch the focus
-            if ($(e.target).is('input')) { return true; }
+            if ($(e.target).is('input')) {
+                return true;
+            }
 
             if (!has_focus && selection) {
                 $(get_item(selection)).find(':focusable').first().focus();
@@ -275,11 +289,15 @@ function rcube_treelist_widget(node, p) {
 
         if (selection) {
             id2dom(selection, true).removeClass('selected').removeAttr('aria-selected');
-            if (search_active) { id2dom(selection).removeClass('selected').removeAttr('aria-selected'); }
+            if (search_active) {
+                id2dom(selection).removeClass('selected').removeAttr('aria-selected');
+            }
             selection = null;
         }
 
-        if (!id) { return; }
+        if (!id) {
+            return;
+        }
 
         var li = id2dom(id, true);
         if (li.length) {
@@ -287,7 +305,9 @@ function rcube_treelist_widget(node, p) {
             selection = id;
             // TODO: expand all parent nodes if collapsed
 
-            if (search_active) { id2dom(id).addClass('selected').attr('aria-selected', 'true'); }
+            if (search_active) {
+                id2dom(id).addClass('selected').attr('aria-selected', 'true');
+            }
 
             scroll_to_node(li);
         }
@@ -347,10 +367,14 @@ function rcube_treelist_widget(node, p) {
         if (parent_node) {
             node.level = parent_node.level + 1;
 
-            if (!parent_node.children) { parent_node.children = []; } else {
+            if (!parent_node.children) {
+                parent_node.children = [];
+            } else {
                 // Remove deleted nodes from the parent to make sure re-rendering below
                 // happens when adding a new child to a parent with all nodes removed
-                parent_node.children = parent_node.children.filter(function (node) { return !node.deleted; });
+                parent_node.children = parent_node.children.filter(function (node) {
+                    return !node.deleted;
+                });
             }
 
             search_active = false;
@@ -416,12 +440,16 @@ function rcube_treelist_widget(node, p) {
                 if (updates.parent && (parent_node = indexbyid[updates.parent])) {
                     // remove reference from old parent's child list
                     if (parent_ul.closest('li').length && (old_parent = indexbyid[dom2id(parent_ul.closest('li'))])) {
-                        old_parent.children = $.grep(old_parent.children, function (elem, i) { return elem.id != node.id; });
+                        old_parent.children = $.grep(old_parent.children, function (elem, i) {
+                            return elem.id != node.id;
+                        });
                     }
 
                     // append to new parent node
                     parent_ul = id2dom(updates.parent).children('ul').first();
-                    if (!parent_node.children) { parent_node.children = []; }
+                    if (!parent_node.children) {
+                        parent_node.children = [];
+                    }
                     parent_node.children.push(node);
                 } else if (updates.parent !== undefined) {
                     parent_ul = container;
@@ -451,7 +479,9 @@ function rcube_treelist_widget(node, p) {
             sortname = li.children().first().text().toUpperCase();
 
         li.parent().children('li' + filter).each(function (i, elem) {
-            if (i == 0) { first = elem; }
+            if (i == 0) {
+                first = elem;
+            }
             if (elem.id == myid) {
                 // skip
             } else if (elem.id != myid && sortname >= $(elem).children().first().text().toUpperCase()) {
@@ -527,7 +557,9 @@ function rcube_treelist_widget(node, p) {
      *
      */
     function reset(keep_content, keep_selection) {
-        if (!keep_selection) { select(''); }
+        if (!keep_selection) {
+            select('');
+        }
 
         data = [];
         indexbyid = {};
@@ -535,12 +567,16 @@ function rcube_treelist_widget(node, p) {
 
         if (keep_content) {
             if (draggable_opts) {
-                if (ui_draggable) { draggable('destroy'); }
+                if (ui_draggable) {
+                    draggable('destroy');
+                }
                 draggable(draggable_opts);
             }
 
             if (droppable_opts) {
-                if (ui_droppable) { droppable('destroy'); }
+                if (ui_droppable) {
+                    droppable('destroy');
+                }
                 droppable(droppable_opts);
             }
 
@@ -558,7 +594,11 @@ function rcube_treelist_widget(node, p) {
     function search(q, enter) {
         q = String(q).toLowerCase();
 
-        if (!q.length) { return reset_search(); } else if (q == last_search && !enter) { return 0; }
+        if (!q.length) {
+            return reset_search();
+        } else if (q == last_search && !enter) {
+            return 0;
+        }
 
         var hits = [];
         var search_tree = function (items) {
@@ -568,7 +608,9 @@ function rcube_treelist_widget(node, p) {
                     li = id2dom(node.id);
 
                     // skip already filtered nodes
-                    if (li.data('filtered')) { return; }
+                    if (li.data('filtered')) {
+                        return;
+                    }
 
                     sli = $('<li>')
                         .attr('id', li.attr('id') + '--xsR')
@@ -617,17 +659,23 @@ function rcube_treelist_widget(node, p) {
      *
      */
     function reset_search(nosel) {
-        if (searchfield) { searchfield.val(''); }
+        if (searchfield) {
+            searchfield.val('');
+        }
 
         $(container).children('li.searchresult__').remove();
-        $(container).children('li').filter(function () { return !$(this).data('filtered'); }).show();
+        $(container).children('li').filter(function () {
+            return !$(this).data('filtered');
+        }).show();
 
         search_active = false;
 
         me.triggerEvent('search', { query: false, last: last_search });
         last_search = '';
 
-        if (selection && !nosel) { select(selection); }
+        if (selection && !nosel) {
+            select(selection);
+        }
     }
 
     /**
@@ -641,7 +689,9 @@ function rcube_treelist_widget(node, p) {
      * Render the tree list from the internal data structure
      */
     function render() {
-        if (me.triggerEvent('renderBefore', data) === false) { return; }
+        if (me.triggerEvent('renderBefore', data) === false) {
+            return;
+        }
 
         // remove all child nodes
         container.html('');
@@ -659,7 +709,9 @@ function rcube_treelist_widget(node, p) {
      * Render a specific node into the DOM list
      */
     function render_node(node, parent, replace) {
-        if (node.deleted) { return; }
+        if (node.deleted) {
+            return;
+        }
 
         var li = $('<li>')
             .attr('id', p.id_prefix + (p.id_encode ? p.id_encode(node.id) : node.id))
@@ -669,22 +721,38 @@ function rcube_treelist_widget(node, p) {
 
         if (replace) {
             replace.replaceWith(li);
-            if (parent) { li.appendTo(parent); }
-        } else { li.appendTo(parent); }
+            if (parent) {
+                li.appendTo(parent);
+            }
+        } else {
+            li.appendTo(parent);
+        }
 
-        if (typeof node.html == 'string') { li.html(node.html); } else if (typeof node.html == 'object') { li.append(node.html); }
+        if (typeof node.html == 'string') {
+            li.html(node.html);
+        } else if (typeof node.html == 'object') {
+            li.append(node.html);
+        }
 
-        if (!node.text) { node.text = li.children().first().text(); }
+        if (!node.text) {
+            node.text = li.children().first().text();
+        }
 
-        if (node.virtual) { li.addClass('virtual'); }
-        if (node.id == selection) { li.addClass('selected'); }
+        if (node.virtual) {
+            li.addClass('virtual');
+        }
+        if (node.id == selection) {
+            li.addClass('selected');
+        }
 
         // add child list and toggle icon
         if (node.children && node.children.length) {
             li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
             $('<div class="treetoggle ' + (node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
             var ul = $('<ul>').appendTo(li).attr('class', node.childlistclass).attr('role', 'group');
-            if (node.collapsed) { ul.hide(); }
+            if (node.collapsed) {
+                ul.hide();
+            }
 
             for (var i = 0; i < node.children.length; i++) {
                 node.children[i].level = node.level + 1;
@@ -717,7 +785,9 @@ function rcube_treelist_widget(node, p) {
                 node.childlistclass = sublist.attr('class');
             }
             if (node.children.length) {
-                if (node.collapsed === undefined) { node.collapsed = sublist.css('display') == 'none'; }
+                if (node.collapsed === undefined) {
+                    node.collapsed = sublist.css('display') == 'none';
+                }
 
                 // apply saved state
                 state = get_state(node.id, node.collapsed);
@@ -726,7 +796,9 @@ function rcube_treelist_widget(node, p) {
                     sublist[(state ? 'hide' : 'show')]();
                 }
 
-                if (!li.children('div.treetoggle').length) { $('<div class="treetoggle ' + (node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li); }
+                if (!li.children('div.treetoggle').length) {
+                    $('<div class="treetoggle ' + (node.collapsed ? 'collapsed' : 'expanded') + '">&nbsp;</div>').appendTo(li);
+                }
 
                 li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
             }
@@ -792,7 +864,9 @@ function rcube_treelist_widget(node, p) {
             current_offset = scroller.scrollTop(),
             rel_offset = li.offset().top - scroller.offset().top;
 
-        if (rel_offset < 0 || rel_offset + li.height() > scroller.height()) { scroller.scrollTop(rel_offset + current_offset); }
+        if (rel_offset < 0 || rel_offset + li.height() > scroller.height()) {
+            scroller.scrollTop(rel_offset + current_offset);
+        }
     }
 
     /**
@@ -831,7 +905,9 @@ function rcube_treelist_widget(node, p) {
         var target = e.target || {},
             keyCode = rcube_event.get_keycode(e);
 
-        if (!has_focus || target.nodeName == 'INPUT' && keyCode != 38 && keyCode != 40 || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT') { return true; }
+        if (!has_focus || target.nodeName == 'INPUT' && keyCode != 38 && keyCode != 40 || target.nodeName == 'TEXTAREA' || target.nodeName == 'SELECT') {
+            return true;
+        }
 
         switch (keyCode) {
             case 38:
@@ -850,7 +926,9 @@ function rcube_treelist_widget(node, p) {
                 if (li.length) {
                     id = dom2id(li);
                     node = indexbyid[id];
-                    if (node && node.children.length && node.collapsed != (keyCode == 37)) { toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY); } // toggle subtree
+                    if (node && node.children.length && node.collapsed != (keyCode == 37)) {
+                        toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY);
+                    } // toggle subtree
                 }
                 return false;
 
@@ -951,7 +1029,9 @@ function rcube_treelist_widget(node, p) {
      * for faster comparisons while mouse is moving
      */
     function drag_start(force) {
-        if (!force && drag_active) { return; }
+        if (!force && drag_active) {
+            return;
+        }
 
         drag_active = true;
 
@@ -1000,7 +1080,11 @@ function rcube_treelist_widget(node, p) {
                 }
 
                 if (drag_active && scroll != 0) {
-                    if (!scroll_timer) { scroll_timer = setTimeout(function () { drag_scroll(scroll); }, p.scroll_delay); }
+                    if (!scroll_timer) {
+                        scroll_timer = setTimeout(function () {
+                            drag_scroll(scroll);
+                        }, p.scroll_delay);
+                    }
                 } else if (scroll_timer) {
                     window.clearTimeout(scroll_timer);
                     scroll_timer = null;
@@ -1022,7 +1106,9 @@ function rcube_treelist_widget(node, p) {
         container.parent().off('.treelist');
         $('li.droptarget', container).removeClass('droptarget');
 
-        if (!drag_active) { return; }
+        if (!drag_active) {
+            return;
+        }
 
         drag_active = false;
         scroll_timer = null;
@@ -1038,14 +1124,20 @@ function rcube_treelist_widget(node, p) {
      * Scroll list container in the given direction
      */
     function drag_scroll(dir) {
-        if (!drag_active) { return; }
+        if (!drag_active) {
+            return;
+        }
 
         var old_top = list_scroll_top;
         container.parent().get(0).scrollTop += p.scroll_step * dir;
         list_scroll_top = container.parent().scrollTop();
         scroll_timer = null;
 
-        if (list_scroll_top != old_top) { scroll_timer = setTimeout(function () { drag_scroll(dir); }, p.scroll_speed); }
+        if (list_scroll_top != old_top) {
+            scroll_timer = setTimeout(function () {
+                drag_scroll(dir);
+            }, p.scroll_speed);
+        }
     }
 
     /**
@@ -1062,7 +1154,9 @@ function rcube_treelist_widget(node, p) {
         // no intersection with list bounding box
         if (mouse.x < box_coords.x1 || mouse.x >= box_coords.x2 || mouse.top < box_coords.y1 || mouse.top >= box_coords.y2) {
             // TODO: optimize performance for this operation
-            if (highlight) { $('li.droptarget', container).removeClass('droptarget'); }
+            if (highlight) {
+                $('li.droptarget', container).removeClass('droptarget');
+            }
             return result;
         }
 
@@ -1075,14 +1169,18 @@ function rcube_treelist_widget(node, p) {
 
                 // if the folder is collapsed, expand it after the configured time
                 if (node.children && node.children.length && node.collapsed && p.autoexpand && autoexpand_item != id) {
-                    if (autoexpand_timer) { clearTimeout(autoexpand_timer); }
+                    if (autoexpand_timer) {
+                        clearTimeout(autoexpand_timer);
+                    }
 
                     autoexpand_item = id;
                     autoexpand_timer = setTimeout(function () {
                         expand(autoexpand_item);
                         drag_start(true); // re-calculate item coords
                         autoexpand_item = null;
-                        if (ui_droppable) { $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null); }
+                        if (ui_droppable) {
+                            $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
+                        }
                     }, p.autoexpand);
                 } else if (autoexpand_timer && autoexpand_item != id) {
                     clearTimeout(autoexpand_timer);
@@ -1115,7 +1213,9 @@ function rcube_treelist_widget(node, p) {
      * @param object Options as passed to regular .droppable() function
      */
     function droppable(opts) {
-        if (!opts) { opts = {}; }
+        if (!opts) {
+            opts = {};
+        }
 
         if ($.type(opts) == 'string') {
             if (opts == 'destroy') {
@@ -1137,18 +1237,24 @@ function rcube_treelist_widget(node, p) {
         my_opts.activate = function (e, ui) {
             drag_start();
             ui_droppable = ui;
-            if (opts.activate) { opts.activate(e, ui); }
+            if (opts.activate) {
+                opts.activate(e, ui);
+            }
         };
 
         my_opts.deactivate = function (e, ui) {
             drag_end();
             ui_droppable = null;
-            if (opts.deactivate) { opts.deactivate(e, ui); }
+            if (opts.deactivate) {
+                opts.deactivate(e, ui);
+            }
         };
 
         my_opts.over = function (e, ui) {
             intersects(rcube_event.get_mouse_pos(e), false);
-            if (opts.over) { opts.over(e, ui); }
+            if (opts.over) {
+                opts.over(e, ui);
+            }
         };
 
         $('li:not(.virtual)', container).droppable(my_opts);
@@ -1162,7 +1268,9 @@ function rcube_treelist_widget(node, p) {
      * @param object Options as passed to regular .draggable() function
      */
     function draggable(opts) {
-        if (!opts) { opts = {}; }
+        if (!opts) {
+            opts = {};
+        }
 
         if ($.type(opts) == 'string') {
             if (opts == 'destroy') {
@@ -1180,7 +1288,9 @@ function rcube_treelist_widget(node, p) {
             iframeFix: true,
             addClasses: false,
             cursorAt: { left: -20, top: 5 },
-            create: function (e, ui) { ui_draggable = ui; },
+            create: function (e, ui) {
+                ui_draggable = ui;
+            },
             helper: function (e) {
                 return $('<div>').attr('id', 'rcmdraglayer')
                     .text($(e.target).first().text().trim());

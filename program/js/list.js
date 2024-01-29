@@ -78,7 +78,9 @@ function rcube_list_widget(list, p) {
 
     // overwrite default parameters
     if (p && typeof p === 'object') {
-        for (var n in p) { this[n] = p[n]; }
+        for (var n in p) {
+            this[n] = p[n];
+        }
     }
 
     // register this instance
@@ -102,7 +104,9 @@ rcube_list_widget.prototype = {
 
         if ($(this.list).attr('role') == 'listbox') {
             this.aria_listbox = true;
-            if (this.multiselect) { $(this.list).attr('aria-multiselectable', 'true'); }
+            if (this.multiselect) {
+                $(this.list).attr('aria-multiselectable', 'true');
+            }
         }
 
         var me = this;
@@ -114,7 +118,9 @@ rcube_list_widget.prototype = {
             var r, len, rows = this.tbody.childNodes;
 
             for (r = 0, len = rows.length; r < len; r++) {
-                if (rows[r].nodeType == 1) { this.rowcount += this.init_row(rows[r]) ? 1 : 0; }
+                if (rows[r].nodeType == 1) {
+                    this.rowcount += this.init_row(rows[r]) ? 1 : 0;
+                }
             }
 
             this.init_header();
@@ -126,12 +132,16 @@ rcube_list_widget.prototype = {
 
                 // allow the table element to receive focus.
                 $(this.list).attr('tabindex', '0')
-                    .on('focus', function (e) { me.focus(e); });
+                    .on('focus', function (e) {
+                        me.focus(e);
+                    });
             }
         }
 
         if (this.parent_focus) {
-            this.list.parentNode.onclick = function (e) { me.focus(); };
+            this.list.parentNode.onclick = function (e) {
+                me.focus();
+            };
         }
 
         rcmail.triggerEvent('initlist', { obj: this.list });
@@ -153,9 +163,15 @@ rcube_list_widget.prototype = {
 
             $(row).data('uid', uid)
             // set eventhandlers to table row (only left-button-clicks in mouseup)
-                .mousedown(function (e) { return self.drag_row(e, this.uid); })
+                .mousedown(function (e) {
+                    return self.drag_row(e, this.uid);
+                })
                 .mouseup(function (e) {
-                    if (e.which == 1 && !self.drag_active && !$(e.currentTarget).is('.ui-droppable-active')) { return self.click_row(e, this.uid); } else { return true; }
+                    if (e.which == 1 && !self.drag_active && !$(e.currentTarget).is('.ui-droppable-active')) {
+                        return self.click_row(e, this.uid);
+                    } else {
+                        return true;
+                    }
                 });
 
             // for IE and Edge (Trident) differentiate between touch, touch+hold using pointer events rather than touch
@@ -186,13 +202,17 @@ rcube_list_widget.prototype = {
                 row.addEventListener('touchend', function (e) {
                     if (e.changedTouches.length == 1) {
                         var duration = (new Date().getTime() - self.touch_start_time);
-                        if (!self.touchmoved && duration <= self.touch_event_time && !self.click_row(rcube_event.touchevent(e.changedTouches[0]), this.uid)) { e.preventDefault(); }
+                        if (!self.touchmoved && duration <= self.touch_event_time && !self.click_row(rcube_event.touchevent(e.changedTouches[0]), this.uid)) {
+                            e.preventDefault();
+                        }
                     }
                 }, false);
                 row.addEventListener('touchmove', function (e) {
                     if (e.changedTouches.length == 1) {
                         self.touchmoved = true;
-                        if (self.drag_active) { e.preventDefault(); }
+                        if (self.drag_active) {
+                            e.preventDefault();
+                        }
                     }
                 }, false);
             }
@@ -206,7 +226,11 @@ rcube_list_widget.prototype = {
                     .find(this.col_tagname()).eq(this.subject_column()).attr('id', lbl_id);
             }
 
-            if (document.all) { row.onselectstart = function () { return false; }; }
+            if (document.all) {
+                row.onselectstart = function () {
+                    return false;
+                };
+            }
 
             this.row_init(this.rows[uid]); // legacy support
             this.triggerEvent('initrow', this.rows[uid]);
@@ -234,9 +258,13 @@ rcube_list_widget.prototype = {
             // add events for list columns moving
             if (this.column_movable && this.thead && this.thead.rows) {
                 for (r = 0; r < this.thead.rows[0].cells.length; r++) {
-                    if (this.column_fixed == r) { continue; }
+                    if (this.column_fixed == r) {
+                        continue;
+                    }
                     col = this.thead.rows[0].cells[r];
-                    col.onmousedown = function (e) { return p.drag_column(e, this); };
+                    col.onmousedown = function (e) {
+                        return p.drag_column(e, this);
+                    };
                     this.colcount++;
                 }
             }
@@ -262,7 +290,9 @@ rcube_list_widget.prototype = {
             $(this.list).before(this.fixed_header);
 
             var me = this;
-            $(window).on('resize', function () { me.resize(); });
+            $(window).on('resize', function () {
+                me.resize();
+            });
             $(this.container).on('scroll', function () {
                 var w = $(this);
                 me.fixed_header.css({
@@ -285,7 +315,9 @@ rcube_list_widget.prototype = {
     },
 
     resize: function () {
-        if (!this.fixed_header) { return; }
+        if (!this.fixed_header) {
+            return;
+        }
 
         var column_widths = [];
 
@@ -320,10 +352,14 @@ rcube_list_widget.prototype = {
         this.rowcount = 0;
         this.last_selected = null;
 
-        if (sel) { this.clear_selection(); }
+        if (sel) {
+            this.clear_selection();
+        }
 
         // reset scroll position (in Opera)
-        if (this.frame) { this.frame.scrollTop = 0; }
+        if (this.frame) {
+            this.frame.scrollTop = 0;
+        }
 
         // fix list header after removing any rows
         this.resize();
@@ -336,19 +372,25 @@ rcube_list_widget.prototype = {
     remove_row: function (uid, sel_next) {
         var self = this, node = this.rows[uid] ? this.rows[uid].obj : null;
 
-        if (!node) { return; }
+        if (!node) {
+            return;
+        }
 
         node.style.display = 'none';
 
         // Select next row before deletion, because we need the reference
-        if (sel_next) { this.select_next(uid); }
+        if (sel_next) {
+            this.select_next(uid);
+        }
 
         delete this.rows[uid];
         this.rowcount--;
 
         // fix list header after removing any rows
         clearTimeout(this.resize_timeout);
-        this.resize_timeout = setTimeout(function () { self.resize(); }, 50);
+        this.resize_timeout = setTimeout(function () {
+            self.resize();
+        }, 50);
     },
 
 
@@ -364,19 +406,33 @@ rcube_list_widget.prototype = {
             var i, e, domcell, col,
                 domrow = document.createElement(this.row_tagname());
 
-            if (row.id) { domrow.id = row.id; }
-            if (row.uid) { domrow.uid = row.uid; }
-            if (row.className) { domrow.className = row.className; }
-            if (row.style) { $.extend(domrow.style, row.style); }
+            if (row.id) {
+                domrow.id = row.id;
+            }
+            if (row.uid) {
+                domrow.uid = row.uid;
+            }
+            if (row.className) {
+                domrow.className = row.className;
+            }
+            if (row.style) {
+                $.extend(domrow.style, row.style);
+            }
 
             for (i = 0; row.cols && i < row.cols.length; i++) {
                 col = row.cols[i];
                 domcell = col.dom;
                 if (!domcell) {
                     domcell = document.createElement(this.col_tagname());
-                    if (col.className) { domcell.className = col.className; }
-                    if (col.innerHTML) { domcell.innerHTML = col.innerHTML; }
-                    for (e in col.events) { domcell['on' + e] = col.events[e]; }
+                    if (col.className) {
+                        domcell.className = col.className;
+                    }
+                    if (col.innerHTML) {
+                        domcell.innerHTML = col.innerHTML;
+                    }
+                    for (e in col.events) {
+                        domcell['on' + e] = col.events[e];
+                    }
                 }
                 domrow.appendChild(domcell);
             }
@@ -388,14 +444,20 @@ rcube_list_widget.prototype = {
             this.insert_checkbox(row);
         }
 
-        if (before && tbody.childNodes.length) { tbody.insertBefore(row, (typeof before == 'object' && before.parentNode == tbody) ? before : tbody.firstChild); } else { tbody.appendChild(row); }
+        if (before && tbody.childNodes.length) {
+            tbody.insertBefore(row, (typeof before == 'object' && before.parentNode == tbody) ? before : tbody.firstChild);
+        } else {
+            tbody.appendChild(row);
+        }
 
         this.init_row(row);
         this.rowcount++;
 
         // fix list header after adding any rows
         clearTimeout(this.resize_timeout);
-        this.resize_timeout = setTimeout(function () { self.resize(); }, 50);
+        this.resize_timeout = setTimeout(function () {
+            self.resize();
+        }, 50);
     },
 
     /**
@@ -403,7 +465,9 @@ rcube_list_widget.prototype = {
      */
     update_row: function (id, cols, newid, select) {
         var row = this.rows[id];
-        if (!row) { return false; }
+        if (!row) {
+            return false;
+        }
 
         var i, domrow = row.obj;
         for (i = 0; cols && i < cols.length; i++) {
@@ -416,9 +480,13 @@ rcube_list_widget.prototype = {
             domrow.id = 'rcmrow' + newid;
             this.init_row(domrow);
 
-            if (select) { this.selection[0] = newid; }
+            if (select) {
+                this.selection[0] = newid;
+            }
 
-            if (this.last_selected == id) { this.last_selected = newid; }
+            if (this.last_selected == id) {
+                this.last_selected = newid;
+            }
         }
     },
 
@@ -470,7 +538,9 @@ rcube_list_widget.prototype = {
             rows = this.thead.childNodes;
             for (r = 0, len = rows.length; r < len; r++) {
                 if (rows[r].nodeName == row_tag && (cell = rows[r].firstChild)) {
-                    if (cell.className == 'selection') { break; }
+                    if (cell.className == 'selection') {
+                        break;
+                    }
                     this.insert_checkbox(rows[r], 'thead');
                 }
             }
@@ -479,7 +549,9 @@ rcube_list_widget.prototype = {
         rows = this.tbody.childNodes;
         for (r = 0, len = rows.length; r < len; r++) {
             if (rows[r].nodeName == row_tag && (cell = rows[r].firstChild)) {
-                if (cell.className == 'selection') { break; }
+                if (cell.className == 'selection') {
+                    break;
+                }
                 this.insert_checkbox(rows[r], 'tbody');
             }
         }
@@ -489,11 +561,15 @@ rcube_list_widget.prototype = {
      * Set focus to the list
      */
     focus: function (e) {
-        if (this.focused) { return; }
+        if (this.focused) {
+            return;
+        }
 
         this.focused = true;
 
-        if (e) { rcube_event.cancel(e); }
+        if (e) {
+            rcube_event.cancel(e);
+        }
 
         var focus_elem = null;
 
@@ -514,7 +590,9 @@ rcube_list_widget.prototype = {
         $(this.list).addClass('focus').removeAttr('tabindex');
 
         // set internal focus pointer to first row
-        if (!this.last_selected) { this.select_first(CONTROL_KEY); }
+        if (!this.last_selected) {
+            this.select_first(CONTROL_KEY);
+        }
     },
 
 
@@ -526,7 +604,9 @@ rcube_list_widget.prototype = {
 
         // avoid the table getting focus right again (on Shift+Tab)
         var me = this;
-        setTimeout(function () { $(me.list).attr('tabindex', '0'); }, 20);
+        setTimeout(function () {
+            $(me.list).attr('tabindex', '0');
+        }, 20);
 
         if (this.last_selected && this.rows[this.last_selected]) {
             $(this.rows[this.last_selected].obj)
@@ -552,7 +632,9 @@ rcube_list_widget.prototype = {
     hide_column: function (col, hide) {
         var method = hide ? 'addClass' : 'removeClass';
 
-        if (this.fixed_header) { $(this.row_tagname() + ' ' + this.col_tagname() + '.' + col, this.fixed_header)[method]('hidden'); }
+        if (this.fixed_header) {
+            $(this.row_tagname() + ' ' + this.col_tagname() + '.' + col, this.fixed_header)[method]('hidden');
+        }
 
         $(this.row_tagname() + ' ' + this.col_tagname() + '.' + col, this.list)[method]('hidden');
     },
@@ -590,10 +672,14 @@ rcube_list_widget.prototype = {
      */
     drag_row: function (e, id) {
         // don't do anything (another action processed before)
-        if (!this.is_event_target(e)) { return true; }
+        if (!this.is_event_target(e)) {
+            return true;
+        }
 
         // handle only left-clicks
-        if (rcube_event.get_button(e) != 0) { return true; }
+        if (rcube_event.get_button(e) != 0) {
+            return true;
+        }
 
         this.in_selection_before = e && e.istouch || this.in_selection(id) ? id : false;
 
@@ -629,16 +715,22 @@ rcube_list_widget.prototype = {
      */
     click_row: function (e, id) {
         // sanity check
-        if (!id || !this.rows[id]) { return false; }
+        if (!id || !this.rows[id]) {
+            return false;
+        }
 
         // don't do anything (another action processed before)
-        if (!this.is_event_target(e)) { return true; }
+        if (!this.is_event_target(e)) {
+            return true;
+        }
 
         var now = new Date().getTime(),
             dblclicked = now - this.rows[id].clicked < this.dblclick_time;
 
         // unselects currently selected row
-        if (!this.drag_active && !dblclicked && this.in_selection_before == id) { this.select_row(id, rcube_event.get_modifier(e), true); }
+        if (!this.drag_active && !dblclicked && this.in_selection_before == id) {
+            this.select_row(id, rcube_event.get_modifier(e), true);
+        }
 
         this.drag_start = false;
         this.in_selection_before = false;
@@ -647,7 +739,9 @@ rcube_list_widget.prototype = {
         if (this.rowcount && dblclicked && this.in_selection(id)) {
             this.triggerEvent('dblclick');
             now = 0;
-        } else { this.triggerEvent('click'); }
+        } else {
+            this.triggerEvent('click');
+        }
 
         if (!this.drag_active) {
             // remove temp divs
@@ -679,7 +773,11 @@ rcube_list_widget.prototype = {
     find_root: function (uid) {
         var r = this.rows[uid];
 
-        if (r && r.parent_uid) { return this.find_root(r.parent_uid); } else { return uid; }
+        if (r && r.parent_uid) {
+            return this.find_root(r.parent_uid);
+        } else {
+            return uid;
+        }
     },
 
 
@@ -706,7 +804,9 @@ rcube_list_widget.prototype = {
         while (new_row) {
             if (new_row.nodeType == 1) {
                 r = this.rows[new_row.uid];
-                if (r && r.depth <= depth) { break; }
+                if (r && r.depth <= depth) {
+                    break;
+                }
 
                 $(new_row).css('display', 'none');
                 if (r.expanded) {
@@ -743,7 +843,9 @@ rcube_list_widget.prototype = {
             if (new_row.nodeType == 1) {
                 r = this.rows[new_row.uid];
                 if (r) {
-                    if (row && (!r.depth || r.depth <= depth)) { break; }
+                    if (row && (!r.depth || r.depth <= depth)) {
+                        break;
+                    }
 
                     if (r.parent_uid) {
                         p = this.rows[r.parent_uid];
@@ -756,7 +858,9 @@ rcube_list_widget.prototype = {
                                 this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
                             }
                         } else
-                            if (row && (!p || p.depth <= depth)) { break; }
+                            if (row && (!p || p.depth <= depth)) {
+                                break;
+                            }
                     }
                 }
             }
@@ -781,7 +885,9 @@ rcube_list_widget.prototype = {
             this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
 
             // don't collapse sub-root tree in multiexpand mode
-            if (depth && this.multiexpand) { return false; }
+            if (depth && this.multiexpand) {
+                return false;
+            }
         } else {
             new_row = this.tbody.firstChild;
             depth = 0;
@@ -790,9 +896,13 @@ rcube_list_widget.prototype = {
         while (new_row) {
             if (new_row.nodeType == 1) {
                 if (r = this.rows[new_row.uid]) {
-                    if (row && (!r.depth || r.depth <= depth)) { break; }
+                    if (row && (!r.depth || r.depth <= depth)) {
+                        break;
+                    }
 
-                    if (row || r.depth) { $(new_row).css('display', 'none'); }
+                    if (row || r.depth) {
+                        $(new_row).css('display', 'none');
+                    }
                     if (r.expanded) {
                         r.expanded = false;
                         if (r.has_children) {
@@ -829,7 +939,9 @@ rcube_list_widget.prototype = {
         while (new_row) {
             if (new_row.nodeType == 1) {
                 if (r = this.rows[new_row.uid]) {
-                    if (row && r.depth <= depth) { break; }
+                    if (row && r.depth <= depth) {
+                        break;
+                    }
 
                     $(new_row).css('display', '');
                     if (!r.expanded) {
@@ -853,15 +965,23 @@ rcube_list_widget.prototype = {
 
     update_expando: function (id, expanded) {
         var expando = document.getElementById('rcmexpando' + id);
-        if (expando) { expando.className = expanded ? 'expanded' : 'collapsed'; }
+        if (expando) {
+            expando.className = expanded ? 'expanded' : 'collapsed';
+        }
     },
 
     get_row_uid: function (row) {
-        if (!row) { return; }
+        if (!row) {
+            return;
+        }
 
         if (!row.uid) {
             var uid = $(row).data('uid');
-            if (uid) { row.uid = uid; } else if (String(row.id).match(this.id_regexp)) { row.uid = RegExp.$1; }
+            if (uid) {
+                row.uid = uid;
+            } else if (String(row.id).match(this.id_regexp)) {
+                row.uid = RegExp.$1;
+            }
         }
 
         return row.uid;
@@ -871,23 +991,31 @@ rcube_list_widget.prototype = {
      * get first/next/previous/last rows that are not hidden
      */
     get_next_row: function (uid) {
-        if (!this.rowcount) { return false; }
+        if (!this.rowcount) {
+            return false;
+        }
 
         var last_selected_row = this.rows[uid || this.last_selected],
             new_row = last_selected_row ? last_selected_row.obj.nextSibling : null;
 
-        while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none')) { new_row = new_row.nextSibling; }
+        while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none')) {
+            new_row = new_row.nextSibling;
+        }
 
         return new_row;
     },
 
     get_prev_row: function (uid) {
-        if (!this.rowcount) { return false; }
+        if (!this.rowcount) {
+            return false;
+        }
 
         var last_selected_row = this.rows[uid || this.last_selected],
             new_row = last_selected_row ? last_selected_row.obj.previousSibling : null;
 
-        while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none')) { new_row = new_row.previousSibling; }
+        while (new_row && (new_row.nodeType != 1 || new_row.style.display == 'none')) {
+            new_row = new_row.previousSibling;
+        }
 
         return new_row;
     },
@@ -897,7 +1025,9 @@ rcube_list_widget.prototype = {
             var i, uid, rows = this.tbody.childNodes;
 
             for (i = 0; i < rows.length; i++) {
-                if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid]) { return uid; }
+                if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid]) {
+                    return uid;
+                }
             }
         }
 
@@ -909,7 +1039,9 @@ rcube_list_widget.prototype = {
             var i, uid, rows = this.tbody.childNodes;
 
             for (i = rows.length - 1; i >= 0; i--) {
-                if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid]) { return uid; }
+                if (rows[i].id && (uid = this.get_row_uid(rows[i])) && this.rows[uid]) {
+                    return uid;
+                }
             }
         }
 
@@ -951,9 +1083,13 @@ rcube_list_widget.prototype = {
         var select_before = this.selection.join(','),
             in_selection_before = this.in_selection(id);
 
-        if (!this.multiselect && with_mouse) { mod_key = 0; }
+        if (!this.multiselect && with_mouse) {
+            mod_key = 0;
+        }
 
-        if (!this.shift_start) { this.shift_start = id; }
+        if (!this.shift_start) {
+            this.shift_start = id;
+        }
 
         if (!mod_key) {
             this.shift_start = id;
@@ -1001,10 +1137,14 @@ rcube_list_widget.prototype = {
         if (this.rows[id]) {
             $(this.rows[id].obj).addClass('focused');
             // set cursor focus to link inside selected row
-            if (this.focused) { this.focus_noscroll($(this.rows[id].obj).find(this.col_tagname()).eq(this.subject_column()).attr('tabindex', '0')); }
+            if (this.focused) {
+                this.focus_noscroll($(this.rows[id].obj).find(this.col_tagname()).eq(this.subject_column()).attr('tabindex', '0'));
+            }
         }
 
-        if (!this.selection.length) { this.shift_start = null; }
+        if (!this.selection.length) {
+            this.shift_start = null;
+        }
 
         this.last_selected = id;
     },
@@ -1025,7 +1165,9 @@ rcube_list_widget.prototype = {
      */
     select_next: function (uid) {
         var new_row = this.get_next_row(uid) || this.get_prev_row(uid);
-        if (new_row) { this.select_row(new_row.uid, false, false); }
+        if (new_row) {
+            this.select_row(new_row.uid, false, false);
+        }
     },
 
 
@@ -1037,7 +1179,9 @@ rcube_list_widget.prototype = {
         if (row) {
             this.select_row(row, mod_key, false);
 
-            if (!noscroll) { this.scrollto(row); }
+            if (!noscroll) {
+                this.scrollto(row);
+            }
         }
     },
 
@@ -1050,7 +1194,9 @@ rcube_list_widget.prototype = {
         if (row) {
             this.select_row(row, mod_key, false);
 
-            if (!noscroll) { this.scrollto(row); }
+            if (!noscroll) {
+                this.scrollto(row);
+            }
         }
     },
 
@@ -1062,7 +1208,9 @@ rcube_list_widget.prototype = {
         var i, children = this.row_children(uid), len = children.length;
 
         for (i = 0; i < len; i++) {
-            if (!this.in_selection(children[i])) { this.select_row(children[i], CONTROL_KEY, true); }
+            if (!this.in_selection(children[i])) {
+                this.select_row(children[i], CONTROL_KEY, true);
+            }
         }
     },
 
@@ -1071,7 +1219,9 @@ rcube_list_widget.prototype = {
      * Perform selection when shift key is pressed
      */
     shift_select: function (id, control) {
-        if (!this.rows[this.shift_start] || !this.selection.length) { this.shift_start = id; }
+        if (!this.rows[this.shift_start] || !this.selection.length) {
+            this.shift_start = id;
+        }
 
         var n, i, j, to_row = this.rows[id],
             from_rowIndex = this._rowIndex(this.rows[this.shift_start].obj),
@@ -1079,7 +1229,9 @@ rcube_list_widget.prototype = {
 
         // if we're going down the list, and we hit a thread, and it's closed, select the whole thread
         if (from_rowIndex < to_rowIndex && !to_row.expanded && to_row.has_children) {
-            if (to_row = this.rows[(this.row_children(id)).pop()]) { to_rowIndex = this._rowIndex(to_row.obj); }
+            if (to_row = this.rows[(this.row_children(id)).pop()]) {
+                to_rowIndex = this._rowIndex(to_row.obj);
+            }
         }
 
         i = ((from_rowIndex < to_rowIndex) ? from_rowIndex : to_rowIndex),
@@ -1112,7 +1264,9 @@ rcube_list_widget.prototype = {
      */
     in_selection: function (id, index) {
         for (var n in this.selection) {
-            if (this.selection[n] == id) { return index ? parseInt(n) : true; }
+            if (this.selection[n] == id) {
+                return index ? parseInt(n) : true;
+            }
         }
 
         return false;
@@ -1123,7 +1277,9 @@ rcube_list_widget.prototype = {
      * Select each row in list
      */
     select_all: function (filter) {
-        if (!this.rowcount) { return false; }
+        if (!this.rowcount) {
+            return false;
+        }
 
         // reset but remember selection first
         var n, select_before = this.selection.join(',');
@@ -1139,7 +1295,9 @@ rcube_list_widget.prototype = {
         }
 
         // trigger event if selection changed
-        if (this.selection.join(',') != select_before) { this.triggerEvent('select'); }
+        if (this.selection.join(',') != select_before) {
+            this.triggerEvent('select');
+        }
 
         this.focus();
 
@@ -1151,15 +1309,21 @@ rcube_list_widget.prototype = {
      * Invert selection
      */
     invert_selection: function () {
-        if (!this.rowcount) { return false; }
+        if (!this.rowcount) {
+            return false;
+        }
 
         // remember old selection
         var n, select_before = this.selection.join(',');
 
-        for (n in this.rows) { this.highlight_row(n, true); }
+        for (n in this.rows) {
+            this.highlight_row(n, true);
+        }
 
         // trigger event if selection changed
-        if (this.selection.join(',') != select_before) { this.triggerEvent('select'); }
+        if (this.selection.join(',') != select_before) {
+            this.triggerEvent('select');
+        }
 
         this.focus();
 
@@ -1193,7 +1357,9 @@ rcube_list_widget.prototype = {
             this.selection = [];
         }
 
-        if (this.checkbox_selection) { $(this.row_tagname() + ':not(.selected) > .selection > input:checked', this.list).prop('checked', false); }
+        if (this.checkbox_selection) {
+            $(this.row_tagname() + ':not(.selected) > .selection > input:checked', this.list).prop('checked', false);
+        }
 
         if (num_select && !this.selection.length && !no_event) {
             this.triggerEvent('select');
@@ -1209,7 +1375,9 @@ rcube_list_widget.prototype = {
         var res = $.merge([], this.selection);
 
         var props = { deep: deep, res: res };
-        if (this.triggerEvent('getselection', props) === false) { return props.res; }
+        if (this.triggerEvent('getselection', props) === false) {
+            return props.res;
+        }
 
         // return children of selected threads even if only root is selected
         if (deep !== false && res.length) {
@@ -1219,7 +1387,9 @@ rcube_list_widget.prototype = {
                     uids = this.row_children(uid);
                     for (var j = 0, uids_len = uids.length; j < uids_len; j++) {
                         uid = uids[j];
-                        if (!this.in_selection(uid)) { res.push(uid); }
+                        if (!this.in_selection(uid)) {
+                            res.push(uid);
+                        }
                     }
                 }
             }
@@ -1235,7 +1405,11 @@ rcube_list_widget.prototype = {
     get_single_selection: function () {
         var selection = this.get_selection(false);
 
-        if (selection.length == 1) { return selection[0]; } else { return null; }
+        if (selection.length == 1) {
+            return selection[0];
+        } else {
+            return null;
+        }
     },
 
 
@@ -1243,7 +1417,9 @@ rcube_list_widget.prototype = {
      * Highlight/unhighlight a row
      */
     highlight_row: function (id, multiple, norecur) {
-        if (!this.rows[id]) { return; }
+        if (!this.rows[id]) {
+            return;
+        }
 
         if (!multiple) {
             if (this.selection.length > 1 || !this.in_selection(id)) {
@@ -1251,7 +1427,9 @@ rcube_list_widget.prototype = {
                 this.selection[0] = id;
                 $(this.rows[id].obj).addClass('selected').attr('aria-selected', 'true');
 
-                if (this.checkbox_selection) { $('.selection > input', this.rows[id].obj).prop('checked', true); }
+                if (this.checkbox_selection) {
+                    $('.selection > input', this.rows[id].obj).prop('checked', true);
+                }
             }
         } else {
             var pre, post, p = this.in_selection(id, true);
@@ -1260,9 +1438,13 @@ rcube_list_widget.prototype = {
                 this.selection.push(id);
                 $(this.rows[id].obj).addClass('selected').attr('aria-selected', 'true');
 
-                if (this.checkbox_selection) { $('.selection > input', this.rows[id].obj).prop('checked', true); }
+                if (this.checkbox_selection) {
+                    $('.selection > input', this.rows[id].obj).prop('checked', true);
+                }
 
-                if (!norecur && !this.rows[id].expanded) { this.highlight_children(id, true); }
+                if (!norecur && !this.rows[id].expanded) {
+                    this.highlight_children(id, true);
+                }
             } else { // unselect row
                 pre = this.selection.slice(0, p);
                 post = this.selection.slice(p + 1, this.selection.length);
@@ -1270,9 +1452,13 @@ rcube_list_widget.prototype = {
                 this.selection = pre.concat(post);
                 $(this.rows[id].obj).removeClass('selected').removeAttr('aria-selected');
 
-                if (this.checkbox_selection) { $('.selection > input', this.rows[id].obj).prop('checked', false); }
+                if (this.checkbox_selection) {
+                    $('.selection > input', this.rows[id].obj).prop('checked', false);
+                }
 
-                if (!norecur && !this.rows[id].expanded) { this.highlight_children(id, false); }
+                if (!norecur && !this.rows[id].expanded) {
+                    this.highlight_children(id, false);
+                }
             }
         }
     },
@@ -1287,7 +1473,9 @@ rcube_list_widget.prototype = {
 
         for (i = 0; i < len; i++) {
             selected = this.in_selection(children[i]);
-            if ((status && !selected) || (!status && selected)) { this.highlight_row(children[i], true, true); }
+            if ((status && !selected) || (!status && selected)) {
+                this.highlight_row(children[i], true, true);
+            }
         }
     },
 
@@ -1296,7 +1484,9 @@ rcube_list_widget.prototype = {
      * Handler for keyboard events
      */
     key_press: function (e) {
-        if (!this.focused || $(e.target).is('input,textarea,select')) { return true; }
+        if (!this.focused || $(e.target).is('input,textarea,select')) {
+            return true;
+        }
 
         var keyCode = rcube_event.get_keycode(e),
             mod_key = rcube_event.get_modifier(e);
@@ -1333,7 +1523,9 @@ rcube_list_widget.prototype = {
                 break;
 
             case 27: // Esc
-                if (this.drag_active) { return this.drag_mouse_up(e); }
+                if (this.drag_active) {
+                    return this.drag_mouse_up(e);
+                }
 
                 if (this.col_drag_active) {
                     this.selected_column = null;
@@ -1347,7 +1539,9 @@ rcube_list_widget.prototype = {
                 break;
 
             case 13: // Enter
-                if (!this.selection.length) { this.select_row(this.last_selected, mod_key, false); }
+                if (!this.selection.length) {
+                    this.select_row(this.last_selected, mod_key, false);
+                }
 
             default:
                 this.key_pressed = keyCode;
@@ -1355,7 +1549,9 @@ rcube_list_widget.prototype = {
                 this.triggerEvent('keypress');
                 this.modkey = 0;
 
-                if (this.key_pressed == this.BACKSPACE_KEY) { return rcube_event.cancel(e); }
+                if (this.key_pressed == this.BACKSPACE_KEY) {
+                    return rcube_event.cancel(e);
+                }
         }
 
         return true;
@@ -1375,17 +1571,29 @@ rcube_list_widget.prototype = {
         // Safari uses the non-standard keycodes 63232/63233 for up/down, if we're
         // using the keypress event (but not the keydown or keyup event).
         else if (keyCode == 40 || keyCode == 63233) // Down arrow
-        { new_row = this.get_next_row(); } else if (keyCode == 38 || keyCode == 63232) // Up arrow
-        { new_row = this.get_prev_row(); } else if (keyCode == 39 && selected_row.has_children) { // Right arrow
-            if (!selected_row.expanded) { this.expand_all(selected_row); } else {
+        {
+            new_row = this.get_next_row();
+        } else if (keyCode == 38 || keyCode == 63232) // Up arrow
+        {
+            new_row = this.get_prev_row();
+        } else if (keyCode == 39 && selected_row.has_children) { // Right arrow
+            if (!selected_row.expanded) {
+                this.expand_all(selected_row);
+            } else {
                 // jump to the first child
                 new_row = this.get_next_row();
                 mod_key = null;
             }
         } else if (keyCode == 37) { // Left arrow
-            if (selected_row.expanded && selected_row.has_children && (!selected_row.parent_uid || !this.multiexpand)) { this.collapse_all(selected_row); } else if (selected_row.parent_uid) {
+            if (selected_row.expanded && selected_row.has_children && (!selected_row.parent_uid || !this.multiexpand)) {
+                this.collapse_all(selected_row);
+            } else if (selected_row.parent_uid) {
                 // jump to the top-most or closest parent
-                if (mod_key == CONTROL_KEY) { new_row = this.rows[this.find_root(selected_row.uid)]; } else { new_row = this.rows[selected_row.parent_uid]; }
+                if (mod_key == CONTROL_KEY) {
+                    new_row = this.rows[this.find_root(selected_row.uid)];
+                } else {
+                    new_row = this.rows[selected_row.parent_uid];
+                }
 
                 mod_key = null;
             }
@@ -1393,7 +1601,9 @@ rcube_list_widget.prototype = {
 
         if (new_row) {
             // simulate ctr-key if no rows are selected
-            if (!mod_key && !this.selection.length) { mod_key = CONTROL_KEY; }
+            if (!mod_key && !this.selection.length) {
+                mod_key = CONTROL_KEY;
+            }
 
             this.select_row(new_row.uid, mod_key, false);
             this.scrollto(new_row.uid);
@@ -1420,13 +1630,17 @@ rcube_list_widget.prototype = {
                 scroll_to = Number(row.offsetTop);
             }
 
-            if (this.fixed_header) { head_offset = Number(this.thead.offsetHeight); }
+            if (this.fixed_header) {
+                head_offset = Number(this.thead.offsetHeight);
+            }
 
             // if row is above the frame (or behind header)
             if (scroll_to < Number(this.frame.scrollTop) + head_offset) {
                 // scroll window so that row isn't behind header
                 this.frame.scrollTop = scroll_to - head_offset;
-            } else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight)) { this.frame.scrollTop = (scroll_to + Number(row.offsetHeight)) - Number(this.frame.offsetHeight); }
+            } else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight)) {
+                this.frame.scrollTop = (scroll_to + Number(row.offsetHeight)) - Number(this.frame.offsetHeight);
+            }
         }
     },
 
@@ -1437,7 +1651,11 @@ rcube_list_widget.prototype = {
     drag_mouse_move: function (e) {
         // convert touch event
         if (e.type == 'touchmove') {
-            if (e.touches.length == 1 && e.changedTouches.length == 1) { e = rcube_event.touchevent(e.changedTouches[0]); } else { return rcube_event.cancel(e); }
+            if (e.touches.length == 1 && e.changedTouches.length == 1) {
+                e = rcube_event.touchevent(e.changedTouches[0]);
+            } else {
+                return rcube_event.cancel(e);
+            }
         }
 
         if (this.drag_start) {
@@ -1445,7 +1663,9 @@ rcube_list_widget.prototype = {
             var m = rcube_event.get_mouse_pos(e),
                 limit = 10, selection = [], self = this;
 
-            if (!this.drag_mouse_start || (Math.abs(m.x - this.drag_mouse_start.x) < 3 && Math.abs(m.y - this.drag_mouse_start.y) < 3)) { return false; }
+            if (!this.drag_mouse_start || (Math.abs(m.x - this.drag_mouse_start.x) < 3 && Math.abs(m.y - this.drag_mouse_start.y) < 3)) {
+                return false;
+            }
 
             // remember dragging start position
             this.drag_start_pos = { left: m.x, top: m.y };
@@ -1455,26 +1675,34 @@ rcube_list_widget.prototype = {
                 this.draglayer = $('<div>').attr('id', 'rcmdraglayer')
                     .css({ position: 'absolute', display: 'none', 'z-index': 2000 })
                     .appendTo(document.body);
-            } else { this.draglayer.html(''); }
+            } else {
+                this.draglayer.html('');
+            }
 
             // get selected rows (in display order), don't use this.selection here
             $(this.row_tagname() + '.selected', this.tbody).each(function () {
                 var uid = self.get_row_uid(this), row = self.rows[uid];
 
-                if (!row || $.inArray(uid, selection) > -1) { return; }
+                if (!row || $.inArray(uid, selection) > -1) {
+                    return;
+                }
 
                 selection.push(uid);
 
                 // also handle children of (collapsed) trees for dragging (they might be not selected)
                 if (row.has_children && !row.expanded) {
                     $.each(self.row_children(uid), function () {
-                        if ($.inArray(this, selection) > -1) { return; }
+                        if ($.inArray(this, selection) > -1) {
+                            return;
+                        }
                         selection.push(this);
                     });
                 }
 
                 // break the loop asap
-                if (selection.length > limit + 1) { return false; }
+                if (selection.length > limit + 1) {
+                    return false;
+                }
             });
 
             var row, subject,
@@ -1545,14 +1773,22 @@ rcube_list_widget.prototype = {
         document.onmousemove = null;
 
         if (e.type == 'touchend') {
-            if (e.changedTouches.length != 1) { return rcube_event.cancel(e); }
+            if (e.changedTouches.length != 1) {
+                return rcube_event.cancel(e);
+            }
         }
 
         if (this.draglayer && this.draglayer.is(':visible')) {
-            if (this.drag_start_pos) { this.draglayer.animate(this.drag_start_pos, 300, 'swing').hide(20); } else { this.draglayer.hide(); }
+            if (this.drag_start_pos) {
+                this.draglayer.animate(this.drag_start_pos, 300, 'swing').hide(20);
+            } else {
+                this.draglayer.hide();
+            }
         }
 
-        if (this.drag_active) { this.focus(); }
+        if (this.drag_active) {
+            this.focus();
+        }
         this.drag_active = false;
 
         rcube_event.remove_listener({ event:'mousemove', object:this, method:'drag_mouse_move' });
@@ -1580,7 +1816,9 @@ rcube_list_widget.prototype = {
             // check mouse movement, of less than 3 pixels, don't start dragging
             var i, m = rcube_event.get_mouse_pos(e);
 
-            if (!this.drag_mouse_start || (Math.abs(m.x - this.drag_mouse_start.x) < 3 && Math.abs(m.y - this.drag_mouse_start.y) < 3)) { return false; }
+            if (!this.drag_mouse_start || (Math.abs(m.x - this.drag_mouse_start.x) < 3 && Math.abs(m.y - this.drag_mouse_start.y) < 3)) {
+                return false;
+            }
 
             if (!this.col_draglayer) {
                 var lpos = $(this.list).offset(),
@@ -1621,13 +1859,21 @@ rcube_list_widget.prototype = {
             var i, cpos = 0, pos = rcube_event.get_mouse_pos(e);
 
             for (i = 0; i < this.cols.length; i++) {
-                if (pos.x >= this.cols[i] / 2 + this.list_pos + cpos) { cpos += this.cols[i]; } else { break; }
+                if (pos.x >= this.cols[i] / 2 + this.list_pos + cpos) {
+                    cpos += this.cols[i];
+                } else {
+                    break;
+                }
             }
 
             // handle fixed columns on left
-            if (i == 0 && this.list_min_pos > pos.x) { cpos = this.list_min_pos - this.list_pos; }
+            if (i == 0 && this.list_min_pos > pos.x) {
+                cpos = this.list_min_pos - this.list_pos;
+            }
             // empty list needs some assignment
-            else if (!this.list.rowcount && i == this.cols.length) { cpos -= 2; }
+            else if (!this.list.rowcount && i == this.cols.length) {
+                cpos -= 2;
+            }
             $('#rcmcolumnindicator').css({ width: cpos + 'px' });
             this.triggerEvent('column_dragmove', e ? e : window.event);
         }
@@ -1665,7 +1911,11 @@ rcube_list_widget.prototype = {
 
                 // find destination position
                 for (i = 0; i < this.cols.length; i++) {
-                    if (pos.x >= this.cols[i] / 2 + this.list_pos + cpos) { cpos += this.cols[i]; } else { break; }
+                    if (pos.x >= this.cols[i] / 2 + this.list_pos + cpos) {
+                        cpos += this.cols[i];
+                    } else {
+                        break;
+                    }
                 }
 
                 if (i != this.selected_column && i != this.selected_column + 1) {
@@ -1682,7 +1932,9 @@ rcube_list_widget.prototype = {
      * Returns IDs of all rows in a thread (except root) for specified root
      */
     row_children: function (uid) {
-        if (!this.rows[uid] || !this.rows[uid].has_children) { return []; }
+        if (!this.rows[uid] || !this.rows[uid].has_children) {
+            return [];
+        }
 
         var res = [], depth = this.rows[uid].depth,
             row = this.rows[uid].obj.nextSibling;
@@ -1690,7 +1942,9 @@ rcube_list_widget.prototype = {
         while (row) {
             if (row.nodeType == 1) {
                 if (r = this.rows[row.uid]) {
-                    if (!r.depth || r.depth <= depth) { break; }
+                    if (!r.depth || r.depth <= depth) {
+                        break;
+                    }
                     res.push(r.uid);
                 }
             }
@@ -1730,7 +1984,9 @@ rcube_list_widget.prototype = {
      */
     column_replace: function (from, to) {
         // only supported for <table> lists
-        if (!this.thead || !this.thead.rows) { return; }
+        if (!this.thead || !this.thead.rows) {
+            return;
+        }
 
         var len, cells = this.thead.rows[0].cells,
             elem = cells[from],
@@ -1738,7 +1994,11 @@ rcube_list_widget.prototype = {
             td = document.createElement('td');
 
         // replace header cells
-        if (before) { cells[0].parentNode.insertBefore(td, before); } else { cells[0].parentNode.appendChild(td); }
+        if (before) {
+            cells[0].parentNode.insertBefore(td, before);
+        } else {
+            cells[0].parentNode.appendChild(td);
+        }
         cells[0].parentNode.replaceChild(elem, td);
 
         // replace list cells
@@ -1749,14 +2009,26 @@ rcube_list_widget.prototype = {
             before = row.cells[to];
             td = document.createElement('td');
 
-            if (before) { row.insertBefore(td, before); } else { row.appendChild(td); }
+            if (before) {
+                row.insertBefore(td, before);
+            } else {
+                row.appendChild(td);
+            }
             row.replaceChild(elem, td);
         }
 
         // update subject column position
-        if (this.subject_col == from) { this.subject_col = to > from ? to - 1 : to; } else if (this.subject_col < from && to <= this.subject_col) { this.subject_col++; } else if (this.subject_col > from && to >= this.subject_col) { this.subject_col--; }
+        if (this.subject_col == from) {
+            this.subject_col = to > from ? to - 1 : to;
+        } else if (this.subject_col < from && to <= this.subject_col) {
+            this.subject_col++;
+        } else if (this.subject_col > from && to >= this.subject_col) {
+            this.subject_col--;
+        }
 
-        if (this.fixed_header) { this.init_header(); }
+        if (this.fixed_header) {
+            this.init_header();
+        }
 
         this.triggerEvent('column_replace');
     },
