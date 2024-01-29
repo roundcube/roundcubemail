@@ -18,8 +18,7 @@
 if (window.rcmail)
     rcmail.addEventListener('init', function () { hide_blockquote(); });
 
-function hide_blockquote()
-{
+function hide_blockquote() {
     var limit = rcmail.env.blockquote_limit;
 
     if (limit <= 0)

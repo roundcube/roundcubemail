@@ -15,8 +15,7 @@
  * for the JavaScript code in this file.
  */
 
-function rcmail_archive(prop)
-{
+function rcmail_archive(prop) {
     if (rcmail_is_archive())
         return;
 
@@ -37,8 +36,7 @@ function rcmail_archive(prop)
     rcmail.show_contentframe(false);
 }
 
-function rcmail_is_archive()
-{
+function rcmail_is_archive() {
     // check if current folder is an archive folder or one of its children
     return rcmail.env.mailbox == rcmail.env.archive_folder
     || rcmail.env.mailbox.startsWith(rcmail.env.archive_folder + rcmail.env.delimiter);

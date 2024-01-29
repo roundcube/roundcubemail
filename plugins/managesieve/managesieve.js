@@ -50,12 +50,10 @@ if (window.rcmail) {
             if (rcmail.gui_objects.sieveform) {
                 rcmail.enable_command('plugin.managesieve-save', true);
                 sieve_form_init();
-            }
-            else if (rcmail.gui_objects.sievesetrawform) {
+            } else if (rcmail.gui_objects.sievesetrawform) {
                 rcmail.enable_command('plugin.managesieve-save', true);
                 sieve_raw_editor_init();
-            }
-            else {
+            } else {
                 rcmail.enable_command('plugin.managesieve-add', !rcmail.env.sieveconnerror && $.inArray('new_filter', rcmail.env.managesieve_disabled_actions) == -1);
                 rcmail.enable_command('plugin.managesieve-setadd', !rcmail.env.sieveconnerror && $.inArray('new_set', rcmail.env.managesieve_disabled_actions) == -1);
             }
@@ -111,13 +109,11 @@ if (window.rcmail) {
 /*********       Managesieve UI methods          *********/
 /*********************************************************/
 
-rcube_webmail.prototype.managesieve_add = function ()
-{
+rcube_webmail.prototype.managesieve_add = function () {
     this.load_managesieveframe('_nav=hide', true);
 };
 
-rcube_webmail.prototype.managesieve_del = function ()
-{
+rcube_webmail.prototype.managesieve_del = function () {
     var id = this.filters_list.get_single_selection();
     this.confirm_dialog(this.get_label('managesieve.filterdeleteconfirm'), 'delete', function (e, ref) {
         var post = '_act=delete&_fid=' + ref.filters_list.rows[id].uid,
@@ -127,8 +123,7 @@ rcube_webmail.prototype.managesieve_del = function ()
     });
 };
 
-rcube_webmail.prototype.managesieve_act = function ()
-{
+rcube_webmail.prototype.managesieve_act = function () {
     var id = this.filters_list.get_single_selection(),
         lock = this.set_busy(true, 'loading');
 
@@ -137,8 +132,7 @@ rcube_webmail.prototype.managesieve_act = function ()
 };
 
 // Filter selection
-rcube_webmail.prototype.managesieve_select = function (list)
-{
+rcube_webmail.prototype.managesieve_select = function (list) {
     var id = list.get_single_selection();
 
     if (id != null) {
@@ -153,8 +147,7 @@ rcube_webmail.prototype.managesieve_select = function (list)
 };
 
 // Set selection
-rcube_webmail.prototype.managesieve_setselect = function (list)
-{
+rcube_webmail.prototype.managesieve_setselect = function (list) {
     this.enable_command('plugin.managesieve-setdel', list.rowcount > 1 && $.inArray('delete_set', rcmail.env.managesieve_disabled_actions) == -1);
     this.enable_command('plugin.managesieve-setact', list.rowcount > 0 && $.inArray('enable_disable_set', rcmail.env.managesieve_disabled_actions) == -1);
     this.enable_command('plugin.managesieve-setget', list.rowcount > 0 && $.inArray('delete_set', rcmail.env.managesieve_disabled_actions) == -1);
@@ -173,8 +166,7 @@ rcube_webmail.prototype.managesieve_setselect = function (list)
     }
 };
 
-rcube_webmail.prototype.managesieve_rowid = function (id)
-{
+rcube_webmail.prototype.managesieve_rowid = function (id) {
     var i, rows = this.filters_list.rows;
 
     for (i in rows)
@@ -183,24 +175,21 @@ rcube_webmail.prototype.managesieve_rowid = function (id)
 };
 
 // Returns set's identifier
-rcube_webmail.prototype.managesieve_setid = function (name)
-{
+rcube_webmail.prototype.managesieve_setid = function (name) {
     for (var i in this.env.filtersets)
         if (this.env.filtersets[i] == name)
             return i;
 };
 
 // Filters listing request
-rcube_webmail.prototype.managesieve_list = function (script)
-{
+rcube_webmail.prototype.managesieve_list = function (script) {
     var lock = this.set_busy(true, 'loading');
 
     this.http_post('plugin.managesieve-action', '_act=list&_set=' + urlencode(script), lock);
 };
 
 // Script download request
-rcube_webmail.prototype.managesieve_setget = function ()
-{
+rcube_webmail.prototype.managesieve_setget = function () {
     var id = this.filtersets_list.get_single_selection(),
         script = this.env.filtersets[id];
 
@@ -208,8 +197,7 @@ rcube_webmail.prototype.managesieve_setget = function ()
 };
 
 // Set activate/deactivate request
-rcube_webmail.prototype.managesieve_setact = function ()
-{
+rcube_webmail.prototype.managesieve_setact = function () {
     var id = this.filtersets_list.get_single_selection(),
         lock = this.set_busy(true, 'loading'),
         script = this.env.filtersets[id],
@@ -219,8 +207,7 @@ rcube_webmail.prototype.managesieve_setact = function ()
 };
 
 // Set delete request
-rcube_webmail.prototype.managesieve_setdel = function ()
-{
+rcube_webmail.prototype.managesieve_setdel = function () {
     var id = this.filtersets_list.get_single_selection();
     this.confirm_dialog(this.get_label('managesieve.setdeleteconfirm'), 'delete', function (e, ref) {
         var script = ref.env.filtersets[id],
@@ -231,8 +218,7 @@ rcube_webmail.prototype.managesieve_setdel = function ()
 };
 
 // Set edit raw request
-rcube_webmail.prototype.managesieve_seteditraw = function ()
-{
+rcube_webmail.prototype.managesieve_seteditraw = function () {
     var id = this.filtersets_list.get_single_selection(),
         script = this.env.filtersets[id];
 
@@ -240,13 +226,11 @@ rcube_webmail.prototype.managesieve_seteditraw = function ()
 };
 
 // Set add request
-rcube_webmail.prototype.managesieve_setadd = function ()
-{
+rcube_webmail.prototype.managesieve_setadd = function () {
     this.load_managesieveframe('_nav=hide&_newset=1', true);
 };
 
-rcube_webmail.prototype.managesieve_updatelist = function (action, o)
-{
+rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
     this.set_busy(true);
 
     switch (action) {
@@ -350,8 +334,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o)
                 if (o.all)
                     $('tr', this.gui_objects.filtersetslist).addClass('disabled');
                 row.removeClass('disabled');
-            }
-            else
+            } else
                 row.addClass('disabled');
 
             break;
@@ -404,8 +387,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o)
 };
 
 // Resets filters list state
-rcube_webmail.prototype.reset_filters_list = function (reload)
-{
+rcube_webmail.prototype.reset_filters_list = function (reload) {
     this.filters_list.clear_selection();
     this.enable_command('plugin.managesieve-act', 'plugin.managesieve-del', false);
 
@@ -418,8 +400,7 @@ rcube_webmail.prototype.reset_filters_list = function (reload)
 };
 
 // load filter frame
-rcube_webmail.prototype.load_managesieveframe = function (add_url, reset)
-{
+rcube_webmail.prototype.load_managesieveframe = function (add_url, reset) {
     if (reset)
         this.reset_filters_list();
 
@@ -432,16 +413,14 @@ rcube_webmail.prototype.load_managesieveframe = function (add_url, reset)
 };
 
 // load filter frame
-rcube_webmail.prototype.managesieve_dragstart = function (list)
-{
+rcube_webmail.prototype.managesieve_dragstart = function (list) {
     var id = this.filters_list.get_single_selection();
 
     this.drag_active = true;
     this.drag_filter = id;
 };
 
-rcube_webmail.prototype.managesieve_dragend = function (e)
-{
+rcube_webmail.prototype.managesieve_dragend = function (e) {
     if (this.drag_active) {
         if (this.drag_filter_target) {
             var lock = this.set_busy(true, 'loading');
@@ -456,8 +435,7 @@ rcube_webmail.prototype.managesieve_dragend = function (e)
 
 // Fixes filters dragging over sets list
 // @TODO: to be removed after implementing copying filters
-rcube_webmail.prototype.managesieve_fixdragend = function (elem)
-{
+rcube_webmail.prototype.managesieve_fixdragend = function (elem) {
     var p = this;
     $(elem).on('mouseup' + ((bw.iphone || bw.ipad) ? ' touchend' : ''), function (e) {
         if (p.drag_active)
@@ -465,8 +443,7 @@ rcube_webmail.prototype.managesieve_fixdragend = function (elem)
     });
 };
 
-rcube_webmail.prototype.managesieve_focus_filter = function (row)
-{
+rcube_webmail.prototype.managesieve_focus_filter = function (row) {
     var id = row.id.replace(/^rcmrow/, '');
     if (this.drag_active && id != this.drag_filter) {
         this.drag_filter_target = id;
@@ -474,8 +451,7 @@ rcube_webmail.prototype.managesieve_focus_filter = function (row)
     }
 };
 
-rcube_webmail.prototype.managesieve_unfocus_filter = function (row)
-{
+rcube_webmail.prototype.managesieve_unfocus_filter = function (row) {
     if (this.drag_active) {
         $(row.obj).removeClass('filtermoveup filtermovedown');
         this.drag_filter_target = null;
@@ -487,8 +463,7 @@ rcube_webmail.prototype.managesieve_unfocus_filter = function (row)
 /*********************************************************/
 
 // Form submission
-rcube_webmail.prototype.managesieve_save = function ()
-{
+rcube_webmail.prototype.managesieve_save = function () {
     if (this.env.action == 'plugin.managesieve-vacation') {
         var data = $(this.gui_objects.sieveform).serialize();
         this.http_post('plugin.managesieve-vacation', data, this.display_message(this.get_label('managesieve.vacation.saving'), 'loading'));
@@ -508,20 +483,17 @@ rcube_webmail.prototype.managesieve_save = function ()
                 this.gui_objects.sieveform.elements['_fid'].value = parent.rcmail.filters_list.rows[id].uid;
         }
         this.gui_objects.sieveform.submit();
-    }
-    else if (this.gui_objects.sievesetrawform) {
+    } else if (this.gui_objects.sievesetrawform) {
         this.gui_objects.sievesetrawform.submit();
     }
 };
 
 // Operations on filters form
-rcube_webmail.prototype.managesieve_ruleadd = function (id)
-{
+rcube_webmail.prototype.managesieve_ruleadd = function (id) {
     this.http_post('plugin.managesieve-action', '_act=ruleadd&_rid=' + id);
 };
 
-rcube_webmail.prototype.managesieve_rulefill = function (content, id, after)
-{
+rcube_webmail.prototype.managesieve_rulefill = function (content, id, after) {
     if (content != '') {
     // create new element
         var div = $('#rules')[0],
@@ -539,8 +511,7 @@ rcube_webmail.prototype.managesieve_rulefill = function (content, id, after)
     }
 };
 
-rcube_webmail.prototype.managesieve_ruledel = function (id)
-{
+rcube_webmail.prototype.managesieve_ruledel = function (id) {
     if ($('#ruledel' + id).hasClass('disabled'))
         return;
 
@@ -551,13 +522,11 @@ rcube_webmail.prototype.managesieve_ruledel = function (id)
     });
 };
 
-rcube_webmail.prototype.managesieve_actionadd = function (id)
-{
+rcube_webmail.prototype.managesieve_actionadd = function (id) {
     this.http_post('plugin.managesieve-action', '_act=actionadd&_aid=' + id);
 };
 
-rcube_webmail.prototype.managesieve_actionfill = function (content, id, after)
-{
+rcube_webmail.prototype.managesieve_actionfill = function (content, id, after) {
     if (content != '') {
         var div = $('#actions')[0],
             row = $('<div>').attr({ 'class': 'actionrow', id: 'actionrow' + id })
@@ -574,8 +543,7 @@ rcube_webmail.prototype.managesieve_actionfill = function (content, id, after)
     }
 };
 
-rcube_webmail.prototype.managesieve_actiondel = function (id)
-{
+rcube_webmail.prototype.managesieve_actiondel = function (id) {
     if ($('#actiondel' + id).hasClass('disabled'))
         return;
 
@@ -587,8 +555,7 @@ rcube_webmail.prototype.managesieve_actiondel = function (id)
 };
 
 // insert rule/action row in specified place on the list
-rcube_webmail.prototype.managesieve_insertrow = function (div, row, after)
-{
+rcube_webmail.prototype.managesieve_insertrow = function (div, row, after) {
     var node = $('#' + ($(div).attr('id') == 'rules' ? 'rulerow' : 'actionrow')  + after)[0];
 
     if (node)
@@ -600,8 +567,7 @@ rcube_webmail.prototype.managesieve_insertrow = function (div, row, after)
 };
 
 // update Delete buttons status
-rcube_webmail.prototype.managesieve_formbuttons = function (div)
-{
+rcube_webmail.prototype.managesieve_formbuttons = function (div) {
     var buttons = $('a.delete', div);
 
     buttons.removeClass('disabled');
@@ -610,21 +576,18 @@ rcube_webmail.prototype.managesieve_formbuttons = function (div)
 };
 
 // update vacation addresses field with user identities
-rcube_webmail.prototype.managesieve_vacation_addresses = function (id)
-{
+rcube_webmail.prototype.managesieve_vacation_addresses = function (id) {
     var lock = this.set_busy(true, 'loading');
     this.http_post('plugin.managesieve-action', { _act: 'addresses', _aid: id }, lock);
 };
 
 // update vacation addresses field with user identities
-rcube_webmail.prototype.managesieve_vacation_addresses_update = function (id, addresses)
-{
+rcube_webmail.prototype.managesieve_vacation_addresses_update = function (id, addresses) {
     var field = $('#vacation_addresses,#action_addresses' + (id || ''));
     smart_field_reset(field.get(0), addresses);
 };
 
-function rule_header_select(id)
-{
+function rule_header_select(id) {
     var is_header,
         obj = document.getElementById('header' + id),
         size = document.getElementById('rule_size' + id),
@@ -650,19 +613,16 @@ function rule_header_select(id)
         if (spamtest)
             spamtest.style.display = 'none';
         size.style.display = '';
-    }
-    else if (h == 'spamtest') {
+    } else if (h == 'spamtest') {
         if (msg) set.push(msg);
         $.each(set, function () { if (this != window) this.style.display = 'none'; });
         if (spamtest)
             spamtest.style.display = '';
         size.style.display = 'none';
-    }
-    else if (h == 'message' && msg) {
+    } else if (h == 'message' && msg) {
         $.each(set, function () { if (this != window)  this.style.display = 'none'; });
         msg.style.display = '';
-    }
-    else {
+    } else {
         is_header = h != 'body' && h != 'currentdate' && h != 'date' && h != 'string';
         header.style.display = h != '...' ? 'none' : '';
         custstr.style.display = h != 'string' ? 'none' : '';
@@ -699,8 +659,7 @@ function rule_header_select(id)
     obj.style.width = h == '...' ? '40px' : '';
 }
 
-function rule_op_select(obj, id, header)
-{
+function rule_op_select(obj, id, header) {
     var target = document.getElementById('rule_target' + id + '_list');
 
     if (!header)
@@ -709,16 +668,14 @@ function rule_op_select(obj, id, header)
     target.style.display = obj.value.match(/^(exists|notexists)$/) || header.match(/^(size|spamtest|message)$/) ? 'none' : '';
 }
 
-function rule_trans_select(id)
-{
+function rule_trans_select(id) {
     var obj = document.getElementById('rule_trans_op' + id),
         target = document.getElementById('rule_trans_type' + id);
 
     target.style.display = obj.value != 'content' ? 'none' : 'inline';
 }
 
-function rule_mod_select(id, header, reset)
-{
+function rule_mod_select(id, header, reset) {
     var obj = document.getElementById('rule_mod_op' + id),
         target = document.getElementById('rule_mod_type' + id),
         duplicate = document.getElementById('rule_duplicate_div' + id),
@@ -739,8 +696,7 @@ function rule_mod_select(id, header, reset)
         duplicate.style.display = header == 'message' ? '' : 'none';
 }
 
-function rule_spamtest_select(id)
-{
+function rule_spamtest_select(id) {
     var obj = document.getElementById('rule_spamtest_op' + id),
         target = document.getElementById('rule_spamtest_target' + id);
 
@@ -748,27 +704,23 @@ function rule_spamtest_select(id)
     $(obj)[obj.value ? 'removeClass' : 'addClass']('rounded-right');
 }
 
-function rule_join_radio(value)
-{
+function rule_join_radio(value) {
     $('#rules').css('display', value == 'any' ? 'none' : 'block');
 }
 
-function rule_adv_switch(id, elem)
-{
+function rule_adv_switch(id, elem) {
     var elem = $(elem), enabled = elem.hasClass('hide'), adv = $('#rule_advanced' + id);
 
     if (enabled) {
         adv.get(0).style.display = 'none';
         elem.removeClass('hide').addClass('show');
-    }
-    else {
+    } else {
         adv.get(0).style.display = '';
         elem.removeClass('show').addClass('hide');
     }
 }
 
-function rule_mime_select(id)
-{
+function rule_mime_select(id) {
     var elem = $('#rule_mime_type' + id),
         param_elem = $('#rule_mime_param' + id + '_list');
 
@@ -776,8 +728,7 @@ function rule_mime_select(id)
         param_elem[0].style.display = elem.val() == 'param' ? '' : 'none';
 }
 
-function action_type_select(id)
-{
+function action_type_select(id) {
     var obj = document.getElementById('action_type' + id),
         v = obj.value, enabled = {},
         elems = {
@@ -795,17 +746,13 @@ function action_type_select(id)
 
     if (v == 'fileinto' || v == 'fileinto_copy') {
         enabled.mailbox = 1;
-    }
-    else if (v == 'redirect' || v == 'redirect_copy') {
+    } else if (v == 'redirect' || v == 'redirect_copy') {
         enabled.target = 1;
-    }
-    else if (v.match(/^reject|ereject$/)) {
+    } else if (v.match(/^reject|ereject$/)) {
         enabled.target_area = 1;
-    }
-    else if (v.match(/^(add|set|remove)flag$/)) {
+    } else if (v.match(/^(add|set|remove)flag$/)) {
         enabled.flags = 1;
-    }
-    else if (v.match(/^(vacation|forward|set|notify|addheader|deleteheader)$/)) {
+    } else if (v.match(/^(vacation|forward|set|notify|addheader|deleteheader)$/)) {
         enabled[v] = 1;
     }
 
@@ -815,16 +762,14 @@ function action_type_select(id)
     }
 }
 
-function vacation_action_select()
-{
+function vacation_action_select() {
     var selected = $('#vacation_action').val();
 
     $('#action_target_span')[selected == 'discard' || selected == 'keep' ? 'hide' : 'show']();
 }
 
 // Initializes smart list input
-function smart_field_init(field)
-{
+function smart_field_init(field) {
     if (window.UI && UI.smart_field_init)
         return UI.smart_field_init(field);
 
@@ -860,8 +805,7 @@ function smart_field_init(field)
     }
 }
 
-function smart_field_row(value, idx, field)
-{
+function smart_field_row(value, idx, field) {
     // build row element content
     var input, content = '<span class="listelement">'
       + '<span class="reset"></span><input type="text"></span>',
@@ -914,8 +858,7 @@ function smart_field_row(value, idx, field)
 }
 
 // Reset and fill the smart list input with new data
-function smart_field_reset(field, data)
-{
+function smart_field_reset(field, data) {
     if (window.UI && UI.smart_field_reset)
         return UI.smart_field_reset(field, data);
 
@@ -932,8 +875,7 @@ function smart_field_reset(field, data)
 }
 
 // Register onmouse(leave/enter) events for tips on specified form element
-rcube_webmail.prototype.managesieve_tip_register = function (tips)
-{
+rcube_webmail.prototype.managesieve_tip_register = function (tips) {
     if (window.UI && UI.form_errors)
         return UI.form_errors(tips);
 
@@ -968,8 +910,7 @@ rcube_webmail.prototype.managesieve_tip_register = function (tips)
 };
 
 // format time string
-function sieve_formattime(hour, minutes)
-{
+function sieve_formattime(hour, minutes) {
     var i, c, h, time = '', format = rcmail.env.time_format || 'H:i';
 
     for (i = 0; i < format.length; i++) {
@@ -993,8 +934,7 @@ function sieve_formattime(hour, minutes)
     return time;
 }
 
-function sieve_form_init()
-{
+function sieve_form_init() {
     var form = rcmail.gui_objects.sieveform;
 
     // resize dialog window
@@ -1078,8 +1018,7 @@ function sieve_form_init()
 
 var cmeditor;
 
-function cmCreateErrorElem(msg)
-{
+function cmCreateErrorElem(msg) {
     var marker = document.createElement('div');
     marker.style.color = '#822';
     marker.innerHTML = '●';
@@ -1088,8 +1027,7 @@ function cmCreateErrorElem(msg)
     return marker;
 }
 
-function cmScrollToError()
-{
+function cmScrollToError() {
     var line = $('.CodeMirror-lines .line-error'),
         scroll = $('.CodeMirror-scroll'),
         h = line.parent();
@@ -1097,8 +1035,7 @@ function cmScrollToError()
     scroll.scrollTop(line.offset().top - scroll.offset().top - Math.round(scroll.height() / 2));
 }
 
-function sieve_raw_editor_init()
-{
+function sieve_raw_editor_init() {
     var textArea = document.getElementById('rawfiltersettxt');
     if (textArea && !cmeditor) {
         cmeditor = CodeMirror.fromTextArea(textArea, {
@@ -1124,8 +1061,7 @@ function sieve_raw_editor_init()
 /*********           Mail UI methods             *********/
 /*********************************************************/
 
-rcube_webmail.prototype.managesieve_create = function (force)
-{
+rcube_webmail.prototype.managesieve_create = function (force) {
     if (!force && this.env.action != 'show') {
         var uid = this.message_list.get_single_selection(),
             lock = this.set_busy(true, 'loading');
@@ -1202,13 +1138,11 @@ rcube_webmail.prototype.managesieve_create = function (force)
     );
 };
 
-rcube_webmail.prototype.managesieve_dialog_close = function ()
-{
+rcube_webmail.prototype.managesieve_dialog_close = function () {
     this.env.managesieve_dialog.dialog('destroy');
 };
 
-rcube_webmail.prototype.managesieve_dialog_resize = function (o)
-{
+rcube_webmail.prototype.managesieve_dialog_resize = function (o) {
     var dialog = this.env.managesieve_dialog,
         win = $(window), form = $(o);
     width = $('fieldset', o).first().width(), // fieldset width is more appropriate here

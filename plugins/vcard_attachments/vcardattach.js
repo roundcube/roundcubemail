@@ -15,8 +15,7 @@
  * for the JavaScript code in this file.
  */
 
-function plugin_vcard_import(mime_id)
-{
+function plugin_vcard_import(mime_id) {
     if (!mime_id) {
         var content = [];
 
@@ -59,15 +58,13 @@ function plugin_vcard_import(mime_id)
     return false;
 }
 
-function plugin_vcard_insertrow(data)
-{
+function plugin_vcard_insertrow(data) {
     if (data.row.ctype.match(/^(text\/vcard|text\/x-vcard|text\/directory)$/i)) {
         $(data.row.obj).find('.attachment > .attachment').addClass('vcard');
     }
 }
 
-function plugin_vcard_attach()
-{
+function plugin_vcard_attach() {
     var id, n, contacts = [],
         ts = new Date().getTime(),
         args = { _uploadid: ts, _id: rcmail.env.compose_id || null },
@@ -77,8 +74,7 @@ function plugin_vcard_attach()
         if (rcmail.env.task == 'addressbook') {
             id = selection[n];
             contacts.push(rcmail.env.source + '-' + id + '-0');
-        }
-        else {
+        } else {
             id = selection[n];
             if (id && id.charAt(0) != 'E' && rcmail.env.contactdata[id])
                 contacts.push(id);
@@ -93,8 +89,7 @@ function plugin_vcard_attach()
     if (rcmail.env.task == 'addressbook') {
         args._attach_vcard = 1;
         rcmail.open_compose_step(args);
-    }
-    else {
+    } else {
     // add to attachments list
         if (!rcmail.add2attachment_list(ts, { name: '', html: rcmail.get_label('attaching'), classname: 'uploading', complete: false }))
             rcmail.file_upload_id = rcmail.set_busy(true, 'attaching');

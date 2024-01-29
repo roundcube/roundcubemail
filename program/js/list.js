@@ -36,8 +36,7 @@
  * Roundcube List Widget class
  * @constructor
  */
-function rcube_list_widget(list, p)
-{
+function rcube_list_widget(list, p) {
     // static constants
     this.ENTER_KEY = 13;
     this.DELETE_KEY = 46;
@@ -93,13 +92,11 @@ rcube_list_widget.prototype = {
     /**
  * get all message rows from HTML table and init each row
  */
-    init: function ()
-    {
+    init: function () {
         if (this.tagname == 'table' && this.list && this.list.tBodies[0]) {
             this.thead = this.list.tHead;
             this.tbody = this.list.tBodies[0];
-        }
-        else if (this.tagname != 'table' && this.list) {
+        } else if (this.tagname != 'table' && this.list) {
             this.tbody = this.list;
         }
 
@@ -148,8 +145,7 @@ rcube_list_widget.prototype = {
     /**
  * Init list row and set mouse events on it
  */
-    init_row: function (row)
-    {
+    init_row: function (row) {
         row.uid = this.get_row_uid(row);
 
         // make references in internal array and set event handlers
@@ -184,8 +180,7 @@ rcube_list_widget.prototype = {
                             }
                         }
                     });
-            }
-            else if (bw.touch && row.addEventListener) {
+            } else if (bw.touch && row.addEventListener) {
                 row.addEventListener('touchstart', function (e) {
                     if (e.touches.length == 1) {
                         self.touchmoved = false;
@@ -232,16 +227,14 @@ rcube_list_widget.prototype = {
     /**
  * Init list column headers and set mouse events on them
  */
-    init_header: function ()
-    {
+    init_header: function () {
         if (this.thead) {
             this.colcount = 0;
 
             if (this.fixed_header) {  // copy (modified) fixed header back to the actual table
                 $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
                 $(this.list.tHead).find('th,td').attr('style', '').find('a').attr('tabindex', '-1');  // remove fixed widths
-            }
-            else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0) {
+            } else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0) {
                 this.init_fixed_header();
             }
 
@@ -264,8 +257,7 @@ rcube_list_widget.prototype = {
  */
     container: window,
 
-    init_fixed_header: function ()
-    {
+    init_fixed_header: function () {
         var clone = $(this.list.tHead).clone();
 
         if (!this.fixed_header) {
@@ -287,8 +279,7 @@ rcube_list_widget.prototype = {
                     marginTop: -w.scrollTop() + 'px'
                 });
             });
-        }
-        else {
+        } else {
             $(this.fixed_header).find('thead').replaceWith(clone);
         }
 
@@ -302,8 +293,7 @@ rcube_list_widget.prototype = {
         this.resize();
     },
 
-    resize: function ()
-    {
+    resize: function () {
         if (!this.fixed_header)
             return;
 
@@ -326,15 +316,13 @@ rcube_list_widget.prototype = {
     /**
  * Remove all list rows
  */
-    clear: function (sel)
-    {
+    clear: function (sel) {
         if (this.tagname == 'table') {
             var tbody = document.createElement('tbody');
             this.list.insertBefore(tbody, this.tbody);
             this.list.removeChild(this.list.tBodies[1]);
             this.tbody = tbody;
-        }
-        else {
+        } else {
             $(this.row_tagname() + ':not(.thead)', this.tbody).remove();
         }
 
@@ -357,8 +345,7 @@ rcube_list_widget.prototype = {
     /**
  * 'remove' message row from list (just hide it)
  */
-    remove_row: function (uid, sel_next)
-    {
+    remove_row: function (uid, sel_next) {
         var self = this, node = this.rows[uid] ? this.rows[uid].obj : null;
 
         if (!node)
@@ -382,8 +369,7 @@ rcube_list_widget.prototype = {
     /**
  * Add row to the list and initialize it
  */
-    insert_row: function (row, before)
-    {
+    insert_row: function (row, before) {
         var self = this, tbody = this.tbody;
 
         // create a real dom node first
@@ -433,8 +419,7 @@ rcube_list_widget.prototype = {
     /**
  * Update existing record
  */
-    update_row: function (id, cols, newid, select)
-    {
+    update_row: function (id, cols, newid, select) {
         var row = this.rows[id];
         if (!row) return false;
 
@@ -460,8 +445,7 @@ rcube_list_widget.prototype = {
     /**
  * Add selection checkbox to the list record
  */
-    insert_checkbox: function (row, tag_name)
-    {
+    insert_checkbox: function (row, tag_name) {
         var key, self = this,
             cell = document.createElement(this.col_tagname(tag_name)),
             chbox = document.createElement('input');
@@ -495,8 +479,7 @@ rcube_list_widget.prototype = {
     /**
  * Enable checkbox selection
  */
-    enable_checkbox_selection: function ()
-    {
+    enable_checkbox_selection: function () {
         this.checkbox_selection = true;
 
         // Add checkbox to existing records if any
@@ -527,8 +510,7 @@ rcube_list_widget.prototype = {
     /**
  * Set focus to the list
  */
-    focus: function (e)
-    {
+    focus: function (e) {
         if (this.focused)
             return;
 
@@ -547,8 +529,7 @@ rcube_list_widget.prototype = {
         if (focus_elem && focus_elem.length) {
             // We now fix this by explicitly assigning focus to a dedicated link element
             this.focus_noscroll(focus_elem);
-        }
-        else {
+        } else {
             // It looks that window.focus() does the job for all browsers, but not Firefox (#1489058)
             $('iframe,:focus:not(body)').blur();
             window.focus();
@@ -565,8 +546,7 @@ rcube_list_widget.prototype = {
     /**
  * remove focus from the list
  */
-    blur: function (e)
-    {
+    blur: function (e) {
         this.focused = false;
 
         // avoid the table getting focus right again (on Shift+Tab)
@@ -584,8 +564,7 @@ rcube_list_widget.prototype = {
     /**
  * Focus the given element without scrolling the list container
  */
-    focus_noscroll: function (elem)
-    {
+    focus_noscroll: function (elem) {
         var y = this.frame.scrollTop || this.frame.scrollY;
         elem.focus();
         this.frame.scrollTop = y;
@@ -595,8 +574,7 @@ rcube_list_widget.prototype = {
     /**
  * Set/unset the given column as hidden
  */
-    hide_column: function (col, hide)
-    {
+    hide_column: function (col, hide) {
         var method = hide ? 'addClass' : 'removeClass';
 
         if (this.fixed_header)
@@ -609,8 +587,7 @@ rcube_list_widget.prototype = {
     /**
  * onmousedown-handler of message list column
  */
-    drag_column: function (e, col)
-    {
+    drag_column: function (e, col) {
         if (this.colcount > 1) {
             this.drag_start = true;
             this.drag_mouse_start = rcube_event.get_mouse_pos(e);
@@ -637,8 +614,7 @@ rcube_list_widget.prototype = {
     /**
  * onmousedown-handler of message list row
  */
-    drag_row: function (e, id)
-    {
+    drag_row: function (e, id) {
         // don't do anything (another action processed before)
         if (!this.is_event_target(e))
             return true;
@@ -679,8 +655,7 @@ rcube_list_widget.prototype = {
     /**
  * onmouseup-handler of message list row
  */
-    click_row: function (e, id)
-    {
+    click_row: function (e, id) {
         // sanity check
         if (!id || !this.rows[id])
             return false;
@@ -703,8 +678,7 @@ rcube_list_widget.prototype = {
         if (this.rowcount && dblclicked && this.in_selection(id)) {
             this.triggerEvent('dblclick');
             now = 0;
-        }
-        else
+        } else
             this.triggerEvent('click');
 
         if (!this.drag_active) {
@@ -723,8 +697,7 @@ rcube_list_widget.prototype = {
     /**
  * Check target of the current event
  */
-    is_event_target: function (e)
-    {
+    is_event_target: function (e) {
         var target = rcube_event.get_target(e),
             tagname = target.tagName.toLowerCase();
 
@@ -735,8 +708,7 @@ rcube_list_widget.prototype = {
     /*
  * Returns thread root ID for specified row ID
  */
-    find_root: function (uid)
-    {
+    find_root: function (uid) {
         var r = this.rows[uid];
 
         if (r && r.parent_uid)
@@ -746,8 +718,7 @@ rcube_list_widget.prototype = {
     },
 
 
-    expand_row: function (e, id)
-    {
+    expand_row: function (e, id) {
         var row = this.rows[id],
             evtarget = rcube_event.get_target(e),
             mod_key = rcube_event.get_modifier(e),
@@ -759,8 +730,7 @@ rcube_list_widget.prototype = {
         this[action](row);
     },
 
-    collapse: function (row)
-    {
+    collapse: function (row) {
         var r, depth = row.depth,
             new_row = row ? row.obj.nextSibling : null;
 
@@ -789,8 +759,7 @@ rcube_list_widget.prototype = {
         return false;
     },
 
-    expand: function (row)
-    {
+    expand: function (row) {
         var r, p, depth, new_row, last_expanded_parent_depth;
 
         if (row) {
@@ -799,8 +768,7 @@ rcube_list_widget.prototype = {
             new_row = row.obj.nextSibling;
             this.update_expando(row.id, true);
             this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
-        }
-        else {
+        } else {
             var tbody = this.tbody;
             new_row = tbody.firstChild;
             depth = 0;
@@ -824,8 +792,7 @@ rcube_list_widget.prototype = {
                                 this.update_expando(r.id, true);
                                 this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
                             }
-                        }
-                        else
+                        } else
                             if (row && (!p || p.depth <= depth))
                                 break;
                     }
@@ -841,8 +808,7 @@ rcube_list_widget.prototype = {
     },
 
 
-    collapse_all: function (row)
-    {
+    collapse_all: function (row) {
         var depth, new_row, r;
 
         if (row) {
@@ -855,8 +821,7 @@ rcube_list_widget.prototype = {
             // don't collapse sub-root tree in multiexpand mode
             if (depth && this.multiexpand)
                 return false;
-        }
-        else {
+        } else {
             new_row = this.tbody.firstChild;
             depth = 0;
         }
@@ -888,8 +853,7 @@ rcube_list_widget.prototype = {
     },
 
 
-    expand_all: function (row)
-    {
+    expand_all: function (row) {
         var depth, new_row, r;
 
         if (row) {
@@ -898,8 +862,7 @@ rcube_list_widget.prototype = {
             new_row = row.obj.nextSibling;
             this.update_expando(row.id, true);
             this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
-        }
-        else {
+        } else {
             new_row = this.tbody.firstChild;
             depth = 0;
         }
@@ -930,15 +893,13 @@ rcube_list_widget.prototype = {
     },
 
 
-    update_expando: function (id, expanded)
-    {
+    update_expando: function (id, expanded) {
         var expando = document.getElementById('rcmexpando' + id);
         if (expando)
             expando.className = expanded ? 'expanded' : 'collapsed';
     },
 
-    get_row_uid: function (row)
-    {
+    get_row_uid: function (row) {
         if (!row)
             return;
 
@@ -956,8 +917,7 @@ rcube_list_widget.prototype = {
     /**
  * get first/next/previous/last rows that are not hidden
  */
-    get_next_row: function (uid)
-    {
+    get_next_row: function (uid) {
         if (!this.rowcount)
             return false;
 
@@ -970,8 +930,7 @@ rcube_list_widget.prototype = {
         return new_row;
     },
 
-    get_prev_row: function (uid)
-    {
+    get_prev_row: function (uid) {
         if (!this.rowcount)
             return false;
 
@@ -984,8 +943,7 @@ rcube_list_widget.prototype = {
         return new_row;
     },
 
-    get_first_row: function ()
-    {
+    get_first_row: function () {
         if (this.rowcount) {
             var i, uid, rows = this.tbody.childNodes;
 
@@ -997,8 +955,7 @@ rcube_list_widget.prototype = {
         return null;
     },
 
-    get_last_row: function ()
-    {
+    get_last_row: function () {
         if (this.rowcount) {
             var i, uid, rows = this.tbody.childNodes;
 
@@ -1010,44 +967,38 @@ rcube_list_widget.prototype = {
         return null;
     },
 
-    get_next: function ()
-    {
+    get_next: function () {
         var row;
         if (row = this.get_next_row()) {
             return row.uid;
         }
     },
 
-    get_prev: function ()
-    {
+    get_prev: function () {
         var row;
         if (row = this.get_prev_row()) {
             return row.uid;
         }
     },
 
-    row_tagname: function ()
-    {
+    row_tagname: function () {
         var row_tagnames = { table:'tr', ul:'li', '*':'div' };
         return row_tagnames[this.tagname] || row_tagnames['*'];
     },
 
-    col_tagname: function (tagname)
-    {
+    col_tagname: function (tagname) {
         var col_tagnames = { table:'td', thead:'th', tbody:'td', '*':'span' };
         return col_tagnames[tagname || this.tagname] || col_tagnames['*'];
     },
 
-    get_cell: function (row, index)
-    {
+    get_cell: function (row, index) {
         return $(this.col_tagname(), row).eq(index + (this.checkbox_selection ? 1 : 0));
     },
 
     /**
  * selects or unselects the proper row depending on the modifier key pressed
  */
-    select_row: function (id, mod_key, with_mouse)
-    {
+    select_row: function (id, mod_key, with_mouse) {
         var select_before = this.selection.join(','),
             in_selection_before = this.in_selection(id);
 
@@ -1061,8 +1012,7 @@ rcube_list_widget.prototype = {
             this.shift_start = id;
             this.highlight_row(id, false);
             this.multi_selecting = false;
-        }
-        else {
+        } else {
             switch (mod_key) {
                 case SHIFT_KEY:
                     this.shift_select(id, false);
@@ -1118,8 +1068,7 @@ rcube_list_widget.prototype = {
     /**
  * Alias method for select_row
  */
-    select: function (id)
-    {
+    select: function (id) {
         this.select_row(id, false);
         this.scrollto(id);
     },
@@ -1129,8 +1078,7 @@ rcube_list_widget.prototype = {
  * Select row next to the specified or last selected one
  * Either below or above.
  */
-    select_next: function (uid)
-    {
+    select_next: function (uid) {
         var new_row = this.get_next_row(uid) || this.get_prev_row(uid);
         if (new_row)
             this.select_row(new_row.uid, false, false);
@@ -1140,8 +1088,7 @@ rcube_list_widget.prototype = {
     /**
  * Select first row
  */
-    select_first: function (mod_key, noscroll)
-    {
+    select_first: function (mod_key, noscroll) {
         var row = this.get_first_row();
         if (row) {
             this.select_row(row, mod_key, false);
@@ -1155,8 +1102,7 @@ rcube_list_widget.prototype = {
     /**
  * Select last row
  */
-    select_last: function (mod_key, noscroll)
-    {
+    select_last: function (mod_key, noscroll) {
         var row = this.get_last_row();
         if (row) {
             this.select_row(row, mod_key, false);
@@ -1170,8 +1116,7 @@ rcube_list_widget.prototype = {
     /**
  * Add all children of the given row to selection
  */
-    select_children: function (uid)
-    {
+    select_children: function (uid) {
         var i, children = this.row_children(uid), len = children.length;
 
         for (i = 0; i < len; i++)
@@ -1183,8 +1128,7 @@ rcube_list_widget.prototype = {
     /**
  * Perform selection when shift key is pressed
  */
-    shift_select: function (id, control)
-    {
+    shift_select: function (id, control) {
         if (!this.rows[this.shift_start] || !this.selection.length)
             this.shift_start = id;
 
@@ -1206,8 +1150,7 @@ rcube_list_widget.prototype = {
                 if (!this.in_selection(n)) {
                     this.highlight_row(n, true);
                 }
-            }
-            else {
+            } else {
                 if (this.in_selection(n) && !control) {
                     this.highlight_row(n, true);
                 }
@@ -1219,16 +1162,14 @@ rcube_list_widget.prototype = {
     /**
  * Helper method to emulate the rowIndex property of non-tr elements
  */
-    _rowIndex: function (obj)
-    {
+    _rowIndex: function (obj) {
         return (obj.rowIndex !== undefined) ? obj.rowIndex : $(obj).prevAll().length;
     },
 
     /**
  * Check if given id is part of the current selection
  */
-    in_selection: function (id, index)
-    {
+    in_selection: function (id, index) {
         for (var n in this.selection)
             if (this.selection[n] == id)
                 return index ? parseInt(n) : true;
@@ -1240,8 +1181,7 @@ rcube_list_widget.prototype = {
     /**
  * Select each row in list
  */
-    select_all: function (filter)
-    {
+    select_all: function (filter) {
         if (!this.rowcount)
             return false;
 
@@ -1253,8 +1193,7 @@ rcube_list_widget.prototype = {
             if (!filter || this.rows[n][filter] == true) {
                 this.last_selected = n;
                 this.highlight_row(n, true, true);
-            }
-            else {
+            } else {
                 $(this.rows[n].obj).removeClass('selected').removeAttr('aria-selected');
             }
         }
@@ -1272,8 +1211,7 @@ rcube_list_widget.prototype = {
     /**
  * Invert selection
  */
-    invert_selection: function ()
-    {
+    invert_selection: function () {
         if (!this.rowcount)
             return false;
 
@@ -1296,8 +1234,7 @@ rcube_list_widget.prototype = {
     /**
  * Unselect selected row(s)
  */
-    clear_selection: function (id, no_event)
-    {
+    clear_selection: function (id, no_event) {
         var n, num_select = this.selection.length;
 
         // one row
@@ -1331,8 +1268,7 @@ rcube_list_widget.prototype = {
     /**
  * Getter for the selection array
  */
-    get_selection: function (deep)
-    {
+    get_selection: function (deep) {
         var res = $.merge([], this.selection);
 
         var props = { deep: deep, res: res };
@@ -1361,8 +1297,7 @@ rcube_list_widget.prototype = {
     /**
  * Return the ID if only one row is selected
  */
-    get_single_selection: function ()
-    {
+    get_single_selection: function () {
         var selection = this.get_selection(false);
 
         if (selection.length == 1)
@@ -1375,8 +1310,7 @@ rcube_list_widget.prototype = {
     /**
  * Highlight/unhighlight a row
  */
-    highlight_row: function (id, multiple, norecur)
-    {
+    highlight_row: function (id, multiple, norecur) {
         if (!this.rows[id])
             return;
 
@@ -1389,8 +1323,7 @@ rcube_list_widget.prototype = {
                 if (this.checkbox_selection)
                     $('.selection > input', this.rows[id].obj).prop('checked', true);
             }
-        }
-        else {
+        } else {
             var pre, post, p = this.in_selection(id, true);
 
             if (p === false) { // select row
@@ -1402,8 +1335,7 @@ rcube_list_widget.prototype = {
 
                 if (!norecur && !this.rows[id].expanded)
                     this.highlight_children(id, true);
-            }
-            else { // unselect row
+            } else { // unselect row
                 pre = this.selection.slice(0, p);
                 post = this.selection.slice(p + 1, this.selection.length);
 
@@ -1423,8 +1355,7 @@ rcube_list_widget.prototype = {
     /**
  * Highlight/unhighlight all children of the given row
  */
-    highlight_children: function (id, status)
-    {
+    highlight_children: function (id, status) {
         var i, selected,
             children = this.row_children(id), len = children.length;
 
@@ -1439,8 +1370,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for keyboard events
  */
-    key_press: function (e)
-    {
+    key_press: function (e) {
         if (!this.focused || $(e.target).is('input,textarea,select'))
             return true;
 
@@ -1514,8 +1444,7 @@ rcube_list_widget.prototype = {
     /**
  * Special handling method for arrow keys
  */
-    use_arrow_key: function (keyCode, mod_key)
-    {
+    use_arrow_key: function (keyCode, mod_key) {
         var new_row, selected_row = this.rows[this.last_selected];
 
         if (!selected_row) {
@@ -1536,8 +1465,7 @@ rcube_list_widget.prototype = {
                 new_row = this.get_next_row();
                 mod_key = null;
             }
-        }
-        else if (keyCode == 37) { // Left arrow
+        } else if (keyCode == 37) { // Left arrow
             if (selected_row.expanded && selected_row.has_children && (!selected_row.parent_uid || !this.multiexpand))
                 this.collapse_all(selected_row);
             else if (selected_row.parent_uid) {
@@ -1567,8 +1495,7 @@ rcube_list_widget.prototype = {
     /**
  * Try to scroll the list to make the specified row visible
  */
-    scrollto: function (id)
-    {
+    scrollto: function (id) {
         var row = this.rows[id] ? this.rows[id].obj : null;
 
         if (row && this.frame) {
@@ -1589,8 +1516,7 @@ rcube_list_widget.prototype = {
             if (scroll_to < Number(this.frame.scrollTop) + head_offset) {
                 // scroll window so that row isn't behind header
                 this.frame.scrollTop = scroll_to - head_offset;
-            }
-            else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight))
+            } else if (scroll_to + Number(row.offsetHeight) > Number(this.frame.scrollTop) + Number(this.frame.offsetHeight))
                 this.frame.scrollTop = (scroll_to + Number(row.offsetHeight)) - Number(this.frame.offsetHeight);
         }
     },
@@ -1599,8 +1525,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for mouse move events
  */
-    drag_mouse_move: function (e)
-    {
+    drag_mouse_move: function (e) {
         // convert touch event
         if (e.type == 'touchmove') {
             if (e.touches.length == 1 && e.changedTouches.length == 1)
@@ -1714,8 +1639,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for mouse up events
  */
-    drag_mouse_up: function (e)
-    {
+    drag_mouse_up: function (e) {
         document.onmousemove = null;
 
         if (e.type == 'touchend') {
@@ -1754,8 +1678,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for mouse move events for dragging list column
  */
-    column_drag_mouse_move: function (e)
-    {
+    column_drag_mouse_move: function (e) {
         if (this.drag_start) {
             // check mouse movement, of less than 3 pixels, don't start dragging
             var i, m = rcube_event.get_mouse_pos(e);
@@ -1827,8 +1750,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for mouse up events for dragging list columns
  */
-    column_drag_mouse_up: function (e)
-    {
+    column_drag_mouse_up: function (e) {
         document.onmousemove = null;
 
         if (this.col_draglayer) {
@@ -1871,8 +1793,7 @@ rcube_list_widget.prototype = {
     /**
  * Returns IDs of all rows in a thread (except root) for specified root
  */
-    row_children: function (uid)
-    {
+    row_children: function (uid) {
         if (!this.rows[uid] || !this.rows[uid].has_children)
             return [];
 
@@ -1897,8 +1818,7 @@ rcube_list_widget.prototype = {
     /**
  * Creates a layer for drag&drop over iframes
  */
-    add_dragfix: function ()
-    {
+    add_dragfix: function () {
         $('iframe').each(function () {
             $('<div class="iframe-dragdrop-fix"></div>')
                 .css({ background: '#fff',
@@ -1914,8 +1834,7 @@ rcube_list_widget.prototype = {
     /**
  * Removes the layer for drag&drop over iframes
  */
-    del_dragfix: function ()
-    {
+    del_dragfix: function () {
         $('div.iframe-dragdrop-fix').remove();
     },
 
@@ -1923,8 +1842,7 @@ rcube_list_widget.prototype = {
     /**
  * Replaces two columns
  */
-    column_replace: function (from, to)
-    {
+    column_replace: function (from, to) {
         // only supported for <table> lists
         if (!this.thead || !this.thead.rows)
             return;
@@ -1970,8 +1888,7 @@ rcube_list_widget.prototype = {
         this.triggerEvent('column_replace');
     },
 
-    subject_column: function ()
-    {
+    subject_column: function () {
         return this.subject_col + (this.checkbox_selection ? 1 : 0);
     }
 

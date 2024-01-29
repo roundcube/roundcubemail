@@ -15,8 +15,7 @@
  * for the JavaScript code in this file.
  */
 
-function rcmail_get_compose_message()
-{
+function rcmail_get_compose_message() {
     var msg = rcmail.editor.get_content({ nosig: true });
 
     if (rcmail.editor.is_html()) {
@@ -24,8 +23,7 @@ function rcmail_get_compose_message()
         msg = msg.replace(/<blockquote[^>]*>(.|[\r\n])*<\/blockquote>/gmi, '')
             .replace(/<[^>]+>/gm, ' ')
             .replace(/&nbsp;/g, ' ');
-    }
-    else {
+    } else {
     // Remove quoted content
         msg = msg.replace(/^>.*$/gmi, '');
     }
@@ -33,8 +31,7 @@ function rcmail_get_compose_message()
     return msg;
 }
 
-function rcmail_check_message(msg)
-{
+function rcmail_check_message(msg) {
     var i, rx, keywords = rcmail.get_label('keywords', 'attachment_reminder').split(',').concat(['.doc', '.pdf']);
 
     keywords = $.map(keywords, function (n) { return RegExp.escape(n); });
@@ -43,13 +40,11 @@ function rcmail_check_message(msg)
     return msg.search(rx) != -1;
 }
 
-function rcmail_have_attachments()
-{
+function rcmail_have_attachments() {
     return rcmail.env.attachments && $('li', rcmail.gui_objects.attachmentlist).length;
 }
 
-function rcmail_attachment_reminder_dialog()
-{
+function rcmail_attachment_reminder_dialog() {
     var buttons = {};
 
     buttons[rcmail.get_label('addattachment')] = function () {

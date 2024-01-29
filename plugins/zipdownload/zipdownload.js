@@ -49,8 +49,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 });
 
 
-function rcmail_zipdownload(mode)
-{
+function rcmail_zipdownload(mode) {
     // default .eml download of single message
     if (mode == 'eml') {
         var uid = rcmail.get_single_uid();
@@ -78,8 +77,7 @@ function rcmail_zipdownload(mode)
             if (typeof v == 'object' && v.length > 1) {
                 for (var j = 0; j < v.length; j++)
                     inputs.push($('<input>').attr({ type: 'hidden', name: k + '[]', value: v[j] }));
-            }
-            else {
+            } else {
                 inputs.push($('<input>').attr({ type: 'hidden', name: k, value: v }));
             }
         });
@@ -90,8 +88,7 @@ function rcmail_zipdownload(mode)
 }
 
 // display download options menu
-function rcmail_zipdownload_menu(e)
-{
+function rcmail_zipdownload_menu(e) {
     // Menu option status
     var selected = rcmail.message_list.get_selection().length;
     rcmail.enable_command('download-eml', selected == 1);

@@ -34,8 +34,7 @@
  * Roundcube Treelist widget class
  * @constructor
  */
-function rcube_treelist_widget(node, p)
-{
+function rcube_treelist_widget(node, p) {
     // apply some defaults to p
     p = $.extend({
         id_prefix: '',
@@ -205,8 +204,7 @@ function rcube_treelist_widget(node, p)
 
             if (!has_focus && selection) {
                 $(get_item(selection)).find(':focusable').first().focus();
-            }
-            else if (!has_focus) {
+            } else if (!has_focus) {
                 container.children('li').find(':focusable').first().focus();
             }
         });
@@ -215,8 +213,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Collapse a the node with the given ID
    */
-    function collapse(id, recursive, set)
-    {
+    function collapse(id, recursive, set) {
         var node;
 
         if (node = indexbyid[id]) {
@@ -237,16 +234,14 @@ function rcube_treelist_widget(node, p)
     /**
    * Expand a the node with the given ID
    */
-    function expand(id, recursive)
-    {
+    function expand(id, recursive) {
         collapse(id, recursive, false);
     }
 
     /**
    * Toggle collapsed state of a list node
    */
-    function toggle(id, recursive)
-    {
+    function toggle(id, recursive) {
         var node;
         if (node = indexbyid[id]) {
             collapse(id, recursive, !node.collapsed);
@@ -256,8 +251,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Collapse all expanded nodes
    */
-    function collapse_all()
-    {
+    function collapse_all() {
         $.each(indexbyid, function (id, data) {
             if (data.children.length > 0 && !data.collapsed) {
                 collapse(id);
@@ -268,8 +262,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Expand all collapsed nodes
    */
-    function expand_all()
-    {
+    function expand_all() {
         $.each(indexbyid, function (id, data) {
             if (data.children.length > 0 && data.collapsed) {
                 collapse(id, false, false);
@@ -280,8 +273,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Select a tree node by it's ID
    */
-    function select(id)
-    {
+    function select(id) {
     // allow subscribes to prevent selection change
         if (me.triggerEvent('beforeselect', indexbyid[id]) === false) {
             return;
@@ -315,8 +307,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Getter for the currently selected node ID
    */
-    function get_selection()
-    {
+    function get_selection() {
         return selection;
     }
 
@@ -324,32 +315,28 @@ function rcube_treelist_widget(node, p)
    * Check if given id is selected
    * This is for consistency with rcube_list_widget
    */
-    function in_selection(id)
-    {
+    function in_selection(id) {
         return selection == id;
     }
 
     /**
    * Return the DOM element of the list item with the given ID
    */
-    function get_node(id)
-    {
+    function get_node(id) {
         return indexbyid[id];
     }
 
     /**
    * Return the DOM element of the list item with the given ID
    */
-    function get_item(id, real)
-    {
+    function get_item(id, real) {
         return id2dom(id, real).get(0);
     }
 
     /**
    * Insert the given node
    */
-    function insert(node, parent_id, sort)
-    {
+    function insert(node, parent_id, sort) {
         var li, parent_li,
             parent_node = parent_id ? indexbyid[parent_id] : null;
         search_ = search_active;
@@ -385,8 +372,7 @@ function rcube_treelist_widget(node, p)
             if (parent_node.children.length == 1) {
                 render_node(parent_node, null, parent_li);
                 li = id2dom(node.id);
-            }
-            else {
+            } else {
                 // append new node to parent's child list
                 li = render_node(node, parent_li.children('ul').first());
             }
@@ -429,8 +415,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Update properties of an existing node
    */
-    function update_node(id, updates, sort)
-    {
+    function update_node(id, updates, sort) {
         var li, parent_ul, parent_node, old_parent,
             node = indexbyid[id];
 
@@ -450,8 +435,7 @@ function rcube_treelist_widget(node, p)
                     if (!parent_node.children)
                         parent_node.children = [];
                     parent_node.children.push(node);
-                }
-                else if (updates.parent !== undefined) {
+                } else if (updates.parent !== undefined) {
                     parent_ul = container;
                 }
 
@@ -473,8 +457,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Helper method to sort the list of the given item
    */
-    function resort_node(li, filter)
-    {
+    function resort_node(li, filter) {
         var first, sibling,
             myid = li.get(0).id,
             sortname = li.children().first().text().toUpperCase();
@@ -484,19 +467,16 @@ function rcube_treelist_widget(node, p)
                 first = elem;
             if (elem.id == myid) {
                 // skip
-            }
-            else if (elem.id != myid && sortname >= $(elem).children().first().text().toUpperCase()) {
+            } else if (elem.id != myid && sortname >= $(elem).children().first().text().toUpperCase()) {
                 sibling = elem;
-            }
-            else {
+            } else {
                 return false;
             }
         });
 
         if (sibling) {
             li.insertAfter(sibling);
-        }
-        else if (first && first.id != myid) {
+        } else if (first && first.id != myid) {
             li.insertBefore(first);
         }
 
@@ -507,8 +487,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Remove the item with the given ID
    */
-    function remove(id)
-    {
+    function remove(id) {
         var node, li, parent;
 
         if (node = indexbyid[id]) {
@@ -542,16 +521,14 @@ function rcube_treelist_widget(node, p)
     /**
    * (Re-)read tree data from DOM
    */
-    function update_data()
-    {
+    function update_data() {
         data = walk_list(container, 0);
     }
 
     /**
    * Apply the 'collapsed' status of the data node to the corresponding DOM element(s)
    */
-    function update_dom(node)
-    {
+    function update_dom(node) {
         var li = id2dom(node.id, true);
         li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
         li.children('ul').first()[(node.collapsed ? 'hide' : 'show')]();
@@ -562,8 +539,7 @@ function rcube_treelist_widget(node, p)
     /**
    *
    */
-    function reset(keep_content, keep_selection)
-    {
+    function reset(keep_content, keep_selection) {
         if (!keep_selection)
             select('');
 
@@ -585,8 +561,7 @@ function rcube_treelist_widget(node, p)
             }
 
             update_data();
-        }
-        else {
+        } else {
             container.html('');
         }
 
@@ -596,8 +571,7 @@ function rcube_treelist_widget(node, p)
     /**
    *
    */
-    function search(q, enter)
-    {
+    function search(q, enter) {
         q = String(q).toLowerCase();
 
         if (!q.length)
@@ -662,8 +636,7 @@ function rcube_treelist_widget(node, p)
     /**
    *
    */
-    function reset_search(nosel)
-    {
+    function reset_search(nosel) {
         if (searchfield)
             searchfield.val('');
 
@@ -682,16 +655,14 @@ function rcube_treelist_widget(node, p)
     /**
    *
    */
-    function is_search()
-    {
+    function is_search() {
         return search_active;
     }
 
     /**
    * Render the tree list from the internal data structure
    */
-    function render()
-    {
+    function render() {
         if (me.triggerEvent('renderBefore', data) === false)
             return;
 
@@ -710,8 +681,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Render a specific node into the DOM list
    */
-    function render_node(node, parent, replace)
-    {
+    function render_node(node, parent, replace) {
         if (node.deleted)
             return;
 
@@ -725,8 +695,7 @@ function rcube_treelist_widget(node, p)
             replace.replaceWith(li);
             if (parent)
                 li.appendTo(parent);
-        }
-        else
+        } else
             li.appendTo(parent);
 
         if (typeof node.html == 'string')
@@ -763,8 +732,7 @@ function rcube_treelist_widget(node, p)
    * Recursively walk the DOM tree and build an internal data structure
    * representing the skeleton of this tree list.
    */
-    function walk_list(ul, level)
-    {
+    function walk_list(ul, level) {
         var result = [];
         ul.children('li').each(function (i, e) {
             var state, li = $(e), sublist = li.children('ul');
@@ -824,8 +792,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Recursively walk the data tree and index nodes by their ID
    */
-    function index_data(node)
-    {
+    function index_data(node) {
         if (node.id) {
             indexbyid[node.id] = node;
         }
@@ -837,8 +804,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Get the (stripped) node ID from the given DOM element
    */
-    function dom2id(li)
-    {
+    function dom2id(li) {
         var domid = String(li.attr('id')).replace(new RegExp('^' + (p.id_prefix) || '%'), '').replace(/--xsR$/, '');
         return p.id_decode ? p.id_decode(domid) : domid;
     }
@@ -846,8 +812,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Get the <li> element for the given node ID
    */
-    function id2dom(id, real)
-    {
+    function id2dom(id, real) {
         var domid = p.id_encode ? p.id_encode(id) : id,
             suffix = search_active && !real ? '--xsR' : '';
 
@@ -857,8 +822,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Scroll the parent container to make the given list item visible
    */
-    function scroll_to_node(li)
-    {
+    function scroll_to_node(li) {
         var scroller = container.parent(),
             current_offset = scroller.scrollTop(),
             rel_offset = li.offset().top - scroller.offset().top;
@@ -870,8 +834,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Save node collapse state to localStorage
    */
-    function save_state(id, collapsed)
-    {
+    function save_state(id, collapsed) {
         if (p.save_state && window.rcmail) {
             var key = 'treelist-' + list_id;
             if (!tree_state) {
@@ -888,8 +851,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Read node collapse state from localStorage
    */
-    function get_state(id)
-    {
+    function get_state(id) {
         if (p.save_state && window.rcmail) {
             if (!tree_state) {
                 tree_state = rcmail.local_storage_get_item('treelist-' + list_id, {});
@@ -901,8 +863,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Handler for keyboard events on treelist
    */
-    function keypress(e)
-    {
+    function keypress(e) {
         var target = e.target || {},
             keyCode = rcube_event.get_keycode(e);
 
@@ -943,27 +904,22 @@ function rcube_treelist_widget(node, p)
         return true;
     }
 
-    function focus_next(li, dir, from_child)
-    {
+    function focus_next(li, dir, from_child) {
         var mod = dir < 0 ? 'prev' : 'next',
             next = li[mod](), limit, parent;
 
         if (dir > 0 && !from_child && li.children('ul[role=group]:visible').length) {
             li.children('ul').children('li').first().find('a').first().focus();
-        }
-        else if (dir < 0 && !from_child && next.children('ul[role=group]:visible').length) {
+        } else if (dir < 0 && !from_child && next.children('ul[role=group]:visible').length) {
             next.children('ul').children('li').last().find('a').first().focus();
-        }
-        else if (next.length && next.find('a').first().focus().length) {
+        } else if (next.length && next.find('a').first().focus().length) {
         // focused
-        }
-        else {
+        } else {
             parent = li.parent().closest('li[role=treeitem]');
             if (parent.length)
                 if (dir < 0) {
                     parent.find('a').first().focus();
-                }
-                else {
+                } else {
                     focus_next(parent, dir, true);
                 }
         }
@@ -972,8 +928,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Focus the given element without scrolling the list container
    */
-    function focus_noscroll(elem)
-    {
+    function focus_noscroll(elem) {
         if (elem.length) {
             var frame = container.parent().get(0) || { scrollTop:0 },
                 y = frame.scrollTop || frame.scrollY;
@@ -983,8 +938,7 @@ function rcube_treelist_widget(node, p)
     }
 
 
-    function get_next()
-    {
+    function get_next() {
         var node, child;
         if (selection && (node = id2dom(selection))) {
             child = node.children('ul').children('li').first();
@@ -1006,8 +960,7 @@ function rcube_treelist_widget(node, p)
         }
     }
 
-    function get_prev()
-    {
+    function get_prev() {
         var node, prev, child;
         if (selection && (node = id2dom(selection))) {
             prev = node.prev();
@@ -1034,8 +987,7 @@ function rcube_treelist_widget(node, p)
    * When dragging starts, compute absolute bounding boxes of the list and it's items
    * for faster comparisons while mouse is moving
    */
-    function drag_start(force)
-    {
+    function drag_start(force) {
         if (!force && drag_active)
             return;
 
@@ -1081,16 +1033,14 @@ function rcube_treelist_widget(node, p)
 
                 if (mouse.y < 25 && list_scroll_top > 0) {
                     scroll = -1; // up
-                }
-                else if (mouse.y > container.parent().height() - 25) {
+                } else if (mouse.y > container.parent().height() - 25) {
                     scroll = 1; // down
                 }
 
                 if (drag_active && scroll != 0) {
                     if (!scroll_timer)
                         scroll_timer = setTimeout(function () { drag_scroll(scroll); }, p.scroll_delay);
-                }
-                else if (scroll_timer) {
+                } else if (scroll_timer) {
                     window.clearTimeout(scroll_timer);
                     scroll_timer = null;
                 }
@@ -1107,8 +1057,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Signal that dragging has stopped
    */
-    function drag_end()
-    {
+    function drag_end() {
         container.parent().off('.treelist');
         $('li.droptarget', container).removeClass('droptarget');
 
@@ -1128,8 +1077,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Scroll list container in the given direction
    */
-    function drag_scroll(dir)
-    {
+    function drag_scroll(dir) {
         if (!drag_active)
             return;
 
@@ -1145,8 +1093,7 @@ function rcube_treelist_widget(node, p)
     /**
    * Determine if the given mouse coords intersect the list and one of its items
    */
-    function intersects(mouse, highlight)
-    {
+    function intersects(mouse, highlight) {
     // offsets to compensate for scrolling while dragging a message
         var boffset = bw.ie ? -document.documentElement.scrollTop : body_scroll_top,
             moffset = container.parent().scrollTop(),
@@ -1182,8 +1129,7 @@ function rcube_treelist_widget(node, p)
                         if (ui_droppable)
                             $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null);
                     }, p.autoexpand);
-                }
-                else if (autoexpand_timer && autoexpand_item != id) {
+                } else if (autoexpand_timer && autoexpand_item != id) {
                     clearTimeout(autoexpand_timer);
                     autoexpand_item = null;
                     autoexpand_timer = null;
@@ -1196,12 +1142,10 @@ function rcube_treelist_widget(node, p)
                         pos.on = true;
                     }
                     result = id;
-                }
-                else {
+                } else {
                     result = null;
                 }
-            }
-            else if (pos.on) {
+            } else if (pos.on) {
                 id2dom(id).removeClass('droptarget');
                 pos.on = false;
             }
@@ -1215,8 +1159,7 @@ function rcube_treelist_widget(node, p)
    *
    * @param object Options as passed to regular .droppable() function
    */
-    function droppable(opts)
-    {
+    function droppable(opts) {
         if (!opts) opts = {};
 
         if ($.type(opts) == 'string') {
@@ -1266,8 +1209,7 @@ function rcube_treelist_widget(node, p)
    *
    * @param object Options as passed to regular .draggable() function
    */
-    function draggable(opts)
-    {
+    function draggable(opts) {
         if (!opts) opts = {};
 
         if ($.type(opts) == 'string') {
@@ -1298,8 +1240,7 @@ function rcube_treelist_widget(node, p)
         return this;
     }
 
-    function is_draggable()
-    {
+    function is_draggable() {
         return !!ui_draggable;
     }
 }

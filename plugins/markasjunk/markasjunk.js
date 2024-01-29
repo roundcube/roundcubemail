@@ -48,8 +48,7 @@ rcube_webmail.prototype.markasjunk_toggle_button = function () {
 
     if (this.env.markasjunk_spam_only) {
         disp.ham = false;
-    }
-    else if (!this.is_multifolder_listing() && this.env.markasjunk_spam_mailbox) {
+    } else if (!this.is_multifolder_listing() && this.env.markasjunk_spam_mailbox) {
         if (this.env.mailbox != this.env.markasjunk_spam_mailbox)
             disp.ham = false;
         else
@@ -81,8 +80,7 @@ rcube_webmail.prototype.markasjunk_toggle_button = function () {
             if (cur_index < cur_hamobj.index()) {
                 cur_spamobj.insertAfter(cur_hamobj);
             }
-        }
-        else if (cur_index > cur_hamobj.index()) {
+        } else if (cur_index > cur_hamobj.index()) {
             cur_hamobj.insertAfter(cur_spamobj);
         }
     });

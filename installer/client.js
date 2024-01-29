@@ -13,16 +13,14 @@
  +-----------------------------------------------------------------------+
 */
 
-function toggleblock(id, link)
-{
+function toggleblock(id, link) {
     var block = document.getElementById(id);
 
     return false;
 }
 
 
-function addhostfield()
-{
+function addhostfield() {
     var container = document.getElementById('defaulthostlist');
     var row = document.createElement('div');
     var input = document.createElement('input');
@@ -41,8 +39,7 @@ function addhostfield()
 }
 
 
-function removehostfield(row)
-{
+function removehostfield(row) {
     var container = document.getElementById('defaulthostlist');
     container.removeChild(row);
 }

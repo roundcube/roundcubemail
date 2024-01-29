@@ -35,8 +35,7 @@ var CONTROL_SHIFT_KEY = 3;
  * Default browser check class
  * @constructor
  */
-function roundcube_browser()
-{
+function roundcube_browser() {
     var n = navigator;
 
     this.agent = n.userAgent;
@@ -65,8 +64,7 @@ function roundcube_browser()
     if (window.opera) {
         this.opera = true; // Opera < 15
         this.vendver = opera.version();
-    }
-    else if (!this.ie && !this.edge) {
+    } else if (!this.ie && !this.edge) {
         this.chrome = this.agent_lc.indexOf('chrome') > 0;
         this.opera = this.webkit && this.agent.indexOf(' OPR/') > 0; // Opera >= 15
         this.safari = !this.chrome && !this.opera && (this.webkit || this.agent_lc.indexOf('safari') > 0);
@@ -110,8 +108,7 @@ function roundcube_browser()
 
     // set class names to html tag according to the current user agent detection
     // this allows browser-specific css selectors like "html.chrome .someclass"
-    this.set_html_class = function ()
-    {
+    this.set_html_class = function () {
         var classname = ' js';
 
         if (this.ie)
@@ -155,8 +152,7 @@ var rcube_event = {
     /**
  * returns the event target element
  */
-    get_target: function (e)
-    {
+    get_target: function (e) {
         e = e || window.event;
         return e && e.target ? e.target : e.srcElement || document;
     },
@@ -164,8 +160,7 @@ var rcube_event = {
     /**
  * returns the event key code
  */
-    get_keycode: function (e)
-    {
+    get_keycode: function (e) {
         e = e || window.event;
         return e && e.keyCode ? e.keyCode : (e && e.which ? e.which : 0);
     },
@@ -173,8 +168,7 @@ var rcube_event = {
     /**
  * returns the event key code
  */
-    get_button: function (e)
-    {
+    get_button: function (e) {
         e = e || window.event;
         return e && e.button !== undefined ? e.button : (e && e.which ? e.which : 0);
     },
@@ -182,8 +176,7 @@ var rcube_event = {
     /**
  * returns modifier key (constants defined at top of file)
  */
-    get_modifier: function (e)
-    {
+    get_modifier: function (e) {
         var opcode = 0;
         e = e || window.event;
 
@@ -198,8 +191,7 @@ var rcube_event = {
     /**
  * Return absolute mouse position of an event
  */
-    get_mouse_pos: function (e)
-    {
+    get_mouse_pos: function (e) {
         if (!e) e = window.event;
         var mX = (e.pageX) ? e.pageX : e.clientX,
             mY = (e.pageY) ? e.pageY : e.clientY;
@@ -220,8 +212,7 @@ var rcube_event = {
     /**
  * Add an object method as event listener to a certain element
  */
-    add_listener: function (p)
-    {
+    add_listener: function (p) {
         if (!p.object || !p.method)  // not enough arguments
             return;
         if (!p.element)
@@ -241,16 +232,14 @@ var rcube_event = {
             // forcibly detach the event, then attach
             p.element.detachEvent('on' + p.event, p.object._rc_events[key]);
             p.element.attachEvent('on' + p.event, p.object._rc_events[key]);
-        }
-        else
+        } else
             p.element['on' + p.event] = p.object._rc_events[key];
     },
 
     /**
  * Remove event listener
  */
-    remove_listener: function (p)
-    {
+    remove_listener: function (p) {
         if (!p.element)
             p.element = document;
 
@@ -268,8 +257,7 @@ var rcube_event = {
     /**
  * Prevent event propagation and bubbling
  */
-    cancel: function (evt)
-    {
+    cancel: function (evt) {
         var e = evt ? evt : window.event;
 
         if (e.preventDefault)
@@ -288,8 +276,7 @@ var rcube_event = {
     /**
  * Determine whether the given event was triggered from keyboard
  */
-    is_keyboard: function (e)
-    {
+    is_keyboard: function (e) {
         if (!e)
             return false;
 
@@ -306,13 +293,11 @@ var rcube_event = {
     /**
  * Accept event if triggered from keyboard action (e.g. <Enter>)
  */
-    keyboard_only: function (e)
-    {
+    keyboard_only: function (e) {
         return rcube_event.is_keyboard(e) ? true : rcube_event.cancel(e);
     },
 
-    touchevent: function (e)
-    {
+    touchevent: function (e) {
         return { pageX:e.pageX, pageY:e.pageY, offsetX:e.pageX - e.target.offsetLeft, offsetY:e.pageY - e.target.offsetTop, target:e.target, istouch:true };
     }
 
@@ -322,8 +307,7 @@ var rcube_event = {
 /**
  * rcmail objects event interface
  */
-function rcube_event_engine()
-{
+function rcube_event_engine() {
     this._events = {};
 }
 
@@ -335,8 +319,7 @@ rcube_event_engine.prototype = {
  * @param {String}   Event name
  * @param {Function} Handler function
  */
-    addEventListener: function (evt, func, obj)
-    {
+    addEventListener: function (evt, func, obj) {
         if (!this._events)
             this._events = {};
         if (!this._events[evt])
@@ -353,8 +336,7 @@ rcube_event_engine.prototype = {
  * @param {String} Event name
  * @param {Int}    Listener ID to remove
  */
-    removeEventListener: function (evt, func, obj)
-    {
+    removeEventListener: function (evt, func, obj) {
         if (obj === undefined)
             obj = window;
 
@@ -369,8 +351,7 @@ rcube_event_engine.prototype = {
  * @param {String} Event to trigger
  * @param {Object} Event object/arguments
  */
-    triggerEvent: function (evt, e)
-    {
+    triggerEvent: function (evt, e) {
         var ret, h,
             reset_fn = function (o) {
                 try { if (o && o.event) delete o.event; } catch(err) { }
@@ -413,8 +394,7 @@ rcube_event_engine.prototype = {
 // check if input is a valid email address
 // By Cal Henderson <cal@iamcal.com>
 // http://code.iamcal.com/php/rfc822/
-function rcube_check_email(input, inline, count, strict)
-{
+function rcube_check_email(input, inline, count, strict) {
     if (!input)
         return count ? 0 : false;
 
@@ -464,8 +444,7 @@ function rcube_check_email(input, inline, count, strict)
 }
 
 // recursively copy an object
-function rcube_clone_object(obj)
-{
+function rcube_clone_object(obj) {
     var out = {};
 
     for (var key in obj) {
@@ -479,8 +458,7 @@ function rcube_clone_object(obj)
 }
 
 // make a string URL safe (and compatible with PHP's rawurlencode())
-function urlencode(str)
-{
+function urlencode(str) {
     return encodeURIComponent(str)
         .replace('*', '%2A')
         .replace('(', '%28')
@@ -491,8 +469,7 @@ function urlencode(str)
 
 
 // get any type of html objects by id/name
-function rcube_find_object(id, d)
-{
+function rcube_find_object(id, d) {
     var n, f, obj, e;
 
     if (!d) d = document;
@@ -530,8 +507,7 @@ function rcube_find_object(id, d)
 }
 
 // determine whether the mouse is over the given object or not
-function rcube_mouse_is_over(ev, obj)
-{
+function rcube_mouse_is_over(ev, obj) {
     var mouse = rcube_event.get_mouse_pos(ev),
         pos = $(obj).offset();
 
@@ -541,8 +517,7 @@ function rcube_mouse_is_over(ev, obj)
 
 
 // cookie functions by GoogieSpell
-function setCookie(name, value, expires, path, domain, secure)
-{
+function setCookie(name, value, expires, path, domain, secure) {
     var curCookie = name + '=' + escape(value)
       + (expires ? '; expires=' + expires.toGMTString() : '')
       + (path ? '; path=' + path : '')
@@ -552,8 +527,7 @@ function setCookie(name, value, expires, path, domain, secure)
     document.cookie = curCookie;
 }
 
-function getCookie(name)
-{
+function getCookie(name) {
     var dc = document.cookie,
         prefix = name + '=',
         begin = dc.indexOf('; ' + prefix);
@@ -562,8 +536,7 @@ function getCookie(name)
         begin = dc.indexOf(prefix);
         if (begin != 0)
             return null;
-    }
-    else {
+    } else {
         begin += 2;
     }
 
@@ -584,15 +557,13 @@ bw.set_html_class();
 
 // Add escape() method to RegExp object
 // http://dev.rubyonrails.org/changeset/7271
-RegExp.escape = function (str)
-{
+RegExp.escape = function (str) {
     return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
 };
 
 // Extend Date prototype to detect Standard timezone without DST
 // from http://www.michaelapproved.com/articles/timezone-detect-and-ignore-daylight-saving-time-dst/
-Date.prototype.getStdTimezoneOffset = function ()
-{
+Date.prototype.getStdTimezoneOffset = function () {
     var m = 12,
         d = new Date(null, m, 1),
         tzo = d.getTimezoneOffset();
@@ -640,8 +611,7 @@ jQuery.fn.placeholder = function (text) {
 };
 
 // function to parse query string into an object
-var rcube_parse_query = function (query)
-{
+var rcube_parse_query = function (query) {
     if (!query)
         return {};
 
@@ -659,8 +629,7 @@ var rcube_parse_query = function (query)
         if (k.substring(k.length - 2) === '[]') {
             k = k.substring(0, k.length - 2);
             (params[k] || (params[k] = [])).push(v);
-        }
-        else
+        } else
             params[k] = v;
     }
 
@@ -682,12 +651,10 @@ var Base64 = (function () {
 
             if (c < 128) {
                 utftext += String.fromCharCode(c);
-            }
-            else if(c > 127 && c < 2048) {
+            } else if(c > 127 && c < 2048) {
                 utftext += String.fromCharCode((c >> 6) | 192);
                 utftext += String.fromCharCode((c & 63) | 128);
-            }
-            else {
+            } else {
                 utftext += String.fromCharCode((c >> 12) | 224);
                 utftext += String.fromCharCode(((c >> 6) & 63) | 128);
                 utftext += String.fromCharCode((c & 63) | 128);
@@ -706,13 +673,11 @@ var Base64 = (function () {
             if (c < 128) {
                 string += String.fromCharCode(c);
                 i++;
-            }
-            else if (c > 191 && c < 224) {
+            } else if (c > 191 && c < 224) {
                 c2 = utftext.charCodeAt(i + 1);
                 string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
                 i += 2;
-            }
-            else {
+            } else {
                 c2 = utftext.charCodeAt(i + 1);
                 c3 = utftext.charCodeAt(i + 2);
                 string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
@@ -735,8 +700,7 @@ var Base64 = (function () {
             if (typeof (window.btoa) === 'function') {
                 try {
                     return btoa(input);
-                }
-                catch (e) {}
+                } catch (e) {}
             }
 
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4, i = 0, output = '', len = input.length;
@@ -772,8 +736,7 @@ var Base64 = (function () {
             if (typeof (window.atob) === 'function') {
                 try {
                     return utf8_decode(atob(input));
-                }
-                catch (e) {}
+                } catch (e) {}
             }
 
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4, len, i = 0, output = '';

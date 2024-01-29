@@ -35,8 +35,7 @@
 var GOOGIE_CUR_LANG,
     GOOGIE_DEFAULT_LANG = 'en';
 
-function GoogieSpell(img_dir, server_url, has_dict)
-{
+function GoogieSpell(img_dir, server_url, has_dict) {
     var ref = this,
         cookie_value = rcmail.get_cookie('language');
 
@@ -112,8 +111,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
     });
 
 
-    this.decorateTextarea = function (id)
-    {
+    this.decorateTextarea = function (id) {
         this.text_area = typeof id === 'string' ? document.getElementById(id) : id;
 
         if (this.text_area) {
@@ -134,8 +132,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
             }
 
             this.checkSpellingState();
-        }
-        else if (this.report_ta_not_found) {
+        } else if (this.report_ta_not_found) {
             rcmail.alert_dialog('Text area not found');
         }
     };
@@ -143,55 +140,46 @@ function GoogieSpell(img_dir, server_url, has_dict)
     //////
     // API Functions (the ones that you can call)
     /////
-    this.setSpellContainer = function (id)
-    {
+    this.setSpellContainer = function (id) {
         this.spell_container = typeof id === 'string' ? document.getElementById(id) : id;
     };
 
-    this.setLanguages = function (lang_dict)
-    {
+    this.setLanguages = function (lang_dict) {
         this.lang_to_word = lang_dict;
         this.langlist_codes = this.array_keys(lang_dict);
     };
 
-    this.setCurrentLanguage = function (lan_code)
-    {
+    this.setCurrentLanguage = function (lan_code) {
         GOOGIE_CUR_LANG = lan_code;
 
         //Set cookie
         rcmail.set_cookie('language', lan_code, false);
     };
 
-    this.setForceWidthHeight = function (width, height)
-    {
+    this.setForceWidthHeight = function (width, height) {
     // Set to null if you want to use one of them
         this.force_width = width;
         this.force_height = height;
     };
 
-    this.setDecoration = function (bool)
-    {
+    this.setDecoration = function (bool) {
         this.decoration = bool;
     };
 
-    this.dontUseCloseButtons = function ()
-    {
+    this.dontUseCloseButtons = function () {
         this.use_close_btn = false;
     };
 
-    this.appendNewMenuItem = function (name, call_back_fn, checker)
-    {
+    this.appendNewMenuItem = function (name, call_back_fn, checker) {
         this.extra_menu_items.push([name, call_back_fn, checker]);
     };
 
-    this.setFocus = function ()
-    {
+    this.setFocus = function () {
         try {
             this.focus_link_b.focus();
             this.focus_link_t.focus();
             return true;
-        }
-        catch(e) {
+        } catch(e) {
             return false;
         }
     };
@@ -200,15 +188,13 @@ function GoogieSpell(img_dir, server_url, has_dict)
     //////
     // Set functions (internal)
     /////
-    this.setStateChanged = function (current_state)
-    {
+    this.setStateChanged = function (current_state) {
         this.state = current_state;
         if (this.spelling_state_observer != null && this.report_state_change)
             this.spelling_state_observer(current_state, this);
     };
 
-    this.setReportStateChange = function (bool)
-    {
+    this.setReportStateChange = function (bool) {
         this.report_state_change = bool;
     };
 
@@ -216,25 +202,21 @@ function GoogieSpell(img_dir, server_url, has_dict)
     //////
     // Request functions
     /////
-    this.getUrl = function ()
-    {
+    this.getUrl = function () {
         return this.server_url + GOOGIE_CUR_LANG;
     };
 
-    this.escapeSpecial = function (val)
-    {
+    this.escapeSpecial = function (val) {
         return val ? val.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
     };
 
-    this.createXMLReq = function (text)
-    {
+    this.createXMLReq = function (text) {
         return '<?xml version="1.0" encoding="utf-8" ?>'
         + '<spellrequest textalreadyclipped="0" ignoredups="0" ignoredigits="1" ignoreallcaps="1">'
         + '<text>' + text + '</text></spellrequest>';
     };
 
-    this.spellCheck = function (ignore)
-    {
+    this.spellCheck = function (ignore) {
         this.prepare(ignore);
 
         var req_text = this.escapeSpecial(this.original_text),
@@ -244,8 +226,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
             error: function (o) {
                 if (ref.custom_ajax_error) {
                     ref.custom_ajax_error(ref);
-                }
-                else {
+                } else {
                     rcmail.alert_dialog('An error was encountered on the server. Please try again later.');
                 }
                 if (ref.main_controller) {
@@ -267,8 +248,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         });
     };
 
-    this.learnWord = function (word, id)
-    {
+    this.learnWord = function (word, id) {
         word = this.escapeSpecial(word.innerHTML);
 
         var ref = this,
@@ -278,8 +258,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
             error: function (o) {
                 if (ref.custom_ajax_error) {
                     ref.custom_ajax_error(ref);
-                }
-                else {
+                } else {
                     rcmail.alert_dialog('An error was encountered on the server. Please try again later.');
                 }
             },
@@ -292,8 +271,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
     //////
     // Spell checking functions
     /////
-    this.prepare = function (ignore, no_indicator)
-    {
+    this.prepare = function (ignore, no_indicator) {
         this.cnt_errors_fixed = 0;
         this.cnt_errors = 0;
         this.setStateChanged('checking_spell');
@@ -330,8 +308,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         this.original_text = area.val();
     };
 
-    this.parseResult = function (r_text)
-    {
+    this.parseResult = function (r_text) {
     // Returns an array: result[item] -> ['attrs'], ['suggestions']
         var re_split_attr_c = /\w+="(\d+|true)"/g,
             re_split_text = /\t/g,
@@ -369,8 +346,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         return results;
     };
 
-    this.processData = function (data)
-    {
+    this.processData = function (data) {
         this.results = this.parseResult(data);
         if (this.results.length) {
             this.showErrorsInIframe();
@@ -381,25 +357,21 @@ function GoogieSpell(img_dir, server_url, has_dict)
     //////
     // Error menu functions
     /////
-    this.createErrorWindow = function ()
-    {
+    this.createErrorWindow = function () {
         this.error_window = document.createElement('div');
         $(this.error_window).addClass('googie_window popupmenu').attr('googie_action_btn', '1');
     };
 
-    this.isErrorWindowShown = function ()
-    {
+    this.isErrorWindowShown = function () {
         return $(this.error_window).is(':visible');
     };
 
-    this.hideErrorWindow = function ()
-    {
+    this.hideErrorWindow = function () {
         $(this.error_window).hide();
         $(this.error_window_iframe).hide();
     };
 
-    this.updateOriginalText = function (offset, old_value, new_value, id)
-    {
+    this.updateOriginalText = function (offset, old_value, new_value, id) {
         var part_1 = this.original_text.substring(0, offset),
             part_2 = this.original_text.substring(offset + old_value.length),
             add_2_offset = new_value.length - old_value.length;
@@ -418,15 +390,13 @@ function GoogieSpell(img_dir, server_url, has_dict)
         elm.old_value = old_value;
     };
 
-    this.createListSeparator = function ()
-    {
+    this.createListSeparator = function () {
         return $('<li>').html('&nbsp;').attr('googie_action_btn', '1')
             .css({ 'cursor': 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px' })
             .get(0);
     };
 
-    this.correctError = function (id, elm, l_elm, rm_pre_space)
-    {
+    this.correctError = function (id, elm, l_elm, rm_pre_space) {
         var old_value = elm.innerHTML,
             new_value = l_elm.nodeType == 3 ? l_elm.nodeValue : l_elm.innerHTML,
             offset = this.results[id]['attrs']['o'];
@@ -451,15 +421,13 @@ function GoogieSpell(img_dir, server_url, has_dict)
         this.errorFixed();
     };
 
-    this.ignoreError = function (elm, id)
-    {
+    this.ignoreError = function (elm, id) {
     // @TODO: ignore all same words
         $(elm).removeAttr('class').css('color', '').off();
         this.hideErrorWindow();
     };
 
-    this.showErrorWindow = function (elm, id)
-    {
+    this.showErrorWindow = function (elm, id) {
         if (this.show_menu_observer)
             this.show_menu_observer(this);
 
@@ -544,8 +512,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
                 .width(32).height(16)
                 .css({ cursor: 'pointer', 'margin-left': '2px', 'margin-right': '2px' })
                 .appendTo(ok_pic);
-        }
-        else {
+        } else {
             $(ok_pic).text('OK');
         }
 
@@ -629,8 +596,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
     //////
     // Edit layer (the layer where the suggestions are stored)
     //////
-    this.createEditLayer = function (width, height)
-    {
+    this.createEditLayer = function (width, height) {
         this.edit_layer = document.createElement('div');
         $(this.edit_layer).addClass('googie_edit_layer').attr('id', 'googie_edit_layer')
             .width(width).height(height);
@@ -658,8 +624,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         }
     };
 
-    this.resumeEditing = function ()
-    {
+    this.resumeEditing = function () {
         this.setStateChanged('ready');
 
         if (this.edit_layer)
@@ -685,8 +650,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         this.checkSpellingState(false);
     };
 
-    this.createErrorLink = function (text, id)
-    {
+    this.createErrorLink = function (text, id) {
         var elm = document.createElement('span'),
             ref = this,
             d = function (e) {
@@ -701,8 +665,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         return elm;
     };
 
-    this.createPart = function (txt_part)
-    {
+    this.createPart = function (txt_part) {
         if (txt_part == ' ')
             return document.createTextNode(' ');
 
@@ -717,8 +680,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         return span;
     };
 
-    this.showErrorsInIframe = function ()
-    {
+    this.showErrorsInIframe = function () {
         var output = document.createElement('div'),
             pointer = 0,
             results = this.results;
@@ -745,8 +707,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
                 part_2 = this.createPart(part_2_text);
 
             output.appendChild(part_2);
-        }
-        else
+        } else
             output.innerHTML = this.original_text;
 
         $(output).css('text-align', 'left');
@@ -772,28 +733,24 @@ function GoogieSpell(img_dir, server_url, has_dict)
         //    this.edit_layer.scrollTop = this.ta_scroll_top;
     };
 
-    this.deHighlightCurSel = function ()
-    {
+    this.deHighlightCurSel = function () {
         $(this.lang_cur_elm).removeClass().addClass('googie_list_onout');
     };
 
-    this.highlightCurSel = function ()
-    {
+    this.highlightCurSel = function () {
         if (GOOGIE_CUR_LANG == null)
             GOOGIE_CUR_LANG = GOOGIE_DEFAULT_LANG;
         for (var i = 0; i < this.lang_elms.length; i++) {
             if ($(this.lang_elms[i]).attr('googieId') == GOOGIE_CUR_LANG) {
                 this.lang_elms[i].className = 'googie_list_selected';
                 this.lang_cur_elm = this.lang_elms[i];
-            }
-            else {
+            } else {
                 this.lang_elms[i].className = 'googie_list_onout';
             }
         }
     };
 
-    this.createSpellDiv = function ()
-    {
+    this.createSpellDiv = function () {
         var span = document.createElement('span');
 
         $(span).addClass('googie_check_spelling_link').text(this.lang_chck_spell);
@@ -808,8 +765,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
     //////
     // State functions
     /////
-    this.flashNoSpellingErrorState = function (on_finish)
-    {
+    this.flashNoSpellingErrorState = function (on_finish) {
         this.setStateChanged('no_error_found');
 
         var ref = this;
@@ -821,8 +777,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
                     ref.checkSpellingState();
                 };
                 no_spell_errors = fn;
-            }
-            else
+            } else
                 no_spell_errors = function () { ref.checkSpellingState(); };
 
             var rsm = $('<span>').text(this.lang_no_error_found);
@@ -835,8 +790,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         }
     };
 
-    this.resumeEditingState = function ()
-    {
+    this.resumeEditingState = function () {
         this.setStateChanged('resume_editing');
 
         //Change link text to resume
@@ -850,12 +804,10 @@ function GoogieSpell(img_dir, server_url, has_dict)
                 .removeClass().addClass('googie_resume_editing');
         }
 
-        try { this.edit_layer.scrollTop = this.ta_scroll_top; }
-        catch (e) {}
+        try { this.edit_layer.scrollTop = this.ta_scroll_top; } catch (e) {}
     };
 
-    this.checkSpellingState = function (fire)
-    {
+    this.checkSpellingState = function (fire) {
         if (fire)
             this.setStateChanged('ready');
 
@@ -885,13 +837,11 @@ function GoogieSpell(img_dir, server_url, has_dict)
     //////
     // Misc. functions
     /////
-    this.isDefined = function (o)
-    {
+    this.isDefined = function (o) {
         return (o !== undefined && o !== null);
     };
 
-    this.errorFixed = function ()
-    {
+    this.errorFixed = function () {
         this.cnt_errors_fixed++;
         if (this.all_errors_fixed_observer)
             if (this.cnt_errors_fixed == this.cnt_errors) {
@@ -900,18 +850,15 @@ function GoogieSpell(img_dir, server_url, has_dict)
             }
     };
 
-    this.errorFound = function ()
-    {
+    this.errorFound = function () {
         this.cnt_errors++;
     };
 
-    this.createCloseButton = function (c_fn)
-    {
+    this.createCloseButton = function (c_fn) {
         return this.createButton(this.lang_close, 'googie_list_close', c_fn);
     };
 
-    this.createButton = function (name, css_class, c_fn)
-    {
+    this.createButton = function (name, css_class, c_fn) {
         var btn_row = document.createElement('tr'),
             btn = document.createElement('td'),
             spn_btn;
@@ -933,16 +880,14 @@ function GoogieSpell(img_dir, server_url, has_dict)
         return btn_row;
     };
 
-    this.removeIndicator = function (elm)
-    {
+    this.removeIndicator = function (elm) {
     //$(this.indicator).remove();
     // roundcube mod.
         if (window.rcmail)
             rcmail.set_busy(false, null, this.rc_msg_id);
     };
 
-    this.appendIndicator = function (elm)
-    {
+    this.appendIndicator = function (elm) {
     // modified by roundcube
         if (window.rcmail)
             this.rc_msg_id = rcmail.set_busy(true, 'checking');
@@ -958,23 +903,20 @@ function GoogieSpell(img_dir, server_url, has_dict)
 */
     };
 
-    this.createFocusLink = function (name)
-    {
+    this.createFocusLink = function (name) {
         var link = document.createElement('a');
         $(link).attr({ 'href': 'javascript:;', 'name': name });
         return link;
     };
 
-    this.item_onmouseover = function (e)
-    {
+    this.item_onmouseover = function (e) {
         if (this.className != 'googie_list_revert' && this.className != 'googie_list_close')
             this.className = 'googie_list_onhover';
         else
             this.parentNode.className = 'googie_list_onhover';
     };
 
-    this.item_onmouseout = function (e)
-    {
+    this.item_onmouseout = function (e) {
         if (this.className != 'googie_list_revert' && this.className != 'googie_list_close')
             this.className = 'googie_list_onout';
         else

@@ -28,8 +28,7 @@ if (window.rcmail && rcmail.env.task == 'mail') {
 }
 
 // Executes notification methods
-function newmail_notifier_run(prop)
-{
+function newmail_notifier_run(prop) {
     if (prop.basic)
         newmail_notifier_basic();
     if (prop.sound)
@@ -39,8 +38,7 @@ function newmail_notifier_run(prop)
 }
 
 // Stops notification
-function newmail_notifier_stop(prop)
-{
+function newmail_notifier_stop(prop) {
     // revert original favicon
     if (rcmail.env.favicon_href && rcmail.env.favicon_changed && (!prop || prop.action != 'check-recent')) {
         $('<link rel="shortcut icon" href="' + rcmail.env.favicon_href + '"/>').replaceAll('link[rel="shortcut icon"]');
@@ -56,8 +54,7 @@ function newmail_notifier_stop(prop)
 }
 
 // Basic notification: window.focus and favicon change
-function newmail_notifier_basic()
-{
+function newmail_notifier_basic() {
     var w = rcmail.is_framed() ? window.parent : window,
         path = rcmail.assets_path('plugins/newmail_notifier');
 
@@ -82,8 +79,7 @@ function newmail_notifier_basic()
 }
 
 // Sound notification
-function newmail_notifier_sound()
-{
+function newmail_notifier_sound() {
     var src = rcmail.assets_path('plugins/newmail_notifier/sound');
 
     (new Audio(src + '.mp3')).play()
@@ -95,8 +91,7 @@ function newmail_notifier_sound()
 
 // Desktop notification
 // - Require window.Notification API support (Chrome 22+ or Firefox 22+)
-function newmail_notifier_desktop(body, disabled_callback)
-{
+function newmail_notifier_desktop(body, disabled_callback) {
     var timeout = rcmail.env.newmail_notifier_timeout || 10,
         icon = rcmail.assets_path('plugins/newmail_notifier/mail.png'),
         success_callback = function () {
@@ -120,14 +115,12 @@ function newmail_notifier_desktop(body, disabled_callback)
         });
 
         return true;
-    }
-    catch (e) {
+    } catch (e) {
         return false;
     }
 }
 
-function newmail_notifier_test_desktop()
-{
+function newmail_notifier_test_desktop() {
     var status = newmail_notifier_desktop(rcmail.get_label('testbody', 'newmail_notifier'), function () {
         rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
     });
@@ -137,12 +130,10 @@ function newmail_notifier_test_desktop()
     }
 }
 
-function newmail_notifier_test_basic()
-{
+function newmail_notifier_test_basic() {
     newmail_notifier_basic();
 }
 
-function newmail_notifier_test_sound()
-{
+function newmail_notifier_test_sound() {
     newmail_notifier_sound();
 }

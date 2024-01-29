@@ -34,26 +34,22 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
                 input_curpasswd.focus();
                 return true;
             });
-        }
-        else if (input_newpasswd && input_newpasswd.value == '') {
+        } else if (input_newpasswd && input_newpasswd.value == '') {
             rcmail.alert_dialog(rcmail.get_label('nopassword', 'password'), function () {
                 input_newpasswd.focus();
                 return true;
             });
-        }
-        else if (input_confpasswd && input_confpasswd.value == '') {
+        } else if (input_confpasswd && input_confpasswd.value == '') {
             rcmail.alert_dialog(rcmail.get_label('nopassword', 'password'), function () {
                 input_confpasswd.focus();
                 return true;
             });
-        }
-        else if (input_newpasswd && input_confpasswd && input_newpasswd.value != input_confpasswd.value) {
+        } else if (input_newpasswd && input_confpasswd && input_newpasswd.value != input_confpasswd.value) {
             rcmail.alert_dialog(rcmail.get_label('passwordinconsistency', 'password'), function () {
                 input_newpasswd.focus();
                 return true;
             });
-        }
-        else {
+        } else {
             rcmail.gui_objects.passform.submit();
         }
     }, true);
