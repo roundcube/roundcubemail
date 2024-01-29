@@ -10,6 +10,8 @@ If you found a security issue or vulnerability of the software, please report it
 
 Your report should include clear steps for reproduction and a classification of the found vulnerability.
 
+You can also send an encrypted email message to *alec[at]alec.pl*. You can find the PGP public key on the major public keyservers like [pgp.key-server.io](https://pgp.key-server.io).
+
 ## Publishing and Credits
 
 We're dedicated to analyze and fix the reported issues as fast a possible. Usually within days we'll have an update ready.
