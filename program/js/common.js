@@ -171,7 +171,7 @@ var rcube_event = {
  * Add an object method as event listener to a certain element
  */
     add_listener: function (p) {
-        if (!p.object || !p.method)  // not enough arguments
+        if (!p.object || !p.method) // not enough arguments
         { return; }
         if (!p.element) { p.element = document; }
 
@@ -317,7 +317,7 @@ rcube_event_engine.prototype = {
         return ret;
     }
 
-};  // end rcube_event_engine.prototype
+}; // end rcube_event_engine.prototype
 
 
 // check if input is a valid email address

@@ -2297,7 +2297,7 @@ function rcube_elastic_ui() {
 
                         switch (e.which) {
                             case 27: // ESC
-                            case 9:  // TAB
+                            case 9: // TAB
                                 $(item).popover('toggle').focus();
                                 return false;
 
@@ -3631,7 +3631,7 @@ function rcube_elastic_ui() {
 
                     switch (e.which) {
                         case 27: // ESC
-                        case 9:  // TAB
+                        case 9: // TAB
                             return close_func();
 
                         case 13: // ENTER
@@ -4216,7 +4216,7 @@ function rcube_elastic_ui() {
 
                 // copy value to local storage and remove cookie (if localStorage is supported)
                 if (rcmail.local_storage_set_item('prefs.elastic', prefs)) {
-                    rcmail.set_cookie(key, cookie, new Date());  // expire cookie
+                    rcmail.set_cookie(key, cookie, new Date()); // expire cookie
                 }
             }
         }

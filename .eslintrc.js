@@ -132,7 +132,6 @@ module.exports = {
         'no-mixed-operators': 'off', // (8 matches)
         'no-multi-assign': 'off', // (18 matches)
         'no-multiple-empty-lines': 'off', // (85 matches)
-        'no-multi-spaces': 'off', // eslint-disable-line no-dupe-keys -- (69 matches)
         'nonblock-statement-body-position': 'off', // (1158 matches)
         'no-redeclare': 'off', // (37 matches)
         'no-regex-spaces': 'off', // (1 match)

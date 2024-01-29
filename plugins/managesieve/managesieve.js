@@ -535,7 +535,7 @@ rcube_webmail.prototype.managesieve_actiondel = function (id) {
 
 // insert rule/action row in specified place on the list
 rcube_webmail.prototype.managesieve_insertrow = function (div, row, after) {
-    var node = $('#' + ($(div).attr('id') == 'rules' ? 'rulerow' : 'actionrow')  + after)[0];
+    var node = $('#' + ($(div).attr('id') == 'rules' ? 'rulerow' : 'actionrow') + after)[0];
 
     if (node) { $(row).insertAfter(node); } else { $(div).append(row); }
 
@@ -593,7 +593,7 @@ function rule_header_select(id) {
         if (spamtest) { spamtest.style.display = ''; }
         size.style.display = 'none';
     } else if (h == 'message' && msg) {
-        $.each(set, function () { if (this != window)  { this.style.display = 'none'; } });
+        $.each(set, function () { if (this != window) { this.style.display = 'none'; } });
         msg.style.display = '';
     } else {
         is_header = h != 'body' && h != 'currentdate' && h != 'date' && h != 'string';
@@ -605,7 +605,7 @@ function rule_header_select(id) {
         mod.style.display = is_header ? '' : 'none';
         trans.style.display = h == 'body' ? '' : 'none';
         if (spamtest) { spamtest.style.display = 'none'; }
-        if (mime) { mime.style.display =  is_header ? '' : 'none'; }
+        if (mime) { mime.style.display = is_header ? '' : 'none'; }
         if (mime_part) { mime_part.style.display = is_header ? '' : 'none'; }
         if (msg) { msg.style.display = h == 'message' ? '' : 'none'; }
     }
@@ -651,7 +651,7 @@ function rule_mod_select(id, header, reset) {
 
     target.style.display = obj.value != 'address' && obj.value != 'envelope' ? 'none' : '';
 
-    if (index) { index.style.display = !header.match(/^(body|currentdate|size|spamtest|message|string)$/) && obj.value != 'envelope'  ? '' : 'none'; }
+    if (index) { index.style.display = !header.match(/^(body|currentdate|size|spamtest|message|string)$/) && obj.value != 'envelope' ? '' : 'none'; }
 
     if (duplicate) { duplicate.style.display = header == 'message' ? '' : 'none'; }
 }
@@ -841,8 +841,8 @@ rcube_webmail.prototype.managesieve_tip_register = function (tips) {
                     span = $('<span>').addClass(elem.data('tip-class')).text(elem.data('tip-msg'));
 
                 if (framed) {
-                    offset = $((rcmail.env.task == 'mail'  ? '#sievefilterform > iframe' : '#filter-box'), parent.document).offset();
-                    top  += offset.top;
+                    offset = $((rcmail.env.task == 'mail' ? '#sievefilterform > iframe' : '#filter-box'), parent.document).offset();
+                    top += offset.top;
                     left += offset.left;
                 }
 
@@ -944,7 +944,7 @@ function sieve_form_init() {
                 return false;
             }
         })
-        .click(function () {  // show drop-down upon clicks
+        .click(function () { // show drop-down upon clicks
             $(this).autocomplete('search', $(this).val() || ' ');
         });
 
@@ -1029,7 +1029,7 @@ rcube_webmail.prototype.managesieve_create = function (force) {
     );
 
     $.each(this.env.sieve_headers, function (i, v) {
-        var attr = { type: 'checkbox', name: 'headers[]', id: 'sievehdr' + i, value: i,  checked: v[2] !== false },
+        var attr = { type: 'checkbox', name: 'headers[]', id: 'sievehdr' + i, value: i, checked: v[2] !== false },
             label = v[0] + ': ' + v[1];
 
         $('ul', dialog).append($('<li>')

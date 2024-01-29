@@ -20,7 +20,7 @@ if (window.rcmail) {
     rcmail.addEventListener('beforeswitch-task', function (prop) {
         // catch clicks to help task button
         if (prop == 'help') {
-            if (rcmail.task == 'help')  // we're already there
+            if (rcmail.task == 'help') // we're already there
             { return false; }
 
             var url = rcmail.url('help/index', { _rel: rcmail.task + (rcmail.env.action ? '/' + rcmail.env.action : '') });

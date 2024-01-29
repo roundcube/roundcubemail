@@ -589,7 +589,7 @@ function rcube_text_editor(config, id) {
 
             // move cursor before the signature
             rcmail.set_caret_pos(input_message.get(0), cursor_pos);
-        } else if (show_sig && rcmail.env.signatures) {  // html
+        } else if (show_sig && rcmail.env.signatures) { // html
             var sigElem = this.editor.dom.get('_rc_sig');
 
             // Append the signature as a div within the body

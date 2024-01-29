@@ -71,7 +71,7 @@ function rcube_list_widget(list, p) {
     this.focused = false;
     this.drag_mouse_start = null;
     this.dblclick_time = 500; // default value on MS Windows is 500
-    this.row_init = function () {};  // @deprecated; use list.addEventListener('initrow') instead
+    this.row_init = function () {}; // @deprecated; use list.addEventListener('initrow') instead
 
     this.touch_start_time = 0; // start time of the touch event
     this.touch_event_time = 500; // maximum time a touch should be considered a left mouse button event, after this its something else (eg contextmenu event)
@@ -208,7 +208,7 @@ rcube_list_widget.prototype = {
 
             if (document.all) { row.onselectstart = function () { return false; }; }
 
-            this.row_init(this.rows[uid]);  // legacy support
+            this.row_init(this.rows[uid]); // legacy support
             this.triggerEvent('initrow', this.rows[uid]);
 
             return true;
@@ -223,9 +223,9 @@ rcube_list_widget.prototype = {
         if (this.thead) {
             this.colcount = 0;
 
-            if (this.fixed_header) {  // copy (modified) fixed header back to the actual table
+            if (this.fixed_header) { // copy (modified) fixed header back to the actual table
                 $(this.list.tHead).replaceWith($(this.fixed_header).find('thead').clone());
-                $(this.list.tHead).find('th,td').attr('style', '').find('a').attr('tabindex', '-1');  // remove fixed widths
+                $(this.list.tHead).find('th,td').attr('style', '').find('a').attr('tabindex', '-1'); // remove fixed widths
             } else if (!bw.touch && this.list.className.indexOf('fixedheader') >= 0) {
                 this.init_fixed_header();
             }
@@ -1302,10 +1302,10 @@ rcube_list_widget.prototype = {
             mod_key = rcube_event.get_modifier(e);
 
         switch (keyCode) {
-            case 37:    // Left arrow
-            case 39:    // Right arrow
-            case 40:    // Up arrow
-            case 38:    // Down arrow
+            case 37: // Left arrow
+            case 39: // Right arrow
+            case 40: // Up arrow
+            case 38: // Down arrow
             case 63233: // "down" in Safari keypress
             case 63232: // "up" in Safari keypress
                 // Stop propagation so that the browser doesn't scroll

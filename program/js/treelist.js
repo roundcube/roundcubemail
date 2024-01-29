@@ -158,22 +158,22 @@ function rcube_treelist_widget(node, p) {
                 mod = rcube_event.get_modifier(e);
 
             switch (key) {
-                case 9:   // tab
+                case 9: // tab
                     break;
 
-                case 13:  // enter
+                case 13: // enter
                     search(this.value, true);
                     return rcube_event.cancel(e);
 
-                case 27:  // escape
+                case 27: // escape
                     reset_search();
                     break;
 
-                case 38:  // arrow up
-                case 37:  // left
-                case 39:  // right
-                case 40:  // arrow down
-                    return;  // ignore arrow keys
+                case 38: // arrow up
+                case 37: // left
+                case 39: // right
+                case 40: // arrow down
+                    return; // ignore arrow keys
 
                 default:
                     search(this.value, false);
@@ -850,11 +850,11 @@ function rcube_treelist_widget(node, p) {
                 if (li.length) {
                     id = dom2id(li);
                     node = indexbyid[id];
-                    if (node && node.children.length && node.collapsed != (keyCode == 37)) { toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY); }  // toggle subtree
+                    if (node && node.children.length && node.collapsed != (keyCode == 37)) { toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY); } // toggle subtree
                 }
                 return false;
 
-            case 9:  // Tab
+            case 9: // Tab
                 if (p.keyboard && p.tabexit) {
                     // jump to last/first item to move focus away from the treelist widget by tab
                     var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
@@ -1080,7 +1080,7 @@ function rcube_treelist_widget(node, p) {
                     autoexpand_item = id;
                     autoexpand_timer = setTimeout(function () {
                         expand(autoexpand_item);
-                        drag_start(true);  // re-calculate item coords
+                        drag_start(true); // re-calculate item coords
                         autoexpand_item = null;
                         if (ui_droppable) { $.ui.ddmanager.prepareOffsets($.ui.ddmanager.current, null); }
                     }, p.autoexpand);
