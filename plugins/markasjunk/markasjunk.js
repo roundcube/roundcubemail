@@ -16,7 +16,7 @@
  * for the JavaScript code in this file.
  */
 
-rcube_webmail.prototype.markasjunk_mark = function(is_spam) {
+rcube_webmail.prototype.markasjunk_mark = function (is_spam) {
     var uids = this.env.uid ? [this.env.uid] : this.message_list.get_selection();
     if (!uids)
         return;
@@ -25,7 +25,7 @@ rcube_webmail.prototype.markasjunk_mark = function(is_spam) {
     this.http_post('plugin.markasjunk.' + (is_spam ? 'junk' : 'not_junk'), this.selection_post_data({ _uid: uids }), lock);
 };
 
-rcube_webmail.prototype.markasjunk_move = function(mbox, uids) {
+rcube_webmail.prototype.markasjunk_move = function (mbox, uids) {
     var prev_uid = this.env.uid;
 
     if (this.message_list && uids.length == 1 && !this.message_list.in_selection(uids[0]))
@@ -41,7 +41,7 @@ rcube_webmail.prototype.markasjunk_move = function(mbox, uids) {
     this.env.uid = prev_uid;
 };
 
-rcube_webmail.prototype.markasjunk_toggle_button = function() {
+rcube_webmail.prototype.markasjunk_toggle_button = function () {
     var spamobj = $('a.junk'),
         hamobj = $('a.notjunk'),
         disp = { spam: true, ham: true };
@@ -58,7 +58,7 @@ rcube_webmail.prototype.markasjunk_toggle_button = function() {
 
     // if only 1 button is visible make sure its the last one (for styling)
     // allow for multiple instances of the buttons, eg toolbar and contextmenu
-    $.each(spamobj, function(i) {
+    $.each(spamobj, function (i) {
         var cur_spamobj = spamobj.eq(i),
             cur_hamobj = hamobj.eq(i),
             cur_index = spamobj.eq(i).index();
@@ -88,18 +88,18 @@ rcube_webmail.prototype.markasjunk_toggle_button = function() {
     });
 };
 
-rcube_webmail.prototype.markasjunk_is_spam_mbox = function() {
+rcube_webmail.prototype.markasjunk_is_spam_mbox = function () {
     return !this.is_multifolder_listing() && this.env.mailbox == this.env.markasjunk_spam_mailbox;
 };
 
 if (window.rcmail) {
-    rcmail.addEventListener('init', function() {
+    rcmail.addEventListener('init', function () {
         // register command (directly enable in message view mode)
-        rcmail.register_command('plugin.markasjunk.junk', function() { rcmail.markasjunk_mark(true); }, !rcmail.markasjunk_is_spam_mbox() && rcmail.env.uid);
-        rcmail.register_command('plugin.markasjunk.not_junk', function() { rcmail.markasjunk_mark(false); }, rcmail.env.uid);
+        rcmail.register_command('plugin.markasjunk.junk', function () { rcmail.markasjunk_mark(true); }, !rcmail.markasjunk_is_spam_mbox() && rcmail.env.uid);
+        rcmail.register_command('plugin.markasjunk.not_junk', function () { rcmail.markasjunk_mark(false); }, rcmail.env.uid);
 
         if (rcmail.message_list) {
-            rcmail.message_list.addEventListener('select', function(list) {
+            rcmail.message_list.addEventListener('select', function (list) {
                 rcmail.enable_command('plugin.markasjunk.junk', !rcmail.markasjunk_is_spam_mbox() && list.get_selection(false).length > 0);
                 rcmail.enable_command('plugin.markasjunk.not_junk', list.get_selection(false).length > 0);
             });
@@ -109,9 +109,9 @@ if (window.rcmail) {
         rcmail.markasjunk_toggle_button();
     });
 
-    rcmail.addEventListener('listupdate', function() { rcmail.markasjunk_toggle_button(); });
+    rcmail.addEventListener('listupdate', function () { rcmail.markasjunk_toggle_button(); });
 
-    rcmail.addEventListener('beforemove', function(mbox) {
+    rcmail.addEventListener('beforemove', function (mbox) {
         if (mbox && typeof mbox === 'object') {
             mbox = mbox.id;
         }

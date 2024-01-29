@@ -46,13 +46,13 @@ function rcmail_is_archive()
 
 // callback for app-onload event
 if (window.rcmail) {
-    rcmail.addEventListener('init', function(evt) {
+    rcmail.addEventListener('init', function (evt) {
     // register command (directly enable in message view mode)
         rcmail.register_command('plugin.archive', rcmail_archive, rcmail.env.uid && !rcmail_is_archive());
 
         // add event-listener to message list
         if (rcmail.message_list)
-            rcmail.message_list.addEventListener('select', function(list) {
+            rcmail.message_list.addEventListener('select', function (list) {
                 rcmail.enable_command('plugin.archive', list.get_selection().length > 0 && !rcmail_is_archive());
             });
 
@@ -70,10 +70,10 @@ if (window.rcmail) {
                 $(li).addClass('archive');
 
             // in folder selector popup
-            rcmail.addEventListener('menu-open', function(p) {
+            rcmail.addEventListener('menu-open', function (p) {
                 if (p.name == 'folder-selector') {
                     var search = rcmail.env.archive_folder;
-                    $('a', p.obj).filter(function() { return $(this).data('id') == search; }).parent().addClass('archive');
+                    $('a', p.obj).filter(function () { return $(this).data('id') == search; }).parent().addClass('archive');
                 }
             });
         }

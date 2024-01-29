@@ -31,7 +31,7 @@ function addhostfield()
     input.name = '_imap_host[]';
     input.size = '30';
     link.href = '#';
-    link.onclick = function() { removehostfield(this.parentNode); return false; };
+    link.onclick = function () { removehostfield(this.parentNode); return false; };
     link.className = 'removelink';
     link.innerHTML = 'remove';
 

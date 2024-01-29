@@ -16,7 +16,7 @@
  */
 
 if (window.rcmail)
-    rcmail.addEventListener('init', function() { hide_blockquote(); });
+    rcmail.addEventListener('init', function () { hide_blockquote(); });
 
 function hide_blockquote()
 {
@@ -25,7 +25,7 @@ function hide_blockquote()
     if (limit <= 0)
         return;
 
-    $('div.message-part div.pre > blockquote', $('#messagebody')).each(function() {
+    $('div.message-part div.pre > blockquote', $('#messagebody')).each(function () {
         var res, text, div, link, q = $(this);
 
         // Add new-line character before each blockquote
@@ -51,7 +51,7 @@ function hide_blockquote()
             .css({ position: 'absolute', 'z-Index': 2 })
             .text(rcmail.get_label('hide_blockquote.show'))
             .data('parent', div)
-            .click(function() {
+            .click(function () {
                 var t = $(this), parent = t.data('parent'), visible = parent.is(':visible');
 
                 t.text(rcmail.get_label(visible ? 'hide' : 'show', 'hide_blockquote'))

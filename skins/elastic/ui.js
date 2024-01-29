@@ -123,7 +123,7 @@ function rcube_elastic_ui()
 
         // Intercept jQuery-UI dialogs...
         $.ui && $.widget('ui.dialog', $.ui.dialog, {
-            open: function() {
+            open: function () {
                 // ... to unify min width for iframe'd dialogs
                 if ($(this.element).is('.iframe')) {
                     this.options.width = Math.max(576, this.options.width);
@@ -133,7 +133,7 @@ function rcube_elastic_ui()
                 dialog_open(this);
                 return this;
             },
-            close: function() {
+            close: function () {
                 this._super();
                 // ... to close custom select dropdowns on dialog close
                 $('.select-menu:visible').remove();
@@ -142,13 +142,13 @@ function rcube_elastic_ui()
         });
 
         // menu/sidebar/list button
-        buttons.menu.on('click', function() { app_menu(true); return false; });
-        buttons.back_sidebar.on('click', function() { show_sidebar(); return false; });
-        buttons.back_list.on('click', function() { show_list(); return false; });
-        buttons.back_content.on('click', function() { show_content(true); return false; });
+        buttons.menu.on('click', function () { app_menu(true); return false; });
+        buttons.back_sidebar.on('click', function () { show_sidebar(); return false; });
+        buttons.back_list.on('click', function () { show_list(); return false; });
+        buttons.back_content.on('click', function () { show_content(true); return false; });
 
         // Initialize search forms
-        $('.searchbar').each(function() { searchbar_init(this); });
+        $('.searchbar').each(function () { searchbar_init(this); });
 
         // Set content frame title in parent window (exclude ext-windows and dialog frames)
         if (is_framed && !rcmail.env.extwin && !parent.$('.ui-dialog:visible').length) {
@@ -182,12 +182,12 @@ function rcube_elastic_ui()
         }
 
         // Move some buttons to the frame footer toolbar
-        $('a[data-content-button]').each(function() {
+        $('a[data-content-button]').each(function () {
             content_buttons.push(create_cloned_button($(this)));
         });
 
         // Move form buttons from the content frame into the frame footer (on parent window)
-        $('.formbuttons').filter(function() { return !$(this).parent('.searchoptions').length; }).find('button').each(function() {
+        $('.formbuttons').filter(function () { return !$(this).parent('.searchoptions').length; }).find('button').each(function () {
             var target = $(this);
 
             // skip non-content buttons
@@ -210,8 +210,8 @@ function rcube_elastic_ui()
             form = $('form[name="' + form + '"]');
             // Show input elements with non-empty value
             // These event handlers need to be registered before rcmail 'init' event
-            $('#_cc, #_bcc, #_replyto, #_followupto', $('.compose-headers')).each(function() {
-                $(this).on('change', function() {
+            $('#_cc, #_bcc, #_replyto, #_followupto', $('.compose-headers')).each(function () {
+                $(this).on('change', function () {
                     $('#compose' + $(this).attr('id'))[this.value ? 'removeClass' : 'addClass']('hidden');
                 });
             });
@@ -220,13 +220,13 @@ function rcube_elastic_ui()
             // Because IE/Edge (<16) does not support 'form' attribute we'll copy
             // inputs into the main form as hidden fields
             // TODO: Consider doing this for IE/Edge only, just set the 'form' attribute on others
-            $('#compose-options').find('textarea,input,select').each(function() {
+            $('#compose-options').find('textarea,input,select').each(function () {
                 var hidden = $('<input>')
                     .attr({ type: 'hidden', name: $(this).attr('name') })
                     .appendTo(form);
 
                 $(this).attr('tabindex', 2)
-                    .on('change', function() {
+                    .on('change', function () {
                         hidden.val(this.type != 'checkbox' || this.checked ? $(this).val() : '');
                     })
                     .change();
@@ -235,21 +235,21 @@ function rcube_elastic_ui()
 
         // Use smart recipient inputs
         // This have to be after mail compose feature above
-        $('[data-recipient-input]').each(function() { recipient_input(this); });
+        $('[data-recipient-input]').each(function () { recipient_input(this); });
 
         // Image upload widget
-        $('.image-upload').each(function() { image_upload_input(this); });
+        $('.image-upload').each(function () { image_upload_input(this); });
 
         // Add HTML/Plain switcher on top of textarea with TinyMCE editor
-        $('textarea[data-html-editor]').each(function() { html_editor_init(this); });
+        $('textarea[data-html-editor]').each(function () { html_editor_init(this); });
 
-        $('#dragmessage-menu,#dragcontact-menu').each(function() {
+        $('#dragmessage-menu,#dragcontact-menu').each(function () {
             rcmail.gui_object('dragmenu', this.id);
         });
 
         // Taskmenu items added by plugins do not use elastic classes (e.g help plugin)
         // it's for larry skin compat. We'll assign 'selected' and icon-specific class.
-        $('#taskmenu > a').each(function() {
+        $('#taskmenu > a').each(function () {
             if (/button-([a-z]+)/.test(this.className)) {
                 var data, name = RegExp.$1,
                     button = find_button(this.id);
@@ -271,11 +271,11 @@ function rcube_elastic_ui()
                 $('.button-inner', this).addClass('inner');
             }
 
-            $(this).on('mouseover', function() { rcube_webmail.long_subject_title(this, 0, $('span.inner', this)); });
+            $(this).on('mouseover', function () { rcube_webmail.long_subject_title(this, 0, $('span.inner', this)); });
         });
 
         // Some plugins use 'listbutton' class, we'll replace it with 'button'
-        $('.listbutton').each(function() {
+        $('.listbutton').each(function () {
             var button = find_button(this.id);
 
             $(this).addClass('button').removeClass('listbutton');
@@ -292,7 +292,7 @@ function rcube_elastic_ui()
         });
 
         // buttons that should be hidden on small screen devices
-        $('[data-hidden]').each(function() {
+        $('[data-hidden]').each(function () {
             var m, v = $(this).data('hidden'),
                 parent = $(this).parent('li'),
                 re = /(large|big|small|phone|lbs)/g;
@@ -304,14 +304,14 @@ function rcube_elastic_ui()
 
         // Modify normal checkboxes on lists so they are different
         // than those used for row selection, i.e. use icons
-        $('[data-list]').each(function() {
-            $('input[type=checkbox]', this).each(function() { pretty_checkbox(this); });
+        $('[data-list]').each(function () {
+            $('input[type=checkbox]', this).each(function () { pretty_checkbox(this); });
         });
 
         // Assign .formcontainer class to the iframe body, when it
         // contains .formcontent and .formbuttons.
         if (is_framed) {
-            $('.formcontent').each(function() {
+            $('.formcontent').each(function () {
                 if ($(this).next('.formbuttons').length) {
                     $(this).parent().addClass('formcontainer');
                 }
@@ -330,8 +330,8 @@ function rcube_elastic_ui()
         }
 
         // Set .notree class on treelist widget update
-        $('.treelist').each(function() {
-            var list = this, callback = function() {
+        $('.treelist').each(function () {
+            var list = this, callback = function () {
                 $(list)[$('.treetoggle', list).length > 0 ? 'removeClass' : 'addClass']('notree');
             };
 
@@ -343,7 +343,7 @@ function rcube_elastic_ui()
             // Add title with full folder name on hover
             // TODO: This should be done in another way, so if an entry is
             // added after page load it also works there.
-            $('li.mailbox > a').on('mouseover', function() { rcube_webmail.long_subject_title_ex(this); });
+            $('li.mailbox > a').on('mouseover', function () { rcube_webmail.long_subject_title_ex(this); });
         });
     }
 
@@ -357,7 +357,7 @@ function rcube_elastic_ui()
             var toolbar = env.frame_nav.children('.buttons');
 
             content_buttons = [];
-            $.each(buttons, function() {
+            $.each(buttons, function () {
                 if (this.data('target')) {
                     content_buttons.push(this.data('target'));
                 }
@@ -404,7 +404,7 @@ function rcube_elastic_ui()
             .append($('<span class="inner">').text(target.text()));
 
         if (click) {
-            button.on('click', function(e) { target.click(); });
+            button.on('click', function (e) { target.click(); });
         }
 
         if (is_framed && !menu_button) {
@@ -451,7 +451,7 @@ function rcube_elastic_ui()
         // Select current layout element
         env.last_selected = $('#layout > div.selected')[0];
         if (!env.last_selected && layout.content.length) {
-            $.each(['sidebar', 'list', 'content'], function() {
+            $.each(['sidebar', 'list', 'content'], function () {
                 if (layout[this].length) {
                     env.last_selected = layout[this][0];
                     layout[this].addClass('selected');
@@ -461,9 +461,9 @@ function rcube_elastic_ui()
         }
 
         // Register resize handler
-        $(window).on('resize', function() {
+        $(window).on('resize', function () {
             clearTimeout(env.resize_timeout);
-            env.resize_timeout = setTimeout(function() { resize(); }, 25);
+            env.resize_timeout = setTimeout(function () { resize(); }, 25);
         });
 
         // Enable rcmail.open_window intercepting
@@ -479,7 +479,7 @@ function rcube_elastic_ui()
             .addEventListener('googiespell_create', rcmail_popup_init)
             .addEventListener('setquota', update_quota)
             .addEventListener('enable-command', enable_command_handler)
-            .addEventListener('destroy-entity-selector', function(o) { menu_destroy(o.name); })
+            .addEventListener('destroy-entity-selector', function (o) { menu_destroy(o.name); })
             .addEventListener('clonerow', pretty_checkbox_fix)
             .addEventListener('init', init);
 
@@ -487,7 +487,7 @@ function rcube_elastic_ui()
         if ((layout.list.length || layout.content.length) && is_mobile()) {
             var fabuttons = [];
 
-            $('[data-fab]').each(function() {
+            $('[data-fab]').each(function () {
                 var button = $(this),
                     task = button.data('fab-task') || '*',
                     action = button.data('fab-action') || '*';
@@ -521,7 +521,7 @@ function rcube_elastic_ui()
     function init()
     {
         // Additional functionality on list widgets
-        $('[data-list]').filter('ul,table').each(function() {
+        $('[data-list]').filter('ul,table').each(function () {
             var table = $(this),
                 list = table.data('list');
 
@@ -548,7 +548,7 @@ function rcube_elastic_ui()
                 // Add Select button to the list navigation bar
                 if (!button) {
                     button = $('<a>').attr({ 'class': 'button selection disabled', role: 'button', title: rcmail.gettext('select') })
-                        .on('click', function() { UI.toggle_list_selection(this, table.attr('id')); })
+                        .on('click', function () { UI.toggle_list_selection(this, table.attr('id')); })
                         .append($('<span class="inner">').text(rcmail.gettext('select')));
 
                     if (toolbar.is('.menu')) {
@@ -575,7 +575,7 @@ function rcube_elastic_ui()
                 }
 
                 // Update Select button state on list update
-                rcmail.addEventListener('listupdate', function(prop) {
+                rcmail.addEventListener('listupdate', function (prop) {
                     if (prop.list && prop.list == rcmail[list]) {
                         if (prop.rowcount) {
                             button.addClass('active').removeClass('disabled').attr('tabindex', 0);
@@ -609,10 +609,10 @@ function rcube_elastic_ui()
 
         // Display "List is empty..." on the list
         if (window.MutationObserver) {
-            $('[data-label-msg]').filter('ul,table').each(function() {
+            $('[data-label-msg]').filter('ul,table').each(function () {
                 var info = $('<div class="listing-info hidden">').insertAfter(this),
                     table = $(this),
-                    fn = function() {
+                    fn = function () {
                         var ext, command,
                             msg = table.data('label-msg'),
                             list = table.is('ul') ? table : table.children('tbody');
@@ -633,7 +633,7 @@ function rcube_elastic_ui()
 
                         info.addClass('hidden');
                     },
-                    callback = function() {
+                    callback = function () {
                         // wait until the UI stops loading and the list is visible
                         if (rcmail.busy || !table.is(':visible')) {
                             return setTimeout(callback, 250);
@@ -654,18 +654,18 @@ function rcube_elastic_ui()
 
         // Add menu link for each attachment
         if (rcmail.env.action != 'print') {
-            $('#attachment-list > li').each(function() {
+            $('#attachment-list > li').each(function () {
                 attachmentmenu_append(this);
             });
         }
 
-        var phone_confirmation = function(label) {
+        var phone_confirmation = function (label) {
             if (mode == 'phone') {
                 rcmail.display_message(rcmail.gettext(label), 'confirmation');
             }
         };
 
-        rcmail.addEventListener('fileappended', function(e) {
+        rcmail.addEventListener('fileappended', function (e) {
             if (e.attachment.complete) {
                 attachmentmenu_append(e.item);
                 if (e.attachment.mimetype == 'text/vcard' && rcmail.commands['attach-vcard']) {
@@ -673,19 +673,19 @@ function rcube_elastic_ui()
                 }
             }
         })
-            .addEventListener('managesieve.insertrow', function(o) { bootstrap_style(o.obj); })
-            .addEventListener('add-recipient', function() { phone_confirmation('recipientsadded'); });
+            .addEventListener('managesieve.insertrow', function (o) { bootstrap_style(o.obj); })
+            .addEventListener('add-recipient', function () { phone_confirmation('recipientsadded'); });
 
         rcmail.init_pagejumper('.pagenav > input');
 
         if (rcmail.task == 'mail') {
             if (rcmail.env.action == 'compose') {
-                rcmail.addEventListener('compose-encrypted', function(e) {
+                rcmail.addEventListener('compose-encrypted', function (e) {
                     $('a.mode-html, button.attach').prop('disabled', e.active);
                     $('a.attach, a.responses:not(.edit)')[e.active ? 'addClass' : 'removeClass']('disabled');
                 });
 
-                $('#layout-sidebar > .footer:not(.pagenav) > a.button').click(function() {
+                $('#layout-sidebar > .footer:not(.pagenav) > a.button').click(function () {
                     if ($(this).is('.disabled')) {
                         rcmail.display_message(rcmail.gettext('nocontactselected'), 'warning');
                     }
@@ -694,7 +694,7 @@ function rcube_elastic_ui()
                 // Update compose status bar on attachments list update
                 if (window.MutationObserver) {
                     var observer, list = $('#attachment-list'),
-                        status_callback = function() { compose_status('attach', list.children().length > 0); };
+                        status_callback = function () { compose_status('attach', list.children().length > 0); };
 
                     observer = new MutationObserver(status_callback);
                     observer.observe(list[0], { childList: true });
@@ -713,7 +713,7 @@ function rcube_elastic_ui()
 
             // Append contact menu to all mailto: links
             if (rcmail.env.action == 'preview' || rcmail.env.action == 'show') {
-                $('a').filter('[href^="mailto:"]').each(function() {
+                $('a').filter('[href^="mailto:"]').each(function () {
                     mailtomenu_append(this);
                 });
 
@@ -722,10 +722,10 @@ function rcube_elastic_ui()
             }
         }
         else if (rcmail.task == 'settings') {
-            rcmail.addEventListener('identity-encryption-show', function(p) {
+            rcmail.addEventListener('identity-encryption-show', function (p) {
                 bootstrap_style(p.container);
             });
-            rcmail.addEventListener('identity-encryption-update', function(p) {
+            rcmail.addEventListener('identity-encryption-update', function (p) {
                 bootstrap_style(p.container);
             });
         }
@@ -740,7 +740,7 @@ function rcube_elastic_ui()
         // Update layout after initialization (again)
         // In devel mode we have to wait until all styles are applied by less
         if (rcmail.env.devel_mode && window.less) {
-            less.pageLoadFinished.then(function() {
+            less.pageLoadFinished.then(function () {
                 resize();
                 // Re-focus the focused input field on mail compose
                 if (rcmail.env.compose_focus_elem) {
@@ -755,13 +755,13 @@ function rcube_elastic_ui()
         // Add date format placeholder to datepicker inputs
         var func, format = rcmail.env.date_format_localized;
         if (format) {
-            func = function(input) {
+            func = function (input) {
                 $(input).filter('.datepicker').attr('placeholder', format);
                 // also make selects pretty
-                $(input).parent().find('select').each(function() { pretty_select(this); });
+                $(input).parent().find('select').each(function () { pretty_select(this); });
             };
 
-            $('input.datepicker').each(function() { func(this); });
+            $('input.datepicker').each(function () { func(this); });
             rcmail.addEventListener('insert-edit-field', func);
         }
     }
@@ -778,16 +778,16 @@ function rcube_elastic_ui()
         // We deliberately use only cookies here, not local storage
         var pref = rcmail.get_cookie('colorMode'),
             color_scheme = window.matchMedia('(prefers-color-scheme: dark)'),
-            reset_cookie = function() {
+            reset_cookie = function () {
                 rcmail.set_cookie('colorMode', '', new Date()); // delete the cookie
             },
-            switch_iframe_color_mode = function() {
+            switch_iframe_color_mode = function () {
                 try {
                     $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
                 }
                 catch(e) { /* ignore */ }
             },
-            switch_color_mode = function() {
+            switch_color_mode = function () {
                 if (color_mode == 'dark') {
                     $('#taskmenu a.theme').removeClass('dark').addClass('light').find('span').text(rcmail.gettext('lightmode'));
                     $('html').addClass('dark-mode');
@@ -810,14 +810,14 @@ function rcube_elastic_ui()
         }
 
         // Add onclick action to the menu button
-        $('#taskmenu a.theme').on('click', function() {
+        $('#taskmenu a.theme').on('click', function () {
             color_mode = $(this).is('.dark') ? 'dark' : 'light';
             switch_color_mode();
             rcmail.set_cookie('colorMode', color_mode, false);
         });
 
         // Note: this does not work in IE and Safari
-        color_scheme.addListener(function(e) {
+        color_scheme.addListener(function (e) {
             color_mode = e.matches ? 'dark' : 'light';
             switch_color_mode();
             reset_cookie();
@@ -849,9 +849,9 @@ function rcube_elastic_ui()
         $('input.button.mainaction,button.primary,button.mainaction', context).addClass('btn-primary');
         $('button.btn.delete,button.btn.discard', context).addClass('btn-danger');
 
-        $.each(['warning', 'error', 'information', 'confirmation'], function() {
+        $.each(['warning', 'error', 'information', 'confirmation'], function () {
             var type = this;
-            $('.box' + type + ':not(.ui.alert)', context).each(function() {
+            $('.box' + type + ':not(.ui.alert)', context).each(function () {
                 alert_style(this, type, true);
             });
         });
@@ -895,7 +895,7 @@ function rcube_elastic_ui()
             $(supported_controls, context).addClass('form-control');
         }
 
-        $('table.propform', context).each(function() {
+        $('table.propform', context).each(function () {
             var text_rows = 0, form_rows = 0;
             var col_sizes = ['sm', 4, 8];
 
@@ -903,7 +903,7 @@ function rcube_elastic_ui()
                 col_sizes = [RegExp.$1, RegExp.$2, RegExp.$3];
             }
 
-            $(this).find('> tbody > tr, > tr').each(function() {
+            $(this).find('> tbody > tr, > tr').each(function () {
                 var first, last, row = $(this),
                     row_classes = ['form-group', 'row'],
                     cells = row.children('td');
@@ -951,12 +951,12 @@ function rcube_elastic_ui()
         });
 
         // Special input + anything entry
-        $('td.input-group', context).each(function() {
+        $('td.input-group', context).each(function () {
             $(this).children().slice(1).addClass('input-group-append');
         });
 
         // Other forms, e.g. Contact advanced search
-        $('fieldset.propform:not(.grouped) div.row', context).each(function() {
+        $('fieldset.propform:not(.grouped) div.row', context).each(function () {
             var has_input = $('input:not([type=hidden]),select,textarea', this).length > 0;
 
             if (has_input) {
@@ -969,8 +969,8 @@ function rcube_elastic_ui()
         });
 
         // Contact info/edit form
-        $('fieldset.propform.grouped fieldset', context).each(function() {
-            $('.row', this).each(function() {
+        $('fieldset.propform.grouped fieldset', context).each(function () {
+            $('.row', this).each(function () {
                 var label, first,
                     has_input = $('input,select,textarea', this).length > 0,
                     items = $(this).children();
@@ -1002,18 +1002,18 @@ function rcube_elastic_ui()
         });
 
         // Advanced options form
-        $('fieldset.advanced', context).each(function() {
+        $('fieldset.advanced', context).each(function () {
             var table = $(this).children('.propform').first();
             table.wrap($('<div>').addClass('collapse'));
-            $(this).children('legend').first().addClass('closed').on('click', function() {
+            $(this).children('legend').first().addClass('closed').on('click', function () {
                 table.parent().collapse('toggle');
                 $(this).toggleClass('closed');
             });
         });
 
         // Other forms, e.g. Insert response
-        $('.propform > .prop.block:not(.row)', context).each(function() {
-            $(this).addClass('form-group row').each(function() {
+        $('.propform > .prop.block:not(.row)', context).each(function () {
+            $(this).addClass('form-group row').each(function () {
                 $('label', this).addClass('col-form-label').wrap($('<div class="col-sm-4">'));
                 $('input,select,textarea', this).wrap($('<div class="col-sm-8">'));
                 $(supported_controls, this).addClass('form-control');
@@ -1025,10 +1025,10 @@ function rcube_elastic_ui()
         // Testing Bootstrap Tabs on contact info/edit page
         // Tabs do not scale nicely on very small screen, so can be used
         // only with small number of tabs with short text labels
-        $('form.tabbed,div.tabbed', context).each(function(idx, item) {
+        $('form.tabbed,div.tabbed', context).each(function (idx, item) {
             var tabs = [], nav = $('<ul>').attr({ 'class': 'nav nav-tabs', role: 'tablist' });
 
-            $(this).addClass('tab-content').children('fieldset').each(function(i, fieldset) {
+            $(this).addClass('tab-content').children('fieldset').each(function (i, fieldset) {
                 var tab, id = fieldset.id || ('tab' + idx + '-' + i),
                     tab_class = $(fieldset).data('navlink-class');
 
@@ -1038,7 +1038,7 @@ function rcube_elastic_ui()
                     $('<a>').addClass('nav-link' + (tab_class ? ' ' + tab_class : ''))
                         .attr({ role: 'tab', 'href': '#' + id })
                         .text($('legend', fieldset).first().text())
-                        .click(function(e) {
+                        .click(function (e) {
                             $(this).tab('show');
                             // Because we return false we have to close popups
                             popups_close(e);
@@ -1058,13 +1058,13 @@ function rcube_elastic_ui()
             $('a.nav-link', nav).first().click();
         });
 
-        $('input[type=file]:not(.custom-file-input)', context).each(function() {
+        $('input[type=file]:not(.custom-file-input)', context).each(function () {
             var label_text = rcmail.gettext('choosefile' + (this.multiple ? 's' : '')),
                 label = $('<label>').attr({ 'class': 'custom-file-label',
                     'data-browse': rcmail.gettext('browse') }).text(label_text);
 
             $(this).addClass('custom-file-input').wrap('<div class="custom-file">');
-            $(this).on('change', function() {
+            $(this).on('change', function () {
                 var text = label_text;
                 if (this.files.length) {
                     text = this.files[0].name;
@@ -1081,12 +1081,12 @@ function rcube_elastic_ui()
 
         // Make tables prettier
         $('table:not(.table,.compact-table,.propform,.listing,.ui-datepicker-calendar)', context)
-            .filter(function() {
+            .filter(function () {
                 // exclude direct propform children and external content
                 return !$(this).parent().is('.propform')
                     && !$(this).parents('#message-header,.message-htmlpart,.message-partheaders,.boxinformation,.raw-tables').length;
             })
-            .each(function() {
+            .each(function () {
                 // TODO: Consider implementing automatic setting of table-responsive on window resize
                 var table = $(this).addClass('table');
                 table.parent().addClass('table-responsive-sm');
@@ -1096,19 +1096,19 @@ function rcube_elastic_ui()
         // The same for some other checkboxes
         // We do this here, not in setup() because we want to cover dialogs
         $('input.pretty-checkbox, .propform input[type=checkbox], .form-check input[type=checkbox], .popupmenu.form input[type=checkbox], .menu input[type=checkbox]', context)
-            .each(function() { pretty_checkbox(this); });
+            .each(function () { pretty_checkbox(this); });
 
         // Also when we add action-row of the form, e.g. Managesieve plugin adds them after the page is ready
         if ($(context).is('.actionrow')) {
-            $('input[type=checkbox]', context).each(function() { pretty_checkbox(this); });
+            $('input[type=checkbox]', context).each(function () { pretty_checkbox(this); });
         }
 
         // Input-group combo is an element with a select field on the left
         // and input(s) on right, and where the whole right side can be hidden
         // depending on the select position. This code fixes border radius on select
-        $('.input-group-combo > select', context).first().on('change', function() {
+        $('.input-group-combo > select', context).first().on('change', function () {
             var select = $(this),
-                fn = function() {
+                fn = function () {
                     select[select.next().is(':visible') ? 'removeClass' : 'addClass']('alone');
                 };
 
@@ -1117,7 +1117,7 @@ function rcube_elastic_ui()
         }).trigger('change');
 
         // Make message-objects alerts pretty (the same as UI alerts)
-        $('#message-objects', context).children(':not(.ui.alert)').add('.part-notice').each(function() {
+        $('#message-objects', context).children(':not(.ui.alert)').add('.part-notice').each(function () {
             // message objects with notice class are really warnings
             var cl = String($(this).removeClass('notice part-notice').attr('class')).split(/\s/)[0] || 'warning';
             alert_style(this, cl);
@@ -1132,7 +1132,7 @@ function rcube_elastic_ui()
         if (rcmail.env.task == 'login' && context == document) {
             $('#rcmloginsubmit').addClass('btn-lg text-uppercase w-100');
             $('#rcmloginoauth').addClass('btn btn-secondary btn-lg w-100');
-            $('#login-form table tr').each(function() {
+            $('#login-form table tr').each(function () {
                 var input = $('input,select', this),
                     label = $('label', this),
                     icon_name = input.data('icon'),
@@ -1151,7 +1151,7 @@ function rcube_elastic_ui()
             });
         }
 
-        $('select:not([multiple])', context).each(function() { pretty_select(this); });
+        $('select:not([multiple])', context).each(function () { pretty_select(this); });
     }
 
     /**
@@ -1159,7 +1159,7 @@ function rcube_elastic_ui()
      */
     function dropdowns_init()
     {
-        $('[data-popup]').each(function() { popup_init(this); });
+        $('[data-popup]').each(function () { popup_init(this); });
 
         $(document).on('click', popups_close);
         rcube_webmail.set_iframe_events({ mousedown: popups_close, touchstart: popups_close });
@@ -1175,7 +1175,7 @@ function rcube_elastic_ui()
         }
 
         var last_selected = env.last_selected,
-            title_reset = function(title) {
+            title_reset = function (title) {
                 if (typeof title !== 'string' || !title.length) {
                     title = $('h1.voice').text() || $('title').text() || '';
                 }
@@ -1184,7 +1184,7 @@ function rcube_elastic_ui()
             };
 
         // display or reset the content frame
-        var common_content_handler = function(e, href, show, title)
+        var common_content_handler = function (e, href, show, title)
         {
             if (is_mobile() && env.frame_nav) {
                 content_frame_navigation(href, e);
@@ -1204,7 +1204,7 @@ function rcube_elastic_ui()
             env.content_lock = false;
         };
 
-        var common_list_handler = function(e) {
+        var common_list_handler = function (e) {
             if (mode != 'large' && !env.content_lock && e.force) {
                 show_list();
             }
@@ -1217,7 +1217,7 @@ function rcube_elastic_ui()
             }
         };
 
-        var list_handler = function(e) {
+        var list_handler = function (e) {
             var args = {};
 
             if (rcmail.env.task == 'addressbook' || rcmail.env.task == 'mail') {
@@ -1236,7 +1236,7 @@ function rcube_elastic_ui()
         };
 
         // when loading content-frame in small-screen mode display it
-        layout.content.find('iframe').on('load', function(e) {
+        layout.content.find('iframe').on('load', function (e) {
             var win, href = '', show = true;
 
             // Reset the scroll position of the iframe-wrapper
@@ -1260,11 +1260,11 @@ function rcube_elastic_ui()
             .addEventListener('afterlistgroup', list_handler)
             .addEventListener('afterlistsearch', list_handler)
             // plugins
-            .addEventListener('show-list', function(e) {
+            .addEventListener('show-list', function (e) {
                 e.force = true;
                 common_list_handler(e);
             })
-            .addEventListener('show-content', function(e) {
+            .addEventListener('show-content', function (e) {
                 if (e.obj && !$(e.obj).is('iframe')) {
                     $(e.scrollElement || e.obj).scrollTop(0);
                     if (is_mobile()) {
@@ -1316,7 +1316,7 @@ function rcube_elastic_ui()
             prev_button = $('a.button.prev', env.frame_nav).off('click').addClass('disabled');
 
         if ((next = list.get_next()) || rcmail.env.current_page < rcmail.env.pagecount) {
-            next_button.removeClass('disabled').on('click', function() {
+            next_button.removeClass('disabled').on('click', function () {
                 env.content_lock = true;
                 iframe_loader(frame);
 
@@ -1331,7 +1331,7 @@ function rcube_elastic_ui()
         }
 
         if (((prev = list.get_prev()) && (prev != '*' || _list != 'subscription_list')) || rcmail.env.current_page > 1) {
-            prev_button.removeClass('disabled').on('click', function() {
+            prev_button.removeClass('disabled').on('click', function () {
                 env.content_lock = true;
                 iframe_loader(frame);
 
@@ -1365,21 +1365,21 @@ function rcube_elastic_ui()
         if (rcmail.task == 'mail' && rcmail.env.action == 'compose') {
             var floating = false,
                 form = $('#compose-content > form'),
-                keypress = function(e) {
+                keypress = function (e) {
                     if (e.key == 'Tab' && e.shiftKey) {
                         $('#compose-content > form').scrollTop(0);
                     }
                 };
 
             // Shift+Tab on mail compose editor scrolls the page to the top
-            onload.push(function(ed) {
+            onload.push(function (ed) {
                 ed.on('keypress', keypress);
             });
 
             $('#composebody').on('keypress', keypress);
 
             // Keep the editor toolbar on top of the screen on scroll
-            form.on('scroll', function() {
+            form.on('scroll', function () {
                 var container = $('.tox-editor-container', form),
                     toolbar = container.find('.tox-toolbar-overlord'),
                     editor_offset = container.offset(),
@@ -1400,17 +1400,17 @@ function rcube_elastic_ui()
                 }
             });
 
-            $(window).resize(function() { form.trigger('scroll'); });
+            $(window).resize(function () { form.trigger('scroll'); });
         }
 
         if (is_editor) {
             o.config.toolbar = 'plaintext | ' + o.config.toolbar;
             // Use setup_callback, we can't use editor-load event
-            o.config.setup_callback = function(ed) {
+            o.config.setup_callback = function (ed) {
                 ed.ui.registry.addButton('plaintext', {
                     tooltip: rcmail.gettext('plaintoggle'),
                     icon: 'close',
-                    onAction: function(e) {
+                    onAction: function (e) {
                         if (rcmail.command('toggle-editor', { id: ed.id, html: false }, '', e.originalEvent)) {
                             $('#' + ed.id).parent().removeClass('ishtml');
                         }
@@ -1420,10 +1420,10 @@ function rcube_elastic_ui()
         }
 
         // Add styling for TinyMCE dialogs
-        onload.push(function(ed) {
-            ed.on('OpenWindow', function(e) {
+        onload.push(function (ed) {
+            ed.on('OpenWindow', function (e) {
                 var dialog = $('.tox-dialog:last')[0],
-                    callback = function(e) {
+                    callback = function (e) {
                         var body = $(dialog).find('.tox-dialog__body'),
                             foot = $(dialog).find('.tox-dialog__footer'),
                             buttons = foot.find('button');
@@ -1443,7 +1443,7 @@ function rcube_elastic_ui()
                             // also https://github.com/tinymce/tinymce/issues/4869
                         }
 
-                        body.find('.tox-checkbox > input').each(function() { pretty_checkbox(this); });
+                        body.find('.tox-checkbox > input').each(function () { pretty_checkbox(this); });
                         body.find('.tox-textarea,.tox-textfield').addClass('form-control');
                     };
 
@@ -1456,8 +1456,8 @@ function rcube_elastic_ui()
             });
         });
 
-        rcmail.addEventListener('editor-load', function(e) {
-            $.each(onload, function() { this(e.ref.editor); });
+        rcmail.addEventListener('editor-load', function (e) {
+            $.each(onload, function () { this(e.ref.editor); });
         });
     }
 
@@ -1466,11 +1466,11 @@ function rcube_elastic_ui()
         // Datepicker widget improvements: overlay element, styling updates on calendar element update
         // The widget does not provide any event system, so we use MutationObserver
         if (window.MutationObserver) {
-            $(datepicker).not('[data-observed]').each(function() {
+            $(datepicker).not('[data-observed]').each(function () {
                 var overlay, hidden = true,
                     win = is_framed ? parent : window,
-                    callback = function(data) {
-                        $.each(data, function(i, v) {
+                    callback = function (data) {
+                        $.each(data, function (i, v) {
                             // add/remove overlay on widget show/hide
                             if (v.type == 'attributes') {
                                 var is_hidden = $(v.target).attr('aria-hidden') == 'true';
@@ -1478,7 +1478,7 @@ function rcube_elastic_ui()
                                     if (!is_hidden) {
                                         overlay = $('<div>').attr('class', 'ui-widget-overlay datepicker')
                                             .appendTo(win.document.body)
-                                            .click(function(e) {
+                                            .click(function (e) {
                                                 $(this).remove();
                                                 if (is_framed) {
                                                     $.datepicker._hideDatepicker();
@@ -1497,10 +1497,10 @@ function rcube_elastic_ui()
 
                                 // Month/Year change handlers do not work from parent, fix it
                                 if (is_framed) {
-                                    win.$('select.ui-datepicker-month', v.target).on('change', function() {
+                                    win.$('select.ui-datepicker-month', v.target).on('change', function () {
                                         $.datepicker._selectMonthYear($.datepicker._lastInput, this, 'M');
                                     });
-                                    win.$('select.ui-datepicker-year', v.target).on('change', function() {
+                                    win.$('select.ui-datepicker-year', v.target).on('change', function () {
                                         $.datepicker._selectMonthYear($.datepicker._lastInput, this, 'Y');
                                     });
                                 }
@@ -1552,7 +1552,7 @@ function rcube_elastic_ui()
             var title = rcmail.gettext('close'),
                 class_name = 'button icon cancel',
                 close_link = $('<a>').attr('class', class_name).text(title)
-                    .click(function(e) {
+                    .click(function (e) {
                         e.stopPropagation();
                         $('.popover-overlay').remove();
                         $(o.obj).hide();
@@ -1564,10 +1564,10 @@ function rcube_elastic_ui()
             if (!$('.popover-overlay').length) {
                 $('<div>').attr('class', 'popover-overlay')
                     .appendTo('body')
-                    .click(function() { $(this).remove(); });
+                    .click(function () { $(this).remove(); });
             }
 
-            $('ul,button', o.obj).click(function(e) {
+            $('ul,button', o.obj).click(function (e) {
                 if (!$(e.target).is('input')) {
                     $('.popover-overlay').remove();
                 }
@@ -1581,7 +1581,7 @@ function rcube_elastic_ui()
     function enable_command_handler(args)
     {
         if (is_framed) {
-            $.each(frame_buttons, function(i, button) {
+            $.each(frame_buttons, function (i, button) {
                 if (args.command == button.command) {
                     parent.$('#' + button.button_id)[args.status ? 'removeClass' : 'addClass']('disabled');
                 }
@@ -1661,7 +1661,7 @@ function rcube_elastic_ui()
         }
 
         // Hide content frame buttons on small devices (with frame toolbar in parent window)
-        $.each(content_buttons, function() { $(this)[mobile ? 'hide' : 'show'](); });
+        $.each(content_buttons, function () { $(this)[mobile ? 'hide' : 'show'](); });
 
         rcmail.triggerEvent('skin-resize', { mode: mode });
     }
@@ -1686,7 +1686,7 @@ function rcube_elastic_ui()
         // On iOS and Android the content frame height is never correct, fix it.
         // Actually I observed the issue on my old iPad with iOS 9.3.
         if (bw.webkit && bw.ipad && bw.agent.match(/OS 9/)) {
-            $('.iframe-wrapper').each(function() {
+            $('.iframe-wrapper').each(function () {
                 var h = $(this).height();
                 if (h) {
                     $(this).children('iframe').height(h);
@@ -1755,11 +1755,11 @@ function rcube_elastic_ui()
      */
     function screen_resize_headers()
     {
-        $('#layout > div > .header').each(function() {
+        $('#layout > div > .header').each(function () {
             var title, right = 0, left = 0, padding = 0,
                 sizes = { left: 0, right: 0 };
 
-            $(this).children(':visible:not(.position-absolute)').each(function() {
+            $(this).children(':visible:not(.position-absolute)').each(function () {
                 if (!title && $(this).is('.header-title')) {
                     title = $(this);
                     return;
@@ -1821,7 +1821,7 @@ function rcube_elastic_ui()
 
     function screen_resize_large()
     {
-        $.each(layout, function(name, item) { item.removeClass('hidden'); });
+        $.each(layout, function (name, item) { item.removeClass('hidden'); });
 
         screen_resize_small_none();
 
@@ -1858,7 +1858,7 @@ function rcube_elastic_ui()
 
     function screen_resize_small_none()
     {
-        buttons.back_list.filter(function() { return $(this).parents('#layout-sidebar').length == 0; }).hide();
+        buttons.back_list.filter(function () { return $(this).parents('#layout-sidebar').length == 0; }).hide();
         $('ul.menu.popupmenu').removeClass('popupmenu');
     }
 
@@ -1929,7 +1929,7 @@ function rcube_elastic_ui()
         rcmail.show_contentframe(false);
 
         // now we have to unselect selected row on the list
-        $('[data-list]', layout.list).each(function() {
+        $('[data-list]', layout.list).each(function () {
             var list = $(this).data('list');
             if (rcmail[list]) {
                 if (rcmail[list].clear_selection) {
@@ -1948,12 +1948,12 @@ function rcube_elastic_ui()
         if (show) {
             if (mode == 'phone') {
                 $('<div id="menu-overlay" class="popover-overlay">')
-                    .on('click', function() { app_menu(false); })
+                    .on('click', function () { app_menu(false); })
                     .appendTo('body');
 
                 if (!env.menu_initialized) {
                     env.menu_initialized = true;
-                    $('a', layout.menu).on('click', function(e) { if (mode == 'phone') app_menu(); });
+                    $('a', layout.menu).on('click', function (e) { if (mode == 'phone') app_menu(); });
                 }
 
                 layout.menu.addClass('popover');
@@ -2061,7 +2061,7 @@ function rcube_elastic_ui()
             input = $('input:not([type=hidden])', bar),
             placeholder = input.attr('placeholder'),
             form = $('form', bar),
-            is_search_pending = function() {
+            is_search_pending = function () {
                 if (input.val()) {
                     return true;
                 }
@@ -2078,12 +2078,12 @@ function rcube_elastic_ui()
                     return true;
                 }
             },
-            close_func = function() {
+            close_func = function () {
                 if ($(bar).is('.open')) {
                     options_button.click();
                 }
             },
-            update_func = function() {
+            update_func = function () {
                 $(bar)[is_search_pending() ? 'addClass' : 'removeClass']('active');
                 unread_button[rcmail.gui_objects.search_filter && $(rcmail.gui_objects.search_filter).val() == 'UNSEEN' ? 'addClass' : 'removeClass']('selected');
             };
@@ -2092,14 +2092,14 @@ function rcube_elastic_ui()
         if (input.is('#mailsearchform')) {
             unread_button = $('<a>')
                 .attr({ 'class': 'button unread', href: '#', role: 'button', title: rcmail.gettext('showunread') })
-                .on('click', function(e) {
+                .on('click', function (e) {
                     $(rcmail.gui_objects.search_filter).val($(e.target).is('.selected') ? 'ALL' : 'UNSEEN');
                     rcmail.command('search');
                 })
                 .insertBefore(options_button);
         }
 
-        options_button.on('click', function(e) {
+        options_button.on('click', function (e) {
             var id = $(this).data('target'),
                 options = $('#' + id),
                 open = $(bar).is('.open');
@@ -2119,7 +2119,7 @@ function rcube_elastic_ui()
                 $('.floating-action-buttons').toggleClass('hidden');
                 $(bar).toggleClass('open');
 
-                $('button.search', options).off('click.search').on('click.search', function() {
+                $('button.search', options).off('click.search').on('click.search', function () {
                     options_button.click();
                     update_func();
                 });
@@ -2127,10 +2127,10 @@ function rcube_elastic_ui()
         });
 
         input.on('input change', update_func)
-            .on('focus blur', function(e) { input.attr('placeholder', e.type == 'blur' ? placeholder : ''); });
+            .on('focus blur', function (e) { input.attr('placeholder', e.type == 'blur' ? placeholder : ''); });
 
         // Search reset action
-        $('a.reset', bar).on('click', function(e) {
+        $('a.reset', bar).on('click', function (e) {
             // for treelist widget's search setting val and keyup.treelist is needed
             // in normal search form reset-search command will do the trick
             input.val('').change().trigger('keyup.treelist', { keyCode: 27 });
@@ -2172,13 +2172,13 @@ function rcube_elastic_ui()
         var list_mark, items = [],
             list_items = [],
             meta = layout_metadata(),
-            button_func = function(button, items, cloned) {
+            button_func = function (button, items, cloned) {
                 var item = $('<li role="menuitem">');
 
                 button = cloned ? create_cloned_button($(button), true, 'hidden-big hidden-large') : $(button).detach();
 
                 // Remove empty text nodes that break alignment of text of the menu item
-                button.contents().filter(function() { if (this.nodeType == 3 && this.nodeValue.trim().length == 0) $(this).remove(); });
+                button.contents().filter(function () { if (this.nodeType == 3 && this.nodeValue.trim().length == 0) $(this).remove(); });
 
                 if (button.is('.spacer')) {
                     item.addClass('spacer');
@@ -2191,20 +2191,20 @@ function rcube_elastic_ui()
             };
 
         // convert content toolbar to a popup list
-        layout.content.find('.header > .menu').each(function() {
+        layout.content.find('.header > .menu').each(function () {
             var toolbar = $(this);
 
-            toolbar.children().each(function() { button_func(this, items); });
+            toolbar.children().each(function () { button_func(this, items); });
             toolbar.remove();
         });
 
         // convert list toolbar to a popup list
-        layout.list.find('.header > .menu').each(function() {
+        layout.list.find('.header > .menu').each(function () {
             var toolbar = $(this);
 
             list_mark = toolbar.next();
 
-            toolbar.children().each(function() {
+            toolbar.children().each(function () {
                 if (meta.mode != 'large') {
                     // TODO: Would be better to set this automatically on submenu display
                     //       i.e. in show/shown event (see popup_init()), if possible
@@ -2220,7 +2220,7 @@ function rcube_elastic_ui()
         });
 
         // special elements to clone and add to the toolbar (mobile only)
-        $('ul[data-menu="toolbar-small"] > li > a').each(function() {
+        $('ul[data-menu="toolbar-small"] > li > a').each(function () {
             var button = $(this).clone();
 
             button.attr('id', this.id + '_clone');
@@ -2261,7 +2261,7 @@ function rcube_elastic_ui()
                 .append(menu_button);
 
             // bind toolbar menu with the menu button in the list header
-            layout.list.find('a.toolbar-menu-button').click(function(e) {
+            layout.list.find('a.toolbar-menu-button').click(function (e) {
                 e.stopPropagation();
                 menu_button.click();
             });
@@ -2284,7 +2284,7 @@ function rcube_elastic_ui()
             popup = $(win.$('#' + popup_id).get(0)), // a "hack" to support elements in frames
             popup_orig = popup,
             title = $(item).attr('title'),
-            content_element = function() {
+            content_element = function () {
                 // On mobile we display a menu from the frame in the parent window
                 // To make menu actions working we have to clone the menu
                 // and pass click events to it...
@@ -2292,7 +2292,7 @@ function rcube_elastic_ui()
                     popup = popup_orig.clone(true, true);
                     popup.attr('id', popup_id + '-clone')
                         .appendTo(document.body)
-                        .find('li > a').attr('onclick', '').off('click').on('click', function(e) {
+                        .find('li > a').attr('onclick', '').off('click').on('click', function (e) {
                             if (!$(this).is('.disabled')) {
                                 $(item).popover('hide');
                                 win.$('#' + $(this).attr('id')).click();
@@ -2318,7 +2318,7 @@ function rcube_elastic_ui()
                 boundary: 'window', // fix for https://github.com/twbs/bootstrap/issues/25428
                 html: true
             })
-            .on('show.bs.popover', function(event) {
+            .on('show.bs.popover', function (event) {
                 var init_func = popup.data('popup-init');
 
                 if (popup_id && menus[popup_id]) {
@@ -2340,14 +2340,14 @@ function rcube_elastic_ui()
                     .find('[aria-haspopup="true"]')
                     .data('level', level + 1)
                     .off('click.popup')
-                    .on('click.popup', function(e) { e.stopPropagation(); });
+                    .on('click.popup', function (e) { e.stopPropagation(); });
 
                 if (!is_mobile()) {
                     // Set popup height so it is less than the window height
                     popup.css('max-height', Math.min(36 * 15 - 1, $(window).height() - 30));
                 }
             })
-            .on('shown.bs.popover', function(event) {
+            .on('shown.bs.popover', function (event) {
                 var mobile = is_mobile(),
                     popover = $('#' + $(item).attr('aria-describedby'));
 
@@ -2361,13 +2361,13 @@ function rcube_elastic_ui()
 
                     $('.popover-header', popover).empty()
                         .append($('<a>').attr('class', class_name).text(title)
-                            .on('click', function(e) {
+                            .on('click', function (e) {
                                 $(item).popover('hide');
                                 if (level > 1) {
                                     e.stopPropagation();
                                 }
                             })
-                            .on('mousedown', function(e) {
+                            .on('mousedown', function (e) {
                                 // stop propagation to i.e. do not close jQuery-UI dialogs below
                                 e.stopPropagation();
                             })
@@ -2375,7 +2375,7 @@ function rcube_elastic_ui()
                 }
 
                 // Hide other menus on the same level
-                $.each(menus, function(id, prop) {
+                $.each(menus, function (id, prop) {
                     if ($(prop.target).data('level') == level && id != popup_id) {
                         menu_hide(id);
                     }
@@ -2383,7 +2383,7 @@ function rcube_elastic_ui()
 
                 // On keyboard event focus the first (active) entry and enable keyboard navigation
                 if ($(item).data('event') == 'key') {
-                    popover.off('keydown.popup').on('keydown.popup', 'a.active', function(e) {
+                    popover.off('keydown.popup').on('keydown.popup', 'a.active', function (e) {
                         var entry, node, mode = 'next';
 
                         switch (e.which) {
@@ -2419,12 +2419,12 @@ function rcube_elastic_ui()
                 if (mobile && !$('.popover-overlay').length) {
                     $('<div>').attr('class', 'popover-overlay')
                         .appendTo('body')
-                        .click(function() { $(this).remove(); });
+                        .click(function () { $(this).remove(); });
                 }
 
                 $('.popover-body', popover).addClass('webkit-scroller');
             })
-            .on('hide.bs.popover', function() {
+            .on('hide.bs.popover', function () {
                 if (level == 1) {
                     $('.popover-overlay').remove();
                 }
@@ -2450,7 +2450,7 @@ function rcube_elastic_ui()
                     }
 
                     // close orphaned popovers, for some reason there are sometimes such dummy elements left
-                    $('.popover-body:empty').each(function() { $(this).parent().remove(); });
+                    $('.popover-body:empty').each(function () { $(this).parent().remove(); });
 
                     if (popup_id && menus[popup_id]) {
                         delete menus[popup_id];
@@ -2459,10 +2459,10 @@ function rcube_elastic_ui()
             })
             // Because Bootstrap does not provide originalEvent in show/shown events
             // we have to handle that by our own using click and keydown handlers
-            .on('click', function() {
+            .on('click', function () {
                 $(this).data('event', 'mouse');
             })
-            .on('keydown', function(e) {
+            .on('keydown', function (e) {
                 if (e.originalEvent) {
                     switch (e.originalEvent.which) {
                         case 13:
@@ -2493,7 +2493,7 @@ function rcube_elastic_ui()
         // stop propagation to e.g. do not hide the popup when
         // clicking inside on form elements
         if (popup.data('editable')) {
-            popup.on('click mousedown', function(e) { e.stopPropagation(); });
+            popup.on('click mousedown', function (e) { e.stopPropagation(); });
         }
     }
 
@@ -2507,7 +2507,7 @@ function rcube_elastic_ui()
             return;
         }
 
-        $('.popover.show').each(function() {
+        $('.popover.show').each(function () {
             var popup = $('.popover-body', this),
                 button = popup.children().first().data('button');
 
@@ -2594,7 +2594,7 @@ function rcube_elastic_ui()
             // Popover menus use animation. Sometimes the same menu is
             // immediately hidden and shown (e.g. folder-selector for copy and move action)
             // we have to wait until the previous menu hides before we can open it again
-            fn = function() {
+            fn = function () {
                 if (menus[p.name] && menus[p.name].transitioning) {
                     return setTimeout(fn, 50);
                 }
@@ -2612,7 +2612,7 @@ function rcube_elastic_ui()
                 menus[p.name] = { target: target };
 
                 // setTimeout fixes Shift + drag'n'drop menu in Chrome (#8107)
-                setTimeout(function() { $(target).popover('show'); }, 1);
+                setTimeout(function () { $(target).popover('show'); }, 1);
             };
 
             fn();
@@ -2698,10 +2698,10 @@ function rcube_elastic_ui()
         $('select[name="mode"]', dialog).val(rcmail.env.threading ? 'threads' : 'list');
 
         // Fix id/for attributes
-        $('select', dialog).each(function() { this.id = this.id + '-clone'; });
-        $('label', dialog).each(function() { $(this).attr('for', $(this).attr('for') + '-clone'); });
+        $('select', dialog).each(function () { this.id = this.id + '-clone'; });
+        $('label', dialog).each(function () { $(this).attr('for', $(this).attr('for') + '-clone'); });
 
-        var save_func = function(e) {
+        var save_func = function (e) {
             if (rcube_event.is_keyboard(e.originalEvent)) {
                 $('#listmenulink').focus();
             }
@@ -2731,7 +2731,7 @@ function rcube_elastic_ui()
 
         if (support_link.length && (support_url = support_link.attr('href'))) {
             support_button = support_link.text();
-            support_func = function(e) { support_url.indexOf('mailto:') < 0 ? window.open(support_url) : location.href = support_url; };
+            support_func = function (e) { support_url.indexOf('mailto:') < 0 ? window.open(support_url) : location.href = support_url; };
         }
 
         rcmail.simple_dialog(dialog, $(elem).text(), support_func, {
@@ -2803,7 +2803,7 @@ function rcube_elastic_ui()
         var content = $('#uploadform'),
             dialog = content.clone(true);
 
-        var save_func = function(e) {
+        var save_func = function (e) {
             return rcmail.command('import-messages', $(dialog.find('form')[0]));
         };
 
@@ -2830,15 +2830,15 @@ function rcube_elastic_ui()
         if (!$(obj).data('initialized')) {
             $(obj).data('initialized', true);
             if (list.length) {
-                list.on('change', function() { set_searchmod(obj, this); });
+                list.on('change', function () { set_searchmod(obj, this); });
 
-                rcmail.addEventListener('beforesearch', function() {
+                rcmail.addEventListener('beforesearch', function () {
                     rcmail.env.search_scope = scope_select.val();
                     rcmail.env.search_interval = interval_select.val();
                 });
             }
 
-            $(obj).find('.proplist > li > a.dropdown').on('click', function() {
+            $(obj).find('.proplist > li > a.dropdown').on('click', function () {
                 var list = $(this).next();
                 list[list.is('.d-none') ? 'removeClass' : 'addClass']('d-none');
             });
@@ -2853,7 +2853,7 @@ function rcube_elastic_ui()
             }
 
             if (mods[all]) {
-                list.map(function() {
+                list.map(function () {
                     this.checked = true;
                     this.disabled = this.value != all;
                 });
@@ -2906,7 +2906,7 @@ function rcube_elastic_ui()
 
         // mark all fields
         if (elem.value == all) {
-            list.not(elem).each(function() {
+            list.not(elem).each(function () {
                 this.checked = true;
 
                 if (elem.checked) {
@@ -2925,7 +2925,7 @@ function rcube_elastic_ui()
         else if (elem.value in masters) {
             delete m[elem.value];
 
-            list.filter(function() { return $.inArray(this.value, masters[elem.value]) != -1; }).each(function() {
+            list.filter(function () { return $.inArray(this.value, masters[elem.value]) != -1; }).each(function () {
                 if (elem.checked) {
                     this.checked = true;
                     m[this.value] = 1;
@@ -2948,7 +2948,7 @@ function rcube_elastic_ui()
      */
     function set_searchmod_masters(obj)
     {
-        $(obj).find('.proplist > li.with-sublist').each(function() {
+        $(obj).find('.proplist > li.with-sublist').each(function () {
             $(this).find(':not(.proplist) input')[0].checked = $(this).children('.proplist').find('input:checked').length > 0;
         });
     }
@@ -2970,7 +2970,7 @@ function rcube_elastic_ui()
                 link = $('<a href="#'+ i +'" tabindex="0"></a>')
                     .text(rcmail.env.spell_langs[i])
                     .addClass('active').data('lang', i)
-                    .on('click keypress', function(e) {
+                    .on('click keypress', function (e) {
                         if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
                             rcmail.spellcheck_lang_set($(this).data('lang'));
                             rcmail.hide_menu('spell-menu', e);
@@ -2986,7 +2986,7 @@ function rcube_elastic_ui()
         }
 
         // select current language
-        $('li', ul).each(function() {
+        $('li', ul).each(function () {
             var el = $('a', this);
             if (el.data('lang') == lang) {
                 el.addClass('selected').attr('aria-selected', 'true');
@@ -3009,7 +3009,7 @@ function rcube_elastic_ui()
         }
         else if (!ico.length) {
             $('<a>').attr('class', 'button icon ' + id)
-                .on('click', function() { show_sidebar(); })
+                .on('click', function () { show_sidebar(); })
                 .appendTo(bar);
         }
     }
@@ -3021,9 +3021,9 @@ function rcube_elastic_ui()
     {
         var id = $(button).parent().attr('id').replace(/^attach/, '');
 
-        $.each(['open', 'download', 'rename'], function() {
+        $.each(['open', 'download', 'rename'], function () {
             var action = this;
-            $('#attachmenu' + action, obj).off('click').attr('onclick', '').click(function(e) {
+            $('#attachmenu' + action, obj).off('click').attr('onclick', '').click(function (e) {
                 return rcmail.command(action + '-attachment', id, this, e.originalEvent);
             });
         });
@@ -3049,7 +3049,7 @@ function rcube_elastic_ui()
                 title: label,
                 'class': 'button icon dropdown skip-content'
             })
-                .on('click', function(e) {
+                .on('click', function (e) {
                     return attachmentmenu($('#attachmentmenu'), button, e);
                 })
                 .append($('<span>').attr('class', 'inner').text(label));
@@ -3079,7 +3079,7 @@ function rcube_elastic_ui()
 
         if (rcmail.env.has_writeable_addressbook) {
             $('.addressbook', obj).addClass('active')
-                .on('click', function(e) {
+                .on('click', function (e) {
                     var i, contact = mailto,
                         txt = $(button).filter('.rcmContactAddress').text();
 
@@ -3094,7 +3094,7 @@ function rcube_elastic_ui()
                 });
         }
 
-        $('.compose', obj).addClass('active').on('click', function(e) {
+        $('.compose', obj).addClass('active').on('click', function (e) {
             // Execute the original onclick handler to support mailto URL arguments (#6751)
             if (onclick) {
                 button.onclick = onclick;
@@ -3120,7 +3120,7 @@ function rcube_elastic_ui()
         // Remember the original onclick handler and display the menu instead
         var onclick = item.onclick;
         item.onclick = null;
-        $(item).on('click', function(e, menu) {
+        $(item).on('click', function (e, menu) {
             return menu || mailtomenu($('#mailto-menu'), item, e, onclick);
         });
     }
@@ -3130,11 +3130,11 @@ function rcube_elastic_ui()
      */
     function headersmenu(obj, button, event)
     {
-        $('li > a', obj).each(function() {
+        $('li > a', obj).each(function () {
             var link = $(this), target = '#compose_' + link.data('target');
 
             link[$(target).is(':visible') ? 'removeClass' : 'addClass']('active')
-                .off().on('click', function() {
+                .off().on('click', function () {
                     $(target).removeClass('hidden').find('.recipient-input input').focus();
                     link.removeClass('active');
                     rcmail.set_menu_buttons();
@@ -3171,19 +3171,19 @@ function rcube_elastic_ui()
                 + '<a class="button undo d-none" data-flag="undelete" title="' + rcmail.gettext('undeletemessage') + '"></a>'
                 + '</div>'
             ),
-            hide_menu = function() {
+            hide_menu = function () {
                 menu.css({ top: '-1000px' });
                 record = null;
             };
 
         // Append the menu to the list wrapper, handle events to show/hide menu on hover
         list_element.append(menu)
-            .on('mouseenter', 'tr', function(e) {
+            .on('mouseenter', 'tr', function (e) {
                 if (record != e.currentTarget) {
                     message_list_hover_menu(menu, record = e.currentTarget);
                 }
             })
-            .on('mouseleave', 'tr', function(e) {
+            .on('mouseleave', 'tr', function (e) {
                 if (e.relatedTarget == list_element[0]) {
                     hide_menu();
                 }
@@ -3191,7 +3191,7 @@ function rcube_elastic_ui()
             .on('mouseleave', hide_menu);
 
         // Buttons onclick handler
-        menu.find('a').click(function(e) {
+        menu.find('a').click(function (e) {
             var flag = $(this).data('flag');
 
             if (flag == 'delete') {
@@ -3227,7 +3227,7 @@ function rcube_elastic_ui()
         menu.css({ top: top + 'px' });
 
         // Show/hide buttons according to the hovered message state
-        Object.keys(buttons).forEach(function(btn) {
+        Object.keys(buttons).forEach(function (btn) {
             menu.find('a.' + btn)[buttons[btn] ? 'removeClass' : 'addClass']('d-none');
         });
 
@@ -3245,12 +3245,12 @@ function rcube_elastic_ui()
         var title = opts.title || 'insertcontact',
             dialog = $('#recipient-dialog'),
             parent = dialog.parent(),
-            close_func = function() {
+            close_func = function () {
                 if (dialog.is(':visible')) {
                     rcmail.env.recipient_dialog.dialog('close');
                 }
             },
-            insert_func = function() {
+            insert_func = function () {
                 if (opts.action) {
                     opts.action();
                     close_func();
@@ -3279,11 +3279,11 @@ function rcube_elastic_ui()
             classes: {
                 'ui-dialog-content': 'p-0' // remove padding on dialog content
             },
-            open: function() {
+            open: function () {
                 // Don't want focus in the search field, we focus first contacts source record instead
                 $('#directorylist a').first().focus();
             },
-            close: function() {
+            close: function () {
                 dialog.appendTo(parent);
                 $(this).remove();
                 $(opts.focus || rcmail.env.focused_field).focus();
@@ -3314,7 +3314,7 @@ function rcube_elastic_ui()
 
         if (p.table) {
             element.css('cursor', 'pointer').data('popup-pos', 'top')
-                .off('click').on('click', function(e) {
+                .off('click').on('click', function (e) {
                     rcmail.simple_dialog(p.table, 'quota', null, { cancel_button: 'close' });
                 });
         }
@@ -3329,18 +3329,18 @@ function rcube_elastic_ui()
     function recipient_input(obj)
     {
         var list, input, selection = '',
-            apply_func = function() {
+            apply_func = function () {
                 // update the original input
                 $(obj).val(list.text() + input.val());
             },
-            insert_recipient = function(name, email, replace) {
+            insert_recipient = function (name, email, replace) {
                 var recipient = $('<li class="recipient">'),
                     name_element = $('<span class="name">').html(recipient_input_name(name || email))
-                        .on('dblclick', function(e) { recipient_input_edit_dialog(e, insert_recipient); }),
+                        .on('dblclick', function (e) { recipient_input_edit_dialog(e, insert_recipient); }),
                     email_element = $('<span class="email">'),
                     // TODO: should the 'close' link have tabindex?
                     link = $('<a>').attr({ 'class': 'button icon remove' })
-                        .click(function() {
+                        .click(function () {
                             recipient.remove();
                             apply_func();
                             input.focus();
@@ -3362,13 +3362,13 @@ function rcube_elastic_ui()
 
                 apply_func();
             },
-            update_func = function(text) {
+            update_func = function (text) {
                 var result;
 
                 text = (text || input.val()).replace(/[,;\s]+$/, '');
                 result = recipient_input_parser(text);
 
-                $.each(result.recipients, function() {
+                $.each(result.recipients, function () {
                     insert_recipient(this.name, this.email);
                 });
 
@@ -3377,7 +3377,7 @@ function rcube_elastic_ui()
 
                 return result.recipients.length > 0;
             },
-            parse_func = function(e, ac, trigger) {
+            parse_func = function (e, ac, trigger) {
                 var last, paste, value = this.value;
 
                 // #8098: ignore changes when autocomplete_insert is not triggered
@@ -3407,7 +3407,7 @@ function rcube_elastic_ui()
 
                 update_func(value);
             },
-            keydown_func = function(e) {
+            keydown_func = function (e) {
                 // On Backspace remove the last recipient
                 if (e.keyCode == 8 && !input.val().length) {
                     list.children('li.recipient').last().remove();
@@ -3426,19 +3426,19 @@ function rcube_elastic_ui()
         input = $('<input>').attr({ type: 'text', tabindex: $(obj).attr('tabindex') })
             .on('paste change', parse_func)
             .on('keydown', keydown_func)
-            .on('blur', function() { list.removeClass('focus'); })
-            .on('focus mousedown', function() { list.addClass('focus'); });
+            .on('blur', function () { list.removeClass('focus'); })
+            .on('focus mousedown', function () { list.addClass('focus'); });
 
         list = $('<ul>').addClass('form-control recipient-input ac-input rounded-left')
             .append($('<li class="input">').append(input))
             // "selection" hack to allow text selection in the recipient box or multiple boxes (#7129)
             .on('mouseup', function () { selection = window.getSelection().toString(); })
-            .on('click', function() { if (!selection.length) input.focus(); })
+            .on('click', function () { if (!selection.length) input.focus(); })
             .sortable({
                 appendTo: document.body,
                 items: '> .recipient',
                 connectWith: '.recipient-input',
-                receive: function(event, ui) {
+                receive: function (event, ui) {
                     var recipient = list.text();
                     list.find('.recipient').remove();
                     update_func(recipient);
@@ -3458,8 +3458,8 @@ function rcube_elastic_ui()
             // some core code sometimes focuses or changes the original node
             // in such cases we want to parse its value and apply changes
             // to the widget element
-            .on('focus', function(e) { input.focus(); e.preventDefault(); })
-            .on('change', function() {
+            .on('focus', function (e) { input.focus(); e.preventDefault(); })
+            .on('change', function () {
                 $('li.recipient', list).remove();
                 input.val(this.value).change();
             })
@@ -3485,7 +3485,7 @@ function rcube_elastic_ui()
             global_rx = /(?=\S)[^",;]*(?:"[^\\"]*(?:\\[,;\S][^\\"]*)*"[^",;]*)*/g,
             matches = text.match(global_rx);
 
-        $.each(matches || [], function() {
+        $.each(matches || [], function () {
             if (this.length && (recipient_rx1.test(this) || recipient_rx2.test(this))) {
                 var email, str = this;
 
@@ -3583,7 +3583,7 @@ function rcube_elastic_ui()
             input = $('<input>').attr({ type: 'text', 'data-submit': 'true' }).val(recipient),
             content = $('<label>').text(rcmail.gettext('recipient')).append(input);
 
-        rcmail.simple_dialog(content, 'recipientedit', function() {
+        rcmail.simple_dialog(content, 'recipientedit', function () {
             var result, value = input.val();
             if (value) {
                 if (value != recipient) {
@@ -3608,14 +3608,14 @@ function rcube_elastic_ui()
     {
         var reset_button = $('<a>')
                 .attr({ 'class': 'icon button delete', href: '#', })
-                .click(function(e) { rcmail.command('delete-photo', '', this, e); return false; }),
+                .click(function (e) { rcmail.command('delete-photo', '', this, e); return false; }),
             img = $(obj).find('img')[0],
-            img_onload = function() {
+            img_onload = function () {
                 var state = (img.currentSrc || img.src).indexOf(rcmail.env.photo_placeholder) != -1;
                 $(obj)[state ? 'removeClass' : 'addClass']('changed');
             };
 
-        $(obj).append(reset_button).click(function() { rcmail.upload_input('upload-form'); });
+        $(obj).append(reset_button).click(function () { rcmail.upload_input('upload-form'); });
 
         // Note: Looks like only Firefox does not need this separate call
         img_onload();
@@ -3636,9 +3636,9 @@ function rcube_elastic_ui()
 
             // custom 'loaded' event is expected to be triggered by plugins
             // when using the loader not on an iframe
-            frame.on('load error loaded', function() {
+            frame.on('load error loaded', function () {
                 // wait some time to make sure the iframe stopped loading
-                setTimeout(function() { loader.remove(); }, 500);
+                setTimeout(function () { loader.remove(); }, 500);
             })
                 .parent().append(loader);
 
@@ -3677,7 +3677,7 @@ function rcube_elastic_ui()
         }
 
         label.attr({ 'for': id, 'class': 'custom-control-label', title: checkbox.attr('title') || '' })
-            .on('click', function(e) { e.stopPropagation(); });
+            .on('click', function (e) { e.stopPropagation(); });
 
         checkbox.addClass('form-check-input custom-control-input')
             .wrap('<div class="custom-control custom-switch">')
@@ -3715,7 +3715,7 @@ function rcube_elastic_ui()
         }
 
         var select_ident = 'select' + select.attr('id') + select.attr('name');
-        var is_menu_open = function() {
+        var is_menu_open = function () {
             // Use proper window in cases when the select element initialized
             // inside an iframe is then used in a dialog inside a parent's window
             // For some reason we can't access data-button property in cross-window
@@ -3726,13 +3726,13 @@ function rcube_elastic_ui()
             }
         };
 
-        var close_func = function() {
+        var close_func = function () {
             var open = is_menu_open();
             select.popover('dispose').focus();
             return !open;
         };
 
-        var open_func = function(e) {
+        var open_func = function (e) {
             var last_char, last_index = -1, items = [], index = [],
                 dialog = select.closest('.ui-dialog')[0],
                 max_height = (document.documentElement.clientHeight || $(document.body).height()) - 75,
@@ -3747,7 +3747,7 @@ function rcube_elastic_ui()
             // close other popups
             popups_close(e);
 
-            $('option', select).each(function() {
+            $('option', select).each(function () {
                 var label = $(this).text(),
                     link = $('<a href="#">')
                         .data('value', this.value)
@@ -3769,14 +3769,14 @@ function rcube_elastic_ui()
                 .attr('data-ident', select_ident)
                 .data('button', select[0])
                 .append(items)
-                .on('click', 'a.active', function() {
+                .on('click', 'a.active', function () {
                     // first close the list, then update the select, the order is important
                     // for cases when the select might be removed in change event (datepicker)
                     var val = $(this).data('value'), ret = close_func();
                     select.val(val).change();
                     return ret;
                 })
-                .on('keydown', 'a.active', function(e) {
+                .on('keydown', 'a.active', function (e) {
                     var item, char, last, node, mode = 'next';
 
                     switch (e.which) {
@@ -3843,13 +3843,13 @@ function rcube_elastic_ui()
                         + '<div class="popover-header"></div>'
                         + '<div class="popover-body" style="max-height: ' + max_height + 'px"></div></div>'
                 })
-                .on('shown.bs.popover', function() {
+                .on('shown.bs.popover', function () {
                     select.focus(); // for Chrome
                     // Set popup Close title
                     list.parent().prev()
                         .empty()
                         .append($('<a class="button icon cancel">').text(rcmail.gettext('close'))
-                            .on('click', function(e) {
+                            .on('click', function (e) {
                                 e.stopPropagation();
                                 return close_func();
                             })
@@ -3874,13 +3874,13 @@ function rcube_elastic_ui()
                     }
 
                     // don't propagate mousedown event
-                    list.on('mousedown', function(e) { e.stopPropagation(); });
+                    list.on('mousedown', function (e) { e.stopPropagation(); });
                 })
                 .popover('show');
         };
 
         select.addClass('pretty-select custom-select form-control')
-            .on('mousedown keydown', function(e) {
+            .on('mousedown keydown', function (e) {
                 select = $(e.target); // so it works after clone
 
                 // Do nothing on disabled select or on TAB key
@@ -3902,7 +3902,7 @@ function rcube_elastic_ui()
 
                 // prevent displaying browser-default select dropdown
                 select.prop('disabled', true);
-                setTimeout(function() { select.prop('disabled', false); }, 0);
+                setTimeout(function () { select.prop('disabled', false); }, 0);
                 e.stopPropagation();
 
                 // display options in our way (on SPACE, ENTER, ARROW-DOWN or mousedown)
@@ -3935,12 +3935,12 @@ function rcube_elastic_ui()
             readonly = editor.is('[readonly],[disabled]'),
             plain_btn = $('<a class="mce-i-html" href="#" tabindex="-1"></a>')
                 .attr({ title: rcmail.gettext('htmltoggle'), disabled: readonly })
-                .on('click', function(e) {
+                .on('click', function (e) {
                     if (!readonly && rcmail.command('toggle-editor', { id: editor.attr('id'), html: true }, '', e.originalEvent)) {
                         parent.addClass('ishtml');
                     }
                 })
-                .on('keydown', function(e) {
+                .on('keydown', function (e) {
                     if (e.which == 9) { // TAB
                         editor.focus();
                         return false;
@@ -3967,7 +3967,7 @@ function rcube_elastic_ui()
         parent.addClass('html-editor');
 
         editor.after(toolbar).data('control', sw)
-            .on('keydown', function(e) {
+            .on('keydown', function (e) {
                 // ALT + F10 is the way to access toolbar in TinyMCE, let's do the same for plain editor
                 if (e.altKey && e.which == 121) {
                     plain_btn.focus();
@@ -3990,7 +3990,7 @@ function rcube_elastic_ui()
     function textarea_autoresize_init(textarea)
     {
         var padding, minHeight,
-            resize = function() {
+            resize = function () {
                 // Wait until the textarea is visible
                 if (!textarea.scrollHeight) {
                     return setTimeout(resize, 250);
@@ -4008,7 +4008,7 @@ function rcube_elastic_ui()
                 // To fix scroll-jump we'll re-apply scrollTop to the (scrolled) parent
                 // after we reset textarea height
                 var scroll_element, scroll_pos = 0;
-                $(textarea).parents().each(function() {
+                $(textarea).parents().each(function () {
                     if (this.scrollTop > 0) {
                         scroll_element = this;
                         scroll_pos = this.scrollTop;
@@ -4044,7 +4044,7 @@ function rcube_elastic_ui()
         }
 
         // add input rows
-        $.each(list, function(i, v) {
+        $.each(list, function (i, v) {
             smart_field_row_add($('.content', area), v, i, field);
         });
 
@@ -4087,7 +4087,7 @@ function rcube_elastic_ui()
             title: field.title,
             placeholder: field.placeholder
         })
-            .keydown(function(e) {
+            .keydown(function (e) {
                 // element creation event (on Enter)
                 if (e.which == 13) {
                     var elem = smart_field_row_add(area, '', (new Date()).getTime(), field, input.parent());
@@ -4114,7 +4114,7 @@ function rcube_elastic_ui()
             });
 
         // element deletion event
-        elem.find('a.reset').click(function() {
+        elem.find('a.reset').click(function () {
             var record = $(this.parentNode.parentNode);
 
             if (area.children().length > 1) {
@@ -4127,8 +4127,8 @@ function rcube_elastic_ui()
         });
 
         elem.find('input,a')
-            .on('focus', function() { area.addClass('focused'); })
-            .on('blur', function() { area.removeClass('focused'); });
+            .on('focus', function () { area.addClass('focused'); })
+            .on('blur', function () { area.removeClass('focused'); });
 
         if (after) {
             after.after(elem);
@@ -4150,7 +4150,7 @@ function rcube_elastic_ui()
         area.empty();
 
         // add input rows
-        $.each(list, function(i, v) {
+        $.each(list, function (i, v) {
             smart_field_row_add(area, v, i, field);
         });
     }
@@ -4160,7 +4160,7 @@ function rcube_elastic_ui()
      */
     function form_errors(tips)
     {
-        $.each(tips, function() {
+        $.each(tips, function () {
             var input = $('#' + this[0]).addClass('is-invalid');
 
             if (input.data('type') == 'list') {
@@ -4183,7 +4183,7 @@ function rcube_elastic_ui()
             navlist = $(obj).next();
 
         if (!navlist.height()) {
-            records = $('tr,li', navlist).filter(function() { return this.style.display != 'none'; });
+            records = $('tr,li', navlist).filter(function () { return this.style.display != 'none'; });
             height = $(records[0]).height() || 50;
 
             navlist.animate({ height: (Math.min(5, records.length) * height + 1) + 'px' }, speed);
@@ -4208,7 +4208,7 @@ function rcube_elastic_ui()
             key = rcmail.env.task + '.' + (list_id || (rcmail.env.action + '.' + node.attr('id'))),
             pos = get_pref(key),
             inverted = node.is('.sidebar-right'),
-            set_width = function(width) {
+            set_width = function (width) {
                 node.css({
                     width: Math.max(100, width),
                     // reset default properties
@@ -4224,7 +4224,7 @@ function rcube_elastic_ui()
         $('<div class="column-resizer">')
             .addClass(inverted ? 'inverted' : null)
             .appendTo(node)
-            .on('mousedown', function(e) {
+            .on('mousedown', function (e) {
                 var ts, splitter = $(this), offset = node.position().left;
 
                 // Makes col-resize cursor follow the mouse pointer on dragging
@@ -4237,10 +4237,10 @@ function rcube_elastic_ui()
 
                 // Start listening to mousemove events
                 $(document)
-                    .on('mousemove.resizer', function(e) {
+                    .on('mousemove.resizer', function (e) {
                         // Use of timeouts makes the move more smooth in Chrome
                         clearTimeout(ts);
-                        ts = setTimeout(function() {
+                        ts = setTimeout(function () {
                             // For left-side-splitter we need the current offset
                             if (inverted) {
                                 offset = node.position().left;
@@ -4251,7 +4251,7 @@ function rcube_elastic_ui()
                             set_width(width);
                         }, 5);
                     })
-                    .on('mouseup.resizer', function() {
+                    .on('mouseup.resizer', function () {
                         // Remove registered events
                         $(document).off('.resizer');
                         $('iframe').off('.resizer');
@@ -4297,7 +4297,7 @@ function rcube_elastic_ui()
 
             // Switch the plain/text window to dark-mode
             if (setColor) {
-                $(win).on('load', function() { colorFunc(win.document.body); });
+                $(win).on('load', function () { colorFunc(win.document.body); });
             }
 
             return win;
@@ -4322,7 +4322,7 @@ function rcube_elastic_ui()
 
         // Switch the plain/text iframe to dark-mode
         if (setColor) {
-            frame.on('load', function() { colorFunc(frame[0].contentWindow.document.body); });
+            frame.on('load', function () { colorFunc(frame[0].contentWindow.document.body); });
         }
 
         rcmail.simple_dialog(frame, title, null, props);
@@ -4412,7 +4412,7 @@ if (window.rcmail) {
      * Elastic version of show_menu as we don't need e.g. menu positioning from core
      * TODO: keyboard navigation in menus
      */
-    rcmail.show_menu = function(prop, show, event)
+    rcmail.show_menu = function (prop, show, event)
     {
         var name = typeof prop == 'object' ? prop.menu : prop,
             obj = $('#' + name);
@@ -4428,7 +4428,7 @@ if (window.rcmail) {
     /**
      * Elastic version of hide_menu as we don't need e.g. menus stack handling
      */
-    rcmail.hide_menu = function(name, event)
+    rcmail.hide_menu = function (name, event)
     {
         // delegate to rcube_elastic_ui
         return rcmail.triggerEvent('menu-close', { name: name, props: { menu: name }, originalEvent: event });
@@ -4449,7 +4449,7 @@ if ($ && $.datepicker) {
     var __newInst = $.datepicker._newInst;
 
     $.extend($.datepicker, {
-        _newInst: function(target, inline) {
+        _newInst: function (target, inline) {
             var inst = __newInst.call(this, target, inline);
 
             if (!inst.inline) {

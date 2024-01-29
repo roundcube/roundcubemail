@@ -20,7 +20,7 @@
 if (window.rcmail && rcmail.env.task == 'mail') {
     rcmail.addEventListener('plugin.newmail_notifier', newmail_notifier_run)
         .addEventListener('actionbefore', newmail_notifier_stop)
-        .addEventListener('init', function() {
+        .addEventListener('init', function () {
             // bind to messages list select event, so favicon will be reverted on message preview too
             if (rcmail.message_list)
                 rcmail.message_list.addEventListener('select', newmail_notifier_stop);
@@ -87,7 +87,7 @@ function newmail_notifier_sound()
     var src = rcmail.assets_path('plugins/newmail_notifier/sound');
 
     (new Audio(src + '.mp3')).play()
-        .catch(function() {
+        .catch(function () {
             // fallback to the wav format
             (new Audio(src + '.wav')).play();
         });
@@ -99,7 +99,7 @@ function newmail_notifier_desktop(body, disabled_callback)
 {
     var timeout = rcmail.env.newmail_notifier_timeout || 10,
         icon = rcmail.assets_path('plugins/newmail_notifier/mail.png'),
-        success_callback = function() {
+        success_callback = function () {
             var popup = new window.Notification(rcmail.get_label('title', 'newmail_notifier'), {
                 dir: 'auto',
                 lang: '',
@@ -107,12 +107,12 @@ function newmail_notifier_desktop(body, disabled_callback)
                 tag: 'newmail_notifier',
                 icon: icon
             });
-            popup.onclick = function() { this.close(); };
-            setTimeout(function() { popup.close(); }, timeout * 1000);
+            popup.onclick = function () { this.close(); };
+            setTimeout(function () { popup.close(); }, timeout * 1000);
         };
 
     try {
-        window.Notification.requestPermission(function(perm) {
+        window.Notification.requestPermission(function (perm) {
             if (perm == 'granted')
                 success_callback();
             else if (perm == 'denied' && disabled_callback)
@@ -128,7 +128,7 @@ function newmail_notifier_desktop(body, disabled_callback)
 
 function newmail_notifier_test_desktop()
 {
-    var status = newmail_notifier_desktop(rcmail.get_label('testbody', 'newmail_notifier'), function() {
+    var status = newmail_notifier_desktop(rcmail.get_label('testbody', 'newmail_notifier'), function () {
         rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
     });
 

@@ -17,7 +17,7 @@
 
 // hook into switch-task event to open the help window
 if (window.rcmail) {
-    rcmail.addEventListener('beforeswitch-task', function(prop) {
+    rcmail.addEventListener('beforeswitch-task', function (prop) {
         // catch clicks to help task button
         if (prop == 'help') {
             if (rcmail.task == 'help')  // we're already there
@@ -35,9 +35,9 @@ if (window.rcmail) {
         }
     });
 
-    rcmail.addEventListener('init', function(prop) {
+    rcmail.addEventListener('init', function (prop) {
         if (rcmail.env.contentframe && rcmail.task == 'help') {
-            $('#' + rcmail.env.contentframe).on('load error', function(e) {
+            $('#' + rcmail.env.contentframe).on('load error', function (e) {
                 // Unlock UI
                 rcmail.set_busy(false, null, rcmail.env.frame_lock);
                 rcmail.env.frame_lock = null;

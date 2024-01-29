@@ -72,7 +72,7 @@ function rcube_list_widget(list, p)
     this.focused = false;
     this.drag_mouse_start = null;
     this.dblclick_time = 500; // default value on MS Windows is 500
-    this.row_init = function() {};  // @deprecated; use list.addEventListener('initrow') instead
+    this.row_init = function () {};  // @deprecated; use list.addEventListener('initrow') instead
 
     this.touch_start_time = 0; // start time of the touch event
     this.touch_event_time = 500; // maximum time a touch should be considered a left mouse button event, after this its something else (eg contextmenu event)
@@ -93,7 +93,7 @@ rcube_list_widget.prototype = {
     /**
  * get all message rows from HTML table and init each row
  */
-    init: function()
+    init: function ()
     {
         if (this.tagname == 'table' && this.list && this.list.tBodies[0]) {
             this.thead = this.list.tHead;
@@ -131,12 +131,12 @@ rcube_list_widget.prototype = {
 
                 // allow the table element to receive focus.
                 $(this.list).attr('tabindex', '0')
-                    .on('focus', function(e) { me.focus(e); });
+                    .on('focus', function (e) { me.focus(e); });
             }
         }
 
         if (this.parent_focus) {
-            this.list.parentNode.onclick = function(e) { me.focus(); };
+            this.list.parentNode.onclick = function (e) { me.focus(); };
         }
 
         rcmail.triggerEvent('initlist', { obj: this.list });
@@ -148,7 +148,7 @@ rcube_list_widget.prototype = {
     /**
  * Init list row and set mouse events on it
  */
-    init_row: function(row)
+    init_row: function (row)
     {
         row.uid = this.get_row_uid(row);
 
@@ -159,8 +159,8 @@ rcube_list_widget.prototype = {
 
             $(row).data('uid', uid)
             // set eventhandlers to table row (only left-button-clicks in mouseup)
-                .mousedown(function(e) { return self.drag_row(e, this.uid); })
-                .mouseup(function(e) {
+                .mousedown(function (e) { return self.drag_row(e, this.uid); })
+                .mouseup(function (e) {
                     if (e.which == 1 && !self.drag_active && !$(e.currentTarget).is('.ui-droppable-active'))
                         return self.click_row(e, this.uid);
                     else
@@ -169,13 +169,13 @@ rcube_list_widget.prototype = {
 
             // for IE and Edge (Trident) differentiate between touch, touch+hold using pointer events rather than touch
             if ((bw.ie || (bw.edge && bw.vendver < 75)) && bw.pointer) {
-                $(row).on('pointerdown', function(e) {
+                $(row).on('pointerdown', function (e) {
                     if (e.pointerType == 'touch') {
                         self.touch_start_time = new Date().getTime();
                         return false;
                     }
                 })
-                    .on('pointerup', function(e) {
+                    .on('pointerup', function (e) {
                         if (e.pointerType == 'touch') {
                             var duration = (new Date().getTime() - self.touch_start_time);
                             if (duration <= self.touch_event_time) {
@@ -186,21 +186,21 @@ rcube_list_widget.prototype = {
                     });
             }
             else if (bw.touch && row.addEventListener) {
-                row.addEventListener('touchstart', function(e) {
+                row.addEventListener('touchstart', function (e) {
                     if (e.touches.length == 1) {
                         self.touchmoved = false;
                         self.drag_row(rcube_event.touchevent(e.touches[0]), this.uid);
                         self.touch_start_time = new Date().getTime();
                     }
                 }, false);
-                row.addEventListener('touchend', function(e) {
+                row.addEventListener('touchend', function (e) {
                     if (e.changedTouches.length == 1) {
                         var duration = (new Date().getTime() - self.touch_start_time);
                         if (!self.touchmoved && duration <= self.touch_event_time && !self.click_row(rcube_event.touchevent(e.changedTouches[0]), this.uid))
                             e.preventDefault();
                     }
                 }, false);
-                row.addEventListener('touchmove', function(e) {
+                row.addEventListener('touchmove', function (e) {
                     if (e.changedTouches.length == 1) {
                         self.touchmoved = true;
                         if (self.drag_active)
@@ -219,7 +219,7 @@ rcube_list_widget.prototype = {
             }
 
             if (document.all)
-                row.onselectstart = function() { return false; };
+                row.onselectstart = function () { return false; };
 
             this.row_init(this.rows[uid]);  // legacy support
             this.triggerEvent('initrow', this.rows[uid]);
@@ -232,7 +232,7 @@ rcube_list_widget.prototype = {
     /**
  * Init list column headers and set mouse events on them
  */
-    init_header: function()
+    init_header: function ()
     {
         if (this.thead) {
             this.colcount = 0;
@@ -252,7 +252,7 @@ rcube_list_widget.prototype = {
                     if (this.column_fixed == r)
                         continue;
                     col = this.thead.rows[0].cells[r];
-                    col.onmousedown = function(e) { return p.drag_column(e, this); };
+                    col.onmousedown = function (e) { return p.drag_column(e, this); };
                     this.colcount++;
                 }
             }
@@ -264,7 +264,7 @@ rcube_list_widget.prototype = {
  */
     container: window,
 
-    init_fixed_header: function()
+    init_fixed_header: function ()
     {
         var clone = $(this.list.tHead).clone();
 
@@ -279,8 +279,8 @@ rcube_list_widget.prototype = {
             $(this.list).before(this.fixed_header);
 
             var me = this;
-            $(window).on('resize', function() { me.resize(); });
-            $(this.container).on('scroll', function() {
+            $(window).on('resize', function () { me.resize(); });
+            $(this.container).on('scroll', function () {
                 var w = $(this);
                 me.fixed_header.css({
                     marginLeft: -w.scrollLeft() + 'px',
@@ -302,7 +302,7 @@ rcube_list_widget.prototype = {
         this.resize();
     },
 
-    resize: function()
+    resize: function ()
     {
         if (!this.fixed_header)
             return;
@@ -310,13 +310,13 @@ rcube_list_widget.prototype = {
         var column_widths = [];
 
         // get column widths from original thead
-        $(this.tbody).parent().find('thead th,thead td').each(function(index) {
+        $(this.tbody).parent().find('thead th,thead td').each(function (index) {
             column_widths[index] = $(this).width();
         });
 
         // apply fixed widths to fixed table header
         $(this.thead).parent().width($(this.tbody).parent().width());
-        $(this.thead).find('th,td').each(function(index) {
+        $(this.thead).find('th,td').each(function (index) {
             $(this).width(column_widths[index]);
         });
 
@@ -326,7 +326,7 @@ rcube_list_widget.prototype = {
     /**
  * Remove all list rows
  */
-    clear: function(sel)
+    clear: function (sel)
     {
         if (this.tagname == 'table') {
             var tbody = document.createElement('tbody');
@@ -357,7 +357,7 @@ rcube_list_widget.prototype = {
     /**
  * 'remove' message row from list (just hide it)
  */
-    remove_row: function(uid, sel_next)
+    remove_row: function (uid, sel_next)
     {
         var self = this, node = this.rows[uid] ? this.rows[uid].obj : null;
 
@@ -375,14 +375,14 @@ rcube_list_widget.prototype = {
 
         // fix list header after removing any rows
         clearTimeout(this.resize_timeout);
-        this.resize_timeout = setTimeout(function() { self.resize(); }, 50);
+        this.resize_timeout = setTimeout(function () { self.resize(); }, 50);
     },
 
 
     /**
  * Add row to the list and initialize it
  */
-    insert_row: function(row, before)
+    insert_row: function (row, before)
     {
         var self = this, tbody = this.tbody;
 
@@ -427,13 +427,13 @@ rcube_list_widget.prototype = {
 
         // fix list header after adding any rows
         clearTimeout(this.resize_timeout);
-        this.resize_timeout = setTimeout(function() { self.resize(); }, 50);
+        this.resize_timeout = setTimeout(function () { self.resize(); }, 50);
     },
 
     /**
  * Update existing record
  */
-    update_row: function(id, cols, newid, select)
+    update_row: function (id, cols, newid, select)
     {
         var row = this.rows[id];
         if (!row) return false;
@@ -460,7 +460,7 @@ rcube_list_widget.prototype = {
     /**
  * Add selection checkbox to the list record
  */
-    insert_checkbox: function(row, tag_name)
+    insert_checkbox: function (row, tag_name)
     {
         var key, self = this,
             cell = document.createElement(this.col_tagname(tag_name)),
@@ -468,18 +468,18 @@ rcube_list_widget.prototype = {
 
         chbox.type = 'checkbox';
         chbox.tabIndex = -1;
-        chbox.onchange = function(e) {
+        chbox.onchange = function (e) {
             self.select_row(row.uid, key || CONTROL_KEY, true);
             e.stopPropagation();
             key = null;
         };
-        chbox.onmousedown = function(e) {
+        chbox.onmousedown = function (e) {
             key = rcube_event.get_modifier(e);
         };
 
         cell.className = 'selection';
         // make the whole cell "touchable" for touch devices
-        cell.onclick = function(e) {
+        cell.onclick = function (e) {
             if (!$(e.target).is('input')) {
                 key = rcube_event.get_modifier(e);
                 $(chbox).prop('checked', !chbox.checked).change();
@@ -495,7 +495,7 @@ rcube_list_widget.prototype = {
     /**
  * Enable checkbox selection
  */
-    enable_checkbox_selection: function()
+    enable_checkbox_selection: function ()
     {
         this.checkbox_selection = true;
 
@@ -527,7 +527,7 @@ rcube_list_widget.prototype = {
     /**
  * Set focus to the list
  */
-    focus: function(e)
+    focus: function (e)
     {
         if (this.focused)
             return;
@@ -565,13 +565,13 @@ rcube_list_widget.prototype = {
     /**
  * remove focus from the list
  */
-    blur: function(e)
+    blur: function (e)
     {
         this.focused = false;
 
         // avoid the table getting focus right again (on Shift+Tab)
         var me = this;
-        setTimeout(function() { $(me.list).attr('tabindex', '0'); }, 20);
+        setTimeout(function () { $(me.list).attr('tabindex', '0'); }, 20);
 
         if (this.last_selected && this.rows[this.last_selected]) {
             $(this.rows[this.last_selected].obj)
@@ -584,7 +584,7 @@ rcube_list_widget.prototype = {
     /**
  * Focus the given element without scrolling the list container
  */
-    focus_noscroll: function(elem)
+    focus_noscroll: function (elem)
     {
         var y = this.frame.scrollTop || this.frame.scrollY;
         elem.focus();
@@ -595,7 +595,7 @@ rcube_list_widget.prototype = {
     /**
  * Set/unset the given column as hidden
  */
-    hide_column: function(col, hide)
+    hide_column: function (col, hide)
     {
         var method = hide ? 'addClass' : 'removeClass';
 
@@ -609,7 +609,7 @@ rcube_list_widget.prototype = {
     /**
  * onmousedown-handler of message list column
  */
-    drag_column: function(e, col)
+    drag_column: function (e, col)
     {
         if (this.colcount > 1) {
             this.drag_start = true;
@@ -637,7 +637,7 @@ rcube_list_widget.prototype = {
     /**
  * onmousedown-handler of message list row
  */
-    drag_row: function(e, id)
+    drag_row: function (e, id)
     {
         // don't do anything (another action processed before)
         if (!this.is_event_target(e))
@@ -679,7 +679,7 @@ rcube_list_widget.prototype = {
     /**
  * onmouseup-handler of message list row
  */
-    click_row: function(e, id)
+    click_row: function (e, id)
     {
         // sanity check
         if (!id || !this.rows[id])
@@ -723,7 +723,7 @@ rcube_list_widget.prototype = {
     /**
  * Check target of the current event
  */
-    is_event_target: function(e)
+    is_event_target: function (e)
     {
         var target = rcube_event.get_target(e),
             tagname = target.tagName.toLowerCase();
@@ -735,7 +735,7 @@ rcube_list_widget.prototype = {
     /*
  * Returns thread root ID for specified row ID
  */
-    find_root: function(uid)
+    find_root: function (uid)
     {
         var r = this.rows[uid];
 
@@ -746,7 +746,7 @@ rcube_list_widget.prototype = {
     },
 
 
-    expand_row: function(e, id)
+    expand_row: function (e, id)
     {
         var row = this.rows[id],
             evtarget = rcube_event.get_target(e),
@@ -759,7 +759,7 @@ rcube_list_widget.prototype = {
         this[action](row);
     },
 
-    collapse: function(row)
+    collapse: function (row)
     {
         var r, depth = row.depth,
             new_row = row ? row.obj.nextSibling : null;
@@ -789,7 +789,7 @@ rcube_list_widget.prototype = {
         return false;
     },
 
-    expand: function(row)
+    expand: function (row)
     {
         var r, p, depth, new_row, last_expanded_parent_depth;
 
@@ -841,7 +841,7 @@ rcube_list_widget.prototype = {
     },
 
 
-    collapse_all: function(row)
+    collapse_all: function (row)
     {
         var depth, new_row, r;
 
@@ -888,7 +888,7 @@ rcube_list_widget.prototype = {
     },
 
 
-    expand_all: function(row)
+    expand_all: function (row)
     {
         var depth, new_row, r;
 
@@ -930,14 +930,14 @@ rcube_list_widget.prototype = {
     },
 
 
-    update_expando: function(id, expanded)
+    update_expando: function (id, expanded)
     {
         var expando = document.getElementById('rcmexpando' + id);
         if (expando)
             expando.className = expanded ? 'expanded' : 'collapsed';
     },
 
-    get_row_uid: function(row)
+    get_row_uid: function (row)
     {
         if (!row)
             return;
@@ -956,7 +956,7 @@ rcube_list_widget.prototype = {
     /**
  * get first/next/previous/last rows that are not hidden
  */
-    get_next_row: function(uid)
+    get_next_row: function (uid)
     {
         if (!this.rowcount)
             return false;
@@ -970,7 +970,7 @@ rcube_list_widget.prototype = {
         return new_row;
     },
 
-    get_prev_row: function(uid)
+    get_prev_row: function (uid)
     {
         if (!this.rowcount)
             return false;
@@ -984,7 +984,7 @@ rcube_list_widget.prototype = {
         return new_row;
     },
 
-    get_first_row: function()
+    get_first_row: function ()
     {
         if (this.rowcount) {
             var i, uid, rows = this.tbody.childNodes;
@@ -997,7 +997,7 @@ rcube_list_widget.prototype = {
         return null;
     },
 
-    get_last_row: function()
+    get_last_row: function ()
     {
         if (this.rowcount) {
             var i, uid, rows = this.tbody.childNodes;
@@ -1010,7 +1010,7 @@ rcube_list_widget.prototype = {
         return null;
     },
 
-    get_next: function()
+    get_next: function ()
     {
         var row;
         if (row = this.get_next_row()) {
@@ -1018,7 +1018,7 @@ rcube_list_widget.prototype = {
         }
     },
 
-    get_prev: function()
+    get_prev: function ()
     {
         var row;
         if (row = this.get_prev_row()) {
@@ -1026,19 +1026,19 @@ rcube_list_widget.prototype = {
         }
     },
 
-    row_tagname: function()
+    row_tagname: function ()
     {
         var row_tagnames = { table:'tr', ul:'li', '*':'div' };
         return row_tagnames[this.tagname] || row_tagnames['*'];
     },
 
-    col_tagname: function(tagname)
+    col_tagname: function (tagname)
     {
         var col_tagnames = { table:'td', thead:'th', tbody:'td', '*':'span' };
         return col_tagnames[tagname || this.tagname] || col_tagnames['*'];
     },
 
-    get_cell: function(row, index)
+    get_cell: function (row, index)
     {
         return $(this.col_tagname(), row).eq(index + (this.checkbox_selection ? 1 : 0));
     },
@@ -1046,7 +1046,7 @@ rcube_list_widget.prototype = {
     /**
  * selects or unselects the proper row depending on the modifier key pressed
  */
-    select_row: function(id, mod_key, with_mouse)
+    select_row: function (id, mod_key, with_mouse)
     {
         var select_before = this.selection.join(','),
             in_selection_before = this.in_selection(id);
@@ -1118,7 +1118,7 @@ rcube_list_widget.prototype = {
     /**
  * Alias method for select_row
  */
-    select: function(id)
+    select: function (id)
     {
         this.select_row(id, false);
         this.scrollto(id);
@@ -1129,7 +1129,7 @@ rcube_list_widget.prototype = {
  * Select row next to the specified or last selected one
  * Either below or above.
  */
-    select_next: function(uid)
+    select_next: function (uid)
     {
         var new_row = this.get_next_row(uid) || this.get_prev_row(uid);
         if (new_row)
@@ -1140,7 +1140,7 @@ rcube_list_widget.prototype = {
     /**
  * Select first row
  */
-    select_first: function(mod_key, noscroll)
+    select_first: function (mod_key, noscroll)
     {
         var row = this.get_first_row();
         if (row) {
@@ -1155,7 +1155,7 @@ rcube_list_widget.prototype = {
     /**
  * Select last row
  */
-    select_last: function(mod_key, noscroll)
+    select_last: function (mod_key, noscroll)
     {
         var row = this.get_last_row();
         if (row) {
@@ -1170,7 +1170,7 @@ rcube_list_widget.prototype = {
     /**
  * Add all children of the given row to selection
  */
-    select_children: function(uid)
+    select_children: function (uid)
     {
         var i, children = this.row_children(uid), len = children.length;
 
@@ -1183,7 +1183,7 @@ rcube_list_widget.prototype = {
     /**
  * Perform selection when shift key is pressed
  */
-    shift_select: function(id, control)
+    shift_select: function (id, control)
     {
         if (!this.rows[this.shift_start] || !this.selection.length)
             this.shift_start = id;
@@ -1219,7 +1219,7 @@ rcube_list_widget.prototype = {
     /**
  * Helper method to emulate the rowIndex property of non-tr elements
  */
-    _rowIndex: function(obj)
+    _rowIndex: function (obj)
     {
         return (obj.rowIndex !== undefined) ? obj.rowIndex : $(obj).prevAll().length;
     },
@@ -1227,7 +1227,7 @@ rcube_list_widget.prototype = {
     /**
  * Check if given id is part of the current selection
  */
-    in_selection: function(id, index)
+    in_selection: function (id, index)
     {
         for (var n in this.selection)
             if (this.selection[n] == id)
@@ -1240,7 +1240,7 @@ rcube_list_widget.prototype = {
     /**
  * Select each row in list
  */
-    select_all: function(filter)
+    select_all: function (filter)
     {
         if (!this.rowcount)
             return false;
@@ -1272,7 +1272,7 @@ rcube_list_widget.prototype = {
     /**
  * Invert selection
  */
-    invert_selection: function()
+    invert_selection: function ()
     {
         if (!this.rowcount)
             return false;
@@ -1296,7 +1296,7 @@ rcube_list_widget.prototype = {
     /**
  * Unselect selected row(s)
  */
-    clear_selection: function(id, no_event)
+    clear_selection: function (id, no_event)
     {
         var n, num_select = this.selection.length;
 
@@ -1331,7 +1331,7 @@ rcube_list_widget.prototype = {
     /**
  * Getter for the selection array
  */
-    get_selection: function(deep)
+    get_selection: function (deep)
     {
         var res = $.merge([], this.selection);
 
@@ -1361,7 +1361,7 @@ rcube_list_widget.prototype = {
     /**
  * Return the ID if only one row is selected
  */
-    get_single_selection: function()
+    get_single_selection: function ()
     {
         var selection = this.get_selection(false);
 
@@ -1375,7 +1375,7 @@ rcube_list_widget.prototype = {
     /**
  * Highlight/unhighlight a row
  */
-    highlight_row: function(id, multiple, norecur)
+    highlight_row: function (id, multiple, norecur)
     {
         if (!this.rows[id])
             return;
@@ -1423,7 +1423,7 @@ rcube_list_widget.prototype = {
     /**
  * Highlight/unhighlight all children of the given row
  */
-    highlight_children: function(id, status)
+    highlight_children: function (id, status)
     {
         var i, selected,
             children = this.row_children(id), len = children.length;
@@ -1439,7 +1439,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for keyboard events
  */
-    key_press: function(e)
+    key_press: function (e)
     {
         if (!this.focused || $(e.target).is('input,textarea,select'))
             return true;
@@ -1514,7 +1514,7 @@ rcube_list_widget.prototype = {
     /**
  * Special handling method for arrow keys
  */
-    use_arrow_key: function(keyCode, mod_key)
+    use_arrow_key: function (keyCode, mod_key)
     {
         var new_row, selected_row = this.rows[this.last_selected];
 
@@ -1567,7 +1567,7 @@ rcube_list_widget.prototype = {
     /**
  * Try to scroll the list to make the specified row visible
  */
-    scrollto: function(id)
+    scrollto: function (id)
     {
         var row = this.rows[id] ? this.rows[id].obj : null;
 
@@ -1599,7 +1599,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for mouse move events
  */
-    drag_mouse_move: function(e)
+    drag_mouse_move: function (e)
     {
         // convert touch event
         if (e.type == 'touchmove') {
@@ -1629,7 +1629,7 @@ rcube_list_widget.prototype = {
                 this.draglayer.html('');
 
             // get selected rows (in display order), don't use this.selection here
-            $(this.row_tagname() + '.selected', this.tbody).each(function() {
+            $(this.row_tagname() + '.selected', this.tbody).each(function () {
                 var uid = self.get_row_uid(this), row = self.rows[uid];
 
                 if (!row || $.inArray(uid, selection) > -1)
@@ -1639,7 +1639,7 @@ rcube_list_widget.prototype = {
 
                 // also handle children of (collapsed) trees for dragging (they might be not selected)
                 if (row.has_children && !row.expanded)
-                    $.each(self.row_children(uid), function() {
+                    $.each(self.row_children(uid), function () {
                         if ($.inArray(this, selection) > -1)
                             return;
                         selection.push(this);
@@ -1652,7 +1652,7 @@ rcube_list_widget.prototype = {
 
             var row, subject,
                 subject_col = self.subject_column(),
-                subject_func = function(cell) {
+                subject_func = function (cell) {
                     if (cell) {
                         // remove elements marked with "skip-on-drag" class
                         cell = $(cell).clone();
@@ -1662,7 +1662,7 @@ rcube_list_widget.prototype = {
                 };
 
             // append subject (of every row up to the limit) to the drag layer
-            $.each(selection, function(i, uid) {
+            $.each(selection, function (i, uid) {
                 if (i > limit) {
                     self.draglayer.append($('<div>').text('...'));
                     return false;
@@ -1671,7 +1671,7 @@ rcube_list_widget.prototype = {
                 row = self.rows[uid].obj;
                 subject = '';
 
-                $(row).children(self.col_tagname()).each(function(n, cell) {
+                $(row).children(self.col_tagname()).each(function (n, cell) {
                     if (subject_col < 0 || (subject_col >= 0 && subject_col == n)) {
                         if (subject = subject_func(cell)) {
                             return false;
@@ -1714,7 +1714,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for mouse up events
  */
-    drag_mouse_up: function(e)
+    drag_mouse_up: function (e)
     {
         document.onmousemove = null;
 
@@ -1754,7 +1754,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for mouse move events for dragging list column
  */
-    column_drag_mouse_move: function(e)
+    column_drag_mouse_move: function (e)
     {
         if (this.drag_start) {
             // check mouse movement, of less than 3 pixels, don't start dragging
@@ -1827,7 +1827,7 @@ rcube_list_widget.prototype = {
     /**
  * Handler for mouse up events for dragging list columns
  */
-    column_drag_mouse_up: function(e)
+    column_drag_mouse_up: function (e)
     {
         document.onmousemove = null;
 
@@ -1871,7 +1871,7 @@ rcube_list_widget.prototype = {
     /**
  * Returns IDs of all rows in a thread (except root) for specified root
  */
-    row_children: function(uid)
+    row_children: function (uid)
     {
         if (!this.rows[uid] || !this.rows[uid].has_children)
             return [];
@@ -1897,9 +1897,9 @@ rcube_list_widget.prototype = {
     /**
  * Creates a layer for drag&drop over iframes
  */
-    add_dragfix: function()
+    add_dragfix: function ()
     {
-        $('iframe').each(function() {
+        $('iframe').each(function () {
             $('<div class="iframe-dragdrop-fix"></div>')
                 .css({ background: '#fff',
                     width: this.offsetWidth+'px', height: this.offsetHeight+'px',
@@ -1914,7 +1914,7 @@ rcube_list_widget.prototype = {
     /**
  * Removes the layer for drag&drop over iframes
  */
-    del_dragfix: function()
+    del_dragfix: function ()
     {
         $('div.iframe-dragdrop-fix').remove();
     },
@@ -1923,7 +1923,7 @@ rcube_list_widget.prototype = {
     /**
  * Replaces two columns
  */
-    column_replace: function(from, to)
+    column_replace: function (from, to)
     {
         // only supported for <table> lists
         if (!this.thead || !this.thead.rows)
@@ -1970,7 +1970,7 @@ rcube_list_widget.prototype = {
         this.triggerEvent('column_replace');
     },
 
-    subject_column: function()
+    subject_column: function ()
     {
         return this.subject_col + (this.checkbox_selection ? 1 : 0);
     }

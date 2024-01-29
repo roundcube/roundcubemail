@@ -28,10 +28,10 @@ function plugin_vcard_import(mime_id)
         });
 
         var dialog,
-            action = function(e, a) {
+            action = function (e, a) {
                 var contacts = [];
 
-                dialog.find('input:checked').each(function() {
+                dialog.find('input:checked').each(function () {
                     contacts.push(this.value);
                 });
 
@@ -103,9 +103,9 @@ function plugin_vcard_attach()
     }
 }
 
-window.rcmail && rcmail.addEventListener('init', function(evt) {
+window.rcmail && rcmail.addEventListener('init', function (evt) {
     if (rcmail.gui_objects.messagelist)
-        rcmail.addEventListener('insertrow', function(data, evt) { plugin_vcard_insertrow(data); });
+        rcmail.addEventListener('insertrow', function (data, evt) { plugin_vcard_insertrow(data); });
 
     if ((rcmail.env.action == 'compose' || (rcmail.env.task == 'addressbook' && rcmail.env.action == '')) && rcmail.gui_objects.contactslist) {
         if (rcmail.env.action == 'compose') {
@@ -118,21 +118,21 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
                     .attr({ type: 'button', tabindex: $('button,input', form).first().attr('tabindex') || 0 })
                     .text(rcmail.gettext('vcard_attachments.attachvcard'))
                     .appendTo(form)
-                    .click(function() {
+                    .click(function () {
                         UI.recipient_selector('', {
                             title: 'vcard_attachments.attachvcard',
                             button: 'vcard_attachments.attachvcard',
                             button_class: 'attach',
                             focus: button,
                             multiselect: false,
-                            action: function() { rcmail.command('attach-vcard'); }
+                            action: function () { rcmail.command('attach-vcard'); }
                         });
                     });
             }
         }
 
-        rcmail.register_command('attach-vcard', function() { plugin_vcard_attach(); });
-        rcmail.contact_list.addEventListener('select', function(list) {
+        rcmail.register_command('attach-vcard', function () { plugin_vcard_attach(); });
+        rcmail.contact_list.addEventListener('select', function (list) {
             // TODO: support attaching more than one at once
             var selection = list.get_selection();
             rcmail.enable_command('attach-vcard', selection.length == 1 && selection[0].charAt(0) != 'E');

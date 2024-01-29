@@ -161,7 +161,6 @@ module.exports = {
         'prefer-spread': 'off', // eslint-disable-line no-dupe-keys -- (2 matches)
         'quote-props': 'off', // (86 matches)
         'radix': 'off', // (12 matches)
-        'space-before-function-paren': 'off', // (1409 matches)
         'spaced-comment': 'off', // eslint-disable-line no-dupe-keys -- (47 matches)
         'space-infix-ops': 'off', // (485 matches)
         'space-unary-ops': 'off', // (7 matches)
