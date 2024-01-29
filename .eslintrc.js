@@ -128,7 +128,6 @@ module.exports = {
         'no-empty': 'off', // (15 matches)
         'no-eval': 'off', // (2 matches)
         'no-extend-native': 'off', // (3 matches)
-        'no-extra-semi': 'off', // (122 matches)
         'no-fallthrough': 'off', // (10 matches)
         'no-implied-eval': 'off', // (1 match)
         'no-loop-func': 'off', // (5 matches)

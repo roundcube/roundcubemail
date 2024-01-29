@@ -146,7 +146,7 @@ function roundcube_browser()
         if (document.documentElement)
             document.documentElement.className += classname;
     };
-};
+}
 
 
 // static functions for DOM event handling
@@ -325,7 +325,7 @@ var rcube_event = {
 function rcube_event_engine()
 {
     this._events = {};
-};
+}
 
 rcube_event_engine.prototype = {
 
@@ -373,7 +373,7 @@ rcube_event_engine.prototype = {
     {
         var ret, h,
             reset_fn = function(o) {
-                try { if (o && o.event) delete o.event; } catch(err) { };
+                try { if (o && o.event) delete o.event; } catch(err) { }
             };
 
         if (e === undefined)
@@ -461,7 +461,7 @@ function rcube_check_email(input, inline, count, strict)
     }
 
     return rx.test(input);
-};
+}
 
 // recursively copy an object
 function rcube_clone_object(obj)
@@ -476,7 +476,7 @@ function rcube_clone_object(obj)
     }
 
     return out;
-};
+}
 
 // make a string URL safe (and compatible with PHP's rawurlencode())
 function urlencode(str)
@@ -487,7 +487,7 @@ function urlencode(str)
         .replace(')', '%29')
         .replace('!', '%21')
         .replace("'", '%27');
-};
+}
 
 
 // get any type of html objects by id/name
@@ -527,7 +527,7 @@ function rcube_find_object(id, d)
     }
 
     return obj;
-};
+}
 
 // determine whether the mouse is over the given object or not
 function rcube_mouse_is_over(ev, obj)
@@ -537,7 +537,7 @@ function rcube_mouse_is_over(ev, obj)
 
     return (mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
     (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight));
-};
+}
 
 
 // cookie functions by GoogieSpell
@@ -550,7 +550,7 @@ function setCookie(name, value, expires, path, domain, secure)
       (secure ? '; secure' : '') + '; SameSite=Lax';
 
     document.cookie = curCookie;
-};
+}
 
 function getCookie(name)
 {
@@ -572,7 +572,7 @@ function getCookie(name)
         end = dc.length;
 
     return unescape(dc.substring(begin + prefix.length, end));
-};
+}
 
 // deprecated aliases, to be removed, use rcmail.set_cookie/rcmail.get_cookie
 roundcube_browser.prototype.set_cookie = setCookie;
@@ -736,7 +736,7 @@ var Base64 = (function () {
                 try {
                     return btoa(input);
                 }
-                catch (e) {};
+                catch (e) {}
             }
 
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4, i = 0, output = '', len = input.length;
@@ -773,7 +773,7 @@ var Base64 = (function () {
                 try {
                     return utf8_decode(atob(input));
                 }
-                catch (e) {};
+                catch (e) {}
             }
 
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4, len, i = 0, output = '';

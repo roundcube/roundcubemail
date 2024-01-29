@@ -105,7 +105,7 @@ if (window.rcmail) {
             }
         }
     });
-};
+}
 
 /*********************************************************/
 /*********       Managesieve UI methods          *********/
@@ -697,7 +697,7 @@ function rule_header_select(id)
         rule_spamtest_select(id);
 
     obj.style.width = h == '...' ? '40px' : '';
-};
+}
 
 function rule_op_select(obj, id, header)
 {
@@ -707,7 +707,7 @@ function rule_op_select(obj, id, header)
         header = document.getElementById('header' + id).value;
 
     target.style.display = obj.value.match(/^(exists|notexists)$/) || header.match(/^(size|spamtest|message)$/) ? 'none' : '';
-};
+}
 
 function rule_trans_select(id)
 {
@@ -715,7 +715,7 @@ function rule_trans_select(id)
         target = document.getElementById('rule_trans_type' + id);
 
     target.style.display = obj.value != 'content' ? 'none' : 'inline';
-};
+}
 
 function rule_mod_select(id, header, reset)
 {
@@ -737,7 +737,7 @@ function rule_mod_select(id, header, reset)
 
     if (duplicate)
         duplicate.style.display = header == 'message' ? '' : 'none';
-};
+}
 
 function rule_spamtest_select(id)
 {
@@ -746,12 +746,12 @@ function rule_spamtest_select(id)
 
     target.style.display = obj.value ? '' : 'none';
     $(obj)[obj.value ? 'removeClass' : 'addClass']('rounded-right');
-};
+}
 
 function rule_join_radio(value)
 {
     $('#rules').css('display', value == 'any' ? 'none' : 'block');
-};
+}
 
 function rule_adv_switch(id, elem)
 {
@@ -765,7 +765,7 @@ function rule_adv_switch(id, elem)
         adv.get(0).style.display = '';
         elem.removeClass('show').addClass('hide');
     }
-};
+}
 
 function rule_mime_select(id)
 {
@@ -774,7 +774,7 @@ function rule_mime_select(id)
 
     if (param_elem.length)
         param_elem[0].style.display = elem.val() == 'param' ? '' : 'none';
-};
+}
 
 function action_type_select(id)
 {
@@ -813,14 +813,14 @@ function action_type_select(id)
         if (elems[x])
             elems[x].style.display = !enabled[x] ? 'none' : '';
     }
-};
+}
 
 function vacation_action_select()
 {
     var selected = $('#vacation_action').val();
 
     $('#action_target_span')[selected == 'discard' || selected == 'keep' ? 'hide' : 'show']();
-};
+}
 
 // Initializes smart list input
 function smart_field_init(field)
@@ -858,7 +858,7 @@ function smart_field_init(field)
         area.addClass('error');
         rcmail.managesieve_tip_register([[id, field.data('tip-class'), field.data('tip-msg')]]);
     }
-};
+}
 
 function smart_field_row(value, idx, field)
 {

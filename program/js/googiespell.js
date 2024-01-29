@@ -851,7 +851,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         }
 
         try { this.edit_layer.scrollTop = this.ta_scroll_top; }
-        catch (e) {};
+        catch (e) {}
     };
 
     this.checkSpellingState = function(fire)
@@ -982,4 +982,4 @@ function GoogieSpell(img_dir, server_url, has_dict)
     };
 
 
-};
+}

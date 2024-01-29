@@ -601,7 +601,7 @@ function rcube_webmail()
                 // detect client timezone
                 try {
                     tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                } catch (e) { };
+                } catch (e) { }
 
                 input_tz.val(tz ? tz : (new Date().getStdTimezoneOffset() / -60));
 
@@ -2655,7 +2655,7 @@ function rcube_webmail()
                     rc.unlock_frame();
                     $(this).off('load.lock');
                 });
-        } catch(e) { /* Ignore permission denied error */ };
+        } catch(e) { /* Ignore permission denied error */ }
     };
 
     this.unlock_frame = function()
@@ -2834,7 +2834,7 @@ function rcube_webmail()
             if (id && !list.in_selection(id))
                 this.show_contentframe(false);
         }
-        catch (e) {};
+        catch (e) {}
     };
 
     // expand all threads with unread children
@@ -7524,7 +7524,7 @@ function rcube_webmail()
             // use collator if supported (FF29, IE11, Opera15, Chrome24)
             collator = new Intl.Collator(this.env.locale.replace('_', '-'));
         }
-        catch (e) {};
+        catch (e) {}
 
         // sort folders
         folders.sort(function(a, b) {
@@ -9063,7 +9063,7 @@ function rcube_webmail()
                 // This may throw security exception in Firefox (#5400)
                 window.history.replaceState({}, document.title, rcmail.url('', query));
             }
-            catch(e) { /* ignore */ };
+            catch(e) { /* ignore */ }
     };
 
     // send a http request to the server

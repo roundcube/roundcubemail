@@ -84,7 +84,7 @@ function rcube_list_widget(list, p)
 
     // register this instance
     rcube_list_widget._instances.push(this);
-};
+}
 
 
 rcube_list_widget.prototype = {

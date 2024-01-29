@@ -31,7 +31,7 @@ function rcmail_get_compose_message()
     }
 
     return msg;
-};
+}
 
 function rcmail_check_message(msg)
 {
@@ -41,12 +41,12 @@ function rcmail_check_message(msg)
     rx = new RegExp('(' + keywords.join('|') + ')', 'i');
 
     return msg.search(rx) != -1;
-};
+}
 
 function rcmail_have_attachments()
 {
     return rcmail.env.attachments && $('li', rcmail.gui_objects.attachmentlist).length;
-};
+}
 
 function rcmail_attachment_reminder_dialog()
 {
@@ -69,7 +69,7 @@ function rcmail_attachment_reminder_dialog()
         buttons,
         {button_classes: ['mainaction attach', 'send']}
     );
-};
+}
 
 
 if (window.rcmail) {
