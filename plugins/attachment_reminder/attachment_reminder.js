@@ -73,7 +73,7 @@ if (window.rcmail) {
             subject = $('#compose-subject').val();
 
         if (!rcmail.env.attachment_reminder && !rcmail_have_attachments()
-      && (rcmail_check_message(msg) || rcmail_check_message(subject))
+            && (rcmail_check_message(msg) || rcmail_check_message(subject))
         ) {
             rcmail_attachment_reminder_dialog();
             return false;

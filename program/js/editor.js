@@ -601,7 +601,7 @@ function rcube_text_editor(config, id) {
                 // insert at start or at cursor position in top-posting mode
                 // (but not if the content is empty and not in new-message mode)
                 if (rcmail.env.top_posting && !rcmail.env.sig_below
-          && rcmail.env.compose_mode && (body.childNodes.length > 1 || $(body).text())
+                    && rcmail.env.compose_mode && (body.childNodes.length > 1 || $(body).text())
                 ) {
                     this.editor.getWin().focus(); // correct focus in IE & Chrome
 
