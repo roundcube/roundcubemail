@@ -990,8 +990,8 @@ function rcube_webmail()
                         if (props == 'reload') {
                             form.action += '&_reload=1';
                         }
-                        else if (this.task == 'settings' && (this.env.identities_level % 2) == 0  &&
-              (input = $("[name='_email']", form)) && input.length && !rcube_check_email(input.val())
+                        else if (this.task == 'settings' && (this.env.identities_level % 2) == 0
+              &&  (input = $("[name='_email']", form)) && input.length && !rcube_check_email(input.val())
                         ) {
                             this.alert_dialog(this.get_label('noemailwarning'), function () {
                                 input.focus();
@@ -2284,8 +2284,8 @@ function rcube_webmail()
                 tree += '<span id="rcmtab' + msg_id + '" class="branch" style="width:' + (message.depth * 15) + 'px;">&nbsp;&nbsp;</span>';
 
                 if ((rows[message.parent_uid] && rows[message.parent_uid].expanded === false)
-          || ((this.env.autoexpand_threads == 0 || this.env.autoexpand_threads == 2) &&
-            (!rows[message.parent_uid] || !rows[message.parent_uid].expanded))
+          || ((this.env.autoexpand_threads == 0 || this.env.autoexpand_threads == 2)
+            && (!rows[message.parent_uid] || !rows[message.parent_uid].expanded))
                 ) {
                     row.style.display = 'none';
                     message.expanded = false;
@@ -2320,8 +2320,8 @@ function rcube_webmail()
                 uid_param = flags.mbox == this.env.drafts_mailbox ? '_draft_uid' : '_uid',
                 query = { _mbox: flags.mbox };
             query[uid_param] = uid;
-            cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"' +
-        ' onmouseover="rcube_webmail.long_subject_title(this,'+(message.depth+1)+')" tabindex="-1"><span>'+cols.subject+'</span></a>';
+            cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"'
+        + ' onmouseover="rcube_webmail.long_subject_title(this,'+(message.depth+1)+')" tabindex="-1"><span>'+cols.subject+'</span></a>';
         }
 
         // add each submitted col
@@ -3971,8 +3971,8 @@ function rcube_webmail()
             if (!isvalid && missing_keys.length) {
                 // display dialog with missing keys
                 ref.simple_dialog(
-                    ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', ')) +
-            '<p>' + ref.get_label('searchpubkeyservers') + '</p>',
+                    ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', '))
+            + '<p>' + ref.get_label('searchpubkeyservers') + '</p>',
                     'encryptedsendialog',
                     function () {
                         ref.mailvelope_search_pubkeys(missing_keys, function () {
@@ -5654,8 +5654,8 @@ function rcube_webmail()
 
     this.is_multifolder_listing = function ()
     {
-        return this.env.multifolder_listing !== undefined ? this.env.multifolder_listing :
-            (this.env.search_request && (this.env.search_scope || 'base') != 'base');
+        return this.env.multifolder_listing !== undefined ? this.env.multifolder_listing
+            : (this.env.search_request && (this.env.search_scope || 'base') != 'base');
     };
 
     // action executed after mail is sent
@@ -7056,8 +7056,8 @@ function rcube_webmail()
 
     this.replace_contact_photo = function (id)
     {
-        var img_src = id == '-del-' ? this.env.photo_placeholder :
-            this.env.comm_path + '&_action=photo&_source=' + this.env.source + '&_cid=' + (this.env.cid || 0) + '&_photo=' + id;
+        var img_src = id == '-del-' ? this.env.photo_placeholder
+            : this.env.comm_path + '&_action=photo&_source=' + this.env.source + '&_cid=' + (this.env.cid || 0) + '&_photo=' + id;
 
         this.set_photo_actions(id);
         $(this.gui_objects.contactphoto).children('img').attr('src', img_src);
@@ -8524,8 +8524,8 @@ function rcube_webmail()
             reg = /\s+\([0-9]+\)$/i;
 
             childcount = 0;
-            if ((div = item.getElementsByTagName('div')[0]) &&
-          div.className.match(/collapsed/)) {
+            if ((div = item.getElementsByTagName('div')[0])
+          && div.className.match(/collapsed/)) {
                 // add children's counters
                 for (var k in this.env.unread_counts)
                     if (k.startsWith(mbox + this.env.delimiter))

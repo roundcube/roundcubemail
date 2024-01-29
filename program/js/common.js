@@ -46,9 +46,9 @@ function roundcube_browser()
     this.vendver = n.vendorSub ? parseFloat(n.vendorSub) : 0;
     this.product = n.product ? n.product : '';
     this.platform = String(n.platform).toLowerCase();
-    this.lang = n.language ? n.language.substring(0, 2) :
-        n.browserLanguage ? n.browserLanguage.substring(0, 2) :
-            n.systemLanguage ? n.systemLanguage.substring(0, 2) : 'en';
+    this.lang = n.language ? n.language.substring(0, 2)
+        : n.browserLanguage ? n.browserLanguage.substring(0, 2)
+            : n.systemLanguage ? n.systemLanguage.substring(0, 2) : 'en';
 
     this.win = this.platform.indexOf('win') >= 0;
     this.mac = this.platform.indexOf('mac') >= 0;
@@ -535,19 +535,19 @@ function rcube_mouse_is_over(ev, obj)
     var mouse = rcube_event.get_mouse_pos(ev),
         pos = $(obj).offset();
 
-    return (mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
-    (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight));
+    return (mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth))
+    && (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight));
 }
 
 
 // cookie functions by GoogieSpell
 function setCookie(name, value, expires, path, domain, secure)
 {
-    var curCookie = name + '=' + escape(value) +
-      (expires ? '; expires=' + expires.toGMTString() : '') +
-      (path ? '; path=' + path : '') +
-      (domain ? '; domain=' + domain : '') +
-      (secure ? '; secure' : '') + '; SameSite=Lax';
+    var curCookie = name + '=' + escape(value)
+      + (expires ? '; expires=' + expires.toGMTString() : '')
+      + (path ? '; path=' + path : '')
+      + (domain ? '; domain=' + domain : '')
+      + (secure ? '; secure' : '') + '; SameSite=Lax';
 
     document.cookie = curCookie;
 }
