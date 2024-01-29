@@ -155,7 +155,6 @@ module.exports = {
         'one-var-declaration-per-line': 'off', // (501 matches)
         'operator-assignment': 'off', // (4 matches)
         'operator-linebreak': 'off', // (14 matches)
-        'padded-blocks': 'off', // (7 matches)
         'padding-line-between-statements': 'off', // eslint-disable-line no-dupe-keys -- (301 matches)
         'prefer-arrow-callback': 'off', // (423 matches)
         'prefer-rest-params': 'off', // eslint-disable-line no-dupe-keys -- (3 matches)

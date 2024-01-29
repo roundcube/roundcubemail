@@ -886,7 +886,6 @@ function smart_field_row(value, idx, field)
         }
         // backspace or delete: remove input, focus previous one
         else if ((e.which == 8 || e.which == 46) && input.val() == '') {
-
             var parent = input.parent(), siblings = parent.parent().children();
 
             if (siblings.length > 1) {

@@ -980,6 +980,4 @@ function GoogieSpell(img_dir, server_url, has_dict)
         else
             this.parentNode.className = 'googie_list_onout';
     };
-
-
 }

@@ -246,7 +246,6 @@ function rcube_webmail()
             this.enable_command('permaurl', 'extwin', true);
 
         switch (this.task) {
-
             case 'mail':
                 // enable mail commands
                 this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', 'import-messages', true);
@@ -795,7 +794,6 @@ function rcube_webmail()
 
         // process internal command
         switch (command) {
-
             // commands to switch task
             case 'logout':
             case 'mail':
@@ -4042,15 +4040,12 @@ function rcube_webmail()
                     hidden.val(armored);
 
                     form.submit();
-
                 }, function(err) {
                     console.log(err);
                 });  // mailvelope_editor.encrypt()
-
             }, function(err) {
                 console.error(err);
             });  // mailvelope_keyring.validKeyForAddress(senders)
-
         }, function(err) {
             console.error(err);
         });  // mailvelope_keyring.validKeyForAddress(recipients)
