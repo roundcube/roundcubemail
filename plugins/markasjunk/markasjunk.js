@@ -22,7 +22,7 @@ rcube_webmail.prototype.markasjunk_mark = function(is_spam) {
         return;
 
     var lock = this.set_busy(true, 'loading');
-    this.http_post('plugin.markasjunk.' + (is_spam ? 'junk' : 'not_junk'), this.selection_post_data({_uid: uids}), lock);
+    this.http_post('plugin.markasjunk.' + (is_spam ? 'junk' : 'not_junk'), this.selection_post_data({ _uid: uids }), lock);
 };
 
 rcube_webmail.prototype.markasjunk_move = function(mbox, uids) {
@@ -44,7 +44,7 @@ rcube_webmail.prototype.markasjunk_move = function(mbox, uids) {
 rcube_webmail.prototype.markasjunk_toggle_button = function() {
     var spamobj = $('a.junk'),
         hamobj = $('a.notjunk'),
-        disp = {spam: true, ham: true};
+        disp = { spam: true, ham: true };
 
     if (this.env.markasjunk_spam_only) {
         disp.ham = false;
@@ -68,7 +68,7 @@ rcube_webmail.prototype.markasjunk_toggle_button = function() {
             cur_hamobj = cur_hamobj.parent();
         }
 
-        var evt_rtn = rcmail.triggerEvent('markasjunk-update', {objs: {spamobj: cur_spamobj, hamobj: cur_hamobj}, disp: disp});
+        var evt_rtn = rcmail.triggerEvent('markasjunk-update', { objs: { spamobj: cur_spamobj, hamobj: cur_hamobj }, disp: disp });
         if (evt_rtn && evt_rtn.abort)
             return;
 

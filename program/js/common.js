@@ -342,7 +342,7 @@ rcube_event_engine.prototype = {
         if (!this._events[evt])
             this._events[evt] = [];
 
-        this._events[evt].push({func:func, obj:obj ? obj : window});
+        this._events[evt].push({ func:func, obj:obj ? obj : window });
 
         return this; // chainable
     },
@@ -635,7 +635,7 @@ jQuery.last = function(arr) {
 // jQuery plugin to set HTML5 placeholder and title attributes on input elements
 jQuery.fn.placeholder = function(text) {
     return this.each(function() {
-        $(this).prop({title: text, placeholder: text});
+        $(this).prop({ title: text, placeholder: text });
     });
 };
 

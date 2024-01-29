@@ -127,7 +127,7 @@ rcube_list_widget.prototype = {
 
             // set body events
             if (this.keyboard) {
-                rcube_event.add_listener({event:'keydown', object:this, method:'key_press'});
+                rcube_event.add_listener({ event:'keydown', object:this, method:'key_press' });
 
                 // allow the table element to receive focus.
                 $(this.list).attr('tabindex', '0')
@@ -155,7 +155,7 @@ rcube_list_widget.prototype = {
         // make references in internal array and set event handlers
         if (row && row.uid) {
             var self = this, uid = row.uid;
-            this.rows[uid] = {uid:uid, id:row.id, obj:row};
+            this.rows[uid] = { uid:uid, id:row.id, obj:row };
 
             $(row).data('uid', uid)
             // set eventhandlers to table row (only left-button-clicks in mouseup)
@@ -615,8 +615,8 @@ rcube_list_widget.prototype = {
             this.drag_start = true;
             this.drag_mouse_start = rcube_event.get_mouse_pos(e);
 
-            rcube_event.add_listener({event:'mousemove', object:this, method:'column_drag_mouse_move'});
-            rcube_event.add_listener({event:'mouseup', object:this, method:'column_drag_mouse_up'});
+            rcube_event.add_listener({ event:'mousemove', object:this, method:'column_drag_mouse_move' });
+            rcube_event.add_listener({ event:'mouseup', object:this, method:'column_drag_mouse_up' });
 
             // enable dragging over iframes
             this.add_dragfix();
@@ -659,12 +659,12 @@ rcube_list_widget.prototype = {
             this.drag_start = true;
             this.drag_mouse_start = rcube_event.get_mouse_pos(e);
 
-            rcube_event.add_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
-            rcube_event.add_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
+            rcube_event.add_listener({ event:'mousemove', object:this, method:'drag_mouse_move' });
+            rcube_event.add_listener({ event:'mouseup', object:this, method:'drag_mouse_up' });
 
             if (bw.touch) {
-                rcube_event.add_listener({event:'touchmove', object:this, method:'drag_mouse_move'});
-                rcube_event.add_listener({event:'touchend', object:this, method:'drag_mouse_up'});
+                rcube_event.add_listener({ event:'touchmove', object:this, method:'drag_mouse_move' });
+                rcube_event.add_listener({ event:'touchend', object:this, method:'drag_mouse_up' });
             }
 
             // enable dragging over iframes
@@ -1335,7 +1335,7 @@ rcube_list_widget.prototype = {
     {
         var res = $.merge([], this.selection);
 
-        var props = {deep: deep, res: res};
+        var props = { deep: deep, res: res };
         if (this.triggerEvent('getselection', props) === false)
             return props.res;
 
@@ -1618,12 +1618,12 @@ rcube_list_widget.prototype = {
                 return false;
 
             // remember dragging start position
-            this.drag_start_pos = {left: m.x, top: m.y};
+            this.drag_start_pos = { left: m.x, top: m.y };
 
             // initialize drag layer
             if (!this.draglayer)
                 this.draglayer = $('<div>').attr('id', 'rcmdraglayer')
-                    .css({position: 'absolute', display: 'none', 'z-index': 2000})
+                    .css({ position: 'absolute', display: 'none', 'z-index': 2000 })
                     .appendTo(document.body);
             else
                 this.draglayer.html('');
@@ -1734,12 +1734,12 @@ rcube_list_widget.prototype = {
             this.focus();
         this.drag_active = false;
 
-        rcube_event.remove_listener({event:'mousemove', object:this, method:'drag_mouse_move'});
-        rcube_event.remove_listener({event:'mouseup', object:this, method:'drag_mouse_up'});
+        rcube_event.remove_listener({ event:'mousemove', object:this, method:'drag_mouse_move' });
+        rcube_event.remove_listener({ event:'mouseup', object:this, method:'drag_mouse_up' });
 
         if (bw.touch) {
-            rcube_event.remove_listener({event:'touchmove', object:this, method:'drag_mouse_move'});
-            rcube_event.remove_listener({event:'touchend', object:this, method:'drag_mouse_up'});
+            rcube_event.remove_listener({ event:'touchmove', object:this, method:'drag_mouse_move' });
+            rcube_event.remove_listener({ event:'touchend', object:this, method:'drag_mouse_up' });
         }
 
         // remove temp divs
@@ -1814,7 +1814,7 @@ rcube_list_widget.prototype = {
             // empty list needs some assignment
             else if (!this.list.rowcount && i == this.cols.length)
                 cpos -= 2;
-            $('#rcmcolumnindicator').css({ width: cpos+'px'});
+            $('#rcmcolumnindicator').css({ width: cpos+'px' });
             this.triggerEvent('column_dragmove', e?e:window.event);
         }
 
@@ -1836,8 +1836,8 @@ rcube_list_widget.prototype = {
             this.col_draglayer = null;
         }
 
-        rcube_event.remove_listener({event:'mousemove', object:this, method:'column_drag_mouse_move'});
-        rcube_event.remove_listener({event:'mouseup', object:this, method:'column_drag_mouse_up'});
+        rcube_event.remove_listener({ event:'mousemove', object:this, method:'column_drag_mouse_move' });
+        rcube_event.remove_listener({ event:'mouseup', object:this, method:'column_drag_mouse_up' });
 
         // remove temp divs
         this.del_dragfix();
@@ -1901,7 +1901,7 @@ rcube_list_widget.prototype = {
     {
         $('iframe').each(function() {
             $('<div class="iframe-dragdrop-fix"></div>')
-                .css({background: '#fff',
+                .css({ background: '#fff',
                     width: this.offsetWidth+'px', height: this.offsetHeight+'px',
                     position: 'absolute', opacity: '0.001', zIndex: 1000
                 })

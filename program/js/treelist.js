@@ -1285,7 +1285,7 @@ function rcube_treelist_widget(node, p)
             revert: 'invalid',
             iframeFix: true,
             addClasses: false,
-            cursorAt: {left: -20, top: 5},
+            cursorAt: { left: -20, top: 5 },
             create: function(e, ui) { ui_draggable = ui; },
             helper: function(e) {
                 return $('<div>').attr('id', 'rcmdraglayer')

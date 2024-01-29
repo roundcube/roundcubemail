@@ -421,7 +421,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
     this.createListSeparator = function()
     {
         return $('<li>').html('&nbsp;').attr('googie_action_btn', '1')
-            .css({'cursor': 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px'})
+            .css({ 'cursor': 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px' })
             .get(0);
     };
 
@@ -542,7 +542,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         if (this.use_ok_pic) {
             $('<img>').attr('src', this.img_dir + 'ok.gif')
                 .width(32).height(16)
-                .css({cursor: 'pointer', 'margin-left': '2px', 'margin-right': '2px'})
+                .css({ cursor: 'pointer', 'margin-left': '2px', 'margin-right': '2px' })
                 .appendTo(ok_pic);
         }
         else {
@@ -552,7 +552,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         $(ok_pic).addClass('mainaction save googie_ok_button btn-sm').click(onsub);
 
         $(edit_form).attr('googie_action_btn', '1')
-            .css({'cursor': 'default', 'white-space': 'nowrap'})
+            .css({ 'cursor': 'default', 'white-space': 'nowrap' })
             .submit(onsub)
             .append(edit_input)
             .append(ok_pic)
@@ -595,7 +595,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
         this.error_window.appendChild(list);
 
         // roundcube plugin api hook
-        rcmail.triggerEvent('googiespell_create', {obj: this.error_window});
+        rcmail.triggerEvent('googiespell_create', { obj: this.error_window });
 
         // calculate and set position
         var height = $(this.error_window).height(),
@@ -608,19 +608,19 @@ function GoogieSpell(img_dir, server_url, has_dict)
         if (left < 0) left = 0;
         if (top < 0) top = 0;
 
-        $(this.error_window).css({'top': top+'px', 'left': left+'px', position: 'absolute'}).show();
+        $(this.error_window).css({ 'top': top+'px', 'left': left+'px', position: 'absolute' }).show();
 
         // Dummy for IE - dropdown bug fix
         if (document.all && !window.opera) {
             if (!this.error_window_iframe) {
-                var iframe = $('<iframe>').css({'position': 'absolute', 'z-index': -1});
+                var iframe = $('<iframe>').css({ 'position': 'absolute', 'z-index': -1 });
                 $('body').append(iframe);
                 this.error_window_iframe = iframe;
             }
 
             $(this.error_window_iframe)
-                .css({'top': this.error_window.offsetTop, 'left': this.error_window.offsetLeft,
-                    'width': this.error_window.offsetWidth, 'height': this.error_window.offsetHeight})
+                .css({ 'top': this.error_window.offsetTop, 'left': this.error_window.offsetLeft,
+                    'width': this.error_window.offsetWidth, 'height': this.error_window.offsetHeight })
                 .show();
         }
     };
@@ -696,7 +696,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
             };
 
         $(elm).html(text).addClass('googie_link').click(d).removeAttr('is_corrected')
-            .attr({'googie_action_btn' : '1', 'g_id' : id});
+            .attr({ 'googie_action_btn' : '1', 'g_id' : id });
 
         return elm;
     };
@@ -961,7 +961,7 @@ function GoogieSpell(img_dir, server_url, has_dict)
     this.createFocusLink = function(name)
     {
         var link = document.createElement('a');
-        $(link).attr({'href': 'javascript:;', 'name': name});
+        $(link).attr({ 'href': 'javascript:;', 'name': name });
         return link;
     };
 

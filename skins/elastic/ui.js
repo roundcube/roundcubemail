@@ -222,7 +222,7 @@ function rcube_elastic_ui()
             // TODO: Consider doing this for IE/Edge only, just set the 'form' attribute on others
             $('#compose-options').find('textarea,input,select').each(function() {
                 var hidden = $('<input>')
-                    .attr({type: 'hidden', name: $(this).attr('name')})
+                    .attr({ type: 'hidden', name: $(this).attr('name') })
                     .appendTo(form);
 
                 $(this).attr('tabindex', 2)
@@ -336,7 +336,7 @@ function rcube_elastic_ui()
             };
 
             if (window.MutationObserver) {
-                (new MutationObserver(callback)).observe(list, {childList: true, subtree: true});
+                (new MutationObserver(callback)).observe(list, { childList: true, subtree: true });
             }
             callback();
 
@@ -394,13 +394,13 @@ function rcube_elastic_ui()
             btn_class += ' button' + (!always_active ? ' disabled' : '');
         }
         else if (popup = target.data('popup')) {
-            button.data({popup: popup, 'toggle-button': target.data('toggle-button')});
+            button.data({ popup: popup, 'toggle-button': target.data('toggle-button') });
             popup_init(button[0]);
             click = false;
             rcmail.register_menu_button(button[0], popup);
         }
 
-        button.attr({id: button_id, href: '#', 'class': btn_class})
+        button.attr({ id: button_id, href: '#', 'class': btn_class })
             .append($('<span class="inner">').text(target.text()));
 
         if (click) {
@@ -409,7 +409,7 @@ function rcube_elastic_ui()
 
         if (is_framed && !menu_button) {
             button.data('target', target);
-            frame_buttons.push($.extend({button_id: button_id}, find_button(target[0].id)));
+            frame_buttons.push($.extend({ button_id: button_id }, find_button(target[0].id)));
         }
         else {
             // Register the button to get active state updates
@@ -547,7 +547,7 @@ function rcube_elastic_ui()
 
                 // Add Select button to the list navigation bar
                 if (!button) {
-                    button = $('<a>').attr({'class': 'button selection disabled', role: 'button', title: rcmail.gettext('select')})
+                    button = $('<a>').attr({ 'class': 'button selection disabled', role: 'button', title: rcmail.gettext('select') })
                         .on('click', function() { UI.toggle_list_selection(this, table.attr('id')); })
                         .append($('<span class="inner">').text(rcmail.gettext('select')));
 
@@ -645,7 +645,7 @@ function rcube_elastic_ui()
 
                 // show/hide the message when something changes on the list
                 var observer = new MutationObserver(callback);
-                observer.observe(table[0], {childList: true, subtree: true, attributes: true, attributeFilter: ['style']});
+                observer.observe(table[0], { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
 
                 // initialize the message
                 callback();
@@ -697,7 +697,7 @@ function rcube_elastic_ui()
                         status_callback = function() { compose_status('attach', list.children().length > 0); };
 
                     observer = new MutationObserver(status_callback);
-                    observer.observe(list[0], {childList: true});
+                    observer.observe(list[0], { childList: true });
                     status_callback();
                 }
             }
@@ -1026,17 +1026,17 @@ function rcube_elastic_ui()
         // Tabs do not scale nicely on very small screen, so can be used
         // only with small number of tabs with short text labels
         $('form.tabbed,div.tabbed', context).each(function(idx, item) {
-            var tabs = [], nav = $('<ul>').attr({'class': 'nav nav-tabs', role: 'tablist'});
+            var tabs = [], nav = $('<ul>').attr({ 'class': 'nav nav-tabs', role: 'tablist' });
 
             $(this).addClass('tab-content').children('fieldset').each(function(i, fieldset) {
                 var tab, id = fieldset.id || ('tab' + idx + '-' + i),
                     tab_class = $(fieldset).data('navlink-class');
 
-                $(fieldset).addClass('tab-pane').attr({id: id, role: 'tabpanel'});
+                $(fieldset).addClass('tab-pane').attr({ id: id, role: 'tabpanel' });
 
                 tab = $('<li>').addClass('nav-item').append(
                     $('<a>').addClass('nav-link' + (tab_class ? ' ' + tab_class : ''))
-                        .attr({role: 'tab', 'href': '#' + id})
+                        .attr({ role: 'tab', 'href': '#' + id })
                         .text($('legend', fieldset).first().text())
                         .click(function(e) {
                             $(this).tab('show');
@@ -1060,8 +1060,8 @@ function rcube_elastic_ui()
 
         $('input[type=file]:not(.custom-file-input)', context).each(function() {
             var label_text = rcmail.gettext('choosefile' + (this.multiple ? 's' : '')),
-                label = $('<label>').attr({'class': 'custom-file-label',
-                    'data-browse': rcmail.gettext('browse')}).text(label_text);
+                label = $('<label>').attr({ 'class': 'custom-file-label',
+                    'data-browse': rcmail.gettext('browse') }).text(label_text);
 
             $(this).addClass('custom-file-input').wrap('<div class="custom-file">');
             $(this).on('change', function() {
@@ -1162,7 +1162,7 @@ function rcube_elastic_ui()
         $('[data-popup]').each(function() { popup_init(this); });
 
         $(document).on('click', popups_close);
-        rcube_webmail.set_iframe_events({mousedown: popups_close, touchstart: popups_close});
+        rcube_webmail.set_iframe_events({ mousedown: popups_close, touchstart: popups_close });
     }
 
     /**
@@ -1386,7 +1386,7 @@ function rcube_elastic_ui()
                     header_top = form.offset().top;
 
                 if (editor_offset && (editor_offset.top - header_top < 0)) {
-                    toolbar.css({position: 'fixed', top: header_top + 'px', width: container.width() + 'px'});
+                    toolbar.css({ position: 'fixed', top: header_top + 'px', width: container.width() + 'px' });
                     floating = true;
                 }
                 else {
@@ -1396,7 +1396,7 @@ function rcube_elastic_ui()
                         $('#compose-subject').focus();
                         floating = false;
                     }
-                    toolbar.css({position: 'relative', top: 0, width: 'auto'});
+                    toolbar.css({ position: 'relative', top: 0, width: 'auto' });
                 }
             });
 
@@ -1411,7 +1411,7 @@ function rcube_elastic_ui()
                     tooltip: rcmail.gettext('plaintoggle'),
                     icon: 'close',
                     onAction: function(e) {
-                        if (rcmail.command('toggle-editor', {id: ed.id, html: false}, '', e.originalEvent)) {
+                        if (rcmail.command('toggle-editor', { id: ed.id, html: false }, '', e.originalEvent)) {
                             $('#' + ed.id).parent().removeClass('ishtml');
                         }
                     }
@@ -1450,7 +1450,7 @@ function rcube_elastic_ui()
                 // TODO: Maybe some day we'll not have to use MutationObserver
                 // https://github.com/tinymce/tinymce/issues/4869
                 if (window.MutationObserver) {
-                    (new MutationObserver(callback)).observe($('.tox-dialog__body-content', dialog)[0], {childList: true});
+                    (new MutationObserver(callback)).observe($('.tox-dialog__body-content', dialog)[0], { childList: true });
                 }
                 callback();
             });
@@ -1518,7 +1518,7 @@ function rcube_elastic_ui()
                     $('<div id="ui-datepicker-div" class="hidden">').appendTo(document.body);
                 }
 
-                (new MutationObserver(callback)).observe(this, {childList: true, subtree: false, attributes: true, attributeFilter: ['aria-hidden']});
+                (new MutationObserver(callback)).observe(this, { childList: true, subtree: false, attributes: true, attributeFilter: ['aria-hidden'] });
             });
         }
     }
@@ -1757,7 +1757,7 @@ function rcube_elastic_ui()
     {
         $('#layout > div > .header').each(function() {
             var title, right = 0, left = 0, padding = 0,
-                sizes = {left: 0, right: 0};
+                sizes = { left: 0, right: 0 };
 
             $(this).children(':visible:not(.position-absolute)').each(function() {
                 if (!title && $(this).is('.header-title')) {
@@ -2030,7 +2030,7 @@ function rcube_elastic_ui()
             maxHeight = $(window).height();
 
         if (maxWidth <= 480) {
-            me.css({width: '100%', height: '100%'});
+            me.css({ width: '100%', height: '100%' });
         }
         else {
             if (height > maxHeight) {
@@ -2091,7 +2091,7 @@ function rcube_elastic_ui()
         // Add Unread filter button
         if (input.is('#mailsearchform')) {
             unread_button = $('<a>')
-                .attr({'class': 'button unread', href: '#', role: 'button', title: rcmail.gettext('showunread')})
+                .attr({ 'class': 'button unread', href: '#', role: 'button', title: rcmail.gettext('showunread') })
                 .on('click', function(e) {
                     $(rcmail.gui_objects.search_filter).val($(e.target).is('.selected') ? 'ALL' : 'UNSEEN');
                     rcmail.command('search');
@@ -2133,7 +2133,7 @@ function rcube_elastic_ui()
         $('a.reset', bar).on('click', function(e) {
             // for treelist widget's search setting val and keyup.treelist is needed
             // in normal search form reset-search command will do the trick
-            input.val('').change().trigger('keyup.treelist', {keyCode: 27});
+            input.val('').change().trigger('keyup.treelist', { keyCode: 27 });
             if ($(bar).is('.open')) {
                 options_button.click();
             }
@@ -2233,9 +2233,9 @@ function rcube_elastic_ui()
         // append the new list toolbar and menu button
         if (list_items.length) {
             var container = layout.list.children('.header'),
-                menu_attrs = {'class': 'menu toolbar popupmenu listing iconized', id: 'toolbar-list-menu'},
+                menu_attrs = { 'class': 'menu toolbar popupmenu listing iconized', id: 'toolbar-list-menu' },
                 menu_button = $('<a class="button icon toolbar-list-button" href="#list-menu">')
-                    .attr({'data-popup': 'toolbar-list-menu'}),
+                    .attr({ 'data-popup': 'toolbar-list-menu' }),
                 // TODO: copy original toolbar attributes (class, role, aria-*)
                 toolbar = $('<ul>').attr(menu_attrs).data('popup-parent', container).append(list_items);
 
@@ -2251,9 +2251,9 @@ function rcube_elastic_ui()
         // append the new toolbar and menu button
         if (items.length) {
             var container = layout.content.children('.header'),
-                menu_attrs = {'class': 'menu toolbar popupmenu listing iconized', id: 'toolbar-menu'},
+                menu_attrs = { 'class': 'menu toolbar popupmenu listing iconized', id: 'toolbar-menu' },
                 menu_button = $('<a class="button icon toolbar-menu-button" href="#menu">')
-                    .attr({'data-popup': 'toolbar-menu'});
+                    .attr({ 'data-popup': 'toolbar-menu' });
 
             container
                 // TODO: copy original toolbar attributes (class, role, aria-*)
@@ -2609,7 +2609,7 @@ function rcube_elastic_ui()
                     popup_init(target, p.win);
                 }
 
-                menus[p.name] = {target: target};
+                menus[p.name] = { target: target };
 
                 // setTimeout fixes Shift + drag'n'drop menu in Chrome (#8107)
                 setTimeout(function() { $(target).popover('show'); }, 1);
@@ -2726,7 +2726,7 @@ function rcube_elastic_ui()
     function about_dialog(elem)
     {
         var support_url, support_func, support_button = false,
-            dialog = $('<iframe>').attr({id: 'aboutframe', src: rcmail.url('settings/about', {_framed: 1})}),
+            dialog = $('<iframe>').attr({ id: 'aboutframe', src: rcmail.url('settings/about', { _framed: 1 }) }),
             support_link = $('#supportlink');
 
         if (support_link.length && (support_url = support_link.attr('href'))) {
@@ -2769,8 +2769,8 @@ function rcube_elastic_ui()
      */
     function headers_dialog()
     {
-        var props = {_uid: rcmail.env.uid, _mbox: rcmail.env.mailbox, _framed: 1},
-            dialog = $('<iframe>').attr({id: 'headersframe', src: rcmail.url('headers', props)});
+        var props = { _uid: rcmail.env.uid, _mbox: rcmail.env.mailbox, _framed: 1 },
+            dialog = $('<iframe>').attr({ id: 'headersframe', src: rcmail.url('headers', props) });
 
         rcmail.simple_dialog(dialog, 'arialabelmessageheaders', null, {
             cancel_button: 'close',
@@ -3029,7 +3029,7 @@ function rcube_elastic_ui()
         });
 
         // call menu-open so core can set state of menu commands
-        return rcmail.command('menu-open', {menu: 'attachmentmenu', id: id}, obj, event);
+        return rcmail.command('menu-open', { menu: 'attachmentmenu', id: id }, obj, event);
     }
 
     /**
@@ -3109,7 +3109,7 @@ function rcube_elastic_ui()
             return false; // for Chrome
         });
 
-        return rcmail.command('menu-open', {menu: 'mailto-menu', link: button}, button, event.originalEvent);
+        return rcmail.command('menu-open', { menu: 'mailto-menu', link: button }, button, event.originalEvent);
     }
 
     /**
@@ -3172,7 +3172,7 @@ function rcube_elastic_ui()
                 + '</div>'
             ),
             hide_menu = function() {
-                menu.css({top: '-1000px'});
+                menu.css({ top: '-1000px' });
                 record = null;
             };
 
@@ -3224,7 +3224,7 @@ function rcube_elastic_ui()
             };
 
         // Position the menu
-        menu.css({top: top + 'px'});
+        menu.css({ top: top + 'px' });
 
         // Show/hide buttons according to the hovered message state
         Object.keys(buttons).forEach(function(btn) {
@@ -3310,16 +3310,16 @@ function rcube_elastic_ui()
 
         bar.find('.value').css('width', value + '%')[value >= 90 ? 'addClass' : 'removeClass']('warning');
         // set title and reset tooltip's data (needed in case of empty title)
-        element.attr({'data-original-title': '', title: element.find('.count').attr('title')});
+        element.attr({ 'data-original-title': '', title: element.find('.count').attr('title') });
 
         if (p.table) {
             element.css('cursor', 'pointer').data('popup-pos', 'top')
                 .off('click').on('click', function(e) {
-                    rcmail.simple_dialog(p.table, 'quota', null, {cancel_button: 'close'});
+                    rcmail.simple_dialog(p.table, 'quota', null, { cancel_button: 'close' });
                 });
         }
         else {
-            element.tooltip('dispose').tooltip({trigger: is_mobile() ? 'click' : 'hover'});
+            element.tooltip('dispose').tooltip({ trigger: is_mobile() ? 'click' : 'hover' });
         }
     }
 
@@ -3339,7 +3339,7 @@ function rcube_elastic_ui()
                         .on('dblclick', function(e) { recipient_input_edit_dialog(e, insert_recipient); }),
                     email_element = $('<span class="email">'),
                     // TODO: should the 'close' link have tabindex?
-                    link = $('<a>').attr({'class': 'button icon remove'})
+                    link = $('<a>').attr({ 'class': 'button icon remove' })
                         .click(function() {
                             recipient.remove();
                             apply_func();
@@ -3423,7 +3423,7 @@ function rcube_elastic_ui()
             };
 
         // Create the input element and "editable" area
-        input = $('<input>').attr({type: 'text', tabindex: $(obj).attr('tabindex')})
+        input = $('<input>').attr({ type: 'text', tabindex: $(obj).attr('tabindex') })
             .on('paste change', parse_func)
             .on('keydown', keydown_func)
             .on('blur', function() { list.removeClass('focus'); })
@@ -3452,7 +3452,7 @@ function rcube_elastic_ui()
         // Note: we do not remove the original element, and we do not use
         // display: none, because we want to handle onfocus event
         // Note: tabindex:-1 to make Shift+TAB working on these widgets
-        $(obj).css({position: 'absolute', opacity: 0, left: '-5000px', width: '10px'})
+        $(obj).css({ position: 'absolute', opacity: 0, left: '-5000px', width: '10px' })
             .attr('tabindex', -1)
             .after(list)
             // some core code sometimes focuses or changes the original node
@@ -3518,7 +3518,7 @@ function rcube_elastic_ui()
 
         text = text.replace(/[,;]+/, ',').replace(/^[,;\s]+/, '');
 
-        return {recipients: recipients, text: text};
+        return { recipients: recipients, text: text };
     }
 
     /**
@@ -3580,7 +3580,7 @@ function rcube_elastic_ui()
     {
         var element = $(e.target).parents('.recipient'),
             recipient = element.text().replace(/,+$/, ''),
-            input = $('<input>').attr({type: 'text', 'data-submit': 'true'}).val(recipient),
+            input = $('<input>').attr({ type: 'text', 'data-submit': 'true' }).val(recipient),
             content = $('<label>').text(rcmail.gettext('recipient')).append(input);
 
         rcmail.simple_dialog(content, 'recipientedit', function() {
@@ -3607,7 +3607,7 @@ function rcube_elastic_ui()
     function image_upload_input(obj)
     {
         var reset_button = $('<a>')
-                .attr({'class': 'icon button delete', href: '#', })
+                .attr({ 'class': 'icon button delete', href: '#', })
                 .click(function(e) { rcmail.command('delete-photo', '', this, e); return false; }),
             img = $(obj).find('img')[0],
             img_onload = function() {
@@ -3676,7 +3676,7 @@ function rcube_elastic_ui()
             label = $('<label>');
         }
 
-        label.attr({'for': id, 'class': 'custom-control-label', title: checkbox.attr('title') || ''})
+        label.attr({ 'for': id, 'class': 'custom-control-label', title: checkbox.attr('title') || '' })
             .on('click', function(e) { e.stopPropagation(); });
 
         checkbox.addClass('form-check-input custom-control-input')
@@ -3934,9 +3934,9 @@ function rcube_elastic_ui()
             parent = editor.parent(),
             readonly = editor.is('[readonly],[disabled]'),
             plain_btn = $('<a class="mce-i-html" href="#" tabindex="-1"></a>')
-                .attr({title: rcmail.gettext('htmltoggle'), disabled: readonly})
+                .attr({ title: rcmail.gettext('htmltoggle'), disabled: readonly })
                 .on('click', function(e) {
-                    if (!readonly && rcmail.command('toggle-editor', {id: editor.attr('id'), html: true}, '', e.originalEvent)) {
+                    if (!readonly && rcmail.command('toggle-editor', { id: editor.attr('id'), html: true }, '', e.originalEvent)) {
                         parent.addClass('ishtml');
                     }
                 })
@@ -4186,12 +4186,12 @@ function rcube_elastic_ui()
             records = $('tr,li', navlist).filter(function() { return this.style.display != 'none'; });
             height = $(records[0]).height() || 50;
 
-            navlist.animate({height: (Math.min(5, records.length) * height + 1) + 'px'}, speed);
+            navlist.animate({ height: (Math.min(5, records.length) * height + 1) + 'px' }, speed);
             button.addClass('collapse').removeClass('expand');
             $(obj).addClass('expanded');
         }
         else {
-            navlist.animate({height: '0'}, speed);
+            navlist.animate({ height: '0' }, speed);
             button.addClass('expand').removeClass('collapse');
             $(obj).removeClass('expanded');
         }
@@ -4309,8 +4309,8 @@ function rcube_elastic_ui()
         url = rcmail.add_url(url, '_extwin', 1);
 
         var label, title = '',
-            props = {cancel_button: 'close', width: 768, height: 768},
-            frame = $('<iframe>').attr({id: 'windowframe', src: url});
+            props = { cancel_button: 'close', width: 768, height: 768 },
+            frame = $('<iframe>').attr({ id: 'windowframe', src: url });
 
         if (/_action=([a-z_]+)/.test(url) && (label = rcmail.labels[RegExp.$1])) {
             title = label;
@@ -4344,7 +4344,7 @@ function rcube_elastic_ui()
             };
         }
 
-        return {mode: mode, touch: touch};
+        return { mode: mode, touch: touch };
     }
 
     /**
@@ -4418,11 +4418,11 @@ if (window.rcmail) {
             obj = $('#' + name);
 
         if (typeof prop == 'string') {
-            prop = {menu: name};
+            prop = { menu: name };
         }
 
         // just delegate the action to rcube_elastic_ui
-        return rcmail.triggerEvent(show === false ? 'menu-close' : 'menu-open', {name: name, obj: obj, props: prop, originalEvent: event});
+        return rcmail.triggerEvent(show === false ? 'menu-close' : 'menu-open', { name: name, obj: obj, props: prop, originalEvent: event });
     };
 
     /**
@@ -4431,7 +4431,7 @@ if (window.rcmail) {
     rcmail.hide_menu = function(name, event)
     {
         // delegate to rcube_elastic_ui
-        return rcmail.triggerEvent('menu-close', {name: name, props: {menu: name}, originalEvent: event});
+        return rcmail.triggerEvent('menu-close', { name: name, props: { menu: name }, originalEvent: event });
     };
 }
 else {

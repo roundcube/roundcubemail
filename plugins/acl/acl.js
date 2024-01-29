@@ -22,7 +22,7 @@ if (window.rcmail) {
             // enable autocomplete on user input
             if (rcmail.env.acl_users_source) {
                 var inst = rcmail.is_framed() ? parent.rcmail : rcmail;
-                inst.init_address_input_events($('#acluser'), {action:'settings/plugin.acl-autocomplete'});
+                inst.init_address_input_events($('#acluser'), { action:'settings/plugin.acl-autocomplete' });
 
                 // pass config settings and localized texts to autocomplete context
                 inst.set_env({ autocomplete_max:rcmail.env.autocomplete_max, autocomplete_min_length:rcmail.env.autocomplete_min_length });
@@ -161,7 +161,7 @@ rcube_webmail.prototype.acl_list_init = function()
     $(this.gui_objects.acltable)[method]('advanced');
 
     this.acl_list = new rcube_list_widget(this.gui_objects.acltable,
-        {multiselect: true, draggable: false, keyboard: true});
+        { multiselect: true, draggable: false, keyboard: true });
     this.acl_list.addEventListener('select', function(o) { rcmail.acl_list_select(o); })
         .addEventListener('dblclick', function(o) { rcmail.acl_list_dblclick(o); })
         .addEventListener('keypress', function(o) { rcmail.acl_list_keypress(o); })
@@ -262,7 +262,7 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
         $(this).replaceWith(td);
     });
 
-    row = row.attr({id: 'rcmrow' + id, 'data-userid': o.username}).get(0);
+    row = row.attr({ id: 'rcmrow' + id, 'data-userid': o.username }).get(0);
 
     this.env.acl[id] = o.acl;
 

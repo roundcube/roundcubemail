@@ -54,7 +54,7 @@ function rcmail_zipdownload(mode)
     // default .eml download of single message
     if (mode == 'eml') {
         var uid = rcmail.get_single_uid();
-        rcmail.goto_url('viewsource', rcmail.params_from_uid(uid, {_save: 1}), false, true);
+        rcmail.goto_url('viewsource', rcmail.params_from_uid(uid, { _save: 1 }), false, true);
         return;
     }
 
@@ -63,7 +63,7 @@ function rcmail_zipdownload(mode)
         var inputs = [],
             post = rcmail.selection_post_data(),
             id = 'zipdownload-' + new Date().getTime(),
-            iframe = $('<iframe>').attr({name: id, style: 'display:none'}),
+            iframe = $('<iframe>').attr({ name: id, style: 'display:none' }),
             form = $('<form>').attr({
                 target: id,
                 style: 'display: none',
@@ -77,10 +77,10 @@ function rcmail_zipdownload(mode)
         $.each(post, function(k, v) {
             if (typeof v == 'object' && v.length > 1) {
                 for (var j=0; j < v.length; j++)
-                    inputs.push($('<input>').attr({type: 'hidden', name: k+'[]', value: v[j]}));
+                    inputs.push($('<input>').attr({ type: 'hidden', name: k+'[]', value: v[j] }));
             }
             else {
-                inputs.push($('<input>').attr({type: 'hidden', name: k, value: v}));
+                inputs.push($('<input>').attr({ type: 'hidden', name: k, value: v }));
             }
         });
 

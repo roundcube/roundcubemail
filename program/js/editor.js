@@ -198,7 +198,7 @@ function rcube_text_editor(config, id)
             conf.setup_callback(ed);
     };
 
-    rcmail.triggerEvent('editor-init', {config: conf, ref: ref, id: id});
+    rcmail.triggerEvent('editor-init', { config: conf, ref: ref, id: id });
 
     // textarea identifier
     this.id = id;
@@ -248,7 +248,7 @@ function rcube_text_editor(config, id)
             }
         }
 
-        rcmail.triggerEvent('editor-load', {config: conf, ref: this});
+        rcmail.triggerEvent('editor-load', { config: conf, ref: this });
 
         // set tabIndex and set focus to element that was focused before
         this.tabindex(this.force_focus || (fe && fe.id == this.id));
@@ -496,7 +496,7 @@ function rcube_text_editor(config, id)
                 format = 'text';
             }
 
-            ed.selection.setContent(input, {format: format});
+            ed.selection.setContent(input, { format: format });
         }
         // replace selection in compose textarea
         else if (ed = rcube_find_object(this.id)) {
@@ -534,7 +534,7 @@ function rcube_text_editor(config, id)
     this.get_content = function(args)
     {
         var sigstart, ed = this.editor, text = '', strip = false,
-            defaults = {refresh: true, selection: false, nosig: false, format: 'html'};
+            defaults = { refresh: true, selection: false, nosig: false, format: 'html' };
 
         if (!args)
             args = defaults;
@@ -549,10 +549,10 @@ function rcube_text_editor(config, id)
         // get selected text from tinymce editor
         if (ed) {
             if (args.selection)
-                text = ed.selection.getContent({format: args.format});
+                text = ed.selection.getContent({ format: args.format });
 
             if (!text) {
-                text = ed.getContent({format: args.format});
+                text = ed.getContent({ format: args.format });
                 // @todo: strip signature in html mode
                 strip = args.format == 'text';
             }
@@ -713,7 +713,7 @@ function rcube_text_editor(config, id)
                     html: '<div id="image-selector" class="image-selector file-upload"><ul id="image-selector-list" class="attachmentslist"></ul></div>',
                 }]
             },
-            buttons: [{type: 'cancel', text: rcmail.get_label('close'), onclick: function() { ref.file_picker_close(); }}]
+            buttons: [{ type: 'cancel', text: rcmail.get_label('close'), onclick: function() { ref.file_picker_close(); } }]
         });
 
         rcmail.env.file_picker_callback = callback;
@@ -859,9 +859,9 @@ function rcube_text_editor(config, id)
             var path = rcmail.env.comm_path + '&_from=' + rcmail.env.action,
                 action = rcmail.env.compose_id ? '&_id=' + rcmail.env.compose_id + '&_action=display-attachment' : '&_action=upload-display',
                 href = path + action + '&_file=' + file_id,
-                img = $('<img>').attr({title: file.name, src: img_src ? img_src : href + '&_thumbnail=1'});
+                img = $('<img>').attr({ title: file.name, src: img_src ? img_src : href + '&_thumbnail=1' });
 
-            return $('<li>').attr({tabindex: 0})
+            return $('<li>').attr({ tabindex: 0 })
                 .data('url', href)
                 .append($('<span class="img">').append(img))
                 .append($('<span class="name">').text(file.name))
@@ -877,11 +877,11 @@ function rcube_text_editor(config, id)
     this.file_upload_form = function(clone_form)
     {
         var hint = clone_form ? $(clone_form).find('.hint').text() : '',
-            form = $('<form id="imageuploadform">').attr({method: 'post', enctype: 'multipart/form-data'});
-        file = $('<input>').attr({name: '_file[]', type: 'file', multiple: true, style: 'opacity:0;height:1px;width:1px'})
+            form = $('<form id="imageuploadform">').attr({ method: 'post', enctype: 'multipart/form-data' });
+        file = $('<input>').attr({ name: '_file[]', type: 'file', multiple: true, style: 'opacity:0;height:1px;width:1px' })
             .change(function() { rcmail.upload_file(form, 'upload'); }),
         wrapper = $('<div class="upload-form">')
-            .append($('<button>').attr({'class': 'btn btn-secondary attach', href: '#', onclick: "rcmail.upload_input('imageuploadform')"}));
+            .append($('<button>').attr({ 'class': 'btn btn-secondary attach', href: '#', onclick: "rcmail.upload_input('imageuploadform')" }));
 
         if (hint)
             wrapper.prepend($('<div class="hint">').text(hint));
@@ -892,7 +892,7 @@ function rcube_text_editor(config, id)
             form.attr('action', $(clone_form).attr('action'));
         }
 
-        form.append(file).append($('<input>').attr({type: 'hidden', name: '_token', value: rcmail.env.request_token}));
+        form.append(file).append($('<input>').attr({ type: 'hidden', name: '_token', value: rcmail.env.request_token }));
 
         return wrapper.append(form);
     };

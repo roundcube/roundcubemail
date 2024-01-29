@@ -44,11 +44,11 @@ function hide_blockquote()
         }
 
         div = $('<blockquote class="blockquote-header">')
-            .css({'white-space': 'nowrap', overflow: 'hidden', position: 'relative'})
+            .css({ 'white-space': 'nowrap', overflow: 'hidden', position: 'relative' })
             .text(res[0]);
 
         link = $('<span class="blockquote-link"></span>')
-            .css({position: 'absolute', 'z-Index': 2})
+            .css({ position: 'absolute', 'z-Index': 2 })
             .text(rcmail.get_label('hide_blockquote.show'))
             .data('parent', div)
             .click(function() {
@@ -64,6 +64,6 @@ function hide_blockquote()
         link.appendTo(div);
 
         // Modify blockquote
-        q.hide().css({position: 'relative'}).before(div);
+        q.hide().css({ position: 'relative' }).before(div);
     });
 }

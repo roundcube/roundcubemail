@@ -21,7 +21,7 @@ function plugin_vcard_import(mime_id)
         var content = [];
 
         $.each(rcmail.env.vcards, function (id, contact) {
-            var chbox = $('<input>').attr({type: 'checkbox', value: id, checked: true, 'class': 'pretty-checkbox'}),
+            var chbox = $('<input>').attr({ type: 'checkbox', value: id, checked: true, 'class': 'pretty-checkbox' }),
                 label = $('<label>').text(' ' + contact);
 
             content.push($('<div>').append(label.prepend(chbox)));
@@ -70,7 +70,7 @@ function plugin_vcard_attach()
 {
     var id, n, contacts = [],
         ts = new Date().getTime(),
-        args = {_uploadid: ts, _id: rcmail.env.compose_id || null},
+        args = { _uploadid: ts, _id: rcmail.env.compose_id || null },
         selection = rcmail.contact_list.get_selection();
 
     for (n=0; n < selection.length; n++) {
@@ -96,7 +96,7 @@ function plugin_vcard_attach()
     }
     else {
     // add to attachments list
-        if (!rcmail.add2attachment_list(ts, {name: '', html: rcmail.get_label('attaching'), classname: 'uploading', complete: false}))
+        if (!rcmail.add2attachment_list(ts, { name: '', html: rcmail.get_label('attaching'), classname: 'uploading', complete: false }))
             rcmail.file_upload_id = rcmail.set_busy(true, 'attaching');
 
         rcmail.http_post('upload', args);
@@ -115,7 +115,7 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
             if (window.UI && UI.recipient_selector) {
                 var button, form = $('#compose-attachments > div');
                 button = $('<button class="btn btn-secondary attach vcard">')
-                    .attr({type: 'button', tabindex: $('button,input', form).first().attr('tabindex') || 0})
+                    .attr({ type: 'button', tabindex: $('button,input', form).first().attr('tabindex') || 0 })
                     .text(rcmail.gettext('vcard_attachments.attachvcard'))
                     .appendTo(form)
                     .click(function() {

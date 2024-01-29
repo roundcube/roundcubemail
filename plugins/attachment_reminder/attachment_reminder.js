@@ -67,7 +67,7 @@ function rcmail_attachment_reminder_dialog()
         rcmail.get_label('attachment_reminder.forgotattachment'),
         rcmail.get_label('attachment_reminder.missingattachment'),
         buttons,
-        {button_classes: ['mainaction attach', 'send']}
+        { button_classes: ['mainaction attach', 'send'] }
     );
 }
 

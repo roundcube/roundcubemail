@@ -64,11 +64,11 @@ if (window.rcmail) {
 
             if (rcmail.gui_objects.filterslist) {
                 rcmail.filters_list = new rcube_list_widget(rcmail.gui_objects.filterslist,
-                    {multiselect:false, draggable:true, keyboard:true});
+                    { multiselect:false, draggable:true, keyboard:true });
 
                 rcmail.filters_list
                     .addEventListener('select', function(o) { rcmail.managesieve_select(o); })
-                    .addEventListener('keypress', function(o) { rcmail.list_keypress(o, {del: 'plugin.managesieve-del'}); })
+                    .addEventListener('keypress', function(o) { rcmail.list_keypress(o, { del: 'plugin.managesieve-del' }); })
                     .addEventListener('dragstart', function(o) { rcmail.managesieve_dragstart(o); })
                     .addEventListener('dragend', function(o) { rcmail.managesieve_dragend(o); })
                     .addEventListener('initrow', function(row) {
@@ -80,7 +80,7 @@ if (window.rcmail) {
 
             if (rcmail.gui_objects.filtersetslist) {
                 rcmail.filtersets_list = new rcube_list_widget(rcmail.gui_objects.filtersetslist,
-                    {multiselect:false, draggable:false, keyboard:true});
+                    { multiselect:false, draggable:false, keyboard:true });
 
                 rcmail.filtersets_list.init().focus();
 
@@ -204,7 +204,7 @@ rcube_webmail.prototype.managesieve_setget = function()
     var id = this.filtersets_list.get_single_selection(),
         script = this.env.filtersets[id];
 
-    this.goto_url('plugin.managesieve-action', {_act: 'setget', _set: script}, false, true);
+    this.goto_url('plugin.managesieve-action', { _act: 'setget', _set: script }, false, true);
 };
 
 // Set activate/deactivate request
@@ -525,7 +525,7 @@ rcube_webmail.prototype.managesieve_rulefill = function(content, id, after)
     if (content != '') {
     // create new element
         var div = $('#rules')[0],
-            row = $('<div>').attr({'class': 'rulerow', id: 'rulerow'+id})
+            row = $('<div>').attr({ 'class': 'rulerow', id: 'rulerow'+id })
                 .html(content);
 
         this.managesieve_insertrow(div, row, after);
@@ -560,7 +560,7 @@ rcube_webmail.prototype.managesieve_actionfill = function(content, id, after)
 {
     if (content != '') {
         var div = $('#actions')[0],
-            row = $('<div>').attr({'class': 'actionrow', id: 'actionrow'+id})
+            row = $('<div>').attr({ 'class': 'actionrow', id: 'actionrow'+id })
                 .html(content);
 
         this.managesieve_insertrow(div, row, after);
@@ -596,7 +596,7 @@ rcube_webmail.prototype.managesieve_insertrow = function(div, row, after)
     else
         $(div).append(row);
 
-    this.triggerEvent('managesieve.insertrow', {obj: row});
+    this.triggerEvent('managesieve.insertrow', { obj: row });
 };
 
 // update Delete buttons status
@@ -613,7 +613,7 @@ rcube_webmail.prototype.managesieve_formbuttons = function(div)
 rcube_webmail.prototype.managesieve_vacation_addresses = function(id)
 {
     var lock = this.set_busy(true, 'loading');
-    this.http_post('plugin.managesieve-action', {_act: 'addresses', _aid: id}, lock);
+    this.http_post('plugin.managesieve-action', { _act: 'addresses', _aid: id }, lock);
 };
 
 // update vacation addresses field with user identities
@@ -963,7 +963,7 @@ rcube_webmail.prototype.managesieve_tip_register = function(tips)
                 tip.html('').append(span);
                 top -= tip.height();
 
-                tip.css({left: left, top: top, minWidth: (minwidth-2) + 'px'}).show();
+                tip.css({ left: left, top: top, minWidth: (minwidth-2) + 'px' }).show();
             });
     }
 };
@@ -1131,7 +1131,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
         var uid = this.message_list.get_single_selection(),
             lock = this.set_busy(true, 'loading');
 
-        this.http_post('plugin.managesieve-action', {_uid: uid}, lock);
+        this.http_post('plugin.managesieve-action', { _uid: uid }, lock);
         return;
     }
 
@@ -1141,7 +1141,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
     var i, buttons = {},
         title = this.get_label('managesieve.newfilter'),
         dialog = $('<div id="sievefilterform" class="propform"></div>'),
-        props = {minWidth: 600, minHeight: 250, height: 300};
+        props = { minWidth: 600, minHeight: 250, height: 300 };
 
 
     // build dialog window content
@@ -1151,7 +1151,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
     );
 
     $.each(this.env.sieve_headers, function(i, v) {
-        var attr = {type: 'checkbox', name: 'headers[]', id: 'sievehdr' + i, value: i,  checked: v[2] !== false},
+        var attr = { type: 'checkbox', name: 'headers[]', id: 'sievehdr' + i, value: i,  checked: v[2] !== false },
             label = v[0] + ': ' + v[1];
 
         $('ul', dialog).append($('<li>')
@@ -1180,7 +1180,7 @@ rcube_webmail.prototype.managesieve_create = function(force)
         });
 
         // load form in the iframe
-        var buttons = {}, iframe = $('<iframe>').attr({src: url, frameborder: 0});
+        var buttons = {}, iframe = $('<iframe>').attr({ src: url, frameborder: 0 });
 
         // Change [Next Step] button with [Save] button
         buttons[rcmail.get_label('save')] = function() {
@@ -1192,14 +1192,14 @@ rcube_webmail.prototype.managesieve_create = function(force)
         dialog.dialog('destroy');
 
         rcmail.env.managesieve_dialog = dialog = rcmail.show_popup_dialog(
-            iframe, title, buttons, $.extend(props, {button_classes: ['mainaction save', 'cancel']})
+            iframe, title, buttons, $.extend(props, { button_classes: ['mainaction save', 'cancel'] })
         );
     };
 
     buttons[this.get_label('cancel')] = function() { $(this).dialog('destroy'); };
 
     this.env.managesieve_dialog = dialog = this.show_popup_dialog(
-        dialog, title, buttons, $.extend(props, {button_classes: ['mainaction next', 'cancel']})
+        dialog, title, buttons, $.extend(props, { button_classes: ['mainaction next', 'cancel'] })
     );
 };
 
