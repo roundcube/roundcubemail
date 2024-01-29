@@ -223,8 +223,7 @@ var rcube_event = {
      * Add an object method as event listener to a certain element
      */
     add_listener: function (p) {
-        if (!p.object || !p.method) // not enough arguments
-        {
+        if (!p.object || !p.method) { // not enough arguments
             return;
         }
         if (!p.element) {

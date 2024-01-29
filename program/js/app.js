@@ -951,8 +951,7 @@ function rcube_webmail() {
             case 'menu-open':
                 if (props && props.menu == 'attachmentmenu') {
                     var mimetype = this.env.attachments[props.id];
-                    if (mimetype && mimetype.mimetype) // in compose format is different
-                    {
+                    if (mimetype && mimetype.mimetype) { // in compose format is different
                         mimetype = mimetype.mimetype;
                     }
                     this.enable_command('open-attachment', mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0);
@@ -1390,9 +1389,8 @@ function rcube_webmail() {
             case 'reply':
                 if (uid = this.get_single_uid()) {
                     url = { _reply_uid: uid, _mbox: this.get_message_mailbox(uid), _search: this.env.search_request };
-                    if (command == 'reply-all')
-                    // do reply-list, when list is detected and popup menu wasn't used
-                    {
+                    if (command == 'reply-all') {
+                        // do reply-list, when list is detected and popup menu wasn't used
                         url._all = (!props && this.env.reply_all_mode == 1 && this.commands['reply-list'] ? 'list' : 'all');
                     } else if (command == 'reply-list') {
                         url._all = 'list';
@@ -2784,8 +2782,7 @@ function rcube_webmail() {
                 if (win.location.href.indexOf(this.env.blankpage) < 0) {
                     if (win.stop) {
                         win.stop();
-                    } else // IE
-                    {
+                    } else { // IE
                         win.document.execCommand('Stop');
                     }
 
@@ -3211,8 +3208,7 @@ function rcube_webmail() {
             depth = rows[uid].depth,
             roots = [];
 
-        if (!row.depth) // root message: decrease roots count
-        {
+        if (!row.depth) { // root message: decrease roots count
             count--;
         }
 
@@ -3805,9 +3801,8 @@ function rcube_webmail() {
             }
             if (count < 0) {
                 post_data._count = (count * -1);
-            } else if (count > 0)
-            // remove threads from the end of the list
-            {
+            } else if (count > 0) {
+                // remove threads from the end of the list
                 this.delete_excessive_thread_rows();
             }
         }
@@ -9754,8 +9749,7 @@ function rcube_webmail() {
 
         // redirect to url specified in location header if not empty
         var location_url = request.getResponseHeader('Location');
-        if (location_url && this.env.action != 'compose') // don't redirect on compose screen, contents might get lost (#1488926)
-        {
+        if (location_url && this.env.action != 'compose') { // don't redirect on compose screen, contents might get lost (#1488926)
             this.redirect(location_url);
         }
 

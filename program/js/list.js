@@ -1570,11 +1570,9 @@ rcube_list_widget.prototype = {
         }
         // Safari uses the non-standard keycodes 63232/63233 for up/down, if we're
         // using the keypress event (but not the keydown or keyup event).
-        else if (keyCode == 40 || keyCode == 63233) // Down arrow
-        {
+        else if (keyCode == 40 || keyCode == 63233) { // Down arrow
             new_row = this.get_next_row();
-        } else if (keyCode == 38 || keyCode == 63232) // Up arrow
-        {
+        } else if (keyCode == 38 || keyCode == 63232) { // Up arrow
             new_row = this.get_prev_row();
         } else if (keyCode == 39 && selected_row.has_children) { // Right arrow
             if (!selected_row.expanded) {
