@@ -105,7 +105,7 @@ function newmail_notifier_desktop(body, disabled_callback) {
                 lang: '',
                 body: body,
                 tag: 'newmail_notifier',
-                icon: icon
+                icon: icon,
             });
             popup.onclick = function () {
                 this.close();

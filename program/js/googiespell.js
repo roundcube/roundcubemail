@@ -56,7 +56,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         'da': 'Dansk', 'de': 'Deutsch', 'en': 'English',
         'es': 'Español', 'fr': 'Français', 'it': 'Italiano',
         'nl': 'Nederlands', 'pl': 'Polski', 'pt': 'Português',
-        'ru': 'Русский', 'fi': 'Suomi', 'sv': 'Svenska'
+        'ru': 'Русский', 'fi': 'Suomi', 'sv': 'Svenska',
     };
     this.lang_to_word = this.org_lang_to_word;
     this.langlist_codes = this.array_keys(this.lang_to_word);
@@ -249,7 +249,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                     }
                 }
                 ref.removeIndicator();
-            }
+            },
         });
     };
 
@@ -268,7 +268,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                 }
             },
             success: function (data) {
-            }
+            },
         });
     };
 

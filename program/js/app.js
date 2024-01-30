@@ -70,7 +70,7 @@ function rcube_webmail() {
         recipients_delimiter: ', ', // @deprecated
         popup_width: 1150,
         popup_width_small: 900,
-        thread_padding: '15px'
+        thread_padding: '15px',
     };
 
     // create protected reference to myself
@@ -86,7 +86,7 @@ function rcube_webmail() {
         },
         beforeSend: function (xmlhttp) {
             xmlhttp.setRequestHeader('X-Roundcube-Request', ref.env.request_token);
-        }
+        },
     });
 
     // unload fix
@@ -270,12 +270,12 @@ function rcube_webmail() {
                     this.env.widescreen_list_template = [
                         { className: 'threads', cells: ['threads'] },
                         { className: 'subject', cells: ['fromto', 'date', 'size', 'status', 'subject'] },
-                        { className: 'flags', cells: ['flag', 'attachment'] }
+                        { className: 'flags', cells: ['flag', 'attachment'] },
                     ];
 
                     this.message_list = new rcube_list_widget(this.gui_objects.messagelist, {
                         multiselect:true, multiexpand:true, draggable:true, keyboard:true,
-                        column_movable:this.env.col_movable, dblclick_time:this.dblclick_time
+                        column_movable:this.env.col_movable, dblclick_time:this.dblclick_time,
                     });
                     this.message_list
                         .addEventListener('initrow', function (o) {
@@ -567,7 +567,7 @@ function rcube_webmail() {
                     this.savedsearchlist = new rcube_treelist_widget(this.gui_objects.savedsearchlist, {
                         id_prefix: 'rcmli',
                         id_encode: this.html_identifier_encode,
-                        id_decode: this.html_identifier_decode
+                        id_decode: this.html_identifier_decode,
                     });
 
                     this.savedsearchlist.addEventListener('select', function (node) {
@@ -723,7 +723,7 @@ function rcube_webmail() {
                 id_decode: this.html_identifier_decode,
                 check_droptarget: function (node) {
                     return !node.virtual && ref.check_droptarget(node.id);
-                }
+                },
             });
 
             this.treelist
@@ -1477,7 +1477,7 @@ function rcube_webmail() {
                     id: props.id,
                     search_request: this.env.search_request,
                     page: this.env.current_page,
-                    search: this.env.search_request && this.gui_objects.qsearchbox ? this.gui_objects.qsearchbox.value : null
+                    search: this.env.search_request && this.gui_objects.qsearchbox ? this.gui_objects.qsearchbox.value : null,
                 };
 
                 this.env.address_group_stack.push(group);
@@ -1562,7 +1562,7 @@ function rcube_webmail() {
                     close: close_func,
                     button: 'import',
                     width: 500,
-                    height: 300
+                    height: 300,
                 });
 
                 break;
@@ -2387,7 +2387,7 @@ function rcube_webmail() {
             size: cols.size,
             date: cols.date,
             // flags from plugins
-            flags: flags.extra_flags
+            flags: flags.extra_flags,
         });
 
         var c, n, col, html, css_class, label, status_class = '', status_label = '',
@@ -4016,7 +4016,7 @@ function rcube_webmail() {
                     },
                     success: function (data) {
                         ref.mailvelope_display_container(selector, data, keyring, msgid);
-                    }
+                    },
                 });
             }
         } else if (action == 'compose') {
@@ -4054,7 +4054,7 @@ function rcube_webmail() {
                         ref.compose_encrypted({ quotedMail: data });
                         ref.enable_command('compose-encrypted', true);
                         ref.enable_command('compose-encrypted-signed', false);
-                    }
+                    },
                 });
             } else {
                 // enable encrypted compose toggle
@@ -4594,7 +4594,7 @@ function rcube_webmail() {
     this.mdn_request_dialog = function (uid, mailbox) {
         var props = {
                 action: 'mark',
-                data: { _uid: uid, _mbox: mailbox, _flag: 'mdnsent' }
+                data: { _uid: uid, _mbox: mailbox, _flag: 'mdnsent' },
             },
             buttons = [
                 {
@@ -4603,15 +4603,15 @@ function rcube_webmail() {
                     click: function (e, ui, dialog) {
                         props.action = 'sendmdn';
                         (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
-                    }
+                    },
                 },
                 {
                     text: this.get_label('ignore'),
                     'class': 'cancel',
                     click: function (e, ui, dialog) {
                         (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
-                    }
-                }
+                    },
+                },
             ],
             mdn_func = function (event, ui) {
                 ref.http_post(props.action, props.data);
@@ -4627,7 +4627,7 @@ function rcube_webmail() {
                     props.data._save = ref.env.mdn_request_save;
                     props.data._address = ref.env.mdn_request_sender.string;
                     $(e.target).next().click();
-                }
+                },
             });
         }
 
@@ -4796,7 +4796,7 @@ function rcube_webmail() {
         dialog = this.simple_dialog(dialog, 'bouncemsg', submit_func, {
             button: 'bounce',
             width: 400,
-            height: 300
+            height: 300,
         });
 
         return true;
@@ -4959,7 +4959,7 @@ function rcube_webmail() {
                             ref.remove_compose_data(key); // remove old copy
                             ref.save_compose_form_local(); // save under current compose_id
                             $(this).dialog('close');
-                        }
+                        },
                     },
                     {
                         text: this.get_label('delete'),
@@ -4968,7 +4968,7 @@ function rcube_webmail() {
                             ref.remove_compose_data(key);
                             $(this).dialog('close');
                             show_next(i);
-                        }
+                        },
                     },
                     {
                         text: this.get_label('ignore'),
@@ -4976,7 +4976,7 @@ function rcube_webmail() {
                         click: function () {
                             $(this).dialog('close');
                             show_next(i);
-                        }
+                        },
                     }]
                 );
                 break;
@@ -4989,7 +4989,7 @@ function rcube_webmail() {
         if (!props && this.env.autocomplete_threads > 0) {
             props = {
                 threads: this.env.autocomplete_threads,
-                sources: this.env.autocomplete_sources
+                sources: this.env.autocomplete_sources,
             };
         }
 
@@ -5153,14 +5153,14 @@ function rcube_webmail() {
                     'class': 'mainaction send',
                     click: function () {
                         save_func();
-                    }
+                    },
                 }, {
                     text: this.get_label('cancel'),
                     'class': 'cancel',
                     click: function () {
                         input_subject.focus();
                         dialog.dialog('close');
-                    }
+                    },
                 }],
                 { dialogClass: 'warning' }
             );
@@ -5250,18 +5250,18 @@ function rcube_webmail() {
                     click: function () {
                         save_func(false);
                     },
-                    'class': 'mainaction'
+                    'class': 'mainaction',
                 }, {
                     text: this.get_label('bccinstead'),
                     click: function () {
                         save_func(true);
-                    }
+                    },
                 }, {
                     text: this.get_label('cancel'),
                     click: function () {
                         dialog.dialog('close');
                     },
-                    'class': 'cancel'
+                    'class': 'cancel',
                 }],
                 { dialogClass: 'warning' }
             );
@@ -5642,7 +5642,7 @@ function rcube_webmail() {
             return this.file_upload(files, { _id: this.env.compose_id || '' }, {
                 name: fname,
                 action: action,
-                lock: lock
+                lock: lock,
             });
         }
     };
@@ -6123,7 +6123,7 @@ function rcube_webmail() {
                 insert: insert,
                 data: contact,
                 search: this.ksearch_value_last,
-                result_type: 'person'
+                result_type: 'person',
             });
 
             this.ksearch_value_last = null;
@@ -6142,7 +6142,7 @@ function rcube_webmail() {
                 insert: recipients,
                 data: data,
                 search: this.ksearch_value_last,
-                result_type: 'group'
+                result_type: 'group',
             });
 
             this.ksearch_value_last = null;
@@ -6199,7 +6199,7 @@ function rcube_webmail() {
             threads: props && props.threads ? props.threads : 1,
             action:  props && props.action ? props.action : 'mail/autocomplete',
             postdata: { _search:q, _source:'%s' },
-            lock: this.display_message('searching', 'loading')
+            lock: this.display_message('searching', 'loading'),
         });
 
         this.ksearch_data = { id:reqid, sources:sources.slice(), num:sources.length };
@@ -6285,7 +6285,7 @@ function rcube_webmail() {
                 maxWidth: (is_composite_input ? input_width : width) + 'px',
                 minWidth: '200px',
                 width: is_composite_input ? (input_width + 'px') : 'auto',
-                display: 'none'
+                display: 'none',
             });
         }
 
@@ -6972,7 +6972,7 @@ function rcube_webmail() {
                 changeYear: true,
                 yearRange: '-120:+10',
                 showOtherMonths: true,
-                selectOtherMonths: true
+                selectOtherMonths: true,
             });
             $('input.datepicker').datepicker();
         }
@@ -7426,7 +7426,7 @@ function rcube_webmail() {
         this.simple_dialog(dialog, 'advsearch', search_func, {
             button: 'search',
             width: 600,
-            height: 500
+            height: 500,
         });
 
         return true;
@@ -7524,7 +7524,7 @@ function rcube_webmail() {
             button: false,
             cancel_button: 'close',
             width: 300,
-            height: 300
+            height: 300,
         });
     };
 
@@ -7681,7 +7681,7 @@ function rcube_webmail() {
             id_prefix: 'rcmli',
             id_encode: this.html_identifier_encode,
             id_decode: this.html_identifier_decode,
-            searchbox: '#foldersearch'
+            searchbox: '#foldersearch',
         });
 
         this.subscription_list
@@ -7723,7 +7723,7 @@ function rcube_webmail() {
                         dest = ref.folder_id2name(this.id);
 
                     ref.subscription_move_folder(source, dest);
-                }
+                },
             });
     };
 
@@ -8238,7 +8238,7 @@ function rcube_webmail() {
             } else {
                 $(obj).attr({
                     tabindex: state == 'pas' || state == 'sel' ? '-1' : ($(obj).attr('data-tabindex') || '0'),
-                    'aria-disabled': state == 'pas' || state == 'sel' ? 'true' : 'false'
+                    'aria-disabled': state == 'pas' || state == 'sel' ? 'true' : 'false',
                 });
             }
         }
@@ -8544,7 +8544,7 @@ function rcube_webmail() {
                 button = {
                     click: button,
                     text: idx,
-                    'class': classes
+                    'class': classes,
                 };
             } else {
                 buttons['class'] = classes;
@@ -8571,7 +8571,7 @@ function rcube_webmail() {
             width: 500,
             close: function (event, ui) {
                 $(this).remove();
-            }
+            },
         }, options || {});
 
         popup.dialog(options);
@@ -8599,7 +8599,7 @@ function rcube_webmail() {
 
             popup.dialog('option', {
                 height: Math.min(h - 40, height + titlebar_height + buttonpane_height + padding + 2),
-                width: Math.min(w - 20, width + 28)
+                width: Math.min(w - 20, width + 28),
             });
         } else {
             popup.css('width', 'auto');
@@ -8648,7 +8648,7 @@ function rcube_webmail() {
             buttons = [{
                 text: this.get_label(cancel_label),
                 'class': cancel_class.replace(/close/i, 'cancel'),
-                click: close_func
+                click: close_func,
             }];
 
         if (!action_func) {
@@ -8661,7 +8661,7 @@ function rcube_webmail() {
                     if (action_func(e, ref)) {
                         close_func(e, ui, this);
                     }
-                }
+                },
             });
         }
 
@@ -8674,7 +8674,7 @@ function rcube_webmail() {
             cancel_button: 'ok',
             cancel_class: 'save',
             cancel_func: action,
-            noresize: true
+            noresize: true,
         });
 
         return this.simple_dialog(content, options.title || 'alerttitle', null, options);
@@ -8688,7 +8688,7 @@ function rcube_webmail() {
 
         options = $.extend(options || {}, {
             button: button_label || 'continue',
-            noresize: true
+            noresize: true,
         });
 
         return this.simple_dialog(content, options.title || 'confirmationtitle', action_func, options);
@@ -9328,7 +9328,7 @@ function rcube_webmail() {
                 if (func) {
                     func(data);
                 }
-            }
+            },
         });
 
         return true;
@@ -9490,7 +9490,7 @@ function rcube_webmail() {
             },
             error: function (o, status, err) {
                 ref.http_error(o, status, err, lock, action);
-            }
+            },
         });
     };
 
@@ -9942,7 +9942,7 @@ function rcube_webmail() {
             target: frame_name,
             action: this.url(action, { _id: this.env.compose_id || '', _uploadid: ts, _from: this.env.action }),
             method: 'POST',
-            enctype: 'multipart/form-data'
+            enctype: 'multipart/form-data',
         })
             .submit();
 
@@ -9955,7 +9955,7 @@ function rcube_webmail() {
             name: name,
             src: src,
             style: 'width:0;height:0;visibility:hidden',
-            'aria-hidden': 'true'
+            'aria-hidden': 'true',
         })
             .appendTo(document.body);
     };
@@ -10008,7 +10008,7 @@ function rcube_webmail() {
             name: (this.env.filedrop.fieldname || '_file') + (this.env.filedrop.single ? '' : '[]'),
             single: this.env.filedrop.single,
             filter: this.env.filedrop.filter,
-            action: ref.env.filedrop.action
+            action: ref.env.filedrop.action,
         });
     };
 
@@ -10091,7 +10091,7 @@ function rcube_webmail() {
                     delete ref.uploads[ts];
                     ref.remove_from_attachment_list(ts);
                     ref.http_error(o, status, err, props.lock, 'attachment');
-                }
+                },
             });
         }
 
@@ -10452,7 +10452,7 @@ function rcube_webmail() {
             $('<object>').attr({
                 data: ref.assets_path('program/resources/dummy.pdf'),
                 type: 'application/pdf',
-                style: 'position: "absolute"; top: -1000px; height: 1px; width: 1px'
+                style: 'position: "absolute"; top: -1000px; height: 1px; width: 1px',
             })
                 .on('load error', function (e) {
                     ref.env.browser_capabilities.pdf = e.type == 'load' ? 1 : 0;

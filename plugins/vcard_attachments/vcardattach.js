@@ -41,7 +41,7 @@ function plugin_vcard_import(mime_id) {
             },
             props = {
                 button: 'import',
-                height: content.length > 4 ? 250 : 100
+                height: content.length > 4 ? 250 : 100,
             };
 
         dialog = rcmail.simple_dialog(content, 'vcard_attachments.addvcardmsg', action, props);
@@ -128,7 +128,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
                             multiselect: false,
                             action: function () {
                                 rcmail.command('attach-vcard');
-                            }
+                            },
                         });
                     });
             }

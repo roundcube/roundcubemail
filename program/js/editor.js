@@ -74,7 +74,7 @@ function rcube_text_editor(config, id) {
                 ref.file_picker_callback(callback, value, meta);
             },
             min_height: config.mode == 'identity' ? 100 : 400,
-            deprecation_warnings: false
+            deprecation_warnings: false,
         };
 
     // register spellchecker for plain text editor
@@ -104,7 +104,7 @@ function rcube_text_editor(config, id) {
         conf.toolbar += ' | charmap hr link unlink image code $extra';
         $.extend(conf, {
             plugins: 'autolink charmap code hr image link paste tabfocus',
-            file_picker_types: 'image'
+            file_picker_types: 'image',
         });
     }
     // full-featured editor
@@ -115,7 +115,7 @@ function rcube_text_editor(config, id) {
             plugins: 'autolink charmap code directionality link lists image media nonbreaking'
                 + ' paste table tabfocus searchreplace spellchecker',
             spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
-            spellchecker_language: rcmail.env.spell_lang
+            spellchecker_language: rcmail.env.spell_lang,
         });
     }
 
@@ -711,11 +711,11 @@ function rcube_text_editor(config, id) {
                 items: [{
                     type: 'htmlpanel',
                     html: '<div id="image-selector" class="image-selector file-upload"><ul id="image-selector-list" class="attachmentslist"></ul></div>',
-                }]
+                }],
             },
             buttons: [{ type: 'cancel', text: rcmail.get_label('close'), onclick: function () {
                 ref.file_picker_close();
-            } }]
+            } }],
         });
 
         rcmail.env.file_picker_callback = callback;
@@ -913,7 +913,7 @@ function rcube_text_editor(config, id) {
         }
 
         var fetch_params = {
-            referrerPolicy: 'no-referrer'
+            referrerPolicy: 'no-referrer',
         };
 
         fetch(src, fetch_params).then(function (response) {
@@ -931,7 +931,7 @@ function rcube_text_editor(config, id) {
                     $(ref.editor.getBody()).find('img[data-img-id="' + id + '"]').attr({
                         src: url,
                         'data-mce-src': url,
-                        'data-img-id': null
+                        'data-img-id': null,
                     });
                 }
             });

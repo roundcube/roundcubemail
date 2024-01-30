@@ -49,7 +49,7 @@ function rcube_treelist_widget(node, p) {
         parent_focus: false,
         check_droptarget: function (node) {
             return !node.virtual;
-        }
+        },
     }, p || {});
 
     var container = $(node),
@@ -623,7 +623,7 @@ function rcube_treelist_widget(node, p) {
                     // let skins to do their magic, e.g. Elastic will fix pretty checkbox
                     rcmail.triggerEvent('clonerow', {
                         id: node.id,
-                        row: sli.get(0)
+                        row: sli.get(0),
                     });
 
                     hits.push(node.id);
@@ -778,7 +778,7 @@ function rcube_treelist_widget(node, p) {
                 level: level,
                 html: li.children().first().get(0).outerHTML,
                 text: li.children().first().text(),
-                children: walk_list(sublist, level + 1)
+                children: walk_list(sublist, level + 1),
             };
 
             if (sublist.length) {
@@ -1046,7 +1046,7 @@ function rcube_treelist_widget(node, p) {
             x1: pos.left,
             y1: pos.top,
             x2: pos.left + container.width(),
-            y2: pos.top + container.height()
+            y2: pos.top + container.height(),
         };
 
         item_coords = [];
@@ -1061,7 +1061,7 @@ function rcube_treelist_widget(node, p) {
                     y1: pos.top,
                     x2: pos.left + item.offsetWidth,
                     y2: pos.top + height,
-                    on: id == autoexpand_item
+                    on: id == autoexpand_item,
                 };
             }
         }
@@ -1231,7 +1231,7 @@ function rcube_treelist_widget(node, p) {
             greedy: true,
             tolerance: 'pointer',
             hoverClass: 'droptarget',
-            addClasses: false
+            addClasses: false,
         }, opts);
 
         my_opts.activate = function (e, ui) {
@@ -1294,7 +1294,7 @@ function rcube_treelist_widget(node, p) {
             helper: function (e) {
                 return $('<div>').attr('id', 'rcmdraglayer')
                     .text($(e.target).first().text().trim());
-            }
+            },
         }, opts);
 
         $('li:not(.virtual)', container).draggable(my_opts);

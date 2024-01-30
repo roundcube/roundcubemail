@@ -297,7 +297,7 @@ rcube_list_widget.prototype = {
                 var w = $(this);
                 me.fixed_header.css({
                     marginLeft: -w.scrollLeft() + 'px',
-                    marginTop: -w.scrollTop() + 'px'
+                    marginTop: -w.scrollTop() + 'px',
                 });
             });
         } else {
@@ -1961,7 +1961,7 @@ rcube_list_widget.prototype = {
             $('<div class="iframe-dragdrop-fix"></div>')
                 .css({ background: '#fff',
                     width: this.offsetWidth + 'px', height: this.offsetHeight + 'px',
-                    position: 'absolute', opacity: '0.001', zIndex: 1000
+                    position: 'absolute', opacity: '0.001', zIndex: 1000,
                 })
                 .css($(this).offset())
                 .appendTo(document.body);
@@ -2033,7 +2033,7 @@ rcube_list_widget.prototype = {
 
     subject_column: function () {
         return this.subject_col + (this.checkbox_selection ? 1 : 0);
-    }
+    },
 
 };
 

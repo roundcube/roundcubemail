@@ -26,15 +26,15 @@ function rcube_elastic_ui() {
                 standard_windows: rcmail.env.standard_windows,
                 message_extwin: rcmail.env.message_extwin,
                 compose_extwin: rcmail.env.compose_extwin,
-                help_open_extwin: rcmail.env.help_open_extwin
+                help_open_extwin: rcmail.env.help_open_extwin,
             },
             checkboxes: 0,
             small_screen_config: {
                 standard_windows: true,
                 message_extwin: false,
                 compose_extwin: false,
-                help_open_extwin: false
-            }
+                help_open_extwin: false,
+            },
         },
         menus = {},
         content_buttons = [],
@@ -136,7 +136,7 @@ function rcube_elastic_ui() {
                 // ... to close custom select dropdowns on dialog close
                 $('.select-menu:visible').remove();
                 return this;
-            }
+            },
         });
 
         // menu/sidebar/list button
@@ -450,7 +450,7 @@ function rcube_elastic_ui() {
                     return {
                         command: command,
                         index: i,
-                        data: button
+                        data: button,
                     };
                 }
             }
@@ -729,7 +729,7 @@ function rcube_elastic_ui() {
             if (!rcmail.env.extwin && (rcmail.env.action == 'compose' || rcmail.env.action == 'show')) {
                 $('a.mail', layout.menu).attr({
                     'aria-disabled': false,
-                    onclick: "return rcmail.command('list','',this,event);"
+                    onclick: "return rcmail.command('list','',this,event);",
                 });
             }
 
@@ -755,7 +755,7 @@ function rcube_elastic_ui() {
             thread_padding: '1.5rem',
             // increase popup windows, so they do not switch to tablet mode
             popup_width_small: 1025,
-            popup_width: 1200
+            popup_width: 1200,
         });
 
         // Update layout after initialization (again)
@@ -1427,7 +1427,7 @@ function rcube_elastic_ui() {
                         if (rcmail.command('toggle-editor', { id: ed.id, html: false }, '', e.originalEvent)) {
                             $('#' + ed.id).parent().removeClass('ishtml');
                         }
-                    }
+                    },
                 });
             };
         }
@@ -1782,7 +1782,7 @@ function rcube_elastic_ui() {
             $(title).css({
                 'margin-right': right + 'px',
                 'margin-left': left + 'px',
-                'padding-right': padding + 'px'
+                'padding-right': padding + 'px',
             });
         });
     }
@@ -1993,7 +1993,7 @@ function rcube_elastic_ui() {
                 error: 'alert-danger',
                 loading: 'alert-info loading',
                 uploading: 'alert-info loading',
-                vcardattachment: 'alert-info' // vcard_attachments plugin
+                vcardattachment: 'alert-info', // vcard_attachments plugin
             };
 
         // we need the content to be non-text node for best alignment
@@ -2314,7 +2314,7 @@ function rcube_elastic_ui() {
                 placement: $(item).data('popup-pos') || 'bottom',
                 animation: true,
                 boundary: 'window', // fix for https://github.com/twbs/bootstrap/issues/25428
-                html: true
+                html: true,
             })
             .on('show.bs.popover', function (event) {
                 var init_func = popup.data('popup-init');
@@ -2564,7 +2564,7 @@ function rcube_elastic_ui() {
                     top: pos.y,
                     height: '1px',
                     width: '1px',
-                    visibility: 'hidden'
+                    visibility: 'hidden',
                 })
                     .appendTo(document.body).get(0);
             }
@@ -2603,7 +2603,7 @@ function rcube_elastic_ui() {
                         event: rcube_event.is_keyboard(p.originalEvent) ? 'key' : 'mouse',
                         popup: p.name,
                         'popup-pos': pos,
-                        'popup-trigger': 'manual'
+                        'popup-trigger': 'manual',
                     });
                     popup_init(target, p.win);
                 }
@@ -2714,7 +2714,7 @@ function rcube_elastic_ui() {
 
         dialog = rcmail.simple_dialog(dialog, 'listoptionstitle', save_func, {
             closeOnEscape: true,
-            minWidth: 400
+            minWidth: 400,
         });
     }
 
@@ -2737,7 +2737,7 @@ function rcube_elastic_ui() {
             button: support_button,
             button_class: 'help',
             cancel_button: 'close',
-            height: 400
+            height: 400,
         });
     }
 
@@ -2771,7 +2771,7 @@ function rcube_elastic_ui() {
 
         rcmail.simple_dialog(dialog, 'arialabelmessageheaders', null, {
             cancel_button: 'close',
-            height: 400
+            height: 400,
         });
     }
 
@@ -2783,7 +2783,7 @@ function rcube_elastic_ui() {
 
         rcmail.simple_dialog(dialog, 'properties', null, {
             cancel_button: 'close',
-            height: 400
+            height: 400,
         });
     }
 
@@ -2805,7 +2805,7 @@ function rcube_elastic_ui() {
         rcmail.simple_dialog(dialog, 'importmessages', save_func, {
             button: 'import',
             closeOnEscape: true,
-            minWidth: 400
+            minWidth: 400,
         });
     }
 
@@ -2882,7 +2882,7 @@ function rcube_elastic_ui() {
             all = 'text';
             masters = {
                 sender: ['from', 'replyto', 'followupto'],
-                recipient: ['to', 'cc', 'bcc']
+                recipient: ['to', 'cc', 'bcc'],
             };
         } else {
             // addressbook
@@ -3033,7 +3033,7 @@ function rcube_elastic_ui() {
                 href: '#',
                 tabindex: fname.attr('tabindex') || 0,
                 title: label,
-                'class': 'button icon dropdown skip-content'
+                'class': 'button icon dropdown skip-content',
             })
                 .on('click', function (e) {
                     return attachmentmenu($('#attachmentmenu'), button, e);
@@ -3197,7 +3197,7 @@ function rcube_elastic_ui() {
                 flag: !message.flagged,
                 unflag: message.flagged,
                 'delete': !message.deleted,
-                undo: message.deleted
+                undo: message.deleted,
             };
 
         // Position the menu
@@ -3255,7 +3255,7 @@ function rcube_elastic_ui() {
             button_class: opts.button_class || 'insert recipient',
             height: 600,
             classes: {
-                'ui-dialog-content': 'p-0' // remove padding on dialog content
+                'ui-dialog-content': 'p-0', // remove padding on dialog content
             },
             open: function () {
                 // Don't want focus in the search field, we focus first contacts source record instead
@@ -3265,7 +3265,7 @@ function rcube_elastic_ui() {
                 dialog.appendTo(parent);
                 $(this).remove();
                 $(opts.focus || rcmail.env.focused_field).focus();
-            }
+            },
         });
     }
 
@@ -3433,7 +3433,7 @@ function rcube_elastic_ui() {
                     if (ui.sender) {
                         ui.sender.find('input').change();
                     }
-                }
+                },
             });
 
         // Hide the original input/textarea
@@ -3486,7 +3486,7 @@ function rcube_elastic_ui() {
                     recipients.push({
                         name: '',
                         email: email.replace(/(^<|>$)/g, '') // trim < and > characters
-                            .replace(/[^\p{L}]$/giu, '') // remove trailing comma or any non-letter character at the end (#7899, #9257)
+                            .replace(/[^\p{L}]$/giu, ''), // remove trailing comma or any non-letter character at the end (#7899, #9257)
                     });
 
                     str = str.replace(email, '').trim();
@@ -3499,7 +3499,7 @@ function rcube_elastic_ui() {
                     email = RegExp.$1;
                     recipients.push({
                         name: str.replace(email, '').trim(),
-                        email: email.replace(/(^<|>$)/g, '')
+                        email: email.replace(/(^<|>$)/g, ''),
                     });
                 }
             }
@@ -3593,7 +3593,7 @@ function rcube_elastic_ui() {
      */
     function image_upload_input(obj) {
         var reset_button = $('<a>')
-                .attr({ 'class': 'icon button delete', href: '#', })
+                .attr({ 'class': 'icon button delete', href: '#' })
                 .click(function (e) {
                     rcmail.command('delete-photo', '', this, e); return false;
                 }),
@@ -3829,7 +3829,7 @@ function rcube_elastic_ui() {
                     sanitize: false,
                     template: '<div class="popover select-menu" style="min-width: ' + min_width + 'px; max-width: ' + max_width + 'px">'
                         + '<div class="popover-header"></div>'
-                        + '<div class="popover-body" style="max-height: ' + max_height + 'px"></div></div>'
+                        + '<div class="popover-body" style="max-height: ' + max_height + 'px"></div></div>',
                 })
                 .on('shown.bs.popover', function () {
                     select.focus(); // for Chrome
@@ -4072,7 +4072,7 @@ function rcube_elastic_ui() {
             name: field.name + '[]',
             size: $(field).data('size'),
             title: field.title,
-            placeholder: field.placeholder
+            placeholder: field.placeholder,
         })
             .keydown(function (e) {
                 // element creation event (on Enter)
@@ -4198,7 +4198,7 @@ function rcube_elastic_ui() {
                     width: Math.max(100, width),
                     // reset default properties
                     // 'min-width': 100,
-                    flex: 'none'
+                    flex: 'none',
                 });
             };
 
@@ -4263,7 +4263,7 @@ function rcube_elastic_ui() {
         var colorFunc = function (body) {
             $(body).css({
                 color: $(document.body).css('color'),
-                backgroundColor: $(document.body).css('background-color')
+                backgroundColor: $(document.body).css('background-color'),
             });
         };
 
@@ -4437,6 +4437,6 @@ if ($ && $.datepicker) {
             }
 
             return inst;
-        }
+        },
     });
 }

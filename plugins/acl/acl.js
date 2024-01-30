@@ -72,7 +72,7 @@ rcube_webmail.prototype.acl_delete = function () {
             ref.http_post('settings/plugin.acl', {
                 _act: 'delete',
                 _user: users.join(','),
-                _mbox: rcmail.env.mailbox
+                _mbox: rcmail.env.mailbox,
             }, ref.set_busy(true, 'acl.deleting'));
         });
     }
@@ -107,7 +107,7 @@ rcube_webmail.prototype.acl_save = function () {
         _act: 'save',
         _user: user,
         _acl: rights,
-        _mbox: this.env.mailbox
+        _mbox: this.env.mailbox,
     };
 
     if (this.acl_id) {
@@ -383,7 +383,7 @@ rcube_webmail.prototype.acl_init_form = function (id) {
                 me.acl_form.appendTo(body).hide();
                 $(this).remove();
                 window.focus(); // focus iframe
-            }
+            },
         }
     );
 

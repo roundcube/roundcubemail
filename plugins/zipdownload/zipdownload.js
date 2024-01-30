@@ -73,7 +73,7 @@ function rcmail_zipdownload(mode) {
                 target: id,
                 style: 'display: none',
                 method: 'post',
-                action: rcmail.url('mail/plugin.zipdownload.messages')
+                action: rcmail.url('mail/plugin.zipdownload.messages'),
             });
 
         post._mode = mode;

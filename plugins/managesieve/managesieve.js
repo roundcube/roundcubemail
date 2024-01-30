@@ -830,7 +830,7 @@ function action_type_select(id) {
             set: document.getElementById('action_set' + id),
             notify: document.getElementById('action_notify' + id),
             addheader: document.getElementById('action_addheader' + id),
-            deleteheader: document.getElementById('action_deleteheader' + id)
+            deleteheader: document.getElementById('action_deleteheader' + id),
         };
 
     if (v == 'fileinto' || v == 'fileinto_copy') {
@@ -910,7 +910,7 @@ function smart_field_row(value, idx, field) {
             name: field.name + '[]',
             size: $(field).data('size'),
             title: field.title,
-            placeholder: $(field).attr('placeholder')
+            placeholder: $(field).attr('placeholder'),
         };
 
     input = elem.find('input').attr(attrs).keydown(function (e) {
@@ -1066,7 +1066,7 @@ function sieve_form_init() {
             selectOtherMonths: true,
             onSelect: function (dateText) {
                 $(this).focus().val(dateText);
-            }
+            },
         });
         $('input.datepicker').datepicker();
     }
@@ -1104,7 +1104,7 @@ function sieve_form_init() {
             select: function (event, ui) {
                 $(this).val(ui.item.value);
                 return false;
-            }
+            },
         })
         .click(function () { // show drop-down upon clicks
             $(this).autocomplete('search', $(this).val() || ' ');
@@ -1148,7 +1148,7 @@ function sieve_raw_editor_init() {
             mode: 'sieve',
             lineNumbers: true,
             gutters: ['CodeMirror-linenumbers', 'errorGutter'],
-            styleActiveLine: true
+            styleActiveLine: true,
         });
 
         // fetching errors from environment and setting the line background
