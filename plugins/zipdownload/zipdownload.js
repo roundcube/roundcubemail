@@ -38,7 +38,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
     rcmail.addEventListener('beforedownload', rcmail_zipdownload_menu);
 
     // find and modify default download link/button
-    $.each(rcmail.buttons['download'] || [], function () {
+    $.each(rcmail.buttons.download || [], function () {
         var link = $('#' + this.id),
             span = $('span', link);
 

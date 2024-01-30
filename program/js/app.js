@@ -1801,7 +1801,7 @@ function rcube_webmail() {
         var modkey = rcube_event.get_modifier(e),
             menu = this.gui_objects.dragmenu;
 
-        if (menu && modkey == SHIFT_KEY && this.commands['copy']) {
+        if (menu && modkey == SHIFT_KEY && this.commands.copy) {
             var pos = rcube_event.get_mouse_pos(e);
             this.env.drag_target = target;
             this.show_menu(this.gui_objects.dragmenu.id, true, e);
@@ -3152,7 +3152,7 @@ function rcube_webmail() {
                 divs.push({ class: 'l1', width: 15 });
             }
             // separator div
-            else if (divs.length && !divs[divs.length - 1]['class']) {
+            else if (divs.length && !divs[divs.length - 1].class) {
                 divs[divs.length - 1].width += 15;
             } else {
                 divs.push({ class: null, width: 15 });
@@ -3160,8 +3160,8 @@ function rcube_webmail() {
         }
 
         for (i = divs.length - 1; i >= 0; i--) {
-            if (divs[i]['class']) {
-                html += '<div class="tree ' + divs[i]['class'] + '" />';
+            if (divs[i].class) {
+                html += '<div class="tree ' + divs[i].class + '" />';
             } else {
                 html += '<div style="width:' + divs[i].width + 'px" />';
             }
@@ -8581,7 +8581,7 @@ function rcube_webmail() {
                     class: classes,
                 };
             } else {
-                buttons['class'] = classes;
+                buttons.class = classes;
             }
 
             return button;
@@ -8686,7 +8686,7 @@ function rcube_webmail() {
             }];
 
         if (!action_func) {
-            buttons[0]['class'] += ' mainaction';
+            buttons[0].class += ' mainaction';
         } else {
             buttons.unshift({
                 text: this.get_label(save_label),
@@ -9027,8 +9027,8 @@ function rcube_webmail() {
                 a.addClass('active').data('id', folder.id);
             }
 
-            if (folder['class']) {
-                row.addClass(folder['class']);
+            if (folder.class) {
+                row.addClass(folder.class);
             }
 
             // calculate/set indentation level
@@ -10543,7 +10543,7 @@ function rcube_webmail() {
         }
 
         $(window).on('mailvelope', function () {
-            ref.env.browser_capabilities['pgpmime'] = 1;
+            ref.env.browser_capabilities.pgpmime = 1;
         });
 
         return 0;

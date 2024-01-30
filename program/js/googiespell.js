@@ -347,22 +347,22 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             this.errorFound();
 
             // Get attributes
-            item['attrs'] = [];
+            item.attrs = [];
             var c_attr, val,
                 split_c = matched_c[i].match(re_split_attr_c);
             for (var j = 0; j < split_c.length; j++) {
                 c_attr = split_c[j].split(/=/);
                 val = c_attr[1].replace(/"/g, '');
-                item['attrs'][c_attr[0]] = val != 'true' ? parseInt(val) : val;
+                item.attrs[c_attr[0]] = val != 'true' ? parseInt(val) : val;
             }
 
             // Get suggestions
-            item['suggestions'] = [];
+            item.suggestions = [];
             var only_text = matched_c[i].replace(/<[^>]*>/g, ''),
                 split_t = only_text.split(re_split_text);
             for (var k = 0; k < split_t.length; k++) {
                 if (split_t[k] != '') {
-                    item['suggestions'].push(split_t[k]);
+                    item.suggestions.push(split_t[k]);
                 }
             }
             results.push(item);
@@ -406,7 +406,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         for (var j = 0, len = this.results.length; j < len; j++) {
         // Don't edit the offset of the current item
             if (j != id && j > id) {
-                this.results[j]['attrs']['o'] += add_2_offset;
+                this.results[j].attrs.o += add_2_offset;
             }
         }
     };
@@ -427,7 +427,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     this.correctError = function (id, elm, l_elm, rm_pre_space) {
         var old_value = elm.innerHTML,
             new_value = l_elm.nodeType == 3 ? l_elm.nodeValue : l_elm.innerHTML,
-            offset = this.results[id]['attrs']['o'];
+            offset = this.results[id].attrs.o;
 
         if (rm_pre_space) {
             var pre_length = elm.previousSibling.innerHTML;
@@ -441,7 +441,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         $(elm).html(new_value).css('color', 'green').attr('is_corrected', true);
 
-        this.results[id]['attrs']['l'] = new_value.length;
+        this.results[id].attrs.l = new_value.length;
 
         if (!this.isDefined(elm.old_value)) {
             this.saveOldValue(elm, old_value);
@@ -469,9 +469,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         $(list).addClass('googie_list toolbarmenu').attr('googie_action_btn', '1');
 
         // Build up the result list
-        var suggestions = this.results[id]['suggestions'],
-            offset = this.results[id]['attrs']['o'],
-            len = this.results[id]['attrs']['l'],
+        var suggestions = this.results[id].suggestions,
+            offset = this.results[id].attrs.o,
+            len = this.results[id].attrs.l,
             item, dummy;
 
         // [Add to dictionary] button
@@ -737,8 +737,8 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         if (results.length > 0) {
             for (var i = 0, length = results.length; i < length; i++) {
-                var offset = results[i]['attrs']['o'],
-                    len = results[i]['attrs']['l'],
+                var offset = results[i].attrs.o,
+                    len = results[i].attrs.l,
                     part_1_text = this.original_text.substring(pointer, offset),
                     part_1 = this.createPart(part_1_text);
 

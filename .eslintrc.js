@@ -107,7 +107,6 @@ module.exports = {
         'block-scoped-var': 'off', // (391 matches)
         'brace-style': 'off', // eslint-disable-line no-dupe-keys -- (69 remaining non-autofixable matches)
         camelcase: 'off', // (1886 matches)
-        'dot-notation': 'off', // (36 matches)
         eqeqeq: 'off', // (921 matches)
         'function-call-argument-newline': 'off', // (20 matches)
         'function-paren-newline': 'off', // (109 matches)

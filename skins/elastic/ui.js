@@ -1749,10 +1749,10 @@ function rcube_elastic_ui() {
 
             if (mode == 'phone' && color_mode == 'dark' && logos['small-dark']) {
                 $('#logo').attr('src', logos['small-dark']);
-            } else if (mode == 'phone' && logos['small']) {
-                $('#logo').attr('src', logos['small']);
-            } else if (color_mode == 'dark' && logos['dark']) {
-                $('#logo').attr('src', logos['dark']);
+            } else if (mode == 'phone' && logos.small) {
+                $('#logo').attr('src', logos.small);
+            } else if (color_mode == 'dark' && logos.dark) {
+                $('#logo').attr('src', logos.dark);
             } else {
                 $('#logo').attr('src', $('#logo').data('src-default'));
             }

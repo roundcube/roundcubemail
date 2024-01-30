@@ -359,8 +359,8 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
                 $(td).text(el.name);
                 td.className = 'name';
                 tr.id = 'rcmrow' + el.id;
-                if (el['class']) {
-                    tr.className = el['class'];
+                if (el.class) {
+                    tr.className = el.class;
                 }
                 tr.appendChild(td);
 
@@ -532,7 +532,7 @@ rcube_webmail.prototype.managesieve_save = function () {
         if (parent.rcmail && parent.rcmail.filters_list && this.gui_objects.sieveform.name != 'filtersetform') {
             var id = parent.rcmail.filters_list.get_single_selection();
             if (id != null) {
-                this.gui_objects.sieveform.elements['_fid'].value = parent.rcmail.filters_list.rows[id].uid;
+                this.gui_objects.sieveform.elements._fid.value = parent.rcmail.filters_list.rows[id].uid;
             }
         }
         this.gui_objects.sieveform.submit();
