@@ -162,7 +162,6 @@ module.exports = {
         'unicorn/no-array-for-each': 'off', // eslint-disable-line no-dupe-keys -- (2 matches)
         'unicorn/no-document-cookie': 'off', // (1 match)
         'unicorn/no-for-loop': 'off', // eslint-disable-line no-dupe-keys -- (3 matches)
-        'unicorn/no-hex-escape': 'off', // (2 matches)
         'unicorn/no-nested-ternary': 'off', // (2 matches)
         'unicorn/no-new-array': 'off', // (1 match)
         'unicorn/no-typeof-undefined': 'off', // (3 matches)

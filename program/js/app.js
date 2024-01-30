@@ -9335,8 +9335,8 @@ function rcube_webmail() {
     this.format_converter = function (text, format, func) {
     // warn the user (if converted content is not empty)
         if (!text
-            || (format == 'html' && !(text.replace(/<[^>]+>|&nbsp;|\xC2\xA0|\s/g, '')).length)
-            || (format != 'html' && !(text.replace(/\xC2\xA0|\s/g, '')).length)
+            || (format == 'html' && !(text.replace(/<[^>]+>|&nbsp;|\u00C2\u00A0|\s/g, '')).length)
+            || (format != 'html' && !(text.replace(/\u00C2\u00A0|\s/g, '')).length)
         ) {
             // without setTimeout() here, textarea is filled with initial (onload) content
             if (func) {
