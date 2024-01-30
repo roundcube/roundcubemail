@@ -53,10 +53,18 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     this.server_url = server_url;
 
     this.org_lang_to_word = {
-        'da': 'Dansk', 'de': 'Deutsch', 'en': 'English',
-        'es': 'Español', 'fr': 'Français', 'it': 'Italiano',
-        'nl': 'Nederlands', 'pl': 'Polski', 'pt': 'Português',
-        'ru': 'Русский', 'fi': 'Suomi', 'sv': 'Svenska',
+        'da': 'Dansk',
+        'de': 'Deutsch',
+        'en': 'English',
+        'es': 'Español',
+        'fr': 'Français',
+        'it': 'Italiano',
+        'nl': 'Nederlands',
+        'pl': 'Polski',
+        'pt': 'Português',
+        'ru': 'Русский',
+        'fi': 'Suomi',
+        'sv': 'Svenska',
     };
     this.lang_to_word = this.org_lang_to_word;
     this.langlist_codes = this.array_keys(this.lang_to_word);
@@ -227,7 +235,10 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             ref = this;
 
         $.ajax({
-            type: 'POST', url: this.getUrl(), data: this.createXMLReq(req_text), dataType: 'text',
+            type: 'POST',
+            url: this.getUrl(),
+            data: this.createXMLReq(req_text),
+            dataType: 'text',
             error: function (o) {
                 if (ref.custom_ajax_error) {
                     ref.custom_ajax_error(ref);
@@ -261,7 +272,10 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             req_text = '<?xml version="1.0" encoding="utf-8" ?><learnword><text>' + word + '</text></learnword>';
 
         $.ajax({
-            type: 'POST', url: this.getUrl(), data: req_text, dataType: 'text',
+            type: 'POST',
+            url: this.getUrl(),
+            data: req_text,
+            dataType: 'text',
             error: function (o) {
                 if (ref.custom_ajax_error) {
                     ref.custom_ajax_error(ref);
@@ -616,8 +630,10 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
             $(this.error_window_iframe)
                 .css({
-                    'top': this.error_window.offsetTop, 'left': this.error_window.offsetLeft,
-                    'width': this.error_window.offsetWidth, 'height': this.error_window.offsetHeight,
+                    'top': this.error_window.offsetTop,
+                    'left': this.error_window.offsetLeft,
+                    'width': this.error_window.offsetWidth,
+                    'height': this.error_window.offsetHeight,
                 })
                 .show();
         }

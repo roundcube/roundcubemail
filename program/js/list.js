@@ -1830,16 +1830,21 @@ rcube_list_widget.prototype = {
                 // create dragging layer
                 this.col_draglayer = $('<div>').attr('id', 'rcmcoldraglayer')
                     .css(lpos).css({
-                        position:'absolute', 'z-index':2001,
-                        'background-color':'white', opacity:0.75,
-                        height: (this.frame.offsetHeight - 2) + 'px', width: (this.frame.offsetWidth - 2) + 'px',
+                        position:'absolute',
+                        'z-index':2001,
+                        'background-color':'white',
+                        opacity:0.75,
+                        height: (this.frame.offsetHeight - 2) + 'px',
+                        width: (this.frame.offsetWidth - 2) + 'px',
                     })
                     .appendTo(document.body)
                     // ... and column position indicator
                     .append($('<div>').attr('id', 'rcmcolumnindicator')
                         .css({
-                            position:'absolute', 'border-right':'2px dotted #555',
-                            'z-index':2002, height: (this.frame.offsetHeight - 2) + 'px',
+                            position:'absolute',
+                            'border-right':'2px dotted #555',
+                            'z-index':2002,
+                            height: (this.frame.offsetHeight - 2) + 'px',
                         }));
 
                 this.cols = [];
@@ -1967,8 +1972,11 @@ rcube_list_widget.prototype = {
             $('<div class="iframe-dragdrop-fix"></div>')
                 .css({
                     background: '#fff',
-                    width: this.offsetWidth + 'px', height: this.offsetHeight + 'px',
-                    position: 'absolute', opacity: '0.001', zIndex: 1000,
+                    width: this.offsetWidth + 'px',
+                    height: this.offsetHeight + 'px',
+                    position: 'absolute',
+                    opacity: '0.001',
+                    zIndex: 1000,
                 })
                 .css($(this).offset())
                 .appendTo(document.body);

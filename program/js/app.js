@@ -274,8 +274,12 @@ function rcube_webmail() {
                     ];
 
                     this.message_list = new rcube_list_widget(this.gui_objects.messagelist, {
-                        multiselect:true, multiexpand:true, draggable:true, keyboard:true,
-                        column_movable:this.env.col_movable, dblclick_time:this.dblclick_time,
+                        multiselect:true,
+                        multiexpand:true,
+                        draggable:true,
+                        keyboard:true,
+                        column_movable:this.env.col_movable,
+                        dblclick_time:this.dblclick_time,
                     });
                     this.message_list
                         .addEventListener('initrow', function (o) {
@@ -7084,7 +7088,8 @@ function rcube_webmail() {
     this.group_remove_selected = function () {
         this.http_post('group-delmembers', {
             _cid: this.contact_list.get_selection(),
-            _source: this.env.source, _gid: this.env.group,
+            _source: this.env.source,
+            _gid: this.env.group,
         });
     };
 
@@ -9354,7 +9359,10 @@ function rcube_webmail() {
             lock = this.set_busy(true, 'converting');
 
         $.ajax({
-            type: 'POST', url: url, data: text, contentType: 'application/octet-stream',
+            type: 'POST',
+            url: url,
+            data: text,
+            contentType: 'application/octet-stream',
             error: function (o, status, err) {
                 ref.http_error(o, status, err, lock);
             },
@@ -9519,7 +9527,10 @@ function rcube_webmail() {
 
         // send request
         return $.ajax({
-            type: type, url: url, data: data, dataType: 'json',
+            type: type,
+            url: url,
+            data: data,
+            dataType: 'json',
             success: function (data) {
                 ref.http_response(data);
             },
@@ -10626,8 +10637,11 @@ rcube_webmail.long_subject_title_ex = function (elem) {
             indent = $('span.branch', $elem).width() || 0,
             tmp = $('<span>').text(txt)
                 .css({
-                    position: 'absolute', 'float': 'left', visibility: 'hidden',
-                    'font-size': $elem.css('font-size'), 'font-weight': $elem.css('font-weight'),
+                    position: 'absolute',
+                    'float': 'left',
+                    visibility: 'hidden',
+                    'font-size': $elem.css('font-size'),
+                    'font-weight': $elem.css('font-weight'),
                 })
                 .appendTo(document.body),
             w = tmp.width();

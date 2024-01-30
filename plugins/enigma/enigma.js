@@ -339,7 +339,9 @@ rcube_webmail.prototype.enigma_export = function (selected) {
 rcube_webmail.prototype.enigma_export_submit = function (data) {
     var id = 'keyexport-' + new Date().getTime(),
         form = $('<form>').attr({
-            target: id, method: 'post', style: 'display:none',
+            target: id,
+            method: 'post',
+            style: 'display:none',
             action: '?_action=plugin.enigmakeys&_task=settings&_a=export',
         }),
         iframe = $('<iframe>').attr({ name: id, style: 'display:none' });

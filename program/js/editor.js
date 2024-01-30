@@ -716,7 +716,9 @@ function rcube_text_editor(config, id) {
                 }],
             },
             buttons: [{
-                type: 'cancel', text: rcmail.get_label('close'), onclick: function () {
+                type: 'cancel',
+                text: rcmail.get_label('close'),
+                onclick: function () {
                     ref.file_picker_close();
                 },
             }],
