@@ -1289,7 +1289,7 @@ function rcube_elastic_ui() {
                     }
                 }
 
-                common_content_handler(e.event || new Event, '_action=' + (e.mode || 'edit'), true, e.title);
+                common_content_handler(e.event || new Event(), '_action=' + (e.mode || 'edit'), true, e.title);
             });
     }
 

@@ -116,7 +116,6 @@ module.exports = {
         'keyword-spacing': 'off', // (15 matches)
         'new-cap': 'off', // (16 matches)
         'newline-per-chained-call': 'off', // (38 matches)
-        'new-parens': 'off', // (1 match)
         'no-alert': 'off', // (3 matches)
         'no-bitwise': 'off', // (45 matches)
         'no-cond-assign': 'off', // (142 matches)
