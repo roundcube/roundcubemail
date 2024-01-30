@@ -21,7 +21,6 @@ class MailTest extends TestCase
                     'qsearchbox',
                     'mailboxlist',
                     'messagelist',
-                    'quotadisplay',
                     'search_filter',
                     'countdisplay',
                 ]);

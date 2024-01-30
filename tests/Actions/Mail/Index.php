@@ -74,7 +74,8 @@ class Actions_Mail_Index extends ActionTestCase
             ->registerFunction('get_capability', false)
             ->registerFunction('set_folder')
             ->registerFunction('set_page')
-            ->registerFunction('set_threading');
+            ->registerFunction('set_threading')
+            ->registerFunction('get_quota');
 
         $action->run();
 
