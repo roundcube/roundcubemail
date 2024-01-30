@@ -130,7 +130,6 @@ module.exports = {
         'no-multiple-empty-lines': 'off', // (85 matches)
         'no-redeclare': 'off', // (37 matches)
         'no-restricted-globals': 'off', // eslint-disable-line no-dupe-keys -- (72 matches)
-        'no-return-assign': 'off', // (1 match)
         'no-script-url': 'off', // (3 matches)
         'no-sequences': 'off', // (5 matches)
         'no-shadow': 'off', // (85 matches)

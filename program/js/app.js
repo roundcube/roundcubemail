@@ -178,7 +178,8 @@ function rcube_webmail() {
                 $.each(this[1], function () {
                     var is_func = typeof (this) == 'function';
                     if ((is_func && this()) || (!is_func && ref.commands[this])) {
-                        return disabled = false;
+                        disabled = false;
+                        return disabled;
                     }
                 });
 
