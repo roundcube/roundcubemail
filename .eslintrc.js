@@ -18,6 +18,7 @@ module.exports = {
         '/plugins/jqueryui/js',
     ],
     rules: {
+        'brace-style': ['error', '1tbs'],
         'class-methods-use-this': 'off',
         'comma-dangle': ['error', {
             arrays: 'always-multiline',
@@ -104,11 +105,9 @@ module.exports = {
         // TODO
         'array-callback-return': 'off', // (7 matches)
         'block-scoped-var': 'off', // (391 matches)
-        'block-spacing': 'off', // (7 matches)
-        'brace-style': 'off', // (1139 matches)
+        'brace-style': 'off', // eslint-disable-line no-dupe-keys -- (69 remaining non-autofixable matches)
         'camelcase': 'off', // (1886 matches)
         'comma-dangle': 'off', // eslint-disable-line no-dupe-keys -- (131 matches)
-        'curly': 'off', // eslint-disable-line no-dupe-keys -- (1211 matches)
         'dot-notation': 'off', // (36 matches)
         'eqeqeq': 'off', // (921 matches)
         'function-call-argument-newline': 'off', // (20 matches)
@@ -128,14 +127,12 @@ module.exports = {
         'no-empty': 'off', // (15 matches)
         'no-eval': 'off', // (2 matches)
         'no-extend-native': 'off', // (3 matches)
-        'no-extra-semi': 'off', // (122 matches)
         'no-fallthrough': 'off', // (10 matches)
         'no-implied-eval': 'off', // (1 match)
         'no-loop-func': 'off', // (5 matches)
         'no-mixed-operators': 'off', // (8 matches)
         'no-multi-assign': 'off', // (18 matches)
         'no-multiple-empty-lines': 'off', // (85 matches)
-        'no-multi-spaces': 'off', // eslint-disable-line no-dupe-keys -- (69 matches)
         'nonblock-statement-body-position': 'off', // (1158 matches)
         'no-redeclare': 'off', // (37 matches)
         'no-regex-spaces': 'off', // (1 match)
@@ -152,24 +149,17 @@ module.exports = {
         'no-var': 'off', // eslint-disable-line no-dupe-keys -- (986 matches)
         'no-whitespace-before-property': 'off', // (1 match)
         'object-curly-newline': 'off', // (82 matches)
-        'object-curly-spacing': 'off', // (667 matches)
         'object-property-newline': 'off', // (40 matches)
         'one-var': 'off', // eslint-disable-line no-dupe-keys -- (489 matches)
         'one-var-declaration-per-line': 'off', // (501 matches)
         'operator-assignment': 'off', // (4 matches)
-        'operator-linebreak': 'off', // (14 matches)
-        'padded-blocks': 'off', // (7 matches)
         'padding-line-between-statements': 'off', // eslint-disable-line no-dupe-keys -- (301 matches)
         'prefer-arrow-callback': 'off', // (423 matches)
         'prefer-rest-params': 'off', // eslint-disable-line no-dupe-keys -- (3 matches)
         'prefer-spread': 'off', // eslint-disable-line no-dupe-keys -- (2 matches)
         'quote-props': 'off', // (86 matches)
         'radix': 'off', // (12 matches)
-        'space-before-blocks': 'off', // (13 matches)
-        'space-before-function-paren': 'off', // (1409 matches)
         'spaced-comment': 'off', // eslint-disable-line no-dupe-keys -- (47 matches)
-        'space-infix-ops': 'off', // (485 matches)
-        'space-unary-ops': 'off', // (7 matches)
         'unicorn/better-regex': 'off', // (42 matches)
         'unicorn/consistent-function-scoping': 'off', // (19 matches)
         'unicorn/empty-brace-spaces': 'off', // (5 matches)

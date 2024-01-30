@@ -20,30 +20,32 @@
 if (window.rcmail && rcmail.env.task == 'mail') {
     rcmail.addEventListener('plugin.newmail_notifier', newmail_notifier_run)
         .addEventListener('actionbefore', newmail_notifier_stop)
-        .addEventListener('init', function() {
+        .addEventListener('init', function () {
             // bind to messages list select event, so favicon will be reverted on message preview too
-            if (rcmail.message_list)
+            if (rcmail.message_list) {
                 rcmail.message_list.addEventListener('select', newmail_notifier_stop);
+            }
         });
 }
 
 // Executes notification methods
-function newmail_notifier_run(prop)
-{
-    if (prop.basic)
+function newmail_notifier_run(prop) {
+    if (prop.basic) {
         newmail_notifier_basic();
-    if (prop.sound)
+    }
+    if (prop.sound) {
         newmail_notifier_sound();
-    if (prop.desktop)
+    }
+    if (prop.desktop) {
         newmail_notifier_desktop(rcmail.get_label('body', 'newmail_notifier'));
+    }
 }
 
 // Stops notification
-function newmail_notifier_stop(prop)
-{
+function newmail_notifier_stop(prop) {
     // revert original favicon
     if (rcmail.env.favicon_href && rcmail.env.favicon_changed && (!prop || prop.action != 'check-recent')) {
-        $('<link rel="shortcut icon" href="'+rcmail.env.favicon_href+'"/>').replaceAll('link[rel="shortcut icon"]');
+        $('<link rel="shortcut icon" href="' + rcmail.env.favicon_href + '"/>').replaceAll('link[rel="shortcut icon"]');
         rcmail.env.favicon_changed = 0;
     }
 
@@ -56,8 +58,7 @@ function newmail_notifier_stop(prop)
 }
 
 // Basic notification: window.focus and favicon change
-function newmail_notifier_basic()
-{
+function newmail_notifier_basic() {
     var w = rcmail.is_framed() ? window.parent : window,
         path = rcmail.assets_path('plugins/newmail_notifier');
 
@@ -67,8 +68,9 @@ function newmail_notifier_basic()
     var link = $('<link rel="shortcut icon">').attr('href', path + '/favicon.ico'),
         oldlink = $('link[rel="shortcut icon"]', w.document);
 
-    if (!rcmail.env.favicon_href)
+    if (!rcmail.env.favicon_href) {
         rcmail.env.favicon_href = oldlink.attr('href');
+    }
 
     rcmail.env.favicon_changed = 1;
     link.replaceAll(oldlink);
@@ -82,12 +84,11 @@ function newmail_notifier_basic()
 }
 
 // Sound notification
-function newmail_notifier_sound()
-{
+function newmail_notifier_sound() {
     var src = rcmail.assets_path('plugins/newmail_notifier/sound');
 
     (new Audio(src + '.mp3')).play()
-        .catch(function() {
+        .catch(function () {
             // fallback to the wav format
             (new Audio(src + '.wav')).play();
         });
@@ -95,11 +96,10 @@ function newmail_notifier_sound()
 
 // Desktop notification
 // - Require window.Notification API support (Chrome 22+ or Firefox 22+)
-function newmail_notifier_desktop(body, disabled_callback)
-{
+function newmail_notifier_desktop(body, disabled_callback) {
     var timeout = rcmail.env.newmail_notifier_timeout || 10,
         icon = rcmail.assets_path('plugins/newmail_notifier/mail.png'),
-        success_callback = function() {
+        success_callback = function () {
             var popup = new window.Notification(rcmail.get_label('title', 'newmail_notifier'), {
                 dir: 'auto',
                 lang: '',
@@ -107,28 +107,31 @@ function newmail_notifier_desktop(body, disabled_callback)
                 tag: 'newmail_notifier',
                 icon: icon
             });
-            popup.onclick = function() { this.close(); };
-            setTimeout(function() { popup.close(); }, timeout * 1000);
+            popup.onclick = function () {
+                this.close();
+            };
+            setTimeout(function () {
+                popup.close();
+            }, timeout * 1000);
         };
 
     try {
-        window.Notification.requestPermission(function(perm) {
-            if (perm == 'granted')
+        window.Notification.requestPermission(function (perm) {
+            if (perm == 'granted') {
                 success_callback();
-            else if (perm == 'denied' && disabled_callback)
+            } else if (perm == 'denied' && disabled_callback) {
                 disabled_callback();
+            }
         });
 
         return true;
-    }
-    catch (e) {
+    } catch (e) {
         return false;
     }
 }
 
-function newmail_notifier_test_desktop()
-{
-    var status = newmail_notifier_desktop(rcmail.get_label('testbody', 'newmail_notifier'), function() {
+function newmail_notifier_test_desktop() {
+    var status = newmail_notifier_desktop(rcmail.get_label('testbody', 'newmail_notifier'), function () {
         rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
     });
 
@@ -137,12 +140,10 @@ function newmail_notifier_test_desktop()
     }
 }
 
-function newmail_notifier_test_basic()
-{
+function newmail_notifier_test_basic() {
     newmail_notifier_basic();
 }
 
-function newmail_notifier_test_sound()
-{
+function newmail_notifier_test_sound() {
     newmail_notifier_sound();
 }
