@@ -13,16 +13,14 @@
  +-----------------------------------------------------------------------+
 */
 
-function toggleblock(id, link)
-{
+function toggleblock(id, link) {
     var block = document.getElementById(id);
 
     return false;
 }
 
 
-function addhostfield()
-{
+function addhostfield() {
     var container = document.getElementById('defaulthostlist');
     var row = document.createElement('div');
     var input = document.createElement('input');
@@ -31,7 +29,9 @@ function addhostfield()
     input.name = '_imap_host[]';
     input.size = '30';
     link.href = '#';
-    link.onclick = function() { removehostfield(this.parentNode); return false; };
+    link.onclick = function () {
+        removehostfield(this.parentNode); return false;
+    };
     link.className = 'removelink';
     link.innerHTML = 'remove';
 
@@ -41,8 +41,7 @@ function addhostfield()
 }
 
 
-function removehostfield(row)
-{
+function removehostfield(row) {
     var container = document.getElementById('defaulthostlist');
     container.removeChild(row);
 }

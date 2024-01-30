@@ -17,17 +17,17 @@
 
 // hook into switch-task event to open the help window
 if (window.rcmail) {
-    rcmail.addEventListener('beforeswitch-task', function(prop) {
+    rcmail.addEventListener('beforeswitch-task', function (prop) {
         // catch clicks to help task button
         if (prop == 'help') {
-            if (rcmail.task == 'help')  // we're already there
+            if (rcmail.task == 'help') { // we're already there
                 return false;
+            }
 
-            var url = rcmail.url('help/index', { _rel: rcmail.task + (rcmail.env.action ? '/'+rcmail.env.action : '') });
+            var url = rcmail.url('help/index', { _rel: rcmail.task + (rcmail.env.action ? '/' + rcmail.env.action : '') });
             if (rcmail.env.help_open_extwin) {
                 rcmail.open_window(url, 1020, false);
-            }
-            else {
+            } else {
                 rcmail.redirect(url, false);
             }
 
@@ -35,9 +35,9 @@ if (window.rcmail) {
         }
     });
 
-    rcmail.addEventListener('init', function(prop) {
+    rcmail.addEventListener('init', function (prop) {
         if (rcmail.env.contentframe && rcmail.task == 'help') {
-            $('#' + rcmail.env.contentframe).on('load error', function(e) {
+            $('#' + rcmail.env.contentframe).on('load error', function (e) {
                 // Unlock UI
                 rcmail.set_busy(false, null, rcmail.env.frame_lock);
                 rcmail.env.frame_lock = null;
@@ -54,14 +54,12 @@ if (window.rcmail) {
                 if (win && win.location.href.indexOf(rcmail.env.blankpage) >= 0) {
                     show_help_content(rcmail.env.action);
                 }
-            }
-            catch (e) { /* ignore */ }
+            } catch (e) { /* ignore */ }
         }
     });
 }
 
-function show_help_content(action, event)
-{
+function show_help_content(action, event) {
     var win, target = window,
         url = rcmail.env.help_links[action];
 

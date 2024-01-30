@@ -15,17 +15,20 @@
  * for the JavaScript code in this file.
  */
 
-if (window.rcmail)
-    rcmail.addEventListener('init', function() { hide_blockquote(); });
+if (window.rcmail) {
+    rcmail.addEventListener('init', function () {
+        hide_blockquote();
+    });
+}
 
-function hide_blockquote()
-{
+function hide_blockquote() {
     var limit = rcmail.env.blockquote_limit;
 
-    if (limit <= 0)
+    if (limit <= 0) {
         return;
+    }
 
-    $('div.message-part div.pre > blockquote', $('#messagebody')).each(function() {
+    $('div.message-part div.pre > blockquote', $('#messagebody')).each(function () {
         var res, text, div, link, q = $(this);
 
         // Add new-line character before each blockquote
@@ -39,19 +42,20 @@ function hide_blockquote()
         if (res.length <= limit) {
             // there can be also a block with very long wrapped line
             // assume line height = 15px
-            if (q.height() <= limit * 15)
+            if (q.height() <= limit * 15) {
                 return;
+            }
         }
 
         div = $('<blockquote class="blockquote-header">')
-            .css({'white-space': 'nowrap', overflow: 'hidden', position: 'relative'})
+            .css({ 'white-space': 'nowrap', overflow: 'hidden', position: 'relative' })
             .text(res[0]);
 
         link = $('<span class="blockquote-link"></span>')
-            .css({position: 'absolute', 'z-Index': 2})
+            .css({ position: 'absolute', 'z-Index': 2 })
             .text(rcmail.get_label('hide_blockquote.show'))
             .data('parent', div)
-            .click(function() {
+            .click(function () {
                 var t = $(this), parent = t.data('parent'), visible = parent.is(':visible');
 
                 t.text(rcmail.get_label(visible ? 'hide' : 'show', 'hide_blockquote'))
@@ -64,6 +68,6 @@ function hide_blockquote()
         link.appendTo(div);
 
         // Modify blockquote
-        q.hide().css({position: 'relative'}).before(div);
+        q.hide().css({ position: 'relative' }).before(div);
     });
 }

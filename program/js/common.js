@@ -35,8 +35,7 @@ var CONTROL_SHIFT_KEY = 3;
  * Default browser check class
  * @constructor
  */
-function roundcube_browser()
-{
+function roundcube_browser() {
     var n = navigator;
 
     this.agent = n.userAgent;
@@ -46,9 +45,9 @@ function roundcube_browser()
     this.vendver = n.vendorSub ? parseFloat(n.vendorSub) : 0;
     this.product = n.product ? n.product : '';
     this.platform = String(n.platform).toLowerCase();
-    this.lang = n.language ? n.language.substring(0, 2) :
-        n.browserLanguage ? n.browserLanguage.substring(0, 2) :
-            n.systemLanguage ? n.systemLanguage.substring(0, 2) : 'en';
+    this.lang = n.language ? n.language.substring(0, 2)
+        : n.browserLanguage ? n.browserLanguage.substring(0, 2)
+            : n.systemLanguage ? n.systemLanguage.substring(0, 2) : 'en';
 
     this.win = this.platform.indexOf('win') >= 0;
     this.mac = this.platform.indexOf('mac') >= 0;
@@ -65,8 +64,7 @@ function roundcube_browser()
     if (window.opera) {
         this.opera = true; // Opera < 15
         this.vendver = opera.version();
-    }
-    else if (!this.ie && !this.edge) {
+    } else if (!this.ie && !this.edge) {
         this.chrome = this.agent_lc.indexOf('chrome') > 0;
         this.opera = this.webkit && this.agent.indexOf(' OPR/') > 0; // Opera >= 15
         this.safari = !this.chrome && !this.opera && (this.webkit || this.agent_lc.indexOf('safari') > 0);
@@ -77,30 +75,32 @@ function roundcube_browser()
     }
 
     if (!this.vendver) {
-        if (this.ie)
+        if (this.ie) {
             pattern = /(msie|rv)(\s|:)([0-9\.]+)/;
-        else if (this.edge)
+        } else if (this.edge) {
             pattern = /(edge?)(\/)([0-9\.]+)/;
-        else if (this.opera)
+        } else if (this.opera) {
             pattern = /(opera|opr)(\/)([0-9\.]+)/;
-        else if (this.konq)
+        } else if (this.konq) {
             pattern = /(konqueror)(\/)([0-9\.]+)/;
-        else if (this.safari)
+        } else if (this.safari) {
             pattern = /(version)(\/)([0-9\.]+)/;
-        else if (this.chrome)
+        } else if (this.chrome) {
             pattern = /(chrome)(\/)([0-9\.]+)/;
-        else if (this.mz)
+        } else if (this.mz) {
             pattern = /(firefox)(\/)([0-9\.]+)/;
-        else
+        } else {
             pattern = /(khtml|safari|applewebkit|rv)(\s|\/|:)([0-9\.]+)/;
+        }
 
         // common version strings
         this.vendver = pattern.test(this.agent_lc) ? parseFloat(RegExp.$3) : 0;
     }
 
     // get real language out of safari's user agent
-    if (this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc)))
+    if (this.safari && (/;\s+([a-z]{2})-[a-z]{2}\)/.test(this.agent_lc))) {
         this.lang = RegExp.$1;
+    }
 
     this.mobile = /iphone|ipod|blackberry|iemobile|opera mini|opera mobi|mobile/i.test(this.agent_lc);
     this.tablet = !this.mobile && /ipad|android|xoom|sch-i800|playbook|tablet|kindle/i.test(this.agent_lc);
@@ -110,97 +110,99 @@ function roundcube_browser()
 
     // set class names to html tag according to the current user agent detection
     // this allows browser-specific css selectors like "html.chrome .someclass"
-    this.set_html_class = function()
-    {
+    this.set_html_class = function () {
         var classname = ' js';
 
-        if (this.ie)
-            classname += ' ms ie ie'+parseInt(this.vendver);
-        else if (this.edge && this.vendver > 74)
+        if (this.ie) {
+            classname += ' ms ie ie' + parseInt(this.vendver);
+        } else if (this.edge && this.vendver > 74) {
             classname += ' chrome';
-        else if (this.edge)
+        } else if (this.edge) {
             classname += ' ms edge';
-        else if (this.opera)
+        } else if (this.opera) {
             classname += ' opera';
-        else if (this.konq)
+        } else if (this.konq) {
             classname += ' konqueror';
-        else if (this.safari)
+        } else if (this.safari) {
             classname += ' chrome';
-        else if (this.chrome)
+        } else if (this.chrome) {
             classname += ' chrome';
-        else if (this.mz)
+        } else if (this.mz) {
             classname += ' mozilla';
+        }
 
-        if (this.iphone)
+        if (this.iphone) {
             classname += ' iphone';
-        else if (this.ipad)
+        } else if (this.ipad) {
             classname += ' ipad';
-        else if (this.webkit)
+        } else if (this.webkit) {
             classname += ' webkit';
+        }
 
-        if (this.mobile)
+        if (this.mobile) {
             classname += ' mobile';
-        if (this.tablet)
+        }
+        if (this.tablet) {
             classname += ' tablet';
+        }
 
-        if (document.documentElement)
+        if (document.documentElement) {
             document.documentElement.className += classname;
+        }
     };
-};
+}
 
 
 // static functions for DOM event handling
 var rcube_event = {
 
     /**
- * returns the event target element
- */
-    get_target: function(e)
-    {
+     * returns the event target element
+     */
+    get_target: function (e) {
         e = e || window.event;
         return e && e.target ? e.target : e.srcElement || document;
     },
 
     /**
- * returns the event key code
- */
-    get_keycode: function(e)
-    {
+     * returns the event key code
+     */
+    get_keycode: function (e) {
         e = e || window.event;
         return e && e.keyCode ? e.keyCode : (e && e.which ? e.which : 0);
     },
 
     /**
- * returns the event key code
- */
-    get_button: function(e)
-    {
+     * returns the event key code
+     */
+    get_button: function (e) {
         e = e || window.event;
         return e && e.button !== undefined ? e.button : (e && e.which ? e.which : 0);
     },
 
     /**
- * returns modifier key (constants defined at top of file)
- */
-    get_modifier: function(e)
-    {
+     * returns modifier key (constants defined at top of file)
+     */
+    get_modifier: function (e) {
         var opcode = 0;
         e = e || window.event;
 
-        if (bw.mac && e)
+        if (bw.mac && e) {
             opcode += (e.metaKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
-        else if (e)
+        } else if (e) {
             opcode += (e.ctrlKey && CONTROL_KEY) + (e.shiftKey && SHIFT_KEY);
+        }
 
         return opcode;
     },
 
     /**
- * Return absolute mouse position of an event
- */
-    get_mouse_pos: function(e)
-    {
-        if (!e) e = window.event;
+     * Return absolute mouse position of an event
+     */
+    get_mouse_pos: function (e) {
+        if (!e) {
+            e = window.event;
+        }
         var mX = (e.pageX) ? e.pageX : e.clientX,
             mY = (e.pageY) ? e.pageY : e.clientY;
 
@@ -218,67 +220,74 @@ var rcube_event = {
     },
 
     /**
- * Add an object method as event listener to a certain element
- */
-    add_listener: function(p)
-    {
-        if (!p.object || !p.method)  // not enough arguments
+     * Add an object method as event listener to a certain element
+     */
+    add_listener: function (p) {
+        if (!p.object || !p.method) { // not enough arguments
             return;
-        if (!p.element)
+        }
+        if (!p.element) {
             p.element = document;
+        }
 
-        if (!p.object._rc_events)
+        if (!p.object._rc_events) {
             p.object._rc_events = {};
+        }
 
         var key = p.event + '*' + p.method;
-        if (!p.object._rc_events[key])
-            p.object._rc_events[key] = function(e){ return p.object[p.method](e); };
+        if (!p.object._rc_events[key]) {
+            p.object._rc_events[key] = function (e) {
+                return p.object[p.method](e);
+            };
+        }
 
-        if (p.element.addEventListener)
+        if (p.element.addEventListener) {
             p.element.addEventListener(p.event, p.object._rc_events[key], false);
-        else if (p.element.attachEvent) {
+        } else if (p.element.attachEvent) {
             // IE allows multiple events with the same function to be applied to the same object
             // forcibly detach the event, then attach
-            p.element.detachEvent('on'+p.event, p.object._rc_events[key]);
-            p.element.attachEvent('on'+p.event, p.object._rc_events[key]);
+            p.element.detachEvent('on' + p.event, p.object._rc_events[key]);
+            p.element.attachEvent('on' + p.event, p.object._rc_events[key]);
+        } else {
+            p.element['on' + p.event] = p.object._rc_events[key];
         }
-        else
-            p.element['on'+p.event] = p.object._rc_events[key];
     },
 
     /**
- * Remove event listener
- */
-    remove_listener: function(p)
-    {
-        if (!p.element)
+     * Remove event listener
+     */
+    remove_listener: function (p) {
+        if (!p.element) {
             p.element = document;
+        }
 
         var key = p.event + '*' + p.method;
         if (p.object && p.object._rc_events && p.object._rc_events[key]) {
-            if (p.element.removeEventListener)
+            if (p.element.removeEventListener) {
                 p.element.removeEventListener(p.event, p.object._rc_events[key], false);
-            else if (p.element.detachEvent)
-                p.element.detachEvent('on'+p.event, p.object._rc_events[key]);
-            else
-                p.element['on'+p.event] = null;
+            } else if (p.element.detachEvent) {
+                p.element.detachEvent('on' + p.event, p.object._rc_events[key]);
+            } else {
+                p.element['on' + p.event] = null;
+            }
         }
     },
 
     /**
- * Prevent event propagation and bubbling
- */
-    cancel: function(evt)
-    {
+     * Prevent event propagation and bubbling
+     */
+    cancel: function (evt) {
         var e = evt ? evt : window.event;
 
-        if (e.preventDefault)
+        if (e.preventDefault) {
             e.preventDefault();
-        else
+        } else {
             e.returnValue = false;
+        }
 
-        if (e.stopPropagation)
+        if (e.stopPropagation) {
             e.stopPropagation();
+        }
 
         e.cancelBubble = true;
 
@@ -286,33 +295,32 @@ var rcube_event = {
     },
 
     /**
- * Determine whether the given event was triggered from keyboard
- */
-    is_keyboard: function(e)
-    {
-        if (!e)
+     * Determine whether the given event was triggered from keyboard
+     */
+    is_keyboard: function (e) {
+        if (!e) {
             return false;
+        }
 
         // DOM3-compatible
         // An event invoked by pressing Enter on a link will produce a 'click' event,
         // so we have to extend the check, e.g. with use of e.clientX.
-        if (e.type)
+        if (e.type) {
             return !!e.type.match(/^key/) || (e.type == 'click' && !e.clientX);
+        }
 
         // Old browsers
         return !e.pageX && (e.pageY || 0) <= 0 && !e.clientX && (e.clientY || 0) <= 0;
     },
 
     /**
- * Accept event if triggered from keyboard action (e.g. <Enter>)
- */
-    keyboard_only: function(e)
-    {
+     * Accept event if triggered from keyboard action (e.g. <Enter>)
+     */
+    keyboard_only: function (e) {
         return rcube_event.is_keyboard(e) ? true : rcube_event.cancel(e);
     },
 
-    touchevent: function(e)
-    {
+    touchevent: function (e) {
         return { pageX:e.pageX, pageY:e.pageY, offsetX:e.pageX - e.target.offsetLeft, offsetY:e.pageY - e.target.offsetTop, target:e.target, istouch:true };
     }
 
@@ -322,80 +330,89 @@ var rcube_event = {
 /**
  * rcmail objects event interface
  */
-function rcube_event_engine()
-{
+function rcube_event_engine() {
     this._events = {};
-};
+}
 
 rcube_event_engine.prototype = {
 
     /**
- * Setter for object event handlers
- *
- * @param {String}   Event name
- * @param {Function} Handler function
- */
-    addEventListener: function(evt, func, obj)
-    {
-        if (!this._events)
+     * Setter for object event handlers
+     *
+     * @param {String}   Event name
+     * @param {Function} Handler function
+     */
+    addEventListener: function (evt, func, obj) {
+        if (!this._events) {
             this._events = {};
-        if (!this._events[evt])
+        }
+        if (!this._events[evt]) {
             this._events[evt] = [];
+        }
 
-        this._events[evt].push({func:func, obj:obj ? obj : window});
+        this._events[evt].push({ func:func, obj:obj ? obj : window });
 
         return this; // chainable
     },
 
     /**
- * Removes a specific event listener
- *
- * @param {String} Event name
- * @param {Int}    Listener ID to remove
- */
-    removeEventListener: function(evt, func, obj)
-    {
-        if (obj === undefined)
+     * Removes a specific event listener
+     *
+     * @param {String} Event name
+     * @param {Int}    Listener ID to remove
+     */
+    removeEventListener: function (evt, func, obj) {
+        if (obj === undefined) {
             obj = window;
+        }
 
-        for (var h, i=0; this._events && this._events[evt] && i < this._events[evt].length; i++)
-            if ((h = this._events[evt][i]) && h.func == func && h.obj == obj)
+        for (var h, i = 0; this._events && this._events[evt] && i < this._events[evt].length; i++) {
+            if ((h = this._events[evt][i]) && h.func == func && h.obj == obj) {
                 this._events[evt][i] = null;
+            }
+        }
     },
 
     /**
- * This will execute all registered event handlers
- *
- * @param {String} Event to trigger
- * @param {Object} Event object/arguments
- */
-    triggerEvent: function(evt, e)
-    {
+     * This will execute all registered event handlers
+     *
+     * @param {String} Event to trigger
+     * @param {Object} Event object/arguments
+     */
+    triggerEvent: function (evt, e) {
         var ret, h,
-            reset_fn = function(o) {
-                try { if (o && o.event) delete o.event; } catch(err) { };
+            reset_fn = function (o) {
+                try {
+                    if (o && o.event) {
+                        delete o.event;
+                    }
+                } catch(err) { }
             };
 
-        if (e === undefined)
+        if (e === undefined) {
             e = this;
-        else if (typeof e === 'object')
+        } else if (typeof e === 'object') {
             e.event = evt;
+        }
 
-        if (!this._event_exec)
+        if (!this._event_exec) {
             this._event_exec = {};
+        }
 
         if (this._events && this._events[evt] && !this._event_exec[evt]) {
             this._event_exec[evt] = true;
-            for (var i=0; i < this._events[evt].length; i++) {
+            for (var i = 0; i < this._events[evt].length; i++) {
                 if ((h = this._events[evt][i])) {
-                    if (typeof h.func === 'function')
+                    if (typeof h.func === 'function') {
                         ret = h.func.call ? h.func.call(h.obj, e) : h.func(e);
-                    else if (typeof h.obj[h.func] === 'function')
+                    } else if (typeof h.obj[h.func] === 'function') {
                         ret = h.obj[h.func](e);
+                    }
 
                     // cancel event execution
-                    if (ret !== undefined && !ret)
+                    if (ret !== undefined && !ret) {
                         break;
+                    }
                 }
             }
             reset_fn(ret);
@@ -407,24 +424,26 @@ rcube_event_engine.prototype = {
         return ret;
     }
 
-};  // end rcube_event_engine.prototype
+}; // end rcube_event_engine.prototype
 
 
 // check if input is a valid email address
 // By Cal Henderson <cal@iamcal.com>
 // http://code.iamcal.com/php/rfc822/
-function rcube_check_email(input, inline, count, strict)
-{
-    if (!input)
+function rcube_check_email(input, inline, count, strict) {
+    if (!input) {
         return count ? 0 : false;
+    }
 
-    if (count) inline = true;
+    if (count) {
+        inline = true;
+    }
 
     var qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]',
         dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]',
         atom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+',
         quoted_pair = '\\x5c[\\x00-\\x7f]',
-        quoted_string = '\\x22('+qtext+'|'+quoted_pair+')*\\x22',
+        quoted_string = '\\x22(' + qtext + '|' + quoted_pair + ')*\\x22',
         ipv4 = '\\[(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}\\]',
         ipv6 = '\\[IPv6:[0-9a-f:.]+\\]',
         ip_addr = '(' + ipv4 + ')|(' + ipv6 + ')',
@@ -432,7 +451,7 @@ function rcube_check_email(input, inline, count, strict)
         // So, e-mail address should be validated also on server side after idn_to_ascii()
         // Allow punycode/unicode top-level domains, allow extended domains (#5588)
         // Allow a domain ending with .s (#8854)
-        domain = '(('+ip_addr+')|(([^@.]+\\.)+([^\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|s|xn--[a-z0-9]{2,})))',
+        domain = '((' + ip_addr + ')|(([^@.]+\\.)+([^\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|s|xn--[a-z0-9]{2,})))',
         // ICANN e-mail test (http://idn.icann.org/E-mail_test)
         icann_domains = [
             '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631',
@@ -447,13 +466,13 @@ function rcube_check_email(input, inline, count, strict)
             '\\u0b89\\u0ba4\\u0bbe\\u0bb0\\u0ba3\\u0bae\\u0bcd\\x2e\\u0baa\\u0bb0\\u0bbf\\u0b9f\\u0bcd\\u0b9a\\u0bc8',
             '\\u05d1\\u05f2\\u05b7\\u05e9\\u05e4\\u05bc\\u05d9\\u05dc\\x2e\\u05d8\\u05e2\\u05e1\\u05d8'
         ],
-        icann_addr = 'mailtest\\x40('+icann_domains.join('|')+')',
-        word = strict ? '('+atom+'|'+quoted_string+')' : '[^\\u0000-\\u0020\\u002e\\u00a0\\u0040\\u007f\\u2028\\u2029]+',
+        icann_addr = 'mailtest\\x40(' + icann_domains.join('|') + ')',
+        word = strict ? '(' + atom + '|' + quoted_string + ')' : '[^\\u0000-\\u0020\\u002e\\u00a0\\u0040\\u007f\\u2028\\u2029]+',
         delim = '[,;\\s\\n]',
-        local_part = word+'(\\x2e'+word+')*',
-        addr_spec = '(('+local_part+'\\x40'+domain+')|('+icann_addr+'))',
+        local_part = word + '(\\x2e' + word + ')*',
+        addr_spec = '((' + local_part + '\\x40' + domain + ')|(' + icann_addr + '))',
         rx_flag = count ? 'ig' : 'i',
-        rx = inline ? new RegExp('(^|<|'+delim+')'+addr_spec+'($|>|'+delim+')', rx_flag) : new RegExp('^'+addr_spec+'$', 'i');
+        rx = inline ? new RegExp('(^|<|' + delim + ')' + addr_spec + '($|>|' + delim + ')', rx_flag) : new RegExp('^' + addr_spec + '$', 'i');
 
     if (count) {
         var re = input.match(rx);
@@ -461,118 +480,124 @@ function rcube_check_email(input, inline, count, strict)
     }
 
     return rx.test(input);
-};
+}
 
 // recursively copy an object
-function rcube_clone_object(obj)
-{
+function rcube_clone_object(obj) {
     var out = {};
 
     for (var key in obj) {
-        if (obj[key] && typeof obj[key] === 'object')
+        if (obj[key] && typeof obj[key] === 'object') {
             out[key] = rcube_clone_object(obj[key]);
-        else
+        } else {
             out[key] = obj[key];
+        }
     }
 
     return out;
-};
+}
 
 // make a string URL safe (and compatible with PHP's rawurlencode())
-function urlencode(str)
-{
+function urlencode(str) {
     return encodeURIComponent(str)
         .replace('*', '%2A')
         .replace('(', '%28')
         .replace(')', '%29')
         .replace('!', '%21')
         .replace("'", '%27');
-};
+}
 
 
 // get any type of html objects by id/name
-function rcube_find_object(id, d)
-{
+function rcube_find_object(id, d) {
     var n, f, obj, e;
 
-    if (!d) d = document;
+    if (!d) {
+        d = document;
+    }
 
-    if (d.getElementById)
-        if (obj = d.getElementById(id))
+    if (d.getElementById) {
+        if (obj = d.getElementById(id)) {
             return obj;
+        }
+    }
 
-    if (!obj && d.getElementsByName && (e = d.getElementsByName(id)))
+    if (!obj && d.getElementsByName && (e = d.getElementsByName(id))) {
         obj = e[0];
+    }
 
-    if (!obj && d.all)
+    if (!obj && d.all) {
         obj = d.all[id];
+    }
 
-    if (!obj && d.images.length)
+    if (!obj && d.images.length) {
         obj = d.images[id];
+    }
 
     if (!obj && d.forms.length) {
-        for (f=0; f<d.forms.length; f++) {
-            if (d.forms[f].name == id)
+        for (f = 0; f < d.forms.length; f++) {
+            if (d.forms[f].name == id) {
                 obj = d.forms[f];
-            else if(d.forms[f].elements[id])
+            } else if(d.forms[f].elements[id]) {
                 obj = d.forms[f].elements[id];
+            }
         }
     }
 
     if (!obj && d.layers) {
-        if (d.layers[id])
+        if (d.layers[id]) {
             obj = d.layers[id];
-        for (n=0; !obj && n<d.layers.length; n++)
+        }
+        for (n = 0; !obj && n < d.layers.length; n++) {
             obj = rcube_find_object(id, d.layers[n].document);
+        }
     }
 
     return obj;
-};
+}
 
 // determine whether the mouse is over the given object or not
-function rcube_mouse_is_over(ev, obj)
-{
+function rcube_mouse_is_over(ev, obj) {
     var mouse = rcube_event.get_mouse_pos(ev),
         pos = $(obj).offset();
 
-    return (mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth)) &&
-    (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight));
-};
+    return (mouse.x >= pos.left) && (mouse.x < (pos.left + obj.offsetWidth))
+    && (mouse.y >= pos.top) && (mouse.y < (pos.top + obj.offsetHeight));
+}
 
 
 // cookie functions by GoogieSpell
-function setCookie(name, value, expires, path, domain, secure)
-{
-    var curCookie = name + '=' + escape(value) +
-      (expires ? '; expires=' + expires.toGMTString() : '') +
-      (path ? '; path=' + path : '') +
-      (domain ? '; domain=' + domain : '') +
-      (secure ? '; secure' : '') + '; SameSite=Lax';
+function setCookie(name, value, expires, path, domain, secure) {
+    var curCookie = name + '=' + escape(value)
+      + (expires ? '; expires=' + expires.toGMTString() : '')
+      + (path ? '; path=' + path : '')
+      + (domain ? '; domain=' + domain : '')
+      + (secure ? '; secure' : '') + '; SameSite=Lax';
 
     document.cookie = curCookie;
-};
+}
 
-function getCookie(name)
-{
+function getCookie(name) {
     var dc = document.cookie,
         prefix = name + '=',
         begin = dc.indexOf('; ' + prefix);
 
     if (begin == -1) {
         begin = dc.indexOf(prefix);
-        if (begin != 0)
+        if (begin != 0) {
             return null;
-    }
-    else {
+        }
+    } else {
         begin += 2;
     }
 
     var end = dc.indexOf(';', begin);
-    if (end == -1)
+    if (end == -1) {
         end = dc.length;
+    }
 
     return unescape(dc.substring(begin + prefix.length, end));
-};
+}
 
 // deprecated aliases, to be removed, use rcmail.set_cookie/rcmail.get_cookie
 roundcube_browser.prototype.set_cookie = setCookie;
@@ -584,15 +609,13 @@ bw.set_html_class();
 
 // Add escape() method to RegExp object
 // http://dev.rubyonrails.org/changeset/7271
-RegExp.escape = function(str)
-{
+RegExp.escape = function (str) {
     return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
 };
 
 // Extend Date prototype to detect Standard timezone without DST
 // from http://www.michaelapproved.com/articles/timezone-detect-and-ignore-daylight-saving-time-dst/
-Date.prototype.getStdTimezoneOffset = function()
-{
+Date.prototype.getStdTimezoneOffset = function () {
     var m = 12,
         d = new Date(null, m, 1),
         tzo = d.getTimezoneOffset();
@@ -609,14 +632,14 @@ Date.prototype.getStdTimezoneOffset = function()
 
 // define String's startsWith() method for old browsers
 if (!String.prototype.startsWith) {
-    String.prototype.startsWith = function(search, position) {
+    String.prototype.startsWith = function (search, position) {
         position = position || 0;
         return this.slice(position, search.length) === search;
     };
 }
 
 if (!String.prototype.endsWith) {
-    String.prototype.endsWith = function(searchString, position) {
+    String.prototype.endsWith = function (searchString, position) {
         var subjectString = this.toString();
         if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
             position = subjectString.length;
@@ -628,27 +651,29 @@ if (!String.prototype.endsWith) {
 }
 
 // array utility function
-jQuery.last = function(arr) {
-    return arr && arr.length ? arr[arr.length-1] : undefined;
+jQuery.last = function (arr) {
+    return arr && arr.length ? arr[arr.length - 1] : undefined;
 };
 
 // jQuery plugin to set HTML5 placeholder and title attributes on input elements
-jQuery.fn.placeholder = function(text) {
-    return this.each(function() {
-        $(this).prop({title: text, placeholder: text});
+jQuery.fn.placeholder = function (text) {
+    return this.each(function () {
+        $(this).prop({ title: text, placeholder: text });
     });
 };
 
 // function to parse query string into an object
-var rcube_parse_query = function(query)
-{
-    if (!query)
+var rcube_parse_query = function (query) {
+    if (!query) {
         return {};
+    }
 
     var params = {}, e, k, v,
         re = /([^&=]+)=?([^&]*)/g,
         decodeRE = /\+/g, // Regex for replacing addition symbol with a space
-        decode = function (str) { return decodeURIComponent(str.replace(decodeRE, ' ')); };
+        decode = function (str) {
+            return decodeURIComponent(str.replace(decodeRE, ' '));
+        };
 
     query = query.replace(/\?/, '');
 
@@ -659,9 +684,9 @@ var rcube_parse_query = function(query)
         if (k.substring(k.length - 2) === '[]') {
             k = k.substring(0, k.length - 2);
             (params[k] || (params[k] = [])).push(v);
-        }
-        else
+        } else {
             params[k] = v;
+        }
     }
 
     return params;
@@ -673,7 +698,7 @@ var Base64 = (function () {
     var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
     // private method for UTF-8 encoding
-    var utf8_encode = function(string) {
+    var utf8_encode = function (string) {
         string = string.replace(/\r\n/g, '\n');
         var utftext = '';
 
@@ -682,12 +707,10 @@ var Base64 = (function () {
 
             if (c < 128) {
                 utftext += String.fromCharCode(c);
-            }
-            else if(c > 127 && c < 2048) {
+            } else if(c > 127 && c < 2048) {
                 utftext += String.fromCharCode((c >> 6) | 192);
                 utftext += String.fromCharCode((c & 63) | 128);
-            }
-            else {
+            } else {
                 utftext += String.fromCharCode((c >> 12) | 224);
                 utftext += String.fromCharCode(((c >> 6) & 63) | 128);
                 utftext += String.fromCharCode((c & 63) | 128);
@@ -706,13 +729,11 @@ var Base64 = (function () {
             if (c < 128) {
                 string += String.fromCharCode(c);
                 i++;
-            }
-            else if (c > 191 && c < 224) {
+            } else if (c > 191 && c < 224) {
                 c2 = utftext.charCodeAt(i + 1);
                 string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
                 i += 2;
-            }
-            else {
+            } else {
                 c2 = utftext.charCodeAt(i + 1);
                 c3 = utftext.charCodeAt(i + 2);
                 string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
@@ -732,11 +753,10 @@ var Base64 = (function () {
             // encode UTF8 as btoa() may fail on some characters
             input = utf8_encode(input);
 
-            if (typeof(window.btoa) === 'function') {
+            if (typeof (window.btoa) === 'function') {
                 try {
                     return btoa(input);
-                }
-                catch (e) {};
+                } catch (e) {}
             }
 
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4, i = 0, output = '', len = input.length;
@@ -751,29 +771,29 @@ var Base64 = (function () {
                 enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
                 enc4 = chr3 & 63;
 
-                if (isNaN(chr2))
+                if (isNaN(chr2)) {
                     enc3 = enc4 = 64;
-                else if (isNaN(chr3))
+                } else if (isNaN(chr3)) {
                     enc4 = 64;
+                }
 
                 output = output
-          + keyStr.charAt(enc1) + keyStr.charAt(enc2)
-          + keyStr.charAt(enc3) + keyStr.charAt(enc4);
+                    + keyStr.charAt(enc1) + keyStr.charAt(enc2)
+                    + keyStr.charAt(enc3) + keyStr.charAt(enc4);
             }
 
             return output;
         },
 
         /**
-     * Decodes a base64 string.
-     * @param {String} input The string to decode.
-     */
+         * Decodes a base64 string.
+         * @param {String} input The string to decode.
+         */
         decode: function (input) {
-            if (typeof(window.atob) === 'function') {
+            if (typeof (window.atob) === 'function') {
                 try {
                     return utf8_decode(atob(input));
-                }
-                catch (e) {};
+                } catch (e) {}
             }
 
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4, len, i = 0, output = '';
@@ -794,10 +814,12 @@ var Base64 = (function () {
 
                 output = output + String.fromCharCode(chr1);
 
-                if (enc3 != 64)
+                if (enc3 != 64) {
                     output = output + String.fromCharCode(chr2);
-                if (enc4 != 64)
+                }
+                if (enc4 != 64) {
                     output = output + String.fromCharCode(chr3);
+                }
             }
 
             return utf8_decode(output);
