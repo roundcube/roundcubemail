@@ -661,7 +661,9 @@ function rcube_elastic_ui() {
 
                 // show/hide the message when something changes on the list
                 var observer = new MutationObserver(callback);
-                observer.observe(table[0], { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+                observer.observe(table[0], {
+                    childList: true, subtree: true, attributes: true, attributeFilter: ['style'],
+                });
 
                 // initialize the message
                 callback();
@@ -1074,8 +1076,10 @@ function rcube_elastic_ui() {
 
         $('input[type=file]:not(.custom-file-input)', context).each(function () {
             var label_text = rcmail.gettext('choosefile' + (this.multiple ? 's' : '')),
-                label = $('<label>').attr({ 'class': 'custom-file-label',
-                    'data-browse': rcmail.gettext('browse') }).text(label_text);
+                label = $('<label>').attr({
+                    'class': 'custom-file-label',
+                    'data-browse': rcmail.gettext('browse'),
+                }).text(label_text);
 
             $(this).addClass('custom-file-input').wrap('<div class="custom-file">');
             $(this).on('change', function () {
@@ -1532,7 +1536,9 @@ function rcube_elastic_ui() {
                     $('<div id="ui-datepicker-div" class="hidden">').appendTo(document.body);
                 }
 
-                (new MutationObserver(callback)).observe(this, { childList: true, subtree: false, attributes: true, attributeFilter: ['aria-hidden'] });
+                (new MutationObserver(callback)).observe(this, {
+                    childList: true, subtree: false, attributes: true, attributeFilter: ['aria-hidden'],
+                });
             });
         }
     }
@@ -2084,7 +2090,9 @@ function rcube_elastic_ui() {
         // Add Unread filter button
         if (input.is('#mailsearchform')) {
             unread_button = $('<a>')
-                .attr({ 'class': 'button unread', href: '#', role: 'button', title: rcmail.gettext('showunread') })
+                .attr({
+                    'class': 'button unread', href: '#', role: 'button', title: rcmail.gettext('showunread'),
+                })
                 .on('click', function (e) {
                     $(rcmail.gui_objects.search_filter).val($(e.target).is('.selected') ? 'ALL' : 'UNSEEN');
                     rcmail.command('search');
@@ -3440,7 +3448,9 @@ function rcube_elastic_ui() {
         // Note: we do not remove the original element, and we do not use
         // display: none, because we want to handle onfocus event
         // Note: tabindex:-1 to make Shift+TAB working on these widgets
-        $(obj).css({ position: 'absolute', opacity: 0, left: '-5000px', width: '10px' })
+        $(obj).css({
+            position: 'absolute', opacity: 0, left: '-5000px', width: '10px',
+        })
             .attr('tabindex', -1)
             .after(list)
             // some core code sometimes focuses or changes the original node
@@ -4404,7 +4414,9 @@ if (window.rcmail) {
         }
 
         // just delegate the action to rcube_elastic_ui
-        return rcmail.triggerEvent(show === false ? 'menu-close' : 'menu-open', { name: name, obj: obj, props: prop, originalEvent: event });
+        return rcmail.triggerEvent(show === false ? 'menu-close' : 'menu-open', {
+            name: name, obj: obj, props: prop, originalEvent: event,
+        });
     };
 
     /**

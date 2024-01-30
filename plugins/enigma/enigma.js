@@ -338,8 +338,10 @@ rcube_webmail.prototype.enigma_export = function (selected) {
 // Done this way to handle password input
 rcube_webmail.prototype.enigma_export_submit = function (data) {
     var id = 'keyexport-' + new Date().getTime(),
-        form = $('<form>').attr({ target: id, method: 'post', style: 'display:none',
-            action: '?_action=plugin.enigmakeys&_task=settings&_a=export' }),
+        form = $('<form>').attr({
+            target: id, method: 'post', style: 'display:none',
+            action: '?_action=plugin.enigmakeys&_task=settings&_a=export',
+        }),
         iframe = $('<iframe>').attr({ name: id, style: 'display:none' });
 
     form.append($('<input>').attr({ name: '_token', value: this.env.request_token }));

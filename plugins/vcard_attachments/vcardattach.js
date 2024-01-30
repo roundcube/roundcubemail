@@ -20,7 +20,9 @@ function plugin_vcard_import(mime_id) {
         var content = [];
 
         $.each(rcmail.env.vcards, function (id, contact) {
-            var chbox = $('<input>').attr({ type: 'checkbox', value: id, checked: true, 'class': 'pretty-checkbox' }),
+            var chbox = $('<input>').attr({
+                    type: 'checkbox', value: id, checked: true, 'class': 'pretty-checkbox',
+                }),
                 label = $('<label>').text(' ' + contact);
 
             content.push($('<div>').append(label.prepend(chbox)));
@@ -93,7 +95,9 @@ function plugin_vcard_attach() {
         rcmail.open_compose_step(args);
     } else {
     // add to attachments list
-        if (!rcmail.add2attachment_list(ts, { name: '', html: rcmail.get_label('attaching'), classname: 'uploading', complete: false })) {
+        if (!rcmail.add2attachment_list(ts, {
+            name: '', html: rcmail.get_label('attaching'), classname: 'uploading', complete: false,
+        })) {
             rcmail.file_upload_id = rcmail.set_busy(true, 'attaching');
         }
 

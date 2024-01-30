@@ -226,7 +226,8 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         var req_text = this.escapeSpecial(this.original_text),
             ref = this;
 
-        $.ajax({ type: 'POST', url: this.getUrl(), data: this.createXMLReq(req_text), dataType: 'text',
+        $.ajax({
+            type: 'POST', url: this.getUrl(), data: this.createXMLReq(req_text), dataType: 'text',
             error: function (o) {
                 if (ref.custom_ajax_error) {
                     ref.custom_ajax_error(ref);
@@ -259,7 +260,8 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         var ref = this,
             req_text = '<?xml version="1.0" encoding="utf-8" ?><learnword><text>' + word + '</text></learnword>';
 
-        $.ajax({ type: 'POST', url: this.getUrl(), data: req_text, dataType: 'text',
+        $.ajax({
+            type: 'POST', url: this.getUrl(), data: req_text, dataType: 'text',
             error: function (o) {
                 if (ref.custom_ajax_error) {
                     ref.custom_ajax_error(ref);
@@ -403,7 +405,9 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
     this.createListSeparator = function () {
         return $('<li>').html('&nbsp;').attr('googie_action_btn', '1')
-            .css({ 'cursor': 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px' })
+            .css({
+                'cursor': 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px',
+            })
             .get(0);
     };
 
@@ -611,8 +615,10 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             }
 
             $(this.error_window_iframe)
-                .css({ 'top': this.error_window.offsetTop, 'left': this.error_window.offsetLeft,
-                    'width': this.error_window.offsetWidth, 'height': this.error_window.offsetHeight })
+                .css({
+                    'top': this.error_window.offsetTop, 'left': this.error_window.offsetLeft,
+                    'width': this.error_window.offsetWidth, 'height': this.error_window.offsetHeight,
+                })
                 .show();
         }
     };

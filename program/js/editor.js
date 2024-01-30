@@ -541,7 +541,9 @@ function rcube_text_editor(config, id) {
     // get selected text (if no selection returns all text) from the editor
     this.get_content = function (args) {
         var sigstart, ed = this.editor, text = '', strip = false,
-            defaults = { refresh: true, selection: false, nosig: false, format: 'html' };
+            defaults = {
+                refresh: true, selection: false, nosig: false, format: 'html',
+            };
 
         if (!args) {
             args = defaults;
@@ -713,9 +715,11 @@ function rcube_text_editor(config, id) {
                     html: '<div id="image-selector" class="image-selector file-upload"><ul id="image-selector-list" class="attachmentslist"></ul></div>',
                 }],
             },
-            buttons: [{ type: 'cancel', text: rcmail.get_label('close'), onclick: function () {
-                ref.file_picker_close();
-            } }],
+            buttons: [{
+                type: 'cancel', text: rcmail.get_label('close'), onclick: function () {
+                    ref.file_picker_close();
+                },
+            }],
         });
 
         rcmail.env.file_picker_callback = callback;
@@ -884,7 +888,9 @@ function rcube_text_editor(config, id) {
     this.file_upload_form = function (clone_form) {
         var hint = clone_form ? $(clone_form).find('.hint').text() : '',
             form = $('<form id="imageuploadform">').attr({ method: 'post', enctype: 'multipart/form-data' });
-        file = $('<input>').attr({ name: '_file[]', type: 'file', multiple: true, style: 'opacity:0;height:1px;width:1px' })
+        file = $('<input>').attr({
+            name: '_file[]', type: 'file', multiple: true, style: 'opacity:0;height:1px;width:1px',
+        })
             .change(function () {
                 rcmail.upload_file(form, 'upload');
             }),

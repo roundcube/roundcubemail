@@ -648,7 +648,9 @@ function rcube_treelist_widget(node, p) {
         search_tree(data);
         search_active = true;
 
-        me.triggerEvent('search', { query: q, last: last_search, count: hits.length, ids: hits, execute: enter || false });
+        me.triggerEvent('search', {
+            query: q, last: last_search, count: hits.length, ids: hits, execute: enter || false,
+        });
 
         last_search = q;
 

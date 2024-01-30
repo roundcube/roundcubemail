@@ -1068,7 +1068,9 @@ rcube_list_widget.prototype = {
     },
 
     col_tagname: function (tagname) {
-        var col_tagnames = { table:'td', thead:'th', tbody:'td', '*':'span' };
+        var col_tagnames = {
+            table:'td', thead:'th', tbody:'td', '*':'span',
+        };
         return col_tagnames[tagname || this.tagname] || col_tagnames['*'];
     },
 
@@ -1827,14 +1829,18 @@ rcube_list_widget.prototype = {
 
                 // create dragging layer
                 this.col_draglayer = $('<div>').attr('id', 'rcmcoldraglayer')
-                    .css(lpos).css({ position:'absolute', 'z-index':2001,
+                    .css(lpos).css({
+                        position:'absolute', 'z-index':2001,
                         'background-color':'white', opacity:0.75,
-                        height: (this.frame.offsetHeight - 2) + 'px', width: (this.frame.offsetWidth - 2) + 'px' })
+                        height: (this.frame.offsetHeight - 2) + 'px', width: (this.frame.offsetWidth - 2) + 'px',
+                    })
                     .appendTo(document.body)
                     // ... and column position indicator
                     .append($('<div>').attr('id', 'rcmcolumnindicator')
-                        .css({ position:'absolute', 'border-right':'2px dotted #555',
-                            'z-index':2002, height: (this.frame.offsetHeight - 2) + 'px' }));
+                        .css({
+                            position:'absolute', 'border-right':'2px dotted #555',
+                            'z-index':2002, height: (this.frame.offsetHeight - 2) + 'px',
+                        }));
 
                 this.cols = [];
                 this.list_pos = this.list_min_pos = lpos.left;
@@ -1959,7 +1965,8 @@ rcube_list_widget.prototype = {
     add_dragfix: function () {
         $('iframe').each(function () {
             $('<div class="iframe-dragdrop-fix"></div>')
-                .css({ background: '#fff',
+                .css({
+                    background: '#fff',
                     width: this.offsetWidth + 'px', height: this.offsetHeight + 'px',
                     position: 'absolute', opacity: '0.001', zIndex: 1000,
                 })

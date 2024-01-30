@@ -1195,7 +1195,9 @@ rcube_webmail.prototype.managesieve_create = function (force) {
     );
 
     $.each(this.env.sieve_headers, function (i, v) {
-        var attr = { type: 'checkbox', name: 'headers[]', id: 'sievehdr' + i, value: i, checked: v[2] !== false },
+        var attr = {
+                type: 'checkbox', name: 'headers[]', id: 'sievehdr' + i, value: i, checked: v[2] !== false,
+            },
             label = v[0] + ': ' + v[1];
 
         $('ul', dialog).append($('<li>')
