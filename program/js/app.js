@@ -3150,10 +3150,12 @@ function rcube_webmail() {
         }
 
         switch (this.env.autoexpand_threads) {
-            case 2: this.expand_unread();
+            case 2:
+                this.expand_unread();
 
                 break;
-            case 1: this.message_list.expand_all();
+            case 1:
+                this.message_list.expand_all();
 
                 break;
         }

@@ -1023,10 +1023,12 @@ function sieve_formattime(hour, minutes) {
     for (i = 0; i < format.length; i++) {
         c = format.charAt(i);
         switch (c) {
-            case 'a': time += hour >= 12 ? 'pm' : 'am';
+            case 'a':
+                time += hour >= 12 ? 'pm' : 'am';
 
                 break;
-            case 'A': time += hour >= 12 ? 'PM' : 'AM';
+            case 'A':
+                time += hour >= 12 ? 'PM' : 'AM';
 
                 break;
             case 'g':
@@ -1035,17 +1037,22 @@ function sieve_formattime(hour, minutes) {
                 time += (c == 'h' && hour < 10 ? '0' : '') + hour;
 
                 break;
-            case 'G': time += hour;
+            case 'G':
+                time += hour;
 
                 break;
-            case 'H': time += (hour < 10 ? '0' : '') + hour;
+            case 'H':
+                time += (hour < 10 ? '0' : '') + hour;
 
                 break;
-            case 'i': time += (minutes < 10 ? '0' : '') + minutes;
+            case 'i':
+                time += (minutes < 10 ? '0' : '') + minutes;
 
                 break;
-            case 's': time += '00';
-            default: time += c;
+            case 's':
+                time += '00';
+            default:
+                time += c;
         }
     }
 

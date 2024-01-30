@@ -1712,16 +1712,20 @@ function rcube_elastic_ui() {
         }
 
         switch (mode) {
-            case 'phone': screen_resize_phone();
+            case 'phone':
+                screen_resize_phone();
 
                 break;
-            case 'small': screen_resize_small();
+            case 'small':
+                screen_resize_small();
 
                 break;
-            case 'normal': screen_resize_normal();
+            case 'normal':
+                screen_resize_normal();
 
                 break;
-            case 'large': screen_resize_large();
+            case 'large':
+                screen_resize_large();
 
                 break;
         }
