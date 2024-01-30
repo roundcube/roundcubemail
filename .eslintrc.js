@@ -131,7 +131,7 @@ module.exports = {
         'no-script-url': 'off', // (3 matches)
         'no-sequences': 'off', // (5 matches)
         'no-shadow': 'off', // (85 matches)
-        'no-undef': 'off', // (2472 matches)
+        'no-undef': 'off', // (217 matches)
         'no-unneeded-ternary': 'off', // (22 matches)
         'no-unused-expressions': 'off', // (15 matches)
         'no-use-before-define': 'off', // (495 matches)
@@ -183,5 +183,10 @@ module.exports = {
     reportUnusedDisableDirectives: true,
     globals: {
         jQuery: true,
+        $: true,
+        rcmail: true,
+        rcube_event: true,
+        rcube_event_engine: true,
+        rcube_webmail: true,
     },
 };
