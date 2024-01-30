@@ -113,7 +113,6 @@ module.exports = {
         'function-paren-newline': 'off', // (109 matches)
         'guard-for-in': 'off', // eslint-disable-line no-dupe-keys -- (32 matches)
         'key-spacing': 'off', // (233 matches)
-        'keyword-spacing': 'off', // (15 matches)
         'new-cap': 'off', // (16 matches)
         'newline-per-chained-call': 'off', // (38 matches)
         'no-alert': 'off', // (3 matches)

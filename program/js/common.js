@@ -388,7 +388,7 @@ rcube_event_engine.prototype = {
                     if (o && o.event) {
                         delete o.event;
                     }
-                } catch(err) {}
+                } catch (err) {}
             };
 
         if (e === undefined) {
@@ -540,7 +540,7 @@ function rcube_find_object(id, d) {
         for (f = 0; f < d.forms.length; f++) {
             if (d.forms[f].name == id) {
                 obj = d.forms[f];
-            } else if(d.forms[f].elements[id]) {
+            } else if (d.forms[f].elements[id]) {
                 obj = d.forms[f].elements[id];
             }
         }
@@ -709,7 +709,7 @@ var Base64 = (function () {
 
             if (c < 128) {
                 utftext += String.fromCharCode(c);
-            } else if(c > 127 && c < 2048) {
+            } else if (c > 127 && c < 2048) {
                 utftext += String.fromCharCode((c >> 6) | 192);
                 utftext += String.fromCharCode((c & 63) | 128);
             } else {

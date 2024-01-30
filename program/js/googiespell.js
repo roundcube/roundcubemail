@@ -190,7 +190,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             this.focus_link_b.focus();
             this.focus_link_t.focus();
             return true;
-        } catch(e) {
+        } catch (e) {
             return false;
         }
     };
@@ -361,7 +361,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             var only_text = matched_c[i].replace(/<[^>]*>/g, ''),
                 split_t = only_text.split(re_split_text);
             for (var k = 0; k < split_t.length; k++) {
-                if(split_t[k] != '') {
+                if (split_t[k] != '') {
                     item['suggestions'].push(split_t[k]);
                 }
             }

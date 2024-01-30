@@ -809,7 +809,7 @@ function rcube_elastic_ui() {
             switch_iframe_color_mode = function () {
                 try {
                     $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
-                } catch(e) { /* ignore */ }
+                } catch (e) { /* ignore */ }
             },
             switch_color_mode = function () {
                 if (color_mode == 'dark') {
@@ -1271,7 +1271,7 @@ function rcube_elastic_ui() {
 
                 // Reset title back to the default
                 $(win).on('unload', title_reset);
-            } catch(e) { /* ignore */ }
+            } catch (e) { /* ignore */ }
 
             common_content_handler(e, href, show);
         });

@@ -2839,7 +2839,7 @@ function rcube_webmail() {
                     $(this).off('load.lock');
                 });
             }
-        } catch(e) { /* Ignore permission denied error */ }
+        } catch (e) { /* Ignore permission denied error */ }
     };
 
     this.unlock_frame = function () {
@@ -6288,7 +6288,7 @@ function rcube_webmail() {
                             pos.top += offset.top;
                         }
                     });
-                } catch(e) {}
+                } catch (e) {}
             }
 
             var w = $(is_framed ? parent : window).width(),
@@ -9483,7 +9483,7 @@ function rcube_webmail() {
             try {
             // This may throw security exception in Firefox (#5400)
                 window.history.replaceState({}, document.title, rcmail.url('', query));
-            } catch(e) { /* ignore */ }
+            } catch (e) { /* ignore */ }
         }
     };
 
@@ -10352,7 +10352,7 @@ function rcube_webmail() {
             if (obj.setSelectionRange) {
                 obj.setSelectionRange(pos, pos);
             }
-        } catch(e) {} // catch Firefox exception if obj is hidden
+        } catch (e) {} // catch Firefox exception if obj is hidden
     };
 
     // get selected text from an input field
@@ -10398,7 +10398,7 @@ function rcube_webmail() {
     this.register_protocol_handler = function (name) {
         try {
             window.navigator.registerProtocolHandler('mailto', this.mailto_handler_uri(), name);
-        } catch(e) {
+        } catch (e) {
             this.display_message(String(e), 'error');
         }
     };
