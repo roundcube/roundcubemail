@@ -676,7 +676,7 @@ function rcube_webmail() {
                 // detect client timezone
                 try {
                     tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                } catch (e) { }
+                } catch (e) {}
 
                 input_tz.val(tz ? tz : (new Date().getStdTimezoneOffset() / -60));
 
@@ -8151,8 +8151,7 @@ function rcube_webmail() {
         this.subscription_list.container.children('li').each(function () {
             var i, folder = ref.folder_id2name(this.id);
             // show all folders
-            if (prefix == '---') {
-            }
+            if (prefix == '---') {}
             // got namespace prefix
             else if (prefix) {
                 if (folder !== prefix) {
@@ -10584,7 +10583,7 @@ function rcube_webmail() {
         try {
             item = localStorage.getItem(this.get_local_storage_prefix() + key);
             result = JSON.parse(item);
-        } catch (e) { }
+        } catch (e) {}
 
         return result || deflt || null;
     };

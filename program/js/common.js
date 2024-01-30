@@ -388,7 +388,7 @@ rcube_event_engine.prototype = {
                     if (o && o.event) {
                         delete o.event;
                     }
-                } catch(err) { }
+                } catch(err) {}
             };
 
         if (e === undefined) {

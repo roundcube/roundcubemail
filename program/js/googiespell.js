@@ -283,8 +283,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                     rcmail.alert_dialog('An error was encountered on the server. Please try again later.');
                 }
             },
-            success: function (data) {
-            },
+            success: function (data) {},
         });
     };
 
