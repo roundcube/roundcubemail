@@ -715,7 +715,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             };
 
         $(elm).html(text).addClass('googie_link').click(d).removeAttr('is_corrected')
-            .attr({ googie_action_btn : '1', g_id : id });
+            .attr({ googie_action_btn: '1', g_id: id });
 
         return elm;
     };

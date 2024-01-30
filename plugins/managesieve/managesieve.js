@@ -83,7 +83,7 @@ if (window.rcmail) {
 
             if (rcmail.gui_objects.filterslist) {
                 rcmail.filters_list = new rcube_list_widget(rcmail.gui_objects.filterslist,
-                    { multiselect:false, draggable:true, keyboard:true });
+                    { multiselect: false, draggable: true, keyboard: true });
 
                 rcmail.filters_list
                     .addEventListener('select', function (o) {
@@ -111,7 +111,7 @@ if (window.rcmail) {
 
             if (rcmail.gui_objects.filtersetslist) {
                 rcmail.filtersets_list = new rcube_list_widget(rcmail.gui_objects.filtersetslist,
-                    { multiselect:false, draggable:false, keyboard:true });
+                    { multiselect: false, draggable: false, keyboard: true });
 
                 rcmail.filtersets_list.init().focus();
 

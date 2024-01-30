@@ -22,10 +22,10 @@ if (window.rcmail) {
             // enable autocomplete on user input
             if (rcmail.env.acl_users_source) {
                 var inst = rcmail.is_framed() ? parent.rcmail : rcmail;
-                inst.init_address_input_events($('#acluser'), { action:'settings/plugin.acl-autocomplete' });
+                inst.init_address_input_events($('#acluser'), { action: 'settings/plugin.acl-autocomplete' });
 
                 // pass config settings and localized texts to autocomplete context
-                inst.set_env({ autocomplete_max:rcmail.env.autocomplete_max, autocomplete_min_length:rcmail.env.autocomplete_min_length });
+                inst.set_env({ autocomplete_max: rcmail.env.autocomplete_max, autocomplete_min_length: rcmail.env.autocomplete_min_length });
                 inst.add_label('autocompletechars', rcmail.labels.autocompletechars);
                 inst.add_label('autocompletemore', rcmail.labels.autocompletemore);
 

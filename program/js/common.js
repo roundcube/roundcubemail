@@ -219,7 +219,7 @@ var rcube_event = {
             mY += e._offset.top;
         }
 
-        return { x:mX, y:mY };
+        return { x: mX, y: mY };
     },
 
     /**
@@ -325,7 +325,7 @@ var rcube_event = {
 
     touchevent: function (e) {
         return {
-            pageX:e.pageX, pageY:e.pageY, offsetX:e.pageX - e.target.offsetLeft, offsetY:e.pageY - e.target.offsetTop, target:e.target, istouch:true,
+            pageX: e.pageX, pageY: e.pageY, offsetX: e.pageX - e.target.offsetLeft, offsetY: e.pageY - e.target.offsetTop, target: e.target, istouch: true,
         };
     },
 
@@ -355,7 +355,7 @@ rcube_event_engine.prototype = {
             this._events[evt] = [];
         }
 
-        this._events[evt].push({ func:func, obj:obj ? obj : window });
+        this._events[evt].push({ func: func, obj: obj ? obj : window });
 
         return this; // chainable
     },

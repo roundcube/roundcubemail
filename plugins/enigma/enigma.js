@@ -19,7 +19,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
     if (rcmail.env.task == 'settings') {
         if (rcmail.gui_objects.keyslist) {
             rcmail.keys_list = new rcube_list_widget(rcmail.gui_objects.keyslist,
-                { multiselect:true, draggable:false, keyboard:true });
+                { multiselect: true, draggable: false, keyboard: true });
             rcmail.keys_list
                 .addEventListener('select', function (o) {
                     rcmail.enigma_keylist_select(o);

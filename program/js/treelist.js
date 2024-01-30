@@ -114,7 +114,7 @@ function rcube_treelist_widget(node, p) {
     }
 
     if (p.data) {
-        index_data({ children:data });
+        index_data({ children: data });
     }
     // load data from DOM
     else {
@@ -983,7 +983,7 @@ function rcube_treelist_widget(node, p) {
      */
     function focus_noscroll(elem) {
         if (elem.length) {
-            var frame = container.parent().get(0) || { scrollTop:0 },
+            var frame = container.parent().get(0) || { scrollTop: 0 },
                 y = frame.scrollTop || frame.scrollY;
             elem.focus();
             frame.scrollTop = y;
