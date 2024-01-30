@@ -21,7 +21,7 @@ function plugin_vcard_import(mime_id) {
 
         $.each(rcmail.env.vcards, function (id, contact) {
             var chbox = $('<input>').attr({
-                    type: 'checkbox', value: id, checked: true, 'class': 'pretty-checkbox',
+                    type: 'checkbox', value: id, checked: true, class: 'pretty-checkbox',
                 }),
                 label = $('<label>').text(' ' + contact);
 

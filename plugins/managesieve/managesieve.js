@@ -550,7 +550,7 @@ rcube_webmail.prototype.managesieve_rulefill = function (content, id, after) {
     if (content != '') {
     // create new element
         var div = $('#rules')[0],
-            row = $('<div>').attr({ 'class': 'rulerow', id: 'rulerow' + id })
+            row = $('<div>').attr({ class: 'rulerow', id: 'rulerow' + id })
                 .html(content);
 
         this.managesieve_insertrow(div, row, after);
@@ -583,7 +583,7 @@ rcube_webmail.prototype.managesieve_actionadd = function (id) {
 rcube_webmail.prototype.managesieve_actionfill = function (content, id, after) {
     if (content != '') {
         var div = $('#actions')[0],
-            row = $('<div>').attr({ 'class': 'actionrow', id: 'actionrow' + id })
+            row = $('<div>').attr({ class: 'actionrow', id: 'actionrow' + id })
                 .html(content);
 
         this.managesieve_insertrow(div, row, after);

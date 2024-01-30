@@ -304,7 +304,7 @@ rcube_webmail.prototype.enigma_export = function (selected) {
             this.get_label('enigma.keyexportprompt'),
             this.get_label('enigma.exportkeys'),
             [{
-                'class': 'export mainaction',
+                class: 'export mainaction',
                 text: this.get_label('enigma.onlypubkeys'),
                 click: function (e) {
                     rcmail.enigma_export_submit(args);
@@ -312,7 +312,7 @@ rcube_webmail.prototype.enigma_export = function (selected) {
                 },
             },
             {
-                'class': 'export',
+                class: 'export',
                 text: this.get_label('enigma.withprivkeys'),
                 click: function (e) {
                     args._priv = 1;
@@ -321,7 +321,7 @@ rcube_webmail.prototype.enigma_export = function (selected) {
                 },
             },
             {
-                'class': 'cancel',
+                class: 'cancel',
                 text: this.get_label('close'),
                 click: function (e) {
                     $(this).remove();
@@ -428,7 +428,7 @@ rcube_webmail.prototype.enigma_search = function (props) {
     }
 
     if (props || this.env.search_request) {
-        var params = { '_a': 'search', '_q': props },
+        var params = { _a: 'search', _q: props },
             lock = this.set_busy(true, 'searching');
         //        if (this.gui_objects.search_filter)
         //          addurl += '&_filter=' + this.gui_objects.search_filter.value;
@@ -463,7 +463,7 @@ rcube_webmail.prototype.enigma_list = function (page, reset_frame) {
         return parent.rcmail.enigma_list(page, reset_frame);
     }
 
-    var params = { '_a': 'list' },
+    var params = { _a: 'list' },
         lock = this.set_busy(true, 'loading');
 
     this.env.current_page = page ? page : 1;
@@ -604,7 +604,7 @@ rcube_webmail.prototype.enigma_password_request = function (data) {
     this.show_popup_dialog(myprompt, this.get_label('enigma.enterkeypasstitle'),
         [{
             text: this.get_label('ok'),
-            'class': 'mainaction save unlock',
+            class: 'mainaction save unlock',
             click: function (e) {
                 e.stopPropagation();
 
@@ -623,7 +623,7 @@ rcube_webmail.prototype.enigma_password_request = function (data) {
         },
         {
             text: this.get_label('cancel'),
-            'class': 'cancel',
+            class: 'cancel',
             click: function (e) {
                 var jq = ref.is_framed() ? window.parent.$ : $;
                 e.stopPropagation();
@@ -695,7 +695,7 @@ rcube_webmail.prototype.enigma_password_compose_submit = function (data) {
 rcube_webmail.prototype.enigma_key_not_found = function (data) {
     var params = { width: 500, dialogClass: 'error' },
         buttons = [{
-            'class': 'mainaction search',
+            class: 'mainaction search',
             text: data.button,
             click: function () {
                 $(this).remove();
@@ -705,7 +705,7 @@ rcube_webmail.prototype.enigma_key_not_found = function (data) {
 
     if (data.mode == 'encrypt') {
         buttons.push({
-            'class': 'send',
+            class: 'send',
             text: rcmail.get_label('enigma.sendunencrypted'),
             click: function (e) {
                 $(this).remove();
@@ -716,7 +716,7 @@ rcube_webmail.prototype.enigma_key_not_found = function (data) {
     }
 
     buttons.push({
-        'class': 'cancel',
+        class: 'cancel',
         text: this.get_label('cancel'),
         click: function () {
             $(this).remove();

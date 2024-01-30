@@ -897,7 +897,7 @@ function rcube_text_editor(config, id) {
                 rcmail.upload_file(form, 'upload');
             }),
         wrapper = $('<div class="upload-form">')
-            .append($('<button>').attr({ 'class': 'btn btn-secondary attach', href: '#', onclick: "rcmail.upload_input('imageuploadform')" }));
+            .append($('<button>').attr({ class: 'btn btn-secondary attach', href: '#', onclick: "rcmail.upload_input('imageuploadform')" }));
 
         if (hint) {
             wrapper.prepend($('<div class="hint">').text(hint));

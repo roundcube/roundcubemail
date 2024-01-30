@@ -417,7 +417,7 @@ function rcube_elastic_ui() {
             rcmail.register_menu_button(button[0], popup);
         }
 
-        button.attr({ id: button_id, href: '#', 'class': btn_class })
+        button.attr({ id: button_id, href: '#', class: btn_class })
             .append($('<span class="inner">').text(target.text()));
 
         if (click) {
@@ -565,7 +565,7 @@ function rcube_elastic_ui() {
 
                 // Add Select button to the list navigation bar
                 if (!button) {
-                    button = $('<a>').attr({ 'class': 'button selection disabled', role: 'button', title: rcmail.gettext('select') })
+                    button = $('<a>').attr({ class: 'button selection disabled', role: 'button', title: rcmail.gettext('select') })
                         .on('click', function () {
                             UI.toggle_list_selection(this, table.attr('id'));
                         })
@@ -1042,7 +1042,7 @@ function rcube_elastic_ui() {
         // Tabs do not scale nicely on very small screen, so can be used
         // only with small number of tabs with short text labels
         $('form.tabbed,div.tabbed', context).each(function (idx, item) {
-            var tabs = [], nav = $('<ul>').attr({ 'class': 'nav nav-tabs', role: 'tablist' });
+            var tabs = [], nav = $('<ul>').attr({ class: 'nav nav-tabs', role: 'tablist' });
 
             $(this).addClass('tab-content').children('fieldset').each(function (i, fieldset) {
                 var tab, id = fieldset.id || ('tab' + idx + '-' + i),
@@ -1052,7 +1052,7 @@ function rcube_elastic_ui() {
 
                 tab = $('<li>').addClass('nav-item').append(
                     $('<a>').addClass('nav-link' + (tab_class ? ' ' + tab_class : ''))
-                        .attr({ role: 'tab', 'href': '#' + id })
+                        .attr({ role: 'tab', href: '#' + id })
                         .text($('legend', fieldset).first().text())
                         .click(function (e) {
                             $(this).tab('show');
@@ -1077,7 +1077,7 @@ function rcube_elastic_ui() {
         $('input[type=file]:not(.custom-file-input)', context).each(function () {
             var label_text = rcmail.gettext('choosefile' + (this.multiple ? 's' : '')),
                 label = $('<label>').attr({
-                    'class': 'custom-file-label',
+                    class: 'custom-file-label',
                     'data-browse': rcmail.gettext('browse'),
                 }).text(label_text);
 
@@ -2091,7 +2091,7 @@ function rcube_elastic_ui() {
         if (input.is('#mailsearchform')) {
             unread_button = $('<a>')
                 .attr({
-                    'class': 'button unread', href: '#', role: 'button', title: rcmail.gettext('showunread'),
+                    class: 'button unread', href: '#', role: 'button', title: rcmail.gettext('showunread'),
                 })
                 .on('click', function (e) {
                     $(rcmail.gui_objects.search_filter).val($(e.target).is('.selected') ? 'ALL' : 'UNSEEN');
@@ -2239,7 +2239,7 @@ function rcube_elastic_ui() {
         // append the new list toolbar and menu button
         if (list_items.length) {
             var container = layout.list.children('.header'),
-                menu_attrs = { 'class': 'menu toolbar popupmenu listing iconized', id: 'toolbar-list-menu' },
+                menu_attrs = { class: 'menu toolbar popupmenu listing iconized', id: 'toolbar-list-menu' },
                 menu_button = $('<a class="button icon toolbar-list-button" href="#list-menu">')
                     .attr({ 'data-popup': 'toolbar-list-menu' }),
                 // TODO: copy original toolbar attributes (class, role, aria-*)
@@ -2256,7 +2256,7 @@ function rcube_elastic_ui() {
         // append the new toolbar and menu button
         if (items.length) {
             var container = layout.content.children('.header'),
-                menu_attrs = { 'class': 'menu toolbar popupmenu listing iconized', id: 'toolbar-menu' },
+                menu_attrs = { class: 'menu toolbar popupmenu listing iconized', id: 'toolbar-menu' },
                 menu_button = $('<a class="button icon toolbar-menu-button" href="#menu">')
                     .attr({ 'data-popup': 'toolbar-menu' });
 
@@ -3041,7 +3041,7 @@ function rcube_elastic_ui() {
                 href: '#',
                 tabindex: fname.attr('tabindex') || 0,
                 title: label,
-                'class': 'button icon dropdown skip-content',
+                class: 'button icon dropdown skip-content',
             })
                 .on('click', function (e) {
                     return attachmentmenu($('#attachmentmenu'), button, e);
@@ -3204,7 +3204,7 @@ function rcube_elastic_ui() {
                 unread: !message.unread,
                 flag: !message.flagged,
                 unflag: message.flagged,
-                'delete': !message.deleted,
+                delete: !message.deleted,
                 undo: message.deleted,
             };
 
@@ -3324,7 +3324,7 @@ function rcube_elastic_ui() {
                         }),
                     email_element = $('<span class="email">'),
                     // TODO: should the 'close' link have tabindex?
-                    link = $('<a>').attr({ 'class': 'button icon remove' })
+                    link = $('<a>').attr({ class: 'button icon remove' })
                         .click(function () {
                             recipient.remove();
                             apply_func();
@@ -3603,7 +3603,7 @@ function rcube_elastic_ui() {
      */
     function image_upload_input(obj) {
         var reset_button = $('<a>')
-                .attr({ 'class': 'icon button delete', href: '#' })
+                .attr({ class: 'icon button delete', href: '#' })
                 .click(function (e) {
                     rcmail.command('delete-photo', '', this, e); return false;
                 }),
@@ -3675,7 +3675,7 @@ function rcube_elastic_ui() {
             label = $('<label>');
         }
 
-        label.attr({ 'for': id, 'class': 'custom-control-label', title: checkbox.attr('title') || '' })
+        label.attr({ for: id, class: 'custom-control-label', title: checkbox.attr('title') || '' })
             .on('click', function (e) {
                 e.stopPropagation();
             });

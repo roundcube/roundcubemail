@@ -53,18 +53,18 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     this.server_url = server_url;
 
     this.org_lang_to_word = {
-        'da': 'Dansk',
-        'de': 'Deutsch',
-        'en': 'English',
-        'es': 'Español',
-        'fr': 'Français',
-        'it': 'Italiano',
-        'nl': 'Nederlands',
-        'pl': 'Polski',
-        'pt': 'Português',
-        'ru': 'Русский',
-        'fi': 'Suomi',
-        'sv': 'Svenska',
+        da: 'Dansk',
+        de: 'Deutsch',
+        en: 'English',
+        es: 'Español',
+        fr: 'Français',
+        it: 'Italiano',
+        nl: 'Nederlands',
+        pl: 'Polski',
+        pt: 'Português',
+        ru: 'Русский',
+        fi: 'Suomi',
+        sv: 'Svenska',
     };
     this.lang_to_word = this.org_lang_to_word;
     this.langlist_codes = this.array_keys(this.lang_to_word);
@@ -420,7 +420,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     this.createListSeparator = function () {
         return $('<li>').html('&nbsp;').attr('googie_action_btn', '1')
             .css({
-                'cursor': 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px',
+                cursor: 'default', 'font-size': '3px', 'border-top': '1px solid #ccc', 'padding-top': '3px',
             })
             .get(0);
     };
@@ -555,7 +555,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         $(ok_pic).addClass('mainaction save googie_ok_button btn-sm').click(onsub);
 
         $(edit_form).attr('googie_action_btn', '1')
-            .css({ 'cursor': 'default', 'white-space': 'nowrap' })
+            .css({ cursor: 'default', 'white-space': 'nowrap' })
             .submit(onsub)
             .append(edit_input)
             .append(ok_pic)
@@ -618,22 +618,22 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             top = 0;
         }
 
-        $(this.error_window).css({ 'top': top + 'px', 'left': left + 'px', position: 'absolute' }).show();
+        $(this.error_window).css({ top: top + 'px', left: left + 'px', position: 'absolute' }).show();
 
         // Dummy for IE - dropdown bug fix
         if (document.all && !window.opera) {
             if (!this.error_window_iframe) {
-                var iframe = $('<iframe>').css({ 'position': 'absolute', 'z-index': -1 });
+                var iframe = $('<iframe>').css({ position: 'absolute', 'z-index': -1 });
                 $('body').append(iframe);
                 this.error_window_iframe = iframe;
             }
 
             $(this.error_window_iframe)
                 .css({
-                    'top': this.error_window.offsetTop,
-                    'left': this.error_window.offsetLeft,
-                    'width': this.error_window.offsetWidth,
-                    'height': this.error_window.offsetHeight,
+                    top: this.error_window.offsetTop,
+                    left: this.error_window.offsetLeft,
+                    width: this.error_window.offsetWidth,
+                    height: this.error_window.offsetHeight,
                 })
                 .show();
         }
@@ -710,7 +710,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             };
 
         $(elm).html(text).addClass('googie_link').click(d).removeAttr('is_corrected')
-            .attr({ 'googie_action_btn' : '1', 'g_id' : id });
+            .attr({ googie_action_btn : '1', g_id : id });
 
         return elm;
     };
@@ -977,7 +977,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
     this.createFocusLink = function (name) {
         var link = document.createElement('a');
-        $(link).attr({ 'href': 'javascript:;', 'name': name });
+        $(link).attr({ href: 'javascript:;', name: name });
         return link;
     };
 

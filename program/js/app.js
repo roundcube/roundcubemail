@@ -3145,17 +3145,17 @@ function rcube_webmail() {
 
         for (i = 0; i < len; i++) {
             if (tree[i] > 2) {
-                divs.push({ 'class': 'l3', width: 15 });
+                divs.push({ class: 'l3', width: 15 });
             } else if (tree[i] > 1) {
-                divs.push({ 'class': 'l2', width: 15 });
+                divs.push({ class: 'l2', width: 15 });
             } else if (tree[i] > 0) {
-                divs.push({ 'class': 'l1', width: 15 });
+                divs.push({ class: 'l1', width: 15 });
             }
             // separator div
             else if (divs.length && !divs[divs.length - 1]['class']) {
                 divs[divs.length - 1].width += 15;
             } else {
-                divs.push({ 'class': null, width: 15 });
+                divs.push({ class: null, width: 15 });
             }
         }
 
@@ -3341,7 +3341,7 @@ function rcube_webmail() {
                 css_class += ' status';
             }
 
-            $(row.icon).attr({ 'class': css_class, title: label });
+            $(row.icon).attr({ class: css_class, title: label });
         }
 
         if (row.msgicon && row.msgicon != row.icon) {
@@ -3359,7 +3359,7 @@ function rcube_webmail() {
                 label += this.get_label('forwarded') + ' ';
             }
 
-            $(row.msgicon).attr({ 'class': css_class, title: label });
+            $(row.msgicon).attr({ class: css_class, title: label });
         }
 
         if (row.flagicon) {
@@ -4020,7 +4020,7 @@ function rcube_webmail() {
 
                 $.ajax({
                     type: 'GET',
-                    url: this.url('get', { '_mbox': this.env.mailbox, '_uid': this.env.uid, '_part': this.env.pgp_mime_part }),
+                    url: this.url('get', { _mbox: this.env.mailbox, _uid: this.env.uid, _part: this.env.pgp_mime_part }),
                     error: function (o, status, err) {
                         ref.http_error(o, status, err, msgid);
                     },
@@ -4609,7 +4609,7 @@ function rcube_webmail() {
             buttons = [
                 {
                     text: this.get_label('send'),
-                    'class': 'mainaction send',
+                    class: 'mainaction send',
                     click: function (e, ui, dialog) {
                         props.action = 'sendmdn';
                         (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
@@ -4617,7 +4617,7 @@ function rcube_webmail() {
                 },
                 {
                     text: this.get_label('ignore'),
-                    'class': 'cancel',
+                    class: 'cancel',
                     click: function (e, ui, dialog) {
                         (ref.is_framed() ? parent.$ : $)(dialog || this).dialog('close');
                     },
@@ -4632,7 +4632,7 @@ function rcube_webmail() {
         if (this.env.mdn_request_save) {
             buttons.unshift({
                 text: this.get_label('sendalwaysto').replace('$email', this.env.mdn_request_sender.mailto),
-                'class': 'mainaction send',
+                class: 'mainaction send',
                 click: function (e, ui, dialog) {
                     props.data._save = ref.env.mdn_request_save;
                     props.data._address = ref.env.mdn_request_sender.string;
@@ -4967,7 +4967,7 @@ function rcube_webmail() {
                     this.get_label('restoremessage'),
                     [{
                         text: this.get_label('restore'),
-                        'class': 'mainaction restore',
+                        class: 'mainaction restore',
                         click: function () {
                             ref.restore_compose_form(key, html_mode);
                             ref.remove_compose_data(key); // remove old copy
@@ -4977,7 +4977,7 @@ function rcube_webmail() {
                     },
                     {
                         text: this.get_label('delete'),
-                        'class': 'delete',
+                        class: 'delete',
                         click: function () {
                             ref.remove_compose_data(key);
                             $(this).dialog('close');
@@ -4986,7 +4986,7 @@ function rcube_webmail() {
                     },
                     {
                         text: this.get_label('ignore'),
-                        'class': 'cancel',
+                        class: 'cancel',
                         click: function () {
                             $(this).dialog('close');
                             show_next(i);
@@ -5166,13 +5166,13 @@ function rcube_webmail() {
                 this.get_label('nosubjecttitle'),
                 [{
                     text: this.get_label('sendmessage'),
-                    'class': 'mainaction send',
+                    class: 'mainaction send',
                     click: function () {
                         save_func();
                     },
                 }, {
                     text: this.get_label('cancel'),
-                    'class': 'cancel',
+                    class: 'cancel',
                     click: function () {
                         input_subject.focus();
                         dialog.dialog('close');
@@ -5266,7 +5266,7 @@ function rcube_webmail() {
                     click: function () {
                         save_func(false);
                     },
-                    'class': 'mainaction',
+                    class: 'mainaction',
                 }, {
                     text: this.get_label('bccinstead'),
                     click: function () {
@@ -5277,7 +5277,7 @@ function rcube_webmail() {
                     click: function () {
                         dialog.dialog('close');
                     },
-                    'class': 'cancel',
+                    class: 'cancel',
                 }],
                 { dialogClass: 'warning' }
             );
@@ -6247,7 +6247,7 @@ function rcube_webmail() {
         if (!this.ksearch_pane) {
             ul = $('<ul>');
             this.ksearch_pane = $('<div>')
-                .attr({ id: 'rcmKSearchpane', role: 'listbox', 'class': 'select-menu inline' })
+                .attr({ id: 'rcmKSearchpane', role: 'listbox', class: 'select-menu inline' })
                 .css({ position: 'absolute', 'z-index': 30000 })
                 .append(ul)
                 .appendTo(is_framed ? parent.document.body : document.body);
@@ -6671,7 +6671,7 @@ function rcube_webmail() {
                 || (this.env.address_group_stack.length == 1 && this.env.address_group_stack[0].search_request)
             ) {
                 var link = $('<a href="#list">...</a>')
-                    .attr({ title: this.get_label('uponelevel'), 'class': 'poplink' })
+                    .attr({ title: this.get_label('uponelevel'), class: 'poplink' })
                     .click(function () {
                         return ref.command('popgroup', '', this);
                     });
@@ -7841,7 +7841,7 @@ function rcube_webmail() {
         }
 
         // set ID, reset css class
-        row.attr({ id: 'rcmli' + this.html_identifier_encode(id), 'class': class_name });
+        row.attr({ id: 'rcmli' + this.html_identifier_encode(id), class: class_name });
 
         if (!refrow || !refrow.length) {
             // remove old data, subfolders and toggle
@@ -8404,7 +8404,7 @@ function rcube_webmail() {
             }
             // store label in stack
             if (type == 'loading') {
-                this.messages[key].labels.push({ 'id': id, 'msg': msg });
+                this.messages[key].labels.push({ id: id, msg: msg });
             }
             // add element and set timeout
             this.messages[key].elements.push(id);
@@ -8418,10 +8418,10 @@ function rcube_webmail() {
         var obj = $('<div>').addClass(type + ' content').html(msg).data('key', key),
             cont = $(this.gui_objects.message).append(obj).show();
 
-        this.messages[key] = { 'obj': obj, 'elements': [id] };
+        this.messages[key] = { obj: obj, elements: [id] };
 
         if (type == 'loading') {
-            this.messages[key].labels = [{ 'id': id, 'msg': msg }];
+            this.messages[key].labels = [{ id: id, msg: msg }];
         } else if (type != 'uploading') {
             obj.click(function () {
                 return ref.hide_message(obj);
@@ -8579,7 +8579,7 @@ function rcube_webmail() {
                 button = {
                     click: button,
                     text: idx,
-                    'class': classes,
+                    class: classes,
                 };
             } else {
                 buttons['class'] = classes;
@@ -8682,7 +8682,7 @@ function rcube_webmail() {
             },
             buttons = [{
                 text: this.get_label(cancel_label),
-                'class': cancel_class.replace(/close/i, 'cancel'),
+                class: cancel_class.replace(/close/i, 'cancel'),
                 click: close_func,
             }];
 
@@ -8691,7 +8691,7 @@ function rcube_webmail() {
         } else {
             buttons.unshift({
                 text: this.get_label(save_label),
-                'class': 'mainaction ' + save_class,
+                class: 'mainaction ' + save_class,
                 click: function (e, ui) {
                     if (action_func(e, ref)) {
                         close_func(e, ui, this);
@@ -10638,7 +10638,7 @@ rcube_webmail.long_subject_title_ex = function (elem) {
             tmp = $('<span>').text(txt)
                 .css({
                     position: 'absolute',
-                    'float': 'left',
+                    float: 'left',
                     visibility: 'hidden',
                     'font-size': $elem.css('font-size'),
                     'font-weight': $elem.css('font-weight'),
