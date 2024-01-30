@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class Enigma_EnigmaMimeMessage extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../lib/enigma_mime_message.php';

@@ -38,6 +38,7 @@ class OutputJsonMock extends rcmail_output_json
      *
      * @see rcmail::url()
      */
+    #[Override]
     public function redirect($p = [], $delay = 1)
     {
         $location = $this->app->url($p);
@@ -53,6 +54,7 @@ class OutputJsonMock extends rcmail_output_json
     /**
      * Send an AJAX response to the client.
      */
+    #[Override]
     public function send()
     {
         ob_start();
@@ -69,6 +71,7 @@ class OutputJsonMock extends rcmail_output_json
      * @param string $body    The output body
      * @param array  $headers Headers
      */
+    #[Override]
     public function sendExit($body = '', $headers = [])
     {
         foreach ($headers as $header) {
@@ -86,6 +89,7 @@ class OutputJsonMock extends rcmail_output_json
      * @param int    $code    The HTTP error code
      * @param string $message The HTTP error message
      */
+    #[Override]
     public function sendExitError($code, $message = '')
     {
         $this->errorCode = $code;
@@ -100,6 +104,7 @@ class OutputJsonMock extends rcmail_output_json
      * @param int    $code    Error code
      * @param string $message Error message
      */
+    #[Override]
     public function raise_error($code, $message)
     {
         if ($code == 403) {
@@ -119,6 +124,7 @@ class OutputJsonMock extends rcmail_output_json
     /**
      * Delete all stored env variables and commands
      */
+    #[Override]
     public function reset()
     {
         parent::reset();
@@ -137,6 +143,7 @@ class OutputJsonMock extends rcmail_output_json
      * @param string $header  The header string
      * @param bool   $replace Replace previously set header?
      */
+    #[Override]
     public function header($header, $replace = true)
     {
         $this->headers[] = $header;

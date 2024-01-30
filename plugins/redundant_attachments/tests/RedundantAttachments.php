@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class RedundantAttachments_Plugin extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../redundant_attachments.php';

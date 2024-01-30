@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class Managesieve_Script extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_script.php';

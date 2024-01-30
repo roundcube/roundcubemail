@@ -2,6 +2,7 @@
 
 class AdditionalMessageHeaders_Plugin extends ActionTestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../additional_message_headers.php';

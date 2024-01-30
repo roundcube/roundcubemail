@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class Archive_Plugin extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../archive.php';

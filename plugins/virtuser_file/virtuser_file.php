@@ -19,6 +19,7 @@ class virtuser_file extends rcube_plugin
     /**
      * Plugin initialization
      */
+    #[Override]
     public function init()
     {
         $this->app = rcmail::get_instance();

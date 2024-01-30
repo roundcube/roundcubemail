@@ -79,6 +79,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return string
      */
+    #[Override]
     public function get_name()
     {
         return $this->name;
@@ -89,6 +90,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param string $filter SQL params to use in listing method
      */
+    #[Override]
     public function set_search_set($filter): void
     {
         $this->filter = $filter;
@@ -100,6 +102,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return mixed Search properties used by this class
      */
+    #[Override]
     public function get_search_set()
     {
         return $this->filter;
@@ -109,6 +112,7 @@ class rcube_contacts extends rcube_addressbook
      * Setter for the current group
      * (empty, has to be re-implemented by extending class)
      */
+    #[Override]
     public function set_group($gid)
     {
         $this->group_id = $gid;
@@ -118,6 +122,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Reset all saved results and search parameters
      */
+    #[Override]
     public function reset(): void
     {
         $this->result = null;
@@ -133,6 +138,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return array Indexed list of contact groups, each a hash array
      */
+    #[Override]
     public function list_groups($search = null, $mode = 0)
     {
         $results = [];
@@ -177,6 +183,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return ?array Group properties as hash array, null in case of error.
      */
+    #[Override]
     public function get_group($group_id)
     {
         $sql_result = $this->db->query(
@@ -202,6 +209,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return rcube_result_set Indexed list of contact records, each a hash array
      */
+    #[Override]
     public function list_records($cols = null, $subset = 0, $nocount = false)
     {
         if ($nocount || $this->list_page <= 1) {
@@ -294,6 +302,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return rcube_result_set Contact records and 'count' value
      */
+    #[Override]
     public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = [])
     {
         if (!is_array($required) && !empty($required)) {
@@ -469,6 +478,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return rcube_result_set Result object
      */
+    #[Override]
     public function count()
     {
         $count = $this->cache['count'] ?? $this->_count();
@@ -515,6 +525,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return mixed Result array or NULL if nothing selected yet
      */
+    #[Override]
     public function get_result()
     {
         return $this->result;
@@ -528,6 +539,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return rcube_result_set|array Result object with all record fields
      */
+    #[Override]
     public function get_record($id, $assoc = false)
     {
         // return cached result
@@ -562,6 +574,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return array List of assigned groups, indexed by a group ID
      */
+    #[Override]
     public function get_record_groups($id)
     {
         $results = [];
@@ -595,6 +608,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return bool True if input is valid, False if not.
      */
+    #[Override]
     public function validate(&$save_data, $autofix = false)
     {
         // validate e-mail addresses
@@ -623,6 +637,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return int|bool The created record ID on success, False on error
      */
+    #[Override]
     public function insert($save_data, $check = false)
     {
         if (!is_array($save_data)) {
@@ -674,6 +689,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return bool True on success, False on error
      */
+    #[Override]
     public function update($id, $save_cols)
     {
         $updated = false;
@@ -807,6 +823,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return int|false Number of removed records, False on failure
      */
+    #[Override]
     public function delete($ids, $force = true)
     {
         if (!is_array($ids)) {
@@ -836,6 +853,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return int Number of undeleted contact records
      */
+    #[Override]
     public function undelete($ids)
     {
         if (!is_array($ids)) {
@@ -865,6 +883,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return int Number of removed records
      */
+    #[Override]
     public function delete_all($with_groups = false)
     {
         $this->cache = null;
@@ -895,6 +914,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return array|false False on error, array with record props in success
      */
+    #[Override]
     public function create_group($name)
     {
         $result = false;
@@ -922,6 +942,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return bool True on success, false if no data was changed
      */
+    #[Override]
     public function delete_group($gid)
     {
         // flag group record as deleted
@@ -947,6 +968,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return string|false New name on success, false if no data was changed
      */
+    #[Override]
     public function rename_group($gid, $name, &$new_gid)
     {
         // make sure we have a unique name
@@ -971,6 +993,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return int Number of contacts added
      */
+    #[Override]
     public function add_to_group($group_id, $ids)
     {
         if (!is_array($ids)) {
@@ -1022,6 +1045,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @return int Number of deleted group members
      */
+    #[Override]
     public function remove_from_group($group_id, $ids)
     {
         if (!is_array($ids)) {

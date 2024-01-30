@@ -9,6 +9,7 @@ class ListTest extends TestCase
 {
     protected static $msgcount = 0;
 
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         \bootstrap::init_imap(true);

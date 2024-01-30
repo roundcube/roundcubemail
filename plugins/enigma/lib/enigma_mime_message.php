@@ -54,6 +54,7 @@ class enigma_mime_message extends Mail_mime
      *
      * @return bool True if it is multipart, otherwise False
      */
+    #[Override]
     public function isMultipart()
     {
         return $this->message instanceof self
@@ -161,6 +162,7 @@ class enigma_mime_message extends Mail_mime
      *
      * @return mixed The MIME message content string, null or PEAR error object
      */
+    #[Override]
     public function get($params = null, $filename = null, $skip_head = false)
     {
         if (!empty($params)) {
@@ -275,6 +277,7 @@ class enigma_mime_message extends Mail_mime
      *
      * @return array Headers array
      */
+    #[Override]
     protected function contentHeaders()
     {
         $this->checkParams();

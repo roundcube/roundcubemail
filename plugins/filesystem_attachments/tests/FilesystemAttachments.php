@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class FilesystemAttachments_Plugin extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../filesystem_attachments.php';

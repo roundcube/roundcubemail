@@ -23,6 +23,7 @@ class RecipientInput extends Component
      *
      * @return string
      */
+    #[\Override]
     public function selector()
     {
         return $this->selector;
@@ -33,6 +34,7 @@ class RecipientInput extends Component
      *
      * @param Browser $browser
      */
+    #[\Override]
     public function assert($browser): void
     {
         $browser->waitFor($this->selector() . ' @input');
@@ -43,6 +45,7 @@ class RecipientInput extends Component
      *
      * @return array
      */
+    #[\Override]
     public function elements()
     {
         return [

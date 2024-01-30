@@ -22,6 +22,7 @@ class Popupmenu extends Component
      *
      * @return string
      */
+    #[\Override]
     public function selector()
     {
         return '#' . $this->id;
@@ -32,6 +33,7 @@ class Popupmenu extends Component
      *
      * @param Browser $browser
      */
+    #[\Override]
     public function assert($browser): void
     {
         $browser->waitFor($this->selector());
@@ -42,6 +44,7 @@ class Popupmenu extends Component
      *
      * @return array
      */
+    #[\Override]
     public function elements()
     {
         return [];
