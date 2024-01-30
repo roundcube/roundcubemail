@@ -10528,9 +10528,9 @@ function rcube_webmail() {
 
         if ('ActiveXObject' in window) {
             try {
-                if (plugin = new ActiveXObject('ShockwaveFlash.ShockwaveFlash')) {
-                    return 1;
-                }
+                plugin = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+
+                return 1;
             } catch (e) {}
         }
 

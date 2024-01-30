@@ -119,7 +119,6 @@ module.exports = {
         'no-alert': 'off', // (3 matches)
         'no-bitwise': 'off', // (45 matches)
         'no-cond-assign': 'off', // (142 matches)
-        'no-constant-condition': 'off', // (1 match)
         'no-debugger': 'off', // (1 match)
         'no-else-return': 'off', // (15 matches)
         'no-empty': 'off', // (15 matches)
