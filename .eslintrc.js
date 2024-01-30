@@ -142,7 +142,6 @@ module.exports = {
         'no-use-before-define': 'off', // (495 matches)
         'no-useless-escape': 'off', // (18 matches)
         'no-var': 'off', // eslint-disable-line no-dupe-keys -- (986 matches)
-        'no-whitespace-before-property': 'off', // (1 match)
         'one-var': 'off', // eslint-disable-line no-dupe-keys -- (489 matches)
         'one-var-declaration-per-line': 'off', // (501 matches)
         'operator-assignment': 'off', // (4 matches)

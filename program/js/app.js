@@ -10154,7 +10154,7 @@ function rcube_webmail() {
                 label = ref.get_label('uploadprogress');
 
             if (total >= 1073741824) {
-                total = parseFloat(total / 1073741824).toFixed(1) + ' ' . this.get_label('GB');
+                total = parseFloat(total / 1073741824).toFixed(1) + ' ' + this.get_label('GB');
                 current = parseFloat(current / 1073741824).toFixed(1);
             } else if (total >= 1048576) {
                 total = parseFloat(total / 1048576).toFixed(1) + ' ' + this.get_label('MB');
