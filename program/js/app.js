@@ -5110,7 +5110,7 @@ function rcube_webmail() {
                     // group is added, expand it
                     if (id.charAt(0) == 'E' && input.length) {
                         // We wrap the group name with invisible markers to prevent from problems with group expanding (#7569)
-                        name = '\u200b' + name + '\u200b';
+                        name = '\u200B' + name + '\u200B';
                         var gid = id.substr(1);
                         this.group2expand[gid] = { name: name, input: input.get(0) };
                         this.http_request('group-expand', { _source: data.source || this.env.source, _gid: gid }, false);
@@ -6121,7 +6121,7 @@ function rcube_webmail() {
         // insert all members of a group
         if (typeof contact === 'object' && contact.type == 'group' && !contact.email && contact.id) {
             // We wrap the group name with invisible markers to prevent from problems with group expanding (#7569)
-            var name = '\u200b' + contact.name + '\u200b';
+            var name = '\u200B' + contact.name + '\u200B';
             insert = name + delim;
             this.group2expand[contact.id] = { name: name, input: this.ksearch_input };
             this.http_request('mail/group-expand', { _source: contact.source, _gid: contact.id }, false);

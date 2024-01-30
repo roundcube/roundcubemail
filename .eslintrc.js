@@ -155,7 +155,6 @@ module.exports = {
         'unicorn/better-regex': 'off', // (42 matches)
         'unicorn/consistent-function-scoping': 'off', // (19 matches)
         'unicorn/empty-brace-spaces': 'off', // (5 matches)
-        'unicorn/escape-case': 'off', // (4 matches)
         'unicorn/explicit-length-check': 'off', // (219 matches)
         'unicorn/filename-case': 'off', // (3 matches)
         'unicorn/new-for-builtins': 'off', // (2 matches)
