@@ -224,7 +224,7 @@ class rcube_message_header
     /**
      * Message structure
      *
-     * @var rcube_message_part
+     * @var ?rcube_message_part
      */
     public $structure;
 
