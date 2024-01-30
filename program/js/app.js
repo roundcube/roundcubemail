@@ -1732,11 +1732,13 @@ function rcube_webmail() {
     this.get_label = function (name, domain) {
         if (domain && this.labels[domain + '.' + name]) {
             return this.labels[domain + '.' + name];
-        } else if (this.labels[name]) {
-            return this.labels[name];
-        } else {
-            return name;
         }
+
+        if (this.labels[name]) {
+            return this.labels[name];
+        }
+
+        return name;
     };
 
     // alias for convenience reasons
@@ -1778,9 +1780,9 @@ function rcube_webmail() {
 
         if (url.match(/[?&]_task=[a-zA-Z0-9_-]+/)) {
             return url.replace(/_task=[a-zA-Z0-9_-]+/, '_task=' + task);
-        } else {
-            return url.replace(/\?.*$/, '') + '?_task=' + task;
         }
+
+        return url.replace(/\?.*$/, '') + '?_task=' + task;
     };
 
     this.reload = function (delay) {
@@ -3607,7 +3609,7 @@ function rcube_webmail() {
             return false;
         }
         // if there isn't a defined trash mailbox or we are in it
-        else if (!trash || this.env.mailbox == trash) {
+        if (!trash || this.env.mailbox == trash) {
             this.permanently_remove_messages(uid);
         }
         // we're in Junk folder and delete_junk is enabled
@@ -6880,8 +6882,9 @@ function rcube_webmail() {
 
             return true;
         }
+
         // move action is not possible, "redirect" to copy if menu wasn't requested
-        else if (!this.commands.move && rcube_event.get_modifier(e) != SHIFT_KEY) {
+        if (!this.commands.move && rcube_event.get_modifier(e) != SHIFT_KEY) {
             this.copy_contacts(to);
 
             return true;
@@ -8024,10 +8027,12 @@ function rcube_webmail() {
                     }
                     if (collator) {
                         return collator.compare(f1, f2);
-                    } else {
-                        return f1 < f2 ? -1 : 1;
                     }
-                } else if (i == len - 1) {
+
+                    return f1 < f2 ? -1 : 1;
+                }
+
+                if (i == len - 1) {
                     return -1;
                 }
             }
@@ -9662,9 +9667,13 @@ function rcube_webmail() {
             }
 
             return false;
-        } else if (result && result.getResponseHeader) {
+        }
+
+        if (result && result.getResponseHeader) {
             return result;
-        } else if (result !== undefined) {
+        }
+
+        if (result !== undefined) {
             data = result;
             if (data._action) {
                 action = data._action;

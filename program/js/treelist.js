@@ -601,7 +601,9 @@ function rcube_treelist_widget(node, p) {
 
         if (!q.length) {
             return reset_search();
-        } else if (q == last_search && !enter) {
+        }
+
+        if (q == last_search && !enter) {
             return 0;
         }
 

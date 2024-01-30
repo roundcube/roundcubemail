@@ -117,7 +117,6 @@ module.exports = {
         'no-bitwise': 'off', // (45 matches)
         'no-cond-assign': 'off', // (142 matches)
         'no-debugger': 'off', // (1 match)
-        'no-else-return': 'off', // (15 matches)
         'no-empty': 'off', // (15 matches)
         'no-eval': 'off', // (2 matches)
         'no-extend-native': 'off', // (3 matches)

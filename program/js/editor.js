@@ -446,7 +446,9 @@ function rcube_text_editor(config, id) {
 
         if (this.editor) {
             return this.spellcheck_active;
-        } else if ((ed = this.spellchecker) && ed.state) {
+        }
+
+        if ((ed = this.spellchecker) && ed.state) {
             return ed.state != 'ready' && ed.state != 'no_error_found';
         }
     };

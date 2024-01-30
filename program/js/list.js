@@ -169,9 +169,9 @@ rcube_list_widget.prototype = {
                 .mouseup(function (e) {
                     if (e.which == 1 && !self.drag_active && !$(e.currentTarget).is('.ui-droppable-active')) {
                         return self.click_row(e, this.uid);
-                    } else {
-                        return true;
                     }
+
+                    return true;
                 });
 
             // for IE and Edge (Trident) differentiate between touch, touch+hold using pointer events rather than touch
@@ -778,9 +778,9 @@ rcube_list_widget.prototype = {
 
         if (r && r.parent_uid) {
             return this.find_root(r.parent_uid);
-        } else {
-            return uid;
         }
+
+        return uid;
     },
 
 
@@ -1419,9 +1419,9 @@ rcube_list_widget.prototype = {
 
         if (selection.length == 1) {
             return selection[0];
-        } else {
-            return null;
         }
+
+        return null;
     },
 
 

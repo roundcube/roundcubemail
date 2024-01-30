@@ -651,7 +651,9 @@ rcube_webmail.prototype.enigma_password_submit = function (data) {
 
     if (this.env.action == 'compose' && !data['compose-init']) {
         return this.enigma_password_compose_submit(data);
-    } else if (this.env.action == 'plugin.enigmakeys' && (form = this.gui_objects.importform)) {
+    }
+
+    if (this.env.action == 'plugin.enigmakeys' && (form = this.gui_objects.importform)) {
         if (!$('input[name="_keyid"]', form).length) {
             $(form).append($('<input>').attr({ type: 'hidden', name: '_keyid', value: data.key }))
                 .append($('<input>').attr({ type: 'hidden', name: '_passwd', value: data.password }));

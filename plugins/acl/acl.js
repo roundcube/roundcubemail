@@ -411,7 +411,9 @@ rcube_webmail.prototype.acl_class = function (acl1, acl2) {
 
     if (found == len) {
         return 'enabled';
-    } else if (found) {
+    }
+
+    if (found) {
         return 'partial';
     }
 
