@@ -373,7 +373,7 @@ function rcube_elastic_ui() {
      */
     function register_content_buttons(buttons) {
         // we need these buttons really only in phone mode
-        if (/*mode == 'phone' && */ env.frame_nav && buttons && buttons.length) {
+        if (/* mode == 'phone' && */ env.frame_nav && buttons && buttons.length) {
             var toolbar = env.frame_nav.children('.buttons');
 
             content_buttons = [];

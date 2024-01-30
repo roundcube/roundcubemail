@@ -804,7 +804,7 @@ function rcube_webmail() {
     };
 
     /*********************************************************/
-    /*********       client command interface        *********/
+    /* ********       client command interface       *********/
     /*********************************************************/
 
     // execute a specific command on the web client
@@ -1794,7 +1794,7 @@ function rcube_webmail() {
 
 
     /*********************************************************/
-    /*********        event handling methods         *********/
+    /* ********        event handling methods        *********/
     /*********************************************************/
 
     this.drag_menu = function (e, target) {
@@ -2298,7 +2298,7 @@ function rcube_webmail() {
 
 
     /*********************************************************/
-    /*********     (message) list functionality      *********/
+    /* ********     (message) list functionality     *********/
     /*********************************************************/
 
     this.init_message_row = function (row) {
@@ -4646,7 +4646,7 @@ function rcube_webmail() {
 
 
     /*********************************************************/
-    /*********       mailbox folders methods         *********/
+    /* ********       mailbox folders methods        *********/
     /*********************************************************/
 
     this.expunge_mailbox = function (mbox) {
@@ -4818,7 +4818,7 @@ function rcube_webmail() {
 
 
     /*********************************************************/
-    /*********        message compose methods        *********/
+    /* ********        message compose methods       *********/
     /*********************************************************/
 
     this.open_compose_step = function (p) {
@@ -6025,7 +6025,7 @@ function rcube_webmail() {
 
 
     /*********************************************************/
-    /*********     keyboard live-search methods      *********/
+    /* ********     keyboard live-search methods     *********/
     /*********************************************************/
 
     // handler for keyboard events on address-fields
@@ -6442,7 +6442,7 @@ function rcube_webmail() {
 
 
     /*********************************************************/
-    /*********         address book methods          *********/
+    /* ********         address book methods         *********/
     /*********************************************************/
 
     this.contactlist_select = function (list) {
@@ -7075,7 +7075,7 @@ function rcube_webmail() {
         }
     };
 
-    //assign selected contacts to a group
+    // assign selected contacts to a group
     this.group_assign_selected = function (props, obj, event) {
         var cid = ref.contact_list.get_selection();
         var source = ref.env.source;
@@ -7084,7 +7084,7 @@ function rcube_webmail() {
         });
     };
 
-    //remove selected contacts from current active group
+    // remove selected contacts from current active group
     this.group_remove_selected = function () {
         this.http_post('group-delmembers', {
             _cid: this.contact_list.get_selection(),
@@ -7093,7 +7093,7 @@ function rcube_webmail() {
         });
     };
 
-    //callback after deleting contact(s) from current group
+    // callback after deleting contact(s) from current group
     this.remove_group_contacts = function (props) {
         if (this.env.group !== undefined && (this.env.group === props.gid)) {
             var n, selection = this.contact_list.get_selection(),
@@ -7563,7 +7563,7 @@ function rcube_webmail() {
 
 
     /*********************************************************/
-    /*********        user settings methods          *********/
+    /* ********        user settings methods         *********/
     /*********************************************************/
 
     // preferences section select and load options frame
@@ -7699,7 +7699,7 @@ function rcube_webmail() {
 
 
     /*********************************************************/
-    /*********        folder manager methods         *********/
+    /* ********        folder manager methods        *********/
     /*********************************************************/
 
     this.init_subscription_list = function () {
@@ -8176,7 +8176,7 @@ function rcube_webmail() {
     };
 
     /*********************************************************/
-    /*********           GUI functionality           *********/
+    /* ********           GUI functionality          *********/
     /*********************************************************/
 
     this.init_button = function (cmd, prop) {
@@ -9145,7 +9145,7 @@ function rcube_webmail() {
     };
 
     /***********************************************/
-    /*********    popup menu functions     *********/
+    /* ********    popup menu functions    *********/
     /***********************************************/
 
     // Show/hide a specific popup menu
@@ -9321,7 +9321,7 @@ function rcube_webmail() {
 
 
     /********************************************************/
-    /*********  html to text conversion functions   *********/
+    /* ********  html to text conversion functions  *********/
     /********************************************************/
 
     this.html2plain = function (html, func) {
@@ -9379,7 +9379,7 @@ function rcube_webmail() {
 
 
     /********************************************************/
-    /*********        remote request methods        *********/
+    /* ********        remote request methods       *********/
     /********************************************************/
 
     // compose a valid url with the given parameters
@@ -10261,7 +10261,7 @@ function rcube_webmail() {
 
 
     /********************************************************/
-    /*********            helper methods            *********/
+    /* ********            helper methods           *********/
     /********************************************************/
 
     /**

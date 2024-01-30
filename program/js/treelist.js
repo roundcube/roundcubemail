@@ -77,7 +77,7 @@ function rcube_treelist_widget(node, p) {
         me = this;
 
 
-    /////// export public members and methods
+    // ///// export public members and methods
 
     this.container = container;
     this.expand = expand;
@@ -106,7 +106,7 @@ function rcube_treelist_widget(node, p) {
     this.is_search = is_search;
     this.reset_search = reset_search;
 
-    /////// startup code (constructor)
+    // ///// startup code (constructor)
 
     // abort if node not found
     if (!container.length) {
@@ -1024,7 +1024,7 @@ function rcube_treelist_widget(node, p) {
         }
     }
 
-    ///// drag & drop support
+    // ///// drag & drop support
 
     /**
      * When dragging starts, compute absolute bounding boxes of the list and it's items

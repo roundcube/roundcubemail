@@ -141,7 +141,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 
 
 /*********************************************************/
-/*********    Enigma Settings/Keys/Certs UI      *********/
+/* ********    Enigma Settings/Keys/Certs UI     *********/
 /*********************************************************/
 
 // Display key(s) import form
@@ -536,7 +536,7 @@ rcube_webmail.prototype.enigma_add_list_row = function (r) {
 
 
 /*********************************************************/
-/*********        Enigma Message methods         *********/
+/* ********        Enigma Message methods        *********/
 /*********************************************************/
 
 // handle message send/save action

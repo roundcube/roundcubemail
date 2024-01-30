@@ -143,7 +143,7 @@ if (window.rcmail) {
 }
 
 /*********************************************************/
-/*********       Managesieve UI methods          *********/
+/* ********       Managesieve UI methods         *********/
 /*********************************************************/
 
 rcube_webmail.prototype.managesieve_add = function () {
@@ -511,7 +511,7 @@ rcube_webmail.prototype.managesieve_unfocus_filter = function (row) {
 };
 
 /*********************************************************/
-/*********          Filter Form methods          *********/
+/* ********          Filter Form methods         *********/
 /*********************************************************/
 
 // Form submission
@@ -1119,7 +1119,7 @@ function sieve_form_init() {
 }
 
 /*********************************************************/
-/*********        RAW editor methods             *********/
+/* ********        RAW editor methods            *********/
 /*********************************************************/
 
 var cmeditor;
@@ -1166,7 +1166,7 @@ function sieve_raw_editor_init() {
 
 
 /*********************************************************/
-/*********           Mail UI methods             *********/
+/* ********           Mail UI methods            *********/
 /*********************************************************/
 
 rcube_webmail.prototype.managesieve_create = function (force) {
