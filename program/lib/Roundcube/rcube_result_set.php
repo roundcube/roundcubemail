@@ -84,6 +84,7 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     // Implement PHP ArrayAccess interface
 
+    #[Override]
     public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
@@ -94,16 +95,19 @@ class rcube_result_set implements Iterator, ArrayAccess
         }
     }
 
+    #[Override]
     public function offsetExists($offset): bool
     {
         return isset($this->records[$offset]);
     }
 
+    #[Override]
     public function offsetUnset($offset): void
     {
         unset($this->records[$offset]);
     }
 
+    #[Override]
     #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
@@ -112,29 +116,34 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     // PHP 5 Iterator interface
 
+    #[Override]
     public function rewind(): void
     {
         $this->current = 0;
     }
 
+    #[Override]
     #[ReturnTypeWillChange]
     public function current()
     {
         return $this->records[$this->current] ?? null;
     }
 
+    #[Override]
     #[ReturnTypeWillChange]
     public function key()
     {
         return $this->current;
     }
 
+    #[Override]
     #[ReturnTypeWillChange]
     public function next()
     {
         $this->current++;
     }
 
+    #[Override]
     public function valid(): bool
     {
         return isset($this->records[$this->current]);

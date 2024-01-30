@@ -75,6 +75,7 @@ class rcmail extends rcube
      *
      * @return rcmail The one and only instance
      */
+    #[Override]
     public static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
@@ -191,6 +192,7 @@ class rcmail extends rcube
      *
      * @param rcube_user $user Current user instance
      */
+    #[Override]
     public function set_user($user)
     {
         parent::set_user($user);
@@ -633,6 +635,7 @@ class rcmail extends rcube
     /**
      * Create session object and start the session.
      */
+    #[Override]
     public function session_init()
     {
         parent::session_init();
@@ -1066,6 +1069,7 @@ class rcmail extends rcube
      *
      * @return string Valid application URL
      */
+    #[Override]
     public function url($p, $absolute = false, $full = false, $secure = false)
     {
         if (!is_array($p)) {
@@ -1166,6 +1170,7 @@ class rcmail extends rcube
     /**
      * Function to be executed in script shutdown
      */
+    #[Override]
     public function shutdown()
     {
         parent::shutdown();

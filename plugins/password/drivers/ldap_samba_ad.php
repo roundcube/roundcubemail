@@ -32,6 +32,7 @@ require_once __DIR__ . '/ldap_simple.php';
 
 class rcube_ldap_samba_ad_password extends rcube_ldap_simple_password
 {
+    #[Override]
     public function save($curpass, $passwd)
     {
         if (!function_exists('ldap_mod_replace')) {

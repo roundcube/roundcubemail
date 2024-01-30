@@ -5,6 +5,7 @@
  */
 class Rcmail_Rcmail extends ActionTestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         // set some HTTP env vars

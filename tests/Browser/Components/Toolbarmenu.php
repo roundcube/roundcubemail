@@ -12,6 +12,7 @@ class Toolbarmenu extends Component
      *
      * @return string
      */
+    #[\Override]
     public function selector()
     {
         return '#toolbar-menu';
@@ -22,6 +23,7 @@ class Toolbarmenu extends Component
      *
      * @param Browser $browser
      */
+    #[\Override]
     public function assert($browser): void
     {
         if ($browser->isPhone()) {
@@ -36,6 +38,7 @@ class Toolbarmenu extends Component
      *
      * @return array
      */
+    #[\Override]
     public function elements()
     {
         return [

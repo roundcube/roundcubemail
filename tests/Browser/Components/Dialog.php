@@ -23,6 +23,7 @@ class Dialog extends Component
      *
      * @return string
      */
+    #[\Override]
     public function selector()
     {
         // work with the specified dialog (in case there's more than one)
@@ -35,6 +36,7 @@ class Dialog extends Component
      *
      * @param Browser $browser
      */
+    #[\Override]
     public function assert($browser): void
     {
         $browser->waitFor($this->selector());
@@ -45,6 +47,7 @@ class Dialog extends Component
      *
      * @return array
      */
+    #[\Override]
     public function elements()
     {
         return [

@@ -13,6 +13,7 @@ class App extends Component
      *
      * @return string
      */
+    #[\Override]
     public function selector()
     {
         return '';
@@ -23,6 +24,7 @@ class App extends Component
      *
      * @param Browser $browser
      */
+    #[\Override]
     public function assert($browser): void
     {
         // Assume the app (window.rcmail) is always available
@@ -36,6 +38,7 @@ class App extends Component
      *
      * @return array
      */
+    #[\Override]
     public function elements()
     {
         return [];
