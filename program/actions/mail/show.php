@@ -649,6 +649,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
         }
 
+        $used_cids = [];
+
         if (!empty(self::$MESSAGE->parts)) {
             foreach (self::$MESSAGE->parts as $part) {
                 if ($part->type == 'headers') {
@@ -715,7 +717,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     ];
 
                     // Parse the part content for display
-                    $body = self::print_body($body, $part, $body_args);
+                    $body = self::print_body($body, $part, $body_args, $used_cids);
 
                     // check if the message body is PGP encrypted
                     if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
@@ -743,17 +745,21 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
         }
 
-        // list images after mail body
-        if ($rcmail->config->get('inline_images', true) && !empty(self::$MESSAGE->attachments)) {
+        // Fetch list of orphan inline parts
+        $orphan_parts = self::$MESSAGE->get_orphan_inline_parts($used_cids);
+        $attachments = array_merge(self::$MESSAGE->attachments, $orphan_parts);
+
+        // list images after mail body, if it's enabled or if message has orphan parts
+        if ((!empty($orphan_parts) || $rcmail->config->get('inline_images', true)) && !empty($attachments)) {
             $thumbnail_size   = $rcmail->config->get('image_thumbnail_size', 240);
             $show_label       = rcube::Q($rcmail->gettext('showattachment'));
             $download_label   = rcube::Q($rcmail->gettext('download'));
 
-            foreach (self::$MESSAGE->attachments as $attach_prop) {
+            foreach ($attachments as $attach_prop) {
                 // Content-Type: image/*...
                 if ($mimetype = self::part_image_type($attach_prop)) {
-                    // Skip inline images
-                    if (!self::is_attachment(self::$MESSAGE, $attach_prop)) {
+                    // Skip inline images, unless they are not in the body
+                    if (!self::is_attachment(self::$MESSAGE, $attach_prop) && !in_array($attach_prop, $orphan_parts)) {
                         continue;
                     }
 
