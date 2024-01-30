@@ -700,7 +700,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         txt_part = this.escapeSpecial(txt_part);
         txt_part = txt_part.replace(/\n/g, '<br>');
-        txt_part = txt_part.replace(/    /g, ' &nbsp;');
+        txt_part = txt_part.replace(/ {4}/g, ' &nbsp;');
         txt_part = txt_part.replace(/^ /g, '&nbsp;');
         txt_part = txt_part.replace(/ $/g, '&nbsp;');
 

@@ -133,7 +133,6 @@ module.exports = {
         'no-multi-assign': 'off', // (18 matches)
         'no-multiple-empty-lines': 'off', // (85 matches)
         'no-redeclare': 'off', // (37 matches)
-        'no-regex-spaces': 'off', // (1 match)
         'no-restricted-globals': 'off', // eslint-disable-line no-dupe-keys -- (72 matches)
         'no-return-assign': 'off', // (1 match)
         'no-script-url': 'off', // (3 matches)
