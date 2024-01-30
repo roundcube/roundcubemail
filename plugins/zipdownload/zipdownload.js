@@ -60,6 +60,7 @@ function rcmail_zipdownload(mode) {
     if (mode == 'eml') {
         var uid = rcmail.get_single_uid();
         rcmail.goto_url('viewsource', rcmail.params_from_uid(uid, { _save: 1 }), false, true);
+
         return;
     }
 

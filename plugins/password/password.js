@@ -20,6 +20,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
         $('#password-form input').prop('disabled', true);
         // reload page after ca. 3 minutes
         rcmail.reload(3 * 60 * 1000 - 2000);
+
         return;
     }
 
@@ -32,21 +33,25 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
         if (input_curpasswd && input_curpasswd.value == '') {
             rcmail.alert_dialog(rcmail.get_label('nocurpassword', 'password'), function () {
                 input_curpasswd.focus();
+
                 return true;
             });
         } else if (input_newpasswd && input_newpasswd.value == '') {
             rcmail.alert_dialog(rcmail.get_label('nopassword', 'password'), function () {
                 input_newpasswd.focus();
+
                 return true;
             });
         } else if (input_confpasswd && input_confpasswd.value == '') {
             rcmail.alert_dialog(rcmail.get_label('nopassword', 'password'), function () {
                 input_confpasswd.focus();
+
                 return true;
             });
         } else if (input_newpasswd && input_confpasswd && input_newpasswd.value != input_confpasswd.value) {
             rcmail.alert_dialog(rcmail.get_label('passwordinconsistency', 'password'), function () {
                 input_newpasswd.focus();
+
                 return true;
             });
         } else {

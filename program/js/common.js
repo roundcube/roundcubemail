@@ -161,6 +161,7 @@ var rcube_event = {
      */
     get_target: function (e) {
         e = e || window.event;
+
         return e && e.target ? e.target : e.srcElement || document;
     },
 
@@ -169,6 +170,7 @@ var rcube_event = {
      */
     get_keycode: function (e) {
         e = e || window.event;
+
         return e && e.keyCode ? e.keyCode : (e && e.which ? e.which : 0);
     },
 
@@ -177,6 +179,7 @@ var rcube_event = {
      */
     get_button: function (e) {
         e = e || window.event;
+
         return e && e.button !== undefined ? e.button : (e && e.which ? e.which : 0);
     },
 
@@ -478,6 +481,7 @@ function rcube_check_email(input, inline, count, strict) {
 
     if (count) {
         var re = input.match(rx);
+
         return re ? re.length : 0;
     }
 
@@ -636,6 +640,7 @@ Date.prototype.getStdTimezoneOffset = function () {
 if (!String.prototype.startsWith) {
     String.prototype.startsWith = function (search, position) {
         position = position || 0;
+
         return this.slice(position, search.length) === search;
     };
 }
@@ -648,6 +653,7 @@ if (!String.prototype.endsWith) {
         }
         position -= searchString.length;
         var lastIndex = subjectString.lastIndexOf(searchString, position);
+
         return lastIndex !== -1 && lastIndex === position;
     };
 }

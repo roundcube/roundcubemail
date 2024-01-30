@@ -78,6 +78,7 @@ if (window.rcmail) {
             && (rcmail_check_message(msg) || rcmail_check_message(subject))
         ) {
             rcmail_attachment_reminder_dialog();
+
             return false;
         }
     });

@@ -196,6 +196,7 @@ function rcube_text_editor(config, id) {
             var link = $(e.target).closest('a');
             if (link.length && e.shiftKey) {
                 window.open(link.get(0).href, '_blank');
+
                 return false;
             }
         });
@@ -287,7 +288,9 @@ function rcube_text_editor(config, id) {
 
                 tinymce.each(el, function (e, i) {
                     if (e.id == ref.id) {
-                        x = i; return false;
+                        x = i;
+
+                        return false;
                     }
                 });
                 if (x !== null) {
@@ -855,11 +858,13 @@ function rcube_text_editor(config, id) {
         switch (rcmail.env.file_picker_type) {
             case 'image':
                 rx = /^image\//i;
+
                 break;
 
             case 'media':
                 rx = /^video\//i;
                 img_src = rcmail.assets_path('program/resources/tinymce/video.png');
+
                 break;
 
             default:

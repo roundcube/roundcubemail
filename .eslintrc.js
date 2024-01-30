@@ -142,7 +142,6 @@ module.exports = {
         'one-var': 'off', // eslint-disable-line no-dupe-keys -- (489 matches)
         'one-var-declaration-per-line': 'off', // (501 matches)
         'operator-assignment': 'off', // (4 matches)
-        'padding-line-between-statements': 'off', // eslint-disable-line no-dupe-keys -- (301 matches)
         'prefer-arrow-callback': 'off', // (423 matches)
         'prefer-rest-params': 'off', // eslint-disable-line no-dupe-keys -- (3 matches)
         'prefer-spread': 'off', // eslint-disable-line no-dupe-keys -- (2 matches)

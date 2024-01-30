@@ -38,6 +38,7 @@ function plugin_vcard_import(mime_id) {
 
                 if (contacts.length) {
                     plugin_vcard_import(contacts.join());
+
                     return true; // close the dialog
                 }
             },
