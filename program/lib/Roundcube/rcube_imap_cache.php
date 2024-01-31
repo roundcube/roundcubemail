@@ -79,13 +79,13 @@ class rcube_imap_cache
      * with good performance. Bad thing is we need to know used flags.
      */
     public $flags = [
-        1 => 'SEEN',          // RFC3501
-        2 => 'DELETED',       // RFC3501
-        4 => 'ANSWERED',      // RFC3501
-        8 => 'FLAGGED',       // RFC3501
-        16 => 'DRAFT',         // RFC3501
-        32 => 'MDNSENT',       // RFC3503
-        64 => 'FORWARDED',     // RFC5550
+        1 => 'SEEN',            // RFC3501
+        2 => 'DELETED',         // RFC3501
+        4 => 'ANSWERED',        // RFC3501
+        8 => 'FLAGGED',         // RFC3501
+        16 => 'DRAFT',          // RFC3501
+        32 => 'MDNSENT',        // RFC3503
+        64 => 'FORWARDED',      // RFC5550
         128 => 'SUBMITPENDING', // RFC5550
         256 => 'SUBMITTED',     // RFC5550
         512 => 'JUNK',

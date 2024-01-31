@@ -603,8 +603,8 @@ class Framework_Utils extends TestCase
     {
         $tz = new DateTimeZone('Europe/Helsinki');
         $test = [
-            'Jan 1st 2014 +0800' => '2013-12-31 18:00',  // result in target timezone
-            'Jan 1st 14 45:42' => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
+            'Jan 1st 2014 +0800' => '2013-12-31 18:00', // result in target timezone
+            'Jan 1st 14 45:42' => '2014-01-01 00:00', // force fallback to rcube_utils::strtotime()
             'Jan 1st 2014 UK' => '2014-01-01 00:00',
             '1520587800' => '2018-03-09 11:30',  // unix timestamp conversion
             'Invalid date' => false,

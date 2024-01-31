@@ -22,11 +22,11 @@
 
 class rcube_sieve_script
 {
-    public $content = [];      // script rules array
+    public $content = []; // script rules array
 
-    private $vars = [];   // "global" variables
-    private $prefix = '';   // script header (comments)
-    private $supported = [     // supported Sieve extensions:
+    private $vars = []; // "global" variables
+    private $prefix = ''; // script header (comments)
+    private $supported = [ // supported Sieve extensions:
         'body',                     // RFC5173
         'copy',                     // RFC3894
         'date',                     // RFC5260

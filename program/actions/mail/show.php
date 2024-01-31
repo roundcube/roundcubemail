@@ -512,9 +512,9 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $plugin = $rcmail->plugins->exec_hook('message_headers_output', [
             'output' => $output_headers,
             'headers' => $headers_obj,
-            'exclude' => $exclude_headers,       // readonly
+            'exclude' => $exclude_headers,      // readonly
             'folder' => self::$MESSAGE->folder, // readonly
-            'uid' => self::$MESSAGE->uid,    // readonly
+            'uid' => self::$MESSAGE->uid,       // readonly
         ]);
 
         // single header value is requested

@@ -947,8 +947,8 @@ class rcube_mime
     {
         $type = strtolower(trim($type));
         $aliases = [
-            'image/x-ms-bmp' => 'image/bmp',        // #4771
-            'pdf' => 'application/pdf',  // #6816
+            'image/x-ms-bmp' => 'image/bmp', // #4771
+            'pdf' => 'application/pdf', // #6816
         ];
 
         if (!empty($aliases[$type])) {
