@@ -45,7 +45,7 @@ class enigma_signature
         }
 
         if ($this->fingerprint && ($key = $engine->get_key($this->fingerprint))) {
-            $from    = $message->headers->from;
+            $from = $message->headers->from;
             $charset = $message->headers->charset;
 
             // Get From: header from the parent part, if it's a forwarded message
@@ -56,7 +56,7 @@ class enigma_signature
                 while (array_pop($level) !== null) {
                     $parent = implode('.', $level);
                     if (!empty($parts[$parent]) && $parts[$parent]->mimetype == 'message/rfc822') {
-                        $from    = $parts[$parent]->headers['from'];
+                        $from = $parts[$parent]->headers['from'];
                         $charset = $parts[$parent]->charset;
                         break;
                     }

@@ -201,8 +201,8 @@ $config['imap_vendor'] = null;
 // Note: These can be used also to overwrite server's namespaces
 // Note: Set these to FALSE to disable access to specified namespace
 $config['imap_ns_personal'] = null;
-$config['imap_ns_other']    = null;
-$config['imap_ns_shared']   = null;
+$config['imap_ns_other'] = null;
+$config['imap_ns_shared'] = null;
 
 // By default IMAP capabilities are read after connection to IMAP server
 // In some cases, e.g. when using IMAP proxy, there's a need to refresh the list
@@ -408,9 +408,9 @@ $config['oauth_cache_ttl'] = '8h';
 // roundcube_key can be: user_name, user_email, language
 // default value:
 $config['oauth_user_create_map'] = [
-    'user_name'  => ['name'],
+    'user_name' => ['name'],
     'user_email' => ['email'],
-    'language'   => ['locale'],
+    'language' => ['locale'],
 ];
 
 // /// Example config for Gmail
@@ -1526,19 +1526,19 @@ $config['default_font'] = 'Verdana';
 // Note: At minimum the font name set in default_font must be present in this array
 // Setting a single value will hide the font select box in the interface
 $config['available_fonts'] = [
-    'Andale Mono'     => '"Andale Mono",Times,monospace',
-    'Arial'           => 'Arial,Helvetica,sans-serif',
-    'Arial Black'     => '"Arial Black","Avant Garde",sans-serif',
-    'Book Antiqua'    => '"Book Antiqua",Palatino,serif',
-    'Courier New'     => '"Courier New",Courier,monospace',
-    'Georgia'         => 'Georgia,Palatino,serif',
-    'Helvetica'       => 'Helvetica,Arial,sans-serif',
-    'Impact'          => 'Impact,Chicago,sans-serif',
-    'Tahoma'          => 'Tahoma,Arial,Helvetica,sans-serif',
-    'Terminal'        => 'Terminal,Monaco,monospace',
+    'Andale Mono' => '"Andale Mono",Times,monospace',
+    'Arial' => 'Arial,Helvetica,sans-serif',
+    'Arial Black' => '"Arial Black","Avant Garde",sans-serif',
+    'Book Antiqua' => '"Book Antiqua",Palatino,serif',
+    'Courier New' => '"Courier New",Courier,monospace',
+    'Georgia' => 'Georgia,Palatino,serif',
+    'Helvetica' => 'Helvetica,Arial,sans-serif',
+    'Impact' => 'Impact,Chicago,sans-serif',
+    'Tahoma' => 'Tahoma,Arial,Helvetica,sans-serif',
+    'Terminal' => 'Terminal,Monaco,monospace',
     'Times New Roman' => '"Times New Roman",Times,serif',
-    'Trebuchet MS'    => '"Trebuchet MS",Geneva,sans-serif',
-    'Verdana'         => 'Verdana,Geneva,sans-serif',
+    'Trebuchet MS' => '"Trebuchet MS",Geneva,sans-serif',
+    'Verdana' => 'Verdana,Geneva,sans-serif',
 ];
 
 // Default font size for composed HTML message

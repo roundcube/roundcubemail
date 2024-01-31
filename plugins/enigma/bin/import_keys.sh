@@ -140,10 +140,10 @@ function import_dir($user_id, $dir, $dry_run = false)
 {
     global $rcmail;
 
-    $db       = $rcmail->get_dbh();
-    $table    = $db->table_name('filestore', true);
+    $db = $rcmail->get_dbh();
+    $table = $db->table_name('filestore', true);
     $db_files = ['pubring.gpg', 'secring.gpg', 'pubring.kbx'];
-    $maxsize  = min($db->get_variable('max_allowed_packet', 1048500), 4 * 1024 * 1024) - 2000;
+    $maxsize = min($db->get_variable('max_allowed_packet', 1048500), 4 * 1024 * 1024) - 2000;
 
     foreach (glob("{$dir}/private-keys-v1.d/*.key") as $file) {
         $db_files[] = substr($file, strlen($dir) + 1);
@@ -151,13 +151,13 @@ function import_dir($user_id, $dir, $dry_run = false)
 
     foreach ($db_files as $file) {
         if ($mtime = @filemtime("{$dir}/{$file}")) {
-            $data     = file_get_contents("{$dir}/{$file}");
-            $data     = base64_encode($data);
+            $data = file_get_contents("{$dir}/{$file}");
+            $data = base64_encode($data);
             $datasize = strlen($data);
 
             if ($datasize > $maxsize) {
                 rcube::raise_error([
-                    'code'    => 605, 'line' => __LINE__, 'file' => __FILE__,
+                    'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                     'message' => "Enigma: Failed to save {$file}. Size exceeds max_allowed_packet.",
                 ], true, false);
 
@@ -177,7 +177,7 @@ function import_dir($user_id, $dir, $dry_run = false)
 
             if ($db->is_error($result)) {
                 rcube::raise_error([
-                    'code'    => 605, 'line' => __LINE__, 'file' => __FILE__,
+                    'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
                     'message' => "Enigma: Failed to save {$file} into database.",
                 ], true, false);
             }

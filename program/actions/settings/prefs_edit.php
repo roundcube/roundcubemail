@@ -34,12 +34,12 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
 
         $rcmail->output->set_pagetitle($rcmail->gettext('preferences'));
 
-        self::$section    = rcube_utils::get_input_string('_section', rcube_utils::INPUT_GPC);
+        self::$section = rcube_utils::get_input_string('_section', rcube_utils::INPUT_GPC);
         [self::$sections] = self::user_prefs(self::$section);
 
         // register UI objects
         $rcmail->output->add_handlers([
-            'userprefs'   => [$this, 'user_prefs_form'],
+            'userprefs' => [$this, 'user_prefs_form'],
             'sectionname' => [$this, 'prefs_section_name'],
         ]);
 
@@ -55,7 +55,7 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
 
         unset($attrib['form']);
 
-        $hidden                  = ['name' => '_section', 'value' => self::$section];
+        $hidden = ['name' => '_section', 'value' => self::$section];
         [$form_start, $form_end] = self::get_form_tags($attrib, 'save-prefs', null, $hidden);
 
         $out = $form_start;

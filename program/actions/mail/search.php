@@ -39,22 +39,22 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $_SESSION['page'] = 1;
 
         // get search string
-        $str      = trim(rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true));
-        $mbox     = trim(rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GET, true));
-        $filter   = trim(rcube_utils::get_input_string('_filter', rcube_utils::INPUT_GET));
-        $headers  = trim(rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET));
-        $scope    = trim(rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET));
+        $str = trim(rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true));
+        $mbox = trim(rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GET, true));
+        $filter = trim(rcube_utils::get_input_string('_filter', rcube_utils::INPUT_GET));
+        $headers = trim(rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET));
+        $scope = trim(rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET));
         $interval = trim(rcube_utils::get_input_string('_interval', rcube_utils::INPUT_GET));
         $continue = trim(rcube_utils::get_input_string('_continue', rcube_utils::INPUT_GET));
 
         // Set message set for already stored (but incomplete) search request
         if (!empty($continue) && isset($_SESSION['search']) && $_SESSION['search_request'] == $continue) {
             $rcmail->storage->set_search_set($_SESSION['search']);
-            $search         = $_SESSION['search'][0];
+            $search = $_SESSION['search'][0];
             $search_request = $continue;
         } else {
             // Parse input parameters into an IMAP search criteria
-            $search         = self::search_input($str, $headers, $filter, $interval);
+            $search = self::search_input($str, $headers, $filter, $interval);
             $search_request = md5($mbox . $scope . $interval . $filter . $str);
 
             // Save search modifiers for the current folder to user prefs
@@ -64,7 +64,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         }
 
         $sort_column = self::sort_column();
-        $sort_order  = self::sort_order();
+        $sort_order = self::sort_order();
 
         // execute IMAP search
         if ($search) {
@@ -76,7 +76,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 // we want natural alphabetic sorting of folders in the result set
                 natcasesort($mboxes);
             } elseif ($scope == 'sub') {
-                $delim  = $rcmail->storage->get_hierarchy_delimiter();
+                $delim = $rcmail->storage->get_hierarchy_delimiter();
                 $mboxes = $rcmail->storage->list_folders_subscribed($mbox . $delim, '*', 'mail');
                 array_unshift($mboxes, $mbox);
             }
@@ -96,14 +96,14 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         }
 
         if ($search) {
-            $_SESSION['search']           = $rcmail->storage->get_search_set();
+            $_SESSION['search'] = $rcmail->storage->get_search_set();
             $_SESSION['last_text_search'] = $str;
         }
 
-        $_SESSION['search_request']  = $search_request;
-        $_SESSION['search_scope']    = $scope;
+        $_SESSION['search_request'] = $search_request;
+        $_SESSION['search_scope'] = $scope;
         $_SESSION['search_interval'] = $interval;
-        $_SESSION['search_filter']   = $filter;
+        $_SESSION['search_filter'] = $filter;
 
         // Get the headers
         if (!isset($result) || empty($result->incomplete)) {
@@ -185,13 +185,13 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $interval = strtoupper($interval);
 
         if ($interval[0] == '-') {
-            $search   = 'BEFORE';
+            $search = 'BEFORE';
             $interval = substr($interval, 1);
         } else {
             $search = 'SINCE';
         }
 
-        $date     = new DateTime('now');
+        $date = new DateTime('now');
         $interval = new DateInterval('P' . $interval);
 
         $date->sub($interval);
@@ -248,10 +248,10 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
 
             if (preg_match('/^(-?[a-zA-Z-]+):(.*)$/', $part, $matches)) {
                 $option = $matches[1];
-                $value  = $value_function($matches[2]);
+                $value = $value_function($matches[2]);
 
                 if ($option[0] == '-') {
-                    $not    = 'NOT ';
+                    $not = 'NOT ';
                     $option = substr($option, 1);
                 }
 
@@ -262,7 +262,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             }
 
             if (preg_match('/^-".*"$/', $part)) {
-                $not  = 'NOT ';
+                $not = 'NOT ';
                 $part = substr($part, 1);
             }
 
@@ -314,8 +314,8 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         }
 
         $supported = ['subject', 'from', 'to', 'cc', 'bcc'];
-        $option    = strtolower($option);
-        $escaped   = rcube_imap_generic::escape($value);
+        $option = strtolower($option);
+        $escaped = rcube_imap_generic::escape($value);
 
         switch ($option) {
             case 'body':
@@ -337,15 +337,15 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 break;
             case 'is':
                 $map = [
-                    'unread'     => 'UNSEEN',
-                    'read'       => 'SEEN',
-                    'unseen'     => 'UNSEEN',
-                    'seen'       => 'SEEN',
-                    'flagged'    => 'FLAGGED',
-                    'unflagged'  => 'UNFLAGGED',
-                    'deleted'    => 'DELETED',
-                    'undeleted'  => 'UNDELETED',
-                    'answered'   => 'ANSWERED',
+                    'unread' => 'UNSEEN',
+                    'read' => 'SEEN',
+                    'unseen' => 'UNSEEN',
+                    'seen' => 'SEEN',
+                    'flagged' => 'FLAGGED',
+                    'unflagged' => 'UNFLAGGED',
+                    'deleted' => 'DELETED',
+                    'undeleted' => 'UNDELETED',
+                    'answered' => 'ANSWERED',
                     'unanswered' => 'UNANSWERED',
                 ];
 
@@ -441,10 +441,10 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
     protected static function update_search_mods($mbox, $headers)
     {
         $supported = ['subject', 'from', 'to', 'cc', 'bcc', 'replyto', 'followupto', 'body', 'text'];
-        $headers   = explode(',', strtolower($headers));
-        $headers   = array_intersect($headers, $supported);
+        $headers = explode(',', strtolower($headers));
+        $headers = array_intersect($headers, $supported);
 
-        $search_mods       = self::search_mods();
+        $search_mods = self::search_mods();
         $search_mods_value = array_fill_keys($headers, 1);
 
         if (!isset($search_mods[$mbox]) || $search_mods[$mbox] != $search_mods_value) {

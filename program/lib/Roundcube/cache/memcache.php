@@ -35,7 +35,7 @@ class rcube_cache_memcache extends rcube_cache
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
-        $this->type  = 'memcache';
+        $this->type = 'memcache';
         $this->debug = rcube::get_instance()->config->get('memcache_debug');
 
         self::engine();
@@ -57,21 +57,21 @@ class rcube_cache_memcache extends rcube_cache
             self::$memcache = false;
 
             rcube::raise_error([
-                'code'    => 604,
-                'type'    => 'memcache',
-                'line'    => __LINE__,
-                'file'    => __FILE__,
+                'code' => 604,
+                'type' => 'memcache',
+                'line' => __LINE__,
+                'file' => __FILE__,
                 'message' => 'Failed to find Memcache. Make sure php-memcache is included',
             ], true, true);
         }
 
         // add all configured hosts to pool
-        $rcube          = rcube::get_instance();
-        $pconnect       = $rcube->config->get('memcache_pconnect', true);
-        $timeout        = $rcube->config->get('memcache_timeout', 1);
+        $rcube = rcube::get_instance();
+        $pconnect = $rcube->config->get('memcache_pconnect', true);
+        $timeout = $rcube->config->get('memcache_timeout', 1);
         $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
-        $seen           = [];
-        $available      = 0;
+        $seen = [];
+        $available = 0;
 
         // Callback for memcache failure
         $error_callback = static function ($host, $port) use ($seen, $available) {
@@ -79,8 +79,8 @@ class rcube_cache_memcache extends rcube_cache
             if (!$seen["{$host}:{$port}"]++) {
                 $available--;
                 rcube::raise_error([
-                    'code'    => 604, 'type' => 'memcache',
-                    'line'    => __LINE__, 'file' => __FILE__,
+                    'code' => 604, 'type' => 'memcache',
+                    'line' => __LINE__, 'file' => __FILE__,
                     'message' => "Memcache failure on host {$host}:{$port}",
                 ], true, false);
             }

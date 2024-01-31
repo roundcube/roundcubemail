@@ -18,12 +18,12 @@ class Actions_Contacts_Edit extends ActionTestCase
 
         self::initDB('contacts');
 
-        $db      = rcmail::get_instance()->get_dbh();
-        $query   = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $contact = $db->fetch_assoc($query);
 
         $_GET = [
-            '_cid'    => $contact['contact_id'],
+            '_cid' => $contact['contact_id'],
             '_source' => '0',
         ];
 
@@ -91,7 +91,7 @@ class Actions_Contacts_Edit extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
         $result = rcmail_action_contacts_edit::photo_drop_area(['id' => 'test']);
 
-        $scripts  = $output->getProperty('scripts');
+        $scripts = $output->getProperty('scripts');
         $filedrop = $output->get_env('filedrop');
 
         $this->assertSame("rcmail.gui_object('filedrop', 'test');", trim($scripts['head']));

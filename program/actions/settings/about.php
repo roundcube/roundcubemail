@@ -35,8 +35,8 @@ class rcmail_action_settings_about extends rcmail_action
 
         $rcmail->output->add_handlers([
             'supportlink' => [$this, 'supportlink'],
-            'pluginlist'  => [$this, 'plugins_list'],
-            'copyright'   => static function () {
+            'pluginlist' => [$this, 'plugins_list'],
+            'copyright' => static function () {
                 return 'Copyright &copy; 2005-2024, The Roundcube Dev Team';
             },
             'license' => static function () {
@@ -57,7 +57,7 @@ class rcmail_action_settings_about extends rcmail_action
         $rcmail = rcmail::get_instance();
 
         if ($url = $rcmail->config->get('support_url')) {
-            $label          = !empty($attrib['label']) ? $attrib['label'] : 'support';
+            $label = !empty($attrib['label']) ? $attrib['label'] : 'support';
             $attrib['href'] = $url;
 
             return html::a($attrib, $rcmail->gettext($label));
@@ -72,7 +72,7 @@ class rcmail_action_settings_about extends rcmail_action
             $attrib['id'] = 'rcmpluginlist';
         }
 
-        $plugins     = array_filter($rcmail->plugins->active_plugins);
+        $plugins = array_filter($rcmail->plugins->active_plugins);
         $plugin_info = [];
 
         foreach ($plugins as $name) {
@@ -115,7 +115,7 @@ class rcmail_action_settings_about extends rcmail_action
             if ($uri) {
                 $uri = html::a([
                         'target' => '_blank',
-                        'href'   => rcube::Q($uri),
+                        'href' => rcube::Q($uri),
                     ],
                     rcube::Q($rcmail->gettext('download'))
                 );
@@ -126,7 +126,7 @@ class rcmail_action_settings_about extends rcmail_action
             if (!empty($data['license_uri'])) {
                 $license = html::a([
                         'target' => '_blank',
-                        'href'   => rcube::Q($data['license_uri']),
+                        'href' => rcube::Q($data['license_uri']),
                     ],
                     rcube::Q($data['license'])
                 );

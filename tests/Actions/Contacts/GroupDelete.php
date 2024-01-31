@@ -51,10 +51,10 @@ class Actions_Contacts_Group_Delete extends ActionTestCase
 
         self::initDB('contacts');
 
-        $db     = rcmail::get_instance()->get_dbh();
-        $query  = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test-group\'');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test-group\'');
         $result = $db->fetch_assoc($query);
-        $gid    = $result['contactgroup_id'];
+        $gid = $result['contactgroup_id'];
 
         $_POST = ['_source' => '0', '_gid' => $gid];
 
@@ -67,7 +67,7 @@ class Actions_Contacts_Group_Delete extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Group deleted successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.remove_group_item({"source":"0","id":"' . $gid . '"});') !== false);
 
-        $query  = $db->query('SELECT * FROM `contactgroups` WHERE `contactgroup_id` = ? AND `del` = 1', $gid);
+        $query = $db->query('SELECT * FROM `contactgroups` WHERE `contactgroup_id` = ? AND `del` = 1', $gid);
         $result = $db->fetch_assoc($query);
 
         $this->assertTrue(!empty($result));

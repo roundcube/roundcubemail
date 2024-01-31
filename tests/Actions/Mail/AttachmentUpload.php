@@ -17,8 +17,8 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
         $this->assertTrue($action->checks());
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_GET                      = [
-            '_id'       => '123',
+        $_GET = [
+            '_id' => '123',
             '_uploadid' => 'upload123',
         ];
 
@@ -56,7 +56,7 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
 
         // Upload error case
         $_SESSION = ['compose_data_123' => ['test' => 'test']];
-        $file     = $this->fakeUpload('_attachments', true, \UPLOAD_ERR_INI_SIZE);
+        $file = $this->fakeUpload('_attachments', true, \UPLOAD_ERR_INI_SIZE);
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 

@@ -34,7 +34,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
         $a_save_cols = ['name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature', 'html_signature'];
         $a_bool_cols = ['standard', 'html_signature'];
-        $updated     = false;
+        $updated = false;
 
         // check input
         if (empty($_POST['_email']) && ($IDENTITIES_LEVEL == 0 || $IDENTITIES_LEVEL == 2)) {
@@ -115,13 +115,13 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
             if (in_array($IDENTITIES_LEVEL, [1, 3, 4])) {
                 // merge with old identity data, fixes #1488834
-                $identity  = $rcmail->user->get_identity($iid);
+                $identity = $rcmail->user->get_identity($iid);
                 $save_data = array_merge($identity, $save_data);
 
                 unset($save_data['changed'], $save_data['del'], $save_data['user_id'], $save_data['identity_id']);
             }
 
-            $plugin    = $rcmail->plugins->exec_hook('identity_update', ['id' => $iid, 'record' => $save_data]);
+            $plugin = $rcmail->plugins->exec_hook('identity_update', ['id' => $iid, 'record' => $save_data]);
             $save_data = $plugin['record'];
 
             if ($save_data['email']) {
@@ -158,7 +158,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 $save_data['email'] = $rcmail->get_user_email();
             }
 
-            $plugin    = $rcmail->plugins->exec_hook('identity_create', ['record' => $save_data]);
+            $plugin = $rcmail->plugins->exec_hook('identity_create', ['record' => $save_data]);
             $save_data = $plugin['record'];
 
             if ($save_data['email']) {

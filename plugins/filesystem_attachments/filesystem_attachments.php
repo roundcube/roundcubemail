@@ -27,7 +27,7 @@
  */
 class filesystem_attachments extends rcube_plugin
 {
-    public $task        = '?(?!login).*';
+    public $task = '?(?!login).*';
     public $initialized = false;
 
     public function init()
@@ -37,7 +37,7 @@ class filesystem_attachments extends rcube_plugin
             $plugin = $this->api->get_plugin($plugin_name);
             if (($plugin instanceof self) && $plugin->initialized) {
                 rcube::raise_error([
-                    'file'    => __FILE__, 'line' => __LINE__,
+                    'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Can use only one plugin for attachments/file uploads! Using '{$plugin_name}', ignoring others.",
                 ], true, false);
                 return;
@@ -72,14 +72,14 @@ class filesystem_attachments extends rcube_plugin
     public function upload($args)
     {
         $args['status'] = false;
-        $group          = $args['group'];
+        $group = $args['group'];
 
         // use common temp dir for file uploads
         $tmpfname = rcube_utils::temp_filename('attmnt');
 
         if (!empty($args['path']) && move_uploaded_file($args['path'], $tmpfname) && file_exists($tmpfname)) {
-            $args['id']     = $this->file_id();
-            $args['path']   = $tmpfname;
+            $args['id'] = $this->file_id();
+            $args['path'] = $tmpfname;
             $args['status'] = true;
             @chmod($tmpfname, 0600);  // set correct permissions (#1488996)
         }
@@ -92,7 +92,7 @@ class filesystem_attachments extends rcube_plugin
      */
     public function save($args)
     {
-        $group          = $args['group'];
+        $group = $args['group'];
         $args['status'] = false;
 
         if (empty($args['path'])) {
@@ -107,7 +107,7 @@ class filesystem_attachments extends rcube_plugin
             }
         }
 
-        $args['id']     = $this->file_id();
+        $args['id'] = $this->file_id();
         $args['status'] = true;
 
         return $args;
@@ -168,15 +168,15 @@ class filesystem_attachments extends rcube_plugin
 
     protected static function file_id()
     {
-        $rcube        = rcube::get_instance();
+        $rcube = rcube::get_instance();
         [$usec, $sec] = explode(' ', microtime());
-        $id           = preg_replace('/[^0-9]/', '', $rcube->user->ID . $sec . $usec);
+        $id = preg_replace('/[^0-9]/', '', $rcube->user->ID . $sec . $usec);
 
         // make sure the ID is really unique (#1489546)
         // @phpstan-ignore-next-line
         while ($rcube->get_uploaded_file($id)) {
             // increment last four characters
-            $x  = intval(substr($id, -4)) + 1;
+            $x = intval(substr($id, -4)) + 1;
             $id = substr($id, 0, -4) . sprintf('%04d', $x > 9999 ? $x - 9999 : $x);
         }
 
@@ -194,8 +194,8 @@ class filesystem_attachments extends rcube_plugin
             return false;
         }
 
-        $rcmail    = rcube::get_instance();
-        $temp_dir  = $rcmail->config->get('temp_dir');
+        $rcmail = rcube::get_instance();
+        $temp_dir = $rcmail->config->get('temp_dir');
         $file_path = pathinfo($path, \PATHINFO_DIRNAME);
 
         if ($temp_dir !== $file_path) {
@@ -204,8 +204,8 @@ class filesystem_attachments extends rcube_plugin
             // We allow that, but we'll let to know the user about the misconfiguration.
             if ($file_path == sys_get_temp_dir()) {
                 rcube::raise_error([
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
+                    'file' => __FILE__,
+                    'line' => __LINE__,
                     'message' => "Detected 'temp_dir' change. "
                         . "Access to '{$temp_dir}' restricted by filesystem permissions or open_basedir",
                 ], true, false);
@@ -214,8 +214,8 @@ class filesystem_attachments extends rcube_plugin
             }
 
             rcube::raise_error([
-                'file'    => __FILE__,
-                'line'    => __LINE__,
+                'file' => __FILE__,
+                'line' => __LINE__,
                 'message' => sprintf("%s can't read %s (not in temp_dir)",
                     $rcmail->get_user_name(), substr($path, 0, 512)),
             ], true, false);

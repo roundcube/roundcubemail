@@ -28,10 +28,10 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
      */
     public function run($args = [])
     {
-        $rcmail        = rcmail::get_instance();
-        $save_arr      = [];
+        $rcmail = rcmail::get_instance();
+        $save_arr = [];
         $dont_override = (array) $rcmail->config->get('dont_override');
-        $cols          = null;
+        $cols = null;
 
         // is there a sort type for this request?
         $sort = rcube_utils::get_input_string('_sort', rcube_utils::INPUT_GET);
@@ -86,9 +86,9 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         if (!empty($_REQUEST['_search']) && isset($_SESSION['search'])
             && $_SESSION['search_request'] == $_REQUEST['_search']
         ) {
-            $search_request     = $_REQUEST['_search'];
+            $search_request = $_REQUEST['_search'];
             $_SESSION['search'] = $rcmail->storage->get_search_set();
-            $multifolder        = !empty($_SESSION['search']) && !empty($_SESSION['search'][1]->multi);
+            $multifolder = !empty($_SESSION['search']) && !empty($_SESSION['search'][1]->multi);
         }
         // remove old search data
         elseif (empty($_REQUEST['_search']) && isset($_SESSION['search'])) {
@@ -103,8 +103,8 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         }
 
         // update message count display
-        $pages  = ceil($count / $rcmail->storage->get_pagesize());
-        $page   = $count ? $rcmail->storage->get_page() : 1;
+        $pages = ceil($count / $rcmail->storage->get_pagesize());
+        $page = $count ? $rcmail->storage->get_page() : 1;
         $exists = $rcmail->storage->count($mbox_name, 'EXISTS', true);
 
         $rcmail->output->set_env('messagecount', $count);

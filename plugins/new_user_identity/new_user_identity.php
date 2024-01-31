@@ -37,11 +37,11 @@ class new_user_identity extends rcube_plugin
             $results = $this->ldap->search('*', $args['user'], true);
 
             if (count($results->records) == 1) {
-                $user       = $results->records[0];
-                $user_name  = is_array($user['name']) ? $user['name'][0] : $user['name'];
+                $user = $results->records[0];
+                $user_name = is_array($user['name']) ? $user['name'][0] : $user['name'];
                 $user_email = is_array($user['email']) ? $user['email'][0] : $user['email'];
 
-                $args['user_name']  = $user_name;
+                $args['user_name'] = $user_name;
                 $args['email_list'] = [];
 
                 if (empty($args['user_email']) && strpos($user_email, '@')) {
@@ -101,12 +101,12 @@ class new_user_identity extends rcube_plugin
             }
 
             $plugin = $this->rc->plugins->exec_hook('identity_create', [
-                'login'  => true,
+                'login' => true,
                 'record' => [
-                    'user_id'  => $this->rc->user->ID,
+                    'user_id' => $this->rc->user->ID,
                     'standard' => 0,
-                    'email'    => $email,
-                    'name'     => $ldap_entry['user_name'],
+                    'email' => $email,
+                    'name' => $ldap_entry['user_name'],
                 ],
             ]);
 
@@ -131,15 +131,15 @@ class new_user_identity extends rcube_plugin
 
         $addressbook = $this->rc->config->get('new_user_identity_addressbook');
         $ldap_config = (array) $this->rc->config->get('ldap_public');
-        $match       = $this->rc->config->get('new_user_identity_match');
+        $match = $this->rc->config->get('new_user_identity_match');
 
         if (empty($addressbook) || empty($match) || empty($ldap_config[$addressbook])) {
             return false;
         }
 
-        $debug  = $this->rc->config->get('ldap_debug');
+        $debug = $this->rc->config->get('ldap_debug');
         $domain = $this->rc->config->mail_domain($host);
-        $props  = $ldap_config[$addressbook];
+        $props = $ldap_config[$addressbook];
 
         $this->ldap = new new_user_identity_ldap_backend($props, $debug, $domain, $match);
 

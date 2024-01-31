@@ -14,7 +14,7 @@ class Enigma_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new enigma($rcube->plugins);
 
         $this->assertInstanceOf('enigma', $plugin);

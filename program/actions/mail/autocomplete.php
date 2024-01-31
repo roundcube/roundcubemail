@@ -32,10 +32,10 @@ class rcmail_action_mail_autocomplete extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
         $MAXNUM = (int) $rcmail->config->get('autocomplete_max', 15);
-        $mode   = (int) $rcmail->config->get('addressbook_search_mode');
+        $mode = (int) $rcmail->config->get('addressbook_search_mode');
         $single = (bool) $rcmail->config->get('autocomplete_single');
         $search = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC, true);
-        $reqid  = rcube_utils::get_input_string('_reqid', rcube_utils::INPUT_GPC);
+        $reqid = rcube_utils::get_input_string('_reqid', rcube_utils::INPUT_GPC);
 
         $contacts = [];
 
@@ -55,14 +55,14 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                         // Contact can have more than one e-mail address
                         $email_arr = (array) $abook->get_col_values('email', $record, true);
                         $email_cnt = count($email_arr);
-                        $idx       = 0;
+                        $idx = 0;
 
                         foreach ($email_arr as $email) {
                             if (empty($email)) {
                                 continue;
                             }
 
-                            $name    = rcube_addressbook::compose_list_name($record);
+                            $name = rcube_addressbook::compose_list_name($record);
                             $contact = format_email_recipient($email, $name);
 
                             // skip entries that don't match
@@ -75,9 +75,9 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                             // skip duplicates
                             if (empty($contacts[$index])) {
                                 $contact = [
-                                    'name'   => $contact,
-                                    'type'   => $record['_type'] ?? null,
-                                    'id'     => $record['ID'],
+                                    'name' => $contact,
+                                    'type' => $record['_type'] ?? null,
+                                    'id' => $record['ID'],
                                     'source' => $abook_id,
                                 ];
 
@@ -92,8 +92,8 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                     $contact['email'] = $email;
                                 }
 
-                                $name              = !empty($contact['display']) ? $contact['display'] : $name;
-                                $contacts[$index]  = $contact;
+                                $name = !empty($contact['display']) ? $contact['display'] : $name;
+                                $contacts[$index] = $contact;
                                 $sort_keys[$index] = sprintf('%s %03d', $name, $idx++);
 
                                 if (count($contacts) >= $MAXNUM) {
@@ -125,11 +125,11 @@ class rcmail_action_mail_autocomplete extends rcmail_action
 
                                 if (empty($contacts[$index])) {
                                     $sort_keys[$index] = sprintf('%s %03d', $group['name'], $idx++);
-                                    $contacts[$index]  = [
-                                        'name'   => $index,
-                                        'email'  => $email,
-                                        'type'   => 'group',
-                                        'id'     => $group['ID'],
+                                    $contacts[$index] = [
+                                        'name' => $index,
+                                        'email' => $email,
+                                        'type' => 'group',
+                                        'id' => $group['ID'],
                                         'source' => $abook_id,
                                     ];
 
@@ -143,10 +143,10 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                         elseif (($result = $abook->count()) && $result->count) {
                             if (empty($contacts[$group['name']])) {
                                 $sort_keys[$group['name']] = $group['name'];
-                                $contacts[$group['name']]  = [
-                                    'name'   => $group['name'] . ' (' . intval($result->count) . ')',
-                                    'type'   => 'group',
-                                    'id'     => $group['ID'],
+                                $contacts[$group['name']] = [
+                                    'name' => $group['name'] . ' (' . intval($result->count) . ')',
+                                    'type' => 'group',
+                                    'id' => $group['ID'],
                                     'source' => $abook_id,
                                 ];
 
@@ -198,7 +198,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
         }
 
         $collected_recipients = $rcmail->config->get('collected_recipients');
-        $collected_senders    = $rcmail->config->get('collected_senders');
+        $collected_senders = $rcmail->config->get('collected_senders');
 
         if (strlen($collected_recipients) && !in_array($collected_recipients, $book_types)) {
             $book_types[] = $collected_recipients;

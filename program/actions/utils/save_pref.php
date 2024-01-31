@@ -29,9 +29,9 @@ class rcmail_action_utils_save_pref extends rcmail_action
      */
     public function run($args = [])
     {
-        $rcmail   = rcmail::get_instance();
-        $name     = rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST);
-        $value    = rcube_utils::get_input_value('_value', rcube_utils::INPUT_POST);
+        $rcmail = rcmail::get_instance();
+        $name = rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST);
+        $value = rcube_utils::get_input_value('_value', rcube_utils::INPUT_POST);
         $sessname = rcube_utils::get_input_string('_session', rcube_utils::INPUT_POST);
 
         // Whitelisted preferences and session variables, others
@@ -46,14 +46,14 @@ class rcmail_action_utils_save_pref extends rcmail_action
             'list_attrib/columns',
         ];
 
-        $whitelist      = array_merge($whitelist, $rcmail->plugins->allowed_prefs);
+        $whitelist = array_merge($whitelist, $rcmail->plugins->allowed_prefs);
         $whitelist_sess = array_merge($whitelist_sess, $rcmail->plugins->allowed_session_prefs);
 
         if (!in_array($name, $whitelist) || ($sessname && !in_array($sessname, $whitelist_sess))) {
             rcube::raise_error([
-                'code'    => 500,
-                'file'    => __FILE__,
-                'line'    => __LINE__,
+                'code' => 500,
+                'file' => __FILE__,
+                'line' => __LINE__,
                 'message' => sprintf('Hack attempt detected (user: %s)', $rcmail->get_user_name()),
             ], true, false);
 

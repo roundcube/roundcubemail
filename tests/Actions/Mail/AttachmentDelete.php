@@ -30,12 +30,12 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
         unset($rcmail->plugins->handlers['attachment_delete']);
         $rcmail->plugins->register_hook('attachment_delete', static function ($att) {
             $att['status'] = true;
-            $att['break']  = true;
+            $att['break'] = true;
             return $att;
         });
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_SESSION                  = ['compose_data_101' => ['test' => 'test']];
+        $_SESSION = ['compose_data_101' => ['test' => 'test']];
 
         // Invoke the delete action
         $_POST = ['_id' => '101', '_file' => 'rcmfile' . $file['id']];

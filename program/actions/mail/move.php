@@ -32,7 +32,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
 
         // count messages before changing anything
         $threading = (bool) $rcmail->storage->get_threading();
-        $trash     = $rcmail->config->get('trash_mbox');
+        $trash = $rcmail->config->get('trash_mbox');
         $old_count = 0;
 
         if (empty($_POST['_from']) || $_POST['_from'] != 'show') {
@@ -48,7 +48,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
 
         $success = true;
         $addrows = false;
-        $count   = 0;
+        $count = 0;
         $sources = [];
 
         foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
@@ -98,21 +98,21 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
             $rcmail->output->send();
         }
 
-        $mbox           = $rcmail->storage->get_folder();
-        $msg_count      = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
-        $exists         = $rcmail->storage->count($mbox, 'EXISTS', true);
-        $page_size      = $rcmail->storage->get_pagesize();
-        $page           = $rcmail->storage->get_page();
-        $pages          = ceil($msg_count / $page_size);
+        $mbox = $rcmail->storage->get_folder();
+        $msg_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
+        $exists = $rcmail->storage->count($mbox, 'EXISTS', true);
+        $page_size = $rcmail->storage->get_pagesize();
+        $page = $rcmail->storage->get_page();
+        $pages = ceil($msg_count / $page_size);
         $nextpage_count = $old_count - $page_size * $page;
-        $remaining      = $msg_count - $page_size * ($page - 1);
+        $remaining = $msg_count - $page_size * ($page - 1);
 
         // jump back one page (user removed the whole last page)
         if ($page > 1 && $remaining == 0) {
             $page--;
             $rcmail->storage->set_page($page);
             $_SESSION['page'] = $page;
-            $jump_back        = true;
+            $jump_back = true;
         }
 
         // update unseen messages counts for all involved folders

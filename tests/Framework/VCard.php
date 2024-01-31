@@ -133,7 +133,7 @@ class Framework_VCard extends TestCase
         $input = str_replace('ENCODING=b:', 'ENCODING=base64;jpeg:', $input);
 
         $vcards = rcube_vcard::import($input);
-        $vcard  = $vcards[0]->get_assoc();
+        $vcard = $vcards[0]->get_assoc();
 
         // ENCODING=base64 case (#1489977)
         $this->assertSame('/9j/4AAQSkZJRgABAQA', substr(base64_encode($vcard['photo']), 0, 19), 'Photo decoding');
@@ -141,7 +141,7 @@ class Framework_VCard extends TestCase
         $input = str_replace('PHOTO;ENCODING=base64;jpeg:', 'PHOTO:data:image/jpeg;base64,', $input);
 
         $vcards = rcube_vcard::import($input);
-        $vcard  = $vcards[0]->get_assoc();
+        $vcard = $vcards[0]->get_assoc();
 
         // vcard4.0 "PHOTO:data:image/jpeg;base64," case (#1489977)
         $this->assertSame('/9j/4AAQSkZJRgABAQA', substr(base64_encode($vcard['photo']), 0, 19), 'Photo decoding');
@@ -196,7 +196,7 @@ class Framework_VCard extends TestCase
      */
     public function test_required_fields()
     {
-        $vcard  = new rcube_vcard();
+        $vcard = new rcube_vcard();
         $result = $vcard->export();
 
         $this->assertSame($result, "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:\r\nN:;;;;\r\nEND:VCARD");

@@ -24,7 +24,7 @@
 
 $config = [
     'display_errors' => false,
-    'log_errors'     => true,
+    'log_errors' => true,
 ];
 
 // Some users are not using Installer, so we'll check some
@@ -40,8 +40,8 @@ if (\PHP_MAJOR_VERSION < 8) {
 if (\PHP_SAPI != 'cli') {
     $config += [
         'suhosin.session.encrypt' => false,
-        'file_uploads'            => true,
-        'session.auto_start'      => false,
+        'file_uploads' => true,
+        'session.auto_start' => false,
         'zlib.output_compression' => false,
     ];
 }
@@ -50,7 +50,7 @@ foreach ($config as $optname => $optval) {
     $ini_optval = filter_var(ini_get($optname), is_bool($optval) ? \FILTER_VALIDATE_BOOLEAN : \FILTER_VALIDATE_INT);
     if ($optval != $ini_optval && @ini_set($optname, $optval) === false) {
         $optval = !is_bool($optval) ? $optval : ($optval ? 'On' : 'Off');
-        $error  = "ERROR: Wrong '{$optname}' option value and it wasn't possible to set it to required value ({$optval}).\n"
+        $error = "ERROR: Wrong '{$optname}' option value and it wasn't possible to set it to required value ({$optval}).\n"
             . 'Check your PHP configuration (including php_admin_flag).';
 
         if (defined('STDERR')) {
@@ -94,9 +94,9 @@ mb_regex_encoding(RCUBE_CHARSET);
 
 // make sure the Roundcube lib directory is in the include_path
 $rcube_path = realpath(RCUBE_LIB_DIR . '..');
-$sep        = \PATH_SEPARATOR;
-$regexp     = "!(^|{$sep})" . preg_quote($rcube_path, '!') . "({$sep}|\$)!";
-$path       = ini_get('include_path');
+$sep = \PATH_SEPARATOR;
+$regexp = "!(^|{$sep})" . preg_quote($rcube_path, '!') . "({$sep}|\$)!";
+$path = ini_get('include_path');
 
 if (!preg_match($regexp, $path)) {
     set_include_path($path . \PATH_SEPARATOR . $rcube_path);
@@ -207,10 +207,10 @@ function get_offset_sec($str)
 {
     if (preg_match('/^([0-9]+)\s*([smhdw])/i', $str, $regs)) {
         $amount = (int) $regs[1];
-        $unit   = strtolower($regs[2]);
+        $unit = strtolower($regs[2]);
     } else {
         $amount = (int) $str;
-        $unit   = 's';
+        $unit = 's';
     }
 
     switch ($unit) {
@@ -260,13 +260,13 @@ function abbreviate_string($str, $maxlength, $placeholder = '...', $ending = fal
             return mb_substr($str, 0, $maxlength) . $placeholder;
         }
 
-        $placeholder_length       = mb_strlen($placeholder);
-        $first_part_length        = floor(($maxlength - $placeholder_length) / 2);
+        $placeholder_length = mb_strlen($placeholder);
+        $first_part_length = floor(($maxlength - $placeholder_length) / 2);
         $second_starting_location = $length - $maxlength + $first_part_length + $placeholder_length;
 
         $prefix = mb_substr($str, 0, $first_part_length);
         $suffix = mb_substr($str, $second_starting_location);
-        $str    = $prefix . $placeholder . $suffix;
+        $str = $prefix . $placeholder . $suffix;
     }
 
     return $str;

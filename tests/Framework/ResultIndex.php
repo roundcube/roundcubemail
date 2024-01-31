@@ -22,7 +22,7 @@ class Framework_ResultIndex extends TestCase
      */
     public function test_parse_sort()
     {
-        $text   = '* SORT 2001 2002 2035 2036 2037 2038 2044 2046 2043 2045 2226 2225 2224 2223';
+        $text = '* SORT 2001 2002 2035 2036 2037 2038 2044 2046 2043 2045 2226 2225 2224 2223';
         $object = new rcube_result_index('INBOX', $text);
 
         $this->assertFalse($object->is_empty(), 'Object is empty');
@@ -68,7 +68,7 @@ class Framework_ResultIndex extends TestCase
      */
     public function test_parse_esearch()
     {
-        $text   = '* ESEARCH (TAG "A282") MIN 2 COUNT 3 ALL 2,10:11';
+        $text = '* ESEARCH (TAG "A282") MIN 2 COUNT 3 ALL 2,10:11';
         $object = new rcube_result_index('INBOX', $text);
 
         $this->assertFalse($object->is_empty(), 'Object is empty');
@@ -86,7 +86,7 @@ class Framework_ResultIndex extends TestCase
         $this->assertSame('INBOX', $object->get_parameters('MAILBOX'), 'Get parameter');
 
         // A case without 'ALL' response
-        $text   = '* ESEARCH (TAG "A282") UID MAX 721 COUNT 3';
+        $text = '* ESEARCH (TAG "A282") UID MAX 721 COUNT 3';
         $object = new rcube_result_index('INBOX', $text);
 
         $this->assertFalse($object->is_empty(), 'Object is empty');

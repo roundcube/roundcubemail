@@ -87,7 +87,7 @@ class rcube_result_set implements Iterator, ArrayAccess
     public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
-            $offset          = count($this->records);
+            $offset = count($this->records);
             $this->records[] = $value;
         } else {
             $this->records[$offset] = $value;

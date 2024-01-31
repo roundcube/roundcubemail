@@ -4,17 +4,17 @@
 $config['squirrelmail_driver'] = 'sql';
 
 // full path to the squirrelmail data directory
-$config['squirrelmail_data_dir']            = '';
+$config['squirrelmail_data_dir'] = '';
 $config['squirrelmail_data_dir_hash_level'] = 0;
 
 // file charset - e.g. 'EUC-JP'. Leave empty for ASCII.
 $config['squirrelmail_file_charset'] = '';
 
 // 'mysql://dbuser:dbpass@localhost/database'
-$config['squirrelmail_dsn']        = 'mysql://user:password@localhost/webmail';
+$config['squirrelmail_dsn'] = 'mysql://user:password@localhost/webmail';
 $config['squirrelmail_db_charset'] = 'iso-8859-1';
 
-$config['squirrelmail_address_table']   = 'address';
+$config['squirrelmail_address_table'] = 'address';
 $config['squirrelmail_userprefs_table'] = 'userprefs';
 
 // identities_level option value for squirrelmail plugin

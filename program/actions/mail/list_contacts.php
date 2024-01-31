@@ -28,19 +28,19 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
      */
     public function run($args = [])
     {
-        $rcmail        = rcmail::get_instance();
-        $source        = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
-        $afields       = $rcmail->config->get('contactlist_fields');
+        $rcmail = rcmail::get_instance();
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $afields = $rcmail->config->get('contactlist_fields');
         $addr_sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
-        $page_size     = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
-        $list_page     = max(1, $_GET['_page'] ?? 0);
-        $jsresult      = [];
+        $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
+        $list_page = max(1, $_GET['_page'] ?? 0);
+        $jsresult = [];
 
         // Use search result
         if (!empty($_REQUEST['_search']) && isset($_SESSION['contact_search'][$_REQUEST['_search']])) {
-            $search  = (array) $_SESSION['contact_search'][$_REQUEST['_search']];
-            $sparam  = $_SESSION['contact_search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['contact_search_params']['data'] : [];
-            $mode    = (int) $rcmail->config->get('addressbook_search_mode');
+            $search = (array) $_SESSION['contact_search'][$_REQUEST['_search']];
+            $sparam = $_SESSION['contact_search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['contact_search_params']['data'] : [];
+            $mode = (int) $rcmail->config->get('addressbook_search_mode');
             $records = [];
 
             // get records from all sources
@@ -60,8 +60,8 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 // get records
                 foreach ($CONTACTS->list_records($afields) as $row) {
                     $row['sourceid'] = $s;
-                    $key             = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
-                    $records[$key]   = $row;
+                    $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
+                    $records[$key] = $row;
                 }
             }
 
@@ -69,8 +69,8 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
             ksort($records, \SORT_LOCALE_STRING);
 
             // create resultset object
-            $count  = count($records);
-            $first  = ($list_page - 1) * $page_size;
+            $count = count($records);
+            $first = ($list_page - 1) * $page_size;
             $result = new rcube_result_set($count, $first);
 
             // we need only records for current page
@@ -112,11 +112,11 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 // add record for every email address of the contact
                 $emails = rcube_addressbook::get_col_values('email', $row, true);
                 foreach ($emails as $i => $email) {
-                    $source    = !empty($row['sourceid']) ? $row['sourceid'] : $source;
-                    $row_id    = $source . '-' . $row['ID'] . '-' . $i;
-                    $is_group  = isset($row['_type']) && $row['_type'] == 'group';
+                    $source = !empty($row['sourceid']) ? $row['sourceid'] : $source;
+                    $row_id = $source . '-' . $row['ID'] . '-' . $i;
+                    $is_group = isset($row['_type']) && $row['_type'] == 'group';
                     $classname = $is_group ? 'group' : 'person';
-                    $keyname   = $is_group ? 'contactgroup' : 'contact';
+                    $keyname = $is_group ? 'contactgroup' : 'contact';
 
                     $jsresult[$row_id] = format_email_recipient($email, $name);
 
@@ -147,7 +147,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
      */
     public static function compose_contact_groups($abook, $source_id, $search = null, $search_mode = 0)
     {
-        $rcmail   = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $jsresult = [];
 
         foreach ($abook->list_groups($search, $search_mode) as $group) {
@@ -157,7 +157,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
             // group (distribution list) with email address(es)
             if (!empty($group['email'])) {
                 foreach ((array) $group['email'] as $email) {
-                    $row_id            = 'G' . $group['ID'];
+                    $row_id = 'G' . $group['ID'];
                     $jsresult[$row_id] = format_email_recipient($email, $group['name']);
                     $rcmail->output->command('add_contact_row', $row_id, [
                         'contactgroup' => html::span(['title' => $email], rcube::Q($group['name'])),
@@ -169,9 +169,9 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 $row_id = 'G' . $group['ID'];
                 $rcmail->output->command('add_contact_row', $row_id, [
                         'contactgroup' => html::a([
-                                'href'    => '#list',
-                                'rel'     => $group['ID'],
-                                'title'   => $rcmail->gettext('listgroup'),
+                                'href' => '#list',
+                                'rel' => $group['ID'],
+                                'title' => $rcmail->gettext('listgroup'),
                                 'onclick' => sprintf("return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)",
                                     rcmail_output::JS_OBJECT_NAME, $source_id, $group['ID']),
                             ],
@@ -183,7 +183,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
             }
             // show group with count
             elseif (($result = $abook->count()) && $result->count) {
-                $row_id            = 'E' . $group['ID'];
+                $row_id = 'E' . $group['ID'];
                 $jsresult[$row_id] = ['name' => $group['name'], 'source' => $source_id];
                 $rcmail->output->command('add_contact_row', $row_id, [
                     'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')'),

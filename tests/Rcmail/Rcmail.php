@@ -8,10 +8,10 @@ class Rcmail_Rcmail extends ActionTestCase
     protected function setUp(): void
     {
         // set some HTTP env vars
-        $_SERVER['HTTP_HOST']        = 'mail.example.org';
-        $_SERVER['SERVER_PORT']      = '443';
-        $_SERVER['SCRIPT_NAME']      = '/sub/index.php';
-        $_SERVER['HTTPS']            = true;
+        $_SERVER['HTTP_HOST'] = 'mail.example.org';
+        $_SERVER['SERVER_PORT'] = '443';
+        $_SERVER['SCRIPT_NAME'] = '/sub/index.php';
+        $_SERVER['HTTPS'] = true;
         $_SERVER['X_FORWARDED_PATH'] = '/proxied/';
 
         rcmail::get_instance()->filename = '';
@@ -26,7 +26,7 @@ class Rcmail_Rcmail extends ActionTestCase
 
         // Test keep-alive action handler
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'test', 'keep-alive');
-        $e      = null;
+        $e = null;
 
         try {
             $rcmail->action_handler();
@@ -183,7 +183,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $_SERVER['REQUEST_URI'] = null;
         $rcmail->config->set('request_path', null);
 
-        $_SERVER['HTTPS']       = false;
+        $_SERVER['HTTPS'] = false;
         $_SERVER['SERVER_PORT'] = '8080';
         $this->assertSame(
             'http://mail.example.org:8080/?_task=cli&_action=test&_mode=ABS',
@@ -208,7 +208,7 @@ class Rcmail_Rcmail extends ActionTestCase
         self::initDB('contacts');
 
         $rcmail = rcmail::get_instance();
-        $db     = $rcmail->get_dbh();
+        $db = $rcmail->get_dbh();
         $source = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
 
         $contact_id = $rcmail->contact_create(['email' => 'test@xn--e1aybc.xn--p1ai'], $source, $error);
@@ -217,7 +217,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertTrue($contact_id != false);
 
         $sql_result = $db->query("SELECT * FROM `contacts` WHERE `contact_id` = {$contact_id}");
-        $contact    = $db->fetch_assoc($sql_result);
+        $contact = $db->fetch_assoc($sql_result);
 
         $this->assertSame('test@тест.рф', $contact['email']);
         $this->assertSame('Test', $contact['name']);

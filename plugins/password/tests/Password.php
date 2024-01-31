@@ -14,7 +14,7 @@ class Password_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new password($rcube->plugins);
 
         $this->assertInstanceOf('password', $plugin);
@@ -63,7 +63,7 @@ class Password_Plugin extends TestCase
         $error_message = 'Execution of Email::passwdpop (api version:3) is no'
                 . 't permitted inside of webmail';
         $expected_result = [
-            'code'    => PASSWORD_ERROR,
+            'code' => PASSWORD_ERROR,
             'message' => $error_message,
         ];
         $fail_result = $driver_class::decode_response($fail_response);

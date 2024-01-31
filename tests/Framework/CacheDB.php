@@ -13,7 +13,7 @@ class Framework_CacheDB extends TestCase
     public function test_common_cache_operations()
     {
         $rcube = rcube::get_instance();
-        $db    = $rcube->get_dbh();
+        $db = $rcube->get_dbh();
         $db->query('DELETE FROM cache');
 
         $cache = new rcube_cache_db(1, 'test', 60);

@@ -28,16 +28,16 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
      */
     public function run($args = [])
     {
-        $rcmail        = rcmail::get_instance();
-        $search        = rcube_utils::get_input_string('_q', rcube_utils::INPUT_GPC, true);
-        $sources       = $rcmail->get_address_sources();
-        $search_mode   = (int) $rcmail->config->get('addressbook_search_mode');
+        $rcmail = rcmail::get_instance();
+        $search = rcube_utils::get_input_string('_q', rcube_utils::INPUT_GPC, true);
+        $sources = $rcmail->get_address_sources();
+        $search_mode = (int) $rcmail->config->get('addressbook_search_mode');
         $addr_sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
-        $afields       = $rcmail->config->get('contactlist_fields');
-        $page_size     = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
-        $records       = [];
-        $search_set    = [];
-        $jsresult      = [];
+        $afields = $rcmail->config->get('contactlist_fields');
+        $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
+        $records = [];
+        $search_set = [];
+        $jsresult = [];
         $search_mode |= rcube_addressbook::SEARCH_GROUPS;
 
         foreach ($sources as $s) {
@@ -59,8 +59,8 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
             while ($row = $result->next()) {
                 $row['sourceid'] = $s['id'];
-                $key             = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
-                $records[$key]   = $row;
+                $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
+                $records[$key] = $row;
             }
 
             $search_set[$s['id']] = $source->get_search_set();
@@ -73,7 +73,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
         ksort($records, \SORT_LOCALE_STRING);
 
         // create resultset object
-        $count  = count($records);
+        $count = count($records);
         $result = new rcube_result_set($count);
 
         // select the requested page
@@ -86,10 +86,10 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
         if (!empty($result) && $result->count > 0) {
             // create javascript list
             while ($row = $result->next()) {
-                $name      = rcube_addressbook::compose_list_name($row);
-                $is_group  = isset($row['_type']) && $row['_type'] == 'group';
+                $name = rcube_addressbook::compose_list_name($row);
+                $is_group = isset($row['_type']) && $row['_type'] == 'group';
                 $classname = $is_group ? 'group' : 'person';
-                $keyname   = $is_group ? 'contactgroup' : 'contact';
+                $keyname = $is_group ? 'contactgroup' : 'contact';
 
                 // add record for every email address of the contact
                 // (same as in list_contacts.inc)
@@ -100,7 +100,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
                     $jsresult[$row_id] = format_email_recipient($email, $name);
 
-                    $title        = rcube_addressbook::compose_search_name($row, $email, $name);
+                    $title = rcube_addressbook::compose_search_name($row, $email, $name);
                     $link_content = rcube::Q($name ?: $email);
                     if ($name && count($emails) > 1) {
                         $link_content .= '&nbsp;' . html::span('email', rcube::Q($email));
@@ -116,7 +116,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
             // save search settings in session
             $_SESSION['contact_search'][$search_request] = $search_set;
-            $_SESSION['contact_search_params']           = ['id' => $search_request, 'data' => [$afields, $search]];
+            $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$afields, $search]];
 
             $rcmail->output->show_message('contactsearchsuccessful', 'confirmation', ['nr' => $result->count]);
 

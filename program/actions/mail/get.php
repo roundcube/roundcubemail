@@ -39,7 +39,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             unset($_GET['_preload']);
             unset($_GET['_safe']);
 
-            $url     = $rcmail->url($_GET + ['_mimewarning' => 1, '_embed' => 1]);
+            $url = $rcmail->url($_GET + ['_mimewarning' => 1, '_embed' => 1]);
             $message = $rcmail->gettext('loadingdata');
 
             header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
@@ -51,8 +51,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         }
 
         $attachment = new rcmail_attachment_handler();
-        $mimetype   = $attachment->mimetype;
-        $filename   = $attachment->filename;
+        $mimetype = $attachment->mimetype;
+        $filename = $attachment->filename;
 
         self::$attachment = $attachment;
 
@@ -62,12 +62,12 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
             // register UI objects
             $rcmail->output->add_handlers([
-                'messagepartframe'    => [$this, 'message_part_frame'],
+                'messagepartframe' => [$this, 'message_part_frame'],
                 'messagepartcontrols' => [$this, 'message_part_controls'],
             ]);
 
             $part_id = rcube_utils::get_input_string('_part', rcube_utils::INPUT_GET);
-            $uid     = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
+            $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
 
             // message/rfc822 preview (Note: handle also multipart/ parts, they can
             // come from Enigma, which replaces message/rfc822 with real mimetype)
@@ -90,9 +90,9 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         // render thumbnail of an image attachment
         if (!empty($_GET['_thumb']) && $attachment->is_valid()) {
             $thumbnail_size = $rcmail->config->get('image_thumbnail_size', 240);
-            $file_ident     = $attachment->ident;
-            $thumb_name     = 'thumb' . md5($file_ident . ':' . $rcmail->user->ID . ':' . $thumbnail_size);
-            $cache_file     = rcube_utils::temp_filename($thumb_name, false, false);
+            $file_ident = $attachment->ident;
+            $thumb_name = 'thumb' . md5($file_ident . ':' . $rcmail->user->ID . ':' . $thumbnail_size);
+            $cache_file = rcube_utils::temp_filename($thumb_name, false, false);
 
             // render thumbnail image if not done yet
             if (!is_file($cache_file) && $attachment->body_to_file($orig_name = rcube_utils::temp_filename('attmnt'))) {
@@ -103,7 +103,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 } else {
                     // Resize failed, we need to check the file mimetype
                     // So, we do not exit here, but goto generic file body handler below
-                    $_GET['_thumb']     = 0;
+                    $_GET['_thumb'] = 0;
                     $_REQUEST['_embed'] = 1;
                 }
             }
@@ -143,7 +143,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     $tmp_body = $attachment->body(2048);
 
                     // detect message part mimetype
-                    $real_mimetype                               = rcube_mime::file_content_type($tmp_body, $filename, $mimetype, true, true);
+                    $real_mimetype = rcube_mime::file_content_type($tmp_body, $filename, $mimetype, true, true);
                     [$real_ctype_primary, $real_ctype_secondary] = explode('/', $real_mimetype);
 
                     // accept text/plain with any extension
@@ -152,7 +152,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     }
                     // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
                     elseif ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
-                        $real_mimetype   = $mimetype;
+                        $real_mimetype = $mimetype;
                         $valid_extension = true;
                     }
                     // ignore filename extension if mimeclass matches (#1489029)
@@ -160,7 +160,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         $valid_extension = true;
                     } else {
                         // get valid file extensions
-                        $extensions      = rcube_mime::get_mime_extensions($real_mimetype);
+                        $extensions = rcube_mime::get_mime_extensions($real_mimetype);
                         $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array) $extensions);
                     }
 
@@ -226,7 +226,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     && rcube_image::is_convertable('image/' . $type)
                 ) {
                     $convert2jpeg = true;
-                    $mimetype     = 'image/jpeg';
+                    $mimetype = 'image/jpeg';
                     break;
                 }
             }
@@ -234,7 +234,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
                 $rcmail->output = new rcmail_html_page();
-                $out            = '';
+                $out = '';
 
                 // Check if we have enough memory to handle the message in it
                 // #1487424: we need up to 10x more memory than the body
@@ -268,9 +268,9 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             }
 
             $rcmail->output->download_headers($filename, [
-                'type'         => $mimetype,
+                'type' => $mimetype,
                 'type_charset' => $attachment->charset,
-                'disposition'  => !empty($_GET['_download']) ? 'attachment' : 'inline',
+                'disposition' => !empty($_GET['_download']) ? 'attachment' : 'inline',
             ]);
 
             // handle tiff to jpeg conversion
@@ -304,8 +304,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
     public static function mimetype_compare($type1, $type2)
     {
         $regexp = '~/(x-ms-|x-)~';
-        $type1  = preg_replace($regexp, '/', $type1);
-        $type2  = preg_replace($regexp, '/', $type2);
+        $type1 = preg_replace($regexp, '/', $type1);
+        $type2 = preg_replace($regexp, '/', $type2);
 
         return $type1 === $type2;
     }
@@ -320,7 +320,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         }
 
         $rcmail = rcmail::get_instance();
-        $table  = new html_table(['cols' => 2]);
+        $table = new html_table(['cols' => 2]);
 
         $table->add('title', rcube::Q($rcmail->gettext('namex')) . ':');
         $table->add('header', rcube::Q(self::$attachment->filename));
@@ -343,14 +343,14 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
         if ($rcmail->output->get_env('is_message')) {
             $url = [
-                'task'   => 'mail',
+                'task' => 'mail',
                 'action' => 'preview',
-                'uid'    => $rcmail->output->get_env('uid'),
-                'mbox'   => $rcmail->output->get_env('mailbox'),
+                'uid' => $rcmail->output->get_env('uid'),
+                'mbox' => $rcmail->output->get_env('mailbox'),
             ];
         } else {
-            $mimetype                                                      = $rcmail->output->get_env('mimetype');
-            $url                                                           = $_GET;
+            $mimetype = $rcmail->output->get_env('mimetype');
+            $url = $_GET;
             $url[strpos($mimetype, 'text/') === 0 ? '_embed' : '_preload'] = 1;
             unset($url['_frame']);
         }

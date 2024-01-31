@@ -47,7 +47,7 @@ class rcube_imap_search
     public function __construct($options, $conn)
     {
         $this->options = $options;
-        $this->conn    = $conn;
+        $this->conn = $conn;
     }
 
     /**
@@ -63,7 +63,7 @@ class rcube_imap_search
      */
     public function exec($folders, $str, $charset = null, $sort_field = null, $threading = null)
     {
-        $start   = floor(microtime(true));
+        $start = floor(microtime(true));
         $results = new rcube_result_multifolder($folders);
 
         // start a search job for every folder to search in
@@ -73,9 +73,9 @@ class rcube_imap_search
             if ($result && !$result->incomplete) {
                 $results->add($result);
             } else {
-                $search       = is_array($str) && $str[$folder] ? $str[$folder] : $str;
-                $job          = new rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
-                $job->worker  = $this;
+                $search = is_array($str) && $str[$folder] ? $str[$folder] : $str;
+                $job = new rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
+                $job->worker = $this;
                 $this->jobs[] = $job;
             }
         }
@@ -163,13 +163,13 @@ class rcube_imap_search_job // extends Stackable
      */
     public function __construct($folder, $str, $charset = null, $sort_field = null, $threading = false)
     {
-        $this->folder     = $folder;
-        $this->search     = $str;
-        $this->charset    = $charset;
+        $this->folder = $folder;
+        $this->search = $str;
+        $this->charset = $charset;
         $this->sort_field = $sort_field;
-        $this->threading  = $threading;
+        $this->threading = $threading;
 
-        $this->result             = new rcube_result_index($folder);
+        $this->result = new rcube_result_index($folder);
         $this->result->incomplete = true;
     }
 
@@ -189,8 +189,8 @@ class rcube_imap_search_job // extends Stackable
     protected function search_index()
     {
         $criteria = $this->search;
-        $charset  = $this->charset;
-        $imap     = $this->worker->get_imap();
+        $charset = $this->charset;
+        $imap = $this->worker->get_imap();
 
         if (!$imap->connected()) {
             trigger_error("No IMAP connection for {$this->folder}", \E_USER_WARNING);

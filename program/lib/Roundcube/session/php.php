@@ -68,7 +68,7 @@ class rcube_session_php extends rcube_session
      */
     public function write_close()
     {
-        $_SESSION['__IP']    = $this->ip;
+        $_SESSION['__IP'] = $this->ip;
         $_SESSION['__MTIME'] = time();
 
         parent::write_close();
@@ -81,8 +81,8 @@ class rcube_session_php extends rcube_session
     {
         parent::start();
 
-        $this->key     = session_id();
-        $this->ip      = $_SESSION['__IP'] ?? null;
+        $this->key = session_id();
+        $this->ip = $_SESSION['__IP'] ?? null;
         $this->changed = $_SESSION['__MTIME'] ?? null;
     }
 }

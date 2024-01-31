@@ -35,13 +35,13 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
     public function run($args = [])
     {
         // Get contact ID and source ID from request
-        $cids   = self::get_cids();
+        $cids = self::get_cids();
         $source = key($cids);
-        $cid    = $cids ? array_first($cids[$source]) : null;
+        $cid = $cids ? array_first($cids[$source]) : null;
         $rcmail = rcmail::get_instance();
 
         // read contact record
-        $abook   = self::contact_source($source, true);
+        $abook = self::contact_source($source, true);
         $contact = $abook->get_record($cid, true);
 
         // generate QR code image
@@ -108,7 +108,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
             : new SvgImageBackEnd();
 
         $renderer = new ImageRenderer($renderer_style, $renderer_image);
-        $writer   = new Writer($renderer);
+        $writer = new Writer($renderer);
 
         return $writer->writeString($data, RCUBE_CHARSET);
     }

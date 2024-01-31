@@ -37,7 +37,7 @@ class rcmail_resend_mail extends Mail_mime
     {
         // To make the code simpler always use delay_file_io=true
         $params['delay_file_io'] = true;
-        $params['eol']           = "\r\n";
+        $params['eol'] = "\r\n";
 
         if (!isset($params['bounce_headers'])) {
             $params['bounce_headers'] = [];
@@ -80,7 +80,7 @@ class rcmail_resend_mail extends Mail_mime
 
             // txtHeaders() can be used to unset Bcc header
             if (array_key_exists($key, $headers)) {
-                $value                                                  = $headers[$key];
+                $value = $headers[$key];
                 $this->build_params['bounce_headers']['Resent-' . $key] = $value;
             }
 
@@ -120,10 +120,10 @@ class rcmail_resend_mail extends Mail_mime
             return;
         }
 
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
         $message = $this->build_params['bounce_message'];
-        $path    = rcube_utils::temp_filename('bounce');
+        $path = rcube_utils::temp_filename('bounce');
 
         // We'll write the body to the file and the headers to a variable
         if ($fp = fopen($path, 'w')) {
@@ -175,7 +175,7 @@ class rcmail_bounce_stream_filter extends php_user_filter
                     continue;
                 }
 
-                $bucket->data    = substr(self::$headers, $pos + 4);
+                $bucket->data = substr(self::$headers, $pos + 4);
                 $bucket->datalen = strlen($bucket->data);
 
                 self::$headers = substr(self::$headers, 0, $pos);

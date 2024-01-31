@@ -22,8 +22,8 @@ class Framework_Bootstrap extends TestCase
     public function test_in_array_nocase()
     {
         $haystack = ['Test'];
-        $needle   = 'test';
-        $result   = in_array_nocase($needle, $haystack);
+        $needle = 'test';
+        $result = in_array_nocase($needle, $haystack);
 
         $this->assertTrue($result, 'Invalid in_array_nocase() result (Array)');
 
@@ -38,8 +38,8 @@ class Framework_Bootstrap extends TestCase
     public function test_parse_bytes()
     {
         $data = [
-            '0'    => 0,
-            '1'    => 1,
+            '0' => 0,
+            '1' => 1,
             '1024' => 1024,
             ' 10 ' => 10,
 
@@ -48,18 +48,18 @@ class Framework_Bootstrap extends TestCase
             '2g' => 2 * 1024 * 1024 * 1024,
             '2t' => 2 * 1024 * 1024 * 1024 * 1024,
 
-            '2 k'  => 2 * 1024,
-            '2kb'  => 2 * 1024,
-            '2kB'  => 2 * 1024,
+            '2 k' => 2 * 1024,
+            '2kb' => 2 * 1024,
+            '2kB' => 2 * 1024,
             '2KiB' => 2 * 1024,
-            '2 m'  => 2 * 1024 * 1024,
-            '2TB'  => 2 * 1024 * 1024 * 1024 * 1024,
+            '2 m' => 2 * 1024 * 1024,
+            '2TB' => 2 * 1024 * 1024 * 1024 * 1024,
 
-            '2.5k'     => (int) round(2.5 * 1024),
+            '2.5k' => (int) round(2.5 * 1024),
             '0.01 MiB' => (int) round(0.01 * 1024 * 1024),
 
-            ''    => false,
-            '-1'  => false,
+            '' => false,
+            '-1' => false,
             '1 1' => false,
             '1BB' => false,
             '1MM' => false,
@@ -81,10 +81,10 @@ class Framework_Bootstrap extends TestCase
     public function test_slashify()
     {
         $data = [
-            'test'  => 'test/',
+            'test' => 'test/',
             'test/' => 'test/',
-            ''      => '/',
-            '\\'    => '\\/',
+            '' => '/',
+            '\\' => '\\/',
         ];
 
         foreach ($data as $value => $expected) {
@@ -99,13 +99,13 @@ class Framework_Bootstrap extends TestCase
     public function test_unslashify()
     {
         $data = [
-            'test'      => 'test',
-            'test/'     => 'test',
-            '/'         => '',
-            '\\/'       => '\\',
+            'test' => 'test',
+            'test/' => 'test',
+            '/' => '',
+            '\\/' => '\\',
             'test/test' => 'test/test',
-            'test//'    => 'test',
-            '/test//'   => '/test',
+            'test//' => 'test',
+            '/test//' => '/test',
         ];
 
         foreach ($data as $value => $expected) {
@@ -120,12 +120,12 @@ class Framework_Bootstrap extends TestCase
     public function test_get_offset_sec()
     {
         $data = [
-            '1s'  => 1,
-            '1m'  => 1 * 60,
-            '1h'  => 1 * 60 * 60,
-            '1d'  => 1 * 60 * 60 * 24,
-            '1w'  => 1 * 60 * 60 * 24 * 7,
-            '1y'  => 1,
+            '1s' => 1,
+            '1m' => 1 * 60,
+            '1h' => 1 * 60 * 60,
+            '1d' => 1 * 60 * 60 * 24,
+            '1w' => 1 * 60 * 60 * 24 * 7,
+            '1y' => 1,
             '100' => 100,
         ];
 
@@ -144,14 +144,14 @@ class Framework_Bootstrap extends TestCase
             'one' => [
                 'two' => [
                     'three' => [],
-                    'four'  => 'something',
+                    'four' => 'something',
                 ],
             ],
             'five' => 'test',
         ];
 
-        $result     = array_keys_recursive($input);
-        $input_str  = 'one,two,three,four,five';
+        $result = array_keys_recursive($input);
+        $input_str = 'one,two,three,four,five';
         $result_str = implode(',', $result);
 
         $this->assertSame($input_str, $result_str, 'Invalid array_keys_recursive() result');
@@ -197,11 +197,11 @@ class Framework_Bootstrap extends TestCase
     public function test_format_email()
     {
         $data = [
-            ''                 => '',
-            'test'             => 'test',
-            'test@test.tld'    => 'test@test.tld',
+            '' => '',
+            'test' => 'test',
+            'test@test.tld' => 'test@test.tld',
             'test@[127.0.0.1]' => 'test@[127.0.0.1]',
-            'TEST@TEST.TLD'    => 'TEST@test.tld',
+            'TEST@TEST.TLD' => 'TEST@test.tld',
         ];
 
         foreach ($data as $value => $expected) {
@@ -216,12 +216,12 @@ class Framework_Bootstrap extends TestCase
     public function test_format_email_recipient()
     {
         $data = [
-            ''                         => [''],
-            'test'                     => ['test'],
-            'test@test.tld'            => ['test@test.tld'],
-            'test@[127.0.0.1]'         => ['test@[127.0.0.1]'],
-            'TEST@TEST.TLD'            => ['TEST@TEST.TLD'],
-            'TEST <test@test.tld>'     => ['test@test.tld', 'TEST'],
+            '' => [''],
+            'test' => ['test'],
+            'test@test.tld' => ['test@test.tld'],
+            'test@[127.0.0.1]' => ['test@[127.0.0.1]'],
+            'TEST@TEST.TLD' => ['TEST@TEST.TLD'],
+            'TEST <test@test.tld>' => ['test@test.tld', 'TEST'],
             '"TEST\"" <test@test.tld>' => ['test@test.tld', 'TEST"'],
         ];
 

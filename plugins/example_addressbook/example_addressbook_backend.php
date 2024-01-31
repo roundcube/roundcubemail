@@ -10,8 +10,8 @@
 class example_addressbook_backend extends rcube_addressbook
 {
     public $primary_key = 'ID';
-    public $readonly    = true;
-    public $groups      = true;
+    public $readonly = true;
+    public $groups = true;
 
     private $filter;
     private $result;
@@ -19,38 +19,38 @@ class example_addressbook_backend extends rcube_addressbook
 
     private $db_groups = [
         [
-            'ID'   => 'testgroup1',
+            'ID' => 'testgroup1',
             'name' => 'Testgroup',
         ],
         [
-            'ID'   => 'testgroup2',
+            'ID' => 'testgroup2',
             'name' => 'Sample Group',
         ],
     ];
 
     private $db_users = [
         [
-            'ID'        => '111',
-            'name'      => 'John Doe',
+            'ID' => '111',
+            'name' => 'John Doe',
             'firstname' => 'John',
-            'surname'   => 'Doe',
-            'email'     => 'example1@roundcube.net',
-            'groups'    => ['testgroup1'],
+            'surname' => 'Doe',
+            'email' => 'example1@roundcube.net',
+            'groups' => ['testgroup1'],
         ],
         [
-            'ID'        => '112',
-            'name'      => 'Jane Example',
+            'ID' => '112',
+            'name' => 'Jane Example',
             'firstname' => 'Jane',
-            'surname'   => 'Example',
-            'email'     => 'example2@roundcube.net',
-            'groups'    => ['testgroup2'],
+            'surname' => 'Example',
+            'email' => 'example2@roundcube.net',
+            'groups' => ['testgroup2'],
         ],
     ];
 
     public function __construct($name)
     {
         $this->ready = true;
-        $this->name  = $name;
+        $this->name = $name;
     }
 
     /**
@@ -148,7 +148,7 @@ class example_addressbook_backend extends rcube_addressbook
         // Note: Paging is not implemented
 
         $result = new rcube_result_set(0, ($this->list_page - 1) * $this->page_size);
-        $count  = 0;
+        $count = 0;
 
         foreach ($this->db_users as $user) {
             if ($this->group_id && (empty($user['groups']) || !in_array($this->group_id, $user['groups']))) {

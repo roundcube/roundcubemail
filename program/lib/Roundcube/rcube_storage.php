@@ -38,12 +38,12 @@ abstract class rcube_storage
      */
     public static $folder_types = ['drafts', 'sent', 'junk', 'trash'];
 
-    protected $folder          = 'INBOX';
+    protected $folder = 'INBOX';
     protected $default_charset = 'ISO-8859-1';
-    protected $options         = ['auth_type' => 'check', 'language' => 'en_US'];
-    protected $page_size       = 10;
-    protected $list_page       = 1;
-    protected $threading       = false;
+    protected $options = ['auth_type' => 'check', 'language' => 'en_US'];
+    protected $page_size = 10;
+    protected $list_page = 1;
+    protected $threading = false;
     protected $search_set;
 
     /**
@@ -74,15 +74,15 @@ abstract class rcube_storage
         'X-DRAFT-INFO',
     ];
 
-    public const UNKNOWN       = 0;
-    public const NOPERM        = 1;
-    public const READONLY      = 2;
-    public const TRYCREATE     = 3;
-    public const INUSE         = 4;
-    public const OVERQUOTA     = 5;
+    public const UNKNOWN = 0;
+    public const NOPERM = 1;
+    public const READONLY = 2;
+    public const TRYCREATE = 3;
+    public const INUSE = 4;
+    public const OVERQUOTA = 5;
     public const ALREADYEXISTS = 6;
-    public const NONEXISTENT   = 7;
-    public const CONTACTADMIN  = 8;
+    public const NONEXISTENT = 7;
+    public const CONTACTADMIN = 8;
 
     public const DUAL_USE_FOLDERS = 'X-DUAL-USE-FOLDERS';
 
@@ -621,7 +621,7 @@ abstract class rcube_storage
         } elseif ($uids === '*' || $uids === '1:*') {
             if (empty($this->search_set)) {
                 $uids = '1:*';
-                $all  = true;
+                $all = true;
             }
             // get UIDs from current search set
             else {
@@ -889,7 +889,7 @@ abstract class rcube_storage
     {
         // getting config might be expensive, store special folders in memory
         if (!isset($this->icache['special-folders'])) {
-            $rcube                           = rcube::get_instance();
+            $rcube = rcube::get_instance();
             $this->icache['special-folders'] = [];
 
             foreach (self::$folder_types as $type) {

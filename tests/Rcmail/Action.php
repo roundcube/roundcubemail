@@ -26,10 +26,10 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_table_output()
     {
-        $attrib     = [];
+        $attrib = [];
         $table_data = [];
 
-        $result   = rcmail_action::table_output($attrib, $table_data, ['id'], 'id');
+        $result = rcmail_action::table_output($attrib, $table_data, ['id'], 'id');
         $expected = '<table border="0"><thead><tr><th class="id">[id]</th></tr></thead><tbody></tbody></table>';
         $this->assertSame($expected, $result);
 
@@ -160,7 +160,7 @@ class Rcmail_RcmailAction extends ActionTestCase
 
         $_GET = [
             '_mbox' => 'Test<a>',
-            '_uid'  => '1',
+            '_uid' => '1',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['Test<a>' => ['1']], $result);
@@ -182,7 +182,7 @@ class Rcmail_RcmailAction extends ActionTestCase
 
         $_GET = [
             '_mbox' => 'INBOX',
-            '_uid'  => '*',
+            '_uid' => '*',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['INBOX' => '*'], $result);
@@ -190,7 +190,7 @@ class Rcmail_RcmailAction extends ActionTestCase
 
         $_GET = [
             '_mbox' => 'INBOX',
-            '_uid'  => '1.1',
+            '_uid' => '1.1',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['INBOX' => ['1.1']], $result);
@@ -198,7 +198,7 @@ class Rcmail_RcmailAction extends ActionTestCase
 
         $_GET = [
             '_mbox' => 'INBOX',
-            '_uid'  => '1:2,56',
+            '_uid' => '1:2,56',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['INBOX' => ['1:2', '56']], $result);

@@ -21,7 +21,7 @@ class Actions_Mail_AttachmentRename extends ActionTestCase
         $file = $this->fileUpload('100');
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_SESSION                  = ['compose_data_100' => ['test' => 'test']];
+        $_SESSION = ['compose_data_100' => ['test' => 'test']];
 
         // Invoke the rename action
         $_POST = ['_id' => '100', '_file' => 'rcmfile' . $file['id'], '_name' => 'mod.gif'];

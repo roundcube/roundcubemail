@@ -41,12 +41,12 @@ class rcube_session_memcache extends rcube_session
         parent::__construct($config);
 
         $this->memcache = rcube::get_instance()->get_memcache();
-        $this->debug    = $config->get('memcache_debug');
+        $this->debug = $config->get('memcache_debug');
 
         if (!$this->memcache) {
             rcube::raise_error([
-                'code'    => 604, 'type' => 'memcache',
-                'line'    => __LINE__, 'file' => __FILE__,
+                'code' => 604, 'type' => 'memcache',
+                'line' => __LINE__, 'file' => __FILE__,
                 'message' => 'Failed to connect to memcached. Please check configuration',
             ], true, true);
         }
@@ -109,11 +109,11 @@ class rcube_session_memcache extends rcube_session
     public function read($key)
     {
         if ($value = $this->memcache->get($key)) {
-            $arr           = unserialize($value);
+            $arr = unserialize($value);
             $this->changed = $arr['changed'];
-            $this->ip      = $arr['ip'];
-            $this->vars    = $arr['vars'];
-            $this->key     = $key;
+            $this->ip = $arr['ip'];
+            $this->vars = $arr['vars'];
+            $this->key = $key;
         }
 
         if ($this->debug) {
@@ -137,7 +137,7 @@ class rcube_session_memcache extends rcube_session
             return true;
         }
 
-        $data   = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $vars]);
+        $data = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $vars]);
         $result = $this->memcache->set($key, $data, \MEMCACHE_COMPRESSED, $this->lifetime + 60);
 
         if ($this->debug) {
@@ -161,7 +161,7 @@ class rcube_session_memcache extends rcube_session
         $ts = microtime(true);
 
         if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $data   = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $newvars]);
+            $data = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $newvars]);
             $result = $this->memcache->set($key, $data, \MEMCACHE_COMPRESSED, $this->lifetime + 60);
 
             if ($this->debug) {

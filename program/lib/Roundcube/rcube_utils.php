@@ -25,11 +25,11 @@
 class rcube_utils
 {
     // define constants for input reading
-    public const INPUT_GET    = 1;
-    public const INPUT_POST   = 2;
+    public const INPUT_GET = 1;
+    public const INPUT_POST = 2;
     public const INPUT_COOKIE = 4;
-    public const INPUT_GP     = 3; // GET + POST
-    public const INPUT_GPC    = 7; // GET + POST + COOKIE
+    public const INPUT_GP = 3; // GET + POST
+    public const INPUT_GPC = 7; // GET + POST + COOKIE
 
     /**
      * A wrapper for PHP's explode() that does not throw a warning
@@ -63,9 +63,9 @@ class rcube_utils
             return;
         }
 
-        $attrib             = session_get_cookie_params();
-        $attrib['expires']  = $exp;
-        $attrib['secure']   = $attrib['secure'] || self::https_check();
+        $attrib = session_get_cookie_params();
+        $attrib['expires'] = $exp;
+        $attrib['secure'] = $attrib['secure'] || self::https_check();
         $attrib['httponly'] = $http_only;
 
         // session_get_cookie_params() return includes 'lifetime' but setcookie() does not use it, instead it uses 'expires'
@@ -100,7 +100,7 @@ class rcube_utils
         }
 
         $domain_part = substr($email, $pos + 1);
-        $local_part  = substr($email, 0, $pos);
+        $local_part = substr($email, 0, $pos);
 
         // quoted-string, make sure all backslashes and quotes are
         // escaped
@@ -185,8 +185,8 @@ class rcube_utils
     public static function rep_specialchars_output($str, $enctype = '', $mode = '', $newlines = true)
     {
         static $html_encode_arr = false;
-        static $js_rep_table    = false;
-        static $xml_rep_table   = false;
+        static $js_rep_table = false;
+        static $xml_rep_table = false;
 
         if (!is_string($str)) {
             $str = strval($str);
@@ -221,7 +221,7 @@ class rcube_utils
 
         // if the replace tables for XML and JS are not yet defined
         if ($js_rep_table === false) {
-            $js_rep_table       = $xml_rep_table = [];
+            $js_rep_table = $xml_rep_table = [];
             $xml_rep_table['&'] = '&amp;';
 
             // can be increased to support more charsets
@@ -230,8 +230,8 @@ class rcube_utils
             }
 
             $xml_rep_table['"'] = '&quot;';
-            $js_rep_table['"']  = '\\"';
-            $js_rep_table["'"]  = "\\'";
+            $js_rep_table['"'] = '\\"';
+            $js_rep_table["'"] = "\\'";
             $js_rep_table['\\'] = '\\\\';
             // Unicode line and paragraph separators (#1486310)
             $js_rep_table[chr(hexdec('E2')) . chr(hexdec('80')) . chr(hexdec('A8'))] = '&#8232;';
@@ -339,7 +339,7 @@ class rcube_utils
             $value = strip_tags($value);
         }
 
-        $rcube          = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $output_charset = is_object($rcube->output) ? $rcube->output->get_charset() : null;
 
         // remove invalid characters (#1488124)
@@ -411,11 +411,11 @@ class rcube_utils
      */
     public static function mod_css_styles($source, $container_id, $allow_remote = false, $prefix = '')
     {
-        $last_pos     = 0;
+        $last_pos = 0;
         $replacements = new rcube_string_replacer();
 
         // ignore the whole block if evil styles are detected
-        $source   = self::xss_entity_decode($source);
+        $source = self::xss_entity_decode($source);
         $stripped = preg_replace('/[^a-z\(:;]/i', '', $source);
         $evilexpr = 'expression|behavior|javascript:|import[^a]' . (!$allow_remote ? '|url\((?!data:image)' : '');
 
@@ -464,9 +464,9 @@ class rcube_utils
                 $output .= sprintf(' %s: %s;', $rule[0], $rule[1]);
             }
 
-            $key      = $replacements->add($output . ' ');
-            $repl     = $replacements->get_replacement($key);
-            $source   = substr_replace($source, $repl, $pos + 1, $length);
+            $key = $replacements->add($output . ' ');
+            $repl = $replacements->get_replacement($key);
+            $source = substr_replace($source, $repl, $pos + 1, $length);
             $last_pos = $pos2 - ($length - strlen($repl));
         }
 
@@ -474,8 +474,8 @@ class rcube_utils
         if ($container_id || $prefix) {
             // Exclude rcube_string_replacer pattern matches, this is needed
             // for cases like @media { body { position: fixed; } } (#5811)
-            $excl     = '(?!' . substr($replacements->pattern, 1, -1) . ')';
-            $regexp   = '/(^\s*|,\s*|\}\s*|\{\s*)(' . $excl . ':?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
+            $excl = '(?!' . substr($replacements->pattern, 1, -1) . ')';
+            $regexp = '/(^\s*|,\s*|\}\s*|\{\s*)(' . $excl . ':?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
             $callback = static function ($matches) use ($container_id, $prefix) {
                 $replace = $matches[2];
 
@@ -538,10 +538,10 @@ class rcube_utils
         // Replace new lines with spaces
         $style = preg_replace('/[\r\n]+/', ' ', $style);
 
-        $style  = trim($style);
+        $style = trim($style);
         $length = strlen($style);
         $result = [];
-        $pos    = 0;
+        $pos = 0;
 
         while ($pos < $length && ($colon_pos = strpos($style, ':', $pos))) {
             // Property name
@@ -568,7 +568,7 @@ class rcube_utils
             }
 
             $value_length = $i - $colon_pos - ($s ? 1 : 0);
-            $value        = trim(substr($style, $colon_pos + 1, $value_length));
+            $value = trim(substr($style, $colon_pos + 1, $value_length));
 
             if (strlen($name) && !preg_match('/[^a-z-]/', $name) && strlen($value) && $value !== ';') {
                 $result[] = [$name, $value];
@@ -642,7 +642,7 @@ class rcube_utils
     public static function mem_check($need)
     {
         $mem_limit = parse_bytes(ini_get('memory_limit'));
-        $memory    = function_exists('memory_get_usage') ? memory_get_usage() : 16 * 1024 * 1024; // safe value: 16MB
+        $memory = function_exists('memory_get_usage') ? memory_get_usage() : 16 * 1024 * 1024; // safe value: 16MB
 
         return $mem_limit > 0 && $memory + $need > $mem_limit ? false : true;
     }
@@ -718,7 +718,7 @@ class rcube_utils
         $s = '';
         if (strpos($name, '%s') !== false) {
             $user_email = self::idn_to_ascii(self::get_input_value('_user', self::INPUT_POST));
-            $matches    = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
+            $matches = preg_match('/(.*)@([a-z0-9\.\-\[\]\:]+)/i', $user_email, $s);
             if ($matches < 1 || filter_var($s[1] . '@' . $s[2], \FILTER_VALIDATE_EMAIL) === false) {
                 return false;
             }
@@ -743,12 +743,12 @@ class rcube_utils
             return [$host, $matches[1], -1];
         }
 
-        $url    = parse_url($host);
-        $port   = $plain_port;
+        $url = parse_url($host);
+        $port = $plain_port;
         $scheme = null;
 
         if (!empty($url['host'])) {
-            $host   = $url['host'];
+            $host = $url['host'];
             $scheme = $url['scheme'] ?? null;
 
             if (!empty($url['port'])) {
@@ -782,8 +782,8 @@ class rcube_utils
             $type = 'SERVER_NAME';
         }
 
-        $name     = $_SERVER[$type] ?? '';
-        $rcube    = rcube::get_instance();
+        $name = $_SERVER[$type] ?? '';
+        $rcube = rcube::get_instance();
         $patterns = (array) $rcube->config->get('trusted_host_patterns');
 
         if (!empty($name)) {
@@ -807,7 +807,7 @@ class rcube_utils
             }
 
             $rcube->raise_error([
-                'file'    => __FILE__, 'line' => __LINE__,
+                'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Specified host is not trusted. Using 'localhost'.",
             ], true, false);
         }
@@ -885,10 +885,10 @@ class rcube_utils
     {
         if (function_exists('apache_request_headers')) {
             $headers = apache_request_headers();
-            $key     = strtoupper($name);
+            $key = strtoupper($name);
         } else {
             $headers = $_SERVER;
-            $key     = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
+            $key = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
         }
 
         if (!empty($headers)) {
@@ -908,10 +908,10 @@ class rcube_utils
      */
     public static function explode_quoted_string($delimiter, $string)
     {
-        $res      = [];
-        $parts    = preg_split('/("(?:[^"\\\\]+|\\\\.)*+(?:"|\\\\?$))/s', $string, 0, \PREG_SPLIT_DELIM_CAPTURE);
+        $res = [];
+        $parts = preg_split('/("(?:[^"\\\\]+|\\\\.)*+(?:"|\\\\?$))/s', $string, 0, \PREG_SPLIT_DELIM_CAPTURE);
         $isQuoted = false;
-        $tmp      = '';
+        $tmp = '';
         foreach ($parts as $part) {
             if ($isQuoted) {
                 $tmp .= $part;
@@ -923,7 +923,7 @@ class rcube_utils
                         $isFirst = false;
                     } else {
                         $res[] = $tmp;
-                        $tmp   = $v;
+                        $tmp = $v;
                     }
                 }
             }
@@ -945,7 +945,7 @@ class rcube_utils
      */
     public static function strtotime($date, $timezone = null)
     {
-        $date   = self::clean_datestr($date);
+        $date = self::clean_datestr($date);
         $tzname = $timezone ? ' ' . $timezone->getName() : '';
 
         // unix timestamp
@@ -985,14 +985,14 @@ class rcube_utils
             return $date;
         }
 
-        $dt   = false;
+        $dt = false;
         $date = self::clean_datestr($date);
 
         // try to parse string with DateTime first
         if (!empty($date)) {
             try {
                 $_date = preg_match('/^[0-9]+$/', $date) ? "@{$date}" : $date;
-                $dt    = $timezone ? new DateTime($_date, $timezone) : new DateTime($_date);
+                $dt = $timezone ? new DateTime($_date, $timezone) : new DateTime($_date);
             } catch (Exception $e) {
                 // ignore
             }
@@ -1050,10 +1050,10 @@ class rcube_utils
 
         // try to fix dd/mm vs. mm/dd discrepancy, we can't do more here
         if (preg_match('/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})(\s.*)?$/', $date, $m)) {
-            $mdy   = $m[2] > 12 && $m[1] <= 12;
-            $day   = $mdy ? $m[2] : $m[1];
+            $mdy = $m[2] > 12 && $m[1] <= 12;
+            $day = $mdy ? $m[2] : $m[1];
             $month = $mdy ? $m[1] : $m[2];
-            $date  = sprintf('%04d-%02d-%02d%s', $m[3], $month, $day, $m[4] ?? ' 00:00:00');
+            $date = sprintf('%04d-%02d-%02d%s', $m[3], $month, $day, $m[4] ?? ' 00:00:00');
         }
         // I've found that YYYY.MM.DD is recognized wrong, so here's a fix
         elseif (preg_match('/^(\d{4})\.(\d{1,2})\.(\d{1,2})(\s.*)?$/', $date, $m)) {
@@ -1077,8 +1077,8 @@ class rcube_utils
     public static function format_datestr($date, $format)
     {
         $format_items = preg_split('/[.-\/\\\\]/', $format);
-        $date_items   = preg_split('/[.-\/\\\\]/', $date);
-        $iso_format   = '%04d-%02d-%02d';
+        $date_items = preg_split('/[.-\/\\\\]/', $date);
+        $iso_format = '%04d-%02d-%02d';
 
         if (count($format_items) == 3 && count($date_items) == 3) {
             if ($format_items[0] == 'Y') {
@@ -1131,10 +1131,10 @@ class rcube_utils
     public static function idn_convert($input, $is_utf = false)
     {
         if ($at = strpos($input, '@')) {
-            $user   = substr($input, 0, $at);
+            $user = substr($input, 0, $at);
             $domain = substr($input, $at + 1);
         } else {
-            $user   = '';
+            $user = '';
             $domain = $input;
         }
 
@@ -1149,11 +1149,11 @@ class rcube_utils
         if ($is_utf) {
             if (preg_match('/[^\x20-\x7E]/', $domain)) {
                 $options = \IDNA_NONTRANSITIONAL_TO_ASCII;
-                $domain  = idn_to_ascii($domain, $options, $variant);
+                $domain = idn_to_ascii($domain, $options, $variant);
             }
         } elseif (preg_match('/(^|\.)xn--/i', $domain)) {
             $options = \IDNA_NONTRANSITIONAL_TO_UNICODE;
-            $domain  = idn_to_utf8($domain, $options, $variant);
+            $domain = idn_to_utf8($domain, $options, $variant);
         }
 
         if ($domain === false) {
@@ -1255,10 +1255,10 @@ class rcube_utils
      */
     public static function words_match($haystack, $needle)
     {
-        $a_needle  = self::tokenize_string($needle, 1);
+        $a_needle = self::tokenize_string($needle, 1);
         $_haystack = implode(' ', self::tokenize_string($haystack, 1));
-        $valid     = strlen($_haystack) > 0;
-        $hits      = 0;
+        $valid = strlen($_haystack) > 0;
+        $hits = 0;
 
         foreach ($a_needle as $w) {
             if ($valid) {
@@ -1289,22 +1289,22 @@ class rcube_utils
         foreach ($aliases as $key => $alias) {
             if ($pos = strpos($alias, ':')) {
                 $aliases[$key] = substr($alias, 0, $pos);
-                $bool[]        = $key;
-                $bool[]        = $aliases[$key];
+                $bool[] = $key;
+                $bool[] = $aliases[$key];
             }
         }
 
         for ($i = 1; $i < count($_SERVER['argv']); $i++) {
-            $arg   = $_SERVER['argv'][$i];
+            $arg = $_SERVER['argv'][$i];
             $value = true;
-            $key   = null;
+            $key = null;
 
             if (strlen($arg) && $arg[0] == '-') {
                 $key = preg_replace('/^-+/', '', $arg);
-                $sp  = strpos($arg, '=');
+                $sp = strpos($arg, '=');
 
                 if ($sp > 0) {
-                    $key   = substr($key, 0, $sp - 2);
+                    $key = substr($key, 0, $sp - 2);
                     $value = substr($arg, $sp + 1);
                 } elseif (in_array($key, $bool)) {
                     $value = true;
@@ -1322,7 +1322,7 @@ class rcube_utils
             }
 
             if (!empty($aliases[$key])) {
-                $alias        = $aliases[$key];
+                $alias = $aliases[$key];
                 $args[$alias] = $args[$key];
             }
         }
@@ -1341,11 +1341,11 @@ class rcube_utils
     public static function prompt_silent($prompt = 'Password:')
     {
         if (preg_match('/^win/i', \PHP_OS)) {
-            $vbscript  = sys_get_temp_dir() . 'prompt_password.vbs';
+            $vbscript = sys_get_temp_dir() . 'prompt_password.vbs';
             $vbcontent = 'wscript.echo(InputBox("' . addslashes($prompt) . '", "", "password here"))';
             file_put_contents($vbscript, $vbcontent);
 
-            $command  = 'cscript //nologo ' . escapeshellarg($vbscript);
+            $command = 'cscript //nologo ' . escapeshellarg($vbscript);
             $password = rtrim(shell_exec($command));
             unlink($vbscript);
 
@@ -1362,7 +1362,7 @@ class rcube_utils
             return $pass;
         }
 
-        $command  = "/usr/bin/env bash -c 'read -s -p \"" . addslashes($prompt) . "\" mypassword && echo \$mypassword'";
+        $command = "/usr/bin/env bash -c 'read -s -p \"" . addslashes($prompt) . "\" mypassword && echo \$mypassword'";
         $password = rtrim(shell_exec($command));
         echo "\n";
 
@@ -1410,11 +1410,11 @@ class rcube_utils
     {
         // prepend protocol://hostname:port
         if (!preg_match('|^https?://|', $url)) {
-            $schema       = 'http';
+            $schema = 'http';
             $default_port = 80;
 
             if (self::https_check()) {
-                $schema       = 'https';
+                $schema = 'https';
                 $default_port = 443;
             }
 
@@ -1447,7 +1447,7 @@ class rcube_utils
             return random_bytes($length);
         }
 
-        $hextab  = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $hextab = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $tabsize = strlen($hextab);
 
         $result = '';
@@ -1641,9 +1641,9 @@ class rcube_utils
 
         // Clean subject prefix for reply, forward or both
         if ($mode == 'both') {
-            $reply_prefixes   = $config->get('subject_reply_prefixes', ['Re:']);
+            $reply_prefixes = $config->get('subject_reply_prefixes', ['Re:']);
             $forward_prefixes = $config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
-            $prefixes         = array_merge($reply_prefixes, $forward_prefixes);
+            $prefixes = array_merge($reply_prefixes, $forward_prefixes);
         } elseif ($mode == 'reply') {
             $prefixes = $config->get('subject_reply_prefixes', ['Re:']);
             // replace (was: ...) (#1489375)
@@ -1693,9 +1693,9 @@ class rcube_utils
 
         $remote_addr = array_key_exists('remote_addr', $options) ? $options['remote_addr'] : self::remote_addr();
         $remote_port = array_key_exists('remote_port', $options) ? $options['remote_port'] : ($_SERVER['REMOTE_PORT'] ?? null);
-        $local_addr  = array_key_exists('local_addr', $options) ? $options['local_addr'] : ($_SERVER['SERVER_ADDR'] ?? null);
-        $local_port  = array_key_exists('local_port', $options) ? $options['local_port'] : ($_SERVER['SERVER_PORT'] ?? null);
-        $ip_version  = strpos($remote_addr, ':') === false ? 4 : 6;
+        $local_addr = array_key_exists('local_addr', $options) ? $options['local_addr'] : ($_SERVER['SERVER_ADDR'] ?? null);
+        $local_port = array_key_exists('local_port', $options) ? $options['local_port'] : ($_SERVER['SERVER_PORT'] ?? null);
+        $ip_version = strpos($remote_addr, ':') === false ? 4 : 6;
 
         // Text based PROXY protocol
         if ($version == 1) {

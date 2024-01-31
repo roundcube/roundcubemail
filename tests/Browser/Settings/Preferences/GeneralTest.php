@@ -106,12 +106,12 @@ class GeneralTest extends TestCase
         // TODO: Skin or language change causes page reload, we should test this separately
 
         $this->settings = [
-            'timezone'         => 'Pacific/Midway',
-            'time_format'      => 'h:i A',
-            'date_format'      => 'd-m-Y',
+            'timezone' => 'Pacific/Midway',
+            'time_format' => 'h:i A',
+            'date_format' => 'd-m-Y',
             'refresh_interval' => 60,
-            'pretty_date'      => !boolval($this->app->config->get('prettydate')),
-            'display_next'     => !boolval($this->app->config->get('display_next')),
+            'pretty_date' => !boolval($this->app->config->get('prettydate')),
+            'display_next' => !boolval($this->app->config->get('display_next')),
             'standard_windows' => !boolval($this->app->config->get('standard_windows')),
         ];
 
@@ -153,7 +153,7 @@ class GeneralTest extends TestCase
         });
 
         // Assert the options have been saved in database properly
-        $prefs   = \bootstrap::get_prefs();
+        $prefs = \bootstrap::get_prefs();
         $options = array_diff(array_keys($this->settings), ['refresh_interval', 'pretty_date']);
 
         foreach ($options as $option) {

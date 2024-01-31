@@ -74,7 +74,7 @@ class emoticons extends rcube_plugin
      */
     public function preferences_list($args)
     {
-        $rcube         = rcmail::get_instance();
+        $rcube = rcmail::get_instance();
         $dont_override = $rcube->config->get('dont_override', []);
 
         if ($args['section'] == 'mailview' && !in_array('emoticons_display', $dont_override)) {
@@ -85,7 +85,7 @@ class emoticons extends rcube_plugin
             $checkbox = new html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['emoticons_display'] = [
-                'title'   => html::label($field_id, $this->gettext('emoticonsdisplay')),
+                'title' => html::label($field_id, $this->gettext('emoticonsdisplay')),
                 'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false))),
             ];
         } elseif ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
@@ -96,7 +96,7 @@ class emoticons extends rcube_plugin
             $checkbox = new html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['emoticons_compose'] = [
-                'title'   => html::label($field_id, $this->gettext('emoticonscompose')),
+                'title' => html::label($field_id, $this->gettext('emoticonscompose')),
                 'content' => $checkbox->show(intval($rcube->config->get('emoticons_compose', true))),
             ];
         }
@@ -141,18 +141,18 @@ class emoticons extends rcube_plugin
 
         // map of emoticon replacements
         $map = [
-            '/(?<!mailto):-?D/'      => self::ico_tag('1f603', ':D'), // laugh
-            '/:-?\(/'                => self::ico_tag('1f626', ':('), // frown
+            '/(?<!mailto):-?D/' => self::ico_tag('1f603', ':D'), // laugh
+            '/:-?\(/' => self::ico_tag('1f626', ':('), // frown
             '/' . $entity . ';-?\)/' => self::ico_tag('1f609', ';)'), // wink
-            '/8-?\)/'                => self::ico_tag('1f60e', '8)'), // cool
-            '/(?<!mailto):-?O/i'     => self::ico_tag('1f62e', ':O'), // surprised
-            '/(?<!mailto):-?P/i'     => self::ico_tag('1f61b', ':P'), // tongue out
-            '/(?<!mailto):-?@/i'     => self::ico_tag('1f631', ':-@'), // yell
-            '/O:-?\)/i'              => self::ico_tag('1f607', 'O:-)'), // innocent
-            '/(?<!O):-?\)/'          => self::ico_tag('1f60a', ':-)'), // smile
-            '/(?<!mailto):-?\$/'     => self::ico_tag('1f633', ':-$'), // embarrassed
-            '/(?<!mailto):-?\*/i'    => self::ico_tag('1f48b', ':-*'), // kiss
-            '/(?<!mailto):-?S/i'     => self::ico_tag('1f615', ':-S'), // undecided
+            '/8-?\)/' => self::ico_tag('1f60e', '8)'), // cool
+            '/(?<!mailto):-?O/i' => self::ico_tag('1f62e', ':O'), // surprised
+            '/(?<!mailto):-?P/i' => self::ico_tag('1f61b', ':P'), // tongue out
+            '/(?<!mailto):-?@/i' => self::ico_tag('1f631', ':-@'), // yell
+            '/O:-?\)/i' => self::ico_tag('1f607', 'O:-)'), // innocent
+            '/(?<!O):-?\)/' => self::ico_tag('1f60a', ':-)'), // smile
+            '/(?<!mailto):-?\$/' => self::ico_tag('1f633', ':-$'), // embarrassed
+            '/(?<!mailto):-?\*/i' => self::ico_tag('1f48b', ':-*'), // kiss
+            '/(?<!mailto):-?S/i' => self::ico_tag('1f615', ':-S'), // undecided
         ];
 
         return preg_replace(array_keys($map), array_values($map), $text);

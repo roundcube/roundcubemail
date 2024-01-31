@@ -32,15 +32,15 @@ class rcube_cache
     protected $indexed;
     protected $index;
     protected $index_update;
-    protected $cache        = [];
-    protected $updates      = [];
-    protected $exp_records  = [];
+    protected $cache = [];
+    protected $updates = [];
+    protected $exp_records = [];
     protected $refresh_time = 0.5; // how often to refresh/save the index and cache entries
-    protected $debug        = false;
-    protected $max_packet   = -1;
+    protected $debug = false;
+    protected $max_packet = -1;
 
-    public const MAX_EXP_LEVEL     = 2;
-    public const DATE_FORMAT       = 'Y-m-d H:i:s.u';
+    public const MAX_EXP_LEVEL = 2;
+    public const DATE_FORMAT = 'Y-m-d H:i:s.u';
     public const DATE_FORMAT_REGEX = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{1,6}';
 
     /**
@@ -63,12 +63,12 @@ class rcube_cache
     public static function factory($type, $userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
         $driver = strtolower($type) ?: 'db';
-        $class  = "rcube_cache_{$driver}";
+        $class = "rcube_cache_{$driver}";
 
         if (!$driver || !class_exists($class)) {
             rcube::raise_error([
-                'code'    => 600, 'type' => 'db',
-                'line'    => __LINE__, 'file' => __FILE__,
+                'code' => 600, 'type' => 'db',
+                'line' => __LINE__, 'file' => __FILE__,
                 'message' => "Configuration error. Unsupported cache driver: {$driver}",
             ], true, true);
         }
@@ -92,10 +92,10 @@ class rcube_cache
      */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
-        $this->userid  = (int) $userid;
-        $this->ttl     = min(get_offset_sec($ttl), 2592000);
-        $this->prefix  = $prefix;
-        $this->packed  = $packed;
+        $this->userid = (int) $userid;
+        $this->ttl = min(get_offset_sec($ttl), 2592000);
+        $this->prefix = $prefix;
+        $this->packed = $packed;
         $this->indexed = $indexed;
     }
 
@@ -180,8 +180,8 @@ class rcube_cache
     public function close()
     {
         $this->write_index(true);
-        $this->index   = null;
-        $this->cache   = [];
+        $this->index = null;
+        $this->cache = [];
         $this->updates = [];
     }
 
@@ -241,13 +241,13 @@ class rcube_cache
 
         if ($data !== false) {
             $timestamp = 0;
-            $utc       = new DateTimeZone('UTC');
+            $utc = new DateTimeZone('UTC');
 
             // Extract timestamp from the data entry
             if (preg_match('/^(' . self::DATE_FORMAT_REGEX . '):/', $data, $matches)) {
                 try {
                     $timestamp = new DateTime($matches[1], $utc);
-                    $data      = substr($data, strlen($matches[1]) + 1);
+                    $data = substr($data, strlen($matches[1]) + 1);
                 } catch (Exception $e) {
                     // invalid date = no timestamp
                 }
@@ -257,7 +257,7 @@ class rcube_cache
             // For example for key 'mailboxes.123456789' we check entries:
             // 'EXP:*', 'EXP:mailboxes' and 'EXP:mailboxes.123456789'.
             if ($timestamp) {
-                $path     = explode('.', "*.{$key}");
+                $path = explode('.', "*.{$key}");
                 $path_len = min(self::MAX_EXP_LEVEL + 1, count($path));
 
                 for ($x = 1; $x <= $path_len; $x++) {
@@ -307,8 +307,8 @@ class rcube_cache
             // It's because we have cases where the same entry is updated
             // multiple times in one request (e.g. 'messagecount' entry rcube_imap).
             $this->updates[$key] = new DateTime('now', new DateTimeZone('UTC'));
-            $this->cache[$key]   = $data;
-            $result              = true;
+            $this->cache[$key] = $data;
+            $result = true;
         }
 
         $this->write_index();
@@ -337,7 +337,7 @@ class rcube_cache
         }
         // "Remove" keys by name prefix
         elseif ($prefix_mode) {
-            $ts     = new DateTime('now', new DateTimeZone('UTC'));
+            $ts = new DateTime('now', new DateTimeZone('UTC'));
             $prefix = implode('.', array_slice(explode('.', trim($key, '. ')), 0, self::MAX_EXP_LEVEL));
 
             $this->add_item($this->ekey($prefix), $ts->format(self::DATE_FORMAT));
@@ -409,7 +409,7 @@ class rcube_cache
             $need_update = $force === true;
 
             if (!$need_update && !empty($this->updates)) {
-                $now         = new DateTime('now', new DateTimeZone('UTC'));
+                $now = new DateTime('now', new DateTimeZone('UTC'));
                 $need_update = floatval(min($this->updates)->format('U.u')) < floatval($now->format('U.u')) - $this->refresh_time;
             }
 
@@ -433,7 +433,7 @@ class rcube_cache
 
                 $this->add_item($this->ikey(), $index);
                 $this->index_update = null;
-                $this->index        = null;
+                $this->index = null;
             }
         }
     }
@@ -451,7 +451,7 @@ class rcube_cache
             return;
         }
 
-        $data        = $this->get_item($this->ikey());
+        $data = $this->get_item($this->ikey());
         $this->index = $data ? unserialize($data) : [];
     }
 
@@ -608,8 +608,8 @@ class rcube_cache
     protected function max_packet_size()
     {
         if ($this->max_packet < 0) {
-            $config           = rcube::get_instance()->config;
-            $max_packet       = $config->get($this->type . '_max_allowed_packet');
+            $config = rcube::get_instance()->config;
+            $max_packet = $config->get($this->type . '_max_allowed_packet');
             $this->max_packet = parse_bytes($max_packet) ?: 2097152; // default/max is 2 MB
         }
 

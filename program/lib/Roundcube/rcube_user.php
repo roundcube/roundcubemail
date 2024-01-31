@@ -49,7 +49,7 @@ class rcube_user
     private $emails;
 
     public const SEARCH_ADDRESSBOOK = 1;
-    public const SEARCH_MAIL        = 2;
+    public const SEARCH_MAIL = 2;
 
     /**
      * Object constructor
@@ -72,8 +72,8 @@ class rcube_user
         }
 
         if (!empty($sql_arr)) {
-            $this->ID       = (int) $sql_arr['user_id'];
-            $this->data     = $sql_arr;
+            $this->ID = (int) $sql_arr['user_id'];
+            $this->data = $sql_arr;
             $this->language = $sql_arr['language'];
         }
     }
@@ -171,8 +171,8 @@ class rcube_user
             return false;
         }
 
-        $config       = $this->rc->config;
-        $transient    = $config->transient_options();
+        $config = $this->rc->config;
+        $transient = $config->transient_options();
         $a_user_prefs = array_diff_key($a_user_prefs, array_flip($transient));
 
         if (empty($a_user_prefs)) {
@@ -181,8 +181,8 @@ class rcube_user
 
         $plugin = $this->rc->plugins->exec_hook('preferences_update', [
             'userid' => $this->ID,
-            'prefs'  => $a_user_prefs,
-            'old'    => (array) $this->get_prefs(),
+            'prefs' => $a_user_prefs,
+            'old' => (array) $this->get_prefs(),
         ]);
 
         if (!empty($plugin['abort'])) {
@@ -190,8 +190,8 @@ class rcube_user
         }
 
         $a_user_prefs = $plugin['prefs'];
-        $old_prefs    = $plugin['old'];
-        $defaults     = $config->all();
+        $old_prefs = $plugin['old'];
+        $defaults = $config->all();
 
         // merge (partial) prefs array with existing settings
         $this->prefs = $save_prefs = $a_user_prefs + $old_prefs;
@@ -240,7 +240,7 @@ class rcube_user
         elseif (!$no_session && $this->db->is_replicated()
             && $config->get('session_storage', 'db') != 'db'
         ) {
-            $_SESSION['preferences']      = $save_prefs;
+            $_SESSION['preferences'] = $save_prefs;
             $_SESSION['preferences_time'] = time();
             $config->set_user_prefs($this->prefs);
             $this->data['preferences'] = $save_prefs;
@@ -337,11 +337,11 @@ class rcube_user
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
             if ($formatted) {
                 $ascii_email = format_email($sql_arr['email']);
-                $utf8_email  = format_email(rcube_utils::idn_to_utf8($ascii_email));
+                $utf8_email = format_email(rcube_utils::idn_to_utf8($ascii_email));
 
                 $sql_arr['email_ascii'] = $ascii_email;
-                $sql_arr['email']       = $utf8_email;
-                $sql_arr['ident']       = format_email_recipient($ascii_email, $sql_arr['name']);
+                $sql_arr['email'] = $utf8_email;
+                $sql_arr['ident'] = format_email_recipient($ascii_email, $sql_arr['name']);
             }
 
             $result[] = $sql_arr;
@@ -367,7 +367,7 @@ class rcube_user
         $query_cols = $query_params = [];
 
         foreach ((array) $data as $col => $value) {
-            $query_cols[]   = $this->db->quote_identifier($col) . ' = ?';
+            $query_cols[] = $this->db->quote_identifier($col) . ' = ?';
             $query_params[] = $value;
         }
         $query_params[] = $iid;
@@ -383,7 +383,7 @@ class rcube_user
 
         // clear the cache
         $this->identities = [];
-        $this->emails     = null;
+        $this->emails = null;
 
         return $this->db->affected_rows() > 0;
     }
@@ -403,15 +403,15 @@ class rcube_user
 
         unset($data['user_id']);
 
-        $insert_cols   = [];
+        $insert_cols = [];
         $insert_values = [];
 
         foreach ((array) $data as $col => $value) {
-            $insert_cols[]   = $this->db->quote_identifier($col);
+            $insert_cols[] = $this->db->quote_identifier($col);
             $insert_values[] = $value;
         }
 
-        $insert_cols[]   = $this->db->quote_identifier('user_id');
+        $insert_cols[] = $this->db->quote_identifier('user_id');
         $insert_values[] = $this->ID;
 
         $sql = 'INSERT INTO ' . $this->db->table_name('identities', true)
@@ -422,7 +422,7 @@ class rcube_user
 
         // clear the cache
         $this->identities = [];
-        $this->emails     = null;
+        $this->emails = null;
 
         return $this->db->affected_rows($insert) ? $this->db->insert_id('identities') : false;
     }
@@ -463,7 +463,7 @@ class rcube_user
 
         // clear the cache
         $this->identities = [];
-        $this->emails     = null;
+        $this->emails = null;
 
         return $this->db->affected_rows() > 0;
     }
@@ -521,14 +521,14 @@ class rcube_user
 
             if (empty($this->data['failed_login'])) {
                 $failed_login = new DateTime('now');
-                $counter      = 1;
+                $counter = 1;
             } else {
                 $failed_login = new DateTime($this->data['failed_login']);
-                $threshold    = new DateTime('- 60 seconds');
+                $threshold = new DateTime('- 60 seconds');
 
                 if ($failed_login < $threshold) {
                     $failed_login = new DateTime('now');
-                    $counter      = 1;
+                    $counter = 1;
                 }
             }
 
@@ -553,7 +553,7 @@ class rcube_user
 
         if ($rate = (int) $this->rc->config->get('login_rate_limit', 3)) {
             $last_failed = new DateTime($this->data['failed_login']);
-            $threshold   = new DateTime('- 60 seconds');
+            $threshold = new DateTime('- 60 seconds');
 
             if ($last_failed > $threshold && $this->data['failed_login_counter'] >= $rate) {
                 return true;
@@ -568,7 +568,7 @@ class rcube_user
      */
     public function reset()
     {
-        $this->ID   = null;
+        $this->ID = null;
         $this->data = null;
     }
 
@@ -582,7 +582,7 @@ class rcube_user
      */
     public static function query($user, $host)
     {
-        $dbh    = rcube::get_instance()->get_dbh();
+        $dbh = rcube::get_instance()->get_dbh();
         $config = rcube::get_instance()->config;
 
         // query for matching user name
@@ -621,10 +621,10 @@ class rcube_user
      */
     public static function create($user, $host)
     {
-        $user_name  = '';
+        $user_name = '';
         $user_email = '';
-        $rcube      = rcube::get_instance();
-        $dbh        = $rcube->get_dbh();
+        $rcube = rcube::get_instance();
+        $dbh = $rcube->get_dbh();
 
         // try to resolve user in virtuser table and file
         if ($email_list = self::user2email($user, false, true)) {
@@ -632,12 +632,12 @@ class rcube_user
         }
 
         $data = $rcube->plugins->exec_hook('user_create', [
-            'host'        => $host,
-            'user'        => $user,
-            'user_name'   => $user_name,
-            'user_email'  => $user_email,
-            'email_list'  => $email_list,
-            'language'    => $_SESSION['language'] ?? null,
+            'host' => $host,
+            'user' => $user,
+            'user_name' => $user_name,
+            'user_email' => $user_email,
+            'email_list' => $email_list,
+            'language' => $_SESSION['language'] ?? null,
             'preferences' => [],
         ]);
 
@@ -659,18 +659,18 @@ class rcube_user
         if ($dbh->affected_rows($insert) && ($user_id = $dbh->insert_id('users'))) {
             // create rcube_user instance to make plugin hooks work
             $user_instance = new self($user_id, [
-                'user_id'     => $user_id,
-                'username'    => $data['user'],
-                'mail_host'   => $data['host'],
-                'language'    => $data['language'],
+                'user_id' => $user_id,
+                'username' => $data['user'],
+                'mail_host' => $data['host'],
+                'language' => $data['language'],
                 'preferences' => serialize($data['preferences']),
             ]);
 
             $rcube->user = $user_instance;
             $mail_domain = $rcube->config->mail_domain($data['host']);
-            $user_name   = $data['user_name'];
-            $user_email  = $data['user_email'];
-            $email_list  = $data['email_list'];
+            $user_name = $data['user_name'];
+            $user_email = $data['user_email'];
+            $email_list = $data['email_list'];
 
             if (empty($email_list)) {
                 if (empty($user_email)) {
@@ -705,7 +705,7 @@ class rcube_user
                     $record['name'] = $user_name != $record['email'] ? $user_name : '';
                 }
 
-                $record['user_id']  = $user_id;
+                $record['user_id'] = $user_id;
                 $record['standard'] = $standard;
 
                 $plugin = $rcube->plugins->exec_hook('identity_create',
@@ -719,7 +719,7 @@ class rcube_user
             }
         } else {
             rcube::raise_error([
-                'code'    => 500, 'line' => __LINE__, 'file' => __FILE__,
+                'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
                 'message' => 'Failed to create new user',
             ], true, false);
         }
@@ -736,7 +736,7 @@ class rcube_user
      */
     public static function email2user($email)
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('email2user', ['email' => $email, 'user' => null]);
 
         return $plugin['user'];
@@ -753,11 +753,11 @@ class rcube_user
      */
     public static function user2email($user, $first = true, $extended = false)
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('user2email', [
-            'email'    => null,
-            'user'     => $user,
-            'first'    => $first,
+            'email' => null,
+            'user' => $user,
+            'first' => $first,
             'extended' => $extended,
         ]);
 
@@ -820,7 +820,7 @@ class rcube_user
 
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
             return [
-                'id'   => $id,
+                'id' => $id,
                 'name' => $sql_arr['name'],
                 'type' => $sql_arr['type'],
                 'data' => unserialize($sql_arr['data']),
@@ -865,13 +865,13 @@ class rcube_user
             return false;
         }
 
-        $insert_cols[]   = 'user_id';
+        $insert_cols[] = 'user_id';
         $insert_values[] = (int) $this->ID;
-        $insert_cols[]   = $this->db->quote_identifier('type');
+        $insert_cols[] = $this->db->quote_identifier('type');
         $insert_values[] = (int) $data['type'];
-        $insert_cols[]   = $this->db->quote_identifier('name');
+        $insert_cols[] = $this->db->quote_identifier('name');
         $insert_values[] = $data['name'];
-        $insert_cols[]   = $this->db->quote_identifier('data');
+        $insert_cols[] = $this->db->quote_identifier('data');
         $insert_values[] = serialize($data['data']);
 
         $sql = 'INSERT INTO ' . $this->db->table_name('searches', true)
@@ -899,7 +899,7 @@ class rcube_user
         );
 
         if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-            $sql_arr['id']      = $sql_arr['response_id'];
+            $sql_arr['id'] = $sql_arr['response_id'];
             $sql_arr['is_html'] = !empty($sql_arr['is_html']);
 
             unset($sql_arr['response_id']);
@@ -940,7 +940,7 @@ class rcube_user
 
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
             $result[] = [
-                'id'   => $sql_arr['response_id'],
+                'id' => $sql_arr['response_id'],
                 'name' => $sql_arr['name'],
             ];
         }
@@ -966,7 +966,7 @@ class rcube_user
 
         foreach (['name', 'data', 'is_html'] as $col) {
             if (isset($data[$col])) {
-                $query_cols[]   = $this->db->quote_identifier($col) . ' = ?';
+                $query_cols[] = $this->db->quote_identifier($col) . ' = ?';
                 $query_params[] = $col == 'is_html' ? intval($data[$col]) : $data[$col];
             }
         }
@@ -995,12 +995,12 @@ class rcube_user
             return false;
         }
 
-        $query_cols   = [$this->db->quote_identifier('user_id')];
+        $query_cols = [$this->db->quote_identifier('user_id')];
         $query_params = [$this->ID];
 
         foreach (['name', 'data', 'is_html'] as $col) {
             if (isset($data[$col])) {
-                $query_cols[]   = $this->db->quote_identifier($col);
+                $query_cols[] = $this->db->quote_identifier($col);
                 $query_params[] = $col == 'is_html' ? intval($data[$col]) : $data[$col];
             }
         }

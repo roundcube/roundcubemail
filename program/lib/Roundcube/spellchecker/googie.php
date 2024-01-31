@@ -60,7 +60,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             return $this->matches = $matches;
         }
 
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $client = $rcube->get_http_client();
 
         // spell check uri is configured
@@ -80,8 +80,8 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
         try {
             $response = $client->post($url, [
                     'connect_timeout' => 5, // seconds
-                    'headers'         => [
-                        'User-Agent'       => 'Roundcube Webmail/' . RCUBE_VERSION . ' (Googiespell Wrapper)',
+                    'headers' => [
+                        'User-Agent' => 'Roundcube Webmail/' . RCUBE_VERSION . ' (Googiespell Wrapper)',
                             'Content-type' => 'text/xml',
                     ],
                     'body' => $gtext,
@@ -149,7 +149,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             $matches = $this->check($text);
         } else {
             $matches = $this->matches;
-            $text    = $this->content;
+            $text = $this->content;
         }
 
         $result = [];

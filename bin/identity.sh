@@ -37,10 +37,10 @@ $options = rcube_utils::get_opt([
 ]);
 
 $subcommand_executables = [
-    'add'      => 'add_identity',
-    'update'   => 'update_identity',
-    'delete'   => 'delete_identity',
-    'list'     => 'list_identities',
+    'add' => 'add_identity',
+    'update' => 'update_identity',
+    'delete' => 'delete_identity',
+    'list' => 'list_identities',
     'get-attr' => 'get_identity_attr',
 ];
 
@@ -73,7 +73,7 @@ function get_identity_attr($options)
     }
 
     $identity_id = get_option_value($options, 'identity_id', '', false, true, 'Enter the identity id e.g. -i 70');
-    $attribute   = get_option_value($options, 'attribute', '', false, true, 'Enter the attribute name e.g. -a name');
+    $attribute = get_option_value($options, 'attribute', '', false, true, 'Enter the attribute name e.g. -a name');
 
     $user = get_user($options);
 
@@ -176,19 +176,19 @@ function add_identity($options)
         $setAsDefault = filter_var($options['is_default'], \FILTER_VALIDATE_BOOLEAN);
     }
 
-    $new_identity['email']        = get_option_value($options, 'email', '', false, true, 'Enter the email e.g. -e somemail@example.com');
-    $new_identity['name']         = get_option_value($options, 'name', '', false, true, "Enter the name of an identity e.g. -n 'John Smith'");
+    $new_identity['email'] = get_option_value($options, 'email', '', false, true, 'Enter the email e.g. -e somemail@example.com');
+    $new_identity['name'] = get_option_value($options, 'name', '', false, true, "Enter the name of an identity e.g. -n 'John Smith'");
     $new_identity['organization'] = get_option_value($options, 'organization', '', false, false);
 
     $new_identity['html_signature'] = 0;
-    $new_identity['signature']      = get_option_value($options, 'plain_text_signature', '', false, false);
+    $new_identity['signature'] = get_option_value($options, 'plain_text_signature', '', false, false);
 
     if (isset($options['html_signature'])) {
         $new_identity['html_signature'] = 1;
-        $new_identity['signature']      = get_option_value($options, 'html_signature', '', false, false);
+        $new_identity['signature'] = get_option_value($options, 'html_signature', '', false, false);
     }
 
-    $new_identity['bcc']      = get_option_value($options, 'bcc_email', '', false, false);
+    $new_identity['bcc'] = get_option_value($options, 'bcc_email', '', false, false);
     $new_identity['reply-to'] = get_option_value($options, 'reply_to_email', '', false, false);
 
     $user = get_user($options);
@@ -242,20 +242,20 @@ function update_identity($options)
         $setAsDefault = filter_var($options['is_default'], \FILTER_VALIDATE_BOOLEAN);
     }
 
-    $email                = get_option_value($options, 'email', null, false, false);
-    $name                 = get_option_value($options, 'name', null, false, false);
-    $organization         = get_option_value($options, 'organization', null, false, false);
+    $email = get_option_value($options, 'email', null, false, false);
+    $name = get_option_value($options, 'name', null, false, false);
+    $organization = get_option_value($options, 'organization', null, false, false);
     $plain_text_signature = get_option_value($options, 'plain_text_signature', null, false, false);
-    $html_signature       = get_option_value($options, 'html_signature', null, false, false);
-    $bcc                  = get_option_value($options, 'bcc_email', null, false, false);
-    $reply_to             = get_option_value($options, 'reply_to_email', null, false, false);
+    $html_signature = get_option_value($options, 'html_signature', null, false, false);
+    $bcc = get_option_value($options, 'bcc_email', null, false, false);
+    $reply_to = get_option_value($options, 'reply_to_email', null, false, false);
 
     if ($html_signature !== null) {
         $updated_identity['html_signature'] = 1;
-        $updated_identity['signature']      = $html_signature;
+        $updated_identity['signature'] = $html_signature;
     } elseif ($plain_text_signature !== null) {
         $updated_identity['html_signature'] = 0;
-        $updated_identity['signature']      = $plain_text_signature;
+        $updated_identity['signature'] = $plain_text_signature;
     }
 
     if ($email !== null) {
@@ -338,7 +338,7 @@ function echo_identities($identities)
 {
     for ($i = 0; $i < count($identities); $i++) {
         foreach ($identities[$i] as $key => $val) {
-            $diff      = 17 - strlen($key);
+            $diff = 17 - strlen($key);
             $separator = $diff > 0 ? str_repeat(' ', $diff) : '';
 
             echo "{$key}{$separator}: {$val}\n";
@@ -368,7 +368,7 @@ function get_user($options)
     $db = $rcmail->get_dbh();
 
     $username = get_option_value($options, 'username', '', false, true, 'Enter the username e.g. -u user@example.com');
-    $host     = rcmail_utils::get_host($options);
+    $host = rcmail_utils::get_host($options);
 
     // find user in local database
     $user = rcube_user::query($username, $host);
@@ -382,7 +382,7 @@ function get_user($options)
 
 function get_identities_level()
 {
-    $rcmail           = rcube::get_instance();
+    $rcmail = rcube::get_instance();
     $identities_level = intval($rcmail->config->get('identities_level', 0));
 
     return $identities_level;

@@ -201,7 +201,7 @@ if ($DB) {
 
     // write test
     $insert_id = md5(uniqid());
-    $db_write  = $DB->query('INSERT INTO ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
+    $db_write = $DB->query('INSERT INTO ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
         . ' (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, ' . $DB->now() . ", '127.0.0.1', 'foo')", $insert_id);
 
     if ($db_write) {
@@ -260,13 +260,13 @@ $pass = $RCI->getprop('smtp_pass', '(none)');
 
 if ($user == '%u') {
     $user_field = new html_inputfield(['name' => '_smtp_user', 'id' => 'smtp_user']);
-    $user       = $user_field->show($_POST['_smtp_user'] ?? '');
+    $user = $user_field->show($_POST['_smtp_user'] ?? '');
 } else {
     $user = html::quote($user);
 }
 if ($pass == '%p') {
     $pass_field = new html_passwordfield(['name' => '_smtp_pass', 'id' => 'smtp_pass']);
-    $pass       = $pass_field->show();
+    $pass = $pass_field->show();
 } else {
     $pass = html::quote($pass);
 }
@@ -299,7 +299,7 @@ if ($pass == '%p') {
 <?php
 
 $from_field = new html_inputfield(['name' => '_from', 'id' => 'sendmailfrom']);
-$to_field   = new html_inputfield(['name' => '_to', 'id' => 'sendmailto']);
+$to_field = new html_inputfield(['name' => '_to', 'id' => 'sendmailto']);
 
 if (isset($_POST['sendmail'])) {
     echo '<p>Trying to send email...<br />';
@@ -307,15 +307,15 @@ if (isset($_POST['sendmail'])) {
     $smtp_host = trim($_POST['_smtp_host']);
 
     $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
-    $to   = rcube_utils::idn_to_ascii(trim($_POST['_to']));
+    $to = rcube_utils::idn_to_ascii(trim($_POST['_to']));
 
     if (
         preg_match('/^' . $RCI->email_pattern . '$/i', $from)
         && preg_match('/^' . $RCI->email_pattern . '$/i', $to)
     ) {
         $headers = [
-            'From'    => $from,
-            'To'      => $to,
+            'From' => $from,
+            'To' => $to,
             'Subject' => 'Test message from Roundcube',
         ];
 
@@ -331,14 +331,14 @@ if (isset($_POST['sendmail'])) {
             $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
         }
 
-        $mail_object  = new Mail_mime();
+        $mail_object = new Mail_mime();
         $send_headers = $mail_object->headers($headers);
-        $head         = $mail_object->txtHeaders($send_headers);
+        $head = $mail_object->txtHeaders($send_headers);
 
         $SMTP = new rcube_smtp();
         $SMTP->connect($smtp_host, null, $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
 
-        $status        = $SMTP->send_mail($headers['From'], $headers['To'], $head, $body);
+        $status = $SMTP->send_mail($headers['From'], $headers['To'], $head, $body);
         $smtp_response = $SMTP->get_response();
 
         if ($status) {
@@ -415,12 +415,12 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
 
     $imap_host = trim($_POST['_host']);
     $imap_port = 143;
-    $imap_ssl  = false;
+    $imap_ssl = false;
 
     $a_host = parse_url($imap_host);
     if ($a_host['host']) {
         $imap_host = $a_host['host'];
-        $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) ? $a_host['scheme'] : null;
+        $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) ? $a_host['scheme'] : null;
         $imap_port = $a_host['port'] ?? ($imap_ssl && $imap_ssl != 'tls' ? 993 : 143);
     }
 
@@ -429,8 +429,8 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
 
     $imap = new rcube_imap();
     $imap->set_options([
-        'auth_type'      => $RCI->getprop('imap_auth_type'),
-        'debug'          => $RCI->getprop('imap_debug'),
+        'auth_type' => $RCI->getprop('imap_auth_type'),
+        'debug' => $RCI->getprop('imap_debug'),
         'socket_options' => $RCI->getprop('imap_conn_options'),
     ]);
 

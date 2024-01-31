@@ -42,7 +42,7 @@ class MailTest extends TestCase
                         ->click('a.download.eml');
 
                     $filename = 'Test HTML with local and remote image.eml';
-                    $email    = $browser->readDownloadedFile($filename);
+                    $email = $browser->readDownloadedFile($filename);
                     $browser->removeDownloadedFile($filename);
                     $this->assertTrue(strpos($email, 'Subject: Test HTML with local and remote image') !== false);
                 });
@@ -60,7 +60,7 @@ class MailTest extends TestCase
                         ->click('a.download.mbox');
 
                     $filename = 'INBOX.zip';
-                    $files    = $this->getFilesFromZip($filename);
+                    $files = $this->getFilesFromZip($filename);
                     $browser->removeDownloadedFile($filename);
 
                     $this->assertSame(['INBOX.mbox'], $files);
@@ -75,7 +75,7 @@ class MailTest extends TestCase
                     $browser->click('a.download.maildir');
 
                     $filename = 'INBOX.zip';
-                    $files    = $this->getFilesFromZip($filename);
+                    $files = $this->getFilesFromZip($filename);
                     $browser->removeDownloadedFile($filename);
                     $this->assertCount(2, $files);
                 });
@@ -91,7 +91,7 @@ class MailTest extends TestCase
                 });
 
             $filename = 'Lines.zip';
-            $files    = $this->getFilesFromZip($filename);
+            $files = $this->getFilesFromZip($filename);
             $browser->removeDownloadedFile($filename);
             $expected = ['lines.txt', 'lines_lf.txt'];
             $this->assertSame($expected, $files);
@@ -110,7 +110,7 @@ class MailTest extends TestCase
             sleep(2);
         }
 
-        $zip   = new \ZipArchive();
+        $zip = new \ZipArchive();
         $files = [];
 
         if ($zip->open($filename)) {

@@ -48,14 +48,14 @@ class markasjunk_amavis_blacklist
 
     private function _do_list($uids, $spam)
     {
-        $rcube            = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $this->user_email = $rcube->user->data['username'];
 
         $config_file = $rcube->config->get('markasjunk_amacube_config');
 
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
             rcube::raise_error([
-                'code'    => 527, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Failed to load config from {$config_file}",
             ], true, false);
 
@@ -71,8 +71,8 @@ class markasjunk_amavis_blacklist
         // check DB connections and exit on failure
         if ($err_str = $db->is_error()) {
             rcube::raise_error([
-                'code'    => 603,
-                'type'    => 'db',
+                'code' => 603,
+                'type' => 'db',
                 'message' => $err_str,
             ], false, true);
         }
@@ -90,7 +90,7 @@ class markasjunk_amavis_blacklist
 
         foreach ($uids as $uid) {
             $message = new rcube_message($uid);
-            $email   = $message->sender['mailto'];
+            $email = $message->sender['mailto'];
 
             // skip invalid emails
             if (!rcube_utils::check_email($email, false)) {
@@ -119,7 +119,7 @@ class markasjunk_amavis_blacklist
                 }
             }
 
-            $wb         = '';
+            $wb = '';
             $sql_result = $db->query('SELECT `wb` FROM `wblist` WHERE `sid` = ? AND `rid` =?', $sid, $rid);
 
             if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {

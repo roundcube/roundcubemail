@@ -25,7 +25,7 @@ class Actions_Settings_ResponseSave extends ActionTestCase
 
         // Test updating an existing response
         $_POST = [
-            '_id'   => $responses[0]['id'],
+            '_id' => $responses[0]['id'],
             '_name' => 'name1',
             '_text' => 'text1',
         ];
@@ -43,9 +43,9 @@ class Actions_Settings_ResponseSave extends ActionTestCase
 
         // Test updating an existing response (change format)
         $_POST = [
-            '_id'      => $responses[0]['id'],
-            '_name'    => 'name2',
-            '_text'    => '<p>text2</p>',
+            '_id' => $responses[0]['id'],
+            '_name' => 'name2',
+            '_text' => '<p>text2</p>',
             '_is_html' => 1,
         ];
 
@@ -62,8 +62,8 @@ class Actions_Settings_ResponseSave extends ActionTestCase
 
         // Test adding a response
         $_POST = [
-            '_name'    => 'aaa',
-            '_text'    => '<p>text3</p>',
+            '_name' => 'aaa',
+            '_text' => '<p>text3</p>',
             '_is_html' => 1,
         ];
 
@@ -73,7 +73,7 @@ class Actions_Settings_ResponseSave extends ActionTestCase
         $this->assertSame('successfullysaved', $output->getProperty('message'));
 
         $responses = $rcmail->get_compose_responses();
-        $response  = $rcmail->get_compose_response($responses[0]['id']);
+        $response = $rcmail->get_compose_response($responses[0]['id']);
 
         $this->assertSame('aaa', $responses[0]['name']);
         $this->assertSame('<p>text3</p>', $response['data']);

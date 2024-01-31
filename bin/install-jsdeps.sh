@@ -47,7 +47,7 @@ if (($CACHEDIR = getenv('CACHEDIR')) && is_writable($CACHEDIR)) {
 
 // ////////////// License definitions
 
-$LICENSES        = [];
+$LICENSES = [];
 $LICENSES['MIT'] = <<<'EOM'
      * Licensed under the MIT licenses
      *
@@ -126,7 +126,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 
         // Try Github API as a fallback (#6248)
         if ($retval !== 0 && !empty($package['api_url'])) {
-            $url    = str_replace('$v', $package['version'], $package['api_url']);
+            $url = str_replace('$v', $package['version'], $package['api_url']);
             $header = 'Accept:application/vnd.github.v3.raw';
 
             rcube::raise_error("Fetching failed. Using Github API on {$url}");
@@ -153,7 +153,7 @@ function extract_filetype($package, &$filetype = null)
 {
     global $CACHEDIR;
 
-    $filetype   = pathinfo(preg_replace('/[?&].*$/', '', $package['url']), \PATHINFO_EXTENSION) ?: 'tmp';
+    $filetype = pathinfo(preg_replace('/[?&].*$/', '', $package['url']), \PATHINFO_EXTENSION) ?: 'tmp';
     $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
 
     // Make sure it is a zip file
@@ -235,13 +235,13 @@ function extract_zipfile($package, $srcfile)
     if (!empty($package['map'])) {
         // get the root folder of the extracted package
         $extract_tree = glob("{$extract}/*", \GLOB_ONLYDIR);
-        $sourcedir    = count($extract_tree) ? $extract_tree[0] : $extract;
+        $sourcedir = count($extract_tree) ? $extract_tree[0] : $extract;
 
         foreach ($package['map'] as $src => $dest) {
             echo "Installing {$sourcedir}/{$src} into {$destdir}/{$dest}\n";
 
             $dest_file = $destdir . '/' . $dest;
-            $src_file  = $sourcedir . '/' . $src;
+            $src_file = $sourcedir . '/' . $src;
 
             // make sure the destination's parent directory exists
             if (strpos($dest, '/') !== false) {
@@ -286,7 +286,7 @@ function extract_zipfile($package, $srcfile)
     // prepend license header to extracted files
     if (!empty($package['addlicense'])) {
         foreach ((array) $package['addlicense'] as $filename) {
-            $pkg         = $package;
+            $pkg = $package;
             $pkg['dest'] = $package['dest'] . '/' . $filename;
             compose_destfile($pkg, $destdir . '/' . $filename);
         }
@@ -317,13 +317,13 @@ $args = rcube_utils::get_opt([
     'g' => 'get:bool',
     'e' => 'extract:bool',
 ]) + [
-    'force'   => false,
-    'delete'  => false,
-    'get'     => false,
+    'force' => false,
+    'delete' => false,
+    'get' => false,
     'extract' => false,
 ];
 
-$WHAT     = $args[0] ?? null;
+$WHAT = $args[0] ?? null;
 $useCache = !$args['force'] && !$args['get'];
 
 if (!$args['get'] && !$args['extract'] && !$args['delete']) {

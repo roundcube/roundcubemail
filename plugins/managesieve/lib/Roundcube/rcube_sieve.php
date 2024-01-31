@@ -25,9 +25,9 @@
 class rcube_sieve
 {
     private $sieve;                 // Net_Sieve object
-    private $error      = false;    // error flag
+    private $error = false;    // error flag
     private $errorLines = [];       // array of line numbers within sieve script which raised an error
-    private $list       = [];       // scripts list
+    private $list = [];       // scripts list
     private $exts;                  // array of supported extensions
     private $active;                // active script name
 
@@ -35,14 +35,14 @@ class rcube_sieve
     public $current;                // name of currently loaded script
 
     public const ERROR_CONNECTION = 1;
-    public const ERROR_LOGIN      = 2;
+    public const ERROR_LOGIN = 2;
     public const ERROR_NOT_EXISTS = 3;    // script not exists
-    public const ERROR_INSTALL    = 4;    // script installation
-    public const ERROR_ACTIVATE   = 5;    // script activation
-    public const ERROR_DELETE     = 6;    // script deletion
-    public const ERROR_INTERNAL   = 7;    // internal error
+    public const ERROR_INSTALL = 4;    // script installation
+    public const ERROR_ACTIVATE = 5;    // script activation
+    public const ERROR_DELETE = 6;    // script deletion
+    public const ERROR_INTERNAL = 7;    // internal error
     public const ERROR_DEACTIVATE = 8;    // script activation
-    public const ERROR_OTHER      = 255;  // other/unknown error
+    public const ERROR_OTHER = 255;  // other/unknown error
 
     /**
      * Object constructor
@@ -87,7 +87,7 @@ class rcube_sieve
         $authz = null;
 
         if (!empty($auth_cid)) {
-            $authz    = $username;
+            $authz = $username;
             $username = $auth_cid;
         }
 
@@ -176,7 +176,7 @@ class rcube_sieve
 
         if (is_a($result, 'PEAR_Error')) {
             $rawErrorMessage = $result->getMessage();
-            $errMessages     = preg_split("/{$name}:/", $rawErrorMessage);
+            $errMessages = preg_split("/{$name}:/", $rawErrorMessage);
 
             if (count($errMessages) > 0) {
                 foreach ($errMessages as $singleError) {
@@ -313,7 +313,7 @@ class rcube_sieve
 
         if ($this->script) {
             $supported = $this->script->get_extensions();
-            $ext       = array_values(array_intersect($ext, $supported));
+            $ext = array_values(array_intersect($ext, $supported));
         }
 
         return $ext;
@@ -330,13 +330,13 @@ class rcube_sieve
             }
 
             $active = null;
-            $list   = $this->sieve->listScripts($active);
+            $list = $this->sieve->listScripts($active);
 
             if (is_a($list, 'PEAR_Error')) {
                 return $this->_set_error(self::ERROR_OTHER);
             }
 
-            $this->list   = $list;
+            $this->list = $list;
             $this->active = $active;
         }
 

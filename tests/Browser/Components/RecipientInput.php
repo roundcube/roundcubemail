@@ -46,12 +46,12 @@ class RecipientInput extends Component
     public function elements()
     {
         return [
-            '@list'        => 'ul.recipient-input',
-            '@field'       => '.input-group > input, input-group > textarea',
-            '@input'       => '@list input',
+            '@list' => 'ul.recipient-input',
+            '@field' => '.input-group > input, input-group > textarea',
+            '@input' => '@list input',
             '@add-contact' => 'a.add.recipient',
-            '@add-header'  => '.input-group-append:last-child a.add',
-            '@recipient'   => '@list li.recipient',
+            '@add-header' => '.input-group-append:last-child a.add',
+            '@recipient' => '@list li.recipient',
         ];
     }
 
@@ -62,7 +62,7 @@ class RecipientInput extends Component
     {
         $browser->ensurejQueryIsAvailable();
         $selector = $this->selector() . " ul.recipient-input li.recipient:nth-child({$num})";
-        $text     = $browser->driver->executeScript("return \$('{$selector}').text()");
+        $text = $browser->driver->executeScript("return \$('{$selector}').text()");
 
         Assert::assertSame($recipient, is_string($text) ? trim($text, ', ') : null);
     }

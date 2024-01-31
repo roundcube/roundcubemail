@@ -22,19 +22,19 @@
  */
 class rcube_addresses extends rcube_contacts
 {
-    protected $db_name       = 'collected_addresses';
-    protected $type          = 0;
-    protected $table_cols    = ['name', 'email'];
+    protected $db_name = 'collected_addresses';
+    protected $type = 0;
+    protected $table_cols = ['name', 'email'];
     protected $fulltext_cols = ['name'];
 
     // public properties
     public $primary_key = 'address_id';
-    public $readonly    = true;
-    public $groups      = false;
-    public $undelete    = false;
-    public $deletable   = true;
-    public $coltypes    = ['name', 'email'];
-    public $date_cols   = [];
+    public $readonly = true;
+    public $groups = false;
+    public $undelete = false;
+    public $deletable = true;
+    public $coltypes = ['name', 'email'];
+    public $date_cols = [];
 
     /**
      * Object constructor
@@ -45,10 +45,10 @@ class rcube_addresses extends rcube_contacts
      */
     public function __construct($dbconn, $user, $type)
     {
-        $this->db      = $dbconn;
+        $this->db = $dbconn;
         $this->user_id = $user;
-        $this->type    = $type;
-        $this->ready   = $this->db && !$this->db->is_error();
+        $this->type = $type;
+        $this->ready = $this->db && !$this->db->is_error();
     }
 
     /**
@@ -89,7 +89,7 @@ class rcube_addresses extends rcube_contacts
         }
 
         $start_row = $subset < 0 ? $this->result->first + $this->page_size + $subset : $this->result->first;
-        $length    = $subset != 0 ? abs($subset) : $this->page_size;
+        $length = $subset != 0 ? abs($subset) : $this->page_size;
 
         $sql_result = $this->db->limitquery(
             'SELECT * FROM ' . $this->db->table_name($this->db_name, true)
@@ -144,12 +144,12 @@ class rcube_addresses extends rcube_contacts
         }
 
         $where = $post_search = [];
-        $mode  = intval($mode);
+        $mode = intval($mode);
 
         // direct ID search
         if ($fields == 'ID' || $fields == $this->primary_key) {
-            $ids     = !is_array($value) ? explode(self::SEPARATOR, $value) : $value;
-            $ids     = $this->db->array2list($ids, 'integer');
+            $ids = !is_array($value) ? explode(self::SEPARATOR, $value) : $value;
+            $ids = $this->db->array2list($ids, 'integer');
             $where[] = $this->primary_key . ' IN (' . $ids . ')';
         } elseif (is_array($value)) {
             foreach ((array) $fields as $idx => $col) {

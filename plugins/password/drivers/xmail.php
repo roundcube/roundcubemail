@@ -37,7 +37,7 @@ class rcube_xmail_password
 {
     public function save($currpass, $newpass)
     {
-        $rcmail          = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         [$user, $domain] = explode('@', $_SESSION['username']);
 
         $xmail = new XMail();
@@ -45,13 +45,13 @@ class rcube_xmail_password
         $xmail->hostname = $rcmail->config->get('xmail_host');
         $xmail->username = $rcmail->config->get('xmail_user');
         $xmail->password = $rcmail->config->get('xmail_pass');
-        $xmail->port     = $rcmail->config->get('xmail_port');
+        $xmail->port = $rcmail->config->get('xmail_port');
 
         if (!$xmail->connect()) {
             rcube::raise_error([
-                'code'    => 600,
-                'file'    => __FILE__,
-                'line'    => __LINE__,
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
                 'message' => 'Password plugin: Unable to connect to mail server',
             ], true, false);
 
@@ -61,9 +61,9 @@ class rcube_xmail_password
         if (!$xmail->send("userpasswd\t" . $domain . "\t" . $user . "\t" . $newpass . "\n")) {
             $xmail->close();
             rcube::raise_error([
-                'code'    => 600,
-                'file'    => __FILE__,
-                'line'    => __LINE__,
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
                 'message' => 'Password plugin: Unable to change password',
             ], true, false);
 
@@ -81,7 +81,7 @@ class XMail
     public $hostname = 'localhost';
     public $username = 'xmail';
     public $password = '';
-    public $port     = 6017;
+    public $port = 6017;
 
     public function send($msg)
     {

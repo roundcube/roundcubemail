@@ -219,12 +219,12 @@ class Actions_Mail_Index extends ActionTestCase
 
         $this->assertNull($action->address_string(''));
 
-        $result   = $action->address_string('test@domain.com');
+        $result = $action->address_string('test@domain.com');
         $expected = '<span class="adr"><span title="test@domain.com" class="rcmContactAddress">test@domain.com</span></span>';
 
         $this->assertSame($expected, $result);
 
-        $result   = $action->address_string('test@domain.com', null, true, true);
+        $result = $action->address_string('test@domain.com', null, true, true);
         $expected = '<span class="adr"><a href="mailto:test@domain.com" class="rcmContactAddress" '
             . 'onclick="return rcmail.command(\'compose\',\'test@domain.com\',this)" title="test@domain.com">'
             . 'test@domain.com</a><a href="#add" title="Add to address book" class="rcmaddcontact" '
@@ -234,7 +234,7 @@ class Actions_Mail_Index extends ActionTestCase
 
         setProperty($action, 'PRINT_MODE', true);
 
-        $result   = $action->address_string('test@domain.com');
+        $result = $action->address_string('test@domain.com');
         $expected = '<span class="adr">&lt;test@domain.com&gt;</span>';
 
         $this->assertSame($expected, $result);
@@ -245,8 +245,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_attachment_name()
     {
-        $action        = new rcmail_action_mail_index();
-        $part          = new rcube_message_part();
+        $action = new rcmail_action_mail_index();
+        $part = new rcube_message_part();
         $part->mime_id = 1;
 
         $part->mimetype = 'text/html';
@@ -296,11 +296,11 @@ class Actions_Mail_Index extends ActionTestCase
      */
     protected function get_html_part($body = null)
     {
-        $part                  = new rcube_message_part();
-        $part->ctype_primary   = 'text';
+        $part = new rcube_message_part();
+        $part->ctype_primary = 'text';
         $part->ctype_secondary = 'html';
-        $part->body            = $body ? file_get_contents(TESTS_DIR . $body) : null;
-        $part->replaces        = [];
+        $part->body = $body ? file_get_contents(TESTS_DIR . $body) : null;
+        $part->replaces = [];
 
         return $part;
     }
@@ -322,7 +322,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part           = $this->get_html_part('src/htmlbody.txt');
+        $part = $this->get_html_part('src/htmlbody.txt');
         $part->replaces = ['ex1.jpg' => 'part_1.2.jpg', 'ex2.jpg' => 'part_1.2.jpg'];
 
         $params = ['container_id' => 'foo'];
@@ -359,7 +359,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part   = $this->get_html_part('src/htmlxss.txt');
+        $part = $this->get_html_part('src/htmlxss.txt');
         $washed = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
         $this->assertDoesNotMatchRegularExpression('/src="skins/', $washed, 'Remove local references');
@@ -367,7 +367,7 @@ class Actions_Mail_Index extends ActionTestCase
         $this->assertStringNotContainsString('onload', $washed, 'Handle invalid style');
 
         $params = ['container_id' => 'foo'];
-        $html   = rcmail_action_mail_index::html4inline($washed, $params);
+        $html = rcmail_action_mail_index::html4inline($washed, $params);
 
         $this->assertDoesNotMatchRegularExpression('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, 'Clean mailto links');
         $this->assertDoesNotMatchRegularExpression('/alert/', $html, 'Remove alerts');
@@ -381,9 +381,9 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part   = $this->get_html_part('src/BID-26800.txt');
+        $part = $this->get_html_part('src/BID-26800.txt');
         $params = ['container_id' => 'dabody', 'safe' => true];
-        $body   = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
+        $body = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
         $washed = rcmail_action_mail_index::html4inline($body, $params);
 
         $this->assertDoesNotMatchRegularExpression('/alert|expression|javascript|xss/', $washed, 'Remove evil style blocks');
@@ -411,9 +411,9 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_html4inline_body_style()
     {
-        $html   = '<body background="test" bgcolor="#fff" style="font-size:11px" text="#000"><p>test</p></body>';
+        $html = '<body background="test" bgcolor="#fff" style="font-size:11px" text="#000"><p>test</p></body>';
         $params = ['container_id' => 'foo'];
-        $html   = rcmail_action_mail_index::html4inline($html, $params);
+        $html = rcmail_action_mail_index::html4inline($html, $params);
 
         $this->assertMatchesRegularExpression('/<div style="font-size:11px">/', $html, 'Body attributes');
         $this->assertArrayHasKey('container_attrib', $params, "'container_attrib' param set");
@@ -431,7 +431,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part   = $this->get_html_part('src/invalidchars.html');
+        $part = $this->get_html_part('src/invalidchars.html');
         $washed = rcmail_action_mail_index::print_body($part->body, $part);
 
         $this->assertMatchesRegularExpression('/<p>(символ|симол)<\/p>/', $washed, 'Remove non-unicode characters from HTML message body');
@@ -447,30 +447,30 @@ class Actions_Mail_Index extends ActionTestCase
         $meta = '<meta charset="' . RCUBE_CHARSET . '" />';
         $args = [
             'html_elements' => ['html', 'body', 'meta', 'head'],
-            'html_attribs'  => ['charset'],
+            'html_attribs' => ['charset'],
         ];
 
-        $body   = '<html><head><meta charset="iso-8859-1_X"></head><body>Test1<br>Test2';
+        $body = '<html><head><meta charset="iso-8859-1_X"></head><body>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
         $this->assertStringContainsString("<html><head>{$meta}</head><body>Test1", $washed, 'Meta tag insertion (1)');
 
-        $body   = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" /></head><body>Test1<br>Test2';
+        $body = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" /></head><body>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
         $this->assertStringContainsString("<html><head>{$meta}</head><body>Test1", $washed, 'Meta tag insertion (2)');
 
-        $body   = 'Test1<br>Test2';
+        $body = 'Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
         $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (3)');
 
-        $body   = '<html>Test1<br>Test2';
+        $body = '<html>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
         $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (4)');
 
-        $body   = '<html><head></head>Test1<br>Test2';
+        $body = '<html><head></head>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
         $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (5)');
 
-        $body   = '<html><head></head><body>Test1<br>Test2<meta charset="utf-8"></body>';
+        $body = '<html><head></head><body>Test1<br>Test2<meta charset="utf-8"></body>';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
         $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (6)');
         $this->assertTrue(strpos($washed, 'Test2</body>') > 0, 'Meta tag insertion (7)');
@@ -483,11 +483,11 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part                  = new rcube_message_part();
-        $part->ctype_primary   = 'text';
+        $part = new rcube_message_part();
+        $part->ctype_primary = 'text';
         $part->ctype_secondary = 'plain';
-        $part->body            = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));
-        $html                  = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
+        $part->body = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));
+        $html = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
         $this->assertMatchesRegularExpression(
             '/<a href="mailto:nobody@roundcube.net" onclick="return rcmail.command\(\'compose\',\'nobody@roundcube.net\',this\)">nobody@roundcube.net<\/a>/',
@@ -513,7 +513,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part   = $this->get_html_part('src/mailto.txt');
+        $part = $this->get_html_part('src/mailto.txt');
         $params = ['container_id' => 'foo'];
 
         // render HTML in normal mode
@@ -533,7 +533,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part   = $this->get_html_part('src/htmlcom.txt');
+        $part = $this->get_html_part('src/htmlcom.txt');
         $washed = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
         // #1487759

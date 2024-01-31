@@ -34,7 +34,7 @@ class managesieve extends rcube_plugin
 
     private $rc;
     private $engine;
-    private $ui_initialized    = false;
+    private $ui_initialized = false;
     private $mail_headers_done = false;
 
     /**
@@ -113,16 +113,16 @@ class managesieve extends rcube_plugin
     public function settings_actions($args)
     {
         $vacation_mode = (int) $this->rc->config->get('managesieve_vacation');
-        $forward_mode  = (int) $this->rc->config->get('managesieve_forward');
+        $forward_mode = (int) $this->rc->config->get('managesieve_forward');
 
         // register Filters action
         if ($vacation_mode != 2 && $forward_mode != 2) {
             $args['actions'][] = [
                 'action' => 'plugin.managesieve',
-                'class'  => 'filter',
-                'label'  => 'filters',
+                'class' => 'filter',
+                'label' => 'filters',
                 'domain' => 'managesieve',
-                'title'  => 'filterstitle',
+                'title' => 'filterstitle',
             ];
         }
 
@@ -130,10 +130,10 @@ class managesieve extends rcube_plugin
         if ($vacation_mode > 0) {
             $args['actions'][] = [
                 'action' => 'plugin.managesieve-vacation',
-                'class'  => 'vacation',
-                'label'  => 'vacation',
+                'class' => 'vacation',
+                'label' => 'vacation',
                 'domain' => 'managesieve',
-                'title'  => 'vacationtitle',
+                'title' => 'vacationtitle',
             ];
         }
 
@@ -141,10 +141,10 @@ class managesieve extends rcube_plugin
         if ($forward_mode > 0) {
             $args['actions'][] = [
                 'action' => 'plugin.managesieve-forward',
-                'class'  => 'forward',
-                'label'  => 'forward',
+                'class' => 'forward',
+                'label' => 'forward',
                 'domain' => 'managesieve',
-                'title'  => 'forwardtitle',
+                'title' => 'forwardtitle',
             ];
         }
 
@@ -162,7 +162,7 @@ class managesieve extends rcube_plugin
         }
 
         $vacation_mode = (int) $this->rc->config->get('managesieve_vacation');
-        $forward_mode  = (int) $this->rc->config->get('managesieve_forward');
+        $forward_mode = (int) $this->rc->config->get('managesieve_forward');
 
         if ($vacation_mode == 2 || $forward_mode == 2) {
             return;
@@ -173,11 +173,11 @@ class managesieve extends rcube_plugin
 
         // add 'Create filter' item to message menu
         $this->add_button([
-                'command'    => 'managesieve-create',
-                'label'      => 'managesieve.filtercreate',
-                'type'       => 'link-menuitem',
-                'classact'   => 'icon filterlink active',
-                'class'      => 'icon filterlink disabled',
+                'command' => 'managesieve-create',
+                'label' => 'managesieve.filtercreate',
+                'type' => 'link-menuitem',
+                'classact' => 'icon filterlink active',
+                'class' => 'icon filterlink disabled',
                 'innerclass' => 'icon filterlink',
             ], 'messagemenu'
         );
@@ -233,7 +233,7 @@ class managesieve extends rcube_plugin
         // handle other actions
         $engine_type = $this->rc->action == 'plugin.managesieve-vacation' ? 'vacation' : '';
         $engine_type = $this->rc->action == 'plugin.managesieve-forward' ? 'forward' : $engine_type;
-        $engine      = $this->get_engine($engine_type);
+        $engine = $this->get_engine($engine_type);
 
         $this->init_ui();
 
@@ -285,7 +285,7 @@ class managesieve extends rcube_plugin
             $include_path .= ini_get('include_path');
             set_include_path($include_path);
 
-            $class_name   = 'rcube_sieve_' . ($type ?: 'engine');
+            $class_name = 'rcube_sieve_' . ($type ?: 'engine');
             $this->engine = new $class_name($this);
         }
 
@@ -297,7 +297,7 @@ class managesieve extends rcube_plugin
      */
     private function parse_headers($headers)
     {
-        $result   = [];
+        $result = [];
         $got_list = false;
 
         if ($list_id = ($headers->others['list-id'] ?? null)) {

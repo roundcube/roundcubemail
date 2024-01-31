@@ -61,10 +61,10 @@ class redundant_attachments extends filesystem_attachments
         // load configuration
         $this->load_config();
 
-        $ttl      = 12 * 60 * 60; // 12 hours
-        $ttl      = $rcmail->config->get('redundant_attachments_cache_ttl', $ttl);
+        $ttl = 12 * 60 * 60; // 12 hours
+        $ttl = $rcmail->config->get('redundant_attachments_cache_ttl', $ttl);
         $fallback = $rcmail->config->get('redundant_attachments_fallback');
-        $prefix   = self::PREFIX;
+        $prefix = self::PREFIX;
 
         if ($id = session_id()) {
             $prefix .= $id;
@@ -104,7 +104,7 @@ class redundant_attachments extends filesystem_attachments
 
         $this->_load_drivers();
 
-        $key  = $this->_key($args);
+        $key = $this->_key($args);
         $data = base64_encode(file_get_contents($args['path']));
 
         $status = $this->cache->set($key, $data);
@@ -114,7 +114,7 @@ class redundant_attachments extends filesystem_attachments
         }
 
         if ($status) {
-            $args['id']     = $key;
+            $args['id'] = $key;
             $args['status'] = true;
         }
 
@@ -134,7 +134,7 @@ class redundant_attachments extends filesystem_attachments
 
         $args['data'] = null;
 
-        $key  = $this->_key($args);
+        $key = $this->_key($args);
         $data = base64_encode($data);
 
         $status = $this->cache->set($key, $data);
@@ -144,7 +144,7 @@ class redundant_attachments extends filesystem_attachments
         }
 
         if ($status) {
-            $args['id']     = $key;
+            $args['id'] = $key;
             $args['status'] = true;
         }
 
@@ -208,7 +208,7 @@ class redundant_attachments extends filesystem_attachments
         }
 
         if ($data) {
-            $args['data']   = base64_decode($data);
+            $args['data'] = base64_decode($data);
             $args['status'] = true;
         }
 

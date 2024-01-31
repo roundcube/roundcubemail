@@ -267,20 +267,20 @@ class Framework_Utils extends TestCase
 
         // XSS issue, HTML in 'content' property
         $style = "body { content: '</style><img src onerror=\"alert(\\'hello\\');\">'; color: red; }";
-        $mod   = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
         $this->assertSame("#rcmbody { content: ''; color: red; }", $mod);
 
         $style = "body { content: '< page: ;/style>< page: ;img src onerror=\"alert(\\'hello\\');\">'; color: red; }";
-        $mod   = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
         $this->assertSame("#rcmbody { content: '< page: ;/style>< page: ;img src onerror=\"alert('hello');\">'; color: red; }", $mod);
 
         // Removing page: property
         $style = 'body { page: test; color: red }';
-        $mod   = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
         $this->assertSame('#rcmbody { color: red; }', $mod);
 
         $style = 'body { background:url(alert(&#039;URL!&#039;) ) }';
-        $mod   = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
         $this->assertSame('#rcmbody { background: /* evil! */; }', $mod);
     }
 
@@ -421,12 +421,12 @@ class Framework_Utils extends TestCase
     public function test_explode_quoted_string()
     {
         $data = [
-            '"a,b"'       => ['"a,b"'],
+            '"a,b"' => ['"a,b"'],
             '"a,b","c,d"' => ['"a,b"', '"c,d"'],
-            '"a,\\"b",d'  => ['"a,\\"b"', 'd'],
-            'a,'          => ['a', ''],
-            '"a,'         => ['"a,'],
-            '"a,\\'       => ['"a,\\'],
+            '"a,\\"b",d' => ['"a,\\"b"', 'd'],
+            'a,' => ['a', ''],
+            '"a,' => ['"a,'],
+            '"a,\\' => ['"a,\\'],
         ];
 
         foreach ($data as $text => $res) {
@@ -454,9 +454,9 @@ class Framework_Utils extends TestCase
     public function test_explode_quoted_string_multibyte_delimiter()
     {
         $data = [
-            "a\nb"             => ['a', 'b'],
-            "a\r\nb"           => ['a', 'b'],
-            "a\r\n\nb"         => ['a', 'b'],
+            "a\nb" => ['a', 'b'],
+            "a\r\nb" => ['a', 'b'],
+            "a\r\n\nb" => ['a', 'b'],
             "\"a\n\\\"\n\"\nb" => ["\"a\n\\\"\n\"", 'b'],
         ];
 
@@ -529,18 +529,18 @@ class Framework_Utils extends TestCase
         date_default_timezone_set('UTC');
 
         $test = [
-            '1'                                 => 1,
-            ''                                  => 0,
-            'abc-555'                           => 0,
-            '2013-04-22'                        => 1366588800,
-            '2013/04/22'                        => 1366588800,
-            '2013.04.22'                        => 1366588800,
-            '22-04-2013'                        => 1366588800,
-            '22/04/2013'                        => 1366588800,
-            '22.04.2013'                        => 1366588800,
-            '22.4.2013'                         => 1366588800,
-            '20130422'                          => 1366588800,
-            '2013/06/21 12:00:00 UTC'           => 1371816000,
+            '1' => 1,
+            '' => 0,
+            'abc-555' => 0,
+            '2013-04-22' => 1366588800,
+            '2013/04/22' => 1366588800,
+            '2013.04.22' => 1366588800,
+            '22-04-2013' => 1366588800,
+            '22/04/2013' => 1366588800,
+            '22.04.2013' => 1366588800,
+            '22.4.2013' => 1366588800,
+            '20130422' => 1366588800,
+            '2013/06/21 12:00:00 UTC' => 1371816000,
             '2013/06/21 12:00:00 Europe/Berlin' => 1371808800,
         ];
 
@@ -556,18 +556,18 @@ class Framework_Utils extends TestCase
     public function test_anytodatetime()
     {
         $test = [
-            '2013-04-22'          => '2013-04-22',
-            '2013/04/22'          => '2013-04-22',
-            '2013.04.22'          => '2013-04-22',
-            '22-04-2013'          => '2013-04-22',
-            '22/04/2013'          => '2013-04-22',
-            '22.04.2013'          => '2013-04-22',
-            '04/22/2013'          => '2013-04-22',
-            '22.4.2013'           => '2013-04-22',
-            '20130422'            => '2013-04-22',
-            '1900-10-10'          => '1900-10-10',
-            '01-01-1900'          => '1900-01-01',
-            '01/30/1960'          => '1960-01-30',
+            '2013-04-22' => '2013-04-22',
+            '2013/04/22' => '2013-04-22',
+            '2013.04.22' => '2013-04-22',
+            '22-04-2013' => '2013-04-22',
+            '22/04/2013' => '2013-04-22',
+            '22.04.2013' => '2013-04-22',
+            '04/22/2013' => '2013-04-22',
+            '22.4.2013' => '2013-04-22',
+            '20130422' => '2013-04-22',
+            '1900-10-10' => '1900-10-10',
+            '01-01-1900' => '1900-01-01',
+            '01/30/1960' => '1960-01-30',
             '1960.12.11 01:02:00' => '1960-12-11',
         ];
 
@@ -601,13 +601,13 @@ class Framework_Utils extends TestCase
      */
     public function test_anytodatetime_timezone()
     {
-        $tz   = new DateTimeZone('Europe/Helsinki');
+        $tz = new DateTimeZone('Europe/Helsinki');
         $test = [
             'Jan 1st 2014 +0800' => '2013-12-31 18:00',  // result in target timezone
-            'Jan 1st 14 45:42'   => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
-            'Jan 1st 2014 UK'    => '2014-01-01 00:00',
-            '1520587800'         => '2018-03-09 11:30',  // unix timestamp conversion
-            'Invalid date'       => false,
+            'Jan 1st 14 45:42' => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
+            'Jan 1st 2014 UK' => '2014-01-01 00:00',
+            '1520587800' => '2018-03-09 11:30',  // unix timestamp conversion
+            'Invalid date' => false,
         ];
 
         foreach ($test as $datetime => $ts) {
@@ -644,11 +644,11 @@ class Framework_Utils extends TestCase
     public function test_tokenize_string()
     {
         $test = [
-            ''            => [],
-            'abc d'       => ['abc'],
-            'abc de'      => ['abc', 'de'],
+            '' => [],
+            'abc d' => ['abc'],
+            'abc de' => ['abc', 'de'],
             'äàé;êöü-xyz' => ['äàé', 'êöü', 'xyz'],
-            '日期格式'        => ['日期格式'],
+            '日期格式' => ['日期格式'],
         ];
 
         foreach ($test as $input => $output) {
@@ -663,17 +663,17 @@ class Framework_Utils extends TestCase
     public function test_normalize_string()
     {
         $test = [
-            ''                                                    => '',
-            'abc def'                                             => 'abc def',
+            '' => '',
+            'abc def' => 'abc def',
             'ÇçäâàåæéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ' => 'ccaaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy',
-            'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżýĄŚŻŹĆ'           => 'aaaaccceeeeiilllnnooorrsssttuuuuzzzyaszzc',
-            'ßs'                                                  => 'sss',
-            'Xae'                                                 => 'xa',
-            'Xoe'                                                 => 'xo',
-            'Xue'                                                 => 'xu',
-            '项目'                                                  => '项目',
-            'ß'                                                   => '',
-            '日'                                                   => '',
+            'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżýĄŚŻŹĆ' => 'aaaaccceeeeiilllnnooorrsssttuuuuzzzyaszzc',
+            'ßs' => 'sss',
+            'Xae' => 'xa',
+            'Xoe' => 'xo',
+            'Xue' => 'xu',
+            '项目' => '项目',
+            'ß' => '',
+            '日' => '',
         ];
 
         foreach ($test as $input => $output) {
@@ -712,14 +712,14 @@ class Framework_Utils extends TestCase
     {
         if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN') {
             $test = [
-                ''          => false,
-                'C:\\'      => true,
+                '' => false,
+                'C:\\' => true,
                 'some/path' => false,
             ];
         } else {
             $test = [
-                ''          => false,
-                '/path'     => true,
+                '' => false,
+                '/path' => true,
                 'some/path' => false,
             ];
         }

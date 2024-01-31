@@ -56,9 +56,9 @@ abstract class TestCase extends PHPUnitTestCase
         // For file download handling
         $prefs = [
             'profile.default_content_settings.popups' => 0,
-            'download.prompt_for_download'            => false,
-            'download.default_directory'              => TESTS_DIR . 'downloads',
-            'downloadPath'                            => TESTS_DIR . 'downloads',
+            'download.prompt_for_download' => false,
+            'download.default_directory' => TESTS_DIR . 'downloads',
+            'downloadPath' => TESTS_DIR . 'downloads',
         ];
 
         $options->setExperimentalOption('prefs', $prefs);
@@ -104,9 +104,9 @@ abstract class TestCase extends PHPUnitTestCase
 
         $this->app = \rcmail::get_instance();
 
-        Browser::$baseUrl            = 'http://localhost:8000';
+        Browser::$baseUrl = 'http://localhost:8000';
         Browser::$storeScreenshotsAt = TESTS_DIR . 'screenshots';
-        Browser::$storeConsoleLogAt  = TESTS_DIR . 'console';
+        Browser::$storeConsoleLogAt = TESTS_DIR . 'console';
 
         // This folder must exist in case Browser will try to write logs to it
         if (!is_dir(Browser::$storeConsoleLogAt)) {
@@ -150,8 +150,8 @@ abstract class TestCase extends PHPUnitTestCase
     protected static function startWebServer()
     {
         $path = realpath(__DIR__ . '/../../public_html');
-        $cmd  = ['php', '-S', 'localhost:8000'];
-        $env  = [];
+        $cmd = ['php', '-S', 'localhost:8000'];
+        $env = [];
 
         static::$phpProcess = new Process($cmd, null, $env);
         static::$phpProcess->setWorkingDirectory($path);

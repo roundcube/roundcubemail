@@ -18,7 +18,7 @@ class Actions_Contacts_Export extends ActionTestCase
 
         self::initDB('contacts');
 
-        $_GET  = ['_source' => '0'];
+        $_GET = ['_source' => '0'];
         $_POST = [];
 
         // Here we expect request security check error
@@ -27,7 +27,7 @@ class Actions_Contacts_Export extends ActionTestCase
         $this->assertSame('ERROR: Request security check failed', trim(StderrMock::$output));
 
         // Now we'll try with the proper token
-        $_SESSION['request_token']           = 'secure';
+        $_SESSION['request_token'] = 'secure';
         $_SERVER['HTTP_X_ROUNDCUBE_REQUEST'] = 'secure';
 
         ob_start();
@@ -57,8 +57,8 @@ class Actions_Contacts_Export extends ActionTestCase
 
         $this->assertTrue($action->checks());
 
-        $cids  = [];
-        $db    = rcmail::get_instance()->get_dbh();
+        $cids = [];
+        $db = rcmail::get_instance()->get_dbh();
         $query = $db->query("SELECT `contact_id` FROM `contacts` WHERE `email` IN ('j.rian@gmail.com', 'g.bush@gov.com')");
         while ($result = $db->fetch_assoc($query)) {
             $cids[] = $result['contact_id'];
@@ -68,7 +68,7 @@ class Actions_Contacts_Export extends ActionTestCase
         // TODO: This really shouldn't be needed
         $_REQUEST = ['_cid' => implode(',', $cids)];
 
-        $_SESSION['request_token']           = 'secure';
+        $_SESSION['request_token'] = 'secure';
         $_SERVER['HTTP_X_ROUNDCUBE_REQUEST'] = 'secure';
 
         ob_start();

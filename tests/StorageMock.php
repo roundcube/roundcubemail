@@ -37,7 +37,7 @@ class StorageMock
     {
         foreach ($this->mocks as $idx => $mock) {
             if ($mock[0] == $name) {
-                $result              = $mock[1];
+                $result = $mock[1];
                 $this->methodCalls[] = ['name' => $name, 'args' => $arguments];
                 unset($this->mocks[$idx]);
                 return $result;

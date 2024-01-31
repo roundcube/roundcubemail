@@ -54,11 +54,11 @@ class subscriptions_option extends rcube_plugin
         if ($args['section'] == 'server') {
             $this->add_texts('localization/', false);
             $use_subscriptions = rcmail::get_instance()->config->get('use_subscriptions', true);
-            $field_id          = 'rcmfd_use_subscriptions';
-            $checkbox          = new html_checkbox(['name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1]);
+            $field_id = 'rcmfd_use_subscriptions';
+            $checkbox = new html_checkbox(['name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['use_subscriptions'] = [
-                'title'   => html::label($field_id, rcube::Q($this->gettext('useimapsubscriptions'))),
+                'title' => html::label($field_id, rcube::Q($this->gettext('useimapsubscriptions'))),
                 'content' => $checkbox->show($use_subscriptions ? 1 : 0),
             ];
         }
@@ -76,7 +76,7 @@ class subscriptions_option extends rcube_plugin
     public function prefs_save($args)
     {
         if ($args['section'] == 'server') {
-            $rcmail            = rcmail::get_instance();
+            $rcmail = rcmail::get_instance();
             $use_subscriptions = $rcmail->config->get('use_subscriptions', true);
 
             $args['prefs']['use_subscriptions'] = isset($_POST['_use_subscriptions']);

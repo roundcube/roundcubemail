@@ -24,14 +24,14 @@ class html
 {
     protected $tagname;
     protected $content;
-    protected $attrib  = [];
+    protected $attrib = [];
     protected $allowed = [];
 
-    public static $doctype       = 'xhtml';
-    public static $lc_tags       = true;
+    public static $doctype = 'xhtml';
+    public static $lc_tags = true;
     public static $common_attrib = ['id', 'class', 'style', 'title', 'align', 'unselectable', 'tabindex', 'role'];
-    public static $containers    = ['iframe', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'ul', 'form', 'textarea', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'style', 'script', 'a'];
-    public static $bool_attrib   = ['checked', 'multiple', 'disabled', 'selected', 'autofocus', 'readonly', 'required'];
+    public static $containers = ['iframe', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'ul', 'form', 'textarea', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'style', 'script', 'a'];
+    public static $bool_attrib = ['checked', 'multiple', 'disabled', 'selected', 'autofocus', 'readonly', 'required'];
 
     /**
      * Constructor
@@ -74,7 +74,7 @@ class html
         }
 
         $inline_tags = ['a', 'span', 'img'];
-        $suffix      = (isset($attrib['nl']) && $content && $attrib['nl'] && !in_array($tagname, $inline_tags)) ? "\n" : '';
+        $suffix = (isset($attrib['nl']) && $content && $attrib['nl'] && !in_array($tagname, $inline_tags)) ? "\n" : '';
 
         $tagname = self::$lc_tags ? strtolower($tagname) : $tagname;
         if (isset($content) || in_array($tagname, self::$containers)) {
@@ -95,9 +95,9 @@ class html
     public static function doctype($type)
     {
         $doctypes = [
-            'html5'        => '<!DOCTYPE html>',
-            'xhtml'        => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
-            'xhtml-trans'  => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+            'html5' => '<!DOCTYPE html>',
+            'xhtml' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+            'xhtml-trans' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
             'xhtml-strict' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
         ];
 
@@ -307,7 +307,7 @@ class html
             return '';
         }
 
-        $allowed_f  = array_flip((array) $allowed);
+        $allowed_f = array_flip((array) $allowed);
         $attrib_arr = [];
 
         foreach ($attrib as $key => $value) {
@@ -363,7 +363,7 @@ class html
     public static function parse_attrib_string($str)
     {
         $attrib = [];
-        $html   = '<html>'
+        $html = '<html>'
             . '<head><meta http-equiv="Content-Type" content="text/html; charset=' . RCUBE_CHARSET . '" /></head>'
             . '<body><div ' . rtrim($str, '/ ') . ' /></body>'
             . '</html>';
@@ -404,7 +404,7 @@ class html
 class html_inputfield extends html
 {
     protected $tagname = 'input';
-    protected $type    = 'text';
+    protected $type = 'text';
     protected $allowed = [
         'type', 'name', 'value', 'size', 'tabindex', 'autocapitalize', 'required',
         'autocomplete', 'checked', 'onchange', 'onclick', 'disabled', 'readonly',
@@ -468,9 +468,9 @@ class html_passwordfield extends html_inputfield
 class html_hiddenfield extends html
 {
     protected $tagname = 'input';
-    protected $type    = 'hidden';
+    protected $type = 'hidden';
     protected $allowed = ['type', 'name', 'value', 'onchange', 'disabled', 'readonly'];
-    protected $fields  = [];
+    protected $fields = [];
 
     /**
      * Constructor
@@ -554,7 +554,7 @@ class html_radiobutton extends html_checkbox
 class html_button extends html_inputfield
 {
     protected $tagname = 'button';
-    protected $type    = 'button';
+    protected $type = 'button';
 
     /**
      * Get HTML code for this object
@@ -642,7 +642,7 @@ class html_select extends html
         if (is_array($names)) {
             foreach ($names as $i => $text) {
                 $this->options[] = [
-                    'text'  => $text,
+                    'text' => $text,
                     'value' => $values[$i] ?? $i,
                 ] + $attrib;
             }
@@ -667,10 +667,10 @@ class html_select extends html
         }
 
         $this->content = "\n";
-        $select        = (array) $select;
+        $select = (array) $select;
         foreach ($this->options as $option) {
             $attr = [
-                'value'    => $option['value'],
+                'value' => $option['value'],
                 'selected' => (in_array($option['value'], $select, true)
                     || in_array($option['text'], $select, true)) ? 1 : null,
             ];
@@ -699,7 +699,7 @@ class html_table extends html
         'cellpadding', 'cellspacing', 'border'];
 
     private $header;
-    private $rows     = [];
+    private $rows = [];
     private $rowindex = 0;
     private $colindex = 0;
 
@@ -711,7 +711,7 @@ class html_table extends html
     public function __construct($attrib = [])
     {
         $default_attrib = self::$doctype == 'xhtml' ? ['border' => '0'] : [];
-        $this->attrib   = array_merge($attrib, $default_attrib);
+        $this->attrib = array_merge($attrib, $default_attrib);
 
         if (!empty($attrib['tagname']) && $attrib['tagname'] != 'table') {
             $this->tagname = $attrib['tagname'];
@@ -731,12 +731,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell          = new stdClass();
-        $cell->attrib  = $attr;
+        $cell = new stdClass();
+        $cell->attrib = $attr;
         $cell->content = $cont;
 
         if (!isset($this->rows[$this->rowindex])) {
-            $this->rows[$this->rowindex]         = new stdClass();
+            $this->rows[$this->rowindex] = new stdClass();
             $this->rows[$this->rowindex]->attrib = [];
         }
 
@@ -760,12 +760,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell          = new stdClass();
-        $cell->attrib  = $attr;
+        $cell = new stdClass();
+        $cell->attrib = $attr;
         $cell->content = $cont;
 
         if (empty($this->header)) {
-            $this->header         = new stdClass();
+            $this->header = new stdClass();
             $this->header->attrib = [];
         }
 
@@ -807,10 +807,10 @@ class html_table extends html
     public function add_row($attr = [])
     {
         $this->rowindex++;
-        $this->colindex                      = 0;
-        $this->rows[$this->rowindex]         = new stdClass();
+        $this->colindex = 0;
+        $this->rows[$this->rowindex] = new stdClass();
         $this->rows[$this->rowindex]->attrib = $attr;
-        $this->rows[$this->rowindex]->cells  = [];
+        $this->rows[$this->rowindex]->cells = [];
     }
 
     /**
@@ -884,10 +884,10 @@ class html_table extends html
             $this->attrib = array_merge($this->attrib, $attrib);
         }
 
-        $thead        = '';
-        $tbody        = '';
-        $col_tagname  = $this->_col_tagname();
-        $row_tagname  = $this->_row_tagname();
+        $thead = '';
+        $tbody = '';
+        $col_tagname = $this->_col_tagname();
+        $row_tagname = $this->_row_tagname();
         $head_tagname = $this->_head_tagname();
 
         // include <thead>
@@ -942,7 +942,7 @@ class html_table extends html
      */
     public function remove_body()
     {
-        $this->rows     = [];
+        $this->rows = [];
         $this->rowindex = 0;
     }
 

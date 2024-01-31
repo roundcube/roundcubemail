@@ -109,14 +109,14 @@ class rcube_message_part
     public $content_location;
 
     public $type;
-    public $replaces         = [];
-    public $disposition      = '';
-    public $filename         = '';
-    public $encoding         = '8bit';
-    public $charset          = '';
-    public $d_parameters     = [];
+    public $replaces = [];
+    public $disposition = '';
+    public $filename = '';
+    public $encoding = '8bit';
+    public $charset = '';
+    public $d_parameters = [];
     public $ctype_parameters = [];
-    public $body_modified    = false;
+    public $body_modified = false;
 
     /**
      * Clone handler.

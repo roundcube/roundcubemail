@@ -55,11 +55,11 @@ class rcube_plesk_password
     {
         // get config
         $rcmail = rcmail::get_instance();
-        $host   = $rcmail->config->get('password_plesk_host');
-        $user   = $rcmail->config->get('password_plesk_user');
-        $pass   = $rcmail->config->get('password_plesk_pass');
-        $port   = $rcmail->config->get('password_plesk_rpc_port');
-        $path   = $rcmail->config->get('password_plesk_rpc_path');
+        $host = $rcmail->config->get('password_plesk_host');
+        $user = $rcmail->config->get('password_plesk_user');
+        $pass = $rcmail->config->get('password_plesk_pass');
+        $port = $rcmail->config->get('password_plesk_rpc_port');
+        $path = $rcmail->config->get('password_plesk_rpc_path');
 
         // create plesk-object
         $plesk = new plesk_rpc();
@@ -111,7 +111,7 @@ class plesk_rpc
             'Content-Type: text/xml',
         ];
 
-        $url        = sprintf('https://%s:%s/%s', $host, $port, $path);
+        $url = sprintf('https://%s:%s/%s', $host, $port, $path);
         $this->curl = curl_init();
 
         curl_setopt($this->curl, \CURLOPT_CONNECTTIMEOUT, 5);
@@ -156,16 +156,16 @@ class plesk_rpc
     {
         // build xml
         $request = new SimpleXMLElement('<packet></packet>');
-        $site    = $request->addChild('site');
-        $get     = $site->addChild('get');
-        $filter  = $get->addChild('filter');
+        $site = $request->addChild('site');
+        $get = $site->addChild('get');
+        $filter = $get->addChild('filter');
 
         $filter->addChild('name', $domain);
         $dataset = $get->addChild('dataset');
 
         $dataset->addChild('hosting');
         $packet = $request->asXML();
-        $xml    = null;
+        $xml = null;
 
         // send the request and make it to simple-xml-object
         if ($res = $this->send_request($packet)) {
@@ -213,7 +213,7 @@ class plesk_rpc
     public function change_mailbox_password($mailbox, $newpass)
     {
         [$user, $domain] = explode('@', $mailbox);
-        $domain_id       = $this->get_domain_id($domain);
+        $domain_id = $this->get_domain_id($domain);
 
         // if domain cannot be resolved to an id, do not continue
         if (!$domain_id) {
@@ -222,10 +222,10 @@ class plesk_rpc
 
         // build xml-packet
         $request = new SimpleXMLElement('<packet></packet>');
-        $mail    = $request->addChild('mail');
-        $update  = $mail->addChild('update');
-        $add     = $update->addChild('set');
-        $filter  = $add->addChild('filter');
+        $mail = $request->addChild('mail');
+        $update = $mail->addChild('update');
+        $add = $update->addChild('set');
+        $filter = $add->addChild('filter');
         $filter->addChild('site-id', $domain_id);
 
         $mailname = $filter->addChild('mailname');
@@ -248,7 +248,7 @@ class plesk_rpc
 
             if ($res != 'ok') {
                 $res = [
-                    'code'    => PASSWORD_ERROR,
+                    'code' => PASSWORD_ERROR,
                     'message' => strval($xml->mail->update->set->result->errtext),
                 ];
             }

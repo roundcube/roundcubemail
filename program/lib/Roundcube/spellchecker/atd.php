@@ -42,7 +42,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      */
     public function languages()
     {
-        $langs   = array_values($this->langhosts);
+        $langs = array_values($this->langhosts);
         $langs[] = 'en';
 
         return $langs;
@@ -59,15 +59,15 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
 
         // spell check uri is configured
         $rcube = rcube::get_instance();
-        $url   = $rcube->config->get('spellcheck_uri');
-        $key   = $rcube->config->get('spellcheck_atd_key');
+        $url = $rcube->config->get('spellcheck_uri');
+        $key = $rcube->config->get('spellcheck_atd_key');
 
         if ($url) {
             $a_uri = parse_url($url);
-            $ssl   = ($a_uri['scheme'] == 'https' || $a_uri['scheme'] == 'ssl');
-            $port  = !empty($a_uri['port']) ? $a_uri['port'] : ($ssl ? 443 : 80);
-            $host  = ($ssl ? 'ssl://' : '') . $a_uri['host'];
-            $path  = $a_uri['path'] . (!empty($a_uri['query']) ? '?' . $a_uri['query'] : '') . $this->lang;
+            $ssl = ($a_uri['scheme'] == 'https' || $a_uri['scheme'] == 'ssl');
+            $port = !empty($a_uri['port']) ? $a_uri['port'] : ($ssl ? 443 : 80);
+            $host = ($ssl ? 'ssl://' : '') . $a_uri['host'];
+            $path = $a_uri['path'] . (!empty($a_uri['query']) ? '?' . $a_uri['query'] : '') . $this->lang;
         } else {
             $host = self::SERVICE_HOST;
             $port = self::SERVICE_PORT;
@@ -86,7 +86,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
             $postdata .= '&key=' . urlencode($key);
         }
 
-        $response  = $headers = '';
+        $response = $headers = '';
         $in_header = true;
 
         if ($fp = fsockopen($host, $port, $errno, $errstr, 30)) {
@@ -143,10 +143,10 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
                 }
 
                 $prefix = strval($error->precontext);
-                $start  = $prefix ? mb_strpos($text, $prefix) : 0;
-                $pos    = mb_strpos($text, $word, $start);
-                $len    = mb_strlen($word);
-                $num    = 0;
+                $start = $prefix ? mb_strpos($text, $prefix) : 0;
+                $pos = mb_strpos($text, $word, $start);
+                $len = mb_strlen($word);
+                $num = 0;
 
                 $match = [$word, $pos, $len, null, []];
                 foreach ($error->suggestions->option as $option) {
@@ -191,7 +191,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
             $matches = $this->check($text);
         } else {
             $matches = $this->matches;
-            $text    = $this->content;
+            $text = $this->content;
         }
 
         $result = [];

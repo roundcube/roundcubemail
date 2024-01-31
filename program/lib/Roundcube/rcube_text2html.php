@@ -42,14 +42,14 @@ class rcube_text2html
         'break' => "<br>\n",
         // prefix and suffix (wrapper element)
         'begin' => '<div class="pre">',
-        'end'   => '</div>',
+        'end' => '</div>',
         // enables links replacement
         'links' => true,
         // string replacer class
         'replacer' => 'rcube_string_replacer',
         // prefix and suffix of unwrappable line
         'nobr_start' => '<span style="white-space:nowrap">',
-        'nobr_end'   => '</span>',
+        'nobr_end' => '</span>',
     ];
 
     /** @var bool Internal state */
@@ -125,7 +125,7 @@ class rcube_text2html
     protected function convert()
     {
         // Convert TXT to HTML
-        $this->html      = $this->converter($this->text);
+        $this->html = $this->converter($this->text);
         $this->converted = true;
     }
 
@@ -139,12 +139,12 @@ class rcube_text2html
     protected function converter($text)
     {
         // make links and email-addresses clickable
-        $attribs  = ['link_attribs' => ['rel' => 'noreferrer', 'target' => '_blank']];
+        $attribs = ['link_attribs' => ['rel' => 'noreferrer', 'target' => '_blank']];
         $replacer = new $this->config['replacer']($attribs);
 
         if ($this->config['flowed']) {
             $delsp = $this->config['delsp'];
-            $text  = rcube_mime::unfold_flowed($text, null, $delsp);
+            $text = rcube_mime::unfold_flowed($text, null, $delsp);
         }
 
         // search for patterns like links and e-mail addresses and replace with tokens
@@ -153,20 +153,20 @@ class rcube_text2html
         }
 
         // split body into single lines
-        $text        = preg_split('/\r?\n/', $text);
+        $text = preg_split('/\r?\n/', $text);
         $quote_level = 0;
-        $last        = null;
-        $length      = 0;
+        $last = null;
+        $length = 0;
 
         // wrap quoted lines with <blockquote>
         for ($n = 0, $cnt = count($text); $n < $cnt; $n++) {
             $first = $text[$n][0] ?? '';
 
             if ($first == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
-                $q        = substr_count($regs[0], '>');
+                $q = substr_count($regs[0], '>');
                 $text[$n] = substr($text[$n], strlen($regs[0]));
                 $text[$n] = $this->convert_line($text[$n]);
-                $_length  = strlen(str_replace(' ', '', $text[$n]));
+                $_length = strlen(str_replace(' ', '', $text[$n]));
 
                 if ($q > $quote_level) {
                     if ($last !== null) {
@@ -194,8 +194,8 @@ class rcube_text2html
                 }
             } else {
                 $text[$n] = $this->convert_line($text[$n]);
-                $q        = 0;
-                $_length  = strlen(str_replace(' ', '', $text[$n]));
+                $q = 0;
+                $_length = strlen(str_replace(' ', '', $text[$n]));
 
                 if ($quote_level > 0) {
                     $text[$last] .= (!$length ? "\n" : '')
@@ -210,7 +210,7 @@ class rcube_text2html
             }
 
             $quote_level = $q;
-            $length      = $_length;
+            $length = $_length;
         }
 
         if ($quote_level > 0) {
@@ -221,8 +221,8 @@ class rcube_text2html
         $text = implode("\n", $text);
 
         // colorize signature (up to <sig_max_lines> lines)
-        $len           = strlen($text);
-        $sig_sep       = '--' . $this->config['space'] . "\n";
+        $len = strlen($text);
+        $sig_sep = '--' . $this->config['space'] . "\n";
         $sig_max_lines = rcube::get_instance()->config->get('sig_max_lines', 15);
 
         while (($sp = strrpos($text, $sig_sep, !empty($sp) ? -$len + $sp - 1 : 0)) !== false) {
@@ -296,15 +296,15 @@ class rcube_text2html
         // replace HTML special and whitespace characters
         $text = strtr($text, $table);
 
-        $nbsp      = $this->config['space'];
+        $nbsp = $this->config['space'];
         $wrappable = !$this->nowrap && ($this->config['flowed'] || $this->config['wrap']);
 
         // make the line wrappable
         if ($wrappable) {
-            $pos  = 0;
+            $pos = 0;
             $diff = 0;
             $last = -2;
-            $len  = strlen($nbsp);
+            $len = strlen($nbsp);
             $copy = $text;
 
             while (($pos = strpos($text, ' ', $pos)) !== false) {

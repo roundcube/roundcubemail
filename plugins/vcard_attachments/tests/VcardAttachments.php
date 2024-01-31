@@ -14,7 +14,7 @@ class VcardAttachments_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new vcard_attachments($rcube->plugins);
 
         $this->assertInstanceOf('vcard_attachments', $plugin);
@@ -26,7 +26,7 @@ class VcardAttachments_Plugin extends TestCase
      */
     public function test_is_vcard()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new vcard_attachments($rcube->plugins);
 
         $part = new rcube_message_part();
@@ -45,7 +45,7 @@ class VcardAttachments_Plugin extends TestCase
         $this->assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
 
         $part->ctype_parameters['profile'] = 'unknown';
-        $part->filename                    = 'vcard.vcf';
+        $part->filename = 'vcard.vcf';
         $this->assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
     }
 }

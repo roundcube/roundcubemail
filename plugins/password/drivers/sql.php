@@ -80,29 +80,29 @@ class rcube_sql_password
         if (preg_match_all('/%[p|o]/', $sql, $m)) {
             foreach ($m[0] as $var) {
                 if ($var == '%p') {
-                    $sql        = preg_replace('/%p/', '?', $sql, 1);
+                    $sql = preg_replace('/%p/', '?', $sql, 1);
                     $sql_vars[] = (string) $passwd;
                 } else { // %o
-                    $sql        = preg_replace('/%o/', '?', $sql, 1);
+                    $sql = preg_replace('/%o/', '?', $sql, 1);
                     $sql_vars[] = (string) $curpass;
                 }
             }
         }
 
-        $local_part  = $rcmail->user->get_username('local');
+        $local_part = $rcmail->user->get_username('local');
         $domain_part = $rcmail->user->get_username('domain');
-        $username    = $_SESSION['username'];
-        $host        = $_SESSION['imap_host'];
+        $username = $_SESSION['username'];
+        $host = $_SESSION['imap_host'];
 
         // convert domains to/from punycode
         if ($rcmail->config->get('password_idn_ascii')) {
             $domain_part = rcube_utils::idn_to_ascii($domain_part);
-            $username    = rcube_utils::idn_to_ascii($username);
-            $host        = rcube_utils::idn_to_ascii($host);
+            $username = rcube_utils::idn_to_ascii($username);
+            $host = rcube_utils::idn_to_ascii($host);
         } else {
             $domain_part = rcube_utils::idn_to_utf8($domain_part);
-            $username    = rcube_utils::idn_to_utf8($username);
-            $host        = rcube_utils::idn_to_utf8($host);
+            $username = rcube_utils::idn_to_utf8($username);
+            $host = rcube_utils::idn_to_utf8($host);
         }
 
         // at least we should always have the local part
@@ -142,7 +142,7 @@ class rcube_sql_password
         if (strpos($dsn, '%')) {
             // parse DSN and replace variables in hostname
             $parsed = rcube_db::parse_dsn($dsn);
-            $host   = rcube_utils::parse_host($parsed['hostspec']);
+            $host = rcube_utils::parse_host($parsed['hostspec']);
 
             // build back the DSN string
             if ($host != $parsed['hostspec']) {

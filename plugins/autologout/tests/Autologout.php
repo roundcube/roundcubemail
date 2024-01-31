@@ -14,7 +14,7 @@ class Autologout_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new autologout($rcube->plugins);
 
         $this->assertInstanceOf('autologout', $plugin);

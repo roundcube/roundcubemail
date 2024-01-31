@@ -95,9 +95,9 @@
  */
 class rcube_html2text
 {
-    public const LINKS_NONE    = 0;
-    public const LINKS_END     = 1;
-    public const LINKS_INLINE  = 2;
+    public const LINKS_NONE = 0;
+    public const LINKS_END = 1;
+    public const LINKS_INLINE = 2;
     public const LINKS_DEFAULT = self::LINKS_END;
 
     /**
@@ -361,7 +361,7 @@ class rcube_html2text
         $this->set_base_url();
         $this->set_links_mode($links_mode);
 
-        $this->width   = $width;
+        $this->width = $width;
         $this->charset = $charset;
     }
 
@@ -479,7 +479,7 @@ class rcube_html2text
             }
         }
 
-        $this->text       = $text;
+        $this->text = $text;
         $this->_converted = true;
     }
 
@@ -505,7 +505,7 @@ class rcube_html2text
         // We used to have '/^.*<body[^>]*>\n*/is' in $this->search, but this requires
         // high pcre.backtrack_limit setting when converting long HTML strings (#8137)
         if (($pos = stripos($text, '<body')) !== false) {
-            $pos  = strpos($text, '>', $pos);
+            $pos = strpos($text, '>', $pos);
             $text = substr($text, $pos + 1);
             $text = ltrim($text);
         }
@@ -590,7 +590,7 @@ class rcube_html2text
         if ($this->_links_mode === self::LINKS_NONE) {
             // When not using link list use URL if there's no content (#5795)
             // The content here is HTML, convert it to text first
-            $h2t     = new self($display, false, false, 1024, $this->charset);
+            $h2t = new self($display, false, false, 1024, $this->charset);
             $display = $h2t->get_text();
 
             if (empty($display) && preg_match('!^([a-z][a-z0-9.+-]+://)!i', $link)) {
@@ -634,7 +634,7 @@ class rcube_html2text
     protected function _build_link_list($url, $display)
     {
         if (($index = array_search($url, $this->_link_list)) === false) {
-            $index              = count($this->_link_list);
+            $index = count($this->_link_list);
             $this->_link_list[] = $url;
         }
 
@@ -676,14 +676,14 @@ class rcube_html2text
      */
     protected function _convert_blockquotes(&$text)
     {
-        $level  = 0;
+        $level = 0;
         $offset = 0;
 
         while (($start = stripos($text, '<blockquote', $offset)) !== false) {
             $offset = $start + 12;
 
             do {
-                $end  = stripos($text, '</blockquote>', $offset);
+                $end = stripos($text, '</blockquote>', $offset);
                 $next = stripos($text, '<blockquote', $offset);
 
                 // nested <blockquote>, skip
@@ -698,7 +698,7 @@ class rcube_html2text
                 }
                 // found matching end tag
                 elseif ($end !== false && $level == 0) {
-                    $taglen   = strpos($text, '>', $start) - $start;
+                    $taglen = strpos($text, '>', $start) - $start;
                     $startpos = $start + $taglen + 1;
 
                     // get blockquote content
@@ -720,7 +720,7 @@ class rcube_html2text
                     $body = preg_replace_callback('/((?:^|\n)>*)([^\n]*)/', [$this, 'blockquote_citation_callback'], trim($body));
                     $body = '<pre>' . htmlspecialchars($body, \ENT_COMPAT | \ENT_HTML401 | \ENT_SUBSTITUTE, $this->charset) . '</pre>';
 
-                    $text   = substr_replace($text, $body . "\n", $start, $end + 13 - $start);
+                    $text = substr_replace($text, $body . "\n", $start, $end + 13 - $start);
                     $offset = 0;
 
                     break;
@@ -738,7 +738,7 @@ class rcube_html2text
      */
     public function blockquote_citation_callback($m)
     {
-        $line  = ltrim($m[2]);
+        $line = ltrim($m[2]);
         $space = isset($line[0]) && $line[0] == '>' ? '' : ' ';
 
         return $m[1] . '>' . $space . $line;

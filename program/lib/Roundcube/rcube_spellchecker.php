@@ -42,15 +42,15 @@ class rcube_spellchecker
      */
     public function __construct($lang = 'en')
     {
-        $this->rc     = rcube::get_instance();
+        $this->rc = rcube::get_instance();
         $this->engine = $this->rc->config->get('spellcheck_engine', 'googie');
-        $this->lang   = $lang ?: 'en';
+        $this->lang = $lang ?: 'en';
 
         $this->options = [
             'ignore_syms' => $this->rc->config->get('spellcheck_ignore_syms'),
             'ignore_nums' => $this->rc->config->get('spellcheck_ignore_nums'),
             'ignore_caps' => $this->rc->config->get('spellcheck_ignore_caps'),
-            'dictionary'  => $this->rc->config->get('spellcheck_dictionary'),
+            'dictionary' => $this->rc->config->get('spellcheck_dictionary'),
         ];
 
         $class = 'rcube_spellchecker_' . $this->engine;
@@ -81,7 +81,7 @@ class rcube_spellchecker
         }
 
         // load index
-        $rcube_languages        = [];
+        $rcube_languages = [];
         $rcube_language_aliases = [];
 
         @include RCUBE_LOCALIZATION_DIR . 'index.inc';
@@ -316,7 +316,7 @@ class rcube_spellchecker
             // sanity check
             if (strlen($word) < 512) {
                 $this->dict[] = $word;
-                $valid        = true;
+                $valid = true;
             }
         }
 
@@ -401,7 +401,7 @@ class rcube_spellchecker
             'userid' => $userid, 'language' => $this->lang, 'dictionary' => []]);
 
         if (empty($plugin['abort'])) {
-            $dict       = [];
+            $dict = [];
             $sql_result = $this->rc->db->query(
                 'SELECT `data` FROM ' . $this->rc->db->table_name('dictionary', true)
                 . ' WHERE `user_id` ' . ($plugin['userid'] ? '= ' . $this->rc->db->quote($plugin['userid']) : 'IS NULL')

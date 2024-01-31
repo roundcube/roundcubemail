@@ -28,7 +28,7 @@ class rcmail_action_login_oauth extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        $auth_code  = rcube_utils::get_input_string('code', rcube_utils::INPUT_GET);
+        $auth_code = rcube_utils::get_input_string('code', rcube_utils::INPUT_GET);
         $auth_error = rcube_utils::get_input_string('error', rcube_utils::INPUT_GET);
         $auth_state = rcube_utils::get_input_string('state', rcube_utils::INPUT_GET);
 
@@ -48,7 +48,7 @@ class rcmail_action_login_oauth extends rcmail_action
             }
 
             // next action will be the login
-            $args['task']   = 'login';
+            $args['task'] = 'login';
             $args['action'] = 'login';
             return $args;
         }

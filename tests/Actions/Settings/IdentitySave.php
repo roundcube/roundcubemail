@@ -18,17 +18,17 @@ class Actions_Settings_IdentitySave extends ActionTestCase
 
         self::initDB('identities');
 
-        $db       = rcmail::get_instance()->get_dbh();
-        $query    = $db->query('SELECT * FROM `identities` WHERE `standard` = 1 LIMIT 1');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `identities` WHERE `standard` = 1 LIMIT 1');
         $identity = $db->fetch_assoc($query);
 
         // Test successful identity update
 
         $_POST = [
-            '_iid'       => $identity['identity_id'],
-            '_name'      => 'new-name',
-            '_email'     => 'new@example.com',
-            '_standard'  => '1',
+            '_iid' => $identity['identity_id'],
+            '_name' => 'new-name',
+            '_email' => 'new@example.com',
+            '_standard' => '1',
             '_signature' => 'test',
         ];
 
@@ -37,7 +37,7 @@ class Actions_Settings_IdentitySave extends ActionTestCase
         $this->assertSame('edit-identity', rcmail::get_instance()->action);
         $this->assertSame('successfullysaved', $output->getProperty('message'));
 
-        $query    = $db->query('SELECT * FROM `identities` WHERE `identity_id` = ?', $identity['identity_id']);
+        $query = $db->query('SELECT * FROM `identities` WHERE `identity_id` = ?', $identity['identity_id']);
         $identity = $db->fetch_assoc($query);
 
         $this->assertSame('new-name', $identity['name']);

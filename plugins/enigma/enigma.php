@@ -195,9 +195,9 @@ class enigma extends rcube_plugin
         // register as settings action
         $args['actions'][] = [
             'action' => 'plugin.enigmakeys',
-            'class'  => 'enigma keys',
-            'label'  => 'enigmakeys',
-            'title'  => 'enigmakeys',
+            'class' => 'enigma keys',
+            'label' => 'enigmakeys',
+            'title' => 'enigmakeys',
             'domain' => 'enigma',
         ];
         /*
@@ -252,14 +252,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_encryption';
-            $input    = new html_checkbox([
-                'name'  => '_enigma_encryption',
-                'id'    => $field_id,
+            $input = new html_checkbox([
+                'name' => '_enigma_encryption',
+                'id' => $field_id,
                 'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_encryption'] = [
-                'title'   => html::label($field_id, $this->gettext('supportencryption')),
+                'title' => html::label($field_id, $this->gettext('supportencryption')),
                 'content' => $input->show(intval($this->rc->config->get('enigma_encryption'))),
             ];
         }
@@ -271,14 +271,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_signatures';
-            $input    = new html_checkbox([
-                'name'  => '_enigma_signatures',
-                'id'    => $field_id,
+            $input = new html_checkbox([
+                'name' => '_enigma_signatures',
+                'id' => $field_id,
                 'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_signatures'] = [
-                'title'   => html::label($field_id, $this->gettext('supportsignatures')),
+                'title' => html::label($field_id, $this->gettext('supportsignatures')),
                 'content' => $input->show(intval($this->rc->config->get('enigma_signatures'))),
             ];
         }
@@ -290,14 +290,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_decryption';
-            $input    = new html_checkbox([
-                'name'  => '_enigma_decryption',
-                'id'    => $field_id,
+            $input = new html_checkbox([
+                'name' => '_enigma_decryption',
+                'id' => $field_id,
                 'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_decryption'] = [
-                'title'   => html::label($field_id, $this->gettext('supportdecryption')),
+                'title' => html::label($field_id, $this->gettext('supportdecryption')),
                 'content' => $input->show(intval($this->rc->config->get('enigma_decryption'))),
             ];
         }
@@ -309,14 +309,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_sign_all';
-            $input    = new html_checkbox([
-                'name'  => '_enigma_sign_all',
-                'id'    => $field_id,
+            $input = new html_checkbox([
+                'name' => '_enigma_sign_all',
+                'id' => $field_id,
                 'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_sign_all'] = [
-                'title'   => html::label($field_id, $this->gettext('signdefault')),
+                'title' => html::label($field_id, $this->gettext('signdefault')),
                 'content' => $input->show($this->rc->config->get('enigma_sign_all') ? 1 : 0),
             ];
         }
@@ -328,14 +328,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_encrypt_all';
-            $input    = new html_checkbox([
-                'name'  => '_enigma_encrypt_all',
-                'id'    => $field_id,
+            $input = new html_checkbox([
+                'name' => '_enigma_encrypt_all',
+                'id' => $field_id,
                 'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_encrypt_all'] = [
-                'title'   => html::label($field_id, $this->gettext('encryptdefault')),
+                'title' => html::label($field_id, $this->gettext('encryptdefault')),
                 'content' => $input->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0),
             ];
         }
@@ -347,14 +347,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_attach_pubkey';
-            $input    = new html_checkbox([
-                'name'  => '_enigma_attach_pubkey',
-                'id'    => $field_id,
+            $input = new html_checkbox([
+                'name' => '_enigma_attach_pubkey',
+                'id' => $field_id,
                 'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_attach_pubkey'] = [
-                'title'   => html::label($field_id, $this->gettext('attachpubkeydefault')),
+                'title' => html::label($field_id, $this->gettext('attachpubkeydefault')),
                 'content' => $input->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0),
             ];
         }
@@ -366,7 +366,7 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_password_time';
-            $select   = new html_select(['name' => '_enigma_password_time', 'id' => $field_id, 'class' => 'custom-select']);
+            $select = new html_select(['name' => '_enigma_password_time', 'id' => $field_id, 'class' => 'custom-select']);
 
             foreach ([1, 5, 10, 15, 30] as $m) {
                 $label = $this->gettext(['name' => 'nminutes', 'vars' => ['m' => $m]]);
@@ -375,7 +375,7 @@ class enigma extends rcube_plugin
             $select->add($this->gettext('wholesession'), 0);
 
             $p['blocks']['main']['options']['enigma_password_time'] = [
-                'title'   => html::label($field_id, $this->gettext('passwordtime')),
+                'title' => html::label($field_id, $this->gettext('passwordtime')),
                 'content' => $select->show(intval($this->rc->config->get('enigma_password_time'))),
             ];
         }
@@ -394,11 +394,11 @@ class enigma extends rcube_plugin
     public function preferences_save($p)
     {
         if ($p['section'] == 'encryption') {
-            $p['prefs']['enigma_signatures']    = (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST);
-            $p['prefs']['enigma_decryption']    = (bool) rcube_utils::get_input_value('_enigma_decryption', rcube_utils::INPUT_POST);
-            $p['prefs']['enigma_encryption']    = (bool) rcube_utils::get_input_value('_enigma_encryption', rcube_utils::INPUT_POST);
-            $p['prefs']['enigma_sign_all']      = (bool) rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST);
-            $p['prefs']['enigma_encrypt_all']   = (bool) rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_signatures'] = (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_decryption'] = (bool) rcube_utils::get_input_value('_enigma_decryption', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_encryption'] = (bool) rcube_utils::get_input_value('_enigma_encryption', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_sign_all'] = (bool) rcube_utils::get_input_value('_enigma_sign_all', rcube_utils::INPUT_POST);
+            $p['prefs']['enigma_encrypt_all'] = (bool) rcube_utils::get_input_value('_enigma_encrypt_all', rcube_utils::INPUT_POST);
             $p['prefs']['enigma_attach_pubkey'] = (bool) rcube_utils::get_input_value('_enigma_attach_pubkey', rcube_utils::INPUT_POST);
             $p['prefs']['enigma_password_time'] = intval(rcube_utils::get_input_value('_enigma_password_time', rcube_utils::INPUT_POST));
         }
@@ -434,8 +434,8 @@ class enigma extends rcube_plugin
             // find private keys for this identity
             if (!empty($p['record']['email'])) {
                 $listing = [];
-                $engine  = $this->load_engine();
-                $keys    = $engine->list_keys($p['record']['email']);
+                $engine = $this->load_engine();
+                $keys = $engine->list_keys($p['record']['email']);
 
                 // On error do nothing, plugin/gnupg misconfigured?
                 if ($keys instanceof enigma_error) {
@@ -461,8 +461,8 @@ class enigma extends rcube_plugin
 
             // add button linking to enigma key management
             $button_attr = [
-                'class'  => 'button',
-                'href'   => $this->rc->url(['action' => 'plugin.enigmakeys']),
+                'class' => 'button',
+                'href' => $this->rc->url(['action' => 'plugin.enigmakeys']),
                 'target' => '_parent',
             ];
             $content .= html::p(null, html::a($button_attr, $this->gettext('managekeys')));

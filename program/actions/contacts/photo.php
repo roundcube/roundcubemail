@@ -32,9 +32,9 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         $rcmail = rcmail::get_instance();
 
         // Get contact ID and source ID from request
-        $cids    = self::get_cids();
-        $source  = key($cids);
-        $cid     = $cids ? array_first($cids[$source]) : null;
+        $cids = self::get_cids();
+        $source = key($cids);
+        $cid = $cids ? array_first($cids[$source]) : null;
         $file_id = rcube_utils::get_input_string('_photo', rcube_utils::INPUT_GPC);
 
         // read the referenced file
@@ -52,7 +52,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
             // by email, search for contact first
             if ($email = rcube_utils::get_input_string('_email', rcube_utils::INPUT_GPC)) {
                 foreach ($rcmail->get_address_sources() as $s) {
-                    $abook  = $rcmail->get_address_book($s['id']);
+                    $abook = $rcmail->get_address_book($s['id']);
                     $result = $abook->search(['email'], $email, 1, true, true, 'photo');
                     while ($result && ($record = $result->iterate())) {
                         if (!empty($record['photo'])) {
@@ -81,8 +81,8 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         // let plugins do fancy things with contact photos
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
             'record' => $record ?? null,
-            'email'  => $email ?? null,
-            'data'   => $data ?? null,
+            'email' => $email ?? null,
+            'data' => $data ?? null,
         ]);
 
         // redirect to url provided by a plugin

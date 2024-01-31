@@ -44,19 +44,19 @@ class rcmail_action_mail_viewsource extends rcmail_action
                 $headers = $rcmail->storage->get_message_headers($uid);
             }
 
-            $charset  = $headers->charset ?: $rcmail->config->get('default_charset', RCUBE_CHARSET);
+            $charset = $headers->charset ?: $rcmail->config->get('default_charset', RCUBE_CHARSET);
             $filename = '';
-            $params   = [
-                'type'         => 'text/plain',
+            $params = [
+                'type' => 'text/plain',
                 'type_charset' => $charset,
             ];
 
             if (!empty($_GET['_save'])) {
-                $subject  = rcube_mime::decode_header($headers->subject, $headers->charset);
+                $subject = rcube_mime::decode_header($headers->subject, $headers->charset);
                 $filename = self::filename_from_subject(mb_substr($subject, 0, 128));
                 $filename = ($filename ?: $uid) . '.eml';
 
-                $params['length']      = $headers->size;
+                $params['length'] = $headers->size;
                 $params['disposition'] = 'attachment';
             } else {
                 // Make sure it works in an iframe (#9084)
@@ -74,9 +74,9 @@ class rcmail_action_mail_viewsource extends rcmail_action
             }
         } else {
             rcube::raise_error([
-                'code'    => 500,
-                'file'    => __FILE__,
-                'line'    => __LINE__,
+                'code' => 500,
+                'file' => __FILE__,
+                'line' => __LINE__,
                 'message' => "Message UID {$uid} not found",
             ], true, true);
         }

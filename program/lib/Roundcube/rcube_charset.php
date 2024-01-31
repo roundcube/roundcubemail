@@ -32,41 +32,41 @@ class rcube_charset
      * @var array
      */
     public static $aliases = [
-        'USASCII'       => 'WINDOWS-1252',
+        'USASCII' => 'WINDOWS-1252',
         'ANSIX31101983' => 'WINDOWS-1252',
-        'ANSIX341968'   => 'WINDOWS-1252',
-        'UNKNOWN8BIT'   => 'ISO-8859-15',
-        'UNKNOWN'       => 'ISO-8859-15',
-        'USERDEFINED'   => 'ISO-8859-15',
-        'KSC56011987'   => 'EUC-KR',
-        'GB2312'        => 'GBK',
-        'GB231280'      => 'GBK',
-        'UNICODE'       => 'UTF-8',
-        'UTF7IMAP'      => 'UTF7-IMAP',
-        'TIS620'        => 'WINDOWS-874',
-        'ISO88599'      => 'WINDOWS-1254',
-        'ISO885911'     => 'WINDOWS-874',
-        'MACROMAN'      => 'MACINTOSH',
-        '77'            => 'MAC',
-        '128'           => 'SHIFT-JIS',
-        '129'           => 'CP949',
-        '130'           => 'CP1361',
-        '134'           => 'GBK',
-        '136'           => 'BIG5',
-        '161'           => 'WINDOWS-1253',
-        '162'           => 'WINDOWS-1254',
-        '163'           => 'WINDOWS-1258',
-        '177'           => 'WINDOWS-1255',
-        '178'           => 'WINDOWS-1256',
-        '186'           => 'WINDOWS-1257',
-        '204'           => 'WINDOWS-1251',
-        '222'           => 'WINDOWS-874',
-        '238'           => 'WINDOWS-1250',
-        'MS950'         => 'CP950',
-        'WINDOWS31J'    => 'CP932',
-        'WINDOWS949'    => 'UHC',
-        'WINDOWS1257'   => 'ISO-8859-13',
-        'ISO2022JP'     => 'ISO-2022-JP-MS',
+        'ANSIX341968' => 'WINDOWS-1252',
+        'UNKNOWN8BIT' => 'ISO-8859-15',
+        'UNKNOWN' => 'ISO-8859-15',
+        'USERDEFINED' => 'ISO-8859-15',
+        'KSC56011987' => 'EUC-KR',
+        'GB2312' => 'GBK',
+        'GB231280' => 'GBK',
+        'UNICODE' => 'UTF-8',
+        'UTF7IMAP' => 'UTF7-IMAP',
+        'TIS620' => 'WINDOWS-874',
+        'ISO88599' => 'WINDOWS-1254',
+        'ISO885911' => 'WINDOWS-874',
+        'MACROMAN' => 'MACINTOSH',
+        '77' => 'MAC',
+        '128' => 'SHIFT-JIS',
+        '129' => 'CP949',
+        '130' => 'CP1361',
+        '134' => 'GBK',
+        '136' => 'BIG5',
+        '161' => 'WINDOWS-1253',
+        '162' => 'WINDOWS-1254',
+        '163' => 'WINDOWS-1258',
+        '177' => 'WINDOWS-1255',
+        '178' => 'WINDOWS-1256',
+        '186' => 'WINDOWS-1257',
+        '204' => 'WINDOWS-1251',
+        '222' => 'WINDOWS-874',
+        '238' => 'WINDOWS-1250',
+        'MS950' => 'CP950',
+        'WINDOWS31J' => 'CP932',
+        'WINDOWS949' => 'UHC',
+        'WINDOWS1257' => 'ISO-8859-13',
+        'ISO2022JP' => 'ISO-2022-JP-MS',
     ];
 
     /**
@@ -75,55 +75,55 @@ class rcube_charset
      * @var array
      */
     public static $windows_codepages = [
-        37    => 'IBM037',     // IBM EBCDIC US-Canada
-        437   => 'IBM437',    // OEM United States
-        500   => 'IBM500',    // IBM EBCDIC International
-        708   => 'ASMO-708',  // Arabic (ASMO 708)
-        720   => 'DOS-720',   // Arabic (Transparent ASMO); Arabic (DOS)
-        737   => 'IBM737',    // OEM Greek (formerly 437G); Greek (DOS)
-        775   => 'IBM775',    // OEM Baltic; Baltic (DOS)
-        850   => 'IBM850',    // OEM Multilingual Latin 1; Western European (DOS)
-        852   => 'IBM852',    // OEM Latin 2; Central European (DOS)
-        855   => 'IBM855',    // OEM Cyrillic (primarily Russian)
-        857   => 'IBM857',    // OEM Turkish; Turkish (DOS)
-        858   => 'IBM00858',  // OEM Multilingual Latin 1 + Euro symbol
-        860   => 'IBM860',    // OEM Portuguese; Portuguese (DOS)
-        861   => 'IBM861',    // OEM Icelandic; Icelandic (DOS)
-        862   => 'DOS-862',   // OEM Hebrew; Hebrew (DOS)
-        863   => 'IBM863',    // OEM French Canadian; French Canadian (DOS)
-        864   => 'IBM864',    // OEM Arabic; Arabic (864)
-        865   => 'IBM865',    // OEM Nordic; Nordic (DOS)
-        866   => 'cp866',     // OEM Russian; Cyrillic (DOS)
-        869   => 'IBM869',    // OEM Modern Greek; Greek, Modern (DOS)
-        870   => 'IBM870',    // IBM EBCDIC Multilingual/ROECE (Latin 2); IBM EBCDIC Multilingual Latin 2
-        874   => 'windows-874',  // ANSI/OEM Thai (ISO 8859-11); Thai (Windows)
-        875   => 'cp875',     // IBM EBCDIC Greek Modern
-        932   => 'shift_jis', // ANSI/OEM Japanese; Japanese (Shift-JIS)
-        936   => 'gb2312',    // ANSI/OEM Simplified Chinese (PRC, Singapore); Chinese Simplified (GB2312)
-        950   => 'big5',      // ANSI/OEM Traditional Chinese (Taiwan; Hong Kong SAR, PRC); Chinese Traditional (Big5)
-        1026  => 'IBM1026',      // IBM EBCDIC Turkish (Latin 5)
-        1047  => 'IBM01047',     // IBM EBCDIC Latin 1/Open System
-        1140  => 'IBM01140',     // IBM EBCDIC US-Canada (037 + Euro symbol); IBM EBCDIC (US-Canada-Euro)
-        1141  => 'IBM01141',     // IBM EBCDIC Germany (20273 + Euro symbol); IBM EBCDIC (Germany-Euro)
-        1142  => 'IBM01142',     // IBM EBCDIC Denmark-Norway (20277 + Euro symbol); IBM EBCDIC (Denmark-Norway-Euro)
-        1143  => 'IBM01143',     // IBM EBCDIC Finland-Sweden (20278 + Euro symbol); IBM EBCDIC (Finland-Sweden-Euro)
-        1144  => 'IBM01144',     // IBM EBCDIC Italy (20280 + Euro symbol); IBM EBCDIC (Italy-Euro)
-        1145  => 'IBM01145',     // IBM EBCDIC Latin America-Spain (20284 + Euro symbol); IBM EBCDIC (Spain-Euro)
-        1146  => 'IBM01146',     // IBM EBCDIC United Kingdom (20285 + Euro symbol); IBM EBCDIC (UK-Euro)
-        1147  => 'IBM01147',     // IBM EBCDIC France (20297 + Euro symbol); IBM EBCDIC (France-Euro)
-        1148  => 'IBM01148',     // IBM EBCDIC International (500 + Euro symbol); IBM EBCDIC (International-Euro)
-        1149  => 'IBM01149',     // IBM EBCDIC Icelandic (20871 + Euro symbol); IBM EBCDIC (Icelandic-Euro)
-        1200  => 'UTF-16',       // Unicode UTF-16, little endian byte order (BMP of ISO 10646); available only to managed applications
-        1201  => 'UTF-16BE',     // Unicode UTF-16, big endian byte order; available only to managed applications
-        1250  => 'windows-1250', // ANSI Central European; Central European (Windows)
-        1251  => 'windows-1251', // ANSI Cyrillic; Cyrillic (Windows)
-        1252  => 'windows-1252', // ANSI Latin 1; Western European (Windows)
-        1253  => 'windows-1253', // ANSI Greek; Greek (Windows)
-        1254  => 'windows-1254', // ANSI Turkish; Turkish (Windows)
-        1255  => 'windows-1255', // ANSI Hebrew; Hebrew (Windows)
-        1256  => 'windows-1256', // ANSI Arabic; Arabic (Windows)
-        1257  => 'windows-1257', // ANSI Baltic; Baltic (Windows)
-        1258  => 'windows-1258', // ANSI/OEM Vietnamese; Vietnamese (Windows)
+        37 => 'IBM037',     // IBM EBCDIC US-Canada
+        437 => 'IBM437',    // OEM United States
+        500 => 'IBM500',    // IBM EBCDIC International
+        708 => 'ASMO-708',  // Arabic (ASMO 708)
+        720 => 'DOS-720',   // Arabic (Transparent ASMO); Arabic (DOS)
+        737 => 'IBM737',    // OEM Greek (formerly 437G); Greek (DOS)
+        775 => 'IBM775',    // OEM Baltic; Baltic (DOS)
+        850 => 'IBM850',    // OEM Multilingual Latin 1; Western European (DOS)
+        852 => 'IBM852',    // OEM Latin 2; Central European (DOS)
+        855 => 'IBM855',    // OEM Cyrillic (primarily Russian)
+        857 => 'IBM857',    // OEM Turkish; Turkish (DOS)
+        858 => 'IBM00858',  // OEM Multilingual Latin 1 + Euro symbol
+        860 => 'IBM860',    // OEM Portuguese; Portuguese (DOS)
+        861 => 'IBM861',    // OEM Icelandic; Icelandic (DOS)
+        862 => 'DOS-862',   // OEM Hebrew; Hebrew (DOS)
+        863 => 'IBM863',    // OEM French Canadian; French Canadian (DOS)
+        864 => 'IBM864',    // OEM Arabic; Arabic (864)
+        865 => 'IBM865',    // OEM Nordic; Nordic (DOS)
+        866 => 'cp866',     // OEM Russian; Cyrillic (DOS)
+        869 => 'IBM869',    // OEM Modern Greek; Greek, Modern (DOS)
+        870 => 'IBM870',    // IBM EBCDIC Multilingual/ROECE (Latin 2); IBM EBCDIC Multilingual Latin 2
+        874 => 'windows-874',  // ANSI/OEM Thai (ISO 8859-11); Thai (Windows)
+        875 => 'cp875',     // IBM EBCDIC Greek Modern
+        932 => 'shift_jis', // ANSI/OEM Japanese; Japanese (Shift-JIS)
+        936 => 'gb2312',    // ANSI/OEM Simplified Chinese (PRC, Singapore); Chinese Simplified (GB2312)
+        950 => 'big5',      // ANSI/OEM Traditional Chinese (Taiwan; Hong Kong SAR, PRC); Chinese Traditional (Big5)
+        1026 => 'IBM1026',      // IBM EBCDIC Turkish (Latin 5)
+        1047 => 'IBM01047',     // IBM EBCDIC Latin 1/Open System
+        1140 => 'IBM01140',     // IBM EBCDIC US-Canada (037 + Euro symbol); IBM EBCDIC (US-Canada-Euro)
+        1141 => 'IBM01141',     // IBM EBCDIC Germany (20273 + Euro symbol); IBM EBCDIC (Germany-Euro)
+        1142 => 'IBM01142',     // IBM EBCDIC Denmark-Norway (20277 + Euro symbol); IBM EBCDIC (Denmark-Norway-Euro)
+        1143 => 'IBM01143',     // IBM EBCDIC Finland-Sweden (20278 + Euro symbol); IBM EBCDIC (Finland-Sweden-Euro)
+        1144 => 'IBM01144',     // IBM EBCDIC Italy (20280 + Euro symbol); IBM EBCDIC (Italy-Euro)
+        1145 => 'IBM01145',     // IBM EBCDIC Latin America-Spain (20284 + Euro symbol); IBM EBCDIC (Spain-Euro)
+        1146 => 'IBM01146',     // IBM EBCDIC United Kingdom (20285 + Euro symbol); IBM EBCDIC (UK-Euro)
+        1147 => 'IBM01147',     // IBM EBCDIC France (20297 + Euro symbol); IBM EBCDIC (France-Euro)
+        1148 => 'IBM01148',     // IBM EBCDIC International (500 + Euro symbol); IBM EBCDIC (International-Euro)
+        1149 => 'IBM01149',     // IBM EBCDIC Icelandic (20871 + Euro symbol); IBM EBCDIC (Icelandic-Euro)
+        1200 => 'UTF-16',       // Unicode UTF-16, little endian byte order (BMP of ISO 10646); available only to managed applications
+        1201 => 'UTF-16BE',     // Unicode UTF-16, big endian byte order; available only to managed applications
+        1250 => 'windows-1250', // ANSI Central European; Central European (Windows)
+        1251 => 'windows-1251', // ANSI Cyrillic; Cyrillic (Windows)
+        1252 => 'windows-1252', // ANSI Latin 1; Western European (Windows)
+        1253 => 'windows-1253', // ANSI Greek; Greek (Windows)
+        1254 => 'windows-1254', // ANSI Turkish; Turkish (Windows)
+        1255 => 'windows-1255', // ANSI Hebrew; Hebrew (Windows)
+        1256 => 'windows-1256', // ANSI Arabic; Arabic (Windows)
+        1257 => 'windows-1257', // ANSI Baltic; Baltic (Windows)
+        1258 => 'windows-1258', // ANSI/OEM Vietnamese; Vietnamese (Windows)
         10000 => 'macintosh',   // MAC Roman; Western European (Mac)
         12000 => 'UTF-32',      // Unicode UTF-32, little endian byte order; available only to managed applications
         12001 => 'UTF-32BE',    // Unicode UTF-32, big endian byte order; available only to managed applications
@@ -244,8 +244,8 @@ class rcube_charset
         // LATIN
         elseif (preg_match('/LATIN(.*)/', $str, $m)) {
             $aliases = ['2' => 2, '3' => 3, '4' => 4, '5' => 9, '6' => 10,
-                '7'         => 13, '8' => 14, '9' => 15, '10' => 16,
-                'ARABIC'    => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8,
+                '7' => 13, '8' => 14, '9' => 15, '10' => 16,
+                'ARABIC' => 6, 'CYRILLIC' => 5, 'GREEK' => 7, 'GREEK1' => 7, 'HEBREW' => 8,
             ];
 
             // some clients sends windows-1252 text as latin1,
@@ -277,7 +277,7 @@ class rcube_charset
     {
         static $iconv_options;
 
-        $to   = empty($to) ? RCUBE_CHARSET : self::parse_charset($to);
+        $to = empty($to) ? RCUBE_CHARSET : self::parse_charset($to);
         $from = self::parse_charset($from);
 
         // It is a common case when UTF-16 charset is used with US-ASCII content (#1488654)
@@ -290,7 +290,7 @@ class rcube_charset
             return $str;
         }
 
-        $out           = false;
+        $out = false;
         $error_handler = static function () { throw new Exception(); };
 
         // Ignore invalid characters
@@ -522,7 +522,7 @@ class rcube_charset
         }
 
         if (empty($language)) {
-            $rcube    = rcube::get_instance();
+            $rcube = rcube::get_instance();
             $language = $rcube->get_user_language();
         }
 

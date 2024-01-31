@@ -25,8 +25,8 @@ class Framework_Smtp extends TestCase
         $smtp = new rcube_smtp();
 
         $headers = [
-            'Subject'  => 'Test',
-            'From'     => '"John Doe" <john@domain.tld>',
+            'Subject' => 'Test',
+            'From' => '"John Doe" <john@domain.tld>',
             'Received' => 'from github.com ([10.48.109.45]) by smtp.github.com (Postfix) with ESMTPA id 8C9B4E0075'
                 . ' for <john@domain.tld>; Sat, 28 Nov 2020 22:45:44 -0800 (PST)',
         ];
@@ -49,8 +49,8 @@ class Framework_Smtp extends TestCase
      */
     public function test_parse_rfc822()
     {
-        $smtp   = new rcube_smtp();
-        $input  = 'test@test1.com, "test" <test@test2.pl>, "test@test3.eu" <test@test3.uk>';
+        $smtp = new rcube_smtp();
+        $input = 'test@test1.com, "test" <test@test2.pl>, "test@test3.eu" <test@test3.uk>';
         $result = invokeMethod($smtp, '_parse_rfc822', [$input]);
 
         $this->assertSame(['test@test1.com', 'test@test2.pl', 'test@test3.uk'], $result);

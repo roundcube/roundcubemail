@@ -14,7 +14,7 @@ class Markasjunk_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new markasjunk($rcube->plugins);
 
         $this->assertInstanceOf('markasjunk', $plugin);
@@ -26,7 +26,7 @@ class Markasjunk_Plugin extends TestCase
      */
     public function test_init_driver()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new markasjunk($rcube->plugins);
 
         $drivers = ['amavis_blacklist', 'cmd_learn', 'dir_learn', 'edit_headers', 'email_learn',

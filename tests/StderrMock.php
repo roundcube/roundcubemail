@@ -45,7 +45,7 @@ class StderrMock extends php_user_filter
             self::$registered = true;
         }
 
-        self::$output   = '';
+        self::$output = '';
         self::$redirect = stream_filter_prepend(\STDERR, 'redirect', \STREAM_FILTER_WRITE);
     }
 

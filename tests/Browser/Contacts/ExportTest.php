@@ -23,8 +23,8 @@ class ExportTest extends TestCase
 
             // Parse the downloaded vCard file
             $vcard_content = $browser->readDownloadedFile('contacts.vcf');
-            $vcard         = new \rcube_vcard();
-            $contacts      = $vcard->import($vcard_content);
+            $vcard = new \rcube_vcard();
+            $contacts = $vcard->import($vcard_content);
 
             $this->assertCount(2, $contacts);
             $this->assertSame('John Doe', $contacts[0]->displayname);
@@ -47,8 +47,8 @@ class ExportTest extends TestCase
             $browser->clickToolbarMenuItem('export', 'export.select');
 
             $vcard_content = $browser->readDownloadedFile('contacts.vcf');
-            $vcard         = new \rcube_vcard();
-            $contacts      = $vcard->import($vcard_content);
+            $vcard = new \rcube_vcard();
+            $contacts = $vcard->import($vcard_content);
 
             // Parse the downloaded vCard file
             $this->assertCount(1, $contacts);

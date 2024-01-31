@@ -31,7 +31,7 @@ class rcube_mailcow_password
     {
         $rcmail = rcmail::get_instance();
 
-        $host  = $rcmail->config->get('password_mailcow_api_host');
+        $host = $rcmail->config->get('password_mailcow_api_host');
         $token = $rcmail->config->get('password_mailcow_api_token');
 
         try {
@@ -39,12 +39,12 @@ class rcube_mailcow_password
 
             $headers = [
                 'X-API-Key' => $token,
-                'accept'    => 'application/json',
+                'accept' => 'application/json',
             ];
 
             $cowdata = [
                 'attr' => [
-                    'password'  => $passwd,
+                    'password' => $passwd,
                     'password2' => $passwd,
                 ],
                 'items' => [$username],
@@ -56,7 +56,7 @@ class rcube_mailcow_password
 
             $response = $client->post("{$host}/api/v1/edit/mailbox", [
                 'headers' => $headers,
-                'json'    => $cowdata,
+                'json' => $cowdata,
             ]);
 
             $cowreply = json_decode($response->getBody(), true);
@@ -71,7 +71,7 @@ class rcube_mailcow_password
         }
 
         rcube::raise_error([
-            'code'    => 600, 'file' => __FILE__, 'line' => __LINE__,
+            'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
             'message' => "Password plugin: Problem with Mailcow API: {$result}",
         ], true, false);
 

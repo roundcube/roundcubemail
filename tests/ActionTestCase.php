@@ -32,8 +32,8 @@ class ActionTestCase extends TestCase
 
     protected function setUp(): void
     {
-        $_GET     = [];
-        $_POST    = [];
+        $_GET = [];
+        $_POST = [];
         $_REQUEST = [];
     }
 
@@ -55,7 +55,7 @@ class ActionTestCase extends TestCase
     {
         $rcmail = rcmail::get_instance();
 
-        $rcmail->task   = $task;
+        $rcmail->task = $task;
         $rcmail->action = $action;
 
         if ($mode == rcmail_action::MODE_AJAX) {
@@ -83,8 +83,8 @@ class ActionTestCase extends TestCase
     public static function initDB($file = null)
     {
         $rcmail = rcmail::get_instance();
-        $dsn    = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
-        $db     = $rcmail->get_dbh();
+        $dsn = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
+        $db = $rcmail->get_dbh();
 
         if ($file) {
             self::loadSQLScript($db, $file);
@@ -134,7 +134,7 @@ class ActionTestCase extends TestCase
      */
     public static function initSession()
     {
-        $rcmail          = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $rcmail->session = new rcube_session_php($rcmail->config);
     }
 
@@ -145,7 +145,7 @@ class ActionTestCase extends TestCase
      */
     public static function mockStorage()
     {
-        $rcmail          = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $rcmail->storage = new StorageMock();
 
         return $rcmail->storage;
@@ -173,13 +173,13 @@ class ActionTestCase extends TestCase
     protected function fakeUpload($name = '_file', $is_array = true, $error = 0)
     {
         $content = base64_decode(rcmail_output::BLANK_GIF);
-        $file    = [
-            'name'     => 'test.gif',
-            'type'     => 'image/gif',
+        $file = [
+            'name' => 'test.gif',
+            'type' => 'image/gif',
             'tmp_name' => $this->createTempFile($content),
-            'error'    => $error,
-            'size'     => strlen($content),
-            'id'       => 'i' . microtime(true),
+            'error' => $error,
+            'size' => strlen($content),
+            'id' => 'i' . microtime(true),
         ];
 
         // Attachments handling plugins use move_uploaded_file() which does not work
@@ -187,7 +187,7 @@ class ActionTestCase extends TestCase
         $rcmail = rcmail::get_instance();
         $rcmail->plugins->register_hook('attachment_upload', static function ($att) use ($file) {
             $att['status'] = true;
-            $att['id']     = $file['id'];
+            $att['id'] = $file['id'];
             return $att;
         });
 
@@ -195,12 +195,12 @@ class ActionTestCase extends TestCase
 
         if ($is_array) {
             $_FILES[$name] = [
-                'name'     => [$file['name']],
-                'type'     => [$file['type']],
+                'name' => [$file['name']],
+                'type' => [$file['type']],
                 'tmp_name' => [$file['tmp_name']],
-                'error'    => [$file['error']],
-                'size'     => [$file['size']],
-                'id'       => [$file['id']],
+                'error' => [$file['error']],
+                'size' => [$file['size']],
+                'id' => [$file['id']],
             ];
         } else {
             $_FILES[$name] = $file;
@@ -215,12 +215,12 @@ class ActionTestCase extends TestCase
     protected function fileUpload($group)
     {
         $content = base64_decode(rcmail_output::BLANK_GIF);
-        $file    = [
-            'name'  => 'test.gif',
-            'type'  => 'image/gif',
-            'size'  => strlen($content),
+        $file = [
+            'name' => 'test.gif',
+            'type' => 'image/gif',
+            'size' => strlen($content),
             'group' => $group,
-            'id'    => 'i' . microtime(true),
+            'id' => 'i' . microtime(true),
         ];
 
         // Attachments handling plugins use move_uploaded_file() which does not work
@@ -228,7 +228,7 @@ class ActionTestCase extends TestCase
         $rcmail = rcmail::get_instance();
         $rcmail->plugins->register_hook('attachment_upload', static function ($att) use ($file) {
             $att['status'] = true;
-            $att['id']     = $file['id'];
+            $att['id'] = $file['id'];
             return $att;
         });
 

@@ -36,7 +36,7 @@ class GroupsTest extends TestCase
 
             $browser->with(new Popupmenu('groupoptions-menu'), static function ($browser) {
                 // Note: These are button class names, not action names
-                $active   = ['create'];
+                $active = ['create'];
                 $disabled = ['group.rename', 'group.delete', 'search', 'search.delete'];
 
                 $browser->assertMenuState($active, $disabled);

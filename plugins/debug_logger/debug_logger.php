@@ -74,15 +74,15 @@ class debug_logger extends rcube_plugin
         }
 
         $log_config = rcmail::get_instance()->config->get('debug_logger', []);
-        $log_dir    = rcmail::get_instance()->config->get('log_dir');
+        $log_dir = rcmail::get_instance()->config->get('log_dir');
 
         foreach ($log_config as $type => $file) {
             $this->runlog->set_file($log_dir . '/' . $file, $type);
         }
 
         $start_string = '';
-        $action       = rcmail::get_instance()->action;
-        $task         = rcmail::get_instance()->task;
+        $action = rcmail::get_instance()->action;
+        $task = rcmail::get_instance()->task;
 
         if ($action) {
             $start_string .= "Action: {$action}. ";
@@ -113,7 +113,7 @@ class debug_logger extends rcube_plugin
         } else {
             // This could be extended to detect types based on the
             // file which called console. For now only rcube_imap/rcube_storage is supported
-            $bt   = debug_backtrace();
+            $bt = debug_backtrace();
             $file = count($bt) >= 2 ? $bt[2]['file'] : '';
 
             switch (basename($file)) {

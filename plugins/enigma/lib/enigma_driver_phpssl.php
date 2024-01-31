@@ -22,8 +22,8 @@ class enigma_driver_phpssl extends enigma_driver
 
     public function __construct($user)
     {
-        $rcmail     = rcmail::get_instance();
-        $this->rc   = $rcmail;
+        $rcmail = rcmail::get_instance();
+        $this->rc = $rcmail;
         $this->user = $user;
     }
 
@@ -163,12 +163,12 @@ class enigma_driver_phpssl extends enigma_driver
 
         $data = new enigma_signature();
 
-        $data->id          = $cert['hash']; // ?
-        $data->valid       = $validity;
+        $data->id = $cert['hash']; // ?
+        $data->valid = $validity;
         $data->fingerprint = $cert['serialNumber'];
-        $data->created     = $cert['validFrom_time_t'];
-        $data->expires     = $cert['validTo_time_t'];
-        $data->name        = $cert['subject']['CN'];
+        $data->created = $cert['validFrom_time_t'];
+        $data->expires = $cert['validTo_time_t'];
+        $data->name = $cert['subject']['CN'];
         // $data->comment     = '';
         $data->email = $cert['subject']['emailAddress'];
 

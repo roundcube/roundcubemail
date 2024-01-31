@@ -22,7 +22,7 @@ class Framework_ResultThread extends TestCase
      */
     public function test_parse_thread()
     {
-        $text   = file_get_contents(__DIR__ . '/../src/imap_thread.txt');
+        $text = file_get_contents(__DIR__ . '/../src/imap_thread.txt');
         $object = new rcube_result_thread('INBOX', $text);
 
         $this->assertFalse($object->is_empty(), 'Object is empty');
@@ -37,7 +37,7 @@ class Framework_ResultThread extends TestCase
         $this->assertSame(1719, $object->get_element('LAST'), 'Get last element');
         $this->assertSame(14, (int) $object->get_element(2), 'Get specified element');
 
-        $tree     = $object->get_tree();
+        $tree = $object->get_tree();
         $expected = [
             4 => [
                 18 => [

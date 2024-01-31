@@ -16,7 +16,7 @@ class Actions_Mail_Search extends ActionTestCase
         $this->assertTrue($action->checks());
 
         $_GET = [
-            '_q'    => 'test',
+            '_q' => 'test',
             '_mbox' => 'INBOX',
         ];
 
@@ -59,7 +59,7 @@ class Actions_Mail_Search extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'search');
 
         $_GET = [
-            '_q'    => 'test',
+            '_q' => 'test',
             '_mbox' => 'INBOX',
         ];
 
@@ -77,13 +77,13 @@ class Actions_Mail_Search extends ActionTestCase
             ->registerFunction('get_folder', 'INBOX')
             ->registerFunction('list_messages', [
                 10 => rcube_message_header::from_array([
-                    'id'           => 42,
-                    'uid'          => 10,
-                    'subject'      => 'test message',
-                    'from'         => 'test1@test.com',
-                    'to'           => 'Test <test2@test.com>',
-                    'date'         => 'Sun, 13 Mar 2022 17:08:18 +0100',
-                    'size'         => 889,
+                    'id' => 42,
+                    'uid' => 10,
+                    'subject' => 'test message',
+                    'from' => 'test1@test.com',
+                    'to' => 'Test <test2@test.com>',
+                    'date' => 'Sun, 13 Mar 2022 17:08:18 +0100',
+                    'size' => 889,
                     'content-type' => 'text/plain',
                 ]),
             ])
@@ -115,7 +115,7 @@ class Actions_Mail_Search extends ActionTestCase
      */
     public function provide_search_input_cases(): iterable
     {
-        $week     = new DateInterval('P1W');
+        $week = new DateInterval('P1W');
         $weekDate = (new DateTime('now', new DateTimeZone('UTC')))->sub($week)->format('j-M-Y');
 
         return [
@@ -301,9 +301,9 @@ class Actions_Mail_Search extends ActionTestCase
      */
     public function provide_search_interval_criteria_cases(): iterable
     {
-        $week  = new DateInterval('P1W');
+        $week = new DateInterval('P1W');
         $month = new DateInterval('P1M');
-        $year  = new DateInterval('P1Y');
+        $year = new DateInterval('P1Y');
 
         $utcTz = new DateTimeZone('UTC');
 

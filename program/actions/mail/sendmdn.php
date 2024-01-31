@@ -78,11 +78,11 @@ class rcmail_action_mail_sendmdn extends rcmail_action
         if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT'])
             && ($rcmail->storage->check_permflag('MDNSENT') || $rcmail->storage->check_permflag('*'))
         ) {
-            $charset   = $message->headers->charset;
-            $identity  = rcmail_sendmail::identity_select($message);
-            $sender    = format_email_recipient($identity['email'], $identity['name']);
+            $charset = $message->headers->charset;
+            $identity = rcmail_sendmail::identity_select($message);
+            $sender = format_email_recipient($identity['email'], $identity['name']);
             $recipient = array_first(rcube_mime::decode_address_list($message->headers->mdn_to, 1, true, $charset));
-            $mailto    = $recipient['mailto'];
+            $mailto = $recipient['mailto'];
 
             $compose = new Mail_mime("\r\n");
 
@@ -95,13 +95,13 @@ class rcmail_action_mail_sendmdn extends rcmail_action
 
             // compose headers array
             $headers = [
-                'Date'        => $rcmail->user_date(),
-                'From'        => $sender,
-                'To'          => $message->headers->mdn_to,
-                'Subject'     => $rcmail->gettext('receiptread') . ': ' . $message->subject,
-                'Message-ID'  => $rcmail->gen_message_id($identity['email']),
-                'X-Sender'    => $identity['email'],
-                'References'  => trim($message->headers->references . ' ' . $message->headers->messageID),
+                'Date' => $rcmail->user_date(),
+                'From' => $sender,
+                'To' => $message->headers->mdn_to,
+                'Subject' => $rcmail->gettext('receiptread') . ': ' . $message->subject,
+                'Message-ID' => $rcmail->gen_message_id($identity['email']),
+                'X-Sender' => $identity['email'],
+                'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
                 'In-Reply-To' => $message->headers->messageID,
             ];
 
@@ -118,7 +118,7 @@ class rcmail_action_mail_sendmdn extends rcmail_action
                 $report .= "Reporting-UA: {$agent}\r\n";
             }
 
-            $to   = rcube_mime::decode_mime_string($message->headers->to, $charset);
+            $to = rcube_mime::decode_mime_string($message->headers->to, $charset);
             $date = $rcmail->format_date($message->headers->date, $rcmail->config->get('date_long'));
             $body = $rcmail->gettext('yourmessage') . "\r\n\r\n" .
                 "\t" . $rcmail->gettext('to') . ": {$to}\r\n" .

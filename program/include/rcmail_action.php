@@ -110,7 +110,7 @@ abstract class rcmail_action
     public static function table_output($attrib, $table_data, $show_cols, $id_col)
     {
         $rcmail = rcmail::get_instance();
-        $table  = new html_table($attrib);
+        $table = new html_table($attrib);
 
         // add table header
         if (empty($attrib['noheader'])) {
@@ -187,11 +187,11 @@ abstract class rcmail_action
     public static function quota_content($attrib = null, $folder = null)
     {
         $rcmail = rcmail::get_instance();
-        $quota  = $rcmail->storage->get_quota($folder);
-        $quota  = $rcmail->plugins->exec_hook('quota', $quota);
+        $quota = $rcmail->storage->get_quota($folder);
+        $quota = $rcmail->plugins->exec_hook('quota', $quota);
 
-        $quota_result           = (array) $quota;
-        $quota_result['type']   = $_SESSION['quota_display'] ?? '';
+        $quota_result = (array) $quota;
+        $quota_result['type'] = $_SESSION['quota_display'] ?? '';
         $quota_result['folder'] = $folder !== null && $folder !== '' ? $folder : 'INBOX';
 
         if (!empty($quota['total']) && $quota['total'] > 0) {
@@ -246,8 +246,8 @@ abstract class rcmail_action
                 $quota_result['table'] = $table->show();
             }
         } else {
-            $unlimited               = $rcmail->config->get('quota_zero_as_unlimited');
-            $quota_result['title']   = $rcmail->gettext($unlimited ? 'unlimited' : 'unknown');
+            $unlimited = $rcmail->config->get('quota_zero_as_unlimited');
+            $quota_result['title'] = $rcmail->gettext($unlimited ? 'unlimited' : 'unknown');
             $quota_result['percent'] = 0;
         }
 
@@ -270,11 +270,11 @@ abstract class rcmail_action
      */
     public static function display_server_error($fallback = null, $fallback_args = null, $suffix = '', $params = [])
     {
-        $rcmail   = rcmail::get_instance();
-        $storage  = $rcmail->get_storage();
+        $rcmail = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
         $err_code = $storage->get_error_code();
         $res_code = $storage->get_response_code();
-        $args     = [];
+        $args = [];
 
         if ($res_code == rcube_storage::NOPERM) {
             $error = 'errornoperm';
@@ -293,13 +293,13 @@ abstract class rcmail_action
                 $error = 'erroroverquota';
             } else {
                 $error = 'servererrormsg';
-                $args  = ['msg' => rcube::Q($err_str)];
+                $args = ['msg' => rcube::Q($err_str)];
             }
         } elseif ($err_code < 0) {
             $error = 'storageerror';
         } elseif ($fallback) {
-            $error            = $fallback;
-            $args             = $fallback_args;
+            $error = $fallback;
+            $args = $fallback_args;
             $params['prefix'] = false;
         }
 
@@ -323,7 +323,7 @@ abstract class rcmail_action
      */
     public static function storage_fatal_error()
     {
-        $rcmail   = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $err_code = $rcmail->storage->get_error_code();
 
         switch ($err_code) {
@@ -344,34 +344,34 @@ abstract class rcmail_action
      */
     public static function html_editor($mode = '', $editorId = null)
     {
-        $rcmail           = rcmail::get_instance();
-        $spellcheck       = intval($rcmail->config->get('enable_spellcheck'));
-        $spelldict        = intval($rcmail->config->get('spellcheck_dictionary'));
+        $rcmail = rcmail::get_instance();
+        $spellcheck = intval($rcmail->config->get('enable_spellcheck'));
+        $spelldict = intval($rcmail->config->get('spellcheck_dictionary'));
         $disabled_plugins = [];
         $disabled_buttons = [];
-        $extra_plugins    = [];
-        $extra_buttons    = [];
+        $extra_plugins = [];
+        $extra_buttons = [];
 
         if (!$spellcheck) {
             $disabled_plugins[] = 'spellchecker';
         }
 
         $hook = $rcmail->plugins->exec_hook('html_editor', [
-            'mode'             => $mode,
+            'mode' => $mode,
             'disabled_plugins' => $disabled_plugins,
             'disabled_buttons' => $disabled_buttons,
-            'extra_plugins'    => $extra_plugins,
-            'extra_buttons'    => $extra_buttons,
+            'extra_plugins' => $extra_plugins,
+            'extra_buttons' => $extra_buttons,
         ]);
 
         if (!empty($hook['abort'])) {
             return;
         }
 
-        $language   = $_SESSION['language'] ?? 'en_US';
+        $language = $_SESSION['language'] ?? 'en_US';
         $lang_codes = [$language];
         $assets_dir = $rcmail->config->get('assets_dir') ?: INSTALL_PATH;
-        $skin_path  = $rcmail->output->get_skin_path();
+        $skin_path = $rcmail->output->get_skin_path();
 
         if ($pos = strpos($language, '_')) {
             $lang_codes[] = substr($language, 0, $pos);
@@ -389,18 +389,18 @@ abstract class rcmail_action
         }
 
         $config = [
-            'mode'             => $mode,
-            'lang'             => $lang,
-            'skin_path'        => $skin_path,
-            'spellcheck'       => $spellcheck, // deprecated
-            'spelldict'        => $spelldict,
-            'font_formats'     => self::font_defs(),
+            'mode' => $mode,
+            'lang' => $lang,
+            'skin_path' => $skin_path,
+            'spellcheck' => $spellcheck, // deprecated
+            'spelldict' => $spelldict,
+            'font_formats' => self::font_defs(),
             'fontsize_formats' => self::fontsize_defs(),
-            'content_css'      => 'program/resources/tinymce/content.css',
+            'content_css' => 'program/resources/tinymce/content.css',
             'disabled_plugins' => $hook['disabled_plugins'],
             'disabled_buttons' => $hook['disabled_buttons'],
-            'extra_plugins'    => $hook['extra_plugins'],
-            'extra_buttons'    => $hook['extra_buttons'],
+            'extra_plugins' => $hook['extra_plugins'],
+            'extra_buttons' => $hook['extra_buttons'],
         ];
 
         if ($path = $rcmail->config->get('editor_css_location')) {
@@ -410,8 +410,8 @@ abstract class rcmail_action
         }
 
         $font_family = $rcmail->output->get_env('default_font');
-        $font_size   = $rcmail->output->get_env('default_font_size');
-        $style       = [];
+        $font_size = $rcmail->output->get_env('default_font_size');
+        $style = [];
 
         if ($font_family) {
             $style[] = "font-family: {$font_family};";
@@ -514,37 +514,37 @@ abstract class rcmail_action
         // set defaults
         $attrib += ['id' => 'rcmUploadbox', 'buttons' => 'yes'];
 
-        $event   = rcmail_output::JS_OBJECT_NAME . ".command('{$action}', this.form)";
+        $event = rcmail_output::JS_OBJECT_NAME . ".command('{$action}', this.form)";
         $form_id = $attrib['id'] . 'Frm';
 
         // Default attributes of file input and form
         $input_attr += [
-            'id'    => $attrib['id'] . 'Input',
-            'type'  => 'file',
-            'name'  => '_attachments[]',
+            'id' => $attrib['id'] . 'Input',
+            'type' => 'file',
+            'name' => '_attachments[]',
             'class' => 'form-control',
         ];
 
         $form_attr = [
-            'id'      => $form_id,
-            'name'    => $name,
-            'method'  => 'post',
+            'id' => $form_id,
+            'name' => $name,
+            'method' => 'post',
             'enctype' => 'multipart/form-data',
         ];
 
         if (!empty($attrib['mode']) && $attrib['mode'] == 'smart') {
             unset($attrib['buttons']);
             $form_attr['class'] = 'smart-upload';
-            $input_attr         = array_merge($input_attr, [
+            $input_attr = array_merge($input_attr, [
                 // #5854: Chrome does not execute onchange when selecting the same file.
                 //        To fix this we reset the input using null value.
                 'onchange' => "{$event}; this.value=null",
-                'class'    => 'smart-upload',
+                'class' => 'smart-upload',
                 'tabindex' => '-1',
             ]);
         }
 
-        $input   = new html_inputfield($input_attr);
+        $input = new html_inputfield($input_attr);
         $content = ($attrib['prefix'] ?? '') . $input->show();
 
         if (empty($attrib['mode']) || $attrib['mode'] != 'smart') {
@@ -582,7 +582,7 @@ abstract class rcmail_action
             $msg = $attachment['error'];
         } elseif ($php_error == \UPLOAD_ERR_INI_SIZE || $php_error == \UPLOAD_ERR_FORM_SIZE) {
             $post_size = self::show_bytes(rcube_utils::max_upload_size());
-            $msg       = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $post_size]]);
+            $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $post_size]]);
         } else {
             $msg = $rcmail->gettext('fileuploaderror');
         }
@@ -642,7 +642,7 @@ abstract class rcmail_action
             return;
         }
 
-        $init   = 1;
+        $init = 1;
         $rcmail = rcmail::get_instance();
 
         if (($threads = (int) $rcmail->config->get('autocomplete_threads')) > 0) {
@@ -717,18 +717,18 @@ abstract class rcmail_action
 
         if ($bytes >= 1073741824) {
             $unit = 'GB';
-            $gb   = $bytes / 1073741824;
-            $str  = sprintf($gb >= 10 ? '%d ' : '%.1f ', $gb) . $rcmail->gettext($unit);
+            $gb = $bytes / 1073741824;
+            $str = sprintf($gb >= 10 ? '%d ' : '%.1f ', $gb) . $rcmail->gettext($unit);
         } elseif ($bytes >= 1048576) {
             $unit = 'MB';
-            $mb   = $bytes / 1048576;
-            $str  = sprintf($mb >= 10 ? '%d ' : '%.1f ', $mb) . $rcmail->gettext($unit);
+            $mb = $bytes / 1048576;
+            $str = sprintf($mb >= 10 ? '%d ' : '%.1f ', $mb) . $rcmail->gettext($unit);
         } elseif ($bytes >= 1024) {
             $unit = 'KB';
-            $str  = sprintf('%d ', round($bytes / 1024)) . $rcmail->gettext($unit);
+            $str = sprintf('%d ', round($bytes / 1024)) . $rcmail->gettext($unit);
         } else {
             $unit = 'B';
-            $str  = sprintf('%d ', $bytes) . $rcmail->gettext($unit);
+            $str = sprintf('%d ', $bytes) . $rcmail->gettext($unit);
         }
 
         return $str;
@@ -781,7 +781,7 @@ abstract class rcmail_action
         // message UID (or comma-separated list of IDs) is provided in
         // the form of <ID>-<MBOX>[,<ID>-<MBOX>]*
 
-        $_uid  = $uids ?: rcube_utils::get_input_value('_uid', $mode ?: rcube_utils::INPUT_GPC, true);
+        $_uid = $uids ?: rcube_utils::get_input_value('_uid', $mode ?: rcube_utils::INPUT_GPC, true);
         $_mbox = $mbox ?: rcube_utils::get_input_string('_mbox', $mode ?: rcube_utils::INPUT_GPC, true);
 
         // already a hash array
@@ -790,14 +790,14 @@ abstract class rcmail_action
         }
 
         $is_multifolder = false;
-        $result         = [];
+        $result = [];
 
         // special case: *
         if ($_uid == '*' && !empty($_SESSION['search'][1]) && !empty($_SESSION['search'][1]->multi)) {
             $is_multifolder = true;
             // extract the full list of UIDs per folder from the search set
             foreach ($_SESSION['search'][1]->sets as $subset) {
-                $mbox          = $subset->get_parameters('MAILBOX');
+                $mbox = $subset->get_parameters('MAILBOX');
                 $result[$mbox] = $subset->get();
             }
         } else {
@@ -808,12 +808,12 @@ abstract class rcmail_action
             // create a per-folder UIDs array
             foreach ((array) $_uid as $uid) {
                 $tokens = explode('-', $uid, 2);
-                $uid    = $tokens[0];
+                $uid = $tokens[0];
 
                 if (!isset($tokens[1]) || !strlen($tokens[1])) {
                     $mbox = $_mbox;
                 } else {
-                    $mbox           = $tokens[1];
+                    $mbox = $tokens[1];
                     $is_multifolder = true;
                 }
 
@@ -873,11 +873,11 @@ abstract class rcmail_action
 
         if (empty(self::$edit_form)) {
             $request_key = $action . (isset($id) ? '.' . $id : '');
-            $form_start  = $rcmail->output->request_form([
-                'name'    => 'form',
-                'method'  => 'post',
-                'task'    => $rcmail->task,
-                'action'  => $action,
+            $form_start = $rcmail->output->request_form([
+                'name' => 'form',
+                'method' => 'post',
+                'task' => $rcmail->task,
+                'action' => $action,
                 'request' => $request_key,
                 'noclose' => true,
             ] + $attrib);
@@ -887,7 +887,7 @@ abstract class rcmail_action
                 $form_start .= $hiddenfields->show();
             }
 
-            $form_end        = empty($attrib['form']) ? '</form>' : '';
+            $form_end = empty($attrib['form']) ? '</form>' : '';
             self::$edit_form = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
             $rcmail->output->add_gui_object('editform', self::$edit_form);
@@ -921,8 +921,8 @@ abstract class rcmail_action
         }
 
         // get current folder
-        $rcmail    = rcmail::get_instance();
-        $storage   = $rcmail->get_storage();
+        $rcmail = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
         $mbox_name = $storage->get_folder();
         $delimiter = $storage->get_hierarchy_delimiter();
 
@@ -930,7 +930,7 @@ abstract class rcmail_action
         if (empty($a_mailboxes)) {
             // get mailbox list
             $a_mailboxes = [];
-            $a_folders   = $storage->list_folders_subscribed(
+            $a_folders = $storage->list_folders_subscribed(
                 '',
                 $attrib['folder_name'],
                 $attrib['folder_filter'] ?? null
@@ -943,18 +943,18 @@ abstract class rcmail_action
 
         // allow plugins to alter the folder tree or to localize folder names
         $hook = $rcmail->plugins->exec_hook('render_mailboxlist', [
-            'list'      => $a_mailboxes,
+            'list' => $a_mailboxes,
             'delimiter' => $delimiter,
-            'type'      => $type,
-            'attribs'   => $attrib,
+            'type' => $type,
+            'attribs' => $attrib,
         ]);
 
         $a_mailboxes = $hook['list'];
-        $attrib      = $hook['attribs'];
+        $attrib = $hook['attribs'];
 
         if ($type == 'select') {
             $attrib['is_escaped'] = true;
-            $select               = new html_select($attrib);
+            $select = new html_select($attrib);
 
             // add no-selection option
             if (!empty($attrib['noselection'])) {
@@ -963,14 +963,14 @@ abstract class rcmail_action
 
             $maxlength = $attrib['maxlength'] ?? null;
             $realnames = $attrib['realnames'] ?? null;
-            $default   = $attrib['default'] ?? null;
+            $default = $attrib['default'] ?? null;
 
             self::render_folder_tree_select($a_mailboxes, $mbox_name, $maxlength, $select, $realnames);
             $out = $select->show($default);
         } else {
-            $out            = '';
+            $out = '';
             $js_mailboxlist = [];
-            $tree           = self::render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib);
+            $tree = self::render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib);
 
             if ($type != 'js') {
                 $out = html::tag('ul', $attrib, $tree, html::$common_attrib);
@@ -1003,8 +1003,8 @@ abstract class rcmail_action
      */
     public static function folder_selector($p = [])
     {
-        $rcmail    = rcmail::get_instance();
-        $storage   = $rcmail->get_storage();
+        $rcmail = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
         $realnames = $rcmail->config->get('show_real_foldernames');
         $p += ['maxlength' => 100, 'realnames' => $realnames, 'is_escaped' => true];
         $a_mailboxes = [];
@@ -1031,7 +1031,7 @@ abstract class rcmail_action
         if (!empty($p['additional'])) {
             foreach ($p['additional'] as $add_folder) {
                 $add_items = explode($delimiter, $add_folder);
-                $folder    = '';
+                $folder = '';
                 while (count($add_items)) {
                     $folder .= array_shift($add_items);
 
@@ -1051,13 +1051,13 @@ abstract class rcmail_action
 
         // allow plugins to alter the folder tree or to localize folder names
         $hook = $rcmail->plugins->exec_hook('render_folder_selector', [
-            'list'      => $a_mailboxes,
+            'list' => $a_mailboxes,
             'delimiter' => $delimiter,
-            'attribs'   => $p,
+            'attribs' => $p,
         ]);
 
         $a_mailboxes = $hook['list'];
-        $p           = $hook['attribs'];
+        $p = $hook['attribs'];
 
         $select = new html_select($p);
 
@@ -1075,7 +1075,7 @@ abstract class rcmail_action
      */
     protected static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
 
         // Handle namespace prefix
@@ -1083,7 +1083,7 @@ abstract class rcmail_action
 
         if (!$path) {
             $n_folder = $folder;
-            $folder   = $storage->mod_folder($folder);
+            $folder = $storage->mod_folder($folder);
 
             if ($n_folder != $folder) {
                 $prefix = substr($n_folder, 0, -strlen($folder));
@@ -1093,7 +1093,7 @@ abstract class rcmail_action
         $pos = strpos($folder, $delm);
 
         if ($pos !== false) {
-            $subFolders    = substr($folder, $pos + 1);
+            $subFolders = substr($folder, $pos + 1);
             $currentFolder = substr($folder, 0, $pos);
 
             // sometimes folder has a delimiter as the last character
@@ -1105,17 +1105,17 @@ abstract class rcmail_action
                 $virtual = $arrFolders[$currentFolder]['virtual'];
             }
         } else {
-            $subFolders    = false;
+            $subFolders = false;
             $currentFolder = $folder;
-            $virtual       = false;
+            $virtual = false;
         }
 
         $path .= $prefix . $currentFolder;
 
         if (!isset($arrFolders[$currentFolder])) {
             $arrFolders[$currentFolder] = [
-                'id'      => $path,
-                'name'    => rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
+                'id' => $path,
+                'name' => rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
                 'virtual' => $virtual,
                 'folders' => [],
             ];
@@ -1133,7 +1133,7 @@ abstract class rcmail_action
      */
     protected static function render_folder_tree_html(&$arrFolders, &$mbox_name, &$jslist, $attrib, $nestLevel = 0)
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
 
         $maxlength = intval($attrib['maxlength']);
@@ -1144,11 +1144,11 @@ abstract class rcmail_action
 
         $out = '';
         foreach ($arrFolders as $folder) {
-            $title        = null;
+            $title = null;
             $folder_class = self::folder_classname($folder['id'], $folder['class'] ?? null);
             $is_collapsed = strpos($collapsed, '&' . rawurlencode($folder['id']) . '&') !== false;
-            $unread       = 0;
-            $realname     = $folder['realname'] ?? $realnames;
+            $unread = 0;
+            $realname = $folder['realname'] ?? $realnames;
 
             if ($msgcounts && !empty($msgcounts[$folder['id']]['UNSEEN'])) {
                 $unread = intval($msgcounts[$folder['id']]['UNSEEN']);
@@ -1171,7 +1171,7 @@ abstract class rcmail_action
 
             // make folder name safe for ids and class names
             $folder_id = rcube_utils::html_identifier($folder['id'], true);
-            $classes   = ['mailbox'];
+            $classes = ['mailbox'];
 
             // set special class for Sent, Drafts, Trash and Junk
             if ($folder_class) {
@@ -1188,18 +1188,18 @@ abstract class rcmail_action
                 $classes[] = 'unread';
             }
 
-            $js_name     = rcube::JQ($folder['id']);
-            $html_name   = rcube::Q($foldername) . ($unread ? html::span('unreadcount skip-content', sprintf($attrib['unreadwrap'], $unread)) : '');
+            $js_name = rcube::JQ($folder['id']);
+            $html_name = rcube::Q($foldername) . ($unread ? html::span('unreadcount skip-content', sprintf($attrib['unreadwrap'], $unread)) : '');
             $link_attrib = $folder['virtual'] ? [] : [
-                'href'    => $rcmail->url(['_mbox' => $folder['id']]),
+                'href' => $rcmail->url(['_mbox' => $folder['id']]),
                 'onclick' => sprintf("return %s.command('list','%s',this,event)", rcmail_output::JS_OBJECT_NAME, $js_name),
-                'rel'     => $folder['id'],
-                'title'   => $title,
+                'rel' => $folder['id'],
+                'title' => $title,
             ];
 
             $out .= html::tag('li', [
-                    'id'      => 'rcmli' . $folder_id,
-                    'class'   => implode(' ', $classes),
+                    'id' => 'rcmli' . $folder_id,
+                    'class' => implode(' ', $classes),
                     'noclose' => true,
                 ],
                 html::a($link_attrib, $html_name)
@@ -1210,8 +1210,8 @@ abstract class rcmail_action
             }
 
             $jslist[$folder['id']] = [
-                'id'      => $folder['id'],
-                'name'    => $foldername,
+                'id' => $folder['id'],
+                'name' => $foldername,
                 'virtual' => $folder['virtual'],
             ];
 
@@ -1235,8 +1235,8 @@ abstract class rcmail_action
      */
     protected static function render_folder_tree_select(&$arrFolders, &$mbox_name, $maxlength, &$select, $realnames = false, $nestLevel = 0, $opts = [])
     {
-        $out     = '';
-        $rcmail  = rcmail::get_instance();
+        $out = '';
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
 
         foreach ($arrFolders as $folder) {
@@ -1254,7 +1254,7 @@ abstract class rcmail_action
             }
 
             $folder_class = self::folder_classname($folder['id'], $folder['class'] ?? null);
-            $realname     = $folder['realname'] ?? $realnames;
+            $realname = $folder['realname'] ?? $realnames;
 
             if ($folder_class && !$realname && $rcmail->text_exists($folder_class)) {
                 $foldername = $rcmail->gettext($folder_class);
@@ -1292,7 +1292,7 @@ abstract class rcmail_action
         static $classes;
 
         if ($classes === null) {
-            $rcmail  = rcmail::get_instance();
+            $rcmail = rcmail::get_instance();
             $storage = $rcmail->get_storage();
             $classes = ['INBOX' => 'inbox'];
 
@@ -1331,14 +1331,14 @@ abstract class rcmail_action
      */
     public static function localize_foldername($name, $with_path = false, $path_remove = false)
     {
-        $rcmail    = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $realnames = $rcmail->config->get('show_real_foldernames');
 
         if (!$realnames && ($folder_class = self::folder_classname($name)) && $rcmail->text_exists($folder_class)) {
             return $rcmail->gettext($folder_class);
         }
 
-        $storage   = $rcmail->get_storage();
+        $storage = $rcmail->get_storage();
         $delimiter = $storage->get_hierarchy_delimiter();
 
         // Remove the path
@@ -1350,12 +1350,12 @@ abstract class rcmail_action
         }
         // try to localize path of the folder
         elseif ($with_path && !$realnames) {
-            $path  = explode($delimiter, $name);
+            $path = explode($delimiter, $name);
             $count = count($path);
 
             if ($count > 1) {
                 for ($i = 1; $i < $count; $i++) {
-                    $folder       = implode($delimiter, array_slice($path, 0, -$i));
+                    $folder = implode($delimiter, array_slice($path, 0, -$i));
                     $folder_class = self::folder_classname($folder);
 
                     if ($folder_class && $rcmail->text_exists($folder_class)) {
@@ -1376,11 +1376,11 @@ abstract class rcmail_action
      */
     public static function localize_folderpath($path)
     {
-        $rcmail          = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $protect_folders = $rcmail->config->get('protect_default_folders');
-        $delimiter       = $rcmail->storage->get_hierarchy_delimiter();
-        $path            = explode($delimiter, $path);
-        $result          = [];
+        $delimiter = $rcmail->storage->get_hierarchy_delimiter();
+        $path = explode($delimiter, $path);
+        $result = [];
 
         foreach ($path as $idx => $dir) {
             $directory = implode($delimiter, array_slice($path, 0, $idx + 1));

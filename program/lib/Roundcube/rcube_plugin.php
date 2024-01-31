@@ -85,9 +85,9 @@ abstract class rcube_plugin
      */
     public function __construct($api)
     {
-        $this->ID      = static::class;
-        $this->api     = $api;
-        $this->home    = $api->dir . $this->ID;
+        $this->ID = static::class;
+        $this->api = $api;
+        $this->home = $api->dir . $this->ID;
         $this->urlbase = $api->url . $this->ID . '/';
     }
 
@@ -159,7 +159,7 @@ abstract class rcube_plugin
 
         if (($is_local = is_file($fpath)) && !$rcube->config->load_from_file($fpath)) {
             rcube::raise_error([
-                'code'    => 527, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Failed to load config from {$fpath}",
             ], true, false);
             return false;
@@ -210,7 +210,7 @@ abstract class rcube_plugin
         // prepend domain to text keys and add to the application texts repository
         if (!empty($texts)) {
             $domain = $this->ID;
-            $add    = [];
+            $add = [];
 
             foreach ($texts as $key => $value) {
                 $add[$domain . '.' . $key] = $value;
@@ -384,8 +384,8 @@ abstract class rcube_plugin
      */
     public function local_skin_path($extra_dir = null, $skin_name = null)
     {
-        $rcube     = rcube::get_instance();
-        $skins     = array_keys((array) $rcube->output->skins);
+        $rcube = rcube::get_instance();
+        $skins = array_keys((array) $rcube->output->skins);
         $skin_path = '';
 
         if (empty($skins)) {

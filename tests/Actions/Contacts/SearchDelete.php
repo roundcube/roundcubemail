@@ -39,10 +39,10 @@ class Actions_Contacts_Search_Delete extends ActionTestCase
 
         self::initDB('searches');
 
-        $db     = rcmail::get_instance()->get_dbh();
-        $query  = $db->query('SELECT * FROM `searches` WHERE `name` = \'test\'');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `searches` WHERE `name` = \'test\'');
         $result = $db->fetch_assoc($query);
-        $sid    = $result['search_id'];
+        $sid = $result['search_id'];
 
         $_POST = ['_sid' => $sid];
 
@@ -57,7 +57,7 @@ class Actions_Contacts_Search_Delete extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.remove_search_item("' . $sid . '")') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("No contacts found.");') !== false);
 
-        $query  = $db->query('SELECT * FROM `searches` WHERE `name` = \'test\'');
+        $query = $db->query('SELECT * FROM `searches` WHERE `name` = \'test\'');
         $result = $db->fetch_assoc($query);
 
         $this->assertTrue(empty($result));

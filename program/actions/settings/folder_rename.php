@@ -29,8 +29,8 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
      */
     public function run($args = [])
     {
-        $rcmail  = rcmail::get_instance();
-        $name    = trim(rcube_utils::get_input_string('_folder_newname', rcube_utils::INPUT_POST, true));
+        $rcmail = rcmail::get_instance();
+        $name = trim(rcube_utils::get_input_string('_folder_newname', rcube_utils::INPUT_POST, true));
         $oldname = rcube_utils::get_input_string('_folder_oldname', rcube_utils::INPUT_POST, true);
 
         if (strlen($name) && strlen($oldname)) {
@@ -48,7 +48,7 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
 
     public static function rename_folder($oldname, $newname)
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
 
         $plugin = $rcmail->plugins->exec_hook('folder_rename', [
@@ -62,9 +62,9 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
 
         // update per-folder options for modified folder and its subfolders
         if ($renamed) {
-            $delimiter  = $storage->get_hierarchy_delimiter();
+            $delimiter = $storage->get_hierarchy_delimiter();
             $a_threaded = (array) $rcmail->config->get('message_threading', []);
-            $oldprefix  = '/^' . preg_quote($oldname . $delimiter, '/') . '/';
+            $oldprefix = '/^' . preg_quote($oldname . $delimiter, '/') . '/';
 
             foreach ($a_threaded as $key => $val) {
                 if ($key == $oldname) {

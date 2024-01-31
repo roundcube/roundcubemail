@@ -28,9 +28,9 @@ class rcube_result_index
 
     protected $raw_data;
     protected $mailbox;
-    protected $meta   = [];
+    protected $meta = [];
     protected $params = [];
-    protected $order  = 'ASC';
+    protected $order = 'ASC';
 
     public const SEPARATOR_ELEMENT = ' ';
 
@@ -40,7 +40,7 @@ class rcube_result_index
     public function __construct($mailbox = null, $data = null, $order = null)
     {
         $this->mailbox = $mailbox;
-        $this->order   = $order == 'DESC' ? 'DESC' : 'ASC';
+        $this->order = $order == 'DESC' ? 'DESC' : 'ASC';
         $this->init($data);
     }
 
@@ -61,18 +61,18 @@ class rcube_result_index
             if (preg_match('/^ SORT/i', $data_item)) {
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
-                $data_item      = substr($data_item, 5);
+                $data_item = substr($data_item, 5);
                 break;
             } elseif (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
-                $data_item      = substr($data_item, strlen($m[0]));
+                $data_item = substr($data_item, strlen($m[0]));
 
                 if (strtoupper($m[1]) == 'ESEARCH') {
                     $data_item = trim($data_item);
                     // remove MODSEQ response
                     if (preg_match('/\(MODSEQ ([0-9]+)\)$/i', $data_item, $m)) {
-                        $data_item              = substr($data_item, 0, -strlen($m[0]));
+                        $data_item = substr($data_item, 0, -strlen($m[0]));
                         $this->params['MODSEQ'] = $m[1];
                     }
                     // remove TAG response part
@@ -88,7 +88,7 @@ class rcube_result_index
                         $value = $m[2];
 
                         $this->params[$param] = $value;
-                        $data_item            = substr($data_item, strlen($m[0]));
+                        $data_item = substr($data_item, strlen($m[0]));
 
                         if (in_array($param, ['COUNT', 'MIN', 'MAX'])) {
                             $this->meta[strtolower($param)] = (int) $value;
@@ -156,7 +156,7 @@ class rcube_result_index
         }
 
         if (empty($this->raw_data)) {
-            $this->meta['count']  = 0;
+            $this->meta['count'] = 0;
             $this->meta['length'] = 0;
         } else {
             $this->meta['count'] = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT);
@@ -189,7 +189,7 @@ class rcube_result_index
 
         if (!isset($this->meta['max'])) {
             $this->meta['max'] = null;
-            $all               = $this->get();
+            $all = $this->get();
             if (!empty($all)) {
                 $this->meta['max'] = (int) max($all);
             }
@@ -211,7 +211,7 @@ class rcube_result_index
 
         if (!isset($this->meta['min'])) {
             $this->meta['min'] = null;
-            $all               = $this->get();
+            $all = $this->get();
             if (!empty($all)) {
                 $this->meta['min'] = (int) min($all);
             }
@@ -231,9 +231,9 @@ class rcube_result_index
         $data = $this->get();
         $data = array_slice($data, $offset, $length);
 
-        $this->meta          = [];
+        $this->meta = [];
         $this->meta['count'] = count($data);
-        $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
+        $this->raw_data = implode(self::SEPARATOR_ELEMENT, $data);
     }
 
     /**
@@ -246,9 +246,9 @@ class rcube_result_index
         $data = $this->get();
         $data = array_intersect($data, $ids);
 
-        $this->meta          = [];
+        $this->meta = [];
         $this->meta['count'] = count($data);
-        $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
+        $this->raw_data = implode(self::SEPARATOR_ELEMENT, $data);
     }
 
     /**
@@ -262,8 +262,8 @@ class rcube_result_index
             return;
         }
 
-        $data           = $this->get();
-        $data           = array_reverse($data);
+        $data = $this->get();
+        $data = array_reverse($data);
         $this->raw_data = implode(self::SEPARATOR_ELEMENT, $data);
 
         $this->meta['pos'] = [];
@@ -287,7 +287,7 @@ class rcube_result_index
 
         $msgid = (int) $msgid;
         $begin = implode('|', ['^', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
-        $end   = implode('|', ['$', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
+        $end = implode('|', ['$', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
 
         if (preg_match("/({$begin}){$msgid}({$end})/", $this->raw_data, $m,
             $get_index ? \PREG_OFFSET_CAPTURE : 0)
@@ -409,9 +409,9 @@ class rcube_result_index
      */
     public function get_parameters($param = null)
     {
-        $params            = $this->params;
+        $params = $this->params;
         $params['MAILBOX'] = $this->mailbox;
-        $params['ORDER']   = $this->order;
+        $params['ORDER'] = $this->order;
 
         if ($param !== null) {
             return $params[$param] ?? null;

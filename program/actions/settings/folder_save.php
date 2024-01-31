@@ -30,19 +30,19 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
     {
         // WARNING: folder names in UI are encoded with RCUBE_CHARSET
 
-        $name      = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true));
-        $path      = rcube_utils::get_input_string('_parent', rcube_utils::INPUT_POST, true);
-        $old_imap  = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
-        $type      = rcube_utils::get_input_string('_type', rcube_utils::INPUT_POST);
+        $name = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true));
+        $path = rcube_utils::get_input_string('_parent', rcube_utils::INPUT_POST, true);
+        $old_imap = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
+        $type = rcube_utils::get_input_string('_type', rcube_utils::INPUT_POST);
         $name_imap = rcube_charset::convert($name, RCUBE_CHARSET, 'UTF7-IMAP');
         // $path is in UTF7-IMAP already
 
         // init IMAP connection
-        $rcmail    = rcmail::get_instance();
-        $storage   = $rcmail->get_storage();
+        $rcmail = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
         $delimiter = $storage->get_hierarchy_delimiter();
-        $options   = strlen($old_imap) ? self::folder_options($old_imap) : [];
-        $char      = null;
+        $options = strlen($old_imap) ? self::folder_options($old_imap) : [];
+        $char = null;
 
         // Folder name checks
         if (!empty($options['protected']) || !empty($options['norename'])) {
@@ -70,7 +70,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         }
 
         $dual_use_supported = $storage->get_capability(rcube_storage::DUAL_USE_FOLDERS);
-        $acl_supported      = $storage->get_capability('ACL');
+        $acl_supported = $storage->get_capability('ACL');
 
         // Check access rights to the parent folder
         if (empty($error) && $acl_supported && strlen($path) && (!strlen($old_imap) || $old_imap != $name_imap)) {
@@ -87,18 +87,18 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             $folder = null;
         } else {
             $folder = [
-                'name'     => $name_imap,
-                'oldname'  => $old_imap,
-                'class'    => '',
-                'options'  => $options,
+                'name' => $name_imap,
+                'oldname' => $old_imap,
+                'class' => '',
+                'options' => $options,
                 'settings' => [
                     // List view mode: 0-list, 1-threads
-                    'view_mode'   => (int) rcube_utils::get_input_string('_viewmode', rcube_utils::INPUT_POST),
+                    'view_mode' => (int) rcube_utils::get_input_string('_viewmode', rcube_utils::INPUT_POST),
                     'sort_column' => rcube_utils::get_input_string('_sortcol', rcube_utils::INPUT_POST),
-                    'sort_order'  => rcube_utils::get_input_string('_sortord', rcube_utils::INPUT_POST),
+                    'sort_order' => rcube_utils::get_input_string('_sortord', rcube_utils::INPUT_POST),
                 ],
                 'subscribe' => false,
-                'noselect'  => false,
+                'noselect' => false,
             ];
         }
 
@@ -112,7 +112,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             //    - add a separator at the end to make them \NoSelect
             if (!$dual_use_supported && $type == 'folder') {
                 $folder['subscribe'] = false;
-                $folder['noselect']  = true;
+                $folder['noselect'] = true;
             }
 
             $plugin = $rcmail->plugins->exec_hook('folder_create', ['record' => $folder]);

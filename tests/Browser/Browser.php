@@ -19,7 +19,7 @@ class Browser extends \Laravel\Dusk\Browser
     public function assertElementsCount($selector, $expected_count, $visible = true)
     {
         $elements = $this->elements($selector);
-        $count    = count($elements);
+        $count = count($elements);
 
         if ($visible) {
             foreach ($elements as $element) {
@@ -64,8 +64,8 @@ class Browser extends \Laravel\Dusk\Browser
     public function assertHasClass($selector, $class_name)
     {
         $fullSelector = $this->resolver->format($selector);
-        $element      = $this->resolver->findOrFail($selector);
-        $classes      = explode(' ', (string) $element->getAttribute('class'));
+        $element = $this->resolver->findOrFail($selector);
+        $classes = explode(' ', (string) $element->getAttribute('class'));
 
         Assert::assertContains($class_name, $classes);
 
@@ -203,7 +203,7 @@ class Browser extends \Laravel\Dusk\Browser
         $callback($this);
 
         $after_handles = $this->driver->getWindowHandles();
-        $new_window    = array_first(array_diff($after_handles, $before_handles));
+        $new_window = array_first(array_diff($after_handles, $before_handles));
 
         return [$current_window, $new_window];
     }
@@ -330,7 +330,7 @@ class Browser extends \Laravel\Dusk\Browser
     public function withinBody($callback)
     {
         if ($this->resolver->prefix != 'body') {
-            $orig_prefix            = $this->resolver->prefix;
+            $orig_prefix = $this->resolver->prefix;
             $this->resolver->prefix = 'body';
         }
 

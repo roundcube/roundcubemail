@@ -8,7 +8,7 @@ use Tests\Browser\Browser;
 class HtmlEditor extends Component
 {
     public const MODE_PLAIN = 'plain';
-    public const MODE_HTML  = 'html';
+    public const MODE_HTML = 'html';
 
     public $id;
 
@@ -49,10 +49,10 @@ class HtmlEditor extends Component
     {
         return [
             '@plain-toolbar' => '.editor-toolbar',
-            '@plain-body'    => 'textarea',
-            '@html-editor'   => '.tox-tinymce',
-            '@html-toolbar'  => '.tox-tinymce .tox-editor-header',
-            '@html-body'     => 'iframe',
+            '@plain-body' => 'textarea',
+            '@html-editor' => '.tox-tinymce',
+            '@html-toolbar' => '.tox-tinymce .tox-editor-header',
+            '@html-body' => 'iframe',
         ];
     }
 
