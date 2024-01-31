@@ -315,7 +315,7 @@ class rcube
 
         if (!class_exists($driver_class)) {
             self::raise_error([
-                'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
+                'code'    => 700, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Storage driver class ({$driver}) not found!",
             ], true, true);
         }
@@ -338,12 +338,12 @@ class rcube
         ];
 
         if (!empty($_SESSION['storage_host'])) {
-            $options['language'] = $_SESSION['language'];
-            $options['host']     = $_SESSION['storage_host'];
-            $options['user']     = $_SESSION['username'];
-            $options['port']     = $_SESSION['storage_port'];
-            $options['ssl']      = $_SESSION['storage_ssl'];
-            $options['password'] = $this->decrypt($_SESSION['password']);
+            $options['language']         = $_SESSION['language'];
+            $options['host']             = $_SESSION['storage_host'];
+            $options['user']             = $_SESSION['username'];
+            $options['port']             = $_SESSION['storage_port'];
+            $options['ssl']              = $_SESSION['storage_ssl'];
+            $options['password']         = $this->decrypt($_SESSION['password']);
             $_SESSION[$driver . '_host'] = $_SESSION['storage_host'];
         }
 
@@ -744,7 +744,7 @@ class rcube
         ];
 
         foreach ($langs as $lng) {
-            $fpath = $locdir . $lng . '.inc';
+            $fpath  = $locdir . $lng . '.inc';
             $_texts = self::read_localization_file($fpath);
 
             if (!empty($_texts)) {
@@ -1232,7 +1232,7 @@ class rcube
         preg_match_all('/({(-?)([a-z]\w*)})/', $cmd, $matches, \PREG_SET_ORDER);
         foreach ($matches as $tags) {
             [, $tag, $option, $key] = $tags;
-            $parts = [];
+            $parts                  = [];
 
             if ($option) {
                 foreach ((array) $values["-{$key}"] as $key => $value) {
@@ -1336,7 +1336,7 @@ class rcube
         // write message with file name when configured to log to STDOUT
         if ($log_driver == 'stdout') {
             $stdout = 'php://stdout';
-            $line = "{$name}: {$line}\n";
+            $line   = "{$name}: {$line}\n";
             return file_put_contents($stdout, $line, \FILE_APPEND) !== false;
         }
 
@@ -1392,9 +1392,9 @@ class rcube
         // handle PHP exceptions and errors
         if ($arg instanceof Throwable) {
             $arg = [
-                'code' => $arg->getCode(),
-                'line' => $arg->getLine(),
-                'file' => $arg->getFile(),
+                'code'    => $arg->getCode(),
+                'line'    => $arg->getLine(),
+                'file'    => $arg->getFile(),
                 'message' => $arg->getMessage(),
             ];
         } elseif (is_object($arg) && is_a($arg, 'PEAR_Error')) {
@@ -1413,8 +1413,8 @@ class rcube
 
         $cli = \PHP_SAPI == 'cli';
 
-        $arg['cli'] = $cli;
-        $arg['log'] = $log;
+        $arg['cli']       = $cli;
+        $arg['log']       = $log;
         $arg['terminate'] = $terminate;
 
         // send error to external error tracking tool
@@ -1775,7 +1775,7 @@ class rcube
 
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
-                    'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
+                    'code'    => 650, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => 'Could not create message: ' . $mime_result->getMessage(),
                 ], true, false);
                 return false;
@@ -1798,14 +1798,14 @@ class rcube
 
         if (!$sent) {
             self::raise_error([
-                'code' => 800, 'type' => 'smtp',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code'    => 800, 'type' => 'smtp',
+                'line'    => __LINE__, 'file' => __FILE__,
                 'message' => implode("\n", $response),
             ], true, false);
 
             // allow plugins to catch sending errors with the same parameters as in 'message_before_send'
             $plugin = $this->plugins->exec_hook('message_send_error', $plugin + ['error' => $error]);
-            $error = $plugin['error'];
+            $error  = $plugin['error'];
         } else {
             $this->plugins->exec_hook('message_sent', ['headers' => $headers, 'body' => $msg_body, 'message' => $message]);
 

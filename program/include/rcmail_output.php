@@ -70,7 +70,7 @@ abstract class rcmail_output extends rcube_output
         parent::reset();
 
         $this->object_handlers = [];
-        $this->pagetitle = '';
+        $this->pagetitle       = '';
     }
 
     /**

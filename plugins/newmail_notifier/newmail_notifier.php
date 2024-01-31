@@ -32,7 +32,7 @@ class newmail_notifier extends rcube_plugin
 
     private $rc;
     private $notified;
-    private $opt = [];
+    private $opt        = [];
     private $exceptions = [];
 
     /**
@@ -114,7 +114,7 @@ class newmail_notifier extends rcube_plugin
                         $this->gettext('test'));
 
                 $args['blocks']['new_message']['options'][$key] = [
-                    'title' => html::label($field_id, rcube::Q($this->gettext($type))),
+                    'title'   => html::label($field_id, rcube::Q($this->gettext($type))),
                     'content' => $content,
                 ];
             }

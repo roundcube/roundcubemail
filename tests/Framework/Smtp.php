@@ -25,8 +25,8 @@ class Framework_Smtp extends TestCase
         $smtp = new rcube_smtp();
 
         $headers = [
-            'Subject' => 'Test',
-            'From' => '"John Doe" <john@domain.tld>',
+            'Subject'  => 'Test',
+            'From'     => '"John Doe" <john@domain.tld>',
             'Received' => 'from github.com ([10.48.109.45]) by smtp.github.com (Postfix) with ESMTPA id 8C9B4E0075'
                 . ' for <john@domain.tld>; Sat, 28 Nov 2020 22:45:44 -0800 (PST)',
         ];

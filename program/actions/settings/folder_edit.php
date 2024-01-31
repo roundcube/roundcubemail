@@ -116,7 +116,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         }
 
         $form['props']['fieldsets']['location'] = [
-            'name'  => $rcmail->gettext('location'),
+            'name'    => $rcmail->gettext('location'),
             'content' => [
                 'name' => [
                     'label' => $rcmail->gettext('foldername'),
@@ -141,14 +141,14 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             }
 
             $select = self::folder_selector([
-                'id'          => '_parent',
-                'name'        => '_parent',
-                'noselection' => '---',
-                'maxlength'   => 150,
-                'unsubscribed' => true,
+                'id'               => '_parent',
+                'name'             => '_parent',
+                'noselection'      => '---',
+                'maxlength'        => 150,
+                'unsubscribed'     => true,
                 'skip_noinferiors' => true,
-                'exceptions'  => $exceptions,
-                'additional'  => is_string($selected) && strlen($selected) ? [$selected] : null,
+                'exceptions'       => $exceptions,
+                'additional'       => is_string($selected) && strlen($selected) ? [$selected] : null,
             ]);
 
             $form['props']['fieldsets']['location']['content']['parent'] = [
@@ -159,7 +159,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         // Settings
         $form['props']['fieldsets']['settings'] = [
-            'name'  => $rcmail->gettext('settings'),
+            'name' => $rcmail->gettext('settings'),
         ];
 
         // For servers that do not support both sub-folders and messages in a folder
@@ -321,7 +321,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
             foreach ($form['content'] as $col => $colprop) {
                 $colprop['id'] = '_' . $col;
-                $label = !empty($colprop['label']) ? $colprop['label'] : $rcmail->gettext($col);
+                $label         = !empty($colprop['label']) ? $colprop['label'] : $rcmail->gettext($col);
 
                 $table->add('title', html::label($colprop['id'], rcube::Q($label)));
                 $table->add(null, $colprop['value']);

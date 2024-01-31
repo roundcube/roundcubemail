@@ -50,11 +50,11 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         // Set message set for already stored (but incomplete) search request
         if (!empty($continue) && isset($_SESSION['search']) && $_SESSION['search_request'] == $continue) {
             $rcmail->storage->set_search_set($_SESSION['search']);
-            $search = $_SESSION['search'][0];
+            $search         = $_SESSION['search'][0];
             $search_request = $continue;
         } else {
             // Parse input parameters into an IMAP search criteria
-            $search = self::search_input($str, $headers, $filter, $interval);
+            $search         = self::search_input($str, $headers, $filter, $interval);
             $search_request = md5($mbox . $scope . $interval . $filter . $str);
 
             // Save search modifiers for the current folder to user prefs
@@ -96,7 +96,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         }
 
         if ($search) {
-            $_SESSION['search'] = $rcmail->storage->get_search_set();
+            $_SESSION['search']           = $rcmail->storage->get_search_set();
             $_SESSION['last_text_search'] = $str;
         }
 
@@ -251,7 +251,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 $value  = $value_function($matches[2]);
 
                 if ($option[0] == '-') {
-                    $not = 'NOT ';
+                    $not    = 'NOT ';
                     $option = substr($option, 1);
                 }
 
@@ -262,7 +262,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             }
 
             if (preg_match('/^-".*"$/', $part)) {
-                $not = 'NOT ';
+                $not  = 'NOT ';
                 $part = substr($part, 1);
             }
 
@@ -337,15 +337,15 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 break;
             case 'is':
                 $map = [
-                    'unread' => 'UNSEEN',
-                    'read' => 'SEEN',
-                    'unseen' => 'UNSEEN',
-                    'seen' => 'SEEN',
-                    'flagged' => 'FLAGGED',
-                    'unflagged' => 'UNFLAGGED',
-                    'deleted' => 'DELETED',
-                    'undeleted' => 'UNDELETED',
-                    'answered' => 'ANSWERED',
+                    'unread'     => 'UNSEEN',
+                    'read'       => 'SEEN',
+                    'unseen'     => 'UNSEEN',
+                    'seen'       => 'SEEN',
+                    'flagged'    => 'FLAGGED',
+                    'unflagged'  => 'UNFLAGGED',
+                    'deleted'    => 'DELETED',
+                    'undeleted'  => 'UNDELETED',
+                    'answered'   => 'ANSWERED',
                     'unanswered' => 'UNANSWERED',
                 ];
 

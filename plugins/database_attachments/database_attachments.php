@@ -90,7 +90,7 @@ class database_attachments extends filesystem_attachments
         $status = $cache->set($key, $data);
 
         if ($status) {
-            $args['id'] = $key;
+            $args['id']     = $key;
             $args['status'] = true;
         }
 
@@ -131,7 +131,7 @@ class database_attachments extends filesystem_attachments
         $data  = $cache->get($args['id']);
 
         if ($data !== null && $data !== false) {
-            $args['data'] = base64_decode($data);
+            $args['data']   = base64_decode($data);
             $args['status'] = true;
         } else {
             $args['status'] = false;

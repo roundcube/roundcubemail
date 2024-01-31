@@ -73,9 +73,9 @@ class rcube_imap_search
             if ($result && !$result->incomplete) {
                 $results->add($result);
             } else {
-                $search = is_array($str) && $str[$folder] ? $str[$folder] : $str;
-                $job = new rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
-                $job->worker = $this;
+                $search       = is_array($str) && $str[$folder] ? $str[$folder] : $str;
+                $job          = new rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
+                $job->worker  = $this;
                 $this->jobs[] = $job;
             }
         }
@@ -169,7 +169,7 @@ class rcube_imap_search_job // extends Stackable
         $this->sort_field = $sort_field;
         $this->threading  = $threading;
 
-        $this->result = new rcube_result_index($folder);
+        $this->result             = new rcube_result_index($folder);
         $this->result->incomplete = true;
     }
 

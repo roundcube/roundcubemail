@@ -80,7 +80,7 @@ class rcmail_resend_mail extends Mail_mime
 
             // txtHeaders() can be used to unset Bcc header
             if (array_key_exists($key, $headers)) {
-                $value = $headers[$key];
+                $value                                                  = $headers[$key];
                 $this->build_params['bounce_headers']['Resent-' . $key] = $value;
             }
 
@@ -120,10 +120,10 @@ class rcmail_resend_mail extends Mail_mime
             return;
         }
 
-        $rcmail   = rcmail::get_instance();
-        $storage  = $rcmail->get_storage();
-        $message  = $this->build_params['bounce_message'];
-        $path     = rcube_utils::temp_filename('bounce');
+        $rcmail  = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
+        $message = $this->build_params['bounce_message'];
+        $path    = rcube_utils::temp_filename('bounce');
 
         // We'll write the body to the file and the headers to a variable
         if ($fp = fopen($path, 'w')) {

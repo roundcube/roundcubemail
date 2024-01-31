@@ -133,7 +133,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
                     $page--;
                     $rcmail->storage->set_page($page);
                     $_SESSION['page'] = $page;
-                    $jump_back = true;
+                    $jump_back        = true;
                 }
 
                 foreach ($input as $mbox => $uids) {

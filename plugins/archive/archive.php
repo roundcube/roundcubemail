@@ -37,15 +37,15 @@ class archive extends rcube_plugin
             $this->add_texts('localization', true);
             $this->add_button(
                 [
-                    'type'     => 'link',
-                    'label'    => 'buttontext',
-                    'command'  => 'plugin.archive',
-                    'class'    => 'button buttonPas archive disabled',
-                    'classact' => 'button archive',
-                    'width'    => 32,
-                    'height'   => 32,
-                    'title'    => 'buttontitle',
-                    'domain'   => $this->ID,
+                    'type'       => 'link',
+                    'label'      => 'buttontext',
+                    'command'    => 'plugin.archive',
+                    'class'      => 'button buttonPas archive disabled',
+                    'classact'   => 'button archive',
+                    'width'      => 32,
+                    'height'     => 32,
+                    'title'      => 'buttontitle',
+                    'domain'     => $this->ID,
                     'innerclass' => 'inner',
                 ],
                 'toolbar');
@@ -124,13 +124,13 @@ class archive extends rcube_plugin
 
         $this->add_texts('localization');
 
-        $storage        = $rcmail->get_storage();
-        $delimiter      = $storage->get_hierarchy_delimiter();
-        $threading      = (bool) $storage->get_threading();
-        $read_on_move   = (bool) $rcmail->config->get('read_on_archive');
-        $archive_type   = $rcmail->config->get('archive_type', '');
-        $archive_prefix = $this->archive_folder . $delimiter;
-        $search_request = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
+        $storage          = $rcmail->get_storage();
+        $delimiter        = $storage->get_hierarchy_delimiter();
+        $threading        = (bool) $storage->get_threading();
+        $read_on_move     = (bool) $rcmail->config->get('read_on_archive');
+        $archive_type     = $rcmail->config->get('archive_type', '');
+        $archive_prefix   = $this->archive_folder . $delimiter;
+        $search_request   = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
         $from_show_action = !empty($_POST['_from']) && $_POST['_from'] == 'show';
 
         // count messages before changing anything
@@ -270,7 +270,7 @@ class archive extends rcube_plugin
             $page--;
             $storage->set_page($page);
             $_SESSION['page'] = $page;
-            $jump_back = true;
+            $jump_back        = true;
         }
 
         // update unread messages counts for all involved folders
@@ -364,7 +364,7 @@ class archive extends rcube_plugin
                 if (!in_array($_folder, $this->folders)) {
                     if ($storage->create_folder($_folder, true)) {
                         $this->result['reload'] = true;
-                        $this->folders[] = $_folder;
+                        $this->folders[]        = $_folder;
                     }
                 }
             }
@@ -434,7 +434,7 @@ class archive extends rcube_plugin
                 ];
             }
         } elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
-            $chbox = new html_checkbox(['name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1]);
+            $chbox                                                = new html_checkbox(['name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1]);
             $args['blocks']['main']['options']['read_on_archive'] = [
                 'title'   => html::label('ff_read_on_archive', rcube::Q($this->gettext('readonarchive'))),
                 'content' => $chbox->show($rcmail->config->get('read_on_archive') ? 1 : 0),
@@ -502,7 +502,7 @@ class archive extends rcube_plugin
             $folder_name = substr($folder_name, 1);
         }
 
-        $replace = $delim == '-' ? '_' : '-';
+        $replace      = $delim == '-' ? '_' : '-';
         $replacements = [$delim => $replace];
 
         // Cyrus-IMAP does not allow @ character in folder name

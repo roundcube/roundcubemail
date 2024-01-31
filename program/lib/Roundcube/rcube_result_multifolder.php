@@ -207,7 +207,7 @@ class rcube_result_multifolder
     {
         $data = array_slice($this->get(), $offset, $length);
 
-        $this->index = $data;
+        $this->index         = $data;
         $this->meta['count'] = count($data);
     }
 
@@ -340,7 +340,7 @@ class rcube_result_multifolder
         $data = [];
         foreach ($this->index as $item) {
             [$uid, $folder] = explode('-', $item, 2);
-            $data[$folder] = ($data[$folder] ?? '') . ' ' . $uid;
+            $data[$folder]  = ($data[$folder] ?? '') . ' ' . $uid;
         }
 
         foreach ($this->folders as $folder) {

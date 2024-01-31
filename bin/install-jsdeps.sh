@@ -34,8 +34,8 @@ if (empty($SOURCES['dependencies'])) {
     rcube::raise_error("Failed to read dependencies list from {$cfgfile}", false, true);
 }
 
-$CURL   = trim(shell_exec('which curl'));
-$WGET   = trim(shell_exec('which wget'));
+$CURL = trim(shell_exec('which curl'));
+$WGET = trim(shell_exec('which wget'));
 
 if (($CACHEDIR = getenv('CACHEDIR')) && is_writable($CACHEDIR)) {
     // use $CACHEDIR
@@ -47,7 +47,7 @@ if (($CACHEDIR = getenv('CACHEDIR')) && is_writable($CACHEDIR)) {
 
 // ////////////// License definitions
 
-$LICENSES = [];
+$LICENSES        = [];
 $LICENSES['MIT'] = <<<'EOM'
      * Licensed under the MIT licenses
      *
@@ -286,7 +286,7 @@ function extract_zipfile($package, $srcfile)
     // prepend license header to extracted files
     if (!empty($package['addlicense'])) {
         foreach ((array) $package['addlicense'] as $filename) {
-            $pkg = $package;
+            $pkg         = $package;
             $pkg['dest'] = $package['dest'] . '/' . $filename;
             compose_destfile($pkg, $destdir . '/' . $filename);
         }

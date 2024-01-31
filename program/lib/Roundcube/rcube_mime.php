@@ -187,8 +187,8 @@ class rcube_mime
                 // Append everything that is before the text to be decoded
                 if ($start != $pos) {
                     $substr = substr($input, $start, $pos - $start);
-                    $out   .= rcube_charset::convert($substr, $default_charset);
-                    $start  = $pos;
+                    $out .= rcube_charset::convert($substr, $default_charset);
+                    $start = $pos;
                 }
                 $start += $length;
 
@@ -215,7 +215,7 @@ class rcube_mime
 
                 // Decode and join encoded-word's chunks
                 if ($encoding == 'B' || $encoding == 'b') {
-                    $rest  = '';
+                    $rest = '';
                     // base64 must be decoded a segment at a time.
                     // However, there are broken implementations that continue
                     // in the following word, we'll handle that (#6048)
@@ -531,7 +531,7 @@ class rcube_mime
                         }
                     } else {
                         $text[$idx] = $line;
-                        $last = $idx;
+                        $last       = $idx;
                     }
                 }
             }
@@ -610,9 +610,9 @@ class rcube_mime
         }
 
         // Convert \r\n to \n, this is our line-separator
-        $string       = str_replace("\r\n", "\n", $string);
-        $separator    = "\n"; // must be 1 character length
-        $result       = [];
+        $string    = str_replace("\r\n", "\n", $string);
+        $separator = "\n"; // must be 1 character length
+        $result    = [];
 
         while (($stringLength = mb_strlen($string)) > 0) {
             $breakPos = mb_strpos($string, $separator, 0);
@@ -822,8 +822,8 @@ class rcube_mime
 
         $mime_types      = [];
         $mime_extensions = [];
-        $lines = [];
-        $regex = '/([\\w\\+\\-\\.\\/]+)\\s+([\\w\\s]+)/i';
+        $lines           = [];
+        $regex           = '/([\\w\\+\\-\\.\\/]+)\\s+([\\w\\s]+)/i';
 
         foreach ($file_paths as $fp) {
             if (@is_readable($fp)) {
@@ -841,7 +841,7 @@ class rcube_mime
             $mime = $matches[1];
 
             foreach (explode(' ', $matches[2]) as $ext) {
-                $ext = trim($ext);
+                $ext                   = trim($ext);
                 $mime_types[$mime][]   = $ext;
                 $mime_extensions[$ext] = $mime;
             }

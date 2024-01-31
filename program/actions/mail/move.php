@@ -112,7 +112,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
             $page--;
             $rcmail->storage->set_page($page);
             $_SESSION['page'] = $page;
-            $jump_back = true;
+            $jump_back        = true;
         }
 
         // update unseen messages counts for all involved folders

@@ -27,8 +27,8 @@ class html
     protected $attrib  = [];
     protected $allowed = [];
 
-    public static $doctype = 'xhtml';
-    public static $lc_tags = true;
+    public static $doctype       = 'xhtml';
+    public static $lc_tags       = true;
     public static $common_attrib = ['id', 'class', 'style', 'title', 'align', 'unselectable', 'tabindex', 'role'];
     public static $containers    = ['iframe', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'ul', 'form', 'textarea', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'style', 'script', 'a'];
     public static $bool_attrib   = ['checked', 'multiple', 'disabled', 'selected', 'autofocus', 'readonly', 'required'];
@@ -74,7 +74,7 @@ class html
         }
 
         $inline_tags = ['a', 'span', 'img'];
-        $suffix = (isset($attrib['nl']) && $content && $attrib['nl'] && !in_array($tagname, $inline_tags)) ? "\n" : '';
+        $suffix      = (isset($attrib['nl']) && $content && $attrib['nl'] && !in_array($tagname, $inline_tags)) ? "\n" : '';
 
         $tagname = self::$lc_tags ? strtolower($tagname) : $tagname;
         if (isset($content) || in_array($tagname, self::$containers)) {
@@ -667,10 +667,10 @@ class html_select extends html
         }
 
         $this->content = "\n";
-        $select = (array) $select;
+        $select        = (array) $select;
         foreach ($this->options as $option) {
             $attr = [
-                'value' => $option['value'],
+                'value'    => $option['value'],
                 'selected' => (in_array($option['value'], $select, true)
                     || in_array($option['text'], $select, true)) ? 1 : null,
             ];
@@ -731,12 +731,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell = new stdClass();
+        $cell          = new stdClass();
         $cell->attrib  = $attr;
         $cell->content = $cont;
 
         if (!isset($this->rows[$this->rowindex])) {
-            $this->rows[$this->rowindex] = new stdClass();
+            $this->rows[$this->rowindex]         = new stdClass();
             $this->rows[$this->rowindex]->attrib = [];
         }
 
@@ -760,12 +760,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell = new stdClass();
+        $cell          = new stdClass();
         $cell->attrib  = $attr;
         $cell->content = $cont;
 
         if (empty($this->header)) {
-            $this->header = new stdClass();
+            $this->header         = new stdClass();
             $this->header->attrib = [];
         }
 
@@ -807,8 +807,8 @@ class html_table extends html
     public function add_row($attr = [])
     {
         $this->rowindex++;
-        $this->colindex = 0;
-        $this->rows[$this->rowindex] = new stdClass();
+        $this->colindex                      = 0;
+        $this->rows[$this->rowindex]         = new stdClass();
         $this->rows[$this->rowindex]->attrib = $attr;
         $this->rows[$this->rowindex]->cells  = [];
     }

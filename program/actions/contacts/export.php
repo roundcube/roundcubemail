@@ -54,8 +54,8 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
                     self::prepare_for_export($record, $source);
 
                     $record['sourceid'] = $s;
-                    $key = rcube_addressbook::compose_contact_key($record, $sort_col);
-                    $records[$key] = $record;
+                    $key                = rcube_addressbook::compose_contact_key($record, $sort_col);
+                    $records[$key]      = $record;
                 }
             }
 
@@ -63,8 +63,8 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             ksort($records, \SORT_LOCALE_STRING);
 
             // create resultset object
-            $count  = count($records);
-            $result = new rcube_result_set($count);
+            $count           = count($records);
+            $result          = new rcube_result_set($count);
             $result->records = array_values($records);
         }
         // selected contacts
@@ -86,16 +86,16 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
                     self::prepare_for_export($record, $source);
 
                     $record['sourceid'] = $s;
-                    $key = rcube_addressbook::compose_contact_key($record, $sort_col);
-                    $records[$key] = $record;
+                    $key                = rcube_addressbook::compose_contact_key($record, $sort_col);
+                    $records[$key]      = $record;
                 }
             }
 
             ksort($records, \SORT_LOCALE_STRING);
 
             // create resultset object
-            $count  = count($records);
-            $result = new rcube_result_set($count);
+            $count           = count($records);
+            $result          = new rcube_result_set($count);
             $result->records = array_values($records);
         }
         // selected directory/group
@@ -178,7 +178,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             $record['vcard'] = $vcard->export();
 
             if (!empty($groups)) {
-                $vgroups = 'CATEGORIES:' . rcube_vcard::vcard_quote($groups, ',') . rcube_vcard::$eol;
+                $vgroups         = 'CATEGORIES:' . rcube_vcard::vcard_quote($groups, ',') . rcube_vcard::$eol;
                 $record['vcard'] = str_replace('END:VCARD', $vgroups . 'END:VCARD', $record['vcard']);
             }
         }

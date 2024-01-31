@@ -219,12 +219,12 @@ class Actions_Mail_Index extends ActionTestCase
 
         $this->assertNull($action->address_string(''));
 
-        $result = $action->address_string('test@domain.com');
+        $result   = $action->address_string('test@domain.com');
         $expected = '<span class="adr"><span title="test@domain.com" class="rcmContactAddress">test@domain.com</span></span>';
 
         $this->assertSame($expected, $result);
 
-        $result = $action->address_string('test@domain.com', null, true, true);
+        $result   = $action->address_string('test@domain.com', null, true, true);
         $expected = '<span class="adr"><a href="mailto:test@domain.com" class="rcmContactAddress" '
             . 'onclick="return rcmail.command(\'compose\',\'test@domain.com\',this)" title="test@domain.com">'
             . 'test@domain.com</a><a href="#add" title="Add to address book" class="rcmaddcontact" '
@@ -234,7 +234,7 @@ class Actions_Mail_Index extends ActionTestCase
 
         setProperty($action, 'PRINT_MODE', true);
 
-        $result = $action->address_string('test@domain.com');
+        $result   = $action->address_string('test@domain.com');
         $expected = '<span class="adr">&lt;test@domain.com&gt;</span>';
 
         $this->assertSame($expected, $result);
@@ -245,8 +245,8 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_attachment_name()
     {
-        $action = new rcmail_action_mail_index();
-        $part = new rcube_message_part();
+        $action        = new rcmail_action_mail_index();
+        $part          = new rcube_message_part();
         $part->mime_id = 1;
 
         $part->mimetype = 'text/html';
@@ -296,11 +296,11 @@ class Actions_Mail_Index extends ActionTestCase
      */
     protected function get_html_part($body = null)
     {
-        $part = new rcube_message_part();
+        $part                  = new rcube_message_part();
         $part->ctype_primary   = 'text';
         $part->ctype_secondary = 'html';
-        $part->body = $body ? file_get_contents(TESTS_DIR . $body) : null;
-        $part->replaces = [];
+        $part->body            = $body ? file_get_contents(TESTS_DIR . $body) : null;
+        $part->replaces        = [];
 
         return $part;
     }
@@ -322,7 +322,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part = $this->get_html_part('src/htmlbody.txt');
+        $part           = $this->get_html_part('src/htmlbody.txt');
         $part->replaces = ['ex1.jpg' => 'part_1.2.jpg', 'ex2.jpg' => 'part_1.2.jpg'];
 
         $params = ['container_id' => 'foo'];
@@ -483,11 +483,11 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part = new rcube_message_part();
+        $part                  = new rcube_message_part();
         $part->ctype_primary   = 'text';
         $part->ctype_secondary = 'plain';
-        $part->body = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));
-        $html = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
+        $part->body            = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));
+        $html                  = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
         $this->assertMatchesRegularExpression(
             '/<a href="mailto:nobody@roundcube.net" onclick="return rcmail.command\(\'compose\',\'nobody@roundcube.net\',this\)">nobody@roundcube.net<\/a>/',
@@ -533,7 +533,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $part = $this->get_html_part('src/htmlcom.txt');
+        $part   = $this->get_html_part('src/htmlcom.txt');
         $washed = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
         // #1487759

@@ -216,7 +216,7 @@ class rcmail_output_json extends rcmail_output
         // unset default env vars
         unset($this->env['task'], $this->env['action'], $this->env['comm_path']);
 
-        $rcmail = rcmail::get_instance();
+        $rcmail             = rcmail::get_instance();
         $response['action'] = $rcmail->action;
 
         if ($unlock = rcube_utils::get_input_string('_unlock', rcube_utils::INPUT_GPC)) {

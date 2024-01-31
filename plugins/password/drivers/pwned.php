@@ -63,8 +63,8 @@ class rcube_pwned_password
     public const ENHANCED_PRIVACY_CURL = 1;
 
     // Score constants, these directly correspond to the score that is returned.
-    public const SCORE_LISTED = 1;
-    public const SCORE_ERROR = 2;
+    public const SCORE_LISTED     = 1;
+    public const SCORE_ERROR      = 2;
     public const SCORE_NOT_LISTED = 3;
 
     /**
@@ -74,7 +74,7 @@ class rcube_pwned_password
      */
     public function strength_rules()
     {
-        $rc = rcmail::get_instance();
+        $rc   = rcmail::get_instance();
         $href = 'https://haveibeenpwned.com/Passwords';
 
         return [$rc->gettext(['name' => 'password.pwned_mustnotbedisclosed', 'vars' => ['href' => $href]])];
@@ -186,7 +186,7 @@ class rcube_pwned_password
     public function retrieve_fopen($url)
     {
         $output = '';
-        $ch = fopen($url, 'r');
+        $ch     = fopen($url, 'r');
         while (!feof($ch)) {
             $output .= fgets($ch);
         }

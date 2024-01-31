@@ -52,7 +52,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
             // by email, search for contact first
             if ($email = rcube_utils::get_input_string('_email', rcube_utils::INPUT_GPC)) {
                 foreach ($rcmail->get_address_sources() as $s) {
-                    $abook = $rcmail->get_address_book($s['id']);
+                    $abook  = $rcmail->get_address_book($s['id']);
                     $result = $abook->search(['email'], $email, 1, true, true, 'photo');
                     while ($result && ($record = $result->iterate())) {
                         if (!empty($record['photo'])) {

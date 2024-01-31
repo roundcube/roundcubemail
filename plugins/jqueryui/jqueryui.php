@@ -43,10 +43,10 @@ class jqueryui extends rcube_plugin
         $this->include_script('js/jquery-ui.min.js');
 
         // include UI stylesheet
-        $skin     = $rcmail->config->get('skin');
-        $ui_map   = $rcmail->config->get('jquery_ui_skin_map', self::$skin_map);
-        $skins    = array_keys($rcmail->output->skins);
-        $skins[]  = 'elastic';
+        $skin    = $rcmail->config->get('skin');
+        $ui_map  = $rcmail->config->get('jquery_ui_skin_map', self::$skin_map);
+        $skins   = array_keys($rcmail->output->skins);
+        $skins[] = 'elastic';
 
         foreach ($skins as $skin) {
             self::$ui_theme = !empty($ui_map[$skin]) ? $ui_map[$skin] : $skin;
@@ -152,7 +152,7 @@ class jqueryui extends rcube_plugin
     protected static function asset_exists($path, $minified = true)
     {
         $rcube = rcmail::get_instance();
-        $path = (strpos($path, 'plugins/') !== false ? '/' : '/plugins/jqueryui/') . $path;
+        $path  = (strpos($path, 'plugins/') !== false ? '/' : '/plugins/jqueryui/') . $path;
 
         return $rcube->find_asset($path, $minified) !== null;
     }

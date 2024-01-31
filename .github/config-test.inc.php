@@ -15,8 +15,8 @@ $config['smtp_host'] = 'localhost:25';
 // Settings required by the tests
 
 $config['create_default_folders'] = true;
-$config['skin'] = 'elastic';
-$config['support_url'] = 'http://support.url';
+$config['skin']                   = 'elastic';
+$config['support_url']            = 'http://support.url';
 
 // Plugins with tests
 

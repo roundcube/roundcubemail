@@ -45,8 +45,8 @@ class rcube_session_memcache extends rcube_session
 
         if (!$this->memcache) {
             rcube::raise_error([
-                'code' => 604, 'type' => 'memcache',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code'    => 604, 'type' => 'memcache',
+                'line'    => __LINE__, 'file' => __FILE__,
                 'message' => 'Failed to connect to memcached. Please check configuration',
             ], true, true);
         }
@@ -109,7 +109,7 @@ class rcube_session_memcache extends rcube_session
     public function read($key)
     {
         if ($value = $this->memcache->get($key)) {
-            $arr = unserialize($value);
+            $arr           = unserialize($value);
             $this->changed = $arr['changed'];
             $this->ip      = $arr['ip'];
             $this->vars    = $arr['vars'];

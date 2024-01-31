@@ -98,7 +98,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
     public static function contact_edithead($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail        = rcmail::get_instance();
         $business_mode = $rcmail->config->get('contact_form_mode') === 'business';
 
         // check if we have a valid result
@@ -106,19 +106,19 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
         $form = [
             'head' => [
-                'name' => $rcmail->gettext('contactnameandorg'),
+                'name'    => $rcmail->gettext('contactnameandorg'),
                 'content' => [
-                    'source'        => ['id' => '_source', 'label' => $rcmail->gettext('addressbook')],
-                    'prefix'        => ['size' => $i_size],
-                    'firstname'     => ['size' => $i_size, 'visible' => true],
-                    'middlename'    => ['size' => $i_size],
-                    'surname'       => ['size' => $i_size, 'visible' => true],
-                    'suffix'        => ['size' => $i_size],
-                    'name'          => ['size' => $i_size * 2],
-                    'nickname'      => ['size' => $i_size * 2],
-                    'organization'  => ['size' => $i_size * 2, 'visible' => $business_mode],
-                    'department'    => ['size' => $i_size * 2, 'visible' => $business_mode],
-                    'jobtitle'      => ['size' => $i_size * 2, 'visible' => $business_mode],
+                    'source'       => ['id' => '_source', 'label' => $rcmail->gettext('addressbook')],
+                    'prefix'       => ['size' => $i_size],
+                    'firstname'    => ['size' => $i_size, 'visible' => true],
+                    'middlename'   => ['size' => $i_size],
+                    'surname'      => ['size' => $i_size, 'visible' => true],
+                    'suffix'       => ['size' => $i_size],
+                    'name'         => ['size' => $i_size * 2],
+                    'nickname'     => ['size' => $i_size * 2],
+                    'organization' => ['size' => $i_size * 2, 'visible' => $business_mode],
+                    'department'   => ['size' => $i_size * 2, 'visible' => $business_mode],
+                    'jobtitle'     => ['size' => $i_size * 2, 'visible' => $business_mode],
                 ],
             ],
         ];
@@ -213,7 +213,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
     {
         static $edit_form;
 
-        $rcmail = rcmail::get_instance();
+        $rcmail     = rcmail::get_instance();
         $form_start = $form_end = '';
 
         if (empty($edit_form)) {

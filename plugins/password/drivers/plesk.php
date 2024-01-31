@@ -213,7 +213,7 @@ class plesk_rpc
     public function change_mailbox_password($mailbox, $newpass)
     {
         [$user, $domain] = explode('@', $mailbox);
-        $domain_id = $this->get_domain_id($domain);
+        $domain_id       = $this->get_domain_id($domain);
 
         // if domain cannot be resolved to an id, do not continue
         if (!$domain_id) {
@@ -248,7 +248,7 @@ class plesk_rpc
 
             if ($res != 'ok') {
                 $res = [
-                    'code' => PASSWORD_ERROR,
+                    'code'    => PASSWORD_ERROR,
                     'message' => strval($xml->mail->update->set->result->errtext),
                 ];
             }

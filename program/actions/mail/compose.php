@@ -69,7 +69,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             }
 
             self::$COMPOSE_ID = uniqid(mt_rand());
-            $params     = rcube_utils::request2param(rcube_utils::INPUT_GET, 'task|action', true);
+            $params           = rcube_utils::request2param(rcube_utils::INPUT_GET, 'task|action', true);
 
             $_SESSION['compose_data_' . self::$COMPOSE_ID] = [
                 'id'      => self::$COMPOSE_ID,
@@ -154,12 +154,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $msg_uid      = self::$COMPOSE['param']['reply_uid'];
             $compose_mode = rcmail_sendmail::MODE_REPLY;
         } elseif (!empty(self::$COMPOSE['param']['forward_uid'])) {
-            $msg_uid      = self::$COMPOSE['param']['forward_uid'];
-            $compose_mode = rcmail_sendmail::MODE_FORWARD;
+            $msg_uid                        = self::$COMPOSE['param']['forward_uid'];
+            $compose_mode                   = rcmail_sendmail::MODE_FORWARD;
             self::$COMPOSE['forward_uid']   = $msg_uid;
             self::$COMPOSE['as_attachment'] = !empty(self::$COMPOSE['param']['attachment']);
         } elseif (!empty(self::$COMPOSE['param']['uid'])) {
-            $msg_uid = self::$COMPOSE['param']['uid'];
+            $msg_uid      = self::$COMPOSE['param']['uid'];
             $compose_mode = rcmail_sendmail::MODE_EDIT;
         }
 
@@ -493,7 +493,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (empty($spellcheck_langs)) {
             if ($err = $spellchecker->error()) {
                 rcube::raise_error([
-                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                    'code'    => 500, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => 'Spell check engine error: ' . trim($err),
                 ], true, false);
             }
@@ -745,7 +745,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             }
         } else {
             if ($part->ctype_secondary == 'enriched') {
-                $body = rcube_enriched::to_html($body);
+                $body                  = rcube_enriched::to_html($body);
                 $part->ctype_secondary = 'html';
             }
 
@@ -787,7 +787,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // If desired, set this textarea to be editable by TinyMCE
         $attrib['data-html-editor'] = true;
         if (self::$HTML_MODE) {
-            $attrib['class'] = trim(($attrib['class'] ?? '') . ' mce_editor');
+            $attrib['class']                            = trim(($attrib['class'] ?? '') . ' mce_editor');
             $attrib['data-html-editor-content-element'] = $attrib['id'] . '-content';
         }
 
@@ -983,9 +983,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $container_id     = self::$COMPOSE['mode'] . 'body' . (++$part_no);
         $container_attrib = ['id' => $container_id];
         $body_args        = [
-            'safe'             => self::$MESSAGE->is_safe,
-            'plain'            => false,
-            'css_prefix'       => 'v' . $part_no,
+            'safe'       => self::$MESSAGE->is_safe,
+            'plain'      => false,
+            'css_prefix' => 'v' . $part_no,
         ];
 
         // remove comments (produced by washtml)
@@ -1019,9 +1019,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      */
     public static function remove_signature($body)
     {
-        $rcmail = rcmail::get_instance();
-        $body   = str_replace("\r\n", "\n", $body);
-        $len    = strlen($body);
+        $rcmail        = rcmail::get_instance();
+        $body          = str_replace("\r\n", "\n", $body);
+        $len           = strlen($body);
         $sig_max_lines = $rcmail->config->get('sig_max_lines', 15);
 
         while (($sp = strrpos($body, "-- \n", !empty($sp) ? -$len + $sp - 1 : 0)) !== false) {
@@ -1191,7 +1191,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
 
         if (self::$COMPOSE['forward_uid'] == '*') {
-            $index = $storage->index(null, self::sort_column(), self::sort_order());
+            $index                        = $storage->index(null, self::sort_column(), self::sort_order());
             self::$COMPOSE['forward_uid'] = $index->get();
         } elseif (!is_array(self::$COMPOSE['forward_uid']) && strpos(self::$COMPOSE['forward_uid'], ':')) {
             self::$COMPOSE['forward_uid'] = rcube_imap_generic::uncompressMessageSet(self::$COMPOSE['forward_uid']);
@@ -1396,9 +1396,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 );
 
                 $content_link = html::a([
-                        'href'     => '#load',
-                        'class'    => 'filename',
-                        'onclick'  => sprintf(
+                        'href'    => '#load',
+                        'class'   => 'filename',
+                        'onclick' => sprintf(
                             "return %s.command('load-attachment','rcmfile%s', this, event)",
                             rcmail_output::JS_OBJECT_NAME,
                             $id
@@ -1539,7 +1539,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $out = '';
 
         foreach ($rcmail->get_address_sources(false, true) as $j => $source) {
-            $id = strval(strlen($source['id']) ? $source['id'] : $j);
+            $id    = strval(strlen($source['id']) ? $source['id'] : $j);
             $js_id = rcube::JQ($id);
 
             // set class name(s)

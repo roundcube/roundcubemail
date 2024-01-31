@@ -69,7 +69,7 @@ class Managesieve_Engine extends ActionTestCase
      */
     public function test_strip_value($expected, $args)
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         $plugin = new managesieve($rcube->plugins);
         $engine = new rcube_sieve_engine($plugin);
@@ -82,7 +82,7 @@ class Managesieve_Engine extends ActionTestCase
      */
     public function test_list_input()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         $plugin = new managesieve($rcube->plugins);
         $engine = new rcube_sieve_engine($plugin);

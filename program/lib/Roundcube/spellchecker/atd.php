@@ -42,7 +42,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      */
     public function languages()
     {
-        $langs = array_values($this->langhosts);
+        $langs   = array_values($this->langhosts);
         $langs[] = 'en';
 
         return $langs;
@@ -86,7 +86,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
             $postdata .= '&key=' . urlencode($key);
         }
 
-        $response = $headers = '';
+        $response  = $headers = '';
         $in_header = true;
 
         if ($fp = fsockopen($host, $port, $errno, $errstr, 30)) {
@@ -143,10 +143,10 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
                 }
 
                 $prefix = strval($error->precontext);
-                $start = $prefix ? mb_strpos($text, $prefix) : 0;
-                $pos = mb_strpos($text, $word, $start);
-                $len = mb_strlen($word);
-                $num = 0;
+                $start  = $prefix ? mb_strpos($text, $prefix) : 0;
+                $pos    = mb_strpos($text, $word, $start);
+                $len    = mb_strlen($word);
+                $num    = 0;
 
                 $match = [$word, $pos, $len, null, []];
                 foreach ($error->suggestions->option as $option) {

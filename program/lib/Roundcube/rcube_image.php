@@ -75,7 +75,7 @@ class rcube_image
         // use ImageMagick
         if (empty($type) && ($data = $this->identify())) {
             [$type, $width, $height] = $data;
-            $channels = null;
+            $channels                = null;
         }
 
         if (!empty($type)) {
@@ -126,7 +126,7 @@ class rcube_image
                 $type = $data[0];
             }
 
-            $type = strtr($type, ['jpeg' => 'jpg', 'tiff' => 'tif', 'ps' => 'eps', 'ept' => 'eps']);
+            $type        = strtr($type, ['jpeg' => 'jpg', 'tiff' => 'tif', 'ps' => 'eps', 'ept' => 'eps']);
             $p['intype'] = $type;
 
             // convert to an image format every browser can display
@@ -150,7 +150,7 @@ class rcube_image
                         $width  = $props['width'];
                         $height = $props['height'];
                     } else {
-                        $width  = intval($props['width']  * $scale);
+                        $width  = intval($props['width'] * $scale);
                         $height = intval($props['height'] * $scale);
                     }
 
@@ -235,7 +235,7 @@ class rcube_image
             if ($scale >= 1) {
                 $result = $this->image_file == $filename || copy($this->image_file, $filename);
             } else {
-                $width     = intval($props['width']  * $scale);
+                $width     = intval($props['width'] * $scale);
                 $height    = intval($props['height'] * $scale);
                 $new_image = imagecreatetruecolor($width, $height);
 
@@ -396,7 +396,7 @@ class rcube_image
      */
     public static function is_convertable($mimetype)
     {
-        $rcube = rcube::get_instance();
+        $rcube    = rcube::get_instance();
         $mimetype = preg_replace('|^image/|', '', $mimetype);
         $mimetype = strtoupper($mimetype);
 

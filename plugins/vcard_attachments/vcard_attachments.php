@@ -28,11 +28,11 @@ class vcard_attachments extends rcube_plugin
             $this->include_stylesheet($this->local_skin_path() . '/style.css');
             $this->include_script('vcardattach.js');
             $this->add_button([
-                    'type'     => 'link-menuitem',
-                    'label'    => 'vcard_attachments.forwardvcard',
-                    'command'  => 'attach-vcard',
-                    'class'    => 'icon vcard',
-                    'classact' => 'icon vcard active',
+                    'type'       => 'link-menuitem',
+                    'label'      => 'vcard_attachments.forwardvcard',
+                    'command'    => 'attach-vcard',
+                    'class'      => 'icon vcard',
+                    'classact'   => 'icon vcard active',
                     'innerclass' => 'icon vcard',
                 ],
                 'contactmenu'
@@ -49,12 +49,12 @@ class vcard_attachments extends rcube_plugin
                 $this->include_stylesheet($this->local_skin_path() . '/style.css');
                 $this->include_script('vcardattach.js');
                 $this->add_button([
-                        'type'     => 'link',
-                        'label'    => 'vcard_attachments.vcard',
-                        'command'  => 'attach-vcard',
-                        'class'    => 'listbutton vcard disabled',
-                        'classact' => 'listbutton vcard',
-                        'title'    => 'vcard_attachments.attachvcard',
+                        'type'       => 'link',
+                        'label'      => 'vcard_attachments.vcard',
+                        'command'    => 'attach-vcard',
+                        'class'      => 'listbutton vcard disabled',
+                        'classact'   => 'listbutton vcard',
+                        'title'      => 'vcard_attachments.attachvcard',
                         'innerclass' => 'inner',
                     ],
                     'compose-contacts-toolbar'
@@ -252,7 +252,7 @@ class vcard_attachments extends rcube_plugin
             }
 
             if ($valid) {
-                $plugin = $rcmail->plugins->exec_hook('contact_create', ['record' => $contact, 'source' => null]);
+                $plugin  = $rcmail->plugins->exec_hook('contact_create', ['record' => $contact, 'source' => null]);
                 $contact = $plugin['record'];
 
                 if (!$plugin['abort'] && $CONTACTS->insert($contact)) {
@@ -361,7 +361,7 @@ class vcard_attachments extends rcube_plugin
 
                 foreach ($contact as $key => $values) {
                     [$field, $section] = rcube_utils::explode(':', $key);
-                    $section = strtoupper($section ?? '');
+                    $section           = strtoupper($section ?? '');
                     // avoid unwanted casting of DateTime objects to an array
                     // (same as in rcube_contacts::convert_save_data())
                     if (is_object($values) && is_a($values, 'DateTime')) {

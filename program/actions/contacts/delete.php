@@ -86,7 +86,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
 
         if (!empty($_SESSION['contact_undo'])) {
             $_SESSION['contact_undo']['ts'] = time();
-            $msg = html::span(null, $rcmail->gettext('contactdeleted'))
+            $msg                            = html::span(null, $rcmail->gettext('contactdeleted'))
                 . ' ' . html::a(
                     ['onclick' => rcmail_output::JS_OBJECT_NAME . ".command('undo', '', this)"],
                     $rcmail->gettext('undo')
@@ -127,7 +127,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 }
 
                 $res->records = array_values($records);
-                $records = $res;
+                $records      = $res;
             } else {
                 unset($records);
             }

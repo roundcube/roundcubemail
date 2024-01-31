@@ -20,7 +20,7 @@ class Actions_Utils_SavePref extends ActionTestCase
         $rcmail->user->save_prefs(['list_cols' => []]);
 
         $_POST = [
-            '_name' => 'list_cols',
+            '_name'  => 'list_cols',
             '_value' => ['date'],
         ];
 

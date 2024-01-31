@@ -40,7 +40,7 @@ class Installer extends ChromeDriverCommand
      */
     public function install($version = ''): void
     {
-        $os = OperatingSystem::id();
+        $os      = OperatingSystem::id();
         $version = trim($version);
         $archive = $this->directory . 'chromedriver.zip';
 

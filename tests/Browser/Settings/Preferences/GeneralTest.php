@@ -106,12 +106,12 @@ class GeneralTest extends TestCase
         // TODO: Skin or language change causes page reload, we should test this separately
 
         $this->settings = [
-            'timezone' => 'Pacific/Midway',
-            'time_format' => 'h:i A',
-            'date_format' => 'd-m-Y',
+            'timezone'         => 'Pacific/Midway',
+            'time_format'      => 'h:i A',
+            'date_format'      => 'd-m-Y',
             'refresh_interval' => 60,
-            'pretty_date' => !boolval($this->app->config->get('prettydate')),
-            'display_next' => !boolval($this->app->config->get('display_next')),
+            'pretty_date'      => !boolval($this->app->config->get('prettydate')),
+            'display_next'     => !boolval($this->app->config->get('display_next')),
             'standard_windows' => !boolval($this->app->config->get('standard_windows')),
         ];
 

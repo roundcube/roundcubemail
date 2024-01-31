@@ -67,8 +67,8 @@ class rcube_cache
 
         if (!$driver || !class_exists($class)) {
             rcube::raise_error([
-                'code' => 600, 'type' => 'db',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code'    => 600, 'type' => 'db',
+                'line'    => __LINE__, 'file' => __FILE__,
                 'message' => "Configuration error. Unsupported cache driver: {$driver}",
             ], true, true);
         }
@@ -308,7 +308,7 @@ class rcube_cache
             // multiple times in one request (e.g. 'messagecount' entry rcube_imap).
             $this->updates[$key] = new DateTime('now', new DateTimeZone('UTC'));
             $this->cache[$key]   = $data;
-            $result = true;
+            $result              = true;
         }
 
         $this->write_index();

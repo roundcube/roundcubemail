@@ -257,8 +257,8 @@ class acl extends rcube_plugin
         // depending on server capability either use 'te' or 'd' for deleting msgs
         $deleteright = implode('', array_intersect(str_split('ted'), $supported));
 
-        $out = '';
-        $ul  = '';
+        $out   = '';
+        $ul    = '';
         $input = new html_checkbox();
 
         // Advanced rights
@@ -274,9 +274,9 @@ class acl extends rcube_plugin
         $out = html::tag('ul', $attrib, $ul, html::$common_attrib);
 
         // Simple rights
-        $ul = '';
+        $ul           = '';
         $attrib['id'] = 'simplerights';
-        $items = [
+        $items        = [
             'read'   => 'lrs',
             'write'  => 'wi',
             'delete' => $deleteright,
@@ -292,7 +292,7 @@ class acl extends rcube_plugin
             $id    = "acl{$key}";
             $title = !empty($data['titles'][$key]) ? $data['titles'][$key] : $this->gettext('longacl' . $key);
             $label = !empty($data['labels'][$key]) ? $data['labels'][$key] : $this->gettext('acl' . $key);
-            $ul   .= html::tag('li', null,
+            $ul .= html::tag('li', null,
                 $input->show('', ['name' => "acl[{$val}]", 'value' => $val, 'id' => $id])
                 . html::label(['for' => $id, 'title' => $title], $label)
             );
@@ -315,13 +315,13 @@ class acl extends rcube_plugin
     public function templ_user($attrib)
     {
         // Create username input
-        $class = !empty($attrib['class']) ? $attrib['class'] : '';
+        $class           = !empty($attrib['class']) ? $attrib['class'] : '';
         $attrib['name']  = 'acluser';
         $attrib['class'] = 'form-control';
 
         $textfield = new html_inputfield($attrib);
 
-        $label = html::label(['for' => $attrib['id'], 'class' => 'input-group-text'], $this->gettext('username'));
+        $label          = html::label(['for' => $attrib['id'], 'class' => 'input-group-text'], $this->gettext('username'));
         $fields['user'] = html::div('input-group',
             html::span('input-group-prepend', $label) . ' ' . $textfield->show()
         );
@@ -424,9 +424,9 @@ class acl extends rcube_plugin
 
         // Create the table
         $attrib['noheader'] = true;
-        $table    = new html_table($attrib);
-        $self     = $this->rc->get_user_name();
-        $js_table = [];
+        $table              = new html_table($attrib);
+        $self               = $this->rc->get_user_name();
+        $js_table           = [];
 
         // Create table header
         $table->add_header('user', $this->gettext('identifier'));
@@ -616,7 +616,7 @@ class acl extends rcube_plugin
         $supported = $this->rights_supported();
         $list      = [];
         $attrib    = [
-            'name' => 'rcmyrights',
+            'name'  => 'rcmyrights',
             'style' => 'margin:0; padding:0 15px;',
         ];
 
@@ -811,7 +811,7 @@ class acl extends rcube_plugin
         // lowercase domain name
         elseif ($login_lc && strpos($user, '@')) {
             [$local, $domain] = explode('@', $user);
-            $user = $local . '@' . mb_strtolower($domain);
+            $user             = $local . '@' . mb_strtolower($domain);
         }
 
         return $user;

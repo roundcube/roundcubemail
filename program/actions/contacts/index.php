@@ -171,20 +171,20 @@ class rcmail_action_contacts_index extends rcmail_action
             ],
         ],
         'birthday' => [
-            'type'      => 'date',
-            'size'      => 12,
-            'maxlength' => 16,
-            'label'     => 'birthday',
-            'limit'     => 1,
+            'type'        => 'date',
+            'size'        => 12,
+            'maxlength'   => 16,
+            'label'       => 'birthday',
+            'limit'       => 1,
             'render_func' => 'rcmail_action_contacts_index::format_date_col',
             'category'    => 'personal',
         ],
         'anniversary' => [
-            'type'      => 'date',
-            'size'      => 12,
-            'maxlength' => 16,
-            'label'     => 'anniversary',
-            'limit'     => 1,
+            'type'        => 'date',
+            'size'        => 12,
+            'maxlength'   => 16,
+            'label'       => 'anniversary',
+            'limit'       => 1,
             'render_func' => 'rcmail_action_contacts_index::format_date_col',
             'category'    => 'personal',
         ],
@@ -388,7 +388,7 @@ class rcmail_action_contacts_index extends rcmail_action
         // reduce/extend $CONTACT_COLTYPES with specification from the current $CONTACT object
         if (is_array($contacts->coltypes)) {
             // remove cols not listed by the backend class
-            $contact_cols = isset($contacts->coltypes[0]) ? array_flip($contacts->coltypes) : $contacts->coltypes;
+            $contact_cols           = isset($contacts->coltypes[0]) ? array_flip($contacts->coltypes) : $contacts->coltypes;
             self::$CONTACT_COLTYPES = array_intersect_key(self::$CONTACT_COLTYPES, $contact_cols);
 
             // add associative coltypes definition
@@ -458,7 +458,7 @@ class rcmail_action_contacts_index extends rcmail_action
         $current = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
         foreach ($sources as $j => $source) {
-            $id = strval(strlen($source['id']) ? $source['id'] : $j);
+            $id    = strval(strlen($source['id']) ? $source['id'] : $j);
             $js_id = rcube::JQ($id);
 
             // set class name(s)
@@ -488,7 +488,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 $groupdata = self::contact_groups($groupdata);
             }
             $jsdata = $groupdata['jsdata'];
-            $out = $groupdata['out'];
+            $out    = $groupdata['out'];
             $out .= '</li>';
         }
 
@@ -512,8 +512,8 @@ class rcmail_action_contacts_index extends rcmail_action
             $attrib['id'] = 'rcmsavedsearchlist';
         }
 
-        $rcmail = rcmail::get_instance();
-        $out    = '';
+        $rcmail     = rcmail::get_instance();
+        $out        = '';
         $line_templ = html::tag('li',
             ['id' => 'rcmli%s', 'class' => '%s'],
             html::a([
@@ -553,16 +553,16 @@ class rcmail_action_contacts_index extends rcmail_action
 
     public static function contact_groups($args)
     {
-        $rcmail = rcmail::get_instance();
-        $groups = $rcmail->get_address_book($args['source'])->list_groups();
+        $rcmail      = rcmail::get_instance();
+        $groups      = $rcmail->get_address_book($args['source'])->list_groups();
         $groups_html = '';
 
         if (!empty($groups)) {
             $line_templ = html::tag('li',
                 ['id' => 'rcmli%s', 'class' => 'contactgroup'],
                 html::a([
-                        'href' => '#',
-                        'rel' => '%s:%s',
+                        'href'    => '#',
+                        'rel'     => '%s:%s',
                         'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('listgroup',{'source':'%s','id':'%s'},this)",
                     ],
                     '%s'
@@ -641,10 +641,10 @@ class rcmail_action_contacts_index extends rcmail_action
             $emails       = rcube_addressbook::get_col_values('email', $row, true);
             $row['CID']   = $row['ID'];
             $row['email'] = reset($emails);
-            $source_id  = $rcmail->output->get_env('source');
-            $a_row_cols = [];
-            $type       = !empty($row['_type']) ? $row['_type'] : 'person';
-            $classes    = [$type];
+            $source_id    = $rcmail->output->get_env('source');
+            $a_row_cols   = [];
+            $type         = !empty($row['_type']) ? $row['_type'] : 'person';
+            $classes      = [$type];
 
             // build contact ID with source ID
             if (isset($row['sourceid'])) {
@@ -671,7 +671,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                         $source_id,
                                         $row['CID']
                                     ),
-                                    'class'   => 'pushgroup',
+                                    'class'            => 'pushgroup',
                                     'data-action-link' => true,
                                 ],
                                 '&raquo;'
@@ -746,8 +746,8 @@ class rcmail_action_contacts_index extends rcmail_action
         $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
 
         return $rcmail->gettext([
-            'name'  => !empty($_SESSION['contactcountdisplay']) ? $_SESSION['contactcountdisplay'] : 'contactsfromto',
-            'vars'  => [
+            'name' => !empty($_SESSION['contactcountdisplay']) ? $_SESSION['contactcountdisplay'] : 'contactsfromto',
+            'vars' => [
                 'from'  => $result->first + 1,
                 'to'    => min($result->count, $result->first + $page_size),
                 'count' => $result->count,
@@ -968,7 +968,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 }
 
                 $legend = !empty($fieldset['name']) ? html::tag('legend', null, rcube::Q($fieldset['name'])) : '';
-                $out   .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) . "\n";
+                $out .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) . "\n";
                 continue;
             }
 
@@ -1030,9 +1030,9 @@ class rcmail_action_contacts_index extends rcmail_action
                         // render composite field
                         if ($colprop['type'] == 'composite') {
                             $row_class .= ' composite';
-                            $composite  = [];
-                            $template   = $rcmail->config->get($col . '_template', '{' . implode('} {', array_keys($colprop['childs'])) . '}');
-                            $j = 0;
+                            $composite = [];
+                            $template  = $rcmail->config->get($col . '_template', '{' . implode('} {', array_keys($colprop['childs'])) . '}');
+                            $j         = 0;
 
                             foreach ($colprop['childs'] as $childcol => $cp) {
                                 if (!empty($val) && is_array($val)) {
@@ -1050,7 +1050,7 @@ class rcmail_action_contacts_index extends rcmail_action
                                         $cp['array'] = true;
                                     }
 
-                                    $cp_type = $cp['type'] ?? null;
+                                    $cp_type                          = $cp['type'] ?? null;
                                     $composite['{' . $childcol . '}'] = rcube_output::get_edit_field($childcol, $childvalue, $cp, $cp_type) . ' ';
                                 } else {
                                     if (!empty($cp['render_func'])) {
@@ -1172,11 +1172,11 @@ class rcmail_action_contacts_index extends rcmail_action
 
                     // wrap rows in fieldgroup container
                     if ($rows) {
-                        $c_class    = 'contactfieldgroup '
+                        $c_class = 'contactfieldgroup '
                             . (!empty($colprop['subtypes']) ? 'contactfieldgroupmulti ' : '')
                             . 'contactcontroller' . $col;
                         $with_label = !empty($colprop['subtypes']) && $rcmail->action != 'print';
-                        $content   .= html::tag(
+                        $content .= html::tag(
                             'fieldset',
                             ['class' => $c_class],
                             ($with_label ? html::tag('legend', null, rcube::Q($colprop['label'])) : ' ') . $rows
@@ -1230,7 +1230,7 @@ class rcmail_action_contacts_index extends rcmail_action
             foreach ($colprop['subtypes'] as $st) {
                 if (isset($c_values[$st])) {
                     foreach ((array) $c_values[$st] as $value) {
-                        $i = count($values);
+                        $i            = count($values);
                         $subtypes[$i] = $st;
                         $values[$i]   = $value;
                     }
@@ -1242,7 +1242,7 @@ class rcmail_action_contacts_index extends rcmail_action
             // TODO: add $st to $select_subtype if missing ?
             foreach ($c_values as $st => $vals) {
                 foreach ((array) $vals as $value) {
-                    $i = count($values);
+                    $i            = count($values);
                     $subtypes[$i] = $st;
                     $values[$i]   = $value;
                 }
@@ -1384,8 +1384,8 @@ class rcmail_action_contacts_index extends rcmail_action
             if ($return) {
                 foreach ($result as $row) {
                     $row['sourceid'] = $s;
-                    $key = rcube_addressbook::compose_contact_key($row, $sort_col);
-                    $records[$key] = $row;
+                    $key             = rcube_addressbook::compose_contact_key($row, $sort_col);
+                    $records[$key]   = $row;
                 }
 
                 unset($result);

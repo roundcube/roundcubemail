@@ -173,11 +173,11 @@ class managesieve extends rcube_plugin
 
         // add 'Create filter' item to message menu
         $this->add_button([
-                'command'  => 'managesieve-create',
-                'label'    => 'managesieve.filtercreate',
-                'type'     => 'link-menuitem',
-                'classact' => 'icon filterlink active',
-                'class'    => 'icon filterlink disabled',
+                'command'    => 'managesieve-create',
+                'label'      => 'managesieve.filtercreate',
+                'type'       => 'link-menuitem',
+                'classact'   => 'icon filterlink active',
+                'class'      => 'icon filterlink disabled',
                 'innerclass' => 'icon filterlink',
             ], 'messagemenu'
         );

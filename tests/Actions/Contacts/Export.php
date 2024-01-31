@@ -18,7 +18,7 @@ class Actions_Contacts_Export extends ActionTestCase
 
         self::initDB('contacts');
 
-        $_GET = ['_source' => '0'];
+        $_GET  = ['_source' => '0'];
         $_POST = [];
 
         // Here we expect request security check error
@@ -57,9 +57,9 @@ class Actions_Contacts_Export extends ActionTestCase
 
         $this->assertTrue($action->checks());
 
-        $cids   = [];
-        $db     = rcmail::get_instance()->get_dbh();
-        $query  = $db->query("SELECT `contact_id` FROM `contacts` WHERE `email` IN ('j.rian@gmail.com', 'g.bush@gov.com')");
+        $cids  = [];
+        $db    = rcmail::get_instance()->get_dbh();
+        $query = $db->query("SELECT `contact_id` FROM `contacts` WHERE `email` IN ('j.rian@gmail.com', 'g.bush@gov.com')");
         while ($result = $db->fetch_assoc($query)) {
             $cids[] = $result['contact_id'];
         }

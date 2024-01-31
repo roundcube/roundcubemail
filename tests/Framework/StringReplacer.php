@@ -57,8 +57,8 @@ class Framework_StringReplacer extends TestCase
     public function test_replace($input, $output)
     {
         $replacer = new rcube_string_replacer();
-        $result = $replacer->replace($input);
-        $result = $replacer->resolve($result);
+        $result   = $replacer->replace($input);
+        $result   = $replacer->resolve($result);
 
         $this->assertSame($output, $result);
     }
@@ -73,8 +73,8 @@ class Framework_StringReplacer extends TestCase
             . "[ref0] www.link-ref.com\n";
 
         $replacer = new rcube_string_replacer();
-        $result = $replacer->replace($input);
-        $result = $replacer->resolve($result);
+        $result   = $replacer->replace($input);
+        $result   = $replacer->resolve($result);
 
         $this->assertStringContainsString('[<a href="http://en.wikipedia.org/wiki/Email">1</a>] to', $result, 'Numeric linkref replacements');
         $this->assertStringContainsString('[<a href="http://www.link-ref.com">ref0</a>] repl', $result, 'Alphanum linkref replacements');

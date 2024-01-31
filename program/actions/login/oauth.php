@@ -48,7 +48,7 @@ class rcmail_action_login_oauth extends rcmail_action
             }
 
             // next action will be the login
-            $args['task'] = 'login';
+            $args['task']   = 'login';
             $args['action'] = 'login';
             return $args;
         }

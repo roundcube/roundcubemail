@@ -31,7 +31,7 @@ class rcmail_action_mail_attachment_display extends rcmail_action_mail_attachmen
         self::init();
 
         $rcmail = rcmail::get_instance();
-        $file = $rcmail->get_uploaded_file(self::$file_id);
+        $file   = $rcmail->get_uploaded_file(self::$file_id);
 
         self::display_uploaded_file($file);
         exit;

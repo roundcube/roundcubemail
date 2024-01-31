@@ -43,8 +43,8 @@ class rcmail_action_mail_autocomplete extends rcmail_action
             $sort_keys = [];
             $books_num = count($book_types);
             $search_lc = mb_strtolower($search);
-            $mode     |= rcube_addressbook::SEARCH_GROUPS;
-            $fields    = $rcmail->config->get('contactlist_fields');
+            $mode |= rcube_addressbook::SEARCH_GROUPS;
+            $fields = $rcmail->config->get('contactlist_fields');
 
             foreach ($book_types as $abook_id) {
                 $abook = $rcmail->get_address_book($abook_id);
@@ -172,7 +172,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
 
         // Allow autocomplete result optimization via plugin
         $plugin = $rcmail->plugins->exec_hook('contacts_autocomplete_after', [
-            'search'   => $search,
+            'search' => $search,
             // Provide already-found contacts to plugin if they are required
             'contacts' => $contacts,
         ]);

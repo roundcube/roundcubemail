@@ -92,8 +92,8 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                     if ($ancestor_folder) {
                         if (empty($seen[$ancestor_folder])) {
                             $seen[$ancestor_folder] = true;
-                            $ancestor_name = rcube_charset::convert($foldersplit[$i - 1], 'UTF7-IMAP');
-                            $list_folders[] = [
+                            $ancestor_name          = rcube_charset::convert($foldersplit[$i - 1], 'UTF7-IMAP');
+                            $list_folders[]         = [
                                 'id'      => $ancestor_folder,
                                 'name'    => $ancestor_name,
                                 'level'   => $i - 1,
@@ -148,7 +148,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
             // Check \Noselect flag (of existing folder)
             if (!$is_protected && in_array($folder['id'], $a_unsubscribed)) {
-                $attrs = $storage->folder_attributes($folder['id']);
+                $attrs    = $storage->folder_attributes($folder['id']);
                 $noselect = in_array_nocase('\\Noselect', $attrs);
             }
 
@@ -256,8 +256,8 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $idx  = 'rcmli' . $data['idx'];
 
         $js_folders[$data['folder_imap']] = [$data['folder'], $data['display'], $data['protected']];
-        $content          = $data['content'];
-        $attribs          = [
+        $content                          = $data['content'];
+        $attribs                          = [
             'id'    => $idx,
             'class' => trim($data['class'] . ' mailbox'),
         ];
@@ -328,8 +328,8 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
 
     public static function folder_options($mailbox)
     {
-        $rcmail  = rcmail::get_instance();
-        $options = $rcmail->get_storage()->folder_info($mailbox);
+        $rcmail               = rcmail::get_instance();
+        $options              = $rcmail->get_storage()->folder_info($mailbox);
         $options['protected'] = !empty($options['is_root'])
             || strtoupper($mailbox) === 'INBOX'
             || (!empty($options['special']) && $rcmail->config->get('protect_default_folders'));

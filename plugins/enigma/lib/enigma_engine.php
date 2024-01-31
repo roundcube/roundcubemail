@@ -78,7 +78,7 @@ class enigma_engine
 
         if (!$this->pgp_driver) {
             rcube::raise_error([
-                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'code'    => 600, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Enigma plugin: Unable to load PGP driver: {$driver}",
             ], true, true);
         }
@@ -108,7 +108,7 @@ class enigma_engine
 
         if (!$this->smime_driver) {
             rcube::raise_error([
-                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'code'    => 600, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Enigma plugin: Unable to load S/MIME driver: {$driver}",
             ], true, true);
         }
@@ -181,8 +181,8 @@ class enigma_engine
             // We can't use format=flowed for signed messages
             if (strpos($text_charset, 'format=flowed')) {
                 [$charset, $params] = explode(';', $text_charset);
-                $body = rcube_mime::unfold_flowed($body);
-                $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
+                $body               = rcube_mime::unfold_flowed($body);
+                $body               = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
 
                 $text_charset = str_replace(";\r\n format=flowed", '', $text_charset);
             }
@@ -430,8 +430,8 @@ class enigma_engine
 
             // @TODO: what to do on error?
             if ($result === true) {
-                $part->body = $body;
-                $part->size = strlen($body);
+                $part->body          = $body;
+                $part->size          = strlen($body);
                 $part->body_modified = true;
             }
         }
@@ -607,7 +607,7 @@ class enigma_engine
         fwrite($fd, $body);
         rewind($fd);
 
-        $body = $part->body = null;
+        $body                = $part->body = null;
         $part->body_modified = true;
 
         // Extract body (and signature?)
@@ -634,7 +634,7 @@ class enigma_engine
 
         // Store signature data for display
         if (!empty($sig)) {
-            $sig->partial = !empty($prefix);
+            $sig->partial                     = !empty($prefix);
             $this->signatures[$part->mime_id] = $sig;
         }
     }
@@ -843,7 +843,7 @@ class enigma_engine
             $this->decryptions[$part->mime_id] = $result;
 
             // Make sure decryption status message will be displayed
-            $part->type = 'content';
+            $part->type           = 'content';
             $p['object']->parts[] = $part;
 
             // don't show encrypted part on attachments list
@@ -1241,7 +1241,7 @@ class enigma_engine
             // fake the size which may be empty for multipart/* parts
             // otherwise get_message_part() below will fail
             if (!$part->size) {
-                $reset = true;
+                $reset      = true;
                 $part->size = 1;
             }
 
@@ -1325,7 +1325,7 @@ class enigma_engine
         }
 
         // Cache the fact it was decrypted
-        $this->encrypted_parts[] = $part->mime_id;
+        $this->encrypted_parts[]         = $part->mime_id;
         $msg->mime_parts[$part->mime_id] = $part;
 
         // modify sub-parts
@@ -1458,7 +1458,7 @@ class enigma_engine
     protected function sync_keys($recipients)
     {
         $import = [];
-        $woat = $this->rc->config->get('enigma_woat');
+        $woat   = $this->rc->config->get('enigma_woat');
 
         if (empty($woat)) {
             return;

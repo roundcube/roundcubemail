@@ -46,8 +46,8 @@ class Framework_Imap extends TestCase
         $_SESSION['imap_delimiter'] = '.';
         $_SESSION['imap_namespace'] = [
             'personal' => null,
-            'other' => [['Other Users.', '.']],
-            'shared' => [['Shared.', '.']],
+            'other'    => [['Other Users.', '.']],
+            'shared'   => [['Shared.', '.']],
         ];
 
         foreach (['drafts', 'sent', 'junk', 'trash'] as $mbox) {

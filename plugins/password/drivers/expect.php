@@ -45,12 +45,12 @@ class rcube_expect_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $rcmail   = rcmail::get_instance();
-        $bin      = $rcmail->config->get('password_expect_bin');
-        $script   = $rcmail->config->get('password_expect_script');
-        $params   = $rcmail->config->get('password_expect_params');
+        $rcmail = rcmail::get_instance();
+        $bin    = $rcmail->config->get('password_expect_bin');
+        $script = $rcmail->config->get('password_expect_script');
+        $params = $rcmail->config->get('password_expect_params');
 
-        $cmd = $bin . ' -f ' . $script . ' -- ' . $params;
+        $cmd    = $bin . ' -f ' . $script . ' -- ' . $params;
         $handle = popen($cmd, 'w');
         fwrite($handle, "{$username}\n");
         fwrite($handle, "{$currpass}\n");
@@ -61,9 +61,9 @@ class rcube_expect_password
         }
 
         rcube::raise_error([
-            'code' => 600,
-            'file' => __FILE__,
-            'line' => __LINE__,
+            'code'    => 600,
+            'file'    => __FILE__,
+            'line'    => __LINE__,
             'message' => "Password plugin: Unable to execute {$cmd}",
         ], true, false);
 

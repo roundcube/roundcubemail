@@ -48,8 +48,8 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         }
 
         foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
-            $deleted  += (int) $rcmail->storage->delete_message($uids, $mbox);
-            $count    += is_array($uids) ? count($uids) : 1;
+            $deleted += (int) $rcmail->storage->delete_message($uids, $mbox);
+            $count   += is_array($uids) ? count($uids) : 1;
             $sources[] = $mbox;
         }
 
@@ -97,7 +97,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
             $page--;
             $rcmail->storage->set_page($page);
             $_SESSION['page'] = $page;
-            $jump_back = true;
+            $jump_back        = true;
         }
 
         // update unseen messages counts for all involved folders

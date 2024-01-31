@@ -121,7 +121,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 unset($save_data['changed'], $save_data['del'], $save_data['user_id'], $save_data['identity_id']);
             }
 
-            $plugin = $rcmail->plugins->exec_hook('identity_update', ['id' => $iid, 'record' => $save_data]);
+            $plugin    = $rcmail->plugins->exec_hook('identity_update', ['id' => $iid, 'record' => $save_data]);
             $save_data = $plugin['record'];
 
             if ($save_data['email']) {
@@ -158,7 +158,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 $save_data['email'] = $rcmail->get_user_email();
             }
 
-            $plugin = $rcmail->plugins->exec_hook('identity_create', ['record' => $save_data]);
+            $plugin    = $rcmail->plugins->exec_hook('identity_create', ['record' => $save_data]);
             $save_data = $plugin['record'];
 
             if ($save_data['email']) {

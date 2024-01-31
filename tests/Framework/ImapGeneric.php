@@ -37,11 +37,11 @@ class Framework_ImapGeneric extends TestCase
     {
         $headers = [
             rcube_message_header::from_array([
-                'subject' => 'Test1',
+                'subject'   => 'Test1',
                 'timestamp' => time() - 100,
             ]),
             rcube_message_header::from_array([
-                'subject' => 'Re: Test2',
+                'subject'   => 'Re: Test2',
                 'timestamp' => time(),
             ]),
         ];
@@ -184,7 +184,7 @@ class Framework_ImapGeneric extends TestCase
      */
     public function test_decode_content_formatted()
     {
-        $content = "test \r\n plain text\tcontent\t\r\n test plain text content\t";
+        $content  = "test \r\n plain text\tcontent\t\r\n test plain text content\t";
         $expected = "test \n plain text\tcontent\n test plain text content";
 
         $this->runDecodeContent($expected, $content, 4);
@@ -206,7 +206,7 @@ class Framework_ImapGeneric extends TestCase
             }
 
             $decoded = $prev = '';
-            $chunks = str_split($encoded, $x);
+            $chunks  = str_split($encoded, $x);
 
             foreach ($chunks as $idx => $chunk) {
                 $decoded .= $method->invokeArgs(null, [$chunk, $mode, $idx == count($chunks) - 1, &$prev]);

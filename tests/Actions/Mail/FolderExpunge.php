@@ -52,7 +52,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
 
         $this->assertTrue($action->checks());
 
-        $_POST = ['_mbox' => 'INBOX'];
+        $_POST    = ['_mbox' => 'INBOX'];
         $_REQUEST = ['_reload' => 1];
 
         // Set expected storage function calls/results

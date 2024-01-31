@@ -22,7 +22,7 @@ class Framework_Rcube extends TestCase
      */
     public function test_read_localization()
     {
-        $rcube = rcube::get_instance();
+        $rcube  = rcube::get_instance();
         $result = $rcube->read_localization(INSTALL_PATH . 'plugins/acl/localization', 'pl_PL');
 
         $this->assertSame('Zapis', $result['aclwrite']);
@@ -33,7 +33,7 @@ class Framework_Rcube extends TestCase
      */
     public function test_list_languages()
     {
-        $rcube = rcube::get_instance();
+        $rcube  = rcube::get_instance();
         $result = $rcube->list_languages();
 
         $this->assertSame('English (US)', $result['en_US']);

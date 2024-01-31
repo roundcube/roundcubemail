@@ -58,7 +58,7 @@ class rcmail_attachment_handler
         if (!empty($uid)) {
             $rcube->config->set('prefer_html', true);
             $this->message = new rcube_message($uid, null, !empty($_GET['_safe']));
-            $this->part = $this->message->mime_parts[$part_id] ?? null;
+            $this->part    = $this->message->mime_parts[$part_id] ?? null;
 
             if ($this->part) {
                 $this->filename = rcmail_action_mail_index::attachment_name($this->part);
@@ -297,7 +297,7 @@ class rcmail_attachment_handler
     public function html()
     {
         [$type, $subtype] = explode('/', $this->mimetype);
-        $part = (object) [
+        $part             = (object) [
             'charset'         => $this->charset,
             'ctype_secondary' => $subtype,
         ];
@@ -357,7 +357,7 @@ class rcmail_attachment_handler
                 header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
             } else {
                 rcube::raise_error([
-                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                    'code'    => 500, 'file' => __FILE__, 'line' => __LINE__,
                     'message' => 'Unable to get/display message part. IMAP connection error',
                 ], true, true);
             }

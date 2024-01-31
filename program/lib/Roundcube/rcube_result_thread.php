@@ -60,7 +60,7 @@ class rcube_result_thread
             if (preg_match('/^ THREAD/i', $data[$i])) {
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
-                $data[$i] = substr($data[$i], 7);
+                $data[$i]       = substr($data[$i], 7);
                 break;
             }
 
@@ -250,8 +250,8 @@ class rcube_result_thread
             return;
         }
 
-        $data = explode(self::SEPARATOR_ELEMENT, $this->raw_data);
-        $data = array_reverse($data);
+        $data           = explode(self::SEPARATOR_ELEMENT, $this->raw_data);
+        $data           = array_reverse($data);
         $this->raw_data = implode(self::SEPARATOR_ELEMENT, $data);
 
         $this->meta['pos'] = [];
@@ -464,7 +464,7 @@ class rcube_result_thread
             if ($root) {
                 $result[$root] = $root;
                 foreach ($items as $item) {
-                    [$lv, $id] = explode(self::SEPARATOR_LEVEL, $item);
+                    [$lv, $id]   = explode(self::SEPARATOR_LEVEL, $item);
                     $result[$id] = $root;
                 }
             }
@@ -476,7 +476,7 @@ class rcube_result_thread
 
         // Re-sort raw data
         $result = array_fill_keys($result, null);
-        $start = 0;
+        $start  = 0;
 
         while (
             ($start < $datalen && ($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)))
@@ -510,11 +510,11 @@ class rcube_result_thread
             && (($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)) !== false
                 || ($pos = $datalen))
         ) {
-            $len   = $pos - $start;
-            $elem  = substr($this->raw_data, $start, $len);
-            $items = explode(self::SEPARATOR_ITEM, $elem);
+            $len                         = $pos - $start;
+            $elem                        = substr($this->raw_data, $start, $len);
+            $items                       = explode(self::SEPARATOR_ITEM, $elem);
             $result[array_shift($items)] = $this->build_thread($items);
-            $start = $pos + 1;
+            $start                       = $pos + 1;
         }
 
         return $result;
@@ -605,8 +605,8 @@ class rcube_result_thread
 
         if ($str[$begin] != '(') {
             // find next bracket
-            $stop      = $begin + strcspn($str, '()', $begin, $end - $begin);
-            $messages  = explode(' ', trim(substr($str, $begin, $stop - $begin)));
+            $stop     = $begin + strcspn($str, '()', $begin, $end - $begin);
+            $messages = explode(' ', trim(substr($str, $begin, $stop - $begin)));
 
             if (empty($messages)) {
                 return $node;
@@ -660,10 +660,10 @@ class rcube_result_thread
                     // Extract the token and modify it to look like a thread root
                     $token = substr($thread, 1, $len);
                     // Warning: The order is important
-                    $token = str_replace('(', '', $token);
-                    $token = str_replace(' ', ' (', $token);
-                    $token = str_replace(')', ' ', $token);
-                    $thread  = substr_replace($thread, $token, 1, $len);
+                    $token  = str_replace('(', '', $token);
+                    $token  = str_replace(' ', ' (', $token);
+                    $token  = str_replace(')', ' ', $token);
+                    $thread = substr_replace($thread, $token, 1, $len);
                     // Parse the thread
                     $thread = $this->parse_thread($thread, 0, 0, $depth);
                 } else {

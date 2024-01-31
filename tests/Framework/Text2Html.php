@@ -13,14 +13,14 @@ class Framework_Text2Html extends TestCase
     public function provide_text2html_cases(): iterable
     {
         $options = [
-            'begin'  => '',
-            'end'    => '',
-            'break'  => '<br>',
-            'links'  => false,
-            'flowed' => false,
-            'delsp'  => false,
-            'wrap'   => false,
-            'space'  => '_', // replace UTF-8 non-breaking space for simpler testing
+            'begin'      => '',
+            'end'        => '',
+            'break'      => '<br>',
+            'links'      => false,
+            'flowed'     => false,
+            'delsp'      => false,
+            'wrap'       => false,
+            'space'      => '_', // replace UTF-8 non-breaking space for simpler testing
             'nobr_start' => '>',
             'nobr_end'   => '<',
         ];
@@ -126,7 +126,7 @@ class Framework_Text2Html extends TestCase
     public function test_text2html_xss()
     {
         $input = "\n[<script>evil</script>]:##str_replacement_0##\n";
-        $t2h = new rcube_text2html($input);
+        $t2h   = new rcube_text2html($input);
 
         $html = $t2h->get_html();
 
@@ -143,7 +143,7 @@ class Framework_Text2Html extends TestCase
     public function test_text2html_xss2()
     {
         $input = "\n[<script>evil</script>] https://google.com\n";
-        $t2h = new rcube_text2html($input);
+        $t2h   = new rcube_text2html($input);
 
         $html = $t2h->get_html();
 
@@ -159,7 +159,7 @@ class Framework_Text2Html extends TestCase
      */
     public function test_text2html_8021()
     {
-        $input = "Test1 [1]\n\n[1] http://d1.tld\n\nyou wrote:\n> Test2 [1]\n>\n> [1] http://d2.tld";
+        $input    = "Test1 [1]\n\n[1] http://d1.tld\n\nyou wrote:\n> Test2 [1]\n>\n> [1] http://d2.tld";
         $expected = '<div class="pre">Test1 [<a href="http://d1.tld">1</a>]'
             . "<br>\n<br>\n"
             . '[1] <a href="http://d1.tld">http://d1.tld</a>'
@@ -168,7 +168,7 @@ class Framework_Text2Html extends TestCase
             . "<br>\n<br>\n"
             . '[1] <a href="http://d2.tld">http://d2.tld</a></blockquote></div>';
 
-        $t2h = new rcube_text2html($input);
+        $t2h  = new rcube_text2html($input);
         $html = $t2h->get_html();
         $html = preg_replace('/ (rel|target)="(noreferrer|_blank)"/', '', $html);
 
@@ -208,7 +208,7 @@ class Framework_Text2Html extends TestCase
             . "<span style=\"white-space:nowrap\">_</span><br>\n"
             . 'End</div>';
 
-        $t2h = new rcube_text2html($input, false, ['space' => '_']);
+        $t2h  = new rcube_text2html($input, false, ['space' => '_']);
         $html = $t2h->get_html();
 
         $this->assertSame($expected, $html);

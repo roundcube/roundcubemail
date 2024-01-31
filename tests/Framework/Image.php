@@ -82,7 +82,7 @@ class Framework_Image extends TestCase
     {
         rcube::get_instance()->config->set('im_convert_path', '');
 
-        $file = rcube_utils::temp_filename('tests');
+        $file   = rcube_utils::temp_filename('tests');
         $object = new rcube_image($file);
 
         if (class_exists('Imagick', false)) {

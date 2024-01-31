@@ -106,7 +106,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
             // check if search fields are supported....
             if (is_array($fields)) {
-                $cols = !empty($source->coltypes[0]) ? array_flip($source->coltypes) : $source->coltypes;
+                $cols      = !empty($source->coltypes[0]) ? array_flip($source->coltypes) : $source->coltypes;
                 $supported = 0;
 
                 foreach ($fields as $f) {
@@ -136,8 +136,8 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             // get records
             foreach ($source->list_records($afields) as $row) {
                 $row['sourceid'] = $s['id'];
-                $key = rcube_addressbook::compose_contact_key($row, $sort_col);
-                $records[$key] = $row;
+                $key             = rcube_addressbook::compose_contact_key($row, $sort_col);
+                $records[$key]   = $row;
             }
 
             $search_set[$s['id']] = $source->get_search_set();
@@ -165,8 +165,8 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
         // save search settings in session
         $_SESSION['contact_search'][$search_request] = $search_set;
-        $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$fields, $search]];
-        $_SESSION['page'] = 1;
+        $_SESSION['contact_search_params']           = ['id' => $search_request, 'data' => [$fields, $search]];
+        $_SESSION['page']                            = 1;
 
         if ($adv) {
             $rcmail->output->command('list_contacts_clear');
@@ -266,7 +266,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
                 $colprop['id'] = '_search_' . $col;
 
-                $content  = html::div('row',
+                $content = html::div('row',
                     html::label(['class' => 'contactfieldlabel label', 'for' => $colprop['id']], rcube::Q($label))
                     . html::div('contactfieldcontent', rcube_output::get_edit_field('search_' . $col, '', $colprop, $ftype))
                 );

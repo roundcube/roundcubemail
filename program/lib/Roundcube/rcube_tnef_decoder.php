@@ -31,35 +31,35 @@ use RtfHtmlPhp\Html\HtmlFormatter;
  */
 class rcube_tnef_decoder
 {
-    public const SIGNATURE         = 0x223E9F78;
-    public const LVL_MESSAGE       = 0x01;
-    public const LVL_ATTACHMENT    = 0x02;
+    public const SIGNATURE      = 0x223E9F78;
+    public const LVL_MESSAGE    = 0x01;
+    public const LVL_ATTACHMENT = 0x02;
 
-    public const AFROM             = 0x08000;
-    public const ASUBJECT          = 0x18004;
-    public const AMESSAGEID        = 0x18009;
-    public const AFILENAME         = 0x18010;
-    public const APARENTID         = 0x1800A;
-    public const ACONVERSATIONID   = 0x1800B;
-    public const ABODY             = 0x2800C;
-    public const ADATESENT         = 0x38005;
-    public const ADATERECEIVED     = 0x38006;
-    public const ADATEMODIFIED     = 0x38020;
-    public const APRIORITY         = 0x4800D;
-    public const AOWNER            = 0x60000;
-    public const ASENTFOR          = 0x60001;
-    public const ASTATUS           = 0x68007;
-    public const ATTACHDATA        = 0x6800F;
-    public const ATTACHMETAFILE    = 0x68011;
-    public const ATTACHCREATEDATE  = 0x38012;
-    public const ARENDDATA         = 0x69002;
-    public const AMAPIPROPS        = 0x69003;
-    public const ARECIPIENTTABLE   = 0x69004;
-    public const AMAPIATTRS        = 0x69005;
-    public const AOEMCODEPAGE      = 0x69007;
-    public const AORIGINALMCLASS   = 0x70006;
-    public const AMCLASS           = 0x78008;
-    public const AVERSION          = 0x89006;
+    public const AFROM            = 0x08000;
+    public const ASUBJECT         = 0x18004;
+    public const AMESSAGEID       = 0x18009;
+    public const AFILENAME        = 0x18010;
+    public const APARENTID        = 0x1800A;
+    public const ACONVERSATIONID  = 0x1800B;
+    public const ABODY            = 0x2800C;
+    public const ADATESENT        = 0x38005;
+    public const ADATERECEIVED    = 0x38006;
+    public const ADATEMODIFIED    = 0x38020;
+    public const APRIORITY        = 0x4800D;
+    public const AOWNER           = 0x60000;
+    public const ASENTFOR         = 0x60001;
+    public const ASTATUS          = 0x68007;
+    public const ATTACHDATA       = 0x6800F;
+    public const ATTACHMETAFILE   = 0x68011;
+    public const ATTACHCREATEDATE = 0x38012;
+    public const ARENDDATA        = 0x69002;
+    public const AMAPIPROPS       = 0x69003;
+    public const ARECIPIENTTABLE  = 0x69004;
+    public const AMAPIATTRS       = 0x69005;
+    public const AOEMCODEPAGE     = 0x69007;
+    public const AORIGINALMCLASS  = 0x70006;
+    public const AMCLASS          = 0x78008;
+    public const AVERSION         = 0x89006;
 
     public const MAPI_TYPE_UNSET     = 0x0000;
     public const MAPI_NULL           = 0x0001;
@@ -79,46 +79,46 @@ class rcube_tnef_decoder
     public const MAPI_CLSID          = 0x0048;
     public const MAPI_BINARY         = 0x0102;
 
-    public const MAPI_BODY                     = 0x1000;
-    public const MAPI_RTF_COMPRESSED           = 0x1009;
-    public const MAPI_BODY_HTML                = 0x1013;
-    public const MAPI_NATIVE_BODY              = 0x1016;
+    public const MAPI_BODY           = 0x1000;
+    public const MAPI_RTF_COMPRESSED = 0x1009;
+    public const MAPI_BODY_HTML      = 0x1013;
+    public const MAPI_NATIVE_BODY    = 0x1016;
 
-    public const MAPI_DISPLAY_NAME             = 0x3001;
-    public const MAPI_ADDRTYPE                 = 0x3002;
-    public const MAPI_EMAIL_ADDRESS            = 0x3003;
-    public const MAPI_COMMENT                  = 0x3004;
-    public const MAPI_DEPTH                    = 0x3005;
-    public const MAPI_PROVIDER_DISPLAY         = 0x3006;
-    public const MAPI_CREATION_TIME            = 0x3007;
-    public const MAPI_LAST_MODIFICATION_TIME   = 0x3008;
-    public const MAPI_RESOURCE_FLAGS           = 0x3009;
-    public const MAPI_PROVIDER_DLL_NAME        = 0x300A;
-    public const MAPI_SEARCH_KEY               = 0x300B;
+    public const MAPI_DISPLAY_NAME               = 0x3001;
+    public const MAPI_ADDRTYPE                   = 0x3002;
+    public const MAPI_EMAIL_ADDRESS              = 0x3003;
+    public const MAPI_COMMENT                    = 0x3004;
+    public const MAPI_DEPTH                      = 0x3005;
+    public const MAPI_PROVIDER_DISPLAY           = 0x3006;
+    public const MAPI_CREATION_TIME              = 0x3007;
+    public const MAPI_LAST_MODIFICATION_TIME     = 0x3008;
+    public const MAPI_RESOURCE_FLAGS             = 0x3009;
+    public const MAPI_PROVIDER_DLL_NAME          = 0x300A;
+    public const MAPI_SEARCH_KEY                 = 0x300B;
     public const MAPI_ATTACHMENT_X400_PARAMETERS = 0x3700;
-    public const MAPI_ATTACH_DATA              = 0x3701;
-    public const MAPI_ATTACH_ENCODING          = 0x3702;
-    public const MAPI_ATTACH_EXTENSION         = 0x3703;
-    public const MAPI_ATTACH_FILENAME          = 0x3704;
-    public const MAPI_ATTACH_METHOD            = 0x3705;
-    public const MAPI_ATTACH_LONG_FILENAME     = 0x3707;
-    public const MAPI_ATTACH_PATHNAME          = 0x3708;
-    public const MAPI_ATTACH_RENDERING         = 0x3709;
-    public const MAPI_ATTACH_TAG               = 0x370A;
-    public const MAPI_RENDERING_POSITION       = 0x370B;
-    public const MAPI_ATTACH_TRANSPORT_NAME    = 0x370C;
-    public const MAPI_ATTACH_LONG_PATHNAME     = 0x370D;
-    public const MAPI_ATTACH_MIME_TAG          = 0x370E;
-    public const MAPI_ATTACH_ADDITIONAL_INFO   = 0x370F;
-    public const MAPI_ATTACH_MIME_SEQUENCE     = 0x3710;
-    public const MAPI_ATTACH_CONTENT_ID        = 0x3712;
-    public const MAPI_ATTACH_CONTENT_LOCATION  = 0x3713;
-    public const MAPI_ATTACH_FLAGS             = 0x3714;
+    public const MAPI_ATTACH_DATA                = 0x3701;
+    public const MAPI_ATTACH_ENCODING            = 0x3702;
+    public const MAPI_ATTACH_EXTENSION           = 0x3703;
+    public const MAPI_ATTACH_FILENAME            = 0x3704;
+    public const MAPI_ATTACH_METHOD              = 0x3705;
+    public const MAPI_ATTACH_LONG_FILENAME       = 0x3707;
+    public const MAPI_ATTACH_PATHNAME            = 0x3708;
+    public const MAPI_ATTACH_RENDERING           = 0x3709;
+    public const MAPI_ATTACH_TAG                 = 0x370A;
+    public const MAPI_RENDERING_POSITION         = 0x370B;
+    public const MAPI_ATTACH_TRANSPORT_NAME      = 0x370C;
+    public const MAPI_ATTACH_LONG_PATHNAME       = 0x370D;
+    public const MAPI_ATTACH_MIME_TAG            = 0x370E;
+    public const MAPI_ATTACH_ADDITIONAL_INFO     = 0x370F;
+    public const MAPI_ATTACH_MIME_SEQUENCE       = 0x3710;
+    public const MAPI_ATTACH_CONTENT_ID          = 0x3712;
+    public const MAPI_ATTACH_CONTENT_LOCATION    = 0x3713;
+    public const MAPI_ATTACH_FLAGS               = 0x3714;
 
-    public const MAPI_NAMED_TYPE_ID        = 0x0000;
-    public const MAPI_NAMED_TYPE_STRING    = 0x0001;
-    public const MAPI_NAMED_TYPE_NONE      = 0xFF;
-    public const MAPI_MV_FLAG              = 0x1000;
+    public const MAPI_NAMED_TYPE_ID     = 0x0000;
+    public const MAPI_NAMED_TYPE_STRING = 0x0001;
+    public const MAPI_NAMED_TYPE_NONE   = 0xFF;
+    public const MAPI_MV_FLAG           = 0x1000;
 
     public const RTF_UNCOMPRESSED = 0x414C454D;
     public const RTF_COMPRESSED   = 0x75465A4C;
@@ -178,8 +178,8 @@ class rcube_tnef_decoder
                 } catch (Exception $e) {
                     // ignore the body
                     rcube::raise_error([
-                        'file' => __FILE__,
-                        'line' => __LINE__,
+                        'file'    => __FILE__,
+                        'line'    => __LINE__,
                         'message' => 'Failed to extract RTF/HTML content from TNEF attachment',
                     ], true, false);
                 }
@@ -370,8 +370,8 @@ class rcube_tnef_decoder
                     $result['subtype'] = $attr_name == self::MAPI_BODY ? 'plain' : 'html';
                     $result['name']    = (!empty($result['name']) ? $result['name'] : 'Untitled')
                         . ($attr_name == self::MAPI_BODY ? '.txt' : '.html');
-                    $result['stream']  = $value;
-                    $result['size']    = strlen($value);
+                    $result['stream'] = $value;
+                    $result['size']   = strlen($value);
                     break;
                 case self::MAPI_ATTACH_LONG_FILENAME:
                     // Used in preference to AFILENAME value.
@@ -379,7 +379,7 @@ class rcube_tnef_decoder
                     break;
                 case self::MAPI_ATTACH_MIME_TAG:
                     // Is this ever set, and what is format?
-                    $value = explode('/', trim($value));
+                    $value             = explode('/', trim($value));
                     $result['type']    = $value[0];
                     $result['subtype'] = $value[1];
                     break;
@@ -388,8 +388,8 @@ class rcube_tnef_decoder
                     break;
                 case self::MAPI_ATTACH_DATA:
                     $this->_getx($value, 16);
-                    $att = new self();
-                    $res = $att->decompress($value);
+                    $att    = new self();
+                    $res    = $att->decompress($value);
                     $result = array_merge($result, $res['message']);
                     break;
             }
@@ -410,7 +410,7 @@ class rcube_tnef_decoder
         switch ($attribute) {
             case self::AOEMCODEPAGE:
                 // Find codepage of the message
-                $value = unpack('V', $value);
+                $value          = unpack('V', $value);
                 $this->codepage = $value[1];
                 break;
             case self::AMCLASS:
@@ -506,9 +506,9 @@ class rcube_tnef_decoder
      */
     protected function _decompressRTF($data, $size)
     {
-        $in = $out = $flags = $flag_count = 0;
-        $uncomp    = '';
-        $preload   = "{\\rtf1\\ansi\\mac\\deff0\\deftab720{\\fonttbl;}{\\f0\\fnil \\froman \\fswiss \\fmodern \\fscript \\fdecor MS Sans SerifSymbolArialTimes New RomanCourier{\\colortbl\\red0\\green0\\blue0\n\r\\par \\pard\\plain\\f0\\fs20\\b\\i\\u\\tab\\tx";
+        $in             = $out = $flags = $flag_count = 0;
+        $uncomp         = '';
+        $preload        = "{\\rtf1\\ansi\\mac\\deff0\\deftab720{\\fonttbl;}{\\f0\\fnil \\froman \\fswiss \\fmodern \\fscript \\fdecor MS Sans SerifSymbolArialTimes New RomanCourier{\\colortbl\\red0\\green0\\blue0\n\r\\par \\pard\\plain\\f0\\fs20\\b\\i\\u\\tab\\tx";
         $length_preload = strlen($preload);
 
         for ($cnt = 0; $cnt < $length_preload; $cnt++) {

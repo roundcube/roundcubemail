@@ -80,10 +80,10 @@ class rcube_sql_password
         if (preg_match_all('/%[p|o]/', $sql, $m)) {
             foreach ($m[0] as $var) {
                 if ($var == '%p') {
-                    $sql = preg_replace('/%p/', '?', $sql, 1);
+                    $sql        = preg_replace('/%p/', '?', $sql, 1);
                     $sql_vars[] = (string) $passwd;
                 } else { // %o
-                    $sql = preg_replace('/%o/', '?', $sql, 1);
+                    $sql        = preg_replace('/%o/', '?', $sql, 1);
                     $sql_vars[] = (string) $curpass;
                 }
             }

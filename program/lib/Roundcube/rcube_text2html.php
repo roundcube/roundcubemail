@@ -160,7 +160,7 @@ class rcube_text2html
 
         // wrap quoted lines with <blockquote>
         for ($n = 0, $cnt = count($text); $n < $cnt; $n++) {
-            $first  = $text[$n][0] ?? '';
+            $first = $text[$n][0] ?? '';
 
             if ($first == '>' && preg_match('/^(>+ {0,1})+/', $text[$n], $regs)) {
                 $q        = substr_count($regs[0], '>');

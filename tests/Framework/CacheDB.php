@@ -19,7 +19,7 @@ class Framework_CacheDB extends TestCase
         $cache = new rcube_cache_db(1, 'test', 60);
 
         // Set and get cache record
-        $data =  ['data'];
+        $data = ['data'];
 
         $cache->set('test', $data);
 

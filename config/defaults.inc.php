@@ -408,9 +408,9 @@ $config['oauth_cache_ttl'] = '8h';
 // roundcube_key can be: user_name, user_email, language
 // default value:
 $config['oauth_user_create_map'] = [
-    'user_name' => ['name'],
+    'user_name'  => ['name'],
     'user_email' => ['email'],
-    'language' => ['locale'],
+    'language'   => ['locale'],
 ];
 
 // /// Example config for Gmail

@@ -61,18 +61,18 @@ class rcube_result_index
             if (preg_match('/^ SORT/i', $data_item)) {
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
-                $data_item = substr($data_item, 5);
+                $data_item      = substr($data_item, 5);
                 break;
             } elseif (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
                 // valid response, initialize raw_data for is_error()
                 $this->raw_data = '';
-                $data_item = substr($data_item, strlen($m[0]));
+                $data_item      = substr($data_item, strlen($m[0]));
 
                 if (strtoupper($m[1]) == 'ESEARCH') {
                     $data_item = trim($data_item);
                     // remove MODSEQ response
                     if (preg_match('/\(MODSEQ ([0-9]+)\)$/i', $data_item, $m)) {
-                        $data_item = substr($data_item, 0, -strlen($m[0]));
+                        $data_item              = substr($data_item, 0, -strlen($m[0]));
                         $this->params['MODSEQ'] = $m[1];
                     }
                     // remove TAG response part
@@ -88,7 +88,7 @@ class rcube_result_index
                         $value = $m[2];
 
                         $this->params[$param] = $value;
-                        $data_item = substr($data_item, strlen($m[0]));
+                        $data_item            = substr($data_item, strlen($m[0]));
 
                         if (in_array($param, ['COUNT', 'MIN', 'MAX'])) {
                             $this->meta[strtolower($param)] = (int) $value;
@@ -189,7 +189,7 @@ class rcube_result_index
 
         if (!isset($this->meta['max'])) {
             $this->meta['max'] = null;
-            $all = $this->get();
+            $all               = $this->get();
             if (!empty($all)) {
                 $this->meta['max'] = (int) max($all);
             }
@@ -211,7 +211,7 @@ class rcube_result_index
 
         if (!isset($this->meta['min'])) {
             $this->meta['min'] = null;
-            $all = $this->get();
+            $all               = $this->get();
             if (!empty($all)) {
                 $this->meta['min'] = (int) min($all);
             }
@@ -262,8 +262,8 @@ class rcube_result_index
             return;
         }
 
-        $data = $this->get();
-        $data = array_reverse($data);
+        $data           = $this->get();
+        $data           = array_reverse($data);
         $this->raw_data = implode(self::SEPARATOR_ELEMENT, $data);
 
         $this->meta['pos'] = [];

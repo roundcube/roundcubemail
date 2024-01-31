@@ -116,7 +116,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
 
             // remove source contacts
             if ($success && !empty($source_cids)) {
-                $all   += count($source_cids);
+                $all += count($source_cids);
                 $plugin = $rcmail->plugins->exec_hook('contact_delete', [
                     'id'     => $source_cids,
                     'source' => $source,
@@ -187,7 +187,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                     }
 
                     $res->records = array_values($records);
-                    $records = $res;
+                    $records      = $res;
                 } else {
                     unset($records);
                 }

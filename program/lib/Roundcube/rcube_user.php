@@ -240,7 +240,7 @@ class rcube_user
         elseif (!$no_session && $this->db->is_replicated()
             && $config->get('session_storage', 'db') != 'db'
         ) {
-            $_SESSION['preferences'] = $save_prefs;
+            $_SESSION['preferences']      = $save_prefs;
             $_SESSION['preferences_time'] = time();
             $config->set_user_prefs($this->prefs);
             $this->data['preferences'] = $save_prefs;
@@ -719,7 +719,7 @@ class rcube_user
             }
         } else {
             rcube::raise_error([
-                'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                'code'    => 500, 'line' => __LINE__, 'file' => __FILE__,
                 'message' => 'Failed to create new user',
             ], true, false);
         }

@@ -67,7 +67,7 @@ function export_mailbox($mbox, $filename)
 
     for ($i = 0; $i < $count; $i++) {
         $headers = $IMAP->get_message_headers($index[$i]);
-        $from = current(rcube_mime::decode_address_list($headers->from, 1, false));
+        $from    = current(rcube_mime::decode_address_list($headers->from, 1, false));
 
         fwrite($out, sprintf("From %s %s UID %d\n", $from['mailto'], $headers->date, $headers->uid));
         $IMAP->get_raw_body($headers->uid, $out);

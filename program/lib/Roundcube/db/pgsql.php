@@ -207,8 +207,8 @@ class rcube_db_pgsql extends rcube_db
         $target  = implode(', ', array_map([$this, 'quote_identifier'], array_keys($keys)));
         $cols    = $target . ', ' . implode(', ', $columns);
         $vals    = implode(', ', array_map(function ($i) { return $this->quote($i); }, $keys));
-        $vals   .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
-        $update  = implode(', ', array_map(static function ($i) { return "{$i} = EXCLUDED.{$i}"; }, $columns));
+        $vals .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
+        $update = implode(', ', array_map(static function ($i) { return "{$i} = EXCLUDED.{$i}"; }, $columns));
 
         return $this->query("INSERT INTO {$table} ({$cols}) VALUES ({$vals})"
             . " ON CONFLICT ({$target}) DO UPDATE SET {$update}", $values);

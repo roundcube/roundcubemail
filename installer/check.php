@@ -44,10 +44,10 @@ $optional_php_exts = [
 ];
 
 $required_libs = [
-    'PEAR'      => 'pear.php.net',
-    'Auth_SASL' => 'pear.php.net',
-    'Net_SMTP'  => 'pear.php.net',
-    'Mail_mime' => 'pear.php.net',
+    'PEAR'              => 'pear.php.net',
+    'Auth_SASL'         => 'pear.php.net',
+    'Net_SMTP'          => 'pear.php.net',
+    'Mail_mime'         => 'pear.php.net',
     'GuzzleHttp\Client' => 'github.com/guzzle/guzzle',
 ];
 
@@ -67,33 +67,33 @@ $optional_checks = [
 ];
 
 $source_urls = [
-    'cURL'      => 'https://www.php.net/manual/en/book.curl.php',
-    'Sockets'   => 'https://www.php.net/manual/en/book.sockets.php',
-    'Session'   => 'https://www.php.net/manual/en/book.session.php',
-    'PCRE'      => 'https://www.php.net/manual/en/book.pcre.php',
-    'FileInfo'  => 'https://www.php.net/manual/en/book.fileinfo.php',
-    'Multibyte' => 'https://www.php.net/manual/en/book.mbstring.php',
-    'OpenSSL'   => 'https://www.php.net/manual/en/book.openssl.php',
-    'JSON'      => 'https://www.php.net/manual/en/book.json.php',
-    'DOM'       => 'https://www.php.net/manual/en/book.dom.php',
-    'Iconv'     => 'https://www.php.net/manual/en/book.iconv.php',
-    'Intl'      => 'https://www.php.net/manual/en/book.intl.php',
-    'Exif'      => 'https://www.php.net/manual/en/book.exif.php',
-    'PDO'       => 'https://www.php.net/manual/en/book.pdo.php',
-    'LDAP'      => 'https://www.php.net/manual/en/book.ldap.php',
-    'GD'        => 'https://www.php.net/manual/en/book.image.php',
-    'Imagick'   => 'https://www.php.net/manual/en/book.imagick.php',
-    'XML'       => 'https://www.php.net/manual/en/book.xml.php',
-    'XMLWriter' => 'https://www.php.net/manual/en/book.xmlwriter.php',
-    'Zip'       => 'https://www.php.net/manual/en/book.zip.php',
-    'Filter'    => 'https://www.php.net/manual/en/book.filter.php',
-    'pdo_mysql'   => 'https://www.php.net/manual/en/ref.pdo-mysql.php',
-    'pdo_pgsql'   => 'https://www.php.net/manual/en/ref.pdo-pgsql.php',
-    'pdo_sqlite'  => 'https://www.php.net/manual/en/ref.pdo-sqlite.php',
-    'PEAR'      => 'https://pear.php.net',
-    'Net_SMTP'  => 'https://pear.php.net/package/Net_SMTP',
-    'Mail_mime' => 'https://pear.php.net/package/Mail_mime',
-    'Net_LDAP3' => 'https://git.kolab.org/diffusion/PNL',
+    'cURL'       => 'https://www.php.net/manual/en/book.curl.php',
+    'Sockets'    => 'https://www.php.net/manual/en/book.sockets.php',
+    'Session'    => 'https://www.php.net/manual/en/book.session.php',
+    'PCRE'       => 'https://www.php.net/manual/en/book.pcre.php',
+    'FileInfo'   => 'https://www.php.net/manual/en/book.fileinfo.php',
+    'Multibyte'  => 'https://www.php.net/manual/en/book.mbstring.php',
+    'OpenSSL'    => 'https://www.php.net/manual/en/book.openssl.php',
+    'JSON'       => 'https://www.php.net/manual/en/book.json.php',
+    'DOM'        => 'https://www.php.net/manual/en/book.dom.php',
+    'Iconv'      => 'https://www.php.net/manual/en/book.iconv.php',
+    'Intl'       => 'https://www.php.net/manual/en/book.intl.php',
+    'Exif'       => 'https://www.php.net/manual/en/book.exif.php',
+    'PDO'        => 'https://www.php.net/manual/en/book.pdo.php',
+    'LDAP'       => 'https://www.php.net/manual/en/book.ldap.php',
+    'GD'         => 'https://www.php.net/manual/en/book.image.php',
+    'Imagick'    => 'https://www.php.net/manual/en/book.imagick.php',
+    'XML'        => 'https://www.php.net/manual/en/book.xml.php',
+    'XMLWriter'  => 'https://www.php.net/manual/en/book.xmlwriter.php',
+    'Zip'        => 'https://www.php.net/manual/en/book.zip.php',
+    'Filter'     => 'https://www.php.net/manual/en/book.filter.php',
+    'pdo_mysql'  => 'https://www.php.net/manual/en/ref.pdo-mysql.php',
+    'pdo_pgsql'  => 'https://www.php.net/manual/en/ref.pdo-pgsql.php',
+    'pdo_sqlite' => 'https://www.php.net/manual/en/ref.pdo-sqlite.php',
+    'PEAR'       => 'https://pear.php.net',
+    'Net_SMTP'   => 'https://pear.php.net/package/Net_SMTP',
+    'Mail_mime'  => 'https://pear.php.net/package/Mail_mime',
+    'Net_LDAP3'  => 'https://git.kolab.org/diffusion/PNL',
 ];
 
 ?>
@@ -127,7 +127,7 @@ foreach ($required_php_exts as $name => $ext) {
         $RCI->pass($name);
     } else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
-        $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
+        $msg  = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->fail($name, $msg, $source_urls[$name]);
     }
     echo '<br />';
@@ -143,7 +143,7 @@ foreach ($optional_php_exts as $name => $ext) {
         $RCI->pass($name);
     } else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
-        $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
+        $msg  = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->na($name, $msg, $source_urls[$name]);
     }
     echo '<br />';
@@ -163,7 +163,7 @@ foreach ($RCI->supported_dbs as $database => $ext) {
         $found_db_driver = true;
     } else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
-        $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
+        $msg  = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->na($database, $msg, $source_urls[$ext]);
     }
     echo '<br />';

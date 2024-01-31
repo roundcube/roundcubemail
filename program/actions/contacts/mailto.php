@@ -75,8 +75,8 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
         }
 
         if (!empty($mailto)) {
-            $mailto_str = implode(', ', $mailto);
-            $mailto_id  = substr(md5($mailto_str), 0, 16);
+            $mailto_str                     = implode(', ', $mailto);
+            $mailto_id                      = substr(md5($mailto_str), 0, 16);
             $_SESSION['mailto'][$mailto_id] = urlencode($mailto_str);
             $rcmail->output->command('open_compose_step', ['_mailto' => $mailto_id]);
         } else {

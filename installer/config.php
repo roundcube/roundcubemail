@@ -499,7 +499,7 @@ echo $input_locale->show($RCI->getprop('language'));
 <?php
 
 $input_skin = new html_select(['name' => '_skin', 'id' => 'cfgskin']);
-$skins = $RCI->list_skins();
+$skins      = $RCI->list_skins();
 $input_skin->add($skins, $skins);
 echo $input_skin->show($RCI->getprop('skin'));
 

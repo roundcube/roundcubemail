@@ -45,7 +45,7 @@ class VcardAttachments_Plugin extends TestCase
         $this->assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
 
         $part->ctype_parameters['profile'] = 'unknown';
-        $part->filename = 'vcard.vcf';
+        $part->filename                    = 'vcard.vcf';
         $this->assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
     }
 }

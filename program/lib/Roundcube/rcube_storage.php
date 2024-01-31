@@ -621,7 +621,7 @@ abstract class rcube_storage
         } elseif ($uids === '*' || $uids === '1:*') {
             if (empty($this->search_set)) {
                 $uids = '1:*';
-                $all = true;
+                $all  = true;
             }
             // get UIDs from current search set
             else {
@@ -889,7 +889,7 @@ abstract class rcube_storage
     {
         // getting config might be expensive, store special folders in memory
         if (!isset($this->icache['special-folders'])) {
-            $rcube = rcube::get_instance();
+            $rcube                           = rcube::get_instance();
             $this->icache['special-folders'] = [];
 
             foreach (self::$folder_types as $type) {

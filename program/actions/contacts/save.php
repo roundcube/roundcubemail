@@ -118,8 +118,8 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 }
 
                 // Update contacts list
-                $a_js_cols = [];
-                $record    = $contact;
+                $a_js_cols       = [];
+                $record          = $contact;
                 $record['email'] = array_first($contacts->get_col_values('email', $record, true));
                 $record['name']  = rcube_addressbook::compose_list_name($record);
 
@@ -128,7 +128,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 }
 
                 // performance: unset some big data items we don't need here
-                $record = array_intersect_key($record, ['ID' => 1, 'email' => 1, 'name' => 1]);
+                $record          = array_intersect_key($record, ['ID' => 1, 'email' => 1, 'name' => 1]);
                 $record['_type'] = 'person';
 
                 // update the changed col in list
@@ -260,7 +260,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                         }
                     }
 
-                    $subtype = $subtypes[$i] ? ':' . $subtypes[$i] : '';
+                    $subtype                   = $subtypes[$i] ? ':' . $subtypes[$i] : '';
                     $record[$col . $subtype][] = $val;
                 }
             } elseif (isset($_POST[$fname])) {

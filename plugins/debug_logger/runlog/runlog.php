@@ -55,12 +55,12 @@ class runlog
             }
         }
 
-        $start = $this->run_log[$lastk]['time'];
+        $start                             = $this->run_log[$lastk]['time'];
         $this->run_log[$lastk]['duration'] = microtime(true) - $start;
-        $this->run_log[$lastk]['ended'] = true;
-        $this->run_log[] = [
+        $this->run_log[$lastk]['ended']    = true;
+        $this->run_log[]                   = [
             'type'     => 'end',
-            'tag'      =>  $this->run_log[$lastk]['tag'],
+            'tag'      => $this->run_log[$lastk]['tag'],
             'index'    => $lastk,
             'value'    => $name,
             'time'     => microtime(true),
@@ -128,7 +128,7 @@ class runlog
             $msg = '<pre>' . print_r($msg, true) . '</pre>';
         }
         $this->debug_messages[] = $msg;
-        $this->run_log[] = [
+        $this->run_log[]        = [
             'type'    => 'note',
             'tag'     => $tag ?: 'text',
             'value'   => htmlentities($msg),

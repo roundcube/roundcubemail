@@ -121,10 +121,10 @@ class rcube_session_db extends rcube_session
 
             $time_diff = time() - strtotime($sql_arr['ts']);
 
-            $this->changed   = strtotime($sql_arr['changed']) + $time_diff; // local (PHP) time
-            $this->ip        = $sql_arr['ip'];
-            $this->vars      = base64_decode($sql_arr['vars']);
-            $this->key       = $key;
+            $this->changed = strtotime($sql_arr['changed']) + $time_diff; // local (PHP) time
+            $this->ip      = $sql_arr['ip'];
+            $this->vars    = base64_decode($sql_arr['vars']);
+            $this->key     = $key;
 
             $this->db->reset();
 

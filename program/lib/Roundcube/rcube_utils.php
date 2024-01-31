@@ -221,7 +221,7 @@ class rcube_utils
 
         // if the replace tables for XML and JS are not yet defined
         if ($js_rep_table === false) {
-            $js_rep_table = $xml_rep_table = [];
+            $js_rep_table       = $xml_rep_table = [];
             $xml_rep_table['&'] = '&amp;';
 
             // can be increased to support more charsets
@@ -807,7 +807,7 @@ class rcube_utils
             }
 
             $rcube->raise_error([
-                'file' => __FILE__, 'line' => __LINE__,
+                'file'    => __FILE__, 'line' => __LINE__,
                 'message' => "Specified host is not trusted. Using 'localhost'.",
             ], true, false);
         }
@@ -908,10 +908,10 @@ class rcube_utils
      */
     public static function explode_quoted_string($delimiter, $string)
     {
-        $res = [];
-        $parts = preg_split('/("(?:[^"\\\\]+|\\\\.)*+(?:"|\\\\?$))/s', $string, 0, \PREG_SPLIT_DELIM_CAPTURE);
+        $res      = [];
+        $parts    = preg_split('/("(?:[^"\\\\]+|\\\\.)*+(?:"|\\\\?$))/s', $string, 0, \PREG_SPLIT_DELIM_CAPTURE);
         $isQuoted = false;
-        $tmp = '';
+        $tmp      = '';
         foreach ($parts as $part) {
             if ($isQuoted) {
                 $tmp .= $part;
@@ -923,7 +923,7 @@ class rcube_utils
                         $isFirst = false;
                     } else {
                         $res[] = $tmp;
-                        $tmp = $v;
+                        $tmp   = $v;
                     }
                 }
             }
@@ -1057,7 +1057,7 @@ class rcube_utils
         }
         // I've found that YYYY.MM.DD is recognized wrong, so here's a fix
         elseif (preg_match('/^(\d{4})\.(\d{1,2})\.(\d{1,2})(\s.*)?$/', $date, $m)) {
-            $date  = sprintf('%04d-%02d-%02d%s', $m[1], $m[2], $m[3], $m[4] ?? ' 00:00:00');
+            $date = sprintf('%04d-%02d-%02d%s', $m[1], $m[2], $m[3], $m[4] ?? ' 00:00:00');
         }
 
         return $date;
@@ -1289,8 +1289,8 @@ class rcube_utils
         foreach ($aliases as $key => $alias) {
             if ($pos = strpos($alias, ':')) {
                 $aliases[$key] = substr($alias, 0, $pos);
-                $bool[] = $key;
-                $bool[] = $aliases[$key];
+                $bool[]        = $key;
+                $bool[]        = $aliases[$key];
             }
         }
 
@@ -1322,7 +1322,7 @@ class rcube_utils
             }
 
             if (!empty($aliases[$key])) {
-                $alias = $aliases[$key];
+                $alias        = $aliases[$key];
                 $args[$alias] = $args[$key];
             }
         }
@@ -1641,9 +1641,9 @@ class rcube_utils
 
         // Clean subject prefix for reply, forward or both
         if ($mode == 'both') {
-            $reply_prefixes = $config->get('subject_reply_prefixes', ['Re:']);
+            $reply_prefixes   = $config->get('subject_reply_prefixes', ['Re:']);
             $forward_prefixes = $config->get('subject_forward_prefixes', ['Fwd:', 'Fw:']);
-            $prefixes = array_merge($reply_prefixes, $forward_prefixes);
+            $prefixes         = array_merge($reply_prefixes, $forward_prefixes);
         } elseif ($mode == 'reply') {
             $prefixes = $config->get('subject_reply_prefixes', ['Re:']);
             // replace (was: ...) (#1489375)

@@ -174,12 +174,12 @@ class rcube_mime_decode
 
                     for ($i = 0; $i < count($parts); $i++) {
                         [$part_header, $part_body] = $this->splitBodyHeader($parts[$i]);
-                        $return->parts[] = $this->do_decode($part_header, $part_body, $default_ctype);
+                        $return->parts[]           = $this->do_decode($part_header, $part_body, $default_ctype);
                     }
 
                     break;
                 case 'message/rfc822':
-                    $obj = new self($this->params);
+                    $obj             = new self($this->params);
                     $return->parts[] = $obj->decode($body, false);
                     unset($obj);
 
@@ -190,14 +190,14 @@ class rcube_mime_decode
                     break;
                 default:
                     if ($this->params['include_bodies']) {
-                        $encoding = !empty($content_transfer_encoding['value']) ? $content_transfer_encoding['value'] : '7bit';
+                        $encoding     = !empty($content_transfer_encoding['value']) ? $content_transfer_encoding['value'] : '7bit';
                         $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
                     }
 
                     break;
             }
         } else {
-            $ctype = explode('/', $default_ctype);
+            $ctype                   = explode('/', $default_ctype);
             $return->ctype_primary   = $ctype[0];
             $return->ctype_secondary = $ctype[1];
 
@@ -362,7 +362,7 @@ class rcube_mime_decode
      */
     protected function structure_part($part, $count = 0, $parent = '')
     {
-        $struct = new rcube_message_part();
+        $struct                   = new rcube_message_part();
         $struct->mime_id          = $part->mime_id ?: (empty($parent) ? (string) $count : "{$parent}.{$count}");
         $struct->headers          = $part->headers;
         $struct->mimetype         = $part->ctype_primary . '/' . $part->ctype_secondary;

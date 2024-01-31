@@ -201,7 +201,7 @@ if ($DB) {
 
     // write test
     $insert_id = md5(uniqid());
-    $db_write = $DB->query('INSERT INTO ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
+    $db_write  = $DB->query('INSERT INTO ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
         . ' (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, ' . $DB->now() . ", '127.0.0.1', 'foo')", $insert_id);
 
     if ($db_write) {
@@ -260,13 +260,13 @@ $pass = $RCI->getprop('smtp_pass', '(none)');
 
 if ($user == '%u') {
     $user_field = new html_inputfield(['name' => '_smtp_user', 'id' => 'smtp_user']);
-    $user = $user_field->show($_POST['_smtp_user'] ?? '');
+    $user       = $user_field->show($_POST['_smtp_user'] ?? '');
 } else {
     $user = html::quote($user);
 }
 if ($pass == '%p') {
     $pass_field = new html_passwordfield(['name' => '_smtp_pass', 'id' => 'smtp_pass']);
-    $pass = $pass_field->show();
+    $pass       = $pass_field->show();
 } else {
     $pass = html::quote($pass);
 }

@@ -38,7 +38,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
         $records       = [];
         $search_set    = [];
         $jsresult      = [];
-        $search_mode  |= rcube_addressbook::SEARCH_GROUPS;
+        $search_mode |= rcube_addressbook::SEARCH_GROUPS;
 
         foreach ($sources as $s) {
             $source = $rcmail->get_address_book($s['id']);
@@ -59,8 +59,8 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
             while ($row = $result->next()) {
                 $row['sourceid'] = $s['id'];
-                $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
-                $records[$key] = $row;
+                $key             = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
+                $records[$key]   = $row;
             }
 
             $search_set[$s['id']] = $source->get_search_set();
@@ -100,7 +100,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
                     $jsresult[$row_id] = format_email_recipient($email, $name);
 
-                    $title = rcube_addressbook::compose_search_name($row, $email, $name);
+                    $title        = rcube_addressbook::compose_search_name($row, $email, $name);
                     $link_content = rcube::Q($name ?: $email);
                     if ($name && count($emails) > 1) {
                         $link_content .= '&nbsp;' . html::span('email', rcube::Q($email));
@@ -116,7 +116,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
             // save search settings in session
             $_SESSION['contact_search'][$search_request] = $search_set;
-            $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$afields, $search]];
+            $_SESSION['contact_search_params']           = ['id' => $search_request, 'data' => [$afields, $search]];
 
             $rcmail->output->show_message('contactsearchsuccessful', 'confirmation', ['nr' => $result->count]);
 

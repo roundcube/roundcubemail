@@ -73,8 +73,8 @@ class help extends rcube_plugin
 
         // register UI objects
         $rcmail->output->add_handlers([
-            'helpcontent'  => [$this, 'help_content'],
-            'tablink'      => [$this, 'tablink'],
+            'helpcontent' => [$this, 'help_content'],
+            'tablink'     => [$this, 'tablink'],
         ]);
 
         $rcmail->output->set_env('help_links', $this->help_metadata());
@@ -121,7 +121,7 @@ class help extends rcube_plugin
         if (is_readable($this->home . '/content/about.html')) {
             $content['about'] = 'self';
         } else {
-            $default = $rcmail->url(['_task' => 'settings', '_action' => 'about', '_framed' => 1]);
+            $default          = $rcmail->url(['_task' => 'settings', '_action' => 'about', '_framed' => 1]);
             $content['about'] = $rcmail->config->get('help_about_url', $default);
             $content['about'] = $this->resolve_language($content['about']);
         }
@@ -139,7 +139,7 @@ class help extends rcube_plugin
         $index_map = $rcmail->config->get('help_index_map', []);
 
         // resolve task/action for deep linking
-        $rel = !empty($_REQUEST['_rel']) ? $_REQUEST['_rel'] : '';
+        $rel    = !empty($_REQUEST['_rel']) ? $_REQUEST['_rel'] : '';
         [$task] = explode('/', $rel);
         if (!empty($index_map[$rel])) {
             $src .= $index_map[$rel];

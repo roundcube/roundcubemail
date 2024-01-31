@@ -67,7 +67,7 @@ class rcmail_action_contacts_print extends rcmail_action_contacts_index
 
         $form = [
             'head' => [  // section 'head' is magic!
-                'name' => $rcmail->gettext('contactnameandorg'),
+                'name'    => $rcmail->gettext('contactnameandorg'),
                 'content' => [
                     'prefix'     => [],
                     'name'       => [],

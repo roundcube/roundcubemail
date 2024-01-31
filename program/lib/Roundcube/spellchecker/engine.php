@@ -28,7 +28,7 @@ abstract class rcube_spellchecker_engine
     protected $lang;
     protected $error;
     protected $dictionary;
-    protected $options = [];
+    protected $options   = [];
     protected $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\\"]+|[:;?!,\.](?=\W|$)/';
 
     /**
@@ -37,8 +37,8 @@ abstract class rcube_spellchecker_engine
     public function __construct($dict, $lang, $options = [])
     {
         $this->dictionary = $dict;
-        $this->lang = $lang;
-        $this->options = $options;
+        $this->lang       = $lang;
+        $this->options    = $options;
     }
 
     /**

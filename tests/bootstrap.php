@@ -132,7 +132,7 @@ function setProperty($object, $name, $value, $class = null): void
 function getHTMLNodes($html, $xpath_query)
 {
     $html5 = new HTML5(['disable_html_ns' => true]);
-    $doc  = $html5->loadHTML($html);
+    $doc   = $html5->loadHTML($html);
 
     $xpath = new DOMXPath($doc);
 
@@ -154,9 +154,9 @@ function setHttpClientMock(array $responses)
         }
     }
 
-    $mock = new MockHandler($responses);
+    $mock    = new MockHandler($responses);
     $handler = HandlerStack::create($mock);
-    $rcube = rcube::get_instance();
+    $rcube   = rcube::get_instance();
 
     $rcube->config->set('http_client', ['handler' => $handler]);
 }

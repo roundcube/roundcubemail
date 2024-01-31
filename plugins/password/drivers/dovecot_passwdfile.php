@@ -52,7 +52,7 @@ class rcube_dovecot_passwdfile_password
 
         if (empty($fp)) {
             rcube::raise_error([
-                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'code'    => 600, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Password plugin: Unable to read password file {$mailuserfile}.",
             ], true, false);
 
@@ -83,7 +83,7 @@ class rcube_dovecot_passwdfile_password
         fclose($fp);
 
         rcube::raise_error([
-            'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+            'code'    => 600, 'file' => __FILE__, 'line' => __LINE__,
             'message' => "Password plugin: Failed to save file {$mailuserfile}.",
         ], true, false);
 

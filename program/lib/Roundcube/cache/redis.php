@@ -58,10 +58,10 @@ class rcube_cache_redis extends rcube_cache
             self::$redis = false;
 
             rcube::raise_error([
-                'code' => 604,
-                'type' => 'redis',
-                'line' => __LINE__,
-                'file' => __FILE__,
+                'code'    => 604,
+                'type'    => 'redis',
+                'line'    => __LINE__,
+                'file'    => __FILE__,
                 'message' => 'Failed to find Redis. Make sure php-redis is included',
             ], true, true);
         }
@@ -72,10 +72,10 @@ class rcube_cache_redis extends rcube_cache
         // host config is wrong
         if (!is_array($hosts) || empty($hosts)) {
             rcube::raise_error([
-                'code' => 604,
-                'type' => 'redis',
-                'line' => __LINE__,
-                'file' => __FILE__,
+                'code'    => 604,
+                'type'    => 'redis',
+                'line'    => __LINE__,
+                'file'    => __FILE__,
                 'message' => 'Redis host not configured',
             ], true, true);
         }
@@ -83,10 +83,10 @@ class rcube_cache_redis extends rcube_cache
         // only allow 1 host for now until we support clustering
         if (count($hosts) > 1) {
             rcube::raise_error([
-                'code' => 604,
-                'type' => 'redis',
-                'line' => __LINE__,
-                'file' => __FILE__,
+                'code'    => 604,
+                'type'    => 'redis',
+                'line'    => __LINE__,
+                'file'    => __FILE__,
                 'message' => 'Redis cluster not yet supported',
             ], true, true);
         }

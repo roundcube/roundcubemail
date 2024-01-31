@@ -37,7 +37,7 @@ class Framework_ResultThread extends TestCase
         $this->assertSame(1719, $object->get_element('LAST'), 'Get last element');
         $this->assertSame(14, (int) $object->get_element(2), 'Get specified element');
 
-        $tree = $object->get_tree();
+        $tree     = $object->get_tree();
         $expected = [
             4 => [
                 18 => [

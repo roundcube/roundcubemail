@@ -25,24 +25,24 @@ class rcmail_action_settings_index extends rcmail_action
      * @var array
      */
     public static $aliases = [
-        'rename-folder'    => 'folder-rename',
-        'subscribe'        => 'folder-subscribe',
-        'unsubscribe'      => 'folder-unsubscribe',
-        'purge'            => 'folder-purge',
-        'add-folder'       => 'folder-create',
-        'add-identity'     => 'identity-create',
-        'add-response'     => 'response-create',
-        'delete-folder'    => 'folder-delete',
-        'delete-identity'  => 'identity-delete',
-        'delete-response'  => 'response-delete',
-        'edit-folder'      => 'folder-edit',
-        'edit-identity'    => 'identity-edit',
-        'edit-prefs'       => 'prefs-edit',
-        'edit-response'    => 'response-edit',
-        'save-folder'      => 'folder-save',
-        'save-identity'    => 'identity-save',
-        'save-prefs'       => 'prefs-save',
-        'save-response'    => 'response-save',
+        'rename-folder'   => 'folder-rename',
+        'subscribe'       => 'folder-subscribe',
+        'unsubscribe'     => 'folder-unsubscribe',
+        'purge'           => 'folder-purge',
+        'add-folder'      => 'folder-create',
+        'add-identity'    => 'identity-create',
+        'add-response'    => 'response-create',
+        'delete-folder'   => 'folder-delete',
+        'delete-identity' => 'identity-delete',
+        'delete-response' => 'response-delete',
+        'edit-folder'     => 'folder-edit',
+        'edit-identity'   => 'identity-edit',
+        'edit-prefs'      => 'prefs-edit',
+        'edit-response'   => 'response-edit',
+        'save-folder'     => 'folder-save',
+        'save-identity'   => 'identity-save',
+        'save-prefs'      => 'prefs-save',
+        'save-response'   => 'response-save',
     ];
 
     /**
@@ -129,9 +129,9 @@ class rcmail_action_settings_index extends rcmail_action
                 // general
                 case 'general':
                     $blocks = [
-                        'main'    => ['name' => rcube::Q($rcmail->gettext('mainoptions'))],
-                        'skin'    => ['name' => rcube::Q($rcmail->gettext('skin'))],
-                        'browser' => ['name' => rcube::Q($rcmail->gettext('browseroptions'))],
+                        'main'     => ['name' => rcube::Q($rcmail->gettext('mainoptions'))],
+                        'skin'     => ['name' => rcube::Q($rcmail->gettext('skin'))],
+                        'browser'  => ['name' => rcube::Q($rcmail->gettext('browseroptions'))],
                         'advanced' => ['name' => rcube::Q($rcmail->gettext('advancedoptions'))],
                     ];
 
@@ -145,7 +145,7 @@ class rcmail_action_settings_index extends rcmail_action
                         asort($a_lang);
 
                         $field_id = 'rcmfd_lang';
-                        $select = new html_select([
+                        $select   = new html_select([
                             'name'  => '_language',
                             'id'    => $field_id,
                             'class' => 'custom-select',
@@ -166,7 +166,7 @@ class rcmail_action_settings_index extends rcmail_action
                         }
 
                         $field_id = 'rcmfd_timezone';
-                        $select = new html_select([
+                        $select   = new html_select([
                             'name'  => '_timezone',
                             'id'    => $field_id,
                             'class' => 'custom-select',
@@ -587,7 +587,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $field_id = 'rcmfd_default_charset';
 
                         $blocks['advanced']['options']['default_charset'] = [
-                            'title' => html::label($field_id, rcube::Q($rcmail->gettext('defaultcharset'))),
+                            'title'   => html::label($field_id, rcube::Q($rcmail->gettext('defaultcharset'))),
                             'content' => $rcmail->output->charset_selector([
                                 'id'       => $field_id,
                                 'name'     => '_default_charset',
@@ -752,8 +752,8 @@ class rcmail_action_settings_index extends rcmail_action
                         $select->add($rcmail->gettext('2047folding'), 2);
 
                         $blocks['advanced']['options']['mime_param_folding'] = [
-                            'title'    => html::label($field_id, rcube::Q($rcmail->gettext('mimeparamfolding'))),
-                            'content'  => $select->show($config['mime_param_folding']),
+                            'title'   => html::label($field_id, rcube::Q($rcmail->gettext('mimeparamfolding'))),
+                            'content' => $select->show($config['mime_param_folding']),
                         ];
                     }
 
@@ -766,8 +766,8 @@ class rcmail_action_settings_index extends rcmail_action
                         $input    = new html_checkbox(['name' => '_force_7bit', 'id' => $field_id, 'value' => 1]);
 
                         $blocks['advanced']['options']['force_7bit'] = [
-                            'title'    => html::label($field_id, rcube::Q($rcmail->gettext('force7bit'))),
-                            'content'  => $input->show($config['force_7bit'] ? 1 : 0),
+                            'title'   => html::label($field_id, rcube::Q($rcmail->gettext('force7bit'))),
+                            'content' => $input->show($config['force_7bit'] ? 1 : 0),
                         ];
                     }
 
@@ -943,7 +943,7 @@ class rcmail_action_settings_index extends rcmail_action
                         }
 
                         $field_id = 'rcmfd_forward_attachment';
-                        $select = new html_select([
+                        $select   = new html_select([
                             'name'  => '_forward_attachment',
                             'id'    => $field_id,
                             'class' => 'custom-select',
@@ -970,10 +970,10 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $fonts = self::font_defs();
                         if (count($fonts) > 1) {
-                            $field_id = 'rcmfd_default_font';
+                            $field_id    = 'rcmfd_default_font';
                             $select_font = new html_select([
-                                'name' => '_default_font',
-                                'id' => $field_id,
+                                'name'  => '_default_font',
+                                'id'    => $field_id,
                                 'class' => 'custom-select',
                             ]);
 
@@ -995,7 +995,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $fontsizes = self::fontsize_defs();
                         if (count($fontsizes) > 1) {
-                            $field_id = 'rcmfd_default_font_size';
+                            $field_id    = 'rcmfd_default_font_size';
                             $select_size = new html_select([
                                 'name'  => '_default_font_size',
                                 'id'    => $field_id,
@@ -1015,7 +1015,7 @@ class rcmail_action_settings_index extends rcmail_action
                     // Include font settings in the display only if at least one setting exists
                     if (!empty($font_settings)) {
                         $blocks['main']['options']['default_font'] = [
-                            'title' => html::label($field_id, rcube::Q($rcmail->gettext('defaultfont'))),
+                            'title'   => html::label($field_id, rcube::Q($rcmail->gettext('defaultfont'))),
                             'content' => html::div('input-group', $font_settings),
                         ];
                     }
@@ -1054,8 +1054,8 @@ class rcmail_action_settings_index extends rcmail_action
                         ]);
 
                         $blocks['advanced']['options']['compose_save_localstorage'] = [
-                            'title'    => html::label($field_id, rcube::Q($rcmail->gettext('savelocalstorage'))),
-                            'content'  => $input->show($config['compose_save_localstorage'] ? 1 : 0),
+                            'title'   => html::label($field_id, rcube::Q($rcmail->gettext('savelocalstorage'))),
+                            'content' => $input->show($config['compose_save_localstorage'] ? 1 : 0),
                         ];
                     }
 
@@ -1312,7 +1312,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $attrs = ['id' => '_drafts_mbox', 'name' => '_drafts_mbox', 'onchange' => $onchange];
+                        $attrs                                    = ['id' => '_drafts_mbox', 'name' => '_drafts_mbox', 'onchange' => $onchange];
                         $blocks['main']['options']['drafts_mbox'] = [
                             'title'   => html::label($attrs['id'], rcube::Q($rcmail->gettext('drafts'))),
                             'content' => $select->show($config['drafts_mbox'], $attrs),
@@ -1324,7 +1324,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $attrs = ['id' => '_sent_mbox', 'name' => '_sent_mbox', 'onchange' => ''];
+                        $attrs                                  = ['id' => '_sent_mbox', 'name' => '_sent_mbox', 'onchange' => ''];
                         $blocks['main']['options']['sent_mbox'] = [
                             'title'   => html::label($attrs['id'], rcube::Q($rcmail->gettext('sent'))),
                             'content' => $select->show($config['sent_mbox'], $attrs),
@@ -1336,7 +1336,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $attrs = ['id' => '_junk_mbox', 'name' => '_junk_mbox', 'onchange' => $onchange];
+                        $attrs                                  = ['id' => '_junk_mbox', 'name' => '_junk_mbox', 'onchange' => $onchange];
                         $blocks['main']['options']['junk_mbox'] = [
                             'title'   => html::label($attrs['id'], rcube::Q($rcmail->gettext('junk'))),
                             'content' => $select->show($config['junk_mbox'], $attrs),
@@ -1348,7 +1348,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $attrs = ['id' => '_trash_mbox', 'name' => '_trash_mbox', 'onchange' => $onchange];
+                        $attrs                                   = ['id' => '_trash_mbox', 'name' => '_trash_mbox', 'onchange' => $onchange];
                         $blocks['main']['options']['trash_mbox'] = [
                             'title'   => html::label($attrs['id'], rcube::Q($rcmail->gettext('trash'))),
                             'content' => $select->show($config['trash_mbox'], $attrs),
@@ -1622,7 +1622,7 @@ class rcmail_action_settings_index extends rcmail_action
 
         foreach ($plugin['actions'] as $action) {
             if (empty($action['command']) && !empty($action['action'])) {
-                $action['prop'] = $action['action'];
+                $action['prop']    = $action['action'];
                 $action['command'] = 'show';
             } elseif (empty($action['command']) || $action['command'] != 'show') {
                 // Backwards compatibility, show command added in 1.4
@@ -1662,7 +1662,7 @@ class rcmail_action_settings_index extends rcmail_action
             }
 
             $attr['class'] = implode(' ', $classnames);
-            $tabs[] = html::tag($tagname, $attr, $button, html::$common_attrib);
+            $tabs[]        = html::tag($tagname, $attr, $button, html::$common_attrib);
         }
 
         return implode('', $tabs);
@@ -1699,7 +1699,7 @@ class rcmail_action_settings_index extends rcmail_action
         foreach ($tokens as $i => $token) {
             $idx   = strtolower($token);
             $token = str_replace('_', ' ', $token);
-            $key  .= ":{$idx}";
+            $key .= ":{$idx}";
 
             $tokens[$i] = !empty($labels[$key]) ? $labels[$key] : $token;
         }
@@ -1756,7 +1756,7 @@ class rcmail_action_settings_index extends rcmail_action
                 $data_uri .= '" ';
             }
 
-            $html    = str_replace($matches[0], $data_uri, $html);
+            $html = str_replace($matches[0], $data_uri, $html);
             $offset += strlen($data_uri) - strlen($matches[0]) + 1;
         }
 

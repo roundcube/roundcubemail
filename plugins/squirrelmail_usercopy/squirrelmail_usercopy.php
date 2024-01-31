@@ -115,7 +115,7 @@ class squirrelmail_usercopy extends rcube_plugin
                         if (!empty($groups[$rec['name']])) {
                             $group_id = $groups[$rec['name']];
                         } elseif ($group = $contacts->create_group($rec['name'])) {
-                            $group_id = $group['id'];
+                            $group_id             = $group['id'];
                             $groups[$rec['name']] = $group_id;
                         }
                     }
@@ -173,21 +173,21 @@ class squirrelmail_usercopy extends rcube_plugin
                 $srcdir = slashify($srcdir) . chunk_split(substr(base_convert(crc32($uname), 10, 16), 0, $hash_level), 1, '/');
             }
             $file_charset = $rcmail->config->get('squirrelmail_file_charset');
-            $prefsfile = slashify($srcdir) . $uname . '.pref';
-            $abookfile = slashify($srcdir) . $uname . '.abook';
-            $sigfile   = slashify($srcdir) . $uname . '.sig';
-            $sigbase   = slashify($srcdir) . $uname . '.si';
+            $prefsfile    = slashify($srcdir) . $uname . '.pref';
+            $abookfile    = slashify($srcdir) . $uname . '.abook';
+            $sigfile      = slashify($srcdir) . $uname . '.sig';
+            $sigbase      = slashify($srcdir) . $uname . '.si';
 
             if (is_readable($prefsfile)) {
                 $this->prefs = [];
                 foreach (file($prefsfile) as $line) {
-                    [$key, $value] = rcube_utils::explode('=', $line);
+                    [$key, $value]     = rcube_utils::explode('=', $line);
                     $this->prefs[$key] = $this->convert_charset(rtrim($value), $file_charset);
                 }
 
                 // also read signature file if exists
                 if (is_readable($sigfile)) {
-                    $sig = file_get_contents($sigfile);
+                    $sig                            = file_get_contents($sigfile);
                     $this->prefs['___signature___'] = $this->convert_charset($sig, $file_charset);
                 }
 
@@ -195,7 +195,7 @@ class squirrelmail_usercopy extends rcube_plugin
                     for ($i = 1; $i < $this->prefs['identities']; $i++) {
                         // read signature file if exists
                         if (is_readable($sigbase . $i)) {
-                            $sig = file_get_contents($sigbase . $i);
+                            $sig                                = file_get_contents($sigbase . $i);
                             $this->prefs['___sig' . $i . '___'] = $this->convert_charset($sig, $file_charset);
                         }
                     }

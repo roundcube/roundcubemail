@@ -57,7 +57,7 @@ class rcmail_action_settings_about extends rcmail_action
         $rcmail = rcmail::get_instance();
 
         if ($url = $rcmail->config->get('support_url')) {
-            $label = !empty($attrib['label']) ? $attrib['label'] : 'support';
+            $label          = !empty($attrib['label']) ? $attrib['label'] : 'support';
             $attrib['href'] = $url;
 
             return html::a($attrib, $rcmail->gettext($label));
@@ -126,7 +126,7 @@ class rcmail_action_settings_about extends rcmail_action
             if (!empty($data['license_uri'])) {
                 $license = html::a([
                         'target' => '_blank',
-                        'href' => rcube::Q($data['license_uri']),
+                        'href'   => rcube::Q($data['license_uri']),
                     ],
                     rcube::Q($data['license'])
                 );

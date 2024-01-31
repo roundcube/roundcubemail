@@ -88,8 +88,8 @@ class rcube_addresses extends rcube_contacts
             $this->result = $this->count();
         }
 
-        $start_row  = $subset < 0 ? $this->result->first + $this->page_size + $subset : $this->result->first;
-        $length     = $subset != 0 ? abs($subset) : $this->page_size;
+        $start_row = $subset < 0 ? $this->result->first + $this->page_size + $subset : $this->result->first;
+        $length    = $subset != 0 ? abs($subset) : $this->page_size;
 
         $sql_result = $this->db->limitquery(
             'SELECT * FROM ' . $this->db->table_name($this->db_name, true)

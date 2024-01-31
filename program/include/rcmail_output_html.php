@@ -43,8 +43,8 @@ class rcmail_output_html extends rcmail_output
     protected $body         = '';
     protected $base_path    = '';
     protected $assets_path;
-    protected $assets_dir   = RCUBE_INSTALL_PATH;
-    protected $devel_mode   = false;
+    protected $assets_dir       = RCUBE_INSTALL_PATH;
+    protected $devel_mode       = false;
     protected $default_template = "<html>\n<head><meta name='generator' content='Roundcube'></head>\n<body></body>\n</html>";
 
     // deprecated names of templates used before 0.5
@@ -725,9 +725,9 @@ class rcmail_output_html extends rcmail_output
      */
     public function parse($name = 'main', $exit = true, $write = true)
     {
-        $plugin   = false;
-        $realname = $name;
-        $skin_dir = '';
+        $plugin            = false;
+        $realname          = $name;
+        $skin_dir          = '';
         $plugin_skin_paths = [];
 
         $this->template_name = $realname;
@@ -767,7 +767,7 @@ class rcmail_output_html extends rcmail_output
 
                 if (is_readable($path)) {
                     rcube::raise_error([
-                        'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
+                        'code'    => 502, 'file' => __FILE__, 'line' => __LINE__,
                         'message' => "Using deprecated template '{$dname}' in {$skin_path}/templates. Please rename to '{$realname}'",
                     ], true, false);
                 }
@@ -787,9 +787,9 @@ class rcmail_output_html extends rcmail_output
         // read template file
         if (!$path || ($templ = @file_get_contents($path)) === false) {
             rcube::raise_error([
-                'code' => 404,
-                'line' => __LINE__,
-                'file' => __FILE__,
+                'code'    => 404,
+                'line'    => __LINE__,
+                'file'    => __FILE__,
                 'message' => 'Error loading template for ' . $realname,
             ], true, $write);
 
@@ -1105,7 +1105,7 @@ class rcmail_output_html extends rcmail_output
 
             $level = 0;
             $endif = null;
-            $n = $pos + 1;
+            $n     = $pos + 1;
 
             // Process the code until the closing tag (for the processed IF tag)
             while (preg_match($regexp2, $input, $matches, \PREG_OFFSET_CAPTURE, $n)) {
@@ -1402,8 +1402,8 @@ class rcmail_output_html extends rcmail_output
                     $attrib['file'] = '/templates/' . $attrib['file'];
                 }
 
-                $old_base_path   = $this->base_path;
-                $include         = '';
+                $old_base_path  = $this->base_path;
+                $include        = '';
                 $attr_skin_path = !empty($attrib['skinpath']) ? $attrib['skinpath'] : null;
 
                 if (!empty($attrib['skin_path'])) {
@@ -1413,7 +1413,7 @@ class rcmail_output_html extends rcmail_output
                 if ($path = $this->get_skin_file($attrib['file'], $skin_path, $attr_skin_path)) {
                     // set base_path to core skin directory (not plugin's skin)
                     $this->base_path = preg_replace('!plugins/\w+/!', '', $skin_path);
-                    $path = realpath(RCUBE_INSTALL_PATH . $path);
+                    $path            = realpath(RCUBE_INSTALL_PATH . $path);
                 }
 
                 if (is_readable($path)) {
@@ -1483,7 +1483,7 @@ class rcmail_output_html extends rcmail_output
 
                     if (($link = $this->get_template_logo('link')) !== null) {
                         $attrib['onclick'] = "location.href='{$link}';";
-                        $attrib['style'] = 'cursor:pointer;';
+                        $attrib['style']   = 'cursor:pointer;';
                     }
 
                     $additional_logos = [];
@@ -1614,7 +1614,7 @@ class rcmail_output_html extends rcmail_output
                 return html::quote($this->eval_expression($attrib['expression']));
                 // return variable (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'var':
-                $var = explode(':', $attrib['name']);
+                $var   = explode(':', $attrib['name']);
                 $value = $this->parse_variable($var[0], $var[1]);
 
                 if (is_array($value)) {
@@ -1727,7 +1727,7 @@ class rcmail_output_html extends rcmail_output
             $attrib['type'] = strtolower($attrib['type']);
             if (strpos($attrib['type'], '-menuitem')) {
                 $attrib['type'] = substr($attrib['type'], 0, -9);
-                $menuitem = true;
+                $menuitem       = true;
             }
         } elseif (!empty($attrib['image']) || !empty($attrib['imagepas']) || !empty($attrib['imageact'])) {
             $attrib['type'] = 'image';
@@ -1873,13 +1873,13 @@ class rcmail_output_html extends rcmail_output
             }
 
             $content = $attrib['content'] ?? $attrib['label'];
-            $out = html::tag('button', $attrib, $content, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
+            $out     = html::tag('button', $attrib, $content, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
         }
 
         // generate html code for button
         if ($btn_content) {
             $attrib_str = html::attrib_string($attrib, $link_attrib);
-            $out = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
+            $out        = sprintf('<a%s>%s</a>', $attrib_str, $btn_content);
         }
 
         if (!empty($attrib['wrapper'])) {
@@ -2028,7 +2028,7 @@ class rcmail_output_html extends rcmail_output
             $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
         }
 
-        $head  = $this->scripts['head_top'] ?? '';
+        $head = $this->scripts['head_top'] ?? '';
         $head .= $this->scripts['head'] ?? '';
 
         $page_header .= array_reduce((array) $head, $merge_scripts);
@@ -2094,7 +2094,7 @@ class rcmail_output_html extends rcmail_output
             $css = '';
             foreach ($this->css_files as $file) {
                 $is_less = substr_compare($file, '.less', -5, 5, true) === 0;
-                $css    .= html::tag('link', [
+                $css .= html::tag('link', [
                     'rel'  => $is_less ? 'stylesheet/less' : 'stylesheet',
                     'type' => 'text/css',
                     'href' => $file,
@@ -2166,10 +2166,10 @@ class rcmail_output_html extends rcmail_output
 
         if (!empty($this->env['extwin'])) {
             $hiddenfield = new html_hiddenfield(['name' => '_extwin', 'value' => '1']);
-            $hidden = $hiddenfield->show();
+            $hidden      = $hiddenfield->show();
         } elseif ($this->framed || !empty($this->env['framed'])) {
             $hiddenfield = new html_hiddenfield(['name' => '_framed', 'value' => '1']);
-            $hidden = $hiddenfield->show();
+            $hidden      = $hiddenfield->show();
         }
 
         if (!$content) {
@@ -2297,9 +2297,9 @@ class rcmail_output_html extends rcmail_output
         $input_url    = new html_hiddenfield(['name' => '_url', 'id' => 'rcmloginurl', 'value' => $url]);
         $input_user   = new html_inputfield(['name' => '_user', 'id' => 'rcmloginuser', 'required' => 'required']
             + $attrib + $user_attrib);
-        $input_pass   = new html_passwordfield(['name' => '_pass', 'id' => 'rcmloginpwd', 'required' => 'required']
+        $input_pass = new html_passwordfield(['name' => '_pass', 'id' => 'rcmloginpwd', 'required' => 'required']
             + $attrib + $pass_attrib);
-        $input_host   = null;
+        $input_host = null;
 
         $form_content = [
             'hidden' => [
@@ -2333,11 +2333,11 @@ class rcmail_output_html extends rcmail_output
                 }
             }
         } elseif (is_array($default_host) && ($host = key($default_host)) !== null) {
-            $val = is_numeric($host) ? $default_host[$host] : $host;
+            $val        = is_numeric($host) ? $default_host[$host] : $host;
             $input_host = new html_hiddenfield(['name' => '_host', 'id' => 'rcmloginhost', 'value' => $val] + $attrib);
 
             $form_content['hidden']['host'] = $input_host->show();
-            $input_host = null;
+            $input_host                     = null;
         } elseif (empty($default_host)) {
             $input_host = new html_inputfield(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control']
                 + $attrib + $host_attrib);
@@ -2484,13 +2484,13 @@ class rcmail_output_html extends rcmail_output
 
             if (!empty($attrib['options'])) {
                 $options_button = $this->button([
-                    'type'       => 'link',
-                    'href'       => '#search-filter',
-                    'class'      => 'button options',
-                    'label'      => 'options',
-                    'title'      => 'options',
-                    'tabindex'   => '0',
-                    'innerclass' => 'inner',
+                    'type'        => 'link',
+                    'href'        => '#search-filter',
+                    'class'       => 'button options',
+                    'label'       => 'options',
+                    'title'       => 'options',
+                    'tabindex'    => '0',
+                    'innerclass'  => 'inner',
                     'data-target' => $options,
                 ]);
             }
@@ -2623,7 +2623,7 @@ class rcmail_output_html extends rcmail_output
      */
     protected function about_content($attrib)
     {
-        $content = '';
+        $content   = '';
         $filenames = [
             'about.' . $_SESSION['language'] . '.html',
             'about.' . substr($_SESSION['language'], 0, 2) . '.html',

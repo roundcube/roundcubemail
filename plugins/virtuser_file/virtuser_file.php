@@ -35,7 +35,7 @@ class virtuser_file extends rcube_plugin
      */
     public function user2email($p)
     {
-        $r = $this->findinvirtual('/\s' . preg_quote($p['user'], '/') . '\s*$/');
+        $r      = $this->findinvirtual('/\s' . preg_quote($p['user'], '/') . '\s*$/');
         $result = [];
 
         for ($i = 0; $i < count($r); $i++) {

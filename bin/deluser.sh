@@ -95,7 +95,7 @@ $plugin = $rcmail->plugins->exec_hook('user_delete_prepare', ['user' => $user, '
 // let plugins cleanup their own user-related data
 if (!$plugin['abort']) {
     $transaction = $db->startTransaction();
-    $plugin = $rcmail->plugins->exec_hook('user_delete', $plugin);
+    $plugin      = $rcmail->plugins->exec_hook('user_delete', $plugin);
 }
 
 if ($plugin['abort']) {

@@ -321,12 +321,12 @@ class Framework_Washtml extends TestCase
     {
         $washer = new rcube_washtml();
 
-        $html = '<html><head><title>title1</title></head><body><p>test</p></body>';
+        $html   = '<html><head><title>title1</title></head><body><p>test</p></body>';
         $washed = $washer->wash($html);
 
         $this->assertSame('<p>test</p>', $this->cleanupResult($washed));
 
-        $html = '<html><head><title>title1<img />title2</title></head><body><p>test</p></body>';
+        $html   = '<html><head><title>title1<img />title2</title></head><body><p>test</p></body>';
         $washed = $washer->wash($html);
 
         $this->assertSame('<p>test</p>', $this->cleanupResult($washed));
@@ -685,7 +685,7 @@ class Framework_Washtml extends TestCase
     {
         $washer = new rcube_washtml(['css_prefix' => 'test']);
 
-        $html   = '<p id="my-id">'
+        $html = '<p id="my-id">'
             . '<label for="my-other-id" class="my-class1 my-class2">test</label>'
             . '<a href="#my-id">link</a>'
             . '</p>';
@@ -697,7 +697,7 @@ class Framework_Washtml extends TestCase
         $this->assertStringContainsString('class="testmy-class1 testmy-class2"', $washed);
 
         // Make sure the anchor name is prefixed too
-        $html = '<p><a href="#a">test link</a></p><a name="a">test anchor</a>';
+        $html   = '<p><a href="#a">test link</a></p><a name="a">test anchor</a>';
         $washed = $washer->wash($html);
 
         $this->assertStringContainsString('href="#testa"', $washed);

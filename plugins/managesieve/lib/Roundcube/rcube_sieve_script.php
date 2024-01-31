@@ -214,7 +214,7 @@ class rcube_sieve_script
         if (!empty($this->vars)) {
             if (in_array('variables', (array) $this->supported)) {
                 $has_vars = true;
-                $exts[] = 'variables';
+                $exts[]   = 'variables';
             }
             foreach ($this->vars as $var) {
                 if (empty($has_vars)) {
@@ -235,9 +235,9 @@ class rcube_sieve_script
 
         // rules
         foreach ($this->content as $rule) {
-            $script    = '';
-            $tests     = [];
-            $i         = 0;
+            $script = '';
+            $tests  = [];
+            $i      = 0;
 
             // header
             if (!empty($rule['name']) && strlen($rule['name'])) {
@@ -519,7 +519,7 @@ class rcube_sieve_script
 
                                 // Old-draft way: :method "mailto" :options "email@address"
                                 if (!empty($method)) {
-                                    $parts = explode(':', $method, 2);
+                                    $parts            = explode(':', $method, 2);
                                     $action['method'] = $parts[0];
                                     array_unshift($action['options'], $parts[1]);
                                 }
@@ -744,7 +744,7 @@ class rcube_sieve_script
             $token = strtolower($token);
 
             if ($token == 'not') {
-                $not = true;
+                $not   = true;
                 $token = strtolower(array_shift($tokens));
             } else {
                 $not = false;
@@ -834,7 +834,7 @@ class rcube_sieve_script
                     $test['part'] = array_pop($tokens);
 
                     if ($token == 'date') {
-                        $test['header']  = array_pop($tokens);
+                        $test['header'] = array_pop($tokens);
                     }
 
                     $test += $this->test_tokens($tokens);
@@ -865,7 +865,7 @@ class rcube_sieve_script
                     $tests[] = $test;
                     break;
                 case 'exists':
-                    $test = ['test' => 'exists', 'not' => $not, 'arg'  => array_pop($tokens)];
+                    $test = ['test' => 'exists', 'not' => $not, 'arg' => array_pop($tokens)];
                     $test += $this->test_tokens($tokens);
                     $tests[] = $test;
                     break;
@@ -932,16 +932,16 @@ class rcube_sieve_script
                     break;
                 case 'fileinto':
                 case 'redirect':
-                    $action  = ['type' => $token, 'target' => array_pop($tokens)];
-                    $args    = ['copy'];
+                    $action = ['type' => $token, 'target' => array_pop($tokens)];
+                    $args   = ['copy'];
                     $action += $this->action_arguments($tokens, $args);
 
                     $result[] = $action;
                     break;
                 case 'vacation':
-                    $action  = ['type' => 'vacation', 'reason' => array_pop($tokens)];
-                    $args    = ['mime'];
-                    $vargs   = ['seconds', 'days', 'addresses', 'subject', 'handle', 'from'];
+                    $action = ['type' => 'vacation', 'reason' => array_pop($tokens)];
+                    $args   = ['mime'];
+                    $vargs  = ['seconds', 'days', 'addresses', 'subject', 'handle', 'from'];
                     $action += $this->action_arguments($tokens, $args, $vargs);
 
                     $result[] = $action;
@@ -968,23 +968,23 @@ class rcube_sieve_script
                     $result[] = ['type' => $token, 'target' => array_pop($tokens)];
                     break;
                 case 'include':
-                    $action  = ['type' => 'include', 'target' => array_pop($tokens)];
-                    $args    = ['once', 'optional', 'global', 'personal'];
+                    $action = ['type' => 'include', 'target' => array_pop($tokens)];
+                    $args   = ['once', 'optional', 'global', 'personal'];
                     $action += $this->action_arguments($tokens, $args);
 
                     $result[] = $action;
                     break;
                 case 'set':
-                    $action  = ['type' => 'set', 'value' => array_pop($tokens), 'name' => array_pop($tokens)];
-                    $args    = ['lower', 'upper', 'lowerfirst', 'upperfirst', 'quotewildcard', 'length', 'encodeurl'];
+                    $action = ['type' => 'set', 'value' => array_pop($tokens), 'name' => array_pop($tokens)];
+                    $args   = ['lower', 'upper', 'lowerfirst', 'upperfirst', 'quotewildcard', 'length', 'encodeurl'];
                     $action += $this->action_arguments($tokens, $args);
 
                     $result[] = $action;
                     break;
                 case 'replace':
-                    $action  = ['type' => 'replace', 'replace' => array_pop($tokens)];
-                    $args    = ['mime'];
-                    $vargs   = ['subject', 'from'];
+                    $action = ['type' => 'replace', 'replace' => array_pop($tokens)];
+                    $args   = ['mime'];
+                    $vargs  = ['subject', 'from'];
                     $action += $this->action_arguments($tokens, $args, $vargs);
 
                     $result[] = $action;
@@ -998,7 +998,7 @@ class rcube_sieve_script
                     $priorities = ['high' => 1, 'normal' => 2, 'low' => 3];
                     $vargs      = ['from', 'id', 'importance', 'options', 'message', 'method'];
                     $args       = array_keys($priorities);
-                    $action    += $this->action_arguments($tokens, $args, $vargs);
+                    $action += $this->action_arguments($tokens, $args, $vargs);
 
                     // Here we'll convert draft-martin-sieve-notify-01 into RFC 5435
                     if (!isset($action['importance'])) {
@@ -1077,7 +1077,7 @@ class rcube_sieve_script
                 if (empty($got_mime)) {
                     $out .= ' :mime';
                     $got_mime = true;
-                    $exts[] = 'mime';
+                    $exts[]   = 'mime';
                 }
 
                 if ($opt_name != 'mime') {
@@ -1133,8 +1133,8 @@ class rcube_sieve_script
             } elseif ($token && preg_match('/^:(is|contains|matches|regex)$/i', $token)) {
                 $test['type'] = strtolower(substr($token, 1));
             } elseif ($token && preg_match('/^:(mime|anychild|type|subtype|contenttype|param)$/i', $token)) {
-                $token = strtolower(substr($token, 1));
-                $key   = $token == 'mime' ? $token : "mime-{$token}";
+                $token      = strtolower(substr($token, 1));
+                $key        = $token == 'mime' ? $token : "mime-{$token}";
                 $test[$key] = $token == 'param' ? $tokens[++$i] : true;
             } elseif ($token && preg_match('/^:index$/i', $token)) {
                 $test['index'] = intval($tokens[++$i]);
@@ -1336,7 +1336,7 @@ class rcube_sieve_script
                     if (preg_match('/[a-zA-Z0-9:_]+/', $str, $m, \PREG_OFFSET_CAPTURE, $position)
                         && $m[0][1] == $position
                     ) {
-                        $atom      = $m[0][0];
+                        $atom = $m[0][0];
                         $position += strlen($atom);
 
                         if ($atom != 'text:') {
@@ -1369,7 +1369,7 @@ class rcube_sieve_script
                                     break;
                                 }
 
-                                $text    .= substr($str, $position, $pos - $position);
+                                $text .= substr($str, $position, $pos - $position);
                                 $position = $pos + 2;
 
                                 if ($str[$position] == "\n") {

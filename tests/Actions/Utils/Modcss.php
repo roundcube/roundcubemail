@@ -32,8 +32,8 @@ class Actions_Utils_Modcss extends ActionTestCase
         $this->assertNull($output->getOutput());
 
         // Valid url but not "registered"
-        $url = 'https://raw.githubusercontent.com/roundcube/roundcubemail/master/aaaaaaaaaa';
-        $key = 'tmp-123.css';
+        $url        = 'https://raw.githubusercontent.com/roundcube/roundcubemail/master/aaaaaaaaaa';
+        $key        = 'tmp-123.css';
         $_GET['_u'] = $key;
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
@@ -57,10 +57,10 @@ class Actions_Utils_Modcss extends ActionTestCase
         $this->assertNull($output->getOutput());
 
         // Valid url pointing to an existing resource
-        $url = 'https://raw.githubusercontent.com/roundcube/roundcubemail/master/program/resources/tinymce/content.css';
+        $url                          = 'https://raw.githubusercontent.com/roundcube/roundcubemail/master/program/resources/tinymce/content.css';
         $_SESSION['modcssurls'][$key] = $url;
-        $_GET['_p'] = 'prefix';
-        $_GET['_c'] = 'cid';
+        $_GET['_p']                   = 'prefix';
+        $_GET['_c']                   = 'cid';
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 

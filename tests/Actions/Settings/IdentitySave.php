@@ -25,10 +25,10 @@ class Actions_Settings_IdentitySave extends ActionTestCase
         // Test successful identity update
 
         $_POST = [
-            '_iid' => $identity['identity_id'],
-            '_name' => 'new-name',
-            '_email' => 'new@example.com',
-            '_standard' => '1',
+            '_iid'       => $identity['identity_id'],
+            '_name'      => 'new-name',
+            '_email'     => 'new@example.com',
+            '_standard'  => '1',
             '_signature' => 'test',
         ];
 

@@ -88,7 +88,7 @@ class OutputJsonMock extends rcmail_output_json
      */
     public function sendExitError($code, $message = '')
     {
-        $this->errorCode = $code;
+        $this->errorCode    = $code;
         $this->errorMessage = $message;
 
         throw new ExitException('Output sent (error)', self::E_EXIT);

@@ -298,8 +298,8 @@ abstract class rcmail_action
         } elseif ($err_code < 0) {
             $error = 'storageerror';
         } elseif ($fallback) {
-            $error = $fallback;
-            $args  = $fallback_args;
+            $error            = $fallback;
+            $args             = $fallback_args;
             $params['prefix'] = false;
         }
 
@@ -389,11 +389,11 @@ abstract class rcmail_action
         }
 
         $config = [
-            'mode'       => $mode,
-            'lang'       => $lang,
-            'skin_path'  => $skin_path,
-            'spellcheck' => $spellcheck, // deprecated
-            'spelldict'  => $spelldict,
+            'mode'             => $mode,
+            'lang'             => $lang,
+            'skin_path'        => $skin_path,
+            'spellcheck'       => $spellcheck, // deprecated
+            'spelldict'        => $spelldict,
             'font_formats'     => self::font_defs(),
             'fontsize_formats' => self::fontsize_defs(),
             'content_css'      => 'program/resources/tinymce/content.css',
@@ -519,9 +519,9 @@ abstract class rcmail_action
 
         // Default attributes of file input and form
         $input_attr += [
-            'id'   => $attrib['id'] . 'Input',
-            'type' => 'file',
-            'name' => '_attachments[]',
+            'id'    => $attrib['id'] . 'Input',
+            'type'  => 'file',
+            'name'  => '_attachments[]',
             'class' => 'form-control',
         ];
 
@@ -535,7 +535,7 @@ abstract class rcmail_action
         if (!empty($attrib['mode']) && $attrib['mode'] == 'smart') {
             unset($attrib['buttons']);
             $form_attr['class'] = 'smart-upload';
-            $input_attr = array_merge($input_attr, [
+            $input_attr         = array_merge($input_attr, [
                 // #5854: Chrome does not execute onchange when selecting the same file.
                 //        To fix this we reset the input using null value.
                 'onchange' => "{$event}; this.value=null",
@@ -552,7 +552,7 @@ abstract class rcmail_action
         }
 
         if (self::get_bool_attr($attrib, 'buttons')) {
-            $button   = new html_inputfield(['type' => 'button']);
+            $button = new html_inputfield(['type' => 'button']);
             $content .= html::div('buttons',
                 $button->show($rcmail->gettext('close'), ['class' => 'button', 'onclick' => "$('#{$attrib['id']}').hide()"])
                 . ' ' .
@@ -582,7 +582,7 @@ abstract class rcmail_action
             $msg = $attachment['error'];
         } elseif ($php_error == \UPLOAD_ERR_INI_SIZE || $php_error == \UPLOAD_ERR_FORM_SIZE) {
             $post_size = self::show_bytes(rcube_utils::max_upload_size());
-            $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $post_size]]);
+            $msg       = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $post_size]]);
         } else {
             $msg = $rcmail->gettext('fileuploaderror');
         }
@@ -790,14 +790,14 @@ abstract class rcmail_action
         }
 
         $is_multifolder = false;
-        $result = [];
+        $result         = [];
 
         // special case: *
         if ($_uid == '*' && !empty($_SESSION['search'][1]) && !empty($_SESSION['search'][1]->multi)) {
             $is_multifolder = true;
             // extract the full list of UIDs per folder from the search set
             foreach ($_SESSION['search'][1]->sets as $subset) {
-                $mbox = $subset->get_parameters('MAILBOX');
+                $mbox          = $subset->get_parameters('MAILBOX');
                 $result[$mbox] = $subset->get();
             }
         } else {
@@ -813,7 +813,7 @@ abstract class rcmail_action
                 if (!isset($tokens[1]) || !strlen($tokens[1])) {
                     $mbox = $_mbox;
                 } else {
-                    $mbox = $tokens[1];
+                    $mbox           = $tokens[1];
                     $is_multifolder = true;
                 }
 
@@ -873,7 +873,7 @@ abstract class rcmail_action
 
         if (empty(self::$edit_form)) {
             $request_key = $action . (isset($id) ? '.' . $id : '');
-            $form_start = $rcmail->output->request_form([
+            $form_start  = $rcmail->output->request_form([
                 'name'    => 'form',
                 'method'  => 'post',
                 'task'    => $rcmail->task,
@@ -887,7 +887,7 @@ abstract class rcmail_action
                 $form_start .= $hiddenfields->show();
             }
 
-            $form_end  = empty($attrib['form']) ? '</form>' : '';
+            $form_end        = empty($attrib['form']) ? '</form>' : '';
             self::$edit_form = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
             $rcmail->output->add_gui_object('editform', self::$edit_form);
@@ -954,7 +954,7 @@ abstract class rcmail_action
 
         if ($type == 'select') {
             $attrib['is_escaped'] = true;
-            $select = new html_select($attrib);
+            $select               = new html_select($attrib);
 
             // add no-selection option
             if (!empty($attrib['noselection'])) {
@@ -968,9 +968,9 @@ abstract class rcmail_action
             self::render_folder_tree_select($a_mailboxes, $mbox_name, $maxlength, $select, $realnames);
             $out = $select->show($default);
         } else {
-            $out = '';
+            $out            = '';
             $js_mailboxlist = [];
-            $tree = self::render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib);
+            $tree           = self::render_folder_tree_html($a_mailboxes, $mbox_name, $js_mailboxlist, $attrib);
 
             if ($type != 'js') {
                 $out = html::tag('ul', $attrib, $tree, html::$common_attrib);

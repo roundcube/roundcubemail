@@ -81,8 +81,8 @@ class debug_logger extends rcube_plugin
         }
 
         $start_string = '';
-        $action = rcmail::get_instance()->action;
-        $task   = rcmail::get_instance()->task;
+        $action       = rcmail::get_instance()->action;
+        $task         = rcmail::get_instance()->task;
 
         if ($action) {
             $start_string .= "Action: {$action}. ";

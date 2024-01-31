@@ -27,19 +27,19 @@ class rcmail_install
 {
     public $step;
     public $last_error;
-    public $is_post           = false;
-    public $failures          = 0;
-    public $config            = [];
-    public $defaults          = [];
-    public $comments          = [];
-    public $configured        = false;
-    public $legacy_config     = false;
-    public $email_pattern     = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
+    public $is_post       = false;
+    public $failures      = 0;
+    public $config        = [];
+    public $defaults      = [];
+    public $comments      = [];
+    public $configured    = false;
+    public $legacy_config = false;
+    public $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
 
     public $bool_config_props = ['ip_check', 'enable_spellcheck', 'auto_create_user', 'smtp_log', 'prefer_html'];
-    public $local_config    = ['db_dsnw', 'imap_host', 'support_url', 'des_key', 'plugins'];
-    public $obsolete_config = ['db_backend', 'db_max_length', 'double_auth', 'preview_pane', 'debug_level', 'referer_check'];
-    public $replaced_config = [
+    public $local_config      = ['db_dsnw', 'imap_host', 'support_url', 'des_key', 'plugins'];
+    public $obsolete_config   = ['db_backend', 'db_max_length', 'double_auth', 'preview_pane', 'debug_level', 'referer_check'];
+    public $replaced_config   = [
         'skin_path'            => 'skin',
         'locale_string'        => 'language',
         'multiple_identities'  => 'identities_level',
@@ -66,9 +66,9 @@ class rcmail_install
 
     // list of supported database drivers
     public $supported_dbs = [
-        'MySQL'               => 'pdo_mysql',
-        'PostgreSQL'          => 'pdo_pgsql',
-        'SQLite'              => 'pdo_sqlite',
+        'MySQL'      => 'pdo_mysql',
+        'PostgreSQL' => 'pdo_pgsql',
+        'SQLite'     => 'pdo_sqlite',
     ];
 
     /** @var array List of config options with default value change per-release */
@@ -162,9 +162,9 @@ class rcmail_install
                 if ($token[0] == \T_VARIABLE && ($token[1] == '$config' || $token[1] == '$rcmail_config')) {
                     $in_config = true;
                     if ($buffer && $tokens[$i + 1] == '[' && $tokens[$i + 2][0] == \T_CONSTANT_ENCAPSED_STRING) {
-                        $propname = trim($tokens[$i + 2][1], "'\"");
+                        $propname                  = trim($tokens[$i + 2][1], "'\"");
                         $this->comments[$propname] = preg_replace('/\n\n/', "\n", $buffer);
-                        $buffer = '';
+                        $buffer                    = '';
                         $i += 3;
                     }
                 } elseif ($in_config && $token[0] == \T_COMMENT) {
@@ -318,12 +318,12 @@ class rcmail_install
         }
 
         $seen = [];
-        $out = ['defaults' => [], 'obsolete' => [], 'replaced' => [], 'dependencies' => [], 'missing' => []];
+        $out  = ['defaults' => [], 'obsolete' => [], 'replaced' => [], 'dependencies' => [], 'missing' => []];
 
         // iterate over the current configuration
         foreach (array_keys($this->config) as $prop) {
             if (!empty($this->replaced_config[$prop])) {
-                $replacement = $this->replaced_config[$prop];
+                $replacement        = $this->replaced_config[$prop];
                 $out['replaced'][]  = ['prop' => $prop, 'replacement' => $replacement];
                 $seen[$replacement] = true;
             } elseif (empty($seen[$prop]) && in_array($prop, $this->obsolete_config)) {
@@ -576,11 +576,11 @@ class rcmail_install
     {
         $errors = [];
         $types  = [
-            'application/zip'   => 'zip',
-            'text/css'          => 'css',
-            'application/pdf'   => 'pdf',
-            'image/gif'         => 'gif',
-            'image/svg+xml'     => 'svg',
+            'application/zip' => 'zip',
+            'text/css'        => 'css',
+            'application/pdf' => 'pdf',
+            'image/gif'       => 'gif',
+            'image/svg+xml'   => 'svg',
         ];
 
         foreach ($types as $mimetype => $expected) {
@@ -617,7 +617,7 @@ class rcmail_install
         if ($prop == 'smtp_host') {
             // Set the imap host name for the %h macro
             $default_hosts = $this->get_hostlist();
-            $imap_host = !empty($default_hosts) ? $default_hosts[0] : '';
+            $imap_host     = !empty($default_hosts) ? $default_hosts[0] : '';
         }
 
         foreach ($hosts as $key => $name) {
@@ -804,12 +804,12 @@ class rcmail_install
         switch ($name) {
             case 'syslog_facility':
                 $list = [
-                    32 => 'LOG_AUTH', 80 => 'LOG_AUTHPRIV', 72 => ' LOG_CRON',
-                    24 => 'LOG_DAEMON', 0 => 'LOG_KERN', 128 => 'LOG_LOCAL0',
+                    32  => 'LOG_AUTH', 80 => 'LOG_AUTHPRIV', 72 => ' LOG_CRON',
+                    24  => 'LOG_DAEMON', 0 => 'LOG_KERN', 128 => 'LOG_LOCAL0',
                     136 => 'LOG_LOCAL1', 144 => 'LOG_LOCAL2', 152 => 'LOG_LOCAL3',
                     160 => 'LOG_LOCAL4', 168 => 'LOG_LOCAL5', 176 => 'LOG_LOCAL6',
                     184 => 'LOG_LOCAL7', 48 => 'LOG_LPR', 16 => 'LOG_MAIL',
-                    56 => 'LOG_NEWS', 40 => 'LOG_SYSLOG', 8 => 'LOG_USER', 64 => 'LOG_UUCP',
+                    56  => 'LOG_NEWS', 40 => 'LOG_SYSLOG', 8 => 'LOG_USER', 64 => 'LOG_UUCP',
                 ];
 
                 if (!empty($list[$var])) {

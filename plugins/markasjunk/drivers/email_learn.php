@@ -40,14 +40,14 @@ class markasjunk_email_learn
 
     private function _do_emaillearn($uids, $spam)
     {
-        $this->rcube  = rcube::get_instance();
-        $identity     = $this->rcube->user->get_identity();
-        $from         = $identity['email'];
-        $from_string  = format_email_recipient($from, $identity['name']);
-        $attach       = $this->rcube->config->get('markasjunk_email_attach', false);
-        $debug        = $this->rcube->config->get('markasjunk_debug');
-        $product      = $this->rcube->config->get('product_name');
-        $temp_dir     = unslashify($this->rcube->config->get('temp_dir'));
+        $this->rcube = rcube::get_instance();
+        $identity    = $this->rcube->user->get_identity();
+        $from        = $identity['email'];
+        $from_string = format_email_recipient($from, $identity['name']);
+        $attach      = $this->rcube->config->get('markasjunk_email_attach', false);
+        $debug       = $this->rcube->config->get('markasjunk_debug');
+        $product     = $this->rcube->config->get('product_name');
+        $temp_dir    = unslashify($this->rcube->config->get('temp_dir'));
 
         $subject = (string) $this->rcube->config->get('markasjunk_email_subject');
         $mailto  = (string) $this->rcube->config->get($spam ? 'markasjunk_email_spam' : 'markasjunk_email_ham');
@@ -60,7 +60,7 @@ class markasjunk_email_learn
         }
 
         foreach ($uids as $i => $uid) {
-            $MESSAGE = new rcube_message($uid);
+            $MESSAGE      = new rcube_message($uid);
             $message_file = null;
 
             // set message charset as default

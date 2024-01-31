@@ -39,15 +39,15 @@ class rcmail_action_settings_prefs_save extends rcmail_action
         switch ($CURR_SECTION) {
             case 'general':
                 $a_user_prefs = [
-                    'language'     => self::prefs_input('language', '/^[a-zA-Z0-9_-]+$/'),
-                    'timezone'     => self::prefs_input('timezone', '/^[a-zA-Z_\/-]+$/'),
-                    'date_format'  => self::prefs_input('date_format', '/^[a-zA-Z_.\/ -]+$/'),
-                    'time_format'  => self::prefs_input('time_format', '/^[a-zA-Z0-9: ]+$/'),
-                    'prettydate'   => isset($_POST['_pretty_date']),
-                    'display_next' => isset($_POST['_display_next']),
+                    'language'         => self::prefs_input('language', '/^[a-zA-Z0-9_-]+$/'),
+                    'timezone'         => self::prefs_input('timezone', '/^[a-zA-Z_\/-]+$/'),
+                    'date_format'      => self::prefs_input('date_format', '/^[a-zA-Z_.\/ -]+$/'),
+                    'time_format'      => self::prefs_input('time_format', '/^[a-zA-Z0-9: ]+$/'),
+                    'prettydate'       => isset($_POST['_pretty_date']),
+                    'display_next'     => isset($_POST['_display_next']),
                     'refresh_interval' => self::prefs_input_int('refresh_interval') * 60,
                     'standard_windows' => isset($_POST['_standard_windows']),
-                    'skin'         => self::prefs_input('skin', '/^[a-zA-Z0-9_.-]+$/'),
+                    'skin'             => self::prefs_input('skin', '/^[a-zA-Z0-9_.-]+$/'),
                 ];
 
                 // compose derived date/time format strings
@@ -85,41 +85,41 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 break;
             case 'compose':
                 $a_user_prefs = [
-                    'compose_extwin'     => self::prefs_input_int('compose_extwin'),
-                    'htmleditor'         => self::prefs_input_int('htmleditor'),
-                    'draft_autosave'     => self::prefs_input_int('draft_autosave'),
-                    'mime_param_folding' => self::prefs_input_int('mime_param_folding'),
-                    'force_7bit'         => isset($_POST['_force_7bit']),
-                    'mdn_default'        => isset($_POST['_mdn_default']),
-                    'dsn_default'        => isset($_POST['_dsn_default']),
-                    'reply_same_folder'  => isset($_POST['_reply_same_folder']),
-                    'spellcheck_before_send' => isset($_POST['_spellcheck_before_send']),
-                    'spellcheck_ignore_syms' => isset($_POST['_spellcheck_ignore_syms']),
-                    'spellcheck_ignore_nums' => isset($_POST['_spellcheck_ignore_nums']),
-                    'spellcheck_ignore_caps' => isset($_POST['_spellcheck_ignore_caps']),
-                    'show_sig'           => self::prefs_input_int('show_sig'),
-                    'reply_mode'         => self::prefs_input_int('reply_mode'),
-                    'sig_below'          => isset($_POST['_sig_below']),
-                    'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
-                    'sig_separator'      => isset($_POST['_sig_separator']),
-                    'default_font'       => self::prefs_input('default_font', '/^[a-zA-Z ]+$/'),
-                    'default_font_size'  => self::prefs_input('default_font_size', '/^[0-9]+pt$/'),
-                    'reply_all_mode'     => self::prefs_input_int('reply_all_mode'),
-                    'forward_attachment' => !empty($_POST['_forward_attachment']),
+                    'compose_extwin'            => self::prefs_input_int('compose_extwin'),
+                    'htmleditor'                => self::prefs_input_int('htmleditor'),
+                    'draft_autosave'            => self::prefs_input_int('draft_autosave'),
+                    'mime_param_folding'        => self::prefs_input_int('mime_param_folding'),
+                    'force_7bit'                => isset($_POST['_force_7bit']),
+                    'mdn_default'               => isset($_POST['_mdn_default']),
+                    'dsn_default'               => isset($_POST['_dsn_default']),
+                    'reply_same_folder'         => isset($_POST['_reply_same_folder']),
+                    'spellcheck_before_send'    => isset($_POST['_spellcheck_before_send']),
+                    'spellcheck_ignore_syms'    => isset($_POST['_spellcheck_ignore_syms']),
+                    'spellcheck_ignore_nums'    => isset($_POST['_spellcheck_ignore_nums']),
+                    'spellcheck_ignore_caps'    => isset($_POST['_spellcheck_ignore_caps']),
+                    'show_sig'                  => self::prefs_input_int('show_sig'),
+                    'reply_mode'                => self::prefs_input_int('reply_mode'),
+                    'sig_below'                 => isset($_POST['_sig_below']),
+                    'strip_existing_sig'        => isset($_POST['_strip_existing_sig']),
+                    'sig_separator'             => isset($_POST['_sig_separator']),
+                    'default_font'              => self::prefs_input('default_font', '/^[a-zA-Z ]+$/'),
+                    'default_font_size'         => self::prefs_input('default_font_size', '/^[0-9]+pt$/'),
+                    'reply_all_mode'            => self::prefs_input_int('reply_all_mode'),
+                    'forward_attachment'        => !empty($_POST['_forward_attachment']),
                     'compose_save_localstorage' => self::prefs_input_int('compose_save_localstorage'),
                 ];
 
                 break;
             case 'addressbook':
                 $a_user_prefs = [
-                    'default_addressbook'  => rcube_utils::get_input_string('_default_addressbook', rcube_utils::INPUT_POST, true),
-                    'collected_recipients' => rcube_utils::get_input_string('_collected_recipients', rcube_utils::INPUT_POST, true),
-                    'collected_senders'    => rcube_utils::get_input_string('_collected_senders', rcube_utils::INPUT_POST, true),
-                    'autocomplete_single'  => isset($_POST['_autocomplete_single']),
-                    'addressbook_sort_col' => self::prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
+                    'default_addressbook'      => rcube_utils::get_input_string('_default_addressbook', rcube_utils::INPUT_POST, true),
+                    'collected_recipients'     => rcube_utils::get_input_string('_collected_recipients', rcube_utils::INPUT_POST, true),
+                    'collected_senders'        => rcube_utils::get_input_string('_collected_senders', rcube_utils::INPUT_POST, true),
+                    'autocomplete_single'      => isset($_POST['_autocomplete_single']),
+                    'addressbook_sort_col'     => self::prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
                     'addressbook_name_listing' => self::prefs_input_int('addressbook_name_listing'),
-                    'addressbook_pagesize' => max(2, self::prefs_input_int('addressbook_pagesize')),
-                    'contact_form_mode'    => self::prefs_input('contact_form_mode', '/^(private|business)$/'),
+                    'addressbook_pagesize'     => max(2, self::prefs_input_int('addressbook_pagesize')),
+                    'contact_form_mode'        => self::prefs_input('contact_form_mode', '/^(private|business)$/'),
                 ];
 
                 break;
@@ -138,7 +138,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 $a_user_prefs = [
                     'show_real_foldernames' => isset($_POST['_show_real_foldernames']),
                     // stop using SPECIAL-USE (#4782)
-                    'lock_special_folders'  => !in_array('lock_special_folders', $dont_override),
+                    'lock_special_folders' => !in_array('lock_special_folders', $dont_override),
                 ];
 
                 foreach (rcube_storage::$folder_types as $type) {

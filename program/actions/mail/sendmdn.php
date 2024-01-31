@@ -95,13 +95,13 @@ class rcmail_action_mail_sendmdn extends rcmail_action
 
             // compose headers array
             $headers = [
-                'Date'       => $rcmail->user_date(),
-                'From'       => $sender,
-                'To'         => $message->headers->mdn_to,
-                'Subject'    => $rcmail->gettext('receiptread') . ': ' . $message->subject,
-                'Message-ID' => $rcmail->gen_message_id($identity['email']),
-                'X-Sender'   => $identity['email'],
-                'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
+                'Date'        => $rcmail->user_date(),
+                'From'        => $sender,
+                'To'          => $message->headers->mdn_to,
+                'Subject'     => $rcmail->gettext('receiptread') . ': ' . $message->subject,
+                'Message-ID'  => $rcmail->gen_message_id($identity['email']),
+                'X-Sender'    => $identity['email'],
+                'References'  => trim($message->headers->references . ' ' . $message->headers->messageID),
                 'In-Reply-To' => $message->headers->messageID,
             ];
 

@@ -80,7 +80,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
 
         $form = [
             'head' => [  // section 'head' is magic!
-                'name' => $rcmail->gettext('contactnameandorg'),
+                'name'    => $rcmail->gettext('contactnameandorg'),
                 'content' => [
                     'source'       => ['type' => 'text'],
                     'prefix'       => ['type' => 'text'],
@@ -169,8 +169,8 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
                     rcmail_output::JS_OBJECT_NAME,
                     rcube::JQ($email)
                 ),
-                'title'   => $rcmail->gettext('composeto'),
-                'class'   => 'email',
+                'title' => $rcmail->gettext('composeto'),
+                'class' => 'email',
             ],
             rcube::Q($email)
         );

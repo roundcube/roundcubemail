@@ -79,24 +79,24 @@ class rcube_imap_cache
      * with good performance. Bad thing is we need to know used flags.
      */
     public $flags = [
-        1       => 'SEEN',          // RFC3501
-        2       => 'DELETED',       // RFC3501
-        4       => 'ANSWERED',      // RFC3501
-        8       => 'FLAGGED',       // RFC3501
-        16      => 'DRAFT',         // RFC3501
-        32      => 'MDNSENT',       // RFC3503
-        64      => 'FORWARDED',     // RFC5550
-        128     => 'SUBMITPENDING', // RFC5550
-        256     => 'SUBMITTED',     // RFC5550
-        512     => 'JUNK',
-        1024    => 'NONJUNK',
-        2048    => 'LABEL1',
-        4096    => 'LABEL2',
-        8192    => 'LABEL3',
-        16384   => 'LABEL4',
-        32768   => 'LABEL5',
-        65536   => 'HASATTACHMENT',
-        131072  => 'HASNOATTACHMENT',
+        1      => 'SEEN',          // RFC3501
+        2      => 'DELETED',       // RFC3501
+        4      => 'ANSWERED',      // RFC3501
+        8      => 'FLAGGED',       // RFC3501
+        16     => 'DRAFT',         // RFC3501
+        32     => 'MDNSENT',       // RFC3503
+        64     => 'FORWARDED',     // RFC5550
+        128    => 'SUBMITPENDING', // RFC5550
+        256    => 'SUBMITTED',     // RFC5550
+        512    => 'JUNK',
+        1024   => 'NONJUNK',
+        2048   => 'LABEL1',
+        4096   => 'LABEL2',
+        8192   => 'LABEL3',
+        16384  => 'LABEL4',
+        32768  => 'LABEL5',
+        65536  => 'HASATTACHMENT',
+        131072 => 'HASNOATTACHMENT',
     ];
 
     /**
@@ -932,7 +932,7 @@ class rcube_imap_cache
             } else {
                 // get all undeleted messages excluding cached UIDs
                 $existing = rcube_imap_generic::compressMessageSet($object->get());
-                $ids = $this->imap->search_once($mailbox, "ALL UNDELETED NOT UID {$existing}");
+                $ids      = $this->imap->search_once($mailbox, "ALL UNDELETED NOT UID {$existing}");
 
                 if (!$ids->is_empty()) {
                     return false;

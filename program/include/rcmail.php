@@ -47,7 +47,7 @@ class rcmail extends rcube
      *
      * @var string
      */
-    public $action    = '';
+    public $action = '';
 
     public $comm_path = './';
     public $filename  = '';
@@ -202,8 +202,8 @@ class rcmail extends rcube
     {
         parent::set_user($user);
 
-        $session_lang = $_SESSION['language'] ?? null;
-        $lang = $this->language_prop($this->config->get('language', $session_lang));
+        $session_lang         = $_SESSION['language'] ?? null;
+        $lang                 = $this->language_prop($this->config->get('language', $session_lang));
         $_SESSION['language'] = $this->user->language = $lang;
 
         // set localization
@@ -323,7 +323,7 @@ class rcmail extends rcube
         if ($id == 'sql') {
             $id = (string) rcube_addressbook::TYPE_CONTACT;
         } elseif ($id === strval(rcube_addressbook::TYPE_DEFAULT) || $id === '-1') { // -1 for BC
-            $id = $this->config->get('default_addressbook');
+            $id      = $this->config->get('default_addressbook');
             $default = true;
         }
 
@@ -425,9 +425,9 @@ class rcmail extends rcube
      */
     public function get_address_sources($writeable = false, $skip_hidden = false)
     {
-        $abook_type   = strtolower((string) $this->config->get('address_book_type', 'sql'));
-        $ldap_config  = (array) $this->config->get('ldap_public');
-        $list         = [];
+        $abook_type  = strtolower((string) $this->config->get('address_book_type', 'sql'));
+        $ldap_config = (array) $this->config->get('ldap_public');
+        $list        = [];
 
         // SQL-based (built-in) address book
         if ($abook_type === 'sql') {
@@ -463,22 +463,22 @@ class rcmail extends rcube
 
         if ($collected_recipients === (string) rcube_addressbook::TYPE_RECIPIENT) {
             $list[rcube_addressbook::TYPE_RECIPIENT] = [
-                'id'       => (string) rcube_addressbook::TYPE_RECIPIENT,
-                'name'     => $this->gettext('collectedrecipients'),
-                'groups'   => false,
-                'readonly' => true,
-                'undelete' => false,
+                'id'        => (string) rcube_addressbook::TYPE_RECIPIENT,
+                'name'      => $this->gettext('collectedrecipients'),
+                'groups'    => false,
+                'readonly'  => true,
+                'undelete'  => false,
                 'deletable' => true,
             ];
         }
 
         if ($collected_senders === (string) rcube_addressbook::TYPE_TRUSTED_SENDER) {
             $list[rcube_addressbook::TYPE_TRUSTED_SENDER] = [
-                'id'       => (string) rcube_addressbook::TYPE_TRUSTED_SENDER,
-                'name'     => $this->gettext('trustedsenders'),
-                'groups'   => false,
-                'readonly' => true,
-                'undelete' => false,
+                'id'        => (string) rcube_addressbook::TYPE_TRUSTED_SENDER,
+                'name'      => $this->gettext('trustedsenders'),
+                'groups'    => false,
+                'readonly'  => true,
+                'undelete'  => false,
                 'deletable' => true,
             ];
         }
@@ -516,9 +516,9 @@ class rcmail extends rcube
             $additional = [];
             foreach ($this->config->get('compose_responses_static', []) as $response) {
                 $additional[$response['name']] = [
-                    'id'      => 'static-' . substr(md5($response['name']), 0, 16),
-                    'name'    => $response['name'],
-                    'static'  => true,
+                    'id'     => 'static-' . substr(md5($response['name']), 0, 16),
+                    'name'   => $response['name'],
+                    'static' => true,
                 ];
             }
 
@@ -740,7 +740,7 @@ class rcmail extends rcube
             } elseif (strpos($username, '@')) {
                 // lowercase domain name
                 [$local, $domain] = rcube_utils::explode('@', $username);
-                $username = $local . '@' . mb_strtolower($domain);
+                $username         = $local . '@' . mb_strtolower($domain);
             }
         }
 
@@ -790,7 +790,7 @@ class rcmail extends rcube
             // Temporarily set user email and password, so plugins can use it
             // this way until we set it in session later. This is required e.g.
             // by the user-specific LDAP operations from new_user_identity plugin.
-            $domain = $this->config->mail_domain($host);
+            $domain           = $this->config->mail_domain($host);
             $this->user_email = strpos($username, '@') ? $username : sprintf('%s@%s', $username, $domain);
             $this->password   = $password;
 
@@ -1099,7 +1099,7 @@ class rcmail extends rcube
 
         foreach (array_merge($pre, $p) as $key => $val) {
             if ($val !== '' && $val !== null) {
-                $par  = $key[0] == '_' ? $key : ('_' . $key);
+                $par = $key[0] == '_' ? $key : ('_' . $key);
                 $url .= $delm . urlencode($par) . '=' . urlencode($val);
                 $delm = '&';
             }
@@ -1308,7 +1308,7 @@ class rcmail extends rcube
             $folders_str = '';
 
             if ($count) {
-                $folders[0]        = substr($folders[0], 1);
+                $folders[0]          = substr($folders[0], 1);
                 $folders[$count - 1] = substr($folders[$count - 1], 0, -1);
             }
 
@@ -1620,7 +1620,7 @@ class rcmail extends rcube
             try {
                 // convert to the right timezone
                 $stz = date_default_timezone_get();
-                $tz = new DateTimeZone($this->config->get('timezone'));
+                $tz  = new DateTimeZone($this->config->get('timezone'));
                 $date->setTimezone($tz);
                 date_default_timezone_set($tz->getName());
 

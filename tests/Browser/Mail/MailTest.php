@@ -68,12 +68,12 @@ class MailTest extends TestCase
 
             $browser->with(new Popupmenu('message-menu'), static function ($browser) {
                 // Note: These are button class names, not action names
-                $active = ['import'];
+                $active   = ['import'];
                 $disabled = ['print', 'download', 'edit.asnew', 'source', 'move', 'copy', 'extwin'];
-                $hidden = [];
+                $hidden   = [];
 
                 if ($browser->isPhone()) {
-                    $hidden = ['print', 'extwin'];
+                    $hidden   = ['print', 'extwin'];
                     $disabled = array_diff($disabled, $hidden);
                 }
 

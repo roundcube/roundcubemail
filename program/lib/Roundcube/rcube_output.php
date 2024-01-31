@@ -315,7 +315,7 @@ abstract class rcube_output
 
         if ($type == 'checkbox') {
             $attrib['value'] = '1';
-            $input = new html_checkbox($attrib);
+            $input           = new html_checkbox($attrib);
         } elseif ($type == 'textarea') {
             if (!empty($attrib['size'])) {
                 $attrib['cols'] = $attrib['size'];

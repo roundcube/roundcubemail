@@ -51,8 +51,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         }
 
         $attachment = new rcmail_attachment_handler();
-        $mimetype = $attachment->mimetype;
-        $filename = $attachment->filename;
+        $mimetype   = $attachment->mimetype;
+        $filename   = $attachment->filename;
 
         self::$attachment = $attachment;
 
@@ -143,7 +143,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     $tmp_body = $attachment->body(2048);
 
                     // detect message part mimetype
-                    $real_mimetype = rcube_mime::file_content_type($tmp_body, $filename, $mimetype, true, true);
+                    $real_mimetype                               = rcube_mime::file_content_type($tmp_body, $filename, $mimetype, true, true);
                     [$real_ctype_primary, $real_ctype_secondary] = explode('/', $real_mimetype);
 
                     // accept text/plain with any extension
@@ -234,7 +234,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
                 $rcmail->output = new rcmail_html_page();
-                $out = '';
+                $out            = '';
 
                 // Check if we have enough memory to handle the message in it
                 // #1487424: we need up to 10x more memory than the body
@@ -349,8 +349,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 'mbox'   => $rcmail->output->get_env('mailbox'),
             ];
         } else {
-            $mimetype = $rcmail->output->get_env('mimetype');
-            $url      = $_GET;
+            $mimetype                                                      = $rcmail->output->get_env('mimetype');
+            $url                                                           = $_GET;
             $url[strpos($mimetype, 'text/') === 0 ? '_embed' : '_preload'] = 1;
             unset($url['_frame']);
         }

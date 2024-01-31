@@ -23,8 +23,8 @@
  */
 
 $config = [
-    'display_errors'  => false,
-    'log_errors'      => true,
+    'display_errors' => false,
+    'log_errors'     => true,
 ];
 
 // Some users are not using Installer, so we'll check some
@@ -260,8 +260,8 @@ function abbreviate_string($str, $maxlength, $placeholder = '...', $ending = fal
             return mb_substr($str, 0, $maxlength) . $placeholder;
         }
 
-        $placeholder_length = mb_strlen($placeholder);
-        $first_part_length  = floor(($maxlength - $placeholder_length) / 2);
+        $placeholder_length       = mb_strlen($placeholder);
+        $first_part_length        = floor(($maxlength - $placeholder_length) / 2);
         $second_starting_location = $length - $maxlength + $first_part_length + $placeholder_length;
 
         $prefix = mb_substr($str, 0, $first_part_length);

@@ -45,7 +45,7 @@ if ($RCI->configured) {
 
     if (($messages = $RCI->check_config($opts['version'])) || $RCI->legacy_config) {
         $success = false;
-        $err = 0;
+        $err     = 0;
 
         // list old/replaced config options
         if (!empty($messages['replaced'])) {
@@ -175,7 +175,7 @@ if ($RCI->configured) {
     if (is_file(INSTALL_PATH . 'composer.json') && is_readable(INSTALL_PATH . 'composer.json-dist')) {
         $composer_data     = json_decode(file_get_contents(INSTALL_PATH . 'composer.json'), true);
         $composer_template = json_decode(file_get_contents(INSTALL_PATH . 'composer.json-dist'), true);
-        $composer_json    = null;
+        $composer_json     = null;
 
         // update the require section with the new dependencies
         if (!empty($composer_data['require']) && !empty($composer_template['require'])) {
@@ -210,10 +210,10 @@ if ($RCI->configured) {
             }
 
             foreach ($composer_template['repositories'] as $repo) {
-                $rkey = repo_key($repo);
+                $rkey     = repo_key($repo);
                 $existing = false;
 
-                foreach ($composer_data['repositories'] as $k =>  $_repo) {
+                foreach ($composer_data['repositories'] as $k => $_repo) {
                     if ($rkey == repo_key($_repo)) {
                         // switch to https://
                         if (isset($_repo['url']) && strpos($_repo['url'], 'http://') === 0) {

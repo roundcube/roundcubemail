@@ -80,10 +80,10 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         ];
 
         $text_attr = [
-            'id'       => 'fftext',
-            'size'     => $attrib['textareacols'] ?? null,
-            'rows'     => $attrib['textarearows'] ?? null,
-            'readonly' => $readonly,
+            'id'               => 'fftext',
+            'size'             => $attrib['textareacols'] ?? null,
+            'rows'             => $attrib['textarearows'] ?? null,
+            'readonly'         => $readonly,
             'spellcheck'       => true,
             'data-html-editor' => true,
         ];

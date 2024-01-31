@@ -28,7 +28,7 @@ if (!function_exists('system')) {
 }
 
 $target_dir = unslashify(end($_SERVER['argv']));
-$accept = in_array('-y', $_SERVER['argv']) ? 'y' : null;
+$accept     = in_array('-y', $_SERVER['argv']) ? 'y' : null;
 
 if (empty($target_dir) || !is_dir(realpath($target_dir))) {
     rcube::raise_error("Invalid target: not a directory\nUsage: installto.sh [-y] <TARGET>", false, true);

@@ -98,9 +98,9 @@ class zipdownload extends rcube_plugin
         $rcmail  = rcmail::get_instance();
         $menu    = [];
         $ul_attr = [
-            'role' => 'menu',
+            'role'            => 'menu',
             'aria-labelledby' => 'aria-label-zipdownloadmenu',
-            'class' => 'toolbarmenu menu',
+            'class'           => 'toolbarmenu menu',
         ];
 
         foreach (['eml', 'mbox', 'maildir'] as $type) {
@@ -210,8 +210,8 @@ class zipdownload extends rcube_plugin
          * Ext: attach(1).txt on attach filename that has a attach.txt filename on same zip
          */
         if (isset($this->names[$displayname])) {
-            [$filename, $ext] = preg_split('/\\.(?=[^\\.]*$)/', $displayname);
-            $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
+            [$filename, $ext]          = preg_split('/\\.(?=[^\\.]*$)/', $displayname);
+            $displayname               = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
             $this->names[$displayname] = 1;
         } else {
             $this->names[$displayname] = 1;
@@ -327,7 +327,7 @@ class zipdownload extends rcube_plugin
                 fwrite($tmpfp, "\r\n");
             } else { // maildir
                 $tmpfn = rcube_utils::temp_filename('zipmessage');
-                $fp = fopen($tmpfn, 'w');
+                $fp    = fopen($tmpfn, 'w');
                 $imap->get_raw_body($uid, $fp);
                 $tempfiles[] = $tmpfn;
                 fclose($fp);
@@ -396,7 +396,7 @@ class zipdownload_mbox_filter extends php_user_filter
         while ($bucket = stream_bucket_make_writeable($in)) {
             // messages are read line by line
             if (preg_match('/^>*From /', $bucket->data)) {
-                $bucket->data     = '>' . $bucket->data;
+                $bucket->data = '>' . $bucket->data;
                 $bucket->datalen++;
             }
 

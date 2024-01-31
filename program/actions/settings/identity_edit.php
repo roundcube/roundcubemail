@@ -109,15 +109,15 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             'signature' => [
                 'name'    => $rcmail->gettext('signature'),
                 'content' => [
-                    'signature'      => [
-                        'type'       => 'textarea',
-                        'size'       => $t_cols,
-                        'rows'       => $t_rows,
-                        'spellcheck' => true,
+                    'signature' => [
+                        'type'             => 'textarea',
+                        'size'             => $t_cols,
+                        'rows'             => $t_rows,
+                        'spellcheck'       => true,
                         'data-html-editor' => true,
                     ],
                     'html_signature' => [
-                        'type' => 'checkbox',
+                        'type'    => 'checkbox',
                         'label'   => $rcmail->gettext('htmlsignature'),
                         'onclick' => "return rcmail.command('toggle-editor', {id: 'rcmfd_signature', html: this.checked}, '', event)",
                     ],
@@ -167,7 +167,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             'record' => self::$record,
         ]);
 
-        $form = $plugin['form'];
+        $form         = $plugin['form'];
         self::$record = $plugin['record'];
 
         // Set form tags and hidden fields

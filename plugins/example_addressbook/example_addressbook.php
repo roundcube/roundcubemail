@@ -11,7 +11,7 @@ require_once __DIR__ . '/example_addressbook_backend.php';
  */
 class example_addressbook extends rcube_plugin
 {
-    private $abook_id = 'static';
+    private $abook_id   = 'static';
     private $abook_name = 'Static List';
 
     public function init()

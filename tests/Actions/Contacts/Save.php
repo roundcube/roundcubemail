@@ -55,11 +55,11 @@ class Actions_Contacts_Save extends ActionTestCase
         self::initDB('contacts');
 
         $_POST = [
-            '_source' => '0',
-            '_firstname' => 'Alec',
-            '_surname' => 'Test',
+            '_source'        => '0',
+            '_firstname'     => 'Alec',
+            '_surname'       => 'Test',
             '_subtype_email' => ['home'],
-            '_email' => ['test@user.com'],
+            '_email'         => ['test@user.com'],
         ];
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);

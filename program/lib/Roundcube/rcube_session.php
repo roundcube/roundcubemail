@@ -74,8 +74,8 @@ abstract class rcube_session implements SessionHandlerInterface
 
         // no storage found, raise error
         rcube::raise_error([
-            'code' => 604, 'type' => 'session',
-            'line' => __LINE__, 'file' => __FILE__,
+            'code'    => 604, 'type' => 'session',
+            'line'    => __LINE__, 'file' => __FILE__,
             'message' => 'Failed to find session driver. Check session_storage config option',
         ], true, true);
     }
@@ -242,7 +242,7 @@ abstract class rcube_session implements SessionHandlerInterface
                         unset($a_oldvars[$var]);
                     } else {
                         $path = explode('.', $var);
-                        $k = array_pop($path);
+                        $k    = array_pop($path);
                         $node = &$this->get_node($path, $a_oldvars);
                         unset($node[$k]);
                     }
@@ -351,7 +351,7 @@ abstract class rcube_session implements SessionHandlerInterface
         if (!$this->reloaded && microtime(true) - $this->start > 0.5) {
             $this->reload();
             $this->reloaded = true;
-            $this->start = microtime(true);
+            $this->start    = microtime(true);
         }
 
         $node = &$this->get_node(explode('.', $path), $_SESSION);
@@ -391,7 +391,7 @@ abstract class rcube_session implements SessionHandlerInterface
             unset($_SESSION[$var]);
         } else {
             $path = explode('.', $var);
-            $key = array_pop($path);
+            $key  = array_pop($path);
             $node = &$this->get_node($path, $_SESSION);
             unset($node[$key]);
         }
@@ -421,10 +421,10 @@ abstract class rcube_session implements SessionHandlerInterface
         // collect updated data from previous appends
         $merge_data = [];
         foreach ((array) $this->appends as $var) {
-            $path = explode('.', $var);
-            $value = $this->get_node($path, $_SESSION);
-            $k = array_pop($path);
-            $node = &$this->get_node($path, $merge_data);
+            $path     = explode('.', $var);
+            $value    = $this->get_node($path, $_SESSION);
+            $k        = array_pop($path);
+            $node     = &$this->get_node($path, $merge_data);
             $node[$k] = $value;
         }
 
@@ -443,7 +443,7 @@ abstract class rcube_session implements SessionHandlerInterface
                     unset($_SESSION[$var]);
                 } else {
                     $path = explode('.', $var);
-                    $k = array_pop($path);
+                    $k    = array_pop($path);
                     $node = &$this->get_node($path, $_SESSION);
                     unset($node[$k]);
                 }
@@ -613,7 +613,7 @@ abstract class rcube_session implements SessionHandlerInterface
         $this->lifetime = max(120, $lifetime);
 
         // valid time range is now - 1/2 lifetime to now + 1/2 lifetime
-        $now = time();
+        $now       = time();
         $this->now = $now - ($now % ($this->lifetime / 2));
     }
 

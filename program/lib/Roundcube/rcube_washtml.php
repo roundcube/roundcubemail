@@ -303,8 +303,8 @@ class rcube_washtml
      */
     private function wash_attribs($node)
     {
-        $result = '';
-        $washed = [];
+        $result             = '';
+        $washed             = [];
         $additional_attribs = [];
 
         if ($node->nodeName == 'body') {
@@ -561,7 +561,7 @@ class rcube_washtml
             if (empty($this->max_nesting_level_error)) {
                 $this->max_nesting_level_error = true;
                 rcube::raise_error([
-                    'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                    'code'    => 500, 'line' => __LINE__, 'file' => __FILE__,
                     'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})",
                 ], true, false);
             }
@@ -924,9 +924,9 @@ class rcube_washtml
         // We'll wrap it by a div container, it's an invalid HTML anyway
         $prefix = '';
         if (strpos($html, '<')) {
-            $pos     = stripos($html, '<!DOCTYPE') ?: stripos($html, '<html') ?: stripos($html, '<body');
-            $prefix  = '<div>' . substr($html, 0, $pos) . '</div>';
-            $html    = substr($html, $pos);
+            $pos    = stripos($html, '<!DOCTYPE') ?: stripos($html, '<html') ?: stripos($html, '<body');
+            $prefix = '<div>' . substr($html, 0, $pos) . '</div>';
+            $html   = substr($html, $pos);
         }
 
         // HTML5 requires <head> or <body> (#6713)
@@ -978,7 +978,7 @@ class rcube_washtml
 
             if (!$q && $style[$i] == ' ' && ($i == 0 || !preg_match('/[,\(]/', $style[$i - 1]))) {
                 $result[] = substr($style, $p, $i - $p);
-                $p = $i + 1;
+                $p        = $i + 1;
             }
         }
 

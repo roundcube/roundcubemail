@@ -28,18 +28,18 @@ class Rcmail_RcmailInstall extends ActionTestCase
         $this->assertSame("<?php\n\n/* Local configuration for Roundcube Webmail */\n\n", $config);
 
         $install->config = ['test' => 'test'];
-        $config = $install->create_config();
+        $config          = $install->create_config();
 
         $this->assertStringContainsString("\$config['test'] = 'test';", $config);
 
         $_POST['_test'] = 'new';
-        $config = $install->create_config();
+        $config         = $install->create_config();
 
         $this->assertStringContainsString("\$config['test'] = 'test';", $config);
 
         $_POST['_product_name'] = 'RC';
-        $install->config = ['product_name' => 'Roundcube'];
-        $config = $install->create_config();
+        $install->config        = ['product_name' => 'Roundcube'];
+        $config                 = $install->create_config();
 
         $this->assertStringContainsString("\$config['product_name'] = 'RC';", $config);
     }
@@ -129,9 +129,9 @@ class Rcmail_RcmailInstall extends ActionTestCase
             'smtp_host' => 'ssl://test:465',
         ];
 
-        $install = rcmail_install::get_instance();
+        $install             = rcmail_install::get_instance();
         $install->configured = true;
-        $install->config = $config;
+        $install->config     = $config;
 
         $install->merge_config();
 

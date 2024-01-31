@@ -74,7 +74,7 @@ class rcube_string_replacer
      */
     public function add($str)
     {
-        $i = count($this->values);
+        $i                = count($this->values);
         $this->values[$i] = $str;
         return $i;
     }
@@ -115,11 +115,11 @@ class rcube_string_replacer
         }
 
         if (!empty($url)) {
-            $suffix = $this->parse_url_brackets($url);
-            $attrib = isset($this->options['link_attribs']) ? (array) $this->options['link_attribs'] : [];
+            $suffix         = $this->parse_url_brackets($url);
+            $attrib         = isset($this->options['link_attribs']) ? (array) $this->options['link_attribs'] : [];
             $attrib['href'] = $url_prefix . $url;
 
-            $i = $this->add(html::a($attrib, rcube::Q($url)) . $suffix);
+            $i              = $this->add(html::a($attrib, rcube::Q($url)) . $suffix);
             $this->urls[$i] = $attrib['href'];
         }
 
@@ -159,7 +159,7 @@ class rcube_string_replacer
      */
     protected function linkref_callback($matches)
     {
-        $i = 0;
+        $i   = 0;
         $key = $matches[1][0];
 
         if (!empty($this->linkrefs[$key])) {
@@ -189,7 +189,7 @@ class rcube_string_replacer
     {
         $href   = $matches[1];
         $suffix = $this->parse_url_brackets($href);
-        $i = $this->add(html::a('mailto:' . $href, rcube::Q($href)) . $suffix);
+        $i      = $this->add(html::a('mailto:' . $href, rcube::Q($href)) . $suffix);
 
         return $i >= 0 ? $this->get_replacement($i) : '';
     }
@@ -241,7 +241,7 @@ class rcube_string_replacer
             foreach ($matches as $m) {
                 $replace = $this->linkref_addindex($m);
                 $str     = substr_replace($str, $replace, $m[0][1] + $diff, strlen($m[0][0]));
-                $diff   += strlen($replace) - strlen($m[0][0]);
+                $diff += strlen($replace) - strlen($m[0][0]);
             }
         }
 
@@ -250,7 +250,7 @@ class rcube_string_replacer
             foreach ($matches as $m) {
                 $replace = $this->linkref_callback($m);
                 $str     = substr_replace($str, $replace, $m[0][1] + $diff, strlen($m[0][0]));
-                $diff   += strlen($replace) - strlen($m[0][0]);
+                $diff += strlen($replace) - strlen($m[0][0]);
             }
         }
 

@@ -47,7 +47,7 @@ class PrintTest extends TestCase
 
             $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv([
-                    'task' => 'mail',
+                    'task'   => 'mail',
                     'action' => 'print',
                 ]);
             });

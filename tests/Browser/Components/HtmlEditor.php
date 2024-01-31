@@ -49,10 +49,10 @@ class HtmlEditor extends Component
     {
         return [
             '@plain-toolbar' => '.editor-toolbar',
-            '@plain-body' => 'textarea',
-            '@html-editor' => '.tox-tinymce',
-            '@html-toolbar' => '.tox-tinymce .tox-editor-header',
-            '@html-body' => 'iframe',
+            '@plain-body'    => 'textarea',
+            '@html-editor'   => '.tox-tinymce',
+            '@html-toolbar'  => '.tox-tinymce .tox-editor-header',
+            '@html-body'     => 'iframe',
         ];
     }
 

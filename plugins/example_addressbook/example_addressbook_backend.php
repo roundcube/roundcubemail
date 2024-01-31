@@ -50,7 +50,7 @@ class example_addressbook_backend extends rcube_addressbook
     public function __construct($name)
     {
         $this->ready = true;
-        $this->name = $name;
+        $this->name  = $name;
     }
 
     /**

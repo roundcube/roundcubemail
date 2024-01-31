@@ -38,7 +38,7 @@ class rcmail_action_settings_response_get extends rcmail_action
             if ($is_html && empty($response['is_html'])) {
                 $converter = new rcube_text2html($response['data'], false, ['wrap' => true]);
 
-                $response['data'] = $converter->get_html();
+                $response['data']    = $converter->get_html();
                 $response['is_html'] = true;
             } elseif (!$is_html && !empty($response['is_html'])) {
                 $params = [
@@ -46,7 +46,7 @@ class rcmail_action_settings_response_get extends rcmail_action
                     'links' => false,
                 ];
 
-                $response['data'] = $rcmail->html2text($response['data'], $params);
+                $response['data']    = $rcmail->html2text($response['data'], $params);
                 $response['is_html'] = false;
             }
 

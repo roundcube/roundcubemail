@@ -57,8 +57,8 @@ class bootstrap
     public static function init_db()
     {
         $rcmail = rcmail::get_instance();
-        $dsn = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
-        $db = $rcmail->get_dbh();
+        $dsn    = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
+        $db     = $rcmail->get_dbh();
 
         if ($dsn['phptype'] == 'mysql' || $dsn['phptype'] == 'mysqli') {
             // drop all existing tables first
@@ -106,7 +106,7 @@ class bootstrap
      */
     private static function init_db_user($db)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail    = rcmail::get_instance();
         $imap_host = $rcmail->config->get('imap_host');
 
         if ($host = parse_url($imap_host, \PHP_URL_HOST)) {
@@ -142,7 +142,7 @@ class bootstrap
     public static function connect_imap($username, $password)
     {
         $rcmail = rcmail::get_instance();
-        $imap = $rcmail->get_storage();
+        $imap   = $rcmail->get_storage();
 
         if ($imap->is_connected()) {
             $imap->close();
@@ -151,7 +151,7 @@ class bootstrap
 
         $imap_host = $rcmail->config->get('imap_host');
         $imap_port = 143;
-        $imap_ssl = false;
+        $imap_ssl  = false;
 
         $a_host = parse_url($imap_host);
 

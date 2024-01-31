@@ -48,14 +48,14 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
 
     public static function rename_folder($oldname, $newname)
     {
-        $rcmail    = rcmail::get_instance();
-        $storage   = $rcmail->get_storage();
+        $rcmail  = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
 
         $plugin = $rcmail->plugins->exec_hook('folder_rename', [
             'oldname' => $oldname, 'newname' => $newname]);
 
         if (empty($plugin['abort'])) {
-            $renamed =  $storage->rename_folder($oldname, $newname);
+            $renamed = $storage->rename_folder($oldname, $newname);
         } else {
             $renamed = $plugin['result'];
         }

@@ -56,7 +56,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
                 $filename = self::filename_from_subject(mb_substr($subject, 0, 128));
                 $filename = ($filename ?: $uid) . '.eml';
 
-                $params['length'] = $headers->size;
+                $params['length']      = $headers->size;
                 $params['disposition'] = 'attachment';
             } else {
                 // Make sure it works in an iframe (#9084)

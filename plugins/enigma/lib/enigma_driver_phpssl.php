@@ -22,7 +22,7 @@ class enigma_driver_phpssl extends enigma_driver
 
     public function __construct($user)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail     = rcmail::get_instance();
         $this->rc   = $rcmail;
         $this->user = $user;
     }
@@ -170,7 +170,7 @@ class enigma_driver_phpssl extends enigma_driver
         $data->expires     = $cert['validTo_time_t'];
         $data->name        = $cert['subject']['CN'];
         // $data->comment     = '';
-        $data->email       = $cert['subject']['emailAddress'];
+        $data->email = $cert['subject']['emailAddress'];
 
         return $data;
     }

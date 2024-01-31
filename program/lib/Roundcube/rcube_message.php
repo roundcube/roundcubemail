@@ -509,7 +509,7 @@ class rcube_message
 
         if (!$strict && ($body = $this->first_html_part($part, true))) {
             // create instance of html2text class
-            $h2t  = new rcube_html2text($body);
+            $h2t = new rcube_html2text($body);
             return $h2t->get_text();
         }
 
@@ -644,7 +644,7 @@ class rcube_message
                 || !empty($structure->headers['to'])
             )
         ) {
-            $c = new rcube_message_part();
+            $c          = new rcube_message_part();
             $c->type    = 'headers';
             $c->headers = $structure->headers;
             $this->add_part($c);
@@ -718,7 +718,7 @@ class rcube_message
                 } elseif ($sub_mimetype == 'text/plain' && !isset($plain_part)) {
                     $plain_part = $p;
                 } elseif ($sub_mimetype == 'text/html' && !isset($html_part)) {
-                    $html_part = $p;
+                    $html_part           = $p;
                     $this->got_html_part = true;
                 } elseif ($sub_mimetype == 'text/enriched' && !isset($enriched_part)) {
                     $enriched_part = $p;
@@ -768,7 +768,7 @@ class rcube_message
             }
             // show plaintext warning
             elseif (isset($html_part) && empty($this->parts)) {
-                $c = new rcube_message_part();
+                $c                  = new rcube_message_part();
                 $c->type            = 'content';
                 $c->ctype_primary   = 'text';
                 $c->ctype_secondary = 'plain';
@@ -780,7 +780,7 @@ class rcube_message
         }
         // this is an encrypted message -> create a plaintext body with the according message
         elseif ($mimetype == 'multipart/encrypted') {
-            $p = new rcube_message_part();
+            $p                  = new rcube_message_part();
             $p->type            = 'content';
             $p->ctype_primary   = 'text';
             $p->ctype_secondary = 'plain';
@@ -802,7 +802,7 @@ class rcube_message
         }
         // this is an S/MIME encrypted message -> create a plaintext body with the according message
         elseif ($mimetype == 'application/pkcs7-mime') {
-            $p = new rcube_message_part();
+            $p                  = new rcube_message_part();
             $p->type            = 'content';
             $p->ctype_primary   = 'text';
             $p->ctype_secondary = 'plain';
@@ -853,7 +853,7 @@ class rcube_message
                         $this->got_html_part = true;
                     }
 
-                    $mail_part = $plugin['structure'];
+                    $mail_part                       = $plugin['structure'];
                     [$primary_type, $secondary_type] = explode('/', $plugin['mimetype']);
 
                     // add text part if it matches the prefs
@@ -1185,15 +1185,15 @@ class rcube_message
             $part->body_modified = true;
 
             // add attachments to the structure
-            $uupart = new rcube_message_part();
+            $uupart           = new rcube_message_part();
             $uupart->filename = trim($matches[1][0]);
             $uupart->encoding = 'stream';
             $uupart->body     = convert_uudecode($filebody);
             $uupart->size     = strlen($uupart->body);
             $uupart->mime_id  = 'uu.' . $part->mime_id . '.' . $pid;
 
-            $ctype = rcube_mime::file_content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
-            $uupart->mimetype = $ctype;
+            $ctype                                             = rcube_mime::file_content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
+            $uupart->mimetype                                  = $ctype;
             [$uupart->ctype_primary, $uupart->ctype_secondary] = explode('/', $ctype);
 
             $parts[] = $uupart;
@@ -1244,7 +1244,7 @@ class rcube_message
         }
 
         if ($charset = rcube_charset::check($name, $charsets)) {
-            $name = rcube_charset::convert($name, $charset);
+            $name          = rcube_charset::convert($name, $charset);
             $part->charset = $charset;
         }
 

@@ -55,9 +55,9 @@ class rcmail_action_utils_spell extends rcmail_action
 
         if ($error = $spellchecker->error()) {
             rcube::raise_error([
-                'code' => 500,
-                'file' => __FILE__,
-                'line' => __LINE__,
+                'code'    => 500,
+                'file'    => __FILE__,
+                'line'    => __LINE__,
                 'message' => 'Spellcheck error: ' . $error,
             ], true, false);
 

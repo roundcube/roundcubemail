@@ -261,7 +261,7 @@ class rcmail_utils
             . ' WHERE `name` = ?',
             $package . '-version');
 
-        $row     = $db->fetch_array();
+        $row = $db->fetch_array();
         if ($row === false) {
             return null;
         }

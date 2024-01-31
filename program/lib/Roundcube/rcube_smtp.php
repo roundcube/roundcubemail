@@ -60,7 +60,7 @@ class rcube_smtp
                     $host = $host[$_SESSION['storage_host']];
                 } else {
                     $this->response[] = 'Connection failed: No SMTP server found for IMAP host ' . $_SESSION['storage_host'];
-                    $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
+                    $this->error      = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
                     return false;
                 }
             }
@@ -72,14 +72,14 @@ class rcube_smtp
 
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', [
-            'smtp_host'      => $host,
-            'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
-            'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
-            'smtp_auth_cid'  => $rcube->config->get('smtp_auth_cid'),
-            'smtp_auth_pw'   => $rcube->config->get('smtp_auth_pw'),
-            'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),
-            'smtp_helo_host' => $rcube->config->get('smtp_helo_host'),
-            'smtp_timeout'   => $rcube->config->get('smtp_timeout'),
+            'smtp_host'           => $host,
+            'smtp_user'           => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
+            'smtp_pass'           => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
+            'smtp_auth_cid'       => $rcube->config->get('smtp_auth_cid'),
+            'smtp_auth_pw'        => $rcube->config->get('smtp_auth_pw'),
+            'smtp_auth_type'      => $rcube->config->get('smtp_auth_type'),
+            'smtp_helo_host'      => $rcube->config->get('smtp_helo_host'),
+            'smtp_timeout'        => $rcube->config->get('smtp_timeout'),
             'smtp_conn_options'   => $rcube->config->get('smtp_conn_options'),
             'smtp_auth_callbacks' => [],
             'gssapi_context'      => null,
@@ -343,7 +343,7 @@ class rcube_smtp
 
             $err_vars['msg'] = $msg;
 
-            $this->error = ['label' => $err_label, 'vars' => $err_vars];
+            $this->error      = ['label' => $err_label, 'vars' => $err_vars];
             $this->response[] = 'Failed to send data. ' . $msg;
             $this->reset();
             return false;
@@ -534,7 +534,7 @@ class rcube_smtp
         }
 
         $opts = explode(' ', $exts['XCLIENT']);
-        $cmd = '';
+        $cmd  = '';
 
         if ($rcube->config->get('smtp_xclient_login') && in_array_nocase('login', $opts)) {
             $cmd .= ' LOGIN=' . $rcube->get_user_name();
@@ -579,7 +579,7 @@ class rcube_smtp
         $vars['code'] = $result ? $result->getCode() : $err[0];
         $vars['msg']  = $result ? $result->getMessage() : $err[1];
 
-        $this->error = ['label' => $label, 'vars' => $vars];
+        $this->error      = ['label' => $label, 'vars' => $vars];
         $this->response[] = "{$message}: {$err[1]} (Code: {$err[0]})";
     }
 }

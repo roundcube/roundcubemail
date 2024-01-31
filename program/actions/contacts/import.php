@@ -36,9 +36,9 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $has_map    = isset($_POST['_map']) && is_array($_POST['_map']);
 
         if ($has_map || (isset($_FILES['_file']) && is_array($_FILES['_file']))) {
-            $replace      = (bool) rcube_utils::get_input_string('_replace', rcube_utils::INPUT_GPC);
-            $target       = rcube_utils::get_input_string('_target', rcube_utils::INPUT_GPC);
-            $with_groups  = (int) rcube_utils::get_input_string('_groups', rcube_utils::INPUT_GPC);
+            $replace     = (bool) rcube_utils::get_input_string('_replace', rcube_utils::INPUT_GPC);
+            $target      = rcube_utils::get_input_string('_target', rcube_utils::INPUT_GPC);
+            $with_groups = (int) rcube_utils::get_input_string('_groups', rcube_utils::INPUT_GPC);
 
             // reload params for CSV field mapping screen
             if ($has_map && !empty($_SESSION['contactcsvimport']['params'])) {
@@ -110,11 +110,11 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                         if (move_uploaded_file($filepath, $temp_csv) && file_exists($temp_csv)) {
                             $fields   = $csv->get_fields();
                             $last_map = $map;
-                            $map = $csv->import($file_content, true);
+                            $map      = $csv->import($file_content, true);
 
                             // when multiple CSV files are uploaded check they all have the same structure
                             if ($last_map && $last_map !== $map) {
-                                $csvs = [];
+                                $csvs         = [];
                                 $upload_error = self::UPLOAD_ERR_CSV_FIELDS;
                                 break;
                             }
@@ -154,14 +154,14 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.import_state_set', 'error');
             } elseif (count($vcards) > 0) {
                 // import vcards
-                self::$stats = new stdClass();
+                self::$stats                = new stdClass();
                 self::$stats->names         = [];
                 self::$stats->skipped_names = [];
                 self::$stats->count         = count($vcards);
-                self::$stats->inserted = 0;
-                self::$stats->skipped  = 0;
-                self::$stats->invalid  = 0;
-                self::$stats->errors   = 0;
+                self::$stats->inserted      = 0;
+                self::$stats->skipped       = 0;
+                self::$stats->invalid       = 0;
+                self::$stats->errors        = 0;
 
                 if ($replace) {
                     $CONTACTS->delete_all($CONTACTS->groups && $with_groups < 2);
@@ -242,7 +242,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     }
                 }
 
-                $importstep = 'import_confirm';
+                $importstep                   = 'import_confirm';
                 $_SESSION['contactcsvimport'] = null;
 
                 $rcmail->output->command('parent.import_state_set', self::$stats->inserted ? 'reload' : 'ok');
@@ -417,8 +417,8 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
      */
     public static function import_confirm($attrib)
     {
-        $rcmail = rcmail::get_instance();
-        $vars   = get_object_vars(self::$stats);
+        $rcmail        = rcmail::get_instance();
+        $vars          = get_object_vars(self::$stats);
         $vars['names'] = $vars['skipped_names'] = '';
 
         $content = html::p(null, $rcmail->gettext([

@@ -316,7 +316,7 @@ class rcube_spellchecker
             // sanity check
             if (strlen($word) < 512) {
                 $this->dict[] = $word;
-                $valid = true;
+                $valid        = true;
             }
         }
 
@@ -401,7 +401,7 @@ class rcube_spellchecker
             'userid' => $userid, 'language' => $this->lang, 'dictionary' => []]);
 
         if (empty($plugin['abort'])) {
-            $dict = [];
+            $dict       = [];
             $sql_result = $this->rc->db->query(
                 'SELECT `data` FROM ' . $this->rc->db->table_name('dictionary', true)
                 . ' WHERE `user_id` ' . ($plugin['userid'] ? '= ' . $this->rc->db->quote($plugin['userid']) : 'IS NULL')

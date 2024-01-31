@@ -414,7 +414,7 @@ class rcube_contacts extends rcube_addressbook
             }
 
             // build WHERE clause
-            $ids = $this->db->array2list($ids, 'integer');
+            $ids   = $this->db->array2list($ids, 'integer');
             $where = 'c.`' . $this->primary_key . '` IN (' . $ids . ')';
             // reset counter
             unset($this->cache['count']);
@@ -547,7 +547,7 @@ class rcube_contacts extends rcube_addressbook
         $this->result = null;
 
         if ($sql_arr = $this->db->fetch_assoc()) {
-            $record = $this->convert_db_data($sql_arr);
+            $record       = $this->convert_db_data($sql_arr);
             $this->result = new rcube_result_set(1);
             $this->result->add($record);
         }
@@ -696,7 +696,7 @@ class rcube_contacts extends rcube_addressbook
                 $this->user_id
             );
 
-            $updated = $this->db->affected_rows();
+            $updated      = $this->db->affected_rows();
             $this->result = null;  // clear current result (from get_record())
         }
 

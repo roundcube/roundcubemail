@@ -75,7 +75,7 @@ class ListTest extends TestCase
                 $browser->with(new Toolbarmenu(), static function ($browser) {
                     $active  = ['select', 'options'];
                     $missing = [];
-                    $imap = \bootstrap::get_storage();
+                    $imap    = \bootstrap::get_storage();
 
                     if ($imap->get_threading()) {
                         $active[] = 'threads';

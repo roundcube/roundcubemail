@@ -17,9 +17,9 @@ class Actions_Settings_Upload extends ActionTestCase
         $this->assertTrue($action->checks());
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $_GET = [
-            '_from' => 'add-identity',
-            '_unlock' => 'loading123',
+        $_GET                      = [
+            '_from'     => 'add-identity',
+            '_unlock'   => 'loading123',
             '_uploadid' => 'upload123',
         ];
 

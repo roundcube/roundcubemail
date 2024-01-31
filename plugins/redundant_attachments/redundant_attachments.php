@@ -114,7 +114,7 @@ class redundant_attachments extends filesystem_attachments
         }
 
         if ($status) {
-            $args['id'] = $key;
+            $args['id']     = $key;
             $args['status'] = true;
         }
 
@@ -144,7 +144,7 @@ class redundant_attachments extends filesystem_attachments
         }
 
         if ($status) {
-            $args['id'] = $key;
+            $args['id']     = $key;
             $args['status'] = true;
         }
 
@@ -208,7 +208,7 @@ class redundant_attachments extends filesystem_attachments
         }
 
         if ($data) {
-            $args['data'] = base64_decode($data);
+            $args['data']   = base64_decode($data);
             $args['status'] = true;
         }
 

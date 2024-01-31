@@ -57,8 +57,8 @@ class rcube_hmail_password
         try {
             $obApp->Authenticate($username, $curpass);
 
-            $obDomain  = $obApp->Domains->ItemByName($domain);
-            $obAccount = $obDomain->Accounts->ItemByAddress($username);
+            $obDomain            = $obApp->Domains->ItemByName($domain);
+            $obAccount           = $obDomain->Accounts->ItemByAddress($username);
             $obAccount->Password = $passwd;
             $obAccount->Save();
 

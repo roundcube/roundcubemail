@@ -36,9 +36,9 @@ class rcube_domainfactory_password
             // initial login
             curl_setopt_array($ch, [
                 \CURLOPT_RETURNTRANSFER => true,
-                \CURLOPT_URL        => 'https://ssl.df.eu/chmail.php',
-                \CURLOPT_POST       => true,
-                \CURLOPT_POSTFIELDS => http_build_query([
+                \CURLOPT_URL            => 'https://ssl.df.eu/chmail.php',
+                \CURLOPT_POST           => true,
+                \CURLOPT_POSTFIELDS     => http_build_query([
                     'login'  => $username,
                     'pwd'    => $curpass,
                     'action' => 'change',

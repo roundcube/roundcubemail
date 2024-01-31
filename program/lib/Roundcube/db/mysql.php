@@ -33,7 +33,7 @@ class rcube_db_mysql extends rcube_db
 
         // SQL identifiers quoting
         $this->options['identifier_start'] = '`';
-        $this->options['identifier_end'] = '`';
+        $this->options['identifier_end']   = '`';
     }
 
     /**
@@ -233,10 +233,10 @@ class rcube_db_mysql extends rcube_db
     {
         $columns = array_map(static function ($i) { return "`{$i}`"; }, $columns);
         $cols    = implode(', ', array_map(static function ($i) { return "`{$i}`"; }, array_keys($keys)));
-        $cols   .= ', ' . implode(', ', $columns);
-        $vals    = implode(', ', array_map(function ($i) { return $this->quote($i); }, $keys));
-        $vals   .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
-        $update  = implode(', ', array_map(static function ($i) { return "{$i} = VALUES({$i})"; }, $columns));
+        $cols .= ', ' . implode(', ', $columns);
+        $vals = implode(', ', array_map(function ($i) { return $this->quote($i); }, $keys));
+        $vals .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
+        $update = implode(', ', array_map(static function ($i) { return "{$i} = VALUES({$i})"; }, $columns));
 
         return $this->query("INSERT INTO {$table} ({$cols}) VALUES ({$vals})"
             . " ON DUPLICATE KEY UPDATE {$update}", $values);

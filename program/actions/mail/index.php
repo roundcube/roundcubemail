@@ -272,7 +272,7 @@ class rcmail_action_mail_index extends rcmail_action
     public static function search_scope()
     {
         $rcmail = rcmail::get_instance();
-        $scope = rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET);
+        $scope  = rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET);
 
         if (!$scope && isset($_SESSION['search_scope']) && $rcmail->output->get_env('search_request')) {
             $scope = $_SESSION['search_scope'];
@@ -377,7 +377,7 @@ class rcmail_action_mail_index extends rcmail_action
 
             $rcmail->output->set_env('col_movable', !in_array('list_cols', (array) $rcmail->config->get('dont_override')));
         } else {
-            $a_show_cols = preg_split('/[\s,;]+/', str_replace(["'", '"'], '', $attrib['columns']));
+            $a_show_cols       = preg_split('/[\s,;]+/', str_replace(["'", '"'], '', $attrib['columns']));
             $attrib['columns'] = $a_show_cols;
         }
 
@@ -469,7 +469,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         // Make sure there are no duplicated columns (#1486999)
-        $a_show_cols = array_unique($a_show_cols);
+        $a_show_cols                        = array_unique($a_show_cols);
         $_SESSION['list_attrib']['columns'] = $a_show_cols;
 
         // Plugins may set header's list_cols/list_flags and other rcube_message_header variables
@@ -750,7 +750,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         $rcmail->output->add_gui_object('countdisplay', $attrib['id']);
 
-        $content =  $rcmail->action != 'show' ? self::get_messagecount_text() : $rcmail->gettext('loading');
+        $content = $rcmail->action != 'show' ? self::get_messagecount_text() : $rcmail->gettext('loading');
 
         return html::span($attrib, $content);
     }
@@ -973,7 +973,7 @@ class rcmail_action_mail_index extends rcmail_action
         // Remove non-UTF8 characters (#1487813)
         $html = rcube_charset::clean($html);
 
-        $html = $washer->wash($html);
+        $html                 = $washer->wash($html);
         self::$REMOTE_OBJECTS = $washer->extlinks;
 
         return $html;
@@ -1000,8 +1000,8 @@ class rcmail_action_mail_index extends rcmail_action
                 'body' => $body,
                 'id'   => $part->mime_id,
             ] + $p + [
-                'safe'  => false,
-                'plain' => false,
+                'safe'        => false,
+                'plain'       => false,
                 'inline_html' => true,
             ]
         );
@@ -1012,22 +1012,22 @@ class rcmail_action_mail_index extends rcmail_action
                 $data['body'] = rcube_enriched::to_html($data['body']);
             }
 
-            $body = $rcmail->html2text($data['body']);
+            $body                  = $rcmail->html2text($data['body']);
             $part->ctype_secondary = 'plain';
         }
         // text/html
         elseif ($data['type'] == 'html') {
-            $body = self::wash_html($data['body'], $data, $part->replaces);
+            $body                  = self::wash_html($data['body'], $data, $part->replaces);
             $part->ctype_secondary = $data['type'];
         }
         // text/enriched
         elseif ($data['type'] == 'enriched') {
-            $body = rcube_enriched::to_html($data['body']);
-            $body = self::wash_html($body, $data, $part->replaces);
+            $body                  = rcube_enriched::to_html($data['body']);
+            $body                  = self::wash_html($body, $data, $part->replaces);
             $part->ctype_secondary = 'html';
         } else {
             // assert plaintext
-            $body = $data['body'];
+            $body                  = $data['body'];
             $part->ctype_secondary = $data['type'] = 'plain';
         }
 
@@ -1218,19 +1218,19 @@ class rcmail_action_mail_index extends rcmail_action
             // Get bgcolor, we'll set it as background-color of the message container
             if (!empty($m[1]) && preg_match('/bgcolor=["\']*([a-z0-9#]+)["\']*/i', $attrs, $mb)) {
                 $style['background-color'] = $mb[1];
-                $attrs = preg_replace('/\s?bgcolor=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
+                $attrs                     = preg_replace('/\s?bgcolor=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
             }
 
             // Get text color, we'll set it as font color of the message container
             if (!empty($m[1]) && preg_match('/text=["\']*([a-z0-9#]+)["\']*/i', $attrs, $mb)) {
                 $style['color'] = $mb[1];
-                $attrs = preg_replace('/\s?text=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
+                $attrs          = preg_replace('/\s?text=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
             }
 
             // Get background, we'll set it as background-image of the message container
             if (!empty($m[1]) && preg_match('/background=["\']*([^"\'>\s]+)["\']*/', $attrs, $mb)) {
                 $style['background-image'] = 'url(' . $mb[1] . ')';
-                $attrs = preg_replace('/\s?background=["\']*([^"\'>\s]+)["\']*/', '', $attrs);
+                $attrs                     = preg_replace('/\s?background=["\']*([^"\'>\s]+)["\']*/', '', $attrs);
             }
 
             if (!empty($style)) {
@@ -1293,9 +1293,9 @@ class rcmail_action_mail_index extends rcmail_action
             $attrib['href'] = preg_replace('/[\x00-\x1F]/', '', $attrib['href']);
 
             if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
-                $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
+                $tempurl                          = 'tmp-' . md5($attrib['href']) . '.css';
                 $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
-                $attrib['href'] = $rcmail->url([
+                $attrib['href']                   = $rcmail->url([
                     'task'   => 'utils',
                     'action' => 'modcss',
                     'u'      => $tempurl,
@@ -1363,10 +1363,10 @@ class rcmail_action_mail_index extends rcmail_action
             return null;
         }
 
-        $rcmail  = rcmail::get_instance();
-        $c       = count($a_parts);
-        $j       = 0;
-        $out     = '';
+        $rcmail          = rcmail::get_instance();
+        $c               = count($a_parts);
+        $j               = 0;
+        $out             = '';
         $allvalues       = [];
         $shown_addresses = [];
         $show_email      = $rcmail->config->get('message_show_email');
@@ -1419,7 +1419,7 @@ class rcmail_action_mail_index extends rcmail_action
                     if ($show_email && $name && $mailto) {
                         $content = rcube::SQ($name ? sprintf('%s <%s>', $name, $mailto) : $mailto);
                     } else {
-                        $content = rcube::SQ($name ?: $mailto);
+                        $content        = rcube::SQ($name ?: $mailto);
                         $attrs['title'] = $mailto;
                     }
 
@@ -1431,7 +1431,7 @@ class rcmail_action_mail_index extends rcmail_action
 
                 if ($addicon && $_SESSION['writeable_abook']) {
                     $label = $rcmail->gettext('addtoaddressbook');
-                    $icon = html::img([
+                    $icon  = html::img([
                         'src'   => $rcmail->output->asset_url($addicon, true),
                         'alt'   => $label,
                         'class' => 'noselect',
@@ -1453,7 +1453,7 @@ class rcmail_action_mail_index extends rcmail_action
                 }
             }
 
-            $address = html::span('adr', $address);
+            $address     = html::span('adr', $address);
             $allvalues[] = $address;
 
             if (empty($moreadrs)) {

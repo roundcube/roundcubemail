@@ -105,7 +105,7 @@ class Framework_User extends ActionTestCase
         $this->assertSame('test-new', $ident['name']);
 
         $id = $user->insert_identity([
-            'name' => 'name',
+            'name'  => 'name',
             'email' => 'add@ident.com',
         ]);
 

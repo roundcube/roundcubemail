@@ -46,7 +46,7 @@ class markasjunk_sa_blacklist
 
     private function _do_list($uids, $spam)
     {
-        $rcube = rcube::get_instance();
+        $rcube                     = rcube::get_instance();
         $this->sa_user             = $rcube->config->get('sauserprefs_userid', '%u');
         $this->sa_table            = $rcube->config->get('sauserprefs_sql_table_name');
         $this->sa_username_field   = $rcube->config->get('sauserprefs_sql_username_field');
@@ -54,8 +54,8 @@ class markasjunk_sa_blacklist
         $this->sa_value_field      = $rcube->config->get('sauserprefs_sql_value_field');
 
         // SAv4 compatibility
-        $blocklist_pref_name       = $rcube->config->get('sauserprefs_sav4', false) ? 'blocklist_from' : 'blacklist_from';
-        $welcomelist_pref_name     = $rcube->config->get('sauserprefs_sav4', false) ? 'welcomelist_from' : 'whitelist_from';
+        $blocklist_pref_name   = $rcube->config->get('sauserprefs_sav4', false) ? 'blocklist_from' : 'blacklist_from';
+        $welcomelist_pref_name = $rcube->config->get('sauserprefs_sav4', false) ? 'welcomelist_from' : 'whitelist_from';
 
         $identity = $rcube->user->get_identity();
         $identity = $identity['email'];
@@ -70,7 +70,7 @@ class markasjunk_sa_blacklist
 
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
             rcube::raise_error([
-                'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
+                'code'    => 527, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Failed to load config from {$config_file}",
             ], true, false);
 
@@ -84,8 +84,8 @@ class markasjunk_sa_blacklist
         // check DB connections and exit on failure
         if ($err_str = $db->is_error()) {
             rcube::raise_error([
-                'code' => 603,
-                'type' => 'db',
+                'code'    => 603,
+                'type'    => 'db',
                 'message' => $err_str,
             ], false, true);
         }

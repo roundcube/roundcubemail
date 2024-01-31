@@ -120,7 +120,7 @@ class rcube_cpanel_password
      */
     private function curl_auth_post($userpwd, $url, $postdata)
     {
-        $ch = curl_init();
+        $ch         = curl_init();
         $postfields = http_build_query($postdata, '', '&');
 
         // see http://php.net/manual/en/function.curl-setopt.php

@@ -79,7 +79,7 @@ class rcube_browser
         $this->chrome = !$this->opera && !$this->edge && strpos($HTTP_USER_AGENT, 'chrome') !== false;
         $this->safari = !$this->opera && !$this->chrome && !$this->edge
                         && ($this->webkit || strpos($HTTP_USER_AGENT, 'safari') !== false);
-        $this->mz     = !$this->ie && !$this->edge && !$this->safari && !$this->chrome && !$this->opera
+        $this->mz = !$this->ie && !$this->edge && !$this->safari && !$this->chrome && !$this->opera
                         && strpos($HTTP_USER_AGENT, 'mozilla') !== false;
 
         // Version detection

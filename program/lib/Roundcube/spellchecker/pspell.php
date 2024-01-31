@@ -45,7 +45,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
                 $langc = strlen($lang) == 2 ? $lang . '_' . strtoupper($lang) : $lang;
 
                 if (empty($seen[$langc])) {
-                    $langs[] = $lang;
+                    $langs[]      = $lang;
                     $seen[$langc] = true;
                 }
             }

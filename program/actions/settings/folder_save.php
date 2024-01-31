@@ -174,7 +174,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
 
                     // In case of name change update names of children in settings
                     if ($rename) {
-                        $oldprefix  = '/^' . preg_quote($folder['oldname'] . $delimiter, '/') . '/';
+                        $oldprefix = '/^' . preg_quote($folder['oldname'] . $delimiter, '/') . '/';
                         foreach ($a_threaded as $key => $val) {
                             if ($key == $folder['oldname']) {
                                 unset($a_threaded[$key]);

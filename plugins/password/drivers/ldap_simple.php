@@ -128,8 +128,8 @@ class rcube_ldap_simple_password
             $this->_debug('S: NOT OK');
 
             rcube::raise_error([
-                'code' => 100, 'type' => 'ldap',
-                'file' => __FILE__, 'line' => __LINE__,
+                'code'    => 100, 'type' => 'ldap',
+                'file'    => __FILE__, 'line' => __LINE__,
                 'message' => 'Could not connect to LDAP server',
             ], true);
 
@@ -237,8 +237,8 @@ class rcube_ldap_simple_password
 
         switch ($rcmail->config->get('password_ldap_bind_method')) {
             case 'sasl':
-                $search_mech     = $rcmail->config->get('password_ldap_mech');
-                $search_realm    = $rcmail->config->get('password_ldap_realm');
+                $search_mech  = $rcmail->config->get('password_ldap_mech');
+                $search_realm = $rcmail->config->get('password_ldap_realm');
 
                 // Bind
                 if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {

@@ -46,7 +46,7 @@ class Actions_Settings_Responses extends ActionTestCase
         $action = new rcmail_action_settings_responses();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'responses');
 
-        $result = $action->responses_list([]);
+        $result   = $action->responses_list([]);
         $expected = '<table id="rcmresponseslist"><thead><tr><th class="name">Display Name</th></tr></thead><tbody>'
             . '<tr id="rcmrowstatic-95b793e15a90ad8b"><td class="name">static 1</td></tr>'
             . '<tr id="rcmrow1"><td class="name">response 1</td></tr>'

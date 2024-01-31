@@ -17,7 +17,7 @@ class Framework_Output extends TestCase
         $this->assertSame('<input name="_test" class="ff_test" type="text" value="value">', $out);
 
         $_POST['_test'] = 'testv';
-        $out = rcube_output::get_edit_field('test', 'value');
+        $out            = rcube_output::get_edit_field('test', 'value');
 
         $this->assertSame('<input name="_test" class="ff_test" type="text" value="testv">', $out);
 
@@ -34,8 +34,8 @@ class Framework_Output extends TestCase
         $this->assertSame('<select class="a ff_test" name="_test">' . "\n" . '<option value="">---</option></select>', $out);
 
         $_POST['_test'] = 'tt';
-        $attr = ['options' => ['tt' => 'oo']];
-        $out  = rcube_output::get_edit_field('test', 'value', $attr, 'select');
+        $attr           = ['options' => ['tt' => 'oo']];
+        $out            = rcube_output::get_edit_field('test', 'value', $attr, 'select');
 
         $this->assertSame('<select name="_test" class="ff_test">' . "\n"
             . '<option value="">---</option><option value="tt" selected="selected">oo</option></select>',

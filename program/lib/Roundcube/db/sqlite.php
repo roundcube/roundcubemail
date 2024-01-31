@@ -57,13 +57,13 @@ class rcube_db_sqlite extends rcube_db
                 $q = $dbh->exec($data);
 
                 if ($q === false) {
-                    $error = $dbh->errorInfo();
-                    $this->db_error = true;
+                    $error              = $dbh->errorInfo();
+                    $this->db_error     = true;
                     $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
 
                     rcube::raise_error([
-                        'code' => 500, 'type' => 'db',
-                        'line' => __LINE__, 'file' => __FILE__,
+                        'code'    => 500, 'type' => 'db',
+                        'line'    => __LINE__, 'file' => __FILE__,
                         'message' => $this->db_error_msg,
                     ], true, false);
                 }

@@ -27,7 +27,7 @@
  */
 class filesystem_attachments extends rcube_plugin
 {
-    public $task = '?(?!login).*';
+    public $task        = '?(?!login).*';
     public $initialized = false;
 
     public function init()
@@ -37,7 +37,7 @@ class filesystem_attachments extends rcube_plugin
             $plugin = $this->api->get_plugin($plugin_name);
             if (($plugin instanceof self) && $plugin->initialized) {
                 rcube::raise_error([
-                    'file' => __FILE__, 'line' => __LINE__,
+                    'file'    => __FILE__, 'line' => __LINE__,
                     'message' => "Can use only one plugin for attachments/file uploads! Using '{$plugin_name}', ignoring others.",
                 ], true, false);
                 return;
@@ -72,7 +72,7 @@ class filesystem_attachments extends rcube_plugin
     public function upload($args)
     {
         $args['status'] = false;
-        $group = $args['group'];
+        $group          = $args['group'];
 
         // use common temp dir for file uploads
         $tmpfname = rcube_utils::temp_filename('attmnt');
@@ -92,7 +92,7 @@ class filesystem_attachments extends rcube_plugin
      */
     public function save($args)
     {
-        $group = $args['group'];
+        $group          = $args['group'];
         $args['status'] = false;
 
         if (empty($args['path'])) {
@@ -168,9 +168,9 @@ class filesystem_attachments extends rcube_plugin
 
     protected static function file_id()
     {
-        $rcube = rcube::get_instance();
+        $rcube        = rcube::get_instance();
         [$usec, $sec] = explode(' ', microtime());
-        $id = preg_replace('/[^0-9]/', '', $rcube->user->ID . $sec . $usec);
+        $id           = preg_replace('/[^0-9]/', '', $rcube->user->ID . $sec . $usec);
 
         // make sure the ID is really unique (#1489546)
         // @phpstan-ignore-next-line

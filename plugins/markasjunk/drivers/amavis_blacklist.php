@@ -48,14 +48,14 @@ class markasjunk_amavis_blacklist
 
     private function _do_list($uids, $spam)
     {
-        $rcube = rcube::get_instance();
+        $rcube            = rcube::get_instance();
         $this->user_email = $rcube->user->data['username'];
 
         $config_file = $rcube->config->get('markasjunk_amacube_config');
 
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
             rcube::raise_error([
-                'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
+                'code'    => 527, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Failed to load config from {$config_file}",
             ], true, false);
 
@@ -119,7 +119,7 @@ class markasjunk_amavis_blacklist
                 }
             }
 
-            $wb = '';
+            $wb         = '';
             $sql_result = $db->query('SELECT `wb` FROM `wblist` WHERE `sid` = ? AND `rid` =?', $sid, $rid);
 
             if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {

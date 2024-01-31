@@ -26,7 +26,7 @@ class OutputHtmlMock extends rcmail_output_html
     public const E_REDIRECT = 102;
 
     public $output;
-    public $headers  = [];
+    public $headers = [];
     public $errorCode;
     public $errorMessage;
     public $template = '';
@@ -93,7 +93,7 @@ class OutputHtmlMock extends rcmail_output_html
      */
     public function sendExitError($code, $message = '')
     {
-        $this->errorCode = $code;
+        $this->errorCode    = $code;
         $this->errorMessage = $message;
 
         throw new ExitException('Output sent (error)', self::E_EXIT);

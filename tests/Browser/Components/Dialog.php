@@ -48,9 +48,9 @@ class Dialog extends Component
     public function elements()
     {
         return [
-            '@title' => '.ui-dialog-titlebar',
+            '@title'   => '.ui-dialog-titlebar',
             '@content' => '.ui-dialog-content',
-            '@footer' => '.ui-dialog-buttonset',
+            '@footer'  => '.ui-dialog-buttonset',
         ];
     }
 

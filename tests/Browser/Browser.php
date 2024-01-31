@@ -19,7 +19,7 @@ class Browser extends \Laravel\Dusk\Browser
     public function assertElementsCount($selector, $expected_count, $visible = true)
     {
         $elements = $this->elements($selector);
-        $count = count($elements);
+        $count    = count($elements);
 
         if ($visible) {
             foreach ($elements as $element) {
@@ -330,7 +330,7 @@ class Browser extends \Laravel\Dusk\Browser
     public function withinBody($callback)
     {
         if ($this->resolver->prefix != 'body') {
-            $orig_prefix = $this->resolver->prefix;
+            $orig_prefix            = $this->resolver->prefix;
             $this->resolver->prefix = 'body';
         }
 

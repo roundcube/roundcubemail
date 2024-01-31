@@ -170,7 +170,7 @@ class rcube_cache_db extends rcube_cache
     {
         // Remove all keys (in specified cache)
         if ($key === null) {
-            $where = '`cache_key` LIKE ' . $this->db->quote($this->prefix . '.%');
+            $where       = '`cache_key` LIKE ' . $this->db->quote($this->prefix . '.%');
             $this->cache = [];
         }
         // Remove keys by name prefix
@@ -184,7 +184,7 @@ class rcube_cache_db extends rcube_cache
         }
         // Remove one key by name
         else {
-            $where = '`cache_key` = ' . $this->db->quote($this->prefix . '.' . $key);
+            $where             = '`cache_key` = ' . $this->db->quote($this->prefix . '.' . $key);
             $this->cache[$key] = null;
         }
 

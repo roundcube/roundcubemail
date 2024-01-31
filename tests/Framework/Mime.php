@@ -98,27 +98,27 @@ class Framework_Mime extends TestCase
     public function test_decode_address_groups()
     {
         $headers = [
-            0  => 'undisclosed-recipients:;',
-            1  => 'group:test1@email.com',
-            2  => 'group:<test1@email.com>',
-            3  => 'group:test1@email.com,test2@email.com',
-            4  => 'group: <test1@email.com>,<test2@email.com>',
-            5  => '"test:group": "TEST1" <test1@email.com>,"TEST2" <test2@email.com>; test3@email.com',
+            0 => 'undisclosed-recipients:;',
+            1 => 'group:test1@email.com',
+            2 => 'group:<test1@email.com>',
+            3 => 'group:test1@email.com,test2@email.com',
+            4 => 'group: <test1@email.com>,<test2@email.com>',
+            5 => '"test:group": "TEST1" <test1@email.com>,"TEST2" <test2@email.com>; test3@email.com',
         ];
 
         $results = [
-            0  => [],
-            1  => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
-            2  => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
-            3  => [
+            0 => [],
+            1 => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
+            2 => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
+            3 => [
                 1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
                 2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com'],
             ],
-            4  => [
+            4 => [
                 1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
                 2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com'],
             ],
-            5  => [
+            5 => [
                 1 => ['name' => 'TEST1', 'mailto' => 'test1@email.com', 'string' => 'TEST1 <test1@email.com>'],
                 2 => ['name' => 'TEST2', 'mailto' => 'test2@email.com', 'string' => 'TEST2 <test2@email.com>'],
                 3 => ['name' => '', 'mailto' => 'test3@email.com', 'string' => 'test3@email.com'],
@@ -192,7 +192,7 @@ class Framework_Mime extends TestCase
 
         $expected = [
             'subject' => 'Test',
-            'to' => 'test@test1.com test@test2.com',
+            'to'      => 'test@test1.com test@test2.com',
         ];
 
         $this->assertSame($expected, rcube_mime::parse_headers($headers));
@@ -203,7 +203,7 @@ class Framework_Mime extends TestCase
      */
     public function test_format_flowed()
     {
-        $raw = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
+        $raw    = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
         $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
 
         $this->assertSame($flowed, rcube_mime::format_flowed($raw, 80), 'Test correct folding and space-stuffing');
@@ -214,7 +214,7 @@ class Framework_Mime extends TestCase
      */
     public function test_unfold_flowed()
     {
-        $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
+        $flowed   = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
         $unfolded = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
 
         $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed), 'Test correct unfolding of quoted lines');
@@ -225,7 +225,7 @@ class Framework_Mime extends TestCase
      */
     public function test_unfold_flowed2()
     {
-        $flowed   = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
+        $flowed = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
                     . "> \r\n"
                     . "Sed ut perspiciatis unde omnis iste natus error \r\nsit voluptatem";
         $unfolded = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
@@ -240,7 +240,7 @@ class Framework_Mime extends TestCase
      */
     public function test_unfold_flowed_delsp()
     {
-        $flowed   = "そしてジョバンニはすぐうしろの天気輪の柱が \r\n"
+        $flowed = "そしてジョバンニはすぐうしろの天気輪の柱が \r\n"
                     . "いつかぼんやりした三角標の形になって、しば \r\n"
                     . "らく蛍のように、ぺかぺか消えたりともったり \r\n"
                     . 'しているのを見ました。';

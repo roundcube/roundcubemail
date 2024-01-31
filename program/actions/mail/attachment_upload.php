@@ -98,8 +98,8 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
             foreach ($_FILES['_attachments']['tmp_name'] as $i => $filepath) {
                 // Process uploaded attachment if there is no error
-                $err = $_FILES['_attachments']['error'][$i];
-                $inserted = false;
+                $err        = $_FILES['_attachments']['error'][$i];
+                $inserted   = false;
                 $attachment = null;
 
                 if (!$err) {
@@ -214,8 +214,8 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                 rcmail_output::JS_OBJECT_NAME,
                 $id
             ),
-            'title'   => $rcmail->gettext('delete'),
-            'class'   => 'delete',
+            'title'      => $rcmail->gettext('delete'),
+            'class'      => 'delete',
             'aria-label' => $rcmail->gettext('delete') . ' ' . $attachment['name'],
         ], $button);
 
@@ -259,12 +259,12 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         foreach ($rcmail->list_uploaded_files(self::$COMPOSE_ID) as $att) {
             // All attachments are base64-encoded except message/rfc822
             $multip = $att['mimetype'] == 'message/rfc822' ? 1 : 1.33;
-            $size  += $att['size'] * $multip;
+            $size += $att['size'] * $multip;
         }
 
         // add size of the new attachment
         $multip = $filetype == 'message/rfc822' ? 1 : 1.33;
-        $size  += $filesize * $multip;
+        $size += $filesize * $multip;
 
         if ($size > $limit) {
             $limit = self::show_bytes($limit);
