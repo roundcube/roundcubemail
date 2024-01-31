@@ -3086,7 +3086,9 @@ class rcube_imap extends rcube_storage
 
         // Remove hidden folders
         if ($config->get('imap_skip_hidden_folders')) {
-            $result = array_filter($result, static function ($v) { return $v[0] != '.'; });
+            $result = array_filter($result, static function ($v) {
+                return $v[0] != '.';
+            });
         }
 
         // Remove folders in shared namespaces (if configured, see self::set_env())
@@ -3439,7 +3441,9 @@ class rcube_imap extends rcube_storage
             return $result;
         }
 
-        $types = array_map(static function ($value) { return '\\' . ucfirst($value); }, rcube_storage::$folder_types);
+        $types = array_map(static function ($value) {
+            return '\\' . ucfirst($value);
+        }, rcube_storage::$folder_types);
         $special = [];
 
         // request \Subscribed flag in LIST response as performance improvement for folder_exists()

@@ -578,8 +578,12 @@ class rcube_db
      */
     public function insert_or_update($table, $keys, $columns, $values)
     {
-        $columns = array_map(static function ($i) { return "`{$i}`"; }, $columns);
-        $sets = array_map(static function ($i) { return "{$i} = ?"; }, $columns);
+        $columns = array_map(static function ($i) {
+            return "`{$i}`";
+        }, $columns);
+        $sets = array_map(static function ($i) {
+            return "{$i} = ?";
+        }, $columns);
         $where = $keys;
 
         array_walk($where, function (&$val, $key) {
@@ -592,9 +596,13 @@ class rcube_db
 
         // if UPDATE fails use INSERT
         if ($result && !$this->affected_rows($result)) {
-            $cols = implode(', ', array_map(static function ($i) { return "`{$i}`"; }, array_keys($keys)));
+            $cols = implode(', ', array_map(static function ($i) {
+                return "`{$i}`";
+            }, array_keys($keys)));
             $cols .= ', ' . implode(', ', $columns);
-            $vals = implode(', ', array_map(function ($i) { return $this->quote($i); }, $keys));
+            $vals = implode(', ', array_map(function ($i) {
+                return $this->quote($i);
+            }, $keys));
             $vals .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
 
             $result = $this->query("INSERT INTO {$table} ({$cols}) VALUES ({$vals})", $values);

@@ -826,7 +826,9 @@ class rcmail_action_contacts_index extends rcmail_action
             if (!empty($prop['subtypes'])) {
                 // re-order subtypes, so 'work' is before 'home'
                 if ($business_mode) {
-                    $work_opts = array_filter($prop['subtypes'], static function ($var) { return strpos($var, 'work') !== false; });
+                    $work_opts = array_filter($prop['subtypes'], static function ($var) {
+                        return strpos($var, 'work') !== false;
+                    });
                     if (!empty($work_opts)) {
                         $coltypes[$col]['subtypes'] = $prop['subtypes'] = array_merge(
                             $work_opts,

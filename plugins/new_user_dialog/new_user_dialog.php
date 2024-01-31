@@ -122,7 +122,9 @@ var newuserdialog = rcmail.show_popup_dialog($('#newuserdialog'), '{$title}', [{
     closeOnEscape: false,
     width: 500,
     open: function() { $('#newuserdialog').show(); $('#newuserdialog-name').focus(); },
-    beforeClose: function() { return false; }
+    beforeClose: function() {
+      return false;
+    }
   }
 );
 rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialog('destroy'); };
