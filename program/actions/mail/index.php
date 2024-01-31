@@ -1638,7 +1638,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         if (class_exists('ZipArchive', false)) {
             $input_attr['accept'] .= '.zip,application/zip,application/x-zip';
-            $description          .= ' ' . $rcmail->gettext('mailimportzip');
+            $description .= ' ' . $rcmail->gettext('mailimportzip');
         }
 
         $attrib['prefix'] = html::tag('input', ['type' => 'hidden', 'name' => '_unlock', 'value' => ''])

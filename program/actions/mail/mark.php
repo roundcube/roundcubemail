@@ -72,7 +72,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
 
         foreach ($input as $mbox => $uids) {
             $marked += (int) $rcmail->storage->set_flag($uids, $flag, $mbox);
-            $count  += is_array($uids) ? count($uids) : 1;
+            $count += is_array($uids) ? count($uids) : 1;
         }
 
         if (!$marked) {
