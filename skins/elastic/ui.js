@@ -611,9 +611,9 @@ function rcube_elastic_ui() {
             // https://github.com/roundcube/elastic/issues/45
             // Draggable blocks scrolling on touch devices, we'll disable it there
             if (touch && rcmail[list]) {
-                if (typeof rcmail[list].draggable == 'function') {
+                if (typeof rcmail[list].draggable === 'function') {
                     rcmail[list].draggable('destroy');
-                } else if (typeof rcmail[list].draggable == 'boolean') {
+                } else if (typeof rcmail[list].draggable === 'boolean') {
                     rcmail[list].draggable = false;
                 }
 
@@ -2123,7 +2123,7 @@ function rcube_elastic_ui() {
                 if (!open) {
                     if (ref[id]) {
                         ref[id](options.get(0), this, e);
-                    } else if (typeof window[id] == 'function') {
+                    } else if (typeof window[id] === 'function') {
                         window[id](options.get(0), this, e);
                     }
                 }
@@ -4425,10 +4425,10 @@ if (window.rcmail) {
      * TODO: keyboard navigation in menus
      */
     rcmail.show_menu = function (prop, show, event) {
-        var name = typeof prop == 'object' ? prop.menu : prop,
+        var name = typeof prop === 'object' ? prop.menu : prop,
             obj = $('#' + name);
 
-        if (typeof prop == 'string') {
+        if (typeof prop === 'string') {
             prop = { menu: name };
         }
 

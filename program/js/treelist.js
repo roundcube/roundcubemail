@@ -224,7 +224,7 @@ function rcube_treelist_widget(node, p) {
         var node;
 
         if (node = indexbyid[id]) {
-            node.collapsed = typeof set == 'undefined' || set;
+            node.collapsed = typeof set === 'undefined' || set;
             update_dom(node);
 
             if (recursive && node.children) {
@@ -415,12 +415,12 @@ function rcube_treelist_widget(node, p) {
 
         // set new reference to node.html after insert
         // will otherwise vanish in Firefox 3.6
-        if (typeof node.html == 'object') {
+        if (typeof node.html === 'object') {
             indexbyid[node.id].html = id2dom(node.id, true).children();
         }
 
         if (sort) {
-            resort_node(li, typeof sort == 'string' ? '[class~="' + sort + '"]' : '');
+            resort_node(li, typeof sort === 'string' ? '[class~="' + sort + '"]' : '');
         }
     }
 
@@ -464,7 +464,7 @@ function rcube_treelist_widget(node, p) {
             }
 
             if (sort) {
-                resort_node(li, typeof sort == 'string' ? '[class~="' + sort + '"]' : '');
+                resort_node(li, typeof sort === 'string' ? '[class~="' + sort + '"]' : '');
             }
         }
     }
@@ -731,9 +731,9 @@ function rcube_treelist_widget(node, p) {
             li.appendTo(parent);
         }
 
-        if (typeof node.html == 'string') {
+        if (typeof node.html === 'string') {
             li.html(node.html);
-        } else if (typeof node.html == 'object') {
+        } else if (typeof node.html === 'object') {
             li.append(node.html);
         }
 

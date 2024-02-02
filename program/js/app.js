@@ -107,9 +107,9 @@ function rcube_webmail() {
 
     // add a localized label to the client environment
     this.add_label = function (p, value) {
-        if (typeof p == 'string') {
+        if (typeof p === 'string') {
             this.labels[p] = value;
-        } else if (typeof p == 'object') {
+        } else if (typeof p === 'object') {
             $.extend(this.labels, p);
         }
     };
@@ -176,7 +176,7 @@ function rcube_webmail() {
             $.each(ref.menu_buttons, function () {
                 var disabled = true;
                 $.each(this[1], function () {
-                    var is_func = typeof (this) == 'function';
+                    var is_func = typeof (this) === 'function';
                     if ((is_func && this()) || (!is_func && ref.commands[this])) {
                         disabled = false;
                         return disabled;
@@ -1327,9 +1327,9 @@ function rcube_webmail() {
                             break;
                         }
                     }
-                } else if (props && typeof props == 'string') {
+                } else if (props && typeof props === 'string') {
                     url._to = props;
-                } else if (props && typeof props == 'object') {
+                } else if (props && typeof props === 'object') {
                     $.extend(url, props);
                 }
 
@@ -1760,7 +1760,7 @@ function rcube_webmail() {
     },
 
     this.is_framed = function () {
-        return this.env.framed && parent.rcmail && parent.rcmail != this && typeof parent.rcmail.command == 'function';
+        return this.env.framed && parent.rcmail && parent.rcmail != this && typeof parent.rcmail.command === 'function';
     };
 
     this.save_pref = function (prop) {
@@ -2913,7 +2913,7 @@ function rcube_webmail() {
     this.list_mailbox = function (mbox, page, sort, url, update_only) {
         var win, target = window;
 
-        if (typeof url != 'object') {
+        if (typeof url !== 'object') {
             url = {};
         }
 
@@ -2992,7 +2992,7 @@ function rcube_webmail() {
     this.list_mailbox_remote = function (mbox, page, url) {
         var lock = this.set_busy(true, 'loading');
 
-        if (typeof url != 'object') {
+        if (typeof url !== 'object') {
             url = {};
         }
 
@@ -3627,7 +3627,7 @@ function rcube_webmail() {
 
     // build post data for message delete/move/copy/flag requests
     this.selection_post_data = function (data) {
-        if (!data || typeof (data) != 'object') {
+        if (!data || typeof (data) !== 'object') {
             data = {};
         }
 
@@ -3847,7 +3847,7 @@ function rcube_webmail() {
         var uid, i, len,
             rows = this.message_list ? this.message_list.rows : {};
 
-        if (typeof uids == 'string') {
+        if (typeof uids === 'string') {
             uids = uids.split(',');
         }
 
@@ -4706,7 +4706,7 @@ function rcube_webmail() {
                 _uid: '*', _flag: 'read', _mbox: folder, _folders: mode,
             };
 
-        if (typeof mode != 'string') {
+        if (typeof mode !== 'string') {
             state = this.mark_all_read_state(folder);
             if (!state) {
                 return;
@@ -4806,7 +4806,7 @@ function rcube_webmail() {
             submit_func = function () {
                 var form = get_form();
 
-                if (typeof form.form != 'object') {
+                if (typeof form.form !== 'object') {
                     return false;
                 }
 
@@ -5263,7 +5263,7 @@ function rcube_webmail() {
 
                 dialog.dialog('close');
 
-                if (typeof cmd == 'function') {
+                if (typeof cmd === 'function') {
                     cmd();
                 } else if (cmd) {
                     ref.command(cmd, { nocheck: true });
@@ -5326,7 +5326,7 @@ function rcube_webmail() {
 
     // Inserts a predefined response to the compose editor
     this.insert_response = function (response) {
-        if (typeof response == 'object') {
+        if (typeof response === 'object') {
             var replace = {};
             replace[response.is_html ? 'html' : 'text'] = response.data;
 
@@ -5532,7 +5532,7 @@ function rcube_webmail() {
     this.restore_compose_form = function (key, html_mode) {
         var ed, formdata = this.local_storage_get_item('compose.' + key, true);
 
-        if (formdata && typeof formdata == 'object') {
+        if (formdata && typeof formdata === 'object') {
             $.each(formdata, function (k, value) {
                 if (k[0] == '_') {
                     var elem = $('[name=' + k + ']');
@@ -8577,7 +8577,7 @@ function rcube_webmail() {
 
         var popup = $('<div class="popup">');
 
-        if (typeof content == 'object') {
+        if (typeof content === 'object') {
             popup.append(content);
             if ($(content).is('iframe')) {
                 popup.addClass('iframe');
@@ -8588,7 +8588,7 @@ function rcube_webmail() {
 
         // assign special classes to dialog buttons
         var i = 0, fn = function (button, classes, idx) {
-            if (typeof button == 'function') {
+            if (typeof button === 'function') {
                 button = {
                     click: button,
                     text: idx,
@@ -9163,7 +9163,7 @@ function rcube_webmail() {
 
     // Show/hide a specific popup menu
     this.show_menu = function (prop, show, event) {
-        var name = typeof prop == 'object' ? prop.menu : prop,
+        var name = typeof prop === 'object' ? prop.menu : prop,
             obj = $('#' + name),
             ref = event && event.target ? $(event.target) : $(obj.attr('rel') || '#' + name + 'link'),
             keyboard = rcube_event.is_keyboard(event),
@@ -9175,7 +9175,7 @@ function rcube_webmail() {
             ref = ref.closest('a');
         }
 
-        if (typeof prop == 'string') {
+        if (typeof prop === 'string') {
             prop = { menu: name };
         }
 
@@ -9192,7 +9192,7 @@ function rcube_webmail() {
         // move element to top for proper absolute positioning
         obj.appendTo(document.body);
 
-        if (typeof show == 'undefined') {
+        if (typeof show === 'undefined') {
             show = obj.is(':visible') ? false : true;
         }
 
@@ -9453,7 +9453,7 @@ function rcube_webmail() {
             parent.rcmail.redirect(url, lock);
         } else {
             if (this.env.extwin) {
-                if (typeof url == 'string') {
+                if (typeof url === 'string') {
                     url += (url.indexOf('?') < 0 ? '?' : '&') + '_extwin=1';
                 } else {
                     url._extwin = 1;
@@ -9476,7 +9476,7 @@ function rcube_webmail() {
             this.lock_frame(target);
         }
 
-        if (typeof url == 'object') {
+        if (typeof url === 'object') {
             url = this.env.comm_path + '&' + $.param(url);
         }
 
@@ -9926,10 +9926,10 @@ function rcube_webmail() {
             postdata._reqid = prop.reqid;
         }
         // replace %s in query
-        else if (typeof prop.query == 'string') {
+        else if (typeof prop.query === 'string') {
             query = prop.query.replace('%s', item);
             query += '&_reqid=' + prop.reqid;
-        } else if (typeof prop.query == 'object' && prop.query) {
+        } else if (typeof prop.query === 'object' && prop.query) {
             query = {};
             for (k in prop.query) {
                 query[k] = String(prop.query[k]).replace('%s', item);
@@ -9951,7 +9951,7 @@ function rcube_webmail() {
         prop.running--;
 
         // trigger response callback
-        if (prop.onresponse && typeof prop.onresponse == 'function') {
+        if (prop.onresponse && typeof prop.onresponse === 'function') {
             prop.onresponse(data);
         }
 
@@ -9965,7 +9965,7 @@ function rcube_webmail() {
         }
         // trigger whendone callback and mark this request as done
         else if (prop.running == 0) {
-            if (prop.whendone && typeof prop.whendone == 'function') {
+            if (prop.whendone && typeof prop.whendone === 'function') {
                 prop.whendone(prop.result);
             }
 
@@ -10378,7 +10378,7 @@ function rcube_webmail() {
     this.get_input_selection = function (obj) {
         var start = 0, end = 0, normalizedValue = '';
 
-        if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
+        if (typeof obj.selectionStart === 'number' && typeof obj.selectionEnd === 'number') {
             normalizedValue = obj.value;
             start = obj.selectionStart;
             end = obj.selectionEnd;
@@ -10425,12 +10425,12 @@ function rcube_webmail() {
     this.check_protocol_handler = function (name, elem) {
         var nav = window.navigator;
 
-        if (!nav || (typeof nav.registerProtocolHandler != 'function')) {
+        if (!nav || (typeof nav.registerProtocolHandler !== 'function')) {
             $(elem).addClass('disabled').click(function () {
                 ref.display_message('nosupporterror', 'error');
                 return false;
             });
-        } else if (typeof nav.isProtocolHandlerRegistered == 'function') {
+        } else if (typeof nav.isProtocolHandlerRegistered === 'function') {
             var status = nav.isProtocolHandlerRegistered('mailto', this.mailto_handler_uri());
             if (status) {
                 $(elem).parent().find('.mailtoprotohandler-status').html(status);

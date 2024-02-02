@@ -105,7 +105,7 @@ function roundcube_browser() {
     this.mobile = /iphone|ipod|blackberry|iemobile|opera mini|opera mobi|mobile/i.test(this.agent_lc);
     this.tablet = !this.mobile && /ipad|android|xoom|sch-i800|playbook|tablet|kindle/i.test(this.agent_lc);
     this.touch = this.mobile || this.tablet;
-    this.pointer = typeof window.PointerEvent == 'function';
+    this.pointer = typeof window.PointerEvent === 'function';
     this.cookies = n.cookieEnabled;
 
     // set class names to html tag according to the current user agent detection

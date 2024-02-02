@@ -445,7 +445,7 @@ rcube_list_widget.prototype = {
         }
 
         if (before && tbody.childNodes.length) {
-            tbody.insertBefore(row, (typeof before == 'object' && before.parentNode == tbody) ? before : tbody.firstChild);
+            tbody.insertBefore(row, (typeof before === 'object' && before.parentNode == tbody) ? before : tbody.firstChild);
         } else {
             tbody.appendChild(row);
         }
