@@ -129,38 +129,28 @@ function rcube_elastic_ui() {
                 this._super();
                 // ... to re-style them on dialog open
                 dialog_open(this);
-
                 return this;
             },
             close: function () {
                 this._super();
                 // ... to close custom select dropdowns on dialog close
                 $('.select-menu:visible').remove();
-
                 return this;
             },
         });
 
         // menu/sidebar/list button
         buttons.menu.on('click', function () {
-            app_menu(true);
-
-            return false;
+            app_menu(true); return false;
         });
         buttons.back_sidebar.on('click', function () {
-            show_sidebar();
-
-            return false;
+            show_sidebar(); return false;
         });
         buttons.back_list.on('click', function () {
-            show_list();
-
-            return false;
+            show_list(); return false;
         });
         buttons.back_content.on('click', function () {
-            show_content(true);
-
-            return false;
+            show_content(true); return false;
         });
 
         // Initialize search forms
@@ -216,7 +206,6 @@ function rcube_elastic_ui() {
 
             if (target.is('.cancel')) {
                 target.addClass('hidden');
-
                 return;
             }
 
@@ -482,7 +471,6 @@ function rcube_elastic_ui() {
                 if (layout[this].length) {
                     env.last_selected = layout[this][0];
                     layout[this].addClass('selected');
-
                     return false;
                 }
             });
@@ -656,7 +644,6 @@ function rcube_elastic_ui() {
                             }
 
                             info.text(msg).removeClass('hidden');
-
                             return;
                         }
 
@@ -842,7 +829,6 @@ function rcube_elastic_ui() {
                 reset_cookie();
                 $('iframe').each(switch_iframe_color_mode);
             }
-
             return;
         }
 
@@ -1072,7 +1058,6 @@ function rcube_elastic_ui() {
                             $(this).tab('show');
                             // Because we return false we have to close popups
                             popups_close(e);
-
                             // Returning false here prevents from strange scrolling issue
                             // when the form is in an iframe, e.g. contact edit form
                             return false;
@@ -1319,7 +1304,6 @@ function rcube_elastic_ui() {
         // Don't display navigation for create/add action frames
         if (href.match(/_action=(create|add)/) || href.match(/_nav=hide/)) {
             $(env.frame_nav).addClass('hide-nav-buttons');
-
             return;
         }
 
@@ -1330,7 +1314,6 @@ function rcube_elastic_ui() {
             if ($(env.frame_nav).is('.hide-nav-buttons') && !$('.buttons', env.frame_nav).children().length) {
                 $(env.frame_nav).addClass('hidden');
             }
-
             return;
         }
 
@@ -1631,19 +1614,16 @@ function rcube_elastic_ui() {
                         var label = rcmail.gettext(args.status ? 'replylist' : 'replyall');
                         $('.toolbar a.reply-all').attr('title', label).find('.inner').text(label);
                     }
-
                     break;
 
                 case 'compose-encrypted':
                 // show the toolbar button for Mailvelope
                     $('.toolbar a.encrypt').parent().show();
-
                     break;
 
                 case 'compose-encrypted-signed':
                 // enable selector for encrypt and sign
                     $('#encryption-menu-button').show();
-
                     break;
             }
         }
@@ -1707,7 +1687,6 @@ function rcube_elastic_ui() {
     function screen_resize() {
         if (is_framed && !layout.sidebar.length && !layout.list.length) {
             screen_resize_headers();
-
             return;
         }
 
@@ -1804,7 +1783,6 @@ function rcube_elastic_ui() {
             $(this).children(':visible:not(.position-absolute)').each(function () {
                 if (!title && $(this).is('.header-title')) {
                     title = $(this);
-
                     return;
                 }
 
@@ -2012,7 +1990,6 @@ function rcube_elastic_ui() {
         if (p.type == 'loading' && $('.iframe-loader:visible').length) {
             // hide original message object, we don't need two "loaders"
             rcmail.hide_message(p.object);
-
             return;
         }
 
@@ -2432,7 +2409,6 @@ function rcube_elastic_ui() {
                             case 27: // ESC
                             case 9: // TAB
                                 $(item).popover('toggle').focus();
-
                                 return false;
 
                             case 38: // ARROW-UP
@@ -2444,11 +2420,9 @@ function rcube_elastic_ui() {
                                 while (entry = entry[mode + 'Sibling']) {
                                     if (node = $(entry).children('.active')[0]) {
                                         node.focus();
-
                                         break;
                                     }
                                 }
-
                                 return false; // prevents from scrolling the whole page
                         }
                     });
@@ -2518,12 +2492,10 @@ function rcube_elastic_ui() {
                             // Open the popup on ENTER or SPACE
                             e.preventDefault();
                             $(this).data('event', 'key').popover('toggle');
-
                             break;
                         case 27:
                             // Close the popup on ESC key
                             $(this).popover('hide');
-
                             break;
                     }
                 }
@@ -2584,7 +2556,6 @@ function rcube_elastic_ui() {
             if (!p.win) {
                 p.win = window;
             }
-
             return parent.UI.menu_toggle(p);
         }
 
@@ -2758,7 +2729,6 @@ function rcube_elastic_ui() {
                 mode = $('select[name="mode"]', dialog).val();
 
             rcmail.set_list_options([], col, ord, mode == 'threads' ? 1 : 0);
-
             return true;
         };
 
@@ -3013,7 +2983,6 @@ function rcube_elastic_ui() {
                         if (e.type != 'keypress' || rcube_event.get_keycode(e) == 13) {
                             rcmail.spellcheck_lang_set($(this).data('lang'));
                             rcmail.hide_menu('spell-menu', e);
-
                             return false;
                         }
                     });
@@ -3283,7 +3252,6 @@ function rcube_elastic_ui() {
                 if (opts.action) {
                     opts.action();
                     close_func();
-
                     return;
                 }
 
@@ -3373,7 +3341,6 @@ function rcube_elastic_ui() {
                             recipient.remove();
                             apply_func();
                             input.focus();
-
                             return false;
                         });
 
@@ -3443,7 +3410,6 @@ function rcube_elastic_ui() {
                 if (e.keyCode == 8 && !input.val().length) {
                     list.children('li.recipient').last().remove();
                     apply_func();
-
                     return false;
                 }
 
@@ -3587,12 +3553,10 @@ function rcube_elastic_ui() {
                 case '"':
                     if (i > 0 && i < len - 1) {
                         result += '"';
-
                         break;
                     }
 
                     result += '<span class="quotes">' + char + '</span>';
-
                     break;
 
                 case '\\':
@@ -3602,17 +3566,14 @@ function rcube_elastic_ui() {
                         result += char;
                         i++;
                     }
-
                     break;
 
                 case '<':
                     result += '&lt;';
-
                     break;
 
                 case '>':
                     result += '&gt;';
-
                     break;
 
                 default:
@@ -3657,9 +3618,7 @@ function rcube_elastic_ui() {
         var reset_button = $('<a>')
                 .attr({ class: 'icon button delete', href: '#' })
                 .click(function (e) {
-                    rcmail.command('delete-photo', '', this, e);
-
-                    return false;
+                    rcmail.command('delete-photo', '', this, e); return false;
                 }),
             img = $(obj).find('img')[0],
             img_onload = function () {
@@ -3782,7 +3741,6 @@ function rcube_elastic_ui() {
         var close_func = function () {
             var open = is_menu_open();
             select.popover('dispose').focus();
-
             return !open;
         };
 
@@ -3827,7 +3785,6 @@ function rcube_elastic_ui() {
                     // for cases when the select might be removed in change event (datepicker)
                     var val = $(this).data('value'), ret = close_func();
                     select.val(val).change();
-
                     return ret;
                 })
                 .on('keydown', 'a.active', function (e) {
@@ -3841,7 +3798,6 @@ function rcube_elastic_ui() {
                         case 13: // ENTER
                         case 32: // SPACE
                             $(this).click();
-
                             return false; // for IE
 
                         case 38: // ARROW-UP
@@ -3854,11 +3810,9 @@ function rcube_elastic_ui() {
                             while (item = item[mode + 'Sibling']) {
                                 if (node = $(item).children('.active')[0]) {
                                     node.focus();
-
                                     break;
                                 }
                             }
-
                             return false; // prevents from scrolling the whole page
 
                         default:
@@ -3908,7 +3862,6 @@ function rcube_elastic_ui() {
                         .append($('<a class="button icon cancel">').text(rcmail.gettext('close'))
                             .on('click', function (e) {
                                 e.stopPropagation();
-
                                 return close_func();
                             })
                         );
@@ -3950,7 +3903,6 @@ function rcube_elastic_ui() {
 
                 if (e.which == 9) {
                     close_func();
-
                     return true;
                 }
 
@@ -4005,7 +3957,6 @@ function rcube_elastic_ui() {
                 .on('keydown', function (e) {
                     if (e.which == 9) { // TAB
                         editor.focus();
-
                         return false;
                     }
                 }),
@@ -4073,7 +4024,6 @@ function rcube_elastic_ui() {
                     if (this.scrollTop > 0) {
                         scroll_element = this;
                         scroll_pos = this.scrollTop;
-
                         return false;
                     }
                 });
@@ -4167,7 +4117,6 @@ function rcube_elastic_ui() {
                         }
 
                         parent.remove();
-
                         return false;
                     }
                 }
@@ -4226,7 +4175,6 @@ function rcube_elastic_ui() {
             if (input.data('type') == 'list') {
                 input.data('error-msg', this[2]);
                 $('#' + this[0] + '_list > .invalid-feedback').text(this[2]);
-
                 return;
             }
 

@@ -159,7 +159,6 @@ function rcube_treelist_widget(node, p) {
             if (node && node.virtual && !link.attr('href')) {
                 e.preventDefault();
                 e.stopPropagation();
-
                 return false;
             }
         });
@@ -176,12 +175,10 @@ function rcube_treelist_widget(node, p) {
 
                 case 13: // enter
                     search(this.value, true);
-
                     return rcube_event.cancel(e);
 
                 case 27: // escape
                     reset_search();
-
                     break;
 
                 case 38: // arrow up
@@ -192,7 +189,6 @@ function rcube_treelist_widget(node, p) {
 
                 default:
                     search(this.value, false);
-
                     break;
             }
         }).attr('autocomplete', 'off');
@@ -200,7 +196,6 @@ function rcube_treelist_widget(node, p) {
         // find the reset button for this search field
         searchfield.parent().find('a.reset').off('click.treelist').on('click.treelist', function (e) {
             reset_search();
-
             return false;
         });
     }
@@ -852,7 +847,6 @@ function rcube_treelist_widget(node, p) {
      */
     function dom2id(li) {
         var domid = String(li.attr('id')).replace(new RegExp('^' + (p.id_prefix) || '%'), '').replace(/--xsR$/, '');
-
         return p.id_decode ? p.id_decode(domid) : domid;
     }
 
@@ -904,7 +898,6 @@ function rcube_treelist_widget(node, p) {
             if (!tree_state) {
                 tree_state = rcmail.local_storage_get_item('treelist-' + list_id, {});
             }
-
             return tree_state[id];
         }
     }
@@ -929,7 +922,6 @@ function rcube_treelist_widget(node, p) {
                 if (li.length) {
                     focus_next(li, (mod = keyCode == 38 || keyCode == 63232 ? -1 : 1));
                 }
-
                 return rcube_event.cancel(e);
 
             case 37: // Left arrow key
@@ -942,7 +934,6 @@ function rcube_treelist_widget(node, p) {
                         toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY);
                     } // toggle subtree
                 }
-
                 return false;
 
             case 9: // Tab
@@ -951,7 +942,6 @@ function rcube_treelist_widget(node, p) {
                     var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
                     focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:' + limit));
                 }
-
                 break;
         }
 
@@ -1171,7 +1161,6 @@ function rcube_treelist_widget(node, p) {
             if (highlight) {
                 $('li.droptarget', container).removeClass('droptarget');
             }
-
             return result;
         }
 
@@ -1237,7 +1226,6 @@ function rcube_treelist_widget(node, p) {
                 ui_droppable = null;
             }
             $('li:not(.virtual)', container).droppable(opts);
-
             return this;
         }
 
@@ -1293,7 +1281,6 @@ function rcube_treelist_widget(node, p) {
                 ui_draggable = null;
             }
             $('li:not(.virtual)', container).draggable(opts);
-
             return this;
         }
 

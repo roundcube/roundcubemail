@@ -46,7 +46,6 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         for (var key in arr) {
             res.push([key]);
         }
-
         return res;
     };
 
@@ -190,7 +189,6 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         try {
             this.focus_link_b.focus();
             this.focus_link_t.focus();
-
             return true;
         } catch (e) {
             return false;
@@ -316,7 +314,6 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                 this.custom_no_spelling_error(this);
             }
             this.removeIndicator();
-
             return;
         }
 
@@ -535,7 +532,6 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                 $(elm).attr('is_corrected', true).css('color', 'green').text(edit_input.value);
                 ref.hideErrorWindow();
             }
-
             return false;
         };
 
@@ -669,7 +665,6 @@ function GoogieSpell(img_dir, server_url, has_dict) {
                     };
                     setTimeout(fn1, 10);
                 }
-
                 return false;
             });
         }
@@ -710,7 +705,6 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             d = function (e) {
                 ref.showErrorWindow(elm, id);
                 d = null;
-
                 return false;
             };
 
@@ -733,7 +727,6 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         var span = document.createElement('span');
         $(span).html(txt_part);
-
         return span;
     };
 
@@ -820,7 +813,6 @@ function GoogieSpell(img_dir, server_url, has_dict) {
         if (this.show_spell_img) {
             $(span).append(' ').append($('<img>').attr('src', this.img_dir + 'spellc.gif'));
         }
-
         return span;
     };
 
@@ -985,7 +977,6 @@ function GoogieSpell(img_dir, server_url, has_dict) {
     this.createFocusLink = function (name) {
         var link = document.createElement('a');
         $(link).attr({ href: 'javascript:;', name: name });
-
         return link;
     };
 

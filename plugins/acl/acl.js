@@ -96,12 +96,10 @@ rcube_webmail.prototype.acl_save = function () {
 
     if (!user) {
         this.alert_dialog(this.get_label('acl.nouser'));
-
         return;
     }
     if (!rights) {
         this.alert_dialog(this.get_label('acl.norights'));
-
         return;
     }
 

@@ -142,7 +142,6 @@ if (window.rcmail) {
 
         if (is_spam !== null) {
             rcmail.markasjunk_mark(is_spam);
-
             return false;
         }
     });

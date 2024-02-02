@@ -289,7 +289,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
                 // remove hidden (deleted) rows
                 if (this.style.display == 'none') {
                     $(this).detach();
-
                     return;
                 }
 
@@ -401,7 +400,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
             this.filtersets_list.remove_row(id, true);
             delete this.env.filtersets[id];
-
             break;
 
         // Create set row
@@ -432,7 +430,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
         case 'refresh':
             this.reset_filters_list(true);
-
             break;
     }
 
@@ -522,14 +519,12 @@ rcube_webmail.prototype.managesieve_save = function () {
     if (this.env.action == 'plugin.managesieve-vacation') {
         var data = $(this.gui_objects.sieveform).serialize();
         this.http_post('plugin.managesieve-vacation', data, this.display_message(this.get_label('managesieve.vacation.saving'), 'loading'));
-
         return;
     }
 
     if (this.env.action == 'plugin.managesieve-forward') {
         var data = $(this.gui_objects.sieveform).serialize();
         this.http_post('plugin.managesieve-forward', data, this.display_message(this.get_label('managesieve.forward.saving'), 'loading'));
-
         return;
     }
 
@@ -940,7 +935,6 @@ function smart_field_row(value, idx, field) {
                 }
 
                 parent.remove();
-
                 return false;
             }
         }
@@ -1035,7 +1029,6 @@ function sieve_formattime(hour, minutes) {
             case 'h':
                 h = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
                 time += (c == 'h' && hour < 10 ? '0' : '') + hour;
-
                 break;
             case 'G':
                 time += hour;
@@ -1127,7 +1120,6 @@ function sieve_form_init() {
             },
             select: function (event, ui) {
                 $(this).val(ui.item.value);
-
                 return false;
             },
         })
@@ -1200,7 +1192,6 @@ rcube_webmail.prototype.managesieve_create = function (force) {
             lock = this.set_busy(true, 'loading');
 
         this.http_post('plugin.managesieve-action', { _uid: uid }, lock);
-
         return;
     }
 
@@ -1238,7 +1229,6 @@ rcube_webmail.prototype.managesieve_create = function (force) {
         var hdrs = $('input[name="headers[]"]:checked', dialog);
         if (!hdrs.length) {
             rcmail.alert_dialog(rcmail.get_label('managesieve.nodata'));
-
             return;
         }
 

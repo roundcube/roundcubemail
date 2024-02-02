@@ -30,9 +30,7 @@ function addhostfield() {
     input.size = '30';
     link.href = '#';
     link.onclick = function () {
-        removehostfield(this.parentNode);
-
-        return false;
+        removehostfield(this.parentNode); return false;
     };
     link.className = 'removelink';
     link.innerHTML = 'remove';
