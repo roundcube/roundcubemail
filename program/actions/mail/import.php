@@ -37,7 +37,7 @@ class rcmail_action_mail_import extends rcmail_action
 
         if (!empty($_FILES['_file']) && is_array($_FILES['_file'])) {
             $imported = 0;
-            $folder   = $rcmail->storage->get_folder();
+            $folder = $rcmail->storage->get_folder();
 
             foreach ((array) $_FILES['_file']['tmp_name'] as $i => $filepath) {
                 // Process uploaded file if there is no error
@@ -78,7 +78,7 @@ class rcmail_action_mail_import extends rcmail_action
                                     $imported += (int) self::save_message($folder, $message);
                                 }
 
-                                $message  = $line;
+                                $message = $line;
                                 $lastline = '';
                                 continue;
                             }
@@ -121,12 +121,12 @@ class rcmail_action_mail_import extends rcmail_action
             return;
         }
 
-        $zip   = new ZipArchive();
+        $zip = new ZipArchive();
         $files = [];
 
         if ($zip->open($path)) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
-                $entry    = $zip->getNameIndex($i);
+                $entry = $zip->getNameIndex($i);
                 $tmpfname = rcube_utils::temp_filename('zipimport');
 
                 if (copy("zip://{$path}#{$entry}", $tmpfname)) {
@@ -153,8 +153,8 @@ class rcmail_action_mail_import extends rcmail_action
 
         if (strncmp($message, 'From ', 5) === 0) {
             // Extract the mbox from_line
-            $pos     = strpos($message, "\n");
-            $from    = substr($message, 0, $pos);
+            $pos = strpos($message, "\n");
+            $from = substr($message, 0, $pos);
             $message = substr($message, $pos + 1);
 
             // Read the received date, support only known date formats
@@ -180,7 +180,7 @@ class rcmail_action_mail_import extends rcmail_action
         // unquote ">From " lines in message body
         $message = preg_replace('/\n>([>]*)From /', "\n\\1From ", $message);
         $message = rtrim($message);
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         if ($rcmail->storage->save_message($folder, $message, '', false, [], $date)) {
             return true;

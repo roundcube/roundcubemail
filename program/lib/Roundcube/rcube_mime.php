@@ -65,9 +65,9 @@ class rcube_mime
     public static function parse_message($raw_body)
     {
         $conf = [
-            'include_bodies'  => true,
-            'decode_bodies'   => true,
-            'decode_headers'  => false,
+            'include_bodies' => true,
+            'decode_bodies' => true,
+            'decode_headers' => false,
             'default_charset' => self::get_charset(),
         ];
 
@@ -94,9 +94,9 @@ class rcube_mime
             $input = implode(', ', $input);
         }
 
-        $a   = self::parse_address_list((string) $input, $decode, $fallback);
+        $a = self::parse_address_list((string) $input, $decode, $fallback);
         $out = [];
-        $j   = 0;
+        $j = 0;
 
         // Special chars as defined by RFC 822 need to in quoted string (or escaped).
         $special_chars = '[\(\)\<\>\\\.\[\]@,;:"]';
@@ -112,7 +112,7 @@ class rcube_mime
             if ($addronly) {
                 $out[$j] = $address;
             } else {
-                $name   = trim($val['name']);
+                $name = trim($val['name']);
                 $string = '';
 
                 if ($name && $address && $name != $address) {
@@ -173,22 +173,22 @@ class rcube_mime
         // Find all RFC2047's encoded words
         if (preg_match_all($re, $input, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER)) {
             // Initialize variables
-            $tmp   = [];
-            $out   = '';
+            $tmp = [];
+            $out = '';
             $start = 0;
 
             foreach ($matches as $idx => $m) {
-                $pos      = $m[0][1];
-                $charset  = $m[1][0];
+                $pos = $m[0][1];
+                $charset = $m[1][0];
                 $encoding = $m[2][0];
-                $text     = $m[3][0];
-                $length   = strlen($m[0][0]);
+                $text = $m[3][0];
+                $length = strlen($m[0][0]);
 
                 // Append everything that is before the text to be decoded
                 if ($start != $pos) {
                     $substr = substr($input, $start, $pos - $start);
-                    $out   .= rcube_charset::convert($substr, $default_charset);
-                    $start  = $pos;
+                    $out .= rcube_charset::convert($substr, $default_charset);
+                    $start = $pos;
                 }
                 $start += $length;
 
@@ -211,21 +211,21 @@ class rcube_mime
                 }
 
                 $count = count($tmp);
-                $text  = '';
+                $text = '';
 
                 // Decode and join encoded-word's chunks
                 if ($encoding == 'B' || $encoding == 'b') {
-                    $rest  = '';
+                    $rest = '';
                     // base64 must be decoded a segment at a time.
                     // However, there are broken implementations that continue
                     // in the following word, we'll handle that (#6048)
                     for ($i = 0; $i < $count; $i++) {
-                        $chunk  = $rest . $tmp[$i];
+                        $chunk = $rest . $tmp[$i];
                         $length = strlen($chunk);
                         if ($length % 4) {
                             $length = floor($length / 4) * 4;
-                            $rest   = substr($chunk, $length);
-                            $chunk  = substr($chunk, 0, $length);
+                            $rest = substr($chunk, $length);
+                            $chunk = substr($chunk, 0, $length);
                         }
 
                         $text .= base64_decode($chunk);
@@ -288,10 +288,10 @@ class rcube_mime
      */
     public static function parse_headers($headers)
     {
-        $result  = [];
+        $result = [];
         $headers = preg_replace('/\r?\n(\t| )+/', ' ', $headers);
-        $lines   = explode("\n", $headers);
-        $count   = count($lines);
+        $lines = explode("\n", $headers);
+        $count = count($lines);
 
         for ($i = 0; $i < $count; $i++) {
             if ($p = strpos($lines[$i], ': ')) {
@@ -323,9 +323,9 @@ class rcube_mime
         $result = [];
 
         foreach ($str as $key => $val) {
-            $name    = '';
+            $name = '';
             $address = '';
-            $val     = trim($val);
+            $val = trim($val);
 
             // First token might be a group name, ignore it
             $tokens = self::explode_header_string(' ', $val);
@@ -338,15 +338,15 @@ class rcube_mime
                 // therefor we do not include it in the regexp above, but we have to
                 // remove it later, because $email_rx will catch it (#8164)
                 $address = rtrim($m[2], '>');
-                $name    = trim($m[1]);
+                $name = trim($m[1]);
             } elseif (preg_match('/^(' . $email_rx . ')$/', $val, $m)) {
                 $address = $m[1];
-                $name    = '';
+                $name = '';
             }
             // special case (#1489092)
             elseif (preg_match('/(\s*<MAILER-DAEMON>)$/', $val, $m)) {
                 $address = 'MAILER-DAEMON';
-                $name    = substr($val, 0, -strlen($m[1]));
+                $name = substr($val, 0, -strlen($m[1]));
             } elseif (preg_match('/(' . $email_rx . ')/', $val, $m)) {
                 $name = $m[1];
             } else {
@@ -376,11 +376,11 @@ class rcube_mime
 
             if (!$address && $name) {
                 $address = $name;
-                $name    = '';
+                $name = '';
             }
 
             if ($address) {
-                $address      = self::fix_email($address);
+                $address = self::fix_email($address);
                 $result[$key] = ['name' => $name, 'address' => $address];
             }
         }
@@ -401,11 +401,11 @@ class rcube_mime
      */
     public static function explode_header_string($separator, $str, $remove_comments = false)
     {
-        $length  = strlen($str);
-        $result  = [];
-        $quoted  = false;
+        $length = strlen($str);
+        $result = [];
+        $quoted = false;
         $comment = 0;
-        $out     = '';
+        $out = '';
 
         for ($i = 0; $i < $length; $i++) {
             // we're inside a quoted string
@@ -471,10 +471,10 @@ class rcube_mime
      */
     public static function unfold_flowed($text, $mark = null, $delsp = false)
     {
-        $text    = preg_split('/\r?\n/', $text);
-        $last    = -1;
+        $text = preg_split('/\r?\n/', $text);
+        $last = -1;
         $q_level = 0;
-        $marks   = [];
+        $marks = [];
 
         foreach ($text as $idx => $line) {
             if ($q = strspn($line, '>')) {
@@ -572,7 +572,7 @@ class rcube_mime
                     }
 
                     $prefix = str_repeat('>', $level) . ' ';
-                    $line   = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n{$prefix}", false, $charset);
+                    $line = $prefix . self::wordwrap($line, $length - $level - 2, " \r\n{$prefix}", false, $charset);
                 } elseif ($line) {
                     $line = self::wordwrap(rtrim($line), $length - 2, " \r\n", false, $charset);
                     // space-stuffing
@@ -610,9 +610,9 @@ class rcube_mime
         }
 
         // Convert \r\n to \n, this is our line-separator
-        $string       = str_replace("\r\n", "\n", $string);
-        $separator    = "\n"; // must be 1 character length
-        $result       = [];
+        $string = str_replace("\r\n", "\n", $string);
+        $separator = "\n"; // must be 1 character length
+        $result = [];
 
         while (($stringLength = mb_strlen($string)) > 0) {
             $breakPos = mb_strpos($string, $separator, 0);
@@ -715,7 +715,7 @@ class rcube_mime
     public static function file_content_type($path, $name, $failover = 'application/octet-stream', $is_stream = false, $skip_suffix = false)
     {
         $mime_type = null;
-        $config    = rcube::get_instance()->config;
+        $config = rcube::get_instance()->config;
 
         // Detect mimetype using filename extension
         if (!$skip_suffix) {
@@ -734,7 +734,7 @@ class rcube_mime
             }
 
             if ($finfo) {
-                $func      = $is_stream ? 'finfo_buffer' : 'finfo_file';
+                $func = $is_stream ? 'finfo_buffer' : 'finfo_file';
                 $mime_type = $func($finfo, $path, \FILEINFO_MIME_TYPE);
                 finfo_close($finfo);
             }
@@ -820,7 +820,7 @@ class rcube_mime
             $file_paths[] = '/usr/local/etc/apache24/mime.types';
         }
 
-        $mime_types      = [];
+        $mime_types = [];
         $mime_extensions = [];
         $lines = [];
         $regex = '/([\\w\\+\\-\\.\\/]+)\\s+([\\w\\s]+)/i';
@@ -842,7 +842,7 @@ class rcube_mime
 
             foreach (explode(' ', $matches[2]) as $ext) {
                 $ext = trim($ext);
-                $mime_types[$mime][]   = $ext;
+                $mime_types[$mime][] = $ext;
                 $mime_extensions[$ext] = $mime;
             }
         }
@@ -861,17 +861,17 @@ class rcube_mime
         // Add some known aliases that aren't included by some mime.types (#1488891)
         // the order is important here so standard extensions have higher prio
         $aliases = [
-            'image/gif'      => ['gif'],
-            'image/png'      => ['png'],
-            'image/x-png'    => ['png'],
-            'image/jpeg'     => ['jpg', 'jpeg', 'jpe'],
-            'image/jpg'      => ['jpg', 'jpeg', 'jpe'],
-            'image/pjpeg'    => ['jpg', 'jpeg', 'jpe'],
-            'image/tiff'     => ['tif'],
-            'image/bmp'      => ['bmp'],
+            'image/gif' => ['gif'],
+            'image/png' => ['png'],
+            'image/x-png' => ['png'],
+            'image/jpeg' => ['jpg', 'jpeg', 'jpe'],
+            'image/jpg' => ['jpg', 'jpeg', 'jpe'],
+            'image/pjpeg' => ['jpg', 'jpeg', 'jpe'],
+            'image/tiff' => ['tif'],
+            'image/bmp' => ['bmp'],
             'image/x-ms-bmp' => ['bmp'],
             'message/rfc822' => ['eml'],
-            'text/x-mail'    => ['eml'],
+            'text/x-mail' => ['eml'],
         ];
 
         foreach ($aliases as $mime => $exts) {
@@ -945,10 +945,10 @@ class rcube_mime
      */
     public static function fix_mimetype($type)
     {
-        $type    = strtolower(trim($type));
+        $type = strtolower(trim($type));
         $aliases = [
-            'image/x-ms-bmp' => 'image/bmp',        // #4771
-            'pdf'            => 'application/pdf',  // #6816
+            'image/x-ms-bmp' => 'image/bmp', // #4771
+            'pdf' => 'application/pdf', // #6816
         ];
 
         if (!empty($aliases[$type])) {

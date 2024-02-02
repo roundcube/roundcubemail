@@ -18,10 +18,10 @@ class Actions_Contacts_Undo extends ActionTestCase
 
         self::initDB('contacts');
 
-        $db     = rcmail::get_instance()->get_dbh();
-        $query  = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $result = $db->fetch_assoc($query);
-        $cid    = $result['contact_id'];
+        $cid = $result['contact_id'];
         $db->query('UPDATE `contacts` SET `del` = 1 WHERE `contact_id` = ' . $cid);
 
         $_SESSION['contact_undo'] = ['data' => [[$cid]]];
@@ -35,7 +35,7 @@ class Actions_Contacts_Undo extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'his.display_message("Contact(s) restored successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.list_contacts()') !== false);
 
-        $query  = $db->query('SELECT * FROM `contacts` WHERE `contact_id` = ' . $cid);
+        $query = $db->query('SELECT * FROM `contacts` WHERE `contact_id` = ' . $cid);
         $result = $db->fetch_assoc($query);
 
         $this->assertTrue(!empty($result));

@@ -24,7 +24,7 @@ class Framework_Enriched extends TestCase
     {
         $enriched = '<bold><italic>the-text</italic></bold>';
         $expected = '<b><i>the-text</i></b>';
-        $result   = rcube_enriched::to_html($enriched);
+        $result = rcube_enriched::to_html($enriched);
 
         $this->assertSame($expected, $result);
     }

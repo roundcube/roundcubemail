@@ -49,7 +49,7 @@ if (empty($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     exit;
 }
 
-$pref_name  = trim($args[0]);
+$pref_name = trim($args[0]);
 $pref_value = !empty($args['delete']) ? null : trim($args[1]);
 
 if ($pref_value === null) {

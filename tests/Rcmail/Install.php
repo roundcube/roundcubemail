@@ -49,7 +49,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_db_schema_check()
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $install = rcmail_install::get_instance();
 
         $result = $install->db_schema_check($rcmail->get_dbh());
@@ -62,7 +62,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_check_mime_detection()
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $install = rcmail_install::get_instance();
 
         $result = $install->check_mime_detection();
@@ -79,7 +79,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_check_mime_extensions()
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $install = rcmail_install::get_instance();
 
         $result = $install->check_mime_extensions();
@@ -92,7 +92,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_list_skins()
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $install = rcmail_install::get_instance();
 
         $result = $install->list_skins();
@@ -105,14 +105,14 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_list_plugins()
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $install = rcmail_install::get_instance();
 
         $result = $install->list_plugins();
 
         $acl = [
-            'name'    => 'acl',
-            'desc'    => 'IMAP Folders Access Control Lists Management (RFC4314, RFC2086).',
+            'name' => 'acl',
+            'desc' => 'IMAP Folders Access Control Lists Management (RFC4314, RFC2086).',
             'enabled' => false,
         ];
 

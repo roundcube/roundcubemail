@@ -34,7 +34,7 @@ class rcube_virtualmin_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
+        $curdir = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellarg($username);
 
         // Get the domain using virtualmin CLI:
@@ -54,7 +54,7 @@ class rcube_virtualmin_password
             return PASSWORD_ERROR;
         }
 
-        $domain  = escapeshellarg($domain);
+        $domain = escapeshellarg($domain);
         $newpass = escapeshellarg($newpass);
 
         exec("{$curdir}/chgvirtualminpasswd modify-user --domain {$domain} --user {$username} --pass {$newpass}", $output, $returnvalue);

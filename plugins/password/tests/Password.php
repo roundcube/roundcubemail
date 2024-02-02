@@ -14,7 +14,7 @@ class Password_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new password($rcube->plugins);
 
         $this->assertInstanceOf('password', $plugin);
@@ -57,21 +57,21 @@ class Password_Plugin extends TestCase
         $other_result = $driver_class::decode_response('{"a":"b"}');
         $this->assertSame($other_result, PASSWORD_ERROR);
 
-        $fail_response   = '{"data":null,"errors":["Execution of Email::passwdp'
+        $fail_response = '{"data":null,"errors":["Execution of Email::passwdp'
                 . 'op (api version:3) is not permitted inside of webmail"],"sta'
                 . 'tus":0,"metadata":{},"messages":null}';
-        $error_message   = 'Execution of Email::passwdpop (api version:3) is no'
+        $error_message = 'Execution of Email::passwdpop (api version:3) is no'
                 . 't permitted inside of webmail';
         $expected_result = [
-            'code'    => PASSWORD_ERROR,
+            'code' => PASSWORD_ERROR,
             'message' => $error_message,
         ];
-        $fail_result     = $driver_class::decode_response($fail_response);
+        $fail_result = $driver_class::decode_response($fail_response);
         $this->assertSame($expected_result, $fail_result);
 
         $success_response = '{"metadata":{},"data":null,"messages":null,"errors'
                 . '":null,"status":1}';
-        $good_result      = $driver_class::decode_response($success_response);
+        $good_result = $driver_class::decode_response($success_response);
         $this->assertSame($good_result, PASSWORD_SUCCESS);
     }
 

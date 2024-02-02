@@ -41,7 +41,7 @@ if (!empty($_POST['submit'])) {
             echo '<form id="getconfig_form" action="index.php" method="get" target="getconfig" style="display:none">';
             echo '<input name="_getconfig" value="2" /></form>';
 
-            $button_txt  = html::quote('Save in ' . $dir);
+            $button_txt = html::quote('Save in ' . $dir);
             $save_button = '&nbsp;<input type="button" onclick="document.getElementById(\'getconfig_form\').submit()" value="' . $button_txt . '" />';
         }
 

@@ -14,16 +14,16 @@ class Framework_Mime extends TestCase
     public function test_decode_single_address()
     {
         $headers = [
-            0  => 'test@domain.tld',
-            1  => '<test@domain.tld>',
-            2  => 'Test <test@domain.tld>',
-            3  => 'Test Test <test@domain.tld>',
-            4  => 'Test Test<test@domain.tld>',
-            5  => '"Test Test" <test@domain.tld>',
-            6  => '"Test Test"<test@domain.tld>',
-            7  => '"Test \\" Test" <test@domain.tld>',
-            8  => '"Test<Test" <test@domain.tld>',
-            9  => '=?ISO-8859-1?B?VGVzdAo=?= <test@domain.tld>',
+            0 => 'test@domain.tld',
+            1 => '<test@domain.tld>',
+            2 => 'Test <test@domain.tld>',
+            3 => 'Test Test <test@domain.tld>',
+            4 => 'Test Test<test@domain.tld>',
+            5 => '"Test Test" <test@domain.tld>',
+            6 => '"Test Test"<test@domain.tld>',
+            7 => '"Test \\" Test" <test@domain.tld>',
+            8 => '"Test<Test" <test@domain.tld>',
+            9 => '=?ISO-8859-1?B?VGVzdAo=?= <test@domain.tld>',
             10 => '=?ISO-8859-1?B?VGVzdAo=?=<test@domain.tld>', // #1487068
             // comments in address (#1487673)
             11 => 'Test (comment) <test@domain.tld>',
@@ -51,16 +51,16 @@ class Framework_Mime extends TestCase
         ];
 
         $results = [
-            0  => [1, '', 'test@domain.tld'],
-            1  => [1, '', 'test@domain.tld'],
-            2  => [1, 'Test', 'test@domain.tld'],
-            3  => [1, 'Test Test', 'test@domain.tld'],
-            4  => [1, 'Test Test', 'test@domain.tld'],
-            5  => [1, 'Test Test', 'test@domain.tld'],
-            6  => [1, 'Test Test', 'test@domain.tld'],
-            7  => [1, 'Test " Test', 'test@domain.tld'],
-            8  => [1, 'Test<Test', 'test@domain.tld'],
-            9  => [1, 'Test', 'test@domain.tld'],
+            0 => [1, '', 'test@domain.tld'],
+            1 => [1, '', 'test@domain.tld'],
+            2 => [1, 'Test', 'test@domain.tld'],
+            3 => [1, 'Test Test', 'test@domain.tld'],
+            4 => [1, 'Test Test', 'test@domain.tld'],
+            5 => [1, 'Test Test', 'test@domain.tld'],
+            6 => [1, 'Test Test', 'test@domain.tld'],
+            7 => [1, 'Test " Test', 'test@domain.tld'],
+            8 => [1, 'Test<Test', 'test@domain.tld'],
+            9 => [1, 'Test', 'test@domain.tld'],
             10 => [1, 'Test', 'test@domain.tld'],
             11 => [1, 'Test', 'test@domain.tld'],
             12 => [1, 'Test', 'test@domain.tld'],
@@ -98,27 +98,27 @@ class Framework_Mime extends TestCase
     public function test_decode_address_groups()
     {
         $headers = [
-            0  => 'undisclosed-recipients:;',
-            1  => 'group:test1@email.com',
-            2  => 'group:<test1@email.com>',
-            3  => 'group:test1@email.com,test2@email.com',
-            4  => 'group: <test1@email.com>,<test2@email.com>',
-            5  => '"test:group": "TEST1" <test1@email.com>,"TEST2" <test2@email.com>; test3@email.com',
+            0 => 'undisclosed-recipients:;',
+            1 => 'group:test1@email.com',
+            2 => 'group:<test1@email.com>',
+            3 => 'group:test1@email.com,test2@email.com',
+            4 => 'group: <test1@email.com>,<test2@email.com>',
+            5 => '"test:group": "TEST1" <test1@email.com>,"TEST2" <test2@email.com>; test3@email.com',
         ];
 
         $results = [
-            0  => [],
-            1  => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
-            2  => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
-            3  => [
+            0 => [],
+            1 => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
+            2 => [1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com']],
+            3 => [
                 1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
                 2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com'],
             ],
-            4  => [
+            4 => [
                 1 => ['name' => '', 'mailto' => 'test1@email.com', 'string' => 'test1@email.com'],
                 2 => ['name' => '', 'mailto' => 'test2@email.com', 'string' => 'test2@email.com'],
             ],
-            5  => [
+            5 => [
                 1 => ['name' => 'TEST1', 'mailto' => 'test1@email.com', 'string' => 'TEST1 <test1@email.com>'],
                 2 => ['name' => 'TEST2', 'mailto' => 'test2@email.com', 'string' => 'TEST2 <test2@email.com>'],
                 3 => ['name' => '', 'mailto' => 'test3@email.com', 'string' => 'test3@email.com'],
@@ -143,31 +143,31 @@ class Framework_Mime extends TestCase
         $test = [
             // #1488232: invalid character "?"
             'quoted-printable (1)' => [
-                'in'  => '=?utf-8?Q?Certifica=C3=A7=C3=A3??=',
+                'in' => '=?utf-8?Q?Certifica=C3=A7=C3=A3??=',
                 'out' => 'Certifica=C3=A7=C3=A3?',
             ],
             'quoted-printable (2)' => [
-                'in'  => '=?utf-8?Q?Certifica=?= =?utf-8?Q?C3=A7=C3=A3?=',
+                'in' => '=?utf-8?Q?Certifica=?= =?utf-8?Q?C3=A7=C3=A3?=',
                 'out' => 'Certifica=C3=A7=C3=A3',
             ],
             'quoted-printable (3)' => [
-                'in'  => '=?utf-8?Q??= =?utf-8?Q??=',
+                'in' => '=?utf-8?Q??= =?utf-8?Q??=',
                 'out' => '',
             ],
             'quoted-printable (4)' => [
-                'in'  => '=?utf-8?Q??= a =?utf-8?Q??=',
+                'in' => '=?utf-8?Q??= a =?utf-8?Q??=',
                 'out' => ' a ',
             ],
             'quoted-printable (5)' => [
-                'in'  => '=?utf-8?Q?a?= =?utf-8?Q?b?=',
+                'in' => '=?utf-8?Q?a?= =?utf-8?Q?b?=',
                 'out' => 'ab',
             ],
             'quoted-printable (6)' => [
-                'in'  => '=?utf-8?Q?   ?= =?utf-8?Q?a?=',
+                'in' => '=?utf-8?Q?   ?= =?utf-8?Q?a?=',
                 'out' => '   a',
             ],
             'quoted-printable (7)' => [
-                'in'  => '=?utf-8?Q?___?= =?utf-8?Q?a?=',
+                'in' => '=?utf-8?Q?___?= =?utf-8?Q?a?=',
                 'out' => '   a',
             ],
         ];
@@ -225,7 +225,7 @@ class Framework_Mime extends TestCase
      */
     public function test_unfold_flowed2()
     {
-        $flowed   = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
+        $flowed = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
                     . "> \r\n"
                     . "Sed ut perspiciatis unde omnis iste natus error \r\nsit voluptatem";
         $unfolded = "> culpa qui officia deserunt mollit anim id est laborum.\r\n"
@@ -240,7 +240,7 @@ class Framework_Mime extends TestCase
      */
     public function test_unfold_flowed_delsp()
     {
-        $flowed   = "そしてジョバンニはすぐうしろの天気輪の柱が \r\n"
+        $flowed = "そしてジョバンニはすぐうしろの天気輪の柱が \r\n"
                     . "いつかぼんやりした三角標の形になって、しば \r\n"
                     . "らく蛍のように、ぺかぺか消えたりともったり \r\n"
                     . 'しているのを見ました。';
@@ -319,7 +319,7 @@ class Framework_Mime extends TestCase
      */
     public function test_parse_message()
     {
-        $file   = file_get_contents(__DIR__ . '/../src/html.msg');
+        $file = file_get_contents(__DIR__ . '/../src/html.msg');
         $result = rcube_mime::parse_message($file);
 
         $this->assertInstanceOf('rcube_message_part', $result);

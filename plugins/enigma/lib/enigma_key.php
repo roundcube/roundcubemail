@@ -18,18 +18,18 @@ class enigma_key
 {
     public $id;
     public $name;
-    public $users   = [];
+    public $users = [];
     public $subkeys = [];
     public $reference;
     public $password;
 
     public const TYPE_UNKNOWN = 0;
     public const TYPE_KEYPAIR = 1;
-    public const TYPE_PUBLIC  = 2;
+    public const TYPE_PUBLIC = 2;
 
-    public const CAN_ENCRYPT      = 1;
-    public const CAN_SIGN         = 2;
-    public const CAN_CERTIFY      = 4;
+    public const CAN_ENCRYPT = 1;
+    public const CAN_SIGN = 2;
+    public const CAN_CERTIFY = 4;
     public const CAN_AUTHENTICATE = 8;
 
     /**

@@ -28,9 +28,9 @@ class rcube_result_index
 
     protected $raw_data;
     protected $mailbox;
-    protected $meta   = [];
+    protected $meta = [];
     protected $params = [];
-    protected $order  = 'ASC';
+    protected $order = 'ASC';
 
     public const SEPARATOR_ELEMENT = ' ';
 
@@ -40,7 +40,7 @@ class rcube_result_index
     public function __construct($mailbox = null, $data = null, $order = null)
     {
         $this->mailbox = $mailbox;
-        $this->order   = $order == 'DESC' ? 'DESC' : 'ASC';
+        $this->order = $order == 'DESC' ? 'DESC' : 'ASC';
         $this->init($data);
     }
 
@@ -156,7 +156,7 @@ class rcube_result_index
         }
 
         if (empty($this->raw_data)) {
-            $this->meta['count']  = 0;
+            $this->meta['count'] = 0;
             $this->meta['length'] = 0;
         } else {
             $this->meta['count'] = 1 + substr_count($this->raw_data, self::SEPARATOR_ELEMENT);
@@ -231,9 +231,9 @@ class rcube_result_index
         $data = $this->get();
         $data = array_slice($data, $offset, $length);
 
-        $this->meta          = [];
+        $this->meta = [];
         $this->meta['count'] = count($data);
-        $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
+        $this->raw_data = implode(self::SEPARATOR_ELEMENT, $data);
     }
 
     /**
@@ -246,9 +246,9 @@ class rcube_result_index
         $data = $this->get();
         $data = array_intersect($data, $ids);
 
-        $this->meta          = [];
+        $this->meta = [];
         $this->meta['count'] = count($data);
-        $this->raw_data      = implode(self::SEPARATOR_ELEMENT, $data);
+        $this->raw_data = implode(self::SEPARATOR_ELEMENT, $data);
     }
 
     /**
@@ -287,7 +287,7 @@ class rcube_result_index
 
         $msgid = (int) $msgid;
         $begin = implode('|', ['^', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
-        $end   = implode('|', ['$', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
+        $end = implode('|', ['$', preg_quote(self::SEPARATOR_ELEMENT, '/')]);
 
         if (preg_match("/({$begin}){$msgid}({$end})/", $this->raw_data, $m,
             $get_index ? \PREG_OFFSET_CAPTURE : 0)
@@ -409,9 +409,9 @@ class rcube_result_index
      */
     public function get_parameters($param = null)
     {
-        $params            = $this->params;
+        $params = $this->params;
         $params['MAILBOX'] = $this->mailbox;
-        $params['ORDER']   = $this->order;
+        $params['ORDER'] = $this->order;
 
         if ($param !== null) {
             return $params[$param] ?? null;

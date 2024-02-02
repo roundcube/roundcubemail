@@ -34,14 +34,14 @@ abstract class rcube_session implements SessionHandlerInterface
     protected $vars;
     protected $now;
     protected $lifetime;
-    protected $reloaded     = false;
-    protected $appends      = [];
-    protected $unsets       = [];
-    protected $gc_enabled   = 0;
-    protected $gc_handlers  = [];
-    protected $cookiename   = 'roundcube_sessauth';
-    protected $ip_check     = false;
-    protected $logging      = false;
+    protected $reloaded = false;
+    protected $appends = [];
+    protected $unsets = [];
+    protected $gc_enabled = 0;
+    protected $gc_handlers = [];
+    protected $cookiename = 'roundcube_sessauth';
+    protected $ip_check = false;
+    protected $logging = false;
     protected $ignore_write = false;
 
     /**
@@ -119,8 +119,8 @@ abstract class rcube_session implements SessionHandlerInterface
      */
     public function start()
     {
-        $this->start   = microtime(true);
-        $this->ip      = rcube_utils::remote_addr();
+        $this->start = microtime(true);
+        $this->ip = rcube_utils::remote_addr();
         $this->logging = $this->config->get('session_debug', false);
 
         $lifetime = $this->config->get('session_lifetime', 1) * 60;
@@ -215,7 +215,7 @@ abstract class rcube_session implements SessionHandlerInterface
     public function create($data)
     {
         $length = strlen(session_id());
-        $key    = rcube_utils::random_bytes($length);
+        $key = rcube_utils::random_bytes($length);
 
         // create new session
         if ($this->save($key, $this->serialize($data))) {
@@ -306,7 +306,7 @@ abstract class rcube_session implements SessionHandlerInterface
         $this->ignore_write = false;
 
         $this->vars = null;
-        $this->key  = session_id();
+        $this->key = session_id();
 
         $this->log("Session regenerate: {$old_id} -> {$this->key}");
 
@@ -407,7 +407,7 @@ abstract class rcube_session implements SessionHandlerInterface
         $this->log('Session destroy: ' . session_id());
 
         $this->vars = null;
-        $this->ip   = rcube_utils::remote_addr(); // update IP (might have changed)
+        $this->ip = rcube_utils::remote_addr(); // update IP (might have changed)
         $this->destroy(session_id());
 
         rcube_utils::setcookie($this->cookiename, '-del-', time() - 60);
@@ -499,13 +499,13 @@ abstract class rcube_session implements SessionHandlerInterface
      */
     public static function unserialize($str)
     {
-        $str    = (string) $str;
+        $str = (string) $str;
         $endptr = strlen($str);
-        $p      = 0;
+        $p = 0;
 
         $serialized = '';
-        $items      = 0;
-        $level      = 0;
+        $items = 0;
+        $level = 0;
 
         while ($p < $endptr) {
             $q = $p;
@@ -678,7 +678,7 @@ abstract class rcube_session implements SessionHandlerInterface
         $this->cookie = $_COOKIE[$this->cookiename] ?? null;
 
         $result = $this->ip_check ? rcube_utils::remote_addr() == $this->ip : true;
-        $prev   = null;
+        $prev = null;
 
         if (!$result) {
             $this->log('IP check failed for ' . $this->key . '; expected ' . $this->ip . '; got ' . rcube_utils::remote_addr());

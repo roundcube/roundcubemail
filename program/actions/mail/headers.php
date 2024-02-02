@@ -29,7 +29,7 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $uid    = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GP);
+        $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GP);
         $inline = $rcmail->output instanceof rcmail_output_html;
 
         if (!$uid) {
@@ -38,8 +38,8 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
 
         if ($pos = strpos($uid, '.')) {
             $message = new rcube_message($uid);
-            $source  = $message->get_part_body(substr($uid, $pos + 1));
-            $source  = substr($source, 0, strpos($source, "\r\n\r\n"));
+            $source = $message->get_part_body(substr($uid, $pos + 1));
+            $source = substr($source, 0, strpos($source, "\r\n\r\n"));
         } else {
             $source = $rcmail->storage->get_raw_headers($uid);
         }

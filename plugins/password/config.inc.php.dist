@@ -394,7 +394,7 @@ $config['xmail_port'] = 6017;
 $config['hmailserver_remote_dcom'] = false;
 // Windows credentials
 $config['hmailserver_server'] = [
-    'Server'   => 'localhost',      // hostname or ip address
+    'Server' => 'localhost',      // hostname or ip address
     'Username' => 'administrator',  // windows username
     'Password' => 'password',       // windows user password
 ];

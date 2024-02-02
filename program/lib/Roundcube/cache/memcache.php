@@ -35,7 +35,7 @@ class rcube_cache_memcache extends rcube_cache
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
-        $this->type  = 'memcache';
+        $this->type = 'memcache';
         $this->debug = rcube::get_instance()->config->get('memcache_debug');
 
         self::engine();
@@ -67,11 +67,11 @@ class rcube_cache_memcache extends rcube_cache
 
         // add all configured hosts to pool
         $rcube = rcube::get_instance();
-        $pconnect       = $rcube->config->get('memcache_pconnect', true);
-        $timeout        = $rcube->config->get('memcache_timeout', 1);
+        $pconnect = $rcube->config->get('memcache_pconnect', true);
+        $timeout = $rcube->config->get('memcache_timeout', 1);
         $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
-        $seen           = [];
-        $available      = 0;
+        $seen = [];
+        $available = 0;
 
         // Callback for memcache failure
         $error_callback = static function ($host, $port) use ($seen, $available) {

@@ -32,11 +32,11 @@ class rcube_directadmin_password
         $rcmail = rcmail::get_instance();
         $Socket = new HTTPSocket();
 
-        $da_user    = $_SESSION['username'];
+        $da_user = $_SESSION['username'];
         $da_curpass = $curpass;
         $da_newpass = $passwd;
-        $da_host    = $rcmail->config->get('password_directadmin_host');
-        $da_port    = $rcmail->config->get('password_directadmin_port');
+        $da_host = $rcmail->config->get('password_directadmin_host');
+        $da_port = $rcmail->config->get('password_directadmin_port');
 
         if (strpos($da_user, '@') === false) {
             return ['code' => PASSWORD_ERROR, 'message' => 'Change the SYSTEM user password through control panel!'];
@@ -48,11 +48,11 @@ class rcube_directadmin_password
         $Socket->connect($da_host, $da_port);
         $Socket->set_method('POST');
         $Socket->query('/CMD_CHANGE_EMAIL_PASSWORD', [
-            'email'         => $da_user,
-            'oldpassword'   => $da_curpass,
-            'password1'     => $da_newpass,
-            'password2'     => $da_newpass,
-            'api'           => '1',
+            'email' => $da_user,
+            'oldpassword' => $da_curpass,
+            'password1' => $da_newpass,
+            'password2' => $da_newpass,
+            'api' => '1',
         ]);
 
         $response = $Socket->fetch_parsed_body();
@@ -105,8 +105,8 @@ class HTTPSocket
 
     public $lastTransferSpeed;
     public $bind_host;
-    public $error       = [];
-    public $warn        = [];
+    public $error = [];
+    public $warn = [];
     public $query_cache = [];
     public $doFollowLocationHeader = true;
     public $redirectURL;
@@ -172,7 +172,7 @@ class HTTPSocket
     public function query($request, $content = '')
     {
         $this->error = $this->warn = [];
-        $this->result_status_code  = null;
+        $this->result_status_code = null;
 
         $is_ssl = false;
 
@@ -211,8 +211,8 @@ class HTTPSocket
         }
 
         $array_headers = [
-            'Host'       => $this->remote_port == 80 ? $this->remote_host : "{$this->remote_host}:{$this->remote_port}",
-            'Accept'     => '*/*',
+            'Host' => $this->remote_port == 80 ? $this->remote_host : "{$this->remote_host}:{$this->remote_port}",
+            'Accept' => '*/*',
             'Connection' => 'Close',
         ];
 
@@ -290,11 +290,11 @@ class HTTPSocket
             $OK = false;
         }
 
-        $header_size              = curl_getinfo($ch, \CURLINFO_HEADER_SIZE);
-        $this->result_header      = substr($this->result, 0, $header_size);
-        $this->result_body        = substr($this->result, $header_size);
+        $header_size = curl_getinfo($ch, \CURLINFO_HEADER_SIZE);
+        $this->result_header = substr($this->result, 0, $header_size);
+        $this->result_body = substr($this->result, $header_size);
         $this->result_status_code = curl_getinfo($ch, \CURLINFO_HTTP_CODE);
-        $this->lastTransferSpeed  = curl_getinfo($ch, \CURLINFO_SPEED_DOWNLOAD) / 1024;
+        $this->lastTransferSpeed = curl_getinfo($ch, \CURLINFO_SPEED_DOWNLOAD) / 1024;
 
         curl_close($ch);
 

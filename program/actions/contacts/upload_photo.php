@@ -43,32 +43,32 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
             $filepath = $_FILES['_photo']['tmp_name'];
 
             // check file type and resize image
-            $image     = new rcube_image($_FILES['_photo']['tmp_name']);
+            $image = new rcube_image($_FILES['_photo']['tmp_name']);
             $imageprop = $image->props();
-            $inserted  = false;
+            $inserted = false;
 
             if (
                 in_array(strtolower($imageprop['type']), self::$IMAGE_TYPES)
                 && !empty($imageprop['width'])
                 && !empty($imageprop['height'])
             ) {
-                $maxsize   = intval($rcmail->config->get('contact_photo_size', 160));
-                $tmpfname  = rcube_utils::temp_filename('imgconvert');
+                $maxsize = intval($rcmail->config->get('contact_photo_size', 160));
+                $tmpfname = rcube_utils::temp_filename('imgconvert');
                 $save_hook = 'attachment_upload';
 
                 // scale image to a maximum size
                 if (($imageprop['width'] > $maxsize || $imageprop['height'] > $maxsize) && $image->resize($maxsize, $tmpfname)) {
-                    $filepath  = $tmpfname;
+                    $filepath = $tmpfname;
                     $save_hook = 'attachment_save';
                 }
 
                 // save uploaded file in storage backend
                 $attachment = [
-                    'path'     => $filepath,
-                    'size'     => $_FILES['_photo']['size'],
-                    'name'     => $_FILES['_photo']['name'],
+                    'path' => $filepath,
+                    'size' => $_FILES['_photo']['size'],
+                    'name' => $_FILES['_photo']['name'],
                     'mimetype' => 'image/' . $imageprop['type'],
-                    'group'    => 'contact',
+                    'group' => 'contact',
                 ];
 
                 $inserted = $rcmail->insert_uploaded_file($attachment, $save_hook);

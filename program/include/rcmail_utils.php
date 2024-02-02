@@ -58,9 +58,9 @@ class rcmail_utils
      */
     public static function db_init($dir)
     {
-        $db    = self::db();
+        $db = self::db();
         $error = null;
-        $file  = $dir . '/' . $db->db_provider . '.initial.sql';
+        $file = $dir . '/' . $db->db_provider . '.initial.sql';
 
         if (!file_exists($file)) {
             rcube::raise_error("DDL file {$file} not found", false, true);
@@ -118,42 +118,42 @@ class rcmail_utils
             // Note: This is for backward compat. only, do not need to be updated
             $map = [
                 '0.1-stable' => 1,
-                '0.1.1'      => 2008030300,
-                '0.2-alpha'  => 2008040500,
-                '0.2-beta'   => 2008060900,
+                '0.1.1' => 2008030300,
+                '0.2-alpha' => 2008040500,
+                '0.2-beta' => 2008060900,
                 '0.2-stable' => 2008092100,
-                '0.2.1'      => 2008092100,
-                '0.2.2'      => 2008092100,
+                '0.2.1' => 2008092100,
+                '0.2.2' => 2008092100,
                 '0.3-stable' => 2008092100,
-                '0.3.1'      => 2009090400,
-                '0.4-beta'   => 2009103100,
-                '0.4'        => 2010042300,
-                '0.4.1'      => 2010042300,
-                '0.4.2'      => 2010042300,
-                '0.5-beta'   => 2010100600,
-                '0.5'        => 2010100600,
-                '0.5.1'      => 2010100600,
-                '0.5.2'      => 2010100600,
-                '0.5.3'      => 2010100600,
-                '0.5.4'      => 2010100600,
-                '0.6-beta'   => 2011011200,
-                '0.6'        => 2011011200,
-                '0.7-beta'   => 2011092800,
-                '0.7'        => 2011111600,
-                '0.7.1'      => 2011111600,
-                '0.7.2'      => 2011111600,
-                '0.7.3'      => 2011111600,
-                '0.7.4'      => 2011111600,
-                '0.8-beta'   => 2011121400,
-                '0.8-rc'     => 2011121400,
-                '0.8.0'      => 2011121400,
-                '0.8.1'      => 2011121400,
-                '0.8.2'      => 2011121400,
-                '0.8.3'      => 2011121400,
-                '0.8.4'      => 2011121400,
-                '0.8.5'      => 2011121400,
-                '0.8.6'      => 2011121400,
-                '0.9-beta'   => 2012080700,
+                '0.3.1' => 2009090400,
+                '0.4-beta' => 2009103100,
+                '0.4' => 2010042300,
+                '0.4.1' => 2010042300,
+                '0.4.2' => 2010042300,
+                '0.5-beta' => 2010100600,
+                '0.5' => 2010100600,
+                '0.5.1' => 2010100600,
+                '0.5.2' => 2010100600,
+                '0.5.3' => 2010100600,
+                '0.5.4' => 2010100600,
+                '0.6-beta' => 2011011200,
+                '0.6' => 2011011200,
+                '0.7-beta' => 2011092800,
+                '0.7' => 2011111600,
+                '0.7.1' => 2011111600,
+                '0.7.2' => 2011111600,
+                '0.7.3' => 2011111600,
+                '0.7.4' => 2011111600,
+                '0.8-beta' => 2011121400,
+                '0.8-rc' => 2011121400,
+                '0.8.0' => 2011121400,
+                '0.8.1' => 2011121400,
+                '0.8.2' => 2011121400,
+                '0.8.3' => 2011121400,
+                '0.8.4' => 2011121400,
+                '0.8.5' => 2011121400,
+                '0.8.6' => 2011121400,
+                '0.9-beta' => 2012080700,
             ];
 
             $version = $map[$ver];
@@ -173,7 +173,7 @@ class rcmail_utils
             return false;
         }
 
-        $dh     = opendir($dir);
+        $dh = opendir($dir);
         $result = [];
 
         while ($file = readdir($dh)) {
@@ -261,7 +261,7 @@ class rcmail_utils
             . ' WHERE `name` = ?',
             $package . '-version');
 
-        $row     = $db->fetch_array();
+        $row = $db->fetch_array();
         if ($row === false) {
             return null;
         }
@@ -277,9 +277,9 @@ class rcmail_utils
      */
     public static function db_clean($days)
     {
-        $db        = self::db();
+        $db = self::db();
         $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
-        $tables    = [
+        $tables = [
             'contacts',
             'contactgroups',
             'identities',
@@ -379,7 +379,7 @@ class rcmail_utils
         while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
             echo 'Updating prefs for user ' . $sql_arr['user_id'] . '...';
 
-            $user  = new rcube_user($sql_arr['user_id'], $sql_arr);
+            $user = new rcube_user($sql_arr['user_id'], $sql_arr);
             $prefs = $old_prefs = $user->get_prefs();
 
             $prefs[$name] = $value;

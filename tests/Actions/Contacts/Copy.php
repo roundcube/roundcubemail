@@ -18,7 +18,7 @@ class Actions_Contacts_Copy extends ActionTestCase
 
         // Missing target addressbook
         $_POST = [
-            '_cid'    => 1,
+            '_cid' => 1,
             '_source' => '0',
         ];
 
@@ -54,9 +54,9 @@ class Actions_Contacts_Copy extends ActionTestCase
 
         // Non-existing contact
         $_POST = [
-            '_cid'    => 100,
+            '_cid' => 100,
             '_source' => rcube_addressbook::TYPE_RECIPIENT,
-            '_to'     => '0',
+            '_to' => '0',
         ];
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
@@ -82,13 +82,13 @@ class Actions_Contacts_Copy extends ActionTestCase
 
         $rcmail = rcmail::get_instance();
         $source = $rcmail->get_address_book(rcube_addressbook::TYPE_RECIPIENT);
-        $cid    = $rcmail->contact_create(['email' => 'test@recipient.com'], $source);
+        $cid = $rcmail->contact_create(['email' => 'test@recipient.com'], $source);
 
         // Missing target addressbook
         $_POST = [
-            '_cid'    => $cid,
+            '_cid' => $cid,
             '_source' => rcube_addressbook::TYPE_RECIPIENT,
-            '_to'     => '0',
+            '_to' => '0',
         ];
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
@@ -100,8 +100,8 @@ class Actions_Contacts_Copy extends ActionTestCase
         $this->assertSame('this.display_message("Successfully copied 1 contacts.","confirmation",0);', trim($result['exec']));
 
         // Check that the contact has been really added to the contacts db
-        $db     = $rcmail->get_dbh();
-        $query  = $db->query('SELECT count(*) AS cnt FROM `contacts` WHERE `user_id` = 1 AND `email` = ?', 'test@recipient.com');
+        $db = $rcmail->get_dbh();
+        $query = $db->query('SELECT count(*) AS cnt FROM `contacts` WHERE `user_id` = 1 AND `email` = ?', 'test@recipient.com');
         $result = $db->fetch_assoc($query);
 
         $this->assertSame('1', $result['cnt']);

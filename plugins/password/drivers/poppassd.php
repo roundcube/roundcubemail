@@ -38,7 +38,7 @@ class rcube_poppassd_password
 
     public function save($curpass, $passwd, $username)
     {
-        $rcmail   = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $poppassd = new Net_Socket();
 
         $port = $rcmail->config->get('password_pop_port', 106);

@@ -34,9 +34,9 @@ class Actions_Utils_Error extends ActionTestCase
      */
     public function test_run_ajax()
     {
-        $_SERVER['HTTP_HOST']      = 'test.com';
+        $_SERVER['HTTP_HOST'] = 'test.com';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI']    = '';
+        $_SERVER['REQUEST_URI'] = '';
 
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'compose');
         $action = new rcmail_action_utils_error();

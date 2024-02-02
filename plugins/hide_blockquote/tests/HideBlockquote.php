@@ -14,7 +14,7 @@ class HideBlockquote_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new hide_blockquote($rcube->plugins);
 
         $this->assertInstanceOf('hide_blockquote', $plugin);
@@ -28,7 +28,7 @@ class HideBlockquote_Plugin extends TestCase
      */
     public function test_prefs_table()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new hide_blockquote($rcube->plugins);
 
         $args = ['section' => 'mailview', 'blocks' => ['main' => ['options' => []]]];
@@ -51,18 +51,18 @@ class HideBlockquote_Plugin extends TestCase
      */
     public function test_prefs_save()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new hide_blockquote($rcube->plugins);
 
         $_POST = [];
-        $args  = ['section' => 'mailview', 'prefs' => []];
+        $args = ['section' => 'mailview', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 
         $this->assertSame(0, $result['prefs']['hide_blockquote_limit']);
 
         $_POST = ['_hide_blockquote_limit' => '10'];
-        $args  = ['section' => 'mailview', 'prefs' => []];
+        $args = ['section' => 'mailview', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 

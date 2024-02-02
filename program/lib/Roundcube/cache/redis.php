@@ -37,7 +37,7 @@ class rcube_cache_redis extends rcube_cache
 
         $rcube = rcube::get_instance();
 
-        $this->type  = 'redis';
+        $this->type = 'redis';
         $this->debug = $rcube->config->get('redis_debug');
 
         self::engine();
@@ -92,7 +92,7 @@ class rcube_cache_redis extends rcube_cache
         }
 
         self::$redis = new Redis();
-        $failures    = 0;
+        $failures = 0;
 
         foreach ($hosts as $redis_host) {
             // explode individual fields

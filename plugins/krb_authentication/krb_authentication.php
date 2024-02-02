@@ -36,7 +36,7 @@ class krb_authentication extends rcube_plugin
         if (!empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])) {
             // handle login action
             if (empty($_SESSION['user_id'])) {
-                $args['action']       = 'login';
+                $args['action'] = 'login';
                 $this->redirect_query = $_SERVER['QUERY_STRING'];
             } else {
                 $_SESSION['password'] = null;
@@ -56,7 +56,7 @@ class krb_authentication extends rcube_plugin
             $this->load_config();
 
             $rcmail = rcmail::get_instance();
-            $host   = $rcmail->config->get('krb_authentication_host');
+            $host = $rcmail->config->get('krb_authentication_host');
 
             if (is_string($host) && trim($host) !== '' && empty($args['host'])) {
                 $args['host'] = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
@@ -68,7 +68,7 @@ class krb_authentication extends rcube_plugin
             }
 
             $args['cookiecheck'] = false;
-            $args['valid']       = true;
+            $args['valid'] = true;
         }
 
         return $args;
@@ -95,8 +95,8 @@ class krb_authentication extends rcube_plugin
     {
         if (!empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])) {
             $args['gssapi_context'] = $this->gssapi_context('imap');
-            $args['gssapi_cn']      = $_SERVER['KRB5CCNAME'];
-            $args['auth_type']      = 'GSSAPI';
+            $args['gssapi_cn'] = $_SERVER['KRB5CCNAME'];
+            $args['auth_type'] = 'GSSAPI';
         }
 
         return $args;
@@ -112,8 +112,8 @@ class krb_authentication extends rcube_plugin
             && !empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])
         ) {
             $args['gssapi_context'] = $this->gssapi_context('sieve');
-            $args['gssapi_cn']      = $_SERVER['KRB5CCNAME'];
-            $args['auth_type']      = 'GSSAPI';
+            $args['gssapi_cn'] = $_SERVER['KRB5CCNAME'];
+            $args['auth_type'] = 'GSSAPI';
         }
 
         return $args;
@@ -129,7 +129,7 @@ class krb_authentication extends rcube_plugin
             && !empty($_SERVER['REMOTE_USER']) && !empty($_SERVER['KRB5CCNAME'])
         ) {
             $args['gssapi_context'] = $this->gssapi_context('smtp');
-            $args['gssapi_cn']      = $_SERVER['KRB5CCNAME'];
+            $args['gssapi_cn'] = $_SERVER['KRB5CCNAME'];
             $args['smtp_auth_type'] = 'GSSAPI';
         }
 
@@ -144,7 +144,7 @@ class krb_authentication extends rcube_plugin
         // Load plugin's config file
         $this->load_config();
 
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $context = $rcmail->config->get('krb_authentication_context');
 
         if (is_array($context) && isset($context[$protocol])) {

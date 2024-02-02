@@ -33,7 +33,7 @@ class virtuser_query extends rcube_plugin
 
     public function init()
     {
-        $this->app    = rcmail::get_instance();
+        $this->app = rcmail::get_instance();
         $this->config = $this->app->config->get('virtuser_query');
 
         if (!empty($this->config)) {
@@ -64,18 +64,18 @@ class virtuser_query extends rcube_plugin
         $dbh = $this->get_dbh();
 
         $sql_result = $dbh->query(preg_replace('/%u/', $dbh->escape($p['user']), $this->config['email']));
-        $result     = [];
+        $result = [];
 
         while ($sql_arr = $dbh->fetch_array($sql_result)) {
             if (strpos($sql_arr[0], '@')) {
                 if (!empty($p['extended']) && count($sql_arr) > 1) {
                     $result[] = [
-                        'email'          => rcube_utils::idn_to_ascii($sql_arr[0]),
-                        'name'           => $sql_arr[1] ?? '',
-                        'organization'   => $sql_arr[2] ?? '',
-                        'reply-to'       => isset($sql_arr[3]) ? rcube_utils::idn_to_ascii($sql_arr[3]) : '',
-                        'bcc'            => isset($sql_arr[4]) ? rcube_utils::idn_to_ascii($sql_arr[4]) : '',
-                        'signature'      => $sql_arr[5] ?? '',
+                        'email' => rcube_utils::idn_to_ascii($sql_arr[0]),
+                        'name' => $sql_arr[1] ?? '',
+                        'organization' => $sql_arr[2] ?? '',
+                        'reply-to' => isset($sql_arr[3]) ? rcube_utils::idn_to_ascii($sql_arr[3]) : '',
+                        'bcc' => isset($sql_arr[4]) ? rcube_utils::idn_to_ascii($sql_arr[4]) : '',
+                        'signature' => $sql_arr[5] ?? '',
                         'html_signature' => isset($sql_arr[6]) ? intval($sql_arr[6]) : 0,
                     ];
                 } else {

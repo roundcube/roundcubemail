@@ -69,7 +69,7 @@ if (strtolower($input) == 'y') {
 
     foreach ($dirs as $dir) {
         // @FIXME: should we use --delete for all directories?
-        $delete  = in_array($dir, ['program', 'vendor', 'installer']) ? '--delete ' : '';
+        $delete = in_array($dir, ['program', 'vendor', 'installer']) ? '--delete ' : '';
         $command = 'rsync -aC --out-format=%n ' . $delete . INSTALL_PATH . "{$dir}/ {$target_dir}/{$dir}/";
 
         if (system($command, $ret) === false || $ret > 0) {
@@ -120,8 +120,8 @@ if (strtolower($input) == 'y') {
     }
     // check if js-deps are up-to-date
     elseif (file_exists("{$target_dir}/jsdeps.json") && file_exists("{$target_dir}/bin/install-jsdeps.sh")) {
-        $jsdeps    = json_decode(file_get_contents("{$target_dir}/jsdeps.json"));
-        $package   = $jsdeps->dependencies[0];
+        $jsdeps = json_decode(file_get_contents("{$target_dir}/jsdeps.json"));
+        $package = $jsdeps->dependencies[0];
         $dest_file = $target_dir . '/' . $package->dest;
 
         if (!file_exists($dest_file) || sha1_file($dest_file) !== $package->sha1) {

@@ -58,8 +58,8 @@ class newmail_notifier extends rcube_plugin
                 // Load configuration
                 $this->load_config();
 
-                $this->opt['basic']   = $this->rc->config->get('newmail_notifier_basic');
-                $this->opt['sound']   = $this->rc->config->get('newmail_notifier_sound');
+                $this->opt['basic'] = $this->rc->config->get('newmail_notifier_basic');
+                $this->opt['sound'] = $this->rc->config->get('newmail_notifier_sound');
                 $this->opt['desktop'] = $this->rc->config->get('newmail_notifier_desktop');
 
                 if (!empty($this->opt)) {
@@ -108,8 +108,8 @@ class newmail_notifier extends rcube_plugin
             $key = 'newmail_notifier_' . $type;
             if (!in_array($key, $dont_override)) {
                 $field_id = '_' . $key;
-                $input    = new html_checkbox(['name' => $field_id, 'id' => $field_id, 'value' => 1]);
-                $content  = $input->show($this->rc->config->get($key))
+                $input = new html_checkbox(['name' => $field_id, 'id' => $field_id, 'value' => 1]);
+                $content = $input->show($this->rc->config->get($key))
                     . ' ' . html::a(['href' => '#', 'onclick' => 'newmail_notifier_test_' . $type . '(); return false'],
                         $this->gettext('test'));
 
@@ -121,11 +121,11 @@ class newmail_notifier extends rcube_plugin
         }
 
         $type = 'desktop_timeout';
-        $key  = 'newmail_notifier_' . $type;
+        $key = 'newmail_notifier_' . $type;
 
         if (!in_array($key, $dont_override)) {
             $field_id = '_' . $key;
-            $select   = new html_select(['name' => $field_id, 'id' => $field_id, 'class' => 'custom-select']);
+            $select = new html_select(['name' => $field_id, 'id' => $field_id, 'class' => 'custom-select']);
 
             foreach ([5, 10, 15, 30, 45, 60] as $sec) {
                 $label = $this->rc->gettext(['name' => 'afternseconds', 'vars' => ['n' => $sec]]);
@@ -133,7 +133,7 @@ class newmail_notifier extends rcube_plugin
             }
 
             $args['blocks']['new_message']['options'][$key] = [
-                'title'   => html::label($field_id, rcube::Q($this->gettext('desktoptimeout'))),
+                'title' => html::label($field_id, rcube::Q($this->gettext('desktoptimeout'))),
                 'content' => $select->show((int) $this->rc->config->get($key)),
             ];
         }
@@ -183,8 +183,8 @@ class newmail_notifier extends rcube_plugin
             return $args;
         }
 
-        $mbox      = $args['mailbox'];
-        $storage   = $this->rc->get_storage();
+        $mbox = $args['mailbox'];
+        $storage = $this->rc->get_storage();
         $delimiter = $storage->get_hierarchy_delimiter();
 
         // Skip exception (sent/drafts) folders (and their subfolders)
@@ -196,8 +196,8 @@ class newmail_notifier extends rcube_plugin
 
         // Check if any of new messages is UNSEEN
         $deleted = $this->rc->config->get('skip_deleted') ? 'UNDELETED ' : '';
-        $search  = $deleted . 'UNSEEN UID ' . $args['diff']['new'];
-        $unseen  = $storage->search_once($mbox, $search);
+        $search = $deleted . 'UNSEEN UID ' . $args['diff']['new'];
+        $unseen = $storage->search_once($mbox, $search);
 
         if ($unseen->count()) {
             $this->notified = true;
@@ -205,8 +205,8 @@ class newmail_notifier extends rcube_plugin
             $this->rc->output->set_env('newmail_notifier_timeout', $this->rc->config->get('newmail_notifier_desktop_timeout'));
             $this->rc->output->command('plugin.newmail_notifier',
                 [
-                    'basic'   => $this->opt['basic'],
-                    'sound'   => $this->opt['sound'],
+                    'basic' => $this->opt['basic'],
+                    'sound' => $this->opt['sound'],
                     'desktop' => $this->opt['desktop'],
                 ]
             );

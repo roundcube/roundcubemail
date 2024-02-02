@@ -55,8 +55,8 @@ class Actions_Contacts_Search_Create extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Saved search created successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.insert_saved_search("test2",') !== false);
 
-        $db     = rcmail::get_instance()->get_dbh();
-        $query  = $db->query('SELECT * FROM `searches` WHERE `name` = \'test2\'');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `searches` WHERE `name` = \'test2\'');
         $result = $db->fetch_assoc($query);
 
         $this->assertTrue(!empty($result));

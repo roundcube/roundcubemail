@@ -26,8 +26,8 @@ class Actions_Mail_Copy extends ActionTestCase
         $this->assertTrue($action->checks());
 
         $_POST = [
-            '_uid'         => 1,
-            '_mbox'        => 'INBOX',
+            '_uid' => 1,
+            '_mbox' => 'INBOX',
             '_target_mbox' => 'Trash',
         ];
 
@@ -57,8 +57,8 @@ class Actions_Mail_Copy extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'copy');
 
         $_POST = [
-            '_uid'         => 1,
-            '_mbox'        => 'INBOX',
+            '_uid' => 1,
+            '_mbox' => 'INBOX',
             '_target_mbox' => 'Trash',
         ];
 

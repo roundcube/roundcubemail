@@ -27,30 +27,30 @@ class rcmail_install
 {
     public $step;
     public $last_error;
-    public $is_post           = false;
-    public $failures          = 0;
-    public $config            = [];
-    public $defaults          = [];
-    public $comments          = [];
-    public $configured        = false;
-    public $legacy_config     = false;
-    public $email_pattern     = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
+    public $is_post = false;
+    public $failures = 0;
+    public $config = [];
+    public $defaults = [];
+    public $comments = [];
+    public $configured = false;
+    public $legacy_config = false;
+    public $email_pattern = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9])';
 
     public $bool_config_props = ['ip_check', 'enable_spellcheck', 'auto_create_user', 'smtp_log', 'prefer_html'];
-    public $local_config    = ['db_dsnw', 'imap_host', 'support_url', 'des_key', 'plugins'];
+    public $local_config = ['db_dsnw', 'imap_host', 'support_url', 'des_key', 'plugins'];
     public $obsolete_config = ['db_backend', 'db_max_length', 'double_auth', 'preview_pane', 'debug_level', 'referer_check'];
     public $replaced_config = [
-        'skin_path'            => 'skin',
-        'locale_string'        => 'language',
-        'multiple_identities'  => 'identities_level',
+        'skin_path' => 'skin',
+        'locale_string' => 'language',
+        'multiple_identities' => 'identities_level',
         'addrbook_show_images' => 'show_images',
-        'imap_root'            => 'imap_ns_personal',
-        'pagesize'             => 'mail_pagesize',
-        'top_posting'          => 'reply_mode',
-        'keep_alive'           => 'refresh_interval',
-        'min_keep_alive'       => 'min_refresh_interval',
-        'default_host'         => 'imap_host',
-        'smtp_server'          => 'smtp_host',
+        'imap_root' => 'imap_ns_personal',
+        'pagesize' => 'mail_pagesize',
+        'top_posting' => 'reply_mode',
+        'keep_alive' => 'refresh_interval',
+        'min_keep_alive' => 'min_refresh_interval',
+        'default_host' => 'imap_host',
+        'smtp_server' => 'smtp_host',
     ];
 
     // List of configuration options supported by the Installer
@@ -66,9 +66,9 @@ class rcmail_install
 
     // list of supported database drivers
     public $supported_dbs = [
-        'MySQL'               => 'pdo_mysql',
-        'PostgreSQL'          => 'pdo_pgsql',
-        'SQLite'              => 'pdo_sqlite',
+        'MySQL' => 'pdo_mysql',
+        'PostgreSQL' => 'pdo_pgsql',
+        'SQLite' => 'pdo_sqlite',
     ];
 
     /** @var array List of config options with default value change per-release */
@@ -82,7 +82,7 @@ class rcmail_install
      */
     public function __construct()
     {
-        $this->step    = isset($_REQUEST['_step']) ? intval($_REQUEST['_step']) : 0;
+        $this->step = isset($_REQUEST['_step']) ? intval($_REQUEST['_step']) : 0;
         $this->is_post = isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST';
     }
 
@@ -111,7 +111,7 @@ class rcmail_install
 
         // defaults
         if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'defaults.inc.php')) {
-            $this->config   = (array) $config;
+            $this->config = (array) $config;
             $this->defaults = $this->config;
         }
 
@@ -122,12 +122,12 @@ class rcmail_install
             $this->config = array_merge($this->config, $config);
         } else {
             if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'main.inc.php')) {
-                $this->config        = array_merge($this->config, $config);
+                $this->config = array_merge($this->config, $config);
                 $this->legacy_config = true;
             }
 
             if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'db.inc.php')) {
-                $this->config        = array_merge($this->config, $config);
+                $this->config = array_merge($this->config, $config);
                 $this->legacy_config = true;
             }
         }
@@ -146,16 +146,16 @@ class rcmail_install
             return;
         }
 
-        $config        = [];
+        $config = [];
         $rcmail_config = []; // deprecated var name
 
         include $file;
 
         // read comments from config file
         if (function_exists('token_get_all')) {
-            $tokens    = token_get_all(file_get_contents($file));
+            $tokens = token_get_all(file_get_contents($file));
             $in_config = false;
-            $buffer    = '';
+            $buffer = '';
 
             for ($i = 0; $i < count($tokens); $i++) {
                 $token = $tokens[$i];
@@ -209,7 +209,7 @@ class rcmail_install
 
         foreach ($this->config as $prop => $default) {
             $post_value = $_POST["_{$prop}"] ?? null;
-            $value      = $default;
+            $value = $default;
 
             if ($use_post && in_array($prop, $this->supported_config)
                 && ($post_value !== null || in_array($prop, $this->bool_config_props))
@@ -272,7 +272,7 @@ class rcmail_install
 
             // save change
             $this->config[$prop] = $value;
-            $config[$prop]       = $value;
+            $config[$prop] = $value;
         }
 
         $out = "<?php\n\n";
@@ -324,18 +324,18 @@ class rcmail_install
         foreach (array_keys($this->config) as $prop) {
             if (!empty($this->replaced_config[$prop])) {
                 $replacement = $this->replaced_config[$prop];
-                $out['replaced'][]  = ['prop' => $prop, 'replacement' => $replacement];
+                $out['replaced'][] = ['prop' => $prop, 'replacement' => $replacement];
                 $seen[$replacement] = true;
             } elseif (empty($seen[$prop]) && in_array($prop, $this->obsolete_config)) {
                 $out['obsolete'][] = ['prop' => $prop];
-                $seen[$prop]       = true;
+                $seen[$prop] = true;
             }
         }
 
         // the old default mime_magic reference is obsolete
         if ($this->config['mime_magic'] == '/usr/share/misc/magic') {
             $out['obsolete'][] = [
-                'prop'    => 'mime_magic',
+                'prop' => 'mime_magic',
                 'explain' => 'Set value to null in order to use system default',
             ];
         }
@@ -344,14 +344,14 @@ class rcmail_install
         if (!empty($this->config['enable_spellcheck']) && $this->config['spellcheck_engine'] == 'pspell') {
             if (!extension_loaded('pspell')) {
                 $out['dependencies'][] = [
-                    'prop'    => 'spellcheck_engine',
+                    'prop' => 'spellcheck_engine',
                     'explain' => 'This requires the <tt>pspell</tt> extension which could not be loaded.',
                 ];
             } elseif (!empty($this->config['spellcheck_languages'])) {
                 foreach ($this->config['spellcheck_languages'] as $lang => $descr) {
                     if (!@pspell_new($lang)) {
                         $out['dependencies'][] = [
-                            'prop'    => 'spellcheck_languages',
+                            'prop' => 'spellcheck_languages',
                             'explain' => "You are missing pspell support for language {$lang} ({$descr})",
                         ];
                     }
@@ -362,14 +362,14 @@ class rcmail_install
         if ($this->config['log_driver'] == 'syslog') {
             if (!function_exists('openlog')) {
                 $out['dependencies'][] = [
-                    'prop'    => 'log_driver',
+                    'prop' => 'log_driver',
                     'explain' => 'This requires the <tt>syslog</tt> extension which could not be loaded.',
                 ];
             }
 
             if (empty($this->config['syslog_id'])) {
                 $out['dependencies'][] = [
-                    'prop'    => 'syslog_id',
+                    'prop' => 'syslog_id',
                     'explain' => 'Using <tt>syslog</tt> for logging requires a syslog ID to be configured',
                 ];
             }
@@ -380,7 +380,7 @@ class rcmail_install
             foreach ($this->config['ldap_public'] as $ldap_public) {
                 if ($ldap_public['global_search']) {
                     $out['replaced'][] = [
-                        'prop'        => 'ldap_public::global_search',
+                        'prop' => 'ldap_public::global_search',
                         'replacement' => 'autocomplete_addressbooks',
                     ];
                     break;
@@ -407,7 +407,7 @@ class rcmail_install
      */
     public function merge_config()
     {
-        $current      = $this->config;
+        $current = $this->config;
         $this->config = [];
 
         foreach ($this->replaced_config as $prop => $replacement) {
@@ -471,9 +471,9 @@ class rcmail_install
         }
 
         // read reference schema from mysql.initial.sql
-        $engine    = $db->db_provider;
+        $engine = $db->db_provider;
         $db_schema = $this->db_read_schema(INSTALL_PATH . "SQL/{$engine}.initial.sql", $schema_version);
-        $errors    = [];
+        $errors = [];
 
         // Just check the version
         if ($schema_version) {
@@ -498,7 +498,7 @@ class rcmail_install
                 $errors[] = "Missing table '" . $table . "'";
             } else {  // compare cols
                 $db_cols = $db->list_cols($table);
-                $diff    = array_diff(array_keys($cols), $db_cols);
+                $diff = array_diff(array_keys($cols), $db_cols);
 
                 if (!empty($diff)) {
                     $errors[] = "Missing columns in table '{$table}': " . implode(',', $diff);
@@ -514,9 +514,9 @@ class rcmail_install
      */
     private function db_read_schema($schemafile, &$version = null)
     {
-        $lines      = file($schemafile);
-        $schema     = [];
-        $keywords   = ['PRIMARY', 'KEY', 'INDEX', 'UNIQUE', 'CONSTRAINT', 'REFERENCES', 'FOREIGN'];
+        $lines = file($schemafile);
+        $schema = [];
+        $keywords = ['PRIMARY', 'KEY', 'INDEX', 'UNIQUE', 'CONSTRAINT', 'REFERENCES', 'FOREIGN'];
         $table_name = null;
 
         foreach ($lines as $line) {
@@ -531,8 +531,8 @@ class rcmail_install
                     $table_name = null;
                 } else {
                     $items = explode(' ', $line);
-                    $col   = $items[0];
-                    $col   = preg_replace('/[`"\[\]]/', '', $col);
+                    $col = $items[0];
+                    $col = preg_replace('/[`"\[\]]/', '', $col);
 
                     if (!in_array(strtoupper($col), $keywords)) {
                         $type = strtolower($items[1]);
@@ -553,10 +553,10 @@ class rcmail_install
     public function check_mime_detection()
     {
         $errors = [];
-        $files  = [
+        $files = [
             'program/resources/tinymce/video.png' => 'image/png',
-            'program/resources/blank.tiff'        => 'image/tiff',
-            'program/resources/blocked.gif'       => 'image/gif',
+            'program/resources/blank.tiff' => 'image/tiff',
+            'program/resources/blocked.gif' => 'image/gif',
         ];
 
         foreach ($files as $path => $expected) {
@@ -575,12 +575,12 @@ class rcmail_install
     public function check_mime_extensions()
     {
         $errors = [];
-        $types  = [
-            'application/zip'   => 'zip',
-            'text/css'          => 'css',
-            'application/pdf'   => 'pdf',
-            'image/gif'         => 'gif',
-            'image/svg+xml'     => 'svg',
+        $types = [
+            'application/zip' => 'zip',
+            'text/css' => 'css',
+            'application/pdf' => 'pdf',
+            'image/gif' => 'gif',
+            'image/svg+xml' => 'svg',
         ];
 
         foreach ($types as $mimetype => $expected) {
@@ -610,8 +610,8 @@ class rcmail_install
      */
     public function get_hostlist($prop = 'imap_host')
     {
-        $hosts     = (array) $this->getprop($prop);
-        $out       = [];
+        $hosts = (array) $this->getprop($prop);
+        $out = [];
         $imap_host = '';
 
         if ($prop == 'smtp_host') {
@@ -665,7 +665,7 @@ class rcmail_install
      */
     public function list_skins()
     {
-        $skins   = [];
+        $skins = [];
         $skindir = INSTALL_PATH . 'skins/';
 
         foreach (glob($skindir . '*') as $path) {
@@ -685,9 +685,9 @@ class rcmail_install
      */
     public function list_plugins()
     {
-        $plugins    = [];
+        $plugins = [];
         $plugin_dir = INSTALL_PATH . 'plugins/';
-        $enabled    = isset($this->config['plugins']) ? (array) $this->config['plugins'] : [];
+        $enabled = isset($this->config['plugins']) ? (array) $this->config['plugins'] : [];
 
         foreach (glob($plugin_dir . '*') as $path) {
             if (!is_dir($path)) {
@@ -695,16 +695,16 @@ class rcmail_install
             }
 
             if (is_readable($path . '/composer.json')) {
-                $file_json   = json_decode(file_get_contents($path . '/composer.json'));
+                $file_json = json_decode(file_get_contents($path . '/composer.json'));
                 $plugin_desc = $file_json->description ?: 'N/A';
             } else {
                 $plugin_desc = 'N/A';
             }
 
-            $name      = substr($path, strlen($plugin_dir));
+            $name = substr($path, strlen($plugin_dir));
             $plugins[] = [
-                'name'    => $name,
-                'desc'    => $plugin_desc,
+                'name' => $name,
+                'desc' => $plugin_desc,
                 'enabled' => in_array($name, $enabled),
             ];
         }

@@ -45,10 +45,10 @@ class rcube_expect_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $rcmail   = rcmail::get_instance();
-        $bin      = $rcmail->config->get('password_expect_bin');
-        $script   = $rcmail->config->get('password_expect_script');
-        $params   = $rcmail->config->get('password_expect_params');
+        $rcmail = rcmail::get_instance();
+        $bin = $rcmail->config->get('password_expect_bin');
+        $script = $rcmail->config->get('password_expect_script');
+        $params = $rcmail->config->get('password_expect_params');
 
         $cmd = $bin . ' -f ' . $script . ' -- ' . $params;
         $handle = popen($cmd, 'w');

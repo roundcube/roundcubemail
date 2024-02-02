@@ -29,8 +29,8 @@ class Actions_Contacts_Qrcode extends ActionTestCase
             $this->markTestSkipped();
         }
 
-        $db      = rcmail::get_instance()->get_dbh();
-        $query   = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 AND `name` = \'Jon Snow\'');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 AND `name` = \'Jon Snow\'');
         $contact = $db->fetch_assoc($query);
 
         $_GET = ['_cid' => $contact['contact_id'], '_source' => '0'];

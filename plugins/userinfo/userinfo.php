@@ -6,8 +6,8 @@
  */
 class userinfo extends rcube_plugin
 {
-    public $task    = 'settings';
-    public $noajax  = true;
+    public $task = 'settings';
+    public $noajax = true;
     public $noframe = true;
 
     public function init()
@@ -21,8 +21,8 @@ class userinfo extends rcube_plugin
     {
         $args['actions'][] = [
             'action' => 'plugin.userinfo',
-            'class'  => 'userinfo',
-            'label'  => 'userinfo',
+            'class' => 'userinfo',
+            'label' => 'userinfo',
             'domain' => 'userinfo',
         ];
 
@@ -40,8 +40,8 @@ class userinfo extends rcube_plugin
 
     public function infohtml()
     {
-        $rcmail   = rcmail::get_instance();
-        $user     = $rcmail->user;
+        $rcmail = rcmail::get_instance();
+        $user = $rcmail->user;
         $identity = $user->get_identity();
 
         $table = new html_table(['cols' => 2, 'class' => 'propform']);
@@ -65,7 +65,7 @@ class userinfo extends rcube_plugin
         $table->add('', rcube::Q($identity['name'] . ' <' . $identity['email'] . '>'));
 
         $legend = rcube::Q($this->gettext(['name' => 'infoforuser', 'vars' => ['user' => $user->get_username()]]));
-        $out    = html::tag('fieldset', '', html::tag('legend', '', $legend) . $table->show());
+        $out = html::tag('fieldset', '', html::tag('legend', '', $legend) . $table->show());
 
         return html::div(['class' => 'box formcontent'],
             html::div(['class' => 'boxtitle'], $this->gettext('userinfo'))

@@ -28,10 +28,10 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
      */
     public function run($args = [])
     {
-        $rcmail        = rcmail::get_instance();
-        $contacts      = self::contact_source(null, true);
-        $cid           = rcube_utils::get_input_string('_cid', rcube_utils::INPUT_POST);
-        $source        = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $rcmail = rcmail::get_instance();
+        $contacts = self::contact_source(null, true);
+        $cid = rcube_utils::get_input_string('_cid', rcube_utils::INPUT_POST);
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $return_action = empty($cid) ? 'add' : 'edit';
 
         // Source changed, display the form again
@@ -75,7 +75,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         // update an existing contact
         if (!empty($cid)) {
             $plugin = $rcmail->plugins->exec_hook('contact_update', [
-                'id'     => $cid,
+                'id' => $cid,
                 'record' => $a_record,
                 'source' => $source,
             ]);
@@ -119,9 +119,9 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
                 // Update contacts list
                 $a_js_cols = [];
-                $record    = $contact;
+                $record = $contact;
                 $record['email'] = array_first($contacts->get_col_values('email', $record, true));
-                $record['name']  = rcube_addressbook::compose_list_name($record);
+                $record['name'] = rcube_addressbook::compose_list_name($record);
 
                 foreach (['name'] as $col) {
                     $a_js_cols[] = rcube::Q((string) $record[$col]);
@@ -181,8 +181,8 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 if ($contacts->groups && $contacts->group_id) {
                     $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
                         'group_id' => $contacts->group_id,
-                        'ids'      => $insert_id,
-                        'source'   => $source,
+                        'ids' => $insert_id,
+                        'source' => $source,
                     ]);
 
                     if (!$plugin['abort']) {
@@ -248,7 +248,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             }
             // assign values and subtypes
             elseif (isset($_POST[$fname]) && is_array($_POST[$fname])) {
-                $values   = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
+                $values = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
                 $subtypes = rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST);
 
                 foreach ($values as $i => $val) {

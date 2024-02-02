@@ -36,8 +36,8 @@ class Managesieve_Script extends TestCase
     public function provide_parser_cases(): iterable
     {
         $dir_path = realpath(__DIR__ . '/src');
-        $dir      = opendir($dir_path);
-        $result   = [];
+        $dir = opendir($dir_path);
+        $result = [];
 
         while ($file = readdir($dir)) {
             if (preg_match('/^[a-z0-9_]+$/', $file)) {
@@ -50,8 +50,8 @@ class Managesieve_Script extends TestCase
                 }
 
                 $result[] = [
-                    'input'   => $input,
-                    'output'  => $output,
+                    'input' => $input,
+                    'output' => $output,
                     'message' => "Error in parsing '{$file}' file",
                 ];
             }

@@ -28,11 +28,11 @@ class rcube_string_replacer
     public $linkref_index;
     public $linkref_pattern;
 
-    protected $values   = [];
-    protected $options  = [];
+    protected $values = [];
+    protected $options = [];
     protected $linkrefs = [];
-    protected $urls     = [];
-    protected $noword   = '[^\w@.#-]';
+    protected $urls = [];
+    protected $noword = '[^\w@.#-]';
 
     /**
      * Object constructor
@@ -42,23 +42,23 @@ class rcube_string_replacer
     public function __construct($options = [])
     {
         // Create hard-to-guess replacement string
-        $uniq_ident    = sprintf('%010d%010d', mt_rand(), mt_rand());
+        $uniq_ident = sprintf('%010d%010d', mt_rand(), mt_rand());
         $this->pattern = '/##' . $uniq_ident . '##(\d+)##/';
 
         // Simplified domain expression for UTF8 characters handling
         // Support unicode/punycode in top-level domain part
         $utf_domain = '[^?&@"\'\\/()<>\s\r\t\n]+\\.?([^\\x00-\\x2f\\x3b-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-zA-Z0-9]{2,})';
-        $url1       = '.:;,';
-        $url2       = 'a-zA-Z0-9%=#$@+?|!&\\/_~\\[\\]\\(\\){}\*\x80-\xFE-';
+        $url1 = '.:;,';
+        $url2 = 'a-zA-Z0-9%=#$@+?|!&\\/_~\\[\\]\\(\\){}\*\x80-\xFE-';
 
         // Supported link prefixes
         $link_prefix = "([\\w]+:\\/\\/|{$this->noword}[Ww][Ww][Ww]\\.|^[Ww][Ww][Ww]\\.)";
 
-        $this->options         = $options;
-        $this->linkref_index   = '/\[([^<>\]#]+)\](:?\s*' . substr($this->pattern, 1, -1) . ')/';
+        $this->options = $options;
+        $this->linkref_index = '/\[([^<>\]#]+)\](:?\s*' . substr($this->pattern, 1, -1) . ')/';
         $this->linkref_pattern = '/\[([^<>\]#]+)\]/';
-        $this->link_pattern    = "/{$link_prefix}({$utf_domain}([{$url1}]*[{$url2}]+)*)/";
-        $this->mailto_pattern  = '/('
+        $this->link_pattern = "/{$link_prefix}({$utf_domain}([{$url1}]*[{$url2}]+)*)/";
+        $this->mailto_pattern = '/('
             . '[-\\w!\\#$%&*+~\\/^`|{}=]+(?:\\.[-\\w!\\#$%&*+~\\/^`|{}=]+)*'  // local-part
             . "@{$utf_domain}"                                             // domain-part
             . "(\\?[{$url1}{$url2}]+)?"                                       // e.g. ?subject=test...
@@ -101,17 +101,17 @@ class rcube_string_replacer
      */
     protected function link_callback($matches)
     {
-        $i          = -1;
-        $scheme     = strtolower($matches[1]);
+        $i = -1;
+        $scheme = strtolower($matches[1]);
         $url_prefix = '';
-        $prefix     = '';
+        $prefix = '';
 
         if (preg_match('!^(http|ftp|file)s?://!i', $scheme)) {
             $url = $matches[1] . $matches[2];
         } elseif (preg_match("/^({$this->noword}*)(www\\.)$/i", $matches[1], $m)) {
-            $url        = $m[2] . $matches[2];
+            $url = $m[2] . $matches[2];
             $url_prefix = 'http://';
-            $prefix     = $m[1];
+            $prefix = $m[1];
         }
 
         if (!empty($url)) {
@@ -187,7 +187,7 @@ class rcube_string_replacer
      */
     protected function mailto_callback($matches)
     {
-        $href   = $matches[1];
+        $href = $matches[1];
         $suffix = $this->parse_url_brackets($href);
         $i = $this->add(html::a('mailto:' . $href, rcube::Q($href)) . $suffix);
 
@@ -240,8 +240,8 @@ class rcube_string_replacer
             $diff = 0;
             foreach ($matches as $m) {
                 $replace = $this->linkref_addindex($m);
-                $str     = substr_replace($str, $replace, $m[0][1] + $diff, strlen($m[0][0]));
-                $diff   += strlen($replace) - strlen($m[0][0]);
+                $str = substr_replace($str, $replace, $m[0][1] + $diff, strlen($m[0][0]));
+                $diff += strlen($replace) - strlen($m[0][0]);
             }
         }
 
@@ -249,8 +249,8 @@ class rcube_string_replacer
             $diff = 0;
             foreach ($matches as $m) {
                 $replace = $this->linkref_callback($m);
-                $str     = substr_replace($str, $replace, $m[0][1] + $diff, strlen($m[0][0]));
-                $diff   += strlen($replace) - strlen($m[0][0]);
+                $str = substr_replace($str, $replace, $m[0][1] + $diff, strlen($m[0][0]));
+                $diff += strlen($replace) - strlen($m[0][0]);
             }
         }
 
@@ -306,7 +306,7 @@ class rcube_string_replacer
 
             if ($i < $len) {
                 $suffix = substr($url, $i);
-                $url    = substr($url, 0, $i);
+                $url = substr($url, 0, $i);
             }
         }
 
@@ -329,7 +329,7 @@ class rcube_string_replacer
 
             if ($i < $len) {
                 $suffix = substr($url, $i);
-                $url    = substr($url, 0, $i);
+                $url = substr($url, 0, $i);
             }
         }
 

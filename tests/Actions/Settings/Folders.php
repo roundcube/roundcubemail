@@ -22,10 +22,10 @@ class Actions_Settings_Folders extends ActionTestCase
             ->registerFunction('get_capability', true)
             ->registerFunction('get_capability', true)
             ->registerFunction('folder_info', [
-                'name'      => 'Test',
-                'is_root'   => false,
-                'noselect'  => false,
-                'special'   => false,
+                'name' => 'Test',
+                'is_root' => false,
+                'noselect' => false,
+                'special' => false,
                 'namespace' => 'personal',
             ])
             ->registerFunction('list_folders', [

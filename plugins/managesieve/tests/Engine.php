@@ -14,7 +14,7 @@ class Managesieve_Engine extends ActionTestCase
      */
     public function test_filter_form()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'managesieve');
 
         // Set expected storage function calls/results
@@ -69,7 +69,7 @@ class Managesieve_Engine extends ActionTestCase
      */
     public function test_strip_value($expected, $args)
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         $plugin = new managesieve($rcube->plugins);
         $engine = new rcube_sieve_engine($plugin);
@@ -82,12 +82,12 @@ class Managesieve_Engine extends ActionTestCase
      */
     public function test_list_input()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         $plugin = new managesieve($rcube->plugins);
         $engine = new rcube_sieve_engine($plugin);
 
-        $args     = [1, 'n', '<p>'];
+        $args = [1, 'n', '<p>'];
         $expected = '<textarea data-type="list" name="_n[1]" style="display:none" id="n1">&lt;p&gt;</textarea>';
 
         $this->assertSame($expected, invokeMethod($engine, 'list_input', $args));

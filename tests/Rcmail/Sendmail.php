@@ -72,8 +72,8 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         self::initDB('identities');
         self::initUser();
 
-        $db       = rcmail::get_instance()->get_dbh();
-        $query    = $db->query('SELECT * FROM `identities` WHERE `standard` = 1 LIMIT 1');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `identities` WHERE `standard` = 1 LIMIT 1');
         $identity = $db->fetch_assoc($query);
         $sendmail = new rcmail_sendmail();
 
@@ -170,22 +170,22 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_draftinfo_encode_and_decode()
     {
-        $input  = ['test' => 'test'];
+        $input = ['test' => 'test'];
         $result = rcmail_sendmail::draftinfo_encode($input);
         $this->assertSame('test=test', $result);
         $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
-        $input  = ['folder' => 'test'];
-        $result =  rcmail_sendmail::draftinfo_encode($input);
+        $input = ['folder' => 'test'];
+        $result = rcmail_sendmail::draftinfo_encode($input);
         $this->assertSame('folder=B::dGVzdA==', $result);
         $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
-        $input  = ['test' => 'test;test'];
+        $input = ['test' => 'test;test'];
         $result = rcmail_sendmail::draftinfo_encode($input);
         $this->assertSame('test=B::dGVzdDt0ZXN0', $result);
         $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
-        $input  = ['test' => 'test;test', 'a' => 'b'];
+        $input = ['test' => 'test;test', 'a' => 'b'];
         $result = rcmail_sendmail::draftinfo_encode($input);
         $this->assertSame('test=B::dGVzdDt0ZXN0; a=b', $result);
         $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));

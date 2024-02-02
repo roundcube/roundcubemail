@@ -31,9 +31,9 @@ class rcube_gearman_password
     public function save($currpass, $newpass, $username)
     {
         if (extension_loaded('gearman')) {
-            $rcmail  = rcmail::get_instance();
+            $rcmail = rcmail::get_instance();
             $payload = [
-                'username'    => $username,
+                'username' => $username,
                 'oldPassword' => $currpass,
                 'newPassword' => $newpass,
             ];
@@ -41,7 +41,7 @@ class rcube_gearman_password
             $gmc = new GearmanClient();
             $gmc->addServer($rcmail->config->get('password_gearman_host', 'localhost'));
 
-            $result  = $gmc->doNormal('setPassword', json_encode($payload));
+            $result = $gmc->doNormal('setPassword', json_encode($payload));
             $success = json_decode($result);
 
             if ($success && $success->result == 1) {

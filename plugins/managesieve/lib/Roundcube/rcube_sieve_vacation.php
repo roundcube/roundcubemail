@@ -59,8 +59,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             return 0;
         }
 
-        $list     = $this->list_scripts();
-        $master   = $this->rc->config->get('managesieve_kolab_master');
+        $list = $this->list_scripts();
+        $master = $this->rc->config->get('managesieve_kolab_master');
         $included = [];
 
         $this->script_name = false;
@@ -129,7 +129,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             return;
         }
 
-        $list   = [];
+        $list = [];
         $active = in_array($this->script_name, $this->active);
 
         // find (first) vacation rule
@@ -148,12 +148,12 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 }
 
                 $this->vacation = array_merge($rule['actions'][0], [
-                    'idx'      => $idx,
+                    'idx' => $idx,
                     'disabled' => $rule['disabled'] || !$active,
-                    'name'     => $rule['name'],
-                    'tests'    => $rule['tests'],
-                    'action'   => $action,
-                    'target'   => $target,
+                    'name' => $rule['name'],
+                    'tests' => $rule['tests'],
+                    'action' => $action,
+                    'target' => $target,
                 ]);
             } elseif ($active) {
                 $list[$idx] = $rule['name'] ?: ('#' . ($idx + 1));
@@ -169,7 +169,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             return;
         }
 
-        $date_extension  = in_array('date', $this->exts);
+        $date_extension = in_array('date', $this->exts);
         $regex_extension = in_array('regex', $this->exts);
 
         // set user's timezone
@@ -179,30 +179,30 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $timezone = new DateTimeZone('GMT');
         }
 
-        $status        = rcube_utils::get_input_string('vacation_status', rcube_utils::INPUT_POST);
-        $from          = rcube_utils::get_input_string('vacation_from', rcube_utils::INPUT_POST, true);
-        $subject       = rcube_utils::get_input_string('vacation_subject', rcube_utils::INPUT_POST, true);
-        $reason        = rcube_utils::get_input_string('vacation_reason', rcube_utils::INPUT_POST, true);
-        $addresses     = rcube_utils::get_input_value('vacation_addresses', rcube_utils::INPUT_POST, true);
-        $interval      = rcube_utils::get_input_string('vacation_interval', rcube_utils::INPUT_POST);
+        $status = rcube_utils::get_input_string('vacation_status', rcube_utils::INPUT_POST);
+        $from = rcube_utils::get_input_string('vacation_from', rcube_utils::INPUT_POST, true);
+        $subject = rcube_utils::get_input_string('vacation_subject', rcube_utils::INPUT_POST, true);
+        $reason = rcube_utils::get_input_string('vacation_reason', rcube_utils::INPUT_POST, true);
+        $addresses = rcube_utils::get_input_value('vacation_addresses', rcube_utils::INPUT_POST, true);
+        $interval = rcube_utils::get_input_string('vacation_interval', rcube_utils::INPUT_POST);
         $interval_type = rcube_utils::get_input_string('vacation_interval_type', rcube_utils::INPUT_POST);
-        $date_from     = rcube_utils::get_input_string('vacation_datefrom', rcube_utils::INPUT_POST);
-        $date_to       = rcube_utils::get_input_string('vacation_dateto', rcube_utils::INPUT_POST);
-        $time_from     = rcube_utils::get_input_string('vacation_timefrom', rcube_utils::INPUT_POST);
-        $time_to       = rcube_utils::get_input_string('vacation_timeto', rcube_utils::INPUT_POST);
-        $after         = rcube_utils::get_input_string('vacation_after', rcube_utils::INPUT_POST);
-        $action        = rcube_utils::get_input_string('vacation_action', rcube_utils::INPUT_POST);
-        $target        = rcube_utils::get_input_string('action_target', rcube_utils::INPUT_POST, true);
+        $date_from = rcube_utils::get_input_string('vacation_datefrom', rcube_utils::INPUT_POST);
+        $date_to = rcube_utils::get_input_string('vacation_dateto', rcube_utils::INPUT_POST);
+        $time_from = rcube_utils::get_input_string('vacation_timefrom', rcube_utils::INPUT_POST);
+        $time_to = rcube_utils::get_input_string('vacation_timeto', rcube_utils::INPUT_POST);
+        $after = rcube_utils::get_input_string('vacation_after', rcube_utils::INPUT_POST);
+        $action = rcube_utils::get_input_string('vacation_action', rcube_utils::INPUT_POST);
+        $target = rcube_utils::get_input_string('action_target', rcube_utils::INPUT_POST, true);
         $target_domain = rcube_utils::get_input_string('action_domain', rcube_utils::INPUT_POST);
 
-        $interval_type                   = $interval_type == 'seconds' ? 'seconds' : 'days';
-        $vacation_action['type']         = 'vacation';
-        $vacation_action['reason']       = $this->strip_value(str_replace("\r\n", "\n", $reason), true);
-        $vacation_action['subject']      = trim($subject);
-        $vacation_action['from']         = trim($from);
-        $vacation_action['addresses']    = $addresses;
+        $interval_type = $interval_type == 'seconds' ? 'seconds' : 'days';
+        $vacation_action['type'] = 'vacation';
+        $vacation_action['reason'] = $this->strip_value(str_replace("\r\n", "\n", $reason), true);
+        $vacation_action['subject'] = trim($subject);
+        $vacation_action['from'] = trim($from);
+        $vacation_action['addresses'] = $addresses;
         $vacation_action[$interval_type] = $interval;
-        $vacation_tests                  = !empty($this->vacation['tests']) ? $this->vacation['tests'] : [];
+        $vacation_tests = !empty($this->vacation['tests']) ? $this->vacation['tests'] : [];
 
         foreach ((array) $vacation_action['addresses'] as $aidx => $address) {
             $vacation_action['addresses'][$aidx] = $address = trim($address);
@@ -271,7 +271,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                             'part' => 'iso8601',
                             'type' => 'value-' . ($var == 'date_from' ? 'ge' : 'le'),
                             'zone' => $dt->format('O'),
-                            'arg'  => str_replace('+00:00', 'Z', strtoupper($dt->format('c'))),
+                            'arg' => str_replace('+00:00', 'Z', strtoupper($dt->format('c'))),
                         ];
                     } else {
                         $vacation_tests[] = [
@@ -279,7 +279,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                             'part' => 'date',
                             'type' => 'value-' . ($var == 'date_from' ? 'ge' : 'le'),
                             'zone' => $dt->format('O'),
-                            'arg'  => $dt->format('Y-m-d'),
+                            'arg' => $dt->format('Y-m-d'),
                         ];
                     }
                 }
@@ -308,19 +308,19 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if (empty($error)) {
-            $rule               = $this->vacation;
-            $rule['type']       = 'if';
-            $rule['name']       = !empty($rule['name']) ? $rule['name'] : $this->plugin->gettext('vacation');
-            $rule['disabled']   = $status == 'off';
-            $rule['tests']      = $vacation_tests;
-            $rule['join']       = $date_extension ? count($vacation_tests) > 1 : false;
-            $rule['actions']    = [$vacation_action];
-            $rule['after']      = $after;
+            $rule = $this->vacation;
+            $rule['type'] = 'if';
+            $rule['name'] = !empty($rule['name']) ? $rule['name'] : $this->plugin->gettext('vacation');
+            $rule['disabled'] = $status == 'off';
+            $rule['tests'] = $vacation_tests;
+            $rule['join'] = $date_extension ? count($vacation_tests) > 1 : false;
+            $rule['actions'] = [$vacation_action];
+            $rule['after'] = $after;
 
             if ($action && $action != 'keep') {
                 $rule['actions'][] = [
-                    'type'   => $action == 'discard' ? 'discard' : 'redirect',
-                    'copy'   => $action == 'copy',
+                    'type' => $action == 'discard' ? 'discard' : 'redirect',
+                    'copy' => $action == 'copy',
                     'target' => $action != 'discard' ? $target : '',
                 ];
             }
@@ -345,18 +345,18 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     public function vacation_form($attrib)
     {
         // check supported extensions
-        $date_extension    = in_array('date', $this->exts);
-        $regex_extension   = in_array('regex', $this->exts);
+        $date_extension = in_array('date', $this->exts);
+        $regex_extension = in_array('regex', $this->exts);
         $seconds_extension = in_array('vacation-seconds', $this->exts);
 
         // build FORM tag
         $form_id = !empty($attrib['id']) ? $attrib['id'] : 'form';
-        $out     = $this->rc->output->request_form([
-                'id'      => $form_id,
-                'name'    => $form_id,
-                'method'  => 'post',
-                'task'    => 'settings',
-                'action'  => 'plugin.managesieve-vacation',
+        $out = $this->rc->output->request_form([
+                'id' => $form_id,
+                'name' => $form_id,
+                'method' => 'post',
+                'task' => 'settings',
+                'action' => 'plugin.managesieve-vacation',
                 'noclose' => true,
             ] + $attrib
         );
@@ -381,18 +381,18 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         // form elements
-        $from      = new html_inputfield(['name' => 'vacation_from', 'id' => 'vacation_from', 'size' => 50, 'class' => 'form-control']);
-        $subject   = new html_inputfield(['name' => 'vacation_subject', 'id' => 'vacation_subject', 'size' => 50, 'class' => 'form-control']);
-        $reason    = new html_textarea(['name' => 'vacation_reason', 'id' => 'vacation_reason', 'cols' => 60, 'rows' => 8]);
-        $interval  = new html_inputfield(['name' => 'vacation_interval', 'id' => 'vacation_interval', 'size' => 5, 'class' => 'form-control']);
+        $from = new html_inputfield(['name' => 'vacation_from', 'id' => 'vacation_from', 'size' => 50, 'class' => 'form-control']);
+        $subject = new html_inputfield(['name' => 'vacation_subject', 'id' => 'vacation_subject', 'size' => 50, 'class' => 'form-control']);
+        $reason = new html_textarea(['name' => 'vacation_reason', 'id' => 'vacation_reason', 'cols' => 60, 'rows' => 8]);
+        $interval = new html_inputfield(['name' => 'vacation_interval', 'id' => 'vacation_interval', 'size' => 5, 'class' => 'form-control']);
         $addresses = '<textarea name="vacation_addresses" id="vacation_addresses" data-type="list" data-size="30" style="display: none">'
             . (!empty($this->vacation['addresses']) ? rcube::Q(implode("\n", (array) $this->vacation['addresses']), 'strict', false) : '')
             . '</textarea>';
-        $status    = new html_select(['name' => 'vacation_status', 'id' => 'vacation_status', 'class' => 'custom-select']);
-        $action    = new html_select(['name' => 'vacation_action', 'id' => 'vacation_action', 'class' => 'custom-select', 'onchange' => 'vacation_action_select()']);
+        $status = new html_select(['name' => 'vacation_status', 'id' => 'vacation_status', 'class' => 'custom-select']);
+        $action = new html_select(['name' => 'vacation_action', 'id' => 'vacation_action', 'class' => 'custom-select', 'onchange' => 'vacation_action_select()']);
         $addresses_link = new html_inputfield([
-            'type'    => 'button',
-            'href'    => '#',
+            'type' => 'button',
+            'href' => '#',
             'class' => 'button',
             'onclick' => rcmail_output::JS_OBJECT_NAME . '.managesieve_vacation_addresses()',
         ]);
@@ -441,12 +441,12 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         if ($date_extension || $regex_extension) {
             $date_from = new html_inputfield(['name' => 'vacation_datefrom', 'id' => 'vacation_datefrom', 'class' => 'datepicker form-control', 'size' => 12]);
-            $date_to   = new html_inputfield(['name' => 'vacation_dateto', 'id' => 'vacation_dateto', 'class' => 'datepicker form-control', 'size' => 12]);
+            $date_to = new html_inputfield(['name' => 'vacation_dateto', 'id' => 'vacation_dateto', 'class' => 'datepicker form-control', 'size' => 12]);
         }
 
         if ($date_extension) {
-            $time_from  = new html_inputfield(['name' => 'vacation_timefrom', 'id' => 'vacation_timefrom', 'size' => 7, 'class' => 'form-control']);
-            $time_to    = new html_inputfield(['name' => 'vacation_timeto', 'id' => 'vacation_timeto', 'size' => 7, 'class' => 'form-control']);
+            $time_from = new html_inputfield(['name' => 'vacation_timefrom', 'id' => 'vacation_timefrom', 'size' => 7, 'class' => 'form-control']);
+            $time_to = new html_inputfield(['name' => 'vacation_timeto', 'id' => 'vacation_timeto', 'size' => 7, 'class' => 'form-control']);
             $date_value = [];
 
             if (!empty($this->vacation['tests'])) {
@@ -475,7 +475,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
             if ($date_tests = self::parse_regexp_tests($this->vacation['tests'])) {
                 $date_value['from'] = $this->rc->format_date($date_tests['from'], $date_format, false);
-                $date_value['to']   = $this->rc->format_date($date_tests['to'], $date_format, false);
+                $date_value['to'] = $this->rc->format_date($date_tests['to'], $date_format, false);
             }
         }
 
@@ -566,9 +566,9 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
     protected static function build_regexp_tests($date_from, $date_to, &$error)
     {
-        $tests    = [];
-        $dt_from  = rcube_utils::anytodatetime($date_from);
-        $dt_to    = rcube_utils::anytodatetime($date_to);
+        $tests = [];
+        $dt_from = rcube_utils::anytodatetime($date_from);
+        $dt_to = rcube_utils::anytodatetime($date_to);
         $interval = $dt_from->diff($dt_to);
 
         if ($interval->invert || $interval->days > 365) {
@@ -576,12 +576,12 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             return;
         }
 
-        $dt_i     = $dt_from;
+        $dt_i = $dt_from;
         $interval = new DateInterval('P1D');
         $matchexp = '';
 
         while (!$dt_i->diff($dt_to)->invert) {
-            $days     = (int) $dt_i->format('d');
+            $days = (int) $dt_i->format('d');
             $matchexp .= $days < 10 ? "[ 0]{$days}" : $days;
 
             if ($days == $dt_i->format('t') || $dt_i->diff($dt_to)->days == 0) {
@@ -592,7 +592,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                     'arg2' => "({$matchexp}) " . $dt_i->format('M Y'),
                 ];
 
-                $tests[]  = $test;
+                $tests[] = $test;
                 $matchexp = '';
             } else {
                 $matchexp .= '|';
@@ -607,8 +607,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     protected static function parse_regexp_tests($tests)
     {
         $rx_from = '/^\(([0-9]{2}).*\)\s([A-Za-z]+)\s([0-9]{4})/';
-        $rx_to   = '/^\(.*([0-9]{2})\)\s([A-Za-z]+)\s([0-9]{4})/';
-        $result  = [];
+        $rx_to = '/^\(.*([0-9]{2})\)\s([A-Za-z]+)\s([0-9]{4})/';
+        $result = [];
 
         foreach ((array) $tests as $test) {
             if ($test['test'] == 'header' && $test['type'] == 'regex' && $test['arg1'] == 'received') {
@@ -666,7 +666,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $this->vacation_rule();
 
         // check supported extensions
-        $date_extension  = in_array('date', $this->exts);
+        $date_extension = in_array('date', $this->exts);
         $regex_extension = in_array('regex', $this->exts);
 
         // set user's timezone
@@ -677,8 +677,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         $interval = null;
-        $start    = null;
-        $end      = null;
+        $start = null;
+        $end = null;
 
         if ($date_extension) {
             $date_value = [];
@@ -703,7 +703,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
             if ($date_tests = self::parse_regexp_tests($this->vacation['tests'])) {
                 $start = new DateTime($date_tests['from'] . ' 00:00:00', $timezone);
-                $end   = new DateTime($date_tests['to'] . ' 23:59:59', $timezone);
+                $end = new DateTime($date_tests['to'] . ' 23:59:59', $timezone);
             }
         }
 
@@ -715,16 +715,16 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         $vacation = [
             'supported' => $this->exts,
-            'interval'  => $interval,
-            'start'     => $start,
-            'end'       => $end,
-            'enabled'   => !empty($this->vacation['reason']) && empty($this->vacation['disabled']),
-            'message'   => $this->vacation['reason'] ?? null,
-            'subject'   => $this->vacation['subject'] ?? null,
-            'action'    => $this->vacation['action'] ?? null,
-            'target'    => $this->vacation['target'] ?? null,
+            'interval' => $interval,
+            'start' => $start,
+            'end' => $end,
+            'enabled' => !empty($this->vacation['reason']) && empty($this->vacation['disabled']),
+            'message' => $this->vacation['reason'] ?? null,
+            'subject' => $this->vacation['subject'] ?? null,
+            'action' => $this->vacation['action'] ?? null,
+            'target' => $this->vacation['target'] ?? null,
             'addresses' => $this->vacation['addresses'] ?? null,
-            'from'      => $this->vacation['from'] ?? null,
+            'from' => $this->vacation['from'] ?? null,
         ];
 
         return $vacation;
@@ -739,22 +739,22 @@ class rcube_sieve_vacation extends rcube_sieve_engine
      */
     public function set_vacation($data)
     {
-        $this->exts  = $this->sieve->get_extensions();
+        $this->exts = $this->sieve->get_extensions();
         $this->error = false;
 
         $this->init_script();
         $this->vacation_rule();
 
         // check supported extensions
-        $date_extension  = in_array('date', $this->exts);
+        $date_extension = in_array('date', $this->exts);
         $regex_extension = in_array('regex', $this->exts);
 
-        $vacation['type']      = 'vacation';
-        $vacation['reason']    = $this->strip_value(str_replace("\r\n", "\n", $data['message']), true);
+        $vacation['type'] = 'vacation';
+        $vacation['reason'] = $this->strip_value(str_replace("\r\n", "\n", $data['message']), true);
         $vacation['addresses'] = $data['addresses'];
-        $vacation['subject']   = trim($data['subject']);
-        $vacation['from']      = trim($data['from']);
-        $vacation_tests        = (array) $this->vacation['tests'];
+        $vacation['subject'] = trim($data['subject']);
+        $vacation['from'] = trim($data['from']);
+        $vacation_tests = (array) $this->vacation['tests'];
 
         foreach ((array) $vacation['addresses'] as $aidx => $address) {
             $vacation['addresses'][$aidx] = $address = trim($address);
@@ -804,7 +804,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                         'part' => 'iso8601',
                         'type' => 'value-' . ($var == 'start' ? 'ge' : 'le'),
                         'zone' => $dt->format('O'),
-                        'arg'  => str_replace('+00:00', 'Z', strtoupper($dt->format('c'))),
+                        'arg' => str_replace('+00:00', 'Z', strtoupper($dt->format('c'))),
                     ];
                 }
             }
@@ -836,18 +836,18 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $vacation_tests = (array) $this->rc->config->get('managesieve_vacation_test', [['test' => 'true']]);
         }
 
-        $rule             = $this->vacation;
-        $rule['type']     = 'if';
-        $rule['name']     = !empty($rule['name']) ? $rule['name'] : 'Out-of-Office';
+        $rule = $this->vacation;
+        $rule['type'] = 'if';
+        $rule['name'] = !empty($rule['name']) ? $rule['name'] : 'Out-of-Office';
         $rule['disabled'] = isset($data['enabled']) && !$data['enabled'];
-        $rule['tests']    = $vacation_tests;
-        $rule['join']     = $date_extension ? count($vacation_tests) > 1 : false;
-        $rule['actions']  = [$vacation];
+        $rule['tests'] = $vacation_tests;
+        $rule['join'] = $date_extension ? count($vacation_tests) > 1 : false;
+        $rule['actions'] = [$vacation];
 
         if (!empty($data['action']) && $data['action'] != 'keep') {
             $rule['actions'][] = [
-                'type'   => $data['action'] == 'discard' ? 'discard' : 'redirect',
-                'copy'   => $data['action'] == 'copy',
+                'type' => $data['action'] == 'discard' ? 'discard' : 'redirect',
+                'copy' => $data['action'] == 'copy',
                 'target' => $data['action'] != 'discard' ? $data['target'] : '',
             ];
         }

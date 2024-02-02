@@ -361,7 +361,7 @@ class rcube_html2text
         $this->set_base_url();
         $this->set_links_mode($links_mode);
 
-        $this->width   = $width;
+        $this->width = $width;
         $this->charset = $charset;
     }
 
@@ -479,7 +479,7 @@ class rcube_html2text
             }
         }
 
-        $this->text       = $text;
+        $this->text = $text;
         $this->_converted = true;
     }
 
@@ -590,7 +590,7 @@ class rcube_html2text
         if ($this->_links_mode === self::LINKS_NONE) {
             // When not using link list use URL if there's no content (#5795)
             // The content here is HTML, convert it to text first
-            $h2t     = new self($display, false, false, 1024, $this->charset);
+            $h2t = new self($display, false, false, 1024, $this->charset);
             $display = $h2t->get_text();
 
             if (empty($display) && preg_match('!^([a-z][a-z0-9.+-]+://)!i', $link)) {
@@ -676,7 +676,7 @@ class rcube_html2text
      */
     protected function _convert_blockquotes(&$text)
     {
-        $level  = 0;
+        $level = 0;
         $offset = 0;
 
         while (($start = stripos($text, '<blockquote', $offset)) !== false) {
@@ -738,7 +738,7 @@ class rcube_html2text
      */
     public function blockquote_citation_callback($m)
     {
-        $line  = ltrim($m[2]);
+        $line = ltrim($m[2]);
         $space = isset($line[0]) && $line[0] == '>' ? '' : ' ';
 
         return $m[1] . '>' . $space . $line;

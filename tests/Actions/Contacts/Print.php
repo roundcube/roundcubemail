@@ -18,8 +18,8 @@ class Actions_Contacts_Print extends ActionTestCase
 
         self::initDB('contacts');
 
-        $db      = rcmail::get_instance()->get_dbh();
-        $query   = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $contact = $db->fetch_assoc($query);
 
         $_GET = ['_cid' => $contact['contact_id'], '_source' => '0'];

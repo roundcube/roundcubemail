@@ -36,9 +36,9 @@ class Framework_Csv2vcard extends TestCase
 
         $this->assertCount(1, $result);
 
-        $vcard    = $result[0]->export(false);
+        $vcard = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
-        $vcard    = trim(str_replace("\r\n", "\n", $vcard));
+        $vcard = trim(str_replace("\r\n", "\n", $vcard));
 
         $this->assertSame($vcf_text, $vcard);
     }
@@ -60,7 +60,7 @@ class Framework_Csv2vcard extends TestCase
         }
 
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
-        $vcard    = trim(str_replace("\r\n", "\n", $vcard));
+        $vcard = trim(str_replace("\r\n", "\n", $vcard));
         $this->assertSame($vcf_text, $vcard);
     }
 
@@ -75,9 +75,9 @@ class Framework_Csv2vcard extends TestCase
 
         $this->assertCount(1, $result);
 
-        $vcard    = $result[0]->export(false);
+        $vcard = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
-        $vcard    = trim(str_replace("\r\n", "\n", $vcard));
+        $vcard = trim(str_replace("\r\n", "\n", $vcard));
 
         $this->assertSame($vcf_text, $vcard);
     }
@@ -93,9 +93,9 @@ class Framework_Csv2vcard extends TestCase
 
         $this->assertCount(1, $result);
 
-        $vcard    = $result[0]->export(false);
+        $vcard = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
-        $vcard    = trim(str_replace("\r\n", "\n", $vcard));
+        $vcard = trim(str_replace("\r\n", "\n", $vcard));
 
         $this->assertSame($vcf_text, $vcard);
     }

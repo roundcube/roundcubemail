@@ -12,8 +12,8 @@ class Framework_Message extends TestCase
      */
     public function test_format_part_body()
     {
-        $part   = new rcube_message_part();
-        $body   = 'test';
+        $part = new rcube_message_part();
+        $body = 'test';
         $result = rcube_message::format_part_body($body, $part);
 
         $this->assertSame('test', $result);

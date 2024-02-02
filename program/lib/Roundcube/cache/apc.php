@@ -37,9 +37,9 @@ class rcube_cache_apc extends rcube_cache
 
         $rcube = rcube::get_instance();
 
-        $this->type    = 'apc';
+        $this->type = 'apc';
         $this->enabled = function_exists('apc_exists'); // APC 3.1.4 required
-        $this->debug   = $rcube->config->get('apc_debug');
+        $this->debug = $rcube->config->get('apc_debug');
     }
 
     /**

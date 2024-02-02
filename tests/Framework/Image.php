@@ -41,7 +41,7 @@ class Framework_Image extends TestCase
         $this->assertSame('png', $object->resize(32, $file));
 
         $object = new rcube_image($file);
-        $props  = $object->props();
+        $props = $object->props();
 
         @unlink($file);
 
@@ -66,7 +66,7 @@ class Framework_Image extends TestCase
         $this->assertTrue($object->convert(rcube_image::TYPE_JPG, $file));
 
         $object = new rcube_image($file);
-        $props  = $object->props();
+        $props = $object->props();
 
         @unlink($file);
 
