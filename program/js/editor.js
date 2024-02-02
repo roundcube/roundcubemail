@@ -859,13 +859,11 @@ function rcube_text_editor(config, id) {
                 rx = /^image\//i;
 
                 break;
-
             case 'media':
                 rx = /^video\//i;
                 img_src = rcmail.assets_path('program/resources/tinymce/video.png');
 
                 break;
-
             default:
                 return;
         }

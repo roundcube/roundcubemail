@@ -527,7 +527,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'addressbook':
                 this.env.address_group_stack = [];
 
@@ -604,7 +603,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'settings':
                 this.enable_command('show', 'save', true);
 
@@ -663,7 +661,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'login':
                 var tz, input_user = $('#rcmloginuser');
                 input_tz = $('#rcmlogintz');
@@ -913,12 +910,10 @@ function rcube_webmail() {
                 this.switch_task(command);
 
                 break;
-
             case 'about':
                 this.redirect('?_task=settings&_action=about', false);
 
                 break;
-
             case 'permaurl':
                 if (obj && obj.href && obj.target) {
                     return true;
@@ -928,7 +923,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'extwin':
                 if (this.env.action == 'compose') {
                     var form = this.gui_objects.messageform,
@@ -947,7 +941,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'change-format':
                 url = this.env.permaurl + '&_format=' + props;
 
@@ -961,7 +954,6 @@ function rcube_webmail() {
                 location.href = url;
 
                 break;
-
             case 'menu-open':
                 if (props && props.menu == 'attachmentmenu') {
                     var mimetype = this.env.attachments[props.id];
@@ -973,17 +965,14 @@ function rcube_webmail() {
                 this.show_menu(props, props.show || undefined, event);
 
                 break;
-
             case 'menu-close':
                 this.hide_menu(props, event);
 
                 break;
-
             case 'menu-save':
                 this.triggerEvent(command, { props: props, originalEvent: event });
 
                 return false;
-
             case 'open':
                 if (uid = this.get_single_uid()) {
                     obj.href = this.url('show', this.params_from_uid(uid, { _extwin: 1 }));
@@ -991,14 +980,12 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'close':
                 if (this.env.extwin) {
                     window.close();
                 }
 
                 break;
-
             case 'list':
                 if (props && props != '') {
                     this.reset_qsearch(true);
@@ -1013,12 +1000,10 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'set-listmode':
                 this.set_list_options(null, undefined, undefined, props == 'threads' ? 1 : 0);
 
                 break;
-
             case 'sort':
                 var sort_order = this.env.sort_order,
                     sort_col = !this.env.disabled_sort_col ? props : this.env.sort_col;
@@ -1034,34 +1019,28 @@ function rcube_webmail() {
                 this.list_mailbox('', '', sort_col + '_' + sort_order);
 
                 break;
-
             case 'nextpage':
                 this.list_page('next');
 
                 break;
-
             case 'lastpage':
                 this.list_page('last');
 
                 break;
-
             case 'previouspage':
                 this.list_page('prev');
 
                 break;
-
             case 'firstpage':
                 this.list_page('first');
 
                 break;
-
             case 'expunge':
                 if (this.env.exists) {
                     this.expunge_mailbox(this.env.mailbox);
                 }
 
                 break;
-
             case 'purge':
             case 'empty-mailbox':
                 if (this.env.exists) {
@@ -1069,7 +1048,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             // common commands used in multiple tasks
             case 'show':
                 if (this.task == 'mail') {
@@ -1092,7 +1070,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'add':
                 if (this.task == 'addressbook') {
                     this.load_contact(0, 'add');
@@ -1103,7 +1080,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'edit':
                 if (this.task == 'addressbook' && (cid = this.get_single_cid())) {
                     this.load_contact(cid, 'edit');
@@ -1114,7 +1090,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'save':
                 var input, form = this.gui_objects.editform;
                 if (form) {
@@ -1151,7 +1126,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'delete':
                 // mail task
                 if (this.task == 'mail') {
@@ -1171,7 +1145,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             // mail task commands
             case 'move':
             case 'moveto': // deprecated
@@ -1182,7 +1155,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'copy':
                 if (this.task == 'mail') {
                     this.copy_messages(props, event);
@@ -1191,14 +1163,12 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'mark':
                 if (props) {
                     this.mark_message(props);
                 }
 
                 break;
-
             case 'toggle_status':
             case 'toggle_flag':
                 flag = command == 'toggle_flag' ? 'flagged' : 'read';
@@ -1221,12 +1191,10 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'add-contact':
                 this.add_contact(props);
 
                 break;
-
             case 'load-remote':
                 if (this.env.uid) {
                     if (props && this.env.sender) {
@@ -1239,7 +1207,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'load-attachment':
             case 'open-attachment':
             case 'download-attachment':
@@ -1268,7 +1235,6 @@ function rcube_webmail() {
                 this.compose_skip_unsavedcheck = 0;
 
                 return true;
-
             case 'select-all':
                 this.select_all_mode = props ? false : true;
                 this.dummy_select = true; // prevent msg opening if there's only one msg on the list
@@ -1281,60 +1247,51 @@ function rcube_webmail() {
                 this.dummy_select = null;
 
                 break;
-
             case 'select-none':
                 this.select_all_mode = false;
                 this[this.task == 'addressbook' ? 'contact_list' : 'message_list'].clear_selection();
 
                 break;
-
             case 'expand-all':
                 this.env.autoexpand_threads = 1;
                 this.message_list.expand_all();
 
                 break;
-
             case 'expand-unread':
                 this.env.autoexpand_threads = 2;
                 this.message_list.collapse_all();
                 this.expand_unread();
 
                 break;
-
             case 'collapse-all':
                 this.env.autoexpand_threads = 0;
                 this.message_list.collapse_all();
 
                 break;
-
             case 'nextmessage':
                 if (this.env.next_uid) {
                     this.show_message(this.env.next_uid, false, this.env.action == 'preview');
                 }
 
                 break;
-
             case 'lastmessage':
                 if (this.env.last_uid) {
                     this.show_message(this.env.last_uid);
                 }
 
                 break;
-
             case 'previousmessage':
                 if (this.env.prev_uid) {
                     this.show_message(this.env.prev_uid, false, this.env.action == 'preview');
                 }
 
                 break;
-
             case 'firstmessage':
                 if (this.env.first_uid) {
                     this.show_message(this.env.first_uid);
                 }
 
                 break;
-
             case 'compose':
                 url = {};
 
@@ -1379,7 +1336,6 @@ function rcube_webmail() {
                 this.open_compose_step(url);
 
                 break;
-
             case 'spellcheck':
                 if (this.spellcheck_state()) {
                     this.editor.spellcheck_stop();
@@ -1388,7 +1344,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'savedraft':
                 // Reset the auto-save timer
                 clearTimeout(this.save_timer);
@@ -1403,7 +1358,6 @@ function rcube_webmail() {
                 this.submit_messageform(true);
 
                 break;
-
             case 'send':
                 if (!props.nocheck && !this.env.is_sent && !this.check_compose_input(command)) {
                     break;
@@ -1415,7 +1369,6 @@ function rcube_webmail() {
                 this.submit_messageform();
 
                 break;
-
             case 'send-attachment':
                 // Reset the auto-save timer
                 clearTimeout(this.save_timer);
@@ -1428,23 +1381,19 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'insert-sig':
                 this.change_identity($("[name='_from']")[0], true);
 
                 break;
-
             case 'list-addresses':
                 this.list_contacts(props);
                 this.enable_command('add-recipient', false);
 
                 break;
-
             case 'add-recipient':
                 this.compose_add_recipient(props);
 
                 break;
-
             case 'reply-all':
             case 'reply-list':
             case 'reply':
@@ -1461,7 +1410,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'forward-attachment':
             case 'forward-inline':
             case 'forward':
@@ -1475,7 +1423,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'print':
                 if (this.task == 'addressbook') {
                     if (uid = this.get_single_cid()) {
@@ -1497,14 +1444,12 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'viewsource':
                 if (uid = this.get_single_uid()) {
                     this.open_window(this.url('viewsource', this.params_from_uid(uid)), true, true);
                 }
 
                 break;
-
             case 'download':
                 if (this.env.action == 'get') {
                     location.href = this.secure_url(location.href.replace(/_frame=/, '_download='));
@@ -1513,11 +1458,9 @@ function rcube_webmail() {
                 }
 
                 break;
-
             // quicksearch
             case 'search':
                 return this.qsearch(props);
-
             // reset quicksearch
             case 'reset-search':
                 var n, s = this.env.search_request || this.env.qsearch;
@@ -1537,7 +1480,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'pushgroup':
                 // add group ID and current search to stack
                 var group = {
@@ -1559,7 +1501,6 @@ function rcube_webmail() {
                 this.list_contacts(props.source, props.id, 1, group);
 
                 break;
-
             case 'popgroup':
                 if (this.env.address_group_stack.length) {
                     var old = this.env.address_group_stack.pop();
@@ -1578,7 +1519,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'import-messages':
                 var form = props || this.gui_objects.importform,
                     importlock = this.set_busy(true, 'importwait');
@@ -1592,7 +1532,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'import':
                 var dialog = $('<iframe>').attr('src', this.url('import', { _framed: 1, _target: this.env.source })),
                     import_func = function (e) {
@@ -1636,36 +1575,30 @@ function rcube_webmail() {
                 });
 
                 break;
-
             case 'export':
                 if (this.contact_list.rowcount > 0) {
                     this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request }, false, true);
                 }
 
                 break;
-
             case 'export-selected':
                 if (this.contact_list.rowcount > 0) {
                     this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _cid: this.contact_list.get_selection().join(',') }, false, true);
                 }
 
                 break;
-
             case 'upload-photo':
                 this.upload_contact_photo(props || this.gui_objects.uploadform);
 
                 break;
-
             case 'delete-photo':
                 this.replace_contact_photo('-del-');
 
                 break;
-
             case 'undo':
                 this.http_request('undo', '', this.display_message('', 'loading'));
 
                 break;
-
             // unified command call (command name == function name)
             default:
                 var func = command.replace(/-/g, '_');
@@ -2082,7 +2015,6 @@ function rcube_webmail() {
                 focus_menu_item(keyCode == 38 || keyCode == 63232 ? -1 : 1);
 
                 return rcube_event.cancel(e);
-
             case 9: // tab
                 if (this.focused_menu) {
                     var mod = rcube_event.get_modifier(e);
@@ -2092,7 +2024,6 @@ function rcube_webmail() {
                 }
 
                 return rcube_event.cancel(e);
-
             case 27: // esc
                 if (this.menu_stack.length) {
                     this.hide_menu(this.menu_stack[this.menu_stack.length - 1], e);
@@ -5572,12 +5503,10 @@ function rcube_webmail() {
                     }
 
                     break;
-
                 case 'select':
                     formdata[elem.name] = $('option:checked', elem).val();
 
                     break;
-
                 default:
                     formdata[elem.name] = $(elem).val();
                     if (formdata[elem.name] != '') {
@@ -6138,7 +6067,6 @@ function rcube_webmail() {
                 }
 
                 return rcube_event.cancel(e);
-
             case 9: // tab
                 if (rcube_event.get_modifier(e) == SHIFT_KEY || !this.ksearch_visible()) {
                     this.ksearch_hide();
@@ -6157,12 +6085,10 @@ function rcube_webmail() {
 
                 // Don't cancel on Tab, we want to jump to the next field (#5659)
                 return key == 9 ? null : rcube_event.cancel(e);
-
             case 27: // escape
                 this.ksearch_hide();
 
                 return;
-
             case 37: // left
             case 39: // right
                 return;
@@ -8474,12 +8400,10 @@ function rcube_webmail() {
                     timeout = this.message_time * 2;
 
                     break;
-
                 case 'uploading':
                     timeout = 0;
 
                     break;
-
                 default:
                     timeout = this.message_time;
             }
@@ -9701,7 +9625,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'delete':
                 if (this.task == 'addressbook') {
                     var sid, uid = this.contact_list.get_selection(), writable = false;
@@ -9749,7 +9672,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'refresh':
             case 'check-recent':
                 // update message flags
@@ -9846,7 +9768,6 @@ function rcube_webmail() {
                 }
 
                 break;
-
             case 'list-contacts':
             case 'search-contacts':
                 if (this.contact_list) {

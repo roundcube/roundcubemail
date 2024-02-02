@@ -306,7 +306,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             list.init();
 
             break;
-
         // Update filter row
         case 'update':
             var i, row = $('#rcmrow' + this.managesieve_rowid(o.id));
@@ -323,7 +322,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             $('#fenabled', $('iframe').contents()).prop('checked', !o.disabled);
 
             break;
-
         // Add filter row to the list
         case 'add':
             var list = this.filters_list,
@@ -342,7 +340,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             this.enable_command('plugin.managesieve-act', true);
 
             break;
-
         // Filling rules list
         case 'list':
             var i, tr, td, el, list = this.filters_list;
@@ -374,7 +371,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             }
 
             break;
-
         // Activate/Deactivate the set
         case 'setact':
             var id = this.managesieve_setid(o.name), row = $('#rcmrow' + id);
@@ -388,7 +384,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             }
 
             break;
-
         // Delete set row
         case 'setdel':
             var id = this.managesieve_setid(o.name);
@@ -402,7 +397,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             delete this.env.filtersets[id];
 
             break;
-
         // Create set row
         case 'setadd':
             var id = 'S' + new Date().getTime(),
@@ -428,7 +422,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             this.managesieve_fixdragend(row);
 
             break;
-
         case 'refresh':
             this.reset_filters_list(true);
 

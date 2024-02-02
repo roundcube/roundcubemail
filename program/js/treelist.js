@@ -172,23 +172,19 @@ function rcube_treelist_widget(node, p) {
             switch (key) {
                 case 9: // tab
                     break;
-
                 case 13: // enter
                     search(this.value, true);
 
                     return rcube_event.cancel(e);
-
                 case 27: // escape
                     reset_search();
 
                     break;
-
                 case 38: // arrow up
                 case 37: // left
                 case 39: // right
                 case 40: // arrow down
                     return; // ignore arrow keys
-
                 default:
                     search(this.value, false);
 
@@ -927,7 +923,6 @@ function rcube_treelist_widget(node, p) {
                 }
 
                 return rcube_event.cancel(e);
-
             case 37: // Left arrow key
             case 39: // Right arrow key
                 var id, node, li = container.find(':focus').closest('li');
@@ -940,7 +935,6 @@ function rcube_treelist_widget(node, p) {
                 }
 
                 return false;
-
             case 9: // Tab
                 if (p.keyboard && p.tabexit) {
                     // jump to last/first item to move focus away from the treelist widget by tab

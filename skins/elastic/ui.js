@@ -1617,13 +1617,11 @@ function rcube_elastic_ui() {
                     }
 
                     break;
-
                 case 'compose-encrypted':
                 // show the toolbar button for Mailvelope
                     $('.toolbar a.encrypt').parent().show();
 
                     break;
-
                 case 'compose-encrypted-signed':
                 // enable selector for encrypt and sign
                     $('#encryption-menu-button').show();
@@ -2415,7 +2413,6 @@ function rcube_elastic_ui() {
                                 $(item).popover('toggle').focus();
 
                                 return false;
-
                             case 38: // ARROW-UP
                             case 63232:
                                 mode = 'previous';
@@ -3568,7 +3565,6 @@ function rcube_elastic_ui() {
                     result += '<span class="quotes">' + char + '</span>';
 
                     break;
-
                 case '\\':
                     result += '<span class="quotes">' + char + '</span>';
 
@@ -3578,17 +3574,14 @@ function rcube_elastic_ui() {
                     }
 
                     break;
-
                 case '<':
                     result += '&lt;';
 
                     break;
-
                 case '>':
                     result += '&gt;';
 
                     break;
-
                 default:
                     result += char;
             }
@@ -3807,13 +3800,11 @@ function rcube_elastic_ui() {
                         case 27: // ESC
                         case 9: // TAB
                             return close_func();
-
                         case 13: // ENTER
                         case 32: // SPACE
                             $(this).click();
 
                             return false; // for IE
-
                         case 38: // ARROW-UP
                         case 63232:
                             mode = 'previous';
@@ -3830,7 +3821,6 @@ function rcube_elastic_ui() {
                             }
 
                             return false; // prevents from scrolling the whole page
-
                         default:
                             // A letter key has been pressed, search mode
                             char = e.originalEvent.key;
