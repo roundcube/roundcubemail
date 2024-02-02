@@ -154,7 +154,7 @@ class Framework_Browser extends TestCase
         return static::extractDataSet(['isWin', 'isLinux', 'isUnix', 'isMac']);
     }
 
-    private static function extractDataSet($keys)
+    protected static function extractDataSet($keys)
     {
         $keys = array_merge(['useragent'], $keys);
 
