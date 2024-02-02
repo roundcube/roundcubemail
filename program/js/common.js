@@ -114,7 +114,7 @@ function roundcube_browser() {
         var classname = ' js';
 
         if (this.ie) {
-            classname += ' ms ie ie' + parseInt(this.vendver);
+            classname += ' ms ie ie' + parseInt(this.vendver, 10);
         } else if (this.edge && this.vendver > 74) {
             classname += ' chrome';
         } else if (this.edge) {

@@ -146,7 +146,6 @@ module.exports = {
         'prefer-arrow-callback': 'off', // (423 matches)
         'prefer-rest-params': 'off', // eslint-disable-line no-dupe-keys -- (3 matches)
         'prefer-spread': 'off', // eslint-disable-line no-dupe-keys -- (2 matches)
-        radix: 'off', // (12 matches)
         'unicorn/better-regex': 'off', // (42 matches)
         'unicorn/consistent-function-scoping': 'off', // (19 matches)
         'unicorn/explicit-length-check': 'off', // (219 matches)

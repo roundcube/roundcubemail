@@ -1094,7 +1094,7 @@ function rcube_webmail() {
                 var input, form = this.gui_objects.editform;
                 if (form) {
                     // user prefs
-                    if ((input = $("[name='_pagesize']", form)) && input.length && isNaN(parseInt(input.val()))) {
+                    if ((input = $("[name='_pagesize']", form)) && input.length && isNaN(parseInt(input.val(), 10))) {
                         this.alert_dialog(this.get_label('nopagesizewarning'), function () {
                             input.focus();
                         });
@@ -3926,7 +3926,7 @@ function rcube_webmail() {
                     ul = $('ul', selector),
                     list = $('li', ul),
                     height = ul.height(),
-                    p = parseInt(this.value);
+                    p = parseInt(this.value, 10);
 
                 if (e.which != 27 && e.which != 9 && e.which != 13 && !selector.is(':visible')) {
                     return ref.show_menu('pagejump-selector', true, e);
@@ -3965,7 +3965,7 @@ function rcube_webmail() {
             })
             .on('change', function (e) {
                 // go to specified page
-                var p = parseInt(this.value);
+                var p = parseInt(this.value, 10);
                 if (p && p != ref.env.current_page && !ref.busy) {
                     ref.hide_menu('pagejump-selector', e);
                     ref.list_page(p);
@@ -8643,7 +8643,7 @@ function rcube_webmail() {
                 height = options.height || (popup[0].scrollHeight + 20),
                 titlebar_height = $('.ui-dialog-titlebar', dialog).outerHeight() || 0,
                 buttonpane_height = $('.ui-dialog-buttonpane', dialog).outerHeight() || 0,
-                padding = (parseInt(dialog.css('padding-top')) + parseInt(popup.css('padding-top'))) * 2;
+                padding = (parseInt(dialog.css('padding-top'), 10) + parseInt(popup.css('padding-top'), 10)) * 2;
 
             popup.dialog('option', {
                 height: Math.min(h - 40, height + titlebar_height + buttonpane_height + padding + 2),
@@ -10178,8 +10178,8 @@ function rcube_webmail() {
                 total = parseFloat(total / 1048576).toFixed(1) + ' ' + this.get_label('MB');
                 current = parseFloat(current / 1048576).toFixed(1);
             } else if (total >= 1024) {
-                total = parseInt(total / 1024) + ' ' + this.get_label('KB');
-                current = parseInt(current / 1024);
+                total = parseInt(total / 1024, 10) + ' ' + this.get_label('KB');
+                current = parseInt(current / 1024, 10);
             } else {
                 total = total + ' ' + this.get_label('B');
             }

@@ -4015,7 +4015,7 @@ function rcube_elastic_ui() {
                 }
 
                 if (!padding) {
-                    padding = parseInt($(textarea).css('padding-top')) + parseInt($(textarea).css('padding-bottom')) + 2;
+                    padding = parseInt($(textarea).css('padding-top'), 10) + parseInt($(textarea).css('padding-bottom'), 10) + 2;
                     minHeight = $(textarea).height();
                 }
 

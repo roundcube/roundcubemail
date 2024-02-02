@@ -1269,7 +1269,7 @@ rcube_list_widget.prototype = {
     in_selection: function (id, index) {
         for (var n in this.selection) {
             if (this.selection[n] == id) {
-                return index ? parseInt(n) : true;
+                return index ? parseInt(n, 10) : true;
             }
         }
 

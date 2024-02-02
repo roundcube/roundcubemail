@@ -353,7 +353,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             for (var j = 0; j < split_c.length; j++) {
                 c_attr = split_c[j].split(/=/);
                 val = c_attr[1].replace(/"/g, '');
-                item.attrs[c_attr[0]] = val != 'true' ? parseInt(val) : val;
+                item.attrs[c_attr[0]] = val != 'true' ? parseInt(val, 10) : val;
             }
 
             // Get suggestions
