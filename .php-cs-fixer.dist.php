@@ -57,6 +57,7 @@ return (new Config())
         'blank_line_before_statement' => [
             'statements' => ['break', 'continue', 'declare', 'return', 'throw', 'exit'],
         ],
+        'final_internal_class' => false,
         'combine_consecutive_issets' => false,
         'combine_consecutive_unsets' => false,
         'multiline_whitespace_before_semicolons' => false,
