@@ -35,7 +35,7 @@ class rcube_cache_memcached extends rcube_cache
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
-        $this->type  = 'memcache';
+        $this->type = 'memcache';
         $this->debug = rcube::get_instance()->config->get('memcache_debug');
 
         // Maximum TTL is 30 days, bigger values are treated by Memcached
@@ -69,20 +69,20 @@ class rcube_cache_memcached extends rcube_cache
         }
 
         // add all configured hosts to pool
-        $rcube          = rcube::get_instance();
-        $pconnect       = $rcube->config->get('memcache_pconnect', true);
-        $timeout        = $rcube->config->get('memcache_timeout', 1);
+        $rcube = rcube::get_instance();
+        $pconnect = $rcube->config->get('memcache_pconnect', true);
+        $timeout = $rcube->config->get('memcache_timeout', 1);
         $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
-        $hosts          = $rcube->config->get('memcache_hosts');
-        $persistent_id  = $pconnect ? ('rc' . md5(serialize($hosts))) : null;
+        $hosts = $rcube->config->get('memcache_hosts');
+        $persistent_id = $pconnect ? ('rc' . md5(serialize($hosts))) : null;
 
         self::$memcache = new Memcached($persistent_id);
 
         self::$memcache->setOptions([
             Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
-            Memcached::OPT_RETRY_TIMEOUT   => $timeout,
-            Memcached::OPT_DISTRIBUTION    => Memcached::DISTRIBUTION_CONSISTENT,
-            Memcached::OPT_COMPRESSION     => true,
+            Memcached::OPT_RETRY_TIMEOUT => $timeout,
+            Memcached::OPT_DISTRIBUTION => Memcached::DISTRIBUTION_CONSISTENT,
+            Memcached::OPT_COMPRESSION => true,
         ]);
 
         if (!$pconnect || !count(self::$memcache->getServerList())) {

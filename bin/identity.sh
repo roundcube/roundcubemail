@@ -178,7 +178,7 @@ function add_identity($options)
 
     $new_identity['email'] = get_option_value($options, 'email', '', false, true, 'Enter the email e.g. -e somemail@example.com');
     $new_identity['name'] = get_option_value($options, 'name', '', false, true, "Enter the name of an identity e.g. -n 'John Smith'");
-    $new_identity['organization']  = get_option_value($options, 'organization', '', false, false);
+    $new_identity['organization'] = get_option_value($options, 'organization', '', false, false);
 
     $new_identity['html_signature'] = 0;
     $new_identity['signature'] = get_option_value($options, 'plain_text_signature', '', false, false);

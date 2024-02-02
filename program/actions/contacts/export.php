@@ -36,7 +36,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
 
         // Use search result
         if (!empty($_REQUEST['_search']) && isset($_SESSION['contact_search'][$_REQUEST['_search']])) {
-            $search  = (array) $_SESSION['contact_search'][$_REQUEST['_search']];
+            $search = (array) $_SESSION['contact_search'][$_REQUEST['_search']];
             $records = [];
 
             // Get records from all sources
@@ -63,7 +63,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             ksort($records, \SORT_LOCALE_STRING);
 
             // create resultset object
-            $count  = count($records);
+            $count = count($records);
             $result = new rcube_result_set($count);
             $result->records = array_values($records);
         }
@@ -94,7 +94,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             ksort($records, \SORT_LOCALE_STRING);
 
             // create resultset object
-            $count  = count($records);
+            $count = count($records);
             $result = new rcube_result_set($count);
             $result->records = array_values($records);
         }
@@ -140,7 +140,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
      */
     public static function prepare_for_export(&$record, $source = null)
     {
-        $groups   = $source && $source->groups && $source->export_groups ? $source->get_record_groups($record['ID']) : null;
+        $groups = $source && $source->groups && $source->export_groups ? $source->get_record_groups($record['ID']) : null;
         $fieldmap = $source ? $source->vcard_map : null;
 
         if (empty($record['vcard'])) {

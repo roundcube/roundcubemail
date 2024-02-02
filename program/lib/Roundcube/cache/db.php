@@ -44,8 +44,8 @@ class rcube_cache_db extends rcube_cache
 
         $rcube = rcube::get_instance();
 
-        $this->type  = 'db';
-        $this->db    = $rcube->get_dbh();
+        $this->type = 'db';
+        $this->db = $rcube->get_dbh();
         $this->table = $this->db->table_name($userid ? 'cache' : 'cache_shared', true);
 
         $this->refresh_time *= 2;
@@ -72,7 +72,7 @@ class rcube_cache_db extends rcube_cache
     public static function gc()
     {
         $rcube = rcube::get_instance();
-        $db    = $rcube->get_dbh();
+        $db = $rcube->get_dbh();
 
         $db->query('DELETE FROM ' . $db->table_name('cache', true) . ' WHERE `expires` < ' . $db->now());
         $db->query('DELETE FROM ' . $db->table_name('cache_shared', true) . ' WHERE `expires` < ' . $db->now());
@@ -122,7 +122,7 @@ class rcube_cache_db extends rcube_cache
     protected function store_record($key, $data, $ts = null)
     {
         $value = $this->serialize($data);
-        $size  = strlen($value);
+        $size = strlen($value);
 
         // don't attempt to write too big data sets
         if ($size > $this->max_packet_size()) {
@@ -144,7 +144,7 @@ class rcube_cache_db extends rcube_cache
         }
 
         $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
-        $pkey    = ['cache_key' => $db_key];
+        $pkey = ['cache_key' => $db_key];
 
         if ($this->userid) {
             $pkey['user_id'] = $this->userid;

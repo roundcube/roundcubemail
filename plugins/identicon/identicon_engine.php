@@ -12,9 +12,9 @@ class identicon_engine
     private $margin;
     private $binary;
     private $color;
-    private $bgcolor  = '#F9F9F9';
+    private $bgcolor = '#F9F9F9';
     private $mimetype = 'image/png';
-    private $palette  = [
+    private $palette = [
         '#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3',
         '#03A9F4', '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39',
         '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#607D8B',
@@ -43,9 +43,9 @@ class identicon_engine
             $size = self::ICON_SIZE;
         }
 
-        $this->ident  = $ident;
+        $this->ident = $ident;
         $this->margin = (int) round($size / 10);
-        $this->width  = (int) round(($size - $this->margin * 2) / self::GRID_SIZE) * self::GRID_SIZE + $this->margin * 2;
+        $this->width = (int) round(($size - $this->margin * 2) / self::GRID_SIZE) * self::GRID_SIZE + $this->margin * 2;
         $this->height = $this->width;
 
         if ($bgcolor) {
@@ -105,25 +105,25 @@ class identicon_engine
         $ident = md5($this->ident, true);
 
         // set icon color
-        $div         = intval(255 / count($this->palette));
-        $index       = intval(ord($ident[0]) / $div);
+        $div = intval(255 / count($this->palette));
+        $index = intval(ord($ident[0]) / $div);
         $this->color = $this->palette[$index] ?? $this->palette[0];
 
         // set cell size
-        $cell_width  = ($this->width - $this->margin * 2) / self::GRID_SIZE;
+        $cell_width = ($this->width - $this->margin * 2) / self::GRID_SIZE;
         $cell_height = ($this->height - $this->margin * 2) / self::GRID_SIZE;
 
         // create a grid
         foreach ($this->grid as $i => $idx) {
-            $row_num    = intval($i / self::GRID_SIZE);
+            $row_num = intval($i / self::GRID_SIZE);
             $cell_num_h = $i - $row_num * self::GRID_SIZE;
 
             $this->grid[$i] = [
                 'active' => ord($ident[$idx]) % 2 > 0,
-                'x1'     => $cell_width * $cell_num_h + $this->margin,
-                'y1'     => $cell_height * $row_num + $this->margin,
-                'x2'     => $cell_width * ($cell_num_h + 1) + $this->margin,
-                'y2'     => $cell_height * ($row_num + 1) + $this->margin,
+                'x1' => $cell_width * $cell_num_h + $this->margin,
+                'y1' => $cell_height * $row_num + $this->margin,
+                'x2' => $cell_width * ($cell_num_h + 1) + $this->margin,
+                'y2' => $cell_height * ($row_num + 1) + $this->margin,
             ];
         }
 
@@ -133,7 +133,7 @@ class identicon_engine
         } else {
             // log an error
             $error = [
-                'code'    => 500,
+                'code' => 500,
                 'message' => "PHP-GD module not found. It's required by identicon plugin.",
             ];
 

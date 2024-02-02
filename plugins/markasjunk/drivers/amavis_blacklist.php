@@ -71,8 +71,8 @@ class markasjunk_amavis_blacklist
         // check DB connections and exit on failure
         if ($err_str = $db->is_error()) {
             rcube::raise_error([
-                'code'    => 603,
-                'type'    => 'db',
+                'code' => 603,
+                'type' => 'db',
                 'message' => $err_str,
             ], false, true);
         }
@@ -90,7 +90,7 @@ class markasjunk_amavis_blacklist
 
         foreach ($uids as $uid) {
             $message = new rcube_message($uid);
-            $email   = $message->sender['mailto'];
+            $email = $message->sender['mailto'];
 
             // skip invalid emails
             if (!rcube_utils::check_email($email, false)) {

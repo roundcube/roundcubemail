@@ -47,15 +47,15 @@ class markasjunk_sa_blacklist
     private function _do_list($uids, $spam)
     {
         $rcube = rcube::get_instance();
-        $this->sa_user             = $rcube->config->get('sauserprefs_userid', '%u');
-        $this->sa_table            = $rcube->config->get('sauserprefs_sql_table_name');
-        $this->sa_username_field   = $rcube->config->get('sauserprefs_sql_username_field');
+        $this->sa_user = $rcube->config->get('sauserprefs_userid', '%u');
+        $this->sa_table = $rcube->config->get('sauserprefs_sql_table_name');
+        $this->sa_username_field = $rcube->config->get('sauserprefs_sql_username_field');
         $this->sa_preference_field = $rcube->config->get('sauserprefs_sql_preference_field');
-        $this->sa_value_field      = $rcube->config->get('sauserprefs_sql_value_field');
+        $this->sa_value_field = $rcube->config->get('sauserprefs_sql_value_field');
 
         // SAv4 compatibility
-        $blocklist_pref_name       = $rcube->config->get('sauserprefs_sav4', false) ? 'blocklist_from' : 'blacklist_from';
-        $welcomelist_pref_name     = $rcube->config->get('sauserprefs_sav4', false) ? 'welcomelist_from' : 'whitelist_from';
+        $blocklist_pref_name = $rcube->config->get('sauserprefs_sav4', false) ? 'blocklist_from' : 'blacklist_from';
+        $welcomelist_pref_name = $rcube->config->get('sauserprefs_sav4', false) ? 'welcomelist_from' : 'whitelist_from';
 
         $identity = $rcube->user->get_identity();
         $identity = $identity['email'];
@@ -66,7 +66,7 @@ class markasjunk_sa_blacklist
         $this->sa_user = str_replace('%i', $identity, $this->sa_user);
 
         $config_file = $rcube->config->get('markasjunk_sauserprefs_config');
-        $debug       = $rcube->config->get('markasjunk_debug');
+        $debug = $rcube->config->get('markasjunk_debug');
 
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
             rcube::raise_error([
@@ -92,7 +92,7 @@ class markasjunk_sa_blacklist
 
         foreach ($uids as $uid) {
             $message = new rcube_message($uid);
-            $email   = $message->sender['mailto'];
+            $email = $message->sender['mailto'];
 
             // skip invalid emails
             if (!rcube_utils::check_email($email, false)) {

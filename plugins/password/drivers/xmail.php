@@ -45,7 +45,7 @@ class rcube_xmail_password
         $xmail->hostname = $rcmail->config->get('xmail_host');
         $xmail->username = $rcmail->config->get('xmail_user');
         $xmail->password = $rcmail->config->get('xmail_pass');
-        $xmail->port     = $rcmail->config->get('xmail_port');
+        $xmail->port = $rcmail->config->get('xmail_port');
 
         if (!$xmail->connect()) {
             rcube::raise_error([

@@ -38,14 +38,14 @@ class markasjunk_dir_learn
 
     private function _do_messagemove($uids, $spam)
     {
-        $rcube    = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $dest_dir = unslashify($rcube->config->get($spam ? 'markasjunk_spam_dir' : 'markasjunk_ham_dir'));
 
         if (!$dest_dir) {
             return;
         }
 
-        $debug    = $rcube->config->get('markasjunk_debug');
+        $debug = $rcube->config->get('markasjunk_debug');
         $filename = $rcube->config->get('markasjunk_filename');
         $filename = str_replace('%u', $_SESSION['username'], $filename);
         $filename = str_replace('%t', ($spam) ? 'spam' : 'ham', $filename);

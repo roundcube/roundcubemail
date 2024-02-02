@@ -14,10 +14,10 @@ class Managesieve_Vacation extends ActionTestCase
      */
     public function test_vacation_form()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'managesieve');
 
-        $plugin   = new managesieve($rcube->plugins);
+        $plugin = new managesieve($rcube->plugins);
         $vacation = new rcube_sieve_vacation($plugin);
 
         setProperty($vacation, 'vacation', ['list' => []]);
@@ -32,9 +32,9 @@ class Managesieve_Vacation extends ActionTestCase
 
     public function test_build_regexp_tests()
     {
-        $error    = null;
+        $error = null;
         $vacation = new rcube_sieve_vacation(true);
-        $tests    = invokeMethod($vacation, 'build_regexp_tests', ['2014-02-20', '2014-03-05', &$error]);
+        $tests = invokeMethod($vacation, 'build_regexp_tests', ['2014-02-20', '2014-03-05', &$error]);
 
         $this->assertCount(2, $tests);
         $this->assertSame('header', $tests[0]['test']);
@@ -70,7 +70,7 @@ class Managesieve_Vacation extends ActionTestCase
         ];
 
         $vacation = new rcube_sieve_vacation(true);
-        $result   = invokeMethod($vacation, 'parse_regexp_tests', [$tests]);
+        $result = invokeMethod($vacation, 'parse_regexp_tests', [$tests]);
 
         $this->assertCount(2, $result);
         $this->assertSame('20 Feb 2014', $result['from']);

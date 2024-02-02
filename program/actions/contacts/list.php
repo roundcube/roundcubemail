@@ -39,7 +39,7 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
 
         $_SESSION['page'] = $page;
 
-        $page_size  = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
+        $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
         $group_data = null;
 
         // Use search result
@@ -48,8 +48,8 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
             ksort($records, \SORT_LOCALE_STRING);
 
             // create resultset object
-            $count  = count($records);
-            $first  = ($page - 1) * $page_size;
+            $count = count($records);
+            $first = ($page - 1) * $page_size;
             $result = new rcube_result_set($count, $first);
 
             // we need only records for current page
@@ -61,7 +61,7 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
         }
         // List selected directory
         else {
-            $afields  = $rcmail->config->get('contactlist_fields');
+            $afields = $rcmail->config->get('contactlist_fields');
             $contacts = self::contact_source(null, true);
 
             // get contacts for this user

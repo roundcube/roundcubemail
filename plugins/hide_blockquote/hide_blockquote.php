@@ -61,18 +61,18 @@ class hide_blockquote extends rcube_plugin
 
         $this->add_texts('localization');
 
-        $rcmail   = rcmail::get_instance();
-        $limit    = (int) $rcmail->config->get('hide_blockquote_limit');
+        $rcmail = rcmail::get_instance();
+        $limit = (int) $rcmail->config->get('hide_blockquote_limit');
         $field_id = 'hide_blockquote_limit';
-        $input    = new html_inputfield([
-            'name'  => '_' . $field_id,
-            'id'    => $field_id,
-            'size'  => 5,
+        $input = new html_inputfield([
+            'name' => '_' . $field_id,
+            'id' => $field_id,
+            'size' => 5,
             'class' => 'form-control',
         ]);
 
         $args['blocks']['main']['options']['hide_blockquote_limit'] = [
-            'title'   => html::label($field_id, $this->gettext('quotelimit')),
+            'title' => html::label($field_id, $this->gettext('quotelimit')),
             'content' => $input->show($limit ?: ''),
         ];
 

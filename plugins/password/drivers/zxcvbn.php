@@ -32,7 +32,7 @@ class rcube_zxcvbn_password
     public function strength_rules()
     {
         $rcmail = rcmail::get_instance();
-        $rules  = [
+        $rules = [
             $rcmail->gettext('password.passwordnoseq'),
             $rcmail->gettext('password.passwordnocommon'),
         ];
@@ -60,7 +60,7 @@ class rcube_zxcvbn_password
             return;
         }
 
-        $zxcvbn   = new Zxcvbn();
+        $zxcvbn = new Zxcvbn();
         $strength = $zxcvbn->passwordStrength($passwd);
 
         return [$strength['score'] + 1, $strength['feedback']['warning']];

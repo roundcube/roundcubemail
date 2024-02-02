@@ -42,12 +42,12 @@ class help extends rcube_plugin
         if (!$rcmail->output->framed) {
             // add taskbar button
             $this->add_button([
-                    'command'    => 'help',
-                    'class'      => 'button-help',
-                    'classsel'   => 'button-help button-selected',
+                    'command' => 'help',
+                    'class' => 'button-help',
+                    'classsel' => 'button-help button-selected',
                     'innerclass' => 'button-inner',
-                    'label'      => 'help.help',
-                    'type'       => 'link',
+                    'label' => 'help.help',
+                    'type' => 'link',
                 ], 'taskbar'
             );
 
@@ -73,8 +73,8 @@ class help extends rcube_plugin
 
         // register UI objects
         $rcmail->output->add_handlers([
-            'helpcontent'  => [$this, 'help_content'],
-            'tablink'      => [$this, 'tablink'],
+            'helpcontent' => [$this, 'help_content'],
+            'tablink' => [$this, 'tablink'],
         ]);
 
         $rcmail->output->set_env('help_links', $this->help_metadata());
@@ -101,7 +101,7 @@ class help extends rcube_plugin
 
         $attrib['name'] = 'helplink' . $attrib['action'];
         $attrib['href'] = $rcmail->url(['_action' => $attrib['action'], '_extwin' => !empty($_REQUEST['_extwin']) ? 1 : null]);
-        $attrib['rel']  = $attrib['action'];
+        $attrib['rel'] = $attrib['action'];
 
         // title might be already translated here, so revert to it's initial value
         // so button() will translate it correctly
@@ -114,7 +114,7 @@ class help extends rcube_plugin
 
     public function help_metadata()
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $content = [];
 
         // About
@@ -135,7 +135,7 @@ class help extends rcube_plugin
         }
 
         // Help Index
-        $src       = $rcmail->config->get('help_source', 'http://docs.roundcube.net/doc/help/1.1/%l/');
+        $src = $rcmail->config->get('help_source', 'http://docs.roundcube.net/doc/help/1.1/%l/');
         $index_map = $rcmail->config->get('help_index_map', []);
 
         // resolve task/action for deep linking
@@ -170,10 +170,10 @@ class help extends rcube_plugin
     private function resolve_language($path)
     {
         // resolve language placeholder
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $langmap = $rcmail->config->get('help_language_map', ['*' => 'en_US']);
-        $lang    = $_SESSION['language'] ?? 'en_US';
-        $lang    = !empty($langmap[$lang]) ? $langmap[$lang] : $langmap['*'];
+        $lang = $_SESSION['language'] ?? 'en_US';
+        $lang = !empty($langmap[$lang]) ? $langmap[$lang] : $langmap['*'];
 
         return str_replace('%l', $lang, $path);
     }

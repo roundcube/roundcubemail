@@ -15,7 +15,7 @@ class Enigma_EnigmaEngine extends TestCase
      */
     public function test_password_handler()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new enigma($rcube->plugins);
         $engine = new enigma_engine($plugin);
 

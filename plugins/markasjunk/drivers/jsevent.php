@@ -31,7 +31,7 @@
 class markasjunk_jsevent
 {
     private $addition_spam_folders = ['spam2', 'spam3'];
-    private $suspicious_folders    = ['unknown1', 'unknown2'];
+    private $suspicious_folders = ['unknown1', 'unknown2'];
 
     public function init()
     {
@@ -43,7 +43,7 @@ class markasjunk_jsevent
         }
 
         $js_addition_spam_folders = json_encode($this->addition_spam_folders);
-        $js_suspicious_folders    = json_encode($this->suspicious_folders);
+        $js_suspicious_folders = json_encode($this->suspicious_folders);
 
         $script = <<<EOL
             rcmail.addEventListener('markasjunk-update', function(props) {

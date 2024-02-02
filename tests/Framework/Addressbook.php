@@ -34,17 +34,17 @@ class Framework_Addressbook extends TestCase
     public function test_compose_list_name()
     {
         $contact = [];
-        $result  = rcube_addressbook::compose_list_name($contact);
+        $result = rcube_addressbook::compose_list_name($contact);
 
         $this->assertSame('', $result);
 
         $contact = ['email' => 'email@address.tld'];
-        $result  = rcube_addressbook::compose_list_name($contact);
+        $result = rcube_addressbook::compose_list_name($contact);
 
         $this->assertSame('email@address.tld', $result);
 
         $contact = ['email' => 'email@address.tld', 'organization' => 'Org'];
-        $result  = rcube_addressbook::compose_list_name($contact);
+        $result = rcube_addressbook::compose_list_name($contact);
 
         $this->assertSame('Org', $result);
 

@@ -157,7 +157,7 @@ class bootstrap
 
         if (!empty($a_host['host'])) {
             $imap_host = $a_host['host'];
-            $imap_ssl  = isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls']) ? $a_host['scheme'] : false;
+            $imap_ssl = isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls']) ? $a_host['scheme'] : false;
             $imap_port = $a_host['port'] ?? ($imap_ssl && $imap_ssl != 'tls' ? 993 : 143);
         }
 
@@ -230,10 +230,10 @@ class bootstrap
             rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
-        $rcmail       = rcmail::get_instance();
-        $imap         = $rcmail->get_storage();
+        $rcmail = rcmail::get_instance();
+        $imap = $rcmail->get_storage();
         $got_defaults = $rcmail->config->get('create_default_folders');
-        $vendor       = $imap->get_vendor();
+        $vendor = $imap->get_vendor();
 
         // Note: We do not expect IMAP server auto-creating any folders
         foreach ($imap->list_folders() as $folder) {
@@ -272,7 +272,7 @@ class bootstrap
         $db = rcube_db::factory($rcmail->config->get('db_dsnw'), $rcmail->config->get('db_dsnr'), false);
         $db->set_debug((bool) $rcmail->config->get('sql_debug'));
 
-        $query  = $db->query('SELECT preferences FROM users WHERE username = ?', TESTS_USER);
+        $query = $db->query('SELECT preferences FROM users WHERE username = ?', TESTS_USER);
         $record = $db->fetch_assoc($query);
 
         return unserialize($record['preferences']);

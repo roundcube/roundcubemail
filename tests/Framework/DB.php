@@ -51,7 +51,7 @@ class Framework_DB extends TestCase
         ]);
 
         $result = $db->exec_script($script);
-        $out    = [];
+        $out = [];
 
         foreach ($db->queries as $q) {
             $out[] = $q;
@@ -103,7 +103,7 @@ class Framework_DB extends TestCase
         ]);
 
         $result = $db->exec_script($script);
-        $out    = [];
+        $out = [];
 
         foreach ($db->queries as $q) {
             $out[] = $q;

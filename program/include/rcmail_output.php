@@ -24,15 +24,15 @@
 abstract class rcmail_output extends rcube_output
 {
     public const JS_OBJECT_NAME = 'rcmail';
-    public const BLANK_GIF      = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
+    public const BLANK_GIF = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
 
-    public $type      = 'html';
+    public $type = 'html';
     public $ajax_call = false;
-    public $framed    = false;
+    public $framed = false;
 
-    protected $pagetitle       = '';
+    protected $pagetitle = '';
     protected $object_handlers = [];
-    protected $devel_mode      = false;
+    protected $devel_mode = false;
 
     /**
      * Object constructor

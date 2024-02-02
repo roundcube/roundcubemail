@@ -27,7 +27,7 @@
 
 class attachment_reminder extends rcube_plugin
 {
-    public $task   = 'mail|settings';
+    public $task = 'mail|settings';
     public $noajax = true;
 
     /**
@@ -71,7 +71,7 @@ class attachment_reminder extends rcube_plugin
             $checkbox = new html_checkbox(['name' => '_attachment_reminder', 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['attachment_reminder'] = [
-                'title'   => html::label($field_id, rcube::Q($this->gettext('reminderoption'))),
+                'title' => html::label($field_id, rcube::Q($this->gettext('reminderoption'))),
                 'content' => $checkbox->show($reminder ? 1 : 0),
             ];
         }

@@ -14,7 +14,7 @@ class AttachmentReminder_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new attachment_reminder($rcube->plugins);
 
         $this->assertInstanceOf('attachment_reminder', $plugin);
@@ -28,7 +28,7 @@ class AttachmentReminder_Plugin extends TestCase
      */
     public function test_prefs_list()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new attachment_reminder($rcube->plugins);
 
         $args = ['section' => 'compose', 'blocks' => ['main' => ['options' => []]]];
@@ -50,18 +50,18 @@ class AttachmentReminder_Plugin extends TestCase
      */
     public function test_prefs_save()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new attachment_reminder($rcube->plugins);
 
         $_POST = [];
-        $args  = ['section' => 'compose', 'prefs' => []];
+        $args = ['section' => 'compose', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 
         $this->assertFalse($result['prefs']['attachment_reminder']);
 
         $_POST = ['_attachment_reminder' => 1];
-        $args  = ['section' => 'compose', 'prefs' => []];
+        $args = ['section' => 'compose', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 

@@ -49,8 +49,8 @@ class Framework_Smtp extends TestCase
      */
     public function test_parse_rfc822()
     {
-        $smtp   = new rcube_smtp();
-        $input  = 'test@test1.com, "test" <test@test2.pl>, "test@test3.eu" <test@test3.uk>';
+        $smtp = new rcube_smtp();
+        $input = 'test@test1.com, "test" <test@test2.pl>, "test@test3.eu" <test@test3.uk>';
         $result = invokeMethod($smtp, '_parse_rfc822', [$input]);
 
         $this->assertSame(['test@test1.com', 'test@test2.pl', 'test@test3.uk'], $result);

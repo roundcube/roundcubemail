@@ -152,7 +152,7 @@ $config['markasjunk_amacube_config'] = '../amacube/config.inc.php';
 // see the README for an example
 // TEST CAREFULLY BEFORE USE ON REAL MESSAGES
 $config['markasjunk_spam_patterns'] = [
-    'patterns'     => [],
+    'patterns' => [],
     'replacements' => [],
 ];
 
@@ -162,6 +162,6 @@ $config['markasjunk_spam_patterns'] = [
 // see the README for an example
 // TEST CAREFULLY BEFORE USE ON REAL MESSAGES
 $config['markasjunk_ham_patterns'] = [
-    'patterns'     => [],
+    'patterns' => [],
     'replacements' => [],
 ];

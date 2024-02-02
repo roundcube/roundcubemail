@@ -23,7 +23,7 @@ class enigma_driver_gnupg extends enigma_driver
     protected $homedir;
     protected $user;
     protected $last_sig_algorithm;
-    protected $debug    = false;
+    protected $debug = false;
     protected $db_files = ['pubring.gpg', 'secring.gpg', 'pubring.kbx'];
 
     /**
@@ -33,7 +33,7 @@ class enigma_driver_gnupg extends enigma_driver
      */
     public function __construct($user)
     {
-        $this->rc   = rcmail::get_instance();
+        $this->rc = rcmail::get_instance();
         $this->user = $user;
     }
 
@@ -46,9 +46,9 @@ class enigma_driver_gnupg extends enigma_driver
     public function init()
     {
         $homedir = $this->rc->config->get('enigma_pgp_homedir');
-        $debug   = $this->rc->config->get('enigma_debug');
-        $binary  = $this->rc->config->get('enigma_pgp_binary');
-        $agent   = $this->rc->config->get('enigma_pgp_agent');
+        $debug = $this->rc->config->get('enigma_debug');
+        $binary = $this->rc->config->get('enigma_pgp_binary');
+        $agent = $this->rc->config->get('enigma_pgp_agent');
         $gpgconf = $this->rc->config->get('enigma_pgp_gpgconf');
 
         if (!$homedir) {
@@ -82,7 +82,7 @@ class enigma_driver_gnupg extends enigma_driver
                 "Unable to write to keys directory: {$homedir}");
         }
 
-        $this->debug   = $debug;
+        $this->debug = $debug;
         $this->homedir = $homedir;
 
         $options = ['homedir' => $this->homedir];
@@ -134,7 +134,7 @@ class enigma_driver_gnupg extends enigma_driver
             if ($sign_key) {
                 $this->gpg->addSignKey($sign_key->reference, $sign_key->password);
 
-                $res     = $this->gpg->encryptAndSign($text, true);
+                $res = $this->gpg->encryptAndSign($text, true);
                 $sigInfo = $this->gpg->getLastSignatureInfo();
 
                 $this->last_sig_algorithm = $sigInfo->getHashAlgorithmName();
@@ -200,7 +200,7 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $this->gpg->addSignKey($key->reference, $key->password);
 
-            $res     = $this->gpg->sign($text, $mode, Crypt_GPG::ARMOR_ASCII, true);
+            $res = $this->gpg->sign($text, $mode, Crypt_GPG::ARMOR_ASCII, true);
             $sigInfo = $this->gpg->getLastSignatureInfo();
 
             $this->last_sig_algorithm = $sigInfo->getHashAlgorithmName();
@@ -300,7 +300,7 @@ class enigma_driver_gnupg extends enigma_driver
     public function list_keys($pattern = '')
     {
         try {
-            $keys   = $this->gpg->getKeys($pattern);
+            $keys = $this->gpg->getKeys($pattern);
             $result = [];
 
             foreach ($keys as $idx => $key) {
@@ -342,11 +342,11 @@ class enigma_driver_gnupg extends enigma_driver
     public function gen_key($data)
     {
         try {
-            $debug  = $this->rc->config->get('enigma_debug');
+            $debug = $this->rc->config->get('enigma_debug');
             $keygen = new Crypt_GPG_KeyGenerator([
                 'homedir' => $this->homedir,
                 // 'binary'  => '/usr/bin/gpg2',
-                'debug'   => $debug ? [$this, 'debug'] : false,
+                'debug' => $debug ? [$this, 'debug'] : false,
             ]);
 
             $key = $keygen
@@ -465,7 +465,7 @@ class enigma_driver_gnupg extends enigma_driver
             $data['id'] = $e->getKeyId();
         } elseif ($e instanceof Crypt_GPG_BadPassphraseException) {
             $error = enigma_error::BADPASS;
-            $data['bad']     = $e->getBadPassphrases();
+            $data['bad'] = $e->getBadPassphrases();
             $data['missing'] = $e->getMissingPassphrases();
         } elseif ($e instanceof Crypt_GPG_NoDataException) {
             $error = enigma_error::NODATA;
@@ -491,17 +491,17 @@ class enigma_driver_gnupg extends enigma_driver
     {
         $data = new enigma_signature();
 
-        $data->id          = $sig->getId() ?: $sig->getKeyId();
-        $data->valid       = $sig->isValid();
+        $data->id = $sig->getId() ?: $sig->getKeyId();
+        $data->valid = $sig->isValid();
         $data->fingerprint = $sig->getKeyFingerprint();
-        $data->created     = $sig->getCreationDate();
-        $data->expires     = $sig->getExpirationDate();
+        $data->created = $sig->getCreationDate();
+        $data->expires = $sig->getExpirationDate();
 
         // In case of ERRSIG user may not be set
         if ($user = $sig->getUserId()) {
-            $data->name    = $user->getName();
+            $data->name = $user->getName();
             $data->comment = $user->getComment();
-            $data->email   = $user->getEmail();
+            $data->email = $user->getEmail();
         }
 
         return $data;
@@ -520,10 +520,10 @@ class enigma_driver_gnupg extends enigma_driver
 
         foreach ($key->getUserIds() as $idx => $user) {
             $id = new enigma_userid();
-            $id->name    = $user->getName();
+            $id->name = $user->getName();
             $id->comment = $user->getComment();
-            $id->email   = $user->getEmail();
-            $id->valid   = $user->isValid();
+            $id->email = $user->getEmail();
+            $id->valid = $user->isValid();
             $id->revoked = $user->isRevoked();
 
             $ekey->users[$idx] = $id;
@@ -537,13 +537,13 @@ class enigma_driver_gnupg extends enigma_driver
         foreach ($key->getSubKeys() as $idx => $subkey) {
             /** @var Crypt_GPG_SubKey $subkey */
             $skey = new enigma_subkey();
-            $skey->id          = $subkey->getId();
-            $skey->revoked     = $subkey->isRevoked();
+            $skey->id = $subkey->getId();
+            $skey->revoked = $subkey->isRevoked();
             $skey->fingerprint = $subkey->getFingerprint();
             $skey->has_private = $subkey->hasPrivate();
-            $skey->algorithm   = $subkey->getAlgorithm();
-            $skey->length      = $subkey->getLength();
-            $skey->usage       = $subkey->usage();
+            $skey->algorithm = $subkey->getAlgorithm();
+            $skey->length = $subkey->getLength();
+            $skey->usage = $subkey->usage();
 
             if (method_exists($subkey, 'getCreationDateTime')) {
                 $skey->created = $subkey->getCreationDateTime();
@@ -578,7 +578,7 @@ class enigma_driver_gnupg extends enigma_driver
             return;
         }
 
-        $db    = $this->rc->get_dbh();
+        $db = $this->rc->get_dbh();
         $table = $db->table_name('filestore', true);
         $files = [];
 
@@ -588,7 +588,7 @@ class enigma_driver_gnupg extends enigma_driver
         );
 
         while ($record = $db->fetch_assoc($result)) {
-            $file  = $this->homedir . '/' . $record['filename'];
+            $file = $this->homedir . '/' . $record['filename'];
             $mtime = @filemtime($file);
             $files[] = $record['filename'];
 
@@ -598,7 +598,7 @@ class enigma_driver_gnupg extends enigma_driver
                 );
 
                 $record = $db->fetch_assoc($data_result);
-                $data   = $record ? base64_decode($record['data']) : null;
+                $data = $record ? base64_decode($record['data']) : null;
 
                 if ($data === null || $data === false) {
                     rcube::raise_error([
@@ -665,8 +665,8 @@ class enigma_driver_gnupg extends enigma_driver
             return true;
         }
 
-        $db      = $this->rc->get_dbh();
-        $table   = $db->table_name('filestore', true);
+        $db = $this->rc->get_dbh();
+        $table = $db->table_name('filestore', true);
         $records = [];
 
         if (!$is_empty) {
@@ -681,15 +681,15 @@ class enigma_driver_gnupg extends enigma_driver
         }
 
         foreach ($this->db_files_list() as $filename) {
-            $file  = $this->homedir . '/' . $filename;
+            $file = $this->homedir . '/' . $filename;
             $mtime = @filemtime($file);
 
             $existing = !empty($records[$filename]) ? $records[$filename] : null;
             unset($records[$filename]);
 
             if ($mtime && (empty($existing) || $mtime > $existing['mtime'])) {
-                $data     = file_get_contents($file);
-                $data     = base64_encode($data);
+                $data = file_get_contents($file);
+                $data = base64_encode($data);
                 $datasize = strlen($data);
 
                 if (empty($maxsize)) {
@@ -725,7 +725,7 @@ class enigma_driver_gnupg extends enigma_driver
 
         // Delete removed files from database
         foreach (array_keys($records) as $filename) {
-            $file   = $this->homedir . '/' . $filename;
+            $file = $this->homedir . '/' . $filename;
             $result = $db->query("DELETE FROM {$table} WHERE `user_id` = ? AND `context` = ? AND `filename` = ?",
                 $this->rc->user->ID, 'enigma', $filename
             );

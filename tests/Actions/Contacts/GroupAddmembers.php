@@ -51,13 +51,13 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
 
         self::initDB('contacts');
 
-        $db     = rcmail::get_instance()->get_dbh();
-        $query  = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test-group\'');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test-group\'');
         $result = $db->fetch_assoc($query);
-        $gid    = $result['contactgroup_id'];
-        $query  = $db->query('SELECT * FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
+        $gid = $result['contactgroup_id'];
+        $query = $db->query('SELECT * FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $result = $db->fetch_assoc($query);
-        $cid    = $result['contact_id'];
+        $cid = $result['contact_id'];
 
         $_POST = ['_source' => '0', '_gid' => $gid, '_cid' => $cid];
 
@@ -69,7 +69,7 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
         $this->assertSame('add-members', $result['action']);
         $this->assertSame('this.display_message("Successfully added the contacts to this group.","confirmation",0);', trim($result['exec']));
 
-        $query  = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ? AND `contact_id` = ?', $gid, $cid);
+        $query = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ? AND `contact_id` = ?', $gid, $cid);
         $result = $db->fetch_assoc($query);
 
         $this->assertTrue(!empty($result));

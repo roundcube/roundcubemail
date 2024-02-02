@@ -14,7 +14,7 @@ class Help_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new help($rcube->plugins);
 
         $this->assertInstanceOf('help', $plugin);
@@ -26,7 +26,7 @@ class Help_Plugin extends TestCase
      */
     public function test_help_metadata()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new help($rcube->plugins);
 
         $result = $plugin->help_metadata();

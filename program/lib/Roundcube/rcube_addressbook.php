@@ -23,25 +23,25 @@
 abstract class rcube_addressbook
 {
     // constants for error reporting
-    public const ERROR_READ_ONLY     = 1;
+    public const ERROR_READ_ONLY = 1;
     public const ERROR_NO_CONNECTION = 2;
-    public const ERROR_VALIDATE      = 3;
-    public const ERROR_SAVING        = 4;
-    public const ERROR_SEARCH        = 5;
+    public const ERROR_VALIDATE = 3;
+    public const ERROR_SAVING = 4;
+    public const ERROR_SEARCH = 5;
 
     // search modes
-    public const SEARCH_ALL    = 0;
+    public const SEARCH_ALL = 0;
     public const SEARCH_STRICT = 1;
     public const SEARCH_PREFIX = 2;
     public const SEARCH_GROUPS = 4;
 
     // contact types, note: some of these are used as addressbook source identifiers
-    public const TYPE_CONTACT        = 0;
-    public const TYPE_RECIPIENT      = 1;
+    public const TYPE_CONTACT = 0;
+    public const TYPE_RECIPIENT = 1;
     public const TYPE_TRUSTED_SENDER = 2;
-    public const TYPE_DEFAULT        = 4;
-    public const TYPE_WRITEABLE      = 8;
-    public const TYPE_READONLY       = 16;
+    public const TYPE_DEFAULT = 4;
+    public const TYPE_WRITEABLE = 8;
+    public const TYPE_READONLY = 16;
 
     // public properties (mandatory)
 
@@ -94,10 +94,10 @@ abstract class rcube_addressbook
 
     /** @var array Definition of the contact fields supported by the addressbook. */
     public $coltypes = [
-        'name'      => ['limit' => 1],
+        'name' => ['limit' => 1],
         'firstname' => ['limit' => 1],
-        'surname'   => ['limit' => 1],
-        'email'     => ['limit' => 1],
+        'surname' => ['limit' => 1],
+        'email' => ['limit' => 1],
     ];
 
     /**
@@ -355,9 +355,9 @@ abstract class rcube_addressbook
 
         // allow plugins to do contact validation and auto-fixing
         $plugin = $rcube->plugins->exec_hook('contact_validate', [
-            'record'  => $save_data,
+            'record' => $save_data,
             'autofix' => $autofix,
-            'valid'   => $valid,
+            'valid' => $valid,
         ]);
 
         if ($valid && !$plugin['valid']) {
@@ -638,13 +638,13 @@ abstract class rcube_addressbook
     public static function compose_display_name($contact, $full_email = false)
     {
         $contact = rcube::get_instance()->plugins->exec_hook('contact_displayname', $contact);
-        $fn      = $contact['name'] ?? '';
+        $fn = $contact['name'] ?? '';
 
         // default display name composition according to vcard standard
         if (!$fn) {
             $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
-            $fn   = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
-            $fn   = trim(preg_replace('/\s+/u', ' ', $fn));
+            $fn = implode(' ', array_filter(array_intersect_key($contact, array_flip($keys))));
+            $fn = trim(preg_replace('/\s+/u', ' ', $fn));
         }
 
         // use email address part for name
@@ -706,24 +706,24 @@ abstract class rcube_addressbook
                 break;
             case 2:
                 $keys = ['surname', 'firstname', 'middlename'];
-                $fn   = implode(' ', $get_names($contact, $keys));
+                $fn = implode(' ', $get_names($contact, $keys));
                 break;
             case 1:
                 $keys = ['firstname', 'middlename', 'surname'];
-                $fn   = implode(' ', $get_names($contact, $keys));
+                $fn = implode(' ', $get_names($contact, $keys));
                 break;
             case 0:
                 if (!empty($contact['name'])) {
                     $fn = $contact['name'];
                 } else {
                     $keys = ['prefix', 'firstname', 'middlename', 'surname', 'suffix'];
-                    $fn   = implode(' ', $get_names($contact, $keys));
+                    $fn = implode(' ', $get_names($contact, $keys));
                 }
 
                 break;
             default:
                 $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);
-                $fn     = $plugin['fn'];
+                $fn = $plugin['fn'];
         }
 
         $fn = trim($fn, ', ');
@@ -773,7 +773,7 @@ abstract class rcube_addressbook
 
         if (preg_match_all('/\{[a-z]+\}/', $result, $matches)) {
             foreach ($matches[0] as $key) {
-                $key   = trim($key, '{}');
+                $key = trim($key, '{}');
                 $value = '';
 
                 switch ($key) {

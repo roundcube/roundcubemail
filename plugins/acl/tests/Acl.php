@@ -12,7 +12,7 @@ class Acl_Plugin extends ActionTestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new acl($rcube->plugins);
 
         $this->assertInstanceOf('acl', $plugin);

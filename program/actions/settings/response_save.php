@@ -30,15 +30,15 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
     {
         $rcmail = rcmail::get_instance();
 
-        $id      = trim(rcube_utils::get_input_string('_id', rcube_utils::INPUT_POST));
-        $name    = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST));
-        $text    = trim(rcube_utils::get_input_string('_text', rcube_utils::INPUT_POST, true));
+        $id = trim(rcube_utils::get_input_string('_id', rcube_utils::INPUT_POST));
+        $name = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST));
+        $text = trim(rcube_utils::get_input_string('_text', rcube_utils::INPUT_POST, true));
         $is_html = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_POST);
 
         $response = [
-            'id'      => $id,
-            'name'    => $name,
-            'data'    => $text,
+            'id' => $id,
+            'name' => $name,
+            'data' => $text,
             'is_html' => $is_html,
         ];
 
@@ -59,7 +59,7 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
         }
 
         if (!empty($id) && is_numeric($id)) {
-            $plugin   = $rcmail->plugins->exec_hook('response_update', ['id' => $id, 'record' => $response]);
+            $plugin = $rcmail->plugins->exec_hook('response_update', ['id' => $id, 'record' => $response]);
             $response = $plugin['record'];
 
             if (!$plugin['abort']) {
@@ -77,7 +77,7 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
                 $rcmail->output->show_message($error, 'error', null, false);
             }
         } else {
-            $plugin   = $rcmail->plugins->exec_hook('response_create', ['record' => $response]);
+            $plugin = $rcmail->plugins->exec_hook('response_create', ['record' => $response]);
             $response = $plugin['record'];
 
             if (!$plugin['abort']) {

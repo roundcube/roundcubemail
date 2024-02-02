@@ -24,16 +24,16 @@
  */
 class rcube_result_multifolder
 {
-    public $multi      = true;
-    public $sets       = [];
+    public $multi = true;
+    public $sets = [];
     public $incomplete = false;
     public $folder;
 
-    protected $meta    = [];
-    protected $index   = [];
+    protected $meta = [];
+    protected $index = [];
     protected $folders = [];
-    protected $sdata   = [];
-    protected $order   = 'ASC';
+    protected $sdata = [];
+    protected $order = 'ASC';
     protected $sorting;
 
     /**
@@ -44,7 +44,7 @@ class rcube_result_multifolder
     public function __construct($folders = [])
     {
         $this->folders = $folders;
-        $this->meta    = ['count' => 0];
+        $this->meta = ['count' => 0];
     }
 
     /**
@@ -74,7 +74,9 @@ class rcube_result_multifolder
 
         // append UIDs to global index
         $folder = $result->get_parameters('MAILBOX');
-        $index  = array_map(static function ($uid) use ($folder) { return $uid . '-' . $folder; }, $result->get());
+        $index = array_map(static function ($uid) use ($folder) {
+            return $uid . '-' . $folder;
+        }, $result->get());
 
         $this->index = array_merge($this->index, $index);
     }
@@ -89,8 +91,8 @@ class rcube_result_multifolder
     public function set_message_index($headers, $sort_field, $sort_order)
     {
         $this->sorting = $sort_field;
-        $this->order   = $sort_order;
-        $this->index   = [];
+        $this->order = $sort_order;
+        $this->index = [];
 
         foreach ($headers as $header) {
             $this->index[] = $header->uid . '-' . $header->folder;
@@ -268,8 +270,8 @@ class rcube_result_multifolder
     public function get_parameters($param = null)
     {
         $params = [
-            'SORT'    => $this->sorting,
-            'ORDER'   => $this->order,
+            'SORT' => $this->sorting,
+            'ORDER' => $this->order,
             'MAILBOX' => $this->folders,
         ];
 
@@ -333,7 +335,7 @@ class rcube_result_multifolder
      */
     public function __wakeup()
     {
-        $this->meta       = ['count' => count($this->index)];
+        $this->meta = ['count' => count($this->index)];
         $this->incomplete = count($this->sdata['incomplete']) > 0;
 
         // restore result sets from saved index

@@ -224,7 +224,7 @@ class rcube_message_header
     /**
      * Message structure
      *
-     * @var rcube_message_part
+     * @var ?rcube_message_part
      */
     public $structure;
 
@@ -283,24 +283,24 @@ class rcube_message_header
      * @var array
      */
     private $obj_headers = [
-        'date'      => 'date',
-        'from'      => 'from',
-        'to'        => 'to',
-        'subject'   => 'subject',
-        'reply-to'  => 'replyto',
-        'cc'        => 'cc',
-        'bcc'       => 'bcc',
-        'mbox'      => 'folder',
-        'folder'    => 'folder',
+        'date' => 'date',
+        'from' => 'from',
+        'to' => 'to',
+        'subject' => 'subject',
+        'reply-to' => 'replyto',
+        'cc' => 'cc',
+        'bcc' => 'bcc',
+        'mbox' => 'folder',
+        'folder' => 'folder',
         'content-transfer-encoding' => 'encoding',
-        'in-reply-to'               => 'in_reply_to',
-        'content-type'              => 'ctype',
-        'charset'                   => 'charset',
-        'references'                => 'references',
+        'in-reply-to' => 'in_reply_to',
+        'content-type' => 'ctype',
+        'charset' => 'charset',
+        'references' => 'references',
         'disposition-notification-to' => 'mdn_to',
-        'x-confirm-reading-to'      => 'mdn_to',
-        'message-id'                => 'messageID',
-        'x-priority'                => 'priority',
+        'x-confirm-reading-to' => 'mdn_to',
+        'message-id' => 'messageID',
+        'x-priority' => 'priority',
     ];
 
     /**
@@ -313,7 +313,7 @@ class rcube_message_header
      */
     public function get($name, $decode = true)
     {
-        $name  = strtolower($name);
+        $name = strtolower($name);
         $value = null;
 
         if (isset($this->obj_headers[$name]) && isset($this->{$this->obj_headers[$name]})) {
@@ -325,7 +325,7 @@ class rcube_message_header
         if ($decode && $value !== null) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
-                    $val         = rcube_mime::decode_header($val, $this->charset);
+                    $val = rcube_mime::decode_header($val, $this->charset);
                     $value[$key] = rcube_charset::clean($val);
                 }
             } else {

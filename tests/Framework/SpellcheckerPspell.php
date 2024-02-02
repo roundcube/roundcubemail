@@ -100,7 +100,7 @@ class Framework_SpellcheckerPspell extends TestCase
         $object = new rcube_spellchecker();
 
         $expected = ['ON', 'on', 'Ont', 'only', 'onya', 'NY', 'onyx', 'Ono', 'any', 'one'];
-        $result   = $object->get_suggestions('ony');
+        $result = $object->get_suggestions('ony');
 
         sort($expected);
         sort($result);

@@ -40,10 +40,10 @@ class markasjunk_cmd_learn
 
     private function _do_salearn($uids, $spam, $src_mbox)
     {
-        $rcube    = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $temp_dir = realpath($rcube->config->get('temp_dir'));
-        $command  = $rcube->config->get($spam ? 'markasjunk_spam_cmd' : 'markasjunk_ham_cmd');
-        $debug    = $rcube->config->get('markasjunk_debug');
+        $command = $rcube->config->get($spam ? 'markasjunk_spam_cmd' : 'markasjunk_ham_cmd');
+        $debug = $rcube->config->get('markasjunk_debug');
 
         if (!$command) {
             return;
@@ -61,7 +61,7 @@ class markasjunk_cmd_learn
         $command = str_replace('%d', escapeshellarg($rcube->user->get_username('domain')), $command);
         if (strpos($command, '%i') !== false) {
             $identity = $rcube->user->get_identity();
-            $command  = str_replace('%i', escapeshellarg($identity['email']), $command);
+            $command = str_replace('%i', escapeshellarg($identity['email']), $command);
         }
 
         foreach ($uids as $uid) {
@@ -69,7 +69,7 @@ class markasjunk_cmd_learn
             $tmp_command = $command;
 
             if (strpos($tmp_command, '%s') !== false) {
-                $message     = new rcube_message($uid);
+                $message = new rcube_message($uid);
                 $tmp_command = str_replace('%s', escapeshellarg($message->sender['mailto']), $tmp_command);
             }
 

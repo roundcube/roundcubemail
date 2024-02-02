@@ -34,11 +34,11 @@ class rcube_dbmail_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
+        $curdir = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellarg($username);
         $password = escapeshellarg($newpass);
-        $args     = rcmail::get_instance()->config->get('password_dbmail_args', '');
-        $command  = "{$curdir}/chgdbmailusers -c {$username} -w {$password} {$args}";
+        $args = rcmail::get_instance()->config->get('password_dbmail_args', '');
+        $command = "{$curdir}/chgdbmailusers -c {$username} -w {$password} {$args}";
 
         exec($command, $output, $return_value);
 

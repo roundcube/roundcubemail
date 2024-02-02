@@ -22,7 +22,7 @@
  */
 class OutputJsonMock extends rcmail_output_json
 {
-    public const E_EXIT     = 101;
+    public const E_EXIT = 101;
     public const E_REDIRECT = 102;
 
     public $output;
@@ -123,11 +123,11 @@ class OutputJsonMock extends rcmail_output_json
     {
         parent::reset();
 
-        $this->headers     = [];
-        $this->output      = null;
+        $this->headers = [];
+        $this->output = null;
         $this->header_sent = false;
 
-        $this->errorCode    = null;
+        $this->errorCode = null;
         $this->errorMessage = null;
     }
 

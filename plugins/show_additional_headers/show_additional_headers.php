@@ -42,7 +42,7 @@ class show_additional_headers extends rcube_plugin
      */
     public function storage_init($p)
     {
-        $rcmail      = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $add_headers = $rcmail->config->get('show_additional_headers', []);
 
         if (!empty($add_headers)) {
@@ -67,7 +67,7 @@ class show_additional_headers extends rcube_plugin
      */
     public function message_headers($p)
     {
-        $rcmail      = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $add_headers = $rcmail->config->get('show_additional_headers', []);
 
         foreach ((array) $add_headers as $header) {

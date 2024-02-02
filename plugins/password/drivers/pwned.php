@@ -93,7 +93,7 @@ class rcube_pwned_password
      */
     public function check_strength($passwd)
     {
-        $score   = $this->check_pwned($passwd);
+        $score = $this->check_pwned($passwd);
         $message = null;
 
         if ($score !== self::SCORE_NOT_LISTED) {
@@ -138,7 +138,7 @@ class rcube_pwned_password
 
     public function hash_split($passwd)
     {
-        $hash   = strtolower(sha1($passwd));
+        $hash = strtolower(sha1($passwd));
         $prefix = substr($hash, 0, 5);
         $suffix = substr($hash, 5);
 

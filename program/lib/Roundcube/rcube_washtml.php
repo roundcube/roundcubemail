@@ -209,16 +209,16 @@ class rcube_washtml
      */
     public function __construct($p = [])
     {
-        $p['html_elements']   = isset($p['html_elements']) ? (array) $p['html_elements'] : [];
-        $p['html_attribs']    = isset($p['html_attribs']) ? (array) $p['html_attribs'] : [];
+        $p['html_elements'] = isset($p['html_elements']) ? (array) $p['html_elements'] : [];
+        $p['html_attribs'] = isset($p['html_attribs']) ? (array) $p['html_attribs'] : [];
         $p['ignore_elements'] = isset($p['ignore_elements']) ? (array) $p['ignore_elements'] : [];
-        $p['void_elements']   = isset($p['void_elements']) ? (array) $p['void_elements'] : [];
+        $p['void_elements'] = isset($p['void_elements']) ? (array) $p['void_elements'] : [];
 
-        $this->_html_elements   = array_flip($p['html_elements']) + array_flip(self::$html_elements);
-        $this->_html_attribs    = array_flip($p['html_attribs']) + array_flip(self::$html_attribs);
+        $this->_html_elements = array_flip($p['html_elements']) + array_flip(self::$html_elements);
+        $this->_html_attribs = array_flip($p['html_attribs']) + array_flip(self::$html_attribs);
         $this->_ignore_elements = array_flip($p['ignore_elements']) + array_flip(self::$ignore_elements);
-        $this->_void_elements   = array_flip($p['void_elements']) + array_flip(self::$void_elements);
-        $this->_css_prefix      = isset($p['css_prefix']) && strlen($p['css_prefix']) ? $p['css_prefix'] : null;
+        $this->_void_elements = array_flip($p['void_elements']) + array_flip(self::$void_elements);
+        $this->_css_prefix = isset($p['css_prefix']) && strlen($p['css_prefix']) ? $p['css_prefix'] : null;
 
         unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements'], $p['css_prefix']);
 
@@ -312,7 +312,7 @@ class rcube_washtml
         }
 
         foreach ($node->attributes as $name => $attr) {
-            $key   = strtolower($name);
+            $key = strtolower($name);
             $value = $attr->nodeValue;
 
             if ($key == 'style' && ($style = $this->wash_style($value))) {
@@ -320,7 +320,7 @@ class rcube_washtml
                 $result .= ' style="' . str_replace('"', '&quot;', $style) . '"';
             } elseif (isset($this->_html_attribs[$key]) || in_array($key, $additional_attribs)) {
                 $value = trim($value);
-                $out   = null;
+                $out = null;
 
                 // in SVG to/from attribs may contain anything, including URIs
                 if ($key == 'to' || $key == 'from') {
@@ -427,7 +427,7 @@ class rcube_washtml
                 }
 
                 $washer = new self($this->config);
-                $svg    = $washer->wash($svg);
+                $svg = $washer->wash($svg);
 
                 // Invalid svg content
                 if (empty($svg)) {
@@ -669,7 +669,7 @@ class rcube_washtml
 
         // SVG need to be parsed as XML
         $this->is_xml = !preg_match('/<(html|head|body)/i', $html) && stripos($html, '<svg') !== false;
-        $method       = $this->is_xml ? 'loadXML' : 'loadHTML';
+        $method = $this->is_xml ? 'loadXML' : 'loadHTML';
 
         // DOMDocument does not support HTML5, try Masterminds parser if available
         if (!$this->is_xml && class_exists('Masterminds\HTML5')) {
@@ -677,7 +677,7 @@ class rcube_washtml
                 // disabled_html_ns=true is a workaround for the performance issue
                 // https://github.com/Masterminds/html5-php/issues/181
                 $html5 = new HTML5(['disable_html_ns' => true]);
-                $node  = $html5->loadHTML($this->fix_html5($html));
+                $node = $html5->loadHTML($this->fix_html5($html));
             } catch (Exception $e) {
                 // ignore, fallback to DOMDocument
             }
@@ -832,7 +832,7 @@ class rcube_washtml
         // check for <base href=...>
         if (preg_match('!(<base.*href=["\']?)([hftps]{3,5}://[a-z0-9/.%-]+)!i', $body, $regs)) {
             $replacer = new rcube_base_replacer($regs[2]);
-            $body     = $replacer->replace($body);
+            $body = $replacer->replace($body);
         }
 
         return $body;
@@ -856,8 +856,8 @@ class rcube_washtml
                     continue;
                 }
 
-                $p      = $pos;
-                $in_li  = false;
+                $p = $pos;
+                $in_li = false;
                 $li_pos = 0;
 
                 while (($p = strpos($html, '<', $p)) !== false) {
@@ -871,7 +871,7 @@ class rcube_washtml
                     // li close tag
                     elseif ($tt == '</li' && in_array($html[$p + 4], [' ', '>'])) {
                         $li_pos = $p;
-                        $in_li  = false;
+                        $in_li = false;
                         $p += 4;
                     }
                     // ul/ol closing tag
@@ -882,7 +882,7 @@ class rcube_washtml
                     elseif (!$in_li && $li_pos && ($tt == '<ol>' || $tt == '<ol ' || $tt == '<ul>' || $tt == '<ul ')) {
                         // find closing tag of this ul/ol element
                         $element = substr($tt, 1, 2);
-                        $cpos    = $p;
+                        $cpos = $p;
                         do {
                             $tpos = stripos($html, '<' . $element, $cpos + 1);
                             $cpos = stripos($html, '</' . $element, $cpos + 1);
@@ -894,8 +894,8 @@ class rcube_washtml
                         }
 
                         // get element content
-                        $end     = strpos($html, '>', $cpos);
-                        $len     = $end - $p + 1;
+                        $end = strpos($html, '>', $cpos);
+                        $len = $end - $p + 1;
                         $element = substr($html, $p, $len);
 
                         // move element to the end of the last li
@@ -924,16 +924,16 @@ class rcube_washtml
         // We'll wrap it by a div container, it's an invalid HTML anyway
         $prefix = '';
         if (strpos($html, '<')) {
-            $pos     = stripos($html, '<!DOCTYPE') ?: stripos($html, '<html') ?: stripos($html, '<body');
-            $prefix  = '<div>' . substr($html, 0, $pos) . '</div>';
-            $html    = substr($html, $pos);
+            $pos = stripos($html, '<!DOCTYPE') ?: stripos($html, '<html') ?: stripos($html, '<body');
+            $prefix = '<div>' . substr($html, 0, $pos) . '</div>';
+            $html = substr($html, $pos);
         }
 
         // HTML5 requires <head> or <body> (#6713)
         // https://github.com/Masterminds/html5-php/issues/166
         if ($prefix !== '' || !preg_match('/<(head|body)/i', $html)) {
             $body_pos = stripos($html, '<body');
-            $pos      = $body_pos !== false ? $body_pos : stripos($html, '<html');
+            $pos = $body_pos !== false ? $body_pos : stripos($html, '<html');
 
             // No HTML and no BODY tag
             if ($pos === false) {
@@ -941,7 +941,7 @@ class rcube_washtml
             }
             // Either HTML or BODY tag found
             else {
-                $pos  = strpos($html, '>', $pos);
+                $pos = strpos($html, '>', $pos);
                 $html = substr_replace($html, ($body_pos === false ? '<body>' : '') . $prefix, $pos + 1, 0);
             }
         }
@@ -964,7 +964,7 @@ class rcube_washtml
     {
         $result = [];
         $strlen = strlen($style);
-        $q      = false;
+        $q = false;
 
         // explode value
         for ($p = $i = 0; $i < $strlen; $i++) {

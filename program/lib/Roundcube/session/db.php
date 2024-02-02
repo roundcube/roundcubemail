@@ -102,7 +102,7 @@ class rcube_session_db extends rcube_session
     public function read($key)
     {
         if ($this->lifetime) {
-            $expire_time  = $this->db->now(-$this->lifetime);
+            $expire_time = $this->db->now(-$this->lifetime);
             $expire_check = "CASE WHEN `changed` < {$expire_time} THEN 1 ELSE 0 END AS expired";
         }
 
@@ -121,10 +121,10 @@ class rcube_session_db extends rcube_session
 
             $time_diff = time() - strtotime($sql_arr['ts']);
 
-            $this->changed   = strtotime($sql_arr['changed']) + $time_diff; // local (PHP) time
-            $this->ip        = $sql_arr['ip'];
-            $this->vars      = base64_decode($sql_arr['vars']);
-            $this->key       = $key;
+            $this->changed = strtotime($sql_arr['changed']) + $time_diff; // local (PHP) time
+            $this->ip = $sql_arr['ip'];
+            $this->vars = base64_decode($sql_arr['vars']);
+            $this->key = $key;
 
             $this->db->reset();
 
@@ -171,7 +171,7 @@ class rcube_session_db extends rcube_session
     protected function update($key, $newvars, $oldvars)
     {
         $now = $this->db->now();
-        $ts  = microtime(true);
+        $ts = microtime(true);
 
         // if new and old data are not the same, update data
         // else update expire timestamp only when certain conditions are met

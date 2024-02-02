@@ -22,11 +22,11 @@
  */
 class OutputHtmlMock extends rcmail_output_html
 {
-    public const E_EXIT     = 101;
+    public const E_EXIT = 101;
     public const E_REDIRECT = 102;
 
     public $output;
-    public $headers  = [];
+    public $headers = [];
     public $errorCode;
     public $errorMessage;
     public $template = '';
@@ -140,11 +140,11 @@ class OutputHtmlMock extends rcmail_output_html
     {
         parent::reset($all);
 
-        $this->headers  = [];
-        $this->output   = null;
+        $this->headers = [];
+        $this->output = null;
         $this->template = null;
 
-        $this->errorCode    = null;
+        $this->errorCode = null;
         $this->errorMessage = null;
     }
 

@@ -14,7 +14,7 @@ class NewmailNotifier_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new newmail_notifier($rcube->plugins);
 
         $this->assertInstanceOf('newmail_notifier', $plugin);

@@ -18,10 +18,10 @@ class Actions_Contacts_Move extends ActionTestCase
 
         self::initDB('contacts');
 
-        $db      = rcmail::get_instance()->get_dbh();
-        $query   = $db->query('SELECT * FROM `collected_addresses` WHERE `email` = ?', 'test@collected.eu');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `collected_addresses` WHERE `email` = ?', 'test@collected.eu');
         $contact = $db->fetch_assoc($query);
-        $cid     = $contact['address_id'];
+        $cid = $contact['address_id'];
 
         $_POST = ['_cid' => $cid, '_to' => '0', '_source' => rcube_addressbook::TYPE_RECIPIENT];
 
@@ -35,12 +35,12 @@ class Actions_Contacts_Move extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully moved 1 contacts.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("No contacts found.");') !== false);
 
-        $query  = $db->query('SELECT * FROM `contacts` WHERE `email` = ?', 'test@collected.eu');
+        $query = $db->query('SELECT * FROM `contacts` WHERE `email` = ?', 'test@collected.eu');
         $result = $db->fetch_assoc($query);
 
         $this->assertTrue(!empty($result));
 
-        $query  = $db->query('SELECT * FROM `collected_addresses` WHERE `email` = ?', 'test@collected.eu');
+        $query = $db->query('SELECT * FROM `collected_addresses` WHERE `email` = ?', 'test@collected.eu');
         $result = $db->fetch_assoc($query);
 
         $this->assertTrue(empty($result));
