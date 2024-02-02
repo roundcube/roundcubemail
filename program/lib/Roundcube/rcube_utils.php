@@ -105,14 +105,14 @@ class rcube_utils
         // quoted-string, make sure all backslashes and quotes are
         // escaped
         if (substr($local_part, 0, 1) == '"') {
-            $local_quoted = preg_replace('/\\\\(\\\\|\")/', '', substr($local_part, 1, -1));
-            if (preg_match('/\\\\|"/', $local_quoted)) {
+            $local_quoted = preg_replace('/\\\(\\\|\")/', '', substr($local_part, 1, -1));
+            if (preg_match('/\\\|"/', $local_quoted)) {
                 return false;
             }
         }
         // dot-atom portion, make sure there's no prohibited characters
         elseif (preg_match('/(^\.|\.\.|\.$)/', $local_part)
-            || preg_match('/[\\ ",:;<>@]/', $local_part)
+            || preg_match('/[\ ",:;<>@]/', $local_part)
         ) {
             return false;
         }
@@ -230,7 +230,7 @@ class rcube_utils
             }
 
             $xml_rep_table['"'] = '&quot;';
-            $js_rep_table['"'] = '\\"';
+            $js_rep_table['"'] = '\"';
             $js_rep_table["'"] = "\\'";
             $js_rep_table['\\'] = '\\\\';
             // Unicode line and paragraph separators (#1486310)
@@ -240,7 +240,7 @@ class rcube_utils
 
         // encode for javascript use
         if ($enctype == 'js') {
-            return preg_replace(["/\r?\n/", "/\r/", '/<\\//'], ['\n', '\n', '<\\/'], strtr($str, $js_rep_table));
+            return preg_replace(["/\r?\n/", "/\r/", '/<\//'], ['\n', '\n', '<\/'], strtr($str, $js_rep_table));
         }
 
         // encode for plaintext
@@ -627,7 +627,7 @@ class rcube_utils
         $out = html_entity_decode(html_entity_decode($content));
         $out = trim(preg_replace('/(^<!--|-->$)/', '', trim($out)));
         $out = preg_replace_callback('/\\\([0-9a-f]{2,6})\s*/i', $callback, $out);
-        $out = preg_replace('/\\\([^0-9a-f])/i', '\\1', $out);
+        $out = preg_replace('/\\\([^0-9a-f])/i', '\1', $out);
         $out = preg_replace('#/\*.*\*/#Ums', '', $out);
         $out = strip_tags($out);
 
@@ -911,7 +911,7 @@ class rcube_utils
     public static function explode_quoted_string($delimiter, $string)
     {
         $res = [];
-        $parts = preg_split('/("(?:[^"\\\\]+|\\\\.)*+(?:"|\\\\?$))/s', $string, 0, \PREG_SPLIT_DELIM_CAPTURE);
+        $parts = preg_split('/("(?:[^"\\\]+|\\\.)*+(?:"|\\\?$))/s', $string, 0, \PREG_SPLIT_DELIM_CAPTURE);
         $isQuoted = false;
         $tmp = '';
         foreach ($parts as $part) {
@@ -1041,7 +1041,7 @@ class rcube_utils
             ],
             [
                 '',
-                '\\1',
+                '\1',
                 '',
                 '',
             ],
@@ -1078,8 +1078,8 @@ class rcube_utils
      */
     public static function format_datestr($date, $format)
     {
-        $format_items = preg_split('/[.-\/\\\\]/', $format);
-        $date_items = preg_split('/[.-\/\\\\]/', $date);
+        $format_items = preg_split('/[.-\/\\\]/', $format);
+        $date_items = preg_split('/[.-\/\\\]/', $date);
         $iso_format = '%04d-%02d-%02d';
 
         if (count($format_items) == 3 && count($date_items) == 3) {
@@ -1180,7 +1180,7 @@ class rcube_utils
         }
 
         $expr = ['/[\s;,"\'\/+-]+/ui', '/(\d)[-.\s]+(\d)/u'];
-        $repl = [' ', '\\1\\2'];
+        $repl = [' ', '\1\2'];
 
         if ($minlen > 1) {
             $minlen--;
@@ -1395,7 +1395,7 @@ class rcube_utils
     public static function is_absolute_path($path)
     {
         if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN') {
-            return (bool) preg_match('!^[a-z]:[\\\\/]!i', $path);
+            return (bool) preg_match('!^[a-z]:[\\\/]!i', $path);
         }
 
         return isset($path[0]) && $path[0] == '/';

@@ -21,7 +21,7 @@ class Framework_Mime extends TestCase
             4 => 'Test Test<test@domain.tld>',
             5 => '"Test Test" <test@domain.tld>',
             6 => '"Test Test"<test@domain.tld>',
-            7 => '"Test \\" Test" <test@domain.tld>',
+            7 => '"Test \" Test" <test@domain.tld>',
             8 => '"Test<Test" <test@domain.tld>',
             9 => '=?ISO-8859-1?B?VGVzdAo=?= <test@domain.tld>',
             10 => '=?ISO-8859-1?B?VGVzdAo=?=<test@domain.tld>', // #1487068

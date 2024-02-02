@@ -416,7 +416,7 @@ function version_parse($version)
 function rcube_autoload($classname)
 {
     if (strpos($classname, 'rcube') === 0) {
-        $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\\1/', $classname);
+        $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\1/', $classname);
         $classname = 'Roundcube/' . $classname;
     } elseif (strpos($classname, 'html_') === 0 || $classname === 'html') {
         $classname = 'Roundcube/html';

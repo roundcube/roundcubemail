@@ -84,7 +84,7 @@ class Framework_Bootstrap extends TestCase
             'test' => 'test/',
             'test/' => 'test/',
             '' => '/',
-            '\\' => '\\/',
+            '\\' => '\/',
         ];
 
         foreach ($data as $value => $expected) {
@@ -102,7 +102,7 @@ class Framework_Bootstrap extends TestCase
             'test' => 'test',
             'test/' => 'test',
             '/' => '',
-            '\\/' => '\\',
+            '\/' => '\\',
             'test/test' => 'test/test',
             'test//' => 'test',
             '/test//' => '/test',

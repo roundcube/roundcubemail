@@ -707,7 +707,7 @@ class rcube_vcard
                 }
             }
 
-            if (preg_match_all('/([^\\;]+);?/', $prefix, $regs2)) {
+            if (preg_match_all('/([^\;]+);?/', $prefix, $regs2)) {
                 $entry = [];
                 $field = strtoupper($regs2[1][0]);
                 $enc = null;

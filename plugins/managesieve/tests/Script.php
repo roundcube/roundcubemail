@@ -67,11 +67,11 @@ class Managesieve_Script extends TestCase
             [1, "text: #test\r\nThis is test ; message;\nMulti line\r\n.\r\n;", '"This is test ; message;\nMulti line"'],
             [0, '["test1","test2"]', '[["test1","test2"]]'],
             [1, '["test"]', '["test"]'],
-            [1, '"te\\"st"', '"te\\"st"'],
+            [1, '"te\"st"', '"te\"st"'],
             [0, 'test #comment', '["test"]'],
             [0, "text:\ntest\n.\ntext:\ntest\n.\n", '["test","test"]'],
             [0, "text:\r\ntest\r\n.\r\ntext:\r\ntest\r\n.\r\n", '["test","test"]'],
-            [1, '"\\a\\\\\\"a"', '"a\\\\\\"a"'],
+            [1, '"\a\\\\\"a"', '"a\\\\\"a"'],
         ];
     }
 

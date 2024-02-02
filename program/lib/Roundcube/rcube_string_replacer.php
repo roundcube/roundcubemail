@@ -47,9 +47,9 @@ class rcube_string_replacer
 
         // Simplified domain expression for UTF8 characters handling
         // Support unicode/punycode in top-level domain part
-        $utf_domain = '[^?&@"\'\\/()<>\s\r\t\n]+\\.?([^\\x00-\\x2f\\x3b-\\x40\\x5b-\\x60\\x7b-\\x7f]{2,}|xn--[a-zA-Z0-9]{2,})';
+        $utf_domain = '[^?&@"\'\/()<>\s\r\t\n]+\.?([^\x00-\x2f\x3b-\x40\x5b-\x60\x7b-\x7f]{2,}|xn--[a-zA-Z0-9]{2,})';
         $url1 = '.:;,';
-        $url2 = 'a-zA-Z0-9%=#$@+?|!&\\/_~\\[\\]\\(\\){}\*\x80-\xFE-';
+        $url2 = 'a-zA-Z0-9%=#$@+?|!&\/_~\[\]\(\){}\*\x80-\xFE-';
 
         // Supported link prefixes
         $link_prefix = "([\\w]+:\\/\\/|{$this->noword}[Ww][Ww][Ww]\\.|^[Ww][Ww][Ww]\\.)";
@@ -59,7 +59,7 @@ class rcube_string_replacer
         $this->linkref_pattern = '/\[([^<>\]#]+)\]/';
         $this->link_pattern = "/{$link_prefix}({$utf_domain}([{$url1}]*[{$url2}]+)*)/";
         $this->mailto_pattern = '/('
-            . '[-\\w!\\#$%&*+~\\/^`|{}=]+(?:\\.[-\\w!\\#$%&*+~\\/^`|{}=]+)*'  // local-part
+            . '[-\w!\#$%&*+~\/^`|{}=]+(?:\.[-\w!\#$%&*+~\/^`|{}=]+)*'  // local-part
             . "@{$utf_domain}"                                             // domain-part
             . "(\\?[{$url1}{$url2}]+)?"                                       // e.g. ?subject=test...
             . ')/';
@@ -288,7 +288,7 @@ class rcube_string_replacer
 
         $suffix = '';
 
-        if (preg_match('/(\\[|\\])/', $url)) {
+        if (preg_match('/(\[|\])/', $url)) {
             $in = false;
             for ($i = 0, $len = strlen($url); $i < $len; $i++) {
                 if ($url[$i] == '[') {
@@ -311,7 +311,7 @@ class rcube_string_replacer
         }
 
         // Do the same for parentheses
-        if (preg_match('/(\\(|\\))/', $url)) {
+        if (preg_match('/(\(|\))/', $url)) {
             $in = false;
             for ($i = 0, $len = strlen($url); $i < $len; $i++) {
                 if ($url[$i] == '(') {

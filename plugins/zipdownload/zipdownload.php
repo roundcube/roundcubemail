@@ -210,7 +210,7 @@ class zipdownload extends rcube_plugin
          * Ext: attach(1).txt on attach filename that has a attach.txt filename on same zip
          */
         if (isset($this->names[$displayname])) {
-            [$filename, $ext] = preg_split('/\\.(?=[^\\.]*$)/', $displayname);
+            [$filename, $ext] = preg_split('/\.(?=[^\.]*$)/', $displayname);
             $displayname = $filename . '(' . ($this->names[$displayname]++) . ').' . $ext;
             $this->names[$displayname] = 1;
         } else {

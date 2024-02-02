@@ -230,7 +230,7 @@ class Framework_Utils extends TestCase
         $mod = rcube_utils::mod_css_styles('left:exp/*  */ression( alert(&#039;xss3&#039;) )', 'rcmbody');
         $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks");
 
-        $mod = rcube_utils::mod_css_styles('background:\\0075\\0072\\00006c( javascript:alert(&#039;xss&#039;) )', 'rcmbody');
+        $mod = rcube_utils::mod_css_styles('background:\0075\0072\00006c( javascript:alert(&#039;xss&#039;) )', 'rcmbody');
         $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks (2)");
 
         $mod = rcube_utils::mod_css_styles("background: \\75 \\72 \\6C ('/images/img.png')", 'rcmbody');
@@ -363,8 +363,8 @@ class Framework_Utils extends TestCase
                 [],
             ],
             [
-                'test :"test1\\"test2" ;',
-                [['test', '"test1\\"test2"']],
+                'test :"test1\"test2" ;',
+                [['test', '"test1\"test2"']],
             ],
             [
                 "test : 'test5 \\'test6';",
@@ -423,7 +423,7 @@ class Framework_Utils extends TestCase
         $data = [
             '"a,b"' => ['"a,b"'],
             '"a,b","c,d"' => ['"a,b"', '"c,d"'],
-            '"a,\\"b",d' => ['"a,\\"b"', 'd'],
+            '"a,\"b",d' => ['"a,\"b"', 'd'],
             'a,' => ['a', ''],
             '"a,' => ['"a,'],
             '"a,\\' => ['"a,\\'],

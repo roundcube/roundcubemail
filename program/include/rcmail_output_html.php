@@ -442,7 +442,7 @@ class rcmail_output_html extends rcmail_output
         }
 
         if ($minified && preg_match('/(?<!\.min)\.(js|css)$/', $file)) {
-            $file = preg_replace('/\.(js|css)$/', '.min.\\1', $file);
+            $file = preg_replace('/\.(js|css)$/', '.min.\1', $file);
 
             if ($skin_path = $this->find_file_path($file, $skin_paths)) {
                 return $skin_path . $file;
@@ -802,7 +802,7 @@ class rcmail_output_html extends rcmail_output
         if ($plugin) {
             $templ = preg_replace(
                 ['/\bplugins\//', '/(["\']?)\/this\//'],
-                [$this->app->plugins->url, '\\1' . $this->app->plugins->url . $skin_dir . '/'],
+                [$this->app->plugins->url, '\1' . $this->app->plugins->url . $skin_dir . '/'],
                 $templ
             );
         }
@@ -1304,7 +1304,7 @@ class rcmail_output_html extends rcmail_output
      */
     protected function parse_xml($input)
     {
-        $regexp = '/<roundcube:([-_a-z]+)\s+((?:[^>]|\\\\>)+)(?<!\\\\)>/Ui';
+        $regexp = '/<roundcube:([-_a-z]+)\s+((?:[^>]|\\\>)+)(?<!\\\)>/Ui';
 
         return preg_replace_callback($regexp, [$this, 'xml_command'], $input);
     }
@@ -2678,15 +2678,15 @@ class rcmail_output_html extends rcmail_output
 
                 if (empty($type)) {
                     // If no type provided then remove those options from the list
-                    $template_names = preg_grep('/\\]$/', $template_names, \PREG_GREP_INVERT);
+                    $template_names = preg_grep('/\]$/', $template_names, \PREG_GREP_INVERT);
                 } elseif ($match === null) {
                     // Type specified with no special matching requirements so remove all none type specific options from the list
-                    $template_names = preg_grep('/\\]$/', $template_names);
+                    $template_names = preg_grep('/\]$/', $template_names);
                 }
 
                 if ($match == 'template') {
                     // Match only specific type or template name
-                    $template_names = preg_grep('/\\*$/', $template_names, \PREG_GREP_INVERT);
+                    $template_names = preg_grep('/\*$/', $template_names, \PREG_GREP_INVERT);
                 }
 
                 foreach ($template_names as $key) {

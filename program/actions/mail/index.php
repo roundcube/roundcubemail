@@ -912,7 +912,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         // remove old meta tag and add the new one, making sure that it is placed in the head (#3510, #7116)
         $html = preg_replace('/<meta[^>]+charset=[a-z0-9_"-]+[^>]*>/Ui', '', $html);
-        $html = preg_replace('/(<head[^>]*>)/Ui', '\\1' . $meta, $html, -1, $rcount);
+        $html = preg_replace('/(<head[^>]*>)/Ui', '\1' . $meta, $html, -1, $rcount);
 
         if (!$rcount) {
             // Note: HTML without <html> tag may still be a valid input (#6713)
@@ -1197,12 +1197,12 @@ class rcmail_action_mail_index extends rcmail_action
 
         $replace = [
             // add comments around html and other tags
-            '/(<!DOCTYPE[^>]*>)/i' => '<!--\\1-->',
-            '/(<\?xml[^>]*>)/i' => '<!--\\1-->',
-            '/(<\/?html[^>]*>)/i' => '<!--\\1-->',
-            '/(<\/?head[^>]*>)/i' => '<!--\\1-->',
-            '/(<title[^>]*>.*<\/title>)/Ui' => '<!--\\1-->',
-            '/(<\/?meta[^>]*>)/i' => '<!--\\1-->',
+            '/(<!DOCTYPE[^>]*>)/i' => '<!--\1-->',
+            '/(<\?xml[^>]*>)/i' => '<!--\1-->',
+            '/(<\/?html[^>]*>)/i' => '<!--\1-->',
+            '/(<\/?head[^>]*>)/i' => '<!--\1-->',
+            '/(<title[^>]*>.*<\/title>)/Ui' => '<!--\1-->',
+            '/(<\/?meta[^>]*>)/i' => '<!--\1-->',
             // quote <? of php and xml files that are specified as text/html
             '/<\?/' => '&lt;?',
             '/\?>/' => '?&gt;',
@@ -1261,7 +1261,7 @@ class rcmail_action_mail_index extends rcmail_action
 
             // replace <body> with <div>
             if (!empty($args['body_class'])) {
-                $replace['/<body([^>]*)>/i'] = '<div class="' . $args['body_class'] . '"\\1>';
+                $replace['/<body([^>]*)>/i'] = '<div class="' . $args['body_class'] . '"\1>';
             } else {
                 $replace['/<body/i'] = '<div';
             }

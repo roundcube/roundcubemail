@@ -275,7 +275,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date));
         $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date, 'Y-m-d H:i'));
         $this->assertSame(' Mon', $rcmail->format_date($date, ' D'));
-        $this->assertSame('D Monday', $rcmail->format_date($date, '\\D l'));
+        $this->assertSame('D Monday', $rcmail->format_date($date, '\D l'));
         $this->assertSame('Jun June', $rcmail->format_date($date, 'M F'));
         $date_x = '6/1/20, 12:20 PM';
         if (defined('INTL_ICU_VERSION')

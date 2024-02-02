@@ -36,14 +36,14 @@ class rcube_imap_generic
     public $selected;
     public $data = [];
     public $flags = [
-        'SEEN' => '\\Seen',
-        'DELETED' => '\\Deleted',
-        'ANSWERED' => '\\Answered',
-        'DRAFT' => '\\Draft',
-        'FLAGGED' => '\\Flagged',
+        'SEEN' => '\Seen',
+        'DELETED' => '\Deleted',
+        'ANSWERED' => '\Answered',
+        'DRAFT' => '\Draft',
+        'FLAGGED' => '\Flagged',
         'FORWARDED' => '$Forwarded',
         'MDNSENT' => '$MDNSent',
-        '*' => '\\*',
+        '*' => '\*',
     ];
 
     protected $fp;
@@ -365,17 +365,17 @@ class rcube_imap_generic
             if ($str) {
                 $str = trim($str);
                 // get response string and code (RFC5530)
-                if (preg_match('/^\\[([a-z-]+)\\]/i', $str, $m)) {
+                if (preg_match('/^\[([a-z-]+)\]/i', $str, $m)) {
                     $this->resultcode = strtoupper($m[1]);
                     $str = trim(substr($str, strlen($m[1]) + 2));
                 } else {
                     $this->resultcode = null;
                     // parse response for [APPENDUID 1204196876 3456]
-                    if (preg_match('/^\\[APPENDUID [0-9]+ ([0-9]+)\\]/i', $str, $m)) {
+                    if (preg_match('/^\[APPENDUID [0-9]+ ([0-9]+)\]/i', $str, $m)) {
                         $this->data['APPENDUID'] = $m[1];
                     }
                     // parse response for [COPYUID 1204196876 3456:3457 123:124]
-                    elseif (preg_match('/^\\[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\\]/i', $str, $m)) {
+                    elseif (preg_match('/^\[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\]/i', $str, $m)) {
                         $this->data['COPYUID'] = [$m[1], $m[2]];
                     }
                 }
@@ -2152,7 +2152,7 @@ class rcube_imap_generic
 
                 if ($skip_deleted && preg_match('/FLAGS \(([^)]+)\)/', $line, $matches)) {
                     $flags = explode(' ', strtoupper($matches[1]));
-                    if (in_array('\\DELETED', $flags)) {
+                    if (in_array('\DELETED', $flags)) {
                         continue;
                     }
                 }
@@ -2320,7 +2320,7 @@ class rcube_imap_generic
         // if PERMANENTFLAGS is not specified all flags are allowed
         if (!empty($this->data['PERMANENTFLAGS'])
             && !in_array($flag, (array) $this->data['PERMANENTFLAGS'])
-            && !in_array('\\*', (array) $this->data['PERMANENTFLAGS'])
+            && !in_array('\*', (array) $this->data['PERMANENTFLAGS'])
         ) {
             return false;
         }
@@ -3883,7 +3883,7 @@ class rcube_imap_generic
 
             // parse untagged response for [COPYUID 1204196876 3456:3457 123:124] (RFC6851)
             if ($line && $command == 'UID MOVE') {
-                if (preg_match('/^\\* OK \\[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\\]/i', $line, $m)) {
+                if (preg_match('/^\* OK \[COPYUID [0-9]+ ([0-9,:]+) ([0-9,:]+)\]/i', $line, $m)) {
                     $this->data['COPYUID'] = [$m[1], $m[2]];
                 }
             }
@@ -4206,7 +4206,7 @@ class rcube_imap_generic
 
         // quoted-string
         if (!preg_match('/[\r\n\x00\x80-\xFF]/', $string)) {
-            return '"' . addcslashes($string, '\\"') . '"';
+            return '"' . addcslashes($string, '\"') . '"';
         }
 
         // literal-string

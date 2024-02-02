@@ -649,7 +649,7 @@ class Framework_Washtml extends TestCase
             ['<link href="src:abc">', false],
             ['<img src="http://TRACKING_URL/">', true],
             ['<img src="data:image">', false],
-            ['<p style="backgr\\ound-image: \\ur\\l(\'http://TRACKING_URL\')"></p>', true],
+            ['<p style="backgr\ound-image: \ur\l(\'http://TRACKING_URL\')"></p>', true],
         ];
 
         foreach ($html as $item) {
