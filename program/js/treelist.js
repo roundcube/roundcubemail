@@ -175,10 +175,12 @@ function rcube_treelist_widget(node, p) {
 
                 case 13: // enter
                     search(this.value, true);
+
                     return rcube_event.cancel(e);
 
                 case 27: // escape
                     reset_search();
+
                     break;
 
                 case 38: // arrow up
@@ -189,6 +191,7 @@ function rcube_treelist_widget(node, p) {
 
                 default:
                     search(this.value, false);
+
                     break;
             }
         }).attr('autocomplete', 'off');
@@ -922,6 +925,7 @@ function rcube_treelist_widget(node, p) {
                 if (li.length) {
                     focus_next(li, (mod = keyCode == 38 || keyCode == 63232 ? -1 : 1));
                 }
+
                 return rcube_event.cancel(e);
 
             case 37: // Left arrow key
@@ -934,6 +938,7 @@ function rcube_treelist_widget(node, p) {
                         toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY);
                     } // toggle subtree
                 }
+
                 return false;
 
             case 9: // Tab
@@ -942,6 +947,7 @@ function rcube_treelist_widget(node, p) {
                     var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
                     focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:' + limit));
                 }
+
                 break;
         }
 

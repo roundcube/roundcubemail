@@ -911,10 +911,12 @@ function rcube_webmail() {
             case 'addressbook':
             case 'settings':
                 this.switch_task(command);
+
                 break;
 
             case 'about':
                 this.redirect('?_task=settings&_action=about', false);
+
                 break;
 
             case 'permaurl':
@@ -924,6 +926,7 @@ function rcube_webmail() {
                 if (this.env.permaurl) {
                     parent.location.href = this.env.permaurl;
                 }
+
                 break;
 
             case 'extwin':
@@ -942,6 +945,7 @@ function rcube_webmail() {
                 } else {
                     this.open_window(this.env.permaurl, true);
                 }
+
                 break;
 
             case 'change-format':
@@ -955,6 +959,7 @@ function rcube_webmail() {
                 }
 
                 location.href = url;
+
                 break;
 
             case 'menu-open':
@@ -966,14 +971,17 @@ function rcube_webmail() {
                     this.enable_command('open-attachment', mimetype && this.env.mimetypes && $.inArray(mimetype, this.env.mimetypes) >= 0);
                 }
                 this.show_menu(props, props.show || undefined, event);
+
                 break;
 
             case 'menu-close':
                 this.hide_menu(props, event);
+
                 break;
 
             case 'menu-save':
                 this.triggerEvent(command, { props: props, originalEvent: event });
+
                 return false;
 
             case 'open':
@@ -981,12 +989,14 @@ function rcube_webmail() {
                     obj.href = this.url('show', this.params_from_uid(uid, { _extwin: 1 }));
                     return true;
                 }
+
                 break;
 
             case 'close':
                 if (this.env.extwin) {
                     window.close();
                 }
+
                 break;
 
             case 'list':
@@ -1001,10 +1011,12 @@ function rcube_webmail() {
                 } else if (this.task == 'addressbook') {
                     this.list_contacts(props);
                 }
+
                 break;
 
             case 'set-listmode':
                 this.set_list_options(null, undefined, undefined, props == 'threads' ? 1 : 0);
+
                 break;
 
             case 'sort':
@@ -1020,28 +1032,34 @@ function rcube_webmail() {
 
                 // reload message list
                 this.list_mailbox('', '', sort_col + '_' + sort_order);
+
                 break;
 
             case 'nextpage':
                 this.list_page('next');
+
                 break;
 
             case 'lastpage':
                 this.list_page('last');
+
                 break;
 
             case 'previouspage':
                 this.list_page('prev');
+
                 break;
 
             case 'firstpage':
                 this.list_page('first');
+
                 break;
 
             case 'expunge':
                 if (this.env.exists) {
                     this.expunge_mailbox(this.env.mailbox);
                 }
+
                 break;
 
             case 'purge':
@@ -1049,6 +1067,7 @@ function rcube_webmail() {
                 if (this.env.exists) {
                     this.purge_mailbox(this.env.mailbox);
                 }
+
                 break;
 
             // common commands used in multiple tasks
@@ -1071,6 +1090,7 @@ function rcube_webmail() {
                 } else if (this.task == 'settings') {
                     this.goto_url('settings/' + props, { _framed: 0 });
                 }
+
                 break;
 
             case 'add':
@@ -1081,6 +1101,7 @@ function rcube_webmail() {
                 } else if (this.task == 'settings') {
                     this.load_identity(0, 'add-identity');
                 }
+
                 break;
 
             case 'edit':
@@ -1091,6 +1112,7 @@ function rcube_webmail() {
                     url[url._mbox == this.env.drafts_mailbox && props != 'new' ? '_draft_uid' : '_uid'] = uid;
                     this.open_compose_step(url);
                 }
+
                 break;
 
             case 'save':
@@ -1101,6 +1123,7 @@ function rcube_webmail() {
                         this.alert_dialog(this.get_label('nopagesizewarning'), function () {
                             input.focus();
                         });
+
                         break;
                     }
                     // contacts/identities
@@ -1114,6 +1137,7 @@ function rcube_webmail() {
                             this.alert_dialog(this.get_label('noemailwarning'), function () {
                                 input.focus();
                             });
+
                             break;
                         }
                     }
@@ -1125,6 +1149,7 @@ function rcube_webmail() {
 
                     form.submit();
                 }
+
                 break;
 
             case 'delete':
@@ -1144,6 +1169,7 @@ function rcube_webmail() {
                 else if (this.task == 'settings') {
                     this.delete_identity();
                 }
+
                 break;
 
             // mail task commands
@@ -1154,6 +1180,7 @@ function rcube_webmail() {
                 } else if (this.task == 'addressbook') {
                     this.move_contacts(props, event);
                 }
+
                 break;
 
             case 'copy':
@@ -1162,12 +1189,14 @@ function rcube_webmail() {
                 } else if (this.task == 'addressbook') {
                     this.copy_contacts(props, event);
                 }
+
                 break;
 
             case 'mark':
                 if (props) {
                     this.mark_message(props);
                 }
+
                 break;
 
             case 'toggle_status':
@@ -1195,17 +1224,20 @@ function rcube_webmail() {
 
             case 'add-contact':
                 this.add_contact(props);
+
                 break;
 
             case 'load-remote':
                 if (this.env.uid) {
                     if (props && this.env.sender) {
                         this.add_contact(this.env.sender, true, props);
+
                         break;
                     }
 
                     this.show_message(this.env.uid, true, this.env.action == 'preview');
                 }
+
                 break;
 
             case 'load-attachment':
@@ -1247,51 +1279,60 @@ function rcube_webmail() {
                     list.select_all(props == 'page' ? '' : props);
                 }
                 this.dummy_select = null;
+
                 break;
 
             case 'select-none':
                 this.select_all_mode = false;
                 this[this.task == 'addressbook' ? 'contact_list' : 'message_list'].clear_selection();
+
                 break;
 
             case 'expand-all':
                 this.env.autoexpand_threads = 1;
                 this.message_list.expand_all();
+
                 break;
 
             case 'expand-unread':
                 this.env.autoexpand_threads = 2;
                 this.message_list.collapse_all();
                 this.expand_unread();
+
                 break;
 
             case 'collapse-all':
                 this.env.autoexpand_threads = 0;
                 this.message_list.collapse_all();
+
                 break;
 
             case 'nextmessage':
                 if (this.env.next_uid) {
                     this.show_message(this.env.next_uid, false, this.env.action == 'preview');
                 }
+
                 break;
 
             case 'lastmessage':
                 if (this.env.last_uid) {
                     this.show_message(this.env.last_uid);
                 }
+
                 break;
 
             case 'previousmessage':
                 if (this.env.prev_uid) {
                     this.show_message(this.env.prev_uid, false, this.env.action == 'preview');
                 }
+
                 break;
 
             case 'firstmessage':
                 if (this.env.first_uid) {
                     this.show_message(this.env.first_uid);
                 }
+
                 break;
 
             case 'compose':
@@ -1321,9 +1362,11 @@ function rcube_webmail() {
 
                         if (a_cids.length) {
                             this.http_post('mailto', { _cid: a_cids.join(','), _source: this.env.source }, true);
+
                             break;
                         } else if (this.env.group && this.env.pagecount) {
                             this.http_post('mailto', { _gid: this.env.group, _source: this.env.source }, true);
+
                             break;
                         }
                     }
@@ -1334,6 +1377,7 @@ function rcube_webmail() {
                 }
 
                 this.open_compose_step(url);
+
                 break;
 
             case 'spellcheck':
@@ -1342,6 +1386,7 @@ function rcube_webmail() {
                 } else {
                     this.editor.spellcheck_start();
                 }
+
                 break;
 
             case 'savedraft':
@@ -1351,10 +1396,12 @@ function rcube_webmail() {
                 // compose form did not change (and draft wasn't saved already)
                 if (this.env.draft_id && this.cmp_hash == this.compose_field_hash()) {
                     this.auto_save_start();
+
                     break;
                 }
 
                 this.submit_messageform(true);
+
                 break;
 
             case 'send':
@@ -1366,6 +1413,7 @@ function rcube_webmail() {
                 clearTimeout(this.save_timer);
 
                 this.submit_messageform();
+
                 break;
 
             case 'send-attachment':
@@ -1378,19 +1426,23 @@ function rcube_webmail() {
                     }
                     aborted = true;
                 }
+
                 break;
 
             case 'insert-sig':
                 this.change_identity($("[name='_from']")[0], true);
+
                 break;
 
             case 'list-addresses':
                 this.list_contacts(props);
                 this.enable_command('add-recipient', false);
+
                 break;
 
             case 'add-recipient':
                 this.compose_add_recipient(props);
+
                 break;
 
             case 'reply-all':
@@ -1407,6 +1459,7 @@ function rcube_webmail() {
 
                     this.open_compose_step(url);
                 }
+
                 break;
 
             case 'forward-attachment':
@@ -1420,6 +1473,7 @@ function rcube_webmail() {
                     }
                     this.open_compose_step(url);
                 }
+
                 break;
 
             case 'print':
@@ -1441,12 +1495,14 @@ function rcube_webmail() {
                         }
                     }
                 }
+
                 break;
 
             case 'viewsource':
                 if (uid = this.get_single_uid()) {
                     this.open_window(this.url('viewsource', this.params_from_uid(uid)), true, true);
                 }
+
                 break;
 
             case 'download':
@@ -1455,6 +1511,7 @@ function rcube_webmail() {
                 } else if (uid = this.get_single_uid()) {
                     this.goto_url('viewsource', this.params_from_uid(uid, { _save: 1 }), false, true);
                 }
+
                 break;
 
             // quicksearch
@@ -1478,6 +1535,7 @@ function rcube_webmail() {
                     this.env.group = this.env.last_group || '';
                     this.list_contacts(this.env.source, this.env.group, 1);
                 }
+
                 break;
 
             case 'pushgroup':
@@ -1499,6 +1557,7 @@ function rcube_webmail() {
             case 'listgroup':
                 this.reset_qsearch();
                 this.list_contacts(props.source, props.id, 1, group);
+
                 break;
 
             case 'popgroup':
@@ -1517,6 +1576,7 @@ function rcube_webmail() {
                         this.list_contacts(props.source, this.env.address_group_stack[this.env.address_group_stack.length - 1].id);
                     }
                 }
+
                 break;
 
             case 'import-messages':
@@ -1530,6 +1590,7 @@ function rcube_webmail() {
                     }
                     this.command_aborted = true;
                 }
+
                 break;
 
             case 'import':
@@ -1580,24 +1641,29 @@ function rcube_webmail() {
                 if (this.contact_list.rowcount > 0) {
                     this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _search: this.env.search_request }, false, true);
                 }
+
                 break;
 
             case 'export-selected':
                 if (this.contact_list.rowcount > 0) {
                     this.goto_url('export', { _source: this.env.source, _gid: this.env.group, _cid: this.contact_list.get_selection().join(',') }, false, true);
                 }
+
                 break;
 
             case 'upload-photo':
                 this.upload_contact_photo(props || this.gui_objects.uploadform);
+
                 break;
 
             case 'delete-photo':
                 this.replace_contact_photo('-del-');
+
                 break;
 
             case 'undo':
                 this.http_request('undo', '', this.display_message('', 'loading'));
+
                 break;
 
             // unified command call (command name == function name)
@@ -2014,6 +2080,7 @@ function rcube_webmail() {
             case 63232: // "up", in safari keypress
             case 63233: // "down", in safari keypress
                 focus_menu_item(keyCode == 38 || keyCode == 63232 ? -1 : 1);
+
                 return rcube_event.cancel(e);
 
             case 9: // tab
@@ -2023,12 +2090,14 @@ function rcube_webmail() {
                         this.hide_menu(this.focused_menu, e);
                     }
                 }
+
                 return rcube_event.cancel(e);
 
             case 27: // esc
                 if (this.menu_stack.length) {
                     this.hide_menu(this.menu_stack[this.menu_stack.length - 1], e);
                 }
+
                 break;
         }
 
@@ -3698,14 +3767,17 @@ function rcube_webmail() {
             case 'read':
             case 'unread':
                 this.toggle_read_status(flag, r_uids);
+
                 break;
             case 'delete':
             case 'undelete':
                 this.toggle_delete_status(r_uids);
+
                 break;
             case 'flagged':
             case 'unflagged':
                 this.toggle_flagged_status(flag, a_uids);
+
                 break;
         }
     };
@@ -5498,10 +5570,12 @@ function rcube_webmail() {
                     if (formdata[elem.name] != '' && elem.type != 'hidden') {
                         empty = false;
                     }
+
                     break;
 
                 case 'select':
                     formdata[elem.name] = $('option:checked', elem).val();
+
                     break;
 
                 default:
@@ -6068,6 +6142,7 @@ function rcube_webmail() {
             case 9: // tab
                 if (rcube_event.get_modifier(e) == SHIFT_KEY || !this.ksearch_visible()) {
                     this.ksearch_hide();
+
                     return;
                 }
 
@@ -6085,6 +6160,7 @@ function rcube_webmail() {
 
             case 27: // escape
                 this.ksearch_hide();
+
                 return;
 
             case 37: // left
@@ -8396,10 +8472,12 @@ function rcube_webmail() {
                 case 'error':
                 case 'warning':
                     timeout = this.message_time * 2;
+
                     break;
 
                 case 'uploading':
                     timeout = 0;
+
                     break;
 
                 default:
@@ -9621,6 +9699,7 @@ function rcube_webmail() {
                 if ((this.env.action == 'show' || this.env.action == 'preview') && this.env.last_flag == 'SEEN') {
                     this.set_unread_message(this.env.uid, this.env.mailbox);
                 }
+
                 break;
 
             case 'delete':
@@ -9668,6 +9747,7 @@ function rcube_webmail() {
                         this.triggerEvent('listupdate', { list: this.message_list, folder: this.env.mailbox, rowcount: this.message_list.rowcount });
                     }
                 }
+
                 break;
 
             case 'refresh':
@@ -9764,6 +9844,7 @@ function rcube_webmail() {
                         this.triggerEvent('listupdate', { list: list, folder: this.env.source, rowcount: list.rowcount });
                     }
                 }
+
                 break;
 
             case 'list-contacts':
@@ -9774,6 +9855,7 @@ function rcube_webmail() {
                     }
                     this.triggerEvent('listupdate', { list: this.contact_list, rowcount: this.contact_list.rowcount });
                 }
+
                 break;
         }
 

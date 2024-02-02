@@ -1058,6 +1058,7 @@ function rcube_elastic_ui() {
                             $(this).tab('show');
                             // Because we return false we have to close popups
                             popups_close(e);
+
                             // Returning false here prevents from strange scrolling issue
                             // when the form is in an iframe, e.g. contact edit form
                             return false;
@@ -1614,16 +1615,19 @@ function rcube_elastic_ui() {
                         var label = rcmail.gettext(args.status ? 'replylist' : 'replyall');
                         $('.toolbar a.reply-all').attr('title', label).find('.inner').text(label);
                     }
+
                     break;
 
                 case 'compose-encrypted':
                 // show the toolbar button for Mailvelope
                     $('.toolbar a.encrypt').parent().show();
+
                     break;
 
                 case 'compose-encrypted-signed':
                 // enable selector for encrypt and sign
                     $('#encryption-menu-button').show();
+
                     break;
             }
         }
@@ -2409,6 +2413,7 @@ function rcube_elastic_ui() {
                             case 27: // ESC
                             case 9: // TAB
                                 $(item).popover('toggle').focus();
+
                                 return false;
 
                             case 38: // ARROW-UP
@@ -2423,6 +2428,7 @@ function rcube_elastic_ui() {
                                         break;
                                     }
                                 }
+
                                 return false; // prevents from scrolling the whole page
                         }
                     });
@@ -2492,10 +2498,12 @@ function rcube_elastic_ui() {
                             // Open the popup on ENTER or SPACE
                             e.preventDefault();
                             $(this).data('event', 'key').popover('toggle');
+
                             break;
                         case 27:
                             // Close the popup on ESC key
                             $(this).popover('hide');
+
                             break;
                     }
                 }
@@ -3553,10 +3561,12 @@ function rcube_elastic_ui() {
                 case '"':
                     if (i > 0 && i < len - 1) {
                         result += '"';
+
                         break;
                     }
 
                     result += '<span class="quotes">' + char + '</span>';
+
                     break;
 
                 case '\\':
@@ -3566,14 +3576,17 @@ function rcube_elastic_ui() {
                         result += char;
                         i++;
                     }
+
                     break;
 
                 case '<':
                     result += '&lt;';
+
                     break;
 
                 case '>':
                     result += '&gt;';
+
                     break;
 
                 default:
@@ -3798,6 +3811,7 @@ function rcube_elastic_ui() {
                         case 13: // ENTER
                         case 32: // SPACE
                             $(this).click();
+
                             return false; // for IE
 
                         case 38: // ARROW-UP
@@ -3810,9 +3824,11 @@ function rcube_elastic_ui() {
                             while (item = item[mode + 'Sibling']) {
                                 if (node = $(item).children('.active')[0]) {
                                     node.focus();
+
                                     break;
                                 }
                             }
+
                             return false; // prevents from scrolling the whole page
 
                         default:

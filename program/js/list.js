@@ -1102,6 +1102,7 @@ rcube_list_widget.prototype = {
             switch (mod_key) {
                 case SHIFT_KEY:
                     this.shift_select(id, false);
+
                     break;
 
                 case CONTROL_KEY:
@@ -1109,14 +1110,17 @@ rcube_list_widget.prototype = {
                         this.shift_start = id;
                         this.highlight_row(id, true);
                     }
+
                     break;
 
                 case CONTROL_SHIFT_KEY:
                     this.shift_select(id, true);
+
                     break;
 
                 default:
                     this.highlight_row(id, false);
+
                     break;
             }
 
@@ -1503,26 +1507,32 @@ rcube_list_widget.prototype = {
             case 63232: // "up" in Safari keypress
                 // Stop propagation so that the browser doesn't scroll
                 rcube_event.cancel(e);
+
                 return this.use_arrow_key(keyCode, mod_key);
 
             case 32: // Space
                 rcube_event.cancel(e);
+
                 return this.select_row(this.last_selected, mod_key, true);
 
             case 36: // Home
                 this.select_first(mod_key);
+
                 return rcube_event.cancel(e);
 
             case 35: // End
                 this.select_last(mod_key);
+
                 return rcube_event.cancel(e);
 
             case 65: // Ctrl + A
                 if (mod_key == CONTROL_KEY && this.multiselect) {
                     this.select_first(null, true);
                     this.select_last(SHIFT_KEY, true);
+
                     return rcube_event.cancel(e);
                 }
+
                 break;
 
             case 27: // Esc
@@ -1539,6 +1549,7 @@ rcube_list_widget.prototype = {
 
             case 9: // Tab
                 this.blur();
+
                 break;
 
             case 13: // Enter

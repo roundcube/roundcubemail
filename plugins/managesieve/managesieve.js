@@ -400,6 +400,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
             this.filtersets_list.remove_row(id, true);
             delete this.env.filtersets[id];
+
             break;
 
         // Create set row
@@ -430,6 +431,7 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
         case 'refresh':
             this.reset_filters_list(true);
+
             break;
     }
 
@@ -1029,6 +1031,7 @@ function sieve_formattime(hour, minutes) {
             case 'h':
                 h = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
                 time += (c == 'h' && hour < 10 ? '0' : '') + hour;
+
                 break;
             case 'G':
                 time += hour;
