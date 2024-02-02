@@ -62,8 +62,8 @@ class Actions_Contacts_Group_Create extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Group created successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.insert_contact_group({"source":"0","id":"2","name":"test"});') !== false);
 
-        $db     = rcmail::get_instance()->get_dbh();
-        $query  = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test\'');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test\'');
         $result = $db->fetch_assoc($query);
 
         $this->assertTrue(!empty($result));

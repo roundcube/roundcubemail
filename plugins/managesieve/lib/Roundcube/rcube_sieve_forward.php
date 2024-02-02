@@ -59,8 +59,8 @@ class rcube_sieve_forward extends rcube_sieve_engine
             return 0;
         }
 
-        $list     = $this->list_scripts();
-        $master   = $this->rc->config->get('managesieve_kolab_master');
+        $list = $this->list_scripts();
+        $master = $this->rc->config->get('managesieve_kolab_master');
         $included = [];
 
         $this->script_name = false;
@@ -128,16 +128,16 @@ class rcube_sieve_forward extends rcube_sieve_engine
             return;
         }
 
-        $list   = [];
+        $list = [];
         $active = in_array($this->script_name, $this->active);
 
         // find (first) simple forward rule that can be expressed with the minimal settings
         foreach ($this->script as $idx => $rule) {
             if (empty($this->forward) && !empty($rule['actions']) && $rule['actions'][0]['type'] == 'redirect') {
                 $ignore_rule = false;
-                $target      = null;
-                $stop_found  = false;
-                $action      = 'keep';
+                $target = null;
+                $stop_found = false;
+                $action = 'keep';
 
                 foreach ($rule['actions'] as $act) {
                     if ($stop_found) {
@@ -172,12 +172,12 @@ class rcube_sieve_forward extends rcube_sieve_engine
 
                 if (!$ignore_rule) {
                     $this->forward = array_merge($rule['actions'][0], [
-                        'idx'      => $idx,
+                        'idx' => $idx,
                         'disabled' => $rule['disabled'] || !$active,
-                        'name'     => $rule['name'],
-                        'tests'    => $rule['tests'],
-                        'action'   => $action,
-                        'target'   => $target,
+                        'name' => $rule['name'],
+                        'tests' => $rule['tests'],
+                        'action' => $action,
+                        'target' => $target,
                     ]);
                 }
             } elseif ($active) {
@@ -216,15 +216,15 @@ class rcube_sieve_forward extends rcube_sieve_engine
         }
 
         if (empty($error)) {
-            $rule               = $this->forward;
-            $rule['type']       = 'if';
-            $rule['name']       = !empty($rule['name']) ? $rule['name'] : $this->plugin->gettext('forward');
-            $rule['disabled']   = $status == 'off';
-            $rule['tests']      = $forward_tests;
-            $rule['join']       = $date_extension ? count($forward_tests) > 1 : false;
-            $rule['actions']    = [[
-                'type'   => 'redirect',
-                'copy'   => $action == 'copy',
+            $rule = $this->forward;
+            $rule['type'] = 'if';
+            $rule['name'] = !empty($rule['name']) ? $rule['name'] : $this->plugin->gettext('forward');
+            $rule['disabled'] = $status == 'off';
+            $rule['tests'] = $forward_tests;
+            $rule['join'] = $date_extension ? count($forward_tests) > 1 : false;
+            $rule['actions'] = [[
+                'type' => 'redirect',
+                'copy' => $action == 'copy',
                 'target' => $target,
             ]];
 
@@ -249,12 +249,12 @@ class rcube_sieve_forward extends rcube_sieve_engine
     {
         // build FORM tag
         $form_id = !empty($attrib['id']) ? $attrib['id'] : 'form';
-        $out     = $this->rc->output->request_form([
-                'id'      => $form_id,
-                'name'    => $form_id,
-                'method'  => 'post',
-                'task'    => 'settings',
-                'action'  => 'plugin.managesieve-forward',
+        $out = $this->rc->output->request_form([
+                'id' => $form_id,
+                'name' => $form_id,
+                'method' => 'post',
+                'task' => 'settings',
+                'action' => 'plugin.managesieve-forward',
                 'noclose' => true,
             ] + $attrib
         );
@@ -272,7 +272,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         $action->add($this->plugin->gettext('forward.redirect'), 'redirect');
 
         // force domain selection in redirect email input
-        $domains  = (array) $this->rc->config->get('managesieve_domains');
+        $domains = (array) $this->rc->config->get('managesieve_domains');
         $redirect = !empty($this->forward['action'])
             && ($this->forward['action'] == 'redirect' || $this->forward['action'] == 'copy');
 
@@ -333,9 +333,9 @@ class rcube_sieve_forward extends rcube_sieve_engine
 
         $forward = [
             'supported' => $this->exts,
-            'enabled'   => empty($this->forward['disabled']),
-            'action'    => $this->forward['action'],
-            'target'    => $this->forward['target'],
+            'enabled' => empty($this->forward['disabled']),
+            'action' => $this->forward['action'],
+            'target' => $this->forward['target'],
         ];
 
         return $forward;
@@ -350,7 +350,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
      */
     public function set_forward($data)
     {
-        $this->exts  = $this->sieve->get_extensions();
+        $this->exts = $this->sieve->get_extensions();
         $this->error = false;
 
         $this->init_script();
@@ -372,15 +372,15 @@ class rcube_sieve_forward extends rcube_sieve_engine
             $forward_tests = (array) $this->rc->config->get('managesieve_forward_test', [['test' => 'true']]);
         }
 
-        $rule             = $this->forward;
-        $rule['type']     = 'if';
-        $rule['name']     = !empty($rule['name']) ? $rule['name'] : 'Out-of-Office';
+        $rule = $this->forward;
+        $rule['type'] = 'if';
+        $rule['name'] = !empty($rule['name']) ? $rule['name'] : 'Out-of-Office';
         $rule['disabled'] = isset($data['enabled']) && !$data['enabled'];
-        $rule['tests']    = $forward_tests;
-        $rule['join']     = $date_extension ? count($forward_tests) > 1 : false;
-        $rule['actions']  = [[
-            'type'   => 'redirect',
-            'copy'   => $data['action'] == 'copy',
+        $rule['tests'] = $forward_tests;
+        $rule['join'] = $date_extension ? count($forward_tests) > 1 : false;
+        $rule['actions'] = [[
+            'type' => 'redirect',
+            'copy' => $data['action'] == 'copy',
             'target' => $data['target'],
         ]];
 

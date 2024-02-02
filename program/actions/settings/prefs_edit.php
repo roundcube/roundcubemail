@@ -39,7 +39,7 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
 
         // register UI objects
         $rcmail->output->add_handlers([
-            'userprefs'   => [$this, 'user_prefs_form'],
+            'userprefs' => [$this, 'user_prefs_form'],
             'sectionname' => [$this, 'prefs_section_name'],
         ]);
 

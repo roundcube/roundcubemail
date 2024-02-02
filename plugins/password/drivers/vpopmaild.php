@@ -29,10 +29,10 @@ class rcube_vpopmaild_password
 {
     public function save($curpass, $passwd, $username)
     {
-        $rcmail    = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $vpopmaild = new Net_Socket();
-        $host      = $rcmail->config->get('password_vpopmaild_host');
-        $port      = $rcmail->config->get('password_vpopmaild_port');
+        $host = $rcmail->config->get('password_vpopmaild_host');
+        $port = $rcmail->config->get('password_vpopmaild_port');
 
         $result = $vpopmaild->connect($host, $port, null);
         if (is_a($result, 'PEAR_Error')) {

@@ -13,16 +13,16 @@ class Framework_Text2Html extends TestCase
     public function provide_text2html_cases(): iterable
     {
         $options = [
-            'begin'  => '',
-            'end'    => '',
-            'break'  => '<br>',
-            'links'  => false,
+            'begin' => '',
+            'end' => '',
+            'break' => '<br>',
+            'links' => false,
             'flowed' => false,
-            'delsp'  => false,
-            'wrap'   => false,
-            'space'  => '_', // replace UTF-8 non-breaking space for simpler testing
+            'delsp' => false,
+            'wrap' => false,
+            'space' => '_', // replace UTF-8 non-breaking space for simpler testing
             'nobr_start' => '>',
-            'nobr_end'   => '<',
+            'nobr_end' => '<',
         ];
 
         $data[] = [' aaaa', '>_aaaa<', $options];
@@ -71,7 +71,7 @@ class Framework_Text2Html extends TestCase
         $data[] = ["\x02\x03", "\x02\x03", $options];
 
         $options['flowed'] = true;
-        $options['delsp']  = true;
+        $options['delsp'] = true;
 
         $data[] = [' aaaa', 'aaaa', $options];
         $data[] = ['aaaa aaaa', 'aaaa aaaa', $options];
@@ -93,8 +93,8 @@ class Framework_Text2Html extends TestCase
         $data[] = [">aaaa \n>bbbb\ncccc dddd", '<blockquote>aaaabbbb</blockquote>cccc dddd', $options];
 
         $options['flowed'] = false;
-        $options['delsp']  = false;
-        $options['wrap']   = true;
+        $options['delsp'] = false;
+        $options['wrap'] = true;
 
         $data[] = [">>aaaa bbbb\n>>\n>>>\n>cccc\n\ndddd eeee",
             '<blockquote><blockquote>aaaa bbbb<br><br><blockquote><br></blockquote></blockquote>cccc</blockquote><br>dddd eeee', $options];

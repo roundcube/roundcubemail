@@ -99,7 +99,7 @@ $session_error = null;
 // try to log in
 if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     $request_valid = !empty($_SESSION['temp']) && $RCMAIL->check_request();
-    $pass_charset  = $RCMAIL->config->get('password_charset', 'UTF-8');
+    $pass_charset = $RCMAIL->config->get('password_charset', 'UTF-8');
 
     // purge the session in case of new login when a session already exists
     if ($request_valid) {
@@ -107,9 +107,9 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
     }
 
     $auth = $RCMAIL->plugins->exec_hook('authenticate', [
-        'host'  => $RCMAIL->autoselect_host(),
-        'user'  => trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST)),
-        'pass'  => rcube_utils::get_input_string('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
+        'host' => $RCMAIL->autoselect_host(),
+        'user' => trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST)),
+        'pass' => rcube_utils::get_input_string('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
         'valid' => $request_valid,
         'error' => null,
         'cookiecheck' => true,
@@ -160,11 +160,11 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
         }
 
         $error_labels = [
-            rcmail::ERROR_STORAGE          => 'storageerror',
+            rcmail::ERROR_STORAGE => 'storageerror',
             rcmail::ERROR_COOKIES_DISABLED => 'cookiesdisabled',
-            rcmail::ERROR_INVALID_REQUEST  => 'invalidrequest',
-            rcmail::ERROR_INVALID_HOST     => 'invalidhost',
-            rcmail::ERROR_RATE_LIMIT       => 'accountlocked',
+            rcmail::ERROR_INVALID_REQUEST => 'invalidrequest',
+            rcmail::ERROR_INVALID_HOST => 'invalidhost',
+            rcmail::ERROR_RATE_LIMIT => 'accountlocked',
         ];
 
         if (!empty($auth['error']) && !is_numeric($auth['error'])) {
@@ -242,8 +242,8 @@ if (empty($RCMAIL->user->ID)) {
     }
 
     $plugin = $RCMAIL->plugins->exec_hook('unauthenticated', [
-        'task'      => 'login',
-        'error'     => $session_error,
+        'task' => 'login',
+        'error' => $session_error,
         // Return 401 only on failed logins (#7010)
         'http_code' => empty($session_error) && !empty($error_message) ? 401 : 200,
     ]);

@@ -150,8 +150,8 @@ abstract class TestCase extends PHPUnitTestCase
     protected static function startWebServer()
     {
         $path = realpath(__DIR__ . '/../../public_html');
-        $cmd  = ['php', '-S', 'localhost:8000'];
-        $env  = [];
+        $cmd = ['php', '-S', 'localhost:8000'];
+        $env = [];
 
         static::$phpProcess = new Process($cmd, null, $env);
         static::$phpProcess->setWorkingDirectory($path);

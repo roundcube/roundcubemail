@@ -14,7 +14,7 @@ class Rcmail_RcmailOutputJson extends ActionTestCase
         $output = new rcmail_output_json();
 
         $reflection = new ReflectionClass($output);
-        $commands   = $reflection->getProperty('commands');
+        $commands = $reflection->getProperty('commands');
         $commands->setAccessible(true);
 
         $output->show_message('unknown');

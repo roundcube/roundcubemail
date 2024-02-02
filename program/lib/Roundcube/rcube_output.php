@@ -29,15 +29,15 @@ abstract class rcube_output
     protected $app;
     protected $config;
     protected $charset = RCUBE_CHARSET;
-    protected $env     = [];
+    protected $env = [];
 
     /**
      * Object constructor
      */
     public function __construct()
     {
-        $this->app     = rcube::get_instance();
-        $this->config  = $this->app->config;
+        $this->app = rcube::get_instance();
+        $this->config = $this->app->config;
         $this->browser = new rcube_browser();
     }
 
@@ -228,7 +228,7 @@ abstract class rcube_output
             $params['disposition'] = 'attachment';
         }
 
-        $ctype       = 'application/octet-stream';
+        $ctype = 'application/octet-stream';
         $disposition = $params['disposition'];
 
         if (!empty($params['type']) && is_string($params['type']) && strlen($params['type']) < 256
@@ -252,7 +252,7 @@ abstract class rcube_output
                 $disposition .= "; filename=\"{$filename}\"";
             } else {
                 $filename = rawurlencode($filename);
-                $charset  = $this->charset;
+                $charset = $this->charset;
                 if (!empty($params['charset']) && rcube_charset::is_valid($params['charset'])) {
                     $charset = $params['charset'];
                 }
@@ -309,8 +309,8 @@ abstract class rcube_output
     {
         static $colcounts = [];
 
-        $fname           = '_' . $name;
-        $attrib['name']  = $fname . (!empty($attrib['array']) ? '[]' : '');
+        $fname = '_' . $name;
+        $attrib['name'] = $fname . (!empty($attrib['array']) ? '[]' : '');
         $attrib['class'] = trim((!empty($attrib['class']) ? $attrib['class'] : '') . ' ff_' . $name);
 
         if ($type == 'checkbox') {
@@ -345,7 +345,7 @@ abstract class rcube_output
                 if (!isset($colcounts[$name])) {
                     $colcounts[$name] = 0;
                 }
-                $idx   = intval($colcounts[$name]++);
+                $idx = intval($colcounts[$name]++);
                 $value = $postvalue[$idx] ?? null;
             } else {
                 $value = $postvalue;

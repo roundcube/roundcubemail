@@ -73,7 +73,7 @@ class ListTest extends TestCase
             } else { // phone
                 // On phones list options are in the toolbar menu
                 $browser->with(new Toolbarmenu(), static function ($browser) {
-                    $active  = ['select', 'options'];
+                    $active = ['select', 'options'];
                     $missing = [];
                     $imap = \bootstrap::get_storage();
 

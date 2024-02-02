@@ -72,18 +72,18 @@ class rcube_smtp
 
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', [
-            'smtp_host'      => $host,
-            'smtp_user'      => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
-            'smtp_pass'      => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
-            'smtp_auth_cid'  => $rcube->config->get('smtp_auth_cid'),
-            'smtp_auth_pw'   => $rcube->config->get('smtp_auth_pw'),
+            'smtp_host' => $host,
+            'smtp_user' => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
+            'smtp_pass' => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
+            'smtp_auth_cid' => $rcube->config->get('smtp_auth_cid'),
+            'smtp_auth_pw' => $rcube->config->get('smtp_auth_pw'),
             'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),
             'smtp_helo_host' => $rcube->config->get('smtp_helo_host'),
-            'smtp_timeout'   => $rcube->config->get('smtp_timeout'),
-            'smtp_conn_options'   => $rcube->config->get('smtp_conn_options'),
+            'smtp_timeout' => $rcube->config->get('smtp_timeout'),
+            'smtp_conn_options' => $rcube->config->get('smtp_conn_options'),
             'smtp_auth_callbacks' => [],
-            'gssapi_context'      => null,
-            'gssapi_cn'           => null,
+            'gssapi_context' => null,
+            'gssapi_cn' => null,
         ]);
 
         $smtp_host = $CONFIG['smtp_host'] ?: 'localhost';
@@ -170,14 +170,14 @@ class rcube_smtp
             $smtp_pass = $CONFIG['smtp_pass'];
         }
 
-        $smtp_user      = str_replace('%u', (string) $rcube->get_user_name(), $CONFIG['smtp_user']);
+        $smtp_user = str_replace('%u', (string) $rcube->get_user_name(), $CONFIG['smtp_user']);
         $smtp_auth_type = $CONFIG['smtp_auth_type'] ?: null;
-        $smtp_authz     = null;
+        $smtp_authz = null;
 
         if (!empty($CONFIG['smtp_auth_cid'])) {
             $smtp_authz = $smtp_user;
-            $smtp_user  = $CONFIG['smtp_auth_cid'];
-            $smtp_pass  = $CONFIG['smtp_auth_pw'];
+            $smtp_user = $CONFIG['smtp_auth_cid'];
+            $smtp_pass = $CONFIG['smtp_auth_pw'];
         }
 
         // attempt to authenticate to the SMTP server
@@ -251,14 +251,14 @@ class rcube_smtp
             return false;
         }
 
-        $exts             = $this->conn->getServiceExtensions();
-        $from_params      = null;
+        $exts = $this->conn->getServiceExtensions();
+        $from_params = null;
         $recipient_params = null;
 
         // RFC3461: Delivery Status Notification
         if (!empty($opts['dsn'])) {
             if (isset($exts['DSN'])) {
-                $from_params      = 'RET=HDRS';
+                $from_params = 'RET=HDRS';
                 $recipient_params = 'NOTIFY=SUCCESS,FAILURE';
             }
         }
@@ -315,9 +315,9 @@ class rcube_smtp
         // Send the message's headers and the body as SMTP data.
         $result = $this->conn->data($body, $text_headers);
         if (is_a($result, 'PEAR_Error')) {
-            $err       = $this->conn->getResponse();
+            $err = $this->conn->getResponse();
             $err_label = 'smtperror';
-            $err_vars  = [];
+            $err_vars = [];
 
             if (!in_array($err[0], [354, 250, 221])) {
                 $msg = sprintf('[%d] %s', $err[0], $err[1]);
@@ -326,7 +326,7 @@ class rcube_smtp
 
                 if (strpos($msg, 'size exceeds')) {
                     $err_label = 'smtpsizeerror';
-                    $exts      = $this->conn->getServiceExtensions();
+                    $exts = $this->conn->getServiceExtensions();
 
                     if (!empty($exts['SIZE'])) {
                         $limit = $exts['SIZE'];
@@ -336,7 +336,7 @@ class rcube_smtp
                         }
 
                         $err_vars['limit'] = $limit;
-                        $err_label         = 'smtpsizeerror';
+                        $err_label = 'smtpsizeerror';
                     }
                 }
             }
@@ -389,7 +389,7 @@ class rcube_smtp
         }
 
         if (($len = strlen($message)) > self::DEBUG_LINE_LENGTH) {
-            $diff    = $len - self::DEBUG_LINE_LENGTH;
+            $diff = $len - self::DEBUG_LINE_LENGTH;
             $message = substr($message, 0, self::DEBUG_LINE_LENGTH)
                 . "... [truncated {$diff} bytes]";
         }
@@ -431,7 +431,7 @@ class rcube_smtp
     private function _prepare_headers($headers)
     {
         $lines = [];
-        $from  = null;
+        $from = null;
 
         foreach ($headers as $key => $value) {
             if (strcasecmp($key, 'From') === 0) {
@@ -493,7 +493,7 @@ class rcube_smtp
             $recipients = implode(', ', $recipients);
         }
 
-        $addresses  = [];
+        $addresses = [];
         $recipients = preg_replace('/[\s\t]*\r?\n/', '', $recipients);
         $recipients = rcube_utils::explode_quoted_string(',', $recipients);
 
@@ -502,7 +502,7 @@ class rcube_smtp
             $a = rcube_utils::explode_quoted_string(' ', $recipient);
             foreach ($a as $word) {
                 $word = trim($word);
-                $len  = strlen($word);
+                $len = strlen($word);
 
                 if ($len && strpos($word, '@') > 0 && $word[$len - 1] != '"') {
                     $word = preg_replace('/^<|>$/', '', $word);
@@ -577,7 +577,7 @@ class rcube_smtp
         $err = $this->conn->getResponse();
 
         $vars['code'] = $result ? $result->getCode() : $err[0];
-        $vars['msg']  = $result ? $result->getMessage() : $err[1];
+        $vars['msg'] = $result ? $result->getMessage() : $err[1];
 
         $this->error = ['label' => $label, 'vars' => $vars];
         $this->response[] = "{$message}: {$err[1]} (Code: {$err[0]})";

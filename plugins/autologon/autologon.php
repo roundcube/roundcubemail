@@ -47,11 +47,11 @@ class autologon extends rcube_plugin
     public function authenticate($args)
     {
         if (!empty($_GET['_autologin']) && $this->is_localhost()) {
-            $args['user']        = 'me';
-            $args['pass']        = '******';
-            $args['host']        = 'localhost';
+            $args['user'] = 'me';
+            $args['pass'] = '******';
+            $args['host'] = 'localhost';
             $args['cookiecheck'] = false;
-            $args['valid']       = true;
+            $args['valid'] = true;
         }
 
         return $args;

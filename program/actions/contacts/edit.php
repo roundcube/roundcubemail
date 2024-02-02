@@ -30,9 +30,9 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
         if ($rcmail->action == 'edit') {
             // Get contact ID and source ID from request
-            $cids   = self::get_cids();
+            $cids = self::get_cids();
             $source = key($cids);
-            $cid    = array_first($cids[$source]);
+            $cid = array_first($cids[$source]);
 
             // Initialize addressbook
             $CONTACTS = self::contact_source($source, true);
@@ -61,7 +61,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
             if (empty($CONTACTS) || $CONTACTS->readonly) {
                 $CONTACTS = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
-                $source   = $rcmail->get_address_book_id($CONTACTS);
+                $source = $rcmail->get_address_book_id($CONTACTS);
             }
 
             // Initialize addressbook
@@ -69,7 +69,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         }
 
         self::$SOURCE_ID = $source;
-        self::$CONTACTS  = $CONTACTS;
+        self::$CONTACTS = $CONTACTS;
         self::set_sourcename($CONTACTS);
 
         // check if we have a valid result
@@ -80,10 +80,10 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         $rcmail->output->add_handlers([
             'contactedithead' => [$this, 'contact_edithead'],
             'contacteditform' => [$this, 'contact_editform'],
-            'contactphoto'    => [$this, 'contact_photo'],
+            'contactphoto' => [$this, 'contact_photo'],
             'photouploadform' => [$this, 'upload_photo_form'],
-            'sourceselector'  => [$this, 'source_selector'],
-            'filedroparea'    => [$this, 'photo_drop_area'],
+            'sourceselector' => [$this, 'source_selector'],
+            'filedroparea' => [$this, 'photo_drop_area'],
         ]);
 
         $rcmail->output->set_pagetitle($rcmail->gettext($rcmail->action == 'add' ? 'addcontact' : 'editcontact'));
@@ -108,17 +108,17 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             'head' => [
                 'name' => $rcmail->gettext('contactnameandorg'),
                 'content' => [
-                    'source'        => ['id' => '_source', 'label' => $rcmail->gettext('addressbook')],
-                    'prefix'        => ['size' => $i_size],
-                    'firstname'     => ['size' => $i_size, 'visible' => true],
-                    'middlename'    => ['size' => $i_size],
-                    'surname'       => ['size' => $i_size, 'visible' => true],
-                    'suffix'        => ['size' => $i_size],
-                    'name'          => ['size' => $i_size * 2],
-                    'nickname'      => ['size' => $i_size * 2],
-                    'organization'  => ['size' => $i_size * 2, 'visible' => $business_mode],
-                    'department'    => ['size' => $i_size * 2, 'visible' => $business_mode],
-                    'jobtitle'      => ['size' => $i_size * 2, 'visible' => $business_mode],
+                    'source' => ['id' => '_source', 'label' => $rcmail->gettext('addressbook')],
+                    'prefix' => ['size' => $i_size],
+                    'firstname' => ['size' => $i_size, 'visible' => true],
+                    'middlename' => ['size' => $i_size],
+                    'surname' => ['size' => $i_size, 'visible' => true],
+                    'suffix' => ['size' => $i_size],
+                    'name' => ['size' => $i_size * 2],
+                    'nickname' => ['size' => $i_size * 2],
+                    'organization' => ['size' => $i_size * 2, 'visible' => $business_mode],
+                    'department' => ['size' => $i_size * 2, 'visible' => $business_mode],
+                    'jobtitle' => ['size' => $i_size * 2, 'visible' => $business_mode],
                 ],
             ],
         ];
@@ -134,7 +134,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
     public static function contact_editform($attrib)
     {
-        $rcmail   = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $addr_tpl = $rcmail->config->get('address_template', '');
 
         // copy (parsed) address template to client
@@ -142,40 +142,40 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             $rcmail->output->set_env('address_template', $templ);
         }
 
-        $i_size       = !empty($attrib['size']) ? $attrib['size'] : 40;
-        $t_rows       = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 10;
-        $t_cols       = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
+        $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
+        $t_rows = !empty($attrib['textarearows']) ? $attrib['textarearows'] : 10;
+        $t_cols = !empty($attrib['textareacols']) ? $attrib['textareacols'] : 40;
         $short_labels = self::get_bool_attr($attrib, 'short-legend-labels');
 
         $form = [
             'contact' => [
-                'name'    => $rcmail->gettext('properties'),
+                'name' => $rcmail->gettext('properties'),
                 'content' => [
-                    'email'   => ['size' => $i_size, 'maxlength' => 254, 'visible' => true],
-                    'phone'   => ['size' => $i_size, 'visible' => true],
+                    'email' => ['size' => $i_size, 'maxlength' => 254, 'visible' => true],
+                    'phone' => ['size' => $i_size, 'visible' => true],
                     'address' => ['visible' => true],
                     'website' => ['size' => $i_size],
-                    'im'      => ['size' => $i_size],
+                    'im' => ['size' => $i_size],
                 ],
             ],
             'personal' => [
-                'name'    => $rcmail->gettext($short_labels ? 'personal' : 'personalinfo'),
+                'name' => $rcmail->gettext($short_labels ? 'personal' : 'personalinfo'),
                 'content' => [
-                    'gender'      => ['visible' => true],
-                    'maidenname'  => ['size' => $i_size],
-                    'birthday'    => ['visible' => true],
+                    'gender' => ['visible' => true],
+                    'maidenname' => ['size' => $i_size],
+                    'birthday' => ['visible' => true],
                     'anniversary' => [],
-                    'manager'     => ['size' => $i_size],
-                    'assistant'   => ['size' => $i_size],
-                    'spouse'      => ['size' => $i_size],
+                    'manager' => ['size' => $i_size],
+                    'assistant' => ['size' => $i_size],
+                    'spouse' => ['size' => $i_size],
                 ],
             ],
         ];
 
         if (isset(self::$CONTACT_COLTYPES['notes'])) {
             $form['notes'] = [
-                'name'    => $rcmail->gettext('notes'),
-                'single'  => true,
+                'name' => $rcmail->gettext('notes'),
+                'single' => true,
                 'content' => [
                     'notes' => ['size' => $t_cols, 'rows' => $t_rows, 'label' => false, 'visible' => true, 'limit' => 1],
                 ],
@@ -197,7 +197,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         $hidden = new html_hiddenfield(['name' => '_cid', 'value' => $rcmail->output->get_env('cid')]);
 
         $attrib['prefix'] = $hidden->show();
-        $input_attr       = ['name' => '_photo', 'accept' => 'image/*'];
+        $input_attr = ['name' => '_photo', 'accept' => 'image/*'];
 
         $rcmail->output->add_label('addphoto', 'replacephoto');
 
@@ -231,17 +231,17 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
             }
 
             $form_attrib = [
-                'name'    => 'form',
-                'method'  => 'post',
-                'task'    => $rcmail->task,
-                'action'  => 'save',
+                'name' => 'form',
+                'method' => 'post',
+                'task' => $rcmail->task,
+                'action' => 'save',
                 'request' => 'save.' . intval($cid),
                 'noclose' => true,
             ];
 
             $form_start = $rcmail->output->request_form($form_attrib + $attrib, $hiddenfields->show());
-            $form_end   = empty($attrib['form']) ? '</form>' : '';
-            $edit_form  = !empty($attrib['form']) ? $attrib['form'] : 'form';
+            $form_end = empty($attrib['form']) ? '</form>' : '';
+            $edit_form = !empty($attrib['form']) ? $attrib['form'] : 'form';
 
             $rcmail->output->add_gui_object('editform', $edit_form);
         }
@@ -259,10 +259,10 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
         if (!empty($attrib['id'])) {
             $rcmail->output->add_gui_object('filedrop', $attrib['id']);
             $rcmail->output->set_env('filedrop', [
-                'action'    => 'upload-photo',
+                'action' => 'upload-photo',
                 'fieldname' => '_photo',
-                'single'    => 1,
-                'filter'    => '^image/.+',
+                'single' => 1,
+                'filter' => '^image/.+',
             ]);
         }
     }

@@ -44,26 +44,26 @@ class rcmail_action_utils_modcss extends rcmail_action
         }
 
         $source = false;
-        $ctype  = null;
+        $ctype = null;
 
         try {
-            $client   = rcube::get_instance()->get_http_client();
+            $client = rcube::get_instance()->get_http_client();
             $response = $client->get($realurl);
 
             if (!empty($response)) {
-                $ctype  = $response->getHeader('Content-Type');
-                $ctype  = !empty($ctype) ? $ctype[0] : '';
+                $ctype = $response->getHeader('Content-Type');
+                $ctype = !empty($ctype) ? $ctype[0] : '';
                 $source = $response->getBody();
             }
         } catch (Exception $e) {
             rcube::raise_error($e, true, false);
         }
 
-        $cid    = rcube_utils::get_input_string('_c', rcube_utils::INPUT_GET);
+        $cid = rcube_utils::get_input_string('_c', rcube_utils::INPUT_GET);
         $prefix = rcube_utils::get_input_string('_p', rcube_utils::INPUT_GET);
 
         $container_id = preg_replace('/[^a-z0-9]/i', '', $cid);
-        $css_prefix   = preg_replace('/[^a-z0-9]/i', '', $prefix);
+        $css_prefix = preg_replace('/[^a-z0-9]/i', '', $prefix);
         $ctype_regexp = '~^text/(css|plain)~i';
 
         if ($source !== false && $ctype && preg_match($ctype_regexp, $ctype)) {

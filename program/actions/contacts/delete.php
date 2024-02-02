@@ -30,7 +30,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $cids   = self::get_cids(null, rcube_utils::INPUT_POST);
+        $cids = self::get_cids(null, rcube_utils::INPUT_POST);
         $delcnt = 0;
 
         // remove previous deletes
@@ -53,7 +53,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
             }
 
             $plugin = $rcmail->plugins->exec_hook('contact_delete', [
-                'id'     => $cid,
+                'id' => $cid,
                 'source' => $source,
             ]);
 
@@ -69,7 +69,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 }
 
                 $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GP);
-                $group  = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP);
+                $group = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP);
 
                 $rcmail->output->show_message($error, 'error');
                 $rcmail->output->command('list_contacts', $source, $group);
@@ -98,15 +98,15 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
         }
 
         $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
-        $page      = $_SESSION['page'] ?? 1;
+        $page = $_SESSION['page'] ?? 1;
 
         // update saved search after data changed
         if (($records = self::search_update(true)) !== false) {
             // create resultset object
-            $count  = count($records);
-            $first  = ($page - 1) * $page_size;
+            $count = count($records);
+            $first = ($page - 1) * $page_size;
             $result = new rcube_result_set($count, $first);
-            $pages  = ceil((count($records) + $delcnt) / $page_size);
+            $pages = ceil((count($records) + $delcnt) / $page_size);
 
             // last page and it's empty, display previous one
             if ($result->count && $result->count <= ($page_size * ($page - 1))) {
@@ -134,7 +134,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
         } elseif (isset($CONTACTS)) {
             // count contacts for this user
             $result = $CONTACTS->count();
-            $pages  = ceil(($result->count + $delcnt) / $page_size);
+            $pages = ceil(($result->count + $delcnt) / $page_size);
 
             // last page and it's empty, display previous one
             if ($result->count && $result->count <= ($page_size * ($page - 1))) {

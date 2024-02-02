@@ -22,7 +22,7 @@ class Framework_ResultThread extends TestCase
      */
     public function test_parse_thread()
     {
-        $text   = file_get_contents(__DIR__ . '/../src/imap_thread.txt');
+        $text = file_get_contents(__DIR__ . '/../src/imap_thread.txt');
         $object = new rcube_result_thread('INBOX', $text);
 
         $this->assertFalse($object->is_empty(), 'Object is empty');

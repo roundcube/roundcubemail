@@ -36,7 +36,7 @@ class http_authentication extends rcube_plugin
 
             // handle login action
             if (empty($_SESSION['user_id'])) {
-                $args['action']       = 'login';
+                $args['action'] = 'login';
                 $this->redirect_query = $_SERVER['QUERY_STRING'];
             }
             // Set user password in session (see shutdown() method for more info)
@@ -74,7 +74,7 @@ class http_authentication extends rcube_plugin
         }
 
         $args['cookiecheck'] = false;
-        $args['valid']       = true;
+        $args['valid'] = true;
 
         return $args;
     }

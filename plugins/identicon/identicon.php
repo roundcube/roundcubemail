@@ -68,7 +68,7 @@ class identicon extends rcube_plugin
                 if ($rcmail->action == 'show') {
                     // set photo URL using data-uri
                     if (($icon = $identicon->getBinary()) && ($icon = base64_encode($icon))) {
-                        $mimetype    = $identicon->getMimetype();
+                        $mimetype = $identicon->getMimetype();
                         $args['url'] = sprintf('data:%s;base64,%s', $mimetype, $icon);
                     }
                 } else {

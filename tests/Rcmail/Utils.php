@@ -76,7 +76,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
         $this->assertTrue(strpos($output, 'Updating prefs for user 1') !== false);
         $this->assertTrue(strpos($output, 'saved') !== false);
 
-        $query  = $db->query('SELECT preferences FROM `users` WHERE `user_id` = 1');
+        $query = $db->query('SELECT preferences FROM `users` WHERE `user_id` = 1');
         $result = $db->fetch_assoc($query);
 
         $prefs = unserialize($result['preferences']);

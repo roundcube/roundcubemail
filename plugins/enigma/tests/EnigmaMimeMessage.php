@@ -14,7 +14,7 @@ class Enigma_EnigmaMimeMessage extends TestCase
      */
     public function test_is_multipart()
     {
-        $mime     = new Mail_mime();
+        $mime = new Mail_mime();
         $message1 = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
         $this->assertFalse($message1->isMultipart());
@@ -34,7 +34,7 @@ class Enigma_EnigmaMimeMessage extends TestCase
      */
     public function test_get_from_address()
     {
-        $mime    = new Mail_mime();
+        $mime = new Mail_mime();
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
         $this->assertNull($message->getFromAddress());

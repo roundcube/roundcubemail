@@ -18,8 +18,8 @@ class Actions_Settings_IdentityEdit extends ActionTestCase
 
         self::initDB('identities');
 
-        $db       = rcmail::get_instance()->get_dbh();
-        $query    = $db->query('SELECT * FROM `identities` WHERE `standard` = 1 LIMIT 1');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `identities` WHERE `standard` = 1 LIMIT 1');
         $identity = $db->fetch_assoc($query);
 
         $_GET = ['_iid' => $identity['identity_id']];

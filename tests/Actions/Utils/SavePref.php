@@ -28,7 +28,7 @@ class Actions_Utils_SavePref extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $user  = new rcube_user($rcmail->user->ID);
+        $user = new rcube_user($rcmail->user->ID);
         $prefs = $user->get_prefs();
 
         $this->assertSame(['date'], $prefs['list_cols']);

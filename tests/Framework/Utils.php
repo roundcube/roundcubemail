@@ -538,8 +538,8 @@ class Framework_Utils extends TestCase
             '22-04-2013' => 1366588800,
             '22/04/2013' => 1366588800,
             '22.04.2013' => 1366588800,
-            '22.4.2013'  => 1366588800,
-            '20130422'   => 1366588800,
+            '22.4.2013' => 1366588800,
+            '20130422' => 1366588800,
             '2013/06/21 12:00:00 UTC' => 1371816000,
             '2013/06/21 12:00:00 Europe/Berlin' => 1371808800,
         ];
@@ -563,8 +563,8 @@ class Framework_Utils extends TestCase
             '22/04/2013' => '2013-04-22',
             '22.04.2013' => '2013-04-22',
             '04/22/2013' => '2013-04-22',
-            '22.4.2013'  => '2013-04-22',
-            '20130422'   => '2013-04-22',
+            '22.4.2013' => '2013-04-22',
+            '20130422' => '2013-04-22',
             '1900-10-10' => '1900-10-10',
             '01-01-1900' => '1900-01-01',
             '01/30/1960' => '1960-01-30',
@@ -603,11 +603,11 @@ class Framework_Utils extends TestCase
     {
         $tz = new DateTimeZone('Europe/Helsinki');
         $test = [
-            'Jan 1st 2014 +0800' => '2013-12-31 18:00',  // result in target timezone
-            'Jan 1st 14 45:42'   => '2014-01-01 00:00',  // force fallback to rcube_utils::strtotime()
-            'Jan 1st 2014 UK'    => '2014-01-01 00:00',
-            '1520587800'         => '2018-03-09 11:30',  // unix timestamp conversion
-            'Invalid date'       => false,
+            'Jan 1st 2014 +0800' => '2013-12-31 18:00', // result in target timezone
+            'Jan 1st 14 45:42' => '2014-01-01 00:00', // force fallback to rcube_utils::strtotime()
+            'Jan 1st 2014 UK' => '2014-01-01 00:00',
+            '1520587800' => '2018-03-09 11:30',  // unix timestamp conversion
+            'Invalid date' => false,
         ];
 
         foreach ($test as $datetime => $ts) {
@@ -644,9 +644,9 @@ class Framework_Utils extends TestCase
     public function test_tokenize_string()
     {
         $test = [
-            ''        => [],
-            'abc d'   => ['abc'],
-            'abc de'  => ['abc', 'de'],
+            '' => [],
+            'abc d' => ['abc'],
+            'abc de' => ['abc', 'de'],
             'äàé;êöü-xyz' => ['äàé', 'êöü', 'xyz'],
             '日期格式' => ['日期格式'],
         ];
@@ -663,16 +663,16 @@ class Framework_Utils extends TestCase
     public function test_normalize_string()
     {
         $test = [
-            ''        => '',
+            '' => '',
             'abc def' => 'abc def',
             'ÇçäâàåæéêëèïîìÅÉöôòüûùÿøØáíóúñÑÁÂÀãÃÊËÈÍÎÏÓÔõÕÚÛÙýÝ' => 'ccaaaaaeeeeiiiaeooouuuyooaiounnaaaaaeeeiiioooouuuyy',
             'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżýĄŚŻŹĆ' => 'aaaaccceeeeiilllnnooorrsssttuuuuzzzyaszzc',
-            'ßs'  => 'sss',
+            'ßs' => 'sss',
             'Xae' => 'xa',
             'Xoe' => 'xo',
             'Xue' => 'xu',
             '项目' => '项目',
-            'ß'  => '',
+            'ß' => '',
             '日' => '',
         ];
 

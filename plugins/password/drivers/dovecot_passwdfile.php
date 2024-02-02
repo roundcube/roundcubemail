@@ -36,12 +36,12 @@ class rcube_dovecot_passwdfile_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $rcmail       = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $mailuserfile = $rcmail->config->get('password_dovecot_passwdfile_path') ?: '/etc/mail/imap.passwd';
 
         $password = password::hash_password($newpass);
         $username = escapeshellcmd($username); // FIXME: Do we need this?
-        $content  = '';
+        $content = '';
 
         if ($password === false) {
             return PASSWORD_CRYPT_ERROR;
@@ -63,9 +63,9 @@ class rcube_dovecot_passwdfile_password
             // Read the file and replace the user password
             while (($line = fgets($fp, 40960)) !== false) {
                 if (strpos($line, "{$username}:") === 0) {
-                    $tokens    = explode(':', $line);
+                    $tokens = explode(':', $line);
                     $tokens[1] = $password;
-                    $line      = implode(':', $tokens);
+                    $line = implode(':', $tokens);
                 }
 
                 $content .= $line;

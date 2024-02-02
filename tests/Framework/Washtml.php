@@ -106,32 +106,32 @@ class Framework_Washtml extends TestCase
     {
         $washer = new rcube_washtml();
 
-        $html   = '<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>';
+        $html = '<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame('<p>p2</p>', $washed, 'HTML conditional comments (#1489004)');
 
-        $html   = '<!--TestCommentInvalid><p>test</p>';
+        $html = '<!--TestCommentInvalid><p>test</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame('<p>test</p>', $washed, 'HTML invalid comments (#1487759)');
 
-        $html   = '<p>para1</p><!-- comment --><p>para2</p>';
+        $html = '<p>para1</p><!-- comment --><p>para2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame('<p>para1</p><p>para2</p>', $washed, 'HTML comments - simple comment');
 
-        $html   = '<p>para1</p><!-- <hr> comment --><p>para2</p>';
+        $html = '<p>para1</p><!-- <hr> comment --><p>para2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame('<p>para1</p><p>para2</p>', $washed, 'HTML comments - tags inside (#1489904)');
 
-        $html   = '<p>para1</p><!-- comment => comment --><p>para2</p>';
+        $html = '<p>para1</p><!-- comment => comment --><p>para2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame('<p>para1</p><p>para2</p>', $washed, 'HTML comments - bracket inside');
 
-        $html   = "<p><!-- span>1</span -->\n<span>2</span>\n<!-- >3</span --><span>4</span></p>";
+        $html = "<p><!-- span>1</span -->\n<span>2</span>\n<!-- >3</span --><span>4</span></p>";
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame("<p>\n<span>2</span>\n<span>4</span></p>", $washed, 'HTML comments (#6464)');
@@ -283,7 +283,7 @@ class Framework_Washtml extends TestCase
         $this->assertMatchesRegularExpression('|line-height: 1;|', $washed, 'Untouched line-height (#1489917)');
         $this->assertMatchesRegularExpression('|; height: 10px|', $washed, 'Fixed height units');
 
-        $html     = "<div style=\"padding: 0px\n   20px;border:1px solid #000;\"></div>";
+        $html = "<div style=\"padding: 0px\n   20px;border:1px solid #000;\"></div>";
         $expected = '<div style="padding: 0px 20px; border: 1px solid #000"></div>';
 
         $washer = new rcube_washtml();
@@ -298,7 +298,7 @@ class Framework_Washtml extends TestCase
     public function test_style_wash_xss()
     {
         $html = "<img style=aaa:'\"/onerror=alert(1)//'>";
-        $exp  = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
+        $exp = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
 
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
@@ -306,7 +306,7 @@ class Framework_Washtml extends TestCase
         $this->assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
 
         $html = "<img style=aaa:'&quot;/onerror=alert(1)//'>";
-        $exp  = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
+        $exp = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
 
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
@@ -561,7 +561,7 @@ class Framework_Washtml extends TestCase
     public function test_style_wash_position_fixed()
     {
         $html = "<img style='position:fixed' /><img style=\"position:/**/ fixed; top:10px\" />";
-        $exp  = '<img style="position: absolute" /><img style="position: absolute; top: 10px" />';
+        $exp = '<img style="position: absolute" /><img style="position: absolute; top: 10px" />';
 
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
@@ -612,7 +612,7 @@ class Framework_Washtml extends TestCase
 
         // remove whitespace between tags
         $washed = preg_replace('/>[\s\r\n\t]+</', '><', $washed);
-        $exp    = preg_replace('/>[\s\r\n\t]+</', '><', $exp);
+        $exp = preg_replace('/>[\s\r\n\t]+</', '><', $exp);
 
         $this->assertSame(trim($washed), trim($exp), 'MathML content');
     }
@@ -685,7 +685,7 @@ class Framework_Washtml extends TestCase
     {
         $washer = new rcube_washtml(['css_prefix' => 'test']);
 
-        $html   = '<p id="my-id">'
+        $html = '<p id="my-id">'
             . '<label for="my-other-id" class="my-class1 my-class2">test</label>'
             . '<a href="#my-id">link</a>'
             . '</p>';
@@ -731,34 +731,34 @@ class Framework_Washtml extends TestCase
     {
         $washer = new rcube_washtml();
 
-        $html   = '<head></head>First line<br />Second line';
+        $html = '<head></head>First line<br />Second line';
         $washed = $washer->wash($html);
 
         $this->assertStringContainsString('First line', $washed);
 
-        $html   = 'First line<br />Second line';
+        $html = 'First line<br />Second line';
         $washed = $washer->wash($html);
 
         $this->assertStringContainsString('First line', $washed);
 
-        $html   = '<html>First line<br />Second line</html>';
+        $html = '<html>First line<br />Second line</html>';
         $washed = $washer->wash($html);
 
         $this->assertStringContainsString('>First line', $washed);
 
-        $html   = '<html><head></head>First line<br />Second line</html>';
+        $html = '<html><head></head>First line<br />Second line</html>';
         $washed = $washer->wash($html);
 
         $this->assertStringContainsString('First line', $washed);
 
         // Not really valid HTML, but because its common in email world
         // and because it works with DOMDocument, we make sure its supported
-        $html   = 'First line<br /><html><body>Second line';
+        $html = 'First line<br /><html><body>Second line';
         $washed = $washer->wash($html);
 
         $this->assertStringContainsString('First line', $washed);
 
-        $html   = 'First line<br /><html>Second line';
+        $html = 'First line<br /><html>Second line';
         $washed = $washer->wash($html);
 
         $this->assertStringContainsString('First line', $washed);

@@ -19,10 +19,10 @@ class ServerTest extends TestCase
         $this->settings = [
             'read_when_deleted' => true,
             'flag_for_deletion' => false,
-            'skip_deleted'      => false,
-            'delete_junk'       => false,
-            'logout_purge'      => 'never',
-            'logout_expunge'    => false,
+            'skip_deleted' => false,
+            'delete_junk' => false,
+            'logout_purge' => 'never',
+            'logout_expunge' => false,
         ];
 
         $this->browse(function ($browser) {

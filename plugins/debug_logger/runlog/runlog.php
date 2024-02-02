@@ -7,18 +7,18 @@
  */
 class runlog
 {
-    private $start_time     = false;
-    private $parent_stack   = [];
-    private $file_handles   = [];
+    private $start_time = false;
+    private $parent_stack = [];
+    private $file_handles = [];
     private $debug_messages = [];
-    private $indent         = 0;
-    private $run_log        = [];
+    private $indent = 0;
+    private $run_log = [];
 
     public $print_to_console = false;
-    public $threshold        = 0;
-    public $tag_count        = [];
-    public $timestamp        = 'd-M-Y H:i:s O';
-    public $max_line_size    = 150;
+    public $threshold = 0;
+    public $tag_count = [];
+    public $timestamp = 'd-M-Y H:i:s O';
+    public $max_line_size = 150;
 
     public function __construct()
     {
@@ -28,13 +28,13 @@ class runlog
     public function start($name, $tag = false)
     {
         $this->run_log[] = [
-            'type'    => 'start',
-            'tag'     => $tag,
-            'index'   => count($this->run_log),
-            'value'   => $name,
-            'time'    => microtime(true),
+            'type' => 'start',
+            'tag' => $tag,
+            'index' => count($this->run_log),
+            'value' => $name,
+            'time' => microtime(true),
             'parents' => $this->parent_stack,
-            'ended'   => false,
+            'ended' => false,
         ];
 
         $this->parent_stack[] = $name;
@@ -46,7 +46,7 @@ class runlog
 
     public function end()
     {
-        $name  = array_pop($this->parent_stack);
+        $name = array_pop($this->parent_stack);
         $lastk = 0;
 
         foreach ($this->run_log as $k => $entry) {
@@ -59,13 +59,13 @@ class runlog
         $this->run_log[$lastk]['duration'] = microtime(true) - $start;
         $this->run_log[$lastk]['ended'] = true;
         $this->run_log[] = [
-            'type'     => 'end',
-            'tag'      =>  $this->run_log[$lastk]['tag'],
-            'index'    => $lastk,
-            'value'    => $name,
-            'time'     => microtime(true),
+            'type' => 'end',
+            'tag' => $this->run_log[$lastk]['tag'],
+            'index' => $lastk,
+            'value' => $name,
+            'time' => microtime(true),
             'duration' => microtime(true) - $start,
-            'parents'  => $this->parent_stack,
+            'parents' => $this->parent_stack,
         ];
 
         $this->indent--;
@@ -129,10 +129,10 @@ class runlog
         }
         $this->debug_messages[] = $msg;
         $this->run_log[] = [
-            'type'    => 'note',
-            'tag'     => $tag ?: 'text',
-            'value'   => htmlentities($msg),
-            'time'    => microtime(true),
+            'type' => 'note',
+            'tag' => $tag ?: 'text',
+            'value' => htmlentities($msg),
+            'time' => microtime(true),
             'parents' => $this->parent_stack,
         ];
 

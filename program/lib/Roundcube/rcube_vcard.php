@@ -27,48 +27,48 @@ class rcube_vcard
     private static $values_decoded = false;
     private $raw = [
         'FN' => [],
-        'N'  => [['', '', '', '', '']],
+        'N' => [['', '', '', '', '']],
     ];
     private static $fieldmap = [
-        'phone'    => 'TEL',
+        'phone' => 'TEL',
         'birthday' => 'BDAY',
-        'website'  => 'URL',
-        'notes'    => 'NOTE',
-        'email'    => 'EMAIL',
-        'address'  => 'ADR',
+        'website' => 'URL',
+        'notes' => 'NOTE',
+        'email' => 'EMAIL',
+        'address' => 'ADR',
         'jobtitle' => 'TITLE',
-        'department'  => 'X-DEPARTMENT',
-        'gender'      => 'X-GENDER',
-        'maidenname'  => 'X-MAIDENNAME',
+        'department' => 'X-DEPARTMENT',
+        'gender' => 'X-GENDER',
+        'maidenname' => 'X-MAIDENNAME',
         'anniversary' => 'X-ANNIVERSARY',
-        'assistant'   => 'X-ASSISTANT',
-        'manager'     => 'X-MANAGER',
-        'spouse'      => 'X-SPOUSE',
-        'edit'        => 'X-AB-EDIT',
-        'groups'      => 'CATEGORIES',
+        'assistant' => 'X-ASSISTANT',
+        'manager' => 'X-MANAGER',
+        'spouse' => 'X-SPOUSE',
+        'edit' => 'X-AB-EDIT',
+        'groups' => 'CATEGORIES',
     ];
     private $typemap = [
-        'IPHONE'   => 'mobile',
-        'CELL'     => 'mobile',
+        'IPHONE' => 'mobile',
+        'CELL' => 'mobile',
         'WORK,FAX' => 'workfax',
     ];
     private $phonetypemap = [
-        'HOME1'       => 'HOME',
-        'BUSINESS1'   => 'WORK',
-        'BUSINESS2'   => 'WORK2',
+        'HOME1' => 'HOME',
+        'BUSINESS1' => 'WORK',
+        'BUSINESS2' => 'WORK2',
         'BUSINESSFAX' => 'WORK,FAX',
-        'MOBILE'      => 'CELL',
+        'MOBILE' => 'CELL',
     ];
     private $addresstypemap = [
         'BUSINESS' => 'WORK',
     ];
     private $immap = [
         'X-JABBER' => 'jabber',
-        'X-ICQ'    => 'icq',
-        'X-MSN'    => 'msn',
-        'X-AIM'    => 'aim',
-        'X-YAHOO'  => 'yahoo',
-        'X-SKYPE'  => 'skype',
+        'X-ICQ' => 'icq',
+        'X-MSN' => 'msn',
+        'X-AIM' => 'aim',
+        'X-YAHOO' => 'yahoo',
+        'X-SKYPE' => 'skype',
         'X-SKYPE-USERNAME' => 'skype',
     ];
 
@@ -131,13 +131,13 @@ class rcube_vcard
         }
 
         // find well-known address fields
-        $this->displayname  = $this->raw['FN'][0][0] ?? '';
-        $this->surname      = $this->raw['N'][0][0] ?? '';
-        $this->firstname    = $this->raw['N'][0][1] ?? '';
-        $this->middlename   = $this->raw['N'][0][2] ?? '';
-        $this->nickname     = $this->raw['NICKNAME'][0][0] ?? '';
+        $this->displayname = $this->raw['FN'][0][0] ?? '';
+        $this->surname = $this->raw['N'][0][0] ?? '';
+        $this->firstname = $this->raw['N'][0][1] ?? '';
+        $this->middlename = $this->raw['N'][0][2] ?? '';
+        $this->nickname = $this->raw['NICKNAME'][0][0] ?? '';
         $this->organization = $this->raw['ORG'][0][0] ?? '';
-        $this->business     = (isset($this->raw['X-ABSHOWAS'][0][0]) && $this->raw['X-ABSHOWAS'][0][0] == 'COMPANY')
+        $this->business = (isset($this->raw['X-ABSHOWAS'][0][0]) && $this->raw['X-ABSHOWAS'][0][0] == 'COMPANY')
             || (!empty($this->organization) && isset($this->raw['N'][0]) && @implode('', (array) $this->raw['N'][0]) === '');
 
         if (!empty($this->raw['EMAIL'])) {
@@ -167,7 +167,7 @@ class rcube_vcard
      */
     public function get_assoc()
     {
-        $out     = ['name' => $this->displayname];
+        $out = ['name' => $this->displayname];
         $typemap = $this->typemap;
 
         // copy name fields to output array
@@ -193,8 +193,8 @@ class rcube_vcard
 
             foreach ((array) $this->raw[$tag] as $i => $raw) {
                 if (is_array($raw)) {
-                    $k       = -1;
-                    $key     = $col;
+                    $k = -1;
+                    $key = $col;
                     $subtype = '';
 
                     if (!empty($raw['type']) && is_array($raw['type'])) {
@@ -229,7 +229,7 @@ class rcube_vcard
                             if (!is_numeric($k) && $v === true && ($k = strtolower($k))
                                 && !in_array($k, ['pref', 'internet', 'voice', 'base64'])
                             ) {
-                                $k_uc    = strtoupper($k);
+                                $k_uc = strtoupper($k);
                                 $subtype = $typemap[$k_uc] ?: $k;
                                 break;
                             }
@@ -342,7 +342,7 @@ class rcube_vcard
      */
     public function set($field, $value, $type = 'HOME')
     {
-        $field   = strtolower($field);
+        $field = strtolower($field);
         $type_uc = strtoupper((string) $type);
 
         switch ($field) {
@@ -434,8 +434,8 @@ class rcube_vcard
                     if (is_array($value) || (is_string($value) && strlen($value))) {
                         $this->raw[$tag][] = (array) $value;
                         if ($type) {
-                            $index    = count($this->raw[$tag]) - 1;
-                            $typemap  = array_flip($this->typemap);
+                            $index = count($this->raw[$tag]) - 1;
+                            $typemap = array_flip($this->typemap);
                             $type_val = !empty($typemap[$type_uc]) ? $typemap[$type_uc] : $type;
                             $this->raw[$tag][$index]['type'] = explode(',', $type_val);
                         }
@@ -543,7 +543,7 @@ class rcube_vcard
             $charset = RCUBE_CHARSET;
         }
 
-        $vcard_block    = '';
+        $vcard_block = '';
         $in_vcard_block = false;
 
         foreach (preg_split("/[\r\n]+/", $data) as $line) {
@@ -565,7 +565,7 @@ class rcube_vcard
 
                 $in_vcard_block = false;
             } elseif (preg_match('/^BEGIN:VCARD$/i', $line)) {
-                $vcard_block    = $line . "\n";
+                $vcard_block = $line . "\n";
                 $in_vcard_block = true;
             }
         }
@@ -678,8 +678,8 @@ class rcube_vcard
     private static function vcard_decode($vcard)
     {
         // Perform RFC2425 line unfolding and split lines
-        $vcard  = preg_replace(["/\r/", "/\n\\s+/"], '', $vcard);
-        $lines  = explode("\n", $vcard);
+        $vcard = preg_replace(["/\r/", "/\n\\s+/"], '', $vcard);
+        $lines = explode("\n", $vcard);
         $result = [];
 
         for ($i = 0; $i < count($lines); $i++) {
@@ -688,7 +688,7 @@ class rcube_vcard
             }
 
             $prefix = substr($lines[$i], 0, $pos);
-            $data   = substr($lines[$i], $pos + 1);
+            $data = substr($lines[$i], $pos + 1);
 
             if (preg_match('/^(BEGIN|END)$/i', $prefix)) {
                 continue;
@@ -710,7 +710,7 @@ class rcube_vcard
             if (preg_match_all('/([^\\;]+);?/', $prefix, $regs2)) {
                 $entry = [];
                 $field = strtoupper($regs2[1][0]);
-                $enc   = null;
+                $enc = null;
 
                 foreach ($regs2[1] as $attrid => $attr) {
                     $attr = preg_replace('/[\s\t\n\r\0\x0B]/', '', $attr);
@@ -727,7 +727,7 @@ class rcube_vcard
                             $enc = $value == 'BASE64' ? 'B' : $value;
                         } else {
                             $lc_key = strtolower($key);
-                            $value  = (array) self::vcard_unquote($value, ',');
+                            $value = (array) self::vcard_unquote($value, ',');
 
                             if (array_key_exists($lc_key, $entry)) {
                                 $entry[$lc_key] = array_merge((array) $entry[$lc_key], $value);
@@ -982,7 +982,7 @@ class rcube_vcard
 
         // Perform RFC2425 line unfolding and split lines
         $string = preg_replace(["/\r/", "/\n\\s+/"], '', $string);
-        $lines  = explode("\n", $string);
+        $lines = explode("\n", $string);
         $string = '';
 
         for ($i = 0, $len = count($lines); $i < $len; $i++) {

@@ -16,7 +16,7 @@
 
 class enigma_mime_message extends Mail_mime
 {
-    public const PGP_SIGNED    = 1;
+    public const PGP_SIGNED = 1;
     public const PGP_ENCRYPTED = 2;
 
     protected $type;
@@ -35,7 +35,7 @@ class enigma_mime_message extends Mail_mime
     public function __construct($message, $type)
     {
         $this->message = $message;
-        $this->type    = $type;
+        $this->type = $type;
 
         // clone parameters
         foreach (array_keys($this->build_params) as $param) {
@@ -71,8 +71,8 @@ class enigma_mime_message extends Mail_mime
         $headers = $this->message->headers();
 
         if (isset($headers['From'])) {
-            $from    = rcube_mime::decode_address_list($headers['From'], 1, false, null, true);
-            $from    = $from[1] ?? null;
+            $from = rcube_mime::decode_address_list($headers['From'], 1, false, null, true);
+            $from = $from[1] ?? null;
 
             return $from;
         }
@@ -89,9 +89,9 @@ class enigma_mime_message extends Mail_mime
     {
         // get sender address
         $headers = $this->message->headers();
-        $to      = rcube_mime::decode_address_list($headers['To'] ?? '', null, false, null, true);
-        $cc      = rcube_mime::decode_address_list($headers['Cc'] ?? '', null, false, null, true);
-        $bcc     = rcube_mime::decode_address_list($headers['Bcc'] ?? '', null, false, null, true);
+        $to = rcube_mime::decode_address_list($headers['To'] ?? '', null, false, null, true);
+        $cc = rcube_mime::decode_address_list($headers['Cc'] ?? '', null, false, null, true);
+        $bcc = rcube_mime::decode_address_list($headers['Bcc'] ?? '', null, false, null, true);
 
         $recipients = array_unique(array_filter(array_merge($to, $cc, $bcc)));
         $recipients = array_diff($recipients, ['undisclosed-recipients:']);
@@ -107,7 +107,7 @@ class enigma_mime_message extends Mail_mime
     public function getOrigBody()
     {
         $_headers = $this->message->headers();
-        $headers  = [];
+        $headers = [];
 
         if (!empty($_headers['Content-Transfer-Encoding'])
             && stripos($_headers['Content-Type'], 'multipart') === false
@@ -128,7 +128,7 @@ class enigma_mime_message extends Mail_mime
     public function addPGPSignature($body, $algorithm = null)
     {
         $this->signature = $body;
-        $this->micalg    = $algorithm;
+        $this->micalg = $algorithm;
 
         // Reset Content-Type to be overwritten with valid boundary
         unset($this->headers['Content-Type']);
@@ -173,9 +173,9 @@ class enigma_mime_message extends Mail_mime
 
         if ($this->type == self::PGP_SIGNED) {
             $params = [
-                'preamble'     => 'This is an OpenPGP/MIME signed message (RFC 4880 and 3156)',
+                'preamble' => 'This is an OpenPGP/MIME signed message (RFC 4880 and 3156)',
                 'content_type' => 'multipart/signed; protocol="application/pgp-signature"',
-                'eol'          => $this->build_params['eol'],
+                'eol' => $this->build_params['eol'],
             ];
 
             if ($this->micalg) {
@@ -186,7 +186,7 @@ class enigma_mime_message extends Mail_mime
 
             if (!empty($this->body)) {
                 $headers = $this->message->headers();
-                $params  = ['content_type' => $headers['Content-Type']];
+                $params = ['content_type' => $headers['Content-Type']];
 
                 if (!empty($headers['Content-Transfer-Encoding'])
                     && stripos($headers['Content-Type'], 'multipart') === false
@@ -203,31 +203,31 @@ class enigma_mime_message extends Mail_mime
 
             if (!empty($this->signature)) {
                 $message->addSubpart($this->signature, [
-                    'filename'     => 'signature.asc',
+                    'filename' => 'signature.asc',
                     'content_type' => 'application/pgp-signature',
-                    'disposition'  => 'attachment',
-                    'description'  => 'OpenPGP digital signature',
+                    'disposition' => 'attachment',
+                    'description' => 'OpenPGP digital signature',
                 ]);
             }
         } elseif ($this->type == self::PGP_ENCRYPTED) {
             $params = [
-                'preamble'     => 'This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)',
+                'preamble' => 'This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)',
                 'content_type' => 'multipart/encrypted; protocol="application/pgp-encrypted"',
-                'eol'          => $this->build_params['eol'],
+                'eol' => $this->build_params['eol'],
             ];
 
             $message = new Mail_mimePart('', $params);
 
             $message->addSubpart('Version: 1', [
                 'content_type' => 'application/pgp-encrypted',
-                'description'  => 'PGP/MIME version identification',
+                'description' => 'PGP/MIME version identification',
             ]);
 
             $message->addSubpart($this->encrypted, [
                 'content_type' => 'application/octet-stream',
-                'description'  => 'PGP/MIME encrypted message',
-                'disposition'  => 'inline',
-                'filename'     => 'encrypted.asc',
+                'description' => 'PGP/MIME encrypted message',
+                'disposition' => 'inline',
+                'filename' => 'encrypted.asc',
             ]);
         } else {
             throw new Exception('Unexpected message type');

@@ -70,8 +70,8 @@ class Actions_Contacts_Save extends ActionTestCase
         $this->assertSame('successfullysaved', $output->getProperty('message'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
 
-        $db      = rcmail::get_instance()->get_dbh();
-        $query   = $db->query('SELECT `contact_id` FROM `contacts` WHERE `email` = ?', 'test@user.com');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `email` = ?', 'test@user.com');
         $contact = $db->fetch_assoc($query);
 
         $this->assertTrue(!empty($contact));

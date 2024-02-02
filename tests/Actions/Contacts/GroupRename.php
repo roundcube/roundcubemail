@@ -51,10 +51,10 @@ class Actions_Contacts_Group_Rename extends ActionTestCase
 
         self::initDB('contacts');
 
-        $db     = rcmail::get_instance()->get_dbh();
-        $query  = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test-group\'');
+        $db = rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test-group\'');
         $result = $db->fetch_assoc($query);
-        $gid    = $result['contactgroup_id'];
+        $gid = $result['contactgroup_id'];
 
         $_POST = ['_source' => '0', '_gid' => $gid, '_name' => 'new-name'];
 
@@ -67,7 +67,7 @@ class Actions_Contacts_Group_Rename extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Group renamed successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.update_contact_group({"source":"0","id":"' . $gid . '","name":"new-name"') !== false);
 
-        $query  = $db->query('SELECT * FROM `contactgroups` WHERE `contactgroup_id` = ? AND `name` = ?', $gid, 'new-name');
+        $query = $db->query('SELECT * FROM `contactgroups` WHERE `contactgroup_id` = ? AND `name` = ?', $gid, 'new-name');
         $result = $db->fetch_assoc($query);
 
         $this->assertTrue(!empty($result));

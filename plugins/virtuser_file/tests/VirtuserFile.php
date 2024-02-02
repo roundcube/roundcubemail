@@ -14,7 +14,7 @@ class VirtuserFile_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new virtuser_file($rcube->plugins);
 
         $this->assertInstanceOf('virtuser_file', $plugin);

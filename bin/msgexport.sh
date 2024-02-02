@@ -107,13 +107,13 @@ $args['pass'] = rcube_utils::prompt_silent('Password: ');
 // parse $host URL
 $a_host = parse_url($args['host']);
 if (!empty($a_host['host'])) {
-    $host      = $a_host['host'];
-    $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) ? true : false;
+    $host = $a_host['host'];
+    $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) ? true : false;
     $imap_port = $a_host['port'] ?? ($imap_ssl ? 993 : 143);
 } else {
-    $host      = $args['host'];
+    $host = $args['host'];
     $imap_port = 143;
-    $imap_ssl  = false;
+    $imap_ssl = false;
 }
 
 // instantiate IMAP class
@@ -123,7 +123,7 @@ $IMAP = new rcube_imap(null);
 if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) {
     vputs("IMAP login successful.\n");
 
-    $filename  = null;
+    $filename = null;
     $mailboxes = $args['mbox'] == '*' ? $IMAP->list_folders(null) : [$args['mbox']];
 
     foreach ($mailboxes as $mbox) {

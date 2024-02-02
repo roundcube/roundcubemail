@@ -88,13 +88,13 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         // tokenize
         $text = preg_split($this->separator, $text, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_OFFSET_CAPTURE);
 
-        $diff    = 0;
+        $diff = 0;
         $matches = [];
 
         foreach ($text as $w) {
             $word = trim($w[0]);
-            $pos  = $w[1] - $diff;
-            $len  = mb_strlen($word);
+            $pos = $w[1] - $diff;
+            $len = mb_strlen($word);
 
             if ($this->dictionary->is_exception($word)) {
                 // skip exceptions

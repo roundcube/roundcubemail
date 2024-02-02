@@ -14,7 +14,7 @@ class Zipdownload_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new zipdownload($rcube->plugins);
 
         $this->assertInstanceOf('zipdownload', $plugin);

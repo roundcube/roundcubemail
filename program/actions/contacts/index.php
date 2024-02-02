@@ -24,11 +24,11 @@ class rcmail_action_contacts_index extends rcmail_action
     ];
 
     protected static $SEARCH_MODS_DEFAULT = [
-        'name'      => 1,
+        'name' => 1,
         'firstname' => 1,
-        'surname'   => 1,
-        'email'     => 1,
-        '*'         => 1,
+        'surname' => 1,
+        'email' => 1,
+        '*' => 1,
     ];
 
     /**
@@ -36,205 +36,205 @@ class rcmail_action_contacts_index extends rcmail_action
      */
     public static $CONTACT_COLTYPES = [
         'name' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 50,
-            'limit'     => 1,
-            'label'     => 'name',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'name',
+            'category' => 'main',
         ],
         'firstname' => [
-            'size'      => 19,
+            'size' => 19,
             'maxlength' => 50,
-            'limit'     => 1,
-            'label'     => 'firstname',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'firstname',
+            'category' => 'main',
         ],
         'surname' => [
-            'size'      => 19,
+            'size' => 19,
             'maxlength' => 50,
-            'limit'     => 1,
-            'label'     => 'surname',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'surname',
+            'category' => 'main',
         ],
         'email' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 254,
-            'label'     => 'email',
-            'subtypes'  => ['home', 'work', 'other'],
-            'category'  => 'main',
+            'label' => 'email',
+            'subtypes' => ['home', 'work', 'other'],
+            'category' => 'main',
         ],
         'middlename' => [
-            'size'      => 19,
+            'size' => 19,
             'maxlength' => 50,
-            'limit'     => 1,
-            'label'     => 'middlename',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'middlename',
+            'category' => 'main',
         ],
         'prefix' => [
-            'size'      => 8,
+            'size' => 8,
             'maxlength' => 20,
-            'limit'     => 1,
-            'label'     => 'nameprefix',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'nameprefix',
+            'category' => 'main',
         ],
         'suffix' => [
-            'size'      => 8,
+            'size' => 8,
             'maxlength' => 20,
-            'limit'     => 1,
-            'label'     => 'namesuffix',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'namesuffix',
+            'category' => 'main',
         ],
         'nickname' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 50,
-            'limit'     => 1,
-            'label'     => 'nickname',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'nickname',
+            'category' => 'main',
         ],
         'jobtitle' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 128,
-            'limit'     => 1,
-            'label'     => 'jobtitle',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'jobtitle',
+            'category' => 'main',
         ],
         'organization' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 128,
-            'limit'     => 1,
-            'label'     => 'organization',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'organization',
+            'category' => 'main',
         ],
         'department' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 128,
-            'limit'     => 1,
-            'label'     => 'department',
-            'category'  => 'main',
+            'limit' => 1,
+            'label' => 'department',
+            'category' => 'main',
         ],
         'gender' => [
-            'type'     => 'select',
-            'limit'    => 1,
-            'label'    => 'gender',
+            'type' => 'select',
+            'limit' => 1,
+            'label' => 'gender',
             'category' => 'personal',
-            'options'  => [
-                'male'   => 'male',
+            'options' => [
+                'male' => 'male',
                 'female' => 'female',
             ],
         ],
         'maidenname' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 50,
-            'limit'     => 1,
-            'label'     => 'maidenname',
-            'category'  => 'personal',
+            'limit' => 1,
+            'label' => 'maidenname',
+            'category' => 'personal',
         ],
         'phone' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 20,
-            'label'     => 'phone',
-            'category'  => 'main',
-            'subtypes'  => ['home', 'home2', 'work', 'work2', 'mobile', 'main', 'homefax', 'workfax', 'car',
+            'label' => 'phone',
+            'category' => 'main',
+            'subtypes' => ['home', 'home2', 'work', 'work2', 'mobile', 'main', 'homefax', 'workfax', 'car',
                 'pager', 'video', 'assistant', 'other'],
         ],
         'address' => [
-            'type'     => 'composite',
-            'label'    => 'address',
+            'type' => 'composite',
+            'label' => 'address',
             'subtypes' => ['home', 'work', 'other'],
             'category' => 'main',
-            'childs'   => [
+            'childs' => [
                 'street' => [
-                    'label'     => 'street',
-                    'size'      => 40,
+                    'label' => 'street',
+                    'size' => 40,
                     'maxlength' => 50,
                 ],
                 'locality' => [
-                    'label'     => 'locality',
-                    'size'      => 28,
+                    'label' => 'locality',
+                    'size' => 28,
                     'maxlength' => 50,
                 ],
                 'zipcode' => [
-                    'label'     => 'zipcode',
-                    'size'      => 8,
+                    'label' => 'zipcode',
+                    'size' => 8,
                     'maxlength' => 15,
                 ],
                 'region' => [
-                    'label'     => 'region',
-                    'size'      => 12,
+                    'label' => 'region',
+                    'size' => 12,
                     'maxlength' => 50,
                 ],
                 'country' => [
-                    'label'     => 'country',
-                    'size'      => 40,
+                    'label' => 'country',
+                    'size' => 40,
                     'maxlength' => 50,
                 ],
             ],
         ],
         'birthday' => [
-            'type'      => 'date',
-            'size'      => 12,
+            'type' => 'date',
+            'size' => 12,
             'maxlength' => 16,
-            'label'     => 'birthday',
-            'limit'     => 1,
+            'label' => 'birthday',
+            'limit' => 1,
             'render_func' => 'rcmail_action_contacts_index::format_date_col',
-            'category'    => 'personal',
+            'category' => 'personal',
         ],
         'anniversary' => [
-            'type'      => 'date',
-            'size'      => 12,
+            'type' => 'date',
+            'size' => 12,
             'maxlength' => 16,
-            'label'     => 'anniversary',
-            'limit'     => 1,
+            'label' => 'anniversary',
+            'limit' => 1,
             'render_func' => 'rcmail_action_contacts_index::format_date_col',
-            'category'    => 'personal',
+            'category' => 'personal',
         ],
         'website' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 128,
-            'label'     => 'website',
-            'subtypes'  => ['homepage', 'work', 'blog', 'profile', 'other'],
-            'category'  => 'main',
+            'label' => 'website',
+            'subtypes' => ['homepage', 'work', 'blog', 'profile', 'other'],
+            'category' => 'main',
         ],
         'im' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 128,
-            'label'     => 'instantmessenger',
-            'subtypes'  => ['aim', 'icq', 'msn', 'yahoo', 'jabber', 'skype', 'other'],
-            'category'  => 'main',
+            'label' => 'instantmessenger',
+            'subtypes' => ['aim', 'icq', 'msn', 'yahoo', 'jabber', 'skype', 'other'],
+            'category' => 'main',
         ],
         'notes' => [
-            'type'      => 'textarea',
-            'size'      => 40,
-            'rows'      => 15,
+            'type' => 'textarea',
+            'size' => 40,
+            'rows' => 15,
             'maxlength' => 500,
-            'label'     => 'notes',
-            'limit'     => 1,
+            'label' => 'notes',
+            'limit' => 1,
         ],
         'photo' => [
-            'type'     => 'image',
-            'limit'    => 1,
+            'type' => 'image',
+            'limit' => 1,
             'category' => 'main',
         ],
         'assistant' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 128,
-            'limit'     => 1,
-            'label'     => 'assistant',
-            'category'  => 'personal',
+            'limit' => 1,
+            'label' => 'assistant',
+            'category' => 'personal',
         ],
         'manager' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 128,
-            'limit'     => 1,
-            'label'     => 'manager',
-            'category'  => 'personal',
+            'limit' => 1,
+            'label' => 'manager',
+            'category' => 'personal',
         ],
         'spouse' => [
-            'size'      => 40,
+            'size' => 40,
             'maxlength' => 128,
-            'limit'     => 1,
-            'label'     => 'spouse',
-            'category'  => 'personal',
+            'limit' => 1,
+            'label' => 'spouse',
+            'category' => 'personal',
         ],
     ];
 
@@ -281,7 +281,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
             // count all/writeable sources
             $writeable = 0;
-            $count     = 0;
+            $count = 0;
 
             foreach ($js_list as $sid => $s) {
                 $count++;
@@ -303,7 +303,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
             $rcmail->output->set_pagetitle($rcmail->gettext('contacts'));
 
-            $_SESSION['addressbooks_count']           = $count;
+            $_SESSION['addressbooks_count'] = $count;
             $_SESSION['addressbooks_count_writeable'] = $writeable;
 
             // select address book
@@ -323,7 +323,7 @@ class rcmail_action_contacts_index extends rcmail_action
         // remove undo information...
         if (!empty($_SESSION['contact_undo'])) {
             // ...after timeout
-            $undo      = $_SESSION['contact_undo'];
+            $undo = $_SESSION['contact_undo'];
             $undo_time = $rcmail->config->get('undo_timeout', 0);
             if ($undo['ts'] < time() - $undo_time) {
                 $rcmail->session->remove('contact_undo');
@@ -332,12 +332,12 @@ class rcmail_action_contacts_index extends rcmail_action
 
         // register UI objects
         $rcmail->output->add_handlers([
-            'directorylist'       => [$this, 'directory_list'],
-            'savedsearchlist'     => [$this, 'savedsearch_list'],
-            'addresslist'         => [$this, 'contacts_list'],
-            'addresslisttitle'    => [$this, 'contacts_list_title'],
+            'directorylist' => [$this, 'directory_list'],
+            'savedsearchlist' => [$this, 'savedsearch_list'],
+            'addresslist' => [$this, 'contacts_list'],
+            'addresslisttitle' => [$this, 'contacts_list_title'],
             'recordscountdisplay' => [$this, 'rowcount_display'],
-            'searchform'          => [$rcmail->output, 'search_form'],
+            'searchform' => [$rcmail->output, 'search_form'],
         ]);
 
         // Disable qr-code if imagick, iconv or BaconQrCode is not installed
@@ -354,7 +354,7 @@ class rcmail_action_contacts_index extends rcmail_action
             $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         }
 
-        $rcmail    = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
 
         // Get object
@@ -436,15 +436,15 @@ class rcmail_action_contacts_index extends rcmail_action
         }
 
         $rcmail = rcmail::get_instance();
-        $out    = '';
+        $out = '';
         $jsdata = [];
 
         $line_templ = html::tag('li',
             ['id' => 'rcmli%s', 'class' => '%s', 'noclose' => true],
             html::a(
                 [
-                    'href'    => '%s',
-                    'rel'     => '%s',
+                    'href' => '%s',
+                    'rel' => '%s',
                     'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('list','%s',this)",
                 ],
                 '%s'
@@ -513,12 +513,12 @@ class rcmail_action_contacts_index extends rcmail_action
         }
 
         $rcmail = rcmail::get_instance();
-        $out    = '';
+        $out = '';
         $line_templ = html::tag('li',
             ['id' => 'rcmli%s', 'class' => '%s'],
             html::a([
-                    'href'    => '#',
-                    'rel'     => 'S%s',
+                    'href' => '#',
+                    'rel' => 'S%s',
                     'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('listsearch', '%s', this)",
                 ],
                 '%s'
@@ -528,7 +528,7 @@ class rcmail_action_contacts_index extends rcmail_action
         // Saved searches
         $sources = $rcmail->user->list_searches(rcube_user::SEARCH_ADDRESSBOOK);
         foreach ($sources as $source) {
-            $id    = $source['id'];
+            $id = $source['id'];
             $js_id = rcube::JQ($id);
 
             // set class name(s)
@@ -585,9 +585,9 @@ class rcmail_action_contacts_index extends rcmail_action
 
                 $args['jsdata']['G' . $args['source'] . $group['ID']] = [
                     'source' => $args['source'],
-                    'id'     => $group['ID'],
-                    'name'   => $group['name'],
-                    'type'   => 'group',
+                    'id' => $group['ID'],
+                    'name' => $group['name'],
+                    'type' => 'group',
                 ];
             }
         }
@@ -638,13 +638,13 @@ class rcmail_action_contacts_index extends rcmail_action
         $a_show_cols = ['name', 'action'];
 
         while ($row = $result->next()) {
-            $emails       = rcube_addressbook::get_col_values('email', $row, true);
-            $row['CID']   = $row['ID'];
+            $emails = rcube_addressbook::get_col_values('email', $row, true);
+            $row['CID'] = $row['ID'];
             $row['email'] = reset($emails);
-            $source_id  = $rcmail->output->get_env('source');
+            $source_id = $rcmail->output->get_env('source');
             $a_row_cols = [];
-            $type       = !empty($row['_type']) ? $row['_type'] : 'person';
-            $classes    = [$type];
+            $type = !empty($row['_type']) ? $row['_type'] : 'person';
+            $classes = [$type];
 
             // build contact ID with source ID
             if (isset($row['sourceid'])) {
@@ -662,16 +662,16 @@ class rcmail_action_contacts_index extends rcmail_action
                     case 'action':
                         if ($type == 'group') {
                             $val = html::a([
-                                    'href'    => '#list',
-                                    'rel'     => $row['ID'],
-                                    'title'   => $rcmail->gettext('listgroup'),
+                                    'href' => '#list',
+                                    'rel' => $row['ID'],
+                                    'title' => $rcmail->gettext('listgroup'),
                                     'onclick' => sprintf(
                                         "return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)",
                                         rcmail_output::JS_OBJECT_NAME,
                                         $source_id,
                                         $row['CID']
                                     ),
-                                    'class'   => 'pushgroup',
+                                    'class' => 'pushgroup',
                                     'data-action-link' => true,
                                 ],
                                 '&raquo;'
@@ -746,10 +746,10 @@ class rcmail_action_contacts_index extends rcmail_action
         $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
 
         return $rcmail->gettext([
-            'name'  => !empty($_SESSION['contactcountdisplay']) ? $_SESSION['contactcountdisplay'] : 'contactsfromto',
-            'vars'  => [
-                'from'  => $result->first + 1,
-                'to'    => min($result->count, $result->first + $page_size),
+            'name' => !empty($_SESSION['contactcountdisplay']) ? $_SESSION['contactcountdisplay'] : 'contactsfromto',
+            'vars' => [
+                'from' => $result->first + 1,
+                'to' => min($result->count, $result->first + $page_size),
                 'count' => $result->count,
             ],
         ]);
@@ -758,7 +758,7 @@ class rcmail_action_contacts_index extends rcmail_action
     public static function get_type_label($type)
     {
         $rcmail = rcmail::get_instance();
-        $label  = 'type' . $type;
+        $label = 'type' . $type;
 
         if ($rcmail->text_exists($label, '*', $domain)) {
             return $rcmail->gettext($label, $domain);
@@ -781,30 +781,30 @@ class rcmail_action_contacts_index extends rcmail_action
 
         // group fields
         $head_fields = [
-            'source'       => ['source'],
-            'names'        => ['prefix', 'firstname', 'middlename', 'surname', 'suffix'],
-            'displayname'  => ['name'],
-            'nickname'     => ['nickname'],
+            'source' => ['source'],
+            'names' => ['prefix', 'firstname', 'middlename', 'surname', 'suffix'],
+            'displayname' => ['name'],
+            'nickname' => ['nickname'],
             'organization' => ['organization'],
-            'department'   => ['department'],
-            'jobtitle'     => ['jobtitle'],
+            'department' => ['department'],
+            'jobtitle' => ['jobtitle'],
         ];
 
         // Allow plugins to modify contact form content
         $plugin = $rcmail->plugins->exec_hook('contact_form', [
-            'form'        => $form,
-            'record'      => $record,
+            'form' => $form,
+            'record' => $record,
             'head_fields' => $head_fields,
         ]);
 
-        $form        = $plugin['form'];
-        $record      = $plugin['record'];
+        $form = $plugin['form'];
+        $record = $plugin['record'];
         $head_fields = $plugin['head_fields'];
-        $edit_mode   = $rcmail->action != 'show' && $rcmail->action != 'print';
-        $compact     = self::get_bool_attr($attrib, 'compact-form');
-        $use_labels  = self::get_bool_attr($attrib, 'use-labels');
+        $edit_mode = $rcmail->action != 'show' && $rcmail->action != 'print';
+        $compact = self::get_bool_attr($attrib, 'compact-form');
+        $use_labels = self::get_bool_attr($attrib, 'use-labels');
         $with_source = self::get_bool_attr($attrib, 'with-source');
-        $out         = '';
+        $out = '';
 
         if (!empty($attrib['deleteicon'])) {
             $del_button = html::img([
@@ -818,15 +818,17 @@ class rcmail_action_contacts_index extends rcmail_action
         unset($attrib['deleteicon']);
 
         // get default coltypes
-        $coltypes       = self::$CONTACT_COLTYPES;
+        $coltypes = self::$CONTACT_COLTYPES;
         $coltype_labels = [];
-        $business_mode  = $rcmail->config->get('contact_form_mode') === 'business';
+        $business_mode = $rcmail->config->get('contact_form_mode') === 'business';
 
         foreach ($coltypes as $col => $prop) {
             if (!empty($prop['subtypes'])) {
                 // re-order subtypes, so 'work' is before 'home'
                 if ($business_mode) {
-                    $work_opts = array_filter($prop['subtypes'], static function ($var) { return strpos($var, 'work') !== false; });
+                    $work_opts = array_filter($prop['subtypes'], static function ($var) {
+                        return strpos($var, 'work') !== false;
+                    });
                     if (!empty($work_opts)) {
                         $coltypes[$col]['subtypes'] = $prop['subtypes'] = array_merge(
                             $work_opts,
@@ -835,9 +837,9 @@ class rcmail_action_contacts_index extends rcmail_action
                     }
                 }
 
-                $subtype_names  = array_map('rcmail_action_contacts_index::get_type_label', $prop['subtypes']);
+                $subtype_names = array_map('rcmail_action_contacts_index::get_type_label', $prop['subtypes']);
                 $select_subtype = new html_select([
-                    'name'  => "_subtype_{$col}[]",
+                    'name' => "_subtype_{$col}[]",
                     'class' => 'contactselectsubtype custom-select',
                     'title' => $prop['label'] . ' ' . $rcmail->gettext('type'),
                 ]);
@@ -860,8 +862,8 @@ class rcmail_action_contacts_index extends rcmail_action
             }
 
             $select_add = new html_select([
-                'class'        => 'addfieldmenu custom-select',
-                'rel'          => $section,
+                'class' => 'addfieldmenu custom-select',
+                'rel' => $section,
                 'data-compact' => $compact ? 'true' : null,
             ]);
 
@@ -879,7 +881,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 }
 
                 foreach ($head_fields as $blockname => $colnames) {
-                    $fields     = '';
+                    $fields = '';
                     $block_attr = ['class' => $blockname . (count($colnames) == 1 ? ' row' : '')];
 
                     foreach ($colnames as $col) {
@@ -932,7 +934,7 @@ class rcmail_action_contacts_index extends rcmail_action
                             }
 
                             if (empty($record[$col]) && empty($colprop['visible'])) {
-                                $visible          = false;
+                                $visible = false;
                                 $colprop['style'] = $use_labels ? null : 'display:none';
                                 $select_add->add($colprop['label'], $col);
                             }
@@ -940,7 +942,7 @@ class rcmail_action_contacts_index extends rcmail_action
                             if ($col == 'source') {
                                 $input = self::source_selector(['id' => $colprop['id']]);
                             } else {
-                                $val   = $record[$col] ?? null;
+                                $val = $record[$col] ?? null;
                                 $input = rcube_output::get_edit_field($col, $val, $colprop);
                             }
 
@@ -968,7 +970,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 }
 
                 $legend = !empty($fieldset['name']) ? html::tag('legend', null, rcube::Q($fieldset['name'])) : '';
-                $out   .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) . "\n";
+                $out .= html::tag('fieldset', $attrib, $legend . $content, html::$common_attrib) . "\n";
                 continue;
             }
 
@@ -977,7 +979,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 foreach ($fieldset['content'] as $col => $colprop) {
                     // remove subtype part of col name
                     $tokens = explode(':', $col);
-                    $field  = $tokens[0];
+                    $field = $tokens[0];
 
                     if (empty($tokens[1])) {
                         $subtype = $business_mode ? 'work' : 'home';
@@ -1003,9 +1005,9 @@ class rcmail_action_contacts_index extends rcmail_action
 
                     // prepare subtype selector in edit mode
                     if ($edit_mode && isset($colprop['subtypes']) && is_array($colprop['subtypes'])) {
-                        $subtype_names  = array_map('rcmail_action_contacts_index::get_type_label', $colprop['subtypes']);
+                        $subtype_names = array_map('rcmail_action_contacts_index::get_type_label', $colprop['subtypes']);
                         $select_subtype = new html_select([
-                            'name'  => "_subtype_{$col}[]",
+                            'name' => "_subtype_{$col}[]",
                             'class' => 'contactselectsubtype custom-select',
                             'title' => $colprop['label'] . ' ' . $rcmail->gettext('type'),
                         ]);
@@ -1023,15 +1025,15 @@ class rcmail_action_contacts_index extends rcmail_action
                             $subtype = $subtypes[$i];
                         }
 
-                        $fc            = intval($coltypes[$field]['count'] ?? 0);
+                        $fc = intval($coltypes[$field]['count'] ?? 0);
                         $colprop['id'] = 'ff_' . $col . $fc;
-                        $row_class     = 'row';
+                        $row_class = 'row';
 
                         // render composite field
                         if ($colprop['type'] == 'composite') {
                             $row_class .= ' composite';
-                            $composite  = [];
-                            $template   = $rcmail->config->get($col . '_template', '{' . implode('} {', array_keys($colprop['childs'])) . '}');
+                            $composite = [];
+                            $template = $rcmail->config->get($col . '_template', '{' . implode('} {', array_keys($colprop['childs'])) . '}');
                             $j = 0;
 
                             foreach ($colprop['childs'] as $childcol => $cp) {
@@ -1119,10 +1121,10 @@ class rcmail_action_contacts_index extends rcmail_action
                         }
 
                         $_del_btn = html::a([
-                                'href'  => '#del',
+                                'href' => '#del',
                                 'class' => 'contactfieldbutton deletebutton',
                                 'title' => $rcmail->gettext('delete'),
-                                'rel'   => $col,
+                                'rel' => $col,
                             ],
                             $del_button
                         );
@@ -1172,11 +1174,11 @@ class rcmail_action_contacts_index extends rcmail_action
 
                     // wrap rows in fieldgroup container
                     if ($rows) {
-                        $c_class    = 'contactfieldgroup '
+                        $c_class = 'contactfieldgroup '
                             . (!empty($colprop['subtypes']) ? 'contactfieldgroupmulti ' : '')
                             . 'contactcontroller' . $col;
                         $with_label = !empty($colprop['subtypes']) && $rcmail->action != 'print';
-                        $content   .= html::tag(
+                        $content .= html::tag(
                             'fieldset',
                             ['class' => $c_class],
                             ($with_label ? html::tag('legend', null, rcube::Q($colprop['label'])) : ' ') . $rows
@@ -1219,7 +1221,7 @@ class rcmail_action_contacts_index extends rcmail_action
         [$field, $subtype] = explode(':', $field_name);
 
         $subtypes = [];
-        $values   = [];
+        $values = [];
 
         if (!empty($colprop['value'])) {
             $values = (array) $colprop['value'];
@@ -1232,7 +1234,7 @@ class rcmail_action_contacts_index extends rcmail_action
                     foreach ((array) $c_values[$st] as $value) {
                         $i = count($values);
                         $subtypes[$i] = $st;
-                        $values[$i]   = $value;
+                        $values[$i] = $value;
                     }
 
                     $c_values[$st] = null;
@@ -1244,7 +1246,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 foreach ((array) $vals as $value) {
                     $i = count($values);
                     $subtypes[$i] = $st;
-                    $values[$i]   = $value;
+                    $values[$i] = $value;
                 }
             }
         } elseif (isset($record[$field_name])) {
@@ -1292,7 +1294,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
             'record' => $record,
-            'data'   => $record['photo'] ?? null,
+            'data' => $record['photo'] ?? null,
             'attrib' => $attrib,
         ]);
 
@@ -1324,7 +1326,7 @@ class rcmail_action_contacts_index extends rcmail_action
         }
 
         $content = html::div($attrib, html::img([
-            'src'     => $photo_img,
+            'src' => $photo_img,
             'onerror' => 'this.onerror = null; this.src = rcmail.env.photo_placeholder;',
         ]));
 
@@ -1360,10 +1362,10 @@ class rcmail_action_contacts_index extends rcmail_action
             return false;
         }
 
-        $search   = (array) $_SESSION['contact_search'][$search_request];
+        $search = (array) $_SESSION['contact_search'][$search_request];
         $sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
-        $afields  = $return ? $rcmail->config->get('contactlist_fields') : ['name', 'email'];
-        $records  = [];
+        $afields = $return ? $rcmail->config->get('contactlist_fields') : ['name', 'email'];
+        $records = [];
 
         foreach ($search as $s => $set) {
             $source = $rcmail->get_address_book($s);
@@ -1413,7 +1415,7 @@ class rcmail_action_contacts_index extends rcmail_action
         // forms. If _source is an empty string then the ID is a string
         // containing contact ID and source name in form: <ID>-<SOURCE>
 
-        $cid    = rcube_utils::get_input_value('_cid', $request_type);
+        $cid = rcube_utils::get_input_value('_cid', $request_type);
         $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
 
         if (is_array($cid)) {
@@ -1424,9 +1426,9 @@ class rcmail_action_contacts_index extends rcmail_action
             return [];
         }
 
-        $cid        = explode(',', $cid);
+        $cid = explode(',', $cid);
         $got_source = strlen($source);
-        $result     = [];
+        $result = [];
 
         // create per-source contact IDs array
         foreach ($cid as $id) {
@@ -1435,7 +1437,7 @@ class rcmail_action_contacts_index extends rcmail_action
             if (!$got_source) {
                 if ($sep = strrpos($id, '-')) {
                     $contact_id = substr($id, 0, $sep);
-                    $source_id  = (string) substr($id, $sep + 1);
+                    $source_id = (string) substr($id, $sep + 1);
                     if (strlen($source_id)) {
                         $result[$source_id][] = $contact_id;
                     }
@@ -1460,19 +1462,19 @@ class rcmail_action_contacts_index extends rcmail_action
      */
     public static function source_selector($attrib)
     {
-        $rcmail       = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $sources_list = $rcmail->get_address_sources(true, true);
 
         if (count($sources_list) < 2) {
-            $source      = $sources_list[self::$SOURCE_ID];
+            $source = $sources_list[self::$SOURCE_ID];
             $hiddenfield = new html_hiddenfield(['name' => '_source', 'value' => self::$SOURCE_ID]);
 
             return html::span($attrib, $source['name'] . $hiddenfield->show());
         }
 
-        $attrib['name']       = '_source';
+        $attrib['name'] = '_source';
         $attrib['is_escaped'] = true;
-        $attrib['onchange']   = rcmail_output::JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
+        $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
 
         $select = new html_select($attrib);
 

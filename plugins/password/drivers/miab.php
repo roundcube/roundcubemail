@@ -38,14 +38,14 @@ class rcube_miab_password
     public function save($currpass, $newpass, $username)
     {
         $config = rcmail::get_instance()->config;
-        $host   = rtrim($config->get('password_miab_url'), '/') . '/mail/users/password';
+        $host = rtrim($config->get('password_miab_url'), '/') . '/mail/users/password';
 
         try {
             $client = password::get_http_client();
 
             $request = [
                 'form_params' => [
-                    'email'    => $username,
+                    'email' => $username,
                     'password' => $newpass,
                 ],
                 'auth' => [

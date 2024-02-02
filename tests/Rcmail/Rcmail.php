@@ -208,7 +208,7 @@ class Rcmail_Rcmail extends ActionTestCase
         self::initDB('contacts');
 
         $rcmail = rcmail::get_instance();
-        $db     = $rcmail->get_dbh();
+        $db = $rcmail->get_dbh();
         $source = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
 
         $contact_id = $rcmail->contact_create(['email' => 'test@xn--e1aybc.xn--p1ai'], $source, $error);

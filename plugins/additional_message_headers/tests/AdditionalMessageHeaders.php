@@ -12,7 +12,7 @@ class AdditionalMessageHeaders_Plugin extends ActionTestCase
      */
     public function test_plugin()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new additional_message_headers($rcube->plugins);
 
         $this->assertInstanceOf('additional_message_headers', $plugin);

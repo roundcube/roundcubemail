@@ -325,8 +325,8 @@ class rcube_ldap_generic extends Net_LDAP3
         }
 
         $groups = [];
-        $value  = str_replace('*', '', $value);
-        $words  = $mode == 0 ? rcube_utils::tokenize_string($value, 1) : [$value];
+        $value = str_replace('*', '', $value);
+        $words = $mode == 0 ? rcube_utils::tokenize_string($value, 1) : [$value];
 
         // set wildcards
         $wp = $ws = '';

@@ -23,13 +23,13 @@
  */
 class rcmail_output_json extends rcmail_output
 {
-    protected $texts     = [];
-    protected $commands  = [];
+    protected $texts = [];
+    protected $commands = [];
     protected $callbacks = [];
     protected $message;
     protected $header_sent = false;
 
-    public $type      = 'js';
+    public $type = 'js';
     public $ajax_call = true;
 
     /**
@@ -153,7 +153,7 @@ class rcmail_output_json extends rcmail_output
     public function reset()
     {
         parent::reset();
-        $this->texts    = [];
+        $this->texts = [];
         $this->commands = [];
     }
 

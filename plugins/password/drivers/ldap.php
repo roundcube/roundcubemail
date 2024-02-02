@@ -63,13 +63,13 @@ class rcube_ldap_password
 
         // Configuration array
         $ldapConfig = [
-            'binddn'    => $binddn,
-            'bindpw'    => $bindpw,
-            'basedn'    => $rcmail->config->get('password_ldap_basedn'),
-            'host'      => $rcmail->config->get('password_ldap_host', 'localhost'),
-            'port'      => $rcmail->config->get('password_ldap_port', '389'),
-            'starttls'  => $rcmail->config->get('password_ldap_starttls'),
-            'version'   => $rcmail->config->get('password_ldap_version', '3'),
+            'binddn' => $binddn,
+            'bindpw' => $bindpw,
+            'basedn' => $rcmail->config->get('password_ldap_basedn'),
+            'host' => $rcmail->config->get('password_ldap_host', 'localhost'),
+            'port' => $rcmail->config->get('password_ldap_port', '389'),
+            'starttls' => $rcmail->config->get('password_ldap_starttls'),
+            'version' => $rcmail->config->get('password_ldap_version', '3'),
         ];
 
         // Connecting using the configuration array
@@ -80,17 +80,17 @@ class rcube_ldap_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $force        = $rcmail->config->get('password_ldap_force_replace', true);
-        $pwattr       = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
-        $lchattr      = $rcmail->config->get('password_ldap_lchattr');
-        $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
-        $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
-        $samba        = $rcmail->config->get('password_ldap_samba');
-        $encodage     = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
+        $force = $rcmail->config->get('password_ldap_force_replace', true);
+        $pwattr = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
+        $lchattr = $rcmail->config->get('password_ldap_lchattr');
+        $smbpwattr = $rcmail->config->get('password_ldap_samba_pwattr');
+        $smblchattr = $rcmail->config->get('password_ldap_samba_lchattr');
+        $samba = $rcmail->config->get('password_ldap_samba');
+        $encodage = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
 
         // Support multiple userPassword values where desired.
         // multiple encodings can be specified separated by '+' (e.g. "cram-md5+ssha")
-        $encodages    = explode('+', $encodage);
+        $encodages = explode('+', $encodage);
         $crypted_pass = [];
 
         foreach ($encodages as $enc) {
@@ -101,7 +101,7 @@ class rcube_ldap_password
 
         // Support password_ldap_samba option for backward compat.
         if ($samba && !$smbpwattr) {
-            $smbpwattr  = 'sambaNTPassword';
+            $smbpwattr = 'sambaNTPassword';
             $smblchattr = 'sambaPwdLastSet';
         }
 
@@ -161,11 +161,11 @@ class rcube_ldap_password
         $bindpw = $rcmail->config->get('password_ldap_searchPW');
 
         $ldapConfig = [
-            'basedn'    => $rcmail->config->get('password_ldap_basedn'),
-            'host'      => $rcmail->config->get('password_ldap_host', 'localhost'),
-            'port'      => $rcmail->config->get('password_ldap_port', '389'),
-            'starttls'  => $rcmail->config->get('password_ldap_starttls'),
-            'version'   => $rcmail->config->get('password_ldap_version', '3'),
+            'basedn' => $rcmail->config->get('password_ldap_basedn'),
+            'host' => $rcmail->config->get('password_ldap_host', 'localhost'),
+            'port' => $rcmail->config->get('password_ldap_port', '389'),
+            'starttls' => $rcmail->config->get('password_ldap_starttls'),
+            'version' => $rcmail->config->get('password_ldap_version', '3'),
         ];
 
         // allow anonymous searches
@@ -180,7 +180,7 @@ class rcube_ldap_password
             return '';
         }
 
-        $base   = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_base'));
+        $base = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_base'));
         $filter = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_filter'));
         $options = [
             'scope' => 'sub',

@@ -177,7 +177,7 @@ class Actions_Contacts_Index extends ActionTestCase
     {
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
 
-        $result   = rcmail_action_contacts_index::source_selector([]);
+        $result = rcmail_action_contacts_index::source_selector([]);
         $expected = '<span>Personal Addresses<input type="hidden" name="_source" value="0"></span>';
 
         $this->assertSame($expected, $result);

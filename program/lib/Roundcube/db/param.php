@@ -35,9 +35,9 @@ class rcube_db_param
      */
     public function __construct($db, $value, $type = null)
     {
-        $this->db    = $db;
+        $this->db = $db;
         $this->value = $value;
-        $this->type  = $type;
+        $this->type = $type;
     }
 
     /**

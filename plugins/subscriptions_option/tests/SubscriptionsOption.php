@@ -12,7 +12,7 @@ class SubscriptionsOption_Plugin extends ActionTestCase
      */
     public function test_constructor()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new subscriptions_option($rcube->plugins);
 
         $this->assertInstanceOf('subscriptions_option', $plugin);
@@ -24,7 +24,7 @@ class SubscriptionsOption_Plugin extends ActionTestCase
      */
     public function test_prefs_list()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new subscriptions_option($rcube->plugins);
 
         html::$doctype = 'html5';
@@ -49,11 +49,11 @@ class SubscriptionsOption_Plugin extends ActionTestCase
      */
     public function test_prefs_save()
     {
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = new subscriptions_option($rcube->plugins);
 
         $_POST = ['_use_subscriptions' => 1];
-        $args  = ['section' => 'server', 'prefs' => []];
+        $args = ['section' => 'server', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 
@@ -62,7 +62,7 @@ class SubscriptionsOption_Plugin extends ActionTestCase
         $storage = self::mockStorage()->registerFunction('clear_cache', true);
 
         $_POST = [];
-        $args  = ['section' => 'server', 'prefs' => []];
+        $args = ['section' => 'server', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 

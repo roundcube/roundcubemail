@@ -34,7 +34,7 @@ class rcmail_action_mail_send extends rcmail_action
         $rcmail->output->framed = true;
 
         $COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GPC);
-        $COMPOSE    = &$_SESSION['compose_data_' . $COMPOSE_ID];
+        $COMPOSE = &$_SESSION['compose_data_' . $COMPOSE_ID];
 
         // Sanity checks
         if (!isset($COMPOSE['id'])) {
@@ -49,12 +49,12 @@ class rcmail_action_mail_send extends rcmail_action
             $rcmail->output->send('iframe');
         }
 
-        $saveonly  = !empty($_GET['_saveonly']);
+        $saveonly = !empty($_GET['_saveonly']);
         $savedraft = !empty($_POST['_draft']) && !$saveonly;
-        $SENDMAIL  = new rcmail_sendmail($COMPOSE, [
-            'sendmail'      => true,
-            'saveonly'      => $saveonly,
-            'savedraft'     => $savedraft,
+        $SENDMAIL = new rcmail_sendmail($COMPOSE, [
+            'sendmail' => true,
+            'saveonly' => $saveonly,
+            'savedraft' => $savedraft,
             'error_handler' => static function (...$args) use ($rcmail) {
                 call_user_func_array([$rcmail->output, 'show_message'], $args);
                 $rcmail->output->send('iframe');
@@ -67,15 +67,15 @@ class rcmail_action_mail_send extends rcmail_action
 
         $COMPOSE['param']['message-id'] = $headers['Message-ID'];
 
-        $message_id      = $headers['Message-ID'];
+        $message_id = $headers['Message-ID'];
         $message_charset = $SENDMAIL->options['charset'];
-        $message_body    = rcube_utils::get_input_string('_message', rcube_utils::INPUT_POST, true, $message_charset);
-        $isHtml          = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_POST);
+        $message_body = rcube_utils::get_input_string('_message', rcube_utils::INPUT_POST, true, $message_charset);
+        $isHtml = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_POST);
 
         // Reset message body and attachments in Mailvelope mode
         if (isset($_POST['_pgpmime'])) {
-            $pgp_mime     = rcube_utils::get_input_string('_pgpmime', rcube_utils::INPUT_POST);
-            $isHtml       = false;
+            $pgp_mime = rcube_utils::get_input_string('_pgpmime', rcube_utils::INPUT_POST);
+            $isHtml = false;
             $message_body = '';
 
             // clear unencrypted attachments
@@ -96,7 +96,7 @@ class rcmail_action_mail_send extends rcmail_action
             }
 
             // append doctype and html/body wrappers
-            $bstyle       = !empty($bstyle) ? (" style='" . implode('; ', $bstyle) . "'") : '';
+            $bstyle = !empty($bstyle) ? (" style='" . implode('; ', $bstyle) . "'") : '';
             $message_body = '<html><head>'
                 . '<meta http-equiv="Content-Type" content="text/html; charset='
                 . ($message_charset ?: RCUBE_CHARSET) . '" /></head>'
@@ -105,7 +105,7 @@ class rcmail_action_mail_send extends rcmail_action
 
         if (!$savedraft) {
             if ($isHtml) {
-                $b_style   = 'padding: 0 0.4em; border-left: #1010ff 2px solid; margin: 0';
+                $b_style = 'padding: 0 0.4em; border-left: #1010ff 2px solid; margin: 0';
                 $pre_style = 'margin: 0; padding: 0; font-family: monospace';
 
                 $message_body = preg_replace(
@@ -131,8 +131,8 @@ class rcmail_action_mail_send extends rcmail_action
                 );
 
                 rcube_utils::preg_error([
-                    'line'    => __LINE__,
-                    'file'    => __FILE__,
+                    'line' => __LINE__,
+                    'file' => __FILE__,
                     'message' => 'Could not format HTML!',
                 ], true);
             }
@@ -144,7 +144,7 @@ class rcmail_action_mail_send extends rcmail_action
                 && empty($COMPOSE['spell_checked'])
                 && !empty($message_body)
             ) {
-                $language     = rcube_utils::get_input_string('_lang', rcube_utils::INPUT_GPC);
+                $language = rcube_utils::get_input_string('_lang', rcube_utils::INPUT_GPC);
                 $message_body = str_replace("\r\n", "\n", $message_body);
                 $spellchecker = new rcube_spellchecker($language);
                 $spell_result = $spellchecker->check($message_body, $isHtml);
@@ -159,7 +159,7 @@ class rcmail_action_mail_send extends rcmail_action
 
                     if (!$spell_result) {
                         if ($isHtml) {
-                            $result['words']      = $spellchecker->get();
+                            $result['words'] = $spellchecker->get();
                             $result['dictionary'] = (bool) $rcmail->config->get('spellcheck_dictionary');
                         } else {
                             $result = $spellchecker->get_xml();
@@ -199,13 +199,13 @@ class rcmail_action_mail_send extends rcmail_action
         if (!empty($pgp_mime)) {
             $MAIL_MIME->addAttachment(new Mail_mimePart('Version: 1', [
                 'content_type' => 'application/pgp-encrypted',
-                'description'  => 'PGP/MIME version identification',
+                'description' => 'PGP/MIME version identification',
             ]));
 
             $MAIL_MIME->addAttachment(new Mail_mimePart($pgp_mime, [
                 'content_type' => 'application/octet-stream',
-                'filename'     => 'encrypted.asc',
-                'disposition'  => 'inline',
+                'filename' => 'encrypted.asc',
+                'disposition' => 'inline',
             ]));
 
             $MAIL_MIME->setContentType('multipart/encrypted', ['protocol' => 'application/pgp-encrypted']);
@@ -213,7 +213,7 @@ class rcmail_action_mail_send extends rcmail_action
         }
 
         // This hook allows to modify the message before send or save action
-        $plugin    = $rcmail->plugins->exec_hook('message_ready', ['message' => $MAIL_MIME]);
+        $plugin = $rcmail->plugins->exec_hook('message_ready', ['message' => $MAIL_MIME]);
         $MAIL_MIME = $plugin['message'];
 
         // Deliver the message over SMTP
@@ -237,7 +237,7 @@ class rcmail_action_mail_send extends rcmail_action
 
         // delete previous saved draft
         $drafts_mbox = $rcmail->config->get('drafts_mbox');
-        $old_id      = rcube_utils::get_input_string('_draft_saveid', rcube_utils::INPUT_POST);
+        $old_id = rcube_utils::get_input_string('_draft_saveid', rcube_utils::INPUT_POST);
 
         if ($old_id && (!empty($sent) || $saved)) {
             $deleted = $rcmail->storage->delete_message($old_id, $drafts_mbox);
@@ -245,10 +245,10 @@ class rcmail_action_mail_send extends rcmail_action
             // raise error if deletion of old draft failed
             if (!$deleted) {
                 rcube::raise_error([
-                    'code'    => 800,
-                    'type'    => 'imap',
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
+                    'code' => 800,
+                    'type' => 'imap',
+                    'file' => __FILE__,
+                    'line' => __LINE__,
                     'message' => "Could not delete message from {$drafts_mbox}",
                 ], true, false);
             }
@@ -263,8 +263,8 @@ class rcmail_action_mail_send extends rcmail_action
 
             if ($saved) {
                 $plugin = $rcmail->plugins->exec_hook('message_draftsaved', [
-                    'msgid'  => $message_id,
-                    'uid'    => $saved,
+                    'msgid' => $message_id,
+                    'uid' => $saved,
                     'folder' => $store_target,
                 ]);
 
@@ -282,7 +282,7 @@ class rcmail_action_mail_send extends rcmail_action
         } else {
             // Collect folders which could contain the composed message,
             // we'll refresh the list if currently opened folder is one of them (#1490238)
-            $folders    = [];
+            $folders = [];
             $save_error = false;
 
             if (!$saveonly) {
@@ -325,21 +325,21 @@ class rcmail_action_mail_send extends rcmail_action
 
     public static function add_attachments($SENDMAIL, $message, $attachments, $isHtml)
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $folding = (int) $rcmail->config->get('mime_param_folding');
 
         foreach ($attachments as $id => $attachment) {
             // This hook retrieves the attachment contents from the file storage backend
             $attachment = $rcmail->plugins->exec_hook('attachment_get', $attachment);
-            $is_inline  = false;
-            $dispurl    = null;
-            $is_file    = !empty($attachment['path']);
-            $file       = !empty($attachment['path']) ? $attachment['path'] : ($attachment['data'] ?? '');
+            $is_inline = false;
+            $dispurl = null;
+            $is_file = !empty($attachment['path']);
+            $file = !empty($attachment['path']) ? $attachment['path'] : ($attachment['data'] ?? '');
 
             if ($isHtml) {
-                $dispurl      = '/[\'"]\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\'"]/';
+                $dispurl = '/[\'"]\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\'"]/';
                 $message_body = $message->getHTMLBody();
-                $is_inline    = preg_match($dispurl, $message_body);
+                $is_inline = preg_match($dispurl, $message_body);
             }
 
             $ctype = $attachment['mimetype'] ?? '';
@@ -360,8 +360,8 @@ class rcmail_action_mail_send extends rcmail_action
                     $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
 
                     rcube_utils::preg_error([
-                        'line'    => __LINE__,
-                        'file'    => __FILE__,
+                        'line' => __LINE__,
+                        'file' => __FILE__,
                         'message' => 'Could not replace an image reference!',
                     ], true);
 

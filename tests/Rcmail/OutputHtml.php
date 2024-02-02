@@ -38,11 +38,11 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_logo()
     {
-        $rcmail            = rcube::get_instance();
-        $output            = new rcmail_output_html();
-        $reflection        = new ReflectionClass('rcmail_output_html');
-        $set_skin          = $reflection->getProperty('skin_name');
-        $set_template      = $reflection->getProperty('template_name');
+        $rcmail = rcube::get_instance();
+        $output = new rcmail_output_html();
+        $reflection = new ReflectionClass('rcmail_output_html');
+        $set_skin = $reflection->getProperty('skin_name');
+        $set_template = $reflection->getProperty('template_name');
         $get_template_logo = $reflection->getMethod('get_template_logo');
 
         $set_skin->setAccessible(true);
@@ -65,13 +65,13 @@ class Rcmail_RcmailOutputHtml extends TestCase
 
         $rcmail->config->set('skin_logo', [
             'elastic:login[small]' => 'img01',
-            'elastic:login'        => 'img02',
-            'elastic:*[small]'     => 'img03',
-            'larry:*'              => 'img04',
-            '*:login[small]'       => 'img05',
-            '*:login'              => 'img06',
-            '*[print]'             => 'img07',
-            '*'                    => 'img08',
+            'elastic:login' => 'img02',
+            'elastic:*[small]' => 'img03',
+            'larry:*' => 'img04',
+            '*:login[small]' => 'img05',
+            '*:login' => 'img06',
+            '*[print]' => 'img07',
+            '*' => 'img08',
         ]);
 
         $set_template->setValue($output, 'login');
@@ -188,13 +188,13 @@ class Rcmail_RcmailOutputHtml extends TestCase
 
         $rcmail->config->set('skin_logo', [
             'elastic:login[small]' => 'img09',
-            'elastic:login'        => 'img10',
-            'larry:*'              => 'img11',
-            'elastic[small]'       => 'img12',
-            'login[small]'         => 'img13',
-            'login'                => 'img14',
-            '[print]'              => 'img15',
-            '*'                    => 'img16',
+            'elastic:login' => 'img10',
+            'larry:*' => 'img11',
+            'elastic[small]' => 'img12',
+            'login[small]' => 'img13',
+            'login' => 'img14',
+            '[print]' => 'img15',
+            '*' => 'img16',
         ]);
 
         $set_skin->setValue($output, 'elastic');
@@ -238,9 +238,9 @@ class Rcmail_RcmailOutputHtml extends TestCase
         $this->assertSame('img16', $result);
 
         $rcmail->config->set('skin_logo', [
-            'elastic:[print]'      => 'img17',
+            'elastic:[print]' => 'img17',
             'elastic:messageprint' => 'img18',
-            'elastic:*'            => 'img19',
+            'elastic:*' => 'img19',
         ]);
 
         $set_skin->setValue($output, 'elastic');
