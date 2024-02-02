@@ -34,7 +34,7 @@ class Framework_BaseReplacer extends TestCase
     /**
      * Data for absolute_url() test
      */
-    public function provide_absolute_url_cases(): iterable
+    public static function provide_absolute_url_cases(): iterable
     {
         return [
             ['', 'http://test', 'http://test/'],

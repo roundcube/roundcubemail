@@ -374,7 +374,7 @@ class Framework_Washtml extends TestCase
     /**
      * Test cases for SVG tests
      */
-    public function provide_wash_svg_tests_cases(): iterable
+    public static function provide_wash_svg_tests_cases(): iterable
     {
         $svg1 = "<svg id='x' width='100' height='100'><a xlink:href='javascript:alert(1)'><rect x='0' y='0' width='100' height='100' /></a></svg>";
 
@@ -492,7 +492,7 @@ class Framework_Washtml extends TestCase
     /**
      * Test cases for various XSS issues
      */
-    public function provide_wash_xss_tests_cases(): iterable
+    public static function provide_wash_xss_tests_cases(): iterable
     {
         return [
             [

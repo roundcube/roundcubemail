@@ -49,7 +49,7 @@ class Managesieve_Engine extends ActionTestCase
     /**
      * Data sets for strip_value() test
      */
-    public function provide_strip_value_cases(): iterable
+    public static function provide_strip_value_cases(): iterable
     {
         return [
             ['', ['']],

@@ -10,7 +10,7 @@ class Framework_Spoofchecker extends TestCase
     /**
      * Test data for test_check()
      */
-    public function provide_check_cases(): iterable
+    public static function provide_check_cases(): iterable
     {
         return [
             // Valid:

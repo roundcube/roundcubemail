@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class rc_html2text extends TestCase
 {
-    public function provide_html2text_cases(): iterable
+    public static function provide_html2text_cases(): iterable
     {
         return [
             0 => [
@@ -271,7 +271,7 @@ Links:
         $this->assertSame($output, $res, 'Links handling');
     }
 
-    public function provide_links_no_list_cases(): iterable
+    public static function provide_links_no_list_cases(): iterable
     {
         return [
             [

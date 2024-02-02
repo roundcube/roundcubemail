@@ -36,7 +36,7 @@ class Framework_Utils extends TestCase
     /**
      * Valid email addresses for test_valid_email()
      */
-    public function provide_valid_email_cases(): iterable
+    public static function provide_valid_email_cases(): iterable
     {
         return [
             ['email@domain.com', 'Valid email'],
@@ -63,7 +63,7 @@ class Framework_Utils extends TestCase
     /**
      * Invalid email addresses for test_invalid_email()
      */
-    public function provide_invalid_email_cases(): iterable
+    public static function provide_invalid_email_cases(): iterable
     {
         return [
             ['plainaddress', 'Missing @ sign and domain'],
@@ -112,7 +112,7 @@ class Framework_Utils extends TestCase
     /**
      * Valid IP addresses for test_valid_ip()
      */
-    public function provide_valid_ip_cases(): iterable
+    public static function provide_valid_ip_cases(): iterable
     {
         return [
             ['0.0.0.0'],
@@ -129,7 +129,7 @@ class Framework_Utils extends TestCase
     /**
      * Invalid IP addresses for test_invalid_ip()
      */
-    public function provide_invalid_ip_cases(): iterable
+    public static function provide_invalid_ip_cases(): iterable
     {
         return [
             [''],
@@ -164,7 +164,7 @@ class Framework_Utils extends TestCase
     /**
      * Data for test_rep_specialchars_output()
      */
-    public function provide_rep_specialchars_output_cases(): iterable
+    public static function provide_rep_specialchars_output_cases(): iterable
     {
         return [
             ['', '', 'abc', 'abc'],
@@ -339,7 +339,7 @@ class Framework_Utils extends TestCase
     /**
      * Test-Cases for parse_css_block() test
      */
-    public function provide_explode_style_cases(): iterable
+    public static function provide_explode_style_cases(): iterable
     {
         return [
             [
@@ -745,7 +745,7 @@ class Framework_Utils extends TestCase
     /**
      * Test-Cases for IDN to ASCII and IDN to UTF-8
      */
-    public function provide_idn_convert_cases(): iterable
+    public static function provide_idn_convert_cases(): iterable
     {
         /*
          * Check https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_brand_top-level_domains
@@ -812,7 +812,7 @@ class Framework_Utils extends TestCase
     /**
      * Test-Cases for test_parse_host()
      */
-    public function provide_parse_host_cases(): iterable
+    public static function provide_parse_host_cases(): iterable
     {
         return [
             ['%z', 'hostname', 'hostname'],
@@ -835,7 +835,7 @@ class Framework_Utils extends TestCase
     /**
      * Test-Cases for test_parse_host_uri()
      */
-    public function provide_parse_host_uri_cases(): iterable
+    public static function provide_parse_host_uri_cases(): iterable
     {
         return [
             [['hostname', null, null], ['hostname', null, null]],
@@ -865,7 +865,7 @@ class Framework_Utils extends TestCase
     /**
      * Test-Cases for test_remove_subject_prefix()
      */
-    public function provide_remove_subject_prefix_cases(): iterable
+    public static function provide_remove_subject_prefix_cases(): iterable
     {
         return [
             ['both', 'Fwd: Re: Test subject both', 'Test subject both'],

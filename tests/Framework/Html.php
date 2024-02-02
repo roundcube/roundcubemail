@@ -20,7 +20,7 @@ class Framework_Html extends TestCase
     /**
      * Data for test_attrib_string()
      */
-    public function provide_attrib_string_cases(): iterable
+    public static function provide_attrib_string_cases(): iterable
     {
         return [
             [
@@ -69,7 +69,7 @@ class Framework_Html extends TestCase
     /**
      * Data for test_quote()
      */
-    public function provide_quote_cases(): iterable
+    public static function provide_quote_cases(): iterable
     {
         return [
             ['abc', 'abc'],
@@ -95,7 +95,7 @@ class Framework_Html extends TestCase
     /**
      * Data for test_parse_attrib_string()
      */
-    public function provide_parse_attrib_string_cases(): iterable
+    public static function provide_parse_attrib_string_cases(): iterable
     {
         return [
             [

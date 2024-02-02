@@ -44,12 +44,12 @@ class Framework_Browser extends TestCase
         $this->assertSame($version, $object->ver);
     }
 
-    public function provide_version_cases(): iterable
+    public static function provide_version_cases(): iterable
     {
         return $this->extractDataSet(['version']);
     }
 
-    public function provide_browser_cases(): iterable
+    public static function provide_browser_cases(): iterable
     {
         return $this->extractDataSet(['isOpera', 'isChrome', 'isIE', 'isEdge', 'isSafari', 'isMZ']);
     }
@@ -149,7 +149,7 @@ class Framework_Browser extends TestCase
         ];
     }
 
-    public function provide_os_cases(): iterable
+    public static function provide_os_cases(): iterable
     {
         return $this->extractDataSet(['isWin', 'isLinux', 'isUnix', 'isMac']);
     }
