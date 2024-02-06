@@ -1248,7 +1248,7 @@ abstract class rcmail_action
             // skip folders in which it isn't possible to create subfolders
             if (!empty($opts['skip_noinferiors'])) {
                 $attrs = $storage->folder_attributes($folder['id']);
-                if ($attrs && in_array_nocase('\\Noinferiors', $attrs)) {
+                if ($attrs && in_array_nocase('\Noinferiors', $attrs)) {
                     continue;
                 }
             }

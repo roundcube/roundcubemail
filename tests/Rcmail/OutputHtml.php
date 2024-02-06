@@ -273,7 +273,7 @@ class Rcmail_RcmailOutputHtml extends TestCase
     /**
      * Data for test_conditions()
      */
-    public function provide_conditions_cases(): iterable
+    public static function provide_conditions_cases(): iterable
     {
         $txt = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt '
             . 'ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco '

@@ -42,7 +42,7 @@ class virtuser_file extends rcube_plugin
             $arr = preg_split('/\s+/', $r[$i]);
 
             if (count($arr) > 0 && strpos($arr[0], '@')) {
-                $result[] = rcube_utils::idn_to_ascii(trim(str_replace('\\@', '@', $arr[0])));
+                $result[] = rcube_utils::idn_to_ascii(trim(str_replace('\@', '@', $arr[0])));
 
                 if (!empty($p['first'])) {
                     $p['email'] = $result[0];

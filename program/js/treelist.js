@@ -49,7 +49,7 @@ function rcube_treelist_widget(node, p) {
         parent_focus: false,
         check_droptarget: function (node) {
             return !node.virtual;
-        }
+        },
     }, p || {});
 
     var container = $(node),
@@ -77,7 +77,7 @@ function rcube_treelist_widget(node, p) {
         me = this;
 
 
-    /////// export public members and methods
+    // ///// export public members and methods
 
     this.container = container;
     this.expand = expand;
@@ -106,7 +106,7 @@ function rcube_treelist_widget(node, p) {
     this.is_search = is_search;
     this.reset_search = reset_search;
 
-    /////// startup code (constructor)
+    // ///// startup code (constructor)
 
     // abort if node not found
     if (!container.length) {
@@ -114,7 +114,7 @@ function rcube_treelist_widget(node, p) {
     }
 
     if (p.data) {
-        index_data({ children:data });
+        index_data({ children: data });
     }
     // load data from DOM
     else {
@@ -172,23 +172,22 @@ function rcube_treelist_widget(node, p) {
             switch (key) {
                 case 9: // tab
                     break;
-
                 case 13: // enter
                     search(this.value, true);
-                    return rcube_event.cancel(e);
 
+                    return rcube_event.cancel(e);
                 case 27: // escape
                     reset_search();
-                    break;
 
+                    break;
                 case 38: // arrow up
                 case 37: // left
                 case 39: // right
                 case 40: // arrow down
                     return; // ignore arrow keys
-
                 default:
                     search(this.value, false);
+
                     break;
             }
         }).attr('autocomplete', 'off');
@@ -225,7 +224,7 @@ function rcube_treelist_widget(node, p) {
         var node;
 
         if (node = indexbyid[id]) {
-            node.collapsed = typeof set == 'undefined' || set;
+            node.collapsed = typeof set === 'undefined' || set;
             update_dom(node);
 
             if (recursive && node.children) {
@@ -416,12 +415,12 @@ function rcube_treelist_widget(node, p) {
 
         // set new reference to node.html after insert
         // will otherwise vanish in Firefox 3.6
-        if (typeof node.html == 'object') {
+        if (typeof node.html === 'object') {
             indexbyid[node.id].html = id2dom(node.id, true).children();
         }
 
         if (sort) {
-            resort_node(li, typeof sort == 'string' ? '[class~="' + sort + '"]' : '');
+            resort_node(li, typeof sort === 'string' ? '[class~="' + sort + '"]' : '');
         }
     }
 
@@ -465,7 +464,7 @@ function rcube_treelist_widget(node, p) {
             }
 
             if (sort) {
-                resort_node(li, typeof sort == 'string' ? '[class~="' + sort + '"]' : '');
+                resort_node(li, typeof sort === 'string' ? '[class~="' + sort + '"]' : '');
             }
         }
     }
@@ -596,7 +595,9 @@ function rcube_treelist_widget(node, p) {
 
         if (!q.length) {
             return reset_search();
-        } else if (q == last_search && !enter) {
+        }
+
+        if (q == last_search && !enter) {
             return 0;
         }
 
@@ -623,7 +624,7 @@ function rcube_treelist_widget(node, p) {
                     // let skins to do their magic, e.g. Elastic will fix pretty checkbox
                     rcmail.triggerEvent('clonerow', {
                         id: node.id,
-                        row: sli.get(0)
+                        row: sli.get(0),
                     });
 
                     hits.push(node.id);
@@ -648,7 +649,9 @@ function rcube_treelist_widget(node, p) {
         search_tree(data);
         search_active = true;
 
-        me.triggerEvent('search', { query: q, last: last_search, count: hits.length, ids: hits, execute: enter || false });
+        me.triggerEvent('search', {
+            query: q, last: last_search, count: hits.length, ids: hits, execute: enter || false,
+        });
 
         last_search = q;
 
@@ -728,9 +731,9 @@ function rcube_treelist_widget(node, p) {
             li.appendTo(parent);
         }
 
-        if (typeof node.html == 'string') {
+        if (typeof node.html === 'string') {
             li.html(node.html);
-        } else if (typeof node.html == 'object') {
+        } else if (typeof node.html === 'object') {
             li.append(node.html);
         }
 
@@ -778,7 +781,7 @@ function rcube_treelist_widget(node, p) {
                 level: level,
                 html: li.children().first().get(0).outerHTML,
                 text: li.children().first().text(),
-                children: walk_list(sublist, level + 1)
+                children: walk_list(sublist, level + 1),
             };
 
             if (sublist.length) {
@@ -918,8 +921,8 @@ function rcube_treelist_widget(node, p) {
                 if (li.length) {
                     focus_next(li, (mod = keyCode == 38 || keyCode == 63232 ? -1 : 1));
                 }
-                return rcube_event.cancel(e);
 
+                return rcube_event.cancel(e);
             case 37: // Left arrow key
             case 39: // Right arrow key
                 var id, node, li = container.find(':focus').closest('li');
@@ -930,14 +933,15 @@ function rcube_treelist_widget(node, p) {
                         toggle(id, rcube_event.get_modifier(e) == SHIFT_KEY);
                     } // toggle subtree
                 }
-                return false;
 
+                return false;
             case 9: // Tab
                 if (p.keyboard && p.tabexit) {
                     // jump to last/first item to move focus away from the treelist widget by tab
                     var limit = rcube_event.get_modifier(e) == SHIFT_KEY ? 'first' : 'last';
                     focus_noscroll(container.find('li[role=treeitem]:has(a)')[limit]().find('a:' + limit));
                 }
+
                 break;
         }
 
@@ -971,7 +975,7 @@ function rcube_treelist_widget(node, p) {
      */
     function focus_noscroll(elem) {
         if (elem.length) {
-            var frame = container.parent().get(0) || { scrollTop:0 },
+            var frame = container.parent().get(0) || { scrollTop: 0 },
                 y = frame.scrollTop || frame.scrollY;
             elem.focus();
             frame.scrollTop = y;
@@ -1022,7 +1026,7 @@ function rcube_treelist_widget(node, p) {
         }
     }
 
-    ///// drag & drop support
+    // ///// drag & drop support
 
     /**
      * When dragging starts, compute absolute bounding boxes of the list and it's items
@@ -1046,7 +1050,7 @@ function rcube_treelist_widget(node, p) {
             x1: pos.left,
             y1: pos.top,
             x2: pos.left + container.width(),
-            y2: pos.top + container.height()
+            y2: pos.top + container.height(),
         };
 
         item_coords = [];
@@ -1061,7 +1065,7 @@ function rcube_treelist_widget(node, p) {
                     y1: pos.top,
                     x2: pos.left + item.offsetWidth,
                     y2: pos.top + height,
-                    on: id == autoexpand_item
+                    on: id == autoexpand_item,
                 };
             }
         }
@@ -1231,7 +1235,7 @@ function rcube_treelist_widget(node, p) {
             greedy: true,
             tolerance: 'pointer',
             hoverClass: 'droptarget',
-            addClasses: false
+            addClasses: false,
         }, opts);
 
         my_opts.activate = function (e, ui) {
@@ -1294,7 +1298,7 @@ function rcube_treelist_widget(node, p) {
             helper: function (e) {
                 return $('<div>').attr('id', 'rcmdraglayer')
                     .text($(e.target).first().text().trim());
-            }
+            },
         }, opts);
 
         $('li:not(.virtual)', container).draggable(my_opts);

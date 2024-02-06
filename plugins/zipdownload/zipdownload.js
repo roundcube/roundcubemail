@@ -38,7 +38,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
     rcmail.addEventListener('beforedownload', rcmail_zipdownload_menu);
 
     // find and modify default download link/button
-    $.each(rcmail.buttons['download'] || [], function () {
+    $.each(rcmail.buttons.download || [], function () {
         var link = $('#' + this.id),
             span = $('span', link);
 
@@ -73,14 +73,14 @@ function rcmail_zipdownload(mode) {
                 target: id,
                 style: 'display: none',
                 method: 'post',
-                action: rcmail.url('mail/plugin.zipdownload.messages')
+                action: rcmail.url('mail/plugin.zipdownload.messages'),
             });
 
         post._mode = mode;
         post._token = rcmail.env.request_token;
 
         $.each(post, function (k, v) {
-            if (typeof v == 'object' && v.length > 1) {
+            if (typeof v === 'object' && v.length > 1) {
                 for (var j = 0; j < v.length; j++) {
                     inputs.push($('<input>').attr({ type: 'hidden', name: k + '[]', value: v[j] }));
                 }

@@ -33,7 +33,7 @@ class Managesieve_Script extends TestCase
     /**
      * Data provider for test_parser()
      */
-    public function provide_parser_cases(): iterable
+    public static function provide_parser_cases(): iterable
     {
         $dir_path = realpath(__DIR__ . '/src');
         $dir = opendir($dir_path);
@@ -60,18 +60,18 @@ class Managesieve_Script extends TestCase
         return $result;
     }
 
-    public function provide_tokenizer_cases(): iterable
+    public static function provide_tokenizer_cases(): iterable
     {
         return [
             [1, "text: #test\nThis is test ; message;\nMulti line\n.\n;\n", '"This is test ; message;\nMulti line"'],
             [1, "text: #test\r\nThis is test ; message;\nMulti line\r\n.\r\n;", '"This is test ; message;\nMulti line"'],
             [0, '["test1","test2"]', '[["test1","test2"]]'],
             [1, '["test"]', '["test"]'],
-            [1, '"te\\"st"', '"te\\"st"'],
+            [1, '"te\"st"', '"te\"st"'],
             [0, 'test #comment', '["test"]'],
             [0, "text:\ntest\n.\ntext:\ntest\n.\n", '["test","test"]'],
             [0, "text:\r\ntest\r\n.\r\ntext:\r\ntest\r\n.\r\n", '["test","test"]'],
-            [1, '"\\a\\\\\\"a"', '"a\\\\\\"a"'],
+            [1, '"\a\\\\\"a"', '"a\\\\\"a"'],
         ];
     }
 

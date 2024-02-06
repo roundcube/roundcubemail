@@ -1207,7 +1207,7 @@ class rcube_sieve_script
         }
 
         // quoted-string
-        return '"' . addcslashes($str, '\\"') . '"';
+        return '"' . addcslashes($str, '\"') . '"';
     }
 
     /**

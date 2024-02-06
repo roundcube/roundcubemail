@@ -149,7 +149,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             // Check \Noselect flag (of existing folder)
             if (!$is_protected && in_array($folder['id'], $a_unsubscribed)) {
                 $attrs = $storage->folder_attributes($folder['id']);
-                $noselect = in_array_nocase('\\Noselect', $attrs);
+                $noselect = in_array_nocase('\Noselect', $attrs);
             }
 
             $is_disabled = (($is_protected && $is_subscribed) || $noselect);

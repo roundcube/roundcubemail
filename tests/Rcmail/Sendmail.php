@@ -95,7 +95,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
     /**
      * Data for test_convert()
      */
-    public function provide_email_input_format_cases(): iterable
+    public static function provide_email_input_format_cases(): iterable
     {
         return [
             [

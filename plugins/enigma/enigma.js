@@ -19,7 +19,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
     if (rcmail.env.task == 'settings') {
         if (rcmail.gui_objects.keyslist) {
             rcmail.keys_list = new rcube_list_widget(rcmail.gui_objects.keyslist,
-                { multiselect:true, draggable:false, keyboard:true });
+                { multiselect: true, draggable: false, keyboard: true });
             rcmail.keys_list
                 .addEventListener('select', function (o) {
                     rcmail.enigma_keylist_select(o);
@@ -141,7 +141,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 
 
 /*********************************************************/
-/*********    Enigma Settings/Keys/Certs UI      *********/
+/* ********    Enigma Settings/Keys/Certs UI     *********/
 /*********************************************************/
 
 // Display key(s) import form
@@ -155,7 +155,7 @@ rcube_webmail.prototype.enigma_key_import = function () {
     this.enigma_import_dialog = this.simple_dialog(dialog, 'enigma.importkeys', import_func, {
         button: 'import',
         width: 500,
-        height: 180
+        height: 180,
     });
 };
 
@@ -170,7 +170,7 @@ rcube_webmail.prototype.enigma_key_import_search = function () {
     this.enigma_import_dialog = this.simple_dialog(dialog, 'enigma.keyimportsearchlabel', search_func, {
         button: 'search',
         width: 500,
-        height: 150
+        height: 150,
     });
 };
 
@@ -219,7 +219,7 @@ rcube_webmail.prototype.enigma_key_create_save = function () {
         options = {
             userIDs: users,
             passphrase: password,
-            type: type.substring(0, 3)
+            type: type.substring(0, 3),
         };
 
         if (type == 'ecc') {
@@ -236,7 +236,7 @@ rcube_webmail.prototype.enigma_key_create_save = function () {
                 _a: 'import',
                 _keys: keypair.privateKey,
                 _generated: 1,
-                _passwd: password
+                _passwd: password,
             };
 
             // send request to server
@@ -304,28 +304,28 @@ rcube_webmail.prototype.enigma_export = function (selected) {
             this.get_label('enigma.keyexportprompt'),
             this.get_label('enigma.exportkeys'),
             [{
-                'class': 'export mainaction',
+                class: 'export mainaction',
                 text: this.get_label('enigma.onlypubkeys'),
                 click: function (e) {
                     rcmail.enigma_export_submit(args);
                     $(this).remove();
-                }
+                },
             },
             {
-                'class': 'export',
+                class: 'export',
                 text: this.get_label('enigma.withprivkeys'),
                 click: function (e) {
                     args._priv = 1;
                     rcmail.enigma_export_submit(args);
                     $(this).remove();
-                }
+                },
             },
             {
-                'class': 'cancel',
+                class: 'cancel',
                 text: this.get_label('close'),
                 click: function (e) {
                     $(this).remove();
-                }
+                },
             }],
             { width: 500 }
         );
@@ -338,8 +338,12 @@ rcube_webmail.prototype.enigma_export = function (selected) {
 // Done this way to handle password input
 rcube_webmail.prototype.enigma_export_submit = function (data) {
     var id = 'keyexport-' + new Date().getTime(),
-        form = $('<form>').attr({ target: id, method: 'post', style: 'display:none',
-            action: '?_action=plugin.enigmakeys&_task=settings&_a=export' }),
+        form = $('<form>').attr({
+            target: id,
+            method: 'post',
+            style: 'display:none',
+            action: '?_action=plugin.enigmakeys&_task=settings&_a=export',
+        }),
         iframe = $('<iframe>').attr({ name: id, style: 'display:none' });
 
     form.append($('<input>').attr({ name: '_token', value: this.env.request_token }));
@@ -424,7 +428,7 @@ rcube_webmail.prototype.enigma_search = function (props) {
     }
 
     if (props || this.env.search_request) {
-        var params = { '_a': 'search', '_q': props },
+        var params = { _a: 'search', _q: props },
             lock = this.set_busy(true, 'searching');
         //        if (this.gui_objects.search_filter)
         //          addurl += '&_filter=' + this.gui_objects.search_filter.value;
@@ -459,7 +463,7 @@ rcube_webmail.prototype.enigma_list = function (page, reset_frame) {
         return parent.rcmail.enigma_list(page, reset_frame);
     }
 
-    var params = { '_a': 'list' },
+    var params = { _a: 'list' },
         lock = this.set_busy(true, 'loading');
 
     this.env.current_page = page ? page : 1;
@@ -532,7 +536,7 @@ rcube_webmail.prototype.enigma_add_list_row = function (r) {
 
 
 /*********************************************************/
-/*********        Enigma Message methods         *********/
+/* ********        Enigma Message methods        *********/
 /*********************************************************/
 
 // handle message send/save action
@@ -600,7 +604,7 @@ rcube_webmail.prototype.enigma_password_request = function (data) {
     this.show_popup_dialog(myprompt, this.get_label('enigma.enterkeypasstitle'),
         [{
             text: this.get_label('ok'),
-            'class': 'mainaction save unlock',
+            class: 'mainaction save unlock',
             click: function (e) {
                 e.stopPropagation();
 
@@ -615,16 +619,16 @@ rcube_webmail.prototype.enigma_password_request = function (data) {
 
                 ref.enigma_password_submit(data);
                 jq(this).remove();
-            }
+            },
         },
         {
             text: this.get_label('cancel'),
-            'class': 'cancel',
+            class: 'cancel',
             click: function (e) {
                 var jq = ref.is_framed() ? window.parent.$ : $;
                 e.stopPropagation();
                 jq(this).remove();
-            }
+            },
         }], { width: 400 });
 
     if (this.is_framed() && parent.rcmail.message_list) {
@@ -639,7 +643,9 @@ rcube_webmail.prototype.enigma_password_submit = function (data) {
 
     if (this.env.action == 'compose' && !data['compose-init']) {
         return this.enigma_password_compose_submit(data);
-    } else if (this.env.action == 'plugin.enigmakeys' && (form = this.gui_objects.importform)) {
+    }
+
+    if (this.env.action == 'plugin.enigmakeys' && (form = this.gui_objects.importform)) {
         if (!$('input[name="_keyid"]', form).length) {
             $(form).append($('<input>').attr({ type: 'hidden', name: '_keyid', value: data.key }))
                 .append($('<input>').attr({ type: 'hidden', name: '_passwd', value: data.password }));
@@ -691,32 +697,32 @@ rcube_webmail.prototype.enigma_password_compose_submit = function (data) {
 rcube_webmail.prototype.enigma_key_not_found = function (data) {
     var params = { width: 500, dialogClass: 'error' },
         buttons = [{
-            'class': 'mainaction search',
+            class: 'mainaction search',
             text: data.button,
             click: function () {
                 $(this).remove();
                 rcmail.enigma_find_publickey(data.email);
-            }
+            },
         }];
 
     if (data.mode == 'encrypt') {
         buttons.push({
-            'class': 'send',
+            class: 'send',
             text: rcmail.get_label('enigma.sendunencrypted'),
             click: function (e) {
                 $(this).remove();
                 $('#enigmaencryptopt').prop('checked', false).change();
                 rcmail.command('send', { nocheck: true }, e.target, e.originalEvent);
-            }
+            },
         });
     }
 
     buttons.push({
-        'class': 'cancel',
+        class: 'cancel',
         text: this.get_label('cancel'),
         click: function () {
             $(this).remove();
-        }
+        },
     });
 
     return this.show_popup_dialog(data.text, data.title, buttons, params);

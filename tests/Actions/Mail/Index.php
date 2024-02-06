@@ -500,7 +500,7 @@ class Actions_Mail_Index extends ActionTestCase
             'Links with target=_blank'
         );
         $this->assertMatchesRegularExpression(
-            '#\\[<a rel="noreferrer" target="_blank" href="http://example.com/\\?tx\\[a\\]=5">http://example.com/\\?tx\\[a\\]=5</a>\\]#',
+            '#\[<a rel="noreferrer" target="_blank" href="http://example.com/\?tx\[a\]=5">http://example.com/\?tx\[a\]=5</a>\]#',
             $html,
             'Links with square brackets'
         );

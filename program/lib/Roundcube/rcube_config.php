@@ -339,7 +339,7 @@ class rcube_config
 
             // check if <file>-<env>.inc.php exists
             if ($use_env && !empty($this->env)) {
-                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $file);
+                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\1', $file);
                 $envfile = $abs_path ? $envfile : realpath($basepath . '/' . $envfile);
 
                 if (is_file($envfile)) {

@@ -104,7 +104,7 @@ class subscriptions_option extends rcube_plugin
             if ($folders = $storage->list_folders_direct($args['root'], $args['name'])) {
                 $folders = array_filter($folders, static function ($folder) use ($storage) {
                     $attrs = $storage->folder_attributes($folder);
-                    return !in_array_nocase('\\Noselect', $attrs);
+                    return !in_array_nocase('\Noselect', $attrs);
                 });
 
                 $args['folders'] = $folders;

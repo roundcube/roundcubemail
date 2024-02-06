@@ -2948,7 +2948,7 @@ class rcube_imap extends rcube_storage
             if ($name == '*' && !empty($this->conn->data['LIST'])) {
                 foreach ($result as $idx => $folder) {
                     if (($opts = $this->conn->data['LIST'][$folder])
-                        && in_array_nocase('\\NonExistent', $opts)
+                        && in_array_nocase('\NonExistent', $opts)
                     ) {
                         $this->conn->unsubscribe($folder);
                         unset($result[$idx]);
@@ -3537,7 +3537,7 @@ class rcube_imap extends rcube_storage
         if ($subscription) {
             // It's possible we already called LIST command, check LIST data
             if (!empty($this->conn->data['LIST']) && !empty($this->conn->data['LIST'][$folder])
-                && in_array_nocase('\\Subscribed', $this->conn->data['LIST'][$folder])
+                && in_array_nocase('\Subscribed', $this->conn->data['LIST'][$folder])
             ) {
                 $a_folders = [$folder];
             } else {
@@ -3832,11 +3832,11 @@ class rcube_imap extends rcube_storage
     {
         if (parent::folder_validate($folder, $char)) {
             $vendor = $this->get_vendor();
-            $regexp = '\\x00-\\x1F\\x7F%*';
+            $regexp = '\x00-\x1F\x7F%*';
 
             if ($vendor == 'cyrus') {
                 // List based on testing Kolab's Cyrus-IMAP 2.5
-                $regexp .= '!`@(){}|\\?<;"';
+                $regexp .= '!`@(){}|\?<;"';
             }
 
             if (!preg_match("/[{$regexp}]/", $folder, $m)) {

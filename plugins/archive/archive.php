@@ -489,11 +489,11 @@ class archive extends rcube_plugin
         }
 
         // Remove some forbidden characters
-        $regexp = '\\x00-\\x1F\\x7F%*';
+        $regexp = '\x00-\x1F\x7F%*';
 
         if ($vendor == 'cyrus') {
             // List based on testing Kolab's Cyrus-IMAP 2.5
-            $regexp .= '!`(){}|\\?<;"';
+            $regexp .= '!`(){}|\?<;"';
         }
 
         $folder_name = preg_replace("/[{$regexp}]/", '', $m[1]);

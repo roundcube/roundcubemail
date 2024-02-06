@@ -74,7 +74,7 @@ function rcube_text_editor(config, id) {
                 ref.file_picker_callback(callback, value, meta);
             },
             min_height: config.mode == 'identity' ? 100 : 400,
-            deprecation_warnings: false
+            deprecation_warnings: false,
         };
 
     // register spellchecker for plain text editor
@@ -104,7 +104,7 @@ function rcube_text_editor(config, id) {
         conf.toolbar += ' | charmap hr link unlink image code $extra';
         $.extend(conf, {
             plugins: 'autolink charmap code hr image link paste tabfocus',
-            file_picker_types: 'image'
+            file_picker_types: 'image',
         });
     }
     // full-featured editor
@@ -115,7 +115,7 @@ function rcube_text_editor(config, id) {
             plugins: 'autolink charmap code directionality link lists image media nonbreaking'
                 + ' paste table tabfocus searchreplace spellchecker',
             spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
-            spellchecker_language: rcmail.env.spell_lang
+            spellchecker_language: rcmail.env.spell_lang,
         });
     }
 
@@ -443,7 +443,9 @@ function rcube_text_editor(config, id) {
 
         if (this.editor) {
             return this.spellcheck_active;
-        } else if ((ed = this.spellchecker) && ed.state) {
+        }
+
+        if ((ed = this.spellchecker) && ed.state) {
             return ed.state != 'ready' && ed.state != 'no_error_found';
         }
     };
@@ -541,7 +543,9 @@ function rcube_text_editor(config, id) {
     // get selected text (if no selection returns all text) from the editor
     this.get_content = function (args) {
         var sigstart, ed = this.editor, text = '', strip = false,
-            defaults = { refresh: true, selection: false, nosig: false, format: 'html' };
+            defaults = {
+                refresh: true, selection: false, nosig: false, format: 'html',
+            };
 
         if (!args) {
             args = defaults;
@@ -711,11 +715,15 @@ function rcube_text_editor(config, id) {
                 items: [{
                     type: 'htmlpanel',
                     html: '<div id="image-selector" class="image-selector file-upload"><ul id="image-selector-list" class="attachmentslist"></ul></div>',
-                }]
+                }],
             },
-            buttons: [{ type: 'cancel', text: rcmail.get_label('close'), onclick: function () {
-                ref.file_picker_close();
-            } }]
+            buttons: [{
+                type: 'cancel',
+                text: rcmail.get_label('close'),
+                onclick: function () {
+                    ref.file_picker_close();
+                },
+            }],
         });
 
         rcmail.env.file_picker_callback = callback;
@@ -849,13 +857,13 @@ function rcube_text_editor(config, id) {
         switch (rcmail.env.file_picker_type) {
             case 'image':
                 rx = /^image\//i;
-                break;
 
+                break;
             case 'media':
                 rx = /^video\//i;
                 img_src = rcmail.assets_path('program/resources/tinymce/video.png');
-                break;
 
+                break;
             default:
                 return;
         }
@@ -884,12 +892,14 @@ function rcube_text_editor(config, id) {
     this.file_upload_form = function (clone_form) {
         var hint = clone_form ? $(clone_form).find('.hint').text() : '',
             form = $('<form id="imageuploadform">').attr({ method: 'post', enctype: 'multipart/form-data' });
-        file = $('<input>').attr({ name: '_file[]', type: 'file', multiple: true, style: 'opacity:0;height:1px;width:1px' })
+        file = $('<input>').attr({
+            name: '_file[]', type: 'file', multiple: true, style: 'opacity:0;height:1px;width:1px',
+        })
             .change(function () {
                 rcmail.upload_file(form, 'upload');
             }),
         wrapper = $('<div class="upload-form">')
-            .append($('<button>').attr({ 'class': 'btn btn-secondary attach', href: '#', onclick: "rcmail.upload_input('imageuploadform')" }));
+            .append($('<button>').attr({ class: 'btn btn-secondary attach', href: '#', onclick: "rcmail.upload_input('imageuploadform')" }));
 
         if (hint) {
             wrapper.prepend($('<div class="hint">').text(hint));
@@ -913,7 +923,7 @@ function rcube_text_editor(config, id) {
         }
 
         var fetch_params = {
-            referrerPolicy: 'no-referrer'
+            referrerPolicy: 'no-referrer',
         };
 
         fetch(src, fetch_params).then(function (response) {
@@ -931,7 +941,7 @@ function rcube_text_editor(config, id) {
                     $(ref.editor.getBody()).find('img[data-img-id="' + id + '"]').attr({
                         src: url,
                         'data-mce-src': url,
-                        'data-img-id': null
+                        'data-img-id': null,
                     });
                 }
             });

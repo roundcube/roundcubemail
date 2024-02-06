@@ -10,7 +10,7 @@ class Framework_Text2Html extends TestCase
     /**
      * Data for test_text2html()
      */
-    public function provide_text2html_cases(): iterable
+    public static function provide_text2html_cases(): iterable
     {
         $options = [
             'begin' => '',

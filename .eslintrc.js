@@ -86,6 +86,11 @@ module.exports = {
         'unicorn/prevent-abbreviations': 'off',
         'wrap-iife': ['error', 'inside'],
 
+        // disable too destructive formating for now
+        camelcase: 'off', // (1886 matches)
+        eqeqeq: 'off', // (876 matches)
+        'padding-line-between-statements': 'off', // eslint-disable-line no-dupe-keys -- (170 matches)
+
         // TODO rules to be removed/fixed later as fixes are not compatible with IE11
         'guard-for-in': 'off', // refactor to "for of" (32 matches)
         'no-restricted-globals': 'off', // (72 matches)
@@ -106,24 +111,15 @@ module.exports = {
         'array-callback-return': 'off', // (7 matches)
         'block-scoped-var': 'off', // (391 matches)
         'brace-style': 'off', // eslint-disable-line no-dupe-keys -- (69 remaining non-autofixable matches)
-        'camelcase': 'off', // (1886 matches)
-        'comma-dangle': 'off', // eslint-disable-line no-dupe-keys -- (131 matches)
-        'dot-notation': 'off', // (36 matches)
-        'eqeqeq': 'off', // (921 matches)
         'function-call-argument-newline': 'off', // (20 matches)
         'function-paren-newline': 'off', // (109 matches)
         'guard-for-in': 'off', // eslint-disable-line no-dupe-keys -- (32 matches)
-        'key-spacing': 'off', // (233 matches)
-        'keyword-spacing': 'off', // (15 matches)
         'new-cap': 'off', // (16 matches)
         'newline-per-chained-call': 'off', // (38 matches)
-        'new-parens': 'off', // (1 match)
         'no-alert': 'off', // (3 matches)
         'no-bitwise': 'off', // (45 matches)
         'no-cond-assign': 'off', // (142 matches)
-        'no-constant-condition': 'off', // (1 match)
         'no-debugger': 'off', // (1 match)
-        'no-else-return': 'off', // (15 matches)
         'no-empty': 'off', // (15 matches)
         'no-eval': 'off', // (2 matches)
         'no-extend-native': 'off', // (3 matches)
@@ -133,44 +129,31 @@ module.exports = {
         'no-mixed-operators': 'off', // (8 matches)
         'no-multi-assign': 'off', // (18 matches)
         'no-multiple-empty-lines': 'off', // (85 matches)
-        'nonblock-statement-body-position': 'off', // (1158 matches)
         'no-redeclare': 'off', // (37 matches)
-        'no-regex-spaces': 'off', // (1 match)
         'no-restricted-globals': 'off', // eslint-disable-line no-dupe-keys -- (72 matches)
-        'no-return-assign': 'off', // (1 match)
         'no-script-url': 'off', // (3 matches)
         'no-sequences': 'off', // (5 matches)
         'no-shadow': 'off', // (85 matches)
-        'no-undef': 'off', // (2472 matches)
+        'no-undef': 'off', // (217 matches)
         'no-unneeded-ternary': 'off', // (22 matches)
         'no-unused-expressions': 'off', // (15 matches)
         'no-use-before-define': 'off', // (495 matches)
         'no-useless-escape': 'off', // (18 matches)
         'no-var': 'off', // eslint-disable-line no-dupe-keys -- (986 matches)
-        'no-whitespace-before-property': 'off', // (1 match)
-        'object-curly-newline': 'off', // (82 matches)
-        'object-property-newline': 'off', // (40 matches)
         'one-var': 'off', // eslint-disable-line no-dupe-keys -- (489 matches)
         'one-var-declaration-per-line': 'off', // (501 matches)
         'operator-assignment': 'off', // (4 matches)
-        'padding-line-between-statements': 'off', // eslint-disable-line no-dupe-keys -- (301 matches)
         'prefer-arrow-callback': 'off', // (423 matches)
         'prefer-rest-params': 'off', // eslint-disable-line no-dupe-keys -- (3 matches)
         'prefer-spread': 'off', // eslint-disable-line no-dupe-keys -- (2 matches)
-        'quote-props': 'off', // (86 matches)
-        'radix': 'off', // (12 matches)
-        'spaced-comment': 'off', // eslint-disable-line no-dupe-keys -- (47 matches)
         'unicorn/better-regex': 'off', // (42 matches)
         'unicorn/consistent-function-scoping': 'off', // (19 matches)
-        'unicorn/empty-brace-spaces': 'off', // (5 matches)
-        'unicorn/escape-case': 'off', // (4 matches)
         'unicorn/explicit-length-check': 'off', // (219 matches)
         'unicorn/filename-case': 'off', // (3 matches)
         'unicorn/new-for-builtins': 'off', // (2 matches)
         'unicorn/no-array-for-each': 'off', // eslint-disable-line no-dupe-keys -- (2 matches)
         'unicorn/no-document-cookie': 'off', // (1 match)
         'unicorn/no-for-loop': 'off', // eslint-disable-line no-dupe-keys -- (3 matches)
-        'unicorn/no-hex-escape': 'off', // (2 matches)
         'unicorn/no-nested-ternary': 'off', // (2 matches)
         'unicorn/no-new-array': 'off', // (1 match)
         'unicorn/no-typeof-undefined': 'off', // (3 matches)
@@ -202,5 +185,10 @@ module.exports = {
     reportUnusedDisableDirectives: true,
     globals: {
         jQuery: true,
+        $: true,
+        rcmail: true,
+        rcube_event: true,
+        rcube_event_engine: true,
+        rcube_webmail: true,
     },
 };

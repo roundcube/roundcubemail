@@ -20,7 +20,7 @@ class Framework_StringReplacer extends TestCase
     /**
      * Data for test_replace()
      */
-    public function provide_replace_cases(): iterable
+    public static function provide_replace_cases(): iterable
     {
         return [
             ['http://domain.tld/path*path2', '<a href="http://domain.tld/path*path2">http://domain.tld/path*path2</a>'],
