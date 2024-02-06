@@ -626,7 +626,7 @@ class enigma_engine
         // Remove "Hash" Armor Headers
         $part->body = preg_replace('/^.*\r*\n\r*\n/', '', $part->body);
         // de-Dash-Escape (RFC2440)
-        $part->body = preg_replace('/(^|\n)- -/', '\\1-', $part->body);
+        $part->body = preg_replace('/(^|\n)- -/', '\1-', $part->body);
 
         if ($prefix) {
             $part->body = $prefix . $part->body;

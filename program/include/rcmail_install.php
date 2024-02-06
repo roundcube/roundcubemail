@@ -413,7 +413,7 @@ class rcmail_install
         foreach ($this->replaced_config as $prop => $replacement) {
             if (isset($current[$prop])) {
                 if ($prop == 'skin_path') {
-                    $this->config[$replacement] = preg_replace('#skins/(\w+)/?$#', '\\1', $current[$prop]);
+                    $this->config[$replacement] = preg_replace('#skins/(\w+)/?$#', '\1', $current[$prop]);
                 } elseif ($prop == 'multiple_identities') {
                     $this->config[$replacement] = $current[$prop] ? 2 : 0;
                 } else {

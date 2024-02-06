@@ -60,7 +60,7 @@ class Framework_VCard extends TestCase
 
         $this->assertSame('last;', $vcard['surname'], 'Decode backslash character');
         $this->assertSame('first\\', $vcard['firstname'], 'Decode backslash character');
-        $this->assertSame('middle\\;\\', $vcard['middlename'], 'Decode backslash character');
+        $this->assertSame('middle\;\\', $vcard['middlename'], 'Decode backslash character');
         $this->assertSame('prefix', $vcard['prefix'], 'Decode backslash character');
     }
 
@@ -73,7 +73,7 @@ class Framework_VCard extends TestCase
         $vcard = new rcube_vcard($vcard, null);
         $vcard = $vcard->get_assoc();
 
-        $this->assertSame('last\\a', $vcard['surname'], 'Decode dummy backslash character');
+        $this->assertSame('last\a', $vcard['surname'], 'Decode dummy backslash character');
         $this->assertSame("fir\nst", $vcard['firstname'], 'Decode backslash character');
         $this->assertSame('http://domain.tld', $vcard['website:other'][0], 'Decode dummy backslash character');
     }

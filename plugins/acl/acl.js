@@ -22,10 +22,10 @@ if (window.rcmail) {
             // enable autocomplete on user input
             if (rcmail.env.acl_users_source) {
                 var inst = rcmail.is_framed() ? parent.rcmail : rcmail;
-                inst.init_address_input_events($('#acluser'), { action:'settings/plugin.acl-autocomplete' });
+                inst.init_address_input_events($('#acluser'), { action: 'settings/plugin.acl-autocomplete' });
 
                 // pass config settings and localized texts to autocomplete context
-                inst.set_env({ autocomplete_max:rcmail.env.autocomplete_max, autocomplete_min_length:rcmail.env.autocomplete_min_length });
+                inst.set_env({ autocomplete_max: rcmail.env.autocomplete_max, autocomplete_min_length: rcmail.env.autocomplete_min_length });
                 inst.add_label('autocompletechars', rcmail.labels.autocompletechars);
                 inst.add_label('autocompletemore', rcmail.labels.autocompletemore);
 
@@ -72,7 +72,7 @@ rcube_webmail.prototype.acl_delete = function () {
             ref.http_post('settings/plugin.acl', {
                 _act: 'delete',
                 _user: users.join(','),
-                _mbox: rcmail.env.mailbox
+                _mbox: rcmail.env.mailbox,
             }, ref.set_busy(true, 'acl.deleting'));
         });
     }
@@ -107,7 +107,7 @@ rcube_webmail.prototype.acl_save = function () {
         _act: 'save',
         _user: user,
         _acl: rights,
-        _mbox: this.env.mailbox
+        _mbox: this.env.mailbox,
     };
 
     if (this.acl_id) {
@@ -383,7 +383,7 @@ rcube_webmail.prototype.acl_init_form = function (id) {
                 me.acl_form.appendTo(body).hide();
                 $(this).remove();
                 window.focus(); // focus iframe
-            }
+            },
         }
     );
 
@@ -409,7 +409,9 @@ rcube_webmail.prototype.acl_class = function (acl1, acl2) {
 
     if (found == len) {
         return 'enabled';
-    } else if (found) {
+    }
+
+    if (found) {
         return 'partial';
     }
 

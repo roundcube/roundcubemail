@@ -744,7 +744,7 @@ class rcmail_sendmail
 
         $delim = ',;';
         $regexp = ["/[{$delim}]\\s*[\r\n]+/", '/[\r\n]+/', "/[{$delim}]\\s*\$/m", '/;/', '/(\S{1})(<' . $email_regexp . '>)/U'];
-        $replace = [', ', ', ', '', ',', '\\1 \\2'];
+        $replace = [', ', ', ', '', ',', '\1 \2'];
 
         // replace new lines and strip ending ', ', make address input more valid
         $mailto = trim(preg_replace($regexp, $replace, $mailto));

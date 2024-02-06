@@ -1557,7 +1557,7 @@ class rcmail extends rcube
         }
 
         if ($minified && preg_match('/(?<!\.min)\.(js|css)$/', $path)) {
-            $path = preg_replace('/\.(js|css)$/', '.min.\\1', $path);
+            $path = preg_replace('/\.(js|css)$/', '.min.\1', $path);
             $full_path = $root_path . trim($path, '/');
 
             if (file_exists($full_path)) {

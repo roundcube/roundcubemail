@@ -32,7 +32,7 @@ class Framework_Enriched extends TestCase
     /**
      * Data for test_formatting()
      */
-    public function provide_formatting_cases(): iterable
+    public static function provide_formatting_cases(): iterable
     {
         return [
             ['<bold>', '<b>'],

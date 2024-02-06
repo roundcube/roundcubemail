@@ -128,7 +128,7 @@ rcube_list_widget.prototype = {
 
             // set body events
             if (this.keyboard) {
-                rcube_event.add_listener({ event:'keydown', object:this, method:'key_press' });
+                rcube_event.add_listener({ event: 'keydown', object: this, method: 'key_press' });
 
                 // allow the table element to receive focus.
                 $(this.list).attr('tabindex', '0')
@@ -159,7 +159,7 @@ rcube_list_widget.prototype = {
         // make references in internal array and set event handlers
         if (row && row.uid) {
             var self = this, uid = row.uid;
-            this.rows[uid] = { uid:uid, id:row.id, obj:row };
+            this.rows[uid] = { uid: uid, id: row.id, obj: row };
 
             $(row).data('uid', uid)
             // set eventhandlers to table row (only left-button-clicks in mouseup)
@@ -169,9 +169,9 @@ rcube_list_widget.prototype = {
                 .mouseup(function (e) {
                     if (e.which == 1 && !self.drag_active && !$(e.currentTarget).is('.ui-droppable-active')) {
                         return self.click_row(e, this.uid);
-                    } else {
-                        return true;
                     }
+
+                    return true;
                 });
 
             // for IE and Edge (Trident) differentiate between touch, touch+hold using pointer events rather than touch
@@ -284,7 +284,7 @@ rcube_list_widget.prototype = {
                 .attr('id', this.list.id + '-fixedcopy')
                 .attr('class', this.list.className + ' fixedcopy')
                 .attr('role', 'presentation')
-                .css({ position:'fixed' })
+                .css({ position: 'fixed' })
                 .append(clone)
                 .append('<tbody></tbody>');
             $(this.list).before(this.fixed_header);
@@ -297,7 +297,7 @@ rcube_list_widget.prototype = {
                 var w = $(this);
                 me.fixed_header.css({
                     marginLeft: -w.scrollLeft() + 'px',
-                    marginTop: -w.scrollTop() + 'px'
+                    marginTop: -w.scrollTop() + 'px',
                 });
             });
         } else {
@@ -445,7 +445,7 @@ rcube_list_widget.prototype = {
         }
 
         if (before && tbody.childNodes.length) {
-            tbody.insertBefore(row, (typeof before == 'object' && before.parentNode == tbody) ? before : tbody.firstChild);
+            tbody.insertBefore(row, (typeof before === 'object' && before.parentNode == tbody) ? before : tbody.firstChild);
         } else {
             tbody.appendChild(row);
         }
@@ -648,8 +648,8 @@ rcube_list_widget.prototype = {
             this.drag_start = true;
             this.drag_mouse_start = rcube_event.get_mouse_pos(e);
 
-            rcube_event.add_listener({ event:'mousemove', object:this, method:'column_drag_mouse_move' });
-            rcube_event.add_listener({ event:'mouseup', object:this, method:'column_drag_mouse_up' });
+            rcube_event.add_listener({ event: 'mousemove', object: this, method: 'column_drag_mouse_move' });
+            rcube_event.add_listener({ event: 'mouseup', object: this, method: 'column_drag_mouse_up' });
 
             // enable dragging over iframes
             this.add_dragfix();
@@ -693,12 +693,12 @@ rcube_list_widget.prototype = {
             this.drag_start = true;
             this.drag_mouse_start = rcube_event.get_mouse_pos(e);
 
-            rcube_event.add_listener({ event:'mousemove', object:this, method:'drag_mouse_move' });
-            rcube_event.add_listener({ event:'mouseup', object:this, method:'drag_mouse_up' });
+            rcube_event.add_listener({ event: 'mousemove', object: this, method: 'drag_mouse_move' });
+            rcube_event.add_listener({ event: 'mouseup', object: this, method: 'drag_mouse_up' });
 
             if (bw.touch) {
-                rcube_event.add_listener({ event:'touchmove', object:this, method:'drag_mouse_move' });
-                rcube_event.add_listener({ event:'touchend', object:this, method:'drag_mouse_up' });
+                rcube_event.add_listener({ event: 'touchmove', object: this, method: 'drag_mouse_move' });
+                rcube_event.add_listener({ event: 'touchend', object: this, method: 'drag_mouse_up' });
             }
 
             // enable dragging over iframes
@@ -775,9 +775,9 @@ rcube_list_widget.prototype = {
 
         if (r && r.parent_uid) {
             return this.find_root(r.parent_uid);
-        } else {
-            return uid;
         }
+
+        return uid;
     },
 
 
@@ -799,7 +799,7 @@ rcube_list_widget.prototype = {
 
         row.expanded = false;
         this.update_expando(row.id);
-        this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
+        this.triggerEvent('expandcollapse', { uid: row.uid, expanded: row.expanded, obj: row.obj });
 
         while (new_row) {
             if (new_row.nodeType == 1) {
@@ -811,7 +811,7 @@ rcube_list_widget.prototype = {
                 $(new_row).css('display', 'none');
                 if (r.expanded) {
                     r.expanded = false;
-                    this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
+                    this.triggerEvent('expandcollapse', { uid: r.uid, expanded: r.expanded, obj: new_row });
                 }
             }
             new_row = new_row.nextSibling;
@@ -831,7 +831,7 @@ rcube_list_widget.prototype = {
             depth = row.depth;
             new_row = row.obj.nextSibling;
             this.update_expando(row.id, true);
-            this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
+            this.triggerEvent('expandcollapse', { uid: row.uid, expanded: row.expanded, obj: row.obj });
         } else {
             var tbody = this.tbody;
             new_row = tbody.firstChild;
@@ -855,7 +855,7 @@ rcube_list_widget.prototype = {
                                 $(new_row).css('display', '');
                                 r.expanded = true;
                                 this.update_expando(r.id, true);
-                                this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
+                                this.triggerEvent('expandcollapse', { uid: r.uid, expanded: r.expanded, obj: new_row });
                             }
                         } else
                             if (row && (!p || p.depth <= depth)) {
@@ -882,7 +882,7 @@ rcube_list_widget.prototype = {
             depth = row.depth;
             new_row = row.obj.nextSibling;
             this.update_expando(row.id);
-            this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
+            this.triggerEvent('expandcollapse', { uid: row.uid, expanded: row.expanded, obj: row.obj });
 
             // don't collapse sub-root tree in multiexpand mode
             if (depth && this.multiexpand) {
@@ -907,7 +907,7 @@ rcube_list_widget.prototype = {
                         r.expanded = false;
                         if (r.has_children) {
                             this.update_expando(r.id);
-                            this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
+                            this.triggerEvent('expandcollapse', { uid: r.uid, expanded: r.expanded, obj: new_row });
                         }
                     }
                 }
@@ -930,7 +930,7 @@ rcube_list_widget.prototype = {
             depth = row.depth;
             new_row = row.obj.nextSibling;
             this.update_expando(row.id, true);
-            this.triggerEvent('expandcollapse', { uid:row.uid, expanded:row.expanded, obj:row.obj });
+            this.triggerEvent('expandcollapse', { uid: row.uid, expanded: row.expanded, obj: row.obj });
         } else {
             new_row = this.tbody.firstChild;
             depth = 0;
@@ -948,7 +948,7 @@ rcube_list_widget.prototype = {
                         r.expanded = true;
                         if (r.has_children) {
                             this.update_expando(r.id, true);
-                            this.triggerEvent('expandcollapse', { uid:r.uid, expanded:r.expanded, obj:new_row });
+                            this.triggerEvent('expandcollapse', { uid: r.uid, expanded: r.expanded, obj: new_row });
                         }
                     }
                 }
@@ -1063,12 +1063,15 @@ rcube_list_widget.prototype = {
     },
 
     row_tagname: function () {
-        var row_tagnames = { table:'tr', ul:'li', '*':'div' };
+        var row_tagnames = { table: 'tr', ul: 'li', '*': 'div' };
+
         return row_tagnames[this.tagname] || row_tagnames['*'];
     },
 
     col_tagname: function (tagname) {
-        var col_tagnames = { table:'td', thead:'th', tbody:'td', '*':'span' };
+        var col_tagnames = {
+            table: 'td', thead: 'th', tbody: 'td', '*': 'span',
+        };
         return col_tagnames[tagname || this.tagname] || col_tagnames['*'];
     },
 
@@ -1099,21 +1102,22 @@ rcube_list_widget.prototype = {
             switch (mod_key) {
                 case SHIFT_KEY:
                     this.shift_select(id, false);
-                    break;
 
+                    break;
                 case CONTROL_KEY:
                     if (with_mouse) {
                         this.shift_start = id;
                         this.highlight_row(id, true);
                     }
-                    break;
 
+                    break;
                 case CONTROL_SHIFT_KEY:
                     this.shift_select(id, true);
-                    break;
 
+                    break;
                 default:
                     this.highlight_row(id, false);
+
                     break;
             }
 
@@ -1265,7 +1269,7 @@ rcube_list_widget.prototype = {
     in_selection: function (id, index) {
         for (var n in this.selection) {
             if (this.selection[n] == id) {
-                return index ? parseInt(n) : true;
+                return index ? parseInt(n, 10) : true;
             }
         }
 
@@ -1407,9 +1411,9 @@ rcube_list_widget.prototype = {
 
         if (selection.length == 1) {
             return selection[0];
-        } else {
-            return null;
         }
+
+        return null;
     },
 
 
@@ -1500,28 +1504,29 @@ rcube_list_widget.prototype = {
             case 63232: // "up" in Safari keypress
                 // Stop propagation so that the browser doesn't scroll
                 rcube_event.cancel(e);
-                return this.use_arrow_key(keyCode, mod_key);
 
+                return this.use_arrow_key(keyCode, mod_key);
             case 32: // Space
                 rcube_event.cancel(e);
-                return this.select_row(this.last_selected, mod_key, true);
 
+                return this.select_row(this.last_selected, mod_key, true);
             case 36: // Home
                 this.select_first(mod_key);
-                return rcube_event.cancel(e);
 
+                return rcube_event.cancel(e);
             case 35: // End
                 this.select_last(mod_key);
-                return rcube_event.cancel(e);
 
+                return rcube_event.cancel(e);
             case 65: // Ctrl + A
                 if (mod_key == CONTROL_KEY && this.multiselect) {
                     this.select_first(null, true);
                     this.select_last(SHIFT_KEY, true);
+
                     return rcube_event.cancel(e);
                 }
-                break;
 
+                break;
             case 27: // Esc
                 if (this.drag_active) {
                     return this.drag_mouse_up(e);
@@ -1533,11 +1538,10 @@ rcube_list_widget.prototype = {
                 }
 
                 return rcube_event.cancel(e);
-
             case 9: // Tab
                 this.blur();
-                break;
 
+                break;
             case 13: // Enter
                 if (!this.selection.length) {
                     this.select_row(this.last_selected, mod_key, false);
@@ -1754,7 +1758,7 @@ rcube_list_widget.prototype = {
 
         if (this.drag_active && this.draglayer) {
             var pos = rcube_event.get_mouse_pos(e);
-            this.draglayer.css({ left:(pos.x + 20) + 'px', top:(pos.y - 5 + (bw.ie ? document.documentElement.scrollTop : 0)) + 'px' });
+            this.draglayer.css({ left: (pos.x + 20) + 'px', top: (pos.y - 5 + (bw.ie ? document.documentElement.scrollTop : 0)) + 'px' });
             this.triggerEvent('dragmove', e ? e : window.event);
         }
 
@@ -1789,12 +1793,12 @@ rcube_list_widget.prototype = {
         }
         this.drag_active = false;
 
-        rcube_event.remove_listener({ event:'mousemove', object:this, method:'drag_mouse_move' });
-        rcube_event.remove_listener({ event:'mouseup', object:this, method:'drag_mouse_up' });
+        rcube_event.remove_listener({ event: 'mousemove', object: this, method: 'drag_mouse_move' });
+        rcube_event.remove_listener({ event: 'mouseup', object: this, method: 'drag_mouse_up' });
 
         if (bw.touch) {
-            rcube_event.remove_listener({ event:'touchmove', object:this, method:'drag_mouse_move' });
-            rcube_event.remove_listener({ event:'touchend', object:this, method:'drag_mouse_up' });
+            rcube_event.remove_listener({ event: 'touchmove', object: this, method: 'drag_mouse_move' });
+            rcube_event.remove_listener({ event: 'touchend', object: this, method: 'drag_mouse_up' });
         }
 
         // remove temp divs
@@ -1827,14 +1831,23 @@ rcube_list_widget.prototype = {
 
                 // create dragging layer
                 this.col_draglayer = $('<div>').attr('id', 'rcmcoldraglayer')
-                    .css(lpos).css({ position:'absolute', 'z-index':2001,
-                        'background-color':'white', opacity:0.75,
-                        height: (this.frame.offsetHeight - 2) + 'px', width: (this.frame.offsetWidth - 2) + 'px' })
+                    .css(lpos).css({
+                        position: 'absolute',
+                        'z-index': 2001,
+                        'background-color': 'white',
+                        opacity: 0.75,
+                        height: (this.frame.offsetHeight - 2) + 'px',
+                        width: (this.frame.offsetWidth - 2) + 'px',
+                    })
                     .appendTo(document.body)
                     // ... and column position indicator
                     .append($('<div>').attr('id', 'rcmcolumnindicator')
-                        .css({ position:'absolute', 'border-right':'2px dotted #555',
-                            'z-index':2002, height: (this.frame.offsetHeight - 2) + 'px' }));
+                        .css({
+                            position: 'absolute',
+                            'border-right': '2px dotted #555',
+                            'z-index': 2002,
+                            height: (this.frame.offsetHeight - 2) + 'px',
+                        }));
 
                 this.cols = [];
                 this.list_pos = this.list_min_pos = lpos.left;
@@ -1893,8 +1906,8 @@ rcube_list_widget.prototype = {
             this.col_draglayer = null;
         }
 
-        rcube_event.remove_listener({ event:'mousemove', object:this, method:'column_drag_mouse_move' });
-        rcube_event.remove_listener({ event:'mouseup', object:this, method:'column_drag_mouse_up' });
+        rcube_event.remove_listener({ event: 'mousemove', object: this, method: 'column_drag_mouse_move' });
+        rcube_event.remove_listener({ event: 'mouseup', object: this, method: 'column_drag_mouse_up' });
 
         // remove temp divs
         this.del_dragfix();
@@ -1959,9 +1972,13 @@ rcube_list_widget.prototype = {
     add_dragfix: function () {
         $('iframe').each(function () {
             $('<div class="iframe-dragdrop-fix"></div>')
-                .css({ background: '#fff',
-                    width: this.offsetWidth + 'px', height: this.offsetHeight + 'px',
-                    position: 'absolute', opacity: '0.001', zIndex: 1000
+                .css({
+                    background: '#fff',
+                    width: this.offsetWidth + 'px',
+                    height: this.offsetHeight + 'px',
+                    position: 'absolute',
+                    opacity: '0.001',
+                    zIndex: 1000,
                 })
                 .css($(this).offset())
                 .appendTo(document.body);
@@ -2033,7 +2050,7 @@ rcube_list_widget.prototype = {
 
     subject_column: function () {
         return this.subject_col + (this.checkbox_selection ? 1 : 0);
-    }
+    },
 
 };
 

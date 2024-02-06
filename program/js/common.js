@@ -105,7 +105,7 @@ function roundcube_browser() {
     this.mobile = /iphone|ipod|blackberry|iemobile|opera mini|opera mobi|mobile/i.test(this.agent_lc);
     this.tablet = !this.mobile && /ipad|android|xoom|sch-i800|playbook|tablet|kindle/i.test(this.agent_lc);
     this.touch = this.mobile || this.tablet;
-    this.pointer = typeof window.PointerEvent == 'function';
+    this.pointer = typeof window.PointerEvent === 'function';
     this.cookies = n.cookieEnabled;
 
     // set class names to html tag according to the current user agent detection
@@ -114,7 +114,7 @@ function roundcube_browser() {
         var classname = ' js';
 
         if (this.ie) {
-            classname += ' ms ie ie' + parseInt(this.vendver);
+            classname += ' ms ie ie' + parseInt(this.vendver, 10);
         } else if (this.edge && this.vendver > 74) {
             classname += ' chrome';
         } else if (this.edge) {
@@ -216,7 +216,7 @@ var rcube_event = {
             mY += e._offset.top;
         }
 
-        return { x:mX, y:mY };
+        return { x: mX, y: mY };
     },
 
     /**
@@ -321,8 +321,10 @@ var rcube_event = {
     },
 
     touchevent: function (e) {
-        return { pageX:e.pageX, pageY:e.pageY, offsetX:e.pageX - e.target.offsetLeft, offsetY:e.pageY - e.target.offsetTop, target:e.target, istouch:true };
-    }
+        return {
+            pageX: e.pageX, pageY: e.pageY, offsetX: e.pageX - e.target.offsetLeft, offsetY: e.pageY - e.target.offsetTop, target: e.target, istouch: true,
+        };
+    },
 
 };
 
@@ -350,7 +352,7 @@ rcube_event_engine.prototype = {
             this._events[evt] = [];
         }
 
-        this._events[evt].push({ func:func, obj:obj ? obj : window });
+        this._events[evt].push({ func: func, obj: obj ? obj : window });
 
         return this; // chainable
     },
@@ -386,7 +388,7 @@ rcube_event_engine.prototype = {
                     if (o && o.event) {
                         delete o.event;
                     }
-                } catch(err) { }
+                } catch (err) {}
             };
 
         if (e === undefined) {
@@ -422,7 +424,7 @@ rcube_event_engine.prototype = {
         reset_fn(e);
 
         return ret;
-    }
+    },
 
 }; // end rcube_event_engine.prototype
 
@@ -464,7 +466,7 @@ function rcube_check_email(input, inline, count, strict) {
             '\\u0645\\u062b\\u0627\\u0644\\x2e\\u0622\\u0632\\u0645\\u0627\\u06cc\\u0634\\u06cc',
             '\\u043f\\u0440\\u0438\\u043c\\u0435\\u0440\\x2e\\u0438\\u0441\\u043f\\u044b\\u0442\\u0430\\u043d\\u0438\\u0435',
             '\\u0b89\\u0ba4\\u0bbe\\u0bb0\\u0ba3\\u0bae\\u0bcd\\x2e\\u0baa\\u0bb0\\u0bbf\\u0b9f\\u0bcd\\u0b9a\\u0bc8',
-            '\\u05d1\\u05f2\\u05b7\\u05e9\\u05e4\\u05bc\\u05d9\\u05dc\\x2e\\u05d8\\u05e2\\u05e1\\u05d8'
+            '\\u05d1\\u05f2\\u05b7\\u05e9\\u05e4\\u05bc\\u05d9\\u05dc\\x2e\\u05d8\\u05e2\\u05e1\\u05d8',
         ],
         icann_addr = 'mailtest\\x40(' + icann_domains.join('|') + ')',
         word = strict ? '(' + atom + '|' + quoted_string + ')' : '[^\\u0000-\\u0020\\u002e\\u00a0\\u0040\\u007f\\u2028\\u2029]+',
@@ -538,7 +540,7 @@ function rcube_find_object(id, d) {
         for (f = 0; f < d.forms.length; f++) {
             if (d.forms[f].name == id) {
                 obj = d.forms[f];
-            } else if(d.forms[f].elements[id]) {
+            } else if (d.forms[f].elements[id]) {
                 obj = d.forms[f].elements[id];
             }
         }
@@ -707,7 +709,7 @@ var Base64 = (function () {
 
             if (c < 128) {
                 utftext += String.fromCharCode(c);
-            } else if(c > 127 && c < 2048) {
+            } else if (c > 127 && c < 2048) {
                 utftext += String.fromCharCode((c >> 6) | 192);
                 utftext += String.fromCharCode((c & 63) | 128);
             } else {
@@ -823,7 +825,7 @@ var Base64 = (function () {
             }
 
             return utf8_decode(output);
-        }
+        },
     };
 
     return obj;

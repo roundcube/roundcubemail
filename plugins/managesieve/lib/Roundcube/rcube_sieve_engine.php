@@ -2368,11 +2368,11 @@ class rcube_sieve_engine
 
         // flags
         $flags = [
-            'read' => '\\Seen',
-            'answered' => '\\Answered',
-            'flagged' => '\\Flagged',
-            'deleted' => '\\Deleted',
-            'draft' => '\\Draft',
+            'read' => '\Seen',
+            'answered' => '\Answered',
+            'flagged' => '\Flagged',
+            'deleted' => '\Deleted',
+            'draft' => '\Draft',
         ];
 
         $flags_target = isset($action['target']) ? (array) $action['target'] : [];

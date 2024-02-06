@@ -51,10 +51,10 @@ function newmail_notifier_stop(prop) {
 
     // Remove IE icon overlay if we're pinned to Taskbar
     try {
-        if(window.external.msIsSiteMode()) {
+        if (window.external.msIsSiteMode()) {
             window.external.msSiteModeClearIconOverlay();
         }
-    } catch(e) {}
+    } catch (e) {}
 }
 
 // Basic notification: window.focus and favicon change
@@ -80,7 +80,7 @@ function newmail_notifier_basic() {
         if (window.external.msIsSiteMode()) {
             window.external.msSiteModeSetIconOverlay(path + '/overlay.ico', rcmail.get_label('title', 'newmail_notifier'));
         }
-    } catch(e) {}
+    } catch (e) {}
 }
 
 // Sound notification
@@ -105,7 +105,7 @@ function newmail_notifier_desktop(body, disabled_callback) {
                 lang: '',
                 body: body,
                 tag: 'newmail_notifier',
-                icon: icon
+                icon: icon,
             });
             popup.onclick = function () {
                 this.close();

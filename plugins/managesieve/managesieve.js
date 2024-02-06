@@ -83,7 +83,7 @@ if (window.rcmail) {
 
             if (rcmail.gui_objects.filterslist) {
                 rcmail.filters_list = new rcube_list_widget(rcmail.gui_objects.filterslist,
-                    { multiselect:false, draggable:true, keyboard:true });
+                    { multiselect: false, draggable: true, keyboard: true });
 
                 rcmail.filters_list
                     .addEventListener('select', function (o) {
@@ -111,7 +111,7 @@ if (window.rcmail) {
 
             if (rcmail.gui_objects.filtersetslist) {
                 rcmail.filtersets_list = new rcube_list_widget(rcmail.gui_objects.filtersetslist,
-                    { multiselect:false, draggable:false, keyboard:true });
+                    { multiselect: false, draggable: false, keyboard: true });
 
                 rcmail.filtersets_list.init().focus();
 
@@ -143,7 +143,7 @@ if (window.rcmail) {
 }
 
 /*********************************************************/
-/*********       Managesieve UI methods          *********/
+/* ********       Managesieve UI methods         *********/
 /*********************************************************/
 
 rcube_webmail.prototype.managesieve_add = function () {
@@ -177,7 +177,7 @@ rcube_webmail.prototype.managesieve_select = function (list) {
         this.load_managesieveframe('_fid=' + id);
     }
 
-    var has_id = typeof (id) != 'undefined' && id != null;
+    var has_id = typeof (id) !== 'undefined' && id != null;
 
     this.enable_command('plugin.managesieve-act', has_id);
     this.enable_command('plugin.managesieve-del', has_id && $.inArray('delete_filter', rcmail.env.managesieve_disabled_actions) == -1);
@@ -306,7 +306,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             list.init();
 
             break;
-
         // Update filter row
         case 'update':
             var i, row = $('#rcmrow' + this.managesieve_rowid(o.id));
@@ -323,7 +322,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             $('#fenabled', $('iframe').contents()).prop('checked', !o.disabled);
 
             break;
-
         // Add filter row to the list
         case 'add':
             var list = this.filters_list,
@@ -342,7 +340,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             this.enable_command('plugin.managesieve-act', true);
 
             break;
-
         // Filling rules list
         case 'list':
             var i, tr, td, el, list = this.filters_list;
@@ -359,8 +356,8 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
                 $(td).text(el.name);
                 td.className = 'name';
                 tr.id = 'rcmrow' + el.id;
-                if (el['class']) {
-                    tr.className = el['class'];
+                if (el.class) {
+                    tr.className = el.class;
                 }
                 tr.appendChild(td);
 
@@ -374,7 +371,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             }
 
             break;
-
         // Activate/Deactivate the set
         case 'setact':
             var id = this.managesieve_setid(o.name), row = $('#rcmrow' + id);
@@ -388,7 +384,6 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             }
 
             break;
-
         // Delete set row
         case 'setdel':
             var id = this.managesieve_setid(o.name);
@@ -400,8 +395,8 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
 
             this.filtersets_list.remove_row(id, true);
             delete this.env.filtersets[id];
-            break;
 
+            break;
         // Create set row
         case 'setadd':
             var id = 'S' + new Date().getTime(),
@@ -427,9 +422,9 @@ rcube_webmail.prototype.managesieve_updatelist = function (action, o) {
             this.managesieve_fixdragend(row);
 
             break;
-
         case 'refresh':
             this.reset_filters_list(true);
+
             break;
     }
 
@@ -511,7 +506,7 @@ rcube_webmail.prototype.managesieve_unfocus_filter = function (row) {
 };
 
 /*********************************************************/
-/*********          Filter Form methods          *********/
+/* ********          Filter Form methods         *********/
 /*********************************************************/
 
 // Form submission
@@ -532,7 +527,7 @@ rcube_webmail.prototype.managesieve_save = function () {
         if (parent.rcmail && parent.rcmail.filters_list && this.gui_objects.sieveform.name != 'filtersetform') {
             var id = parent.rcmail.filters_list.get_single_selection();
             if (id != null) {
-                this.gui_objects.sieveform.elements['_fid'].value = parent.rcmail.filters_list.rows[id].uid;
+                this.gui_objects.sieveform.elements._fid.value = parent.rcmail.filters_list.rows[id].uid;
             }
         }
         this.gui_objects.sieveform.submit();
@@ -550,7 +545,7 @@ rcube_webmail.prototype.managesieve_rulefill = function (content, id, after) {
     if (content != '') {
     // create new element
         var div = $('#rules')[0],
-            row = $('<div>').attr({ 'class': 'rulerow', id: 'rulerow' + id })
+            row = $('<div>').attr({ class: 'rulerow', id: 'rulerow' + id })
                 .html(content);
 
         this.managesieve_insertrow(div, row, after);
@@ -583,7 +578,7 @@ rcube_webmail.prototype.managesieve_actionadd = function (id) {
 rcube_webmail.prototype.managesieve_actionfill = function (content, id, after) {
     if (content != '') {
         var div = $('#actions')[0],
-            row = $('<div>').attr({ 'class': 'actionrow', id: 'actionrow' + id })
+            row = $('<div>').attr({ class: 'actionrow', id: 'actionrow' + id })
                 .html(content);
 
         this.managesieve_insertrow(div, row, after);
@@ -830,7 +825,7 @@ function action_type_select(id) {
             set: document.getElementById('action_set' + id),
             notify: document.getElementById('action_notify' + id),
             addheader: document.getElementById('action_addheader' + id),
-            deleteheader: document.getElementById('action_deleteheader' + id)
+            deleteheader: document.getElementById('action_deleteheader' + id),
         };
 
     if (v == 'fileinto' || v == 'fileinto_copy') {
@@ -910,7 +905,7 @@ function smart_field_row(value, idx, field) {
             name: field.name + '[]',
             size: $(field).data('size'),
             title: field.title,
-            placeholder: $(field).attr('placeholder')
+            placeholder: $(field).attr('placeholder'),
         };
 
     input = elem.find('input').attr(attrs).keydown(function (e) {
@@ -1017,18 +1012,36 @@ function sieve_formattime(hour, minutes) {
     for (i = 0; i < format.length; i++) {
         c = format.charAt(i);
         switch (c) {
-            case 'a': time += hour >= 12 ? 'pm' : 'am'; break;
-            case 'A': time += hour >= 12 ? 'PM' : 'AM'; break;
+            case 'a':
+                time += hour >= 12 ? 'pm' : 'am';
+
+                break;
+            case 'A':
+                time += hour >= 12 ? 'PM' : 'AM';
+
+                break;
             case 'g':
             case 'h':
                 h = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
                 time += (c == 'h' && hour < 10 ? '0' : '') + hour;
+
                 break;
-            case 'G': time += hour; break;
-            case 'H': time += (hour < 10 ? '0' : '') + hour; break;
-            case 'i': time += (minutes < 10 ? '0' : '') + minutes; break;
-            case 's': time += '00';
-            default: time += c;
+            case 'G':
+                time += hour;
+
+                break;
+            case 'H':
+                time += (hour < 10 ? '0' : '') + hour;
+
+                break;
+            case 'i':
+                time += (minutes < 10 ? '0' : '') + minutes;
+
+                break;
+            case 's':
+                time += '00';
+            default:
+                time += c;
         }
     }
 
@@ -1066,7 +1079,7 @@ function sieve_form_init() {
             selectOtherMonths: true,
             onSelect: function (dateText) {
                 $(this).focus().val(dateText);
-            }
+            },
         });
         $('input.datepicker').datepicker();
     }
@@ -1104,7 +1117,7 @@ function sieve_form_init() {
             select: function (event, ui) {
                 $(this).val(ui.item.value);
                 return false;
-            }
+            },
         })
         .click(function () { // show drop-down upon clicks
             $(this).autocomplete('search', $(this).val() || ' ');
@@ -1119,7 +1132,7 @@ function sieve_form_init() {
 }
 
 /*********************************************************/
-/*********        RAW editor methods             *********/
+/* ********        RAW editor methods            *********/
 /*********************************************************/
 
 var cmeditor;
@@ -1148,7 +1161,7 @@ function sieve_raw_editor_init() {
             mode: 'sieve',
             lineNumbers: true,
             gutters: ['CodeMirror-linenumbers', 'errorGutter'],
-            styleActiveLine: true
+            styleActiveLine: true,
         });
 
         // fetching errors from environment and setting the line background
@@ -1166,7 +1179,7 @@ function sieve_raw_editor_init() {
 
 
 /*********************************************************/
-/*********           Mail UI methods             *********/
+/* ********           Mail UI methods            *********/
 /*********************************************************/
 
 rcube_webmail.prototype.managesieve_create = function (force) {
@@ -1195,7 +1208,9 @@ rcube_webmail.prototype.managesieve_create = function (force) {
     );
 
     $.each(this.env.sieve_headers, function (i, v) {
-        var attr = { type: 'checkbox', name: 'headers[]', id: 'sievehdr' + i, value: i, checked: v[2] !== false },
+        var attr = {
+                type: 'checkbox', name: 'headers[]', id: 'sievehdr' + i, value: i, checked: v[2] !== false,
+            },
             label = v[0] + ': ' + v[1];
 
         $('ul', dialog).append($('<li>')

@@ -181,8 +181,8 @@ class rcube_html2text
         "\n<div>",                              // </p> before <div>
         '<div>',                                // <br> before <div>
         "\n",                                   // <br>
-        '_\\1_',                                // <i>
-        '_\\1_',                                // <em>
+        '_\1_',                                 // <i>
+        '_\1_',                                 // <em>
         "\n\n",                                 // <ul> and </ul>
         "\n\n",                                 // <ol> and </ol>
         "\t* \\1\n",                            // <li> and </li>

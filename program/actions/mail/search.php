@@ -224,7 +224,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $value_function = static function ($value) {
             $value = trim($value);
             $value = preg_replace('/(^"|"$)/', '', $value);
-            $value = str_replace('\\"', '"', $value);
+            $value = str_replace('\"', '"', $value);
 
             return $value;
         };

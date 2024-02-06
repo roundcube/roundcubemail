@@ -12,7 +12,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_clean()
      */
-    public function provide_clean_cases(): iterable
+    public static function provide_clean_cases(): iterable
     {
         return [
             ['', ''],
@@ -36,7 +36,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_is_valid()
      */
-    public function provide_is_valid_cases(): iterable
+    public static function provide_is_valid_cases(): iterable
     {
         $list = [];
         foreach (mb_list_encodings() as $charset) {
@@ -65,7 +65,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_parse_charset()
      */
-    public function provide_parse_charset_cases(): iterable
+    public static function provide_parse_charset_cases(): iterable
     {
         return [
             ['UTF8', 'UTF-8'],
@@ -84,7 +84,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_convert()
      */
-    public function provide_convert_cases(): iterable
+    public static function provide_convert_cases(): iterable
     {
         $data = [
             ['ö', 'ö', 'UTF-8', 'UTF-8'],
@@ -120,7 +120,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_utf7_to_utf8()
      */
-    public function provide_utf7_to_utf8_cases(): iterable
+    public static function provide_utf7_to_utf8_cases(): iterable
     {
         return [
             ['+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
@@ -139,7 +139,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_utf7imap_to_utf8()
      */
-    public function provide_utf7imap_to_utf8_cases(): iterable
+    public static function provide_utf7imap_to_utf8_cases(): iterable
     {
         return [
             ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
@@ -158,7 +158,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_utf8_to_utf7imap()
      */
-    public function provide_utf8_to_utf7imap_cases(): iterable
+    public static function provide_utf8_to_utf7imap_cases(): iterable
     {
         return [
             ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'],
@@ -177,7 +177,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_utf16_to_utf8()
      */
-    public function provide_utf16_to_utf8_cases(): iterable
+    public static function provide_utf16_to_utf8_cases(): iterable
     {
         return [
             [base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'],
@@ -196,7 +196,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_detect()
      */
-    public function provide_detect_cases(): iterable
+    public static function provide_detect_cases(): iterable
     {
         return [
             ['', '', 'UTF-8'],
@@ -216,7 +216,7 @@ class Framework_Charset extends TestCase
     /**
      * Data for test_detect()
      */
-    public function provide_detect_with_lang_cases(): iterable
+    public static function provide_detect_with_lang_cases(): iterable
     {
         return [
             [base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'],

@@ -29,7 +29,7 @@ abstract class rcube_spellchecker_engine
     protected $error;
     protected $dictionary;
     protected $options = [];
-    protected $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\\"]+|[:;?!,\.](?=\W|$)/';
+    protected $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\"]+|[:;?!,\.](?=\W|$)/';
 
     /**
      * Default constructor
