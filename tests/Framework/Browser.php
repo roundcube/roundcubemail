@@ -14,12 +14,12 @@ class Framework_Browser extends TestCase
     {
         $object = $this->getBrowser($useragent);
 
-        $this->assertSame($opera, $object->opera, 'Check for Opera failed');
-        $this->assertSame($chrome, $object->chrome, 'Check for Chrome failed');
-        $this->assertSame($ie, $object->ie, 'Check for IE failed');
-        $this->assertSame($edge, $object->edge, 'Check for Edge failed');
-        $this->assertSame($safari, $object->safari, 'Check for Safari failed');
-        $this->assertSame($mz, $object->mz, 'Check for MZ failed');
+        self::assertSame($opera, $object->opera, 'Check for Opera failed');
+        self::assertSame($chrome, $object->chrome, 'Check for Chrome failed');
+        self::assertSame($ie, $object->ie, 'Check for IE failed');
+        self::assertSame($edge, $object->edge, 'Check for Edge failed');
+        self::assertSame($safari, $object->safari, 'Check for Safari failed');
+        self::assertSame($mz, $object->mz, 'Check for MZ failed');
     }
 
     /**
@@ -29,10 +29,10 @@ class Framework_Browser extends TestCase
     {
         $object = $this->getBrowser($useragent);
 
-        $this->assertSame($windows, $object->win, 'Check Result of Windows');
-        $this->assertSame($linux, $object->linux, 'Check Result of Linux');
-        $this->assertSame($mac, $object->mac, 'Check Result of Mac');
-        $this->assertSame($unix, $object->unix, 'Check Result of Unix');
+        self::assertSame($windows, $object->win, 'Check Result of Windows');
+        self::assertSame($linux, $object->linux, 'Check Result of Linux');
+        self::assertSame($mac, $object->mac, 'Check Result of Mac');
+        self::assertSame($unix, $object->unix, 'Check Result of Unix');
     }
 
     /**
@@ -41,7 +41,7 @@ class Framework_Browser extends TestCase
     public function test_version($useragent, $version)
     {
         $object = $this->getBrowser($useragent);
-        $this->assertSame($version, $object->ver);
+        self::assertSame($version, $object->ver);
     }
 
     public static function provide_version_cases(): iterable

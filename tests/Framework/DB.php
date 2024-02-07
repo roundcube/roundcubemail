@@ -57,8 +57,8 @@ class Framework_DB extends TestCase
             $out[] = $q;
         }
 
-        $this->assertTrue($result, 'Execute SQL script (result)');
-        $this->assertSame(implode("\n", $out), $output, 'Execute SQL script (content)');
+        self::assertTrue($result, 'Execute SQL script (result)');
+        self::assertSame(implode("\n", $out), $output, 'Execute SQL script (content)');
     }
 
     /**
@@ -109,8 +109,8 @@ class Framework_DB extends TestCase
             $out[] = $q;
         }
 
-        $this->assertTrue($result, 'Execute SQL script (result)');
-        $this->assertSame(implode("\n", $out), $output, 'Execute SQL script (content)');
+        self::assertTrue($result, 'Execute SQL script (result)');
+        self::assertSame(implode("\n", $out), $output, 'Execute SQL script (content)');
     }
 
     /**
@@ -144,7 +144,7 @@ class Framework_DB extends TestCase
             "SELECT `test` WHERE `test` = '????'",
         ]);
 
-        $this->assertSame($expected, implode("\n", $db->queries), 'Query parsing [1]');
+        self::assertSame($expected, implode("\n", $db->queries), 'Query parsing [1]');
 
         $db->set_option('identifier_start', '"');
         $db->set_option('identifier_end', '"');
@@ -172,7 +172,7 @@ class Framework_DB extends TestCase
             "SELECT \"test\" WHERE \"test\" = '????'",
         ]);
 
-        $this->assertSame($expected, implode("\n", $db->queries), 'Query parsing [2]');
+        self::assertSame($expected, implode("\n", $db->queries), 'Query parsing [2]');
     }
 
     public function test_parse_dsn()
@@ -181,23 +181,23 @@ class Framework_DB extends TestCase
 
         $result = rcube_db::parse_dsn($dsn);
 
-        $this->assertSame('mysql', $result['phptype']);
-        $this->assertSame('USERNAME', $result['username']);
-        $this->assertSame('PASSWORD', $result['password']);
-        $this->assertSame('3306', $result['port']);
-        $this->assertSame('HOST', $result['hostspec']);
-        $this->assertSame('DATABASE', $result['database']);
+        self::assertSame('mysql', $result['phptype']);
+        self::assertSame('USERNAME', $result['username']);
+        self::assertSame('PASSWORD', $result['password']);
+        self::assertSame('3306', $result['port']);
+        self::assertSame('HOST', $result['hostspec']);
+        self::assertSame('DATABASE', $result['database']);
 
         $dsn = 'pgsql:///DATABASE';
 
         $result = rcube_db::parse_dsn($dsn);
 
-        $this->assertSame('pgsql', $result['phptype']);
-        $this->assertTrue(!array_key_exists('username', $result));
-        $this->assertTrue(!array_key_exists('password', $result));
-        $this->assertTrue(!array_key_exists('port', $result));
-        $this->assertTrue(!array_key_exists('hostspec', $result));
-        $this->assertSame('DATABASE', $result['database']);
+        self::assertSame('pgsql', $result['phptype']);
+        self::assertTrue(!array_key_exists('username', $result));
+        self::assertTrue(!array_key_exists('password', $result));
+        self::assertTrue(!array_key_exists('port', $result));
+        self::assertTrue(!array_key_exists('hostspec', $result));
+        self::assertSame('DATABASE', $result['database']);
     }
 
     /**
@@ -209,7 +209,7 @@ class Framework_DB extends TestCase
 
         $tables = $db->list_tables();
 
-        $this->assertContains('users', $tables);
+        self::assertContains('users', $tables);
     }
 
     /**
@@ -221,7 +221,7 @@ class Framework_DB extends TestCase
 
         $columns = $db->list_cols('cache');
 
-        $this->assertSame(['user_id', 'cache_key', 'expires', 'data'], $columns);
+        self::assertSame(['user_id', 'cache_key', 'expires', 'data'], $columns);
     }
 
     /**
@@ -231,10 +231,10 @@ class Framework_DB extends TestCase
     {
         $db = rcube::get_instance()->get_dbh();
 
-        $this->assertSame('', $db->array2list([]));
-        $this->assertSame('\'test\'', $db->array2list(['test']));
-        $this->assertSame('\'test\'\'test\'', $db->array2list(['test\'test']));
-        $this->assertSame('\'test\'', $db->array2list('test'));
+        self::assertSame('', $db->array2list([]));
+        self::assertSame('\'test\'', $db->array2list(['test']));
+        self::assertSame('\'test\'\'test\'', $db->array2list(['test\'test']));
+        self::assertSame('\'test\'', $db->array2list('test'));
     }
 
     /**
@@ -244,10 +244,10 @@ class Framework_DB extends TestCase
     {
         $db = rcube::get_instance()->get_dbh();
 
-        $this->assertSame('(test)', $db->concat('test'));
-        $this->assertSame('(test1 || test2)', $db->concat('test1', 'test2'));
-        $this->assertSame('(test)', $db->concat(['test']));
-        $this->assertSame('(test1 || test2)', $db->concat(['test1', 'test2']));
+        self::assertSame('(test)', $db->concat('test'));
+        self::assertSame('(test1 || test2)', $db->concat('test1', 'test2'));
+        self::assertSame('(test)', $db->concat(['test']));
+        self::assertSame('(test1 || test2)', $db->concat(['test1', 'test2']));
     }
 
     /**
@@ -260,13 +260,13 @@ class Framework_DB extends TestCase
             $str .= chr($x);
         }
 
-        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str)));
-        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
+        self::assertSame($str, rcube_db::decode(rcube_db::encode($str)));
+        self::assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
 
         $str = 'グーグル谷歌中信фδοκιμήóźdźрöß😁😃';
 
-        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str)));
-        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
+        self::assertSame($str, rcube_db::decode(rcube_db::encode($str)));
+        self::assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
     }
 }
 

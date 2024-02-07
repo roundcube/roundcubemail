@@ -13,8 +13,8 @@ class Actions_Contacts_Print extends ActionTestCase
         $action = new rcmail_action_contacts_print();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'print');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('contacts');
 
@@ -28,9 +28,9 @@ class Actions_Contacts_Print extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('contactprint', $output->template);
-        $this->assertSame('', $output->getProperty('pagetitle')); // TODO: there should be a title
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertSame('contactprint', $output->template);
+        self::assertSame('', $output->getProperty('pagetitle')); // TODO: there should be a title
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
     }
 
     /**
@@ -38,7 +38,7 @@ class Actions_Contacts_Print extends ActionTestCase
      */
     public function test_contact_head()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -46,6 +46,6 @@ class Actions_Contacts_Print extends ActionTestCase
      */
     public function test_contact_details()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

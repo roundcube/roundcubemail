@@ -13,8 +13,8 @@ class Actions_Settings_ResponseSave extends ActionTestCase
         $action = new rcmail_action_settings_response_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-response');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $rcmail = rcmail::get_instance();
         $rcmail->user->save_prefs(['compose_responses_static' => []]);
@@ -32,14 +32,14 @@ class Actions_Settings_ResponseSave extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame('edit-response', rcmail::get_instance()->action);
-        $this->assertSame('successfullysaved', $output->getProperty('message'));
+        self::assertSame('edit-response', rcmail::get_instance()->action);
+        self::assertSame('successfullysaved', $output->getProperty('message'));
 
         $response = $rcmail->get_compose_response($responses[0]['id']);
 
-        $this->assertSame('name1', $response['name']);
-        $this->assertSame('text1', $response['data']);
-        $this->assertTrue(empty($response['is_html']));
+        self::assertSame('name1', $response['name']);
+        self::assertSame('text1', $response['data']);
+        self::assertTrue(empty($response['is_html']));
 
         // Test updating an existing response (change format)
         $_POST = [
@@ -51,14 +51,14 @@ class Actions_Settings_ResponseSave extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame('edit-response', rcmail::get_instance()->action);
-        $this->assertSame('successfullysaved', $output->getProperty('message'));
+        self::assertSame('edit-response', rcmail::get_instance()->action);
+        self::assertSame('successfullysaved', $output->getProperty('message'));
 
         $response = $rcmail->get_compose_response($responses[0]['id']);
 
-        $this->assertSame('name2', $response['name']);
-        $this->assertSame('<p>text2</p>', $response['data']);
-        $this->assertTrue(!empty($response['is_html']));
+        self::assertSame('name2', $response['name']);
+        self::assertSame('<p>text2</p>', $response['data']);
+        self::assertTrue(!empty($response['is_html']));
 
         // Test adding a response
         $_POST = [
@@ -69,15 +69,15 @@ class Actions_Settings_ResponseSave extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame('edit-response', rcmail::get_instance()->action);
-        $this->assertSame('successfullysaved', $output->getProperty('message'));
+        self::assertSame('edit-response', rcmail::get_instance()->action);
+        self::assertSame('successfullysaved', $output->getProperty('message'));
 
         $responses = $rcmail->get_compose_responses();
         $response = $rcmail->get_compose_response($responses[0]['id']);
 
-        $this->assertSame('aaa', $responses[0]['name']);
-        $this->assertSame('<p>text3</p>', $response['data']);
-        $this->assertTrue(!empty($response['is_html']));
+        self::assertSame('aaa', $responses[0]['name']);
+        self::assertSame('<p>text3</p>', $response['data']);
+        self::assertTrue(!empty($response['is_html']));
 
         // TODO: Test error handling
     }

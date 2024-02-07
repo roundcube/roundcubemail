@@ -17,6 +17,6 @@ class Framework_DBSqlite extends TestCase
     {
         $object = new rcube_db_sqlite('test');
 
-        $this->assertInstanceOf('rcube_db_sqlite', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_db_sqlite', $object, 'Class constructor');
     }
 }

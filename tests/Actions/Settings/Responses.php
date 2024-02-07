@@ -13,8 +13,8 @@ class Actions_Settings_Responses extends ActionTestCase
         $action = new rcmail_action_settings_responses();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'responses');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('responses');
 
@@ -22,11 +22,11 @@ class Actions_Settings_Responses extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('responses', $output->template);
-        $this->assertSame('Responses', $output->getProperty('pagetitle'));
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(stripos($result, '<table ') !== false);
-        $this->assertMatchesRegularExpression('/list(.min)?.js/', $result);
+        self::assertSame('responses', $output->template);
+        self::assertSame('Responses', $output->getProperty('pagetitle'));
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertTrue(stripos($result, '<table ') !== false);
+        self::assertMatchesRegularExpression('/list(.min)?.js/', $result);
     }
 
     /**
@@ -53,6 +53,6 @@ class Actions_Settings_Responses extends ActionTestCase
             . '<tr id="rcmrow2"><td class="name">response 2</td></tr>'
             . '</tbody></table>';
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 }

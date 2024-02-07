@@ -13,8 +13,8 @@ class Actions_Contacts_Export extends ActionTestCase
         $action = new rcmail_action_contacts_export();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('contacts');
 
@@ -24,7 +24,7 @@ class Actions_Contacts_Export extends ActionTestCase
         // Here we expect request security check error
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
-        $this->assertSame('ERROR: Request security check failed', trim(StderrMock::$output));
+        self::assertSame('ERROR: Request security check failed', trim(StderrMock::$output));
 
         // Now we'll try with the proper token
         $_SESSION['request_token'] = 'secure';
@@ -35,14 +35,14 @@ class Actions_Contacts_Export extends ActionTestCase
         $vcf = ob_get_contents();
         ob_end_clean();
 
-        $this->assertSame([
+        self::assertSame([
                 'Content-Type: text/vcard; charset=UTF-8',
                 'Content-Disposition: attachment; filename="contacts.vcf"',
             ], $output->headers
         );
-        $this->assertSame(6, substr_count($vcf, 'BEGIN:VCARD'));
-        $this->assertSame(6, substr_count($vcf, 'END:VCARD'));
-        $this->assertSame(1, substr_count($vcf, 'FN:Jane Stalone'));
+        self::assertSame(6, substr_count($vcf, 'BEGIN:VCARD'));
+        self::assertSame(6, substr_count($vcf, 'END:VCARD'));
+        self::assertSame(1, substr_count($vcf, 'FN:Jane Stalone'));
     }
 
     /**
@@ -55,7 +55,7 @@ class Actions_Contacts_Export extends ActionTestCase
         $action = new rcmail_action_contacts_export();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
 
-        $this->assertTrue($action->checks());
+        self::assertTrue($action->checks());
 
         $cids = [];
         $db = rcmail::get_instance()->get_dbh();
@@ -76,16 +76,16 @@ class Actions_Contacts_Export extends ActionTestCase
         $vcf = ob_get_contents();
         ob_end_clean();
 
-        $this->assertSame([
+        self::assertSame([
                 'Content-Type: text/vcard; charset=UTF-8',
                 'Content-Disposition: attachment; filename="contacts.vcf"',
             ], $output->headers
         );
-        $this->assertSame(2, substr_count($vcf, 'BEGIN:VCARD'));
-        $this->assertSame(2, substr_count($vcf, 'END:VCARD'));
-        $this->assertSame(0, substr_count($vcf, 'FN:Jane Stalone'));
-        $this->assertSame(1, substr_count($vcf, 'FN:Jack Rian'));
-        $this->assertSame(1, substr_count($vcf, 'FN:George Bush'));
+        self::assertSame(2, substr_count($vcf, 'BEGIN:VCARD'));
+        self::assertSame(2, substr_count($vcf, 'END:VCARD'));
+        self::assertSame(0, substr_count($vcf, 'FN:Jane Stalone'));
+        self::assertSame(1, substr_count($vcf, 'FN:Jack Rian'));
+        self::assertSame(1, substr_count($vcf, 'FN:George Bush'));
     }
 
     /**
@@ -95,7 +95,7 @@ class Actions_Contacts_Export extends ActionTestCase
      */
     public function test_export_search()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -103,6 +103,6 @@ class Actions_Contacts_Export extends ActionTestCase
      */
     public function test_prepare_for_export()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

@@ -14,9 +14,9 @@ class Framework_Spellchecker extends TestCase
     {
         $object = new rcube_spellchecker();
 
-        $this->assertFalse($object->is_exception('test'));
+        self::assertFalse($object->is_exception('test'));
 
-        $this->assertTrue($object->is_exception('9'));
+        self::assertTrue($object->is_exception('9'));
 
         // TODO: Test other cases and dictionary
     }
@@ -26,7 +26,7 @@ class Framework_Spellchecker extends TestCase
      */
     public function test_add_word()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -34,6 +34,6 @@ class Framework_Spellchecker extends TestCase
      */
     public function test_remove_word()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

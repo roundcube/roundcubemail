@@ -13,8 +13,8 @@ class Actions_Contacts_Show extends ActionTestCase
         $action = new rcmail_action_contacts_show();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'show');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('contacts');
 
@@ -31,12 +31,12 @@ class Actions_Contacts_Show extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('contact', $output->template);
-        $this->assertSame('', $output->getProperty('pagetitle'));
-        $this->assertSame($contact['contact_id'], $output->get_env('cid'));
-        $this->assertFalse($output->get_env('readonly'));
-        $this->assertSame('Personal Addresses', $output->get_env('sourcename'));
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertSame('contact', $output->template);
+        self::assertSame('', $output->getProperty('pagetitle'));
+        self::assertSame($contact['contact_id'], $output->get_env('cid'));
+        self::assertFalse($output->get_env('readonly'));
+        self::assertSame('Personal Addresses', $output->get_env('sourcename'));
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
     }
 
     /**
@@ -44,7 +44,7 @@ class Actions_Contacts_Show extends ActionTestCase
      */
     public function test_contact_head()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -52,7 +52,7 @@ class Actions_Contacts_Show extends ActionTestCase
      */
     public function test_contact_details()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -63,7 +63,7 @@ class Actions_Contacts_Show extends ActionTestCase
         $input = 'test@<email.tld';
         $expected = '<a href="mailto:test@&lt;email.tld" onclick="return rcmail.command(\'compose\',\'test@&lt;email.tld\',this)"'
             . ' title="Compose mail to" class="email">test@&lt;email.tld</a>';
-        $this->assertSame($expected, rcmail_action_contacts_show::render_email_value($input));
+        self::assertSame($expected, rcmail_action_contacts_show::render_email_value($input));
     }
 
     /**
@@ -73,7 +73,7 @@ class Actions_Contacts_Show extends ActionTestCase
     {
         $input = '+48-123<456';
         $expected = '<a href="tel:+48-123456" class="phone">+48-123&lt;456</a>';
-        $this->assertSame($expected, rcmail_action_contacts_show::render_phone_value($input));
+        self::assertSame($expected, rcmail_action_contacts_show::render_phone_value($input));
     }
 
     /**
@@ -83,7 +83,7 @@ class Actions_Contacts_Show extends ActionTestCase
     {
         $input = 'http://test/<123';
         $expected = '<a href="http://test/&lt;123" target="_blank" class="url">http://test/&lt;123</a>';
-        $this->assertSame($expected, rcmail_action_contacts_show::render_url_value($input));
+        self::assertSame($expected, rcmail_action_contacts_show::render_url_value($input));
     }
 
     /**
@@ -91,6 +91,6 @@ class Actions_Contacts_Show extends ActionTestCase
      */
     public function test_contact_record_groups()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

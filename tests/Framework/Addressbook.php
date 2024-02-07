@@ -15,17 +15,17 @@ class Framework_Addressbook extends TestCase
         $data = ['email' => 'test@test.com', 'other' => 'test'];
         $result = rcube_addressbook::get_col_values('email', $data, true);
 
-        $this->assertSame(['test@test.com'], $result);
+        self::assertSame(['test@test.com'], $result);
 
         $data = ['email:home' => 'test@test.com', 'other' => 'test'];
         $result = rcube_addressbook::get_col_values('email', $data, true);
 
-        $this->assertSame(['test@test.com'], $result);
+        self::assertSame(['test@test.com'], $result);
 
         $data = ['email:home' => 'test@test.com', 'other' => 'test'];
         $result = rcube_addressbook::get_col_values('email', $data, false);
 
-        $this->assertSame(['home' => ['test@test.com']], $result);
+        self::assertSame(['home' => ['test@test.com']], $result);
     }
 
     /**
@@ -36,32 +36,32 @@ class Framework_Addressbook extends TestCase
         $contact = [];
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('', $result);
+        self::assertSame('', $result);
 
         $contact = ['email' => 'email@address.tld'];
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('email@address.tld', $result);
+        self::assertSame('email@address.tld', $result);
 
         $contact = ['email' => 'email@address.tld', 'organization' => 'Org'];
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('Org', $result);
+        self::assertSame('Org', $result);
 
         $contact['firstname'] = 'First';
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('First', $result);
+        self::assertSame('First', $result);
 
         $contact['surname'] = 'Last';
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('First Last', $result);
+        self::assertSame('First Last', $result);
 
         $contact['name'] = 'Name';
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('Name', $result);
+        self::assertSame('Name', $result);
 
         unset($contact['name']);
         $contact['prefix'] = 'Dr.';
@@ -69,7 +69,7 @@ class Framework_Addressbook extends TestCase
         $contact['middlename'] = 'M.';
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('Dr. First M. Last Jr.', $result);
+        self::assertSame('Dr. First M. Last Jr.', $result);
 
         // TODO: Test different modes
         /*

@@ -17,7 +17,7 @@ class Framework_DBPgsql extends TestCase
     {
         $object = new rcube_db_pgsql('test');
 
-        $this->assertInstanceOf('rcube_db_pgsql', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_db_pgsql', $object, 'Class constructor');
     }
 
     /**
@@ -69,7 +69,7 @@ class Framework_DBPgsql extends TestCase
 
         foreach ($script as $idx => $query) {
             $res = $method->invoke($db, $query);
-            $this->assertSame($output[$idx], $res, "Test case {$idx}");
+            self::assertSame($output[$idx], $res, "Test case {$idx}");
         }
     }
 
@@ -82,14 +82,14 @@ class Framework_DBPgsql extends TestCase
 
         $dsn = $db->parse_dsn('pgsql://USERNAME:PASSWORD@HOST:5432/DATABASE');
         $result = invokeMethod($db, 'dsn_string', [$dsn]);
-        $this->assertSame('pgsql:host=HOST;port=5432;dbname=DATABASE', $result);
+        self::assertSame('pgsql:host=HOST;port=5432;dbname=DATABASE', $result);
 
         $dsn = $db->parse_dsn('pgsql:///DATABASE');
         $result = invokeMethod($db, 'dsn_string', [$dsn]);
-        $this->assertSame('pgsql:dbname=DATABASE', $result);
+        self::assertSame('pgsql:dbname=DATABASE', $result);
 
         $dsn = $db->parse_dsn('pgsql://user@unix(/var/run/postgresql)/roundcubemail?sslmode=verify-full');
         $result = invokeMethod($db, 'dsn_string', [$dsn]);
-        $this->assertSame('pgsql:host=/var/run/postgresql;dbname=roundcubemail;sslmode=verify-full', $result);
+        self::assertSame('pgsql:host=/var/run/postgresql;dbname=roundcubemail;sslmode=verify-full', $result);
     }
 }

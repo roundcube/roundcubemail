@@ -18,20 +18,20 @@ class Framework_MimeDecode extends TestCase
 
         $result = $decoder->decode($mail);
 
-        $this->assertInstanceOf('rcube_message_part', $result);
-        $this->assertSame('multipart/mixed', $result->mimetype);
-        $this->assertSame('=_8853bfb47b7da1852ac882e69cc724f3', $result->ctype_parameters['boundary']);
-        $this->assertSame('8bit', $result->encoding);
-        $this->assertSame(1413, $result->size);
+        self::assertInstanceOf('rcube_message_part', $result);
+        self::assertSame('multipart/mixed', $result->mimetype);
+        self::assertSame('=_8853bfb47b7da1852ac882e69cc724f3', $result->ctype_parameters['boundary']);
+        self::assertSame('8bit', $result->encoding);
+        self::assertSame(1413, $result->size);
 
-        $this->assertCount(13, $result->headers);
-        $this->assertSame('thomas@roundcube.net', $result->headers['x-sender']);
+        self::assertCount(13, $result->headers);
+        self::assertSame('thomas@roundcube.net', $result->headers['x-sender']);
 
-        $this->assertSame('=_8853bfb47b7da1852ac882e69cc724f3', $result->ctype_parameters['boundary']);
+        self::assertSame('=_8853bfb47b7da1852ac882e69cc724f3', $result->ctype_parameters['boundary']);
 
-        $this->assertCount(3, $result->parts);
-        $this->assertSame(11, $result->parts[2]->size);
-        $this->assertSame('text/plain', $result->parts[2]->mimetype);
-        $this->assertSame('lines_lf.txt', $result->parts[2]->filename);
+        self::assertCount(3, $result->parts);
+        self::assertSame(11, $result->parts[2]->size);
+        self::assertSame('text/plain', $result->parts[2]->mimetype);
+        self::assertSame('lines_lf.txt', $result->parts[2]->filename);
     }
 }

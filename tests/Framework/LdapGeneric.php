@@ -10,7 +10,7 @@ class Framework_LdapGeneric extends TestCase
     protected function markTestSkippedIfNetLdapPackageIsNotInstalled(): void
     {
         if (!class_exists(Net_LDAP3::class)) {
-            $this->markTestSkipped('The Net_LDAP3 package not available.');
+            self::markTestSkipped('The Net_LDAP3 package not available.');
         }
     }
 
@@ -23,7 +23,7 @@ class Framework_LdapGeneric extends TestCase
 
         $object = new rcube_ldap_generic([]);
 
-        $this->assertInstanceOf('rcube_ldap_generic', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_ldap_generic', $object, 'Class constructor');
     }
 
     /**
@@ -37,14 +37,14 @@ class Framework_LdapGeneric extends TestCase
 
         $result = $object->fulltext_search_filter('test', ['dn']);
 
-        $this->assertSame('(|(dn=test))', $result);
+        self::assertSame('(|(dn=test))', $result);
 
         $result = $object->fulltext_search_filter('test', ['dn', 'mail'], 2);
 
-        $this->assertSame('(|(dn=test*)(mail=test*))', $result);
+        self::assertSame('(|(dn=test*)(mail=test*))', $result);
 
         $result = $object->fulltext_search_filter('test1 test2', ['dn', 'mail'], 0);
 
-        $this->assertSame('(&(|(dn=*test1*)(mail=*test1*))(|(dn=*test2*)(mail=*test2*)))', $result);
+        self::assertSame('(&(|(dn=*test1*)(mail=*test1*))(|(dn=*test2*)(mail=*test2*)))', $result);
     }
 }

@@ -13,8 +13,8 @@ class Actions_Settings_ResponseGet extends ActionTestCase
         $action = new rcmail_action_settings_response_get();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'response-get');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $rcmail = rcmail::get_instance();
         $rcmail->user->save_prefs([
@@ -35,14 +35,14 @@ class Actions_Settings_ResponseGet extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('response-get', $result['action']);
-        $this->assertTrue(preg_match('/this\.insert_response\(([^)]+)\);/', $result['exec'], $m) === 1);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('response-get', $result['action']);
+        self::assertTrue(preg_match('/this\.insert_response\(([^)]+)\);/', $result['exec'], $m) === 1);
         $data = json_decode($m[1], true);
-        $this->assertSame($responses[0]['id'], $data['id']);
-        $this->assertSame('static 1', $data['name']);
-        $this->assertTrue($data['is_html']);
-        $this->assertSame('<div class="pre">Static Response One</div>', $data['data']);
+        self::assertSame($responses[0]['id'], $data['id']);
+        self::assertSame('static 1', $data['name']);
+        self::assertTrue($data['is_html']);
+        self::assertSame('<div class="pre">Static Response One</div>', $data['data']);
 
         // Test unknown identifier
 
@@ -52,9 +52,9 @@ class Actions_Settings_ResponseGet extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('response-get', $result['action']);
-        $this->assertSame('', $result['exec']);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('response-get', $result['action']);
+        self::assertSame('', $result['exec']);
 
         // Test a normal response (html converted to text)
 
@@ -64,13 +64,13 @@ class Actions_Settings_ResponseGet extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('response-get', $result['action']);
-        $this->assertTrue(preg_match('/this\.insert_response\(([^)]+)\);/', $result['exec'], $m) === 1);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('response-get', $result['action']);
+        self::assertTrue(preg_match('/this\.insert_response\(([^)]+)\);/', $result['exec'], $m) === 1);
         $data = json_decode($m[1], true);
-        $this->assertSame($responses[2]['id'], $data['id']);
-        $this->assertSame('response 2', $data['name']);
-        $this->assertFalse($data['is_html']);
-        $this->assertSame('test response 2', $data['data']);
+        self::assertSame($responses[2]['id'], $data['id']);
+        self::assertSame('response 2', $data['name']);
+        self::assertFalse($data['is_html']);
+        self::assertSame('test response 2', $data['data']);
     }
 }

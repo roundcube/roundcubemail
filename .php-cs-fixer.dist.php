@@ -90,7 +90,6 @@ return (new Config())
             'suffix' => '_cases',
         ],
         'php_unit_method_casing' => false,
-        'php_unit_test_case_static_method_calls' => false,
         'psr_autoloading' => false,
         'strict_comparison' => false,
 

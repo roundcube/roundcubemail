@@ -12,6 +12,6 @@ class Actions_Mail_Sendmdn extends ActionTestCase
     {
         $object = new rcmail_action_mail_sendmdn();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        self::assertInstanceOf('rcmail_action', $object);
     }
 }

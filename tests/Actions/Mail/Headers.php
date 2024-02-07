@@ -12,6 +12,6 @@ class Actions_Mail_Headers extends ActionTestCase
     {
         $object = new rcmail_action_mail_headers();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        self::assertInstanceOf('rcmail_action', $object);
     }
 }

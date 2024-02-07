@@ -16,12 +16,12 @@ class Actions_Utils_Html2text extends ActionTestCase
 
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'utils', 'html2text');
 
-        $this->assertInstanceOf('rcmail_action', $object);
-        $this->assertTrue($object->checks());
+        self::assertInstanceOf('rcmail_action', $object);
+        self::assertTrue($object->checks());
 
         $this->runAndAssert($object, OutputHtmlMock::E_EXIT);
 
-        $this->assertSame('test', $output->output);
-        $this->assertSame(['Content-Type: text/plain; charset=UTF-8'], $output->headers);
+        self::assertSame('test', $output->output);
+        self::assertSame(['Content-Type: text/plain; charset=UTF-8'], $output->headers);
     }
 }

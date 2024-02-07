@@ -13,8 +13,8 @@ class Actions_Contacts_Delete extends ActionTestCase
         $action = new rcmail_action_contacts_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'delete');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('contacts');
 
@@ -32,16 +32,16 @@ class Actions_Contacts_Delete extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('delete', $result['action']);
-        $this->assertSame(1, $result['env']['pagecount']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Contact(s) deleted successfully.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Contacts 1 to 5 of 5")') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('delete', $result['action']);
+        self::assertSame(1, $result['env']['pagecount']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Contact(s) deleted successfully.","confirmation",0);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_rowcount("Contacts 1 to 5 of 5")') !== false);
 
         $query = $db->query('SELECT * FROM `contacts` WHERE `contact_id` = ?', $cid);
         $result = $db->fetch_assoc($query);
 
-        $this->assertTrue(!empty($result['del']));
+        self::assertTrue(!empty($result['del']));
     }
 
     /**
@@ -49,6 +49,6 @@ class Actions_Contacts_Delete extends ActionTestCase
      */
     public function test_delete_from_search()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

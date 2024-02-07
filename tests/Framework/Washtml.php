@@ -30,9 +30,9 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, 'Remove data:text/html links');
-        $this->assertDoesNotMatchRegularExpression('/vbscript:/', $washed, 'Remove vbscript: links');
-        $this->assertDoesNotMatchRegularExpression('/data:application/', $washed, 'Remove data:application links');
+        self::assertDoesNotMatchRegularExpression('/data:text/', $washed, 'Remove data:text/html links');
+        self::assertDoesNotMatchRegularExpression('/vbscript:/', $washed, 'Remove vbscript: links');
+        self::assertDoesNotMatchRegularExpression('/data:application/', $washed, 'Remove data:application links');
     }
 
     /**
@@ -45,8 +45,8 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertMatchesRegularExpression('|href="http://test\.com"|', $washed, 'Link href with newlines (#1488940)');
-        $this->assertMatchesRegularExpression('|href="http://domain\.com"|', $washed, 'Link href with no protocol (#7454)');
+        self::assertMatchesRegularExpression('|href="http://test\.com"|', $washed, 'Link href with newlines (#1488940)');
+        self::assertMatchesRegularExpression('|href="http://domain\.com"|', $washed, 'Link href with no protocol (#7454)');
     }
 
     /**
@@ -59,7 +59,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertSame("<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>", $this->cleanupResult($washed));
+        self::assertSame("<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>", $this->cleanupResult($washed));
     }
 
     /**
@@ -77,9 +77,9 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, 'data:text/html in area href');
-        $this->assertDoesNotMatchRegularExpression('/vbscript:/', $washed, 'vbscript: in area href');
-        $this->assertDoesNotMatchRegularExpression('/javascript:/', $washed, 'javascript: in area href');
+        self::assertDoesNotMatchRegularExpression('/data:text/', $washed, 'data:text/html in area href');
+        self::assertDoesNotMatchRegularExpression('/vbscript:/', $washed, 'vbscript: in area href');
+        self::assertDoesNotMatchRegularExpression('/javascript:/', $washed, 'javascript: in area href');
     }
 
     /**
@@ -94,9 +94,9 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertDoesNotMatchRegularExpression('/<\/?object/', $washed, 'Remove object tag');
-        $this->assertDoesNotMatchRegularExpression('/<param/', $washed, 'Remove param tag');
-        $this->assertMatchesRegularExpression('/<p>/', $washed, 'Keep embedded tags');
+        self::assertDoesNotMatchRegularExpression('/<\/?object/', $washed, 'Remove object tag');
+        self::assertDoesNotMatchRegularExpression('/<param/', $washed, 'Remove param tag');
+        self::assertMatchesRegularExpression('/<p>/', $washed, 'Keep embedded tags');
     }
 
     /**
@@ -109,32 +109,32 @@ class Framework_Washtml extends TestCase
         $html = '<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame('<p>p2</p>', $washed, 'HTML conditional comments (#1489004)');
+        self::assertSame('<p>p2</p>', $washed, 'HTML conditional comments (#1489004)');
 
         $html = '<!--TestCommentInvalid><p>test</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame('<p>test</p>', $washed, 'HTML invalid comments (#1487759)');
+        self::assertSame('<p>test</p>', $washed, 'HTML invalid comments (#1487759)');
 
         $html = '<p>para1</p><!-- comment --><p>para2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame('<p>para1</p><p>para2</p>', $washed, 'HTML comments - simple comment');
+        self::assertSame('<p>para1</p><p>para2</p>', $washed, 'HTML comments - simple comment');
 
         $html = '<p>para1</p><!-- <hr> comment --><p>para2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame('<p>para1</p><p>para2</p>', $washed, 'HTML comments - tags inside (#1489904)');
+        self::assertSame('<p>para1</p><p>para2</p>', $washed, 'HTML comments - tags inside (#1489904)');
 
         $html = '<p>para1</p><!-- comment => comment --><p>para2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame('<p>para1</p><p>para2</p>', $washed, 'HTML comments - bracket inside');
+        self::assertSame('<p>para1</p><p>para2</p>', $washed, 'HTML comments - bracket inside');
 
         $html = "<p><!-- span>1</span -->\n<span>2</span>\n<!-- >3</span --><span>4</span></p>";
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame("<p>\n<span>2</span>\n<span>4</span></p>", $washed, 'HTML comments (#6464)');
+        self::assertSame("<p>\n<span>2</span>\n<span>4</span></p>", $washed, 'HTML comments (#6464)');
     }
 
     /**
@@ -147,7 +147,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertMatchesRegularExpression('|<textarea>test</textarea>|', $washed);
+        self::assertMatchesRegularExpression('|<textarea>test</textarea>|', $washed);
     }
 
     /**
@@ -160,7 +160,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertMatchesRegularExpression('|</a>|', $washed);
+        self::assertMatchesRegularExpression('|</a>|', $washed);
     }
 
     /**
@@ -202,7 +202,7 @@ class Framework_Washtml extends TestCase
         foreach ($data as $element) {
             rcube_washtml::fix_broken_lists($element[0]);
 
-            $this->assertSame($element[1], $element[0], 'Broken nested lists (#1488768)');
+            self::assertSame($element[1], $element[0], 'Broken nested lists (#1488768)');
         }
     }
 
@@ -216,8 +216,8 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertMatchesRegularExpression('|color: rgb\(241, 245, 218\)|', $washed, 'Color style (#1489697)');
-        $this->assertMatchesRegularExpression('|font-size: 10px|', $washed, 'Font-size style');
+        self::assertMatchesRegularExpression('|color: rgb\(241, 245, 218\)|', $washed, 'Color style (#1489697)');
+        self::assertMatchesRegularExpression('|font-size: 10px|', $washed, 'Font-size style');
     }
 
     /**
@@ -231,7 +231,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertMatchesRegularExpression(
+        self::assertMatchesRegularExpression(
             '|style="font-family: \&quot;新細明體\&quot;,\&quot;serif\&quot;; color: red"|',
             $washed,
             'Unicode chars in style attribute - quoted (#1489697)'
@@ -243,7 +243,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertMatchesRegularExpression(
+        self::assertMatchesRegularExpression(
             '|style="font-family: 新細明體; color: red"|',
             $washed,
             'Unicode chars in style attribute (#1489697)'
@@ -262,12 +262,12 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml(['html_elements' => ['body']]);
         $washed = $washer->wash($html);
 
-        $this->assertMatchesRegularExpression('|bgcolor="#fff"|', $washed, 'Body bgcolor attribute');
-        $this->assertMatchesRegularExpression('|text="#000"|', $washed, 'Body text attribute');
-        $this->assertMatchesRegularExpression('|background="#test"|', $washed, 'Body background attribute');
-        $this->assertMatchesRegularExpression('|link="#111"|', $washed, 'Body link attribute');
-        $this->assertMatchesRegularExpression('|alink="#222"|', $washed, 'Body alink attribute');
-        $this->assertMatchesRegularExpression('|vlink="#333"|', $washed, 'Body vlink attribute');
+        self::assertMatchesRegularExpression('|bgcolor="#fff"|', $washed, 'Body bgcolor attribute');
+        self::assertMatchesRegularExpression('|text="#000"|', $washed, 'Body text attribute');
+        self::assertMatchesRegularExpression('|background="#test"|', $washed, 'Body background attribute');
+        self::assertMatchesRegularExpression('|link="#111"|', $washed, 'Body link attribute');
+        self::assertMatchesRegularExpression('|alink="#222"|', $washed, 'Body alink attribute');
+        self::assertMatchesRegularExpression('|vlink="#333"|', $washed, 'Body vlink attribute');
     }
 
     /**
@@ -280,8 +280,8 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertMatchesRegularExpression('|line-height: 1;|', $washed, 'Untouched line-height (#1489917)');
-        $this->assertMatchesRegularExpression('|; height: 10px|', $washed, 'Fixed height units');
+        self::assertMatchesRegularExpression('|line-height: 1;|', $washed, 'Untouched line-height (#1489917)');
+        self::assertMatchesRegularExpression('|; height: 10px|', $washed, 'Fixed height units');
 
         $html = "<div style=\"padding: 0px\n   20px;border:1px solid #000;\"></div>";
         $expected = '<div style="padding: 0px 20px; border: 1px solid #000"></div>';
@@ -289,7 +289,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $expected) !== false, 'White-space and new-line characters handling');
+        self::assertTrue(strpos($washed, $expected) !== false, 'White-space and new-line characters handling');
     }
 
     /**
@@ -303,7 +303,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
+        self::assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
 
         $html = "<img style=aaa:'&quot;/onerror=alert(1)//'>";
         $exp = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
@@ -311,7 +311,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
+        self::assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
     }
 
     /**
@@ -324,12 +324,12 @@ class Framework_Washtml extends TestCase
         $html = '<html><head><title>title1</title></head><body><p>test</p></body>';
         $washed = $washer->wash($html);
 
-        $this->assertSame('<p>test</p>', $this->cleanupResult($washed));
+        self::assertSame('<p>test</p>', $this->cleanupResult($washed));
 
         $html = '<html><head><title>title1<img />title2</title></head><body><p>test</p></body>';
         $washed = $washer->wash($html);
 
-        $this->assertSame('<p>test</p>', $this->cleanupResult($washed));
+        self::assertSame('<p>test</p>', $this->cleanupResult($washed));
     }
 
     /**
@@ -368,7 +368,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($svg);
 
-        $this->assertSame($washed, $exp, 'SVG content');
+        self::assertSame($washed, $exp, 'SVG content');
     }
 
     /**
@@ -486,7 +486,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($input);
 
-        $this->assertSame($expected, $this->cleanupResult($washed), 'SVG content');
+        self::assertSame($expected, $this->cleanupResult($washed), 'SVG content');
     }
 
     /**
@@ -552,7 +552,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);
         $washed = $washer->wash($input);
 
-        $this->assertSame($expected, $this->cleanupResult($washed), 'XSS issues');
+        self::assertSame($expected, $this->cleanupResult($washed), 'XSS issues');
     }
 
     /**
@@ -566,7 +566,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $exp) !== false, 'Position:fixed (#5264)');
+        self::assertTrue(strpos($washed, $exp) !== false, 'Position:fixed (#5264)');
     }
 
     /**
@@ -614,7 +614,7 @@ class Framework_Washtml extends TestCase
         $washed = preg_replace('/>[\s\r\n\t]+</', '><', $washed);
         $exp = preg_replace('/>[\s\r\n\t]+</', '><', $exp);
 
-        $this->assertSame(trim($washed), trim($exp), 'MathML content');
+        self::assertSame(trim($washed), trim($exp), 'MathML content');
     }
 
     /**
@@ -627,16 +627,16 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue($washer->extlinks);
-        $this->assertStringNotContainsString('TRACKING', $washed, 'Src attribute of <input> tag (#5583)');
+        self::assertTrue($washer->extlinks);
+        self::assertStringNotContainsString('TRACKING', $washed, 'Src attribute of <input> tag (#5583)');
 
         $html = '<video src="http://TRACKING_URL/">';
 
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue($washer->extlinks);
-        $this->assertStringNotContainsString('TRACKING', $washed, 'Src attribute of <video> tag (#5583)');
+        self::assertTrue($washer->extlinks);
+        self::assertStringNotContainsString('TRACKING', $washed, 'Src attribute of <video> tag (#5583)');
     }
 
     /**
@@ -656,14 +656,14 @@ class Framework_Washtml extends TestCase
             $washer = new rcube_washtml();
             $washed = $washer->wash($item[0]);
 
-            $this->assertSame($item[1], $washer->extlinks);
+            self::assertSame($item[1], $washer->extlinks);
         }
 
         foreach ($html as $item) {
             $washer = new rcube_washtml(['allow_remote' => true]);
             $washed = $washer->wash($item[0]);
 
-            $this->assertFalse($washer->extlinks);
+            self::assertFalse($washer->extlinks);
         }
     }
 
@@ -674,8 +674,8 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertStringNotContainsString('onerror=alert(1)>', $washed);
-        $this->assertStringContainsString('&lt;p style=&quot;x:', $washed);
+        self::assertStringNotContainsString('onerror=alert(1)>', $washed);
+        self::assertStringContainsString('&lt;p style=&quot;x:', $washed);
     }
 
     /**
@@ -691,17 +691,17 @@ class Framework_Washtml extends TestCase
             . '</p>';
         $washed = $washer->wash($html);
 
-        $this->assertStringContainsString('id="testmy-id"', $washed);
-        $this->assertStringContainsString('for="testmy-other-id"', $washed);
-        $this->assertStringContainsString('href="#testmy-id"', $washed);
-        $this->assertStringContainsString('class="testmy-class1 testmy-class2"', $washed);
+        self::assertStringContainsString('id="testmy-id"', $washed);
+        self::assertStringContainsString('for="testmy-other-id"', $washed);
+        self::assertStringContainsString('href="#testmy-id"', $washed);
+        self::assertStringContainsString('class="testmy-class1 testmy-class2"', $washed);
 
         // Make sure the anchor name is prefixed too
         $html = '<p><a href="#a">test link</a></p><a name="a">test anchor</a>';
         $washed = $washer->wash($html);
 
-        $this->assertStringContainsString('href="#testa"', $washed);
-        $this->assertStringContainsString('name="testa"', $washed);
+        self::assertStringContainsString('href="#testa"', $washed);
+        self::assertStringContainsString('name="testa"', $washed);
     }
 
     /**
@@ -714,14 +714,14 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame($washed, '<p></p>');
+        self::assertSame($washed, '<p></p>');
 
         $html = '<?xml encoding="UTF-8"><html><body>HTML</body></html>';
 
         $washer = new rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame($washed, 'HTML');
+        self::assertSame($washed, 'HTML');
     }
 
     /**
@@ -734,34 +734,34 @@ class Framework_Washtml extends TestCase
         $html = '<head></head>First line<br />Second line';
         $washed = $washer->wash($html);
 
-        $this->assertStringContainsString('First line', $washed);
+        self::assertStringContainsString('First line', $washed);
 
         $html = 'First line<br />Second line';
         $washed = $washer->wash($html);
 
-        $this->assertStringContainsString('First line', $washed);
+        self::assertStringContainsString('First line', $washed);
 
         $html = '<html>First line<br />Second line</html>';
         $washed = $washer->wash($html);
 
-        $this->assertStringContainsString('>First line', $washed);
+        self::assertStringContainsString('>First line', $washed);
 
         $html = '<html><head></head>First line<br />Second line</html>';
         $washed = $washer->wash($html);
 
-        $this->assertStringContainsString('First line', $washed);
+        self::assertStringContainsString('First line', $washed);
 
         // Not really valid HTML, but because its common in email world
         // and because it works with DOMDocument, we make sure its supported
         $html = 'First line<br /><html><body>Second line';
         $washed = $washer->wash($html);
 
-        $this->assertStringContainsString('First line', $washed);
+        self::assertStringContainsString('First line', $washed);
 
         $html = 'First line<br /><html>Second line';
         $washed = $washer->wash($html);
 
-        $this->assertStringContainsString('First line', $washed);
+        self::assertStringContainsString('First line', $washed);
     }
 
     /**
@@ -774,7 +774,7 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, '<script>') === false, 'CDATA content');
+        self::assertTrue(strpos($washed, '<script>') === false, 'CDATA content');
     }
 
     /**
@@ -785,13 +785,13 @@ class Framework_Washtml extends TestCase
         $html = file_get_contents(TESTS_DIR . 'src/htmlbase.txt');
         $html = rcube_washtml::resolve_base($html);
 
-        $this->assertMatchesRegularExpression('|src="http://alec\.pl/dir/img1\.gif"|', $html, 'URI base resolving [1]');
-        $this->assertMatchesRegularExpression('|src="http://alec\.pl/dir/img2\.gif"|', $html, 'URI base resolving [2]');
-        $this->assertMatchesRegularExpression('|src="http://alec\.pl/img3\.gif"|', $html, 'URI base resolving [3]');
+        self::assertMatchesRegularExpression('|src="http://alec\.pl/dir/img1\.gif"|', $html, 'URI base resolving [1]');
+        self::assertMatchesRegularExpression('|src="http://alec\.pl/dir/img2\.gif"|', $html, 'URI base resolving [2]');
+        self::assertMatchesRegularExpression('|src="http://alec\.pl/img3\.gif"|', $html, 'URI base resolving [3]');
 
         // base resolving exceptions
-        $this->assertMatchesRegularExpression('|src="cid:theCID"|', $html, 'URI base resolving exception [1]');
-        $this->assertMatchesRegularExpression('|src="http://other\.domain\.tld/img3\.gif"|', $html, 'URI base resolving exception [2]');
+        self::assertMatchesRegularExpression('|src="cid:theCID"|', $html, 'URI base resolving exception [1]');
+        self::assertMatchesRegularExpression('|src="http://other\.domain\.tld/img3\.gif"|', $html, 'URI base resolving exception [2]');
     }
 
     /**
@@ -832,6 +832,6 @@ class Framework_Washtml extends TestCase
         $washer = new rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame(trim($expected), $washed);
+        self::assertSame(trim($expected), $washed);
     }
 }

@@ -17,16 +17,16 @@ class Enigma_EnigmaMimeMessage extends TestCase
         $mime = new Mail_mime();
         $message1 = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertFalse($message1->isMultipart());
+        self::assertFalse($message1->isMultipart());
 
         $mime->setHTMLBody('<html></html>');
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertTrue($message->isMultipart());
+        self::assertTrue($message->isMultipart());
 
         $message = new enigma_mime_message($message1, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertTrue($message->isMultipart());
+        self::assertTrue($message->isMultipart());
     }
 
     /**
@@ -37,12 +37,12 @@ class Enigma_EnigmaMimeMessage extends TestCase
         $mime = new Mail_mime();
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertNull($message->getFromAddress());
+        self::assertNull($message->getFromAddress());
 
         $mime->setFrom('test@domain.com');
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertSame('test@domain.com', $message->getFromAddress());
+        self::assertSame('test@domain.com', $message->getFromAddress());
     }
 
     /**
@@ -60,7 +60,7 @@ class Enigma_EnigmaMimeMessage extends TestCase
 
         $message = new enigma_mime_message($mime, enigma_mime_message::PGP_SIGNED);
 
-        $this->assertSame($expected, $message->getRecipients());
+        self::assertSame($expected, $message->getRecipients());
     }
 
     /**
@@ -77,7 +77,7 @@ class Enigma_EnigmaMimeMessage extends TestCase
             . "\r\n"
             . "test body\r\n";
 
-        $this->assertSame($expected, $message->getOrigBody());
+        self::assertSame($expected, $message->getOrigBody());
     }
 
     /**
@@ -107,11 +107,11 @@ class Enigma_EnigmaMimeMessage extends TestCase
 
         // Note: The str_replace() below is for phpunit <= 6.5
 
-        $this->assertStringMatchesFormat(
+        self::assertStringMatchesFormat(
             str_replace("\r\n", "\n", $expected),
             str_replace("\r\n", "\n", $message->get())
         );
-        $this->assertStringMatchesFormat(
+        self::assertStringMatchesFormat(
             str_replace("\r\n", "\n", $signed_headers),
             str_replace("\r\n", "\n", $message->txtHeaders())
         );
@@ -148,11 +148,11 @@ class Enigma_EnigmaMimeMessage extends TestCase
 
         // Note: The str_replace() below is for phpunit <= 6.5
 
-        $this->assertStringMatchesFormat(
+        self::assertStringMatchesFormat(
             str_replace("\r\n", "\n", $signed),
             str_replace("\r\n", "\n", $message->get())
         );
-        $this->assertStringMatchesFormat(
+        self::assertStringMatchesFormat(
             str_replace("\r\n", "\n", $signed_headers),
             str_replace("\r\n", "\n", $message->txtHeaders())
         );
@@ -187,11 +187,11 @@ class Enigma_EnigmaMimeMessage extends TestCase
 
         // Note: The str_replace() below is for phpunit <= 6.5
 
-        $this->assertStringMatchesFormat(
+        self::assertStringMatchesFormat(
             str_replace("\r\n", "\n", $encrypted),
             str_replace("\r\n", "\n", $message->get())
         );
-        $this->assertStringMatchesFormat(
+        self::assertStringMatchesFormat(
             str_replace("\r\n", "\n", $encrypted_headers),
             str_replace("\r\n", "\n", $message->txtHeaders())
         );
