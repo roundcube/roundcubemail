@@ -22,7 +22,7 @@ class GetunreadTest extends TestCase
 
     public function testGetunread()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('mail');
 
             $browser->waitFor('#messagelist tbody tr');
@@ -37,7 +37,7 @@ class GetunreadTest extends TestCase
             // Folders list state
             $browser->assertVisible('.folderlist li.inbox.unread');
 
-            $this->assertSame(strval(self::$msgcount), $browser->text('.folderlist li.inbox span.unreadcount'));
+            self::assertSame(strval(self::$msgcount), $browser->text('.folderlist li.inbox span.unreadcount'));
         });
     }
 }

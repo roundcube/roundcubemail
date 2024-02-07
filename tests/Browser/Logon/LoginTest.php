@@ -38,7 +38,7 @@ class LoginTest extends TestCase
             // Support link
             if ($url = $this->app->config->get('support_url')) {
                 $browser->assertSeeLink('Get support');
-                $this->assertStringStartsWith($url, $browser->attribute('.support-link', 'href'));
+                self::assertStringStartsWith($url, $browser->attribute('.support-link', 'href'));
             }
 
             // test valid login

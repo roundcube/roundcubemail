@@ -331,15 +331,15 @@ class Actions_Mail_Index extends ActionTestCase
         $body = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => false]);
         $html = rcmail_action_mail_index::html4inline($body, $params);
 
-        $this->assertMatchesRegularExpression('/src="' . $part->replaces['ex1.jpg'] . '"/', $html, 'Replace reference to inline image');
-        $this->assertMatchesRegularExpression('#background="program/resources/blocked.gif"#', $html, 'Replace external background image');
-        $this->assertDoesNotMatchRegularExpression('/ex3.jpg/', $html, 'No references to external images');
-        $this->assertDoesNotMatchRegularExpression('/<meta [^>]+>/', $html, 'No meta tags allowed');
-        $this->assertDoesNotMatchRegularExpression('/<form [^>]+>/', $html, 'No form tags allowed');
-        $this->assertMatchesRegularExpression('/Subscription form/', $html, 'Include <form> contents');
-        $this->assertMatchesRegularExpression('/<!-- link ignored -->/', $html, 'No external links allowed');
-        $this->assertMatchesRegularExpression('/<a[^>]+ target="_blank"/', $html, 'Set target to _blank');
-        // $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
+        self::assertMatchesRegularExpression('/src="' . $part->replaces['ex1.jpg'] . '"/', $html, 'Replace reference to inline image');
+        self::assertMatchesRegularExpression('#background="program/resources/blocked.gif"#', $html, 'Replace external background image');
+        self::assertDoesNotMatchRegularExpression('/ex3.jpg/', $html, 'No references to external images');
+        self::assertDoesNotMatchRegularExpression('/<meta [^>]+>/', $html, 'No meta tags allowed');
+        self::assertDoesNotMatchRegularExpression('/<form [^>]+>/', $html, 'No form tags allowed');
+        self::assertMatchesRegularExpression('/Subscription form/', $html, 'Include <form> contents');
+        self::assertMatchesRegularExpression('/<!-- link ignored -->/', $html, 'No external links allowed');
+        self::assertMatchesRegularExpression('/<a[^>]+ target="_blank"/', $html, 'Set target to _blank');
+        // self::assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
 
         // render HTML in safe mode
         $body = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);

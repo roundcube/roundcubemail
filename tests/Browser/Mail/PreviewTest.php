@@ -23,7 +23,7 @@ class PreviewTest extends TestCase
      */
     public function testPreview()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('mail');
 
             $browser->waitFor('#messagelist tbody tr:first-child')
@@ -44,7 +44,7 @@ class PreviewTest extends TestCase
                 });
             }
 
-            $browser->withinFrame('#messagecontframe', function ($browser) {
+            $browser->withinFrame('#messagecontframe', static function ($browser) {
                 $browser->waitFor('img.contactphoto');
 
                 // Privacy warning
@@ -52,8 +52,8 @@ class PreviewTest extends TestCase
                     ->assertSeeIn('#remote-objects-message', 'To protect your privacy remote resources have been blocked.');
 
                 // Images
-                $this->assertMatchesRegularExpression('/action=get/', $browser->attribute('p#v1attached > img', 'src'));
-                $this->assertMatchesRegularExpression('/blocked/', $browser->attribute('p#v1remote > img', 'src'));
+                self::assertMatchesRegularExpression('/action=get/', $browser->attribute('p#v1attached > img', 'src'));
+                self::assertMatchesRegularExpression('/blocked/', $browser->attribute('p#v1remote > img', 'src'));
 
                 // Attachments list
                 $browser->assertMissing('#attachment-list');
@@ -115,8 +115,8 @@ class PreviewTest extends TestCase
 
             $txt = $browser->readDownloadedFile('lines.txt');
 
-            $this->assertTrue(strlen($txt) == 13);
-            $this->assertSame("foo\r\nbar\r\ngna", $txt);
+            self::assertTrue(strlen($txt) == 13);
+            self::assertSame("foo\r\nbar\r\ngna", $txt);
             $browser->removeDownloadedFile('lines.txt');
 
             // On phone check Back button

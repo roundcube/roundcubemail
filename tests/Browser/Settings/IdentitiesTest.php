@@ -240,7 +240,7 @@ class IdentitiesTest extends TestCase
             'email' => 'another@domain.tld',
         ]);
 
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             if ($browser->isPhone()) {
                 $browser->click('a.back-sidebar-button');
             }
@@ -251,9 +251,9 @@ class IdentitiesTest extends TestCase
                 ->assertElementsCount('select[name=_from] > option', 2)
                 ->assertSeeIn('select[name=_from] > option[selected]', 'mynew@identity.com');
 
-            $this->assertTrue(trim($browser->value('#_bcc'), ', ') === 'bcc@domain.tld');
-            $this->assertTrue(trim($browser->value('#_replyto'), ', ') === 'replyto@domain.tld');
-            $this->assertTrue(strpos($browser->value('#composebody'), 'My signature') !== false);
+            self::assertTrue(trim($browser->value('#_bcc'), ', ') === 'bcc@domain.tld');
+            self::assertTrue(trim($browser->value('#_replyto'), ', ') === 'replyto@domain.tld');
+            self::assertTrue(strpos($browser->value('#composebody'), 'My signature') !== false);
 
             // TODO: Recipient input, HTML mode, identity change
 

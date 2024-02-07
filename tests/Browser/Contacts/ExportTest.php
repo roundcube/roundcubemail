@@ -16,7 +16,7 @@ class ExportTest extends TestCase
      */
     public function testExportAll()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('addressbook');
 
             $browser->clickToolbarMenuItem('export');
@@ -26,9 +26,9 @@ class ExportTest extends TestCase
             $vcard = new \rcube_vcard();
             $contacts = $vcard->import($vcard_content);
 
-            $this->assertCount(2, $contacts);
-            $this->assertSame('John Doe', $contacts[0]->displayname);
-            $this->assertSame('Jane Stalone', $contacts[1]->displayname);
+            self::assertCount(2, $contacts);
+            self::assertSame('John Doe', $contacts[0]->displayname);
+            self::assertSame('Jane Stalone', $contacts[1]->displayname);
 
             $browser->removeDownloadedFile('contacts.vcf');
         });
@@ -41,7 +41,7 @@ class ExportTest extends TestCase
      */
     public function testExportSelected()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->ctrlClick('#contacts-table tbody tr:first-child');
 
             $browser->clickToolbarMenuItem('export', 'export.select');
@@ -51,8 +51,8 @@ class ExportTest extends TestCase
             $contacts = $vcard->import($vcard_content);
 
             // Parse the downloaded vCard file
-            $this->assertCount(1, $contacts);
-            $this->assertSame('John Doe', $contacts[0]->displayname);
+            self::assertCount(1, $contacts);
+            self::assertSame('John Doe', $contacts[0]->displayname);
 
             $browser->removeDownloadedFile('contacts.vcf');
         });

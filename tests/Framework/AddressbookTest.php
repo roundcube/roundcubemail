@@ -76,17 +76,17 @@ class Framework_Addressbook extends TestCase
         rcube::get_instance()->config->set('addressbook_name_listing', 3);
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('Last, First M.', $result);
+        self::assertSame('Last, First M.', $result);
 
         rcube::get_instance()->config->set('addressbook_name_listing', 2);
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('Last First M.', $result);
+        self::assertSame('Last First M.', $result);
 
         rcube::get_instance()->config->set('addressbook_name_listing', 1);
         $result = rcube_addressbook::compose_list_name($contact);
 
-        $this->assertSame('First M. Last', $result);
+        self::assertSame('First M. Last', $result);
         */
     }
 }
