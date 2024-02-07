@@ -32,7 +32,7 @@ class MailTest extends TestCase
                 ->with(new Popupmenu('message-menu'), static function ($browser) {
                     $browser->clickMenuItem('download', null, false);
                 })
-                ->with(new Popupmenu('zipdownload-menu'), function ($browser) {
+                ->with(new Popupmenu('zipdownload-menu'), static function ($browser) {
                     $browser->assertVisible('a.download.eml:not(.disabled)')
                         ->assertSeeIn('a.download.eml', 'Source (.eml)')
                         ->assertVisible('a.download.mbox.disabled')
@@ -44,7 +44,7 @@ class MailTest extends TestCase
                     $filename = 'Test HTML with local and remote image.eml';
                     $email = $browser->readDownloadedFile($filename);
                     $browser->removeDownloadedFile($filename);
-                    $this->assertTrue(strpos($email, 'Subject: Test HTML with local and remote image') !== false);
+                    self::assertTrue(strpos($email, 'Subject: Test HTML with local and remote image') !== false);
                 });
 
             // Test More > Download > Mailbox format (two messages selected)
@@ -63,7 +63,7 @@ class MailTest extends TestCase
                     $files = $this->getFilesFromZip($filename);
                     $browser->removeDownloadedFile($filename);
 
-                    $this->assertSame(['INBOX.mbox'], $files);
+                    self::assertSame(['INBOX.mbox'], $files);
                 });
 
             // Test More > Download > Maildir format (two messages selected)
@@ -77,7 +77,7 @@ class MailTest extends TestCase
                     $filename = 'INBOX.zip';
                     $files = $this->getFilesFromZip($filename);
                     $browser->removeDownloadedFile($filename);
-                    $this->assertCount(2, $files);
+                    self::assertCount(2, $files);
                 });
 
             // Test attachments download
@@ -94,7 +94,7 @@ class MailTest extends TestCase
             $files = $this->getFilesFromZip($filename);
             $browser->removeDownloadedFile($filename);
             $expected = ['lines.txt', 'lines_lf.txt'];
-            $this->assertSame($expected, $files);
+            self::assertSame($expected, $files);
         });
     }
 
