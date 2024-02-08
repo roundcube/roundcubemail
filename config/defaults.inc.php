@@ -367,7 +367,7 @@ $config['oauth_login_redirect'] = false;
 // Register your service at https://console.developers.google.com/
 // - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
 
-// $config['default_host'] = 'ssl://imap.gmail.com';
+// $config['imap_host'] = 'ssl://imap.gmail.com';
 // $config['oauth_provider'] = 'google';
 // $config['oauth_provider_name'] = 'Google';
 // $config['oauth_client_id'] = "<your-credentials-client-id>";
