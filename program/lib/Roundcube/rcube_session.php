@@ -67,17 +67,15 @@ abstract class rcube_session implements SessionHandlerInterface
         // class name for this storage
         $class = "rcube_session_{$storage}";
 
-        // try to instantiate class
-        if (class_exists($class)) {
-            return new $class($config);
+        if (!class_exists($class)) {
+            rcube::raise_error([
+                'code' => 604, 'type' => 'session',
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => 'Failed to find session driver. Check session_storage config option',
+            ], true, true);
         }
 
-        // no storage found, raise error
-        rcube::raise_error([
-            'code' => 604, 'type' => 'session',
-            'line' => __LINE__, 'file' => __FILE__,
-            'message' => 'Failed to find session driver. Check session_storage config option',
-        ], true, true);
+        return new $class($config);
     }
 
     /**

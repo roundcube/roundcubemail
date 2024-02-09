@@ -470,7 +470,7 @@ abstract class rcube_storage
      *
      * @return string|true|null Message/part body if not printed
      */
-    abstract public function get_message_part($uid, $part = 1, $o_part = null, $print = null, $fp = null,
+    abstract public function get_message_part($uid, $part, $o_part = null, $print = null, $fp = null,
         $skip_charset_conv = false, $max_bytes = 0, $formatted = true);
 
     /**

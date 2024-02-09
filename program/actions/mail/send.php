@@ -79,7 +79,7 @@ class rcmail_action_mail_send extends rcmail_action
             $message_body = '';
 
             // clear unencrypted attachments
-            $rcmail->delete_uploaded_files(self::$COMPOSE_ID);
+            $rcmail->delete_uploaded_files($COMPOSE_ID);
         }
 
         if ($isHtml) {

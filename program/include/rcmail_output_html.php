@@ -84,7 +84,7 @@ class rcmail_output_html extends rcmail_output
 
         // Version number e.g. 1.4.2 will be 10402
         $version = explode('.', preg_replace('/[^0-9.].*/', '', RCMAIL_VERSION));
-        $this->set_env('rcversion', $version[0] * 10000 + $version[1] * 100 + ($version[2] ?? 0));
+        $this->set_env('rcversion', intval($version[0]) * 10000 + intval($version[1]) * 100 + ($version[2] ?? 0));
 
         // add cookie info
         $this->set_env('cookie_domain', ini_get('session.cookie_domain'));

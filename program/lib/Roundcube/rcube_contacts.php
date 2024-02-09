@@ -64,8 +64,8 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Object constructor
      *
-     * @param object $dbconn Instance of the rcube_db class
-     * @param int    $user   User-ID
+     * @param rcube_db $dbconn Instance of the rcube_db class
+     * @param int      $user   User-ID
      */
     public function __construct($dbconn, $user)
     {

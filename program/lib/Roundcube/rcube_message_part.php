@@ -74,6 +74,13 @@ class rcube_message_part
     public $size = 0;
 
     /**
+     * Is the $size exact or approximate
+     *
+     * @var bool
+     */
+    public $exact_size = false;
+
+    /**
      * Part body
      *
      * @var string|null
