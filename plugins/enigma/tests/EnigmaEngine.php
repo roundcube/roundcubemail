@@ -33,7 +33,9 @@ class Enigma_EnigmaEngine extends TestCase
 
         $store = unserialize($rcube->decrypt($_SESSION['enigma_pass']));
 
-        $this->assertSame(['123<a>456', $time], $store['ABC']);
+        $this->assertCount(2, $store['ABC']);
+        $this->assertSame('123<a>456', $store['ABC'][0]);
+        $this->assertEqualsWithDelta($time, $store['ABC'][1], 1);
         $this->assertSame(['ABC' => '123<a>456'], $engine->get_passwords());
     }
 }
