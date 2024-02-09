@@ -96,12 +96,12 @@ class XMail
     public function connect()
     {
         $this->socket = socket_create(\AF_INET, \SOCK_STREAM, 0);
-        if ($this->socket < 0) {
+        if (!$this->socket) {
             return false;
         }
 
         $result = socket_connect($this->socket, $this->hostname, $this->port);
-        if ($result < 0) {
+        if (!$result) {
             socket_close($this->socket);
             return false;
         }

@@ -39,9 +39,9 @@ class rcube_addresses extends rcube_contacts
     /**
      * Object constructor
      *
-     * @param object $dbconn Instance of the rcube_db class
-     * @param int    $user   User-ID
-     * @param int    $type   Type of the address (1 - recipient, 2 - trusted sender)
+     * @param rcube_db $dbconn Instance of the rcube_db class
+     * @param int      $user   User-ID
+     * @param int      $type   Type of the address (1 - recipient, 2 - trusted sender)
      */
     public function __construct($dbconn, $user, $type)
     {

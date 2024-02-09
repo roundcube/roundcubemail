@@ -173,7 +173,9 @@ class plesk_rpc
         }
 
         // Old Plesk versions require version attribute, add it and try again
-        if ($xml && $xml->site->get->result->status == 'error' && $xml->site->get->result->errcode == 1017) {
+        if ($xml && $xml->site->get->result->status === 'error'
+            && intval($xml->site->get->result->errcode ?? null) === 1017
+        ) {
             $request->addAttribute('version', '1.6.3.0');
             $packet = $request->asXML();
 
