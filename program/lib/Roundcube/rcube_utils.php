@@ -1640,6 +1640,7 @@ class rcube_utils
     public static function remove_subject_prefix($subject, $mode = 'both')
     {
         $config = rcmail::get_instance()->config;
+        $prefixes = [];
 
         // Clean subject prefix for reply, forward or both
         if ($mode == 'both') {

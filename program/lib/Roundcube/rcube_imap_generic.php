@@ -673,9 +673,10 @@ class rcube_imap_generic
                 return $this->parseResult($line);
             }
 
-            try {
-                $itoken = base64_decode(substr($line, 2));
+            $itoken = base64_decode(substr($line, 2));
+            $otoken = null;
 
+            try {
                 if (!$gssapicontext->unwrap($itoken, $itoken)) {
                     throw new Exception('GSSAPI SASL input token unwrap failed');
                 }
@@ -2822,6 +2823,9 @@ class rcube_imap_generic
 
         $binary = true;
         $initiated = false;
+        $result = false;
+        $found = false;
+        $mode = 0;
 
         do {
             if (!$initiated) {
@@ -2874,6 +2878,7 @@ class rcube_imap_generic
             }
 
             // handle UNKNOWN-CTE response - RFC 3516, try again with standard BODY request
+            // @phpstan-ignore-next-line
             if ($binary && !$found && preg_match('/^' . $key . ' NO \[(UNKNOWN-CTE|PARSE)\]/i', $line)) {
                 $binary = $initiated = false;
                 continue;
@@ -2928,6 +2933,7 @@ class rcube_imap_generic
                 elseif (!$mode && !$file && !$print) {
                     $result = $this->readBytes($bytes);
                 } else {
+                    $result = '';
                     while ($bytes > 0) {
                         $chunk = $this->readBytes($bytes > $chunkSize ? $chunkSize : $bytes);
 
@@ -2957,12 +2963,14 @@ class rcube_imap_generic
                     }
                 }
             }
-        } while (!$this->startsWith($line, $key, true) || !$initiated);
+        } while (!$initiated || !$this->startsWith($line, $key, true)); // @phpstan-ignore-line
 
         if ($result !== false) {
             if ($file) {
                 return fwrite($file, $result);
-            } elseif ($print) {
+            }
+
+            if ($print) {
                 echo $result;
                 return true;
             }
@@ -3492,8 +3500,8 @@ class rcube_imap_generic
     /**
      * Send the SETMETADATA command with NIL values (RFC5464)
      *
-     * @param string $mailbox Mailbox name
-     * @param array  $entries Entry names array
+     * @param string       $mailbox Mailbox name
+     * @param array|string $entries Entry names array (or space separated string)
      *
      * @return bool True on success, False on failure
      *
@@ -3814,7 +3822,7 @@ class rcube_imap_generic
             $orig_part = $part;
             $pos = strpos($part, '.');
             $rest = substr($orig_part, $pos + 1);
-            $part = substr($orig_part, 0, $pos);
+            $part = (int) substr($orig_part, 0, $pos);
 
             return self::getStructurePartArray($a[$part - 1], $rest);
         } elseif ($part > 0) {
@@ -3949,6 +3957,7 @@ class rcube_imap_generic
                         // error
                     }
 
+                    $bytes = (int) $bytes;
                     $result[] = $bytes ? substr($str, $epos + 3, $bytes) : '';
                     $str = substr($str, $epos + 3 + $bytes);
                     break;

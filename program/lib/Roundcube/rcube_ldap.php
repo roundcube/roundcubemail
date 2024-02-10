@@ -25,7 +25,6 @@
  */
 class rcube_ldap extends rcube_addressbook
 {
-    // public properties
     public $primary_key = 'ID';
     public $groups = false;
     public $readonly = true;
@@ -34,8 +33,9 @@ class rcube_ldap extends rcube_addressbook
     public $coltypes = [];
     public $export_groups = false;
 
-    // private properties
+    /** @var ?rcube_ldap_generic LDAP handler */
     protected $ldap;
+
     protected $formats = [];
     protected $prop = [];
     protected $fieldmap = [];

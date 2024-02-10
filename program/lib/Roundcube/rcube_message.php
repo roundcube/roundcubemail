@@ -1217,6 +1217,8 @@ class rcube_message
             return $name;
         }
 
+        $charsets = [];
+
         // find charset from part or its parent(s)
         if ($part->charset) {
             $charsets[] = $part->charset;

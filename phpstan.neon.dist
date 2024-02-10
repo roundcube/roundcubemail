@@ -7,5 +7,9 @@ parameters:
         - .
     excludePaths:
         - vendor
+
+    ignoreErrors:
+        - '~class (GSSAPIContext|KRB5CCache)~'
+
     scanFiles:
         - vendor/pear/pear-core-minimal/src/PEAR.php

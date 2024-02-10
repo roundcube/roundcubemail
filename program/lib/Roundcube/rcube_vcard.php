@@ -247,6 +247,7 @@ class rcube_vcard
 
                     // split ADR values into assoc array
                     if ($tag == 'ADR') {
+                        $value = [];
                         if (isset($raw[2])) {
                             $value['street'] = $raw[2];
                         }

@@ -53,7 +53,7 @@ class rcube_smtp
         // reset error/response var
         $this->error = $this->response = null;
 
-        if (!$host) {
+        if (empty($host)) {
             $host = $rcube->config->get('smtp_host', 'localhost:587');
             if (is_array($host)) {
                 if (array_key_exists($_SESSION['storage_host'], $host)) {
@@ -64,7 +64,7 @@ class rcube_smtp
                     return false;
                 }
             }
-        } elseif (!empty($port) && !empty($host) && !preg_match('/:\d+$/', $host)) {
+        } elseif (!empty($port) && !preg_match('/:\d+$/', $host)) {
             $host = "{$host}:{$port}";
         }
 

@@ -326,7 +326,7 @@ class rcube_result_index
     /**
      * Return all messages in the result.
      *
-     * @return array List of message IDs
+     * @return string List of message IDs
      */
     public function get_compressed()
     {
