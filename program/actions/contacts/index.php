@@ -347,7 +347,11 @@ class rcmail_action_contacts_index extends rcmail_action
         }
     }
 
-    // instantiate a contacts object according to the given source
+    /**
+     * Instantiate a contacts object according to the given source
+     *
+     * @return rcube_addressbook Contacts handler
+     */
     public static function contact_source($source = null, $init_env = false, $writable = false)
     {
         if ($source === null || !strlen((string) $source)) {

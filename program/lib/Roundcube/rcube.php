@@ -208,11 +208,11 @@ class rcube
     /**
      * Initialize and get user cache object
      *
-     * @param string $name    Cache identifier
-     * @param string $type    Cache type ('db', 'apc', 'memcache', 'redis')
-     * @param string $ttl     Expiration time for cache items
-     * @param bool   $packed  Enables/disables data serialization
-     * @param bool   $indexed Use indexed cache
+     * @param string     $name    Cache identifier
+     * @param string     $type    Cache type ('db', 'apc', 'memcache', 'redis')
+     * @param string|int $ttl     Expiration time for cache items
+     * @param bool       $packed  Enables/disables data serialization
+     * @param bool       $indexed Use indexed cache
      *
      * @return rcube_cache|null User cache object
      */
@@ -788,10 +788,12 @@ class rcube
             include $file;
             ob_end_clean();
 
+            // @phpstan-ignore-next-line
             if (!empty($labels)) {
                 $texts = array_merge($texts, $labels);
             }
 
+            // @phpstan-ignore-next-line
             if (!empty($messages)) {
                 $texts = array_merge($texts, $messages);
             }

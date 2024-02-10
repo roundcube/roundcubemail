@@ -654,8 +654,8 @@ class html_select extends html
     /**
      * Get HTML code for this object
      *
-     * @param string $select Value of the selection option
-     * @param array  $attrib Additional attributes to override
+     * @param string|array $select Value of the selection option
+     * @param ?array       $attrib Additional attributes to override
      *
      * @return string HTML output
      */

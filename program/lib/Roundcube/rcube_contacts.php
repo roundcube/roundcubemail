@@ -285,12 +285,12 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Search contacts
      *
-     * @param mixed $fields   The field name or array of field names to search in
-     * @param mixed $value    Search value (or array of values when $fields is array)
-     * @param int   $mode     Search mode. Sum of rcube_addressbook::SEARCH_*
-     * @param bool  $select   True if results are requested, False if count only
-     * @param bool  $nocount  True to skip the count query (select only)
-     * @param array $required List of fields that cannot be empty
+     * @param mixed        $fields   The field name or array of field names to search in
+     * @param mixed        $value    Search value (or array of values when $fields is array)
+     * @param int          $mode     Search mode. Sum of rcube_addressbook::SEARCH_*
+     * @param bool         $select   True if results are requested, False if count only
+     * @param bool         $nocount  True to skip the count query (select only)
+     * @param string|array $required List of fields that cannot be empty
      *
      * @return rcube_result_set Contact records and 'count' value
      */

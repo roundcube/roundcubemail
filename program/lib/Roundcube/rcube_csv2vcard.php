@@ -392,10 +392,12 @@ class rcube_csv2vcard
     {
         // Localize fields map
         if ($lang && $lang != 'en_US') {
+            $map = null;
             if (file_exists(RCUBE_LOCALIZATION_DIR . "{$lang}/csv2vcard.inc")) {
                 include RCUBE_LOCALIZATION_DIR . "{$lang}/csv2vcard.inc";
             }
 
+            // @phpstan-ignore-next-line
             if (!empty($map)) {
                 $this->local_label_map = array_merge($this->label_map, $map);
             }

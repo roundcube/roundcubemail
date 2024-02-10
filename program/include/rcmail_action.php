@@ -791,9 +791,10 @@ abstract class rcmail_action
 
         $is_multifolder = false;
         $result = [];
+        $is_multifolder = !empty($_SESSION['search'][1]) && $_SESSION['search'][1] instanceof rcube_result_multifolder;
 
         // special case: *
-        if ($_uid == '*' && !empty($_SESSION['search'][1]) && !empty($_SESSION['search'][1]->multi)) {
+        if ($_uid == '*' && $is_multifolder) {
             $is_multifolder = true;
             // extract the full list of UIDs per folder from the search set
             foreach ($_SESSION['search'][1]->sets as $subset) {

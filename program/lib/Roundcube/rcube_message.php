@@ -518,6 +518,8 @@ class rcube_message
 
     /**
      * Return message parts in current context
+     *
+     * @return array<rcube_message_part> Message parts
      */
     public function mime_parts()
     {

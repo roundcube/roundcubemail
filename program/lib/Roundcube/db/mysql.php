@@ -60,7 +60,6 @@ class rcube_db_mysql extends rcube_db
     protected function dsn_string($dsn)
     {
         $params = [];
-        $result = 'mysql:';
 
         if (isset($dsn['database'])) {
             $params[] = 'dbname=' . $dsn['database'];
@@ -80,11 +79,7 @@ class rcube_db_mysql extends rcube_db
 
         $params[] = 'charset=' . (!empty($dsn['charset']) ? $dsn['charset'] : 'utf8mb4');
 
-        if (!empty($params)) {
-            $result .= implode(';', $params);
-        }
-
-        return $result;
+        return 'mysql:' . implode(';', $params);
     }
 
     /**

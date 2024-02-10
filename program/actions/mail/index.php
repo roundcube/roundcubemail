@@ -422,7 +422,9 @@ class rcmail_action_mail_index extends rcmail_action
     }
 
     /**
-     * return javascript commands to add rows to the message list
+     * Returns javascript commands to add rows to the message list
+     *
+     * @param array<rcube_message_header> $a_headers List of messages
      */
     public static function js_message_list($a_headers, $insert_top = false, $a_show_cols = null)
     {
@@ -510,6 +512,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         // loop through message headers
         foreach ($a_headers as $header) {
+            /** @var ?rcube_message_header $header */
             if (empty($header) || empty($header->size)) {
                 continue;
             }
@@ -591,8 +594,10 @@ class rcmail_action_mail_index extends rcmail_action
             $a_msg_flags['ctype'] = rcube::Q($header->ctype);
             $a_msg_flags['mbox'] = $header->folder;
 
-            // merge with plugin result (Deprecated, use $header->flags)
+            // Merge with plugin result
+            // @phpstan-ignore-next-line Deprecated, use $header->flags
             if (!empty($header->list_flags) && is_array($header->list_flags)) {
+                // @phpstan-ignore-next-line
                 $a_msg_flags = array_merge($a_msg_flags, $header->list_flags);
             }
             if (!empty($header->list_cols) && is_array($header->list_cols)) {
@@ -1651,7 +1656,7 @@ class rcmail_action_mail_index extends rcmail_action
     // Return mimetypes supported by the browser
     public static function supported_mimetypes()
     {
-        $rcmail = rcube::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // mimetypes supported by the browser (default settings)
         $mimetypes = (array) $rcmail->config->get('client_mimetypes');

@@ -54,7 +54,7 @@ class rcmail_sendmail
      */
     public function __construct($data = [], $options = [])
     {
-        $this->rcmail = rcube::get_instance();
+        $this->rcmail = rcmail::get_instance();
         $this->data = (array) $data;
         $this->options = (array) $options;
 
@@ -522,6 +522,7 @@ class rcmail_sendmail
             if ($store_folder) {
                 // message body in file
                 $msg_id = $message->headers()['Message-ID'];
+                $headers = '';
 
                 if ($message->getParam('delay_file_io') && empty($this->temp_files[$msg_id])) {
                     $msg_file = rcube_utils::temp_filename('msg');
@@ -537,7 +538,6 @@ class rcmail_sendmail
                     $headers = $message->txtHeaders();
                 } elseif (empty($msg)) {
                     $msg = $message->getMessage();
-                    $headers = '';
                 }
 
                 if (is_a($msg, 'PEAR_Error')) {
@@ -1033,11 +1033,12 @@ class rcmail_sendmail
      */
     protected function compose_header_value($header, $mode)
     {
-        $fvalue = '';
-        $decode_header = true;
+        /** @var rcube_message $message */
         $message = $this->options['message'];
         $charset = !empty($message->headers) ? $message->headers->charset : RCUBE_CHARSET;
         $separator = ', ';
+        $fvalue = '';
+        $decode_header = true;
 
         if (!isset($this->data['recipients'])) {
             $this->data['recipients'] = [];
@@ -1677,7 +1678,7 @@ class rcmail_sendmail
      */
     public static function collect_recipients($message)
     {
-        $rcmail = rcube::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // Find the addressbook source
         $collected_recipients = $rcmail->config->get('collected_recipients');

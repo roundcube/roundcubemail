@@ -46,17 +46,17 @@ class rcube_cache
     /**
      * Object factory
      *
-     * @param string $type    Engine type ('db', 'memcache', 'apc', 'redis')
-     * @param int    $userid  User identifier
-     * @param string $prefix  Key name prefix
-     * @param string $ttl     Expiration time of memcache/apc items
-     * @param bool   $packed  Enables/disabled data serialization.
-     *                        It's possible to disable data serialization if you're sure
-     *                        stored data will be always a safe string
-     * @param bool   $indexed Use indexed cache. Indexed cache is more appropriate for
-     *                        storing big data with possibility to remove it by a key prefix.
-     *                        Non-indexed cache does not remove data, but flags it for expiration,
-     *                        also stores it in memory until close() method is called.
+     * @param string     $type    Engine type ('db', 'memcache', 'apc', 'redis')
+     * @param int        $userid  User identifier
+     * @param string     $prefix  Key name prefix
+     * @param int|string $ttl     Expiration time of memcache/apc items
+     * @param bool       $packed  Enables/disabled data serialization.
+     *                            It's possible to disable data serialization if you're sure
+     *                            stored data will be always a safe string
+     * @param bool       $indexed Use indexed cache. Indexed cache is more appropriate for
+     *                            storing big data with possibility to remove it by a key prefix.
+     *                            Non-indexed cache does not remove data, but flags it for expiration,
+     *                            also stores it in memory until close() method is called.
      *
      * @return rcube_cache Cache object
      */
@@ -79,16 +79,16 @@ class rcube_cache
     /**
      * Object constructor.
      *
-     * @param int    $userid  User identifier
-     * @param string $prefix  Key name prefix
-     * @param string $ttl     Expiration time of memcache/apc items
-     * @param bool   $packed  Enables/disabled data serialization.
-     *                        It's possible to disable data serialization if you're sure
-     *                        stored data will be always a safe string
-     * @param bool   $indexed Use indexed cache. Indexed cache is more appropriate for
-     *                        storing big data with possibility to remove it by key prefix.
-     *                        Non-indexed cache does not remove data, but flags it for expiration,
-     *                        also stores it in memory until close() method is called.
+     * @param int        $userid  User identifier
+     * @param string     $prefix  Key name prefix
+     * @param int|string $ttl     Expiration time of memcache/apc items
+     * @param bool       $packed  Enables/disabled data serialization.
+     *                            It's possible to disable data serialization if you're sure
+     *                            stored data will be always a safe string
+     * @param bool       $indexed Use indexed cache. Indexed cache is more appropriate for
+     *                            storing big data with possibility to remove it by key prefix.
+     *                            Non-indexed cache does not remove data, but flags it for expiration,
+     *                            also stores it in memory until close() method is called.
      */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
