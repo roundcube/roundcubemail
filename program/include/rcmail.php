@@ -309,7 +309,7 @@ class rcmail extends rcube
      * @param bool   $writeable True if the address book needs to be writeable
      * @param bool   $fallback  Fallback to the first existing source, if the configured default wasn't found
      *
-     * @return rcube_contacts|null Address book object
+     * @return rcube_addressbook|null Address book object
      */
     public function get_address_book($id, $writeable = false, $fallback = true)
     {
@@ -1278,7 +1278,7 @@ class rcmail extends rcube
             }
         }
 
-        if (($search_mods = $this->config->get('search_mods')) && !empty($search_mods)) {
+        if (($search_mods = $this->config->get('search_mods')) && count($search_mods) > 0) {
             $folders = [];
             foreach ($search_mods as $idx => $value) {
                 if ($idx != 'INBOX' && $idx != '*' && !preg_match($regexp, $idx)) {
@@ -1290,7 +1290,7 @@ class rcmail extends rcube
             $prefs['search_mods'] = $folders;
         }
 
-        if (($threading = $this->config->get('message_threading')) && !empty($threading)) {
+        if (($threading = $this->config->get('message_threading')) && count($threading) > 0) {
             $folders = [];
             foreach ($threading as $idx => $value) {
                 if ($idx != 'INBOX' && !preg_match($regexp, $idx)) {
@@ -1590,9 +1590,9 @@ class rcmail extends rcube
      * Convert the given date to a human readable form
      * This uses the date formatting properties from config
      *
-     * @param mixed  $date    Date representation (string, timestamp or DateTimeInterface)
-     * @param string $format  Date format to use
-     * @param bool   $convert Enables date conversion according to user timezone
+     * @param string|int|DateTime|DateTimeImmutable $date    Date representation
+     * @param string                                $format  Date format to use
+     * @param bool                                  $convert Enables date conversion according to user timezone
      *
      * @return string Formatted date string
      */
@@ -1626,6 +1626,7 @@ class rcmail extends rcube
 
                 $timestamp = $date->format('U');
             } catch (Exception $e) {
+                // ignore
             }
         }
 

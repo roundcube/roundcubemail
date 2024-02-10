@@ -21,6 +21,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 {
     protected static $COMPOSE_ID;
     protected static $COMPOSE;
+
+    /** @var ?rcube_message Mail message */
     protected static $MESSAGE;
     protected static $MESSAGE_BODY;
     protected static $CID_MAP = [];
@@ -363,7 +365,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         foreach ($add_addresses as $addr) {
                             if (!in_array($addr['mailto'], $to_addresses)) {
                                 $to_addresses[] = $addr['mailto'];
-                                $COMPOSE['param']['to'] = (!empty($to_addresses) ? ', ' : '') . $addr['string'];
+                                $COMPOSE['param']['to'] = (count($to_addresses) > 0 ? ', ' : '') . $addr['string'];
                             }
                         }
                     } else {
@@ -877,6 +879,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     /**
      * Get reply header for the composed message body
+     *
+     * @param rcube_message $message Mail message
      */
     public static function get_reply_header($message)
     {
@@ -907,6 +911,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     /**
      * Get forward header for the composed message body
+     *
+     * @param rcube_message $message Mail message
      */
     public static function get_forward_header($message, $bodyIsHtml = false, $extended = true)
     {
@@ -1040,6 +1046,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     /**
      * Handle inline attachments in the message body
+     *
+     * @param rcube_message $message Mail message
      */
     public static function write_compose_attachments(&$message, $bodyIsHtml, &$message_body)
     {
@@ -1134,6 +1142,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
     /**
      * Create a map of attachment content-id/content-locations
+     *
+     * @param rcube_message $message Mail message
      */
     public static function cid_map($message)
     {
@@ -1144,7 +1154,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $messages = [];
         $map = [];
 
-        foreach ((array) $message->mime_parts() as $pid => $part) {
+        foreach ($message->mime_parts() as $pid => $part) {
             if ($part->mimetype == 'message/rfc822') {
                 $messages[] = $part->mime_id;
             }

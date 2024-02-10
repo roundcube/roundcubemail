@@ -52,7 +52,7 @@ class markasjunk extends rcube_plugin
         $this->register_action('plugin.markasjunk.junk', [$this, 'mark_message']);
         $this->register_action('plugin.markasjunk.not_junk', [$this, 'mark_message']);
 
-        $this->rcube = rcube::get_instance();
+        $this->rcube = rcmail::get_instance();
         $this->load_config();
         $this->_load_host_config();
 

@@ -490,7 +490,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
             if ($redirect && !empty($this->vacation['target'])) {
                 $parts = explode('@', $this->vacation['target']);
-                if (!empty($parts)) {
+                if (count($parts) > 1) {
                     $this->vacation['domain'] = array_pop($parts);
                     $this->vacation['target'] = implode('@', $parts);
                 }
@@ -519,6 +519,8 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             $table->add(null, $date_from->show(!empty($date_value['from']) ? $date_value['from'] : null)
                 . (!empty($time_from) ? ' ' . $time_from->show(!empty($date_value['time_from']) ? $date_value['time_from'] : null) : '')
             );
+        }
+        if (!empty($date_to)) {
             $table->add('title', html::label('vacation_dateto', $this->plugin->gettext('vacation.end')));
             $table->add(null, $date_to->show(!empty($date_value['to']) ? $date_value['to'] : null)
                 . (!empty($time_to) ? ' ' . $time_to->show(!empty($date_value['time_to']) ? $date_value['time_to'] : null) : ''));

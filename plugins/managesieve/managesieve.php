@@ -59,20 +59,21 @@ class managesieve extends rcube_plugin
         $this->register_action('plugin.managesieve-save', [$this, 'managesieve_save']);
         $this->register_action('plugin.managesieve-saveraw', [$this, 'managesieve_saveraw']);
 
-        if ($this->rc->task == 'settings') {
+        $task = $this->rc->task ?? null;
+        $action = $this->rc->action ?? null;
+
+        if ($task == 'settings') {
             $this->add_hook('settings_actions', [$this, 'settings_actions']);
             $this->init_ui();
-        } elseif ($this->rc->task == 'mail') {
+        } elseif ($task == 'mail') {
             $this->add_hook('storage_init', [$this, 'storage_init']);
 
-            if ($this->rc->action == 'show') {
+            if ($action == 'show') {
                 $this->add_hook('message_headers_output', [$this, 'mail_headers']);
             }
 
             // inject Create Filter popup stuff
-            if (empty($this->rc->action) || $this->rc->action == 'show'
-                || strpos($this->rc->action, 'plugin.managesieve') === 0
-            ) {
+            if (empty($action) || $action == 'show' || strpos($action, 'plugin.managesieve') === 0) {
                 $this->mail_task_handler();
             }
         }

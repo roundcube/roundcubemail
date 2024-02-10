@@ -55,11 +55,9 @@ class rcube_miab_password
             ];
 
             $response = $client->post($host, $request);
+            $result = $response->getBody();
 
-            if (
-                $response->getStatusCode() == 200
-                && trim($result = $response->getBody()) === 'OK'
-            ) {
+            if ($response->getStatusCode() == 200 && trim($result) === 'OK') {
                 return PASSWORD_SUCCESS;
             }
         } catch (Exception $e) {

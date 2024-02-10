@@ -40,7 +40,7 @@ class markasjunk_email_learn
 
     private function _do_emaillearn($uids, $spam)
     {
-        $this->rcube = rcube::get_instance();
+        $this->rcube = rcmail::get_instance();
         $identity = $this->rcube->user->get_identity();
         $from = $identity['email'];
         $from_string = format_email_recipient($from, $identity['name']);

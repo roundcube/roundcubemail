@@ -99,6 +99,7 @@ class subscriptions_option extends rcube_plugin
         $rcmail = rcmail::get_instance();
 
         if (!$rcmail->config->get('use_subscriptions', true)) {
+            /** @var rcube_imap $storage */
             $storage = $rcmail->get_storage();
 
             if ($folders = $storage->list_folders_direct($args['root'], $args['name'])) {

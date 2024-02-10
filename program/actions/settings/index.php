@@ -961,6 +961,7 @@ class rcmail_action_settings_index extends rcmail_action
                     // Font settings are made up of 2 parts, font name and font size
                     // Compute the settings first to discover is anything to display to the user
                     $font_settings = '';
+                    $field_id = null;
 
                     // Default font
                     if (!isset($no_override['default_font'])) {

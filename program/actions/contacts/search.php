@@ -129,7 +129,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             // get contacts count
             $result = $source->search($fields, $search, $mode, false);
 
-            if (empty($result) || !$result->count) {
+            if (!$result->count) {
                 continue;
             }
 

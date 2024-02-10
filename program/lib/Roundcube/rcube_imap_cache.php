@@ -504,7 +504,7 @@ class rcube_imap_cache
      * Sets the flag for specified message.
      *
      * @param string $mailbox Folder name
-     * @param array  $uids    Message UIDs or null to change flag
+     * @param ?array $uids    Message UIDs or null to change flag
      *                        of all messages in a folder
      * @param string $flag    The name of the flag
      * @param bool   $enabled Flag state
@@ -521,11 +521,12 @@ class rcube_imap_cache
 
         $flag = strtoupper($flag);
         $idx = (int) array_search($flag, $this->flags);
-        $uids = (array) $uids;
 
         if (!$idx) {
             return;
         }
+
+        $uids = (array) $uids;
 
         // Internal cache update
         if (
@@ -547,7 +548,7 @@ class rcube_imap_cache
             . ', `flags` = `flags` ' . ($enabled ? "+ {$idx}" : "- {$idx}")
             . ' WHERE `user_id` = ?'
                 . ' AND `mailbox` = ?'
-                . (!empty($uids) ? ' AND `uid` IN (' . $this->db->array2list($uids, 'integer') . ')' : '')
+                . (count($uids) > 0 ? ' AND `uid` IN (' . $this->db->array2list($uids, 'integer') . ')' : '')
                 . " AND (`flags` & {$idx}) = " . ($enabled ? '0' : $idx),
             $this->userid, $mailbox
         );

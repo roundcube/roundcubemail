@@ -50,11 +50,10 @@ class rcmail_action_utils_modcss extends rcmail_action
             $client = rcube::get_instance()->get_http_client();
             $response = $client->get($realurl);
 
-            if (!empty($response)) {
-                $ctype = $response->getHeader('Content-Type');
-                $ctype = !empty($ctype) ? $ctype[0] : '';
-                $source = $response->getBody();
-            }
+            $source = $response->getBody();
+
+            $ctype = $response->getHeader('Content-Type');
+            $ctype = !empty($ctype) ? $ctype[0] : '';
         } catch (Exception $e) {
             rcube::raise_error($e, true, false);
         }

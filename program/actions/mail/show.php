@@ -19,7 +19,9 @@
 
 class rcmail_action_mail_show extends rcmail_action_mail_index
 {
+    /** @var ?rcube_message Mail message */
     protected static $MESSAGE;
+
     protected static $CLIENT_MIMETYPES = [];
 
     /**

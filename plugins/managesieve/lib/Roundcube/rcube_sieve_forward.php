@@ -284,7 +284,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
 
             if ($redirect && !empty($this->forward['target'])) {
                 $parts = explode('@', $this->forward['target']);
-                if (!empty($parts)) {
+                if (count($parts) > 1) {
                     $this->forward['domain'] = array_pop($parts);
                     $this->forward['target'] = implode('@', $parts);
                 }
@@ -368,9 +368,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
             return false;
         }
 
-        if (empty($forward_tests)) {
-            $forward_tests = (array) $this->rc->config->get('managesieve_forward_test', [['test' => 'true']]);
-        }
+        $forward_tests = (array) $this->rc->config->get('managesieve_forward_test', [['test' => 'true']]);
 
         $rule = $this->forward;
         $rule['type'] = 'if';

@@ -170,7 +170,12 @@ class rcube_ldap_simple_password
         }
 
         // Connection method
-        switch ($rcmail->config->get('password_ldap_method')) {
+        $bind_method = $rcmail->config->get('password_ldap_method');
+        $binddn = $user_dn;
+        $bindpw = $curpass;
+        $bindmech = $bindrealm = null;
+
+        switch ($bind_method) {
             case 'sasl':
                 $binddn = $rcmail->config->get('password_ldap_adminDN');
                 $bindpw = $rcmail->config->get('password_ldap_adminPW');
@@ -181,18 +186,13 @@ class rcube_ldap_simple_password
                 $binddn = $rcmail->config->get('password_ldap_adminDN');
                 $bindpw = $rcmail->config->get('password_ldap_adminPW');
                 break;
-            case 'user':
-            default:
-                $binddn = $user_dn;
-                $bindpw = $curpass;
-                break;
         }
 
         $this->_debug("C: Bind {$binddn}, pass: **** [" . strlen($bindpw) . ']');
 
         // Bind
-        if ($rcmail->config->get('password_ldap_method') == 'sasl') {
-            if (!ldap_sasl_bind($ds, $binddb, $bindpw, $bindmech, $bindrealm)) {
+        if ($bind_method == 'sasl') {
+            if (!ldap_sasl_bind($ds, $binddn, $bindpw, $bindmech, $bindrealm)) {
                 $this->_debug('S: ' . ldap_error($ds));
 
                 ldap_unbind($ds);

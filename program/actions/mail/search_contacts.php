@@ -57,7 +57,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
                 continue;
             }
 
-            while ($row = $result->next()) {
+            foreach ($result as $row) {
                 $row['sourceid'] = $s['id'];
                 $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
                 $records[$key] = $row;
@@ -83,9 +83,9 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
         $result->records = array_values($records);
 
-        if (!empty($result) && $result->count > 0) {
+        if ($result->count > 0) {
             // create javascript list
-            while ($row = $result->next()) {
+            foreach ($result as $row) {
                 $name = rcube_addressbook::compose_list_name($row);
                 $is_group = isset($row['_type']) && $row['_type'] == 'group';
                 $classname = $is_group ? 'group' : 'person';

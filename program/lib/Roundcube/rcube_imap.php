@@ -460,7 +460,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $name Namespace array index: personal, other, shared, prefix
      *
-     * @return array Namespace data
+     * @return null|string|array Namespace data
      */
     public function get_namespace($name = null)
     {
@@ -840,7 +840,7 @@ class rcube_imap extends rcube_storage
      * @param string $sort_order Sort order [ASC|DESC]
      * @param int    $slice      Number of slice items to extract from result array
      *
-     * @return array Indexed array with message header objects
+     * @return array<rcube_message_header> Indexed array with message header objects
      */
     public function list_messages($folder = '', $page = null, $sort_field = null, $sort_order = null, $slice = 0)
     {

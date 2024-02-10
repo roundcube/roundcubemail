@@ -398,7 +398,7 @@ abstract class rcube_addressbook
     {
         $ids = [];
         if ($recset instanceof rcube_result_set) {
-            while ($row = $recset->next()) {
+            foreach ($recset as $row) {
                 if ($insert = $this->insert($row, $check)) {
                     $ids[] = $insert;
                 }
@@ -740,7 +740,7 @@ abstract class rcube_addressbook
                 $fn = $org;
             }
             // ... email address
-            elseif (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+            elseif (($email = self::get_col_values('email', $contact, true)) && count($email) > 0) {
                 $fn = $email[0];
             }
         }
@@ -827,7 +827,7 @@ abstract class rcube_addressbook
         $key = $contact[$sort_col] ?? null;
 
         // add email to a key to not skip contacts with the same name (#1488375)
-        if (($email = self::get_col_values('email', $contact, true)) && !empty($email)) {
+        if (($email = self::get_col_values('email', $contact, true)) && count($email) > 0) {
             $key .= ':' . implode(':', (array) $email);
         }
 
