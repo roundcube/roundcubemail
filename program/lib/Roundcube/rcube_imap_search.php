@@ -32,7 +32,7 @@ class rcube_imap_search
     /** @var int Time limit in seconds */
     protected $timelimit = 0;
 
-    /** @var array Search results */
+    /** @var ?rcube_result_multifolder Search results */
     protected $results;
 
     /** @var rcube_imap_generic IMAP connection object */
@@ -108,7 +108,7 @@ class rcube_imap_search
     /**
      * Setter for previous (potentially incomplete) search results
      *
-     * @param array $res Search result
+     * @param rcube_result_multifolder $res Search result
      */
     public function set_results($res)
     {

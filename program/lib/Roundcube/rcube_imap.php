@@ -32,23 +32,18 @@ class rcube_imap extends rcube_storage
     public $conn;
 
     /**
-     * Instance of rcube_imap_cache
-     *
-     * @var rcube_imap_cache
-     */
+     * @var ?rcube_imap_cache Instance of rcube_imap_cache */
     protected $mcache;
 
-    /**
-     * Instance of rcube_cache
-     *
-     * @var rcube_cache
-     */
+    /** @var ?rcube_cache Instance of rcube_cache */
     protected $cache;
 
     protected $plugins;
     protected $delimiter;
     protected $namespace;
     protected $struct_charset;
+
+    /** @var rcube_result_thread|rcube_result_index|rcube_result_multifolder Search result */
     protected $search_set;
     protected $search_string = '';
     protected $search_charset = '';
@@ -1588,10 +1583,10 @@ class rcube_imap extends rcube_storage
     /**
      * Invoke search request to IMAP server
      *
-     * @param string $folder     Folder name to search in
-     * @param string $search     Search criteria
-     * @param string $charset    Search charset
-     * @param string $sort_field Header field to sort by
+     * @param string|array $folder     Folder name(s) to search in
+     * @param string       $search     Search criteria
+     * @param string       $charset    Search charset
+     * @param string       $sort_field Header field to sort by
      *
      * @return rcube_result_index Search result object
      *
@@ -1795,7 +1790,7 @@ class rcube_imap extends rcube_storage
                 }
 
                 $res .= substr($str, $last, $m[1] - $last - 1) . rcube_imap_generic::escape($string);
-                $last = $m[0] + $string_offset - 1;
+                $last = intval($m[0]) + $string_offset - 1;
             }
 
             if ($last < strlen($str)) {

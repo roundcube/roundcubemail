@@ -92,7 +92,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
         }
 
         if (empty($response)) {
-            $this->error = $e ? $e->getMessage() : 'Spelling engine failure';
+            $this->error = isset($e) ? $e->getMessage() : 'Spelling engine failure';
         } elseif ($response->getStatusCode() != 200) {
             $this->error = 'HTTP ' . $response->getReasonPhrase();
         } else {

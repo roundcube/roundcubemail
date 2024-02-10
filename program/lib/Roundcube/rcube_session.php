@@ -550,7 +550,7 @@ abstract class rcube_session implements SessionHandlerInterface
                             }
                             $q++;
                             // increment pointer because of outer array
-                            $serialized .= 'R:' . ($id + 1) . ';';
+                            $serialized .= 'R:' . (intval($id) + 1) . ';';
                             if ($level == 0) {
                                 break 2;
                             }

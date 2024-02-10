@@ -322,7 +322,7 @@ class rcube_result_thread
     /**
      * Return all messages in the result.
      *
-     * @return array List of message identifiers
+     * @return string List of message identifiers
      */
     public function get_compressed()
     {
@@ -608,7 +608,7 @@ class rcube_result_thread
             $stop = $begin + strcspn($str, '()', $begin, $end - $begin);
             $messages = explode(' ', trim(substr($str, $begin, $stop - $begin)));
 
-            if (empty($messages)) {
+            if (empty($messages[0])) {
                 return $node;
             }
 

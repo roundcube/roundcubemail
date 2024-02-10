@@ -297,7 +297,7 @@ class rcube_washtml
     /**
      * Take a node and return allowed attributes and check values
      *
-     * @param DOMNode $node Document element
+     * @param DOMElement $node Document element
      *
      * @return string Washed element attributes
      */
@@ -574,7 +574,8 @@ class rcube_washtml
 
         do {
             switch ($node->nodeType) {
-                case \XML_ELEMENT_NODE: // Check element
+                case \XML_ELEMENT_NODE:
+                    /** @var DOMElement $node */
                     $tagName = strtolower($node->nodeName);
 
                     if ($tagName == 'link') {
