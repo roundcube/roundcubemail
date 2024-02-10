@@ -335,7 +335,7 @@ abstract class rcube_storage
      *
      * @param string $name Namespace array index: personal, other, shared, prefix
      *
-     * @return null|string|array Namespace data
+     * @return string|array|null Namespace data
      */
     abstract public function get_namespace($name = null);
 
