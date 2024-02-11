@@ -1,13 +1,24 @@
+includes:
+    - phpstan-baseline.neon
+
 parameters:
-    level: 2
+    level: 4
     paths:
         - .
     excludePaths:
         - vendor
 
-    ignoreErrors:
-        - '~class (GSSAPIContext|KRB5CCache)~'
-        - '~Function pam_chpass invoked with 3 parameters, 4-5 required~'
-
     scanFiles:
+        # https://github.com/pear/pear-core-minimal/pull/15
+        # remove once new release (1.10.15) is tagged - https://github.com/pear/pear-core-minimal/tags
         - vendor/pear/pear-core-minimal/src/PEAR.php
+
+    ignoreErrors:
+        # https://github.com/php/pecl-authentication-krb5
+        -
+            path: 'program/lib/Roundcube/rcube_imap_generic.php'
+            message: '~^(Instantiated class (GSSAPIContext|KRB5CCache) not found|Call to method \w+\(\) on an unknown class (GSSAPIContext|KRB5CCache))\.$~'
+            count: 7
+
+        # https://github.com/phpstan/phpstan/issues/10499
+        - '~^Function pam_chpass invoked with 3 parameters, 4-5 required\.$~'
