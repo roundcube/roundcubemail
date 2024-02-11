@@ -8921,6 +8921,7 @@ function rcube_webmail() {
         }
 
         this.mark_all_read_state();
+        this.triggerEvent('set-unread-count', { mbox: mbox, count: count });
     };
 
     // update the mailbox count display
