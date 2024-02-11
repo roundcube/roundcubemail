@@ -40,6 +40,23 @@ class additional_message_headers extends rcube_plugin
         $additional_headers = $rcube->config->get('additional_message_headers', []);
 
         if (!empty($additional_headers)) {
+
+	    // Expand the % config variables
+	    $search = array(
+                '/(^|[^%])%u/',
+                '/(^|[^%])%l/',
+                '/(^|[^%])%d/'
+	    );
+	    $replace = array(
+                '${1}'.$rcube->get_user_name(),
+                '${1}'.$rcube->user->get_username('local'),
+                '${1}'.$rcube->user->get_username('domain')
+	    );
+	    $additional_headers = preg_replace($search, $replace, $additional_headers);
+	
+	    // replace %%<variable> with %<variable>
+	    $additional_headers = preg_replace( '/%(%[uld])/', '${1}', $additional_headers);
+
             $args['message']->headers($additional_headers, true);
         }
 
