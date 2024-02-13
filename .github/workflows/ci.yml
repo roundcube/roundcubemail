@@ -74,5 +74,4 @@ jobs:
       - name: Run Static Analysis
         run: |
           rm -r public_html # remove once https://github.com/phpstan/phpstan/issues/10321 is fixed
-          vendor/bin/phpstan analyse --generate-baseline phpstan-baseline.neon
-          git add . -N && git diff --exit-code
+          vendor/bin/phpstan analyse
