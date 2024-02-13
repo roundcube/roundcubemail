@@ -1,22 +1,17 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: installer/check.php
-
-		-
-			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: installer/check.php
-
-		-
-			message: "#^If condition is always true\\.$#"
+			message: "#^Loose comparison using \\=\\= between 'date\\.timezone' and 'date\\.timezone' will always evaluate to true\\.$#"
 			count: 1
 			path: installer/check.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between '\\-VALID\\-' and '\\-NOTEMPTY\\-' will always evaluate to false\\.$#"
+			count: 1
+			path: installer/check.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between '\\-VALID\\-' and '\\-VALID\\-' will always evaluate to true\\.$#"
 			count: 1
 			path: installer/check.php
 
@@ -29,6 +24,11 @@ parameters:
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: installer/index.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: plugins/acl/acl.php
 
 		-
 			message: "#^Empty array passed to foreach\\.$#"
@@ -54,6 +54,11 @@ parameters:
 			message: "#^Property runlog\\:\\:\\$start_time is never read, only written\\.$#"
 			count: 1
 			path: plugins/debug_logger/runlog/runlog.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with Crypt_GPG_SubKey and 'getCreationDateTime' will always evaluate to true\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_gnupg.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -141,6 +146,11 @@ parameters:
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
+
+		-
 			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
 			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
@@ -156,8 +166,18 @@ parameters:
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
+
+		-
 			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
 			count: 2
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
+
+		-
+			message: "#^Loose comparison using \\=\\= between 'INGO' and 'INGO' will always evaluate to true\\.$#"
+			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
 
 		-
@@ -176,14 +196,14 @@ parameters:
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
 			count: 1
-			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_vacation.php
 
 		-
 			message: "#^Method HTTPSocket\\:\\:fetch_header\\(\\) should return array but returns string\\.$#"
@@ -246,7 +266,7 @@ parameters:
 			path: plugins/password/drivers/plesk.php
 
 		-
-			message: "#^If condition is always true\\.$#"
+			message: "#^Loose comparison using \\=\\= between 1 and 1 will always evaluate to true\\.$#"
 			count: 1
 			path: plugins/password/drivers/pwned.php
 
@@ -286,9 +306,19 @@ parameters:
 			path: program/actions/contacts/import.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/contacts/index.php
+
+		-
 			message: "#^Method rcmail_action_contacts_index\\:\\:contact_source\\(\\) should return rcube_addressbook but returns null\\.$#"
 			count: 1
 			path: program/actions/contacts/index.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_result_set will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/contacts/mailto.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
@@ -336,12 +366,17 @@ parameters:
 			path: program/actions/mail/compose.php
 
 		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: program/actions/mail/compose.php
 
 		-
-			message: "#^If condition is always true\\.$#"
+			message: "#^Instanceof between rcube_message_part and rcube_message_part will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/mail/compose.php
+
+		-
+			message: "#^Loose comparison using \\=\\= between 'edit' and 'edit' will always evaluate to true\\.$#"
 			count: 1
 			path: program/actions/mail/compose.php
 
@@ -356,7 +391,7 @@ parameters:
 			path: program/actions/mail/group_expand.php
 
 		-
-			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Strict comparison using \\!\\=\\= between string and false will always evaluate to true\\.$#"
 			count: 1
 			path: program/actions/mail/headers.php
 
@@ -381,6 +416,11 @@ parameters:
 			path: program/actions/mail/index.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array\\<rcube_message_part\\> will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/mail/show.php
+
+		-
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: program/actions/mail/show.php
@@ -391,12 +431,22 @@ parameters:
 			path: program/actions/mail/show.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between int and false will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/settings/folder_edit.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/settings/folder_edit.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
 			count: 1
 			path: program/actions/settings/folder_edit.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Strict comparison using \\!\\=\\= between int and false will always evaluate to true\\.$#"
 			count: 1
 			path: program/actions/settings/folder_size.php
 
@@ -404,6 +454,11 @@ parameters:
 			message: "#^Negated boolean expression is always true\\.$#"
 			count: 1
 			path: program/actions/settings/folders.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between mixed and false will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/settings/identity_delete.php
 
 		-
 			message: "#^Method rcmail_action_settings_index\\:\\:get_skins\\(\\) should return array but returns false\\.$#"
@@ -419,6 +474,16 @@ parameters:
 			message: "#^Left side of && is always true\\.$#"
 			count: 3
 			path: program/actions/utils/error.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcmail_output_cli\\|rcmail_output_html\\|rcmail_output_json will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with non\\-falsy\\-string will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -444,6 +509,16 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between string and null will always evaluate to false\\.$#"
 			count: 1
 			path: program/include/rcmail.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail_action.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between array and '' will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail_action.php
 
 		-
 			message: "#^Method rcmail_install\\:\\:check_config\\(\\) should return array but empty return statement found\\.$#"
@@ -496,12 +571,12 @@ parameters:
 			path: program/include/rcmail_oauth.php
 
 		-
-			message: "#^Comparison operation \"\\>\" between int\\<0, max\\> and \\-1 is always true\\.$#"
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
 			count: 1
 			path: program/include/rcmail_output_html.php
 
 		-
-			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Comparison operation \"\\>\" between int\\<0, max\\> and \\-1 is always true\\.$#"
 			count: 1
 			path: program/include/rcmail_output_html.php
 
@@ -511,9 +586,24 @@ parameters:
 			path: program/include/rcmail_output_html.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 3
+			path: program/include/rcmail_output_html.php
+
+		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: program/include/rcmail_output_html.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail_sendmail.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with \\*NEVER\\* will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail_sendmail.php
 
 		-
 			message: "#^If condition is always false\\.$#"
@@ -566,6 +656,21 @@ parameters:
 			path: program/include/rcmail_string_replacer.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/bootstrap.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/bootstrap.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/bootstrap.php
+
+		-
 			message: "#^Function parse_bytes\\(\\) never returns null so it can be removed from the return type\\.$#"
 			count: 1
 			path: program/lib/Roundcube/bootstrap.php
@@ -611,6 +716,11 @@ parameters:
 			path: program/lib/Roundcube/cache/memcached.php
 
 		-
+			message: "#^Call to function method_exists\\(\\) with Redis and 'del' will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/cache/redis.php
+
+		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 3
 			path: program/lib/Roundcube/cache/redis.php
@@ -621,9 +731,44 @@ parameters:
 			path: program/lib/Roundcube/cache/redis.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/html.php
+
+		-
 			message: "#^Call to function is_string\\(\\) with array will always evaluate to false\\.$#"
 			count: 2
 			path: program/lib/Roundcube/html.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/html.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 3
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_cache will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_plugin_api will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_user will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -671,6 +816,16 @@ parameters:
 			path: program/lib/Roundcube/rcube_addressbook.php
 
 		-
+			message: "#^Instanceof between rcube_result_set and rcube_result_set will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_addressbook.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_addresses.php
+
+		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_addresses.php
@@ -696,9 +851,19 @@ parameters:
 			path: program/lib/Roundcube/rcube_cache.php
 
 		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_charset.php
+
+		-
 			message: "#^Method rcube_charset\\:\\:parse_charset\\(\\) should return string but returns null\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_charset.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 3
+			path: program/lib/Roundcube/rcube_contacts.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -714,6 +879,11 @@ parameters:
 			message: "#^Left side of && is always true\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_csv2vcard.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_db.php
 
 		-
 			message: "#^Method rcube_db\\:\\:parse_dsn\\(\\) should return array but returns null\\.$#"
@@ -736,13 +906,23 @@ parameters:
 			path: program/lib/Roundcube/rcube_db.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
+			message: "#^Loose comparison using \\=\\= between 0 and 0 will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_html2text.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 5
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
 			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
 			count: 2
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_result_index\\|rcube_result_multifolder\\|rcube_result_thread will always evaluate to true\\.$#"
+			count: 1
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
@@ -751,13 +931,8 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_imap.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 13
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
@@ -821,17 +996,22 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
-			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
+			message: "#^Call to function is_object\\(\\) with rcube_message_header will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_cache.php
 
 		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_cache.php
 
@@ -859,6 +1039,11 @@ parameters:
 			message: "#^Right side of && is always true\\.$#"
 			count: 3
 			path: program/lib/Roundcube/rcube_imap_cache.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 13
+			path: program/lib/Roundcube/rcube_imap_generic.php
 
 		-
 			message: "#^Comparison operation \"\\<\" between int\\<0, 1\\> and 255 is always true\\.$#"
@@ -896,6 +1081,11 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap_generic.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap_generic.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between int and false will always evaluate to false\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_imap_generic.php
@@ -926,6 +1116,11 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap_search.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
 			message: "#^Call to function is_array\\(\\) with mixed will always evaluate to false\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_ldap.php
@@ -949,6 +1144,16 @@ parameters:
 			message: "#^Right side of && is always true\\.$#"
 			count: 3
 			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_message.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array\\<rcube_message_part\\> will always evaluate to true\\.$#"
+			count: 3
+			path: program/lib/Roundcube/rcube_message.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -981,9 +1186,29 @@ parameters:
 			path: program/lib/Roundcube/rcube_message.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_message.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between string\\|null and false will always evaluate to true\\.$#"
+			count: 4
+			path: program/lib/Roundcube/rcube_message.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between string\\|true\\|null and false will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_message.php
+
+		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_message.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_message_part will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_message_part.php
 
 		-
 			message: "#^Property rcube_message_part\\:\\:\\$parts \\(array\\<rcube_message_part\\>\\) in isset\\(\\) is not nullable\\.$#"
@@ -1006,12 +1231,22 @@ parameters:
 			path: program/lib/Roundcube/rcube_mime_decode.php
 
 		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_output.php
+
+		-
 			message: "#^Method rcube_plugin\\:\\:info\\(\\) should return array but returns false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_plugin.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_plugin_api.php
+
+		-
+			message: "#^Call to function is_callable\\(\\) with callable\\(\\)\\: mixed will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_plugin_api.php
 
@@ -1046,14 +1281,34 @@ parameters:
 			path: program/lib/Roundcube/rcube_result_thread.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 2
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
 			path: program/lib/Roundcube/rcube_session.php
 
 		-
 			message: "#^Method rcube_session\\:\\:unserialize\\(\\) should return array but returns false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_session.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_session.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_smtp.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with Net_SMTP and 'setAuthMethod' will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_smtp.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with Net_SMTP and 'setTimeout' will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_smtp.php
 
 		-
 			message: "#^Negated boolean expression is always true\\.$#"
@@ -1091,9 +1346,14 @@ parameters:
 			path: program/lib/Roundcube/rcube_spellchecker.php
 
 		-
-			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
 			count: 1
-			path: program/lib/Roundcube/rcube_user.php
+			path: program/lib/Roundcube/rcube_string_replacer.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_text2html.php
 
 		-
 			message: "#^Method rcube_user\\:\\:create\\(\\) should return rcube_user\\|null but empty return statement found\\.$#"
@@ -1126,13 +1386,28 @@ parameters:
 			path: program/lib/Roundcube/rcube_user.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between int and false will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_user.php
+
+		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_user.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_utils.php
+
+		-
 			message: "#^Call to function is_array\\(\\) with non\\-falsy\\-string will always evaluate to false\\.$#"
 			count: 1
+			path: program/lib/Roundcube/rcube_utils.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 3
 			path: program/lib/Roundcube/rcube_utils.php
 
 		-
@@ -1141,7 +1416,7 @@ parameters:
 			path: program/lib/Roundcube/rcube_utils.php
 
 		-
-			message: "#^Left side of \\|\\| is always false\\.$#"
+			message: "#^Loose comparison using \\=\\= between int\\<2, max\\> and 0 will always evaluate to false\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_utils.php
 
@@ -1149,6 +1424,16 @@ parameters:
 			message: "#^Method rcube_utils\\:\\:parse_host\\(\\) should return string but returns false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_utils.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_vcard.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_vcard.php
 
 		-
 			message: "#^Elseif condition is always false\\.$#"
@@ -1181,6 +1466,11 @@ parameters:
 			path: program/lib/Roundcube/session/memcached.php
 
 		-
+			message: "#^Call to function method_exists\\(\\) with Redis and 'del' will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/session/redis.php
+
+		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/session/redis.php
@@ -1191,13 +1481,13 @@ parameters:
 			path: program/lib/Roundcube/spellchecker/atd.php
 
 		-
-			message: "#^Method rcube_spellchecker_atd\\:\\:check\\(\\) should return bool but returns array\\<int\\<0, max\\>, array\\<int, array\\<int\\<0, max\\>, string\\>\\|int\\<0, max\\>\\|string\\|false\\|null\\>\\>\\.$#"
+			message: "#^Method rcube_spellchecker_atd\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<int, array\\<int, string\\>\\|bool\\|int\\|string\\|null\\>\\>\\.$#"
 			count: 1
 			path: program/lib/Roundcube/spellchecker/atd.php
 
 		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 3
 			path: program/lib/Roundcube/spellchecker/enchant.php
 
 		-
@@ -1206,7 +1496,7 @@ parameters:
 			path: program/lib/Roundcube/spellchecker/enchant.php
 
 		-
-			message: "#^Method rcube_spellchecker_enchant\\:\\:check\\(\\) should return bool but returns array\\<int\\<0, max\\>, array\\<int, array\\|int\\|string\\|null\\>\\>\\.$#"
+			message: "#^Method rcube_spellchecker_enchant\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<int, array\\|int\\|string\\|null\\>\\>\\.$#"
 			count: 1
 			path: program/lib/Roundcube/spellchecker/enchant.php
 
@@ -1216,7 +1506,7 @@ parameters:
 			path: program/lib/Roundcube/spellchecker/googie.php
 
 		-
-			message: "#^Method rcube_spellchecker_googie\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<string\\>\\>\\.$#"
+			message: "#^Method rcube_spellchecker_googie\\:\\:check\\(\\) should return bool but returns array\\<int\\<0, max\\>, array\\<string\\>\\>\\.$#"
 			count: 1
 			path: program/lib/Roundcube/spellchecker/googie.php
 
@@ -1226,7 +1516,7 @@ parameters:
 			path: program/lib/Roundcube/spellchecker/pspell.php
 
 		-
-			message: "#^Method rcube_spellchecker_pspell\\:\\:check\\(\\) should return bool but returns array\\<int\\<0, max\\>, array\\<int, array\\|int\\|string\\|false\\|null\\>\\>\\.$#"
+			message: "#^Method rcube_spellchecker_pspell\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<int, array\\|bool\\|int\\|string\\|null\\>\\>\\.$#"
 			count: 1
 			path: program/lib/Roundcube/spellchecker/pspell.php
 
@@ -1241,9 +1531,34 @@ parameters:
 			path: tests/Actions/Mail/Index.php
 
 		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get first element' will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Framework/ResultThread.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get last element' will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Framework/ResultThread.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get specified…' will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Framework/ResultThread.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with string will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Framework/User.php
+
+		-
 			message: "#^Right side of && is always false\\.$#"
 			count: 1
 			path: tests/Rcmail/Rcmail.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with array will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Rcmail/Sendmail.php
 
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
