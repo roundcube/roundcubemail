@@ -15,6 +15,17 @@ parameters:
         - vendor/pear/pear-core-minimal/src/PEAR.php
 
     ignoreErrors:
+        # relax strict rules
+        - '~^Only booleans are allowed in .+, .+ given( on the (left|right) side)?\.~'
+        - '~^Variable (static )?(property access|method call) on .+\.~'
+        # relax strict rules - move to phpstan baseline once almost all l6 errors are fixed
+        - '~^Dynamic call to static method .+\.~' # TODO in https://github.com/roundcube/roundcubemail/pull/9314
+        - '~^Construct empty\(\) is not allowed\. Use more strict comparison\.~'
+        - '~^Loose comparison via "[=!]=" is not allowed\.~'
+        - '~^Casting to .+ something that''s already .+\.~'
+        - '~^Short ternary operator is not allowed\. Use null coalesce operator if applicable or consider using long ternary\.~'
+        - '~^Call to function (array_search|in_array)\(\) requires parameter #3 to be set\.~'
+
         # https://github.com/php/pecl-authentication-krb5
         -
             path: 'program/lib/Roundcube/rcube_imap_generic.php'
