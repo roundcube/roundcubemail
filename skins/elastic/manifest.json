@@ -451,4 +451,27 @@
     }
   ],
 
+  "shortcuts": [
+    {
+      "name": "Compose",
+      "url": "../../?_task=mail&_action=compose"
+    },
+    {
+      "name": "Inbox",
+      "url": "../../?_task=mail&_mbox=INBOX"
+    },
+    {
+      "name": "Contacts",
+      "url": "../../?_task=addressbook&_mbox=INBOX"
+    },
+    {
+      "name": "Settings",
+      "url": "../../?_task=settings"
+    },
+    {
+      "name": "Logout",
+      "url": "../../?_task=logout"
+    }
+  ],
+
 "name":"RoundCube Webmail","short_name":"RC Webmail","theme_color":"#2f3a3f","lang":"de-AT","dir":"auto","background_color":"#2f3a3f","description":"RoundCube Webmail"}
