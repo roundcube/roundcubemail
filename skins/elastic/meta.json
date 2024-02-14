@@ -14,15 +14,13 @@
 	},
 	"meta": {
 		"viewport": "width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0",
-		"theme-color": "#f4f4f4",
-		"msapplication-navbutton-color": "#f4f4f4",
-
+		"theme-color": "#2f3a3f",
+		"msapplication-navbutton-color": "#2f3a3f",
+		"msapplication-starturl": "/?utm_source=homescreen",
 		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-capable": "yes",
 		"application-name": "HS Webmail",
 		"apple-mobile-web-app-title": "HW Webmail",
-		"apple-mobile-web-app-status-bar-style": "black-translucent",
-		"msapplication-starturl": "/?utm_source=homescreen",
-		"theme_color": "#2f3a3f"
+		"apple-mobile-web-app-status-bar-style": "black-translucent"
 	}
 }
