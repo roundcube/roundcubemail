@@ -3517,11 +3517,19 @@ function rcube_webmail() {
 
     // delete selected messages from the current mailbox
     this.delete_messages = function (event, uid) {
-        var list = this.message_list, trash = this.env.trash_mailbox;
+        var list = this.message_list, trash = this.env.trash_mailbox,
+            display_next = this.env.display_next;
+
+        // invert the display_next flag in case shift is pressed
+        if ((list && list.modkey == SHIFT_KEY) || (event && rcube_event.get_modifier(event) == SHIFT_KEY)) {
+            this.env.display_next = !display_next;
+        }
 
         // if config is set to flag for deletion
         if (this.env.flag_for_deletion) {
             this.mark_message('delete', uid);
+
+            this.env.display_next = display_next;
             return false;
         }
         // if there isn't a defined trash mailbox or we are in it
@@ -3544,6 +3552,7 @@ function rcube_webmail() {
             }
         }
 
+        this.env.display_next = display_next;
         return true;
     };
 
