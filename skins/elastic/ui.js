@@ -87,8 +87,6 @@ function rcube_elastic_ui() {
     this.get_screen_mode = get_screen_mode;
     this.is_mobile = is_mobile;
     this.is_touch = is_touch;
-    this.message_list_hover_menu_init = message_list_hover_menu_init;
-    this.message_list_hover_menu = message_list_hover_menu;
 
     // Detect screen size/mode
     screen_mode();
@@ -607,7 +605,7 @@ function rcube_elastic_ui() {
             }
 
             if (!touch && list == 'message_list') {
-                UI.message_list_hover_menu_init(table.parent());
+                message_list_hover_menu_init(table.parent());
             }
 
             // https://github.com/roundcube/elastic/issues/45
@@ -3186,7 +3184,7 @@ function rcube_elastic_ui() {
         list_element.append(menu)
             .on('mouseenter', 'tr', function (e) {
                 if (record != e.currentTarget) {
-                    UI.message_list_hover_menu(menu, record = e.currentTarget);
+                    message_list_hover_menu(menu, record = e.currentTarget);
                 }
             })
             .on('mouseleave', 'tr', function (e) {
@@ -3209,6 +3207,8 @@ function rcube_elastic_ui() {
             // Hide the menu, event handlers will bring it back when needed, with refreshed state
             hide_menu();
         });
+
+        rcmail.triggerEvent('skin-message-list-hover-menu-init', { list_element: list_element, menu: menu });
     }
 
     /**
@@ -3237,6 +3237,8 @@ function rcube_elastic_ui() {
 
         // Update the txt element in the menu
         menu.find('span.txt').text(element.closest('table').is('.sort-size') ? message.date : message.size);
+
+        rcmail.triggerEvent('skin-message-list-hover-menu', { menu: menu, record: record });
     }
 
     /**
