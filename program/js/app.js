@@ -10679,15 +10679,16 @@ function rcube_webmail() {
             menu = $(menu_element),
             hide_menu = function () {
                 if (record) {
-                    menu.css({top: '-1000px'});
+                    menu.css({ top: '-1000px' });
                     rcmail.triggerEvent('list-actions-hide', { element: $(record), menu: menu });
                     menu.data('message-uid', null);
                     record = null;
                 }
             },
-            show_menu = function(menu, record) {
-                if (!record.uid)
+            show_menu = function (menu, record) {
+                if (!record.uid) {
                     return;
+                }
 
                 var message = rcmail.message_list.rows[record.uid],
                     element = $(record),
@@ -10697,14 +10698,15 @@ function rcube_webmail() {
                         unread: !message.unread && !message.deleted,
                         flag: !message.flagged && !message.deleted,
                         unflag: message.flagged && !message.deleted,
-                        'delete': !message.deleted,
-                        undelete: message.deleted
+                        delete: !message.deleted,
+                        undelete: message.deleted,
                     };
 
                 if ((ret = rcmail.triggerEvent('list-actions-position', { element: element, menu: menu, message: message })) !== undefined) {
                     // abort if one of the handlers returned false
-                    if (ret === false)
+                    if (ret === false) {
                         return false;
+                    }
 
                     pos = ret;
                 }
@@ -10714,7 +10716,7 @@ function rcube_webmail() {
                 menu.data('message-uid', record.uid);
 
                 // Show/hide buttons according to the hovered message state
-                Object.keys(buttons).forEach(function(btn) {
+                Object.keys(buttons).forEach(function (btn) {
                     menu.find('a.' + btn)[buttons[btn] ? 'show' : 'hide']();
                 });
 
@@ -10742,7 +10744,7 @@ function rcube_webmail() {
             .on('mouseleave', hide_menu);
 
         // Buttons onclick handler
-        menu.find('a').click(function(e) {
+        menu.find('a').click(function (e) {
             // Hide the menu, event handlers will bring it back when needed, with refreshed state
             hide_menu();
         });

@@ -719,14 +719,14 @@ class rcmail_action_mail_index extends rcmail_action
         $config = $rcmail->config->get('message_actions', ['size', 'date', 'flag', 'delete']);
 
         $actions = [
-            'size'      => null,
-            'date'      => null,
-            'read'      => ['label' => 'markasread', 'action' => 'mark/read'],
-            'unread'    => ['label' => 'markasunread', 'action' => 'mark/unread'],
-            'flag'      => ['label' => 'markasflagged', 'action' => 'mark/flagged'],
-            'unflag'    => ['label' => 'markasunflagged', 'action' => 'mark/unflagged'],
-            'delete'    => ['label' => 'deletemessage', 'action' => 'delete'],
-            'undelete'  => ['label' => 'undeletemessage', 'action' => 'mark/undelete'],
+            'size' => null,
+            'date' => null,
+            'read' => ['label' => 'markasread', 'action' => 'mark/read'],
+            'unread' => ['label' => 'markasunread', 'action' => 'mark/unread'],
+            'flag' => ['label' => 'markasflagged', 'action' => 'mark/flagged'],
+            'unflag' => ['label' => 'markasunflagged', 'action' => 'mark/unflagged'],
+            'delete' => ['label' => 'deletemessage', 'action' => 'delete'],
+            'undelete' => ['label' => 'undeletemessage', 'action' => 'mark/undelete'],
         ];
 
         $actions = array_filter($actions, static function ($action) use ($config) {
@@ -749,7 +749,7 @@ class rcmail_action_mail_index extends rcmail_action
         if (isset($attrib['actions'])) {
             $enabled_actions = $attrib['actions'];
             $enabled_actions = is_array($enabled_actions) ? $enabled_actions : preg_split('/[\s,;]+/', $attrib['actions']);
-            $actions         = array_intersect_key($actions, array_flip($enabled_actions));
+            $actions = array_intersect_key($actions, array_flip($enabled_actions));
         }
 
         $buttons = [];

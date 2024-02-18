@@ -4342,13 +4342,12 @@ function rcube_elastic_ui() {
     }
 
     function list_actions_position(p) {
-        if (!touch) {
+        if (!is_touch()) {
             var top = p.element.offset().top - p.element.parent().offset().top + (p.element.height() - p.menu.outerHeight()) / 2;
-            return {top: top + 'px'};
+            return { top: top + 'px' };
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 }
 
