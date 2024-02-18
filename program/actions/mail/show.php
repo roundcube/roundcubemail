@@ -493,11 +493,11 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     continue;
                 }
 
-                $search_set  = $rcmail->storage->get_search_set();
+                $search_set = $rcmail->storage->get_search_set();
                 $multifolder = $search_set && !empty($search_set[1]->multi);
                 if ($multifolder) {
-                    $mbox_name    = $rcmail->storage->get_folder();
-                    $delimiter    = $rcmail->storage->get_hierarchy_delimiter();
+                    $mbox_name = $rcmail->storage->get_folder();
+                    $delimiter = $rcmail->storage->get_hierarchy_delimiter();
                     $header_value = self::localize_foldername($mbox_name, true);
                     $header_value = str_replace($delimiter, " \xC2\xBB ", $header_value);
                 }
