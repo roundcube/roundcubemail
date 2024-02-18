@@ -3207,6 +3207,8 @@ function rcube_elastic_ui() {
             // Hide the menu, event handlers will bring it back when needed, with refreshed state
             hide_menu();
         });
+
+        rcmail.triggerEvent('skin-message-list-hover-menu-init', { list_element: list_element, menu: menu });
     }
 
     /**
@@ -3235,6 +3237,8 @@ function rcube_elastic_ui() {
 
         // Update the txt element in the menu
         menu.find('span.txt').text(element.closest('table').is('.sort-size') ? message.date : message.size);
+
+        rcmail.triggerEvent('skin-message-list-hover-menu', { menu: menu, record: record });
     }
 
     /**
