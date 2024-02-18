@@ -87,6 +87,8 @@ function rcube_elastic_ui() {
     this.get_screen_mode = get_screen_mode;
     this.is_mobile = is_mobile;
     this.is_touch = is_touch;
+    this.message_list_hover_menu_init = message_list_hover_menu_init;
+    this.message_list_hover_menu = message_list_hover_menu;
 
     // Detect screen size/mode
     screen_mode();
@@ -605,7 +607,7 @@ function rcube_elastic_ui() {
             }
 
             if (!touch && list == 'message_list') {
-                message_list_hover_menu_init(table.parent());
+                UI.message_list_hover_menu_init(table.parent());
             }
 
             // https://github.com/roundcube/elastic/issues/45
@@ -3184,7 +3186,7 @@ function rcube_elastic_ui() {
         list_element.append(menu)
             .on('mouseenter', 'tr', function (e) {
                 if (record != e.currentTarget) {
-                    message_list_hover_menu(menu, record = e.currentTarget);
+                    UI.message_list_hover_menu(menu, record = e.currentTarget);
                 }
             })
             .on('mouseleave', 'tr', function (e) {
