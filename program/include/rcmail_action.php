@@ -190,65 +190,63 @@ abstract class rcmail_action
         $quota = $rcmail->storage->get_quota($folder);
         $quota = $rcmail->plugins->exec_hook('quota', $quota ?: []);
 
+        if (empty($quota['total']) || $quota['total'] <= 0) {
+            return [];
+        }
+
         $quota_result = $quota;
         $quota_result['type'] = $_SESSION['quota_display'] ?? '';
         $quota_result['folder'] = $folder !== null && $folder !== '' ? $folder : 'INBOX';
 
-        if (!empty($quota['total']) && $quota['total'] > 0) {
-            if (!isset($quota['percent'])) {
-                $quota_result['percent'] = min(100, round(($quota['used'] / max(1, $quota['total'])) * 100));
-            }
+        if (!isset($quota['percent'])) {
+            $quota_result['percent'] = min(100, round(($quota['used'] / max(1, $quota['total'])) * 100));
+        }
 
-            $title = $rcmail->gettext('quota') . ': ' . sprintf('%s / %s (%.0f%%)',
-                self::show_bytes($quota['used'] * 1024),
-                self::show_bytes($quota['total'] * 1024),
-                $quota_result['percent']
-            );
+        $title = $rcmail->gettext('quota') . ': ' . sprintf('%s / %s (%.0f%%)',
+            self::show_bytes($quota['used'] * 1024),
+            self::show_bytes($quota['total'] * 1024),
+            $quota_result['percent']
+        );
 
-            $quota_result['title'] = $title;
+        $quota_result['title'] = $title;
 
-            if (!empty($attrib['width'])) {
-                $quota_result['width'] = $attrib['width'];
-            }
-            if (!empty($attrib['height'])) {
-                $quota_result['height'] = $attrib['height'];
-            }
+        if (!empty($attrib['width'])) {
+            $quota_result['width'] = $attrib['width'];
+        }
+        if (!empty($attrib['height'])) {
+            $quota_result['height'] = $attrib['height'];
+        }
 
-            // build a table of quota types/roots info
-            if (($root_cnt = count($quota_result['all'])) > 1 || count($quota_result['all'][key($quota_result['all'])]) > 1) {
-                $table = new html_table(['cols' => 3, 'class' => 'quota-info']);
+        // build a table of quota types/roots info
+        if (($root_cnt = count($quota_result['all'])) > 1 || count($quota_result['all'][key($quota_result['all'])]) > 1) {
+            $table = new html_table(['cols' => 3, 'class' => 'quota-info']);
 
-                $table->add_header(null, rcube::Q($rcmail->gettext('quotatype')));
-                $table->add_header(null, rcube::Q($rcmail->gettext('quotatotal')));
-                $table->add_header(null, rcube::Q($rcmail->gettext('quotaused')));
+            $table->add_header(null, rcube::Q($rcmail->gettext('quotatype')));
+            $table->add_header(null, rcube::Q($rcmail->gettext('quotatotal')));
+            $table->add_header(null, rcube::Q($rcmail->gettext('quotaused')));
 
-                foreach ($quota_result['all'] as $root => $data) {
-                    if ($root_cnt > 1 && $root) {
-                        $table->add(['colspan' => 3, 'class' => 'root'], rcube::Q($root));
-                    }
-
-                    if ($storage = ($data['storage'] ?? null)) {
-                        $percent = min(100, round(($storage['used'] / max(1, $storage['total'])) * 100));
-
-                        $table->add('name', rcube::Q($rcmail->gettext('quotastorage')));
-                        $table->add(null, self::show_bytes($storage['total'] * 1024));
-                        $table->add(null, sprintf('%s (%.0f%%)', self::show_bytes($storage['used'] * 1024), $percent));
-                    }
-                    if ($message = ($data['message'] ?? null)) {
-                        $percent = min(100, round(($message['used'] / max(1, $message['total'])) * 100));
-
-                        $table->add('name', rcube::Q($rcmail->gettext('quotamessage')));
-                        $table->add(null, intval($message['total']));
-                        $table->add(null, sprintf('%d (%.0f%%)', $message['used'], $percent));
-                    }
+            foreach ($quota_result['all'] as $root => $data) {
+                if ($root_cnt > 1 && $root) {
+                    $table->add(['colspan' => 3, 'class' => 'root'], rcube::Q($root));
                 }
 
-                $quota_result['table'] = $table->show();
+                if ($storage = ($data['storage'] ?? null)) {
+                    $percent = min(100, round(($storage['used'] / max(1, $storage['total'])) * 100));
+
+                    $table->add('name', rcube::Q($rcmail->gettext('quotastorage')));
+                    $table->add(null, self::show_bytes($storage['total'] * 1024));
+                    $table->add(null, sprintf('%s (%.0f%%)', self::show_bytes($storage['used'] * 1024), $percent));
+                }
+                if ($message = ($data['message'] ?? null)) {
+                    $percent = min(100, round(($message['used'] / max(1, $message['total'])) * 100));
+
+                    $table->add('name', rcube::Q($rcmail->gettext('quotamessage')));
+                    $table->add(null, intval($message['total']));
+                    $table->add(null, sprintf('%d (%.0f%%)', $message['used'], $percent));
+                }
             }
-        } else {
-            $unlimited = $rcmail->config->get('quota_zero_as_unlimited');
-            $quota_result['title'] = $rcmail->gettext($unlimited ? 'unlimited' : 'unknown');
-            $quota_result['percent'] = 0;
+
+            $quota_result['table'] = $table->show();
         }
 
         // cleanup

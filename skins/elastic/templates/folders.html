@@ -29,7 +29,7 @@
 	</div>
 	<div class="footer small">
 		<roundcube:if condition="env:quota" />
-			<div id="quotadisplay" class="quota-widget">
+			<div id="quotadisplay" class="quota-widget hidden">
 				<span class="voice"><roundcube:label name="quota"></span>
 				<roundcube:object name="quotaDisplay" class="count" display="text" />
 			</div>
