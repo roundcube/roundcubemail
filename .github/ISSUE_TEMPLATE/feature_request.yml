@@ -1,7 +1,7 @@
 name: Feature request
 description: Suggest new or updated features to include in Roundcube.
 title: "Suggest a new feature"
-labels: [feature]
+labels: []
 assignees: []
 body:
   - type: checkboxes
