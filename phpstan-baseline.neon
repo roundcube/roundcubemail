@@ -2431,17 +2431,17 @@ parameters:
 			path: tests/Framework/Charset.php
 
 		-
-			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get first element' will always evaluate to false\\.$#"
+			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get first element' will always evaluate to false\\.$#"
 			count: 1
 			path: tests/Framework/ResultThread.php
 
 		-
-			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get last element' will always evaluate to false\\.$#"
+			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get last element' will always evaluate to false\\.$#"
 			count: 1
 			path: tests/Framework/ResultThread.php
 
 		-
-			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get specified…' will always evaluate to false\\.$#"
+			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get specified…' will always evaluate to false\\.$#"
 			count: 1
 			path: tests/Framework/ResultThread.php
 
@@ -2451,7 +2451,7 @@ parameters:
 			path: tests/Framework/Text2Html.php
 
 		-
-			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with string will always evaluate to false\\.$#"
+			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with string will always evaluate to false\\.$#"
 			count: 1
 			path: tests/Framework/User.php
 
@@ -2471,7 +2471,7 @@ parameters:
 			path: tests/Rcmail/Sendmail.php
 
 		-
-			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with array will always evaluate to false\\.$#"
+			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with array will always evaluate to false\\.$#"
 			count: 1
 			path: tests/Rcmail/Sendmail.php
 
