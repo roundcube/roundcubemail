@@ -919,11 +919,7 @@ class rcube_imap extends rcube_storage
     protected function list_thread_messages($folder, $page, $slice = 0)
     {
         // get all threads (not sorted)
-        if ($mcache = $this->get_mcache_engine()) {
-            $threads = $mcache->get_thread($folder);
-        } else {
-            $threads = $this->threads($folder);
-        }
+        $threads = $this->threads($folder);
 
         return $this->fetch_thread_headers($folder, $threads, $page, $slice);
     }
