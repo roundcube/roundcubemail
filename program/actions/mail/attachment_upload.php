@@ -184,7 +184,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
     public static function get_attachment()
     {
-        return self::$COMPOSE['attachments'][self::$file_id];
+        return self::$COMPOSE['attachments'][self::$file_id] ?? null;
     }
 
     public static function attachment_success($attachment, $uploadid)
