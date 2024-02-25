@@ -19,8 +19,8 @@
 		"msapplication-starturl": "/?utm_source=homescreen",
 		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-capable": "yes",
-		"application-name": "HS Webmail",
-		"apple-mobile-web-app-title": "HW Webmail",
+		"application-name": "Roundcube Webmail",
+		"apple-mobile-web-app-title": "Roundcube Webmail",
 		"apple-mobile-web-app-status-bar-style": "black-translucent"
 	}
 }
