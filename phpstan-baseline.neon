@@ -1,17 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: installer/check.php
-
-		-
-			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: installer/check.php
-
-		-
-			message: "#^If condition is always true\\.$#"
+			message: "#^Loose comparison using \\=\\= between 'date\\.timezone' and 'date\\.timezone' will always evaluate to true\\.$#"
 			count: 1
 			path: installer/check.php
 
@@ -21,9 +11,19 @@ parameters:
 			path: installer/check.php
 
 		-
+			message: "#^Strict comparison using \\=\\=\\= between '\\-VALID\\-' and '\\-VALID\\-' will always evaluate to true\\.$#"
+			count: 1
+			path: installer/check.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between 0\\|1 and '\\-NOTEMPTY\\-' will always evaluate to false\\.$#"
 			count: 1
 			path: installer/check.php
+
+		-
+			message: "#^Foreach overwrites \\$i with its key variable\\.$#"
+			count: 1
+			path: installer/config.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
@@ -31,7 +31,42 @@ parameters:
 			path: installer/index.php
 
 		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$dirs might not exist\\.$#"
+			count: 1
+			path: installer/test.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: plugins/acl/acl.php
+
+		-
+			message: "#^Foreach overwrites \\$name with its value variable\\.$#"
+			count: 1
+			path: plugins/acl/acl.php
+
+		-
+			message: "#^Foreach overwrites \\$user with its value variable\\.$#"
+			count: 1
+			path: plugins/acl/acl.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$acl_special might not exist\\.$#"
+			count: 1
+			path: plugins/acl/acl.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$fields does not exist\\.$#"
+			count: 1
+			path: plugins/acl/acl.php
+
+		-
 			message: "#^Empty array passed to foreach\\.$#"
+			count: 2
+			path: plugins/archive/archive.php
+
+		-
+			message: "#^Foreach overwrites \\$uids with its value variable\\.$#"
 			count: 2
 			path: plugins/archive/archive.php
 
@@ -46,6 +81,11 @@ parameters:
 			path: plugins/archive/archive.php
 
 		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: plugins/database_attachments/database_attachments.php
+
+		-
 			message: "#^Property runlog\\:\\:\\$debug_messages is never read, only written\\.$#"
 			count: 1
 			path: plugins/debug_logger/runlog/runlog.php
@@ -54,6 +94,16 @@ parameters:
 			message: "#^Property runlog\\:\\:\\$start_time is never read, only written\\.$#"
 			count: 1
 			path: plugins/debug_logger/runlog/runlog.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_gnupg.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with Crypt_GPG_SubKey and 'getCreationDateTime' will always evaluate to true\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_gnupg.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -71,7 +121,62 @@ parameters:
 			path: plugins/enigma/lib/enigma_driver_gnupg.php
 
 		-
+			message: "#^Method enigma_driver_phpssl\\:\\:decrypt\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:delete_key\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:encrypt\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:export\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:gen_key\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:get_key\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:import\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:init\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:list_keys\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
 			message: "#^Method enigma_driver_phpssl\\:\\:parse_sig_cert\\(\\) is unused\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:sign\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Method enigma_driver_phpssl\\:\\:verify\\(\\) should return mixed but return statement is missing\\.$#"
 			count: 1
 			path: plugins/enigma/lib/enigma_driver_phpssl.php
 
@@ -79,6 +184,21 @@ parameters:
 			message: "#^Property enigma_driver_phpssl\\:\\:\\$homedir is never read, only written\\.$#"
 			count: 1
 			path: plugins/enigma/lib/enigma_driver_phpssl.php
+
+		-
+			message: "#^Access to an undefined property rcube_message_part\\:\\:\\$need_decryption\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_engine.php
+
+		-
+			message: "#^Foreach overwrites \\$p with its value variable\\.$#"
+			count: 2
+			path: plugins/enigma/lib/enigma_engine.php
+
+		-
+			message: "#^Method enigma_engine\\:\\:export_key\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_engine.php
 
 		-
 			message: "#^Method enigma_engine\\:\\:part_structure\\(\\) should return array but empty return statement found\\.$#"
@@ -102,6 +222,21 @@ parameters:
 
 		-
 			message: "#^Access to offset 'headers' on an unknown class An\\.$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_mime_message.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$headers does not exist\\.$#"
+			count: 2
+			path: plugins/enigma/lib/enigma_mime_message.php
+
+		-
+			message: "#^Parameter \\#2 \\$filename \\(resource\\) of method enigma_mime_message\\:\\:get\\(\\) should be contravariant with parameter \\$filename \\(mixed\\) of method Mail_mime\\:\\:get\\(\\)$#"
+			count: 1
+			path: plugins/enigma/lib/enigma_mime_message.php
+
+		-
+			message: "#^enigma_mime_message\\:\\:__construct\\(\\) does not call parent constructor from Mail_mime\\.$#"
 			count: 1
 			path: plugins/enigma/lib/enigma_mime_message.php
 
@@ -136,12 +271,37 @@ parameters:
 			path: plugins/example_addressbook/example_addressbook_backend.php
 
 		-
+			message: "#^Method Identicon_Plugin\\:\\:setUpBeforeCLass\\(\\) does not match parent method name\\: PHPUnit\\\\Framework\\\\TestCase\\:\\:setUpBeforeClass\\(\\)\\.$#"
+			count: 1
+			path: plugins/identicon/tests/Identicon.php
+
+		-
+			message: "#^Foreach overwrites \\$skin with its value variable\\.$#"
+			count: 1
+			path: plugins/jqueryui/jqueryui.php
+
+		-
 			message: "#^Method rcube_sieve\\:\\:__construct\\(\\) with return type void returns mixed but should not return anything\\.$#"
 			count: 2
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve.php
 
 		-
+			message: "#^Access to an undefined property rcube_sieve_engine\\:\\:\\$master_file\\.$#"
+			count: 1
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
+
+		-
 			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
+			count: 1
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
+
+		-
+			message: "#^Foreach overwrites \\$rid with its key variable\\.$#"
 			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
 
@@ -156,8 +316,23 @@ parameters:
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_engine.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
+
+		-
 			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
 			count: 2
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$tests might not exist\\.$#"
+			count: 9
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
+
+		-
+			message: "#^Loose comparison using \\=\\= between 'INGO' and 'INGO' will always evaluate to true\\.$#"
+			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
 
 		-
@@ -176,14 +351,54 @@ parameters:
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: "#^Variable \\$i might not be defined\\.$#"
 			count: 1
 			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
+
+		-
+			message: "#^Variable \\$pos might not be defined\\.$#"
+			count: 3
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_script.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_vacation.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$date_value does not exist\\.$#"
+			count: 1
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_vacation.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$vacation does not exist\\.$#"
+			count: 1
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_vacation.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$vacation_action does not exist\\.$#"
+			count: 1
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_vacation.php
+
+		-
+			message: "#^Variable variables are not allowed\\.$#"
+			count: 3
+			path: plugins/managesieve/lib/Roundcube/rcube_sieve_vacation.php
+
+		-
+			message: "#^Access to an undefined property rcube\\:\\:\\$action\\.$#"
+			count: 1
+			path: plugins/managesieve/managesieve.php
+
+		-
+			message: "#^Access to an undefined property rcube\\:\\:\\$task\\.$#"
+			count: 1
+			path: plugins/managesieve/managesieve.php
 
 		-
 			message: "#^Method HTTPSocket\\:\\:fetch_header\\(\\) should return array but returns string\\.$#"
@@ -221,6 +436,16 @@ parameters:
 			path: plugins/password/drivers/ldap_samba_ad.php
 
 		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$entry does not exist\\.$#"
+			count: 1
+			path: plugins/password/drivers/ldap_simple.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$ret does not exist\\.$#"
+			count: 1
+			path: plugins/password/drivers/modoboa.php
+
+		-
 			message: "#^Call to function is_array\\(\\) with false will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/password/drivers/plesk.php
@@ -246,7 +471,7 @@ parameters:
 			path: plugins/password/drivers/plesk.php
 
 		-
-			message: "#^If condition is always true\\.$#"
+			message: "#^Loose comparison using \\=\\= between 1 and 1 will always evaluate to true\\.$#"
 			count: 1
 			path: plugins/password/drivers/pwned.php
 
@@ -276,9 +501,29 @@ parameters:
 			path: plugins/password/password.php
 
 		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: plugins/redundant_attachments/redundant_attachments.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$rec might not exist\\.$#"
+			count: 1
+			path: plugins/squirrelmail_usercopy/squirrelmail_usercopy.php
+
+		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: plugins/vcard_attachments/vcard_attachments.php
+
+		-
+			message: "#^Foreach overwrites \\$cid with its value variable\\.$#"
+			count: 1
+			path: program/actions/contacts/copy.php
+
+		-
+			message: "#^Access to an undefined property rcube_addressbook\\:\\:\\$deletable\\.$#"
+			count: 1
+			path: program/actions/contacts/delete.php
 
 		-
 			message: "#^Offset 0 does not exist on array\\{\\}\\.$#"
@@ -286,9 +531,29 @@ parameters:
 			path: program/actions/contacts/import.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/contacts/index.php
+
+		-
 			message: "#^Method rcmail_action_contacts_index\\:\\:contact_source\\(\\) should return rcube_addressbook but returns null\\.$#"
 			count: 1
 			path: program/actions/contacts/index.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_result_set will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/contacts/mailto.php
+
+		-
+			message: "#^Access to an undefined property rcube_addressbook\\:\\:\\$deletable\\.$#"
+			count: 1
+			path: program/actions/contacts/move.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: program/actions/contacts/photo.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
@@ -316,6 +581,11 @@ parameters:
 			path: program/actions/contacts/save.php
 
 		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$fields might not exist\\.$#"
+			count: 1
+			path: program/actions/contacts/search.php
+
+		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: program/actions/contacts/search_create.php
@@ -331,12 +601,12 @@ parameters:
 			path: program/actions/mail/autocomplete.php
 
 		-
-			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
+			message: "#^Access to an undefined property rcube_message\\:\\:\\$size\\.$#"
 			count: 1
 			path: program/actions/mail/compose.php
 
 		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
 			count: 1
 			path: program/actions/mail/compose.php
 
@@ -346,9 +616,24 @@ parameters:
 			path: program/actions/mail/compose.php
 
 		-
+			message: "#^Instanceof between rcube_message_part and rcube_message_part will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/mail/compose.php
+
+		-
+			message: "#^Loose comparison using \\=\\= between 'edit' and 'edit' will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/mail/compose.php
+
+		-
 			message: "#^Static property rcmail_action_mail_compose\\:\\:\\$MESSAGE \\(rcube_message\\|null\\) does not accept stdClass\\.$#"
 			count: 1
 			path: program/actions/mail/compose.php
+
+		-
+			message: "#^Foreach overwrites \\$uids with its value variable\\.$#"
+			count: 1
+			path: program/actions/mail/copy.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
@@ -356,9 +641,19 @@ parameters:
 			path: program/actions/mail/group_expand.php
 
 		-
-			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Strict comparison using \\!\\=\\= between string and false will always evaluate to true\\.$#"
 			count: 1
 			path: program/actions/mail/headers.php
+
+		-
+			message: "#^Foreach overwrites \\$m with its value variable\\.$#"
+			count: 1
+			path: program/actions/mail/index.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$roots might not exist\\.$#"
+			count: 1
+			path: program/actions/mail/index.php
 
 		-
 			message: "#^Property rcube_message_header\\:\\:\\$parent_uid \\(int\\) does not accept string\\.$#"
@@ -381,6 +676,31 @@ parameters:
 			path: program/actions/mail/index.php
 
 		-
+			message: "#^Foreach overwrites \\$mbox with its key variable\\.$#"
+			count: 4
+			path: program/actions/mail/mark.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$result does not exist\\.$#"
+			count: 1
+			path: program/actions/mail/send.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array\\<rcube_message_part\\> will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/mail/show.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$attrib does not exist\\.$#"
+			count: 2
+			path: program/actions/mail/show.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$vars does not exist\\.$#"
+			count: 1
+			path: program/actions/mail/show.php
+
+		-
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: program/actions/mail/show.php
@@ -391,19 +711,44 @@ parameters:
 			path: program/actions/mail/show.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between int and false will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/settings/folder_edit.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/settings/folder_edit.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
 			count: 1
 			path: program/actions/settings/folder_edit.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Strict comparison using \\!\\=\\= between int and false will always evaluate to true\\.$#"
 			count: 1
 			path: program/actions/settings/folder_size.php
+
+		-
+			message: "#^For loop initial assignment overwrites variable \\$i\\.$#"
+			count: 1
+			path: program/actions/settings/folders.php
 
 		-
 			message: "#^Negated boolean expression is always true\\.$#"
 			count: 1
 			path: program/actions/settings/folders.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between mixed and false will always evaluate to true\\.$#"
+			count: 1
+			path: program/actions/settings/identity_delete.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$sections does not exist\\.$#"
+			count: 1
+			path: program/actions/settings/index.php
 
 		-
 			message: "#^Method rcmail_action_settings_index\\:\\:get_skins\\(\\) should return array but returns false\\.$#"
@@ -421,12 +766,32 @@ parameters:
 			path: program/actions/utils/error.php
 
 		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$params does not exist\\.$#"
+			count: 1
+			path: program/actions/utils/html2text.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcmail_output_cli\\|rcmail_output_html\\|rcmail_output_json will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with non\\-falsy\\-string will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail.php
+
+		-
 			message: "#^If condition is always true\\.$#"
 			count: 2
 			path: program/include/rcmail.php
 
 		-
 			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: program/include/rcmail.php
+
+		-
+			message: "#^PHPDoc type rcmail_output_cli\\|rcmail_output_html\\|rcmail_output_json of property rcmail\\:\\:\\$output is not the same as PHPDoc type rcube_output\\|null of overridden property rcube\\:\\:\\$output\\.$#"
 			count: 1
 			path: program/include/rcmail.php
 
@@ -444,6 +809,21 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between string and null will always evaluate to false\\.$#"
 			count: 1
 			path: program/include/rcmail.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail_action.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$result does not exist\\.$#"
+			count: 1
+			path: program/include/rcmail_action.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between array and '' will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail_action.php
 
 		-
 			message: "#^Method rcmail_install\\:\\:check_config\\(\\) should return array but empty return statement found\\.$#"
@@ -496,12 +876,22 @@ parameters:
 			path: program/include/rcmail_oauth.php
 
 		-
+			message: "#^Call to __construct\\(\\) on an existing object is not allowed\\.$#"
+			count: 1
+			path: program/include/rcmail_output_html.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail_output_html.php
+
+		-
 			message: "#^Comparison operation \"\\>\" between int\\<0, max\\> and \\-1 is always true\\.$#"
 			count: 1
 			path: program/include/rcmail_output_html.php
 
 		-
-			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Foreach overwrites \\$i with its key variable\\.$#"
 			count: 1
 			path: program/include/rcmail_output_html.php
 
@@ -511,9 +901,49 @@ parameters:
 			path: program/include/rcmail_output_html.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 3
+			path: program/include/rcmail_output_html.php
+
+		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: program/include/rcmail_output_html.php
+
+		-
+			message: "#^Foreach overwrites \\$i with its key variable\\.$#"
+			count: 1
+			path: program/include/rcmail_output_json.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$response does not exist\\.$#"
+			count: 1
+			path: program/include/rcmail_output_json.php
+
+		-
+			message: "#^Method rcmail_resend_mail\\:\\:saveMessageBody\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: program/include/rcmail_resend_mail.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 3
+			path: program/include/rcmail_sendmail.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail_sendmail.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with \\*NEVER\\* will always evaluate to true\\.$#"
+			count: 1
+			path: program/include/rcmail_sendmail.php
+
+		-
+			message: "#^Foreach overwrites \\$m with its value variable\\.$#"
+			count: 1
+			path: program/include/rcmail_sendmail.php
 
 		-
 			message: "#^If condition is always false\\.$#"
@@ -566,6 +996,26 @@ parameters:
 			path: program/include/rcmail_string_replacer.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/bootstrap.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/bootstrap.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/bootstrap.php
+
+		-
+			message: "#^Function array_first\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: program/lib/Roundcube/bootstrap.php
+
+		-
 			message: "#^Function parse_bytes\\(\\) never returns null so it can be removed from the return type\\.$#"
 			count: 1
 			path: program/lib/Roundcube/bootstrap.php
@@ -574,6 +1024,16 @@ parameters:
 			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/bootstrap.php
+
+		-
+			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_cache_db\\:\\:store_record\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_cache\\:\\:store_record\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/cache/db.php
+
+		-
+			message: "#^Parameter \\#3 \\$ts \\(DateTime\\) of method rcube_cache_db\\:\\:store_record\\(\\) should be contravariant with parameter \\$ts \\(mixed\\) of method rcube_cache\\:\\:store_record\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/cache/db.php
 
 		-
 			message: "#^Negated boolean expression is always false\\.$#"
@@ -611,6 +1071,11 @@ parameters:
 			path: program/lib/Roundcube/cache/memcached.php
 
 		-
+			message: "#^Call to function method_exists\\(\\) with Redis and 'del' will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/cache/redis.php
+
+		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 3
 			path: program/lib/Roundcube/cache/redis.php
@@ -621,9 +1086,84 @@ parameters:
 			path: program/lib/Roundcube/cache/redis.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/html.php
+
+		-
 			message: "#^Call to function is_string\\(\\) with array will always evaluate to false\\.$#"
 			count: 2
 			path: program/lib/Roundcube/html.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/html.php
+
+		-
+			message: "#^html_hiddenfield\\:\\:__construct\\(\\) does not call parent constructor from html\\.$#"
+			count: 1
+			path: program/lib/Roundcube/html.php
+
+		-
+			message: "#^html_inputfield\\:\\:__construct\\(\\) does not call parent constructor from html\\.$#"
+			count: 1
+			path: program/lib/Roundcube/html.php
+
+		-
+			message: "#^html_table\\:\\:__construct\\(\\) does not call parent constructor from html\\.$#"
+			count: 1
+			path: program/lib/Roundcube/html.php
+
+		-
+			message: "#^Access to an undefined property rcube\\:\\:\\$password\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Access to an undefined property rcube\\:\\:\\$user_email\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 3
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_cache will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_plugin_api will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_user will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Foreach overwrites \\$domain with its value variable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Foreach overwrites \\$key with its key variable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -637,6 +1177,11 @@ parameters:
 
 		-
 			message: "#^Method rcube\\:\\:get_cache_shared\\(\\) should return rcube_cache but returns null\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube.php
+
+		-
+			message: "#^Method rcube\\:\\:get_user_id\\(\\) should return mixed but return statement is missing\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube.php
 
@@ -671,6 +1216,26 @@ parameters:
 			path: program/lib/Roundcube/rcube_addressbook.php
 
 		-
+			message: "#^Instanceof between rcube_result_set and rcube_result_set will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_addressbook.php
+
+		-
+			message: "#^Method rcube_addressbook\\:\\:insert\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_addressbook.php
+
+		-
+			message: "#^Method rcube_addressbook\\:\\:update\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_addressbook.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_addresses.php
+
+		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_addresses.php
@@ -691,14 +1256,44 @@ parameters:
 			path: program/lib/Roundcube/rcube_addresses.php
 
 		-
+			message: "#^rcube_addresses\\:\\:__construct\\(\\) does not call parent constructor from rcube_contacts\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_addresses.php
+
+		-
+			message: "#^Foreach overwrites \\$key with its value variable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_cache.php
+
+		-
+			message: "#^Method rcube_cache\\:\\:get_item\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_cache.php
+
+		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_cache.php
 
 		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_charset.php
+
+		-
 			message: "#^Method rcube_charset\\:\\:parse_charset\\(\\) should return string but returns null\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_charset.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 3
+			path: program/lib/Roundcube/rcube_contacts.php
+
+		-
+			message: "#^Foreach overwrites \\$value with its value variable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_contacts.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -711,9 +1306,44 @@ parameters:
 			path: program/lib/Roundcube/rcube_contacts.php
 
 		-
+			message: "#^Parameter \\#1 \\$cols \\(array\\) of method rcube_contacts\\:\\:list_records\\(\\) should be contravariant with parameter \\$cols \\(array\\|null\\) of method rcube_addressbook\\:\\:list_records\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_contacts.php
+
+		-
+			message: "#^Parameter \\#1 \\$filter \\(string\\) of method rcube_contacts\\:\\:set_search_set\\(\\) should be contravariant with parameter \\$filter \\(mixed\\) of method rcube_addressbook\\:\\:set_search_set\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_contacts.php
+
+		-
+			message: "#^Parameter \\#1 \\$search \\(string\\) of method rcube_contacts\\:\\:list_groups\\(\\) should be contravariant with parameter \\$search \\(string\\|null\\) of method rcube_addressbook\\:\\:list_groups\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_contacts.php
+
+		-
+			message: "#^Return type \\(mixed\\) of method rcube_contacts\\:\\:get_result\\(\\) should be covariant with return type \\(rcube_result_set\\|null\\) of method rcube_addressbook\\:\\:get_result\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_contacts.php
+
+		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_csv2vcard.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_db.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_db.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$parsed does not exist\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_db.php
 
 		-
 			message: "#^Method rcube_db\\:\\:parse_dsn\\(\\) should return array but returns null\\.$#"
@@ -736,13 +1366,28 @@ parameters:
 			path: program/lib/Roundcube/rcube_db.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
+			message: "#^Loose comparison using \\=\\= between 0 and 0 will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_html2text.php
 
 		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$p does not exist\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_image.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 5
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
 			message: "#^Call to function is_array\\(\\) with string\\|null will always evaluate to false\\.$#"
 			count: 2
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_result_index\\|rcube_result_multifolder\\|rcube_result_thread will always evaluate to true\\.$#"
+			count: 1
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
@@ -751,13 +1396,28 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 2
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 13
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			message: "#^For loop initial assignment overwrites variable \\$count\\.$#"
 			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Foreach overwrites \\$folder with its key variable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Foreach overwrites \\$ns with its value variable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$mime_part_headers might not exist\\.$#"
+			count: 3
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
@@ -781,6 +1441,11 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
+			message: "#^Method rcube_imap\\:\\:get_cache\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
 			message: "#^Method rcube_imap\\:\\:get_fetch_headers\\(\\) should return string but returns array\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap.php
@@ -801,6 +1466,21 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
+			message: "#^PHPDoc type rcube_imap_generic of property rcube_imap\\:\\:\\$conn is not the same as PHPDoc type mixed of overridden property rcube_storage\\:\\:\\$conn\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^PHPDoc type rcube_result_index\\|rcube_result_multifolder\\|rcube_result_thread of property rcube_imap\\:\\:\\$search_set is not the same as PHPDoc type mixed of overridden property rcube_storage\\:\\:\\$search_set\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Parameter \\#1 \\$set \\(array\\) of method rcube_imap\\:\\:set_search_set\\(\\) should be contravariant with parameter \\$set \\(mixed\\) of method rcube_storage\\:\\:set_search_set\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
 			message: "#^Property rcube_imap\\:\\:\\$search_set \\(rcube_result_index\\|rcube_result_multifolder\\|rcube_result_thread\\) in empty\\(\\) is not falsy\\.$#"
 			count: 3
 			path: program/lib/Roundcube/rcube_imap.php
@@ -816,7 +1496,52 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
+			message: "#^Return type \\(array\\|null\\) of method rcube_imap\\:\\:get_metadata\\(\\) should be covariant with return type \\(array\\) of method rcube_storage\\:\\:get_metadata\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Return type \\(array\\|null\\) of method rcube_imap\\:\\:get_search_set\\(\\) should be covariant with return type \\(array\\) of method rcube_storage\\:\\:get_search_set\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Return type \\(rcube_message_header\\|false\\) of method rcube_imap\\:\\:get_message_headers\\(\\) should be covariant with return type \\(rcube_message_header\\) of method rcube_storage\\:\\:get_message_headers\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Return type \\(rcube_message_header\\|null\\) of method rcube_imap\\:\\:get_message\\(\\) should be covariant with return type \\(rcube_message_header\\) of method rcube_storage\\:\\:get_message\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Return type \\(rcube_result_index\\|rcube_result_multifolder\\) of method rcube_imap\\:\\:search_once\\(\\) should be covariant with return type \\(rcube_result_index\\) of method rcube_storage\\:\\:search_once\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Return type \\(string\\|null\\) of method rcube_imap\\:\\:get_raw_body\\(\\) should be covariant with return type \\(string\\) of method rcube_storage\\:\\:get_raw_body\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Return type \\(string\\|null\\) of method rcube_imap\\:\\:get_raw_headers\\(\\) should be covariant with return type \\(string\\) of method rcube_storage\\:\\:get_raw_headers\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Return type \\(string\\|null\\) of method rcube_imap\\:\\:get_vendor\\(\\) should be covariant with return type \\(string\\) of method rcube_storage\\:\\:get_vendor\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
 			message: "#^Right side of && is always true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap.php
 
@@ -826,12 +1551,17 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
-			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
+			message: "#^Variable \\$n might not be defined\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with rcube_message_header will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_cache.php
 
 		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_cache.php
 
@@ -861,7 +1591,32 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap_cache.php
 
 		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 5
+			path: program/lib/Roundcube/rcube_imap_generic.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 13
+			path: program/lib/Roundcube/rcube_imap_generic.php
+
+		-
 			message: "#^Comparison operation \"\\<\" between int\\<0, 1\\> and 255 is always true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap_generic.php
+
+		-
+			message: "#^Foreach overwrites \\$auth_method with its value variable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap_generic.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$args might not exist\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap_generic.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$entries might not exist\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_generic.php
 
@@ -896,6 +1651,11 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap_generic.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap_generic.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between int and false will always evaluate to false\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_imap_generic.php
@@ -916,6 +1676,16 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap_generic.php
 
 		-
+			message: "#^Variable \\$entries might not be defined\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_imap_generic.php
+
+		-
+			message: "#^Variable \\$pos might not be defined\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_imap_generic.php
+
+		-
 			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_search.php
@@ -924,6 +1694,16 @@ parameters:
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_search.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
 
 		-
 			message: "#^Call to function is_array\\(\\) with mixed will always evaluate to false\\.$#"
@@ -941,14 +1721,79 @@ parameters:
 			path: program/lib/Roundcube/rcube_ldap.php
 
 		-
+			message: "#^Parameter \\#1 \\$cols \\(array\\) of method rcube_ldap\\:\\:list_records\\(\\) should be contravariant with parameter \\$cols \\(array\\|null\\) of method rcube_addressbook\\:\\:list_records\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Parameter \\#1 \\$filter \\(string\\) of method rcube_ldap\\:\\:set_search_set\\(\\) should be contravariant with parameter \\$filter \\(mixed\\) of method rcube_addressbook\\:\\:set_search_set\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Parameter \\#1 \\$search \\(string\\) of method rcube_ldap\\:\\:list_groups\\(\\) should be contravariant with parameter \\$search \\(string\\|null\\) of method rcube_addressbook\\:\\:list_groups\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Parameter \\#1 \\$sort_col \\(string\\) of method rcube_ldap\\:\\:set_sort_order\\(\\) should be contravariant with parameter \\$sort_col \\(string\\|null\\) of method rcube_addressbook\\:\\:set_sort_order\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Parameter \\#2 \\$sort_order \\(string\\) of method rcube_ldap\\:\\:set_sort_order\\(\\) should be contravariant with parameter \\$sort_order \\(string\\|null\\) of method rcube_addressbook\\:\\:set_sort_order\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Parameter \\#6 \\$required \\(array\\) of method rcube_ldap\\:\\:search\\(\\) should be contravariant with parameter \\$required \\(array\\<string\\>\\|string\\) of method rcube_addressbook\\:\\:search\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
 			message: "#^Result of && is always false\\.$#"
 			count: 2
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Return type \\(bool\\) of method rcube_ldap\\:\\:rename_group\\(\\) should be covariant with return type \\(string\\|false\\) of method rcube_addressbook\\:\\:rename_group\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Return type \\(bool\\|int\\) of method rcube_ldap\\:\\:delete\\(\\) should be covariant with return type \\(int\\|false\\) of method rcube_addressbook\\:\\:delete\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Return type \\(mixed\\) of method rcube_ldap\\:\\:create_group\\(\\) should be covariant with return type \\(array\\|false\\) of method rcube_addressbook\\:\\:create_group\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Return type \\(mixed\\) of method rcube_ldap\\:\\:get_record\\(\\) should be covariant with return type \\(array\\|rcube_result_set\\) of method rcube_addressbook\\:\\:get_record\\(\\)$#"
+			count: 1
 			path: program/lib/Roundcube/rcube_ldap.php
 
 		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 3
 			path: program/lib/Roundcube/rcube_ldap.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_message.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array\\<rcube_message_part\\> will always evaluate to true\\.$#"
+			count: 3
+			path: program/lib/Roundcube/rcube_message.php
+
+		-
+			message: "#^Foreach overwrites \\$part with its value variable\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_message.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -981,14 +1826,39 @@ parameters:
 			path: program/lib/Roundcube/rcube_message.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_message.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between string\\|null and false will always evaluate to true\\.$#"
+			count: 4
+			path: program/lib/Roundcube/rcube_message.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between string\\|true\\|null and false will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_message.php
+
+		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_message.php
 
 		-
+			message: "#^Call to function is_object\\(\\) with rcube_message_part will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_message_part.php
+
+		-
 			message: "#^Property rcube_message_part\\:\\:\\$parts \\(array\\<rcube_message_part\\>\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_message_part.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_mime.php
 
 		-
 			message: "#^Right side of && is always true\\.$#"
@@ -1006,12 +1876,22 @@ parameters:
 			path: program/lib/Roundcube/rcube_mime_decode.php
 
 		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_output.php
+
+		-
 			message: "#^Method rcube_plugin\\:\\:info\\(\\) should return array but returns false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_plugin.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_plugin_api.php
+
+		-
+			message: "#^Call to function is_callable\\(\\) with callable\\(\\)\\: mixed will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_plugin_api.php
 
@@ -1046,14 +1926,54 @@ parameters:
 			path: program/lib/Roundcube/rcube_result_thread.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 2
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
 			path: program/lib/Roundcube/rcube_session.php
 
 		-
 			message: "#^Method rcube_session\\:\\:unserialize\\(\\) should return array but returns false\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_session.php
+
+		-
+			message: "#^Return type \\(bool\\) of method rcube_session\\:\\:gc\\(\\) should be covariant with return type \\(int\\|false\\) of method SessionHandlerInterface\\:\\:gc\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_session.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_session.php
+
+		-
+			message: "#^Variable \\$id might not be defined\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_session.php
+
+		-
+			message: "#^Variable \\$length might not be defined\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_session.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_smtp.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with Net_SMTP and 'setAuthMethod' will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_smtp.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with Net_SMTP and 'setTimeout' will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_smtp.php
+
+		-
+			message: "#^Foreach overwrites \\$word with its value variable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_spellchecker.php
 
 		-
 			message: "#^Negated boolean expression is always true\\.$#"
@@ -1091,7 +2011,37 @@ parameters:
 			path: program/lib/Roundcube/rcube_spellchecker.php
 
 		-
-			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_string_replacer.php
+
+		-
+			message: "#^Variable \\$i might not be defined\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_string_replacer.php
+
+		-
+			message: "#^Variable \\$len might not be defined\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_string_replacer.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_text2html.php
+
+		-
+			message: "#^Variable \\$m might not be defined\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_tnef_decoder.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$insert_cols does not exist\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_user.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$insert_values does not exist\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_user.php
 
@@ -1126,12 +2076,37 @@ parameters:
 			path: program/lib/Roundcube/rcube_user.php
 
 		-
+			message: "#^Strict comparison using \\!\\=\\= between int and false will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_user.php
+
+		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_user.php
 
 		-
+			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_utils.php
+
+		-
 			message: "#^Call to function is_array\\(\\) with non\\-falsy\\-string will always evaluate to false\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_utils.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 3
+			path: program/lib/Roundcube/rcube_utils.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$remote_ip does not exist\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_utils.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$remote_ip might not exist\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_utils.php
 
@@ -1141,7 +2116,7 @@ parameters:
 			path: program/lib/Roundcube/rcube_utils.php
 
 		-
-			message: "#^Left side of \\|\\| is always false\\.$#"
+			message: "#^Loose comparison using \\=\\= between int\\<2, max\\> and 0 will always evaluate to false\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_utils.php
 
@@ -1151,7 +2126,37 @@ parameters:
 			path: program/lib/Roundcube/rcube_utils.php
 
 		-
+			message: "#^Variable \\$i might not be defined\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_utils.php
+
+		-
+			message: "#^Variable \\$ts might not be defined\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_utils.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_vcard.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: program/lib/Roundcube/rcube_vcard.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_vcard.php
+
+		-
 			message: "#^Elseif condition is always false\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_vcard.php
+
+		-
+			message: "#^Foreach overwrites \\$k with its key variable\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_vcard.php
 
@@ -1166,12 +2171,77 @@ parameters:
 			path: program/lib/Roundcube/rcube_vcard.php
 
 		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_washtml.php
+
+		-
 			message: "#^Method rcube_washtml\\:\\:wash_uri\\(\\) should return string but returns null\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_washtml.php
 
 		-
+			message: "#^Variable \\$p might not be defined\\.$#"
+			count: 1
+			path: program/lib/Roundcube/rcube_washtml.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: program/lib/Roundcube/session/db.php
+
+		-
+			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_db\\:\\:save\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/db.php
+
+		-
+			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_db\\:\\:update\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/db.php
+
+		-
+			message: "#^Parameter \\#2 \\$newvars \\(string\\) of method rcube_session_db\\:\\:update\\(\\) should be contravariant with parameter \\$newvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/db.php
+
+		-
+			message: "#^Parameter \\#2 \\$vars \\(string\\) of method rcube_session_db\\:\\:save\\(\\) should be contravariant with parameter \\$vars \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/db.php
+
+		-
+			message: "#^Parameter \\#3 \\$oldvars \\(string\\) of method rcube_session_db\\:\\:update\\(\\) should be contravariant with parameter \\$oldvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/db.php
+
+		-
 			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcache.php
+
+		-
+			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_memcache\\:\\:save\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcache.php
+
+		-
+			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_memcache\\:\\:update\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcache.php
+
+		-
+			message: "#^Parameter \\#2 \\$newvars \\(string\\) of method rcube_session_memcache\\:\\:update\\(\\) should be contravariant with parameter \\$newvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcache.php
+
+		-
+			message: "#^Parameter \\#2 \\$vars \\(string\\) of method rcube_session_memcache\\:\\:save\\(\\) should be contravariant with parameter \\$vars \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcache.php
+
+		-
+			message: "#^Parameter \\#3 \\$oldvars \\(string\\) of method rcube_session_memcache\\:\\:update\\(\\) should be contravariant with parameter \\$oldvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
 			count: 1
 			path: program/lib/Roundcube/session/memcache.php
 
@@ -1181,7 +2251,62 @@ parameters:
 			path: program/lib/Roundcube/session/memcached.php
 
 		-
+			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_memcached\\:\\:save\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcached.php
+
+		-
+			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_memcached\\:\\:update\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcached.php
+
+		-
+			message: "#^Parameter \\#2 \\$newvars \\(string\\) of method rcube_session_memcached\\:\\:update\\(\\) should be contravariant with parameter \\$newvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcached.php
+
+		-
+			message: "#^Parameter \\#2 \\$vars \\(string\\) of method rcube_session_memcached\\:\\:save\\(\\) should be contravariant with parameter \\$vars \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcached.php
+
+		-
+			message: "#^Parameter \\#3 \\$oldvars \\(string\\) of method rcube_session_memcached\\:\\:update\\(\\) should be contravariant with parameter \\$oldvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/memcached.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with Redis and 'del' will always evaluate to true\\.$#"
+			count: 1
+			path: program/lib/Roundcube/session/redis.php
+
+		-
 			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: program/lib/Roundcube/session/redis.php
+
+		-
+			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_redis\\:\\:save\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/redis.php
+
+		-
+			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_redis\\:\\:update\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/redis.php
+
+		-
+			message: "#^Parameter \\#2 \\$newvars \\(string\\) of method rcube_session_redis\\:\\:update\\(\\) should be contravariant with parameter \\$newvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/redis.php
+
+		-
+			message: "#^Parameter \\#2 \\$vars \\(array\\) of method rcube_session_redis\\:\\:save\\(\\) should be contravariant with parameter \\$vars \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
+			count: 1
+			path: program/lib/Roundcube/session/redis.php
+
+		-
+			message: "#^Parameter \\#3 \\$oldvars \\(string\\) of method rcube_session_redis\\:\\:update\\(\\) should be contravariant with parameter \\$oldvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
 			count: 1
 			path: program/lib/Roundcube/session/redis.php
 
@@ -1191,13 +2316,13 @@ parameters:
 			path: program/lib/Roundcube/spellchecker/atd.php
 
 		-
-			message: "#^Method rcube_spellchecker_atd\\:\\:check\\(\\) should return bool but returns array\\<int\\<0, max\\>, array\\<int, array\\<int\\<0, max\\>, string\\>\\|int\\<0, max\\>\\|string\\|false\\|null\\>\\>\\.$#"
+			message: "#^Method rcube_spellchecker_atd\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<int, array\\<int, string\\>\\|bool\\|int\\|string\\|null\\>\\>\\.$#"
 			count: 1
 			path: program/lib/Roundcube/spellchecker/atd.php
 
 		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
+			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
+			count: 3
 			path: program/lib/Roundcube/spellchecker/enchant.php
 
 		-
@@ -1206,9 +2331,14 @@ parameters:
 			path: program/lib/Roundcube/spellchecker/enchant.php
 
 		-
-			message: "#^Method rcube_spellchecker_enchant\\:\\:check\\(\\) should return bool but returns array\\<int\\<0, max\\>, array\\<int, array\\|int\\|string\\|null\\>\\>\\.$#"
+			message: "#^Method rcube_spellchecker_enchant\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<int, array\\|int\\|string\\|null\\>\\>\\.$#"
 			count: 1
 			path: program/lib/Roundcube/spellchecker/enchant.php
+
+		-
+			message: "#^Foreach overwrites \\$m with its value variable\\.$#"
+			count: 1
+			path: program/lib/Roundcube/spellchecker/googie.php
 
 		-
 			message: "#^Method rcube_spellchecker_googie\\:\\:check\\(\\) should return bool but returns array\\.$#"
@@ -1216,7 +2346,7 @@ parameters:
 			path: program/lib/Roundcube/spellchecker/googie.php
 
 		-
-			message: "#^Method rcube_spellchecker_googie\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<string\\>\\>\\.$#"
+			message: "#^Method rcube_spellchecker_googie\\:\\:check\\(\\) should return bool but returns array\\<int\\<0, max\\>, array\\<string\\>\\>\\.$#"
 			count: 1
 			path: program/lib/Roundcube/spellchecker/googie.php
 
@@ -1226,9 +2356,14 @@ parameters:
 			path: program/lib/Roundcube/spellchecker/pspell.php
 
 		-
-			message: "#^Method rcube_spellchecker_pspell\\:\\:check\\(\\) should return bool but returns array\\<int\\<0, max\\>, array\\<int, array\\|int\\|string\\|false\\|null\\>\\>\\.$#"
+			message: "#^Method rcube_spellchecker_pspell\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<int, array\\|bool\\|int\\|string\\|null\\>\\>\\.$#"
 			count: 1
 			path: program/lib/Roundcube/spellchecker/pspell.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 2
+			path: tests/ActionTestCase.php
 
 		-
 			message: "#^Property rcube\\:\\:\\$storage \\(rcube_storage\\|null\\) does not accept StorageMock\\.$#"
@@ -1236,14 +2371,109 @@ parameters:
 			path: tests/ActionTestCase.php
 
 		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: tests/Actions/Contacts/Photo.php
+
+		-
 			message: "#^Property rcube_message_part\\:\\:\\$mime_id \\(string\\) does not accept int\\.$#"
 			count: 1
 			path: tests/Actions/Mail/Index.php
 
 		-
+			message: "#^Foreach overwrites \\$expected with its value variable\\.$#"
+			count: 1
+			path: tests/Browser/Components/App.php
+
+		-
+			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\App\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
+			count: 1
+			path: tests/Browser/Components/App.php
+
+		-
+			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\Dialog\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
+			count: 1
+			path: tests/Browser/Components/Dialog.php
+
+		-
+			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\HtmlEditor\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
+			count: 1
+			path: tests/Browser/Components/HtmlEditor.php
+
+		-
+			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\Popupmenu\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
+			count: 1
+			path: tests/Browser/Components/Popupmenu.php
+
+		-
+			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\RecipientInput\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
+			count: 1
+			path: tests/Browser/Components/RecipientInput.php
+
+		-
+			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\Taskmenu\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
+			count: 1
+			path: tests/Browser/Components/Taskmenu.php
+
+		-
+			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\Toolbarmenu\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
+			count: 1
+			path: tests/Browser/Components/Toolbarmenu.php
+
+		-
+			message: "#^Return type \\(bool\\|string\\) of method Installer\\:\\:getUrl\\(\\) should be covariant with return type \\(string\\) of method Laravel\\\\Dusk\\\\Console\\\\ChromeDriverCommand\\:\\:getUrl\\(\\)$#"
+			count: 1
+			path: tests/Browser/install.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 4
+			path: tests/Framework/Charset.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get first element' will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Framework/ResultThread.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get last element' will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Framework/ResultThread.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get specified…' will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Framework/ResultThread.php
+
+		-
+			message: "#^Implicit array creation is not allowed \\- variable \\$data does not exist\\.$#"
+			count: 1
+			path: tests/Framework/Text2Html.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with string will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Framework/User.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 2
+			path: tests/Framework/Utils.php
+
+		-
 			message: "#^Right side of && is always false\\.$#"
 			count: 1
 			path: tests/Rcmail/Rcmail.php
+
+		-
+			message: "#^Call to function base64_decode\\(\\) requires parameter \\#2 to be set\\.$#"
+			count: 1
+			path: tests/Rcmail/Sendmail.php
+
+		-
+			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with array will always evaluate to false\\.$#"
+			count: 1
+			path: tests/Rcmail/Sendmail.php
 
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
