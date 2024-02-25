@@ -346,7 +346,7 @@ class rcube_ldap extends rcube_addressbook
                 }
 
                 // Get the pieces needed for variable replacement.
-                if ($fu = ($rcube->get_user_email() ?: $conf['username'])) {
+                if ($fu = ($rcube->get_user_email() ?: ($conf['username'] ?? null))) {
                     list($u, $d) = explode('@', $fu);
                 }
                 else {
