@@ -152,8 +152,9 @@ class rcube_mime
     /**
      * Decode a mime-encoded string to internal charset
      *
-     * @param string $input    Header value
-     * @param string $fallback Fallback charset if none specified
+     * @param string            $input    Header value
+     * @param string|false|null $fallback Fallback charset if none specified in the encoded value,
+     *                                    False to disable the default charset convertion
      *
      * @return string Decoded string
      */
@@ -187,7 +188,7 @@ class rcube_mime
                 // Append everything that is before the text to be decoded
                 if ($start != $pos) {
                     $substr = substr($input, $start, $pos - $start);
-                    $out .= rcube_charset::convert($substr, $default_charset);
+                    $out .= $fallback === false ? $substr : rcube_charset::convert($substr, $default_charset);
                     $start = $pos;
                 }
                 $start += $length;
@@ -246,7 +247,8 @@ class rcube_mime
 
             // add the last part of the input string
             if ($start != strlen($input)) {
-                $out .= rcube_charset::convert(substr($input, $start), $default_charset);
+                $input = substr($input, $start);
+                $out .= $fallback === false ? $input : rcube_charset::convert($input, $default_charset);
             }
 
             // return the results
@@ -254,7 +256,7 @@ class rcube_mime
         }
 
         // no encoding information, use fallback
-        return rcube_charset::convert($input, $default_charset);
+        return $fallback === false ? $input : rcube_charset::convert($input, $default_charset);
     }
 
     /**

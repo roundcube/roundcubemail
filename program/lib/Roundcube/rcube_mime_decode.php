@@ -239,7 +239,7 @@ class rcube_mime_decode
     /**
      * Parse headers given in $input and return as assoc array.
      *
-     * @param string $input Headers to parse
+     * @param ?string $input Headers to parse
      *
      * @return array Contains parsed headers
      */
@@ -247,7 +247,7 @@ class rcube_mime_decode
     {
         $return = [];
 
-        if ($input !== '') {
+        if (is_string($input) && $input !== '') {
             // Unfold the input
             $input = preg_replace('/' . $this->params['crlf'] . "(\t| )/", ' ', $input);
             $headers = explode($this->params['crlf'], trim($input));
@@ -369,6 +369,7 @@ class rcube_mime_decode
         $struct->ctype_primary = $part->ctype_primary;
         $struct->ctype_secondary = $part->ctype_secondary;
         $struct->ctype_parameters = $part->ctype_parameters;
+        $struct->d_parameters = $part->d_parameters;
 
         if (!empty($part->headers['content-transfer-encoding'])) {
             $struct->encoding = $part->headers['content-transfer-encoding'];

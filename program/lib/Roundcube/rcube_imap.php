@@ -2248,7 +2248,7 @@ class rcube_imap extends rcube_storage
         }
 
         // normalize filename property
-        $this->set_part_filename($struct, $mime_headers);
+        $struct->normalize($mime_headers);
 
         return $struct;
     }
@@ -2270,95 +2270,6 @@ class rcube_imap extends rcube_storage
         }
 
         return false;
-    }
-
-    /**
-     * Set attachment filename from message part structure
-     *
-     * @param rcube_message_part $part    Part object
-     * @param string             $headers Part's raw headers
-     */
-    protected function set_part_filename(&$part, $headers = null)
-    {
-        // Some IMAP servers do not support RFC2231, if we have
-        // part headers we'll get attachment name from them, not the BODYSTRUCTURE
-        $rfc2231_params = [];
-        if (!empty($headers) || !empty($part->headers)) {
-            if (is_object($headers)) {
-                $headers = get_object_vars($headers);
-            } else {
-                $headers = !empty($headers) ? rcube_mime::parse_headers($headers) : $part->headers;
-            }
-
-            $ctype = $headers['content-type'] ?? '';
-            $disposition = $headers['content-disposition'] ?? '';
-            $tokens = preg_split('/;[\s\r\n\t]*/', $ctype . ';' . $disposition);
-
-            foreach ($tokens as $token) {
-                // TODO: Use order defined by the parameter name not order of occurrence in the header
-                if (preg_match('/^(name|filename)\*([0-9]*)\*?="*([^"]+)"*/i', $token, $matches)) {
-                    $key = strtolower($matches[1]);
-                    $rfc2231_params[$key] = ($rfc2231_params[$key] ?? '') . $matches[3];
-                }
-            }
-        }
-
-        if (isset($rfc2231_params['name'])) {
-            $filename_encoded = $rfc2231_params['name'];
-        } elseif (isset($rfc2231_params['filename'])) {
-            $filename_encoded = $rfc2231_params['filename'];
-        } elseif (isset($part->d_parameters['filename*'])) {
-            $filename_encoded = $part->d_parameters['filename*'];
-        } elseif (isset($part->ctype_parameters['name*'])) {
-            $filename_encoded = $part->ctype_parameters['name*'];
-        } elseif (!empty($part->d_parameters['filename'])) {
-            $filename_mime = $part->d_parameters['filename'];
-        }
-        // read 'name' after rfc2231 parameters as it may contain truncated filename (from Thunderbird)
-        elseif (!empty($part->ctype_parameters['name'])) {
-            $filename_mime = $part->ctype_parameters['name'];
-        } elseif (!empty($part->headers['content-description'])) {
-            $filename_mime = $part->headers['content-description'];
-        } else {
-            return;
-        }
-
-        // decode filename
-        if (isset($filename_mime)) {
-            if (!empty($part->charset)) {
-                $charset = $part->charset;
-            } elseif (!empty($this->struct_charset)) {
-                $charset = $this->struct_charset;
-            } else {
-                $charset = $this->default_charset;
-            }
-
-            $part->filename = rcube_mime::decode_mime_string($filename_mime, $charset);
-        } elseif (isset($filename_encoded)) {
-            // decode filename according to RFC 2231, Section 4
-            if (preg_match("/^([^']*)'[^']*'(.*)$/", $filename_encoded, $fmatches)) {
-                $filename_charset = $fmatches[1];
-                $filename_encoded = $fmatches[2];
-            }
-
-            $part->filename = rawurldecode($filename_encoded);
-
-            if (!empty($filename_charset)) {
-                $part->filename = rcube_charset::convert($part->filename, $filename_charset);
-            }
-        }
-
-        // Workaround for invalid Content-Type (#6816)
-        // Some servers for "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
-        if ($part->mimetype == 'text/plain' && !empty($headers['content-type'])) {
-            $tokens = preg_split('/;[\s\r\n\t]*/', $headers['content-type']);
-            $type = rcube_mime::fix_mimetype($tokens[0]);
-
-            if ($type != $part->mimetype) {
-                $part->mimetype = $type;
-                [$part->ctype_primary, $part->ctype_secondary] = explode('/', $part->mimetype);
-            }
-        }
     }
 
     /**
