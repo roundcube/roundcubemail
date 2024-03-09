@@ -216,16 +216,6 @@ parameters:
 			path: plugins/enigma/lib/enigma_engine.php
 
 		-
-			message: "#^Access to offset 'body' on an unknown class An\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_mime_message.php
-
-		-
-			message: "#^Access to offset 'headers' on an unknown class An\\.$#"
-			count: 1
-			path: plugins/enigma/lib/enigma_mime_message.php
-
-		-
 			message: "#^Implicit array creation is not allowed \\- variable \\$headers does not exist\\.$#"
 			count: 2
 			path: plugins/enigma/lib/enigma_mime_message.php
@@ -1596,11 +1586,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap_generic.php
 
 		-
-			message: "#^Comparison operation \"\\<\" between int\\<0, 1\\> and 255 is always true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
 			message: "#^Foreach overwrites \\$auth_method with its value variable\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_generic.php
@@ -1786,11 +1771,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_message.php
 
 		-
-			message: "#^Foreach overwrites \\$part with its value variable\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_message.php
@@ -1833,11 +1813,6 @@ parameters:
 		-
 			message: "#^Strict comparison using \\!\\=\\= between string\\|true\\|null and false will always evaluate to true\\.$#"
 			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
 			path: program/lib/Roundcube/rcube_message.php
 
 		-

@@ -697,22 +697,25 @@ abstract class rcmail_action
     /**
      * Create a human readable string for a number of bytes
      *
-     * @param int    $bytes Number of bytes
-     * @param string &$unit Size unit
+     * @param int     $bytes Number of bytes
+     * @param ?string &$unit Size unit
      *
      * @return string Byte string
      */
     public static function show_bytes($bytes, &$unit = null)
     {
         $rcmail = rcmail::get_instance();
+        $unit = null;
 
         // Plugins may want to display different units
-        $plugin = $rcmail->plugins->exec_hook('show_bytes', ['bytes' => $bytes, 'unit' => null]);
+        $plugin = $rcmail->plugins->exec_hook('show_bytes', ['bytes' => $bytes, 'unit' => $unit]);
 
-        $unit = $plugin['unit'];
+        if (is_string($plugin['unit'])) {
+            $unit = $plugin['unit'];
+        }
 
         if (isset($plugin['result'])) {
-            return $plugin['result'];
+            return (string) $plugin['result'];
         }
 
         if ($bytes >= 1073741824) {
