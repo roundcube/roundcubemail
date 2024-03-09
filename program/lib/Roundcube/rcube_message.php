@@ -351,12 +351,12 @@ class rcube_message
      * Determine if the message contains a HTML part. This must to be
      * a real part not an attachment (or its part)
      *
-     * @param bool               $enriched Enables checking for text/enriched parts too
-     * @param rcube_message_part &$part    Reference to the part if found
+     * @param bool                    $enriched Enables checking for text/enriched parts too
+     * @param rcube_message_part|null &$ref     Reference to the part if found
      *
      * @return bool True if a HTML is available, False if not
      */
-    public function has_html_part($enriched = false, &$part = null)
+    public function has_html_part($enriched = false, &$ref = null)
     {
         // check all message parts
         foreach ($this->mime_parts as $part) {
@@ -376,6 +376,8 @@ class rcube_message
 
                 // The HTML body part extracted from a winmail.dat attachment part
                 if (strpos($part->mime_id, 'winmail.') === 0) {
+                    $ref = $part;
+
                     return true;
                 }
 
@@ -386,13 +388,13 @@ class rcube_message
                 // Check if the part does not belong to a message/rfc822 part
                 while (array_pop($level) !== null) {
                     if (!count($level)) {
-                        return true;
+                        break;
                     }
 
                     $parent = $this->mime_parts[implode('.', $level)];
 
                     if (!$this->check_context($parent)) {
-                        return true;
+                        break;
                     }
 
                     if ($parent->mimetype == 'message/rfc822') {
@@ -400,11 +402,11 @@ class rcube_message
                     }
                 }
 
+                $ref = $part;
+
                 return true;
             }
         }
-
-        $part = null;
 
         return false;
     }
@@ -413,11 +415,11 @@ class rcube_message
      * Determine if the message contains a text/plain part. This must to be
      * a real part not an attachment (or its part)
      *
-     * @param rcube_message_part &$part Reference to the part if found
+     * @param ?rcube_message_part &$ref Reference to the part if found
      *
      * @return bool True if a plain text part is available, False if not
      */
-    public function has_text_part(&$part = null)
+    public function has_text_part(&$ref = null)
     {
         // check all message parts
         foreach ($this->mime_parts as $part) {
@@ -440,13 +442,13 @@ class rcube_message
                 // Check if the part does not belong to a message/rfc822 part
                 while (array_pop($level) !== null) {
                     if (!count($level)) {
-                        return true;
+                        break;
                     }
 
                     $parent = $this->mime_parts[implode('.', $level)];
 
                     if (!$this->check_context($parent)) {
-                        return true;
+                        break;
                     }
 
                     if ($parent->mimetype == 'message/rfc822') {
@@ -454,11 +456,11 @@ class rcube_message
                     }
                 }
 
+                $ref = $part;
+
                 return true;
             }
         }
-
-        $part = null;
 
         return false;
     }
@@ -909,7 +911,6 @@ class rcube_message
 
                     // add winmail.dat to the list if it's content is unknown
                     if (empty($tnef_parts) && !empty($mail_part->filename)) {
-                        // @phpstan-ignore-next-line
                         $this->mime_parts[$mail_part->mime_id] = $mail_part;
                         $this->add_part($mail_part, 'attachment');
                     }
