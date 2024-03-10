@@ -6,6 +6,9 @@
   xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
   <coverage/>
+  <extensions>
+    <extension class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
+  </extensions>
   <testsuites>
     <testsuite name="Logon">
       <directory suffix="Test.php">Logon</directory>
