@@ -14,6 +14,7 @@ class Taskmenu extends Component
      *
      * @return string
      */
+    #[\Override]
     public function selector()
     {
         return '#taskmenu';
@@ -24,6 +25,7 @@ class Taskmenu extends Component
      *
      * @param Browser $browser
      */
+    #[\Override]
     public function assert($browser): void
     {
         if ($browser->isPhone()) {
@@ -38,6 +40,7 @@ class Taskmenu extends Component
      *
      * @return array
      */
+    #[\Override]
     public function elements()
     {
         return [

@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class Enigma_Plugin extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         include_once __DIR__ . '/../enigma.php';

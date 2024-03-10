@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class AttachmentReminder_Plugin extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../attachment_reminder.php';

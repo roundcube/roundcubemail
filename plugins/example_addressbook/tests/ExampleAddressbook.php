@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class ExampleAddressbook_Plugin extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../example_addressbook.php';

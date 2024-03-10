@@ -10,6 +10,7 @@ use Tests\Browser\TestCase;
 
 class ComposeTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();

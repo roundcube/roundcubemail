@@ -34,6 +34,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

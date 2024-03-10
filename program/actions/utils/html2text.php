@@ -26,6 +26,7 @@ class rcmail_action_utils_html2text extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $html = file_get_contents(self::$source);

@@ -44,6 +44,7 @@ abstract class TestCase extends PHPUnitTestCase
      *
      * @return RemoteWebDriver
      */
+    #[\Override]
     protected function driver()
     {
         $options = (new ChromeOptions())->addArguments([
@@ -98,6 +99,7 @@ abstract class TestCase extends PHPUnitTestCase
     /**
      * Set up the test run
      */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

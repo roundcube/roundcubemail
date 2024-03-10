@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class HideBlockquote_Plugin extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../hide_blockquote.php';

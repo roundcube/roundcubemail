@@ -42,6 +42,7 @@ class database_attachments extends filesystem_attachments
     /**
      * Save a newly uploaded attachment
      */
+    #[Override]
     public function upload($args)
     {
         $args['status'] = false;
@@ -69,6 +70,7 @@ class database_attachments extends filesystem_attachments
     /**
      * Save an attachment from a non-upload source (draft or forward)
      */
+    #[Override]
     public function save($args)
     {
         $args['status'] = false;
@@ -101,6 +103,7 @@ class database_attachments extends filesystem_attachments
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
      */
+    #[Override]
     public function remove($args)
     {
         $cache = $this->get_cache();
@@ -116,6 +119,7 @@ class database_attachments extends filesystem_attachments
      * For this plugin, $this->get() will check the file and
      * return it's contents
      */
+    #[Override]
     public function display($args)
     {
         return $this->get($args);
@@ -125,6 +129,7 @@ class database_attachments extends filesystem_attachments
      * When displaying or sending the attachment the file contents are fetched
      * using this method. This is also called by the attachment_display hook.
      */
+    #[Override]
     public function get($args)
     {
         $cache = $this->get_cache();
@@ -143,6 +148,7 @@ class database_attachments extends filesystem_attachments
     /**
      * Delete all temp files associated with this user
      */
+    #[Override]
     public function cleanup($args)
     {
         // check if cache object exist, it may be empty on session_destroy (#1489726)

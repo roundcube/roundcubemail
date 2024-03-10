@@ -29,6 +29,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::command()
      */
+    #[Override]
     public function command($cmd, ...$args)
     {
         // NOP
@@ -39,6 +40,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::add_label()
      */
+    #[Override]
     public function add_label(...$args)
     {
         // NOP
@@ -49,6 +51,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::show_message()
      */
+    #[Override]
     public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($this->app->text_exists($message)) {
@@ -63,6 +66,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::redirect()
      */
+    #[Override]
     public function redirect($p = [], $delay = 1)
     {
         // NOP
@@ -71,6 +75,7 @@ class rcmail_output_cli extends rcmail_output
     /**
      * Send output to the client.
      */
+    #[Override]
     public function send()
     {
         // NOP

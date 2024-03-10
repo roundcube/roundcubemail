@@ -53,6 +53,7 @@ class password extends rcube_plugin
     private $drivers = [];
     private $rc;
 
+    #[Override]
     public function init()
     {
         $this->rc = rcmail::get_instance();

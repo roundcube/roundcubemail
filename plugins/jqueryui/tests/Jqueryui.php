@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class Jqueryui_Plugin extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../jqueryui.php';

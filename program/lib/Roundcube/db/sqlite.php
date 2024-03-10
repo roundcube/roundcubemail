@@ -29,6 +29,7 @@ class rcube_db_sqlite extends rcube_db
     /**
      * Prepare connection
      */
+    #[Override]
     protected function conn_prepare($dsn)
     {
         // Create database file, required by PDO to exist on connection
@@ -45,6 +46,7 @@ class rcube_db_sqlite extends rcube_db
     /**
      * Configure connection, create database if not exists
      */
+    #[Override]
     protected function conn_configure($dsn, $dbh)
     {
         // Initialize database structure in file is empty
@@ -86,6 +88,7 @@ class rcube_db_sqlite extends rcube_db
      *
      * @deprecated
      */
+    #[Override]
     public function unixtimestamp($field)
     {
         return "strftime('%s', {$field})";
@@ -98,6 +101,7 @@ class rcube_db_sqlite extends rcube_db
      *
      * @return string SQL function to use in query
      */
+    #[Override]
     public function now($interval = 0)
     {
         $add = '';
@@ -114,6 +118,7 @@ class rcube_db_sqlite extends rcube_db
      *
      * @return array List of all tables of the current database
      */
+    #[Override]
     public function list_tables()
     {
         if ($this->tables === null) {
@@ -133,6 +138,7 @@ class rcube_db_sqlite extends rcube_db
      *
      * @return array List of table cols
      */
+    #[Override]
     public function list_cols($table)
     {
         $q = $this->query('PRAGMA table_info(?)', $table);
@@ -143,6 +149,7 @@ class rcube_db_sqlite extends rcube_db
     /**
      * Build DSN string for PDO constructor
      */
+    #[Override]
     protected function dsn_string($dsn)
     {
         return $dsn['phptype'] . ':' . $dsn['database'];
@@ -155,6 +162,7 @@ class rcube_db_sqlite extends rcube_db
      *
      * @return array Connection options
      */
+    #[Override]
     protected function dsn_options($dsn)
     {
         $result = parent::dsn_options($dsn);

@@ -6,6 +6,7 @@ use Tests\Browser\TestCase;
 
 class SettingsTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();

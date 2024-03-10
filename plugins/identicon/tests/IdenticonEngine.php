@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class Identicon_IdenticonEngine extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../identicon_engine.php';

@@ -20,6 +20,7 @@ class enigma_driver_phpssl extends enigma_driver
     private $homedir;
     private $user;
 
+    #[Override]
     public function __construct($user)
     {
         $rcmail = rcmail::get_instance();
@@ -33,6 +34,7 @@ class enigma_driver_phpssl extends enigma_driver
      *
      * @return mixed NULL on success, enigma_error on failure
      */
+    #[Override]
     public function init()
     {
         $homedir = $this->rc->config->get('enigma_smime_homedir', INSTALL_PATH . '/plugins/enigma/home');
@@ -71,12 +73,16 @@ class enigma_driver_phpssl extends enigma_driver
         $this->homedir = $homedir;
     }
 
+    #[Override]
     public function encrypt($text, $keys, $sign_key = null) {}
 
+    #[Override]
     public function decrypt($text, $keys = [], &$signature = null) {}
 
+    #[Override]
     public function sign($text, $key, $mode = null) {}
 
+    #[Override]
     public function verify($struct, $message)
     {
         /*
@@ -119,16 +125,22 @@ class enigma_driver_phpssl extends enigma_driver
         */
     }
 
+    #[Override]
     public function import($content, $isfile = false, $passwords = []) {}
 
+    #[Override]
     public function export($key, $with_private = false, $passwords = []) {}
 
+    #[Override]
     public function list_keys($pattern = '') {}
 
+    #[Override]
     public function get_key($keyid) {}
 
+    #[Override]
     public function gen_key($data) {}
 
+    #[Override]
     public function delete_key($keyid) {}
 
     /**
@@ -137,6 +149,7 @@ class enigma_driver_phpssl extends enigma_driver
      *
      * @return string Hash algorithm name e.g. sha1
      */
+    #[Override]
     public function signature_algorithm()
     {
         return ''; // TODO

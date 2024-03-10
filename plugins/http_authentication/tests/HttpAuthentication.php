@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class HttpAuthentication_Plugin extends TestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         include_once __DIR__ . '/../http_authentication.php';
