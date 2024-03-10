@@ -61,6 +61,7 @@ build: buildtools
 
 buildtools: /tmp/composer.phar
 	npm install -g uglify-js lessc less-plugin-clean-css csso-cli
+	apt install -y dos2unix php8.1
 
 /tmp/composer.phar:
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp/

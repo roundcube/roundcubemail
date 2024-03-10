@@ -3,7 +3,7 @@ name: Build & Deploy
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build: 
@@ -11,9 +11,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Setup Make
-        run: sudo apt-get install make
 
       - name: Build
         run: make
