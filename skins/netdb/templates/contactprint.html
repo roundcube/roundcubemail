@@ -1,0 +1,19 @@
+<roundcube:include file="includes/layout.html" />
+
+<roundcube:object name="logo" id="logo" alt="Logo" logo-type="print" logo-match="template" class="float-sm-right" />
+
+<div class="print-content formcontent" role="main">
+	<div class="contact-header">
+		<div id="contactphoto" class="contact-photo">
+			<roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.svg"
+				placeholderGroup="/images/contactgroup.svg" />
+		</div>
+		<roundcube:object name="contacthead" id="contacthead" class="contact-head readonly" with-source="true" />
+	</div>
+	<div id="contacttabs">
+		<roundcube:object name="contactdetails" fieldset-class="propform grouped readonly"
+			short-legend-labels="true" />
+	</div>
+</div>
+
+<roundcube:include file="includes/footer.html" />

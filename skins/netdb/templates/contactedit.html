@@ -1,0 +1,29 @@
+<roundcube:include file="includes/layout.html" />
+
+<h1 class="voice"><roundcube:object name="steptitle" /></h1>
+
+<roundcube:form name="editform" method="post" id="contact-details" class="formcontent">
+	<div class="contact-header">
+		<fieldset id="contactphoto" class="contact-photo">
+			<legend class="voice"><roundcube:label name="contactphoto" /></legend>
+			<roundcube:object name="contactphoto" id="contactpic" class="image-upload" placeholder="/images/contactpic.svg" />
+			<roundcube:if condition="env:photocol" />
+				<roundcube:object name="fileDropArea" id="contactpic" />
+			<roundcube:endif />
+		</fieldset>
+		<roundcube:object name="contactedithead" id="contacthead" form="editform"
+			class="propform contact-head" use-labels="true" with-source="true" />
+	</div>
+	<div id="contacttabs" class="tabbed">
+		<roundcube:object name="contacteditform" textareacols="60" form="editform"
+			fieldset-class="propform grouped" compact-form="true" short-legend-labels="true" />
+	</div>
+</form>
+
+<div class="formbuttons">
+	<roundcube:button command="save" class="btn btn-primary submit" label="save" />
+</div>
+
+<roundcube:object name="photoUploadForm" id="upload-form" mode="smart" />
+
+<roundcube:include file="includes/footer.html" />

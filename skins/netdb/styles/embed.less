@@ -1,0 +1,95 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/* Style for embedded pages and TinyMCE editor content page */
+
+@import "global";
+
+.mce-content-body {
+    margin: 4px;
+    color: @color-input;
+
+    div.pre {
+        font-family: monospace;
+    }
+
+    blockquote {
+        border-left: #1010ff 2px solid;
+        margin: 0;
+        padding: 0 0.4em;
+    }
+}
+
+.rcmail-inline-message {
+    .font-family();
+    font-size: @page-font-size;
+    padding: .5em;
+    margin: 0 0 .5em 0;
+    opacity: .95;
+    color: @color-message;
+    background-color: @color-message-warning-box-background;
+    display: flex;
+    align-items: center;
+
+    &:before {
+        .font-icon-class();
+        font-size: 1.5em;
+        line-height: 1;
+        width: 1em;
+        margin-right: .3em;
+        content: @fa-var-exclamation-triangle;
+        color: @color-message-warning;
+    }
+
+    span {
+        line-height: 1.5;
+    }
+
+    a {
+        color: @color-link;
+    }
+
+    a:hover {
+        color: @color-link-hover;
+    }
+
+    button {
+        vertical-align: middle;
+        white-space: nowrap;
+        padding: .375em .75em;
+        margin-left: .5em;
+        font-size: 1em;
+        line-height: 1.5;
+        border-radius: .25em;
+        border: 1px solid transparent;
+        color: @color-btn-primary;
+        background: @color-btn-primary-background;
+
+        &:focus {
+            box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 50%);
+        }
+
+        &:hover {
+            background: darken(@color-btn-primary-background, 8%);
+            border-color: darken(@color-btn-primary-background, 10%);
+        }
+
+        &:not([disabled]):not(.disabled):active {
+            background: darken(@color-btn-primary-background, 11%);
+            border-color: darken(@color-btn-primary-background, 13%);
+            box-shadow: 0 0 0 .2rem fade(@color-btn-primary-background, 53%);
+        }
+    }
+}
+
+.rcmail-inline-buttons {
+    margin: 0;
+}

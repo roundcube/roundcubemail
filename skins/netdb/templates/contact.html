@@ -1,0 +1,23 @@
+<roundcube:include file="includes/layout.html" />
+
+<h1 class="voice"><roundcube:label name="contactproperties" /></h1>
+
+<div class="formcontent">
+	<div class="contact-header">
+		<div id="contactphoto" class="contact-photo">
+			<roundcube:object name="contactphoto" id="contactpic" placeholder="/images/contactpic.svg"
+				placeholderGroup="/images/contactgroup.svg" bg-color="transparent" />
+		</div>
+		<roundcube:object name="contacthead" id="contacthead" class="contact-head readonly" with-source="true" />
+	</div>
+	<div id="contacttabs" class="tabbed">
+		<roundcube:object name="contactdetails" fieldset-class="propform grouped readonly"
+			short-legend-labels="true" />
+	</div>
+</div>
+
+<div class="formbuttons">
+	<roundcube:button command="edit" class="btn btn-primary edit" label="edit" condition="!ENV:readonly" />
+</div>
+
+<roundcube:include file="includes/footer.html" />

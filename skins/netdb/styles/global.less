@@ -1,0 +1,149 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+@import (reference) "variables";
+@import (reference) "mixins";
+
+/*** Fonts ***/
+
+@font-face {
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: 900;
+  src: url("../fonts/fa-solid-900.woff2") format('woff2'),
+       url("../fonts/fa-solid-900.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/fa-regular-400.woff2") format('woff2'),
+       url("../fonts/fa-regular-400.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'),
+       url('../fonts/roboto-v29-regular.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v29-regular.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Roboto Italic'), local('Roboto-Italic'),
+       url('../fonts/roboto-v29-italic.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v29-italic.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'),
+       url('../fonts/roboto-v29-regular-700.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v29-regular-700.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Roboto Bold Italic'), local('Roboto-BoldItalic'),
+       url('../fonts/roboto-v29-italic-700.woff2') format('woff2'), // Chrome 26+, Opera 23+, Firefox 39+
+       url('../fonts/roboto-v29-italic-700.woff') format('woff'); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+}
+
+/* Reset some Bootstrap style */
+
+body, button, input, optgroup, select, textarea, .popover {
+    .font-family();
+}
+
+button, input, select, textarea {
+    line-height: initial;
+}
+
+input {
+    vertical-align: middle;
+}
+
+a {
+    color: @color-link;
+
+    &:hover {
+        color: @color-link-hover;
+    }
+
+    &.disabled {
+        pointer-events: none;
+    }
+
+    &.disabled:not(.btn) {
+        opacity: .5;
+    }
+}
+
+/* Scrollbar styles */
+
+html when not (@scrollbar-width = unset) {
+    // Ignore thin width setting for Firefox, it makes the scrollbar very very thin in Firefox >= 100
+    & when not (@scrollbar-width = thin) {
+        scrollbar-width: @scrollbar-width;
+
+        textarea,
+        select,
+        .popover-body,
+        .popupmenu,
+        .ui-menu,
+        .ui-dialog-content,
+        .frame-content,
+        .formcontent,
+        .table-responsive,
+        .table-responsive-sm,
+        .tox-menu,
+        .tox-dialog__body-nav,
+        .tox-collection__group,
+        .scroller {
+            // Firefox does not inherit scrollbar size from the html element
+            scrollbar-width: @scrollbar-width;
+        }
+    }
+
+    &:not(.touch) {
+        ::-webkit-scrollbar when (@scrollbar-width = auto) {
+            // Note: If we do not set the width a default scrollbar is used in Chrome.
+            // And the custom colors set below do not work
+            width: 12px;
+        }
+        ::-webkit-scrollbar when (@scrollbar-width = thin) {
+            width: 6px;
+        }
+    }
+}
+
+html {
+    scrollbar-color: @color-scrollbar-thumb @color-scrollbar-track;
+
+    &:not(.touch) {
+        ::-webkit-scrollbar-track {
+            background-color: @color-scrollbar-track;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: @color-scrollbar-thumb;
+        }
+    }
+}

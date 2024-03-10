@@ -1,0 +1,119 @@
+<roundcube:include file="includes/layout.html" />
+
+<h1 class="voice"><roundcube:var name="env:filename" /></h1>
+
+<div id="layout-content" class="selected">
+	<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
+		<span class="header-title constant"><roundcube:var name="env:filename" /></span>
+		<div id="messagetoolbar" class="toolbar menu">
+			<roundcube:button type="link" name="info" label="properties" title="properties"
+				class="info" innerclass="inner" onclick="UI.props_dialog()" />
+			<roundcube:button command="download" type="link" label="download" title="download"
+				class="download disabled" classAct="download" innerclass="inner" />
+			<roundcube:button command="print" type="link" label="print" title="print"
+				class="print disabled" classAct="print" innerclass="inner" data-hidden="small" />
+			<roundcube:container name="toolbar" id="messagetoolbar" />
+			<roundcube:if condition="env:is_message" />
+				<span class="spacer"></span>
+				<roundcube:button command="reply" type="link" class="reply disabled" classAct="reply"
+					label="reply" title="replytomessage" innerclass="inner" />
+				<span class="dropbutton">
+					<roundcube:button command="reply-all" type="link" class="reply-all disabled" classAct="reply-all"
+						label="replyall" title="replytoallmessage" innerclass="inner" />
+					<a href="#reply-all" id="replyallmenulink" class="dropdown" data-popup="replyall-menu" tabindex="0">
+						<span class="inner"><roundcube:label name="arialabelreplyalloptions" /></span>
+					</a>
+				</span>
+				<span class="dropbutton">
+					<roundcube:button command="forward" type="link" class="forward disabled" classAct="forward"
+						label="forward" title="forwardmessage" innerclass="inner" />
+					<a href="#forward" id="forwardmenulink" class="dropdown" data-popup="forward-menu" tabindex="0">
+						<span class="inner"><roundcube:label name="arialabelforwardingoptions" /></span>
+					</a>
+				</span>
+				<span class="spacer"></span>
+				<roundcube:button name="messagemenulink" id="messagemenulink" type="link"
+					class="more" label="more" title="moreactions" data-popup="message-menu"
+					innerclass="inner" data-hidden="small" />
+			<roundcube:endif />
+			<roundcube:if condition="stripos(env:mimetype, 'image/') === 0" />
+				<span class="spacer"></span>
+				<roundcube:button command="image-scale" type="link" prop="+" data-hidden="small"
+					class="zoomin disabled" classAct="zoomin"
+					label="zoomin" title="increaseimage" innerclass="inner" />
+				<roundcube:button command="image-scale" type="link" prop="-" data-hidden="small"
+					class="zoomout disabled" classAct="zoomout"
+					label="zoomout" title="decreaseimage" innerclass="inner" />
+				<roundcube:button command="image-rotate" type="link" data-hidden="small"
+					class="rotate disabled" classAct="rotate"
+					label="rotate" title="rotateimage" innerclass="inner" />
+			<roundcube:endif />
+		</div>
+	</div>
+	<h2 id="aria-label-messagepart" class="voice"><roundcube:label name="arialabelattachmentpreview" /></h2>
+	<div class="iframe-wrapper">
+		<roundcube:object name="messagePartFrame" id="messagepartframe" title="arialabelattachmentpreview"
+			role="main" aria-labelledby="aria-label-messagepart" />
+	</div>
+<roundcube:if condition="stripos(env:mimetype, 'image/') === 0" />
+	<div id="image-tools" class="image-tools" data-hidden="big">
+		<h3 id="aria-label-imagetools" class="voice"><roundcube:label name="arialabelimagetools" /></h3>
+		<div class="toolbar menu" role="menu" aria-labelledby="aria-label-imagetools">
+			<roundcube:button command="image-scale" type="link" prop="+"
+				class="zoomin disabled" classAct="zoomin"
+				label="zoomin" title="increaseimage" innerclass="inner" />
+			<roundcube:button command="image-scale" type="link" prop="-"
+				class="zoomout disabled" classAct="zoomout"
+				label="zoomout" title="decreaseimage" innerclass="inner" />
+			<roundcube:button command="image-rotate" type="link"
+				class="rotate disabled" classAct="rotate"
+				label="rotate" title="rotateimage" innerclass="inner" />
+		</div>
+		<a href="#" class="button icon tools" onclick="$(this).attr('title', $(this).data('label-' + ($('#image-tools').toggleClass('open').is('.open') ? 'hide' : 'show')))"
+			data-label-show="<roundcube:label name="showtools" />" data-label-hide="<roundcube:label name="hidetools" />" title="<roundcube:label name="showtools" />">
+			<span class="inner"><roundcube:label name="showtools" /></span>
+		</a>
+	</div>
+<roundcube:endif />
+</div>
+
+<roundcube:if condition="env:is_message" />
+	<div id="forward-menu" class="popupmenu">
+		<h3 id="aria-label-forwardmenu" class="voice"><roundcube:label name="arialabelforwardingoptions" /></h3>
+		<ul class="menu listing" role="menu" aria-labelledby="aria-label-forwardmenu">
+			<roundcube:button type="link-menuitem" command="forward-inline" label="forwardinline" prop="sub" classAct="forward inline active" class="forward disabled" />
+			<roundcube:button type="link-menuitem" command="forward-attachment" label="forwardattachment" prop="sub" classAct="forward attachment active" class="forward attachment disabled" />
+			<roundcube:container name="forwardmenu" id="forward-menu" />
+		</ul>
+	</div>
+
+	<div id="replyall-menu" class="popupmenu">
+		<h3 id="aria-label-replyallmenu" class="voice"><roundcube:label name="arialabelreplyalloptions" /></h3>
+		<ul class="menu listing" role="menu" aria-labelledby="aria-label-replyallmenu">
+			<roundcube:button type="link-menuitem" command="reply-all" label="replyall" prop="sub" class="reply all disabled" classAct="reply all active" />
+			<roundcube:button type="link-menuitem" command="reply-list" label="replylist" prop="sub" class="reply list disabled" classAct="reply list active" />
+			<roundcube:container name="replyallmenu" id="replyall-menu" />
+		</ul>
+	</div>
+
+	<div id="message-menu" class="popupmenu">
+		<h3 id="aria-label-messagemenu" class="voice"><roundcube:label name="arialabelmoremessageactions" /></h3>
+		<ul class="menu listing" role="menu" aria-labelledby="aria-label-messagemenu">
+			<roundcube:button type="link-menuitem" command="edit" prop="new" label="editasnew" class="edit asnew disabled" classAct="edit asnew active" />
+			<roundcube:button type="link-menuitem" command="viewsource" label="viewsource" class="source disabled" classAct="source active" />
+			<roundcube:container name="messagemenu" id="message-menu" />
+		</ul>
+	</div>
+<roundcube:endif />
+
+<roundcube:add_label name="properties" />
+<div id="properties-menu" class="popupmenu" role="dialog" aria-labelledby="aria-label-contentinfo">
+	<h3 id="aria-label-contentinfo" class="voice"><roundcube:label name="properties" /></h3>
+	<div class="scroller">
+		<roundcube:object name="messagePartControls" class="listing props-table" role="contentinfo"
+			aria-labelledby="aria-label-contentinfo" />
+	</div>
+</div>
+
+<roundcube:include file="includes/footer.html" />

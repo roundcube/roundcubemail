@@ -1,0 +1,16 @@
+<roundcube:include file="includes/layout.html" />
+
+<h1 class="voice"><roundcube:label name="about" /></h1>
+
+<div class="frame-content">
+	<roundcube:object name="aboutcontent" />
+	<h2 class="sysname">Roundcube Webmail <roundcube:object name="version" /></h2>
+	<p class="copyright"><roundcube:object name="copyright" /></p>
+	<p class="license"><roundcube:object name="license" /></p>
+	<div class="readtext">
+		<h3><roundcube:label name="installedplugins" /></h3>
+		<roundcube:object name="pluginlist" id="pluginlist" class="records-table" />
+	</div>
+</div>
+
+<roundcube:include file="includes/footer.html" />

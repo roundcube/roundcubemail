@@ -1,0 +1,537 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+
+/*** Text Editor widget (and TinyMCE editor) ***/
+
+// use of div.tox instead of just .tox is to have prio over TinyMCE styles
+div.tox {
+    font-size: 1rem;
+
+    &, :not(.svg) {
+        .font-family();
+    }
+
+    &.tox-tinymce {
+        border-radius: .25rem;
+        border: 1px solid @color-input-border;
+    }
+
+    &.focused {
+        border-color: @color-input-border-focus !important;
+        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow !important;
+    }
+
+    .tox-toolbar-overlord {
+        z-index: 1; // for sticky header feature
+
+        & > div {
+            // The svg is copied from TinyMCE with modified height params
+            background: url("data:image/svg+xml;charset=utf8,%3Csvg height='33px' viewBox='0 0 40 33px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='32px' width='100' height='1' fill='%23cccccc'/%3E%3C/svg%3E");
+            background-color: @color-input-addon-background;
+        }
+    }
+
+    .tox-toolbar__primary {
+        border-top: 0;
+    }
+
+    // This one is for mobile
+    .tox-toolbar {
+        background-color: @color-input-addon-background;
+    }
+
+    .tox-edit-area {
+        border: 0;
+    }
+
+    .tox-dialog {
+        border-radius: 0;
+        border-color: @color-layout-border;
+        box-shadow: none;
+        align-self: unset !important;
+
+        .tox-form__group {
+            margin-top: 0;
+            margin-bottom: .75rem;
+        }
+
+        .tox-dialog__body-nav-item--active {
+            color: @color-link;
+            border-color: transparent;
+
+            &:hover {
+                color: @color-link-hover;
+            }
+        }
+    }
+
+    .tox-dialog__body-content {
+        overflow: unset;
+    }
+
+    .tox-dialog__content-js {
+        overflow: auto;
+    }
+
+    .tox-dialog-wrap__backdrop {
+        background-color: @color-dialog-overlay-background;
+    }
+
+    .tox-dialog__header {
+        height: (@layout-header-height - 1px);
+        border-bottom: 1px solid @color-dialog-header-border;
+        justify-content: flex-end; // fixes close button position when dialog has no title
+        padding: 0;
+
+        .tox-button {
+            color: @color-dialog-header;
+            right: 0;
+            height: (@layout-header-height - .7rem);
+            width: 2.25em;
+            margin-right: .4rem;
+
+            &:hover {
+                background: transparent;
+                border-color: transparent;
+            }
+
+            .tox-icon {
+                display: none;
+            }
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-times;
+                line-height: 1.5rem;
+                margin: 0 !important;
+            }
+        }
+    }
+
+    .tox-dialog__footer {
+        height: (@layout-footer-height - 1px) !important;
+        border: 0;
+        margin: 0;
+        padding: 0 1rem;
+
+        @media screen and (max-width: @screen-width-xs) {
+            border-top: 1px solid @color-dialog-header-border;
+        }
+
+        & > div {
+            white-space: nowrap;
+            max-height: (@layout-footer-height - 1px);
+
+            button:first-child {
+                margin: 0;
+            }
+        }
+
+        .tox-button {
+            .btn-primary();
+            font-weight: normal;
+            padding: .5rem .75rem;
+
+            &:before {
+                &:extend(.font-icon-class);
+                width: 1em;
+                content: @fa-var-check;
+                line-height: 1;
+            }
+
+            // this is redundant, but required because of tinymce styles interference
+            &:focus:not(:disabled) {
+                background: @color-btn-primary-background;
+                border-color: @color-btn-primary-background;
+            }
+
+            &.tox-button--secondary {
+                .btn-secondary();
+                color: @color-btn-secondary;
+
+                &:before {
+                    content: @fa-var-times;
+                }
+
+                // this is redundant, but required because of tinymce styles interference
+                &:focus:not(:disabled) {
+                    background: @color-btn-secondary-background;
+                    border-color: @color-btn-secondary-background;
+                }
+            }
+        }
+    }
+
+    .tox-search-dialog {
+        .tox-form__group:not(:first-child) {
+            flex: initial !important;
+        }
+
+        .tox-dialog__footer-start {
+            button {
+                padding: .25rem;
+            }
+        }
+
+        .tox-dialog__footer-end {
+            button {
+                &:before {
+                    content: @fa-var-pencil-alt !important;
+                }
+
+                &:nth-of-type(1):before {
+                    content: @fa-var-search !important;
+                }
+            }
+        }
+    }
+
+    .tox-dialog__title {
+        line-height: calc(@layout-header-height - 1px);
+        font-size: 1.25rem;
+        font-weight: bold;
+        padding: 0 0 0 1rem;
+        width: 100%;
+        color: @color-dialog-header;
+    }
+
+    // Make toolbar buttons smaller
+    .tox-tbtn {
+        height: 28px;
+
+        &:not(.tox-tbtn--select,.tox-split-button__chevron) {
+            width: 32px;
+        }
+    }
+
+    .tox-button {
+        line-height: 1.5;
+    }
+
+    .tox-label {
+        color: @color-font;
+        padding-bottom: .25rem;
+    }
+
+    // Adding .form-control does not work with TinyMCE skins,
+    // so we have to overwrite some props here
+    .tox-color-input > input,
+    .tox-listboxfield .tox-listbox--select,
+    .tox-textarea,
+    .tox-textfield {
+        .font-family() !important;
+        font-size: @page-font-size;
+        line-height: 1.5;
+        color: @color-font;
+        border-radius: .25rem;
+        min-height: 0;
+        padding: .375rem .75rem;
+
+        &:focus {
+            border-color: @color-input-border-focus;
+            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+        }
+    }
+
+    .tox-listbox__select-label {
+        margin: 0;
+    }
+
+    .tox-color-input span {
+        top: 5px;
+    }
+
+    .custom-switch {
+        position: relative;
+        font-size: 1rem;
+        margin-top: .15rem;
+
+        .tox-checkbox__icons {
+            display: none;
+        }
+
+        .tox-checkbox__label {
+            margin: 0;
+        }
+    }
+
+    .image-selector {
+        font-size: 1rem;
+        button {
+            .btn-secondary();
+            padding: .5rem .75rem;
+            line-height: 1.5;
+        }
+    }
+
+    // small fix for image dialog
+    .tox-form__controls-h-stack div:not(:last-child) {
+        flex: 1;
+    }
+
+    .tox-collection__item-label {
+        white-space: nowrap; // fix TinyMCE bug
+    }
+}
+
+@media screen and (max-width: @screen-width-xs) {
+    div.tox {
+        .tox-dialog {
+            margin: 0 !important;
+            width: 100% !important;
+            height: 100%;
+            left: 0 !important;
+            top: 0 !important;
+            border-width: 0 !important;
+        }
+
+        .tox-dialog__header {
+            background-color: @color-layout-mobile-header-background;
+
+            .tox-button {
+                display: none;
+            }
+        }
+
+        .tox-dialog__title {
+            font-size: 1rem;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .tox-dialog__footer {
+            background-color: @color-layout-mobile-footer-background;
+
+            .tox-button {
+                color: @color-font !important;
+                background: transparent !important;
+                padding: .45rem;
+                margin: 0 !important;
+                border: 0;
+                font-size: 90%;
+
+                &:before {
+                    display: block;
+                    float: none;
+                    width: 100%;
+                    margin: 0;
+                    line-height: 1.75;
+                    height: 1.75rem;
+                }
+
+                &:active,
+                &:focus,
+                &:hover {
+                    background: transparent;
+                    border: 0;
+                    box-shadow: none;
+                    color: @color-font;
+                }
+            }
+
+            & > div {
+                justify-content: space-evenly;
+                display: flex;
+                width: 100%;
+
+                &:empty {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+/*** Media file selector for TinyMCE ***/
+
+.image-selector {
+    padding: 1rem .5rem 10rem .5rem !important;
+
+    &.droptarget {
+        border: .2rem dashed @color-table-border;
+
+        &:after {
+            margin-top: 2rem;
+        }
+    }
+
+    form {
+        position: absolute;
+        top: 0;
+    }
+
+    .attachmentslist {
+        margin: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 19.1em;
+        padding: 0 !important;
+
+        li {
+            padding: .25rem;
+            cursor: pointer;
+
+            &:before {
+                display: none;
+            }
+
+            &:hover,
+            &:focus {
+                background: @color-list-selected-background;
+            }
+
+            span.name {
+                flex: 1;
+                margin: auto;
+                padding-left: 1rem;
+                .overflow-ellipsis();
+            }
+
+            span.img {
+                height: 80px;
+                width: 80px;
+                display: flex;
+                border: 1px solid @color-list-border;
+                background: white;
+                border-radius: .75rem;
+                overflow: hidden;
+            }
+
+            img {
+                margin: auto;
+            }
+        }
+
+        html.layout-phone & {
+            height: auto;
+        }
+    }
+}
+
+
+/*** HTML editor widget ***/
+
+.html-editor {
+    position: relative;
+    margin-bottom: .2rem;
+
+    .editor-toolbar {
+        position: absolute;
+        left: 1px;
+        top: 1px;
+        right: 1px;
+        border-radius: .25rem .25rem 0 0;
+        border-bottom: 1px solid @color-input-border;
+        background-color: @color-input-addon-background;
+
+        .mce-i-html {
+            display: block;
+            margin: 2px 2px 2px 4px;
+            width: 34px;
+            height: 28px;
+            border-radius: .25rem;
+            color: #222f3e; // from TinyMCE
+
+            &:focus,
+            &:hover {
+                text-decoration: none;
+                border-color: #e2e4e7;
+                background-color: #dee0e2; // from TinyMCE
+            }
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-image;
+                margin: 0;
+                width: 34px;
+                line-height: 28px;
+            }
+
+            &[disabled] {
+                opacity: .7;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    // hide toolbar in html mode and in mailvelope mode
+    &.mailvelope .editor-toolbar,
+    .tox-tinymce + .editor-toolbar {
+        display: none;
+    }
+
+    & > .googie_edit_layer,
+    & > textarea {
+        font-family: monospace;
+        font-size: 13px;
+        width: 100% !important;
+        padding-top: 40px;
+        resize: none;
+    }
+
+    & > iframe { // e.g. mailvelope frame
+        border-radius: .3rem;
+        border: 1px solid @color-input-border;
+        min-height: 30em;
+    }
+}
+
+
+/*** GoogieSpell widget ***/
+
+.googie_window {
+    width: 16rem;
+    height: auto;
+}
+
+.googie_edit_layer {
+    font-family: monospace;
+
+    // from Bootstrap's textarea
+    padding: .5rem .75rem;
+    border: 1px solid @color-input-border;
+    border-radius: .3rem;
+    line-height: 1.5;
+}
+
+.googie_link {
+    color: @color-spellcheck-link;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.googie_list {
+    li {
+        min-width: 8rem;
+        width: auto;
+
+        &.googie_list_onhover {
+            color: @color-menu-hover;
+            background-color: @color-menu-hover-background;
+        }
+
+        .googie_list_revert:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-undo;
+        }
+
+        .googie_add_to_dict:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-plus-square;
+        }
+    }
+
+    input {
+        display: inline-block;
+        margin: .25rem .5rem;
+    }
+}

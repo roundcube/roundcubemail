@@ -1,0 +1,458 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+@import "global";
+@import "layout";
+@import "widgets/common";
+@import "widgets/buttons";
+@import "widgets/jqueryui";
+@import "widgets/dialogs";
+@import "widgets/menu";
+@import "widgets/messages";
+@import "widgets/lists";
+@import "widgets/forms";
+@import "widgets/editor";
+
+
+/*** Login form ***/
+
+.task-login {
+    #layout-content {
+        text-align: center;
+        width: 100%;
+        display: block;
+    }
+
+    #logo {
+        display: inline-block;
+        position: relative;
+        top: 16vh;
+        max-height: 100px;
+    }
+}
+
+#login-form {
+    margin: 0 auto;
+    top: 20vh;
+    width: 95%;
+    max-width: 320px;
+    position: relative;
+
+    // Fixes table width in IE11
+    table, tbody {
+        display: block;
+    }
+
+    // Fixes input width in IE11
+    .row {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .oauthlogin {
+        margin-top: 1em;
+        padding-top: 1em;
+    }
+
+    .formbuttons + .oauthlogin {
+        border-top: 1px solid #ccc;
+    }
+}
+
+#rcmloginsubmit {
+    &:before {
+        display: none !important;
+    }
+}
+
+#login-footer {
+    flex: 1;
+    color: @color-black-shade-text;
+
+    & > div {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: @color-black-shade-bg;
+        border-radius: .3rem;
+    }
+}
+
+#login-addon {
+    position: absolute;
+    bottom: 0;
+    max-height: 30%;
+    margin: 1rem !important;
+    width: auto !important;
+    overflow: auto;
+
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        max-width: @screen-width-small;
+        margin: auto !important;
+        bottom: 1rem;
+        left: 0;
+        right: 0;
+    }
+}
+
+body.task-error-login #layout {
+    #layout-menu,
+    #layout-content > .header {
+        display: none;
+    }
+}
+
+/*** Addressbook UI ***/
+
+#contactpic {
+    width: @layout-contact-icon-width;
+    height: @layout-contact-icon-height;
+    border-radius: .5rem;
+    overflow: hidden;
+    display:table-cell;
+    vertical-align:middle;
+    text-align: center;
+    background-color: @color-image-upload-background;
+
+    img {
+        max-width: @layout-contact-icon-width;
+        max-height: @layout-contact-icon-height;
+    }
+}
+
+#contacthead {
+    .names {
+        margin-bottom: .5rem;
+
+        span.namefield {
+            font-size: 1.5rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+    }
+
+    &.readonly {
+        .source.row {
+            color: @color-form-hint;
+            font-size: 90%;
+            margin-bottom: .25rem;
+        }
+    }
+}
+
+/*** Mail UI ***/
+
+#message-header {
+    margin-bottom: 1rem;
+
+    & > .subject {
+        font-size: 1.5rem;
+        font-weight: bold;
+
+        body.status-flagged &:before {
+            &:extend(.font-icon-class);
+            display: inline;
+            float: none;
+            content: @fa-var-flag;
+            font-size: 1em;
+            color: @color-error;
+        }
+
+        a.extwin {
+            text-decoration: none;
+
+            &:before {
+                &:extend(.font-icon-class);
+                float: none;
+                display: inline-block;
+                font-size: 75%;
+                line-height: 1.5;
+                margin: 0;
+                content: @fa-var-external-link-square-alt;
+            }
+        }
+
+        span.inner {
+            display: none;
+        }
+    }
+
+    & > .header {
+        display: flex;
+
+        img.contactphoto {
+            margin: 0 1rem 0 0;
+            border-radius: 50%;
+            width: @mail-header-photo-height;
+            height: @mail-header-photo-height;
+            object-fit: cover;
+            background: @color-image-upload-background;
+        }
+    }
+
+    .header-content {
+        min-height: @mail-header-photo-height;
+        flex: 1;
+
+        &.details-view {
+            .header-summary {
+                display: none;
+            }
+            .header-headers {
+                display: initial;
+            }
+        }
+    }
+
+    .header-summary {
+        margin-top: .25rem;
+
+        & > span {
+            display: inline-block;
+        }
+    }
+
+    .header-headers {
+        display: none;
+
+        .header-title {
+            white-space: nowrap;
+            color: @color-black-shade-text;
+            font-weight: bold;
+            padding-right: 1rem;
+            vertical-align: top;
+        }
+    }
+
+    .header-links {
+        margin-top: .25rem;
+
+        a {
+            font-size: 90%;
+            margin-right: .5rem;
+            text-decoration: none;
+            white-space: nowrap;
+            display: inline-block;
+
+            &:before {
+                &:extend(.font-icon-class);
+                height: 1.5rem;
+                line-height: 1.3;
+            }
+
+            &.headers-details:before {
+                content: @fa-var-envelope;
+            }
+
+            &.headers-summary:before {
+                .font-icon-regular(@fa-var-envelope);
+            }
+
+            &.headers-all:before {
+                content: @fa-var-info-circle;
+            }
+
+            &.html:before {
+                content: @fa-var-image;
+            }
+
+            &.plain:before {
+                content: @fa-var-align-justify;
+            }
+
+            &.zipdownload:before {
+                content: @fa-var-download;
+            }
+        }
+    }
+}
+
+.message-partheaders {
+    padding: .25rem .5rem;
+    margin: .5rem 0 -.5rem 0;
+    border-top: 1px solid @color-messagepart-border;
+    background-color: @color-messagepart-background;
+
+    table.headers-table {
+        font-size: 90%;
+        color: @color-mail-headers;
+
+        .header-title {
+            .overflow-ellipsis();
+            white-space: nowrap;
+            max-width: 8em;
+            font-weight: bold;
+            padding-right: 1rem;
+            vertical-align: top;
+        }
+
+        .subject {
+            font-weight: bold;
+        }
+
+        & + .message-part,
+        & + .message-htmlpart {
+            border-top: 0;
+            margin: 0;
+        }
+    }
+}
+
+#message-content {
+    .attachmentslist:not(:empty) {
+        margin-bottom: 1rem;
+    }
+}
+
+#messagebody {
+    &.mailvelope {
+        iframe {
+            min-height: 75vh;
+        }
+    }
+}
+
+.message-part,
+.message-htmlpart {
+    padding-top: .5rem;
+    // Fixes absolute positioned mail message content
+    position: relative;
+
+    &:not(:first-child) {
+        border-top: 1px solid @color-messagepart-border;
+        margin-top: .5rem;
+    }
+
+    &:last-child {
+        margin-bottom: .5rem;
+    }
+
+    div.rcmBody {
+        // Remove margins that can be set by the mail message styles
+        margin: 0 auto !important;
+    }
+
+    blockquote {
+        .overflow-ellipsis();
+        color: @color-blockquote-0;
+        border-left: 2px solid @color-blockquote-0-border;
+        border-right: 2px solid @color-blockquote-0-border;
+        background-color: @color-blockquote-background;
+        margin: 2px 0;
+        padding: 0 .4em;
+
+        blockquote {
+            color: @color-blockquote-1;
+            border-left: 2px solid @color-blockquote-1-border;
+            border-right: 2px solid @color-blockquote-1-border;
+
+            blockquote {
+                color: @color-blockquote-2;
+                border-left: 2px solid @color-blockquote-2-border;
+                border-right: 2px solid @color-blockquote-2-border;
+            }
+        }
+
+        span.blockquote-link {
+            top: 0;
+            cursor: pointer;
+            right: .5rem;
+            min-width: 4rem;
+            padding: .2rem .25rem .2rem .5rem;
+            font-size: 90%;
+            text-align: center;
+            color: @color-black-shade-text;
+            background: @color-black-shade-bg;
+            border: 1px solid @color-black-shade-border;
+            border-radius: .3rem;
+            line-height: 1;
+            .font-family(); // don't inherit monospace font
+
+            &:after {
+                &:extend(.font-icon-class);
+                content: @fa-var-angle-down;
+                display: inline-block;
+                float: none;
+                margin: 0;
+                font-size: 90%;
+            }
+
+            &.collapsed:after {
+                content: @fa-var-angle-up;
+            }
+        }
+
+        &.blockquote-header {
+            text-overflow: ellipsis !important;
+            padding-right: 5rem !important;
+        }
+    }
+}
+
+.message-part {
+    span.sig {
+        color: @color-mail-signature;
+    }
+
+    div.pre {
+        font-family: monospace;
+        font-size: 13px;
+    }
+
+    // This is needed for proper display of quoted plain text
+    blockquote {
+        display: inline-block;
+        min-width: 100%;
+
+        & + br {
+            // compensate the spacing "removed" by the inline-block style above
+            display: block;
+            margin-top: 1em;
+        }
+    }
+}
+
+#compose-attachments {
+    margin: 1rem 1rem 0 1rem;
+}
+
+#composestatusbar {
+    opacity: .3;
+    right: 2.5rem;
+
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        display: none;
+    }
+
+    a.button {
+        display: inline-block;
+
+        &:before {
+            line-height: @layout-touch-header-height;
+            font-size: 1.25rem !important;
+        }
+    }
+}
+
+/*** Settings UI ***/
+
+// A default icon for settings menu entries added by plugins
+.settings-default-icon {
+    tr > td.section::before,
+    li > a:before {
+        content: @fa-var-cog;
+    }
+}
+
+& when (@dark-mode-enabled = true) {
+    @import "dark";
+}
+
+@import (optional) "_styles";

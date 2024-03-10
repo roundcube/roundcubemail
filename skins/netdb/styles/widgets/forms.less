@@ -1,0 +1,1429 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Common form elements ***/
+
+#uploadform {
+    display: none;
+}
+
+form.smart-upload,
+input.smart-upload {
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+
+.propform {
+    // TODO: do we need this?
+    &:not(.popupmenu) {
+        width: 100%;
+    }
+
+    // This is the way we can have multiple checkboxes in a single form field
+    .form-check td:not(.title) > label {
+        display: block;
+        margin: 0;
+        line-height: 2rem;
+
+        label {
+            margin-right: .5rem;
+        }
+    }
+
+    td.datetime {
+        display: flex;
+
+        input:first-child {
+            margin-right: .5rem;
+        }
+        input:last-child {
+            width: 75%;
+        }
+    }
+
+    td.rowbuttons {
+        width: 1%;
+        white-space: nowrap;
+        vertical-align: top;
+
+        span {
+            display: none;
+        }
+
+        a {
+            padding: 0;
+            line-height: 2.3rem;
+            height: 2.3rem;
+            font-size: 1rem;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-plus;
+                vertical-align: unset;
+
+                @media screen and (min-width: (@screen-width-bs-phone + 1px)) {
+                    margin: 0 !important;
+                }
+            }
+
+            &.delete:before {
+                content: @fa-var-trash-alt;
+            }
+
+            &.advanced:before {
+                content: @fa-var-cog;
+            }
+
+            &:not(:last-child) {
+                margin-right: .25rem;
+            }
+        }
+    }
+
+    td.rowactions {
+        width: 1%;
+        vertical-align: top;
+
+        .form-control {
+            width: auto;
+        }
+    }
+
+    td.rowtargets {
+        vertical-align: top;
+
+        .composite {
+            input, textarea, select, .multi-input, .input-group {
+                margin-bottom: .5rem;
+            }
+
+            .input-group {
+                input, textarea, select, .multi-input {
+                    margin-bottom: 0;
+                }
+            }
+
+            br {
+                display: block;
+            }
+        }
+
+        .input-group {
+            margin-bottom: .25rem;
+
+            *:first-child.input-group-prepend {
+                text-align: left;
+                min-width: 7.5em;
+
+                & > * {
+                    width: 100%;
+                }
+            }
+        }
+
+        & > .advanced {
+            margin-top: .25rem;
+        }
+    }
+
+    td.title {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    td > .flexbox {
+        display: flex;
+
+        & > .multi-input {
+            width: 100%;
+            margin-left: .25rem;
+        }
+    }
+
+    &.grouped {
+        &.readonly {
+            legend {
+                margin: 0;
+            }
+
+            .row.input-group {
+                margin-bottom: 0 !important;
+            }
+
+            label {
+                min-width: 7rem;
+                // Overwrite Bootstrap .input-group-* style to make the label transparent
+                background-color: transparent;
+                border: 0;
+                border-radius: 0;
+            }
+        }
+
+        .row.input-group {
+            margin-bottom: .5rem;
+            flex-wrap: nowrap;
+
+            & > *:first-child {
+                .overflow-ellipsis();
+                min-width: 8rem;
+
+                &:not(select) {
+                    padding: 0;
+                }
+
+                @media screen and (max-width: @screen-width-xs) {
+                    min-width: 6rem;
+                    width: 6rem;
+                    flex-grow: unset;
+                }
+
+                label {
+                    width: 100%;
+                }
+            }
+
+            & > *:nth-child(2) {
+                flex-grow: 30;
+            }
+
+            &:last-child {
+                margin-bottom: 1rem;
+            }
+
+            select {
+                text-align: left;
+            }
+
+            &.composite select {
+                height: auto;
+            }
+
+            .content {
+                padding: 0;
+                display: flex;
+                flex-wrap: wrap;
+                border-radius: 0;
+                border-left-color: transparent;
+
+                input {
+                    border-radius: 0;
+                    border-color: transparent;
+                }
+
+                .ff_street {
+                    width: 100%;
+                }
+
+                .ff_locality {
+                    width: 75%;
+                }
+
+                .ff_zipcode {
+                    width: 25%;
+                }
+
+                .ff_country, .ff_region {
+                    width: 50%;
+                }
+            }
+        }
+
+        .form-control-plaintext {
+            flex-grow: 1;
+            border: 0;
+        }
+    }
+
+    .addfield {
+        margin: 0;
+
+        select {
+            width: 8rem;
+            margin-top: .5rem;
+        }
+    }
+
+    .form-text {
+        font-size: 90%;
+        color: @color-form-hint;
+    }
+
+    // Some dialogs may use simple one-row forms like this
+    &.row.form-group {
+        margin-left: 0;
+        margin-right: 0;
+
+        label, div {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    // Some forms may use multiple elements that are not part of .input-group
+    // add proper spacing
+    select + select,
+    select + .input-group {
+        padding-top: .5rem;
+    }
+
+    &.text-only {
+        margin-bottom: .25rem;
+
+        tr {
+            margin: 0;
+        }
+
+        label {
+            padding-bottom: 0 !important;
+        }
+
+        @media screen and (max-width: @screen-width-bs-phone) {
+            tr {
+                display: table-row;
+            }
+
+            td {
+                width: auto;
+
+                &:first-child {
+                    width: 33%;
+                }
+            }
+
+            :not(tr).form-group.row {
+                .col-form-label {
+                    width: 33%;
+                }
+
+                & > :last-child {
+                    width: 67%;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: @screen-width-bs-phone) {
+    .propform {
+        table.compact-table {
+            .rowactions > select,
+            .flexbox > select {
+                width: 100%;
+            }
+
+            tr {
+                display: flex;
+                flex-direction: column;
+
+                td {
+                    width: 100%;
+                    padding: .25rem 0 0 0;
+
+                    &.rowbuttons {
+                        text-align: right;
+                        padding-top: 0;
+
+                        a {
+                            margin-left: .5rem;
+
+                            & > span {
+                                display: inline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.propform,
+.formcontent {
+    fieldset:not(.tab-pane):nth-of-type(n+2) {
+        margin-top: 1em;
+    }
+
+    legend {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    label {
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        overflow: hidden;
+        margin-bottom: 0;
+    }
+}
+
+fieldset.advanced {
+    > legend {
+        width: auto;
+        cursor: pointer;
+
+        &:after {
+            &:extend(.font-icon-class);
+            float: right;
+            margin: 0 0 0 .25rem;
+            line-height: inherit;
+            font-size: inherit;
+            content: @fa-var-angle-up;
+        }
+
+        &.closed:after {
+            content: @fa-var-angle-down;
+        }
+    }
+}
+
+@media screen and (max-width: @screen-width-bs-phone) {
+    .formcontent .text-only {
+        .form-group:not(tr) {
+            margin-bottom: .25rem;
+
+            .col-form-label {
+                width: 33%;
+
+                & + span {
+                    width: 67%;
+                }
+            }
+        }
+    }
+
+    html.iframe .formcontent > .propform {
+        padding: .25rem;
+    }
+}
+
+// Forms fixes for IE and Edge
+html.ms .propform {
+    .row:not(.form-check) > td {
+        display: flex;
+        flex-wrap: wrap; // puts "hint" element below the input
+    }
+    @media screen and (min-width: @screen-width-bs-phone) {
+        .row.form-check > td {
+            display: flex;
+        }
+    }
+}
+
+
+.formcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    overflow-y: hidden !important;
+
+    .formcontent {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .formbuttons {
+        padding: 0.5rem 1rem;
+
+        button {
+            margin-right: .5rem;
+        }
+    }
+
+    // Prevent button truncation on tablets
+    html.iframe.ipad &,
+    html.iframe.webkit.tablet & {
+        .formbuttons {
+            min-height: 4rem;
+        }
+    }
+
+    // We don't need buttons element on small devices, nor flex display
+    html.layout-small &,
+    html.layout-phone & {
+        display: initial;
+        overflow-y: auto !important;
+
+        .formcontent {
+            overflow: initial !important;
+        }
+
+        .formbuttons {
+            display: none;
+        }
+    }
+}
+
+
+.formcontent {
+    &:not(.popupmenu) {
+        padding: 1rem;
+    }
+
+    .row {
+        margin-right: 0; // without these the form is too wide causing horizontal scrollbar appearance
+        margin-left: 0;
+
+        // Note: We never use odd numbers here
+        .col, .col-2, .col-4, .col-6, .col-8, .col-10, .col-12,
+        .col-sm, .col-sm-2, .col-sm-4, .col-sm-6, .col-sm-8, .col-sm-10, .col-sm-12 {
+            // overwrite Bootstrap's redundant padding
+            padding: 0;
+        }
+
+        .form-control-plaintext,
+        label.col-form-label {
+            padding: floor(.375 * @page-font-size) floor(.375 * @page-font-size) floor(.375 * @page-font-size) 0;
+        }
+
+        .form-control-plaintext {
+            padding-bottom: 0;
+            border: 0;
+        }
+
+        @media screen and (max-width: @screen-width-bs-phone) {
+            &.form-group {
+                & > td label {
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .row.form-check {
+        padding: 0; // without these e.g. inputs in compose screen are not aligned properly
+        display: flex; // https://github.com/twbs/bootstrap/issues/22348
+        flex-wrap: nowrap;
+
+        // alignment fixes needed because we do not stick precisely to Bootstrap's form structure
+        @media screen and (max-width: @screen-width-bs-phone) {
+            .col-6 {
+                max-width: 100%;
+                flex: auto;
+            }
+
+            & > *:last-child {
+                width: 1%;
+                min-width: 2.6rem; // for .custom-switch
+            }
+
+            &.with-link > *:last-child {
+                min-width: 8rem;
+            }
+        }
+
+        .form-check-input {
+            margin: .5rem 0; // fixes checkbox alignment with other inputs in a form
+        }
+
+        .custom-switch + a {
+            line-height: 2;
+            vertical-align: bottom;
+        }
+
+        td > label {
+            padding-bottom: 0;
+        }
+    }
+
+    .nav-tabs {
+        margin-bottom: 1rem;
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    .hint {
+        font-style: italic;
+        color: @color-form-hint;
+    }
+
+    // RAW (CodeMirror) editor
+    &.raweditor {
+        height: 100%;
+
+        form {
+            height: 100%;
+        }
+
+        textarea {
+            font-family: monospace;
+            height: 100%;
+        }
+
+        .CodeMirror {
+            border: 1px solid @color-input-border;
+            border-radius: .3rem;
+            height: 100%;
+            color: @color-font;
+        }
+
+        .CodeMirror-focused {
+            border-color: @color-input-border-focus;
+            box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+        }
+
+        .CodeMirror-linebackground.line-error {
+            background-color: @color-error;
+            opacity: 0.4;
+        }
+
+        .errorGutter {
+            width: .8em;
+        }
+    }
+}
+
+@media screen and (max-width: @screen-width-mini) {
+    .formcontent {
+        .col-form-label {
+            flex: auto;
+            max-width: 100%;
+        }
+        .col-6, .col-8, .col-10 {
+            flex: auto;
+            max-width: 100%;
+        }
+    }
+}
+
+
+/* Some common icons for "iconized inputs" */
+.input-group .icon {
+    text-decoration: none;
+    padding: floor(.375 * @page-font-size) .5rem;
+
+    &.input-group-text {
+        min-width: 2.4rem;
+    }
+
+    &:before {
+        &:extend(.font-icon-class);
+        margin: 0 !important;
+        line-height: 1;
+        font-size: 1.1rem;
+    }
+    &.user:before {
+        content: @fa-var-user;
+    }
+    &.pass:before {
+        content: @fa-var-lock;
+    }
+    &.host:before {
+        content: @fa-var-home;
+    }
+    &.language:before {
+        content: @fa-var-globe;
+    }
+    &.cancel:before {
+        content: @fa-var-times;
+    }
+    &.delete:before {
+        content: @fa-var-trash-alt;
+    }
+    &.edit:before {
+        content: @fa-var-pencil-alt;
+    }
+    &.add:before {
+        content: @fa-var-plus;
+    }
+    &.add.recipient:before {
+        content: @fa-var-users;
+    }
+    &.search:before {
+        content: @fa-var-search;
+    }
+    &.filter:before {
+        content: @fa-var-filter;
+    }
+    &.key:before {
+        content: @fa-var-key;
+    }
+
+    .inner {
+        display: none;
+    }
+}
+
+.input-group a {
+    &:focus {
+        background-color: @color-input-border-focus-shadow;
+        outline: 0;
+    }
+}
+
+@proplist-record-height: 2rem;
+.proplist {
+    margin-bottom: 0;
+    padding: 0;
+
+    li {
+        list-style-type: none;
+        line-height: @proplist-record-height;
+        margin-bottom: .25rem;
+        display: flex;
+        align-items: center;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        input[type=radio] {
+            margin-right: .5em;
+
+            &:disabled + label {
+                opacity: .5;
+            }
+        }
+
+        label:not(.input-group-text) {
+            margin: 0;
+            line-height: @proplist-record-height;
+        }
+
+        select {
+            width: auto;
+            display: inline;
+        }
+
+        &.with-sublist {
+            flex-wrap: wrap;
+            position: relative;
+
+            & > :first-child {
+                width: 100%;
+                margin-right: 2em;
+            }
+
+            & > .proplist {
+                margin-left: 2.5rem;
+            }
+
+            & > a.dropdown {
+                position: absolute;
+                right: 0;
+                top: 0;
+                height: 2em;
+                color: @color-font;
+            }
+        }
+    }
+}
+
+.checklist {
+    & > div {
+        line-height: 2rem;
+        display: block; // overwrite .custom-switch
+    }
+
+    .custom-control-label {
+        &:before,
+        &:after {
+            margin: calc(floor(.15 * @page-font-size) * -1) 0 0 0;
+        }
+    }
+
+    & > div + br {
+        display: none;
+    }
+}
+
+/*** Forms in popups ***/
+
+.popup form.propform {
+    padding: .25rem;
+    overflow-x: hidden;
+}
+
+.popupmenu.form {
+    &.nolist {
+        padding: 0 .5rem;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li:not(.separator) {
+        padding: 0 1rem;
+
+        label {
+            margin: 0;
+            line-height: @listing-line-height;
+
+            input {
+                margin-right: .5rem;
+            }
+        }
+    }
+
+    input {
+        vertical-align: middle;
+    }
+
+    select {
+        margin: .5rem 0;
+    }
+
+    .buttons {
+        text-align: center;
+        padding: .5rem;
+    }
+}
+
+
+/*** Smart list (multiple input) field ***/
+
+.multi-input {
+    & > .content {
+        max-height: 11.65em;
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: .25rem;
+        border: 1px solid @color-input-border;
+
+        &.focused {
+            .style-input-focus();
+        }
+
+        // TODO: style button focus
+    }
+
+    a.icon {
+        &.reset:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-trash-alt;
+        }
+    }
+
+    input.form-control {
+        padding-left: .75rem;
+        height: auto; // fixes input height
+    }
+
+    input,
+    input:focus,
+    .input-group-text {
+        border-radius: 0;
+        border: 0;
+        border-bottom: 1px solid @color-input-border;
+        box-shadow: none;
+    }
+
+    .input-group-text {
+        border-left: 1px solid @color-input-border;
+    }
+
+    .input-group-append {
+        margin-left: 0;
+    }
+
+    .input-group {
+        margin: 0 !important;
+        flex-wrap: nowrap; // Bootstrap makes them wrappable (imho)
+
+        &:last-child * {
+            border-bottom: 0;
+        }
+    }
+
+    & + .btn {
+        margin-top: .5rem;
+    }
+
+    &.is-invalid {
+        & > .content {
+            border: 1px solid @color-input-border-invalid;
+            &.focused {
+                border-color: @color-input-border-invalid;
+                box-shadow: 0 0 0 .2rem @color-input-border-invalid-shadow;
+            }
+        }
+
+        & > .invalid-feedback {
+            display: inline-block;
+            line-height: 1.5;
+        }
+    }
+}
+
+
+/*** Files upload widget with list of files, upload form and drop area ***/
+
+.file-upload {
+    padding: 1rem 1rem 12rem;
+    margin: 0 1rem .25rem 1rem;
+    border-radius: .5rem;
+    border: .2rem dashed @color-table-border;
+
+    fieldset & {
+        margin: 0;
+    }
+
+    .upload-form {
+        text-align: center;
+        padding-bottom: 1em;
+
+        a.btn,
+        button {
+            margin-bottom: .25rem;
+        }
+    }
+
+   .hint {
+        margin-bottom: .5rem;
+        color: @color-form-hint;
+        text-align: center;
+    }
+
+    .attachmentslist {
+        border: 0;
+        background: transparent;
+
+        li {
+            position: relative;
+            display: flex;
+            padding-right: 1.5em;
+            margin: 0.15em 0;
+
+            a.filename {
+                flex: 1;
+            }
+
+            a.delete,
+            a.cancelupload {
+                position: absolute;
+                right: 0.25em;
+                width: auto; // fix button width if the widget is in a .popupmenu
+            }
+
+            a.dropdown {
+                margin-right: .5em;
+            }
+
+            .inner {
+                display: none;
+            }
+        }
+    }
+
+    &.droptarget {
+        padding-bottom: .5rem !important;
+
+        &:after {
+            content: @icon-file-drop;
+            width: 10rem;
+            margin: 5rem auto 0 auto;
+            display: block;
+        }
+
+        &.active {
+            border-color: darken(@color-toolbar-button-background-hover, 20%);
+        }
+
+        &.hover {
+            border-color: darken(@color-toolbar-button-background-hover, 20%);
+            background-color: @color-toolbar-button-background-hover;
+        }
+    }
+}
+
+
+/*** Smart recipient input field ***/
+
+@recipient-input-margin-fix: round(.25 * @page-font-size);
+
+.recipient-input {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 .75rem @recipient-input-margin-fix .75rem;
+    list-style-type: none;
+    cursor: text;
+    height: auto; // reset .form-control height
+
+    &.focus {
+        .style-input-focus();
+    }
+
+    li {
+        max-width: 100%;
+
+        &:not(.recipient) {
+            user-select: text;
+        }
+
+        &.input {
+            flex: 1;
+            min-width: 100px;
+        }
+    }
+
+    input {
+        width: 100%;
+        background: transparent !important;
+        border: 0 !important;
+        margin-top: @recipient-input-margin-fix;
+        outline: 0;
+        line-height: 1.5;
+
+        &::-ms-clear {
+            display: none; // removes clear icon in IE11
+        }
+    }
+}
+
+.recipient-input li.recipient,
+body > li.recipient.ui-sortable-helper {
+    display: flex;
+    position: relative;
+    max-width: ~"calc(50% - 3px)";
+    border: 1px solid @color-recipient-input-border;
+    background-color: @color-recipient-input-background;
+    border-radius: .25rem;
+    padding: 0 .25rem;
+    margin-top: @recipient-input-margin-fix;
+    margin-right: .2em;
+    white-space: nowrap;
+    cursor: default;
+
+    @media screen and (max-width: 450px) {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .name {
+        .overflow-ellipsis();
+        flex-grow: 1;
+        line-height: 1.1;
+        padding: floor(.25 * @page-font-size);
+        vertical-align: middle;
+    }
+
+    .email {
+        text-indent: -5000rem;
+        display: inline-block;
+        width: 0;
+    }
+
+    .quotes {
+        position: absolute;
+        width: 0;
+        opacity: 0;
+    }
+
+    a.button.icon {
+        font-size: .75em;
+        cursor: pointer;
+        padding: 0;
+        color: @color-font;
+
+        &:before {
+            display: inline-block;
+            width: 1em;
+            line-height: 1.6;
+        }
+    }
+
+    &.ui-sortable-helper {
+        // fix element width while dragging
+        padding: 0 0 0 .25rem !important;
+    }
+}
+
+/*** Tagedit widget (from jqueryui plugin) ***/
+
+.tagedit-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 .75rem @recipient-input-margin-fix .75rem;
+    margin: 0;
+    list-style-type: none;
+    min-height: 2.3rem;
+
+    & + .placeholder {
+        display: none;
+    }
+
+    &[tabindex="-1"] {
+        .style-input-focus();
+    }
+
+    li.tagedit-listelement-new {
+        margin-top: @recipient-input-margin-fix;
+
+        input {
+            width: 15px;
+            background: transparent !important;
+            border: 0;
+            outline: 0;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+
+            &.tagedit-input-disabled {
+                visibility: hidden;
+            }
+        }
+    }
+
+    li.tagedit-listelement-old {
+        max-width: 50%;
+        border: 1px solid @color-recipient-input-border;
+        background-color: @color-recipient-input-background;
+        border-radius: .25em;
+        margin-top: @recipient-input-margin-fix;
+        margin-right: .2em;
+        white-space: nowrap;
+
+        a /* TODO: .tagedit-close, .tagedit-break, .tagedit-delete, .tagedit-save */ {
+            font-size: .8em;
+            cursor: pointer;
+            display: inline-block;
+            width: 1.1em;
+            overflow: hidden;
+            vertical-align: middle;
+            margin-right: .2rem;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-times;
+                width: 1em;
+                line-height: 1.2;
+            }
+        }
+
+        span {
+            .overflow-ellipsis();
+            flex-grow: 1;
+            display: inline-block;
+            line-height: 1.4;
+            padding: 0 .25rem;
+            vertical-align: middle;
+        }
+    }
+
+    li.tagedit-listelement-focus {
+        // TODO
+    }
+}
+
+
+/*** Skin selection widget ***/
+
+.skinselection {
+    white-space: nowrap;
+    display: table-row;
+
+    & > span {
+        display: table-cell;
+        vertical-align: middle;
+        padding: .1em .5em;
+        white-space: normal;
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    .skinitem input {
+        width: auto;
+    }
+
+    .skinname {
+        font-weight: bold;
+    }
+
+    .skinlicense,
+    .skinlicense a {
+        font-style: italic;
+        text-decoration: none;
+    }
+
+    .skinlicense a:hover {
+        text-decoration: underline;
+    }
+
+    .skinlicense,
+    .skinauthor {
+        font-size: 90%;
+    }
+
+    .skinthumbnail {
+        width: 64px;
+        height: 64px;
+        border: 1px solid @color-input-border;
+        background: #fff;
+        border-radius: 4px;
+    }
+}
+
+/*** Percent input with jQuery-UI slider ***/
+
+// Structure: <input><span.label><div.ui-slider>
+.input-percent-slider {
+    display: flex;
+    align-items: center;
+
+    input {
+        max-width: 4em;
+    }
+
+    span.label {
+        line-height: 2.4;
+        padding: 0 .5rem 0 .25rem;
+    }
+
+    div.ui-slider {
+        flex: 1;
+        margin: 0 .5em;
+    }
+}
+
+
+/*** Image upload widget ***/
+
+.image-upload {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: @color-image-upload-background;
+
+    a.button {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: rgba(255, 255, 255, .85);
+        border-radius: 5px;
+        width: 2.5em;
+        padding: .5em;
+        margin: .5em;
+        line-height: 1;
+    }
+
+    &.changed a.button {
+        display: inline;
+    }
+}
+
+.input-group-combo {
+    select:first-of-type {
+        &.alone {
+            border-radius: .25rem !important;
+        }
+
+        &:not(.alone) {
+            flex: unset;
+            width: auto;
+        }
+    }
+
+    .input-group {
+        padding: 0 !important;
+        flex: 2;
+    }
+
+    select + select,
+    .input-group :first-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
+
+
+/*** General browser hacks ***/
+
+// Remove outline on selects in Firefox
+@-moz-document url-prefix() {
+    select:-moz-focusring {
+       color: transparent !important;
+       text-shadow: 0 0 0 @color-font !important;
+    }
+}
+
+
+/*** Bootstrap style overrides and improvements ***/
+
+.form-control {
+    color: @color-font;
+
+    &:focus {
+        color: @color-font;
+        border-color: @color-input-border-focus;
+        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+    }
+
+    // FIXME: This fixes style of required inputs in Firefox/Edge, but
+    // makes inputs on login form red-bordered, commented for now
+    // &:invalid,
+    &.is-invalid {
+        border-color: @color-input-border-invalid;
+        box-shadow: none;
+
+        &:focus {
+            border-color: @color-input-border-invalid;
+            box-shadow: 0 0 0 .2rem @color-input-border-invalid-shadow;
+        }
+    }
+
+    &::placeholder {
+        color: @color-input-placeholder;
+    }
+
+    // Note: This must be a separate rule
+    &::-ms-input-placeholder,
+    &::-webkit-input-placeholder {
+        color: @color-input-placeholder;
+    }
+}
+
+.invalid-feedback {
+    color: @color-error;
+    font-size: 90%;
+}
+
+.form-group {
+    margin-bottom: .5rem;
+}
+
+// This one is to fix height of an input-group child that usually we put
+// in between inputs, e.g. in managesieve forms it is '@' in email input
+// with a separate local part and domain selector.
+.input-group-append.input-group-prepend {
+    display: inline;
+}
+
+.input-group-text {
+    color: @color-input;
+    background-color: @color-input-addon-background;
+
+    input:focus {
+        z-index: 1;
+        border-color: @color-input-border-focus !important;
+    }
+}
+
+.custom-switch {
+    padding-left: 0;
+    display: inline-block;
+
+    .custom-control-input {
+        left: 0;
+        opacity: 0 !important; // fixes input in dark mode
+
+        &:focus ~ .custom-control-label:before {
+            box-shadow: 0 0 0 .2rem @color-checkbox-focus-shadow;
+        }
+
+        &:focus:not(:checked) ~ .custom-control-label::before {
+            border-color: @color-checkbox-focus;
+        }
+
+        &:checked ~ .custom-control-label::before {
+            border-color: @color-checkbox;
+            background-color: @color-checkbox;
+        }
+
+        &:checked:disabled ~ .custom-control-label::before {
+            border-color: @color-checkbox-checked-disabled;
+            background-color: @color-checkbox-checked-disabled;
+        }
+    }
+
+    // Make switches bigger, we use smaller font than Bootstrap's default
+
+    .custom-control-label {
+        padding-left: 2.5rem;
+        min-height: 2rem;
+        line-height: 2;
+        display: inline-block;
+
+        html.touch & {
+            padding-left: 3rem;
+        }
+
+        &:before,
+        &:after {
+            border-radius: .6rem;
+            margin: floor(.15 * @page-font-size) 0;
+
+            html.touch & {
+                border-radius: .8rem;
+                margin: 0;
+            }
+        }
+
+        &:before {
+            left: 2px;
+            top: 4px;
+            width: floor(1.9 * @page-font-size);
+            height: floor(1.2 * @page-font-size);
+
+            html.touch & {
+                top: floor(.2 * @page-font-size);
+                width: floor(2.5 * @page-font-size);
+                height: floor(1.6 * @page-font-size);
+            }
+        }
+
+        &:after {
+            left: 4px;
+            top: 6px;
+            width: floor(1.2 * @page-font-size) - 4;
+            height: floor(1.2 * @page-font-size) - 4;
+
+            html.touch & {
+                top: floor(.2 * @page-font-size) + 2;
+                height: floor(1.6 * @page-font-size) - 4;
+                width: floor(1.6 * @page-font-size) - 4;
+            }
+        }
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::after {
+        transform: translateX(floor(1.2 * @page-font-size) - 6);
+
+        html.touch & {
+            transform: translateX(floor(1.6 * @page-font-size) - 9);
+        }
+    }
+
+    .custom-control-input:not(:disabled) ~ .custom-control-label {
+        &:after, &:before {
+            cursor: pointer;
+        }
+    }
+}
+
+.custom-file {
+    display: block;
+
+    .custom-file-label {
+        white-space: nowrap;
+        .overflow-ellipsis();
+        padding-right: 100px;
+    }
+
+    & + .hint {
+        margin-top: floor(.25 * @page-font-size);
+    }
+}
+
+.custom-file-input:focus ~ .custom-file-label {
+    border-color: @color-input-border-focus;
+    box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+}

@@ -1,0 +1,20 @@
+<div class="pagenav menu footer small" role="toolbar" aria-label="<roundcube:label name="arialabellistnav" />">
+	<roundcube:button command="firstpage" type="link" class="firstpage disabled" classAct="firstpage"
+		title="firstpage" label="first" innerclass="inner" />
+	<roundcube:button command="previouspage" type="link" class="prevpage disabled" classAct="prevpage"
+		title="previouspage" label="previous" innerclass="inner" />
+	<roundcube:if condition="template:name == 'mail'" />
+		<roundcube:object name="messageCountDisplay" class="pagenav-text" aria-live="polite" aria-relevant="text" />
+		<input class="form-control" type="text" size="3" disabled title="<roundcube:label name="currpage" />" />
+	<roundcube:elseif condition="template:name == 'addressbook'" />
+		<span class="pagenav-text" aria-live="polite" aria-relevant="text">
+			<roundcube:object name="recordsCountDisplay" label="fromtoshort" />
+		</span>
+	<roundcube:else />
+		<span class="pagenav-text" aria-live="polite" aria-relevant="text">&nbsp;</span>
+	<roundcube:endif />
+	<roundcube:button command="nextpage" type="link" class="nextpage disabled" classAct="nextpage"
+		title="nextpage" label="next" innerclass="inner" />
+	<roundcube:button command="lastpage" type="link" class="lastpage disabled" classAct="lastpage"
+		title="lastpage" label="last" innerclass="inner" />
+</div>

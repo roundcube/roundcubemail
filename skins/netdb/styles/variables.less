@@ -1,0 +1,63 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+@import (reference) "fontawesome";
+@import (reference) "colors";
+
+@dark-mode-enabled:     true; // on change also have to change dark_mode_support in meta.json
+
+@screen-width-large:    1200px;
+@screen-width-medium:   1024px;
+@screen-width-small:    768px;
+@screen-width-xs:       480px;
+@screen-width-mini:     320px;
+@screen-width-touch:    @screen-width-medium;
+@screen-width-bs-phone: 576px;
+
+@page-font-size:        14px;
+@page-min-width:        240px;
+
+// Note: we'll set some values in pixels instead of rem to eliminate
+//       Firefox sub-pixel rendering bug(s)
+
+@layout-menu-width:                     floor(5.6 * @page-font-size);
+@layout-menu-width-sm:                  floor(3 * @page-font-size);
+@layout-header-height:                  floor(4.2 * @page-font-size);
+@layout-footer-height:                  @layout-header-height;
+@layout-footer-small-height:            floor(2.5 * @page-font-size);
+@layout-header-font-size:               1rem;
+@layout-searchbar-height:               floor(2.6 * @page-font-size);
+
+@layout-touch-header-height:            @layout-header-height;
+@layout-touch-header-font-size:         floor(1.2 * @page-font-size);
+@layout-touch-menu-record-height:       floor(3.4 * @page-font-size);
+@layout-touch-menu-record-font-size:    floor(1.2 * @page-font-size);
+@layout-touch-icon-width:               2.2em;
+
+@layout-mobile-menu-width:              (@screen-width-mini * .85);
+
+@layout-contact-icon-width:             112px;
+@layout-contact-icon-height:            135px;
+
+@listing-line-height:                   floor(2.5 * @page-font-size);
+@listing-touch-line-height:             floor(3.4 * @page-font-size);
+@listing-treetoggle-width:              1.5em;
+
+@mail-header-photo-height:              4rem;
+
+// Scrollbars
+@scrollbar-width:       thin; // 'auto' or 'thin' or 'unset'
+
+// Additional icons
+@icon-resize-corner:    data-uri("image/svg+xml;charset=utf-8", "../images/corner-handle.svg"); // size: 16x16
+@icon-file-drop:        data-uri("image/svg+xml;charset=utf-8", "../images/download.svg");
+
+@import (reference, optional) "_variables";

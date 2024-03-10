@@ -1,0 +1,440 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** jQuery-UI widgets' style overrides ***/
+
+.ui-widget-overlay {
+    background-color: @color-dialog-overlay-background;
+    opacity: 1 !important; // override jQuery-UI opacity, the color above is semi-transparent
+
+    &.datepicker {
+        z-index: 119; // above Bootstrap's form controls, below datepicker
+    }
+}
+
+.ui-widget {
+    border: 1px solid @color-datepicker-border;
+    box-shadow: 3px 3px 5px @color-popover-shadow;
+    border-radius: .3rem;
+}
+
+.ui-menu {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 400px;
+    border-radius: .3rem;
+    z-index: 240;
+    position: absolute;
+
+   .ui-state-active {
+        border: 0 !important;
+        background-color: @color-menu-hover-background !important;
+    }
+
+    .ui-menu-item {
+        white-space: nowrap;
+        cursor: default;
+    }
+
+    .ui-menu-item-wrapper {
+        margin: 0 !important;
+    }
+}
+
+.ui-dialog {
+    border-radius: 0;
+    box-shadow: none;
+
+    &.no-titlebar {
+        .ui-dialog-titlebar {
+            display: none;
+        }
+    }
+
+    .ui-dialog-titlebar {
+        height: @layout-header-height;
+        border-bottom: 1px solid @color-dialog-header-border;
+
+        button {
+            &:before {
+                margin: 0;
+            }
+        }
+    }
+
+    .ui-dialog-title {
+        line-height: @layout-header-height;
+        font-size: 1.25rem;
+        padding: 0 3rem 0 1rem;
+        color: @color-dialog-header;
+    }
+
+    .ui-dialog-titlebar-close {
+        border: 0;
+        color: @color-dialog-header;
+        background: transparent;
+        right: 0;
+        top: 0;
+        position: absolute;
+        padding: .25rem .5rem;
+        margin: ((@layout-header-height - 2 * @page-font-size) / 2) .5rem;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-times;
+            line-height: 1.5rem;
+            margin: 0 !important;
+        }
+    }
+
+    .ui-dialog-content {
+        & > .popupmenu {
+            display: block !important;
+        }
+    }
+
+    .ui-dialog-buttonpane {
+        .ui-dialog-buttonset {
+            display: flex;
+            justify-content: flex-end;
+
+            a.btn-link,
+            button {
+                .overflow-ellipsis();
+                min-width: 5rem;
+                margin: floor(.65 * @page-font-size) floor(.3 * @page-font-size);
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+
+            a.btn-link {
+                padding-right: 0;
+                padding-left: 0;
+                text-decoration: none;
+                color: @color-font;
+
+                &:focus {
+                    background-color: fade(@color-btn-primary-background, 50%);
+                }
+
+                &.options {
+                    order: -1;
+                    padding: .375rem .25rem;
+                    margin-right: .3rem;
+
+                    &:before {
+                        // this icon is for mobile version
+                        &:extend(.font-icon-class);
+                        content: @fa-var-cog;
+                        width: 100%;
+                        height: 1.25em;
+                    }
+                }
+            }
+        }
+    }
+
+    iframe,
+    .ui-dialog-content.iframe {
+        padding: 0;
+        width: 100% !important;
+        height: 100%;
+        border: 0;
+        overflow: hidden;
+    }
+}
+
+// Fix scrollbar/resize issue e.g. in qr-code dialog
+.ui-dialog,
+.ui-dialog-content {
+    box-sizing: initial;
+}
+
+// Overwriting this icon generally prevents from loading bigger images sprite from jQuery-UI
+.ui-widget-content .ui-icon.ui-resizable-se {
+    background: @icon-resize-corner;
+}
+
+/* FIXME: why do I need !important here? */
+
+@media screen and (max-width: @screen-width-xs) {
+    .ui-dialog {
+        width: 100% !important;
+        height: 100% !important;
+        display: flex;
+        flex-direction: column;
+        border: 0;
+        top: 0 !important; // for Chrome
+
+        .ui-resizable-handle,
+        .ui-dialog-titlebar-close {
+            display: none !important;
+        }
+
+        .ui-dialog-titlebar {
+            height: @layout-touch-header-height;
+            text-align: center;
+            background-color: @color-layout-mobile-header-background;
+        }
+
+        .ui-dialog-title {
+            line-height: @layout-touch-header-height;
+            font-size: @layout-header-font-size;
+            padding: 0 1rem;
+        }
+
+        .ui-dialog-content {
+            flex: 1;
+            &:not(.iframe) {
+                padding: 1rem;
+            }
+        }
+
+        .ui-dialog-buttonpane {
+            padding: 0 !important;
+            text-align: center !important;
+            border-top: 1px solid @color-dialog-header-border;
+            height: @layout-header-height !important;
+            background-color: @color-layout-mobile-footer-background;
+
+            .ui-dialog-buttonset {
+                justify-content: space-around;
+
+                button {
+                    margin: 0 !important;
+                    padding: .45rem;
+                    border: 0 !important;
+                    height: @layout-header-height;
+                    box-shadow: none;
+                    font-size: 90%;
+                    line-height: 1.5;
+
+                    &:before {
+                        display: block !important;
+                        float: none;
+                        width: auto;
+                        height: 1.75rem;
+                        line-height: 1.75;
+                        margin: 0 !important;
+                    }
+
+                    &:active {
+                        box-shadow: none;
+                    }
+
+                    &.btn-primary,
+                    &.btn-secondary {
+                        color: @color-toolbar-button;
+                        background: transparent;
+                    }
+
+                    &.btn-danger {
+                        color: @color-btn-danger-background;
+                        background: transparent;
+                    }
+
+                    &.disabled,
+                    &:disabled {
+                        opacity: .5;
+                    }
+
+                    &.cancel {
+                        order: 100; // makes Cancel/close button the last one
+                    }
+                }
+
+                a.btn-link {
+                    color: @color-toolbar-button;
+                    margin: 0;
+                    padding: .45rem;
+                    font-size: 90%;
+
+                    &.options:before {
+                        display: block !important;
+                        height: 1.75rem;
+                        line-height: 1.75;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Slider widget */
+
+.ui-slider {
+    box-shadow: none;
+
+    .ui-slider-range {
+        border-radius: .3rem;
+        background: lighten(@color-main, 30%);
+    }
+
+    .ui-slider-handle {
+        border-radius: .3rem;
+
+        &.ui-state-active {
+            background: @color-main;
+            border-color: @color-main-dark;
+        }
+    }
+}
+
+/* Datepicker widget */
+
+.ui-datepicker {
+    // Always display datepicker centered, overwriting widgets position
+    margin: ~"calc(50vh - 10em) calc(50vw - 10em) !important";
+    top: 0 !important;
+    left: 0 !important;
+    box-shadow: none;
+    user-select: none;
+
+    &:not(.ui-datepicker-inline) {
+        z-index: 120 !important; // fixes datepicker over input-group and dialogs
+    }
+
+    .ui-datepicker-header,
+    .ui-datepicker-title {
+        line-height: 4rem;
+        height: 4rem;
+        padding: 0;
+    }
+
+    .ui-datepicker-header {
+        border-bottom: 1px solid @color-dialog-header-border;
+
+        a {
+            height: 4rem;
+        }
+
+        select {
+            display: inline-block;
+        }
+    }
+
+    .ui-icon {
+        background-image: none !important;
+        background-position: none !important;
+    }
+
+    .ui-datepicker-prev,
+    .ui-datepicker-next {
+        cursor: pointer;
+        width: auto;
+        color: @color-font;
+        text-decoration: none;
+
+        &:before {
+        &:extend(.font-icon-class);
+            content: "\f053";
+            margin: 0 .25em;
+            height: auto;
+            width: 1em;
+        }
+    }
+
+    .ui-datepicker-prev:before {
+        content: "\f053";
+    }
+
+    .ui-datepicker-next:before {
+        content: "\f054";
+    }
+
+    td a {
+        padding: 0;
+        line-height: 1.8em;
+        border-radius: .3rem;
+    }
+
+    .ui-state-default,
+    &.ui-widget-content .ui-state-default {
+        border: 0;
+        background: transparent;
+        color: @color-datepicker-font;
+    }
+
+    .ui-datepicker-days-cell-over a,
+    .ui-datepicker-days-cell-over a.ui-state-default,
+    .ui-state-highlight,
+    &.ui-widget-content .ui-state-highlight {
+        background: @color-datepicker-highlight-background;
+        color: @color-datepicker-highlight;
+    }
+
+    a.ui-state-active {
+        background: @color-datepicker-active-background !important;
+        color: @color-datepicker-active !important;
+        font-weight: bold;
+    }
+
+    html.touch {
+        & {
+            td a {
+                font-size: 1.2em;
+                line-height: 2.2em;
+            }
+        }
+    }
+}
+
+// Fixes datepicker z-index issue on input-group inputs in dialogs
+// With non-relative position the input's z-index is ignored
+.input-group > .form-control.hasDatepicker {
+    position: initial;
+}
+
+.minicolors-panel {
+    border: 1px solid @color-datepicker-border;
+    box-shadow: 3px 3px 5px @color-popover-shadow;
+    border-radius: .3rem;
+    height: 152px;
+    padding: 1px;
+}
+
+.input-group {
+    .minicolors-input {
+        width: 100%;
+        // needed so minicolors panel is not out of screen
+        // when the input is on the right side, e.g. Calendar plugin settings
+        // This is obviously minicolors script issue
+        min-width: 130px;
+        border-left: 0;
+        border-right: 0;
+    }
+}
+
+@media screen and (max-width: @screen-width-mini) {
+    .ui-widget-content {
+        border-radius: 0;
+    }
+
+    .ui-menu {
+        border-radius: .3rem;
+        left: 15px !important;
+        right: 15px;
+        width: auto;
+    }
+
+    .ui-dialog {
+        .ui-dialog-content:not(.iframe) {
+            padding: .65rem;
+        }
+    }
+
+    .ui-autocomplete {
+        // TODO: e.g. time input autocompletion on mobile
+    }
+}

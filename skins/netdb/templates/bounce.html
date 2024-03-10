@@ -1,0 +1,74 @@
+<roundcube:include file="includes/layout.html" />
+
+<h1 class="voice"><roundcube:label name="bouncemsg" /></h1>
+
+<div class="formcontent">
+	<roundcube:object name="bounceObjects" id="bounce-objects" class="mb-3" />
+	<roundcube:object name="composeFormHead" role="main" />
+	<div id="bounceheaders" role="region" aria-labelledby="aria-label-composeheaders">
+		<h2 id="aria-label-composeheaders" class="voice"><roundcube:label name="arialabelmessageheaders" /></h2>
+		<div class="compose-headers">
+			<div id="compose_from" class="form-group row">
+				<label for="_from" class="col-2 col-form-label"><roundcube:label name="from" /></label>
+				<div class="col-10">
+					<div class="input-group">
+						<roundcube:object name="composeHeaders" part="from" id="_from" form="form" tabindex="1" class="form-control" />
+						<span class="input-group-append">
+							<a href="#identities" onclick="return rcmail.command('switch-task', 'settings/identities')" class="input-group-text icon edit" title="<roundcube:label name="editidents" />" tabindex="1"><span class="inner"><roundcube:label name="editidents" /></span></a>
+					</div>
+				</div>
+			</div>
+			<div id="compose_to" class="form-group row">
+				<label for="_to" class="col-2 col-form-label"><roundcube:label name="to" /></label>
+				<div class="col-10">
+					<div class="input-group">
+						<roundcube:object name="composeHeaders" part="to" id="_to" form="form" tabindex="1" aria-required="true" data-recipient-input="true" />
+						<span class="input-group-append">
+							<a href="#add-header" data-popup="headers-menu" class="input-group-text icon add" title="<roundcube:label name="addheader" />" tabindex="1"><span class="inner"><roundcube:label name="addheader" /></span></a>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div id="compose_cc" class="hidden form-group row">
+				<label for="_cc" class="col-2 col-form-label"><roundcube:label name="cc" /></label>
+				<div class="col-10">
+					<div class="input-group">
+						<roundcube:object name="composeHeaders" part="cc" id="_cc" form="form" tabindex="1" data-recipient-input="true" />
+						<span class="input-group-append">
+							<a href="#delete" onclick="UI.header_reset('_cc')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div id="compose_bcc" class="hidden form-group row">
+				<label for="_bcc" class="col-2 col-form-label"><roundcube:label name="bcc" /></label>
+				<div class="col-10">
+					<div class="input-group">
+						<roundcube:object name="composeHeaders" part="bcc" id="_bcc" form="form" tabindex="1" data-recipient-input="true" />
+						<span class="input-group-append">
+							<a href="#delete" onclick="UI.header_reset('_bcc')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<roundcube:if condition="!config:no_save_sent_messages" />
+		<div class="form-group row">
+			<label for="compose-store-target" class="col-form-label col-6"><roundcube:label name="savesentmessagein" /></label>
+			<div class="col-6">
+				<roundcube:object name="storetarget" id="compose-store-target" noform="true" tabindex="2" class="form-control" />
+			</div>
+		</div>
+		<roundcube:endif />
+	</form>
+</div>
+
+<div id="headers-menu" class="popupmenu" data-popup-init="headersmenu">
+	<h3 id="aria-label-headersmenu" class="voice"><roundcube:label name="arialabelheadersmenu" /></h3>
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-headersmenu">
+		<li role="menuitem"><a data-target="cc" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="cc" /></a></li>
+		<li role="menuitem"><a data-target="bcc" href="#" role="button" tabindex="-1" class="recipient active"><roundcube:label name="bcc" /></a></li>
+	</ul>
+</div>
+
+<roundcube:include file="includes/footer.html" />

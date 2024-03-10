@@ -1,0 +1,585 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Common UI elements ***/
+
+.rcmaddcontact,
+.hidden,
+.voice {
+    display: none !important;
+}
+
+font.bold {
+    font-weight: bold;
+}
+
+#rcmdraglayer {
+    min-width: 260px;
+    width: 260px;
+    background-color: @color-drag-layer-background;
+    color: @color-drag-layer;
+    box-shadow: 3px 3px 5px @color-drag-layer-shadow;
+    border-radius: .3rem;
+    z-index: 250;
+    opacity: .92;
+    padding: .5rem;
+    white-space: nowrap;
+
+    div {
+        line-height: 1.6em;
+        .overflow-ellipsis();
+    }
+}
+
+.frame-content {
+    padding: 1rem;
+
+    h2 {
+        font-weight: bold;
+        font-size: 1.5em;
+    }
+
+    h3 {
+        font-weight: bold;
+        font-size: 1.25em;
+    }
+}
+
+.listbox {
+    .scroller {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .navlist {
+        height: 0;
+        flex: initial !important;
+
+        .listing {
+            tr:last-child td,
+            li:last-child {
+                border-bottom: 0;
+            }
+        }
+    }
+
+    .popup & {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .scroller {
+            flex: 1;
+        }
+
+        .footer {
+            border-top: 1px solid @color-layout-border;
+            background-color: @color-searchbar-background;
+        }
+    }
+}
+
+.contact-header {
+    display: flex;
+    margin-bottom: 1rem;
+
+    .contact-photo {
+        min-width: @layout-contact-icon-width;
+    }
+
+    .contact-head {
+        margin-left: 1rem;
+        margin-top: 0 !important;
+
+        legend {
+            display: none;
+        }
+    }
+}
+
+
+@image-attachment-size: 250px;
+
+// this is when image thumbnails are enabled
+p.image-attachment {
+    position: relative;
+    border: 1px solid @color-border;
+    border-radius: .3rem;
+    background-color: @color-message-background;
+    float: left;
+    margin: .5rem;
+    min-width: 47%;
+    min-height: @image-attachment-size;
+    overflow: hidden;
+    // use flexbox to center the image
+    display: flex;
+    justify-content: center;
+
+    @media screen and (max-width: @screen-width-xs) {
+        float: none;
+        margin: .5rem 0 .5rem 0;
+    }
+
+    .image-link {
+        align-self: center;
+        text-align: center;
+        margin: 1.6rem .5rem;
+    }
+
+    span {
+        color: @color-form-hint;
+        padding: 0 .5rem;
+        font-size: 90%;
+        white-space: nowrap;
+        position: absolute;
+        line-height: 1.5rem;
+    }
+
+    .image-filename {
+        .overflow-ellipsis();
+        left: 0;
+        top: 0;
+        right: 0;
+        padding-right: 4rem;
+    }
+
+    .image-filesize {
+        right: 0;
+        top: 0;
+    }
+
+    .attachment-links {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 0 .5rem;
+            line-height: 1.5rem;
+        }
+
+        a:before {
+            &:extend(.font-icon-class);
+            display: inline-block;
+        }
+
+        a.open:before {
+            content: @fa-var-external-link-square-alt;
+        }
+
+        a.download:before {
+            content: @fa-var-download;
+        }
+    }
+}
+
+// this is when image thumbnails are disabled
+fieldset.image-attachment {
+    margin-top: .5rem;
+
+    legend {
+        color: @color-form-hint;
+        font-size: .9rem;
+        border-top: 1px solid lighten(@color-mail-headers, 50%);
+        margin: 0;
+    }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+#folder-selector {
+    overflow-y: auto;
+}
+
+.noselect {
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+.iframe-loader {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, .95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+
+    .spinner-border {
+        width: 7rem;
+        height: 7rem;
+        color: @color-spinner-circle;
+        border: 1rem solid;
+        border-color: currentColor @color-spinner-item currentColor currentColor;
+    }
+}
+
+.footer.toolbar + .iframe-loader {
+    top: @layout-header-height;
+    bottom: @layout-header-height;
+}
+
+// iOS: Fix scrolling of iframe, display scrollbars on scrollable elements
+.ios-scroll {
+    padding: 0;
+    -webkit-overflow-scrolling: touch !important;
+    overflow: scroll !important;
+
+    &.iframe-wrapper {
+        margin-top: 1px; // FIXME: without this scrolling hides the wrapper neighbours' border
+    }
+}
+
+.webkit-scroller {
+    &::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar:vertical {
+        width: .5rem;
+    }
+
+    &::-webkit-scrollbar:horizontal {
+        height: .5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, .3);
+        border-radius: .25rem;
+        border: 2px solid #fff;
+    }
+}
+
+.quota-widget {
+    width: 100%;
+    max-width: 15em;
+    padding: .5rem 1rem;
+    display: flex;
+    align-items: center;
+    color: @color-quota-text;
+
+    &:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-hdd;
+        line-height: 1;
+    }
+
+    .count {
+        font-size: 80%;
+        order: 2;
+    }
+
+    .bar {
+        flex: 1;
+        height: .5rem;
+        margin: 0 1rem;
+        background-color: @color-quota-background;
+        border: 1px solid @color-layout-border;
+        border-radius: .25rem;
+        overflow: hidden;
+    }
+
+    .value {
+        display: block;
+        background-color: @color-quota-value;
+        height: 1rem;
+        opacity: .75;
+
+        &.warning {
+            background-color: @color-quota-value-warning;
+        }
+    }
+}
+
+.image-tools {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    height: @layout-header-height;
+    overflow: hidden;
+    transform: translateX(-87%);
+    transition: transform 0.3s ease-in-out;
+    background-color: @color-image-tools-background;
+    border-radius: 0 .3rem .3rem 0;
+
+    .menu {
+        float: left;
+    }
+
+    a.button.icon.tools {
+        padding: 0 .25rem;
+        display: inline-block;
+        height: @layout-header-height;
+
+        span.inner {
+            display: none;
+        }
+
+        &:before {
+            line-height: @layout-header-height;
+            margin: 0;
+        }
+    }
+
+    &.open {
+        transform: translateX(0);
+
+        a.button.icon.tools:before {
+            content: @fa-var-chevron-left;
+        }
+    }
+
+    a {
+        color: @color-image-tools !important;
+
+        &:focus,
+        &:hover {
+            background-color: @color-image-tools-hover !important;
+            outline: 0;
+        }
+    }
+}
+
+.quota-info {
+    width: 100%;
+    display: table !important;
+
+    td,th {
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    th {
+        border-top: 0;
+    }
+
+    .root {
+        line-height: 1;
+        font-style: italic;
+        color: @color-popover-separator;
+        background-color: @color-popover-separator-background;
+    }
+
+    th:first-child,
+    .name {
+        text-align: left;
+    }
+}
+
+// Make Bootstrap tabs non-wrappable
+.nav-tabs {
+    flex-wrap: nowrap;
+
+    .nav-item {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .nav-link {
+        .overflow-ellipsis();
+    }
+}
+
+.props-table {
+    td.title {
+        width: 7em;
+    }
+}
+
+.table-widget {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: .5rem;
+    border: 1px solid @color-table-border;
+
+    & > .content {
+        overflow-x: auto;
+        flex-grow: 1;
+        height: 18.5em;
+
+        table th {
+            border-top: 0;
+        }
+    }
+
+    & > .footer {
+        height: 3.5rem;
+        border-top: 1px solid @color-table-border;
+        text-align: left;
+
+        a {
+            padding: .2rem .45rem !important;
+            height: ~"calc(3.5rem - 1px)" !important;
+        }
+    }
+
+    table {
+        margin: 0;
+        max-height: 18.5em;
+    }
+
+    // Options table is a table with first column for identifier/description
+    // and other columns for a state flag. E.g. ACL table
+    table.options-table {
+        td,th {
+            text-align: center;
+            vertical-align: middle;
+
+            &:first-child {
+                .overflow-ellipsis();
+                text-align: left;
+            }
+        }
+
+        tr:last-child td {
+            border-bottom: 1px solid @color-table-border;
+        }
+
+        tr.selected td {
+            background-color: @color-table-selected-background;
+            color: @color-table-selected;
+            outline: 0;
+        }
+
+        td:not(:first-child) span {
+            display: inline-block;
+            line-height: 1.25;
+
+            &:before {
+                &:extend(.font-icon-class);
+            }
+        }
+
+        td.enabled span:before {
+            content: @fa-var-check;
+        }
+
+        td.partial span:before {
+            opacity: .3;
+            content: @fa-var-check;
+        }
+    }
+}
+
+table.compact-table {
+    margin: 0;
+    width: 100%;
+
+    *:not(.invalid-feedback) {
+        font-size: inherit;
+    }
+
+    td {
+        padding: .25rem;
+        border: 0;
+    }
+
+    td:first-child {
+        padding-left: 0;
+    }
+
+    td:last-child {
+        padding-right: 0;
+    }
+}
+
+table.table {
+    .checkbox-cell {
+        width: 3rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-align: center;
+        padding: .5rem;
+
+        html.touch & {
+            padding: .5rem .3rem;
+        }
+    }
+
+    th.checkbox-cell {
+        padding: .75rem 0;
+        max-width: 1rem;
+
+        &:before {
+            &:extend(.font-icon-class);
+            cursor: pointer;
+            margin: 0 1rem;
+            line-height: 1;
+        }
+
+        &.subscription:before {
+            content: @fa-var-rss-square;
+        }
+
+        &.alarm:before {
+            .font-icon-regular(@fa-var-bell);
+        }
+
+        &.read:before {
+            content: @fa-var-eye;
+        }
+
+        &.write:before {
+            content: @fa-var-pencil-alt;
+        }
+    }
+
+    .buttons-cell {
+        width: 1%;
+        white-space: nowrap;
+        text-align: center;
+
+        a.button:before {
+            line-height: 1;
+            float: none;
+            display: inline-block;
+        }
+
+        @media screen and (min-width: @screen-width-xs) {
+            a.button .inner {
+                display: inline;
+            }
+        }
+    }
+
+    label {
+        margin: 0;
+        display: inline;
+    }
+
+    fieldset.tab-pane & thead th {
+        border: 0;
+    }
+
+    tr.deleted td {
+        color: @color-list-deleted !important;
+    }
+}
+
+/* Bootstrap's .table style overwrites */
+.table {
+    thead th {
+        border-width: 1px;
+        white-space: nowrap;
+    }
+}

@@ -1,0 +1,28 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" />
+<roundcube:include file="includes/settings-menu.html" />
+
+<h1 class="voice"><roundcube:label name="preferences" /></h1>
+
+<div id="layout-list" class="listbox<roundcube:exp expression="!request:_action ? '' : ' selected'"/>" aria-labelledby="aria-label-prefsection">
+	<div class="header">
+		<a class="button icon back-sidebar-button" href="#sidebar"><span class="inner"><roundcube:label name="settings" /></span></a>
+		<span id="aria-label-prefsection" class="header-title"><roundcube:label name="preferences" /></span>
+	</div>
+	<div class="scroller">
+		<roundcube:object name="sectionslist" id="sections-table" class="listing iconized settings-default-icon"
+			noheader="true" role="listbox" data-list="sections_list" />
+	</div>
+</div>
+
+<div id="layout-content" role="main">
+	<div class="header">
+		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+		<span class="header-title"></span>
+	</div>
+	<div class="iframe-wrapper">
+		<roundcube:object name="contentframe" id="preferences-frame" src="env:blankpage" title="arialabelpreferencesform" />
+	</div>
+</div>
+
+<roundcube:include file="includes/footer.html" />

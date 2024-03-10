@@ -1,0 +1,263 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Dialogs and popovers ***/
+
+.popupmenu {
+    display: none;
+    padding: 0;
+    min-width: 180px;
+    height: 100%;
+
+    li > a {
+        width: 100%;
+    }
+
+    &.propform {
+        overflow: hidden;
+        padding: .25rem; // so overflow do not truncate focus outline on inputs
+    }
+
+    &.simplelist {
+        min-width: 80px;
+    }
+}
+
+.popup.justified {
+    display: flex;
+    justify-content: space-around;
+}
+
+.popover-body {
+    padding: 0;
+    overflow-x: hidden;
+
+    & > .popupmenu {
+        display: block !important;
+    }
+}
+
+.popover {
+    box-shadow: 3px 3px 5px @color-popover-shadow;
+    border-color: @color-layout-border;
+    padding: 0;
+    z-index: 1300;
+
+    .popover-header {
+        // On mobile don't display popup arrows and titles
+        display: none;
+    }
+
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        .listing {
+            li:first-child {
+                border-radius: .25rem .25rem 0 0;
+            }
+
+            li:last-child {
+                border-bottom-right-radius: .25rem;
+                border-bottom-left-radius: .25rem;
+            }
+
+            ul.rounded-0 > li {
+                border-radius: 0;
+            }
+        }
+    }
+}
+
+html.layout-small,
+html.layout-phone {
+    .popover:not(.select-menu) {
+        margin: 0 !important;
+        padding: 0;
+        right: 0;
+        left: initial !important;
+        bottom: 0;
+        top: 0;
+        width: @layout-mobile-menu-width;
+        transform: none !important;
+        border-radius: 0;
+        border: 0;
+        display: flex;
+        flex-direction: column;
+        box-shadow: none;
+
+        div.arrow {
+            display: none;
+        }
+
+        .listing li:last-child {
+            border-bottom: 1px solid @color-list-border;
+        }
+    }
+
+    .popover-overlay {
+        z-index: 1299;
+        background-color: @color-dialog-overlay-background;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .popover-header {
+        display: block;
+        border-radius: 0;
+        border: 0;
+        padding: 0 .5em;
+        height: @layout-touch-header-height;
+        min-height: @layout-touch-header-height; // for when it's a flex item
+        line-height: @layout-touch-header-height;
+        font-size: @layout-touch-header-font-size;
+        color: @color-popover-mobile-header;
+        background-color: @color-popover-mobile-header-background;
+
+        &:before {
+            display: none; // hide the Bootstrap's popover arrow element
+        }
+
+        a {
+            display: inline-block;
+            width: 100%;
+            color: @color-popover-mobile-header;
+        }
+    }
+
+    .popover-body > * {
+        max-height: 100% !important;
+    }
+}
+
+html.touch .popover {
+    .listing {
+        li a {
+            line-height: @layout-touch-menu-record-height;
+            font-size: @layout-touch-menu-record-font-size;
+            padding: 0 .5em;
+
+            &:before {
+                float: left; // overwrite icon float to have unified element height
+            }
+        }
+    }
+}
+
+.select-menu {
+    max-width: initial;
+    margin: 0;
+    height: auto;
+    z-index: 1301; // above TinyMCE dialogs
+
+    .popover-header {
+        border-radius: .25rem .25rem 0 0 !important;
+    }
+
+    .listing li {
+        a {
+            padding-left: .25rem;
+            outline: 0; // for Android browser
+        }
+
+        &:last-child {
+            border-bottom-right-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+        }
+    }
+
+    // Use 'inline' class for menus that have a list elements with no <a> inside
+    // and no header
+    &.inline {
+        .listing li {
+            padding-right: .5rem;
+
+            &:first-child {
+                border-top-left-radius: .25rem;
+                border-top-right-radius: .25rem;
+            }
+        }
+    }
+}
+
+/** PGP Key search/import dialog **/
+
+.pgpkeyimport {
+    div.key {
+        position: relative;
+        padding: .5rem 0;
+
+        &.revoked,
+        &.disabled {
+            color: @color-list-secondary;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 0.5em;
+            margin-bottom: 0;
+
+            &:after {
+                content: ":";
+            }
+
+            &.keyid {
+                display: none;
+            }
+        }
+
+        label + a,
+        label + span {
+            line-height: 2.6rem;
+            margin-right: 1em;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        label.keyid + a {
+            font-weight: bold;
+
+            &:before {
+                &:extend(.font-icon-class);
+                content: @fa-var-key;
+            }
+        }
+    }
+
+    ul.uids {
+        margin: 0;
+        padding: 0;
+    }
+
+    li.uid {
+        border: 0;
+        padding: .25rem 0 0 1.5em;
+        line-height: 1.5rem !important;
+        list-style-type: none;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-user;
+            opacity: 0.25;
+            font-size: 1em;
+            line-height: 1.25;
+        }
+    }
+
+    button.importkey {
+        position: absolute;
+        top: .5rem;
+        right: 0;
+    }
+
+    button:disabled {
+        display: none;
+    }
+}

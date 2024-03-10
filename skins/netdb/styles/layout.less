@@ -1,0 +1,414 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Responsive design - Layout ***/
+
+/*
+- Large screen (width > 1200px)
+   -----------------------------------------------------------------------------------------------------
+   |  menu  |        sidebar        |         list          |                 content                  |
+   -----------------------------------------------------------------------------------------------------
+- Normal screen (1200px => width => 768px) - typical: 768x1024 (iPad Mini/Air)
+   -------------------------------------------------------------------
+   |menu|    sidebar/list     |               content                |
+   -------------------------------------------------------------------
+- Small (480px < width < 768px)
+   ------------------------------------------
+   |menu|     sidebar/list/content          |
+   ------------------------------------------
+- Phone (width <= 480px) - typical: 320x480 (iPhone 5), 375x667 (iPhone 6-7), 360x564 (Galaxy S6)
+   ------------------------
+   | sidebar/list/content |
+   ------------------------
+*/
+
+html {
+    height: 100%;
+    font-size: @page-font-size;
+}
+
+body {
+    min-width: @page-min-width;
+    height: 100%;
+    color: @color-font;
+    overflow: hidden;
+
+    html.iframe & {
+        overflow: auto;
+    }
+}
+
+#layout {
+    overflow: hidden;
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    & > div {
+        & > .scroller {
+            flex: 1;
+            position: relative; // for .listing-info positioning
+        }
+
+        & > .header,
+        & > .footer {
+            font-size: @layout-header-font-size;
+            font-weight: bold;
+            line-height: @layout-header-height;
+            height: @layout-header-height;
+            min-height: @layout-header-height;
+            padding: 0 .25em;
+            margin: 0;
+            position: relative; // for absolute positioning of searchbar
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            justify-content: center;
+        }
+
+        & > .header {
+            border-bottom: 1px solid @color-layout-border;
+            color: @color-layout-header;
+            background-color: @color-layout-header-background;
+
+            .header-title {
+                .overflow-ellipsis();
+                flex: 1;
+                text-align: center;
+                margin: 0 -20rem;
+            }
+
+            a.button {
+                color: @color-toolbar-button;
+            }
+
+            a.toolbar-list-button,
+            a.toolbar-menu-button {
+                order: 99; // always the last button
+            }
+        }
+
+        & > .footer {
+            border-top: 1px solid @color-layout-border;
+            background-color: @color-layout-footer-background;
+
+            & when not (@layout-footer-height = @layout-header-height) {
+                height: @layout-footer-height;
+                min-height: @layout-footer-height;
+                line-height: @layout-footer-height;
+            }
+
+            &.small {
+                height: @layout-footer-small-height;
+                min-height: @layout-footer-small-height;
+                line-height: @layout-footer-small-height;
+            }
+
+            &:empty {
+                display: none;
+            }
+        }
+    }
+}
+
+#layout-sidebar {
+    position: relative; // e.g. for .column-resizer
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    max-width: 30%;
+    min-width: 220px;
+    border-right: 1px solid @color-layout-border;
+    background-color: @color-layout-sidebar-background;
+
+    &.sidebar-right {
+        order: 2;
+        border-right: 0;
+        border-left: 1px solid @color-layout-border;
+        // sidebar on right is unusual situation, probably there's no list in layout,
+        // in such a case we can make it a little bit wider
+        flex: 3;
+    }
+}
+
+#layout-list {
+    position: relative; // e.g. for .column-resizer
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    max-width: 30%;
+    min-width: 300px;
+    border-right: 1px solid @color-layout-border;
+    background-color: @color-layout-list-background;
+}
+
+#layout-content {
+    display: flex;
+    flex: 6;
+    flex-direction: column;
+    background-color: @color-layout-content-background;
+    width: 100%;
+
+    html.iframe & {
+        height: 100%;
+    }
+
+    & > .formcontent, // e.g. Help plugin
+    & > .content {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        flex: 1;
+    }
+
+    .iframe-wrapper {
+        width: 100%;
+        flex: 1;
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    }
+
+    &.only > .scroller {
+        overflow: auto;
+    }
+}
+
+#layout-menu {
+    &.popover {
+        left: 0 !important;
+    }
+
+    .popover-header {
+        height: @layout-header-height;
+        line-height: @layout-header-height;
+        border: 0;
+        border-radius: 0;
+        text-align: center;
+
+        img {
+            max-height: @layout-header-height;
+            max-width: @layout-menu-width;
+            padding: .25rem;
+
+            @media screen and (min-width: (@screen-width-xs + 1px)) and (max-width: @screen-width-medium) {
+                max-width: @layout-menu-width * 0.45;
+            }
+        }
+
+        @media screen and (min-width: (@screen-width-xs + 1px)) {
+            padding: 0 !important;
+            background-color: @color-taskmenu-background !important;
+
+            a {
+                display: none !important;
+            }
+        }
+
+        html.layout-phone & {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            padding: 0 .5rem;
+
+            img {
+                max-width: @layout-mobile-menu-width - 50px;
+            }
+
+            a {
+                width: auto;
+                flex: 1;
+
+                &:before {
+                    height: @layout-touch-header-height;
+                    float: right;
+                }
+
+                .inner {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.column-resizer {
+    cursor: col-resize;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: -3px;
+    width: 6px;
+    height: 100%;
+
+    &.inverted {
+        right: auto;
+        left: -3px;
+    }
+
+    &.active {
+        width: 10000px;
+        right: -5000px;
+
+        &.inverted {
+            right: auto;
+            left: -5000px;
+        }
+    }
+}
+
+@media screen and (max-width: @screen-width-large) {
+    #layout-sidebar,
+    #layout-list {
+        min-width: 260px;
+        flex: 3;
+    }
+
+    #layout-list > .header > a.button {
+        padding: 0 .25rem;
+        margin: 0 .25rem;
+    }
+}
+
+@media screen and (max-width: @screen-width-medium) {
+    // Disable column resizing by hiding splitters and resetting columns width
+    .column-resizer {
+        display: none;
+    }
+    #layout-sidebar,
+    #layout-list {
+        width: auto !important;
+        flex: 3 !important;
+    }
+}
+
+@media screen and (max-width: @screen-width-small) {
+    #layout-sidebar,
+    #layout-list {
+        max-width: none;
+        border: 0 !important;
+    }
+
+    #layout > div > .header {
+        background-color: @color-layout-mobile-header-background;
+
+        a.button {
+            // make the button active area smaller on touch devices
+            margin: 0 .3rem !important;
+            padding: 0 !important;
+
+            &:before {
+                font-size: 1.75rem;
+                height: @layout-touch-header-height;
+                margin: 0;
+            }
+
+            &.filter:before {
+                font-size: 1.6rem; // this icon is too big in FA5
+            }
+
+            .inner {
+                display: none;
+            }
+        }
+    }
+
+    #layout > div > .footer {
+        background-color: @color-layout-mobile-footer-background;
+    }
+
+    a.toolbar-list-button {
+        display: none;
+    }
+}
+
+@media screen and (max-width: @screen-width-xs) {
+}
+
+@media screen and (max-width: @screen-width-mini) {
+    #layout-sidebar,
+    #layout-list {
+        min-width: @page-min-width;
+    }
+}
+
+@media screen and (min-width: (@screen-width-xs + 1px)) {
+    a.task-menu-button {
+        display: none;
+    }
+
+    #layout-menu {
+        // FIXME: we set background color here not in taskmenu.less, because
+        // otherwise background is partially white on Android/iOS
+        background-color: @color-taskmenu-background;
+        width: @layout-menu-width-sm;
+    }
+}
+
+@media screen and (min-width: (@screen-width-small + 1px)) {
+    .floating-action-buttons,
+    #layout-content > .header > .header-title,
+    #layout > div > .header > .buttons,
+    a.toolbar-menu-button {
+        display: none;
+    }
+}
+
+@media screen and (min-width: (@screen-width-medium + 1px)) {
+    #layout-menu {
+        width: @layout-menu-width;
+    }
+}
+
+@media screen and (min-width: (@screen-width-large + 1px)) {
+    #layout-list > .header > .header-title:not(.all-sizes),
+    a.toolbar-list-button,
+    a.back-list-button,
+    a.back-sidebar-button {
+        display: none;
+    }
+}
+
+html.layout-phone {
+    .hidden-phone {
+        display: none !important;
+    }
+}
+
+html.layout-phone,
+html.layout-small {
+    .hidden-small {
+        display: none !important;
+    }
+}
+
+html.layout-small {
+    .hidden-lbs {
+        display: none !important;
+    }
+}
+
+html.layout-large,
+html.layout-normal {
+    .hidden-lbs,
+    .hidden-big {
+        display: none !important;
+    }
+}
+
+html.layout-large {
+    .hidden-large {
+        display: none !important;
+    }
+}

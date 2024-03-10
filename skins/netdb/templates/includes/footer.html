@@ -1,0 +1,14 @@
+<roundcube:if condition="!env:framed || env:extwin" />
+</div>
+<roundcube:if condition="config:support_url" />
+<a href="<roundcube:var name='config:support_url' />" target="_blank" id="supportlink" class="hidden"><roundcube:label name="support" /></a>
+<roundcube:endif />
+<roundcube:endif />
+
+<roundcube:object name="message" id="messagestack" />
+
+<script src="/deps/bootstrap.bundle.min.js"></script>
+<script src="/ui.js"></script>
+
+</body>
+</html>

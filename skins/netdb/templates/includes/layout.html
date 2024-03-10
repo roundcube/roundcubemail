@@ -1,0 +1,46 @@
+<roundcube:add_label name="back" />
+<roundcube:add_label name="errortitle" />
+<roundcube:add_label name="options" />
+<roundcube:add_label name="plaintoggle" />
+<roundcube:add_label name="htmltoggle" />
+<roundcube:add_label name="previous" />
+<roundcube:add_label name="next" />
+<roundcube:add_label name="select" />
+<roundcube:add_label name="close" />
+<roundcube:add_label name="browse" />
+<roundcube:add_label name="choosefile" />
+<roundcube:add_label name="choosefiles" />
+<roundcube:object name="doctype" value="html5" />
+<roundcube:if condition="!env:framed || env:extwin" />
+<html>
+<roundcube:else />
+<html class="iframe">
+<roundcube:endif />
+<head>
+	<roundcube:object name="meta" />
+	<roundcube:object name="links" />
+	<link rel="stylesheet" href="/deps/bootstrap.min.css">
+	<roundcube:if condition="config:devel_mode" />
+		<link rel="stylesheet/less" href="/styles/styles.less">
+		<roundcube:link rel="stylesheet/less" href="/styles/print.less" condition="env:action == 'print'" />
+		<script src="/deps/less.min.js" data-env="development"></script>
+	<roundcube:else />
+		<link rel="stylesheet" href="/styles/styles.css">
+		<roundcube:link rel="stylesheet" href="/styles/print.css" condition="env:action == 'print'" />
+	<roundcube:endif />
+	<roundcube:if condition="env:action != 'print' && !config:devel_mode && config:dark_mode_support" />
+		<script>
+		try {
+			if (document.cookie.indexOf('colorMode=dark') > -1
+				|| (document.cookie.indexOf('colorMode=light') === -1 && window.matchMedia('(prefers-color-scheme: dark)').matches)
+			) {
+				document.documentElement.className += ' dark-mode';
+			}
+		} catch (e) { }
+		</script>
+	<roundcube:endif />
+</head>
+<body class="task-<roundcube:exp expression="env:error_task ?: env:task ?: 'error'"> action-<roundcube:exp expression="asciiwords(env:action, true, '-') ?: 'none'">">
+	<roundcube:if condition="!env:framed || env:extwin" />
+		<div id="<roundcube:exp expression="env:action == 'print' ? 'print-' : ''">layout">
+	<roundcube:endif />

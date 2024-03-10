@@ -1,0 +1,83 @@
+<roundcube:include file="includes/layout.html" />
+<roundcube:include file="includes/menu.html" condition="!env:framed && !env:extwin" />
+
+<roundcube:object name="mailboxlist" folder_filter="mail" type="js" />
+
+<h1 class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h1>
+
+<div id="layout-content" class="selected">
+	<roundcube:if condition="!env:framed" />
+		<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+		<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
+			<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
+			<span class="header-title"></span>
+			<roundcube:include file="includes/mail-menu.html" />
+		</div>
+	<roundcube:endif />
+	<div class="content frame-content" role="main">
+		<div id="message-header">
+			<h2 class="subject">
+				<span class="voice"><roundcube:label name="subject" />: </span>
+				<roundcube:object name="messageHeaders" valueOf="subject" />
+				<roundcube:if condition="!env:message_context && !env:extwin">
+					<roundcube:button command="extwin" type="link" class="extwin" innerClass="inner"
+						label="openinextwin" title="openinextwin" data-hidden="small" />
+				<roundcube:endif />
+			</h2>
+			<div class="header">
+				<roundcube:object name="contactphoto" class="contactphoto" placeholder="/images/contactpic.svg" bg-color="transparent" />
+				<div class="header-content">
+					<roundcube:object name="messageSummary" class="header-summary" addicon="virtual" />
+					<roundcube:object name="messageHeaders" class="header-headers" addicon="virtual" exclude="subject" max="10" />
+					<div class="header-links">
+						<roundcube:add_label name="details" />
+						<roundcube:add_label name="summary" />
+						<a href="#headers" class="headers-summary" onclick="return UI.headers_show(true)"></a>
+						<a href="#all-headers" class="headers-all" onclick="return UI.headers_dialog()"><roundcube:label name="headers" /></a>
+						<roundcube:add_label name="arialabelmessageheaders" />
+						<roundcube:if condition="env:optional_format=='text'" />
+							<roundcube:button command="change-format" prop="text" type="link" class="plain" innerClass="inner"
+								title="changeformattext" label="plaintoggle" />
+						<roundcube:elseif condition="env:optional_format=='html'" />
+							<roundcube:button command="change-format" prop="html" type="link" class="html" innerClass="inner"
+								title="changeformathtml" label="htmltoggle" />
+						<roundcube:endif />
+						<roundcube:container name="headerlinks" id="header-links" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="message-content">
+			<div class="leftcol" role="region" aria-labelledby="aria-label-messageattachments">
+				<h2 id="aria-label-messageattachments" class="voice"><roundcube:label name="attachments" /></h2>
+				<roundcube:object name="messageAttachments" id="attachment-list" class="attachmentslist" />
+			</div>
+			<div class="rightcol" role="region" aria-labelledby="aria-label-messagebody">
+				<h2 id="aria-label-messagebody" class="voice"><roundcube:label name="arialabelmessagebody" /></h2>
+				<roundcube:object name="messageObjects" id="message-objects" />
+				<roundcube:object name="messageBody" id="messagebody" headertableclass="headers-table" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- popup menus -->
+<div id="attachmentmenu" class="popupmenu">
+	<h3 id="aria-label-attachmentmenu" class="voice"><roundcube:label name="arialabelattachmentmenu" /></h3>
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-attachmentmenu">
+		<roundcube:button command="open-attachment" type="link-menuitem" id="attachmenuopen" label="open" class="extwin disabled" classAct="extwin active" />
+		<roundcube:button command="download-attachment" type="link-menuitem" id="attachmenudownload" label="download" class="download disabled" classAct="download active" />
+		<roundcube:container name="attachmentmenu" id="attachmentmenu" />
+	</ul>
+</div>
+
+<div id="mailto-menu" class="popupmenu">
+	<h3 id="aria-label-mailtomenu" class="voice"><roundcube:label name="arialabelmailtomenu" /></h3>
+	<ul class="menu listing" role="menu" aria-labelledby="aria-label-mailtomenu">
+		<roundcube:button name="addtoaddressbook" type="link-menuitem" label="addtoaddressbook" class="addressbook" classAct="addressbook active" />
+		<roundcube:button name="composeto" type="link-menuitem" label="composeto" class="compose" classAct="compose active" />
+		<roundcube:container name="mailtomenu" id="mailto-menu" />
+	</ul>
+</div>
+
+<roundcube:include file="includes/footer.html" />

@@ -1,0 +1,42 @@
+<div id="layout-menu">
+	<h2 id="aria-label-tasknav" class="voice"><roundcube:label name="arialabeltasknav" /></h2>
+	<div class="popover-header">
+		<roundcube:object name="logo" src="/images/logo.svg" id="logo" alt="Logo" />
+		<a class="button icon cancel"><span class="inner"><roundcube:label name="close" /></span></a>
+	</div>
+	<div id="taskmenu" class="menu toolbar" role="navigation" aria-labelledby="aria-label-tasknav">
+		<span class="action-buttons">
+			<roundcube:if condition="env:action == 'compose' and env:task == 'mail'" />
+				<roundcube:button command="compose" type="link" class="compose selected"
+					label="compose" title="writenewmessage" innerclass="inner" />
+			<roundcube:else />
+				<roundcube:button command="compose" type="link" class="compose"
+					label="compose" title="writenewmessage" innerclass="inner"
+					data-fab="true" data-fab-task="mail" data-fab-action="none" />
+			<roundcube:endif />
+		</span>
+		<roundcube:if condition="env:action == 'compose' and env:task == 'mail'" />
+			<roundcube:button command="mail" label="mail" type="link" innerClass="inner"
+				class="mail" />
+		<roundcube:else />
+			<roundcube:button command="mail" label="mail" type="link" innerClass="inner"
+				class="mail" classSel="mail selected" />
+		<roundcube:endif />
+		<roundcube:button command="addressbook" label="contacts" type="link" innerClass="inner"
+			class="contacts" classSel="contacts selected" />
+		<roundcube:container name="taskbar" id="taskmenu" />
+		<roundcube:button command="settings" label="settings" type="link" innerClass="inner"
+			class="settings" classSel="settings selected" />
+		<span class="special-buttons">
+			<roundcube:if condition="config:dark_mode_support" />
+				<roundcube:add_label name="darkmode" />
+				<roundcube:add_label name="lightmode" />
+				<roundcube:button name="theme" label="darkmode" type="link" innerClass="inner" class="theme dark" />
+			<roundcube:endif />
+			<roundcube:button name="about" label="about" type="link"
+				class="about" innerClass="inner" onclick="UI.about_dialog(this)" />
+			<roundcube:button command="logout" label="logout" type="link"
+				class="logout" innerClass="inner" />
+		</span>
+	</div>
+</div>

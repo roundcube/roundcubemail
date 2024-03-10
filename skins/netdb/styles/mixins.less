@@ -1,0 +1,62 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Font-icons ***/
+
+.font-icon-class {
+    font-size: 1.25em;
+    // FIXME: with inline-block we have some problems with icon alignment
+    // display: inline-block;
+    display: block;
+    float: left;
+    margin: 0 .25rem 0 0;
+    width: 1.18em;
+    height: 1em;
+    font-family: 'Icons';
+    font-style: normal;
+    font-weight: 900;
+    text-decoration: inherit;
+    text-align: center;
+    speak: none;
+    font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+.animated-icon-class {
+    // spinner-border is defined in Bootstrap
+    -webkit-animation: spinner-border 1.5s infinite linear;
+    animation: spinner-border 1.5s infinite linear;
+}
+
+.font-icon-solid(@icon) {
+    content: @icon;
+    font-weight: 900;
+}
+
+.font-icon-regular(@icon) {
+    content: @icon;
+    font-weight: 400;
+}
+
+.overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.font-family {
+    font-family: Roboto, sans-serif;
+}
+
+.style-input-focus {
+    border-color: @color-input-border-focus;
+    box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+}

@@ -1,0 +1,952 @@
+/**
+ * Roundcube Webmail styles for the Elastic skin
+ *
+ * Copyright (c) The Roundcube Dev Team
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original authors in the README.md file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+/*** Toolbar widget ***/
+
+.menu {
+    margin: 0;
+    text-align: center;
+    white-space: nowrap;
+
+    a {
+        .overflow-ellipsis();
+        text-decoration: none;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: "\00a0"; // blank placeholder
+        }
+
+        &:hover,
+        &:focus {
+            outline: 0;
+        }
+
+        &:not(.disabled):focus,
+        &:not(.disabled):hover {
+            background-color: @color-toolbar-button-background-hover;
+        }
+    }
+
+    &.toolbar {
+        li {
+            display: inline-block;
+            height: @layout-touch-header-height;
+        }
+
+        a {
+            color: @color-toolbar-button;
+            display: block;
+            float: left;
+            border: 0 !important;
+            height: @layout-header-height;
+            min-width: 3.2rem;
+            max-width: 6rem;
+            width: auto; // reset width defined for links in .listing
+            padding: .45rem;
+            line-height: 1.5;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+
+            &:before {
+                height: 1.75rem !important;
+                float: none !important;
+                width: auto !important;
+                margin: 0 !important;
+            }
+
+            &.selected {
+                color: @color-success;
+            }
+        }
+
+        & > .spacer {
+            width: 1em;
+        }
+
+        .dropbutton {
+            &:not(.disabled):hover {
+                background-color: @color-toolbar-button-background-hover;
+            }
+
+            a.dropdown {
+                padding: 0 .3rem;
+
+                &:before {
+                    line-height: @layout-header-height;
+                }
+
+                &:hover {
+                    background-color: darken(@color-toolbar-button-background-hover, 5%);
+                }
+            }
+        }
+    }
+
+    span.inner {
+        font-size: 90%;
+        font-weight: normal;
+    }
+
+    .dropbutton {
+        display: inline-block;
+
+        a.dropdown {
+            font-size: 75%;
+            min-width: 0;
+
+            html.ie11 &:before {
+                font-size: 80%;
+            }
+
+            span.inner {
+                display: none;
+            }
+        }
+
+        a:first-child {
+            padding-right: 0;
+        }
+    }
+
+    &.pagenav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 !important;
+        font-size: 100%; // in case this is .footer.small
+
+        a {
+            flex-grow: 1;
+            display: inline-block;
+            min-width: 2rem !important;
+            height: @layout-footer-small-height;
+            color: @color-toolbar-button;
+
+            &:before {
+                margin: 0;
+                display: inline;
+                float: none;
+                line-height: @layout-footer-small-height;
+            }
+        }
+
+        .pagenav-text {
+            .overflow-ellipsis();
+            color: @color-list-pagenav;
+            flex-grow: 4;
+            font-size: 80%;
+        }
+
+        input {
+            width: 3rem;
+            max-width: 5rem;
+            font-size: 90%;
+            text-align: center;
+            max-height: 1.6rem;
+            margin: 0 .2rem;
+
+            html.layout-phone & {
+                display: none;
+            }
+        }
+
+        span.inner {
+            display: none;
+        }
+
+        &.pagenav-list {
+            cursor: pointer;
+            background-color: @color-searchbar-background;
+            border-bottom: 1px solid @color-list-border;
+
+            a {
+                flex-grow: unset;
+            }
+
+            .pagenav-text {
+                text-align: left;
+                font-size: 100%;
+            }
+
+            & + .navlist {
+                background-color: #fbfbfb;
+            }
+
+            &.expanded + .navlist {
+                border-bottom: 1px solid @color-layout-border;
+            }
+        }
+    }
+
+    &.content-frame-navigation.hide-nav-buttons {
+        a.next,
+        a.prev {
+            display: none;
+        }
+    }
+
+    .listselectors {
+        max-width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .buttons {
+        display: block;
+
+        button {
+            display: block;
+            float: left;
+            cursor: pointer;
+            color: @color-toolbar-button;
+            background-color: transparent;
+            border: 0;
+            padding: 0;
+            height: @layout-touch-header-height;
+            line-height: @layout-touch-header-height;
+            width: 2.5em;
+
+            &:before {
+                font-size: 1.75rem;
+            }
+        }
+    }
+
+    .popover & {
+        li {
+            display: block;
+            height: auto;
+            text-align: left;
+
+            &.spacer {
+                display: none;
+            }
+
+            &:last-child {
+                border: 0;
+            }
+
+            &.separator {
+                line-height: 1.5rem !important;
+                font-size: .75rem !important;
+                padding: 0 .5rem;
+                color: @color-popover-separator;
+                background-color: @color-popover-separator-background;
+
+                label {
+                    margin: 0; // Unsets Bootstrap label margin, bug?
+                }
+            }
+
+            a {
+                height: unset;
+                max-width: 100%;
+                width: 100%;
+                line-height: @listing-line-height;
+                display: block;
+                padding: 0 .5rem;
+                text-align: left;
+
+                &:before {
+                    line-height: inherit;
+                    height: inherit !important;
+                    margin-right: .5rem !important;
+                    float: left !important;
+                    width: 1.18em !important;
+                    min-width: 1.18em;
+                }
+
+                &:not(.disabled):hover {
+                    color: @color-menu-hover;
+                    background-color: @color-menu-hover-background;
+                }
+
+                &[aria-haspopup] {
+                    display: flex;
+
+                    &:after {
+                        &:extend(.font-icon-class);
+                        color: @color-black-shade-text;
+                        font-size: .9em;
+                        margin: 0 0 0 .2em;
+                        min-width: 1.18em;
+                        content: @fa-var-chevron-right;
+
+                        html.layout-small & {
+                            margin: 0 .2em;
+                        }
+                    }
+
+                    &.dropdown:after {
+                        color: @color-list;
+                        margin: 0 .6em !important;
+                    }
+
+                    &:hover:after {
+                        color: @color-menu-hover;
+                    }
+
+                    & > span {
+                        .overflow-ellipsis();
+                        flex: 1;
+                    }
+                }
+            }
+
+            span.inner {
+                font-size: 100%;
+            }
+        }
+
+        .dropbutton {
+            display: flex;
+
+            a:first-child {
+                .overflow-ellipsis();
+                flex: 1;
+            }
+
+            &:not(.disabled):hover {
+                background-color: @color-popover-mobile-dropbutton-background;
+            }
+
+            a.dropdown {
+                width: 3.5rem;
+                padding: 0 .5em;
+                background-color: @color-popover-mobile-dropbutton-background;
+
+                &:hover {
+                    background-color: @color-menu-hover-background;
+                }
+
+                // Note: :before icon is replaced with :after icon by a[aria-haspopup] above
+
+                &:before,
+                span.inner {
+                    display: none;
+                }
+            }
+        }
+
+        &.no-icon a:before {
+            display: none;
+        }
+    }
+}
+
+@media screen and (min-width: (@screen-width-small + 1px)) {
+    .content-frame-navigation {
+        display: none !important;
+    }
+
+    .header a.button.icon {
+        &:not(.disabled):focus,
+        &:not(.disabled):hover {
+            background-color: @color-toolbar-button-background-hover;
+            outline: 0;
+        }
+
+        &:before {
+            margin: 0;
+        }
+    }
+}
+
+@media screen and (max-width: @screen-width-small) {
+    .menu.footer {
+        justify-content: space-around !important;
+
+        & > * {
+            flex-grow: 1;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .listselectors > * {
+            flex-grow: 1;
+        }
+    }
+
+    .menu.listing a {
+        color: @color-font;
+    }
+}
+
+a.toolbar-button {
+    cursor: pointer;
+
+    @media screen and (min-width: (@screen-width-large + 1px)) {
+        line-height: 1.5;
+        padding: .45rem;
+
+        &:before {
+            float: none !important;
+            height: 1.75rem !important;
+            line-height: 1.5;
+            width: auto !important;
+        }
+
+        span.inner {
+            display: inline !important;
+            font-weight: normal;
+            font-size: 90%;
+        }
+    }
+}
+
+/*** Menu button icons ***/
+
+.menu a {
+    &.mail:before {
+        content: @fa-var-envelope;
+    }
+    &.contacts:before {
+        content: @fa-var-users;
+    }
+    &.options:before {
+        content: @fa-var-sliders-h;
+    }
+    &.settings:before {
+        content: @fa-var-cog;
+    }
+    &.theme.light:before {
+        content: @fa-var-sun;
+    }
+    &.theme.dark:before {
+        content: @fa-var-moon;
+    }
+    &.help:before {
+        content: @fa-var-life-ring;
+    }
+    &.logout:before {
+        content: @fa-var-power-off;
+    }
+    &.about:before {
+        content: @fa-var-question;
+    }
+    &.refresh:before {
+        content: @fa-var-sync;
+    }
+    &.compose:before {
+        content: @fa-var-edit;
+    }
+    &.calendar:before {
+        content: @fa-var-calendar-alt;
+    }
+    &.tasklist:before {
+        content: @fa-var-tasks;
+    }
+    &.files:before {
+        content: @fa-var-folder;
+    }
+    &.notes:before {
+        content: @fa-var-sticky-note;
+    }
+    &.chat:before {
+        content: @fa-var-comments;
+    }
+    &.actions:before {
+        content: @fa-var-cog;
+    }
+    &.addressbook:before {
+        content: @fa-var-user;
+    }
+    &.archive:before {
+        content: @fa-var-archive;
+    }
+    &.assigngroup:before {
+        content: @fa-var-user-plus;
+    }
+    &.attach:before,
+    &.vcard:before {
+        content: @fa-var-paperclip;
+    }
+    &.next:before {
+        content: @fa-var-arrow-right;
+    }
+    &.prev:before,
+    &.back:before {
+        content: @fa-var-arrow-left;
+    }
+    &.check:before {
+        content: "\00a0"; // just a space
+    }
+    &.check.selected:before {
+        content: @fa-var-check;
+    }
+    &.closewin:before {
+        content: @fa-var-window-close;
+    }
+    &.collapse:before {
+        content: @fa-var-angle-down;
+    }
+    &.copy:before {
+        content: @fa-var-copy;
+    }
+    &.create:before {
+        content: @fa-var-plus-square;
+    }
+    &.delete:before {
+        content: @fa-var-trash-alt;
+    }
+    &.download:before,
+    &.download.eml:before,
+    &.download.maildir:before,
+    &.download.mbox:before {
+        content: @fa-var-download;
+    }
+    &.dropdown:before {
+        content: @fa-var-caret-down;
+    }
+    &.edit:before {
+        content: @fa-var-pencil-alt;
+    }
+    &.encrypt:before,
+    &.enigma:before {
+        content: @fa-var-lock;
+    }
+    &.encrypt.sign:before {
+        content: @fa-var-lock; // TODO
+    }
+    &.expand:before {
+        content: @fa-var-angle-right;
+    }
+    &.expand.all:before {
+        content: @fa-var-angle-double-down;
+    }
+    &.expand.none:before {
+        content: @fa-var-angle-double-up;
+    }
+    &.export:before,
+    &.export.all:before,
+    &.export.selection:before {
+        content: @fa-var-download;
+    }
+    &.expunge:before {
+        content: @fa-var-compress-arrows-alt;
+    }
+    &.extwin:before {
+        content: @fa-var-external-link-square-alt;
+    }
+    &.filterlink:before {
+        content: @fa-var-filter;
+    }
+    &.firstpage:before {
+        content: @fa-var-angle-double-left;
+    }
+    &.nextpage:before {
+        content: @fa-var-angle-right;
+    }
+    &.prevpage:before {
+        content: @fa-var-angle-left;
+    }
+    &.lastpage:before {
+        content: @fa-var-angle-double-right;
+    }
+    &.flag:before,
+    &.select.flagged:before {
+        .font-icon-solid(@fa-var-flag);
+    }
+    &.unflag:before {
+        .font-icon-regular(@fa-var-flag);
+    }
+    &.undo:before {
+        content: @fa-var-redo;
+    }
+    &.folders:before {
+        content: @fa-var-folder;
+    }
+    &.forward:before,
+    &.forward.attachment:before,
+    &.forward.bounce:before,
+    &.forward.inline:before {
+        content: @fa-var-share;
+    }
+    &.import:before,
+    &.upload:before {
+        content: @fa-var-upload;
+    }
+    &.insertresponse:before {
+        content: @fa-var-comment;
+    }
+    &.junk:before {
+        content: @fa-var-fire-alt;
+    }
+    &.notjunk:before {
+        content: @fa-var-inbox;
+    }
+    &.markmessage:before {
+        content: @fa-var-tag;
+    }
+    &.more:before {
+        content: @fa-var-ellipsis-h;
+    }
+    &.move:before {
+        content: @fa-var-folder-open;
+    }
+    &.print:before {
+        content: @fa-var-print;
+    }
+    &.properties:before {
+        content: @fa-var-file;
+    }
+    &.purge:before {
+        content: @fa-var-eraser;
+    }
+    &.qrcode:before {
+        content: @fa-var-qrcode;
+    }
+    &.read:before {
+        .font-icon-regular(@fa-var-envelope-open);
+    }
+    &.unread:before,
+    &.expand.unread:before,
+    &.select.unread:before {
+        .font-icon-solid(@fa-var-envelope);
+    }
+    &.recipient:before {
+        .font-icon-regular(@fa-var-envelope);
+    }
+    &.refresh:before {
+        content: @fa-var-sync;
+    }
+    &.remove:before {
+        content: @fa-var-eraser;
+    }
+    &.removegroup:before {
+        content: @fa-var-user-times;
+    }
+    &.rename:before {
+        content: @fa-var-pencil-alt;
+    }
+    &.reply:before {
+        content: @fa-var-reply;
+    }
+    &.reply-all:before,
+    &.reply.all:before,
+    &.reply.list:before {
+        content: @fa-var-reply-all;
+    }
+    &.responses:before {
+        content: @fa-var-comment;
+    }
+    &.rotate:before {
+        content: @fa-var-redo-alt;
+    }
+    &.save:before {
+        .font-icon-regular(@fa-var-save);
+    }
+    &.search:before {
+        content: @fa-var-search;
+    }
+    &.search.delete:before {
+        content: @fa-var-trash-alt;
+    }
+    &.select:before {
+        content: @fa-var-mouse-pointer;
+    }
+    &.select.all:before {
+        content: @fa-var-asterisk;
+    }
+    &.select.invert:before {
+        content: @fa-var-check-square;
+    }
+    &.select.none:before {
+        .font-icon-solid(@fa-var-times);
+    }
+    &.select.page:before {
+        .font-icon-solid(@fa-var-bars);
+    }
+    &.selection:before {
+        .font-icon-regular(@fa-var-check-square) !important;
+    }
+    &.send:before {
+        content: @fa-var-paper-plane;
+    }
+    &.showurl:before {
+        content: @fa-var-link;
+    }
+    &.signature:before {
+        content: @fa-var-signature;
+    }
+    &.source:before {
+        content: @fa-var-file-code;
+    }
+    &.spellcheck:before {
+        content: @fa-var-spell-check;
+    }
+    &.status:before {
+        .font-icon-regular(@fa-var-lightbulb);
+    }
+    &.submit:before {
+        content: @fa-var-check;
+    }
+    &.info:before {
+        content: @fa-var-info-circle;
+    }
+    &.threads:before {
+        content: @fa-var-comments;
+    }
+    &.zoomin:before {
+        content: @fa-var-search-plus;
+    }
+    &.zoomout:before {
+        content: @fa-var-search-minus;
+    }
+}
+
+
+/*** Searchbar and searchoptions widgets ***/
+
+.searchbar {
+    height: @layout-searchbar-height;
+    min-height: @layout-searchbar-height; // because of Flexbox
+    line-height: @layout-searchbar-height;
+    background-color: @color-searchbar-background;
+    border-bottom: 1px solid @color-list-border;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+
+    form {
+        flex: 1;
+        display: flex;
+
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-search;
+            height: @layout-searchbar-height;
+            color: @color-list-pagenav;
+            margin: 0 0 0 .75rem;
+        }
+    }
+
+    input {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: .5rem;
+        line-height: normal; // fixes placeholder misalignment in IE11
+        outline: 0; // removes focus outline in Chrome
+
+        &::-ms-clear {
+            display: none; // for IE
+        }
+    }
+
+    a {
+        color: @color-toolbar-button;
+
+        &:before {
+            &:extend(.font-icon-class);
+            width: 2rem;
+            height: @layout-searchbar-height;
+            margin: 0;
+        }
+
+        &.options:before {
+            content: @fa-var-angle-down;
+        }
+
+        &.reset:before {
+            content: @fa-var-times;
+            font-size: 1rem;
+        }
+
+        &.unread:before {
+            .font-icon-solid(@fa-var-envelope);
+        }
+
+        &.reset,
+        &.search {
+            display: none;
+        }
+
+        &.selected {
+            color: @color-success;
+        }
+    }
+
+    span.inner {
+        display: none;
+    }
+
+    &.active {
+        a.reset {
+            display: inline;
+        }
+    }
+
+    &.open a.options:before {
+        content: @fa-var-angle-up;
+    }
+}
+
+.searchoptions {
+    button.search {
+        width: 100%;
+    }
+
+    ul.proplist {
+        & + div {
+            margin-top: 1rem;
+        }
+    }
+
+    .input-group {
+        &:not(:last-child) {
+            margin-bottom: .5rem;
+        }
+
+        .input-group-prepend {
+            width: 30%;
+        }
+
+        label {
+            width: 100%;
+        }
+    }
+
+    .formbuttons {
+        // this is needed because we hide .formbuttons on small devices
+        // we don't want it for search options form
+        display: block !important;
+    }
+}
+
+
+/*** Taskmenu ***/
+
+#taskmenu {
+    a {
+        display: block;
+        float: none;
+    }
+
+    @media screen and (max-width: @screen-width-xs) {
+        z-index: 30001; // because autocompletion popup uses z-index:30000
+        overflow-x: hidden;
+
+        a {
+            max-width: unset;
+            padding: 0 .5em;
+            margin-top: 1px;
+            text-align: left;
+            line-height: @layout-touch-menu-record-height;
+            height: @layout-touch-menu-record-height;
+            border-bottom: 1px solid @color-list-border !important;
+            color: @color-list;
+            font-size: 1.2rem;
+
+            &:before {
+                float: left !important;
+                width: 1.2em !important;
+                margin-right: .5rem !important;
+            }
+        }
+
+        span.inner {
+            font-size: 100%;
+        }
+    }
+
+    @media screen and (min-width: (@screen-width-xs + 1px)) {
+        a {
+            color: @color-taskmenu-button;
+            padding: .45rem 0;
+            min-width: unset;
+
+            &.selected {
+                color: @color-taskmenu-button-selected;
+                background: @color-taskmenu-button-selected-background;
+
+                &:hover {
+                    color: @color-taskmenu-button-selected-hover;
+                    background: @color-taskmenu-button-background-hover;
+                }
+            }
+
+            &:hover {
+                color: @color-taskmenu-button-hover;
+                background: @color-taskmenu-button-background-hover;
+            }
+        }
+
+        .special-buttons {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: @color-taskmenu-background;
+        }
+
+        .action-buttons {
+            a {
+                color: @color-taskmenu-button-action;
+                background: @color-taskmenu-button-action-background;
+
+                &:hover {
+                    color: @color-taskmenu-button-action-hover;
+                    background: @color-taskmenu-button-action-background-hover;
+                }
+            }
+        }
+
+        a.logout {
+            color: @color-taskmenu-button-logout !important;
+
+            &:hover {
+                color: @color-taskmenu-button-logout-hover !important;
+            }
+        }
+    }
+
+    @media screen and (min-width: (@screen-width-xs + 1px)) and (max-width: @screen-width-medium) {
+        a {
+            width: @layout-menu-width-sm;
+            height: @layout-menu-width-sm;
+            font-size: 1.2rem;
+            padding: 0;
+
+            &:before {
+                line-height: @layout-menu-width-sm;
+            }
+        }
+
+        span.inner {
+            display: none;
+        }
+    }
+
+    @media screen and (min-width: (@screen-width-medium + 1px)) {
+        a {
+            width: @layout-menu-width;
+            font-size: 1rem;
+
+            &:before {
+                float: none; // fixed overflowing text in Edge
+            }
+
+            &:focus {
+                background-color: @color-taskmenu-button-selected-background;
+            }
+        }
+
+        span.inner {
+            padding: 0 .1em;
+        }
+    }
+}

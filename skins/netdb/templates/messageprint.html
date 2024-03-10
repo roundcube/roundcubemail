@@ -1,0 +1,27 @@
+<roundcube:include file="includes/layout.html" />
+
+<roundcube:object name="logo" id="logo" alt="Logo" logo-type="print" logo-match="template" class="float-sm-right" />
+
+<div class="print-content" role="main">
+	<div id="message-header">
+		<h2 class="subject">
+			<roundcube:object name="messageHeaders" valueOf="subject" />
+		</h2>
+		<div class="header">
+			<roundcube:object name="contactphoto" class="contactphoto" placeholder="/images/contactpic.svg" />
+			<div class="header-content details-view">
+				<roundcube:object name="messageHeaders" class="header-headers" addicon="virtual" exclude="subject" max="10" />
+			</div>
+		</div>
+	</div>
+	<div id="message-content">
+		<div role="region">
+			<roundcube:object name="messageAttachments" id="attachment-list" class="attachmentslist" />
+		</div>
+		<div role="region">
+			<roundcube:object name="messageBody" id="messagebody" headertableclass="headers-table" />
+		</div>
+	</div>
+</div>
+
+<roundcube:include file="includes/footer.html" />
