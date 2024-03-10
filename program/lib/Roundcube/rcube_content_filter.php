@@ -47,7 +47,7 @@ class rcube_content_filter extends php_user_filter
                 $this->buffer = substr($this->buffer, $this->cutoff);
             }
 
-            $consumed += $bucket->datalen;
+            $consumed += (int) $bucket->datalen;
             stream_bucket_append($out, $bucket);
         }
 
