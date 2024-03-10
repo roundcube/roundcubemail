@@ -314,25 +314,25 @@ class rcube_imap_generic
     /**
      * Reads complete response to the IMAP command
      *
-     * @param array $untagged Will be filled with untagged response lines
+     * @param string $untagged Will be filled with untagged response line(s)
      *
      * @return string Response text
      */
     protected function readReply(&$untagged = null)
     {
+        $untagged = []; // @phpstan-ignore-line
+
         while (true) {
             $line = trim($this->readLine(1024));
             // store untagged response lines
             if (isset($line[0]) && $line[0] == '*') {
-                $untagged[] = $line;
+                $untagged[] = $line; // @phpstan-ignore-line
             } else {
                 break;
             }
         }
 
-        if ($untagged) {
-            $untagged = implode("\n", $untagged);
-        }
+        $untagged = count($untagged) > 0 ? implode("\n", $untagged) : null;
 
         return $line;
     }

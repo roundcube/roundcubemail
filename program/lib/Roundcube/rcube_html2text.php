@@ -511,33 +511,33 @@ class rcube_html2text
         }
 
         // Run our defined tags search-and-replace
-        $text = preg_replace($this->search, $this->replace, $text);
+        $text = (string) preg_replace($this->search, $this->replace, $text);
 
         // Run our defined tags search-and-replace with callback
-        $text = preg_replace_callback($this->callback_search, [$this, 'tags_preg_callback'], $text);
+        $text = (string) preg_replace_callback($this->callback_search, [$this, 'tags_preg_callback'], $text);
 
         // Strip any other HTML tags
         $text = strip_tags($text, $this->allowed_tags);
 
         // Run our defined entities/characters search-and-replace
-        $text = preg_replace($this->ent_search, $this->ent_replace, $text);
+        $text = (string) preg_replace($this->ent_search, $this->ent_replace, $text);
 
         // Replace known html entities
         $text = html_entity_decode($text, \ENT_QUOTES, $this->charset);
 
         // Replace unicode nbsp to regular spaces
-        $text = preg_replace('/\xC2\xA0/', ' ', $text);
+        $text = (string) preg_replace('/\xC2\xA0/', ' ', $text);
 
         // Remove unknown/unhandled entities (this cannot be done in search-and-replace block)
-        $text = preg_replace('/&([a-zA-Z0-9]{2,6}|#[0-9]{2,4});/', '', $text);
+        $text = (string) preg_replace('/&([a-zA-Z0-9]{2,6}|#[0-9]{2,4});/', '', $text);
 
         // Convert "|+|amp|+|" into "&", need to be done after handling of unknown entities
         // This properly handles situation of "&amp;quot;" in input string
         $text = str_replace('|+|amp|+|', '&', $text);
 
         // Bring down number of empty lines to 2 max
-        $text = preg_replace("/\n\\s+\n/", "\n\n", $text);
-        $text = preg_replace("/[\n]{3,}/", "\n\n", $text);
+        $text = (string) preg_replace("/\n\\s+\n/", "\n\n", $text);
+        $text = (string) preg_replace("/[\n]{3,}/", "\n\n", $text);
 
         // remove leading empty lines (can be produced by e.g. P tag on the beginning)
         $text = ltrim($text, "\n");
@@ -661,7 +661,7 @@ class rcube_html2text
                 preg_replace($this->pre_search, $this->pre_replace, $this->pre_content));
 
             // replace the content (use callback because content can contain $0 variable)
-            $text = preg_replace_callback('/<pre[^>]*>.*<\/pre>/ismU',
+            $text = (string) preg_replace_callback('/<pre[^>]*>.*<\/pre>/ismU',
                 [$this, 'pre_preg_callback'], $text, 1);
 
             // free memory

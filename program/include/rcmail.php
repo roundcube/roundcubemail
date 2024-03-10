@@ -1375,8 +1375,9 @@ class rcmail extends rcube
 
         // validate the contact
         if (!$source->validate($contact, true)) {
-            if ($error = $source->get_error()) {
-                $error = $error['message'];
+            $err = $source->get_error();
+            if (!empty($err['message'])) {
+                $error = $err['message'];
             }
 
             return false;
