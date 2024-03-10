@@ -2,9 +2,7 @@
 # This file is used by developers to build release packages
 #
 
-GITREMOTE=https://github.com/roundcube/roundcubemail.git
-GITBRANCH=master
-GPGKEY=devs@roundcube.net
+GPGKEY=support@netdb.at
 VERSION=1.7-git
 SEDI=sed -i
 PHP_VERSION=7.3
@@ -14,10 +12,10 @@ ifeq ($(UNAME_S),Darwin)
     SEDI=sed -i ''
 endif
 
-all: clean complete dependent framework
+all: clean complete dependent
 
-complete: roundcubemail-git
-	cp -RH roundcubemail-git roundcubemail-$(VERSION)
+complete: build
+	cp -RH build roundcubemail-$(VERSION)
 	(cd roundcubemail-$(VERSION); cp composer.json-dist composer.json)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config platform.php $(PHP_VERSION))
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "kolab/net_ldap3:~1.1.4" --no-update --no-install)
@@ -33,50 +31,36 @@ complete: roundcubemail-git
 	tar czf roundcubemail-$(VERSION)-complete.tar.gz roundcubemail-$(VERSION)
 	rm -rf roundcubemail-$(VERSION)
 
-dependent: roundcubemail-git
-	cp -RH roundcubemail-git roundcubemail-$(VERSION)
+dependent: build
+	cp -RH build roundcubemail-$(VERSION)
 	tar czf roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)
 	rm -rf roundcubemail-$(VERSION)
-
-framework: roundcubemail-git /tmp/phpDocumentor.phar
-	cp -r roundcubemail-git/program/lib/Roundcube roundcube-framework-$(VERSION)
-	(cd roundcube-framework-$(VERSION); php /tmp/phpDocumentor.phar run -d . -t ./doc --title="Roundcube Framework" --defaultpackagename="Framework")
-	(cd roundcube-framework-$(VERSION); rm -rf .phpdoc)
-	tar czf roundcube-framework-$(VERSION).tar.gz roundcube-framework-$(VERSION)
-	rm -rf roundcube-framework-$(VERSION)
 
 sign:
 	gpg -u $(GPGKEY) -a --detach-sig roundcubemail-$(VERSION).tar.gz
 	gpg -u $(GPGKEY) -a --detach-sig roundcubemail-$(VERSION)-complete.tar.gz
-	gpg -u $(GPGKEY) -a --detach-sig roundcube-framework-$(VERSION).tar.gz
 
 verify:
 	gpg -v --verify roundcubemail-$(VERSION).tar.gz.asc roundcubemail-$(VERSION).tar.gz
 	gpg -v --verify roundcubemail-$(VERSION)-complete.tar.gz.asc roundcubemail-$(VERSION)-complete.tar.gz
-	gpg -v --verify roundcube-framework-$(VERSION).tar.gz.asc roundcube-framework-$(VERSION).tar.gz
 
 shasum:
-	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz roundcube-framework-$(VERSION).tar.gz
+	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz
 
-roundcubemail-git: buildtools
-	git clone --branch=$(GITBRANCH) --depth=1 $(GITREMOTE) roundcubemail-git
-	(cd roundcubemail-git; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
-	(cd roundcubemail-git/skins/elastic; \
+build: buildtools
+	rsync -a ./ build --exclude build --exclude .github --exclude .git --exclude tests --exclude .gitignore --exclude .tx --exclude .editorconfig --exclude Makefile
+	(cd build; rm -rf plugins/*/tests)
+	(cd build; find . -type f -exec dos2unix {} \;)
+	(cd build; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
+	(cd build/skins/elastic; \
 		lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css; \
 		lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css; \
 		lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css)
-	(cd roundcubemail-git/bin; rm -f transifexpull.sh package2composer.sh)
-	(cd roundcubemail-git; find . -name '.gitignore' | xargs rm -f)
-	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm -f)
-	(cd roundcubemail-git; rm -rf tests plugins/*/tests .git* .tx* .ci* .editorconfig* index-test.php Dockerfile Makefile)
-	(cd roundcubemail-git; $(SEDI) 's/1.7-git/$(VERSION)/' index.php public_html/index.php installer/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
-	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
+	(cd build; $(SEDI) 's/1.7-git/$(VERSION)/' index.php public_html/index.php installer/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
+	(cd build; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
 buildtools: /tmp/composer.phar
-	npm install uglify-js
-	npm install lessc
-	npm install less-plugin-clean-css
-	npm install csso-cli
+	npm install -g uglify-js lessc less-plugin-clean-css csso-cli
 
 /tmp/composer.phar:
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp/
@@ -85,5 +69,5 @@ buildtools: /tmp/composer.phar
 	curl -sSL https://phpdoc.org/phpDocumentor.phar -o /tmp/phpDocumentor.phar
 
 clean:
-	rm -rf roundcubemail-git
+	rm -rf build
 	rm -rf roundcubemail-$(VERSION)*

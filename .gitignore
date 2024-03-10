@@ -34,3 +34,6 @@ skins/elastic/styles/_variables.less
 # ignore IDE files
 .vscode
 .DS_Store
+
+build
+roundcubemail-1.7-git
