@@ -117,7 +117,7 @@ class Framework_Text2Html extends TestCase
 
         $html = $t2h->get_html();
 
-        $this->assertSame($output, $html);
+        self::assertSame($output, $html);
     }
 
     /**
@@ -134,7 +134,7 @@ class Framework_Text2Html extends TestCase
             . "[&lt;script&gt;evil&lt;/script&gt;]:##str_replacement_0##<br>\n"
             . '</div>';
 
-        $this->assertSame($expected, $html);
+        self::assertSame($expected, $html);
     }
 
     /**
@@ -151,7 +151,7 @@ class Framework_Text2Html extends TestCase
             . "<a rel=\"noreferrer\" target=\"_blank\" href=\"https://google.com\">https://google.com</a><br>\n"
             . '</div>';
 
-        $this->assertSame($expected, $html);
+        self::assertSame($expected, $html);
     }
 
     /**
@@ -172,7 +172,7 @@ class Framework_Text2Html extends TestCase
         $html = $t2h->get_html();
         $html = preg_replace('/ (rel|target)="(noreferrer|_blank)"/', '', $html);
 
-        $this->assertSame($expected, $html);
+        self::assertSame($expected, $html);
     }
 
     /**
@@ -211,6 +211,6 @@ class Framework_Text2Html extends TestCase
         $t2h = new rcube_text2html($input, false, ['space' => '_']);
         $html = $t2h->get_html();
 
-        $this->assertSame($expected, $html);
+        self::assertSame($expected, $html);
     }
 }

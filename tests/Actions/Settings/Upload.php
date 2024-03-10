@@ -13,8 +13,8 @@ class Actions_Settings_Upload extends ActionTestCase
         $action = new rcmail_action_settings_upload();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'upload');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_GET = [
@@ -28,10 +28,10 @@ class Actions_Settings_Upload extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('upload', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.remove_from_attachment_list("upload123");') !== false);
-        $this->assertSame($_GET['_unlock'], $result['unlock']);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('upload', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.remove_from_attachment_list("upload123");') !== false);
+        self::assertSame($_GET['_unlock'], $result['unlock']);
 
         // Upload a file
         $file = $this->fakeUpload();
@@ -40,15 +40,15 @@ class Actions_Settings_Upload extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('upload', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('upload', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"') !== false);
 
         $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
-        $this->assertSame($file['name'], $upload['name']);
-        $this->assertSame($file['type'], $upload['mimetype']);
-        $this->assertSame($file['size'], $upload['size']);
-        $this->assertSame('identity', $upload['group']);
+        self::assertSame($file['name'], $upload['name']);
+        self::assertSame($file['type'], $upload['mimetype']);
+        self::assertSame($file['size'], $upload['size']);
+        self::assertSame('identity', $upload['group']);
 
         // Upload error case
         $file = $this->fakeUpload('_file', true, \UPLOAD_ERR_INI_SIZE);
@@ -57,8 +57,8 @@ class Actions_Settings_Upload extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('upload', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("The uploaded file exceeds the maximum size') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('upload', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("The uploaded file exceeds the maximum size') !== false);
     }
 }

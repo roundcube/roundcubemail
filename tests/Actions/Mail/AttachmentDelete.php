@@ -14,8 +14,8 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
         $action = new rcmail_action_mail_attachment_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'delete-attachment');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // First we create the upload record
         $file = $this->fileUpload('101');
@@ -23,7 +23,7 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
         // Test list_uploaded_files(), just because
         $list = $rcmail->list_uploaded_files('101');
 
-        $this->assertSame([$file], $list);
+        self::assertSame([$file], $list);
 
         // This is needed so upload deletion works
         $rcmail = rcmail::get_instance();
@@ -43,9 +43,9 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('delete-attachment', $result['action']);
-        $this->assertSame('this.remove_from_attachment_list("rcmfile' . $file['id'] . '");', trim($result['exec']));
-        $this->assertNull($rcmail->get_uploaded_file($file['id']));
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('delete-attachment', $result['action']);
+        self::assertSame('this.remove_from_attachment_list("rcmfile' . $file['id'] . '");', trim($result['exec']));
+        self::assertNull($rcmail->get_uploaded_file($file['id']));
     }
 }

@@ -102,7 +102,7 @@ class rc_html2text extends TestCase
         $ht->set_html($in);
         $res = $ht->get_text();
 
-        $this->assertSame($out, $res, $title);
+        self::assertSame($out, $res, $title);
     }
 
     /**
@@ -119,9 +119,9 @@ class rc_html2text extends TestCase
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
-        $this->assertStringContainsString('>> INNER 1', $res, 'Quote inner');
-        $this->assertStringContainsString('>> INNER 3', $res, 'Quote inner');
-        $this->assertStringContainsString('> OUTER END', $res, 'Quote outer');
+        self::assertStringContainsString('>> INNER 1', $res, 'Quote inner');
+        self::assertStringContainsString('>> INNER 3', $res, 'Quote inner');
+        self::assertStringContainsString('> OUTER END', $res, 'Quote outer');
     }
 
     public function test_broken_blockquotes()
@@ -136,7 +136,7 @@ class rc_html2text extends TestCase
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
-        $this->assertStringContainsString('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
+        self::assertStringContainsString('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
 
         // with some (nested) end tags
         $html = <<<'EOF'
@@ -149,7 +149,7 @@ class rc_html2text extends TestCase
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
-        $this->assertStringContainsString('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoting on invalid html');
+        self::assertStringContainsString('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoting on invalid html');
     }
 
     /**
@@ -168,7 +168,7 @@ Links:
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_END);
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Links list');
+        self::assertSame($expected, $res, 'Links list');
 
         // href == content (#1490434)
         $html = '<a href="http://test.com">http://test.com</a>';
@@ -177,7 +177,7 @@ Links:
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_END);
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Skip link with href == content');
+        self::assertSame($expected, $res, 'Skip link with href == content');
 
         // HTML entities in links
         $html = '<a href="http://test.com?test1&amp;test2">test3&amp;test4</a>';
@@ -191,7 +191,7 @@ Links:
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_END);
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Links with HTML entities');
+        self::assertSame($expected, $res, 'Links with HTML entities');
     }
 
     /**
@@ -210,7 +210,7 @@ Links:
         $ht = new rcube_html2text($html, false, true);
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Links list');
+        self::assertSame($expected, $res, 'Links list');
 
         // href == content (#1490434)
         $html = '<a href="http://test.com">http://test.com</a>';
@@ -219,7 +219,7 @@ Links:
         $ht = new rcube_html2text($html, false, true);
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Skip link with href == content');
+        self::assertSame($expected, $res, 'Skip link with href == content');
     }
 
     /**
@@ -233,7 +233,7 @@ Links:
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_INLINE);
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Links Inline');
+        self::assertSame($expected, $res, 'Links Inline');
 
         // href == content (#1490434)
         $html = '<a href="http://test.com">http://test.com</a>';
@@ -242,7 +242,7 @@ Links:
         $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_INLINE);
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Skip link with href == content');
+        self::assertSame($expected, $res, 'Skip link with href == content');
     }
 
     /**
@@ -255,7 +255,7 @@ Links:
         $h2t = new rcube_html2text($input, false, rcube_html2text::LINKS_NONE);
         $res = $h2t->get_text();
 
-        $this->assertSame($output, $res, 'Links handling');
+        self::assertSame($output, $res, 'Links handling');
     }
 
     /**
@@ -268,7 +268,7 @@ Links:
         $h2t = new rcube_html2text($input, false, false);
         $res = $h2t->get_text();
 
-        $this->assertSame($output, $res, 'Links handling');
+        self::assertSame($output, $res, 'Links handling');
     }
 
     public static function provide_links_no_list_cases(): iterable
@@ -309,17 +309,17 @@ Links:
         $ht = new rcube_html2text($html, false);
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Links list as default (doLinks not set)');
+        self::assertSame($expected, $res, 'Links list as default (doLinks not set)');
 
         $ht = new rcube_html2text($html, false, mt_rand(3, 9999));
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Links list as default (doLinks greater than 3)');
+        self::assertSame($expected, $res, 'Links list as default (doLinks greater than 3)');
 
         $ht = new rcube_html2text($html, false, mt_rand(-9999, -1));
         $res = $ht->get_text();
 
-        $this->assertSame($expected, $res, 'Links list as default (doLinks lower than 0)');
+        self::assertSame($expected, $res, 'Links list as default (doLinks lower than 0)');
     }
 
     /**
@@ -334,6 +334,6 @@ Links:
         $h2t = new rcube_html2text($input, false, rcube_html2text::LINKS_NONE);
         $res = $h2t->get_text();
 
-        $this->assertSame("test1\n\ntest2\n\ntest3", $res, 'Huge input');
+        self::assertSame("test1\n\ntest2\n\ntest3", $res, 'Huge input');
     }
 }

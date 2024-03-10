@@ -14,8 +14,8 @@ class Framework_User extends ActionTestCase
 
         $user = new rcube_user(1);
 
-        $this->assertSame(1, $user->ID);
-        $this->assertNull($user->language);
+        self::assertSame(1, $user->ID);
+        self::assertNull($user->language);
     }
 
     /**
@@ -27,9 +27,9 @@ class Framework_User extends ActionTestCase
 
         $user = new rcube_user(1);
 
-        $this->assertSame('test@example.com', $user->get_username());
-        $this->assertSame('test', $user->get_username('local'));
-        $this->assertSame('example.com', $user->get_username('domain'));
+        self::assertSame('test@example.com', $user->get_username());
+        self::assertSame('test', $user->get_username('local'));
+        self::assertSame('example.com', $user->get_username('domain'));
     }
 
     /**
@@ -41,25 +41,25 @@ class Framework_User extends ActionTestCase
 
         $user = new rcube_user(1);
 
-        $this->assertSame([], $user->get_prefs());
+        self::assertSame([], $user->get_prefs());
 
         $user->save_prefs(['test' => 'test'], true);
 
         $user = new rcube_user(1);
 
-        $this->assertSame(['test' => 'test'], $user->get_prefs());
+        self::assertSame(['test' => 'test'], $user->get_prefs());
 
         $hash = $user->get_hash();
 
-        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9]{16}$/', $hash);
+        self::assertMatchesRegularExpression('/^[a-zA-Z0-9]{16}$/', $hash);
 
         $user = new rcube_user(1);
 
         $prefs = $user->get_prefs();
 
-        $this->assertSame('test', $prefs['test']);
-        $this->assertSame($hash, $prefs['client_hash']);
-        $this->assertSame($hash, $user->get_hash());
+        self::assertSame('test', $prefs['test']);
+        self::assertSame($hash, $prefs['client_hash']);
+        self::assertSame($hash, $user->get_hash());
     }
 
     /**
@@ -74,69 +74,69 @@ class Framework_User extends ActionTestCase
 
         $all = $user->list_emails();
 
-        $this->assertCount(2, $all);
-        $this->assertSame('test@example.com', $all[0]['email']);
-        $this->assertSame('test@example.org', $all[1]['email']);
+        self::assertCount(2, $all);
+        self::assertSame('test@example.com', $all[0]['email']);
+        self::assertSame('test@example.org', $all[1]['email']);
 
         $ident = $user->list_emails(true);
 
-        $this->assertSame('test@example.com', $ident['email']);
+        self::assertSame('test@example.com', $ident['email']);
 
         $ident = $user->get_identity();
 
-        $this->assertSame('test@example.com', $ident['email']);
+        self::assertSame('test@example.com', $ident['email']);
 
         $idents = $user->list_identities('', true);
 
-        $this->assertCount(2, $idents);
-        $this->assertSame('test@example.com', $idents[0]['email_ascii']);
-        $this->assertSame('test <test@example.com>', $idents[0]['ident']);
-        $this->assertSame('test@example.org', $idents[1]['email_ascii']);
-        $this->assertSame('test <test@example.org>', $idents[1]['ident']);
+        self::assertCount(2, $idents);
+        self::assertSame('test@example.com', $idents[0]['email_ascii']);
+        self::assertSame('test <test@example.com>', $idents[0]['ident']);
+        self::assertSame('test@example.org', $idents[1]['email_ascii']);
+        self::assertSame('test <test@example.org>', $idents[1]['ident']);
 
         $default = $idents[0]['identity_id'];
 
         $res = $user->update_identity($idents[1]['identity_id'], ['name' => 'test-new']);
 
-        $this->assertTrue($res);
+        self::assertTrue($res);
 
         $ident = $user->get_identity($idents[1]['identity_id']);
 
-        $this->assertSame('test-new', $ident['name']);
+        self::assertSame('test-new', $ident['name']);
 
         $id = $user->insert_identity([
             'name' => 'name',
             'email' => 'add@ident.com',
         ]);
 
-        $this->assertTrue(is_numeric($id));
+        self::assertTrue(is_numeric($id));
 
         $ident = $user->get_identity($id);
 
-        $this->assertSame('name', $ident['name']);
-        $this->assertSame('add@ident.com', $ident['email']);
+        self::assertSame('name', $ident['name']);
+        self::assertSame('add@ident.com', $ident['email']);
 
         $idents = $user->list_identities();
 
-        $this->assertCount(3, $idents);
+        self::assertCount(3, $idents);
 
         $ident = $user->set_default($id);
 
         $idents = $user->list_identities();
 
-        $this->assertCount(3, $idents);
-        $this->assertSame('add@ident.com', $idents[0]['email']);
+        self::assertCount(3, $idents);
+        self::assertSame('add@ident.com', $idents[0]['email']);
         $this->{'assertEquals'}(1, $idents[0]['standard']);
-        $this->assertSame('test@example.com', $idents[1]['email']);
+        self::assertSame('test@example.com', $idents[1]['email']);
         $this->{'assertEquals'}(0, $idents[1]['standard']);
-        $this->assertSame('test@example.org', $idents[2]['email']);
+        self::assertSame('test@example.org', $idents[2]['email']);
         $this->{'assertEquals'}(0, $idents[2]['standard']);
 
         $ident = $user->delete_identity($default);
 
         $idents = $user->list_identities();
 
-        $this->assertCount(2, $idents);
+        self::assertCount(2, $idents);
     }
 
     /**
@@ -154,7 +154,7 @@ class Framework_User extends ActionTestCase
 
         $this->{'assertEquals'}(1, $user->data['failed_login_counter']);
 
-        $this->assertFalse($user->is_locked());
+        self::assertFalse($user->is_locked());
     }
 
     /**
@@ -164,11 +164,11 @@ class Framework_User extends ActionTestCase
     {
         self::initDB('init');
 
-        $this->assertNull(rcube_user::query('test', 'localhost'));
+        self::assertNull(rcube_user::query('test', 'localhost'));
 
         $user = rcube_user::query('test@example.com', 'localhost');
 
-        $this->assertSame(1, $user->ID);
+        self::assertSame(1, $user->ID);
     }
 
     /**
@@ -180,14 +180,14 @@ class Framework_User extends ActionTestCase
 
         $user = rcube_user::create('new@example.com', 'localhost');
 
-        $this->assertSame('new@example.com', $user->get_username());
+        self::assertSame('new@example.com', $user->get_username());
 
         $user = new rcube_user($user->ID);
 
         $idents = $user->list_identities();
 
-        $this->assertCount(1, $idents);
-        $this->assertSame('new@example.com', $idents[0]['email']);
+        self::assertCount(1, $idents);
+        self::assertSame('new@example.com', $idents[0]['email']);
         $this->{'assertEquals'}(1, $idents[0]['standard']);
     }
 
@@ -196,6 +196,6 @@ class Framework_User extends ActionTestCase
      */
     public function test_saved_searches()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

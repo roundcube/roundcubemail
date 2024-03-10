@@ -15,14 +15,14 @@ class Framework_Image extends TestCase
         $object = new rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
         if (!function_exists('getimagesize')) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         $props = $object->props();
 
-        $this->assertSame('png', $props['type']);
-        $this->assertSame(64, $props['width']);
-        $this->assertSame(64, $props['height']);
+        self::assertSame('png', $props['type']);
+        self::assertSame(64, $props['width']);
+        self::assertSame(64, $props['height']);
     }
 
     /**
@@ -33,21 +33,21 @@ class Framework_Image extends TestCase
         $object = new rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
         if (!function_exists('getimagesize')) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         $file = rcube_utils::temp_filename('tests');
 
-        $this->assertSame('png', $object->resize(32, $file));
+        self::assertSame('png', $object->resize(32, $file));
 
         $object = new rcube_image($file);
         $props = $object->props();
 
         @unlink($file);
 
-        $this->assertSame('png', $props['type']);
-        $this->assertSame(32, $props['width']);
-        $this->assertSame(32, $props['height']);
+        self::assertSame('png', $props['type']);
+        self::assertSame(32, $props['width']);
+        self::assertSame(32, $props['height']);
     }
 
     /**
@@ -58,21 +58,21 @@ class Framework_Image extends TestCase
         $object = new rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
         if (!function_exists('getimagesize')) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         $file = rcube_utils::temp_filename('tests');
 
-        $this->assertTrue($object->convert(rcube_image::TYPE_JPG, $file));
+        self::assertTrue($object->convert(rcube_image::TYPE_JPG, $file));
 
         $object = new rcube_image($file);
         $props = $object->props();
 
         @unlink($file);
 
-        $this->assertSame('jpeg', $props['type']);
-        $this->assertSame(64, $props['width']);
-        $this->assertSame(64, $props['height']);
+        self::assertSame('jpeg', $props['type']);
+        self::assertSame(64, $props['width']);
+        self::assertSame(64, $props['height']);
     }
 
     /**
@@ -86,38 +86,38 @@ class Framework_Image extends TestCase
         $object = new rcube_image($file);
 
         if (class_exists('Imagick', false)) {
-            $this->assertTrue($object->is_convertable('image/gif'));
-            $this->assertFalse($object->is_convertable('xxx'));
+            self::assertTrue($object->is_convertable('image/gif'));
+            self::assertFalse($object->is_convertable('xxx'));
         } elseif (!function_exists('getimagesize')) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         if (function_exists('imagecreatefromgif')) {
-            $this->assertTrue($object->is_convertable('image/gif'));
+            self::assertTrue($object->is_convertable('image/gif'));
         } else {
-            $this->assertFalse($object->is_convertable('image/gif'));
+            self::assertFalse($object->is_convertable('image/gif'));
         }
 
         if (function_exists('imagecreatefromjpeg')) {
-            $this->assertTrue($object->is_convertable('image/jpg'));
-            $this->assertTrue($object->is_convertable('image/jpeg'));
+            self::assertTrue($object->is_convertable('image/jpg'));
+            self::assertTrue($object->is_convertable('image/jpeg'));
         } else {
-            $this->assertFalse($object->is_convertable('image/jpg'));
-            $this->assertFalse($object->is_convertable('image/jpeg'));
+            self::assertFalse($object->is_convertable('image/jpg'));
+            self::assertFalse($object->is_convertable('image/jpeg'));
         }
 
         if (function_exists('imagecreatefrompng')) {
-            $this->assertTrue($object->is_convertable('image/png'));
+            self::assertTrue($object->is_convertable('image/png'));
         } else {
-            $this->assertFalse($object->is_convertable('image/png'));
+            self::assertFalse($object->is_convertable('image/png'));
         }
 
         if (function_exists('imagecreatefromwebp')) {
-            $this->assertTrue($object->is_convertable('image/webp'));
+            self::assertTrue($object->is_convertable('image/webp'));
         } else {
-            $this->assertFalse($object->is_convertable('image/webp'));
+            self::assertFalse($object->is_convertable('image/webp'));
         }
 
-        $this->assertFalse($object->is_convertable('xxx'));
+        self::assertFalse($object->is_convertable('xxx'));
     }
 }

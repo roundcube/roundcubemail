@@ -23,7 +23,7 @@ class ListTest extends TestCase
 
     public function testList()
     {
-        $this->browse(function ($browser) {
+        $this->browse(static function ($browser) {
             $browser->go('mail');
 
             $browser->waitUntilNotBusy()
@@ -32,7 +32,7 @@ class ListTest extends TestCase
             // check message list
             $browser->assertVisible('#messagelist tbody tr:first-child.unread');
 
-            $this->assertSame('Test HTML with local and remote image',
+            self::assertSame('Test HTML with local and remote image',
                 $browser->text('#messagelist tbody tr:first-child span.subject'));
 
             // Note: This element icon has width=0, use assertPresent() not assertVisible()

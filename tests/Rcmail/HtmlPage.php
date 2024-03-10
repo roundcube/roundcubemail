@@ -22,7 +22,7 @@ class Rcmail_RcmailHtmlPage extends ActionTestCase
         $expected_body = '<body><div class="rcmail-inline-message rcmail-inline-warning"><span>Test</span>'
             . '<p class="rcmail-inline-buttons"><button onclick="location.href = \'http://url\'">Button</button></p></div>';
 
-        $this->assertTrue(strpos($output, '<html') === 0);
-        $this->assertTrue(strpos($output, $expected_body) !== false);
+        self::assertTrue(strpos($output, '<html') === 0);
+        self::assertTrue(strpos($output, $expected_body) !== false);
     }
 }

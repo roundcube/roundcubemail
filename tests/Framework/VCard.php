@@ -16,20 +16,20 @@ class Framework_VCard extends TestCase
     {
         $vcard = new rcube_vcard(file_get_contents($this->_srcpath('apple.vcf')));
 
-        $this->assertTrue($vcard->business, 'Identify as business record');
-        $this->assertSame('Apple Computer AG', $vcard->displayname, 'FN => displayname');
-        $this->assertSame('', $vcard->firstname, 'No person name set');
+        self::assertTrue($vcard->business, 'Identify as business record');
+        self::assertSame('Apple Computer AG', $vcard->displayname, 'FN => displayname');
+        self::assertSame('', $vcard->firstname, 'No person name set');
     }
 
     public function test_parse_two()
     {
         $vcard = new rcube_vcard(file_get_contents($this->_srcpath('johndoe.vcf')), null);
 
-        $this->assertFalse($vcard->business, 'Identify as private record');
-        $this->assertSame('John Doë', $vcard->displayname, 'Decode according to charset attribute');
-        $this->assertSame('roundcube.net', $vcard->organization, 'Test organization field');
-        $this->assertCount(2, $vcard->email, 'List two e-mail addresses');
-        $this->assertSame('roundcube@gmail.com', $vcard->email[0], 'Use PREF e-mail as primary');
+        self::assertFalse($vcard->business, 'Identify as private record');
+        self::assertSame('John Doë', $vcard->displayname, 'Decode according to charset attribute');
+        self::assertSame('roundcube.net', $vcard->organization, 'Test organization field');
+        self::assertCount(2, $vcard->email, 'List two e-mail addresses');
+        self::assertSame('roundcube@gmail.com', $vcard->email[0], 'Use PREF e-mail as primary');
     }
 
     /**
@@ -40,13 +40,13 @@ class Framework_VCard extends TestCase
         $vcard = new rcube_vcard(file_get_contents($this->_srcpath('johndoe.vcf')), null);
 
         $vcf = $vcard->export();
-        $this->assertMatchesRegularExpression('/TEL;CELL:\+987654321/', $vcf, 'Return CELL instead of MOBILE (import)');
+        self::assertMatchesRegularExpression('/TEL;CELL:\+987654321/', $vcf, 'Return CELL instead of MOBILE (import)');
 
         $vcard = new rcube_vcard();
         $vcard->set('phone', '+987654321', 'MOBILE');
 
         $vcf = $vcard->export();
-        $this->assertMatchesRegularExpression('/TEL;TYPE=cell:\+987654321/', $vcf, 'Return CELL instead of MOBILE (set)');
+        self::assertMatchesRegularExpression('/TEL;TYPE=cell:\+987654321/', $vcf, 'Return CELL instead of MOBILE (set)');
     }
 
     /**
@@ -58,10 +58,10 @@ class Framework_VCard extends TestCase
         $vcard = new rcube_vcard($vcard, null);
         $vcard = $vcard->get_assoc();
 
-        $this->assertSame('last;', $vcard['surname'], 'Decode backslash character');
-        $this->assertSame('first\\', $vcard['firstname'], 'Decode backslash character');
-        $this->assertSame('middle\;\\', $vcard['middlename'], 'Decode backslash character');
-        $this->assertSame('prefix', $vcard['prefix'], 'Decode backslash character');
+        self::assertSame('last;', $vcard['surname'], 'Decode backslash character');
+        self::assertSame('first\\', $vcard['firstname'], 'Decode backslash character');
+        self::assertSame('middle\;\\', $vcard['middlename'], 'Decode backslash character');
+        self::assertSame('prefix', $vcard['prefix'], 'Decode backslash character');
     }
 
     /**
@@ -73,9 +73,9 @@ class Framework_VCard extends TestCase
         $vcard = new rcube_vcard($vcard, null);
         $vcard = $vcard->get_assoc();
 
-        $this->assertSame('last\a', $vcard['surname'], 'Decode dummy backslash character');
-        $this->assertSame("fir\nst", $vcard['firstname'], 'Decode backslash character');
-        $this->assertSame('http://domain.tld', $vcard['website:other'][0], 'Decode dummy backslash character');
+        self::assertSame('last\a', $vcard['surname'], 'Decode dummy backslash character');
+        self::assertSame("fir\nst", $vcard['firstname'], 'Decode backslash character');
+        self::assertSame('http://domain.tld', $vcard['website:other'][0], 'Decode dummy backslash character');
     }
 
     /**
@@ -94,7 +94,7 @@ class Framework_VCard extends TestCase
 
         $result = $vcard->get_assoc();
 
-        $this->assertCount(1, $result['address:work'], 'ITEM1.-prefixed entry');
+        self::assertCount(1, $result['address:work'], 'ITEM1.-prefixed entry');
     }
 
     public function test_import()
@@ -104,13 +104,13 @@ class Framework_VCard extends TestCase
 
         $vcards = rcube_vcard::import($input);
 
-        $this->assertCount(2, $vcards, 'Detected 2 vcards');
-        $this->assertSame('Apple Computer AG', $vcards[0]->displayname, 'FN => displayname');
-        $this->assertSame('John Doë', $vcards[1]->displayname, 'Displayname with correct charset');
+        self::assertCount(2, $vcards, 'Detected 2 vcards');
+        self::assertSame('Apple Computer AG', $vcards[0]->displayname, 'FN => displayname');
+        self::assertSame('John Doë', $vcards[1]->displayname, 'Displayname with correct charset');
 
         // https://github.com/roundcube/roundcubemail/issues/1934
         $vcards2 = rcube_vcard::import(file_get_contents($this->_srcpath('thebat.vcf')));
-        $this->assertSame('Iksi=F1ski', quoted_printable_encode($vcards2[0]->surname));
+        self::assertSame('Iksi=F1ski', quoted_printable_encode($vcards2[0]->surname));
 
         $vcards[0]->reset();
         // TODO: Test reset() method
@@ -122,13 +122,13 @@ class Framework_VCard extends TestCase
 
         $vcards = rcube_vcard::import($input);
 
-        $this->assertCount(1, $vcards, 'Detected 1 vcard');
+        self::assertCount(1, $vcards, 'Detected 1 vcard');
 
         $vcard = $vcards[0]->get_assoc();
 
         // ENCODING=b case (#1488683)
-        $this->assertSame('/9j/4AAQSkZJRgABAQA', substr(base64_encode($vcard['photo']), 0, 19), 'Photo decoding');
-        $this->assertSame('Müller', $vcard['surname'], 'Unicode characters');
+        self::assertSame('/9j/4AAQSkZJRgABAQA', substr(base64_encode($vcard['photo']), 0, 19), 'Photo decoding');
+        self::assertSame('Müller', $vcard['surname'], 'Unicode characters');
 
         $input = str_replace('ENCODING=b:', 'ENCODING=base64;jpeg:', $input);
 
@@ -136,7 +136,7 @@ class Framework_VCard extends TestCase
         $vcard = $vcards[0]->get_assoc();
 
         // ENCODING=base64 case (#1489977)
-        $this->assertSame('/9j/4AAQSkZJRgABAQA', substr(base64_encode($vcard['photo']), 0, 19), 'Photo decoding');
+        self::assertSame('/9j/4AAQSkZJRgABAQA', substr(base64_encode($vcard['photo']), 0, 19), 'Photo decoding');
 
         $input = str_replace('PHOTO;ENCODING=base64;jpeg:', 'PHOTO:data:image/jpeg;base64,', $input);
 
@@ -144,7 +144,7 @@ class Framework_VCard extends TestCase
         $vcard = $vcards[0]->get_assoc();
 
         // vcard4.0 "PHOTO:data:image/jpeg;base64," case (#1489977)
-        $this->assertSame('/9j/4AAQSkZJRgABAQA', substr(base64_encode($vcard['photo']), 0, 19), 'Photo decoding');
+        self::assertSame('/9j/4AAQSkZJRgABAQA', substr(base64_encode($vcard['photo']), 0, 19), 'Photo decoding');
     }
 
     public function test_encodings()
@@ -152,7 +152,7 @@ class Framework_VCard extends TestCase
         $input = file_get_contents($this->_srcpath('utf-16_sample.vcf'));
 
         $vcards = rcube_vcard::import($input);
-        $this->assertSame('Ǽgean ĽdaMonté', $vcards[0]->displayname, 'Decoded from UTF-16');
+        self::assertSame('Ǽgean ĽdaMonté', $vcards[0]->displayname, 'Decoded from UTF-16');
     }
 
     /**
@@ -172,11 +172,11 @@ class Framework_VCard extends TestCase
 
         $result = $vcard->get_assoc();
 
-        $this->assertCount(1, $result['phone:home'], 'TYPE=home entry exists');
-        $this->assertTrue(!isset($result['phone:mobile']), 'TYPE=CELL entry ignored');
-        $this->assertCount(5, $result['address:home'][0], 'ADR with some fields missing');
-        $this->assertSame($result['address:home'][0]['zipcode'], 'zip', 'ADR with some fields missing (1)');
-        $this->assertSame($result['address:home'][0]['street'], 'street', 'ADR with some fields missing (2)');
+        self::assertCount(1, $result['phone:home'], 'TYPE=home entry exists');
+        self::assertTrue(!isset($result['phone:mobile']), 'TYPE=CELL entry ignored');
+        self::assertCount(5, $result['address:home'][0], 'ADR with some fields missing');
+        self::assertSame($result['address:home'][0]['zipcode'], 'zip', 'ADR with some fields missing (1)');
+        self::assertSame($result['address:home'][0]['street'], 'street', 'ADR with some fields missing (2)');
     }
 
     /**
@@ -188,7 +188,7 @@ class Framework_VCard extends TestCase
         $vcard = new rcube_vcard($vcard, null);
         $vcard = $vcard->get_assoc();
 
-        $this->assertSame('1980-02-02', $vcard['birthday'][0]);
+        self::assertSame('1980-02-02', $vcard['birthday'][0]);
     }
 
     /**
@@ -199,6 +199,6 @@ class Framework_VCard extends TestCase
         $vcard = new rcube_vcard();
         $result = $vcard->export();
 
-        $this->assertSame($result, "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:\r\nN:;;;;\r\nEND:VCARD");
+        self::assertSame($result, "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:\r\nN:;;;;\r\nEND:VCARD");
     }
 }

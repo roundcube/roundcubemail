@@ -16,6 +16,6 @@ class Rcmail_RcmailResendMail extends TestCase
 
         $result = $mail->headers();
 
-        $this->assertSame([], $result);
+        self::assertSame([], $result);
     }
 }

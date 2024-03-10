@@ -18,6 +18,6 @@ class Enigma_EnigmaDriverGnupg extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new enigma_driver_gnupg($rcube->user);
 
-        $this->assertInstanceOf('enigma_driver', $plugin);
+        self::assertInstanceOf('enigma_driver', $plugin);
     }
 }

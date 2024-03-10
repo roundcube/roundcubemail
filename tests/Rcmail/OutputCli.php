@@ -18,13 +18,13 @@ class Rcmail_RcmailOutputCli extends ActionTestCase
         $out = ob_get_contents();
         ob_end_clean();
 
-        $this->assertSame('[NOTICE] unknown', trim($out));
+        self::assertSame('[NOTICE] unknown', trim($out));
 
         ob_start();
         $output->show_message('errortitle', 'error');
         $out = ob_get_contents();
         ob_end_clean();
 
-        $this->assertSame('[ERROR] An error occurred!', trim($out));
+        self::assertSame('[ERROR] An error occurred!', trim($out));
     }
 }

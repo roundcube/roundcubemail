@@ -12,13 +12,13 @@ class Rcmail_RcmailAction extends ActionTestCase
     {
         $rcmail = rcmail::get_instance();
 
-        $this->assertFalse($rcmail->config->get('ip_check'));
+        self::assertFalse($rcmail->config->get('ip_check'));
         rcmail_action::set_env_config(['ip_check']);
-        $this->assertNull($rcmail->output->get_env('ip_check'));
+        self::assertNull($rcmail->output->get_env('ip_check'));
 
         $rcmail->config->set('ip_check', true);
         rcmail_action::set_env_config(['ip_check']);
-        $this->assertTrue($rcmail->output->get_env('ip_check'));
+        self::assertTrue($rcmail->output->get_env('ip_check'));
     }
 
     /**
@@ -31,7 +31,7 @@ class Rcmail_RcmailAction extends ActionTestCase
 
         $result = rcmail_action::table_output($attrib, $table_data, ['id'], 'id');
         $expected = '<table border="0"><thead><tr><th class="id">[id]</th></tr></thead><tbody></tbody></table>';
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
 
         // TODO: More cases
     }
@@ -41,7 +41,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_quota_content()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -49,7 +49,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_display_server_error()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -57,7 +57,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_html_editor()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -65,7 +65,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_upload_init()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -73,7 +73,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_upload_form()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -81,7 +81,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_upload_error()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -89,7 +89,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_upload_failure()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -97,7 +97,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_display_uploaded_file()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -105,7 +105,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_autocomplete_init()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -114,7 +114,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     public function test_font_defs()
     {
         $result = rcmail_action::font_defs();
-        $this->assertCount(13, $result);
+        self::assertCount(13, $result);
     }
 
     /**
@@ -123,7 +123,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     public function test_fontsize_defs()
     {
         $result = rcmail_action::fontsize_defs();
-        $this->assertCount(9, $result);
+        self::assertCount(9, $result);
     }
 
     /**
@@ -132,14 +132,14 @@ class Rcmail_RcmailAction extends ActionTestCase
     public function test_show_bytes()
     {
         $result = rcmail_action::show_bytes(0);
-        $this->assertSame('0 B', $result);
+        self::assertSame('0 B', $result);
 
         $result = rcmail_action::show_bytes(2000, $unit);
-        $this->assertSame('2 KB', $result);
+        self::assertSame('2 KB', $result);
 
         $result = rcmail_action::show_bytes(2000000, $unit);
-        $this->assertSame('1.9 MB', $result);
-        $this->assertSame('MB', $unit);
+        self::assertSame('1.9 MB', $result);
+        self::assertSame('MB', $unit);
     }
 
     /**
@@ -147,7 +147,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_message_part_size()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -156,53 +156,53 @@ class Rcmail_RcmailAction extends ActionTestCase
     public function test_get_uids()
     {
         $result = rcmail_action::get_uids();
-        $this->assertSame([], $result);
+        self::assertSame([], $result);
 
         $_GET = [
             '_mbox' => 'Test<a>',
             '_uid' => '1',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
-        $this->assertSame(['Test<a>' => ['1']], $result);
-        $this->assertFalse($is_multifolder);
+        self::assertSame(['Test<a>' => ['1']], $result);
+        self::assertFalse($is_multifolder);
 
         $_GET = [
             '_uid' => '1-Test<a>',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
-        $this->assertSame(['Test<a>' => ['1']], $result);
-        $this->assertTrue($is_multifolder);
+        self::assertSame(['Test<a>' => ['1']], $result);
+        self::assertTrue($is_multifolder);
 
         $_GET = [
             '_uid' => '1-Test<a>,2-INBOX',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
-        $this->assertSame(['Test<a>' => ['1'], 'INBOX' => ['2']], $result);
-        $this->assertTrue($is_multifolder);
+        self::assertSame(['Test<a>' => ['1'], 'INBOX' => ['2']], $result);
+        self::assertTrue($is_multifolder);
 
         $_GET = [
             '_mbox' => 'INBOX',
             '_uid' => '*',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
-        $this->assertSame(['INBOX' => '*'], $result);
-        $this->assertFalse($is_multifolder);
+        self::assertSame(['INBOX' => '*'], $result);
+        self::assertFalse($is_multifolder);
 
         $_GET = [
             '_mbox' => 'INBOX',
             '_uid' => '1.1',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
-        $this->assertSame(['INBOX' => ['1.1']], $result);
-        $this->assertFalse($is_multifolder);
+        self::assertSame(['INBOX' => ['1.1']], $result);
+        self::assertFalse($is_multifolder);
 
         $_GET = [
             '_mbox' => 'INBOX',
             '_uid' => '1:2,56',
         ];
         $result = rcmail_action::get_uids(null, null, $is_multifolder);
-        $this->assertSame(['INBOX' => ['1:2', '56']], $result);
-        $this->assertFalse($is_multifolder);
+        self::assertSame(['INBOX' => ['1:2', '56']], $result);
+        self::assertFalse($is_multifolder);
     }
 
     /**
@@ -211,7 +211,7 @@ class Rcmail_RcmailAction extends ActionTestCase
     public function test_get_resource_content()
     {
         $result = rcmail_action::get_resource_content('blocked.gif');
-        $this->assertTrue(strpos($result, 'GIF89') === 0);
+        self::assertTrue(strpos($result, 'GIF89') === 0);
     }
 
     /**
@@ -219,7 +219,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_get_form_tags()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -227,7 +227,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_folder_list()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -235,6 +235,6 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_folder_selector()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

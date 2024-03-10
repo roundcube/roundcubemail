@@ -114,7 +114,7 @@ class ServerTest extends TestCase
         $prefs = \bootstrap::get_prefs();
 
         foreach ($this->settings as $key => $value) {
-            $this->assertSame($value, $prefs[$key]);
+            self::assertSame($value, $prefs[$key]);
         }
     }
 }

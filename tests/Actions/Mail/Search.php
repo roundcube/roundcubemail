@@ -13,7 +13,7 @@ class Actions_Mail_Search extends ActionTestCase
         $action = new rcmail_action_mail_search();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'search');
 
-        $this->assertTrue($action->checks());
+        self::assertTrue($action->checks());
 
         $_GET = [
             '_q' => 'test',
@@ -39,15 +39,15 @@ class Actions_Mail_Search extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('search', $result['action']);
-        $this->assertSame(0, $result['env']['messagecount']);
-        $this->assertSame(0, $result['env']['pagecount']);
-        $this->assertSame(0, $result['env']['exists']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Search returned no matches.","notice",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Mailbox is empty","INBOX");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_quota') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('search', $result['action']);
+        self::assertSame(0, $result['env']['messagecount']);
+        self::assertSame(0, $result['env']['pagecount']);
+        self::assertSame(0, $result['env']['exists']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Search returned no matches.","notice",0);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_rowcount("Mailbox is empty","INBOX");') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_quota') !== false);
     }
 
     /**
@@ -100,14 +100,14 @@ class Actions_Mail_Search extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('search', $result['action']);
-        $this->assertSame(1, $result['env']['messagecount']);
-        $this->assertSame(1, $result['env']['pagecount']);
-        $this->assertSame(1, $result['env']['exists']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 messages found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Messages 1 to 1 of 1","INBOX");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('search', $result['action']);
+        self::assertSame(1, $result['env']['messagecount']);
+        self::assertSame(1, $result['env']['pagecount']);
+        self::assertSame(1, $result['env']['exists']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("1 messages found.","confirmation",0);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_rowcount("Messages 1 to 1 of 1","INBOX");') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");') !== false);
     }
 
     /**
@@ -293,7 +293,7 @@ class Actions_Mail_Search extends ActionTestCase
             $result = rcmail_action_mail_search::search_input($input);
         }
 
-        $this->assertSame($output, $result);
+        self::assertSame($output, $result);
     }
 
     /**
@@ -326,6 +326,6 @@ class Actions_Mail_Search extends ActionTestCase
     public function test_search_interval_criteria($input, $output)
     {
         $result = rcmail_action_mail_search::search_interval_criteria($input);
-        $this->assertSame($output, $result);
+        self::assertSame($output, $result);
     }
 }

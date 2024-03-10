@@ -13,20 +13,20 @@ class Actions_Contacts_Qrcode extends ActionTestCase
         $action = new rcmail_action_contacts_qrcode();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'qrcode');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
-        $this->assertSame(['HTTP/1.0 404 Contact not found'], $output->headers);
-        $this->assertSame('', $result);
+        self::assertSame(['HTTP/1.0 404 Contact not found'], $output->headers);
+        self::assertSame('', $result);
 
         $type = $action->check_support();
 
         if (!$type) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         $db = rcmail::get_instance()->get_dbh();
@@ -40,13 +40,13 @@ class Actions_Contacts_Qrcode extends ActionTestCase
         $result = $output->getOutput();
 
         if ($type == 'image/png') {
-            $this->assertSame('Content-Type: image/png', $output->headers[0]);
-            $this->assertMatchesRegularExpression('/^\x89\x50\x4E\x47/', $result);
+            self::assertSame('Content-Type: image/png', $output->headers[0]);
+            self::assertMatchesRegularExpression('/^\x89\x50\x4E\x47/', $result);
         } else {
-            $this->assertSame('Content-Type: image/svg+xml', $output->headers[0]);
-            $this->assertMatchesRegularExpression('/^<\?xml/', $result);
-            $this->assertMatchesRegularExpression('/<svg /', $result);
-            $this->assertMatchesRegularExpression('/<rect /', $result);
+            self::assertSame('Content-Type: image/svg+xml', $output->headers[0]);
+            self::assertMatchesRegularExpression('/^<\?xml/', $result);
+            self::assertMatchesRegularExpression('/<svg /', $result);
+            self::assertMatchesRegularExpression('/<rect /', $result);
         }
     }
 }

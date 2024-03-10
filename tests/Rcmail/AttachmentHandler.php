@@ -15,6 +15,6 @@ class Rcmail_RcmailAttachmentHandler extends ActionTestCase
 
         $out = rcmail_attachment_handler::svg_filter($svg);
 
-        $this->assertSame($exp, $out);
+        self::assertSame($exp, $out);
     }
 }

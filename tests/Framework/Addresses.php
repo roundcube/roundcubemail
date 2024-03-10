@@ -15,7 +15,7 @@ class Framework_Addresses extends TestCase
         $db = new rcube_db('test');
         $object = new rcube_addresses($db, null, 1);
 
-        $this->assertInstanceOf('rcube_addresses', $object, 'Class constructor');
-        $this->assertInstanceOf('rcube_addressbook', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_addresses', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_addressbook', $object, 'Class constructor');
     }
 }

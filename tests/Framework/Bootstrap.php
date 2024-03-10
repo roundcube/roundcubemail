@@ -12,8 +12,8 @@ class Framework_Bootstrap extends TestCase
      */
     public function test_asciiwords()
     {
-        $this->assertSame('abc.123', asciiwords('abc%.123', false));
-        $this->assertSame('abc-123', asciiwords('abc%.123', true, '-'));
+        self::assertSame('abc.123', asciiwords('abc%.123', false));
+        self::assertSame('abc-123', asciiwords('abc%.123', true, '-'));
     }
 
     /**
@@ -25,11 +25,11 @@ class Framework_Bootstrap extends TestCase
         $needle = 'test';
         $result = in_array_nocase($needle, $haystack);
 
-        $this->assertTrue($result, 'Invalid in_array_nocase() result (Array)');
+        self::assertTrue($result, 'Invalid in_array_nocase() result (Array)');
 
         $result = in_array_nocase($needle, null);
 
-        $this->assertFalse($result, 'Invalid in_array_nocase() result (null)');
+        self::assertFalse($result, 'Invalid in_array_nocase() result (null)');
     }
 
     /**
@@ -67,12 +67,12 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = parse_bytes($value);
-            $this->assertSame($expected, $result, "Invalid parse_bytes() result for {$value}");
+            self::assertSame($expected, $result, "Invalid parse_bytes() result for {$value}");
         }
 
-        $this->assertFalse(parse_bytes(null));
-        $this->assertSame(0, parse_bytes(0));
-        $this->assertSame(10, parse_bytes(10.1));
+        self::assertFalse(parse_bytes(null));
+        self::assertSame(0, parse_bytes(0));
+        self::assertSame(10, parse_bytes(10.1));
     }
 
     /**
@@ -89,7 +89,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = slashify($value);
-            $this->assertSame($expected, $result, "Invalid slashify() result for {$value}");
+            self::assertSame($expected, $result, "Invalid slashify() result for {$value}");
         }
     }
 
@@ -110,7 +110,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = unslashify($value);
-            $this->assertSame($expected, $result, "Invalid unslashify() result for {$value}");
+            self::assertSame($expected, $result, "Invalid unslashify() result for {$value}");
         }
     }
 
@@ -131,7 +131,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = get_offset_sec($value);
-            $this->assertSame($expected, $result, "Invalid get_offset_sec() result for {$value}");
+            self::assertSame($expected, $result, "Invalid get_offset_sec() result for {$value}");
         }
     }
 
@@ -154,7 +154,7 @@ class Framework_Bootstrap extends TestCase
         $input_str = 'one,two,three,four,five';
         $result_str = implode(',', $result);
 
-        $this->assertSame($input_str, $result_str, 'Invalid array_keys_recursive() result');
+        self::assertSame($input_str, $result_str, 'Invalid array_keys_recursive() result');
     }
 
     /**
@@ -162,14 +162,14 @@ class Framework_Bootstrap extends TestCase
      */
     public function test_array_first()
     {
-        $this->assertNull(array_first([]));
-        $this->assertNull(array_first(false));
-        $this->assertNull(array_first('test'));
-        $this->assertSame('test', array_first(['test']));
+        self::assertNull(array_first([]));
+        self::assertNull(array_first(false));
+        self::assertNull(array_first('test'));
+        self::assertSame('test', array_first(['test']));
 
         $input = ['test1', 'test2'];
         next($input);
-        $this->assertSame('test1', array_first($input));
+        self::assertSame('test1', array_first($input));
     }
 
     /**
@@ -187,7 +187,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $set) {
             $result = abbreviate_string($set[1], $set[2], $set[3], $set[4]);
-            $this->assertSame($set[0], $result);
+            self::assertSame($set[0], $result);
         }
     }
 
@@ -206,7 +206,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $value => $expected) {
             $result = format_email($value);
-            $this->assertSame($expected, $result, "Invalid format_email() result for {$value}");
+            self::assertSame($expected, $result, "Invalid format_email() result for {$value}");
         }
     }
 
@@ -227,7 +227,7 @@ class Framework_Bootstrap extends TestCase
 
         foreach ($data as $expected => $value) {
             $result = format_email_recipient($value[0], $value[1] ?? null);
-            $this->assertSame($expected, $result, 'Invalid format_email_recipient()');
+            self::assertSame($expected, $result, 'Invalid format_email_recipient()');
         }
     }
 
@@ -237,26 +237,26 @@ class Framework_Bootstrap extends TestCase
     public function test_is_ascii()
     {
         $result = is_ascii('0123456789');
-        $this->assertTrue($result, 'Valid ASCII (numbers)');
+        self::assertTrue($result, 'Valid ASCII (numbers)');
 
         $result = is_ascii('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
-        $this->assertTrue($result, 'Valid ASCII (letters)');
+        self::assertTrue($result, 'Valid ASCII (letters)');
 
         $result = is_ascii(" !\"#\$%&'()*+,-./:;<=>?@[\\^_`{|}~");
-        $this->assertTrue($result, 'Valid ASCII (special characters)');
+        self::assertTrue($result, 'Valid ASCII (special characters)');
 
         $result = is_ascii("\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F"
             . "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F");
-        $this->assertTrue($result, 'Valid ASCII (control characters)');
+        self::assertTrue($result, 'Valid ASCII (control characters)');
 
         $result = is_ascii("\n", false);
-        $this->assertFalse($result, 'Valid ASCII (control characters)');
+        self::assertFalse($result, 'Valid ASCII (control characters)');
 
         $result = is_ascii('ż');
-        $this->assertFalse($result, 'Invalid ASCII (UTF-8 character)');
+        self::assertFalse($result, 'Invalid ASCII (UTF-8 character)');
 
         $result = is_ascii('ż', false);
-        $this->assertFalse($result, 'Invalid ASCII (UTF-8 character [2])');
+        self::assertFalse($result, 'Invalid ASCII (UTF-8 character [2])');
     }
 
     /**
@@ -264,7 +264,7 @@ class Framework_Bootstrap extends TestCase
      */
     public function test_version_parse()
     {
-        $this->assertSame('0.9.0', version_parse('0.9-stable'));
-        $this->assertSame('0.9.99', version_parse('0.9-git'));
+        self::assertSame('0.9.0', version_parse('0.9-stable'));
+        self::assertSame('0.9.99', version_parse('0.9-git'));
     }
 }

@@ -12,7 +12,7 @@ class Actions_Mail_Compose extends ActionTestCase
     {
         $object = new rcmail_action_mail_compose();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        self::assertInstanceOf('rcmail_action', $object);
     }
 
     /**
@@ -22,16 +22,16 @@ class Actions_Mail_Compose extends ActionTestCase
     {
         $action = new rcmail_action_mail_compose();
 
-        $this->assertSame('> ', $action->quote_text(''));
+        self::assertSame('> ', $action->quote_text(''));
 
         $result = $action->quote_text("test1\ntest2");
         $expected = "> test1\n> test2";
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
 
         $result = $action->quote_text("> test1\n> test2");
         $expected = ">> test1\n>> test2";
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 }

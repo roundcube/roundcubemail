@@ -14,6 +14,6 @@ class Framework_MessageHeader extends TestCase
     {
         $object = new rcube_message_header();
 
-        $this->assertInstanceOf('rcube_message_header', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_message_header', $object, 'Class constructor');
     }
 }

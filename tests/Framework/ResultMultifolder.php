@@ -14,6 +14,6 @@ class Framework_ResultMultifolder extends TestCase
     {
         $object = new rcube_result_multifolder();
 
-        $this->assertInstanceOf('rcube_result_multifolder', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_result_multifolder', $object, 'Class constructor');
     }
 }

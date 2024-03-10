@@ -14,7 +14,7 @@ class Framework_StringReplacer extends TestCase
     {
         $sr = new rcube_string_replacer();
 
-        $this->assertInstanceOf('rcube_string_replacer', $sr, 'Class constructor');
+        self::assertInstanceOf('rcube_string_replacer', $sr, 'Class constructor');
     }
 
     /**
@@ -60,7 +60,7 @@ class Framework_StringReplacer extends TestCase
         $result = $replacer->replace($input);
         $result = $replacer->resolve($result);
 
-        $this->assertSame($output, $result);
+        self::assertSame($output, $result);
     }
 
     /**
@@ -76,8 +76,8 @@ class Framework_StringReplacer extends TestCase
         $result = $replacer->replace($input);
         $result = $replacer->resolve($result);
 
-        $this->assertStringContainsString('[<a href="http://en.wikipedia.org/wiki/Email">1</a>] to', $result, 'Numeric linkref replacements');
-        $this->assertStringContainsString('[<a href="http://www.link-ref.com">ref0</a>] repl', $result, 'Alphanum linkref replacements');
-        $this->assertStringContainsString('of [Roundcube].[ref<0]', $result, "Don't touch strings without an index entry");
+        self::assertStringContainsString('[<a href="http://en.wikipedia.org/wiki/Email">1</a>] to', $result, 'Numeric linkref replacements');
+        self::assertStringContainsString('[<a href="http://www.link-ref.com">ref0</a>] repl', $result, 'Alphanum linkref replacements');
+        self::assertStringContainsString('of [Roundcube].[ref<0]', $result, "Don't touch strings without an index entry");
     }
 }

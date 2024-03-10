@@ -13,8 +13,8 @@ class Actions_Settings_IdentityEdit extends ActionTestCase
         $action = new rcmail_action_settings_identity_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-identity');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('identities');
 
@@ -28,12 +28,12 @@ class Actions_Settings_IdentityEdit extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('identityedit', $output->template);
-        $this->assertSame('Edit identity', $output->getProperty('pagetitle'));
-        $this->assertSame($identity['identity_id'], $output->get_env('iid'));
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
-        $this->assertTrue(strpos($result, 'test@example.com') !== false);
+        self::assertSame('identityedit', $output->template);
+        self::assertSame('Edit identity', $output->getProperty('pagetitle'));
+        self::assertSame($identity['identity_id'], $output->get_env('iid'));
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
+        self::assertTrue(strpos($result, 'test@example.com') !== false);
 
         // TODO: Test error handling
     }
@@ -50,7 +50,7 @@ class Actions_Settings_IdentityEdit extends ActionTestCase
 
         $result = $action->identity_form([]);
 
-        $this->assertTrue(strpos($result, '<form id="identityImageUpload"') !== false);
-        $this->assertTrue(strpos($result, '<legend>Settings</legend>') !== false);
+        self::assertTrue(strpos($result, '<form id="identityImageUpload"') !== false);
+        self::assertTrue(strpos($result, '<legend>Settings</legend>') !== false);
     }
 }
