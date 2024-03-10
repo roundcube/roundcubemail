@@ -400,7 +400,7 @@ class zipdownload_mbox_filter extends php_user_filter
                 $bucket->datalen++;
             }
 
-            $consumed += $bucket->datalen;
+            $consumed += (int) $bucket->datalen;
             stream_bucket_append($out, $bucket);
         }
 

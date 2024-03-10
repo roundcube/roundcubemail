@@ -182,7 +182,7 @@ class rcmail_bounce_stream_filter extends php_user_filter
                 $this->in_body = true;
             }
 
-            $consumed += $bucket->datalen;
+            $consumed += (int) $bucket->datalen;
             stream_bucket_append($out, $bucket);
         }
 

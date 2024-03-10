@@ -1405,6 +1405,8 @@ class rcube_sieve_script
 
     /**
      * Skip whitespace characters in a string from specified position.
+     *
+     * @return int
      */
     public static function ltrim_position($content, $position, $br = true)
     {

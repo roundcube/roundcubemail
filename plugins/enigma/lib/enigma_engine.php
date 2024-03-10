@@ -1269,7 +1269,7 @@ class enigma_engine
     private function parse_body(&$body)
     {
         // Mail_mimeDecode need \r\n end-line, but gpg may return \n
-        $body = preg_replace('/\r?\n/', "\r\n", $body);
+        $body = (string) preg_replace('/\r?\n/', "\r\n", $body);
 
         // parse the body into structure
         return rcube_mime::parse_message($body);
