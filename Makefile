@@ -60,7 +60,7 @@ build: buildtools
 	(cd build; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
 buildtools: /tmp/composer.phar
-	npm install -g uglify-js lessc less-plugin-clean-css csso-cli
+	npm install -g uglify-js less less-plugin-clean-css csso-cli
 	sudo apt install -y dos2unix php8.1
 
 /tmp/composer.phar:
