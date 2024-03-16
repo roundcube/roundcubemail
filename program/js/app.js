@@ -5281,7 +5281,7 @@ function rcube_webmail() {
                             dialog.dialog('close');
                         },
                         class: 'cancel',
-                    }
+                    },
                 ],
                 { dialogClass: 'warning' }
             );
