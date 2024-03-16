@@ -205,18 +205,7 @@ foreach ($optional_libs as $classname => $vendor) {
 <?php
 
 foreach ($ini_checks as $var => $val) {
-    $status = ini_get($var);
-    if ($val === '-NOTEMPTY-') {
-        if (empty($status)) {
-            $RCI->fail($var, 'empty value detected');
-        } else {
-            $RCI->pass($var);
-        }
-    } elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
-        $RCI->pass($var);
-    } else {
-        $RCI->fail($var, "is '{$status}', should be '{$val}'");
-    }
+    $RCI->ini_check($var, $val, true);
     echo '<br />';
 }
 ?>
@@ -226,32 +215,7 @@ foreach ($ini_checks as $var => $val) {
 <?php
 
 foreach ($optional_checks as $var => $val) {
-    $status = ini_get($var);
-    if ($val === '-NOTEMPTY-') {
-        if (empty($status)) {
-            $RCI->optfail($var, 'Could be set');
-        } else {
-            $RCI->pass($var);
-        }
-        echo '<br />';
-        continue;
-    }
-    if ($val === '-VALID-') {
-        if ($var == 'date.timezone') {
-            try {
-                $tz = new DateTimeZone($status);
-                $RCI->pass($var);
-            } catch (Exception $e) {
-                $RCI->optfail($var, empty($status) ? 'not set' : "invalid value detected: {$status}");
-            }
-        } else {
-            $RCI->pass($var);
-        }
-    } elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
-        $RCI->pass($var);
-    } else {
-        $RCI->optfail($var, "is '{$status}', could be '{$val}'");
-    }
+    $RCI->ini_check($var, $val);
     echo '<br />';
 }
 ?>

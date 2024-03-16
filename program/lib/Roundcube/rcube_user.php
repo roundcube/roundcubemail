@@ -24,16 +24,16 @@
  */
 class rcube_user
 {
-    /** @var int User identifier */
+    /** @var ?int User identifier */
     public $ID;
 
-    /** @var array User properties */
+    /** @var ?array User properties */
     public $data;
 
-    /** @var string User language code */
+    /** @var ?string User language code */
     public $language;
 
-    /** @var array User preferences */
+    /** @var ?array User preferences */
     public $prefs;
 
     /** @var rcube_db Holds database connection */
@@ -45,7 +45,7 @@ class rcube_user
     /** @var array Internal identities cache */
     private $identities = [];
 
-    /** @var array Internal emails cache */
+    /** @var ?array Internal emails cache */
     private $emails;
 
     public const SEARCH_ADDRESSBOOK = 1;
@@ -210,7 +210,7 @@ class rcube_user
             $this->language = $_SESSION['language'] ?? 'en_US';
         }
 
-        $this->db->query(
+        $result = $this->db->query(
             'UPDATE ' . $this->db->table_name('users', true) .
             ' SET `preferences` = ?, `language` = ?' .
             ' WHERE `user_id` = ?',
@@ -220,7 +220,7 @@ class rcube_user
         );
 
         // Update success
-        if ($this->db->affected_rows() !== false) {
+        if ($result) {
             $this->data['preferences'] = $save_prefs;
 
             if (!$no_session) {
@@ -234,10 +234,11 @@ class rcube_user
 
             return true;
         }
+
         // Update error, but we are using replication (we have read-only DB connection)
         // and we are storing session not in the SQL database
         // we can store preferences in session and try to write later (see get_prefs())
-        elseif (!$no_session && $this->db->is_replicated()
+        if (!$no_session && $this->db->is_replicated()
             && $config->get('session_storage', 'db') != 'db'
         ) {
             $_SESSION['preferences'] = $save_prefs;

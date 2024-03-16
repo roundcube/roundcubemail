@@ -118,7 +118,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 
 // exit if installation is complete
 if ($RCI->configured && !$RCI->getprop('enable_installer') && empty($_SESSION['allowinstaller'])) {
-    if ($RCI->configured && $RCI->legacy_config) {
+    if ($RCI->legacy_config) {
         echo '<h2 class="error">Your configuration needs to be migrated!</h2>';
         echo '<p>We changed the configuration files structure and your installation needs to be updated accordingly.</p>';
         echo '<p>Please run the <tt>bin/update.sh</tt> script from the command line or set <p>&nbsp; <tt>$rcube_config[\'enable_installer\'] = true;</tt></p>';

@@ -637,6 +637,41 @@ class rcmail_install
     }
 
     /**
+     * Check expected/required ini option value
+     *
+     * @param string $var      Option name
+     * @param string $expected Expected value
+     * @param bool   $required Is required or optional?
+     */
+    public function ini_check($var, $expected, $required = false)
+    {
+        $status = ini_get($var);
+
+        if ($expected === '-NOTEMPTY-') {
+            if (empty($status)) {
+                $this->optfail($var, $required ? 'Empty value detected' : 'Could be set');
+            } else {
+                $this->pass($var);
+            }
+        } elseif ($expected === '-VALID-') {
+            if ($var == 'date.timezone') {
+                try {
+                    $tz = new DateTimeZone($status);
+                    $this->pass($var);
+                } catch (Exception $e) {
+                    $this->optfail($var, empty($status) ? 'not set' : "invalid value detected: {$status}");
+                }
+            } else {
+                $this->pass($var);
+            }
+        } elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $expected) {
+            $this->pass($var);
+        } else {
+            $this->optfail($var, "is '{$status}', " . ($required ? 'should' : 'could') . " be '{$expected}'");
+        }
+    }
+
+    /**
      * Create a HTML dropdown to select a previous version of Roundcube
      */
     public function versions_select($attrib = [])
