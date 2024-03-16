@@ -1542,7 +1542,7 @@ class rcmail_sendmail
      * @param array         $identities User identities (if NULL all user identities will be used)
      * @param string        $mode       Composing mode (see self::MODE_*)
      *
-     * @return array Selected user identity (or the default identity) data
+     * @return array|null Selected user identity (or the default identity) data
      */
     public static function identity_select($message, $identities = null, $mode = null)
     {

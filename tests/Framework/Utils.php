@@ -683,10 +683,11 @@ class Framework_Utils extends TestCase
     }
 
     /**
-     * rcube:utils::words_match()
+     * rcube_utils::words_match()
      */
     public function test_words_match()
     {
+        $bin = base64_decode('R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7', false);
         $test = [
             ['', 'test', false],
             ['test', 'test', true],
@@ -695,8 +696,8 @@ class Framework_Utils extends TestCase
             ['test xyz', 'test xyz', true],
             ['this is test', 'test', true],
             // try some binary content
-            ['this is test ' . base64_decode('R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7'), 'test', true],
-            ['this is test ' . base64_decode('R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7'), 'none', false],
+            ['this is test ' . $bin, 'test', true],
+            ['this is test ' . $bin, 'none', false],
         ];
 
         foreach ($test as $idx => $params) {

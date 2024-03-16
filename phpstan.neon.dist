@@ -25,6 +25,7 @@ parameters:
         - '~^Casting to .+ something that''s already .+\.~'
         - '~^Short ternary operator is not allowed\. Use null coalesce operator if applicable or consider using long ternary\.~'
         - '~^Call to function (array_search|in_array)\(\) requires parameter #3 to be set\.~'
+        - '~^Call to function base64_decode\(\) requires parameter #2 to be (set|true).~'
 
         # https://github.com/php/pecl-authentication-krb5
         -
