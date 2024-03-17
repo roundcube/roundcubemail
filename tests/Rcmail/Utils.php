@@ -58,9 +58,6 @@ class Rcmail_RcmailUtils extends ActionTestCase
      */
     public function test_mod_pref()
     {
-        // FIXME: The test hangs for some reason, probably related with the extra DB connection
-        // $this->markTestIncomplete();
-
         self::initDB('init');
 
         $db = rcmail::get_instance()->get_dbh();

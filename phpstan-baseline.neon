@@ -1851,46 +1851,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_smtp.php
 
 		-
-			message: "#^Foreach overwrites \\$word with its value variable\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_spellchecker.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_spellchecker.php
-
-		-
-			message: "#^Offset mixed does not exist on array\\{\\}\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_spellchecker.php
-
-		-
-			message: "#^Offset mixed on array\\{\\} in empty\\(\\) does not exist\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_spellchecker.php
-
-		-
-			message: "#^Offset non\\-falsy\\-string does not exist on array\\{\\}\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_spellchecker.php
-
-		-
-			message: "#^Offset non\\-falsy\\-string on array\\{\\} in empty\\(\\) does not exist\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_spellchecker.php
-
-		-
-			message: "#^Offset string does not exist on array\\{\\}\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_spellchecker.php
-
-		-
-			message: "#^Offset string on array\\{\\} in empty\\(\\) does not exist\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_spellchecker.php
-
-		-
 			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_string_replacer.php
@@ -2146,56 +2106,6 @@ parameters:
 			path: program/lib/Roundcube/session/redis.php
 
 		-
-			message: "#^Method rcube_spellchecker_atd\\:\\:check\\(\\) should return bool but returns array\\.$#"
-			count: 1
-			path: program/lib/Roundcube/spellchecker/atd.php
-
-		-
-			message: "#^Method rcube_spellchecker_atd\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<int, array\\<int, string\\>\\|bool\\|int\\|string\\|null\\>\\>\\.$#"
-			count: 1
-			path: program/lib/Roundcube/spellchecker/atd.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 3
-			path: program/lib/Roundcube/spellchecker/enchant.php
-
-		-
-			message: "#^Method rcube_spellchecker_enchant\\:\\:check\\(\\) should return bool but returns array\\.$#"
-			count: 1
-			path: program/lib/Roundcube/spellchecker/enchant.php
-
-		-
-			message: "#^Method rcube_spellchecker_enchant\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<int, array\\|int\\|string\\|null\\>\\>\\.$#"
-			count: 1
-			path: program/lib/Roundcube/spellchecker/enchant.php
-
-		-
-			message: "#^Foreach overwrites \\$m with its value variable\\.$#"
-			count: 1
-			path: program/lib/Roundcube/spellchecker/googie.php
-
-		-
-			message: "#^Method rcube_spellchecker_googie\\:\\:check\\(\\) should return bool but returns array\\.$#"
-			count: 1
-			path: program/lib/Roundcube/spellchecker/googie.php
-
-		-
-			message: "#^Method rcube_spellchecker_googie\\:\\:check\\(\\) should return bool but returns array\\<int\\<0, max\\>, array\\<string\\>\\>\\.$#"
-			count: 1
-			path: program/lib/Roundcube/spellchecker/googie.php
-
-		-
-			message: "#^Method rcube_spellchecker_pspell\\:\\:check\\(\\) should return bool but returns array\\.$#"
-			count: 1
-			path: program/lib/Roundcube/spellchecker/pspell.php
-
-		-
-			message: "#^Method rcube_spellchecker_pspell\\:\\:check\\(\\) should return bool but returns array\\<int, array\\<int, array\\|bool\\|int\\|string\\|null\\>\\>\\.$#"
-			count: 1
-			path: program/lib/Roundcube/spellchecker/pspell.php
-
-		-
 			message: "#^Property rcube\\:\\:\\$storage \\(rcube_storage\\|null\\) does not accept StorageMock\\.$#"
 			count: 1
 			path: tests/ActionTestCase.php
@@ -2204,11 +2114,6 @@ parameters:
 			message: "#^Property rcube_message_part\\:\\:\\$mime_id \\(string\\) does not accept int\\.$#"
 			count: 1
 			path: tests/Actions/Mail/Index.php
-
-		-
-			message: "#^Foreach overwrites \\$expected with its value variable\\.$#"
-			count: 1
-			path: tests/Browser/Components/App.php
 
 		-
 			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\App\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
@@ -2244,8 +2149,3 @@ parameters:
 			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\Toolbarmenu\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
 			count: 1
 			path: tests/Browser/Components/Toolbarmenu.php
-
-		-
-			message: "#^Return type \\(bool\\|string\\) of method Installer\\:\\:getUrl\\(\\) should be covariant with return type \\(string\\) of method Laravel\\\\Dusk\\\\Console\\\\ChromeDriverCommand\\:\\:getUrl\\(\\)$#"
-			count: 1
-			path: tests/Browser/install.php
