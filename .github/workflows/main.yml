@@ -72,12 +72,6 @@ jobs:
       - name: Unzip
         run: ssh staging "cd /home/$SSH_USER/$REPO_NAME/ && sudo tar --no-same-owner --no-same-permissions -xf roundcubemail-1.7-git-complete.tar.gz"
 
-      - name: Set permissions
-        run: ssh staging "sudo chown -R github:github /home/$SSH_USER/$REPO_NAME/"
-
-      - name: Create config file
-        run: ssh staging "cd /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git/config/ && touch ./config.inc.php && printf '%q' '$CONFIG' > ./config.inc.php"
-
       - name: Delete current deployed files
         run: ssh staging 'sudo rm -r -d /var/www/mail2/'
         continue-on-error: true
