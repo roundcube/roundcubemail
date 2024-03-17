@@ -25,7 +25,6 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
 {
     private $enchant_broker;
     private $enchant_dictionary;
-    private $matches = [];
 
     /**
      * Return a list of languages supported by this backend
@@ -82,7 +81,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         $this->init();
 
         if (!$this->enchant_dictionary) {
-            return [];
+            return true;
         }
 
         // tokenize
@@ -101,7 +100,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
             } elseif (!enchant_dict_check($this->enchant_dictionary, $word)) {
                 $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
 
-                if (is_array($suggestions) && count($suggestions) > self::MAX_SUGGESTIONS) {
+                if (count($suggestions) > self::MAX_SUGGESTIONS) {
                     $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
                 }
 
@@ -112,7 +111,8 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
         }
 
         $this->matches = $matches;
-        return $matches;
+
+        return count($matches) == 0;
     }
 
     /**
@@ -130,11 +130,11 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
 
         $suggestions = enchant_dict_suggest($this->enchant_dictionary, $word);
 
-        if (is_array($suggestions) && count($suggestions) > self::MAX_SUGGESTIONS) {
+        if (count($suggestions) > self::MAX_SUGGESTIONS) {
             $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
         }
 
-        return is_array($suggestions) ? $suggestions : [];
+        return $suggestions;
     }
 
     /**

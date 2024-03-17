@@ -64,11 +64,11 @@ class Installer extends ChromeDriverCommand
      *
      * @param string $url URL
      *
-     * @return string|bool
+     * @return string
      */
     protected function getUrl(string $url)
     {
-        return file_get_contents($url);
+        return file_get_contents($url) ?: '';
     }
 }
 

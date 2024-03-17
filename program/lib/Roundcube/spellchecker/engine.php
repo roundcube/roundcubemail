@@ -25,8 +25,10 @@ abstract class rcube_spellchecker_engine
 {
     public const MAX_SUGGESTIONS = 10;
 
+    public $matches = [];
+    public $error;
+
     protected $lang;
-    protected $error;
     protected $dictionary;
     protected $options = [];
     protected $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\"]+|[:;?!,\.](?=\W|$)/';
@@ -75,14 +77,4 @@ abstract class rcube_spellchecker_engine
      * @return array List of misspelled words
      */
     abstract public function get_words($text = null);
-
-    /**
-     * Returns error message
-     *
-     * @return string Error message
-     */
-    public function error()
-    {
-        return $this->error;
-    }
 }

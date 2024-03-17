@@ -24,7 +24,6 @@
  */
 class rcube_spellchecker
 {
-    private $matches = [];
     private $options = [];
     private $content;
     private $engine;
@@ -90,16 +89,19 @@ class rcube_spellchecker
         $languages = [];
         foreach ($langs as $lang) {
             $langc = strtolower(substr($lang, 0, 2));
-            $alias = !empty($rcube_language_aliases[$langc]) ? $rcube_language_aliases[$langc] : null;
 
-            if (!$alias) {
+            // @phpstan-ignore-next-line
+            if (array_key_exists($langc, $rcube_language_aliases)) {
+                $alias = $rcube_language_aliases[$langc];
+            } else {
                 $alias = $langc . '_' . strtoupper($langc);
             }
-            if (!empty($rcube_languages[$lang])) {
+
+            if (array_key_exists($lang, $rcube_languages)) { // @phpstan-ignore-line
                 $languages[$lang] = $rcube_languages[$lang];
             } elseif (preg_match('/^en_([A-Z]+)/', $lang, $m)) {
                 $languages[$lang] = sprintf('English (%s)', strtoupper($m[1]));
-            } elseif (!empty($rcube_languages[$alias])) {
+            } elseif (array_key_exists($alias, $rcube_languages)) { // @phpstan-ignore-line
                 $languages[$lang] = $rcube_languages[$alias];
             } else {
                 $languages[$lang] = ucfirst($lang);
@@ -107,7 +109,7 @@ class rcube_spellchecker
         }
 
         // remove possible duplicates (#1489395)
-        $languages = array_unique($languages);
+        $languages = array_unique(array_filter($languages));
 
         asort($languages);
 
@@ -141,10 +143,10 @@ class rcube_spellchecker
         $this->content = preg_replace_callback('~(^|\s)(www.\S+|[a-z]+://\S+)~', $callback, $this->content);
 
         if ($this->backend) {
-            $this->matches = $this->backend->check($this->content);
+            return $this->backend->check($this->content);
         }
 
-        return $this->found() == 0;
+        return true;
     }
 
     /**
@@ -154,7 +156,7 @@ class rcube_spellchecker
      */
     public function found()
     {
-        return count($this->matches);
+        return $this->backend ? count($this->backend->matches) : 0;
     }
 
     /**
@@ -204,7 +206,8 @@ class rcube_spellchecker
         // send output
         $out = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><spellresult charschecked="' . mb_strlen($this->content) . '">';
 
-        foreach ((array) $this->matches as $item) {
+        $matches = $this->backend ? $this->backend->matches : [];
+        foreach ($matches as $item) {
             $out .= '<c o="' . $item[1] . '" l="' . $item[2] . '">';
             $out .= is_array($item[4]) ? implode("\t", $item[4]) : $item[4];
             $out .= '</c>';
@@ -223,8 +226,9 @@ class rcube_spellchecker
     public function get()
     {
         $result = [];
+        $matches = $this->backend ? $this->backend->matches : [];
 
-        foreach ((array) $this->matches as $item) {
+        foreach ($matches as $item) {
             if ($this->engine == 'pspell') {
                 $word = $item[0];
             } else {
@@ -252,7 +256,7 @@ class rcube_spellchecker
      */
     public function error()
     {
-        return $this->error ?: ($this->backend ? $this->backend->error() : false);
+        return $this->error ?: ($this->backend ? $this->backend->error : false);
     }
 
     private function html2text($text)
@@ -312,10 +316,10 @@ class rcube_spellchecker
     {
         $this->load_dict();
 
-        foreach (explode(' ', $word) as $word) {
+        foreach (explode(' ', $word) as $w) {
             // sanity check
-            if (strlen($word) < 512) {
-                $this->dict[] = $word;
+            if (strlen($w) < 512) {
+                $this->dict[] = $w;
                 $valid = true;
             }
         }
