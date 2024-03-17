@@ -18,7 +18,6 @@ class runlog
     public $timestamp = 'd-M-Y H:i:s O';
     public $max_line_size = 150;
 
-
     public function start($name, $tag = false)
     {
         $this->run_log[] = [
