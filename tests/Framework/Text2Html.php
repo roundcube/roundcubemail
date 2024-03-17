@@ -25,6 +25,7 @@ class Framework_Text2Html extends TestCase
             'nobr_end' => '<',
         ];
 
+        $data = [];
         $data[] = [' aaaa', '>_aaaa<', $options];
         $data[] = ['aa>aa', '>aa&gt;aa<', $options];
         $data[] = ['aaaa aaaa', '>aaaa_aaaa<', $options];

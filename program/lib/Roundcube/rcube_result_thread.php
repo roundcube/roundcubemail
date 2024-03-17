@@ -338,7 +338,7 @@ class rcube_result_thread
      *
      * @param int|string $index Element's index or "FIRST" or "LAST"
      *
-     * @return int Element value
+     * @return ?int Element value
      */
     public function get_element($index)
     {
@@ -351,15 +351,13 @@ class rcube_result_thread
         // first element
         if ($index === 0 || $index === '0' || $index === 'FIRST') {
             preg_match('/^([0-9]+)/', $this->raw_data, $m);
-            $result = (int) $m[1];
-            return $result;
+            return (int) $m[1];
         }
 
         // last element
         if ($index === 'LAST' || $index == $count - 1) {
             preg_match('/([0-9]+)$/', $this->raw_data, $m);
-            $result = (int) $m[1];
-            return $result;
+            return (int) $m[1];
         }
 
         // do we know the position of the element or the neighbour of it?
@@ -400,7 +398,7 @@ class rcube_result_thread
         // Finally use less effective method
         $data = $this->get();
 
-        return $data[$index] ?? null;
+        return !empty($data[$index]) ? intval($data[$index]) : null;
     }
 
     /**
