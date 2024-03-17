@@ -20,9 +20,6 @@ class Rcmail_RcmailUtils extends ActionTestCase
      */
     public function test_db_version()
     {
-        // FIXME: It breaks the test suite for some reason
-        $this->markTestIncomplete();
-
         $v = rcmail_utils::db_version();
 
         $this->assertMatchesRegularExpression('/^[0-9]{10}$/', $v);
@@ -61,9 +58,6 @@ class Rcmail_RcmailUtils extends ActionTestCase
      */
     public function test_mod_pref()
     {
-        // FIXME: The test hangs for some reason, probably related with the extra DB connection
-        $this->markTestIncomplete();
-
         self::initDB('init');
 
         $db = rcmail::get_instance()->get_dbh();

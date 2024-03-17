@@ -9,11 +9,6 @@ parameters:
     excludePaths:
         - vendor
 
-    scanFiles:
-        # https://github.com/pear/pear-core-minimal/pull/15
-        # remove once new release (1.10.15) is tagged - https://github.com/pear/pear-core-minimal/tags
-        - vendor/pear/pear-core-minimal/src/PEAR.php
-
     ignoreErrors:
         # relax strict rules
         - '~^Only booleans are allowed in .+, .+ given( on the (left|right) side)?\.~'
@@ -25,6 +20,7 @@ parameters:
         - '~^Casting to .+ something that''s already .+\.~'
         - '~^Short ternary operator is not allowed\. Use null coalesce operator if applicable or consider using long ternary\.~'
         - '~^Call to function (array_search|in_array)\(\) requires parameter #3 to be set\.~'
+        - '~^Call to function base64_decode\(\) requires parameter #2 to be (set|true).~'
 
         # https://github.com/php/pecl-authentication-krb5
         -

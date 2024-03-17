@@ -7,10 +7,8 @@
  */
 class runlog
 {
-    private $start_time = false;
     private $parent_stack = [];
     private $file_handles = [];
-    private $debug_messages = [];
     private $indent = 0;
     private $run_log = [];
 
@@ -19,11 +17,6 @@ class runlog
     public $tag_count = [];
     public $timestamp = 'd-M-Y H:i:s O';
     public $max_line_size = 150;
-
-    public function __construct()
-    {
-        $this->start_time = microtime(true);
-    }
 
     public function start($name, $tag = false)
     {
@@ -127,7 +120,6 @@ class runlog
         if (is_array($msg)) {
             $msg = '<pre>' . print_r($msg, true) . '</pre>';
         }
-        $this->debug_messages[] = $msg;
         $this->run_log[] = [
             'type' => 'note',
             'tag' => $tag ?: 'text',

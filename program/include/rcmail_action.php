@@ -734,7 +734,6 @@ abstract class rcmail_action
             $str = sprintf('%d ', $bytes) . $rcmail->gettext($unit);
         }
 
-        // @phpstan-ignore-next-line
         return $str;
     }
 

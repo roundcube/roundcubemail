@@ -25,7 +25,6 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
 {
     public const GOOGIE_HOST = 'https://spell.roundcube.net';
 
-    private $matches = [];
     private $content;
 
     /**
@@ -54,11 +53,11 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
     {
         $this->content = $text;
 
-        $matches = [];
-
         if (empty($text)) {
-            return $this->matches = $matches;
+            return true;
         }
+
+        $this->matches = $matches = [];
 
         $rcube = rcube::get_instance();
         $client = $rcube->get_http_client();
@@ -105,8 +104,8 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             preg_match_all('/<c o="([^"]*)" l="([^"]*)" s="([^"]*)">([^<]*)<\/c>/', $response_body, $matches, \PREG_SET_ORDER);
 
             // skip exceptions (if appropriate options are enabled)
-            foreach ($matches as $idx => $m) {
-                $word = mb_substr($text, $m[1], $m[2], RCUBE_CHARSET);
+            foreach ($matches as $idx => $match) {
+                $word = mb_substr($text, $match[1], $match[2], RCUBE_CHARSET);
                 // skip  exceptions
                 if ($this->dictionary->is_exception($word)) {
                     unset($matches[$idx]);
@@ -114,7 +113,9 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
             }
         }
 
-        return $this->matches = $matches;
+        $this->matches = $matches;
+
+        return count($this->matches) == 0;
     }
 
     /**
@@ -124,10 +125,10 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
      */
     public function get_suggestions($word)
     {
-        $matches = $word ? $this->check($word) : $this->matches;
+        $this->check($word);
 
-        if (!empty($matches[0][4])) {
-            $suggestions = explode("\t", $matches[0][4]);
+        if (!empty($this->matches[0][4])) {
+            $suggestions = explode("\t", $this->matches[0][4]);
             if (count($suggestions) > self::MAX_SUGGESTIONS) {
                 $suggestions = array_slice($suggestions, 0, self::MAX_SUGGESTIONS);
             }
@@ -146,15 +147,14 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
     public function get_words($text = null)
     {
         if ($text) {
-            $matches = $this->check($text);
+            $this->check($text);
         } else {
-            $matches = $this->matches;
             $text = $this->content;
         }
 
         $result = [];
 
-        foreach ($matches as $m) {
+        foreach ($this->matches as $m) {
             $result[] = mb_substr($text, $m[1], $m[2], RCUBE_CHARSET);
         }
 

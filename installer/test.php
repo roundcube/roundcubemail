@@ -102,7 +102,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 <p>Roundcube may need to write/save files into these directories</p>
 <?php
 
-$dirs[] = !empty($RCI->config['temp_dir']) ? $RCI->config['temp_dir'] : 'temp';
+$dirs = [!empty($RCI->config['temp_dir']) ? $RCI->config['temp_dir'] : 'temp'];
 if ($RCI->config['log_driver'] != 'syslog') {
     $dirs[] = $RCI->config['log_dir'] ?: 'logs';
 }

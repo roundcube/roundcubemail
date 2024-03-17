@@ -26,7 +26,6 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
     public const SERVICE_HOST = 'service.afterthedeadline.com';
     public const SERVICE_PORT = 80;
 
-    private $matches = [];
     private $content;
     private $langhosts = [
         'fr' => 'fr.',
@@ -128,7 +127,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
             $result = new SimpleXMLElement($response);
         } catch (Exception $e) {
             $this->error = 'Unexpected response from server: ' . $response;
-            return [];
+            return false;
         }
 
         $matches = [];
@@ -161,7 +160,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
 
         $this->matches = $matches;
 
-        return $matches;
+        return count($matches) == 0;
     }
 
     /**
@@ -171,10 +170,10 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      */
     public function get_suggestions($word)
     {
-        $matches = $word ? $this->check($word) : $this->matches;
+        $this->check($word);
 
-        if (!empty($matches[0][4])) {
-            return $matches[0][4];
+        if (!empty($this->matches[0][4])) {
+            return $this->matches[0][4];
         }
 
         return [];
@@ -188,15 +187,14 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
     public function get_words($text = null)
     {
         if ($text) {
-            $matches = $this->check($text);
+            $this->check($text);
         } else {
-            $matches = $this->matches;
             $text = $this->content;
         }
 
         $result = [];
 
-        foreach ($matches as $m) {
+        foreach ($this->matches as $m) {
             $result[] = mb_substr($text, $m[1], $m[2], RCUBE_CHARSET);
         }
 

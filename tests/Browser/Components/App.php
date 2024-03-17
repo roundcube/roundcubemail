@@ -38,8 +38,7 @@ class App extends Component
      */
     public function elements()
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -52,8 +51,8 @@ class App extends Component
     public function assertEnv($browser, $key, $expected = null)
     {
         if (is_array($key)) {
-            foreach ($key as $name => $expected) {
-                Assert::assertEquals($expected, $browser->getEnv($name));
+            foreach ($key as $name => $value) {
+                Assert::assertEquals($value, $browser->getEnv($name));
             }
         } else {
             Assert::assertEquals($expected, $browser->getEnv($key));

@@ -24,7 +24,6 @@
 class rcube_spellchecker_pspell extends rcube_spellchecker_engine
 {
     private $plink;
-    private $matches = [];
 
     /**
      * Return a list of languages supported by this backend
@@ -87,7 +86,7 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
         $this->init();
 
         if (!$this->plink) {
-            return [];
+            return false;
         }
 
         // tokenize
@@ -116,7 +115,9 @@ class rcube_spellchecker_pspell extends rcube_spellchecker_engine
             $diff += (strlen($word) - $len);
         }
 
-        return $this->matches = $matches;
+        $this->matches = $matches;
+
+        return count($this->matches) == 0;
     }
 
     /**
