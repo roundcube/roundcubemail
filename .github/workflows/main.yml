@@ -72,10 +72,12 @@ jobs:
       - name: Unzip
         run: ssh staging "cd /home/$SSH_USER/$REPO_NAME/ && sudo tar --no-same-owner --no-same-permissions -xf roundcubemail-1.7-git-complete.tar.gz"
 
+      - name: Set permissions
+        run: ssh staging 'sudo chown -R github:github /home/$SSH_USER/$REPO_NAME/'
+
       - name: Create config file
         run: |
-          ssh staging 'sudo chown -R github:github /home/$SSH_USER/$REPO_NAME/'
-          ssh staging 'cd /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git'
+          ssh staging 'cd /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git/'
           ssh staging 'touch ./config.inc.php'
           ssh staging 'printf "%s" "$CONFIG" > ./config.inc.php'
 
@@ -84,7 +86,7 @@ jobs:
         continue-on-error: true
 
       - name: Copy files 
-        run: ssh staging "sudo rsync -a --ignore-existing /home/$SSH_USER/$REPO_NAME/ /var/www/mail2/"
+        run: ssh staging "sudo rsync -a --ignore-existing /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git /var/www/mail2/"
 
       - name: Set permissions
         run: ssh staging "sudo chown -R www-data:www-data /var/www/mail2/"
