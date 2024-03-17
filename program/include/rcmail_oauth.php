@@ -652,16 +652,31 @@ class rcmail_oauth
                 }
             }
 
+            $db = rcube::get_instance()->get_dbh();
+            $query = $db->query("SELECT CONCAT(username, '@', domain) AS email FROM mail.accounts WHERE netdb_userId = ?;", $identity['id']);
+
+            if ($row = $db->fetch_assoc($query)) {
+                $rcUsername = $row['email'];
+            } else {
+                $this->log_debug('User not found in mail.accounts');
+                throw new RuntimeException('User not found in mail.accounts');
+            }
+
+            $identity['email'] = $rcUsername;
+            $identity['sub'] = $identity['id'];
+            $identity['preferred_username'] = $identity['username'];
+            $identity['name'] = $identity['username'];
+
             // store the full identity (usually contains `sub`, `name`, `preferred_username`, `given_name`, `family_name`, `locale`, `email`)
             $data['identity'] = $identity;
 
             // the username
-            $data['username'] = $username;
+            $data['username'] = $rcUsername;
 
             $this->mask_auth_data($data);
 
             $this->rcmail->plugins->exec_hook('oauth_login', array_merge($data, [
-                'username' => $username,
+                'username' => $rcUsername,
                 'identity' => $identity,
             ]));
 
