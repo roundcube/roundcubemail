@@ -2049,7 +2049,7 @@ class rcube_imap extends rcube_storage
             for ($i = 0; $i < count($part); $i++) {
                 // fetch message headers if message/rfc822 or named part
                 if (is_array($part[$i]) && !is_array($part[$i][0])) {
-                    $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : $i + 1;
+                    $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : strval($i + 1);
                     if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
                         $mime_part_headers[] = $tmp_part_id;
                     } elseif ($this->is_attachment_part($part[$i])) {
@@ -2071,7 +2071,7 @@ class rcube_imap extends rcube_storage
                 if (!is_array($part[$i])) {
                     break;
                 }
-                $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : $i + 1;
+                $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : strval($i + 1);
                 $struct->parts[] = $this->structure_part($part[$i], ++$count, $struct->mime_id,
                     !empty($mime_part_headers[$tmp_part_id]) ? $mime_part_headers[$tmp_part_id] : null);
             }
@@ -2175,7 +2175,7 @@ class rcube_imap extends rcube_storage
                     break;
                 }
 
-                $subpart_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : $i + 1;
+                $subpart_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : strval($i + 1);
 
                 if ($this->is_attachment_part($part[8][$i])) {
                     $mime_part_headers[] = $subpart_id;

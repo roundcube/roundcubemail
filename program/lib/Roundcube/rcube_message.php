@@ -1068,10 +1068,10 @@ class rcube_message
             // use part ID index to prevent from duplicates
             switch ($type) {
                 case 'inline':
-                    $this->inline_parts[(string) $part->mime_id] = $part;
+                    $this->inline_parts[$part->mime_id] = $part;
                     break;
                 case 'attachment':
-                    $this->attachments[(string) $part->mime_id] = $part;
+                    $this->attachments[$part->mime_id] = $part;
                     break;
                 default:
                     $this->parts[] = $part;

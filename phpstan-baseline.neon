@@ -1,61 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 2
-			path: plugins/acl/acl.php
-
-		-
-			message: "#^Foreach overwrites \\$name with its value variable\\.$#"
-			count: 1
-			path: plugins/acl/acl.php
-
-		-
-			message: "#^Foreach overwrites \\$user with its value variable\\.$#"
-			count: 1
-			path: plugins/acl/acl.php
-
-		-
-			message: "#^Implicit array creation is not allowed \\- variable \\$acl_special might not exist\\.$#"
-			count: 1
-			path: plugins/acl/acl.php
-
-		-
-			message: "#^Implicit array creation is not allowed \\- variable \\$fields does not exist\\.$#"
-			count: 1
-			path: plugins/acl/acl.php
-
-		-
-			message: "#^Empty array passed to foreach\\.$#"
-			count: 2
-			path: plugins/archive/archive.php
-
-		-
-			message: "#^Foreach overwrites \\$uids with its value variable\\.$#"
-			count: 2
-			path: plugins/archive/archive.php
-
-		-
-			message: "#^If condition is always false\\.$#"
-			count: 2
-			path: plugins/archive/archive.php
-
-		-
-			message: "#^Offset 0 does not exist on array\\{\\}\\.$#"
-			count: 1
-			path: plugins/archive/archive.php
-
-		-
-			message: "#^Property runlog\\:\\:\\$debug_messages is never read, only written\\.$#"
-			count: 1
-			path: plugins/debug_logger/runlog/runlog.php
-
-		-
-			message: "#^Property runlog\\:\\:\\$start_time is never read, only written\\.$#"
-			count: 1
-			path: plugins/debug_logger/runlog/runlog.php
-
-		-
 			message: "#^Call to function method_exists\\(\\) with Crypt_GPG_SubKey and 'getCreationDateTime' will always evaluate to true\\.$#"
 			count: 1
 			path: plugins/enigma/lib/enigma_driver_gnupg.php
@@ -2109,11 +2054,6 @@ parameters:
 			message: "#^Property rcube\\:\\:\\$storage \\(rcube_storage\\|null\\) does not accept StorageMock\\.$#"
 			count: 1
 			path: tests/ActionTestCase.php
-
-		-
-			message: "#^Property rcube_message_part\\:\\:\\$mime_id \\(string\\) does not accept int\\.$#"
-			count: 1
-			path: tests/Actions/Mail/Index.php
 
 		-
 			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\App\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"
