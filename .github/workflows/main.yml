@@ -74,7 +74,7 @@ jobs:
 
       - name: Create config file
         shell: bash
-        run: ssh staging "cd /home/$SSH_USER/$REPO_NAME/ && sudo echo "$CONFIG" >> config.inc.php"
+        run: ssh staging "cd /home/$SSH_USER/$REPO_NAME/ && echo "$CONFIG" > ./config.inc.php"
 
       - name: Delete current deployed files
         run: ssh staging 'sudo rm -r -d /var/www/mail2/'
