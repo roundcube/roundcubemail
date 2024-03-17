@@ -247,7 +247,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $action = new rcmail_action_mail_index();
         $part = new rcube_message_part();
-        $part->mime_id = 1;
+        $part->mime_id = '1';
 
         $part->mimetype = 'text/html';
         $this->assertSame('HTML Message', $action->attachment_name($part));

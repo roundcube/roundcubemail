@@ -142,7 +142,7 @@ class archive extends rcube_plugin
         $sort_col = rcmail_action_mail_index::sort_column();
         $sort_ord = rcmail_action_mail_index::sort_order();
         $count = 0;
-        $uids = null;
+        $all = false;
 
         // this way response handler for 'move' action will be executed
         $rcmail->action = 'move';
@@ -154,6 +154,7 @@ class archive extends rcube_plugin
         ];
 
         foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
+            $all = $uids === '*';
             if (!$this->archive_folder || $mbox === $this->archive_folder || strpos($mbox, $archive_prefix) === 0) {
                 $count = count($uids);
                 continue;
@@ -213,15 +214,16 @@ class archive extends rcube_plugin
                     $execute[$folder][] = $message->uid;
                 }
 
-                foreach ($execute as $folder => $uids) {
+                foreach ($execute as $folder => $_uids) {
                     // create archive subfolder if it doesn't yet exist
                     $this->subfolder_worker($folder);
 
-                    $count += $this->move_messages_worker($uids, $mbox, $folder, $read_on_move);
+                    $count += $this->move_messages_worker($_uids, $mbox, $folder, $read_on_move);
                 }
             }
         }
 
+        // @phpstan-ignore-next-line
         if ($this->result['error']) {
             if (!$from_show_action) {
                 $rcmail->output->command('list_mailbox');
@@ -262,7 +264,7 @@ class archive extends rcube_plugin
         $pages = ceil($msg_count / $page_size);
         $nextpage_count = $old_count - $page_size * $page;
         $remaining = $msg_count - $page_size * ($page - 1);
-        $quota_root = $multifolder ? $this->result['sources'][0] : 'INBOX';
+        $quota_root = $multifolder ? $this->result['sources'][0] : 'INBOX'; // @phpstan-ignore-line
         $jump_back = false;
 
         // jump back one page (user removed the whole last page)
@@ -274,6 +276,7 @@ class archive extends rcube_plugin
         }
 
         // update unread messages counts for all involved folders
+        // @phpstan-ignore-next-line
         foreach ($this->result['sources'] as $folder) {
             rcmail_action_mail_index::send_unread_count($folder, true);
         }
@@ -291,7 +294,7 @@ class archive extends rcube_plugin
         }
 
         // add new rows from next page (if any)
-        if ($addrows && $count && $uids != '*' && ($jump_back || $nextpage_count > 0)) {
+        if ($addrows && $count && !$all && ($jump_back || $nextpage_count > 0)) {
             // #5862: Don't add more rows than it was on the next page
             $count = $jump_back ? null : min($nextpage_count, $count);
 
@@ -300,12 +303,14 @@ class archive extends rcube_plugin
             rcmail_action_mail_index::js_message_list($a_headers, false);
         }
 
+        // @phpstan-ignore-next-line
         if ($this->result['reload']) {
             $rcmail->output->show_message($this->gettext('archivedreload'), 'confirmation');
         } else {
             $rcmail->output->show_message($this->gettext('archived'), 'confirmation');
 
             if (!$read_on_move) {
+                // @phpstan-ignore-next-line
                 foreach ($this->result['destinations'] as $folder) {
                     rcmail_action_mail_index::send_unread_count($folder, true);
                 }

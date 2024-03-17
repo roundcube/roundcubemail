@@ -322,9 +322,9 @@ class acl extends rcube_plugin
         $textfield = new html_inputfield($attrib);
 
         $label = html::label(['for' => $attrib['id'], 'class' => 'input-group-text'], $this->gettext('username'));
-        $fields['user'] = html::div('input-group',
-            html::span('input-group-prepend', $label) . ' ' . $textfield->show()
-        );
+        $fields = [
+            'user' => html::div('input-group', html::span('input-group-prepend', $label) . ' ' . $textfield->show()),
+        ];
 
         // Add special entries
         if (!empty($this->specials)) {
@@ -371,6 +371,7 @@ class acl extends rcube_plugin
         }
 
         // Keep special entries (anyone/anonymous) on top of the list
+        $acl_special = [];
         if (!empty($this->specials) && !empty($acl)) {
             foreach ($this->specials as $key) {
                 if (isset($acl[$key])) {
@@ -489,12 +490,12 @@ class acl extends rcube_plugin
     private function action_save()
     {
         $mbox = trim(rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true)); // UTF7-IMAP
-        $user = trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST));
+        $users = trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST));
         $acl = trim(rcube_utils::get_input_string('_acl', rcube_utils::INPUT_POST));
         $oldid = trim(rcube_utils::get_input_string('_old', rcube_utils::INPUT_POST));
 
         $acl = array_intersect(str_split($acl), $this->rights_supported());
-        $users = $oldid ? [$user] : explode(',', $user);
+        $users = $oldid ? [$users] : explode(',', $users);
         $result = 0;
         $self = $this->rc->get_user_name();
 
@@ -636,8 +637,8 @@ class acl extends rcube_plugin
     /**
      * Compares two ACLs (according to supported rights)
      *
-     * @param array $acl1 ACL rights array (or string)
-     * @param array $acl2 ACL rights array (or string)
+     * @param array|string $acl1 ACL rights array (or string)
+     * @param array|string $acl2 ACL rights array (or string)
      *
      * @return int Comparison result, 2 - full match, 1 - partial match, 0 - no match
      */
@@ -718,8 +719,8 @@ class acl extends rcube_plugin
             $acl = $this->rc->storage->get_acl('INBOX');
             if (is_array($acl)) {
                 $regexp = '/^' . preg_quote($self, '/') . '@(.*)$/';
-                foreach (array_keys($acl) as $name) {
-                    if (preg_match($regexp, $name, $matches)) {
+                foreach (array_keys($acl) as $user) {
+                    if (preg_match($regexp, $user, $matches)) {
                         $domain = $matches[1];
                         break;
                     }
