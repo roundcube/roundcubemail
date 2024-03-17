@@ -1796,11 +1796,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_result_thread.php
 
 		-
-			message: "#^Method rcube_result_thread\\:\\:get_element\\(\\) should return int but returns null\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_result_thread.php
-
-		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_result_thread.php
@@ -2254,33 +2249,3 @@ parameters:
 			message: "#^Return type \\(bool\\|string\\) of method Installer\\:\\:getUrl\\(\\) should be covariant with return type \\(string\\) of method Laravel\\\\Dusk\\\\Console\\\\ChromeDriverCommand\\:\\:getUrl\\(\\)$#"
 			count: 1
 			path: tests/Browser/install.php
-
-		-
-			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get first element' will always evaluate to false\\.$#"
-			count: 1
-			path: tests/Framework/ResultThread.php
-
-		-
-			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get last element' will always evaluate to false\\.$#"
-			count: 1
-			path: tests/Framework/ResultThread.php
-
-		-
-			message: "#^Call to method PHPUnit\\\\Framework\\\\Assert\\:\\:assertNull\\(\\) with int and 'Get specified…' will always evaluate to false\\.$#"
-			count: 1
-			path: tests/Framework/ResultThread.php
-
-		-
-			message: "#^Implicit array creation is not allowed \\- variable \\$data does not exist\\.$#"
-			count: 1
-			path: tests/Framework/Text2Html.php
-
-		-
-			message: "#^Right side of && is always false\\.$#"
-			count: 1
-			path: tests/Rcmail/Rcmail.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
-			path: tests/Rcmail/Utils.php
