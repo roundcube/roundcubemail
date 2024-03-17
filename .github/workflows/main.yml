@@ -75,7 +75,7 @@ jobs:
       - name: Create config file
         run: |
           ssh staging 'sudo chown -R github:github /home/$SSH_USER/$REPO_NAME/'
-          ssh staging 'cd /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git'
+          ssh staging 'cd /home/$SSH_USER/$REPO_NAME'
           ssh staging 'printf "%s" "$CONFIG" > config.inc.php'
 
       - name: Delete current deployed files
