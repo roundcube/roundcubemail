@@ -2238,9 +2238,12 @@ class rcmail_output_html extends rcmail_output
 
         // Current username is an e-mail address
         if (isset($_SESSION['username']) && strpos($_SESSION['username'], '@')) {
-            $username = $_SESSION['username'];
+            if ($this->app->user->isNetdbLogin) {
+                $username = $this->app->user->netdbMailAdress;
+            } else {
+                $username = $_SESSION['username'];
+            }
         }
-        // get e-mail address from default identity
         elseif ($sql_arr = $this->app->user->get_identity()) {
             $username = $sql_arr['email'];
         } else {

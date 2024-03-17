@@ -83,7 +83,7 @@ class rcube_user
             $this->language = $sql_arr['language'];
 
             //check if user email ends with netdb.at
-            if (strpos($sql_arr['username'], '@netdb.at') !== false) {
+            if (strpos($sql_arr['username'], '@netdb.at') === false) {
                 $this->isNetdbLogin = true;
 
                 $query = $this->db->query("SELECT CONCAT(a.username, '@', a.domain) AS email FROM mail.accounts a LEFT JOIN UserDb.users u ON u.id = a.netdb_userId WHERE u.email = ?;", $sql_arr['username']);
@@ -93,8 +93,6 @@ class rcube_user
                 if ($row)
                     $this->netdbMailAdress = $row['email'];
             }
-
-            $this->data["username"] = $this->get_username('mail');
         }
     }
 
@@ -107,28 +105,6 @@ class rcube_user
      */
     public function get_username($part = null)
     {
-        if ($this->isNetdbLogin) {
-            [$local, $domain] = rcube_utils::explode('@', $this->netdbMailAdress);
-
-            if ($part == 'local') {
-                return $local;
-            }
-
-            if (empty($domain)) {
-                $domain = $this->rc->config->mail_domain($this->data['mail_host']);
-            }
-
-            if ($part == 'domain') {
-                return $domain;
-            }
-
-            if (!empty($domain)) {
-                return $local . '@' . $domain;
-            }
-
-            return $local;
-        }
-
         if (!empty($this->data['username'])) {
             // return real name
             if (!$part) {
