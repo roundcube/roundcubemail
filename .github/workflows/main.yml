@@ -73,7 +73,7 @@ jobs:
         run: ssh staging "cd /home/$SSH_USER/$REPO_NAME/ && sudo tar --no-same-owner --no-same-permissions -xf roundcubemail-1.7-git-complete.tar.gz"
 
       - name: Set permissions
-        run: ssh staging 'sudo chown -R github:github /home/$SSH_USER/$REPO_NAME/'
+        run: ssh staging 'sudo chown -R github:github /home/$SSH_USER/$REPO_NAME/ && sudo chmod -R o+rwx /home/$SSH_USER/$REPO_NAME/'
 
       - name: Create config file
         run: |
