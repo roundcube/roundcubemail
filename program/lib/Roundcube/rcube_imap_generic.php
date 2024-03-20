@@ -931,13 +931,18 @@ class rcube_imap_generic
         $result = null;
 
         // check for supported auth methods
-        if (!$auth_method || $auth_method == 'CHECK') {
+        if (!$auth_method || $auth_method === 'CHECK' || $auth_method === 'OAUTH') {
             if ($auth_caps = $this->getCapability('AUTH')) {
                 $auth_methods = $auth_caps;
             }
 
             // Use best (for security) supported authentication method
             $all_methods = ['DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN'];
+
+            // special case of OAUTH, use the supported method
+            if ($auth_method === 'OAUTH') {
+                $all_methods = ['OAUTHBEARER', 'XOAUTH2'];
+            }
 
             if (!empty($this->prefs['gssapi_cn'])) {
                 array_unshift($all_methods, 'GSSAPI');
