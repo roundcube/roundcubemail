@@ -75,17 +75,17 @@ class enigma_driver_phpssl extends enigma_driver
 
     public function encrypt($text, $keys, $sign_key = null)
     {
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     public function decrypt($text, $keys = [], &$signature = null)
     {
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     public function sign($text, $key, $mode = null)
     {
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     public function verify($struct, $message)
@@ -128,37 +128,37 @@ class enigma_driver_phpssl extends enigma_driver
 
         return $sig;
         */
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     public function import($content, $isfile = false, $passwords = [])
     {
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     public function export($key, $with_private = false, $passwords = [])
     {
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     public function list_keys($pattern = '')
     {
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     public function get_key($keyid)
     {
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     public function gen_key($data)
     {
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     public function delete_key($keyid)
     {
-        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
     /**

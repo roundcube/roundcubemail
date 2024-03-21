@@ -1126,7 +1126,7 @@ class enigma_engine
      * @param ?resource $fp              Optional output stream
      * @param bool      $include_private Include private key
      *
-     * @return string|null|enigma_error Key content (Null if writing to a file) or enigma_error
+     * @return string|enigma_error|null Key content (Null if writing to a file) or enigma_error
      */
     public function export_key($key, $fp = null, $include_private = false)
     {
