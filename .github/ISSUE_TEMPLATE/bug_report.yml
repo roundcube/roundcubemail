@@ -1,0 +1,68 @@
+name: Report a bug
+description: Describet a bug or issue you may have identified in Roundcube.
+title: "Provide a general summary of the issue"
+labels: []
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **IMPORTANT!** If you have problems with your email account (e.g. cannot log in, emails got lost, etc.) or if you have questions how to configure your Outlook or mobile phone to get email, this isn't the right place to ask. **Roundcube is not a service but free software which somebody installed for you.**
+
+        Please contact your internet hosting provider or IT responsible instead. If you don't know who this might be, please review your bills and find out who you're paying for email and webhosting services.
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have [searched](https://github.com/roundcube/roundcubemail/issues?q=is%3Aissue) for duplicate or closed issues
+          required: true
+        - label: I can recreate the issue with all plugins disabled
+          required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Describe the issue
+      description: Provide a summary of the issue and what you expected to happen, including specific steps to reproduce.
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Environment
+  - type: dropdown
+    id: browser
+    attributes:
+      label: What browser(s) are you seeing the problem on?
+      multiple: true
+      options:
+        - Chrome
+        - Edge
+        - Firefox
+        - Safari
+        - Other
+  - type: input
+    id: php
+    attributes:
+      label: What version of PHP are you using?
+      placeholder: "e.g., v7.2 or v8.1"
+  - type: input
+    id: version
+    attributes:
+      label: What version of Roundcube are you using?
+      placeholder: "e.g., v1.5.2 or v1.6.6"
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Logs
+  - type: textarea
+    id: js-errors
+    attributes:
+      label: JavaScript errors
+      description: Provide any relevant entries from the browser's JavaScript console.
+  - type: textarea
+    id: logs
+    attributes:
+      label: PHP errors
+      description: Provide any relevant entries from the Roundcube error log.

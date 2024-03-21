@@ -1,0 +1,28 @@
+name: Feature request
+description: Suggest new or updated features to include in Roundcube.
+title: "Suggest a new feature"
+labels: []
+assignees: []
+body:
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have [searched](https://github.com/roundcube/roundcubemail/issues?q=is%3Aissue) for duplicate or closed feature requests
+          required: true
+        - label: I have [searched](https://plugins.roundcube.net/) for plugins that provide already provide the feature
+          required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the new feature you would like to see in Roundcube.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation and context
+      description: Tell us why this change is needed or helpful, and what problems it may help solve.
+    validations:
+      required: true
