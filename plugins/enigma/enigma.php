@@ -125,7 +125,7 @@ class enigma extends rcube_plugin
             $this->load_env();
 
             // Load UI
-            $this->ui = new enigma_ui($this, $this->home);
+            $this->ui = new enigma_ui($this);
         }
 
         if ($all) {
@@ -146,7 +146,7 @@ class enigma extends rcube_plugin
         // load config/localization
         $this->load_env();
 
-        return $this->engine = new enigma_engine($this);
+        return $this->engine = new enigma_engine();
     }
 
     /**

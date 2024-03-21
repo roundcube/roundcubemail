@@ -124,6 +124,7 @@ class rcube_message_part
     public $d_parameters = [];
     public $ctype_parameters = [];
     public $body_modified = false;
+    public $need_decryption = false;
 
     /**
      * Clone handler.

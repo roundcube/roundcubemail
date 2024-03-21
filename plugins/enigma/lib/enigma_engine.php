@@ -24,7 +24,6 @@
 class enigma_engine
 {
     private $rc;
-    private $enigma;
     private $pgp_driver;
     private $smime_driver;
     private $password_time;
@@ -48,10 +47,9 @@ class enigma_engine
     /**
      * Plugin initialization.
      */
-    public function __construct($enigma)
+    public function __construct()
     {
         $this->rc = rcmail::get_instance();
-        $this->enigma = $enigma;
 
         $this->password_time = $this->rc->config->get('enigma_password_time') * 60;
 
@@ -76,13 +74,6 @@ class enigma_engine
         // Load driver
         $this->pgp_driver = new $driver($username);
 
-        if (!$this->pgp_driver) {
-            rcube::raise_error([
-                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: Unable to load PGP driver: {$driver}",
-            ], true, true);
-        }
-
         // Initialise driver
         $result = $this->pgp_driver->init();
 
@@ -105,13 +96,6 @@ class enigma_engine
 
         // Load driver
         $this->smime_driver = new $driver($username);
-
-        if (!$this->smime_driver) {
-            rcube::raise_error([
-                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Enigma plugin: Unable to load S/MIME driver: {$driver}",
-            ], true, true);
-        }
 
         // Initialise driver
         $result = $this->smime_driver->init();
@@ -372,7 +356,7 @@ class enigma_engine
         // On mail compose (edit/reply/forward) we support encrypted content only
         // in the first "content part" of the message.
         if ($got_content && $this->rc->task == 'mail' && $this->rc->action == 'compose') {
-            return;
+            return $p;
         }
 
         // Get the message/part sender
@@ -766,16 +750,16 @@ class enigma_engine
             // and send the message using inline PGP" in Thunderbird's Enigmail.
 
             if (!empty($p['object']->mime_parts[$parent])) {
-                foreach ((array) $p['object']->mime_parts[$parent]->parts as $p) {
-                    if ($p->disposition == 'attachment' && $p->mimetype == 'application/octet-stream'
-                        && preg_match('/^(.*)\.pgp$/i', $p->filename, $m)
+                foreach ((array) $p['object']->mime_parts[$parent]->parts as $_part) {
+                    if ($_part->disposition == 'attachment' && $_part->mimetype == 'application/octet-stream'
+                        && preg_match('/^(.*)\.pgp$/i', $_part->filename, $m)
                     ) {
                         // modify filename
-                        $p->filename = $m[1];
+                        $_part->filename = $m[1];
                         // flag the part, it will be decrypted when needed
-                        $p->need_decryption = true;
+                        $_part->need_decryption = true;
                         // disable caching
-                        $p->body_modified = true;
+                        $_part->body_modified = true;
                     }
                 }
             }
@@ -784,12 +768,12 @@ class enigma_engine
         // been cached with the modified parts (see above),
         // let's bring the original state back
         elseif (!empty($p['object']->mime_parts[$parent])) {
-            foreach ((array) $p['object']->mime_parts[$parent]->parts as $p) {
-                if ($p->need_decryption && !preg_match('/^(.*)\.pgp$/i', $p->filename, $m)) {
+            foreach ((array) $p['object']->mime_parts[$parent]->parts as $_part) {
+                if ($_part->need_decryption && !preg_match('/^(.*)\.pgp$/i', $_part->filename, $m)) {
                     // modify filename
-                    $p->filename .= '.pgp';
+                    $_part->filename .= '.pgp';
                     // flag the part, it will be decrypted when needed
-                    unset($p->need_decryption);
+                    unset($_part->need_decryption);
                 }
             }
         }
@@ -1138,11 +1122,11 @@ class enigma_engine
     /**
      * PGP keys/certs export.
      *
-     * @param string   $key             Key ID
-     * @param resource $fp              Optional output stream
-     * @param bool     $include_private Include private key
+     * @param string    $key             Key ID
+     * @param ?resource $fp              Optional output stream
+     * @param bool      $include_private Include private key
      *
-     * @return mixed Key content or enigma_error
+     * @return string|null|enigma_error Key content (Null if writing to a file) or enigma_error
      */
     public function export_key($key, $fp = null, $include_private = false)
     {
@@ -1156,9 +1140,10 @@ class enigma_engine
 
         if ($fp) {
             fwrite($fp, $result);
-        } else {
-            return $result;
+            return null;
         }
+
+        return $result;
     }
 
     /**

@@ -17,7 +17,7 @@
 class enigma_driver_phpssl extends enigma_driver
 {
     private $rc;
-    private $homedir;
+    private $homedir; // @phpstan-ignore-line
     private $user;
 
     public function __construct($user)
@@ -31,7 +31,7 @@ class enigma_driver_phpssl extends enigma_driver
      * Driver initialization and environment checking.
      * Should only return critical errors.
      *
-     * @return mixed NULL on success, enigma_error on failure
+     * @return enigma_error|null NULL on success, enigma_error on failure
      */
     public function init()
     {
@@ -69,13 +69,24 @@ class enigma_driver_phpssl extends enigma_driver
         }
 
         $this->homedir = $homedir;
+
+        return null;
     }
 
-    public function encrypt($text, $keys, $sign_key = null) {}
+    public function encrypt($text, $keys, $sign_key = null)
+    {
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+    }
 
-    public function decrypt($text, $keys = [], &$signature = null) {}
+    public function decrypt($text, $keys = [], &$signature = null)
+    {
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+    }
 
-    public function sign($text, $key, $mode = null) {}
+    public function sign($text, $key, $mode = null)
+    {
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+    }
 
     public function verify($struct, $message)
     {
@@ -117,19 +128,38 @@ class enigma_driver_phpssl extends enigma_driver
 
         return $sig;
         */
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
     }
 
-    public function import($content, $isfile = false, $passwords = []) {}
+    public function import($content, $isfile = false, $passwords = [])
+    {
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+    }
 
-    public function export($key, $with_private = false, $passwords = []) {}
+    public function export($key, $with_private = false, $passwords = [])
+    {
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+    }
 
-    public function list_keys($pattern = '') {}
+    public function list_keys($pattern = '')
+    {
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+    }
 
-    public function get_key($keyid) {}
+    public function get_key($keyid)
+    {
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+    }
 
-    public function gen_key($data) {}
+    public function gen_key($data)
+    {
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+    }
 
-    public function delete_key($keyid) {}
+    public function delete_key($keyid)
+    {
+        return new enigma_error(enigma_error::INTERNAL, "Not implemented");
+    }
 
     /**
      * Returns a name of the hash algorithm used for the last
@@ -152,6 +182,7 @@ class enigma_driver_phpssl extends enigma_driver
         return implode("\n", array_values($tmp));
     }
 
+    // @phpstan-ignore-next-line
     private function parse_sig_cert($file, $validity)
     {
         $cert = openssl_x509_parse(file_get_contents($file));

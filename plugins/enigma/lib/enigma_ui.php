@@ -18,7 +18,6 @@ class enigma_ui
 {
     private $rc;
     private $enigma;
-    private $home;
     private $css_loaded;
     private $js_loaded;
     private $data;
@@ -29,13 +28,11 @@ class enigma_ui
      * Object constructor
      *
      * @param enigma $enigma_plugin The plugin instance
-     * @param string $home          Home directory
      */
-    public function __construct($enigma_plugin, $home = '')
+    public function __construct($enigma_plugin)
     {
         $this->enigma = $enigma_plugin;
         $this->rc = $enigma_plugin->rc;
-        $this->home = $home; // we cannot use $enigma_plugin->home here
     }
 
     /**
@@ -687,7 +684,8 @@ class enigma_ui
         // It is also very slow (which is problematic because it may exceed
         // request time limit) and requires entropy generator
         // That's why we use only OpenPGP.js method of key generation
-        return;
+        rcmail::raise_error(['code' => 404, 'message' => 'Key generation not implemented'], true, true);
+
         $user = rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST, true);
         $pass = rcube_utils::get_input_string('_password', rcube_utils::INPUT_POST, true);
         $size = (int) rcube_utils::get_input_value('_size', rcube_utils::INPUT_POST);
@@ -1042,6 +1040,7 @@ class enigma_ui
 
         if ($count = count($messages)) {
             if ($count == 2 && $messages[0]['class'] == $messages[1]['class']) {
+                // @phpstan-ignore-next-line
                 $p['prefix'] .= html::div($messages[0], $messages[0]['msg'] . ' ' . $messages[1]['msg']);
             } else {
                 foreach ($messages as $msg) {
@@ -1190,7 +1189,7 @@ class enigma_ui
             }
 
             if (!empty($msg)) {
-                if (!empty($vars) && !empty($vars['email'])) {
+                if (!empty($vars['email'])) {
                     $this->rc->output->command('enigma_key_not_found', [
                         'email' => $vars['email'],
                         'text' => $this->rc->gettext(['name' => $msg, 'vars' => $vars]),

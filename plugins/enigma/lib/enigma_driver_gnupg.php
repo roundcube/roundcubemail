@@ -545,6 +545,7 @@ class enigma_driver_gnupg extends enigma_driver
             $skey->length = $subkey->getLength();
             $skey->usage = $subkey->usage();
 
+            // @phpstan-ignore-next-line
             if (method_exists($subkey, 'getCreationDateTime')) {
                 $skey->created = $subkey->getCreationDateTime();
                 $skey->expires = $subkey->getExpirationDateTime();
@@ -591,25 +592,25 @@ class enigma_driver_gnupg extends enigma_driver
             $file = $this->homedir . '/' . $record['filename'];
             $mtime = @filemtime($file);
             $files[] = $record['filename'];
+            $file_id = $record['file_id'];
 
             if ($mtime < $record['mtime']) {
-                $data_result = $db->query("SELECT `data`, `mtime` FROM {$table}"
-                    . ' WHERE `file_id` = ?', $record['file_id']
-                );
-
+                $data_result = $db->query("SELECT `data`, `mtime` FROM {$table} WHERE `file_id` = ?", $file_id);
                 $record = $db->fetch_assoc($data_result);
                 $data = $record ? base64_decode($record['data']) : null;
 
-                if ($data === null || $data === false) {
+                // @phpstan-ignore-next-line
+                if (!is_array($data)) {
                     rcube::raise_error([
                         'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
-                        'message' => "Enigma: Failed to sync {$file} ({$record['file_id']}). Decode error.",
+                        'message' => "Enigma: Failed to sync {$file} ({$file_id}). Decode error.",
                     ], true, false);
 
                     continue;
                 }
 
                 // Private keys might be located in 'private-keys-v1.d' subdirectory. Make sure it exists.
+                // @phpstan-ignore-next-line
                 if (strpos($file, '/private-keys-v1.d/')) {
                     if (!file_exists($this->homedir . '/private-keys-v1.d')) {
                         mkdir($this->homedir . '/private-keys-v1.d', 0700);

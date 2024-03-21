@@ -6,7 +6,7 @@ class Enigma_EnigmaEngine extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
-        include_once __DIR__ . '/../enigma.php';
+        // include_once __DIR__ . '/../enigma.php';
         include_once __DIR__ . '/../lib/enigma_engine.php';
     }
 
@@ -16,8 +16,7 @@ class Enigma_EnigmaEngine extends TestCase
     public function test_password_handler()
     {
         $rcube = rcube::get_instance();
-        $plugin = new enigma($rcube->plugins);
-        $engine = new enigma_engine($plugin);
+        $engine = new enigma_engine();
 
         unset($_SESSION['enigma_pass']);
 
