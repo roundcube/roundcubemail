@@ -34,6 +34,8 @@ class enigma_mime_message extends Mail_mime
      */
     public function __construct($message, $type)
     {
+        parent::__construct();
+
         $this->message = $message;
         $this->type = $type;
 
@@ -152,12 +154,12 @@ class enigma_mime_message extends Mail_mime
     /**
      * Builds the multipart message.
      *
-     * @param array    $params    Build parameters that change the way the email
-     *                            is built. Should be associative. See $_build_params.
-     * @param resource $filename  Output file where to save the message instead of
-     *                            returning it
-     * @param bool     $skip_head True if you want to return/save only the message
-     *                            without headers
+     * @param array $params    Build parameters that change the way the email
+     *                         is built. Should be associative. See $_build_params.
+     * @param mixed $filename  Output file where to save the message instead of
+     *                         returning it
+     * @param bool  $skip_head True if you want to return/save only the message
+     *                         without headers
      *
      * @return mixed The MIME message content string, null or PEAR error object
      */
@@ -280,6 +282,7 @@ class enigma_mime_message extends Mail_mime
         $this->checkParams();
 
         $eol = $this->build_params['eol'] ?: "\r\n";
+        $headers = [];
 
         // multipart message: and boundary
         if (!empty($this->build_params['boundary'])) {
