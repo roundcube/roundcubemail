@@ -120,10 +120,12 @@ $config['language'] = 'de_DE';
 
 $config['enable_installer'] = false;
 
+$config['skin'] = 'netdb';
+
 $config['oauth_provider'] = 'generic';
 $config['oauth_provider_name'] = 'Netdb';
-$config['oauth_client_id'] = '0Txf/N51Upy0GK1uev8EPDaYHIhNSoBR';
-$config['oauth_client_secret'] = 'OSAhZDEy4k5sxAqz9CyE9xQEhzksVrD9uoWEpGx9ascRYJaRpEG2oauzKSoSOXV9';
+$config['oauth_client_id'] = '!<oauth_client_id>';
+$config['oauth_client_secret'] = '!<oauth_client_secret>';
 $config['oauth_auth_uri'] = 'https://api.login.netdb.at/oauth/authorize/';
 $config['oauth_token_uri'] = 'https://api.login.netdb.at/oauth/token/';
 $config['oauth_identity_uri'] = 'https://api.login.netdb.at/oauth/me/';

@@ -56,6 +56,10 @@ build: buildtools
 		lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css; \
 		lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css; \
 		lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css)
+	(cd build/skins/netdb; \
+		lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css; \
+		lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css; \
+		lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css)
 	(cd build; $(SEDI) 's/1.7-git/$(VERSION)/' index.php public_html/index.php installer/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
 	(cd build; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 

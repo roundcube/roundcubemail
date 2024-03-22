@@ -35,7 +35,6 @@ jobs:
       SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       SSH_HOST: 194.36.146.51
       REPO_NAME: ${{ github.event.repository.name }}
-      CONFIG: ${{ secrets.CONFIG }}
     steps:
       - name: Download production artifacts
         uses: actions/download-artifact@v4
@@ -71,6 +70,11 @@ jobs:
 
       - name: Unzip
         run: ssh staging "cd /home/$SSH_USER/$REPO_NAME/ && sudo tar --no-same-owner --no-same-permissions -xf roundcubemail-1.7-git-complete.tar.gz"
+
+      - name: Replace Config variables
+        run: | 
+          ssh staging "sudo sed -i 's/!<oauth_client_id>/${{ secrets.OAUTH_CLIENT_ID }}/g' /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git/config/config.inc.php"
+          ssh staging "sudo sed -i 's/!<oauth_client_secret>/${{ secrets.OAUTH_CLIENT_SECRET }}/g' /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git/config/config.inc.php"
 
       - name: Delete current deployed files
         run: ssh staging 'sudo rm -r -d /var/www/mail2/'
