@@ -625,16 +625,22 @@ function rcube_elastic_ui() {
 
         // Display "List is empty..." on the list
         if (window.MutationObserver) {
-            $('[data-label-msg]').filter('ul,table').each(function () {
+            $('[data-label-msg],[data-label-msg-loading],[data-label-empty]').filter('ul,table').each(function () {
                 var info = $('<div class="listing-info hidden">').insertAfter(this),
                     table = $(this),
                     fn = function () {
-                        var ext, command,
-                            msg = table.data('label-msg'),
+                        var ext, command, msg,
                             list = table.is('ul') ? table : table.children('tbody');
 
-                        if (!rcmail.env.search_request && !rcmail.env.qsearch
-                            && msg && !list.children(':visible').length
+                        if (rcmail.busy && table.data('label-msg-loading')) {
+                            msg = table.data('label-msg-loading');
+                            setTimeout(callback, 250);
+                        }
+                        else {
+                            msg = table.data('label-msg-empty') ? table.data('label-msg-empty') : table.data('label-msg');
+                        }
+
+                        if (msg && !list.children(':visible').length
                         ) {
                             ext = table.data('label-ext');
                             command = table.data('create-command');
@@ -651,7 +657,7 @@ function rcube_elastic_ui() {
                     },
                     callback = function () {
                         // wait until the UI stops loading and the list is visible
-                        if (rcmail.busy || !table.is(':visible')) {
+                        if (!table.is(':visible')) {
                             return setTimeout(callback, 250);
                         }
 
