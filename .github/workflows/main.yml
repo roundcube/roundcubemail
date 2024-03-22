@@ -73,8 +73,8 @@ jobs:
 
       - name: Replace Config variables
         run: | 
-          ssh staging "sudo sed -i 's/!<oauth_client_id>/${{ secrets.OAUTH_CLIENT_ID }}/g' /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git/config/config.inc.php"
-          ssh staging "sudo sed -i 's/!<oauth_client_secret>/${{ secrets.OAUTH_CLIENT_SECRET }}/g' /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git/config/config.inc.php"
+          ssh staging "sudo sed -i 's@!<oauth_client_id>@${{ secrets.OAUTH_CLIENT_ID }}@g' /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git/config/config.inc.php"
+          ssh staging "sudo sed -i 's@!<oauth_client_secret>@${{ secrets.OAUTH_CLIENT_SECRET }}@g' /home/$SSH_USER/$REPO_NAME/roundcubemail-1.7-git/config/config.inc.php"
 
       - name: Delete current deployed files
         run: ssh staging 'sudo rm -r -d /var/www/mail2/'
