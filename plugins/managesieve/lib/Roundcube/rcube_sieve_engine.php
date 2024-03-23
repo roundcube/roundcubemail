@@ -30,6 +30,7 @@ class rcube_sieve_engine
     protected $errors;
     protected $form;
     protected $list;
+    protected $master_file;
     protected $tips = [];
     protected $script = [];
     protected $exts = [];
@@ -1475,7 +1476,7 @@ class rcube_sieve_engine
         $_SESSION['managesieve-compact-form'] = $compact;
 
         // do not allow creation of new filters
-        if ($fid === null && in_array('new_filter', $this->disabled_actions)) {
+        if ($fid === '' && in_array('new_filter', $this->disabled_actions)) {
             $this->rc->output->show_message('managesieve.disabledaction', 'error');
             return;
         }
@@ -2248,7 +2249,7 @@ class rcube_sieve_engine
 
             if ($action['type'] == 'redirect') {
                 $parts = explode('@', $action['target']);
-                if (count($parts) > 0) {
+                if (count($parts) > 1) {
                     $action['domain'] = array_pop($parts);
                     $action['target'] = implode('@', $parts);
                 }
@@ -2823,7 +2824,7 @@ class rcube_sieve_engine
     /**
      * List sieve scripts
      *
-     * @return array Scripts list
+     * @return array|false Scripts list
      */
     public function list_scripts()
     {
@@ -3046,7 +3047,7 @@ class rcube_sieve_engine
                     $name .= $extension;
                     $rid = 0;
 
-                    foreach ($script as $rid => $rules) {
+                    foreach ($script as $rules) {
                         foreach ($rules['actions'] as $action) {
                             if ($action['type'] == 'include' && empty($action['global'])
                                 && $action['target'] == $name
@@ -3054,6 +3055,7 @@ class rcube_sieve_engine
                                 break 2;
                             }
                         }
+                        $rid++;
                     }
 
                     // Entry found
@@ -3396,7 +3398,7 @@ class rcube_sieve_engine
         // According to RFC5230 the :from string must specify a valid [RFC2822] mailbox-list
         // we'll try to extract addresses and validate them separately
         $from = rcube_mime::decode_address_list($this->form['actions'][$i][$field], null, true, RCUBE_CHARSET);
-        foreach ((array) $from as $idx => $addr) {
+        foreach ($from as $idx => $addr) {
             if (empty($addr['mailto']) || !rcube_utils::check_email($addr['mailto'])) {
                 $this->errors['actions'][$i][$field] = $this->plugin->gettext('noemailwarning');
                 break;
@@ -3406,7 +3408,7 @@ class rcube_sieve_engine
         }
 
         // Only one address is allowed (at least on cyrus imap)
-        if (is_array($from) && count($from) > 1) {
+        if (count($from) > 1) {
             $this->errors['actions'][$i][$field] = $this->plugin->gettext('noemailwarning');
         }
 

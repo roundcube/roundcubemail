@@ -123,7 +123,7 @@ class rcube_sieve_script
      * @param int   $index   Rule index
      * @param array $content Rule content (as array)
      *
-     * @return bool True on success, False otherwise
+     * @return int|false Rule index on success, False otherwise
      */
     public function update_rule($index, $content)
     {
@@ -146,7 +146,8 @@ class rcube_sieve_script
     public function set_var($name, $value, $mods = [])
     {
         // Check if variable exists
-        for ($i = 0, $len = count($this->vars); $i < $len; $i++) {
+        $i = 0;
+        for ($len = count($this->vars); $i < $len; $i++) {
             if ($this->vars[$i]['name'] == $name) {
                 break;
             }
@@ -653,6 +654,7 @@ class rcube_sieve_script
                     $this->set_var($matches[1], $matches[2]);
                 }
                 // Horde-Ingo format
+                // @phpstan-ignore-next-line
                 elseif (!empty($options['format']) && $options['format'] == 'INGO'
                     && preg_match('/^# (.*)/', $line, $matches)
                 ) {
@@ -711,7 +713,7 @@ class rcube_sieve_script
      * @param string $content   The whole script content
      * @param int    &$position Start position in the script
      *
-     * @return array Rule data
+     * @return array|null Rule data
      */
     private function _tokenize_rule($content, &$position)
     {
@@ -724,6 +726,7 @@ class rcube_sieve_script
         $join = false;
         $join_not = false;
         $length = strlen($content);
+        $tests = [];
 
         // disabled rule (false + comment): if false # .....
         if (preg_match('/^\s*false\s+#\s*/i', substr($content, $position, 20), $m)) {
@@ -906,7 +909,7 @@ class rcube_sieve_script
      * @param int    &$position Start position in the script
      * @param string $end       End of text separator
      *
-     * @return array Array of parsed action type/target pairs
+     * @return array|null Array of parsed action type/target pairs
      */
     private function _parse_actions($content, &$position, $end = '}')
     {
@@ -1185,7 +1188,7 @@ class rcube_sieve_script
      * Escape special chars into quoted string value or multi-line string
      * or list of strings
      *
-     * @param string $str Text or array (list) of strings
+     * @param array|string $str Text or array (list) of strings
      *
      * @return string Result text
      */
@@ -1255,7 +1258,8 @@ class rcube_sieve_script
             switch ($str[$position]) {
                 // Quoted string
                 case '"':
-                    for ($pos = $position + 1; $pos < $length; $pos++) {
+                    $pos = $position + 1;
+                    for ($pos; $pos < $length; $pos++) {
                         if ($str[$pos] == '"') {
                             break;
                         }
@@ -1281,7 +1285,6 @@ class rcube_sieve_script
                 case ']':
                     $position++;
                     return $result;
-                    break;
                     // list/test separator (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case ',':
                     // command separator (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)

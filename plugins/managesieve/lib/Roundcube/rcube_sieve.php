@@ -81,7 +81,8 @@ class rcube_sieve
         $result = $this->sieve->connect($host, $port, $options, $usetls);
 
         if (is_a($result, 'PEAR_Error')) {
-            return $this->_set_error(self::ERROR_CONNECTION);
+            $this->_set_error(self::ERROR_CONNECTION);
+            return;
         }
 
         $authz = null;
@@ -98,7 +99,8 @@ class rcube_sieve
         $result = $this->sieve->login($username, $password, $auth_type ? strtoupper($auth_type) : null, $authz);
 
         if (is_a($result, 'PEAR_Error')) {
-            return $this->_set_error(self::ERROR_LOGIN);
+            $this->_set_error(self::ERROR_LOGIN);
+            return;
         }
 
         $this->exts = $this->get_extensions();
@@ -291,6 +293,8 @@ class rcube_sieve
 
     /**
      * Gets list of supported by server Sieve extensions
+     *
+     * @return array|false
      */
     public function get_extensions()
     {
@@ -321,6 +325,8 @@ class rcube_sieve
 
     /**
      * Gets list of scripts from server
+     *
+     * @return array|false
      */
     public function get_scripts()
     {
