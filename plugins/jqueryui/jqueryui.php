@@ -43,7 +43,6 @@ class jqueryui extends rcube_plugin
         $this->include_script('js/jquery-ui.min.js');
 
         // include UI stylesheet
-        $skin = $rcmail->config->get('skin');
         $ui_map = $rcmail->config->get('jquery_ui_skin_map', self::$skin_map);
         $skins = array_keys($rcmail->output->skins);
         $skins[] = 'elastic';

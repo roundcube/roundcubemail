@@ -253,12 +253,15 @@ class squirrelmail_usercopy extends rcube_plugin
                 . ' WHERE `owner` = ?', $uname); // ? is replaced with emailaddress
 
             // parse address book
-            while ($sql_array = $db->fetch_assoc($sql_result)) { // fetch one row from result
-                $rec['name'] = rcube_charset::convert(rtrim($sql_array['nickname']), $db_charset);
-                $rec['firstname'] = rcube_charset::convert(rtrim($sql_array['firstname']), $db_charset);
-                $rec['surname'] = rcube_charset::convert(rtrim($sql_array['lastname']), $db_charset);
-                $rec['email'] = rcube_charset::convert(rtrim($sql_array['email']), $db_charset);
-                $rec['notes'] = rcube_charset::convert(rtrim($sql_array['label']), $db_charset);
+            // fetch one row from result
+            while ($sql_array = $db->fetch_assoc($sql_result)) {
+                $rec = [
+                    'name' => rcube_charset::convert(rtrim($sql_array['nickname']), $db_charset),
+                    'firstname' => rcube_charset::convert(rtrim($sql_array['firstname']), $db_charset),
+                    'surname' => rcube_charset::convert(rtrim($sql_array['lastname']), $db_charset),
+                    'email' => rcube_charset::convert(rtrim($sql_array['email']), $db_charset),
+                    'notes' => rcube_charset::convert(rtrim($sql_array['label']), $db_charset),
+                ];
 
                 if ($rec['name'] && $rec['email']) {
                     $this->abook[] = $rec;

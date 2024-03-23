@@ -240,11 +240,11 @@ class example_addressbook_backend extends rcube_addressbook
 
     public function add_to_group($group_id, $ids)
     {
-        return false;
+        return 0;
     }
 
     public function remove_from_group($group_id, $ids)
     {
-        return false;
+        return 0;
     }
 }

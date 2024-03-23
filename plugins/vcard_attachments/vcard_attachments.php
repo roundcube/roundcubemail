@@ -211,11 +211,8 @@ class vcard_attachments extends rcube_plugin
 
                 if (!empty($part) && ($part_vcards = rcube_vcard::import($part))) {
                     foreach ($mime_ids as $id) {
-                        if (!empty($part_vcards[$id])
-                            && ($vcard = $part_vcards[$id])
-                            && !empty($vcard->email)
-                            && !empty($vcard->email[0])
-                        ) {
+                        $vcard = $part_vcards[$id] ?? null;
+                        if ($vcard && !empty($vcard->email) && !empty($vcard->email[0])) {
                             $vcards[] = $vcard;
                         }
                     }

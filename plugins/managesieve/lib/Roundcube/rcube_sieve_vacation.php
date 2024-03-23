@@ -196,13 +196,15 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $target_domain = rcube_utils::get_input_string('action_domain', rcube_utils::INPUT_POST);
 
         $interval_type = $interval_type == 'seconds' ? 'seconds' : 'days';
-        $vacation_action['type'] = 'vacation';
-        $vacation_action['reason'] = $this->strip_value(str_replace("\r\n", "\n", $reason), true);
-        $vacation_action['subject'] = trim($subject);
-        $vacation_action['from'] = trim($from);
-        $vacation_action['addresses'] = $addresses;
-        $vacation_action[$interval_type] = $interval;
         $vacation_tests = !empty($this->vacation['tests']) ? $this->vacation['tests'] : [];
+        $vacation_action = [
+            'type' => 'vacation',
+            'reason' => $this->strip_value(str_replace("\r\n", "\n", $reason), true),
+            'subject' => trim($subject),
+            'from' => trim($from),
+            'addresses' => $addresses,
+        ];
+        $vacation_action[$interval_type] = $interval;
 
         foreach ((array) $vacation_action['addresses'] as $aidx => $address) {
             $vacation_action['addresses'][$aidx] = $address = trim($address);
@@ -219,7 +221,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             // According to RFC5230 the :from string must specify a valid [RFC2822] mailbox-list
             // we'll try to extract addresses and validate them separately
             $from = rcube_mime::decode_address_list($vacation_action['from'], null, true, RCUBE_CHARSET);
-            foreach ((array) $from as $idx => $addr) {
+            foreach ($from as $idx => $addr) {
                 if (empty($addr['mailto']) || !rcube_utils::check_email($addr['mailto'])) {
                     $error = $from_error = 'noemailwarning';
                     break;
@@ -229,7 +231,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             }
 
             // Only one address is allowed (at least on cyrus imap)
-            if (is_array($from) && count($from) > 1) {
+            if (count($from) > 1) {
                 $error = $from_error = 'noemailwarning';
             }
 
@@ -438,6 +440,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         $date_format = $this->rc->config->get('date_format', 'Y-m-d');
         $time_format = $this->rc->config->get('time_format', 'H:i');
+        $date_value = [];
 
         if ($date_extension || $regex_extension) {
             $date_from = new html_inputfield(['name' => 'vacation_datefrom', 'id' => 'vacation_datefrom', 'class' => 'datepicker form-control', 'size' => 12]);
@@ -447,7 +450,6 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         if ($date_extension) {
             $time_from = new html_inputfield(['name' => 'vacation_timefrom', 'id' => 'vacation_timefrom', 'size' => 7, 'class' => 'form-control']);
             $time_to = new html_inputfield(['name' => 'vacation_timeto', 'id' => 'vacation_timeto', 'size' => 7, 'class' => 'form-control']);
-            $date_value = [];
 
             if (!empty($this->vacation['tests'])) {
                 foreach ((array) $this->vacation['tests'] as $test) {
@@ -751,11 +753,13 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $date_extension = in_array('date', $this->exts);
         $regex_extension = in_array('regex', $this->exts);
 
-        $vacation['type'] = 'vacation';
-        $vacation['reason'] = $this->strip_value(str_replace("\r\n", "\n", $data['message']), true);
-        $vacation['addresses'] = $data['addresses'];
-        $vacation['subject'] = trim($data['subject']);
-        $vacation['from'] = trim($data['from']);
+        $vacation = [
+            'type' => 'vacation',
+            'reason' => $this->strip_value(str_replace("\r\n", "\n", $data['message']), true),
+            'addresses' => $data['addresses'],
+            'subject' => trim($data['subject']),
+            'from' => trim($data['from']),
+        ];
         $vacation_tests = (array) $this->vacation['tests'];
 
         foreach ((array) $vacation['addresses'] as $aidx => $address) {
