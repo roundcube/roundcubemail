@@ -44,13 +44,13 @@ class rcube
     /** @var ?rcube_db Instance of database class */
     public $db;
 
-    /** @var ?Memcache Instance of Memcache class */
+    /** @var Memcache|false|null Instance of Memcache class */
     public $memcache;
 
-    /** @var ?Memcached Instance of Memcached class */
+    /** @var Memcached|false|null Instance of Memcached class */
     public $memcached;
 
-    /** @var ?Redis Instance of Redis class */
+    /** @var Redis|false|null Instance of Redis class */
     public $redis;
 
     /** @var ?rcube_session Instance of rcube_session class */
@@ -166,7 +166,7 @@ class rcube
     /**
      * Get global handle for memcache access
      *
-     * @return Memcache The memcache engine
+     * @return Memcache|false The memcache engine
      */
     public function get_memcache()
     {
@@ -180,7 +180,7 @@ class rcube
     /**
      * Get global handle for memcached access
      *
-     * @return Memcached The memcached engine
+     * @return Memcached|false The memcached engine
      */
     public function get_memcached()
     {
@@ -194,7 +194,7 @@ class rcube
     /**
      * Get global handle for redis access
      *
-     * @return Redis The redis engine
+     * @return Redis|false The redis engine
      */
     public function get_redis()
     {

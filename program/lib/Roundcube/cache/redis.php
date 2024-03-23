@@ -46,7 +46,7 @@ class rcube_cache_redis extends rcube_cache
     /**
      * Get global handle for redis access
      *
-     * @return Redis
+     * @return Redis|false
      */
     public static function engine()
     {

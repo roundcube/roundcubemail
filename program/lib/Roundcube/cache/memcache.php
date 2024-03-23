@@ -27,7 +27,7 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Instance of memcache handler
      *
-     * @var Memcache
+     * @var Memcache|false|null
      */
     protected static $memcache;
 
@@ -44,7 +44,7 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Get global handle for memcache access
      *
-     * @return Memcache
+     * @return Memcache|false
      */
     public static function engine()
     {

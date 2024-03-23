@@ -611,39 +611,9 @@ parameters:
 			path: program/lib/Roundcube/cache/db.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 3
-			path: program/lib/Roundcube/cache/memcache.php
-
-		-
 			message: "#^Offset non\\-falsy\\-string does not exist on array\\{\\}\\.$#"
 			count: 1
 			path: program/lib/Roundcube/cache/memcache.php
-
-		-
-			message: "#^Static property rcube_cache_memcache\\:\\:\\$memcache \\(Memcache\\) does not accept false\\.$#"
-			count: 2
-			path: program/lib/Roundcube/cache/memcache.php
-
-		-
-			message: "#^Method rcube_cache_memcached\\:\\:engine\\(\\) should return Memcache but returns Memcached\\.$#"
-			count: 1
-			path: program/lib/Roundcube/cache/memcached.php
-
-		-
-			message: "#^Method rcube_cache_memcached\\:\\:engine\\(\\) should return Memcache but returns Memcached\\|false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/cache/memcached.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 3
-			path: program/lib/Roundcube/cache/memcached.php
-
-		-
-			message: "#^Static property rcube_cache_memcached\\:\\:\\$memcache \\(Memcached\\) does not accept false\\.$#"
-			count: 2
-			path: program/lib/Roundcube/cache/memcached.php
 
 		-
 			message: "#^Call to function method_exists\\(\\) with Redis and 'del' will always evaluate to true\\.$#"
@@ -757,11 +727,6 @@ parameters:
 
 		-
 			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Property rcube\\:\\:\\$memcached \\(Memcached\\|null\\) does not accept Memcache\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube.php
 
@@ -1629,131 +1594,6 @@ parameters:
 			message: "#^Variable \\$p might not be defined\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_washtml.php
-
-		-
-			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_db\\:\\:save\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/db.php
-
-		-
-			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_db\\:\\:update\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/db.php
-
-		-
-			message: "#^Parameter \\#2 \\$newvars \\(string\\) of method rcube_session_db\\:\\:update\\(\\) should be contravariant with parameter \\$newvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/db.php
-
-		-
-			message: "#^Parameter \\#2 \\$vars \\(string\\) of method rcube_session_db\\:\\:save\\(\\) should be contravariant with parameter \\$vars \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/db.php
-
-		-
-			message: "#^Parameter \\#3 \\$oldvars \\(string\\) of method rcube_session_db\\:\\:update\\(\\) should be contravariant with parameter \\$oldvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/db.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcache.php
-
-		-
-			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_memcache\\:\\:save\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcache.php
-
-		-
-			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_memcache\\:\\:update\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcache.php
-
-		-
-			message: "#^Parameter \\#2 \\$newvars \\(string\\) of method rcube_session_memcache\\:\\:update\\(\\) should be contravariant with parameter \\$newvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcache.php
-
-		-
-			message: "#^Parameter \\#2 \\$vars \\(string\\) of method rcube_session_memcache\\:\\:save\\(\\) should be contravariant with parameter \\$vars \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcache.php
-
-		-
-			message: "#^Parameter \\#3 \\$oldvars \\(string\\) of method rcube_session_memcache\\:\\:update\\(\\) should be contravariant with parameter \\$oldvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcache.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcached.php
-
-		-
-			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_memcached\\:\\:save\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcached.php
-
-		-
-			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_memcached\\:\\:update\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcached.php
-
-		-
-			message: "#^Parameter \\#2 \\$newvars \\(string\\) of method rcube_session_memcached\\:\\:update\\(\\) should be contravariant with parameter \\$newvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcached.php
-
-		-
-			message: "#^Parameter \\#2 \\$vars \\(string\\) of method rcube_session_memcached\\:\\:save\\(\\) should be contravariant with parameter \\$vars \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcached.php
-
-		-
-			message: "#^Parameter \\#3 \\$oldvars \\(string\\) of method rcube_session_memcached\\:\\:update\\(\\) should be contravariant with parameter \\$oldvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/memcached.php
-
-		-
-			message: "#^Call to function method_exists\\(\\) with Redis and 'del' will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/session/redis.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/session/redis.php
-
-		-
-			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_redis\\:\\:save\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/redis.php
-
-		-
-			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_session_redis\\:\\:update\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/redis.php
-
-		-
-			message: "#^Parameter \\#2 \\$newvars \\(string\\) of method rcube_session_redis\\:\\:update\\(\\) should be contravariant with parameter \\$newvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/redis.php
-
-		-
-			message: "#^Parameter \\#2 \\$vars \\(array\\) of method rcube_session_redis\\:\\:save\\(\\) should be contravariant with parameter \\$vars \\(mixed\\) of method rcube_session\\:\\:save\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/redis.php
-
-		-
-			message: "#^Parameter \\#3 \\$oldvars \\(string\\) of method rcube_session_redis\\:\\:update\\(\\) should be contravariant with parameter \\$oldvars \\(mixed\\) of method rcube_session\\:\\:update\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/session/redis.php
-
-		-
-			message: "#^Property rcube\\:\\:\\$storage \\(rcube_storage\\|null\\) does not accept StorageMock\\.$#"
-			count: 1
-			path: tests/ActionTestCase.php
 
 		-
 			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\App\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"

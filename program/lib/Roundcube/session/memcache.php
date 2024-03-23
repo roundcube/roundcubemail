@@ -25,7 +25,7 @@
  */
 class rcube_session_memcache extends rcube_session
 {
-    /** @var Memcache The memcache driver */
+    /** @var Memcache|false|null The memcache driver */
     private $memcache;
 
     /** @var bool Debug state */

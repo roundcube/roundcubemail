@@ -142,8 +142,25 @@ abstract class rcube_session implements SessionHandlerInterface
     #[ReturnTypeWillChange]
     abstract public function read($key);
 
+    /**
+     * Write data to the session store
+     *
+     * @param string $key  Session identifier
+     * @param string $vars Session data
+     *
+     * @return bool True on success, False on failure
+     */
     abstract protected function save($key, $vars);
 
+    /**
+     * Write data to the session store
+     *
+     * @param string $key     Session identifier
+     * @param string $newvars New session data string
+     * @param string $oldvars Old session data string
+     *
+     * @return bool True on success, False on failure
+     */
     abstract protected function update($key, $newvars, $oldvars);
 
     /**
