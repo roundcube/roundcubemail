@@ -13,6 +13,7 @@ parameters:
         # relax strict rules
         - '~^Only booleans are allowed in .+, .+ given( on the (left|right) side)?\.~'
         - '~^Variable (static )?(property access|method call) on .+\.~'
+        - '~^Variable variables are not allowed.~'
         # relax strict rules - move to phpstan baseline once almost all l6 errors are fixed
         - '~^Dynamic call to static method .+\.~' # TODO in https://github.com/roundcube/roundcubemail/pull/9314
         - '~^Construct empty\(\) is not allowed\. Use more strict comparison\.~'
