@@ -601,36 +601,6 @@ parameters:
 			path: program/lib/Roundcube/bootstrap.php
 
 		-
-			message: "#^Parameter \\#1 \\$key \\(string\\) of method rcube_cache_db\\:\\:store_record\\(\\) should be contravariant with parameter \\$key \\(mixed\\) of method rcube_cache\\:\\:store_record\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/cache/db.php
-
-		-
-			message: "#^Parameter \\#3 \\$ts \\(DateTime\\) of method rcube_cache_db\\:\\:store_record\\(\\) should be contravariant with parameter \\$ts \\(mixed\\) of method rcube_cache\\:\\:store_record\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/cache/db.php
-
-		-
-			message: "#^Offset non\\-falsy\\-string does not exist on array\\{\\}\\.$#"
-			count: 1
-			path: program/lib/Roundcube/cache/memcache.php
-
-		-
-			message: "#^Call to function method_exists\\(\\) with Redis and 'del' will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/cache/redis.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 3
-			path: program/lib/Roundcube/cache/redis.php
-
-		-
-			message: "#^Static property rcube_cache_redis\\:\\:\\$redis \\(Redis\\) does not accept false\\.$#"
-			count: 3
-			path: program/lib/Roundcube/cache/redis.php
-
-		-
 			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
 			count: 2
 			path: program/lib/Roundcube/html.php
@@ -1414,36 +1384,6 @@ parameters:
 			message: "#^Right side of \\|\\| is always true\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_result_thread.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_session.php
-
-		-
-			message: "#^Method rcube_session\\:\\:unserialize\\(\\) should return array but returns false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_session.php
-
-		-
-			message: "#^Return type \\(bool\\) of method rcube_session\\:\\:gc\\(\\) should be covariant with return type \\(int\\|false\\) of method SessionHandlerInterface\\:\\:gc\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_session.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_session.php
-
-		-
-			message: "#^Variable \\$id might not be defined\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_session.php
-
-		-
-			message: "#^Variable \\$length might not be defined\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_session.php
 
 		-
 			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"

@@ -27,7 +27,7 @@ class rcube_cache_redis extends rcube_cache
     /**
      * Instance of Redis object
      *
-     * @var Redis
+     * @var Redis|false|null
      */
     protected static $redis;
 
@@ -229,6 +229,7 @@ class rcube_cache_redis extends rcube_cache
         }
 
         try {
+            // @phpstan-ignore-next-line
             $result = method_exists(self::$redis, 'del')
                 ? self::$redis->del($key)
                 : self::$redis->delete($key);

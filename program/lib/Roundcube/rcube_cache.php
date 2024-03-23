@@ -457,6 +457,12 @@ class rcube_cache
 
     /**
      * Write data entry into cache
+     *
+     * @param string    $key  Cache key name
+     * @param mixed     $data Serialized cache data
+     * @param ?DateTime $ts   Timestamp
+     *
+     * @return bool True on success, False on failure
      */
     protected function store_record($key, $data, $ts = null)
     {

@@ -113,9 +113,9 @@ class rcube_cache_db extends rcube_cache
     /**
      * Writes single cache record into DB.
      *
-     * @param string   $key  Cache key name
-     * @param mixed    $data Serialized cache data
-     * @param DateTime $ts   Timestamp
+     * @param string    $key  Cache key name
+     * @param mixed     $data Serialized cache data
+     * @param ?DateTime $ts   Timestamp
      *
      * @return bool True on success, False on failure
      */

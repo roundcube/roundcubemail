@@ -195,7 +195,7 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @param int $maxlifetime Maximum session lifetime
      *
-     * @return bool True on success, False on failure
+     * @return int|false Number of deleted sessions on success, False on failure
      */
     #[ReturnTypeWillChange]
     public function gc($maxlifetime)
@@ -204,7 +204,7 @@ abstract class rcube_session implements SessionHandlerInterface
         // see rcube::shutdown() and rcube_session::write_close()
         $this->gc_enabled = $maxlifetime;
 
-        return true;
+        return 0;
     }
 
     /**
@@ -356,9 +356,9 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * Warning: Do not use if you already modified $_SESSION in the same request (#1490608)
      *
-     * @param string $path  Path denoting the session variable where to append the value
-     * @param string $key   Key name under which to append the new value (use null for appending to an indexed list)
-     * @param mixed  $value Value to append to the session data array
+     * @param string  $path  Path denoting the session variable where to append the value
+     * @param ?string $key   Key name under which to append the new value (use null for appending to an indexed list)
+     * @param mixed   $value Value to append to the session data array
      */
     public function append($path, $key, $value)
     {
@@ -510,7 +510,7 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @param string $str Serialized data string
      *
-     * @return array Unserialized data
+     * @return array|false Unserialized data
      */
     public static function unserialize($str)
     {
@@ -562,7 +562,8 @@ abstract class rcube_session implements SessionHandlerInterface
                             break;
                         case 'r': // reference
                             $q += 2;
-                            for ($id = ''; ($q < $endptr) && ($str[$q] != ';'); $q++) {
+                            $id = '';
+                            for (; ($q < $endptr) && ($str[$q] != ';'); $q++) {
                                 $id .= $str[$q];
                             }
                             $q++;
@@ -575,7 +576,8 @@ abstract class rcube_session implements SessionHandlerInterface
                             break;
                         case 's': // string
                             $q += 2;
-                            for ($length = ''; ($q < $endptr) && ($str[$q] != ':'); $q++) {
+                            $length = '';
+                            for (; ($q < $endptr) && ($str[$q] != ':'); $q++) {
                                 $length .= $str[$q];
                             }
                             $q += 2;
