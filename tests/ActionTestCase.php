@@ -146,7 +146,7 @@ class ActionTestCase extends TestCase
     public static function mockStorage()
     {
         $rcmail = rcmail::get_instance();
-        $rcmail->storage = new StorageMock();
+        $rcmail->storage = new StorageMock(); // @phpstan-ignore-line
 
         return $rcmail->storage;
     }

@@ -49,9 +49,15 @@ class rcube_session_php extends rcube_session
         return '';
     }
 
-    protected function save($key, $vars) {}
+    protected function save($key, $vars)
+    {
+        return true;
+    }
 
-    protected function update($key, $newvars, $oldvars) {}
+    protected function update($key, $newvars, $oldvars)
+    {
+        return true;
+    }
 
     /**
      * Object constructor

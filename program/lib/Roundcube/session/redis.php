@@ -87,6 +87,7 @@ class rcube_session_redis extends rcube_session
     {
         if ($key) {
             try {
+                // @phpstan-ignore-next-line
                 $result = method_exists($this->redis, 'del')
                     ? $this->redis->del($key)
                     : $this->redis->delete($key);
@@ -171,7 +172,7 @@ class rcube_session_redis extends rcube_session
      * Write data to redis store
      *
      * @param string $key  Session identifier
-     * @param array  $vars Session data
+     * @param string $vars Session data
      *
      * @return bool True on success, False on failure
      */
