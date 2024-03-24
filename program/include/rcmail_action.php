@@ -188,9 +188,9 @@ abstract class rcmail_action
     {
         $rcmail = rcmail::get_instance();
         $quota = $rcmail->storage->get_quota($folder);
-        $quota = $rcmail->plugins->exec_hook('quota', $quota);
+        $quota = $rcmail->plugins->exec_hook('quota', $quota ?: []);
 
-        $quota_result = (array) $quota;
+        $quota_result = $quota;
         $quota_result['type'] = $_SESSION['quota_display'] ?? '';
         $quota_result['folder'] = $folder !== null && $folder !== '' ? $folder : 'INBOX';
 

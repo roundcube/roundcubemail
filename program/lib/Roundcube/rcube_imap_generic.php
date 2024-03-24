@@ -82,7 +82,7 @@ class rcube_imap_generic
      * @param bool   $endln      True if CRLF need to be added at the end of command
      * @param bool   $anonymized Don't write the given data to log but a placeholder
      *
-     * @return int Number of bytes sent, False on error
+     * @return int|false Number of bytes sent, False on error
      */
     protected function putLine($string, $endln = true, $anonymized = false)
     {
@@ -125,7 +125,7 @@ class rcube_imap_generic
      * @param bool   $endln      True if CRLF need to be added at the end of command
      * @param bool   $anonymized Don't write the given data to log but a placeholder
      *
-     * @return int|bool Number of bytes sent, False on error
+     * @return int|false Number of bytes sent, False on error
      */
     protected function putLineC($string, $endln = true, $anonymized = false)
     {
@@ -848,7 +848,7 @@ class rcube_imap_generic
     /**
      * NAMESPACE handler (RFC 2342)
      *
-     * @return array Namespace data hash (personal, other, shared)
+     * @return array|false Namespace data hash (personal, other, shared)
      */
     public function getNamespace()
     {
@@ -857,7 +857,7 @@ class rcube_imap_generic
         }
 
         if (!$this->getCapability('NAMESPACE')) {
-            return self::ERROR_BAD;
+            return false;
         }
 
         [$code, $response] = $this->execute('NAMESPACE');
@@ -868,7 +868,7 @@ class rcube_imap_generic
         }
 
         if (!isset($data) || !is_array($data)) {
-            return $code;
+            return false;
         }
 
         $this->prefs['namespace'] = [
@@ -943,8 +943,9 @@ class rcube_imap_generic
                 array_unshift($all_methods, 'GSSAPI');
             }
 
-            foreach ($all_methods as $auth_method) {
-                if (in_array($auth_method, $auth_methods)) {
+            foreach ($all_methods as $method) {
+                $auth_method = $method;
+                if (in_array($method, $auth_methods)) {
                     break;
                 }
             }
@@ -1291,7 +1292,7 @@ class rcube_imap_generic
      *                        MESSAGES and UNSEEN are requested. Other defined
      *                        in RFC3501: UIDNEXT, UIDVALIDITY, RECENT
      *
-     * @return array Status item-value hash
+     * @return array|false Status item-value hash, False on error
      *
      * @since 0.5-beta
      */
@@ -1690,7 +1691,7 @@ class rcube_imap_generic
      *
      * @param string $mailbox Mailbox name
      *
-     * @return int Number of messages, False on error
+     * @return int|false Number of messages, False on error
      */
     public function countMessages($mailbox)
     {
@@ -1720,7 +1721,7 @@ class rcube_imap_generic
      *
      * @param string $mailbox Mailbox name
      *
-     * @return int Number of messages, False on error
+     * @return int|false Number of messages, False on error
      */
     public function countRecent($mailbox)
     {
@@ -1748,7 +1749,7 @@ class rcube_imap_generic
      *
      * @param string $mailbox Mailbox name
      *
-     * @return int Number of messages, False on error
+     * @return int|false Number of messages, False on error
      */
     public function countUnseen($mailbox)
     {
@@ -1786,7 +1787,8 @@ class rcube_imap_generic
      */
     public function id($items = [])
     {
-        if (is_array($items) && !empty($items)) {
+        $args = [];
+        if (!empty($items)) {
             foreach ($items as $key => $value) {
                 $args[] = $this->escape($key, true);
                 $args[] = $this->escape($value, true);
@@ -2439,7 +2441,7 @@ class rcube_imap_generic
      * @param string $mod_seq     Modification sequence for CHANGEDSINCE (RFC4551) query
      * @param bool   $vanished    Enables VANISHED parameter (RFC5162) for CHANGEDSINCE query
      *
-     * @return array List of rcube_message_header elements, False on error
+     * @return array|false List of rcube_message_header elements, False on error
      *
      * @since 0.6
      */
@@ -3094,6 +3096,7 @@ class rcube_imap_generic
     {
         unset($this->data['APPENDUID']);
 
+        // @phpstan-ignore-next-line
         if ($mailbox === null || $mailbox === '') {
             return false;
         }
@@ -3479,7 +3482,7 @@ class rcube_imap_generic
      */
     public function setMetadata($mailbox, $entries)
     {
-        if (!is_array($entries) || empty($entries)) {
+        if (empty($entries)) {
             $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETMETADATA command');
             return false;
         }
@@ -3529,9 +3532,9 @@ class rcube_imap_generic
     /**
      * Send the GETMETADATA command (RFC5464)
      *
-     * @param string $mailbox Mailbox name
-     * @param array  $entries Entries
-     * @param array  $options Command options (with MAXSIZE and DEPTH keys)
+     * @param string       $mailbox Mailbox name
+     * @param array|string $entries Entry name(s)
+     * @param array        $options Command options (with MAXSIZE and DEPTH keys)
      *
      * @return ?array GETMETADATA result on success, NULL on error
      *
@@ -3546,7 +3549,7 @@ class rcube_imap_generic
         $args = [];
 
         // create options string
-        if (is_array($options)) {
+        if (!empty($options)) {
             $options = array_change_key_case($options, \CASE_UPPER);
             $opts = [];
 
@@ -3577,10 +3580,11 @@ class rcube_imap_generic
             for ($i = 0, $size = count($data); $i < $size; $i++) {
                 if ($data[$i] === '*'
                     && $data[++$i] === 'METADATA'
-                    && is_string($mbox = $data[++$i])
-                    && is_array($data[++$i])
+                    && is_string($mbox = $data[++$i]) // @phpstan-ignore-line
+                    && is_array($data[++$i]) // @phpstan-ignore-line
                 ) {
                     for ($x = 0, $size2 = count($data[$i]); $x < $size2; $x += 2) {
+                        // @phpstan-ignore-next-line
                         if ($data[$i][$x + 1] !== null) {
                             $result[$mbox][$data[$i][$x]] = $data[$i][$x + 1];
                         }
@@ -3607,11 +3611,12 @@ class rcube_imap_generic
      */
     public function setAnnotation($mailbox, $data)
     {
-        if (!is_array($data) || empty($data)) {
+        if (empty($data)) {
             $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETANNOTATION command');
             return false;
         }
 
+        $entries = [];
         foreach ($data as $entry) {
             // ANNOTATEMORE drafts before version 08 require quoted parameters
             $entries[] = sprintf('%s (%s %s)', $this->escape($entry[0], true),
@@ -3637,20 +3642,15 @@ class rcube_imap_generic
      */
     public function deleteAnnotation($mailbox, $data)
     {
-        if (!is_array($data) || empty($data)) {
-            $this->setError(self::ERROR_COMMAND, 'Wrong argument for SETANNOTATION command');
-            return false;
-        }
-
         return $this->setAnnotation($mailbox, $data);
     }
 
     /**
      * Send the GETANNOTATION command (draft-daboo-imap-annotatemore)
      *
-     * @param string $mailbox Mailbox name
-     * @param array  $entries Entries names
-     * @param array  $attribs Attribs names
+     * @param string       $mailbox Mailbox name
+     * @param array|string $entries Entries name(s)
+     * @param array|string $attribs Attribs name(s)
      *
      * @return ?array Annotations result on success, NULL on error
      *
@@ -3943,7 +3943,7 @@ class rcube_imap_generic
             $str = ltrim($str);
 
             // empty string
-            if ($str === '' || $str === null) {
+            if ($str === '') {
                 break;
             }
 
@@ -4027,8 +4027,8 @@ class rcube_imap_generic
     /**
      * Converts message identifiers array into sequence-set syntax
      *
-     * @param array $messages Message identifiers
-     * @param bool  $force    Forces compression of any size
+     * @param array|string $messages Message identifiers
+     * @param bool         $force    Forces compression of any size
      *
      * @return string Compressed sequence-set
      */
@@ -4191,8 +4191,8 @@ class rcube_imap_generic
     /**
      * Escapes a string when it contains special characters (RFC3501)
      *
-     * @param string $string       IMAP string
-     * @param bool   $force_quotes Forces string quoting (for atoms)
+     * @param ?string $string       IMAP string
+     * @param bool    $force_quotes Forces string quoting (for atoms)
      *
      * @return string String atom, quoted-string or string literal
      *

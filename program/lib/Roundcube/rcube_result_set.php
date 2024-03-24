@@ -132,7 +132,7 @@ class rcube_result_set implements Iterator, ArrayAccess
     #[ReturnTypeWillChange]
     public function next()
     {
-        $this->iterate();
+        $this->current++;
     }
 
     public function valid(): bool
