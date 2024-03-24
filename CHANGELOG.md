@@ -6,6 +6,7 @@
 - Fix bug where HTML entities in URLs were not decoded on HTML to plain text conversion (#9312)
 - Fix bug in collapsing/expanding folders with some special characters in names (#9324)
 - Fix PHP8 warnings (#9363, #9365)
+- Fix missing field labels in CSV import, for some locales (#9393)
 
 ## Release 1.6.6
 
