@@ -1046,11 +1046,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_imap.php
 
 		-
-			message: "#^Variable \\$n might not be defined\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap.php
-
-		-
 			message: "#^Call to function is_object\\(\\) with rcube_message_header will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_imap_cache.php
@@ -1158,16 +1153,6 @@ parameters:
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 3
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
-			message: "#^Variable \\$entries might not be defined\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_imap_generic.php
-
-		-
-			message: "#^Variable \\$pos might not be defined\\.$#"
-			count: 2
 			path: program/lib/Roundcube/rcube_imap_generic.php
 
 		-
@@ -1406,34 +1391,9 @@ parameters:
 			path: program/lib/Roundcube/rcube_string_replacer.php
 
 		-
-			message: "#^Variable \\$i might not be defined\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_string_replacer.php
-
-		-
-			message: "#^Variable \\$len might not be defined\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_string_replacer.php
-
-		-
 			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_text2html.php
-
-		-
-			message: "#^Variable \\$m might not be defined\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_tnef_decoder.php
-
-		-
-			message: "#^Variable \\$i might not be defined\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_utils.php
-
-		-
-			message: "#^Variable \\$ts might not be defined\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_utils.php
 
 		-
 			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
@@ -1467,11 +1427,6 @@ parameters:
 
 		-
 			message: "#^Method rcube_washtml\\:\\:wash_uri\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_washtml.php
-
-		-
-			message: "#^Variable \\$p might not be defined\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_washtml.php
 
