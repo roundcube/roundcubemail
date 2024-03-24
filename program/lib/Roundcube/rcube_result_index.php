@@ -276,8 +276,8 @@ class rcube_result_index
      * @param bool $get_index When enabled element's index will be returned.
      *                        Elements are indexed starting with 0
      *
-     * @return mixed False if message ID doesn't exist, True if exists or
-     *               index of the element if $get_index=true
+     * @return int|bool False if message ID doesn't exist, True if exists or
+     *                  index of the element if $get_index=true
      */
     public function exists($msgid, $get_index = false)
     {

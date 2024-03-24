@@ -373,7 +373,8 @@ class rcube_contacts extends rcube_addressbook
             // get (paged) result
             for ($i = 0; $i < $pages; $i++) {
                 $this->list_records(null, $i, true);
-                while ($row = $this->result->next()) {
+
+                foreach ($this->result as $row) {
                     $id = $row[$this->primary_key];
                     $found = [];
                     if (!empty($post_search)) {
@@ -389,6 +390,7 @@ class rcube_contacts extends rcube_addressbook
                             }
                         }
                     }
+
                     // check if required fields are present
                     if (!empty($required)) {
                         foreach ($required as $req) {
@@ -406,6 +408,7 @@ class rcube_contacts extends rcube_addressbook
                             }
                         }
                     }
+
                     // all fields match
                     if (count($found) >= $scnt) {
                         $ids[] = $id;

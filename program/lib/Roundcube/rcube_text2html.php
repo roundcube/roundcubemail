@@ -75,7 +75,7 @@ class rcube_text2html
             $this->set_text($source, $from_file);
         }
 
-        if (!empty($config) && is_array($config)) {
+        if (!empty($config)) {
             $this->config = array_merge($this->config, $config);
         }
     }

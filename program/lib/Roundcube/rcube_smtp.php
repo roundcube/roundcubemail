@@ -122,6 +122,7 @@ class rcube_smtp
         }
 
         // register authentication methods
+        // @phpstan-ignore-next-line
         if (!empty($CONFIG['smtp_auth_callbacks']) && method_exists($this->conn, 'setAuthMethod')) {
             foreach ($CONFIG['smtp_auth_callbacks'] as $callback) {
                 $this->conn->setAuthMethod($callback['name'], $callback['function'],
@@ -139,6 +140,7 @@ class rcube_smtp
         }
 
         // workaround for timeout bug in Net_SMTP 1.5.[0-1] (#1487843)
+        // @phpstan-ignore-next-line
         if (method_exists($this->conn, 'setTimeout')
             && ($timeout = ini_get('default_socket_timeout'))
         ) {
@@ -436,10 +438,7 @@ class rcube_smtp
         foreach ($headers as $key => $value) {
             if (strcasecmp($key, 'From') === 0) {
                 $addresses = $this->_parse_rfc822($value);
-
-                if (is_array($addresses)) {
-                    $from = $addresses[0];
-                }
+                $from = $addresses[0] ?? '';
 
                 // Reject envelope From: addresses with spaces.
                 if (strpos($from, ' ') !== false) {

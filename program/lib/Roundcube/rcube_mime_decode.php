@@ -222,7 +222,7 @@ class rcube_mime_decode
     {
         $pos = strpos($input, $this->params['crlf'] . $this->params['crlf']);
         if ($pos === false) {
-            return false;
+            return [$input, ''];
         }
 
         $crlf_len = strlen($this->params['crlf']);

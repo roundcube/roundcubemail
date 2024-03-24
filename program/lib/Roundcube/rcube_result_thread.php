@@ -216,8 +216,8 @@ class rcube_result_thread
         $this->meta = ['count' => 0];
 
         while ($start < $datalen
-            && (($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)) !== false
-                || ($pos = $datalen))
+            // @phpstan-ignore-next-line
+            && (($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)) !== false || ($pos = $datalen))
         ) {
             $len = $pos - $start;
             $elem = substr($this->raw_data, $start, $len);
@@ -264,7 +264,8 @@ class rcube_result_thread
      * @param bool $get_index When enabled element's index will be returned.
      *                        Elements are indexed starting with 0
      *
-     * @return bool True on success, False if message ID doesn't exist
+     * @return int|bool False if message ID doesn't exist, True if exists or
+     *                  index of the element if $get_index=true
      */
     public function exists($msgid, $get_index = false)
     {
@@ -450,7 +451,7 @@ class rcube_result_thread
         // Assign roots
         while (
             ($start < $datalen && ($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)))
-            || ($start < $datalen && ($pos = $datalen))
+            || ($start < $datalen && ($pos = $datalen)) // @phpstan-ignore-line
         ) {
             $len = $pos - $start;
             $elem = substr($this->raw_data, $start, $len);
@@ -478,7 +479,7 @@ class rcube_result_thread
 
         while (
             ($start < $datalen && ($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)))
-            || ($start < $datalen && ($pos = $datalen))
+            || ($start < $datalen && ($pos = $datalen)) // @phpstan-ignore-line
         ) {
             $len = $pos - $start;
             $elem = substr($this->raw_data, $start, $len);
@@ -505,8 +506,8 @@ class rcube_result_thread
         $start = 0;
 
         while ($start < $datalen
-            && (($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)) !== false
-                || ($pos = $datalen))
+            // @phpstan-ignore-next-line
+            && (($pos = strpos($this->raw_data, self::SEPARATOR_ELEMENT, $start)) !== false || ($pos = $datalen))
         ) {
             $len = $pos - $start;
             $elem = substr($this->raw_data, $start, $len);
