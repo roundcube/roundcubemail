@@ -175,7 +175,7 @@ class rcube_utils
     /**
      * Replacing specials characters to a specific encoding type
      *
-     * @param string $str      Input string
+     * @param mixed  $str      Input string
      * @param string $enctype  Encoding type: text|html|xml|js|url
      * @param string $mode     Replace mode for tags: show|remove|strict
      * @param bool   $newlines Convert newlines
@@ -314,11 +314,11 @@ class rcube_utils
      * Parse/validate input value. See self::get_input_value()
      * Performs stripslashes() and charset conversion if necessary
      *
-     * @param string $value      Input value
-     * @param bool   $allow_html Allow HTML tags in field value
-     * @param string $charset    Charset to convert into
+     * @param array|string $value      Input value
+     * @param bool         $allow_html Allow HTML tags in field value
+     * @param string       $charset    Charset to convert into
      *
-     * @return string Parsed value
+     * @return array|string Parsed value
      */
     public static function parse_input_value($value, $allow_html = false, $charset = null)
     {
@@ -550,13 +550,13 @@ class rcube_utils
             // get the property value
             $q = $s = false;
             for ($i = $colon_pos + 1; $i < $length; $i++) {
-                if (($style[$i] == '"' || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != '\\')) {
+                if (($style[$i] == '"' || $style[$i] == "'") && $style[$i - 1] != '\\') {
                     if ($q == $style[$i]) {
                         $q = false;
                     } elseif ($q === false) {
                         $q = $style[$i];
                     }
-                } elseif ($style[$i] == '(' && !$q && ($i == 0 || $style[$i - 1] != '\\')) {
+                } elseif ($style[$i] == '(' && !$q && $style[$i - 1] != '\\') {
                     $q = '(';
                 } elseif ($style[$i] == ')' && $q == '(' && $style[$i - 1] != '\\') {
                     $q = false;
@@ -692,10 +692,10 @@ class rcube_utils
     /**
      * Replaces hostname variables.
      *
-     * @param string $name Hostname
+     * @param mixed  $name Hostname
      * @param string $host Optional IMAP hostname
      *
-     * @return string Hostname
+     * @return mixed Hostname, or non-string input or False on invalid input
      */
     public static function parse_host($name, $host = '')
     {
@@ -825,6 +825,7 @@ class rcube_utils
     public static function remote_ip()
     {
         $address = $_SERVER['REMOTE_ADDR'] ?? '';
+        $remote_ip = [];
 
         // append the NGINX X-Real-IP header, if set
         if (!empty($_SERVER['HTTP_X_REAL_IP']) && $_SERVER['HTTP_X_REAL_IP'] != $address) {
@@ -976,8 +977,8 @@ class rcube_utils
     /**
      * Date parsing function that turns the given value into a DateTime object
      *
-     * @param string       $date     Date string
-     * @param DateTimeZone $timezone Timezone to use for DateTime object
+     * @param DateTime|string $date     A date
+     * @param DateTimeZone    $timezone Timezone to use for DateTime object
      *
      * @return DateTime|false DateTime object or False on failure
      */
@@ -1168,8 +1169,8 @@ class rcube_utils
     /**
      * Split the given string into word tokens
      *
-     * @param string $str    Input to tokenize
-     * @param int    $minlen Minimum length of a single token
+     * @param ?string $str    Input to tokenize
+     * @param int     $minlen Minimum length of a single token
      *
      * @return array List of tokens
      */
@@ -1676,13 +1677,13 @@ class rcube_utils
      *
      * PROXY protocol headers must be sent before any other data is sent on the TCP socket.
      *
-     * @param array $options Preferences array which may contain proxy_protocol (generally {driver}_conn_options)
+     * @param ?array $options Preferences array which may contain proxy_protocol (generally {driver}_conn_options)
      *
      * @return string Proxy protocol header data, if enabled, otherwise empty string
      */
     public static function proxy_protocol_header($options = null)
     {
-        if (empty($options) || !is_array($options) || !array_key_exists('proxy_protocol', $options)) {
+        if (empty($options) || !array_key_exists('proxy_protocol', $options)) {
             return '';
         }
 

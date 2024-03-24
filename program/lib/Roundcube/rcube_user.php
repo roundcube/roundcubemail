@@ -417,7 +417,7 @@ class rcube_user
 
         $sql = 'INSERT INTO ' . $this->db->table_name('identities', true)
             . ' (`changed`, ' . implode(', ', $insert_cols) . ')'
-            . ' VALUES (' . $this->db->now() . ', ' . implode(', ', array_pad([], count($insert_values), '?')) . ')';
+            . ' VALUES (' . $this->db->now() . str_repeat(', ?', count($insert_values)) . ')';
 
         $insert = $this->db->query($sql, $insert_values);
 
@@ -644,7 +644,7 @@ class rcube_user
 
         // plugin aborted this operation
         if ($data['abort']) {
-            return;
+            return null;
         }
 
         $insert = $dbh->query(
@@ -858,7 +858,7 @@ class rcube_user
      *
      * @param array $data Hash array with col->value pairs to save
      *
-     * @return int The inserted search ID or false on error
+     * @return int|false The inserted search ID or false on error
      */
     public function insert_search($data)
     {
@@ -866,8 +866,8 @@ class rcube_user
             return false;
         }
 
-        $insert_cols[] = 'user_id';
-        $insert_values[] = (int) $this->ID;
+        $insert_cols = ['user_id'];
+        $insert_values = [(int) $this->ID];
         $insert_cols[] = $this->db->quote_identifier('type');
         $insert_values[] = (int) $data['type'];
         $insert_cols[] = $this->db->quote_identifier('name');
@@ -877,7 +877,7 @@ class rcube_user
 
         $sql = 'INSERT INTO ' . $this->db->table_name('searches', true)
             . ' (' . implode(', ', $insert_cols) . ')'
-            . ' VALUES (' . implode(', ', array_pad([], count($insert_values), '?')) . ')';
+            . ' VALUES (?' . str_repeat(', ?', count($insert_values) - 1) . ')';
 
         $insert = $this->db->query($sql, $insert_values);
 
