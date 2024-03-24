@@ -260,7 +260,7 @@ class rcube_plugin_api
      *
      * @param string $plugin_name Plugin name
      *
-     * @return array Meta information about a plugin or False if plugin was not found
+     * @return array|false Meta information about a plugin or False if plugin was not found
      */
     public function get_info($plugin_name)
     {
@@ -436,12 +436,12 @@ class rcube_plugin_api
      */
     public function register_hook($hook, $callback)
     {
+        // @phpstan-ignore-next-line
         if (is_callable($callback)) {
             if (isset($this->deprecated_hooks[$hook])) {
                 rcube::raise_error([
                     'code' => 522, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => 'Deprecated hook name. '
-                        . $hook . ' -> ' . $this->deprecated_hooks[$hook],
+                    'message' => "Deprecated hook name. {$hook} -> " . $this->deprecated_hooks[$hook],
                 ], true, false);
                 $hook = $this->deprecated_hooks[$hook];
             }
@@ -485,10 +485,6 @@ class rcube_plugin_api
      */
     public function exec_hook($hook, $args = [])
     {
-        if (!is_array($args)) {
-            $args = ['arg' => $args];
-        }
-
         // TODO: avoid recursion by checking in_array($hook, $this->exec_stack) ?
 
         $args += ['abort' => false];

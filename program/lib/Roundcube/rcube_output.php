@@ -246,6 +246,7 @@ abstract class rcube_output
             $ctype .= "; charset={$charset}";
         }
 
+        // @phpstan-ignore-next-line
         if (is_string($filename) && strlen($filename) > 0 && strlen($filename) <= 1024) {
             // For non-ascii characters we'll use RFC2231 syntax
             if (!preg_match('/[^a-zA-Z0-9_.:,?;@+ -]/', $filename)) {

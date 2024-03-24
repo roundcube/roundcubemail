@@ -431,7 +431,7 @@ class rcube_washtml
 
                 // Invalid svg content
                 if (empty($svg)) {
-                    return null;
+                    return '';
                 }
 
                 return 'data:image/' . $type . ',' . base64_encode($svg);

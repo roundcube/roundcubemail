@@ -202,8 +202,10 @@ class rcube_mime
                 // aggregation as a whole.
 
                 $tmp[] = $text;
-                if (!empty($matches[$idx + 1]) && ($next_match = $matches[$idx + 1])) {
-                    if ($next_match[0][1] == $start
+                if (!empty($matches[$idx + 1])) {
+                    $next_match = $matches[$idx + 1];
+                    if (count($next_match) >= 2
+                        && $next_match[0][1] == $start
                         && $next_match[1][0] == $charset
                         && $next_match[2][0] == $encoding
                     ) {
@@ -651,7 +653,7 @@ class rcube_mime
                         $afterNextChar = mb_substr($string, $width + 1, 1);
 
                         // Note: mb_substr() does never return False
-                        if ($afterNextChar === false || $afterNextChar === '') {
+                        if ($afterNextChar === '') {
                             $subString .= $nextChar;
                         }
 

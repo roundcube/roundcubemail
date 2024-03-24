@@ -117,10 +117,11 @@ class rcube_vcard
         $this->raw = self::vcard_decode(self::cleanup($vcard));
 
         // resolve charset parameters
-        if ($charset == null) {
+        if (empty($charset)) {
             $this->raw = self::charset_convert($this->raw);
         }
         // vcard has encoded values and charset should be detected
+        // @phpstan-ignore-next-line
         elseif (self::$values_decoded) {
             if ($detect) {
                 $charset = self::detect_encoding(self::vcard_encode($this->raw));
@@ -193,7 +194,6 @@ class rcube_vcard
 
             foreach ((array) $this->raw[$tag] as $i => $raw) {
                 if (is_array($raw)) {
-                    $k = -1;
                     $key = $col;
                     $subtype = '';
 
@@ -211,6 +211,7 @@ class rcube_vcard
                             $subtype = $raw['type'][$k];
                         }
 
+                        $k = -1;
                         while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref')) {
                             $k++;
                             if (!empty($raw['type'][$k])) {
@@ -522,6 +523,7 @@ class rcube_vcard
      */
     public function extend_fieldmap($map)
     {
+        // @phpstan-ignore-next-line
         if (is_array($map)) {
             self::$fieldmap = array_merge($map, self::$fieldmap);
         }
@@ -715,8 +717,9 @@ class rcube_vcard
 
                 foreach ($regs2[1] as $attrid => $attr) {
                     $attr = preg_replace('/[\s\t\n\r\0\x0B]/', '', $attr);
+                    [$key, $value] = rcube_utils::explode('=', $attr);
 
-                    if ((@[$key, $value] = explode('=', $attr)) && $value) {
+                    if ($value) {
                         if ($key == 'ENCODING') {
                             $value = strtoupper($value);
                             // add next line(s) to value string if QP line end detected
@@ -764,7 +767,7 @@ class rcube_vcard
                     $data = self::vcard_unquote($data);
                 }
 
-                if (is_array($data) || (is_string($data) && strlen($data))) {
+                if (is_array($data) || strlen($data)) {
                     $entry = array_merge($entry, (array) $data);
                     $result[$field][] = $entry;
                 }
@@ -881,8 +884,8 @@ class rcube_vcard
     /**
      * Join indexed data array to a vcard quoted string
      *
-     * @param array  $str Field data
-     * @param string $sep Separator
+     * @param array|string $str Field data
+     * @param string       $sep Separator
      *
      * @return string Joined and quoted string
      */

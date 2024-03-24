@@ -216,6 +216,7 @@ class rcube_string_replacer
      */
     public function replace($str)
     {
+        // @phpstan-ignore-next-line
         if (!is_string($str)) {
             return '';
         }
