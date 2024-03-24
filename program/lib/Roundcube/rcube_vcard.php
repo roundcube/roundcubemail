@@ -202,6 +202,7 @@ class rcube_vcard
 
                         $combined = implode(',', array_diff($raw['type'], ['internet', 'pref']));
                         $combined = strtoupper($combined);
+                        $k = -1;
 
                         if (!empty($typemap[$combined])) {
                             $subtype = $typemap[$combined];
@@ -211,7 +212,6 @@ class rcube_vcard
                             $subtype = $raw['type'][$k];
                         }
 
-                        $k = -1;
                         while ($k < count($raw['type']) && ($subtype == 'internet' || $subtype == 'pref')) {
                             $k++;
                             if (!empty($raw['type'][$k])) {

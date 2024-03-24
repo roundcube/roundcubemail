@@ -641,7 +641,7 @@ class rcmail_action_contacts_index extends rcmail_action
         // define list of cols to be displayed
         $a_show_cols = ['name', 'action'];
 
-        while ($row = $result->next()) {
+        foreach ($result as $row) {
             $emails = rcube_addressbook::get_col_values('email', $row, true);
             $row['CID'] = $row['ID'];
             $row['email'] = reset($emails);

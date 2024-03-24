@@ -880,7 +880,7 @@ class rcube_db
 
         // handle int directly for better performance
         if ($type == 'integer' || $type == 'int') {
-            return intval($input);
+            return (string) intval($input);
         }
 
         if ($input === null) {
@@ -920,17 +920,15 @@ class rcube_db
     /**
      * Escapes a string so it can be safely used in a query
      *
-     * @param string $str A string to escape
+     * @param string|int|null $input A value to escape
      *
      * @return string Escaped string for use in a query
      */
-    public function escape($str)
+    public function escape($input)
     {
-        if ($str === null) {
-            return 'NULL';
-        }
+        $input = $this->quote($input);
 
-        return substr($this->quote($str), 1, -1);
+        return $input === 'NULL' ? 'NULL' : substr($input, 1, -1);
     }
 
     /**
@@ -1025,6 +1023,7 @@ class rcube_db
      */
     public function array2list($arr, $type = null)
     {
+        // @phpstan-ignore-next-line
         if (!is_array($arr)) {
             return $this->quote($arr, $type);
         }
@@ -1216,7 +1215,7 @@ class rcube_db
     public static function parse_dsn($dsn)
     {
         if (empty($dsn)) {
-            return null;
+            return [];
         }
 
         // Find phptype and dbsyntax
@@ -1227,6 +1226,8 @@ class rcube_db
             $str = $dsn;
             $dsn = null;
         }
+
+        $parsed = [];
 
         // Get phptype and dbsyntax
         // $str => phptype(dbsyntax)
@@ -1303,8 +1304,10 @@ class rcube_db
                 } else { // database?param1=value1
                     $opts = [$dsn];
                 }
+
                 foreach ($opts as $opt) {
                     [$key, $value] = explode('=', $opt);
+                    // @phpstan-ignore-next-line
                     if (!array_key_exists($key, $parsed) || $parsed[$key] === false) {
                         // don't allow params overwrite
                         $parsed[$key] = rawurldecode($value);
