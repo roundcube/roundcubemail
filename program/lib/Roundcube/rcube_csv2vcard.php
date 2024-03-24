@@ -404,9 +404,6 @@ class rcube_csv2vcard
                 $this->local_label_map = array_merge($this->label_map, $map);
             }
         }
-
-        $this->label_map       = array_flip($this->label_map);
-        $this->local_label_map = array_flip($this->local_label_map);
     }
 
     /**
@@ -480,7 +477,6 @@ class rcube_csv2vcard
         // get all vcard fields
         $fields            = array_unique($this->csv2vcard_map);
         $local_field_names = $this->local_label_map ?: $this->label_map;
-        $local_field_names = array_flip($local_field_names);
 
         // translate with the local map
         $map = [];
@@ -538,6 +534,9 @@ class rcube_csv2vcard
     {
         $elements = $this->parse_line($lines[0]);
 
+        $label_map = array_flip($this->label_map);
+        $local_label_map = array_flip($this->local_label_map);
+
         if (count($lines) == 2) {
             // first line of contents needed to properly identify fields in gmail CSV
             $contents = $this->parse_line($lines[1]);
@@ -549,8 +548,8 @@ class rcube_csv2vcard
 
         // check English labels
         for ($i = 0; $i < $size; $i++) {
-            if (!empty($this->label_map[$elements[$i]])) {
-                $label = $this->label_map[$elements[$i]];
+            if (!empty($label_map[$elements[$i]])) {
+                $label = $label_map[$elements[$i]];
                 if ($label && !empty($this->csv2vcard_map[$label])) {
                     $map1[$i] = $this->csv2vcard_map[$label];
                 }
@@ -558,9 +557,9 @@ class rcube_csv2vcard
         }
 
         // check localized labels
-        if (!empty($this->local_label_map)) {
+        if (!empty($local_label_map)) {
             for ($i = 0; $i < $size; $i++) {
-                $label = $this->local_label_map[$elements[$i]];
+                $label = $local_label_map[$elements[$i]];
 
                 // special localization label
                 if ($label && $label[0] == '_') {
