@@ -26,126 +26,126 @@ class rcube_message_header
     /**
      * Message sequence number
      *
-     * @var int
+     * @var ?int
      */
     public $id;
 
     /**
      * Message unique identifier
      *
-     * @var int
+     * @var int|string|null
      */
     public $uid;
 
     /**
      * Message subject
      *
-     * @var string
+     * @var ?string
      */
     public $subject;
 
     /**
      * Message sender (From)
      *
-     * @var string
+     * @var ?string
      */
     public $from;
 
     /**
      * Message recipient (To)
      *
-     * @var string
+     * @var ?string
      */
     public $to;
 
     /**
      * Message additional recipients (Cc)
      *
-     * @var string
+     * @var ?string
      */
     public $cc;
 
     /**
      * Message hidden recipients (Bcc)
      *
-     * @var string
+     * @var ?string
      */
     public $bcc;
 
     /**
      * Message Reply-To header
      *
-     * @var string
+     * @var ?string
      */
     public $replyto;
 
     /**
      * Message In-Reply-To header
      *
-     * @var string
+     * @var ?string
      */
     public $in_reply_to;
 
     /**
      * Message date (Date)
      *
-     * @var string
+     * @var ?string
      */
     public $date;
 
     /**
      * Message identifier (Message-ID)
      *
-     * @var string
+     * @var ?string
      */
     public $messageID;
 
     /**
      * Message size
      *
-     * @var int
+     * @var ?int
      */
     public $size;
 
     /**
      * Message encoding
      *
-     * @var string
+     * @var ?string
      */
     public $encoding;
 
     /**
      * Message charset
      *
-     * @var string
+     * @var ?string
      */
     public $charset;
 
     /**
      * Message Content-type
      *
-     * @var string
+     * @var ?string
      */
     public $ctype;
 
     /**
      * Message timestamp (based on message date)
      *
-     * @var int
+     * @var ?int
      */
     public $timestamp;
 
     /**
      * IMAP bodystructure string
      *
-     * @var string
+     * @var ?array
      */
     public $bodystructure;
 
     /**
      * IMAP body (RFC822.TEXT)
      *
-     * @var string
+     * @var ?string
      */
     public $body;
 
@@ -159,14 +159,14 @@ class rcube_message_header
     /**
      * IMAP internal date
      *
-     * @var string
+     * @var ?string
      */
     public $internaldate;
 
     /**
      * Message References header
      *
-     * @var string
+     * @var ?string
      */
     public $references;
 
@@ -180,14 +180,14 @@ class rcube_message_header
     /**
      * Message receipt recipient
      *
-     * @var string
+     * @var ?string
      */
     public $mdn_to;
 
     /**
      * IMAP folder this message is stored in
      *
-     * @var string
+     * @var ?string
      */
     public $folder;
 
@@ -233,47 +233,47 @@ class rcube_message_header
      *
      * @var int
      */
-    public $depth;
+    public $depth = 0;
 
     /**
      * Whether the message has references in the thread
      *
      * @var bool
      */
-    public $has_children;
+    public $has_children = false;
 
     /**
      * Number of flagged children (in a thread)
      *
      * @var int
      */
-    public $flagged_children;
+    public $flagged_children = 0;
 
     /**
      * Number of unread children (in a thread)
      *
      * @var int
      */
-    public $unread_children;
+    public $unread_children = 0;
 
     /**
      * UID of the message parent (in a thread)
      *
-     * @var int
+     * @var int|string|null
      */
     public $parent_uid;
 
     /**
      * IMAP MODSEQ value
      *
-     * @var int
+     * @var ?int
      */
     public $modseq;
 
     /**
      * IMAP ENVELOPE
      *
-     * @var string
+     * @var ?string
      */
     public $envelope;
 
@@ -309,7 +309,7 @@ class rcube_message_header
      * @param string $name   Header name
      * @param bool   $decode Decode the header content
      *
-     * @return string|null Header content
+     * @return array|string|int|null Header content
      */
     public function get($name, $decode = true)
     {

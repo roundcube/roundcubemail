@@ -39,7 +39,10 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
         if ($pos = strpos($uid, '.')) {
             $message = new rcube_message($uid);
             $source = $message->get_part_body(substr($uid, $pos + 1));
-            $source = substr($source, 0, strpos($source, "\r\n\r\n"));
+
+            if (is_string($source)) {
+                $source = substr($source, 0, strpos($source, "\r\n\r\n"));
+            }
         } else {
             $source = $rcmail->storage->get_raw_headers($uid);
         }

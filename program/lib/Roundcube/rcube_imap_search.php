@@ -53,11 +53,11 @@ class rcube_imap_search
     /**
      * Invoke search request to IMAP server
      *
-     * @param array  $folders    List of IMAP folders to search in
-     * @param string $str        Search criteria
-     * @param string $charset    Search charset
-     * @param string $sort_field Header field to sort by
-     * @param bool   $threading  True if threaded listing is active
+     * @param array        $folders    List of IMAP folders to search in
+     * @param array|string $str        Search criteria
+     * @param string       $charset    Search charset
+     * @param string       $sort_field Header field to sort by
+     * @param bool         $threading  True if threaded listing is active
      *
      * @return rcube_result_multifolder
      */
@@ -73,7 +73,7 @@ class rcube_imap_search
             if ($result && !$result->incomplete) {
                 $results->add($result);
             } else {
-                $search = is_array($str) && $str[$folder] ? $str[$folder] : $str;
+                $search = is_array($str) && !empty($str[$folder]) ? $str[$folder] : $str;
                 $job = new rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
                 $job->worker = $this;
                 $this->jobs[] = $job;

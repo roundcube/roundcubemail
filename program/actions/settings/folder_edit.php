@@ -304,7 +304,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         $rcmail->output->set_env('messagecount', $msgcount);
         $rcmail->output->set_env('folder', $mbox);
 
-        if ($mbox !== null && empty($_POST)) {
+        if ($mbox !== '' && empty($_POST)) {
             $rcmail->output->command('parent.set_quota', self::quota_content(null, $mbox));
         }
 

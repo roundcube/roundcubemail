@@ -74,6 +74,7 @@ class markasjunk_cmd_learn
             }
 
             if (!empty($header_names)) {
+                /** @var rcube_imap $storage */
                 $storage = $rcube->get_storage();
                 $storage->check_connection();
                 $headers = $storage->conn->fetchHeader($src_mbox, $uid, true, false, $header_names);

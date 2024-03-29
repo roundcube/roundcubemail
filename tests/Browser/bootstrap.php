@@ -231,6 +231,7 @@ class bootstrap
         }
 
         $rcmail = rcmail::get_instance();
+        /** @var rcube_imap $imap */
         $imap = $rcmail->get_storage();
         $got_defaults = $rcmail->config->get('create_default_folders');
         $vendor = $imap->get_vendor();

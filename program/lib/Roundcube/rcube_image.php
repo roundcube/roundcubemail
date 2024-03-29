@@ -118,8 +118,10 @@ class rcube_image
 
         // use Imagemagick
         if ($convert || class_exists('Imagick', false)) {
-            $p['out'] = $filename;
-            $p['in'] = $this->image_file;
+            $p = [
+                'out' => $filename,
+                'in' => $this->image_file,
+            ];
             $type = $props['type'];
 
             if (!$type && ($data = $this->identify())) {
@@ -316,9 +318,11 @@ class rcube_image
 
         // use ImageMagick in command line
         if ($convert) {
-            $p['in'] = $this->image_file;
-            $p['out'] = $filename;
-            $p['type'] = self::$extensions[$type];
+            $p = [
+                'in' => $this->image_file,
+                'out' => $filename,
+                'type' => self::$extensions[$type],
+            ];
 
             $result = rcube::exec($convert . ' 2>&1 -colorspace sRGB -strip -flatten -quality 75 {in} {type}:{out}', $p);
 
