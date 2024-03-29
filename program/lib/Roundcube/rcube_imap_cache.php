@@ -68,8 +68,10 @@ class rcube_imap_cache
      */
     private $icache = [];
 
+    /** @var int */
+    private $mode = 0;
+
     private $skip_deleted = false;
-    private $mode;
     private $index_table;
     private $thread_table;
     private $messages_table;
@@ -139,7 +141,7 @@ class rcube_imap_cache
     public function close()
     {
         $this->save_icache();
-        $this->icache = null;
+        $this->icache = [];
     }
 
     /**
@@ -161,7 +163,7 @@ class rcube_imap_cache
      * @param string $sort_order Sorting order (ASC|DESC)
      * @param bool   $existing   Skip index initialization if it doesn't exist in DB
      *
-     * @return array Messages index
+     * @return rcube_result_index|null Messages index
      */
     public function get_index($mailbox, $sort_field = null, $sort_order = null, $existing = false)
     {
@@ -274,7 +276,7 @@ class rcube_imap_cache
      *
      * @param string $mailbox Folder name
      *
-     * @return array Messages threaded index
+     * @return rcube_result_thread Messages threaded index
      */
     public function get_thread($mailbox)
     {
@@ -377,6 +379,7 @@ class rcube_imap_cache
             // Insert to DB and add to result list
             if (!empty($messages)) {
                 foreach ($messages as $msg) {
+                    // @phpstan-ignore-next-line
                     if ($this->mode & self::MODE_MESSAGE) {
                         $this->add_message($mailbox, $msg, !array_key_exists($msg->uid, $result));
                     }
@@ -462,9 +465,9 @@ class rcube_imap_cache
     /**
      * Saves the message in cache.
      *
-     * @param string               $mailbox Folder name
-     * @param rcube_message_header $message Message data
-     * @param bool                 $force   Skips message in-cache existence check
+     * @param string                $mailbox Folder name
+     * @param ?rcube_message_header $message Message data
+     * @param bool                  $force   Skips message in-cache existence check
      */
     public function add_message($mailbox, $message, $force = false)
     {
@@ -530,7 +533,7 @@ class rcube_imap_cache
 
         // Internal cache update
         if (
-            !empty($this->icache['__message'])
+            isset($this->icache['__message'])
             && ($message = $this->icache['__message'])
             && $message['mailbox'] === $mailbox
             && in_array($message['object']->uid, $uids)
@@ -548,6 +551,7 @@ class rcube_imap_cache
             . ', `flags` = `flags` ' . ($enabled ? "+ {$idx}" : "- {$idx}")
             . ' WHERE `user_id` = ?'
                 . ' AND `mailbox` = ?'
+                // @phpstan-ignore-next-line
                 . (count($uids) > 0 ? ' AND `uid` IN (' . $this->db->array2list($uids, 'integer') . ')' : '')
                 . " AND (`flags` & {$idx}) = " . ($enabled ? '0' : $idx),
             $this->userid, $mailbox
@@ -558,7 +562,7 @@ class rcube_imap_cache
      * Removes message(s) from cache.
      *
      * @param string $mailbox Folder name
-     * @param array  $uids    Message UIDs, NULL removes all messages
+     * @param ?array $uids    Message UIDs, NULL removes all messages
      */
     public function remove_message($mailbox = null, $uids = null)
     {
@@ -575,7 +579,7 @@ class rcube_imap_cache
             // Remove the message from internal cache
             if (
                 !empty($uids)
-                && !empty($this->icache['__message'])
+                && isset($this->icache['__message'])
                 && ($message = $this->icache['__message'])
                 && $message['mailbox'] === $mailbox
                 && in_array($message['object']->uid, (array) $uids)
@@ -1202,7 +1206,7 @@ class rcube_imap_cache
 
         unset($msg->replaces);
 
-        if (!empty($msg->structure) && is_object($msg->structure)) {
+        if (is_object($msg->structure)) {
             $this->message_object_prepare($msg->structure, $size);
         }
 
