@@ -545,9 +545,13 @@ class rcube_plugin_api
      */
     public function exec_action($action)
     {
-        if (isset($this->actions[$action])) {
+        $rcmail = rcmail::get_instance();
+
+        if (isset($this->actions[$rcmail->task . '.' . $action])) {
+            call_user_func($this->actions[$rcmail->task . '.' . $action]);
+        } elseif (isset($this->actions[$action])) {
             call_user_func($this->actions[$action]);
-        } elseif (rcmail::get_instance()->action != 'refresh') {
+        } elseif ($rcmail->action != 'refresh') {
             rcube::raise_error([
                 'code' => 524, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "No handler found for action {$action}",
