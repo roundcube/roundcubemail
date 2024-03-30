@@ -126,19 +126,9 @@ parameters:
 			path: program/actions/contacts/index.php
 
 		-
-			message: "#^Call to function is_object\\(\\) with rcube_result_set will always evaluate to true\\.$#"
-			count: 1
-			path: program/actions/contacts/mailto.php
-
-		-
 			message: "#^Access to an undefined property rcube_addressbook\\:\\:\\$deletable\\.$#"
 			count: 1
 			path: program/actions/contacts/move.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: program/actions/contacts/photo.php
 
 		-
 			message: "#^Right side of && is always true\\.$#"
@@ -156,11 +146,6 @@ parameters:
 			path: program/actions/contacts/save.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: program/actions/contacts/save.php
-
-		-
 			message: "#^Implicit array creation is not allowed \\- variable \\$fields might not exist\\.$#"
 			count: 1
 			path: program/actions/contacts/search.php
@@ -174,11 +159,6 @@ parameters:
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: program/actions/mail/attachment_upload.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: program/actions/mail/autocomplete.php
 
 		-
 			message: "#^Access to an undefined property rcube_message\\:\\:\\$size\\.$#"
@@ -526,76 +506,6 @@ parameters:
 			path: program/include/rcmail_sendmail.php
 
 		-
-			message: "#^Method rcmail_string_replacer\\:\\:mailto_callback\\(\\) should return int but returns string\\.$#"
-			count: 1
-			path: program/include/rcmail_string_replacer.php
-
-		-
-			message: "#^Return type \\(int\\) of method rcmail_string_replacer\\:\\:mailto_callback\\(\\) should be compatible with return type \\(string\\) of method rcube_string_replacer\\:\\:mailto_callback\\(\\)$#"
-			count: 1
-			path: program/include/rcmail_string_replacer.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/bootstrap.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with non\\-empty\\-array will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/bootstrap.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/bootstrap.php
-
-		-
-			message: "#^Function array_first\\(\\) should return mixed but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/bootstrap.php
-
-		-
-			message: "#^Function parse_bytes\\(\\) never returns null so it can be removed from the return type\\.$#"
-			count: 1
-			path: program/lib/Roundcube/bootstrap.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/bootstrap.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/html.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with array will always evaluate to false\\.$#"
-			count: 2
-			path: program/lib/Roundcube/html.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/html.php
-
-		-
-			message: "#^html_hiddenfield\\:\\:__construct\\(\\) does not call parent constructor from html\\.$#"
-			count: 1
-			path: program/lib/Roundcube/html.php
-
-		-
-			message: "#^html_inputfield\\:\\:__construct\\(\\) does not call parent constructor from html\\.$#"
-			count: 1
-			path: program/lib/Roundcube/html.php
-
-		-
-			message: "#^html_table\\:\\:__construct\\(\\) does not call parent constructor from html\\.$#"
-			count: 1
-			path: program/lib/Roundcube/html.php
-
-		-
 			message: "#^Access to an undefined property rcube\\:\\:\\$password\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube.php
@@ -681,56 +591,6 @@ parameters:
 			path: program/lib/Roundcube/rcube.php
 
 		-
-			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_addressbook.php
-
-		-
-			message: "#^Instanceof between rcube_result_set and rcube_result_set will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_addressbook.php
-
-		-
-			message: "#^Method rcube_addressbook\\:\\:insert\\(\\) should return mixed but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_addressbook.php
-
-		-
-			message: "#^Method rcube_addressbook\\:\\:update\\(\\) should return mixed but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_addressbook.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_addresses.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_addresses.php
-
-		-
-			message: "#^Method rcube_addresses\\:\\:list_records\\(\\) should return array but returns rcube_result_set\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_addresses.php
-
-		-
-			message: "#^Return type \\(array\\) of method rcube_addresses\\:\\:list_records\\(\\) should be compatible with return type \\(rcube_result_set\\) of method rcube_contacts\\:\\:list_records\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_addresses.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_addresses.php
-
-		-
-			message: "#^rcube_addresses\\:\\:__construct\\(\\) does not call parent constructor from rcube_contacts\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_addresses.php
-
-		-
 			message: "#^Foreach overwrites \\$key with its value variable\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_cache.php
@@ -756,46 +616,6 @@ parameters:
 			path: program/lib/Roundcube/rcube_charset.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 3
-			path: program/lib/Roundcube/rcube_contacts.php
-
-		-
-			message: "#^Foreach overwrites \\$value with its value variable\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_contacts.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_contacts.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_contacts.php
-
-		-
-			message: "#^Parameter \\#1 \\$cols \\(array\\) of method rcube_contacts\\:\\:list_records\\(\\) should be contravariant with parameter \\$cols \\(array\\|null\\) of method rcube_addressbook\\:\\:list_records\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_contacts.php
-
-		-
-			message: "#^Parameter \\#1 \\$filter \\(string\\) of method rcube_contacts\\:\\:set_search_set\\(\\) should be contravariant with parameter \\$filter \\(mixed\\) of method rcube_addressbook\\:\\:set_search_set\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_contacts.php
-
-		-
-			message: "#^Parameter \\#1 \\$search \\(string\\) of method rcube_contacts\\:\\:list_groups\\(\\) should be contravariant with parameter \\$search \\(string\\|null\\) of method rcube_addressbook\\:\\:list_groups\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_contacts.php
-
-		-
-			message: "#^Return type \\(mixed\\) of method rcube_contacts\\:\\:get_result\\(\\) should be covariant with return type \\(rcube_result_set\\|null\\) of method rcube_addressbook\\:\\:get_result\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_contacts.php
-
-		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 2
 			path: program/lib/Roundcube/rcube_csv2vcard.php
@@ -804,86 +624,6 @@ parameters:
 			message: "#^Loose comparison using \\=\\= between 0 and 0 will always evaluate to true\\.$#"
 			count: 1
 			path: program/lib/Roundcube/rcube_html2text.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with mixed will always evaluate to false\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Method rcube_ldap\\:\\:rename_group\\(\\) should return bool but returns string\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Offset '%%dn' on non\\-empty\\-array in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Parameter \\#1 \\$cols \\(array\\) of method rcube_ldap\\:\\:list_records\\(\\) should be contravariant with parameter \\$cols \\(array\\|null\\) of method rcube_addressbook\\:\\:list_records\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Parameter \\#1 \\$filter \\(string\\) of method rcube_ldap\\:\\:set_search_set\\(\\) should be contravariant with parameter \\$filter \\(mixed\\) of method rcube_addressbook\\:\\:set_search_set\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Parameter \\#1 \\$search \\(string\\) of method rcube_ldap\\:\\:list_groups\\(\\) should be contravariant with parameter \\$search \\(string\\|null\\) of method rcube_addressbook\\:\\:list_groups\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Parameter \\#1 \\$sort_col \\(string\\) of method rcube_ldap\\:\\:set_sort_order\\(\\) should be contravariant with parameter \\$sort_col \\(string\\|null\\) of method rcube_addressbook\\:\\:set_sort_order\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Parameter \\#2 \\$sort_order \\(string\\) of method rcube_ldap\\:\\:set_sort_order\\(\\) should be contravariant with parameter \\$sort_order \\(string\\|null\\) of method rcube_addressbook\\:\\:set_sort_order\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Parameter \\#6 \\$required \\(array\\) of method rcube_ldap\\:\\:search\\(\\) should be contravariant with parameter \\$required \\(array\\<string\\>\\|string\\) of method rcube_addressbook\\:\\:search\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Return type \\(bool\\) of method rcube_ldap\\:\\:rename_group\\(\\) should be covariant with return type \\(string\\|false\\) of method rcube_addressbook\\:\\:rename_group\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Return type \\(bool\\|int\\) of method rcube_ldap\\:\\:delete\\(\\) should be covariant with return type \\(int\\|false\\) of method rcube_addressbook\\:\\:delete\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Return type \\(mixed\\) of method rcube_ldap\\:\\:create_group\\(\\) should be covariant with return type \\(array\\|false\\) of method rcube_addressbook\\:\\:create_group\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Return type \\(mixed\\) of method rcube_ldap\\:\\:get_record\\(\\) should be covariant with return type \\(array\\|rcube_result_set\\) of method rcube_addressbook\\:\\:get_record\\(\\)$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_ldap.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 3
-			path: program/lib/Roundcube/rcube_ldap.php
 
 		-
 			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"

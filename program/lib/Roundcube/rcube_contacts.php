@@ -71,7 +71,7 @@ class rcube_contacts extends rcube_addressbook
     {
         $this->db = $dbconn;
         $this->user_id = $user;
-        $this->ready = $this->db && !$this->db->is_error();
+        $this->ready = !$this->db->is_error();
     }
 
     /**
@@ -87,7 +87,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Save a search string for future listings
      *
-     * @param string $filter SQL params to use in listing method
+     * @param mixed $filter SQL params to use in listing method
      */
     public function set_search_set($filter): void
     {
@@ -128,8 +128,8 @@ class rcube_contacts extends rcube_addressbook
     /**
      * List all active contact groups of this source
      *
-     * @param string $search Search string to match group name
-     * @param int    $mode   Matching mode. Sum of rcube_addressbook::SEARCH_*
+     * @param ?string $search Search string to match group name
+     * @param int     $mode   Matching mode. Sum of rcube_addressbook::SEARCH_*
      *
      * @return array Indexed list of contact groups, each a hash array
      */
@@ -196,9 +196,9 @@ class rcube_contacts extends rcube_addressbook
     /**
      * List the current set of contact records
      *
-     * @param array $cols    List of cols to show, Null means all
-     * @param int   $subset  Only return this number of records, use negative values for tail
-     * @param bool  $nocount True to skip the count query (select only)
+     * @param ?array $cols    List of cols to show, Null means all
+     * @param int    $subset  Only return this number of records, use negative values for tail
+     * @param bool   $nocount True to skip the count query (select only)
      *
      * @return rcube_result_set Indexed list of contact records, each a hash array
      */
@@ -382,8 +382,8 @@ class rcube_contacts extends rcube_addressbook
                             $pos = strpos($col, ':');
                             $colname = $pos ? substr($col, 0, $pos) : $col;
                             $search = $post_search[$colname];
-                            foreach ((array) $row[$col] as $value) {
-                                if ($this->compare_search_value($colname, $value, $search, $mode)) {
+                            foreach ((array) $row[$col] as $_value) {
+                                if ($this->compare_search_value($colname, $_value, $search, $mode)) {
                                     $found[$colname] = true;
                                     break;
                                 }
@@ -425,7 +425,7 @@ class rcube_contacts extends rcube_addressbook
             // when we know we have an empty result
             if ($ids == '0') {
                 $this->set_search_set($where);
-                return $this->result = new rcube_result_set(0, 0);
+                return $this->result = new rcube_result_set();
             }
         }
 
@@ -436,6 +436,8 @@ class rcube_contacts extends rcube_addressbook
             } else {
                 $this->result = $this->count();
             }
+        } else {
+            return $this->result = new rcube_result_set();
         }
 
         return $this->result;
@@ -516,7 +518,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Return the last result set
      *
-     * @return mixed Result array or NULL if nothing selected yet
+     * @return rcube_result_set|null Result array or NULL if nothing selected yet
      */
     public function get_result()
     {
@@ -529,7 +531,7 @@ class rcube_contacts extends rcube_addressbook
      * @param mixed $id    Record identifier(s)
      * @param bool  $assoc Enables returning associative array
      *
-     * @return rcube_result_set|array Result object with all record fields
+     * @return rcube_result_set|array|null Result object with all record fields
      */
     public function get_record($id, $assoc = false)
     {
@@ -624,21 +626,18 @@ class rcube_contacts extends rcube_addressbook
      * @param array $save_data Associative array with save data
      * @param bool  $check     Enables validity checks
      *
-     * @return int|bool The created record ID on success, False on error
+     * @return mixed The created record ID on success, False on error
      */
     public function insert($save_data, $check = false)
     {
-        if (!is_array($save_data)) {
-            return false;
-        }
-
         $insert_id = $existing = false;
 
         if ($check) {
             foreach ($save_data as $col => $values) {
                 if (strpos($col, 'email') === 0) {
                     foreach ((array) $values as $email) {
-                        if ($existing = $this->search('email', $email, false, false)) {
+                        $existing = $this->search('email', $email, false, false);
+                        if ($existing->count) {
                             break 2;
                         }
                     }
@@ -805,8 +804,8 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Mark one or more contact records as deleted
      *
-     * @param array $ids   Record identifiers
-     * @param bool  $force Remove record(s) irreversible (unsupported)
+     * @param array|string $ids   Record identifiers array or string separated with self::SEPARATOR
+     * @param bool         $force Remove record(s) irreversible (unsupported)
      *
      * @return int|false Number of removed records, False on failure
      */
@@ -835,7 +834,7 @@ class rcube_contacts extends rcube_addressbook
     /**
      * Undelete one or more contact records
      *
-     * @param array $ids Record identifiers
+     * @param array|string $ids Record identifiers array or string separated with self::SEPARATOR
      *
      * @return int Number of undeleted contact records
      */

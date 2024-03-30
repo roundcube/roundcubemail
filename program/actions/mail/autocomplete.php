@@ -49,9 +49,10 @@ class rcmail_action_mail_autocomplete extends rcmail_action
             foreach ($book_types as $abook_id) {
                 $abook = $rcmail->get_address_book($abook_id);
                 $abook->set_pagesize($MAXNUM);
+                $result = $abook->search($fields, $search, $mode, true, true, 'email');
 
-                if ($result = $abook->search($fields, $search, $mode, true, true, 'email')) {
-                    while ($record = $result->iterate()) {
+                if ($result->count) {
+                    foreach ($result as $record) {
                         // Contact can have more than one e-mail address
                         $email_arr = (array) $abook->get_col_values('email', $record, true);
                         $email_cnt = count($email_arr);

@@ -115,16 +115,12 @@ if (class_exists('PEAR')) {
  * Similar function as in_array() but case-insensitive with multibyte support.
  *
  * @param string $needle   Needle value
- * @param array  $haystack Array to search in
+ * @param ?array $haystack Array to search in
  *
  * @return bool True if found, False if not
  */
 function in_array_nocase($needle, $haystack)
 {
-    if (!is_string($needle) || !is_array($haystack)) {
-        return false;
-    }
-
     // use much faster method for ascii
     if (is_ascii($needle)) {
         foreach ((array) $haystack as $value) {
@@ -147,9 +143,9 @@ function in_array_nocase($needle, $haystack)
 /**
  * Parse a human readable string for a number of bytes.
  *
- * @param string $str Input string
+ * @param string|int|float $str Input string
  *
- * @return int|false|null Number of bytes
+ * @return int|false Number of bytes
  */
 function parse_bytes($str)
 {
@@ -200,7 +196,7 @@ function unslashify($str)
 /**
  * Returns number of seconds for a specified offset string.
  *
- * @param string $str String representation of the offset (e.g. 20min, 5h, 2days, 1week)
+ * @param string|int $str String representation of the offset (e.g. 20min, 5h, 2days, 1week)
  *
  * @return int Number of seconds
  */
@@ -284,7 +280,8 @@ function array_keys_recursive($array)
 {
     $keys = [];
 
-    if (!empty($array) && is_array($array)) {
+    // @phpstan-ignore-next-line
+    if (is_array($array)) {
         foreach ($array as $key => $child) {
             $keys[] = $key;
             foreach (array_keys_recursive($child) as $val) {
@@ -305,12 +302,15 @@ function array_keys_recursive($array)
  */
 function array_first($array)
 {
-    if (is_array($array)) {
+    // @phpstan-ignore-next-line
+    if (is_array($array) && !empty($array)) {
         reset($array);
         foreach ($array as $element) {
             return $element;
         }
     }
+
+    return null;
 }
 
 /**

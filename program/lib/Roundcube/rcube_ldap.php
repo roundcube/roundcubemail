@@ -436,6 +436,7 @@ class rcube_ldap extends rcube_addressbook
                         }
                     }
 
+                    // @phpstan-ignore-next-line
                     if ($this->cache && !empty($replaces['%dn'])) {
                         $this->cache->set($cache_key, $replaces['%dn']);
                     }
@@ -549,10 +550,10 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Set internal sort settings
      *
-     * @param string $sort_col   Sort column
-     * @param string $sort_order Sort order
+     * @param ?string $sort_col   Sort column
+     * @param ?string $sort_order Sort order
      */
-    public function set_sort_order($sort_col, $sort_order = null)
+    public function set_sort_order($sort_col = null, $sort_order = null)
     {
         if (!empty($this->coltypes[$sort_col]['attributes'])) {
             $this->sort_col = $this->coltypes[$sort_col]['attributes'][0];
@@ -562,7 +563,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Save a search string for future listings
      *
-     * @param string $filter Filter string
+     * @param mixed $filter Filter string
      */
     public function set_search_set($filter): void
     {
@@ -592,9 +593,9 @@ class rcube_ldap extends rcube_addressbook
     /**
      * List the current set of contact records
      *
-     * @param array $cols    List of cols to show
-     * @param int   $subset  Only return this number of records
-     * @param bool  $nocount True to skip the count query (Not used)
+     * @param ?array $cols    List of cols to show
+     * @param int    $subset  Only return this number of records
+     * @param bool   $nocount True to skip the count query (Not used)
      *
      * @return rcube_result_set Indexed list of contact records, each a hash array
      */
@@ -793,12 +794,12 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Search contacts
      *
-     * @param mixed $fields   The field name of array of field names to search in
-     * @param mixed $value    Search value (or array of values when $fields is array)
-     * @param int   $mode     Matching mode. Sum of rcube_addressbook::SEARCH_*
-     * @param bool  $select   True if results are requested, False if count only
-     * @param bool  $nocount  (Not used)
-     * @param array $required List of fields that cannot be empty
+     * @param mixed                $fields   The field name of array of field names to search in
+     * @param mixed                $value    Search value (or array of values when $fields is array)
+     * @param int                  $mode     Matching mode. Sum of rcube_addressbook::SEARCH_*
+     * @param bool                 $select   True if results are requested, False if count only
+     * @param bool                 $nocount  (Not used)
+     * @param array<string>|string $required List of fields that cannot be empty, or a single field
      *
      * @return rcube_result_set List of contact records
      */
@@ -829,7 +830,7 @@ class rcube_ldap extends rcube_addressbook
         if (!empty($this->prop['vlv_search']) && $this->ready
             && implode(',', (array) $fields) == implode(',', $list_fields)
         ) {
-            $this->result = new rcube_result_set(0);
+            $this->result = new rcube_result_set();
 
             $this->ldap->config_set('fuzzy_search', $fuzzy_search);
 
@@ -1084,7 +1085,7 @@ class rcube_ldap extends rcube_addressbook
      * @param mixed $dn    Record identifier
      * @param bool  $assoc Return as associative array
      *
-     * @return mixed Hash array or rcube_result_set with all record fields
+     * @return array|rcube_result_set|null Hash array or rcube_result_set with all record fields
      */
     public function get_record($dn, $assoc = false)
     {
@@ -1178,19 +1179,19 @@ class rcube_ldap extends rcube_addressbook
                 // try to extract surname and firstname from displayname
                 $name_parts = preg_split('/[\s,.]+/', $save_data['name']);
 
-                if ($sn_field && $missing[$sn_field]) {
+                if ($sn_field && !empty($missing[$sn_field])) {
                     $save_data['surname'] = array_pop($name_parts);
                     unset($missing[$sn_field]);
                 }
 
-                if ($fn_field && $missing[$fn_field]) {
+                if ($fn_field && !empty($missing[$fn_field])) {
                     $save_data['firstname'] = array_shift($name_parts);
                     unset($missing[$fn_field]);
                 }
 
                 // try to fix missing e-mail, very often on import
                 // from vCard we have email:other only defined
-                if ($mail_field && $missing[$mail_field]) {
+                if ($mail_field && !empty($missing[$mail_field])) {
                     $emails = $this->get_col_values('email', $save_data, true);
                     if (!empty($emails) && ($email = array_first($emails))) {
                         $save_data['email'] = $email;
@@ -1320,9 +1321,11 @@ class rcube_ldap extends rcube_addressbook
                 }
                 // $this->_map_data() result and _raw_attrib use different format
                 // make sure comparing array with one element with a string works as expected
+                // @phpstan-ignore-next-line
                 if (is_array($old) && count($old) == 1 && !is_array($val)) {
                     $old = array_pop($old);
                 }
+                // @phpstan-ignore-next-line
                 if (is_array($val) && count($val) == 1 && !is_array($old)) {
                     $val = array_pop($val);
                 }
@@ -1464,10 +1467,10 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Mark one or more contact records as deleted
      *
-     * @param array $ids   Record identifiers
-     * @param bool  $force Remove record(s) irreversible (unsupported)
+     * @param array|string $ids   Record identifiers array or comma-separated string
+     * @param bool         $force Remove record(s) irreversible (unsupported)
      *
-     * @return int|bool Number of deleted records on success, False on error
+     * @return int|false Number of deleted records on success, False on error
      */
     public function delete($ids, $force = true)
     {
@@ -1820,8 +1823,8 @@ class rcube_ldap extends rcube_addressbook
     /**
      * List all active contact groups of this source
      *
-     * @param string $search Optional search string to match group name
-     * @param int    $mode   Matching mode. Sum of rcube_addressbook::SEARCH_*
+     * @param ?string $search Optional search string to match group name
+     * @param int     $mode   Matching mode. Sum of rcube_addressbook::SEARCH_*
      *
      * @return array Indexed list of contact groups, each a hash array
      */
@@ -2038,7 +2041,7 @@ class rcube_ldap extends rcube_addressbook
      *
      * @param string $group_name The group name
      *
-     * @return mixed False on error, array with record props in success
+     * @return array|false False on error, array with record props in success
      */
     public function create_group($group_name)
     {
@@ -2096,7 +2099,7 @@ class rcube_ldap extends rcube_addressbook
      * @param string $new_name New name to set for this group
      * @param string &$new_gid New group identifier (if changed, otherwise don't set)
      *
-     * @return bool New name on success, false if no data was changed
+     * @return string|false New name on success, false if no data was changed
      */
     public function rename_group($group_id, $new_name, &$new_gid)
     {
