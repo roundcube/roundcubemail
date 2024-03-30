@@ -63,6 +63,10 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
             foreach ($cid as $cid) {
                 $a_record = $CONTACTS->get_record($cid, true);
 
+                if (empty($a_record)) {
+                    continue;
+                }
+
                 // avoid copying groups
                 if (isset($a_record['_type']) && $a_record['_type'] == 'group') {
                     continue;
