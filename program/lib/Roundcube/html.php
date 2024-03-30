@@ -40,6 +40,7 @@ class html
      */
     public function __construct($attrib = [])
     {
+        // @phpstan-ignore-next-line
         if (is_array($attrib)) {
             $this->attrib = $attrib;
         }
@@ -60,10 +61,10 @@ class html
     /**
      * Generic method to create a HTML tag
      *
-     * @param string $tagname Tag name
-     * @param array  $attrib  Tag attributes as key/value pairs
-     * @param string $content Optional Tag content (creates a container tag)
-     * @param array  $allowed List with allowed attributes, omit to allow all
+     * @param string       $tagname Tag name
+     * @param array|string $attrib  Tag attributes as key/value pairs, or 'class' attribute value
+     * @param string       $content Optional Tag content (creates a container tag)
+     * @param array        $allowed List with allowed attributes, omit to allow all
      *
      * @return string The XHTML tag
      */
@@ -387,13 +388,8 @@ class html
      *
      * @return string The quoted string
      */
-    public static function quote($str)
+    public static function quote(string $str)
     {
-        // PHP8 does not like e.g. an array as htmlspecialchars() argument
-        if (!is_string($str)) {
-            return (string) $str;
-        }
-
         return @htmlspecialchars($str, \ENT_COMPAT | \ENT_SUBSTITUTE, RCUBE_CHARSET);
     }
 }
@@ -419,9 +415,7 @@ class html_inputfield extends html
      */
     public function __construct($attrib = [])
     {
-        if (is_array($attrib)) {
-            $this->attrib = $attrib;
-        }
+        parent::__construct($attrib);
 
         if (!empty($attrib['type'])) {
             $this->type = $attrib['type'];
@@ -479,6 +473,8 @@ class html_hiddenfield extends html
      */
     public function __construct($attrib = null)
     {
+        parent::__construct();
+
         if (is_array($attrib)) {
             $this->add($attrib);
         }
@@ -710,8 +706,11 @@ class html_table extends html
      */
     public function __construct($attrib = [])
     {
-        $default_attrib = self::$doctype == 'xhtml' ? ['border' => '0'] : [];
-        $this->attrib = array_merge($attrib, $default_attrib);
+        parent::__construct($attrib);
+
+        if (self::$doctype == 'xhtml') {
+            $this->attrib['border'] = '0';
+        }
 
         if (!empty($attrib['tagname']) && $attrib['tagname'] != 'table') {
             $this->tagname = $attrib['tagname'];
@@ -722,8 +721,8 @@ class html_table extends html
     /**
      * Add a table cell
      *
-     * @param array  $attr Cell attributes
-     * @param string $cont Cell content
+     * @param array|string $attr Cell attributes or 'class' attribute value
+     * @param string       $cont Cell content
      */
     public function add($attr, $cont)
     {

@@ -45,10 +45,9 @@ class rcube_addresses extends rcube_contacts
      */
     public function __construct($dbconn, $user, $type)
     {
-        $this->db = $dbconn;
-        $this->user_id = $user;
+        parent::__construct($dbconn, $user);
+
         $this->type = $type;
-        $this->ready = $this->db && !$this->db->is_error();
     }
 
     /**
@@ -72,11 +71,11 @@ class rcube_addresses extends rcube_contacts
     /**
      * List the current set of contact records
      *
-     * @param array $cols    List of cols to show, Null means all
-     * @param int   $subset  Only return this number of records, use negative values for tail
-     * @param bool  $nocount True to skip the count query (select only)
+     * @param ?array $cols    List of cols to show, Null means all
+     * @param int    $subset  Only return this number of records, use negative values for tail
+     * @param bool   $nocount True to skip the count query (select only)
      *
-     * @return array Indexed list of contact records, each a hash array
+     * @return rcube_result_set Indexed list of contact records, each a hash array
      */
     public function list_records($cols = null, $subset = 0, $nocount = false)
     {
@@ -241,7 +240,7 @@ class rcube_addresses extends rcube_contacts
      * @param mixed $id    Record identifier(s)
      * @param bool  $assoc Enables returning associative array
      *
-     * @return rcube_result_set|array Result object with all record fields
+     * @return rcube_result_set|array|null Result object with all record fields
      */
     public function get_record($id, $assoc = false)
     {
@@ -306,15 +305,12 @@ class rcube_addresses extends rcube_contacts
      * @param array $save_data Associative array with save data
      * @param bool  $check     Enables validity checks
      *
-     * @return int|bool The created record ID on success, False on error
+     * @return mixed The created record ID on success, False on error
      */
     public function insert($save_data, $check = false)
     {
-        if (!is_array($save_data)) {
-            return false;
-        }
-
-        if ($check && ($existing = $this->search('email', $save_data['email'], false, false))) {
+        if ($check) {
+            $existing = $this->search('email', $save_data['email'], false, false);
             if ($existing->count) {
                 return false;
             }
@@ -351,8 +347,8 @@ class rcube_addresses extends rcube_contacts
     /**
      * Delete one or more contact records
      *
-     * @param array $ids   Record identifiers
-     * @param bool  $force Remove record(s) irreversible (unsupported)
+     * @param array|string $ids   Record identifiers as an array or a string with self::SEPARATOR
+     * @param bool         $force Remove record(s) irreversible (unsupported)
      *
      * @return int|false Number of removed records
      */

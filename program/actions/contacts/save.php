@@ -154,9 +154,12 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
             // show notice if existing contacts with same e-mail are found
             foreach ($contacts->get_col_values('email', $a_record, true) as $email) {
-                if ($email && ($res = $contacts->search('email', $email, 1, false, true)) && $res->count) {
-                    $rcmail->output->show_message('contactexists', 'notice', null, false);
-                    break;
+                if ($email) {
+                    $res = $contacts->search('email', $email, 1, false, true);
+                    if ($res->count) {
+                        $rcmail->output->show_message('contactexists', 'notice', null, false);
+                        break;
+                    }
                 }
             }
 

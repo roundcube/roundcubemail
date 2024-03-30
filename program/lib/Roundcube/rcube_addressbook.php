@@ -259,7 +259,7 @@ abstract class rcube_addressbook
      * @param mixed $id    Record identifier(s)
      * @param bool  $assoc True to return record as associative array, otherwise a result set is returned
      *
-     * @return rcube_result_set|array Result object with all record fields
+     * @return rcube_result_set|array|null Result object with all record fields
      */
     abstract public function get_record($id, $assoc = false);
 
@@ -316,7 +316,7 @@ abstract class rcube_addressbook
      * @param ?string $sort_col   Sort column
      * @param ?string $sort_order Sort order
      */
-    public function set_sort_order($sort_col, $sort_order = null)
+    public function set_sort_order($sort_col = null, $sort_order = null)
     {
         if ($sort_col && (array_key_exists($sort_col, $this->coltypes) || in_array($sort_col, $this->coltypes))) {
             $this->sort_col = $sort_col;
@@ -384,6 +384,7 @@ abstract class rcube_addressbook
     public function insert($save_data, $check = false)
     {
         // empty for read-only address books
+        return false;
     }
 
     /**
@@ -397,6 +398,8 @@ abstract class rcube_addressbook
     public function insertMultiple($recset, $check = false)
     {
         $ids = [];
+
+        // @phpstan-ignore-next-line
         if ($recset instanceof rcube_result_set) {
             foreach ($recset as $row) {
                 if ($insert = $this->insert($row, $check)) {
@@ -421,13 +424,14 @@ abstract class rcube_addressbook
     public function update($id, $save_cols)
     {
         // empty for read-only address books
+        return false;
     }
 
     /**
      * Mark one or more contact records as deleted
      *
-     * @param array $ids   Record identifiers
-     * @param bool  $force Remove records irreversible (see self::undelete)
+     * @param array|string $ids   Record identifiers
+     * @param bool         $force Remove records irreversible (see self::undelete)
      *
      * @return int|false Number of removed records, False on failure
      */
@@ -440,7 +444,7 @@ abstract class rcube_addressbook
     /**
      * Unmark delete flag on contact record(s)
      *
-     * @param array $ids Record identifiers
+     * @param array|string $ids Record identifiers
      */
     public function undelete($ids)
     {
@@ -621,7 +625,7 @@ abstract class rcube_addressbook
 
         // remove duplicates
         if ($flat && !empty($out)) {
-            $out = array_unique($out);
+            $out = array_values(array_unique($out));
         }
 
         return $out;
@@ -740,7 +744,7 @@ abstract class rcube_addressbook
                 $fn = $org;
             }
             // ... email address
-            elseif (($email = self::get_col_values('email', $contact, true)) && count($email) > 0) {
+            elseif (($email = self::get_col_values('email', $contact, true)) && isset($email[0])) {
                 $fn = $email[0];
             }
         }
@@ -827,7 +831,7 @@ abstract class rcube_addressbook
         $key = $contact[$sort_col] ?? null;
 
         // add email to a key to not skip contacts with the same name (#1488375)
-        if (($email = self::get_col_values('email', $contact, true)) && count($email) > 0) {
+        if (($email = self::get_col_values('email', $contact, true)) && isset($email[0])) {
             $key .= ':' . implode(':', (array) $email);
         }
 
