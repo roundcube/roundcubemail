@@ -41,35 +41,41 @@ class rcube
     /** @var rcube_config Stores instance of rcube_config */
     public $config;
 
-    /** @var ?rcube_db Instance of database class */
+    /** @var ?rcube_db SQL database handler */
     public $db;
 
-    /** @var Memcache|false|null Instance of Memcache class */
+    /** @var Memcache|false|null Memcache cache handler */
     public $memcache;
 
-    /** @var Memcached|false|null Instance of Memcached class */
+    /** @var Memcached|false|null Memcached cache handler */
     public $memcached;
 
-    /** @var Redis|false|null Instance of Redis class */
+    /** @var Redis|false|null Redis cache handler */
     public $redis;
 
-    /** @var ?rcube_session Instance of rcube_session class */
+    /** @var ?rcube_session Session handler */
     public $session;
 
-    /** @var ?rcube_smtp Instance of rcube_smtp class */
+    /** @var ?rcube_smtp SMTP handler */
     public $smtp;
 
-    /** @var ?rcube_storage Instance of rcube_storage class */
+    /** @var ?rcube_storage Storage (IMAP) handler */
     public $storage;
 
-    /** @var ?rcube_output Instance of rcube_output class */
+    /** @var ?rcube_output Output handler */
     public $output;
 
-    /** @var rcube_plugin_api Instance of rcube_plugin_api */
+    /** @var rcube_plugin_api|rcube_dummy_plugin_api Instance of rcube_plugin_api */
     public $plugins;
 
-    /** @var ?rcube_user Instance of rcube_user class */
+    /** @var ?rcube_user User database handler */
     public $user;
+
+    /** @var ?string Temporary user email */
+    public $user_email;
+
+    /** @var ?string Temporary user password */
+    public $password;
 
     /** @var int Request status */
     public $request_status = 0;
@@ -77,13 +83,13 @@ class rcube
     /** @var array Localization */
     protected $texts;
 
-    /** @var rcube_cache[] Initialized cache objects */
+    /** @var array<rcube_cache|null> Initialized cache objects */
     protected $caches = [];
 
     /** @var array Registered shutdown functions */
     protected $shutdown_functions = [];
 
-    /** @var rcube Singleton instance of rcube */
+    /** @var ?rcube Singleton instance of rcube */
     protected static $instance;
 
     /**
@@ -231,7 +237,7 @@ class rcube
      * @param string $name   Cache identifier
      * @param bool   $packed Enables/disables data serialization
      *
-     * @return rcube_cache Shared cache object
+     * @return rcube_cache|null Shared cache object, Null if the cache is disabled
      */
     public function get_cache_shared($name, $packed = true)
     {
@@ -653,6 +659,7 @@ class rcube
 
         // any of loaded domains (plugins)
         if ($domain == '*') {
+            // @phpstan-ignore-next-line
             foreach ($this->plugins->loaded_plugins() as $domain) {
                 if (isset($this->texts[$domain . '.' . $name])) {
                     $ref_domain = $domain;
@@ -705,12 +712,12 @@ class rcube
         }
 
         // append additional texts (from plugin)
-        if (is_array($add) && !empty($add)) {
+        if (!empty($add)) {
             $this->texts += $add;
         }
 
         // merge additional texts (from plugin)
-        if (is_array($merge) && !empty($merge)) {
+        if (!empty($merge)) {
             $this->texts = array_merge($this->texts, $merge);
         }
     }
@@ -893,6 +900,7 @@ class rcube
      */
     public function encrypt($clear, $key = 'des_key', $base64 = true)
     {
+        // @phpstan-ignore-next-line
         if (!is_string($clear) || !strlen($clear)) {
             return '';
         }
@@ -945,7 +953,7 @@ class rcube
         }
 
         if ($base64) {
-            $cipher = base64_decode($cipher);
+            $cipher = base64_decode($cipher, true);
             if ($cipher === false) {
                 return false;
             }
@@ -1106,7 +1114,7 @@ class rcube
         }
 
         foreach ($this->caches as $cache) {
-            if (is_object($cache)) {
+            if ($cache) {
                 $cache->close();
             }
         }
@@ -1142,7 +1150,7 @@ class rcube
     public function sleep()
     {
         foreach ($this->caches as $cache) {
-            if (is_object($cache)) {
+            if ($cache) {
                 $cache->close();
             }
         }
@@ -1233,11 +1241,11 @@ class rcube
 
         preg_match_all('/({(-?)([a-z]\w*)})/', $cmd, $matches, \PREG_SET_ORDER);
         foreach ($matches as $tags) {
-            [, $tag, $option, $key] = $tags;
+            [, $tag, $option, $optkey] = $tags;
             $parts = [];
 
             if ($option) {
-                foreach ((array) $values["-{$key}"] as $key => $value) {
+                foreach ((array) $values["-{$optkey}"] as $key => $value) {
                     if ($value === true || $value === false || $value === null) {
                         $parts[] = $value ? $key : '';
                     } else {
@@ -1247,7 +1255,7 @@ class rcube
                     }
                 }
             } else {
-                foreach ((array) $values[$key] as $value) {
+                foreach ((array) $values[$optkey] as $value) {
                     $parts[] = escapeshellarg($value);
                 }
             }
@@ -1311,7 +1319,7 @@ class rcube
         $date = rcube_utils::date_format($date_format);
 
         // trigger logging hook
-        if (is_object(self::$instance) && is_object(self::$instance->plugins)) {
+        if (self::$instance) {
             $log = self::$instance->plugins->exec_hook('write_log',
                 ['name' => $name, 'date' => $date, 'line' => $line]
             );
@@ -1442,7 +1450,7 @@ class rcube
 
         if ($cli) {
             fwrite(\STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
-        } elseif ($terminate && is_object(self::$instance->output)) {
+        } elseif ($terminate && self::$instance && is_object(self::$instance->output)) {
             self::$instance->output->raise_error($arg['code'], $arg['message']);
         } elseif ($terminate) {
             http_response_code(500);
@@ -1450,7 +1458,7 @@ class rcube
 
         // terminate script
         if ($terminate) {
-            if (defined('ROUNDCUBE_TEST_MODE') && ROUNDCUBE_TEST_MODE) {
+            if (defined('ROUNDCUBE_TEST_MODE')) {
                 throw new Exception('Error raised');
             }
 
@@ -1575,6 +1583,7 @@ class rcube
      */
     public function set_user($user)
     {
+        // @phpstan-ignore-next-line
         if (is_object($user)) {
             $this->user = $user;
 
@@ -1586,15 +1595,19 @@ class rcube
     /**
      * Getter for logged user ID.
      *
-     * @return mixed User identifier
+     * @return int|null User identifier
      */
     public function get_user_id()
     {
         if (is_object($this->user)) {
-            return $this->user->ID;
-        } elseif (isset($_SESSION['user_id'])) {
-            return $_SESSION['user_id'];
+            return (int) $this->user->ID;
         }
+
+        if (isset($_SESSION['user_id'])) {
+            return (int) $_SESSION['user_id'];
+        }
+
+        return null;
     }
 
     /**
@@ -1854,8 +1867,8 @@ class rcube_dummy_plugin_api
     /**
      * Triggers a plugin hook.
      *
-     * @param string $hook Hook name
-     * @param array  $args Hook arguments
+     * @param string       $hook Hook name
+     * @param array|string $args Hook arguments
      *
      * @return array Hook arguments
      *

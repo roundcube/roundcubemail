@@ -58,12 +58,6 @@ class rcmail extends rcube
     /** @var rcmail_output_cli|rcmail_output_html|rcmail_output_json Output handler */
     public $output;
 
-    /** @var ?string Temporary user email (set on user creation only) */
-    public $user_email;
-
-    /** @var ?string Temporary user password (set on user creation only) */
-    public $password;
-
     private $address_books = [];
     private $action_map = [];
     private $action_args = [];

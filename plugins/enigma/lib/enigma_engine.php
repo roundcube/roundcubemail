@@ -410,7 +410,7 @@ class enigma_engine
 
             $storage = $this->rc->get_storage();
             $body = $storage->get_message_part($p['object']->uid, $part->mime_id, $part, null, null, true, 0, false);
-            $result = $this->pgp_decrypt($body);
+            $result = is_string($body) ? $this->pgp_decrypt($body) : false;
 
             // @TODO: what to do on error?
             if ($result === true) {

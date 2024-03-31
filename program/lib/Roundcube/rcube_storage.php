@@ -470,7 +470,7 @@ abstract class rcube_storage
      * @param int                $max_bytes         Only read this number of bytes
      * @param bool               $formatted         Enables formatting of text/* parts bodies
      *
-     * @return string|true|null Message/part body if not printed
+     * @return string|bool Message/part body if not printed
      */
     abstract public function get_message_part($uid, $part, $o_part = null, $print = null, $fp = null,
         $skip_charset_conv = false, $max_bytes = 0, $formatted = true);

@@ -2299,13 +2299,13 @@ class rcube_imap extends rcube_storage
      * @param int                 $max_bytes         Only read this number of bytes
      * @param bool                $formatted         Enables formatting of text/* parts bodies
      *
-     * @return string|true|null Message/part body if not printed
+     * @return string|bool Message/part body if not printed
      */
     public function get_message_part($uid, $part, $o_part = null, $print = null, $fp = null,
         $skip_charset_conv = false, $max_bytes = 0, $formatted = true)
     {
         if (!$this->check_connection()) {
-            return null;
+            return false;
         }
 
         // get part data if not provided
@@ -2314,7 +2314,7 @@ class rcube_imap extends rcube_storage
             $part_data = rcube_imap_generic::getStructurePartData($structure, $part);
 
             if (empty($part_data)) {
-                return null;
+                return false;
             }
 
             $o_part = new rcube_message_part();
