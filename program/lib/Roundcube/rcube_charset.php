@@ -178,7 +178,7 @@ class rcube_charset
     /**
      * Validate character set identifier.
      *
-     * @param string $input Character set identifier
+     * @param mixed $input Character set identifier
      *
      * @return bool True if valid, False if not valid
      */
@@ -194,7 +194,7 @@ class rcube_charset
      *
      * @param string $input Input charset name
      *
-     * @return string The validated charset name
+     * @return ?string The validated charset name, Null for BINARY charset
      */
     public static function parse_charset($input)
     {

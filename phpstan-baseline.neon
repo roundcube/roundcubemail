@@ -171,11 +171,6 @@ parameters:
 			path: program/actions/mail/compose.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: program/actions/mail/compose.php
-
-		-
 			message: "#^Instanceof between rcube_message_part and rcube_message_part will always evaluate to true\\.$#"
 			count: 1
 			path: program/actions/mail/compose.php
@@ -251,11 +246,6 @@ parameters:
 			path: program/actions/mail/show.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: program/actions/mail/show.php
-
-		-
 			message: "#^For loop initial assignment overwrites variable \\$i\\.$#"
 			count: 1
 			path: program/actions/settings/folders.php
@@ -308,11 +298,6 @@ parameters:
 		-
 			message: "#^If condition is always true\\.$#"
 			count: 2
-			path: program/include/rcmail.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
 			path: program/include/rcmail.php
 
 		-
@@ -504,186 +489,6 @@ parameters:
 			message: "#^Right side of && is always true\\.$#"
 			count: 2
 			path: program/include/rcmail_sendmail.php
-
-		-
-			message: "#^Access to an undefined property rcube\\:\\:\\$password\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Access to an undefined property rcube\\:\\:\\$user_email\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 3
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Call to function is_object\\(\\) with rcube_cache will always evaluate to true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Call to function is_object\\(\\) with rcube_plugin_api will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Call to function is_object\\(\\) with rcube_user will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Foreach overwrites \\$domain with its value variable\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Foreach overwrites \\$key with its key variable\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 3
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Method rcube\\:\\:get_cache_shared\\(\\) should return rcube_cache but returns null\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Method rcube\\:\\:get_user_id\\(\\) should return mixed but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Property rcube\\:\\:\\$plugins \\(rcube_plugin_api\\) does not accept rcube_dummy_plugin_api\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube.php
-
-		-
-			message: "#^Foreach overwrites \\$key with its value variable\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_cache.php
-
-		-
-			message: "#^Method rcube_cache\\:\\:get_item\\(\\) should return mixed but return statement is missing\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_cache.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_cache.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_charset.php
-
-		-
-			message: "#^Method rcube_charset\\:\\:parse_charset\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_charset.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_csv2vcard.php
-
-		-
-			message: "#^Loose comparison using \\=\\= between 0 and 0 will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_html2text.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array\\<rcube_message_part\\> will always evaluate to true\\.$#"
-			count: 3
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Left side of && is always true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Method rcube_message\\:\\:get_header\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Method rcube_message\\:\\:get_multipart_encrypted_part\\(\\) should return rcube_message_part but returns false\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Method rcube_message\\:\\:get_part_body\\(\\) should return bool\\|string but empty return statement found\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between string and null will always evaluate to true\\.$#"
-			count: 2
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between string\\|null and false will always evaluate to true\\.$#"
-			count: 4
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between string\\|true\\|null and false will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message.php
-
-		-
-			message: "#^Call to function is_object\\(\\) with rcube_message_part will always evaluate to true\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message_part.php
-
-		-
-			message: "#^Property rcube_message_part\\:\\:\\$parts \\(array\\<rcube_message_part\\>\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: program/lib/Roundcube/rcube_message_part.php
 
 		-
 			message: "#^Parameter \\#1 \\$browser \\(Tests\\\\Browser\\\\Browser\\) of method Tests\\\\Browser\\\\Components\\\\App\\:\\:assert\\(\\) should be contravariant with parameter \\$browser \\(Laravel\\\\Dusk\\\\Browser\\) of method Laravel\\\\Dusk\\\\Component\\:\\:assert\\(\\)$#"

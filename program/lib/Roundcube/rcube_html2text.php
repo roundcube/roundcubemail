@@ -697,6 +697,7 @@ class rcube_html2text
                     $level--;
                 }
                 // found matching end tag
+                // @phpstan-ignore-next-line
                 elseif ($end !== false && $level == 0) {
                     $taglen = strpos($text, '>', $start) - $start;
                     $startpos = $start + $taglen + 1;

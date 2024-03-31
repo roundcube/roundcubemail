@@ -551,7 +551,7 @@ class rcube_csv2vcard
         for ($i = 0; $i < $size; $i++) {
             if (!empty($label_map[$elements[$i]])) {
                 $label = $label_map[$elements[$i]];
-                if ($label && !empty($this->csv2vcard_map[$label])) {
+                if (!empty($this->csv2vcard_map[$label])) {
                     $map1[$i] = $this->csv2vcard_map[$label];
                 }
             }
@@ -588,6 +588,7 @@ class rcube_csv2vcard
         if (!empty($contents)) {
             foreach ($this->gmail_label_map as $key => $items) {
                 $num = 1;
+                // @phpstan-ignore-next-line
                 while (($_key = "{$key} {$num} - Type") && ($found = array_search($_key, $elements)) !== false) {
                     $type = $contents[$found];
                     $type = preg_replace('/[^a-z]/', '', strtolower($type));

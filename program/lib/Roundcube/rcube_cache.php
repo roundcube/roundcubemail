@@ -65,7 +65,7 @@ class rcube_cache
         $driver = strtolower($type) ?: 'db';
         $class = "rcube_cache_{$driver}";
 
-        if (!$driver || !class_exists($class)) {
+        if (!class_exists($class)) {
             rcube::raise_error([
                 'code' => 600, 'type' => 'db',
                 'line' => __LINE__, 'file' => __FILE__,
@@ -364,8 +364,8 @@ class rcube_cache
 
         // Remove all keys
         if ($key === null) {
-            foreach ($this->index as $key) {
-                $this->delete_item($this->ckey($key));
+            foreach ($this->index as $_key) {
+                $this->delete_item($this->ckey($_key));
                 if (!$this->index_update) {
                     $this->index_update = time();
                 }
@@ -497,6 +497,7 @@ class rcube_cache
     protected function get_item($key)
     {
         // to be overwritten by engine class
+        return null;
     }
 
     /**

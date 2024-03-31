@@ -131,12 +131,8 @@ class rcube_message_part
      */
     public function __clone()
     {
-        if (isset($this->parts)) {
-            foreach ($this->parts as $idx => $part) {
-                if (is_object($part)) {
-                    $this->parts[$idx] = clone $part;
-                }
-            }
+        foreach ($this->parts as $idx => $part) {
+            $this->parts[$idx] = clone $part;
         }
     }
 
