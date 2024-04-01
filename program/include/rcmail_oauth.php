@@ -53,13 +53,13 @@ class rcmail_oauth
     /** @var array */
     protected $jwks;
 
-    /** @var string */
+    /** @var ?string */
     protected $last_error;
 
     /** @var bool */
     protected $no_redirect = false;
 
-    /** @var rcube_cache */
+    /** @var ?rcube_cache */
     protected $cache;
 
     /** @var HttpClient */
@@ -90,7 +90,7 @@ class rcmail_oauth
         // plain method is not implemented: @see RFC7636 4.2: "If the client is capable of using "S256", it MUST use "S256"
     ];
 
-    /** @var rcmail_oauth */
+    /** @var ?rcmail_oauth */
     protected static $instance;
 
     /**
@@ -551,20 +551,18 @@ class rcmail_oauth
      *
      * @param string $authorization the Bearer authorization
      *
-     * @return array the identity
+     * @return array|null The identity
      *
      * @see: https://openid.net/specs/openid-connect-core-1_0.html#UserInfo
      */
     protected function fetch_userinfo($authorization)
     {
-        $oauth_identity_uri = $this->options['identity_uri'];
-
-        if (empty($oauth_identity_uri)) {
+        if (empty($this->options['identity_uri'])) {
             // service not available
-            return;
+            return null;
         }
 
-        $identity_response = $this->http_client->get($oauth_identity_uri, [
+        $identity_response = $this->http_client->get($this->options['identity_uri'], [
             'headers' => [
                 'Authorization' => $authorization,
                 'Accept' => 'application/json',
@@ -711,7 +709,7 @@ class rcmail_oauth
      * If successful, this will update the `oauth_token` entry in
      * session data.
      *
-     * @return array Updated authorization data
+     * @return array|false Updated authorization data
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-6
      */
@@ -752,6 +750,7 @@ class rcmail_oauth
             $this->rcmail->plugins->exec_hook('oauth_refresh_token', $data);
 
             $this->last_error = null; // clean last error
+
             return [
                 'token' => $data,
                 'authorization' => $authorization,
@@ -769,8 +768,6 @@ class rcmail_oauth
             if ($e->getCode() >= 400 && $e->getCode() < 500) {
                 $this->rcmail->kill_session();
             }
-
-            return false;
         } catch (Exception $e) {
             $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             rcube::raise_error([
@@ -778,9 +775,9 @@ class rcmail_oauth
                 'file' => __FILE__,
                 'line' => __LINE__,
             ], true, false);
-
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -986,14 +983,16 @@ class rcmail_oauth
      * Callback for 'refresh' hook
      *
      * @param array $options
+     *
+     * @return array
      */
-    public function refresh($options): void
+    public function refresh($options)
     {
-        if (!isset($_SESSION['oauth_token'])) {
-            return;
+        if (isset($_SESSION['oauth_token'])) {
+            $this->check_token_validity($_SESSION['oauth_token']);
         }
 
-        $this->check_token_validity($_SESSION['oauth_token']);
+        return $options;
     }
 
     /**
@@ -1082,7 +1081,7 @@ class rcmail_oauth
     public function authenticate($options)
     {
         if (!$this->login_phase) {
-            return;
+            return $options;
         }
 
         $options['user'] = $this->login_phase['username'];
@@ -1104,7 +1103,7 @@ class rcmail_oauth
     public function login_after($options)
     {
         if (!$this->login_phase) {
-            return;
+            return $options;
         }
 
         // store important data to new freshly created session

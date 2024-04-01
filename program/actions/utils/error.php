@@ -88,6 +88,7 @@ class rcmail_action_utils_error extends rcmail_action
         }
 
         // inform plugins
+        // @phpstan-ignore-next-line
         if ($rcmail->plugins) {
             $plugin = $rcmail->plugins->exec_hook('error_page', [
                 'code' => $ERROR_CODE,
@@ -103,7 +104,7 @@ class rcmail_action_utils_error extends rcmail_action
             }
         }
 
-        $HTTP_ERR_CODE = $ERROR_CODE && $ERROR_CODE < 600 ? $ERROR_CODE : 500;
+        $HTTP_ERR_CODE = $ERROR_CODE < 600 ? $ERROR_CODE : 500;
 
         // Ajax request
         if ($rcmail->output && $rcmail->output->type == 'js') {

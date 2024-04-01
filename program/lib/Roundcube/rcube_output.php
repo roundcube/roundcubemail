@@ -25,10 +25,10 @@ abstract class rcube_output
 {
     public $browser;
     public $skins = [];
+    public $charset = RCUBE_CHARSET;
 
     protected $app;
     protected $config;
-    protected $charset = RCUBE_CHARSET;
     protected $env = [];
 
     /**

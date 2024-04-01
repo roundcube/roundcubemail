@@ -36,6 +36,7 @@ class rcmail_output_html extends rcmail_output
     protected $script_files = [];
     protected $css_files = [];
     protected $scripts = [];
+    protected $task;
     protected $meta_tags = [];
     protected $link_tags = ['shortcut icon' => ''];
     protected $header = '';
@@ -75,9 +76,17 @@ class rcmail_output_html extends rcmail_output
     {
         parent::__construct();
 
-        $this->devel_mode = $this->config->get('devel_mode');
+        $this->task = $task;
+        $this->framed = $framed;
+        $this->init();
+    }
 
-        $this->set_env('task', $task);
+    /**
+     * Initialization
+     */
+    protected function init()
+    {
+        $this->set_env('task', $this->task);
         $this->set_env('standard_windows', (bool) $this->config->get('standard_windows'));
         $this->set_env('locale', !empty($_SESSION['language']) ? $_SESSION['language'] : 'en_US');
         $this->set_env('devel_mode', $this->devel_mode);
@@ -107,7 +116,7 @@ class rcmail_output_html extends rcmail_output
             $this->set_env('extwin', 1);
         }
 
-        if ($this->framed || $framed) {
+        if ($this->framed) {
             $this->set_env('framed', 1);
         }
 
@@ -211,7 +220,7 @@ class rcmail_output_html extends rcmail_output
                 // we can't use real token here because it
                 // does not exists in unauthenticated state,
                 // hope this will not produce false-positive matches
-                if ($last > -1 && preg_match('/^[a-f0-9]{' . $length . '}$/', $_base[$last])) {
+                if (preg_match('/^[a-f0-9]{' . $length . '}$/', $_base[$last])) {
                     $path = '../' . $path;
                 }
             }
@@ -310,6 +319,7 @@ class rcmail_output_html extends rcmail_output
     public function check_skin($skin)
     {
         // Sanity check to prevent from path traversal vulnerability (#1490620)
+        // @phpstan-ignore-next-line
         if (!is_string($skin) || strpos($skin, '/') !== false || strpos($skin, '\\') !== false) {
             rcube::raise_error([
                 'file' => __FILE__,
@@ -587,7 +597,7 @@ class rcmail_output_html extends rcmail_output
 
         // load defaults
         if (!$all) {
-            $this->__construct();
+            $this->init();
         }
 
         // Note: we merge jQuery-UI scripts after jQuery...
@@ -865,7 +875,7 @@ class rcmail_output_html extends rcmail_output
 
         $commands = array_merge($top_commands, $this->js_commands);
 
-        foreach ($commands as $i => $args) {
+        foreach ($commands as $args) {
             $method = array_shift($args);
             $parent = $this->framed || preg_match('/^parent\./', $method);
 
@@ -1347,7 +1357,6 @@ class rcmail_output_html extends rcmail_output
                 // frame (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'frame':
                 return $this->frame($attrib);
-                break;
                 // show a label (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'label':
                 if (!empty($attrib['expression'])) {
@@ -2018,7 +2027,7 @@ class rcmail_output_html extends rcmail_output
         // include page title (after charset specification)
         $meta .= '<title>' . html::quote($this->get_pagetitle()) . "</title>\n";
 
-        $output = preg_replace('/(<head[^>]*>)\n*/i', "\\1\n{$meta}", $output, 1, $count);
+        $output = (string) preg_replace('/(<head[^>]*>)\n*/i', "\\1\n{$meta}", $output, 1, $count);
         if (!$count) {
             $page_header .= $meta;
         }
@@ -2056,6 +2065,7 @@ class rcmail_output_html extends rcmail_output
                 $hpos = stripos($output, '<body');
             }
             if (!is_numeric($hpos) && ($hpos = stripos($output, '<html'))) {
+                // @phpstan-ignore-next-line
                 while ($output[$hpos] != '>') {
                     $hpos++;
                 }
@@ -2651,7 +2661,7 @@ class rcmail_output_html extends rcmail_output
      * @param string $match (optional) 'all' = type, template or wildcard, 'template' = type or template
      *                      Note: when type is specified matches are limited to type only unless $match is defined
      *
-     * @return string image URL
+     * @return string|null image URL
      */
     protected function get_template_logo($type = null, $match = null)
     {

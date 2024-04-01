@@ -179,12 +179,12 @@ abstract class rcmail_action
     /**
      * Return (parsed) quota information
      *
-     * @param array $attrib Named parameters
-     * @param array $folder Current folder
+     * @param array   $attrib Named parameters
+     * @param ?string $folder Current folder
      *
      * @return array Quota information
      */
-    public static function quota_content($attrib = null, $folder = null)
+    public static function quota_content($attrib = [], $folder = null)
     {
         $rcmail = rcmail::get_instance();
         $quota = $rcmail->storage->get_quota($folder);
@@ -886,7 +886,7 @@ abstract class rcmail_action
                 'noclose' => true,
             ] + $attrib);
 
-            if (!empty($hidden) && is_array($hidden)) {
+            if (!empty($hidden)) {
                 $hiddenfields = new html_hiddenfield($hidden);
                 $form_start .= $hiddenfields->show();
             }
@@ -1389,7 +1389,7 @@ abstract class rcmail_action
         foreach ($path as $idx => $dir) {
             $directory = implode($delimiter, array_slice($path, 0, $idx + 1));
             if ($protect_folders && $rcmail->storage->is_special_folder($directory)) {
-                unset($result);
+                $result = [];
                 $result[] = self::localize_foldername($directory);
             } else {
                 $result[] = rcube_charset::convert($dir, 'UTF7-IMAP');
