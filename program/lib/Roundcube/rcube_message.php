@@ -1049,8 +1049,8 @@ class rcube_message
             $this->mime_parts[$part->mime_id] = &$part;
         }
 
-        foreach ($part->parts as $subpart) {
-            $this->get_mime_numbers($subpart);
+        for ($i = 0; $i < count($part->parts); $i++) {
+            $this->get_mime_numbers($part->parts[$i]);
         }
     }
 
