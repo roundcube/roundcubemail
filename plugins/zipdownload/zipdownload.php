@@ -141,8 +141,6 @@ class zipdownload extends rcube_plugin
         $zip->open($tmpfname, ZipArchive::OVERWRITE);
 
         foreach ($message->attachments as $part) {
-            $pid = $part->mime_id;
-            $part = $message->mime_parts[$pid];
             $disp_name = $this->_create_displayname($part);
 
             $tmpfn = rcube_utils::temp_filename('zipattach');
