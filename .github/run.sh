@@ -25,7 +25,7 @@ bin/jsshrink.sh
 php tests/Browser/install.php $CHROMEVERSION
 
 # GreenMail server download, setup and start
-wget https://repo1.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
+wget -q https://repo1.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/greenmail-standalone-$GMV.jar \
     && (sudo java $GMARGS -jar greenmail-standalone-$GMV.jar &) \
     && sleep 10
 
