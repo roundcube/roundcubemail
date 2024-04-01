@@ -77,14 +77,13 @@ class rcmail_output_html extends rcmail_output
         parent::__construct();
 
         $this->task = $task;
-        $this->framed = $framed;
-        $this->init();
+        $this->init($framed);
     }
 
     /**
      * Initialization
      */
-    protected function init()
+    protected function init($framed = false)
     {
         $this->set_env('task', $this->task);
         $this->set_env('standard_windows', (bool) $this->config->get('standard_windows'));
@@ -116,7 +115,7 @@ class rcmail_output_html extends rcmail_output
             $this->set_env('extwin', 1);
         }
 
-        if ($this->framed) {
+        if ($this->framed || $framed) {
             $this->set_env('framed', 1);
         }
 
