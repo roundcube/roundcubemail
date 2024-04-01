@@ -313,12 +313,12 @@ class rcmail_install
     {
         $this->load_config();
 
-        if (!$this->configured) {
-            return;
-        }
-
         $seen = [];
         $out = ['defaults' => [], 'obsolete' => [], 'replaced' => [], 'dependencies' => [], 'missing' => []];
+
+        if (!$this->configured) {
+            return $out;
+        }
 
         // iterate over the current configuration
         foreach (array_keys($this->config) as $prop) {

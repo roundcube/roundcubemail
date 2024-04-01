@@ -109,6 +109,8 @@ class rcmail_resend_mail extends Mail_mime
         rename($this->orig_body, $file);
 
         $this->orig_head = null;
+
+        return true;
     }
 
     /**

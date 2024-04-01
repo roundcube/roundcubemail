@@ -28,9 +28,16 @@ class rcmail_sendmail
     public $data = [];
     public $options = [];
 
-    protected $parse_data = [];
+    /** @var string */
     protected $message_form;
+
+    /** @var array */
+    protected $parse_data = [];
+
+    /** @var rcmail */
     protected $rcmail;
+
+    /** @var array */
     protected $temp_files = [];
 
     // define constants for message compose mode
@@ -115,11 +122,14 @@ class rcmail_sendmail
         $mailcc = $this->email_input_format(rcube_utils::get_input_string('_cc', rcube_utils::INPUT_POST, true, $charset), true);
         $mailbcc = $this->email_input_format(rcube_utils::get_input_string('_bcc', rcube_utils::INPUT_POST, true, $charset), true);
 
+        // @phpstan-ignore-next-line
         if (!empty($this->parse_data['INVALID_EMAIL']) && empty($this->options['savedraft'])) {
+            // @phpstan-ignore-next-line
             return $this->options['error_handler']('emailformaterror', 'error', ['email' => $this->parse_data['INVALID_EMAIL']]);
         }
 
         if (($max_recipients = (int) $this->rcmail->config->get('max_recipients')) > 0) {
+            // @phpstan-ignore-next-line
             if ($this->parse_data['RECIPIENT_COUNT'] > $max_recipients) {
                 return $this->options['error_handler']('toomanyrecipients', 'error', ['max' => $max_recipients]);
             }
@@ -233,7 +243,7 @@ class rcmail_sendmail
 
             // Note: We ignore <UID>.<PART> forwards/replies here
             if (
-                !empty($this->data['reply_uid'])
+                isset($this->data['reply_uid'])
                 && ($uid = $this->data['reply_uid'])
                 && !preg_match('/^\d+\.[0-9.]+$/', $uid)
             ) {
@@ -321,7 +331,7 @@ class rcmail_sendmail
 
         // Check if we have enough memory to handle the message in it
         // It's faster than using files, so we'll do this if we only can
-        if (is_array($attachments)) {
+        if (!empty($attachments)) {
             $memory = 0;
             foreach ($attachments as $attachment) {
                 $memory += $attachment['size'];
@@ -447,6 +457,7 @@ class rcmail_sendmail
             return false;
         }
 
+        // @phpstan-ignore-next-line
         if ($mailbody_file) {
             $this->temp_files[$message->headers()['Message-ID']] = $mailbody_file;
         }
@@ -673,8 +684,8 @@ class rcmail_sendmail
 
         if (preg_match_all($regexp, $body, $matches, \PREG_OFFSET_CAPTURE)) {
             // get domain for the Content-ID, must be the same as in Mail_mime::get()
-            if (preg_match('#@([0-9a-zA-Z\-\.]+)#', $from, $m)) {
-                $domain = $m[1];
+            if (preg_match('#@([0-9a-zA-Z\-\.]+)#', $from, $dm)) {
+                $domain = $dm[1];
             }
 
             foreach ($matches[1] as $idx => $m) {
@@ -790,7 +801,7 @@ class rcmail_sendmail
             $item = trim($item, '<>');
             if ($item && $check && !rcube_utils::check_email($item)) {
                 $this->parse_data['INVALID_EMAIL'] = $item;
-                return;
+                return '';
             }
         }
 
@@ -1047,7 +1058,7 @@ class rcmail_sendmail
         // we have a set of recipients stored is session
         if (
             $header == 'to'
-            && !empty($this->data['param']['mailto'])
+            && isset($this->data['param']['mailto'])
             && ($mailto_id = $this->data['param']['mailto'])
             && !empty($_SESSION['mailto'][$mailto_id])
         ) {

@@ -55,11 +55,10 @@ class rcmail extends rcube
     public $login_error;
     public $oauth;
 
-    /** @var rcmail_output_cli|rcmail_output_html|rcmail_output_json Output handler */
-    public $output;
+    /** @var rcmail_output_cli|rcmail_output_html|rcmail_output_json|null Output handler */
+    public $output; // @phpstan-ignore-line
 
     private $address_books = [];
-    private $action_map = [];
     private $action_args = [];
 
     public const ERROR_STORAGE = -2;
@@ -71,8 +70,8 @@ class rcmail extends rcube
     /**
      * This implements the 'singleton' design pattern
      *
-     * @param int    $mode Ignored rcube::get_instance() argument
-     * @param string $env  Environment name to run (e.g. live, dev, test)
+     * @param int     $mode Ignored rcube::get_instance() argument
+     * @param ?string $env  Environment name to run (e.g. live, dev, test)
      *
      * @return rcmail The one and only instance
      */
@@ -1301,10 +1300,8 @@ class rcmail extends rcube
             $count = count($folders);
             $folders_str = '';
 
-            if ($count) {
-                $folders[0] = substr($folders[0], 1);
-                $folders[$count - 1] = substr($folders[$count - 1], 0, -1);
-            }
+            $folders[0] = substr($folders[0], 1);
+            $folders[$count - 1] = substr($folders[$count - 1], 0, -1);
 
             foreach ($folders as $value) {
                 if ($value != 'INBOX' && !preg_match($regexp, $value)) {
@@ -1405,6 +1402,7 @@ class rcmail extends rcube
      */
     public function contact_exists($email, $type)
     {
+        // @phpstan-ignore-next-line
         if (empty($email) || !is_string($email) || !strpos($email, '@')) {
             return false;
         }
@@ -2007,7 +2005,7 @@ class rcmail extends rcube
             $pass = $this->decrypt($_SESSION['password']);
 
             if (!$storage->connect($host, $user, $pass, $port, $ssl)) {
-                if (is_object($this->output)) {
+                if (!empty($this->output)) {
                     $this->output->show_message('storageerror', 'error');
                 }
             } else {

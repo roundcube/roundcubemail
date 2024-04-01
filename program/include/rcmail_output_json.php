@@ -217,7 +217,7 @@ class rcmail_output_json extends rcmail_output
         unset($this->env['task'], $this->env['action'], $this->env['comm_path']);
 
         $rcmail = rcmail::get_instance();
-        $response['action'] = $rcmail->action;
+        $response = ['action' => $rcmail->action];
 
         if ($unlock = rcube_utils::get_input_string('_unlock', rcube_utils::INPUT_GPC)) {
             $response['unlock'] = $unlock;
@@ -255,7 +255,7 @@ class rcmail_output_json extends rcmail_output
     {
         $out = '';
 
-        foreach ($this->commands as $i => $args) {
+        foreach ($this->commands as $args) {
             $method = array_shift($args);
             foreach ($args as $i => $arg) {
                 $args[$i] = self::json_serialize($arg, $this->devel_mode, false);
