@@ -1725,6 +1725,10 @@ class rcube
             }
         }
 
+        if (preg_match('/[\x80-\xff]/u', $domain_part)) {
+            $domain_part = idn_to_ascii($domain_part);
+        }
+
         return sprintf('<%s@%s>', $local_part, $domain_part);
     }
 
