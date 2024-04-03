@@ -44,9 +44,7 @@ jobs:
         run: sudo apt-get -y install aspell aspell-en aspell-de
 
       - name: Setup composer
-        run: |
-            cp composer.json-dist composer.json
-            composer require "laravel/dusk:^7.9" --no-update
+        run: composer require "laravel/dusk:^7.9" --no-update
 
       - name: Install dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
