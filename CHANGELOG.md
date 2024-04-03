@@ -4,6 +4,7 @@
 
 - Update to jQuery 3.7.1
 - Drop dependency on JsTimeZoneDetect (#8965)
+- Renamed composer.json.dist to composer.json (#9279)
 - Removed support for MS SQL Server and Oracle (#7854)
 - Store uploads metadata in a separate sql database table instead of a session (#8415)
 - Mouse-over menu on messages list (#7141)
