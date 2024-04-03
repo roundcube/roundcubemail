@@ -9,7 +9,6 @@ plugins/rcsample
 plugins/plugin_manager
 
 # composer-related
-composer.json
 composer.phar
 composer.lock
 vendor
