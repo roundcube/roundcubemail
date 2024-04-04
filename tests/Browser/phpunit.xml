@@ -7,19 +7,10 @@
 >
   <coverage/>
   <testsuites>
-    <testsuite name="Logon">
-      <directory>Logon</directory>
+    <testsuite name="tests">
+      <directory>.</directory>
     </testsuite>
-    <testsuite name="Contacts">
-      <directory>Contacts</directory>
-    </testsuite>
-    <testsuite name="Settings">
-      <directory>Settings</directory>
-    </testsuite>
-    <testsuite name="Mail">
-      <directory>Mail</directory>
-    </testsuite>
-    <testsuite name="Plugins">
+    <testsuite name="plugins">
       <directory>../../plugins/*/tests/Browser</directory>
     </testsuite>
   </testsuites>
