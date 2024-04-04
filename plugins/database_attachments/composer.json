@@ -20,14 +20,6 @@
         {
             "type": "composer",
             "url": "https://plugins.roundcube.net"
-        },
-        {
-            "type": "path",
-            "url": "../filesystem_attachments",
-            "options": {
-                "reference": "config",
-                "symlink": false
-            }
         }
     ],
     "require": {
