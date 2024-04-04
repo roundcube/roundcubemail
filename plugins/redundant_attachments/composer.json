@@ -42,7 +42,7 @@
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true,
-            "roundcube/plugin-installer": true
+            "roundcube/plugin-installer": false
         }
     }
 }
