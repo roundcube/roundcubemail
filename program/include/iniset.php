@@ -45,16 +45,6 @@ define('RCUBE_CONFIG_DIR', RCMAIL_CONFIG_DIR . '/');
 // Show basic error message on fatal PHP error
 register_shutdown_function('rcmail_error_handler');
 
-// RC include folders MUST be included FIRST to avoid other
-// possible not compatible libraries (i.e PEAR) to be included
-// instead the ones provided by RC
-$include_path = INSTALL_PATH . 'program/lib' . \PATH_SEPARATOR;
-$include_path .= ini_get('include_path');
-
-if (set_include_path($include_path) === false) {
-    exit('Fatal error: ini_set/set_include_path does not work.');
-}
-
 // increase maximum execution time for php scripts
 // (does not work in safe mode)
 @set_time_limit(120);
@@ -75,31 +65,7 @@ if (!empty($_SERVER['PATH_INFO']) && preg_match('!^/([a-z]+)/([a-z]+)$!', $_SERV
 }
 
 // include Roundcube Framework
-require_once 'Roundcube/bootstrap.php';
-
-// register autoloader for rcmail app classes
-spl_autoload_register('rcmail_autoload');
-
-/**
- * PHP5 autoloader routine for dynamic class loading
- */
-function rcmail_autoload($classname)
-{
-    if (strpos($classname, 'rcmail') === 0) {
-        if (preg_match('/^rcmail_action_([^_]+)_(.*)$/', $classname, $matches)) {
-            $filepath = INSTALL_PATH . "program/actions/{$matches[1]}/{$matches[2]}.php";
-        } else {
-            $filepath = INSTALL_PATH . "program/include/{$classname}.php";
-        }
-
-        if (is_readable($filepath)) {
-            include_once $filepath;
-            return true;
-        }
-    }
-
-    return false;
-}
+require_once __DIR__ . '/../lib/Roundcube/bootstrap.php';
 
 /**
  * Show a generic error message on fatal PHP error

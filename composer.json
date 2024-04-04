@@ -35,6 +35,18 @@
             "url": "https://plugins.roundcube.net"
         }
     ],
+    "autoload": {
+        "classmap": [
+            "program/actions/",
+            "program/include/",
+            "program/lib/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true,
