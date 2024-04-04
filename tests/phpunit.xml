@@ -11,21 +11,21 @@
 >
   <coverage>
     <include>
-      <directory suffix=".php">../program/lib</directory>
-      <directory suffix=".php">../program/include</directory>
-      <directory suffix=".php">../program/actions</directory>
-      <directory suffix=".php">../plugins</directory>
+      <directory>../program/lib</directory>
+      <directory>../program/include</directory>
+      <directory>../program/actions</directory>
+      <directory>../plugins</directory>
     </include>
   </coverage>
   <testsuites>
     <testsuite name="Framework">
-      <directory suffix=".php">Framework</directory>
+      <directory>Framework</directory>
     </testsuite>
     <testsuite name="Roundcube">
-      <directory suffix=".php">Rcmail</directory>
+      <directory>Rcmail</directory>
     </testsuite>
     <testsuite name="Actions">
-      <directory suffix=".php">Actions/*</directory>
+      <directory>Actions/*</directory>
     </testsuite>
     <testsuite name="Plugins">
       <file>./../plugins/acl/tests/Acl.php</file>
@@ -37,7 +37,7 @@
       <file>./../plugins/database_attachments/tests/DatabaseAttachments.php</file>
       <file>./../plugins/debug_logger/tests/DebugLogger.php</file>
       <file>./../plugins/emoticons/tests/Emoticons.php</file>
-      <directory suffix=".php">./../plugins/enigma/tests</directory>
+      <directory>./../plugins/enigma/tests</directory>
       <file>./../plugins/example_addressbook/tests/ExampleAddressbook.php</file>
       <file>./../plugins/filesystem_attachments/tests/FilesystemAttachments.php</file>
       <file>./../plugins/help/tests/Help.php</file>
@@ -48,7 +48,7 @@
       <file>./../plugins/identity_select/tests/IdentitySelect.php</file>
       <file>./../plugins/jqueryui/tests/Jqueryui.php</file>
       <file>./../plugins/krb_authentication/tests/KrbAuthentication.php</file>
-      <directory suffix=".php">./../plugins/managesieve/tests</directory>
+      <directory>./../plugins/managesieve/tests</directory>
       <file>./../plugins/markasjunk/tests/Markasjunk.php</file>
       <file>./../plugins/new_user_dialog/tests/NewUserDialog.php</file>
       <file>./../plugins/new_user_identity/tests/NewUserIdentity.php</file>
