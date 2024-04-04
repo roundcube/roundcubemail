@@ -45,8 +45,7 @@ jobs:
           for plugin_dir in plugins/*/; do (
             echo "========== $plugin_dir =========="
             cd "$plugin_dir"
-            composer update --prefer-dist --no-interaction --no-progress
-            composer validate --strict --no-check-lock && composer normalize --dry-run --no-check-lock
+            composer validate --strict --no-check-lock && composer normalize --dry-run --no-check-lock "$plugin_dir/composer.json"
             echo " "
           ); done
 
