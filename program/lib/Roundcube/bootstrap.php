@@ -92,19 +92,6 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 mb_internal_encoding(RCUBE_CHARSET);
 mb_regex_encoding(RCUBE_CHARSET);
 
-// make sure the Roundcube lib directory is in the include_path
-$rcube_path = realpath(RCUBE_LIB_DIR . '..');
-$sep = \PATH_SEPARATOR;
-$regexp = "!(^|{$sep})" . preg_quote($rcube_path, '!') . "({$sep}|\$)!";
-$path = ini_get('include_path');
-
-if (!preg_match($regexp, $path)) {
-    set_include_path($path . \PATH_SEPARATOR . $rcube_path);
-}
-
-// Register autoloader
-spl_autoload_register('rcube_autoload');
-
 // set PEAR error handling (will also load the PEAR main class)
 if (class_exists('PEAR')) {
     // @phpstan-ignore-next-line
@@ -402,37 +389,4 @@ function version_parse($version)
         ['.0', '.99'],
         $version
     );
-}
-
-/**
- * Use PHP5 autoload for dynamic class loading
- *
- * @return bool True when the class file has been found
- */
-function rcube_autoload(string $classname): bool
-{
-    if (strpos($classname, 'rcube') === 0) {
-        $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\1/', $classname);
-        $classname = 'Roundcube/' . $classname;
-    } elseif (strpos($classname, 'html_') === 0 || $classname === 'html') {
-        $classname = 'Roundcube/html';
-    } elseif (strpos($classname, 'Mail_') === 0) {
-        $classname = 'Mail/' . substr($classname, 5);
-    } elseif (strpos($classname, 'Net_') === 0) {
-        $classname = 'Net/' . substr($classname, 4);
-    } elseif (strpos($classname, 'Auth_') === 0) {
-        $classname = 'Auth/' . substr($classname, 5);
-    }
-
-    // Translate PHP namespaces into directories,
-    // i.e. 'Sabre\Reader' -> 'Sabre/Reader.php'
-    $classname = str_replace('\\', '/', $classname);
-
-    if ($fp = @fopen("{$classname}.php", 'r', true)) {
-        fclose($fp);
-        include_once "{$classname}.php";
-        return true;
-    }
-
-    return false;
 }
