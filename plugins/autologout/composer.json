@@ -2,7 +2,7 @@
     "name": "roundcube/autologout",
     "type": "roundcube-plugin",
     "description": "Plugin to auto log out users with a POST request sent from an external site.",
-    "license": "GPLv3+",
+    "license": "GPL-3.0-or-later",
     "version": "1.0",
     "authors": [
         {
