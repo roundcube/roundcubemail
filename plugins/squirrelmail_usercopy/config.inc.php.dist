@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // Driver - 'file' or 'sql'
 $config['squirrelmail_driver'] = 'sql';
 

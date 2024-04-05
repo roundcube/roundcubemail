@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // Managesieve server host (and optional port). Default: localhost.
 // Replacement variables supported in host name:
 // %h - user's IMAP hostname

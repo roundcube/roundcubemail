@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // Enable emoticons in plain text messages preview
 $config['emoticons_display'] = false;
 
