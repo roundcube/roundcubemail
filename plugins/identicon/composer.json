@@ -11,15 +11,9 @@
             "role": "Lead"
         }
     ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://plugins.roundcube.net"
-        }
-    ],
     "require": {
         "php": ">=7.3.0",
-        "php-gd": "*",
+        "ext-gd": "*",
         "roundcube/plugin-installer": ">=0.1.3"
     }
 }

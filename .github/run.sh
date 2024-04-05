@@ -31,9 +31,9 @@ wget -q https://repo1.maven.org/maven2/com/icegreen/greenmail-standalone/$GMV/gr
 
 # Run tests
 echo "TESTS_MODE: DESKTOP" \
-&& TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsonga \
+&& TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --exclude-group=failsonga \
 && echo "TESTS_MODE: TABLET" \
-&& TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsonga-tablet \
+&& TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --exclude-group=failsonga-tablet \
 # Mobile mode tests are unreliable on Github Actions
 # && echo "TESTS_MODE: PHONE" \
-# && TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml --exclude-group=failsonga-phone \
+# && TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --exclude-group=failsonga-phone \
