@@ -27,6 +27,17 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
     private $enchant_dictionary;
 
     /**
+     * Free object's resources
+     */
+    public function __destruct()
+    {
+        // If we don't do this we get "dictionaries weren't free'd" warnings in tests
+        if ($this->enchant_dictionary) {
+            $this->enchant_dictionary = null;
+        }
+    }
+
+    /**
      * Return a list of languages supported by this backend
      *
      * @see rcube_spellchecker_engine::languages()
