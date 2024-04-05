@@ -71,248 +71,143 @@
         },
         {
             "type": "path",
-            "url": "plugins/acl",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/acl"
         },
         {
             "type": "path",
-            "url": "plugins/additional_message_headers",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/additional_message_headers"
         },
         {
             "type": "path",
-            "url": "plugins/archive",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/archive"
         },
         {
             "type": "path",
-            "url": "plugins/attachment_reminder",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/attachment_reminder"
         },
         {
             "type": "path",
-            "url": "plugins/autologon",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/autologon"
         },
         {
             "type": "path",
-            "url": "plugins/autologout",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/autologout"
         },
         {
             "type": "path",
-            "url": "plugins/database_attachments",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/database_attachments"
         },
         {
             "type": "path",
-            "url": "plugins/debug_logger",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/debug_logger"
         },
         {
             "type": "path",
-            "url": "plugins/emoticons",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/emoticons"
         },
         {
             "type": "path",
-            "url": "plugins/enigma",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/enigma"
         },
         {
             "type": "path",
-            "url": "plugins/example_addressbook",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/example_addressbook"
         },
         {
             "type": "path",
-            "url": "plugins/filesystem_attachments",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/filesystem_attachments"
         },
         {
             "type": "path",
-            "url": "plugins/help",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/help"
         },
         {
             "type": "path",
-            "url": "plugins/hide_blockquote",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/hide_blockquote"
         },
         {
             "type": "path",
-            "url": "plugins/http_authentication",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/http_authentication"
         },
         {
             "type": "path",
-            "url": "plugins/identicon",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/identicon"
         },
         {
             "type": "path",
-            "url": "plugins/identity_select",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/identity_select"
         },
         {
             "type": "path",
-            "url": "plugins/jqueryui",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/jqueryui"
         },
         {
             "type": "path",
-            "url": "plugins/krb_authentication",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/krb_authentication"
         },
         {
             "type": "path",
-            "url": "plugins/managesieve",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/managesieve"
         },
         {
             "type": "path",
-            "url": "plugins/markasjunk",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/markasjunk"
         },
         {
             "type": "path",
-            "url": "plugins/new_user_dialog",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/new_user_dialog"
         },
         {
             "type": "path",
-            "url": "plugins/new_user_identity",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/new_user_identity"
         },
         {
             "type": "path",
-            "url": "plugins/newmail_notifier",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/newmail_notifier"
         },
         {
             "type": "path",
-            "url": "plugins/password",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/password"
         },
         {
             "type": "path",
-            "url": "plugins/reconnect",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/reconnect"
         },
         {
             "type": "path",
-            "url": "plugins/redundant_attachments",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/redundant_attachments"
         },
         {
             "type": "path",
-            "url": "plugins/show_additional_headers",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/show_additional_headers"
         },
         {
             "type": "path",
-            "url": "plugins/squirrelmail_usercopy",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/squirrelmail_usercopy"
         },
         {
             "type": "path",
-            "url": "plugins/subscriptions_option",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/subscriptions_option"
         },
         {
             "type": "path",
-            "url": "plugins/userinfo",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/userinfo"
         },
         {
             "type": "path",
-            "url": "plugins/vcard_attachments",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/vcard_attachments"
         },
         {
             "type": "path",
-            "url": "plugins/virtuser_file",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/virtuser_file"
         },
         {
             "type": "path",
-            "url": "plugins/virtuser_query",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/virtuser_query"
         },
         {
             "type": "path",
-            "url": "plugins/zipdownload",
-            "options": {
-                "reference": "config"
-            }
+            "url": "plugins/zipdownload"
         }
     ],
     "autoload": {
