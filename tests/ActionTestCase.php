@@ -28,6 +28,8 @@ class ActionTestCase extends TestCase
 
         $rcmail = rcmail::get_instance();
         $rcmail->shutdown();
+
+        html::$doctype = 'xhtml';
     }
 
     protected function setUp(): void

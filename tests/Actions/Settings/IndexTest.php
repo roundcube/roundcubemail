@@ -29,7 +29,7 @@ class Actions_Settings_Index extends ActionTestCase
     public function test_sections_list()
     {
         $result = rcmail_action_settings_index::sections_list([]);
-        $this->assertTrue(strpos($result, '<table id="rcmsectionslist">') === 0);
+        $this->assertTrue(strpos($result, '<table id="rcmsectionslist"') === 0);
     }
 
     /**
