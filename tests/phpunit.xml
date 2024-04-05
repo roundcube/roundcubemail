@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  backupGlobals="false"
+<phpunit
   bootstrap="bootstrap.php"
   colors="true"
   convertDeprecationsToExceptions="true"
   convertErrorsToExceptions="true"
   convertNoticesToExceptions="true"
   convertWarningsToExceptions="true"
-  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
   <coverage>
     <include>
@@ -20,7 +18,7 @@
   <testsuites>
     <testsuite name="tests">
       <directory>.</directory>
-      <exclude>Browser/*</exclude>
+      <exclude>Browser</exclude>
     </testsuite>
     <testsuite name="plugins">
       <directory>../plugins/acl/tests</directory>
@@ -58,11 +56,7 @@
       <directory>../plugins/virtuser_file/tests</directory>
       <directory>../plugins/virtuser_query/tests</directory>
       <directory>../plugins/zipdownload/tests</directory>
-      <exclude>../plugins/archive/tests/Browser/MailTest.php</exclude>
-      <exclude>../plugins/archive/tests/Browser/SettingsTest.php</exclude>
-      <exclude>../plugins/attachment_reminder/tests/Browser/PluginTest.php</exclude>
-      <exclude>../plugins/markasjunk/tests/Browser/MailTest.php</exclude>
-      <exclude>../plugins/zipdownload/tests/Browser/MailTest.php</exclude>
+      <exclude>../plugins/*/tests/Browser</exclude>
     </testsuite>
   </testsuites>
 </phpunit>

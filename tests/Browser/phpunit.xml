@@ -1,11 +1,8 @@
 <?xml version="1.0"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  backupGlobals="false"
+<phpunit
   bootstrap="bootstrap.php"
   colors="true"
-  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
-  <coverage/>
   <testsuites>
     <testsuite name="tests">
       <directory>.</directory>
