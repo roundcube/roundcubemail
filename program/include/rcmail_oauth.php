@@ -772,7 +772,7 @@ class rcmail_oauth
                 'authorization' => $authorization,
             ];
         } catch (RequestException $e) {
-            trigger_error($e->getRequest(), $e->getResponse(), E_USER_ERROR);
+            trigger_error($e->getResponse(), E_USER_ERROR);
 
             $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             $formatter = new MessageFormatter();
