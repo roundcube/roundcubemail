@@ -17,7 +17,8 @@
     },
     "autoload": {
         "classmap": [
-            "debug_logger.php"
+            "debug_logger.php",
+            "runlog/runlog.php"
         ]
     }
 }
