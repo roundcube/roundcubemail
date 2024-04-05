@@ -264,6 +264,10 @@ class Rcmail_Rcmail extends ActionTestCase
     {
         $rcmail = rcmail::get_instance();
 
+        // this test depends on system timezone if not set
+        date_default_timezone_set('UTC');
+        $rcmail->config->set('prettydate', true);
+
         $date = $rcmail->format_date(date('Y-m-d H:i:s'));
         $this->assertSame('Today ' . date('H:i'), $date);
 
