@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class NewUserIdentity_Plugin extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../new_user_identity.php';
-    }
-
     /**
      * Plugin object construction test
      */

@@ -23,7 +23,42 @@
         "phpstan/phpstan": "^1.2",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-strict-rules": "^1.3",
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^9.6",
+        "roundcube/acl": "*",
+        "roundcube/additional_message_headers": "*",
+        "roundcube/archive": "*",
+        "roundcube/attachment_reminder": "*",
+        "roundcube/autologon": "*",
+        "roundcube/autologout": "*",
+        "roundcube/database_attachments": "*",
+        "roundcube/debug_logger": "*",
+        "roundcube/emoticons": "*",
+        "roundcube/enigma": "*",
+        "roundcube/example_addressbook": "*",
+        "roundcube/filesystem_attachments": "*",
+        "roundcube/help": "*",
+        "roundcube/hide_blockquote": "*",
+        "roundcube/http_authentication": "*",
+        "roundcube/identicon": "*",
+        "roundcube/identity_select": "*",
+        "roundcube/jqueryui": "*",
+        "roundcube/krb_authentication": "*",
+        "roundcube/managesieve": "*",
+        "roundcube/markasjunk": "*",
+        "roundcube/new_user_dialog": "*",
+        "roundcube/new_user_identity": "*",
+        "roundcube/newmail_notifier": "*",
+        "roundcube/password": "*",
+        "roundcube/reconnect": "*",
+        "roundcube/redundant_attachments": "*",
+        "roundcube/show_additional_headers": "*",
+        "roundcube/squirrelmail_usercopy": "*",
+        "roundcube/subscriptions_option": "*",
+        "roundcube/userinfo": "*",
+        "roundcube/vcard_attachments": "*",
+        "roundcube/virtuser_file": "*",
+        "roundcube/virtuser_query": "*",
+        "roundcube/zipdownload": "*"
     },
     "suggest": {
         "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver",
@@ -33,6 +68,251 @@
         {
             "type": "composer",
             "url": "https://plugins.roundcube.net"
+        },
+        {
+            "type": "path",
+            "url": "plugins/acl",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/additional_message_headers",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/archive",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/attachment_reminder",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/autologon",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/autologout",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/database_attachments",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/debug_logger",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/emoticons",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/enigma",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/example_addressbook",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/filesystem_attachments",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/help",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/hide_blockquote",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/http_authentication",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/identicon",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/identity_select",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/jqueryui",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/krb_authentication",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/managesieve",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/markasjunk",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/new_user_dialog",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/new_user_identity",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/newmail_notifier",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/password",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/reconnect",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/redundant_attachments",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/show_additional_headers",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/squirrelmail_usercopy",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/subscriptions_option",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/userinfo",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/vcard_attachments",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/virtuser_file",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/virtuser_query",
+            "options": {
+                "reference": "config"
+            }
+        },
+        {
+            "type": "path",
+            "url": "plugins/zipdownload",
+            "options": {
+                "reference": "config"
+            }
         }
     ],
     "autoload": {

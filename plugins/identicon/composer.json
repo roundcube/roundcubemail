@@ -15,5 +15,11 @@
         "php": ">=7.3.0",
         "ext-gd": "*",
         "roundcube/plugin-installer": ">=0.1.3"
+    },
+    "autoload": {
+        "classmap": [
+            "identicon.php",
+            "identicon_engine.php"
+        ]
     }
 }

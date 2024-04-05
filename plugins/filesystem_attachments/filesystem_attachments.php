@@ -12,8 +12,7 @@
  *
  * Developers may wish to extend this class when creating attachment
  * handler plugins:
- *   require_once('plugins/filesystem_attachments/filesystem_attachments.php');
- *   class myCustom_attachments extends filesystem_attachments
+ *   class myCustom_attachments extends filesystem_attachments { ... }
  *
  * Note for developers: It is plugin's responsibility to care about security.
  * So, e.g. if the plugin is asked about some file path it should check
