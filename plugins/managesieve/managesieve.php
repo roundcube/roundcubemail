@@ -281,11 +281,6 @@ class managesieve extends rcube_plugin
     public function get_engine($type = null)
     {
         if (!$this->engine) {
-            // Add include path for internal classes
-            $include_path = $this->home . '/lib' . \PATH_SEPARATOR;
-            $include_path .= ini_get('include_path');
-            set_include_path($include_path);
-
             $class_name = 'rcube_sieve_' . ($type ?: 'engine');
             $this->engine = new $class_name($this);
         }

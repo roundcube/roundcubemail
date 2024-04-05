@@ -32,8 +32,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-require_once RCUBE_PLUGINS_DIR . 'filesystem_attachments/filesystem_attachments.php';
-
 class redundant_attachments extends filesystem_attachments
 {
     // A prefix for the cache key used in the session and in the key field of the cache table

@@ -321,17 +321,6 @@ class markasjunk extends rcube_plugin
             ], true, false);
         }
 
-        include_once $driver;
-
-        if (!class_exists($class, false) || !method_exists($class, 'spam') || !method_exists($class, 'ham')) {
-            rcube::raise_error([
-                'code' => 600,
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => "markasjunk plugin: Broken driver: {$driver}",
-            ], true, false);
-        }
-
         // call the relevant function from the driver
         $this->driver = new $class();
 
