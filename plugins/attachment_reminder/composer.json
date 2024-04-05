@@ -12,14 +12,7 @@
         },
         {
             "name": "Thomas Yu - Sian, Liu",
-            "email": "",
             "role": "Lead"
-        }
-    ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://plugins.roundcube.net"
         }
     ],
     "require": {
