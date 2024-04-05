@@ -17,6 +17,7 @@
     },
     "autoload": {
         "classmap": [
+            "drivers/",
             "password.php"
         ]
     }

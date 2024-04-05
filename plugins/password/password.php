@@ -439,16 +439,6 @@ class password extends rcube_plugin
                 return false;
             }
 
-            include_once $file;
-
-            if (!class_exists($class, false) || (!method_exists($class, 'save') && !method_exists($class, 'check_strength'))) {
-                rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Password plugin: Broken driver {$driver}",
-                ], true, false);
-                return false;
-            }
-
             $this->drivers[$type] = new $class();
         }
 

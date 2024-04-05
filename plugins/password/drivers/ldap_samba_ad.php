@@ -28,8 +28,6 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-require_once __DIR__ . '/ldap_simple.php';
-
 class rcube_ldap_samba_ad_password extends rcube_ldap_simple_password
 {
     public function save($curpass, $passwd)
