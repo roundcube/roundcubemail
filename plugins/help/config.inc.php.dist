@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // Help content iframe source
 // %l will be replaced by the language code resolved using the 'help_language_map' option
 // If you are serving roundcube via https, then change this URL to https also.
