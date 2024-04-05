@@ -772,6 +772,8 @@ class rcmail_oauth
                 'authorization' => $authorization,
             ];
         } catch (RequestException $e) {
+            trigger_error($e->getRequest(), $e->getResponse(), E_USER_ERROR);
+
             $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             $formatter = new MessageFormatter();
             rcube::raise_error([
@@ -858,7 +860,7 @@ class rcmail_oauth
         $this->log_debug('received tokens from a grant request %s: session: %s with scope %s, '
             . 'access_token type %s exp in %ss, refresh_token exp in %ss, id_token present: %s, not-before-policy: %s',
             $grant_type,
-            $data['session_state'], $data['scope'],
+            isset($data['session_state']), isset($data['scope']),
             $data['token_type'], $data['expires_in'],
             $data['refresh_expires_in'],
             isset($data['id_token']),
