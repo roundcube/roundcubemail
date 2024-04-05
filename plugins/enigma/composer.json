@@ -18,6 +18,7 @@
     },
     "autoload": {
         "classmap": [
+            "lib/",
             "enigma.php"
         ]
     }
