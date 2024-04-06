@@ -92,6 +92,9 @@ if (!defined('RCUBE_LOCALIZATION_DIR')) {
 mb_internal_encoding(RCUBE_CHARSET);
 mb_regex_encoding(RCUBE_CHARSET);
 
+// Register legacy autoloader for plugins
+spl_autoload_register('rcube_legacy_autoload');
+
 // set PEAR error handling (will also load the PEAR main class)
 if (class_exists('PEAR')) {
     // @phpstan-ignore-next-line
@@ -389,4 +392,26 @@ function version_parse($version)
         ['.0', '.99'],
         $version
     );
+}
+
+/**
+ * Legacy autoloader for plugins not using or not installed using composer.
+ *
+ * @param string $classname Class name
+ *
+ * @return bool True when the class file has been found
+ */
+function rcube_legacy_autoload(string $classname): bool
+{
+    // Translate PHP namespaces into directories,
+    // i.e. 'Sabre\Reader' -> 'Sabre/Reader.php'
+    $classname = str_replace('\\', '/', $classname);
+
+    if ($fp = @fopen("{$classname}.php", 'r', true)) {
+        fclose($fp);
+        include_once "{$classname}.php";
+        return true;
+    }
+
+    return false;
 }
