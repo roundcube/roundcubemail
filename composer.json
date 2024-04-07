@@ -66,10 +66,6 @@
     },
     "repositories": [
         {
-            "type": "composer",
-            "url": "https://plugins.roundcube.net"
-        },
-        {
             "type": "path",
             "url": "plugins/acl"
         },
