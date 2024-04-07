@@ -449,8 +449,6 @@
  check that entered passwords aren't already compromised (i.e., commonly known).
  The check is performed locally, the actual password is *not* transmitted anywhere else.
 
- Requires curl (preferred) or allow_url_fopen to work.
-
  Example configuration:
 
  $config['password_strength_driver'] = 'pwned';

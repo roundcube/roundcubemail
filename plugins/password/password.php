@@ -1,7 +1,5 @@
 <?php
 
-use GuzzleHttp\Client as HttpClient;
-
 /*
  * Password Plugin for Roundcube
  *
@@ -688,8 +686,7 @@ class password extends rcube_plugin
                     rcube::raise_error([
                         'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                         'message' => "Password plugin: Failed to execute command: {$command}",
-                    ], true, false);
-                    return false;
+                    ], true, true);
                 }
 
                 fwrite($pipes[0], $password . "\n", 1 + strlen($password));
@@ -708,9 +705,7 @@ class password extends rcube_plugin
                     rcube::raise_error([
                         'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                         'message' => "Password plugin: Failed to execute command: {$command}. Error: {$stderr}",
-                    ], true, false);
-
-                    return false;
+                    ], true, true);
                 }
 
                 if (!$prefixed) {
@@ -746,7 +741,8 @@ class password extends rcube_plugin
                 ], true, true);
         }
 
-        if ($crypted === null || $crypted === false) {
+        // @phpstan-ignore-next-line
+        if ($crypted === null || $crypted === '' || $crypted === false) {
             rcube::raise_error([
                 'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
                 'message' => "Password plugin: Failed to hash password ({$method}). Check for configuration issues.",
@@ -794,7 +790,7 @@ class password extends rcube_plugin
     /**
      * Returns Guzzle HTTP client instance configured for use in a password driver.
      *
-     * @return HttpClient HTTP client
+     * @return \GuzzleHttp\Client HTTP client
      */
     public static function get_http_client()
     {

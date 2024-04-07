@@ -94,8 +94,8 @@ class rcube_ldap_password
         $crypted_pass = [];
 
         foreach ($encodages as $enc) {
-            if ($cpw = password::hash_password($passwd, $enc)) {
-                $crypted_pass[] = $cpw;
+            if ($enc) {
+                $crypted_pass[] = password::hash_password($passwd, $enc);
             }
         }
 
@@ -111,8 +111,8 @@ class rcube_ldap_password
         }
 
         // Crypt new samba password
-        if ($smbpwattr && !($samba_pass = password::hash_password($passwd, 'samba'))) {
-            return PASSWORD_CRYPT_ERROR;
+        if ($smbpwattr) {
+            $samba_pass = password::hash_password($passwd, 'samba');
         }
 
         // Writing new crypted password to LDAP
@@ -121,14 +121,14 @@ class rcube_ldap_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        if (!$userEntry->replace([$pwattr => $crypted_pass], $force)) {
+        if (Net_LDAP2::isError($userEntry->replace([$pwattr => $crypted_pass], $force))) {
             return PASSWORD_CONNECT_ERROR;
         }
 
         // Updating PasswordLastChange Attribute if desired
         if ($lchattr) {
             $current_day = (int) (time() / 86400);
-            if (!$userEntry->replace([$lchattr => $current_day], $force)) {
+            if (Net_LDAP2::isError($userEntry->replace([$lchattr => $current_day], $force))) {
                 return PASSWORD_CONNECT_ERROR;
             }
         }

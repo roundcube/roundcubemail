@@ -68,6 +68,8 @@ class rcube_ldap_simple_password
             return $ret;
         }
 
+        $entry = [];
+
         $entry[$pwattr] = $crypted_pass;
 
         // Update PasswordLastChange Attribute if desired
