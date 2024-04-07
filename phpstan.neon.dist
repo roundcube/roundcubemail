@@ -16,8 +16,7 @@ parameters:
         - '~^Variable variables are not allowed.~'
         - '~^Variable .* might not be defined\.~'
         - '~Call to function array_filter\(\) requires parameter #2 to be passed to avoid loose comparison semantics.~'
-        # relax strict rules - move to phpstan baseline once almost all l6 errors are fixed
-        - '~^Dynamic call to static method .+\.~' # TODO in https://github.com/roundcube/roundcubemail/pull/9314
+        - '~^Dynamic call to static method .+\.~'
         - '~^Construct empty\(\) is not allowed\. Use more strict comparison\.~'
         - '~^Loose comparison via "[=!]=" is not allowed\.~'
         - '~^Casting to .+ something that''s already .+\.~'
