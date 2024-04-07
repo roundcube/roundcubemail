@@ -15,5 +15,11 @@
         "php": ">=7.3.0",
         "roundcube/plugin-installer": "~0.3.3",
         "pear/net_sieve": "~1.4.4"
+    },
+    "autoload": {
+        "classmap": [
+            "lib/",
+            "managesieve.php"
+        ]
     }
 }
