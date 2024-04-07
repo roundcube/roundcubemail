@@ -55,13 +55,11 @@ class rcube_zxcvbn_password
                 'file' => __FILE__,
                 'line' => __LINE__,
                 'message' => 'Password plugin: Zxcvbn library not found.',
-            ], true, false);
-
-            return;
+            ], true, true);
         }
 
-        $zxcvbn = new Zxcvbn();
-        $strength = $zxcvbn->passwordStrength($passwd);
+        $zxcvbn = new Zxcvbn(); // @phpstan-ignore-line
+        $strength = $zxcvbn->passwordStrength($passwd); // @phpstan-ignore-line
 
         return [$strength['score'] + 1, $strength['feedback']['warning']];
     }

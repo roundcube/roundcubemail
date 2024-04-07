@@ -82,11 +82,12 @@ class rcube_modoboa_password
         $userid = $decoded[0]->pk;
 
         // Encode json with new password
-        $ret['username'] = $decoded[0]->username;
-        $ret['mailbox'] = $decoded[0]->mailbox;
-        $ret['role'] = $decoded[0]->role;
-        $ret['password'] = $passwd; // new password
-        $encoded = json_encode($ret);
+        $encoded = json_encode([
+                'username' => $decoded[0]->username,
+                'mailbox' => $decoded[0]->mailbox,
+                'role' => $decoded[0]->role,
+                'password' => $passwd, // new password
+        ]);
 
         // Call HTTP API Modoboa
         $curl = curl_init();
