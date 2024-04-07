@@ -433,7 +433,8 @@ class rcube_user
      *
      * @param int $iid Identity ID
      *
-     * @return bool True if deleted successfully, false if nothing changed
+     * @return int|bool True if deleted successfully, false if nothing changed,
+     *                  -1 if attempted to delete the last identity (or there's no identities)
      */
     public function delete_identity($iid)
     {
@@ -451,7 +452,7 @@ class rcube_user
 
         // we'll not delete last identity
         if ($sql_arr['ident_count'] <= 1) {
-            return false;
+            return -1;
         }
 
         $this->db->query(

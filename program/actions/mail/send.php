@@ -159,8 +159,10 @@ class rcmail_action_mail_send extends rcmail_action
 
                     if (!$spell_result) {
                         if ($isHtml) {
-                            $result['words'] = $spellchecker->get();
-                            $result['dictionary'] = (bool) $rcmail->config->get('spellcheck_dictionary');
+                            $result = [
+                                'words' => $spellchecker->get(),
+                                'dictionary' => (bool) $rcmail->config->get('spellcheck_dictionary'),
+                            ];
                         } else {
                             $result = $spellchecker->get_xml();
                         }

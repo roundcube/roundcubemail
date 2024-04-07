@@ -97,14 +97,16 @@ class rcmail_action_settings_index extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        $sections['general'] = ['id' => 'general', 'section' => $rcmail->gettext('uisettings')];
-        $sections['mailbox'] = ['id' => 'mailbox', 'section' => $rcmail->gettext('mailboxview')];
-        $sections['mailview'] = ['id' => 'mailview', 'section' => $rcmail->gettext('messagesdisplaying')];
-        $sections['compose'] = ['id' => 'compose', 'section' => $rcmail->gettext('messagescomposition')];
-        $sections['addressbook'] = ['id' => 'addressbook', 'section' => $rcmail->gettext('contacts')];
-        $sections['folders'] = ['id' => 'folders', 'section' => $rcmail->gettext('specialfolders')];
-        $sections['server'] = ['id' => 'server', 'section' => $rcmail->gettext('serversettings')];
-        $sections['encryption'] = ['id' => 'encryption', 'section' => $rcmail->gettext('encryption')];
+        $sections = [
+            'general' => ['id' => 'general', 'section' => $rcmail->gettext('uisettings')],
+            'mailbox' => ['id' => 'mailbox', 'section' => $rcmail->gettext('mailboxview')],
+            'mailview' => ['id' => 'mailview', 'section' => $rcmail->gettext('messagesdisplaying')],
+            'compose' => ['id' => 'compose', 'section' => $rcmail->gettext('messagescomposition')],
+            'addressbook' => ['id' => 'addressbook', 'section' => $rcmail->gettext('contacts')],
+            'folders' => ['id' => 'folders', 'section' => $rcmail->gettext('specialfolders')],
+            'server' => ['id' => 'server', 'section' => $rcmail->gettext('serversettings')],
+            'encryption' => ['id' => 'encryption', 'section' => $rcmail->gettext('encryption')],
+        ];
 
         // hook + define list cols
         $plugin = $rcmail->plugins->exec_hook('preferences_sections_list', [
@@ -1569,7 +1571,7 @@ class rcmail_action_settings_index extends rcmail_action
         $limit = (array) $rcmail->config->get('skins_allowed');
 
         if (!$dir) {
-            return false;
+            return [];
         }
 
         while (($file = readdir($dir)) !== false) {

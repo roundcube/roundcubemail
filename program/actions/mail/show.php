@@ -255,16 +255,12 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
     {
         $rcmail = rcmail::get_instance();
 
-        $attrib['id'] = 'remote-objects-message';
-        $attrib['class'] = 'notice';
-        $attrib['style'] = 'display: none';
+        $attrib = ['id' => 'remote-objects-message', 'class' => 'notice', 'style' => 'display: none'];
 
         $msg = html::span(null, rcube::Q($rcmail->gettext('blockedresources')));
 
-        $buttons = html::a([
-                'href' => '#loadremote',
-                'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote')",
-            ],
+        $buttons = html::a(
+            ['href' => '#loadremote', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote')"],
             rcube::Q($rcmail->gettext('allow'))
         );
 
@@ -325,15 +321,12 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             return '';
         }
 
-        $attrib['id'] = 'message-buttons';
-        $attrib['class'] = 'information notice';
+        $attrib = ['id' => 'message-buttons', 'class' => 'information notice'];
 
         $msg = html::span(null, rcube::Q($rcmail->gettext('isdraft')))
             . '&nbsp;'
-            . html::a([
-                    'href' => '#edit',
-                    'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('edit')",
-                ],
+            . html::a(
+                ['href' => '#edit', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('edit')"],
                 rcube::Q($rcmail->gettext('edit'))
             );
 
@@ -564,8 +557,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $user = self::$MESSAGE->headers->bcc;
         }
 
+        $vars = ['date' => html::span('text-nowrap', $date)];
         $vars[$header] = self::address_string($user, 1, true, $attrib['addicon'], self::$MESSAGE->headers->charset);
-        $vars['date'] = html::span('text-nowrap', $date);
 
         if (empty($user)) {
             $label = 'shortheaderdate';
@@ -627,10 +620,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
      */
     public static function message_body($attrib)
     {
-        if (
-            empty(self::$MESSAGE)
-            || (!is_array(self::$MESSAGE->parts) && empty(self::$MESSAGE->body))
-        ) {
+        if (empty(self::$MESSAGE) || (empty(self::$MESSAGE->parts) && empty(self::$MESSAGE->body))) {
             return '';
         }
 

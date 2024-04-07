@@ -350,7 +350,7 @@ class rcmail_action_contacts_index extends rcmail_action
     /**
      * Instantiate a contacts object according to the given source
      *
-     * @return rcube_addressbook Contacts handler
+     * @return rcube_addressbook|null Contacts handler
      */
     public static function contact_source($source = null, $init_env = false, $writable = false)
     {
@@ -390,6 +390,7 @@ class rcmail_action_contacts_index extends rcmail_action
         $rcmail->output->set_env('group', $group);
 
         // reduce/extend $CONTACT_COLTYPES with specification from the current $CONTACT object
+        // @phpstan-ignore-next-line
         if (is_array($contacts->coltypes)) {
             // remove cols not listed by the backend class
             $contact_cols = isset($contacts->coltypes[0]) ? array_flip($contacts->coltypes) : $contacts->coltypes;

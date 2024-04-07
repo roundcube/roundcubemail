@@ -70,7 +70,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                 ) {
                     $message = new rcube_message($params['_uid'], $params['_mbox']);
 
-                    if ($message && !empty($message->headers)) {
+                    if (!empty($message->headers)) {
                         $attachment = rcmail_action_mail_compose::save_attachment($message, $params['_part'], self::$COMPOSE_ID);
                     }
                 }

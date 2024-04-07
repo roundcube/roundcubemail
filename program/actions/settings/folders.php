@@ -76,7 +76,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $list_folders = [];
 
         // pre-process folders list
-        foreach ($a_unsubscribed as $i => $folder) {
+        foreach ($a_unsubscribed as $folder) {
             $folder_id = $folder;
             $folder = $storage->mod_folder($folder);
             $foldersplit = explode($delimiter, $folder);
@@ -152,7 +152,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 $noselect = in_array_nocase('\Noselect', $attrs);
             }
 
-            $is_disabled = (($is_protected && $is_subscribed) || $noselect);
+            $is_disabled = ($is_protected && $is_subscribed) || $noselect;
 
             // Below we will disable subscription option for "virtual" folders
             // according to namespaces, but only if they aren't already subscribed.
@@ -160,7 +160,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             // even if it doesn't exists or is not accessible (OTRS:1000059)
             if (!$is_subscribed && !$is_disabled && !empty($namespace) && !empty($folder['virtual'])) {
                 // check if the folder is a namespace prefix, then disable subscription option on it
-                if (!$is_disabled && $folder['level'] == 0) {
+                if ($folder['level'] == 0) {
                     $fname = $folder['id'] . $delimiter;
                     foreach ($namespace as $ns) {
                         if (is_array($ns)) {

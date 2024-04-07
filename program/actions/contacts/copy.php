@@ -60,8 +60,8 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
 
             $ids = [];
 
-            foreach ($cid as $cid) {
-                $a_record = $CONTACTS->get_record($cid, true);
+            foreach ($cid as $id) {
+                $a_record = $CONTACTS->get_record($id, true);
 
                 if (empty($a_record)) {
                     continue;

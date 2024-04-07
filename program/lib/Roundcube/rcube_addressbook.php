@@ -60,9 +60,7 @@ abstract class rcube_addressbook
     /** @var bool True if the addressbook is read-only. */
     public $readonly = true;
 
-    /**
-     * @var bool True if the addressbook does not support listing all records but needs use of the search function.
-     */
+    /** @var bool True if the addressbook supports searching, but not listing. */
     public $searchonly = false;
 
     /** @var bool True if the addressbook supports restoring deleted contacts. */
