@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // HTTP Basic Authentication Plugin options
 // ----------------------------------------
 // Default mail host to log-in using user/password from HTTP Authentication.
