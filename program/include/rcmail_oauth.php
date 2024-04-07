@@ -200,12 +200,10 @@ class rcmail_oauth
         }
 
         // prepare a http client with the correct options
-        if (class_exists(HttpClient::class)) { // class is not autoloaded in extension installer composer plugin on the first composer install
+        if (class_exists(HttpClient::class)) { // class is not autoloaded in "roundcube/plugin-installer" composer plugin on the first/clean composer install
             /*
-             * In rcube.php line 277:
+             * [Error] Class 'GuzzleHttp\Client' not found
              *
-             *   [Error] Class 'GuzzleHttp\Client' not found
-
              * Exception trace:
              *   at program\lib\Roundcube\rcube.php:277
              *  rcube->get_http_client() at program\include\rcmail_oauth.php:205
