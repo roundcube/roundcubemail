@@ -32,6 +32,7 @@ class rcube_domainfactory_password
 {
     public function save($curpass, $passwd, $username)
     {
+        // @phpstan-ignore-next-line
         if ($ch = curl_init()) {
             // initial login
             curl_setopt_array($ch, [

@@ -49,7 +49,7 @@ class rcube_plesk_password
      * @param string $currpass Current password
      * @param string $newpass  New password
      *
-     * @return int PASSWORD_SUCCESS|PASSWORD_ERROR
+     * @return int|array PASSWORD_SUCCESS|PASSWORD_ERROR or an array with error code + message
      */
     public function save($currpass, $newpass, $username)
     {
@@ -69,9 +69,11 @@ class rcube_plesk_password
         $result = $plesk->change_mailbox_password($username, $newpass);
         // $plesk->destroy();
 
-        if ($result == 'ok') {
+        if ($result === true) {
             return PASSWORD_SUCCESS;
-        } elseif (is_array($result)) {
+        }
+
+        if (is_array($result)) {
             return $result;
         }
 
@@ -150,7 +152,7 @@ class plesk_rpc
      *
      * @param string $domain domain-name
      *
-     * @return object SimpleXML object
+     * @return object|null SimpleXML object
      */
     public function domain_info($domain)
     {
@@ -173,7 +175,7 @@ class plesk_rpc
         }
 
         // Old Plesk versions require version attribute, add it and try again
-        if ($xml && $xml->site->get->result->status === 'error'
+        if ($xml && strval($xml->site->get->result->status) === 'error'
             && intval($xml->site->get->result->errcode ?? null) === 1017
         ) {
             $request->addAttribute('version', '1.6.3.0');
@@ -195,13 +197,15 @@ class plesk_rpc
      *
      * @param string $domain domain-name
      *
-     * @return int Domain ID
+     * @return int|null Domain ID
      */
     public function get_domain_id($domain)
     {
         if ($xml = $this->domain_info($domain)) {
             return intval($xml->site->get->result->id);
         }
+
+        return null;
     }
 
     /**
@@ -210,7 +214,7 @@ class plesk_rpc
      * @param string $mailbox full email-address (user@domain.tld)
      * @param string $newpass new password of mailbox
      *
-     * @return bool
+     * @return bool|array True on success, false or array on error
      */
     public function change_mailbox_password($mailbox, $newpass)
     {
@@ -248,14 +252,14 @@ class plesk_rpc
             $xml = new SimpleXMLElement($res);
             $res = strval($xml->mail->update->set->result->status);
 
-            if ($res != 'ok') {
-                $res = [
-                    'code' => PASSWORD_ERROR,
-                    'message' => strval($xml->mail->update->set->result->errtext),
-                ];
+            if ($res == 'ok') {
+                return true;
             }
 
-            return $res;
+            return [
+                'code' => PASSWORD_ERROR,
+                'message' => strval($xml->mail->update->set->result->errtext),
+            ];
         }
 
         return false;

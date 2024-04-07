@@ -337,7 +337,7 @@ class HTTPSocket
      * @param string $location URL
      * @param bool   $asArray  return as array? (like PHP's file() command)
      *
-     * @return string result body
+     * @return string|false result body
      */
     public function get($location, $asArray = false)
     {
@@ -401,7 +401,7 @@ class HTTPSocket
      *
      * @param string $header (optional) header to return
      *
-     * @return array result header
+     * @return array|string Result header
      */
     public function fetch_header($header = '')
     {

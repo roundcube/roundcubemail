@@ -57,20 +57,12 @@ class rcube_sql_password
         if (strpos($sql, '%P') !== false) {
             $password = password::hash_password($passwd);
 
-            if ($password === false) {
-                return PASSWORD_CRYPT_ERROR;
-            }
-
             $sql = str_replace('%P', $db->quote($password), $sql);
         }
 
         // old password - default hash method
         if (strpos($sql, '%O') !== false) {
             $password = password::hash_password($curpass);
-
-            if ($password === false) {
-                return PASSWORD_CRYPT_ERROR;
-            }
 
             $sql = str_replace('%O', $db->quote($password), $sql);
         }
@@ -113,7 +105,7 @@ class rcube_sql_password
 
         $res = $db->query($sql, $sql_vars);
 
-        if (!$db->is_error()) {
+        if (!$db->is_error($res)) {
             if (strtolower(substr(trim($sql), 0, 6)) == 'select') {
                 if ($db->fetch_array($res)) {
                     return PASSWORD_SUCCESS;
