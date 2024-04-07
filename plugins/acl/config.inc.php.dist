@@ -1,7 +1,5 @@
 <?php
 
-$config = [];
-
 // Default look of access rights table
 // In advanced mode all access rights are displayed separately
 // In simple mode access rights are grouped into four groups: read, write, delete, full

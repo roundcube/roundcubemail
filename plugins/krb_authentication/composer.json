@@ -13,11 +13,6 @@
     ],
     "require": {
         "php": ">=7.3.0",
-        "roundcube/plugin-installer": "~0.3.3"
-    },
-    "autoload": {
-        "classmap": [
-            "krb_authentication.php"
-        ]
+        "roundcube/plugin-installer": ">=0.1.3"
     }
 }

@@ -4,6 +4,12 @@ use PHPUnit\Framework\TestCase;
 
 class ExampleAddressbook_Plugin extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../example_addressbook.php';
+        include_once __DIR__ . '/../example_addressbook_backend.php';
+    }
+
     /**
      * Plugin object construction test
      */

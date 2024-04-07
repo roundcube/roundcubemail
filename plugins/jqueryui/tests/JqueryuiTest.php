@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class Jqueryui_Plugin extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../jqueryui.php';
+    }
+
     /**
      * Plugin object construction test
      */

@@ -2,6 +2,13 @@
 
 class Managesieve_Engine extends ActionTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../managesieve.php';
+        include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_engine.php';
+        include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_vacation.php';
+    }
+
     /**
      * Test filter_form()
      */

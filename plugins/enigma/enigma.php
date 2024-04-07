@@ -103,6 +103,11 @@ class enigma extends rcube_plugin
 
         $this->env_loaded = true;
 
+        // Add include path for Enigma classes and drivers
+        $include_path = $this->home . '/lib' . \PATH_SEPARATOR;
+        $include_path .= ini_get('include_path');
+        set_include_path($include_path);
+
         // load the Enigma plugin configuration
         $this->load_config();
 

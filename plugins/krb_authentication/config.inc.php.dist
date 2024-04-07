@@ -1,7 +1,5 @@
 <?php
 
-$config = [];
-
 // Kerberos/GSSAPI Authentication Plugin options
 // ---------------------------------------------
 

@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class Enigma_EnigmaSignature extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../lib/enigma_signature.php';
+    }
+
     /**
      * Test constructor
      */

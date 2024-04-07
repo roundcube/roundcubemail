@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class Identicon_Plugin extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../identicon.php';
+    }
+
     /**
      * Plugin object construction test
      */

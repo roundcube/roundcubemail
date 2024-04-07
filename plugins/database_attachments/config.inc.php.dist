@@ -1,7 +1,5 @@
 <?php
 
-$config = [];
-
 // By default this plugin stores attachments in filesystem
 // and copies them into sql database.
 // You can change it to use 'memcache', 'memcached', 'redis' or 'apc'.

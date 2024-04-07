@@ -1,7 +1,5 @@
 <?php
 
-$config = [];
-
 // Password Plugin options
 // -----------------------
 // A driver to use for password change. Default: "sql".

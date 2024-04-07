@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class Enigma_EnigmaKey extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../lib/enigma_key.php';
+    }
+
     /**
      * Test "empty" key
      */

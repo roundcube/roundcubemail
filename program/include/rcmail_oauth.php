@@ -200,29 +200,10 @@ class rcmail_oauth
         }
 
         // prepare a http client with the correct options
-        if (class_exists(HttpClient::class)) { // class is not autoloaded in extension installer composer plugin on the first composer install
-            /*
-             * In rcube.php line 277:
-             *
-             *   [Error] Class 'GuzzleHttp\Client' not found
-
-             * Exception trace:
-             *   at program\lib\Roundcube\rcube.php:277
-             *  rcube->get_http_client() at program\include\rcmail_oauth.php:205
-             *  rcmail_oauth->__construct() at program\include\rcmail_oauth.php:104
-             *  rcmail_oauth::get_instance() at program\include\rcmail.php:150
-             *  rcmail->startup() at program\include\rcmail.php:88
-             *  rcmail::get_instance() at program\include\clisetup.php:30
-             *  include_once() at vendor\roundcube\plugin-installer\src\Roundcube\Composer\ExtensionInstaller.php:49
-             *  Roundcube\Composer\ExtensionInstaller->install() at composer.phar/src/Composer/Installer/InstallationManager.php:463
-             *  Composer\Installer\InstallationManager->install() at composer.phar/src/Composer/Installer/InstallationManager.php:378
-             */
-
-            $this->http_client = $this->rcmail->get_http_client((array) $options['http_options'] + [
-                'timeout' => $this->options['timeout'],
-                'verify' => $this->options['verify_peer'],
-            ]);
-        }
+        $this->http_client = $this->rcmail->get_http_client((array) $options['http_options'] + [
+            'timeout' => $this->options['timeout'],
+            'verify' => $this->options['verify_peer'],
+        ]);
     }
 
     /**

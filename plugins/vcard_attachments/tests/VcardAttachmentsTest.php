@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class VcardAttachments_Plugin extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../vcard_attachments.php';
+    }
+
     /**
      * Plugin object construction test
      */

@@ -48,6 +48,19 @@ require_once INSTALL_PATH . 'program/include/iniset.php';
 
 rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
 
+// Extend include path so some plugin test won't fail
+$include_path = ini_get('include_path') . \PATH_SEPARATOR . TESTS_DIR . '..';
+if (set_include_path($include_path) === false) {
+    exit('Fatal error: ini_set/set_include_path does not work.');
+}
+
+require_once TESTS_DIR . 'ActionTestCase.php';
+require_once TESTS_DIR . 'ExitException.php';
+require_once TESTS_DIR . 'OutputHtmlMock.php';
+require_once TESTS_DIR . 'OutputJsonMock.php';
+require_once TESTS_DIR . 'StderrMock.php';
+require_once TESTS_DIR . 'StorageMock.php';
+
 // Initialize database and environment
 ActionTestCase::init();
 

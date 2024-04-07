@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class Password_Plugin extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../password.php';
+    }
+
     /**
      * Plugin object construction test
      */
@@ -78,8 +83,9 @@ class Password_Plugin extends TestCase
      *
      * @return string driver's class name, example: "rcube_chpasswd_password"
      */
-    protected function load_driver($driver)
+    public function load_driver($driver)
     {
+        include_once __DIR__ . "/../drivers/{$driver}.php";
         $driver_class = "rcube_{$driver}_password";
         $this->assertTrue(class_exists($driver_class));
         return $driver_class;

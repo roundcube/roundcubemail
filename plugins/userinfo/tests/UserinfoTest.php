@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class Userinfo_Plugin extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../userinfo.php';
+    }
+
     /**
      * Plugin object construction test
      */

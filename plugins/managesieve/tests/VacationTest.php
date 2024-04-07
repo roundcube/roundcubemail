@@ -2,6 +2,13 @@
 
 class Managesieve_Vacation extends ActionTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../managesieve.php';
+        include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_engine.php';
+        include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_vacation.php';
+    }
+
     /**
      * Test vacation_form()
      */

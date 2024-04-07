@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class IdentitySelect_Plugin extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../identity_select.php';
+    }
+
     /**
      * Plugin object construction test
      */

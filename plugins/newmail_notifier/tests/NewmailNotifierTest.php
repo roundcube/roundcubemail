@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class NewmailNotifier_Plugin extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../newmail_notifier.php';
+    }
+
     /**
      * Plugin object construction test
      */

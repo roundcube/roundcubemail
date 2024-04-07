@@ -4,6 +4,11 @@ use PHPUnit\Framework\TestCase;
 
 class NewUserDialog_Plugin extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        include_once __DIR__ . '/../new_user_dialog.php';
+    }
+
     /**
      * Plugin object construction test
      */

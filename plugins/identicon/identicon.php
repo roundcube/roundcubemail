@@ -55,6 +55,8 @@ class identicon extends rcube_plugin
             }
 
             if ($email) {
+                require_once __DIR__ . '/identicon_engine.php';
+
                 if (!empty($args['attrib']['bg-color'])) {
                     $bgcolor = $args['attrib']['bg-color'];
                 } else {
