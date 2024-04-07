@@ -12,7 +12,7 @@ class Emoticons_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new emoticons($rcube->plugins);
 
-        $this->assertInstanceOf('emoticons', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('emoticons', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

@@ -12,7 +12,7 @@ class Managesieve_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new managesieve($rcube->plugins);
 
-        $this->assertInstanceOf('managesieve', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('managesieve', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

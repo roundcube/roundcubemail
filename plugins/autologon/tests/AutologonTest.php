@@ -12,8 +12,8 @@ class Autologon_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new autologon($rcube->plugins);
 
-        $this->assertInstanceOf('autologon', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('autologon', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
 
         // TODO
         $plugin->startup([]);

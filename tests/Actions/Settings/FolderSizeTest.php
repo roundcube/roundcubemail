@@ -13,8 +13,8 @@ class Actions_Settings_FolderSize extends ActionTestCase
         $action = new rcmail_action_settings_folder_size();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-size');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -26,9 +26,9 @@ class Actions_Settings_FolderSize extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('folder-size', $result['action']);
-        $this->assertSame('this.folder_size_update("100 B");', trim($result['exec']));
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('folder-size', $result['action']);
+        self::assertSame('this.folder_size_update("100 B");', trim($result['exec']));
     }
 
     /**
@@ -51,8 +51,8 @@ class Actions_Settings_FolderSize extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('folder-size', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('folder-size', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
     }
 }

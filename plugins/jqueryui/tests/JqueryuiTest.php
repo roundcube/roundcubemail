@@ -12,7 +12,7 @@ class Jqueryui_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new jqueryui($rcube->plugins);
 
-        $this->assertInstanceOf('jqueryui', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('jqueryui', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

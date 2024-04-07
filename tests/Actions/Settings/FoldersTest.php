@@ -13,8 +13,8 @@ class Actions_Settings_Folders extends ActionTestCase
         $action = new rcmail_action_settings_folders();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folders');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -48,10 +48,10 @@ class Actions_Settings_Folders extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('folders', $output->template);
-        $this->assertSame('Folders', $output->getProperty('pagetitle'));
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertMatchesRegularExpression('/treelist(.min)?.js/', $result);
+        self::assertSame('folders', $output->template);
+        self::assertSame('Folders', $output->getProperty('pagetitle'));
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertMatchesRegularExpression('/treelist(.min)?.js/', $result);
     }
 
     /**
@@ -59,7 +59,7 @@ class Actions_Settings_Folders extends ActionTestCase
      */
     public function test_folder_subscriptions()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -67,7 +67,7 @@ class Actions_Settings_Folders extends ActionTestCase
      */
     public function test_folder_filter()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -75,7 +75,7 @@ class Actions_Settings_Folders extends ActionTestCase
      */
     public function test_folder_options()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -83,6 +83,6 @@ class Actions_Settings_Folders extends ActionTestCase
      */
     public function test_update_folder_row()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

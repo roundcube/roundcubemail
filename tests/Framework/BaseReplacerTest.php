@@ -14,7 +14,7 @@ class Framework_BaseReplacer extends TestCase
     {
         $object = new rcube_base_replacer('test');
 
-        $this->assertInstanceOf('rcube_base_replacer', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_base_replacer', $object, 'Class constructor');
     }
 
     /**
@@ -28,7 +28,7 @@ class Framework_BaseReplacer extends TestCase
         $replacer = new rcube_base_replacer($base);
         $response = $replacer->replace($html);
 
-        $this->assertSame('<A href="http://shouldbethislink.com">Test URL</A>', $response);
+        self::assertSame('<A href="http://shouldbethislink.com">Test URL</A>', $response);
     }
 
     /**
@@ -57,6 +57,6 @@ class Framework_BaseReplacer extends TestCase
         $replacer = new rcube_base_replacer('test');
         $result = $replacer->absolute_url($path, $base);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 }

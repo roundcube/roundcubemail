@@ -12,7 +12,7 @@ class NewUserDialog_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new new_user_dialog($rcube->plugins);
 
-        $this->assertInstanceOf('new_user_dialog', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('new_user_dialog', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

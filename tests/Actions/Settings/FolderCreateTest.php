@@ -13,8 +13,8 @@ class Actions_Settings_FolderCreate extends ActionTestCase
         $action = new rcmail_action_settings_folder_create();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folder-create');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -42,9 +42,9 @@ class Actions_Settings_FolderCreate extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('folderedit', $output->template);
-        $this->assertSame('', $output->getProperty('pagetitle')); // TODO: It should have some title
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form');") !== false);
+        self::assertSame('folderedit', $output->template);
+        self::assertSame('', $output->getProperty('pagetitle')); // TODO: It should have some title
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertTrue(strpos($result, "rcmail.gui_object('editform', 'form');") !== false);
     }
 }

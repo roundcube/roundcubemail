@@ -14,7 +14,7 @@ class Framework_Contacts extends TestCase
     {
         $object = new rcube_contacts(rcube::get_instance()->get_dbh(), null);
 
-        $this->assertInstanceOf('rcube_contacts', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_contacts', $object, 'Class constructor');
     }
 
     /**
@@ -25,17 +25,17 @@ class Framework_Contacts extends TestCase
         $contacts = new rcube_contacts(rcube::get_instance()->get_dbh(), null);
 
         $data = [];
-        $this->assertFalse($contacts->validate($data));
-        $this->assertSame(['type' => 3, 'message' => 'nonamewarning'], $contacts->get_error());
+        self::assertFalse($contacts->validate($data));
+        self::assertSame(['type' => 3, 'message' => 'nonamewarning'], $contacts->get_error());
 
         $data = ['name' => 'test'];
-        $this->assertTrue($contacts->validate($data));
+        self::assertTrue($contacts->validate($data));
 
         $data = ['email' => '@example.org'];
-        $this->assertFalse($contacts->validate($data));
-        $this->assertSame(['type' => 3, 'message' => 'Invalid email address: @example.org'], $contacts->get_error());
+        self::assertFalse($contacts->validate($data));
+        self::assertSame(['type' => 3, 'message' => 'Invalid email address: @example.org'], $contacts->get_error());
 
         $data = ['email' => 'test@test.com'];
-        $this->assertTrue($contacts->validate($data));
+        self::assertTrue($contacts->validate($data));
     }
 }

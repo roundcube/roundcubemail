@@ -19,6 +19,6 @@ class Rcmail_RcmailOutputJson extends ActionTestCase
 
         $output->show_message('unknown');
 
-        $this->assertSame([['display_message', 'unknown', 'notice', 0]], $commands->getValue($output));
+        self::assertSame([['display_message', 'unknown', 'notice', 0]], $commands->getValue($output));
     }
 }

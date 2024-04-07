@@ -13,8 +13,8 @@ class Actions_Settings_FolderPurge extends ActionTestCase
         $action = new rcmail_action_settings_folder_purge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -27,12 +27,12 @@ class Actions_Settings_FolderPurge extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('folder-purge', $result['action']);
-        $this->assertSame(0, $result['env']['messagecount']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Message(s) moved successfully.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.show_folder("Test",null,true);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_quota') === false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('folder-purge', $result['action']);
+        self::assertSame(0, $result['env']['messagecount']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Message(s) moved successfully.","confirmation",0);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.show_folder("Test",null,true);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_quota') === false);
     }
 
     /**
@@ -43,8 +43,8 @@ class Actions_Settings_FolderPurge extends ActionTestCase
         $action = new rcmail_action_settings_folder_purge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -57,12 +57,12 @@ class Actions_Settings_FolderPurge extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('folder-purge', $result['action']);
-        $this->assertSame(0, $result['env']['messagecount']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully emptied.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.show_folder("Trash",null,true);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_quota') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('folder-purge', $result['action']);
+        self::assertSame(0, $result['env']['messagecount']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully emptied.","confirmation",0);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.show_folder("Trash",null,true);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_quota') !== false);
     }
 
     /**
@@ -85,8 +85,8 @@ class Actions_Settings_FolderPurge extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('folder-purge', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('folder-purge', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
     }
 }

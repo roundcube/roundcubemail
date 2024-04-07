@@ -12,7 +12,7 @@ class Actions_Mail_Copy extends ActionTestCase
     {
         $object = new rcmail_action_mail_copy();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        self::assertInstanceOf('rcmail_action', $object);
     }
 
     /**
@@ -23,7 +23,7 @@ class Actions_Mail_Copy extends ActionTestCase
         $action = new rcmail_action_mail_copy();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'copy');
 
-        $this->assertTrue($action->checks());
+        self::assertTrue($action->checks());
 
         $_POST = [
             '_uid' => 1,
@@ -41,11 +41,11 @@ class Actions_Mail_Copy extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('copy', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Message(s) copied successfully.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_unread_count("Trash",30,false,"");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_quota(') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('copy', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Message(s) copied successfully.","confirmation",0);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_unread_count("Trash",30,false,"");') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_quota(') !== false);
     }
 
     /**
@@ -72,8 +72,8 @@ class Actions_Mail_Copy extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('copy', $result['action']);
-        $this->assertSame('this.display_message("Unable to perform operation. Folder is read-only.","error",0);', trim($result['exec']));
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('copy', $result['action']);
+        self::assertSame('this.display_message("Unable to perform operation. Folder is read-only.","error",0);', trim($result['exec']));
     }
 }

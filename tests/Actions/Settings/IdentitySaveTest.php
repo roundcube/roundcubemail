@@ -13,8 +13,8 @@ class Actions_Settings_IdentitySave extends ActionTestCase
         $action = new rcmail_action_settings_identity_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-identity');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('identities');
 
@@ -34,16 +34,16 @@ class Actions_Settings_IdentitySave extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame('edit-identity', rcmail::get_instance()->action);
-        $this->assertSame('successfullysaved', $output->getProperty('message'));
+        self::assertSame('edit-identity', rcmail::get_instance()->action);
+        self::assertSame('successfullysaved', $output->getProperty('message'));
 
         $query = $db->query('SELECT * FROM `identities` WHERE `identity_id` = ?', $identity['identity_id']);
         $identity = $db->fetch_assoc($query);
 
-        $this->assertSame('new-name', $identity['name']);
-        $this->assertSame('new@example.com', $identity['email']);
-        $this->assertSame('test', $identity['signature']);
-        $this->assertSame(1, (int) $identity['standard']);
+        self::assertSame('new-name', $identity['name']);
+        self::assertSame('new@example.com', $identity['email']);
+        self::assertSame('test', $identity['signature']);
+        self::assertSame(1, (int) $identity['standard']);
     }
 
     /**
@@ -51,7 +51,7 @@ class Actions_Settings_IdentitySave extends ActionTestCase
      */
     public function test_new_identity()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -59,6 +59,6 @@ class Actions_Settings_IdentitySave extends ActionTestCase
      */
     public function test_run_errors()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

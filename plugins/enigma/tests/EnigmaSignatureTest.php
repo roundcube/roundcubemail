@@ -11,6 +11,6 @@ class Enigma_EnigmaSignature extends TestCase
     {
         $error = new enigma_signature();
 
-        $this->assertInstanceOf('enigma_signature', $error);
+        self::assertInstanceOf('enigma_signature', $error);
     }
 }

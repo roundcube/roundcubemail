@@ -13,8 +13,8 @@ class Actions_Utils_SavePref extends ActionTestCase
         $action = new rcmail_action_utils_save_pref();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'utils', 'save_pref');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $rcmail = rcmail::get_instance();
         $rcmail->user->save_prefs(['list_cols' => []]);
@@ -31,7 +31,7 @@ class Actions_Utils_SavePref extends ActionTestCase
         $user = new rcube_user($rcmail->user->ID);
         $prefs = $user->get_prefs();
 
-        $this->assertSame(['date'], $prefs['list_cols']);
+        self::assertSame(['date'], $prefs['list_cols']);
 
         // TODO: Test writing to session, test whitelist
     }

@@ -13,8 +13,8 @@ class Actions_Mail_Index extends ActionTestCase
         $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', '');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $_GET = ['_uid' => 10];
 
@@ -37,17 +37,17 @@ class Actions_Mail_Index extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame([], $output->headers);
-        $this->assertNull($output->getOutput());
-        $this->assertSame('Inbox', $output->getProperty('pagetitle'));
-        $this->assertSame('INBOX', $output->get_env('mailbox'));
-        $this->assertSame(10, $output->get_env('pagesize'));
-        $this->assertSame('/', $output->get_env('delimiter'));
-        $this->assertSame('widescreen', $output->get_env('layout'));
-        $this->assertSame('Drafts', $output->get_env('drafts_mailbox'));
-        $this->assertSame('Trash', $output->get_env('trash_mailbox'));
-        $this->assertSame('Junk', $output->get_env('junk_mailbox'));
-        $this->assertSame(10, $output->get_env('list_uid'));
+        self::assertSame([], $output->headers);
+        self::assertNull($output->getOutput());
+        self::assertSame('Inbox', $output->getProperty('pagetitle'));
+        self::assertSame('INBOX', $output->get_env('mailbox'));
+        self::assertSame(10, $output->get_env('pagesize'));
+        self::assertSame('/', $output->get_env('delimiter'));
+        self::assertSame('widescreen', $output->get_env('layout'));
+        self::assertSame('Drafts', $output->get_env('drafts_mailbox'));
+        self::assertSame('Trash', $output->get_env('trash_mailbox'));
+        self::assertSame('Junk', $output->get_env('junk_mailbox'));
+        self::assertSame(10, $output->get_env('list_uid'));
     }
 
     /**
@@ -58,7 +58,7 @@ class Actions_Mail_Index extends ActionTestCase
         $action = new rcmail_action_mail_index();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
 
-        $this->assertTrue($action->checks());
+        self::assertTrue($action->checks());
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -78,17 +78,17 @@ class Actions_Mail_Index extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame([], $output->headers);
-        $this->assertNull($output->getOutput());
-        $this->assertSame('', $output->getProperty('pagetitle'));
-        $this->assertSame('INBOX', $output->get_env('mailbox'));
-        $this->assertSame(10, $output->get_env('pagesize'));
-        $this->assertSame(1, $output->get_env('current_page'));
-        $this->assertSame('/', $output->get_env('delimiter'));
-        $this->assertSame('widescreen', $output->get_env('layout'));
-        $this->assertSame('Drafts', $output->get_env('drafts_mailbox'));
-        $this->assertSame('Trash', $output->get_env('trash_mailbox'));
-        $this->assertSame('Junk', $output->get_env('junk_mailbox'));
+        self::assertSame([], $output->headers);
+        self::assertNull($output->getOutput());
+        self::assertSame('', $output->getProperty('pagetitle'));
+        self::assertSame('INBOX', $output->get_env('mailbox'));
+        self::assertSame(10, $output->get_env('pagesize'));
+        self::assertSame(1, $output->get_env('current_page'));
+        self::assertSame('/', $output->get_env('delimiter'));
+        self::assertSame('widescreen', $output->get_env('layout'));
+        self::assertSame('Drafts', $output->get_env('drafts_mailbox'));
+        self::assertSame('Trash', $output->get_env('trash_mailbox'));
+        self::assertSame('Junk', $output->get_env('junk_mailbox'));
     }
 
     /**
@@ -100,19 +100,19 @@ class Actions_Mail_Index extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'list');
 
         $output->set_env('mailbox', 'INBOX');
-        $this->assertSame('from', $action->message_list_smart_column_name());
+        self::assertSame('from', $action->message_list_smart_column_name());
 
         $output->set_env('mailbox', 'Drafts');
-        $this->assertSame('to', $action->message_list_smart_column_name());
+        self::assertSame('to', $action->message_list_smart_column_name());
 
         $output->set_env('mailbox', 'Drafts/Subfolder');
-        $this->assertSame('to', $action->message_list_smart_column_name());
+        self::assertSame('to', $action->message_list_smart_column_name());
 
         $output->set_env('mailbox', 'Sent');
-        $this->assertSame('to', $action->message_list_smart_column_name());
+        self::assertSame('to', $action->message_list_smart_column_name());
 
         $output->set_env('mailbox', 'Sent/Subfolder');
-        $this->assertSame('to', $action->message_list_smart_column_name());
+        self::assertSame('to', $action->message_list_smart_column_name());
     }
 
     /**
@@ -127,9 +127,9 @@ class Actions_Mail_Index extends ActionTestCase
 
         $result = $action->message_list([]);
 
-        $this->assertMatchesRegularExpression('/^<table id="rcubemessagelist".*<\/table>$/', $result);
+        self::assertMatchesRegularExpression('/^<table id="rcubemessagelist".*<\/table>$/', $result);
         $listcols = ['threads', 'subject', 'status', 'fromto', 'date', 'size', 'flag', 'attachment'];
-        $this->assertSame($listcols, $output->get_env('listcols'));
+        self::assertSame($listcols, $output->get_env('listcols'));
     }
 
     /**
@@ -148,10 +148,10 @@ class Actions_Mail_Index extends ActionTestCase
 
         $action->js_message_list([]);
 
-        $this->assertFalse($output->get_env('multifolder_listing'));
+        self::assertFalse($output->get_env('multifolder_listing'));
         $commands = $output->getProperty('commands');
-        $this->assertCount(1, $commands);
-        $this->assertSame('set_message_coltypes', $commands[0][0]);
+        self::assertCount(1, $commands);
+        self::assertSame('set_message_coltypes', $commands[0][0]);
     }
 
     /**
@@ -167,7 +167,7 @@ class Actions_Mail_Index extends ActionTestCase
         $expected = '<a href="#list-options" onclick="return rcmail.command(\'menu-open\', \'messagelistmenu\', this, event)"'
             . ' class="listmenu" id="listmenulink" title="List options..." tabindex="0"><img src="ico.png" alt="List options..."></a>';
 
-        $this->assertSame($expected, $link);
+        self::assertSame($expected, $link);
     }
 
     /**
@@ -175,7 +175,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_messagecount_display()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -183,7 +183,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_get_messagecount_text()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -191,7 +191,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_send_unread_count()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -199,7 +199,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_check_safe()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -207,7 +207,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_part_image_type()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -217,12 +217,12 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $action = new rcmail_action_mail_index();
 
-        $this->assertNull($action->address_string(''));
+        self::assertNull($action->address_string(''));
 
         $result = $action->address_string('test@domain.com');
         $expected = '<span class="adr"><span title="test@domain.com" class="rcmContactAddress">test@domain.com</span></span>';
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
 
         $result = $action->address_string('test@domain.com', null, true, true);
         $expected = '<span class="adr"><a href="mailto:test@domain.com" class="rcmContactAddress" '
@@ -230,14 +230,14 @@ class Actions_Mail_Index extends ActionTestCase
             . 'test@domain.com</a><a href="#add" title="Add to address book" class="rcmaddcontact" '
             . 'onclick="return rcmail.command(\'add-contact\',\'test@domain.com\',this)"></a></span>';
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
 
         setProperty($action, 'PRINT_MODE', true);
 
         $result = $action->address_string('test@domain.com');
         $expected = '<span class="adr">&lt;test@domain.com&gt;</span>';
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     /**
@@ -250,13 +250,13 @@ class Actions_Mail_Index extends ActionTestCase
         $part->mime_id = '1';
 
         $part->mimetype = 'text/html';
-        $this->assertSame('HTML Message', $action->attachment_name($part));
+        self::assertSame('HTML Message', $action->attachment_name($part));
 
         $part->mimetype = 'application/pdf';
-        $this->assertSame('Part 1.pdf', $action->attachment_name($part));
+        self::assertSame('Part 1.pdf', $action->attachment_name($part));
 
         $part->filename = 'test.pdf';
-        $this->assertSame('test.pdf', $action->attachment_name($part));
+        self::assertSame('test.pdf', $action->attachment_name($part));
     }
 
     /**
@@ -264,7 +264,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_search_filter()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -272,7 +272,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_search_interval()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -280,7 +280,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_message_error()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -288,7 +288,7 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_message_import_form()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -312,7 +312,7 @@ class Actions_Mail_Index extends ActionTestCase
     {
         $object = new rcmail_action_mail_index();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        self::assertInstanceOf('rcmail_action', $object);
     }
 
     /**
@@ -345,11 +345,11 @@ class Actions_Mail_Index extends ActionTestCase
         $body = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
         $html = rcmail_action_mail_index::html4inline($body, $params);
 
-        $this->assertMatchesRegularExpression('/<style [^>]+>/', $html, 'Allow styles in safe mode');
-        $this->assertMatchesRegularExpression('#src="http://evilsite.net/mailings/ex3.jpg"#', $html, 'Allow external images in HTML (safe mode)');
-        $this->assertMatchesRegularExpression("#url\\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\\)#", $html, 'Allow external images in CSS (safe mode)');
+        self::assertMatchesRegularExpression('/<style [^>]+>/', $html, 'Allow styles in safe mode');
+        self::assertMatchesRegularExpression('#src="http://evilsite.net/mailings/ex3.jpg"#', $html, 'Allow external images in HTML (safe mode)');
+        self::assertMatchesRegularExpression("#url\\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\\)#", $html, 'Allow external images in CSS (safe mode)');
         $css = '<link rel="stylesheet" .+_action=modcss.+_u=tmp-[a-z0-9]+\.css';
-        $this->assertMatchesRegularExpression('#' . $css . '#Ui', $html, 'Filter (anonymized) external stylesheets with utils/modcss.php');
+        self::assertMatchesRegularExpression('#' . $css . '#Ui', $html, 'Filter (anonymized) external stylesheets with utils/modcss.php');
     }
 
     /**
@@ -362,15 +362,15 @@ class Actions_Mail_Index extends ActionTestCase
         $part = $this->get_html_part('src/htmlxss.txt');
         $washed = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
-        $this->assertDoesNotMatchRegularExpression('/src="skins/', $washed, 'Remove local references');
-        $this->assertDoesNotMatchRegularExpression('/\son[a-z]+/', $washed, 'Remove on* attributes');
-        $this->assertStringNotContainsString('onload', $washed, 'Handle invalid style');
+        self::assertDoesNotMatchRegularExpression('/src="skins/', $washed, 'Remove local references');
+        self::assertDoesNotMatchRegularExpression('/\son[a-z]+/', $washed, 'Remove on* attributes');
+        self::assertStringNotContainsString('onload', $washed, 'Handle invalid style');
 
         $params = ['container_id' => 'foo'];
         $html = rcmail_action_mail_index::html4inline($washed, $params);
 
-        $this->assertDoesNotMatchRegularExpression('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, 'Clean mailto links');
-        $this->assertDoesNotMatchRegularExpression('/alert/', $html, 'Remove alerts');
+        self::assertDoesNotMatchRegularExpression('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, 'Clean mailto links');
+        self::assertDoesNotMatchRegularExpression('/alert/', $html, 'Remove alerts');
     }
 
     /**
@@ -386,8 +386,8 @@ class Actions_Mail_Index extends ActionTestCase
         $body = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
         $washed = rcmail_action_mail_index::html4inline($body, $params);
 
-        $this->assertDoesNotMatchRegularExpression('/alert|expression|javascript|xss/', $washed, 'Remove evil style blocks');
-        $this->assertDoesNotMatchRegularExpression('/font-style:italic/', $washed, 'Allow valid styles');
+        self::assertDoesNotMatchRegularExpression('/alert|expression|javascript|xss/', $washed, 'Remove evil style blocks');
+        self::assertDoesNotMatchRegularExpression('/font-style:italic/', $washed, 'Allow valid styles');
     }
 
     /**
@@ -402,8 +402,8 @@ class Actions_Mail_Index extends ActionTestCase
             . '<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
         $washed = rcmail_action_mail_index::wash_html($html, ['safe' => true], []);
 
-        $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, 'Remove data:text/html links');
-        $this->assertDoesNotMatchRegularExpression('/vbscript:/', $washed, 'Remove vbscript: links');
+        self::assertDoesNotMatchRegularExpression('/data:text/', $washed, 'Remove data:text/html links');
+        self::assertDoesNotMatchRegularExpression('/vbscript:/', $washed, 'Remove vbscript: links');
     }
 
     /**
@@ -415,11 +415,11 @@ class Actions_Mail_Index extends ActionTestCase
         $params = ['container_id' => 'foo'];
         $html = rcmail_action_mail_index::html4inline($html, $params);
 
-        $this->assertMatchesRegularExpression('/<div style="font-size:11px">/', $html, 'Body attributes');
-        $this->assertArrayHasKey('container_attrib', $params, "'container_attrib' param set");
-        $this->assertMatchesRegularExpression('/background-color: #fff;/', $params['container_attrib']['style'], 'Body style (bgcolor)');
-        $this->assertMatchesRegularExpression('/background-image: url\(test\)/', $params['container_attrib']['style'], 'Body style (background)');
-        $this->assertMatchesRegularExpression('/color: #000/', $params['container_attrib']['style'], 'Body style (text)');
+        self::assertMatchesRegularExpression('/<div style="font-size:11px">/', $html, 'Body attributes');
+        self::assertArrayHasKey('container_attrib', $params, "'container_attrib' param set");
+        self::assertMatchesRegularExpression('/background-color: #fff;/', $params['container_attrib']['style'], 'Body style (bgcolor)');
+        self::assertMatchesRegularExpression('/background-image: url\(test\)/', $params['container_attrib']['style'], 'Body style (background)');
+        self::assertMatchesRegularExpression('/color: #000/', $params['container_attrib']['style'], 'Body style (text)');
     }
 
     /**
@@ -434,7 +434,7 @@ class Actions_Mail_Index extends ActionTestCase
         $part = $this->get_html_part('src/invalidchars.html');
         $washed = rcmail_action_mail_index::print_body($part->body, $part);
 
-        $this->assertMatchesRegularExpression('/<p>(символ|симол)<\/p>/', $washed, 'Remove non-unicode characters from HTML message body');
+        self::assertMatchesRegularExpression('/<p>(символ|симол)<\/p>/', $washed, 'Remove non-unicode characters from HTML message body');
     }
 
     /**
@@ -452,28 +452,28 @@ class Actions_Mail_Index extends ActionTestCase
 
         $body = '<html><head><meta charset="iso-8859-1_X"></head><body>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertStringContainsString("<html><head>{$meta}</head><body>Test1", $washed, 'Meta tag insertion (1)');
+        self::assertStringContainsString("<html><head>{$meta}</head><body>Test1", $washed, 'Meta tag insertion (1)');
 
         $body = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" /></head><body>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertStringContainsString("<html><head>{$meta}</head><body>Test1", $washed, 'Meta tag insertion (2)');
+        self::assertStringContainsString("<html><head>{$meta}</head><body>Test1", $washed, 'Meta tag insertion (2)');
 
         $body = 'Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (3)');
+        self::assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (3)');
 
         $body = '<html>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (4)');
+        self::assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (4)');
 
         $body = '<html><head></head>Test1<br>Test2';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (5)');
+        self::assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (5)');
 
         $body = '<html><head></head><body>Test1<br>Test2<meta charset="utf-8"></body>';
         $washed = rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (6)');
-        $this->assertTrue(strpos($washed, 'Test2</body>') > 0, 'Meta tag insertion (7)');
+        self::assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (6)');
+        self::assertTrue(strpos($washed, 'Test2</body>') > 0, 'Meta tag insertion (7)');
     }
 
     /**
@@ -489,17 +489,17 @@ class Actions_Mail_Index extends ActionTestCase
         $part->body = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));
         $html = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
-        $this->assertMatchesRegularExpression(
+        self::assertMatchesRegularExpression(
             '/<a href="mailto:nobody@roundcube.net" onclick="return rcmail.command\(\'compose\',\'nobody@roundcube.net\',this\)">nobody@roundcube.net<\/a>/',
             $html,
             'Mailto links with onclick'
         );
-        $this->assertMatchesRegularExpression(
+        self::assertMatchesRegularExpression(
             '#<a rel="noreferrer" target="_blank" href="http://www.apple.com/legal/privacy">http://www.apple.com/legal/privacy</a>#',
             $html,
             'Links with target=_blank'
         );
-        $this->assertMatchesRegularExpression(
+        self::assertMatchesRegularExpression(
             '#\[<a rel="noreferrer" target="_blank" href="http://example.com/\?tx\[a\]=5">http://example.com/\?tx\[a\]=5</a>\]#',
             $html,
             'Links with square brackets'
@@ -523,7 +523,7 @@ class Actions_Mail_Index extends ActionTestCase
         $mailto = '<a href="mailto:me@me.com"'
             . ' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)" rel="noreferrer">e-mail</a>';
 
-        $this->assertMatchesRegularExpression('|' . preg_quote($mailto, '|') . '|', $html, 'Extended mailto links');
+        self::assertMatchesRegularExpression('|' . preg_quote($mailto, '|') . '|', $html, 'Extended mailto links');
     }
 
     /**
@@ -537,9 +537,9 @@ class Actions_Mail_Index extends ActionTestCase
         $washed = rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
         // #1487759
-        $this->assertMatchesRegularExpression('|<p>test1</p>|', $washed, 'Buggy HTML comments');
+        self::assertMatchesRegularExpression('|<p>test1</p>|', $washed, 'Buggy HTML comments');
         // but conditional comments (<!--[if ...) should be removed
-        $this->assertDoesNotMatchRegularExpression('|<p>test2</p>|', $washed, 'Conditional HTML comments');
+        self::assertDoesNotMatchRegularExpression('|<p>test2</p>|', $washed, 'Conditional HTML comments');
     }
 
     /**
@@ -553,16 +553,16 @@ class Actions_Mail_Index extends ActionTestCase
         $html = '<a href="/">test</a>';
         $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
 
-        $this->assertStringNotContainsString('href="/"', $body);
-        $this->assertStringContainsString('<a>', $body);
+        self::assertStringNotContainsString('href="/"', $body);
+        self::assertStringContainsString('<a>', $body);
 
         $html = '<a href="https://roundcube.net">test</a>';
         $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
 
         // allow external links, add target and noreferrer
-        $this->assertStringContainsString('<a href="https://roundcube.net"', $body);
-        $this->assertStringContainsString(' target="_blank"', $body);
-        $this->assertStringContainsString(' rel="noreferrer"', $body);
+        self::assertStringContainsString('<a href="https://roundcube.net"', $body);
+        self::assertStringContainsString(' target="_blank"', $body);
+        self::assertStringContainsString(' rel="noreferrer"', $body);
     }
 
     /**
@@ -575,8 +575,8 @@ class Actions_Mail_Index extends ActionTestCase
         $html = '<a style="x:><img src=x onerror=alert(1)//">test</a>';
         $body = rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
 
-        $this->assertStringNotContainsString('onerror=alert(1)//">test', $body);
-        $this->assertStringContainsString('<a style="x: &gt;"', $body);
+        self::assertStringNotContainsString('onerror=alert(1)//">test', $body);
+        self::assertStringContainsString('<a style="x: &gt;"', $body);
     }
 
     /**
@@ -584,6 +584,6 @@ class Actions_Mail_Index extends ActionTestCase
      */
     public function test_supported_mimetypes()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

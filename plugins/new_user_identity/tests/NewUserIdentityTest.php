@@ -12,7 +12,7 @@ class NewUserIdentity_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new new_user_identity($rcube->plugins);
 
-        $this->assertInstanceOf('new_user_identity', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('new_user_identity', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

@@ -12,6 +12,6 @@ class Actions_Mail_FolderPurge extends ActionTestCase
     {
         $object = new rcmail_action_mail_folder_purge();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        self::assertInstanceOf('rcmail_action', $object);
     }
 }

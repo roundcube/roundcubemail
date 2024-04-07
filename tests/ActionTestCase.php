@@ -238,7 +238,7 @@ class ActionTestCase extends TestCase
 
         $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
 
-        $this->assertTrue(is_array($upload));
+        self::assertTrue(is_array($upload));
 
         return $upload;
     }
@@ -278,7 +278,7 @@ class ActionTestCase extends TestCase
             $action->run($args);
             StderrMock::stop();
         } catch (ExitException $e) {
-            $this->assertSame($expected_code, $e->getCode());
+            self::assertSame($expected_code, $e->getCode());
         } catch (Exception $e) {
             if ($e->getMessage() == 'Error raised' && $expected_code == OutputHtmlMock::E_EXIT) {
                 return;

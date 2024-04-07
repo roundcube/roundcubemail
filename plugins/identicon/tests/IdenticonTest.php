@@ -12,7 +12,7 @@ class Identicon_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new identicon($rcube->plugins);
 
-        $this->assertInstanceOf('identicon', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('identicon', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

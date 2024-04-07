@@ -14,7 +14,7 @@ class Framework_Imap extends TestCase
     {
         $object = new rcube_imap();
 
-        $this->assertInstanceOf('rcube_imap', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_imap', $object, 'Class constructor');
     }
 
     /**
@@ -22,17 +22,17 @@ class Framework_Imap extends TestCase
      */
     public function test_convert_criteria()
     {
-        $this->assertSame(
+        self::assertSame(
             'FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"',
             rcube_imap::convert_criteria('FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"', RCUBE_CHARSET)
         );
 
-        $this->assertSame(
+        self::assertSame(
             'ALL TEXT el',
             rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET)
         );
 
-        $this->assertSame(
+        self::assertSame(
             "ALL TEXT {4}\r\nżel",
             rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET, RCUBE_CHARSET)
         );
@@ -57,10 +57,10 @@ class Framework_Imap extends TestCase
         $object = new rcube_imap();
 
         $result = $object->sort_folder_list([]);
-        $this->assertSame([], $result);
+        self::assertSame([], $result);
 
         $result = $object->sort_folder_list(['B', 'A']);
-        $this->assertSame(['A', 'B'], $result);
+        self::assertSame(['A', 'B'], $result);
 
         $folders = [
             'Trash',
@@ -96,7 +96,7 @@ class Framework_Imap extends TestCase
 
         $result = $object->sort_folder_list($folders);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     /**
@@ -123,20 +123,20 @@ class Framework_Imap extends TestCase
 
         $result = invokeMethod($imap, 'structure_part', [$structure]);
 
-        $this->assertSame('0', $result->mime_id);
-        $this->assertSame('multipart', $result->ctype_primary);
-        $this->assertSame('report', $result->ctype_secondary);
-        $this->assertSame('multipart/report', $result->mimetype);
-        $this->assertSame(['boundary' => '=_RrjQxjLYBqTMnoYWobuYlwN'], $result->ctype_parameters);
-        $this->assertSame([], $result->d_parameters);
-        $this->assertSame('8bit', $result->encoding);
-        $this->assertCount(3, $result->parts);
+        self::assertSame('0', $result->mime_id);
+        self::assertSame('multipart', $result->ctype_primary);
+        self::assertSame('report', $result->ctype_secondary);
+        self::assertSame('multipart/report', $result->mimetype);
+        self::assertSame(['boundary' => '=_RrjQxjLYBqTMnoYWobuYlwN'], $result->ctype_parameters);
+        self::assertSame([], $result->d_parameters);
+        self::assertSame('8bit', $result->encoding);
+        self::assertCount(3, $result->parts);
 
         $part = $result->parts[2];
-        $this->assertSame('3', $part->mime_id);
-        $this->assertSame('message/rfc822', $part->mimetype);
-        $this->assertSame('multipart/mixed', $part->real_mimetype);
-        $this->assertSame(3953, $part->size);
-        $this->assertCount(1, $part->parts);
+        self::assertSame('3', $part->mime_id);
+        self::assertSame('message/rfc822', $part->mimetype);
+        self::assertSame('multipart/mixed', $part->real_mimetype);
+        self::assertSame(3953, $part->size);
+        self::assertCount(1, $part->parts);
     }
 }

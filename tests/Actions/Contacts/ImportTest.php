@@ -13,8 +13,8 @@ class Actions_Contacts_Import extends ActionTestCase
         $action = new rcmail_action_contacts_import();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'import');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('contacts');
 
@@ -24,10 +24,10 @@ class Actions_Contacts_Import extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('contactimport', $output->template);
-        $this->assertSame('Import contacts', $output->getProperty('pagetitle'));
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('importform', 'rcmImportForm');") !== false);
+        self::assertSame('contactimport', $output->template);
+        self::assertSame('Import contacts', $output->getProperty('pagetitle'));
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertTrue(strpos($result, "rcmail.gui_object('importform', 'rcmImportForm');") !== false);
     }
 
     /**
@@ -36,6 +36,6 @@ class Actions_Contacts_Import extends ActionTestCase
     public function test_run_steps()
     {
         // TODO: Test all import steps
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

@@ -14,8 +14,8 @@ class Actions_Mail_AttachmentRename extends ActionTestCase
         $action = new rcmail_action_mail_attachment_rename();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'rename-attachment');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // First we create the upload record
         $file = $this->fileUpload('100');
@@ -29,12 +29,12 @@ class Actions_Mail_AttachmentRename extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('rename-attachment', $result['action']);
-        $this->assertSame('this.rename_attachment_handler("rcmfile' . $file['id'] . '","mod.gif");', trim($result['exec']));
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('rename-attachment', $result['action']);
+        self::assertSame('this.rename_attachment_handler("rcmfile' . $file['id'] . '","mod.gif");', trim($result['exec']));
 
         $upload = $rcmail->get_uploaded_file($file['id']);
-        $this->assertSame($_POST['_name'], $upload['name']);
-        $this->assertSame($_POST['_id'], $upload['group']);
+        self::assertSame($_POST['_name'], $upload['name']);
+        self::assertSame($_POST['_id'], $upload['group']);
     }
 }

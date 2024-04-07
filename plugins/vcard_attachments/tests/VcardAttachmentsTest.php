@@ -12,8 +12,8 @@ class VcardAttachments_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new vcard_attachments($rcube->plugins);
 
-        $this->assertInstanceOf('vcard_attachments', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('vcard_attachments', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 
     /**
@@ -25,22 +25,22 @@ class VcardAttachments_Plugin extends TestCase
         $plugin = new vcard_attachments($rcube->plugins);
 
         $part = new rcube_message_part();
-        $this->assertFalse(invokeMethod($plugin, 'is_vcard', [$part]));
+        self::assertFalse(invokeMethod($plugin, 'is_vcard', [$part]));
 
         $part->mimetype = 'text/vcard';
-        $this->assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
+        self::assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
 
         $part->mimetype = 'text/x-vcard';
-        $this->assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
+        self::assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
 
         $part->mimetype = 'text/directory';
-        $this->assertFalse(invokeMethod($plugin, 'is_vcard', [$part]));
+        self::assertFalse(invokeMethod($plugin, 'is_vcard', [$part]));
 
         $part->ctype_parameters['profile'] = 'vcard';
-        $this->assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
+        self::assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
 
         $part->ctype_parameters['profile'] = 'unknown';
         $part->filename = 'vcard.vcf';
-        $this->assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
+        self::assertTrue(invokeMethod($plugin, 'is_vcard', [$part]));
     }
 }

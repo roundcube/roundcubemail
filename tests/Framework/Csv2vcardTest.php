@@ -13,7 +13,7 @@ class Framework_Csv2vcard extends TestCase
 
         // empty input
         $csv->import('');
-        $this->assertSame([], $csv->export());
+        self::assertSame([], $csv->export());
     }
 
     public function test_localization_files()
@@ -21,7 +21,7 @@ class Framework_Csv2vcard extends TestCase
         foreach (glob(RCUBE_LOCALIZATION_DIR . '*/csv2vcard.inc') as $filename) {
             $map = null;
             require $filename;
-            $this->assertTrue(count($map) > 0);
+            self::assertTrue(count($map) > 0);
         }
     }
 
@@ -34,13 +34,13 @@ class Framework_Csv2vcard extends TestCase
         $csv->import($csv_text);
         $result = $csv->export();
 
-        $this->assertCount(1, $result);
+        self::assertCount(1, $result);
 
         $vcard = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard = trim(str_replace("\r\n", "\n", $vcard));
 
-        $this->assertSame($vcf_text, $vcard);
+        self::assertSame($vcf_text, $vcard);
     }
 
     public function test_import_email()
@@ -52,7 +52,7 @@ class Framework_Csv2vcard extends TestCase
         $csv->import($csv_text);
         $result = $csv->export();
 
-        $this->assertCount(4, $result);
+        self::assertCount(4, $result);
 
         $vcard = '';
         foreach ($result as $vcf) {
@@ -61,7 +61,7 @@ class Framework_Csv2vcard extends TestCase
 
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard = trim(str_replace("\r\n", "\n", $vcard));
-        $this->assertSame($vcf_text, $vcard);
+        self::assertSame($vcf_text, $vcard);
     }
 
     public function test_import_gmail()
@@ -73,13 +73,13 @@ class Framework_Csv2vcard extends TestCase
         $csv->import($csv_text);
         $result = $csv->export();
 
-        $this->assertCount(1, $result);
+        self::assertCount(1, $result);
 
         $vcard = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard = trim(str_replace("\r\n", "\n", $vcard));
 
-        $this->assertSame($vcf_text, $vcard);
+        self::assertSame($vcf_text, $vcard);
     }
 
     public function test_import_outlook()
@@ -91,12 +91,12 @@ class Framework_Csv2vcard extends TestCase
         $csv->import($csv_text);
         $result = $csv->export();
 
-        $this->assertCount(1, $result);
+        self::assertCount(1, $result);
 
         $vcard = $result[0]->export(false);
         $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
         $vcard = trim(str_replace("\r\n", "\n", $vcard));
 
-        $this->assertSame($vcf_text, $vcard);
+        self::assertSame($vcf_text, $vcard);
     }
 }

@@ -22,7 +22,7 @@ class Managesieve_Script extends TestCase
         $script = new rcube_sieve_script($input, $caps);
         $result = $script->as_text();
 
-        $this->assertSame(trim($output), trim($result), $message);
+        self::assertSame(trim($output), trim($result), $message);
     }
 
     /**
@@ -77,6 +77,6 @@ class Managesieve_Script extends TestCase
     {
         $res = json_encode(rcube_sieve_script::tokenize($input, $num));
 
-        $this->assertSame(trim($output), trim($res));
+        self::assertSame(trim($output), trim($res));
     }
 }

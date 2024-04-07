@@ -16,8 +16,8 @@ class Enigma_EnigmaEngine extends TestCase
 
         $engine->password_handler();
 
-        $this->assertTrue(!array_key_exists('enigma_pass', $_SESSION));
-        $this->assertSame([], $engine->get_passwords());
+        self::assertTrue(!array_key_exists('enigma_pass', $_SESSION));
+        self::assertSame([], $engine->get_passwords());
 
         $_POST = ['_keyid' => 'abc', '_passwd' => '123<a>456'];
 
@@ -26,9 +26,9 @@ class Enigma_EnigmaEngine extends TestCase
 
         $store = unserialize($rcube->decrypt($_SESSION['enigma_pass']));
 
-        $this->assertCount(2, $store['ABC']);
-        $this->assertSame('123<a>456', $store['ABC'][0]);
-        $this->assertEqualsWithDelta($time, $store['ABC'][1], 1);
-        $this->assertSame(['ABC' => '123<a>456'], $engine->get_passwords());
+        self::assertCount(2, $store['ABC']);
+        self::assertSame('123<a>456', $store['ABC'][0]);
+        self::assertEqualsWithDelta($time, $store['ABC'][1], 1);
+        self::assertSame(['ABC' => '123<a>456'], $engine->get_passwords());
     }
 }

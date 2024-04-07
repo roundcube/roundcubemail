@@ -12,7 +12,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
     {
         $object = new rcmail_action_mail_folder_expunge();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        self::assertInstanceOf('rcmail_action', $object);
     }
 
     /**
@@ -23,7 +23,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
         $action = new rcmail_action_mail_folder_expunge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
 
-        $this->assertTrue($action->checks());
+        self::assertTrue($action->checks());
 
         $_POST = ['_mbox' => 'INBOX'];
 
@@ -36,10 +36,10 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('expunge', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully compacted.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_quota(') === false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('expunge', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully compacted.","confirmation",0);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.set_quota(') === false);
     }
 
     /**
@@ -50,7 +50,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
         $action = new rcmail_action_mail_folder_expunge();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
 
-        $this->assertTrue($action->checks());
+        self::assertTrue($action->checks());
 
         $_POST = ['_mbox' => 'INBOX'];
         $_REQUEST = ['_reload' => 1];
@@ -64,10 +64,10 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
 
         $commands = $output->getProperty('commands');
 
-        $this->assertNull($output->getOutput());
-        $this->assertSame('list', rcmail::get_instance()->action);
-        $this->assertCount(3, $commands);
-        $this->assertSame([
+        self::assertNull($output->getOutput());
+        self::assertSame('list', rcmail::get_instance()->action);
+        self::assertCount(3, $commands);
+        self::assertSame([
                 'display_message',
                 'Folder successfully compacted.',
                 'confirmation',
@@ -75,8 +75,8 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
             ],
             $commands[0]
         );
-        $this->assertSame('set_quota', $commands[1][0]);
-        $this->assertSame('message_list.clear', $commands[2][0]);
+        self::assertSame('set_quota', $commands[1][0]);
+        self::assertSame('message_list.clear', $commands[2][0]);
     }
 
     /**
@@ -99,8 +99,8 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('expunge', $result['action']);
-        $this->assertSame('this.display_message("Unable to perform operation. Folder is read-only.","error",0);', trim($result['exec']));
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('expunge', $result['action']);
+        self::assertSame('this.display_message("Unable to perform operation. Folder is read-only.","error",0);', trim($result['exec']));
     }
 }

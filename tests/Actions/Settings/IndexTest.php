@@ -13,14 +13,14 @@ class Actions_Settings_Index extends ActionTestCase
         $action = new rcmail_action_settings_index();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'preferences');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $action->run();
 
         $result = $output->getOutput();
 
-        $this->assertSame('Preferences', $output->getProperty('pagetitle'));
+        self::assertSame('Preferences', $output->getProperty('pagetitle'));
     }
 
     /**
@@ -29,7 +29,7 @@ class Actions_Settings_Index extends ActionTestCase
     public function test_sections_list()
     {
         $result = rcmail_action_settings_index::sections_list([]);
-        $this->assertTrue(strpos($result, '<table id="rcmsectionslist"') === 0);
+        self::assertTrue(strpos($result, '<table id="rcmsectionslist"') === 0);
     }
 
     /**
@@ -38,7 +38,7 @@ class Actions_Settings_Index extends ActionTestCase
     public function test_user_prefs()
     {
         $result = rcmail_action_settings_index::user_prefs('general');
-        $this->assertSame('general', $result[0]['general']['id']);
+        self::assertSame('general', $result[0]['general']['id']);
     }
 
     /**
@@ -47,7 +47,7 @@ class Actions_Settings_Index extends ActionTestCase
     public function test_get_skins()
     {
         $result = rcmail_action_settings_index::get_skins();
-        $this->assertContains('elastic', $result);
+        self::assertContains('elastic', $result);
     }
 
     /**
@@ -58,13 +58,13 @@ class Actions_Settings_Index extends ActionTestCase
         $result = rcmail_action_settings_index::settings_tabs([]);
         $nodes = getHTMLNodes($result, "//span[@id='settingstabpreferences']");
 
-        $this->assertCount(1, $nodes);
-        $this->assertSame('preferences selected', $nodes[0]->getAttribute('class'));
-        $this->assertCount(1, $nodes[0]->childNodes);
+        self::assertCount(1, $nodes);
+        self::assertSame('preferences selected', $nodes[0]->getAttribute('class'));
+        self::assertCount(1, $nodes[0]->childNodes);
         $link = $nodes[0]->firstChild;
-        $this->assertSame('a', $link->nodeName);
-        $this->assertSame('Edit user preferences', $link->getAttribute('title'));
-        $this->assertStringEndsWith('?_task=settings&_action=preferences', $link->getAttribute('href'));
+        self::assertSame('a', $link->nodeName);
+        self::assertSame('Edit user preferences', $link->getAttribute('title'));
+        self::assertStringEndsWith('?_task=settings&_action=preferences', $link->getAttribute('href'));
     }
 
     /**
@@ -73,7 +73,7 @@ class Actions_Settings_Index extends ActionTestCase
     public function test_timezone_label()
     {
         $result = rcmail_action_settings_index::timezone_label('Europe/Warsaw');
-        $this->assertSame('Europe/Warsaw', $result);
+        self::assertSame('Europe/Warsaw', $result);
     }
 
     /**
@@ -82,7 +82,7 @@ class Actions_Settings_Index extends ActionTestCase
     public function test_timezone_standard_time_data()
     {
         $result = rcmail_action_settings_index::timezone_standard_time_data('UTC');
-        $this->assertSame('+00:00', $result['offset']);
+        self::assertSame('+00:00', $result['offset']);
     }
 
     /**
@@ -94,7 +94,7 @@ class Actions_Settings_Index extends ActionTestCase
 
         // TODO: test image replacement
 
-        $this->assertSame('<p>test</p>', $result);
+        self::assertSame('<p>test</p>', $result);
     }
 
     /**
@@ -104,6 +104,6 @@ class Actions_Settings_Index extends ActionTestCase
     {
         $result = rcmail_action_settings_index::wash_html('<p>test</p>');
 
-        $this->assertSame('<p>test</p>', $result);
+        self::assertSame('<p>test</p>', $result);
     }
 }

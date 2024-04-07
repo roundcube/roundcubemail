@@ -13,8 +13,8 @@ class Actions_Settings_PrefsEdit extends ActionTestCase
         $action = new rcmail_action_settings_prefs_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-prefs');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $_GET['_section'] = 'general';
 
@@ -22,9 +22,9 @@ class Actions_Settings_PrefsEdit extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('settingsedit', $output->template);
-        $this->assertSame('Preferences', $output->getProperty('pagetitle'));
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
+        self::assertSame('settingsedit', $output->template);
+        self::assertSame('Preferences', $output->getProperty('pagetitle'));
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
     }
 }

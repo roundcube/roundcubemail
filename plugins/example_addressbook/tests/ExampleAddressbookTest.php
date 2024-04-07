@@ -12,8 +12,8 @@ class ExampleAddressbook_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new example_addressbook($rcube->plugins);
 
-        $this->assertInstanceOf('example_addressbook', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('example_addressbook', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
 
         $plugin->init();
     }
@@ -28,6 +28,6 @@ class ExampleAddressbook_Plugin extends TestCase
 
         $result = $plugin->address_sources(['sources' => []]);
 
-        $this->assertSame('static', $result['sources']['static']['id']);
+        self::assertSame('static', $result['sources']['static']['id']);
     }
 }

@@ -14,7 +14,7 @@ class Framework_Html extends TestCase
     {
         $object = new html();
 
-        $this->assertInstanceOf('html', $object, 'Class constructor');
+        self::assertInstanceOf('html', $object, 'Class constructor');
     }
 
     /**
@@ -63,7 +63,7 @@ class Framework_Html extends TestCase
      */
     public function test_attrib_string($arg1, $arg2, $expected)
     {
-        $this->assertSame($expected, html::attrib_string($arg1, $arg2));
+        self::assertSame($expected, html::attrib_string($arg1, $arg2));
     }
 
     /**
@@ -89,7 +89,7 @@ class Framework_Html extends TestCase
      */
     public function test_quote($str, $expected)
     {
-        $this->assertSame($expected, html::quote($str));
+        self::assertSame($expected, html::quote($str));
     }
 
     /**
@@ -132,6 +132,6 @@ class Framework_Html extends TestCase
      */
     public function test_parse_attrib_string($arg1, $expected)
     {
-        $this->assertSame($expected, html::parse_attrib_string($arg1));
+        self::assertSame($expected, html::parse_attrib_string($arg1));
     }
 }

@@ -13,8 +13,8 @@ class Actions_Settings_IdentityDelete extends ActionTestCase
         $action = new rcmail_action_settings_identity_delete();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'delete-identity');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('identities');
 
@@ -29,15 +29,15 @@ class Actions_Settings_IdentityDelete extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('delete-identity', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully deleted.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.remove_identity("' . $iid . '")') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('delete-identity', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Successfully deleted.","confirmation",0);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.remove_identity("' . $iid . '")') !== false);
 
         $query = $db->query('SELECT * FROM `identities` WHERE `identity_id` = ?', $iid);
         $result = $db->fetch_assoc($query);
 
-        $this->assertTrue(!empty($result['del']));
+        self::assertTrue(!empty($result['del']));
 
         // Test error handling
         $action = new rcmail_action_settings_identity_delete();
@@ -49,8 +49,8 @@ class Actions_Settings_IdentityDelete extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('delete-identity', $result['action']);
-        $this->assertStringContainsString('this.display_message("An error occurred while saving.","error",0);', $result['exec']);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('delete-identity', $result['action']);
+        self::assertStringContainsString('this.display_message("An error occurred while saving.","error",0);', $result['exec']);
     }
 }

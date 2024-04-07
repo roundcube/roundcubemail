@@ -13,8 +13,8 @@ class Actions_Settings_FolderUnsubscribe extends ActionTestCase
         $action = new rcmail_action_settings_folder_unsubscribe();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-unsubscribe');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -27,9 +27,9 @@ class Actions_Settings_FolderUnsubscribe extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('folder-unsubscribe', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully unsubscribed.","confirmation",0);') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('folder-unsubscribe', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully unsubscribed.","confirmation",0);') !== false);
     }
 
     /**
@@ -52,9 +52,9 @@ class Actions_Settings_FolderUnsubscribe extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('folder-unsubscribe', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.reset_subscription("Test",true);') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('folder-unsubscribe', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.reset_subscription("Test",true);') !== false);
     }
 }

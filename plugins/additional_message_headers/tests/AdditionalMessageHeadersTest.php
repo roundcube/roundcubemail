@@ -10,8 +10,8 @@ class AdditionalMessageHeaders_Plugin extends ActionTestCase
         $rcube = rcube::get_instance();
         $plugin = new additional_message_headers($rcube->plugins);
 
-        $this->assertInstanceOf('additional_message_headers', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('additional_message_headers', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
 
         $plugin->init();
 
@@ -19,12 +19,12 @@ class AdditionalMessageHeaders_Plugin extends ActionTestCase
 
         $result = $plugin->message_headers($args);
 
-        $this->assertSame("MIME-Version: 1.0\r\n", $result['message']->txtHeaders());
+        self::assertSame("MIME-Version: 1.0\r\n", $result['message']->txtHeaders());
 
         $rcube->config->set('additional_message_headers', ['X-Test' => 'Test']);
 
         $result = $plugin->message_headers($args);
 
-        $this->assertSame("MIME-Version: 1.0\r\nX-Test: Test\r\n", $result['message']->txtHeaders());
+        self::assertSame("MIME-Version: 1.0\r\nX-Test: Test\r\n", $result['message']->txtHeaders());
     }
 }

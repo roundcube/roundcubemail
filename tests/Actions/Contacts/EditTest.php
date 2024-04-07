@@ -13,8 +13,8 @@ class Actions_Contacts_Edit extends ActionTestCase
         $action = new rcmail_action_contacts_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('contacts');
 
@@ -31,11 +31,11 @@ class Actions_Contacts_Edit extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('contactedit', $output->template);
-        $this->assertSame('Edit contact', $output->getProperty('pagetitle'));
-        $this->assertSame($contact['contact_id'], $output->get_env('cid'));
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('contactphoto', 'contactpic');") !== false);
+        self::assertSame('contactedit', $output->template);
+        self::assertSame('Edit contact', $output->getProperty('pagetitle'));
+        self::assertSame($contact['contact_id'], $output->get_env('cid'));
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertTrue(strpos($result, "rcmail.gui_object('contactphoto', 'contactpic');") !== false);
     }
 
     /**
@@ -43,7 +43,7 @@ class Actions_Contacts_Edit extends ActionTestCase
      */
     public function test_run_add_mode()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -51,7 +51,7 @@ class Actions_Contacts_Edit extends ActionTestCase
      */
     public function test_contact_edithead()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -59,7 +59,7 @@ class Actions_Contacts_Edit extends ActionTestCase
      */
     public function test_contact_editform()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -67,7 +67,7 @@ class Actions_Contacts_Edit extends ActionTestCase
      */
     public function test_get_form_tags()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -75,7 +75,7 @@ class Actions_Contacts_Edit extends ActionTestCase
      */
     public function test_upload_photo_form()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -86,7 +86,7 @@ class Actions_Contacts_Edit extends ActionTestCase
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
         $result = rcmail_action_contacts_edit::photo_drop_area([]);
 
-        $this->assertNull($output->get_env('filedrop'));
+        self::assertNull($output->get_env('filedrop'));
 
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
         $result = rcmail_action_contacts_edit::photo_drop_area(['id' => 'test']);
@@ -94,10 +94,10 @@ class Actions_Contacts_Edit extends ActionTestCase
         $scripts = $output->getProperty('scripts');
         $filedrop = $output->get_env('filedrop');
 
-        $this->assertSame("rcmail.gui_object('filedrop', 'test');", trim($scripts['head']));
-        $this->assertSame('upload-photo', $filedrop['action']);
-        $this->assertSame('_photo', $filedrop['fieldname']);
-        $this->assertSame(1, $filedrop['single']);
-        $this->assertSame('^image/.+', $filedrop['filter']);
+        self::assertSame("rcmail.gui_object('filedrop', 'test');", trim($scripts['head']));
+        self::assertSame('upload-photo', $filedrop['action']);
+        self::assertSame('_photo', $filedrop['fieldname']);
+        self::assertSame(1, $filedrop['single']);
+        self::assertSame('^image/.+', $filedrop['filter']);
     }
 }

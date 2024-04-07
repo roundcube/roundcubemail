@@ -12,8 +12,8 @@ class Help_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new help($rcube->plugins);
 
-        $this->assertInstanceOf('help', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('help', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 
     /**
@@ -26,9 +26,9 @@ class Help_Plugin extends TestCase
 
         $result = $plugin->help_metadata();
 
-        $this->assertCount(3, $result);
-        $this->assertMatchesRegularExpression('|\?_task=settings&_action=about&_framed=1$|', $result['about']);
-        $this->assertSame('self', $result['license']);
-        $this->assertSame('http://docs.roundcube.net/doc/help/1.1/en_US/', $result['index']);
+        self::assertCount(3, $result);
+        self::assertMatchesRegularExpression('|\?_task=settings&_action=about&_framed=1$|', $result['about']);
+        self::assertSame('self', $result['license']);
+        self::assertSame('http://docs.roundcube.net/doc/help/1.1/en_US/', $result['index']);
     }
 }

@@ -12,7 +12,7 @@ class Reconnect_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new reconnect($rcube->plugins);
 
-        $this->assertInstanceOf('reconnect', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('reconnect', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

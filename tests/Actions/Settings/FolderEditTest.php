@@ -13,8 +13,8 @@ class Actions_Settings_FolderEdit extends ActionTestCase
         $action = new rcmail_action_settings_folder_edit();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folder-edit');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -43,10 +43,10 @@ class Actions_Settings_FolderEdit extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('folderedit', $output->template);
-        $this->assertSame('', $output->getProperty('pagetitle')); // TODO: It should have some title
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, 'Folder properties') !== false);
+        self::assertSame('folderedit', $output->template);
+        self::assertSame('', $output->getProperty('pagetitle')); // TODO: It should have some title
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertTrue(strpos($result, 'Folder properties') !== false);
     }
 
     /**
@@ -54,6 +54,6 @@ class Actions_Settings_FolderEdit extends ActionTestCase
      */
     public function test_folder_form()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

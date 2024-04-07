@@ -14,7 +14,7 @@ class Framework_Enriched extends TestCase
     {
         $object = new rcube_enriched();
 
-        $this->assertInstanceOf('rcube_enriched', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_enriched', $object, 'Class constructor');
     }
 
     /**
@@ -26,7 +26,7 @@ class Framework_Enriched extends TestCase
         $expected = '<b><i>the-text</i></b>';
         $result = rcube_enriched::to_html($enriched);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     /**
@@ -69,6 +69,6 @@ class Framework_Enriched extends TestCase
     {
         $result = rcube_enriched::to_html($enriched);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 }

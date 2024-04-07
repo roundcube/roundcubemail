@@ -13,8 +13,8 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
         $action = new rcmail_action_contacts_group_addmembers();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'add-members');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // Invalid group id
         $_POST = ['_source' => '0', '_gid' => 'unknown'];
@@ -23,9 +23,9 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('add-members', $result['action']);
-        $this->assertSame('this.display_message("No group assignments changed.","notice",0);', trim($result['exec']));
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('add-members', $result['action']);
+        self::assertSame('this.display_message("No group assignments changed.","notice",0);', trim($result['exec']));
 
         // Readonly addressbook
         $_POST = ['_source' => rcube_addressbook::TYPE_RECIPIENT, '_gid' => 'test'];
@@ -34,9 +34,9 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('add-members', $result['action']);
-        $this->assertSame('this.display_message("This address source is read only.","warning",0);', trim($result['exec']));
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('add-members', $result['action']);
+        self::assertSame('this.display_message("This address source is read only.","warning",0);', trim($result['exec']));
     }
 
     /**
@@ -47,7 +47,7 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
         $action = new rcmail_action_contacts_group_addmembers();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'add-members');
 
-        $this->assertTrue($action->checks());
+        self::assertTrue($action->checks());
 
         self::initDB('contacts');
 
@@ -65,13 +65,13 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('add-members', $result['action']);
-        $this->assertSame('this.display_message("Successfully added the contacts to this group.","confirmation",0);', trim($result['exec']));
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('add-members', $result['action']);
+        self::assertSame('this.display_message("Successfully added the contacts to this group.","confirmation",0);', trim($result['exec']));
 
         $query = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ? AND `contact_id` = ?', $gid, $cid);
         $result = $db->fetch_assoc($query);
 
-        $this->assertTrue(!empty($result));
+        self::assertTrue(!empty($result));
     }
 }

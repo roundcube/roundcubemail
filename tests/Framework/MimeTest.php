@@ -85,9 +85,9 @@ class Framework_Mime extends TestCase
         foreach ($headers as $idx => $header) {
             $res = rcube_mime::decode_address_list($header);
 
-            $this->assertSame($results[$idx][0], count($res), 'Rows number in result for header: ' . $header);
-            $this->assertSame($results[$idx][1], $res[1]['name'], 'Name part decoding for header: ' . $header);
-            $this->assertSame($results[$idx][2], $res[1]['mailto'], 'Email part decoding for header: ' . $header);
+            self::assertSame($results[$idx][0], count($res), 'Rows number in result for header: ' . $header);
+            self::assertSame($results[$idx][1], $res[1]['name'], 'Name part decoding for header: ' . $header);
+            self::assertSame($results[$idx][2], $res[1]['mailto'], 'Email part decoding for header: ' . $header);
         }
     }
 
@@ -130,7 +130,7 @@ class Framework_Mime extends TestCase
         foreach ($headers as $idx => $header) {
             $res = rcube_mime::decode_address_list($header);
 
-            $this->assertSame($results[$idx], $res, "Decode address groups (#{$idx})");
+            self::assertSame($results[$idx], $res, "Decode address groups (#{$idx})");
         }
     }
 
@@ -176,7 +176,7 @@ class Framework_Mime extends TestCase
             $res = rcube_mime::decode_mime_string($item['in'], 'UTF-8');
             $res = quoted_printable_encode($res);
 
-            $this->assertSame($item['out'], $res, 'Header decoding for: ' . $idx);
+            self::assertSame($item['out'], $res, 'Header decoding for: ' . $idx);
         }
     }
 
@@ -185,7 +185,7 @@ class Framework_Mime extends TestCase
      */
     public function test_parse_headers()
     {
-        $this->assertSame([], rcube_mime::parse_headers(''));
+        self::assertSame([], rcube_mime::parse_headers(''));
 
         $headers = "Subject: Test\r\n"
             . "To: test@test1.com\r\n\ttest@test2.com\r\n";
@@ -195,7 +195,7 @@ class Framework_Mime extends TestCase
             'to' => 'test@test1.com test@test2.com',
         ];
 
-        $this->assertSame($expected, rcube_mime::parse_headers($headers));
+        self::assertSame($expected, rcube_mime::parse_headers($headers));
     }
 
     /**
@@ -206,7 +206,7 @@ class Framework_Mime extends TestCase
         $raw = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
         $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
 
-        $this->assertSame($flowed, rcube_mime::format_flowed($raw, 80), 'Test correct folding and space-stuffing');
+        self::assertSame($flowed, rcube_mime::format_flowed($raw, 80), 'Test correct folding and space-stuffing');
     }
 
     /**
@@ -217,7 +217,7 @@ class Framework_Mime extends TestCase
         $flowed = file_get_contents(TESTS_DIR . 'src/format-flowed.txt');
         $unfolded = file_get_contents(TESTS_DIR . 'src/format-flowed-unfolded.txt');
 
-        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed), 'Test correct unfolding of quoted lines');
+        self::assertSame($unfolded, rcube_mime::unfold_flowed($flowed), 'Test correct unfolding of quoted lines');
     }
 
     /**
@@ -232,7 +232,7 @@ class Framework_Mime extends TestCase
                     . "> \r\n"
                     . 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem';
 
-        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed), 'Test correct unfolding of quoted lines [2]');
+        self::assertSame($unfolded, rcube_mime::unfold_flowed($flowed), 'Test correct unfolding of quoted lines [2]');
     }
 
     /**
@@ -246,7 +246,7 @@ class Framework_Mime extends TestCase
                     . 'しているのを見ました。';
         $unfolded = 'そしてジョバンニはすぐうしろの天気輪の柱がいつかぼんやりした三角標の形になって、しばらく蛍のように、ぺかぺか消えたりともったりしているのを見ました。';
 
-        $this->assertSame($unfolded, rcube_mime::unfold_flowed($flowed, null, true), 'Test correct unfolding of flowed DelSp=Yes lines');
+        self::assertSame($unfolded, rcube_mime::unfold_flowed($flowed, null, true), 'Test correct unfolding of flowed DelSp=Yes lines');
     }
 
     /**
@@ -310,7 +310,7 @@ class Framework_Mime extends TestCase
         ];
 
         foreach ($samples as $sample) {
-            $this->assertSame($sample[1], call_user_func_array(['rcube_mime', 'wordwrap'], $sample[0]), 'Test text wrapping');
+            self::assertSame($sample[1], call_user_func_array(['rcube_mime', 'wordwrap'], $sample[0]), 'Test text wrapping');
         }
     }
 
@@ -322,29 +322,29 @@ class Framework_Mime extends TestCase
         $file = file_get_contents(__DIR__ . '/../src/html.msg');
         $result = rcube_mime::parse_message($file);
 
-        $this->assertInstanceOf('rcube_message_part', $result);
-        $this->assertSame('multipart/alternative', $result->mimetype);
-        $this->assertSame('1.0', $result->headers['mime-version']);
-        $this->assertSame('=_68eeaf4ab95b5312965e45c33362338e', $result->ctype_parameters['boundary']);
-        $this->assertSame('1', $result->parts[0]->mime_id);
-        $this->assertSame(12, $result->parts[0]->size);
-        $this->assertSame('text/plain', $result->parts[0]->mimetype);
-        $this->assertSame('this is test', $result->parts[0]->body);
-        $this->assertSame('2', $result->parts[1]->mime_id);
-        $this->assertSame(0, $result->parts[1]->size);
-        $this->assertSame('multipart/related', $result->parts[1]->mimetype);
-        $this->assertCount(2, $result->parts[1]->parts);
-        $this->assertSame('2.1', $result->parts[1]->parts[0]->mime_id);
-        $this->assertSame(257, $result->parts[1]->parts[0]->size);
-        $this->assertSame('text/html', $result->parts[1]->parts[0]->mimetype);
-        $this->assertSame('UTF-8', $result->parts[1]->parts[0]->charset);
-        $this->assertMatchesRegularExpression('/<html>/', $result->parts[1]->parts[0]->body);
-        $this->assertSame('2.2', $result->parts[1]->parts[1]->mime_id);
-        $this->assertSame(793, $result->parts[1]->parts[1]->size);
-        $this->assertSame('image/jpeg', $result->parts[1]->parts[1]->mimetype);
-        $this->assertSame('base64', $result->parts[1]->parts[1]->encoding);
-        $this->assertSame('inline', $result->parts[1]->parts[1]->disposition);
-        $this->assertSame('photo-mini.jpg', $result->parts[1]->parts[1]->filename);
+        self::assertInstanceOf('rcube_message_part', $result);
+        self::assertSame('multipart/alternative', $result->mimetype);
+        self::assertSame('1.0', $result->headers['mime-version']);
+        self::assertSame('=_68eeaf4ab95b5312965e45c33362338e', $result->ctype_parameters['boundary']);
+        self::assertSame('1', $result->parts[0]->mime_id);
+        self::assertSame(12, $result->parts[0]->size);
+        self::assertSame('text/plain', $result->parts[0]->mimetype);
+        self::assertSame('this is test', $result->parts[0]->body);
+        self::assertSame('2', $result->parts[1]->mime_id);
+        self::assertSame(0, $result->parts[1]->size);
+        self::assertSame('multipart/related', $result->parts[1]->mimetype);
+        self::assertCount(2, $result->parts[1]->parts);
+        self::assertSame('2.1', $result->parts[1]->parts[0]->mime_id);
+        self::assertSame(257, $result->parts[1]->parts[0]->size);
+        self::assertSame('text/html', $result->parts[1]->parts[0]->mimetype);
+        self::assertSame('UTF-8', $result->parts[1]->parts[0]->charset);
+        self::assertMatchesRegularExpression('/<html>/', $result->parts[1]->parts[0]->body);
+        self::assertSame('2.2', $result->parts[1]->parts[1]->mime_id);
+        self::assertSame(793, $result->parts[1]->parts[1]->size);
+        self::assertSame('image/jpeg', $result->parts[1]->parts[1]->mimetype);
+        self::assertSame('base64', $result->parts[1]->parts[1]->encoding);
+        self::assertSame('inline', $result->parts[1]->parts[1]->disposition);
+        self::assertSame('photo-mini.jpg', $result->parts[1]->parts[1]->filename);
     }
 
     /**
@@ -353,9 +353,9 @@ class Framework_Mime extends TestCase
     public function test_file_content_type()
     {
         $file = INSTALL_PATH . 'program/resources/blocked.gif';
-        $this->assertSame('image/gif', rcube_mime::file_content_type($file, 'blocked.gif'));
+        self::assertSame('image/gif', rcube_mime::file_content_type($file, 'blocked.gif'));
 
-        $this->assertSame('image/gif', rcube_mime::file_content_type($file, 'blocked.gif', 'application/octet-stream', false, true));
+        self::assertSame('image/gif', rcube_mime::file_content_type($file, 'blocked.gif', 'application/octet-stream', false, true));
     }
 
     /**
@@ -363,10 +363,10 @@ class Framework_Mime extends TestCase
      */
     public function test_get_mime_extensions()
     {
-        $this->assertSame([], rcube_mime::get_mime_extensions('unknown'));
-        $this->assertSame(['gif'], rcube_mime::get_mime_extensions('image/gif'));
-        $this->assertSame(['pdf'], rcube_mime::get_mime_extensions('application/pdf'));
-        $this->assertSame(['jpg', 'jpeg', 'jpe'], rcube_mime::get_mime_extensions('image/jpg'));
+        self::assertSame([], rcube_mime::get_mime_extensions('unknown'));
+        self::assertSame(['gif'], rcube_mime::get_mime_extensions('image/gif'));
+        self::assertSame(['pdf'], rcube_mime::get_mime_extensions('application/pdf'));
+        self::assertSame(['jpg', 'jpeg', 'jpe'], rcube_mime::get_mime_extensions('image/jpg'));
     }
 
     /**
@@ -375,7 +375,7 @@ class Framework_Mime extends TestCase
     public function test_image_content_type()
     {
         $file = file_get_contents(INSTALL_PATH . 'program/resources/blocked.gif');
-        $this->assertSame('image/gif', rcube_mime::image_content_type($file));
+        self::assertSame('image/gif', rcube_mime::image_content_type($file));
     }
 
     /**
@@ -383,9 +383,9 @@ class Framework_Mime extends TestCase
      */
     public function test_fix_mimetype()
     {
-        $this->assertSame('unknown', rcube_mime::fix_mimetype('unknown'));
-        $this->assertSame('application/pdf', rcube_mime::fix_mimetype('pdf'));
-        $this->assertSame('application/pdf', rcube_mime::fix_mimetype('application/pdf.123'));
-        $this->assertSame('image/jpeg', rcube_mime::fix_mimetype('image/pjpeg'));
+        self::assertSame('unknown', rcube_mime::fix_mimetype('unknown'));
+        self::assertSame('application/pdf', rcube_mime::fix_mimetype('pdf'));
+        self::assertSame('application/pdf', rcube_mime::fix_mimetype('application/pdf.123'));
+        self::assertSame('image/jpeg', rcube_mime::fix_mimetype('image/pjpeg'));
     }
 }

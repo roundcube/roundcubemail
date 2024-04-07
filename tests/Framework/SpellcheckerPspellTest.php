@@ -14,8 +14,8 @@ class Framework_SpellcheckerPspell extends TestCase
     {
         $object = new rcube_spellchecker_pspell(null, 'en');
 
-        $this->assertInstanceOf('rcube_spellchecker_pspell', $object, 'Class constructor');
-        $this->assertInstanceOf('rcube_spellchecker_engine', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_spellchecker_pspell', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_spellchecker_engine', $object, 'Class constructor');
     }
 
     /**
@@ -24,7 +24,7 @@ class Framework_SpellcheckerPspell extends TestCase
     public function test_languages()
     {
         if (!extension_loaded('pspell')) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
@@ -33,7 +33,7 @@ class Framework_SpellcheckerPspell extends TestCase
 
         $langs = $object->languages();
 
-        $this->assertSame('English (US)', $langs['en']);
+        self::assertSame('English (US)', $langs['en']);
     }
 
     /**
@@ -42,31 +42,31 @@ class Framework_SpellcheckerPspell extends TestCase
     public function test_check()
     {
         if (!extension_loaded('pspell')) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
 
         $object = new rcube_spellchecker();
 
-        $this->assertTrue($object->check('one'));
+        self::assertTrue($object->check('one'));
 
         // Test other methods that depend on the spellcheck result
-        $this->assertSame(0, $object->found());
-        $this->assertSame([], $object->get_words());
+        self::assertSame(0, $object->found());
+        self::assertSame([], $object->get_words());
 
-        $this->assertSame(
+        self::assertSame(
             '<?xml version="1.0" encoding="UTF-8"?><spellresult charschecked="3"></spellresult>',
             $object->get_xml()
         );
 
-        $this->assertFalse($object->check('ony'));
+        self::assertFalse($object->check('ony'));
 
         // Test other methods that depend on the spellcheck result
-        $this->assertSame(1, $object->found());
-        $this->assertSame(['ony'], $object->get_words());
+        self::assertSame(1, $object->found());
+        self::assertSame(['ony'], $object->get_words());
 
-        $this->assertMatchesRegularExpression(
+        self::assertMatchesRegularExpression(
             '|^<\?xml version="1.0" encoding="UTF-8"\?><spellresult charschecked="3"><c o="0" l="3">([a-zA-Z\t]+)</c></spellresult>$|',
             $object->get_xml()
         );
@@ -75,15 +75,15 @@ class Framework_SpellcheckerPspell extends TestCase
         $html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'
             . '<p><a href="http://www.redacted.com">www.redacted.com</a></div></body></html>';
 
-        $this->assertTrue($object->check($html, true));
+        self::assertTrue($object->check($html, true));
 
         $html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /></head><body>'
             . '<p><a href="http://www.redacted.com">http://www.redacted.com</a></div></body></html>';
 
-        $this->assertTrue($object->check($html, true));
+        self::assertTrue($object->check($html, true));
 
-        $this->assertTrue($object->check('one http://www.redacted.com'));
-        $this->assertTrue($object->check('one www.redacted.com'));
+        self::assertTrue($object->check('one http://www.redacted.com'));
+        self::assertTrue($object->check('one www.redacted.com'));
     }
 
     /**
@@ -92,7 +92,7 @@ class Framework_SpellcheckerPspell extends TestCase
     public function test_get_suggestions()
     {
         if (!extension_loaded('pspell')) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
@@ -105,7 +105,7 @@ class Framework_SpellcheckerPspell extends TestCase
         sort($expected);
         sort($result);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     /**
@@ -114,13 +114,13 @@ class Framework_SpellcheckerPspell extends TestCase
     public function test_get_words()
     {
         if (!extension_loaded('pspell')) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
 
         $object = new rcube_spellchecker();
 
-        $this->assertSame(['ony'], $object->get_words('ony'));
+        self::assertSame(['ony'], $object->get_words('ony'));
     }
 }

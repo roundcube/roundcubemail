@@ -12,7 +12,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
     {
         $db = rcmail_utils::db();
 
-        $this->assertInstanceOf('rcube_db', $db);
+        self::assertInstanceOf('rcube_db', $db);
     }
 
     /**
@@ -22,7 +22,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
     {
         $v = rcmail_utils::db_version();
 
-        $this->assertMatchesRegularExpression('/^[0-9]{10}$/', $v);
+        self::assertMatchesRegularExpression('/^[0-9]{10}$/', $v);
     }
 
     /**
@@ -35,7 +35,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
         $output = ob_get_contents();
         ob_end_clean();
 
-        $this->assertTrue(strpos($output, '0 records deleted') !== false);
+        self::assertTrue(strpos($output, '0 records deleted') !== false);
     }
 
     /**
@@ -50,7 +50,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
         $output = ob_get_contents();
         ob_end_clean();
 
-        $this->assertTrue(strpos($output, 'Indexing contacts for user') === 0);
+        self::assertTrue(strpos($output, 'Indexing contacts for user') === 0);
     }
 
     /**
@@ -67,14 +67,14 @@ class Rcmail_RcmailUtils extends ActionTestCase
         $output = ob_get_contents();
         ob_end_clean();
 
-        $this->assertTrue(strpos($output, 'Updating prefs for user 1') !== false);
-        $this->assertTrue(strpos($output, 'saved') !== false);
+        self::assertTrue(strpos($output, 'Updating prefs for user 1') !== false);
+        self::assertTrue(strpos($output, 'saved') !== false);
 
         $query = $db->query('SELECT preferences FROM `users` WHERE `user_id` = 1');
         $result = $db->fetch_assoc($query);
 
         $prefs = unserialize($result['preferences']);
 
-        $this->assertSame([], $prefs['test']);
+        self::assertSame([], $prefs['test']);
     }
 }

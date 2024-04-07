@@ -16,10 +16,10 @@ class Rcmail_RcmailStringReplacer extends TestCase
 
         $result = invokeMethod($replacer, 'mailto_callback', [['email@address.com', 'email@address.com']]);
 
-        $this->assertMatchesRegularExpression($replacer->pattern, $result);
+        self::assertMatchesRegularExpression($replacer->pattern, $result);
 
         $result = invokeMethod($replacer, 'mailto_callback', [['address.com', 'address.com']]);
 
-        $this->assertSame('address.com', $result);
+        self::assertSame('address.com', $result);
     }
 }

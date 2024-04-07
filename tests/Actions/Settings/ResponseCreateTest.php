@@ -13,8 +13,8 @@ class Actions_Settings_ResponseCreate extends ActionTestCase
         $action = new rcmail_action_settings_response_create();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'add-response');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $_GET = [];
 
@@ -22,10 +22,10 @@ class Actions_Settings_ResponseCreate extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame('responseedit', $output->template);
-        $this->assertSame('Add response', $output->getProperty('pagetitle'));
-        $this->assertFalse($output->get_env('readonly'));
-        $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
+        self::assertSame('responseedit', $output->template);
+        self::assertSame('Add response', $output->getProperty('pagetitle'));
+        self::assertFalse($output->get_env('readonly'));
+        self::assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+        self::assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
     }
 }

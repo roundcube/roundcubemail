@@ -12,8 +12,8 @@ class Markasjunk_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new markasjunk($rcube->plugins);
 
-        $this->assertInstanceOf('markasjunk', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('markasjunk', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 
     /**
@@ -36,7 +36,7 @@ class Markasjunk_Plugin extends TestCase
             invokeMethod($plugin, '_init_driver');
 
             $driver = getProperty($plugin, 'driver');
-            $this->assertInstanceOf("markasjunk_{$driver_name}", $driver);
+            self::assertInstanceOf("markasjunk_{$driver_name}", $driver);
         }
     }
 }

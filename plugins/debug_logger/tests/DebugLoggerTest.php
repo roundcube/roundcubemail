@@ -12,7 +12,7 @@ class DebugLogger_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new debug_logger($rcube->plugins);
 
-        $this->assertInstanceOf('debug_logger', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('debug_logger', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

@@ -11,6 +11,6 @@ class Enigma_EnigmaUserid extends TestCase
     {
         $error = new enigma_userid();
 
-        $this->assertInstanceOf('enigma_userid', $error);
+        self::assertInstanceOf('enigma_userid', $error);
     }
 }

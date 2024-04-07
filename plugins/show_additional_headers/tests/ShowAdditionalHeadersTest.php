@@ -12,7 +12,7 @@ class ShowAdditionalHeaders_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new show_additional_headers($rcube->plugins);
 
-        $this->assertInstanceOf('show_additional_headers', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('show_additional_headers', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

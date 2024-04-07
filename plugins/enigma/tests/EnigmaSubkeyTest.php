@@ -11,6 +11,6 @@ class Enigma_EnigmaSubkey extends TestCase
     {
         $error = new enigma_subkey();
 
-        $this->assertInstanceOf('enigma_subkey', $error);
+        self::assertInstanceOf('enigma_subkey', $error);
     }
 }

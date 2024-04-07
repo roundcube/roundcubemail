@@ -12,7 +12,7 @@ class KrbAuthentication_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new krb_authentication($rcube->plugins);
 
-        $this->assertInstanceOf('krb_authentication', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('krb_authentication', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

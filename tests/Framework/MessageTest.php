@@ -16,6 +16,6 @@ class Framework_Message extends TestCase
         $body = 'test';
         $result = rcube_message::format_part_body($body, $part);
 
-        $this->assertSame('test', $result);
+        self::assertSame('test', $result);
     }
 }

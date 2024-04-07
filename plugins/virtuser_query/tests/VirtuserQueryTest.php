@@ -12,7 +12,7 @@ class VirtuserQuery_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new virtuser_query($rcube->plugins);
 
-        $this->assertInstanceOf('virtuser_query', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('virtuser_query', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

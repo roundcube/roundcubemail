@@ -13,8 +13,8 @@ class Actions_Contacts_Mailto extends ActionTestCase
         $action = new rcmail_action_contacts_mailto();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'mailto');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         self::initDB('contacts');
 
@@ -29,12 +29,12 @@ class Actions_Contacts_Mailto extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('mailto', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.open_compose_step({"_mailto":"') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('mailto', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.open_compose_step({"_mailto":"') !== false);
 
         preg_match('/_mailto":"([0-9a-z]+)/', $result['exec'], $m);
 
-        $this->assertSame('John+Doe+%3Cjohndoe%40example.org%3E', $_SESSION['mailto'][$m[1]]);
+        self::assertSame('John+Doe+%3Cjohndoe%40example.org%3E', $_SESSION['mailto'][$m[1]]);
     }
 }

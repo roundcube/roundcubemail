@@ -12,7 +12,7 @@ class HttpAuthentication_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new http_authentication($rcube->plugins);
 
-        $this->assertInstanceOf('http_authentication', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('http_authentication', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

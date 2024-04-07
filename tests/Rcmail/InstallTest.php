@@ -12,8 +12,8 @@ class Rcmail_RcmailInstall extends ActionTestCase
     {
         $install = rcmail_install::get_instance();
 
-        $this->assertSame('default', $install->getprop('unknown', 'default'));
-        $this->assertSame('', $install->getprop('unknown'));
+        self::assertSame('default', $install->getprop('unknown', 'default'));
+        self::assertSame('', $install->getprop('unknown'));
     }
 
     /**
@@ -25,23 +25,23 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $config = $install->create_config();
 
-        $this->assertSame("<?php\n\n/* Local configuration for Roundcube Webmail */\n\n", $config);
+        self::assertSame("<?php\n\n/* Local configuration for Roundcube Webmail */\n\n", $config);
 
         $install->config = ['test' => 'test'];
         $config = $install->create_config();
 
-        $this->assertStringContainsString("\$config['test'] = 'test';", $config);
+        self::assertStringContainsString("\$config['test'] = 'test';", $config);
 
         $_POST['_test'] = 'new';
         $config = $install->create_config();
 
-        $this->assertStringContainsString("\$config['test'] = 'test';", $config);
+        self::assertStringContainsString("\$config['test'] = 'test';", $config);
 
         $_POST['_product_name'] = 'RC';
         $install->config = ['product_name' => 'Roundcube'];
         $config = $install->create_config();
 
-        $this->assertStringContainsString("\$config['product_name'] = 'RC';", $config);
+        self::assertStringContainsString("\$config['product_name'] = 'RC';", $config);
     }
 
     /**
@@ -54,7 +54,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $result = $install->db_schema_check($rcmail->get_dbh());
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     /**
@@ -67,7 +67,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $result = $install->check_mime_detection();
 
-        $this->assertSame([], $result);
+        self::assertSame([], $result);
     }
 
     /**
@@ -84,7 +84,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $result = $install->check_mime_extensions();
 
-        $this->assertSame([], $result);
+        self::assertSame([], $result);
     }
 
     /**
@@ -97,7 +97,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $result = $install->list_skins();
 
-        $this->assertContains('elastic', $result);
+        self::assertContains('elastic', $result);
     }
 
     /**
@@ -116,7 +116,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
             'enabled' => false,
         ];
 
-        $this->assertSame($acl, $result[0]);
+        self::assertSame($acl, $result[0]);
     }
 
     /**
@@ -135,9 +135,9 @@ class Rcmail_RcmailInstall extends ActionTestCase
 
         $install->merge_config();
 
-        $this->assertSame($config['imap_host'], $install->config['imap_host']);
-        $this->assertSame($config['smtp_host'], $install->config['smtp_host']);
+        self::assertSame($config['imap_host'], $install->config['imap_host']);
+        self::assertSame($config['smtp_host'], $install->config['smtp_host']);
 
-        $this->markTestIncomplete(); // TODO: More tests
+        self::markTestIncomplete(); // TODO: More tests
     }
 }

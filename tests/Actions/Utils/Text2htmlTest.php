@@ -12,7 +12,7 @@ class Actions_Utils_Text2html extends ActionTestCase
     {
         $object = new rcmail_action_utils_text2html();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        self::assertInstanceOf('rcmail_action', $object);
     }
 
     /**
@@ -26,11 +26,11 @@ class Actions_Utils_Text2html extends ActionTestCase
 
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'utils', 'text2html');
 
-        $this->assertTrue($object->checks());
+        self::assertTrue($object->checks());
 
         $this->runAndAssert($object, OutputHtmlMock::E_EXIT);
 
-        $this->assertSame('<div class="pre">test plain text input</div>', $output->output);
-        $this->assertSame(['Content-Type: text/html; charset=UTF-8'], $output->headers);
+        self::assertSame('<div class="pre">test plain text input</div>', $output->output);
+        self::assertSame(['Content-Type: text/html; charset=UTF-8'], $output->headers);
     }
 }

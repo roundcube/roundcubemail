@@ -35,8 +35,8 @@ class Rcmail_Rcmail extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
-        $this->assertTrue(empty($result['exec']));
+        self::assertSame(OutputJsonMock::E_EXIT, $e->getCode());
+        self::assertTrue(empty($result['exec']));
 
         // Test refresh action handler
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'refresh');
@@ -48,8 +48,8 @@ class Rcmail_Rcmail extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
-        $this->assertTrue(empty($result['exec']));
+        self::assertSame(OutputJsonMock::E_EXIT, $e->getCode());
+        self::assertTrue(empty($result['exec']));
 
         // TODO: Test non-existing action handler
     }
@@ -63,11 +63,11 @@ class Rcmail_Rcmail extends ActionTestCase
 
         $result = $rcmail->get_address_book(0);
 
-        $this->assertInstanceOf('rcube_contacts', $result);
+        self::assertInstanceOf('rcube_contacts', $result);
 
         $source_id = $rcmail->get_address_book_id($result);
 
-        $this->assertSame(0, $source_id);
+        self::assertSame(0, $source_id);
     }
 
     /**
@@ -75,7 +75,7 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_get_compose_responses()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -83,7 +83,7 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_login()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -91,7 +91,7 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_logout_actions()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -103,15 +103,15 @@ class Rcmail_Rcmail extends ActionTestCase
 
         $result = $rcmail->get_address_sources();
 
-        $this->assertCount(3, $result);
-        $this->assertSame('Personal Addresses', $result[0]['name']);
-        $this->assertSame('Collected Recipients', $result[1]['name']);
-        $this->assertSame('Trusted Senders', $result[2]['name']);
+        self::assertCount(3, $result);
+        self::assertSame('Personal Addresses', $result[0]['name']);
+        self::assertSame('Collected Recipients', $result[1]['name']);
+        self::assertSame('Trusted Senders', $result[2]['name']);
 
         $result = $rcmail->get_address_sources(true);
 
-        $this->assertCount(1, $result);
-        $this->assertSame('Personal Addresses', $result[0]['name']);
+        self::assertCount(1, $result);
+        self::assertSame('Personal Addresses', $result[0]['name']);
 
         // TODO: Test more cases
     }
@@ -123,32 +123,32 @@ class Rcmail_Rcmail extends ActionTestCase
     {
         $rcmail = rcmail::get_instance();
 
-        $this->assertSame(
+        self::assertSame(
             '/sub/?_task=cli&_action=test',
             $rcmail->url('test'),
             'Action only'
         );
 
-        $this->assertSame(
+        self::assertSame(
             '/sub/?_task=cli&_action=test&_a=AA',
             $rcmail->url(['action' => 'test', 'a' => 'AA']),
             'Unprefixed parameters'
         );
 
-        $this->assertSame(
+        self::assertSame(
             '/sub/?_task=cli&_action=test&_b=BB',
             $rcmail->url(['_action' => 'test', '_b' => 'BB', '_c' => null]),
             'Prefixed parameters (skip empty)'
         );
-        $this->assertSame('/sub/?_task=cli', $rcmail->url([]), 'Empty input');
+        self::assertSame('/sub/?_task=cli', $rcmail->url([]), 'Empty input');
 
-        $this->assertSame(
+        self::assertSame(
             '/sub/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             'Absolute URL'
         );
 
-        $this->assertSame(
+        self::assertSame(
             'https://mail.example.org/sub/?_task=calendar&_action=test&_mode=FQ',
             $rcmail->url(['task' => 'calendar', '_action' => 'test', '_mode' => 'FQ'], true, true),
             'Fully Qualified URL'
@@ -156,36 +156,36 @@ class Rcmail_Rcmail extends ActionTestCase
 
         // with different SCRIPT_NAME values
         $_SERVER['SCRIPT_NAME'] = 'index.php';
-        $this->assertSame(
+        self::assertSame(
             '/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             'Absolute URL (root)'
         );
 
         $_SERVER['SCRIPT_NAME'] = '';
-        $this->assertSame(
+        self::assertSame(
             '/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true),
             'Absolute URL (root)'
         );
 
         $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
-        $this->assertSame('/rc/?_task=cli', $rcmail->url([]), 'Empty input with REQUEST_URI prefix');
+        self::assertSame('/rc/?_task=cli', $rcmail->url([]), 'Empty input with REQUEST_URI prefix');
 
         $rcmail->config->set('request_path', 'X_FORWARDED_PATH');
-        $this->assertSame('/proxied/?_task=cli', $rcmail->url([]), 'Consider request_path config (_SERVER)');
+        self::assertSame('/proxied/?_task=cli', $rcmail->url([]), 'Consider request_path config (_SERVER)');
 
         $rcmail->config->set('request_path', '/test');
-        $this->assertSame('/test/?_task=cli', $rcmail->url([]), 'Consider request_path config (/path)');
+        self::assertSame('/test/?_task=cli', $rcmail->url([]), 'Consider request_path config (/path)');
         $rcmail->config->set('request_path', '/test/');
-        $this->assertSame('/test/?_task=cli', $rcmail->url([]), 'Consider request_path config (/path/)');
+        self::assertSame('/test/?_task=cli', $rcmail->url([]), 'Consider request_path config (/path/)');
 
         $_SERVER['REQUEST_URI'] = null;
         $rcmail->config->set('request_path', null);
 
         $_SERVER['HTTPS'] = false;
         $_SERVER['SERVER_PORT'] = '8080';
-        $this->assertSame(
+        self::assertSame(
             'http://mail.example.org:8080/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true, true),
             'Full URL with port'
@@ -197,7 +197,7 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_request_security_check()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -213,22 +213,22 @@ class Rcmail_Rcmail extends ActionTestCase
 
         $contact_id = $rcmail->contact_create(['email' => 'test@xn--e1aybc.xn--p1ai'], $source, $error);
 
-        $this->assertNull($error);
-        $this->assertTrue($contact_id != false);
+        self::assertNull($error);
+        self::assertTrue($contact_id != false);
 
         $sql_result = $db->query("SELECT * FROM `contacts` WHERE `contact_id` = {$contact_id}");
         $contact = $db->fetch_assoc($sql_result);
 
-        $this->assertSame('test@тест.рф', $contact['email']);
-        $this->assertSame('Test', $contact['name']);
+        self::assertSame('test@тест.рф', $contact['email']);
+        self::assertSame('Test', $contact['name']);
 
         $result = $rcmail->contact_exists('test@xn--e1aybc.xn--p1ai', rcube_addressbook::TYPE_DEFAULT);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
 
         $result = $rcmail->contact_exists('test@тест.рф', rcube_addressbook::TYPE_DEFAULT);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     /**
@@ -240,7 +240,7 @@ class Rcmail_Rcmail extends ActionTestCase
 
         $date = $rcmail->user_date();
 
-        $this->assertMatchesRegularExpression('/[a-z]{3}, [0-9]{1,2} [a-z]{3} ' . date('Y H:i:s') . ' [+-][0-9]{4}/i', $date);
+        self::assertMatchesRegularExpression('/[a-z]{3}, [0-9]{1,2} [a-z]{3} ' . date('Y H:i:s') . ' [+-][0-9]{4}/i', $date);
     }
 
     /**
@@ -251,10 +251,10 @@ class Rcmail_Rcmail extends ActionTestCase
         $rcmail = rcmail::get_instance();
 
         $result = $rcmail->find_asset('non-existing.js');
-        $this->assertNull($result);
+        self::assertNull($result);
 
         $result = $rcmail->find_asset('program/resources/blocked.gif');
-        $this->assertSame('program/resources/blocked.gif', $result);
+        self::assertSame('program/resources/blocked.gif', $result);
     }
 
     /**
@@ -269,18 +269,18 @@ class Rcmail_Rcmail extends ActionTestCase
         $rcmail->config->set('prettydate', true);
 
         $date = $rcmail->format_date(date('Y-m-d H:i:s'));
-        $this->assertSame('Today ' . date('H:i'), $date);
+        self::assertSame('Today ' . date('H:i'), $date);
 
         // Test various formats
         setlocale(\LC_ALL, 'en_US');
         ini_set('intl.default_locale', 'en_US');
         $date = new DateTime('2020-06-01 12:20:30', new DateTimeZone('UTC'));
 
-        $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date));
-        $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date, 'Y-m-d H:i'));
-        $this->assertSame(' Mon', $rcmail->format_date($date, ' D'));
-        $this->assertSame('D Monday', $rcmail->format_date($date, '\D l'));
-        $this->assertSame('Jun June', $rcmail->format_date($date, 'M F'));
+        self::assertSame('2020-06-01 12:20', $rcmail->format_date($date));
+        self::assertSame('2020-06-01 12:20', $rcmail->format_date($date, 'Y-m-d H:i'));
+        self::assertSame(' Mon', $rcmail->format_date($date, ' D'));
+        self::assertSame('D Monday', $rcmail->format_date($date, '\D l'));
+        self::assertSame('Jun June', $rcmail->format_date($date, 'M F'));
         $date_x = '6/1/20, 12:20 PM';
         // @phpstan-ignore-next-line
         if (defined('INTL_ICU_VERSION') && version_compare(\INTL_ICU_VERSION, '72.1', '>=')) {
@@ -288,8 +288,8 @@ class Rcmail_Rcmail extends ActionTestCase
             // is used instead of an ASCII space before the meridian.
             $date_x = "6/1/20, 12:20\u{202f}PM";
         }
-        $this->assertSame($date_x, $rcmail->format_date($date, 'x'));
-        $this->assertSame('1591014030', $rcmail->format_date($date, 'U'));
-        $this->assertSame('2020-06-01T12:20:30+00:00', $rcmail->format_date($date, 'c'));
+        self::assertSame($date_x, $rcmail->format_date($date, 'x'));
+        self::assertSame('1591014030', $rcmail->format_date($date, 'U'));
+        self::assertSame('2020-06-01T12:20:30+00:00', $rcmail->format_date($date, 'c'));
     }
 }

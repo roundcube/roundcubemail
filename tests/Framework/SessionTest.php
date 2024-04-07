@@ -20,7 +20,7 @@ class Framework_Session extends TestCase
 
         $session = rcube_session::factory($rcube->config);
 
-        $this->assertInstanceOf('rcube_session_php', $session);
+        self::assertInstanceOf('rcube_session_php', $session);
 
         // This method should not do any harm, just call it and expect no errors
         $session->reload();
@@ -37,8 +37,8 @@ class Framework_Session extends TestCase
 
         $session = rcube_session::factory($rcube->config);
 
-        $this->assertSame([], $session->unserialize(''));
-        $this->assertSame(
+        self::assertSame([], $session->unserialize(''));
+        self::assertSame(
             ['ok' => true, 'name' => 'me', 'int' => 34],
             $session->unserialize('ok|b:1;name|s:2:"me";int|i:34;')
         );

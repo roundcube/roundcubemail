@@ -12,7 +12,7 @@ class FilesystemAttachments_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new filesystem_attachments($rcube->plugins);
 
-        $this->assertInstanceOf('filesystem_attachments', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('filesystem_attachments', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

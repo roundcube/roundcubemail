@@ -12,7 +12,7 @@ class SquirrelmailUsercopy_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new squirrelmail_usercopy($rcube->plugins);
 
-        $this->assertInstanceOf('squirrelmail_usercopy', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('squirrelmail_usercopy', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

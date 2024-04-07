@@ -12,6 +12,6 @@ class Actions_Utils_SpellHtml extends ActionTestCase
     {
         $object = new rcmail_action_utils_spell_html();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        self::assertInstanceOf('rcmail_action', $object);
     }
 }

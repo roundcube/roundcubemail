@@ -12,7 +12,7 @@ class DatabaseAttachments_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new database_attachments($rcube->plugins);
 
-        $this->assertInstanceOf('database_attachments', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('database_attachments', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

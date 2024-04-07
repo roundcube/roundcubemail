@@ -18,10 +18,10 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $sendmail = new rcmail_sendmail();
         $headers = $sendmail->headers_input();
 
-        $this->assertSame('Test1 Test2', $headers['Subject']);
-        $this->assertSame('Sender <test@domain.tld>', $headers['From']);
-        $this->assertSame('undisclosed-recipients:;', $headers['To']);
-        $this->assertSame('test@domain.tld', $headers['X-Sender']);
+        self::assertSame('Test1 Test2', $headers['Subject']);
+        self::assertSame('Sender <test@domain.tld>', $headers['From']);
+        self::assertSame('undisclosed-recipients:;', $headers['To']);
+        self::assertSame('test@domain.tld', $headers['X-Sender']);
     }
 
     /**
@@ -29,7 +29,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_set_message_encoding()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -37,7 +37,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_create_message()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -45,7 +45,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_deliver_message()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -53,7 +53,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_save_message()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -61,7 +61,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_header_received()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -79,9 +79,9 @@ class Rcmail_RcmailSendmail extends ActionTestCase
 
         $result = $sendmail->get_identity($identity['identity_id']);
 
-        $this->assertSame($identity['identity_id'], $result['identity_id']);
-        $this->assertSame('test <test@example.com>', $result['string']);
-        $this->assertSame('test@example.com', $result['mailto']);
+        self::assertSame($identity['identity_id'], $result['identity_id']);
+        self::assertSame('test <test@example.com>', $result['string']);
+        self::assertSame('test@example.com', $result['mailto']);
     }
 
     /**
@@ -89,7 +89,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_extract_inline_images()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -154,7 +154,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $sendmail = new rcmail_sendmail();
         $sendmail->options['charset'] = $charset;
 
-        $this->assertSame($output, $sendmail->email_input_format($input));
+        self::assertSame($output, $sendmail->email_input_format($input));
     }
 
     /**
@@ -162,7 +162,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_generic_message_footer()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -172,23 +172,23 @@ class Rcmail_RcmailSendmail extends ActionTestCase
     {
         $input = ['test' => 'test'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertSame('test=test', $result);
-        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
+        self::assertSame('test=test', $result);
+        self::assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
         $input = ['folder' => 'test'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertSame('folder=B::dGVzdA==', $result);
-        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
+        self::assertSame('folder=B::dGVzdA==', $result);
+        self::assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
         $input = ['test' => 'test;test'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertSame('test=B::dGVzdDt0ZXN0', $result);
-        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
+        self::assertSame('test=B::dGVzdDt0ZXN0', $result);
+        self::assertSame($input, rcmail_sendmail::draftinfo_decode($result));
 
         $input = ['test' => 'test;test', 'a' => 'b'];
         $result = rcmail_sendmail::draftinfo_encode($input);
-        $this->assertSame('test=B::dGVzdDt0ZXN0; a=b', $result);
-        $this->assertSame($input, rcmail_sendmail::draftinfo_decode($result));
+        self::assertSame('test=B::dGVzdDt0ZXN0; a=b', $result);
+        self::assertSame($input, rcmail_sendmail::draftinfo_decode($result));
     }
 
     /**
@@ -208,13 +208,13 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $sendmail->options['message'] = $message;
 
         $result = $sendmail->headers_output(['part' => 'to']);
-        $this->assertTrue(strpos($result, '<textarea name="_to" spellcheck="false"></textarea>') !== false);
+        self::assertTrue(strpos($result, '<textarea name="_to" spellcheck="false"></textarea>') !== false);
 
         $result = $sendmail->headers_output(['part' => 'from']);
-        $this->assertTrue(strpos($result, '<input name="_from" class="from_address" type="text">') !== false);
+        self::assertTrue(strpos($result, '<input name="_from" class="from_address" type="text">') !== false);
 
         // TODO: Test part=from with identities
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 
     /**
@@ -222,10 +222,10 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_reply_subject()
     {
-        $this->assertSame('Re: Test subject', rcmail_sendmail::reply_subject('Test subject'));
-        $this->assertSame('Re: Test subject', rcmail_sendmail::reply_subject('Re: Test subject'));
-        $this->assertSame('Re: Test subject', rcmail_sendmail::reply_subject('Re: Re: Test subject'));
-        $this->assertSame('Re: Test subject', rcmail_sendmail::reply_subject('Re: Test subject (Was: Something else)'));
+        self::assertSame('Re: Test subject', rcmail_sendmail::reply_subject('Test subject'));
+        self::assertSame('Re: Test subject', rcmail_sendmail::reply_subject('Re: Test subject'));
+        self::assertSame('Re: Test subject', rcmail_sendmail::reply_subject('Re: Re: Test subject'));
+        self::assertSame('Re: Test subject', rcmail_sendmail::reply_subject('Re: Test subject (Was: Something else)'));
     }
 
     /**
@@ -241,7 +241,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
 
         $result = $sendmail->compose_subject([]);
 
-        $this->assertTrue(strpos($result, '<input name="_subject" spellcheck="true" value="test" type="text">') !== false);
+        self::assertTrue(strpos($result, '<input name="_subject" spellcheck="true" value="test" type="text">') !== false);
     }
 
     /**
@@ -255,7 +255,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
 
         $result = $sendmail->mdn_checkbox([]);
 
-        $this->assertTrue(strpos($result, '<input id="receipt" name="_mdn" value="1" type="checkbox">') !== false);
+        self::assertTrue(strpos($result, '<input id="receipt" name="_mdn" value="1" type="checkbox">') !== false);
     }
 
     /**
@@ -269,7 +269,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
 
         $result = $sendmail->dsn_checkbox([]);
 
-        $this->assertTrue(strpos($result, '<input id="dsn" name="_dsn" value="1" type="checkbox">') !== false);
+        self::assertTrue(strpos($result, '<input id="dsn" name="_dsn" value="1" type="checkbox">') !== false);
     }
 
     /**
@@ -291,7 +291,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
             . '<option value="1">Highest</option>'
             . '</select>';
 
-        $this->assertTrue(strpos($result, $expected) !== false);
+        self::assertTrue(strpos($result, $expected) !== false);
     }
 
     /**
@@ -307,7 +307,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $message->headers->cc = '';
 
         $result = rcmail_sendmail::identity_select($message, []);
-        $this->assertNull($result);
+        self::assertNull($result);
 
         $identities = [
             [
@@ -343,26 +343,26 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $message->headers->from = 'from@other.domain.tld';
 
         $result = rcmail_sendmail::identity_select($message, $identities);
-        $this->assertSame($identities[2], $result);
+        self::assertSame($identities[2], $result);
 
         $message->headers->to = 'ident1@domain.tld';
         $message->headers->from = 'from@other.domain.tld';
 
         $result = rcmail_sendmail::identity_select($message, $identities);
-        $this->assertSame($identities[1], $result);
+        self::assertSame($identities[1], $result);
 
         // #7211
         $message->headers->to = 'ident1@domain.tld';
         $message->headers->from = 'ident2@domain.tld';
 
         $result = rcmail_sendmail::identity_select($message, $identities);
-        $this->assertSame($identities[1], $result);
+        self::assertSame($identities[1], $result);
 
         $message->headers->to = 'ident2@domain.tld';
         $message->headers->from = 'ident1@domain.tld';
 
         $result = rcmail_sendmail::identity_select($message, $identities);
-        $this->assertSame($identities[2], $result);
+        self::assertSame($identities[2], $result);
     }
 
     /**
@@ -393,12 +393,12 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $message->headers->set('Return-Path', '<some_thing@domain.tld>');
         $res = rcmail_sendmail::identity_select($message, $identities);
 
-        $this->assertSame($identities[0], $res);
+        self::assertSame($identities[0], $res);
 
         $message->headers->set('Return-Path', '<thing@domain.tld>');
         $res = rcmail_sendmail::identity_select($message, $identities);
 
-        $this->assertSame($identities[1], $res);
+        self::assertSame($identities[1], $res);
     }
 
     /**
@@ -434,19 +434,19 @@ class Rcmail_RcmailSendmail extends ActionTestCase
 
         $message->headers->set('From', '<addr2@domain.tld>');
         $res = rcmail_sendmail::identity_select($message, $identities);
-        $this->assertSame($identities[1], $res);
+        self::assertSame($identities[1], $res);
 
         $message->headers->set('From', 'Test 2 <addr2@domain.tld>');
         $res = rcmail_sendmail::identity_select($message, $identities);
-        $this->assertSame($identities[1], $res);
+        self::assertSame($identities[1], $res);
 
         $message->headers->set('From', 'Other <addr2@domain.tld>');
         $res = rcmail_sendmail::identity_select($message, $identities);
-        $this->assertSame($identities[1], $res);
+        self::assertSame($identities[1], $res);
 
         $message->headers->set('From', 'Test 4 <addr2@domain.tld>');
         $res = rcmail_sendmail::identity_select($message, $identities);
-        $this->assertSame($identities[3], $res);
+        self::assertSame($identities[3], $res);
     }
 
     /**
@@ -454,6 +454,6 @@ class Rcmail_RcmailSendmail extends ActionTestCase
      */
     public function test_collect_recipients()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

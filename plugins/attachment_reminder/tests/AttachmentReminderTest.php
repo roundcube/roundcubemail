@@ -12,8 +12,8 @@ class AttachmentReminder_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new attachment_reminder($rcube->plugins);
 
-        $this->assertInstanceOf('attachment_reminder', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('attachment_reminder', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
 
         $plugin->init();
     }
@@ -30,11 +30,11 @@ class AttachmentReminder_Plugin extends TestCase
 
         $result = $plugin->prefs_list($args);
 
-        $this->assertSame(
+        self::assertSame(
             '<label for="rcmfd_attachment_reminder">Remind about forgotten attachments</label>',
             $result['blocks']['main']['options']['attachment_reminder']['title']
         );
-        $this->assertSame(
+        self::assertSame(
             '<input name="_attachment_reminder" id="rcmfd_attachment_reminder" value="1" type="checkbox">',
             $result['blocks']['main']['options']['attachment_reminder']['content']
         );
@@ -53,13 +53,13 @@ class AttachmentReminder_Plugin extends TestCase
 
         $result = $plugin->prefs_save($args);
 
-        $this->assertFalse($result['prefs']['attachment_reminder']);
+        self::assertFalse($result['prefs']['attachment_reminder']);
 
         $_POST = ['_attachment_reminder' => 1];
         $args = ['section' => 'compose', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 
-        $this->assertTrue($result['prefs']['attachment_reminder']);
+        self::assertTrue($result['prefs']['attachment_reminder']);
     }
 }

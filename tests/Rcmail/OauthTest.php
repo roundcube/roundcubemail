@@ -75,7 +75,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         } catch (RuntimeException $e) {
         }
 
-        $this->assertTrue(isset($e));
+        self::assertTrue(isset($e));
     }
 
     /**
@@ -89,7 +89,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             'client_id' => 'some-client',
         ]);
         $body = $oauth->jwt_decode($jwt);
-        $this->assertSame($body['aud'], ['some-client']);
+        self::assertSame($body['aud'], ['some-client']);
     }
 
     /**
@@ -103,7 +103,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             'client_id' => 'some-client',
         ]);
         $body = $oauth->jwt_decode($jwt);
-        $this->assertSame($body['aud'], 'some-client');
+        self::assertSame($body['aud'], 'some-client');
     }
 
     /**
@@ -113,7 +113,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $oauth = rcmail_oauth::get_instance();
 
-        $this->assertFalse($oauth->is_enabled());
+        self::assertFalse($oauth->is_enabled());
     }
 
     /**
@@ -124,7 +124,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $oauth = new rcmail_oauth($this->config);
         $oauth->init();
 
-        $this->assertTrue($oauth->is_enabled());
+        self::assertTrue($oauth->is_enabled());
     }
 
     /**
@@ -157,7 +157,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $oauth->init();
 
         // if discovery succeed, should be enabled
-        $this->assertTrue($oauth->is_enabled());
+        self::assertTrue($oauth->is_enabled());
     }
 
     /**
@@ -167,7 +167,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $oauth = rcmail_oauth::get_instance();
 
-        $this->assertMatchesRegularExpression('|^http://.*/index.php/login/oauth$|', $oauth->get_redirect_uri());
+        self::assertMatchesRegularExpression('|^http://.*/index.php/login/oauth$|', $oauth->get_redirect_uri());
     }
 
     /**
@@ -189,18 +189,18 @@ class Rcmail_RcmailOauth extends ActionTestCase
             $ecode = $e->getCode();
         }
 
-        $this->assertSame(OutputHtmlMock::E_REDIRECT, $ecode);
-        $this->assertMatchesRegularExpression('|^Location: https://test/auth\?.*|', $result);
+        self::assertSame(OutputHtmlMock::E_REDIRECT, $ecode);
+        self::assertMatchesRegularExpression('|^Location: https://test/auth\?.*|', $result);
 
         [$base, $query] = explode('?', substr($result, 10));
         parse_str($query, $map);
 
-        $this->assertSame($this->config['scope'], $map['scope']);
-        $this->assertSame($this->config['client_id'], $map['client_id']);
-        $this->assertSame('code', $map['response_type']);
-        $this->assertSame($_SESSION['oauth_state'], $map['state']);
-        $this->assertSame($_SESSION['oauth_nonce'], $map['nonce']);
-        $this->assertMatchesRegularExpression('!http.*/login/oauth!', $map['redirect_uri']);
+        self::assertSame($this->config['scope'], $map['scope']);
+        self::assertSame($this->config['client_id'], $map['client_id']);
+        self::assertSame('code', $map['response_type']);
+        self::assertSame($_SESSION['oauth_state'], $map['state']);
+        self::assertSame($_SESSION['oauth_nonce'], $map['nonce']);
+        self::assertMatchesRegularExpression('!http.*/login/oauth!', $map['redirect_uri']);
     }
 
     /**
@@ -218,9 +218,9 @@ class Rcmail_RcmailOauth extends ActionTestCase
         StderrMock::stop();
 
         // should be false as state do not match
-        $this->assertFalse($response);
+        self::assertFalse($response);
 
-        $this->assertSame('ERROR: OAuth token request failed: state parameter mismatch', trim(StderrMock::$output));
+        self::assertSame('ERROR: OAuth token request failed: state parameter mismatch', trim(StderrMock::$output));
     }
 
     /**
@@ -256,8 +256,8 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $response = $oauth->request_access_token('fake-code', 'random-state');
         StderrMock::stop();
 
-        $this->assertFalse($response);
-        $this->assertStringContainsString('identity\'s nonce mismatch', StderrMock::$output);
+        self::assertFalse($response);
+        self::assertStringContainsString('identity\'s nonce mismatch', StderrMock::$output);
     }
 
     /**
@@ -290,14 +290,14 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $_SESSION['oauth_nonce'] = 'fake-nonce';
         $response = $oauth->request_access_token('fake-code', 'random-state');
 
-        $this->assertTrue($response);
+        self::assertTrue($response);
 
         $login_phase = getProperty($oauth, 'login_phase');
 
-        $this->assertSame('Bearer FAKE-ACCESS-TOKEN', $login_phase['authorization']);
-        $this->assertSame($this->identity['email'], $login_phase['username']);
-        $this->assertTrue(isset($login_phase['token']));
-        $this->assertFalse(isset($login_phase['token']['access_token']));
+        self::assertSame('Bearer FAKE-ACCESS-TOKEN', $login_phase['authorization']);
+        self::assertSame($this->identity['email'], $login_phase['username']);
+        self::assertTrue(isset($login_phase['token']));
+        self::assertFalse(isset($login_phase['token']['access_token']));
     }
 
     /**
@@ -332,13 +332,13 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $_SESSION['oauth_nonce'] = 'fake-nonce'; // ensure nonce identiquals
         $response = $oauth->request_access_token('fake-code', 'random-state');
 
-        $this->assertTrue($response);
+        self::assertTrue($response);
         $login_phase = getProperty($oauth, 'login_phase');
 
-        $this->assertSame('Bearer FAKE-ACCESS-TOKEN', $login_phase['authorization']);
-        $this->assertSame($this->identity['email'], $login_phase['username']);
-        $this->assertTrue(isset($login_phase['token']));
-        $this->assertFalse(isset($login_phase['token']['access_token']));
+        self::assertSame('Bearer FAKE-ACCESS-TOKEN', $login_phase['authorization']);
+        self::assertSame($this->identity['email'], $login_phase['username']);
+        self::assertTrue(isset($login_phase['token']));
+        self::assertFalse(isset($login_phase['token']['access_token']));
     }
 
     /**
@@ -361,7 +361,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ]);
         $answer = $oauth->user_create([]);
 
-        $this->assertSame($answer, [
+        self::assertSame($answer, [
             'user_name' => 'John Doe',
             'user_email' => 'jdoe@xn--fak-dma.xn--dmain-6ta',
             'language' => 'en_US',
@@ -392,9 +392,9 @@ class Rcmail_RcmailOauth extends ActionTestCase
         StderrMock::stop();
 
         // only user_name can be defined
-        $this->assertSame($answer, ['user_name' => 'John Doe']);
-        $this->assertStringContainsString('ignoring invalid email', StderrMock::$output);
-        $this->assertStringContainsString('ignoring language', StderrMock::$output);
+        self::assertSame($answer, ['user_name' => 'John Doe']);
+        self::assertStringContainsString('ignoring invalid email', StderrMock::$output);
+        self::assertStringContainsString('ignoring language', StderrMock::$output);
     }
 
     /**
@@ -403,6 +403,6 @@ class Rcmail_RcmailOauth extends ActionTestCase
     public function test_refresh_access_token()
     {
         // FIXME
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }

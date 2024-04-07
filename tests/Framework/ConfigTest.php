@@ -14,7 +14,7 @@ class Framework_Config extends TestCase
     {
         $object = new rcube_config();
 
-        $this->assertInstanceOf('rcube_config', $object, 'Class constructor');
+        self::assertInstanceOf('rcube_config', $object, 'Class constructor');
     }
 
     /**
@@ -22,8 +22,8 @@ class Framework_Config extends TestCase
      */
     public function test_resolve_timezone_alias()
     {
-        $this->assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/GMT'));
-        $this->assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/Zulu'));
+        self::assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/GMT'));
+        self::assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/Zulu'));
     }
 
     /**
@@ -33,16 +33,16 @@ class Framework_Config extends TestCase
     {
         $object = new rcube_config();
 
-        $this->assertNull($object->get('test'));
-        $this->assertSame('def', $object->get('test', 'def'));
+        self::assertNull($object->get('test'));
+        self::assertSame('def', $object->get('test', 'def'));
 
         $object->set('test', 'val');
 
-        $this->assertSame('val', $object->get('test'));
+        self::assertSame('val', $object->get('test'));
 
         putenv('ROUNDCUBE_TEST_INT=4190');
 
-        $this->assertSame(4190, $object->get('test_int'));
+        self::assertSame(4190, $object->get('test_int'));
 
         // TODO: test more code paths in get() and set()
     }
@@ -54,25 +54,25 @@ class Framework_Config extends TestCase
     {
         $object = new rcube_config();
 
-        $this->assertSame('bool', invokeMethod($object, 'guess_type', ['true']));
-        $this->assertSame('bool', invokeMethod($object, 'guess_type', ['false']));
-        $this->assertSame('bool', invokeMethod($object, 'guess_type', ['t']));
-        $this->assertSame('bool', invokeMethod($object, 'guess_type', ['f']));
-        $this->assertSame('bool', invokeMethod($object, 'guess_type', ['TRUE']));
-        $this->assertSame('bool', invokeMethod($object, 'guess_type', ['FALSE']));
-        $this->assertSame('bool', invokeMethod($object, 'guess_type', ['T']));
-        $this->assertSame('bool', invokeMethod($object, 'guess_type', ['F']));
+        self::assertSame('bool', invokeMethod($object, 'guess_type', ['true']));
+        self::assertSame('bool', invokeMethod($object, 'guess_type', ['false']));
+        self::assertSame('bool', invokeMethod($object, 'guess_type', ['t']));
+        self::assertSame('bool', invokeMethod($object, 'guess_type', ['f']));
+        self::assertSame('bool', invokeMethod($object, 'guess_type', ['TRUE']));
+        self::assertSame('bool', invokeMethod($object, 'guess_type', ['FALSE']));
+        self::assertSame('bool', invokeMethod($object, 'guess_type', ['T']));
+        self::assertSame('bool', invokeMethod($object, 'guess_type', ['F']));
 
-        $this->assertSame('float', invokeMethod($object, 'guess_type', ['1.5']));
-        $this->assertSame('float', invokeMethod($object, 'guess_type', ['1.0']));
-        $this->assertSame('float', invokeMethod($object, 'guess_type', ['1.2e3']));
-        $this->assertSame('float', invokeMethod($object, 'guess_type', ['7E-10']));
+        self::assertSame('float', invokeMethod($object, 'guess_type', ['1.5']));
+        self::assertSame('float', invokeMethod($object, 'guess_type', ['1.0']));
+        self::assertSame('float', invokeMethod($object, 'guess_type', ['1.2e3']));
+        self::assertSame('float', invokeMethod($object, 'guess_type', ['7E-10']));
 
-        $this->assertSame('int', invokeMethod($object, 'guess_type', ['1']));
-        $this->assertSame('int', invokeMethod($object, 'guess_type', ['123456789']));
+        self::assertSame('int', invokeMethod($object, 'guess_type', ['1']));
+        self::assertSame('int', invokeMethod($object, 'guess_type', ['123456789']));
 
-        $this->assertSame('string', invokeMethod($object, 'guess_type', ['ON']));
-        $this->assertSame('string', invokeMethod($object, 'guess_type', ['1-0']));
+        self::assertSame('string', invokeMethod($object, 'guess_type', ['ON']));
+        self::assertSame('string', invokeMethod($object, 'guess_type', ['1-0']));
     }
 
     /**
@@ -82,14 +82,14 @@ class Framework_Config extends TestCase
     {
         $object = new rcube_config();
 
-        $this->assertTrue(invokeMethod($object, 'parse_env', ['true']));
-        $this->assertSame(1, invokeMethod($object, 'parse_env', ['1']));
-        $this->assertSame(1.5, invokeMethod($object, 'parse_env', ['1.5']));
-        $this->assertTrue(invokeMethod($object, 'parse_env', ['1', 'bool']));
-        $this->assertSame(1.0, invokeMethod($object, 'parse_env', ['1', 'float']));
-        $this->assertSame(1, invokeMethod($object, 'parse_env', ['1', 'int']));
-        $this->assertSame('1', invokeMethod($object, 'parse_env', ['1', 'string']));
-        $this->assertSame([1], invokeMethod($object, 'parse_env', ['[1]', 'array']));
-        $this->assertSame(['test' => 1], (array) invokeMethod($object, 'parse_env', ['{"test":1}', 'object']));
+        self::assertTrue(invokeMethod($object, 'parse_env', ['true']));
+        self::assertSame(1, invokeMethod($object, 'parse_env', ['1']));
+        self::assertSame(1.5, invokeMethod($object, 'parse_env', ['1.5']));
+        self::assertTrue(invokeMethod($object, 'parse_env', ['1', 'bool']));
+        self::assertSame(1.0, invokeMethod($object, 'parse_env', ['1', 'float']));
+        self::assertSame(1, invokeMethod($object, 'parse_env', ['1', 'int']));
+        self::assertSame('1', invokeMethod($object, 'parse_env', ['1', 'string']));
+        self::assertSame([1], invokeMethod($object, 'parse_env', ['[1]', 'array']));
+        self::assertSame(['test' => 1], (array) invokeMethod($object, 'parse_env', ['{"test":1}', 'object']));
     }
 }

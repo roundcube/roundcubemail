@@ -30,11 +30,11 @@ class Managesieve_Engine extends ActionTestCase
 
         $result = $engine->filter_form([]);
 
-        $this->assertFalse($output->get_env('rule_disabled'));
-        $this->assertTrue(strpos($result, '<form name="filterform"') === 0);
-        $this->assertTrue(strpos($result, '<input type="hidden" name="_action" value="plugin.managesieve-save">') !== false);
-        $this->assertTrue(strpos($result, '<div id="rules">') !== false);
-        $this->assertTrue(strpos($result, '<div id="actions">') !== false);
+        self::assertFalse($output->get_env('rule_disabled'));
+        self::assertTrue(strpos($result, '<form name="filterform"') === 0);
+        self::assertTrue(strpos($result, '<input type="hidden" name="_action" value="plugin.managesieve-save">') !== false);
+        self::assertTrue(strpos($result, '<div id="rules">') !== false);
+        self::assertTrue(strpos($result, '<div id="actions">') !== false);
 
         // TODO: Test it for real
     }
@@ -67,7 +67,7 @@ class Managesieve_Engine extends ActionTestCase
         $plugin = new managesieve($rcube->plugins);
         $engine = new rcube_sieve_engine($plugin);
 
-        $this->assertSame($expected, invokeMethod($engine, 'strip_value', $args));
+        self::assertSame($expected, invokeMethod($engine, 'strip_value', $args));
     }
 
     /**
@@ -83,6 +83,6 @@ class Managesieve_Engine extends ActionTestCase
         $args = [1, 'n', '<p>'];
         $expected = '<textarea data-type="list" name="_n[1]" style="display:none" id="n1">&lt;p&gt;</textarea>';
 
-        $this->assertSame($expected, invokeMethod($engine, 'list_input', $args));
+        self::assertSame($expected, invokeMethod($engine, 'list_input', $args));
     }
 }

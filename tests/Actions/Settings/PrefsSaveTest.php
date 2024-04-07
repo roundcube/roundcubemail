@@ -13,16 +13,16 @@ class Actions_Settings_PrefsSave extends ActionTestCase
         $action = new rcmail_action_settings_prefs_save();
         $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-prefs');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         // TODO: Test all sections
         $_POST['_section'] = 'general';
 
         $action->run();
 
-        $this->assertSame('edit-prefs', rcmail::get_instance()->action);
-        $this->assertSame('successfullysaved', $output->getProperty('message'));
+        self::assertSame('edit-prefs', rcmail::get_instance()->action);
+        self::assertSame('successfullysaved', $output->getProperty('message'));
     }
 
     /**
@@ -36,8 +36,8 @@ class Actions_Settings_PrefsSave extends ActionTestCase
 
         rcmail::get_instance()->config->set('test', null);
 
-        $this->assertNull($action->prefs_input('unset', '/test/'));
-        $this->assertSame('test', $action->prefs_input('test', '/^test/'));
-        $this->assertNull($action->prefs_input('test', '/^a/'));
+        self::assertNull($action->prefs_input('unset', '/test/'));
+        self::assertSame('test', $action->prefs_input('test', '/^test/'));
+        self::assertNull($action->prefs_input('test', '/^a/'));
     }
 }

@@ -12,7 +12,7 @@ class RedundantAttachments_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new redundant_attachments($rcube->plugins);
 
-        $this->assertInstanceOf('redundant_attachments', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('redundant_attachments', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

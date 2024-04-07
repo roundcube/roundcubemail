@@ -36,6 +36,6 @@ class Framework_Spoofchecker extends TestCase
      */
     public function test_check($email, $expected)
     {
-        $this->assertSame($expected, rcube_spoofchecker::check($email));
+        self::assertSame($expected, rcube_spoofchecker::check($email));
     }
 }

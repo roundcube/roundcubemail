@@ -12,7 +12,7 @@ class Userinfo_Plugin extends TestCase
         $rcube = rcube::get_instance();
         $plugin = new userinfo($rcube->plugins);
 
-        $this->assertInstanceOf('userinfo', $plugin);
-        $this->assertInstanceOf('rcube_plugin', $plugin);
+        self::assertInstanceOf('userinfo', $plugin);
+        self::assertInstanceOf('rcube_plugin', $plugin);
     }
 }

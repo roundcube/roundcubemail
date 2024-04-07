@@ -157,10 +157,10 @@ class GeneralTest extends TestCase
         $options = array_diff(array_keys($this->settings), ['refresh_interval', 'pretty_date']);
 
         foreach ($options as $option) {
-            $this->assertSame($this->settings[$option], $prefs[$option]);
+            self::assertSame($this->settings[$option], $prefs[$option]);
         }
 
-        $this->assertSame($this->settings['pretty_date'], $prefs['prettydate']);
-        $this->assertSame($this->settings['refresh_interval'], $prefs['refresh_interval'] / 60);
+        self::assertSame($this->settings['pretty_date'], $prefs['prettydate']);
+        self::assertSame($this->settings['refresh_interval'], $prefs['refresh_interval'] / 60);
     }
 }

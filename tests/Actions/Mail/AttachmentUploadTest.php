@@ -13,8 +13,8 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
         $action = new rcmail_action_mail_attachment_upload();
         $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'upload');
 
-        $this->assertInstanceOf('rcmail_action', $action);
-        $this->assertTrue($action->checks());
+        self::assertInstanceOf('rcmail_action', $action);
+        self::assertTrue($action->checks());
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_GET = [
@@ -29,10 +29,10 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('upload', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.remove_from_attachment_list("upload123");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.auto_save_start(false);') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('upload', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.remove_from_attachment_list("upload123");') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.auto_save_start(false);') !== false);
 
         // Upload a file
         $_SESSION = ['compose_data_123' => ['test' => 'test']];
@@ -43,16 +43,16 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('upload', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.auto_save_start(false);') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('upload', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.auto_save_start(false);') !== false);
 
         $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
-        $this->assertSame($file['name'], $upload['name']);
-        $this->assertSame($file['type'], $upload['mimetype']);
-        $this->assertSame($file['size'], $upload['size']);
-        $this->assertSame($_GET['_id'], $upload['group']);
+        self::assertSame($file['name'], $upload['name']);
+        self::assertSame($file['type'], $upload['mimetype']);
+        self::assertSame($file['size'], $upload['size']);
+        self::assertSame($_GET['_id'], $upload['group']);
 
         // Upload error case
         $_SESSION = ['compose_data_123' => ['test' => 'test']];
@@ -62,10 +62,10 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
-        $this->assertSame('upload', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("The uploaded file exceeds the maximum size') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.auto_save_start(false);') !== false);
+        self::assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        self::assertSame('upload', $result['action']);
+        self::assertTrue(strpos($result['exec'], 'this.display_message("The uploaded file exceeds the maximum size') !== false);
+        self::assertTrue(strpos($result['exec'], 'this.auto_save_start(false);') !== false);
 
         // TODO: Test max_message_size handling
     }
@@ -75,6 +75,6 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
      */
     public function test_uri()
     {
-        $this->markTestIncomplete();
+        self::markTestIncomplete();
     }
 }
