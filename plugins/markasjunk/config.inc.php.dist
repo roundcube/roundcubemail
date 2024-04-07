@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // Learning driver
 // Use an external process such as sa-learn to learn from spam/ham messages. Default: null.
 // Please see the README for more information
