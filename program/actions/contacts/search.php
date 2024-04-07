@@ -52,6 +52,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         }
         // get fields/values from advanced search form
         elseif ($adv) {
+            $fields = [];
             foreach (array_keys($_POST) as $key) {
                 $s = trim(rcube_utils::get_input_string($key, rcube_utils::INPUT_POST, true));
                 if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {

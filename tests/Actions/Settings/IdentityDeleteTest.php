@@ -51,6 +51,6 @@ class Actions_Settings_IdentityDelete extends ActionTestCase
 
         $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
         $this->assertSame('delete-identity', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("An error occurred while saving.","error",0);') !== false);
+        $this->assertStringContainsString('this.display_message("An error occurred while saving.","error",0);', $result['exec']);
     }
 }

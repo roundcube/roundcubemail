@@ -22,7 +22,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     protected static $COMPOSE_ID;
     protected static $COMPOSE;
 
-    /** @var ?rcube_message Mail message */
+    /** @var rcube_message|stdClass|null Mail message */
     protected static $MESSAGE;
     protected static $MESSAGE_BODY;
     protected static $CID_MAP = [];
@@ -243,7 +243,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 ) {
                     self::$COMPOSE['param']['sent_mbox'] = $sent_folder;
                 }
-            } elseif ($compose_mode == rcmail_sendmail::MODE_DRAFT || $compose_mode == rcmail_sendmail::MODE_EDIT) {
+            }
+            // @phpstan-ignore-next-line
+            elseif ($compose_mode == rcmail_sendmail::MODE_DRAFT || $compose_mode == rcmail_sendmail::MODE_EDIT) {
                 if ($compose_mode == rcmail_sendmail::MODE_DRAFT) {
                     if ($draft_info = self::$MESSAGE->headers->get('x-draft-info')) {
                         // get reply_uid/forward_uid to flag the original message when sending
@@ -365,7 +367,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                         foreach ($add_addresses as $addr) {
                             if (!in_array($addr['mailto'], $to_addresses)) {
                                 $to_addresses[] = $addr['mailto'];
-                                $COMPOSE['param']['to'] = (count($to_addresses) > 0 ? ', ' : '') . $addr['string'];
+                                $COMPOSE['param']['to'] .= ', ' . $addr['string'];
                             }
                         }
                     } else {
@@ -694,10 +696,6 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      */
     public static function compose_part_body($part, $isHtml = false)
     {
-        if (!$part instanceof rcube_message_part) {
-            return '';
-        }
-
         // Check if we have enough memory to handle the message in it
         // #1487424: we need up to 10x more memory than the body
         if (!rcube_utils::mem_check($part->size * 10)) {
@@ -1657,7 +1655,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $filename = !empty($params['filename']) ? $params['filename'] : self::attachment_name($part);
         } elseif ($message instanceof rcube_message) {
             // the whole message requested
-            $size = $message->size ?? null;
+            $size = $message->size ?? null; // @phpstan-ignore-line
             $mimetype = 'message/rfc822';
             $filename = !empty($params['filename']) ? $params['filename'] : 'message_rfc822.eml';
         } elseif (is_string($message)) {

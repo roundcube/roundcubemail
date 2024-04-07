@@ -509,6 +509,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         $sort_col = $_SESSION['sort_col'];
+        $roots = [];
 
         // loop through message headers
         foreach ($a_headers as $header) {
@@ -600,7 +601,7 @@ class rcmail_action_mail_index extends rcmail_action
                 // @phpstan-ignore-next-line
                 $a_msg_flags = array_merge($a_msg_flags, $header->list_flags);
             }
-            if (!empty($header->list_cols) && is_array($header->list_cols)) {
+            if (!empty($header->list_cols)) {
                 $a_msg_cols = array_merge($a_msg_cols, $header->list_cols);
             }
 
@@ -608,7 +609,6 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         if ($rcmail->storage->get_threading()) {
-            $roots = isset($roots) ? (array) $roots : [];
             $rcmail->output->command('init_threads', $roots, $mbox);
         }
     }
@@ -1249,8 +1249,8 @@ class rcmail_action_mail_index extends rcmail_action
                     // get background related style
                     $regexp = '/(background-position|background-repeat)\s*:\s*([^;]+);/i';
                     if (preg_match_all($regexp, $m[1], $matches, \PREG_SET_ORDER)) {
-                        foreach ($matches as $m) {
-                            $style[$m[1]] = $m[2];
+                        foreach ($matches as $_m) {
+                            $style[$_m[1]] = $_m[2];
                         }
                     }
                 }
@@ -1422,7 +1422,7 @@ class rcmail_action_mail_index extends rcmail_action
                     ];
 
                     if ($show_email && $name && $mailto) {
-                        $content = rcube::SQ($name ? sprintf('%s <%s>', $name, $mailto) : $mailto);
+                        $content = rcube::SQ(sprintf('%s <%s>', $name, $mailto));
                     } else {
                         $content = rcube::SQ($name ?: $mailto);
                         $attrs['title'] = $mailto;

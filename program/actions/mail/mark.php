@@ -70,8 +70,8 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         $count = 0;
         $read = 0;
 
-        foreach ($input as $mbox => $uids) {
-            $marked += (int) $rcmail->storage->set_flag($uids, $flag, $mbox);
+        foreach ($input as $_mbox => $uids) {
+            $marked += (int) $rcmail->storage->set_flag($uids, $flag, $_mbox);
             $count += is_array($uids) ? count($uids) : 1;
         }
 
@@ -89,8 +89,8 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
 
         if ($flag == 'DELETED' && $read_deleted && !empty($_POST['_ruid'])) {
             if ($ruids = rcube_utils::get_input_value('_ruid', rcube_utils::INPUT_POST)) {
-                foreach (self::get_uids($ruids) as $mbox => $uids) {
-                    $read += (int) $rcmail->storage->set_flag($uids, 'SEEN', $mbox);
+                foreach (self::get_uids($ruids) as $_mbox => $uids) {
+                    $read += (int) $rcmail->storage->set_flag($uids, 'SEEN', $_mbox);
                 }
             }
 
@@ -100,8 +100,8 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         }
 
         if ($flag == 'SEEN' || $flag == 'UNSEEN' || ($flag == 'DELETED' && !$skip_deleted)) {
-            foreach ($input as $mbox => $uids) {
-                self::send_unread_count($mbox);
+            foreach ($input as $_mbox => $uids) {
+                self::send_unread_count($_mbox);
             }
 
             $rcmail->output->set_env('last_flag', $flag);
@@ -136,8 +136,8 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
                     $jump_back = true;
                 }
 
-                foreach ($input as $mbox => $uids) {
-                    self::send_unread_count($mbox, true);
+                foreach ($input as $_mbox => $uids) {
+                    self::send_unread_count($_mbox, true);
                 }
 
                 // update message count display

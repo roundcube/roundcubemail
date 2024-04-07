@@ -322,7 +322,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $form .= html::tag('input', ['type' => 'hidden', 'name' => '_unlock', 'value' => '']);
 
         // selector for group import options
-        if (count($writable_books) >= 1 || $writable_books[0]->groups) {
+        if (count($writable_books) >= 1) {
             $select = new html_select([
                 'name' => '_groups',
                 'id' => 'rcmimportgroups',
