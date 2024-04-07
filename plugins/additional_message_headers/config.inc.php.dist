@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // Header name to header value definitions.
 // Values can use variables: %u - username, %l - local part of username, %d - domain part of username
 $config['additional_message_headers'] = [];

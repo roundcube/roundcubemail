@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // ZipDownload configuration file
 
 // Zip attachments
