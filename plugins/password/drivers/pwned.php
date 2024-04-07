@@ -60,7 +60,7 @@ class rcube_pwned_password
     public const API_URL = 'https://api.pwnedpasswords.com/range/';
 
     // See https://www.troyhunt.com/enhancing-pwned-passwords-privacy-with-padding/
-    public const ENHANCED_PRIVACY_CURL = 1;
+    public const ENHANCED_PRIVACY = 1;
 
     // Score constants, these directly correspond to the score that is returned.
     public const SCORE_LISTED = 1;
@@ -120,17 +120,12 @@ class rcube_pwned_password
         // initialize with error score
         $result = self::SCORE_ERROR;
 
-        if (!$this->can_retrieve()) {
-            // Log the fact that we cannot check because of configuration error.
-            rcube::raise_error("Need curl or allow_url_fopen to check password strength with 'pwned'", true, true);
-        } else {
-            [$prefix, $suffix] = $this->hash_split($passwd);
+        [$prefix, $suffix] = $this->hash_split($passwd);
 
-            $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
+        $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
 
-            if ($suffixes) {
-                $result = $this->check_suffix_in_list($suffix, $suffixes);
-            }
+        if ($suffixes) {
+            $result = $this->check_suffix_in_list($suffix, $suffixes);
         }
 
         return $result;
@@ -145,55 +140,29 @@ class rcube_pwned_password
         return [$prefix, $suffix];
     }
 
-    public function can_retrieve()
-    {
-        return $this->can_curl() || $this->can_fopen();
-    }
-
-    public function can_curl()
-    {
-        return function_exists('curl_init');
-    }
-
-    public function can_fopen()
-    {
-        return ini_get('allow_url_fopen');
-    }
-
     public function retrieve_suffixes($url)
     {
-        if ($this->can_curl()) {
-            return $this->retrieve_curl($url);
-        }
+        $client = password::get_http_client();
+        $options = ['http_errors' => true, 'headers' => []];
 
-        return $this->retrieve_fopen($url);
-    }
-
-    public function retrieve_curl($url)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, \CURLOPT_URL, $url);
-        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
         // @phpstan-ignore-next-line
-        if (self::ENHANCED_PRIVACY_CURL == 1) {
-            curl_setopt($ch, \CURLOPT_HTTPHEADER, ['Add-Padding: true']);
+        if (self::ENHANCED_PRIVACY == 1) {
+            $options['headers']['Add-Padding'] = 'true';
         }
-        $output = curl_exec($ch);
-        curl_close($ch);
 
-        return $output;
-    }
+        try {
+            $response = $client->get($url, $options);
 
-    public function retrieve_fopen($url)
-    {
-        $output = '';
-        $ch = fopen($url, 'r');
-        while (!feof($ch)) {
-            $output .= fgets($ch);
+            return $response->getBody();
+        } catch (Exception $e) {
+            rcube::raise_error([
+                'message' => "Error fetching {$url} : {$e->getMessage()}",
+                'file' => __FILE__,
+                'line' => __LINE__,
+            ], true, false);
         }
-        fclose($ch);
 
-        return $output;
+        return null;
     }
 
     public function check_suffix_in_list($candidate, $list)
