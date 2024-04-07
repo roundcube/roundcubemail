@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Client;
+
 /*
  * Password Plugin for Roundcube
  *
@@ -790,7 +792,7 @@ class password extends rcube_plugin
     /**
      * Returns Guzzle HTTP client instance configured for use in a password driver.
      *
-     * @return \GuzzleHttp\Client HTTP client
+     * @return Client HTTP client
      */
     public static function get_http_client()
     {
