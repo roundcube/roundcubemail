@@ -15,6 +15,9 @@
       <directory>../plugins</directory>
     </include>
   </coverage>
+  <extensions>
+    <extension class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
+  </extensions>
   <testsuites>
     <testsuite name="tests">
       <directory>.</directory>
