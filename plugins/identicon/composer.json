@@ -14,7 +14,7 @@
     "require": {
         "php": ">=7.3.0",
         "ext-gd": "*",
-        "roundcube/plugin-installer": "~0.3.3"
+        "roundcube/plugin-installer": "~0.3.4"
     },
     "autoload": {
         "classmap": [
