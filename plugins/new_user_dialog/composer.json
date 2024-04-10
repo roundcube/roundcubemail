@@ -13,6 +13,11 @@
     ],
     "require": {
         "php": ">=7.3.0",
-        "roundcube/plugin-installer": "~0.3.3"
+        "roundcube/plugin-installer": "~0.3.4"
+    },
+    "autoload": {
+        "classmap": [
+            "new_user_dialog.php"
+        ]
     }
 }

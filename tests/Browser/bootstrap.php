@@ -34,16 +34,6 @@ define('TESTS_DIR', realpath(__DIR__) . '/');
 define('TESTS_USER', $rcmail->config->get('tests_username'));
 define('TESTS_PASS', $rcmail->config->get('tests_password'));
 
-require_once __DIR__ . '/Browser.php';
-require_once __DIR__ . '/TestCase.php';
-require_once __DIR__ . '/Components/App.php';
-require_once __DIR__ . '/Components/Dialog.php';
-require_once __DIR__ . '/Components/HtmlEditor.php';
-require_once __DIR__ . '/Components/Popupmenu.php';
-require_once __DIR__ . '/Components/RecipientInput.php';
-require_once __DIR__ . '/Components/Taskmenu.php';
-require_once __DIR__ . '/Components/Toolbarmenu.php';
-
 /**
  * Utilities for test environment setup
  */
