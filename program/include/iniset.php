@@ -75,7 +75,7 @@ if (!empty($_SERVER['PATH_INFO']) && preg_match('!^/([a-z]+)/([a-z]+)$!', $_SERV
 }
 
 // include Roundcube Framework
-require_once 'Roundcube/bootstrap.php';
+require_once __DIR__ . '/../lib/Roundcube/bootstrap.php';
 
 // register autoloader for rcmail app classes
 spl_autoload_register('rcmail_autoload');
@@ -83,7 +83,7 @@ spl_autoload_register('rcmail_autoload');
 /**
  * PHP5 autoloader routine for dynamic class loading
  */
-function rcmail_autoload($classname)
+function rcmail_autoload(string $classname): bool
 {
     if (strpos($classname, 'rcmail') === 0) {
         if (preg_match('/^rcmail_action_([^_]+)_(.*)$/', $classname, $matches)) {

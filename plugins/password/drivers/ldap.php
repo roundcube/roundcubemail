@@ -34,6 +34,7 @@ class rcube_ldap_password
     public function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();
+
         require_once 'Net/LDAP2.php';
         require_once __DIR__ . '/ldap_simple.php';
 

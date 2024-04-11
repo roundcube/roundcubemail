@@ -149,7 +149,7 @@ class rcmail_install
         $config = [];
         $rcmail_config = []; // deprecated var name
 
-        include $file;
+        require $file;
 
         // read comments from config file
         if (function_exists('token_get_all')) {
