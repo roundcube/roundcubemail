@@ -20,7 +20,7 @@ class Framework_Csv2vcard extends TestCase
     {
         foreach (glob(RCUBE_LOCALIZATION_DIR . '*/csv2vcard.inc') as $filename) {
             $map = null;
-            include $filename;
+            require $filename;
             $this->assertTrue(count($map) > 0);
         }
     }

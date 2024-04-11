@@ -302,7 +302,7 @@ class rcube_config
             if ($fpath && is_file($fpath) && is_readable($fpath)) {
                 // use output buffering, we don't need any output here
                 ob_start();
-                include $fpath;
+                require $fpath;
                 ob_end_clean();
 
                 if (isset($config) && is_array($config)) {

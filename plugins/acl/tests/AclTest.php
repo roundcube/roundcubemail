@@ -2,11 +2,6 @@
 
 class Acl_Plugin extends ActionTestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../acl.php';
-    }
-
     /**
      * Plugin object construction test
      */

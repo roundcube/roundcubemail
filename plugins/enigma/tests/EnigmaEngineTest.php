@@ -4,12 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class Enigma_EnigmaEngine extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        // include_once __DIR__ . '/../enigma.php';
-        include_once __DIR__ . '/../lib/enigma_engine.php';
-    }
-
     /**
      * Test password_handler()
      */

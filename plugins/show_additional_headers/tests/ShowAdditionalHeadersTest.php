@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class ShowAdditionalHeaders_Plugin extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../show_additional_headers.php';
-    }
-
     /**
      * Plugin object construction test
      */

@@ -407,14 +407,9 @@ function version_parse($version)
 /**
  * Use PHP5 autoload for dynamic class loading
  *
- * @param string $classname Class name
- *
  * @return bool True when the class file has been found
- *
- * @todo Make Zend, PEAR etc play with this
- * @todo Make our classes conform to a more straight forward CS.
  */
-function rcube_autoload($classname)
+function rcube_autoload(string $classname): bool
 {
     if (strpos($classname, 'rcube') === 0) {
         $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\1/', $classname);
@@ -430,8 +425,7 @@ function rcube_autoload($classname)
     }
 
     // Translate PHP namespaces into directories,
-    // i.e. use \Sabre\VObject; $vcf = VObject\Reader::read(...)
-    //      -> Sabre/VObject/Reader.php
+    // i.e. 'Sabre\Reader' -> 'Sabre/Reader.php'
     $classname = str_replace('\\', '/', $classname);
 
     if ($fp = @fopen("{$classname}.php", 'r', true)) {

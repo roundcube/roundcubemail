@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class Managesieve_Script extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../lib/Roundcube/rcube_sieve_script.php';
-    }
-
     /**
      * Sieve script parsing
      *

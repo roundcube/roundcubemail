@@ -4,12 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class Enigma_EnigmaDriverGnupg extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../lib/enigma_driver.php';
-        include_once __DIR__ . '/../lib/enigma_driver_gnupg.php';
-    }
-
     /**
      * Test constructor
      */

@@ -1687,7 +1687,7 @@ class rcmail_action_settings_index extends rcmail_action
             $lang = $_SESSION['language'] ?? 'en_US';
             if ($lang && $lang != 'en_US') {
                 if (file_exists(RCUBE_LOCALIZATION_DIR . "{$lang}/timezones.inc")) {
-                    include RCUBE_LOCALIZATION_DIR . "{$lang}/timezones.inc";
+                    require RCUBE_LOCALIZATION_DIR . "{$lang}/timezones.inc";
                 }
             }
         }

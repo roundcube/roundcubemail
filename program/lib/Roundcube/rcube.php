@@ -792,7 +792,7 @@ class rcube
 
             // use buffering to handle empty lines/spaces after closing PHP tag
             ob_start();
-            include $file;
+            require $file;
             ob_end_clean();
 
             // @phpstan-ignore-next-line

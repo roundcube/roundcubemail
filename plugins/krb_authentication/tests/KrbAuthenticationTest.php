@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class KrbAuthentication_Plugin extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../krb_authentication.php';
-    }
-
     /**
      * Plugin object construction test
      */

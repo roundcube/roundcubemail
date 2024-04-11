@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class Managesieve_Plugin extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../managesieve.php';
-    }
-
     /**
      * Plugin object construction test
      */
