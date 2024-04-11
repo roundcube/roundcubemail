@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=7.3.0",
-        "roundcube/plugin-installer": "~0.3.4",
+        "roundcube/plugin-installer": "~0.3.5",
         "pear/crypt_gpg": "~1.6.3"
     },
     "autoload": {
