@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class Reconnect_Plugin extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../reconnect.php';
-    }
-
     /**
      * Plugin object construction test
      */

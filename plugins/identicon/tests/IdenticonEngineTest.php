@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class Identicon_IdenticonEngine extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../identicon_engine.php';
-    }
-
     /**
      * Test icon generation
      */

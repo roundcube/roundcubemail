@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class Emoticons_Plugin extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../emoticons.php';
-    }
-
     /**
      * Plugin object construction test
      */
