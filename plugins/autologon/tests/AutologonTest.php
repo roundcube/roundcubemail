@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class Autologon_Plugin extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../autologon.php';
-    }
-
     /**
      * Plugin object construction test
      */

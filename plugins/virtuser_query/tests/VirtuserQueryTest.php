@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class VirtuserQuery_Plugin extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../virtuser_query.php';
-    }
-
     /**
      * Plugin object construction test
      */

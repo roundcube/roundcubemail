@@ -4,11 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 class Password_Plugin extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        include_once __DIR__ . '/../password.php';
-    }
-
     /**
      * Plugin object construction test
      */
