@@ -349,7 +349,7 @@ class rcmail_install
         }
 
         // the old default mime_magic reference is obsolete
-        if ($this->config['mime_magic'] == '/usr/share/misc/magic') {
+        if (isset($this->config['mime_magic']) && $this->config['mime_magic'] == '/usr/share/misc/magic') {
             $out['obsolete'][] = [
                 'prop'    => 'mime_magic',
                 'explain' => "Set value to null in order to use system default"
@@ -376,7 +376,7 @@ class rcmail_install
             }
         }
 
-        if ($this->config['log_driver'] == 'syslog') {
+        if (isset($this->config['log_driver']) && $this->config['log_driver'] == 'syslog') {
             if (!function_exists('openlog')) {
                 $out['dependencies'][] = [
                     'prop'    => 'log_driver',
@@ -393,7 +393,10 @@ class rcmail_install
         }
 
         // check ldap_public sources having global_search enabled
-        if (is_array($this->config['ldap_public']) && !is_array($this->config['autocomplete_addressbooks'])) {
+        if (!empty($this->config['ldap_public'])
+            && is_array($this->config['ldap_public'])
+            && !is_array($this->config['autocomplete_addressbooks'])
+        ) {
             foreach ($this->config['ldap_public'] as $ldap_public) {
                 if ($ldap_public['global_search']) {
                     $out['replaced'][] = [
