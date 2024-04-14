@@ -39,8 +39,8 @@ class rcube_result_set implements Iterator, ArrayAccess
     public $first = 0;
 
     /**
-     * @var bool True if the results are from an addressbook that does not support listing all records but
-     *           requires the search function to be used.
+     * @var bool true if the results are from an addressbook that does not support listing all records but
+     *           requires the search function to be used
      */
     public $searchonly = false;
 

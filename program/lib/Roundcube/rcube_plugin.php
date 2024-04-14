@@ -424,7 +424,7 @@ abstract class rcube_plugin
     /**
      * Callback function for array_map
      *
-     * @param string $key Array key.
+     * @param string $key array key
      *
      * @return string
      */

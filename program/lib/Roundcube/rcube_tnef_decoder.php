@@ -128,10 +128,10 @@ class rcube_tnef_decoder
     /**
      * Decompress the data.
      *
-     * @param string $data    The data to decompress.
+     * @param string $data    the data to decompress
      * @param bool   $as_html Return message body as HTML
      *
-     * @return array The decompressed data.
+     * @return array the decompressed data
      */
     public function decompress($data, $as_html = false)
     {
@@ -197,8 +197,8 @@ class rcube_tnef_decoder
     /**
      * Pop specified number of bytes from the buffer.
      *
-     * @param string &$data The data string.
-     * @param int    $bytes How many bytes to retrieve.
+     * @param string &$data The data string
+     * @param int    $bytes how many bytes to retrieve
      *
      * @return string Extracted data
      */
@@ -217,8 +217,8 @@ class rcube_tnef_decoder
     /**
      * Pop specified number of bits from the buffer
      *
-     * @param string &$data The data string.
-     * @param int    $bits  How many bits to retrieve.
+     * @param string &$data The data string
+     * @param int    $bits  how many bits to retrieve
      *
      * @return int|null
      */
@@ -245,7 +245,7 @@ class rcube_tnef_decoder
     /**
      * Decode a single attribute
      *
-     * @param string &$data The data string.
+     * @param string &$data The data string
      *
      * @return string Extracted data
      */
@@ -263,7 +263,7 @@ class rcube_tnef_decoder
     /**
      * TODO
      *
-     * @param string $data    The data string.
+     * @param string $data    the data string
      * @param array  &$result TODO
      */
     protected function _extractMapiAttributes($data, &$result)
@@ -399,7 +399,7 @@ class rcube_tnef_decoder
     /**
      * Decodes TNEF message attributes
      *
-     * @param string &$data    The data string.
+     * @param string &$data    The data string
      * @param array  &$message Message data
      */
     protected function _decodeMessage(&$data, &$message)
@@ -429,7 +429,7 @@ class rcube_tnef_decoder
     /**
      * Decodes TNEF attachment attributes
      *
-     * @param string &$data       The data string.
+     * @param string &$data       The data string
      * @param array  &$attachment Attachments data
      */
     protected function _decodeAttachment(&$data, &$attachment)
@@ -553,9 +553,9 @@ class rcube_tnef_decoder
      * Parse RTF data and return the best plaintext representation we can.
      * Adapted from: http://webcheatsheet.com/php/reading_the_clean_text_from_rtf.php
      *
-     * @param string $text The RTF (uncompressed) text.
+     * @param string $text the RTF (uncompressed) text
      *
-     * @return string The plain text.
+     * @return string the plain text
      */
     public static function rtf2text($text)
     {

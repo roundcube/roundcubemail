@@ -184,7 +184,7 @@ class rcube_result_multifolder
     /**
      * Filters data set. Removes elements listed in $ids list.
      *
-     * @param array  $ids    List of IDs to remove.
+     * @param array  $ids    list of IDs to remove
      * @param string $folder IMAP folder
      */
     public function filter($ids = [], $folder = null)
@@ -216,7 +216,7 @@ class rcube_result_multifolder
     /**
      * Filters data set. Removes elements not listed in $ids list.
      *
-     * @param array $ids List of IDs to keep.
+     * @param array $ids list of IDs to keep
      */
     public function intersect($ids = [])
     {

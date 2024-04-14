@@ -204,7 +204,7 @@ class rcube_result_thread
     /**
      * Filters data set. Removes threads not listed in $roots list.
      *
-     * @param array $roots List of IDs of thread roots.
+     * @param array $roots list of IDs of thread roots
      */
     public function filter($roots)
     {

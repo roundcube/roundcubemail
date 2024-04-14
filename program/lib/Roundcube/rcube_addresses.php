@@ -274,7 +274,7 @@ class rcube_addresses extends rcube_contacts
      * @param array &$save_data Associative array with data to save
      * @param bool  $autofix    Try to fix/complete record automatically
      *
-     * @return bool True if input is valid, False if not.
+     * @return bool true if input is valid, False if not
      */
     public function validate(&$save_data, $autofix = false)
     {

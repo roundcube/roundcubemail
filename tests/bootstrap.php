@@ -56,10 +56,10 @@ ActionTestCase::init();
  *
  * @param object $object     Object instance
  * @param string $method     Method name to call
- * @param array  $parameters Array of parameters to pass into method.
+ * @param array  $parameters array of parameters to pass into method
  * @param string $class      Object class
  *
- * @return mixed Method return.
+ * @return mixed method return
  */
 function invokeMethod($object, $method, array $parameters = [], $class = null)
 {

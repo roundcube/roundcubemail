@@ -425,10 +425,10 @@ class rcube_smtp
      *                       value (ie, 'test'). The header produced from those
      *                       values would be 'Subject: test'.
      *
-     * @return mixed Returns false if it encounters a bad address,
+     * @return mixed returns false if it encounters a bad address,
      *               otherwise returns an array containing two
      *               elements: Any From: address found in the headers,
-     *               and the plain text version of the headers.
+     *               and the plain text version of the headers
      */
     private function _prepare_headers($headers)
     {
@@ -479,11 +479,11 @@ class rcube_smtp
      * bare addresses (forward paths) that can be passed to sendmail
      * or an smtp server with the rcpt to: command.
      *
-     * @param mixed $recipients Either a comma-separated list of recipients
+     * @param mixed $recipients either a comma-separated list of recipients
      *                          (RFC822 compliant), or an array of recipients,
-     *                          each RFC822 valid.
+     *                          each RFC822 valid
      *
-     * @return array An array of forward paths (bare addresses).
+     * @return array an array of forward paths (bare addresses)
      */
     private function _parse_rfc822($recipients)
     {
