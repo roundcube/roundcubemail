@@ -246,33 +246,32 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             }
             // @phpstan-ignore-next-line
             elseif ($compose_mode == rcmail_sendmail::MODE_DRAFT || $compose_mode == rcmail_sendmail::MODE_EDIT) {
+                $info = self::$MESSAGE->headers->get('x-draft-info');
+                $info = $info ? rcmail_sendmail::draftinfo_decode($info) : [];
+
+                if (!empty($info['dsn']) && $info['dsn'] === 'on') {
+                    $options['dsn_enabled'] = true;
+                }
+
                 if ($compose_mode == rcmail_sendmail::MODE_DRAFT) {
-                    if ($draft_info = self::$MESSAGE->headers->get('x-draft-info')) {
-                        // get reply_uid/forward_uid to flag the original message when sending
-                        $info = rcmail_sendmail::draftinfo_decode($draft_info);
-
-                        if (!empty($info['type'])) {
-                            if ($info['type'] == 'reply') {
-                                self::$COMPOSE['reply_uid'] = $info['uid'];
-                            } elseif ($info['type'] == 'forward') {
-                                self::$COMPOSE['forward_uid'] = $info['uid'];
-                            }
+                    // get reply_uid/forward_uid to flag the original message when sending
+                    if (!empty($info['type'])) {
+                        if ($info['type'] == 'reply') {
+                            self::$COMPOSE['reply_uid'] = $info['uid'];
+                        } elseif ($info['type'] == 'forward') {
+                            self::$COMPOSE['forward_uid'] = $info['uid'];
                         }
+                    }
 
-                        if (!empty($info['dsn']) && $info['dsn'] === 'on') {
-                            $options['dsn_enabled'] = true;
-                        }
+                    self::$COMPOSE['mailbox'] = $info['folder'] ?? null;
 
-                        self::$COMPOSE['mailbox'] = $info['folder'] ?? null;
-
-                        // Save the sent message in the same folder of the message being replied to
-                        if (
-                            $rcmail->config->get('reply_same_folder')
-                            && ($sent_folder = self::$COMPOSE['mailbox'])
-                            && rcmail_sendmail::check_sent_folder($sent_folder, false)
-                        ) {
-                            self::$COMPOSE['param']['sent_mbox'] = $sent_folder;
-                        }
+                    // Save the sent message in the same folder of the message being replied to
+                    if (
+                        $rcmail->config->get('reply_same_folder')
+                        && ($sent_folder = self::$COMPOSE['mailbox'])
+                        && rcmail_sendmail::check_sent_folder($sent_folder, false)
+                    ) {
+                        self::$COMPOSE['param']['sent_mbox'] = $sent_folder;
                     }
 
                     if (($msgid = self::$MESSAGE->headers->get('message-id')) && !preg_match('/^mid:[0-9]+$/', $msgid)) {
