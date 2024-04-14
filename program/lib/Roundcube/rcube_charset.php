@@ -610,7 +610,7 @@ class rcube_charset
      * Removes non-unicode characters from input.
      * If the input is an array, both values and keys will be cleaned up.
      *
-     * @param mixed $input String or array.
+     * @param mixed $input string or array
      *
      * @return mixed String or array
      */

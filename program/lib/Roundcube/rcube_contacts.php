@@ -175,7 +175,7 @@ class rcube_contacts extends rcube_addressbook
      *
      * @param string $group_id Group identifier
      *
-     * @return ?array Group properties as hash array, null in case of error.
+     * @return ?array group properties as hash array, null in case of error
      */
     public function get_group($group_id)
     {
@@ -598,7 +598,7 @@ class rcube_contacts extends rcube_addressbook
      * @param array &$save_data Associative array with data to save
      * @param bool  $autofix    Try to fix/complete record automatically
      *
-     * @return bool True if input is valid, False if not.
+     * @return bool true if input is valid, False if not
      */
     public function validate(&$save_data, $autofix = false)
     {

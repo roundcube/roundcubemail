@@ -96,8 +96,8 @@ class rcube_string_replacer
      *
      * @param array $matches Matches result from preg_replace_callback
      *
-     * @return string Return valid link for recognized schemes, otherwise
-     *                return the unmodified URL.
+     * @return string return valid link for recognized schemes, otherwise
+     *                return the unmodified URL
      */
     protected function link_callback($matches)
     {

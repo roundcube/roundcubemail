@@ -80,7 +80,7 @@ class rcube_message
      *
      * Provide a uid, and parse message structure.
      *
-     * @param string $uid     The message UID.
+     * @param string $uid     the message UID
      * @param string $folder  Folder name
      * @param bool   $is_safe Security flag
      */

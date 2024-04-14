@@ -637,7 +637,7 @@ class rcube_db
      *
      * @return mixed Number of rows or false on failure
      *
-     * @deprecated This method shows very poor performance and should be avoided.
+     * @deprecated this method shows very poor performance and should be avoided
      */
     public function num_rows($result = null)
     {

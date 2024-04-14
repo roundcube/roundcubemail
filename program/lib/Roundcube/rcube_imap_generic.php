@@ -449,7 +449,7 @@ class rcube_imap_generic
      * @param bool   $error    Enables BYE/BAD checking
      * @param bool   $nonempty Enables empty response checking
      *
-     * @return bool True any check is true or connection is closed.
+     * @return bool true any check is true or connection is closed
      */
     protected function startsWith($string, $match, $error = false, $nonempty = false)
     {
@@ -1151,7 +1151,7 @@ class rcube_imap_generic
     /**
      * Checks connection status
      *
-     * @return bool True if connection is active and user is logged in, False otherwise.
+     * @return bool true if connection is active and user is logged in, False otherwise
      */
     public function connected()
     {
@@ -1517,8 +1517,8 @@ class rcube_imap_generic
      * @param array  $return_opts (see self::_listMailboxes)
      * @param array  $select_opts (see self::_listMailboxes)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
-     *                    is requested, False on error.
+     * @return array|bool list of mailboxes or hash of options if STATUS/MYRIGHTS response
+     *                    is requested, False on error
      */
     public function listMailboxes($ref, $mailbox, $return_opts = [], $select_opts = [])
     {
@@ -1532,8 +1532,8 @@ class rcube_imap_generic
      * @param string $mailbox     Mailbox name
      * @param array  $return_opts (see self::_listMailboxes)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
-     *                    is requested, False on error.
+     * @return array|bool list of mailboxes or hash of options if STATUS/MYRIGHTS response
+     *                    is requested, False on error
      */
     public function listSubscribed($ref, $mailbox, $return_opts = [])
     {
@@ -1553,8 +1553,8 @@ class rcube_imap_generic
      *                            Possible: SUBSCRIBED, RECURSIVEMATCH, REMOTE,
      *                            SPECIAL-USE (RFC6154)
      *
-     * @return array|bool List of mailboxes or hash of options if STATUS/MYRIGHTS response
-     *                    is requested, False on error.
+     * @return array|bool list of mailboxes or hash of options if STATUS/MYRIGHTS response
+     *                    is requested, False on error
      */
     protected function _listMailboxes($ref, $mailbox, $subscribed = false, $return_opts = [], $select_opts = [])
     {
@@ -2759,8 +2759,8 @@ class rcube_imap_generic
      * @param array  $parts   Message part identifiers
      * @param bool   $mime    Use MIME instead of HEADER
      *
-     * @return array|bool Array containing headers string for each specified body
-     *                    False on failure.
+     * @return array|bool array containing headers string for each specified body
+     *                    False on failure
      */
     public function fetchMIMEHeaders($mailbox, $uid, $parts, $mime = true)
     {
@@ -3744,7 +3744,7 @@ class rcube_imap_generic
      * @param int    $id      Message sequence number or UID
      * @param bool   $is_uid  True if $id is an UID
      *
-     * @return array|bool Body structure array or False on error.
+     * @return array|bool body structure array or False on error
      *
      * @since 0.6
      */
@@ -4225,7 +4225,7 @@ class rcube_imap_generic
     /**
      * Set the value of the debugging flag.
      *
-     * @param bool     $debug   New value for the debugging flag.
+     * @param bool     $debug   new value for the debugging flag
      * @param callable $handler Logging handler function
      *
      * @since 0.5-stable
@@ -4239,7 +4239,7 @@ class rcube_imap_generic
     /**
      * Write the given debug text to the current debug output handler.
      *
-     * @param string $message Debug message text.
+     * @param string $message debug message text
      *
      * @since 0.5-stable
      */

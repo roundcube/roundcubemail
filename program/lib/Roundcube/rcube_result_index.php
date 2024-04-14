@@ -239,7 +239,7 @@ class rcube_result_index
     /**
      * Filters data set. Removes elements not listed in $ids list.
      *
-     * @param array $ids List of IDs to remove.
+     * @param array $ids list of IDs to remove
      */
     public function filter($ids = [])
     {

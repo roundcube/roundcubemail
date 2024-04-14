@@ -98,7 +98,6 @@ return (new Config())
         'modernize_types_casting' => false,
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
-        'phpdoc_annotation_without_dot' => false,
         'phpdoc_summary' => false,
         'string_length_to_empty' => false,
 

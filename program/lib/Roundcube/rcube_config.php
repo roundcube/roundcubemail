@@ -102,7 +102,7 @@ class rcube_config
      *
      * @param string $value The value to inspect
      *
-     * @return string The guessed type.
+     * @return string the guessed type
      */
     private function guess_type($value)
     {
@@ -129,7 +129,7 @@ class rcube_config
      * @param string $string String to parse into PHP type
      * @param string $type   Type of value to return
      *
-     * @return mixed Appropriately typed interpretation of $string.
+     * @return mixed appropriately typed interpretation of $string
      */
     private function parse_env($string, $type = null)
     {
@@ -161,7 +161,7 @@ class rcube_config
      * @param mixed  $default_value Default value to return if necessary
      * @param string $type          Type of value to return
      *
-     * @return mixed Value of the environment variable or default if not found.
+     * @return mixed value of the environment variable or default if not found
      */
     private function getenv_default($varname, $default_value, $type = null)
     {

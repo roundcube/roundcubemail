@@ -1741,7 +1741,7 @@ class rcube
      * @param array        $options    SMTP options (e.g. DSN request)
      * @param bool         $disconnect Close SMTP connection ASAP
      *
-     * @return bool Send status.
+     * @return bool send status
      */
     public function deliver_message($message, $from, $mailto, &$error,
         &$body_file = null, $options = null, $disconnect = false)

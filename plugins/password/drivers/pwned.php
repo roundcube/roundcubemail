@@ -70,7 +70,7 @@ class rcube_pwned_password
     /**
      * Rule description.
      *
-     * @return array human-readable description of the check rule.
+     * @return array human-readable description of the check rule
      */
     public function strength_rules()
     {
@@ -113,7 +113,7 @@ class rcube_pwned_password
      *
      * @param string $passwd
      *
-     * @return int score, one of the SCORE_* constants (between 1 and 3).
+     * @return int score, one of the SCORE_* constants (between 1 and 3)
      */
     public function check_pwned($passwd)
     {
