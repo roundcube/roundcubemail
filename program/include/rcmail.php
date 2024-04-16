@@ -765,24 +765,18 @@ class rcmail extends rcube
         $storage = $this->get_storage();
 
         // try to log in
-        if (!$storage->connect($host, $username, $password, $port, $ssl)) {
-            if ($user) {
-                $user->failed_login();
-            }
-
-            // Wait a second to slow down brute-force attacks (#1490549)
-            sleep(1);
+        if (!$this->imap_connect($storage, $host, $username, $password, $port, $ssl, $user)) {
             return false;
         }
 
-        // Only set user if just wanting to connect
+        // Only set user if just wanting to connect.
+        // Note that for other scenarios user will also be set after successful login.
         if ($just_connect) {
             if (is_object($user)) {
                 $this->set_user($user);
             }
             return true;
         }
-
 
         // user already registered -> update user's record
         if (is_object($user)) {
