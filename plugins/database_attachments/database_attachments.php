@@ -29,8 +29,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-require_once INSTALL_PATH . 'plugins/filesystem_attachments/filesystem_attachments.php';
-
 class database_attachments extends filesystem_attachments
 {
     // Cache object
