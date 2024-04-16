@@ -1862,6 +1862,41 @@ class rcube
 
         return $sent;
     }
+
+    /**
+     * Helper method to establish connection to an IMAP backend.
+     *
+     * @param rcube_storage $imap         IMAP storage handler
+     * @param string        $host         IMAP host
+     * @param string        $username     IMAP username
+     * @param string        $password     IMAP password
+     * @param int           $port         IMAP port to connect to
+     * @param string        $ssl          SSL schema or false if plain connection
+     * @param rcube_user    $user         Roundcube user (if it already exists)
+     * @param array         $imap_options Additional IMAP options
+     *
+     * @return bool Return true on successful login
+     */
+    public function imap_connect($imap, $host, $username, $password, $port, $ssl, $user = null, $imap_options = [])
+    {
+        // enable proxy authentication
+        if (!empty($imap_options)) {
+            $imap->set_options($imap_options);
+        }
+
+        // try to log in
+        if (!$imap->connect($host, $username, $password, $port, $ssl)) {
+            if ($user) {
+                $user->failed_login();
+            }
+
+            // Wait a second to slow down brute-force attacks (#1490549)
+            sleep(1);
+            return false;
+        }
+
+        return true;
+    }
 }
 
 /**
