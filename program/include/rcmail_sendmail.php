@@ -553,7 +553,7 @@ class rcmail_sendmail
 
                 if (is_a($msg, 'PEAR_Error')) {
                     rcube::raise_error([
-                        'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 650,
                         'message' => 'Could not create message: ' . $msg->getMessage(),
                     ], true, false);
                 } else {

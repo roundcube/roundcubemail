@@ -772,7 +772,7 @@ class rcmail_output_html extends rcmail_output
 
                 if (is_readable($path)) {
                     rcube::raise_error([
-                        'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 502,
                         'message' => "Using deprecated template '{$dname}' in {$skin_path}/templates. Please rename to '{$realname}'",
                     ], true, false);
                 }

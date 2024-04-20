@@ -1571,7 +1571,7 @@ class rcube_ldap extends rcube_addressbook
 
                     if ($res === false) {
                         rcube::raise_error([
-                            'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
+                            'code' => 505,
                             'message' => "Expression parse error on: ({$code})",
                         ], true, false);
                         continue;

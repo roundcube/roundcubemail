@@ -496,7 +496,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         if (empty($spellcheck_langs)) {
             if ($err = $spellchecker->error()) {
                 rcube::raise_error([
-                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                    'code' => 500,
                     'message' => 'Spell check engine error: ' . trim($err),
                 ], true, false);
             }

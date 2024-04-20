@@ -321,7 +321,7 @@ class rcube
 
         if (!class_exists($driver_class)) {
             self::raise_error([
-                'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 700,
                 'message' => "Storage driver class ({$driver}) not found!",
             ], true, true);
         }
@@ -1788,7 +1788,7 @@ class rcube
 
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
-                    'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
+                    'code' => 650,
                     'message' => 'Could not create message: ' . $mime_result->getMessage(),
                 ], true, false);
                 return false;

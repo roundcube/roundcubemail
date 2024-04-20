@@ -147,7 +147,7 @@ class rcmail_action_mail_send extends rcmail_action
 
                 if ($error = $spellchecker->error()) {
                     rcube::raise_error([
-                        'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 500,
                         'message' => 'Spellcheck error: ' . $error,
                     ], true, false);
                 } else {

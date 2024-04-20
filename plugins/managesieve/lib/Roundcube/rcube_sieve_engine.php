@@ -508,7 +508,7 @@ class rcube_sieve_engine
         // check request size limit
         if ($max_post && count($_POST, \COUNT_RECURSIVE) >= $max_post) {
             rcube::raise_error([
-                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 500,
                 'message' => 'Request size limit exceeded (one of max_input_vars/suhosin.request.max_vars/suhosin.post.max_vars)',
             ], true, false);
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
@@ -516,7 +516,7 @@ class rcube_sieve_engine
         // check request depth limits
         elseif ($max_depth && count($_POST['_header']) > $max_depth) {
             rcube::raise_error([
-                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 500,
                 'message' => 'Request size limit exceeded (one of suhosin.request.max_array_depth/suhosin.post.max_array_depth)',
             ], true, false);
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');

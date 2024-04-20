@@ -544,7 +544,7 @@ class rcube_config
         // Bomb out if the requested key does not exist
         if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
             rcube::raise_error([
-                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 500,
                 'message' => "Request for unconfigured crypto key \"{$key}\"",
             ], true, true);
         }
@@ -579,7 +579,7 @@ class rcube_config
             }
 
             rcube::raise_error([
-                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 500,
                 'message' => 'Invalid mail_header_delimiter setting',
             ], true, false);
         }
