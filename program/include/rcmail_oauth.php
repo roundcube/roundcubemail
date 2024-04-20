@@ -770,7 +770,9 @@ class rcmail_oauth
     public function schedule_token_revocation($sub): void
     {
         if ($this->cache === null) {
-            rcube::raise_error(['message' => 'received a token revocation request, you must activate `oauth_cache` to enable this feature'], true, false);
+            rcube::raise_error([
+                'message' => 'received a token revocation request, you must activate `oauth_cache` to enable this feature',
+            ], true, false);
             return;
         }
         $this->cache->set("revoke_{$sub}", time());

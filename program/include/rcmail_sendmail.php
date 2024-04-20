@@ -564,7 +564,9 @@ class rcmail_sendmail
 
             // raise error if saving failed
             if (!$saved) {
-                rcube::raise_error(['code' => 800, 'type' => 'imap',
+                rcube::raise_error([
+                    'code' => 800,
+                    'type' => 'imap',
                     'message' => "Could not save message in {$store_target}",
                 ], true, false);
             }

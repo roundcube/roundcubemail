@@ -66,7 +66,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     !isset($_SESSION['last_compose_session'])
                     || self::$COMPOSE_ID != $_SESSION['last_compose_session']
                 ) {
-                    rcube::raise_error(['code' => 450], false, true);
+                    rcube::raise_error([
+                        'code' => 450,
+                    ], false, true);
                 }
             }
 

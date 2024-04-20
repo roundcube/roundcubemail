@@ -262,7 +262,10 @@ if (empty($RCMAIL->user->ID)) {
     // check access to disabled actions
     $disabled_actions = (array) $RCMAIL->config->get('disabled_actions');
     if (in_array($RCMAIL->task . '.' . ($RCMAIL->action ?: 'index'), $disabled_actions)) {
-        rcube::raise_error(['code' => 404, 'message' => 'Action disabled'], true, true);
+        rcube::raise_error([
+            'code' => 404,
+            'message' => 'Action disabled',
+        ], true, true);
     }
 }
 
