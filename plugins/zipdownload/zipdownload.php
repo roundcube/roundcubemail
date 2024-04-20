@@ -32,7 +32,6 @@ class zipdownload extends rcube_plugin
         if (!class_exists('ZipArchive', false)) {
             rcmail::raise_error([
                 'code' => 520,
-                'file' => __FILE__,
                 'line' => __LINE__,
                 'message' => 'php-zip extension is required for the zipdownload plugin',
             ], true, false);

@@ -369,7 +369,6 @@ class rcmail extends rcube
 
             self::raise_error([
                 'code' => 700,
-                'file' => __FILE__,
                 'line' => __LINE__,
                 'message' => "Addressbook source ({$id}) not found!",
             ], true, true);
@@ -795,7 +794,6 @@ class rcmail extends rcube
             if (!$user) {
                 self::raise_error([
                     'code' => 620,
-                    'file' => __FILE__,
                     'line' => __LINE__,
                     'message' => 'Failed to create a user record. Maybe aborted by a plugin?',
                 ], true, false);
@@ -803,7 +801,6 @@ class rcmail extends rcube
         } else {
             self::raise_error([
                 'code' => 621,
-                'file' => __FILE__,
                 'line' => __LINE__,
                 'message' => "Access denied for new user {$username}. 'auto_create_user' is disabled",
             ], true, false);

@@ -920,7 +920,6 @@ class rcube
 
         if ($cipher === false) {
             self::raise_error([
-                'file' => __FILE__,
                 'line' => __LINE__,
                 'message' => "Failed to encrypt data with configured cipher method: {$method}!",
             ], true, false);

@@ -75,7 +75,6 @@ class rcmail_action_mail_viewsource extends rcmail_action
         } else {
             rcube::raise_error([
                 'code' => 500,
-                'file' => __FILE__,
                 'line' => __LINE__,
                 'message' => "Message UID {$uid} not found",
             ], true, true);

@@ -62,7 +62,6 @@ class rcube_expect_password
 
         rcube::raise_error([
             'code' => 600,
-            'file' => __FILE__,
             'line' => __LINE__,
             'message' => "Password plugin: Unable to execute {$cmd}",
         ], true, false);
