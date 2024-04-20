@@ -315,7 +315,6 @@ class markasjunk extends rcube_plugin
         if (!is_readable($driver)) {
             rcube::raise_error([
                 'code' => 600,
-                'line' => __LINE__,
                 'message' => "markasjunk plugin: Unable to open driver file {$driver}",
             ], true, false);
         }
@@ -325,7 +324,6 @@ class markasjunk extends rcube_plugin
         if (!class_exists($class, false) || !method_exists($class, 'spam') || !method_exists($class, 'ham')) {
             rcube::raise_error([
                 'code' => 600,
-                'line' => __LINE__,
                 'message' => "markasjunk plugin: Broken driver: {$driver}",
             ], true, false);
         }

@@ -43,7 +43,6 @@ class rcube_chpasswd_password
 
         rcube::raise_error([
             'code' => 600,
-            'line' => __LINE__,
             'message' => "Password plugin: Unable to execute {$cmd}",
         ], true, false);
 

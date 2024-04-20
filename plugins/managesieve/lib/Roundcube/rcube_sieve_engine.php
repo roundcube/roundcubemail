@@ -221,7 +221,6 @@ class rcube_sieve_engine
         if ($error) {
             rcube::raise_error([
                 'code' => 403,
-                'line' => __LINE__,
                 'message' => "Unable to connect to managesieve on {$host}:{$port}",
             ], true, false);
         }

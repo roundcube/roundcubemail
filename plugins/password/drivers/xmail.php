@@ -50,7 +50,6 @@ class rcube_xmail_password
         if (!$xmail->connect()) {
             rcube::raise_error([
                 'code' => 600,
-                'line' => __LINE__,
                 'message' => 'Password plugin: Unable to connect to mail server',
             ], true, false);
 
@@ -61,7 +60,6 @@ class rcube_xmail_password
             $xmail->close();
             rcube::raise_error([
                 'code' => 600,
-                'line' => __LINE__,
                 'message' => 'Password plugin: Unable to change password',
             ], true, false);
 

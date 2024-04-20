@@ -157,7 +157,6 @@ class rcube_pwned_password
         } catch (Exception $e) {
             rcube::raise_error([
                 'message' => "Error fetching {$url} : {$e->getMessage()}",
-                'line' => __LINE__,
             ], true, false);
         }
 

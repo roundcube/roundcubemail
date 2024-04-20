@@ -920,7 +920,6 @@ class rcube
 
         if ($cipher === false) {
             self::raise_error([
-                'line' => __LINE__,
                 'message' => "Failed to encrypt data with configured cipher method: {$method}!",
             ], true, false);
 
@@ -1812,8 +1811,7 @@ class rcube
 
         if (!$sent) {
             self::raise_error([
-                'code' => 800, 'type' => 'smtp',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code' => 800, 'type' => 'smtp', 'file' => __FILE__,
                 'message' => implode("\n", $response),
             ], true, false);
 
