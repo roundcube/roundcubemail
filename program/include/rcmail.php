@@ -289,7 +289,7 @@ class rcmail extends rcube
         $this->output->send($this->task);
 
         // if we arrive here, something went wrong
-        $error = ['code' => 404, 'line' => __LINE__, 'file' => __FILE__, 'message' => 'Invalid request'];
+        $error = ['code' => 404, 'message' => 'Invalid request'];
         self::raise_error($error, true, true);
     }
 

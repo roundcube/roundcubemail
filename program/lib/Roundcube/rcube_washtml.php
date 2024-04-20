@@ -561,7 +561,7 @@ class rcube_washtml
             if (empty($this->max_nesting_level_error)) {
                 $this->max_nesting_level_error = true;
                 rcube::raise_error([
-                    'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                    'code' => 500,
                     'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})",
                 ], true, false);
             }

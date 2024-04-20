@@ -551,7 +551,7 @@ class rcube_db
 
             if (empty($this->options['ignore_errors'])) {
                 rcube::raise_error([
-                    'code' => 500, 'type' => 'db', 'line' => __LINE__, 'file' => __FILE__,
+                    'code' => 500, 'type' => 'db',
                     'message' => $this->db_error_msg . " (SQL Query: {$query})",
                 ], true, false);
             }
