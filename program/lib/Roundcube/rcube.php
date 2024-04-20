@@ -1811,7 +1811,7 @@ class rcube
 
         if (!$sent) {
             self::raise_error([
-                'code' => 800, 'type' => 'smtp', 'file' => __FILE__,
+                'code' => 800, 'type' => 'smtp',
                 'message' => implode("\n", $response),
             ], true, false);
 
