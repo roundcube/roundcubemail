@@ -370,7 +370,6 @@ abstract class rcmail_action
 
         $language = $_SESSION['language'] ?? 'en_US';
         $lang_codes = [$language];
-        $assets_dir = $rcmail->config->get('assets_dir') ?: INSTALL_PATH;
         $skin_path = $rcmail->output->get_skin_path();
 
         if ($pos = strpos($language, '_')) {
@@ -378,7 +377,7 @@ abstract class rcmail_action
         }
 
         foreach ($lang_codes as $code) {
-            if (file_exists("{$assets_dir}/program/js/tinymce/langs/{$code}.js")) {
+            if (file_exists(INSTALL_PATH . "/program/js/tinymce/langs/{$code}.js")) {
                 $lang = $code;
                 break;
             }
@@ -833,7 +832,7 @@ abstract class rcmail_action
     }
 
     /**
-     * Get resource file content (with assets_dir support)
+     * Get resource file content
      *
      * @param string $name File name
      *
@@ -845,18 +844,7 @@ abstract class rcmail_action
             $name = "program/resources/{$name}";
         }
 
-        $assets_dir = rcmail::get_instance()->config->get('assets_dir');
-
-        if ($assets_dir) {
-            $path = slashify($assets_dir) . $name;
-            if (@file_exists($path)) {
-                $name = $path;
-            }
-        } else {
-            $name = INSTALL_PATH . $name;
-        }
-
-        return file_get_contents($name, false);
+        return file_get_contents(INSTALL_PATH . $name, false);
     }
 
     /**

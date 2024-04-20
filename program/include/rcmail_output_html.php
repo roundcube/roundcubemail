@@ -109,7 +109,7 @@ class rcmail_output_html extends rcmail_output
 
         // load and setup the skin
         $this->set_skin($this->config->get('skin'));
-        $this->set_assets_path($this->config->get('assets_path'), $this->config->get('assets_dir'));
+        $this->set_assets_path($this->config->get('assets_path'));
 
         if (!empty($_REQUEST['_extwin'])) {
             $this->set_env('extwin', 1);
@@ -186,10 +186,9 @@ class rcmail_output_html extends rcmail_output
     /**
      * Parse and set assets path
      *
-     * @param string $path   Assets path URL (relative or absolute)
-     * @param string $fs_dir Assets path in filesystem
+     * @param string $path Assets path URL (relative or absolute)
      */
-    public function set_assets_path($path, $fs_dir = null)
+    public function set_assets_path($path)
     {
         // set absolute path for assets if /index.php/foo/bar url is used
         if (empty($path) && !empty($_SERVER['PATH_INFO'])) {
@@ -223,15 +222,6 @@ class rcmail_output_html extends rcmail_output
                     $path = '../' . $path;
                 }
             }
-        }
-
-        // set filesystem path for assets
-        if ($fs_dir) {
-            if ($fs_dir[0] != '/') {
-                $fs_dir = realpath(RCUBE_INSTALL_PATH . $fs_dir);
-            }
-            // ensure the path ends with a slash
-            $this->assets_dir = rtrim($fs_dir, '/') . '/';
         }
 
         $this->assets_path = $path;
