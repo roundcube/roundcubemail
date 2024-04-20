@@ -808,7 +808,7 @@ class rcube_utils
                 }
             }
 
-            $rcube->raise_error([ 'line' => __LINE__,
+            $rcube->raise_error([
                 'message' => "Specified host is not trusted. Using 'localhost'.",
             ], true, false);
         }

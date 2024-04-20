@@ -35,7 +35,7 @@ class filesystem_attachments extends rcube_plugin
         foreach ($this->api->loaded_plugins() as $plugin_name) {
             $plugin = $this->api->get_plugin($plugin_name);
             if (($plugin instanceof self) && $plugin->initialized) {
-                rcube::raise_error([ 'line' => __LINE__,
+                rcube::raise_error([
                     'message' => "Can use only one plugin for attachments/file uploads! Using '{$plugin_name}', ignoring others.",
                 ], true, false);
                 return;
