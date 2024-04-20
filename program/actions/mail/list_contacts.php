@@ -28,19 +28,19 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
      */
     public function run($args = [])
     {
-        $rcmail        = rcmail::get_instance();
-        $source        = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
-        $afields       = $rcmail->config->get('contactlist_fields');
+        $rcmail = rcmail::get_instance();
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $afields = $rcmail->config->get('contactlist_fields');
         $addr_sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
-        $page_size     = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
-        $list_page     = max(1, $_GET['_page'] ?? 0);
-        $jsresult      = [];
+        $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
+        $list_page = max(1, $_GET['_page'] ?? 0);
+        $jsresult = [];
 
         // Use search result
         if (!empty($_REQUEST['_search']) && isset($_SESSION['contact_search'][$_REQUEST['_search']])) {
-            $search  = (array) $_SESSION['contact_search'][$_REQUEST['_search']];
-            $sparam  = $_SESSION['contact_search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['contact_search_params']['data'] : [];
-            $mode    = (int) $rcmail->config->get('addressbook_search_mode');
+            $search = (array) $_SESSION['contact_search'][$_REQUEST['_search']];
+            $sparam = $_SESSION['contact_search_params']['id'] == $_REQUEST['_search'] ? $_SESSION['contact_search_params']['data'] : [];
+            $mode = (int) $rcmail->config->get('addressbook_search_mode');
             $records = [];
 
             // get records from all sources
@@ -58,22 +58,19 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 $CONTACTS->set_search_set($set);
 
                 // get records
-                $result = $CONTACTS->list_records($afields);
-
-                while ($row = $result->next()) {
+                foreach ($CONTACTS->list_records($afields) as $row) {
                     $row['sourceid'] = $s;
                     $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
                     $records[$key] = $row;
                 }
-                unset($result);
             }
 
             // sort the records
             ksort($records, \SORT_LOCALE_STRING);
 
             // create resultset object
-            $count  = count($records);
-            $first  = ($list_page - 1) * $page_size;
+            $count = count($records);
+            $first = ($list_page - 1) * $page_size;
             $result = new rcube_result_set($count, $first);
 
             // we need only records for current page
@@ -107,20 +104,19 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
 
         if (!empty($result) && !$result->count && $result->searchonly) {
             $rcmail->output->show_message('contactsearchonly', 'notice');
-        }
-        elseif (!empty($result) && $result->count > 0) {
+        } elseif (!empty($result) && $result->count > 0) {
             // create javascript list
-            while ($row = $result->next()) {
+            foreach ($result as $row) {
                 $name = rcube_addressbook::compose_list_name($row);
 
                 // add record for every email address of the contact
                 $emails = rcube_addressbook::get_col_values('email', $row, true);
                 foreach ($emails as $i => $email) {
-                    $source    = !empty($row['sourceid']) ? $row['sourceid'] : $source;
-                    $row_id    = $source . '-' . $row['ID'] . '-' . $i;
-                    $is_group  = isset($row['_type']) && $row['_type'] == 'group';
+                    $source = !empty($row['sourceid']) ? $row['sourceid'] : $source;
+                    $row_id = $source . '-' . $row['ID'] . '-' . $i;
+                    $is_group = isset($row['_type']) && $row['_type'] == 'group';
                     $classname = $is_group ? 'group' : 'person';
-                    $keyname   = $is_group ? 'contactgroup' : 'contact';
+                    $keyname = $is_group ? 'contactgroup' : 'contact';
 
                     $jsresult[$row_id] = format_email_recipient($email, $name);
 
@@ -151,7 +147,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
      */
     public static function compose_contact_groups($abook, $source_id, $search = null, $search_mode = 0)
     {
-        $rcmail   = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $jsresult = [];
 
         foreach ($abook->list_groups($search, $search_mode) as $group) {
@@ -164,8 +160,8 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                     $row_id = 'G' . $group['ID'];
                     $jsresult[$row_id] = format_email_recipient($email, $group['name']);
                     $rcmail->output->command('add_contact_row', $row_id, [
-                            'contactgroup' => html::span(['title' => $email], rcube::Q($group['name'])),
-                        ], 'group');
+                        'contactgroup' => html::span(['title' => $email], rcube::Q($group['name'])),
+                    ], 'group');
                 }
             }
             // make virtual groups clickable to list their members
@@ -190,8 +186,8 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                 $row_id = 'E' . $group['ID'];
                 $jsresult[$row_id] = ['name' => $group['name'], 'source' => $source_id];
                 $rcmail->output->command('add_contact_row', $row_id, [
-                        'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')'),
-                    ], 'group');
+                    'contactgroup' => rcube::Q($group['name'] . ' (' . intval($result->count) . ')'),
+                ], 'group');
             }
         }
 
@@ -200,5 +196,4 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
 
         return $jsresult;
     }
-
 }

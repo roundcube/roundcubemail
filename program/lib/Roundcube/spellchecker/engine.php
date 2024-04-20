@@ -23,13 +23,15 @@
  */
 abstract class rcube_spellchecker_engine
 {
-    const MAX_SUGGESTIONS = 10;
+    public const MAX_SUGGESTIONS = 10;
+
+    public $matches = [];
+    public $error;
 
     protected $lang;
-    protected $error;
     protected $dictionary;
     protected $options = [];
-    protected $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\\"]+|[:;?!,\.](?=\W|$)/';
+    protected $separator = '/[\s\r\n\t\(\)\/\[\]{}<>\"]+|[:;?!,\.](?=\W|$)/';
 
     /**
      * Default constructor
@@ -46,7 +48,7 @@ abstract class rcube_spellchecker_engine
      *
      * @return array Indexed list of language codes
      */
-    abstract function languages();
+    abstract public function languages();
 
     /**
      * Set content and check spelling
@@ -55,7 +57,7 @@ abstract class rcube_spellchecker_engine
      *
      * @return bool True when no misspelling found, otherwise false
      */
-    abstract function check($text);
+    abstract public function check($text);
 
     /**
      * Returns suggestions for the specified word
@@ -64,7 +66,7 @@ abstract class rcube_spellchecker_engine
      *
      * @return array Suggestions list
      */
-    abstract function get_suggestions($word);
+    abstract public function get_suggestions($word);
 
     /**
      * Returns misspelled words
@@ -74,15 +76,5 @@ abstract class rcube_spellchecker_engine
      *
      * @return array List of misspelled words
      */
-    abstract function get_words($text = null);
-
-    /**
-     * Returns error message
-     *
-     * @return string Error message
-     */
-    public function error()
-    {
-        return $this->error;
-    }
+    abstract public function get_words($text = null);
 }

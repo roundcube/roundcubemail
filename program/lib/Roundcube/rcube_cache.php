@@ -32,48 +32,45 @@ class rcube_cache
     protected $indexed;
     protected $index;
     protected $index_update;
-    protected $cache        = [];
-    protected $updates      = [];
-    protected $exp_records  = [];
+    protected $cache = [];
+    protected $updates = [];
+    protected $exp_records = [];
     protected $refresh_time = 0.5; // how often to refresh/save the index and cache entries
-    protected $debug        = false;
-    protected $max_packet   = -1;
+    protected $debug = false;
+    protected $max_packet = -1;
 
-    const MAX_EXP_LEVEL     = 2;
-    const DATE_FORMAT       = 'Y-m-d H:i:s.u';
-    const DATE_FORMAT_REGEX = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{1,6}';
-
+    public const MAX_EXP_LEVEL = 2;
+    public const DATE_FORMAT = 'Y-m-d H:i:s.u';
+    public const DATE_FORMAT_REGEX = '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{1,6}';
 
     /**
      * Object factory
      *
-     * @param string $type    Engine type ('db', 'memcache', 'apc', 'redis')
-     * @param int    $userid  User identifier
-     * @param string $prefix  Key name prefix
-     * @param string $ttl     Expiration time of memcache/apc items
-     * @param bool   $packed  Enables/disabled data serialization.
-     *                        It's possible to disable data serialization if you're sure
-     *                        stored data will be always a safe string
-     * @param bool   $indexed Use indexed cache. Indexed cache is more appropriate for
-     *                        storing big data with possibility to remove it by a key prefix.
-     *                        Non-indexed cache does not remove data, but flags it for expiration,
-     *                        also stores it in memory until close() method is called.
+     * @param string     $type    Engine type ('db', 'memcache', 'apc', 'redis')
+     * @param int        $userid  User identifier
+     * @param string     $prefix  Key name prefix
+     * @param int|string $ttl     Expiration time of memcache/apc items
+     * @param bool       $packed  Enables/disabled data serialization.
+     *                            It's possible to disable data serialization if you're sure
+     *                            stored data will be always a safe string
+     * @param bool       $indexed Use indexed cache. Indexed cache is more appropriate for
+     *                            storing big data with possibility to remove it by a key prefix.
+     *                            Non-indexed cache does not remove data, but flags it for expiration,
+     *                            also stores it in memory until close() method is called.
      *
      * @return rcube_cache Cache object
      */
     public static function factory($type, $userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
         $driver = strtolower($type) ?: 'db';
-        $class  = "rcube_cache_$driver";
+        $class = "rcube_cache_{$driver}";
 
-        if (!$driver || !class_exists($class)) {
+        if (!class_exists($class)) {
             rcube::raise_error([
-                    'code' => 600, 'type' => 'db',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Configuration error. Unsupported cache driver: $driver",
-                ],
-                true, true
-            );
+                'code' => 600, 'type' => 'db',
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => "Configuration error. Unsupported cache driver: {$driver}",
+            ], true, true);
         }
 
         return new $class($userid, $prefix, $ttl, $packed, $indexed);
@@ -82,23 +79,23 @@ class rcube_cache
     /**
      * Object constructor.
      *
-     * @param int    $userid  User identifier
-     * @param string $prefix  Key name prefix
-     * @param string $ttl     Expiration time of memcache/apc items
-     * @param bool   $packed  Enables/disabled data serialization.
-     *                        It's possible to disable data serialization if you're sure
-     *                        stored data will be always a safe string
-     * @param bool   $indexed Use indexed cache. Indexed cache is more appropriate for
-     *                        storing big data with possibility to remove it by key prefix.
-     *                        Non-indexed cache does not remove data, but flags it for expiration,
-     *                        also stores it in memory until close() method is called.
+     * @param int        $userid  User identifier
+     * @param string     $prefix  Key name prefix
+     * @param int|string $ttl     Expiration time of memcache/apc items
+     * @param bool       $packed  Enables/disabled data serialization.
+     *                            It's possible to disable data serialization if you're sure
+     *                            stored data will be always a safe string
+     * @param bool       $indexed Use indexed cache. Indexed cache is more appropriate for
+     *                            storing big data with possibility to remove it by key prefix.
+     *                            Non-indexed cache does not remove data, but flags it for expiration,
+     *                            also stores it in memory until close() method is called.
      */
     public function __construct($userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
-        $this->userid  = (int) $userid;
-        $this->ttl     = min(get_offset_sec($ttl), 2592000);
-        $this->prefix  = $prefix;
-        $this->packed  = $packed;
+        $this->userid = (int) $userid;
+        $this->ttl = min(get_offset_sec($ttl), 2592000);
+        $this->prefix = $prefix;
+        $this->packed = $packed;
         $this->indexed = $indexed;
     }
 
@@ -183,8 +180,8 @@ class rcube_cache
     public function close()
     {
         $this->write_index(true);
-        $this->index   = null;
-        $this->cache   = [];
+        $this->index = null;
+        $this->cache = [];
         $this->updates = [];
     }
 
@@ -205,6 +202,7 @@ class rcube_cache
                 if (is_array($v)) {
                     sort($v);
                 }
+
                 return is_string($v) ? $v : serialize($v);
             };
 
@@ -243,15 +241,14 @@ class rcube_cache
 
         if ($data !== false) {
             $timestamp = 0;
-            $utc       = new DateTimeZone('UTC');
+            $utc = new DateTimeZone('UTC');
 
             // Extract timestamp from the data entry
             if (preg_match('/^(' . self::DATE_FORMAT_REGEX . '):/', $data, $matches)) {
                 try {
                     $timestamp = new DateTime($matches[1], $utc);
-                    $data      = substr($data, strlen($matches[1]) + 1);
-                }
-                catch (Exception $e) {
+                    $data = substr($data, strlen($matches[1]) + 1);
+                } catch (Exception $e) {
                     // invalid date = no timestamp
                 }
             }
@@ -260,7 +257,7 @@ class rcube_cache
             // For example for key 'mailboxes.123456789' we check entries:
             // 'EXP:*', 'EXP:mailboxes' and 'EXP:mailboxes.123456789'.
             if ($timestamp) {
-                $path     = explode('.', "*.$key");
+                $path = explode('.', "*.{$key}");
                 $path_len = min(self::MAX_EXP_LEVEL + 1, count($path));
 
                 for ($x = 1; $x <= $path_len; $x++) {
@@ -277,8 +274,7 @@ class rcube_cache
             }
 
             $data = $timestamp ? $this->unserialize($data) : null;
-        }
-        else {
+        } else {
             $data = null;
         }
 
@@ -306,13 +302,12 @@ class rcube_cache
                     $this->index_update = time();
                 }
             }
-        }
-        else {
+        } else {
             // In this mode we do not save the entry to the database immediately
             // It's because we have cases where the same entry is updated
             // multiple times in one request (e.g. 'messagecount' entry rcube_imap).
             $this->updates[$key] = new DateTime('now', new DateTimeZone('UTC'));
-            $this->cache[$key]   = $data;
+            $this->cache[$key] = $data;
             $result = true;
         }
 
@@ -342,7 +337,7 @@ class rcube_cache
         }
         // "Remove" keys by name prefix
         elseif ($prefix_mode) {
-            $ts     = new DateTime('now', new DateTimeZone('UTC'));
+            $ts = new DateTime('now', new DateTimeZone('UTC'));
             $prefix = implode('.', array_slice(explode('.', trim($key, '. ')), 0, self::MAX_EXP_LEVEL));
 
             $this->add_item($this->ekey($prefix), $ts->format(self::DATE_FORMAT));
@@ -369,8 +364,8 @@ class rcube_cache
 
         // Remove all keys
         if ($key === null) {
-            foreach ($this->index as $key) {
-                $this->delete_item($this->ckey($key));
+            foreach ($this->index as $_key) {
+                $this->delete_item($this->ckey($_key));
                 if (!$this->index_update) {
                     $this->index_update = time();
                 }
@@ -414,7 +409,7 @@ class rcube_cache
             $need_update = $force === true;
 
             if (!$need_update && !empty($this->updates)) {
-                $now         = new DateTime('now', new DateTimeZone('UTC'));
+                $now = new DateTime('now', new DateTimeZone('UTC'));
                 $need_update = floatval(min($this->updates)->format('U.u')) < floatval($now->format('U.u')) - $this->refresh_time;
             }
 
@@ -438,7 +433,7 @@ class rcube_cache
 
                 $this->add_item($this->ikey(), $index);
                 $this->index_update = null;
-                $this->index        = null;
+                $this->index = null;
             }
         }
     }
@@ -456,12 +451,18 @@ class rcube_cache
             return;
         }
 
-        $data        = $this->get_item($this->ikey());
+        $data = $this->get_item($this->ikey());
         $this->index = $data ? unserialize($data) : [];
     }
 
     /**
      * Write data entry into cache
+     *
+     * @param string    $key  Cache key name
+     * @param mixed     $data Serialized cache data
+     * @param ?DateTime $ts   Timestamp
+     *
+     * @return bool True on success, False on failure
      */
     protected function store_record($key, $data, $ts = null)
     {
@@ -479,7 +480,7 @@ class rcube_cache
 
         // don't attempt to write too big data sets
         if ($size > $this->max_packet_size()) {
-            trigger_error("rcube_cache: max_packet_size ($this->max_packet) exceeded for key $key. Tried to write $size bytes", \E_USER_WARNING);
+            trigger_error("rcube_cache: max_packet_size ({$this->max_packet}) exceeded for key {$key}. Tried to write {$size} bytes", \E_USER_WARNING);
             return false;
         }
 
@@ -496,6 +497,7 @@ class rcube_cache
     protected function get_item($key)
     {
         // to be overwritten by engine class
+        return null;
     }
 
     /**
@@ -509,6 +511,7 @@ class rcube_cache
     protected function add_item($key, $data)
     {
         // to be overwritten by engine class
+        return false;
     }
 
     /**
@@ -521,6 +524,7 @@ class rcube_cache
     protected function delete_item($key)
     {
         // to be overwritten by engine class
+        return false;
     }
 
     /**
@@ -611,8 +615,8 @@ class rcube_cache
     protected function max_packet_size()
     {
         if ($this->max_packet < 0) {
-            $config           = rcube::get_instance()->config;
-            $max_packet       = $config->get($this->type . '_max_allowed_packet');
+            $config = rcube::get_instance()->config;
+            $max_packet = $config->get($this->type . '_max_allowed_packet');
             $this->max_packet = parse_bytes($max_packet) ?: 2097152; // default/max is 2 MB
         }
 

@@ -6,10 +6,11 @@ Check our website's [download page](https://roundcube.net/download/) to see whic
 
 ## Reporting a Vulnerability
 
-If you found a security issue or vulnerability of the software, please report with direct and encrypted email to *thomas[at]roundcube.net*
-and *alec[at]alec.pl*. You can find the according PGP public keys on the major public keyservers like [pgp.key-server.io](https://pgp.key-server.io).
+If you found a security issue or vulnerability of the software, please report it to [Nextcloud's HackerOne](https://hackerone.com/nextcloud).
 
 Your report should include clear steps for reproduction and a classification of the found vulnerability.
+
+You can also send an encrypted email message to *alec[at]alec.pl*. You can find the PGP public key on the major public keyservers like [pgp.key-server.io](https://pgp.key-server.io).
 
 ## Publishing and Credits
 

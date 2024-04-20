@@ -55,10 +55,9 @@ class markasjunk_amavis_blacklist
 
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
             rcube::raise_error([
-                    'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Failed to load config from $config_file",
-                ], true, false
-            );
+                'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Failed to load config from {$config_file}",
+            ], true, false);
 
             return false;
         }
@@ -72,18 +71,16 @@ class markasjunk_amavis_blacklist
         // check DB connections and exit on failure
         if ($err_str = $db->is_error()) {
             rcube::raise_error([
-                    'code'    => 603,
-                    'type'    => 'db',
-                    'message' => $err_str,
-                ], false, true
-            );
+                'code' => 603,
+                'type' => 'db',
+                'message' => $err_str,
+            ], false, true);
         }
 
-        $sql_result = $db->query("SELECT `id` FROM `users` WHERE `email` = ?", $this->user_email);
+        $sql_result = $db->query('SELECT `id` FROM `users` WHERE `email` = ?', $this->user_email);
         if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {
             $rid = $res_array['id'];
-        }
-        else {
+        } else {
             if ($debug) {
                 rcube::write_log('markasjunk', $this->user_email . ' not found in users table');
             }
@@ -93,31 +90,29 @@ class markasjunk_amavis_blacklist
 
         foreach ($uids as $uid) {
             $message = new rcube_message($uid);
-            $email   = $message->sender['mailto'];
+            $email = $message->sender['mailto'];
 
             // skip invalid emails
             if (!rcube_utils::check_email($email, false)) {
                 continue;
             }
 
-            $sql_result = $db->query("SELECT `id` FROM `mailaddr` WHERE `email` = ? ORDER BY `priority` DESC", $email);
+            $sql_result = $db->query('SELECT `id` FROM `mailaddr` WHERE `email` = ? ORDER BY `priority` DESC', $email);
 
             if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {
                 $sid = $res_array['id'];
-            }
-            else {
+            } else {
                 if ($debug) {
-                    rcube::write_log('markasjunk', "$email not found in mailaddr table - add it");
+                    rcube::write_log('markasjunk', "{$email} not found in mailaddr table - add it");
                 }
 
-                $sql_result = $db->query("INSERT INTO `mailaddr` ( `priority`, `email` ) VALUES ( 20, ? )", $email);
+                $sql_result = $db->query('INSERT INTO `mailaddr` ( `priority`, `email` ) VALUES ( 20, ? )', $email);
 
                 if ($sql_result) {
                     $sid = $db->insert_id();
-                }
-                else {
+                } else {
                     if ($debug) {
-                        rcube::write_log('markasjunk', "Cannot add $email to mailaddr table: " . $db->is_error($sql_result));
+                        rcube::write_log('markasjunk', "Cannot add {$email} to mailaddr table: " . $db->is_error($sql_result));
                     }
 
                     return false;
@@ -125,7 +120,7 @@ class markasjunk_amavis_blacklist
             }
 
             $wb = '';
-            $sql_result = $db->query("SELECT `wb` FROM `wblist` WHERE `sid` = ? AND `rid` =?", $sid, $rid);
+            $sql_result = $db->query('SELECT `wb` FROM `wblist` WHERE `sid` = ? AND `rid` =?', $sid, $rid);
 
             if ($sql_result && ($res_array = $db->fetch_assoc($sql_result))) {
                 $wb = $res_array['wb'];
@@ -139,17 +134,16 @@ class markasjunk_amavis_blacklist
                 }
 
                 if ($wb) {
-                    $sql_result = $db->query("UPDATE `wblist` SET `wb` = ? WHERE `sid` = ? AND `rid` = ?",
+                    $sql_result = $db->query('UPDATE `wblist` SET `wb` = ? WHERE `sid` = ? AND `rid` = ?',
                         $newwb, $sid, $rid);
-                }
-                else {
-                    $sql_result = $db->query("INSERT INTO `wblist` (`sid`, `rid`, `wb`) VALUES (?, ?, ?)",
+                } else {
+                    $sql_result = $db->query('INSERT INTO `wblist` (`sid`, `rid`, `wb`) VALUES (?, ?, ?)',
                         $sid, $rid, $newwb);
                 }
 
                 if (!$sql_result) {
                     if ($debug) {
-                        rcube::write_log('markasjunk', "Cannot update wblist for user {$this->user_email} with $email");
+                        rcube::write_log('markasjunk', "Cannot update wblist for user {$this->user_email} with {$email}");
                     }
 
                     return false;

@@ -27,9 +27,9 @@ class rcube_enriched
     {
         // remove single newlines, convert N newlines to N-1
         $body = str_replace("\r\n", "\n", $body);
-        $len  = strlen($body);
-        $nl   = 0;
-        $out  = '';
+        $len = strlen($body);
+        $nl = 0;
+        $out = '';
 
         for ($i = 0; $i < $len; $i++) {
             $c = $body[$i];
@@ -41,8 +41,7 @@ class rcube_enriched
             }
             if ($nl != 1) {
                 $out .= $c;
-            }
-            else {
+            } else {
                 $out .= ' ';
             }
         }
@@ -53,16 +52,16 @@ class rcube_enriched
     protected static function convert_formatting($body)
     {
         $replace = [
-            '<bold>'        => '<b>', '</bold>'   => '</b>',
-            '<italic>'      => '<i>', '</italic>' => '</i>',
-            '<fixed>'       => '<tt>', '</fixed>'  => '</tt>',
-            '<smaller>'     => '<font size=-1>', '</smaller>' => '</font>',
-            '<bigger>'      => '<font size=+1>', '</bigger>' => '</font>',
-            '<underline>'   => '<span style="text-decoration: underline">', '</underline>'   => '</span>',
-            '<flushleft>'   => '<span style="text-align: left">', '</flushleft>'   => '</span>',
-            '<flushright>'  => '<span style="text-align: right">', '</flushright>'  => '</span>',
-            '<flushboth>'   => '<span style="text-align: justified">', '</flushboth>'   => '</span>',
-            '<indent>'      => '<span style="padding-left: 20px">', '</indent>'      => '</span>',
+            '<bold>' => '<b>', '</bold>' => '</b>',
+            '<italic>' => '<i>', '</italic>' => '</i>',
+            '<fixed>' => '<tt>', '</fixed>' => '</tt>',
+            '<smaller>' => '<font size=-1>', '</smaller>' => '</font>',
+            '<bigger>' => '<font size=+1>', '</bigger>' => '</font>',
+            '<underline>' => '<span style="text-decoration: underline">', '</underline>' => '</span>',
+            '<flushleft>' => '<span style="text-align: left">', '</flushleft>' => '</span>',
+            '<flushright>' => '<span style="text-align: right">', '</flushright>' => '</span>',
+            '<flushboth>' => '<span style="text-align: justified">', '</flushboth>' => '</span>',
+            '<indent>' => '<span style="padding-left: 20px">', '</indent>' => '</span>',
             '<indentright>' => '<span style="padding-right: 20px">', '</indentright>' => '</span>',
         ];
 
@@ -94,14 +93,13 @@ class rcube_enriched
             }
 
             // extract color (either by name, or ####,####,####)
-            if (strpos($a[2],',')) {
-                $rgb   = explode(',', $a[2]);
+            if (strpos($a[2], ',')) {
+                $rgb = explode(',', $a[2]);
                 $color = '#';
                 for ($i = 0; $i < 3; $i++) {
                     $color .= substr($rgb[$i], 0, 2); // just take first 2 bytes
                 }
-            }
-            else {
+            } else {
                 $color = $a[2];
             }
 
@@ -122,7 +120,7 @@ class rcube_enriched
             }
 
             $quoted = '';
-            $lines  = explode('<br>', $a[2]);
+            $lines = explode('<br>', $a[2]);
 
             foreach ($lines as $line) {
                 $quoted .= '&gt;' . $line . '<br>';
@@ -143,14 +141,14 @@ class rcube_enriched
      */
     public static function to_html($body)
     {
-        $body = str_replace('<<','&lt;',$body);
+        $body = str_replace('<<', '&lt;', $body);
         $body = self::convert_newlines($body);
         $body = str_replace("\n", '<br>', $body);
         $body = self::convert_formatting($body);
         $body = self::convert_color($body);
         $body = self::convert_font($body);
         $body = self::convert_excerpt($body);
-        //$body = nl2br($body);
+        // $body = nl2br($body);
 
         return $body;
     }

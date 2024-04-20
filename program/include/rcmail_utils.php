@@ -42,7 +42,7 @@ class rcmail_utils
             $db->db_connect('w');
 
             if (!$db->is_connected()) {
-                rcube::raise_error("Failed to connect to database", false, true);
+                rcube::raise_error('Failed to connect to database', false, true);
             }
 
             self::$db = $db;
@@ -58,30 +58,28 @@ class rcmail_utils
      */
     public static function db_init($dir)
     {
-        $db    = self::db();
+        $db = self::db();
         $error = null;
-        $file  = $dir . '/' . $db->db_provider . '.initial.sql';
+        $file = $dir . '/' . $db->db_provider . '.initial.sql';
 
         if (!file_exists($file)) {
-            rcube::raise_error("DDL file $file not found", false, true);
+            rcube::raise_error("DDL file {$file} not found", false, true);
         }
 
-        echo "Creating database schema... ";
+        echo 'Creating database schema... ';
 
         if ($sql = file_get_contents($file)) {
             if (!$db->exec_script($sql)) {
                 $error = $db->is_error();
             }
-        }
-        else {
-            $error = "Unable to read file $file or it is empty";
+        } else {
+            $error = "Unable to read file {$file} or it is empty";
         }
 
         if ($error) {
             echo "[FAILED]\n";
             rcube::raise_error($error, false, true);
-        }
-        else {
+        } else {
             echo "[OK]\n";
         }
     }
@@ -103,6 +101,7 @@ class rcmail_utils
             if (!empty($opts['errors'])) {
                 rcube::raise_error("Specified database schema directory doesn't exist.", false, true);
             }
+
             return false;
         }
 
@@ -119,42 +118,42 @@ class rcmail_utils
             // Note: This is for backward compat. only, do not need to be updated
             $map = [
                 '0.1-stable' => 1,
-                '0.1.1'      => 2008030300,
-                '0.2-alpha'  => 2008040500,
-                '0.2-beta'   => 2008060900,
+                '0.1.1' => 2008030300,
+                '0.2-alpha' => 2008040500,
+                '0.2-beta' => 2008060900,
                 '0.2-stable' => 2008092100,
-                '0.2.1'      => 2008092100,
-                '0.2.2'      => 2008092100,
+                '0.2.1' => 2008092100,
+                '0.2.2' => 2008092100,
                 '0.3-stable' => 2008092100,
-                '0.3.1'      => 2009090400,
-                '0.4-beta'   => 2009103100,
-                '0.4'        => 2010042300,
-                '0.4.1'      => 2010042300,
-                '0.4.2'      => 2010042300,
-                '0.5-beta'   => 2010100600,
-                '0.5'        => 2010100600,
-                '0.5.1'      => 2010100600,
-                '0.5.2'      => 2010100600,
-                '0.5.3'      => 2010100600,
-                '0.5.4'      => 2010100600,
-                '0.6-beta'   => 2011011200,
-                '0.6'        => 2011011200,
-                '0.7-beta'   => 2011092800,
-                '0.7'        => 2011111600,
-                '0.7.1'      => 2011111600,
-                '0.7.2'      => 2011111600,
-                '0.7.3'      => 2011111600,
-                '0.7.4'      => 2011111600,
-                '0.8-beta'   => 2011121400,
-                '0.8-rc'     => 2011121400,
-                '0.8.0'      => 2011121400,
-                '0.8.1'      => 2011121400,
-                '0.8.2'      => 2011121400,
-                '0.8.3'      => 2011121400,
-                '0.8.4'      => 2011121400,
-                '0.8.5'      => 2011121400,
-                '0.8.6'      => 2011121400,
-                '0.9-beta'   => 2012080700,
+                '0.3.1' => 2009090400,
+                '0.4-beta' => 2009103100,
+                '0.4' => 2010042300,
+                '0.4.1' => 2010042300,
+                '0.4.2' => 2010042300,
+                '0.5-beta' => 2010100600,
+                '0.5' => 2010100600,
+                '0.5.1' => 2010100600,
+                '0.5.2' => 2010100600,
+                '0.5.3' => 2010100600,
+                '0.5.4' => 2010100600,
+                '0.6-beta' => 2011011200,
+                '0.6' => 2011011200,
+                '0.7-beta' => 2011092800,
+                '0.7' => 2011111600,
+                '0.7.1' => 2011111600,
+                '0.7.2' => 2011111600,
+                '0.7.3' => 2011111600,
+                '0.7.4' => 2011111600,
+                '0.8-beta' => 2011121400,
+                '0.8-rc' => 2011121400,
+                '0.8.0' => 2011121400,
+                '0.8.1' => 2011121400,
+                '0.8.2' => 2011121400,
+                '0.8.3' => 2011121400,
+                '0.8.4' => 2011121400,
+                '0.8.5' => 2011121400,
+                '0.8.6' => 2011121400,
+                '0.9-beta' => 2012080700,
             ];
 
             $version = $map[$ver];
@@ -168,12 +167,13 @@ class rcmail_utils
         $dir .= '/' . $db->db_provider;
         if (!file_exists($dir)) {
             if (!empty($opts['errors'])) {
-                rcube::raise_error("DDL Upgrade files for " . $db->db_provider . " driver not found.", false, true);
+                rcube::raise_error('DDL Upgrade files for ' . $db->db_provider . ' driver not found.', false, true);
             }
+
             return false;
         }
 
-        $dh     = opendir($dir);
+        $dh = opendir($dir);
         $result = [];
 
         while ($file = readdir($dh)) {
@@ -185,12 +185,12 @@ class rcmail_utils
 
         foreach ($result as $v) {
             if (empty($opts['quiet'])) {
-                echo "Updating database schema for {$package} ($v)... ";
+                echo "Updating database schema for {$package} ({$v})... ";
             }
 
             // Ignore errors here to print the error only once
             $db->set_option('ignore_errors', true);
-            $error = self::db_update_schema($package, $v, "$dir/$v.sql");
+            $error = self::db_update_schema($package, $v, "{$dir}/{$v}.sql");
             $db->set_option('ignore_errors', false);
 
             if ($error) {
@@ -198,11 +198,11 @@ class rcmail_utils
                     echo "[FAILED]\n";
                 }
                 if (!empty($opts['errors'])) {
-                    rcube::raise_error("Error in DDL upgrade $v: $error", false, true);
+                    rcube::raise_error("Error in DDL upgrade {$v}: {$error}", false, true);
                 }
+
                 return false;
-            }
-            elseif (empty($opts['quiet'])) {
+            } elseif (empty($opts['quiet'])) {
                 echo "[OK]\n";
             }
         }
@@ -231,14 +231,14 @@ class rcmail_utils
 
         $system_table = $db->table_name('system', true);
 
-        $db->query("UPDATE " . $system_table
-            . " SET `value` = ?"
-            . " WHERE `name` = ?",
+        $db->query('UPDATE ' . $system_table
+            . ' SET `value` = ?'
+            . ' WHERE `name` = ?',
             $version, $package . '-version');
 
         if (!$db->is_error() && !$db->affected_rows()) {
-            $db->query("INSERT INTO " . $system_table
-                . " (`name`, `value`) VALUES (?, ?)",
+            $db->query('INSERT INTO ' . $system_table
+                . ' (`name`, `value`) VALUES (?, ?)',
                 $package . '-version', $version);
         }
 
@@ -256,12 +256,12 @@ class rcmail_utils
     {
         $db = self::db();
 
-        $db->query("SELECT `value`"
-            . " FROM " . $db->table_name('system', true)
-            . " WHERE `name` = ?",
+        $db->query('SELECT `value`'
+            . ' FROM ' . $db->table_name('system', true)
+            . ' WHERE `name` = ?',
             $package . '-version');
 
-        $row     = $db->fetch_array();
+        $row = $db->fetch_array();
         if ($row === false) {
             return null;
         }
@@ -277,9 +277,9 @@ class rcmail_utils
      */
     public static function db_clean($days)
     {
-        $db        = self::db();
+        $db = self::db();
         $threshold = date('Y-m-d 00:00:00', time() - $days * 86400);
-        $tables    = [
+        $tables = [
             'contacts',
             'contactgroups',
             'identities',
@@ -290,9 +290,9 @@ class rcmail_utils
             $sqltable = $db->table_name($table, true);
 
             // delete outdated records
-            $db->query("DELETE FROM $sqltable WHERE `del` = 1 AND `changed` < ?", $threshold);
+            $db->query("DELETE FROM {$sqltable} WHERE `del` = 1 AND `changed` < ?", $threshold);
 
-            echo $db->affected_rows() . " records deleted from '$table'\n";
+            echo $db->affected_rows() . " records deleted from '{$table}'\n";
         }
     }
 
@@ -307,12 +307,10 @@ class rcmail_utils
             $hosts = $rcmail->config->get('imap_host');
             if (is_string($hosts)) {
                 $args['host'] = $hosts;
-            }
-            elseif (is_array($hosts) && count($hosts) == 1) {
+            } elseif (is_array($hosts) && count($hosts) == 1) {
                 $args['host'] = reset($hosts);
-            }
-            else {
-                rcube::raise_error("Specify a host name", false, true);
+            } else {
+                rcube::raise_error('Specify a host name', false, true);
             }
         }
 
@@ -333,15 +331,14 @@ class rcmail_utils
         $db = self::db();
 
         // iterate over all users
-        $sql_result = $db->query("SELECT `user_id` FROM " . $db->table_name('users', true) . " ORDER BY `user_id`");
+        $sql_result = $db->query('SELECT `user_id` FROM ' . $db->table_name('users', true) . ' ORDER BY `user_id`');
         while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
-            echo "Indexing contacts for user " . $sql_arr['user_id'] . "...\n";
+            echo 'Indexing contacts for user ' . $sql_arr['user_id'] . "...\n";
 
             $contacts = new rcube_contacts($db, $sql_arr['user_id']);
             $contacts->set_pagesize(9999);
 
-            $result = $contacts->list_records();
-            while ($result->count && ($row = $result->next())) {
+            foreach ($contacts->list_records() as $row) {
                 unset($row['words']);
                 $contacts->update($row['ID'], $row);
             }
@@ -364,8 +361,7 @@ class rcmail_utils
 
         if ($userid) {
             $query = '`user_id` = ' . intval($userid);
-        }
-        else {
+        } else {
             $query = '1=1';
         }
 
@@ -373,18 +369,17 @@ class rcmail_utils
 
         if ($type == 'bool' || $type == 'boolean') {
             $value = rcube_utils::get_boolean($value);
-        }
-        elseif ($type == 'int' || $type == 'integer') {
+        } elseif ($type == 'int' || $type == 'integer') {
             $value = (int) $value;
         }
 
         // iterate over all users
-        $sql_result = $db->query("SELECT * FROM " . $db->table_name('users', true) . " WHERE $query");
+        $sql_result = $db->query('SELECT * FROM ' . $db->table_name('users', true) . " WHERE {$query}");
 
         while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
-            echo "Updating prefs for user " . $sql_arr['user_id'] . "...";
+            echo 'Updating prefs for user ' . $sql_arr['user_id'] . '...';
 
-            $user  = new rcube_user($sql_arr['user_id'], $sql_arr);
+            $user = new rcube_user($sql_arr['user_id'], $sql_arr);
             $prefs = $old_prefs = $user->get_prefs();
 
             $prefs[$name] = $value;
@@ -392,8 +387,7 @@ class rcmail_utils
             if ($prefs != $old_prefs) {
                 $user->save_prefs($prefs, true);
                 echo "saved.\n";
-            }
-            else {
+            } else {
                 echo "nothing changed.\n";
             }
         }

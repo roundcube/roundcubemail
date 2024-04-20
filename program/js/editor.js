@@ -33,8 +33,7 @@
  * Roundcube Text Editor Widget class
  * @constructor
  */
-function rcube_text_editor(config, id)
-{
+function rcube_text_editor(config, id) {
     var ref = this,
         editorElement = $('#' + id),
         abs_url = location.href.replace(/[?#].*$/, '').replace(/\/$/, ''),
@@ -51,7 +50,7 @@ function rcube_text_editor(config, id)
             // toolbar_sticky: true, // does not work in scrollable element: https://github.com/tinymce/tinymce/issues/5227
             toolbar_drawer: 'sliding',
             toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
-        + ' | $font | forecolor backcolor',
+                + ' | $font | forecolor backcolor',
             extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
             // Allow style tag, have to be allowed inside body/div/blockquote (#7088)
             valid_children: '+body[style],+blockquote[style],+div[style]',
@@ -59,7 +58,7 @@ function rcube_text_editor(config, id)
             remove_script_host: false,
             convert_urls: false, // #1486944
             image_description: false,
-            paste_webkit_styles: "color font-size font-family font-weight background-color",
+            paste_webkit_styles: 'color font-size font-family font-weight background-color',
             automatic_uploads: false, // allows to paste images
             paste_data_images: true,
             // Note: We disable contextmenu options specifically for browser_spellcheck:true.
@@ -71,13 +70,15 @@ function rcube_text_editor(config, id)
             anchor_bottom: false,
             anchor_top: false,
             file_picker_types: 'image media',
-            file_picker_callback: function(callback, value, meta) { ref.file_picker_callback(callback, value, meta); },
+            file_picker_callback: function (callback, value, meta) {
+                ref.file_picker_callback(callback, value, meta);
+            },
             min_height: config.mode == 'identity' ? 100 : 400,
-            deprecation_warnings: false
+            deprecation_warnings: false,
         };
 
     // register spellchecker for plain text editor
-    this.spellcheck_observer = function() {};
+    this.spellcheck_observer = function () {};
     if (config.spellchecker) {
         this.spellchecker = config.spellchecker;
         if (config.spellcheck_observer) {
@@ -88,12 +89,13 @@ function rcube_text_editor(config, id)
     // Note: must be registered only once (#1490311)
     if (!tinymce.registered_request_token) {
         tinymce.registered_request_token = true;
-        tinymce.util.XHR.on('beforeSend', function(e) {
+        tinymce.util.XHR.on('beforeSend', function (e) {
             // secure spellchecker requests with Roundcube token
             e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
             // A hacky way of setting spellchecker language (there's no API for this in Tiny)
-            if (e.settings && e.settings.data)
+            if (e.settings && e.settings.data) {
                 e.settings.data = e.settings.data.replace(/^(method=[a-zA-Z]+&lang=)([^&]+)/, '$1' + rcmail.env.spell_lang);
+            }
         });
     }
 
@@ -102,7 +104,7 @@ function rcube_text_editor(config, id)
         conf.toolbar += ' | charmap hr link unlink image code $extra';
         $.extend(conf, {
             plugins: 'autolink charmap code hr image link paste tabfocus',
-            file_picker_types: 'image'
+            file_picker_types: 'image',
         });
     }
     // full-featured editor
@@ -111,33 +113,35 @@ function rcube_text_editor(config, id)
         + ' | link unlink table | $extra charmap image media | code searchreplace undo redo',
         $.extend(conf, {
             plugins: 'autolink charmap code directionality link lists image media nonbreaking'
-        + ' paste table tabfocus searchreplace spellchecker',
+                + ' paste table tabfocus searchreplace spellchecker',
             spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
-            spellchecker_language: rcmail.env.spell_lang
+            spellchecker_language: rcmail.env.spell_lang,
         });
     }
 
     // add TinyMCE plugins/buttons from Roundcube plugin
-    $.each(config.extra_plugins || [], function() {
-        if (conf.plugins.indexOf(this) < 0)
+    $.each(config.extra_plugins || [], function () {
+        if (conf.plugins.indexOf(this) < 0) {
             conf.plugins = conf.plugins + ' ' + this;
+        }
     });
-    $.each(config.extra_buttons || [], function() {
-        if (conf.toolbar.indexOf(this) < 0)
+    $.each(config.extra_buttons || [], function () {
+        if (conf.toolbar.indexOf(this) < 0) {
             conf.toolbar = conf.toolbar.replace('$extra', '$extra ' + this);
+        }
     });
 
     // disable TinyMCE plugins/buttons from Roundcube plugin
-    $.each(config.disabled_plugins || [], function() {
+    $.each(config.disabled_plugins || [], function () {
         conf.plugins = conf.plugins.replace(this, '');
     });
-    $.each(config.disabled_buttons || [], function() {
+    $.each(config.disabled_buttons || [], function () {
         conf.toolbar = conf.toolbar.replace(this, '');
     });
 
     // font list, convert to TinyMCE format
     var fonts = [];
-    $.each(config.font_formats || [], function(key) {
+    $.each(config.font_formats || [], function (key) {
         fonts.push(key + '=' + this.replace(/"/g, '').toLowerCase());
     });
     conf.font_formats = fonts.join('; ');
@@ -154,21 +158,24 @@ function rcube_text_editor(config, id)
     conf.toolbar = conf.toolbar.replace(/($extra|$font)/, '').replace(/\|\s+\|/g, '|');
 
     // support external configuration settings e.g. from skin
-    if (window.rcmail_editor_settings)
+    if (window.rcmail_editor_settings) {
         $.extend(conf, window.rcmail_editor_settings);
+    }
 
-    conf.setup = function(ed) {
-        ed.on('init', function() { ref.init_callback(ed); });
+    conf.setup = function (ed) {
+        ed.on('init', function () {
+            ref.init_callback(ed);
+        });
         // add handler for spellcheck button state update
-        ed.on('SpellcheckStart SpellcheckEnd', function(args) {
+        ed.on('SpellcheckStart SpellcheckEnd', function (args) {
             ref.spellcheck_active = args.type == 'spellcheckstart';
             ref.spellcheck_observer();
         });
-        ed.on('keypress', function() {
+        ed.on('keypress', function () {
             rcmail.compose_type_activity++;
         });
-        ed.on('PastePostProcess', function(e) {
-            $(e.node).find('img').each(function() {
+        ed.on('PastePostProcess', function (e) {
+            $(e.node).find('img').each(function () {
                 var id = 'i' + Date.now();
 
                 // No referrer for privacy
@@ -179,26 +186,29 @@ function rcube_text_editor(config, id)
 
                 // Replace the 'src' with data: URI after the image has been loaded
                 // This way if we fetch the image again the browser will fetch it from cache
-                this.onload = function() { this.onload = null; ref.replace_img_src(this.src, id); };
+                this.onload = function () {
+                    this.onload = null; ref.replace_img_src(this.src, id);
+                };
             });
         });
         // make links open on shift-click
-        ed.on('click', function(e) {
+        ed.on('click', function (e) {
             var link = $(e.target).closest('a');
             if (link.length && e.shiftKey) {
                 window.open(link.get(0).href, '_blank');
                 return false;
             }
         });
-        ed.on('focus blur', function(e) {
+        ed.on('focus blur', function (e) {
             $(ed.getContainer()).toggleClass('focused');
         });
 
-        if (conf.setup_callback)
+        if (conf.setup_callback) {
             conf.setup_callback(ed);
+        }
     };
 
-    rcmail.triggerEvent('editor-init', {config: conf, ref: ref, id: id});
+    rcmail.triggerEvent('editor-init', { config: conf, ref: ref, id: id });
 
     // textarea identifier
     this.id = id;
@@ -208,8 +218,7 @@ function rcube_text_editor(config, id)
     tinymce.init(conf);
 
     // react to real individual tinyMCE editor init
-    this.init_callback = function(editor)
-    {
+    this.init_callback = function (editor) {
         this.editor = editor;
 
         // Browsers have performance problems with rendering a lot of content in a textarea.
@@ -228,7 +237,9 @@ function rcube_text_editor(config, id)
             // the editor might be still not fully loaded, making the editing area
             // inaccessible, wait and try again (#1490310)
             if (height > 200 || height > area.height()) {
-                return setTimeout(function () { ref.init_callback(editor); }, 300);
+                return setTimeout(function () {
+                    ref.init_callback(editor);
+                }, 300);
             }
 
             var elem = rcube_find_object('_from'),
@@ -236,8 +247,9 @@ function rcube_text_editor(config, id)
 
             if (elem && elem.type == 'select-one') {
                 // insert signature (only for the first time)
-                if (!rcmail.env.identities_initialized)
+                if (!rcmail.env.identities_initialized) {
                     rcmail.change_identity(elem);
+                }
 
                 // Focus previously focused element
                 if (fe && fe.id != this.id && fe.nodeName != 'BODY') {
@@ -248,7 +260,7 @@ function rcube_text_editor(config, id)
             }
         }
 
-        rcmail.triggerEvent('editor-load', {config: conf, ref: this});
+        rcmail.triggerEvent('editor-load', { config: conf, ref: this });
 
         // set tabIndex and set focus to element that was focused before
         this.tabindex(this.force_focus || (fe && fe.id == this.id));
@@ -258,62 +270,65 @@ function rcube_text_editor(config, id)
     };
 
     // set tabIndex on tinymce editor
-    this.tabindex = function(focus)
-    {
+    this.tabindex = function (focus) {
         if (rcmail.env.task == 'mail' && this.editor) {
             var textarea = this.editor.getElement(),
                 node = this.editor.getContentAreaContainer().childNodes[0];
 
-            if (textarea && node)
+            if (textarea && node) {
                 node.tabIndex = textarea.tabIndex;
+            }
 
             // find :prev and :next elements to get focus when tabbing away
             if (textarea.tabIndex > 0) {
                 var x = null,
                     tabfocus_elements = [':prev', ':next'],
-                    el = tinymce.DOM.select('*[tabindex='+textarea.tabIndex+']:not(iframe)');
+                    el = tinymce.DOM.select('*[tabindex=' + textarea.tabIndex + ']:not(iframe)');
 
-                tinymce.each(el, function(e, i) { if (e.id == ref.id) { x = i; return false; } });
-                if (x !== null) {
-                    if (el[x-1] && el[x-1].id) {
-                        tabfocus_elements[0] = el[x-1].id;
+                tinymce.each(el, function (e, i) {
+                    if (e.id == ref.id) {
+                        x = i; return false;
                     }
-                    if (el[x+1] && el[x+1].id) {
-                        tabfocus_elements[1] = el[x+1].id;
+                });
+                if (x !== null) {
+                    if (el[x - 1] && el[x - 1].id) {
+                        tabfocus_elements[0] = el[x - 1].id;
+                    }
+                    if (el[x + 1] && el[x + 1].id) {
+                        tabfocus_elements[1] = el[x + 1].id;
                     }
                     this.editor.settings.tabfocus_elements = tabfocus_elements.join(',');
                 }
             }
 
             // ContentEditable reset fixes invisible cursor issue in Firefox < 25
-            if (bw.mz && bw.vendver < 25)
+            if (bw.mz && bw.vendver < 25) {
                 $(this.editor.getBody()).prop('contenteditable', false).prop('contenteditable', true);
+            }
         }
 
-        if (focus)
+        if (focus) {
             this.focus();
+        }
     };
 
     // focus the editor
-    this.focus = function()
-    {
+    this.focus = function () {
         $(this.editor || ('#' + this.id)).focus();
         this.force_focus = false;
     };
 
     // Returns current editor mode
-    this.is_html = function()
-    {
+    this.is_html = function () {
         return !!this.editor;
     };
 
     // switch html/plain mode
-    this.toggle = function(ishtml, noconvert)
-    {
+    this.toggle = function (ishtml, noconvert) {
         var curr, content, result,
             // these non-printable chars are not removed on text2html and html2text
             // we can use them as temp signature replacement
-            sig_mark = "\u0002\u0003",
+            sig_mark = '\u0002\u0003',
             input = $('#' + this.id),
             signature = rcmail.env.identity ? rcmail.env.signatures[rcmail.env.identity] : null,
             is_sig = signature && signature.text && signature.text.length > 1;
@@ -326,14 +341,15 @@ function rcube_text_editor(config, id)
 
             // replace current text signature with temp mark
             if (is_sig) {
-                content = content.replace(/\r\n/, "\n");
-                content = content.replace(signature.text.replace(/\r\n/, "\n"), sig_mark);
+                content = content.replace(/\r\n/, '\n');
+                content = content.replace(signature.text.replace(/\r\n/, '\n'), sig_mark);
             }
 
-            var init_editor = function(data) {
+            var init_editor = function (data) {
                 // replace signature mark with html version of the signature
-                if (is_sig)
+                if (is_sig) {
                     data = data.replace(sig_mark, '<div id="_rc_sig">' + signature.html + '</div>');
+                }
 
                 ref.force_focus = true;
                 input.val(data);
@@ -343,18 +359,17 @@ function rcube_text_editor(config, id)
             // convert to html
             if (!noconvert) {
                 result = rcmail.plain2html(content, init_editor);
-            }
-            else {
+            } else {
                 init_editor(content);
                 result = true;
             }
-        }
-        else if (this.editor) {
+        } else if (this.editor) {
             if (is_sig) {
                 // get current version of signature, we'll need it in
                 // case of html2text conversion abort
-                if (curr = this.editor.dom.get('_rc_sig'))
+                if (curr = this.editor.dom.get('_rc_sig')) {
                     curr = curr.innerHTML;
+                }
 
                 // replace current signature with some non-printable characters
                 // we use non-printable characters, because this replacement
@@ -366,13 +381,14 @@ function rcube_text_editor(config, id)
             // get html content
             content = this.editor.getContent();
 
-            var init_plaintext = function(data) {
+            var init_plaintext = function (data) {
                 tinymce.execCommand('mceRemoveEditor', false, ref.id);
                 ref.editor = null;
 
                 // replace signature mark with text version of the signature
-                if (is_sig)
-                    data = data.replace(sig_mark, "\n" + signature.text);
+                if (is_sig) {
+                    data = data.replace(sig_mark, '\n' + signature.text);
+                }
 
                 input.val(data).focus().trigger('input');
                 rcmail.set_caret_pos(input.get(0), 0);
@@ -381,35 +397,32 @@ function rcube_text_editor(config, id)
             // convert html to text
             if (!noconvert) {
                 result = rcmail.html2plain(content, init_plaintext);
-            }
-            else {
+            } else {
                 init_plaintext(input.val());
                 result = true;
             }
 
             // bring back current signature
-            if (!result && curr)
+            if (!result && curr) {
                 this.editor.dom.setHTML('_rc_sig', curr);
+            }
         }
 
         return result;
     };
 
     // start spellchecker
-    this.spellcheck_start = function()
-    {
+    this.spellcheck_start = function () {
         if (this.editor) {
             tinymce.execCommand('mceSpellCheck', true);
             this.spellcheck_observer();
-        }
-        else if (this.spellchecker && this.spellchecker.spellCheck) {
+        } else if (this.spellchecker && this.spellchecker.spellCheck) {
             this.spellchecker.spellCheck();
         }
     };
 
     // stop spellchecker
-    this.spellcheck_stop = function()
-    {
+    this.spellcheck_stop = function () {
         var ed = this.editor;
 
         if (ed) {
@@ -417,47 +430,45 @@ function rcube_text_editor(config, id)
                 ed.execCommand('mceSpellCheck', false);
                 this.spellcheck_observer();
             }
-        }
-        else if (ed = this.spellchecker) {
-            if (ed.state && ed.state != 'ready' && ed.state != 'no_error_found')
+        } else if (ed = this.spellchecker) {
+            if (ed.state && ed.state != 'ready' && ed.state != 'no_error_found') {
                 $(ed.spell_span).trigger('click');
+            }
         }
     };
 
     // spellchecker state
-    this.spellcheck_state = function()
-    {
+    this.spellcheck_state = function () {
         var ed;
 
-        if (this.editor)
+        if (this.editor) {
             return this.spellcheck_active;
-        else if ((ed = this.spellchecker) && ed.state)
+        }
+
+        if ((ed = this.spellchecker) && ed.state) {
             return ed.state != 'ready' && ed.state != 'no_error_found';
+        }
     };
 
     // resume spellchecking, highlight provided misspellings without a new ajax request
-    this.spellcheck_resume = function(data)
-    {
+    this.spellcheck_resume = function (data) {
         var ed = this.editor;
 
         if (ed) {
             ed.plugins.spellchecker.markErrors(data);
-        }
-        else if (ed = this.spellchecker) {
+        } else if (ed = this.spellchecker) {
             ed.prepare(false, true);
             ed.processData(data);
         }
     };
 
     // get selected (spellchecker) language
-    this.get_language = function()
-    {
+    this.get_language = function () {
         return rcmail.env.spell_lang;
     };
 
     // set language for spellchecking
-    this.set_language = function(lang)
-    {
+    this.set_language = function (lang) {
         var ed = this.editor;
 
         if (ed) {
@@ -473,12 +484,12 @@ function rcube_text_editor(config, id)
 
     // replace selection with text snippet
     // input can be a string or object with 'text' and 'html' properties
-    this.replace = function(input)
-    {
+    this.replace = function (input) {
         var format, ed = this.editor;
 
-        if (!input)
+        if (!input) {
             return false;
+        }
 
         // insert into tinymce editor
         if (ed) {
@@ -487,16 +498,16 @@ function rcube_text_editor(config, id)
             if ($.type(input) == 'object' && ('html' in input)) {
                 input = input.html;
                 format = 'html';
-            }
-            else {
-                if ($.type(input) == 'object')
+            } else {
+                if ($.type(input) == 'object') {
                     input = input.text || '';
+                }
 
                 input = rcmail.quote_html(input).replace(/\r?\n/g, '<br/>');
                 format = 'text';
             }
 
-            ed.selection.setContent(input, {format: format});
+            ed.selection.setContent(input, { format: format });
         }
         // replace selection in compose textarea
         else if (ed = rcube_find_object(this.id)) {
@@ -505,8 +516,9 @@ function rcube_text_editor(config, id)
                 pre = value.substring(0, selection.start),
                 end = value.substring(selection.end, value.length);
 
-            if ($.type(input) == 'object')
+            if ($.type(input) == 'object') {
                 input = input.text || '';
+            }
 
             // insert response text
             ed.value = pre + input + end;
@@ -519,27 +531,27 @@ function rcube_text_editor(config, id)
 
     // Fill the editor with specified content
     // TODO: support format conversion
-    this.set_content = function(content)
-    {
+    this.set_content = function (content) {
         if (this.editor) {
             this.editor.setContent(content);
             this.editor.getWin().focus();
-        }
-        else if (ed = rcube_find_object(this.id)) {
+        } else if (ed = rcube_find_object(this.id)) {
             $(ed).val(content).focus();
         }
     };
 
     // get selected text (if no selection returns all text) from the editor
-    this.get_content = function(args)
-    {
+    this.get_content = function (args) {
         var sigstart, ed = this.editor, text = '', strip = false,
-            defaults = {refresh: true, selection: false, nosig: false, format: 'html'};
+            defaults = {
+                refresh: true, selection: false, nosig: false, format: 'html',
+            };
 
-        if (!args)
+        if (!args) {
             args = defaults;
-        else
+        } else {
             args = $.extend(defaults, args);
+        }
 
         // apply spellcheck changes if spell checker is active
         if (args.refresh) {
@@ -548,11 +560,12 @@ function rcube_text_editor(config, id)
 
         // get selected text from tinymce editor
         if (ed) {
-            if (args.selection)
-                text = ed.selection.getContent({format: args.format});
+            if (args.selection) {
+                text = ed.selection.getContent({ format: args.format });
+            }
 
             if (!text) {
-                text = ed.getContent({format: args.format});
+                text = ed.getContent({ format: args.format });
                 // @todo: strip signature in html mode
                 strip = args.format == 'text';
             }
@@ -582,8 +595,7 @@ function rcube_text_editor(config, id)
     };
 
     // change user signature text
-    this.change_signature = function(id, show_sig)
-    {
+    this.change_signature = function (id, show_sig) {
         var position_element, cursor_pos, p = -1,
             input_message = $('#' + this.id),
             message = input_message.val(),
@@ -596,8 +608,9 @@ function rcube_text_editor(config, id)
                 sig = sig.replace(/\r\n/g, '\n');
 
                 p = rcmail.env.top_posting ? message.indexOf(sig) : message.lastIndexOf(sig);
-                if (p >= 0)
-                    message = message.substring(0, p) + message.substring(p+sig.length, message.length);
+                if (p >= 0) {
+                    message = message.substring(0, p) + message.substring(p + sig.length, message.length);
+                }
             }
 
             // add the new signature string
@@ -614,8 +627,7 @@ function rcube_text_editor(config, id)
                 else if (!message || !rcmail.env.compose_mode) {
                     cursor_pos = message.length;
                     message += '\n\n' + sig;
-                }
-                else if (rcmail.env.top_posting && !rcmail.env.sig_below) {
+                } else if (rcmail.env.top_posting && !rcmail.env.sig_below) {
                     // at cursor position
                     if (pos = rcmail.get_caret_pos(input_message.get(0))) {
                         message = message.substring(0, pos) + '\n' + sig + '\n\n' + message.substring(pos, message.length);
@@ -626,14 +638,12 @@ function rcube_text_editor(config, id)
                         message = '\n\n' + sig + '\n\n' + message.replace(/^[\r\n]+/, '');
                         cursor_pos = 0;
                     }
-                }
-                else {
+                } else {
                     message = message.replace(/[\r\n]+$/, '');
                     cursor_pos = !rcmail.env.top_posting && message.length ? message.length + 1 : 0;
                     message += '\n\n' + sig;
                 }
-            }
-            else {
+            } else {
                 cursor_pos = rcmail.env.top_posting ? 0 : message.length;
             }
 
@@ -641,8 +651,7 @@ function rcube_text_editor(config, id)
 
             // move cursor before the signature
             rcmail.set_caret_pos(input_message.get(0), cursor_pos);
-        }
-        else if (show_sig && rcmail.env.signatures) {  // html
+        } else if (show_sig && rcmail.env.signatures) { // html
             var sigElem = this.editor.dom.get('_rc_sig');
 
             // Append the signature as a div within the body
@@ -654,7 +663,7 @@ function rcube_text_editor(config, id)
                 // insert at start or at cursor position in top-posting mode
                 // (but not if the content is empty and not in new-message mode)
                 if (rcmail.env.top_posting && !rcmail.env.sig_below
-          && rcmail.env.compose_mode && (body.childNodes.length > 1 || $(body).text())
+                    && rcmail.env.compose_mode && (body.childNodes.length > 1 || $(body).text())
                 ) {
                     this.editor.getWin().focus(); // correct focus in IE & Chrome
 
@@ -662,16 +671,14 @@ function rcube_text_editor(config, id)
 
                     $(sigElem).insertBefore(node.nodeName == 'BODY' ? body.firstChild : node.nextSibling);
                     $('<p>').append($('<br>')).insertBefore(sigElem);
-                }
-                else {
+                } else {
                     body.appendChild(sigElem);
                     position_element = rcmail.env.top_posting && rcmail.env.compose_mode ? body.firstChild : $(sigElem).prev();
                 }
             }
 
             sigElem.innerHTML = rcmail.env.signatures[id] ? rcmail.env.signatures[id].html : '';
-        }
-        else if (!rcmail.env.top_posting) {
+        } else if (!rcmail.env.top_posting) {
             position_element = $(this.editor.getBody()).children().last();
         }
 
@@ -683,22 +690,19 @@ function rcube_text_editor(config, id)
     };
 
     // trigger content save
-    this.save = function()
-    {
+    this.save = function () {
         if (this.editor) {
             this.editor.save();
         }
     };
 
     // focus the editing area
-    this.focus = function()
-    {
+    this.focus = function () {
         (this.editor || rcube_find_object(this.id)).focus();
     };
 
     // image selector
-    this.file_picker_callback = function(callback, value, meta)
-    {
+    this.file_picker_callback = function (callback, value, meta) {
         var i, button, elem, cancel, dialog, fn, hint, list = [],
             type = meta.filetype,
             form = $('.upload-form').clone();
@@ -711,9 +715,15 @@ function rcube_text_editor(config, id)
                 items: [{
                     type: 'htmlpanel',
                     html: '<div id="image-selector" class="image-selector file-upload"><ul id="image-selector-list" class="attachmentslist"></ul></div>',
-                }]
+                }],
             },
-            buttons: [{type: 'cancel', text: rcmail.get_label('close'), onclick: function() { ref.file_picker_close(); }}]
+            buttons: [{
+                type: 'cancel',
+                text: rcmail.get_label('close'),
+                onclick: function () {
+                    ref.file_picker_close();
+                },
+            }],
         });
 
         rcmail.env.file_picker_callback = callback;
@@ -721,17 +731,19 @@ function rcube_text_editor(config, id)
 
         dialog = $('#image-selector');
 
-        if (!form.length)
+        if (!form.length) {
             form = this.file_upload_form(rcmail.gui_objects.uploadform);
-        else
-            form.find('button,a.button').slice(1).remove(); // need only the first button
+        } else {
+            form.find('button,a.button').slice(1).remove();
+        } // need only the first button
 
         button = dialog.prepend(form).find('button,a.button')
             .text(rcmail.get_label('add' + type))
             .focus();
 
-        if (!button.is('.btn'))
+        if (!button.is('.btn')) {
             button.addClass('tox-button');
+        }
 
         // fill images list with available images
         for (i in rcmail.env.attachments) {
@@ -743,14 +755,13 @@ function rcube_text_editor(config, id)
         cancel = dialog.parents('.tox-dialog').find('button').last();
 
         // Add custom Tab key handlers, tabindex does not work
-        list = $('#image-selector-list').append(list).on('keydown', 'li', function(e) {
+        list = $('#image-selector-list').append(list).on('keydown', 'li', function (e) {
             if (e.which == 9) {
                 if (rcube_event.get_modifier(e) == SHIFT_KEY) {
                     if (!$(this).prev().focus().length) {
                         button.focus();
                     }
-                }
-                else if (!$(this).next().focus().length) {
+                } else if (!$(this).next().focus().length) {
                     cancel.focus();
                 }
 
@@ -758,7 +769,7 @@ function rcube_text_editor(config, id)
             }
         });
 
-        button.keydown(function(e) {
+        button.keydown(function (e) {
             if (e.which == 9) { // Tab
                 if (rcube_event.get_modifier(e) == SHIFT_KEY || !list.find('li').first().focus().length) {
                     cancel.focus();
@@ -772,7 +783,7 @@ function rcube_text_editor(config, id)
             }
         });
 
-        cancel.keydown(function(e) {
+        cancel.keydown(function (e) {
             if (e.which == 9) {
                 if (rcube_event.get_modifier(e) != SHIFT_KEY || !list.find('li').last().focus().length) {
                     button.focus();
@@ -793,18 +804,20 @@ function rcube_text_editor(config, id)
 
             rcmail.gui_objects.filedrop = $('#image-selector');
             rcmail.gui_objects.filedrop.addClass('droptarget')
-                .on('dragover dragleave', function(e) {
+                .on('dragover dragleave', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                     $(this)[(e.type == 'dragover' ? 'addClass' : 'removeClass')]('hover');
                 })
-                .get(0).addEventListener('drop', function(e) { return rcmail.file_dropped(e); }, false);
+                .get(0).addEventListener('drop', function (e) {
+                    return rcmail.file_dropped(e);
+                }, false);
         }
 
         // register handler for successful file upload
         if (!rcmail.env['file_dialog_event_' + type]) {
             rcmail.env['file_dialog_event+' + type] = true;
-            rcmail.addEventListener('fileuploaded', function(attr) {
+            rcmail.addEventListener('fileuploaded', function (attr) {
                 var elem;
                 if (elem = ref.file_picker_entry(attr.name, attr.attachment)) {
                     list.prepend(elem);
@@ -817,20 +830,20 @@ function rcube_text_editor(config, id)
     };
 
     // close file browser window
-    this.file_picker_close = function(url)
-    {
+    this.file_picker_close = function (url) {
         this.editor.windowManager.close();
 
-        if (url)
+        if (url) {
             rcmail.env.file_picker_callback(url);
+        }
 
-        if (rcmail.env.old_file_drop)
+        if (rcmail.env.old_file_drop) {
             rcmail.gui_objects.filedrop = rcmail.env.old_file_drop;
+        }
     };
 
     // creates file browser entry
-    this.file_picker_entry = function(file_id, file)
-    {
+    this.file_picker_entry = function (file_id, file) {
         if (!file.complete || !file.mimetype) {
             return;
         }
@@ -844,13 +857,13 @@ function rcube_text_editor(config, id)
         switch (rcmail.env.file_picker_type) {
             case 'image':
                 rx = /^image\//i;
-                break;
 
+                break;
             case 'media':
                 rx = /^video\//i;
                 img_src = rcmail.assets_path('program/resources/tinymce/video.png');
-                break;
 
+                break;
             default:
                 return;
         }
@@ -859,14 +872,16 @@ function rcube_text_editor(config, id)
             var path = rcmail.env.comm_path + '&_from=' + rcmail.env.action,
                 action = rcmail.env.compose_id ? '&_id=' + rcmail.env.compose_id + '&_action=display-attachment' : '&_action=upload-display',
                 href = path + action + '&_file=' + file_id,
-                img = $('<img>').attr({title: file.name, src: img_src ? img_src : href + '&_thumbnail=1'});
+                img = $('<img>').attr({ title: file.name, src: img_src ? img_src : href + '&_thumbnail=1' });
 
-            return $('<li>').attr({tabindex: 0})
+            return $('<li>').attr({ tabindex: 0 })
                 .data('url', href)
                 .append($('<span class="img">').append(img))
                 .append($('<span class="name">').text(file.name))
-                .click(function() { ref.file_picker_close($(this).data('url')); })
-                .keydown(function(e) {
+                .click(function () {
+                    ref.file_picker_close($(this).data('url'));
+                })
+                .keydown(function (e) {
                     if (e.which == 13) {
                         ref.file_picker_close($(this).data('url'));
                     }
@@ -874,17 +889,21 @@ function rcube_text_editor(config, id)
         }
     };
 
-    this.file_upload_form = function(clone_form)
-    {
+    this.file_upload_form = function (clone_form) {
         var hint = clone_form ? $(clone_form).find('.hint').text() : '',
-            form = $('<form id="imageuploadform">').attr({method: 'post', enctype: 'multipart/form-data'});
-        file = $('<input>').attr({name: '_file[]', type: 'file', multiple: true, style: 'opacity:0;height:1px;width:1px'})
-            .change(function() { rcmail.upload_file(form, 'upload'); }),
+            form = $('<form id="imageuploadform">').attr({ method: 'post', enctype: 'multipart/form-data' });
+        file = $('<input>').attr({
+            name: '_file[]', type: 'file', multiple: true, style: 'opacity:0;height:1px;width:1px',
+        })
+            .change(function () {
+                rcmail.upload_file(form, 'upload');
+            }),
         wrapper = $('<div class="upload-form">')
-            .append($('<button>').attr({'class': 'btn btn-secondary attach', href: '#', onclick: "rcmail.upload_input('imageuploadform')"}));
+            .append($('<button>').attr({ class: 'btn btn-secondary attach', href: '#', onclick: "rcmail.upload_input('imageuploadform')" }));
 
-        if (hint)
+        if (hint) {
             wrapper.prepend($('<div class="hint">').text(hint));
+        }
 
         // clone existing upload form
         if (clone_form) {
@@ -892,36 +911,37 @@ function rcube_text_editor(config, id)
             form.attr('action', $(clone_form).attr('action'));
         }
 
-        form.append(file).append($('<input>').attr({type: 'hidden', name: '_token', value: rcmail.env.request_token}));
+        form.append(file).append($('<input>').attr({ type: 'hidden', name: '_token', value: rcmail.env.request_token }));
 
         return wrapper.append(form);
     };
 
     // Replace pasted image src location with data: URI
-    this.replace_img_src = function(src, id)
-    {
+    this.replace_img_src = function (src, id) {
         if (!window.fetch || !src || !src.match(/^https?:\/\//)) {
             return;
         }
 
         var fetch_params = {
-            referrerPolicy: 'no-referrer'
+            referrerPolicy: 'no-referrer',
         };
 
-        fetch(src, fetch_params).then(function(response) {
-            response.arrayBuffer().then(function(body) {
+        fetch(src, fetch_params).then(function (response) {
+            response.arrayBuffer().then(function (body) {
                 var url, ctype = response.headers.get('content-type'),
                     u8Buf = new Uint8Array(body),
                     latinBuf = '';
 
-                u8Buf.forEach(function(byte) { latinBuf += String.fromCharCode(byte); });
+                u8Buf.forEach(function (byte) {
+                    latinBuf += String.fromCharCode(byte);
+                });
 
                 if (ctype && latinBuf) {
                     url = 'data:' + ctype + ';base64,' + btoa(latinBuf);
                     $(ref.editor.getBody()).find('img[data-img-id="' + id + '"]').attr({
                         src: url,
                         'data-mce-src': url,
-                        'data-img-id': null
+                        'data-img-id': null,
                     });
                 }
             });

@@ -33,38 +33,36 @@ class rcmail_action_utils_modcss extends rcmail_action
         $url = preg_replace('![^a-z0-9.-]!i', '', $url);
 
         if ($url === null || empty($_SESSION['modcssurls'][$url])) {
-            $rcmail->output->sendExitError(403, "Unauthorized request");
+            $rcmail->output->sendExitError(403, 'Unauthorized request');
         }
 
         $realurl = $_SESSION['modcssurls'][$url];
 
         // don't allow any other connections than http(s)
         if (!preg_match('~^https?://~i', $realurl, $matches)) {
-            $rcmail->output->sendExitError(403, "Invalid URL");
+            $rcmail->output->sendExitError(403, 'Invalid URL');
         }
 
         $source = false;
-        $ctype  = null;
+        $ctype = null;
 
         try {
-            $client   = rcube::get_instance()->get_http_client();
+            $client = rcube::get_instance()->get_http_client();
             $response = $client->get($realurl);
 
-            if (!empty($response)) {
-                $ctype  = $response->getHeader('Content-Type');
-                $ctype  = !empty($ctype) ? $ctype[0] : '';
-                $source = $response->getBody();
-            }
-        }
-        catch (Exception $e) {
+            $source = $response->getBody();
+
+            $ctype = $response->getHeader('Content-Type');
+            $ctype = !empty($ctype) ? $ctype[0] : '';
+        } catch (Exception $e) {
             rcube::raise_error($e, true, false);
         }
 
-        $cid    = rcube_utils::get_input_string('_c', rcube_utils::INPUT_GET);
+        $cid = rcube_utils::get_input_string('_c', rcube_utils::INPUT_GET);
         $prefix = rcube_utils::get_input_string('_p', rcube_utils::INPUT_GET);
 
         $container_id = preg_replace('/[^a-z0-9]/i', '', $cid);
-        $css_prefix   = preg_replace('/[^a-z0-9]/i', '', $prefix);
+        $css_prefix = preg_replace('/[^a-z0-9]/i', '', $prefix);
         $ctype_regexp = '~^text/(css|plain)~i';
 
         if ($source !== false && $ctype && preg_match($ctype_regexp, $ctype)) {
@@ -74,6 +72,6 @@ class rcmail_action_utils_modcss extends rcmail_action
             );
         }
 
-        $rcmail->output->sendExitError(404, "Invalid response returned by server");
+        $rcmail->output->sendExitError(404, 'Invalid response returned by server');
     }
 }

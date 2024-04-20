@@ -28,10 +28,10 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
      */
     public function run($args = [])
     {
-        $rcmail        = rcmail::get_instance();
-        $contacts      = self::contact_source(null, true);
-        $cid           = rcube_utils::get_input_string('_cid', rcube_utils::INPUT_POST);
-        $source        = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $rcmail = rcmail::get_instance();
+        $contacts = self::contact_source(null, true);
+        $cid = rcube_utils::get_input_string('_cid', rcube_utils::INPUT_POST);
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $return_action = empty($cid) ? 'add' : 'edit';
 
         // Source changed, display the form again
@@ -62,14 +62,12 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         if (isset($a_record['photo'])) {
             if ($a_record['photo'] == '-del-') {
                 $a_record['photo'] = '';
-            }
-            elseif (preg_match('/^[a-z0-9]+$/i', $a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
+            } elseif (preg_match('/^[a-z0-9]+$/i', $a_record['photo']) && ($tempfile = $rcmail->get_uploaded_file($a_record['photo']))) {
                 $tempfile = $rcmail->plugins->exec_hook('attachment_get', $tempfile);
                 if (empty($tempfile['abort'])) {
                     $a_record['photo'] = $tempfile['data'] ?? @file_get_contents($tempfile['path']);
                 }
-            }
-            else {
+            } else {
                 unset($a_record['photo']);
             }
         }
@@ -77,17 +75,16 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         // update an existing contact
         if (!empty($cid)) {
             $plugin = $rcmail->plugins->exec_hook('contact_update', [
-                    'id'     => $cid,
-                    'record' => $a_record,
-                    'source' => $source,
+                'id' => $cid,
+                'record' => $a_record,
+                'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
 
             if (!$plugin['abort']) {
                 $result = $contacts->update($cid, $a_record);
-            }
-            else {
+            } else {
                 $result = $plugin['result'];
             }
 
@@ -122,9 +119,9 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
                 // Update contacts list
                 $a_js_cols = [];
-                $record    = $contact;
+                $record = $contact;
                 $record['email'] = array_first($contacts->get_col_values('email', $record, true));
-                $record['name']  = rcube_addressbook::compose_list_name($record);
+                $record['name'] = rcube_addressbook::compose_list_name($record);
 
                 foreach (['name'] as $col) {
                     $a_js_cols[] = rcube::Q((string) $record[$col]);
@@ -138,8 +135,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
 
                 $rcmail->overwrite_action('show', ['contact' => $contact]);
-            }
-            else {
+            } else {
                 // show error message
                 $error = self::error_str($contacts, $plugin);
 
@@ -158,15 +154,18 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
             // show notice if existing contacts with same e-mail are found
             foreach ($contacts->get_col_values('email', $a_record, true) as $email) {
-                if ($email && ($res = $contacts->search('email', $email, 1, false, true)) && $res->count) {
-                    $rcmail->output->show_message('contactexists', 'notice', null, false);
-                    break;
+                if ($email) {
+                    $res = $contacts->search('email', $email, 1, false, true);
+                    if ($res->count) {
+                        $rcmail->output->show_message('contactexists', 'notice', null, false);
+                        break;
+                    }
                 }
             }
 
             $plugin = $rcmail->plugins->exec_hook('contact_create', [
-                    'record' => $a_record,
-                    'source' => $source,
+                'record' => $a_record,
+                'source' => $source,
             ]);
 
             $a_record = $plugin['record'];
@@ -174,8 +173,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             // insert record and send response
             if (!$plugin['abort']) {
                 $insert_id = $contacts->insert($a_record);
-            }
-            else {
+            } else {
                 $insert_id = $plugin['result'];
             }
 
@@ -185,9 +183,9 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 // add new contact to the specified group
                 if ($contacts->groups && $contacts->group_id) {
                     $plugin = $rcmail->plugins->exec_hook('group_addmembers', [
-                            'group_id' => $contacts->group_id,
-                            'ids'      => $insert_id,
-                            'source'   => $source,
+                        'group_id' => $contacts->group_id,
+                        'ids' => $insert_id,
+                        'source' => $source,
                     ]);
 
                     if (!$plugin['abort']) {
@@ -195,8 +193,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                             // @FIXME: should we remove the contact?
                             $msgtext = $rcmail->gettext(['name' => 'maxgroupmembersreached', 'vars' => ['max' => $maxnum]]);
                             $rcmail->output->command('parent.display_message', $msgtext, 'warning');
-                        }
-                        else {
+                        } else {
                             $contacts->add_to_group($plugin['group_id'], $plugin['ids']);
                         }
                     }
@@ -209,8 +206,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.list_contacts');
 
                 $rcmail->output->send('iframe');
-            }
-            else {
+            } else {
                 // show error message
                 $error = self::error_str($contacts, $plugin);
                 $rcmail->output->show_message($error, 'error', null, false);
@@ -242,21 +238,21 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
                 if (isset($_REQUEST['_subtype_' . $col])) {
                     $subtypes = (array) rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST);
-                }
-                else {
+                } else {
                     $subtypes = [''];
                 }
 
                 foreach ($subtypes as $i => $subtype) {
-                    $suffix = $subtype ? ":$subtype" : '';
-                    if ($values[$i]) {
+                    $suffix = $subtype ? ":{$subtype}" : '';
+                    // @phpstan-ignore-next-line
+                    if (!empty($values[$i])) {
                         $record[$col . $suffix][] = $values[$i];
                     }
                 }
             }
             // assign values and subtypes
             elseif (isset($_POST[$fname]) && is_array($_POST[$fname])) {
-                $values   = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
+                $values = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
                 $subtypes = rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST);
 
                 foreach ($values as $i => $val) {
@@ -271,16 +267,14 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                     $subtype = $subtypes[$i] ? ':' . $subtypes[$i] : '';
                     $record[$col . $subtype][] = $val;
                 }
-            }
-            elseif (isset($_POST[$fname])) {
+            } elseif (isset($_POST[$fname])) {
                 $record[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
 
                 // normalize the submitted date strings
                 if ($colprop['type'] == 'date') {
                     if ($record[$col] && ($dt = rcube_utils::anytodatetime($record[$col]))) {
                         $record[$col] = $dt->format('Y-m-d');
-                    }
-                    else {
+                    } else {
                         unset($record[$col]);
                     }
                 }

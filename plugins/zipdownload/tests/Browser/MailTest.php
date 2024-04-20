@@ -3,8 +3,9 @@
 namespace Tests\Browser\Plugins\Zipdownload;
 
 use Tests\Browser\Components\Popupmenu;
+use Tests\Browser\TestCase;
 
-class MailTest extends \Tests\Browser\TestCase
+class MailTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -102,14 +103,14 @@ class MailTest extends \Tests\Browser\TestCase
      */
     private function getFilesFromZip($filename)
     {
-        $filename = TESTS_DIR . "downloads/$filename";
+        $filename = TESTS_DIR . "downloads/{$filename}";
 
         // Give the browser a chance to finish download
         if (!file_exists($filename)) {
             sleep(2);
         }
 
-        $zip   = new \ZipArchive;
+        $zip = new \ZipArchive();
         $files = [];
 
         if ($zip->open($filename)) {

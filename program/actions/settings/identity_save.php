@@ -34,7 +34,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
         $a_save_cols = ['name', 'email', 'organization', 'reply-to', 'bcc', 'standard', 'signature', 'html_signature'];
         $a_bool_cols = ['standard', 'html_signature'];
-        $updated     = false;
+        $updated = false;
 
         // check input
         if (empty($_POST['_email']) && ($IDENTITIES_LEVEL == 0 || $IDENTITIES_LEVEL == 2)) {
@@ -115,7 +115,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
             if (in_array($IDENTITIES_LEVEL, [1, 3, 4])) {
                 // merge with old identity data, fixes #1488834
-                $identity  = $rcmail->user->get_identity($iid);
+                $identity = $rcmail->user->get_identity($iid);
                 $save_data = array_merge($identity, $save_data);
 
                 unset($save_data['changed'], $save_data['del'], $save_data['user_id'], $save_data['identity_id']);
@@ -130,8 +130,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
             if (!$plugin['abort']) {
                 $updated = $rcmail->user->update_identity($iid, $save_data);
-            }
-            else {
+            } else {
                 $updated = $plugin['result'];
             }
 
@@ -145,8 +144,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 // update the changed col in list
                 $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) . '>';
                 $rcmail->output->command('parent.update_identity_row', $iid, rcube::Q(trim($name)));
-            }
-            else {
+            } else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);
@@ -169,8 +167,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
             if (!$plugin['abort']) {
                 $insert_id = $save_data['email'] ? $rcmail->user->insert_identity($save_data) : null;
-            }
-            else {
+            } else {
                 $insert_id = $plugin['result'];
             }
 
@@ -188,16 +185,14 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
                 // add a new row to the list
                 $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) . '>';
                 $rcmail->output->command('parent.update_identity_row', $insert_id, rcube::Q(trim($name)), true);
-            }
-            else {
+            } else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);
                 $rcmail->overwrite_action('edit-identity');
                 return;
             }
-        }
-        else {
+        } else {
             $rcmail->output->show_message('opnotpermitted', 'error');
         }
 

@@ -55,11 +55,11 @@ class rcube_db_pgsql extends rcube_db
     protected function conn_configure($dsn, $dbh)
     {
         $dbh->query("SET NAMES 'utf8'");
-        $dbh->query("SET DATESTYLE TO ISO");
+        $dbh->query('SET DATESTYLE TO ISO');
 
         // if ?schema= is set in dsn, set the search_path
         if (!empty($dsn['schema'])) {
-            $dbh->query("SET search_path TO " . $this->quote($dsn['schema']));
+            $dbh->query('SET search_path TO ' . $this->quote($dsn['schema']));
         }
     }
 
@@ -115,7 +115,7 @@ class rcube_db_pgsql extends rcube_db
      */
     public function unixtimestamp($field)
     {
-        return "EXTRACT (EPOCH FROM $field)";
+        return "EXTRACT (EPOCH FROM {$field})";
     }
 
     /**
@@ -204,14 +204,18 @@ class rcube_db_pgsql extends rcube_db
         }
 
         $columns = array_map([$this, 'quote_identifier'], $columns);
-        $target  = implode(', ', array_map([$this, 'quote_identifier'], array_keys($keys)));
-        $cols    = $target . ', ' . implode(', ', $columns);
-        $vals    = implode(', ', array_map(function ($i) { return $this->quote($i); }, $keys));
-        $vals   .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
-        $update  = implode(', ', array_map(static function ($i) { return "$i = EXCLUDED.$i"; }, $columns));
+        $target = implode(', ', array_map([$this, 'quote_identifier'], array_keys($keys)));
+        $cols = $target . ', ' . implode(', ', $columns);
+        $vals = implode(', ', array_map(function ($i) {
+            return $this->quote($i);
+        }, $keys));
+        $vals .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
+        $update = implode(', ', array_map(static function ($i) {
+            return "{$i} = EXCLUDED.{$i}";
+        }, $columns));
 
-        return $this->query("INSERT INTO $table ($cols) VALUES ($vals)"
-            . " ON CONFLICT ($target) DO UPDATE SET $update", $values);
+        return $this->query("INSERT INTO {$table} ({$cols}) VALUES ({$vals})"
+            . " ON CONFLICT ({$target}) DO UPDATE SET {$update}", $values);
     }
 
     /**
@@ -224,15 +228,14 @@ class rcube_db_pgsql extends rcube_db
         // get tables if not cached
         if ($this->tables === null) {
             if (($schema = $this->options['table_prefix']) && $schema[strlen($schema) - 1] === '.') {
-                $add = " AND TABLE_SCHEMA = " . $this->quote(substr($schema, 0, -1));
-            }
-            else {
+                $add = ' AND TABLE_SCHEMA = ' . $this->quote(substr($schema, 0, -1));
+            } else {
                 $add = " AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')";
             }
 
-            $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+            $q = $this->query('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES'
                 . " WHERE TABLE_TYPE = 'BASE TABLE'" . $add
-                . " ORDER BY TABLE_NAME");
+                . ' ORDER BY TABLE_NAME');
 
             $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
         }
@@ -252,15 +255,14 @@ class rcube_db_pgsql extends rcube_db
         $args = [$table];
 
         if (($schema = $this->options['table_prefix']) && $schema[strlen($schema) - 1] === '.') {
-            $add    = " AND TABLE_SCHEMA = ?";
+            $add = ' AND TABLE_SCHEMA = ?';
             $args[] = substr($schema, 0, -1);
-        }
-        else {
+        } else {
             $add = " AND TABLE_SCHEMA NOT IN ('pg_catalog', 'information_schema')";
         }
 
-        $q = $this->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS"
-            . " WHERE TABLE_NAME = ?" . $add, $args);
+        $q = $this->query('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS'
+            . ' WHERE TABLE_NAME = ?' . $add, $args);
 
         if ($q) {
             return $q->fetchAll(PDO::FETCH_COLUMN, 0);
@@ -283,8 +285,7 @@ class rcube_db_pgsql extends rcube_db
 
         if (isset($dsn['hostspec'])) {
             $params[] = 'host=' . $dsn['hostspec'];
-        }
-        elseif (isset($dsn['socket'])) {
+        } elseif (isset($dsn['socket'])) {
             $params[] = 'host=' . $dsn['socket'];
         }
 

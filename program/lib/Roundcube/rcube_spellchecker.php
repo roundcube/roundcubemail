@@ -24,7 +24,6 @@
  */
 class rcube_spellchecker
 {
-    private $matches = [];
     private $options = [];
     private $content;
     private $engine;
@@ -35,39 +34,37 @@ class rcube_spellchecker
     private $dict;
     private $have_dict;
 
-
     /**
      * Constructor
      *
      * @param string $lang Language code
      */
-    function __construct($lang = 'en')
+    public function __construct($lang = 'en')
     {
-        $this->rc     = rcube::get_instance();
+        $this->rc = rcube::get_instance();
         $this->engine = $this->rc->config->get('spellcheck_engine', 'googie');
-        $this->lang   = $lang ?: 'en';
+        $this->lang = $lang ?: 'en';
 
         $this->options = [
             'ignore_syms' => $this->rc->config->get('spellcheck_ignore_syms'),
             'ignore_nums' => $this->rc->config->get('spellcheck_ignore_nums'),
             'ignore_caps' => $this->rc->config->get('spellcheck_ignore_caps'),
-            'dictionary'  => $this->rc->config->get('spellcheck_dictionary'),
+            'dictionary' => $this->rc->config->get('spellcheck_dictionary'),
         ];
 
         $class = 'rcube_spellchecker_' . $this->engine;
 
         if (class_exists($class)) {
             $this->backend = new $class($this, $this->lang, $this->options);
-        }
-        else {
-            $this->error = "Unknown spellcheck engine '$this->engine'";
+        } else {
+            $this->error = "Unknown spellcheck engine '{$this->engine}'";
         }
     }
 
     /**
      * Return a list of supported languages
      */
-    function languages()
+    public function languages()
     {
         // trust configuration
         $configured = $this->rc->config->get('spellcheck_languages');
@@ -78,13 +75,12 @@ class rcube_spellchecker
         $langs = [];
         if (!empty($configured)) {
             $langs = (array) $configured;
-        }
-        elseif ($this->backend) {
+        } elseif ($this->backend) {
             $langs = $this->backend->languages();
         }
 
         // load index
-        $rcube_languages        = [];
+        $rcube_languages = [];
         $rcube_language_aliases = [];
 
         @include RCUBE_LOCALIZATION_DIR . 'index.inc';
@@ -93,27 +89,27 @@ class rcube_spellchecker
         $languages = [];
         foreach ($langs as $lang) {
             $langc = strtolower(substr($lang, 0, 2));
-            $alias = !empty($rcube_language_aliases[$langc]) ? $rcube_language_aliases[$langc] : null;
 
-            if (!$alias) {
+            // @phpstan-ignore-next-line
+            if (array_key_exists($langc, $rcube_language_aliases)) {
+                $alias = $rcube_language_aliases[$langc];
+            } else {
                 $alias = $langc . '_' . strtoupper($langc);
             }
-            if (!empty($rcube_languages[$lang])) {
+
+            if (array_key_exists($lang, $rcube_languages)) { // @phpstan-ignore-line
                 $languages[$lang] = $rcube_languages[$lang];
-            }
-            elseif (preg_match('/^en_([A-Z]+)/', $lang, $m)) {
+            } elseif (preg_match('/^en_([A-Z]+)/', $lang, $m)) {
                 $languages[$lang] = sprintf('English (%s)', strtoupper($m[1]));
-            }
-            elseif (!empty($rcube_languages[$alias])) {
+            } elseif (array_key_exists($alias, $rcube_languages)) { // @phpstan-ignore-line
                 $languages[$lang] = $rcube_languages[$alias];
-            }
-            else {
+            } else {
                 $languages[$lang] = ucfirst($lang);
             }
         }
 
         // remove possible duplicates (#1489395)
-        $languages = array_unique($languages);
+        $languages = array_unique(array_filter($languages));
 
         asort($languages);
 
@@ -128,13 +124,12 @@ class rcube_spellchecker
      *
      * @return bool True when no misspelling found, otherwise false
      */
-    function check($text, $is_html = false)
+    public function check($text, $is_html = false)
     {
         // convert to plain text
         if ($is_html) {
             $this->content = $this->html2text($text);
-        }
-        else {
+        } else {
             $this->content = $text;
         }
 
@@ -148,10 +143,10 @@ class rcube_spellchecker
         $this->content = preg_replace_callback('~(^|\s)(www.\S+|[a-z]+://\S+)~', $callback, $this->content);
 
         if ($this->backend) {
-            $this->matches = $this->backend->check($this->content);
+            return $this->backend->check($this->content);
         }
 
-        return $this->found() == 0;
+        return true;
     }
 
     /**
@@ -159,9 +154,9 @@ class rcube_spellchecker
      *
      * @return int Number of misspellings
      */
-    function found()
+    public function found()
     {
-        return count($this->matches);
+        return $this->backend ? count($this->backend->matches) : 0;
     }
 
     /**
@@ -171,7 +166,7 @@ class rcube_spellchecker
      *
      * @return array Suggestions list
      */
-    function get_suggestions($word)
+    public function get_suggestions($word)
     {
         if ($this->backend) {
             return $this->backend->get_suggestions($word);
@@ -188,7 +183,7 @@ class rcube_spellchecker
      *
      * @return array List of misspelled words
      */
-    function get_words($text = null, $is_html = false)
+    public function get_words($text = null, $is_html = false)
     {
         if ($is_html) {
             $text = $this->html2text($text);
@@ -206,12 +201,13 @@ class rcube_spellchecker
      *
      * @return string XML content
      */
-    function get_xml()
+    public function get_xml()
     {
         // send output
         $out = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><spellresult charschecked="' . mb_strlen($this->content) . '">';
 
-        foreach ((array) $this->matches as $item) {
+        $matches = $this->backend ? $this->backend->matches : [];
+        foreach ($matches as $item) {
             $out .= '<c o="' . $item[1] . '" l="' . $item[2] . '">';
             $out .= is_array($item[4]) ? implode("\t", $item[4]) : $item[4];
             $out .= '</c>';
@@ -227,25 +223,23 @@ class rcube_spellchecker
      *
      * @return array Spellchecking result. An array indexed by word.
      */
-    function get()
+    public function get()
     {
         $result = [];
+        $matches = $this->backend ? $this->backend->matches : [];
 
-        foreach ((array) $this->matches as $item) {
+        foreach ($matches as $item) {
             if ($this->engine == 'pspell') {
                 $word = $item[0];
-            }
-            else {
+            } else {
                 $word = mb_substr($this->content, $item[1], $item[2], RCUBE_CHARSET);
             }
 
             if (is_array($item[4])) {
                 $suggestions = $item[4];
-            }
-            elseif (empty($item[4])) {
+            } elseif (empty($item[4])) {
                 $suggestions = [];
-            }
-            else {
+            } else {
                 $suggestions = explode("\t", $item[4]);
             }
 
@@ -260,9 +254,9 @@ class rcube_spellchecker
      *
      * @return string Error message
      */
-    function error()
+    public function error()
     {
-        return $this->error ?: ($this->backend ? $this->backend->error() : false);
+        return $this->error ?: ($this->backend ? $this->backend->error : false);
     }
 
     private function html2text($text)
@@ -322,10 +316,10 @@ class rcube_spellchecker
     {
         $this->load_dict();
 
-        foreach (explode(' ', $word) as $word) {
+        foreach (explode(' ', $word) as $w) {
             // sanity check
-            if (strlen($word) < 512) {
-                $this->dict[] = $word;
+            if (strlen($w) < 512) {
+                $this->dict[] = $w;
                 $valid = true;
             }
         }
@@ -371,25 +365,24 @@ class rcube_spellchecker
         if ($this->have_dict) {
             if (!empty($this->dict)) {
                 $this->rc->db->query(
-                    "UPDATE " . $this->rc->db->table_name('dictionary', true)
-                    . " SET `data` = ?"
-                    . " WHERE `user_id` " . ($plugin['userid'] ? "= " . $this->rc->db->quote($plugin['userid']) : "IS NULL")
-                        . " AND `language` = ?",
+                    'UPDATE ' . $this->rc->db->table_name('dictionary', true)
+                    . ' SET `data` = ?'
+                    . ' WHERE `user_id` ' . ($plugin['userid'] ? '= ' . $this->rc->db->quote($plugin['userid']) : 'IS NULL')
+                        . ' AND `language` = ?',
                     implode(' ', $plugin['dictionary']), $plugin['language']);
             }
             // don't store empty dict
             else {
                 $this->rc->db->query(
-                    "DELETE FROM " . $this->rc->db->table_name('dictionary', true)
-                    . " WHERE `user_id` " . ($plugin['userid'] ? "= " . $this->rc->db->quote($plugin['userid']) : "IS NULL")
-                        . " AND `language` = ?",
+                    'DELETE FROM ' . $this->rc->db->table_name('dictionary', true)
+                    . ' WHERE `user_id` ' . ($plugin['userid'] ? '= ' . $this->rc->db->quote($plugin['userid']) : 'IS NULL')
+                        . ' AND `language` = ?',
                     $plugin['language']);
             }
-        }
-        elseif (!empty($this->dict)) {
+        } elseif (!empty($this->dict)) {
             $this->rc->db->query(
-                "INSERT INTO " . $this->rc->db->table_name('dictionary', true)
-                . " (`user_id`, `language`, `data`) VALUES (?, ?, ?)",
+                'INSERT INTO ' . $this->rc->db->table_name('dictionary', true)
+                . ' (`user_id`, `language`, `data`) VALUES (?, ?, ?)',
                 $plugin['userid'], $plugin['language'], implode(' ', $plugin['dictionary']));
         }
     }
@@ -414,9 +407,9 @@ class rcube_spellchecker
         if (empty($plugin['abort'])) {
             $dict = [];
             $sql_result = $this->rc->db->query(
-                "SELECT `data` FROM " . $this->rc->db->table_name('dictionary', true)
-                . " WHERE `user_id` " . ($plugin['userid'] ? "= " . $this->rc->db->quote($plugin['userid']) : "IS NULL")
-                    . " AND `language` = ?",
+                'SELECT `data` FROM ' . $this->rc->db->table_name('dictionary', true)
+                . ' WHERE `user_id` ' . ($plugin['userid'] ? '= ' . $this->rc->db->quote($plugin['userid']) : 'IS NULL')
+                    . ' AND `language` = ?',
                 $plugin['language']);
 
             if ($sql_arr = $this->rc->db->fetch_assoc($sql_result)) {
@@ -431,8 +424,7 @@ class rcube_spellchecker
 
         if (!empty($plugin['dictionary']) && is_array($plugin['dictionary'])) {
             $this->dict = $plugin['dictionary'];
-        }
-        else {
+        } else {
             $this->dict = [];
         }
 

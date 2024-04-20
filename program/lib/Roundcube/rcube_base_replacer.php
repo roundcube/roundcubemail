@@ -25,7 +25,6 @@ class rcube_base_replacer
 {
     private $base_url;
 
-
     /**
      * Class constructor
      *
@@ -97,8 +96,7 @@ class rcube_base_replacer
         // $path is absolute
         if ($path && $path[0] == '/') {
             $abs_path = $host_url . $path;
-        }
-        else {
+        } else {
             // strip './' because its the same as ''
             $path = preg_replace('/^\.\//', '', $path);
 

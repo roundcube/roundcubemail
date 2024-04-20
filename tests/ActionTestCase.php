@@ -1,14 +1,15 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class to test rcmail_action_mail_index
  */
-class ActionTestCase extends PHPUnit\Framework\TestCase
+class ActionTestCase extends TestCase
 {
     private static $files = [];
 
-
-    static function setUpBeforeClass(): void
+    public static function setUpBeforeClass(): void
     {
         // reset some interfering globals set in other tests
         $_SERVER['REQUEST_URI'] = '';
@@ -17,7 +18,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail->load_gui();
     }
 
-    static function tearDownAfterClass(): void
+    public static function tearDownAfterClass(): void
     {
         foreach (self::$files as $file) {
             unlink($file);
@@ -27,12 +28,14 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
         $rcmail = rcmail::get_instance();
         $rcmail->shutdown();
+
+        html::$doctype = 'xhtml';
     }
 
     protected function setUp(): void
     {
-        $_GET     = [];
-        $_POST    = [];
+        $_GET = [];
+        $_POST = [];
         $_REQUEST = [];
     }
 
@@ -44,7 +47,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         self::initSession();
         self::initDB();
         self::initUser();
-        self::initStorage();
+        self::mockStorage();
     }
 
     /**
@@ -82,8 +85,8 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
     public static function initDB($file = null)
     {
         $rcmail = rcmail::get_instance();
-        $dsn    = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
-        $db     = $rcmail->get_dbh();
+        $dsn = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
+        $db = $rcmail->get_dbh();
 
         if ($file) {
             self::loadSQLScript($db, $file);
@@ -92,11 +95,11 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
         if ($dsn['phptype'] == 'mysql' || $dsn['phptype'] == 'mysqli') {
             // drop all existing tables first
-            $db->query("SET FOREIGN_KEY_CHECKS=0");
-            $sql_res = $db->query("SHOW TABLES");
+            $db->query('SET FOREIGN_KEY_CHECKS=0');
+            $sql_res = $db->query('SHOW TABLES');
             while ($sql_arr = $db->fetch_array($sql_res)) {
                 $table = reset($sql_arr);
-                $db->query("DROP TABLE $table");
+                $db->query("DROP TABLE {$table}");
             }
 
             // init database with schema
@@ -108,8 +111,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
                 escapeshellarg($dsn['password']),
                 escapeshellarg($dsn['database'])
             ));
-        }
-        elseif ($dsn['phptype'] == 'sqlite') {
+        } elseif ($dsn['phptype'] == 'sqlite') {
             $db->closeConnection();
 
             // delete database file
@@ -143,10 +145,10 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
      *
      * @return StorageMock The storage object
      */
-    public static function initStorage()
+    public static function mockStorage()
     {
         $rcmail = rcmail::get_instance();
-        $rcmail->storage = new StorageMock();
+        $rcmail->storage = new StorageMock(); // @phpstan-ignore-line
 
         return $rcmail->storage;
     }
@@ -174,12 +176,12 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
     {
         $content = base64_decode(rcmail_output::BLANK_GIF);
         $file = [
-            'name'     => 'test.gif',
-            'type'     => 'image/gif',
+            'name' => 'test.gif',
+            'type' => 'image/gif',
             'tmp_name' => $this->createTempFile($content),
-            'error'    => $error,
-            'size'     => strlen($content),
-            'id'       => 'i' . microtime(true),
+            'error' => $error,
+            'size' => strlen($content),
+            'id' => 'i' . microtime(true),
         ];
 
         // Attachments handling plugins use move_uploaded_file() which does not work
@@ -187,7 +189,7 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail = rcmail::get_instance();
         $rcmail->plugins->register_hook('attachment_upload', static function ($att) use ($file) {
             $att['status'] = true;
-            $att['id']     = $file['id'];
+            $att['id'] = $file['id'];
             return $att;
         });
 
@@ -195,15 +197,14 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
         if ($is_array) {
             $_FILES[$name] = [
-                'name'     => [$file['name']],
-                'type'     => [$file['type']],
+                'name' => [$file['name']],
+                'type' => [$file['type']],
                 'tmp_name' => [$file['tmp_name']],
-                'error'    => [$file['error']],
-                'size'     => [$file['size']],
-                'id'       => [$file['id']],
+                'error' => [$file['error']],
+                'size' => [$file['size']],
+                'id' => [$file['id']],
             ];
-        }
-        else {
+        } else {
             $_FILES[$name] = $file;
         }
 
@@ -217,11 +218,11 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
     {
         $content = base64_decode(rcmail_output::BLANK_GIF);
         $file = [
-            'name'     => 'test.gif',
-            'type'     => 'image/gif',
-            'size'     => strlen($content),
-            'group'    => $group,
-            'id'       => 'i' . microtime(true),
+            'name' => 'test.gif',
+            'type' => 'image/gif',
+            'size' => strlen($content),
+            'group' => $group,
+            'id' => 'i' . microtime(true),
         ];
 
         // Attachments handling plugins use move_uploaded_file() which does not work
@@ -229,13 +230,13 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
         $rcmail = rcmail::get_instance();
         $rcmail->plugins->register_hook('attachment_upload', static function ($att) use ($file) {
             $att['status'] = true;
-            $att['id']     = $file['id'];
+            $att['id'] = $file['id'];
             return $att;
         });
 
         $rcmail->insert_uploaded_file($file);
 
-        $upload = rcube::get_instance()->get_uploaded_file($file['id']);
+        $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
 
         $this->assertTrue(is_array($upload));
 
@@ -276,11 +277,9 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
             StderrMock::start();
             $action->run($args);
             StderrMock::stop();
-        }
-        catch (ExitException $e) {
+        } catch (ExitException $e) {
             $this->assertSame($expected_code, $e->getCode());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             if ($e->getMessage() == 'Error raised' && $expected_code == OutputHtmlMock::E_EXIT) {
                 return;
             }

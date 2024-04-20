@@ -30,8 +30,8 @@ class StderrMock extends php_user_filter
     public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
-            $consumed += $bucket->datalen;
-            //stream_bucket_append($out, $bucket);
+            $consumed += (int) $bucket->datalen;
+            // stream_bucket_append($out, $bucket);
             self::$output .= $bucket->data;
         }
 
@@ -41,12 +41,12 @@ class StderrMock extends php_user_filter
     public static function start()
     {
         if (!self::$registered) {
-            stream_filter_register("redirect", "StderrMock") || exit("Failed to register filter");
+            stream_filter_register('redirect', 'StderrMock') || exit('Failed to register filter');
             self::$registered = true;
         }
 
         self::$output = '';
-        self::$redirect = stream_filter_prepend(\STDERR, "redirect", \STREAM_FILTER_WRITE);
+        self::$redirect = stream_filter_prepend(\STDERR, 'redirect', \STREAM_FILTER_WRITE);
     }
 
     public static function stop()

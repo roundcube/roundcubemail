@@ -3,8 +3,9 @@
 namespace Tests\Browser\Contacts;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\TestCase;
 
-class ContactsTest extends \Tests\Browser\TestCase
+class ContactsTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -42,22 +43,19 @@ class ContactsTest extends \Tests\Browser\TestCase
                 $browser->assertMissing('#contacts-table');
                 $browser->click('#directorylist li:first-child');
                 $browser->waitFor('#contacts-table');
-            }
-            else {
+            } else {
                 $browser->assertVisible('#contacts-table');
             }
 
             // Contacts list menu
             if ($browser->isPhone()) {
                 $browser->assertToolbarMenu(['select'], []);
-            }
-            elseif ($browser->isTablet()) {
+            } elseif ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button')
                     ->waitFor('#toolbar-list-menu')
                     ->assertVisible('#toolbar-list-menu a.select:not(.disabled)')
                     ->click();
-            }
-            else {
+            } else {
                 $browser->assertVisible('#toolbar-list-menu a.select:not(.disabled)');
             }
 

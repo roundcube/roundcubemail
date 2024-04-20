@@ -31,10 +31,8 @@ class Popupmenu extends Component
      * Assert that the browser page contains the component.
      *
      * @param Browser $browser
-     *
-     * @return void
      */
-    public function assert($browser)
+    public function assert($browser): void
     {
         $browser->waitFor($this->selector());
     }
@@ -57,18 +55,16 @@ class Popupmenu extends Component
         foreach ($active as $option) {
             // Print action is disabled on phones
             if ($option == 'print' && $browser->isPhone()) {
-                $browser->assertMissing("a.print");
-            }
-            else {
+                $browser->assertMissing('a.print');
+            } else {
                 $browser->assertVisible("a.{$option}:not(.disabled)");
             }
         }
 
         foreach ($disabled as $option) {
             if ($option == 'print' && $browser->isPhone()) {
-                $browser->assertMissing("a.print");
-            }
-            else {
+                $browser->assertMissing('a.print');
+            } else {
                 $browser->assertVisible("a.{$option}.disabled");
             }
         }
@@ -100,7 +96,7 @@ class Popupmenu extends Component
      */
     public function clickMenuItem($browser, $name, $dropdown_action = null)
     {
-        $selector = "a.{$name}" . ($dropdown_action ? " + a.dropdown" : '');
+        $selector = "a.{$name}" . ($dropdown_action ? ' + a.dropdown' : '');
 
         $browser->click($selector);
 

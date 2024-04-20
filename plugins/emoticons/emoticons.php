@@ -16,13 +16,12 @@ class emoticons extends rcube_plugin
 {
     public $task = 'mail|settings|utils';
 
-
     /**
      * Plugin initialization.
      */
-    function init()
+    public function init()
     {
-        $rcube = rcube::get_instance();
+        $rcube = rcmail::get_instance();
 
         $this->add_hook('message_part_after', [$this, 'message_part_after']);
         $this->add_hook('html_editor', [$this, 'html_editor']);
@@ -37,12 +36,12 @@ class emoticons extends rcube_plugin
      * 'message_part_after' hook handler to replace common
      * plain text emoticons with emoji
      */
-    function message_part_after($args)
+    public function message_part_after($args)
     {
         if ($args['type'] == 'plain') {
             $this->load_config();
 
-            $rcube = rcube::get_instance();
+            $rcube = rcmail::get_instance();
             if (!$rcube->config->get('emoticons_display', false)) {
                 return $args;
             }
@@ -56,9 +55,9 @@ class emoticons extends rcube_plugin
     /**
      * 'html_editor' hook handler, where we enable emoticons in TinyMCE
      */
-    function html_editor($args)
+    public function html_editor($args)
     {
-        $rcube = rcube::get_instance();
+        $rcube = rcmail::get_instance();
 
         $this->load_config();
 
@@ -73,9 +72,9 @@ class emoticons extends rcube_plugin
     /**
      * 'preferences_list' hook handler
      */
-    function preferences_list($args)
+    public function preferences_list($args)
     {
-        $rcube         = rcube::get_instance();
+        $rcube = rcmail::get_instance();
         $dont_override = $rcube->config->get('dont_override', []);
 
         if ($args['section'] == 'mailview' && !in_array('emoticons_display', $dont_override)) {
@@ -86,11 +85,10 @@ class emoticons extends rcube_plugin
             $checkbox = new html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['emoticons_display'] = [
-                    'title'   => html::label($field_id, $this->gettext('emoticonsdisplay')),
-                    'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false))),
+                'title' => html::label($field_id, $this->gettext('emoticonsdisplay')),
+                'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false))),
             ];
-        }
-        elseif ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
+        } elseif ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
             $this->load_config();
             $this->add_texts('localization');
 
@@ -98,8 +96,8 @@ class emoticons extends rcube_plugin
             $checkbox = new html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['emoticons_compose'] = [
-                    'title'   => html::label($field_id, $this->gettext('emoticonscompose')),
-                    'content' => $checkbox->show(intval($rcube->config->get('emoticons_compose', true))),
+                'title' => html::label($field_id, $this->gettext('emoticonscompose')),
+                'content' => $checkbox->show(intval($rcube->config->get('emoticons_compose', true))),
             ];
         }
 
@@ -109,12 +107,11 @@ class emoticons extends rcube_plugin
     /**
      * 'preferences_save' hook handler
      */
-    function preferences_save($args)
+    public function preferences_save($args)
     {
         if ($args['section'] == 'mailview') {
             $args['prefs']['emoticons_display'] = (bool) rcube_utils::get_input_value('_emoticons_display', rcube_utils::INPUT_POST);
-        }
-        elseif ($args['section'] == 'compose') {
+        } elseif ($args['section'] == 'compose') {
             $args['prefs']['emoticons_compose'] = (bool) rcube_utils::get_input_value('_emoticons_compose', rcube_utils::INPUT_POST);
         }
 
@@ -144,18 +141,18 @@ class emoticons extends rcube_plugin
 
         // map of emoticon replacements
         $map = [
-            '/(?<!mailto):-?D/'   => self::ico_tag('1f603', ':D'), // laugh
-            '/:-?\(/'             => self::ico_tag('1f626', ':('), // frown
-            '/' . $entity . ';-?\)/'  => self::ico_tag('1f609', ';)'), // wink
-            '/8-?\)/'             => self::ico_tag('1f60e', '8)'), // cool
-            '/(?<!mailto):-?O/i'  => self::ico_tag('1f62e', ':O'), // surprised
-            '/(?<!mailto):-?P/i'  => self::ico_tag('1f61b', ':P'), // tongue out
-            '/(?<!mailto):-?@/i'  => self::ico_tag('1f631', ':-@'), // yell
-            '/O:-?\)/i'           => self::ico_tag('1f607', 'O:-)'), // innocent
-            '/(?<!O):-?\)/'       => self::ico_tag('1f60a', ':-)'), // smile
-            '/(?<!mailto):-?\$/'  => self::ico_tag('1f633', ':-$'), // embarrassed
+            '/(?<!mailto):-?D/' => self::ico_tag('1f603', ':D'), // laugh
+            '/:-?\(/' => self::ico_tag('1f626', ':('), // frown
+            '/' . $entity . ';-?\)/' => self::ico_tag('1f609', ';)'), // wink
+            '/8-?\)/' => self::ico_tag('1f60e', '8)'), // cool
+            '/(?<!mailto):-?O/i' => self::ico_tag('1f62e', ':O'), // surprised
+            '/(?<!mailto):-?P/i' => self::ico_tag('1f61b', ':P'), // tongue out
+            '/(?<!mailto):-?@/i' => self::ico_tag('1f631', ':-@'), // yell
+            '/O:-?\)/i' => self::ico_tag('1f607', 'O:-)'), // innocent
+            '/(?<!O):-?\)/' => self::ico_tag('1f60a', ':-)'), // smile
+            '/(?<!mailto):-?\$/' => self::ico_tag('1f633', ':-$'), // embarrassed
             '/(?<!mailto):-?\*/i' => self::ico_tag('1f48b', ':-*'), // kiss
-            '/(?<!mailto):-?S/i'  => self::ico_tag('1f615', ':-S'), // undecided
+            '/(?<!mailto):-?S/i' => self::ico_tag('1f615', ':-S'), // undecided
         ];
 
         return preg_replace(array_keys($map), array_values($map), $text);

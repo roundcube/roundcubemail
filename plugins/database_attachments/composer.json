@@ -16,15 +16,14 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://plugins.roundcube.net"
-        }
-    ],
     "require": {
         "php": ">=7.3.0",
-        "roundcube/plugin-installer": ">=0.1.3",
+        "roundcube/plugin-installer": "~0.3.5",
         "roundcube/filesystem_attachments": ">=1.0.0"
+    },
+    "autoload": {
+        "classmap": [
+            "database_attachments.php"
+        ]
     }
 }

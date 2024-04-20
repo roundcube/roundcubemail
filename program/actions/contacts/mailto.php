@@ -29,9 +29,9 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
      */
     public function run($args = [])
     {
-        $rcmail  = rcmail::get_instance();
-        $cids    = self::get_cids();
-        $mailto  = [];
+        $rcmail = rcmail::get_instance();
+        $cids = self::get_cids();
+        $mailto = [];
         $sources = [];
 
         foreach ($cids as $source => $cid) {
@@ -45,17 +45,16 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
         }
 
         if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source'])) {
-            $source   = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GP);
+            $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GP);
             $group_id = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP);
 
-            $contacts   = $rcmail->get_address_book($source);
+            $contacts = $rcmail->get_address_book($source);
             $group_data = $contacts->get_group($group_id);
 
             // group has an email address assigned: use that
             if (!empty($group_data['email'])) {
                 $mailto[] = format_email_recipient($group_data['email'][0], $group_data['name']);
-            }
-            elseif ($contacts->ready) {
+            } elseif ($contacts->ready) {
                 $maxnum = (int) $rcmail->config->get('max_group_members');
 
                 $contacts->set_group($group_id);
@@ -66,7 +65,7 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
         }
 
         foreach ($sources as $source) {
-            while (is_object($source) && ($rec = $source->iterate())) {
+            foreach ($source as $rec) {
                 $emails = rcube_addressbook::get_col_values('email', $rec, true);
 
                 if (!empty($emails)) {
@@ -77,11 +76,10 @@ class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
 
         if (!empty($mailto)) {
             $mailto_str = implode(', ', $mailto);
-            $mailto_id  = substr(md5($mailto_str), 0, 16);
+            $mailto_id = substr(md5($mailto_str), 0, 16);
             $_SESSION['mailto'][$mailto_id] = urlencode($mailto_str);
             $rcmail->output->command('open_compose_step', ['_mailto' => $mailto_id]);
-        }
-        else {
+        } else {
             $rcmail->output->show_message('nocontactsfound', 'warning');
         }
 

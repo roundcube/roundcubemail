@@ -4,8 +4,9 @@ namespace Tests\Browser\Contacts;
 
 use Tests\Browser\Components\Dialog;
 use Tests\Browser\Components\Popupmenu;
+use Tests\Browser\TestCase;
 
-class GroupsTest extends \Tests\Browser\TestCase
+class GroupsTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

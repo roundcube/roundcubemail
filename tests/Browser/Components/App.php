@@ -22,10 +22,8 @@ class App extends Component
      * Assert that the browser page contains the component.
      *
      * @param Browser $browser
-     *
-     * @return void
      */
-    public function assert($browser)
+    public function assert($browser): void
     {
         // Assume the app (window.rcmail) is always available
         // we can't assert that before we visit the page
@@ -40,8 +38,7 @@ class App extends Component
      */
     public function elements()
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -54,12 +51,11 @@ class App extends Component
     public function assertEnv($browser, $key, $expected = null)
     {
         if (is_array($key)) {
-            foreach ($key as $name => $expected) {
-                Assert::assertEquals($expected, $this->getEnv($browser, $name));
+            foreach ($key as $name => $value) {
+                Assert::assertEquals($value, $browser->getEnv($name));
             }
-        }
-        else {
-            Assert::assertEquals($expected, $this->getEnv($browser, $key));
+        } else {
+            Assert::assertEquals($expected, $browser->getEnv($key));
         }
     }
 
@@ -76,19 +72,11 @@ class App extends Component
     }
 
     /**
-     * Return rcmail.env entry
-     */
-    public function getEnv($browser, $key)
-    {
-        return $browser->driver->executeScript("return rcmail.env['$key']");
-    }
-
-    /**
      * Return names of defined gui_objects
      */
     public function getObjects($browser)
     {
-        return (array) $browser->driver->executeScript("var i, r = []; for (i in rcmail.gui_objects) r.push(i); return r");
+        return (array) $browser->driver->executeScript('var i, r = []; for (i in rcmail.gui_objects) r.push(i); return r');
     }
 
     /**
@@ -99,7 +87,7 @@ class App extends Component
         $browser->visit("?_task={$task}&_action={$action}");
 
         // check if we have a valid session
-        if ($login && $this->getEnv($browser, 'task') == 'login') {
+        if ($login && $browser->getEnv('task') == 'login') {
             $this->doLogin($browser);
         }
     }

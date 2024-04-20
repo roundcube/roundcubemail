@@ -5,8 +5,9 @@ namespace Tests\Browser\Settings;
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\Dialog;
 use Tests\Browser\Components\Popupmenu;
+use Tests\Browser\TestCase;
 
-class ResponsesTest extends \Tests\Browser\TestCase
+class ResponsesTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -61,8 +62,7 @@ class ResponsesTest extends \Tests\Browser\TestCase
                 $browser->assertVisible('.floating-action-buttons a.create:not(.disabled)')
                     ->click('.floating-action-buttons a.create')
                     ->waitFor('#preferences-frame');
-            }
-            else {
+            } else {
                 $browser->clickToolbarMenuItem('create');
             }
 

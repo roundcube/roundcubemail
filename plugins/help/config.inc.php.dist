@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // Help content iframe source
 // %l will be replaced by the language code resolved using the 'help_language_map' option
 // If you are serving roundcube via https, then change this URL to https also.
@@ -9,14 +11,14 @@ $config['help_source'] = 'https://docs.roundcube.net/doc/help/1.1/%l/';
 // Use '<task>/<action>' or only '<task>' strings as keys
 // The values will be appended to the 'help_source' URL
 $config['help_index_map'] = [
-    'login'                => 'login.html',
-    'mail'                 => 'mail/index.html',
-    'mail/compose'         => 'mail/compose.html',
-    'addressbook'          => 'addressbook/index.html',
-    'settings'             => 'settings/index.html',
+    'login' => 'login.html',
+    'mail' => 'mail/index.html',
+    'mail/compose' => 'mail/compose.html',
+    'addressbook' => 'addressbook/index.html',
+    'settings' => 'settings/index.html',
     'settings/preferences' => 'settings/preferences.html',
-    'settings/folders'     => 'settings/folders.html',
-    'settings/identities'  => 'settings/identities.html',
+    'settings/folders' => 'settings/folders.html',
+    'settings/identities' => 'settings/identities.html',
 ];
 
 // Map to translate Roundcube language codes into help document languages

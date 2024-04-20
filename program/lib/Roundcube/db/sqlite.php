@@ -62,21 +62,19 @@ class rcube_db_sqlite extends rcube_db
                     $this->db_error_msg = sprintf('[%s] %s', $error[1], $error[2]);
 
                     rcube::raise_error([
-                            'code' => 500, 'type' => 'db',
-                            'line' => __LINE__, 'file' => __FILE__,
-                            'message' => $this->db_error_msg,
-                        ],
-                        true, false
-                    );
+                        'code' => 500, 'type' => 'db',
+                        'line' => __LINE__, 'file' => __FILE__,
+                        'message' => $this->db_error_msg,
+                    ], true, false);
                 }
             }
         }
 
         // Enable WAL mode to fix locking issues like #8035.
-        $dbh->query("PRAGMA journal_mode = WAL");
+        $dbh->query('PRAGMA journal_mode = WAL');
 
         // Enable foreign keys (requires sqlite 3.6.19 compiled with FK support)
-        $dbh->query("PRAGMA foreign_keys = ON");
+        $dbh->query('PRAGMA foreign_keys = ON');
     }
 
     /**
@@ -90,7 +88,7 @@ class rcube_db_sqlite extends rcube_db
      */
     public function unixtimestamp($field)
     {
-        return "strftime('%s', $field)";
+        return "strftime('%s', {$field})";
     }
 
     /**
@@ -108,7 +106,7 @@ class rcube_db_sqlite extends rcube_db
             $add = ($interval > 0 ? '+' : '') . intval($interval) . ' seconds';
         }
 
-        return "datetime('now'" . ($add ? ", '$add'" : "") . ")";
+        return "datetime('now'" . ($add ? ", '{$add}'" : '') . ')';
     }
 
     /**

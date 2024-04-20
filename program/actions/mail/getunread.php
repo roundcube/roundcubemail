@@ -29,13 +29,13 @@ class rcmail_action_mail_getunread extends rcmail_action_mail_index
      */
     public function run($args = [])
     {
-        $rcmail    = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $a_folders = $rcmail->storage->list_folders_subscribed('', '*', 'mail');
 
         if (!empty($a_folders)) {
-            $current   = $rcmail->storage->get_folder();
-            $inbox     = $current == 'INBOX';
-            $trash     = $rcmail->config->get('trash_mbox');
+            $current = $rcmail->storage->get_folder();
+            $inbox = $current == 'INBOX';
+            $trash = $rcmail->config->get('trash_mbox');
             $check_all = (bool) $rcmail->config->get('check_all_folders');
 
             foreach ($a_folders as $mbox) {
@@ -43,8 +43,7 @@ class rcmail_action_mail_getunread extends rcmail_action_mail_index
 
                 if (!$check_all && $unseen_old !== null && $mbox != $current) {
                     $unseen = $unseen_old;
-                }
-                else {
+                } else {
                     $unseen = $rcmail->storage->count($mbox, 'UNSEEN', $unseen_old === null);
                 }
 

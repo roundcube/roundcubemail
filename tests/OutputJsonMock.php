@@ -22,8 +22,8 @@
  */
 class OutputJsonMock extends rcmail_output_json
 {
-    const E_EXIT     = 101;
-    const E_REDIRECT = 102;
+    public const E_EXIT = 101;
+    public const E_REDIRECT = 102;
 
     public $output;
     public $headers = [];
@@ -47,7 +47,7 @@ class OutputJsonMock extends rcmail_output_json
         $this->output = ob_get_contents();
         ob_end_clean();
 
-        throw new ExitException("Location: $location", self::E_REDIRECT);
+        throw new ExitException("Location: {$location}", self::E_REDIRECT);
     }
 
     /**
@@ -60,7 +60,7 @@ class OutputJsonMock extends rcmail_output_json
         $this->output = ob_get_contents();
         ob_end_clean();
 
-        throw new ExitException("Output sent", self::E_EXIT);
+        throw new ExitException('Output sent', self::E_EXIT);
     }
 
     /**
@@ -77,7 +77,7 @@ class OutputJsonMock extends rcmail_output_json
 
         $this->output = $body;
 
-        throw new ExitException("Output sent", self::E_EXIT);
+        throw new ExitException('Output sent', self::E_EXIT);
     }
 
     /**
@@ -91,7 +91,7 @@ class OutputJsonMock extends rcmail_output_json
         $this->errorCode = $code;
         $this->errorMessage = $message;
 
-        throw new ExitException("Output sent (error)", self::E_EXIT);
+        throw new ExitException('Output sent (error)', self::E_EXIT);
     }
 
     /**
@@ -103,17 +103,17 @@ class OutputJsonMock extends rcmail_output_json
     public function raise_error($code, $message)
     {
         if ($code == 403) {
-            throw new ExitException("403 Forbidden", self::E_EXIT);
+            throw new ExitException('403 Forbidden', self::E_EXIT);
         }
 
-        $this->show_message("Application Error ($code): $message", 'error');
+        $this->show_message("Application Error ({$code}): {$message}", 'error');
 
         ob_start();
         $this->remote_response();
         $this->output = ob_get_contents();
         ob_end_clean();
 
-        throw new ExitException("Error $code raised", self::E_EXIT);
+        throw new ExitException("Error {$code} raised", self::E_EXIT);
     }
 
     /**
@@ -123,11 +123,11 @@ class OutputJsonMock extends rcmail_output_json
     {
         parent::reset();
 
-        $this->headers     = [];
-        $this->output      = null;
+        $this->headers = [];
+        $this->output = null;
         $this->header_sent = false;
 
-        $this->errorCode    = null;
+        $this->errorCode = null;
         $this->errorMessage = null;
     }
 

@@ -39,8 +39,8 @@ class rcube_result_set implements Iterator, ArrayAccess
     public $first = 0;
 
     /**
-     * @var bool True if the results are from an addressbook that does not support listing all records but
-     *           requires the search function to be used.
+     * @var bool true if the results are from an addressbook that does not support listing all records but
+     *           requires the search function to be used
      */
     public $searchonly = false;
 
@@ -51,7 +51,7 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     private $current = 0;
 
-    function __construct($count = 0, $first = 0)
+    public function __construct($count = 0, $first = 0)
     {
         $this->count = (int) $count;
         $this->first = (int) $first;
@@ -89,8 +89,7 @@ class rcube_result_set implements Iterator, ArrayAccess
         if ($offset === null) {
             $offset = count($this->records);
             $this->records[] = $value;
-        }
-        else {
+        } else {
             $this->records[$offset] = $value;
         }
     }
@@ -133,7 +132,7 @@ class rcube_result_set implements Iterator, ArrayAccess
     #[ReturnTypeWillChange]
     public function next()
     {
-        return $this->iterate();
+        $this->current++;
     }
 
     public function valid(): bool

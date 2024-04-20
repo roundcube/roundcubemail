@@ -4,6 +4,7 @@
 
 - Update to jQuery 3.7.1
 - Drop dependency on JsTimeZoneDetect (#8965)
+- Renamed composer.json.dist to composer.json (#9279)
 - Removed support for MS SQL Server and Oracle (#7854)
 - Store uploads metadata in a separate sql database table instead of a session (#8415)
 - Mouse-over menu on messages list (#7141)
@@ -20,6 +21,7 @@
 - Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
+- Use draft settings (like DSN) on "Edit as new" (#9349)
 - OAuth: Add support for SMTP without authentication (#9183)
 - OAuth: Add support for OAuth/OpenIDC discovery (#8201)
 - OAuth: Add support for invalidating the OAuth-session on logout (#8057)
@@ -31,23 +33,36 @@
 - OAuth: Fix: missing config `oauth_provider_name` in rcmail_oauth's constructor (#9217)
 - OAuth: Fix Bearer authentication for Kinde (#9244)
 - OAuth: Refactor: move display to the rcmail_oauth class and use `loginform_content` hook (#9217)
+- Additional_Message_Headers: Added %u, %d and %l variables (#8746, #8732)
 - ACL: Set default of 'acl_specials' option to ['anyone'] (#8911)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Password: Add ldap_samba_ad driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
+- Password: Use Guzzle HTTP Client in 'pwned' driver
+- Password: Check that a user email is part of password in zxcvbn checker (#9404)
+- Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+- Makefile: Use phpDocumentor v3.4 for the Framework docs (#9313)
+- Fix bug where HTML entities in URLs were not decoded on HTML to plain text conversion (#9312)
+- Fix bug in collapsing/expanding folders with some special characters in names (#9324)
+- Fix PHP8 warnings (#9363)
+- Fix missing field labels in CSV import, for some locales (#9393)
+
+## Release 1.6.6
+
 - Fix regression in handling LDAP search_fields configuration parameter (#9210)
 - Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
 - Fix page jump menu flickering on click (#9196)
 - Update to TinyMCE 5.10.9 security release (#9228)
-- Fix PHP8 warnings (#9235, #9238, #9242)
+- Fix PHP8 warnings (#9235, #9238, #9242, #9306)
 - Fix saving other encryption settings besides enigma's (#9240)
 - Fix unneeded php command use in installto.sh and deluser.sh scripts (#9237)
 - Fix TinyMCE localization installation (#9266)
 - Fix bug where trailing non-ascii characters in email addresses could have been removed in recipient input (#9257)
+- Fix IMAP GETMETADATA command with options - RFC5464
 
 ## Release 1.6.5
 

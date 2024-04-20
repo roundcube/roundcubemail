@@ -54,10 +54,10 @@ $config['db_prefix'] = '';
 // This can be used in a setup with replicated databases and a DB master
 // where read/write access to cache tables should not go to master.
 $config['db_table_dsn'] = [
-//    'cache' => 'r',
-//    'cache_index' => 'r',
-//    'cache_thread' => 'r',
-//    'cache_messages' => 'r',
+    // 'cache' => 'r',
+    // 'cache_index' => 'r',
+    // 'cache_thread' => 'r',
+    // 'cache_messages' => 'r',
 ];
 
 // It is possible to specify database variable values e.g. some limits here.
@@ -65,7 +65,6 @@ $config['db_table_dsn'] = [
 // For example Roundcube uses max_allowed_packet value (in bytes)
 // which limits query size for database cache operations.
 $config['db_max_allowed_packet'] = null;
-
 
 // ----------------------------------
 // LOGGING/DEBUGGING
@@ -126,7 +125,6 @@ $config['apc_debug'] = false;
 // Log Redis conversation to <log_dir>/redis.log or to syslog
 $config['redis_debug'] = false;
 
-
 // ----------------------------------
 // IMAP
 // ----------------------------------
@@ -160,7 +158,7 @@ $config['imap_auth_type'] = null;
 // See http://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
 // WARNING: Please note this is currently incompatible with implicit ssl,
 // since the proxy protocol preamble is expected before the ssl handshake.
-//$config['imap_conn_options'] = [
+// $config['imap_conn_options'] = [
 //    'ssl' => [
 //        'verify_peer'  => true,
 //        'verify_depth' => 3,
@@ -173,7 +171,7 @@ $config['imap_auth_type'] = null;
 //        'local_addr'    => $_SERVER['SERVER_ADDR'], // optional
 //        'local_port'    => $_SERVER['SERVER_PORT'], // optional
 //    ],
-//];
+// ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['imap_conn_options'] = null;
 
@@ -203,8 +201,8 @@ $config['imap_vendor'] = null;
 // Note: These can be used also to overwrite server's namespaces
 // Note: Set these to FALSE to disable access to specified namespace
 $config['imap_ns_personal'] = null;
-$config['imap_ns_other']    = null;
-$config['imap_ns_shared']   = null;
+$config['imap_ns_other'] = null;
+$config['imap_ns_shared'] = null;
 
 // By default IMAP capabilities are read after connection to IMAP server
 // In some cases, e.g. when using IMAP proxy, there's a need to refresh the list
@@ -262,7 +260,6 @@ $config['messages_cache_ttl'] = '10d';
 // Note: On MySQL this should be less than (max_allowed_packet - 30%)
 $config['messages_cache_threshold'] = 50;
 
-
 // ----------------------------------
 // SMTP
 // ----------------------------------
@@ -306,7 +303,6 @@ $config['smtp_xclient_login'] = false;
 // Pass the remote IP (XCLIENT ADDR) to the server
 $config['smtp_xclient_addr'] = false;
 
-
 // SMTP HELO host
 // Hostname to give to the remote server for SMTP 'HELO' or 'EHLO' messages
 // Leave this blank and you will get the server variable 'server_name' or
@@ -331,7 +327,6 @@ $config['smtp_timeout'] = 0;
 // ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['smtp_conn_options'] = null;
-
 
 // ----------------------------------
 // OAuth
@@ -418,12 +413,12 @@ $config['oauth_user_create_map'] = [
     'language' => ['locale'],
 ];
 
-///// Example config for Gmail
+// /// Example config for Gmail
 
 // Register your service at https://console.developers.google.com/
 // - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
 
-// $config['default_host'] = 'ssl://imap.gmail.com';
+// $config['imap_host'] = 'ssl://imap.gmail.com';
 // $config['oauth_provider'] = 'google';
 // $config['oauth_provider_name'] = 'Google';
 // $config['oauth_client_id'] = "<your-credentials-client-id>";
@@ -434,7 +429,7 @@ $config['oauth_user_create_map'] = [
 // $config['oauth_scope'] = "email profile openid https://mail.google.com/";
 // $config['oauth_auth_parameters'] = ['access_type' => 'offline', 'prompt' => 'consent'];
 
-///// Example config for Outlook.com (Office 365)
+// /// Example config for Outlook.com (Office 365)
 
 // Register your OAuth client at https://portal.azure.com
 // - use https://<your-roundcube-url>/index.php/login/oauth as redirect URL
@@ -463,7 +458,6 @@ $config['ldap_cache'] = 'db';
 
 // Lifetime of LDAP cache. Possible units: s, m, h, d, w
 $config['ldap_cache_ttl'] = '10m';
-
 
 // ----------------------------------
 // CACHE(S)
@@ -505,7 +499,6 @@ $config['apc_max_allowed_packet'] = '2M';
 
 // Maximum size of an object in Redis cache (in bytes). Default: 2MB
 $config['redis_max_allowed_packet'] = '2M';
-
 
 // ----------------------------------
 // SYSTEM
@@ -1038,8 +1031,8 @@ $config['undo_timeout'] = 0;
 
 // A static list of canned responses which are immutable for the user
 $config['compose_responses_static'] = [
-//  ['name' => 'Canned Response 1', 'text' => 'Static Response One'],
-//  ['name' => 'Canned Response 2', 'text' => 'Static Response Two'],
+    // ['name' => 'Canned Response 1', 'text' => 'Static Response One'],
+    // ['name' => 'Canned Response 2', 'text' => 'Static Response Two'],
 ];
 
 // List of HKP key servers for PGP public key lookups in Enigma/Mailvelope
@@ -1311,7 +1304,6 @@ $config['collected_recipients'] = true;
 // Note: It can be set to any writeable addressbook, e.g. 'sql'
 $config['collected_senders'] = true;
 
-
 // ----------------------------------
 // USER PREFERENCES
 // ----------------------------------
@@ -1534,19 +1526,19 @@ $config['default_font'] = 'Verdana';
 // Note: At minimum the font name set in default_font must be present in this array
 // Setting a single value will hide the font select box in the interface
 $config['available_fonts'] = [
-    'Andale Mono'     => '"Andale Mono",Times,monospace',
-    'Arial'           => 'Arial,Helvetica,sans-serif',
-    'Arial Black'     => '"Arial Black","Avant Garde",sans-serif',
-    'Book Antiqua'    => '"Book Antiqua",Palatino,serif',
-    'Courier New'     => '"Courier New",Courier,monospace',
-    'Georgia'         => 'Georgia,Palatino,serif',
-    'Helvetica'       => 'Helvetica,Arial,sans-serif',
-    'Impact'          => 'Impact,Chicago,sans-serif',
-    'Tahoma'          => 'Tahoma,Arial,Helvetica,sans-serif',
-    'Terminal'        => 'Terminal,Monaco,monospace',
+    'Andale Mono' => '"Andale Mono",Times,monospace',
+    'Arial' => 'Arial,Helvetica,sans-serif',
+    'Arial Black' => '"Arial Black","Avant Garde",sans-serif',
+    'Book Antiqua' => '"Book Antiqua",Palatino,serif',
+    'Courier New' => '"Courier New",Courier,monospace',
+    'Georgia' => 'Georgia,Palatino,serif',
+    'Helvetica' => 'Helvetica,Arial,sans-serif',
+    'Impact' => 'Impact,Chicago,sans-serif',
+    'Tahoma' => 'Tahoma,Arial,Helvetica,sans-serif',
+    'Terminal' => 'Terminal,Monaco,monospace',
     'Times New Roman' => '"Times New Roman",Times,serif',
-    'Trebuchet MS'    => '"Trebuchet MS",Geneva,sans-serif',
-    'Verdana'         => 'Verdana,Geneva,sans-serif',
+    'Trebuchet MS' => '"Trebuchet MS",Geneva,sans-serif',
+    'Verdana' => 'Verdana,Geneva,sans-serif',
 ];
 
 // Default font size for composed HTML message

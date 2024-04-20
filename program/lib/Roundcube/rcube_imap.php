@@ -31,49 +31,38 @@ class rcube_imap extends rcube_storage
      */
     public $conn;
 
-    /**
-     * Instance of rcube_imap_cache
-     *
-     * @var rcube_imap_cache
-     */
+    /** @var ?rcube_imap_cache IMAP messages cache */
     protected $mcache;
 
-    /**
-     * Instance of rcube_cache
-     *
-     * @var rcube_cache
-     */
+    /** @var ?rcube_cache IMAP cache */
     protected $cache;
 
     protected $plugins;
     protected $delimiter;
     protected $namespace;
     protected $struct_charset;
-    protected $search_set;
-    protected $search_string     = '';
-    protected $search_charset    = '';
+    protected $search_string = '';
+    protected $search_charset = '';
     protected $search_sort_field = '';
-    protected $search_threads    = false;
-    protected $search_sorted     = false;
-    protected $sort_field        = '';
-    protected $sort_order        = 'DESC';
-    protected $options           = ['auth_type' => 'check', 'skip_deleted' => false];
-    protected $caching           = false;
-    protected $messages_caching  = false;
-    protected $threading         = false;
-    protected $connect_done      = false;
-    protected $list_excludes     = [];
+    protected $search_threads = false;
+    protected $search_sorted = false;
+    protected $sort_field = '';
+    protected $sort_order = 'DESC';
+    protected $caching = false;
+    protected $messages_caching = false;
+    protected $threading = false;
+    protected $connect_done = false;
+    protected $list_excludes = [];
     protected $list_root;
     protected $msg_uid;
     protected $sort_folder_collator;
-
 
     /**
      * Object constructor.
      */
     public function __construct()
     {
-        $this->conn    = new rcube_imap_generic();
+        $this->conn = new rcube_imap_generic();
         $this->plugins = rcube::get_instance()->plugins;
 
         // Set namespace and delimiter from session,
@@ -117,13 +106,12 @@ class rcube_imap extends rcube_storage
         // check for OpenSSL support in PHP build
         if ($use_ssl && extension_loaded('openssl')) {
             $this->options['ssl_mode'] = $use_ssl == 'imaps' ? 'ssl' : $use_ssl;
-        }
-        elseif ($use_ssl) {
+        } elseif ($use_ssl) {
             rcube::raise_error([
-                    'code' => 403, 'type' => 'imap',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "OpenSSL not available",
-                ], true, false);
+                'code' => 403, 'type' => 'imap',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'OpenSSL not available',
+            ], true, false);
 
             $port = 143;
         }
@@ -134,10 +122,10 @@ class rcube_imap extends rcube_storage
             $this->set_debug(true);
 
             $this->options['ident'] = [
-                'name'    => 'Roundcube',
+                'name' => 'Roundcube',
                 'version' => RCUBE_VERSION,
-                'php'     => \PHP_VERSION,
-                'os'      => \PHP_OS,
+                'php' => \PHP_VERSION,
+                'os' => \PHP_OS,
                 'command' => $_SERVER['REQUEST_URI'] ?? '',
             ];
         }
@@ -145,10 +133,10 @@ class rcube_imap extends rcube_storage
         $attempt = 0;
         do {
             $data = [
-                'host'    => $host,
-                'user'    => $user,
+                'host' => $host,
+                'user' => $user,
                 'attempt' => ++$attempt,
-                'retry'   => false,
+                'retry' => false,
             ];
 
             $data = $this->plugins->exec_hook('storage_connect', array_merge($this->options, $data));
@@ -170,14 +158,14 @@ class rcube_imap extends rcube_storage
         } while (!$this->conn->connected() && $data['retry']);
 
         $config = [
-            'host'     => $data['host'],
-            'user'     => $data['user'],
+            'host' => $data['host'],
+            'user' => $data['user'],
             'password' => $pass,
-            'port'     => $port,
-            'ssl'      => $use_ssl,
+            'port' => $port,
+            'ssl' => $use_ssl,
         ];
 
-        $this->options      = array_merge($this->options, $config);
+        $this->options = array_merge($this->options, $config);
         $this->connect_done = true;
 
         if ($this->conn->connected()) {
@@ -192,7 +180,7 @@ class rcube_imap extends rcube_storage
 
             // trigger post-connect hook
             $this->plugins->exec_hook('storage_connected', [
-                    'host' => $host, 'user' => $user, 'session' => $session,
+                'host' => $host, 'user' => $user, 'session' => $session,
             ]);
 
             return true;
@@ -202,14 +190,14 @@ class rcube_imap extends rcube_storage
             // When log_logins=true the entry in userlogins.log will be created
             // in this case another error message is redundant, skip it
             if ($pass && $user && !rcube::get_instance()->config->get('log_logins')) {
-                $message = sprintf("Login failed for %s against %s from %s. %s",
+                $message = sprintf('Login failed for %s against %s from %s. %s',
                     $user, $host, rcube_utils::remote_ip(), $this->conn->error);
 
                 rcube::raise_error([
-                        'code' => 403, 'type' => 'imap',
-                        'file' => __FILE__, 'line' => __LINE__,
-                        'message' => $message,
-                    ], true, false);
+                    'code' => 403, 'type' => 'imap',
+                    'file' => __FILE__, 'line' => __LINE__,
+                    'message' => $message,
+                ], true, false);
             }
         }
 
@@ -233,7 +221,7 @@ class rcube_imap extends rcube_storage
     /**
      * Check connection state, connect if not connected.
      *
-     * @return bool Connection state.
+     * @return bool connection state
      */
     public function check_connection()
     {
@@ -346,12 +334,12 @@ class rcube_imap extends rcube_storage
     {
         $set = (array) $set;
 
-        $this->search_string     = $set[0] ?? null;
-        $this->search_set        = $set[1] ?? null;
-        $this->search_charset    = $set[2] ?? null;
+        $this->search_string = $set[0] ?? null;
+        $this->search_set = $set[1] ?? null;
+        $this->search_charset = $set[2] ?? null;
         $this->search_sort_field = $set[3] ?? null;
-        $this->search_sorted     = $set[4] ?? null;
-        $this->search_threads    = is_a($this->search_set, 'rcube_result_thread');
+        $this->search_sorted = $set[4] ?? null;
+        $this->search_threads = is_a($this->search_set, 'rcube_result_thread');
 
         if (is_a($this->search_set, 'rcube_result_multifolder')) {
             $this->set_threading(false);
@@ -387,8 +375,8 @@ class rcube_imap extends rcube_storage
      */
     public function get_capability($cap)
     {
-        $cap      = strtoupper($cap);
-        $sess_key = "STORAGE_$cap";
+        $cap = strtoupper($cap);
+        $sess_key = "STORAGE_{$cap}";
 
         if (!isset($_SESSION[$sess_key])) {
             if (!$this->check_connection()) {
@@ -397,8 +385,7 @@ class rcube_imap extends rcube_storage
 
             if ($cap == rcube_storage::DUAL_USE_FOLDERS) {
                 $_SESSION[$sess_key] = $this->detect_dual_use_folders();
-            }
-            else {
+            } else {
                 $_SESSION[$sess_key] = $this->conn->getCapability($cap);
             }
         }
@@ -416,9 +403,9 @@ class rcube_imap extends rcube_storage
      */
     public function check_permflag($flag)
     {
-        $flag       = strtoupper($flag);
+        $flag = strtoupper($flag);
         $perm_flags = $this->get_permflags($this->folder);
-        $imap_flag  = $this->conn->flags[$flag];
+        $imap_flag = $this->conn->flags[$flag];
 
         return $imap_flag && !empty($perm_flags) && in_array_nocase($imap_flag, $perm_flags);
     }
@@ -442,8 +429,7 @@ class rcube_imap extends rcube_storage
 
         if ($this->conn->select($folder)) {
             $permflags = $this->conn->data['PERMANENTFLAGS'];
-        }
-        else {
+        } else {
             return [];
         }
 
@@ -469,7 +455,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $name Namespace array index: personal, other, shared, prefix
      *
-     * @return array Namespace data
+     * @return string|array|null Namespace data
      */
     public function get_namespace($name = null)
     {
@@ -498,10 +484,10 @@ class rcube_imap extends rcube_storage
             return;
         }
 
-        $config         = rcube::get_instance()->config;
-        $imap_personal  = $config->get('imap_ns_personal');
-        $imap_other     = $config->get('imap_ns_other');
-        $imap_shared    = $config->get('imap_ns_shared');
+        $config = rcube::get_instance()->config;
+        $imap_personal = $config->get('imap_ns_personal');
+        $imap_other = $config->get('imap_ns_other');
+        $imap_shared = $config->get('imap_ns_shared');
         $imap_delimiter = $config->get('imap_delimiter');
 
         if (!$this->check_connection()) {
@@ -513,12 +499,11 @@ class rcube_imap extends rcube_storage
         // Set namespaces (NAMESPACE supported)
         if (is_array($ns)) {
             $this->namespace = $ns;
-        }
-        else {
+        } else {
             $this->namespace = [
                 'personal' => null,
-                'other'    => null,
-                'shared'   => null,
+                'other' => null,
+                'shared' => null,
             ];
         }
 
@@ -535,7 +520,7 @@ class rcube_imap extends rcube_storage
             $this->delimiter = '/';
         }
 
-        $this->list_root     = null;
+        $this->list_root = null;
         $this->list_excludes = [];
 
         // Overwrite namespaces
@@ -554,8 +539,7 @@ class rcube_imap extends rcube_storage
             }
 
             $this->namespace['other'] = null;
-        }
-        elseif ($imap_other !== null) {
+        } elseif ($imap_other !== null) {
             $this->namespace['other'] = null;
             foreach ((array) $imap_other as $dir) {
                 if ($dir) {
@@ -572,8 +556,7 @@ class rcube_imap extends rcube_storage
             }
 
             $this->namespace['shared'] = null;
-        }
-        elseif ($imap_shared !== null) {
+        } elseif ($imap_shared !== null) {
             $this->namespace['shared'] = null;
             foreach ((array) $imap_shared as $dir) {
                 if ($dir) {
@@ -590,7 +573,7 @@ class rcube_imap extends rcube_storage
             && !empty($this->namespace['personal']) && count($this->namespace['personal']) === 1
             && strlen($this->namespace['personal'][0][0]) > 1
         ) {
-            $this->list_root     = $this->namespace['personal'][0][0];
+            $this->list_root = $this->namespace['personal'][0][0];
             $this->list_excludes = [];
         }
 
@@ -602,8 +585,8 @@ class rcube_imap extends rcube_storage
             // - for prefix_in get the first one but only
             //   if there is no non-prefixed namespace root (#5403)
             $roots = [];
-            foreach ($this->namespace['personal'] as $ns) {
-                $roots[] = $ns[0];
+            foreach ($this->namespace['personal'] as $namespace) {
+                $roots[] = $namespace[0];
             }
 
             if (!in_array('', $roots)) {
@@ -622,7 +605,7 @@ class rcube_imap extends rcube_storage
     /**
      * Returns IMAP server vendor name
      *
-     * @return string Vendor name
+     * @return string|null Vendor name
      *
      * @since 1.2
      */
@@ -632,7 +615,7 @@ class rcube_imap extends rcube_storage
             return $_SESSION['imap_vendor'];
         }
 
-        $config      = rcube::get_instance()->config;
+        $config = rcube::get_instance()->config;
         $imap_vendor = $config->get('imap_vendor');
 
         if ($imap_vendor) {
@@ -640,26 +623,24 @@ class rcube_imap extends rcube_storage
         }
 
         if (!$this->check_connection()) {
-            return;
+            return null;
         }
 
         if (isset($this->conn->data['ID'])) {
             $ident = $this->conn->data['ID'];
-        }
-        elseif ($this->get_capability('ID')) {
+        } elseif ($this->get_capability('ID')) {
             $ident = $this->conn->id([
-                    'name'    => 'Roundcube',
-                    'version' => RCUBE_VERSION,
-                    'php'     => \PHP_VERSION,
-                    'os'      => \PHP_OS,
+                'name' => 'Roundcube',
+                'version' => RCUBE_VERSION,
+                'php' => \PHP_VERSION,
+                'os' => \PHP_OS,
             ]);
-        }
-        else {
+        } else {
             $ident = null;
         }
 
-        $vendor  = (string) (!empty($ident) ? $ident['name'] : '');
-        $ident   = strtolower($vendor . ' ' . $this->conn->data['GREETING']);
+        $vendor = (string) (!empty($ident) ? $ident['name'] : '');
+        $ident = strtolower($vendor . ' ' . $this->conn->data['GREETING']);
         $vendors = ['cyrus', 'dovecot', 'uw-imap', 'gimap', 'hmail', 'greenmail'];
 
         foreach ($vendors as $v) {
@@ -675,15 +656,15 @@ class rcube_imap extends rcube_storage
     /**
      * Get message count for a specific folder
      *
-     * @param string $folder Folder name
-     * @param string $mode   Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
-     * @param bool   $force  Force reading from server and update cache
-     * @param bool   $status Enables storing folder status info (max UID/count),
-     *                       required for folder_status()
+     * @param ?string $folder Folder name
+     * @param string  $mode   Mode for count [ALL|THREADS|UNSEEN|RECENT|EXISTS]
+     * @param bool    $force  Force reading from server and update cache
+     * @param bool    $status Enables storing folder status info (max UID/count),
+     *                        required for folder_status()
      *
      * @return int Number of messages
      */
-    public function count($folder = '', $mode = 'ALL', $force = false, $status = true)
+    public function count($folder = null, $mode = 'ALL', $force = false, $status = true)
     {
         if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
@@ -738,7 +719,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($mode == 'THREADS') {
-            $res   = $this->threads($folder);
+            $res = $this->threads($folder);
             $count = $res->count();
 
             if ($status) {
@@ -757,13 +738,12 @@ class rcube_imap extends rcube_storage
         }
         // use SEARCH for message counting
         elseif ($mode != 'EXISTS' && !empty($this->options['skip_deleted'])) {
-            $search_str = "ALL UNDELETED";
-            $keys       = ['COUNT'];
+            $search_str = 'ALL UNDELETED';
+            $keys = ['COUNT'];
 
             if ($mode == 'UNSEEN') {
-                $search_str .= " UNSEEN";
-            }
-            else {
+                $search_str .= ' UNSEEN';
+            } else {
                 if ($this->messages_caching) {
                     $keys[] = 'ALL';
                 }
@@ -788,12 +768,10 @@ class rcube_imap extends rcube_storage
                     $this->set_folder_stats($folder, 'maxuid', $index->max());
                 }
             }
-        }
-        else {
+        } else {
             if ($mode == 'UNSEEN') {
                 $count = $this->conn->countUnseen($folder);
-            }
-            else {
+            } else {
                 $count = $this->conn->countMessages($folder);
                 if ($status && $mode == 'ALL') {
                     $this->set_folder_stats($folder, 'cnt', $count);
@@ -817,9 +795,9 @@ class rcube_imap extends rcube_storage
     /**
      * Public method for listing message flags
      *
-     * @param string $folder  Folder name
-     * @param array  $uids    Message UIDs
-     * @param int    $mod_seq Optional MODSEQ value (of last flag update)
+     * @param ?string $folder  Folder name
+     * @param array   $uids    Message UIDs
+     * @param int     $mod_seq Optional MODSEQ value (of last flag update)
      *
      * @return array Indexed array with message flags
      */
@@ -836,7 +814,7 @@ class rcube_imap extends rcube_storage
         // @TODO: when cache was synchronized in this request
         // we might already have asked for flag updates, use it.
 
-        $flags  = $this->conn->fetch($folder, $uids, true, ['FLAGS'], $mod_seq);
+        $flags = $this->conn->fetch($folder, $uids, true, ['FLAGS'], $mod_seq);
         $result = [];
 
         if (!empty($flags)) {
@@ -851,15 +829,15 @@ class rcube_imap extends rcube_storage
     /**
      * Public method for listing headers
      *
-     * @param string $folder     Folder name
-     * @param int    $page       Current page to list
-     * @param string $sort_field Header field to sort by
-     * @param string $sort_order Sort order [ASC|DESC]
-     * @param int    $slice      Number of slice items to extract from result array
+     * @param ?string $folder     Folder name
+     * @param int     $page       Current page to list
+     * @param string  $sort_field Header field to sort by
+     * @param string  $sort_order Sort order [ASC|DESC]
+     * @param int     $slice      Number of slice items to extract from result array
      *
-     * @return array Indexed array with message header objects
+     * @return array<rcube_message_header> Indexed array with message header objects
      */
-    public function list_messages($folder = '', $page = null, $sort_field = null, $sort_order = null, $slice = 0)
+    public function list_messages($folder = null, $page = null, $sort_field = null, $sort_order = null, $slice = 0)
     {
         if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
@@ -881,12 +859,8 @@ class rcube_imap extends rcube_storage
      *
      * @see rcube_imap::list_messages
      */
-    protected function _list_messages($folder = '', $page = null, $sort_field = null, $sort_order = null, $slice = 0)
+    protected function _list_messages($folder, $page = null, $sort_field = null, $sort_order = null, $slice = 0)
     {
-        if (!is_string($folder) || !strlen($folder)) {
-            return [];
-        }
-
         $this->set_sort_order($sort_field, $sort_order);
         $page = $page ?: $this->list_page;
 
@@ -907,7 +881,7 @@ class rcube_imap extends rcube_storage
         }
 
         $from = ($page - 1) * $this->page_size;
-        $to   = $from + $this->page_size;
+        $to = $from + $this->page_size;
 
         $index->slice($from, $to - $from);
 
@@ -936,12 +910,7 @@ class rcube_imap extends rcube_storage
     protected function list_thread_messages($folder, $page, $slice = 0)
     {
         // get all threads (not sorted)
-        if ($mcache = $this->get_mcache_engine()) {
-            $threads = $mcache->get_thread($folder);
-        }
-        else {
-            $threads = $this->threads($folder);
-        }
+        $threads = $this->threads($folder);
 
         return $this->fetch_thread_headers($folder, $threads, $page, $slice);
     }
@@ -953,7 +922,7 @@ class rcube_imap extends rcube_storage
      *
      * @return rcube_result_thread Thread data object
      */
-    function threads($folder)
+    public function threads($folder)
     {
         if ($mcache = $this->get_mcache_engine()) {
             // don't store in self's internal cache, cache has it's own internal cache
@@ -980,7 +949,7 @@ class rcube_imap extends rcube_storage
      *
      * @return rcube_result_thread Thread data object
      */
-    function threads_direct($folder)
+    public function threads_direct($folder)
     {
         if (!$this->check_connection()) {
             return new rcube_result_thread();
@@ -1007,7 +976,7 @@ class rcube_imap extends rcube_storage
         $this->sort_threads($threads);
 
         $from = ($page - 1) * $this->page_size;
-        $to   = $from + $this->page_size;
+        $to = $from + $this->page_size;
 
         $threads->slice($from, $to - $from);
 
@@ -1030,13 +999,11 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * protected method for setting threaded messages flags:
+     * Protected method for setting threaded messages flags:
      * depth, has_children, unread_children, flagged_children
      *
      * @param array               $headers Reference to headers array indexed by message UID
      * @param rcube_result_thread $threads Threads data object
-     *
-     * @return array Message headers array indexed by message UID
      */
     protected function set_thread_flags(&$headers, $threads)
     {
@@ -1060,9 +1027,9 @@ class rcube_imap extends rcube_storage
 
             $parents[] = $uid;
 
-            $headers[$uid]->depth            = $depth;
-            $headers[$uid]->has_children     = !empty($msg_children[$uid]);
-            $headers[$uid]->unread_children  = 0;
+            $headers[$uid]->depth = $depth;
+            $headers[$uid]->has_children = !empty($msg_children[$uid]);
+            $headers[$uid]->unread_children = 0;
             $headers[$uid]->flagged_children = 0;
         }
     }
@@ -1078,7 +1045,7 @@ class rcube_imap extends rcube_storage
      */
     protected function list_search_messages($folder, $page, $slice = 0)
     {
-        if (!is_string($folder) || !strlen($folder) || empty($this->search_set) || $this->search_set->is_empty()) {
+        if (!strlen($folder) || empty($this->search_set) || $this->search_set->is_empty()) {
             return [];
         }
 
@@ -1086,23 +1053,23 @@ class rcube_imap extends rcube_storage
 
         // gather messages from a multi-folder search
         if (!empty($this->search_set->multi)) {
-            $page_size  = $this->page_size;
+            $page_size = $this->page_size;
             $sort_field = $this->sort_field;
             $search_set = $this->search_set;
 
             // fetch resultset headers, sort and slice them
             if (!empty($sort_field) && $search_set->get_parameters('SORT') != $sort_field) {
                 $this->sort_field = null;
-                $this->page_size  = 1000;  // fetch up to 1000 matching messages per folder
-                $this->threading  = false;
+                $this->page_size = 1000;  // fetch up to 1000 matching messages per folder
+                $this->threading = false;
 
                 $a_msg_headers = [];
                 foreach ($search_set->sets as $resultset) {
                     if (!$resultset->is_empty()) {
-                        $this->search_set     = $resultset;
+                        $this->search_set = $resultset;
                         $this->search_threads = $resultset instanceof rcube_result_thread;
 
-                        $a_headers     =  $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1);
+                        $a_headers = $this->list_search_messages($resultset->get_parameters('MAILBOX'), 1);
                         $a_msg_headers = array_merge($a_msg_headers, $a_headers);
                         unset($a_headers);
                     }
@@ -1118,8 +1085,7 @@ class rcube_imap extends rcube_storage
 
                 // only return the requested part of the set
                 $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $page_size);
-            }
-            else {
+            } else {
                 if ($this->sort_order != $search_set->get_parameters('ORDER')) {
                     $search_set->revert();
                 }
@@ -1135,8 +1101,8 @@ class rcube_imap extends rcube_storage
 
                 // ... and fetch the requested set of headers
                 $a_msg_headers = [];
-                foreach ($fetch as $folder => $a_index) {
-                    $a_msg_headers = array_merge($a_msg_headers, array_values($this->fetch_headers($folder, $a_index)));
+                foreach ($fetch as $folder_name => $a_index) {
+                    $a_msg_headers = array_merge($a_msg_headers, array_values($this->fetch_headers($folder_name, $a_index)));
                 }
 
                 // Re-sort the result according to the original search set order
@@ -1151,7 +1117,7 @@ class rcube_imap extends rcube_storage
 
             // restore members
             $this->sort_field = $sort_field;
-            $this->page_size  = $page_size;
+            $this->page_size = $page_size;
             $this->search_set = $search_set;
 
             return $a_msg_headers;
@@ -1207,7 +1173,7 @@ class rcube_imap extends rcube_storage
             }
 
             // fetch headers
-            $a_index       = $index->get();
+            $a_index = $index->get();
             $a_msg_headers = $this->fetch_headers($folder, $a_index);
 
             return array_values($a_msg_headers);
@@ -1228,33 +1194,32 @@ class rcube_imap extends rcube_storage
             }
 
             // ...and fetch headers
-            $a_index       = $index->get();
+            $a_index = $index->get();
             $a_msg_headers = $this->fetch_headers($folder, $a_index);
 
             return array_values($a_msg_headers);
         }
-        else {
-            // for small result set we can fetch all messages headers
-            $a_index       = $index->get();
-            $a_msg_headers = $this->fetch_headers($folder, $a_index, false);
 
-            // return empty array if no messages found
-            if (!is_array($a_msg_headers) || empty($a_msg_headers)) {
-                return [];
-            }
+        // for small result set we can fetch all messages headers
+        $a_index = $index->get();
+        $a_msg_headers = $this->fetch_headers($folder, $a_index, false);
 
-            // if not already sorted
-            $a_msg_headers = rcube_imap_generic::sortHeaders(
-                $a_msg_headers, $this->sort_field, $this->sort_order);
-
-            $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $this->page_size);
-
-            if ($slice) {
-                $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
-            }
-
-            return $a_msg_headers;
+        // return empty array if no messages found
+        if (empty($a_msg_headers)) {
+            return [];
         }
+
+        // if not already sorted
+        $a_msg_headers = rcube_imap_generic::sortHeaders(
+            $a_msg_headers, $this->sort_field, $this->sort_order);
+
+        $a_msg_headers = array_slice(array_values($a_msg_headers), $from, $this->page_size);
+
+        if ($slice) {
+            $a_msg_headers = array_slice($a_msg_headers, -$slice, $slice);
+        }
+
+        return $a_msg_headers;
     }
 
     /**
@@ -1291,7 +1256,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Messages headers indexed by UID
      */
-    function fetch_headers($folder, $msgs, $sort = true, $force = false)
+    public function fetch_headers($folder, $msgs, $sort = true, $force = false)
     {
         if (empty($msgs)) {
             return [];
@@ -1299,11 +1264,9 @@ class rcube_imap extends rcube_storage
 
         if (!$force && ($mcache = $this->get_mcache_engine())) {
             $headers = $mcache->get_messages($folder, $msgs);
-        }
-        elseif (!$this->check_connection()) {
+        } elseif (!$this->check_connection()) {
             return [];
-        }
-        else {
+        } else {
             // fetch requested headers from server
             $headers = $this->conn->fetchHeaders(
                 $folder, $msgs, true, false, $this->get_fetch_headers());
@@ -1361,7 +1324,7 @@ class rcube_imap extends rcube_storage
 
         // got new messages
         if ($new['maxuid'] > $old['maxuid']) {
-            ++$result;
+            $result++;
             // get new message UIDs range, that can be used for example
             // to get the data of these messages
             $diff['new'] = ($old['maxuid'] + 1 < $new['maxuid'] ? ($old['maxuid'] + 1) . ':' : '') . $new['maxuid'];
@@ -1411,15 +1374,15 @@ class rcube_imap extends rcube_storage
     /**
      * Return sorted list of message UIDs
      *
-     * @param string $folder     Folder to get index from
-     * @param string $sort_field Sort column
-     * @param string $sort_order Sort order [ASC, DESC]
-     * @param bool   $no_threads Get not threaded index
-     * @param bool   $no_search  Get index not limited to search result (optionally)
+     * @param ?string $folder     Folder to get index from
+     * @param string  $sort_field Sort column
+     * @param string  $sort_order Sort order [ASC, DESC]
+     * @param bool    $no_threads Get not threaded index
+     * @param bool    $no_search  Get index not limited to search result (optionally)
      *
      * @return rcube_result_index|rcube_result_thread List of messages (UIDs)
      */
-    public function index($folder = '', $sort_field = null, $sort_order = null,
+    public function index($folder = null, $sort_field = null, $sort_order = null,
         $no_threads = false, $no_search = false
     ) {
         if (!$no_threads && $this->threading) {
@@ -1459,9 +1422,8 @@ class rcube_imap extends rcube_storage
                     // No sorting needed, just build index from the search result
                     // @TODO: do we need to sort by UID here?
                     $search = $this->search_set->get_compressed();
-                    $index  = new rcube_result_index($folder, '* ESEARCH ALL ' . $search);
-                }
-                else {
+                    $index = new rcube_result_index($folder, '* ESEARCH ALL ' . $search);
+                } else {
                     $index = $this->index_direct($folder, $this->sort_field, $this->sort_order, $this->search_set);
                 }
             }
@@ -1510,11 +1472,9 @@ class rcube_imap extends rcube_storage
                 && $this->icache['undeleted_idx']->get_parameters('MAILBOX') == $folder
             ) {
                 $index = $this->icache['undeleted_idx'];
-            }
-            elseif (!$this->check_connection()) {
+            } elseif (!$this->check_connection()) {
                 return new rcube_result_index();
-            }
-            else {
+            } else {
                 $query = $this->options['skip_deleted'] ? 'UNDELETED' : '';
                 if ($search) {
                     $query = trim($query . ' UID ' . $search);
@@ -1522,8 +1482,7 @@ class rcube_imap extends rcube_storage
 
                 $index = $this->conn->search($folder, $query, true);
             }
-        }
-        elseif (!$this->check_connection()) {
+        } elseif (!$this->check_connection()) {
             return new rcube_result_index();
         }
         // fetch complete message index
@@ -1538,7 +1497,7 @@ class rcube_imap extends rcube_storage
             }
 
             if (empty($index) || $index->is_error()) {
-                $index = $this->conn->index($folder, $search ?: "1:*",
+                $index = $this->conn->index($folder, $search ?: '1:*',
                     $sort_field, $this->options['skip_deleted'],
                     $search ? true : false, true);
             }
@@ -1554,13 +1513,13 @@ class rcube_imap extends rcube_storage
     /**
      * Return index of threaded message UIDs
      *
-     * @param string $folder     Folder to get index from
-     * @param string $sort_field Sort column
-     * @param string $sort_order Sort order [ASC, DESC]
+     * @param ?string $folder     Folder to get index from
+     * @param string  $sort_field Sort column
+     * @param string  $sort_order Sort order [ASC, DESC]
      *
      * @return rcube_result_thread Message UIDs
      */
-    public function thread_index($folder = '', $sort_field = null, $sort_order = null)
+    public function thread_index($folder = null, $sort_field = null, $sort_order = null)
     {
         if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
@@ -1569,8 +1528,7 @@ class rcube_imap extends rcube_storage
         // we have a saved search result, get index from there
         if ($this->search_string && $this->search_threads && $folder == $this->folder) {
             $threads = $this->search_set;
-        }
-        else {
+        } else {
             // get all threads (default sort order)
             $threads = $this->threads($folder);
         }
@@ -1599,13 +1557,12 @@ class rcube_imap extends rcube_storage
 
         if ($this->threading != 'REFS' || ($this->sort_field && $this->sort_field != 'date')) {
             $sortby = $this->sort_field ?: 'date';
-            $index  = $this->index($this->folder, $sortby, $this->sort_order, true, true);
+            $index = $this->index($this->folder, $sortby, $this->sort_order, true, true);
 
             if (!$index->is_empty()) {
                 $threads->sort($index);
             }
-        }
-        elseif ($this->sort_order != $threads->get_parameters('ORDER')) {
+        } elseif ($this->sort_order != $threads->get_parameters('ORDER')) {
             $threads->revert();
         }
     }
@@ -1613,10 +1570,10 @@ class rcube_imap extends rcube_storage
     /**
      * Invoke search request to IMAP server
      *
-     * @param string $folder     Folder name to search in
-     * @param string $search     Search criteria
-     * @param string $charset    Search charset
-     * @param string $sort_field Header field to sort by
+     * @param string|array $folder     Folder name(s) to search in
+     * @param string       $search     Search criteria
+     * @param string       $charset    Search charset
+     * @param string       $sort_field Header field to sort by
      *
      * @return rcube_result_index Search result object
      *
@@ -1633,19 +1590,19 @@ class rcube_imap extends rcube_storage
         }
 
         $plugin = $this->plugins->exec_hook('imap_search_before', [
-                'folder'     => $folder,
-                'search'     => $search,
-                'charset'    => $charset,
-                'sort_field' => $sort_field,
-                'threading'  => $this->threading,
-                'result'     => null,
+            'folder' => $folder,
+            'search' => $search,
+            'charset' => $charset,
+            'sort_field' => $sort_field,
+            'threading' => $this->threading,
+            'result' => null,
         ]);
 
-        $folder     = $plugin['folder'];
-        $search     = $plugin['search'];
-        $charset    = $plugin['charset'];
+        $folder = $plugin['folder'];
+        $search = $plugin['search'];
+        $charset = $plugin['charset'];
         $sort_field = $plugin['sort_field'];
-        $results    = $plugin['result'];
+        $results = $plugin['result'];
 
         // multi-folder search
         if (!$results && is_array($folder) && count($folder) > 1 && $search != 'ALL') {
@@ -1673,10 +1630,9 @@ class rcube_imap extends rcube_storage
                 $sort_field && $this->get_capability('SORT') ? $sort_field : null,
                 $this->threading
             );
-        }
-        elseif (!$results) {
-            $folder  = is_array($folder) ? $folder[0] : $folder;
-            $search  = is_array($search) ? $search[$folder] : $search;
+        } elseif (!$results) {
+            $folder = is_array($folder) ? $folder[0] : $folder;
+            $search = is_array($search) ? $search[$folder] : $search;
             $results = $this->search_index($folder, $search, $charset, $sort_field);
         }
 
@@ -1690,10 +1646,10 @@ class rcube_imap extends rcube_storage
     /**
      * Direct (real and simple) SEARCH request (without result sorting and caching).
      *
-     * @param string $folder Mailbox name to search in
-     * @param string $str    Search string
+     * @param array|string|null $folder Mailbox name to search in
+     * @param string            $str    Search string
      *
-     * @return rcube_result_index Search result (UIDs)
+     * @return rcube_result_index|rcube_result_multifolder Search result (UIDs)
      */
     public function search_once($folder = null, $str = 'ALL')
     {
@@ -1709,8 +1665,7 @@ class rcube_imap extends rcube_storage
         if (is_array($folder) && count($folder) > 1) {
             $searcher = new rcube_imap_search($this->options, $this->conn);
             $index = $searcher->exec($folder, $str, $this->default_charset);
-        }
-        else {
+        } else {
             $folder = is_array($folder) ? $folder[0] : $folder;
             if (!strlen($folder)) {
                 $folder = $this->folder;
@@ -1739,9 +1694,8 @@ class rcube_imap extends rcube_storage
             if ($this->threading) {
                 return new rcube_result_thread();
             }
-            else {
-                return new rcube_result_index();
-            }
+
+            return new rcube_result_index();
         }
 
         if ($this->options['skip_deleted'] && !preg_match('/UNDELETED/', $criteria)) {
@@ -1768,7 +1722,7 @@ class rcube_imap extends rcube_storage
         }
 
         if ($sort_field && $this->get_capability('SORT')) {
-            $charset  = $charset ?: $this->default_charset;
+            $charset = $charset ?: $this->default_charset;
             $messages = $this->conn->sort($folder, $sort_field, $criteria, true, $charset);
 
             // Error, try with US-ASCII (RFC5256: SORT/THREAD must support US-ASCII and UTF-8,
@@ -1785,7 +1739,7 @@ class rcube_imap extends rcube_storage
         }
 
         $messages = $this->conn->search($folder,
-            ($charset && $charset != 'US-ASCII' ? "CHARSET $charset " : '') . $criteria, true);
+            ($charset && $charset != 'US-ASCII' ? "CHARSET {$charset} " : '') . $criteria, true);
 
         // Error, try with US-ASCII (some servers may support only US-ASCII)
         if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
@@ -1811,19 +1765,19 @@ class rcube_imap extends rcube_storage
         // convert strings to US_ASCII
         if (preg_match_all('/\{([0-9]+)\}\r\n/', $str, $matches, \PREG_OFFSET_CAPTURE)) {
             $last = 0;
-            $res  = '';
+            $res = '';
 
             foreach ($matches[1] as $m) {
                 $string_offset = $m[1] + strlen($m[0]) + 4; // {}\r\n
                 $string = substr($str, $string_offset - 1, $m[0]);
                 $string = rcube_charset::convert($string, $charset, $dest_charset);
 
-                if ($string === false || !strlen($string)) {
+                if (!strlen($string)) {
                     continue;
                 }
 
                 $res .= substr($str, $last, $m[1] - $last - 1) . rcube_imap_generic::escape($string);
-                $last = $m[0] + $string_offset - 1;
+                $last = intval($m[0]) + $string_offset - 1;
             }
 
             if ($last < strlen($str)) {
@@ -1877,7 +1831,7 @@ class rcube_imap extends rcube_storage
      * @param string $folder Folder to read from
      * @param bool   $force  True to skip cache
      *
-     * @return rcube_message_header Message headers
+     * @return rcube_message_header|false Message headers, False on error
      */
     public function get_message_headers($uid, $folder = null, $force = false)
     {
@@ -1893,11 +1847,9 @@ class rcube_imap extends rcube_storage
         // get cached headers
         if (!$force && $uid && ($mcache = $this->get_mcache_engine())) {
             $headers = $mcache->get_message($folder, $uid);
-        }
-        elseif (!$this->check_connection()) {
+        } elseif (!$this->check_connection()) {
             $headers = false;
-        }
-        else {
+        } else {
             $headers = $this->conn->fetchHeader(
                 $folder, $uid, true, true, $this->get_fetch_headers());
 
@@ -1916,7 +1868,7 @@ class rcube_imap extends rcube_storage
      * @param int    $uid    Message UID to fetch
      * @param string $folder Folder to read from
      *
-     * @return object rcube_message_header Message data
+     * @return rcube_message_header|false Message data, False on error
      */
     public function get_message($uid, $folder = null)
     {
@@ -1930,7 +1882,7 @@ class rcube_imap extends rcube_storage
         }
 
         // Check internal cache
-        if (!empty($this->icache['message']) && ($headers = $this->icache['message'])) {
+        if (isset($this->icache['message']) && ($headers = $this->icache['message'])) {
             // Make sure the folder and UID is what we expect.
             // In case when the same process works with folders that are personal
             // and shared two folders can contain the same UIDs.
@@ -1943,7 +1895,7 @@ class rcube_imap extends rcube_storage
 
         // message doesn't exist?
         if (empty($headers)) {
-            return null;
+            return false;
         }
 
         // structure might be cached
@@ -1970,8 +1922,7 @@ class rcube_imap extends rcube_storage
         // set message charset from message headers
         if ($headers->charset) {
             $this->struct_charset = $headers->charset;
-        }
-        else {
+        } else {
             $this->struct_charset = $this->structure_charset($structure);
         }
 
@@ -1987,15 +1938,14 @@ class rcube_imap extends rcube_storage
         ) {
             // A special known case "Content-type: text" (#1488968)
             if ($headers->ctype == 'text') {
-                $structure[1]   = 'plain';
+                $structure[1] = 'plain';
                 $headers->ctype = 'text/plain';
             }
             // we can handle single-part messages, by simple fix in structure (#1486898)
             elseif (preg_match('/^(text|application)\/(.*)/', $headers->ctype, $m)) {
                 $structure[0] = $m[1];
                 $structure[1] = $m[2];
-            }
-            else {
+            } else {
                 // Try to parse the message using rcube_mime_decode.
                 // We need a better solution, it parses message
                 // in memory, which wouldn't work for very big messages,
@@ -2004,8 +1954,7 @@ class rcube_imap extends rcube_storage
                 if ($headers->size && rcube_utils::mem_check($headers->size * 10)) {
                     $raw_msg = $this->get_raw_body($uid);
                     $struct = rcube_mime::parse_message($raw_msg);
-                }
-                else {
+                } else {
                     return $headers;
                 }
             }
@@ -2019,7 +1968,7 @@ class rcube_imap extends rcube_storage
         if (empty($struct->parts)) {
             // ...don't trust given content-type
             if (!empty($headers->ctype)) {
-                $struct->mime_id  = '1';
+                $struct->mime_id = '1';
                 $struct->mimetype = strtolower($headers->ctype);
                 [$struct->ctype_primary, $struct->ctype_secondary] = explode('/', $struct->mimetype);
             }
@@ -2027,7 +1976,7 @@ class rcube_imap extends rcube_storage
             // ...and charset (there's a case described in #1488968 where invalid content-type
             // results in invalid charset in BODYSTRUCTURE)
             if (!empty($headers->charset) && $headers->charset != $struct->ctype_parameters['charset']) {
-                $struct->charset                     = $headers->charset;
+                $struct->charset = $headers->charset;
                 $struct->ctype_parameters['charset'] = $headers->charset;
             }
         }
@@ -2046,8 +1995,8 @@ class rcube_imap extends rcube_storage
      */
     protected function structure_part($part, $count = 0, $parent = '', $mime_headers = null)
     {
-        $struct = new rcube_message_part;
-        $struct->mime_id = empty($parent) ? (string) $count : "$parent.$count";
+        $struct = new rcube_message_part();
+        $struct->mime_id = empty($parent) ? (string) $count : "{$parent}.{$count}";
 
         // multipart
         if (is_array($part[0])) {
@@ -2086,16 +2035,16 @@ class rcube_imap extends rcube_storage
             }
 
             $struct->mimetype = 'multipart/' . $struct->ctype_secondary;
+            $mime_part_headers = [];
 
             // build parts list for headers pre-fetching
             for ($i = 0; $i < count($part); $i++) {
                 // fetch message headers if message/rfc822 or named part
                 if (is_array($part[$i]) && !is_array($part[$i][0])) {
-                    $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : $i + 1;
+                    $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : strval($i + 1);
                     if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
                         $mime_part_headers[] = $tmp_part_id;
-                    }
-                    elseif ($this->is_attachment_part($part[$i])) {
+                    } elseif ($this->is_attachment_part($part[$i])) {
                         $mime_part_headers[] = $tmp_part_id;
                     }
                 }
@@ -2110,11 +2059,13 @@ class rcube_imap extends rcube_storage
             }
 
             $struct->parts = [];
-            for ($i = 0, $count = 0; $i < count($part); $i++) {
+            $count = 0;
+
+            for ($i = 0; $i < count($part); $i++) {
                 if (!is_array($part[$i])) {
                     break;
                 }
-                $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : $i + 1;
+                $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : strval($i + 1);
                 $struct->parts[] = $this->structure_part($part[$i], ++$count, $struct->mime_id,
                     !empty($mime_part_headers[$tmp_part_id]) ? $mime_part_headers[$tmp_part_id] : null);
             }
@@ -2147,9 +2098,9 @@ class rcube_imap extends rcube_storage
         $params_idx = is_array($part[1]) ? 1 : 2;
 
         // regular part
-        $struct->ctype_primary   = is_array($part[1]) ? 'multipart' : strtolower($part[0]);
+        $struct->ctype_primary = is_array($part[1]) ? 'multipart' : strtolower($part[0]);
         $struct->ctype_secondary = is_array($part[1]) ? strtolower($part[0]) : strtolower($part[1]);
-        $struct->mimetype        = $struct->ctype_primary . '/' . $struct->ctype_secondary;
+        $struct->mimetype = $struct->ctype_primary . '/' . $struct->ctype_secondary;
 
         // read content type parameters
         if (is_array($part[$params_idx])) {
@@ -2189,9 +2140,8 @@ class rcube_imap extends rcube_storage
         // read part disposition
         $di = 8;
         if ($struct->ctype_primary == 'text') {
-            ++$di;
-        }
-        elseif ($struct->mimetype == 'message/rfc822') {
+            $di++;
+        } elseif ($struct->mimetype == 'message/rfc822') {
             $di += 3;
         }
 
@@ -2213,13 +2163,14 @@ class rcube_imap extends rcube_storage
         // get message/rfc822's child-parts
         if (isset($part[8]) && is_array($part[8]) && $di != 8) {
             $struct->parts = [];
+            $mime_part_headers = [];
 
             for ($i = 0; $i < count($part[8]); $i++) {
                 if (!is_array($part[8][$i])) {
                     break;
                 }
 
-                $subpart_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : $i + 1;
+                $subpart_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : strval($i + 1);
 
                 if ($this->is_attachment_part($part[8][$i])) {
                     $mime_part_headers[] = $subpart_id;
@@ -2263,8 +2214,7 @@ class rcube_imap extends rcube_storage
 
             if (is_string($mime_headers)) {
                 $struct->headers = rcube_mime::parse_headers($mime_headers) + $struct->headers;
-            }
-            elseif (is_object($mime_headers)) {
+            } elseif (is_object($mime_headers)) {
                 $struct->headers = get_object_vars($mime_headers) + $struct->headers;
             }
 
@@ -2293,7 +2243,7 @@ class rcube_imap extends rcube_storage
         }
 
         // normalize filename property
-        $this->set_part_filename($struct, $mime_headers);
+        $struct->normalize($mime_headers);
 
         return $struct;
     }
@@ -2306,7 +2256,7 @@ class rcube_imap extends rcube_storage
     {
         if (!empty($part[2]) && is_array($part[2]) && empty($part[3])) {
             $params = array_map('strtolower', (array) $part[2]);
-            $find   = ['name', 'filename', 'name*', 'filename*', 'name*0', 'filename*0', 'name*0*', 'filename*0*'];
+            $find = ['name', 'filename', 'name*', 'filename*', 'name*0', 'filename*0', 'name*0*', 'filename*0*'];
 
             // In case of malformed header check disposition. E.g. some servers for
             // "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
@@ -2318,110 +2268,11 @@ class rcube_imap extends rcube_storage
     }
 
     /**
-     * Set attachment filename from message part structure
-     *
-     * @param rcube_message_part $part    Part object
-     * @param string             $headers Part's raw headers
-     */
-    protected function set_part_filename(&$part, $headers = null)
-    {
-        // Some IMAP servers do not support RFC2231, if we have
-        // part headers we'll get attachment name from them, not the BODYSTRUCTURE
-        $rfc2231_params = [];
-        if (!empty($headers) || !empty($part->headers)) {
-            if (is_object($headers)) {
-                $headers = get_object_vars($headers);
-            }
-            else {
-                $headers = !empty($headers) ? rcube_mime::parse_headers($headers) : $part->headers;
-            }
-
-            $ctype       = $headers['content-type'] ?? '';
-            $disposition = $headers['content-disposition'] ?? '';
-            $tokens      = preg_split('/;[\s\r\n\t]*/',  $ctype . ';' . $disposition);
-
-            foreach ($tokens as $token) {
-                // TODO: Use order defined by the parameter name not order of occurrence in the header
-                if (preg_match('/^(name|filename)\*([0-9]*)\*?="*([^"]+)"*/i', $token, $matches)) {
-                    $key = strtolower($matches[1]);
-                    $rfc2231_params[$key] = ($rfc2231_params[$key] ?? '') . $matches[3];
-                }
-            }
-        }
-
-        if (isset($rfc2231_params['name'])) {
-            $filename_encoded = $rfc2231_params['name'];
-        }
-        elseif (isset($rfc2231_params['filename'])) {
-            $filename_encoded = $rfc2231_params['filename'];
-        }
-        elseif (isset($part->d_parameters['filename*'])) {
-            $filename_encoded = $part->d_parameters['filename*'];
-        }
-        elseif (isset($part->ctype_parameters['name*'])) {
-            $filename_encoded = $part->ctype_parameters['name*'];
-        }
-        elseif (!empty($part->d_parameters['filename'])) {
-            $filename_mime = $part->d_parameters['filename'];
-        }
-        // read 'name' after rfc2231 parameters as it may contain truncated filename (from Thunderbird)
-        elseif (!empty($part->ctype_parameters['name'])) {
-            $filename_mime = $part->ctype_parameters['name'];
-        }
-        elseif (!empty($part->headers['content-description'])) {
-            $filename_mime = $part->headers['content-description'];
-        }
-        else {
-            return;
-        }
-
-        // decode filename
-        if (isset($filename_mime)) {
-            if (!empty($part->charset)) {
-                $charset = $part->charset;
-            }
-            elseif (!empty($this->struct_charset)) {
-                $charset = $this->struct_charset;
-            }
-            else {
-                $charset = $this->default_charset;
-            }
-
-            $part->filename = rcube_mime::decode_mime_string($filename_mime, $charset);
-        }
-        elseif (isset($filename_encoded)) {
-            // decode filename according to RFC 2231, Section 4
-            if (preg_match("/^([^']*)'[^']*'(.*)$/", $filename_encoded, $fmatches)) {
-                $filename_charset = $fmatches[1];
-                $filename_encoded = $fmatches[2];
-            }
-
-            $part->filename = rawurldecode($filename_encoded);
-
-            if (!empty($filename_charset)) {
-                $part->filename = rcube_charset::convert($part->filename, $filename_charset);
-            }
-        }
-
-        // Workaround for invalid Content-Type (#6816)
-        // Some servers for "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
-        if ($part->mimetype == 'text/plain' && !empty($headers['content-type'])) {
-            $tokens = preg_split('/;[\s\r\n\t]*/', $headers['content-type']);
-            $type   = rcube_mime::fix_mimetype($tokens[0]);
-
-            if ($type != $part->mimetype) {
-                $part->mimetype = $type;
-                [$part->ctype_primary, $part->ctype_secondary] = explode('/', $part->mimetype);
-            }
-        }
-    }
-
-    /**
      * Get charset name from message structure (first part)
      *
      * @param array $structure Message structure
      *
-     * @return string Charset name
+     * @return ?string Charset name
      */
     protected function structure_charset($structure)
     {
@@ -2429,30 +2280,32 @@ class rcube_imap extends rcube_storage
             if (is_array($structure[2]) && $structure[2][0] == 'charset') {
                 return $structure[2][1];
             }
+
             $structure = $structure[0];
         }
-    }
 
+        return null;
+    }
 
     /**
      * Fetch message body of a specific message from the server
      *
-     * @param int                $uid               Message UID
-     * @param string             $part              Part number
-     * @param rcube_message_part $o_part            Part object created by get_structure()
-     * @param mixed              $print             True to print part, resource to write part contents in
-     * @param resource           $fp                File pointer to save the message part
-     * @param bool               $skip_charset_conv Disables charset conversion
-     * @param int                $max_bytes         Only read this number of bytes
-     * @param bool               $formatted         Enables formatting of text/* parts bodies
+     * @param int                 $uid               Message UID
+     * @param string              $part              Part number
+     * @param ?rcube_message_part $o_part            Part object created by get_structure()
+     * @param mixed               $print             True to print part, resource to write part contents in
+     * @param resource            $fp                File pointer to save the message part
+     * @param bool                $skip_charset_conv Disables charset conversion
+     * @param int                 $max_bytes         Only read this number of bytes
+     * @param bool                $formatted         Enables formatting of text/* parts bodies
      *
-     * @return string Message/part body if not printed
+     * @return string|bool Message/part body if not printed
      */
-    public function get_message_part($uid, $part = 1, $o_part = null, $print = null, $fp = null,
+    public function get_message_part($uid, $part, $o_part = null, $print = null, $fp = null,
         $skip_charset_conv = false, $max_bytes = 0, $formatted = true)
     {
         if (!$this->check_connection()) {
-            return null;
+            return false;
         }
 
         // get part data if not provided
@@ -2460,18 +2313,22 @@ class rcube_imap extends rcube_storage
             $structure = $this->conn->getStructure($this->folder, $uid, true);
             $part_data = rcube_imap_generic::getStructurePartData($structure, $part);
 
-            $o_part = new rcube_message_part;
-            $o_part->ctype_primary   = $part_data['type'] ?? null;
+            if (empty($part_data)) {
+                return false;
+            }
+
+            $o_part = new rcube_message_part();
+            $o_part->ctype_primary = $part_data['type'] ?? null;
             $o_part->ctype_secondary = $part_data['subtype'] ?? null;
-            $o_part->encoding        = $part_data['encoding'] ?? null;
-            $o_part->charset         = $part_data['charset'] ?? null;
-            $o_part->size            = $part_data['size'] ?? 0;
+            $o_part->encoding = $part_data['encoding'] ?? null;
+            $o_part->charset = $part_data['charset'] ?? null;
+            $o_part->size = $part_data['size'] ?? 0;
         }
 
         $body = '';
 
         // Note: multipart/* parts will have size=0, we don't want to ignore them
-        if ($o_part && ($o_part->size || $o_part->ctype_primary == 'multipart')) {
+        if ($o_part->size || $o_part->ctype_primary == 'multipart') {
             $formatted = $formatted && $o_part->ctype_primary == 'text';
             $body = $this->conn->handlePartBody($this->folder, $uid, true,
                 $part ?: 'TEXT', $o_part->encoding, $print, $fp, $formatted, $max_bytes);
@@ -2493,11 +2350,11 @@ class rcube_imap extends rcube_storage
                     // try to extract charset information from HTML meta tag (#1488125)
                     if ($o_part->ctype_secondary == 'html' && preg_match('/<meta[^>]+charset=([a-z0-9-_]+)/i', $body, $m)) {
                         $o_part->charset = strtoupper($m[1]);
-                    }
-                    else {
+                    } else {
                         $o_part->charset = $this->default_charset;
                     }
                 }
+
                 $body = rcube_charset::convert($body, $o_part->charset);
             }
         }
@@ -2512,12 +2369,12 @@ class rcube_imap extends rcube_storage
      * @param resource $fp   File pointer to save the message
      * @param string   $part Optional message part ID
      *
-     * @return string Message source string
+     * @return string|false Message source string
      */
     public function get_raw_body($uid, $fp = null, $part = null)
     {
         if (!$this->check_connection()) {
-            return null;
+            return false;
         }
 
         return $this->conn->handlePartBody($this->folder, $uid,
@@ -2530,12 +2387,12 @@ class rcube_imap extends rcube_storage
      * @param int    $uid  Message UID
      * @param string $part Optional message part ID
      *
-     * @return string Message headers string
+     * @return string|false Message headers string
      */
     public function get_raw_headers($uid, $part = null)
     {
         if (!$this->check_connection()) {
-            return null;
+            return false;
         }
 
         return $this->conn->fetchPartHeader($this->folder, $uid, true, $part);
@@ -2581,8 +2438,7 @@ class rcube_imap extends rcube_storage
 
         if (strpos($flag, 'UN') === 0) {
             $result = $this->conn->unflag($folder, $uids, substr($flag, 2));
-        }
-        else {
+        } else {
             $result = $this->conn->flag($folder, $uids, $flag);
         }
 
@@ -2591,7 +2447,7 @@ class rcube_imap extends rcube_storage
             // update flags instead removing from cache
             if ($mcache = $this->get_mcache_engine()) {
                 $status = strpos($flag, 'UN') !== 0;
-                $mflag  = preg_replace('/^UN/', '', $flag);
+                $mflag = preg_replace('/^UN/', '', $flag);
                 $mcache->change_flag($folder, $all_mode ? null : explode(',', $uids),
                     $mflag, $status);
             }
@@ -2599,8 +2455,7 @@ class rcube_imap extends rcube_storage
             // clear cached counters
             if ($flag == 'SEEN' || $flag == 'UNSEEN') {
                 $this->clear_messagecount($folder, ['SEEN', 'UNSEEN']);
-            }
-            elseif ($flag == 'DELETED' || $flag == 'UNDELETED') {
+            } elseif ($flag == 'DELETED' || $flag == 'UNDELETED') {
                 $this->clear_messagecount($folder, ['ALL', 'THREADS']);
                 if ($this->options['skip_deleted']) {
                     // remove cached messages
@@ -2617,7 +2472,7 @@ class rcube_imap extends rcube_storage
     /**
      * Append a mail message (source) to a specific folder
      *
-     * @param string       $folder  Target folder
+     * @param ?string      $folder  Target folder
      * @param string|array $message The message source string or filename
      *                              or array (of strings and file pointers)
      * @param string       $headers Headers string if $message contains only the body
@@ -2647,8 +2502,7 @@ class rcube_imap extends rcube_storage
 
         if ($is_file) {
             $saved = $this->conn->appendFromFile($folder, $message, $headers, $flags, $date, $binary);
-        }
-        else {
+        } else {
             $saved = $this->conn->append($folder, $message, $flags, $date, $binary);
         }
 
@@ -2657,14 +2511,14 @@ class rcube_imap extends rcube_storage
             $this->set_messagecount($folder, 'ALL', 1);
 
             $this->plugins->exec_hook('message_saved', [
-                    'folder'  => $folder,
-                    'message' => $message,
-                    'headers' => $headers,
-                    'is_file' => $is_file,
-                    'flags'   => $flags,
-                    'date'    => $date,
-                    'binary'  => $binary,
-                    'result'  => $saved,
+                'folder' => $folder,
+                'message' => $message,
+                'headers' => $headers,
+                'is_file' => $is_file,
+                'flags' => $flags,
+                'date' => $date,
+                'binary' => $binary,
+                'result' => $saved,
             ]);
         }
 
@@ -2701,7 +2555,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $config   = rcube::get_instance()->config;
+        $config = rcube::get_instance()->config;
         $to_trash = $to_mbox == $config->get('trash_mbox');
 
         // flag messages as read before moving them
@@ -2735,8 +2589,7 @@ class rcube_imap extends rcube_storage
                 // threads are too complicated to just remove messages from set
                 if ($this->search_threads || $all_mode) {
                     $this->refresh_search();
-                }
-                elseif (!$this->search_set->incomplete) {
+                } elseif (!$this->search_set->incomplete) {
                     $this->search_set->filter(explode(',', $uids), $this->folder);
                 }
             }
@@ -2788,12 +2641,12 @@ class rcube_imap extends rcube_storage
     /**
      * Mark messages as deleted and expunge them
      *
-     * @param mixed  $uids   Message UIDs as array or comma-separated string, or '*'
-     * @param string $folder Source folder
+     * @param array|string $uids   Message UIDs as array or comma-separated string, or '*'
+     * @param ?string      $folder Source folder
      *
      * @return bool True on success, False on error
      */
-    public function delete_message($uids, $folder = '')
+    public function delete_message($uids, $folder = null)
     {
         if (!is_string($folder) || !strlen($folder)) {
             $folder = $this->folder;
@@ -2828,8 +2681,7 @@ class rcube_imap extends rcube_storage
                 // threads are too complicated to just remove messages from set
                 if ($this->search_threads || $all_mode) {
                     $this->refresh_search();
-                }
-                elseif (!$this->search_set->incomplete) {
+                } elseif (!$this->search_set->incomplete) {
                     $this->search_set->filter(explode(',', $uids));
                 }
             }
@@ -2854,8 +2706,7 @@ class rcube_imap extends rcube_storage
     {
         if ($uids && $this->get_capability('UIDPLUS')) {
             [$uids, $all_mode] = $this->parse_uids($uids);
-        }
-        else {
+        } else {
             $uids = null;
         }
 
@@ -2878,8 +2729,7 @@ class rcube_imap extends rcube_storage
         // CLOSE(+SELECT) should be faster than EXPUNGE
         if (empty($uids) || !empty($all_mode)) {
             $result = $this->conn->close();
-        }
-        else {
+        } else {
             $result = $this->conn->expunge($folder, $uids);
         }
 
@@ -2890,7 +2740,6 @@ class rcube_imap extends rcube_storage
 
         return $result;
     }
-
 
     /* --------------------------------
      *        folder management
@@ -2923,8 +2772,7 @@ class rcube_imap extends rcube_storage
 
         if (isset($data['folders'])) {
             $a_mboxes = $data['folders'];
-        }
-        else {
+        } else {
             $a_mboxes = $this->list_folders_subscribed_direct($root, $name);
         }
 
@@ -2961,7 +2809,7 @@ class rcube_imap extends rcube_storage
      * @param string $root Optional root folder
      * @param string $name Optional name pattern
      *
-     * @return array List of subscribed folders
+     * @return ?array List of subscribed folders
      *
      * @see rcube_imap::list_folders_subscribed()
      */
@@ -2971,7 +2819,7 @@ class rcube_imap extends rcube_storage
             return null;
         }
 
-        $config    = rcube::get_instance()->config;
+        $config = rcube::get_instance()->config;
         $list_root = $root === '' && $this->list_root ? $this->list_root : $root;
 
         // Server supports LIST-EXTENDED, we can use selection options
@@ -2981,14 +2829,13 @@ class rcube_imap extends rcube_storage
         if ($list_extended) {
             // This will also set folder options, LSUB doesn't do that
             $result = $this->conn->listMailboxes($list_root, $name, null, ['SUBSCRIBED']);
-        }
-        else {
+        } else {
             // retrieve list of folders from IMAP server using LSUB
             $result = $this->conn->listSubscribed($list_root, $name);
         }
 
         if (!is_array($result)) {
-            return [];
+            return null;
         }
 
         // Add/Remove folders according to some configuration options
@@ -3002,24 +2849,24 @@ class rcube_imap extends rcube_storage
             if ($name == '*' && !empty($this->conn->data['LIST'])) {
                 foreach ($result as $idx => $folder) {
                     if (($opts = $this->conn->data['LIST'][$folder])
-                        && in_array_nocase('\\NonExistent', $opts)
+                        && in_array_nocase('\NonExistent', $opts)
                     ) {
                         $this->conn->unsubscribe($folder);
                         unset($result[$idx]);
                     }
                 }
             }
-        }
-        else {
+        } else {
             // unsubscribe non-existent folders, remove them from the list
             if (!empty($result) && $name == '*') {
                 $existing = $this->list_folders($root, $name);
 
                 // Try to make sure the list of existing folders is not malformed,
                 // we don't want to unsubscribe existing folders on error
+                // @phpstan-ignore-next-line
                 if (is_array($existing) && (!empty($root) || count($existing) > 1)) {
                     $nonexisting = array_diff($result, $existing);
-                    $result      = array_diff($result, $nonexisting);
+                    $result = array_diff($result, $nonexisting);
 
                     foreach ($nonexisting as $folder) {
                         $this->conn->unsubscribe($folder);
@@ -3060,8 +2907,7 @@ class rcube_imap extends rcube_storage
 
         if (isset($data['folders'])) {
             $a_mboxes = $data['folders'];
-        }
-        else {
+        } else {
             // retrieve list of folders from IMAP server
             $a_mboxes = $this->list_folders_direct($root, $name);
         }
@@ -3104,7 +2950,7 @@ class rcube_imap extends rcube_storage
      * @param string $root Optional root folder
      * @param string $name Optional name pattern
      *
-     * @return array List of folders
+     * @return ?array List of folders, Null on error
      *
      * @see rcube_imap::list_folders()
      */
@@ -3142,7 +2988,9 @@ class rcube_imap extends rcube_storage
 
         // Remove hidden folders
         if ($config->get('imap_skip_hidden_folders')) {
-            $result = array_filter($result, static function ($v) { return $v[0] != '.'; });
+            $result = array_filter($result, static function ($v) {
+                return $v[0] != '.';
+            });
         }
 
         // Remove folders in shared namespaces (if configured, see self::set_env())
@@ -3169,7 +3017,7 @@ class rcube_imap extends rcube_storage
     protected function list_folders_update(&$result, $type = null)
     {
         $namespace = $this->get_namespace();
-        $search    = [];
+        $search = [];
 
         // build list of namespace prefixes
         foreach ((array) $namespace as $ns) {
@@ -3199,11 +3047,9 @@ class rcube_imap extends rcube_storage
             foreach ($search as $prefix) {
                 if ($type == 'ext-subscribed') {
                     $list = $this->conn->listMailboxes('', $prefix . '*', null, ['SUBSCRIBED']);
-                }
-                elseif ($type == 'subscribed') {
+                } elseif ($type == 'subscribed') {
                     $list = $this->conn->listSubscribed('', $prefix . '*');
-                }
-                else {
+                } else {
                     $list = $this->conn->listMailboxes('', $prefix . '*');
                 }
 
@@ -3231,7 +3077,7 @@ class rcube_imap extends rcube_storage
 
             $myrights = implode('', (array) $this->my_rights($folder));
 
-            if ($myrights !== null && !preg_match($regex, $myrights)) {
+            if (!preg_match($regex, $myrights)) {
                 unset($a_folders[$idx]);
             }
         }
@@ -3260,16 +3106,16 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      *
-     * @return int Folder size in bytes, False on error
+     * @return int|false Folder size in bytes, False on error
      */
     public function folder_size($folder)
     {
-        if (!is_string($folder) || !strlen($folder)) {
+        if (!strlen($folder)) {
             return false;
         }
 
         if (!$this->check_connection()) {
-            return 0;
+            return false;
         }
 
         if ($this->get_capability('STATUS=SIZE')) {
@@ -3281,11 +3127,11 @@ class rcube_imap extends rcube_storage
 
         // On Cyrus we can use special folder annotation, which should be much faster
         if ($this->get_vendor() == 'cyrus') {
-            $idx    = '/shared/vendor/cmu/cyrus-imapd/size';
+            $idx = '/shared/vendor/cmu/cyrus-imapd/size';
             $result = $this->get_metadata($folder, $idx, [], true);
 
             if (!empty($result) && isset($result[$folder][$idx]) && is_numeric($result[$folder][$idx])) {
-                return $result[$folder][$idx];
+                return (int) $result[$folder][$idx];
             }
         }
 
@@ -3347,7 +3193,7 @@ class rcube_imap extends rcube_storage
             $folder .= $this->delimiter;
         }
 
-        $result = $this->conn->createFolder($folder, $type ? ["\\" . ucfirst($type)] : null);
+        $result = $this->conn->createFolder($folder, $type ? ['\\' . ucfirst($type)] : null);
 
         // Folder creation may fail when specific special-use flag is not supported.
         // Try to create it anyway with no flag specified (#7147)
@@ -3391,11 +3237,10 @@ class rcube_imap extends rcube_storage
         // get list of subscribed folders
         if ((strpos($folder, '%') === false) && (strpos($folder, '*') === false)) {
             $a_subscribed = $this->list_folders_subscribed($folder . $delm, '*');
-            $subscribed   = $this->folder_exists($folder, true);
-        }
-        else {
+            $subscribed = $this->folder_exists($folder, true);
+        } else {
             $a_subscribed = $this->list_folders_subscribed();
-            $subscribed   = in_array($folder, $a_subscribed);
+            $subscribed = in_array($folder, $a_subscribed);
         }
 
         $result = $this->conn->renameFolder($folder, $new_name);
@@ -3444,7 +3289,7 @@ class rcube_imap extends rcube_storage
 
         // get list of sub-folders or all folders
         // if folder name contains special characters
-        $path       = strpos($folder, '*') === false && strpos($folder, '%') === false ? ($folder . $delm) : '';
+        $path = strpos($folder, '*') === false && strpos($folder, '%') === false ? ($folder . $delm) : '';
         $sub_mboxes = $this->list_folders($path, '*');
 
         // According to RFC3501 deleting a \Noselect folder
@@ -3479,7 +3324,7 @@ class rcube_imap extends rcube_storage
     public function get_special_folders($forced = false)
     {
         $result = parent::get_special_folders();
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         // Lock SPECIAL-USE after user preferences change (#4782)
         if ($rcube->config->get('lock_special_folders')) {
@@ -3498,7 +3343,9 @@ class rcube_imap extends rcube_storage
             return $result;
         }
 
-        $types   = array_map(static function ($value) { return '\\' . ucfirst($value); }, rcube_storage::$folder_types);
+        $types = array_map(static function ($value) {
+            return '\\' . ucfirst($value);
+        }, rcube_storage::$folder_types);
         $special = [];
 
         // request \Subscribed flag in LIST response as performance improvement for folder_exists()
@@ -3513,7 +3360,7 @@ class rcube_imap extends rcube_storage
                     $flags = $this->conn->data['LIST'][$folder];
                     foreach ($types as $type) {
                         if (in_array($type, $flags)) {
-                            $type           = strtolower(substr($type, 1));
+                            $type = strtolower(substr($type, 1));
                             $special[$type] = $folder;
                         }
                     }
@@ -3541,7 +3388,7 @@ class rcube_imap extends rcube_storage
         }
 
         $folders = $this->get_special_folders(true);
-        $old     = isset($this->icache['special-use']) ? (array) $this->icache['special-use'] : [];
+        $old = isset($this->icache['special-use']) ? (array) $this->icache['special-use'] : [];
 
         foreach ($specials as $type => $folder) {
             if (in_array($type, rcube_storage::$folder_types)) {
@@ -3553,7 +3400,7 @@ class rcube_imap extends rcube_storage
                     }
                     // set new folder metadata
                     if ($folder) {
-                        $this->set_metadata($folder, ['/private/specialuse' => "\\" . ucfirst($type)]);
+                        $this->set_metadata($folder, ['/private/specialuse' => '\\' . ucfirst($type)]);
                     }
                 }
             }
@@ -3592,20 +3439,17 @@ class rcube_imap extends rcube_storage
         if ($subscription) {
             // It's possible we already called LIST command, check LIST data
             if (!empty($this->conn->data['LIST']) && !empty($this->conn->data['LIST'][$folder])
-                && in_array_nocase('\\Subscribed', $this->conn->data['LIST'][$folder])
+                && in_array_nocase('\Subscribed', $this->conn->data['LIST'][$folder])
             ) {
                 $a_folders = [$folder];
-            }
-            else {
+            } else {
                 $a_folders = $this->conn->listSubscribed('', $folder);
             }
-        }
-        else {
+        } else {
             // It's possible we already called LIST command, check LIST data
             if (!empty($this->conn->data['LIST']) && isset($this->conn->data['LIST'][$folder])) {
                 $a_folders = [$folder];
-            }
-            else {
+            } else {
                 $a_folders = $this->conn->listMailboxes('', $folder);
             }
         }
@@ -3728,7 +3572,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      *
-     * @return array Data
+     * @return array Folder properties
      */
     public function folder_data($folder)
     {
@@ -3743,9 +3587,8 @@ class rcube_imap extends rcube_storage
 
             if ($this->conn->select($folder)) {
                 $this->folder = $folder;
-            }
-            else {
-                return null;
+            } else {
+                return [];
             }
         }
 
@@ -3786,15 +3629,15 @@ class rcube_imap extends rcube_storage
 
         // get cached metadata
         $cache_key = rcube_cache::key_name('mailboxes.folder-info', [$folder]);
-        $cached    = $this->get_cache($cache_key);
+        $cached = $this->get_cache($cache_key);
 
         if (is_array($cached)) {
             return $cached;
         }
 
-        $acl       = $this->get_capability('ACL');
+        $acl = $this->get_capability('ACL');
         $namespace = $this->get_namespace();
-        $options   = ['is_root' => false];
+        $options = ['is_root' => false];
 
         // check if the folder is a namespace prefix
         if (!empty($namespace)) {
@@ -3824,23 +3667,18 @@ class rcube_imap extends rcube_storage
             }
         }
 
-        $options['name']       = $folder;
+        $options['name'] = $folder;
         $options['attributes'] = $this->folder_attributes($folder, true);
-        $options['namespace']  = $this->folder_namespace($folder);
-        $options['special']    = $this->is_special_folder($folder);
-        $options['noselect']   = false;
+        $options['namespace'] = $this->folder_namespace($folder);
+        $options['special'] = $this->is_special_folder($folder);
+        $options['noselect'] = false;
 
         // Set 'noselect' flag
-        if (is_array($options['attributes'])) {
-            foreach ($options['attributes'] as $attrib) {
-                $attrib = strtolower($attrib);
-                if ($attrib == '\noselect' || $attrib == '\nonexistent') {
-                    $options['noselect'] = true;
-                }
+        foreach ($options['attributes'] as $attrib) {
+            $attrib = strtolower($attrib);
+            if ($attrib == '\noselect' || $attrib == '\nonexistent') {
+                $options['noselect'] = true;
             }
-        }
-        else {
-            $options['noselect'] = true;
         }
 
         // Get folder rights (MYRIGHTS)
@@ -3857,8 +3695,7 @@ class rcube_imap extends rcube_storage
             if (!$options['noselect']) {
                 $options['noselect'] = !in_array('r', $options['rights']);
             }
-        }
-        else {
+        } else {
             $options['norename'] = $options['is_root'] || $options['namespace'] != 'personal';
         }
 
@@ -3893,14 +3730,14 @@ class rcube_imap extends rcube_storage
     {
         if (parent::folder_validate($folder, $char)) {
             $vendor = $this->get_vendor();
-            $regexp = '\\x00-\\x1F\\x7F%*';
+            $regexp = '\x00-\x1F\x7F%*';
 
             if ($vendor == 'cyrus') {
                 // List based on testing Kolab's Cyrus-IMAP 2.5
-                $regexp .= '!`@(){}|\\?<;"';
+                $regexp .= '!`@(){}|\?<;"';
             }
 
-            if (!preg_match("/[$regexp]/", $folder, $m)) {
+            if (!preg_match("/[{$regexp}]/", $folder, $m)) {
                 return true;
             }
 
@@ -3913,14 +3750,13 @@ class rcube_imap extends rcube_storage
     /**
      * Get message header names for rcube_imap_generic::fetchHeader(s)
      *
-     * @return string Space-separated list of header names
+     * @return array List of header names
      */
     protected function get_fetch_headers()
     {
         if (!empty($this->options['fetch_headers'])) {
             $headers = explode(' ', $this->options['fetch_headers']);
-        }
-        else {
+        } else {
             $headers = [];
         }
 
@@ -3930,7 +3766,6 @@ class rcube_imap extends rcube_storage
 
         return $headers;
     }
-
 
     /* -----------------------------------------
      *   ACL and METADATA/ANNOTATEMORE methods
@@ -3992,7 +3827,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      *
-     * @return array User-rights array on success, NULL on error
+     * @return array|null User-rights array on success, NULL on error
      *
      * @since 0.5-beta
      */
@@ -4016,7 +3851,7 @@ class rcube_imap extends rcube_storage
      * @param string $folder Folder name
      * @param string $user   User name
      *
-     * @return array List of user rights
+     * @return array|null List of user rights
      *
      * @since 0.5-beta
      */
@@ -4039,7 +3874,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      *
-     * @return array MYRIGHTS response on success, NULL on error
+     * @return array|null MYRIGHTS response on success, NULL on error
      *
      * @since 0.5-beta
      */
@@ -4059,8 +3894,8 @@ class rcube_imap extends rcube_storage
     /**
      * Sets IMAP metadata/annotations (SETMETADATA/SETANNOTATION)
      *
-     * @param string $folder  Folder name (empty for server metadata)
-     * @param array  $entries Entry-value array (use NULL value as NIL)
+     * @param ?string $folder  Folder name (empty for server metadata)
+     * @param array   $entries Entry-value array (use NULL value as NIL)
      *
      * @return bool True on success, False on failure
      *
@@ -4095,8 +3930,8 @@ class rcube_imap extends rcube_storage
     /**
      * Unsets IMAP metadata/annotations (SETMETADATA/SETANNOTATION)
      *
-     * @param string $folder  Folder name (empty for server metadata)
-     * @param array  $entries Entry names array
+     * @param ?string $folder  Folder name (empty for server metadata)
+     * @param array   $entries Entry names array
      *
      * @return bool True on success, False on failure
      *
@@ -4131,12 +3966,12 @@ class rcube_imap extends rcube_storage
     /**
      * Returns IMAP metadata/annotations (GETMETADATA/GETANNOTATION)
      *
-     * @param string $folder  Folder name (empty for server metadata)
-     * @param array  $entries Entries
-     * @param array  $options Command options (with MAXSIZE and DEPTH keys)
-     * @param bool   $force   Disables cache use
+     * @param ?string $folder  Folder name (empty for server metadata)
+     * @param array   $entries Entries
+     * @param array   $options Command options (with MAXSIZE and DEPTH keys)
+     * @param bool    $force   Disables cache use
      *
-     * @return array Metadata entry-value hash array on success, NULL on error
+     * @return array|null Metadata entry-value hash array on success, NULL on error
      *
      * @since 0.5-beta
      */
@@ -4163,10 +3998,9 @@ class rcube_imap extends rcube_storage
             || (!is_string($folder) || !strlen($folder) && $this->get_capability('METADATA-SERVER'))
         ) {
             $res = $this->conn->getMetadata($folder, $entries, $options);
-        }
-        elseif ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
+        } elseif ($this->get_capability('ANNOTATEMORE') || $this->get_capability('ANNOTATEMORE2')) {
             $queries = [];
-            $res     = [];
+            $res = [];
 
             // Convert entry names
             foreach ($entries as $entry) {
@@ -4196,6 +4030,8 @@ class rcube_imap extends rcube_storage
 
             return $res;
         }
+
+        return null;
     }
 
     /**
@@ -4204,20 +4040,21 @@ class rcube_imap extends rcube_storage
      *
      * @param string $entry Entry name
      *
-     * @return array Entry-attribute list, NULL if not supported (?)
+     * @return array|null Entry-attribute list, NULL if not supported (?)
      */
     protected function md2annotate($entry)
     {
         if (substr($entry, 0, 7) == '/shared') {
             return [substr($entry, 7), 'value.shared'];
         }
-        elseif (substr($entry, 0, 8) == '/private') {
+
+        if (substr($entry, 0, 8) == '/private') {
             return [substr($entry, 8), 'value.priv'];
         }
 
         // @TODO: log error
+        return null;
     }
-
 
     /* --------------------------------
      *   internal caching methods
@@ -4232,24 +4069,25 @@ class rcube_imap extends rcube_storage
     {
         if ($type) {
             $this->caching = $type;
-        }
-        else {
+        } else {
             if ($this->cache) {
                 $this->cache->close();
             }
-            $this->cache   = null;
+            $this->cache = null;
             $this->caching = false;
         }
     }
 
     /**
      * Getter for IMAP cache object
+     *
+     * @return rcube_cache|null
      */
     protected function get_cache_engine()
     {
         if ($this->caching && !$this->cache) {
             $rcube = rcube::get_instance();
-            $ttl   = $rcube->config->get('imap_cache_ttl', '10d');
+            $ttl = $rcube->config->get('imap_cache_ttl', '10d');
             $this->cache = $rcube->get_cache('IMAP', $this->caching, $ttl);
         }
 
@@ -4268,6 +4106,8 @@ class rcube_imap extends rcube_storage
         if ($cache = $this->get_cache_engine()) {
             return $cache->get($key);
         }
+
+        return null;
     }
 
     /**
@@ -4297,7 +4137,6 @@ class rcube_imap extends rcube_storage
         }
     }
 
-
     /* --------------------------------
      *   message caching methods
      * --------------------------------*/
@@ -4316,8 +4155,7 @@ class rcube_imap extends rcube_storage
             if ($mode && ($cache = $this->get_mcache_engine())) {
                 $cache->set_mode($mode);
             }
-        }
-        else {
+        } else {
             if ($this->mcache) {
                 $this->mcache->close();
             }
@@ -4333,8 +4171,9 @@ class rcube_imap extends rcube_storage
     {
         if ($this->messages_caching && !$this->mcache) {
             $rcube = rcube::get_instance();
-            if (($dbh = $rcube->get_dbh()) && ($userid = $rcube->get_user_id())) {
-                $ttl       = $rcube->config->get('messages_cache_ttl', '10d');
+            $dbh = $rcube->get_dbh();
+            if ($userid = $rcube->get_user_id()) {
+                $ttl = $rcube->config->get('messages_cache_ttl', '10d');
                 $threshold = $rcube->config->get('messages_cache_threshold', 50);
                 $this->mcache = new rcube_imap_cache(
                     $dbh, $this, $userid, $this->options['skip_deleted'], $ttl, $threshold);
@@ -4360,11 +4199,10 @@ class rcube_imap extends rcube_storage
     /**
      * Delete outdated cache entries
      */
-    function cache_gc()
+    public function cache_gc()
     {
         rcube_imap_cache::gc();
     }
-
 
     /* --------------------------------
      *         protected methods
@@ -4387,8 +4225,8 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $folder    = str_replace('.', '', 'foldertest' . microtime(true));
-        $folder    = $this->mod_folder($folder, 'in');
+        $folder = str_replace('.', '', 'foldertest' . microtime(true));
+        $folder = $this->mod_folder($folder, 'in');
         $subfolder = $folder . $this->delimiter . 'foldertest';
 
         if ($this->conn->createFolder($folder)) {
@@ -4466,11 +4304,11 @@ class rcube_imap extends rcube_storage
 
         // Force the type of folder name variable (#1485527)
         $folders = array_map('strval', $folders);
-        $out     = [];
+        $out = [];
 
         // Put special folders on top...
         $specials = array_unique(array_intersect($specials, $folders));
-        $folders  = array_merge($specials, array_diff($folders, $specials));
+        $folders = array_merge($specials, array_diff($folders, $specials));
 
         // ... and rebuild the list to move their subfolders where they belong
         $this->sort_folder_specials(null, $folders, $specials, $out);
@@ -4563,7 +4401,7 @@ class rcube_imap extends rcube_storage
      * @param int    $id     Message (sequence) ID
      * @param string $folder Folder name
      *
-     * @return int Message UID
+     * @return int|null Message UID if found
      */
     public function id2uid($id, $folder = null)
     {
@@ -4650,8 +4488,7 @@ class rcube_imap extends rcube_storage
                 foreach ((array) $mode as $key) {
                     unset($a_folder_cache[$folder][$key]);
                 }
-            }
-            else {
+            } else {
                 unset($a_folder_cache[$folder]);
             }
 
@@ -4671,9 +4508,8 @@ class rcube_imap extends rcube_storage
         if (!is_object($date) || !is_a($date, 'DateTime')) {
             try {
                 $timestamp = rcube_utils::strtotime($date);
-                $date      = new DateTime("@" . $timestamp);
-            }
-            catch (Exception $e) {
+                $date = new DateTime('@' . $timestamp);
+            } catch (Exception $e) {
                 return null;
             }
         }

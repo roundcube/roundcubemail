@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Client as HttpClient;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -26,48 +28,54 @@
 class rcube
 {
     // Init options
-    const INIT_WITH_DB      = 1;
-    const INIT_WITH_PLUGINS = 2;
+    public const INIT_WITH_DB = 1;
+    public const INIT_WITH_PLUGINS = 2;
 
     // Request status
-    const REQUEST_VALID       = 0;
-    const REQUEST_ERROR_URL   = 1;
-    const REQUEST_ERROR_TOKEN = 2;
+    public const REQUEST_VALID = 0;
+    public const REQUEST_ERROR_URL = 1;
+    public const REQUEST_ERROR_TOKEN = 2;
 
-    const DEBUG_LINE_LENGTH = 4096;
+    public const DEBUG_LINE_LENGTH = 4096;
 
     /** @var rcube_config Stores instance of rcube_config */
     public $config;
 
-    /** @var rcube_db Instance of database class */
+    /** @var ?rcube_db SQL database handler */
     public $db;
 
-    /** @var Memcache Instance of Memcache class */
+    /** @var Memcache|false|null Memcache cache handler */
     public $memcache;
 
-    /** @var Memcached Instance of Memcached class */
+    /** @var Memcached|false|null Memcached cache handler */
     public $memcached;
 
-    /** @var Redis Instance of Redis class */
+    /** @var Redis|false|null Redis cache handler */
     public $redis;
 
-    /** @var rcube_session Instance of rcube_session class */
+    /** @var ?rcube_session Session handler */
     public $session;
 
-    /** @var rcube_smtp Instance of rcube_smtp class */
+    /** @var ?rcube_smtp SMTP handler */
     public $smtp;
 
-    /** @var rcube_storage Instance of rcube_storage class */
+    /** @var ?rcube_storage Storage (IMAP) handler */
     public $storage;
 
-    /** @var rcube_output Instance of rcube_output class */
+    /** @var ?rcube_output Output handler */
     public $output;
 
-    /** @var rcube_plugin_api Instance of rcube_plugin_api */
+    /** @var rcube_plugin_api|rcube_dummy_plugin_api Instance of rcube_plugin_api */
     public $plugins;
 
-    /** @var rcube_user Instance of rcube_user class */
+    /** @var ?rcube_user User database handler */
     public $user;
+
+    /** @var ?string Temporary user email */
+    public $user_email;
+
+    /** @var ?string Temporary user password */
+    public $password;
 
     /** @var int Request status */
     public $request_status = 0;
@@ -75,15 +83,14 @@ class rcube
     /** @var array Localization */
     protected $texts;
 
-    /** @var rcube_cache[] Initialized cache objects */
+    /** @var array<rcube_cache|null> Initialized cache objects */
     protected $caches = [];
 
     /** @var array Registered shutdown functions */
     protected $shutdown_functions = [];
 
-    /** @var rcube Singleton instance of rcube */
-    static protected $instance;
-
+    /** @var ?rcube Singleton instance of rcube */
+    protected static $instance;
 
     /**
      * This implements the 'singleton' design pattern
@@ -93,7 +100,7 @@ class rcube
      *
      * @return rcube The one and only instance
      */
-    static function get_instance($mode = 0, $env = '')
+    public static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance) {
             self::$instance = new self($env);
@@ -111,8 +118,8 @@ class rcube
     protected function __construct($env = '')
     {
         // load configuration
-        $this->config  = new rcube_config($env);
-        $this->plugins = new rcube_dummy_plugin_api;
+        $this->config = new rcube_config($env);
+        $this->plugins = new rcube_dummy_plugin_api();
 
         register_shutdown_function([$this, 'shutdown']);
     }
@@ -126,7 +133,7 @@ class rcube
     {
         // initialize syslog
         if ($this->config->get('log_driver') == 'syslog') {
-            $syslog_id       = $this->config->get('syslog_id', 'roundcube');
+            $syslog_id = $this->config->get('syslog_id', 'roundcube');
             $syslog_facility = $this->config->get('syslog_facility', \LOG_USER);
             openlog($syslog_id, \LOG_ODELAY, $syslog_facility);
         }
@@ -165,7 +172,7 @@ class rcube
     /**
      * Get global handle for memcache access
      *
-     * @return Memcache The memcache engine
+     * @return Memcache|false The memcache engine
      */
     public function get_memcache()
     {
@@ -179,7 +186,7 @@ class rcube
     /**
      * Get global handle for memcached access
      *
-     * @return Memcached The memcached engine
+     * @return Memcached|false The memcached engine
      */
     public function get_memcached()
     {
@@ -193,7 +200,7 @@ class rcube
     /**
      * Get global handle for redis access
      *
-     * @return Redis The redis engine
+     * @return Redis|false The redis engine
      */
     public function get_redis()
     {
@@ -207,11 +214,11 @@ class rcube
     /**
      * Initialize and get user cache object
      *
-     * @param string $name    Cache identifier
-     * @param string $type    Cache type ('db', 'apc', 'memcache', 'redis')
-     * @param string $ttl     Expiration time for cache items
-     * @param bool   $packed  Enables/disables data serialization
-     * @param bool   $indexed Use indexed cache
+     * @param string     $name    Cache identifier
+     * @param string     $type    Cache type ('db', 'apc', 'memcache', 'redis')
+     * @param string|int $ttl     Expiration time for cache items
+     * @param bool       $packed  Enables/disables data serialization
+     * @param bool       $indexed Use indexed cache
      *
      * @return rcube_cache|null User cache object
      */
@@ -230,16 +237,16 @@ class rcube
      * @param string $name   Cache identifier
      * @param bool   $packed Enables/disables data serialization
      *
-     * @return rcube_cache Shared cache object
+     * @return rcube_cache|null Shared cache object, Null if the cache is disabled
      */
     public function get_cache_shared($name, $packed = true)
     {
-        $shared_name = "shared_$name";
+        $shared_name = "shared_{$name}";
 
         if (!array_key_exists($shared_name, $this->caches)) {
-            $opt  = strtolower($name) . '_cache';
+            $opt = strtolower($name) . '_cache';
             $type = $this->config->get($opt);
-            $ttl  = $this->config->get($opt . '_ttl');
+            $ttl = $this->config->get($opt . '_ttl');
 
             if (!$type) {
                 // cache is disabled
@@ -261,13 +268,13 @@ class rcube
      *
      * @param array $options Configuration options
      *
-     * @return GuzzleHttp\Client HTTP client
+     * @return HttpClient HTTP client
      */
     public function get_http_client($options = [])
     {
         $defaults = ['timeout' => 30, 'connect_timeout' => 5, 'read_timeout' => 120];
 
-        return new \GuzzleHttp\Client($options + $this->config->get('http_client') + $defaults);
+        return new HttpClient($options + ($this->config->get('http_client') ?? []) + $defaults);
     }
 
     /**
@@ -309,49 +316,47 @@ class rcube
             return;
         }
 
-        $driver       = $this->config->get('storage_driver', 'imap');
+        $driver = $this->config->get('storage_driver', 'imap');
         $driver_class = "rcube_{$driver}";
 
         if (!class_exists($driver_class)) {
             self::raise_error([
-                    'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Storage driver class ($driver) not found!",
-                ],
-                true, true
-            );
+                'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Storage driver class ({$driver}) not found!",
+            ], true, true);
         }
 
         // Initialize storage object
-        $this->storage = new $driver_class;
+        $this->storage = new $driver_class();
 
         // set class options
         $options = [
-            'auth_type'      => $this->config->get("{$driver}_auth_type", 'check'),
-            'auth_cid'       => $this->config->get("{$driver}_auth_cid"),
-            'auth_pw'        => $this->config->get("{$driver}_auth_pw"),
-            'debug'          => (bool) $this->config->get("{$driver}_debug"),
-            'force_caps'     => (bool) $this->config->get("{$driver}_force_caps"),
-            'disabled_caps'  => $this->config->get("{$driver}_disabled_caps"),
+            'auth_type' => $this->config->get("{$driver}_auth_type", 'check'),
+            'auth_cid' => $this->config->get("{$driver}_auth_cid"),
+            'auth_pw' => $this->config->get("{$driver}_auth_pw"),
+            'debug' => (bool) $this->config->get("{$driver}_debug"),
+            'force_caps' => (bool) $this->config->get("{$driver}_force_caps"),
+            'disabled_caps' => $this->config->get("{$driver}_disabled_caps"),
             'socket_options' => $this->config->get("{$driver}_conn_options"),
-            'timeout'        => (int) $this->config->get("{$driver}_timeout"),
-            'skip_deleted'   => (bool) $this->config->get('skip_deleted'),
-            'driver'         => $driver,
+            'timeout' => (int) $this->config->get("{$driver}_timeout"),
+            'skip_deleted' => (bool) $this->config->get('skip_deleted'),
+            'driver' => $driver,
         ];
 
         if (!empty($_SESSION['storage_host'])) {
             $options['language'] = $_SESSION['language'];
-            $options['host']     = $_SESSION['storage_host'];
-            $options['user']     = $_SESSION['username'];
-            $options['port']     = $_SESSION['storage_port'];
-            $options['ssl']      = $_SESSION['storage_ssl'];
+            $options['host'] = $_SESSION['storage_host'];
+            $options['user'] = $_SESSION['username'];
+            $options['port'] = $_SESSION['storage_port'];
+            $options['ssl'] = $_SESSION['storage_ssl'];
             $options['password'] = $this->decrypt($_SESSION['password']);
             $_SESSION[$driver . '_host'] = $_SESSION['storage_host'];
         }
 
-        $options = $this->plugins->exec_hook("storage_init", $options);
+        $options = $this->plugins->exec_hook('storage_init', $options);
 
         // for backward compat. (deprecated, to be removed)
-        $options = $this->plugins->exec_hook("imap_init", $options);
+        $options = $this->plugins->exec_hook('imap_init', $options);
 
         $this->storage->set_options($options);
         $this->set_storage_prop();
@@ -379,13 +384,13 @@ class rcube
         $storage->set_charset($this->config->get('default_charset', RCUBE_CHARSET));
 
         // enable caching of mail data
-        $driver         = $this->config->get('storage_driver', 'imap');
-        $storage_cache  = $this->config->get("{$driver}_cache");
+        $driver = $this->config->get('storage_driver', 'imap');
+        $storage_cache = $this->config->get("{$driver}_cache");
         $messages_cache = $this->config->get('messages_cache');
 
         // for backward compatibility
         if ($storage_cache === null && $messages_cache === null && $this->config->get('enable_caching')) {
-            $storage_cache  = 'db';
+            $storage_cache = 'db';
             $messages_cache = true;
         }
 
@@ -406,7 +411,7 @@ class rcube
     {
         $storage = $this->get_storage();
         $folders = $storage->get_special_folders(true);
-        $prefs   = [];
+        $prefs = [];
 
         // check SPECIAL-USE flags on IMAP folders
         foreach ($folders as $type => $folder) {
@@ -449,13 +454,13 @@ class rcube
             return;
         }
 
-        $storage       = $this->config->get('session_storage', 'db');
-        $sess_name     = $this->config->get('session_name');
-        $sess_domain   = $this->config->get('session_domain');
-        $sess_path     = $this->config->get('session_path');
+        $storage = $this->config->get('session_storage', 'db');
+        $sess_name = $this->config->get('session_name');
+        $sess_domain = $this->config->get('session_domain');
+        $sess_path = $this->config->get('session_path');
         $sess_samesite = $this->config->get('session_samesite');
-        $lifetime      = $this->config->get('session_lifetime', 0) * 60;
-        $is_secure     = $this->config->get('use_https') || rcube_utils::https_check();
+        $lifetime = $this->config->get('session_lifetime', 0) * 60;
+        $is_secure = $this->config->get('use_https') || rcube_utils::https_check();
 
         // set session domain
         if ($sess_domain) {
@@ -521,8 +526,8 @@ class rcube
 
         // Uploaded files metadata
         $db = $this->get_dbh();
-        $db->query("DELETE FROM " . $db->table_name('uploads', true)
-            . " WHERE `created` < " . $db->now($temp_dir_ttl * -1));
+        $db->query('DELETE FROM ' . $db->table_name('uploads', true)
+            . ' WHERE `created` < ' . $db->now($temp_dir_ttl * -1));
 
         $expire = time() - $temp_dir_ttl;
 
@@ -532,8 +537,8 @@ class rcube
                     continue;
                 }
 
-                if (@filemtime("$tmp/$fname") < $expire) {
-                    @unlink("$tmp/$fname");
+                if (@filemtime("{$tmp}/{$fname}") < $expire) {
+                    @unlink("{$tmp}/{$fname}");
                 }
             }
 
@@ -549,7 +554,7 @@ class rcube
     public function gc_run()
     {
         $probability = (int) ini_get('session.gc_probability');
-        $divisor     = (int) ini_get('session.gc_divisor');
+        $divisor = (int) ini_get('session.gc_divisor');
 
         if ($divisor > 0 && $probability > 0) {
             $random = mt_rand(1, $divisor);
@@ -585,22 +590,20 @@ class rcube
         $slang = !empty($_SESSION['language']) ? strtolower($_SESSION['language']) : 'en_us';
         if (isset($attrib[$slang])) {
             $this->texts[$name] = $attrib[$slang];
-        }
-        elseif ($slang != 'en_us' && isset($attrib['en_us'])) {
+        } elseif ($slang != 'en_us' && isset($attrib['en_us'])) {
             $this->texts[$name] = $attrib['en_us'];
         }
 
         // check for text with domain
-        if ($domain && isset($this->texts["$domain.$name"])) {
-            $text = $this->texts["$domain.$name"];
-        }
-        elseif (isset($this->texts[$name])) {
+        if ($domain && isset($this->texts["{$domain}.{$name}"])) {
+            $text = $this->texts["{$domain}.{$name}"];
+        } elseif (isset($this->texts[$name])) {
             $text = $this->texts[$name];
         }
 
         // text does not exist
         if (!isset($text)) {
-            return "[$name]";
+            return "[{$name}]";
         }
 
         // replace vars in text
@@ -620,11 +623,9 @@ class rcube
         // case folding
         if ((!empty($attrib['uppercase']) && strtolower($attrib['uppercase']) == 'first') || !empty($attrib['ucfirst'])) {
             $case_mode = \MB_CASE_TITLE;
-        }
-        elseif (!empty($attrib['uppercase'])) {
+        } elseif (!empty($attrib['uppercase'])) {
             $case_mode = \MB_CASE_UPPER;
-        }
-        elseif (!empty($attrib['lowercase'])) {
+        } elseif (!empty($attrib['lowercase'])) {
             $case_mode = \MB_CASE_LOWER;
         }
 
@@ -658,6 +659,7 @@ class rcube
 
         // any of loaded domains (plugins)
         if ($domain == '*') {
+            // @phpstan-ignore-next-line
             foreach ($this->plugins->loaded_plugins() as $domain) {
                 if (isset($this->texts[$domain . '.' . $name])) {
                     $ref_domain = $domain;
@@ -684,7 +686,7 @@ class rcube
     public function load_language($lang = null, $add = [], $merge = [])
     {
         $sess_lang = !empty($_SESSION['language']) ? $_SESSION['language'] : 'en_US';
-        $lang      = $this->language_prop($lang ?: $sess_lang);
+        $lang = $this->language_prop($lang ?: $sess_lang);
 
         // load localized texts
         if (empty($this->texts) || $lang != $sess_lang) {
@@ -710,12 +712,12 @@ class rcube
         }
 
         // append additional texts (from plugin)
-        if (is_array($add) && !empty($add)) {
+        if (!empty($add)) {
             $this->texts += $add;
         }
 
         // merge additional texts (from plugin)
-        if (is_array($merge) && !empty($merge)) {
+        if (!empty($merge)) {
             $this->texts = array_merge($this->texts, $merge);
         }
     }
@@ -734,9 +736,9 @@ class rcube
         if (empty($lang)) {
             $lang = $_SESSION['language'] ?? 'en_US';
         }
-        $langs  = array_unique(['en_US', $lang]);
+        $langs = array_unique(['en_US', $lang]);
         $locdir = slashify($dir);
-        $texts  = [];
+        $texts = [];
 
         // Language aliases used to find localization in similar lang, see below
         $aliases = [
@@ -760,8 +762,7 @@ class rcube
                 $alias = null;
                 if (!empty($aliases[$lng])) {
                     $alias = $aliases[$lng];
-                }
-                elseif ($key = array_search($lng, $aliases)) {
+                } elseif ($key = array_search($lng, $aliases)) {
                     $alias = $key;
                 }
 
@@ -775,7 +776,6 @@ class rcube
         return $texts;
     }
 
-
     /**
      * Load localization file
      *
@@ -787,18 +787,20 @@ class rcube
     public static function read_localization_file($file, $texts = [])
     {
         if (is_file($file) && is_readable($file)) {
-            $labels   = [];
+            $labels = [];
             $messages = [];
 
             // use buffering to handle empty lines/spaces after closing PHP tag
             ob_start();
-            include $file;
+            require $file;
             ob_end_clean();
 
+            // @phpstan-ignore-next-line
             if (!empty($labels)) {
                 $texts = array_merge($texts, $labels);
             }
 
+            // @phpstan-ignore-next-line
             if (!empty($messages)) {
                 $texts = array_merge($texts, $messages);
             }
@@ -821,7 +823,7 @@ class rcube
         // user HTTP_ACCEPT_LANGUAGE if no language is specified
         if ((empty($lang) || $lang == 'auto') && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $accept_langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            $lang         = $accept_langs[0];
+            $lang = $accept_langs[0];
 
             if (preg_match('/^([a-z]+)[_-]([a-z0-9]+)$/i', $lang, $m)) {
                 $lang = $m[1] . '_' . strtoupper($m[2]);
@@ -898,30 +900,30 @@ class rcube
      */
     public function encrypt($clear, $key = 'des_key', $base64 = true)
     {
+        // @phpstan-ignore-next-line
         if (!is_string($clear) || !strlen($clear)) {
             return '';
         }
 
-        $ckey   = $this->config->get_crypto_key($key);
+        $ckey = $this->config->get_crypto_key($key);
         $method = $this->config->get_crypto_method();
-        $iv     = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
-        $tag    = null;
+        $iv = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
+        $tag = null;
 
         // This distinction is for PHP 7.3 which throws a warning when
         // we use $tag argument with non-AEAD cipher method here
         if (!preg_match('/-(gcm|ccm|poly1305)$/i', $method)) {
             $cipher = openssl_encrypt($clear, $method, $ckey, \OPENSSL_RAW_DATA, $iv);
-        }
-        else {
+        } else {
             $cipher = openssl_encrypt($clear, $method, $ckey, \OPENSSL_RAW_DATA, $iv, $tag);
         }
 
         if ($cipher === false) {
             self::raise_error([
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => "Failed to encrypt data with configured cipher method: $method!",
-                ], true, false);
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "Failed to encrypt data with configured cipher method: {$method}!",
+            ], true, false);
 
             return false;
         }
@@ -951,19 +953,19 @@ class rcube
         }
 
         if ($base64) {
-            $cipher = base64_decode($cipher);
+            $cipher = base64_decode($cipher, true);
             if ($cipher === false) {
                 return false;
             }
         }
 
-        $ckey    = $this->config->get_crypto_key($key);
-        $method  = $this->config->get_crypto_method();
+        $ckey = $this->config->get_crypto_key($key);
+        $method = $this->config->get_crypto_method();
         $iv_size = openssl_cipher_iv_length($method);
-        $tag     = null;
+        $tag = null;
 
         if (preg_match('/^##(.{16})##/s', $cipher, $matches)) {
-            $tag    = $matches[1];
+            $tag = $matches[1];
             $cipher = substr($cipher, strlen($matches[0]));
         }
 
@@ -975,7 +977,7 @@ class rcube
         }
 
         $cipher = substr($cipher, $iv_size);
-        $clear  = openssl_decrypt($cipher, $method, $ckey, \OPENSSL_RAW_DATA, $iv, $tag);
+        $clear = openssl_decrypt($cipher, $method, $ckey, \OPENSSL_RAW_DATA, $iv, $tag);
 
         return $clear;
     }
@@ -993,7 +995,7 @@ class rcube
             if (empty($_SESSION['secure_token']) && $generate) {
                 // generate x characters long token
                 $length = $len > 1 ? $len : 16;
-                $token  = rcube_utils::random_bytes($length);
+                $token = rcube_utils::random_bytes($length);
 
                 $plugin = $this->plugins->exec_hook('secure_token', ['value' => $token, 'length' => $length]);
 
@@ -1073,13 +1075,17 @@ class rcube
     }
 
     /**
-     * Build a valid URL to this instance of Roundcube
+     * Build a valid URL to this instance of Roundcube.
      *
-     * @param mixed $p Either a string with the action or url parameters as key-value pairs
+     * @param mixed $p        Either a string with the action or
+     *                        url parameters as key-value pairs
+     * @param bool  $absolute Build a URL absolute to document root
+     * @param bool  $full     Create fully qualified URL including http(s):// and hostname
+     * @param bool  $secure   Return absolute URL in secure location
      *
      * @return string Valid application URL
      */
-    public function url($p)
+    public function url($p, $absolute = false, $full = false, $secure = false)
     {
         // STUB: should be overloaded by the application
         return '';
@@ -1108,7 +1114,7 @@ class rcube
         }
 
         foreach ($this->caches as $cache) {
-            if (is_object($cache)) {
+            if ($cache) {
                 $cache->close();
             }
         }
@@ -1144,7 +1150,7 @@ class rcube
     public function sleep()
     {
         foreach ($this->caches as $cache) {
-            if (is_object($cache)) {
+            if ($cache) {
                 $cache->close();
             }
         }
@@ -1235,23 +1241,21 @@ class rcube
 
         preg_match_all('/({(-?)([a-z]\w*)})/', $cmd, $matches, \PREG_SET_ORDER);
         foreach ($matches as $tags) {
-            [, $tag, $option, $key] = $tags;
+            [, $tag, $option, $optkey] = $tags;
             $parts = [];
 
             if ($option) {
-                foreach ((array) $values["-$key"] as $key => $value) {
+                foreach ((array) $values["-{$optkey}"] as $key => $value) {
                     if ($value === true || $value === false || $value === null) {
-                        $parts[] = $value ? $key : "";
-                    }
-                    else {
+                        $parts[] = $value ? $key : '';
+                    } else {
                         foreach ((array) $value as $val) {
-                            $parts[] = "$key " . escapeshellarg($val);
+                            $parts[] = "{$key} " . escapeshellarg($val);
                         }
                     }
                 }
-            }
-            else {
-                foreach ((array) $values[$key] as $value) {
+            } else {
+                foreach ((array) $values[$optkey] as $value) {
                     $parts[] = escapeshellarg($value);
                 }
             }
@@ -1273,7 +1277,7 @@ class rcube
     public static function console(...$args)
     {
         if (class_exists('rcube', false)) {
-            $rcube  = self::get_instance();
+            $rcube = self::get_instance();
             $plugin = $rcube->plugins->exec_hook('console', ['args' => $args]);
             if (!empty($plugin['abort'])) {
                 return;
@@ -1308,14 +1312,14 @@ class rcube
         $date_format = $log_driver = $session_key = null;
         if (self::$instance) {
             $date_format = self::$instance->config->get('log_date_format');
-            $log_driver  = self::$instance->config->get('log_driver');
+            $log_driver = self::$instance->config->get('log_driver');
             $session_key = intval(self::$instance->config->get('log_session_id', 8));
         }
 
         $date = rcube_utils::date_format($date_format);
 
         // trigger logging hook
-        if (is_object(self::$instance) && is_object(self::$instance->plugins)) {
+        if (self::$instance) {
             $log = self::$instance->plugins->exec_hook('write_log',
                 ['name' => $name, 'date' => $date, 'line' => $line]
             );
@@ -1341,8 +1345,8 @@ class rcube
 
         // write message with file name when configured to log to STDOUT
         if ($log_driver == 'stdout') {
-            $stdout = "php://stdout";
-            $line = "$name: $line\n";
+            $stdout = 'php://stdout';
+            $line = "{$name}: {$line}\n";
             return file_put_contents($stdout, $line, \FILE_APPEND) !== false;
         }
 
@@ -1363,8 +1367,7 @@ class rcube
         if (empty($log_dir)) {
             if (!empty($log['dir'])) {
                 $log_dir = $log['dir'];
-            }
-            elseif (self::$instance) {
+            } elseif (self::$instance) {
                 $log_dir = self::$instance->config->get('log_dir');
             }
         }
@@ -1375,12 +1378,11 @@ class rcube
 
         if (self::$instance) {
             $name .= self::$instance->config->get('log_file_ext', '.log');
-        }
-        else {
+        } else {
             $name .= '.log';
         }
 
-        return file_put_contents("$log_dir/$name", $line, \FILE_APPEND) !== false;
+        return file_put_contents("{$log_dir}/{$name}", $line, \FILE_APPEND) !== false;
     }
 
     /**
@@ -1405,15 +1407,13 @@ class rcube
                 'file' => $arg->getFile(),
                 'message' => $arg->getMessage(),
             ];
-        }
-        elseif (is_object($arg) && is_a($arg, 'PEAR_Error')) {
+        } elseif (is_object($arg) && is_a($arg, 'PEAR_Error')) {
             $info = $arg->getUserInfo();
-            $arg  = [
-                'code'    => $arg->getCode(),
+            $arg = [
+                'code' => $arg->getCode(),
                 'message' => $arg->getMessage() . ($info ? ': ' . $info : ''),
             ];
-        }
-        elseif (is_string($arg)) {
+        } elseif (is_string($arg)) {
             $arg = ['message' => $arg];
         }
 
@@ -1450,19 +1450,18 @@ class rcube
 
         if ($cli) {
             fwrite(\STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
-        }
-        elseif ($terminate && is_object(self::$instance->output)) {
+        } elseif ($terminate && self::$instance && is_object(self::$instance->output)) {
             self::$instance->output->raise_error($arg['code'], $arg['message']);
-        }
-        elseif ($terminate) {
+        } elseif ($terminate) {
             http_response_code(500);
         }
 
         // terminate script
         if ($terminate) {
-            if (defined('ROUNDCUBE_TEST_MODE') && ROUNDCUBE_TEST_MODE) {
+            if (defined('ROUNDCUBE_TEST_MODE')) {
                 throw new Exception('Error raised');
             }
+
             exit(1);
         }
     }
@@ -1477,7 +1476,7 @@ class rcube
     public static function log_bug($arg_arr)
     {
         $program = !empty($arg_arr['type']) ? strtoupper($arg_arr['type']) : 'PHP';
-        $uri     = $_SERVER['REQUEST_URI'] ?? '';
+        $uri = $_SERVER['REQUEST_URI'] ?? '';
 
         // write error to local log file
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1494,7 +1493,7 @@ class rcube
             }
         }
 
-        $log_entry = sprintf("%s Error: %s%s (%s %s)",
+        $log_entry = sprintf('%s Error: %s%s (%s %s)',
             $program,
             $arg_arr['message'],
             !empty($arg_arr['file']) ? sprintf(' in %s on line %d', $arg_arr['file'], $arg_arr['line']) : '',
@@ -1523,7 +1522,7 @@ class rcube
 
         if (($len = strlen($line)) > self::DEBUG_LINE_LENGTH) {
             $diff = $len - self::DEBUG_LINE_LENGTH;
-            $line = substr($line, 0, self::DEBUG_LINE_LENGTH) . "... [truncated $diff bytes]";
+            $line = substr($line, 0, self::DEBUG_LINE_LENGTH) . "... [truncated {$diff} bytes]";
         }
 
         if ($result !== null) {
@@ -1557,14 +1556,14 @@ class rcube
         static $print_count = 0;
 
         $print_count++;
-        $now  = self::timer();
+        $now = self::timer();
         $diff = $now - $timer;
 
         if (empty($label)) {
             $label = 'Timer ' . $print_count;
         }
 
-        self::write_log($dest, sprintf("%s: %0.4f sec", $label, $diff));
+        self::write_log($dest, sprintf('%s: %0.4f sec', $label, $diff));
     }
 
     /**
@@ -1584,6 +1583,7 @@ class rcube
      */
     public function set_user($user)
     {
+        // @phpstan-ignore-next-line
         if (is_object($user)) {
             $this->user = $user;
 
@@ -1595,37 +1595,43 @@ class rcube
     /**
      * Getter for logged user ID.
      *
-     * @return mixed User identifier
+     * @return int|null User identifier
      */
     public function get_user_id()
     {
         if (is_object($this->user)) {
-            return $this->user->ID;
+            return (int) $this->user->ID;
         }
-        elseif (isset($_SESSION['user_id'])) {
-            return $_SESSION['user_id'];
+
+        if (isset($_SESSION['user_id'])) {
+            return (int) $_SESSION['user_id'];
         }
+
+        return null;
     }
 
     /**
      * Getter for logged user name.
      *
-     * @return string User name
+     * @return string|null User name
      */
     public function get_user_name()
     {
         if (is_object($this->user)) {
             return $this->user->get_username();
         }
-        elseif (isset($_SESSION['username'])) {
+
+        if (isset($_SESSION['username'])) {
             return $_SESSION['username'];
         }
+
+        return null;
     }
 
     /**
      * Getter for logged user email (derived from user name not identity).
      *
-     * @return string User email address
+     * @return string|null User email address
      */
     public function get_user_email()
     {
@@ -1636,12 +1642,14 @@ class rcube
         if (is_object($this->user)) {
             return $this->user->get_username('mail');
         }
+
+        return null;
     }
 
     /**
      * Getter for logged user password.
      *
-     * @return string User password
+     * @return string|null User password
      */
     public function get_user_password()
     {
@@ -1652,6 +1660,8 @@ class rcube
         if (isset($_SESSION['password'])) {
             return $this->decrypt($_SESSION['password']);
         }
+
+        return null;
     }
 
     /**
@@ -1661,8 +1671,8 @@ class rcube
      */
     protected function get_user_log_dir()
     {
-        $log_dir      = $this->config->get('log_dir', RCUBE_INSTALL_PATH . 'logs');
-        $user_name    = $this->get_user_name();
+        $log_dir = $this->config->get('log_dir', RCUBE_INSTALL_PATH . 'logs');
+        $user_name = $this->get_user_name();
         $user_log_dir = $log_dir . '/' . $user_name;
 
         return !empty($user_name) && is_writable($user_log_dir) ? $user_log_dir : false;
@@ -1671,16 +1681,19 @@ class rcube
     /**
      * Getter for logged user language code.
      *
-     * @return string User language code
+     * @return string|null User language code
      */
     public function get_user_language()
     {
         if (is_object($this->user)) {
             return $this->user->language;
         }
-        elseif (isset($_SESSION['language'])) {
+
+        if (isset($_SESSION['language'])) {
             return $_SESSION['language'];
         }
+
+        return null;
     }
 
     /**
@@ -1692,13 +1705,12 @@ class rcube
      */
     public function gen_message_id($sender = null)
     {
-        $local_part  = md5(uniqid('rcube' . mt_rand(), true));
+        $local_part = md5(uniqid('rcube' . mt_rand(), true));
         $domain_part = '';
 
         if ($sender && preg_match('/@([^\s]+\.[a-z0-9-]+)/', $sender, $m)) {
             $domain_part = $m[1];
-        }
-        else {
+        } else {
             $domain_part = $this->user->get_username('domain');
         }
 
@@ -1719,7 +1731,7 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param Mail_mime    &$message   Reference to Mail_mime object
+     * @param Mail_mime    $message    Reference to Mail_mime object
      * @param string       $from       Sender address string
      * @param array|string $mailto     Either a comma-separated list of recipients (RFC822 compliant),
      *                                 or an array of recipients, each RFC822 valid
@@ -1729,16 +1741,16 @@ class rcube
      * @param array        $options    SMTP options (e.g. DSN request)
      * @param bool         $disconnect Close SMTP connection ASAP
      *
-     * @return bool Send status.
+     * @return bool send status
      */
-    public function deliver_message(&$message, $from, $mailto, &$error,
+    public function deliver_message($message, $from, $mailto, &$error,
         &$body_file = null, $options = null, $disconnect = false)
     {
         $plugin = $this->plugins->exec_hook('message_before_send', [
-                'message' => $message,
-                'from'    => $from,
-                'mailto'  => $mailto,
-                'options' => $options,
+            'message' => $message,
+            'from' => $from,
+            'mailto' => $mailto,
+            'options' => $options,
         ]);
 
         if ($plugin['abort']) {
@@ -1752,8 +1764,8 @@ class rcube
             return $plugin['result'] ?? false;
         }
 
-        $from    = $plugin['from'];
-        $mailto  = $plugin['mailto'];
+        $from = $plugin['from'];
+        $mailto = $plugin['mailto'];
         $options = $plugin['options'];
         $message = $plugin['message'];
         $headers = $message->headers();
@@ -1773,22 +1785,19 @@ class rcube
 
         if ($message->getParam('delay_file_io')) {
             // use common temp dir
-            $body_file   = rcube_utils::temp_filename('msg');
+            $body_file = rcube_utils::temp_filename('msg');
             $mime_result = $message->saveMessageBody($body_file);
 
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
-                        'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Could not create message: " . $mime_result->getMessage(),
-                    ],
-                    true, false
-                );
+                    'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => 'Could not create message: ' . $mime_result->getMessage(),
+                ], true, false);
                 return false;
             }
 
             $msg_body = fopen($body_file, 'r');
-        }
-        else {
+        } else {
             $msg_body = $message->get();
         }
 
@@ -1798,22 +1807,21 @@ class rcube
         }
 
         // send message
-        $sent     = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
+        $sent = $this->smtp->send_mail($from, $a_recipients, $smtp_headers, $msg_body, $options);
         $response = $this->smtp->get_response();
-        $error    = $this->smtp->get_error();
+        $error = $this->smtp->get_error();
 
         if (!$sent) {
             self::raise_error([
-                    'code' => 800, 'type' => 'smtp',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => implode("\n", $response),
-                ], true, false);
+                'code' => 800, 'type' => 'smtp',
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => implode("\n", $response),
+            ], true, false);
 
             // allow plugins to catch sending errors with the same parameters as in 'message_before_send'
             $plugin = $this->plugins->exec_hook('message_send_error', $plugin + ['error' => $error]);
             $error = $plugin['error'];
-        }
-        else {
+        } else {
             $this->plugins->exec_hook('message_sent', ['headers' => $headers, 'body' => $msg_body, 'message' => $message]);
 
             // remove MDN/DSN headers after sending
@@ -1824,7 +1832,7 @@ class rcube
                 $mailto = implode(',', $a_recipients);
                 $mailto = rcube_mime::decode_address_list($mailto, null, false, null, true);
 
-                self::write_log('sendmail', sprintf("User %s [%s]; Message %s for %s; %s",
+                self::write_log('sendmail', sprintf('User %s [%s]; Message %s for %s; %s',
                     $this->user->get_username(),
                     rcube_utils::remote_addr(),
                     $headers['Message-ID'],
@@ -1851,7 +1859,6 @@ class rcube
     }
 }
 
-
 /**
  * Lightweight plugin API class serving as a dummy if plugins are not enabled
  */
@@ -1860,8 +1867,8 @@ class rcube_dummy_plugin_api
     /**
      * Triggers a plugin hook.
      *
-     * @param string $hook Hook name
-     * @param array  $args Hook arguments
+     * @param string       $hook Hook name
+     * @param array|string $args Hook arguments
      *
      * @return array Hook arguments
      *

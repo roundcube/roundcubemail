@@ -29,8 +29,8 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
      */
     public function run($args = [])
     {
-        $rcmail  = rcmail::get_instance();
-        $name    = trim(rcube_utils::get_input_string('_folder_newname', rcube_utils::INPUT_POST, true));
+        $rcmail = rcmail::get_instance();
+        $name = trim(rcube_utils::get_input_string('_folder_newname', rcube_utils::INPUT_POST, true));
         $oldname = rcube_utils::get_input_string('_folder_oldname', rcube_utils::INPUT_POST, true);
 
         if (strlen($name) && strlen($oldname)) {
@@ -39,8 +39,7 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
 
         if (!empty($rename)) {
             self::update_folder_row($name, $oldname);
-        }
-        else {
+        } else {
             self::display_server_error('errorsaving');
         }
 
@@ -49,31 +48,29 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
 
     public static function rename_folder($oldname, $newname)
     {
-        $rcmail    = rcmail::get_instance();
-        $storage   = $rcmail->get_storage();
+        $rcmail = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
 
         $plugin = $rcmail->plugins->exec_hook('folder_rename', [
             'oldname' => $oldname, 'newname' => $newname]);
 
         if (empty($plugin['abort'])) {
-            $renamed =  $storage->rename_folder($oldname, $newname);
-        }
-        else {
+            $renamed = $storage->rename_folder($oldname, $newname);
+        } else {
             $renamed = $plugin['result'];
         }
 
         // update per-folder options for modified folder and its subfolders
         if ($renamed) {
-            $delimiter  = $storage->get_hierarchy_delimiter();
+            $delimiter = $storage->get_hierarchy_delimiter();
             $a_threaded = (array) $rcmail->config->get('message_threading', []);
-            $oldprefix  = '/^' . preg_quote($oldname . $delimiter, '/') . '/';
+            $oldprefix = '/^' . preg_quote($oldname . $delimiter, '/') . '/';
 
             foreach ($a_threaded as $key => $val) {
                 if ($key == $oldname) {
                     unset($a_threaded[$key]);
                     $a_threaded[$newname] = $val;
-                }
-                elseif (preg_match($oldprefix, $key)) {
+                } elseif (preg_match($oldprefix, $key)) {
                     unset($a_threaded[$key]);
                     $a_threaded[preg_replace($oldprefix, $newname . $delimiter, $key)] = $val;
                 }

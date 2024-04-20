@@ -27,13 +27,12 @@ class enigma extends rcube_plugin
 
     private $env_loaded = false;
 
-
     /**
      * Plugin initialization.
      */
-    function init()
+    public function init()
     {
-        $this->rc = rcube::get_instance();
+        $this->rc = rcmail::get_instance();
 
         if ($this->rc->task == 'mail') {
             // message parse/display hooks
@@ -67,8 +66,7 @@ class enigma extends rcube_plugin
             }
 
             $this->password_handler();
-        }
-        elseif ($this->rc->task == 'settings') {
+        } elseif ($this->rc->task == 'settings') {
             // add hooks for Enigma settings
             $this->add_hook('settings_actions', [$this, 'settings_actions']);
             $this->add_hook('preferences_sections_list', [$this, 'preferences_sections_list']);
@@ -87,8 +85,7 @@ class enigma extends rcube_plugin
             }
 
             $this->password_handler();
-        }
-        elseif ($this->rc->task == 'cli') {
+        } elseif ($this->rc->task == 'cli') {
             $this->add_hook('user_delete_commit', [$this, 'user_delete']);
         }
 
@@ -98,7 +95,7 @@ class enigma extends rcube_plugin
     /**
      * Plugin environment initialization.
      */
-    function load_env()
+    public function load_env()
     {
         if ($this->env_loaded) {
             return;
@@ -121,14 +118,14 @@ class enigma extends rcube_plugin
     /**
      * Plugin UI initialization.
      */
-    function load_ui($all = false)
+    public function load_ui($all = false)
     {
         if (!$this->ui) {
             // load config/localization
             $this->load_env();
 
             // Load UI
-            $this->ui = new enigma_ui($this, $this->home);
+            $this->ui = new enigma_ui($this);
         }
 
         if ($all) {
@@ -140,7 +137,7 @@ class enigma extends rcube_plugin
     /**
      * Plugin engine initialization.
      */
-    function load_engine()
+    public function load_engine()
     {
         if ($this->engine) {
             return $this->engine;
@@ -149,7 +146,7 @@ class enigma extends rcube_plugin
         // load config/localization
         $this->load_env();
 
-        return $this->engine = new enigma_engine($this);
+        return $this->engine = new enigma_engine();
     }
 
     /**
@@ -160,7 +157,7 @@ class enigma extends rcube_plugin
      *
      * @return array Modified parameters
      */
-    function part_structure($p)
+    public function part_structure($p)
     {
         $this->load_engine();
 
@@ -175,7 +172,7 @@ class enigma extends rcube_plugin
      *
      * @return array Modified parameters
      */
-    function part_body($p)
+    public function part_body($p)
     {
         $this->load_engine();
 
@@ -190,7 +187,7 @@ class enigma extends rcube_plugin
      *
      * @return array Modified parameters
      */
-    function settings_actions($args)
+    public function settings_actions($args)
     {
         // add labels
         $this->add_texts('localization/');
@@ -198,9 +195,9 @@ class enigma extends rcube_plugin
         // register as settings action
         $args['actions'][] = [
             'action' => 'plugin.enigmakeys',
-            'class'  => 'enigma keys',
-            'label'  => 'enigmakeys',
-            'title'  => 'enigmakeys',
+            'class' => 'enigma keys',
+            'label' => 'enigmakeys',
+            'title' => 'enigmakeys',
             'domain' => 'enigma',
         ];
         /*
@@ -223,7 +220,7 @@ class enigma extends rcube_plugin
      *
      * @return array Modified parameters
      */
-    function preferences_sections_list($p)
+    public function preferences_sections_list($p)
     {
         $p['list']['enigma'] = [
             'id' => 'enigma', 'section' => $this->gettext('encryption'),
@@ -240,7 +237,7 @@ class enigma extends rcube_plugin
      *
      * @return array Modified parameters
      */
-    function preferences_list($p)
+    public function preferences_list($p)
     {
         if ($p['section'] != 'encryption') {
             return $p;
@@ -255,14 +252,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_encryption';
-            $input    = new html_checkbox([
-                    'name'  => '_enigma_encryption',
-                    'id'    => $field_id,
-                    'value' => 1,
+            $input = new html_checkbox([
+                'name' => '_enigma_encryption',
+                'id' => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_encryption'] = [
-                'title'   => html::label($field_id, $this->gettext('supportencryption')),
+                'title' => html::label($field_id, $this->gettext('supportencryption')),
                 'content' => $input->show(intval($this->rc->config->get('enigma_encryption'))),
             ];
         }
@@ -274,14 +271,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_signatures';
-            $input    = new html_checkbox([
-                    'name'  => '_enigma_signatures',
-                    'id'    => $field_id,
-                    'value' => 1,
+            $input = new html_checkbox([
+                'name' => '_enigma_signatures',
+                'id' => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_signatures'] = [
-                'title'   => html::label($field_id, $this->gettext('supportsignatures')),
+                'title' => html::label($field_id, $this->gettext('supportsignatures')),
                 'content' => $input->show(intval($this->rc->config->get('enigma_signatures'))),
             ];
         }
@@ -293,14 +290,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_decryption';
-            $input    = new html_checkbox([
-                    'name'  => '_enigma_decryption',
-                    'id'    => $field_id,
-                    'value' => 1,
+            $input = new html_checkbox([
+                'name' => '_enigma_decryption',
+                'id' => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_decryption'] = [
-                'title'   => html::label($field_id, $this->gettext('supportdecryption')),
+                'title' => html::label($field_id, $this->gettext('supportdecryption')),
                 'content' => $input->show(intval($this->rc->config->get('enigma_decryption'))),
             ];
         }
@@ -312,14 +309,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_sign_all';
-            $input    = new html_checkbox([
-                    'name'  => '_enigma_sign_all',
-                    'id'    => $field_id,
-                    'value' => 1,
+            $input = new html_checkbox([
+                'name' => '_enigma_sign_all',
+                'id' => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_sign_all'] = [
-                'title'   => html::label($field_id, $this->gettext('signdefault')),
+                'title' => html::label($field_id, $this->gettext('signdefault')),
                 'content' => $input->show($this->rc->config->get('enigma_sign_all') ? 1 : 0),
             ];
         }
@@ -331,14 +328,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_encrypt_all';
-            $input    = new html_checkbox([
-                    'name'  => '_enigma_encrypt_all',
-                    'id'    => $field_id,
-                    'value' => 1,
+            $input = new html_checkbox([
+                'name' => '_enigma_encrypt_all',
+                'id' => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_encrypt_all'] = [
-                'title'   => html::label($field_id, $this->gettext('encryptdefault')),
+                'title' => html::label($field_id, $this->gettext('encryptdefault')),
                 'content' => $input->show($this->rc->config->get('enigma_encrypt_all') ? 1 : 0),
             ];
         }
@@ -350,14 +347,14 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_attach_pubkey';
-            $input    = new html_checkbox([
-                    'name'  => '_enigma_attach_pubkey',
-                    'id'    => $field_id,
-                    'value' => 1,
+            $input = new html_checkbox([
+                'name' => '_enigma_attach_pubkey',
+                'id' => $field_id,
+                'value' => 1,
             ]);
 
             $p['blocks']['main']['options']['enigma_attach_pubkey'] = [
-                'title'   => html::label($field_id, $this->gettext('attachpubkeydefault')),
+                'title' => html::label($field_id, $this->gettext('attachpubkeydefault')),
                 'content' => $input->show($this->rc->config->get('enigma_attach_pubkey') ? 1 : 0),
             ];
         }
@@ -369,7 +366,7 @@ class enigma extends rcube_plugin
             }
 
             $field_id = 'rcmfd_enigma_password_time';
-            $select   = new html_select(['name' => '_enigma_password_time', 'id' => $field_id, 'class' => 'custom-select']);
+            $select = new html_select(['name' => '_enigma_password_time', 'id' => $field_id, 'class' => 'custom-select']);
 
             foreach ([1, 5, 10, 15, 30] as $m) {
                 $label = $this->gettext(['name' => 'nminutes', 'vars' => ['m' => $m]]);
@@ -378,7 +375,7 @@ class enigma extends rcube_plugin
             $select->add($this->gettext('wholesession'), 0);
 
             $p['blocks']['main']['options']['enigma_password_time'] = [
-                'title'   => html::label($field_id, $this->gettext('passwordtime')),
+                'title' => html::label($field_id, $this->gettext('passwordtime')),
                 'content' => $select->show(intval($this->rc->config->get('enigma_password_time'))),
             ];
         }
@@ -394,7 +391,7 @@ class enigma extends rcube_plugin
      *
      * @return array Modified parameters
      */
-    function preferences_save($p)
+    public function preferences_save($p)
     {
         if ($p['section'] == 'encryption') {
             $p['prefs']['enigma_signatures'] = (bool) rcube_utils::get_input_value('_enigma_signatures', rcube_utils::INPUT_POST);
@@ -412,7 +409,7 @@ class enigma extends rcube_plugin
     /**
      * Handler for keys/certs management UI template.
      */
-    function preferences_ui()
+    public function preferences_ui()
     {
         $this->load_ui();
 
@@ -429,7 +426,7 @@ class enigma extends rcube_plugin
      *
      * @return array Modified parameters
      */
-    function identity_form($p)
+    public function identity_form($p)
     {
         if (isset($p['form']['encryption']) && !empty($p['record']['identity_id'])) {
             $content = '';
@@ -437,8 +434,8 @@ class enigma extends rcube_plugin
             // find private keys for this identity
             if (!empty($p['record']['email'])) {
                 $listing = [];
-                $engine  = $this->load_engine();
-                $keys    = $engine->list_keys($p['record']['email']);
+                $engine = $this->load_engine();
+                $keys = $engine->list_keys($p['record']['email']);
 
                 // On error do nothing, plugin/gnupg misconfigured?
                 if ($keys instanceof enigma_error) {
@@ -457,16 +454,15 @@ class enigma extends rcube_plugin
                 if (count($listing)) {
                     $content .= html::p(null, $this->gettext(['name' => 'identitymatchingprivkeys', 'vars' => ['nr' => count($listing)]]));
                     $content .= html::tag('ul', 'keylist', implode("\n", $listing));
-                }
-                else {
+                } else {
                     $content .= html::p(null, $this->gettext('identitynoprivkeys'));
                 }
             }
 
             // add button linking to enigma key management
             $button_attr = [
-                'class'  => 'button',
-                'href'   => $this->rc->url(['action' => 'plugin.enigmakeys']),
+                'class' => 'button',
+                'href' => $this->rc->url(['action' => 'plugin.enigmakeys']),
                 'target' => '_parent',
             ];
             $content .= html::p(null, html::a($button_attr, $this->gettext('managekeys')));
@@ -490,7 +486,7 @@ class enigma extends rcube_plugin
      *
      * @return array Modified parameters
      */
-    function status_message($p)
+    public function status_message($p)
     {
         $this->load_ui();
 
@@ -501,7 +497,7 @@ class enigma extends rcube_plugin
      * Handler for message_load hook.
      * Check message bodies and attachments for keys/certs.
      */
-    function message_load($p)
+    public function message_load($p)
     {
         $this->load_ui();
 
@@ -513,7 +509,7 @@ class enigma extends rcube_plugin
      * This callback function adds a box below the message content
      * if there is a key/cert attachment available
      */
-    function message_output($p)
+    public function message_output($p)
     {
         $this->load_ui();
 
@@ -523,7 +519,7 @@ class enigma extends rcube_plugin
     /**
      * Handler for attached keys/certs import
      */
-    function import_file()
+    public function import_file()
     {
         $this->load_ui();
 
@@ -533,7 +529,7 @@ class enigma extends rcube_plugin
     /**
      * Handle password submissions
      */
-    function password_handler()
+    public function password_handler()
     {
         $this->load_engine();
 
@@ -543,7 +539,7 @@ class enigma extends rcube_plugin
     /**
      * Handle message_ready hook (encryption/signing)
      */
-    function message_ready($p)
+    public function message_ready($p)
     {
         $this->load_ui();
 
@@ -553,7 +549,7 @@ class enigma extends rcube_plugin
     /**
      * Handle message_compose_body hook
      */
-    function message_compose($p)
+    public function message_compose($p)
     {
         $this->load_ui();
 
@@ -563,7 +559,7 @@ class enigma extends rcube_plugin
     /**
      * Handler for refresh hook.
      */
-    function refresh($p)
+    public function refresh($p)
     {
         // calling enigma_engine constructor to remove passwords
         // stored in session after expiration time
@@ -575,7 +571,7 @@ class enigma extends rcube_plugin
     /**
      * Handle delete_user_commit hook
      */
-    function user_delete($p)
+    public function user_delete($p)
     {
         $this->load_engine();
 

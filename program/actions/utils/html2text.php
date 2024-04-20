@@ -30,11 +30,13 @@ class rcmail_action_utils_html2text extends rcmail_action
     {
         $html = file_get_contents(self::$source);
 
-        $params['links'] = (bool) rcube_utils::get_input_value('_do_links', rcube_utils::INPUT_GET);
-        $params['width'] = (int) rcube_utils::get_input_value('_width', rcube_utils::INPUT_GET);
-
         $rcmail = rcmail::get_instance();
-        $text   = $rcmail->html2text($html, $params);
+        $params = [
+            'links' => (bool) rcube_utils::get_input_value('_do_links', rcube_utils::INPUT_GET),
+            'width' => (int) rcube_utils::get_input_value('_width', rcube_utils::INPUT_GET),
+        ];
+
+        $text = $rcmail->html2text($html, $params);
 
         $rcmail->output->sendExit($text, ['Content-Type: text/plain; charset=' . RCUBE_CHARSET]);
     }

@@ -19,6 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
+use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\MessageFormatter;
 
@@ -27,16 +28,16 @@ use GuzzleHttp\MessageFormatter;
  */
 class rcmail_oauth
 {
-    const TOKEN_REFRESHED       = 1;
-    const TOKEN_STILL_VALID     = 0;
-    const TOKEN_REFRESH_FAILED  = -1;
-    const TOKEN_NOT_FOUND       = -2;
-    const TOKEN_ERROR           = -3;
-    const TOKEN_REFRESH_EXPIRED = -4;
-    const TOKEN_REVOKED         = -5;
-    const TOKEN_COMPROMISED     = -6;
+    public const TOKEN_REFRESHED = 1;
+    public const TOKEN_STILL_VALID = 0;
+    public const TOKEN_REFRESH_FAILED = -1;
+    public const TOKEN_NOT_FOUND = -2;
+    public const TOKEN_ERROR = -3;
+    public const TOKEN_REFRESH_EXPIRED = -4;
+    public const TOKEN_REVOKED = -5;
+    public const TOKEN_COMPROMISED = -6;
 
-    const JWKS_CACHE_TTL        = 30; // TTL for JWKS (in seconds)
+    public const JWKS_CACHE_TTL = 30; // TTL for JWKS (in seconds)
 
     // prepare the OAUTHBEARER which is now the official protocol (rfc 7628)
     // but currently implement mostly the formal XOAUTH2
@@ -52,16 +53,16 @@ class rcmail_oauth
     /** @var array */
     protected $jwks;
 
-    /** @var string */
+    /** @var ?string */
     protected $last_error;
 
     /** @var bool */
     protected $no_redirect = false;
 
-    /** @var rcube_cache */
+    /** @var ?rcube_cache */
     protected $cache;
 
-    /** @var GuzzleHttp\Client */
+    /** @var HttpClient */
     protected $http_client;
 
     /** @var string */
@@ -74,30 +75,30 @@ class rcmail_oauth
     protected static $user_create_allowed_keys = ['user_name', 'user_email', 'language'];
 
     /** @var array map of .well-known entries to config (discovery URI) */
-    static protected $config_mapper = [
-        'issuer'                 => 'issuer',
+    protected static $config_mapper = [
+        'issuer' => 'issuer',
         'authorization_endpoint' => 'auth_uri',
-        'token_endpoint'         => 'token_uri',
-        'userinfo_endpoint'      => 'identity_uri',
-        'end_session_endpoint'   => 'logout_uri',
-        'jwks_uri'               => 'jwks_uri',
+        'token_endpoint' => 'token_uri',
+        'userinfo_endpoint' => 'identity_uri',
+        'end_session_endpoint' => 'logout_uri',
+        'jwks_uri' => 'jwks_uri',
     ];
 
     /** @var array map PKCE code_challenge_method to hash method */
-    static protected $pkce_mapper = [
+    protected static $pkce_mapper = [
         'S256' => 'sha256',
         // plain method is not implemented: @see RFC7636 4.2: "If the client is capable of using "S256", it MUST use "S256"
     ];
 
-    /** @var rcmail_oauth */
-    static protected $instance;
+    /** @var ?rcmail_oauth */
+    protected static $instance;
 
     /**
      * Singleton factory
      *
      * @return rcmail_oauth The one and only instance
      */
-    static function get_instance($options = [])
+    public static function get_instance($options = [])
     {
         if (!self::$instance) {
             self::$instance = new self($options);
@@ -109,14 +110,12 @@ class rcmail_oauth
 
     /**
      * Helper to log oauth
-     *
-     * @return void
      */
-    private function logger($level, $message)
+    private function logger($level, $message): void
     {
         $token = $this->login_phase['token'] ?? $_SESSION['oauth_token'] ?? [];
         $sub = $token['identity']['sub'] ?? '-';
-        $ses = $token['session_state']   ?? '-';
+        $ses = $token['session_state'] ?? '-';
         rcube::write_log('oauth', sprintf('%s: [ip=%s sub=%s ses=%s] %s', $level, rcube_utils::remote_ip(), $sub, $ses, $message));
     }
 
@@ -124,10 +123,8 @@ class rcmail_oauth
      * Helper to log oauth debug message (only if `oauth_debug`is true)
      *
      * XXX for debug only, please use rcube::raise_error to raise errors in a centralized place
-     *
-     * @return void
      */
-    public function log_debug(...$args)
+    public function log_debug(...$args): void
     {
         if ($this->options['debug']) {
             $this->logger('DEBUG', sprintf(...$args));
@@ -147,32 +144,32 @@ class rcmail_oauth
         $this->cache = $this->rcmail->get_cache_shared('oauth');
 
         $this->options = (array) $options + [
-            'provider'        => $this->rcmail->config->get('oauth_provider'),
-            'provider_name'   => $this->rcmail->config->get('oauth_provider_name', 'OAuth'),
-            'auth_uri'        => $this->rcmail->config->get('oauth_auth_uri'),
-            'config_uri'      => $this->rcmail->config->get('oauth_config_uri'),
-            'issuer'          => $this->rcmail->config->get('oauth_issuer'),
-            'logout_uri'      => $this->rcmail->config->get('oauth_logout_uri'),
-            'token_uri'       => $this->rcmail->config->get('oauth_token_uri'),
-            'jwks_uri'        => $this->rcmail->config->get('oauth_jwks_uri'),
-            'client_id'       => $this->rcmail->config->get('oauth_client_id'),
-            'client_secret'   => $this->rcmail->config->get('oauth_client_secret'),
-            'identity_uri'    => $this->rcmail->config->get('oauth_identity_uri'),
+            'provider' => $this->rcmail->config->get('oauth_provider'),
+            'provider_name' => $this->rcmail->config->get('oauth_provider_name', 'OAuth'),
+            'auth_uri' => $this->rcmail->config->get('oauth_auth_uri'),
+            'config_uri' => $this->rcmail->config->get('oauth_config_uri'),
+            'issuer' => $this->rcmail->config->get('oauth_issuer'),
+            'logout_uri' => $this->rcmail->config->get('oauth_logout_uri'),
+            'token_uri' => $this->rcmail->config->get('oauth_token_uri'),
+            'jwks_uri' => $this->rcmail->config->get('oauth_jwks_uri'),
+            'client_id' => $this->rcmail->config->get('oauth_client_id'),
+            'client_secret' => $this->rcmail->config->get('oauth_client_secret'),
+            'identity_uri' => $this->rcmail->config->get('oauth_identity_uri'),
             'identity_fields' => $this->rcmail->config->get('oauth_identity_fields', ['email']),
             'user_create_map' => $this->rcmail->config->get('oauth_user_create_map', [
-                //rc key => OIDC Claim @see: https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims )
+                // rc key => OIDC Claim @see: https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims )
                 'user_name' => ['name'],
                 'user_email' => ['email'],
                 'language' => ['locale'],
             ]),
 
-            'scope'           => $this->rcmail->config->get('oauth_scope', ''),
-            'timeout'         => $this->rcmail->config->get('oauth_timeout', 10),
-            'verify_peer'     => $this->rcmail->config->get('oauth_verify_peer', true),
+            'scope' => $this->rcmail->config->get('oauth_scope', ''),
+            'timeout' => $this->rcmail->config->get('oauth_timeout', 10),
+            'verify_peer' => $this->rcmail->config->get('oauth_verify_peer', true),
             'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', []),
-            'login_redirect'  => $this->rcmail->config->get('oauth_login_redirect', false),
-            'pkce'            => $this->rcmail->config->get('oauth_pkce', 'S256'),
-            'debug'           => $this->rcmail->config->get('oauth_debug', false),
+            'login_redirect' => $this->rcmail->config->get('oauth_login_redirect', false),
+            'pkce' => $this->rcmail->config->get('oauth_pkce', 'S256'),
+            'debug' => $this->rcmail->config->get('oauth_debug', false),
         ];
 
         // http_options will be used in test phase to add a mock
@@ -185,8 +182,8 @@ class rcmail_oauth
             // will stops on error
             rcube::raise_error([
                 'message' => "PKCE method not supported (oauth_pkce='{$this->options['pkce']}')",
-                'file'    => __FILE__,
-                'line'    => __LINE__,
+                'file' => __FILE__,
+                'line' => __LINE__,
             ], true, true);
         }
 
@@ -196,8 +193,8 @@ class rcmail_oauth
                 // will stops on error
                 rcube::raise_error([
                     'message' => "use of key `{$key}` in `oauth_user_create_map` is not allowed",
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
+                    'file' => __FILE__,
+                    'line' => __LINE__,
                 ], true, true);
             }
         }
@@ -205,9 +202,8 @@ class rcmail_oauth
         // prepare a http client with the correct options
         $this->http_client = $this->rcmail->get_http_client((array) $options['http_options'] + [
             'timeout' => $this->options['timeout'],
-            'verify'  => $this->options['verify_peer'],
+            'verify' => $this->options['verify_peer'],
         ]);
-
     }
 
     /**
@@ -215,17 +211,15 @@ class rcmail_oauth
      *
      * use cache if defined
      *
-     * @return void
-     *
      * @see https://datatracker.ietf.org/doc/html/rfc8414
      */
-    protected function discover()
+    protected function discover(): void
     {
         $config_uri = $this->options['config_uri'];
         if (empty($config_uri)) {
             return;
         }
-        $key_cache = "discovery." . md5($config_uri);
+        $key_cache = 'discovery.' . md5($config_uri);
 
         try {
             $data = $this->cache ? $this->cache->get($key_cache) : null;
@@ -234,12 +228,12 @@ class rcmail_oauth
                 $response = $this->http_client->get($config_uri);
                 $data = json_decode($response->getBody(), true);
 
-                //sanity check
+                // sanity check
                 if (!isset($data['issuer'])) {
-                    throw new RuntimeException("incorrect response from %s", $config_uri);
+                    throw new RuntimeException('incorrect response from %s', $config_uri);
                 }
 
-                //cache answer
+                // cache answer
                 if ($this->cache) {
                     $this->cache->set($key_cache, $data);
                 }
@@ -249,13 +243,11 @@ class rcmail_oauth
             foreach (self::$config_mapper as $config_key => $options_key) {
                 if (empty($data[$config_key])) {
                     rcube::raise_error([
-                            'message' => "key {$config_key} not found in answer of {$config_uri}",
-                            'file'    => __FILE__,
-                            'line'    => __LINE__,
-                        ], true, false
-                    );
-                }
-                else {
+                        'message' => "key {$config_key} not found in answer of {$config_uri}",
+                        'file' => __FILE__,
+                        'line' => __LINE__,
+                    ], true, false);
+                } else {
                     $this->options[$options_key] = $data[$config_key];
                 }
             }
@@ -264,30 +256,25 @@ class rcmail_oauth
             if ($this->options['pkce'] && isset($data['code_challenge_methods_supported']) && is_array($data['code_challenge_methods_supported'])) {
                 if (!in_array($this->options['pkce'], $data['code_challenge_methods_supported'])) {
                     rcube::raise_error([
-                           'message' => "OAuth server does not support this PKCE method (oauth_pkce='{$this->options['pkce']}')",
-                           'file'    => __FILE__,
-                           'line'    => __LINE__,
-                       ], true, false
-                    );
+                        'message' => "OAuth server does not support this PKCE method (oauth_pkce='{$this->options['pkce']}')",
+                        'file' => __FILE__,
+                        'line' => __LINE__,
+                    ], true, false);
                 }
             }
-        }
-        catch (\Exception $e) {
+        } catch (Exception $e) {
             rcube::raise_error([
-                   'message' => "Error fetching {$config_uri} : {$e->getMessage()}",
-                   'file'    => __FILE__,
-                   'line'    => __LINE__,
-               ], true, false
-            );
+                'message' => "Error fetching {$config_uri} : {$e->getMessage()}",
+                'file' => __FILE__,
+                'line' => __LINE__,
+            ], true, false);
         }
     }
 
     /**
      * Fetch JWKS certificates (use cache if active)
-     *
-     * @return void
      */
-    protected function fetch_jwks()
+    protected function fetch_jwks(): void
     {
         if (!$this->options['jwks_uri']) {
             // not activated
@@ -300,7 +287,7 @@ class rcmail_oauth
         }
 
         $jwks_uri = $this->options['jwks_uri'];
-        $key_cache = "jwks." . md5($jwks_uri);
+        $key_cache = 'jwks.' . md5($jwks_uri);
         $this->jwks = $this->cache ? $this->cache->get($key_cache) : null;
 
         if ($this->jwks !== null && $this->jwks['expires'] > time()) {
@@ -311,11 +298,10 @@ class rcmail_oauth
         $response = $this->http_client->get($jwks_uri);
         $this->jwks = json_decode($response->getBody(), true);
 
-        //sanity check
+        // sanity check
         if (!isset($this->jwks['keys'])) {
-            $this->log_debug("incorrect jwks response from %s", $jwks_uri);
-        }
-        elseif ($this->cache) {
+            $this->log_debug('incorrect jwks response from %s', $jwks_uri);
+        } elseif ($this->cache) {
             // this is a hack because we cannot specify the TTL in the shared_cache
             // and cache must not be too high as the Identity Provider can rotate it's keys
             $this->jwks['expires'] = time() + self::JWKS_CACHE_TTL;
@@ -325,10 +311,8 @@ class rcmail_oauth
 
     /**
      * Initialize this instance
-     *
-     * @return void
      */
-    public function init()
+    public function init(): void
     {
         // important must be called before is_enabled()
         $this->discover();
@@ -338,7 +322,7 @@ class rcmail_oauth
         }
 
         if ($this->cache === null) {
-            $this->log_debug("cache is disabled");
+            $this->log_debug('cache is disabled');
         }
 
         // subscribe to storage and smtp init events
@@ -381,39 +365,36 @@ class rcmail_oauth
         return $this->last_error;
     }
 
-
     /**
      * Callback for `loginform_content` hook
      *
      * Append Oauth button on login page if defined (this is a hook)
      * can also hide default user/pass form if flag oauth_login_redirect is true
-     *
-     * @return void
      */
     public function loginform_content(array $form_content)
     {
         // hide login form fields when `oauth_login_redirect` is configured
         if ($this->options['login_redirect']) {
-            $form_content['hidden']  = [];
-            $form_content['inputs']  = [];
+            $form_content['hidden'] = [];
+            $form_content['inputs'] = [];
             $form_content['buttons'] = [];
         }
 
         $link_attr = [
-            'href'  => $this->rcmail->url(['action' => 'oauth']),
-            'id'    => 'rcmloginoauth',
+            'href' => $this->rcmail->url(['action' => 'oauth']),
+            'id' => 'rcmloginoauth',
             'class' => 'button oauth ' . $this->options['provider'],
         ];
 
         $provider = $this->options['provider_name'];
-        $button   = html::a($link_attr, $this->rcmail->gettext(['name' => 'oauthlogin', 'vars' => ['provider' => $provider]]));
+        $button = html::a($link_attr, $this->rcmail->gettext(['name' => 'oauthlogin', 'vars' => ['provider' => $provider]]));
 
         $form_content['buttons']['oauthlogin'] = ['outterclass' => 'oauthlogin', 'content' => $button];
 
         return $form_content;
     }
 
-
+    // TODO: move it into an helper class
     protected static function base64url_decode($encoded)
     {
         return base64_decode(strtr($encoded, '-_', '+/'), true);
@@ -421,7 +402,7 @@ class rcmail_oauth
 
     protected static function base64url_encode($payload)
     {
-        return rtrim(strtr(base64_encode($payload), '+/', '-_'),'=');
+        return rtrim(strtr(base64_encode($payload), '+/', '-_'), '=');
     }
 
     /**
@@ -438,8 +419,8 @@ class rcmail_oauth
         [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
 
         $header = json_decode(static::base64url_decode($headb64), true);
-        $body   = json_decode(static::base64url_decode($bodyb64), true);
-        //$crypto = static::base64url_decode($cryptob64);
+        $body = json_decode(static::base64url_decode($bodyb64), true);
+        // $crypto = static::base64url_decode($cryptob64);
 
         if ($this->options['jwks_uri']) {
             // jwks_uri defined, will check JWT signature
@@ -459,7 +440,7 @@ class rcmail_oauth
             }
 
             if ($jwk === null) {
-                throw new RuntimeException("JWS key to verify JWT not found");
+                throw new RuntimeException('JWS key to verify JWT not found');
             }
 
             // TODO: check alg. matches
@@ -467,14 +448,11 @@ class rcmail_oauth
         }
 
         // FIXME depends on body type: ID, Logout, Bearer, Refresh,
-
         if (isset($body['azp']) && $body['azp'] !== $this->options['client_id']) {
             throw new RuntimeException('Failed to validate JWT: invalid azp value');
-        }
-        elseif (isset($body['aud']) && !in_array($this->options['client_id'], (array) $body['aud'])) {
+        } elseif (isset($body['aud']) && !in_array($this->options['client_id'], (array) $body['aud'])) {
             throw new RuntimeException('Failed to validate JWT: invalid aud value');
-        }
-        elseif (!isset($body['azp']) && !isset($body['aud'])) {
+        } elseif (!isset($body['azp']) && !isset($body['aud'])) {
             throw new RuntimeException('Failed to validate JWT: missing aud/azp value');
         }
 
@@ -488,7 +466,7 @@ class rcmail_oauth
             throw new RuntimeException('Failed to validate JWT: expired message');
         }
 
-        $this->log_debug("jwt: %s", json_encode($body));
+        $this->log_debug('jwt: %s', json_encode($body));
 
         return $body;
     }
@@ -514,19 +492,16 @@ class rcmail_oauth
      * Authorization Code Request
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.1
-     *
-     * @return void
      */
-    public function login_redirect()
+    public function login_redirect(): void
     {
         if (empty($this->options['auth_uri']) || empty($this->options['client_id'])) {
             // log error about missing config options
             rcube::raise_error([
-                    'message' => "Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'",
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
+                'message' => "Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'",
+                'file' => __FILE__,
+                'line' => __LINE__,
+            ], true, false);
             return;
         }
 
@@ -539,11 +514,11 @@ class rcmail_oauth
         // compose full oauth login uri
         $query = [
             'response_type' => 'code',
-            'client_id'     => $this->options['client_id'],
-            'scope'         => $this->options['scope'],
-            'redirect_uri'  => $this->get_redirect_uri(),
-            'state'         => $_SESSION['oauth_state'],
-            'nonce'         => $_SESSION['oauth_nonce'],
+            'client_id' => $this->options['client_id'],
+            'scope' => $this->options['scope'],
+            'redirect_uri' => $this->get_redirect_uri(),
+            'state' => $_SESSION['oauth_state'],
+            'nonce' => $_SESSION['oauth_nonce'],
         ];
 
         // implementation of PKCE @see: rfc7636
@@ -576,24 +551,22 @@ class rcmail_oauth
      *
      * @param string $authorization the Bearer authorization
      *
-     * @return array the identity
+     * @return array|null The identity
      *
      * @see: https://openid.net/specs/openid-connect-core-1_0.html#UserInfo
      */
     protected function fetch_userinfo($authorization)
     {
-        $oauth_identity_uri = $this->options['identity_uri'];
-
-        if (empty($oauth_identity_uri)) {
+        if (empty($this->options['identity_uri'])) {
             // service not available
-            return;
+            return null;
         }
 
-        $identity_response = $this->http_client->get($oauth_identity_uri, [
-                'headers' => [
-                    'Authorization' => $authorization,
-                    'Accept' => 'application/json',
-                ],
+        $identity_response = $this->http_client->get($this->options['identity_uri'], [
+            'headers' => [
+                'Authorization' => $authorization,
+                'Accept' => 'application/json',
+            ],
         ]);
 
         return json_decode($identity_response->getBody(), true);
@@ -605,17 +578,14 @@ class rcmail_oauth
      * @param string $auth_code
      * @param string $state
      *
-     * @return array Authorization data as hash array with entries
-     *               `username` as the authentication user name
-     *               `authorization` as the oauth authorization string "<type> <access-token>"
-     *               `token` as the complete oauth response to be stored in session
+     * @return bool true on access token, false on error
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.3
      */
     public function request_access_token($auth_code, $state = null)
     {
-        $oauth_token_uri     = $this->options['token_uri'];
-        $oauth_client_id     = $this->options['client_id'];
+        $oauth_token_uri = $this->options['token_uri'];
+        $oauth_client_id = $this->options['client_id'];
         $oauth_client_secret = $this->options['client_secret'];
 
         try {
@@ -626,19 +596,19 @@ class rcmail_oauth
 
             // validate state parameter against $_SESSION['oauth_state']
             if (!isset($_SESSION['oauth_state']) || ($_SESSION['oauth_state'] !== $state)) {
-                throw new RuntimeException("state parameter mismatch");
+                throw new RuntimeException('state parameter mismatch');
             }
 
             $this->rcmail->session->remove('oauth_state');
 
-            $this->log_debug("requesting a grant_type=authorization_code to %s", $oauth_token_uri);
+            $this->log_debug('requesting a grant_type=authorization_code to %s', $oauth_token_uri);
 
             $form = [
-                'grant_type'    => 'authorization_code',
-                'code'          => $auth_code,
-                'client_id'     => $oauth_client_id,
+                'grant_type' => 'authorization_code',
+                'code' => $auth_code,
+                'client_id' => $oauth_client_id,
                 'client_secret' => $oauth_client_secret,
-                'redirect_uri'  => $this->get_redirect_uri(),
+                'redirect_uri' => $this->get_redirect_uri(),
             ];
 
             if ($this->options['pkce']) {
@@ -666,7 +636,7 @@ class rcmail_oauth
             if (empty($username)) {
                 $fetched_identity = $this->fetch_userinfo($authorization);
 
-                $this->log_debug("fetched identity: %s", json_encode($fetched_identity, true));
+                $this->log_debug('fetched identity: %s', json_encode($fetched_identity, true));
 
                 if (!empty($fetched_identity)) {
                     $identity = $fetched_identity;
@@ -697,45 +667,40 @@ class rcmail_oauth
 
             // return auth data
             $this->login_phase = [
-                'username'      => $username,
+                'username' => $username,
                 'authorization' => $authorization, // the payload to authentificate through IMAP, SMTP, SIEVE .. servers
-                'token'         => $data,
-                'nonce'         => $_SESSION['oauth_nonce'],
+                'token' => $data,
+                'nonce' => $_SESSION['oauth_nonce'],
             ];
 
             if ($this->options['pkce']) {
                 // store crypted code_verifier because session is going to be killed
                 $this->login_phase['code_verifier'] = $_SESSION['oauth_code_verifier'];
             }
-            return $this->login_phase;
-        }
-        catch (RequestException $e) {
-            $this->last_error = "OAuth token request failed: " . $e->getMessage();
+
+            return true;
+        } catch (RequestException $e) {
+            $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
             $this->no_redirect = true;
             $formatter = new MessageFormatter();
 
             rcube::raise_error([
-                    'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
-
-            return false;
-        }
-        catch (Exception $e) {
-            $this->last_error = "OAuth token request failed: " . $e->getMessage();
+                'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
+                'file' => __FILE__,
+                'line' => __LINE__,
+            ], true, false);
+        } catch (Exception $e) {
+            $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
             $this->no_redirect = true;
 
             rcube::raise_error([
-                    'message' => $this->last_error,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
-
-            return false;
+                'message' => $this->last_error,
+                'file' => __FILE__,
+                'line' => __LINE__,
+            ], true, false);
         }
+
+        return false;
     }
 
     /**
@@ -744,24 +709,24 @@ class rcmail_oauth
      * If successful, this will update the `oauth_token` entry in
      * session data.
      *
-     * @return array Updated authorization data
+     * @return array|false Updated authorization data
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-6
      */
     public function refresh_access_token(array $token)
     {
-        $oauth_token_uri     = $this->options['token_uri'];
-        $oauth_client_id     = $this->options['client_id'];
+        $oauth_token_uri = $this->options['token_uri'];
+        $oauth_client_id = $this->options['client_id'];
         $oauth_client_secret = $this->options['client_secret'];
 
         // send token request to get a real access token for the given auth code
         try {
-            $this->log_debug("requesting a grant_type=refresh_token to %s", $oauth_token_uri);
+            $this->log_debug('requesting a grant_type=refresh_token to %s', $oauth_token_uri);
 
             $form = [
-                'grant_type'    => 'refresh_token',
+                'grant_type' => 'refresh_token',
                 'refresh_token' => $this->rcmail->decrypt($token['refresh_token']),
-                'client_id'     => $oauth_client_id,
+                'client_id' => $oauth_client_id,
                 'client_secret' => $oauth_client_secret,
             ];
 
@@ -785,39 +750,34 @@ class rcmail_oauth
             $this->rcmail->plugins->exec_hook('oauth_refresh_token', $data);
 
             $this->last_error = null; // clean last error
+
             return [
-                'token'         => $data,
+                'token' => $data,
                 'authorization' => $authorization,
             ];
-        }
-        catch (RequestException $e) {
-            $this->last_error = "OAuth refresh token request failed: " . $e->getMessage();
+        } catch (RequestException $e) {
+            $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             $formatter = new MessageFormatter();
             rcube::raise_error([
-                    'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
+                'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
+                'file' => __FILE__,
+                'line' => __LINE__,
+            ], true, false);
 
             // refrehsing token failed, mark session as expired
             if ($e->getCode() >= 400 && $e->getCode() < 500) {
                 $this->rcmail->kill_session();
             }
-
-            return false;
-        }
-        catch (Exception $e) {
-            $this->last_error = "OAuth refresh token request failed: " . $e->getMessage();
+        } catch (Exception $e) {
+            $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             rcube::raise_error([
-                    'message' => $this->last_error,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                ], true, false
-            );
-
-            return false;
+                'message' => $this->last_error,
+                'file' => __FILE__,
+                'line' => __LINE__,
+            ], true, false);
         }
+
+        return false;
     }
 
     /**
@@ -826,13 +786,11 @@ class rcmail_oauth
      * Warning: cache TTL should be at least > refresh_token frequency
      *
      * @param string $sub the sub of the identity
-     *
-     * @return void
      */
-    public function schedule_token_revocation($sub)
+    public function schedule_token_revocation($sub): void
     {
         if ($this->cache === null) {
-            rcube::raise_error(['message' => "received a token revocation request, you must activate `oauth_cache` to enable this feature"], true, false);
+            rcube::raise_error(['message' => 'received a token revocation request, you must activate `oauth_cache` to enable this feature'], true, false);
             return;
         }
         $this->cache->set("revoke_{$sub}", time());
@@ -848,7 +806,7 @@ class rcmail_oauth
     protected function is_token_revoked($token)
     {
         if ($this->cache === null) {
-            //oops cache not enabled
+            // oops cache not enabled
             return false;
         }
 
@@ -872,15 +830,15 @@ class rcmail_oauth
      * @param array  $data          The payload from the request (will be updated)
      * @param array  $previous_data The data from a previous request
      *
-     * @return array
+     * @return array Token properties:
      *               1st element: the bearer authorization to use on different transports
      *               2nd element: the decoded identity
      */
     protected function parse_tokens($grant_type, &$data, $previous_data = null)
     {
         // TODO move it into to log_info ?
-        $this->log_debug("received tokens from a grant request %s: session: %s with scope %s, "
-            . "access_token type %s exp in %ss, refresh_token exp in %ss, id_token present: %s, not-before-policy: %s",
+        $this->log_debug('received tokens from a grant request %s: session: %s with scope %s, '
+            . 'access_token type %s exp in %ss, refresh_token exp in %ss, id_token present: %s, not-before-policy: %s',
             $grant_type,
             $data['session_state'], $data['scope'],
             $data['token_type'], $data['expires_in'],
@@ -891,28 +849,27 @@ class rcmail_oauth
 
         if (is_array($previous_data)) {
             $this->log_debug(
-                "changes: session_state: %s, access_token: %s, refresh_token: %s, id_token: %s",
+                'changes: session_state: %s, access_token: %s, refresh_token: %s, id_token: %s',
                 isset($previous_data['session_state']) ? $previous_data['session_state'] !== $data['session_state'] : null,
-                isset($previous_data['access_token']) ? $previous_data['access_token']  !== $data['access_token'] : null,
+                isset($previous_data['access_token']) ? $previous_data['access_token'] !== $data['access_token'] : null,
                 isset($previous_data['refresh_token']) ? $previous_data['refresh_token'] !== $data['refresh_token'] : null,
-                isset($previous_data['id_token']) ? $previous_data['id_token']      !== $data['id_token'] : null,
+                isset($previous_data['id_token']) ? $previous_data['id_token'] !== $data['id_token'] : null,
             );
         }
 
         // sanity check, check that payload correctly contains access_token
         if (empty($data['access_token'])) {
-            throw new RuntimeException("access_token missing ins answer, error from server");
+            throw new RuntimeException('access_token missing ins answer, error from server');
         }
 
         // sanity check, check that payload correctly contains access_token
         if (empty($data['refresh_token'])) {
-            throw new RuntimeException("refresh_token missing ins answer, error from server");
+            throw new RuntimeException('refresh_token missing ins answer, error from server');
         }
 
         // (> 0, it means that all token generated before this timestamp date are compromisd and that we need to download a new version of JWKS)
         if (!empty($data['not-before-policy']) && $data['not-before-policy'] > 0) {
-            $this->log_debug("all tokens generated before %s timestmp are compromised", $data['not-before-policy']);
-            // TODO
+            $this->log_debug('all tokens generated before %s timestmp are compromised', $data['not-before-policy']);
         }
 
         // please note that id_token / identity may have changed, could be interesting to grab it and refresh values, right now it is not used
@@ -938,8 +895,7 @@ class rcmail_oauth
             ], true, false);
             // note: remove 10 sec by security (avoid tangent issues)
             $data['expires'] = time() + $data['expires_in'] - 10;
-        }
-        else {
+        } else {
             // try to request a refresh before it's too late according refesh interval
             // note: remove 10 sec by security (avoid tangent issues)
             $data['expires'] = time() + $data['expires_in'] - $refresh_interval - 10;
@@ -950,8 +906,7 @@ class rcmail_oauth
         if (strcasecmp($data['token_type'], 'Bearer') == 0) {
             // always normalize Bearer (uppercase then lower case)
             $authorization = sprintf('Bearer %s', $data['access_token']);
-        }
-        else {
+        } else {
             // unknown token type, do not alter it
             $authorization = sprintf('%s %s', $data['token_type'], $data['access_token']);
         }
@@ -963,10 +918,8 @@ class rcmail_oauth
      * Modify some properties of the received auth response
      *
      * @param array $data
-     *
-     * @return void
      */
-    protected function mask_auth_data(&$data)
+    protected function mask_auth_data(&$data): void
     {
         // remove by security access_token as it is crypted in $_SESSION['password']
         unset($data['access_token']);
@@ -993,7 +946,7 @@ class rcmail_oauth
         }
 
         if ($this->is_token_revoked($token)) {
-            $this->log_debug("abort, token for sub %s has been revoked", $token['identity']['sub']);
+            $this->log_debug('abort, token for sub %s has been revoked', $token['identity']['sub']);
             // in a such case, we are blocked, can only kill session
             $this->rcmail->kill_session();
             return self::TOKEN_REVOKED;
@@ -1004,22 +957,22 @@ class rcmail_oauth
         }
 
         if (isset($token['refresh_expires']) && $token['refresh_expires'] < time()) {
-            $this->log_debug("abort, reresh token has expired");
+            $this->log_debug('abort, reresh token has expired');
             // in a such case, we are blocked, can only kill session
             $this->rcmail->kill_session();
             return self::TOKEN_REFRESH_EXPIRED;
         }
 
         if (!empty($this->last_error)) {
-            //TODO: challenge this part, what about transcient errors ?
-            $this->log_debug("abort, got an previous error %s", $this->last_error);
+            // TODO: challenge this part, what about transcient errors ?
+            $this->log_debug('abort, got an previous error %s', $this->last_error);
             return self::TOKEN_ERROR;
         }
 
         if ($this->refresh_access_token($token) === false) {
-            //FIXME: can have 2 kind of errors: transcient (can retry) or non recovreable error
+            // FIXME: can have 2 kind of errors: transcient (can retry) or non recovreable error
             // currently it's up to refresh_access_token to kill_session is necessary
-            $this->log_debug("token refresh failed: %s", $this->last_error);
+            $this->log_debug('token refresh failed: %s', $this->last_error);
             return self::TOKEN_REFRESH_FAILED;
         }
 
@@ -1031,15 +984,15 @@ class rcmail_oauth
      *
      * @param array $options
      *
-     * @return void
+     * @return array
      */
     public function refresh($options)
     {
-        if (!isset($_SESSION['oauth_token'])) {
-            return;
+        if (isset($_SESSION['oauth_token'])) {
+            $this->check_token_validity($_SESSION['oauth_token']);
         }
 
-        $this->check_token_validity($_SESSION['oauth_token']);
+        return $options;
     }
 
     /**
@@ -1058,8 +1011,7 @@ class rcmail_oauth
         if ($this->login_phase) {
             // enforce OAUTHBEARER/XOAUTH2 authorization type
             $options['auth_type'] = $this->auth_type;
-        }
-        elseif (isset($_SESSION['oauth_token'])) {
+        } elseif (isset($_SESSION['oauth_token'])) {
             if ($this->check_token_validity($_SESSION['oauth_token']) === self::TOKEN_REFRESHED) {
                 $options['password'] = $this->rcmail->decrypt($_SESSION['password']);
             }
@@ -1129,14 +1081,14 @@ class rcmail_oauth
     public function authenticate($options)
     {
         if (!$this->login_phase) {
-            return;
+            return $options;
         }
 
         $options['user'] = $this->login_phase['username'];
         $options['pass'] = $this->login_phase['authorization'];
         $this->rcmail->config->set('login_password_maxlen', strlen($options['pass']));
 
-        $this->log_debug("calling authenticate for user %s", $options['user']);
+        $this->log_debug('calling authenticate for user %s', $options['user']);
 
         return $options;
     }
@@ -1151,7 +1103,7 @@ class rcmail_oauth
     public function login_after($options)
     {
         if (!$this->login_phase) {
-            return;
+            return $options;
         }
 
         // store important data to new freshly created session
@@ -1205,11 +1157,12 @@ class rcmail_oauth
                             if (!rcube_utils::check_email($value, false)) {
                                 rcube::raise_error([
                                     'message' => "user_create: ignoring invalid email '{$value}' (from claim '{$oidc_claim}')",
-                                    'file'    => __FILE__,
-                                    'line'    => __LINE__,
+                                    'file' => __FILE__,
+                                    'line' => __LINE__,
                                 ], true, false);
                                 continue 2; // continue on next foreach iteration
                             }
+
                             break;
                         case 'language':
                             // normalize language
@@ -1218,17 +1171,18 @@ class rcmail_oauth
                             if (!preg_match('/^[a-z0-9_]{2,8}$/i', $value)) {
                                 rcube::raise_error([
                                     'message' => "user_create: ignoring language '{$value}' (from claim '{$oidc_claim}')",
-                                    'file'    => __FILE__,
-                                    'line'    => __LINE__,
+                                    'file' => __FILE__,
+                                    'line' => __LINE__,
                                 ], true, false);
                                 continue 2; // continue on next foreach iteration
                             }
+
                             break;
                     }
                     $data[$rc_key] = $value;
 
-                    $this->log_debug("user_create: setting %s=%s (from claim %s)", $rc_key, $value, $oidc_claim);
-                    break; //no need to continue
+                    $this->log_debug('user_create: setting %s=%s (from claim %s)', $rc_key, $value, $oidc_claim);
+                    break; // no need to continue
                 }
             }
         }
@@ -1249,8 +1203,10 @@ class rcmail_oauth
 
         if ($this->logout_redirect_url) {
             // propagate logout request to the identity provider
-            $this->rcmail->output->redirect($this->logout_redirect_url); //exit
+            $this->rcmail->output->redirect($this->logout_redirect_url); // exit
         }
+
+        return $options;
     }
 
     /**
@@ -1274,14 +1230,12 @@ class rcmail_oauth
                 // on success, handler will request next action = login
                 $args = $handler_answer + $args;
             }
-        }
-        elseif ($args['task'] == 'login' && $args['action'] == 'backchannel') {
+        } elseif ($args['task'] == 'login' && $args['action'] == 'backchannel') {
             // handle oauth login requests
             $oauth_handler = new rcmail_action_login_oauth_backchannel();
             $oauth_handler->run();
-        }
-        elseif ($args['task'] == 'logout') {
-            //handle only logout task
+        } elseif ($args['task'] == 'logout') {
+            // handle only logout task
             $this->handle_logout();
         }
 
@@ -1294,11 +1248,9 @@ class rcmail_oauth
      * will generate during the logout task the RP-initiated Logout URL and
      * store it in `logout_redirect_url`
      *
-     * @return void
-     *
      * @see https://openid.net/specs/openid-connect-rpinitiated-1_0.html
      */
-    public function handle_logout()
+    public function handle_logout(): void
     {
         // if no logout URI, or no refresh token, safe to give up
         if (!$this->options['logout_uri'] || !isset($_SESSION['oauth_token'])) {
@@ -1309,18 +1261,17 @@ class rcmail_oauth
         switch ($this->check_token_validity($_SESSION['oauth_token'])) {
             case self::TOKEN_REFRESHED:
             case self::TOKEN_STILL_VALID:
-                //token still ok or refreshed
+                // token still ok or refreshed
                 break;
-
             default:
-                //got an error, cannot request IDP to cleanup other sessions
+                // got an error, cannot request IDP to cleanup other sessions
                 return;
         }
 
         // generate redirect URL for post-logout
         $params = [
             'post_logout_redirect_uri' => $this->rcmail->url([], true, true),
-            'client_id'                => $this->options['client_id'],
+            'client_id' => $this->options['client_id'],
         ];
 
         if (isset($_SESSION['oauth_token']['id_token'])) {
@@ -1328,7 +1279,7 @@ class rcmail_oauth
         }
 
         $this->logout_redirect_url = $this->options['logout_uri'] . '?' . http_build_query($params);
-        $this->log_debug("creating logout call: %s", $this->logout_redirect_url);
+        $this->log_debug('creating logout call: %s', $this->logout_redirect_url);
     }
 
     /**

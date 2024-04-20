@@ -3,8 +3,9 @@
 namespace Tests\Browser\Plugins\AttachmentReminder;
 
 use Tests\Browser\Components\Dialog;
+use Tests\Browser\TestCase;
 
-class PluginTest extends \Tests\Browser\TestCase
+class PluginTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

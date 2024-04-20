@@ -34,13 +34,13 @@
 
 class rcube_ximss_password
 {
-    function save($pass, $newpass, $username)
+    public function save($pass, $newpass, $username)
     {
         $rcmail = rcmail::get_instance();
 
         $host = $rcmail->config->get('password_ximss_host');
         $port = $rcmail->config->get('password_ximss_port');
-        $sock = stream_socket_client("tcp://$host:$port", $errno, $errstr, 30);
+        $sock = stream_socket_client("tcp://{$host}:{$port}", $errno, $errstr, 30);
 
         if ($sock === false) {
             return PASSWORD_CONNECT_ERROR;
@@ -51,7 +51,7 @@ class rcube_ximss_password
         fwrite($sock, '<passwordModify id="A002" oldPassword="' . $pass . '" newPassword="' . $newpass . '"  />' . "\0");
         fwrite($sock, '<bye id="A003" />' . "\0");
 
-        //example responses
+        // example responses
         //  <session id="A001" urlID="4815-vN2Txjkggy7gjHRD10jw" userName="user@example.com"/>\0
         //  <response id="A001"/>\0
         //  <response id="A002"/>\0
@@ -67,20 +67,18 @@ class rcube_ximss_password
         fclose($sock);
 
         foreach (explode("\0", $responseblob) as $response) {
-            $resp = simplexml_load_string("<xml>" . $response . "</xml>");
+            $resp = simplexml_load_string('<xml>' . $response . '</xml>');
             $id = $resp && !empty($resp->response[0]['id']) ? $resp->response[0]['id'] : null;
 
             if ($id == 'A001') {
                 if (isset($resp->response[0]['errorNum'])) {
                     return PASSWORD_CONNECT_ERROR;
                 }
-            }
-            elseif ($id == 'A002') {
+            } elseif ($id == 'A002') {
                 if (isset($resp->response[0]['errorNum'])) {
                     return PASSWORD_ERROR;
                 }
-            }
-            elseif ($id == 'A003') {
+            } elseif ($id == 'A003') {
                 if (isset($resp->response[0]['errorNum'])) {
                     // There was a problem during logout (This is probably harmless)
                 }

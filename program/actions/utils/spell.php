@@ -36,45 +36,40 @@ class rcmail_action_utils_spell extends rcmail_action
         $learn_word = strpos($data, '<learnword>');
 
         // Get data string
-        $left  = strpos($data, '<text>');
+        $left = strpos($data, '<text>');
         $right = strrpos($data, '</text>');
-        $data  = substr($data, $left + 6, $right - ($left + 6));
-        $data  = html_entity_decode($data, \ENT_QUOTES, RCUBE_CHARSET);
+        $data = substr($data, $left + 6, $right - ($left + 6));
+        $data = html_entity_decode($data, \ENT_QUOTES, RCUBE_CHARSET);
 
         $spellchecker = new rcube_spellchecker($lang);
 
         if ($learn_word) {
             $spellchecker->add_word($data);
             $result = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><learnwordresult></learnwordresult>';
-        }
-        elseif (empty($data)) {
+        } elseif (empty($data)) {
             $result = '<?xml version="1.0" encoding="' . RCUBE_CHARSET . '"?><spellresult charschecked="0"></spellresult>';
-        }
-        else {
+        } else {
             $spellchecker->check($data);
             $result = $spellchecker->get_xml();
         }
 
         if ($error = $spellchecker->error()) {
             rcube::raise_error([
-                    'code' => 500,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => "Spellcheck error: " . $error,
-                ],
-                true,
-                false
-            );
+                'code' => 500,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => 'Spellcheck error: ' . $error,
+            ], true, false);
 
             http_response_code(500);
             exit;
         }
 
         // set response length
-        header("Content-Length: " . strlen($result));
+        header('Content-Length: ' . strlen($result));
 
         // Don't use server's default Content-Type charset (#1486406)
-        header("Content-Type: text/xml; charset=" . RCUBE_CHARSET);
+        header('Content-Type: text/xml; charset=' . RCUBE_CHARSET);
         echo $result;
         exit;
     }

@@ -36,34 +36,34 @@
 
 class rcube_modoboa_password
 {
-    function save($curpass, $passwd)
+    public function save($curpass, $passwd)
     {
         // Init config access
-        $rcmail           = rcmail::get_instance();
-        $ModoboaToken     = $rcmail->config->get('password_modoboa_api_token');
+        $rcmail = rcmail::get_instance();
+        $ModoboaToken = $rcmail->config->get('password_modoboa_api_token');
         $RoudCubeUsername = $_SESSION['username'];
-        $IMAPhost         = $_SESSION['imap_host'];
+        $IMAPhost = $_SESSION['imap_host'];
 
         // Call GET to fetch values from modoboa server
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            \CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/?search=" . urlencode($RoudCubeUsername),
+            \CURLOPT_URL => 'https://' . $IMAPhost . '/api/v1/accounts/?search=' . urlencode($RoudCubeUsername),
             \CURLOPT_RETURNTRANSFER => true,
-            \CURLOPT_ENCODING       => "",
-            \CURLOPT_MAXREDIRS      => 10,
-            \CURLOPT_TIMEOUT        => 30,
-            \CURLOPT_HTTP_VERSION   => \CURL_HTTP_VERSION_1_1,
-            \CURLOPT_CUSTOMREQUEST  => "GET",
-            \CURLOPT_HTTPHEADER     => [
-                "Authorization: Token " . $ModoboaToken,
-                "Cache-Control: no-cache",
-                "Content-Type: application/json",
+            \CURLOPT_ENCODING => '',
+            \CURLOPT_MAXREDIRS => 10,
+            \CURLOPT_TIMEOUT => 30,
+            \CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_1_1,
+            \CURLOPT_CUSTOMREQUEST => 'GET',
+            \CURLOPT_HTTPHEADER => [
+                'Authorization: Token ' . $ModoboaToken,
+                'Cache-Control: no-cache',
+                'Content-Type: application/json',
             ],
         ]);
 
         $response = curl_exec($curl);
-        $err      = curl_error($curl);
+        $err = curl_error($curl);
 
         curl_close($curl);
 
@@ -82,33 +82,34 @@ class rcube_modoboa_password
         $userid = $decoded[0]->pk;
 
         // Encode json with new password
-        $ret['username'] = $decoded[0]->username;
-        $ret['mailbox']  = $decoded[0]->mailbox;
-        $ret['role']     = $decoded[0]->role;
-        $ret['password'] = $passwd; // new password
-        $encoded         = json_encode($ret);
+        $encoded = json_encode([
+                'username' => $decoded[0]->username,
+                'mailbox' => $decoded[0]->mailbox,
+                'role' => $decoded[0]->role,
+                'password' => $passwd, // new password
+        ]);
 
         // Call HTTP API Modoboa
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            \CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/" . $userid . "/",
+            \CURLOPT_URL => 'https://' . $IMAPhost . '/api/v1/accounts/' . $userid . '/',
             \CURLOPT_RETURNTRANSFER => true,
-            \CURLOPT_ENCODING       => "",
-            \CURLOPT_MAXREDIRS      => 10,
-            \CURLOPT_TIMEOUT        => 30,
-            \CURLOPT_HTTP_VERSION   => \CURL_HTTP_VERSION_1_1,
-            \CURLOPT_CUSTOMREQUEST  => "PUT",
-            \CURLOPT_POSTFIELDS     => "" . $encoded . "",
-            \CURLOPT_HTTPHEADER     => [
-                "Authorization: Token " . $ModoboaToken,
-                "Cache-Control: no-cache",
-                "Content-Type: application/json",
+            \CURLOPT_ENCODING => '',
+            \CURLOPT_MAXREDIRS => 10,
+            \CURLOPT_TIMEOUT => 30,
+            \CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_1_1,
+            \CURLOPT_CUSTOMREQUEST => 'PUT',
+            \CURLOPT_POSTFIELDS => '' . $encoded . '',
+            \CURLOPT_HTTPHEADER => [
+                'Authorization: Token ' . $ModoboaToken,
+                'Cache-Control: no-cache',
+                'Content-Type: application/json',
             ],
         ]);
 
         $response = curl_exec($curl);
-        $err      = curl_error($curl);
+        $err = curl_error($curl);
 
         curl_close($curl);
 

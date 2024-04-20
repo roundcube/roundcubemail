@@ -28,9 +28,9 @@ class rcmail_action_settings_identity_delete extends rcmail_action
      */
     public function run($args = [])
     {
-        $rcmail  = rcmail::get_instance();
-        $iid     = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_POST);
-        $deleted = 0;
+        $rcmail = rcmail::get_instance();
+        $iid = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_POST);
+        $deleted = false;
 
         if ($iid && preg_match('/^[0-9]+(,[0-9]+)*$/', $iid)) {
             $plugin = $rcmail->plugins->exec_hook('identity_delete', ['id' => $iid]);
@@ -38,12 +38,11 @@ class rcmail_action_settings_identity_delete extends rcmail_action
             $deleted = !$plugin['abort'] ? $rcmail->user->delete_identity($iid) : $plugin['result'];
         }
 
-        if ($deleted > 0 && $deleted !== false) {
+        if ($deleted === true) {
             $rcmail->output->show_message('deletedsuccessfully', 'confirmation', null, false);
             $rcmail->output->command('remove_identity', $iid);
-        }
-        else {
-            $msg = !empty($plugin['message']) ? $plugin['message'] : ($deleted < 0 ? 'nodeletelastidentity' : 'errorsaving');
+        } else {
+            $msg = !empty($plugin['message']) ? $plugin['message'] : ($deleted === -1 ? 'nodeletelastidentity' : 'errorsaving');
             $rcmail->output->show_message($msg, 'error', null, false);
         }
 

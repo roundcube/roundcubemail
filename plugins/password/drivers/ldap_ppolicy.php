@@ -20,8 +20,8 @@ class rcube_ldap_ppolicy_password
         $rcmail = rcmail::get_instance();
         $this->debug = $rcmail->config->get('ldap_debug');
 
-        $cmd    = $rcmail->config->get('password_ldap_ppolicy_cmd');
-        $uri    = $rcmail->config->get('password_ldap_ppolicy_uri');
+        $cmd = $rcmail->config->get('password_ldap_ppolicy_cmd');
+        $uri = $rcmail->config->get('password_ldap_ppolicy_uri');
         $baseDN = $rcmail->config->get('password_ldap_ppolicy_basedn');
         $filter = $rcmail->config->get('password_ldap_ppolicy_search_filter');
         $bindDN = $rcmail->config->get('password_ldap_ppolicy_searchDN');
@@ -35,17 +35,17 @@ class rcube_ldap_ppolicy_password
         }
 
         $descriptorspec = [
-            0 => ["pipe", "r"], // stdin is a pipe that the child will read from
-            1 => ["pipe", "w"], // stdout is a pipe that the child will write to
-            2 => ["pipe", "w"],  // stderr is a pipe that the child will write to
+            0 => ['pipe', 'r'], // stdin is a pipe that the child will read from
+            1 => ['pipe', 'w'], // stdout is a pipe that the child will write to
+            2 => ['pipe', 'w'], // stderr is a pipe that the child will write to
         ];
 
         $cmd = 'plugins/password/helpers/' . $cmd;
 
         $this->_debug('Policy request: ' . json_encode([
-            'user'   => $username,
-            'cmd'    => $cmd,
-            'uri'    => $uri,
+            'user' => $username,
+            'cmd' => $cmd,
+            'uri' => $uri,
             'baseDN' => $baseDN,
             'filter' => $filter,
         ]));
@@ -79,17 +79,17 @@ class rcube_ldap_ppolicy_password
             $this->_debug('Policy result: ' . $result);
 
             switch ($result) {
-                case "OK":
+                case 'OK':
                     return PASSWORD_SUCCESS;
-                case "Password is in history of old passwords":
+                case 'Password is in history of old passwords':
                     return PASSWORD_IN_HISTORY;
-                case "Cannot connect to any server":
+                case 'Cannot connect to any server':
                     return PASSWORD_CONNECT_ERROR;
                 default:
                     rcube::raise_error([
-                            'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                            'message' => "Password plugin: Failed to execute command: $cmd. Output: $result. Error: $stderr",
-                        ], true, false);
+                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'message' => "Password plugin: Failed to execute command: {$cmd}. Output: {$result}. Error: {$stderr}",
+                    ], true, false);
             }
         }
 

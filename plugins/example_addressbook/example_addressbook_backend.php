@@ -10,8 +10,8 @@
 class example_addressbook_backend extends rcube_addressbook
 {
     public $primary_key = 'ID';
-    public $readonly    = true;
-    public $groups      = true;
+    public $readonly = true;
+    public $groups = true;
 
     private $filter;
     private $result;
@@ -19,31 +19,31 @@ class example_addressbook_backend extends rcube_addressbook
 
     private $db_groups = [
         [
-            'ID'   => 'testgroup1',
-            'name' => "Testgroup",
+            'ID' => 'testgroup1',
+            'name' => 'Testgroup',
         ],
         [
-            'ID'   => 'testgroup2',
-            'name' => "Sample Group",
+            'ID' => 'testgroup2',
+            'name' => 'Sample Group',
         ],
     ];
 
     private $db_users = [
         [
-            'ID'        => '111',
-            'name'      => "John Doe",
-            'firstname' => "John",
-            'surname'   => "Doe",
-            'email'     => "example1@roundcube.net",
-            'groups'    => ['testgroup1'],
+            'ID' => '111',
+            'name' => 'John Doe',
+            'firstname' => 'John',
+            'surname' => 'Doe',
+            'email' => 'example1@roundcube.net',
+            'groups' => ['testgroup1'],
         ],
         [
-            'ID'        => '112',
-            'name'      => "Jane Example",
-            'firstname' => "Jane",
-            'surname'   => "Example",
-            'email'     => "example2@roundcube.net",
-            'groups'    => ['testgroup2'],
+            'ID' => '112',
+            'name' => 'Jane Example',
+            'firstname' => 'Jane',
+            'surname' => 'Example',
+            'email' => 'example2@roundcube.net',
+            'groups' => ['testgroup2'],
         ],
     ];
 
@@ -58,15 +58,17 @@ class example_addressbook_backend extends rcube_addressbook
      *
      * @param string $group_id Group identifier
      *
-     * @return ?array Group properties as hash array, null in case of error.
+     * @return ?array group properties as hash array, null in case of error
      */
-    function get_group($group_id)
+    public function get_group($group_id)
     {
         foreach ($this->db_groups as $group) {
             if ($group['ID'] == $group_id) {
                 return $group;
             }
         }
+
+        return null;
     }
 
     public function get_name()
@@ -74,7 +76,7 @@ class example_addressbook_backend extends rcube_addressbook
         return $this->name;
     }
 
-    public function set_search_set($filter)
+    public function set_search_set($filter): void
     {
         $this->filter = $filter;
     }
@@ -84,13 +86,13 @@ class example_addressbook_backend extends rcube_addressbook
         return $this->filter;
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->result = null;
         $this->filter = null;
     }
 
-    function list_groups($search = null, $mode = 0)
+    public function list_groups($search = null, $mode = 0)
     {
         if (is_string($search) && strlen($search)) {
             $result = [];
@@ -114,7 +116,7 @@ class example_addressbook_backend extends rcube_addressbook
         return $this->result = $this->count();
     }
 
-    public function search($fields, $value, $strict = false, $select = true, $nocount = false, $required = [])
+    public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = [])
     {
         // Note: we do not implement all possible search request modes and variants.
         //       We implement only the simplest searching case in "select" mode
@@ -146,7 +148,7 @@ class example_addressbook_backend extends rcube_addressbook
         // Note: Paging is not implemented
 
         $result = new rcube_result_set(0, ($this->list_page - 1) * $this->page_size);
-        $count  = 0;
+        $count = 0;
 
         foreach ($this->db_users as $user) {
             if ($this->group_id && (empty($user['groups']) || !in_array($this->group_id, $user['groups']))) {
@@ -194,7 +196,7 @@ class example_addressbook_backend extends rcube_addressbook
      *
      * @return array List of assigned groups, indexed by group ID
      */
-    function get_record_groups($id)
+    public function get_record_groups($id)
     {
         $result = [];
 
@@ -214,35 +216,35 @@ class example_addressbook_backend extends rcube_addressbook
     /**
      * Setter for the current group
      */
-    function set_group($gid)
+    public function set_group($gid)
     {
         $this->group_id = $gid;
     }
 
-    function create_group($name)
+    public function create_group($name)
     {
         $result = false;
 
         return $result;
     }
 
-    function delete_group($gid)
+    public function delete_group($gid)
     {
         return false;
     }
 
-    function rename_group($gid, $newname, &$newid)
+    public function rename_group($gid, $newname, &$newid)
     {
         return $newname;
     }
 
-    function add_to_group($group_id, $ids)
+    public function add_to_group($group_id, $ids)
     {
-        return false;
+        return 0;
     }
 
-    function remove_from_group($group_id, $ids)
+    public function remove_from_group($group_id, $ids)
     {
-        return false;
+        return 0;
     }
 }

@@ -29,10 +29,10 @@ class rcmail_action_mail_bounce extends rcmail_action
      */
     public function run($args = [])
     {
-        $rcmail     = rcmail::get_instance();
-        $msg_uid    = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GP);
+        $rcmail = rcmail::get_instance();
+        $msg_uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GP);
         $msg_folder = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GP, true);
-        $MESSAGE    = new rcube_message($msg_uid, $msg_folder);
+        $MESSAGE = new rcube_message($msg_uid, $msg_folder);
 
         self::$MESSAGE = $MESSAGE;
 
@@ -63,7 +63,7 @@ class rcmail_action_mail_bounce extends rcmail_action
         $SENDMAIL = new rcmail_sendmail(
             ['mode' => rcmail_sendmail::MODE_FORWARD],
             [
-                'sendmail'      => true,
+                'sendmail' => true,
                 'error_handler' => static function (...$args) use ($rcmail) {
                     call_user_func_array([$rcmail->output, 'show_message'], $args);
                     $rcmail->output->send('iframe');
@@ -84,8 +84,8 @@ class rcmail_action_mail_bounce extends rcmail_action
 
         // Create the bounce message
         $BOUNCE = new rcmail_resend_mail([
-                'bounce_message' => $MESSAGE,
-                'bounce_headers' => $headers,
+            'bounce_message' => $MESSAGE,
+            'bounce_headers' => $headers,
         ]);
 
         // Send the bounce message
@@ -115,19 +115,19 @@ class rcmail_action_mail_bounce extends rcmail_action
             $attrib['id'] = 'bounce-objects';
         }
 
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $content = [];
 
         // Always display a hint about the bounce feature behavior
-        $msg        = html::span(null, rcube::Q($rcmail->gettext('bouncehint')));
+        $msg = html::span(null, rcube::Q($rcmail->gettext('bouncehint')));
         $msg_attrib = ['id' => 'bounce-hint', 'class' => 'boxinformation'];
-        $content[]  = html::div($msg_attrib, $msg);
+        $content[] = html::div($msg_attrib, $msg);
 
         // Add a warning about Bcc recipients
         if (self::$MESSAGE->headers->get('bcc', false) || self::$MESSAGE->headers->get('resent-bcc', false)) {
-            $msg        = html::span(null, rcube::Q($rcmail->gettext('bccemail')));
+            $msg = html::span(null, rcube::Q($rcmail->gettext('bccemail')));
             $msg_attrib = ['id' => 'bcc-warning', 'class' => 'boxwarning'];
-            $content[]  = html::div($msg_attrib, $msg);
+            $content[] = html::div($msg_attrib, $msg);
         }
 
         $plugin = $rcmail->plugins->exec_hook('bounce_objects',

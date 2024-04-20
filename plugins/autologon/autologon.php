@@ -27,7 +27,7 @@ class autologon extends rcube_plugin
      *
      * @return array Hook arguments
      */
-    function startup($args)
+    public function startup($args)
     {
         // change action to login
         if (empty($_SESSION['user_id']) && !empty($_GET['_autologin']) && $this->is_localhost()) {
@@ -44,14 +44,14 @@ class autologon extends rcube_plugin
      *
      * @return array Hook arguments
      */
-    function authenticate($args)
+    public function authenticate($args)
     {
         if (!empty($_GET['_autologin']) && $this->is_localhost()) {
-            $args['user']        = 'me';
-            $args['pass']        = '******';
-            $args['host']        = 'localhost';
+            $args['user'] = 'me';
+            $args['pass'] = '******';
+            $args['host'] = 'localhost';
             $args['cookiecheck'] = false;
-            $args['valid']       = true;
+            $args['valid'] = true;
         }
 
         return $args;

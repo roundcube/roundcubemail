@@ -29,17 +29,16 @@ class rcmail_action_settings_folder_delete extends rcmail_action
      */
     public function run($args = [])
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
-        $mbox    = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
 
         if (strlen($mbox)) {
             $plugin = $rcmail->plugins->exec_hook('folder_delete', ['name' => $mbox]);
 
             if (empty($plugin['abort'])) {
                 $deleted = $storage->delete_folder($plugin['name']);
-            }
-            else {
+            } else {
                 $deleted = $plugin['result'];
             }
 
@@ -56,8 +55,7 @@ class rcmail_action_settings_folder_delete extends rcmail_action
             // Clear content frame
             $rcmail->output->command('subscription_select');
             $rcmail->output->command('set_quota', self::quota_content());
-        }
-        else {
+        } else {
             self::display_server_error('errorsaving');
         }
 

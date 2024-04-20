@@ -32,11 +32,11 @@ class rcmail_action_contacts_search_create extends rcmail_action
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
-        $id     = rcube_utils::get_input_value('_search', rcube_utils::INPUT_POST);
-        $name   = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true);
+        $id = rcube_utils::get_input_value('_search', rcube_utils::INPUT_POST);
+        $name = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true);
 
         if (
-            !empty($_SESSION['contact_search_params'])
+            isset($_SESSION['contact_search_params'])
             && ($params = $_SESSION['contact_search_params'])
             && $params['id'] == $id
         ) {
@@ -53,8 +53,7 @@ class rcmail_action_contacts_search_create extends rcmail_action
 
             if (empty($plugin['abort'])) {
                 $result = $rcmail->user->insert_search($plugin['data']);
-            }
-            else {
+            } else {
                 $result = $plugin['result'];
             }
         }
@@ -62,8 +61,7 @@ class rcmail_action_contacts_search_create extends rcmail_action
         if (!empty($result)) {
             $rcmail->output->show_message('savedsearchcreated', 'confirmation');
             $rcmail->output->command('insert_saved_search', rcube::Q($name), rcube::Q($result));
-        }
-        else {
+        } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'savedsearchcreateerror';
             $rcmail->output->show_message($error, 'error');
         }

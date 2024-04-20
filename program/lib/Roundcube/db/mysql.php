@@ -60,7 +60,6 @@ class rcube_db_mysql extends rcube_db
     protected function dsn_string($dsn)
     {
         $params = [];
-        $result = 'mysql:';
 
         if (isset($dsn['database'])) {
             $params[] = 'dbname=' . $dsn['database'];
@@ -80,11 +79,7 @@ class rcube_db_mysql extends rcube_db
 
         $params[] = 'charset=' . (!empty($dsn['charset']) ? $dsn['charset'] : 'utf8mb4');
 
-        if (!empty($params)) {
-            $result .= implode(';', $params);
-        }
-
-        return $result;
+        return 'mysql:' . implode(';', $params);
     }
 
     /**
@@ -131,8 +126,7 @@ class rcube_db_mysql extends rcube_db
         // Disable emulating of prepared statements
         if (isset($dsn['emulate_prepares'])) {
             $result[PDO::ATTR_EMULATE_PREPARES] = rcube_utils::get_boolean($dsn['emulate_prepares']);
-        }
-        else {
+        } else {
             $result[PDO::ATTR_EMULATE_PREPARES] = false;
         }
 
@@ -148,9 +142,9 @@ class rcube_db_mysql extends rcube_db
     {
         // get tables if not cached
         if ($this->tables === null) {
-            $q = $this->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"
+            $q = $this->query('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES'
                 . " WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'"
-                . " ORDER BY TABLE_NAME", $this->db_dsnw_array['database']);
+                . ' ORDER BY TABLE_NAME', $this->db_dsnw_array['database']);
 
             $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
         }
@@ -167,8 +161,8 @@ class rcube_db_mysql extends rcube_db
      */
     public function list_cols($table)
     {
-        $q = $this->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS"
-            . " WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
+        $q = $this->query('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS'
+            . ' WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?',
             $this->db_dsnw_array['database'], $table);
 
         if ($q) {
@@ -232,14 +226,22 @@ class rcube_db_mysql extends rcube_db
      */
     public function insert_or_update($table, $keys, $columns, $values)
     {
-        $columns = array_map(static function ($i) { return "`$i`"; }, $columns);
-        $cols    = implode(', ', array_map(static function ($i) { return "`$i`"; }, array_keys($keys)));
-        $cols   .= ', ' . implode(', ', $columns);
-        $vals    = implode(', ', array_map(function ($i) { return $this->quote($i); }, $keys));
-        $vals   .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
-        $update  = implode(', ', array_map(static function ($i) { return "$i = VALUES($i)"; }, $columns));
+        $columns = array_map(static function ($i) {
+            return "`{$i}`";
+        }, $columns);
+        $cols = implode(', ', array_map(static function ($i) {
+            return "`{$i}`";
+        }, array_keys($keys)));
+        $cols .= ', ' . implode(', ', $columns);
+        $vals = implode(', ', array_map(function ($i) {
+            return $this->quote($i);
+        }, $keys));
+        $vals .= ', ' . rtrim(str_repeat('?, ', count($columns)), ', ');
+        $update = implode(', ', array_map(static function ($i) {
+            return "{$i} = VALUES({$i})";
+        }, $columns));
 
-        return $this->query("INSERT INTO $table ($cols) VALUES ($vals)"
-            . " ON DUPLICATE KEY UPDATE $update", $values);
+        return $this->query("INSERT INTO {$table} ({$cols}) VALUES ({$vals})"
+            . " ON DUPLICATE KEY UPDATE {$update}", $values);
     }
 }

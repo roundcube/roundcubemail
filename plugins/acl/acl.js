@@ -16,23 +16,24 @@
  */
 
 if (window.rcmail) {
-    rcmail.addEventListener('init', function() {
+    rcmail.addEventListener('init', function () {
         if (rcmail.gui_objects.acltable) {
             rcmail.acl_list_init();
             // enable autocomplete on user input
             if (rcmail.env.acl_users_source) {
                 var inst = rcmail.is_framed() ? parent.rcmail : rcmail;
-                inst.init_address_input_events($('#acluser'), {action:'settings/plugin.acl-autocomplete'});
+                inst.init_address_input_events($('#acluser'), { action: 'settings/plugin.acl-autocomplete' });
 
                 // pass config settings and localized texts to autocomplete context
-                inst.set_env({ autocomplete_max:rcmail.env.autocomplete_max, autocomplete_min_length:rcmail.env.autocomplete_min_length });
+                inst.set_env({ autocomplete_max: rcmail.env.autocomplete_max, autocomplete_min_length: rcmail.env.autocomplete_min_length });
                 inst.add_label('autocompletechars', rcmail.labels.autocompletechars);
                 inst.add_label('autocompletemore', rcmail.labels.autocompletemore);
 
                 // fix inserted value
-                inst.addEventListener('autocomplete_insert', function(e) {
-                    if (e.field.id != 'acluser')
+                inst.addEventListener('autocomplete_insert', function (e) {
+                    if (e.field.id != 'acluser') {
                         return;
+                    }
 
                     e.field.value = e.insert.replace(/[ ,;]+$/, '');
                 });
@@ -42,55 +43,55 @@ if (window.rcmail) {
         rcmail.enable_command('acl-create', 'acl-save', 'acl-cancel', 'acl-mode-switch', true);
         rcmail.enable_command('acl-delete', 'acl-edit', false);
 
-        if (rcmail.env.acl_advanced)
+        if (rcmail.env.acl_advanced) {
             $('#acl-switch').addClass('selected').find('input').prop('checked', true);
+        }
     });
 }
 
 // Display new-entry form
-rcube_webmail.prototype.acl_create = function()
-{
+rcube_webmail.prototype.acl_create = function () {
     this.acl_init_form();
 };
 
 // Display ACL edit form
-rcube_webmail.prototype.acl_edit = function()
-{
+rcube_webmail.prototype.acl_edit = function () {
     // @TODO: multi-row edition
     var id = this.acl_list.get_single_selection();
-    if (id)
+    if (id) {
         this.acl_init_form(id);
+    }
 };
 
 // ACL entry delete
-rcube_webmail.prototype.acl_delete = function()
-{
+rcube_webmail.prototype.acl_delete = function () {
     var users = this.acl_get_usernames();
 
     if (users && users.length) {
-        this.confirm_dialog(this.get_label('acl.deleteconfirm'), 'delete', function(e, ref) {
+        this.confirm_dialog(this.get_label('acl.deleteconfirm'), 'delete', function (e, ref) {
             ref.http_post('settings/plugin.acl', {
                 _act: 'delete',
                 _user: users.join(','),
-                _mbox: rcmail.env.mailbox
+                _mbox: rcmail.env.mailbox,
             }, ref.set_busy(true, 'acl.deleting'));
         });
     }
 };
 
 // Save ACL data
-rcube_webmail.prototype.acl_save = function()
-{
+rcube_webmail.prototype.acl_save = function () {
     var data, type, rights = '', user = $('#acluser', this.acl_form).val();
 
-    $((this.env.acl_advanced ? '#advancedrights :checkbox' : '#simplerights :checkbox'), this.acl_form).map(function() {
-        if (this.checked)
+    $((this.env.acl_advanced ? '#advancedrights :checkbox' : '#simplerights :checkbox'), this.acl_form).map(function () {
+        if (this.checked) {
             rights += this.value;
+        }
     });
 
     if (type = $('input:checked[name=usertype]', this.acl_form).val()) {
-        if (type != 'user')
+        if (type != 'user') {
             user = type;
+        }
     }
 
     if (!user) {
@@ -106,7 +107,7 @@ rcube_webmail.prototype.acl_save = function()
         _act: 'save',
         _user: user,
         _acl: rights,
-        _mbox: this.env.mailbox
+        _mbox: this.env.mailbox,
     };
 
     if (this.acl_id) {
@@ -117,21 +118,21 @@ rcube_webmail.prototype.acl_save = function()
 };
 
 // Cancel/Hide form
-rcube_webmail.prototype.acl_cancel = function()
-{
+rcube_webmail.prototype.acl_cancel = function () {
     this.ksearch_blur();
     this.acl_popup.dialog('close');
 };
 
 // Update data after save (and hide form)
-rcube_webmail.prototype.acl_update = function(o)
-{
+rcube_webmail.prototype.acl_update = function (o) {
     // delete old row
-    if (o.old)
+    if (o.old) {
         this.acl_remove_row(o.old);
+    }
     // make sure the same ID doesn't exist
-    else if (this.env.acl[o.id])
+    else if (this.env.acl[o.id]) {
         this.acl_remove_row(o.id);
+    }
 
     // add new row
     this.acl_add_row(o, true);
@@ -142,75 +143,75 @@ rcube_webmail.prototype.acl_update = function(o)
 };
 
 // Switch table display mode
-rcube_webmail.prototype.acl_mode_switch = function(elem)
-{
+rcube_webmail.prototype.acl_mode_switch = function (elem) {
     this.env.acl_advanced = !this.env.acl_advanced;
     this.enable_command('acl-delete', 'acl-edit', false);
     this.http_request('settings/plugin.acl', '_act=list'
-        + '&_mode='+(this.env.acl_advanced ? 'advanced' : 'simple')
-        + '&_mbox='+urlencode(this.env.mailbox),
+        + '&_mode=' + (this.env.acl_advanced ? 'advanced' : 'simple')
+        + '&_mbox=' + urlencode(this.env.mailbox),
     this.set_busy(true, 'loading'));
 };
 
 // ACL table initialization
-rcube_webmail.prototype.acl_list_init = function()
-{
+rcube_webmail.prototype.acl_list_init = function () {
     var method = this.env.acl_advanced ? 'addClass' : 'removeClass';
 
     $('#acl-switch')[method]('selected');
     $(this.gui_objects.acltable)[method]('advanced');
 
     this.acl_list = new rcube_list_widget(this.gui_objects.acltable,
-        {multiselect: true, draggable: false, keyboard: true});
-    this.acl_list.addEventListener('select', function(o) { rcmail.acl_list_select(o); })
-        .addEventListener('dblclick', function(o) { rcmail.acl_list_dblclick(o); })
-        .addEventListener('keypress', function(o) { rcmail.acl_list_keypress(o); })
+        { multiselect: true, draggable: false, keyboard: true });
+    this.acl_list.addEventListener('select', function (o) {
+        rcmail.acl_list_select(o);
+    })
+        .addEventListener('dblclick', function (o) {
+            rcmail.acl_list_dblclick(o);
+        })
+        .addEventListener('keypress', function (o) {
+            rcmail.acl_list_keypress(o);
+        })
         .init();
 };
 
 // ACL table row selection handler
-rcube_webmail.prototype.acl_list_select = function(list)
-{
+rcube_webmail.prototype.acl_list_select = function (list) {
     rcmail.enable_command('acl-delete', list.get_selection().length > 0);
     rcmail.enable_command('acl-edit', list.get_selection().length == 1);
     list.focus();
 };
 
 // ACL table double-click handler
-rcube_webmail.prototype.acl_list_dblclick = function(list)
-{
+rcube_webmail.prototype.acl_list_dblclick = function (list) {
     this.acl_edit();
 };
 
 // ACL table keypress handler
-rcube_webmail.prototype.acl_list_keypress = function(list)
-{
-    if (list.key_pressed == list.ENTER_KEY)
+rcube_webmail.prototype.acl_list_keypress = function (list) {
+    if (list.key_pressed == list.ENTER_KEY) {
         this.command('acl-edit');
-    else if (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY)
-        if (!this.acl_form || !this.acl_form.is(':visible'))
+    } else if (list.key_pressed == list.DELETE_KEY || list.key_pressed == list.BACKSPACE_KEY) {
+        if (!this.acl_form || !this.acl_form.is(':visible')) {
             this.command('acl-delete');
+        }
+    }
 };
 
 // Reloads ACL table
-rcube_webmail.prototype.acl_list_update = function(html)
-{
+rcube_webmail.prototype.acl_list_update = function (html) {
     $(this.gui_objects.acltable).html(html);
     this.acl_list_init();
 };
 
 // Returns names of users in selected rows
-rcube_webmail.prototype.acl_get_usernames = function()
-{
+rcube_webmail.prototype.acl_get_usernames = function () {
     var users = [], n, len, id, row,
         list = this.acl_list,
         selection = list.get_selection();
 
-    for (n=0, len=selection.length; n<len; n++) {
+    for (n = 0, len = selection.length; n < len; n++) {
         if (this.env.acl_specials.length && $.inArray(selection[n], this.env.acl_specials) >= 0) {
             users.push(selection[n]);
-        }
-        else if ((row = list.rows[selection[n]]) && (id = $(row.obj).data('userid'))) {
+        } else if ((row = list.rows[selection[n]]) && (id = $(row.obj).data('userid'))) {
             users.push(id);
         }
     }
@@ -219,15 +220,14 @@ rcube_webmail.prototype.acl_get_usernames = function()
 };
 
 // Removes ACL table row
-rcube_webmail.prototype.acl_remove_row = function(id)
-{
+rcube_webmail.prototype.acl_remove_row = function (id) {
     var list = this.acl_list;
 
     list.remove_row(id);
     list.clear_selection();
 
     // we don't need it anymore (remove id conflict)
-    $('#rcmrow'+id).remove();
+    $('#rcmrow' + id).remove();
     this.env.acl[id] = null;
 
     this.enable_command('acl-delete', list.get_selection().length > 0);
@@ -235,44 +235,47 @@ rcube_webmail.prototype.acl_remove_row = function(id)
 };
 
 // Adds ACL table row
-rcube_webmail.prototype.acl_add_row = function(o, sel)
-{
+rcube_webmail.prototype.acl_add_row = function (o, sel) {
     var n, len, ids = [], spec = [], id = o.id, list = this.acl_list,
         items = this.env.acl_advanced ? [] : this.env.acl_items,
         table = this.gui_objects.acltable,
         row = $('thead > tr', table).clone();
 
     // Update new row
-    $('th', row).map(function() {
+    $('th', row).map(function () {
         var td = $('<td>'),
             title = $(this).attr('title'),
             cl = this.className.replace(/^acl/, '');
 
-        if (title)
+        if (title) {
             td.attr('title', title);
+        }
 
-        if (items && items[cl])
+        if (items && items[cl]) {
             cl = items[cl];
+        }
 
-        if (cl == 'user')
+        if (cl == 'user') {
             td.addClass(cl).attr('title', o.title).append($('<a>').text(o.display));
-        else
+        } else {
             td.addClass(this.className + ' ' + rcmail.acl_class(o.acl, cl)).html('<span/>');
+        }
 
         $(this).replaceWith(td);
     });
 
-    row = row.attr({id: 'rcmrow' + id, 'data-userid': o.username}).get(0);
+    row = row.attr({ id: 'rcmrow' + id, 'data-userid': o.username }).get(0);
 
     this.env.acl[id] = o.acl;
 
     // sorting... (create an array of user identifiers, then sort it)
     for (n in this.env.acl) {
         if (this.env.acl[n]) {
-            if (this.env.acl_specials.length && $.inArray(n, this.env.acl_specials) >= 0)
+            if (this.env.acl_specials.length && $.inArray(n, this.env.acl_specials) >= 0) {
                 spec.push(n);
-            else
+            } else {
                 ids.push(n);
+            }
         }
     }
     ids.sort();
@@ -280,32 +283,36 @@ rcube_webmail.prototype.acl_add_row = function(o, sel)
     ids = spec.concat(ids);
 
     // find current id
-    for (n=0, len=ids.length; n<len; n++)
-        if (ids[n] == id)
+    for (n = 0, len = ids.length; n < len; n++) {
+        if (ids[n] == id) {
             break;
+        }
+    }
 
     // add row
     if (n && n < len) {
-        $('#rcmrow'+ids[n-1]).after(row);
+        $('#rcmrow' + ids[n - 1]).after(row);
         list.init_row(row);
         list.rowcount++;
-    }
-    else
+    } else {
         list.insert_row(row);
+    }
 
-    if (sel)
+    if (sel) {
         list.select_row(o.id);
+    }
 };
 
 // Initializes and shows ACL create/edit form
-rcube_webmail.prototype.acl_init_form = function(id)
-{
+rcube_webmail.prototype.acl_init_form = function (id) {
     var ul, row, td, val = '', type = 'user', li_elements, body = $('body'),
         adv_ul = $('#advancedrights'), sim_ul = $('#simplerights'),
         name_input = $('#acluser'), type_list = $('#usertype');
 
     if (!this.acl_form) {
-        var fn = function () { $('input[value="user"]').prop('checked', true); };
+        var fn = function () {
+            $('input[value="user"]').prop('checked', true);
+        };
         name_input.click(fn).keypress(fn);
     }
 
@@ -316,8 +323,7 @@ rcube_webmail.prototype.acl_init_form = function(id)
         adv_ul.show();
         sim_ul.hide();
         ul = adv_ul;
-    }
-    else {
+    } else {
         sim_ul.show();
         adv_ul.hide();
         ul = sim_ul;
@@ -329,31 +335,39 @@ rcube_webmail.prototype.acl_init_form = function(id)
 
     if (id && (row = this.acl_list.rows[id])) {
         row = row.obj;
-        li_elements.map(function() {
-            td = $('td.'+this.id, row);
-            if (td.length && td.hasClass('enabled'))
+        li_elements.map(function () {
+            td = $('td.' + this.id, row);
+            if (td.length && td.hasClass('enabled')) {
                 this.checked = true;
+            }
         });
 
-        if (!this.env.acl_specials.length || $.inArray(id, this.env.acl_specials) < 0)
+        if (!this.env.acl_specials.length || $.inArray(id, this.env.acl_specials) < 0) {
             val = $(row).data('userid');
-        else
+        } else {
             type = id;
+        }
     }
     // mark read (lrs) rights by default
     else {
-        li_elements.filter(function() { return this.id.match(/^acl([lrs]|read)$/); }).prop('checked', true);
+        li_elements.filter(function () {
+            return this.id.match(/^acl([lrs]|read)$/);
+        }).prop('checked', true);
     }
 
     name_input.val(val);
-    $('input[value='+type+']').prop('checked', true);
+    $('input[value=' + type + ']').prop('checked', true);
 
     this.acl_id = id;
 
     var buttons = {}, me = this, body = document.body;
 
-    buttons[this.get_label('save')] = function(e) { me.command('acl-save'); };
-    buttons[this.get_label('cancel')] = function(e) { me.command('acl-cancel'); };
+    buttons[this.get_label('save')] = function (e) {
+        me.command('acl-save');
+    };
+    buttons[this.get_label('cancel')] = function (e) {
+        me.command('acl-cancel');
+    };
 
     // display it as popup
     this.acl_popup = this.show_popup_dialog(
@@ -364,37 +378,42 @@ rcube_webmail.prototype.acl_init_form = function(id)
             button_classes: ['mainaction submit', 'cancel'],
             modal: true,
             closeOnEscape: true,
-            close: function(e, ui) {
+            close: function (e, ui) {
                 (me.is_framed() ? parent.rcmail : me).ksearch_hide();
                 me.acl_form.appendTo(body).hide();
                 $(this).remove();
                 window.focus(); // focus iframe
-            }
+            },
         }
     );
 
-    if (type == 'user')
+    if (type == 'user') {
         name_input.focus();
-    else
+    } else {
         $('input:checked', type_list).focus();
+    }
 };
 
 // Returns class name according to ACL comparison result
-rcube_webmail.prototype.acl_class = function(acl1, acl2)
-{
+rcube_webmail.prototype.acl_class = function (acl1, acl2) {
     var i, len, found = 0;
 
     acl1 = String(acl1);
     acl2 = String(acl2);
 
-    for (i=0, len=acl2.length; i<len; i++)
-        if (acl1.indexOf(acl2[i]) > -1)
+    for (i = 0, len = acl2.length; i < len; i++) {
+        if (acl1.indexOf(acl2[i]) > -1) {
             found++;
+        }
+    }
 
-    if (found == len)
+    if (found == len) {
         return 'enabled';
-    else if (found)
+    }
+
+    if (found) {
         return 'partial';
+    }
 
     return 'disabled';
 };

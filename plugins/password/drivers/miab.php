@@ -38,14 +38,14 @@ class rcube_miab_password
     public function save($currpass, $newpass, $username)
     {
         $config = rcmail::get_instance()->config;
-        $host   = rtrim($config->get('password_miab_url'), '/') . '/mail/users/password';
+        $host = rtrim($config->get('password_miab_url'), '/') . '/mail/users/password';
 
         try {
             $client = password::get_http_client();
 
             $request = [
                 'form_params' => [
-                    'email'    => $username,
+                    'email' => $username,
                     'password' => $newpass,
                 ],
                 'auth' => [
@@ -55,24 +55,19 @@ class rcube_miab_password
             ];
 
             $response = $client->post($host, $request);
+            $result = $response->getBody();
 
-            if (
-                $response->getStatusCode() == 200
-                && trim($result = $response->getBody()) === 'OK'
-            ) {
+            if ($response->getStatusCode() == 200 && trim($result) === 'OK') {
                 return PASSWORD_SUCCESS;
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $result = $e->getMessage();
         }
 
         rcube::raise_error([
-                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-                'message' => "Password plugin: Unable to change password. $result",
-            ],
-            true, false
-        );
+            'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+            'message' => "Password plugin: Unable to change password. {$result}",
+        ], true, false);
 
         return PASSWORD_ERROR;
     }

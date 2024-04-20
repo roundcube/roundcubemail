@@ -24,21 +24,20 @@
 abstract class rcube_output
 {
     public $browser;
+    public $skins = [];
+    public $charset = RCUBE_CHARSET;
 
     protected $app;
     protected $config;
-    protected $charset = RCUBE_CHARSET;
-    protected $env     = [];
-    protected $skins   = [];
-
+    protected $env = [];
 
     /**
      * Object constructor
      */
     public function __construct()
     {
-        $this->app     = rcube::get_instance();
-        $this->config  = $this->app->config;
+        $this->app = rcube::get_instance();
+        $this->config = $this->app->config;
         $this->browser = new rcube_browser();
     }
 
@@ -116,7 +115,7 @@ abstract class rcube_output
      * @param bool   $override Override last set message
      * @param int    $timeout  Message displaying time in seconds
      */
-    abstract function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
+    abstract public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0);
 
     /**
      * Redirect to a certain url.
@@ -124,12 +123,12 @@ abstract class rcube_output
      * @param array|string $p     Either a string with the action or url parameters as key-value pairs
      * @param int          $delay Delay in seconds
      */
-    abstract function redirect($p = [], $delay = 1);
+    abstract public function redirect($p = [], $delay = 1);
 
     /**
      * Send output to the client.
      */
-    abstract function send();
+    abstract public function send();
 
     /**
      * Send HTTP headers to prevent caching a page
@@ -140,17 +139,16 @@ abstract class rcube_output
             return;
         }
 
-        header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
         // We need to set the following headers to make downloads work using IE in HTTPS mode.
         if ($this->browser->ie && rcube_utils::https_check()) {
             header('Pragma: private');
-            header("Cache-Control: private, must-revalidate");
-        }
-        else {
-            header("Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0");
-            header("Pragma: no-cache");
+            header('Cache-Control: private, must-revalidate');
+        } else {
+            header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: no-cache');
         }
     }
 
@@ -165,9 +163,9 @@ abstract class rcube_output
             return;
         }
 
-        header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
-        header("Cache-Control: max-age=$offset");
-        header("Pragma: ");
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $offset) . ' GMT');
+        header("Cache-Control: max-age={$offset}");
+        header('Pragma: ');
     }
 
     /**
@@ -204,7 +202,7 @@ abstract class rcube_output
         $plugin = $this->app->plugins->exec_hook('common_headers', ['headers' => $headers, 'privacy' => $privacy]);
 
         foreach ($plugin['headers'] as $header => $value) {
-            header("$header: $value");
+            header("{$header}: {$value}");
         }
     }
 
@@ -230,7 +228,7 @@ abstract class rcube_output
             $params['disposition'] = 'attachment';
         }
 
-        $ctype       = 'application/octet-stream';
+        $ctype = 'application/octet-stream';
         $disposition = $params['disposition'];
 
         if (!empty($params['type']) && is_string($params['type']) && strlen($params['type']) < 256
@@ -248,14 +246,14 @@ abstract class rcube_output
             $ctype .= "; charset={$charset}";
         }
 
+        // @phpstan-ignore-next-line
         if (is_string($filename) && strlen($filename) > 0 && strlen($filename) <= 1024) {
             // For non-ascii characters we'll use RFC2231 syntax
             if (!preg_match('/[^a-zA-Z0-9_.:,?;@+ -]/', $filename)) {
                 $disposition .= "; filename=\"{$filename}\"";
-            }
-            else {
+            } else {
                 $filename = rawurlencode($filename);
-                $charset  = $this->charset;
+                $charset = $this->charset;
                 if (!empty($params['charset']) && rcube_charset::is_valid($params['charset'])) {
                     $charset = $params['charset'];
                 }
@@ -268,11 +266,11 @@ abstract class rcube_output
         header("Content-Type: {$ctype}");
 
         if ($params['disposition'] == 'attachment' && $this->browser->ie) {
-            header("Content-Type: application/force-download");
+            header('Content-Type: application/force-download');
         }
 
         if (isset($params['length'])) {
-            header("Content-Length: " . $params['length']);
+            header('Content-Length: ' . $params['length']);
         }
 
         // don't kill the connection if download takes more than 30 sec.
@@ -294,7 +292,7 @@ abstract class rcube_output
     public function raise_error($code, $message)
     {
         // STUB: to be overloaded by specific output classes
-        fwrite(\STDERR, "Error $code: $message\n");
+        fwrite(\STDERR, "Error {$code}: {$message}\n");
         exit(-1);
     }
 
@@ -312,21 +310,19 @@ abstract class rcube_output
     {
         static $colcounts = [];
 
-        $fname           = '_' . $name;
-        $attrib['name']  = $fname . (!empty($attrib['array']) ? '[]' : '');
+        $fname = '_' . $name;
+        $attrib['name'] = $fname . (!empty($attrib['array']) ? '[]' : '');
         $attrib['class'] = trim((!empty($attrib['class']) ? $attrib['class'] : '') . ' ff_' . $name);
 
         if ($type == 'checkbox') {
             $attrib['value'] = '1';
             $input = new html_checkbox($attrib);
-        }
-        elseif ($type == 'textarea') {
+        } elseif ($type == 'textarea') {
             if (!empty($attrib['size'])) {
                 $attrib['cols'] = $attrib['size'];
             }
             $input = new html_textarea($attrib);
-        }
-        elseif ($type == 'select') {
+        } elseif ($type == 'select') {
             $input = new html_select($attrib);
             if (empty($attrib['skip-empty'])) {
                 $input->add('---', '');
@@ -334,11 +330,9 @@ abstract class rcube_output
             if (!empty($attrib['options'])) {
                 $input->add(array_values($attrib['options']), array_keys($attrib['options']));
             }
-        }
-        elseif ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
+        } elseif ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
             $input = new html_passwordfield($attrib);
-        }
-        else {
+        } else {
             if (!isset($attrib['type']) || ($attrib['type'] != 'text' && $attrib['type'] != 'hidden')) {
                 $attrib['type'] = 'text';
             }
@@ -352,10 +346,9 @@ abstract class rcube_output
                 if (!isset($colcounts[$name])) {
                     $colcounts[$name] = 0;
                 }
-                $idx   = intval($colcounts[$name]++);
+                $idx = intval($colcounts[$name]++);
                 $value = $postvalue[$idx] ?? null;
-            }
-            else {
+            } else {
                 $value = $postvalue;
             }
         }

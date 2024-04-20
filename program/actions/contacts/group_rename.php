@@ -29,8 +29,8 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
      */
     public function run($args = [])
     {
-        $rcmail   = rcmail::get_instance();
-        $source   = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $rcmail = rcmail::get_instance();
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $contacts = self::contact_source($source);
 
         if ($contacts->readonly || !$contacts->groups) {
@@ -44,15 +44,14 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
         ) {
             $newgid = null;
             $plugin = $rcmail->plugins->exec_hook('group_rename', [
-                    'group_id' => $gid,
-                    'name'     => $name,
-                    'source'   => $source,
+                'group_id' => $gid,
+                'name' => $name,
+                'source' => $source,
             ]);
 
             if (empty($plugin['abort'])) {
                 $newname = $contacts->rename_group($gid, $plugin['name'], $newgid);
-            }
-            else {
+            } else {
                 $newname = $plugin['result'];
             }
         }
@@ -60,13 +59,12 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
         if (!empty($newname)) {
             $rcmail->output->show_message('grouprenamed', 'confirmation');
             $rcmail->output->command('update_contact_group', [
-                    'source' => $source,
-                    'id'     => $gid,
-                    'name'   => $newname,
-                    'newid'  => $newgid ?? null,
+                'source' => $source,
+                'id' => $gid,
+                'name' => $newname,
+                'newid' => $newgid ?? null,
             ]);
-        }
-        else {
+        } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');
         }

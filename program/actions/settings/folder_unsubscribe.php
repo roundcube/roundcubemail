@@ -29,9 +29,9 @@ class rcmail_action_settings_folder_unsubscribe extends rcmail_action
      */
     public function run($args = [])
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
-        $mbox    = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
 
         if (strlen($mbox)) {
             $result = $storage->unsubscribe([$mbox]);
@@ -39,8 +39,7 @@ class rcmail_action_settings_folder_unsubscribe extends rcmail_action
 
         if (!empty($result)) {
             $rcmail->output->show_message('folderunsubscribed', 'confirmation');
-        }
-        else {
+        } else {
             self::display_server_error('errorsaving');
             $rcmail->output->command('reset_subscription', $mbox, true);
         }

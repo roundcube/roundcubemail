@@ -30,17 +30,18 @@
 
 class rcube_domainfactory_password
 {
-    function save($curpass, $passwd, $username)
+    public function save($curpass, $passwd, $username)
     {
+        // @phpstan-ignore-next-line
         if ($ch = curl_init()) {
             // initial login
             curl_setopt_array($ch, [
                 \CURLOPT_RETURNTRANSFER => true,
-                \CURLOPT_URL        => 'https://ssl.df.eu/chmail.php',
-                \CURLOPT_POST       => true,
+                \CURLOPT_URL => 'https://ssl.df.eu/chmail.php',
+                \CURLOPT_POST => true,
                 \CURLOPT_POSTFIELDS => http_build_query([
-                    'login'  => $username,
-                    'pwd'    => $curpass,
+                    'login' => $username,
+                    'pwd' => $curpass,
                     'action' => 'change',
                 ]),
             ]);
@@ -48,8 +49,8 @@ class rcube_domainfactory_password
             if ($result = curl_exec($ch)) {
                 // login successful, get token!
                 $postfields = [
-                    'pwd1'           => $passwd,
-                    'pwd2'           => $passwd,
+                    'pwd1' => $passwd,
+                    'pwd2' => $passwd,
                     'action[update]' => 'Speichern',
                 ];
 
@@ -75,19 +76,17 @@ class rcube_domainfactory_password
                             foreach ($errors[1] as $error) {
                                 $error_message .= trim(rcube_charset::convert($error, 'ISO-8859-15')) . ' ';
                             }
+
                             return ['code' => PASSWORD_ERROR, 'message' => $error_message];
                         }
                     }
-                }
-                else {
+                } else {
                     return PASSWORD_CONNECT_ERROR;
                 }
-            }
-            else {
+            } else {
                 return PASSWORD_CONNECT_ERROR;
             }
-        }
-        else {
+        } else {
             return PASSWORD_CONNECT_ERROR;
         }
 

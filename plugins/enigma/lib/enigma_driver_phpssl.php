@@ -17,13 +17,13 @@
 class enigma_driver_phpssl extends enigma_driver
 {
     private $rc;
-    private $homedir;
+    private $homedir; // @phpstan-ignore-line
     private $user;
 
-    function __construct($user)
+    public function __construct($user)
     {
         $rcmail = rcmail::get_instance();
-        $this->rc   = $rcmail;
+        $this->rc = $rcmail;
         $this->user = $user;
     }
 
@@ -31,9 +31,9 @@ class enigma_driver_phpssl extends enigma_driver
      * Driver initialization and environment checking.
      * Should only return critical errors.
      *
-     * @return mixed NULL on success, enigma_error on failure
+     * @return enigma_error|null NULL on success, enigma_error on failure
      */
-    function init()
+    public function init()
     {
         $homedir = $this->rc->config->get('enigma_smime_homedir', INSTALL_PATH . '/plugins/enigma/home');
 
@@ -45,11 +45,11 @@ class enigma_driver_phpssl extends enigma_driver
         // check if homedir exists (create it if not) and is readable
         if (!file_exists($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
-                "Keys directory doesn't exists: $homedir");
+                "Keys directory doesn't exists: {$homedir}");
         }
         if (!is_writable($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
-                "Keys directory isn't writeable: $homedir");
+                "Keys directory isn't writeable: {$homedir}");
         }
 
         $homedir = $homedir . '/' . $this->user;
@@ -61,34 +61,44 @@ class enigma_driver_phpssl extends enigma_driver
 
         if (!file_exists($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
-                "Unable to create keys directory: $homedir");
+                "Unable to create keys directory: {$homedir}");
         }
         if (!is_writable($homedir)) {
             return new enigma_error(enigma_error::INTERNAL,
-                "Unable to write to keys directory: $homedir");
+                "Unable to write to keys directory: {$homedir}");
         }
 
         $this->homedir = $homedir;
 
+        return null;
     }
 
-    function encrypt($text, $keys, $sign_key = null) {}
-
-    function decrypt($text, $keys = [], &$signature = null) {}
-
-    function sign($text, $key, $mode = null) {}
-
-    function verify($struct, $message)
+    public function encrypt($text, $keys, $sign_key = null)
     {
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+    }
+
+    public function decrypt($text, $keys = [], &$signature = null)
+    {
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+    }
+
+    public function sign($text, $key, $mode = null)
+    {
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+    }
+
+    public function verify($struct, $message)
+    {
+        /*
         // use common temp dir
         $msg_file  = rcube_utils::temp_filename('enigmsg');
         $cert_file = rcube_utils::temp_filename('enigcrt');
 
-        $fh = fopen($msg_file, "w");
+        $fh = fopen($msg_file, 'w');
         if ($struct->mime_id) {
             $message->get_part_body($struct->mime_id, false, 0, $fh);
-        }
-        else {
+        } else {
             $this->rc->storage->get_raw_body($message->uid, $fh);
         }
         fclose($fh);
@@ -107,8 +117,7 @@ class enigma_driver_phpssl extends enigma_driver
 
         if ($sig === true) {
             $sig = $this->parse_sig_cert($cert_file, $validity);
-        }
-        else {
+        } else {
             $errorstr = $this->get_openssl_error();
             $sig = new enigma_error(enigma_error::INTERNAL, $errorstr);
         }
@@ -118,19 +127,39 @@ class enigma_driver_phpssl extends enigma_driver
         @unlink($cert_file);
 
         return $sig;
+        */
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    public function import($content, $isfile = false, $passwords = []) {}
+    public function import($content, $isfile = false, $passwords = [])
+    {
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+    }
 
-    public function export($key, $with_private = false, $passwords = []) {}
+    public function export($key, $with_private = false, $passwords = [])
+    {
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+    }
 
-    public function list_keys($pattern = '') {}
+    public function list_keys($pattern = '')
+    {
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+    }
 
-    public function get_key($keyid) {}
+    public function get_key($keyid)
+    {
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+    }
 
-    public function gen_key($data) {}
+    public function gen_key($data)
+    {
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+    }
 
-    public function delete_key($keyid) {}
+    public function delete_key($keyid)
+    {
+        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+    }
 
     /**
      * Returns a name of the hash algorithm used for the last
@@ -138,16 +167,10 @@ class enigma_driver_phpssl extends enigma_driver
      *
      * @return string Hash algorithm name e.g. sha1
      */
-    public function signature_algorithm() {}
-
-    /**
-     * Converts Crypt_GPG_Key object into Enigma's key object
-     *
-     * @param Crypt_GPG_Key $key Key object
-     *
-     * @return enigma_key Key object
-     */
-    private function parse_key($key) {}
+    public function signature_algorithm()
+    {
+        return ''; // TODO
+    }
 
     private function get_openssl_error()
     {
@@ -159,6 +182,7 @@ class enigma_driver_phpssl extends enigma_driver
         return implode("\n", array_values($tmp));
     }
 
+    // @phpstan-ignore-next-line
     private function parse_sig_cert($file, $validity)
     {
         $cert = openssl_x509_parse(file_get_contents($file));
@@ -170,14 +194,14 @@ class enigma_driver_phpssl extends enigma_driver
 
         $data = new enigma_signature();
 
-        $data->id          = $cert['hash']; //?
-        $data->valid       = $validity;
+        $data->id = $cert['hash']; // ?
+        $data->valid = $validity;
         $data->fingerprint = $cert['serialNumber'];
-        $data->created     = $cert['validFrom_time_t'];
-        $data->expires     = $cert['validTo_time_t'];
-        $data->name        = $cert['subject']['CN'];
+        $data->created = $cert['validFrom_time_t'];
+        $data->expires = $cert['validTo_time_t'];
+        $data->name = $cert['subject']['CN'];
         // $data->comment     = '';
-        $data->email       = $cert['subject']['emailAddress'];
+        $data->email = $cert['subject']['emailAddress'];
 
         return $data;
     }

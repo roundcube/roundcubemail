@@ -2,6 +2,9 @@
 
 namespace Tests\Browser;
 
+use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Exception\StaleElementReferenceException;
+use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\WebDriverKeys;
 use PHPUnit\Framework\Assert;
 
@@ -36,7 +39,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function assertEnvEquals($key, $expected)
     {
-        $this->assertEquals($expected, $this->getEnv($key));
+        Assert::assertEquals($expected, $this->getEnv($key));
 
         return $this;
     }
@@ -48,8 +51,7 @@ class Browser extends \Laravel\Dusk\Browser
     {
         if ($state) {
             $this->assertChecked($selector);
-        }
-        else {
+        } else {
             $this->assertNotChecked($selector);
         }
 
@@ -62,8 +64,8 @@ class Browser extends \Laravel\Dusk\Browser
     public function assertHasClass($selector, $class_name)
     {
         $fullSelector = $this->resolver->format($selector);
-        $element      = $this->resolver->findOrFail($selector);
-        $classes      = explode(' ', (string) $element->getAttribute('class'));
+        $element = $this->resolver->findOrFail($selector);
+        $classes = explode(' ', (string) $element->getAttribute('class'));
 
         Assert::assertContains($class_name, $classes);
 
@@ -143,6 +145,14 @@ class Browser extends \Laravel\Dusk\Browser
     }
 
     /**
+     * Return rcmail.env entry
+     */
+    public function getEnv($key)
+    {
+        return $this->driver->executeScript("return rcmail.env['{$key}']");
+    }
+
+    /**
      * Visit specified task/action with logon if needed
      */
     public function go($task = 'mail', $action = null, $login = true)
@@ -193,7 +203,7 @@ class Browser extends \Laravel\Dusk\Browser
         $callback($this);
 
         $after_handles = $this->driver->getWindowHandles();
-        $new_window    = array_first(array_diff($after_handles, $before_handles));
+        $new_window = array_first(array_diff($after_handles, $before_handles));
 
         return [$current_window, $new_window];
     }
@@ -208,14 +218,13 @@ class Browser extends \Laravel\Dusk\Browser
 
         if ($state) {
             $run = "if (!element.prev().is(':checked')) element.click()";
-        }
-        else {
+        } else {
             $run = "if (element.prev().is(':checked')) element.click()";
         }
 
         $this->script(
-            "var element = jQuery('$selector')[0] || jQuery('input[name=$selector]')[0];"
-            . "element = jQuery(element).next('.custom-control-label'); $run;"
+            "var element = jQuery('{$selector}')[0] || jQuery('input[name={$selector}]')[0];"
+            . "element = jQuery(element).next('.custom-control-label'); {$run};"
         );
 
         return $this;
@@ -226,7 +235,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function readDownloadedFile($filename)
     {
-        $filename = TESTS_DIR . "downloads/$filename";
+        $filename = TESTS_DIR . "downloads/{$filename}";
 
         // Give the browser a chance to finish download
         $n = 0;
@@ -247,7 +256,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function removeDownloadedFile($filename)
     {
-        @unlink(TESTS_DIR . "downloads/$filename");
+        @unlink(TESTS_DIR . "downloads/{$filename}");
 
         return $this;
     }
@@ -272,7 +281,7 @@ class Browser extends \Laravel\Dusk\Browser
      *
      * @return $this
      *
-     * @throws \Facebook\WebDriver\Exception\TimeoutException
+     * @throws TimeoutException
      */
     public function waitUntilMissingOrStale($selector, $seconds = null)
     {
@@ -281,9 +290,9 @@ class Browser extends \Laravel\Dusk\Browser
         return $this->waitUsing($seconds, 100, function () use ($selector) {
             try {
                 $missing = !$this->resolver->findOrFail($selector)->isDisplayed();
-            } catch (\Facebook\WebDriver\Exception\NoSuchElementException $e) {
+            } catch (NoSuchElementException $e) {
                 $missing = true;
-            } catch (\Facebook\WebDriver\Exception\StaleElementReferenceException $e) {
+            } catch (StaleElementReferenceException $e) {
                 $missing = true;
             }
 
@@ -296,7 +305,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function waitUntilNotBusy()
     {
-        $this->waitUntil("!rcmail.busy");
+        $this->waitUntil('!rcmail.busy');
 
         return $this;
     }

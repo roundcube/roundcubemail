@@ -31,19 +31,18 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         $rcmail = rcmail::get_instance();
 
         // Get contact ID and source ID from request
-        $cids   = self::get_cids();
+        $cids = self::get_cids();
         $source = key($cids);
-        $cid    = $cids ? array_first($cids[$source]) : null;
+        $cid = $cids ? array_first($cids[$source]) : null;
 
         // Initialize addressbook source
-        self::$CONTACTS  = self::contact_source($source, true);
+        self::$CONTACTS = self::contact_source($source, true);
         self::$SOURCE_ID = $source;
 
         // read contact record (or get the one defined in 'save' action)
         if (!empty($args['contact'])) {
             self::$contact = $args['contact'];
-        }
-        elseif ($cid) {
+        } elseif ($cid) {
             self::$contact = self::$CONTACTS->get_record($cid, true);
         }
 
@@ -61,9 +60,9 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         self::set_sourcename(self::$CONTACTS);
 
         $rcmail->output->add_handlers([
-                'contacthead'    => [$this, 'contact_head'],
-                'contactdetails' => [$this, 'contact_details'],
-                'contactphoto'   => [$this, 'contact_photo'],
+            'contacthead' => [$this, 'contact_head'],
+            'contactdetails' => [$this, 'contact_details'],
+            'contactphoto' => [$this, 'contact_photo'],
         ]);
 
         $rcmail->output->send('contact');
@@ -83,17 +82,17 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
             'head' => [  // section 'head' is magic!
                 'name' => $rcmail->gettext('contactnameandorg'),
                 'content' => [
-                    'source'       => ['type' => 'text'],
-                    'prefix'       => ['type' => 'text'],
-                    'firstname'    => ['type' => 'text'],
-                    'middlename'   => ['type' => 'text'],
-                    'surname'      => ['type' => 'text'],
-                    'suffix'       => ['type' => 'text'],
-                    'name'         => ['type' => 'text'],
-                    'nickname'     => ['type' => 'text'],
+                    'source' => ['type' => 'text'],
+                    'prefix' => ['type' => 'text'],
+                    'firstname' => ['type' => 'text'],
+                    'middlename' => ['type' => 'text'],
+                    'surname' => ['type' => 'text'],
+                    'suffix' => ['type' => 'text'],
+                    'name' => ['type' => 'text'],
+                    'nickname' => ['type' => 'text'],
                     'organization' => ['type' => 'text'],
-                    'department'   => ['type' => 'text'],
-                    'jobtitle'     => ['type' => 'text'],
+                    'department' => ['type' => 'text'],
+                    'jobtitle' => ['type' => 'text'],
                 ],
             ],
         ];
@@ -112,37 +111,37 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
             return false;
         }
 
-        $i_size       = !empty($attrib['size']) ? $attrib['size'] : 40;
+        $i_size = !empty($attrib['size']) ? $attrib['size'] : 40;
         $short_labels = self::get_bool_attr($attrib, 'short-legend-labels');
 
         $form = [
             'contact' => [
-                'name'    => $rcmail->gettext('properties'),
+                'name' => $rcmail->gettext('properties'),
                 'content' => [
-                    'email'   => ['size' => $i_size, 'render_func' => 'rcmail_action_contacts_show::render_email_value'],
-                    'phone'   => ['size' => $i_size, 'render_func' => 'rcmail_action_contacts_show::render_phone_value'],
+                    'email' => ['size' => $i_size, 'render_func' => 'rcmail_action_contacts_show::render_email_value'],
+                    'phone' => ['size' => $i_size, 'render_func' => 'rcmail_action_contacts_show::render_phone_value'],
                     'address' => [],
                     'website' => ['size' => $i_size, 'render_func' => 'rcmail_action_contacts_show::render_url_value'],
-                    'im'      => ['size' => $i_size],
+                    'im' => ['size' => $i_size],
                 ],
             ],
             'personal' => [
-                'name'    => $rcmail->gettext($short_labels ? 'personal' : 'personalinfo'),
+                'name' => $rcmail->gettext($short_labels ? 'personal' : 'personalinfo'),
                 'content' => [
-                    'gender'      => ['size' => $i_size],
-                    'maidenname'  => ['size' => $i_size],
-                    'birthday'    => ['size' => $i_size],
+                    'gender' => ['size' => $i_size],
+                    'maidenname' => ['size' => $i_size],
+                    'birthday' => ['size' => $i_size],
                     'anniversary' => ['size' => $i_size],
-                    'manager'     => ['size' => $i_size],
-                    'assistant'   => ['size' => $i_size],
-                    'spouse'      => ['size' => $i_size],
+                    'manager' => ['size' => $i_size],
+                    'assistant' => ['size' => $i_size],
+                    'spouse' => ['size' => $i_size],
                 ],
             ],
         ];
 
         if (isset(rcmail_action_contacts_index::$CONTACT_COLTYPES['notes'])) {
             $form['notes'] = [
-                'name'    => $rcmail->gettext('notes'),
+                'name' => $rcmail->gettext('notes'),
                 'content' => [
                     'notes' => ['type' => 'textarea', 'label' => false],
                 ],
@@ -151,7 +150,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
 
         if (self::$CONTACTS->groups) {
             $form['groups'] = [
-                'name'    => $rcmail->gettext('groups'),
+                'name' => $rcmail->gettext('groups'),
                 'content' => self::contact_record_groups(self::$contact['ID']),
             ];
         }
@@ -164,14 +163,14 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         $rcmail = rcmail::get_instance();
 
         return html::a([
-                'href'    => 'mailto:' . $email,
+                'href' => 'mailto:' . $email,
                 'onclick' => sprintf(
                     "return %s.command('compose','%s',this)",
                     rcmail_output::JS_OBJECT_NAME,
                     rcube::JQ($email)
                 ),
-                'title'   => $rcmail->gettext('composeto'),
-                'class'   => 'email',
+                'title' => $rcmail->gettext('composeto'),
+                'class' => 'email',
             ],
             rcube::Q($email)
         );
@@ -180,7 +179,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
     public static function render_phone_value($phone)
     {
         $attrs = [
-            'href'  => 'tel:' . preg_replace('/[^0-9+,;-]/', '', $phone),
+            'href' => 'tel:' . preg_replace('/[^0-9+,;-]/', '', $phone),
             'class' => 'phone',
         ];
 
@@ -192,9 +191,9 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         $prefix = preg_match('!^(http|ftp)s?://!', $url) ? '' : 'http://';
 
         return html::a([
-                'href'   => $prefix . $url,
+                'href' => $prefix . $url,
                 'target' => '_blank',
-                'class'  => 'url',
+                'class' => 'url',
             ],
             rcube::Q($url)
         );
@@ -208,14 +207,14 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
             return '';
         }
 
-        $rcmail   = rcmail::get_instance();
-        $source   = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
-        $members  = self::$CONTACTS->get_record_groups($contact_id);
-        $table    = new html_table(['tagname' => 'ul', 'cols' => 1, 'class' => 'proplist simplelist']);
+        $rcmail = rcmail::get_instance();
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $members = self::$CONTACTS->get_record_groups($contact_id);
+        $table = new html_table(['tagname' => 'ul', 'cols' => 1, 'class' => 'proplist simplelist']);
         $checkbox = new html_checkbox(['name' => '_gid[]', 'class' => 'groupmember', 'disabled' => self::$CONTACTS->readonly]);
 
         foreach ($groups as $group) {
-            $gid   = $group['ID'];
+            $gid = $group['ID'];
             $input = $checkbox->show(!empty($members[$gid]) ? $gid : null, ['value' => $gid]);
             $table->add(null, html::label(null, $input . rcube::Q($group['name'])));
         }
@@ -224,16 +223,16 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         $hiddenfields->add(['name' => '_cid', 'value' => $contact_id]);
 
         $form_attrs = [
-            'name'    => 'form',
-            'method'  => 'post',
-            'task'    => $rcmail->task,
-            'action'  => 'save',
+            'name' => 'form',
+            'method' => 'post',
+            'task' => $rcmail->task,
+            'action' => 'save',
             'request' => 'save.' . intval($contact_id),
             'noclose' => true,
         ];
 
         $form_start = $rcmail->output->request_form($form_attrs, $hiddenfields->show());
-        $form_end   = '</form>';
+        $form_end = '</form>';
 
         $rcmail->output->add_gui_object('editform', 'form');
         $rcmail->output->add_label('addingmember', 'removingmember');

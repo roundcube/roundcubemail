@@ -24,31 +24,28 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 if (!function_exists('exec')) {
-    rcube::raise_error("PHP exec() function is required. Check disable_functions in php.ini.", false, true);
+    rcube::raise_error('PHP exec() function is required. Check disable_functions in php.ini.', false, true);
 }
 
 $cfgfile = INSTALL_PATH . 'jsdeps.json';
 $SOURCES = json_decode(file_get_contents($cfgfile), true);
 
 if (empty($SOURCES['dependencies'])) {
-    rcube::raise_error("Failed to read dependencies list from $cfgfile", false, true);
+    rcube::raise_error("Failed to read dependencies list from {$cfgfile}", false, true);
 }
 
-$CURL   = trim(shell_exec("which curl"));
-$WGET   = trim(shell_exec("which wget"));
+$CURL = trim(shell_exec('which curl'));
+$WGET = trim(shell_exec('which wget'));
 
-if (($CACHEDIR = getenv("CACHEDIR")) && is_writable($CACHEDIR)) {
+if (($CACHEDIR = getenv('CACHEDIR')) && is_writable($CACHEDIR)) {
     // use $CACHEDIR
-}
-elseif (is_writable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
+} elseif (is_writable(INSTALL_PATH . 'temp/js_cache') || @mkdir(INSTALL_PATH . 'temp/js_cache', 0774, true)) {
     $CACHEDIR = INSTALL_PATH . 'temp/js_cache';
-}
-else {
+} else {
     $CACHEDIR = sys_get_temp_dir();
 }
 
-
-//////////////// License definitions
+// ////////////// License definitions
 
 $LICENSES = [];
 $LICENSES['MIT'] = <<<'EOM'
@@ -101,8 +98,7 @@ $LICENSES['LGPL'] = <<<'EOL'
 
     EOL;
 
-
-//////////////// Functions
+// ////////////// Functions
 
 /**
  * Fetch package file from source
@@ -120,32 +116,30 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 
         $url = str_replace('$v', $package['version'], $package['url']);
 
-        echo "Fetching $url\n";
+        echo "Fetching {$url}\n";
 
         if ($CURL) {
             exec(sprintf('%s -L -s %s -o %s', $CURL, escapeshellarg($url), $cache_file), $out, $retval);
-        }
-        else {
+        } else {
             exec(sprintf('%s -q %s -O %s', $WGET, escapeshellarg($url), $cache_file), $out, $retval);
         }
 
         // Try Github API as a fallback (#6248)
         if ($retval !== 0 && !empty($package['api_url'])) {
-            $url    = str_replace('$v', $package['version'], $package['api_url']);
+            $url = str_replace('$v', $package['version'], $package['api_url']);
             $header = 'Accept:application/vnd.github.v3.raw';
 
-            rcube::raise_error("Fetching failed. Using Github API on $url");
+            rcube::raise_error("Fetching failed. Using Github API on {$url}");
 
             if ($CURL) {
                 exec(sprintf('%s -L -H %s -s %s -o %s', $CURL, escapeshellarg($header), escapeshellarg($url), $cache_file), $out, $retval);
-            }
-            else {
+            } else {
                 exec(sprintf('%s --header %s -q %s -O %s', $WGET, escapeshellarg($header), escapeshellarg($url), $cache_file), $out, $retval);
             }
         }
 
         if ($retval !== 0) {
-            rcube::raise_error("Failed to download source file from $url", false, true);
+            rcube::raise_error("Failed to download source file from {$url}", false, true);
         }
     }
 
@@ -159,7 +153,7 @@ function extract_filetype($package, &$filetype = null)
 {
     global $CACHEDIR;
 
-    $filetype   = pathinfo(preg_replace('/[?&].*$/', '', $package['url']), \PATHINFO_EXTENSION) ?: 'tmp';
+    $filetype = pathinfo(preg_replace('/[?&].*$/', '', $package['url']), \PATHINFO_EXTENSION) ?: 'tmp';
     $cache_file = $CACHEDIR . '/' . $package['lib'] . '-' . $package['version'] . '.' . $filetype;
 
     // Make sure it is a zip file
@@ -183,7 +177,7 @@ function compose_destfile($package, $srcfile)
     $header = sprintf("/**\n * %s - v%s\n *\n", $package['name'], $package['version']);
 
     if (!empty($package['source'])) {
-        $header .= " * @source " . str_replace('$v', $package['version'], $package['source']) . "\n";
+        $header .= ' * @source ' . str_replace('$v', $package['version'], $package['source']) . "\n";
         $header .= " *\n";
     }
 
@@ -192,7 +186,7 @@ function compose_destfile($package, $srcfile)
         $header .= " * JavaScript code in this file.\n";
         $header .= " *\n";
         if (!empty($package['copyright'])) {
-            $header .= " * " . $package['copyright'] . "\n";
+            $header .= ' * ' . $package['copyright'] . "\n";
             $header .= " *\n";
         }
 
@@ -205,10 +199,9 @@ function compose_destfile($package, $srcfile)
     $header .= " */\n";
 
     if (file_put_contents(INSTALL_PATH . $package['dest'], $header . file_get_contents($srcfile))) {
-        echo "Wrote file " . INSTALL_PATH . $package['dest'] . "\n";
-    }
-    else {
-        rcube::raise_error("Failed to write destination file " . INSTALL_PATH . $package['dest'], false, true);
+        echo 'Wrote file ' . INSTALL_PATH . $package['dest'] . "\n";
+    } else {
+        rcube::raise_error('Failed to write destination file ' . INSTALL_PATH . $package['dest'], false, true);
     }
 }
 
@@ -225,7 +218,7 @@ function extract_zipfile($package, $srcfile)
     }
 
     if (!is_writable($destdir)) {
-        rcube::raise_error("Cannot write to destination directory: $destdir", false, true);
+        rcube::raise_error("Cannot write to destination directory: {$destdir}", false, true);
     }
 
     if (!empty($package['map'])) {
@@ -241,14 +234,14 @@ function extract_zipfile($package, $srcfile)
     // map source to dest files/directories
     if (!empty($package['map'])) {
         // get the root folder of the extracted package
-        $extract_tree = glob("$extract/*", \GLOB_ONLYDIR);
-        $sourcedir    = count($extract_tree) ? $extract_tree[0] : $extract;
+        $extract_tree = glob("{$extract}/*", \GLOB_ONLYDIR);
+        $sourcedir = count($extract_tree) ? $extract_tree[0] : $extract;
 
         foreach ($package['map'] as $src => $dest) {
-            echo "Installing $sourcedir/$src into $destdir/$dest\n";
+            echo "Installing {$sourcedir}/{$src} into {$destdir}/{$dest}\n";
 
             $dest_file = $destdir . '/' . $dest;
-            $src_file  = $sourcedir . '/' . $src;
+            $src_file = $sourcedir . '/' . $src;
 
             // make sure the destination's parent directory exists
             if (strpos($dest, '/') !== false) {
@@ -265,7 +258,7 @@ function extract_zipfile($package, $srcfile)
 
             exec(sprintf('mv -f %s %s', $src_file, $dest_file), $out, $retval);
             if ($retval !== 0) {
-                rcube::raise_error("Failed to move $src into $dest_file; " . implode('; ', $out));
+                rcube::raise_error("Failed to move {$src} into {$dest_file}; " . implode('; ', $out));
             }
             // Remove sourceMappingURL
             elseif (isset($package['sourcemap']) && $package['sourcemap'] === false) {
@@ -309,31 +302,28 @@ function delete_destfile($package)
 
     if (file_exists($destdir)) {
         if (\PHP_OS === 'Windows') {
-            exec(sprintf("rd /s /q %s", escapeshellarg($destdir)));
-        }
-        else {
-            exec(sprintf("rm -rf %s", escapeshellarg($destdir)));
+            exec(sprintf('rd /s /q %s', escapeshellarg($destdir)));
+        } else {
+            exec(sprintf('rm -rf %s', escapeshellarg($destdir)));
         }
     }
 }
 
-
-//////////////// Execution
+// ////////////// Execution
 
 $args = rcube_utils::get_opt([
-        'f' => 'force:bool',
-        'd' => 'delete:bool',
-        'g' => 'get:bool',
-        'e' => 'extract:bool',
-    ])
-    + [
-        'force'   => false,
-        'delete'  => false,
-        'get'     => false,
-        'extract' => false,
-    ];
+    'f' => 'force:bool',
+    'd' => 'delete:bool',
+    'g' => 'get:bool',
+    'e' => 'extract:bool',
+]) + [
+    'force' => false,
+    'delete' => false,
+    'get' => false,
+    'extract' => false,
+];
 
-$WHAT     = isset($args[0]) ? $args[0] : null;
+$WHAT = $args[0] ?? null;
 $useCache = !$args['force'] && !$args['get'];
 
 if (!$args['get'] && !$args['extract'] && !$args['delete']) {
@@ -356,13 +346,12 @@ foreach ($SOURCES['dependencies'] as $package) {
 
     if ($args['get']) {
         $srcfile = fetch_from_source($package, $useCache, $filetype);
-    }
-    else {
+    } else {
         $srcfile = extract_filetype($package, $filetype);
     }
 
     if (!empty($package['sha1']) && ($sum = sha1_file($srcfile)) !== $package['sha1']) {
-        rcube::raise_error("Incorrect sha1 sum of $srcfile. Expected: {$package['sha1']}, got: $sum", false, true);
+        rcube::raise_error("Incorrect sha1 sum of {$srcfile}. Expected: {$package['sha1']}, got: {$sum}", false, true);
     }
 
     if ($args['extract']) {
@@ -370,8 +359,7 @@ foreach ($SOURCES['dependencies'] as $package) {
 
         if ($filetype === 'zip') {
             extract_zipfile($package, $srcfile);
-        }
-        else {
+        } else {
             compose_destfile($package, $srcfile);
         }
 

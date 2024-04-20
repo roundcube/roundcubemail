@@ -18,7 +18,6 @@ all: clean complete dependent framework
 
 complete: roundcubemail-git
 	cp -RH roundcubemail-git roundcubemail-$(VERSION)
-	(cd roundcubemail-$(VERSION); cp composer.json-dist composer.json)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config platform.php $(PHP_VERSION))
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "kolab/net_ldap3:~1.1.4" --no-update --no-install)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset suggest.kolab/net_ldap3)
@@ -40,8 +39,8 @@ dependent: roundcubemail-git
 
 framework: roundcubemail-git /tmp/phpDocumentor.phar
 	cp -r roundcubemail-git/program/lib/Roundcube roundcube-framework-$(VERSION)
-	(cd roundcube-framework-$(VERSION); php /tmp/phpDocumentor.phar -d . -t ./doc --title="Roundcube Framework" --defaultpackagename="Framework" --template="clean")
-	(cd roundcube-framework-$(VERSION); rm -rf doc/phpdoc-cache* .phpdoc)
+	(cd roundcube-framework-$(VERSION); php /tmp/phpDocumentor.phar run -d . -t ./doc --title="Roundcube Framework" --defaultpackagename="Framework")
+	(cd roundcube-framework-$(VERSION); rm -rf .phpdoc)
 	tar czf roundcube-framework-$(VERSION).tar.gz roundcube-framework-$(VERSION)
 	rm -rf roundcube-framework-$(VERSION)
 

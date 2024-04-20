@@ -22,11 +22,11 @@
  */
 class OutputHtmlMock extends rcmail_output_html
 {
-    const E_EXIT     = 101;
-    const E_REDIRECT = 102;
+    public const E_EXIT = 101;
+    public const E_REDIRECT = 102;
 
     public $output;
-    public $headers  = [];
+    public $headers = [];
     public $errorCode;
     public $errorMessage;
     public $template = '';
@@ -47,7 +47,7 @@ class OutputHtmlMock extends rcmail_output_html
         $location = $this->app->url($p, false, false, $secure);
 
         // header('Location: ' . $location);
-        throw new ExitException("Location: $location", self::E_REDIRECT);
+        throw new ExitException("Location: {$location}", self::E_REDIRECT);
     }
 
     /**
@@ -64,7 +64,7 @@ class OutputHtmlMock extends rcmail_output_html
         parent::send($templ, false);
 
         if ($exit) {
-            throw new ExitException("Output sent", self::E_EXIT);
+            throw new ExitException('Output sent', self::E_EXIT);
         }
     }
 
@@ -82,7 +82,7 @@ class OutputHtmlMock extends rcmail_output_html
 
         $this->output = $body;
 
-        throw new ExitException("Output sent", self::E_EXIT);
+        throw new ExitException('Output sent', self::E_EXIT);
     }
 
     /**
@@ -96,7 +96,7 @@ class OutputHtmlMock extends rcmail_output_html
         $this->errorCode = $code;
         $this->errorMessage = $message;
 
-        throw new ExitException("Output sent (error)", self::E_EXIT);
+        throw new ExitException('Output sent (error)', self::E_EXIT);
     }
 
     /**
@@ -121,15 +121,15 @@ class OutputHtmlMock extends rcmail_output_html
      *
      * @see http://php.net/manual/en/function.exit.php
      */
-    function parse($name = 'main', $exit = true, $write = true)
+    public function parse($name = 'main', $exit = true, $write = true)
     {
-        //ob_start();
+        // ob_start();
         parent::parse($name, false, $write);
-        //$this->output = ob_get_contents();
-        //ob_end_clean();
+        // $this->output = ob_get_contents();
+        // ob_end_clean();
 
         if ($exit) {
-            throw new ExitException("Output sent", self::E_EXIT);
+            throw new ExitException('Output sent', self::E_EXIT);
         }
     }
 
@@ -140,11 +140,11 @@ class OutputHtmlMock extends rcmail_output_html
     {
         parent::reset($all);
 
-        $this->headers  = [];
-        $this->output   = null;
+        $this->headers = [];
+        $this->output = null;
         $this->template = null;
 
-        $this->errorCode    = null;
+        $this->errorCode = null;
         $this->errorMessage = null;
     }
 

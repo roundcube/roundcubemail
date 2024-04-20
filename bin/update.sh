@@ -32,8 +32,7 @@ if (empty($opts['version'])) {
 
     if (($input = trim(fgets(\STDIN))) && preg_match('/^[0-9.]+[a-z0-9-]*$/', $input)) {
         $opts['version'] = $input;
-    }
-    else {
+    } else {
         $opts['version'] = RCMAIL_VERSION;
     }
 }
@@ -62,7 +61,7 @@ if ($RCI->configured) {
         // list obsolete config options (just a notice)
         if (!empty($messages['obsolete'])) {
             echo "NOTICE: Obsolete config options:\n";
-            echo "(You still have some obsolete or inexistent properties set."
+            echo '(You still have some obsolete or inexistent properties set.'
                 . " This isn't a problem but should be noticed)\n";
 
             foreach ($messages['obsolete'] as $msg) {
@@ -73,7 +72,7 @@ if ($RCI->configured) {
 
         if (!$err && $RCI->legacy_config) {
             echo "WARNING: Your configuration needs to be migrated!\n";
-            echo "We changed the configuration files structure and your two config files "
+            echo 'We changed the configuration files structure and your two config files '
                 . "main.inc.php and db.inc.php have to be merged into one single file.\n";
             $err++;
         }
@@ -101,7 +100,7 @@ if ($RCI->configured) {
 
                 if (!$error) {
                     $RCI->merge_config();
-                    echo "- writing " . RCMAIL_CONFIG_DIR . "/config.inc.php...\n";
+                    echo '- writing ' . RCMAIL_CONFIG_DIR . "/config.inc.php...\n";
                     $written = $RCI->save_configfile($RCI->create_config(false));
                 }
 
@@ -122,14 +121,12 @@ if ($RCI->configured) {
                             @unlink(RCMAIL_CONFIG_DIR . '/' . $file . '.inc.php');
                         }
                     }
-                }
-                else {
+                } else {
                     echo "Failed to write config file(s)!\n";
-                    echo "Grant write privileges to the current user or update the files manually "
+                    echo 'Grant write privileges to the current user or update the files manually '
                         . "according to the above messages.\n";
                 }
-            }
-            else {
+            } else {
                 echo "Please update your config files manually according to the above messages.\n";
             }
         }
@@ -146,11 +143,11 @@ if ($RCI->configured) {
         // check dependencies based on the current configuration
         if (!empty($messages['dependencies'])) {
             echo "WARNING: Dependency check failed!\n";
-            echo "(Some of your configuration settings require other options to be configured "
+            echo '(Some of your configuration settings require other options to be configured '
                 . "or additional PHP modules to be installed)\n";
 
             foreach ($messages['dependencies'] as $msg) {
-                echo "- " . $msg['prop'] . ': ' . $msg['explain'] . "\n";
+                echo '- ' . $msg['prop'] . ': ' . $msg['explain'] . "\n";
             }
 
             echo "Please fix your config files and run this script again!\n";
@@ -176,9 +173,9 @@ if ($RCI->configured) {
 
     // update composer dependencies
     if (is_file(INSTALL_PATH . 'composer.json') && is_readable(INSTALL_PATH . 'composer.json-dist')) {
-        $composer_data     = json_decode(file_get_contents(INSTALL_PATH . 'composer.json'), true);
+        $composer_data = json_decode(file_get_contents(INSTALL_PATH . 'composer.json'), true);
         $composer_template = json_decode(file_get_contents(INSTALL_PATH . 'composer.json-dist'), true);
-        $composer_json    = null;
+        $composer_json = null;
 
         // update the require section with the new dependencies
         if (!empty($composer_data['require']) && !empty($composer_template['require'])) {
@@ -216,7 +213,7 @@ if ($RCI->configured) {
                 $rkey = repo_key($repo);
                 $existing = false;
 
-                foreach ($composer_data['repositories'] as $k =>  $_repo) {
+                foreach ($composer_data['repositories'] as $k => $_repo) {
                     if ($rkey == repo_key($_repo)) {
                         // switch to https://
                         if (isset($_repo['url']) && strpos($_repo['url'], 'http://') === 0) {
@@ -230,8 +227,7 @@ if ($RCI->configured) {
                     // remove old repos
                     if (isset($_repo['url']) && strpos($_repo['url'], 'git://git.kolab.org') === 0) {
                         unset($composer_data['repositories'][$k]);
-                    }
-                    elseif (
+                    } elseif (
                         $_repo['type'] == 'package'
                         && !empty($_repo['package']['name'])
                         && $_repo['package']['name'] == 'Net_SMTP'
@@ -253,8 +249,7 @@ if ($RCI->configured) {
         // write updated composer.json back to disk
         if ($composer_json && is_writable(INSTALL_PATH . 'composer.json')) {
             $success &= (bool) file_put_contents(INSTALL_PATH . 'composer.json', $composer_json);
-        }
-        else {
+        } else {
             echo "WARNING: unable to update composer.json!\n";
             echo "Please replace the 'require' section in your composer.json with the following:\n";
 
@@ -271,8 +266,8 @@ if ($RCI->configured) {
         if (!rcmail_install::vendor_dir_untouched(INSTALL_PATH)) {
             $exit_code = 1;
             if ($composer_bin = find_composer()) {
-                echo "Executing " . $composer_bin . " to update dependencies...\n";
-                echo system("$composer_bin update -d " . escapeshellarg(INSTALL_PATH) . " --no-dev", $exit_code);
+                echo 'Executing ' . $composer_bin . " to update dependencies...\n";
+                echo system("{$composer_bin} update -d " . escapeshellarg(INSTALL_PATH) . ' --no-dev', $exit_code);
             }
             if ($exit_code != 0) {
                 echo "-----------------------------------------------------------------------------\n";
@@ -291,8 +286,7 @@ if ($RCI->configured) {
         echo "This instance of Roundcube is up-to-date.\n";
         echo "Have fun!\n";
     }
-}
-else {
+} else {
     echo "This instance of Roundcube is not yet configured!\n";
     echo "Open http://url-to-roundcube/installer/ in your browser and follow the instructions.\n";
 }
@@ -319,7 +313,7 @@ function find_composer()
     }
 
     foreach (['composer', 'composer.phar'] as $check_file) {
-        $which = trim(rcube::exec("which $check_file"));
+        $which = trim(rcube::exec("which {$check_file}"));
         if (!empty($which)) {
             return $which;
         }

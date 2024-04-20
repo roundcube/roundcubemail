@@ -33,9 +33,9 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
         $rcmail = rcmail::get_instance();
 
         // default message
-        $answer = ['error' => 'invalid_request', 'error_description' => "Error, no action"];
+        $answer = ['error' => 'invalid_request', 'error_description' => 'Error, no action'];
 
-        //Beware we are in back-channel from OP (IDP)
+        // Beware we are in back-channel from OP (IDP)
         $logout_token = rcube_utils::get_input_string('logout_token', rcube_utils::INPUT_POST);
 
         if (!empty($logout_token)) {
@@ -70,24 +70,20 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 header('Cache-Control: no-store');
                 echo '{}';
                 exit;
-            }
-            catch (\Exception $e) {
+            } catch (Exception $e) {
                 rcube::raise_error([
-                        'message' => $e->getMessage(),
-                        'file'    => __FILE__,
-                        'line'    => __LINE__,
-                    ], true, false
-                );
-                $answer['error_description'] = "Error decoding JWT";
+                    'message' => $e->getMessage(),
+                    'file' => __FILE__,
+                    'line' => __LINE__,
+                ], true, false);
+                $answer['error_description'] = 'Error decoding JWT';
             }
-        }
-        else {
+        } else {
             rcube::raise_error([
-                   'message' => sprintf('oidc backchannel called from %s without any parameter', rcube_utils::remote_addr()),
-                   'file'    => __FILE__,
-                   'line'    => __LINE__,
-               ], true, false
-            );
+                'message' => sprintf('oidc backchannel called from %s without any parameter', rcube_utils::remote_addr()),
+                'file' => __FILE__,
+                'line' => __LINE__,
+            ], true, false);
         }
 
         http_response_code(400);

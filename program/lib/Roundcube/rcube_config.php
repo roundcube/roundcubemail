@@ -22,19 +22,18 @@
  */
 class rcube_config
 {
-    const DEFAULT_SKIN = 'elastic';
+    public const DEFAULT_SKIN = 'elastic';
 
     /** @var string A skin configured in the config file (before being replaced by a user preference) */
     public $system_skin = 'elastic';
 
-    private $env       = '';
-    private $paths     = [];
-    private $prop      = [];
-    private $errors    = [];
+    private $env = '';
+    private $paths = [];
+    private $prop = [];
+    private $errors = [];
     private $userprefs = [];
     private $immutable = [];
     private $client_tz;
-
 
     /**
      * Renamed options
@@ -43,17 +42,17 @@ class rcube_config
      */
     private $legacy_props = [
         // new name => old name
-        'mail_pagesize'        => 'pagesize',
+        'mail_pagesize' => 'pagesize',
         'addressbook_pagesize' => 'pagesize',
-        'reply_mode'           => 'top_posting',
-        'refresh_interval'     => 'keep_alive',
+        'reply_mode' => 'top_posting',
+        'refresh_interval' => 'keep_alive',
         'min_refresh_interval' => 'min_keep_alive',
-        'messages_cache_ttl'   => 'message_cache_lifetime',
-        'mail_read_time'       => 'preview_pane_mark_read',
-        'session_debug'        => 'log_session',
+        'messages_cache_ttl' => 'message_cache_lifetime',
+        'mail_read_time' => 'preview_pane_mark_read',
+        'session_debug' => 'log_session',
         'redundant_attachments_cache_ttl' => 'redundant_attachments_memcache_ttl',
-        'imap_host'            => 'default_host',
-        'smtp_host'            => 'smtp_server',
+        'imap_host' => 'default_host',
+        'smtp_host' => 'smtp_server',
     ];
 
     /**
@@ -72,12 +71,10 @@ class rcube_config
                 if (!rcube_utils::is_absolute_path($path)) {
                     if ($realpath = realpath(RCUBE_INSTALL_PATH . $path)) {
                         $this->paths[$i] = unslashify($realpath) . '/';
-                    }
-                    else {
+                    } else {
                         unset($this->paths[$i]);
                     }
-                }
-                else {
+                } else {
                     $this->paths[$i] = unslashify($path) . '/';
                 }
             }
@@ -105,7 +102,7 @@ class rcube_config
      *
      * @param string $value The value to inspect
      *
-     * @return string The guessed type.
+     * @return string the guessed type
      */
     private function guess_type($value)
     {
@@ -132,26 +129,21 @@ class rcube_config
      * @param string $string String to parse into PHP type
      * @param string $type   Type of value to return
      *
-     * @return mixed Appropriately typed interpretation of $string.
+     * @return mixed appropriately typed interpretation of $string
      */
     private function parse_env($string, $type = null)
     {
         switch ($type) {
             case 'bool':
                 return (bool) $string;
-
             case 'int':
                 return (int) $string;
-
             case 'float':
                 return (float) $string;
-
             case 'string':
                 return $string;
-
             case 'array':
                 return json_decode($string, true);
-
             case 'object':
                 return json_decode($string, false);
         }
@@ -169,7 +161,7 @@ class rcube_config
      * @param mixed  $default_value Default value to return if necessary
      * @param string $type          Type of value to return
      *
-     * @return mixed Value of the environment variable or default if not found.
+     * @return mixed value of the environment variable or default if not found
      */
     private function getenv_default($varname, $default_value, $type = null)
     {
@@ -177,8 +169,7 @@ class rcube_config
 
         if ($value === false) {
             $value = $default_value;
-        }
-        else {
+        } else {
             $value = $this->parse_env($value, $type ?: gettype($default_value));
         }
 
@@ -200,9 +191,8 @@ class rcube_config
             // Old configuration files
             if (!$this->load_from_file('main.inc.php') || !$this->load_from_file('db.inc.php')) {
                 $this->errors[] = 'config.inc.php was not found.';
-            }
-            elseif (rand(1,100) == 10) {  // log warning on every 100th request (average)
-                trigger_error("config.inc.php was not found. Please migrate your config by running bin/update.sh", \E_USER_WARNING);
+            } elseif (rand(1, 100) == 10) {  // log warning on every 100th request (average)
+                trigger_error('config.inc.php was not found. Please migrate your config by running bin/update.sh', \E_USER_WARNING);
             }
         }
 
@@ -213,8 +203,7 @@ class rcube_config
         if (empty($this->prop['skin'])) {
             if (!empty($this->prop['skin_path'])) {
                 $this->prop['skin'] = str_replace('skins/', '', unslashify($this->prop['skin_path']));
-            }
-            else {
+            } else {
                 $this->prop['skin'] = self::DEFAULT_SKIN;
             }
         }
@@ -250,7 +239,7 @@ class rcube_config
         // set PHP error logging according to config
         $error_log = !empty($this->prop['log_driver']) ? $this->prop['log_driver'] : 'file';
         if ($error_log == 'file') {
-            $error_log  = $this->prop['log_dir'] . '/errors';
+            $error_log = $this->prop['log_dir'] . '/errors';
             $error_log .= $this->prop['log_file_ext'] ?? '.log';
         }
 
@@ -281,14 +270,13 @@ class rcube_config
             }
 
             $fname = null;
-            $name  = $_SERVER[$key];
+            $name = $_SERVER[$key];
 
             if (!empty($this->prop['include_host_config']) && is_array($this->prop['include_host_config'])) {
                 if (isset($this->prop['include_host_config'][$name])) {
                     $fname = $this->prop['include_host_config'][$name];
                 }
-            }
-            else {
+            } else {
                 $fname = preg_replace('/[^a-z0-9\.\-_]/i', '', $name) . '.inc.php';
             }
 
@@ -314,7 +302,7 @@ class rcube_config
             if ($fpath && is_file($fpath) && is_readable($fpath)) {
                 // use output buffering, we don't need any output here
                 ob_start();
-                include $fpath;
+                require $fpath;
                 ob_end_clean();
 
                 if (isset($config) && is_array($config)) {
@@ -343,7 +331,7 @@ class rcube_config
      */
     public function resolve_paths($file, $use_env = true)
     {
-        $files    = [];
+        $files = [];
         $abs_path = rcube_utils::is_absolute_path($file);
 
         foreach ($this->paths as $basepath) {
@@ -351,7 +339,7 @@ class rcube_config
 
             // check if <file>-<env>.inc.php exists
             if ($use_env && !empty($this->env)) {
-                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\\1', $file);
+                $envfile = preg_replace('/\.(inc.php)$/', '-' . $this->env . '.\1', $file);
                 $envfile = $abs_path ? $envfile : realpath($basepath . '/' . $envfile);
 
                 if (is_file($envfile)) {
@@ -384,20 +372,18 @@ class rcube_config
     {
         if (isset($this->prop[$name])) {
             $result = $this->prop[$name];
-        }
-        else {
+        } else {
             $result = $def;
         }
 
         $result = $this->getenv_default('ROUNDCUBE_' . strtoupper($name), $result);
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         if ($name == 'timezone') {
             if (empty($result) || $result == 'auto') {
                 $result = $this->client_timezone();
             }
-        }
-        elseif ($name == 'client_mimetypes') {
+        } elseif ($name == 'client_mimetypes') {
             if (!$result && !$def) {
                 $result = 'text/plain,text/html'
                     . ',image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp'
@@ -406,19 +392,16 @@ class rcube_config
             if ($result && is_string($result)) {
                 $result = explode(',', $result);
             }
-        }
-        elseif ($name == 'layout') {
+        } elseif ($name == 'layout') {
             if (!in_array($result, $this->prop['supported_layouts'])) {
                 $result = $this->prop['supported_layouts'][0];
             }
-        }
-        elseif ($name == 'collected_senders') {
+        } elseif ($name == 'collected_senders') {
             if (is_bool($result)) {
                 $result = $result ? rcube_addressbook::TYPE_TRUSTED_SENDER : '';
             }
             $result = (string) $result;
-        }
-        elseif ($name == 'collected_recipients') {
+        } elseif ($name == 'collected_recipients') {
             if (is_bool($result)) {
                 $result = $result ? rcube_addressbook::TYPE_RECIPIENT : '';
             }
@@ -426,9 +409,9 @@ class rcube_config
         }
 
         $plugin = $rcube->plugins->exec_hook('config_get', [
-                'name'    => $name,
-                'default' => $def,
-                'result'  => $result,
+            'name' => $name,
+            'default' => $def,
+            'result' => $result,
         ]);
 
         return $plugin['result'];
@@ -490,7 +473,7 @@ class rcube_config
         }
 
         $this->userprefs = $prefs;
-        $this->prop      = array_merge($this->prop, $prefs);
+        $this->prop = array_merge($this->prop, $prefs);
     }
 
     /**
@@ -511,7 +494,7 @@ class rcube_config
             $props[$prop_name] = $this->getenv_default('ROUNDCUBE_' . strtoupper($prop_name), $prop_value);
         }
 
-        $rcube  = rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('config_get', ['name' => '*', 'result' => $props]);
 
         return $plugin['result'];
@@ -542,8 +525,7 @@ class rcube_config
             try {
                 $tz = new DateTimeZone($tz);
                 return $tz->getOffset(new DateTime('now')) / 3600;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
             }
         }
 
@@ -562,9 +544,9 @@ class rcube_config
         // Bomb out if the requested key does not exist
         if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
             rcube::raise_error([
-                    'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Request for unconfigured crypto key \"$key\"",
-                ], true, true);
+                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Request for unconfigured crypto key \"{$key}\"",
+            ], true, true);
         }
 
         return $this->prop[$key];
@@ -595,12 +577,11 @@ class rcube_config
             if ($delim == "\n" || $delim == "\r\n") {
                 return $delim;
             }
-            else {
-                rcube::raise_error([
-                        'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => "Invalid mail_header_delimiter setting",
-                    ], true, false);
-            }
+
+            rcube::raise_error([
+                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Invalid mail_header_delimiter setting',
+            ], true, false);
         }
 
         $php_os = strtolower(substr(\PHP_OS, 0, 3));
@@ -627,7 +608,7 @@ class rcube_config
 
         foreach ($list as $idx => $host) {
             if (!preg_match('|^[a-z]+://|', $host)) {
-                $host = "https://$host";
+                $host = "https://{$host}";
             }
 
             $list[$idx] = slashify($host);
@@ -653,8 +634,7 @@ class rcube_config
                 if (isset($this->prop['mail_domain'][$host])) {
                     $domain = $this->prop['mail_domain'][$host];
                 }
-            }
-            else {
+            } else {
                 $domain = rcube_utils::parse_host($this->prop['mail_domain']);
             }
         }
@@ -697,8 +677,7 @@ class rcube_config
             try {
                 $tz = new DateTimeZone($props['timezone']);
                 return $this->client_tz = $tz->getName();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // gracefully ignore
             }
         }
@@ -729,8 +708,7 @@ class rcube_config
         if (isset($props['timezone']) && is_numeric($props['timezone'])) {
             if ($tz = self::timezone_name_from_abbr($props['timezone'])) {
                 $props['timezone'] = $tz;
-            }
-            else {
+            } else {
                 unset($props['timezone']);
             }
         }
@@ -758,7 +736,7 @@ class rcube_config
      *
      * @return string|null Timezone abbreviation
      */
-    static public function timezone_name_from_abbr($offset)
+    public static function timezone_name_from_abbr($offset)
     {
         // List of timezones here is not complete - https://bugs.php.net/bug.php?id=44780
         if ($tz = timezone_name_from_abbr('', $offset * 3600, 0)) {
@@ -767,44 +745,44 @@ class rcube_config
 
         // try with more complete list (#1489261)
         $timezones = [
-            '-660' => "Pacific/Apia",
-            '-600' => "Pacific/Honolulu",
-            '-570' => "Pacific/Marquesas",
-            '-540' => "America/Anchorage",
-            '-480' => "America/Los_Angeles",
-            '-420' => "America/Denver",
-            '-360' => "America/Chicago",
-            '-300' => "America/New_York",
-            '-270' => "America/Caracas",
-            '-240' => "America/Halifax",
-            '-210' => "Canada/Newfoundland",
-            '-180' => "America/Sao_Paulo",
-             '-60' => "Atlantic/Azores",
-               '0' => "Europe/London",
-              '60' => "Europe/Paris",
-             '120' => "Europe/Helsinki",
-             '180' => "Europe/Moscow",
-             '210' => "Asia/Tehran",
-             '240' => "Asia/Dubai",
-             '270' => "Asia/Kabul",
-             '300' => "Asia/Karachi",
-             '330' => "Asia/Kolkata",
-             '345' => "Asia/Katmandu",
-             '360' => "Asia/Yekaterinburg",
-             '390' => "Asia/Rangoon",
-             '420' => "Asia/Krasnoyarsk",
-             '480' => "Asia/Shanghai",
-             '525' => "Australia/Eucla",
-             '540' => "Asia/Tokyo",
-             '570' => "Australia/Adelaide",
-             '600' => "Australia/Melbourne",
-             '630' => "Australia/Lord_Howe",
-             '660' => "Asia/Vladivostok",
-             '690' => "Pacific/Norfolk",
-             '720' => "Pacific/Auckland",
-             '765' => "Pacific/Chatham",
-             '780' => "Pacific/Enderbury",
-             '840' => "Pacific/Kiritimati",
+            '-660' => 'Pacific/Apia',
+            '-600' => 'Pacific/Honolulu',
+            '-570' => 'Pacific/Marquesas',
+            '-540' => 'America/Anchorage',
+            '-480' => 'America/Los_Angeles',
+            '-420' => 'America/Denver',
+            '-360' => 'America/Chicago',
+            '-300' => 'America/New_York',
+            '-270' => 'America/Caracas',
+            '-240' => 'America/Halifax',
+            '-210' => 'Canada/Newfoundland',
+            '-180' => 'America/Sao_Paulo',
+            '-60' => 'Atlantic/Azores',
+            '0' => 'Europe/London',
+            '60' => 'Europe/Paris',
+            '120' => 'Europe/Helsinki',
+            '180' => 'Europe/Moscow',
+            '210' => 'Asia/Tehran',
+            '240' => 'Asia/Dubai',
+            '270' => 'Asia/Kabul',
+            '300' => 'Asia/Karachi',
+            '330' => 'Asia/Kolkata',
+            '345' => 'Asia/Katmandu',
+            '360' => 'Asia/Yekaterinburg',
+            '390' => 'Asia/Rangoon',
+            '420' => 'Asia/Krasnoyarsk',
+            '480' => 'Asia/Shanghai',
+            '525' => 'Australia/Eucla',
+            '540' => 'Asia/Tokyo',
+            '570' => 'Australia/Adelaide',
+            '600' => 'Australia/Melbourne',
+            '630' => 'Australia/Lord_Howe',
+            '660' => 'Asia/Vladivostok',
+            '690' => 'Pacific/Norfolk',
+            '720' => 'Pacific/Auckland',
+            '765' => 'Pacific/Chatham',
+            '780' => 'Pacific/Enderbury',
+            '840' => 'Pacific/Kiritimati',
         ];
 
         $key = (string) intval($offset * 60);
@@ -819,132 +797,132 @@ class rcube_config
      *
      * @return string Timezone name
      */
-    static public function resolve_timezone_alias($tzname)
+    public static function resolve_timezone_alias($tzname)
     {
         // http://www.php.net/manual/en/timezones.others.php
         // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
         $deprecated_timezones = [
-            'Australia/ACT'         => 'Australia/Sydney',
-            'Australia/LHI'         => 'Australia/Lord_Howe',
-            'Australia/North'       => 'Australia/Darwin',
-            'Australia/NSW'         => 'Australia/Sydney',
-            'Australia/Queensland'  => 'Australia/Brisbane',
-            'Australia/South'       => 'Australia/Adelaide',
-            'Australia/Adelaide'    => 'Australia/Hobart',
-            'Australia/Tasmania'    => 'Australia/Hobart',
-            'Australia/Victoria'    => 'Australia/Melbourne',
-            'Australia/West'        => 'Australia/Perth',
-            'Brazil/Acre'           => 'America/Rio_Branco',
-            'Brazil/DeNoronha'      => 'America/Noronha',
-            'Brazil/East'           => 'America/Sao_Paulo',
-            'Brazil/West'           => 'America/Manaus',
-            'Canada/Atlantic'       => 'America/Halifax',
-            'Canada/Central'        => 'America/Winnipeg',
-            'Canada/Eastern'        => 'America/Toronto',
-            'Canada/Mountain'       => 'America/Edmonton',
-            'Canada/Newfoundland'   => 'America/St_Johns',
-            'Canada/Pacific'        => 'America/Vancouver',
-            'Canada/Saskatchewan'   => 'America/Regina',
-            'Canada/Yukon'          => 'America/Whitehorse',
-            'CET'                   => 'Europe/Berlin',
-            'Chile/Continental'     => 'America/Santiago',
-            'Chile/EasterIsland'    => 'Pacific/Easter',
-            'CST6CDT'               => 'America/Chicago',
-            'Cuba'                  => ' America/Havana',
-            'EET'                   => 'Europe/Berlin',
-            'Egypt'                 => 'Africa/Cairo',
-            'Eire'                  => 'Europe/Dublin',
-            'EST'                   => 'America/New_York',
-            'EST5EDT'               => 'America/New_York',
-            'Factory'               => 'UTC', // ?
-            'GB'                    => 'Europe/London',
-            'GB-Eire'               => 'Europe/London',
-            'GMT'                   => 'UTC',
-            'GMT+0'                 => 'UTC',
-            'GMT-0'                 => 'UTC',
-            'GMT0'                  => 'UTC',
-            'Greenwich'             => 'UTC',
-            'Hongkong'              => 'Asia/Hong_Kong',
-            'HST'                   => 'Pacific/Honolulu',
-            'Iceland'               => 'Atlantic/Reykjavik',
-            'Iran'                  => 'Asia/Tehran',
-            'Israel'                => 'Asia/Jerusalem',
-            'Jamaica'               => 'America/Jamaica',
-            'Japan'                 => 'Asia/Tokyo',
-            'Kwajalein'             => 'Pacific/Kwajalein',
-            'Libya'                 => 'Africa/Tripoli',
-            'MET'                   => 'Europe/Berlin',
-            'Mexico/BajaNorte'      => 'America/Tijuana',
-            'Mexico/BajaSur'        => 'America/Mazatlan',
-            'Mexico/General'        => 'America/Mexico_City',
-            'MST'                   => 'America/Denver',
-            'MST7MDT'               => 'America/Denver',
-            'Navajo'                => 'America/Denver',
-            'NZ'                    => 'Pacific/Auckland',
-            'NZ-CHAT'               => 'Pacific/Chatham',
-            'Poland'                => 'Europe/Warsaw',
-            'Portugal'              => 'Europe/Lisbon',
-            'PRC'                   => 'Asia/Shanghai',
-            'PST8PDT'               => 'America/Los_Angeles',
-            'ROC'                   => 'Asia/Taipei',
-            'ROK'                   => 'Asia/Seoul',
-            'Singapore'             => 'Asia/Singapore',
-            'Turkey'                => 'Europe/Istanbul',
-            'UCT'                   => 'UTC',
-            'Universal'             => 'UTC',
-            'US/Alaska'             => 'America/Anchorage',
-            'US/Aleutian'           => 'America/Adak',
-            'US/Arizona'            => 'America/Phoenix',
-            'US/Central'            => 'America/Chicago',
-            'US/East-Indiana'       => 'America/Indiana/Indianapolis',
-            'US/Eastern'            => 'America/New_York',
-            'US/Hawaii'             => 'Pacific/Honolulu',
-            'US/Indiana-Starke'     => 'America/Indiana/Knox',
-            'US/Michigan'           => 'America/Detroit',
-            'US/Mountain'           => 'America/Denver',
-            'US/Pacific'            => 'America/Los_Angeles',
-            'US/Pacific-New'        => 'America/Los_Angeles',
-            'US/Samoa'              => 'Pacific/Pago_Pago',
-            'W-SU'                  => 'Europe/Moscow',
-            'WET'                   => 'Europe/Berlin',
-            'Z'                     => 'UTC',
-            'Zulu'                  => 'UTC',
+            'Australia/ACT' => 'Australia/Sydney',
+            'Australia/LHI' => 'Australia/Lord_Howe',
+            'Australia/North' => 'Australia/Darwin',
+            'Australia/NSW' => 'Australia/Sydney',
+            'Australia/Queensland' => 'Australia/Brisbane',
+            'Australia/South' => 'Australia/Adelaide',
+            'Australia/Adelaide' => 'Australia/Hobart',
+            'Australia/Tasmania' => 'Australia/Hobart',
+            'Australia/Victoria' => 'Australia/Melbourne',
+            'Australia/West' => 'Australia/Perth',
+            'Brazil/Acre' => 'America/Rio_Branco',
+            'Brazil/DeNoronha' => 'America/Noronha',
+            'Brazil/East' => 'America/Sao_Paulo',
+            'Brazil/West' => 'America/Manaus',
+            'Canada/Atlantic' => 'America/Halifax',
+            'Canada/Central' => 'America/Winnipeg',
+            'Canada/Eastern' => 'America/Toronto',
+            'Canada/Mountain' => 'America/Edmonton',
+            'Canada/Newfoundland' => 'America/St_Johns',
+            'Canada/Pacific' => 'America/Vancouver',
+            'Canada/Saskatchewan' => 'America/Regina',
+            'Canada/Yukon' => 'America/Whitehorse',
+            'CET' => 'Europe/Berlin',
+            'Chile/Continental' => 'America/Santiago',
+            'Chile/EasterIsland' => 'Pacific/Easter',
+            'CST6CDT' => 'America/Chicago',
+            'Cuba' => ' America/Havana',
+            'EET' => 'Europe/Berlin',
+            'Egypt' => 'Africa/Cairo',
+            'Eire' => 'Europe/Dublin',
+            'EST' => 'America/New_York',
+            'EST5EDT' => 'America/New_York',
+            'Factory' => 'UTC', // ?
+            'GB' => 'Europe/London',
+            'GB-Eire' => 'Europe/London',
+            'GMT' => 'UTC',
+            'GMT+0' => 'UTC',
+            'GMT-0' => 'UTC',
+            'GMT0' => 'UTC',
+            'Greenwich' => 'UTC',
+            'Hongkong' => 'Asia/Hong_Kong',
+            'HST' => 'Pacific/Honolulu',
+            'Iceland' => 'Atlantic/Reykjavik',
+            'Iran' => 'Asia/Tehran',
+            'Israel' => 'Asia/Jerusalem',
+            'Jamaica' => 'America/Jamaica',
+            'Japan' => 'Asia/Tokyo',
+            'Kwajalein' => 'Pacific/Kwajalein',
+            'Libya' => 'Africa/Tripoli',
+            'MET' => 'Europe/Berlin',
+            'Mexico/BajaNorte' => 'America/Tijuana',
+            'Mexico/BajaSur' => 'America/Mazatlan',
+            'Mexico/General' => 'America/Mexico_City',
+            'MST' => 'America/Denver',
+            'MST7MDT' => 'America/Denver',
+            'Navajo' => 'America/Denver',
+            'NZ' => 'Pacific/Auckland',
+            'NZ-CHAT' => 'Pacific/Chatham',
+            'Poland' => 'Europe/Warsaw',
+            'Portugal' => 'Europe/Lisbon',
+            'PRC' => 'Asia/Shanghai',
+            'PST8PDT' => 'America/Los_Angeles',
+            'ROC' => 'Asia/Taipei',
+            'ROK' => 'Asia/Seoul',
+            'Singapore' => 'Asia/Singapore',
+            'Turkey' => 'Europe/Istanbul',
+            'UCT' => 'UTC',
+            'Universal' => 'UTC',
+            'US/Alaska' => 'America/Anchorage',
+            'US/Aleutian' => 'America/Adak',
+            'US/Arizona' => 'America/Phoenix',
+            'US/Central' => 'America/Chicago',
+            'US/East-Indiana' => 'America/Indiana/Indianapolis',
+            'US/Eastern' => 'America/New_York',
+            'US/Hawaii' => 'Pacific/Honolulu',
+            'US/Indiana-Starke' => 'America/Indiana/Knox',
+            'US/Michigan' => 'America/Detroit',
+            'US/Mountain' => 'America/Denver',
+            'US/Pacific' => 'America/Los_Angeles',
+            'US/Pacific-New' => 'America/Los_Angeles',
+            'US/Samoa' => 'Pacific/Pago_Pago',
+            'W-SU' => 'Europe/Moscow',
+            'WET' => 'Europe/Berlin',
+            'Z' => 'UTC',
+            'Zulu' => 'UTC',
             // Some of these Etc/X zones are not deprecated, but still problematic
-            'Etc/GMT'           => 'UTC',
-            'Etc/GMT+0'         => 'UTC',
-            'Etc/GMT+1'         => 'Atlantic/Azores',
-            'Etc/GMT+10'        => 'Pacific/Honolulu',
-            'Etc/GMT+11'        => 'Pacific/Midway',
-            'Etc/GMT+12'        => 'Pacific/Auckland',
-            'Etc/GMT+2'         => 'America/Noronha',
-            'Etc/GMT+3'         => 'America/Argentina/Buenos_Aires',
-            'Etc/GMT+4'         => 'America/Manaus',
-            'Etc/GMT+5'         => 'America/New_York',
-            'Etc/GMT+6'         => 'America/Chicago',
-            'Etc/GMT+7'         => 'America/Denver',
-            'Etc/GMT+8'         => 'America/Los_Angeles',
-            'Etc/GMT+9'         => 'America/Anchorage',
-            'Etc/GMT-0'         => 'UTC',
-            'Etc/GMT-1'         => 'Europe/Berlin',
-            'Etc/GMT-10'        => 'Australia/Sydney',
-            'Etc/GMT-11'        => 'Pacific/Norfolk',
-            'Etc/GMT-12'        => 'Pacific/Auckland',
-            'Etc/GMT-13'        => 'Pacific/Apia',
-            'Etc/GMT-14'        => 'Pacific/Kiritimati',
-            'Etc/GMT-2'         => 'Africa/Cairo',
-            'Etc/GMT-3'         => 'Europe/Moscow',
-            'Etc/GMT-4'         => 'Europe/Samara',
-            'Etc/GMT-5'         => 'Asia/Yekaterinburg',
-            'Etc/GMT-6'         => 'Asia/Almaty',
-            'Etc/GMT-7'         => 'Asia/Bangkok',
-            'Etc/GMT-8'         => 'Asia/Hong_Kong',
-            'Etc/GMT-9'         => 'Asia/Tokyo',
-            'Etc/GMT0'          => 'UTC',
-            'Etc/Greenwich'     => 'UTC',
-            'Etc/UCT'           => 'UTC',
-            'Etc/Universal'     => 'UTC',
-            'Etc/UTC'           => 'UTC',
-            'Etc/Zulu'          => 'UTC',
+            'Etc/GMT' => 'UTC',
+            'Etc/GMT+0' => 'UTC',
+            'Etc/GMT+1' => 'Atlantic/Azores',
+            'Etc/GMT+10' => 'Pacific/Honolulu',
+            'Etc/GMT+11' => 'Pacific/Midway',
+            'Etc/GMT+12' => 'Pacific/Auckland',
+            'Etc/GMT+2' => 'America/Noronha',
+            'Etc/GMT+3' => 'America/Argentina/Buenos_Aires',
+            'Etc/GMT+4' => 'America/Manaus',
+            'Etc/GMT+5' => 'America/New_York',
+            'Etc/GMT+6' => 'America/Chicago',
+            'Etc/GMT+7' => 'America/Denver',
+            'Etc/GMT+8' => 'America/Los_Angeles',
+            'Etc/GMT+9' => 'America/Anchorage',
+            'Etc/GMT-0' => 'UTC',
+            'Etc/GMT-1' => 'Europe/Berlin',
+            'Etc/GMT-10' => 'Australia/Sydney',
+            'Etc/GMT-11' => 'Pacific/Norfolk',
+            'Etc/GMT-12' => 'Pacific/Auckland',
+            'Etc/GMT-13' => 'Pacific/Apia',
+            'Etc/GMT-14' => 'Pacific/Kiritimati',
+            'Etc/GMT-2' => 'Africa/Cairo',
+            'Etc/GMT-3' => 'Europe/Moscow',
+            'Etc/GMT-4' => 'Europe/Samara',
+            'Etc/GMT-5' => 'Asia/Yekaterinburg',
+            'Etc/GMT-6' => 'Asia/Almaty',
+            'Etc/GMT-7' => 'Asia/Bangkok',
+            'Etc/GMT-8' => 'Asia/Hong_Kong',
+            'Etc/GMT-9' => 'Asia/Tokyo',
+            'Etc/GMT0' => 'UTC',
+            'Etc/Greenwich' => 'UTC',
+            'Etc/UCT' => 'UTC',
+            'Etc/Universal' => 'UTC',
+            'Etc/UTC' => 'UTC',
+            'Etc/Zulu' => 'UTC',
         ];
 
         return $deprecated_timezones[$tzname] ?? $tzname;

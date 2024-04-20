@@ -2,7 +2,9 @@
 
 namespace Tests\Browser\Plugins\Archive;
 
-class SettingsTest extends \Tests\Browser\TestCase
+use Tests\Browser\TestCase;
+
+class SettingsTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

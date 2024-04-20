@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // Managesieve server host (and optional port). Default: localhost.
 // Replacement variables supported in host name:
 // %h - user's IMAP hostname
@@ -27,7 +29,7 @@ $config['managesieve_auth_pw'] = null;
 // Connection socket context options
 // See http://php.net/manual/en/context.ssl.php
 // The example below enables server certificate validation
-//$config['managesieve_conn_options'] = [
+// $config['managesieve_conn_options'] = [
 //  'ssl'         => [
 //     'verify_peer'  => true,
 //     'verify_depth' => 3,

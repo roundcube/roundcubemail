@@ -3,8 +3,9 @@
 namespace Tests\Browser\Contacts;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\TestCase;
 
-class PrintTest extends \Tests\Browser\TestCase
+class PrintTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -34,8 +35,8 @@ class PrintTest extends \Tests\Browser\TestCase
 
             $browser->with(new App(), static function ($browser) {
                 $browser->assertEnv([
-                        'task' => 'addressbook',
-                        'action' => 'print',
+                    'task' => 'addressbook',
+                    'action' => 'print',
                 ]);
             });
 

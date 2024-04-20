@@ -29,15 +29,15 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
      */
     public function run($args = [])
     {
-        $rcmail       = rcmail::get_instance();
-        $storage      = $rcmail->get_storage();
-        $delimiter    = $storage->get_hierarchy_delimiter();
-        $mbox         = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
-        $trash_mbox   = (string) $rcmail->config->get('trash_mbox');
-        $junk_mbox    = (string) $rcmail->config->get('junk_mbox');
-        $delete_junk  = $rcmail->config->get('delete_junk');
+        $rcmail = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
+        $delimiter = $storage->get_hierarchy_delimiter();
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
+        $trash_mbox = (string) $rcmail->config->get('trash_mbox');
+        $junk_mbox = (string) $rcmail->config->get('junk_mbox');
+        $delete_junk = $rcmail->config->get('delete_junk');
         $trash_regexp = '/^' . preg_quote($trash_mbox . $delimiter, '/') . '/';
-        $junk_regexp  = '/^' . preg_quote($junk_mbox . $delimiter, '/') . '/';
+        $junk_regexp = '/^' . preg_quote($junk_mbox . $delimiter, '/') . '/';
 
         // purge directly if there is no Trash, or we are operating on Trash (or subfolders),
         // also purge directly if delete_junk is on, and folder is Junk (or subfolders)
@@ -47,12 +47,12 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
             || ($delete_junk && ($mbox === $junk_mbox || preg_match($junk_regexp, $mbox)))
         ) {
             $success = $storage->delete_message('*', $mbox);
-            $delete  = true;
+            $delete = true;
         }
         // otherwise move to Trash
         else {
             $success = $storage->move_message('1:*', $trash_mbox, $mbox);
-            $delete  = false;
+            $delete = false;
         }
 
         if ($success) {
@@ -63,8 +63,7 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
             // set trash folder state
             if ($mbox === $trash_mbox) {
                 $rcmail->output->command('set_trash_count', 0);
-            }
-            elseif (strlen($trash_mbox)) {
+            } elseif (strlen($trash_mbox)) {
                 $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash_mbox, 'EXISTS'));
             }
 
@@ -80,8 +79,7 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
                 $rcmail->output->command('set_rowcount', self::get_messagecount_text(), $mbox);
                 $rcmail->output->command('set_quota', self::quota_content(null, $mbox));
             }
-        }
-        else {
+        } else {
             self::display_server_error();
         }
 

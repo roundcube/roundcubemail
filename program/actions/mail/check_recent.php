@@ -37,10 +37,10 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
             return;
         }
 
-        $trash     = $rcmail->config->get('trash_mbox');
-        $current   = $rcmail->storage->get_folder();
+        $trash = $rcmail->config->get('trash_mbox');
+        $current = $rcmail->storage->get_folder();
         $check_all = $rcmail->action != 'refresh' || (bool) $rcmail->config->get('check_all_folders');
-        $page      = $rcmail->storage->get_page();
+        $page = $rcmail->storage->get_page();
         $page_size = $rcmail->storage->get_pagesize();
 
         $search_request = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
@@ -51,11 +51,9 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         // list of folders to check
         if ($check_all) {
             $a_mailboxes = $rcmail->storage->list_folders_subscribed('', '*', 'mail');
-        }
-        elseif ($search_request && isset($_SESSION['search'][1]) && is_object($_SESSION['search'][1])) {
+        } elseif ($search_request && isset($_SESSION['search'][1]) && is_object($_SESSION['search'][1])) {
             $a_mailboxes = (array) $_SESSION['search'][1]->get_parameters('MAILBOX');
-        }
-        else {
+        } else {
             $a_mailboxes = (array) $current;
             if ($current != 'INBOX') {
                 $a_mailboxes[] = 'INBOX';
@@ -63,8 +61,8 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         }
 
         // Control folders list from a plugin
-        $plugin       = $rcmail->plugins->exec_hook('check_recent', ['folders' => $a_mailboxes, 'all' => $check_all]);
-        $a_mailboxes  = $plugin['folders'];
+        $plugin = $rcmail->plugins->exec_hook('check_recent', ['folders' => $a_mailboxes, 'all' => $check_all]);
+        $a_mailboxes = $plugin['folders'];
         $list_cleared = false;
 
         self::storage_fatal_error();
@@ -94,9 +92,9 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
             if ($status & 1) {
                 // trigger plugin hook
                 $rcmail->plugins->exec_hook('new_messages', [
-                        'mailbox'    => $mbox_name,
-                        'is_current' => $is_current,
-                        'diff'       => $diff,
+                    'mailbox' => $mbox_name,
+                    'is_current' => $is_current,
+                    'diff' => $diff,
                 ]);
             }
 
@@ -132,7 +130,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 if ($all_count && $page > 1) {
                     $remaining = $all_count - $page_size * ($page - 1);
                     if ($remaining <= 0) {
-                        --$page;
+                        $page--;
                         $rcmail->storage->set_page($page);
                         $_SESSION['page'] = $page;
                     }
@@ -172,11 +170,11 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
 
             foreach ($uids as $mbox_name => $set) {
                 $get_flags = true;
-                $modseq    = null;
+                $modseq = null;
 
                 if ($mbox_name == $current) {
-                    $data      = $rcmail->storage->folder_data($mbox_name);
-                    $modseq    = !empty($_SESSION['list_mod_seq']) ? $_SESSION['list_mod_seq'] : null;
+                    $data = $rcmail->storage->folder_data($mbox_name);
+                    $modseq = !empty($_SESSION['list_mod_seq']) ? $_SESSION['list_mod_seq'] : null;
                     $get_flags = empty($modseq) || empty($data['HIGHESTMODSEQ']) || $modseq != $data['HIGHESTMODSEQ'];
 
                     // remember last HIGHESTMODSEQ value (if supported)

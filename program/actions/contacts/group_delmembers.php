@@ -29,8 +29,8 @@ class rcmail_action_contacts_group_delmembers extends rcmail_action_contacts_ind
      */
     public function run($args = [])
     {
-        $rcmail   = rcmail::get_instance();
-        $source   = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $rcmail = rcmail::get_instance();
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $contacts = self::contact_source($source);
 
         if ($contacts->readonly || !$contacts->groups) {
@@ -43,15 +43,14 @@ class rcmail_action_contacts_group_delmembers extends rcmail_action_contacts_ind
 
         if ($gid && $ids) {
             $plugin = $rcmail->plugins->exec_hook('group_delmembers', [
-                    'group_id' => $gid,
-                    'ids'      => $ids,
-                    'source'   => $source,
+                'group_id' => $gid,
+                'ids' => $ids,
+                'source' => $source,
             ]);
 
             if (empty($plugin['abort'])) {
                 $result = $contacts->remove_from_group($gid, $plugin['ids']);
-            }
-            else {
+            } else {
                 $result = $plugin['result'];
             }
         }
@@ -59,8 +58,7 @@ class rcmail_action_contacts_group_delmembers extends rcmail_action_contacts_ind
         if (!empty($result)) {
             $rcmail->output->show_message('contactremovedfromgroup', 'confirmation');
             $rcmail->output->command('remove_group_contacts', ['source' => $source, 'gid' => $gid]);
-        }
-        else {
+        } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');
         }

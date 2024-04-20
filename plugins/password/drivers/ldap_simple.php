@@ -34,22 +34,21 @@ class rcube_ldap_simple_password
     protected $user;
     protected $conn;
 
-
     public function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();
 
-        $lchattr      = $rcmail->config->get('password_ldap_lchattr');
-        $pwattr       = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
-        $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
-        $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
-        $samba        = $rcmail->config->get('password_ldap_samba');
-        $pass_mode    = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
+        $lchattr = $rcmail->config->get('password_ldap_lchattr');
+        $pwattr = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
+        $smbpwattr = $rcmail->config->get('password_ldap_samba_pwattr');
+        $smblchattr = $rcmail->config->get('password_ldap_samba_lchattr');
+        $samba = $rcmail->config->get('password_ldap_samba');
+        $pass_mode = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
         $crypted_pass = password::hash_password($passwd, $pass_mode);
 
         // Support password_ldap_samba option for backward compat.
         if ($samba && !$smbpwattr) {
-            $smbpwattr  = 'sambaNTPassword';
+            $smbpwattr = 'sambaNTPassword';
             $smblchattr = 'sambaPwdLastSet';
         }
 
@@ -68,6 +67,8 @@ class rcube_ldap_simple_password
         if ($ret !== true) {
             return $ret;
         }
+
+        $entry = [];
 
         $entry[$pwattr] = $crypted_pass;
 
@@ -89,7 +90,7 @@ class rcube_ldap_simple_password
         $this->_debug("C: Modify {$this->user}: " . print_r($entry, true));
 
         if (!ldap_modify($this->conn, $this->user, $entry)) {
-            $this->_debug("S: " . ldap_error($this->conn));
+            $this->_debug('S: ' . ldap_error($this->conn));
 
             $errno = ldap_errno($this->conn);
 
@@ -102,7 +103,7 @@ class rcube_ldap_simple_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $this->_debug("S: OK");
+        $this->_debug('S: OK');
 
         // All done, no error
         ldap_unbind($this->conn);
@@ -113,33 +114,31 @@ class rcube_ldap_simple_password
     /**
      * Connect and bind to LDAP server
      */
-    function connect($curpass)
+    public function connect($curpass)
     {
         $rcmail = rcmail::get_instance();
 
         $this->debug = $rcmail->config->get('ldap_debug');
-        $ldap_host   = $rcmail->config->get('password_ldap_host', 'localhost');
-        $ldap_port   = $rcmail->config->get('password_ldap_port', '389');
-        $ldap_uri    = $this->_host2uri($ldap_host, $ldap_port);
+        $ldap_host = $rcmail->config->get('password_ldap_host', 'localhost');
+        $ldap_port = $rcmail->config->get('password_ldap_port', '389');
+        $ldap_uri = $this->_host2uri($ldap_host, $ldap_port);
 
         $this->_debug("C: Connect [{$ldap_uri}]");
 
         // Connect
         if (!($ds = ldap_connect($ldap_uri))) {
-            $this->_debug("S: NOT OK");
+            $this->_debug('S: NOT OK');
 
             rcube::raise_error([
-                    'code' => 100, 'type' => 'ldap',
-                    'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Could not connect to LDAP server",
-                ],
-                true
-            );
+                'code' => 100, 'type' => 'ldap',
+                'file' => __FILE__, 'line' => __LINE__,
+                'message' => 'Could not connect to LDAP server',
+            ], true);
 
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $this->_debug("S: OK");
+        $this->_debug('S: OK');
 
         // Set protocol version
         ldap_set_option($ds, \LDAP_OPT_PROTOCOL_VERSION,
@@ -161,11 +160,9 @@ class rcube_ldap_simple_password
         // Build user DN
         if (!empty($plugin['user_dn'])) {
             $user_dn = $plugin['user_dn'];
-        }
-        elseif ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
+        } elseif ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
             $user_dn = self::substitute_vars($user_dn);
-        }
-        else {
+        } else {
             $user_dn = $this->search_userdn($rcmail, $ds);
         }
 
@@ -175,30 +172,30 @@ class rcube_ldap_simple_password
         }
 
         // Connection method
-        switch ($rcmail->config->get('password_ldap_method')) {
+        $bind_method = $rcmail->config->get('password_ldap_method');
+        $binddn = $user_dn;
+        $bindpw = $curpass;
+        $bindmech = $bindrealm = null;
+
+        switch ($bind_method) {
             case 'sasl':
-                $binddn    = $rcmail->config->get('password_ldap_adminDN');
-                $bindpw    = $rcmail->config->get('password_ldap_adminPW');
-                $bindmech  = $rcmail->config->get('password_ldap_mech');
+                $binddn = $rcmail->config->get('password_ldap_adminDN');
+                $bindpw = $rcmail->config->get('password_ldap_adminPW');
+                $bindmech = $rcmail->config->get('password_ldap_mech');
                 $bindrealm = $rcmail->config->get('password_ldap_realm');
                 break;
             case 'admin':
                 $binddn = $rcmail->config->get('password_ldap_adminDN');
                 $bindpw = $rcmail->config->get('password_ldap_adminPW');
                 break;
-            case 'user':
-            default:
-                $binddn = $user_dn;
-                $bindpw = $curpass;
-                break;
         }
 
-        $this->_debug("C: Bind $binddn, pass: **** [" . strlen($bindpw) . "]");
+        $this->_debug("C: Bind {$binddn}, pass: **** [" . strlen($bindpw) . ']');
 
         // Bind
-        if ($rcmail->config->get('password_ldap_method') == 'sasl') {
-            if (!ldap_sasl_bind($ds, $binddb, $bindpw, $bindmech, $bindrealm)) {
-                $this->_debug("S: " . ldap_error($ds));
+        if ($bind_method == 'sasl') {
+            if (!ldap_sasl_bind($ds, $binddn, $bindpw, $bindmech, $bindrealm)) {
+                $this->_debug('S: ' . ldap_error($ds));
 
                 ldap_unbind($ds);
 
@@ -206,7 +203,7 @@ class rcube_ldap_simple_password
             }
         } else {
             if (!ldap_bind($ds, $binddn, $bindpw)) {
-                $this->_debug("S: " . ldap_error($ds));
+                $this->_debug('S: ' . ldap_error($ds));
 
                 ldap_unbind($ds);
 
@@ -214,7 +211,7 @@ class rcube_ldap_simple_password
             }
         }
 
-        $this->_debug("S: OK");
+        $this->_debug('S: OK');
 
         $this->conn = $ds;
         $this->user = $user_dn;
@@ -227,59 +224,58 @@ class rcube_ldap_simple_password
      * Use search_base and search_filter defined in config file
      * Return the found DN
      */
-    function search_userdn($rcmail, $ds)
+    public function search_userdn($rcmail, $ds)
     {
-        $search_user   = $rcmail->config->get('password_ldap_searchDN');
-        $search_pass   = $rcmail->config->get('password_ldap_searchPW');
-        $search_base   = $rcmail->config->get('password_ldap_search_base');
+        $search_user = $rcmail->config->get('password_ldap_searchDN');
+        $search_pass = $rcmail->config->get('password_ldap_searchPW');
+        $search_base = $rcmail->config->get('password_ldap_search_base');
         $search_filter = $rcmail->config->get('password_ldap_search_filter');
 
         if (empty($search_filter)) {
             return false;
         }
 
-        $this->_debug("C: Bind " . ($search_user ?: '[anonymous]'));
+        $this->_debug('C: Bind ' . ($search_user ?: '[anonymous]'));
 
         switch ($rcmail->config->get('password_ldap_bind_method')) {
             case 'sasl':
-                $search_mech     = $rcmail->config->get('password_ldap_mech');
-                $search_realm    = $rcmail->config->get('password_ldap_realm');
+                $search_mech = $rcmail->config->get('password_ldap_mech');
+                $search_realm = $rcmail->config->get('password_ldap_realm');
 
                 // Bind
                 if (!ldap_sasl_bind($ds, $search_user, $search_pass, $search_mech, $search_realm)) {
-                    $this->_debug("S: " . ldap_error($ds));
+                    $this->_debug('S: ' . ldap_error($ds));
                     return false;
                 }
 
                 break;
             case 'bind':
             default:
-
                 // Bind
                 if (!ldap_bind($ds, $search_user, $search_pass)) {
-                    $this->_debug("S: " . ldap_error($ds));
+                    $this->_debug('S: ' . ldap_error($ds));
                     return false;
                 }
 
                 break;
         }
 
-        $this->_debug("S: OK");
+        $this->_debug('S: OK');
 
-        $search_base   = self::substitute_vars($search_base);
+        $search_base = self::substitute_vars($search_base);
         $search_filter = self::substitute_vars($search_filter);
 
-        $this->_debug("C: Search $search_base for $search_filter");
+        $this->_debug("C: Search {$search_base} for {$search_filter}");
 
         // Search for the DN
         if (!($sr = ldap_search($ds, $search_base, $search_filter))) {
-            $this->_debug("S: " . ldap_error($ds));
+            $this->_debug('S: ' . ldap_error($ds));
             return false;
         }
 
         $found = ldap_count_entries($ds, $sr);
 
-        $this->_debug("S: OK [found $found records]");
+        $this->_debug("S: OK [found {$found} records]");
 
         // If no or more entries were found, return false
         if ($found != 1) {
@@ -308,8 +304,7 @@ class rcube_ldap_simple_password
             $str = str_replace('%dc', $dc, $str);
             $str = str_replace('%domain', $parts[1], $str);
             $str = str_replace('%d', $parts[1], $str);
-        }
-        elseif (count($parts) == 1) {
+        } elseif (count($parts) == 1) {
             $str = str_replace('%name', $parts[0], $str);
             $str = str_replace('%n', $parts[0], $str);
         }

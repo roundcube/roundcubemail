@@ -38,14 +38,11 @@ class rcmail_action_mail_sendmdn extends rcmail_action
         if (!empty($sent)) {
             $rcmail->output->set_env('mdn_request', false);
             $rcmail->output->show_message('receiptsent', 'confirmation');
-        }
-        elseif (!empty($smtp_error) && is_string($smtp_error)) {
+        } elseif (!empty($smtp_error) && is_string($smtp_error)) {
             $rcmail->output->show_message($smtp_error, 'error');
-        }
-        elseif (!empty($smtp_error) && !empty($smtp_error['label'])) {
+        } elseif (!empty($smtp_error) && !empty($smtp_error['label'])) {
             $rcmail->output->show_message($smtp_error['label'], 'error', $smtp_error['vars']);
-        }
-        else {
+        } else {
             $rcmail->output->show_message('errorsendingreceipt', 'error');
         }
 
@@ -81,11 +78,11 @@ class rcmail_action_mail_sendmdn extends rcmail_action
         if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT'])
             && ($rcmail->storage->check_permflag('MDNSENT') || $rcmail->storage->check_permflag('*'))
         ) {
-            $charset   = $message->headers->charset;
-            $identity  = rcmail_sendmail::identity_select($message);
-            $sender    = format_email_recipient($identity['email'], $identity['name']);
+            $charset = $message->headers->charset;
+            $identity = rcmail_sendmail::identity_select($message);
+            $sender = format_email_recipient($identity['email'], $identity['name']);
             $recipient = array_first(rcube_mime::decode_address_list($message->headers->mdn_to, 1, true, $charset));
-            $mailto    = $recipient['mailto'];
+            $mailto = $recipient['mailto'];
 
             $compose = new Mail_mime("\r\n");
 
@@ -98,12 +95,12 @@ class rcmail_action_mail_sendmdn extends rcmail_action
 
             // compose headers array
             $headers = [
-                'Date'       => $rcmail->user_date(),
-                'From'       => $sender,
-                'To'         => $message->headers->mdn_to,
-                'Subject'    => $rcmail->gettext('receiptread') . ': ' . $message->subject,
+                'Date' => $rcmail->user_date(),
+                'From' => $sender,
+                'To' => $message->headers->mdn_to,
+                'Subject' => $rcmail->gettext('receiptread') . ': ' . $message->subject,
                 'Message-ID' => $rcmail->gen_message_id($identity['email']),
-                'X-Sender'   => $identity['email'],
+                'X-Sender' => $identity['email'],
                 'References' => trim($message->headers->references . ' ' . $message->headers->messageID),
                 'In-Reply-To' => $message->headers->messageID,
             ];
@@ -118,16 +115,16 @@ class rcmail_action_mail_sendmdn extends rcmail_action
 
             if ($agent = $rcmail->config->get('useragent')) {
                 $headers['User-Agent'] = $agent;
-                $report .= "Reporting-UA: $agent\r\n";
+                $report .= "Reporting-UA: {$agent}\r\n";
             }
 
-            $to   = rcube_mime::decode_mime_string($message->headers->to, $charset);
+            $to = rcube_mime::decode_mime_string($message->headers->to, $charset);
             $date = $rcmail->format_date($message->headers->date, $rcmail->config->get('date_long'));
-            $body = $rcmail->gettext("yourmessage") . "\r\n\r\n" .
-                "\t" . $rcmail->gettext("to") . ": {$to}\r\n" .
-                "\t" . $rcmail->gettext("subject") . ": {$message->subject}\r\n" .
-                "\t" . $rcmail->gettext("date") . ": {$date}\r\n" .
-                "\r\n" . $rcmail->gettext("receiptnote");
+            $body = $rcmail->gettext('yourmessage') . "\r\n\r\n" .
+                "\t" . $rcmail->gettext('to') . ": {$to}\r\n" .
+                "\t" . $rcmail->gettext('subject') . ": {$message->subject}\r\n" .
+                "\t" . $rcmail->gettext('date') . ": {$date}\r\n" .
+                "\r\n" . $rcmail->gettext('receiptnote');
 
             $compose->headers(array_filter($headers));
             $compose->setContentType('multipart/report', ['report-type' => 'disposition-notification']);

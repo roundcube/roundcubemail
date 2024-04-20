@@ -37,7 +37,7 @@ require_once RCUBE_PLUGINS_DIR . 'filesystem_attachments/filesystem_attachments.
 class redundant_attachments extends filesystem_attachments
 {
     // A prefix for the cache key used in the session and in the key field of the cache table
-    const PREFIX = "ATTACH";
+    public const PREFIX = 'ATTACH';
 
     // rcube_cache instance for SQL DB
     private $cache;
@@ -46,7 +46,6 @@ class redundant_attachments extends filesystem_attachments
     private $mem_cache;
 
     private $loaded;
-
 
     /**
      * Loads plugin configuration and initializes cache object(s)
@@ -62,10 +61,10 @@ class redundant_attachments extends filesystem_attachments
         // load configuration
         $this->load_config();
 
-        $ttl      = 12 * 60 * 60; // 12 hours
-        $ttl      = $rcmail->config->get('redundant_attachments_cache_ttl', $ttl);
+        $ttl = 12 * 60 * 60; // 12 hours
+        $ttl = $rcmail->config->get('redundant_attachments_cache_ttl', $ttl);
         $fallback = $rcmail->config->get('redundant_attachments_fallback');
-        $prefix   = self::PREFIX;
+        $prefix = self::PREFIX;
 
         if ($id = session_id()) {
             $prefix .= $id;
@@ -99,13 +98,13 @@ class redundant_attachments extends filesystem_attachments
     /**
      * Save a newly uploaded attachment
      */
-    function upload($args)
+    public function upload($args)
     {
         $args = parent::upload($args);
 
         $this->_load_drivers();
 
-        $key  = $this->_key($args);
+        $key = $this->_key($args);
         $data = base64_encode(file_get_contents($args['path']));
 
         $status = $this->cache->set($key, $data);
@@ -125,7 +124,7 @@ class redundant_attachments extends filesystem_attachments
     /**
      * Save an attachment from a non-upload source (draft or forward)
      */
-    function save($args)
+    public function save($args)
     {
         $args = parent::save($args);
 
@@ -135,7 +134,7 @@ class redundant_attachments extends filesystem_attachments
 
         $args['data'] = null;
 
-        $key  = $this->_key($args);
+        $key = $this->_key($args);
         $data = base64_encode($data);
 
         $status = $this->cache->set($key, $data);
@@ -156,7 +155,7 @@ class redundant_attachments extends filesystem_attachments
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
      */
-    function remove($args)
+    public function remove($args)
     {
         parent::remove($args);
 
@@ -180,7 +179,7 @@ class redundant_attachments extends filesystem_attachments
      * For this plugin, $this->get() will check the file and
      * return it's contents
      */
-    function display($args)
+    public function display($args)
     {
         return $this->get($args);
     }
@@ -189,7 +188,7 @@ class redundant_attachments extends filesystem_attachments
      * When displaying or sending the attachment the file contents are fetched
      * using this method. This is also called by the attachment_display hook.
      */
-    function get($args)
+    public function get($args)
     {
         // attempt to get file from local file system
         $args = parent::get($args);
@@ -219,7 +218,7 @@ class redundant_attachments extends filesystem_attachments
     /**
      * Delete all temp files associated with this user
      */
-    function cleanup($args)
+    public function cleanup($args)
     {
         $this->_load_drivers();
 

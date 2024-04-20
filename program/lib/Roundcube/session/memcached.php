@@ -25,12 +25,11 @@
  */
 class rcube_session_memcached extends rcube_session
 {
-    /** @var Memcached The memcache driver */
+    /** @var Memcached|false|null The memcache driver */
     private $memcache;
 
     /** @var bool Debug state */
     private $debug;
-
 
     /**
      * Object constructor
@@ -42,15 +41,14 @@ class rcube_session_memcached extends rcube_session
         parent::__construct($config);
 
         $this->memcache = rcube::get_instance()->get_memcached();
-        $this->debug    = $config->get('memcache_debug');
+        $this->debug = $config->get('memcache_debug');
 
         if (!$this->memcache) {
             rcube::raise_error([
-                    'code' => 604, 'type' => 'memcache',
-                    'line' => __LINE__, 'file' => __FILE__,
-                    'message' => "Failed to connect to memcached. Please check configuration",
-                ],
-                true, true);
+                'code' => 604, 'type' => 'memcache',
+                'line' => __LINE__, 'file' => __FILE__,
+                'message' => 'Failed to connect to memcached. Please check configuration',
+            ], true, true);
         }
 
         // register sessions handler
@@ -112,9 +110,9 @@ class rcube_session_memcached extends rcube_session
     {
         if ($arr = $this->memcache->get($key)) {
             $this->changed = $arr['changed'];
-            $this->ip      = $arr['ip'];
-            $this->vars    = $arr['vars'];
-            $this->key     = $key;
+            $this->ip = $arr['ip'];
+            $this->vars = $arr['vars'];
+            $this->key = $key;
         }
 
         if ($this->debug) {
@@ -138,7 +136,7 @@ class rcube_session_memcached extends rcube_session
             return true;
         }
 
-        $data   = ['changed' => time(), 'ip' => $this->ip, 'vars' => $vars];
+        $data = ['changed' => time(), 'ip' => $this->ip, 'vars' => $vars];
         $result = $this->memcache->set($key, $data, $this->lifetime + 60);
 
         if ($this->debug) {
@@ -162,7 +160,7 @@ class rcube_session_memcached extends rcube_session
         $ts = microtime(true);
 
         if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $data   = ['changed' => time(), 'ip' => $this->ip, 'vars' => $newvars];
+            $data = ['changed' => time(), 'ip' => $this->ip, 'vars' => $newvars];
             $result = $this->memcache->set($key, $data, $this->lifetime + 60);
 
             if ($this->debug) {

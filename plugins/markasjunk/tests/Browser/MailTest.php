@@ -2,7 +2,9 @@
 
 namespace Tests\Browser\Plugins\Markasjunk;
 
-class MailTest extends \Tests\Browser\TestCase
+use Tests\Browser\TestCase;
+
+class MailTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {

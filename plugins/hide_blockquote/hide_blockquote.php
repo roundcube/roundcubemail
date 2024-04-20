@@ -20,7 +20,7 @@ class hide_blockquote extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $rcmail = rcmail::get_instance();
 
@@ -29,7 +29,7 @@ class hide_blockquote extends rcube_plugin
             && ($limit = $rcmail->config->get('hide_blockquote_limit'))
         ) {
             // include styles
-            $this->include_stylesheet($this->local_skin_path() . "/style.css");
+            $this->include_stylesheet($this->local_skin_path() . '/style.css');
 
             // Script and localization
             $this->include_script('hide_blockquote.js');
@@ -37,8 +37,7 @@ class hide_blockquote extends rcube_plugin
 
             // set env variable for client
             $rcmail->output->set_env('blockquote_limit', $limit);
-        }
-        elseif ($rcmail->task == 'settings') {
+        } elseif ($rcmail->task == 'settings') {
             $dont_override = $rcmail->config->get('dont_override', []);
             if (!in_array('hide_blockquote_limit', $dont_override)) {
                 $this->add_hook('preferences_list', [$this, 'prefs_table']);
@@ -54,7 +53,7 @@ class hide_blockquote extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_table($args)
+    public function prefs_table($args)
     {
         if ($args['section'] != 'mailview') {
             return $args;
@@ -62,18 +61,18 @@ class hide_blockquote extends rcube_plugin
 
         $this->add_texts('localization');
 
-        $rcmail   = rcmail::get_instance();
-        $limit    = (int) $rcmail->config->get('hide_blockquote_limit');
+        $rcmail = rcmail::get_instance();
+        $limit = (int) $rcmail->config->get('hide_blockquote_limit');
         $field_id = 'hide_blockquote_limit';
-        $input    = new html_inputfield([
-                'name'  => '_' . $field_id,
-                'id'    => $field_id,
-                'size'  => 5,
-                'class' => 'form-control',
+        $input = new html_inputfield([
+            'name' => '_' . $field_id,
+            'id' => $field_id,
+            'size' => 5,
+            'class' => 'form-control',
         ]);
 
         $args['blocks']['main']['options']['hide_blockquote_limit'] = [
-            'title'   => html::label($field_id, $this->gettext('quotelimit')),
+            'title' => html::label($field_id, $this->gettext('quotelimit')),
             'content' => $input->show($limit ?: ''),
         ];
 
@@ -87,7 +86,7 @@ class hide_blockquote extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_save($args)
+    public function prefs_save($args)
     {
         if ($args['section'] == 'mailview') {
             $args['prefs']['hide_blockquote_limit'] = (int) rcube_utils::get_input_value('_hide_blockquote_limit', rcube_utils::INPUT_POST);

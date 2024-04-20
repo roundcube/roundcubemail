@@ -78,7 +78,6 @@ abstract class rcube_plugin
     /** @var array List of plugin configuration files already loaded */
     private $loaded_config = [];
 
-
     /**
      * Default constructor.
      *
@@ -86,29 +85,29 @@ abstract class rcube_plugin
      */
     public function __construct($api)
     {
-        $this->ID      = static::class;
-        $this->api     = $api;
-        $this->home    = $api->dir . $this->ID;
+        $this->ID = static::class;
+        $this->api = $api;
+        $this->home = $api->dir . $this->ID;
         $this->urlbase = $api->url . $this->ID . '/';
     }
 
     /**
      * Initialization method, needs to be implemented by the plugin itself
      */
-    abstract function init();
+    abstract public function init();
 
     /**
      * Provide information about this
      *
-     * @return array Meta information about a plugin or false if not implemented.
-     *               As hash array with the following keys:
-     *               name: The plugin name
-     *               vendor: Name of the plugin developer
-     *               version: Plugin version name
-     *               license: License name (short form according to http://spdx.org/licenses/)
-     *               uri: The URL to the plugin homepage or source repository
-     *               src_uri: Direct download URL to the source code of this plugin
-     *               require: List of plugins required for this one (as array of plugin names)
+     * @return array|false Meta information about a plugin or false if not implemented.
+     *                     As hash array with the following keys:
+     *                     - name: The plugin name
+     *                     - vendor: Name of the plugin developer
+     *                     - version: Plugin version name
+     *                     - license: License name (short form according to http://spdx.org/licenses/)
+     *                     - uri: The URL to the plugin homepage or source repository
+     *                     - src_uri: Direct download URL to the source code of this plugin
+     *                     - require: List of plugins required for this one (as array of plugin names)
      */
     public static function info()
     {
@@ -160,13 +159,11 @@ abstract class rcube_plugin
 
         if (($is_local = is_file($fpath)) && !$rcube->config->load_from_file($fpath)) {
             rcube::raise_error([
-                    'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Failed to load config from $fpath",
-                ], true, false
-            );
+                'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Failed to load config from {$fpath}",
+            ], true, false);
             return false;
-        }
-        elseif (!$is_local) {
+        } elseif (!$is_local) {
             // Search plugin_name.inc.php file in any configured path
             return $rcube->config->load_from_file($this->ID . '.inc.php');
         }
@@ -213,7 +210,7 @@ abstract class rcube_plugin
         // prepend domain to text keys and add to the application texts repository
         if (!empty($texts)) {
             $domain = $this->ID;
-            $add    = [];
+            $add = [];
 
             foreach ($texts as $key => $value) {
                 $add[$domain . '.' . $key] = $value;
@@ -225,8 +222,7 @@ abstract class rcube_plugin
             if ($add2client && method_exists($rcube->output, 'add_label')) {
                 if (is_array($add2client)) {
                     $js_labels = array_map([$this, 'label_map_callback'], $add2client);
-                }
-                else {
+                } else {
                     $js_labels = array_keys($add);
                 }
 
@@ -370,12 +366,11 @@ abstract class rcube_plugin
     private function resource_url($fn)
     {
         // pattern "skins/[a-z0-9-_]+/plugins/$this->ID/" used to identify plugin resources loaded from the core skin folder
-        if ($fn[0] != '/' && !preg_match("#^(https?://|skins/[a-z0-9-_]+/plugins/$this->ID/)#i", $fn)) {
+        if ($fn[0] != '/' && !preg_match("#^(https?://|skins/[a-z0-9-_]+/plugins/{$this->ID}/)#i", $fn)) {
             return $this->ID . '/' . $fn;
         }
-        else {
-            return $fn;
-        }
+
+        return $fn;
     }
 
     /**
@@ -389,8 +384,8 @@ abstract class rcube_plugin
      */
     public function local_skin_path($extra_dir = null, $skin_name = null)
     {
-        $rcube     = rcube::get_instance();
-        $skins     = array_keys((array) $rcube->output->skins);
+        $rcube = rcube::get_instance();
+        $skins = array_keys((array) $rcube->output->skins);
         $skin_path = '';
 
         if (empty($skins)) {
@@ -417,8 +412,7 @@ abstract class rcube_plugin
                     if (is_dir(realpath(slashify(RCUBE_INSTALL_PATH) . $skin_path))) {
                         break 2;
                     }
-                }
-                else {
+                } else {
                     break 2;
                 }
             }
@@ -430,7 +424,7 @@ abstract class rcube_plugin
     /**
      * Callback function for array_map
      *
-     * @param string $key Array key.
+     * @param string $key array key
      *
      * @return string
      */

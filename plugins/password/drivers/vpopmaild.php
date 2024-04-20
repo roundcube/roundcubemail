@@ -27,19 +27,19 @@
 
 class rcube_vpopmaild_password
 {
-    function save($curpass, $passwd, $username)
+    public function save($curpass, $passwd, $username)
     {
-        $rcmail    = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $vpopmaild = new Net_Socket();
-        $host      = $rcmail->config->get('password_vpopmaild_host');
-        $port      = $rcmail->config->get('password_vpopmaild_port');
+        $host = $rcmail->config->get('password_vpopmaild_host');
+        $port = $rcmail->config->get('password_vpopmaild_port');
 
         $result = $vpopmaild->connect($host, $port, null);
         if (is_a($result, 'PEAR_Error')) {
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $vpopmaild->setTimeout($rcmail->config->get('password_vpopmaild_timeout'),0);
+        $vpopmaild->setTimeout($rcmail->config->get('password_vpopmaild_timeout'), 0);
 
         $result = $vpopmaild->readLine();
         if (!preg_match('/^\+OK/', $result)) {
@@ -47,20 +47,20 @@ class rcube_vpopmaild_password
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $vpopmaild->writeLine("slogin " . $username . " " . $curpass);
+        $vpopmaild->writeLine('slogin ' . $username . ' ' . $curpass);
         $result = $vpopmaild->readLine();
 
         if (!preg_match('/^\+OK/', $result)) {
-            $vpopmaild->writeLine("quit");
+            $vpopmaild->writeLine('quit');
             $vpopmaild->disconnect();
             return PASSWORD_ERROR;
         }
 
-        $vpopmaild->writeLine("mod_user " . $username);
-        $vpopmaild->writeLine("clear_text_password " . $passwd);
-        $vpopmaild->writeLine(".");
+        $vpopmaild->writeLine('mod_user ' . $username);
+        $vpopmaild->writeLine('clear_text_password ' . $passwd);
+        $vpopmaild->writeLine('.');
         $result = $vpopmaild->readLine();
-        $vpopmaild->writeLine("quit");
+        $vpopmaild->writeLine('quit');
         $vpopmaild->disconnect();
 
         if (!preg_match('/^\+OK/', $result)) {

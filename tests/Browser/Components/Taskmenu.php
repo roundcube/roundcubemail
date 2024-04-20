@@ -23,15 +23,12 @@ class Taskmenu extends Component
      * Assert that the browser page contains the component.
      *
      * @param Browser $browser
-     *
-     * @return void
      */
-    public function assert($browser)
+    public function assert($browser): void
     {
         if ($browser->isPhone()) {
             $browser->assertPresent($this->selector());
-        }
-        else {
+        } else {
             $browser->assertVisible($this->selector());
         }
     }
@@ -61,7 +58,7 @@ class Taskmenu extends Component
         }
 
         foreach ($this->options as $option) {
-            $browser->assertVisible("a.{$option}:not(.disabled)" . ($selected == $option ? ".selected" : ":not(.selected)"));
+            $browser->assertVisible("a.{$option}:not(.disabled)" . ($selected == $option ? '.selected' : ':not(.selected)'));
         }
 
         // hide the menu back

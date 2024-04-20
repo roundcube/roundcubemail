@@ -3,8 +3,9 @@
 namespace Tests\Browser\Settings;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\TestCase;
 
-class FoldersTest extends \Tests\Browser\TestCase
+class FoldersTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -35,8 +36,7 @@ class FoldersTest extends \Tests\Browser\TestCase
 
             if ($browser->isPhone()) {
                 $browser->assertVisible('.floating-action-buttons a.create:not(.disabled)');
-            }
-            else {
+            } else {
                 $browser->assertMissing('.floating-action-buttons a.create:not(.disabled)');
             }
 
@@ -82,8 +82,7 @@ class FoldersTest extends \Tests\Browser\TestCase
                 $browser->assertVisible('.floating-action-buttons a.create:not(.disabled)')
                     ->click('.floating-action-buttons a.create')
                     ->waitFor('#preferences-frame');
-            }
-            else {
+            } else {
                 $browser->clickToolbarMenuItem('create');
             }
 
@@ -114,8 +113,7 @@ class FoldersTest extends \Tests\Browser\TestCase
                     ->assertVisible('#layout-content .footer .buttons a.button.submit')
                     ->click('#layout-content .footer .buttons a.button.submit')
                     ->waitFor('#subscription-table');
-            }
-            else {
+            } else {
                 $browser->waitForMessage('confirmation', 'Folder created successfully.');
             }
 

@@ -29,7 +29,7 @@ class subscriptions_option extends rcube_plugin
     /**
      * Plugin initialization
      */
-    function init()
+    public function init()
     {
         $dont_override = rcmail::get_instance()->config->get('dont_override', []);
 
@@ -49,7 +49,7 @@ class subscriptions_option extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_list($args)
+    public function prefs_list($args)
     {
         if ($args['section'] == 'server') {
             $this->add_texts('localization/', false);
@@ -58,7 +58,7 @@ class subscriptions_option extends rcube_plugin
             $checkbox = new html_checkbox(['name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['use_subscriptions'] = [
-                'title'   => html::label($field_id, rcube::Q($this->gettext('useimapsubscriptions'))),
+                'title' => html::label($field_id, rcube::Q($this->gettext('useimapsubscriptions'))),
                 'content' => $checkbox->show($use_subscriptions ? 1 : 0),
             ];
         }
@@ -73,7 +73,7 @@ class subscriptions_option extends rcube_plugin
      *
      * @return array Modified hook arguments
      */
-    function prefs_save($args)
+    public function prefs_save($args)
     {
         if ($args['section'] == 'server') {
             $rcmail = rcmail::get_instance();
@@ -94,17 +94,18 @@ class subscriptions_option extends rcube_plugin
         return $args;
     }
 
-    function mailboxes_list($args)
+    public function mailboxes_list($args)
     {
         $rcmail = rcmail::get_instance();
 
         if (!$rcmail->config->get('use_subscriptions', true)) {
+            /** @var rcube_imap $storage */
             $storage = $rcmail->get_storage();
 
             if ($folders = $storage->list_folders_direct($args['root'], $args['name'])) {
                 $folders = array_filter($folders, static function ($folder) use ($storage) {
                     $attrs = $storage->folder_attributes($folder);
-                    return !in_array_nocase('\\Noselect', $attrs);
+                    return !in_array_nocase('\Noselect', $attrs);
                 });
 
                 $args['folders'] = $folders;
@@ -114,7 +115,7 @@ class subscriptions_option extends rcube_plugin
         return $args;
     }
 
-    function folders_list($args)
+    public function folders_list($args)
     {
         $rcmail = rcmail::get_instance();
 

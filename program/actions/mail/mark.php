@@ -28,24 +28,24 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
      */
     public function run($args = [])
     {
-        $rcmail  = rcmail::get_instance();
-        $_uids   = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-        $flag    = rcube_utils::get_input_string('_flag', rcube_utils::INPUT_POST);
+        $rcmail = rcmail::get_instance();
+        $_uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+        $flag = rcube_utils::get_input_string('_flag', rcube_utils::INPUT_POST);
         $folders = rcube_utils::get_input_string('_folders', rcube_utils::INPUT_POST);
-        $mbox    = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
 
         if (empty($_uids) || empty($flag)) {
             $rcmail->output->show_message('internalerror', 'error');
             $rcmail->output->send();
         }
 
-        $rcmail       = rcmail::get_instance();
-        $threading    = (bool) $rcmail->storage->get_threading();
+        $rcmail = rcmail::get_instance();
+        $threading = (bool) $rcmail->storage->get_threading();
         $skip_deleted = (bool) $rcmail->config->get('skip_deleted');
         $read_deleted = (bool) $rcmail->config->get('read_when_deleted');
-        $flag         = self::imap_flag($flag);
-        $old_count    = 0;
-        $from         = $_POST['_from'] ?? null;
+        $flag = self::imap_flag($flag);
+        $old_count = 0;
+        $from = $_POST['_from'] ?? null;
 
         if ($flag == 'DELETED' && $skip_deleted && $from != 'show') {
             // count messages before changing anything
@@ -54,28 +54,25 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
 
         if ($folders == 'all') {
             $mboxes = $rcmail->storage->list_folders_subscribed('', '*', 'mail');
-            $input  = array_combine($mboxes, array_fill(0, count($mboxes), '*'));
-        }
-        elseif ($folders == 'sub') {
-            $delim  = $rcmail->storage->get_hierarchy_delimiter();
+            $input = array_combine($mboxes, array_fill(0, count($mboxes), '*'));
+        } elseif ($folders == 'sub') {
+            $delim = $rcmail->storage->get_hierarchy_delimiter();
             $mboxes = $rcmail->storage->list_folders_subscribed($mbox . $delim, '*', 'mail');
             array_unshift($mboxes, $mbox);
             $input = array_combine($mboxes, array_fill(0, count($mboxes), '*'));
-        }
-        elseif ($folders == 'cur') {
+        } elseif ($folders == 'cur') {
             $input = [$mbox => '*'];
-        }
-        else {
+        } else {
             $input = self::get_uids(null, null, $dummy, rcube_utils::INPUT_POST);
         }
 
         $marked = 0;
-        $count  = 0;
-        $read   = 0;
+        $count = 0;
+        $read = 0;
 
-        foreach ($input as $mbox => $uids) {
-            $marked += (int) $rcmail->storage->set_flag($uids, $flag, $mbox);
-            $count  += is_array($uids) ? count($uids) : 1;
+        foreach ($input as $_mbox => $uids) {
+            $marked += (int) $rcmail->storage->set_flag($uids, $flag, $_mbox);
+            $count += is_array($uids) ? count($uids) : 1;
         }
 
         if (!$marked) {
@@ -86,15 +83,14 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
 
             self::display_server_error('errormarking');
             $rcmail->output->send();
-        }
-        elseif (empty($_POST['_quiet'])) {
+        } elseif (empty($_POST['_quiet'])) {
             $rcmail->output->show_message('messagemarked', 'confirmation');
         }
 
         if ($flag == 'DELETED' && $read_deleted && !empty($_POST['_ruid'])) {
             if ($ruids = rcube_utils::get_input_value('_ruid', rcube_utils::INPUT_POST)) {
-                foreach (self::get_uids($ruids) as $mbox => $uids) {
-                    $read += (int) $rcmail->storage->set_flag($uids, 'SEEN', $mbox);
+                foreach (self::get_uids($ruids) as $_mbox => $uids) {
+                    $read += (int) $rcmail->storage->set_flag($uids, 'SEEN', $_mbox);
                 }
             }
 
@@ -104,22 +100,19 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         }
 
         if ($flag == 'SEEN' || $flag == 'UNSEEN' || ($flag == 'DELETED' && !$skip_deleted)) {
-            foreach ($input as $mbox => $uids) {
-                self::send_unread_count($mbox);
+            foreach ($input as $_mbox => $uids) {
+                self::send_unread_count($_mbox);
             }
 
             $rcmail->output->set_env('last_flag', $flag);
-        }
-        elseif ($flag == 'DELETED' && $skip_deleted) {
+        } elseif ($flag == 'DELETED' && $skip_deleted) {
             if ($from == 'show') {
                 if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
                     $rcmail->output->command('show_message', $next);
-                }
-                else {
+                } else {
                     $rcmail->output->command('command', 'list');
                 }
-            }
-            else {
+            } else {
                 $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
 
                 // refresh saved search set after moving some messages
@@ -127,24 +120,24 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
                     $_SESSION['search'] = $rcmail->storage->refresh_search();
                 }
 
-                $msg_count      = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
-                $page_size      = $rcmail->storage->get_pagesize();
-                $page           = $rcmail->storage->get_page();
-                $pages          = ceil($msg_count / $page_size);
+                $msg_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
+                $page_size = $rcmail->storage->get_pagesize();
+                $page = $rcmail->storage->get_page();
+                $pages = ceil($msg_count / $page_size);
                 $nextpage_count = $old_count - $page_size * $page;
-                $remaining      = $msg_count - $page_size * ($page - 1);
-                $jump_back      = false;
+                $remaining = $msg_count - $page_size * ($page - 1);
+                $jump_back = false;
 
                 // jump back one page (user removed the whole last page)
                 if ($page > 1 && $remaining == 0) {
-                    --$page;
+                    $page--;
                     $rcmail->storage->set_page($page);
                     $_SESSION['page'] = $page;
                     $jump_back = true;
                 }
 
-                foreach ($input as $mbox => $uids) {
-                    self::send_unread_count($mbox, true);
+                foreach ($input as $_mbox => $uids) {
+                    self::send_unread_count($_mbox, true);
                 }
 
                 // update message count display
@@ -183,11 +176,11 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
     public static function imap_flag($flag)
     {
         $flags_map = [
-            'undelete'  => 'UNDELETED',
-            'delete'    => 'DELETED',
-            'read'      => 'SEEN',
-            'unread'    => 'UNSEEN',
-            'flagged'   => 'FLAGGED',
+            'undelete' => 'UNDELETED',
+            'delete' => 'DELETED',
+            'read' => 'SEEN',
+            'unread' => 'UNSEEN',
+            'flagged' => 'FLAGGED',
             'unflagged' => 'UNFLAGGED',
         ];
 

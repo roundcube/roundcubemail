@@ -23,15 +23,14 @@
  */
 class rcmail_output_json extends rcmail_output
 {
-    protected $texts     = [];
-    protected $commands  = [];
+    protected $texts = [];
+    protected $commands = [];
     protected $callbacks = [];
     protected $message;
     protected $header_sent = false;
 
-    public $type      = 'js';
+    public $type = 'js';
     public $ajax_call = true;
-
 
     /**
      * Object constructor
@@ -59,8 +58,7 @@ class rcmail_output_json extends rcmail_output
     {
         if ($this->config->get('devel_mode') && !empty($_SESSION['username'])) {
             $name = $_SESSION['username'];
-        }
-        else {
+        } else {
             $name = $this->config->get('product_name');
         }
 
@@ -100,8 +98,7 @@ class rcmail_output_json extends rcmail_output
 
         if (strpos($args[0], 'plugin.') === 0) {
             $this->callbacks[] = $args;
-        }
-        else {
+        } else {
             $this->commands[] = $args;
         }
     }
@@ -141,8 +138,7 @@ class rcmail_output_json extends rcmail_output
                     $vars = array_map(['rcmail', 'Q'], $vars);
                 }
                 $msgtext = $this->app->gettext(['name' => $message, 'vars' => $vars]);
-            }
-            else {
+            } else {
                 $msgtext = $message;
             }
 
@@ -157,7 +153,7 @@ class rcmail_output_json extends rcmail_output
     public function reset()
     {
         parent::reset();
-        $this->texts    = [];
+        $this->texts = [];
         $this->commands = [];
     }
 
@@ -196,10 +192,10 @@ class rcmail_output_json extends rcmail_output
     {
         if ($code == 403) {
             http_response_code(403);
-            exit("Invalid Request");
+            exit('Invalid Request');
         }
 
-        $this->show_message("Application Error ($code): $message", 'error');
+        $this->show_message("Application Error ({$code}): {$message}", 'error');
         $this->remote_response();
         exit;
     }
@@ -221,7 +217,7 @@ class rcmail_output_json extends rcmail_output
         unset($this->env['task'], $this->env['action'], $this->env['comm_path']);
 
         $rcmail = rcmail::get_instance();
-        $response['action'] = $rcmail->action;
+        $response = ['action' => $rcmail->action];
 
         if ($unlock = rcube_utils::get_input_string('_unlock', rcube_utils::INPUT_GPC)) {
             $response['unlock'] = $unlock;
@@ -243,7 +239,7 @@ class rcmail_output_json extends rcmail_output
         }
 
         // trigger generic hook where plugins can put additional content to the response
-        $hook = $this->app->plugins->exec_hook("render_response", ['response' => $response]);
+        $hook = $this->app->plugins->exec_hook('render_response', ['response' => $response]);
 
         // save some memory
         $response = $hook['response'];
@@ -259,7 +255,7 @@ class rcmail_output_json extends rcmail_output
     {
         $out = '';
 
-        foreach ($this->commands as $i => $args) {
+        foreach ($this->commands as $args) {
             $method = array_shift($args);
             foreach ($args as $i => $arg) {
                 $args[$i] = self::json_serialize($arg, $this->devel_mode, false);

@@ -23,17 +23,16 @@
  */
 abstract class rcmail_output extends rcube_output
 {
-    const JS_OBJECT_NAME = 'rcmail';
-    const BLANK_GIF      = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
+    public const JS_OBJECT_NAME = 'rcmail';
+    public const BLANK_GIF = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
 
-    public $type      = 'html';
+    public $type = 'html';
     public $ajax_call = false;
-    public $framed    = false;
+    public $framed = false;
 
-    protected $pagetitle       = '';
+    protected $pagetitle = '';
     protected $object_handlers = [];
-    protected $devel_mode      = false;
-
+    protected $devel_mode = false;
 
     /**
      * Object constructor
@@ -80,22 +79,20 @@ abstract class rcmail_output extends rcube_output
      * @param string $cmd     Method to call
      * @param mixed  ...$args Method arguments
      */
-    abstract function command($cmd, ...$args);
+    abstract public function command($cmd, ...$args);
 
     /**
      * Add a localized label(s) to the client environment
      *
      * @param mixed ...$args Labels (an array of strings, or many string arguments)
      */
-    abstract function add_label(...$args);
+    abstract public function add_label(...$args);
 
     /**
      * Register a template object handler
      *
      * @param string   $name Object name
      * @param callable $func Function name to call
-     *
-     * @return void
      */
     public function add_handler($name, $func)
     {
@@ -106,8 +103,6 @@ abstract class rcmail_output extends rcube_output
      * Register a list of template object handlers
      *
      * @param array $handlers Hash array with object=>handler pairs
-     *
-     * @return void
      */
     public function add_handlers($handlers)
     {
@@ -119,8 +114,6 @@ abstract class rcmail_output extends rcube_output
      *
      * @param string $header  The header string
      * @param bool   $replace Replace previously set header?
-     *
-     * @return void
      */
     public function header($header, $replace = true)
     {
@@ -133,7 +126,7 @@ abstract class rcmail_output extends rcube_output
      * @param string $body    The output body
      * @param array  $headers Headers
      *
-     * @return void
+     * @return never
      */
     public function sendExit($body = '', $headers = [])
     {
@@ -151,7 +144,7 @@ abstract class rcmail_output extends rcube_output
      * @param int    $code    The HTTP error code
      * @param string $message The HTTP error message
      *
-     * @return void
+     * @return never
      */
     public function sendExitError($code, $message = '')
     {

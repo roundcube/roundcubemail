@@ -29,18 +29,18 @@ class rcmail_action_mail_addcontact extends rcmail_action
      */
     public function run($args = [])
     {
-        $rcmail  = rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $address = rcube_utils::get_input_string('_address', rcube_utils::INPUT_POST, true);
-        $source  = rcube_utils::get_input_string('_source', rcube_utils::INPUT_POST);
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_POST);
 
         // Get the default addressbook
         $CONTACTS = null;
-        $SENDERS  = null;
-        $type     = 0;
+        $SENDERS = null;
+        $type = 0;
 
         if ($source != rcube_addressbook::TYPE_TRUSTED_SENDER) {
             $CONTACTS = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
-            $type     = rcube_addressbook::TYPE_DEFAULT;
+            $type = rcube_addressbook::TYPE_DEFAULT;
         }
 
         // Get the trusted senders addressbook
@@ -65,7 +65,7 @@ class rcmail_action_mail_addcontact extends rcmail_action
 
         $contact = [
             'email' => $contact[1]['mailto'],
-            'name'  => $contact[1]['name'],
+            'name' => $contact[1]['name'],
         ];
 
         $email = rcube_utils::idn_to_ascii($contact['email']);
@@ -88,8 +88,7 @@ class rcmail_action_mail_addcontact extends rcmail_action
             if (!empty($_POST['_reload'])) {
                 $rcmail->output->command('command', 'load-remote');
             }
-        }
-        else {
+        } else {
             $rcmail->output->show_message($error ?: 'errorsavingcontact', 'error', null, false);
         }
 

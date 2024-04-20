@@ -39,11 +39,10 @@ class markasjunk extends rcube_plugin
     private $spam_mbox;
     private $ham_mbox;
     private $driver;
-    private $flags   = [
-        'JUNK'    => 'Junk',
+    private $flags = [
+        'JUNK' => 'Junk',
         'NONJUNK' => 'NonJunk',
     ];
-
 
     /**
      * Plugin initialization
@@ -53,7 +52,7 @@ class markasjunk extends rcube_plugin
         $this->register_action('plugin.markasjunk.junk', [$this, 'mark_message']);
         $this->register_action('plugin.markasjunk.not_junk', [$this, 'mark_message']);
 
-        $this->rcube = rcube::get_instance();
+        $this->rcube = rcmail::get_instance();
         $this->load_config();
         $this->_load_host_config();
 
@@ -63,9 +62,9 @@ class markasjunk extends rcube_plugin
             return;
         }
 
-        $this->ham_mbox  = $this->rcube->config->get('markasjunk_ham_mbox', 'INBOX');
+        $this->ham_mbox = $this->rcube->config->get('markasjunk_ham_mbox', 'INBOX');
         $this->spam_mbox = $this->rcube->config->get('markasjunk_spam_mbox', $this->rcube->config->get('junk_mbox'));
-        $toolbar         = $this->rcube->config->get('markasjunk_toolbar', true);
+        $toolbar = $this->rcube->config->get('markasjunk_toolbar', true);
         $this->_init_flags();
 
         if ($this->rcube->action == '' || $this->rcube->action == 'show') {
@@ -76,48 +75,47 @@ class markasjunk extends rcube_plugin
             if ($toolbar) {
                 // add the buttons to the main toolbar
                 $this->add_button([
-                        'command'    => 'plugin.markasjunk.junk',
-                        'type'       => 'link',
-                        'class'      => 'button buttonPas junk disabled',
-                        'classact'   => 'button junk',
-                        'classsel'   => 'button junk pressed',
-                        'title'      => 'markasjunk.buttonjunk',
-                        'innerclass' => 'inner',
-                        'label'      => 'junk',
-                    ], 'toolbar');
+                    'command' => 'plugin.markasjunk.junk',
+                    'type' => 'link',
+                    'class' => 'button buttonPas junk disabled',
+                    'classact' => 'button junk',
+                    'classsel' => 'button junk pressed',
+                    'title' => 'markasjunk.buttonjunk',
+                    'innerclass' => 'inner',
+                    'label' => 'junk',
+                ], 'toolbar');
 
                 $this->add_button([
-                        'command'    => 'plugin.markasjunk.not_junk',
-                        'type'       => 'link',
-                        'class'      => 'button buttonPas notjunk disabled',
-                        'classact'   => 'button notjunk',
-                        'classsel'   => 'button notjunk pressed',
-                        'title'      => 'markasjunk.buttonnotjunk',
-                        'innerclass' => 'inner',
-                        'label'      => 'markasjunk.notjunk',
-                    ], 'toolbar');
-            }
-            else {
+                    'command' => 'plugin.markasjunk.not_junk',
+                    'type' => 'link',
+                    'class' => 'button buttonPas notjunk disabled',
+                    'classact' => 'button notjunk',
+                    'classsel' => 'button notjunk pressed',
+                    'title' => 'markasjunk.buttonnotjunk',
+                    'innerclass' => 'inner',
+                    'label' => 'markasjunk.notjunk',
+                ], 'toolbar');
+            } else {
                 // add the buttons to the mark message menu
                 $this->add_button([
-                        'command'    => 'plugin.markasjunk.junk',
-                        'type'       => 'link-menuitem',
-                        'label'      => 'markasjunk.asjunk',
-                        'id'         => 'markasjunk',
-                        'class'      => 'icon junk disabled',
-                        'classact'   => 'icon junk active',
-                        'innerclass' => 'icon junk',
-                    ], 'markmenu');
+                    'command' => 'plugin.markasjunk.junk',
+                    'type' => 'link-menuitem',
+                    'label' => 'markasjunk.asjunk',
+                    'id' => 'markasjunk',
+                    'class' => 'icon junk disabled',
+                    'classact' => 'icon junk active',
+                    'innerclass' => 'icon junk',
+                ], 'markmenu');
 
                 $this->add_button([
-                        'command'    => 'plugin.markasjunk.not_junk',
-                        'type'       => 'link-menuitem',
-                        'label'      => 'markasjunk.asnotjunk',
-                        'id'         => 'markasnotjunk',
-                        'class'      => 'icon notjunk disabled',
-                        'classact'   => 'icon notjunk active',
-                        'innerclass' => 'icon notjunk',
-                    ], 'markmenu');
+                    'command' => 'plugin.markasjunk.not_junk',
+                    'type' => 'link-menuitem',
+                    'label' => 'markasjunk.asnotjunk',
+                    'id' => 'markasnotjunk',
+                    'class' => 'icon notjunk disabled',
+                    'classact' => 'icon notjunk active',
+                    'innerclass' => 'icon notjunk',
+                ], 'markmenu');
             }
 
             // add markasjunk folder settings to the env for JS
@@ -137,26 +135,25 @@ class markasjunk extends rcube_plugin
     {
         $this->add_texts('localization');
 
-        $is_spam    = $this->rcube->action == 'plugin.markasjunk.junk';
-        $uids       = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-        $mbox_name  = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
-        $messageset = rcmail::get_uids($uids, $mbox_name, $multifolder);
-        $dest_mbox  = $is_spam ? $this->spam_mbox : $this->ham_mbox;
+        $is_spam = $this->rcube->action == 'plugin.markasjunk.junk';
+        $uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
+        $mbox_name = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
+        $messageset = rcmail_action::get_uids($uids, $mbox_name, $multifolder);
+        $dest_mbox = $is_spam ? $this->spam_mbox : $this->ham_mbox;
 
         // special case when select all is used, uid is '*', and not in multi folder mode and we are using a driver
-        // rcmail::get_uids does not handle this
+        // rcmail_action::get_uids does not handle this
         if ($uids == '*' && !$multifolder && is_object($this->driver)) {
-            $storage      = $this->rcube->get_storage();
+            $storage = $this->rcube->get_storage();
             $result_index = $storage->index($mbox_name);
-            $messageset   = [$mbox_name => $result_index->get()];
+            $messageset = [$mbox_name => $result_index->get()];
         }
 
         $result = $is_spam ? $this->_spam($messageset, $dest_mbox) : $this->_ham($messageset, $dest_mbox);
         if ($result) {
             if ($dest_mbox && ($mbox_name !== $dest_mbox || $multifolder)) {
                 $this->rcube->output->command('markasjunk_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multifolder));
-            }
-            else {
+            } else {
                 $this->rcube->output->command('command', 'list', $mbox_name);
             }
 
@@ -170,8 +167,7 @@ class markasjunk extends rcube_plugin
     {
         if (!empty($p['message_flags'])) {
             $p['message_flags'] = array_merge((array) $p['message_flags'], $this->flags);
-        }
-        else {
+        } else {
             $p['message_flags'] = $this->flags;
         }
 
@@ -181,7 +177,7 @@ class markasjunk extends rcube_plugin
     private function _spam(&$messageset, $dest_mbox = null)
     {
         $storage = $this->rcube->get_storage();
-        $result  = true;
+        $result = true;
 
         foreach ($messageset as $source_mbox => &$uids) {
             $storage->set_folder($source_mbox);
@@ -212,7 +208,7 @@ class markasjunk extends rcube_plugin
     private function _ham(&$messageset, $dest_mbox = null)
     {
         $storage = $this->rcube->get_storage();
-        $result  = true;
+        $result = true;
 
         foreach ($messageset as $source_mbox => &$uids) {
             $storage->set_folder($source_mbox);
@@ -249,8 +245,7 @@ class markasjunk extends rcube_plugin
 
         if ($action == 'spam') {
             $this->driver->spam($uids, $source_mbox, $dest_mbox);
-        }
-        elseif ($action == 'ham') {
+        } elseif ($action == 'ham') {
             $this->driver->ham($uids, $source_mbox, $dest_mbox);
         }
 
@@ -286,19 +281,17 @@ class markasjunk extends rcube_plugin
     private function _init_flags()
     {
         $spam_flag = $this->rcube->config->get('markasjunk_spam_flag');
-        $ham_flag  = $this->rcube->config->get('markasjunk_ham_flag');
+        $ham_flag = $this->rcube->config->get('markasjunk_ham_flag');
 
         if ($spam_flag === false) {
             unset($this->flags['JUNK']);
-        }
-        elseif (!empty($spam_flag)) {
+        } elseif (!empty($spam_flag)) {
             $this->flags['JUNK'] = $spam_flag;
         }
 
         if ($ham_flag === false) {
             unset($this->flags['NONJUNK']);
-        }
-        elseif (!empty($ham_flag)) {
+        } elseif (!empty($ham_flag)) {
             $this->flags['NONJUNK'] = $ham_flag;
         }
 
@@ -316,29 +309,27 @@ class markasjunk extends rcube_plugin
             return;
         }
 
-        $driver = $this->home . "/drivers/$driver_name.php";
-        $class  = "markasjunk_$driver_name";
+        $driver = $this->home . "/drivers/{$driver_name}.php";
+        $class = "markasjunk_{$driver_name}";
 
         if (!is_readable($driver)) {
             rcube::raise_error([
-                    'code' => 600,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => "markasjunk plugin: Unable to open driver file $driver",
-                ], true, false
-            );
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "markasjunk plugin: Unable to open driver file {$driver}",
+            ], true, false);
         }
 
         include_once $driver;
 
         if (!class_exists($class, false) || !method_exists($class, 'spam') || !method_exists($class, 'ham')) {
             rcube::raise_error([
-                    'code' => 600,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
-                    'message' => "markasjunk plugin: Broken driver: $driver",
-                ], true, false
-            );
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "markasjunk plugin: Broken driver: {$driver}",
+            ], true, false);
         }
 
         // call the relevant function from the driver

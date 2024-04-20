@@ -31,7 +31,7 @@ class rcmail_action_utils_spell_html extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
         $method = rcube_utils::get_input_string('method', rcube_utils::INPUT_POST);
-        $lang   = rcube_utils::get_input_string('lang', rcube_utils::INPUT_POST);
+        $lang = rcube_utils::get_input_string('lang', rcube_utils::INPUT_POST);
         $result = [];
 
         $spellchecker = new rcube_spellchecker($lang);
@@ -41,29 +41,25 @@ class rcmail_action_utils_spell_html extends rcmail_action
 
             $spellchecker->add_word($data);
             $result['result'] = true;
-        }
-        else {
+        } else {
             $data = rcube_utils::get_input_string('text', rcube_utils::INPUT_POST, true);
             $data = html_entity_decode($data, \ENT_QUOTES, RCUBE_CHARSET);
 
             if ($data && !$spellchecker->check($data)) {
-                $result['words']      = $spellchecker->get();
+                $result['words'] = $spellchecker->get();
                 $result['dictionary'] = (bool) $rcmail->config->get('spellcheck_dictionary');
             }
         }
 
-        header("Content-Type: application/json; charset=" . RCUBE_CHARSET);
+        header('Content-Type: application/json; charset=' . RCUBE_CHARSET);
 
         if ($error = $spellchecker->error()) {
             rcube::raise_error([
-                    'code'    => 500,
-                    'file'    => __FILE__,
-                    'line'    => __LINE__,
-                    'message' => "Spellcheck error: " . $error,
-                ],
-                true,
-                false
-            );
+                'code' => 500,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => 'Spellcheck error: ' . $error,
+            ], true, false);
 
             echo json_encode(['error' => $rcmail->gettext('internalerror')]);
             exit;

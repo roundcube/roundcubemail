@@ -41,8 +41,8 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
     public static function contact_search()
     {
         $rcmail = rcmail::get_instance();
-        $adv    = isset($_POST['_adv']);
-        $sid    = rcube_utils::get_input_string('_sid', rcube_utils::INPUT_GET);
+        $adv = isset($_POST['_adv']);
+        $sid = rcube_utils::get_input_string('_sid', rcube_utils::INPUT_GET);
         $search = null;
 
         // get search criteria from saved search
@@ -52,6 +52,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         }
         // get fields/values from advanced search form
         elseif ($adv) {
+            $fields = [];
             foreach (array_keys($_POST) as $key) {
                 $s = trim(rcube_utils::get_input_string($key, rcube_utils::INPUT_POST, true));
                 if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
@@ -72,13 +73,12 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
             if (empty($fields)) {
                 $fields = array_keys(self::$SEARCH_MODS_DEFAULT);
-            }
-            else {
+            } else {
                 $fields = array_filter(explode(',', $fields));
             }
 
             // update search_mods setting
-            $old_mods    = $rcmail->config->get('addressbook_search_mods');
+            $old_mods = $rcmail->config->get('addressbook_search_mods');
             $search_mods = array_fill_keys($fields, 1);
 
             if ($old_mods != $search_mods) {
@@ -95,12 +95,12 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         $mode |= rcube_addressbook::SEARCH_GROUPS;
 
         // get sources list
-        $sources    = $rcmail->get_address_sources();
-        $sort_col   = $rcmail->config->get('addressbook_sort_col', 'name');
-        $afields    = $rcmail->config->get('contactlist_fields');
-        $page_size  = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
+        $sources = $rcmail->get_address_sources();
+        $sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
+        $afields = $rcmail->config->get('contactlist_fields');
+        $page_size = $rcmail->config->get('addressbook_pagesize', $rcmail->config->get('pagesize', 50));
         $search_set = [];
-        $records    = [];
+        $records = [];
 
         foreach ($sources as $s) {
             $source = $rcmail->get_address_book($s['id']);
@@ -130,20 +130,17 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             // get contacts count
             $result = $source->search($fields, $search, $mode, false);
 
-            if (empty($result) || !$result->count) {
+            if (!$result->count) {
                 continue;
             }
 
             // get records
-            $result = $source->list_records($afields);
-
-            while ($row = $result->next()) {
+            foreach ($source->list_records($afields) as $row) {
                 $row['sourceid'] = $s['id'];
                 $key = rcube_addressbook::compose_contact_key($row, $sort_col);
                 $records[$key] = $row;
             }
 
-            unset($result);
             $search_set[$s['id']] = $source->get_search_set();
         }
 
@@ -151,7 +148,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         ksort($records, \SORT_LOCALE_STRING);
 
         // create resultset object
-        $count  = count($records);
+        $count = count($records);
         $result = new rcube_result_set($count);
 
         // cut first-page records
@@ -180,8 +177,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             // create javascript list
             self::js_contacts_list($result);
             $rcmail->output->show_message('contactsearchsuccessful', 'confirmation', ['nr' => $result->count]);
-        }
-        else {
+        } else {
             $rcmail->output->show_message('nocontactsfound', 'notice');
         }
 
@@ -211,27 +207,27 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
     public static function contact_search_form($attrib)
     {
-        $rcmail       = rcmail::get_instance();
-        $i_size       = !empty($attrib['size']) ? $attrib['size'] : 30;
+        $rcmail = rcmail::get_instance();
+        $i_size = !empty($attrib['size']) ? $attrib['size'] : 30;
         $short_labels = self::get_bool_attr($attrib, 'short-legend-labels');
 
         $form = [
             'main' => [
-                'name'    => $rcmail->gettext('properties'),
+                'name' => $rcmail->gettext('properties'),
                 'content' => [],
             ],
             'personal' => [
-                'name'    => $rcmail->gettext($short_labels ? 'personal' : 'personalinfo'),
+                'name' => $rcmail->gettext($short_labels ? 'personal' : 'personalinfo'),
                 'content' => [],
             ],
             'other' => [
-                'name'    => $rcmail->gettext('other'),
+                'name' => $rcmail->gettext('other'),
                 'content' => [],
             ],
         ];
 
         // get supported coltypes from all address sources
-        $sources  = $rcmail->get_address_sources();
+        $sources = $rcmail->get_address_sources();
         $coltypes = [];
 
         foreach ($sources as $s) {
@@ -239,7 +235,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
             if (!empty($CONTACTS->coltypes)) {
                 $contact_cols = isset($CONTACTS->coltypes[0]) ? array_flip($CONTACTS->coltypes) : $CONTACTS->coltypes;
-                $coltypes     = array_merge($coltypes, $contact_cols);
+                $coltypes = array_merge($coltypes, $contact_cols);
             }
         }
 
@@ -247,8 +243,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         foreach ($coltypes as $col => $colprop) {
             if (!empty(rcmail_action_contacts_index::$CONTACT_COLTYPES[$col])) {
                 $coltypes[$col] = array_merge(rcmail_action_contacts_index::$CONTACT_COLTYPES[$col], (array) $colprop);
-            }
-            else {
+            } else {
                 $coltypes[$col] = (array) $colprop;
             }
         }
@@ -259,21 +254,20 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
                 $colprop['type'] = 'text';
             }
             if ($colprop['type'] != 'image' && empty($colprop['nosearch'])) {
-                $ftype    = $colprop['type'] == 'select' ? 'select' : 'text';
-                $label    = $colprop['label'] ?? $rcmail->gettext($col);
+                $ftype = $colprop['type'] == 'select' ? 'select' : 'text';
+                $label = $colprop['label'] ?? $rcmail->gettext($col);
                 $category = !empty($colprop['category']) ? $colprop['category'] : 'other';
 
                 // load jquery UI datepicker for date fields
                 if ($colprop['type'] == 'date') {
                     $colprop['class'] = (!empty($colprop['class']) ? $colprop['class'] . ' ' : '') . 'datepicker';
-                }
-                elseif ($ftype == 'text') {
+                } elseif ($ftype == 'text') {
                     $colprop['size'] = $i_size;
                 }
 
                 $colprop['id'] = '_search_' . $col;
 
-                $content  = html::div('row',
+                $content = html::div('row',
                     html::label(['class' => 'contactfieldlabel label', 'for' => $colprop['id']], rcube::Q($label))
                     . html::div('contactfieldcontent', rcube_output::get_edit_field('search_' . $col, '', $colprop, $ftype))
                 );
@@ -286,10 +280,10 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         $hiddenfields->add(['name' => '_adv', 'value' => 1]);
 
         $out = $rcmail->output->request_form([
-                'name'    => 'form',
-                'method'  => 'post',
-                'task'    => $rcmail->task,
-                'action'  => 'search',
+                'name' => 'form',
+                'method' => 'post',
+                'task' => $rcmail->task,
+                'action' => 'search',
                 'noclose' => true,
             ] + $attrib, $hiddenfields->show()
         );
@@ -302,7 +296,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         foreach ($form as $f) {
             if (!empty($f['content'])) {
                 $content = html::div('contactfieldgroup', implode("\n", $f['content']));
-                $legend  = html::tag('legend', null, rcube::Q($f['name']));
+                $legend = html::tag('legend', null, rcube::Q($f['name']));
 
                 $out .= html::tag('fieldset', $attrib, $legend . $content) . "\n";
             }

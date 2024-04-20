@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // Enables basic notification
 $config['newmail_notifier_basic'] = false;
 

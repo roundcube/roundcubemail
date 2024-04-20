@@ -32,14 +32,14 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
 
         // count messages before changing anything
         $threading = (bool) $rcmail->storage->get_threading();
-        $trash     = $rcmail->config->get('trash_mbox');
+        $trash = $rcmail->config->get('trash_mbox');
         $old_count = 0;
 
         if (empty($_POST['_from']) || $_POST['_from'] != 'show') {
             $old_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
         }
 
-        $target  = rcube_utils::get_input_string('_target_mbox', rcube_utils::INPUT_POST, true);
+        $target = rcube_utils::get_input_string('_target_mbox', rcube_utils::INPUT_POST, true);
 
         if (empty($_POST['_uid']) || !strlen($target)) {
             $rcmail->output->show_message('internalerror', 'error');
@@ -48,18 +48,16 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
 
         $success = true;
         $addrows = false;
-        $count   = 0;
+        $count = 0;
         $sources = [];
 
-        foreach (rcmail::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
+        foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
             if ($mbox === $target) {
                 $count += is_array($uids) ? count($uids) : 1;
-            }
-            elseif ($rcmail->storage->move_message($uids, $target, $mbox)) {
+            } elseif ($rcmail->storage->move_message($uids, $target, $mbox)) {
                 $count += is_array($uids) ? count($uids) : 1;
                 $sources[] = $mbox;
-            }
-            else {
+            } else {
                 $success = false;
             }
         }
@@ -72,16 +70,14 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
 
             self::display_server_error('errormoving', null, $target == $trash ? 'delete' : '');
             $rcmail->output->send();
-        }
-        else {
+        } else {
             $rcmail->output->show_message($target == $trash ? 'messagemovedtotrash' : 'messagemoved', 'confirmation');
         }
 
         if (!empty($_POST['_refresh'])) {
             // FIXME: send updated message rows instead of reloading the entire list
             $rcmail->output->command('refresh_list');
-        }
-        else {
+        } else {
             $addrows = true;
         }
 
@@ -95,26 +91,25 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         if (!empty($_POST['_from']) && $_POST['_from'] == 'show') {
             if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
-            }
-            else {
+            } else {
                 $rcmail->output->command('command', 'list');
             }
 
             $rcmail->output->send();
         }
 
-        $mbox           = $rcmail->storage->get_folder();
-        $msg_count      = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
-        $exists         = $rcmail->storage->count($mbox, 'EXISTS', true);
-        $page_size      = $rcmail->storage->get_pagesize();
-        $page           = $rcmail->storage->get_page();
-        $pages          = ceil($msg_count / $page_size);
+        $mbox = $rcmail->storage->get_folder();
+        $msg_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
+        $exists = $rcmail->storage->count($mbox, 'EXISTS', true);
+        $page_size = $rcmail->storage->get_pagesize();
+        $page = $rcmail->storage->get_page();
+        $pages = ceil($msg_count / $page_size);
         $nextpage_count = $old_count - $page_size * $page;
-        $remaining      = $msg_count - $page_size * ($page - 1);
+        $remaining = $msg_count - $page_size * ($page - 1);
 
         // jump back one page (user removed the whole last page)
         if ($page > 1 && $remaining == 0) {
-            --$page;
+            $page--;
             $rcmail->storage->set_page($page);
             $_SESSION['page'] = $page;
             $jump_back = true;
@@ -153,8 +148,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         // set trash folder state
         if ($mbox === $trash) {
             $rcmail->output->command('set_trash_count', $exists);
-        }
-        elseif ($target === $trash) {
+        } elseif ($target === $trash) {
             $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash, 'EXISTS', true));
         }
 

@@ -3,8 +3,9 @@
 namespace Tests\Browser\Mail;
 
 use Tests\Browser\Components\Toolbarmenu;
+use Tests\Browser\TestCase;
 
-class ListTest extends \Tests\Browser\TestCase
+class ListTest extends TestCase
 {
     protected static $msgcount = 0;
 
@@ -48,13 +49,11 @@ class ListTest extends \Tests\Browser\TestCase
                     $imap = \bootstrap::get_storage();
                     if ($imap->get_threading()) {
                         $browser->assertVisible('a.threads:not(.disabled)');
-                    }
-                    else {
+                    } else {
                         $browser->assertMissing('a.threads');
                     }
                 });
-            }
-            elseif ($browser->isTablet()) {
+            } elseif ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button')
                     ->waitFor('#toolbar-list-menu');
 
@@ -65,25 +64,22 @@ class ListTest extends \Tests\Browser\TestCase
                     $imap = \bootstrap::get_storage();
                     if ($imap->get_threading()) {
                         $browser->assertVisible('a.threads:not(.disabled)');
-                    }
-                    else {
+                    } else {
                         $browser->assertMissing('a.threads');
                     }
                 });
 
                 $browser->click(); // hide the popup menu
-            }
-            else { // phone
+            } else { // phone
                 // On phones list options are in the toolbar menu
                 $browser->with(new Toolbarmenu(), static function ($browser) {
-                    $active  = ['select', 'options'];
+                    $active = ['select', 'options'];
                     $missing = [];
                     $imap = \bootstrap::get_storage();
 
                     if ($imap->get_threading()) {
                         $active[] = 'threads';
-                    }
-                    else {
+                    } else {
                         $missing[] = 'threads';
                     }
 
@@ -103,12 +99,10 @@ class ListTest extends \Tests\Browser\TestCase
                 $browser->with(new Toolbarmenu(), static function ($browser) {
                     $browser->clickMenuItem('select', null, false);
                 });
-            }
-            elseif ($browser->isTablet()) {
+            } elseif ($browser->isTablet()) {
                 $browser->click('.toolbar-list-button');
                 $browser->click('#toolbar-list-menu a.select');
-            }
-            else {
+            } else {
                 $browser->click('#toolbar-list-menu a.select');
                 $browser->assertFocused('#toolbar-list-menu a.select');
             }

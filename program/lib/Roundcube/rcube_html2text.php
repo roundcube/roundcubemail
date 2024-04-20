@@ -95,10 +95,10 @@
  */
 class rcube_html2text
 {
-    const LINKS_NONE = 0;
-    const LINKS_END = 1;
-    const LINKS_INLINE = 2;
-    const LINKS_DEFAULT = self::LINKS_END;
+    public const LINKS_NONE = 0;
+    public const LINKS_END = 1;
+    public const LINKS_INLINE = 2;
+    public const LINKS_DEFAULT = self::LINKS_END;
 
     /**
      * Contains the HTML content to convert.
@@ -181,8 +181,8 @@ class rcube_html2text
         "\n<div>",                              // </p> before <div>
         '<div>',                                // <br> before <div>
         "\n",                                   // <br>
-        '_\\1_',                                // <i>
-        '_\\1_',                                // <em>
+        '_\1_',                                 // <i>
+        '_\1_',                                 // <em>
         "\n\n",                                 // <ul> and </ul>
         "\n\n",                                 // <ol> and </ol>
         "\t* \\1\n",                            // <li> and </li>
@@ -352,7 +352,7 @@ class rcube_html2text
      * @param bool|int $links_mode Links handling mode
      * @param int      $width      Maximum width of the formatted text, 0 for no limit
      */
-    function __construct($source = '', $from_file = false, $links_mode = self::LINKS_DEFAULT, $width = 75, $charset = 'UTF-8')
+    public function __construct($source = '', $from_file = false, $links_mode = self::LINKS_DEFAULT, $width = 75, $charset = 'UTF-8')
     {
         if (!empty($source)) {
             $this->set_html($source, $from_file);
@@ -361,7 +361,7 @@ class rcube_html2text
         $this->set_base_url();
         $this->set_links_mode($links_mode);
 
-        $this->width   = $width;
+        $this->width = $width;
         $this->charset = $charset;
     }
 
@@ -392,12 +392,11 @@ class rcube_html2text
      * @param string $source    HTML content
      * @param bool   $from_file Indicates $source is a file to pull content from
      */
-    function set_html($source, $from_file = false)
+    public function set_html($source, $from_file = false)
     {
         if ($from_file && file_exists($source)) {
             $this->html = file_get_contents($source);
-        }
-        else {
+        } else {
             $this->html = $source;
         }
 
@@ -409,7 +408,7 @@ class rcube_html2text
      *
      * @return string Plain text
      */
-    function get_text()
+    public function get_text()
     {
         if (!$this->_converted) {
             $this->_convert();
@@ -421,7 +420,7 @@ class rcube_html2text
     /**
      * Prints the text, converted from HTML.
      */
-    function print_text()
+    public function print_text()
     {
         echo $this->get_text();
     }
@@ -431,7 +430,7 @@ class rcube_html2text
      *
      * Tags should be in the form "<p>", with no corresponding closing tag.
      */
-    function set_allowed_tags($allowed_tags = '')
+    public function set_allowed_tags($allowed_tags = '')
     {
         if (!empty($allowed_tags)) {
             $this->allowed_tags = $allowed_tags;
@@ -441,17 +440,15 @@ class rcube_html2text
     /**
      * Sets a base URL to handle relative links.
      */
-    function set_base_url($url = '')
+    public function set_base_url($url = '')
     {
         if (empty($url)) {
             if (!empty($_SERVER['HTTP_HOST'])) {
                 $this->url = 'http://' . $_SERVER['HTTP_HOST'];
-            }
-            else {
+            } else {
                 $this->url = '';
             }
-        }
-        else {
+        } else {
             // Strip any trailing slashes for consistency (relative
             // URLs may already start with a slash like "/file.html")
             if (substr($url, -1) == '/') {
@@ -482,7 +479,7 @@ class rcube_html2text
             }
         }
 
-        $this->text       = $text;
+        $this->text = $text;
         $this->_converted = true;
     }
 
@@ -514,33 +511,33 @@ class rcube_html2text
         }
 
         // Run our defined tags search-and-replace
-        $text = preg_replace($this->search, $this->replace, $text);
+        $text = (string) preg_replace($this->search, $this->replace, $text);
 
         // Run our defined tags search-and-replace with callback
-        $text = preg_replace_callback($this->callback_search, [$this, 'tags_preg_callback'], $text);
+        $text = (string) preg_replace_callback($this->callback_search, [$this, 'tags_preg_callback'], $text);
 
         // Strip any other HTML tags
         $text = strip_tags($text, $this->allowed_tags);
 
         // Run our defined entities/characters search-and-replace
-        $text = preg_replace($this->ent_search, $this->ent_replace, $text);
+        $text = (string) preg_replace($this->ent_search, $this->ent_replace, $text);
 
         // Replace known html entities
         $text = html_entity_decode($text, \ENT_QUOTES, $this->charset);
 
         // Replace unicode nbsp to regular spaces
-        $text = preg_replace('/\xC2\xA0/', ' ', $text);
+        $text = (string) preg_replace('/\xC2\xA0/', ' ', $text);
 
         // Remove unknown/unhandled entities (this cannot be done in search-and-replace block)
-        $text = preg_replace('/&([a-zA-Z0-9]{2,6}|#[0-9]{2,4});/', '', $text);
+        $text = (string) preg_replace('/&([a-zA-Z0-9]{2,6}|#[0-9]{2,4});/', '', $text);
 
         // Convert "|+|amp|+|" into "&", need to be done after handling of unknown entities
         // This properly handles situation of "&amp;quot;" in input string
         $text = str_replace('|+|amp|+|', '&', $text);
 
         // Bring down number of empty lines to 2 max
-        $text = preg_replace("/\n\s+\n/", "\n\n", $text);
-        $text = preg_replace("/[\n]{3,}/", "\n\n", $text);
+        $text = (string) preg_replace("/\n\\s+\n/", "\n\n", $text);
+        $text = (string) preg_replace("/[\n]{3,}/", "\n\n", $text);
 
         // remove leading empty lines (can be produced by e.g. P tag on the beginning)
         $text = ltrim($text, "\n");
@@ -582,19 +579,18 @@ class rcube_html2text
 
         if (preg_match('!^([a-z][a-z0-9.+-]+:)!i', $link)) {
             $url = $link;
-        }
-        else {
+        } else {
             $url = $this->url;
             if (substr($link, 0, 1) != '/') {
                 $url .= '/';
             }
-            $url .= "$link";
+            $url .= $link;
         }
 
         if ($this->_links_mode === self::LINKS_NONE) {
             // When not using link list use URL if there's no content (#5795)
             // The content here is HTML, convert it to text first
-            $h2t     = new self($display, false, false, 1024, $this->charset);
+            $h2t = new self($display, false, false, 1024, $this->charset);
             $display = $h2t->get_text();
 
             if (empty($display) && preg_match('!^([a-z][a-z0-9.+-]+://)!i', $link)) {
@@ -665,7 +661,7 @@ class rcube_html2text
                 preg_replace($this->pre_search, $this->pre_replace, $this->pre_content));
 
             // replace the content (use callback because content can contain $0 variable)
-            $text = preg_replace_callback('/<pre[^>]*>.*<\/pre>/ismU',
+            $text = (string) preg_replace_callback('/<pre[^>]*>.*<\/pre>/ismU',
                 [$this, 'pre_preg_callback'], $text, 1);
 
             // free memory
@@ -680,7 +676,7 @@ class rcube_html2text
      */
     protected function _convert_blockquotes(&$text)
     {
-        $level  = 0;
+        $level = 0;
         $offset = 0;
 
         while (($start = stripos($text, '<blockquote', $offset)) !== false) {
@@ -701,6 +697,7 @@ class rcube_html2text
                     $level--;
                 }
                 // found matching end tag
+                // @phpstan-ignore-next-line
                 elseif ($end !== false && $level == 0) {
                     $taglen = strpos($text, '>', $start) - $start;
                     $startpos = $start + $taglen + 1;
@@ -733,8 +730,7 @@ class rcube_html2text
                 else {
                     break;
                 }
-            }
-            while ($end || $next);
+            } while ($end || $next);
         }
     }
 
@@ -743,7 +739,7 @@ class rcube_html2text
      */
     public function blockquote_citation_callback($m)
     {
-        $line  = ltrim($m[2]);
+        $line = ltrim($m[2]);
         $space = isset($line[0]) && $line[0] == '>' ? '' : ' ';
 
         return $m[1] . '>' . $space . $line;
@@ -766,8 +762,12 @@ class rcube_html2text
             case 'a':
                 // Remove spaces in URL (#1487805)
                 $url = str_replace(' ', '', $matches[3]);
+                $url = html_entity_decode($url, \ENT_HTML5, RCUBE_CHARSET);
+
                 return $this->_handle_link($url, $matches[4]);
         }
+
+        return '';
     }
 
     /**

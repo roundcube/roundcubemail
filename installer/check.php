@@ -15,38 +15,38 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    exit("Not allowed! Please use installer.php instead.");
+    exit('Not allowed! Please use installer.php instead.');
 }
 
 $required_php_exts = [
-    'PCRE'      => 'pcre',
-    'DOM'       => 'dom',
-    'Session'   => 'session',
-    'XML'       => 'xml',
-    'Intl'      => 'intl',
-    'JSON'      => 'json',
-    'PDO'       => 'PDO',
+    'PCRE' => 'pcre',
+    'DOM' => 'dom',
+    'Session' => 'session',
+    'XML' => 'xml',
+    'Intl' => 'intl',
+    'JSON' => 'json',
+    'PDO' => 'PDO',
     'Multibyte' => 'mbstring',
-    'OpenSSL'   => 'openssl',
-    'Filter'    => 'filter',
+    'OpenSSL' => 'openssl',
+    'Filter' => 'filter',
 ];
 
 $optional_php_exts = [
-    'cURL'      => 'curl',
-    'FileInfo'  => 'fileinfo',
-    'Exif'      => 'exif',
-    'Iconv'     => 'iconv',
-    'LDAP'      => 'ldap',
-    'GD'        => 'gd',
-    'Imagick'   => 'imagick',
+    'cURL' => 'curl',
+    'FileInfo' => 'fileinfo',
+    'Exif' => 'exif',
+    'Iconv' => 'iconv',
+    'LDAP' => 'ldap',
+    'GD' => 'gd',
+    'Imagick' => 'imagick',
     'XMLWriter' => 'xmlwriter',
-    'Zip'       => 'zip',
+    'Zip' => 'zip',
 ];
 
 $required_libs = [
-    'PEAR'      => 'pear.php.net',
+    'PEAR' => 'pear.php.net',
     'Auth_SASL' => 'pear.php.net',
-    'Net_SMTP'  => 'pear.php.net',
+    'Net_SMTP' => 'pear.php.net',
     'Mail_mime' => 'pear.php.net',
     'GuzzleHttp\Client' => 'github.com/guzzle/guzzle',
 ];
@@ -56,9 +56,9 @@ $optional_libs = [
 ];
 
 $ini_checks = [
-    'file_uploads'            => 1,
-    'session.auto_start'      => 0,
-    'mbstring.func_overload'  => 0,
+    'file_uploads' => 1,
+    'session.auto_start' => 0,
+    'mbstring.func_overload' => 0,
     'suhosin.session.encrypt' => 0,
 ];
 
@@ -67,31 +67,31 @@ $optional_checks = [
 ];
 
 $source_urls = [
-    'cURL'      => 'https://www.php.net/manual/en/book.curl.php',
-    'Sockets'   => 'https://www.php.net/manual/en/book.sockets.php',
-    'Session'   => 'https://www.php.net/manual/en/book.session.php',
-    'PCRE'      => 'https://www.php.net/manual/en/book.pcre.php',
-    'FileInfo'  => 'https://www.php.net/manual/en/book.fileinfo.php',
+    'cURL' => 'https://www.php.net/manual/en/book.curl.php',
+    'Sockets' => 'https://www.php.net/manual/en/book.sockets.php',
+    'Session' => 'https://www.php.net/manual/en/book.session.php',
+    'PCRE' => 'https://www.php.net/manual/en/book.pcre.php',
+    'FileInfo' => 'https://www.php.net/manual/en/book.fileinfo.php',
     'Multibyte' => 'https://www.php.net/manual/en/book.mbstring.php',
-    'OpenSSL'   => 'https://www.php.net/manual/en/book.openssl.php',
-    'JSON'      => 'https://www.php.net/manual/en/book.json.php',
-    'DOM'       => 'https://www.php.net/manual/en/book.dom.php',
-    'Iconv'     => 'https://www.php.net/manual/en/book.iconv.php',
-    'Intl'      => 'https://www.php.net/manual/en/book.intl.php',
-    'Exif'      => 'https://www.php.net/manual/en/book.exif.php',
-    'PDO'       => 'https://www.php.net/manual/en/book.pdo.php',
-    'LDAP'      => 'https://www.php.net/manual/en/book.ldap.php',
-    'GD'        => 'https://www.php.net/manual/en/book.image.php',
-    'Imagick'   => 'https://www.php.net/manual/en/book.imagick.php',
-    'XML'       => 'https://www.php.net/manual/en/book.xml.php',
+    'OpenSSL' => 'https://www.php.net/manual/en/book.openssl.php',
+    'JSON' => 'https://www.php.net/manual/en/book.json.php',
+    'DOM' => 'https://www.php.net/manual/en/book.dom.php',
+    'Iconv' => 'https://www.php.net/manual/en/book.iconv.php',
+    'Intl' => 'https://www.php.net/manual/en/book.intl.php',
+    'Exif' => 'https://www.php.net/manual/en/book.exif.php',
+    'PDO' => 'https://www.php.net/manual/en/book.pdo.php',
+    'LDAP' => 'https://www.php.net/manual/en/book.ldap.php',
+    'GD' => 'https://www.php.net/manual/en/book.image.php',
+    'Imagick' => 'https://www.php.net/manual/en/book.imagick.php',
+    'XML' => 'https://www.php.net/manual/en/book.xml.php',
     'XMLWriter' => 'https://www.php.net/manual/en/book.xmlwriter.php',
-    'Zip'       => 'https://www.php.net/manual/en/book.zip.php',
-    'Filter'    => 'https://www.php.net/manual/en/book.filter.php',
-    'pdo_mysql'   => 'https://www.php.net/manual/en/ref.pdo-mysql.php',
-    'pdo_pgsql'   => 'https://www.php.net/manual/en/ref.pdo-pgsql.php',
-    'pdo_sqlite'  => 'https://www.php.net/manual/en/ref.pdo-sqlite.php',
-    'PEAR'      => 'https://pear.php.net',
-    'Net_SMTP'  => 'https://pear.php.net/package/Net_SMTP',
+    'Zip' => 'https://www.php.net/manual/en/book.zip.php',
+    'Filter' => 'https://www.php.net/manual/en/book.filter.php',
+    'pdo_mysql' => 'https://www.php.net/manual/en/ref.pdo-mysql.php',
+    'pdo_pgsql' => 'https://www.php.net/manual/en/ref.pdo-pgsql.php',
+    'pdo_sqlite' => 'https://www.php.net/manual/en/ref.pdo-sqlite.php',
+    'PEAR' => 'https://pear.php.net',
+    'Net_SMTP' => 'https://pear.php.net/package/Net_SMTP',
     'Mail_mime' => 'https://pear.php.net/package/Mail_mime',
     'Net_LDAP3' => 'https://git.kolab.org/diffusion/PNL',
 ];
@@ -109,8 +109,7 @@ echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . 
 define('MIN_PHP_VERSION', '7.3.0');
 if (version_compare(\PHP_VERSION, MIN_PHP_VERSION, '>=')) {
     $RCI->pass('Version', 'PHP ' . \PHP_VERSION . ' detected');
-}
-else {
+} else {
     $RCI->fail('Version', 'PHP Version ' . MIN_PHP_VERSION . ' or greater is required ' . \PHP_VERSION . ' detected');
 }
 ?>
@@ -126,8 +125,7 @@ $prefix = \PHP_SHLIB_SUFFIX === 'dll' ? 'php_' : '';
 foreach ($required_php_exts as $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
-    }
-    else {
+    } else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->fail($name, $msg, $source_urls[$name]);
@@ -143,8 +141,7 @@ foreach ($required_php_exts as $name => $ext) {
 foreach ($optional_php_exts as $name => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($name);
-    }
-    else {
+    } else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->na($name, $msg, $source_urls[$name]);
@@ -164,8 +161,7 @@ foreach ($RCI->supported_dbs as $database => $ext) {
     if (extension_loaded($ext)) {
         $RCI->pass($database);
         $found_db_driver = true;
-    }
-    else {
+    } else {
         $_ext = $ext_dir . '/' . $prefix . $ext . '.' . \PHP_SHLIB_SUFFIX;
         $msg = @is_readable($_ext) ? 'Could be loaded. Please add in php.ini' : '';
         $RCI->na($database, $msg, $source_urls[$ext]);
@@ -186,21 +182,19 @@ if (empty($found_db_driver)) {
 foreach ($required_libs as $classname => $vendor) {
     if (class_exists($classname)) {
         $RCI->pass($classname);
+    } else {
+        $RCI->fail($classname, "Failed to load class {$classname} from {$vendor}", $source_urls[$classname]);
     }
-    else {
-        $RCI->fail($classname, "Failed to load class $classname from $vendor", $source_urls[$classname]);
-    }
-    echo "<br />";
+    echo '<br />';
 }
 
 foreach ($optional_libs as $classname => $vendor) {
     if (class_exists($classname)) {
         $RCI->pass($classname);
+    } else {
+        $RCI->na($classname, "Recommended to install {$classname} from {$vendor}", $source_urls[$classname]);
     }
-    else {
-        $RCI->na($classname, "Recommended to install $classname from $vendor", $source_urls[$classname]);
-    }
-    echo "<br />";
+    echo '<br />';
 }
 
 ?>
@@ -211,21 +205,7 @@ foreach ($optional_libs as $classname => $vendor) {
 <?php
 
 foreach ($ini_checks as $var => $val) {
-    $status = ini_get($var);
-    if ($val === '-NOTEMPTY-') {
-        if (empty($status)) {
-            $RCI->fail($var, "empty value detected");
-        }
-        else {
-            $RCI->pass($var);
-        }
-    }
-    elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
-        $RCI->pass($var);
-    }
-    else {
-        $RCI->fail($var, "is '$status', should be '$val'");
-    }
+    $RCI->ini_check($var, $val, true);
     echo '<br />';
 }
 ?>
@@ -235,37 +215,7 @@ foreach ($ini_checks as $var => $val) {
 <?php
 
 foreach ($optional_checks as $var => $val) {
-    $status = ini_get($var);
-    if ($val === '-NOTEMPTY-') {
-        if (empty($status)) {
-            $RCI->optfail($var, "Could be set");
-        }
-        else {
-            $RCI->pass($var);
-        }
-        echo '<br />';
-        continue;
-    }
-    if ($val === '-VALID-') {
-        if ($var == 'date.timezone') {
-            try {
-                $tz = new DateTimeZone($status);
-                $RCI->pass($var);
-            }
-            catch (Exception $e) {
-                $RCI->optfail($var, empty($status) ? "not set" : "invalid value detected: $status");
-            }
-        }
-        else {
-            $RCI->pass($var);
-        }
-    }
-    elseif (filter_var($status, \FILTER_VALIDATE_BOOLEAN) == $val) {
-        $RCI->pass($var);
-    }
-    else {
-        $RCI->optfail($var, "is '$status', could be '$val'");
-    }
+    $RCI->ini_check($var, $val);
     echo '<br />';
 }
 ?>

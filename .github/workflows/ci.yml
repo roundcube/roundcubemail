@@ -26,10 +26,6 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Setup composer
-        run: |
-            cp composer.json-dist composer.json
-
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
@@ -43,6 +39,15 @@ jobs:
         run: |
           npm add -D eslint eslint-plugin-import eslint-config-airbnb-base eslint-plugin-unicorn
           npx eslint --ext .js .
+
+      - name: Plugins - Check composer.json format
+        run: |
+          for plugin_dir in plugins/*/; do (
+            echo "========== $plugin_dir =========="
+            cd "$plugin_dir"
+            composer validate --strict --no-check-lock && composer normalize --dry-run --no-check-lock "$plugin_dir/composer.json"
+            echo " "
+          ); done
 
   phpstan:
     runs-on: ubuntu-latest
@@ -64,7 +69,6 @@ jobs:
 
       - name: Setup composer
         run: |
-            cp composer.json-dist composer.json
             composer require "kolab/net_ldap3:~1.1.1" --no-update
             composer require "laravel/dusk:^7.9" --no-update
 

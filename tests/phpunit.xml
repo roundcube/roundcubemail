@@ -1,68 +1,65 @@
 <?xml version="1.0"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  backupGlobals="false"
+<phpunit
   bootstrap="bootstrap.php"
   colors="true"
   convertDeprecationsToExceptions="true"
   convertErrorsToExceptions="true"
   convertNoticesToExceptions="true"
   convertWarningsToExceptions="true"
-  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
   <coverage>
     <include>
-      <directory suffix=".php">../program/lib</directory>
-      <directory suffix=".php">../program/include</directory>
-      <directory suffix=".php">../program/actions</directory>
-      <directory suffix=".php">../plugins</directory>
+      <directory>../program/lib</directory>
+      <directory>../program/include</directory>
+      <directory>../program/actions</directory>
+      <directory>../plugins</directory>
     </include>
   </coverage>
+  <extensions>
+    <extension class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
+  </extensions>
   <testsuites>
-    <testsuite name="Framework">
-      <directory suffix=".php">Framework</directory>
+    <testsuite name="tests">
+      <directory>.</directory>
+      <exclude>Browser</exclude>
     </testsuite>
-    <testsuite name="Roundcube">
-      <directory suffix=".php">Rcmail</directory>
-    </testsuite>
-    <testsuite name="Actions">
-      <directory suffix=".php">Actions/*</directory>
-    </testsuite>
-    <testsuite name="Plugins">
-      <file>./../plugins/acl/tests/Acl.php</file>
-      <file>./../plugins/additional_message_headers/tests/AdditionalMessageHeaders.php</file>
-      <file>./../plugins/archive/tests/Archive.php</file>
-      <file>./../plugins/attachment_reminder/tests/AttachmentReminder.php</file>
-      <file>./../plugins/autologon/tests/Autologon.php</file>
-      <file>./../plugins/autologout/tests/Autologout.php</file>
-      <file>./../plugins/database_attachments/tests/DatabaseAttachments.php</file>
-      <file>./../plugins/debug_logger/tests/DebugLogger.php</file>
-      <file>./../plugins/emoticons/tests/Emoticons.php</file>
-      <directory suffix=".php">./../plugins/enigma/tests</directory>
-      <file>./../plugins/example_addressbook/tests/ExampleAddressbook.php</file>
-      <file>./../plugins/filesystem_attachments/tests/FilesystemAttachments.php</file>
-      <file>./../plugins/help/tests/Help.php</file>
-      <file>./../plugins/hide_blockquote/tests/HideBlockquote.php</file>
-      <file>./../plugins/http_authentication/tests/HttpAuthentication.php</file>
-      <file>./../plugins/identicon/tests/Identicon.php</file>
-      <file>./../plugins/identicon/tests/IdenticonEngine.php</file>
-      <file>./../plugins/identity_select/tests/IdentitySelect.php</file>
-      <file>./../plugins/jqueryui/tests/Jqueryui.php</file>
-      <file>./../plugins/krb_authentication/tests/KrbAuthentication.php</file>
-      <directory suffix=".php">./../plugins/managesieve/tests</directory>
-      <file>./../plugins/markasjunk/tests/Markasjunk.php</file>
-      <file>./../plugins/new_user_dialog/tests/NewUserDialog.php</file>
-      <file>./../plugins/new_user_identity/tests/NewUserIdentity.php</file>
-      <file>./../plugins/newmail_notifier/tests/NewmailNotifier.php</file>
-      <file>./../plugins/password/tests/Password.php</file>
-      <file>./../plugins/redundant_attachments/tests/RedundantAttachments.php</file>
-      <file>./../plugins/show_additional_headers/tests/ShowAdditionalHeaders.php</file>
-      <file>./../plugins/squirrelmail_usercopy/tests/SquirrelmailUsercopy.php</file>
-      <file>./../plugins/subscriptions_option/tests/SubscriptionsOption.php</file>
-      <file>./../plugins/userinfo/tests/Userinfo.php</file>
-      <file>./../plugins/vcard_attachments/tests/VcardAttachments.php</file>
-      <file>./../plugins/virtuser_file/tests/VirtuserFile.php</file>
-      <file>./../plugins/virtuser_query/tests/VirtuserQuery.php</file>
-      <file>./../plugins/zipdownload/tests/Zipdownload.php</file>
+    <testsuite name="plugins">
+      <directory>../plugins/acl/tests</directory>
+      <directory>../plugins/additional_message_headers/tests</directory>
+      <directory>../plugins/archive/tests</directory>
+      <directory>../plugins/attachment_reminder/tests</directory>
+      <directory>../plugins/autologon/tests</directory>
+      <directory>../plugins/autologout/tests</directory>
+      <directory>../plugins/database_attachments/tests</directory>
+      <directory>../plugins/debug_logger/tests</directory>
+      <directory>../plugins/emoticons/tests</directory>
+      <directory>../plugins/enigma/tests</directory>
+      <directory>../plugins/example_addressbook/tests</directory>
+      <directory>../plugins/filesystem_attachments/tests</directory>
+      <directory>../plugins/help/tests</directory>
+      <directory>../plugins/hide_blockquote/tests</directory>
+      <directory>../plugins/http_authentication/tests</directory>
+      <directory>../plugins/identicon/tests</directory>
+      <directory>../plugins/identity_select/tests</directory>
+      <directory>../plugins/jqueryui/tests</directory>
+      <directory>../plugins/krb_authentication/tests</directory>
+      <directory>../plugins/managesieve/tests</directory>
+      <directory>../plugins/markasjunk/tests</directory>
+      <directory>../plugins/new_user_dialog/tests</directory>
+      <directory>../plugins/new_user_identity/tests</directory>
+      <directory>../plugins/newmail_notifier/tests</directory>
+      <directory>../plugins/password/tests</directory>
+      <directory>../plugins/reconnect/tests</directory>
+      <directory>../plugins/redundant_attachments/tests</directory>
+      <directory>../plugins/show_additional_headers/tests</directory>
+      <directory>../plugins/squirrelmail_usercopy/tests</directory>
+      <directory>../plugins/subscriptions_option/tests</directory>
+      <directory>../plugins/userinfo/tests</directory>
+      <directory>../plugins/vcard_attachments/tests</directory>
+      <directory>../plugins/virtuser_file/tests</directory>
+      <directory>../plugins/virtuser_query/tests</directory>
+      <directory>../plugins/zipdownload/tests</directory>
+      <exclude>../plugins/*/tests/Browser</exclude>
     </testsuite>
   </testsuites>
 </phpunit>

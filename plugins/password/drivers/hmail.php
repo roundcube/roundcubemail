@@ -32,44 +32,40 @@ class rcube_hmail_password
         try {
             $remote = $rcmail->config->get('hmailserver_remote_dcom', false);
             if ($remote) {
-                $obApp = new COM("hMailServer.Application", $rcmail->config->get('hmailserver_server'));
+                $obApp = new COM('hMailServer.Application', $rcmail->config->get('hmailserver_server'));
+            } else {
+                $obApp = new COM('hMailServer.Application');
             }
-            else {
-                $obApp = new COM("hMailServer.Application");
-            }
-        }
-        catch (Exception $e) {
-            rcube::write_log('errors', "Plugin password (hmail driver): " . trim(strip_tags($e->getMessage())));
-            rcube::write_log('errors', "Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.");
+        } catch (Exception $e) {
+            rcube::write_log('errors', 'Plugin password (hmail driver): ' . trim(strip_tags($e->getMessage())));
+            rcube::write_log('errors', 'Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.');
 
             return PASSWORD_ERROR;
         }
 
-        if (strstr($username,'@')) {
+        if (strstr($username, '@')) {
             [, $domain] = explode('@', $username);
-        }
-        else {
-            $domain = $rcmail->config->get('username_domain',false);
+        } else {
+            $domain = $rcmail->config->get('username_domain', false);
             if (!$domain) {
-                rcube::write_log('errors','Plugin password (hmail driver): $config[\'username_domain\'] is not defined.');
+                rcube::write_log('errors', 'Plugin password (hmail driver): $config[\'username_domain\'] is not defined.');
                 return PASSWORD_ERROR;
             }
-            $username = $username . "@" . $domain;
+            $username = $username . '@' . $domain;
         }
 
         try {
-            $obApp->Authenticate($username, $curpass);
+            $obApp->Authenticate($username, $curpass); // @phpstan-ignore-line
 
-            $obDomain  = $obApp->Domains->ItemByName($domain);
+            $obDomain = $obApp->Domains->ItemByName($domain); // @phpstan-ignore-line
             $obAccount = $obDomain->Accounts->ItemByAddress($username);
             $obAccount->Password = $passwd;
             $obAccount->Save();
 
             return PASSWORD_SUCCESS;
-        }
-        catch (Exception $e) {
-            rcube::write_log('errors', "Plugin password (hmail driver): " . trim(strip_tags($e->getMessage())));
-            rcube::write_log('errors', "Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.");
+        } catch (Exception $e) {
+            rcube::write_log('errors', 'Plugin password (hmail driver): ' . trim(strip_tags($e->getMessage())));
+            rcube::write_log('errors', 'Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.');
 
             return PASSWORD_ERROR;
         }

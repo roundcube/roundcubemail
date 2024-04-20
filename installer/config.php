@@ -15,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    exit("Not allowed! Please use installer.php instead.");
+    exit('Not allowed! Please use installer.php instead.');
 }
 
 // allow the current user to get to the next step
@@ -34,15 +34,14 @@ if (!empty($_POST['submit'])) {
         }
 
         echo '</p>';
-    }
-    else {
+    } else {
         $save_button = '';
         if (($dir = sys_get_temp_dir()) && @is_writable($dir)) {
             echo '<iframe name="getconfig" style="display:none"></iframe>';
             echo '<form id="getconfig_form" action="?" method="get" target="getconfig" style="display:none">';
             echo '<input name="_getconfig" value="2" /></form>';
 
-            $button_txt  = html::quote('Save in ' . $dir);
+            $button_txt = html::quote('Save in ' . $dir);
             $save_button = '&nbsp;<input type="button" onclick="document.getElementById(\'getconfig_form\').submit()" value="' . $button_txt . '" />';
         }
 
@@ -570,8 +569,8 @@ echo $select_htmlcomp->show(intval($RCI->getprop('htmleditor')));
 
 $select_autosave = new html_select(['name' => '_draft_autosave', 'id' => 'cfgautosave']);
 $select_autosave->add('never', 0);
-foreach ([1, 3, 5, 10] as $i => $min) {
-    $select_autosave->add("$min min", $min * 60);
+foreach ([1, 3, 5, 10] as $min) {
+    $select_autosave->add("{$min} min", $min * 60);
 }
 
 echo $select_autosave->show(intval($RCI->getprop('draft_autosave')));

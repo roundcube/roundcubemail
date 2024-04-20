@@ -30,15 +30,15 @@ class rcmail_string_replacer extends rcube_string_replacer
      *
      * @param array $matches Matches result from preg_replace_callback
      *
-     * @return int Index of saved string value
+     * @return string Replacement string
      *
      * @see rcube_string_replacer::mailto_callback()
      */
     protected function mailto_callback($matches)
     {
-        $href   = $matches[1];
+        $href = $matches[1];
         $suffix = $this->parse_url_brackets($href);
-        $email  = $href;
+        $email = $href;
 
         if (strpos($email, '?')) {
             [$email] = explode('?', $email);
@@ -50,7 +50,7 @@ class rcmail_string_replacer extends rcube_string_replacer
         }
 
         $attribs = [
-            'href'    => 'mailto:' . $href,
+            'href' => 'mailto:' . $href,
             'onclick' => sprintf("return %s.command('compose','%s',this)",
                 rcmail_output::JS_OBJECT_NAME,
                 rcube::JQ($href)

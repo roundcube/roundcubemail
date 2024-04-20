@@ -1,5 +1,9 @@
 <?php
 
+use GuzzleHttp\Client as HttpClient;
+use Laravel\Dusk\Console\ChromeDriverCommand;
+use Laravel\Dusk\OperatingSystem;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -18,7 +22,7 @@
 */
 
 if (\PHP_SAPI != 'cli') {
-    exit("Not in shell mode (php-cli)");
+    exit('Not in shell mode (php-cli)');
 }
 
 if (!defined('INSTALL_PATH')) {
@@ -27,24 +31,22 @@ if (!defined('INSTALL_PATH')) {
 
 require_once INSTALL_PATH . 'program/include/iniset.php';
 
-class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
+class Installer extends ChromeDriverCommand
 {
     /**
      * Execute the console command.
      *
      * @param string $version
-     *
-     * @return void
      */
-    public function install($version = '')
+    public function install($version = ''): void
     {
-        $os = Laravel\Dusk\OperatingSystem::id();
+        $os = OperatingSystem::id();
         $version = trim($version);
         $archive = $this->directory . 'chromedriver.zip';
 
         $url = $this->resolveChromeDriverDownloadUrl($version, $os);
 
-        $client = new \GuzzleHttp\Client();
+        $client = new HttpClient();
 
         $response = $client->get($url);
 
@@ -54,7 +56,7 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
 
         $this->rename($binary, $os);
 
-        echo "ChromeDriver binary successfully installed for version $version.\n";
+        echo "ChromeDriver binary successfully installed for version {$version}.\n";
     }
 
     /**
@@ -62,17 +64,17 @@ class Installer extends Laravel\Dusk\Console\ChromeDriverCommand
      *
      * @param string $url URL
      *
-     * @return string|bool
+     * @return string
      */
     protected function getUrl(string $url)
     {
-        return file_get_contents($url);
+        return file_get_contents($url) ?: '';
     }
 }
 
 if (empty($argv[1])) {
-    rcube::raise_error("Chrome driver version is a required argument of this script.", false, true);
+    rcube::raise_error('Chrome driver version is a required argument of this script.', false, true);
 }
 
-$installer = new Installer;
+$installer = new Installer();
 $installer->install($argv[1]);

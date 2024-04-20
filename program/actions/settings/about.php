@@ -34,19 +34,19 @@ class rcmail_action_settings_about extends rcmail_action
         $rcmail->output->set_pagetitle($rcmail->gettext('about'));
 
         $rcmail->output->add_handlers([
-                'supportlink' => [$this, 'supportlink'],
-                'pluginlist'  => [$this, 'plugins_list'],
-                'copyright'   => static function () {
-                    return 'Copyright &copy; 2005-2023, The Roundcube Dev Team';
-                },
-                'license' => static function () {
-                    return 'This program is free software; you can redistribute it and/or modify it under the terms '
-                        . 'of the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
-                        . 'as published by the Free Software Foundation, either version 3 of the License, '
-                        . 'or (at your option) any later version.<br/>'
-                        . 'Some <a href="https://roundcube.net/license" target="_blank">exceptions</a> '
-                        . 'for skins &amp; plugins apply.';
-                },
+            'supportlink' => [$this, 'supportlink'],
+            'pluginlist' => [$this, 'plugins_list'],
+            'copyright' => static function () {
+                return 'Copyright &copy; 2005-2024, The Roundcube Dev Team';
+            },
+            'license' => static function () {
+                return 'This program is free software; you can redistribute it and/or modify it under the terms '
+                    . 'of the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
+                    . 'as published by the Free Software Foundation, either version 3 of the License, '
+                    . 'or (at your option) any later version.<br/>'
+                    . 'Some <a href="https://roundcube.net/license" target="_blank">exceptions</a> '
+                    . 'for skins &amp; plugins apply.';
+            },
         ]);
 
         $rcmail->output->send('about');
@@ -72,7 +72,7 @@ class rcmail_action_settings_about extends rcmail_action
             $attrib['id'] = 'rcmpluginlist';
         }
 
-        $plugins     = array_filter($rcmail->plugins->active_plugins);
+        $plugins = array_filter($rcmail->plugins->active_plugins);
         $plugin_info = [];
 
         foreach ($plugins as $name) {
@@ -115,13 +115,13 @@ class rcmail_action_settings_about extends rcmail_action
             if ($uri) {
                 $uri = html::a([
                         'target' => '_blank',
-                        'href'   => rcube::Q($uri),
+                        'href' => rcube::Q($uri),
                     ],
                     rcube::Q($rcmail->gettext('download'))
                 );
             }
 
-            $license = isset($data['license']) ? $data['license'] : '';
+            $license = $data['license'] ?? '';
 
             if (!empty($data['license_uri'])) {
                 $license = html::a([
@@ -130,8 +130,7 @@ class rcmail_action_settings_about extends rcmail_action
                     ],
                     rcube::Q($data['license'])
                 );
-            }
-            else {
+            } else {
                 $license = rcube::Q($license);
             }
 

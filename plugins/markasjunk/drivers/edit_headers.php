@@ -38,8 +38,8 @@ class markasjunk_edit_headers
 
     private function _edit_headers(&$uids, $spam, $dst_mbox)
     {
-        $rcube = rcube::get_instance();
-        $args  = $rcube->config->get($spam ? 'markasjunk_spam_patterns' : 'markasjunk_ham_patterns');
+        $rcube = rcmail::get_instance();
+        $args = $rcube->config->get($spam ? 'markasjunk_spam_patterns' : 'markasjunk_ham_patterns');
 
         if (empty($args['patterns'])) {
             return;
@@ -52,7 +52,7 @@ class markasjunk_edit_headers
             $raw_headers = $rcube->storage->get_raw_headers($uid);
 
             $updated_headers = preg_replace($args['patterns'], $args['replacements'], $raw_headers);
-            $raw_message     = str_replace($raw_headers, $updated_headers, $raw_message);
+            $raw_message = str_replace($raw_headers, $updated_headers, $raw_message);
 
             $saved = $rcube->storage->save_message($dst_mbox, $raw_message);
 

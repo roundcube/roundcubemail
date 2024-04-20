@@ -29,22 +29,22 @@ class rcmail_action_settings_folder_purge extends rcmail_action
      */
     public function run($args = [])
     {
-        $rcmail       = rcmail::get_instance();
-        $storage      = $rcmail->get_storage();
-        $mbox         = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
-        $delimiter    = $storage->get_hierarchy_delimiter();
-        $trash_mbox   = $rcmail->config->get('trash_mbox');
+        $rcmail = rcmail::get_instance();
+        $storage = $rcmail->get_storage();
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
+        $delimiter = $storage->get_hierarchy_delimiter();
+        $trash_mbox = $rcmail->config->get('trash_mbox');
         $trash_regexp = '/^' . preg_quote($trash_mbox . $delimiter, '/') . '/';
 
         // we should only be purging trash (or their subfolders)
         if (!strlen($trash_mbox) || $mbox === $trash_mbox || preg_match($trash_regexp, $mbox)) {
             $success = $storage->delete_message('*', $mbox);
-            $delete  = true;
+            $delete = true;
         }
         // move to Trash
         else {
             $success = $storage->move_message('1:*', $trash_mbox, $mbox);
-            $delete  = false;
+            $delete = false;
         }
 
         if (!empty($success)) {
@@ -53,15 +53,13 @@ class rcmail_action_settings_folder_purge extends rcmail_action
             if ($delete) {
                 $rcmail->output->show_message('folderpurged', 'confirmation');
                 $rcmail->output->command('set_quota', self::quota_content(null, $mbox));
-            }
-            else {
+            } else {
                 $rcmail->output->show_message('messagemoved', 'confirmation');
             }
 
             $_SESSION['unseen_count'][$mbox] = 0;
             $rcmail->output->command('show_folder', $mbox, null, true);
-        }
-        else {
+        } else {
             self::display_server_error('errorsaving');
         }
 

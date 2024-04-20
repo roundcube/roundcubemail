@@ -32,26 +32,24 @@ function print_usage()
     echo "    --type=type    Pref-value type: int, bool, string\n";
 }
 
-
 // get arguments
 $args = rcube_utils::get_opt([
-        'u' => 'user',
-        'd' => 'delete:bool',
-        't' => 'type',
-        'c' => 'config',
+    'u' => 'user',
+    'd' => 'delete:bool',
+    't' => 'type',
+    'c' => 'config',
 ]);
 
 if (empty($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
-}
-elseif (empty($args[0]) || (empty($args[1]) && empty($args['delete']))) {
+} elseif (empty($args[0]) || (empty($args[1]) && empty($args['delete']))) {
     echo "Missing required parameters.\n";
     print_usage();
     exit;
 }
 
-$pref_name  = trim($args[0]);
+$pref_name = trim($args[0]);
 $pref_value = !empty($args['delete']) ? null : trim($args[1]);
 
 if ($pref_value === null) {
@@ -63,7 +61,7 @@ if (!empty($args['config'])) {
     $rcube->config->load_from_file($args['config']);
 }
 
-$type = isset($args['type']) ? $args['type'] : null;
-$user = isset($args['user']) ? $args['user'] : null;
+$type = $args['type'] ?? null;
+$user = $args['user'] ?? null;
 
 rcmail_utils::mod_pref($pref_name, $pref_value, $user, $type);

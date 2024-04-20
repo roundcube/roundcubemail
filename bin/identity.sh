@@ -50,8 +50,7 @@ if (isset($subcommand_executables[$program_name])) {
     $program = $subcommand_executables[$program_name];
 
     $program($options);
-}
-else {
+} else {
     echo "Available sub-commands:\n";
     echo "add       - create a new identity for a user\n";
     echo "delete    - delete an identity (mark as deleted)\n";
@@ -73,25 +72,24 @@ function get_identity_attr($options)
         exit;
     }
 
-    $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
-    $attribute = get_option_value($options, 'attribute', '', false, true, "Enter the attribute name e.g. -a name");
+    $identity_id = get_option_value($options, 'identity_id', '', false, true, 'Enter the identity id e.g. -i 70');
+    $attribute = get_option_value($options, 'attribute', '', false, true, 'Enter the attribute name e.g. -a name');
 
     $user = get_user($options);
 
     $identity = $user->get_identity($identity_id);
 
     if (empty($identity)) {
-        rcube::raise_error("Invalid identity ID.", false, true);
+        rcube::raise_error('Invalid identity ID.', false, true);
     }
 
     if (isset($identity[$attribute])) {
         $attrValue = $identity[$attribute];
 
-        echo "$attrValue\n";
-    }
-    else {
-        rcube::raise_error("Invalid attribute name. Available attributes: identity_id, user_id, changed, del, standard, name, "
-            . "organization, email, reply-to, bcc, signature, html_signature.", false, true);
+        echo "{$attrValue}\n";
+    } else {
+        rcube::raise_error('Invalid attribute name. Available attributes: identity_id, user_id, changed, del, standard, name, '
+            . 'organization, email, reply-to, bcc, signature, html_signature.', false, true);
     }
 }
 
@@ -128,14 +126,14 @@ function delete_identity($options)
         exit;
     }
 
-    $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
+    $identity_id = get_option_value($options, 'identity_id', '', false, true, 'Enter the identity id e.g. -i 70');
 
     $user = get_user($options);
 
     $identity = $user->delete_identity($identity_id);
 
     if (!$identity) {
-        rcube::raise_error("Invalid identity ID.");
+        rcube::raise_error('Invalid identity ID.');
         exit;
     }
 
@@ -178,9 +176,9 @@ function add_identity($options)
         $setAsDefault = filter_var($options['is_default'], \FILTER_VALIDATE_BOOLEAN);
     }
 
-    $new_identity['email'] = get_option_value($options, 'email', '', false, true, "Enter the email e.g. -e somemail@example.com");
+    $new_identity['email'] = get_option_value($options, 'email', '', false, true, 'Enter the email e.g. -e somemail@example.com');
     $new_identity['name'] = get_option_value($options, 'name', '', false, true, "Enter the name of an identity e.g. -n 'John Smith'");
-    $new_identity['organization']  = get_option_value($options, 'organization', '', false, false);
+    $new_identity['organization'] = get_option_value($options, 'organization', '', false, false);
 
     $new_identity['html_signature'] = 0;
     $new_identity['signature'] = get_option_value($options, 'plain_text_signature', '', false, false);
@@ -201,7 +199,7 @@ function add_identity($options)
         $user->set_default($id);
     }
 
-    echo "Identity created successfully with ID: $id.\n";
+    echo "Identity created successfully with ID: {$id}.\n";
 }
 
 function update_identity($options)
@@ -224,7 +222,7 @@ function update_identity($options)
         exit;
     }
 
-    $identity_id = get_option_value($options, 'identity_id', '', false, true, "Enter the identity id e.g. -i 70");
+    $identity_id = get_option_value($options, 'identity_id', '', false, true, 'Enter the identity id e.g. -i 70');
 
     $updated_identity = [];
 
@@ -281,7 +279,7 @@ function update_identity($options)
     }
 
     if (count($updated_identity) === 0) {
-        rcube::raise_error("No attributes changed. Set some new values.", false, true);
+        rcube::raise_error('No attributes changed. Set some new values.', false, true);
     }
 
     $user = get_user($options);
@@ -289,14 +287,14 @@ function update_identity($options)
     $identity = $user->update_identity($identity_id, $updated_identity);
 
     if (!$identity) {
-        rcube::raise_error("Identity not updated. Either the identity id is incorrect or provided values are invalid.", false, true);
+        rcube::raise_error('Identity not updated. Either the identity id is incorrect or provided values are invalid.', false, true);
     }
 
     if ($setAsDefault) {
         $user->set_default($id);
     }
 
-    echo "Identity updated successfully. ID: $identity_id.\n";
+    echo "Identity updated successfully. ID: {$identity_id}.\n";
 }
 
 // Helpers
@@ -343,7 +341,7 @@ function echo_identities($identities)
             $diff = 17 - strlen($key);
             $separator = $diff > 0 ? str_repeat(' ', $diff) : '';
 
-            echo "$key$separator: $val\n";
+            echo "{$key}{$separator}: {$val}\n";
         }
 
         if ($i < count($identities) - 1) {
@@ -369,14 +367,14 @@ function get_user($options)
 
     $db = $rcmail->get_dbh();
 
-    $username = get_option_value($options, 'username', '', false, true, "Enter the username e.g. -u user@example.com");
+    $username = get_option_value($options, 'username', '', false, true, 'Enter the username e.g. -u user@example.com');
     $host = rcmail_utils::get_host($options);
 
     // find user in local database
     $user = rcube_user::query($username, $host);
 
     if (empty($user)) {
-        rcube::raise_error("User does not exist: $username", false, true);
+        rcube::raise_error("User does not exist: {$username}", false, true);
     }
 
     return $user;

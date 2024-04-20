@@ -63,7 +63,7 @@ class debug_logger extends rcube_plugin
 {
     protected $runlog;
 
-    function init()
+    public function init()
     {
         require_once __DIR__ . '/runlog/runlog.php';
 
@@ -74,7 +74,7 @@ class debug_logger extends rcube_plugin
         }
 
         $log_config = rcmail::get_instance()->config->get('debug_logger', []);
-        $log_dir    = rcmail::get_instance()->config->get('log_dir');
+        $log_dir = rcmail::get_instance()->config->get('log_dir');
 
         foreach ($log_config as $type => $file) {
             $this->runlog->set_file($log_dir . '/' . $file, $type);
@@ -82,7 +82,7 @@ class debug_logger extends rcube_plugin
 
         $start_string = '';
         $action = rcmail::get_instance()->action;
-        $task   = rcmail::get_instance()->task;
+        $task = rcmail::get_instance()->task;
 
         if ($action) {
             $start_string .= "Action: {$action}. ";
@@ -98,23 +98,22 @@ class debug_logger extends rcube_plugin
         $this->add_hook('authenticate', [$this, 'authenticate']);
     }
 
-    function authenticate($args)
+    public function authenticate($args)
     {
         $this->runlog->note('Authenticating ' . $args['user'] . '@' . $args['host']);
         return $args;
     }
 
-    function console($args)
+    public function console($args)
     {
         $note = $args['args'][0];
 
         if (!empty($args['args'][1])) {
             $type = $args['args'][1];
-        }
-        else {
+        } else {
             // This could be extended to detect types based on the
             // file which called console. For now only rcube_imap/rcube_storage is supported
-            $bt   = debug_backtrace();
+            $bt = debug_backtrace();
             $file = count($bt) >= 2 ? $bt[2]['file'] : '';
 
             switch (basename($file)) {
@@ -151,7 +150,7 @@ class debug_logger extends rcube_plugin
         return $args;
     }
 
-    function __destruct()
+    public function __destruct()
     {
         if ($this->runlog) {
             $this->runlog->end();

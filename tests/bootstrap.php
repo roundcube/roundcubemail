@@ -1,5 +1,10 @@
 <?php
 
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use Masterminds\HTML5;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -21,7 +26,7 @@
 error_reporting(\E_ALL);
 
 if (\PHP_SAPI != 'cli') {
-    exit("Not in shell mode (php-cli)");
+    exit('Not in shell mode (php-cli)');
 }
 
 if (!defined('INSTALL_PATH')) {
@@ -43,32 +48,18 @@ require_once INSTALL_PATH . 'program/include/iniset.php';
 
 rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
 
-// Extend include path so some plugin test won't fail
-$include_path = ini_get('include_path') . \PATH_SEPARATOR . TESTS_DIR . '..';
-if (set_include_path($include_path) === false) {
-    exit("Fatal error: ini_set/set_include_path does not work.");
-}
-
-require_once TESTS_DIR . 'ActionTestCase.php';
-require_once TESTS_DIR . 'ExitException.php';
-require_once TESTS_DIR . 'OutputHtmlMock.php';
-require_once TESTS_DIR . 'OutputJsonMock.php';
-require_once TESTS_DIR . 'StderrMock.php';
-require_once TESTS_DIR . 'StorageMock.php';
-
 // Initialize database and environment
 ActionTestCase::init();
-
 
 /**
  * Call protected/private method of a object.
  *
  * @param object $object     Object instance
  * @param string $method     Method name to call
- * @param array  $parameters Array of parameters to pass into method.
+ * @param array  $parameters array of parameters to pass into method
  * @param string $class      Object class
  *
- * @return mixed Method return.
+ * @return mixed method return
  */
 function invokeMethod($object, $method, array $parameters = [], $class = null)
 {
@@ -106,10 +97,8 @@ function getProperty($object, $name, $class = null)
  * @param string               $name   Property name
  * @param mixed                $value  Property value
  * @param string               $class  Object  class
- *
- * @return void
  */
-function setProperty($object, $name, $value, $class = null)
+function setProperty($object, $name, $value, $class = null): void
 {
     $reflection = new ReflectionClass($class ?: get_class($object));
 
@@ -129,8 +118,8 @@ function setProperty($object, $name, $value, $class = null)
  */
 function getHTMLNodes($html, $xpath_query)
 {
-    $html5 = new Masterminds\HTML5(['disable_html_ns' => true]);
-    $doc  = $html5->loadHTML($html);
+    $html5 = new HTML5(['disable_html_ns' => true]);
+    $doc = $html5->loadHTML($html);
 
     $xpath = new DOMXPath($doc);
 
@@ -144,7 +133,7 @@ function setHttpClientMock(array $responses)
 {
     foreach ($responses as $idx => $response) {
         if (is_array($response)) {
-            $responses[$idx] = new \GuzzleHttp\Psr7\Response(
+            $responses[$idx] = new Response(
                 $response['code'] ?? 200,
                 $response['headers'] ?? [],
                 $response['response'] ?? ''
@@ -152,8 +141,8 @@ function setHttpClientMock(array $responses)
         }
     }
 
-    $mock = new \GuzzleHttp\Handler\MockHandler($responses);
-    $handler = \GuzzleHttp\HandlerStack::create($mock);
+    $mock = new MockHandler($responses);
+    $handler = HandlerStack::create($mock);
     $rcube = rcube::get_instance();
 
     $rcube->config->set('http_client', ['handler' => $handler]);

@@ -39,11 +39,11 @@ class rcube_cpanel_password
      */
     public function save($curpas, $newpass)
     {
-        $url     = self::url();
-        $user    = password::username();
-        $userpwd = "$user:$curpas";
-        $data    = [
-            'email'    => password::username('%l'),
+        $url = self::url();
+        $user = password::username();
+        $userpwd = "{$user}:{$curpas}";
+        $data = [
+            'email' => password::username('%l'),
             'password' => $newpass,
         ];
 
@@ -59,13 +59,13 @@ class rcube_cpanel_password
      */
     public static function url()
     {
-        $config       = rcmail::get_instance()->config;
+        $config = rcmail::get_instance()->config;
         $storage_host = $_SESSION['storage_host'];
 
         $host = $config->get('password_cpanel_host', $storage_host);
         $port = $config->get('password_cpanel_port', 2096);
 
-        return "https://$host:$port/execute/Email/passwd_pop";
+        return "https://{$host}:{$port}/execute/Email/passwd_pop";
     }
 
     /**
@@ -91,7 +91,7 @@ class rcube_cpanel_password
 
         if ($result && !empty($result->errors) && is_array($result->errors)) {
             return [
-                'code'    => PASSWORD_ERROR,
+                'code' => PASSWORD_ERROR,
                 'message' => $result->errors[0],
             ];
         }
@@ -134,11 +134,11 @@ class rcube_cpanel_password
         curl_setopt($ch, \CURLOPT_USERPWD, $userpwd);
 
         $result = curl_exec($ch);
-        $error  = curl_error($ch);
+        $error = curl_error($ch);
         curl_close($ch);
 
         if ($result === false) {
-            rcube::raise_error("curl error: $error", true, false);
+            rcube::raise_error("curl error: {$error}", true, false);
         }
 
         return $result;

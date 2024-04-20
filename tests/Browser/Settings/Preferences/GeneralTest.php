@@ -3,8 +3,9 @@
 namespace Tests\Browser\Settings\Preferences;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\TestCase;
 
-class GeneralTest extends \Tests\Browser\TestCase
+class GeneralTest extends TestCase
 {
     private $settings;
 
@@ -152,7 +153,7 @@ class GeneralTest extends \Tests\Browser\TestCase
         });
 
         // Assert the options have been saved in database properly
-        $prefs   = \bootstrap::get_prefs();
+        $prefs = \bootstrap::get_prefs();
         $options = array_diff(array_keys($this->settings), ['refresh_interval', 'pretty_date']);
 
         foreach ($options as $option) {

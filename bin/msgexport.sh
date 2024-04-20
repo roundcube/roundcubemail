@@ -53,16 +53,15 @@ function export_mailbox($mbox, $filename)
     $count = $index->count();
     $index = $index->get();
 
-    vputs("$count messages\n");
+    vputs("{$count} messages\n");
 
     if ($filename) {
         if (!($out = fopen($filename, 'w'))) {
             vputs("Cannot write to output file\n");
             return;
         }
-        vputs("Writing to $filename\n");
-    }
-    else {
+        vputs("Writing to {$filename}\n");
+    } else {
         $out = \STDOUT;
     }
 
@@ -90,8 +89,7 @@ $args = rcube_utils::get_opt($opts) + ['host' => 'localhost', 'mbox' => 'INBOX']
 if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
-}
-elseif (!$args['host']) {
+} elseif (!$args['host']) {
     vputs("Missing required parameters.\n");
     print_usage();
     exit;
@@ -99,25 +97,23 @@ elseif (!$args['host']) {
 
 // prompt for username if not set
 if (empty($args['user'])) {
-    vputs("IMAP user: ");
+    vputs('IMAP user: ');
     $args['user'] = trim(fgets(\STDIN));
 }
 
 // prompt for password
-$args['pass'] = rcube_utils::prompt_silent("Password: ");
-
+$args['pass'] = rcube_utils::prompt_silent('Password: ');
 
 // parse $host URL
 $a_host = parse_url($args['host']);
 if (!empty($a_host['host'])) {
-    $host      = $a_host['host'];
-    $imap_ssl  = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) ? true : false;
-    $imap_port = isset($a_host['port']) ? $a_host['port'] : ($imap_ssl ? 993 : 143);
-}
-else {
-    $host      = $args['host'];
+    $host = $a_host['host'];
+    $imap_ssl = (isset($a_host['scheme']) && in_array($a_host['scheme'], ['ssl', 'imaps', 'tls'])) ? true : false;
+    $imap_port = $a_host['port'] ?? ($imap_ssl ? 993 : 143);
+} else {
+    $host = $args['host'];
     $imap_port = 143;
-    $imap_ssl  = false;
+    $imap_ssl = false;
 }
 
 // instantiate IMAP class
@@ -127,14 +123,13 @@ $IMAP = new rcube_imap(null);
 if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) {
     vputs("IMAP login successful.\n");
 
-    $filename  = null;
+    $filename = null;
     $mailboxes = $args['mbox'] == '*' ? $IMAP->list_folders(null) : [$args['mbox']];
 
     foreach ($mailboxes as $mbox) {
         if (!empty($args['file'])) {
             $filename = preg_replace('/\.[a-z0-9]{3,4}$/i', '', $args['file']) . asciiwords($mbox) . '.mbox';
-        }
-        elseif ($args['mbox'] == '*') {
+        } elseif ($args['mbox'] == '*') {
             $filename = asciiwords($mbox) . '.mbox';
         }
 
@@ -144,7 +139,6 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
 
         export_mailbox($mbox, $filename);
     }
-}
-else {
+} else {
     vputs("IMAP login failed.\n");
 }

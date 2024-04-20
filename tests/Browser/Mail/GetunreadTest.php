@@ -2,7 +2,9 @@
 
 namespace Tests\Browser\Mail;
 
-class GetunreadTest extends \Tests\Browser\TestCase
+use Tests\Browser\TestCase;
+
+class GetunreadTest extends TestCase
 {
     protected static $msgcount = 0;
 

@@ -3,8 +3,9 @@
 namespace Tests\Browser\Settings\Preferences;
 
 use Tests\Browser\Components\App;
+use Tests\Browser\TestCase;
 
-class ServerTest extends \Tests\Browser\TestCase
+class ServerTest extends TestCase
 {
     private $settings;
 
@@ -18,10 +19,10 @@ class ServerTest extends \Tests\Browser\TestCase
         $this->settings = [
             'read_when_deleted' => true,
             'flag_for_deletion' => false,
-            'skip_deleted'      => false,
-            'delete_junk'       => false,
-            'logout_purge'      => 'never',
-            'logout_expunge'    => false,
+            'skip_deleted' => false,
+            'delete_junk' => false,
+            'logout_purge' => 'never',
+            'logout_expunge' => false,
         ];
 
         $this->browse(function ($browser) {
@@ -65,7 +66,7 @@ class ServerTest extends \Tests\Browser\TestCase
                         ->setCheckboxState('_skip_deleted', $this->settings['skip_deleted'] = !$this->settings['skip_deleted']);
 
                     $browser->assertSeeIn('label[for=rcmfd_delete_junk]', 'Directly delete messages in Junk')
-                        ->assertCheckboxState('_delete_junk',  $this->settings['delete_junk'])
+                        ->assertCheckboxState('_delete_junk', $this->settings['delete_junk'])
                         ->setCheckboxState('_delete_junk', $this->settings['delete_junk'] = !$this->settings['delete_junk']);
                 });
 
@@ -102,8 +103,7 @@ class ServerTest extends \Tests\Browser\TestCase
                 foreach ($this->settings as $key => $value) {
                     if (is_bool($value)) {
                         $browser->assertCheckboxState('_' . $key, $value);
-                    }
-                    else {
+                    } else {
                         $browser->assertValue("[name=_{$key}]", $value);
                     }
                 }

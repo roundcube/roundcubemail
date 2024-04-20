@@ -37,30 +37,30 @@ class database_attachments extends filesystem_attachments
     protected $cache;
 
     // A prefix for the cache key used in the session and in the key field of the cache table
-    const PREFIX = "ATTACH";
+    public const PREFIX = 'ATTACH';
 
     /**
      * Save a newly uploaded attachment
      */
-    function upload($args)
+    public function upload($args)
     {
         $args['status'] = false;
 
         $cache = $this->get_cache();
-        $key   = $this->_key($args);
-        $data  = file_get_contents($args['path']);
+        $key = $this->_key($args);
+        $data = file_get_contents($args['path']);
 
         if ($data === false) {
             return $args;
         }
 
-        $data   = base64_encode($data);
+        $data = base64_encode($data);
         $status = $cache->set($key, $data);
 
         if ($status) {
-            $args['id']     = $key;
+            $args['id'] = $key;
             $args['status'] = true;
-            $args['path']   = null;
+            $args['path'] = null;
         }
 
         return $args;
@@ -69,12 +69,12 @@ class database_attachments extends filesystem_attachments
     /**
      * Save an attachment from a non-upload source (draft or forward)
      */
-    function save($args)
+    public function save($args)
     {
         $args['status'] = false;
 
         $cache = $this->get_cache();
-        $key   = $this->_key($args);
+        $key = $this->_key($args);
 
         if (!empty($args['path'])) {
             $args['data'] = file_get_contents($args['path']);
@@ -86,7 +86,7 @@ class database_attachments extends filesystem_attachments
             $args['path'] = null;
         }
 
-        $data   = base64_encode($args['data']);
+        $data = base64_encode($args['data']);
         $status = $cache->set($key, $data);
 
         if ($status) {
@@ -101,9 +101,9 @@ class database_attachments extends filesystem_attachments
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
      */
-    function remove($args)
+    public function remove($args)
     {
-        $cache  = $this->get_cache();
+        $cache = $this->get_cache();
         $status = $cache->remove($args['id']);
 
         $args['status'] = true;
@@ -116,7 +116,7 @@ class database_attachments extends filesystem_attachments
      * For this plugin, $this->get() will check the file and
      * return it's contents
      */
-    function display($args)
+    public function display($args)
     {
         return $this->get($args);
     }
@@ -125,16 +125,15 @@ class database_attachments extends filesystem_attachments
      * When displaying or sending the attachment the file contents are fetched
      * using this method. This is also called by the attachment_display hook.
      */
-    function get($args)
+    public function get($args)
     {
         $cache = $this->get_cache();
-        $data  = $cache->get($args['id']);
+        $data = $cache->get($args['id']);
 
         if ($data !== null && $data !== false) {
             $args['data'] = base64_decode($data);
             $args['status'] = true;
-        }
-        else {
+        } else {
             $args['status'] = false;
         }
 
@@ -144,7 +143,7 @@ class database_attachments extends filesystem_attachments
     /**
      * Delete all temp files associated with this user
      */
-    function cleanup($args)
+    public function cleanup($args)
     {
         // check if cache object exist, it may be empty on session_destroy (#1489726)
         if ($cache = $this->get_cache()) {
@@ -170,9 +169,9 @@ class database_attachments extends filesystem_attachments
             $this->load_config();
 
             $rcmail = rcube::get_instance();
-            $ttl    = 12 * 60 * 60; // default: 12 hours
-            $ttl    = $rcmail->config->get('database_attachments_cache_ttl', $ttl);
-            $type   = $rcmail->config->get('database_attachments_cache', 'db');
+            $ttl = 12 * 60 * 60; // default: 12 hours
+            $ttl = $rcmail->config->get('database_attachments_cache_ttl', $ttl);
+            $type = $rcmail->config->get('database_attachments_cache', 'db');
             $prefix = self::PREFIX;
 
             // Add session identifier to the prefix to prevent from removing attachments

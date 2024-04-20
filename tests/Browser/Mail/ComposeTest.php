@@ -6,8 +6,9 @@ use Facebook\WebDriver\WebDriverKeys;
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\HtmlEditor;
 use Tests\Browser\Components\RecipientInput;
+use Tests\Browser\TestCase;
 
-class ComposeTest extends \Tests\Browser\TestCase
+class ComposeTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -46,8 +47,7 @@ class ComposeTest extends \Tests\Browser\TestCase
 
             if ($browser->isPhone()) {
                 $browser->assertToolbarMenu(['options'], []);
-            }
-            else {
+            } else {
                 $browser->assertToolbarMenu(['attach'], []);
                 $browser->assertMissing('#toolbar-menu a.options');
             }
@@ -81,7 +81,7 @@ class ComposeTest extends \Tests\Browser\TestCase
     /**
      * @depends testCompose
      */
-    function testPlainEditor()
+    public function testPlainEditor()
     {
         // Test for #7230: Shift+PageUp text selection
         // and copy-pasting with keyboard
@@ -112,7 +112,7 @@ class ComposeTest extends \Tests\Browser\TestCase
     /**
      * @depends testCompose
      */
-    function testRecipientInput()
+    public function testRecipientInput()
     {
         // Test for #7231: Recipient input bug when using click
         // to select a contact from autocomplete list

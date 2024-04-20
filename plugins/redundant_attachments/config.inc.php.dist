@@ -1,5 +1,7 @@
 <?php
 
+$config = [];
+
 // By default this plugin stores attachments in filesystem and copies them into sql database.
 // In environments with replicated database it is possible to use memcache or redis
 // as a fallback when write-master is unavailable.
