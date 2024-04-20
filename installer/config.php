@@ -15,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    exit("Not allowed! Please open installer/index.php instead.");
+    exit("Not allowed! Please use installer.php instead.");
 }
 
 // allow the current user to get to the next step
@@ -39,7 +39,7 @@ if (!empty($_POST['submit'])) {
         $save_button = '';
         if (($dir = sys_get_temp_dir()) && @is_writable($dir)) {
             echo '<iframe name="getconfig" style="display:none"></iframe>';
-            echo '<form id="getconfig_form" action="index.php" method="get" target="getconfig" style="display:none">';
+            echo '<form id="getconfig_form" action="?" method="get" target="getconfig" style="display:none">';
             echo '<input name="_getconfig" value="2" /></form>';
 
             $button_txt  = html::quote('Save in ' . $dir);
@@ -49,7 +49,7 @@ if (!empty($_POST['submit'])) {
         echo '<p class="notice">Copy or download the following configuration and save it';
         echo ' as <tt><b>config.inc.php</b></tt> within the <tt>' . RCUBE_CONFIG_DIR . '</tt> directory of your Roundcube installation.<br/>';
         echo ' Make sure that there are no characters before the <tt>&lt;?php</tt> bracket when saving the file.';
-        echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
+        echo '&nbsp;<input type="button" onclick="location.href=\'?_getconfig=1\'" value="Download" />';
         echo $save_button;
 
         if ($RCI->legacy_config) {
@@ -66,14 +66,14 @@ if (!empty($_POST['submit'])) {
     echo '<p class="hint">Of course there are more options to configure.
     Have a look at the defaults.inc.php file or visit <a href="https://github.com/roundcube/roundcubemail/wiki/Configuration" target="_blank">Howto_Config</a> to find out.</p>';
 
-    echo '<p><input type="button" onclick="location.href=\'./index.php?_step=3\'" value="CONTINUE" /></p>';
+    echo '<p><input type="button" onclick="location.href=\'?_step=3\'" value="CONTINUE" /></p>';
 
     // echo '<style type="text/css"> .configblock { display:none } </style>';
     echo "\n<hr style='margin-bottom:1.6em' />\n";
 }
 
 ?>
-<form action="index.php" method="post">
+<form action="?" method="post">
 <input type="hidden" name="_step" value="2" />
 
 <fieldset>

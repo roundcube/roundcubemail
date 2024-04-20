@@ -49,6 +49,7 @@ const SUPPORTED_TYPES = [
  * @const array Path prefixes to look for the requested files
  */
 const ALLOWED_PATHS = [
+    'installer/',
     'plugins/',
     'program/',
     'skins/',
@@ -56,9 +57,9 @@ const ALLOWED_PATHS = [
 
 define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
-$path = $_SERVER['PATH_INFO'];
+$path = validateStaticFile($_SERVER['PATH_INFO']);
 
-if (!($path = validateStaticFile($path))) {
+if (!$path) {
     header('HTTP/1.1 404 Not Found');
     exit;
 }

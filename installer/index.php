@@ -86,7 +86,7 @@ if (
 
 // go to 'check env' step if we have a local configuration
 if ($RCI->configured && empty($_REQUEST['_step'])) {
-    header("Location: ./?_step=1");
+    header("Location: ?_step=1");
     exit;
 }
 
@@ -97,15 +97,15 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 <title>Roundcube Webmail Installer</title>
 <meta name="Robots" content="noindex,nofollow" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="styles.css" />
-<script type="text/javascript" src="client.js"></script>
+<link rel="stylesheet" type="text/css" href="static.php/installer/styles.css" />
+<script type="text/javascript" src="static.php/installer/client.js"></script>
 </head>
 
 <body>
 
 <div id="banner">
   <div class="banner-bg"></div>
-  <div class="banner-logo"><a href="http://roundcube.net"><img src="images/roundcube_logo.png" width="210" height="55" border="0" alt="Roundcube - open source webmail software" /></a></div>
+  <div class="banner-logo"><a href="http://roundcube.net"><img src="static.php/installer/images/roundcube_logo.png" width="210" height="55" border="0" alt="Roundcube - open source webmail software" /></a></div>
 </div>
 
 <div id="topnav">
@@ -140,9 +140,9 @@ if ($RCI->configured && !$RCI->getprop('enable_installer') && empty($_SESSION['a
 <ol id="progress">
 <?php
 $include_steps = [
-    1 => './check.php',
-    2 => './config.php',
-    3 => './test.php',
+    1 => __DIR__ . '/check.php',
+    2 => __DIR__ . '/config.php',
+    3 => __DIR__ . '/test.php',
 ];
 
 if (!in_array($RCI->step, array_keys($include_steps))) {
@@ -151,7 +151,7 @@ if (!in_array($RCI->step, array_keys($include_steps))) {
 
 foreach (['Check environment', 'Create config', 'Test config'] as $i => $item) {
     $j = $i + 1;
-    $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="./index.php?_step=' . $j . '">' . rcube::Q($item) . '</a>' : rcube::Q($item);
+    $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="?_step=' . $j . '">' . rcube::Q($item) . '</a>' : rcube::Q($item);
     printf('<li class="step%d%s">%s</li>', $j + 1, $RCI->step > $j ? ' passed' : ($RCI->step == $j ? ' current' : ''), $link);
 }
 ?>
