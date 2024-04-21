@@ -746,11 +746,7 @@ class rcube_washtml
 
         $html = preg_replace($html_search, $html_replace, $html);
 
-        $err = [
-            'line' => __LINE__,
-            'file' => __FILE__,
-            'message' => 'Could not clean up HTML!',
-        ];
+        $err = ['message' => 'Could not clean up HTML!'];
         if ($html === null && rcube_utils::preg_error($err)) {
             return '';
         }
