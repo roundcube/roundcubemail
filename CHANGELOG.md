@@ -38,11 +38,12 @@
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
-- Password: Add ldap_samba_ad driver (#8525)
+- Password: Add `ldap_samba_ad` driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
-- Password: Use Guzzle HTTP Client in 'pwned' driver
-- Password: Use Guzzle HTTP Client in 'directadmin' driver
-- Password: Check that a user email is part of password in zxcvbn checker (#9404)
+- Password: Use Guzzle HTTP Client in the `pwned` driver
+- Password: Use Guzzle HTTP Client in the `directadmin` driver
+- Password: Use Guzzle HTTP Client in the `plesk` driver
+- Password: Check that a user email is part of password in the `zxcvbn` checker (#9404)
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
