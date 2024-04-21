@@ -45,6 +45,7 @@
 - Password: Use Guzzle HTTP Client in the `plesk` driver
 - Password: Use Guzzle HTTP Client in the `modoboa` driver
 - Password: Use Guzzle HTTP Client in the `domainfactory` driver
+- Password: Use Guzzle HTTP Client in the `cpanel` driver
 - Password: Check that a user email is part of password in the `zxcvbn` checker (#9404)
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
