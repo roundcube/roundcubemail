@@ -1577,11 +1577,18 @@ class rcube_utils
                 $errstr .= ' Consider raising pcre.recursion_limit!';
             }
 
-            $error = array_merge([
-                'code' => 620,
-                'line' => __LINE__,
-                'file' => __FILE__,
-            ], $error);
+            if (!isset($error['code'])) {
+                $error['code'] = 620;
+            }
+
+            $prevStackFrame = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+            if (
+                !isset($error['file']) && isset($prevStackFrame['file'])
+                && !isset($error['line']) && isset($prevStackFrame['line'])
+            ) {
+                $error['file'] = $prevStackFrame['file'];
+                $error['line'] = $prevStackFrame['line'];
+            }
 
             if (!empty($error['message'])) {
                 $error['message'] .= ' ' . $errstr;

@@ -1419,6 +1419,15 @@ class rcube
             $arg['code'] = 500;
         }
 
+        $prevStackFrame = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+        if (
+            !isset($arg['file']) && isset($prevStackFrame['file'])
+            && !isset($arg['line']) && isset($prevStackFrame['line'])
+        ) {
+            $arg['file'] = $prevStackFrame['file'];
+            $arg['line'] = $prevStackFrame['line'];
+        }
+
         $cli = \PHP_SAPI == 'cli';
 
         $arg['cli'] = $cli;
