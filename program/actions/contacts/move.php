@@ -62,7 +62,6 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 break;
             }
 
-            // @phpstan-ignore-next-line
             if (!$CONTACTS || !$CONTACTS->ready || ($CONTACTS->readonly && empty($CONTACTS->deletable))) {
                 continue;
             }
