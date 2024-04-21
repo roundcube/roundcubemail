@@ -43,7 +43,8 @@ class rcube_session_redis extends rcube_session
 
         if (!$this->redis) {
             rcube::raise_error([
-                'code' => 604, 'type' => 'redis',
+                'code' => 604,
+                'type' => 'redis',
                 'message' => 'Failed to connect to redis. Please check configuration',
             ], true, true);
         }

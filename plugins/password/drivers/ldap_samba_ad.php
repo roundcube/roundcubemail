@@ -36,7 +36,8 @@ class rcube_ldap_samba_ad_password extends rcube_ldap_simple_password
     {
         if (!function_exists('ldap_mod_replace')) {
             rcube::raise_error([
-                'code' => 100, 'type' => 'ldap',
+                'code' => 100,
+                'type' => 'ldap',
                 'message' => 'ldap_mod_replace() not supported',
             ], true);
 
