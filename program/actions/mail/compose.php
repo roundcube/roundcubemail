@@ -1654,7 +1654,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $filename = !empty($params['filename']) ? $params['filename'] : self::attachment_name($part);
         } elseif ($message instanceof rcube_message) {
             // the whole message requested
-            $size = $message->size ?? null; // @phpstan-ignore-line
+            $size = $message->size ?? null;
             $mimetype = 'message/rfc822';
             $filename = !empty($params['filename']) ? $params['filename'] : 'message_rfc822.eml';
         } elseif (is_string($message)) {
