@@ -1577,7 +1577,11 @@ class rcube_utils
                 $errstr .= ' Consider raising pcre.recursion_limit!';
             }
 
-            $error = array_merge(['code' => 620], $error);
+            $error = array_merge([
+                'code' => 620,
+                'line' => __LINE__,
+                'file' => __FILE__,
+            ], $error);
 
             if (!empty($error['message'])) {
                 $error['message'] .= ' ' . $errstr;
