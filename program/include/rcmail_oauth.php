@@ -39,10 +39,8 @@ class rcmail_oauth
 
     public const JWKS_CACHE_TTL = 30; // TTL for JWKS (in seconds)
 
-    // prepare the OAUTHBEARER which is now the official protocol (rfc 7628)
-    // but currently implement mostly the formal XOAUTH2
-    /** @var string */
-    protected $auth_type = 'XOAUTH2';
+    /** @var string XOAUTH2, OAUTHBEAER, OAUTH=choose the supported method */
+    protected $auth_type = 'OAUTH';
 
     /** @var rcmail */
     protected $rcmail;
@@ -991,13 +989,11 @@ class rcmail_oauth
         }
 
         if ($this->login_phase) {
-            // enforce OAUTHBEARER/XOAUTH2 authorization type
             $options['auth_type'] = $this->auth_type;
         } elseif (isset($_SESSION['oauth_token'])) {
             if ($this->check_token_validity($_SESSION['oauth_token']) === self::TOKEN_REFRESHED) {
                 $options['password'] = $this->rcmail->decrypt($_SESSION['password']);
             }
-            // enforce OAUTHBEARER/XOAUTH2 authorization type
             $options['auth_type'] = $this->auth_type;
         }
 
@@ -1025,7 +1021,6 @@ class rcmail_oauth
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
 
-            // enforce OAUTHBEARER/XOAUTH2 authorization type
             $options['smtp_user'] = '%u';
             $options['smtp_pass'] = '%p';
             $options['smtp_auth_type'] = $this->auth_type;
@@ -1046,7 +1041,6 @@ class rcmail_oauth
         if (isset($_SESSION['oauth_token'])) {
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
-            // enforce OAUTHBEARER/XOAUTH2 authorization type
             $options['auth_type'] = $this->auth_type;
         }
 
