@@ -69,8 +69,8 @@ abstract class rcube_session implements SessionHandlerInterface
 
         if (!class_exists($class)) {
             rcube::raise_error([
-                'code' => 604, 'type' => 'session',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code' => 604,
+                'type' => 'session',
                 'message' => 'Failed to find session driver. Check session_storage config option',
             ], true, true);
         }

@@ -321,7 +321,7 @@ class rcube
 
         if (!class_exists($driver_class)) {
             self::raise_error([
-                'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 700,
                 'message' => "Storage driver class ({$driver}) not found!",
             ], true, true);
         }
@@ -919,8 +919,6 @@ class rcube
 
         if ($cipher === false) {
             self::raise_error([
-                'file' => __FILE__,
-                'line' => __LINE__,
                 'message' => "Failed to encrypt data with configured cipher method: {$method}!",
             ], true, false);
 
@@ -1420,6 +1418,15 @@ class rcube
             $arg['code'] = 500;
         }
 
+        $prevStackFrame = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+        if (
+            !isset($arg['file']) && isset($prevStackFrame['file'])
+            && !isset($arg['line']) && isset($prevStackFrame['line'])
+        ) {
+            $arg['file'] = $prevStackFrame['file'];
+            $arg['line'] = $prevStackFrame['line'];
+        }
+
         $cli = \PHP_SAPI == 'cli';
 
         $arg['cli'] = $cli;
@@ -1789,7 +1796,7 @@ class rcube
 
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
-                    'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
+                    'code' => 650,
                     'message' => 'Could not create message: ' . $mime_result->getMessage(),
                 ], true, false);
                 return false;
@@ -1813,7 +1820,6 @@ class rcube
         if (!$sent) {
             self::raise_error([
                 'code' => 800, 'type' => 'smtp',
-                'line' => __LINE__, 'file' => __FILE__,
                 'message' => implode("\n", $response),
             ], true, false);
 

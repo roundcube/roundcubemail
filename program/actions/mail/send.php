@@ -40,8 +40,6 @@ class rcmail_action_mail_send extends rcmail_action
         if (!isset($COMPOSE['id'])) {
             rcube::raise_error([
                 'code' => 500,
-                'file' => __FILE__,
-                'line' => __LINE__,
                 'message' => 'Invalid compose ID',
             ], true, false);
 
@@ -131,8 +129,6 @@ class rcmail_action_mail_send extends rcmail_action
                 );
 
                 rcube_utils::preg_error([
-                    'line' => __LINE__,
-                    'file' => __FILE__,
                     'message' => 'Could not format HTML!',
                 ], true);
             }
@@ -151,7 +147,7 @@ class rcmail_action_mail_send extends rcmail_action
 
                 if ($error = $spellchecker->error()) {
                     rcube::raise_error([
-                        'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 500,
                         'message' => 'Spellcheck error: ' . $error,
                     ], true, false);
                 } else {
@@ -249,8 +245,6 @@ class rcmail_action_mail_send extends rcmail_action
                 rcube::raise_error([
                     'code' => 800,
                     'type' => 'imap',
-                    'file' => __FILE__,
-                    'line' => __LINE__,
                     'message' => "Could not delete message from {$drafts_mbox}",
                 ], true, false);
             }
@@ -362,8 +356,6 @@ class rcmail_action_mail_send extends rcmail_action
                     $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
 
                     rcube_utils::preg_error([
-                        'line' => __LINE__,
-                        'file' => __FILE__,
                         'message' => 'Could not replace an image reference!',
                     ], true);
 

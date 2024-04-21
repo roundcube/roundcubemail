@@ -552,7 +552,7 @@ class rcmail_sendmail
 
                 if (is_a($msg, 'PEAR_Error')) {
                     rcube::raise_error([
-                        'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 650,
                         'message' => 'Could not create message: ' . $msg->getMessage(),
                     ], true, false);
                 } else {
@@ -563,8 +563,9 @@ class rcmail_sendmail
 
             // raise error if saving failed
             if (!$saved) {
-                rcube::raise_error(['code' => 800, 'type' => 'imap',
-                    'file' => __FILE__, 'line' => __LINE__,
+                rcube::raise_error([
+                    'code' => 800,
+                    'type' => 'imap',
                     'message' => "Could not save message in {$store_target}",
                 ], true, false);
             }

@@ -45,8 +45,8 @@ class rcube_session_memcache extends rcube_session
 
         if (!$this->memcache) {
             rcube::raise_error([
-                'code' => 604, 'type' => 'memcache',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code' => 604,
+                'type' => 'memcache',
                 'message' => 'Failed to connect to memcached. Please check configuration',
             ], true, true);
         }

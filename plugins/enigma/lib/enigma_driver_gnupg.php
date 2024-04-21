@@ -602,7 +602,7 @@ class enigma_driver_gnupg extends enigma_driver
                 // @phpstan-ignore-next-line
                 if (!is_array($data)) {
                     rcube::raise_error([
-                        'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                        'code' => 605,
                         'message' => "Enigma: Failed to sync {$file} ({$file_id}). Decode error.",
                     ], true, false);
 
@@ -631,7 +631,7 @@ class enigma_driver_gnupg extends enigma_driver
                     @unlink($tmpfile);
 
                     rcube::raise_error([
-                        'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                        'code' => 605,
                         'message' => "Enigma: Failed to sync {$file}.",
                     ], true, false);
                 }
@@ -699,7 +699,7 @@ class enigma_driver_gnupg extends enigma_driver
 
                 if ($datasize > $maxsize) {
                     rcube::raise_error([
-                        'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                        'code' => 605,
                         'message' => "Enigma: Failed to save {$file}. Size exceeds max_allowed_packet.",
                     ], true, false);
 
@@ -711,7 +711,7 @@ class enigma_driver_gnupg extends enigma_driver
 
                 if ($db->is_error($result)) {
                     rcube::raise_error([
-                        'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                        'code' => 605,
                         'message' => "Enigma: Failed to save {$file} into database.",
                     ], true, false);
 
@@ -733,7 +733,7 @@ class enigma_driver_gnupg extends enigma_driver
 
             if ($db->is_error($result)) {
                 rcube::raise_error([
-                    'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                    'code' => 605,
                     'message' => "Enigma: Failed to delete {$file} from database.",
                 ], true, false);
 

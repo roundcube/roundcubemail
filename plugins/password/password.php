@@ -433,7 +433,7 @@ class password extends rcube_plugin
 
             if (!file_exists($file)) {
                 rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'code' => 600,
                     'message' => "Password plugin: Driver file does not exist ({$file})",
                 ], true, false);
                 return false;
@@ -443,7 +443,7 @@ class password extends rcube_plugin
 
             if (!class_exists($class, false) || (!method_exists($class, 'save') && !method_exists($class, 'check_strength'))) {
                 rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'code' => 600,
                     'message' => "Password plugin: Broken driver {$driver}",
                 ], true, false);
                 return false;
@@ -582,7 +582,7 @@ class password extends rcube_plugin
                     $crypted = hash('sha1', $password, true);
                 } else {
                     rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 600,
                         'message' => 'Password plugin: Your PHP installation does not have the hash() nor sha1() function',
                     ], true, true);
                 }
@@ -601,7 +601,7 @@ class password extends rcube_plugin
                     $crypted = hash('sha1', $password . $salt, true);
                 } else {
                     rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 600,
                         'message' => 'Password plugin: Your PHP installation does not have the hash() nor sha1() function',
                     ], true, true);
                 }
@@ -618,7 +618,7 @@ class password extends rcube_plugin
                     $crypted = hash('sha256', $password . $salt, true);
                 } else {
                     rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 600,
                         'message' => 'Password plugin: Your PHP installation does not have the hash() function',
                     ], true, true);
                 }
@@ -634,7 +634,7 @@ class password extends rcube_plugin
                     $crypted = hash('sha512', $password . $salt, true);
                 } else {
                     rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 600,
                         'message' => 'Password plugin: Your PHP installation does not have the hash() function',
                     ], true, true);
                 }
@@ -662,7 +662,7 @@ class password extends rcube_plugin
                     $crypted = strtoupper($crypted);
                 } else {
                     rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 600,
                         'message' => 'Password plugin: Your PHP installation does not have hash() function',
                     ], true, true);
                 }
@@ -686,7 +686,7 @@ class password extends rcube_plugin
 
                 if (!$pipe) {
                     rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 600,
                         'message' => "Password plugin: Failed to execute command: {$command}",
                     ], true, true);
                 }
@@ -705,7 +705,7 @@ class password extends rcube_plugin
 
                 if (!preg_match('/^\{' . $method . '\}/', $crypted)) {
                     rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 600,
                         'message' => "Password plugin: Failed to execute command: {$command}. Error: {$stderr}",
                     ], true, true);
                 }
@@ -738,7 +738,7 @@ class password extends rcube_plugin
                 break;
             default:
                 rcube::raise_error([
-                    'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                    'code' => 600,
                     'message' => 'Password plugin: Hash method not supported.',
                 ], true, true);
         }
@@ -746,7 +746,7 @@ class password extends rcube_plugin
         // @phpstan-ignore-next-line
         if ($crypted === null || $crypted === '' || $crypted === false) {
             rcube::raise_error([
-                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 600,
                 'message' => "Password plugin: Failed to hash password ({$method}). Check for configuration issues.",
             ], true, true);
         }

@@ -721,7 +721,7 @@ class rcube_user
             }
         } else {
             rcube::raise_error([
-                'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                'code' => 500,
                 'message' => 'Failed to create new user',
             ], true, false);
         }
