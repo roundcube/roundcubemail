@@ -41,6 +41,7 @@
 - Password: Add ldap_samba_ad driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Password: Use Guzzle HTTP Client in 'pwned' driver
+- Password: Use Guzzle HTTP Client in 'directadmin' driver
 - Password: Check that a user email is part of password in zxcvbn checker (#9404)
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
