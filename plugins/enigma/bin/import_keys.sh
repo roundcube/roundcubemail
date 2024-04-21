@@ -157,7 +157,7 @@ function import_dir($user_id, $dir, $dry_run = false)
 
             if ($datasize > $maxsize) {
                 rcube::raise_error([
-                    'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                    'code' => 605,
                     'message' => "Enigma: Failed to save {$file}. Size exceeds max_allowed_packet.",
                 ], true, false);
 
@@ -177,7 +177,7 @@ function import_dir($user_id, $dir, $dry_run = false)
 
             if ($db->is_error($result)) {
                 rcube::raise_error([
-                    'code' => 605, 'line' => __LINE__, 'file' => __FILE__,
+                    'code' => 605,
                     'message' => "Enigma: Failed to save {$file} into database.",
                 ], true, false);
             }

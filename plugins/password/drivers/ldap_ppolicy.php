@@ -87,7 +87,7 @@ class rcube_ldap_ppolicy_password
                     return PASSWORD_CONNECT_ERROR;
                 default:
                     rcube::raise_error([
-                        'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 600,
                         'message' => "Password plugin: Failed to execute command: {$cmd}. Output: {$result}. Error: {$stderr}",
                     ], true, false);
             }

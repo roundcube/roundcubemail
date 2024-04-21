@@ -561,7 +561,7 @@ class rcube_washtml
             if (empty($this->max_nesting_level_error)) {
                 $this->max_nesting_level_error = true;
                 rcube::raise_error([
-                    'code' => 500, 'line' => __LINE__, 'file' => __FILE__,
+                    'code' => 500,
                     'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})",
                 ], true, false);
             }
@@ -746,7 +746,7 @@ class rcube_washtml
 
         $html = preg_replace($html_search, $html_replace, $html);
 
-        $err = ['line' => __LINE__, 'file' => __FILE__, 'message' => 'Could not clean up HTML!'];
+        $err = ['message' => 'Could not clean up HTML!'];
         if ($html === null && rcube_utils::preg_error($err)) {
             return '';
         }

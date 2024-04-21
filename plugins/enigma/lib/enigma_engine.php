@@ -1428,7 +1428,6 @@ class enigma_engine
         if ($result->getCode() != enigma_error::BADPASS) {
             rcube::raise_error([
                 'code' => 600,
-                'file' => __FILE__,
                 'line' => $line,
                 'message' => 'Enigma plugin: ' . $result->getMessage(),
             ], true, $abort);
