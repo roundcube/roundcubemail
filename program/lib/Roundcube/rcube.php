@@ -659,6 +659,7 @@ class rcube
 
         // any of loaded domains (plugins)
         if ($domain == '*') {
+            // @phpstan-ignore-next-line
             foreach ($this->plugins->loaded_plugins() as $domain) {
                 if (isset($this->texts[$domain . '.' . $name])) {
                     $ref_domain = $domain;
