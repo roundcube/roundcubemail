@@ -51,6 +51,11 @@ class rcube_vcard
         'IPHONE' => 'mobile',
         'CELL' => 'mobile',
         'WORK,FAX' => 'workfax',
+        'WORK,CELL' => 'other',
+        'HOOME,FAX' => 'homefax',
+        'OTHER,FAX' => 'other',
+        'FAX' => 'homefax',
+        'TITLE' => 'prefix',
     ];
     private $phonetypemap = [
         'HOME1' => 'HOME',
@@ -208,6 +213,10 @@ class rcube_vcard
                             $subtype = $typemap[$combined];
                         } elseif (!empty($typemap[$raw['type'][++$k]])) {
                             $subtype = $typemap[$raw['type'][$k]];
+                        } elseif ($tag == 'TEL' && $raw['type'][$k] == 'pref') {
+                            $subtype = "main";
+                        } elseif ($tag == 'EMAIL' && $raw['type'][$k] == 'pref') {
+                            $subtype = "other";
                         } else {
                             $subtype = $raw['type'][$k];
                         }
