@@ -165,141 +165,33 @@ class rcube_csv2vcard
         'phone1' => 'phone:home',
         'phone' => 'phone:work',
         'email' => 'email:home',
+
+        // roundcube fields
+        'email_home' => 'email:home',
+        'email_work' => 'email:work',
+        'email_other' => 'email:other',
+        'phone_video' => 'phone:video',
+        'maidenname' => 'maidenname',
+        'im_aim' => 'im:aim',
+        'im_icq' => 'im:icq',
+        'im_jabber' => 'im:jabber',
+        'im_msn' => 'im:msn',
+        'im_other' => 'im:other',
+        'im_skype' => 'im:skype',
+        'im_yahoo' => 'im:yahoo',
+        'web_blog' => 'website:blog',
+        'web_home' => 'website:homepage',
+        'web_other' => 'website:other',
+        'web_profile' => 'website:profile',
+        'web_work' => 'website:work',
     ];
 
     /**
-     * CSV label to text mapping for English
+     * CSV label to text mapping for English read from localization
      *
      * @var array
      */
-    protected $label_map = [
-        // MS Outlook 2010
-        'anniversary' => 'Anniversary',
-        'assistants_name' => "Assistant's Name",
-        'assistants_phone' => "Assistant's Phone",
-        'birthday' => 'Birthday',
-        'business_city' => 'Business City',
-        'business_countryregion' => 'Business Country/Region',
-        'business_fax' => 'Business Fax',
-        'business_phone' => 'Business Phone',
-        'business_phone_2' => 'Business Phone 2',
-        'business_postal_code' => 'Business Postal Code',
-        'business_state' => 'Business State',
-        'business_street' => 'Business Street',
-        // 'business_street_2' => "Business Street 2",
-        // 'business_street_3' => "Business Street 3",
-        'car_phone' => 'Car Phone',
-        'categories' => 'Categories',
-        // 'children'          => "Children",
-        'company' => 'Company',
-        // 'company_main_phone' => "Company Main Phone",
-        'department' => 'Department',
-        // 'directory_server'  => "Directory Server",
-        'email_2_address' => 'E-mail 2 Address',
-        // 'email_2_type'      => "E-mail 2 Type",
-        'email_3_address' => 'E-mail 3 Address',
-        // 'email_3_type'      => "E-mail 3 Type",
-        'email_address' => 'E-mail Address',
-        // 'email_type'        => "E-mail Type",
-        'first_name' => 'First Name',
-        'gender' => 'Gender',
-        'home_city' => 'Home City',
-        'home_countryregion' => 'Home Country/Region',
-        'home_fax' => 'Home Fax',
-        'home_phone' => 'Home Phone',
-        'home_phone_2' => 'Home Phone 2',
-        'home_postal_code' => 'Home Postal Code',
-        'home_state' => 'Home State',
-        'home_street' => 'Home Street',
-        // 'home_street_2'     => "Home Street 2",
-        // 'home_street_3'     => "Home Street 3",
-        // 'initials'          => "Initials",
-        // 'isdn'              => "ISDN",
-        'job_title' => 'Job Title',
-        // 'keywords'          => "Keywords",
-        // 'language'          => "Language",
-        'last_name' => 'Last Name',
-        // 'location'          => "Location",
-        'managers_name' => "Manager's Name",
-        'middle_name' => 'Middle Name',
-        // 'mileage'           => "Mileage",
-        'mobile_phone' => 'Mobile Phone',
-        'notes' => 'Notes',
-        // 'office_location'   => "Office Location",
-        'other_city' => 'Other City',
-        'other_countryregion' => 'Other Country/Region',
-        'other_fax' => 'Other Fax',
-        'other_phone' => 'Other Phone',
-        'other_postal_code' => 'Other Postal Code',
-        'other_state' => 'Other State',
-        'other_street' => 'Other Street',
-        // 'other_street_2'    => "Other Street 2",
-        // 'other_street_3'    => "Other Street 3",
-        'pager' => 'Pager',
-        'primary_phone' => 'Primary Phone',
-        // 'profession'        => "Profession",
-        // 'radio_phone'       => "Radio Phone",
-        'spouse' => 'Spouse',
-        'suffix' => 'Suffix',
-        'title' => 'Title',
-        'web_page' => 'Web Page',
-
-        // Thunderbird
-        'birth_day' => 'Birth Day',
-        'birth_month' => 'Birth Month',
-        'birth_year' => 'Birth Year',
-        'display_name' => 'Display Name',
-        'fax_number' => 'Fax Number',
-        'home_address' => 'Home Address',
-        // 'home_address_2'    => "Home Address 2",
-        'home_country' => 'Home Country',
-        'home_zipcode' => 'Home ZipCode',
-        'mobile_number' => 'Mobile Number',
-        'nickname' => 'Nickname',
-        'organization' => 'Organization',
-        'pager_number' => 'Pager Number',
-        'primary_email' => 'Primary Email',
-        'secondary_email' => 'Secondary Email',
-        'web_page_1' => 'Web Page 1',
-        'web_page_2' => 'Web Page 2',
-        'work_phone' => 'Work Phone',
-        'work_address' => 'Work Address',
-        // 'work_address_2'    => "Work Address 2",
-        'work_city' => 'Work City',
-        'work_country' => 'Work Country',
-        'work_state' => 'Work State',
-        'work_zipcode' => 'Work ZipCode',
-
-        // Atmail
-        'date_of_birth' => 'Date of Birth',
-        'email' => 'Email',
-        // 'email_2'         => "Email2",
-        // 'email_3'         => "Email3",
-        // 'email_4'         => "Email4",
-        // 'email_5'         => "Email5",
-        'home_mobile' => 'Home Mobile',
-        'home_zip' => 'Home Zip',
-        'info' => 'Info',
-        'user_photo' => 'User Photo',
-        'url' => 'URL',
-        'work_company' => 'Work Company',
-        'work_dept' => 'Work Dept',
-        'work_fax' => 'Work Fax',
-        'work_mobile' => 'Work Mobile',
-        'work_title' => 'Work Title',
-        'work_zip' => 'Work Zip',
-        'group' => 'Group',
-
-        // GMail
-        'groups' => 'Groups',
-        'group_membership' => 'Group Membership',
-        'given_name' => 'Given Name',
-        'additional_name' => 'Additional Name',
-        'family_name' => 'Family Name',
-        'name' => 'Name',
-        'name_prefix' => 'Name Prefix',
-        'name_suffix' => 'Name Suffix',
-    ];
+    protected $label_map = [];
 
     /**
      * Special fields map for GMail format
@@ -390,14 +282,12 @@ class rcube_csv2vcard
      */
     public function __construct($lang = 'en_US')
     {
-        // Localize fields map
-        if ($lang && $lang != 'en_US') {
-            $map = null;
-            if (file_exists(RCUBE_LOCALIZATION_DIR . "{$lang}/csv2vcard.inc")) {
-                include RCUBE_LOCALIZATION_DIR . "{$lang}/csv2vcard.inc";
-            }
+        $this->label_map = self::read_localization_file(RCUBE_LOCALIZATION_DIR . 'en_US/csv2vcard.inc');
 
-            // @phpstan-ignore-next-line
+        // Localize fields map
+        if ($lang != 'en_US' && is_dir(RCUBE_LOCALIZATION_DIR . $lang)) {
+            $map = self::read_localization_file(RCUBE_LOCALIZATION_DIR . $lang . '/csv2vcard.inc');
+
             if (!empty($map)) {
                 $this->local_label_map = array_merge($this->label_map, $map);
             }
@@ -466,35 +356,6 @@ class rcube_csv2vcard
         });
 
         $this->map = $elements;
-    }
-
-    /**
-     * Set field mapping info
-     *
-     * @return array Array of vcard fields and localized names
-     */
-    public function get_fields()
-    {
-        // get all vcard fields
-        $fields = array_unique($this->csv2vcard_map);
-        $local_field_names = $this->local_label_map ?: $this->label_map;
-
-        // translate with the local map
-        $map = [];
-        foreach ($fields as $csv => $vcard) {
-            if ($vcard == '_auto_') {
-                continue;
-            }
-
-            $map[$vcard] = $local_field_names[$csv];
-        }
-
-        // small fix to prevent "Groups" displaying as "Categories"
-        $map['groups'] = $local_field_names['groups'];
-
-        asort($map);
-
-        return $map;
     }
 
     /**
@@ -691,5 +552,32 @@ class rcube_csv2vcard
 
         // add to the list
         $this->vcards[] = $vcard;
+    }
+
+    /**
+     * Load localization file
+     *
+     * @param string $file  File location
+     * @param array  $texts Additional texts to merge with
+     *
+     * @return array Localization csv2vcard map
+     */
+    protected static function read_localization_file($file, $texts = [])
+    {
+        if (is_file($file) && is_readable($file)) {
+            $map = [];
+
+            // use buffering to handle empty lines/spaces after closing PHP tag
+            ob_start();
+            require $file;
+            ob_end_clean();
+
+            // @phpstan-ignore-next-line
+            if (!empty($map)) {
+                $texts = array_merge($texts, $map);
+            }
+        }
+
+        return $texts;
     }
 }

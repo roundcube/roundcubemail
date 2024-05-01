@@ -106,3 +106,32 @@ $map['work_mobile'] = "Work Mobile";
 $map['work_state'] = "Work State";
 $map['work_title'] = "Work Title";
 $map['work_zip'] = "Work Zip";
+$map['group'] = "Group";
+
+// GMail
+$map['groups'] = "Groups";
+$map['group_membership'] = "Group Membership";
+$map['given_name'] = "Given Name";
+$map['additional_name'] = "Additional Name";
+$map['family_name'] = "Family Name";
+$map['name'] = "Name";
+$map['name_prefix'] = "Name Prefix";
+$map['name_suffix'] = "Name Suffix";
+
+// Roundcube fields
+$map['email_home'] = "Email Home";
+$map['email_work'] = "Email Work";
+$map['email_other'] = "Email Other";
+$map['phone_video'] = "Phone Video";
+$map['maidenname'] = "Maiden Name";
+$map['im_aim'] = "IM Aim";
+$map['im_icq'] = "IM Icq";
+$map['im_jabber'] = "IM Jabber";
+$map['im_msn'] = "IM Msn";
+$map['im_skype'] = "IM Skype";
+$map['im_yahoo'] = "IM Yahoo";
+$map['web_blog'] = "Website Blog";
+$map['web_home'] = "Website Home Page";
+$map['web_other'] = "Website Other";
+$map['web_profile'] = "Website Profile";
+$map['web_work'] = "Website Work";

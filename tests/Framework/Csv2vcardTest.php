@@ -101,4 +101,22 @@ class Csv2vcardTest extends TestCase
 
         $this->assertSame($vcf_text, $vcard);
     }
+
+    public function test_import_all()
+    {
+        $csv_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/all.csv');
+        $vcf_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/all.vcf');
+
+        $csv = new rcube_csv2vcard();
+        $csv->import($csv_text);
+        $result = $csv->export();
+
+        $this->assertCount(1, $result);
+
+        $vcard = $result[0]->export(false);
+        $vcf_text = trim(str_replace("\r\n", "\n", $vcf_text));
+        $vcard = trim(str_replace("\r\n", "\n", $vcard));
+
+        $this->assertSame($vcf_text, $vcard);
+    }
 }
