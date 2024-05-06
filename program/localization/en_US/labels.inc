@@ -410,6 +410,7 @@ $labels['notes'] = 'Notes';
 $labels['male'] = 'male';
 $labels['female'] = 'female';
 $labels['nonbinary'] = 'non-binary';
+$labels['othergender'] = 'other';
 $labels['manager'] = 'Manager';
 $labels['assistant'] = 'Assistant';
 $labels['spouse'] = 'Spouse';
