@@ -63,6 +63,33 @@ abstract class rcmail_output extends rcube_output
     }
 
     /**
+     * Getter for the current skin meta data
+     */
+    public function get_skin_info($name = null)
+    {
+        $skin = $name ?? $this->config->get('skin');
+        $data = ['name' => ucfirst($skin)];
+
+        $meta = INSTALL_PATH . "skins/{$skin}/meta.json";
+        if (is_readable($meta) && ($json = json_decode(file_get_contents($meta), true))) {
+            $data = $json;
+            $data['author_link'] = !empty($json['url']) ? html::a(['href' => $json['url'], 'target' => '_blank'], rcube::Q($json['author'])) : rcube::Q($json['author']);
+            $data['license_link'] = !empty($json['license-url']) ? html::a(['href' => $json['license-url'], 'target' => '_blank', 'tabindex' => '-1'], rcube::Q($json['license'])) : rcube::Q($json['license']);
+        }
+
+        $composer = INSTALL_PATH . "/skins/{$skin}/composer.json";
+        if (is_readable($composer) && ($json = json_decode(file_get_contents($composer), true))) {
+            $data['version'] = $json['version'] ?? null;
+
+            if (!empty($json['homepage'])) {
+                $data['uri'] = $json['homepage'];
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Delete all stored env variables and commands
      */
     public function reset()

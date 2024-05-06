@@ -691,6 +691,7 @@ $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['destination'] = 'Destination';
 $labels['license'] = 'License';
+$labels['skinauthor'] = 'by $author';
 $labels['support'] = 'Get support';
 $labels['savedsearches'] = 'Saved searches';
 
