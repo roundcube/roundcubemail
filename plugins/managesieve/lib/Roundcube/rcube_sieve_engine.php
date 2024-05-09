@@ -165,8 +165,16 @@ class rcube_sieve_engine
     {
         $host = $this->rc->config->get('managesieve_host', 'localhost');
         if (is_array($host)) {
-            $rcmail = rcmail::get_instance();
-            $host = $host[$rcmail->autoselect_host()];
+            // Extract the host name from the session
+            if (array_key_exists($_SESSION['storage_host'], $host)) {
+                $host = $host[$this->rc->config->mail_domain($_SESSION['storage_host'])];
+            } else {
+                rcube::raise_error([
+                    'code' => 500,
+                    'message' => "Can't locate the sieve server. Please check the 'managesieve_host' config option.",
+                ], true, false);
+                return rcmail::ERROR_INVALID_HOST;
+            }
         }
         $host = rcube_utils::parse_host($host);
 
