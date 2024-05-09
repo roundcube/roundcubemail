@@ -164,6 +164,10 @@ class rcube_sieve_engine
     public function connect($username, $password)
     {
         $host = $this->rc->config->get('managesieve_host', 'localhost');
+        if (is_array($host)) {
+            $rcmail = rcmail::get_instance();
+            $host = $host[$rcmail->autoselect_host()];
+        }
         $host = rcube_utils::parse_host($host);
 
         $plugin = $this->rc->plugins->exec_hook('managesieve_connect', [
