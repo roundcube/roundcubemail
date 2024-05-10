@@ -164,8 +164,16 @@ class rcube_sieve_engine
     public function connect($username, $password)
     {
         $host = $this->rc->config->get('managesieve_host', 'localhost');
+        // $config['managesieve_host'] parameter now can be configured in two ways:
+        // - as an array, which allows to switch between different servers. E.g.,
+        //   a user can log in as user@some.host, or as otheruser@other.host and
+        //   have different sieve servers for different hosts.
+        // - as a string (default).
         if (is_array($host)) {
-            // Extract the host name from the session
+            // By now, the $_SESSION['storage_host'] variable should contain the host name
+            // of a mail server, user logged in. This entry should match the mapping in the
+            // $config['managesieve_host'] parameter in the configuration, e.g.:
+            // ['example.com' => 'sieve.example.net'].
             if (array_key_exists($_SESSION['storage_host'], $host)) {
                 $host = $host[$this->rc->config->mail_domain($_SESSION['storage_host'])];
             } else {

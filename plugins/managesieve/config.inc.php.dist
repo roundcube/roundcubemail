@@ -12,6 +12,9 @@ $config = [];
 // function, with 4190 as a fallback.
 // Note: Add tls:// prefix to enable explicit STARTTLS
 // or add ssl:// prefix to enable implicit SSL.
+// To specify different sieve servers for different hosts, provide an array
+// of a hostname (no prefix or port) and sieve server e.g.:
+// ['example.com' => 'sieve.example.net']
 $config['managesieve_host'] = 'localhost';
 
 // authentication method. Can be CRAM-MD5, DIGEST-MD5, PLAIN, LOGIN, EXTERNAL
