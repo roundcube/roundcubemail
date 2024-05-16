@@ -326,21 +326,12 @@ class rcmail_action_settings_index extends rcmail_action
                             $input = new html_radiobutton(['name' => '_skin']);
 
                             foreach ($skins as $skin) {
-                                $skinname = ucfirst($skin);
-                                $author_link = '';
-                                $license_link = '';
-                                $meta = @json_decode(@file_get_contents(INSTALL_PATH . "skins/{$skin}/meta.json"), true);
-
-                                if (is_array($meta) && !empty($meta['name'])) {
-                                    $skinname = $meta['name'];
-                                    $author_link = !empty($meta['url']) ? html::a(['href' => $meta['url'], 'target' => '_blank'], rcube::Q($meta['author'])) : rcube::Q($meta['author']);
-                                    $license_link = !empty($meta['license-url']) ? html::a(['href' => $meta['license-url'], 'target' => '_blank', 'tabindex' => '-1'], rcube::Q($meta['license'])) : rcube::Q($meta['license']);
-                                }
+                                $meta = $rcmail->output->get_skin_info($skin);
 
                                 $img = html::img([
                                     'src' => $rcmail->output->asset_url("skins/{$skin}/thumbnail.png"),
                                     'class' => 'skinthumbnail',
-                                    'alt' => $skin,
+                                    'alt' => $meta['name'],
                                     'width' => 64,
                                     'height' => 64,
                                     'onerror' => "this.onerror = null; this.src = 'data:image/gif;base64," . rcmail_output::BLANK_GIF . "';",
@@ -349,9 +340,9 @@ class rcmail_action_settings_index extends rcmail_action
                                 $blocks['skin']['options'][$skin]['content'] = html::label(['class' => 'skinselection'],
                                     html::span('skinitem', $input->show($config['skin'], ['value' => $skin, 'id' => $field_id . $skin])) .
                                     html::span('skinitem', $img) .
-                                    html::span('skinitem', html::span('skinname', rcube::Q($skinname)) . html::br() .
-                                        html::span('skinauthor', $author_link ? 'by ' . $author_link : '') . html::br() .
-                                        html::span('skinlicense', $license_link ? $rcmail->gettext('license') . ':&nbsp;' . $license_link : ''))
+                                    html::span('skinitem', html::span('skinname', rcube::Q($meta['name'])) . html::br() .
+                                        html::span('skinauthor', !empty($meta['author_link']) ? $rcmail->gettext(['name' => 'skinauthor', 'vars' => ['author' => $meta['author_link']]]) : '') . html::br() .
+                                        html::span('skinlicense', !empty($meta['license_link']) ? $rcmail->gettext('license') . ':&nbsp;' . $meta['license_link'] : ''))
                                 );
                             }
                         }
