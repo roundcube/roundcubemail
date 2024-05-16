@@ -64,4 +64,29 @@ class StorageMock
     {
         return null;
     }
+
+    /**
+     * Check if specified folder is a special folder
+     */
+    public function is_special_folder($name)
+    {
+        return $name == 'INBOX' || in_array($name, $this->get_special_folders());
+    }
+
+    /**
+     * Return configured special folders
+     */
+    public function get_special_folders($forced = false)
+    {
+        $rcube = rcube::get_instance();
+        $folders = [];
+
+        foreach (rcube_storage::$folder_types as $type) {
+            if ($folder = $rcube->config->get($type . '_mbox')) {
+                $folders[$type] = $folder;
+            }
+        }
+
+        return $folders;
+    }
 }

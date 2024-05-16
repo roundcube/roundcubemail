@@ -97,6 +97,51 @@ class Framework_Imap extends TestCase
         $result = $object->sort_folder_list($folders);
 
         $this->assertSame($expected, $result);
+
+        // More tricky scenario where a special folder is a subfolder of INBOX
+        rcube::get_instance()->config->set('junk_mbox', 'INBOX.Junk');
+
+        $object = new rcube_imap();
+
+        $folders = [
+            'Trash',
+            'Sent',
+            'ABC',
+            'Drafts',
+            'INBOX',
+            'INBOX.Trash',
+            'INBOX.Junk',
+            'INBOX.Sent',
+            'INBOX.Drafts',
+            'INBOX.Junk.Sub',
+            'INBOX.sub',
+            'Shared.Test1',
+            'Other Users.Test2',
+            'Junk',
+            'DEF',
+        ];
+
+        $expected = [
+            'INBOX',
+            'INBOX.Drafts',
+            'INBOX.Sent',
+            'INBOX.sub',
+            'INBOX.Trash',
+            'Drafts',
+            'Sent',
+            'INBOX.Junk',
+            'INBOX.Junk.Sub',
+            'Trash',
+            'ABC',
+            'DEF',
+            'Junk',
+            'Other Users.Test2',
+            'Shared.Test1',
+        ];
+
+        $result = $object->sort_folder_list($folders);
+
+        $this->assertSame($expected, $result);
     }
 
     /**
