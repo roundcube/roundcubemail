@@ -302,7 +302,7 @@ class rcmail_output_html extends rcmail_output
         // register skin path(s)
         $this->skin_paths = [];
         $this->skins = [];
-        $this->load_skin($skin_path);
+        $this->load_skin($skin);
 
         $this->skin_name = $skin;
         $this->set_env('skin', $skin);
@@ -341,13 +341,13 @@ class rcmail_output_html extends rcmail_output
     /**
      * Helper method to recursively read skin meta files and register search paths
      */
-    private function load_skin($skin_path)
+    private function load_skin($skin_name)
     {
+        $skin_path = 'skins/' . $skin_name;
         $this->skin_paths[] = $skin_path;
 
         // read meta file and check for dependencies
-        $meta = @file_get_contents(RCUBE_INSTALL_PATH . $skin_path . '/meta.json');
-        $meta = @json_decode($meta, true);
+        $meta = $this->get_skin_info($skin_name);
 
         $meta['path'] = $skin_path;
         $path_elements = explode('/', $skin_path);
@@ -365,7 +365,7 @@ class rcmail_output_html extends rcmail_output
         if (!empty($meta['extends'])) {
             $path = RCUBE_INSTALL_PATH . 'skins/';
             if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {
-                $_SESSION['skin_config'] = $this->load_skin('skins/' . $meta['extends']);
+                $_SESSION['skin_config'] = $this->load_skin($meta['extends']);
             }
         }
 
