@@ -132,8 +132,7 @@ $config['redis_debug'] = false;
 // The IMAP host (and optionally port number) chosen to perform the log-in.
 // Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
-// Enter hostname with prefix ssl:// to use Implicit TLS, or use
-// prefix tls:// to use STARTTLS.
+// Enter hostname with prefix ssl:// to use Implicit TLS, or tls:// for STARTTLS.
 // If port number is omitted it will be set to 993 (for ssl://) or 143 otherwise.
 // Supported replacement variables:
 // %n - hostname ($_SERVER['SERVER_NAME'])
@@ -265,8 +264,7 @@ $config['messages_cache_threshold'] = 50;
 // ----------------------------------
 
 // SMTP server host (and optional port number) for sending mails.
-// Enter hostname with prefix ssl:// to use Implicit TLS, or use
-// prefix tls:// to use STARTTLS.
+// Enter hostname with prefix ssl:// to use Implicit TLS, or tls:// for STARTTLS.
 // If port number is omitted it will be set to 465 (for ssl://) or 587 otherwise.
 // Supported replacement variables:
 // %h - user's IMAP hostname
