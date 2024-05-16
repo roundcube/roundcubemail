@@ -57,7 +57,8 @@ class rcube_cpanel_password
             $response = $client->post($url, $options);
             $response = $response->getBody()->getContents();
         } catch (Exception $e) {
-            rcube::raise_error("Error posting {$url}: {$e->getMessage()}", true, false);
+            rcube::raise_error("Password plugin: Failed to post to {$url}: {$e->getMessage()}", true);
+
             return PASSWORD_ERROR;
         }
 

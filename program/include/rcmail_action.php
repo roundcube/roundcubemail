@@ -1077,7 +1077,7 @@ abstract class rcmail_action
     /**
      * Create a hierarchical array of the mailbox list
      */
-    protected static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
+    protected static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '', $is_special = null)
     {
         $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
@@ -1094,11 +1094,37 @@ abstract class rcmail_action
             }
         }
 
+        // Special folders always on top level
+        if ($is_special === null) {
+            $is_special = $storage->is_special_folder($path . $prefix . $folder);
+        }
+
+        $currentFolder = $folder;
+        $subFolders = '';
+        $virtual = false;
+        $name = null;
         $pos = strpos($folder, $delm);
 
-        if ($pos !== false) {
-            $subFolders = substr($folder, $pos + 1);
-            $currentFolder = substr($folder, 0, $pos);
+        if ($is_special) {
+            $name = $pos !== false ? substr($folder, $pos + 1) : $folder;
+        } elseif ($pos !== false) {
+            $tokens = explode($delm, $folder);
+            $subFolders = array_pop($tokens);
+            $currentFolder = implode($delm, $tokens);
+
+            // Find the closest parent.
+            // Because we force special folders to be on top level, we might
+            // end up with "INBOX/Trash" being on the top-level folders list,
+            // Then if we have "INBOX/Trash/Subfolder" we have to put it under "INBOX/Trash",
+            // not "INBOX".
+            while (count($tokens) > 1) {
+                if (isset($arrFolders[$currentFolder])) {
+                    break;
+                }
+
+                $subFolders = array_pop($tokens) . $delm . $subFolders;
+                $currentFolder = implode($delm, $tokens);
+            }
 
             // sometimes folder has a delimiter as the last character
             if (!strlen($subFolders)) {
@@ -1108,10 +1134,6 @@ abstract class rcmail_action
             } else {
                 $virtual = $arrFolders[$currentFolder]['virtual'];
             }
-        } else {
-            $subFolders = false;
-            $currentFolder = $folder;
-            $virtual = false;
         }
 
         $path .= $prefix . $currentFolder;
@@ -1119,7 +1141,7 @@ abstract class rcmail_action
         if (!isset($arrFolders[$currentFolder])) {
             $arrFolders[$currentFolder] = [
                 'id' => $path,
-                'name' => rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
+                'name' => $name ?? rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
                 'virtual' => $virtual,
                 'folders' => [],
             ];
@@ -1128,7 +1150,7 @@ abstract class rcmail_action
         }
 
         if (strlen($subFolders)) {
-            self::build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path . $delm);
+            self::build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path . $delm, $is_special);
         }
     }
 
@@ -1216,7 +1238,8 @@ abstract class rcmail_action
             $jslist[$folder['id']] = [
                 'id' => $folder['id'],
                 'name' => $foldername,
-                'virtual' => $folder['virtual'],
+                'virtual' => $folder['virtual'] ?? false,
+                'level' => $nestLevel,
             ];
 
             if (!empty($folder_class)) {

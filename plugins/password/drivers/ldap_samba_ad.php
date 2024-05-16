@@ -38,7 +38,7 @@ class rcube_ldap_samba_ad_password extends rcube_ldap_simple_password
             rcube::raise_error([
                 'code' => 100,
                 'type' => 'ldap',
-                'message' => 'ldap_mod_replace() not supported',
+                'message' => 'Password plugin: ldap_mod_replace() not supported',
             ], true);
 
             return PASSWORD_ERROR;

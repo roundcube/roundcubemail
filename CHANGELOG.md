@@ -18,6 +18,7 @@
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
 - Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
 - Add identities management script - bin/identity.sh (#8887)
+- Add skin info to about dialog (#9441)
 - Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
@@ -47,6 +48,7 @@
 - Password: Use Guzzle HTTP Client in the `domainfactory` driver
 - Password: Use Guzzle HTTP Client in the `cpanel` driver
 - Password: Check that a user email is part of password in the `zxcvbn` checker (#9404)
+- Fix folders hierarchy when special folders are subfolders of INBOX, with no personal namespace prefix (#9452)
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)

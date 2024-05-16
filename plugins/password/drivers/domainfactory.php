@@ -81,7 +81,7 @@ class rcube_domainfactory_password
                 }
             }
         } catch (Exception $e) {
-            rcube::raise_error("Error fetching {$url} : {$e->getMessage()}", true, false);
+            rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
             return PASSWORD_CONNECT_ERROR;
         }
 

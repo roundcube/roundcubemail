@@ -9030,10 +9030,9 @@ function rcube_webmail() {
     // create folder selector popup
     this.folder_selector = function (event, callback) {
         this.entity_selector('folder-selector', callback, this.env.mailboxes_list, function (obj, a) {
-            var n = 0, s = 0,
-                delim = ref.env.delimiter,
-                folder = ref.env.mailboxes[obj],
+            var folder = ref.env.mailboxes[obj],
                 id = folder.id,
+                depth = folder.level || 0,
                 row = $('<li>');
 
             if (folder.virtual) {
@@ -9046,11 +9045,8 @@ function rcube_webmail() {
                 row.addClass(folder.class);
             }
 
-            // calculate/set indentation level
-            while ((s = id.indexOf(delim, s)) >= 0) {
-                n++; s++;
-            }
-            a.css('padding-left', n ? (n * 16) + 'px' : 0);
+            // set indentation level
+            a.css('padding-left', depth ? (depth * 16) + 'px' : 0);
 
             // add folder name element
             a.append($('<span>').text(folder.name));

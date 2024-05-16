@@ -80,10 +80,7 @@ class rcube_httpapi_password
         } elseif ($method == 'GET') {
             $params['query'] = $vars;
         } else {
-            rcube::raise_error([
-                'code' => 600,
-                'message' => 'Password plugin: Invalid httpapi method',
-            ], true, false);
+            rcube::raise_error('Password plugin: Invalid httpapi method', true);
 
             return PASSWORD_CONNECT_ERROR;
         }
@@ -94,31 +91,21 @@ class rcube_httpapi_password
             $response_code = $response->getStatusCode();
             $result = $response->getBody();
         } catch (Exception $e) {
-            rcube::raise_error([
-                'code' => 600,
-                'message' => 'Password plugin: ' . $e->getMessage(),
-            ], true, false);
+            rcube::raise_error('Password plugin: ' . $e->getMessage(), true);
 
             return PASSWORD_CONNECT_ERROR;
         }
 
         // Non-2xx response codes mean the password change failed
         if ($response_code < 200 || $response_code > 299) {
-            rcube::raise_error([
-                'code' => 600,
-                'message' => "Password plugin: Unexpected response code {$response_code}: "
-                    . substr($result, 0, 1024),
-            ], true, false);
+            rcube::raise_error("Password plugin: Unexpected response code {$response_code}: " . substr($result, 0, 1024), true);
 
             return ($response_code == 404 || $response_code > 499) ? PASSWORD_CONNECT_ERROR : PASSWORD_ERROR;
         }
 
         // If configured, check the body of the response
         if ($expect && !preg_match($expect, $result)) {
-            rcube::raise_error([
-                'code' => 600,
-                'message' => 'Password plugin: Unexpected response body: ' . substr($result, 0, 1024),
-            ], true, false);
+            rcube::raise_error('Password plugin: Unexpected response body: ' . substr($result, 0, 1024), true);
 
             return PASSWORD_ERROR;
         }

@@ -32,10 +32,7 @@ class rcube_kpasswd_password
             return PASSWORD_SUCCESS;
         }
 
-        rcube::raise_error([
-            'code' => 600,
-            'message' => "Password plugin: Unable to execute {$cmd}",
-        ], true, false);
+        rcube::raise_error("Password plugin: Unable to execute {$cmd}", true);
 
         return PASSWORD_ERROR;
     }

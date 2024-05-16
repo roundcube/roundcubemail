@@ -10,8 +10,7 @@ $config = [];
 // For example %n = mail.domain.tld, %d = domain.tld
 // If port is omitted it will be determined automatically using getservbyname()
 // function, with 4190 as a fallback.
-// Note: Add tls:// prefix to enable explicit STARTTLS
-// or add ssl:// prefix to enable implicit SSL.
+// Note: Add tls:// prefix to enable explicit STARTTLS or ssl:// for implicit SSL.
 // To specify different sieve servers for different hosts, provide an array
 // of a hostname (no prefix or port) and sieve server e.g.:
 // ['example.com' => 'sieve.example.net']

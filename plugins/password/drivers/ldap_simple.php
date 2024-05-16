@@ -132,7 +132,7 @@ class rcube_ldap_simple_password
             rcube::raise_error([
                 'code' => 100,
                 'type' => 'ldap',
-                'message' => 'Could not connect to LDAP server',
+                'message' => 'Password plugin: Could not connect to LDAP server',
             ], true);
 
             return PASSWORD_CONNECT_ERROR;

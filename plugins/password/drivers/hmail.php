@@ -37,8 +37,8 @@ class rcube_hmail_password
                 $obApp = new COM('hMailServer.Application');
             }
         } catch (Exception $e) {
-            rcube::write_log('errors', 'Plugin password (hmail driver): ' . trim(strip_tags($e->getMessage())));
-            rcube::write_log('errors', 'Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.');
+            rcube::raise_error('Password plugin: hMail error: ' . trim(strip_tags($e->getMessage())), true);
+            rcube::raise_error('Password plugin: This problem is often caused by DCOM permissions not being set.', true);
 
             return PASSWORD_ERROR;
         }
@@ -48,7 +48,7 @@ class rcube_hmail_password
         } else {
             $domain = $rcmail->config->get('username_domain', false);
             if (!$domain) {
-                rcube::write_log('errors', 'Plugin password (hmail driver): $config[\'username_domain\'] is not defined.');
+                rcube::raise_error('Password plugin: $config[\'username_domain\'] is not defined.', true);
                 return PASSWORD_ERROR;
             }
             $username = $username . '@' . $domain;
@@ -64,8 +64,8 @@ class rcube_hmail_password
 
             return PASSWORD_SUCCESS;
         } catch (Exception $e) {
-            rcube::write_log('errors', 'Plugin password (hmail driver): ' . trim(strip_tags($e->getMessage())));
-            rcube::write_log('errors', 'Plugin password (hmail driver): This problem is often caused by DCOM permissions not being set.');
+            rcube::raise_error('Password plugin: hMail error: ' . trim(strip_tags($e->getMessage())));
+            rcube::raise_error('Password plugin: This problem is often caused by DCOM permissions not being set.', true);
 
             return PASSWORD_ERROR;
         }

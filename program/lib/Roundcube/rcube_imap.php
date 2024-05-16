@@ -4288,73 +4288,54 @@ class rcube_imap extends rcube_storage
             return $folders;
         }
 
-        // Collect special folders and non-personal namespace roots
-        $specials = array_merge(['INBOX'], array_values($this->get_special_folders()));
-        $ns_roots = [];
+        // Force the type of folder name variable (#1485527)
+        /** @var array<string|null> $folders */
+        $folders = array_map('strval', $folders);
 
+        $count = count($folders);
+        $special = [];
+        $inbox = [];
+        $shared = [];
+        $match_function = static function ($idx, $search, $prefix, &$list) use (&$folders) {
+            $folder = $folders[$idx];
+            if ($folder !== null && ($folder === $search || strpos($folder, $prefix) === 0)) {
+                $folders[$idx] = null;
+                $list[] = $folder;
+            }
+        };
+
+        // Put special folders first
+        foreach ($this->get_special_folders() as $special_folder) {
+            for ($i = 0; $i < $count; $i++) {
+                $match_function($i, $special_folder, $special_folder . $this->delimiter, $special);
+            }
+        }
+
+        // Note: Special folders might be subfolders of Inbox, that's why we don't do Inbox first
+        for ($i = 0; $i < $count; $i++) {
+            $match_function($i, 'INBOX', 'INBOX' . $this->delimiter, $inbox);
+        }
+
+        // Put other-user/shared namespaces at the end
         foreach (['other', 'shared'] as $ns_name) {
             if ($ns = $this->get_namespace($ns_name)) {
                 foreach ($ns as $root) {
                     if (isset($root[0]) && strlen($root[0])) {
-                        $ns_roots[rtrim($root[0], $root[1])] = $root[0];
+                        $search = rtrim($root[0], $root[1]);
+                        for ($i = 0; $i < $count; $i++) {
+                            $match_function($i, $search, $root[0], $shared);
+                        }
                     }
                 }
             }
         }
 
-        // Force the type of folder name variable (#1485527)
-        $folders = array_map('strval', $folders);
-        $out = [];
-
-        // Put special folders on top...
-        $specials = array_unique(array_intersect($specials, $folders));
-        $folders = array_merge($specials, array_diff($folders, $specials));
-
-        // ... and rebuild the list to move their subfolders where they belong
-        $this->sort_folder_specials(null, $folders, $specials, $out);
-
-        // Put other-user/shared namespaces at the end
-        if (!empty($ns_roots)) {
-            $folders = [];
-            foreach ($out as $folder) {
-                foreach ($ns_roots as $root => $prefix) {
-                    if ($folder === $root || strpos($folder, $prefix) === 0) {
-                        $folders[] = $folder;
-                    }
-                }
-            }
-
-            if (!empty($folders)) {
-                $out = array_merge(array_diff($out, $folders), $folders);
-            }
-        }
-
-        return $out;
-    }
-
-    /**
-     * Recursive function to put subfolders of special folders in place
-     */
-    protected function sort_folder_specials($folder, &$list, &$specials, &$out)
-    {
-        $count = count($list);
-
-        for ($i = 0; $i < $count; $i++) {
-            $name = $list[$i];
-            if ($name === null) {
-                continue;
-            }
-
-            if ($folder === null || strpos($name, $folder . $this->delimiter) === 0) {
-                $out[] = $name;
-                $list[$i] = null;
-
-                if (!empty($specials) && ($found = array_search($name, $specials)) !== false) {
-                    unset($specials[$found]);
-                    $this->sort_folder_specials($name, $list, $specials, $out);
-                }
-            }
-        }
+        return array_merge(
+            $inbox, // INBOX and its subfolders
+            $special, // special folders and their subfolders
+            array_filter($folders, static function ($v) { return $v !== null; }), // all other personal folders
+            $shared // shared/other users namespace folders
+        );
     }
 
     /**
