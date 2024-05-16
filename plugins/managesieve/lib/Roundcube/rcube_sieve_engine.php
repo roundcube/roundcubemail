@@ -164,6 +164,7 @@ class rcube_sieve_engine
     public function connect($username, $password)
     {
         $host = $this->rc->config->get('managesieve_host', 'localhost');
+
         // $config['managesieve_host'] parameter now can be configured in two ways:
         // - as an array, which allows to switch between different servers. E.g.,
         //   a user can log in as user@some.host, or as otheruser@other.host and
@@ -184,6 +185,7 @@ class rcube_sieve_engine
                 return rcube_sieve::ERROR_CONNECTION;
             }
         }
+
         $host = rcube_utils::parse_host($host);
 
         $plugin = $this->rc->plugins->exec_hook('managesieve_connect', [
