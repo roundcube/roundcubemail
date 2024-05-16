@@ -181,7 +181,7 @@ class rcube_sieve_engine
                     'code' => 500,
                     'message' => "Can't locate the sieve server. Please check the 'managesieve_host' config option.",
                 ], true, false);
-                return rcmail::ERROR_INVALID_HOST;
+                return rcube_sieve::ERROR_CONNECTION;
             }
         }
         $host = rcube_utils::parse_host($host);
