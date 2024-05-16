@@ -86,10 +86,7 @@ class rcube_ldap_ppolicy_password
                 case 'Cannot connect to any server':
                     return PASSWORD_CONNECT_ERROR;
                 default:
-                    rcube::raise_error([
-                        'code' => 600,
-                        'message' => "Password plugin: Failed to execute command: {$cmd}. Output: {$result}. Error: {$stderr}",
-                    ], true, false);
+                    rcube::raise_error("Password plugin: Failed to execute command: {$cmd}. Output: {$result}. Error: {$stderr}", true);
             }
         }
 
