@@ -18,6 +18,7 @@
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
 - Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
 - Add identities management script - bin/identity.sh (#8887)
+- Add skin info to about dialog (#9441)
 - Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
