@@ -52,11 +52,7 @@ class rcube_tinycp_password
         }
 
         if ($error_message) {
-            rcube::raise_error([
-                'code' => 600,
-                'message' => "Password driver: {$error_message}",
-            ], true, false);
-
+            rcube::raise_error("Password plugin: {$error_message}", true);
             return PASSWORD_ERROR;
         }
 

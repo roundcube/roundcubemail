@@ -46,10 +46,7 @@ class rcube_dbmail_password
             return PASSWORD_SUCCESS;
         }
 
-        rcube::raise_error([
-            'code' => 600,
-            'message' => "Password plugin: Unable to execute {$curdir}/chgdbmailusers",
-        ], true, false);
+        rcube::raise_error("Password plugin: Unable to execute {$curdir}/chgdbmailusers", true);
 
         return PASSWORD_ERROR;
     }

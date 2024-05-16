@@ -48,15 +48,9 @@ class rcube_gearman_password
                 return PASSWORD_SUCCESS;
             }
 
-            rcube::raise_error([
-                'code' => 600,
-                'message' => "Password plugin: Gearman authentication failed for user {$username}",
-            ], true, false);
+            rcube::raise_error("Password plugin: Gearman authentication failed for user {$username}", true);
         } else {
-            rcube::raise_error([
-                'code' => 600,
-                'message' => 'Password plugin: PECL Gearman module not loaded',
-            ], true, false);
+            rcube::raise_error('Password plugin: PECL Gearman module not loaded', true);
         }
 
         return PASSWORD_ERROR;

@@ -111,7 +111,7 @@ class rcube_plesk_password
 
             return $body && strpos($body, '<?xml') === 0 ? $body : null;
         } catch (Exception $e) {
-            rcube::raise_error("Error on {$this->url}: {$e->getMessage()}", true, false);
+            rcube::raise_error("Error on {$this->url}: {$e->getMessage()}", true);
         }
 
         return null;

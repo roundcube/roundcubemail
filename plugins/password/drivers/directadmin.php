@@ -76,7 +76,7 @@ class rcube_directadmin_password
 
             $response = Query::parse($body);
         } catch (Exception $e) {
-            rcube::raise_error("Error fetching {$url} : {$e->getMessage()}", true, false);
+            rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
             return PASSWORD_ERROR;
         }
 
