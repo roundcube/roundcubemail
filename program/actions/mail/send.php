@@ -38,10 +38,7 @@ class rcmail_action_mail_send extends rcmail_action
 
         // Sanity checks
         if (!isset($COMPOSE['id'])) {
-            rcube::raise_error([
-                'code' => 500,
-                'message' => 'Invalid compose ID',
-            ], true, false);
+            rcube::raise_error('Invalid compose ID', true);
 
             $rcmail->output->show_message('internalerror', 'error');
             $rcmail->output->send('iframe');
@@ -146,10 +143,7 @@ class rcmail_action_mail_send extends rcmail_action
                 $spell_result = $spellchecker->check($message_body, $isHtml);
 
                 if ($error = $spellchecker->error()) {
-                    rcube::raise_error([
-                        'code' => 500,
-                        'message' => 'Spellcheck error: ' . $error,
-                    ], true, false);
+                    rcube::raise_error('Spellcheck error: ' . $error, true);
                 } else {
                     $COMPOSE['spell_checked'] = true;
 

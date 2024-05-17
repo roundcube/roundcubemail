@@ -356,10 +356,7 @@ class rcmail_attachment_handler
                 usleep(rand(10, 30) * 100000); // 1-3 sec.
                 header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
             } else {
-                rcube::raise_error([
-                    'code' => 500,
-                    'message' => 'Unable to get/display message part. IMAP connection error',
-                ], true, true);
+                rcube::raise_error('Unable to get/display message part. IMAP connection error', true, true);
             }
 
             // Don't kill session, just quit (#1486995)

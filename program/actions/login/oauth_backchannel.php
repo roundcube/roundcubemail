@@ -71,15 +71,11 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 echo '{}';
                 exit;
             } catch (Exception $e) {
-                rcube::raise_error([
-                    'message' => $e->getMessage(),
-                ], true, false);
+                rcube::raise_error($e, true);
                 $answer['error_description'] = 'Error decoding JWT';
             }
         } else {
-            rcube::raise_error([
-                'message' => sprintf('oidc backchannel called from %s without any parameter', rcube_utils::remote_addr()),
-            ], true, false);
+            rcube::raise_error(sprintf('oidc backchannel called from %s without any parameter', rcube_utils::remote_addr()), true);
         }
 
         http_response_code(400);

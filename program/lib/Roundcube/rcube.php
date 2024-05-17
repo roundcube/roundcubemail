@@ -918,10 +918,7 @@ class rcube
         }
 
         if ($cipher === false) {
-            self::raise_error([
-                'message' => "Failed to encrypt data with configured cipher method: {$method}!",
-            ], true, false);
-
+            self::raise_error("Failed to encrypt data with configured cipher method: {$method}!", true);
             return false;
         }
 
@@ -1385,14 +1382,14 @@ class rcube
     /**
      * Throw system error, with optional logging and script termination.
      *
-     * @param array|Throwable|string|PEAR_Error $arg       Error object, string or named parameters array:
-     *                                                     - code:    Error code (required)
-     *                                                     - type:    Error type: php, db, imap, etc.
-     *                                                     - message: Error message
-     *                                                     - file:    File where error occurred
-     *                                                     - line:    Line where error occurred
-     * @param bool                              $log       True to log the error
-     * @param bool                              $terminate Terminate script execution
+     * @param int|array|Throwable|string|PEAR_Error $arg       Error object, int, string or named parameters array:
+     *                                                         - code:    Error code (required)
+     *                                                         - type:    Error type: php, db, imap, etc.
+     *                                                         - message: Error message
+     *                                                         - file:    File where error occurred
+     *                                                         - line:    Line where error occurred
+     * @param bool                                  $log       True to log the error
+     * @param bool                                  $terminate Terminate script execution
      */
     public static function raise_error($arg, $log = false, $terminate = false)
     {
@@ -1410,6 +1407,8 @@ class rcube
                 'code' => $arg->getCode(),
                 'message' => $arg->getMessage() . ($info ? ': ' . $info : ''),
             ];
+        } elseif (is_int($arg)) {
+            $arg = ['code' => $arg];
         } elseif (is_string($arg)) {
             $arg = ['message' => $arg];
         }
@@ -1819,7 +1818,8 @@ class rcube
 
         if (!$sent) {
             self::raise_error([
-                'code' => 800, 'type' => 'smtp',
+                'code' => 800,
+                'type' => 'smtp',
                 'message' => implode("\n", $response),
             ], true, false);
 
