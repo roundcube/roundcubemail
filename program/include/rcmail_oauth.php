@@ -178,18 +178,14 @@ class rcmail_oauth
         // sanity check on PKCE value
         if ($this->options['pkce'] && !array_key_exists($this->options['pkce'], self::$pkce_mapper)) {
             // will stops on error
-            rcube::raise_error([
-                'message' => "PKCE method not supported (oauth_pkce='{$this->options['pkce']}')",
-            ], true, true);
+            rcube::raise_error("PKCE method not supported (oauth_pkce='{$this->options['pkce']}')", true, true);
         }
 
         // sanity check that configuration user_create_map contains only allowed keys
         foreach ($this->options['user_create_map'] as $key => $ignored) {
             if (!in_array($key, self::$user_create_allowed_keys)) {
                 // will stops on error
-                rcube::raise_error([
-                    'message' => "use of key `{$key}` in `oauth_user_create_map` is not allowed",
-                ], true, true);
+                rcube::raise_error("Use of key `{$key}` in `oauth_user_create_map` is not allowed", true, true);
             }
         }
 
@@ -236,9 +232,7 @@ class rcmail_oauth
             // map discovery to our options
             foreach (self::$config_mapper as $config_key => $options_key) {
                 if (empty($data[$config_key])) {
-                    rcube::raise_error([
-                        'message' => "key {$config_key} not found in answer of {$config_uri}",
-                    ], true, false);
+                    rcube::raise_error("Key {$config_key} not found in answer of {$config_uri}", true);
                 } else {
                     $this->options[$options_key] = $data[$config_key];
                 }
@@ -247,15 +241,11 @@ class rcmail_oauth
             // check if pkce method is supported by this server
             if ($this->options['pkce'] && isset($data['code_challenge_methods_supported']) && is_array($data['code_challenge_methods_supported'])) {
                 if (!in_array($this->options['pkce'], $data['code_challenge_methods_supported'])) {
-                    rcube::raise_error([
-                        'message' => "OAuth server does not support this PKCE method (oauth_pkce='{$this->options['pkce']}')",
-                    ], true, false);
+                    rcube::raise_error("OAuth server does not support this PKCE method (oauth_pkce='{$this->options['pkce']}')", true);
                 }
             }
         } catch (Exception $e) {
-            rcube::raise_error([
-                'message' => "Error fetching {$config_uri} : {$e->getMessage()}",
-            ], true, false);
+            rcube::raise_error("Error fetching {$config_uri} : {$e->getMessage()}", true);
         }
     }
 
@@ -485,9 +475,7 @@ class rcmail_oauth
     {
         if (empty($this->options['auth_uri']) || empty($this->options['client_id'])) {
             // log error about missing config options
-            rcube::raise_error([
-                'message' => "Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'",
-            ], true, false);
+            rcube::raise_error("Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'", true);
             return;
         }
 
@@ -670,16 +658,12 @@ class rcmail_oauth
             $this->no_redirect = true;
             $formatter = new MessageFormatter();
 
-            rcube::raise_error([
-                'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
-            ], true, false);
+            rcube::raise_error($this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()), true);
         } catch (Exception $e) {
             $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
             $this->no_redirect = true;
 
-            rcube::raise_error([
-                'message' => $this->last_error,
-            ], true, false);
+            rcube::raise_error($this->last_error, true);
         }
 
         return false;
@@ -740,9 +724,7 @@ class rcmail_oauth
         } catch (RequestException $e) {
             $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             $formatter = new MessageFormatter();
-            rcube::raise_error([
-                'message' => $this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()),
-            ], true, false);
+            rcube::raise_error($this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()), true);
 
             // refrehsing token failed, mark session as expired
             if ($e->getCode() >= 400 && $e->getCode() < 500) {
@@ -750,9 +732,7 @@ class rcmail_oauth
             }
         } catch (Exception $e) {
             $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
-            rcube::raise_error([
-                'message' => $this->last_error,
-            ], true, false);
+            rcube::raise_error($this->last_error, true);
         }
 
         return false;
@@ -768,9 +748,7 @@ class rcmail_oauth
     public function schedule_token_revocation($sub): void
     {
         if ($this->cache === null) {
-            rcube::raise_error([
-                'message' => 'received a token revocation request, you must activate `oauth_cache` to enable this feature',
-            ], true, false);
+            rcube::raise_error('Received a token revocation request, you must activate `oauth_cache` to enable this feature', true);
             return;
         }
         $this->cache->set("revoke_{$sub}", time());
@@ -870,9 +848,7 @@ class rcmail_oauth
         $refresh_interval = $this->rcmail->config->get('refresh_interval');
 
         if ($data['expires_in'] <= $refresh_interval) {
-            rcube::raise_error([
-                'message' => sprintf('Warning token expiration (%s) will expire before the refresh_interval (%s)', $data['expires_in'], $refresh_interval),
-            ], true, false);
+            rcube::raise_error(sprintf('Warning token expiration (%s) will expire before the refresh_interval (%s)', $data['expires_in'], $refresh_interval), true);
             // note: remove 10 sec by security (avoid tangent issues)
             $data['expires'] = time() + $data['expires_in'] - 10;
         } else {
@@ -1131,9 +1107,7 @@ class rcmail_oauth
                             $value = rcube_utils::idn_to_ascii($value);
                             // check format
                             if (!rcube_utils::check_email($value, false)) {
-                                rcube::raise_error([
-                                    'message' => "user_create: ignoring invalid email '{$value}' (from claim '{$oidc_claim}')",
-                                ], true, false);
+                                rcube::raise_error("user_create: ignoring invalid email '{$value}' (from claim '{$oidc_claim}')", true);
                                 continue 2; // continue on next foreach iteration
                             }
 
@@ -1143,9 +1117,7 @@ class rcmail_oauth
                             $value = strtr($value, '-', '_');
                             // sanity check no extra chars than an language format (RFC5646)
                             if (!preg_match('/^[a-z0-9_]{2,8}$/i', $value)) {
-                                rcube::raise_error([
-                                    'message' => "user_create: ignoring language '{$value}' (from claim '{$oidc_claim}')",
-                                ], true, false);
+                                rcube::raise_error("user_create: ignoring language '{$value}' (from claim '{$oidc_claim}')", true);
                                 continue 2; // continue on next foreach iteration
                             }
 

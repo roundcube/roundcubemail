@@ -1624,7 +1624,7 @@ class rcmail_action_mail_index extends rcmail_action
             $rcmail->output->show_message('messageopenerror', 'error');
             $rcmail->output->send('messageerror');
         } else {
-            $rcmail->raise_error(['code' => 410], false, true);
+            $rcmail->raise_error(410, false, true);
         }
     }
 
