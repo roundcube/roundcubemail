@@ -54,10 +54,7 @@ class rcmail_action_utils_spell_html extends rcmail_action
         header('Content-Type: application/json; charset=' . RCUBE_CHARSET);
 
         if ($error = $spellchecker->error()) {
-            rcube::raise_error([
-                'code' => 500,
-                'message' => 'Spellcheck error: ' . $error,
-            ], true, false);
+            rcube::raise_error('Spellcheck error: ' . $error, true);
 
             echo json_encode(['error' => $rcmail->gettext('internalerror')]);
             exit;

@@ -66,9 +66,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     !isset($_SESSION['last_compose_session'])
                     || self::$COMPOSE_ID != $_SESSION['last_compose_session']
                 ) {
-                    rcube::raise_error([
-                        'code' => 450,
-                    ], false, true);
+                    rcube::raise_error(450, false, true);
                 }
             }
 
@@ -497,10 +495,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         if (empty($spellcheck_langs)) {
             if ($err = $spellchecker->error()) {
-                rcube::raise_error([
-                    'code' => 500,
-                    'message' => 'Spell check engine error: ' . trim($err),
-                ], true, false);
+                rcube::raise_error('Spell check engine error: ' . trim($err), true);
             }
         } else {
             $dictionary = (bool) $rcmail->config->get('spellcheck_dictionary');

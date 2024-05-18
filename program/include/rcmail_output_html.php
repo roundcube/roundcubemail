@@ -320,10 +320,7 @@ class rcmail_output_html extends rcmail_output
         // Sanity check to prevent from path traversal vulnerability (#1490620)
         // @phpstan-ignore-next-line
         if (!is_string($skin) || strpos($skin, '/') !== false || strpos($skin, '\\') !== false) {
-            rcube::raise_error([
-                'message' => 'Invalid skin name',
-            ], true, false);
-
+            rcube::raise_error('Invalid skin name', true);
             return false;
         }
 
