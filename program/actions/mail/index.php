@@ -652,6 +652,11 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         foreach ($a_show_cols as $col) {
+            // sanity check
+            if (!preg_match('/^[a-zA-Z_-]+$/', $col)) {
+                continue;
+            }
+
             $label    = '';
             $sortable = false;
             $rel_col  = $col == 'date' && $sort_col == 'arrival' ? 'arrival' : $col;
