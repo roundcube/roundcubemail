@@ -7,6 +7,7 @@
 - Makefile: Use phpDocumentor v3.4 for the Framework docs (#9313)
 - Fix command injection via crafted im_convert_path/im_identify_path on Windows
 - Fix cross-site scripting (XSS) vulnerability in handling list columns from user preferences
+- Fix cross-site scripting (XSS) vulnerability in handling SVG animate attributes
 
 ## Release 1.5.6
 

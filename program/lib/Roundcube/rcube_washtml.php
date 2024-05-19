@@ -538,7 +538,7 @@ class rcube_washtml
 
         foreach ($node->attributes as $name => $attr) {
             if (strtolower($name) === $attr_name) {
-                if (strtolower($attr_value) === strtolower($attr->nodeValue)) {
+                if (strtolower($attr_value) === strtolower(trim($attr->nodeValue))) {
                     return true;
                 }
             }
