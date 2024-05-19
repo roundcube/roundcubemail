@@ -489,18 +489,20 @@ class rcube_image
     {
         static $error = [];
 
-        $cmd = rcube::get_instance()->config->get($opt_name);
+        $cmd = (string) rcube::get_instance()->config->get($opt_name);
 
         if (empty($cmd)) {
             return false;
         }
+
+        $cmd = trim($cmd);
 
         if (preg_match('/^(convert|identify)(\.exe)?$/i', $cmd)) {
             return $cmd;
         }
 
         // Executable must exist, also disallow network shares on Windows
-        if ($cmd[0] != "\\" && file_exists($cmd)) {
+        if ($cmd[0] !== '\\' && strpos($cmd, '//') !== 0 && file_exists($cmd)) {
             return $cmd;
         }
 
