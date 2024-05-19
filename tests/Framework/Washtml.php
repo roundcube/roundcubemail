@@ -473,6 +473,10 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                     . 'ZWY9IngiIG9uZXJyb3I9ImFsZXJ0KCcxJykiLz48L3N2Zz4=#x"></svg></html>',
                 '<svg><use x-washed="href"></use></svg>'
             ],
+            [
+                '<html><svg><animate attributeName="href " values="javascript:alert(\'XSS\')" href="#link" /></animate></svg></html>',
+                '<svg><!-- animate blocked --></svg>',
+            ],
         ];
     }
 
