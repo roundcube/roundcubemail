@@ -31,10 +31,12 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         $rcmail        = rcmail::get_instance();
         $save_arr      = [];
         $dont_override = (array) $rcmail->config->get('dont_override');
-        $cols          = null;
+
+        $sort = rcube_utils::get_input_string('_sort', rcube_utils::INPUT_GET);
+        $cols = rcube_utils::get_input_string('_cols', rcube_utils::INPUT_GET);
+        $layout = rcube_utils::get_input_string('_layout', rcube_utils::INPUT_GET);
 
         // is there a sort type for this request?
-        $sort = rcube_utils::get_input_string('_sort', rcube_utils::INPUT_GET);
         if ($sort && preg_match('/^[a-zA-Z_-]+$/', $sort)) {
             // yes, so set the sort vars
             list($sort_col, $sort_order) = explode('_', $sort);
@@ -49,7 +51,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         }
 
         // is there a set of columns for this request?
-        if ($cols = rcube_utils::get_input_value('_cols', rcube_utils::INPUT_GET)) {
+        if ($cols && preg_match('/^[a-zA-Z_,-]+$/', $cols)) {
             $_SESSION['list_attrib']['columns'] = explode(',', $cols);
             if (!in_array('list_cols', $dont_override)) {
                 $save_arr['list_cols'] = explode(',', $cols);
@@ -57,7 +59,7 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         }
 
         // register layout change
-        if ($layout = rcube_utils::get_input_value('_layout', rcube_utils::INPUT_GET)) {
+        if ($layout && preg_match('/^[a-zA-Z_-]+$/', $layout)) {
             $rcmail->output->set_env('layout', $layout);
             $save_arr['layout'] = $layout;
             // force header replace on layout change
