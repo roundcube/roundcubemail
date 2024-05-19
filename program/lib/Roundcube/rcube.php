@@ -833,7 +833,7 @@ class rcube
             $lang = $rcube_language_aliases[$lang];
         }
         // try the first two chars
-        else if (!isset($rcube_languages[$lang])) {
+        else if ($lang && !isset($rcube_languages[$lang])) {
             $short = substr($lang, 0, 2);
 
             // check if we have an alias for the short language code
@@ -846,7 +846,7 @@ class rcube
             }
         }
 
-        if (!isset($rcube_languages[$lang]) || !is_dir(RCUBE_LOCALIZATION_DIR . $lang)) {
+        if (!$lang || !isset($rcube_languages[$lang]) || !is_dir(RCUBE_LOCALIZATION_DIR . $lang)) {
             $lang = 'en_US';
         }
 
