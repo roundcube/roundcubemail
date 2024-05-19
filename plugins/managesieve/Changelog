@@ -1,4 +1,5 @@
 - Fix javascript error when relational or spamtest extension is not enabled (#9139)
+- Support an array in managesieve_host option (#9447)
 
 * version 9.5 [2023-03-26]
 -----------------------------------------------------------
