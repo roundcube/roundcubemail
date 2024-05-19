@@ -43,6 +43,10 @@ jobs:
         run: composer config platform.php 7.4
         if: matrix.php >= 8
 
+      - name: Fix for https://github.com/roundcube/plugin-installer/issues/56
+        run: composer require "roundcube/plugin-installer:0.3.3" --no-update
+        if: matrix.php < 7
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
