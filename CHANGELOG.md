@@ -52,6 +52,9 @@
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+
+## Release 1.6.7
+
 - Makefile: Use phpDocumentor v3.4 for the Framework docs (#9313)
 - Fix bug where HTML entities in URLs were not decoded on HTML to plain text conversion (#9312)
 - Fix bug in collapsing/expanding folders with some special characters in names (#9324)
