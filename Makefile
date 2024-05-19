@@ -18,8 +18,8 @@ complete: roundcubemail-git
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config platform.php $(PHP_VERSION))
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "kolab/net_ldap3:~1.1.1" --no-update --no-install)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "symfony/polyfill-intl-idn:1.19.0" --no-install)
+	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "roundcube/plugin-installer:0.3.3" --no-install)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset suggest.kolab/net_ldap3)
-	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset require-dev)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar install --prefer-dist --no-dev --no-interaction)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset platform)
 	(cd roundcubemail-$(VERSION); bin/install-jsdeps.sh --force)
@@ -73,7 +73,8 @@ buildtools: /tmp/composer.phar
 	npm install csso-cli
 
 /tmp/composer.phar:
-	curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp/
+	curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+	php /tmp/composer-setup.php --install-dir=/tmp/ --2.2
 
 /tmp/phpDocumentor.phar:
 	curl -sSL https://phpdoc.org/phpDocumentor.phar -o /tmp/phpDocumentor.phar
