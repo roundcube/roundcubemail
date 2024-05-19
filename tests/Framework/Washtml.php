@@ -455,7 +455,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><svg><animate attributeName="href " values="javascript:alert(\'XSS\')" href="#link" /></animate></svg></html>',
-                '<svg><!-- animate blocked --></svg>',
+                '<svg xmlns="http://www.w3.org/1999/xhtml"><!-- animate blocked --></svg>',
             ],
         ];
     }
