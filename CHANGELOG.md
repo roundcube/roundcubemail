@@ -7,6 +7,7 @@
 - Fix bug in collapsing/expanding folders with some special characters in names (#9324)
 - Fix PHP8 warnings (#9363, #9365, #9429)
 - Fix missing field labels in CSV import, for some locales (#9393)
+- Fix command injection via crafted im_convert_path/im_identify_path on Windows
 
 ## Release 1.6.6
 
