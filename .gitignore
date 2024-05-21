@@ -33,3 +33,4 @@ skins/elastic/styles/_variables.less
 # ignore IDE files
 .vscode
 .DS_Store
+.idea
