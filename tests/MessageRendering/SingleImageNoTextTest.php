@@ -13,8 +13,11 @@ class SingleImageNoTextTest extends MessageRenderingTestCase
      */
     public function test_show_multipart_mixed_single_image_too()
     {
-        $this->markTestIncomplete('TBD: test for fixing GH issue 9443');
-
+        $this->markTestSkipped('TBD: test for fixing GH issue 9443');
+        // This next comment line prevents phpstan from reporting this as
+        // unreachable code (technically it is right, but that's on purpose
+        // here...).
+        // @phpstan-ignore-next-line
         $domxpath = $this->run_and_get_html_output_domxpath('XXXXXXXXXXXXX@mx01.lytzenitmail.dk');
 
         $this->assertSame('Not OK', $this->getScrubbedSubject($domxpath));
