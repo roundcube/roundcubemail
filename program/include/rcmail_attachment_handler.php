@@ -309,7 +309,7 @@ class rcmail_attachment_handler
         // show images?
         $is_safe = $this->is_safe();
 
-        return rcmail_action_mail_index::wash_html($body, ['safe' => $is_safe, 'inline_html' => false]);
+        return rcmail_action_mail_index::wash_html($body, ['safe' => $is_safe, 'inline_html' => false], $this->part->replaces);
     }
 
     /**
