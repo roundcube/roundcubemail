@@ -31,6 +31,7 @@ class rcmail_output_html extends rcmail_output
     protected $js_labels = [];
     protected $js_commands = [];
     protected $skin_paths = [];
+    protected $skin_extends = [];
     protected $skin_name = '';
     protected $scripts_path = '';
     protected $script_files = [];
@@ -363,6 +364,7 @@ class rcmail_output_html extends rcmail_output
             $path = RCUBE_INSTALL_PATH . 'skins/';
             if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {
                 $_SESSION['skin_config'] = $this->load_skin($meta['extends']);
+                $this->skin_extends[] = $meta['extends'];
             }
         }
 
@@ -389,6 +391,10 @@ class rcmail_output_html extends rcmail_output
         }
         if (!empty($meta['links'])) {
             $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
+        }
+
+        if (!empty($this->skin_extends)) {
+            $this->set_env('skin_extends', $this->skin_extends);
         }
 
         $this->set_env('dark_mode_support', (bool) $this->config->get('dark_mode_support'));
