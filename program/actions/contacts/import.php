@@ -396,10 +396,10 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 for ($i = 0; $i < count($field['subtypes']); $i++) {
                     if (!empty($field['childs'])) {
                         foreach ($field['childs'] as $cid => $child) {
-                            $available_fields[$cid . ':' . $field['subtypes'][$i]] = $rcmail->gettext(['name' => 'contactaddressfieldtype', 'vars' => ['field' => $child['label'], 'subtype' => $subtype_names[$i]]]);
+                            $available_fields[$cid . ':' . $field['subtypes'][$i]] = $child['label'] . ' - ' . $subtype_names[$i];
                         }
                     } else {
-                        $available_fields[$id . ':' . $field['subtypes'][$i]] = $rcmail->gettext(['name' => 'contactfieldsubtype', 'vars' => ['field' => $field['label'], 'subtype' => $subtype_names[$i]]]);
+                        $available_fields[$id . ':' . $field['subtypes'][$i]] = $field['label'] . ' - ' . $subtype_names[$i];
                     }
                 }
             } else {
