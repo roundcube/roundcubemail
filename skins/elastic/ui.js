@@ -3326,6 +3326,7 @@ function rcube_elastic_ui() {
         } else {
             element.tooltip('dispose').tooltip({ trigger: is_mobile() ? 'click' : 'hover' });
         }
+        element.removeClass('hidden');
     }
 
     /**
