@@ -107,7 +107,14 @@ function newmail_notifier_desktop(body, disabled_callback)
                 tag: "newmail_notifier",
                 icon: icon
             });
-            popup.onclick = function() { this.close(); };
+
+            popup.onclick = function() {
+                if (window.parent) {
+                    window.parent.focus();
+                }
+                this.close();
+            };
+
             setTimeout(function() { popup.close(); }, timeout * 1000);
         };
 
