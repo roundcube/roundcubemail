@@ -8892,7 +8892,10 @@ function rcube_webmail() {
 
     // replace content of quota display
     this.set_quota = function (content) {
-        if (this.gui_objects.quotadisplay && content && content.type == 'text') {
+        if (!content || !content.total) {
+            return;
+        }
+        if (this.gui_objects.quotadisplay && content.type == 'text') {
             $(this.gui_objects.quotadisplay).text((content.percent || 0) + '%').attr('title', content.title || '');
         }
 
