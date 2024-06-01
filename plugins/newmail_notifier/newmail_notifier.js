@@ -108,6 +108,9 @@ function newmail_notifier_desktop(body, disabled_callback) {
                 icon: icon,
             });
             popup.onclick = function () {
+                if (window.parent) {
+                    window.parent.focus();
+                }
                 this.close();
             };
             setTimeout(function () {
