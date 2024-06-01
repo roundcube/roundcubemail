@@ -52,7 +52,7 @@ class rcube_vcard
         'CELL' => 'mobile',
         'WORK,FAX' => 'workfax',
         'WORK,CELL' => 'other',
-        'HOOME,FAX' => 'homefax',
+        'HOME,FAX' => 'homefax',
         'OTHER,FAX' => 'other',
         'FAX' => 'homefax',
     ];

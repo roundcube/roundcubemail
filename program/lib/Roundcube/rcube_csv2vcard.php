@@ -176,7 +176,6 @@ class rcube_csv2vcard
         'im_icq' => 'im:icq',
         'im_jabber' => 'im:jabber',
         'im_msn' => 'im:msn',
-        'im_other' => 'im:other',
         'im_skype' => 'im:skype',
         'im_yahoo' => 'im:yahoo',
         'web_blog' => 'website:blog',
