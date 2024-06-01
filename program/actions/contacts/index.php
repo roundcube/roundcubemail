@@ -120,6 +120,8 @@ class rcmail_action_contacts_index extends rcmail_action
             'options' => [
                 'male' => 'male',
                 'female' => 'female',
+                'non-binary' => 'nonbinary',
+                'other' => 'othergender',
             ],
         ],
         'maidenname' => [
