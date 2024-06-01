@@ -14,6 +14,7 @@
 - Support for HAproxy protocol header in IMAP connections (#8625)
 - Change 'smtp_log' option default value to False
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
+- Hide information about quota, when there is no quota (#8994)
 - Set timeout=30, connect_timeout=5, read_timeout=120 as defaults for HTTP client (#8865)
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
 - Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
