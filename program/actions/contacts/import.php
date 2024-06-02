@@ -383,42 +383,12 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $rcmail = rcmail::get_instance();
         $params = $_SESSION['contactcsvimport']['params'];
 
-        $available_fields = [];
-        foreach (self::$CONTACT_COLTYPES as $id => $field) {
-            if ($id == 'photo') {
-                // skip photo field because there are no photos in CSV files
-                continue;
-            }
+        $available_fields = rcube_csv2vcard::list_fields();
 
-            if (!empty($field['subtypes'])) {
-                $subtype_names = array_map('rcmail_action_contacts_index::get_type_label', $field['subtypes']);
-
-                for ($i = 0; $i < count($field['subtypes']); $i++) {
-                    if (!empty($field['childs'])) {
-                        foreach ($field['childs'] as $cid => $child) {
-                            $available_fields[$cid . ':' . $field['subtypes'][$i]] = $child['label'] . ' - ' . $subtype_names[$i];
-                        }
-                    } else {
-                        $available_fields[$id . ':' . $field['subtypes'][$i]] = $field['label'] . ' - ' . $subtype_names[$i];
-                    }
-                }
-            } else {
-                $available_fields[$id] = $field['label'];
-            }
+        // remove groups field if group import is not enabled
+        if (empty($params['with_groups'])) {
+            unset($available_fields['groups']);
         }
-
-        // allow importing of group assignments
-        if (!empty($params['with_groups'])) {
-            $available_fields['groups'] = $rcmail->gettext('groups');
-        }
-
-        // add separate birthday date parts fields for thunderbird imports
-        $available_fields['birthday-d'] = $rcmail->gettext('birth_day');
-        $available_fields['birthday-m'] = $rcmail->gettext('birth_month');
-        $available_fields['birthday-y'] = $rcmail->gettext('birth_year');
-
-        // sort by label for easy use
-        asort($available_fields, \SORT_LOCALE_STRING);
 
         $fieldlist = new html_select(['name' => '_map[]']);
         $fieldlist->add($rcmail->gettext('fieldnotmapped'), '');

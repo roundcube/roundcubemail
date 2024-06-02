@@ -343,6 +343,53 @@ class rcube_csv2vcard
     }
 
     /**
+     * Get list of contact fields available for import
+     *
+     * @return array string List of fields
+     */
+    public static function list_fields()
+    {
+        $rcmail = rcmail::get_instance();
+        $available_fields = [];
+
+        foreach (rcmail_action_contacts_index::$CONTACT_COLTYPES as $id => $field) {
+            if ($id == 'photo') {
+                // skip photo field because there are no photos in CSV files
+                continue;
+            }
+
+            if (!empty($field['subtypes'])) {
+                $subtype_names = array_map('rcmail_action_contacts_index::get_type_label', $field['subtypes']);
+
+                for ($i = 0; $i < count($field['subtypes']); $i++) {
+                    if (!empty($field['childs'])) {
+                        foreach ($field['childs'] as $cid => $child) {
+                            $available_fields[$cid . ':' . $field['subtypes'][$i]] = $child['label'] . ' - ' . $subtype_names[$i];
+                        }
+                    } else {
+                        $available_fields[$id . ':' . $field['subtypes'][$i]] = $field['label'] . ' - ' . $subtype_names[$i];
+                    }
+                }
+            } else {
+                $available_fields[$id] = $field['label'];
+            }
+        }
+
+        // allow importing of group assignments
+        $available_fields['groups'] = $rcmail->gettext('groups');
+
+        // add separate birthday date parts fields for thunderbird imports
+        $available_fields['birthday-d'] = $rcmail->gettext('birth_day');
+        $available_fields['birthday-m'] = $rcmail->gettext('birth_month');
+        $available_fields['birthday-y'] = $rcmail->gettext('birth_year');
+
+        // sort by label for easy use
+        asort($available_fields, \SORT_LOCALE_STRING);
+
+        return $available_fields;
+    }
+
+    /**
      * Set field mapping info
      *
      * @param array $elements Field mapping
