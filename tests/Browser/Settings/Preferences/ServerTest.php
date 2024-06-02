@@ -9,6 +9,7 @@ class ServerTest extends TestCase
 {
     private $settings;
 
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();

@@ -42,6 +42,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
+    #[Override]
     public function languages()
     {
         $this->init();
@@ -87,6 +88,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
+    #[Override]
     public function check($text)
     {
         $this->init();
@@ -131,6 +133,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
+    #[Override]
     public function get_suggestions($word)
     {
         $this->init();
@@ -153,6 +156,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
+    #[Override]
     public function get_words($text = null)
     {
         $result = [];

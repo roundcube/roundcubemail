@@ -31,6 +31,7 @@ class virtuser_query extends rcube_plugin
     private $app;
     private $db;
 
+    #[Override]
     public function init()
     {
         $this->app = rcmail::get_instance();

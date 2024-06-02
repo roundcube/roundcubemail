@@ -175,6 +175,7 @@ class rcmail_output_html extends rcmail_output
      * @param bool   $addtojs True if this property should be added
      *                        to client environment
      */
+    #[Override]
     public function set_env($name, $value, $addtojs = true)
     {
         $this->env[$name] = $value;
@@ -277,6 +278,7 @@ class rcmail_output_html extends rcmail_output
     /**
      * Getter for the current skin path property
      */
+    #[Override]
     public function get_skin_path()
     {
         return $this->skin_paths[0];
@@ -497,6 +499,7 @@ class rcmail_output_html extends rcmail_output
      * @param string $cmd     Method to call
      * @param mixed  ...$args Method arguments
      */
+    #[Override]
     public function command($cmd, ...$args)
     {
         if (strpos($cmd, 'plugin.') !== false) {
@@ -513,6 +516,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @param mixed ...$args Labels (an array of strings, or many string arguments)
      */
+    #[Override]
     public function add_label(...$args)
     {
         if (count($args) == 1 && is_array($args[0])) {
@@ -535,6 +539,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @uses self::command()
      */
+    #[Override]
     public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($override || !$this->message) {
@@ -558,6 +563,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @param bool $all Reset all env variables (including internal)
      */
+    #[Override]
     public function reset($all = false)
     {
         $framed = $this->framed;
@@ -614,6 +620,7 @@ class rcmail_output_html extends rcmail_output
      * @param int   $delay  Delay in seconds
      * @param bool  $secure Redirect to secure location (see rcmail::url())
      */
+    #[Override]
     public function redirect($p = [], $delay = 1, $secure = false)
     {
         if (!empty($this->env['extwin']) && !(is_string($p) && preg_match('#^https?://#', $p))) {
@@ -636,6 +643,7 @@ class rcmail_output_html extends rcmail_output
      * @param string $templ Template name
      * @param bool   $exit  True if script should terminate (default)
      */
+    #[Override]
     public function send($templ = null, $exit = true)
     {
         if ($templ != 'iframe') {
@@ -930,6 +938,7 @@ class rcmail_output_html extends rcmail_output
      * @param int    $code    Error code
      * @param string $message Error message
      */
+    #[Override]
     public function raise_error($code, $message)
     {
         $args = [

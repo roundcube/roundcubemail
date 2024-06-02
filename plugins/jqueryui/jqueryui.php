@@ -28,6 +28,7 @@ class jqueryui extends rcube_plugin
     /**
      * Plugin initialization
      */
+    #[Override]
     public function init()
     {
         $rcmail = rcmail::get_instance();

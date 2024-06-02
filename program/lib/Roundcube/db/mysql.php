@@ -41,6 +41,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return string ...$args Values to concatenate
      */
+    #[Override]
     public function concat(...$args)
     {
         if (count($args) == 1 && is_array($args[0])) {
@@ -57,6 +58,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return string Connection string
      */
+    #[Override]
     protected function dsn_string($dsn)
     {
         $params = [];
@@ -89,6 +91,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return array Connection options
      */
+    #[Override]
     protected function dsn_options($dsn)
     {
         $result = parent::dsn_options($dsn);
@@ -138,6 +141,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return array List of all tables of the current database
      */
+    #[Override]
     public function list_tables()
     {
         // get tables if not cached
@@ -159,6 +163,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return array List of table cols
      */
+    #[Override]
     public function list_cols($table)
     {
         $q = $this->query('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS'
@@ -180,6 +185,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return mixed Variable value or default
      */
+    #[Override]
     public function get_variable($varname, $default = null)
     {
         if (!isset($this->variables)) {
@@ -224,6 +230,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @todo Multi-insert support
      */
+    #[Override]
     public function insert_or_update($table, $keys, $columns, $values)
     {
         $columns = array_map(static function ($i) {

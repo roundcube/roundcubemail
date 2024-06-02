@@ -26,6 +26,7 @@ class zipdownload extends rcube_plugin
     /**
      * Plugin initialization
      */
+    #[Override]
     public function init()
     {
         // check requirements first
@@ -386,6 +387,7 @@ class zipdownload extends rcube_plugin
 
 class zipdownload_mbox_filter extends php_user_filter
 {
+    #[Override]
     #[ReturnTypeWillChange]
     public function filter($in, $out, &$consumed, $closing)
     {

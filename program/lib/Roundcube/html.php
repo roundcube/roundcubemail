@@ -430,6 +430,7 @@ class html_inputfield extends html
      *
      * @return string HTML output
      */
+    #[Override]
     public function show($value = null, $attrib = null)
     {
         // overwrite object attributes
@@ -495,6 +496,7 @@ class html_hiddenfield extends html
      *
      * @return string Final HTML code
      */
+    #[Override]
     public function show()
     {
         $out = '';
@@ -522,6 +524,7 @@ class html_checkbox extends html_inputfield
      *
      * @return string HTML output
      */
+    #[Override]
     public function show($value = '', $attrib = null)
     {
         // overwrite object attributes
@@ -560,6 +563,7 @@ class html_button extends html_inputfield
      *
      * @return string HTML output
      */
+    #[Override]
     public function show($content = '', $attrib = null)
     {
         // overwrite object attributes
@@ -590,6 +594,7 @@ class html_textarea extends html
      *
      * @return string HTML output
      */
+    #[Override]
     public function show($value = '', $attrib = null)
     {
         // overwrite object attributes
@@ -655,6 +660,7 @@ class html_select extends html
      *
      * @return string HTML output
      */
+    #[Override]
     public function show($select = [], $attrib = null)
     {
         // overwrite object attributes
@@ -877,6 +883,7 @@ class html_table extends html
      *
      * @return string The final table HTML code
      */
+    #[Override]
     public function show($attrib = null)
     {
         if (is_array($attrib)) {

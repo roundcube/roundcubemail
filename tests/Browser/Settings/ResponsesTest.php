@@ -9,6 +9,7 @@ use Tests\Browser\TestCase;
 
 class ResponsesTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();
