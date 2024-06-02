@@ -625,7 +625,7 @@ function rcube_elastic_ui() {
 
         // Display "List is empty..." on the list
         if (window.MutationObserver) {
-            $('[data-label-msg],[data-label-msg-loading],[data-label-empty]').filter('ul,table').each(function () {
+            $('[data-label-msg],[data-label-msg-loading],[data-label-msg-empty]').filter('ul,table').each(function () {
                 var info = $('<div class="listing-info hidden">').insertAfter(this),
                     table = $(this),
                     fn = function () {
@@ -640,8 +640,7 @@ function rcube_elastic_ui() {
                             msg = table.data('label-msg-empty') ? table.data('label-msg-empty') : table.data('label-msg');
                         }
 
-                        if (msg && !list.children(':visible').length
-                        ) {
+                        if (msg && !list.children(':visible').length) {
                             ext = table.data('label-ext');
                             command = table.data('create-command');
 
