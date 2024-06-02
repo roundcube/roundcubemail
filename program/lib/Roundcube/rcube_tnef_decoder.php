@@ -162,7 +162,7 @@ class rcube_tnef_decoder
         }
 
         // Return the message body as HTML
-        if ($message && $as_html) {
+        if ($as_html) {
             // HTML body
             if (!empty($message['size']) && $message['subtype'] == 'html') {
                 $message = $message['stream'];
@@ -180,6 +180,7 @@ class rcube_tnef_decoder
                 }
                 catch (Exception $e) {
                     // ignore the body
+                    $message = null;
                     rcube::raise_error([
                             'file' => __FILE__,
                             'line' => __LINE__,
