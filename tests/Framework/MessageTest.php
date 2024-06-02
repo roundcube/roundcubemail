@@ -99,7 +99,7 @@ class rcube_message_test extends rcube_message
         $this->is_safe = $is_safe;
     }
 
-    #[\Override]
+    #[Override]
     public function get_part_body($mime_id, $formatted = false, $max_bytes = 0, $mode = null)
     {
         return $this->part_bodies[$mime_id] ?? null;
