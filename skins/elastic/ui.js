@@ -633,7 +633,7 @@ function rcube_elastic_ui() {
                             list = table.is('ul') ? table : table.children('tbody');
 
                         if (rcmail.busy && table.data('label-msg-loading')) {
-                            msg = table.data('label-msg-loading');
+                            msg = (rcmail.env.search_request || rcmail.env.qsearch) ? rcmail.gettext('searching') : table.data('label-msg-loading');
                             setTimeout(callback, 250);
                         }
                         else {
