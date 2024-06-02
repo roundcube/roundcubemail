@@ -26,7 +26,7 @@ class Framework_Message extends TestCase
     {
         $message = new rcube_message_test(123);
         $part = new rcube_message_part();
-        $part->mime_id = 1;
+        $part->mime_id = '1';
 
         $message->set_part_body(1, '');
         $result = $message->tnef_decode($part);
@@ -63,14 +63,14 @@ class Framework_Message extends TestCase
     {
         $message = new rcube_message_test(123);
         $part = new rcube_message_part();
-        $part->mime_id = 1;
+        $part->mime_id = '1';
 
         $message->set_part_body(1, '');
         $result = $message->uu_decode($part);
 
         $this->assertSame([], $result);
 
-        $content = "begin 644 /dev/stdout\n" . convert_uuencode('test') . "end";
+        $content = "begin 644 /dev/stdout\n" . convert_uuencode('test') . 'end';
         $message->set_part_body(1, $content);
 
         $result = $message->uu_decode($part);
@@ -94,6 +94,9 @@ class rcube_message_test extends rcube_message
 
     public function __construct($uid, $folder = null, $is_safe = false)
     {
+        $this->uid = $uid;
+        $this->folder = $folder;
+        $this->is_safe = $is_safe;
     }
 
     public function get_part_body($mime_id, $formatted = false, $max_bytes = 0, $mode = null)
