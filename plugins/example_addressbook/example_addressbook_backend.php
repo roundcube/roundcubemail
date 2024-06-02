@@ -60,6 +60,7 @@ class example_addressbook_backend extends rcube_addressbook
      *
      * @return ?array group properties as hash array, null in case of error
      */
+    #[Override]
     public function get_group($group_id)
     {
         foreach ($this->db_groups as $group) {
@@ -71,27 +72,32 @@ class example_addressbook_backend extends rcube_addressbook
         return null;
     }
 
+    #[Override]
     public function get_name()
     {
         return $this->name;
     }
 
+    #[Override]
     public function set_search_set($filter): void
     {
         $this->filter = $filter;
     }
 
+    #[Override]
     public function get_search_set()
     {
         return $this->filter;
     }
 
+    #[Override]
     public function reset(): void
     {
         $this->result = null;
         $this->filter = null;
     }
 
+    #[Override]
     public function list_groups($search = null, $mode = 0)
     {
         if (is_string($search) && strlen($search)) {
@@ -109,6 +115,7 @@ class example_addressbook_backend extends rcube_addressbook
         return $this->db_groups;
     }
 
+    #[Override]
     public function list_records($cols = null, $subset = 0, $nocount = false)
     {
         // Note: Paging is not implemented
@@ -116,6 +123,7 @@ class example_addressbook_backend extends rcube_addressbook
         return $this->result = $this->count();
     }
 
+    #[Override]
     public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = [])
     {
         // Note: we do not implement all possible search request modes and variants.
@@ -143,6 +151,7 @@ class example_addressbook_backend extends rcube_addressbook
         return $result;
     }
 
+    #[Override]
     public function count()
     {
         // Note: Paging is not implemented
@@ -166,11 +175,13 @@ class example_addressbook_backend extends rcube_addressbook
         return $result;
     }
 
+    #[Override]
     public function get_result()
     {
         return $this->result;
     }
 
+    #[Override]
     public function get_record($id, $assoc = false)
     {
         $result = new rcube_result_set(0);
@@ -196,6 +207,7 @@ class example_addressbook_backend extends rcube_addressbook
      *
      * @return array List of assigned groups, indexed by group ID
      */
+    #[Override]
     public function get_record_groups($id)
     {
         $result = [];
@@ -216,11 +228,13 @@ class example_addressbook_backend extends rcube_addressbook
     /**
      * Setter for the current group
      */
+    #[Override]
     public function set_group($gid)
     {
         $this->group_id = $gid;
     }
 
+    #[Override]
     public function create_group($name)
     {
         $result = false;
@@ -228,21 +242,25 @@ class example_addressbook_backend extends rcube_addressbook
         return $result;
     }
 
+    #[Override]
     public function delete_group($gid)
     {
         return false;
     }
 
+    #[Override]
     public function rename_group($gid, $newname, &$newid)
     {
         return $newname;
     }
 
+    #[Override]
     public function add_to_group($group_id, $ids)
     {
         return 0;
     }
 
+    #[Override]
     public function remove_from_group($group_id, $ids)
     {
         return 0;

@@ -66,6 +66,7 @@ class Installer extends ChromeDriverCommand
      *
      * @return string
      */
+    #[Override]
     protected function getUrl(string $url)
     {
         return file_get_contents($url) ?: '';

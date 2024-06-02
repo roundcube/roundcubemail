@@ -45,6 +45,7 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Establish a connection to the LDAP server
      */
+    #[Override]
     public function connect($host = null)
     {
         // Net_LDAP3 does not support IDNA yet
@@ -276,6 +277,7 @@ class rcube_ldap_generic extends Net_LDAP3
      *
      * @return array Hash array with attributes as keys
      */
+    #[Override]
     public static function normalize_entry($entry, $flat = false)
     {
         if (!isset($entry['count'])) {

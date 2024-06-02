@@ -9,6 +9,7 @@ class ActionTestCase extends TestCase
 {
     private static $files = [];
 
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         // reset some interfering globals set in other tests
@@ -18,6 +19,7 @@ class ActionTestCase extends TestCase
         $rcmail->load_gui();
     }
 
+    #[Override]
     public static function tearDownAfterClass(): void
     {
         foreach (self::$files as $file) {
@@ -32,6 +34,7 @@ class ActionTestCase extends TestCase
         html::$doctype = 'xhtml';
     }
 
+    #[Override]
     protected function setUp(): void
     {
         $_GET = [];

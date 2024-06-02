@@ -8,6 +8,7 @@ use Tests\Browser\TestCase;
 
 class ImportTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();

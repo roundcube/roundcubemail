@@ -7,6 +7,7 @@ use Tests\Browser\TestCase;
 
 class ContactsTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         \bootstrap::init_db();

@@ -8,6 +8,7 @@ use Tests\Browser\TestCase;
 
 class PrintTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         \bootstrap::init_imap(true);
