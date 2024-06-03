@@ -7,9 +7,9 @@ namespace Tests\MessageRendering;
  */
 class InlineImageTest extends MessageRenderingTestCase
 {
-    public function testImageFromDataUri()
+    public function testImageFromDataUri(): void
     {
-        $domxpath = $this->runAndGetHtmlOutputDomxpath('trinity-eb9e559b-1926-4b09-990d-80e9da9a9c35-1723163091112@3c-app-mailcom-bs14');
+        $domxpath = $this->renderMessage('trinity-eb9e559b-1926-4b09-990d-80e9da9a9c35-1723163091112@3c-app-mailcom-bs14');
 
         $this->assertSame('***SPAM***  wir gratulieren Ihnen recht herzlich.', $this->getScrubbedSubject($domxpath));
 

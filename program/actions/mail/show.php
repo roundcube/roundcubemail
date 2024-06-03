@@ -260,6 +260,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         $msg = html::span(null, rcube::Q($rcmail->gettext('blockedresources')));
 
+        // TODO: Avoid inline-event.
         $buttons = html::a(
             ['href' => '#loadremote', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote')"],
             rcube::Q($rcmail->gettext('allow'))
@@ -698,26 +699,32 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     // Set attributes of the part container
                     $container_class = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
                     $container_id = $container_class . (++$part_no);
-                    $container_attrib = ['class' => $container_class, 'id' => $container_id];
-
-                    $body_args = [
-                        'safe' => $safe_mode,
-                        'plain' => !$rcmail->config->get('prefer_html'),
-                        'css_prefix' => 'v' . $part_no,
-                        'body_class' => 'rcmBody',
-                        'container_id' => $container_id,
-                        'container_attrib' => $container_attrib,
-                    ];
-
-                    // Parse the part content for display
-                    $body = self::print_body($body, $part, $body_args);
 
                     // check if the message body is PGP encrypted
                     if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
                         $rcmail->output->set_env('is_pgp_content', '#' . $container_id);
                     }
 
-                    $out .= html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
+                    if ($part->mimetype === 'text/html') {
+                        // "Wash" the HTML part so we can determine if remote
+                        // objects are present as a side effect. At this point
+                        // we're not interested in the result.
+                        // TODO: can we get the information somehow cheaper?
+                        self::wash_html($body, ['inline_html' => false], $part->replaces);
+                    }
+
+                    $out .= html::div(['class' => 'message-prefix'], $plugin['prefix']);
+                    $out .= html::div(
+                        [
+                            'id' => $container_id,
+                            'class' => $container_class,
+                        ],
+                        html::iframe([
+                            'sandbox' => 'allow-same-origin',
+                            'class' => "framed-message-part {$container_class}",
+                            'src' => self::$MESSAGE->get_part_url($part->mime_id, false),
+                        ])
+                    );
                 }
             }
         } else {

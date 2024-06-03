@@ -54,10 +54,14 @@ class PrintTest extends TestCase
                 ]);
             });
 
+            // Check iframed body.
+            $browser->withinFrame('#message-part1 .framed-message-part', static function ($browser) {
+                $browser->assertSeeIn('div.pre', 'Plain text message body.')
+                    ->assertVisible('div.pre .sig');
+            });
+            // Check headers.
             $browser->assertVisible('img.contactphoto')
                 ->assertSeeIn('.subject', 'Lines')
-                ->assertSeeIn('.message-part div.pre', 'Plain text message body.')
-                ->assertVisible('.message-part div.pre .sig')
                 // Tests "more recipients" link
                 ->with('.header-headers .header.cc', static function ($browser) {
                     $browser->assertSee('test10@domain.tld')
