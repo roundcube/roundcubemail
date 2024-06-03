@@ -12,7 +12,7 @@ class Framework_Config extends TestCase
      */
     public function test_class()
     {
-        $object = new rcube_config();
+        $object = new \rcube_config();
 
         $this->assertInstanceOf('rcube_config', $object, 'Class constructor');
     }
@@ -22,8 +22,8 @@ class Framework_Config extends TestCase
      */
     public function test_resolve_timezone_alias()
     {
-        $this->assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/GMT'));
-        $this->assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/Zulu'));
+        $this->assertSame('UTC', \rcube_config::resolve_timezone_alias('Etc/GMT'));
+        $this->assertSame('UTC', \rcube_config::resolve_timezone_alias('Etc/Zulu'));
     }
 
     /**
@@ -31,7 +31,7 @@ class Framework_Config extends TestCase
      */
     public function test_get_and_set()
     {
-        $object = new rcube_config();
+        $object = new \rcube_config();
 
         $this->assertNull($object->get('test'));
         $this->assertSame('def', $object->get('test', 'def'));
@@ -52,7 +52,7 @@ class Framework_Config extends TestCase
      */
     public function test_guess_type()
     {
-        $object = new rcube_config();
+        $object = new \rcube_config();
 
         $this->assertSame('bool', invokeMethod($object, 'guess_type', ['true']));
         $this->assertSame('bool', invokeMethod($object, 'guess_type', ['false']));
@@ -80,7 +80,7 @@ class Framework_Config extends TestCase
      */
     public function test_parse_env()
     {
-        $object = new rcube_config();
+        $object = new \rcube_config();
 
         $this->assertTrue(invokeMethod($object, 'parse_env', ['true']));
         $this->assertSame(1, invokeMethod($object, 'parse_env', ['1']));

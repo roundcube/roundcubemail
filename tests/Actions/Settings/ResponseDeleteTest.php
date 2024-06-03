@@ -3,20 +3,20 @@
 /**
  * Test class to test rcmail_action_settings_response_delete
  */
-class Actions_Settings_ResponseDelete extends ActionTestCase
+class Actions_Settings_ResponseDelete extends \ActionTestCase
 {
     /**
      * Test deleting a response
      */
     public function test_delete_response()
     {
-        $action = new rcmail_action_settings_response_delete();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'delete-response');
+        $action = new \rcmail_action_settings_response_delete();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'delete-response');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $rcmail->user->save_prefs(['compose_responses_static' => []]);
 
         self::initDB('responses');
@@ -30,7 +30,7 @@ class Actions_Settings_ResponseDelete extends ActionTestCase
         // Test successful request
         $_POST = ['_id' => $rid];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -47,7 +47,7 @@ class Actions_Settings_ResponseDelete extends ActionTestCase
         // Test error
         $_POST = ['_id' => 'unknown'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

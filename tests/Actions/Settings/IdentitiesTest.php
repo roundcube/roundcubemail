@@ -3,22 +3,22 @@
 /**
  * Test class to test rcmail_action_settings_identities
  */
-class Actions_Settings_Identities extends ActionTestCase
+class Actions_Settings_Identities extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_identities();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'identities');
+        $action = new \rcmail_action_settings_identities();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'identities');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('identities');
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -34,8 +34,8 @@ class Actions_Settings_Identities extends ActionTestCase
      */
     public function test_identities_list()
     {
-        $action = new rcmail_action_settings_identities();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'identities');
+        $action = new \rcmail_action_settings_identities();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'identities');
 
         self::initDB('identities');
 

@@ -12,7 +12,7 @@ class Rcmail_RcmailStringReplacer extends TestCase
      */
     public function test_mailto_callback()
     {
-        $replacer = new rcmail_string_replacer();
+        $replacer = new \rcmail_string_replacer();
 
         $result = invokeMethod($replacer, 'mailto_callback', [['email@address.com', 'email@address.com']]);
 

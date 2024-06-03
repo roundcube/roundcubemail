@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_contacts_index
  */
-class Actions_Contacts_Index extends ActionTestCase
+class Actions_Contacts_Index extends \ActionTestCase
 {
     /**
      * Test run() method in HTTP mode
      */
     public function test_run_http()
     {
-        $action = new rcmail_action_contacts_index();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
+        $action = new \rcmail_action_contacts_index();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -37,8 +37,8 @@ class Actions_Contacts_Index extends ActionTestCase
      */
     public function test_run_ajax()
     {
-        $action = new rcmail_action_contacts_index();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'list');
+        $action = new \rcmail_action_contacts_index();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'list');
 
         $this->assertTrue($action->checks());
 
@@ -113,8 +113,8 @@ class Actions_Contacts_Index extends ActionTestCase
      */
     public function test_rowcount_display()
     {
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
-        $result = rcmail_action_contacts_index::rowcount_display([]);
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
+        $result = \rcmail_action_contacts_index::rowcount_display([]);
 
         $this->assertSame('<span id="rcmcountdisplay">Loading...</span>', $result);
     }
@@ -132,8 +132,8 @@ class Actions_Contacts_Index extends ActionTestCase
      */
     public function test_get_type_label()
     {
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
-        $result = rcmail_action_contacts_index::get_type_label('home');
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
+        $result = \rcmail_action_contacts_index::get_type_label('home');
 
         $this->assertSame('Home', $result);
     }
@@ -175,9 +175,9 @@ class Actions_Contacts_Index extends ActionTestCase
      */
     public function test_source_selector()
     {
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', '');
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
 
-        $result = rcmail_action_contacts_index::source_selector([]);
+        $result = \rcmail_action_contacts_index::source_selector([]);
         $expected = '<span>Personal Addresses<input type="hidden" name="_source" value="0"></span>';
 
         $this->assertSame($expected, $result);

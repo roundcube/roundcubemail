@@ -3,16 +3,16 @@
 /**
  * Test class to test rcmail_action_mail_attachment_delete
  */
-class Actions_Mail_AttachmentDelete extends ActionTestCase
+class Actions_Mail_AttachmentDelete extends \ActionTestCase
 {
     /**
      * Test uploaded attachment delete
      */
     public function test_run()
     {
-        $rcmail = rcmail::get_instance();
-        $action = new rcmail_action_mail_attachment_delete();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'delete-attachment');
+        $rcmail = \rcmail::get_instance();
+        $action = new \rcmail_action_mail_attachment_delete();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'delete-attachment');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -26,7 +26,7 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
         $this->assertSame([$file], $list);
 
         // This is needed so upload deletion works
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         unset($rcmail->plugins->handlers['attachment_delete']);
         $rcmail->plugins->register_hook('attachment_delete', static function ($att) {
             $att['status'] = true;
@@ -39,7 +39,7 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
 
         // Invoke the delete action
         $_POST = ['_id' => '101', '_file' => 'rcmfile' . $file['id']];
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

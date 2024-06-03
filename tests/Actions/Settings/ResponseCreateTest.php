@@ -3,22 +3,22 @@
 /**
  * Test class to test rcmail_action_settings_response_create
  */
-class Actions_Settings_ResponseCreate extends ActionTestCase
+class Actions_Settings_ResponseCreate extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_response_create();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'add-response');
+        $action = new \rcmail_action_settings_response_create();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'add-response');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         $_GET = [];
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

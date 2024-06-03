@@ -20,7 +20,7 @@
 /**
  * A class for catching STDERR output
  */
-class StderrMock extends php_user_filter
+class StderrMock extends \php_user_filter
 {
     public static $registered = false;
     public static $redirect;

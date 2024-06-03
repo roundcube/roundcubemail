@@ -3,20 +3,20 @@
 /**
  * Test class to test rcmail_action_settings_response_save
  */
-class Actions_Settings_ResponseSave extends ActionTestCase
+class Actions_Settings_ResponseSave extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_response_save();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-response');
+        $action = new \rcmail_action_settings_response_save();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'save-response');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $rcmail->user->save_prefs(['compose_responses_static' => []]);
 
         self::initDB('responses');
@@ -32,7 +32,7 @@ class Actions_Settings_ResponseSave extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame('edit-response', rcmail::get_instance()->action);
+        $this->assertSame('edit-response', \rcmail::get_instance()->action);
         $this->assertSame('successfullysaved', $output->getProperty('message'));
 
         $response = $rcmail->get_compose_response($responses[0]['id']);
@@ -51,7 +51,7 @@ class Actions_Settings_ResponseSave extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame('edit-response', rcmail::get_instance()->action);
+        $this->assertSame('edit-response', \rcmail::get_instance()->action);
         $this->assertSame('successfullysaved', $output->getProperty('message'));
 
         $response = $rcmail->get_compose_response($responses[0]['id']);
@@ -69,7 +69,7 @@ class Actions_Settings_ResponseSave extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame('edit-response', rcmail::get_instance()->action);
+        $this->assertSame('edit-response', \rcmail::get_instance()->action);
         $this->assertSame('successfullysaved', $output->getProperty('message'));
 
         $responses = $rcmail->get_compose_responses();

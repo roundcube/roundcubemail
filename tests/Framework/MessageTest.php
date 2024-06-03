@@ -12,9 +12,9 @@ class Framework_Message extends TestCase
      */
     public function test_format_part_body()
     {
-        $part = new rcube_message_part();
+        $part = new \rcube_message_part();
         $body = 'test';
-        $result = rcube_message::format_part_body($body, $part);
+        $result = \rcube_message::format_part_body($body, $part);
 
         $this->assertSame('test', $result);
     }
@@ -24,8 +24,8 @@ class Framework_Message extends TestCase
      */
     public function test_tnef_decode()
     {
-        $message = new rcube_message_test(123);
-        $part = new rcube_message_part();
+        $message = new \rcube_message_test(123);
+        $part = new \rcube_message_part();
         $part->mime_id = '1';
 
         $message->set_part_body(1, '');
@@ -61,8 +61,8 @@ class Framework_Message extends TestCase
      */
     public function test_uu_decode()
     {
-        $message = new rcube_message_test(123);
-        $part = new rcube_message_part();
+        $message = new \rcube_message_test(123);
+        $part = new \rcube_message_part();
         $part->mime_id = '1';
 
         $message->set_part_body(1, '');
@@ -88,7 +88,7 @@ class Framework_Message extends TestCase
 /**
  * rcube_message wrapper for easier testing (without accessing IMAP)
  */
-class rcube_message_test extends rcube_message
+class rcube_message_test extends \rcube_message
 {
     private $part_bodies = [];
 

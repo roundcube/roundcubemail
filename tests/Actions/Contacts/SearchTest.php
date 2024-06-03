@@ -3,22 +3,22 @@
 /**
  * Test class to test rcmail_action_contacts_search
  */
-class Actions_Contacts_Search extends ActionTestCase
+class Actions_Contacts_Search extends \ActionTestCase
 {
     /**
      * Test search form request
      */
     public function test_run_search_form()
     {
-        $action = new rcmail_action_contacts_search();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'search');
+        $action = new \rcmail_action_contacts_search();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'search');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         $_GET = ['_form' => 1];
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -32,8 +32,8 @@ class Actions_Contacts_Search extends ActionTestCase
      */
     public function test_run_quick_search()
     {
-        $action = new rcmail_action_contacts_search();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'search');
+        $action = new \rcmail_action_contacts_search();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'search');
 
         $this->assertTrue($action->checks());
 
@@ -41,7 +41,7 @@ class Actions_Contacts_Search extends ActionTestCase
 
         $_GET = ['_q' => 'George'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

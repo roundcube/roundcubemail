@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_settings_folders
  */
-class Actions_Settings_Folders extends ActionTestCase
+class Actions_Settings_Folders extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_folders();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folders');
+        $action = new \rcmail_action_settings_folders();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'folders');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -44,7 +44,7 @@ class Actions_Settings_Folders extends ActionTestCase
             ->registerFunction('get_namespace', null)
             ->registerFunction('get_quota', false);
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

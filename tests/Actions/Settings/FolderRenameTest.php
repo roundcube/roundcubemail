@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_settings_folder_rename
  */
-class Actions_Settings_FolderRename extends ActionTestCase
+class Actions_Settings_FolderRename extends \ActionTestCase
 {
     /**
      * Test renaming a folder
      */
     public function test_rename()
     {
-        $action = new rcmail_action_settings_folder_rename();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-rename');
+        $action = new \rcmail_action_settings_folder_rename();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-rename');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -24,7 +24,7 @@ class Actions_Settings_FolderRename extends ActionTestCase
 
         $_POST = ['_folder_oldname' => 'Test', '_folder_newname' => 'Test2'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -38,18 +38,18 @@ class Actions_Settings_FolderRename extends ActionTestCase
      */
     public function test_rename_errors()
     {
-        $action = new rcmail_action_settings_folder_rename();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-rename');
+        $action = new \rcmail_action_settings_folder_rename();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-rename');
 
         // Set expected storage function calls/results
         self::mockStorage()
             ->registerFunction('rename_folder', false)
             ->registerFunction('get_error_code', -1)
-            ->registerFunction('get_response_code', rcube_storage::READONLY);
+            ->registerFunction('get_response_code', \rcube_storage::READONLY);
 
         $_POST = ['_folder_oldname' => 'Test', '_folder_newname' => 'Test2'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

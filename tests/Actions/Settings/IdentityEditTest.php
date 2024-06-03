@@ -3,28 +3,28 @@
 /**
  * Test class to test rcmail_action_settings_identity_edit
  */
-class Actions_Settings_IdentityEdit extends ActionTestCase
+class Actions_Settings_IdentityEdit extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_identity_edit();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-identity');
+        $action = new \rcmail_action_settings_identity_edit();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'edit-identity');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('identities');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `identities` WHERE `standard` = 1 LIMIT 1');
         $identity = $db->fetch_assoc($query);
 
         $_GET = ['_iid' => $identity['identity_id']];
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -43,8 +43,8 @@ class Actions_Settings_IdentityEdit extends ActionTestCase
      */
     public function test_identity_form()
     {
-        $action = new rcmail_action_settings_identity_edit();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-identity');
+        $action = new \rcmail_action_settings_identity_edit();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'edit-identity');
 
         self::initDB('identities');
 

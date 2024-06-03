@@ -12,7 +12,7 @@ class Framework_Imap extends TestCase
      */
     public function test_class()
     {
-        $object = new rcube_imap();
+        $object = new \rcube_imap();
 
         $this->assertInstanceOf('rcube_imap', $object, 'Class constructor');
     }
@@ -24,17 +24,17 @@ class Framework_Imap extends TestCase
     {
         $this->assertSame(
             'FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"',
-            rcube_imap::convert_criteria('FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"', RCUBE_CHARSET)
+            \rcube_imap::convert_criteria('FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"', RCUBE_CHARSET)
         );
 
         $this->assertSame(
             'ALL TEXT el',
-            rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET)
+            \rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET)
         );
 
         $this->assertSame(
             "ALL TEXT {4}\r\nżel",
-            rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET, RCUBE_CHARSET)
+            \rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET, RCUBE_CHARSET)
         );
     }
 
@@ -51,10 +51,10 @@ class Framework_Imap extends TestCase
         ];
 
         foreach (['drafts', 'sent', 'junk', 'trash'] as $mbox) {
-            rcube::get_instance()->config->set("{$mbox}_mbox", ucfirst($mbox));
+            \rcube::get_instance()->config->set("{$mbox}_mbox", ucfirst($mbox));
         }
 
-        $object = new rcube_imap();
+        $object = new \rcube_imap();
 
         $result = $object->sort_folder_list([]);
         $this->assertSame([], $result);
@@ -99,9 +99,9 @@ class Framework_Imap extends TestCase
         $this->assertSame($expected, $result);
 
         // More tricky scenario where a special folder is a subfolder of INBOX
-        rcube::get_instance()->config->set('junk_mbox', 'INBOX.Junk');
+        \rcube::get_instance()->config->set('junk_mbox', 'INBOX.Junk');
 
-        $object = new rcube_imap();
+        $object = new \rcube_imap();
 
         $folders = [
             'Trash',
@@ -162,9 +162,9 @@ class Framework_Imap extends TestCase
                 . ' ( "MIXED" ("BOUNDARY" "=_0cc01990d46dea96cd7d692970fcbf82") NIL NIL) 1 NIL ("ATTACHMENT" ("FILENAME" "Test mail.eml")))'
             . ' "REPORT" ("BOUNDARY" "=_RrjQxjLYBqTMnoYWobuYlwN") NIL NIL)';
 
-        $structure = rcube_imap_generic::tokenizeResponse($str, 1);
+        $structure = \rcube_imap_generic::tokenizeResponse($str, 1);
 
-        $imap = new rcube_imap();
+        $imap = new \rcube_imap();
 
         $result = invokeMethod($imap, 'structure_part', [$structure]);
 

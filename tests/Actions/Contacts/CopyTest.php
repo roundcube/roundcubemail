@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_contacts_copy
  */
-class Actions_Contacts_Copy extends ActionTestCase
+class Actions_Contacts_Copy extends \ActionTestCase
 {
     /**
      * Test copying pre-check errors
      */
     public function test_copy_pre_check_errors()
     {
-        $action = new rcmail_action_contacts_copy();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'copy');
+        $action = new \rcmail_action_contacts_copy();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'copy');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -22,7 +22,7 @@ class Actions_Contacts_Copy extends ActionTestCase
             '_source' => '0',
         ];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -33,7 +33,7 @@ class Actions_Contacts_Copy extends ActionTestCase
         // target = source
         $_POST['_to'] = '0';
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -42,9 +42,9 @@ class Actions_Contacts_Copy extends ActionTestCase
         $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
 
         // target readonly
-        $_POST['_to'] = rcube_addressbook::TYPE_RECIPIENT;
+        $_POST['_to'] = \rcube_addressbook::TYPE_RECIPIENT;
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -55,11 +55,11 @@ class Actions_Contacts_Copy extends ActionTestCase
         // Non-existing contact
         $_POST = [
             '_cid' => 100,
-            '_source' => rcube_addressbook::TYPE_RECIPIENT,
+            '_source' => \rcube_addressbook::TYPE_RECIPIENT,
             '_to' => '0',
         ];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -73,25 +73,25 @@ class Actions_Contacts_Copy extends ActionTestCase
      */
     public function test_copy_success()
     {
-        $action = new rcmail_action_contacts_copy();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'copy');
+        $action = new \rcmail_action_contacts_copy();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'copy');
 
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $rcmail = rcmail::get_instance();
-        $source = $rcmail->get_address_book(rcube_addressbook::TYPE_RECIPIENT);
+        $rcmail = \rcmail::get_instance();
+        $source = $rcmail->get_address_book(\rcube_addressbook::TYPE_RECIPIENT);
         $cid = $rcmail->contact_create(['email' => 'test@recipient.com'], $source);
 
         // Missing target addressbook
         $_POST = [
             '_cid' => $cid,
-            '_source' => rcube_addressbook::TYPE_RECIPIENT,
+            '_source' => \rcube_addressbook::TYPE_RECIPIENT,
             '_to' => '0',
         ];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

@@ -9,7 +9,7 @@ class Framework_LdapGeneric extends TestCase
 {
     protected function markTestSkippedIfNetLdapPackageIsNotInstalled(): void
     {
-        if (!class_exists(Net_LDAP3::class)) {
+        if (!class_exists(\Net_LDAP3::class)) {
             $this->markTestSkipped('The Net_LDAP3 package not available.');
         }
     }
@@ -21,7 +21,7 @@ class Framework_LdapGeneric extends TestCase
     {
         $this->markTestSkippedIfNetLdapPackageIsNotInstalled();
 
-        $object = new rcube_ldap_generic([]);
+        $object = new \rcube_ldap_generic([]);
 
         $this->assertInstanceOf('rcube_ldap_generic', $object, 'Class constructor');
     }
@@ -33,7 +33,7 @@ class Framework_LdapGeneric extends TestCase
     {
         $this->markTestSkippedIfNetLdapPackageIsNotInstalled();
 
-        $object = new rcube_ldap_generic([]);
+        $object = new \rcube_ldap_generic([]);
 
         $result = $object->fulltext_search_filter('test', ['dn']);
 

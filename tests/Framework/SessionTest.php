@@ -12,13 +12,13 @@ class Framework_Session extends TestCase
      */
     public function test_factory()
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         // We cannot test DB session handler as it's initialization
         // will collide with already sent headers. Let's try php session.
         $rcube->config->set('session_storage', 'php');
 
-        $session = rcube_session::factory($rcube->config);
+        $session = \rcube_session::factory($rcube->config);
 
         $this->assertInstanceOf('rcube_session_php', $session);
 
@@ -31,11 +31,11 @@ class Framework_Session extends TestCase
      */
     public function test_unserialize()
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         $rcube->config->set('session_storage', 'php');
 
-        $session = rcube_session::factory($rcube->config);
+        $session = \rcube_session::factory($rcube->config);
 
         $this->assertSame([], $session->unserialize(''));
         $this->assertSame(

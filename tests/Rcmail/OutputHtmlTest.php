@@ -12,8 +12,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_check_skin()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $this->assertTrue($output->check_skin('elastic'));
         $this->assertFalse($output->check_skin('unknown'));
@@ -24,8 +24,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_get_skin_file()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $output->set_skin('elastic');
 
@@ -38,9 +38,9 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_logo()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
-        $reflection = new ReflectionClass('rcmail_output_html');
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
+        $reflection = new \ReflectionClass('rcmail_output_html');
         $set_skin = $reflection->getProperty('skin_name');
         $set_template = $reflection->getProperty('template_name');
         $get_template_logo = $reflection->getMethod('get_template_logo');
@@ -319,7 +319,7 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_conditions($input, $output)
     {
-        $object = new rcmail_output_html();
+        $object = new \rcmail_output_html();
         $result = $object->just_parse($input);
 
         $this->assertSame($output, $result);
@@ -330,8 +330,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_reset()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $this->assertNull($output->reset());
     }
@@ -341,8 +341,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_abs_url()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $this->assertSame('test', $output->abs_url('test'));
         $this->assertSame('skins/elastic/ui.js', $output->abs_url('/ui.js'));
@@ -353,8 +353,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_asset_url()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $this->assertSame('http://test', $output->asset_url('http://test'));
         $this->assertSame('/ui.js', $output->asset_url('/ui.js'));
@@ -366,8 +366,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_button()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $this->assertSame('', $output->button([]));
 
@@ -380,8 +380,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_form_tag()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $this->assertSame('<form action="vendor/bin/phpunit?_task=cli" method="get">test</form>', $output->form_tag([], 'test'));
     }
@@ -391,8 +391,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_request_form()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $this->assertSame('<form action="./" method="get">test</form>', $output->request_form([], 'test'));
     }
@@ -402,8 +402,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_search_form()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $expected = '<form name="rcmqsearchform" onsubmit="rcmail.command(\'search\'); return false"'
             . ' action="vendor/bin/phpunit?_task=cli" method="get"><label for="rcmqsearchbox" class="voice">Search terms</label>'
@@ -417,8 +417,8 @@ class Rcmail_RcmailOutputHtml extends TestCase
      */
     public function test_charset_selector()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_html();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
 
         $result = $output->charset_selector([]);
 

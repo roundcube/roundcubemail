@@ -3,14 +3,14 @@
 /**
  * Test class to test rcmail_action_mail_addcontact
  */
-class Actions_Mail_Addcontact extends ActionTestCase
+class Actions_Mail_Addcontact extends \ActionTestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcmail_action_mail_addcontact();
+        $object = new \rcmail_action_mail_addcontact();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }

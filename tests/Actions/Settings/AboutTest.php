@@ -3,20 +3,20 @@
 /**
  * Test class to test rcmail_action_settings_about
  */
-class Actions_Settings_About extends ActionTestCase
+class Actions_Settings_About extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_about();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'about');
+        $action = new \rcmail_action_settings_about();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'about');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

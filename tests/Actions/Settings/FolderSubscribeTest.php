@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_settings_folder_subscribe
  */
-class Actions_Settings_FolderSubscribe extends ActionTestCase
+class Actions_Settings_FolderSubscribe extends \ActionTestCase
 {
     /**
      * Test subscribing a folder
      */
     public function test_subscribe()
     {
-        $action = new rcmail_action_settings_folder_subscribe();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-subscribe');
+        $action = new \rcmail_action_settings_folder_subscribe();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-subscribe');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -23,7 +23,7 @@ class Actions_Settings_FolderSubscribe extends ActionTestCase
 
         $_POST = ['_mbox' => 'Test'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -39,20 +39,20 @@ class Actions_Settings_FolderSubscribe extends ActionTestCase
      */
     public function test_subscribe_errors()
     {
-        $action = new rcmail_action_settings_folder_subscribe();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-subscribe');
+        $action = new \rcmail_action_settings_folder_subscribe();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-subscribe');
 
         // Set expected storage function calls/results
         self::mockStorage()
             ->registerFunction('subscribe', false)
             ->registerFunction('get_error_code', -1)
-            ->registerFunction('get_response_code', rcube_storage::READONLY)
+            ->registerFunction('get_response_code', \rcube_storage::READONLY)
             ->registerFunction('get_error_code', -1)
-            ->registerFunction('get_response_code', rcube_storage::READONLY);
+            ->registerFunction('get_response_code', \rcube_storage::READONLY);
 
         $_POST = ['_mbox' => 'Test'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

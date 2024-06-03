@@ -22,11 +22,11 @@ class Framework_Ldap extends TestCase
             $this->markTestSkipped('The ldap extension is not available.');
         }
 
-        StderrMock::start();
-        $object = new rcube_ldap([]);
-        StderrMock::stop();
+        \StderrMock::start();
+        $object = new \rcube_ldap([]);
+        \StderrMock::stop();
 
         $this->assertInstanceOf('rcube_ldap', $object, 'Class constructor');
-        $this->assertSame('ERROR: Could not connect to any LDAP server', trim(StderrMock::$output));
+        $this->assertSame('ERROR: Could not connect to any LDAP server', trim(\StderrMock::$output));
     }
 }

@@ -14,7 +14,7 @@ class Framework_MimeDecode extends TestCase
     {
         $mail = file_get_contents(TESTS_DIR . 'src/mail0.eml');
 
-        $decoder = new rcube_mime_decode();
+        $decoder = new \rcube_mime_decode();
 
         $result = $decoder->decode($mail);
 

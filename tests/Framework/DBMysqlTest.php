@@ -15,7 +15,7 @@ class Framework_DBMysql extends TestCase
      */
     public function test_class()
     {
-        $object = new rcube_db_mysql('test');
+        $object = new \rcube_db_mysql('test');
 
         $this->assertInstanceOf('rcube_db_mysql', $object, 'Class constructor');
     }

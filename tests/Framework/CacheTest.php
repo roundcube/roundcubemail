@@ -12,7 +12,7 @@ class Framework_Cache extends TestCase
      */
     public function test_factory()
     {
-        $object = rcube_cache::factory('db', 1);
+        $object = \rcube_cache::factory('db', 1);
 
         $this->assertInstanceOf('rcube_cache_db', $object, 'Class constructor');
         $this->assertInstanceOf('rcube_cache', $object, 'Class constructor');
@@ -23,9 +23,9 @@ class Framework_Cache extends TestCase
      */
     public function test_key_name()
     {
-        $this->assertSame('test', rcube_cache::key_name('test'));
+        $this->assertSame('test', \rcube_cache::key_name('test'));
 
         $params = ['test1' => 'test2'];
-        $this->assertSame('test.ad0234829205b9033196ba818f7a872b', rcube_cache::key_name('test', $params));
+        $this->assertSame('test.ad0234829205b9033196ba818f7a872b', \rcube_cache::key_name('test', $params));
     }
 }

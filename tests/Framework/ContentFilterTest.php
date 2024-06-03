@@ -12,7 +12,7 @@ class Framework_ContentFilter extends TestCase
      */
     public function test_class()
     {
-        $object = new rcube_content_filter();
+        $object = new \rcube_content_filter();
 
         $this->assertInstanceOf('rcube_content_filter', $object, 'Class constructor');
     }

@@ -3,22 +3,22 @@
 /**
  * Test class to test rcmail_action_settings_prefs_edit
  */
-class Actions_Settings_PrefsEdit extends ActionTestCase
+class Actions_Settings_PrefsEdit extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_prefs_edit();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-prefs');
+        $action = new \rcmail_action_settings_prefs_edit();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'edit-prefs');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         $_GET['_section'] = 'general';
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

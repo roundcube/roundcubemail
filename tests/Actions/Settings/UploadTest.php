@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_settings_upload
  */
-class Actions_Settings_Upload extends ActionTestCase
+class Actions_Settings_Upload extends \ActionTestCase
 {
     /**
      * Test file uploads
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_upload();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'upload');
+        $action = new \rcmail_action_settings_upload();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'upload');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -24,7 +24,7 @@ class Actions_Settings_Upload extends ActionTestCase
         ];
 
         // No files uploaded case
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -36,7 +36,7 @@ class Actions_Settings_Upload extends ActionTestCase
         // Upload a file
         $file = $this->fakeUpload();
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -44,7 +44,7 @@ class Actions_Settings_Upload extends ActionTestCase
         $this->assertSame('upload', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"') !== false);
 
-        $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
+        $upload = \rcmail::get_instance()->get_uploaded_file($file['id']);
         $this->assertSame($file['name'], $upload['name']);
         $this->assertSame($file['type'], $upload['mimetype']);
         $this->assertSame($file['size'], $upload['size']);
@@ -53,7 +53,7 @@ class Actions_Settings_Upload extends ActionTestCase
         // Upload error case
         $file = $this->fakeUpload('_file', true, \UPLOAD_ERR_INI_SIZE);
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

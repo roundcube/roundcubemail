@@ -12,7 +12,7 @@ class Framework_Image extends TestCase
      */
     public function test_props()
     {
-        $object = new rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
+        $object = new \rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
         if (!function_exists('getimagesize')) {
             $this->markTestSkipped();
@@ -30,17 +30,17 @@ class Framework_Image extends TestCase
      */
     public function test_resize()
     {
-        $object = new rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
+        $object = new \rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
         if (!function_exists('getimagesize')) {
             $this->markTestSkipped();
         }
 
-        $file = rcube_utils::temp_filename('tests');
+        $file = \rcube_utils::temp_filename('tests');
 
         $this->assertSame('png', $object->resize(32, $file));
 
-        $object = new rcube_image($file);
+        $object = new \rcube_image($file);
         $props = $object->props();
 
         @unlink($file);
@@ -55,17 +55,17 @@ class Framework_Image extends TestCase
      */
     public function test_convert()
     {
-        $object = new rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
+        $object = new \rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
         if (!function_exists('getimagesize')) {
             $this->markTestSkipped();
         }
 
-        $file = rcube_utils::temp_filename('tests');
+        $file = \rcube_utils::temp_filename('tests');
 
-        $this->assertTrue($object->convert(rcube_image::TYPE_JPG, $file));
+        $this->assertTrue($object->convert(\rcube_image::TYPE_JPG, $file));
 
-        $object = new rcube_image($file);
+        $object = new \rcube_image($file);
         $props = $object->props();
 
         @unlink($file);
@@ -80,10 +80,10 @@ class Framework_Image extends TestCase
      */
     public function test_convertable()
     {
-        rcube::get_instance()->config->set('im_convert_path', '');
+        \rcube::get_instance()->config->set('im_convert_path', '');
 
-        $file = rcube_utils::temp_filename('tests');
-        $object = new rcube_image($file);
+        $file = \rcube_utils::temp_filename('tests');
+        $object = new \rcube_image($file);
 
         if (class_exists('Imagick', false)) {
             $this->assertTrue($object->is_convertable('image/gif'));

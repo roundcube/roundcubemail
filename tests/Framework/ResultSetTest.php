@@ -12,7 +12,7 @@ class Framework_ResultSet extends TestCase
      */
     public function test_class()
     {
-        $object = new rcube_result_set();
+        $object = new \rcube_result_set();
 
         $this->assertInstanceOf('rcube_result_set', $object, 'Class constructor');
     }

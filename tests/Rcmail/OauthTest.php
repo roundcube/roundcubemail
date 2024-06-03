@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Response;
 /**
  * Test class to test rcmail_oauth class
  */
-class Rcmail_RcmailOauth extends ActionTestCase
+class Rcmail_RcmailOauth extends \ActionTestCase
 {
     // created a valid and enabled oauth instance
     private $config = [
@@ -65,14 +65,14 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.EkN-DOsnsuRjRO6BxXemmJDm3HbxrbRzXglbN2S4sOkopdU4IsDxTI8jO19W_A4K8ZPJijNLis4EZsHeY559a4DFOd50_OqgHGuERTqYZyuhtF39yxJPAjUESwxk2J5k_4zM3O-vtd1Ghyo4IbqKKSy6J9mTniYJPenn5-HIirE';
 
-        $oauth = rcmail_oauth::get_instance();
+        $oauth = \rcmail_oauth::get_instance();
 
         // We can't use expectException until we drop support for phpunit 4.8 (i.e. PHP 5.4)
         // $this->expectException(RuntimeException::class);
 
         try {
             $oauth->jwt_decode($jwt);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
         }
 
         $this->assertTrue(isset($e));
@@ -85,7 +85,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6WyJzb21lLWNsaWVudCJdfQ.signature';
 
-        $oauth = new rcmail_oauth([
+        $oauth = new \rcmail_oauth([
             'client_id' => 'some-client',
         ]);
         $body = $oauth->jwt_decode($jwt);
@@ -99,7 +99,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6InNvbWUtY2xpZW50In0.signature';
 
-        $oauth = new rcmail_oauth([
+        $oauth = new \rcmail_oauth([
             'client_id' => 'some-client',
         ]);
         $body = $oauth->jwt_decode($jwt);
@@ -111,7 +111,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_is_enabled()
     {
-        $oauth = rcmail_oauth::get_instance();
+        $oauth = \rcmail_oauth::get_instance();
 
         $this->assertFalse($oauth->is_enabled());
     }
@@ -121,7 +121,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_is_enabled_with_token_url()
     {
-        $oauth = new rcmail_oauth($this->config);
+        $oauth = new \rcmail_oauth($this->config);
         $oauth->init();
 
         $this->assertTrue($oauth->is_enabled());
@@ -148,7 +148,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $handler = HandlerStack::create($mock);
 
         // provide only the config
-        $oauth = new rcmail_oauth([
+        $oauth = new \rcmail_oauth([
             'provider' => 'example',
             'config_uri' => 'https://test/config',
             'client_id' => 'some-client',
@@ -165,7 +165,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_get_redirect_uri()
     {
-        $oauth = rcmail_oauth::get_instance();
+        $oauth = \rcmail_oauth::get_instance();
 
         $this->assertMatchesRegularExpression('|^http://.*/index.php/login/oauth$|', $oauth->get_redirect_uri());
     }
@@ -175,21 +175,21 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_login_redirect()
     {
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'login', '');
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'login', '');
 
-        $oauth = new rcmail_oauth($this->config);
+        $oauth = new \rcmail_oauth($this->config);
         $oauth->init();
 
         try {
             $oauth->login_redirect();
             $result = null;
             $ecode = null;
-        } catch (ExitException $e) {
+        } catch (\ExitException $e) {
             $result = $e->getMessage();
             $ecode = $e->getCode();
         }
 
-        $this->assertSame(OutputHtmlMock::E_REDIRECT, $ecode);
+        $this->assertSame(\OutputHtmlMock::E_REDIRECT, $ecode);
         $this->assertMatchesRegularExpression('|^Location: https://test/auth\?.*|', $result);
 
         [$base, $query] = explode('?', substr($result, 10));
@@ -208,19 +208,19 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_request_access_token_with_wrong_state()
     {
-        $oauth = new rcmail_oauth($this->config);
+        $oauth = new \rcmail_oauth($this->config);
         $oauth->init();
 
         $_SESSION['oauth_state'] = 'random-state';
 
-        StderrMock::start();
+        \StderrMock::start();
         $response = $oauth->request_access_token('fake-code', 'mismatch-state');
-        StderrMock::stop();
+        \StderrMock::stop();
 
         // should be false as state do not match
         $this->assertFalse($response);
 
-        $this->assertSame('ERROR: OAuth token request failed: state parameter mismatch', trim(StderrMock::$output));
+        $this->assertSame('ERROR: OAuth token request failed: state parameter mismatch', trim(\StderrMock::$output));
     }
 
     /**
@@ -244,7 +244,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),
         ]);
         $handler = HandlerStack::create($mock);
-        $oauth = new rcmail_oauth((array) $this->config + [
+        $oauth = new \rcmail_oauth((array) $this->config + [
             'http_options' => ['handler' => $handler],
         ]);
         $oauth->init();
@@ -252,12 +252,12 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $_SESSION['oauth_state'] = 'random-state'; // ensure state identiquals
         $_SESSION['oauth_nonce'] = 'wrong-nonce';
 
-        StderrMock::start();
+        \StderrMock::start();
         $response = $oauth->request_access_token('fake-code', 'random-state');
-        StderrMock::stop();
+        \StderrMock::stop();
 
         $this->assertFalse($response);
-        $this->assertStringContainsString('identity\'s nonce mismatch', StderrMock::$output);
+        $this->assertStringContainsString('identity\'s nonce mismatch', \StderrMock::$output);
     }
 
     /**
@@ -281,7 +281,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),
         ]);
         $handler = HandlerStack::create($mock);
-        $oauth = new rcmail_oauth((array) $this->config + [
+        $oauth = new \rcmail_oauth((array) $this->config + [
             'http_options' => ['handler' => $handler],
         ]);
         $oauth->init();
@@ -323,7 +323,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ]);
         $handler = HandlerStack::create($mock);
 
-        $oauth = new rcmail_oauth((array) $this->config + [
+        $oauth = new \rcmail_oauth((array) $this->config + [
             'http_options' => ['handler' => $handler],
         ]);
         $oauth->init();
@@ -346,7 +346,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_valid_user_create()
     {
-        $oauth = new rcmail_oauth();
+        $oauth = new \rcmail_oauth();
         $oauth->init();
 
         // fake identity
@@ -373,7 +373,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_invalid_user_create()
     {
-        $oauth = new rcmail_oauth();
+        $oauth = new \rcmail_oauth();
         $oauth->init();
 
         // fake identity
@@ -387,14 +387,14 @@ class Rcmail_RcmailOauth extends ActionTestCase
             ],
         ]);
 
-        StderrMock::start();
+        \StderrMock::start();
         $answer = $oauth->user_create([]);
-        StderrMock::stop();
+        \StderrMock::stop();
 
         // only user_name can be defined
         $this->assertSame($answer, ['user_name' => 'John Doe']);
-        $this->assertStringContainsString('ignoring invalid email', StderrMock::$output);
-        $this->assertStringContainsString('ignoring language', StderrMock::$output);
+        $this->assertStringContainsString('ignoring invalid email', \StderrMock::$output);
+        $this->assertStringContainsString('ignoring language', \StderrMock::$output);
     }
 
     /**

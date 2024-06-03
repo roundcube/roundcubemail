@@ -114,7 +114,7 @@ class Framework_Text2Html extends TestCase
      */
     public function test_text2html($input, $output, $options)
     {
-        $t2h = new rcube_text2html($input, false, $options);
+        $t2h = new \rcube_text2html($input, false, $options);
 
         $html = $t2h->get_html();
 
@@ -127,7 +127,7 @@ class Framework_Text2Html extends TestCase
     public function test_text2html_xss()
     {
         $input = "\n[<script>evil</script>]:##str_replacement_0##\n";
-        $t2h = new rcube_text2html($input);
+        $t2h = new \rcube_text2html($input);
 
         $html = $t2h->get_html();
 
@@ -144,7 +144,7 @@ class Framework_Text2Html extends TestCase
     public function test_text2html_xss2()
     {
         $input = "\n[<script>evil</script>] https://google.com\n";
-        $t2h = new rcube_text2html($input);
+        $t2h = new \rcube_text2html($input);
 
         $html = $t2h->get_html();
 
@@ -169,7 +169,7 @@ class Framework_Text2Html extends TestCase
             . "<br>\n<br>\n"
             . '[1] <a href="http://d2.tld">http://d2.tld</a></blockquote></div>';
 
-        $t2h = new rcube_text2html($input);
+        $t2h = new \rcube_text2html($input);
         $html = $t2h->get_html();
         $html = preg_replace('/ (rel|target)="(noreferrer|_blank)"/', '', $html);
 
@@ -209,7 +209,7 @@ class Framework_Text2Html extends TestCase
             . "<span style=\"white-space:nowrap\">_</span><br>\n"
             . 'End</div>';
 
-        $t2h = new rcube_text2html($input, false, ['space' => '_']);
+        $t2h = new \rcube_text2html($input, false, ['space' => '_']);
         $html = $t2h->get_html();
 
         $this->assertSame($expected, $html);

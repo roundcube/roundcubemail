@@ -3,20 +3,20 @@
 /**
  * Test class to test rcmail_action_settings_response_get
  */
-class Actions_Settings_ResponseGet extends ActionTestCase
+class Actions_Settings_ResponseGet extends \ActionTestCase
 {
     /**
      * Fetching a response
      */
     public function test_get_response()
     {
-        $action = new rcmail_action_settings_response_get();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'response-get');
+        $action = new \rcmail_action_settings_response_get();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'response-get');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $rcmail->user->save_prefs([
             'compose_responses_static' => [
                 ['name' => 'static 1', 'text' => 'Static Response One'],
@@ -31,7 +31,7 @@ class Actions_Settings_ResponseGet extends ActionTestCase
 
         $_GET = ['_id' => $responses[0]['id'], '_is_html' => 1];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -48,7 +48,7 @@ class Actions_Settings_ResponseGet extends ActionTestCase
 
         $_GET = ['_id' => 'unknown'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -60,7 +60,7 @@ class Actions_Settings_ResponseGet extends ActionTestCase
 
         $_GET = ['_id' => $responses[2]['id'], '_is_html' => 0];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

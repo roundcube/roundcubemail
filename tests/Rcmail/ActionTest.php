@@ -3,21 +3,21 @@
 /**
  * Test class to test rcmail_action class
  */
-class Rcmail_RcmailAction extends ActionTestCase
+class Rcmail_RcmailAction extends \ActionTestCase
 {
     /**
      * Test rcmail_action::set_env_config()
      */
     public function test_set_env_config()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $this->assertFalse($rcmail->config->get('ip_check'));
-        rcmail_action::set_env_config(['ip_check']);
+        \rcmail_action::set_env_config(['ip_check']);
         $this->assertNull($rcmail->output->get_env('ip_check'));
 
         $rcmail->config->set('ip_check', true);
-        rcmail_action::set_env_config(['ip_check']);
+        \rcmail_action::set_env_config(['ip_check']);
         $this->assertTrue($rcmail->output->get_env('ip_check'));
     }
 
@@ -29,7 +29,7 @@ class Rcmail_RcmailAction extends ActionTestCase
         $attrib = [];
         $table_data = [];
 
-        $result = rcmail_action::table_output($attrib, $table_data, ['id'], 'id');
+        $result = \rcmail_action::table_output($attrib, $table_data, ['id'], 'id');
         $expected = '<table border="0"><thead><tr><th class="id">[id]</th></tr></thead><tbody></tbody></table>';
         $this->assertSame($expected, $result);
 
@@ -113,7 +113,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_font_defs()
     {
-        $result = rcmail_action::font_defs();
+        $result = \rcmail_action::font_defs();
         $this->assertCount(13, $result);
     }
 
@@ -122,7 +122,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_fontsize_defs()
     {
-        $result = rcmail_action::fontsize_defs();
+        $result = \rcmail_action::fontsize_defs();
         $this->assertCount(9, $result);
     }
 
@@ -131,13 +131,13 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_show_bytes()
     {
-        $result = rcmail_action::show_bytes(0);
+        $result = \rcmail_action::show_bytes(0);
         $this->assertSame('0 B', $result);
 
-        $result = rcmail_action::show_bytes(2000, $unit);
+        $result = \rcmail_action::show_bytes(2000, $unit);
         $this->assertSame('2 KB', $result);
 
-        $result = rcmail_action::show_bytes(2000000, $unit);
+        $result = \rcmail_action::show_bytes(2000000, $unit);
         $this->assertSame('1.9 MB', $result);
         $this->assertSame('MB', $unit);
     }
@@ -155,28 +155,28 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_get_uids()
     {
-        $result = rcmail_action::get_uids();
+        $result = \rcmail_action::get_uids();
         $this->assertSame([], $result);
 
         $_GET = [
             '_mbox' => 'Test<a>',
             '_uid' => '1',
         ];
-        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $result = \rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['Test<a>' => ['1']], $result);
         $this->assertFalse($is_multifolder);
 
         $_GET = [
             '_uid' => '1-Test<a>',
         ];
-        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $result = \rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['Test<a>' => ['1']], $result);
         $this->assertTrue($is_multifolder);
 
         $_GET = [
             '_uid' => '1-Test<a>,2-INBOX',
         ];
-        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $result = \rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['Test<a>' => ['1'], 'INBOX' => ['2']], $result);
         $this->assertTrue($is_multifolder);
 
@@ -184,7 +184,7 @@ class Rcmail_RcmailAction extends ActionTestCase
             '_mbox' => 'INBOX',
             '_uid' => '*',
         ];
-        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $result = \rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['INBOX' => '*'], $result);
         $this->assertFalse($is_multifolder);
 
@@ -192,7 +192,7 @@ class Rcmail_RcmailAction extends ActionTestCase
             '_mbox' => 'INBOX',
             '_uid' => '1.1',
         ];
-        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $result = \rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['INBOX' => ['1.1']], $result);
         $this->assertFalse($is_multifolder);
 
@@ -200,7 +200,7 @@ class Rcmail_RcmailAction extends ActionTestCase
             '_mbox' => 'INBOX',
             '_uid' => '1:2,56',
         ];
-        $result = rcmail_action::get_uids(null, null, $is_multifolder);
+        $result = \rcmail_action::get_uids(null, null, $is_multifolder);
         $this->assertSame(['INBOX' => ['1:2', '56']], $result);
         $this->assertFalse($is_multifolder);
     }
@@ -210,7 +210,7 @@ class Rcmail_RcmailAction extends ActionTestCase
      */
     public function test_get_resource_content()
     {
-        $result = rcmail_action::get_resource_content('blocked.gif');
+        $result = \rcmail_action::get_resource_content('blocked.gif');
         $this->assertTrue(strpos($result, 'GIF89') === 0);
     }
 

@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_contacts_group_create
  */
-class Actions_Contacts_Group_Create extends ActionTestCase
+class Actions_Contacts_Group_Create extends \ActionTestCase
 {
     /**
      * Test error handling
      */
     public function test_group_create_errors()
     {
-        $action = new rcmail_action_contacts_group_create();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-create');
+        $action = new \rcmail_action_contacts_group_create();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'group-create');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -19,7 +19,7 @@ class Actions_Contacts_Group_Create extends ActionTestCase
         // Unset group name
         $_POST = ['_source' => '0', '_name' => ''];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -28,9 +28,9 @@ class Actions_Contacts_Group_Create extends ActionTestCase
         $this->assertSame('this.display_message("An error occurred while saving.","error",0);', trim($result['exec']));
 
         // Readonly addressbook
-        $_POST = ['_source' => rcube_addressbook::TYPE_RECIPIENT, '_name' => 'test'];
+        $_POST = ['_source' => \rcube_addressbook::TYPE_RECIPIENT, '_name' => 'test'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -44,8 +44,8 @@ class Actions_Contacts_Group_Create extends ActionTestCase
      */
     public function test_group_create_success()
     {
-        $action = new rcmail_action_contacts_group_create();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-create');
+        $action = new \rcmail_action_contacts_group_create();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'group-create');
 
         $this->assertTrue($action->checks());
 
@@ -53,7 +53,7 @@ class Actions_Contacts_Group_Create extends ActionTestCase
 
         $_POST = ['_source' => '0', '_name' => 'test'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -62,7 +62,7 @@ class Actions_Contacts_Group_Create extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Group created successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.insert_contact_group({"source":"0","id":"2","name":"test"});') !== false);
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test\'');
         $result = $db->fetch_assoc($query);
 

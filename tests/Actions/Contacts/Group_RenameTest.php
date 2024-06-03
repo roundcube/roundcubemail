@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_contacts_group_rename
  */
-class Actions_Contacts_Group_Rename extends ActionTestCase
+class Actions_Contacts_Group_Rename extends \ActionTestCase
 {
     /**
      * Test error handling
      */
     public function test_group_rename_errors()
     {
-        $action = new rcmail_action_contacts_group_rename();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-rename');
+        $action = new \rcmail_action_contacts_group_rename();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'group-rename');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -19,7 +19,7 @@ class Actions_Contacts_Group_Rename extends ActionTestCase
         // Invalid group id
         $_POST = ['_source' => '0', '_gid' => 'unknown', '_name' => ''];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -28,9 +28,9 @@ class Actions_Contacts_Group_Rename extends ActionTestCase
         $this->assertSame('this.display_message("An error occurred while saving.","error",0);', trim($result['exec']));
 
         // Readonly addressbook
-        $_POST = ['_source' => rcube_addressbook::TYPE_RECIPIENT, '_gid' => 'aaa', '_name' => 'new-test'];
+        $_POST = ['_source' => \rcube_addressbook::TYPE_RECIPIENT, '_gid' => 'aaa', '_name' => 'new-test'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -44,21 +44,21 @@ class Actions_Contacts_Group_Rename extends ActionTestCase
      */
     public function test_group_rename_success()
     {
-        $action = new rcmail_action_contacts_group_rename();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'group-rename');
+        $action = new \rcmail_action_contacts_group_rename();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'group-rename');
 
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test-group\'');
         $result = $db->fetch_assoc($query);
         $gid = $result['contactgroup_id'];
 
         $_POST = ['_source' => '0', '_gid' => $gid, '_name' => 'new-name'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

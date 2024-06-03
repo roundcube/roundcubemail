@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_contacts_export
  */
-class Actions_Contacts_Export extends ActionTestCase
+class Actions_Contacts_Export extends \ActionTestCase
 {
     /**
      * Test exporting all contacts
      */
     public function test_export_all()
     {
-        $action = new rcmail_action_contacts_export();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
+        $action = new \rcmail_action_contacts_export();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'export');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -22,16 +22,16 @@ class Actions_Contacts_Export extends ActionTestCase
         $_POST = [];
 
         // Here we expect request security check error
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
-        $this->assertSame('ERROR: Request security check failed', trim(StderrMock::$output));
+        $this->assertSame('ERROR: Request security check failed', trim(\StderrMock::$output));
 
         // Now we'll try with the proper token
         $_SESSION['request_token'] = 'secure';
         $_SERVER['HTTP_X_ROUNDCUBE_REQUEST'] = 'secure';
 
         ob_start();
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
         $vcf = ob_get_contents();
         ob_end_clean();
 
@@ -52,13 +52,13 @@ class Actions_Contacts_Export extends ActionTestCase
      */
     public function test_export_selected()
     {
-        $action = new rcmail_action_contacts_export();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
+        $action = new \rcmail_action_contacts_export();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'export');
 
         $this->assertTrue($action->checks());
 
         $cids = [];
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query("SELECT `contact_id` FROM `contacts` WHERE `email` IN ('j.rian@gmail.com', 'g.bush@gov.com')");
         while ($result = $db->fetch_assoc($query)) {
             $cids[] = $result['contact_id'];
@@ -72,7 +72,7 @@ class Actions_Contacts_Export extends ActionTestCase
         $_SERVER['HTTP_X_ROUNDCUBE_REQUEST'] = 'secure';
 
         ob_start();
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
         $vcf = ob_get_contents();
         ob_end_clean();
 

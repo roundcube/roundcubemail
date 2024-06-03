@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_mail_attachment_upload
  */
-class Actions_Mail_AttachmentUpload extends ActionTestCase
+class Actions_Mail_AttachmentUpload extends \ActionTestCase
 {
     /**
      * Test file upload
      */
     public function test_run()
     {
-        $action = new rcmail_action_mail_attachment_upload();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'upload');
+        $action = new \rcmail_action_mail_attachment_upload();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'upload');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -25,7 +25,7 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
         $_SESSION = ['compose_data_123' => ['test' => 'test']];
 
         // No files uploaded case
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -39,7 +39,7 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
 
         $file = $this->fakeUpload('_attachments');
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -48,7 +48,7 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.auto_save_start(false);') !== false);
 
-        $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
+        $upload = \rcmail::get_instance()->get_uploaded_file($file['id']);
         $this->assertSame($file['name'], $upload['name']);
         $this->assertSame($file['type'], $upload['mimetype']);
         $this->assertSame($file['size'], $upload['size']);
@@ -58,7 +58,7 @@ class Actions_Mail_AttachmentUpload extends ActionTestCase
         $_SESSION = ['compose_data_123' => ['test' => 'test']];
         $file = $this->fakeUpload('_attachments', true, \UPLOAD_ERR_INI_SIZE);
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

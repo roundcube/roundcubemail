@@ -12,7 +12,7 @@ class Framework_SpellcheckerPspell extends TestCase
      */
     public function test_class()
     {
-        $object = new rcube_spellchecker_pspell(null, 'en');
+        $object = new \rcube_spellchecker_pspell(null, 'en');
 
         $this->assertInstanceOf('rcube_spellchecker_pspell', $object, 'Class constructor');
         $this->assertInstanceOf('rcube_spellchecker_engine', $object, 'Class constructor');
@@ -27,9 +27,9 @@ class Framework_SpellcheckerPspell extends TestCase
             $this->markTestSkipped();
         }
 
-        rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
+        \rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
 
-        $object = new rcube_spellchecker();
+        $object = new \rcube_spellchecker();
 
         $langs = $object->languages();
 
@@ -45,9 +45,9 @@ class Framework_SpellcheckerPspell extends TestCase
             $this->markTestSkipped();
         }
 
-        rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
+        \rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
 
-        $object = new rcube_spellchecker();
+        $object = new \rcube_spellchecker();
 
         $this->assertTrue($object->check('one'));
 
@@ -95,9 +95,9 @@ class Framework_SpellcheckerPspell extends TestCase
             $this->markTestSkipped();
         }
 
-        rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
+        \rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
 
-        $object = new rcube_spellchecker();
+        $object = new \rcube_spellchecker();
 
         $expected = ['ON', 'on', 'Ont', 'only', 'onya', 'NY', 'onyx', 'Ono', 'any', 'one'];
         $result = $object->get_suggestions('ony');
@@ -117,9 +117,9 @@ class Framework_SpellcheckerPspell extends TestCase
             $this->markTestSkipped();
         }
 
-        rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
+        \rcube::get_instance()->config->set('spellcheck_engine', 'pspell');
 
-        $object = new rcube_spellchecker();
+        $object = new \rcube_spellchecker();
 
         $this->assertSame(['ony'], $object->get_words('ony'));
     }

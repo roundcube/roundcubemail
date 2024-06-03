@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_contacts_group_addmembers
  */
-class Actions_Contacts_Group_Addmembers extends ActionTestCase
+class Actions_Contacts_Group_Addmembers extends \ActionTestCase
 {
     /**
      * Test error handling
      */
     public function test_group_addmembers_errors()
     {
-        $action = new rcmail_action_contacts_group_addmembers();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'add-members');
+        $action = new \rcmail_action_contacts_group_addmembers();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'add-members');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -19,7 +19,7 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
         // Invalid group id
         $_POST = ['_source' => '0', '_gid' => 'unknown'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -28,9 +28,9 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
         $this->assertSame('this.display_message("No group assignments changed.","notice",0);', trim($result['exec']));
 
         // Readonly addressbook
-        $_POST = ['_source' => rcube_addressbook::TYPE_RECIPIENT, '_gid' => 'test'];
+        $_POST = ['_source' => \rcube_addressbook::TYPE_RECIPIENT, '_gid' => 'test'];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -44,14 +44,14 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
      */
     public function test_group_addmembers_success()
     {
-        $action = new rcmail_action_contacts_group_addmembers();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'add-members');
+        $action = new \rcmail_action_contacts_group_addmembers();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'add-members');
 
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test-group\'');
         $result = $db->fetch_assoc($query);
         $gid = $result['contactgroup_id'];
@@ -61,7 +61,7 @@ class Actions_Contacts_Group_Addmembers extends ActionTestCase
 
         $_POST = ['_source' => '0', '_gid' => $gid, '_cid' => $cid];
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

@@ -3,14 +3,14 @@
 /**
  * Test class to test rcmail_action_mail_copy
  */
-class Actions_Mail_Copy extends ActionTestCase
+class Actions_Mail_Copy extends \ActionTestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcmail_action_mail_copy();
+        $object = new \rcmail_action_mail_copy();
 
         $this->assertInstanceOf('rcmail_action', $object);
     }
@@ -20,8 +20,8 @@ class Actions_Mail_Copy extends ActionTestCase
      */
     public function test_copy_message()
     {
-        $action = new rcmail_action_mail_copy();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'copy');
+        $action = new \rcmail_action_mail_copy();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'copy');
 
         $this->assertTrue($action->checks());
 
@@ -37,7 +37,7 @@ class Actions_Mail_Copy extends ActionTestCase
             ->registerFunction('count', 30)
             ->registerFunction('get_quota', false);
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -53,8 +53,8 @@ class Actions_Mail_Copy extends ActionTestCase
      */
     public function test_copy_message_error()
     {
-        $action = new rcmail_action_mail_copy();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'copy');
+        $action = new \rcmail_action_mail_copy();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'copy');
 
         $_POST = [
             '_uid' => 1,
@@ -66,9 +66,9 @@ class Actions_Mail_Copy extends ActionTestCase
         self::mockStorage()
             ->registerFunction('copy_message', false)
             ->registerFunction('get_error_code', -1)
-            ->registerFunction('get_response_code', rcube_storage::READONLY);
+            ->registerFunction('get_response_code', \rcube_storage::READONLY);
 
-        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

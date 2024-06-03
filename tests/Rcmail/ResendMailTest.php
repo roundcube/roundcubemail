@@ -12,7 +12,7 @@ class Rcmail_RcmailResendMail extends TestCase
      */
     public function test_headers()
     {
-        $mail = new rcmail_resend_mail();
+        $mail = new \rcmail_resend_mail();
 
         $result = $mail->headers();
 

@@ -46,10 +46,10 @@ $_SERVER['SCRIPT_NAME'] = 'vendor/bin/phpunit';
 
 require_once INSTALL_PATH . 'program/include/iniset.php';
 
-rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
+\rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
 
 // Initialize database and environment
-ActionTestCase::init();
+\ActionTestCase::init();
 
 /**
  * Call protected/private method of a object.
@@ -63,7 +63,7 @@ ActionTestCase::init();
  */
 function invokeMethod($object, $method, array $parameters = [], $class = null)
 {
-    $reflection = new ReflectionClass($class ?: get_class($object));
+    $reflection = new \ReflectionClass($class ?: get_class($object));
 
     $method = $reflection->getMethod($method);
     $method->setAccessible(true);
@@ -74,15 +74,15 @@ function invokeMethod($object, $method, array $parameters = [], $class = null)
 /**
  * Get value of a protected/private property of a object.
  *
- * @param rcube_sieve_vacation $object Object
- * @param string               $name   Property name
- * @param string               $class  Object  class
+ * @param \rcube_sieve_vacation $object Object
+ * @param string                $name   Property name
+ * @param string                $class  Object  class
  *
  * @return mixed Property value
  */
 function getProperty($object, $name, $class = null)
 {
-    $reflection = new ReflectionClass($class ?: get_class($object));
+    $reflection = new \ReflectionClass($class ?: get_class($object));
 
     $property = $reflection->getProperty($name);
     $property->setAccessible(true);
@@ -93,14 +93,14 @@ function getProperty($object, $name, $class = null)
 /**
  * Set protected/private property of a object.
  *
- * @param rcube_sieve_vacation $object Object
- * @param string               $name   Property name
- * @param mixed                $value  Property value
- * @param string               $class  Object  class
+ * @param \rcube_sieve_vacation $object Object
+ * @param string                $name   Property name
+ * @param mixed                 $value  Property value
+ * @param string                $class  Object  class
  */
 function setProperty($object, $name, $value, $class = null): void
 {
-    $reflection = new ReflectionClass($class ?: get_class($object));
+    $reflection = new \ReflectionClass($class ?: get_class($object));
 
     $property = $reflection->getProperty($name);
     $property->setAccessible(true);
@@ -114,14 +114,14 @@ function setProperty($object, $name, $value, $class = null): void
  * @param string $html        HTML content
  * @param string $xpath_query XPath query
  *
- * @return DOMNodeList List of nodes found
+ * @return \DOMNodeList List of nodes found
  */
 function getHTMLNodes($html, $xpath_query)
 {
     $html5 = new HTML5(['disable_html_ns' => true]);
     $doc = $html5->loadHTML($html);
 
-    $xpath = new DOMXPath($doc);
+    $xpath = new \DOMXPath($doc);
 
     return $xpath->query($xpath_query);
 }
@@ -143,7 +143,7 @@ function setHttpClientMock(array $responses)
 
     $mock = new MockHandler($responses);
     $handler = HandlerStack::create($mock);
-    $rcube = rcube::get_instance();
+    $rcube = \rcube::get_instance();
 
     $rcube->config->set('http_client', ['handler' => $handler]);
 }

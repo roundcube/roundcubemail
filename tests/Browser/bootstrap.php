@@ -28,7 +28,7 @@ if (!defined('INSTALL_PATH')) {
 
 require_once INSTALL_PATH . 'program/include/iniset.php';
 
-$rcmail = rcmail::get_instance(0, 'test');
+$rcmail = \rcmail::get_instance(0, 'test');
 
 define('TESTS_DIR', realpath(__DIR__) . '/');
 define('TESTS_USER', $rcmail->config->get('tests_username'));
@@ -46,8 +46,8 @@ class bootstrap
      */
     public static function init_db()
     {
-        $rcmail = rcmail::get_instance();
-        $dsn = rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
+        $rcmail = \rcmail::get_instance();
+        $dsn = \rcube_db::parse_dsn($rcmail->config->get('db_dsnw'));
         $db = $rcmail->get_dbh();
 
         if ($dsn['phptype'] == 'mysql' || $dsn['phptype'] == 'mysqli') {
@@ -85,7 +85,7 @@ class bootstrap
             foreach ($sql as $query) {
                 $result = $db->query($query);
                 if ($db->is_error($result)) {
-                    rcube::raise_error($db->is_error(), false, true);
+                    \rcube::raise_error($db->is_error(), false, true);
                 }
             }
         }
@@ -96,7 +96,7 @@ class bootstrap
      */
     private static function init_db_user($db)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $imap_host = $rcmail->config->get('imap_host');
 
         if ($host = parse_url($imap_host, \PHP_URL_HOST)) {
@@ -131,7 +131,7 @@ class bootstrap
      */
     public static function connect_imap($username, $password)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $imap = $rcmail->get_storage();
 
         if ($imap->is_connected()) {
@@ -152,13 +152,13 @@ class bootstrap
         }
 
         if (!$imap->connect($imap_host, $username, $password, $imap_port, $imap_ssl)) {
-            rcube::raise_error('IMAP error: unable to authenticate with user ' . TESTS_USER, false, true);
+            \rcube::raise_error('IMAP error: unable to authenticate with user ' . TESTS_USER, false, true);
         }
 
         if (in_array('archive', (array) $rcmail->config->get('plugins'))) {
             // Register special folder type for the Archive plugin.
             // As we're in cli mode the plugin can't do it by its own
-            rcube_storage::$folder_types[] = 'archive';
+            \rcube_storage::$folder_types[] = 'archive';
         }
 
         self::$imap_ready = true;
@@ -170,11 +170,11 @@ class bootstrap
     public static function import_message($filename, $mailbox = 'INBOX')
     {
         if (!self::init_imap()) {
-            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
+            \rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
         $file = file_get_contents($filename);
-        $imap = rcmail::get_instance()->get_storage();
+        $imap = \rcmail::get_instance()->get_storage();
 
         $imap->save_message($mailbox, $file);
     }
@@ -185,10 +185,10 @@ class bootstrap
     public static function purge_mailbox($mailbox)
     {
         if (!self::init_imap()) {
-            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
+            \rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
-        $imap = rcmail::get_instance()->get_storage();
+        $imap = \rcmail::get_instance()->get_storage();
         $imap->delete_message('*', $mailbox);
     }
 
@@ -198,10 +198,10 @@ class bootstrap
     public static function ensure_mailbox($mailbox, $empty = false)
     {
         if (!self::init_imap()) {
-            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
+            \rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
-        $imap = rcmail::get_instance()->get_storage();
+        $imap = \rcmail::get_instance()->get_storage();
 
         $folders = $imap->list_folders();
         if (!in_array($mailbox, $folders)) {
@@ -217,11 +217,11 @@ class bootstrap
     public static function reset_mailboxes()
     {
         if (!self::init_imap()) {
-            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
+            \rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
-        $rcmail = rcmail::get_instance();
-        /** @var rcube_imap $imap */
+        $rcmail = \rcmail::get_instance();
+        /** @var \rcube_imap $imap */
         $imap = $rcmail->get_storage();
         $got_defaults = $rcmail->config->get('create_default_folders');
         $vendor = $imap->get_vendor();
@@ -245,10 +245,10 @@ class bootstrap
     public static function get_storage()
     {
         if (!self::init_imap()) {
-            rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
+            \rcube::raise_error(__METHOD__ . ': IMAP connection unavailable', false, true);
         }
 
-        return rcmail::get_instance()->get_storage();
+        return \rcmail::get_instance()->get_storage();
     }
 
     /**
@@ -256,11 +256,11 @@ class bootstrap
      */
     public static function get_prefs()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // Create a separate connection to the DB, otherwise
         // we hit some strange and hard to investigate locking issues
-        $db = rcube_db::factory($rcmail->config->get('db_dsnw'), $rcmail->config->get('db_dsnr'), false);
+        $db = \rcube_db::factory($rcmail->config->get('db_dsnw'), $rcmail->config->get('db_dsnr'), false);
         $db->set_debug((bool) $rcmail->config->get('sql_debug'));
 
         $query = $db->query('SELECT preferences FROM users WHERE username = ?', TESTS_USER);

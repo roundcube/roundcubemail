@@ -3,22 +3,22 @@
 /**
  * Test class to test rcmail_action_contacts_edit
  */
-class Actions_Contacts_Edit extends ActionTestCase
+class Actions_Contacts_Edit extends \ActionTestCase
 {
     /**
      * Test run() method in edit mode
      */
     public function test_run_edit_mode()
     {
-        $action = new rcmail_action_contacts_edit();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
+        $action = new \rcmail_action_contacts_edit();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'edit');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $contact = $db->fetch_assoc($query);
 
@@ -27,7 +27,7 @@ class Actions_Contacts_Edit extends ActionTestCase
             '_source' => '0',
         ];
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -83,13 +83,13 @@ class Actions_Contacts_Edit extends ActionTestCase
      */
     public function test_photo_drop_area()
     {
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
-        $result = rcmail_action_contacts_edit::photo_drop_area([]);
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'edit');
+        $result = \rcmail_action_contacts_edit::photo_drop_area([]);
 
         $this->assertNull($output->get_env('filedrop'));
 
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'edit');
-        $result = rcmail_action_contacts_edit::photo_drop_area(['id' => 'test']);
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'edit');
+        $result = \rcmail_action_contacts_edit::photo_drop_area(['id' => 'test']);
 
         $scripts = $output->getProperty('scripts');
         $filedrop = $output->get_env('filedrop');

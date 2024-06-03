@@ -3,28 +3,28 @@
 /**
  * Test class to test rcmail_action_contacts_print
  */
-class Actions_Contacts_Print extends ActionTestCase
+class Actions_Contacts_Print extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_contacts_print();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'print');
+        $action = new \rcmail_action_contacts_print();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'print');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $contact = $db->fetch_assoc($query);
 
         $_GET = ['_cid' => $contact['contact_id'], '_source' => '0'];
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

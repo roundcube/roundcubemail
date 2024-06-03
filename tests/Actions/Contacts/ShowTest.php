@@ -3,22 +3,22 @@
 /**
  * Test class to test rcmail_action_contacts_show
  */
-class Actions_Contacts_Show extends ActionTestCase
+class Actions_Contacts_Show extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_contacts_show();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'show');
+        $action = new \rcmail_action_contacts_show();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'show');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $contact = $db->fetch_assoc($query);
 
@@ -27,7 +27,7 @@ class Actions_Contacts_Show extends ActionTestCase
             '_source' => '0',
         ];
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -63,7 +63,7 @@ class Actions_Contacts_Show extends ActionTestCase
         $input = 'test@<email.tld';
         $expected = '<a href="mailto:test@&lt;email.tld" onclick="return rcmail.command(\'compose\',\'test@&lt;email.tld\',this)"'
             . ' title="Compose mail to" class="email">test@&lt;email.tld</a>';
-        $this->assertSame($expected, rcmail_action_contacts_show::render_email_value($input));
+        $this->assertSame($expected, \rcmail_action_contacts_show::render_email_value($input));
     }
 
     /**
@@ -73,7 +73,7 @@ class Actions_Contacts_Show extends ActionTestCase
     {
         $input = '+48-123<456';
         $expected = '<a href="tel:+48-123456" class="phone">+48-123&lt;456</a>';
-        $this->assertSame($expected, rcmail_action_contacts_show::render_phone_value($input));
+        $this->assertSame($expected, \rcmail_action_contacts_show::render_phone_value($input));
     }
 
     /**
@@ -83,7 +83,7 @@ class Actions_Contacts_Show extends ActionTestCase
     {
         $input = 'http://test/<123';
         $expected = '<a href="http://test/&lt;123" target="_blank" class="url">http://test/&lt;123</a>';
-        $this->assertSame($expected, rcmail_action_contacts_show::render_url_value($input));
+        $this->assertSame($expected, \rcmail_action_contacts_show::render_url_value($input));
     }
 
     /**

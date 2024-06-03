@@ -12,7 +12,7 @@ class Framework_Spellchecker extends TestCase
      */
     public function test_is_exception()
     {
-        $object = new rcube_spellchecker();
+        $object = new \rcube_spellchecker();
 
         $this->assertFalse($object->is_exception('test'));
 

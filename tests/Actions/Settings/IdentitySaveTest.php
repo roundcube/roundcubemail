@@ -3,22 +3,22 @@
 /**
  * Test class to test rcmail_action_settings_identity_save
  */
-class Actions_Settings_IdentitySave extends ActionTestCase
+class Actions_Settings_IdentitySave extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_identity_edit()
     {
-        $action = new rcmail_action_settings_identity_save();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-identity');
+        $action = new \rcmail_action_settings_identity_save();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'save-identity');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
         self::initDB('identities');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `identities` WHERE `standard` = 1 LIMIT 1');
         $identity = $db->fetch_assoc($query);
 
@@ -34,7 +34,7 @@ class Actions_Settings_IdentitySave extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame('edit-identity', rcmail::get_instance()->action);
+        $this->assertSame('edit-identity', \rcmail::get_instance()->action);
         $this->assertSame('successfullysaved', $output->getProperty('message'));
 
         $query = $db->query('SELECT * FROM `identities` WHERE `identity_id` = ?', $identity['identity_id']);

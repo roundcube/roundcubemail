@@ -3,15 +3,15 @@
 /**
  * Test class to test rcmail_action_settings_folder_create
  */
-class Actions_Settings_FolderCreate extends ActionTestCase
+class Actions_Settings_FolderCreate extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_folder_create();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folder-create');
+        $action = new \rcmail_action_settings_folder_create();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'folder-create');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
@@ -38,7 +38,7 @@ class Actions_Settings_FolderCreate extends ActionTestCase
             ->registerFunction('get_namespace', null)
             ->registerFunction('get_quota', false);
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

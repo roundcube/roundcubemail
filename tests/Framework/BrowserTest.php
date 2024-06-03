@@ -174,13 +174,13 @@ class Framework_Browser extends TestCase
     /**
      * @param string $useragent
      *
-     * @return rcube_browser
+     * @return \rcube_browser
      */
     private function getBrowser($useragent)
     {
         $_SERVER['HTTP_USER_AGENT'] = $useragent;
 
-        $object = new rcube_browser();
+        $object = new \rcube_browser();
 
         return $object;
     }

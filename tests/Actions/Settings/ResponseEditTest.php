@@ -3,20 +3,20 @@
 /**
  * Test class to test rcmail_action_settings_response_edit
  */
-class Actions_Settings_ResponseEdit extends ActionTestCase
+class Actions_Settings_ResponseEdit extends \ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_response_edit();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-response');
+        $action = new \rcmail_action_settings_response_edit();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'edit-response');
 
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $rcmail->user->save_prefs([
             'compose_responses_static' => [
                 ['name' => 'static 1', 'text' => 'Static Response One'],
@@ -30,7 +30,7 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
         // Test read-only response
         $_GET = ['_id' => $responses[0]['id']];
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -45,7 +45,7 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
         // Test writable response
         $_GET = ['_id' => $responses[2]['id']];
 
-        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -60,7 +60,7 @@ class Actions_Settings_ResponseEdit extends ActionTestCase
      */
     public function test_response_form()
     {
-        $result = rcmail_action_settings_response_edit::response_form([]);
+        $result = \rcmail_action_settings_response_edit::response_form([]);
 
         $this->assertTrue(strpos(trim($result), '<table>') === 0);
     }
