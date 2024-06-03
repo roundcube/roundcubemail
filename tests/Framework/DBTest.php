@@ -279,25 +279,25 @@ class rcube_db_test_wrapper extends \rcube_db
 {
     public $queries = [];
 
-    #[Override]
+    #[\Override]
     protected function query_execute($query)
     {
         $this->queries[] = $query;
     }
 
-    #[Override]
+    #[\Override]
     public function db_connect($mode, $force = false)
     {
         $this->dbh = new \rcube_db_test_dbh();
     }
 
-    #[Override]
+    #[\Override]
     public function is_connected()
     {
         return true;
     }
 
-    #[Override]
+    #[\Override]
     protected function debug($data) {}
 }
 

@@ -10,7 +10,7 @@ use Roundcube\Mail\Tests\OutputJsonMock;
  */
 class RcmailTest extends \ActionTestCase
 {
-    #[Override]
+    #[\Override]
     protected function setUp(): void
     {
         // set some HTTP env vars

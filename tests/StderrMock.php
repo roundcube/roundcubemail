@@ -28,7 +28,7 @@ class StderrMock extends \php_user_filter
     public static $redirect;
     public static $output = '';
 
-    #[Override]
+    #[\Override]
     #[ReturnTypeWillChange]
     public function filter($in, $out, &$consumed, $closing)
     {

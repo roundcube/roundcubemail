@@ -3,11 +3,6 @@
 namespace Roundcube\Mail\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Roundcube\Mail\Tests\ExitException;
-use Roundcube\Mail\Tests\OutputHtmlMock;
-use Roundcube\Mail\Tests\OutputJsonMock;
-use Roundcube\Mail\Tests\StderrMock;
-use Roundcube\Mail\Tests\StorageMock;
 
 /**
  * Test class to test rcmail_action_mail_index
@@ -16,7 +11,7 @@ class ActionTestCase extends TestCase
 {
     private static $files = [];
 
-    #[Override]
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         // reset some interfering globals set in other tests
@@ -26,7 +21,7 @@ class ActionTestCase extends TestCase
         $rcmail->load_gui();
     }
 
-    #[Override]
+    #[\Override]
     public static function tearDownAfterClass(): void
     {
         foreach (self::$files as $file) {
@@ -41,7 +36,7 @@ class ActionTestCase extends TestCase
         \html::$doctype = 'xhtml';
     }
 
-    #[Override]
+    #[\Override]
     protected function setUp(): void
     {
         $_GET = [];
