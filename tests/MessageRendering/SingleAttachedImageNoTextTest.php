@@ -11,9 +11,9 @@ class SingleAttachedImageNoTextTest extends MessageRenderingTestCase
      * Test that of a multipart/mixed message which contains only one
      * image, that image is shown. (GitHub issue #9443)
      */
-    public function testShowMultipartMixedSingleImageToo()
+    public function testShowMultipartMixedSingleImageToo(): void
     {
-        $domxpath = $this->runAndGetHtmlOutputDomxpath('XXXXXXXXXXXXX@mx01.lytzenitmail.dk');
+        $domxpath = $this->renderMessage('XXXXXXXXXXXXX@mx01.lytzenitmail.dk');
 
         $this->assertSame('Not OK', $this->getScrubbedSubject($domxpath));
 
@@ -27,9 +27,9 @@ class SingleAttachedImageNoTextTest extends MessageRenderingTestCase
      * an HTML part (and thus is not referred to), is shown as attachment.
      * (GitHub issue #9565)
      */
-    public function testShowUnreferredToImagesWithContentId()
+    public function testShowUnreferredToImagesWithContentId(): void
     {
-        $domxpath = $this->runAndGetHtmlOutputDomxpath('yyy@mail.gmail.com');
+        $domxpath = $this->renderMessage('yyy@mail.gmail.com');
 
         $this->assertSame('test', $this->getScrubbedSubject($domxpath));
 
@@ -42,9 +42,9 @@ class SingleAttachedImageNoTextTest extends MessageRenderingTestCase
      * Test that an image, that has a Content-ID, but is not referred to in the
      * accompanying HTML-part, is shown as attachment. (GitHub issue #9685)
      */
-    public function testShowUnreferredToImagesWithContentIdInMultipartAlternative()
+    public function testShowUnreferredToImagesWithContentIdInMultipartAlternative(): void
     {
-        $domxpath = $this->runAndGetHtmlOutputDomxpath('2ef37d1124655807449f5e405cdd4834b79fb026@example.net');
+        $domxpath = $this->renderMessage('2ef37d1124655807449f5e405cdd4834b79fb026@example.net');
 
         $this->assertSame('Multipart/alternative with attached but unreferenced image', $this->getScrubbedSubject($domxpath));
 

@@ -249,6 +249,10 @@ function rcube_webmail() {
             parent.rcmail.unlock_frame();
         }
 
+        if (this.task === 'mail' && (this.env.action === 'preview' || this.env.action === 'show' || this.env.action === 'print')) {
+            this.handleContentIframes();
+        }
+
         // enable general commands
         this.enable_command('close', 'logout', 'mail', 'addressbook', 'settings', 'save-pref',
             'compose', 'undo', 'about', 'switch-task', 'menu-open', 'menu-close', 'menu-save', true);
@@ -473,7 +477,7 @@ function rcube_webmail() {
                 // show printing dialog unless decryption must be done first
                 else if (this.env.action == 'print' && this.env.uid) {
                     if (!this.env.is_pgp_content && !this.env.pgp_mime_part) {
-                        this.print_dialog();
+                        this.afterAllContentIframesLoaded(() => this.print_dialog());
                     }
                 }
 
@@ -4007,8 +4011,10 @@ function rcube_webmail() {
         this.env.browser_capabilities.pgpmime = 1;
         var keyring = this.env.mailvelope_main_keyring ? undefined : this.env.user_id,
             fn = function (kr) {
-                ref.mailvelope_keyring = kr;
-                ref.mailvelope_init(action, kr);
+                this.afterAllContentIframesLoaded(() => {
+                    ref.mailvelope_keyring = kr;
+                    ref.mailvelope_init(action, kr);
+                });
             };
 
         mailvelope.getVersion().then(function (v) {
@@ -4036,7 +4042,7 @@ function rcube_webmail() {
         if (action == 'show' || action == 'preview' || action == 'print') {
             // decrypt text body
             if (this.env.is_pgp_content) {
-                var data = $(this.env.is_pgp_content).text();
+                var data = document.querySelector(this.env.is_pgp_content + ' > iframe.framed-message-part').contentDocument.body.textContent;
                 ref.mailvelope_display_container(this.env.is_pgp_content, data, keyring);
             }
             // load pgp/mime message and pass it to the mailvelope display container
@@ -4307,20 +4313,23 @@ function rcube_webmail() {
 
     // Wrapper for the mailvelope.createDisplayContainer API call
     this.mailvelope_display_container = function (selector, data, keyring, msgid) {
+        // Insert a container element, for the mailvelope display container, that we can select.
+        $(selector).append($('<div>', { id: 'mailvelopeframe' }));
+        var mailvelopeSelector = selector + ' #mailvelopeframe';
         var error_handler = function (error) {
             // remove mailvelope frame with the error message
-            $(selector + ' > iframe').remove();
+            $(mailvelopeSelector).remove();
             ref.hide_message(msgid);
             ref.display_message(error.message, 'error');
         };
 
-        mailvelope.createDisplayContainer(selector, data, keyring, { senderAddress: this.env.sender }).then(function (status) {
+        mailvelope.createDisplayContainer(mailvelopeSelector, data, keyring, { senderAddress: this.env.sender }).then(function (status) {
             if (status.error && status.error.message) {
                 return error_handler(status.error);
             }
 
             ref.hide_message(msgid);
-            $(selector).children().not('iframe').hide();
+            $(selector).children().not('#mailvelopeframe').hide();
             $(ref.gui_objects.messagebody).addClass('mailvelope');
 
             // on success we can remove encrypted part from the attachments list
@@ -10649,6 +10658,66 @@ function rcube_webmail() {
     this.print_dialog = function () {
         // setTimeout for Safari
         setTimeout('window.print()', 10);
+    };
+
+    this.resize_preview_iframe = function (iframe) {
+        // Reset the forced height to avoid growing it bigger and bigger (due to
+        // our adding of 20 pixels, and 8 extra pixels of unknown origin, which
+        // are always added.
+        iframe.style.height = '';
+        var wantedHeight = iframe.contentDocument.firstChild.scrollHeight;
+        // If the height is too low, the rendering probably hasn't completed,
+        // and we try again after a short moment.
+        if (wantedHeight < 10) {
+            setTimeout(() => this.resize_preview_iframe(iframe), 50);
+            return;
+        }
+        // Add a few pixels to avoid problems with wrapped lines.
+        iframe.style.height = wantedHeight + 20 + 'px';
+        iframe.resizePreviewIframeTimer = null;
+    };
+
+    this.handleContentIframes = function () {
+        iframe_loaded_promises = [];
+        window.allContentIframesLoaded = false;
+        document.querySelectorAll('iframe.framed-message-part').forEach((iframe) => {
+            promise = new Promise((resolve, reject) => {
+                // Resize twice initially: first time when the iframe's
+                // document was parsed, to already provide roughly the
+                // correct height; second time when all resources have been
+                // loaded, to finally ensure the correct height with all
+                // images etc.
+                iframe.addEventListener('DOMContentLoaded', () => this.resize_preview_iframe(iframe));
+                iframe.addEventListener('load', () => {
+                    // Hide "Loading data" message.
+                    $(iframe).siblings('.loading').hide();
+                    this.resize_preview_iframe(iframe);
+                    resolve();
+                });
+                // Only now set the 'src' attribute, after the event handlers, else they don't work reliably!
+                iframe.setAttribute('src', iframe.dataset.src);
+                // Also run on window resizes, because the changed text flow could need more space.
+                window.addEventListener('resize', () => this.resize_preview_iframe(iframe));
+            });
+            iframe_loaded_promises.push(promise);
+        });
+
+        Promise.all(iframe_loaded_promises)
+            .then(() => {
+                window.allContentIframesLoaded = true;
+                // Add a short timeout to allow the iframes to finish rendering.
+                setTimeout(() => window.dispatchEvent(new Event('allContentIframesLoaded')), 50);
+            });
+    };
+
+    this.afterAllContentIframesLoaded = function (callback) {
+        if (window.allContentIframesLoaded === true) {
+            callback();
+        } else {
+            window.addEventListener('allContentIframesLoaded', () => {
+                callback();
+            });
+        }
     };
 } // end object rcube_webmail
 
