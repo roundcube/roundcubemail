@@ -172,10 +172,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
         }
 
-        if (defined('ROUNDCUBE_TEST_MODE')) {
-            throw new Exception('simulatedExit');
-        }
-        exit;
+        $rcmail->output->sendExit();
     }
 
     /**
