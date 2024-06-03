@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_csv2vcard class
  */
-class Framework_Csv2vcard extends TestCase
+class Csv2vcardTest extends TestCase
 {
     public function test_import_generic()
     {

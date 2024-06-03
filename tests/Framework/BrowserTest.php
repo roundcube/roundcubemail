@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_browser class
  */
-class Framework_Browser extends TestCase
+class BrowserTest extends TestCase
 {
     /**
      * @dataProvider provide_browser_cases

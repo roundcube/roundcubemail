@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Rcmail;
+
 /**
  * Test class to test rcmail_utils class
  */
-class Rcmail_RcmailUtils extends \ActionTestCase
+class UtilsTest extends \ActionTestCase
 {
     /**
      * Test for db() method

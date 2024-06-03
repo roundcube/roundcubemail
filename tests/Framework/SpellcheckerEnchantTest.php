@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_spellcheck_enchant class
  */
-class Framework_SpellcheckerEnchant extends TestCase
+class SpellcheckerEnchantTest extends TestCase
 {
     /**
      * Class constructor

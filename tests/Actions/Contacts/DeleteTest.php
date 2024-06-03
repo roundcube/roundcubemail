@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Contacts;
+
 /**
  * Test class to test rcmail_action_contacts_delete
  */
-class Actions_Contacts_Delete extends \ActionTestCase
+class DeleteTest extends \ActionTestCase
 {
     /**
      * Test deleting of a single existing contact

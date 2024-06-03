@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_session class
  */
-class Framework_Session extends TestCase
+class SessionTest extends TestCase
 {
     /**
      * Test factory method

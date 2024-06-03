@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Settings;
+
 /**
  * Test class to test rcmail_action_settings_response_delete
  */
-class Actions_Settings_ResponseDelete extends \ActionTestCase
+class ResponseDeleteTest extends \ActionTestCase
 {
     /**
      * Test deleting a response

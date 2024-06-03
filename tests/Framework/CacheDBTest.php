@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_cache_db class
  */
-class Framework_CacheDB extends TestCase
+class CacheDBTest extends TestCase
 {
     /**
      * Test common cache functionality

@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_image class
  */
-class Framework_Image extends TestCase
+class ImageTest extends TestCase
 {
     /**
      * Test props() method

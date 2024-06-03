@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Settings;
+
 /**
  * Test class to test rcmail_action_settings_upload_display
  */
-class Actions_Settings_UploadDisplay extends \ActionTestCase
+class UploadDisplayTest extends \ActionTestCase
 {
     /**
      * Class constructor

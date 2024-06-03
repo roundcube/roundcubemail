@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Utils;
+
 /**
  * Test class to test rcmail_action_utils_killcache
  */
-class Actions_Utils_Killcache extends \ActionTestCase
+class KillcacheTest extends \ActionTestCase
 {
     /**
      * Class constructor

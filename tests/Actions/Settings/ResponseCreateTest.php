@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Settings;
+
 /**
  * Test class to test rcmail_action_settings_response_create
  */
-class Actions_Settings_ResponseCreate extends \ActionTestCase
+class ResponseCreateTest extends \ActionTestCase
 {
     /**
      * Test run() method

@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_washtml class
  */
-class Framework_Washtml extends TestCase
+class WashtmlTest extends TestCase
 {
     /**
      * A helper method to remove comments added by rcube_washtml

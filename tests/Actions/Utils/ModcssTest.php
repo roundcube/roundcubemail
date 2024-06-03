@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Utils;
+
 /**
  * Test class to test rcmail_action_utils_modcss
  */
-class Actions_Utils_Modcss extends \ActionTestCase
+class ModcssTest extends \ActionTestCase
 {
     /**
      * Test for run()

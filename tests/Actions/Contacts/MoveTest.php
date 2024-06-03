@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Contacts;
+
 /**
  * Test class to test rcmail_action_contacts_move
  */
-class Actions_Contacts_Move extends \ActionTestCase
+class MoveTest extends \ActionTestCase
 {
     /**
      * Test moving of a single contact

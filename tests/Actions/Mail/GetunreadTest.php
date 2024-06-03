@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Mail;
+
 /**
  * Test class to test rcmail_action_mail_getunread
  */
-class Actions_Mail_Getunread extends \ActionTestCase
+class GetunreadTest extends \ActionTestCase
 {
     /**
      * Class constructor

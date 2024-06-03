@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Utils;
+
 /**
  * Test class to test rcmail_action_utils_error
  */
-class Actions_Utils_Error extends \ActionTestCase
+class ErrorTest extends \ActionTestCase
 {
     /**
      * Test run() method in HTTP mode

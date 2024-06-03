@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_result_index class
  */
-class Framework_ResultIndex extends TestCase
+class ResultIndexTest extends TestCase
 {
     /**
      * Class constructor

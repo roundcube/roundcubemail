@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_spellcheck_atd class
  */
-class Framework_SpellcheckerAtd extends TestCase
+class SpellcheckerAtdTest extends TestCase
 {
     /**
      * Class constructor

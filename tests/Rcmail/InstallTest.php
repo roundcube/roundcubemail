@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Rcmail;
+
 /**
  * Test class to test rcmail_install class
  */
-class Rcmail_RcmailInstall extends \ActionTestCase
+class InstallTest extends \ActionTestCase
 {
     /**
      * Test getprop() method

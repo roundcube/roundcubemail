@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Browser\Contacts;
+
 namespace Tests\Browser\Contacts;
 
 use Tests\Browser\TestCase;

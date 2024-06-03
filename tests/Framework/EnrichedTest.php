@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_enriched class
  */
-class Framework_Enriched extends TestCase
+class EnrichedTest extends TestCase
 {
     /**
      * Class constructor

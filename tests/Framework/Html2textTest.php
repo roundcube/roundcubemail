@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_html2text class
  */
-class rc_html2text extends TestCase
+class Html2textTest extends TestCase
 {
     public static function provide_html2text_cases(): iterable
     {

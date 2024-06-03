@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Rcmail;
+
 /**
  * Test class to test rcmail_html_page class
  */
-class Rcmail_RcmailHtmlPage extends \ActionTestCase
+class HtmlPageTest extends \ActionTestCase
 {
     /**
      * Test html page output

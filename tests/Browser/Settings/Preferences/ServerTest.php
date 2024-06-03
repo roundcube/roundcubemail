@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Browser\Settings\Preferences;
+
 namespace Tests\Browser\Settings\Preferences;
 
 use Tests\Browser\Components\App;

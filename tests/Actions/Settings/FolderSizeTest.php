@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Settings;
+
 /**
  * Test class to test rcmail_action_settings_folder_size
  */
-class Actions_Settings_FolderSize extends \ActionTestCase
+class FolderSizeTest extends \ActionTestCase
 {
     /**
      * Test getting a folder size

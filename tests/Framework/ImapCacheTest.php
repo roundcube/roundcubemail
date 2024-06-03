@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_imap_cache class
  */
-class Framework_ImapCache extends TestCase
+class ImapCacheTest extends TestCase
 {
     /**
      * Class constructor

@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Rcmail;
+
 /**
  * Test class to test rcmail_output_cli class
  */
-class Rcmail_RcmailOutputCli extends \ActionTestCase
+class OutputCliTest extends \ActionTestCase
 {
     /**
      * Test show_message() method

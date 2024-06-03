@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Settings;
+
 /**
  * Test class to test rcmail_action_settings_folder_delete
  */
-class Actions_Settings_FolderDelete extends \ActionTestCase
+class FolderDeleteTest extends \ActionTestCase
 {
     /**
      * Test deleting a folder

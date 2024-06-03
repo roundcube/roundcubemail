@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_addressbook class
  */
-class Framework_Addressbook extends TestCase
+class AddressbookTest extends TestCase
 {
     /**
      * Test for get_col_values() method

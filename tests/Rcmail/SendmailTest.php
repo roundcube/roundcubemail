@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Rcmail;
+
 /**
  * Test class to test rcmail_sendmail class
  */
-class Rcmail_RcmailSendmail extends \ActionTestCase
+class SendmailTest extends \ActionTestCase
 {
     /**
      * Test rcmail_sendmail::headers_input()

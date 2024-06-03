@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Contacts;
+
 /**
  * Test class to test rcmail_action_contacts_qrcode
  */
-class Actions_Contacts_Qrcode extends \ActionTestCase
+class QrcodeTest extends \ActionTestCase
 {
     /**
      * Test run() method

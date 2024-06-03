@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Rcmail;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcmail_string_replacer class
  */
-class Rcmail_RcmailStringReplacer extends TestCase
+class StringReplacerTest extends TestCase
 {
     /**
      * Test for mailto_callback() method

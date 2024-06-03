@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @group database
  */
-class Framework_DB extends TestCase
+class DBTest extends TestCase
 {
     /**
      * Test script execution and table_prefix replacements

@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test html_checkbox class
  */
-class Framework_HtmlCheckbox extends TestCase
+class HtmlCheckboxTest extends TestCase
 {
     /**
      * Class constructor

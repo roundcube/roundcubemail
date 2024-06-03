@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Rcmail;
+
 /**
  * Test class to test rcmail class
  */
-class Rcmail_Rcmail extends \ActionTestCase
+class RcmailTest extends \ActionTestCase
 {
     #[Override]
     protected function setUp(): void

@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_output class
  */
-class Framework_Output extends TestCase
+class OutputTest extends TestCase
 {
     /**
      * Test get_edit_field()

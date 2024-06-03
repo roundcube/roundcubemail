@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Mail;
+
 /**
  * Test class to test rcmail_action_mail_folder_expunge
  */
-class Actions_Mail_FolderExpunge extends \ActionTestCase
+class FolderExpungeTest extends \ActionTestCase
 {
     /**
      * Class constructor

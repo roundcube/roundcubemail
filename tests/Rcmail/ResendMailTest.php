@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Rcmail;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcmail_resend_mail class
  */
-class Rcmail_RcmailResendMail extends TestCase
+class ResendMailTest extends TestCase
 {
     /**
      * Test for header() method

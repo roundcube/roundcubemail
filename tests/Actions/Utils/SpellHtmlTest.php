@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Utils;
+
 /**
  * Test class to test rcmail_action_utils_spell_html
  */
-class Actions_Utils_SpellHtml extends \ActionTestCase
+class SpellHtmlTest extends \ActionTestCase
 {
     /**
      * Class constructor

@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Contacts;
+
 /**
  * Test class to test rcmail_action_contacts_import
  */
-class Actions_Contacts_Import extends \ActionTestCase
+class ImportTest extends \ActionTestCase
 {
     /**
      * Test run() method

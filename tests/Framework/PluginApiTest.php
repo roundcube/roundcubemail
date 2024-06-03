@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_plugin_api class
  */
-class Framework_PluginApi extends TestCase
+class PluginApiTest extends TestCase
 {
     /**
      * Test get_info()

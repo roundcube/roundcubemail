@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_spellchecker class
  */
-class Framework_Spellchecker extends TestCase
+class SpellcheckerTest extends TestCase
 {
     /**
      * Test is_exception() method

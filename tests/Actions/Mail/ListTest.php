@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Mail;
+
 /**
  * Test class to test rcmail_action_mail_list
  */
-class Actions_Mail_List extends \ActionTestCase
+class ListTest extends \ActionTestCase
 {
     /**
      * Class constructor

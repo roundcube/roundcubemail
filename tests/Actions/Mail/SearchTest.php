@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Mail;
+
 /**
  * Test class to test rcmail_action_mail_search
  */
-class Actions_Mail_Search extends \ActionTestCase
+class SearchTest extends \ActionTestCase
 {
     /**
      * Test searching mail (empty result)

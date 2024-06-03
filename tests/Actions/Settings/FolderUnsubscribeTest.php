@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Settings;
+
 /**
  * Test class to test rcmail_action_settings_folder_unsubscribe
  */
-class Actions_Settings_FolderUnsubscribe extends \ActionTestCase
+class FolderUnsubscribeTest extends \ActionTestCase
 {
     /**
      * Test unsubscribing a folder

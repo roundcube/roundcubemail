@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Settings;
+
 /**
  * Test class to test rcmail_action_settings_folder_rename
  */
-class Actions_Settings_FolderRename extends \ActionTestCase
+class FolderRenameTest extends \ActionTestCase
 {
     /**
      * Test renaming a folder

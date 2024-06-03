@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_ldap_generic class
  */
-class Framework_LdapGeneric extends TestCase
+class LdapGenericTest extends TestCase
 {
     protected function markTestSkippedIfNetLdapPackageIsNotInstalled(): void
     {

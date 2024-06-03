@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Login;
+
 /**
  * Test class to test rcmail_action_login_oauth
  */
-class Actions_Login_Oauth extends \ActionTestCase
+class OauthTest extends \ActionTestCase
 {
     /**
      * Test run

@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Contacts;
+
 /**
  * Test class to test rcmail_action_contacts_export
  */
-class Actions_Contacts_Export extends \ActionTestCase
+class ExportTest extends \ActionTestCase
 {
     /**
      * Test exporting all contacts

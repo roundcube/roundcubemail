@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -8,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * @group database
  * @group sqlite
  */
-class Framework_DBSqlite extends TestCase
+class DBSqliteTest extends TestCase
 {
     /**
      * Class constructor

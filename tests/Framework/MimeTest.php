@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_mime class
  */
-class Framework_Mime extends TestCase
+class MimeTest extends TestCase
 {
     /**
      * Test decoding of single e-mail address strings

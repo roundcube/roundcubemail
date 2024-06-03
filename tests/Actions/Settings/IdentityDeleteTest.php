@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Settings;
+
 /**
  * Test class to test rcmail_action_settings_identity_delete
  */
-class Actions_Settings_IdentityDelete extends \ActionTestCase
+class IdentityDeleteTest extends \ActionTestCase
 {
     /**
      * Test deleting an identity

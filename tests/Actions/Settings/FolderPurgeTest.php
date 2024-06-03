@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Settings;
+
 /**
  * Test class to test rcmail_action_settings_folder_purge
  */
-class Actions_Settings_FolderPurge extends \ActionTestCase
+class FolderPurgeTest extends \ActionTestCase
 {
     /**
      * Test purging a folder

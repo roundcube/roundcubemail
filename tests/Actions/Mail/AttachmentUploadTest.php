@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Mail;
+
 /**
  * Test class to test rcmail_action_mail_attachment_upload
  */
-class Actions_Mail_AttachmentUpload extends \ActionTestCase
+class AttachmentUploadTest extends \ActionTestCase
 {
     /**
      * Test file upload

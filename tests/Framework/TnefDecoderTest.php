@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_tnef_decoder class
  */
-class Framework_TnefDecoder extends TestCase
+class TnefDecoderTest extends TestCase
 {
     /**
      * Test TNEF decoding

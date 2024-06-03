@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_string_replacer class
  */
-class Framework_StringReplacer extends TestCase
+class StringReplacerTest extends TestCase
 {
     /**
      * Class constructor

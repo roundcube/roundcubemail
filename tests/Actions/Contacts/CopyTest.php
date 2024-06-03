@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Contacts;
+
 /**
  * Test class to test rcmail_action_contacts_copy
  */
-class Actions_Contacts_Copy extends \ActionTestCase
+class CopyTest extends \ActionTestCase
 {
     /**
      * Test copying pre-check errors

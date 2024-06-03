@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Contacts;
+
 /**
  * Test class to test rcmail_action_contacts_undo
  */
-class Actions_Contacts_Undo extends \ActionTestCase
+class UndoTest extends \ActionTestCase
 {
     /**
      * Test contact undelete

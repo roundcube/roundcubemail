@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Utils;
+
 /**
  * Test class to test rcmail_action_utils_html2text
  */
-class Actions_Utils_Html2text extends \ActionTestCase
+class Html2textTest extends \ActionTestCase
 {
     /**
      * Test for run()

@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Mail;
+
 /**
  * Test class to test rcmail_action_mail_attachment_delete
  */
-class Actions_Mail_AttachmentDelete extends \ActionTestCase
+class AttachmentDeleteTest extends \ActionTestCase
 {
     /**
      * Test uploaded attachment delete

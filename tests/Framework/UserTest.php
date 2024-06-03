@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 /**
  * Test class to test rcube_user class
  */
-class Framework_User extends \ActionTestCase
+class UserTest extends \ActionTestCase
 {
     /**
      * Test class constructor

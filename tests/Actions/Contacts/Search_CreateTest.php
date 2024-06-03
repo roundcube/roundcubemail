@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Contacts;
+
 /**
  * Test class to test rcmail_action_contacts_search_create
  */
-class Actions_Contacts_Search_Create extends \ActionTestCase
+class Search_CreateTest extends \ActionTestCase
 {
     /**
      * Test error handling

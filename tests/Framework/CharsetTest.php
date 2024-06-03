@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -7,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @group mbstring
  */
-class Framework_Charset extends TestCase
+class CharsetTest extends TestCase
 {
     /**
      * Data for test_clean()

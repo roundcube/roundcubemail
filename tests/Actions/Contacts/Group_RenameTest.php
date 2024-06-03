@@ -1,9 +1,11 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Actions\Contacts;
+
 /**
  * Test class to test rcmail_action_contacts_group_rename
  */
-class Actions_Contacts_Group_Rename extends \ActionTestCase
+class Group_RenameTest extends \ActionTestCase
 {
     /**
      * Test error handling

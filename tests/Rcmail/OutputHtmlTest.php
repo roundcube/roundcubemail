@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Rcmail;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcmail_output_html class
  */
-class Rcmail_RcmailOutputHtml extends TestCase
+class OutputHtmlTest extends TestCase
 {
     /**
      * Test check_skin()
