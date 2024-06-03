@@ -9,7 +9,7 @@ class Enigma_EnigmaSubkey extends TestCase
      */
     public function test_constructor()
     {
-        $error = new enigma_subkey();
+        $error = new \enigma_subkey();
 
         $this->assertInstanceOf('enigma_subkey', $error);
     }

@@ -9,7 +9,7 @@ class Enigma_EnigmaSignature extends TestCase
      */
     public function test_constructor()
     {
-        $error = new enigma_signature();
+        $error = new \enigma_signature();
 
         $this->assertInstanceOf('enigma_signature', $error);
     }

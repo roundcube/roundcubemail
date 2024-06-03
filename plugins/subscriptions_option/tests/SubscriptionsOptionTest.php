@@ -1,14 +1,14 @@
 <?php
 
-class SubscriptionsOption_Plugin extends ActionTestCase
+class SubscriptionsOption_Plugin extends \ActionTestCase
 {
     /**
      * Plugin object construction test
      */
     public function test_constructor()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new subscriptions_option($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \subscriptions_option($rcube->plugins);
 
         $this->assertInstanceOf('subscriptions_option', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
@@ -19,10 +19,10 @@ class SubscriptionsOption_Plugin extends ActionTestCase
      */
     public function test_prefs_list()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new subscriptions_option($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \subscriptions_option($rcube->plugins);
 
-        html::$doctype = 'html5';
+        \html::$doctype = 'html5';
 
         $args = ['section' => 'server', 'blocks' => ['main' => ['options' => []]]];
 
@@ -44,8 +44,8 @@ class SubscriptionsOption_Plugin extends ActionTestCase
      */
     public function test_prefs_save()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new subscriptions_option($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \subscriptions_option($rcube->plugins);
 
         $_POST = ['_use_subscriptions' => 1];
         $args = ['section' => 'server', 'prefs' => []];

@@ -9,8 +9,8 @@ class Archive_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new archive($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \archive($rcube->plugins);
 
         $this->assertInstanceOf('archive', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
@@ -23,8 +23,8 @@ class Archive_Plugin extends TestCase
      */
     public function test_prefs_table()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new archive($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \archive($rcube->plugins);
 
         $args = ['section' => 'server', 'blocks' => ['main' => ['options' => []]]];
 
@@ -48,8 +48,8 @@ class Archive_Plugin extends TestCase
      */
     public function test_prefs_save()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new archive($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \archive($rcube->plugins);
 
         $_POST = [];
         $args = ['section' => 'folders', 'prefs' => []];

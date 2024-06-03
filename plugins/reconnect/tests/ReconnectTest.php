@@ -9,8 +9,8 @@ class Reconnect_Plugin extends TestCase
      */
     public function test_constructor()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new reconnect($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \reconnect($rcube->plugins);
 
         $this->assertInstanceOf('reconnect', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);

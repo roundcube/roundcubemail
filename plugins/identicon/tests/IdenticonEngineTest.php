@@ -13,7 +13,7 @@ class Identicon_IdenticonEngine extends TestCase
             $this->markTestSkipped();
         }
 
-        $engine = new identicon_engine('test@domain.com', 10);
+        $engine = new \identicon_engine('test@domain.com', 10);
 
         $icon = $engine->getBinary();
 

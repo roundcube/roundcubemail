@@ -9,7 +9,7 @@ class Enigma_EnigmaUserid extends TestCase
      */
     public function test_constructor()
     {
-        $error = new enigma_userid();
+        $error = new \enigma_userid();
 
         $this->assertInstanceOf('enigma_userid', $error);
     }
