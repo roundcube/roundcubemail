@@ -35,22 +35,6 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         // This resets X-Frame-Options for framed output (#6688)
         $rcmail->output->page_headers();
 
-        // show loading page
-        if (!empty($_GET['_preload'])) {
-            unset($_GET['_preload']);
-            unset($_GET['_safe']);
-
-            $url = $rcmail->url($_GET + ['_mimewarning' => 1, '_embed' => 1]);
-            $message = $rcmail->gettext('loadingdata');
-
-            header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
-            echo "<html>\n<head>\n"
-                . '<meta http-equiv="refresh" content="0; url=' . rcube::Q($url) . '">' . "\n"
-                . '<meta http-equiv="content-type" content="text/html; charset=' . RCUBE_CHARSET . '">' . "\n"
-                . "</head>\n<body>\n{$message}\n</body>\n</html>";
-            $rcmail->output->sendExit();
-        }
-
         $attachment = new rcmail_attachment_handler();
         $mimetype = $attachment->mimetype;
         $filename = $attachment->filename;
@@ -232,6 +216,21 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 }
             }
 
+            // Deliver plaintext with HTML-markup
+            if ($mimetype == 'text/plain' && empty($_GET['_download'])) {
+                $body = $attachment->print_body();
+                // Don't use rcmail_html_page here, because that always loads
+                // embed.css and blocks loading other css files (though calling
+                // reset() in write()). Also we don't need all the processing that it
+                // brings.
+                $styles_path = $rcmail->output->get_skin_file('/styles/styles.css', $path, null, true);
+                $body = html::tag('html', [],
+                    html::tag('head', [], html::tag('link', ['rel' => 'stylesheet', 'href' => $styles_path]))
+                    . html::tag('body', [], $body)
+                );
+                $rcmail->output->sendExit($body);
+            }
+
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
                 $rcmail->output = new rcmail_html_page();
@@ -248,20 +247,6 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 } else {
                     // render HTML body
                     $out = $attachment->html();
-
-                    // insert remote objects warning into HTML body
-                    if (self::$REMOTE_OBJECTS) {
-                        $rcmail->output->register_inline_warning(
-                            $rcmail->gettext('blockedresources'),
-                            $rcmail->gettext('allow'),
-                            $rcmail->url(array_merge($_GET, ['_safe' => 1]))
-                        );
-                    } else {
-                        // Use strict security policy to make sure no javascript is executed
-                        // TODO: Make the above "blocked resources button" working with strict policy
-                        // TODO: Move this to rcmail_html_page::write()?
-                        header("Content-Security-Policy: script-src 'none'");
-                    }
                 }
 
                 $rcmail->output->write($out);
@@ -357,13 +342,14 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         } else {
             $mimetype = $rcmail->output->get_env('mimetype');
             $url = $_GET;
-            $url[strpos($mimetype, 'text/') === 0 ? '_embed' : '_preload'] = 1;
+            $url['_embed'] = 1;
             unset($url['_frame']);
         }
 
         $url['_framed'] = 1; // For proper X-Frame-Options:deny handling
 
         $attrib['src'] = $rcmail->url($url);
+        $attrib['sandbox'] = 'allow-same-origin';
 
         $rcmail->output->add_gui_object('messagepartframe', $attrib['id']);
 
