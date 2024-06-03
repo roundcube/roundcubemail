@@ -243,7 +243,7 @@ class html
             $attr = ['src' => $attr];
         }
 
-        $allowed = ['src', 'name', 'width', 'height', 'border', 'frameborder', 'onload', 'allowfullscreen'];
+        $allowed = ['src', 'name', 'width', 'height', 'border', 'frameborder', 'onload', 'allowfullscreen', 'sandbox'];
 
         return self::tag('iframe', $attr, $cont, array_merge(self::$common_attrib, $allowed));
     }
