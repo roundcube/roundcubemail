@@ -6,7 +6,6 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Masterminds\HTML5;
-use Roundcube\Mail\Tests\ActionTestCase;
 
 /*
  +-----------------------------------------------------------------------+
