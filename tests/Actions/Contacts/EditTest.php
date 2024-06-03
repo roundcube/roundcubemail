@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_contacts_edit
  */
@@ -29,7 +31,7 @@ class EditTest extends \ActionTestCase
             '_source' => '0',
         ];
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

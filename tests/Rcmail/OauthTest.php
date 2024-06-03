@@ -5,6 +5,7 @@ namespace Roundcube\Mail\Tests\Rcmail;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\StderrMock;
 
 /**
@@ -192,7 +193,7 @@ class OauthTest extends \ActionTestCase
             $ecode = $e->getCode();
         }
 
-        $this->assertSame(\OutputHtmlMock::E_REDIRECT, $ecode);
+        $this->assertSame(OutputHtmlMock::E_REDIRECT, $ecode);
         $this->assertMatchesRegularExpression('|^Location: https://test/auth\?.*|', $result);
 
         [$base, $query] = explode('?', substr($result, 10));

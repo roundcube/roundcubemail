@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_settings_folders
  */
@@ -46,7 +48,7 @@ class FoldersTest extends \ActionTestCase
             ->registerFunction('get_namespace', null)
             ->registerFunction('get_quota', false);
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

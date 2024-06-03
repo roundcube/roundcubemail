@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Utils;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_utils_save_pref
  */
@@ -26,7 +28,7 @@ class SavePrefTest extends \ActionTestCase
             '_value' => ['date'],
         ];
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

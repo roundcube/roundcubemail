@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_contacts_print
  */
@@ -26,7 +28,7 @@ class PrintTest extends \ActionTestCase
 
         $_GET = ['_cid' => $contact['contact_id'], '_source' => '0'];
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_settings_response_edit
  */
@@ -32,7 +34,7 @@ class ResponseEditTest extends \ActionTestCase
         // Test read-only response
         $_GET = ['_id' => $responses[0]['id']];
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -47,7 +49,7 @@ class ResponseEditTest extends \ActionTestCase
         // Test writable response
         $_GET = ['_id' => $responses[2]['id']];
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_settings_identity_edit
  */
@@ -26,7 +28,7 @@ class IdentityEditTest extends \ActionTestCase
 
         $_GET = ['_iid' => $identity['identity_id']];
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

@@ -2,6 +2,7 @@
 
 namespace Roundcube\Mail\Tests\Actions\Login;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\StderrMock;
 
 /**
@@ -20,7 +21,7 @@ class OauthTest extends \ActionTestCase
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

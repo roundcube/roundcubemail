@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Utils;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_utils_modcss
  */
@@ -19,7 +21,7 @@ class ModcssTest extends \ActionTestCase
         $this->assertTrue($action->checks());
 
         // No input parameters
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(403, $output->getProperty('errorCode'));
         $this->assertSame('Unauthorized request', $output->getProperty('errorMessage'));
@@ -27,7 +29,7 @@ class ModcssTest extends \ActionTestCase
 
         // Invalid url
         $_GET['_u'] = '****';
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(403, $output->getProperty('errorCode'));
         $this->assertSame('Unauthorized request', $output->getProperty('errorMessage'));
@@ -38,7 +40,7 @@ class ModcssTest extends \ActionTestCase
         $key = 'tmp-123.css';
         $_GET['_u'] = $key;
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(403, $output->getProperty('errorCode'));
         $this->assertSame('Unauthorized request', $output->getProperty('errorMessage'));
@@ -52,7 +54,7 @@ class ModcssTest extends \ActionTestCase
             ['code' => 200, 'headers' => ['Content-Type' => 'text/css'], 'response' => 'div.pre { display: none; }'],
         ]);
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame(404, $output->getProperty('errorCode'));
         $this->assertSame('Invalid response returned by server', $output->getProperty('errorMessage'));
@@ -64,7 +66,7 @@ class ModcssTest extends \ActionTestCase
         $_GET['_p'] = 'prefix';
         $_GET['_c'] = 'cid';
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertNull($output->getProperty('errorCode'));
         $this->assertSame(['Content-Type: text/css'], $output->getProperty('headers'));

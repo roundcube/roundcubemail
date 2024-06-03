@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_settings_folder_edit
  */
@@ -41,7 +43,7 @@ class FolderEditTest extends \ActionTestCase
 
         $_GET = ['_mbox' => 'Test'];
 
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $result = $output->getOutput();
 

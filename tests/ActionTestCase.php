@@ -3,6 +3,7 @@
 namespace Roundcube\Mail\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\OutputJsonMock;
 use Roundcube\Mail\Tests\StderrMock;
 use Roundcube\Mail\Tests\StorageMock;
@@ -288,7 +289,7 @@ class ActionTestCase extends TestCase
         } catch (\ExitException $e) {
             $this->assertSame($expected_code, $e->getCode());
         } catch (\Exception $e) {
-            if ($e->getMessage() == 'Error raised' && $expected_code == \OutputHtmlMock::E_EXIT) {
+            if ($e->getMessage() == 'Error raised' && $expected_code == OutputHtmlMock::E_EXIT) {
                 return;
             }
 

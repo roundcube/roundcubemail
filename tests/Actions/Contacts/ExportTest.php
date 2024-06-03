@@ -2,6 +2,7 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\StderrMock;
 
 /**
@@ -26,7 +27,7 @@ class ExportTest extends \ActionTestCase
         $_POST = [];
 
         // Here we expect request security check error
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
         $this->assertSame('ERROR: Request security check failed', trim(StderrMock::$output));
 
@@ -35,7 +36,7 @@ class ExportTest extends \ActionTestCase
         $_SERVER['HTTP_X_ROUNDCUBE_REQUEST'] = 'secure';
 
         ob_start();
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
         $vcf = ob_get_contents();
         ob_end_clean();
 
@@ -76,7 +77,7 @@ class ExportTest extends \ActionTestCase
         $_SERVER['HTTP_X_ROUNDCUBE_REQUEST'] = 'secure';
 
         ob_start();
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
         $vcf = ob_get_contents();
         ob_end_clean();
 

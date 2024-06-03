@@ -2,6 +2,7 @@
 
 namespace Roundcube\Mail\Tests\Actions\Utils;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
@@ -21,7 +22,7 @@ class ErrorTest extends \ActionTestCase
         $this->assertTrue($action->checks());
 
         // Default error
-        $this->runAndAssert($action, \OutputHtmlMock::E_EXIT, []);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT, []);
 
         $result = $output->getOutput();
 

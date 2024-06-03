@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Utils;
 
+use Roundcube\Mail\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_utils_html2text
  */
@@ -21,7 +23,7 @@ class Html2textTest extends \ActionTestCase
         $this->assertInstanceOf('rcmail_action', $object);
         $this->assertTrue($object->checks());
 
-        $this->runAndAssert($object, \OutputHtmlMock::E_EXIT);
+        $this->runAndAssert($object, OutputHtmlMock::E_EXIT);
 
         $this->assertSame('test', $output->output);
         $this->assertSame(['Content-Type: text/plain; charset=UTF-8'], $output->headers);
