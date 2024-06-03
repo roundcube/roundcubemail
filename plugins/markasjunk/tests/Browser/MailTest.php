@@ -3,7 +3,7 @@
 namespace Tests\Browser\Plugins\Markasjunk;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class MailTest extends TestCase
 {

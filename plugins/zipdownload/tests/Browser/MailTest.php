@@ -3,8 +3,8 @@
 namespace Tests\Browser\Plugins\Zipdownload;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\Components\Popupmenu;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\Components\Popupmenu;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class MailTest extends TestCase
 {

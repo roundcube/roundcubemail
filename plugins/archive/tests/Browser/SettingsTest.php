@@ -3,7 +3,7 @@
 namespace Tests\Browser\Plugins\Archive;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class SettingsTest extends TestCase
 {
