@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_mailto
  */
@@ -27,7 +29,7 @@ class MailtoTest extends \ActionTestCase
 
         $_POST = ['_cid' => $cid, '_source' => '0'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

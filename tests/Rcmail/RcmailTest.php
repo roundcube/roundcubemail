@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Rcmail;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail class
  */
@@ -38,7 +40,7 @@ class RcmailTest extends \ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(\OutputJsonMock::E_EXIT, $e->getCode());
+        $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
         $this->assertTrue(empty($result['exec']));
 
         // Test refresh action handler
@@ -51,7 +53,7 @@ class RcmailTest extends \ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(\OutputJsonMock::E_EXIT, $e->getCode());
+        $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
         $this->assertTrue(empty($result['exec']));
 
         // TODO: Test non-existing action handler

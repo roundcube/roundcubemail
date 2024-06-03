@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_search_create
  */
@@ -21,7 +23,7 @@ class Search_CreateTest extends \ActionTestCase
         // Unset group name
         $_POST = ['_name' => ''];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -48,7 +50,7 @@ class Search_CreateTest extends \ActionTestCase
             'data' => ['*', 'bush'],
         ];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

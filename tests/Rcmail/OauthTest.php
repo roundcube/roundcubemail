@@ -5,6 +5,7 @@ namespace Roundcube\Mail\Tests\Rcmail;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Roundcube\Mail\Tests\StderrMock;
 
 /**
  * Test class to test rcmail_oauth class
@@ -215,14 +216,14 @@ class OauthTest extends \ActionTestCase
 
         $_SESSION['oauth_state'] = 'random-state';
 
-        \StderrMock::start();
+        StderrMock::start();
         $response = $oauth->request_access_token('fake-code', 'mismatch-state');
-        \StderrMock::stop();
+        StderrMock::stop();
 
         // should be false as state do not match
         $this->assertFalse($response);
 
-        $this->assertSame('ERROR: OAuth token request failed: state parameter mismatch', trim(\StderrMock::$output));
+        $this->assertSame('ERROR: OAuth token request failed: state parameter mismatch', trim(StderrMock::$output));
     }
 
     /**
@@ -254,12 +255,12 @@ class OauthTest extends \ActionTestCase
         $_SESSION['oauth_state'] = 'random-state'; // ensure state identiquals
         $_SESSION['oauth_nonce'] = 'wrong-nonce';
 
-        \StderrMock::start();
+        StderrMock::start();
         $response = $oauth->request_access_token('fake-code', 'random-state');
-        \StderrMock::stop();
+        StderrMock::stop();
 
         $this->assertFalse($response);
-        $this->assertStringContainsString('identity\'s nonce mismatch', \StderrMock::$output);
+        $this->assertStringContainsString('identity\'s nonce mismatch', StderrMock::$output);
     }
 
     /**
@@ -389,14 +390,14 @@ class OauthTest extends \ActionTestCase
             ],
         ]);
 
-        \StderrMock::start();
+        StderrMock::start();
         $answer = $oauth->user_create([]);
-        \StderrMock::stop();
+        StderrMock::stop();
 
         // only user_name can be defined
         $this->assertSame($answer, ['user_name' => 'John Doe']);
-        $this->assertStringContainsString('ignoring invalid email', \StderrMock::$output);
-        $this->assertStringContainsString('ignoring language', \StderrMock::$output);
+        $this->assertStringContainsString('ignoring invalid email', StderrMock::$output);
+        $this->assertStringContainsString('ignoring language', StderrMock::$output);
     }
 
     /**

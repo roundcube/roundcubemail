@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Mail;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_attachment_rename
  */
@@ -27,7 +29,7 @@ class AttachmentRenameTest extends \ActionTestCase
 
         // Invoke the rename action
         $_POST = ['_id' => '100', '_file' => 'rcmfile' . $file['id'], '_name' => 'mod.gif'];
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

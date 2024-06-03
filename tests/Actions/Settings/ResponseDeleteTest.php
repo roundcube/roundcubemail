@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_settings_response_delete
  */
@@ -32,7 +34,7 @@ class ResponseDeleteTest extends \ActionTestCase
         // Test successful request
         $_POST = ['_id' => $rid];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -49,7 +51,7 @@ class ResponseDeleteTest extends \ActionTestCase
         // Test error
         $_POST = ['_id' => 'unknown'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

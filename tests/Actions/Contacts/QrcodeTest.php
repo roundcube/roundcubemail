@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_qrcode
  */
@@ -18,7 +20,7 @@ class QrcodeTest extends \ActionTestCase
         $this->assertInstanceOf('rcmail_action', $action);
         $this->assertTrue($action->checks());
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -37,7 +39,7 @@ class QrcodeTest extends \ActionTestCase
 
         $_GET = ['_cid' => $contact['contact_id'], '_source' => '0'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

@@ -3,6 +3,7 @@
 namespace Roundcube\Mail\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
+use Roundcube\Mail\Tests\StderrMock;
 
 /**
  * Test class to test rcube_utils class
@@ -916,28 +917,28 @@ class UtilsTest extends TestCase
         $rcube = \rcube::get_instance();
         $rcube->config->set('trusted_host_patterns', ['my.domain.tld']);
 
-        \StderrMock::start();
+        StderrMock::start();
         $this->assertSame('localhost', \rcube_utils::server_name('test'));
-        \StderrMock::stop();
-        $this->assertSame("ERROR: Specified host is not trusted. Using 'localhost'.", trim(\StderrMock::$output));
+        StderrMock::stop();
+        $this->assertSame("ERROR: Specified host is not trusted. Using 'localhost'.", trim(StderrMock::$output));
 
         $rcube->config->set('trusted_host_patterns', ['test.com']);
 
-        \StderrMock::start();
+        StderrMock::start();
         $this->assertSame('test.com', \rcube_utils::server_name('test'));
-        \StderrMock::stop();
+        StderrMock::stop();
 
         $_SERVER['test'] = 'subdomain.test.com';
 
-        \StderrMock::start();
+        StderrMock::start();
         $this->assertSame('localhost', \rcube_utils::server_name('test'));
-        \StderrMock::stop();
+        StderrMock::stop();
 
         $rcube->config->set('trusted_host_patterns', ['^test.com$']);
         $_SERVER['test'] = '^test.com$';
 
-        \StderrMock::start();
+        StderrMock::start();
         $this->assertSame('localhost', \rcube_utils::server_name('test'));
-        \StderrMock::stop();
+        StderrMock::stop();
     }
 }

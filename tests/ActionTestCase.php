@@ -3,6 +3,9 @@
 namespace Roundcube\Mail\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Roundcube\Mail\Tests\OutputJsonMock;
+use Roundcube\Mail\Tests\StderrMock;
+use Roundcube\Mail\Tests\StorageMock;
 
 /**
  * Test class to test rcmail_action_mail_index
@@ -66,7 +69,7 @@ class ActionTestCase extends TestCase
         $rcmail->action = $action;
 
         if ($mode == \rcmail_action::MODE_AJAX) {
-            return $rcmail->output = new \OutputJsonMock();
+            return $rcmail->output = new OutputJsonMock();
         }
 
         $rcmail->output = new \OutputHtmlMock($task, $framed);
@@ -148,12 +151,12 @@ class ActionTestCase extends TestCase
     /**
      * Set the $rcmail->storage property
      *
-     * @return \StorageMock The storage object
+     * @return StorageMock The storage object
      */
     public static function mockStorage()
     {
         $rcmail = \rcmail::get_instance();
-        $rcmail->storage = new \StorageMock(); // @phpstan-ignore-line
+        $rcmail->storage = new StorageMock(); // @phpstan-ignore-line
 
         return $rcmail->storage;
     }
@@ -279,9 +282,9 @@ class ActionTestCase extends TestCase
         setProperty($action, 'edit_form', null);
 
         try {
-            \StderrMock::start();
+            StderrMock::start();
             $action->run($args);
-            \StderrMock::stop();
+            StderrMock::stop();
         } catch (\ExitException $e) {
             $this->assertSame($expected_code, $e->getCode());
         } catch (\Exception $e) {
@@ -289,7 +292,7 @@ class ActionTestCase extends TestCase
                 return;
             }
 
-            echo \StderrMock::$output;
+            echo StderrMock::$output;
             throw $e;
         }
     }

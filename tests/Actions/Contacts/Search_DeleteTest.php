@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_search_delete
  */
@@ -20,7 +22,7 @@ class Search_DeleteTest extends \ActionTestCase
 
         $_POST = ['_sid' => 'unknown'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -48,7 +50,7 @@ class Search_DeleteTest extends \ActionTestCase
 
         $_POST = ['_sid' => $sid];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_settings_folder_purge
  */
@@ -25,7 +27,7 @@ class FolderPurgeTest extends \ActionTestCase
 
         $_POST = ['_mbox' => 'Test'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -55,7 +57,7 @@ class FolderPurgeTest extends \ActionTestCase
 
         $_POST = ['_mbox' => 'Trash'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -83,7 +85,7 @@ class FolderPurgeTest extends \ActionTestCase
 
         $_POST = ['_mbox' => 'Test'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Mail;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_search
  */
@@ -37,7 +39,7 @@ class SearchTest extends \ActionTestCase
             ->registerFunction('count', 0)
             ->registerFunction('get_quota', false);
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -98,7 +100,7 @@ class SearchTest extends \ActionTestCase
             ->registerFunction('folder_data', [])
             ->registerFunction('get_quota', false);
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

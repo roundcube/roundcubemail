@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_settings_response_get
  */
@@ -33,7 +35,7 @@ class ResponseGetTest extends \ActionTestCase
 
         $_GET = ['_id' => $responses[0]['id'], '_is_html' => 1];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -50,7 +52,7 @@ class ResponseGetTest extends \ActionTestCase
 
         $_GET = ['_id' => 'unknown'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -62,7 +64,7 @@ class ResponseGetTest extends \ActionTestCase
 
         $_GET = ['_id' => $responses[2]['id'], '_is_html' => 0];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

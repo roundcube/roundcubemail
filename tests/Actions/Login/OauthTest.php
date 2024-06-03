@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Login;
 
+use Roundcube\Mail\Tests\StderrMock;
+
 /**
  * Test class to test rcmail_action_login_oauth
  */
@@ -22,7 +24,7 @@ class OauthTest extends \ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame("ERROR: Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'", trim(\StderrMock::$output));
+        $this->assertSame("ERROR: Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'", trim(StderrMock::$output));
         $this->assertNull($output->getOutput());
     }
 }

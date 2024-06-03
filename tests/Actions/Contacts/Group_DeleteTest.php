@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_group_delete
  */
@@ -21,7 +23,7 @@ class Group_DeleteTest extends \ActionTestCase
         // Invalid group id
         $_POST = ['_source' => '0', '_gid' => 'unknown'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -32,7 +34,7 @@ class Group_DeleteTest extends \ActionTestCase
         // Readonly addressbook
         $_POST = ['_source' => \rcube_addressbook::TYPE_RECIPIENT, '_name' => 'test'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -60,7 +62,7 @@ class Group_DeleteTest extends \ActionTestCase
 
         $_POST = ['_source' => '0', '_gid' => $gid];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

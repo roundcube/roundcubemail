@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_copy
  */
@@ -24,7 +26,7 @@ class CopyTest extends \ActionTestCase
             '_source' => '0',
         ];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -35,7 +37,7 @@ class CopyTest extends \ActionTestCase
         // target = source
         $_POST['_to'] = '0';
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -46,7 +48,7 @@ class CopyTest extends \ActionTestCase
         // target readonly
         $_POST['_to'] = \rcube_addressbook::TYPE_RECIPIENT;
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -61,7 +63,7 @@ class CopyTest extends \ActionTestCase
             '_to' => '0',
         ];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -93,7 +95,7 @@ class CopyTest extends \ActionTestCase
             '_to' => '0',
         ];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

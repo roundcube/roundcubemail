@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Mail;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_copy
  */
@@ -39,7 +41,7 @@ class CopyTest extends \ActionTestCase
             ->registerFunction('count', 30)
             ->registerFunction('get_quota', false);
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -70,7 +72,7 @@ class CopyTest extends \ActionTestCase
             ->registerFunction('get_error_code', -1)
             ->registerFunction('get_response_code', \rcube_storage::READONLY);
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

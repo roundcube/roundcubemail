@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Mail;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_attachment_upload
  */
@@ -27,7 +29,7 @@ class AttachmentUploadTest extends \ActionTestCase
         $_SESSION = ['compose_data_123' => ['test' => 'test']];
 
         // No files uploaded case
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -41,7 +43,7 @@ class AttachmentUploadTest extends \ActionTestCase
 
         $file = $this->fakeUpload('_attachments');
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -60,7 +62,7 @@ class AttachmentUploadTest extends \ActionTestCase
         $_SESSION = ['compose_data_123' => ['test' => 'test']];
         $file = $this->fakeUpload('_attachments', true, \UPLOAD_ERR_INI_SIZE);
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

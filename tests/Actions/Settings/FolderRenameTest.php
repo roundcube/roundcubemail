@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_settings_folder_rename
  */
@@ -26,7 +28,7 @@ class FolderRenameTest extends \ActionTestCase
 
         $_POST = ['_folder_oldname' => 'Test', '_folder_newname' => 'Test2'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -51,7 +53,7 @@ class FolderRenameTest extends \ActionTestCase
 
         $_POST = ['_folder_oldname' => 'Test', '_folder_newname' => 'Test2'];
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

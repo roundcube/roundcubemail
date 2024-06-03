@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\StderrMock;
+
 /**
  * Test class to test rcmail_action_contacts_export
  */
@@ -26,7 +28,7 @@ class ExportTest extends \ActionTestCase
         // Here we expect request security check error
         $this->runAndAssert($action, \OutputHtmlMock::E_EXIT);
 
-        $this->assertSame('ERROR: Request security check failed', trim(\StderrMock::$output));
+        $this->assertSame('ERROR: Request security check failed', trim(StderrMock::$output));
 
         // Now we'll try with the proper token
         $_SESSION['request_token'] = 'secure';

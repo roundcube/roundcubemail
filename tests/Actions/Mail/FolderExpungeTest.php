@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Mail;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_folder_expunge
  */
@@ -34,7 +36,7 @@ class FolderExpungeTest extends \ActionTestCase
             ->registerFunction('expunge_folder', true)
             ->registerFunction('get_quota', false);
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
@@ -97,7 +99,7 @@ class FolderExpungeTest extends \ActionTestCase
             ->registerFunction('get_error_code', -1)
             ->registerFunction('get_response_code', \rcube_storage::READONLY);
 
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

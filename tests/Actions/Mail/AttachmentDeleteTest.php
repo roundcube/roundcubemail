@@ -2,6 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Actions\Mail;
 
+use Roundcube\Mail\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_attachment_delete
  */
@@ -41,7 +43,7 @@ class AttachmentDeleteTest extends \ActionTestCase
 
         // Invoke the delete action
         $_POST = ['_id' => '101', '_file' => 'rcmfile' . $file['id']];
-        $this->runAndAssert($action, \OutputJsonMock::E_EXIT);
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 

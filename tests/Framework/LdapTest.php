@@ -3,6 +3,7 @@
 namespace Roundcube\Mail\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
+use Roundcube\Mail\Tests\StderrMock;
 
 /**
  * Test class to test rcube_ldap class
@@ -24,11 +25,11 @@ class LdapTest extends TestCase
             $this->markTestSkipped('The ldap extension is not available.');
         }
 
-        \StderrMock::start();
+        StderrMock::start();
         $object = new \rcube_ldap([]);
-        \StderrMock::stop();
+        StderrMock::stop();
 
         $this->assertInstanceOf('rcube_ldap', $object, 'Class constructor');
-        $this->assertSame('ERROR: Could not connect to any LDAP server', trim(\StderrMock::$output));
+        $this->assertSame('ERROR: Could not connect to any LDAP server', trim(StderrMock::$output));
     }
 }
