@@ -2,6 +2,7 @@
 
 namespace Roundcube\Mail\Tests\Rcmail;
 
+use Roundcube\Mail\Tests\ExitException;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
@@ -35,7 +36,7 @@ class RcmailTest extends \ActionTestCase
 
         try {
             $rcmail->action_handler();
-        } catch (\ExitException $e) {
+        } catch (ExitException $e) {
         }
 
         $result = $output->getOutput();
@@ -48,7 +49,7 @@ class RcmailTest extends \ActionTestCase
 
         try {
             $rcmail->action_handler();
-        } catch (\ExitException $e) {
+        } catch (ExitException $e) {
         }
 
         $result = $output->getOutput();

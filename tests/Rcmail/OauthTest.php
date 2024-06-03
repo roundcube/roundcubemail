@@ -5,6 +5,7 @@ namespace Roundcube\Mail\Tests\Rcmail;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Roundcube\Mail\Tests\ExitException;
 use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\StderrMock;
 
@@ -188,7 +189,7 @@ class OauthTest extends \ActionTestCase
             $oauth->login_redirect();
             $result = null;
             $ecode = null;
-        } catch (\ExitException $e) {
+        } catch (ExitException $e) {
             $result = $e->getMessage();
             $ecode = $e->getCode();
         }
