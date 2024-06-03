@@ -16,7 +16,7 @@ class DBTest extends TestCase
      */
     public function test_exec_script()
     {
-        $db = new \rcube_db_test_wrapper('test');
+        $db = new rcube_db_test_wrapper('test');
         $db->set_option('table_prefix', 'prefix_');
         $db->set_option('identifier_start', '`');
         $db->set_option('identifier_end', '`');
@@ -68,7 +68,7 @@ class DBTest extends TestCase
      */
     public function test_exec_script_schema_prefix()
     {
-        $db = new \rcube_db_test_wrapper('test');
+        $db = new rcube_db_test_wrapper('test');
         $db->set_option('table_prefix', 'prefix.');
         $db->set_option('identifier_start', '`');
         $db->set_option('identifier_end', '`');
@@ -120,7 +120,7 @@ class DBTest extends TestCase
      */
     public function test_query_parsing()
     {
-        $db = new \rcube_db_test_wrapper('test');
+        $db = new rcube_db_test_wrapper('test');
         $db->set_option('identifier_start', '`');
         $db->set_option('identifier_end', '`');
 
@@ -288,7 +288,7 @@ class rcube_db_test_wrapper extends \rcube_db
     #[\Override]
     public function db_connect($mode, $force = false)
     {
-        $this->dbh = new \rcube_db_test_dbh();
+        $this->dbh = new rcube_db_test_dbh();
     }
 
     #[\Override]

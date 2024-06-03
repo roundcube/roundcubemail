@@ -69,7 +69,7 @@ class ActionTestCase extends TestCase
             return $rcmail->output = new OutputJsonMock();
         }
 
-        $rcmail->output = new \OutputHtmlMock($task, $framed);
+        $rcmail->output = new OutputHtmlMock($task, $framed);
 
         if ($framed) {
             $rcmail->comm_path .= '&_framed=1';

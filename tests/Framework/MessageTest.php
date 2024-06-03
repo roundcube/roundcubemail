@@ -26,7 +26,7 @@ class MessageTest extends TestCase
      */
     public function test_tnef_decode()
     {
-        $message = new \rcube_message_test(123);
+        $message = new rcube_message_test(123);
         $part = new \rcube_message_part();
         $part->mime_id = '1';
 
@@ -63,7 +63,7 @@ class MessageTest extends TestCase
      */
     public function test_uu_decode()
     {
-        $message = new \rcube_message_test(123);
+        $message = new rcube_message_test(123);
         $part = new \rcube_message_part();
         $part->mime_id = '1';
 

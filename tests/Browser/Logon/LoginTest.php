@@ -4,6 +4,7 @@ namespace Roundcube\Mail\Tests\Browser\Logon;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Roundcube\Mail\Tests\Browser\Components\App;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class LoginTest extends TestCase
 {
