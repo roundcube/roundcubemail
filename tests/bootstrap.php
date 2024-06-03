@@ -6,6 +6,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Masterminds\HTML5;
+use Roundcube\Mail\Tests\ActionTestCase;
 
 /*
  +-----------------------------------------------------------------------+
@@ -51,7 +52,7 @@ require_once INSTALL_PATH . 'program/include/iniset.php';
 \rcmail::get_instance(0, 'test')->config->set('devel_mode', false);
 
 // Initialize database and environment
-\ActionTestCase::init();
+ActionTestCase::init();
 
 /**
  * Call protected/private method of a object.
