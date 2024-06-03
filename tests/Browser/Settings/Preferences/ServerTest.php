@@ -4,6 +4,7 @@ namespace Roundcube\Mail\Tests\Browser\Settings\Preferences;
 
 namespace Tests\Browser\Settings\Preferences;
 
+use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\App;
 use Tests\Browser\TestCase;
 
@@ -14,7 +15,7 @@ class ServerTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     public function testServer()
@@ -114,7 +115,7 @@ class ServerTest extends TestCase
         });
 
         // Assert the options have been saved in database properly
-        $prefs = \bootstrap::get_prefs();
+        $prefs = Bootstrap::get_prefs();
 
         foreach ($this->settings as $key => $value) {
             $this->assertSame($value, $prefs[$key]);

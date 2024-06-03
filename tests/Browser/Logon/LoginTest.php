@@ -4,6 +4,7 @@ namespace Roundcube\Mail\Tests\Browser\Logon;
 
 namespace Tests\Browser;
 
+use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\App;
 
 class LoginTest extends TestCase
@@ -13,8 +14,8 @@ class LoginTest extends TestCase
     {
         parent::setUp();
 
-        \bootstrap::init_db();
-        \bootstrap::init_imap(true);
+        Bootstrap::init_db();
+        Bootstrap::init_imap(true);
     }
 
     public function testLogin()

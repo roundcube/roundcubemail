@@ -4,6 +4,7 @@ namespace Roundcube\Mail\Tests\Browser\Settings;
 
 namespace Tests\Browser\Settings;
 
+use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\App;
 use Tests\Browser\TestCase;
 
@@ -12,8 +13,8 @@ class FoldersTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_imap(true);
-        \bootstrap::reset_mailboxes();
+        Bootstrap::init_imap(true);
+        Bootstrap::reset_mailboxes();
     }
 
     /**

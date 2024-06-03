@@ -39,7 +39,7 @@ define('TESTS_PASS', $rcmail->config->get('tests_password'));
 /**
  * Utilities for test environment setup
  */
-class bootstrap
+class Bootstrap
 {
     private static $imap_ready;
 

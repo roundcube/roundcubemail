@@ -4,6 +4,7 @@ namespace Roundcube\Mail\Tests\Browser\Contacts;
 
 namespace Tests\Browser\Contacts;
 
+use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\Dialog;
 use Tests\Browser\Components\Popupmenu;
 use Tests\Browser\TestCase;
@@ -13,7 +14,7 @@ class GroupsTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Roundcube\Mail\Tests\Browser\Mail;
 
 namespace Tests\Browser\Mail;
 
+use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\Popupmenu;
 use Tests\Browser\TestCase;
@@ -13,12 +14,12 @@ class PrintTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_imap(true);
-        \bootstrap::purge_mailbox('INBOX');
+        Bootstrap::init_imap(true);
+        Bootstrap::purge_mailbox('INBOX');
 
         // import email messages
         foreach (glob(TESTS_DIR . 'data/mail/list_00.eml') as $f) {
-            \bootstrap::import_message($f, 'INBOX');
+            Bootstrap::import_message($f, 'INBOX');
         }
     }
 

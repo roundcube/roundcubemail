@@ -5,6 +5,7 @@ namespace Roundcube\Mail\Tests\Browser\Mail;
 namespace Tests\Browser\Mail;
 
 use Facebook\WebDriver\WebDriverKeys;
+use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\HtmlEditor;
 use Tests\Browser\Components\RecipientInput;
@@ -15,7 +16,7 @@ class ComposeTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     public function testCompose()

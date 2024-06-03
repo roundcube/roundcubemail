@@ -4,6 +4,7 @@ namespace Roundcube\Mail\Tests\Browser\Contacts;
 
 namespace Tests\Browser\Contacts;
 
+use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\App;
 use Tests\Browser\TestCase;
 
@@ -12,7 +13,7 @@ class PrintTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     /**
