@@ -4,7 +4,7 @@ namespace Roundcube\Mail\Tests\Browser\Components;
 
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Component;
-use Tests\Browser\Browser;
+use Roundcube\Mail\Tests\Browser\Browser;
 
 class Dialog extends Component
 {

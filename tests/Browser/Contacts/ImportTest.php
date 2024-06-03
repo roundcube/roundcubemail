@@ -3,9 +3,9 @@
 namespace Roundcube\Mail\Tests\Browser\Contacts;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\Components\App;
-use Tests\Browser\Components\Dialog;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\Components\App;
+use Roundcube\Mail\Tests\Browser\Components\Dialog;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class ImportTest extends TestCase
 {

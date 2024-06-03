@@ -3,7 +3,7 @@
 namespace Roundcube\Mail\Tests\Browser\Logon;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\Components\App;
+use Roundcube\Mail\Tests\Browser\Components\App;
 
 class LoginTest extends TestCase
 {

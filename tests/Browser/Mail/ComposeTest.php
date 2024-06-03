@@ -4,10 +4,10 @@ namespace Roundcube\Mail\Tests\Browser\Mail;
 
 use Facebook\WebDriver\WebDriverKeys;
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\Components\App;
-use Tests\Browser\Components\HtmlEditor;
-use Tests\Browser\Components\RecipientInput;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\Components\App;
+use Roundcube\Mail\Tests\Browser\Components\HtmlEditor;
+use Roundcube\Mail\Tests\Browser\Components\RecipientInput;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class ComposeTest extends TestCase
 {

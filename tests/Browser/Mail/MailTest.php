@@ -2,9 +2,9 @@
 
 namespace Roundcube\Mail\Tests\Browser\Mail;
 
-use Tests\Browser\Components\App;
-use Tests\Browser\Components\Popupmenu;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\Components\App;
+use Roundcube\Mail\Tests\Browser\Components\Popupmenu;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class MailTest extends TestCase
 {

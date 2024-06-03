@@ -3,7 +3,7 @@
 namespace Roundcube\Mail\Tests\Browser\Contacts;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class ExportTest extends TestCase
 {

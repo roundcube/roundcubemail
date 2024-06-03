@@ -4,7 +4,7 @@ namespace Roundcube\Mail\Tests\Browser\Components;
 
 use Laravel\Dusk\Component;
 use PHPUnit\Framework\Assert;
-use Tests\Browser\Browser;
+use Roundcube\Mail\Tests\Browser\Browser;
 
 class RecipientInput extends Component
 {

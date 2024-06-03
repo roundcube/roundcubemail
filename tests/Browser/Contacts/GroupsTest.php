@@ -3,9 +3,9 @@
 namespace Roundcube\Mail\Tests\Browser\Contacts;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\Components\Dialog;
-use Tests\Browser\Components\Popupmenu;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\Components\Dialog;
+use Roundcube\Mail\Tests\Browser\Components\Popupmenu;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class GroupsTest extends TestCase
 {

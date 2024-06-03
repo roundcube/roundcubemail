@@ -2,8 +2,8 @@
 
 namespace Roundcube\Mail\Tests\Browser\Settings;
 
-use Tests\Browser\Components\App;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\Components\App;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class SettingsTest extends TestCase
 {

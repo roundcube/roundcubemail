@@ -3,8 +3,8 @@
 namespace Roundcube\Mail\Tests\Browser\Mail;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\Components\Toolbarmenu;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\Components\Toolbarmenu;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class ListTest extends TestCase
 {

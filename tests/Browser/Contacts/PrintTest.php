@@ -3,8 +3,8 @@
 namespace Roundcube\Mail\Tests\Browser\Contacts;
 
 use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Tests\Browser\Components\App;
-use Tests\Browser\TestCase;
+use Roundcube\Mail\Tests\Browser\Components\App;
+use Roundcube\Mail\Tests\Browser\TestCase;
 
 class PrintTest extends TestCase
 {

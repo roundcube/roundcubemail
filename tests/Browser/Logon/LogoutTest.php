@@ -2,7 +2,7 @@
 
 namespace Roundcube\Mail\Tests\Browser\Logon;
 
-use Tests\Browser\Components\App;
+use Roundcube\Mail\Tests\Browser\Components\App;
 
 class LogoutTest extends TestCase
 {
