@@ -4,6 +4,8 @@ namespace Roundcube\Mail\Plugins\Tests;
 
 use Roundcube\Mail\Tests\ActionTestCase;
 
+use function Roundcube\Mail\Tests\setProperty;
+
 class ManagesieveForwardTest extends ActionTestCase
 {
     /**

@@ -4,6 +4,8 @@ namespace Roundcube\Mail\Plugins\Tests;
 
 use PHPUnit\Framework\TestCase;
 
+use function Roundcube\Mail\Tests\invokeMethod;
+
 class VcardAttachmentsTest extends TestCase
 {
     /**

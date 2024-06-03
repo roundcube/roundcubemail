@@ -4,6 +4,8 @@ namespace Roundcube\Mail\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
 
+use function Roundcube\Mail\Tests\invokeMethod;
+
 /**
  * Test class to test rcube_imap class
  */

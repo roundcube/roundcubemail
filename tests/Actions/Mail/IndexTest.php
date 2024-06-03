@@ -4,6 +4,8 @@ namespace Roundcube\Mail\Tests\Actions\Mail;
 
 use Roundcube\Mail\Tests\ActionTestCase;
 
+use function Roundcube\Mail\Tests\setProperty;
+
 /**
  * Test class to test rcmail_action_mail_index
  */

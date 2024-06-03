@@ -5,6 +5,8 @@ namespace Roundcube\Mail\Tests\Actions\Utils;
 use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputHtmlMock;
 
+use function Roundcube\Mail\Tests\setHttpClientMock;
+
 /**
  * Test class to test rcmail_action_utils_modcss
  */

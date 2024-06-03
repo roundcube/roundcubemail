@@ -10,6 +10,9 @@ use Roundcube\Mail\Tests\ExitException;
 use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\StderrMock;
 
+use function Roundcube\Mail\Tests\getProperty;
+use function Roundcube\Mail\Tests\setProperty;
+
 /**
  * Test class to test rcmail_oauth class
  */
