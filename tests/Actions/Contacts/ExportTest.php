@@ -2,13 +2,14 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\StderrMock;
 
 /**
  * Test class to test rcmail_action_contacts_export
  */
-class ExportTest extends \ActionTestCase
+class ExportTest extends ActionTestCase
 {
     /**
      * Test exporting all contacts

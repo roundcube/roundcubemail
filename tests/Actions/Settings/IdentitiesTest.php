@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputHtmlMock;
 
 /**
  * Test class to test rcmail_action_settings_identities
  */
-class IdentitiesTest extends \ActionTestCase
+class IdentitiesTest extends ActionTestCase
 {
     /**
      * Test run() method

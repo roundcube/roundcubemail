@@ -5,6 +5,7 @@ namespace Roundcube\Mail\Tests\Rcmail;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\ExitException;
 use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\StderrMock;
@@ -12,7 +13,7 @@ use Roundcube\Mail\Tests\StderrMock;
 /**
  * Test class to test rcmail_oauth class
  */
-class OauthTest extends \ActionTestCase
+class OauthTest extends ActionTestCase
 {
     // created a valid and enabled oauth instance
     private $config = [

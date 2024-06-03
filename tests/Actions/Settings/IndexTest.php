@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_action_settings_index
  */
-class IndexTest extends \ActionTestCase
+class IndexTest extends ActionTestCase
 {
     /**
      * Test run() method

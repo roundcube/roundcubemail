@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_contacts_move
  */
-class MoveTest extends \ActionTestCase
+class MoveTest extends ActionTestCase
 {
     /**
      * Test moving of a single contact

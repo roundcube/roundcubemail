@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Actions\Mail;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_action_mail_viewsource
  */
-class ViewsourceTest extends \ActionTestCase
+class ViewsourceTest extends ActionTestCase
 {
     /**
      * Class constructor

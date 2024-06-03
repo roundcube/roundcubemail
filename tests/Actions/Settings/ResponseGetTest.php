@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_settings_response_get
  */
-class ResponseGetTest extends \ActionTestCase
+class ResponseGetTest extends ActionTestCase
 {
     /**
      * Fetching a response

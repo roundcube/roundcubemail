@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_action_settings_identity_save
  */
-class IdentitySaveTest extends \ActionTestCase
+class IdentitySaveTest extends ActionTestCase
 {
     /**
      * Test run() method

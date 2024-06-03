@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_contacts_group_rename
  */
-class Group_RenameTest extends \ActionTestCase
+class Group_RenameTest extends ActionTestCase
 {
     /**
      * Test error handling

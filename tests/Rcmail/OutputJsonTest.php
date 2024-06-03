@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Rcmail;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_output_json class
  */
-class OutputJsonTest extends \ActionTestCase
+class OutputJsonTest extends ActionTestCase
 {
     /**
      * Test show_message() method

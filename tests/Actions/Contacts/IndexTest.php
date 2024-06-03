@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_action_contacts_index
  */
-class IndexTest extends \ActionTestCase
+class IndexTest extends ActionTestCase
 {
     /**
      * Test run() method in HTTP mode

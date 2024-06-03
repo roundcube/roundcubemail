@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Rcmail;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_utils class
  */
-class UtilsTest extends \ActionTestCase
+class UtilsTest extends ActionTestCase
 {
     /**
      * Test for db() method

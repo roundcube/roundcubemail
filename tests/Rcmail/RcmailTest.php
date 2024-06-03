@@ -2,13 +2,14 @@
 
 namespace Roundcube\Mail\Tests\Rcmail;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\ExitException;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail class
  */
-class RcmailTest extends \ActionTestCase
+class RcmailTest extends ActionTestCase
 {
     #[\Override]
     protected function setUp(): void

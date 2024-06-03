@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Mail;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_mail_attachment_rename
  */
-class AttachmentRenameTest extends \ActionTestCase
+class AttachmentRenameTest extends ActionTestCase
 {
     /**
      * Test uploaded attachment rename

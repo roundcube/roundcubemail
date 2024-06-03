@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Rcmail;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_sendmail class
  */
-class SendmailTest extends \ActionTestCase
+class SendmailTest extends ActionTestCase
 {
     /**
      * Test rcmail_sendmail::headers_input()

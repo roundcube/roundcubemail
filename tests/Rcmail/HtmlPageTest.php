@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Rcmail;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_html_page class
  */
-class HtmlPageTest extends \ActionTestCase
+class HtmlPageTest extends ActionTestCase
 {
     /**
      * Test html page output

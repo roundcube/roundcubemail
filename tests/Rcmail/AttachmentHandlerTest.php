@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Rcmail;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_attachment_handler class
  */
-class AttachmentHandlerTest extends \ActionTestCase
+class AttachmentHandlerTest extends ActionTestCase
 {
     /**
      * Test rcmail_action::svg_filter()

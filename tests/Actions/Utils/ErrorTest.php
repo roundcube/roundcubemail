@@ -2,13 +2,14 @@
 
 namespace Roundcube\Mail\Tests\Actions\Utils;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_utils_error
  */
-class ErrorTest extends \ActionTestCase
+class ErrorTest extends ActionTestCase
 {
     /**
      * Test run() method in HTTP mode

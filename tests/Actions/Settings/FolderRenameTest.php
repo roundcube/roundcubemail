@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_settings_folder_rename
  */
-class FolderRenameTest extends \ActionTestCase
+class FolderRenameTest extends ActionTestCase
 {
     /**
      * Test renaming a folder

@@ -2,13 +2,14 @@
 
 namespace Roundcube\Mail\Tests\Actions\Contacts;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputHtmlMock;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_contacts_search
  */
-class SearchTest extends \ActionTestCase
+class SearchTest extends ActionTestCase
 {
     /**
      * Test search form request

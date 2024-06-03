@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_settings_folder_size
  */
-class FolderSizeTest extends \ActionTestCase
+class FolderSizeTest extends ActionTestCase
 {
     /**
      * Test getting a folder size

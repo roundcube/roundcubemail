@@ -2,10 +2,12 @@
 
 namespace Roundcube\Mail\Tests\Framework;
 
+use Roundcube\Mail\Tests\ActionTestCase;
+
 /**
  * Test class to test rcube_user class
  */
-class UserTest extends \ActionTestCase
+class UserTest extends ActionTestCase
 {
     /**
      * Test class constructor

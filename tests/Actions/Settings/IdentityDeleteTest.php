@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_settings_identity_delete
  */
-class IdentityDeleteTest extends \ActionTestCase
+class IdentityDeleteTest extends ActionTestCase
 {
     /**
      * Test deleting an identity

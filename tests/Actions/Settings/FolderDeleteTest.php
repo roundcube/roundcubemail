@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_settings_folder_delete
  */
-class FolderDeleteTest extends \ActionTestCase
+class FolderDeleteTest extends ActionTestCase
 {
     /**
      * Test deleting a folder

@@ -2,12 +2,13 @@
 
 namespace Roundcube\Mail\Tests\Actions\Settings;
 
+use Roundcube\Mail\Tests\ActionTestCase;
 use Roundcube\Mail\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_settings_upload
  */
-class UploadTest extends \ActionTestCase
+class UploadTest extends ActionTestCase
 {
     /**
      * Test file uploads
