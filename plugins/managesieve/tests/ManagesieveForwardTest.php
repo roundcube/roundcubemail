@@ -2,7 +2,9 @@
 
 namespace Roundcube\Mail\Plugins\Tests;
 
-class ManagesieveForwardTest extends \ActionTestCase
+use Roundcube\Mail\Tests\ActionTestCase;
+
+class ManagesieveForwardTest extends ActionTestCase
 {
     /**
      * Test vacation_form()

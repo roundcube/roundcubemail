@@ -2,7 +2,9 @@
 
 namespace Roundcube\Mail\Plugins\Tests;
 
-class AdditionalMessageHeadersTest extends \ActionTestCase
+use Roundcube\Mail\Tests\ActionTestCase;
+
+class AdditionalMessageHeadersTest extends ActionTestCase
 {
     /**
      * Test the plugin

@@ -2,7 +2,9 @@
 
 namespace Roundcube\Mail\Plugins\Tests;
 
-class SubscriptionsOptionTest extends \ActionTestCase
+use Roundcube\Mail\Tests\ActionTestCase;
+
+class SubscriptionsOptionTest extends ActionTestCase
 {
     /**
      * Plugin object construction test

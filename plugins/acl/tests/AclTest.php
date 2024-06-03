@@ -2,7 +2,9 @@
 
 namespace Roundcube\Mail\Plugins\Tests;
 
-class AclTest extends \ActionTestCase
+use Roundcube\Mail\Tests\ActionTestCase;
+
+class AclTest extends ActionTestCase
 {
     /**
      * Plugin object construction test

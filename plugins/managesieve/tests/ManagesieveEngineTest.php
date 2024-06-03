@@ -2,7 +2,9 @@
 
 namespace Roundcube\Mail\Plugins\Tests;
 
-class ManagesieveEngineTest extends \ActionTestCase
+use Roundcube\Mail\Tests\ActionTestCase;
+
+class ManagesieveEngineTest extends ActionTestCase
 {
     /**
      * Test filter_form()
