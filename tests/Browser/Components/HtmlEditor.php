@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Components;
+namespace Roundcube\Mail\Tests\Browser\Components;
 
 use Laravel\Dusk\Component;
 use Tests\Browser\Browser;

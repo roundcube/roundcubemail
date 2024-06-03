@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Roundcube\Mail\Tests\Browser;
 
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\StaleElementReferenceException;

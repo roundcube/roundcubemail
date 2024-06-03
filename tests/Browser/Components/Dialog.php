@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Components;
+namespace Roundcube\Mail\Tests\Browser\Components;
 
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Component;
