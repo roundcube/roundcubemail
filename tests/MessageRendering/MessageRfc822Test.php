@@ -7,19 +7,28 @@ namespace Tests\MessageRendering;
  */
 class MessageRfc822Test extends MessageRenderingTestCase
 {
-    public function testRfc822Part()
+    public function testRfc822Part(): void
     {
-        $domxpath = $this->runAndGetHtmlOutputDomxpath('4052c2097de93825c1be040270d98e47@example.net');
+        $domxpath = $this->renderMessage('4052c2097de93825c1be040270d98e47@example.net');
         $this->assertSame('Fwd: Lines', $this->getScrubbedSubject($domxpath));
 
         $parts = $domxpath->query('//div[@id="messagebody"]/div');
-        $this->assertCount(3, $parts);
-        $this->assertSame('message-part', $parts[0]->attributes->getNamedItem('class')->textContent);
-        $this->assertSame('Check the forwarded message', $parts[0]->textContent);
-        $this->assertSame('message-part', $parts[2]->attributes->getNamedItem('class')->textContent);
-        $this->assertStringStartsWith('Plain text message body.', $parts[2]->textContent);
+        $this->assertCount(5, $parts);
+        $this->assertSame('message-prefix', $parts[0]->attributes->getNamedItem('class')->textContent);
+        $this->assertEmpty($parts[0]->textContent);
+        $this->assertSame('message-part', $parts[1]->attributes->getNamedItem('class')->textContent);
+        $this->assertSame('Loading data...', $parts[1]->textContent);
+        $this->assertSame('message-partheaders', $parts[2]->attributes->getNamedItem('class')->textContent);
+        // The content of this part is tested in more detail below.
+        $this->assertNotEmpty($parts[2]->textContent);
+        $this->assertSame('message-prefix', $parts[3]->attributes->getNamedItem('class')->textContent);
+        $this->assertEmpty($parts[3]->textContent);
+        $this->assertSame('message-part', $parts[4]->attributes->getNamedItem('class')->textContent);
+        $this->assertSame('Loading data...', $parts[4]->textContent);
 
-        $this->assertSame('message-partheaders', $parts[1]->attributes->getNamedItem('class')->textContent);
+        $contentParts = $domxpath->query('//iframe[contains(@class, "framed-message-part")]');
+        $this->assertIframedContent($contentParts[0], '1', 'Check the forwarded message');
+        $this->assertIframedContent($contentParts[1], '2.1', "Plain text message body.\n\n--\u{00A0}\nDeveloper of Free Software\nSent with Roundcube Webmail - roundcube.net");
 
         $msgRfc822Subject = $domxpath->query('//div[@class="message-partheaders"]//td[@class="header subject"]');
         $this->assertCount(1, $msgRfc822Subject);

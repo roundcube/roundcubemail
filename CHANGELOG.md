@@ -83,6 +83,7 @@
 - Fix removing/expiring redis/memcache records when using a key prefix
 - Fix bug where a wrong SPECIAL-USE folder could have been detected, if there were more than one per-type (#9781)
 - Fix a default value and documentation of password_ldap_encodage option (#9658)
+- Render all email content parts in an individual iframe to mitigate scripting, redressing, and other attacks. (#9519)
 
 ## Release 1.6.10
 
@@ -100,6 +101,7 @@
 - Fix handling of binary mail parts (e.g. PDF) encoded with quoted-printable (#9728)
 - Fix links in comments and config to https:// where available (#9759, #9756)
 - Fix decoding of attachment names encoded using both RFC2231 and RFC2047 standards (#9725)
+- Clear "list is empty" message on loading a new list. Previously that message was still visible until the new list was fully loaded, which (if loading was slow) could give the impression that the newly loading is list empty, too. (#9006)
 
 ## Release 1.6.9
 
