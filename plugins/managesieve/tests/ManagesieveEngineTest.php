@@ -1,6 +1,8 @@
 <?php
 
-class Managesieve_Engine extends \ActionTestCase
+namespace Roundcube\Mail\Plugins\Tests;
+
+class ManagesieveEngineTest extends \ActionTestCase
 {
     /**
      * Test filter_form()

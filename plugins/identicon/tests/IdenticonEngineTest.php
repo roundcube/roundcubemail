@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Identicon_IdenticonEngine extends TestCase
+class IdenticonEngineTest extends TestCase
 {
     /**
      * Test icon generation

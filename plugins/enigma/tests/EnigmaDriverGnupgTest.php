@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Enigma_EnigmaDriverGnupg extends TestCase
+class EnigmaDriverGnupgTest extends TestCase
 {
     /**
      * Test constructor

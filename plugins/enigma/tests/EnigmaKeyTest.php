@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Enigma_EnigmaKey extends TestCase
+class EnigmaKeyTest extends TestCase
 {
     /**
      * Test "empty" key

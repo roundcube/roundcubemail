@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Enigma_EnigmaMimeMessage extends TestCase
+class EnigmaMimeMessageTest extends TestCase
 {
     /**
      * Test isMultipart()

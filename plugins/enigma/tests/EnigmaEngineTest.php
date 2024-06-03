@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Enigma_EnigmaEngine extends TestCase
+class EnigmaEngineTest extends TestCase
 {
     /**
      * Test password_handler()

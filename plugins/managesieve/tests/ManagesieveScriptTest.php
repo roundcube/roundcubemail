@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Managesieve_Script extends TestCase
+class ManagesieveScriptTest extends TestCase
 {
     /**
      * Sieve script parsing

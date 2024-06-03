@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Enigma_EnigmaSignature extends TestCase
+class EnigmaSignatureTest extends TestCase
 {
     /**
      * Test constructor
