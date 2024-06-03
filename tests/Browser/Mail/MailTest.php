@@ -2,8 +2,6 @@
 
 namespace Roundcube\Mail\Tests\Browser\Mail;
 
-namespace Tests\Browser\Mail;
-
 use Tests\Browser\Components\App;
 use Tests\Browser\Components\Popupmenu;
 use Tests\Browser\TestCase;

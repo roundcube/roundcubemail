@@ -2,8 +2,6 @@
 
 namespace Roundcube\Mail\Tests\Browser\Contacts;
 
-namespace Tests\Browser\Contacts;
-
 use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\Dialog;
 use Tests\Browser\Components\Popupmenu;

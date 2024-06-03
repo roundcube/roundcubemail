@@ -2,8 +2,6 @@
 
 namespace Roundcube\Mail\Tests\Browser\Logon;
 
-namespace Tests\Browser;
-
 use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\App;
 

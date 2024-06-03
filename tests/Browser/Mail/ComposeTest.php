@@ -2,8 +2,6 @@
 
 namespace Roundcube\Mail\Tests\Browser\Mail;
 
-namespace Tests\Browser\Mail;
-
 use Facebook\WebDriver\WebDriverKeys;
 use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\App;
