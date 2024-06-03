@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Plugins\Zipdownload;
 
+use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\Popupmenu;
 use Tests\Browser\TestCase;
 
@@ -10,12 +11,12 @@ class MailTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_imap();
-        \bootstrap::purge_mailbox('INBOX');
+        Bootstrap::init_imap();
+        Bootstrap::purge_mailbox('INBOX');
 
         // import single email messages
         foreach (glob(TESTS_DIR . 'data/mail/list_0?.eml') as $f) {
-            \bootstrap::import_message($f, 'INBOX');
+            Bootstrap::import_message($f, 'INBOX');
         }
     }
 

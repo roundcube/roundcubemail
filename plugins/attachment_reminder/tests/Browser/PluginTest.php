@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Plugins\AttachmentReminder;
 
+use Roundcube\Mail\Tests\Browser\Bootstrap;
 use Tests\Browser\Components\Dialog;
 use Tests\Browser\TestCase;
 
@@ -10,7 +11,7 @@ class PluginTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     /**
