@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Mail\Tests\Browser;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Mail\Tests;
+
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
