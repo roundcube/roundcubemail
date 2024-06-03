@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Autologout_Plugin extends TestCase
+class AutologoutTest extends TestCase
 {
     /**
      * Plugin object construction test

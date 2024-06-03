@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class DebugLogger_Plugin extends TestCase
+class DebugLoggerTest extends TestCase
 {
     /**
      * Plugin object construction test

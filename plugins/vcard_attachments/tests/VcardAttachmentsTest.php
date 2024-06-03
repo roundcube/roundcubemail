@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class VcardAttachments_Plugin extends TestCase
+class VcardAttachmentsTest extends TestCase
 {
     /**
      * Plugin object construction test

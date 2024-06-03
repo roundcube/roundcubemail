@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class AttachmentReminder_Plugin extends TestCase
+class AttachmentReminderTest extends TestCase
 {
     /**
      * Plugin object construction test

@@ -1,6 +1,8 @@
 <?php
 
-class AdditionalMessageHeaders_Plugin extends \ActionTestCase
+namespace Roundcube\Mail\Plugins\Tests;
+
+class AdditionalMessageHeadersTest extends \ActionTestCase
 {
     /**
      * Test the plugin

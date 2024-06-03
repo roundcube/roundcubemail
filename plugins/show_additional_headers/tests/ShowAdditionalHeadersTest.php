@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class ShowAdditionalHeaders_Plugin extends TestCase
+class ShowAdditionalHeadersTest extends TestCase
 {
     /**
      * Plugin object construction test

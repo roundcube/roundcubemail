@@ -1,6 +1,8 @@
 <?php
 
-class SubscriptionsOption_Plugin extends \ActionTestCase
+namespace Roundcube\Mail\Plugins\Tests;
+
+class SubscriptionsOptionTest extends \ActionTestCase
 {
     /**
      * Plugin object construction test

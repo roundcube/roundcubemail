@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class DatabaseAttachments_Plugin extends TestCase
+class DatabaseAttachmentsTest extends TestCase
 {
     /**
      * Plugin object construction test

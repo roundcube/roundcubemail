@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class HideBlockquote_Plugin extends TestCase
+class HideBlockquoteTest extends TestCase
 {
     /**
      * Plugin object construction test

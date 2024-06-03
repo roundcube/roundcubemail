@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class VirtuserQuery_Plugin extends TestCase
+class VirtuserQueryTest extends TestCase
 {
     /**
      * Plugin object construction test

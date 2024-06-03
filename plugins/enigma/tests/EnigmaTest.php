@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Enigma_Plugin extends TestCase
+class EnigmaTest extends TestCase
 {
     /**
      * Plugin object construction test

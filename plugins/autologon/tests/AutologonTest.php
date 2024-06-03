@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Autologon_Plugin extends TestCase
+class AutologonTest extends TestCase
 {
     /**
      * Plugin object construction test

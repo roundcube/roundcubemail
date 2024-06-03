@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Jqueryui_Plugin extends TestCase
+class JqueryuiTest extends TestCase
 {
     /**
      * Plugin object construction test

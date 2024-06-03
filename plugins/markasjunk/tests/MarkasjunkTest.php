@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Markasjunk_Plugin extends TestCase
+class MarkasjunkTest extends TestCase
 {
     /**
      * Plugin object construction test

@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Password_Plugin extends TestCase
+class PasswordTest extends TestCase
 {
     /**
      * Plugin object construction test

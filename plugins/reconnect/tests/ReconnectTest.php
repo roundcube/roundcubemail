@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Reconnect_Plugin extends TestCase
+class ReconnectTest extends TestCase
 {
     /**
      * Plugin object construction test

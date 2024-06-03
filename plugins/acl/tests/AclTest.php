@@ -1,6 +1,8 @@
 <?php
 
-class Acl_Plugin extends \ActionTestCase
+namespace Roundcube\Mail\Plugins\Tests;
+
+class AclTest extends \ActionTestCase
 {
     /**
      * Plugin object construction test

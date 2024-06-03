@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Zipdownload_Plugin extends TestCase
+class ZipdownloadTest extends TestCase
 {
     /**
      * Plugin object construction test

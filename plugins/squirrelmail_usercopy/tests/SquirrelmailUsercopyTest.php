@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class SquirrelmailUsercopy_Plugin extends TestCase
+class SquirrelmailUsercopyTest extends TestCase
 {
     /**
      * Plugin object construction test

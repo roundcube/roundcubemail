@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Managesieve_Plugin extends TestCase
+class ManagesieveTest extends TestCase
 {
     /**
      * Plugin object construction test

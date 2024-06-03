@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Mail\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Emoticons_Plugin extends TestCase
+class EmoticonsTest extends TestCase
 {
     /**
      * Plugin object construction test
