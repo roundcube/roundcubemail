@@ -248,15 +248,6 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 } else {
                     // render HTML body
                     $out = $attachment->html();
-
-                    // insert remote objects warning into HTML body
-                    if (self::$REMOTE_OBJECTS) {
-                        $rcmail->output->register_inline_warning(
-                            $rcmail->gettext('blockedresources'),
-                            $rcmail->gettext('allow'),
-                            $rcmail->url(array_merge($_GET, ['_safe' => 1]))
-                        );
-                    }
                 }
 
                 $rcmail->output->write($out);
