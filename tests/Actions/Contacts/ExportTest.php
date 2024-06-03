@@ -19,7 +19,7 @@ class ExportTest extends ActionTestCase
         $action = new \rcmail_action_contacts_export();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'export');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');

@@ -19,6 +19,6 @@ class DBMysqlTest extends TestCase
     {
         $object = new \rcube_db_mysql('test');
 
-        $this->assertInstanceOf('rcube_db_mysql', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_db_mysql::class, $object, 'Class constructor');
     }
 }

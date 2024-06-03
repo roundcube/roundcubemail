@@ -16,7 +16,7 @@ class ResultIndexTest extends TestCase
     {
         $object = new \rcube_result_index();
 
-        $this->assertInstanceOf('rcube_result_index', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_result_index::class, $object, 'Class constructor');
     }
 
     /**

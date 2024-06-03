@@ -16,7 +16,7 @@ class RcubeTest extends TestCase
     {
         $object = \rcube::get_instance();
 
-        $this->assertInstanceOf('rcube', $object, 'Class singleton');
+        $this->assertInstanceOf(\rcube::class, $object, 'Class singleton');
     }
 
     /**

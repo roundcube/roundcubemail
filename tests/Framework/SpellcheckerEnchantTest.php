@@ -16,8 +16,8 @@ class SpellcheckerEnchantTest extends TestCase
     {
         $object = new \rcube_spellchecker_enchant(null, 'en');
 
-        $this->assertInstanceOf('rcube_spellchecker_enchant', $object, 'Class constructor');
-        $this->assertInstanceOf('rcube_spellchecker_engine', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_spellchecker_enchant::class, $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_spellchecker_engine::class, $object, 'Class constructor');
     }
 
     /**

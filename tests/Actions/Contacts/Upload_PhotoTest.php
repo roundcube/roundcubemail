@@ -18,7 +18,7 @@ class Upload_PhotoTest extends ActionTestCase
         $action = new \rcmail_action_contacts_upload_photo();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'upload-photo');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_SERVER['REQUEST_METHOD'] = 'POST';

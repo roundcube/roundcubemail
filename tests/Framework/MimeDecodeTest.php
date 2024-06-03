@@ -20,7 +20,7 @@ class MimeDecodeTest extends TestCase
 
         $result = $decoder->decode($mail);
 
-        $this->assertInstanceOf('rcube_message_part', $result);
+        $this->assertInstanceOf(\rcube_message_part::class, $result);
         $this->assertSame('multipart/mixed', $result->mimetype);
         $this->assertSame('=_8853bfb47b7da1852ac882e69cc724f3', $result->ctype_parameters['boundary']);
         $this->assertSame('8bit', $result->encoding);

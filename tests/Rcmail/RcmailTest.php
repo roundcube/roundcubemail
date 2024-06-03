@@ -70,7 +70,7 @@ class RcmailTest extends ActionTestCase
 
         $result = $rcmail->get_address_book(0);
 
-        $this->assertInstanceOf('rcube_contacts', $result);
+        $this->assertInstanceOf(\rcube_contacts::class, $result);
 
         $source_id = $rcmail->get_address_book_id($result);
 

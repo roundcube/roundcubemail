@@ -21,7 +21,7 @@ class Html2textTest extends ActionTestCase
 
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'utils', 'html2text');
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
         $this->assertTrue($object->checks());
 
         $this->runAndAssert($object, OutputHtmlMock::E_EXIT);

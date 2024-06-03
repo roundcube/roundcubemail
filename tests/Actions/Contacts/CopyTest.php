@@ -18,7 +18,7 @@ class CopyTest extends ActionTestCase
         $action = new \rcmail_action_contacts_copy();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'copy');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Missing target addressbook

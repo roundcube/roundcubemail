@@ -16,6 +16,6 @@ class UploadDisplayTest extends ActionTestCase
     {
         $object = new \rcmail_action_settings_upload_display();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 }

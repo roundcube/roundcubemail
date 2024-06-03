@@ -16,7 +16,7 @@ class BaseReplacerTest extends TestCase
     {
         $object = new \rcube_base_replacer('test');
 
-        $this->assertInstanceOf('rcube_base_replacer', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_base_replacer::class, $object, 'Class constructor');
     }
 
     /**

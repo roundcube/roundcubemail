@@ -19,7 +19,7 @@ class ErrorTest extends ActionTestCase
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', 'test');
         $action = new \rcmail_action_utils_error();
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Default error
@@ -47,7 +47,7 @@ class ErrorTest extends ActionTestCase
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'compose');
         $action = new \rcmail_action_utils_error();
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Default error

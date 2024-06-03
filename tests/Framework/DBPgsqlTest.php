@@ -21,7 +21,7 @@ class DBPgsqlTest extends TestCase
     {
         $object = new \rcube_db_pgsql('test');
 
-        $this->assertInstanceOf('rcube_db_pgsql', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_db_pgsql::class, $object, 'Class constructor');
     }
 
     /**

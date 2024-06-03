@@ -16,6 +16,6 @@ class ImapSearchTest extends TestCase
     {
         $object = new \rcube_imap_search([], true);
 
-        $this->assertInstanceOf('rcube_imap_search', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_imap_search::class, $object, 'Class constructor');
     }
 }

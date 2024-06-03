@@ -18,7 +18,7 @@ class FolderDeleteTest extends ActionTestCase
         $action = new \rcmail_action_settings_folder_delete();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-delete');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results

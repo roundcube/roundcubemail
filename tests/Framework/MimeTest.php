@@ -324,7 +324,7 @@ class MimeTest extends TestCase
         $file = file_get_contents(__DIR__ . '/../src/html.msg');
         $result = \rcube_mime::parse_message($file);
 
-        $this->assertInstanceOf('rcube_message_part', $result);
+        $this->assertInstanceOf(\rcube_message_part::class, $result);
         $this->assertSame('multipart/alternative', $result->mimetype);
         $this->assertSame('1.0', $result->headers['mime-version']);
         $this->assertSame('=_68eeaf4ab95b5312965e45c33362338e', $result->ctype_parameters['boundary']);

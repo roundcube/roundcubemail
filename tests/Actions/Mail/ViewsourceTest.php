@@ -16,6 +16,6 @@ class ViewsourceTest extends ActionTestCase
     {
         $object = new \rcmail_action_mail_viewsource();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 }

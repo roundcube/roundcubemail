@@ -17,7 +17,7 @@ class CopyTest extends ActionTestCase
     {
         $object = new \rcmail_action_mail_copy();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 
     /**

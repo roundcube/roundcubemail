@@ -16,6 +16,6 @@ class AddcontactTest extends ActionTestCase
     {
         $object = new \rcmail_action_mail_addcontact();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 }

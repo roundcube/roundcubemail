@@ -18,7 +18,7 @@ class FolderPurgeTest extends ActionTestCase
         $action = new \rcmail_action_settings_folder_purge();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
@@ -48,7 +48,7 @@ class FolderPurgeTest extends ActionTestCase
         $action = new \rcmail_action_settings_folder_purge();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results

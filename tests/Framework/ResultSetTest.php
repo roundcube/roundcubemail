@@ -16,6 +16,6 @@ class ResultSetTest extends TestCase
     {
         $object = new \rcube_result_set();
 
-        $this->assertInstanceOf('rcube_result_set', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_result_set::class, $object, 'Class constructor');
     }
 }

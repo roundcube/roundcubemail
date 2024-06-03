@@ -19,7 +19,7 @@ class IndexTest extends ActionTestCase
         $action = new \rcmail_action_mail_index();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_GET = ['_uid' => 10];
@@ -318,7 +318,7 @@ class IndexTest extends ActionTestCase
     {
         $object = new \rcmail_action_mail_index();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 
     /**

@@ -16,7 +16,7 @@ class ContactsTest extends TestCase
     {
         $object = new \rcube_contacts(\rcube::get_instance()->get_dbh(), null);
 
-        $this->assertInstanceOf('rcube_contacts', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_contacts::class, $object, 'Class constructor');
     }
 
     /**

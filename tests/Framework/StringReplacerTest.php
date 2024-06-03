@@ -16,7 +16,7 @@ class StringReplacerTest extends TestCase
     {
         $sr = new \rcube_string_replacer();
 
-        $this->assertInstanceOf('rcube_string_replacer', $sr, 'Class constructor');
+        $this->assertInstanceOf(\rcube_string_replacer::class, $sr, 'Class constructor');
     }
 
     /**

@@ -18,7 +18,7 @@ class MoveTest extends ActionTestCase
         $action = new \rcmail_action_contacts_move();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'move');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');

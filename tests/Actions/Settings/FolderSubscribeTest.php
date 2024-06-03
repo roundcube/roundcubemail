@@ -18,7 +18,7 @@ class FolderSubscribeTest extends ActionTestCase
         $action = new \rcmail_action_settings_folder_subscribe();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-subscribe');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results

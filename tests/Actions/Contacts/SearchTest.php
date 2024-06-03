@@ -19,7 +19,7 @@ class SearchTest extends ActionTestCase
         $action = new \rcmail_action_contacts_search();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'search');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_GET = ['_form' => 1];

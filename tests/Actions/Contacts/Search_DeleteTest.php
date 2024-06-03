@@ -18,7 +18,7 @@ class Search_DeleteTest extends ActionTestCase
         $action = new \rcmail_action_contacts_search_delete();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'search-delete');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_POST = ['_sid' => 'unknown'];

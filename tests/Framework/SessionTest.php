@@ -22,7 +22,7 @@ class SessionTest extends TestCase
 
         $session = \rcube_session::factory($rcube->config);
 
-        $this->assertInstanceOf('rcube_session_php', $session);
+        $this->assertInstanceOf(\rcube_session_php::class, $session);
 
         // This method should not do any harm, just call it and expect no errors
         $session->reload();

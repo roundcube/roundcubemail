@@ -18,7 +18,7 @@ class ImapTest extends TestCase
     {
         $object = new \rcube_imap();
 
-        $this->assertInstanceOf('rcube_imap', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_imap::class, $object, 'Class constructor');
     }
 
     /**

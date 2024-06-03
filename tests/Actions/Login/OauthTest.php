@@ -19,7 +19,7 @@ class OauthTest extends ActionTestCase
         $action = new \rcmail_action_login_oauth();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'login', '');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);

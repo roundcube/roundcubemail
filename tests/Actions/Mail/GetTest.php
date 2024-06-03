@@ -16,6 +16,6 @@ class GetTest extends ActionTestCase
     {
         $object = new \rcmail_action_mail_get();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 }

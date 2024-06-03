@@ -39,7 +39,7 @@ class MessageTest extends TestCase
         $result = $message->tnef_decode($part);
 
         $this->assertCount(1, $result);
-        $this->assertInstanceOf('rcube_message_part', $result[0]);
+        $this->assertInstanceOf(\rcube_message_part::class, $result[0]);
         $this->assertSame('winmail.1.html', $result[0]->mime_id);
         $this->assertSame('text/html', $result[0]->mimetype);
         $this->assertSame(5360, $result[0]->size);
@@ -50,7 +50,7 @@ class MessageTest extends TestCase
         $result = $message->tnef_decode($part);
 
         $this->assertCount(1, $result);
-        $this->assertInstanceOf('rcube_message_part', $result[0]);
+        $this->assertInstanceOf(\rcube_message_part::class, $result[0]);
         $this->assertSame('winmail.1.0', $result[0]->mime_id);
         $this->assertSame('application/octet-stream', $result[0]->mimetype);
         $this->assertSame(244, $result[0]->size);
@@ -78,7 +78,7 @@ class MessageTest extends TestCase
         $result = $message->uu_decode($part);
 
         $this->assertCount(1, $result);
-        $this->assertInstanceOf('rcube_message_part', $result[0]);
+        $this->assertInstanceOf(\rcube_message_part::class, $result[0]);
         $this->assertSame('uu.1.0', $result[0]->mime_id);
         $this->assertSame('text/plain', $result[0]->mimetype);
         $this->assertSame(4, $result[0]->size);

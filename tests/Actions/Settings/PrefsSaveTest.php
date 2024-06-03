@@ -17,7 +17,7 @@ class PrefsSaveTest extends ActionTestCase
         $action = new \rcmail_action_settings_prefs_save();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'save-prefs');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // TODO: Test all sections

@@ -16,6 +16,6 @@ class AttachmentDisplayTest extends ActionTestCase
     {
         $object = new \rcmail_action_mail_attachment_display();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 }

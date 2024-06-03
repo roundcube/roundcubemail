@@ -25,7 +25,7 @@ class LdapGenericTest extends TestCase
 
         $object = new \rcube_ldap_generic([]);
 
-        $this->assertInstanceOf('rcube_ldap_generic', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_ldap_generic::class, $object, 'Class constructor');
     }
 
     /**

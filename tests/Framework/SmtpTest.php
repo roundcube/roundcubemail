@@ -18,7 +18,7 @@ class SmtpTest extends TestCase
     {
         $object = new \rcube_smtp();
 
-        $this->assertInstanceOf('rcube_smtp', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_smtp::class, $object, 'Class constructor');
     }
 
     /**

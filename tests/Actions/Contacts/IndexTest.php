@@ -17,7 +17,7 @@ class IndexTest extends ActionTestCase
         $action = new \rcmail_action_contacts_index();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // self::initDB('contacts');

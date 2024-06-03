@@ -16,7 +16,7 @@ class ResultThreadTest extends TestCase
     {
         $object = new \rcube_result_thread();
 
-        $this->assertInstanceOf('rcube_result_thread', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_result_thread::class, $object, 'Class constructor');
     }
 
     /**

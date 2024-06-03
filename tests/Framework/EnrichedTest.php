@@ -16,7 +16,7 @@ class EnrichedTest extends TestCase
     {
         $object = new \rcube_enriched();
 
-        $this->assertInstanceOf('rcube_enriched', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_enriched::class, $object, 'Class constructor');
     }
 
     /**

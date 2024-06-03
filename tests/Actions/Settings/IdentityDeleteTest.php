@@ -18,7 +18,7 @@ class IdentityDeleteTest extends ActionTestCase
         $action = new \rcmail_action_settings_identity_delete();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'delete-identity');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('identities');

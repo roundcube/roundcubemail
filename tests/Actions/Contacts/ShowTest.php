@@ -18,7 +18,7 @@ class ShowTest extends ActionTestCase
         $action = new \rcmail_action_contacts_show();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'show');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');

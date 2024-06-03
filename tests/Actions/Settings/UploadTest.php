@@ -18,7 +18,7 @@ class UploadTest extends ActionTestCase
         $action = new \rcmail_action_settings_upload();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'upload');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_SERVER['REQUEST_METHOD'] = 'POST';

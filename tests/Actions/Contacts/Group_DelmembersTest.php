@@ -18,7 +18,7 @@ class Group_DelmembersTest extends ActionTestCase
         $action = new \rcmail_action_contacts_group_delmembers();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'del-members');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Invalid group id

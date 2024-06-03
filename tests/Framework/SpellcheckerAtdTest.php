@@ -16,7 +16,7 @@ class SpellcheckerAtdTest extends TestCase
     {
         $object = new \rcube_spellchecker_atd(null, 'en');
 
-        $this->assertInstanceOf('rcube_spellchecker_atd', $object, 'Class constructor');
-        $this->assertInstanceOf('rcube_spellchecker_engine', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_spellchecker_atd::class, $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_spellchecker_engine::class, $object, 'Class constructor');
     }
 }

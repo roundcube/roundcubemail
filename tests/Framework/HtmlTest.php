@@ -16,7 +16,7 @@ class HtmlTest extends TestCase
     {
         $object = new \html();
 
-        $this->assertInstanceOf('html', $object, 'Class constructor');
+        $this->assertInstanceOf(\html::class, $object, 'Class constructor');
     }
 
     /**

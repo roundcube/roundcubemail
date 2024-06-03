@@ -18,7 +18,7 @@ class AttachmentUploadTest extends ActionTestCase
         $action = new \rcmail_action_mail_attachment_upload();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'upload');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_SERVER['REQUEST_METHOD'] = 'POST';

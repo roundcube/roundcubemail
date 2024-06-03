@@ -18,7 +18,7 @@ class FolderSaveTest extends ActionTestCase
         $action = new \rcmail_action_settings_folder_save();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'folder-save');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results

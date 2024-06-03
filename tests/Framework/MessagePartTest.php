@@ -16,7 +16,7 @@ class MessagePartTest extends TestCase
     {
         $object = new \rcube_message_part();
 
-        $this->assertInstanceOf('rcube_message_part', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_message_part::class, $object, 'Class constructor');
     }
 
     /**

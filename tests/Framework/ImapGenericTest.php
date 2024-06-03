@@ -16,7 +16,7 @@ class ImapGenericTest extends TestCase
     {
         $object = new \rcube_imap_generic();
 
-        $this->assertInstanceOf('rcube_imap_generic', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_imap_generic::class, $object, 'Class constructor');
     }
 
     /**

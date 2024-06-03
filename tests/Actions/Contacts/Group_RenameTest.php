@@ -18,7 +18,7 @@ class Group_RenameTest extends ActionTestCase
         $action = new \rcmail_action_contacts_group_rename();
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'group-rename');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Invalid group id

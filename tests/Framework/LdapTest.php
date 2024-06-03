@@ -29,7 +29,7 @@ class LdapTest extends TestCase
         $object = new \rcube_ldap([]);
         StderrMock::stop();
 
-        $this->assertInstanceOf('rcube_ldap', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_ldap::class, $object, 'Class constructor');
         $this->assertSame('ERROR: Could not connect to any LDAP server', trim(StderrMock::$output));
     }
 }

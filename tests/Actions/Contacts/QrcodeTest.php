@@ -18,7 +18,7 @@ class QrcodeTest extends ActionTestCase
         $action = new \rcmail_action_contacts_qrcode();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'qrcode');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);

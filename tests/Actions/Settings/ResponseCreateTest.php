@@ -18,7 +18,7 @@ class ResponseCreateTest extends ActionTestCase
         $action = new \rcmail_action_settings_response_create();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'add-response');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_GET = [];

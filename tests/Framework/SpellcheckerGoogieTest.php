@@ -16,7 +16,7 @@ class SpellcheckerGoogieTest extends TestCase
     {
         $object = new \rcube_spellchecker_googie(null, 'en');
 
-        $this->assertInstanceOf('rcube_spellchecker_googie', $object, 'Class constructor');
-        $this->assertInstanceOf('rcube_spellchecker_engine', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_spellchecker_googie::class, $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_spellchecker_engine::class, $object, 'Class constructor');
     }
 }

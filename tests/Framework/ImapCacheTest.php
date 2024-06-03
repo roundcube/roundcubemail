@@ -16,6 +16,6 @@ class ImapCacheTest extends TestCase
     {
         $object = new \rcube_imap_cache(new \rcube_db('test'), null, null, null);
 
-        $this->assertInstanceOf('rcube_imap_cache', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_imap_cache::class, $object, 'Class constructor');
     }
 }

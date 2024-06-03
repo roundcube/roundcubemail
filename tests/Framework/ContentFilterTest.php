@@ -16,6 +16,6 @@ class ContentFilterTest extends TestCase
     {
         $object = new \rcube_content_filter();
 
-        $this->assertInstanceOf('rcube_content_filter', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_content_filter::class, $object, 'Class constructor');
     }
 }

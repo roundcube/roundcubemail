@@ -16,7 +16,7 @@ class UtilsTest extends ActionTestCase
     {
         $db = \rcmail_utils::db();
 
-        $this->assertInstanceOf('rcube_db', $db);
+        $this->assertInstanceOf(\rcube_db::class, $db);
     }
 
     /**
