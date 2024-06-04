@@ -5,7 +5,7 @@ cont_name="roundcubetest-dovecot"
 
 docker run -it --rm -d --name "$cont_name" \
 	-p 143:143 \
-	-v "$testsdir/src/maildir:/srv/mail/test" \
+	-v "$testsdir/data/maildir:/srv/mail/test" \
 	-v "$testsdir/dovecot-maildir.conf:/etc/dovecot/conf.d/dovecot-maildir.conf" \
 	docker.io/dovecot/dovecot:latest >/dev/null || exit 1
 
