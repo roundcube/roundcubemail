@@ -31,19 +31,19 @@ class MessageRenderingTestCase extends \ActionTestCase
     }
 
     /**
-     * Execute run() to render the message with the given $msg_id.
+     * Execute run() to render the message with the given $msgId.
      *
      * This is useful to check how rcmail_action_mail_show() renders messages.
      * It requires a running dovecot to fetch the messages from. Messages need
      * to be placed as individual files in
      * `tests/src/emails/test@example/Mail/cur/`.
      */
-    protected function run_and_get_html_output_domxpath(string $msg_id): \DOMXPath
+    protected function runAndGetHtmlOutputDomxpath(string $msgId): \DOMXPath
     {
         $rcmail = \rcmail::get_instance();
         // We need to overwrite the storage object, else storage_init() just
         // returns the cached one (which might be a StorageMock instance).
-        $mock_storage = $rcmail->storage = null;
+        $mockStorage = $rcmail->storage = null;
         $rcmail->storage_init();
         // Login our test user so we can fetch messages from the imap server.
         $rcmail->login('test', 'pass', 'tls://localhost');
@@ -58,22 +58,22 @@ class MessageRenderingTestCase extends \ActionTestCase
         $action = new \rcmail_action_mail_show();
         $this->assertTrue($action->checks());
 
-        $messages_list = $storage->list_messages();
+        $messagesList = $storage->list_messages();
 
         // Find the UID of the wanted message.
-        $message_uid = null;
-        foreach ($messages_list as $message_headers) {
-            if ($message_headers->get('message-id') === "<{$msg_id}>") {
-                $message_uid = $message_headers->uid;
+        $messageUid = null;
+        foreach ($messagesList as $messageHeaders) {
+            if ($messageHeaders->get('message-id') === "<{$msgId}>") {
+                $messageUid = $messageHeaders->uid;
                 break;
             }
         }
-        if ($message_uid === null) {
-            throw new \Exception("No message found in messages list with Message-Id '{$msg_id}'");
+        if ($messageUid === null) {
+            throw new \Exception("No message found in messages list with Message-Id '{$msgId}'");
         }
 
         // Prepare and trigger the rendering.
-        $_GET = ['_uid' => $message_uid];
+        $_GET = ['_uid' => $messageUid];
         $html = '';
         try {
             $action->run();
@@ -85,7 +85,7 @@ class MessageRenderingTestCase extends \ActionTestCase
         }
 
         // Reset the storage to the mocked one most other tests expect.
-        $rcmail->storage = $mock_storage;
+        $rcmail->storage = $mockStorage;
 
         // disabled_html_ns=true is a workaround for the performance issue
         // https://github.com/Masterminds/html5-php/issues/181

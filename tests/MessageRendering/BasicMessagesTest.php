@@ -11,9 +11,9 @@ class BasicMessagesTest extends MessageRenderingTestCase
      * Test that two text mime-parts with disposition "attachment" are shown as
      * attachments.
      */
-    public function test_list_00()
+    public function testList00()
     {
-        $domxpath = $this->run_and_get_html_output_domxpath('99839b8ec12482419372f1edafa9de75@woodcrest.local');
+        $domxpath = $this->runAndGetHtmlOutputDomxpath('99839b8ec12482419372f1edafa9de75@woodcrest.local');
         $this->assertSame('Lines', $this->getScrubbedSubject($domxpath));
 
         $this->assertStringStartsWith('Plain text message body.', $this->getBody($domxpath));
@@ -27,9 +27,9 @@ class BasicMessagesTest extends MessageRenderingTestCase
     /**
      * Test that one inline image is not shown as attachment.
      */
-    public function test_list_01()
+    public function testList01()
     {
-        $domxpath = $this->run_and_get_html_output_domxpath('3ef8a0120cd7dc2fd776468c8515e29a@domain.tld');
+        $domxpath = $this->runAndGetHtmlOutputDomxpath('3ef8a0120cd7dc2fd776468c8515e29a@domain.tld');
 
         $this->assertSame('Test HTML with local and remote image', $this->getScrubbedSubject($domxpath));
 
@@ -43,9 +43,9 @@ class BasicMessagesTest extends MessageRenderingTestCase
      * Test that text parts are shown and also listed as attachments, and that
      * filenames are properly listed.
      */
-    public function test_filename()
+    public function testFilename()
     {
-        $domxpath = $this->run_and_get_html_output_domxpath('de75@tester.local');
+        $domxpath = $this->runAndGetHtmlOutputDomxpath('de75@tester.local');
 
         $this->assertSame('Attachment filename encoding', $this->getScrubbedSubject($domxpath));
 
