@@ -78,9 +78,6 @@ class MessageRenderingTestCase extends \ActionTestCase
         try {
             $action->run();
         } catch (\ExitException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            $this->assertSame('simulatedExit', $e->getMessage());
             $html = $output->getOutput();
         }
 
