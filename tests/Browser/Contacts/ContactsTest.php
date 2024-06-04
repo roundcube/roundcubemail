@@ -1,10 +1,10 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser\Contacts;
+namespace Roundcube\Tests\Browser\Contacts;
 
-use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Roundcube\Mail\Tests\Browser\Components\App;
-use Roundcube\Mail\Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\TestCase;
 
 class ContactsTest extends TestCase
 {

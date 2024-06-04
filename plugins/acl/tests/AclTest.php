@@ -1,8 +1,8 @@
 <?php
 
-namespace Roundcube\Mail\Plugins\Tests;
+namespace Roundcube\Plugins\Tests;
 
-use Roundcube\Mail\Tests\ActionTestCase;
+use Roundcube\Tests\ActionTestCase;
 
 class AclTest extends ActionTestCase
 {

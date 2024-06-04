@@ -1,9 +1,9 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser\Logon;
+namespace Roundcube\Tests\Browser\Logon;
 
-use Roundcube\Mail\Tests\Browser\Components\App;
-use Roundcube\Mail\Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\TestCase;
 
 class LogoutTest extends TestCase
 {

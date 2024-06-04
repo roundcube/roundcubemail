@@ -1,10 +1,10 @@
 <?php
 
-namespace Roundcube\Mail\Plugins\Tests;
+namespace Roundcube\Plugins\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Roundcube\Mail\Tests\invokeMethod;
+use function Roundcube\Tests\invokeMethod;
 
 class VcardAttachmentsTest extends TestCase
 {

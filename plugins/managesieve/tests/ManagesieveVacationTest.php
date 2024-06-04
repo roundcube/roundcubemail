@@ -1,11 +1,11 @@
 <?php
 
-namespace Roundcube\Mail\Plugins\Tests;
+namespace Roundcube\Plugins\Tests;
 
-use Roundcube\Mail\Tests\ActionTestCase;
+use Roundcube\Tests\ActionTestCase;
 
-use function Roundcube\Mail\Tests\invokeMethod;
-use function Roundcube\Mail\Tests\setProperty;
+use function Roundcube\Tests\invokeMethod;
+use function Roundcube\Tests\setProperty;
 
 class ManagesieveVacationTest extends ActionTestCase
 {

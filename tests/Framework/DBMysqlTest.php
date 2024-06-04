@@ -1,6 +1,6 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Framework;
+namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
 

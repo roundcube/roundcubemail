@@ -1,8 +1,8 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Rcmail;
+namespace Roundcube\Tests\Rcmail;
 
-use Roundcube\Mail\Tests\ActionTestCase;
+use Roundcube\Tests\ActionTestCase;
 
 /**
  * Test class to test rcmail_sendmail class

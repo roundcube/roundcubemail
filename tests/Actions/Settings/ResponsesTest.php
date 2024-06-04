@@ -1,9 +1,9 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Actions\Settings;
+namespace Roundcube\Tests\Actions\Settings;
 
-use Roundcube\Mail\Tests\ActionTestCase;
-use Roundcube\Mail\Tests\OutputHtmlMock;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
 
 /**
  * Test class to test rcmail_action_settings_responses

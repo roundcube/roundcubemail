@@ -1,9 +1,9 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Framework;
+namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use Roundcube\Mail\Tests\StderrMock;
+use Roundcube\Tests\StderrMock;
 
 /**
  * Test class to test rcube_ldap class

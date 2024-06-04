@@ -1,9 +1,9 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Actions\Contacts;
+namespace Roundcube\Tests\Actions\Contacts;
 
-use Roundcube\Mail\Tests\ActionTestCase;
-use Roundcube\Mail\Tests\OutputHtmlMock;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
 
 /**
  * Test class to test rcmail_action_contacts_edit

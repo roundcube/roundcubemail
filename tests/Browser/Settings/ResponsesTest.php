@@ -1,12 +1,12 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser\Settings;
+namespace Roundcube\Tests\Browser\Settings;
 
-use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Roundcube\Mail\Tests\Browser\Components\App;
-use Roundcube\Mail\Tests\Browser\Components\Dialog;
-use Roundcube\Mail\Tests\Browser\Components\Popupmenu;
-use Roundcube\Mail\Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\Components\Dialog;
+use Roundcube\Tests\Browser\Components\Popupmenu;
+use Roundcube\Tests\Browser\TestCase;
 
 class ResponsesTest extends TestCase
 {

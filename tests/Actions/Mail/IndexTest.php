@@ -1,10 +1,10 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Actions\Mail;
+namespace Roundcube\Tests\Actions\Mail;
 
-use Roundcube\Mail\Tests\ActionTestCase;
+use Roundcube\Tests\ActionTestCase;
 
-use function Roundcube\Mail\Tests\setProperty;
+use function Roundcube\Tests\setProperty;
 
 /**
  * Test class to test rcmail_action_mail_index

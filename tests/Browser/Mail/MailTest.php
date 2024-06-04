@@ -1,10 +1,10 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser\Mail;
+namespace Roundcube\Tests\Browser\Mail;
 
-use Roundcube\Mail\Tests\Browser\Components\App;
-use Roundcube\Mail\Tests\Browser\Components\Popupmenu;
-use Roundcube\Mail\Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\Components\Popupmenu;
+use Roundcube\Tests\Browser\TestCase;
 
 class MailTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser;
+namespace Roundcube\Tests\Browser;
 
 use GuzzleHttp\Client as HttpClient;
 use Laravel\Dusk\Console\ChromeDriverCommand;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Actions\Mail;
+namespace Roundcube\Tests\Actions\Mail;
 
-use Roundcube\Mail\Tests\ActionTestCase;
-use Roundcube\Mail\Tests\OutputJsonMock;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_mail_folder_expunge

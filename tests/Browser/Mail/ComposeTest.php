@@ -1,13 +1,13 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser\Mail;
+namespace Roundcube\Tests\Browser\Mail;
 
 use Facebook\WebDriver\WebDriverKeys;
-use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Roundcube\Mail\Tests\Browser\Components\App;
-use Roundcube\Mail\Tests\Browser\Components\HtmlEditor;
-use Roundcube\Mail\Tests\Browser\Components\RecipientInput;
-use Roundcube\Mail\Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\Components\HtmlEditor;
+use Roundcube\Tests\Browser\Components\RecipientInput;
+use Roundcube\Tests\Browser\TestCase;
 
 class ComposeTest extends TestCase
 {

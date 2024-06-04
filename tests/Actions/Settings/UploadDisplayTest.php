@@ -1,8 +1,8 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Actions\Settings;
+namespace Roundcube\Tests\Actions\Settings;
 
-use Roundcube\Mail\Tests\ActionTestCase;
+use Roundcube\Tests\ActionTestCase;
 
 /**
  * Test class to test rcmail_action_settings_upload_display

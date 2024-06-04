@@ -1,8 +1,8 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Framework;
+namespace Roundcube\Tests\Framework;
 
-use Roundcube\Mail\Tests\ActionTestCase;
+use Roundcube\Tests\ActionTestCase;
 
 /**
  * Test class to test rcube_user class

@@ -1,11 +1,11 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser\Contacts;
+namespace Roundcube\Tests\Browser\Contacts;
 
-use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Roundcube\Mail\Tests\Browser\Components\Dialog;
-use Roundcube\Mail\Tests\Browser\Components\Popupmenu;
-use Roundcube\Mail\Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\Dialog;
+use Roundcube\Tests\Browser\Components\Popupmenu;
+use Roundcube\Tests\Browser\TestCase;
 
 class GroupsTest extends TestCase
 {

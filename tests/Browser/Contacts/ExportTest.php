@@ -1,9 +1,9 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser\Contacts;
+namespace Roundcube\Tests\Browser\Contacts;
 
-use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Roundcube\Mail\Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\TestCase;
 
 class ExportTest extends TestCase
 {

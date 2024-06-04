@@ -1,12 +1,12 @@
 <?php
 
-namespace Roundcube\Mail\Plugins\Tests;
+namespace Roundcube\Plugins\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Roundcube\Mail\Tests\getProperty;
-use function Roundcube\Mail\Tests\invokeMethod;
-use function Roundcube\Mail\Tests\setProperty;
+use function Roundcube\Tests\getProperty;
+use function Roundcube\Tests\invokeMethod;
+use function Roundcube\Tests\setProperty;
 
 class MarkasjunkTest extends TestCase
 {

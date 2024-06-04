@@ -1,6 +1,6 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser;
+namespace Roundcube\Tests\Browser;
 
 /*
  +-----------------------------------------------------------------------+

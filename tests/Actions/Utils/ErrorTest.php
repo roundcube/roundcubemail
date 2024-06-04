@@ -1,10 +1,10 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Actions\Utils;
+namespace Roundcube\Tests\Actions\Utils;
 
-use Roundcube\Mail\Tests\ActionTestCase;
-use Roundcube\Mail\Tests\OutputHtmlMock;
-use Roundcube\Mail\Tests\OutputJsonMock;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_utils_error

@@ -1,10 +1,10 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Actions\Login;
+namespace Roundcube\Tests\Actions\Login;
 
-use Roundcube\Mail\Tests\ActionTestCase;
-use Roundcube\Mail\Tests\OutputHtmlMock;
-use Roundcube\Mail\Tests\StderrMock;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\StderrMock;
 
 /**
  * Test class to test rcmail_action_login_oauth

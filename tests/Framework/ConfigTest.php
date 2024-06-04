@@ -1,10 +1,10 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Framework;
+namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
 
-use function Roundcube\Mail\Tests\invokeMethod;
+use function Roundcube\Tests\invokeMethod;
 
 /**
  * Test class to test rcube_config class

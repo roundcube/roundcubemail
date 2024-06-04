@@ -1,9 +1,9 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser\Mail;
+namespace Roundcube\Tests\Browser\Mail;
 
-use Roundcube\Mail\Tests\Browser\Bootstrap;
-use Roundcube\Mail\Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\TestCase;
 
 class GetunreadTest extends TestCase
 {

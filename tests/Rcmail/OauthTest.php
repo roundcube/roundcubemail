@@ -1,17 +1,17 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Rcmail;
+namespace Roundcube\Tests\Rcmail;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Roundcube\Mail\Tests\ActionTestCase;
-use Roundcube\Mail\Tests\ExitException;
-use Roundcube\Mail\Tests\OutputHtmlMock;
-use Roundcube\Mail\Tests\StderrMock;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\ExitException;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\StderrMock;
 
-use function Roundcube\Mail\Tests\getProperty;
-use function Roundcube\Mail\Tests\setProperty;
+use function Roundcube\Tests\getProperty;
+use function Roundcube\Tests\setProperty;
 
 /**
  * Test class to test rcmail_oauth class

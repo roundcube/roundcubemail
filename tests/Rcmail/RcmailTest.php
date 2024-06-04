@@ -1,10 +1,10 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Rcmail;
+namespace Roundcube\Tests\Rcmail;
 
-use Roundcube\Mail\Tests\ActionTestCase;
-use Roundcube\Mail\Tests\ExitException;
-use Roundcube\Mail\Tests\OutputJsonMock;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\ExitException;
+use Roundcube\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail class

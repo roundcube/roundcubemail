@@ -1,10 +1,10 @@
 <?php
 
-namespace Roundcube\Mail\Tests\Browser\Components;
+namespace Roundcube\Tests\Browser\Components;
 
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Component;
-use Roundcube\Mail\Tests\Browser\Browser;
+use Roundcube\Tests\Browser\Browser;
 
 class Dialog extends Component
 {
