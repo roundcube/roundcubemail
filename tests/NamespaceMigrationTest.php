@@ -13,14 +13,15 @@ use Symfony\Component\Finder\Finder;
 class NamespaceMigrationTest extends TestCase
 {
     /**
-     * @return array<string, list<class-string>>
+     * @return array<string, list<array{'abstract class'|'class'|'interface'|'trait', class-string}>>
      */
-    protected function listClassNamesByPath(): array
+    protected function listClassesByPath(): array
     {
         $finder = new Finder();
         $finder
             ->files()
             ->in(dirname(__DIR__) . '/program')
+            ->in(dirname(__DIR__) . '/plugins')
             ->name('*.php');
 
         $classNamesByPath = [];
@@ -32,27 +33,73 @@ class NamespaceMigrationTest extends TestCase
                 $namespace = $matches[1];
             }
 
-            preg_match_all('~(?<=\s)class ([^;\s]+)\s(?=[^;*$]*\{)~', $contents, $matchesAll, \PREG_SET_ORDER);
+            preg_match_all('~(?<=\s)((?:abstract )?class|interface|trait) ([^;\s$"\']+)\s(?=[^;*$]*\{(?!\s*\.))~', $contents, $matchesAll, \PREG_SET_ORDER);
             foreach ($matchesAll as $matches) {
-                $classNamesByPath[$file->getPathname()][] = ($namespace === null ? '' : $namespace . '\\')
-                    . $matches[1];
+                $classNamesByPath[$file->getPathname()][] = [
+                    $matches[1],
+                    ($namespace === null ? '' : $namespace . '\\') . $matches[2],
+                ];
             }
         }
+
+        ksort($classNamesByPath);
 
         return $classNamesByPath;
     }
 
     public function testAllClassesAreAccesibleAsNonAliased(): void
     {
-        $expectedCode = '<?php' . "\n\n";
-        foreach ($this->listClassNamesByPath() as $path => $classNames) {
-            foreach ($classNames as $className) {
+        $expectedCode = <<<'EOF'
+            <?php
+
+            namespace Roundcube\WIP {
+                if (!isset($legacyAutoloadClassName)) {
+                    function rcube_autoload_legacy(string $classname)
+                    {
+                        if (strpos($classname, '\\') === false) {
+                            $fqcn = 'Roundcube\WIP\\' . $classname;
+
+                            if (class_exists($fqcn) || interface_exists($fqcn) || trait_exists($fqcn)) {
+                                $legacyAutoloadClassName = $classname;
+                                require __FILE__;
+                            }
+                        }
+                    }
+
+                    spl_autoload_register(__NAMESPACE__ . '\rcube_autoload_legacy');
+                }
+            }
+
+            namespace {
+                if (isset($legacyAutoloadClassName)) {
+                    switch ($legacyAutoloadClassName) {
+
+            EOF;
+
+        foreach ($this->listClassesByPath() as $classPairs) {
+            foreach ($classPairs as [$classType, $className]) {
                 $classNameShort = preg_replace('~.+\\\~', '', $className);
-                if ($classNameShort !== $className) {
-                    $expectedCode .= 'class ' . $classNameShort . ' extends \\' . $className . ' {}' . "\n";
+                if (strpos($className, 'Roundcube\\WIP\\') === 0) {
+                    $expectedCode .= '            case \'' . $classNameShort . '\':' . "\n";
+                    if ($classType === 'trait') {
+                        $expectedCode .= '                ' . $classType . ' ' . $classNameShort . "\n"
+                            . '                {' . "\n"
+                            . '                    use ' . $className . ';' . "\n"
+                            . '                }' . "\n\n";
+                    } else {
+                        $expectedCode .= '                ' . $classType . ' ' . $classNameShort . ' extends ' . $className . ' {}' . "\n\n";
+                    }
+                    $expectedCode .= '                break;' . "\n";
                 }
             }
         }
+
+        $expectedCode .= <<<'EOF'
+                    }
+                }
+            }
+
+            EOF;
 
         self::assertSame(
             $expectedCode,
