@@ -281,7 +281,7 @@ class rcube_image
                 } elseif ($props['gd_type'] == \IMAGETYPE_GIF) {
                     $result = imagegif($image, $filename);
                 } elseif ($props['gd_type'] == \IMAGETYPE_PNG) {
-                    $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+                    $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
                 }
             }
 
@@ -380,7 +380,7 @@ class rcube_image
             } elseif ($type == self::TYPE_GIF) {
                 $result = imagegif($image, $filename);
             } elseif ($type == self::TYPE_PNG) {
-                $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+                $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
             }
 
             if (!empty($result)) {

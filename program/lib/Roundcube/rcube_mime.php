@@ -734,14 +734,14 @@ class rcube_mime
             // null as a 2nd argument should be the same as no argument
             // this however is not true on all systems/versions
             if ($mime_magic) {
-                $finfo = finfo_open(FILEINFO_MIME, $mime_magic);
+                $finfo = finfo_open(\FILEINFO_MIME, $mime_magic);
             } else {
-                $finfo = finfo_open(FILEINFO_MIME);
+                $finfo = finfo_open(\FILEINFO_MIME);
             }
 
             if ($finfo) {
                 $func = $is_stream ? 'finfo_buffer' : 'finfo_file';
-                $mime_type = $func($finfo, $path, FILEINFO_MIME_TYPE);
+                $mime_type = $func($finfo, $path, \FILEINFO_MIME_TYPE);
                 finfo_close($finfo);
             }
         }

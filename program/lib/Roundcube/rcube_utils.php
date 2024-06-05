@@ -1144,7 +1144,7 @@ class rcube_utils
 
         // Note that in PHP 7.2/7.3 calling idn_to_* functions with default arguments
         // throws a warning, so we have to set the variant explicitly (#6075)
-        $variant = INTL_IDNA_VARIANT_UTS46;
+        $variant = \INTL_IDNA_VARIANT_UTS46;
         $options = 0;
 
         // Because php-intl extension lowercases domains and return false
@@ -1152,11 +1152,11 @@ class rcube_utils
 
         if ($is_utf) {
             if (preg_match('/[^\x20-\x7E]/', $domain)) {
-                $options = IDNA_NONTRANSITIONAL_TO_ASCII;
+                $options = \IDNA_NONTRANSITIONAL_TO_ASCII;
                 $domain = idn_to_ascii($domain, $options, $variant);
             }
         } elseif (preg_match('/(^|\.)xn--/i', $domain)) {
-            $options = IDNA_NONTRANSITIONAL_TO_UNICODE;
+            $options = \IDNA_NONTRANSITIONAL_TO_UNICODE;
             $domain = idn_to_utf8($domain, $options, $variant);
         }
 
