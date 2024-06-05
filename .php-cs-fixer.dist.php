@@ -105,8 +105,6 @@ return (new Config())
         'no_unset_on_property' => false,
         'random_api_migration' => false,
         'strict_param' => false,
-
-        'fully_qualified_strict_types' => ['leading_backslash_in_global_namespace' => true],
     ])
     ->setFinder($finder)
     ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer.' . md5(__DIR__) . '.cache');
