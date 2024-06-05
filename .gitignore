@@ -13,6 +13,8 @@ composer.phar
 composer.lock
 vendor
 
+.phpunit.result.cache
+
 # javascript dependencies
 plugins/enigma/openpgp.min.js
 plugins/managesieve/codemirror/
