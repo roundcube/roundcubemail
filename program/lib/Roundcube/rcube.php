@@ -1865,28 +1865,3 @@ class rcube
         return $sent;
     }
 }
-
-/**
- * Lightweight plugin API class serving as a dummy if plugins are not enabled
- */
-class rcube_dummy_plugin_api
-{
-    /**
-     * Triggers a plugin hook.
-     *
-     * @param string       $hook Hook name
-     * @param array|string $args Hook arguments
-     *
-     * @return array Hook arguments
-     *
-     * @see rcube_plugin_api::exec_hook()
-     */
-    public function exec_hook($hook, $args = [])
-    {
-        if (!is_array($args)) {
-            $args = ['arg' => $args];
-        }
-
-        return $args += ['abort' => false];
-    }
-}
