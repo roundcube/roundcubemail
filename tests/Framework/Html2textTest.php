@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_html2text class
  */
-class rc_html2text extends TestCase
+class Html2textTest extends TestCase
 {
     public static function provide_html2text_cases(): iterable
     {
@@ -97,7 +99,7 @@ class rc_html2text extends TestCase
      */
     public function test_html2text($title, $in, $out)
     {
-        $ht = new rcube_html2text(null, false, rcube_html2text::LINKS_NONE);
+        $ht = new \rcube_html2text(null, false, \rcube_html2text::LINKS_NONE);
 
         $ht->set_html($in);
         $res = $ht->get_text();
@@ -116,7 +118,7 @@ class rc_html2text extends TestCase
             <div><br></div><div>Par 3</div><div><br></div>
             <blockquote>INNER 3</blockquote>OUTER END</blockquote>
             EOF;
-        $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
+        $ht = new \rcube_html2text($html, false, \rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
         $this->assertStringContainsString('>> INNER 1', $res, 'Quote inner');
@@ -133,7 +135,7 @@ class rc_html2text extends TestCase
             <blockquote>
             NO END TAG FOUND
             EOF;
-        $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
+        $ht = new \rcube_html2text($html, false, \rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
         $this->assertStringContainsString('QUOTED TEXT NO END TAG FOUND', $res, 'No quoting on invalid html');
@@ -146,7 +148,7 @@ class rc_html2text extends TestCase
             <blockquote>INNER 2</blockquote>
             NO END TAG FOUND
             EOF;
-        $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_NONE);
+        $ht = new \rcube_html2text($html, false, \rcube_html2text::LINKS_NONE);
         $res = $ht->get_text();
 
         $this->assertStringContainsString('QUOTED TEXT INNER 1 INNER 2 NO END', $res, 'No quoting on invalid html');
@@ -165,7 +167,7 @@ Links:
 [1] http://test.com
 ';
 
-        $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_END);
+        $ht = new \rcube_html2text($html, false, \rcube_html2text::LINKS_END);
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Links list');
@@ -174,7 +176,7 @@ Links:
         $html = '<a href="http://test.com">http://test.com</a>';
         $expected = 'http://test.com';
 
-        $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_END);
+        $ht = new \rcube_html2text($html, false, \rcube_html2text::LINKS_END);
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Skip link with href == content');
@@ -188,7 +190,7 @@ Links:
 [1] http://test.com?test1&test2
 ';
 
-        $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_END);
+        $ht = new \rcube_html2text($html, false, \rcube_html2text::LINKS_END);
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Links with HTML entities');
@@ -207,7 +209,7 @@ Links:
 [1] http://test.com
 ';
 
-        $ht = new rcube_html2text($html, false, true);
+        $ht = new \rcube_html2text($html, false, true);
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Links list');
@@ -216,7 +218,7 @@ Links:
         $html = '<a href="http://test.com">http://test.com</a>';
         $expected = 'http://test.com';
 
-        $ht = new rcube_html2text($html, false, true);
+        $ht = new \rcube_html2text($html, false, true);
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Skip link with href == content');
@@ -230,7 +232,7 @@ Links:
         $html = '<a href="http://test.com">content</a>';
         $expected = 'content <http://test.com>';
 
-        $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_INLINE);
+        $ht = new \rcube_html2text($html, false, \rcube_html2text::LINKS_INLINE);
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Links Inline');
@@ -239,7 +241,7 @@ Links:
         $html = '<a href="http://test.com">http://test.com</a>';
         $expected = 'http://test.com';
 
-        $ht = new rcube_html2text($html, false, rcube_html2text::LINKS_INLINE);
+        $ht = new \rcube_html2text($html, false, \rcube_html2text::LINKS_INLINE);
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Skip link with href == content');
@@ -252,7 +254,7 @@ Links:
      */
     public function test_links_no_list($input, $output)
     {
-        $h2t = new rcube_html2text($input, false, rcube_html2text::LINKS_NONE);
+        $h2t = new \rcube_html2text($input, false, \rcube_html2text::LINKS_NONE);
         $res = $h2t->get_text();
 
         $this->assertSame($output, $res, 'Links handling');
@@ -265,7 +267,7 @@ Links:
      */
     public function test_links_no_list_bc_with_boolean($input, $output)
     {
-        $h2t = new rcube_html2text($input, false, false);
+        $h2t = new \rcube_html2text($input, false, false);
         $res = $h2t->get_text();
 
         $this->assertSame($output, $res, 'Links handling');
@@ -306,17 +308,17 @@ Links:
 [1] http://test.com
 ';
 
-        $ht = new rcube_html2text($html, false);
+        $ht = new \rcube_html2text($html, false);
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Links list as default (doLinks not set)');
 
-        $ht = new rcube_html2text($html, false, mt_rand(3, 9999));
+        $ht = new \rcube_html2text($html, false, mt_rand(3, 9999));
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Links list as default (doLinks greater than 3)');
 
-        $ht = new rcube_html2text($html, false, mt_rand(-9999, -1));
+        $ht = new \rcube_html2text($html, false, mt_rand(-9999, -1));
         $res = $ht->get_text();
 
         $this->assertSame($expected, $res, 'Links list as default (doLinks lower than 0)');
@@ -331,7 +333,7 @@ Links:
         $src = 'data:image/png;base64,' . str_repeat('1234567890abcdefghijklmnopqrstuvwxyz', 50000);
         $input = 'test<body><p>test1</p><p>test2</p><img src="' . $src . '" /><p>test3</p>';
 
-        $h2t = new rcube_html2text($input, false, rcube_html2text::LINKS_NONE);
+        $h2t = new \rcube_html2text($input, false, \rcube_html2text::LINKS_NONE);
         $res = $h2t->get_text();
 
         $this->assertSame("test1\n\ntest2\n\ntest3", $res, 'Huge input');

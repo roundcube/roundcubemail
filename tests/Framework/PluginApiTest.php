@@ -1,18 +1,20 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_plugin_api class
  */
-class Framework_PluginApi extends TestCase
+class PluginApiTest extends TestCase
 {
     /**
      * Test get_info()
      */
     public function test_get_info()
     {
-        $api = rcube_plugin_api::get_instance();
+        $api = \rcube_plugin_api::get_instance();
 
         $info = $api->get_info('acl');
 
@@ -27,7 +29,7 @@ class Framework_PluginApi extends TestCase
      */
     public function test_hooks()
     {
-        $api = rcube_plugin_api::get_instance();
+        $api = \rcube_plugin_api::get_instance();
 
         $var = 0;
         $hook_handler = static function ($args) use (&$var) { $var++; };
@@ -51,7 +53,7 @@ class Framework_PluginApi extends TestCase
      */
     public function test_tasks()
     {
-        $api = rcube_plugin_api::get_instance();
+        $api = \rcube_plugin_api::get_instance();
 
         $this->assertTrue($api->register_task('test', 'test'));
         $this->assertTrue($api->is_plugin_task('test'));

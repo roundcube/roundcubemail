@@ -1,20 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
+
+use function Roundcube\Tests\invokeMethod;
 
 /**
  * Test class to test rcube_smtp class
  */
-class Framework_Smtp extends TestCase
+class SmtpTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcube_smtp();
+        $object = new \rcube_smtp();
 
-        $this->assertInstanceOf('rcube_smtp', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_smtp::class, $object, 'Class constructor');
     }
 
     /**
@@ -22,7 +26,7 @@ class Framework_Smtp extends TestCase
      */
     public function test_prepare_headers()
     {
-        $smtp = new rcube_smtp();
+        $smtp = new \rcube_smtp();
 
         $headers = [
             'Subject' => 'Test',
@@ -49,7 +53,7 @@ class Framework_Smtp extends TestCase
      */
     public function test_parse_rfc822()
     {
-        $smtp = new rcube_smtp();
+        $smtp = new \rcube_smtp();
         $input = 'test@test1.com, "test" <test@test2.pl>, "test@test3.eu" <test@test3.uk>';
         $result = invokeMethod($smtp, '_parse_rfc822', [$input]);
 

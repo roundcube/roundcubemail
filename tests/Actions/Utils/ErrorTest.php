@@ -1,19 +1,25 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Utils;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_utils_error
  */
-class Actions_Utils_Error extends ActionTestCase
+class ErrorTest extends ActionTestCase
 {
     /**
      * Test run() method in HTTP mode
      */
     public function test_run_http()
     {
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'mail', 'test');
-        $action = new rcmail_action_utils_error();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', 'test');
+        $action = new \rcmail_action_utils_error();
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Default error
@@ -38,10 +44,10 @@ class Actions_Utils_Error extends ActionTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '';
 
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'compose');
-        $action = new rcmail_action_utils_error();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'compose');
+        $action = new \rcmail_action_utils_error();
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Default error

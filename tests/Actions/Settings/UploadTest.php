@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Settings;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_settings_upload
  */
-class Actions_Settings_Upload extends ActionTestCase
+class UploadTest extends ActionTestCase
 {
     /**
      * Test file uploads
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_upload();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'upload');
+        $action = new \rcmail_action_settings_upload();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'upload');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -44,7 +49,7 @@ class Actions_Settings_Upload extends ActionTestCase
         $this->assertSame('upload', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"') !== false);
 
-        $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
+        $upload = \rcmail::get_instance()->get_uploaded_file($file['id']);
         $this->assertSame($file['name'], $upload['name']);
         $this->assertSame($file['type'], $upload['mimetype']);
         $this->assertSame($file['size'], $upload['size']);

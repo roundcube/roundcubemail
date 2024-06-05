@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Settings;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_settings_prefs_edit
  */
-class Actions_Settings_PrefsEdit extends ActionTestCase
+class PrefsEditTest extends ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_prefs_edit();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'edit-prefs');
+        $action = new \rcmail_action_settings_prefs_edit();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'edit-prefs');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_GET['_section'] = 'general';

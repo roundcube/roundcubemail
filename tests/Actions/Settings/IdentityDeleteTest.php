@@ -1,24 +1,29 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Settings;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_settings_identity_delete
  */
-class Actions_Settings_IdentityDelete extends ActionTestCase
+class IdentityDeleteTest extends ActionTestCase
 {
     /**
      * Test deleting an identity
      */
     public function test_delete_identity()
     {
-        $action = new rcmail_action_settings_identity_delete();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'delete-identity');
+        $action = new \rcmail_action_settings_identity_delete();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'delete-identity');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('identities');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `identities` WHERE `email` = ?', 'test@example.org');
         $result = $db->fetch_assoc($query);
         $iid = $result['identity_id'];
@@ -40,8 +45,8 @@ class Actions_Settings_IdentityDelete extends ActionTestCase
         $this->assertTrue(!empty($result['del']));
 
         // Test error handling
-        $action = new rcmail_action_settings_identity_delete();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'delete-identity');
+        $action = new \rcmail_action_settings_identity_delete();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'delete-identity');
 
         $_POST = ['_iid' => 'unknown'];
 

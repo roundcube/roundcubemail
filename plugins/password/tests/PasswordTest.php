@@ -1,16 +1,18 @@
 <?php
 
+namespace Roundcube\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Password_Plugin extends TestCase
+class PasswordTest extends TestCase
 {
     /**
      * Plugin object construction test
      */
     public function test_constructor()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new password($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \password($rcube->plugins);
 
         $this->assertInstanceOf('password', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
@@ -90,22 +92,22 @@ class Password_Plugin extends TestCase
      */
     public function test_hash_password()
     {
-        $pass = password::hash_password('test', 'clear');
+        $pass = \password::hash_password('test', 'clear');
         $this->assertSame('test', $pass);
 
-        $pass = password::hash_password('test', 'ad');
+        $pass = \password::hash_password('test', 'ad');
         $this->assertSame("\"\0t\0e\0s\0t\0\"\0", $pass);
 
-        $pass = password::hash_password('test', 'ssha');
+        $pass = \password::hash_password('test', 'ssha');
         $this->assertMatchesRegularExpression('/^\{SSHA\}[a-zA-Z0-9+\/]{32}$/', $pass);
 
-        $pass = password::hash_password('test', 'ssha256');
+        $pass = \password::hash_password('test', 'ssha256');
         $this->assertMatchesRegularExpression('/^\{SSHA256\}[a-zA-Z0-9+\/=]{48}$/', $pass);
 
-        $pass = password::hash_password('test', 'sha256-crypt');
+        $pass = \password::hash_password('test', 'sha256-crypt');
         $this->assertMatchesRegularExpression('/^\{SHA256-CRYPT\}\$5\$[a-zA-Z0-9]{16}\$[a-zA-Z0-9.\/]{43}$/', $pass);
 
-        $pass = password::hash_password('test', 'hash-bcrypt');
+        $pass = \password::hash_password('test', 'hash-bcrypt');
         $this->assertMatchesRegularExpression('/^\{BLF-CRYPT\}\$2y\$10\$[a-zA-Z0-9.\/]{53}$/', $pass);
 
         // TODO: Test all algos

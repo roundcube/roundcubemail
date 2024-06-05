@@ -1,9 +1,13 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
+use Roundcube\Tests\ActionTestCase;
+
 /**
  * Test class to test rcube_user class
  */
-class Framework_User extends ActionTestCase
+class UserTest extends ActionTestCase
 {
     /**
      * Test class constructor
@@ -12,7 +16,7 @@ class Framework_User extends ActionTestCase
     {
         self::initDB('init');
 
-        $user = new rcube_user(1);
+        $user = new \rcube_user(1);
 
         $this->assertSame(1, $user->ID);
         $this->assertNull($user->language);
@@ -25,7 +29,7 @@ class Framework_User extends ActionTestCase
     {
         self::initDB('init');
 
-        $user = new rcube_user(1);
+        $user = new \rcube_user(1);
 
         $this->assertSame('test@example.com', $user->get_username());
         $this->assertSame('test', $user->get_username('local'));
@@ -39,13 +43,13 @@ class Framework_User extends ActionTestCase
     {
         self::initDB('init');
 
-        $user = new rcube_user(1);
+        $user = new \rcube_user(1);
 
         $this->assertSame([], $user->get_prefs());
 
         $user->save_prefs(['test' => 'test'], true);
 
-        $user = new rcube_user(1);
+        $user = new \rcube_user(1);
 
         $this->assertSame(['test' => 'test'], $user->get_prefs());
 
@@ -53,7 +57,7 @@ class Framework_User extends ActionTestCase
 
         $this->assertMatchesRegularExpression('/^[a-zA-Z0-9]{16}$/', $hash);
 
-        $user = new rcube_user(1);
+        $user = new \rcube_user(1);
 
         $prefs = $user->get_prefs();
 
@@ -70,7 +74,7 @@ class Framework_User extends ActionTestCase
         self::initDB('init');
         self::initDB('identities');
 
-        $user = new rcube_user(1);
+        $user = new \rcube_user(1);
 
         $all = $user->list_emails();
 
@@ -146,11 +150,11 @@ class Framework_User extends ActionTestCase
     {
         self::initDB('init');
 
-        $user = new rcube_user(1);
+        $user = new \rcube_user(1);
 
         $user->failed_login();
 
-        $user = new rcube_user(1);
+        $user = new \rcube_user(1);
 
         $this->{'assertEquals'}(1, $user->data['failed_login_counter']);
 
@@ -164,9 +168,9 @@ class Framework_User extends ActionTestCase
     {
         self::initDB('init');
 
-        $this->assertNull(rcube_user::query('test', 'localhost'));
+        $this->assertNull(\rcube_user::query('test', 'localhost'));
 
-        $user = rcube_user::query('test@example.com', 'localhost');
+        $user = \rcube_user::query('test@example.com', 'localhost');
 
         $this->assertSame(1, $user->ID);
     }
@@ -178,11 +182,11 @@ class Framework_User extends ActionTestCase
     {
         self::initDB('init');
 
-        $user = rcube_user::create('new@example.com', 'localhost');
+        $user = \rcube_user::create('new@example.com', 'localhost');
 
         $this->assertSame('new@example.com', $user->get_username());
 
-        $user = new rcube_user($user->ID);
+        $user = new \rcube_user($user->ID);
 
         $idents = $user->list_identities();
 

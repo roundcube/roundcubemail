@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser\Settings;
+namespace Roundcube\Tests\Browser\Settings;
 
-use Tests\Browser\Components\App;
-use Tests\Browser\Components\Dialog;
-use Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\Components\Dialog;
+use Roundcube\Tests\Browser\TestCase;
 
 class AboutTest extends TestCase
 {

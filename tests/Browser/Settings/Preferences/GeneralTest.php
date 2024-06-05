@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Browser\Settings\Preferences;
+namespace Roundcube\Tests\Browser\Settings\Preferences;
 
-use Tests\Browser\Components\App;
-use Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\TestCase;
 
 class GeneralTest extends TestCase
 {
@@ -12,7 +13,7 @@ class GeneralTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     public function testGeneral()
@@ -154,7 +155,7 @@ class GeneralTest extends TestCase
         });
 
         // Assert the options have been saved in database properly
-        $prefs = \bootstrap::get_prefs();
+        $prefs = Bootstrap::get_prefs();
         $options = array_diff(array_keys($this->settings), ['refresh_interval', 'pretty_date']);
 
         foreach ($options as $option) {

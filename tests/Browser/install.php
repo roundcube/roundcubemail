@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Tests\Browser;
+
 use GuzzleHttp\Client as HttpClient;
 use Laravel\Dusk\Console\ChromeDriverCommand;
 use Laravel\Dusk\OperatingSystem;
@@ -66,7 +68,7 @@ class Installer extends ChromeDriverCommand
      *
      * @return string
      */
-    #[Override]
+    #[\Override]
     protected function getUrl(string $url)
     {
         return file_get_contents($url) ?: '';
@@ -74,7 +76,7 @@ class Installer extends ChromeDriverCommand
 }
 
 if (empty($argv[1])) {
-    rcube::raise_error('Chrome driver version is a required argument of this script.', false, true);
+    \rcube::raise_error('Chrome driver version is a required argument of this script.', false, true);
 }
 
 $installer = new Installer();

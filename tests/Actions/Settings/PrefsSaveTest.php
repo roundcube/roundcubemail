@@ -1,19 +1,23 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Settings;
+
+use Roundcube\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_action_settings_prefs_save
  */
-class Actions_Settings_PrefsSave extends ActionTestCase
+class PrefsSaveTest extends ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_prefs_save();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'save-prefs');
+        $action = new \rcmail_action_settings_prefs_save();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'save-prefs');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // TODO: Test all sections
@@ -21,7 +25,7 @@ class Actions_Settings_PrefsSave extends ActionTestCase
 
         $action->run();
 
-        $this->assertSame('edit-prefs', rcmail::get_instance()->action);
+        $this->assertSame('edit-prefs', \rcmail::get_instance()->action);
         $this->assertSame('successfullysaved', $output->getProperty('message'));
     }
 
@@ -30,11 +34,11 @@ class Actions_Settings_PrefsSave extends ActionTestCase
      */
     public function test_prefs_input()
     {
-        $action = new rcmail_action_settings_prefs_save();
+        $action = new \rcmail_action_settings_prefs_save();
 
         $_POST = ['_test' => 'test'];
 
-        rcmail::get_instance()->config->set('test', null);
+        \rcmail::get_instance()->config->set('test', null);
 
         $this->assertNull($action->prefs_input('unset', '/test/'));
         $this->assertSame('test', $action->prefs_input('test', '/^test/'));

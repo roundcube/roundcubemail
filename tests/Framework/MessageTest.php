@@ -1,20 +1,22 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_message class
  */
-class Framework_Message extends TestCase
+class MessageTest extends TestCase
 {
     /**
      * Test format_part_body() method
      */
     public function test_format_part_body()
     {
-        $part = new rcube_message_part();
+        $part = new \rcube_message_part();
         $body = 'test';
-        $result = rcube_message::format_part_body($body, $part);
+        $result = \rcube_message::format_part_body($body, $part);
 
         $this->assertSame('test', $result);
     }
@@ -25,7 +27,7 @@ class Framework_Message extends TestCase
     public function test_tnef_decode()
     {
         $message = new rcube_message_test(123);
-        $part = new rcube_message_part();
+        $part = new \rcube_message_part();
         $part->mime_id = '1';
 
         $message->set_part_body(1, '');
@@ -37,7 +39,7 @@ class Framework_Message extends TestCase
         $result = $message->tnef_decode($part);
 
         $this->assertCount(1, $result);
-        $this->assertInstanceOf('rcube_message_part', $result[0]);
+        $this->assertInstanceOf(\rcube_message_part::class, $result[0]);
         $this->assertSame('winmail.1.html', $result[0]->mime_id);
         $this->assertSame('text/html', $result[0]->mimetype);
         $this->assertSame(5360, $result[0]->size);
@@ -48,7 +50,7 @@ class Framework_Message extends TestCase
         $result = $message->tnef_decode($part);
 
         $this->assertCount(1, $result);
-        $this->assertInstanceOf('rcube_message_part', $result[0]);
+        $this->assertInstanceOf(\rcube_message_part::class, $result[0]);
         $this->assertSame('winmail.1.0', $result[0]->mime_id);
         $this->assertSame('application/octet-stream', $result[0]->mimetype);
         $this->assertSame(244, $result[0]->size);
@@ -62,7 +64,7 @@ class Framework_Message extends TestCase
     public function test_uu_decode()
     {
         $message = new rcube_message_test(123);
-        $part = new rcube_message_part();
+        $part = new \rcube_message_part();
         $part->mime_id = '1';
 
         $message->set_part_body(1, '');
@@ -76,7 +78,7 @@ class Framework_Message extends TestCase
         $result = $message->uu_decode($part);
 
         $this->assertCount(1, $result);
-        $this->assertInstanceOf('rcube_message_part', $result[0]);
+        $this->assertInstanceOf(\rcube_message_part::class, $result[0]);
         $this->assertSame('uu.1.0', $result[0]->mime_id);
         $this->assertSame('text/plain', $result[0]->mimetype);
         $this->assertSame(4, $result[0]->size);
@@ -88,7 +90,7 @@ class Framework_Message extends TestCase
 /**
  * rcube_message wrapper for easier testing (without accessing IMAP)
  */
-class rcube_message_test extends rcube_message
+class rcube_message_test extends \rcube_message
 {
     private $part_bodies = [];
 
@@ -99,7 +101,7 @@ class rcube_message_test extends rcube_message
         $this->is_safe = $is_safe;
     }
 
-    #[Override]
+    #[\Override]
     public function get_part_body($mime_id, $formatted = false, $max_bytes = 0, $mode = null)
     {
         return $this->part_bodies[$mime_id] ?? null;

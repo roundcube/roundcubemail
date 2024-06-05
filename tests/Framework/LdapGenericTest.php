@@ -1,15 +1,17 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_ldap_generic class
  */
-class Framework_LdapGeneric extends TestCase
+class LdapGenericTest extends TestCase
 {
     protected function markTestSkippedIfNetLdapPackageIsNotInstalled(): void
     {
-        if (!class_exists(Net_LDAP3::class)) {
+        if (!class_exists(\Net_LDAP3::class)) {
             $this->markTestSkipped('The Net_LDAP3 package not available.');
         }
     }
@@ -21,9 +23,9 @@ class Framework_LdapGeneric extends TestCase
     {
         $this->markTestSkippedIfNetLdapPackageIsNotInstalled();
 
-        $object = new rcube_ldap_generic([]);
+        $object = new \rcube_ldap_generic([]);
 
-        $this->assertInstanceOf('rcube_ldap_generic', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_ldap_generic::class, $object, 'Class constructor');
     }
 
     /**
@@ -33,7 +35,7 @@ class Framework_LdapGeneric extends TestCase
     {
         $this->markTestSkippedIfNetLdapPackageIsNotInstalled();
 
-        $object = new rcube_ldap_generic([]);
+        $object = new \rcube_ldap_generic([]);
 
         $result = $object->fulltext_search_filter('test', ['dn']);
 

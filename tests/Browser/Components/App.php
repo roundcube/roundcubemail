@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser\Components;
+namespace Roundcube\Tests\Browser\Components;
 
 use Laravel\Dusk\Component;
 use PHPUnit\Framework\Assert;
-use Tests\Browser\Browser;
+use Roundcube\Tests\Browser\Browser;
 
 class App extends Component
 {

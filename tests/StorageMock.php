@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Tests;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -44,7 +46,7 @@ class StorageMock
             }
         }
 
-        throw new Exception("Unhandled function call for '{$name}' in StorageMock");
+        throw new \Exception("Unhandled function call for '{$name}'");
     }
 
     /**
@@ -78,10 +80,10 @@ class StorageMock
      */
     public function get_special_folders($forced = false)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $folders = [];
 
-        foreach (rcube_storage::$folder_types as $type) {
+        foreach (\rcube_storage::$folder_types as $type) {
             if ($folder = $rcube->config->get($type . '_mbox')) {
                 $folders[$type] = $folder;
             }

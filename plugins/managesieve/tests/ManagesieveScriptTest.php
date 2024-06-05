@@ -1,8 +1,10 @@
 <?php
 
+namespace Roundcube\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Managesieve_Script extends TestCase
+class ManagesieveScriptTest extends TestCase
 {
     /**
      * Sieve script parsing
@@ -19,7 +21,7 @@ class Managesieve_Script extends TestCase
             }
         }
 
-        $script = new rcube_sieve_script($input, $caps);
+        $script = new \rcube_sieve_script($input, $caps);
         $result = $script->as_text();
 
         $this->assertSame(trim($output), trim($result), $message);
@@ -75,7 +77,7 @@ class Managesieve_Script extends TestCase
      */
     public function test_tokenizer($num, $input, $output)
     {
-        $res = json_encode(rcube_sieve_script::tokenize($input, $num));
+        $res = json_encode(\rcube_sieve_script::tokenize($input, $num));
 
         $this->assertSame(trim($output), trim($res));
     }

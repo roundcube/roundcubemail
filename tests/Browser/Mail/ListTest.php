@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Browser\Mail;
+namespace Roundcube\Tests\Browser\Mail;
 
-use Tests\Browser\Components\Toolbarmenu;
-use Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\Toolbarmenu;
+use Roundcube\Tests\Browser\TestCase;
 
 class ListTest extends TestCase
 {
@@ -12,12 +13,12 @@ class ListTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_imap(true);
-        \bootstrap::purge_mailbox('INBOX');
+        Bootstrap::init_imap(true);
+        Bootstrap::purge_mailbox('INBOX');
 
         // import email messages
         foreach (glob(TESTS_DIR . 'data/mail/list_??.eml') as $f) {
-            \bootstrap::import_message($f, 'INBOX');
+            Bootstrap::import_message($f, 'INBOX');
             self::$msgcount++;
         }
     }
@@ -47,7 +48,7 @@ class ListTest extends TestCase
                     $browser->assertVisible('a.select:not(.disabled)');
                     $browser->assertVisible('a.options:not(.disabled)');
 
-                    $imap = \bootstrap::get_storage();
+                    $imap = Bootstrap::get_storage();
                     if ($imap->get_threading()) {
                         $browser->assertVisible('a.threads:not(.disabled)');
                     } else {
@@ -62,7 +63,7 @@ class ListTest extends TestCase
                     $browser->assertVisible('a.select:not(.disabled)');
                     $browser->assertVisible('a.options:not(.disabled)');
 
-                    $imap = \bootstrap::get_storage();
+                    $imap = Bootstrap::get_storage();
                     if ($imap->get_threading()) {
                         $browser->assertVisible('a.threads:not(.disabled)');
                     } else {
@@ -76,7 +77,7 @@ class ListTest extends TestCase
                 $browser->with(new Toolbarmenu(), static function ($browser) {
                     $active = ['select', 'options'];
                     $missing = [];
-                    $imap = \bootstrap::get_storage();
+                    $imap = Bootstrap::get_storage();
 
                     if ($imap->get_threading()) {
                         $active[] = 'threads';

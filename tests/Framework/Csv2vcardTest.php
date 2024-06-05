@@ -1,15 +1,17 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_csv2vcard class
  */
-class Framework_Csv2vcard extends TestCase
+class Csv2vcardTest extends TestCase
 {
     public function test_import_generic()
     {
-        $csv = new rcube_csv2vcard();
+        $csv = new \rcube_csv2vcard();
 
         // empty input
         $csv->import('');
@@ -30,7 +32,7 @@ class Framework_Csv2vcard extends TestCase
         $csv_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/tb_plain.csv');
         $vcf_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/tb_plain.vcf');
 
-        $csv = new rcube_csv2vcard();
+        $csv = new \rcube_csv2vcard();
         $csv->import($csv_text);
         $result = $csv->export();
 
@@ -48,7 +50,7 @@ class Framework_Csv2vcard extends TestCase
         $csv_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/email.csv');
         $vcf_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/email.vcf');
 
-        $csv = new rcube_csv2vcard();
+        $csv = new \rcube_csv2vcard();
         $csv->import($csv_text);
         $result = $csv->export();
 
@@ -69,7 +71,7 @@ class Framework_Csv2vcard extends TestCase
         $csv_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/gmail.csv');
         $vcf_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/gmail.vcf');
 
-        $csv = new rcube_csv2vcard();
+        $csv = new \rcube_csv2vcard();
         $csv->import($csv_text);
         $result = $csv->export();
 
@@ -87,7 +89,7 @@ class Framework_Csv2vcard extends TestCase
         $csv_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/outlook.csv');
         $vcf_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/outlook.vcf');
 
-        $csv = new rcube_csv2vcard();
+        $csv = new \rcube_csv2vcard();
         $csv->import($csv_text);
         $result = $csv->export();
 

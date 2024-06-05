@@ -1,19 +1,25 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_search
  */
-class Actions_Contacts_Search extends ActionTestCase
+class SearchTest extends ActionTestCase
 {
     /**
      * Test search form request
      */
     public function test_run_search_form()
     {
-        $action = new rcmail_action_contacts_search();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'search');
+        $action = new \rcmail_action_contacts_search();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'search');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_GET = ['_form' => 1];
@@ -32,8 +38,8 @@ class Actions_Contacts_Search extends ActionTestCase
      */
     public function test_run_quick_search()
     {
-        $action = new rcmail_action_contacts_search();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'search');
+        $action = new \rcmail_action_contacts_search();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'search');
 
         $this->assertTrue($action->checks());
 

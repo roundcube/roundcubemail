@@ -1,16 +1,20 @@
 <?php
 
+namespace Roundcube\Tests\Rcmail;
+
+use Roundcube\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_html_page class
  */
-class Rcmail_RcmailHtmlPage extends ActionTestCase
+class HtmlPageTest extends ActionTestCase
 {
     /**
      * Test html page output
      */
     public function test_html_output()
     {
-        $page = new rcmail_html_page();
+        $page = new \rcmail_html_page();
 
         $page->register_inline_warning('Test', 'Button', 'http://url');
 

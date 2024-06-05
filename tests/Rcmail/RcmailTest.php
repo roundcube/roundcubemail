@@ -1,11 +1,17 @@
 <?php
 
+namespace Roundcube\Tests\Rcmail;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\ExitException;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail class
  */
-class Rcmail_Rcmail extends ActionTestCase
+class RcmailTest extends ActionTestCase
 {
-    #[Override]
+    #[\Override]
     protected function setUp(): void
     {
         // set some HTTP env vars
@@ -15,7 +21,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $_SERVER['HTTPS'] = true;
         $_SERVER['X_FORWARDED_PATH'] = '/proxied/';
 
-        rcmail::get_instance()->filename = '';
+        \rcmail::get_instance()->filename = '';
     }
 
     /**
@@ -23,10 +29,10 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_action_handler()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // Test keep-alive action handler
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'test', 'keep-alive');
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'test', 'keep-alive');
         $e = null;
 
         try {
@@ -40,7 +46,7 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertTrue(empty($result['exec']));
 
         // Test refresh action handler
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'refresh');
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'refresh');
 
         try {
             $rcmail->action_handler();
@@ -60,11 +66,11 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_get_address_book()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $result = $rcmail->get_address_book(0);
 
-        $this->assertInstanceOf('rcube_contacts', $result);
+        $this->assertInstanceOf(\rcube_contacts::class, $result);
 
         $source_id = $rcmail->get_address_book_id($result);
 
@@ -100,7 +106,7 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_get_address_sources()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $result = $rcmail->get_address_sources();
 
@@ -122,7 +128,7 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_url()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $this->assertSame(
             '/sub/?_task=cli&_action=test',
@@ -208,9 +214,9 @@ class Rcmail_Rcmail extends ActionTestCase
     {
         self::initDB('contacts');
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $db = $rcmail->get_dbh();
-        $source = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
+        $source = $rcmail->get_address_book(\rcube_addressbook::TYPE_DEFAULT, true);
 
         $contact_id = $rcmail->contact_create(['email' => 'test@xn--e1aybc.xn--p1ai'], $source, $error);
 
@@ -223,11 +229,11 @@ class Rcmail_Rcmail extends ActionTestCase
         $this->assertSame('test@тест.рф', $contact['email']);
         $this->assertSame('Test', $contact['name']);
 
-        $result = $rcmail->contact_exists('test@xn--e1aybc.xn--p1ai', rcube_addressbook::TYPE_DEFAULT);
+        $result = $rcmail->contact_exists('test@xn--e1aybc.xn--p1ai', \rcube_addressbook::TYPE_DEFAULT);
 
         $this->assertTrue($result);
 
-        $result = $rcmail->contact_exists('test@тест.рф', rcube_addressbook::TYPE_DEFAULT);
+        $result = $rcmail->contact_exists('test@тест.рф', \rcube_addressbook::TYPE_DEFAULT);
 
         $this->assertTrue($result);
     }
@@ -237,7 +243,7 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_user_date()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $date = $rcmail->user_date();
 
@@ -249,7 +255,7 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_find_asset()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $result = $rcmail->find_asset('non-existing.js');
         $this->assertNull($result);
@@ -263,7 +269,7 @@ class Rcmail_Rcmail extends ActionTestCase
      */
     public function test_format_date()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // this test depends on system timezone if not set
         date_default_timezone_set('UTC');
@@ -275,7 +281,7 @@ class Rcmail_Rcmail extends ActionTestCase
         // Test various formats
         setlocale(\LC_ALL, 'en_US');
         ini_set('intl.default_locale', 'en_US');
-        $date = new DateTime('2020-06-01 12:20:30', new DateTimeZone('UTC'));
+        $date = new \DateTime('2020-06-01 12:20:30', new \DateTimeZone('UTC'));
 
         $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date));
         $this->assertSame('2020-06-01 12:20', $rcmail->format_date($date, 'Y-m-d H:i'));

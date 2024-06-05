@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Settings;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_settings_responses
  */
-class Actions_Settings_Responses extends ActionTestCase
+class ResponsesTest extends ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_settings_responses();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'responses');
+        $action = new \rcmail_action_settings_responses();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'responses');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('responses');
@@ -34,7 +39,7 @@ class Actions_Settings_Responses extends ActionTestCase
      */
     public function test_responses_list()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $rcmail->user->save_prefs([
             'compose_responses_static' => [
                 ['name' => 'static 1', 'text' => 'Static Response One'],
@@ -43,8 +48,8 @@ class Actions_Settings_Responses extends ActionTestCase
 
         self::initDB('responses');
 
-        $action = new rcmail_action_settings_responses();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'responses');
+        $action = new \rcmail_action_settings_responses();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'responses');
 
         $result = $action->responses_list([]);
         $expected = '<table id="rcmresponseslist"><thead><tr><th class="name">Display Name</th></tr></thead><tbody>'

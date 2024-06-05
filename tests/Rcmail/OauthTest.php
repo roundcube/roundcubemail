@@ -1,13 +1,22 @@
 <?php
 
+namespace Roundcube\Tests\Rcmail;
+
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\ExitException;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\StderrMock;
+
+use function Roundcube\Tests\getProperty;
+use function Roundcube\Tests\setProperty;
 
 /**
  * Test class to test rcmail_oauth class
  */
-class Rcmail_RcmailOauth extends ActionTestCase
+class OauthTest extends ActionTestCase
 {
     // created a valid and enabled oauth instance
     private $config = [
@@ -65,14 +74,14 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.EkN-DOsnsuRjRO6BxXemmJDm3HbxrbRzXglbN2S4sOkopdU4IsDxTI8jO19W_A4K8ZPJijNLis4EZsHeY559a4DFOd50_OqgHGuERTqYZyuhtF39yxJPAjUESwxk2J5k_4zM3O-vtd1Ghyo4IbqKKSy6J9mTniYJPenn5-HIirE';
 
-        $oauth = rcmail_oauth::get_instance();
+        $oauth = \rcmail_oauth::get_instance();
 
         // We can't use expectException until we drop support for phpunit 4.8 (i.e. PHP 5.4)
         // $this->expectException(RuntimeException::class);
 
         try {
             $oauth->jwt_decode($jwt);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
         }
 
         $this->assertTrue(isset($e));
@@ -85,7 +94,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6WyJzb21lLWNsaWVudCJdfQ.signature';
 
-        $oauth = new rcmail_oauth([
+        $oauth = new \rcmail_oauth([
             'client_id' => 'some-client',
         ]);
         $body = $oauth->jwt_decode($jwt);
@@ -99,7 +108,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
     {
         $jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImF1ZCI6InNvbWUtY2xpZW50In0.signature';
 
-        $oauth = new rcmail_oauth([
+        $oauth = new \rcmail_oauth([
             'client_id' => 'some-client',
         ]);
         $body = $oauth->jwt_decode($jwt);
@@ -111,7 +120,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_is_enabled()
     {
-        $oauth = rcmail_oauth::get_instance();
+        $oauth = \rcmail_oauth::get_instance();
 
         $this->assertFalse($oauth->is_enabled());
     }
@@ -121,7 +130,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_is_enabled_with_token_url()
     {
-        $oauth = new rcmail_oauth($this->config);
+        $oauth = new \rcmail_oauth($this->config);
         $oauth->init();
 
         $this->assertTrue($oauth->is_enabled());
@@ -148,7 +157,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         $handler = HandlerStack::create($mock);
 
         // provide only the config
-        $oauth = new rcmail_oauth([
+        $oauth = new \rcmail_oauth([
             'provider' => 'example',
             'config_uri' => 'https://test/config',
             'client_id' => 'some-client',
@@ -165,7 +174,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_get_redirect_uri()
     {
-        $oauth = rcmail_oauth::get_instance();
+        $oauth = \rcmail_oauth::get_instance();
 
         $this->assertMatchesRegularExpression('|^http://.*/index.php/login/oauth$|', $oauth->get_redirect_uri());
     }
@@ -175,9 +184,9 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_login_redirect()
     {
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'login', '');
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'login', '');
 
-        $oauth = new rcmail_oauth($this->config);
+        $oauth = new \rcmail_oauth($this->config);
         $oauth->init();
 
         try {
@@ -208,7 +217,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_request_access_token_with_wrong_state()
     {
-        $oauth = new rcmail_oauth($this->config);
+        $oauth = new \rcmail_oauth($this->config);
         $oauth->init();
 
         $_SESSION['oauth_state'] = 'random-state';
@@ -244,7 +253,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),
         ]);
         $handler = HandlerStack::create($mock);
-        $oauth = new rcmail_oauth((array) $this->config + [
+        $oauth = new \rcmail_oauth((array) $this->config + [
             'http_options' => ['handler' => $handler],
         ]);
         $oauth->init();
@@ -281,7 +290,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
             new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),
         ]);
         $handler = HandlerStack::create($mock);
-        $oauth = new rcmail_oauth((array) $this->config + [
+        $oauth = new \rcmail_oauth((array) $this->config + [
             'http_options' => ['handler' => $handler],
         ]);
         $oauth->init();
@@ -323,7 +332,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
         ]);
         $handler = HandlerStack::create($mock);
 
-        $oauth = new rcmail_oauth((array) $this->config + [
+        $oauth = new \rcmail_oauth((array) $this->config + [
             'http_options' => ['handler' => $handler],
         ]);
         $oauth->init();
@@ -346,7 +355,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_valid_user_create()
     {
-        $oauth = new rcmail_oauth();
+        $oauth = new \rcmail_oauth();
         $oauth->init();
 
         // fake identity
@@ -373,7 +382,7 @@ class Rcmail_RcmailOauth extends ActionTestCase
      */
     public function test_invalid_user_create()
     {
-        $oauth = new rcmail_oauth();
+        $oauth = new \rcmail_oauth();
         $oauth->init();
 
         // fake identity

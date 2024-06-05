@@ -1,18 +1,23 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Mail;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_folder_expunge
  */
-class Actions_Mail_FolderExpunge extends ActionTestCase
+class FolderExpungeTest extends ActionTestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcmail_action_mail_folder_expunge();
+        $object = new \rcmail_action_mail_folder_expunge();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 
     /**
@@ -20,8 +25,8 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
      */
     public function test_folder_expunge()
     {
-        $action = new rcmail_action_mail_folder_expunge();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
+        $action = new \rcmail_action_mail_folder_expunge();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'expunge');
 
         $this->assertTrue($action->checks());
 
@@ -47,8 +52,8 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
      */
     public function test_folder_expunge_with_reload()
     {
-        $action = new rcmail_action_mail_folder_expunge();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
+        $action = new \rcmail_action_mail_folder_expunge();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'expunge');
 
         $this->assertTrue($action->checks());
 
@@ -65,7 +70,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
         $commands = $output->getProperty('commands');
 
         $this->assertNull($output->getOutput());
-        $this->assertSame('list', rcmail::get_instance()->action);
+        $this->assertSame('list', \rcmail::get_instance()->action);
         $this->assertCount(3, $commands);
         $this->assertSame([
                 'display_message',
@@ -84,8 +89,8 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
      */
     public function test_folder_expunge_error()
     {
-        $action = new rcmail_action_mail_folder_expunge();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'expunge');
+        $action = new \rcmail_action_mail_folder_expunge();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'expunge');
 
         $_POST = ['_mbox' => 'INBOX'];
 
@@ -93,7 +98,7 @@ class Actions_Mail_FolderExpunge extends ActionTestCase
         self::mockStorage()
             ->registerFunction('expunge_folder', false)
             ->registerFunction('get_error_code', -1)
-            ->registerFunction('get_response_code', rcube_storage::READONLY);
+            ->registerFunction('get_response_code', \rcube_storage::READONLY);
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
