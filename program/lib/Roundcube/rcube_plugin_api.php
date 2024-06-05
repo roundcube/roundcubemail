@@ -192,8 +192,10 @@ class rcube_plugin_api
                 return false;
             }
 
-            if (!class_exists($plugin_name, false)) {
-                include $fn;
+            if (!class_exists($plugin_name)) {
+                if (!class_exists($plugin_name, false)) {
+                    include $fn;
+                }
             }
 
             // instantiate class if exists
