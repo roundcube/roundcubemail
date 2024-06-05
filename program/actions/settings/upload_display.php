@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_upload_display extends rcmail_action
+class rcmail_action_settings_upload_display extends \rcmail_action
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,7 +26,7 @@ class rcmail_action_settings_upload_display extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         if (!empty($_GET['_file']) && preg_match('/^rcmfile(\w+)$/', $_GET['_file'], $regs)) {
@@ -35,7 +35,7 @@ class rcmail_action_settings_upload_display extends rcmail_action
             exit;
         }
 
-        $file = rcmail::get_instance()->get_uploaded_file($id);
+        $file = \rcmail::get_instance()->get_uploaded_file($id);
 
         self::display_uploaded_file($file);
 

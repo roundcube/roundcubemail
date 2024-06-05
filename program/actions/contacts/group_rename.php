@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
+class rcmail_action_contacts_group_rename extends \rcmail_action_contacts_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,11 +27,11 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $rcmail = \rcmail::get_instance();
+        $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GPC);
         $contacts = self::contact_source($source);
 
         if ($contacts->readonly || !$contacts->groups) {
@@ -40,8 +40,8 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
         }
 
         if (
-            ($gid = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_POST))
-            && ($name = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true)))
+            ($gid = \rcube_utils::get_input_string('_gid', \rcube_utils::INPUT_POST))
+            && ($name = trim(\rcube_utils::get_input_string('_name', \rcube_utils::INPUT_POST, true)))
         ) {
             $newgid = null;
             $plugin = $rcmail->plugins->exec_hook('group_rename', [

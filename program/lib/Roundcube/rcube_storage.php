@@ -61,7 +61,7 @@ abstract class rcube_storage
     /** @var bool Enabled/Disable threading mode */
     protected $threading = false;
 
-    /** @var rcube_result_index|rcube_result_multifolder|rcube_result_thread|null Search result set */
+    /** @var \rcube_result_index|\rcube_result_multifolder|\rcube_result_thread|null Search result set */
     protected $search_set;
 
     /** @var array Internal (in-memory) cache */
@@ -399,7 +399,7 @@ abstract class rcube_storage
      * @param bool    $no_threads Get not threaded index
      * @param bool    $no_search  Get index not limited to search result (optionally)
      *
-     * @return rcube_result_index|rcube_result_thread List of messages (UIDs)
+     * @return \rcube_result_index|\rcube_result_thread List of messages (UIDs)
      */
     abstract public function index($folder = null, $sort_field = null, $sort_order = null, $no_threads = false, $no_search = false);
 
@@ -421,7 +421,7 @@ abstract class rcube_storage
      * @param array|string|null $folder Folder name to search in
      * @param string            $str    Search string
      *
-     * @return rcube_result_index|rcube_result_multifolder Search result (UIDs)
+     * @return \rcube_result_index|\rcube_result_multifolder Search result (UIDs)
      */
     abstract public function search_once($folder = null, $str = 'ALL');
 
@@ -443,7 +443,7 @@ abstract class rcube_storage
      * @param int    $uid    Message UID to fetch
      * @param string $folder Folder to read from
      *
-     * @return rcube_message_header|false Message data, False on error
+     * @return \rcube_message_header|false Message data, False on error
      */
     abstract public function get_message($uid, $folder = null);
 
@@ -454,21 +454,21 @@ abstract class rcube_storage
      * @param string $folder Folder to read from
      * @param bool   $force  True to skip cache
      *
-     * @return rcube_message_header|false Message headers, False on error
+     * @return \rcube_message_header|false Message headers, False on error
      */
     abstract public function get_message_headers($uid, $folder = null, $force = false);
 
     /**
      * Fetch message body of a specific message from the server.
      *
-     * @param int                $uid               Message UID
-     * @param string             $part              Part number
-     * @param rcube_message_part $o_part            Part object created by get_structure()
-     * @param mixed              $print             True to print part, resource to write part contents in
-     * @param resource           $fp                File pointer to save the message part
-     * @param bool               $skip_charset_conv Disables charset conversion
-     * @param int                $max_bytes         Only read this number of bytes
-     * @param bool               $formatted         Enables formatting of text/* parts bodies
+     * @param int                 $uid               Message UID
+     * @param string              $part              Part number
+     * @param \rcube_message_part $o_part            Part object created by get_structure()
+     * @param mixed               $print             True to print part, resource to write part contents in
+     * @param resource            $fp                File pointer to save the message part
+     * @param bool                $skip_charset_conv Disables charset conversion
+     * @param int                 $max_bytes         Only read this number of bytes
+     * @param bool                $formatted         Enables formatting of text/* parts bodies
      *
      * @return string|bool Message/part body if not printed
      */
@@ -487,7 +487,7 @@ abstract class rcube_storage
     public function get_body($uid, $part = 1)
     {
         if ($headers = $this->get_message_headers($uid)) {
-            return rcube_charset::convert($this->get_message_part($uid, $part, null),
+            return \rcube_charset::convert($this->get_message_part($uid, $part, null),
                 $headers->charset ?: $this->default_charset);
         }
 
@@ -544,7 +544,7 @@ abstract class rcube_storage
      *
      * @return bool Operation status
      *
-     * @see set_flag
+     * @see \set_flag
      */
     public function unset_flag($uids, $flag, $folder = null)
     {
@@ -621,7 +621,7 @@ abstract class rcube_storage
     {
         $all = false;
 
-        if ($uids instanceof rcube_result_index) {
+        if ($uids instanceof \rcube_result_index) {
             $uids = $uids->get_compressed();
         } elseif ($uids === '*' || $uids === '1:*') {
             if (empty($this->search_set)) {
@@ -636,7 +636,7 @@ abstract class rcube_storage
             if (is_array($uids)) {
                 $uids = implode(',', $uids);
             } elseif (strpos($uids, ':')) {
-                $uids = implode(',', rcube_imap_generic::uncompressMessageSet($uids));
+                $uids = implode(',', \rcube_imap_generic::uncompressMessageSet($uids));
             }
 
             if (preg_match('/[^0-9,]/', $uids)) {
@@ -865,7 +865,7 @@ abstract class rcube_storage
      */
     public function create_default_folders()
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         // create default folders if they do not exist
         foreach (self::$folder_types as $type) {
@@ -894,7 +894,7 @@ abstract class rcube_storage
     {
         // getting config might be expensive, store special folders in memory
         if (!isset($this->icache['special-folders'])) {
-            $rcube = rcube::get_instance();
+            $rcube = \rcube::get_instance();
             $this->icache['special-folders'] = [];
 
             foreach (self::$folder_types as $type) {

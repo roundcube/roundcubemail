@@ -33,7 +33,7 @@ class rcube_pw_usermod_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $cmd = rcmail::get_instance()->config->get('password_pw_usermod_cmd', 'sudo /usr/sbin/pw usermod -h 0 -n');
+        $cmd = \rcmail::get_instance()->config->get('password_pw_usermod_cmd', 'sudo /usr/sbin/pw usermod -h 0 -n');
         $cmd .= ' ' . escapeshellarg($username) . ' > /dev/null';
 
         $handle = popen($cmd, 'w');
@@ -43,7 +43,7 @@ class rcube_pw_usermod_password
             return PASSWORD_SUCCESS;
         }
 
-        rcube::raise_error("Password plugin: Unable to execute {$cmd}", true);
+        \rcube::raise_error("Password plugin: Unable to execute {$cmd}", true);
 
         return PASSWORD_ERROR;
     }

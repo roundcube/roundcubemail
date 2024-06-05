@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_folder_rename extends rcmail_action_settings_folders
+class rcmail_action_settings_folder_rename extends \rcmail_action_settings_folders
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -27,12 +27,12 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $name = trim(rcube_utils::get_input_string('_folder_newname', rcube_utils::INPUT_POST, true));
-        $oldname = rcube_utils::get_input_string('_folder_oldname', rcube_utils::INPUT_POST, true);
+        $rcmail = \rcmail::get_instance();
+        $name = trim(\rcube_utils::get_input_string('_folder_newname', \rcube_utils::INPUT_POST, true));
+        $oldname = \rcube_utils::get_input_string('_folder_oldname', \rcube_utils::INPUT_POST, true);
 
         if (strlen($name) && strlen($oldname)) {
             $rename = self::rename_folder($oldname, $name);
@@ -49,7 +49,7 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
 
     public static function rename_folder($oldname, $newname)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $storage = $rcmail->get_storage();
 
         $plugin = $rcmail->plugins->exec_hook('folder_rename', [

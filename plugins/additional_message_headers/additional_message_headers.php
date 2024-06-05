@@ -13,12 +13,12 @@
  *
  * @website http://roundcube.net
  */
-class additional_message_headers extends rcube_plugin
+class additional_message_headers extends \rcube_plugin
 {
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('message_before_send', [$this, 'message_headers']);
@@ -35,7 +35,7 @@ class additional_message_headers extends rcube_plugin
     {
         $this->load_config();
 
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         // additional email headers
         $additional_headers = $rcube->config->get('additional_message_headers', []);

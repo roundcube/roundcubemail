@@ -41,7 +41,7 @@
 require_once 'program/include/iniset.php';
 
 // init application, start session, init output class, etc.
-$RCMAIL = rcmail::get_instance(0, $GLOBALS['env'] ?? null);
+$RCMAIL = \rcmail::get_instance(0, $GLOBALS['env'] ?? null);
 
 // Make the whole PHP output non-cacheable (#1487797)
 $RCMAIL->output->nocacheing_headers();
@@ -57,7 +57,7 @@ if ($RCMAIL->config->get_error() || $RCMAIL->db->is_error()) {
 
 // error steps
 if ($RCMAIL->action == 'error' && !empty($_GET['_code'])) {
-    rcmail::raise_error(['code' => hexdec($_GET['_code'])], false, true);
+    \rcmail::raise_error(['code' => hexdec($_GET['_code'])], false, true);
 }
 
 // check if https is required (for login) and redirect if necessary
@@ -76,7 +76,7 @@ if (empty($_SESSION['user_id']) && ($force_https = $RCMAIL->config->get('force_h
         $port = 443;
     }
 
-    if (!rcube_utils::https_check($port)) {
+    if (!\rcube_utils::https_check($port)) {
         if (empty($host)) {
             $host = preg_replace('/:[0-9]+$/', '', $_SERVER['HTTP_HOST']);
         }
@@ -108,8 +108,8 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
     $auth = $RCMAIL->plugins->exec_hook('authenticate', [
         'host' => $RCMAIL->autoselect_host(),
-        'user' => trim(rcube_utils::get_input_string('_user', rcube_utils::INPUT_POST)),
-        'pass' => rcube_utils::get_input_string('_pass', rcube_utils::INPUT_POST, true, $pass_charset),
+        'user' => trim(\rcube_utils::get_input_string('_user', \rcube_utils::INPUT_POST)),
+        'pass' => \rcube_utils::get_input_string('_pass', \rcube_utils::INPUT_POST, true, $pass_charset),
         'valid' => $request_valid,
         'error' => null,
         'cookiecheck' => true,
@@ -132,7 +132,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
         // restore original request parameters
         $query = [];
-        if ($url = rcube_utils::get_input_string('_url', rcube_utils::INPUT_POST)) {
+        if ($url = \rcube_utils::get_input_string('_url', \rcube_utils::INPUT_POST)) {
             parse_str($url, $query);
 
             // prevent endless looping on login page
@@ -154,17 +154,17 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
         $RCMAIL->output->redirect($redir, 0, true);
     } else {
         if (!$auth['valid']) {
-            $error_code = rcmail::ERROR_INVALID_REQUEST;
+            $error_code = \rcmail::ERROR_INVALID_REQUEST;
         } else {
             $error_code = is_numeric($auth['error']) ? $auth['error'] : $RCMAIL->login_error();
         }
 
         $error_labels = [
-            rcmail::ERROR_STORAGE => 'storageerror',
-            rcmail::ERROR_COOKIES_DISABLED => 'cookiesdisabled',
-            rcmail::ERROR_INVALID_REQUEST => 'invalidrequest',
-            rcmail::ERROR_INVALID_HOST => 'invalidhost',
-            rcmail::ERROR_RATE_LIMIT => 'accountlocked',
+            \rcmail::ERROR_STORAGE => 'storageerror',
+            \rcmail::ERROR_COOKIES_DISABLED => 'cookiesdisabled',
+            \rcmail::ERROR_INVALID_REQUEST => 'invalidrequest',
+            \rcmail::ERROR_INVALID_HOST => 'invalidhost',
+            \rcmail::ERROR_RATE_LIMIT => 'accountlocked',
         ];
 
         if (!empty($auth['error']) && !is_numeric($auth['error'])) {
@@ -192,7 +192,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 
 // end session
 elseif ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
-    $RCMAIL->request_security_check(rcube_utils::INPUT_GET | rcube_utils::INPUT_POST);
+    $RCMAIL->request_security_check(\rcube_utils::INPUT_GET | \rcube_utils::INPUT_POST);
 
     $userdata = [
         'user' => $_SESSION['username'],
@@ -232,10 +232,10 @@ if (empty($RCMAIL->user->ID)) {
 
     // check if installer is still active
     if ($RCMAIL->config->get('enable_installer') && is_readable('./installer/index.php')) {
-        $RCMAIL->output->add_footer(html::div(['id' => 'login-addon', 'style' => 'background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em'],
-            html::tag('h2', ['style' => 'margin-top:0.2em'], 'Installer script is still accessible') .
-            html::p(null, 'The install script of your Roundcube installation is still stored in its default location!') .
-            html::p(null, 'Please <b>remove</b> the whole <tt>installer</tt> folder from the Roundcube directory because
+        $RCMAIL->output->add_footer(\html::div(['id' => 'login-addon', 'style' => 'background:#ef9398; border:2px solid #dc5757; padding:0.5em; margin:2em auto; width:50em'],
+            \html::tag('h2', ['style' => 'margin-top:0.2em'], 'Installer script is still accessible') .
+            \html::p(null, 'The install script of your Roundcube installation is still stored in its default location!') .
+            \html::p(null, 'Please <b>remove</b> the whole <tt>installer</tt> folder from the Roundcube directory because
                 these files may expose sensitive configuration data like server passwords and encryption keys
                 to the public. Make sure you cannot access the <a href="./installer/">installer script</a> from your browser.')
         ));
@@ -262,7 +262,7 @@ if (empty($RCMAIL->user->ID)) {
     // check access to disabled actions
     $disabled_actions = (array) $RCMAIL->config->get('disabled_actions');
     if (in_array($RCMAIL->task . '.' . ($RCMAIL->action ?: 'index'), $disabled_actions)) {
-        rcube::raise_error([
+        \rcube::raise_error([
             'code' => 404,
             'message' => 'Action disabled',
         ], true, true);

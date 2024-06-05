@@ -19,11 +19,11 @@
  * @author Aleksander Machniak <alec@alec.pl>
  * @license GNU GPLv3+
  */
-class identity_select extends rcube_plugin
+class identity_select extends \rcube_plugin
 {
     public $task = 'mail';
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('identity_select', [$this, 'select']);
@@ -35,7 +35,7 @@ class identity_select extends rcube_plugin
      */
     public function storage_init($p)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($add_headers = (array) $rcmail->config->get('identity_select_headers', [])) {
             $add_headers = strtoupper(implode(' ', $add_headers));
@@ -59,7 +59,7 @@ class identity_select extends rcube_plugin
             return $p;
         }
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         foreach ((array) $rcmail->config->get('identity_select_headers', []) as $header) {
             if ($emails = $this->get_email_from_header($p['message'], $header)) {

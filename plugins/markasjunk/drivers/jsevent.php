@@ -35,7 +35,7 @@ class markasjunk_jsevent
 
     public function init()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // only execute this code on page load
         if ($rcmail->output->type != 'html') {

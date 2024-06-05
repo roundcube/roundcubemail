@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_delete extends rcmail_action_contacts_index
+class rcmail_action_contacts_delete extends \rcmail_action_contacts_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,11 +27,11 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $cids = self::get_cids(null, rcube_utils::INPUT_POST);
+        $rcmail = \rcmail::get_instance();
+        $cids = self::get_cids(null, \rcube_utils::INPUT_POST);
         $delcnt = 0;
 
         // remove previous deletes
@@ -69,8 +69,8 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                     $error = 'contactdelerror';
                 }
 
-                $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GP);
-                $group = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP);
+                $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GP);
+                $group = \rcube_utils::get_input_string('_gid', \rcube_utils::INPUT_GP);
 
                 $rcmail->output->show_message($error, 'error');
                 $rcmail->output->command('list_contacts', $source, $group);
@@ -87,9 +87,9 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
 
         if (!empty($_SESSION['contact_undo'])) {
             $_SESSION['contact_undo']['ts'] = time();
-            $msg = html::span(null, $rcmail->gettext('contactdeleted'))
-                . ' ' . html::a(
-                    ['onclick' => rcmail_output::JS_OBJECT_NAME . ".command('undo', '', this)"],
+            $msg = \html::span(null, $rcmail->gettext('contactdeleted'))
+                . ' ' . \html::a(
+                    ['onclick' => \rcmail_output::JS_OBJECT_NAME . ".command('undo', '', this)"],
                     $rcmail->gettext('undo')
                 );
 
@@ -106,7 +106,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
             // create resultset object
             $count = count($records);
             $first = ($page - 1) * $page_size;
-            $result = new rcube_result_set($count, $first);
+            $result = new \rcube_result_set($count, $first);
             $pages = ceil((count($records) + $delcnt) / $page_size);
 
             // last page and it's empty, display previous one
@@ -121,7 +121,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
 
                 $first += $page_size;
                 // create resultset object
-                $res = new rcube_result_set($count, $first - $delcnt);
+                $res = new \rcube_result_set($count, $first - $delcnt);
 
                 if ($page_size < $count) {
                     $records = array_slice($records, $first - $delcnt, $delcnt);

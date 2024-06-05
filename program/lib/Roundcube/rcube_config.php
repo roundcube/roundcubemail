@@ -68,7 +68,7 @@ class rcube_config
             $this->paths = explode(\PATH_SEPARATOR, $paths);
             // make all paths absolute
             foreach ($this->paths as $i => $path) {
-                if (!rcube_utils::is_absolute_path($path)) {
+                if (!\rcube_utils::is_absolute_path($path)) {
                     if ($realpath = realpath(RCUBE_INSTALL_PATH . $path)) {
                         $this->paths[$i] = unslashify($realpath) . '/';
                     } else {
@@ -232,7 +232,7 @@ class rcube_config
         // fix default imap folders encoding
         foreach (['drafts_mbox', 'junk_mbox', 'sent_mbox', 'trash_mbox'] as $folder) {
             if (isset($this->prop[$folder])) {
-                $this->prop[$folder] = rcube_charset::convert($this->prop[$folder], RCUBE_CHARSET, 'UTF7-IMAP');
+                $this->prop[$folder] = \rcube_charset::convert($this->prop[$folder], RCUBE_CHARSET, 'UTF7-IMAP');
             }
         }
 
@@ -332,7 +332,7 @@ class rcube_config
     public function resolve_paths($file, $use_env = true)
     {
         $files = [];
-        $abs_path = rcube_utils::is_absolute_path($file);
+        $abs_path = \rcube_utils::is_absolute_path($file);
 
         foreach ($this->paths as $basepath) {
             $realpath = $abs_path ? $file : realpath($basepath . '/' . $file);
@@ -377,7 +377,7 @@ class rcube_config
         }
 
         $result = $this->getenv_default('ROUNDCUBE_' . strtoupper($name), $result);
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         if ($name == 'timezone') {
             if (empty($result) || $result == 'auto') {
@@ -398,12 +398,12 @@ class rcube_config
             }
         } elseif ($name == 'collected_senders') {
             if (is_bool($result)) {
-                $result = $result ? rcube_addressbook::TYPE_TRUSTED_SENDER : '';
+                $result = $result ? \rcube_addressbook::TYPE_TRUSTED_SENDER : '';
             }
             $result = (string) $result;
         } elseif ($name == 'collected_recipients') {
             if (is_bool($result)) {
-                $result = $result ? rcube_addressbook::TYPE_RECIPIENT : '';
+                $result = $result ? \rcube_addressbook::TYPE_RECIPIENT : '';
             }
             $result = (string) $result;
         }
@@ -494,7 +494,7 @@ class rcube_config
             $props[$prop_name] = $this->getenv_default('ROUNDCUBE_' . strtoupper($prop_name), $prop_value);
         }
 
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('config_get', ['name' => '*', 'result' => $props]);
 
         return $plugin['result'];
@@ -523,9 +523,9 @@ class rcube_config
     {
         if ($tz = $this->get('timezone')) {
             try {
-                $tz = new DateTimeZone($tz);
-                return $tz->getOffset(new DateTime('now')) / 3600;
-            } catch (Exception $e) {
+                $tz = new \DateTimeZone($tz);
+                return $tz->getOffset(new \DateTime('now')) / 3600;
+            } catch (\Exception $e) {
             }
         }
 
@@ -543,7 +543,7 @@ class rcube_config
     {
         // Bomb out if the requested key does not exist
         if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 500,
                 'message' => "Request for unconfigured crypto key \"{$key}\"",
             ], true, true);
@@ -578,7 +578,7 @@ class rcube_config
                 return $delim;
             }
 
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 500,
                 'message' => 'Invalid mail_header_delimiter setting',
             ], true, false);
@@ -635,12 +635,12 @@ class rcube_config
                     $domain = $this->prop['mail_domain'][$host];
                 }
             } else {
-                $domain = rcube_utils::parse_host($this->prop['mail_domain']);
+                $domain = \rcube_utils::parse_host($this->prop['mail_domain']);
             }
         }
 
         if ($encode) {
-            $domain = rcube_utils::idn_to_ascii($domain);
+            $domain = \rcube_utils::idn_to_ascii($domain);
         }
 
         return $domain;
@@ -675,9 +675,9 @@ class rcube_config
             $props['timezone'] = $this->resolve_timezone_alias($props['timezone']);
 
             try {
-                $tz = new DateTimeZone($props['timezone']);
+                $tz = new \DateTimeZone($props['timezone']);
                 return $this->client_tz = $tz->getName();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // gracefully ignore
             }
         }

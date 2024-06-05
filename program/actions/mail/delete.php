@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_delete extends rcmail_action_mail_index
+class rcmail_action_mail_delete extends \rcmail_action_mail_index
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,10 +26,10 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // count messages before changing anything
         $threading = (bool) $rcmail->storage->get_threading();
@@ -48,7 +48,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
             $rcmail->output->send();
         }
 
-        foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
+        foreach (\rcmail_action::get_uids(null, null, $multifolder, \rcube_utils::INPUT_POST) as $mbox => $uids) {
             $deleted += (int) $rcmail->storage->delete_message($uids, $mbox);
             $count += is_array($uids) ? count($uids) : 1;
             $sources[] = $mbox;
@@ -66,7 +66,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
             $rcmail->output->show_message('messagedeleted', 'confirmation');
         }
 
-        $search_request = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
+        $search_request = \rcube_utils::get_input_string('_search', \rcube_utils::INPUT_GPC);
 
         // refresh saved search set after moving some messages
         if ($search_request && $rcmail->storage->get_search_set()) {
@@ -74,7 +74,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         }
 
         if (!empty($_POST['_from']) && $_POST['_from'] == 'show') {
-            if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
+            if ($next = \rcube_utils::get_input_string('_next_uid', \rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
             } else {
                 $rcmail->output->command('command', 'list');
@@ -115,7 +115,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         $rcmail->output->command('set_rowcount', self::get_messagecount_text($msg_count), $mbox);
 
         if ($threading) {
-            $count = rcube_utils::get_input_string('_count', rcube_utils::INPUT_POST);
+            $count = \rcube_utils::get_input_string('_count', \rcube_utils::INPUT_POST);
         }
 
         // add new rows from next page (if any)

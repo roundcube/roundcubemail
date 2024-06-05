@@ -29,13 +29,13 @@ class rcube_mailcow_password
 {
     public function save($curpass, $passwd, $username)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $host = $rcmail->config->get('password_mailcow_api_host');
         $token = $rcmail->config->get('password_mailcow_api_token');
 
         try {
-            $client = password::get_http_client();
+            $client = \password::get_http_client();
 
             $headers = [
                 'X-API-Key' => $token,
@@ -66,11 +66,11 @@ class rcube_mailcow_password
             }
 
             return PASSWORD_ERROR;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = $e->getMessage();
         }
 
-        rcube::raise_error("Password plugin: Problem with Mailcow API: {$result}", true);
+        \rcube::raise_error("Password plugin: Problem with Mailcow API: {$result}", true);
 
         return PASSWORD_CONNECT_ERROR;
     }

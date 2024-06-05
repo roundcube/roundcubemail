@@ -25,7 +25,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
-class attachment_reminder extends rcube_plugin
+class attachment_reminder extends \rcube_plugin
 {
     public $task = 'mail|settings';
     public $noajax = true;
@@ -33,10 +33,10 @@ class attachment_reminder extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($rcmail->task == 'mail' && $rcmail->action == 'compose') {
             if ($rcmail->config->get('attachment_reminder')) {
@@ -67,12 +67,12 @@ class attachment_reminder extends rcube_plugin
     {
         if ($args['section'] == 'compose') {
             $this->add_texts('localization/');
-            $reminder = rcube::get_instance()->config->get('attachment_reminder');
+            $reminder = \rcube::get_instance()->config->get('attachment_reminder');
             $field_id = 'rcmfd_attachment_reminder';
-            $checkbox = new html_checkbox(['name' => '_attachment_reminder', 'id' => $field_id, 'value' => 1]);
+            $checkbox = new \html_checkbox(['name' => '_attachment_reminder', 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['attachment_reminder'] = [
-                'title' => html::label($field_id, rcube::Q($this->gettext('reminderoption'))),
+                'title' => \html::label($field_id, \rcube::Q($this->gettext('reminderoption'))),
                 'content' => $checkbox->show($reminder ? 1 : 0),
             ];
         }
@@ -90,7 +90,7 @@ class attachment_reminder extends rcube_plugin
     public function prefs_save($args)
     {
         if ($args['section'] == 'compose') {
-            $dont_override = rcube::get_instance()->config->get('dont_override', []);
+            $dont_override = \rcube::get_instance()->config->get('dont_override', []);
             if (!in_array('attachment_reminder', $dont_override)) {
                 $args['prefs']['attachment_reminder'] = !empty($_POST['_attachment_reminder']);
             }

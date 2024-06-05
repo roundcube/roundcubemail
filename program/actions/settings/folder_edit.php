@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
+class rcmail_action_settings_folder_edit extends \rcmail_action_settings_folders
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,10 +26,10 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $rcmail->output->add_handlers([
             'folderdetails' => [$this, 'folder_form'],
@@ -43,17 +43,17 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
     public static function folder_form($attrib)
     {
         // WARNING: folder names in UI are encoded with RCUBE_CHARSET
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $storage = $rcmail->get_storage();
 
         // edited folder name (empty in create-folder mode)
-        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GPC, true);
+        $mbox = \rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_GPC, true);
 
         // predefined path for new folder
-        $parent = rcube_utils::get_input_string('_path', rcube_utils::INPUT_GPC, true);
+        $parent = \rcube_utils::get_input_string('_path', \rcube_utils::INPUT_GPC, true);
 
         $threading_supported = $storage->get_capability('THREAD');
-        $dual_use_supported = $storage->get_capability(rcube_storage::DUAL_USE_FOLDERS);
+        $dual_use_supported = $storage->get_capability(\rcube_storage::DUAL_USE_FOLDERS);
         $delimiter = $storage->get_hierarchy_delimiter();
 
         // Get mailbox parameters
@@ -64,7 +64,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             $path = explode($delimiter, $mbox);
             $folder = array_pop($path);
             $path = implode($delimiter, $path);
-            $folder = rcube_charset::convert($folder, 'UTF7-IMAP');
+            $folder = \rcube_charset::convert($folder, 'UTF7-IMAP');
 
             $hidden_fields = ['name' => '_mbox', 'value' => $mbox];
         } else {
@@ -98,19 +98,19 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         // Location (name)
         if (!empty($options['protected'])) {
-            $foldername = str_replace($delimiter, ' &raquo; ', rcube::Q(self::localize_foldername($mbox, false, true)));
+            $foldername = str_replace($delimiter, ' &raquo; ', \rcube::Q(self::localize_foldername($mbox, false, true)));
         } elseif (!empty($options['norename'])) {
-            $foldername = rcube::Q($folder);
+            $foldername = \rcube::Q($folder);
         } else {
             if (isset($_POST['_name'])) {
-                $folder = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true));
+                $folder = trim(\rcube_utils::get_input_string('_name', \rcube_utils::INPUT_POST, true));
             }
 
-            $foldername = new html_inputfield(['name' => '_name', 'id' => '_name', 'size' => 30, 'class' => 'form-control']);
+            $foldername = new \html_inputfield(['name' => '_name', 'id' => '_name', 'size' => 30, 'class' => 'form-control']);
             $foldername = '<span class="input-group">' . $foldername->show($folder);
 
             if (!empty($options['special']) && ($sname = self::localize_foldername($mbox, false, true)) != $folder) {
-                $foldername .= ' <span class="input-group-append"><span class="input-group-text">(' . rcube::Q($sname) . ')</span></span>';
+                $foldername .= ' <span class="input-group-append"><span class="input-group-text">(' . \rcube::Q($sname) . ')</span></span>';
             }
 
             $foldername .= '</span>';
@@ -128,7 +128,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
         if (!empty($options) && (!empty($options['norename']) || !empty($options['protected']))) {
             // prevent user from moving folder
-            $hidden_path = new html_hiddenfield(['name' => '_parent', 'value' => $path]);
+            $hidden_path = new \html_hiddenfield(['name' => '_parent', 'value' => $path]);
             $form['props']['fieldsets']['location']['content']['name']['value'] .= $hidden_path->show();
         } else {
             $selected = $_POST['_parent'] ?? $path_id;
@@ -166,11 +166,11 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         // For servers that do not support both sub-folders and messages in a folder
         if (!$dual_use_supported) {
             if (!strlen($mbox)) {
-                $select = new html_select(['name' => '_type', 'id' => '_type']);
+                $select = new \html_select(['name' => '_type', 'id' => '_type']);
                 $select->add($rcmail->gettext('dualusemail'), 'mail');
                 $select->add($rcmail->gettext('dualusefolder'), 'folder');
 
-                $value = rcube_utils::get_input_string('_type', rcube_utils::INPUT_POST);
+                $value = \rcube_utils::get_input_string('_type', \rcube_utils::INPUT_POST);
                 $value = $select->show($value ?: 'mail');
             } else {
                 $value = $options['noselect'] ? 'folder' : 'mail';
@@ -186,7 +186,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         // Settings: threading
         if ($threading_supported && ($mbox == 'INBOX' || (empty($options['noselect']) && empty($options['is_root'])))) {
             $value = 0;
-            $select = new html_select(['name' => '_viewmode', 'id' => '_viewmode']);
+            $select = new \html_select(['name' => '_viewmode', 'id' => '_viewmode']);
 
             $select->add($rcmail->gettext('list'), 0);
             $select->add($rcmail->gettext('threads'), 1);
@@ -231,10 +231,10 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                     // create link with folder-size command
                     if (!isset($size) || $size === false) {
                         $onclick = sprintf("return %s.command('folder-size', '%s', this)",
-                            rcmail_output::JS_OBJECT_NAME, rcube::JQ($mbox));
+                            \rcmail_output::JS_OBJECT_NAME, \rcube::JQ($mbox));
 
                         $attr = ['href' => '#', 'onclick' => $onclick, 'id' => 'folder-size'];
-                        $size = html::a($attr, $rcmail->gettext('getfoldersize'));
+                        $size = \html::a($attr, $rcmail->gettext('getfoldersize'));
                     }
                 } else {
                     // no messages -> zero size
@@ -285,8 +285,8 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 foreach ($tab['fieldsets'] as $fieldset) {
                     $subcontent = self::get_form_part($fieldset, $attrib);
                     if ($subcontent) {
-                        $subcontent = html::tag('legend', null, rcube::Q($fieldset['name'])) . $subcontent;
-                        $content .= html::tag('fieldset', null, $subcontent) . "\n";
+                        $subcontent = \html::tag('legend', null, \rcube::Q($fieldset['name'])) . $subcontent;
+                        $content .= \html::tag('fieldset', null, $subcontent) . "\n";
                     }
                 }
             } else {
@@ -294,7 +294,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
             }
 
             if ($idx != 'props') {
-                $out .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($tab['name'])) . $content) . "\n";
+                $out .= \html::tag('fieldset', null, \html::tag('legend', null, \rcube::Q($tab['name'])) . $content) . "\n";
             } else {
                 $out .= $content . "\n";
             }
@@ -314,17 +314,17 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
     public static function get_form_part($form, $attrib = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $content = '';
 
         if (!empty($form['content']) && is_array($form['content'])) {
-            $table = new html_table(['cols' => 2]);
+            $table = new \html_table(['cols' => 2]);
 
             foreach ($form['content'] as $col => $colprop) {
                 $colprop['id'] = '_' . $col;
                 $label = !empty($colprop['label']) ? $colprop['label'] : $rcmail->gettext($col);
 
-                $table->add('title', html::label($colprop['id'], rcube::Q($label)));
+                $table->add('title', \html::label($colprop['id'], \rcube::Q($label)));
                 $table->add(null, $colprop['value']);
             }
 

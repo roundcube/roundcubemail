@@ -17,7 +17,7 @@ class rcube_ldap_ppolicy_password
 
     public function save($currpass, $newpass, $username)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $this->debug = $rcmail->config->get('ldap_debug');
 
         $cmd = $rcmail->config->get('password_ldap_ppolicy_cmd');
@@ -86,7 +86,7 @@ class rcube_ldap_ppolicy_password
                 case 'Cannot connect to any server':
                     return PASSWORD_CONNECT_ERROR;
                 default:
-                    rcube::raise_error("Password plugin: Failed to execute command: {$cmd}. Output: {$result}. Error: {$stderr}", true);
+                    \rcube::raise_error("Password plugin: Failed to execute command: {$cmd}. Output: {$result}. Error: {$stderr}", true);
             }
         }
 
@@ -96,7 +96,7 @@ class rcube_ldap_ppolicy_password
     private function _debug($str)
     {
         if ($this->debug) {
-            rcube::write_log('ldap', $str);
+            \rcube::write_log('ldap', $str);
         }
     }
 }

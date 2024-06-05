@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_edit
+class rcmail_action_settings_folder_save extends \rcmail_action_settings_folder_edit
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,20 +26,20 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         // WARNING: folder names in UI are encoded with RCUBE_CHARSET
 
-        $name = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true));
-        $path = rcube_utils::get_input_string('_parent', rcube_utils::INPUT_POST, true);
-        $old_imap = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
-        $type = rcube_utils::get_input_string('_type', rcube_utils::INPUT_POST);
-        $name_imap = rcube_charset::convert($name, RCUBE_CHARSET, 'UTF7-IMAP');
+        $name = trim(\rcube_utils::get_input_string('_name', \rcube_utils::INPUT_POST, true));
+        $path = \rcube_utils::get_input_string('_parent', \rcube_utils::INPUT_POST, true);
+        $old_imap = \rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_POST, true);
+        $type = \rcube_utils::get_input_string('_type', \rcube_utils::INPUT_POST);
+        $name_imap = \rcube_charset::convert($name, RCUBE_CHARSET, 'UTF7-IMAP');
         // $path is in UTF7-IMAP already
 
         // init IMAP connection
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $storage = $rcmail->get_storage();
         $delimiter = $storage->get_hierarchy_delimiter();
         $options = strlen($old_imap) ? self::folder_options($old_imap) : [];
@@ -70,7 +70,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
             }
         }
 
-        $dual_use_supported = $storage->get_capability(rcube_storage::DUAL_USE_FOLDERS);
+        $dual_use_supported = $storage->get_capability(\rcube_storage::DUAL_USE_FOLDERS);
         $acl_supported = $storage->get_capability('ACL');
 
         // Check access rights to the parent folder
@@ -94,9 +94,9 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
                 'options' => $options,
                 'settings' => [
                     // List view mode: 0-list, 1-threads
-                    'view_mode' => (int) rcube_utils::get_input_string('_viewmode', rcube_utils::INPUT_POST),
-                    'sort_column' => rcube_utils::get_input_string('_sortcol', rcube_utils::INPUT_POST),
-                    'sort_order' => rcube_utils::get_input_string('_sortord', rcube_utils::INPUT_POST),
+                    'view_mode' => (int) \rcube_utils::get_input_string('_viewmode', \rcube_utils::INPUT_POST),
+                    'sort_column' => \rcube_utils::get_input_string('_sortcol', \rcube_utils::INPUT_POST),
+                    'sort_order' => \rcube_utils::get_input_string('_sortord', \rcube_utils::INPUT_POST),
                 ],
                 'subscribe' => false,
                 'noselect' => false,

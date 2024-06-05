@@ -8,14 +8,14 @@
  * @author Sandro Knauß <hefee@debian.org>
  * @license GPLv3+
  */
-class reconnect extends rcube_plugin
+class reconnect extends \rcube_plugin
 {
     private $imap_max_attempts;
 
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('storage_connect', [$this, 'storage_connect']);
@@ -26,7 +26,7 @@ class reconnect extends rcube_plugin
      */
     public function storage_connect($args)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $this->load_config();
 
@@ -38,12 +38,12 @@ class reconnect extends rcube_plugin
             return $args;
         }
 
-        $storage = rcmail::get_instance()->get_storage();
+        $storage = \rcmail::get_instance()->get_storage();
 
         switch ($storage->get_error_code()) {
-            case rcube_imap_generic::ERROR_NO:
-            case rcube_imap_generic::ERROR_BAD:
-            case rcube_imap_generic::ERROR_BYE:
+            case \rcube_imap_generic::ERROR_NO:
+            case \rcube_imap_generic::ERROR_BAD:
+            case \rcube_imap_generic::ERROR_BYE:
                 $args['retry'] = false;
                 break;
         }

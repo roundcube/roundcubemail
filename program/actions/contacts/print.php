@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_print extends rcmail_action_contacts_index
+class rcmail_action_contacts_print extends \rcmail_action_contacts_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -28,10 +28,10 @@ class rcmail_action_contacts_print extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // Get contact ID and source ID from request
         $cids = self::get_cids();
@@ -58,7 +58,7 @@ class rcmail_action_contacts_print extends rcmail_action_contacts_index
 
     public static function contact_head($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // check if we have a valid result
         if (!self::$contact) {
@@ -92,7 +92,7 @@ class rcmail_action_contacts_print extends rcmail_action_contacts_index
             return false;
         }
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $form = [
             'contact' => [
@@ -124,7 +124,7 @@ class rcmail_action_contacts_print extends rcmail_action_contacts_index
             ],
         ];
 
-        if (isset(rcmail_action_contacts_index::$CONTACT_COLTYPES['notes'])) {
+        if (isset(\rcmail_action_contacts_index::$CONTACT_COLTYPES['notes'])) {
             $form['notes'] = [
                 'name' => $rcmail->gettext('notes'),
                 'content' => [
@@ -137,7 +137,7 @@ class rcmail_action_contacts_print extends rcmail_action_contacts_index
             $groups = self::$CONTACTS->get_record_groups(self::$contact['ID']);
             if (!empty($groups)) {
                 $form['contact']['content']['groups'] = [
-                    'value' => rcube::Q(implode(', ', $groups)),
+                    'value' => \rcube::Q(implode(', ', $groups)),
                     'label' => $rcmail->gettext('groups'),
                 ];
             }

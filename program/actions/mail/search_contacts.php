@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contacts
+class rcmail_action_mail_search_contacts extends \rcmail_action_mail_list_contacts
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,11 +26,11 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $search = rcube_utils::get_input_string('_q', rcube_utils::INPUT_GPC, true);
+        $rcmail = \rcmail::get_instance();
+        $search = \rcube_utils::get_input_string('_q', \rcube_utils::INPUT_GPC, true);
         $sources = $rcmail->get_address_sources();
         $search_mode = (int) $rcmail->config->get('addressbook_search_mode');
         $addr_sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
@@ -39,7 +39,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
         $records = [];
         $search_set = [];
         $jsresult = [];
-        $search_mode |= rcube_addressbook::SEARCH_GROUPS;
+        $search_mode |= \rcube_addressbook::SEARCH_GROUPS;
 
         foreach ($sources as $s) {
             $source = $rcmail->get_address_book($s['id']);
@@ -60,7 +60,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
             foreach ($result as $row) {
                 $row['sourceid'] = $s['id'];
-                $key = rcube_addressbook::compose_contact_key($row, $addr_sort_col);
+                $key = \rcube_addressbook::compose_contact_key($row, $addr_sort_col);
                 $records[$key] = $row;
             }
 
@@ -75,7 +75,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
         // create resultset object
         $count = count($records);
-        $result = new rcube_result_set($count);
+        $result = new \rcube_result_set($count);
 
         // select the requested page
         if ($page_size < $count) {
@@ -87,26 +87,26 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
         if ($result->count > 0) {
             // create javascript list
             foreach ($result as $row) {
-                $name = rcube_addressbook::compose_list_name($row);
+                $name = \rcube_addressbook::compose_list_name($row);
                 $is_group = isset($row['_type']) && $row['_type'] == 'group';
                 $classname = $is_group ? 'group' : 'person';
                 $keyname = $is_group ? 'contactgroup' : 'contact';
 
                 // add record for every email address of the contact
                 // (same as in list_contacts.inc)
-                $emails = rcube_addressbook::get_col_values('email', $row, true);
+                $emails = \rcube_addressbook::get_col_values('email', $row, true);
 
                 foreach ($emails as $i => $email) {
                     $row_id = $row['sourceid'] . '-' . $row['ID'] . '-' . $i;
 
                     $jsresult[$row_id] = format_email_recipient($email, $name);
 
-                    $title = rcube_addressbook::compose_search_name($row, $email, $name);
-                    $link_content = rcube::Q($name ?: $email);
+                    $title = \rcube_addressbook::compose_search_name($row, $email, $name);
+                    $link_content = \rcube::Q($name ?: $email);
                     if ($name && count($emails) > 1) {
-                        $link_content .= '&nbsp;' . html::span('email', rcube::Q($email));
+                        $link_content .= '&nbsp;' . \html::span('email', \rcube::Q($email));
                     }
-                    $link = html::a(['title' => $title], $link_content);
+                    $link = \html::a(['title' => $title], $link_content);
 
                     $rcmail->output->command('add_contact_row', $row_id, [$keyname => $link], $classname);
                 }

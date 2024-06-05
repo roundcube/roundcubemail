@@ -35,10 +35,10 @@ class rcube_pam_password
                     return PASSWORD_SUCCESS;
                 }
             } else {
-                rcube::raise_error("Password plugin: PAM authentication failed for user {$username}: {$error}", true);
+                \rcube::raise_error("Password plugin: PAM authentication failed for user {$username}: {$error}", true);
             }
         } else {
-            rcube::raise_error('Password plugin: PECL-PAM module not loaded', true);
+            \rcube::raise_error('Password plugin: PECL-PAM module not loaded', true);
         }
 
         return PASSWORD_ERROR;

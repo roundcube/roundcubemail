@@ -104,7 +104,7 @@ class rcube_image
     public function resize($size, $filename = null, $browser_compat = false)
     {
         $result = false;
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $convert = self::getCommand('im_convert_path');
         $props = $this->props();
 
@@ -164,25 +164,25 @@ class rcube_image
                             'size' => $width . 'x' . $height,
                         ];
 
-                        $result = rcube::exec($convert
+                        $result = \rcube::exec($convert
                             . ' 2>&1 -flatten -auto-orient -colorspace sRGB -strip'
                             . ' -quality {quality} -resize {size} {intype}:{in} {type}:{out}', $p);
                     }
                     // use PHP's Imagick class
                     else {
                         try {
-                            $image = new Imagick($this->image_file);
+                            $image = new \Imagick($this->image_file);
 
                             try {
                                 // it throws exception on formats not supporting these features
                                 $image->setImageBackgroundColor('white');
                                 $image->setImageAlphaChannel(11);
-                                $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-                            } catch (Exception $e) {
+                                $image->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
+                            } catch (\Exception $e) {
                                 // ignore errors
                             }
 
-                            $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
+                            $image->setImageColorspace(\Imagick::COLORSPACE_SRGB);
                             $image->setImageCompressionQuality(75);
                             $image->setImageFormat($type);
                             $image->stripImage();
@@ -191,8 +191,8 @@ class rcube_image
                             if ($image->writeImage($filename)) {
                                 $result = '';
                             }
-                        } catch (Exception $e) {
-                            rcube::raise_error($e, true, false);
+                        } catch (\Exception $e) {
+                            \rcube::raise_error($e, true, false);
                         }
                     }
                 }
@@ -279,7 +279,7 @@ class rcube_image
                 } elseif ($props['gd_type'] == \IMAGETYPE_GIF) {
                     $result = imagegif($image, $filename);
                 } elseif ($props['gd_type'] == \IMAGETYPE_PNG) {
-                    $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
+                    $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
                 }
             }
 
@@ -304,7 +304,7 @@ class rcube_image
      */
     public function convert($type, $filename = null)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $convert = self::getCommand('im_convert_path');
 
         if (!$filename) {
@@ -324,7 +324,7 @@ class rcube_image
                 'type' => self::$extensions[$type],
             ];
 
-            $result = rcube::exec($convert . ' 2>&1 -colorspace sRGB -strip -flatten -quality 75 {in} {type}:{out}', $p);
+            $result = \rcube::exec($convert . ' 2>&1 -colorspace sRGB -strip -flatten -quality 75 {in} {type}:{out}', $p);
 
             if ($result === '') {
                 chmod($filename, 0600);
@@ -335,9 +335,9 @@ class rcube_image
         // use PHP's Imagick class
         if (class_exists('Imagick', false)) {
             try {
-                $image = new Imagick($this->image_file);
+                $image = new \Imagick($this->image_file);
 
-                $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
+                $image->setImageColorspace(\Imagick::COLORSPACE_SRGB);
                 $image->setImageCompressionQuality(75);
                 $image->setImageFormat(self::$extensions[$type]);
                 $image->stripImage();
@@ -346,8 +346,8 @@ class rcube_image
                     @chmod($filename, 0600);
                     return true;
                 }
-            } catch (Exception $e) {
-                rcube::raise_error($e, true, false);
+            } catch (\Exception $e) {
+                \rcube::raise_error($e, true, false);
             }
         }
 
@@ -378,7 +378,7 @@ class rcube_image
             } elseif ($type == self::TYPE_GIF) {
                 $result = imagegif($image, $filename);
             } elseif ($type == self::TYPE_PNG) {
-                $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
+                $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
             }
 
             if (!empty($result)) {
@@ -400,7 +400,7 @@ class rcube_image
      */
     public static function is_convertable($mimetype)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $mimetype = preg_replace('|^image/|', '', $mimetype);
         $mimetype = strtoupper($mimetype);
 
@@ -410,7 +410,7 @@ class rcube_image
         }
 
         if (class_exists('Imagick', false)) {
-            return in_array($mimetype, Imagick::queryFormats());
+            return in_array($mimetype, \Imagick::queryFormats());
         }
 
         return (function_exists('imagecreatefromjpeg') && ($mimetype == 'JPG' || $mimetype == 'JPEG'))
@@ -424,12 +424,12 @@ class rcube_image
      */
     private function identify()
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         // use ImageMagick in command line
         if ($cmd = self::getCommand('im_identify_path')) {
             $args = ['in' => $this->image_file, 'format' => '%m %[fx:w] %[fx:h]'];
-            $id = rcube::exec($cmd . ' 2>/dev/null -format {format} {in}', $args);
+            $id = \rcube::exec($cmd . ' 2>/dev/null -format {format} {in}', $args);
 
             if ($id) {
                 return explode(' ', strtolower($id));
@@ -439,14 +439,14 @@ class rcube_image
         // use PHP's Imagick class
         if (class_exists('Imagick', false)) {
             try {
-                $image = new Imagick($this->image_file);
+                $image = new \Imagick($this->image_file);
 
                 return [
                     strtolower($image->getImageFormat()),
                     $image->getImageWidth(),
                     $image->getImageHeight(),
                 ];
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // ignore
             }
         }
@@ -472,7 +472,7 @@ class rcube_image
         // calculate image size in memory (in bytes)
         $size = $props['width'] * $props['height'] * $multip;
 
-        return rcube_utils::mem_check($size);
+        return \rcube_utils::mem_check($size);
     }
 
     /**
@@ -487,7 +487,7 @@ class rcube_image
     {
         static $error = [];
 
-        $cmd = (string) rcube::get_instance()->config->get($opt_name);
+        $cmd = (string) \rcube::get_instance()->config->get($opt_name);
 
         if (empty($cmd)) {
             return false;
@@ -505,7 +505,7 @@ class rcube_image
         }
 
         if (empty($error[$opt_name])) {
-            rcube::raise_error("Invalid {$opt_name}: {$cmd}", true, false);
+            \rcube::raise_error("Invalid {$opt_name}: {$cmd}", true, false);
             $error[$opt_name] = true;
         }
 

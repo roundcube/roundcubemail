@@ -18,8 +18,8 @@ if (!class_exists('rcmail_install', false) || !isset($RCI)) {
     exit('Not allowed! Please open installer/index.php instead.');
 }
 
-/** @var rcmail_install $RCI */
-/** @var rcube_db|null $DB */
+/** @var \rcmail_install $RCI */
+/** @var \rcube_db|null $DB */
 
 $DB = null;
 
@@ -62,8 +62,8 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 
         echo '<ul class="configwarnings">';
         foreach ($messages['replaced'] as $msg) {
-            echo html::tag('li', null, html::span('propname', $msg['prop']) .
-                ' was replaced by ' . html::span('propname', $msg['replacement']));
+            echo \html::tag('li', null, \html::span('propname', $msg['prop']) .
+                ' was replaced by ' . \html::span('propname', $msg['replacement']));
         }
         echo '</ul>';
     }
@@ -74,14 +74,14 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 
         echo '<ul class="configwarnings">';
         foreach ($messages['obsolete'] as $msg) {
-            echo html::tag('li', null, html::span('propname', $msg['prop'])
+            echo \html::tag('li', null, \html::span('propname', $msg['prop'])
                 . (!empty($msg['explain']) ? ':&nbsp;' . $msg['explain'] : ''));
         }
         echo '</ul>';
     }
 
     echo '<p class="suggestion">OK, lazy people can download the updated config file here: ';
-    echo html::a(['href' => './?_mergeconfig=1'], 'config.inc.php') . ' &nbsp;';
+    echo \html::a(['href' => './?_mergeconfig=1'], 'config.inc.php') . ' &nbsp;';
     echo '</p>';
 
     if (!empty($messages['dependencies'])) {
@@ -90,7 +90,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 
         echo '<ul class="configwarnings">';
         foreach ($messages['dependencies'] as $msg) {
-            echo html::tag('li', null, html::span('propname', $msg['prop']) . ': ' . $msg['explain']);
+            echo \html::tag('li', null, \html::span('propname', $msg['prop']) . ': ' . $msg['explain']);
         }
         echo '</ul>';
     }
@@ -108,7 +108,7 @@ if ($RCI->config['log_driver'] != 'syslog') {
 }
 
 foreach ($dirs as $dir) {
-    $dirpath = rcube_utils::is_absolute_path($dir) ? $dir : INSTALL_PATH . $dir;
+    $dirpath = \rcube_utils::is_absolute_path($dir) ? $dir : INSTALL_PATH . $dir;
     if (is_writable(realpath($dirpath))) {
         $RCI->pass($dir);
         $pass = true;
@@ -129,7 +129,7 @@ if (empty($pass)) {
 
 if ($RCI->configured) {
     if (!empty($RCI->config['db_dsnw'])) {
-        $DB = rcube_db::factory($RCI->config['db_dsnw'], '', false);
+        $DB = \rcube_db::factory($RCI->config['db_dsnw'], '', false);
         $DB->set_debug((bool) $RCI->config['sql_debug']);
         $DB->db_connect('w');
 
@@ -139,7 +139,7 @@ if ($RCI->configured) {
         } else {
             $RCI->fail('DSN (write)', $db_error_msg);
             echo '<p class="hint">Make sure that the configured database exists and that the user has write privileges<br />';
-            echo 'DSN: ' . rcube::Q($RCI->config['db_dsnw']) . '</p>';
+            echo 'DSN: ' . \rcube::Q($RCI->config['db_dsnw']) . '</p>';
             $DB = null;
         }
     } else {
@@ -249,26 +249,26 @@ if ($errors = $RCI->check_mime_extensions()) {
 
 $smtp_hosts = $RCI->get_hostlist('smtp_host');
 if (!empty($smtp_hosts)) {
-    $smtp_host_field = new html_select(['name' => '_smtp_host', 'id' => 'smtp_host']);
+    $smtp_host_field = new \html_select(['name' => '_smtp_host', 'id' => 'smtp_host']);
     $smtp_host_field->add($smtp_hosts, $smtp_hosts);
 } else {
-    $smtp_host_field = new html_inputfield(['name' => '_smtp_host', 'id' => 'smtp_host']);
+    $smtp_host_field = new \html_inputfield(['name' => '_smtp_host', 'id' => 'smtp_host']);
 }
 
 $user = $RCI->getprop('smtp_user', '(none)');
 $pass = $RCI->getprop('smtp_pass', '(none)');
 
 if ($user == '%u') {
-    $user_field = new html_inputfield(['name' => '_smtp_user', 'id' => 'smtp_user']);
+    $user_field = new \html_inputfield(['name' => '_smtp_user', 'id' => 'smtp_user']);
     $user = $user_field->show($_POST['_smtp_user'] ?? '');
 } else {
-    $user = html::quote($user);
+    $user = \html::quote($user);
 }
 if ($pass == '%p') {
-    $pass_field = new html_passwordfield(['name' => '_smtp_pass', 'id' => 'smtp_pass']);
+    $pass_field = new \html_passwordfield(['name' => '_smtp_pass', 'id' => 'smtp_pass']);
     $pass = $pass_field->show();
 } else {
-    $pass = html::quote($pass);
+    $pass = \html::quote($pass);
 }
 
 ?>
@@ -298,16 +298,16 @@ if ($pass == '%p') {
 
 <?php
 
-$from_field = new html_inputfield(['name' => '_from', 'id' => 'sendmailfrom']);
-$to_field = new html_inputfield(['name' => '_to', 'id' => 'sendmailto']);
+$from_field = new \html_inputfield(['name' => '_from', 'id' => 'sendmailfrom']);
+$to_field = new \html_inputfield(['name' => '_to', 'id' => 'sendmailto']);
 
 if (isset($_POST['sendmail'])) {
     echo '<p>Trying to send email...<br />';
 
     $smtp_host = trim($_POST['_smtp_host']);
 
-    $from = rcube_utils::idn_to_ascii(trim($_POST['_from']));
-    $to = rcube_utils::idn_to_ascii(trim($_POST['_to']));
+    $from = \rcube_utils::idn_to_ascii(trim($_POST['_from']));
+    $to = \rcube_utils::idn_to_ascii(trim($_POST['_to']));
 
     if (
         preg_match('/^' . $RCI->email_pattern . '$/i', $from)
@@ -331,11 +331,11 @@ if (isset($_POST['sendmail'])) {
             $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
         }
 
-        $mail_object = new Mail_mime();
+        $mail_object = new \Mail_mime();
         $send_headers = $mail_object->headers($headers);
         $head = $mail_object->txtHeaders($send_headers);
 
-        $SMTP = new rcube_smtp();
+        $SMTP = new \rcube_smtp();
         $SMTP->connect($smtp_host, null, $CONFIG['smtp_user'], $CONFIG['smtp_pass']);
 
         $status = $SMTP->send_mail($headers['From'], $headers['To'], $head, $body);
@@ -380,14 +380,14 @@ if (isset($_POST['sendmail'])) {
 
 $default_hosts = $RCI->get_hostlist();
 if (!empty($default_hosts)) {
-    $host_field = new html_select(['name' => '_host', 'id' => 'imaphost']);
+    $host_field = new \html_select(['name' => '_host', 'id' => 'imaphost']);
     $host_field->add($default_hosts, $default_hosts);
 } else {
-    $host_field = new html_inputfield(['name' => '_host', 'id' => 'imaphost']);
+    $host_field = new \html_inputfield(['name' => '_host', 'id' => 'imaphost']);
 }
 
-$user_field = new html_inputfield(['name' => '_user', 'id' => 'imapuser']);
-$pass_field = new html_passwordfield(['name' => '_pass', 'id' => 'imappass']);
+$user_field = new \html_inputfield(['name' => '_user', 'id' => 'imapuser']);
+$pass_field = new \html_passwordfield(['name' => '_pass', 'id' => 'imappass']);
 
 ?>
 
@@ -411,7 +411,7 @@ $pass_field = new html_passwordfield(['name' => '_pass', 'id' => 'imappass']);
 <?php
 
 if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user'])) {
-    echo '<p>Connecting to ' . rcube::Q($_POST['_host']) . '...<br />';
+    echo '<p>Connecting to ' . \rcube::Q($_POST['_host']) . '...<br />';
 
     $imap_host = trim($_POST['_host']);
     $imap_port = 143;
@@ -424,10 +424,10 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
         $imap_port = $a_host['port'] ?? ($imap_ssl && $imap_ssl != 'tls' ? 993 : 143);
     }
 
-    $imap_host = rcube_utils::idn_to_ascii($imap_host);
-    $imap_user = rcube_utils::idn_to_ascii($_POST['_user']);
+    $imap_host = \rcube_utils::idn_to_ascii($imap_host);
+    $imap_user = \rcube_utils::idn_to_ascii($_POST['_user']);
 
-    $imap = new rcube_imap();
+    $imap = new \rcube_imap();
     $imap->set_options([
         'auth_type' => $RCI->getprop('imap_auth_type'),
         'debug' => $RCI->getprop('imap_debug'),

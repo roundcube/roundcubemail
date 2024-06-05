@@ -64,7 +64,7 @@ class rcube_sieve
         $auth_cid = null, $auth_pw = null, $options = [], $gssapi_principal = null,
         $gssapi_cname = null)
     {
-        $this->sieve = new Net_Sieve();
+        $this->sieve = new \Net_Sieve();
 
         if ($debug) {
             $this->sieve->setDebug(true, [$this, 'debug_handler']);
@@ -407,7 +407,7 @@ class rcube_sieve
     private function _parse($txt)
     {
         // parse
-        $script = new rcube_sieve_script($txt, $this->exts);
+        $script = new \rcube_sieve_script($txt, $this->exts);
 
         // fix/convert to Roundcube format
         if (!empty($script->content)) {
@@ -486,6 +486,6 @@ class rcube_sieve
      */
     public function debug_handler($sieve, $message)
     {
-        rcube::write_log('sieve', preg_replace('/\r\n$/', '', $message));
+        \rcube::write_log('sieve', preg_replace('/\r\n$/', '', $message));
     }
 }

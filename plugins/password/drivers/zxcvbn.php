@@ -31,7 +31,7 @@ class rcube_zxcvbn_password
 {
     public function strength_rules()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $rules = [
             $rcmail->gettext('password.passwordnoseq'),
             $rcmail->gettext('password.passwordnocommon'),
@@ -50,10 +50,10 @@ class rcube_zxcvbn_password
     public function check_strength($passwd)
     {
         if (!class_exists('ZxcvbnPhp\Zxcvbn')) {
-            rcube::raise_error('Password plugin: Zxcvbn library not found.', true, true);
+            \rcube::raise_error('Password plugin: Zxcvbn library not found.', true, true);
         }
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $userData = [
             $rcmail->user->get_username('local'),
             $_SESSION['username'],

@@ -17,14 +17,14 @@
  *
  * @website http://roundcube.net
  */
-class identicon extends rcube_plugin
+class identicon extends \rcube_plugin
 {
     public $task = 'addressbook';
 
     /**
      * Plugin initialization.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('contact_photo', [$this, 'contact_photo']);
@@ -42,14 +42,14 @@ class identicon extends rcube_plugin
             return $args;
         }
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // supporting edit/add action may be tricky, let's not do this
         if ($rcmail->action == 'show' || $rcmail->action == 'photo') {
             $email = !empty($args['email']) ? $args['email'] : null;
 
             if (!$email && $args['record']) {
-                $addresses = rcube_addressbook::get_col_values('email', $args['record'], true);
+                $addresses = \rcube_addressbook::get_col_values('email', $args['record'], true);
                 if (!empty($addresses)) {
                     $email = $addresses[0];
                 }
@@ -61,10 +61,10 @@ class identicon extends rcube_plugin
                 if (!empty($args['attrib']['bg-color'])) {
                     $bgcolor = $args['attrib']['bg-color'];
                 } else {
-                    $bgcolor = rcube_utils::get_input_string('_bgcolor', rcube_utils::INPUT_GET);
+                    $bgcolor = \rcube_utils::get_input_string('_bgcolor', \rcube_utils::INPUT_GET);
                 }
 
-                $identicon = new identicon_engine($email, null, $bgcolor);
+                $identicon = new \identicon_engine($email, null, $bgcolor);
 
                 if ($rcmail->action == 'show') {
                     // set photo URL using data-uri

@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_group_delmembers extends rcmail_action_contacts_index
+class rcmail_action_contacts_group_delmembers extends \rcmail_action_contacts_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,11 +27,11 @@ class rcmail_action_contacts_group_delmembers extends rcmail_action_contacts_ind
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $rcmail = \rcmail::get_instance();
+        $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GPC);
         $contacts = self::contact_source($source);
 
         if ($contacts->readonly || !$contacts->groups) {
@@ -39,7 +39,7 @@ class rcmail_action_contacts_group_delmembers extends rcmail_action_contacts_ind
             $rcmail->output->send();
         }
 
-        $gid = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_POST);
+        $gid = \rcube_utils::get_input_string('_gid', \rcube_utils::INPUT_POST);
         $ids = self::get_cids($source);
 
         if ($gid && $ids) {

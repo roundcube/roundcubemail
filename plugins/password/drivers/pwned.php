@@ -74,7 +74,7 @@ class rcube_pwned_password
      */
     public function strength_rules()
     {
-        $rc = rcmail::get_instance();
+        $rc = \rcmail::get_instance();
         $href = 'https://haveibeenpwned.com/Passwords';
 
         return [$rc->gettext(['name' => 'password.pwned_mustnotbedisclosed', 'vars' => ['href' => $href]])];
@@ -97,7 +97,7 @@ class rcube_pwned_password
         $message = null;
 
         if ($score !== self::SCORE_NOT_LISTED) {
-            $rc = rcmail::get_instance();
+            $rc = \rcmail::get_instance();
             if ($score === self::SCORE_LISTED) {
                 $message = $rc->gettext('password.pwned_isdisclosed');
             } else {
@@ -142,7 +142,7 @@ class rcube_pwned_password
 
     public function retrieve_suffixes($url)
     {
-        $client = password::get_http_client();
+        $client = \password::get_http_client();
         $options = ['http_errors' => true, 'headers' => []];
 
         // @phpstan-ignore-next-line
@@ -154,8 +154,8 @@ class rcube_pwned_password
             $response = $client->get($url, $options);
 
             return $response->getBody();
-        } catch (Exception $e) {
-            rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
+        } catch (\Exception $e) {
+            \rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
         }
 
         return null;

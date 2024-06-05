@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_list extends rcmail_action_contacts_index
+class rcmail_action_contacts_list extends \rcmail_action_contacts_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,10 +27,10 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (!empty($_GET['_page'])) {
             $page = intval($_GET['_page']);
@@ -51,7 +51,7 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
             // create resultset object
             $count = count($records);
             $first = ($page - 1) * $page_size;
-            $result = new rcube_result_set($count, $first);
+            $result = new \rcube_result_set($count, $first);
 
             // we need only records for current page
             if ($page_size < $count) {

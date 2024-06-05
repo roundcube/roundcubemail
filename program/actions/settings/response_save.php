@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_response_save extends rcmail_action_settings_index
+class rcmail_action_settings_response_save extends \rcmail_action_settings_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,15 +26,15 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
-        $id = trim(rcube_utils::get_input_string('_id', rcube_utils::INPUT_POST));
-        $name = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST));
-        $text = trim(rcube_utils::get_input_string('_text', rcube_utils::INPUT_POST, true));
-        $is_html = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_POST);
+        $id = trim(\rcube_utils::get_input_string('_id', \rcube_utils::INPUT_POST));
+        $name = trim(\rcube_utils::get_input_string('_name', \rcube_utils::INPUT_POST));
+        $text = trim(\rcube_utils::get_input_string('_text', \rcube_utils::INPUT_POST, true));
+        $is_html = (bool) \rcube_utils::get_input_string('_is_html', \rcube_utils::INPUT_POST);
 
         $response = [
             'id' => $id,
@@ -71,7 +71,7 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
 
             if ($updated) {
                 $rcmail->output->show_message('successfullysaved', 'confirmation');
-                $rcmail->output->command('parent.update_response_row', $id, rcube::Q($response['name']));
+                $rcmail->output->command('parent.update_response_row', $id, \rcube::Q($response['name']));
             } else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
@@ -93,7 +93,7 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
                 $response['id'] = $_GET['_id'] = $insert_id;
 
                 // add a new row to the list
-                $rcmail->output->command('parent.update_response_row', $insert_id, rcube::Q($response['name']), true);
+                $rcmail->output->command('parent.update_response_row', $insert_id, \rcube::Q($response['name']), true);
             } else {
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);

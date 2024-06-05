@@ -291,7 +291,7 @@ class rcube_charset
         }
 
         $out = false;
-        $error_handler = static function () { throw new Exception(); };
+        $error_handler = static function () { throw new \Exception(); };
 
         // Ignore invalid characters
         $mbstring_sc = mb_substitute_character();
@@ -305,7 +305,7 @@ class rcube_charset
 
         try {
             $out = mb_convert_encoding($str, $to, $from);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $out = false;
         }
 
@@ -340,7 +340,7 @@ class rcube_charset
 
             try {
                 $out = iconv($from, $to . $iconv_options, $str);
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 $out = false;
             }
 
@@ -397,7 +397,7 @@ class rcube_charset
         }
 
         $charsets[] = RCUBE_CHARSET;
-        $charsets[] = (string) rcube::get_instance()->config->get('default_charset');
+        $charsets[] = (string) \rcube::get_instance()->config->get('default_charset');
 
         $charsets = array_map(['rcube_charset', 'parse_charset'], $charsets);
         $charsets = array_unique(array_filter($charsets));
@@ -522,7 +522,7 @@ class rcube_charset
         }
 
         if (empty($language)) {
-            $rcube = rcube::get_instance();
+            $rcube = \rcube::get_instance();
             $language = $rcube->get_user_language();
         }
 

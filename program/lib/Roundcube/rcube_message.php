@@ -27,21 +27,21 @@ class rcube_message
     /**
      * Instance of framework class.
      *
-     * @var rcube
+     * @var \rcube
      */
     protected $app;
 
     /**
      * Instance of storage class
      *
-     * @var rcube_storage
+     * @var \rcube_storage
      */
     protected $storage;
 
     /**
      * Instance of mime class
      *
-     * @var rcube_mime
+     * @var \rcube_mime
      */
     protected $mime;
 
@@ -99,7 +99,7 @@ class rcube_message
 
         $this->uid = $uid;
         $this->context = $context;
-        $this->app = rcube::get_instance();
+        $this->app = \rcube::get_instance();
         $this->storage = $this->app->get_storage();
         $this->folder = is_string($folder) && strlen($folder) ? $folder : $this->storage->get_folder();
 
@@ -128,7 +128,7 @@ class rcube_message
             ),
         ];
 
-        $this->mime = new rcube_mime($this->headers->charset);
+        $this->mime = new \rcube_mime($this->headers->charset);
         $this->subject = str_replace("\n", '', $this->headers->get('subject'));
         $from = $this->mime->decode_address_list($this->headers->from, 1);
         $this->sender = current($from);
@@ -314,9 +314,9 @@ class rcube_message
     /**
      * Format text message part for display
      *
-     * @param string             $body            Part body
-     * @param rcube_message_part $part            Part object
-     * @param string             $default_charset Fallback charset if part charset is not specified
+     * @param string              $body            Part body
+     * @param \rcube_message_part $part            Part object
+     * @param string              $default_charset Fallback charset if part charset is not specified
      *
      * @return string Formatted body
      */
@@ -338,13 +338,13 @@ class rcube_message
             } elseif ($default_charset) {
                 $part->charset = $default_charset;
             } else {
-                $rcube = rcube::get_instance();
+                $rcube = \rcube::get_instance();
                 $part->charset = $rcube->config->get('default_charset', RCUBE_CHARSET);
             }
         }
 
         // ..convert charset encoding
-        $body = rcube_charset::convert($body, $part->charset);
+        $body = \rcube_charset::convert($body, $part->charset);
 
         return $body;
     }
@@ -353,8 +353,8 @@ class rcube_message
      * Determine if the message contains a HTML part. This must to be
      * a real part not an attachment (or its part)
      *
-     * @param bool                    $enriched Enables checking for text/enriched parts too
-     * @param rcube_message_part|null &$ref     Reference to the part if found
+     * @param bool                     $enriched Enables checking for text/enriched parts too
+     * @param \rcube_message_part|null &$ref     Reference to the part if found
      *
      * @return bool True if a HTML is available, False if not
      */
@@ -472,8 +472,8 @@ class rcube_message
     /**
      * Return the first HTML part of this message
      *
-     * @param rcube_message_part &$part    Reference to the part if found
-     * @param bool               $enriched Enables checking for text/enriched parts too
+     * @param \rcube_message_part &$part    Reference to the part if found
+     * @param bool                $enriched Enables checking for text/enriched parts too
      *
      * @return string|null HTML message part content
      */
@@ -483,7 +483,7 @@ class rcube_message
             $body = $this->get_part_body($part->mime_id, true);
 
             if ($part->mimetype == 'text/enriched') {
-                $body = rcube_enriched::to_html($body);
+                $body = \rcube_enriched::to_html($body);
             }
 
             return $body;
@@ -497,8 +497,8 @@ class rcube_message
      * If there's no text/plain part but $strict=true and text/html part
      * exists, it will be returned in text/plain format.
      *
-     * @param rcube_message_part &$part  Reference to the part if found
-     * @param bool               $strict Check only text/plain parts
+     * @param \rcube_message_part &$part  Reference to the part if found
+     * @param bool                $strict Check only text/plain parts
      *
      * @return string|null Plain text message/part content
      */
@@ -515,7 +515,7 @@ class rcube_message
 
         if (!$strict && ($body = $this->first_html_part($part, true))) {
             // create instance of html2text class
-            $h2t = new rcube_html2text($body);
+            $h2t = new \rcube_html2text($body);
             return $h2t->get_text();
         }
 
@@ -547,7 +547,7 @@ class rcube_message
     /**
      * Checks if part of the message is an attachment (or part of it)
      *
-     * @param rcube_message_part $part Message part
+     * @param \rcube_message_part $part Message part
      *
      * @return bool True if the part is an attachment part
      */
@@ -573,7 +573,7 @@ class rcube_message
      * In a multipart/encrypted encrypted message,
      * find the encrypted message payload part.
      *
-     * @return rcube_message_part|null
+     * @return \rcube_message_part|null
      */
     public function get_multipart_encrypted_part()
     {
@@ -596,8 +596,8 @@ class rcube_message
      * Read the message structure returned by the IMAP server
      * and build flat lists of content parts and attachments
      *
-     * @param rcube_message_part $structure Message structure node
-     * @param bool               $recursive True when called recursively
+     * @param \rcube_message_part $structure Message structure node
+     * @param bool                $recursive True when called recursively
      */
     private function parse_structure($structure, $recursive = false)
     {
@@ -613,15 +613,15 @@ class rcube_message
                     $headers = substr($headers, $pos);
                 }
 
-                $structure->headers = rcube_mime::parse_headers($headers);
+                $structure->headers = \rcube_mime::parse_headers($headers);
 
                 if ($this->context === $structure->mime_id) {
-                    $this->headers = rcube_message_header::from_array($structure->headers);
+                    $this->headers = \rcube_message_header::from_array($structure->headers);
                 }
 
                 // For small text messages we can optimize, so an additional FETCH is not needed
                 if ($structure->size < 32768) {
-                    $decoder = new rcube_mime_decode();
+                    $decoder = new \rcube_mime_decode();
                     $decoded = $decoder->decode($part_body);
 
                     // Non-multipart message
@@ -651,7 +651,7 @@ class rcube_message
                 || !empty($structure->headers['to'])
             )
         ) {
-            $c = new rcube_message_part();
+            $c = new \rcube_message_part();
             $c->type = 'headers';
             $c->headers = $structure->headers;
             $this->add_part($c);
@@ -669,7 +669,7 @@ class rcube_message
             return;
         }
 
-        /** @var rcube_message_part $structure */
+        /** @var \rcube_message_part $structure */
         $structure = $plugin['structure'];
         $mimetype = $plugin['mimetype'];
         $recursive = $plugin['recursive'];
@@ -773,7 +773,7 @@ class rcube_message
             }
             // show plaintext warning
             elseif (isset($html_part) && empty($this->parts)) {
-                $c = new rcube_message_part();
+                $c = new \rcube_message_part();
                 $c->type = 'content';
                 $c->ctype_primary = 'text';
                 $c->ctype_secondary = 'plain';
@@ -785,7 +785,7 @@ class rcube_message
         }
         // this is an encrypted message -> create a plaintext body with the according message
         elseif ($mimetype == 'multipart/encrypted') {
-            $p = new rcube_message_part();
+            $p = new \rcube_message_part();
             $p->type = 'content';
             $p->ctype_primary = 'text';
             $p->ctype_secondary = 'plain';
@@ -807,7 +807,7 @@ class rcube_message
         }
         // this is an S/MIME encrypted message -> create a plaintext body with the according message
         elseif ($mimetype == 'application/pkcs7-mime') {
-            $p = new rcube_message_part();
+            $p = new \rcube_message_part();
             $p->type = 'content';
             $p->ctype_primary = 'text';
             $p->ctype_secondary = 'plain';
@@ -1041,7 +1041,7 @@ class rcube_message
     /**
      * Fill a flat array with references to all parts, indexed by part numbers
      *
-     * @param rcube_message_part $part Message body structure
+     * @param \rcube_message_part $part Message body structure
      */
     private function get_mime_numbers(&$part)
     {
@@ -1057,8 +1057,8 @@ class rcube_message
     /**
      * Add a part to object parts array(s) (with context check)
      *
-     * @param rcube_message_part $part Message part
-     * @param string             $type Part type (inline/attachment)
+     * @param \rcube_message_part $part Message part
+     * @param string              $type Part type (inline/attachment)
      */
     private function add_part($part, $type = null)
     {
@@ -1082,7 +1082,7 @@ class rcube_message
     /**
      * Check if specified part belongs to the current context
      *
-     * @param rcube_message_part $part Message part
+     * @param \rcube_message_part $part Message part
      *
      * @return bool True if the part belongs to the current context, False otherwise
      */
@@ -1094,7 +1094,7 @@ class rcube_message
     /**
      * Decode a Microsoft Outlook TNEF part (winmail.dat)
      *
-     * @param rcube_message_part $part Message part to decode
+     * @param \rcube_message_part $part Message part to decode
      *
      * @return rcube_message_part[] List of message parts extracted from TNEF
      */
@@ -1102,7 +1102,7 @@ class rcube_message
     {
         // @TODO: attachment may be huge, handle body via file
         $body = $this->get_part_body($part->mime_id);
-        $tnef = new rcube_tnef_decoder();
+        $tnef = new \rcube_tnef_decoder();
         $tnef_arr = $tnef->decompress($body, true);
         $parts = [];
 
@@ -1110,7 +1110,7 @@ class rcube_message
 
         // HTML body
         if (!empty($tnef_arr['message'])) {
-            $tpart = new rcube_message_part();
+            $tpart = new \rcube_message_part();
 
             $tpart->encoding = 'stream';
             $tpart->ctype_primary = 'text';
@@ -1126,7 +1126,7 @@ class rcube_message
 
         // Attachments
         foreach ($tnef_arr['attachments'] as $pid => $winatt) {
-            $tpart = new rcube_message_part();
+            $tpart = new \rcube_message_part();
 
             $tpart->filename = $this->fix_attachment_name(trim($winatt['name']), $part);
             $tpart->encoding = 'stream';
@@ -1151,7 +1151,7 @@ class rcube_message
     /**
      * Parse message body for UUencoded attachments bodies
      *
-     * @param rcube_message_part $part Message part to decode
+     * @param \rcube_message_part $part Message part to decode
      *
      * @return rcube_message_part[] List of message parts extracted from the file
      */
@@ -1187,14 +1187,14 @@ class rcube_message
             $part->body_modified = true;
 
             // add attachments to the structure
-            $uupart = new rcube_message_part();
+            $uupart = new \rcube_message_part();
             $uupart->filename = trim($matches[1][0]);
             $uupart->encoding = 'stream';
             $uupart->body = convert_uudecode($filebody);
             $uupart->size = strlen($uupart->body);
             $uupart->mime_id = 'uu.' . $part->mime_id . '.' . $pid;
 
-            $ctype = rcube_mime::file_content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
+            $ctype = \rcube_mime::file_content_type($uupart->body, $uupart->filename, 'application/octet-stream', true);
             $uupart->mimetype = $ctype;
             [$uupart->ctype_primary, $uupart->ctype_secondary] = explode('/', $ctype);
 
@@ -1208,14 +1208,14 @@ class rcube_message
     /**
      * Fix attachment name encoding if needed and possible
      *
-     * @param string             $name Attachment name
-     * @param rcube_message_part $part Message part
+     * @param string              $name Attachment name
+     * @param \rcube_message_part $part Message part
      *
      * @return string Fixed attachment name
      */
     protected function fix_attachment_name($name, $part)
     {
-        if ($name == rcube_charset::clean($name)) {
+        if ($name == \rcube_charset::clean($name)) {
             return $name;
         }
 
@@ -1248,8 +1248,8 @@ class rcube_message
             $charsets[] = $this->headers->charset;
         }
 
-        if ($charset = rcube_charset::check($name, $charsets)) {
-            $name = rcube_charset::convert($name, $charset);
+        if ($charset = \rcube_charset::check($name, $charsets)) {
+            $name = \rcube_charset::convert($name, $charset);
             $part->charset = $charset;
         }
 
@@ -1261,11 +1261,11 @@ class rcube_message
      */
     public static function unfold_flowed($text)
     {
-        return rcube_mime::unfold_flowed($text);
+        return \rcube_mime::unfold_flowed($text);
     }
 
     public static function format_flowed($text, $length = 72)
     {
-        return rcube_mime::format_flowed($text, $length);
+        return \rcube_mime::format_flowed($text, $length);
     }
 }

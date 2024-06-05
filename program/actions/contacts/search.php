@@ -19,17 +19,17 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_search extends rcmail_action_contacts_index
+class rcmail_action_contacts_search extends \rcmail_action_contacts_index
 {
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (empty($_GET['_form'])) {
             self::contact_search();
@@ -41,9 +41,9 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
     public static function contact_search()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $adv = isset($_POST['_adv']);
-        $sid = rcube_utils::get_input_string('_sid', rcube_utils::INPUT_GET);
+        $sid = \rcube_utils::get_input_string('_sid', \rcube_utils::INPUT_GET);
         $search = null;
 
         // get search criteria from saved search
@@ -55,7 +55,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         elseif ($adv) {
             $fields = [];
             foreach (array_keys($_POST) as $key) {
-                $s = trim(rcube_utils::get_input_string($key, rcube_utils::INPUT_POST, true));
+                $s = trim(\rcube_utils::get_input_string($key, \rcube_utils::INPUT_POST, true));
                 if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
                     $search[] = $s;
                     $fields[] = $m[1];
@@ -69,8 +69,8 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         }
         // quick-search
         else {
-            $search = trim(rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true));
-            $fields = rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET);
+            $search = trim(\rcube_utils::get_input_string('_q', \rcube_utils::INPUT_GET, true));
+            $fields = \rcube_utils::get_input_string('_headers', \rcube_utils::INPUT_GET);
 
             if (empty($fields)) {
                 $fields = array_keys(self::$SEARCH_MODS_DEFAULT);
@@ -93,7 +93,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
         // Values matching mode
         $mode = (int) $rcmail->config->get('addressbook_search_mode');
-        $mode |= rcube_addressbook::SEARCH_GROUPS;
+        $mode |= \rcube_addressbook::SEARCH_GROUPS;
 
         // get sources list
         $sources = $rcmail->get_address_sources();
@@ -138,7 +138,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             // get records
             foreach ($source->list_records($afields) as $row) {
                 $row['sourceid'] = $s['id'];
-                $key = rcube_addressbook::compose_contact_key($row, $sort_col);
+                $key = \rcube_addressbook::compose_contact_key($row, $sort_col);
                 $records[$key] = $row;
             }
 
@@ -150,7 +150,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
         // create resultset object
         $count = count($records);
-        $result = new rcube_result_set($count);
+        $result = new \rcube_result_set($count);
 
         // cut first-page records
         if ($page_size < $count) {
@@ -208,7 +208,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
     public static function contact_search_form($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $i_size = !empty($attrib['size']) ? $attrib['size'] : 30;
         $short_labels = self::get_bool_attr($attrib, 'short-legend-labels');
 
@@ -242,8 +242,8 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
         // merge supported coltypes with global coltypes
         foreach ($coltypes as $col => $colprop) {
-            if (!empty(rcmail_action_contacts_index::$CONTACT_COLTYPES[$col])) {
-                $coltypes[$col] = array_merge(rcmail_action_contacts_index::$CONTACT_COLTYPES[$col], (array) $colprop);
+            if (!empty(\rcmail_action_contacts_index::$CONTACT_COLTYPES[$col])) {
+                $coltypes[$col] = array_merge(\rcmail_action_contacts_index::$CONTACT_COLTYPES[$col], (array) $colprop);
             } else {
                 $coltypes[$col] = (array) $colprop;
             }
@@ -268,16 +268,16 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
                 $colprop['id'] = '_search_' . $col;
 
-                $content = html::div('row',
-                    html::label(['class' => 'contactfieldlabel label', 'for' => $colprop['id']], rcube::Q($label))
-                    . html::div('contactfieldcontent', rcube_output::get_edit_field('search_' . $col, '', $colprop, $ftype))
+                $content = \html::div('row',
+                    \html::label(['class' => 'contactfieldlabel label', 'for' => $colprop['id']], \rcube::Q($label))
+                    . \html::div('contactfieldcontent', \rcube_output::get_edit_field('search_' . $col, '', $colprop, $ftype))
                 );
 
                 $form[$category]['content'][] = $content;
             }
         }
 
-        $hiddenfields = new html_hiddenfield();
+        $hiddenfields = new \html_hiddenfield();
         $hiddenfields->add(['name' => '_adv', 'value' => 1]);
 
         $out = $rcmail->output->request_form([
@@ -296,10 +296,10 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
         foreach ($form as $f) {
             if (!empty($f['content'])) {
-                $content = html::div('contactfieldgroup', implode("\n", $f['content']));
-                $legend = html::tag('legend', null, rcube::Q($f['name']));
+                $content = \html::div('contactfieldgroup', implode("\n", $f['content']));
+                $legend = \html::tag('legend', null, \rcube::Q($f['name']));
 
-                $out .= html::tag('fieldset', $attrib, $legend . $content) . "\n";
+                $out .= \html::tag('fieldset', $attrib, $legend . $content) . "\n";
             }
         }
 

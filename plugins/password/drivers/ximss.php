@@ -36,7 +36,7 @@ class rcube_ximss_password
 {
     public function save($pass, $newpass, $username)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $host = $rcmail->config->get('password_ximss_host');
         $port = $rcmail->config->get('password_ximss_port');

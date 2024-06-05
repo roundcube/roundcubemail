@@ -22,7 +22,7 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 require INSTALL_PATH . 'program/include/clisetup.php';
 
-$rcmail = rcube::get_instance();
+$rcmail = \rcube::get_instance();
 
 $session_driver = $rcmail->config->get('session_storage', 'db');
 $session_lifetime = $rcmail->config->get('session_lifetime', 0) * 60 * 2;

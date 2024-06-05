@@ -21,9 +21,9 @@
 /**
  * Class to provide redis session storage
  */
-class rcube_session_redis extends rcube_session
+class rcube_session_redis extends \rcube_session
 {
-    /** @var Redis The redis engine */
+    /** @var \Redis The redis engine */
     private $redis;
 
     /** @var bool Debug state */
@@ -32,17 +32,17 @@ class rcube_session_redis extends rcube_session
     /**
      * Object constructor
      *
-     * @param rcube_config $config Configuration
+     * @param \rcube_config $config Configuration
      */
     public function __construct($config)
     {
         parent::__construct($config);
 
-        $this->redis = rcube::get_instance()->get_redis();
+        $this->redis = \rcube::get_instance()->get_redis();
         $this->debug = $config->get('redis_debug');
 
         if (!$this->redis) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 604,
                 'type' => 'redis',
                 'message' => 'Failed to connect to redis. Please check configuration',
@@ -61,7 +61,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function open($save_path, $session_name)
     {
         return true;
@@ -72,7 +72,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function close()
     {
         return true;
@@ -85,7 +85,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function destroy($key)
     {
         if ($key) {
@@ -94,8 +94,8 @@ class rcube_session_redis extends rcube_session
                 $result = method_exists($this->redis, 'del')
                     ? $this->redis->del($key)
                     : $this->redis->delete($key);
-            } catch (Exception $e) {
-                rcube::raise_error($e, true, true);
+            } catch (\Exception $e) {
+                \rcube::raise_error($e, true, true);
             }
 
             if ($this->debug) {
@@ -113,15 +113,15 @@ class rcube_session_redis extends rcube_session
      *
      * @return string Serialized data string
      */
-    #[Override]
+    #[\Override]
     public function read($key)
     {
         $value = null;
 
         try {
             $value = $this->redis->get($key);
-        } catch (Exception $e) {
-            rcube::raise_error($e, true, true);
+        } catch (\Exception $e) {
+            \rcube::raise_error($e, true, true);
         }
 
         if ($this->debug) {
@@ -148,7 +148,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function update($key, $newvars, $oldvars)
     {
         $ts = microtime(true);
@@ -159,8 +159,8 @@ class rcube_session_redis extends rcube_session
 
             try {
                 $result = $this->redis->setex($key, $this->lifetime + 60, $data);
-            } catch (Exception $e) {
-                rcube::raise_error($e, true, true);
+            } catch (\Exception $e) {
+                \rcube::raise_error($e, true, true);
             }
 
             if ($this->debug) {
@@ -181,7 +181,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function save($key, $vars)
     {
         if ($this->ignore_write) {
@@ -194,8 +194,8 @@ class rcube_session_redis extends rcube_session
         try {
             $data = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $vars]);
             $result = $this->redis->setex($key, $this->lifetime + 60, $data);
-        } catch (Exception $e) {
-            rcube::raise_error($e, true, true);
+        } catch (\Exception $e) {
+            \rcube::raise_error($e, true, true);
         }
 
         if ($this->debug) {
@@ -221,6 +221,6 @@ class rcube_session_redis extends rcube_session
             $line .= ' ' . $data;
         }
 
-        rcube::debug('redis', $line, $result);
+        \rcube::debug('redis', $line, $result);
     }
 }

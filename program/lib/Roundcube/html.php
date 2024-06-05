@@ -369,7 +369,7 @@ class html
             . '<body><div ' . rtrim($str, '/ ') . ' /></body>'
             . '</html>';
 
-        $document = new DOMDocument('1.0', RCUBE_CHARSET);
+        $document = new \DOMDocument('1.0', RCUBE_CHARSET);
         @$document->loadHTML($html);
 
         if ($node = $document->getElementsByTagName('div')->item(0)) {
@@ -397,7 +397,7 @@ class html
 /**
  * Class to create an HTML input field
  */
-class html_inputfield extends html
+class html_inputfield extends \html
 {
     protected $tagname = 'input';
     protected $type = 'text';
@@ -430,7 +430,7 @@ class html_inputfield extends html
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($value = null, $attrib = null)
     {
         // overwrite object attributes
@@ -452,7 +452,7 @@ class html_inputfield extends html
 /**
  * Class to create an HTML password field
  */
-class html_passwordfield extends html_inputfield
+class html_passwordfield extends \html_inputfield
 {
     protected $type = 'password';
 }
@@ -460,7 +460,7 @@ class html_passwordfield extends html_inputfield
 /**
  * Class to create an hidden HTML input field
  */
-class html_hiddenfield extends html
+class html_hiddenfield extends \html
 {
     protected $tagname = 'input';
     protected $type = 'hidden';
@@ -496,7 +496,7 @@ class html_hiddenfield extends html
      *
      * @return string Final HTML code
      */
-    #[Override]
+    #[\Override]
     public function show()
     {
         $out = '';
@@ -512,7 +512,7 @@ class html_hiddenfield extends html
 /**
  * Class to create HTML checkboxes
  */
-class html_checkbox extends html_inputfield
+class html_checkbox extends \html_inputfield
 {
     protected $type = 'checkbox';
 
@@ -524,7 +524,7 @@ class html_checkbox extends html_inputfield
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($value = '', $attrib = null)
     {
         // overwrite object attributes
@@ -542,7 +542,7 @@ class html_checkbox extends html_inputfield
 /**
  * Class to create HTML radio buttons
  */
-class html_radiobutton extends html_checkbox
+class html_radiobutton extends \html_checkbox
 {
     protected $type = 'radio';
 }
@@ -550,7 +550,7 @@ class html_radiobutton extends html_checkbox
 /**
  * Class to create HTML button
  */
-class html_button extends html_inputfield
+class html_button extends \html_inputfield
 {
     protected $tagname = 'button';
     protected $type = 'button';
@@ -563,7 +563,7 @@ class html_button extends html_inputfield
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($content = '', $attrib = null)
     {
         // overwrite object attributes
@@ -580,7 +580,7 @@ class html_button extends html_inputfield
 /**
  * Class to create an HTML textarea
  */
-class html_textarea extends html
+class html_textarea extends \html
 {
     protected $tagname = 'textarea';
     protected $allowed = ['name', 'rows', 'cols', 'wrap', 'tabindex',
@@ -594,7 +594,7 @@ class html_textarea extends html
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($value = '', $attrib = null)
     {
         // overwrite object attributes
@@ -624,7 +624,7 @@ class html_textarea extends html
 /**
  * Builder for HTML drop-down menus.
  */
-class html_select extends html
+class html_select extends \html
 {
     protected $tagname = 'select';
     protected $options = [];
@@ -660,7 +660,7 @@ class html_select extends html
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($select = [], $attrib = null)
     {
         // overwrite object attributes
@@ -694,7 +694,7 @@ class html_select extends html
 /**
  * Class to build an HTML table
  */
-class html_table extends html
+class html_table extends \html
 {
     protected $tagname = 'table';
     protected $allowed = ['id', 'class', 'style', 'width', 'summary',
@@ -736,12 +736,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell = new stdClass();
+        $cell = new \stdClass();
         $cell->attrib = $attr;
         $cell->content = $cont;
 
         if (!isset($this->rows[$this->rowindex])) {
-            $this->rows[$this->rowindex] = new stdClass();
+            $this->rows[$this->rowindex] = new \stdClass();
             $this->rows[$this->rowindex]->attrib = [];
         }
 
@@ -765,12 +765,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell = new stdClass();
+        $cell = new \stdClass();
         $cell->attrib = $attr;
         $cell->content = $cont;
 
         if (empty($this->header)) {
-            $this->header = new stdClass();
+            $this->header = new \stdClass();
             $this->header->attrib = [];
         }
 
@@ -813,7 +813,7 @@ class html_table extends html
     {
         $this->rowindex++;
         $this->colindex = 0;
-        $this->rows[$this->rowindex] = new stdClass();
+        $this->rows[$this->rowindex] = new \stdClass();
         $this->rows[$this->rowindex]->attrib = $attr;
         $this->rows[$this->rowindex]->cells = [];
     }
@@ -830,7 +830,7 @@ class html_table extends html
         }
 
         if (empty($this->header)) {
-            $this->header = new stdClass();
+            $this->header = new \stdClass();
         }
 
         $this->header->attrib = $attr;
@@ -854,7 +854,7 @@ class html_table extends html
 
         // make sure row object exists (#1489094)
         if (empty($this->rows[$index])) {
-            $this->rows[$index] = new stdClass();
+            $this->rows[$index] = new \stdClass();
         }
 
         $this->rows[$index]->attrib = $attr;
@@ -883,7 +883,7 @@ class html_table extends html
      *
      * @return string The final table HTML code
      */
-    #[Override]
+    #[\Override]
     public function show($attrib = null)
     {
         if (is_array($attrib)) {

@@ -220,7 +220,7 @@ trait rcube_uploads
                 $mimetype = $file['mimetype'];
                 $file_ident = $file['id'] . ':' . $file['mimetype'] . ':' . $file['size'];
                 $thumb_name = 'thumb' . md5($file_ident . ':' . $this->user->ID . ':' . $thumbnail_size);
-                $cache_file = rcube_utils::temp_filename($thumb_name, false, false);
+                $cache_file = \rcube_utils::temp_filename($thumb_name, false, false);
 
                 // render thumbnail image if not done yet
                 if (!is_file($cache_file)) {
@@ -231,7 +231,7 @@ trait rcube_uploads
                         $filename = $file['path'];
                     }
 
-                    $image = new rcube_image($filename);
+                    $image = new \rcube_image($filename);
                     if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
                         $mimetype = 'image/' . $imgtype;
 
