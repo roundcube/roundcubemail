@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Settings;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_settings_folder_save
  */
-class Actions_Settings_FolderSave extends ActionTestCase
+class FolderSaveTest extends ActionTestCase
 {
     /**
      * Test folder creation
      */
     public function test_new_folder()
     {
-        $action = new rcmail_action_settings_folder_save();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'folder-save');
+        $action = new \rcmail_action_settings_folder_save();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'folder-save');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results

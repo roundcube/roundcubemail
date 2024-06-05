@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_washtml class
  */
-class Framework_Washtml extends TestCase
+class WashtmlTest extends TestCase
 {
     /**
      * A helper method to remove comments added by rcube_washtml
@@ -27,7 +29,7 @@ class Framework_Washtml extends TestCase
             . '<A HREF="vbscript:alert(document.cookie)">Internet Explorer</a>'
             . '<a href="data:application/xhtml+xml;base64,PGh0bW">CLICK ME</a>'; // #6896
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, 'Remove data:text/html links');
@@ -42,7 +44,7 @@ class Framework_Washtml extends TestCase
     {
         $html = "<p><a href=\"\nhttp://test.com\n\">Firefox</a><a href=\"domain.com\">Firefox</a>";
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|href="http://test\.com"|', $washed, 'Link href with newlines (#1488940)');
@@ -56,7 +58,7 @@ class Framework_Washtml extends TestCase
     {
         $html = "<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>";
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertSame("<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>", $this->cleanupResult($washed));
@@ -74,7 +76,7 @@ class Framework_Washtml extends TestCase
             . '<Area href="vbscript:alert(document.cookie)">Internet Explorer</p>'
             . '<area HREF="javascript:alert(document.domain)" shape=default>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, 'data:text/html in area href');
@@ -91,7 +93,7 @@ class Framework_Washtml extends TestCase
                . "<param name=\"foo\" value=\"bar\">\n"
                . '<p>This alternative text should survive</p>'
                . "</object>\n</div>";
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertDoesNotMatchRegularExpression('/<\/?object/', $washed, 'Remove object tag');
@@ -104,7 +106,7 @@ class Framework_Washtml extends TestCase
      */
     public function test_comments()
     {
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
 
         $html = '<!--[if gte mso 10]><p>p1</p><!--><p>p2</p>';
         $washed = $this->cleanupResult($washer->wash($html));
@@ -144,7 +146,7 @@ class Framework_Washtml extends TestCase
     {
         $html = '<textarea>test';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|<textarea>test</textarea>|', $washed);
@@ -157,7 +159,7 @@ class Framework_Washtml extends TestCase
     {
         $html = '<a href="http://test.com">test</a href>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|</a>|', $washed);
@@ -200,7 +202,7 @@ class Framework_Washtml extends TestCase
         ];
 
         foreach ($data as $element) {
-            rcube_washtml::fix_broken_lists($element[0]);
+            \rcube_washtml::fix_broken_lists($element[0]);
 
             $this->assertSame($element[1], $element[0], 'Broken nested lists (#1488768)');
         }
@@ -213,7 +215,7 @@ class Framework_Washtml extends TestCase
     {
         $html = '<p style="font-size: 10px; color: rgb(241, 245, 218)">a</p>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|color: rgb\(241, 245, 218\)|', $washed, 'Color style (#1489697)');
@@ -228,7 +230,7 @@ class Framework_Washtml extends TestCase
         $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
             <body><span style='font-family:\"新細明體\",\"serif\";color:red'>test</span></body></html>";
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression(
@@ -240,7 +242,7 @@ class Framework_Washtml extends TestCase
         $html = "<html><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
             <body><span style='font-family:新細明體;color:red'>test</span></body></html>";
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression(
@@ -259,7 +261,7 @@ class Framework_Washtml extends TestCase
             <body bgcolor="#fff" text="#000" background="#test" link="#111" alink="#222" vlink="#333">
             </body></html>';
 
-        $washer = new rcube_washtml(['html_elements' => ['body']]);
+        $washer = new \rcube_washtml(['html_elements' => ['body']]);
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|bgcolor="#fff"|', $washed, 'Body bgcolor attribute');
@@ -277,7 +279,7 @@ class Framework_Washtml extends TestCase
     {
         $html = '<p style="line-height: 1; height: 10">a</p>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertMatchesRegularExpression('|line-height: 1;|', $washed, 'Untouched line-height (#1489917)');
@@ -286,7 +288,7 @@ class Framework_Washtml extends TestCase
         $html = "<div style=\"padding: 0px\n   20px;border:1px solid #000;\"></div>";
         $expected = '<div style="padding: 0px 20px; border: 1px solid #000"></div>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $expected) !== false, 'White-space and new-line characters handling');
@@ -300,7 +302,7 @@ class Framework_Washtml extends TestCase
         $html = "<img style=aaa:'\"/onerror=alert(1)//'>";
         $exp = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
@@ -308,7 +310,7 @@ class Framework_Washtml extends TestCase
         $html = "<img style=aaa:'&quot;/onerror=alert(1)//'>";
         $exp = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
@@ -319,7 +321,7 @@ class Framework_Washtml extends TestCase
      */
     public function test_title()
     {
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
 
         $html = '<html><head><title>title1</title></head><body><p>test</p></body>';
         $washed = $washer->wash($html);
@@ -365,7 +367,7 @@ class Framework_Washtml extends TestCase
   <animate attributeName="xlink:href" begin="0" x-washed="from" />
 </svg>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($svg);
 
         $this->assertSame($washed, $exp, 'SVG content');
@@ -487,7 +489,7 @@ class Framework_Washtml extends TestCase
      */
     public function test_wash_svg_tests($input, $expected)
     {
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($input);
 
         $this->assertSame($expected, $this->cleanupResult($washed), 'SVG content');
@@ -553,7 +555,7 @@ class Framework_Washtml extends TestCase
      */
     public function test_wash_xss_tests($input, $expected)
     {
-        $washer = new rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);
+        $washer = new \rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);
         $washed = $washer->wash($input);
 
         $this->assertSame($expected, $this->cleanupResult($washed), 'XSS issues');
@@ -567,7 +569,7 @@ class Framework_Washtml extends TestCase
         $html = "<img style='position:fixed' /><img style=\"position:/**/ fixed; top:10px\" />";
         $exp = '<img style="position: absolute" /><img style="position: absolute; top: 10px" />';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $exp) !== false, 'Position:fixed (#5264)');
@@ -611,7 +613,7 @@ class Framework_Washtml extends TestCase
                 <annotation encoding="TeX">I_D = \frac{1}{2} k_n \frac{W}{L} (V_{GS}-V_t)^2</annotation>
             </semantics></math>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($mathml);
 
         // remove whitespace between tags
@@ -628,7 +630,7 @@ class Framework_Washtml extends TestCase
     {
         $html = '<input type="image" src="http://TRACKING_URL/">';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue($washer->extlinks);
@@ -636,7 +638,7 @@ class Framework_Washtml extends TestCase
 
         $html = '<video src="http://TRACKING_URL/">';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue($washer->extlinks);
@@ -657,14 +659,14 @@ class Framework_Washtml extends TestCase
         ];
 
         foreach ($html as $item) {
-            $washer = new rcube_washtml();
+            $washer = new \rcube_washtml();
             $washed = $washer->wash($item[0]);
 
             $this->assertSame($item[1], $washer->extlinks);
         }
 
         foreach ($html as $item) {
-            $washer = new rcube_washtml(['allow_remote' => true]);
+            $washer = new \rcube_washtml(['allow_remote' => true]);
             $washed = $washer->wash($item[0]);
 
             $this->assertFalse($washer->extlinks);
@@ -675,7 +677,7 @@ class Framework_Washtml extends TestCase
     {
         $html = '<textarea><p style="x:</textarea><img src=x onerror=alert(1)>">';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertStringNotContainsString('onerror=alert(1)>', $washed);
@@ -687,7 +689,7 @@ class Framework_Washtml extends TestCase
      */
     public function test_css_prefix()
     {
-        $washer = new rcube_washtml(['css_prefix' => 'test']);
+        $washer = new \rcube_washtml(['css_prefix' => 'test']);
 
         $html = '<p id="my-id">'
             . '<label for="my-other-id" class="my-class1 my-class2">test</label>'
@@ -715,14 +717,14 @@ class Framework_Washtml extends TestCase
     {
         $html = '<p><?xml:namespace prefix = "xsl" /></p>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame($washed, '<p></p>');
 
         $html = '<?xml encoding="UTF-8"><html><body>HTML</body></html>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame($washed, 'HTML');
@@ -733,7 +735,7 @@ class Framework_Washtml extends TestCase
      */
     public function test_missing_tags()
     {
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
 
         $html = '<head></head>First line<br />Second line';
         $washed = $washer->wash($html);
@@ -775,7 +777,7 @@ class Framework_Washtml extends TestCase
     {
         $html = '<p><![CDATA[<script>alert(document.cookie)</script>]]></p>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, '<script>') === false, 'CDATA content');
@@ -787,7 +789,7 @@ class Framework_Washtml extends TestCase
     public function test_resolve_base()
     {
         $html = file_get_contents(TESTS_DIR . 'src/htmlbase.txt');
-        $html = rcube_washtml::resolve_base($html);
+        $html = \rcube_washtml::resolve_base($html);
 
         $this->assertMatchesRegularExpression('|src="http://alec\.pl/dir/img1\.gif"|', $html, 'URI base resolving [1]');
         $this->assertMatchesRegularExpression('|src="http://alec\.pl/dir/img2\.gif"|', $html, 'URI base resolving [2]');
@@ -833,7 +835,7 @@ class Framework_Washtml extends TestCase
   <tr><td></td></tr>
 </table>';
 
-        $washer = new rcube_washtml();
+        $washer = new \rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
         $this->assertSame(trim($expected), $washed);

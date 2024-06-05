@@ -1,14 +1,21 @@
 <?php
 
-class Managesieve_Engine extends ActionTestCase
+namespace Roundcube\Plugins\Tests;
+
+use Roundcube\Tests\ActionTestCase;
+
+use function Roundcube\Tests\invokeMethod;
+use function Roundcube\Tests\setProperty;
+
+class ManagesieveEngineTest extends ActionTestCase
 {
     /**
      * Test filter_form()
      */
     public function test_filter_form()
     {
-        $rcube = rcube::get_instance();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'settings', 'managesieve');
+        $rcube = \rcube::get_instance();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'managesieve');
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -20,8 +27,8 @@ class Managesieve_Engine extends ActionTestCase
             ->registerFunction('mod_folder', 'Test')
             ->registerFunction('folder_attributes', []);
 
-        $plugin = new managesieve($rcube->plugins);
-        $engine = new rcube_sieve_engine($plugin);
+        $plugin = new \managesieve($rcube->plugins);
+        $engine = new \rcube_sieve_engine($plugin);
 
         setProperty($engine, 'exts', ['copy', 'currentdate', 'date', 'duplicate',
             'editheader', 'enotify', 'envelope', 'fileinto', 'imap4flags', 'index',
@@ -62,10 +69,10 @@ class Managesieve_Engine extends ActionTestCase
      */
     public function test_strip_value($expected, $args)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
-        $plugin = new managesieve($rcube->plugins);
-        $engine = new rcube_sieve_engine($plugin);
+        $plugin = new \managesieve($rcube->plugins);
+        $engine = new \rcube_sieve_engine($plugin);
 
         $this->assertSame($expected, invokeMethod($engine, 'strip_value', $args));
     }
@@ -75,10 +82,10 @@ class Managesieve_Engine extends ActionTestCase
      */
     public function test_list_input()
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
-        $plugin = new managesieve($rcube->plugins);
-        $engine = new rcube_sieve_engine($plugin);
+        $plugin = new \managesieve($rcube->plugins);
+        $engine = new \rcube_sieve_engine($plugin);
 
         $args = [1, 'n', '<p>'];
         $expected = '<textarea data-type="list" name="_n[1]" style="display:none" id="n1">&lt;p&gt;</textarea>';

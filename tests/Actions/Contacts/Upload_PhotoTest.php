@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_upload_photo
  */
-class Actions_Contacts_Upload_Photo extends ActionTestCase
+class Upload_PhotoTest extends ActionTestCase
 {
     /**
      * Test photo upload
      */
     public function test_run()
     {
-        $action = new rcmail_action_contacts_upload_photo();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'upload-photo');
+        $action = new \rcmail_action_contacts_upload_photo();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'upload-photo');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -39,7 +44,7 @@ class Actions_Contacts_Upload_Photo extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.replace_contact_photo("' . $file['id'] . '");') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.photo_upload_end();') !== false);
 
-        $upload = rcmail::get_instance()->get_uploaded_file($file['id']);
+        $upload = \rcmail::get_instance()->get_uploaded_file($file['id']);
         $this->assertSame($file['name'], $upload['name']);
         $this->assertSame($file['type'], $upload['mimetype']);
         $this->assertSame($file['size'], $upload['size']);

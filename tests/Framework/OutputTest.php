@@ -1,41 +1,43 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_output class
  */
-class Framework_Output extends TestCase
+class OutputTest extends TestCase
 {
     /**
      * Test get_edit_field()
      */
     public function test_get_edit_field()
     {
-        $out = rcube_output::get_edit_field('test', 'value');
+        $out = \rcube_output::get_edit_field('test', 'value');
 
         $this->assertSame('<input name="_test" class="ff_test" type="text" value="value">', $out);
 
         $_POST['_test'] = 'testv';
-        $out = rcube_output::get_edit_field('test', 'value');
+        $out = \rcube_output::get_edit_field('test', 'value');
 
         $this->assertSame('<input name="_test" class="ff_test" type="text" value="testv">', $out);
 
-        $out = rcube_output::get_edit_field('test', 'value', ['class' => 'a'], 'checkbox');
+        $out = \rcube_output::get_edit_field('test', 'value', ['class' => 'a'], 'checkbox');
 
         $this->assertSame('<input class="a ff_test" name="_test" value="1" type="checkbox">', $out);
 
-        $out = rcube_output::get_edit_field('test', 'value', ['class' => 'a'], 'textarea');
+        $out = \rcube_output::get_edit_field('test', 'value', ['class' => 'a'], 'textarea');
 
         $this->assertSame('<textarea class="a ff_test" name="_test">testv</textarea>', $out);
 
-        $out = rcube_output::get_edit_field('test', 'value', ['class' => 'a'], 'select');
+        $out = \rcube_output::get_edit_field('test', 'value', ['class' => 'a'], 'select');
 
         $this->assertSame('<select class="a ff_test" name="_test">' . "\n" . '<option value="">---</option></select>', $out);
 
         $_POST['_test'] = 'tt';
         $attr = ['options' => ['tt' => 'oo']];
-        $out = rcube_output::get_edit_field('test', 'value', $attr, 'select');
+        $out = \rcube_output::get_edit_field('test', 'value', $attr, 'select');
 
         $this->assertSame('<select name="_test" class="ff_test">' . "\n"
             . '<option value="">---</option><option value="tt" selected="selected">oo</option></select>',
@@ -48,12 +50,12 @@ class Framework_Output extends TestCase
      */
     public function test_json_serialize()
     {
-        $this->assertSame('""', rcube_output::json_serialize(''));
-        $this->assertSame('[]', rcube_output::json_serialize([]));
-        $this->assertSame('10', rcube_output::json_serialize(10));
-        $this->assertSame('{"test":"test"}', rcube_output::json_serialize(['test' => 'test']));
+        $this->assertSame('""', \rcube_output::json_serialize(''));
+        $this->assertSame('[]', \rcube_output::json_serialize([]));
+        $this->assertSame('10', \rcube_output::json_serialize(10));
+        $this->assertSame('{"test":"test"}', \rcube_output::json_serialize(['test' => 'test']));
 
         // Test non-utf-8 input
-        $this->assertSame('{"ab":"ab"}', rcube_output::json_serialize(["a\x8cb" => "a\x8cb"]));
+        $this->assertSame('{"ab":"ab"}', \rcube_output::json_serialize(["a\x8cb" => "a\x8cb"]));
     }
 }

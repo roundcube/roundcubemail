@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_qrcode
  */
-class Actions_Contacts_Qrcode extends ActionTestCase
+class QrcodeTest extends ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_contacts_qrcode();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'qrcode');
+        $action = new \rcmail_action_contacts_qrcode();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'qrcode');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
@@ -29,7 +34,7 @@ class Actions_Contacts_Qrcode extends ActionTestCase
             $this->markTestSkipped();
         }
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 AND `name` = \'Jon Snow\'');
         $contact = $db->fetch_assoc($query);
 

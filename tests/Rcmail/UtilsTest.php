@@ -1,18 +1,22 @@
 <?php
 
+namespace Roundcube\Tests\Rcmail;
+
+use Roundcube\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_utils class
  */
-class Rcmail_RcmailUtils extends ActionTestCase
+class UtilsTest extends ActionTestCase
 {
     /**
      * Test for db() method
      */
     public function test_db()
     {
-        $db = rcmail_utils::db();
+        $db = \rcmail_utils::db();
 
-        $this->assertInstanceOf('rcube_db', $db);
+        $this->assertInstanceOf(\rcube_db::class, $db);
     }
 
     /**
@@ -20,7 +24,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
      */
     public function test_db_version()
     {
-        $v = rcmail_utils::db_version();
+        $v = \rcmail_utils::db_version();
 
         $this->assertMatchesRegularExpression('/^[0-9]{10}$/', $v);
     }
@@ -31,7 +35,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
     public function test_db_clean()
     {
         ob_start();
-        rcmail_utils::db_clean(7);
+        \rcmail_utils::db_clean(7);
         $output = ob_get_contents();
         ob_end_clean();
 
@@ -46,7 +50,7 @@ class Rcmail_RcmailUtils extends ActionTestCase
         self::initDB('contacts');
 
         ob_start();
-        rcmail_utils::indexcontacts();
+        \rcmail_utils::indexcontacts();
         $output = ob_get_contents();
         ob_end_clean();
 
@@ -60,10 +64,10 @@ class Rcmail_RcmailUtils extends ActionTestCase
     {
         self::initDB('init');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
 
         ob_start();
-        rcmail_utils::mod_pref('test', []);
+        \rcmail_utils::mod_pref('test', []);
         $output = ob_get_contents();
         ob_end_clean();
 

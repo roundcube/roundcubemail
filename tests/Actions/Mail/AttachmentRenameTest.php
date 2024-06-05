@@ -1,20 +1,25 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Mail;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_attachment_rename
  */
-class Actions_Mail_AttachmentRename extends ActionTestCase
+class AttachmentRenameTest extends ActionTestCase
 {
     /**
      * Test uploaded attachment rename
      */
     public function test_run()
     {
-        $rcmail = rcmail::get_instance();
-        $action = new rcmail_action_mail_attachment_rename();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'rename-attachment');
+        $rcmail = \rcmail::get_instance();
+        $action = new \rcmail_action_mail_attachment_rename();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'rename-attachment');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // First we create the upload record

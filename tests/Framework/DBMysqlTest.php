@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -8,15 +10,15 @@ use PHPUnit\Framework\TestCase;
  * @group database
  * @group mysql
  */
-class Framework_DBMysql extends TestCase
+class DBMysqlTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcube_db_mysql('test');
+        $object = new \rcube_db_mysql('test');
 
-        $this->assertInstanceOf('rcube_db_mysql', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_db_mysql::class, $object, 'Class constructor');
     }
 }

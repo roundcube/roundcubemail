@@ -1,26 +1,28 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_session class
  */
-class Framework_Session extends TestCase
+class SessionTest extends TestCase
 {
     /**
      * Test factory method
      */
     public function test_factory()
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         // We cannot test DB session handler as it's initialization
         // will collide with already sent headers. Let's try php session.
         $rcube->config->set('session_storage', 'php');
 
-        $session = rcube_session::factory($rcube->config);
+        $session = \rcube_session::factory($rcube->config);
 
-        $this->assertInstanceOf('rcube_session_php', $session);
+        $this->assertInstanceOf(\rcube_session_php::class, $session);
 
         // This method should not do any harm, just call it and expect no errors
         $session->reload();
@@ -31,11 +33,11 @@ class Framework_Session extends TestCase
      */
     public function test_unserialize()
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         $rcube->config->set('session_storage', 'php');
 
-        $session = rcube_session::factory($rcube->config);
+        $session = \rcube_session::factory($rcube->config);
 
         $this->assertSame([], $session->unserialize(''));
         $this->assertSame(

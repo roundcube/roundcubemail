@@ -1,24 +1,29 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_delete
  */
-class Actions_Contacts_Delete extends ActionTestCase
+class DeleteTest extends ActionTestCase
 {
     /**
      * Test deleting of a single existing contact
      */
     public function test_delete_single_existing_contact()
     {
-        $action = new rcmail_action_contacts_delete();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'delete');
+        $action = new \rcmail_action_contacts_delete();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'delete');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $result = $db->fetch_assoc($query);
         $cid = $result['contact_id'];

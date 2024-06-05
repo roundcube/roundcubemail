@@ -1,11 +1,14 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
+use Roundcube\Tests\StderrMock;
 
 /**
  * Test class to test rcube_ldap class
  */
-class Framework_Ldap extends TestCase
+class LdapTest extends TestCase
 {
     /**
      * Class constructor
@@ -23,10 +26,10 @@ class Framework_Ldap extends TestCase
         }
 
         StderrMock::start();
-        $object = new rcube_ldap([]);
+        $object = new \rcube_ldap([]);
         StderrMock::stop();
 
-        $this->assertInstanceOf('rcube_ldap', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_ldap::class, $object, 'Class constructor');
         $this->assertSame('ERROR: Could not connect to any LDAP server', trim(StderrMock::$output));
     }
 }

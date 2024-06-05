@@ -1,17 +1,21 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Utils;
+
+use Roundcube\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_action_utils_killcache
  */
-class Actions_Utils_Killcache extends ActionTestCase
+class KillcacheTest extends ActionTestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcmail_action_utils_killcache();
+        $object = new \rcmail_action_utils_killcache();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 }

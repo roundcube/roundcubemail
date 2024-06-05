@@ -1,16 +1,20 @@
 <?php
 
+namespace Roundcube\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class VcardAttachments_Plugin extends TestCase
+use function Roundcube\Tests\invokeMethod;
+
+class VcardAttachmentsTest extends TestCase
 {
     /**
      * Plugin object construction test
      */
     public function test_constructor()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new vcard_attachments($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \vcard_attachments($rcube->plugins);
 
         $this->assertInstanceOf('vcard_attachments', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
@@ -21,10 +25,10 @@ class VcardAttachments_Plugin extends TestCase
      */
     public function test_is_vcard()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new vcard_attachments($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \vcard_attachments($rcube->plugins);
 
-        $part = new rcube_message_part();
+        $part = new \rcube_message_part();
         $this->assertFalse(invokeMethod($plugin, 'is_vcard', [$part]));
 
         $part->mimetype = 'text/vcard';

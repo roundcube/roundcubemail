@@ -1,16 +1,18 @@
 <?php
 
+namespace Roundcube\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Enigma_EnigmaEngine extends TestCase
+class EnigmaEngineTest extends TestCase
 {
     /**
      * Test password_handler()
      */
     public function test_password_handler()
     {
-        $rcube = rcube::get_instance();
-        $engine = new enigma_engine();
+        $rcube = \rcube::get_instance();
+        $engine = new \enigma_engine();
 
         unset($_SESSION['enigma_pass']);
 

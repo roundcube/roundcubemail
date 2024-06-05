@@ -1,17 +1,21 @@
 <?php
 
+namespace Roundcube\Tests\Rcmail;
+
+use Roundcube\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_output_cli class
  */
-class Rcmail_RcmailOutputCli extends ActionTestCase
+class OutputCliTest extends ActionTestCase
 {
     /**
      * Test show_message() method
      */
     public function test_show_message()
     {
-        $rcmail = rcube::get_instance();
-        $output = new rcmail_output_cli();
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_cli();
 
         ob_start();
         $output->show_message('unknown');

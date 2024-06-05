@@ -1,20 +1,22 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_message_part class
  */
-class Framework_MessagePart extends TestCase
+class MessagePartTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcube_message_part();
+        $object = new \rcube_message_part();
 
-        $this->assertInstanceOf('rcube_message_part', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_message_part::class, $object, 'Class constructor');
     }
 
     /**
@@ -28,7 +30,7 @@ class Framework_MessagePart extends TestCase
             'decode_headers' => true,
         ];
 
-        $mime = new rcube_mime_decode($conf);
+        $mime = new \rcube_mime_decode($conf);
         $message = $mime->decode(file_get_contents(TESTS_DIR . 'src/filename.eml'));
 
         foreach ($message->parts as $part) {
@@ -51,7 +53,7 @@ class Framework_MessagePart extends TestCase
         $this->assertSame('żółć.png', $message->parts[4]->normalize());
 
         // Test the decoding in normalize() itself
-        $part = new rcube_message_part();
+        $part = new \rcube_message_part();
 
         $headers = "Content-Type: image/png; charset=UTF-16LE; name=A016.txt\r\n"
             . "Content-Disposition: attachment;\r\n filename*=UTF-8''%C5%BC%C3%B3%C5%82%C4%87.png\r\n";

@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_browser class
  */
-class Framework_Browser extends TestCase
+class BrowserTest extends TestCase
 {
     /**
      * @dataProvider provide_browser_cases
@@ -174,13 +176,13 @@ class Framework_Browser extends TestCase
     /**
      * @param string $useragent
      *
-     * @return rcube_browser
+     * @return \rcube_browser
      */
     private function getBrowser($useragent)
     {
         $_SERVER['HTTP_USER_AGENT'] = $useragent;
 
-        $object = new rcube_browser();
+        $object = new \rcube_browser();
 
         return $object;
     }

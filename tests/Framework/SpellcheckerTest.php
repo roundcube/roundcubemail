@@ -1,18 +1,20 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_spellchecker class
  */
-class Framework_Spellchecker extends TestCase
+class SpellcheckerTest extends TestCase
 {
     /**
      * Test is_exception() method
      */
     public function test_is_exception()
     {
-        $object = new rcube_spellchecker();
+        $object = new \rcube_spellchecker();
 
         $this->assertFalse($object->is_exception('test'));
 

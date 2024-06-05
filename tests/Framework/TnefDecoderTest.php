@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_tnef_decoder class
  */
-class Framework_TnefDecoder extends TestCase
+class TnefDecoderTest extends TestCase
 {
     /**
      * Test TNEF decoding
@@ -13,7 +15,7 @@ class Framework_TnefDecoder extends TestCase
     public function test_decompress()
     {
         $body = file_get_contents(TESTS_DIR . 'src/one-file.tnef');
-        $tnef = new rcube_tnef_decoder();
+        $tnef = new \rcube_tnef_decoder();
         $result = $tnef->decompress($body);
 
         $this->assertSame('one-file', trim($result['message']['name']));
@@ -31,7 +33,7 @@ class Framework_TnefDecoder extends TestCase
     public function test_decompress_body()
     {
         $body = file_get_contents(TESTS_DIR . 'src/body.tnef');
-        $tnef = new rcube_tnef_decoder();
+        $tnef = new \rcube_tnef_decoder();
         $result = $tnef->decompress($body);
 
         $this->assertSame('Untitled.html', trim($result['message']['name']));
@@ -41,7 +43,7 @@ class Framework_TnefDecoder extends TestCase
         $this->assertSame(5360, $result['message']['size']);
         $this->assertMatchesRegularExpression('/^<\!DOCTYPE HTML/', $result['message']['stream']);
 
-        $tnef = new rcube_tnef_decoder();
+        $tnef = new \rcube_tnef_decoder();
         $result = $tnef->decompress($body, true);
 
         $this->assertCount(0, $result['attachments']);
@@ -55,7 +57,7 @@ class Framework_TnefDecoder extends TestCase
     public function test_rtf2text()
     {
         $body = file_get_contents(TESTS_DIR . 'src/sample.rtf');
-        $text = rcube_tnef_decoder::rtf2text($body);
+        $text = \rcube_tnef_decoder::rtf2text($body);
 
         $this->assertMatchesRegularExpression('/^[a-zA-Z1-6!&<,> \n\r\.]+$/', $text);
         $this->assertTrue(strpos($text, 'Alex Skolnick') !== false);

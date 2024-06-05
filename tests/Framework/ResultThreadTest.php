@@ -1,20 +1,22 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_result_thread class
  */
-class Framework_ResultThread extends TestCase
+class ResultThreadTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcube_result_thread();
+        $object = new \rcube_result_thread();
 
-        $this->assertInstanceOf('rcube_result_thread', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_result_thread::class, $object, 'Class constructor');
     }
 
     /**
@@ -23,7 +25,7 @@ class Framework_ResultThread extends TestCase
     public function test_parse_thread()
     {
         $text = file_get_contents(__DIR__ . '/../src/imap_thread.txt');
-        $object = new rcube_result_thread('INBOX', $text);
+        $object = new \rcube_result_thread('INBOX', $text);
 
         $this->assertFalse($object->is_empty(), 'Object is empty');
         $this->assertFalse($object->is_error(), 'Object is error');
@@ -95,7 +97,7 @@ class Framework_ResultThread extends TestCase
      */
     public function test_parse_empty()
     {
-        $object = new rcube_result_thread('INBOX', '* THREAD');
+        $object = new \rcube_result_thread('INBOX', '* THREAD');
 
         $this->assertTrue($object->is_empty(), 'Object is empty');
         $this->assertFalse($object->is_error(), 'Object is error');
