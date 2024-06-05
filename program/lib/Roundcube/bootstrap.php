@@ -411,6 +411,10 @@ function version_parse($version)
  */
 function rcube_autoload(string $classname): bool
 {
+    require_once __DIR__ . '/../../unnamespaced-legacy-classes.php';
+
+    $classname = preg_replace('~.+\\\~', '', $classname);
+
     if (strpos($classname, 'rcube') === 0) {
         $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\1/', $classname);
         $classname = 'Roundcube/' . $classname;
